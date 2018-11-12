@@ -1,0 +1,90 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PropertiesPanel should render when there are answers 1`] = `
+<PropertiesPanel__PropertiesPane>
+  <PropertiesPanel__PropertiesPaneBody>
+    <ScrollPane
+      permanentScrollBar={false}
+    >
+      <div>
+        <PropertiesPanel__AnswerProperties
+          data-test="properties-0"
+          hasBorder={false}
+          key="Answer1"
+        >
+          <PropertiesPanel__PropertiesPanelTitle
+            data-test="properties-title-0"
+          >
+            NUMBER
+          </PropertiesPanel__PropertiesPanelTitle>
+          <Apollo(AnswerProperties)
+            answer={
+              Object {
+                "__typename": "Answer",
+                "id": "1",
+                "index": 0,
+                "type": "Number",
+              }
+            }
+            id="Answer1"
+            onSubmit={[Function]}
+          />
+          <Connect(UnconnectedAnswerValidation)
+            answer={
+              Object {
+                "__typename": "Answer",
+                "id": "1",
+                "index": 0,
+                "type": "Number",
+              }
+            }
+          />
+        </PropertiesPanel__AnswerProperties>
+        <PropertiesPanel__AnswerProperties
+          data-test="properties-1"
+          hasBorder={true}
+          key="Answer2"
+        >
+          <PropertiesPanel__PropertiesPanelTitle
+            data-test="properties-title-1"
+          >
+            TEXTFIELD
+          </PropertiesPanel__PropertiesPanelTitle>
+          <Apollo(AnswerProperties)
+            answer={
+              Object {
+                "__typename": "Answer",
+                "id": "2",
+                "index": 1,
+                "type": "TextField",
+              }
+            }
+            id="Answer2"
+            onSubmit={[Function]}
+          />
+          <Connect(UnconnectedAnswerValidation)
+            answer={
+              Object {
+                "__typename": "Answer",
+                "id": "2",
+                "index": 1,
+                "type": "TextField",
+              }
+            }
+          />
+        </PropertiesPanel__AnswerProperties>
+      </div>
+    </ScrollPane>
+  </PropertiesPanel__PropertiesPaneBody>
+</PropertiesPanel__PropertiesPane>
+`;
+
+exports[`PropertiesPanel should render when there are no answers 1`] = `
+<PropertiesPanel__PropertiesPane>
+  <PropertiesPanel__PropertiesPaneBody>
+    <ScrollPane
+      permanentScrollBar={false}
+    />
+  </PropertiesPanel__PropertiesPaneBody>
+</PropertiesPanel__PropertiesPane>
+`;

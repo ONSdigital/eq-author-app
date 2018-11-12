@@ -1,0 +1,18 @@
+#import "./fragments/page.graphql"
+
+mutation duplicatePage($input: DuplicatePageInput!) {
+  duplicatePage(input: $input) {
+    ...Page
+    ... on QuestionPage {
+      displayName
+      position
+      pageType
+      answers {
+        id
+      }
+      section {
+        id
+      }
+    }
+  }
+}

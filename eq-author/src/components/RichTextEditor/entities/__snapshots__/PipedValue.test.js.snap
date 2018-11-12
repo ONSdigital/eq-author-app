@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PipedValue decorator should render piped value entities 1`] = `
+.c0 {
+  background-color: #e0e0e0;
+  padding: 0 0.125em;
+  border-radius: 4px;
+  white-space: pre;
+}
+
+<span
+  className="c0"
+>
+  Hello world
+</span>
+`;
+
+exports[`PipedValue entityToHTML should convert entity to HTML 1`] = `
+<span
+  data-id="123"
+  data-piped="SomeType"
+  data-type="TextField"
+>
+  hello world
+</span>
+`;

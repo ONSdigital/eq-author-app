@@ -1,0 +1,78 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PillTabs should render base tabs configured as per design 1`] = `
+<BaseTabs
+  ContentWrapper={[Function]}
+  TabList={[Function]}
+  activeId="1"
+  buttonRender={[Function]}
+  onChange={[Function]}
+  tabs={
+    Array [
+      Object {
+        "id": "completion-date",
+        "render": [Function],
+        "title": "Completion date",
+      },
+      Object {
+        "id": "previous-answer",
+        "render": [Function],
+        "title": "Previous answer",
+      },
+      Object {
+        "id": "survey-data",
+        "render": [Function],
+        "title": "Survey data",
+      },
+      Object {
+        "id": "custom",
+        "render": [Function],
+        "title": "Custom",
+      },
+    ]
+  }
+/>
+`;
+
+exports[`PillTabs should render the button with title and applying the props 1`] = `
+.c0 {
+  background: none;
+  border: none;
+  border-radius: 3em;
+  color: #666666;
+  cursor: pointer;
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+  padding: 0.5em 1em;
+  text-align: center;
+  font: inherit;
+}
+
+.c0:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px #FDBD56;
+}
+
+.c0:hover {
+  background: #999999;
+  color: #FFFFFF;
+}
+
+.c0:focus.c0:hover {
+  background: #5F7682;
+}
+
+.c0[aria-selected="true"] {
+  background: #3B7A9E;
+  color: #FFFFFF;
+  z-index: 1;
+}
+
+<button
+  aria-selected={true}
+  className="c0"
+>
+  Custom
+</button>
+`;

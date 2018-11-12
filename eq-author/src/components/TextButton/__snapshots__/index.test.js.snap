@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/TextButton renders 1`] = `
+.c0 {
+  padding: 0.25em 0.5em;
+  -webkit-letter-spacing: 0.05em;
+  -moz-letter-spacing: 0.05em;
+  -ms-letter-spacing: 0.05em;
+  letter-spacing: 0.05em;
+  font-size: 0.9em;
+  font-weight: bold;
+}
+
+<Button
+  className="c0"
+  type="button"
+  variant="tertiary"
+>
+  TextButton
+</Button>
+`;

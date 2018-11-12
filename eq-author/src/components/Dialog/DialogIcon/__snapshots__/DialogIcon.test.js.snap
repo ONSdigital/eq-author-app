@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/Dialog/Icon should render a delete icon 1`] = `
+.c0 {
+  -webkit-box-flex: 0;
+  -webkit-flex-grow: 0;
+  -ms-flex-positive: 0;
+  flex-grow: 0;
+  margin-right: 0.5em;
+}
+
+<DialogIcon
+  className="c0"
+  icon="delete"
+/>
+`;
+
+exports[`components/Dialog/Icon should render a move icon 1`] = `
+.c0 {
+  -webkit-box-flex: 0;
+  -webkit-flex-grow: 0;
+  -ms-flex-positive: 0;
+  flex-grow: 0;
+  margin-right: 0.5em;
+}
+
+<DialogIcon
+  className="c0"
+  icon="move"
+/>
+`;

@@ -1,0 +1,8 @@
+#import "./fragments/answer.graphql"
+
+mutation UpdateAnswer($input: UpdateAnswerInput!) {
+  updateAnswer(input: $input) {
+    ...Answer
+    displayName
+  }
+}

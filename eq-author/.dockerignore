@@ -1,0 +1,10 @@
+.git
+Dockerfile
+
+.github
+.storybook
+tests
+cypress
+coverage
+
+node_modules

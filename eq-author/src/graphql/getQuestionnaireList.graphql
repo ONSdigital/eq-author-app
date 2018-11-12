@@ -1,0 +1,10 @@
+query GetQuestionnaireList {
+  questionnaires {
+    id
+    title
+    createdAt
+    createdBy {
+      name
+    }
+  }
+}

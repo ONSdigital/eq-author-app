@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PageNav should render 1`] = `
+<TransitionGroup
+  childFactory={[Function]}
+  component={[Function]}
+>
+  <NavItemTransition
+    in={false}
+    key="2"
+    onEntered={[Function]}
+    timeout={300}
+  >
+    <withRouter(UnwrappedPageNavItem)
+      page={
+        Object {
+          "id": "2",
+          "title": "Page",
+        }
+      }
+      questionnaireId="1"
+      sectionId="3"
+    />
+  </NavItemTransition>
+</TransitionGroup>
+`;

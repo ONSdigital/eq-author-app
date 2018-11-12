@@ -1,0 +1,6 @@
+query GetAnswers($ids: [ID]!) {
+  answers(ids: $ids) {
+    displayName
+    id
+  }
+}

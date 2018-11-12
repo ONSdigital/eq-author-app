@@ -1,0 +1,101 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/Popout/ScaleTransition should render 1`] = `
+.c0 {
+  -webkit-transform-origin: bottom left;
+  -ms-transform-origin: bottom left;
+  transform-origin: bottom left;
+  -webkit-transition: -webkit-transform 125ms;
+  -webkit-transition: transform 125ms;
+  transition: transform 125ms;
+}
+
+.c0 > * > * {
+  -webkit-transition: opacity 125ms 125ms;
+  transition: opacity 125ms 125ms;
+}
+
+.c0.scale-enter {
+  -webkit-transform: scale(0);
+  -ms-transform: scale(0);
+  transform: scale(0);
+}
+
+.c0.scale-enter > * > * {
+  opacity: 0;
+}
+
+.c0.scale-enter-active {
+  -webkit-transform: scale(1);
+  -ms-transform: scale(1);
+  transform: scale(1);
+}
+
+.c0.scale-enter-active > * > * {
+  opacity: 1;
+}
+
+.c0.scale-exit {
+  -webkit-transform: scale(1);
+  -ms-transform: scale(1);
+  transform: scale(1);
+  -webkit-transition: -webkit-transform 125ms 125ms;
+  -webkit-transition: transform 125ms 125ms;
+  transition: transform 125ms 125ms;
+}
+
+.c0.scale-exit > * > * {
+  -webkit-transition: opacity 125ms;
+  transition: opacity 125ms;
+  opacity: 1;
+}
+
+.c0.scale-exit-active {
+  -webkit-transform: scale(0);
+  -ms-transform: scale(0);
+  transform: scale(0);
+}
+
+.c0.scale-exit-active > * > * {
+  opacity: 0;
+}
+
+<ScaleTransition
+  duration={250}
+  in={false}
+>
+  <CSSTransition
+    classNames="scale"
+    in={false}
+    timeout={250}
+  >
+    <Transition
+      appear={false}
+      enter={true}
+      exit={true}
+      in={false}
+      mountOnEnter={false}
+      onEnter={[Function]}
+      onEntered={[Function]}
+      onEntering={[Function]}
+      onExit={[Function]}
+      onExited={[Function]}
+      onExiting={[Function]}
+      timeout={250}
+      unmountOnExit={false}
+    >
+      <ScaleTransition__Animated
+        duration={250}
+      >
+        <div
+          className="c0"
+        >
+          <div>
+            hello world
+          </div>
+        </div>
+      </ScaleTransition__Animated>
+    </Transition>
+  </CSSTransition>
+</ScaleTransition>
+`;

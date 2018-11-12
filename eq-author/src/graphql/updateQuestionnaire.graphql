@@ -1,0 +1,7 @@
+#import "./fragments/questionnaire.graphql"
+
+mutation UpdateQuestionnaire($input: UpdateQuestionnaireInput!) {
+  updateQuestionnaire(input: $input) {
+    ...Questionnaire
+  }
+}

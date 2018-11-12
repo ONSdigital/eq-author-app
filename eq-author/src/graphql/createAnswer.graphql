@@ -1,0 +1,53 @@
+#import "./fragments/answer.graphql"
+#import "./fragments/option.graphql"
+#import "./fragments/min-value-validation-rule.graphql"
+#import "./fragments/max-value-validation-rule.graphql"
+#import "./fragments/earliest-date-validation-rule.graphql"
+#import "./fragments/latest-date-validation-rule.graphql"
+
+mutation createAnswer($input: CreateAnswerInput!) {
+  createAnswer(input: $input) {
+    ...Answer
+    ... on BasicAnswer {
+      validation {
+        ... on NumberValidation {
+          minValue {
+            ...MinValueValidationRule
+          }
+          maxValue {
+            ...MaxValueValidationRule
+          }
+        }
+        ... on DateValidation {
+          earliestDate {
+            ...EarliestDateValidationRule
+          }
+          latestDate {
+            ...LatestDateValidationRule
+          }
+        }
+      }
+    }
+    ... on MultipleChoiceAnswer {
+      options {
+        ...Option
+      }
+      mutuallyExclusiveOption {
+        id
+      }
+      other {
+        option {
+          ...Option
+        }
+        answer {
+          ...Answer
+        }
+      }
+    }
+    ... on CompositeAnswer {
+      childAnswers {
+        ...Answer
+      }
+    }
+  }
+}

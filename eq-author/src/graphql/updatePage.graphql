@@ -1,0 +1,8 @@
+#import "./fragments/page.graphql"
+
+mutation UpdateQuestionPage($input: UpdateQuestionPageInput!) {
+  updateQuestionPage(input: $input) {
+    ...Page
+    displayName
+  }
+}

@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TableHead should render 1`] = `
+.c0 {
+  background-color: #E4E8EB;
+  border-bottom: 1px solid #999999;
+  color: #666666;
+}
+
+<thead
+  className="c0"
+/>
+`;

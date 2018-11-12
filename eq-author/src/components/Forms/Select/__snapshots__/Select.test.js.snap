@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Select renders without crashing 1`] = `
+<Select__SimpleSelect
+  defaultValue="One"
+  id="my-select"
+  name="my-select"
+  onChange={[Function]}
+  options={
+    Array [
+      "One",
+      "Two",
+      "Three",
+      "Four",
+      "Five",
+    ]
+  }
+/>
+`;

@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CharacterCounter should handle null value 1`] = `
+<span>
+  Characters remaining: 
+  25
+</span>
+`;
+
+exports[`CharacterCounter should render 1`] = `
+<span>
+  Characters remaining: 
+  19
+</span>
+`;
+
+exports[`CharacterCounter should update counter based on length of value 1`] = `
+<span>
+  Characters remaining: 
+  7
+</span>
+`;
+
+exports[`CharacterCounter should update counter with negative count when limit exceeded 1`] = `
+<span>
+  Characters remaining: 
+  -11
+</span>
+`;

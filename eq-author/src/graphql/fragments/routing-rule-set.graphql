@@ -1,0 +1,20 @@
+#import "./routing-rule.graphql"
+#import "./absolute-destination.graphql"
+#import "./logical-destination.graphql"
+
+fragment RoutingRuleSet on RoutingRuleSet {
+  id
+  routingRules {
+    ...RoutingRule
+  }
+  questionPage {
+    id
+    description
+    guidance
+    displayName
+  }
+  else {
+    ...LogicalDestination
+    ...AbsoluteDestination
+  }
+}

@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GuestSignInForm should render 1`] = `
+<GuestSignInForm__GuestSignInButton
+  onClick={[Function]}
+  primary={true}
+>
+  Sign in as Guest
+</GuestSignInForm__GuestSignInButton>
+`;

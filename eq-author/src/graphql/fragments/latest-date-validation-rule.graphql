@@ -1,0 +1,19 @@
+fragment LatestDateValidationRule on LatestDateValidationRule {
+  id
+  enabled
+  entityType
+  customDate: custom
+  offset {
+    value
+    unit
+  }
+  relativePosition
+  previousAnswer {
+    id
+    displayName
+  }
+  metadata {
+    id
+    displayName
+  }
+}

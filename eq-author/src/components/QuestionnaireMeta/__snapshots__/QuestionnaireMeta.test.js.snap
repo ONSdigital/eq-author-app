@@ -1,0 +1,85 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`QuestionnaireMeta should render 1`] = `
+<Form
+  onSubmit={[MockFunction]}
+>
+  <Field
+    last={false}
+  >
+    <Label
+      bold={true}
+      htmlFor="title"
+    >
+      Questionnaire Title
+    </Label>
+    <withChangeHandler(UncontrolledInput)
+      autoFocus={true}
+      data-test="txt-questionnaire-title"
+      defaultValue="I am the title"
+      id="title"
+      onChange={[MockFunction]}
+      required={true}
+    />
+  </Field>
+  <QuestionnaireMeta__ToggleWrapper>
+    <QuestionnaireMeta__InlineField>
+      <Label
+        bold={true}
+        htmlFor="navigation"
+        inline={true}
+      >
+        <QuestionnaireMeta__Icon
+          alt=""
+          fade={true}
+          src="icon-show-nav.svg"
+        />
+        Show section navigation
+      </Label>
+      <ToggleSwitch
+        checked={false}
+        id="navigation"
+        name="navigation"
+        onChange={[MockFunction]}
+      />
+    </QuestionnaireMeta__InlineField>
+    <QuestionnaireMeta__InlineField>
+      <Label
+        bold={true}
+        htmlFor="summary"
+        inline={true}
+      >
+        <QuestionnaireMeta__Icon
+          alt=""
+          fade={true}
+          src="icon-show-confirmation.svg"
+        />
+        Show summary on confirmation page
+      </Label>
+      <ToggleSwitch
+        checked={false}
+        id="summary"
+        name="summary"
+        onChange={[MockFunction]}
+      />
+    </QuestionnaireMeta__InlineField>
+  </QuestionnaireMeta__ToggleWrapper>
+  <ButtonGroup
+    align="right"
+    horizontal={true}
+  >
+    <Button
+      type="button"
+      variant="secondary"
+    >
+      Cancel
+    </Button>
+    <Button
+      type="submit"
+      variant="primary"
+    >
+      Create
+    </Button>
+  </ButtonGroup>
+</Form>
+`;

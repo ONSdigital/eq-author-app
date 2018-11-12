@@ -1,0 +1,91 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/AnswerTypeSelector should render content when open 1`] = `
+<Popout
+  container={[Function]}
+  layer={[Function]}
+  onEntered={[Function]}
+  onToggleOpen={[Function]}
+  open={true}
+  transition={[Function]}
+  trigger={
+    <AnswerTypeSelector__AddAnswerButton
+      data-test="btn-add-answer"
+      variant="secondary"
+    >
+      <IconText
+        hideText={false}
+        icon={[Function]}
+      >
+        Add 
+        an
+         answer
+      </IconText>
+    </AnswerTypeSelector__AddAnswerButton>
+  }
+>
+  <AnswerTypeGrid
+    onSelect={[Function]}
+  />
+</Popout>
+`;
+
+exports[`components/AnswerTypeSelector should say to add 'another' answer if > 0 answers currently 1`] = `
+<Popout
+  container={[Function]}
+  layer={[Function]}
+  onEntered={[Function]}
+  onToggleOpen={[Function]}
+  open={false}
+  transition={[Function]}
+  trigger={
+    <AnswerTypeSelector__AddAnswerButton
+      data-test="btn-add-answer"
+      variant="secondary"
+    >
+      <IconText
+        hideText={false}
+        icon={[Function]}
+      >
+        Add 
+        another
+         answer
+      </IconText>
+    </AnswerTypeSelector__AddAnswerButton>
+  }
+>
+  <AnswerTypeGrid
+    onSelect={[Function]}
+  />
+</Popout>
+`;
+
+exports[`components/AnswerTypeSelector shouldn't render content when closed 1`] = `
+<Popout
+  container={[Function]}
+  layer={[Function]}
+  onEntered={[Function]}
+  onToggleOpen={[Function]}
+  open={false}
+  transition={[Function]}
+  trigger={
+    <AnswerTypeSelector__AddAnswerButton
+      data-test="btn-add-answer"
+      variant="secondary"
+    >
+      <IconText
+        hideText={false}
+        icon={[Function]}
+      >
+        Add 
+        an
+         answer
+      </IconText>
+    </AnswerTypeSelector__AddAnswerButton>
+  }
+>
+  <AnswerTypeGrid
+    onSelect={[Function]}
+  />
+</Popout>
+`;

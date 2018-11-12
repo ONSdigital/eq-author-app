@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TableRow should render 1`] = `
+.c0 {
+  height: 2.4em;
+}
+
+.c0:not(:last-of-type) {
+  border-bottom: 1px solid #c3c3c3;
+}
+
+<tr
+  className="c0"
+/>
+`;

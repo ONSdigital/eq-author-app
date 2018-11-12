@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MainCanvas should render 1`] = `
+.c0 {
+  max-width: 55em;
+  margin: 0 auto 1em;
+  padding: 0 1em;
+  position: relative;
+}
+
+<div
+  className="c0"
+>
+  Children
+</div>
+`;

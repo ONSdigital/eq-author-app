@@ -1,0 +1,199 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DeleteButton should render: large 1`] = `
+.c0 {
+  color: #5F7682;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  -webkit-transition: color 200ms ease-in,opacity 300ms ease-in;
+  transition: color 200ms ease-in,opacity 300ms ease-in;
+  width: 1em;
+  height: 1em;
+  padding: 0;
+  font-size: 3em;
+}
+
+.c0:hover {
+  color: #333333;
+}
+
+.c0:focus {
+  outline: 3px solid #FDBD56;
+}
+
+.c0[disabled] {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.c1 {
+  pointer-events: none;
+  display: block;
+  width: 1em;
+  height: 1em;
+}
+
+.c1 path {
+  fill: currentColor;
+}
+
+<DeleteButton
+  aria-label="Delete"
+  size="large"
+  type="button"
+>
+  <DeleteButton__StyledDeleteButton
+    aria-label="Delete"
+    size="large"
+    type="button"
+  >
+    <button
+      aria-label="Delete"
+      className="c0"
+      size="large"
+      type="button"
+    >
+      <DeleteButton__CloseIcon>
+        <Component
+          className="c1"
+        >
+          <svg />
+        </Component>
+      </DeleteButton__CloseIcon>
+    </button>
+  </DeleteButton__StyledDeleteButton>
+</DeleteButton>
+`;
+
+exports[`DeleteButton should render: medium 1`] = `
+.c0 {
+  color: #5F7682;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  -webkit-transition: color 200ms ease-in,opacity 300ms ease-in;
+  transition: color 200ms ease-in,opacity 300ms ease-in;
+  width: 1em;
+  height: 1em;
+  padding: 0;
+  font-size: 2em;
+}
+
+.c0:hover {
+  color: #333333;
+}
+
+.c0:focus {
+  outline: 3px solid #FDBD56;
+}
+
+.c0[disabled] {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.c1 {
+  pointer-events: none;
+  display: block;
+  width: 1em;
+  height: 1em;
+}
+
+.c1 path {
+  fill: currentColor;
+}
+
+<DeleteButton
+  aria-label="Delete"
+  size="medium"
+  type="button"
+>
+  <DeleteButton__StyledDeleteButton
+    aria-label="Delete"
+    size="medium"
+    type="button"
+  >
+    <button
+      aria-label="Delete"
+      className="c0"
+      size="medium"
+      type="button"
+    >
+      <DeleteButton__CloseIcon>
+        <Component
+          className="c1"
+        >
+          <svg />
+        </Component>
+      </DeleteButton__CloseIcon>
+    </button>
+  </DeleteButton__StyledDeleteButton>
+</DeleteButton>
+`;
+
+exports[`DeleteButton should render: small 1`] = `
+.c0 {
+  color: #5F7682;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  -webkit-transition: color 200ms ease-in,opacity 300ms ease-in;
+  transition: color 200ms ease-in,opacity 300ms ease-in;
+  width: 1em;
+  height: 1em;
+  padding: 0;
+  font-size: 1.5em;
+}
+
+.c0:hover {
+  color: #333333;
+}
+
+.c0:focus {
+  outline: 3px solid #FDBD56;
+}
+
+.c0[disabled] {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.c1 {
+  pointer-events: none;
+  display: block;
+  width: 1em;
+  height: 1em;
+}
+
+.c1 path {
+  fill: currentColor;
+}
+
+<DeleteButton
+  aria-label="Delete"
+  size="small"
+  type="button"
+>
+  <DeleteButton__StyledDeleteButton
+    aria-label="Delete"
+    size="small"
+    type="button"
+  >
+    <button
+      aria-label="Delete"
+      className="c0"
+      size="small"
+      type="button"
+    >
+      <DeleteButton__CloseIcon>
+        <Component
+          className="c1"
+        >
+          <svg />
+        </Component>
+      </DeleteButton__CloseIcon>
+    </button>
+  </DeleteButton__StyledDeleteButton>
+</DeleteButton>
+`;

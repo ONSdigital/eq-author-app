@@ -1,0 +1,221 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MoveSectionModal should render 1`] = `
+<MoveModal
+  isOpen={true}
+  onClose={[MockFunction]}
+  onMoveSection={[MockFunction]}
+  questionnaire={
+    Object {
+      "id": "1",
+      "sections": Array [
+        Object {
+          "displayName": "Section 1",
+          "id": "1",
+          "pages": Array [
+            Object {
+              "displayName": "Page 1.1",
+              "id": "1.1",
+              "position": 0,
+              "title": "Page 1.1",
+            },
+            Object {
+              "displayName": "Page 1.2",
+              "id": "1.2",
+              "position": 1,
+              "title": "Page 1.2",
+            },
+          ],
+          "position": 0,
+          "title": "Section 1",
+        },
+        Object {
+          "displayName": "Section 2",
+          "id": "2",
+          "pages": Array [
+            Object {
+              "displayName": "Page 2.1",
+              "id": "2.1",
+              "position": 0,
+              "title": "Page 2.1",
+            },
+            Object {
+              "displayName": "Page 2.2",
+              "id": "2.2",
+              "position": 1,
+              "title": "Page 2.2",
+            },
+          ],
+          "position": 1,
+          "title": "Section 2",
+        },
+      ],
+    }
+  }
+  section={
+    Object {
+      "displayName": "Section 1",
+      "id": "1",
+      "pages": Array [
+        Object {
+          "displayName": "Page 1.1",
+          "id": "1.1",
+          "position": 0,
+          "title": "Page 1.1",
+        },
+        Object {
+          "displayName": "Page 1.2",
+          "id": "1.2",
+          "position": 1,
+          "title": "Page 1.2",
+        },
+      ],
+      "position": 0,
+      "title": "Section 1",
+    }
+  }
+  title="Move section"
+>
+  <PositionModal
+    isOpen={true}
+    onClose={[MockFunction]}
+    onMove={[Function]}
+    onMoveSection={[MockFunction]}
+    options={
+      Array [
+        Object {
+          "displayName": "Section 1",
+          "id": "1",
+          "pages": Array [
+            Object {
+              "displayName": "Page 1.1",
+              "id": "1.1",
+              "position": 0,
+              "title": "Page 1.1",
+            },
+            Object {
+              "displayName": "Page 1.2",
+              "id": "1.2",
+              "position": 1,
+              "title": "Page 1.2",
+            },
+          ],
+          "position": 0,
+          "title": "Section 1",
+        },
+        Object {
+          "displayName": "Section 2",
+          "id": "2",
+          "pages": Array [
+            Object {
+              "displayName": "Page 2.1",
+              "id": "2.1",
+              "position": 0,
+              "title": "Page 2.1",
+            },
+            Object {
+              "displayName": "Page 2.2",
+              "id": "2.2",
+              "position": 1,
+              "title": "Page 2.2",
+            },
+          ],
+          "position": 1,
+          "title": "Section 2",
+        },
+      ]
+    }
+    questionnaire={
+      Object {
+        "id": "1",
+        "sections": Array [
+          Object {
+            "displayName": "Section 1",
+            "id": "1",
+            "pages": Array [
+              Object {
+                "displayName": "Page 1.1",
+                "id": "1.1",
+                "position": 0,
+                "title": "Page 1.1",
+              },
+              Object {
+                "displayName": "Page 1.2",
+                "id": "1.2",
+                "position": 1,
+                "title": "Page 1.2",
+              },
+            ],
+            "position": 0,
+            "title": "Section 1",
+          },
+          Object {
+            "displayName": "Section 2",
+            "id": "2",
+            "pages": Array [
+              Object {
+                "displayName": "Page 2.1",
+                "id": "2.1",
+                "position": 0,
+                "title": "Page 2.1",
+              },
+              Object {
+                "displayName": "Page 2.2",
+                "id": "2.2",
+                "position": 1,
+                "title": "Page 2.2",
+              },
+            ],
+            "position": 1,
+            "title": "Section 2",
+          },
+        ],
+      }
+    }
+    section={
+      Object {
+        "displayName": "Section 1",
+        "id": "1",
+        "pages": Array [
+          Object {
+            "displayName": "Page 1.1",
+            "id": "1.1",
+            "position": 0,
+            "title": "Page 1.1",
+          },
+          Object {
+            "displayName": "Page 1.2",
+            "id": "1.2",
+            "position": 1,
+            "title": "Page 1.2",
+          },
+        ],
+        "position": 0,
+        "title": "Section 1",
+      }
+    }
+    selected={
+      Object {
+        "displayName": "Section 1",
+        "id": "1",
+        "pages": Array [
+          Object {
+            "displayName": "Page 1.1",
+            "id": "1.1",
+            "position": 0,
+            "title": "Page 1.1",
+          },
+          Object {
+            "displayName": "Page 1.2",
+            "id": "1.2",
+            "position": 1,
+            "title": "Page 1.2",
+          },
+        ],
+        "position": 0,
+        "title": "Section 1",
+      }
+    }
+  />
+</MoveModal>
+`;

@@ -1,0 +1,24 @@
+{
+  "name": "eq-author-graphql-schema",
+  "version": "0.40.0",
+  "files": [
+    "index.js",
+    "fragmentTypes.json"
+  ],
+  "description": "The GraphQL schema for the eq-author application.",
+  "main": "index.js",
+  "repository": "git@github.com:ONSdigital/eq-author-graphql-schema.git",
+  "author": "Samiwel Thomas <samiwel.thomas@gmail.com>",
+  "license": "MIT",
+  "dependencies": {},
+  "scripts": {
+    "postversion": "git push origin head && git push --tags",
+    "test": "./scripts/build.js && yarn prepublishOnly ",
+    "prepublishOnly": "./scripts/generateIntrospectionFragmentMatcher.js"
+  },
+  "devDependencies": {
+    "chalk": "^2.3.0",
+    "graphql": "^14.0.2",
+    "graphql-tools": "^4.0.0"
+  }
+}

@@ -1,0 +1,8 @@
+#import "./fragments/page.graphql"
+
+mutation CreateQuestionPage($input: CreateQuestionPageInput!) {
+  createQuestionPage(input: $input) {
+    ...Page
+    position
+  }
+}

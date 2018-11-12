@@ -1,0 +1,270 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ContentPickerSelect content types should render answer  1`] = `
+<Fragment>
+  <ContentPickerSelect__ContentSelectButton
+    data-test="content-picker-select"
+    disabled={false}
+    onClick={[Function]}
+  >
+    <ContentPickerSelect__ContentSelected>
+      foobar
+    </ContentPickerSelect__ContentSelected>
+    <ContentPickerSelect__ContentSelectAction>
+      Select
+    </ContentPickerSelect__ContentSelectAction>
+  </ContentPickerSelect__ContentSelectButton>
+  <ContentPickerModal
+    answerData={Array []}
+    data-test="picker"
+    isOpen={false}
+    onClose={[Function]}
+    onSubmit={[Function]}
+  />
+</Fragment>
+`;
+
+exports[`ContentPickerSelect content types should render answer and metadata 1`] = `
+<Fragment>
+  <ContentPickerSelect__ContentSelectButton
+    data-test="content-picker-select"
+    disabled={false}
+    onClick={[Function]}
+  >
+    <ContentPickerSelect__ContentSelected>
+      foobar
+    </ContentPickerSelect__ContentSelected>
+    <ContentPickerSelect__ContentSelectAction>
+      Select
+    </ContentPickerSelect__ContentSelectAction>
+  </ContentPickerSelect__ContentSelectButton>
+  <ContentPickerModal
+    answerData={Array []}
+    data-test="picker"
+    isOpen={false}
+    metadataData={Array []}
+    onClose={[Function]}
+    onSubmit={[Function]}
+  />
+</Fragment>
+`;
+
+exports[`ContentPickerSelect content types should render metadata 1`] = `
+<Fragment>
+  <ContentPickerSelect__ContentSelectButton
+    data-test="content-picker-select"
+    disabled={false}
+    onClick={[Function]}
+  >
+    <ContentPickerSelect__ContentSelected>
+      foobar
+    </ContentPickerSelect__ContentSelected>
+    <ContentPickerSelect__ContentSelectAction>
+      Select
+    </ContentPickerSelect__ContentSelectAction>
+  </ContentPickerSelect__ContentSelectButton>
+  <ContentPickerModal
+    data-test="picker"
+    isOpen={false}
+    metadataData={Array []}
+    onClose={[Function]}
+    onSubmit={[Function]}
+  />
+</Fragment>
+`;
+
+exports[`ContentPickerSelect metadata types should correctly filter by type 1`] = `
+Object {
+  "data-test": "picker",
+  "isOpen": false,
+  "metadataData": Array [
+    Object {
+      "id": "1",
+      "type": "Date",
+    },
+  ],
+  "onClose": [Function],
+  "onSubmit": [Function],
+}
+`;
+
+exports[`ContentPickerSelect metadata types should correctly filter empty metadata 1`] = `
+Object {
+  "data-test": "picker",
+  "isOpen": false,
+  "metadataData": Array [],
+  "onClose": [Function],
+  "onSubmit": [Function],
+}
+`;
+
+exports[`ContentPickerSelect metadata types should correctly show all types when none specified 1`] = `
+Object {
+  "data-test": "picker",
+  "isOpen": false,
+  "metadataData": Array [
+    Object {
+      "id": "1",
+      "type": "Date",
+    },
+    Object {
+      "id": "2",
+      "type": "Text",
+    },
+    Object {
+      "id": "3",
+      "type": "Language",
+    },
+    Object {
+      "id": "4",
+      "type": "Region",
+    },
+  ],
+  "onClose": [Function],
+  "onSubmit": [Function],
+}
+`;
+
+exports[`ContentPickerSelect should correctly handle picker close 1`] = `
+<Fragment>
+  <ContentPickerSelect__ContentSelectButton
+    data-test="content-picker-select"
+    disabled={false}
+    onClick={[Function]}
+  >
+    <ContentPickerSelect__ContentSelected>
+      foobar
+    </ContentPickerSelect__ContentSelected>
+    <ContentPickerSelect__ContentSelectAction>
+      Select
+    </ContentPickerSelect__ContentSelectAction>
+  </ContentPickerSelect__ContentSelectButton>
+  <ContentPickerModal
+    answerData={Array []}
+    data-test="picker"
+    isOpen={false}
+    onClose={[Function]}
+    onSubmit={[Function]}
+  />
+</Fragment>
+`;
+
+exports[`ContentPickerSelect should correctly handle picker open 1`] = `
+<Fragment>
+  <ContentPickerSelect__ContentSelectButton
+    data-test="content-picker-select"
+    disabled={false}
+    onClick={[Function]}
+  >
+    <ContentPickerSelect__ContentSelected>
+      foobar
+    </ContentPickerSelect__ContentSelected>
+    <ContentPickerSelect__ContentSelectAction>
+      Select
+    </ContentPickerSelect__ContentSelectAction>
+  </ContentPickerSelect__ContentSelectButton>
+  <ContentPickerModal
+    answerData={Array []}
+    data-test="picker"
+    isOpen={true}
+    onClose={[Function]}
+    onSubmit={[Function]}
+  />
+</Fragment>
+`;
+
+exports[`ContentPickerSelect should correctly handle picker submit 1`] = `
+<Fragment>
+  <ContentPickerSelect__ContentSelectButton
+    data-test="content-picker-select"
+    disabled={false}
+    onClick={[Function]}
+  >
+    <ContentPickerSelect__ContentSelected>
+      New selected answer
+    </ContentPickerSelect__ContentSelected>
+    <ContentPickerSelect__ContentSelectAction>
+      Select
+    </ContentPickerSelect__ContentSelectAction>
+  </ContentPickerSelect__ContentSelectButton>
+  <ContentPickerModal
+    answerData={Array []}
+    data-test="picker"
+    isOpen={false}
+    onClose={[Function]}
+    onSubmit={[Function]}
+  />
+</Fragment>
+`;
+
+exports[`ContentPickerSelect should disable select button correctly 1`] = `
+<Fragment>
+  <ContentPickerSelect__ContentSelectButton
+    data-test="content-picker-select"
+    disabled={true}
+    onClick={[Function]}
+  >
+    <ContentPickerSelect__ContentSelected>
+      foobar
+    </ContentPickerSelect__ContentSelected>
+    <ContentPickerSelect__ContentSelectAction>
+      Select
+    </ContentPickerSelect__ContentSelectAction>
+  </ContentPickerSelect__ContentSelectButton>
+  <ContentPickerModal
+    answerData={Array []}
+    data-test="picker"
+    isOpen={false}
+    onClose={[Function]}
+    onSubmit={[Function]}
+  />
+</Fragment>
+`;
+
+exports[`ContentPickerSelect should disable select button correctly 2`] = `
+<Fragment>
+  <ContentPickerSelect__ContentSelectButton
+    data-test="content-picker-select"
+    disabled={true}
+    onClick={[Function]}
+  >
+    <ContentPickerSelect__ContentSelected>
+      foobar
+    </ContentPickerSelect__ContentSelected>
+    <ContentPickerSelect__ContentSelectAction>
+      Select
+    </ContentPickerSelect__ContentSelectAction>
+  </ContentPickerSelect__ContentSelectButton>
+  <ContentPickerModal
+    answerData={Array []}
+    data-test="picker"
+    isOpen={false}
+    onClose={[Function]}
+    onSubmit={[Function]}
+  />
+</Fragment>
+`;
+
+exports[`ContentPickerSelect should render 1`] = `
+<Fragment>
+  <ContentPickerSelect__ContentSelectButton
+    data-test="content-picker-select"
+    disabled={false}
+    onClick={[Function]}
+  >
+    <ContentPickerSelect__ContentSelected>
+      foobar
+    </ContentPickerSelect__ContentSelected>
+    <ContentPickerSelect__ContentSelectAction>
+      Select
+    </ContentPickerSelect__ContentSelectAction>
+  </ContentPickerSelect__ContentSelectButton>
+  <ContentPickerModal
+    answerData={Array []}
+    data-test="picker"
+    isOpen={false}
+    onClose={[Function]}
+    onSubmit={[Function]}
+  />
+</Fragment>
+`;

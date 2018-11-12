@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/MultipleChoiceAnswerOptionsSelector should render consistently 1`] = `
+<MultipleChoiceAnswerOptionsSelector__MultipleChoiceAnswerOptions
+  data-test="options-selector"
+>
+  <withChangeHandler(ToggleChip)
+    checked={true}
+    key="1"
+    name="1"
+    onChange={[Function]}
+    title="a"
+  >
+    a
+  </withChangeHandler(ToggleChip)>
+  <withChangeHandler(ToggleChip)
+    checked={true}
+    key="2"
+    name="2"
+    onChange={[Function]}
+    title="b"
+  >
+    b
+  </withChangeHandler(ToggleChip)>
+  <withChangeHandler(ToggleChip)
+    checked={false}
+    key="3"
+    name="3"
+    onChange={[Function]}
+    title="c"
+  >
+    c
+  </withChangeHandler(ToggleChip)>
+</MultipleChoiceAnswerOptionsSelector__MultipleChoiceAnswerOptions>
+`;

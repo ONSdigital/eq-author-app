@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`IconButtonDelete should pass on props 1`] = `
+<Fragment>
+  <IconButtonDelete__DeleteButton
+    anotherProp="test"
+    onClick={[MockFunction]}
+    title="Delete"
+  >
+    <IconText
+      hideText={false}
+      icon={[Function]}
+    >
+      Delete
+    </IconText>
+  </IconButtonDelete__DeleteButton>
+</Fragment>
+`;
+
+exports[`IconButtonDelete should wrap in tooltip when text is hidden 1`] = `
+<DeleteTooltip>
+  <IconButtonDelete__DeleteButton
+    onClick={[MockFunction]}
+    title="Delete"
+  >
+    <IconText
+      hideText={true}
+      icon={[Function]}
+    >
+      Delete
+    </IconText>
+  </IconButtonDelete__DeleteButton>
+</DeleteTooltip>
+`;

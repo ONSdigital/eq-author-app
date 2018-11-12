@@ -1,0 +1,253 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Typeahead should render 1`] = `
+<Downshift
+  defaultHighlightedIndex={null}
+  defaultInputValue=""
+  defaultIsOpen={false}
+  defaultSelectedItem={null}
+  environment={Object {}}
+  getA11yStatusMessage={[Function]}
+  itemToString={[Function]}
+  onChange={[MockFunction]}
+  onInputValueChange={[Function]}
+  onOuterClick={[Function]}
+  onSelect={[Function]}
+  onStateChange={[Function]}
+  onUserAction={[Function]}
+  scrollIntoView={[Function]}
+  selectedItemChanged={[Function]}
+  stateReducer={[Function]}
+  suppressRefError={false}
+/>
+`;
+
+exports[`TypeaheadMenu should handle the currently highlighted item 1`] = `
+<TypeaheadMenu__Menu>
+  <TypeaheadMenu__MenuList>
+    <TypeaheadMenu__MenuItem
+      key="apple"
+    >
+      <TypeaheadMenu__MenuItemText
+        isActive={true}
+        isSelected={false}
+      >
+        apple
+      </TypeaheadMenu__MenuItemText>
+    </TypeaheadMenu__MenuItem>
+    <TypeaheadMenu__MenuItem
+      key="orange"
+    >
+      <TypeaheadMenu__MenuItemText
+        isActive={false}
+        isSelected={false}
+      >
+        orange
+      </TypeaheadMenu__MenuItemText>
+    </TypeaheadMenu__MenuItem>
+    <TypeaheadMenu__MenuItem
+      key="pear"
+    >
+      <TypeaheadMenu__MenuItemText
+        isActive={false}
+        isSelected={false}
+      >
+        pear
+      </TypeaheadMenu__MenuItemText>
+    </TypeaheadMenu__MenuItem>
+    <TypeaheadMenu__MenuItem
+      key="strawberry"
+    >
+      <TypeaheadMenu__MenuItemText
+        isActive={false}
+        isSelected={false}
+      >
+        strawberry
+      </TypeaheadMenu__MenuItemText>
+    </TypeaheadMenu__MenuItem>
+    <TypeaheadMenu__MenuItem
+      key="raspberry"
+    >
+      <TypeaheadMenu__MenuItemText
+        isActive={false}
+        isSelected={false}
+      >
+        raspberry
+      </TypeaheadMenu__MenuItemText>
+    </TypeaheadMenu__MenuItem>
+  </TypeaheadMenu__MenuList>
+</TypeaheadMenu__Menu>
+`;
+
+exports[`TypeaheadMenu should handle the currently selected item 1`] = `
+<TypeaheadMenu__Menu>
+  <TypeaheadMenu__MenuList>
+    <TypeaheadMenu__MenuItem
+      key="apple"
+    >
+      <TypeaheadMenu__MenuItemText
+        isActive={true}
+        isSelected={false}
+      >
+        apple
+      </TypeaheadMenu__MenuItemText>
+    </TypeaheadMenu__MenuItem>
+    <TypeaheadMenu__MenuItem
+      key="orange"
+    >
+      <TypeaheadMenu__MenuItemText
+        isActive={false}
+        isSelected={false}
+      >
+        orange
+      </TypeaheadMenu__MenuItemText>
+    </TypeaheadMenu__MenuItem>
+    <TypeaheadMenu__MenuItem
+      key="pear"
+    >
+      <TypeaheadMenu__MenuItemText
+        isActive={false}
+        isSelected={true}
+      >
+        pear
+      </TypeaheadMenu__MenuItemText>
+    </TypeaheadMenu__MenuItem>
+    <TypeaheadMenu__MenuItem
+      key="strawberry"
+    >
+      <TypeaheadMenu__MenuItemText
+        isActive={false}
+        isSelected={false}
+      >
+        strawberry
+      </TypeaheadMenu__MenuItemText>
+    </TypeaheadMenu__MenuItem>
+    <TypeaheadMenu__MenuItem
+      key="raspberry"
+    >
+      <TypeaheadMenu__MenuItemText
+        isActive={false}
+        isSelected={false}
+      >
+        raspberry
+      </TypeaheadMenu__MenuItemText>
+    </TypeaheadMenu__MenuItem>
+  </TypeaheadMenu__MenuList>
+</TypeaheadMenu__Menu>
+`;
+
+exports[`TypeaheadMenu should handle the menu being open 1`] = `
+<TypeaheadMenu__Menu
+  openMenu={true}
+>
+  <TypeaheadMenu__MenuList>
+    <TypeaheadMenu__MenuItem
+      key="apple"
+    >
+      <TypeaheadMenu__MenuItemText
+        isActive={false}
+        isSelected={false}
+      >
+        apple
+      </TypeaheadMenu__MenuItemText>
+    </TypeaheadMenu__MenuItem>
+    <TypeaheadMenu__MenuItem
+      key="orange"
+    >
+      <TypeaheadMenu__MenuItemText
+        isActive={false}
+        isSelected={false}
+      >
+        orange
+      </TypeaheadMenu__MenuItemText>
+    </TypeaheadMenu__MenuItem>
+    <TypeaheadMenu__MenuItem
+      key="pear"
+    >
+      <TypeaheadMenu__MenuItemText
+        isActive={false}
+        isSelected={false}
+      >
+        pear
+      </TypeaheadMenu__MenuItemText>
+    </TypeaheadMenu__MenuItem>
+    <TypeaheadMenu__MenuItem
+      key="strawberry"
+    >
+      <TypeaheadMenu__MenuItemText
+        isActive={false}
+        isSelected={false}
+      >
+        strawberry
+      </TypeaheadMenu__MenuItemText>
+    </TypeaheadMenu__MenuItem>
+    <TypeaheadMenu__MenuItem
+      key="raspberry"
+    >
+      <TypeaheadMenu__MenuItemText
+        isActive={false}
+        isSelected={false}
+      >
+        raspberry
+      </TypeaheadMenu__MenuItemText>
+    </TypeaheadMenu__MenuItem>
+  </TypeaheadMenu__MenuList>
+</TypeaheadMenu__Menu>
+`;
+
+exports[`TypeaheadMenu should render 1`] = `
+<TypeaheadMenu__Menu>
+  <TypeaheadMenu__MenuList>
+    <TypeaheadMenu__MenuItem
+      key="apple"
+    >
+      <TypeaheadMenu__MenuItemText
+        isActive={false}
+        isSelected={false}
+      >
+        apple
+      </TypeaheadMenu__MenuItemText>
+    </TypeaheadMenu__MenuItem>
+    <TypeaheadMenu__MenuItem
+      key="orange"
+    >
+      <TypeaheadMenu__MenuItemText
+        isActive={false}
+        isSelected={false}
+      >
+        orange
+      </TypeaheadMenu__MenuItemText>
+    </TypeaheadMenu__MenuItem>
+    <TypeaheadMenu__MenuItem
+      key="pear"
+    >
+      <TypeaheadMenu__MenuItemText
+        isActive={false}
+        isSelected={false}
+      >
+        pear
+      </TypeaheadMenu__MenuItemText>
+    </TypeaheadMenu__MenuItem>
+    <TypeaheadMenu__MenuItem
+      key="strawberry"
+    >
+      <TypeaheadMenu__MenuItemText
+        isActive={false}
+        isSelected={false}
+      >
+        strawberry
+      </TypeaheadMenu__MenuItemText>
+    </TypeaheadMenu__MenuItem>
+    <TypeaheadMenu__MenuItem
+      key="raspberry"
+    >
+      <TypeaheadMenu__MenuItemText
+        isActive={false}
+        isSelected={false}
+      >
+        raspberry
+      </TypeaheadMenu__MenuItemText>
+    </TypeaheadMenu__MenuItem>
+  </TypeaheadMenu__MenuList>
+</TypeaheadMenu__Menu>
+`;

@@ -1,0 +1,292 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MetadataTable should correctly render different types of metadata 1`] = `
+<TableRow
+  data-test="metadata-table-row"
+>
+  <TableColumn>
+    <KeySelect
+      defaultValue="tx_id"
+      name="key"
+      onChange={[MockFunction]}
+      onUpdate={[MockFunction]}
+      usedKeys={Array []}
+    />
+  </TableColumn>
+  <TableColumn>
+    <TableInput
+      name="alias"
+      onBlur={[MockFunction]}
+      onChange={[MockFunction]}
+      value="test_alias"
+    />
+  </TableColumn>
+  <TableColumn>
+    <Select
+      name="type"
+      onChange={[MockFunction]}
+      onUpdate={[MockFunction]}
+      options={
+        Array [
+          "Text",
+          "Date",
+          "Language",
+          "Region",
+        ]
+      }
+      value="Text"
+    />
+  </TableColumn>
+  <TableColumn>
+    <TableInput
+      name="textValue"
+      onBlur={[MockFunction]}
+      onChange={[MockFunction]}
+      value="text"
+    />
+  </TableColumn>
+  <TableColumn>
+    <DeleteRowButton
+      data-test="metadata-delete-row"
+      onClick={[Function]}
+      size="medium"
+    />
+  </TableColumn>
+</TableRow>
+`;
+
+exports[`MetadataTable should correctly render different types of metadata 2`] = `
+<TableRow
+  data-test="metadata-table-row"
+>
+  <TableColumn>
+    <KeySelect
+      defaultValue="iat"
+      name="key"
+      onChange={[MockFunction]}
+      onUpdate={[MockFunction]}
+      usedKeys={Array []}
+    />
+  </TableColumn>
+  <TableColumn>
+    <TableInput
+      name="alias"
+      onBlur={[MockFunction]}
+      onChange={[MockFunction]}
+      value="date_alias"
+    />
+  </TableColumn>
+  <TableColumn>
+    <Select
+      name="type"
+      onChange={[MockFunction]}
+      onUpdate={[MockFunction]}
+      options={
+        Array [
+          "Text",
+          "Date",
+          "Language",
+          "Region",
+        ]
+      }
+      value="Date"
+    />
+  </TableColumn>
+  <TableColumn>
+    <TableInputDate
+      name="dateValue"
+      onBlur={[MockFunction]}
+      onChange={[MockFunction]}
+      type="date"
+      value="2018-09-17"
+    />
+  </TableColumn>
+  <TableColumn>
+    <DeleteRowButton
+      data-test="metadata-delete-row"
+      onClick={[Function]}
+      size="medium"
+    />
+  </TableColumn>
+</TableRow>
+`;
+
+exports[`MetadataTable should correctly render different types of metadata 3`] = `
+<TableRow
+  data-test="metadata-table-row"
+>
+  <TableColumn>
+    <KeySelect
+      defaultValue="iat"
+      name="key"
+      onChange={[MockFunction]}
+      onUpdate={[MockFunction]}
+      usedKeys={Array []}
+    />
+  </TableColumn>
+  <TableColumn>
+    <TableInput
+      name="alias"
+      onBlur={[MockFunction]}
+      onChange={[MockFunction]}
+      value="region_alias"
+    />
+  </TableColumn>
+  <TableColumn>
+    <Select
+      name="type"
+      onChange={[MockFunction]}
+      onUpdate={[MockFunction]}
+      options={
+        Array [
+          "Text",
+          "Date",
+          "Language",
+          "Region",
+        ]
+      }
+      value="Region"
+    />
+  </TableColumn>
+  <TableColumn>
+    <Select
+      name="regionValue"
+      onChange={[MockFunction]}
+      onUpdate={[MockFunction]}
+      options={
+        Array [
+          "GB_ENG",
+          "GB_GBN",
+          "GB_NIR",
+          "GB_SCT",
+          "GB_WLS",
+        ]
+      }
+      value="GB_ENG"
+    />
+  </TableColumn>
+  <TableColumn>
+    <DeleteRowButton
+      data-test="metadata-delete-row"
+      onClick={[Function]}
+      size="medium"
+    />
+  </TableColumn>
+</TableRow>
+`;
+
+exports[`MetadataTable should correctly render different types of metadata 4`] = `
+<TableRow
+  data-test="metadata-table-row"
+>
+  <TableColumn>
+    <KeySelect
+      defaultValue="iat"
+      name="key"
+      onChange={[MockFunction]}
+      onUpdate={[MockFunction]}
+      usedKeys={Array []}
+    />
+  </TableColumn>
+  <TableColumn>
+    <TableInput
+      name="alias"
+      onBlur={[MockFunction]}
+      onChange={[MockFunction]}
+      value="language_alias"
+    />
+  </TableColumn>
+  <TableColumn>
+    <Select
+      name="type"
+      onChange={[MockFunction]}
+      onUpdate={[MockFunction]}
+      options={
+        Array [
+          "Text",
+          "Date",
+          "Language",
+          "Region",
+        ]
+      }
+      value="Language"
+    />
+  </TableColumn>
+  <TableColumn>
+    <Select
+      name="languageValue"
+      onChange={[MockFunction]}
+      onUpdate={[MockFunction]}
+      options={
+        Array [
+          "en",
+          "cy",
+        ]
+      }
+      value="cy"
+    />
+  </TableColumn>
+  <TableColumn>
+    <DeleteRowButton
+      data-test="metadata-delete-row"
+      onClick={[Function]}
+      size="medium"
+    />
+  </TableColumn>
+</TableRow>
+`;
+
+exports[`MetadataTable should render 1`] = `
+<TableRow
+  data-test="metadata-table-row"
+>
+  <TableColumn>
+    <KeySelect
+      defaultValue="tx_id"
+      name="key"
+      onChange={[MockFunction]}
+      onUpdate={[MockFunction]}
+      usedKeys={Array []}
+    />
+  </TableColumn>
+  <TableColumn>
+    <TableInput
+      name="alias"
+      onBlur={[MockFunction]}
+      onChange={[MockFunction]}
+      value="test_alias"
+    />
+  </TableColumn>
+  <TableColumn>
+    <Select
+      name="type"
+      onChange={[MockFunction]}
+      onUpdate={[MockFunction]}
+      options={
+        Array [
+          "Text",
+          "Date",
+          "Language",
+          "Region",
+        ]
+      }
+      value="Text"
+    />
+  </TableColumn>
+  <TableColumn>
+    <TableInput
+      name="textValue"
+      onBlur={[MockFunction]}
+      onChange={[MockFunction]}
+      value="text"
+    />
+  </TableColumn>
+  <TableColumn>
+    <DeleteRowButton
+      data-test="metadata-delete-row"
+      onClick={[Function]}
+      size="medium"
+    />
+  </TableColumn>
+</TableRow>
+`;

@@ -1,0 +1,114 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ValidationPills should render 1`] = `
+<ValidationPills__Pills
+  onChange={[MockFunction]}
+  options={
+    Array [
+      Object {
+        "id": "Now",
+        "render": [Function],
+        "title": "Start date",
+      },
+      Object {
+        "id": "PreviousAnswer",
+        "render": [Function],
+        "title": "Previous answer",
+      },
+      Object {
+        "id": "Metadata",
+        "render": [Function],
+        "title": "Metadata",
+      },
+      Object {
+        "id": "Custom",
+        "render": [Function],
+        "title": "Custom",
+      },
+    ]
+  }
+  value="PreviousAnswer"
+/>
+`;
+
+exports[`ValidationPills should render custom 1`] = `
+.c0 {
+  margin-top: 3em;
+  margin-bottom: 0;
+  width: 100%;
+}
+
+<div
+  className="c0"
+>
+  <Custom />
+</div>
+`;
+
+exports[`ValidationPills should render if missing an option component 1`] = `
+<ValidationPills__Pills
+  onChange={[MockFunction]}
+  options={
+    Array [
+      Object {
+        "id": "Now",
+        "render": [Function],
+        "title": "Start date",
+      },
+      Object {
+        "id": "PreviousAnswer",
+        "render": [Function],
+        "title": "Previous answer",
+      },
+      Object {
+        "id": "Custom",
+        "render": [Function],
+        "title": "Custom",
+      },
+    ]
+  }
+  value="PreviousAnswer"
+/>
+`;
+
+exports[`ValidationPills should render metadata 1`] = `
+.c0 {
+  margin-top: 3em;
+  margin-bottom: 0;
+  width: 100%;
+}
+
+<div
+  className="c0"
+>
+  <Metadata />
+</div>
+`;
+
+exports[`ValidationPills should render previous answer 1`] = `
+.c0 {
+  margin-top: 3em;
+  margin-bottom: 0;
+  width: 100%;
+}
+
+<div
+  className="c0"
+>
+  <PreviousAnswer />
+</div>
+`;
+
+exports[`ValidationPills should render startDate 1`] = `
+.c0 {
+  margin-top: 3em;
+  margin-bottom: 0;
+  width: 100%;
+}
+
+<div
+  className="c0"
+>
+  <Now />
+</div>
+`;

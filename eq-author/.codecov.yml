@@ -1,0 +1,17 @@
+coverage:
+  status:
+    project:
+      default:
+        target: 90%
+        threshold: 0.25%
+        base: auto
+
+comment: off
+
+ignore:
+  - "**/*story.js"
+  - "features"
+  - "scripts/*.js"
+  - "src/graphql/*.js"
+  - "tests"
+  - ".eslintrc.js"

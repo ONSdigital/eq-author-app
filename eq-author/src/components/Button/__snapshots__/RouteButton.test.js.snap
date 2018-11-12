@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/Button/RouteButton should render 1`] = `
+<Button
+  to="destination"
+  type="button"
+  variant="primary"
+>
+  <div>
+    Content
+  </div>
+</Button>
+`;

@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TableTypeaheadInput should render 1`] = `
+.c0 {
+  outline: none;
+  border: none;
+}
+
+.c0:focus,
+.c0:focus-within {
+  outline: 3px solid #FDBD56;
+  box-shadow: none;
+}
+
+<UncontrolledInput
+  className="c0"
+  type="text"
+/>
+`;

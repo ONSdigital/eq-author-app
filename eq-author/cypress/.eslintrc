@@ -1,0 +1,10 @@
+{
+  "globals": {
+    "cy": false,
+    "Cypress": false,
+    "before": true
+  },
+  "rules": {
+    "jest/valid-expect": 0
+  }
+}

@@ -1,0 +1,83 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/RoutingRuleDestinationSelector should render 1`] = `
+<RoutingRuleDestinationSelector__RoutingRuleResult
+  key="test-select"
+>
+  <Grid
+    align="center"
+    fillHeight={true}
+  >
+    <Column
+      cols={5}
+      gutters={false}
+    >
+      <RoutingRuleDestinationSelector__Label
+        disabled={false}
+        htmlFor="test-select"
+      >
+        Test
+         
+        <RoutingRuleDestinationSelector__Goto>
+          Go to: 
+        </RoutingRuleDestinationSelector__Goto>
+      </RoutingRuleDestinationSelector__Label>
+    </Column>
+    <Column
+      cols={7}
+      gutters={false}
+    >
+      <GroupedSelect
+        data-test="result-selector"
+        disabled={false}
+        groups={
+          Array [
+            Object {
+              "id": "questions",
+              "label": "Questions in this section",
+              "options": Array [
+                Object {
+                  "label": "page 1",
+                  "value": "{\\"absoluteDestination\\":{\\"destinationType\\":\\"QuestionPage\\",\\"destinationId\\":\\"1\\"}}",
+                },
+                Object {
+                  "label": "page 2",
+                  "value": "{\\"absoluteDestination\\":{\\"destinationType\\":\\"QuestionPage\\",\\"destinationId\\":\\"2\\"}}",
+                },
+              ],
+            },
+            Object {
+              "id": "sections",
+              "label": "Sections in this questionnaire",
+              "options": Array [
+                Object {
+                  "label": "section 1",
+                  "value": "{\\"absoluteDestination\\":{\\"destinationType\\":\\"Section\\",\\"destinationId\\":\\"3\\"}}",
+                },
+                Object {
+                  "label": "section 2",
+                  "value": "{\\"absoluteDestination\\":{\\"destinationType\\":\\"Section\\",\\"destinationId\\":\\"4\\"}}",
+                },
+              ],
+            },
+            Object {
+              "id": "endOfQuestionnaire",
+              "label": "End of Questionnaire",
+              "options": Array [
+                Object {
+                  "label": "End of Questionnaire",
+                  "value": "{\\"logicalDestination\\":{\\"destinationType\\":\\"EndOfQuestionnaire\\"}}",
+                },
+              ],
+            },
+          ]
+        }
+        id="test-select"
+        onChange={[Function]}
+        valid={true}
+        value="{\\"logicalDestination\\":{\\"destinationType\\":{\\"destinationType\\":\\"EndOfQuestionnaire\\"}}}"
+      />
+    </Column>
+  </Grid>
+</RoutingRuleDestinationSelector__RoutingRuleResult>
+`;

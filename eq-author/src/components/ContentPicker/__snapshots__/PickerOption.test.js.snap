@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PickerOption should render 1`] = `
+.c0 {
+  width: calc(100% - 0.25em);
+  text-align: left;
+  margin-bottom: 0.25em;
+  display: inline-block;
+  font-weight: normal;
+  background: transparent;
+  color: #333333;
+  font-size: 1em;
+  padding: 0.5em 1.4em;
+}
+
+.c0:hover {
+  color: #FFFFFF;
+  background: #3B7A9E;
+}
+
+<Button
+  className="c0"
+  onClick={[MockFunction]}
+  selected={false}
+  type="button"
+  variant="primary"
+>
+  Option
+</Button>
+`;

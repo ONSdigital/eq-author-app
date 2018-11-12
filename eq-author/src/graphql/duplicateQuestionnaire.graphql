@@ -1,0 +1,10 @@
+mutation duplicateQuestionnaire($input: DuplicateQuestionnaireInput!) {
+  duplicateQuestionnaire(input: $input) {
+    id
+    title
+    createdAt
+    createdBy {
+      name
+    }
+  }
+}

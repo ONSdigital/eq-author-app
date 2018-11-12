@@ -1,0 +1,127 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SectionEditor should render 1`] = `
+<SectionEditor__SectionCanvas
+  data-test="section-editor"
+  id={null}
+>
+  <DeleteConfirmDialog
+    alertText="All questions in this section will also be removed. This may affect piping and routing rules elsewhere."
+    data-test="dialog-delete-confirm"
+    icon="icon-dialog-section.svg"
+    isOpen={false}
+    onClose={[MockFunction]}
+    onDelete={[MockFunction]}
+  />
+  <MoveSectionQuery
+    questionnaireId="1"
+  >
+    <Component />
+  </MoveSectionQuery>
+  <SectionEditor__Padding>
+    <SectionEditor__Alias>
+      <SectionEditor__AliasField>
+        <Label
+          bold={true}
+          htmlFor="section-alias"
+        >
+          Section short code (optional)
+        </Label>
+        <withChangeHandler(WrappingInput)
+          autoFocus={true}
+          data-test="section-alias"
+          id="section-alias"
+          maxLength={255}
+          name="alias"
+          onBlur={[MockFunction]}
+          onChange={[MockFunction]}
+        />
+      </SectionEditor__AliasField>
+      <CharacterCounter
+        limit={24}
+      />
+    </SectionEditor__Alias>
+  </SectionEditor__Padding>
+  <SectionEditor__Padding>
+    <RichTextEditor
+      autoFocus={false}
+      controls={
+        Object {
+          "emphasis": true,
+        }
+      }
+      id="title"
+      label="Title"
+      multiline={false}
+      onUpdate={[Function]}
+      placeholder=""
+      size="large"
+      testSelector="txt-section-title"
+      value="Section 1"
+    />
+  </SectionEditor__Padding>
+</SectionEditor__SectionCanvas>
+`;
+
+exports[`SectionEditor should render 2`] = `
+<SectionEditor__SectionCanvas
+  data-test="section-editor"
+  id={null}
+>
+  <DeleteConfirmDialog
+    alertText="All questions in this section will also be removed. This may affect piping and routing rules elsewhere."
+    data-test="dialog-delete-confirm"
+    icon="icon-dialog-section.svg"
+    isOpen={false}
+    onClose={[MockFunction]}
+    onDelete={[MockFunction]}
+  />
+  <MoveSectionQuery
+    questionnaireId="1"
+  >
+    <Component />
+  </MoveSectionQuery>
+  <SectionEditor__Padding>
+    <SectionEditor__Alias>
+      <SectionEditor__AliasField>
+        <Label
+          bold={true}
+          htmlFor="section-alias"
+        >
+          Section short code (optional)
+        </Label>
+        <withChangeHandler(WrappingInput)
+          autoFocus={true}
+          data-test="section-alias"
+          id="section-alias"
+          maxLength={255}
+          name="alias"
+          onBlur={[MockFunction]}
+          onChange={[MockFunction]}
+        />
+      </SectionEditor__AliasField>
+      <CharacterCounter
+        limit={24}
+      />
+    </SectionEditor__Alias>
+  </SectionEditor__Padding>
+  <SectionEditor__Padding>
+    <RichTextEditor
+      autoFocus={false}
+      controls={
+        Object {
+          "emphasis": true,
+        }
+      }
+      id="title"
+      label="Title"
+      multiline={false}
+      onUpdate={[Function]}
+      placeholder=""
+      size="large"
+      testSelector="txt-section-title"
+      value="Section 2"
+    />
+  </SectionEditor__Padding>
+</SectionEditor__SectionCanvas>
+`;

@@ -1,0 +1,6 @@
+fragment LogicalDestination on LogicalDestination {
+  ... on LogicalDestination {
+    id
+    logicalDestination
+  }
+}

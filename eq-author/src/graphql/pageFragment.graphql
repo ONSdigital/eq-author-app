@@ -1,0 +1,6 @@
+fragment MinimalPage on QuestionPage {
+  id
+  answers {
+    id
+  }
+}

@@ -1,0 +1,189 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Accordion should render 1`] = `
+<Accordion__StyledDiv
+  aria-multiselectable="true"
+  role="tablist"
+>
+  Accordion panel
+</Accordion__StyledDiv>
+`;
+
+exports[`AccordionPanel Accordion panel behaviours should render title and body panels 1`] = `
+.c1 {
+  cursor: pointer;
+  margin: 0;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  position: relative;
+  padding: 0.25em;
+}
+
+.c1 button {
+  color: #333333;
+  font-size: 0.7em;
+  font-weight: 900;
+  background: none;
+  border: none;
+  width: 100%;
+  height: 100%;
+  padding: 0.6em 1em;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  outline: none;
+}
+
+.c1 button:focus {
+  outline: -webkit-focus-ring-color auto 5px;
+}
+
+.c1 button::after {
+  content: url(chevron.svg);
+  float: right;
+}
+
+.c1 button[aria-expanded="false"]::after {
+  -webkit-transform: rotate(0deg);
+  -ms-transform: rotate(0deg);
+  transform: rotate(0deg);
+  -webkit-transition: -webkit-transform 150ms ease-out;
+  -webkit-transition: transform 150ms ease-out;
+  transition: transform 150ms ease-out;
+}
+
+.c1 button[aria-expanded="true"]::after {
+  -webkit-transform: rotate(-180deg);
+  -ms-transform: rotate(-180deg);
+  transform: rotate(-180deg);
+  -webkit-transition: -webkit-transform 150ms ease-in;
+  -webkit-transition: transform 150ms ease-in;
+  transition: transform 150ms ease-in;
+}
+
+.c2 {
+  padding: 0.6em 1em;
+  position: relative;
+}
+
+.c2[aria-hidden="true"] {
+  display: none;
+}
+
+.c2[aria-hidden="false"] {
+  display: block;
+}
+
+.c0 {
+  border-bottom: 1px solid #999999;
+}
+
+<AccordionPanel
+  id="Answer-1"
+  open={false}
+  title="Answer properties"
+>
+  <Accordion__AccordionInner
+    onKeyUp={[Function]}
+  >
+    <div
+      className="c0"
+      onKeyUp={[Function]}
+    >
+      <Accordion__AccordionTitle
+        controls="panel-body-accordion-panel-Answer-1"
+        id="panel-title-accordion-panel-Answer-1"
+        innerRef={[Function]}
+        onClick={[Function]}
+        open={false}
+      >
+        <PanelTitle
+          className="c1"
+          controls="panel-body-accordion-panel-Answer-1"
+          id="panel-title-accordion-panel-Answer-1"
+          onClick={[Function]}
+          open={false}
+        >
+          <h3
+            className="c1"
+          >
+            <button
+              aria-controls="panel-body-accordion-panel-Answer-1"
+              aria-expanded={false}
+              aria-selected={false}
+              id="panel-title-accordion-panel-Answer-1"
+              onClick={[Function]}
+              role="tab"
+            >
+              Answer properties
+            </button>
+          </h3>
+        </PanelTitle>
+      </Accordion__AccordionTitle>
+      <Accordion__AccordionBody
+        id="panel-body-accordion-panel-Answer-1"
+        labelledBy="panel-title-accordion-panel-Answer-1"
+        open={false}
+      >
+        <PanelBody
+          className="c2"
+          id="panel-body-accordion-panel-Answer-1"
+          labelledBy="panel-title-accordion-panel-Answer-1"
+          open={false}
+        >
+          <div
+            aria-hidden={true}
+            aria-labelledby="panel-title-accordion-panel-Answer-1"
+            className="c2"
+            id="panel-body-accordion-panel-Answer-1"
+            role="tabpanel"
+          >
+            <div>
+              Content
+            </div>
+          </div>
+        </PanelBody>
+      </Accordion__AccordionBody>
+    </div>
+  </Accordion__AccordionInner>
+</AccordionPanel>
+`;
+
+exports[`AccordionPanel should render 1`] = `
+<Accordion__AccordionInner
+  onKeyUp={[Function]}
+>
+  <Accordion__AccordionTitle
+    controls="panel-body-accordion-panel-Answer-1"
+    id="panel-title-accordion-panel-Answer-1"
+    innerRef={[Function]}
+    onClick={[Function]}
+    open={false}
+  >
+    Answer properties
+  </Accordion__AccordionTitle>
+  <Accordion__AccordionBody
+    id="panel-body-accordion-panel-Answer-1"
+    labelledBy="panel-title-accordion-panel-Answer-1"
+    open={false}
+  >
+    <div>
+      Content
+    </div>
+  </Accordion__AccordionBody>
+</Accordion__AccordionInner>
+`;

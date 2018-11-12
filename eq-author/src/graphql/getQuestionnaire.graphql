@@ -1,0 +1,26 @@
+#import "./fragments/questionnaire.graphql"
+
+query GetQuestionnaire($id: ID!) {
+  questionnaire(id: $id) {
+    ...Questionnaire
+    sections {
+      id
+      displayName
+      position
+      pages {
+        id
+        title
+        position
+        ... on QuestionPage {
+          displayName
+        }
+      }
+      questionnaire {
+        id
+        questionnaireInfo {
+          totalSectionCount
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/NavigationSidebar/NavItemTransition should render 1`] = `
+.c0.nav-item-enter {
+  opacity: 0;
+  -webkit-transform: translateX(-20px);
+  -ms-transform: translateX(-20px);
+  transform: translateX(-20px);
+}
+
+.c0.nav-item-enter-active {
+  opacity: 1;
+  -webkit-transform: translateX(0);
+  -ms-transform: translateX(0);
+  transform: translateX(0);
+  -webkit-transition: opacity 300ms ease-out,-webkit-transform 300ms ease-out;
+  -webkit-transition: opacity 300ms ease-out,transform 300ms ease-out;
+  transition: opacity 300ms ease-out,transform 300ms ease-out;
+}
+
+.c0.nav-item-exit {
+  opacity: 1;
+  -webkit-transform: translateX(0);
+  -ms-transform: translateX(0);
+  transform: translateX(0);
+}
+
+.c0.nav-item-exit-active {
+  opacity: 0;
+  -webkit-transform: translateX(-20px);
+  -ms-transform: translateX(-20px);
+  transform: translateX(-20px);
+  height: 0 !important;
+  -webkit-transition: opacity 150ms ease-out,-webkit-transform 150ms ease-in,height 150ms ease-in 150ms;
+  -webkit-transition: opacity 150ms ease-out,transform 150ms ease-in,height 150ms ease-in 150ms;
+  transition: opacity 150ms ease-out,transform 150ms ease-in,height 150ms ease-in 150ms;
+}
+
+<CSSTransition
+  className="c0"
+  classNames="nav-item"
+  in={false}
+  onExit={[Function]}
+  timeout={300}
+>
+  <div>
+    Content
+  </div>
+</CSSTransition>
+`;

@@ -1,0 +1,16 @@
+#import "./routing-condition.graphql"
+#import "./absolute-destination.graphql"
+#import "./logical-destination.graphql"
+
+fragment RoutingRule on RoutingRule {
+  id
+  operation
+  conditions {
+    ...RoutingCondition
+    __typename
+  }
+  goto {
+    ...LogicalDestination
+    ...AbsoluteDestination
+  }
+}

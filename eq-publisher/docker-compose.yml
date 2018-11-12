@@ -1,0 +1,25 @@
+version: "3"
+services:
+  web:
+    build:
+      context: .
+    environment:
+      - EQ_SCHEMA_VALIDATOR_URL=http://eq-schema-validator:5000/validate
+      - EQ_AUTHOR_API_URL=http://docker.for.mac.host.internal:4000/graphql
+      - NODE_ENV=development
+    ports:
+      - "9000:9000"
+      - "5859:5858" # open port for debugging
+    volumes:
+      - .:/app
+    depends_on:
+      - eq-schema-validator
+    entrypoint:
+      - yarn
+      - start:dev
+
+  eq-schema-validator:
+    image: onsdigital/eq-schema-validator
+    ports:
+      - "5000"
+    restart: on-failure

@@ -1,0 +1,77 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BasicAnswer should render with description 1`] = `
+<div>
+  <Field
+    last={false}
+  >
+    <Label
+      bold={true}
+      htmlFor="answer-label-undefined"
+    >
+      Label
+    </Label>
+    <withChangeHandler(WrappingInput)
+      bold={true}
+      data-autofocus={true}
+      data-test="txt-answer-label"
+      id="answer-label-undefined"
+      name="label"
+      onBlur={[MockFunction]}
+      onChange={[MockFunction]}
+      value=""
+    />
+  </Field>
+  <Field
+    last={false}
+  >
+    <Label
+      bold={true}
+      htmlFor="answer-description-undefined"
+    >
+      Description (optional)
+    </Label>
+    <withChangeHandler(WrappingInput)
+      cols="30"
+      data-test="txt-answer-description"
+      id="answer-description-undefined"
+      name="description"
+      onBlur={[MockFunction]}
+      onChange={[MockFunction]}
+      rows="5"
+      value="Answer description"
+    />
+  </Field>
+  <div>
+    This is the child component
+  </div>
+</div>
+`;
+
+exports[`BasicAnswer should render without description 1`] = `
+<div>
+  <Field
+    last={false}
+  >
+    <Label
+      bold={true}
+      htmlFor="answer-label-undefined"
+    >
+      Label
+    </Label>
+    <withChangeHandler(WrappingInput)
+      bold={true}
+      data-autofocus={true}
+      data-test="txt-answer-label"
+      id="answer-label-undefined"
+      name="label"
+      onBlur={[MockFunction]}
+      onChange={[MockFunction]}
+      value=""
+    />
+  </Field>
+  <div>
+    This is the child component
+  </div>
+</div>
+`;

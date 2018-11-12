@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Toastcontainer should render 1`] = `
+<ToastContainer__ToastWrapper>
+  <ToastContainer__ToastOuterContainer>
+    <ToastContainer__ToastInnerContainer>
+      <ToastContainer
+        transition={[Function]}
+      >
+        <Toast
+          id="toast1"
+          key="toast1"
+          onClose={[MockFunction]}
+          timeout={5000}
+        >
+          <ToastContainer__StyledDiv>
+            Hello world
+            <ToastContainer__UndoButton
+              data-test="btn-undo"
+              onClick={[Function]}
+            >
+              Undo
+            </ToastContainer__UndoButton>
+          </ToastContainer__StyledDiv>
+        </Toast>
+      </ToastContainer>
+    </ToastContainer__ToastInnerContainer>
+  </ToastContainer__ToastOuterContainer>
+</ToastContainer__ToastWrapper>
+`;

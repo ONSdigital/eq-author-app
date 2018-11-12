@@ -1,0 +1,145 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`QuestionnaireDesignPage getTitle should display existing title if loading 1`] = `"foo"`;
+
+exports[`QuestionnaireDesignPage getTitle should display questionnaire title if no longer loading 1`] = `"hello world - foo"`;
+
+exports[`QuestionnaireDesignPage should render 1`] = `
+<BaseLayout
+  questionnaire={
+    Object {
+      "id": "3",
+      "sections": Array [
+        Object {
+          "id": "2",
+          "pages": Array [
+            Object {
+              "answers": Array [
+                Object {
+                  "id": "1",
+                  "label": "",
+                  "options": Array [
+                    Object {
+                      "id": "1",
+                    },
+                  ],
+                },
+              ],
+              "description": "",
+              "guidance": "",
+              "id": "1",
+              "position": 0,
+              "title": "",
+              "type": "General",
+            },
+          ],
+          "title": "",
+        },
+      ],
+      "title": "hello world",
+    }
+  }
+>
+  <GetContext
+    title={[Function]}
+  >
+    <Grid
+      align="top"
+      fillHeight={true}
+    >
+      <Column
+        cols={3}
+        gutters={false}
+      >
+        <withRouter(Apollo(Apollo(UnwrappedNavigationSidebar)))
+          data-test="side-nav"
+          loading={false}
+          onAddPage={[Function]}
+          questionnaire={
+            Object {
+              "id": "3",
+              "sections": Array [
+                Object {
+                  "id": "2",
+                  "pages": Array [
+                    Object {
+                      "answers": Array [
+                        Object {
+                          "id": "1",
+                          "label": "",
+                          "options": Array [
+                            Object {
+                              "id": "1",
+                            },
+                          ],
+                        },
+                      ],
+                      "description": "",
+                      "guidance": "",
+                      "id": "1",
+                      "position": 0,
+                      "title": "",
+                      "type": "General",
+                    },
+                  ],
+                  "title": "",
+                },
+              ],
+              "title": "hello world",
+            }
+          }
+        />
+      </Column>
+      <Column
+        cols={12}
+      >
+        <Switch>
+          <Route
+            component={[Function]}
+            exact={true}
+            path="/questionnaire/:questionnaireId/:sectionId(\\\\d+)/design"
+          />
+          <Route
+            component={[Function]}
+            exact={true}
+            path="/questionnaire/:questionnaireId/:sectionId(\\\\d+)/:pageId(\\\\d+)/design"
+          />
+          <Route
+            component={[Function]}
+            exact={true}
+            path="/questionnaire/:questionnaireId/:sectionId(\\\\d+)/:pageId(\\\\d+)/routing"
+          />
+          <Route
+            path="*"
+            render={[Function]}
+          />
+        </Switch>
+      </Column>
+    </Grid>
+  </GetContext>
+</BaseLayout>
+`;
+
+exports[`QuestionnaireDesignPage should render redirect when finished loading 1`] = `
+<Redirect
+  push={false}
+  to="/questionnaire/3/2/design"
+/>
+`;
+
+exports[`QuestionnaireDesignPage should render spinner while loading 1`] = `
+<Grid
+  align="top"
+  fillHeight={true}
+>
+  <Column
+    cols={10}
+  >
+    <Loading
+      height="100%"
+    >
+      Loading questionnaire…
+    </Loading>
+  </Column>
+</Grid>
+`;

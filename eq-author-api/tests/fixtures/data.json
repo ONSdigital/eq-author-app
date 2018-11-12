@@ -1,0 +1,50 @@
+{
+  "questionnaire": {
+    "title": "Nick's Questionnaire",
+    "description": "This is a dummy questionnaire",
+    "theme": "meh",
+    "legalBasis": "Voluntary",
+    "navigation": true,
+    "surveyId": "1"
+  },
+
+  "section": {
+    "title": "Cheese",
+    "description": "Let's talk about cheese...",
+    "questionnaireId": 1
+  },
+
+  "question": {
+    "title": "What are you opinions on cheese?",
+    "description": "Please enter your thoughts and feelings about that much beloved dairy product",
+    "guidance": "this is some guidance",
+    "type": "General",
+    "sectionId": 1
+  },
+
+  "answer": [
+    {
+      "label": "How much do you like cheese?",
+      "description": "On a scale of 1-5",
+      "guidance": "1 being liking cheese, 5 being loving cheese. There is no option for not liking cheese",
+      "type": "Integer",
+      "properties": {
+        "required": true,
+        "decimals": 1
+      },
+      "questionPageId": 1
+    },
+
+    {
+      "label": "What's your favourite cheese?",
+      "description": "If you could only eat one cheese for the rest of your life, what would it be?",
+      "guidance": "Think hard about this, it's a legally binding contract",
+      "type": "Integer",
+      "properties": {
+        "required": true,
+        "decimals": 0
+      },
+      "questionPageId": 1
+    }
+  ]
+}

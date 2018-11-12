@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PrivateRoute should render a redirect if not signed in 1`] = `
+<Redirect
+  push={false}
+  to={
+    Object {
+      "pathname": "/sign-in",
+      "state": Object {
+        "returnURL": "/foo",
+      },
+    }
+  }
+/>
+`;
+
+exports[`PrivateRoute should render the component if signed in 1`] = `
+<Component
+  location={
+    Object {
+      "pathname": "/foo",
+    }
+  }
+/>
+`;

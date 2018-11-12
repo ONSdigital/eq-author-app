@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Delay after timeout has elapsed should render children 1`] = `
+<Delay
+  delay={250}
+>
+  Hello
+</Delay>
+`;
+
+exports[`Delay before timeout has elapsed should display nothing  1`] = `
+<Delay
+  delay={250}
+/>
+`;

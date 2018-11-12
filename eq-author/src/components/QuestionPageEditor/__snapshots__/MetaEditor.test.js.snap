@@ -1,0 +1,88 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MetaEditor should render 1`] = `
+<div>
+  <MetaEditor__Padding>
+    <MetaEditor__Alias>
+      <MetaEditor__AliasField>
+        <Label
+          bold={true}
+          htmlFor="question-alias"
+        >
+          Question short code (optional)
+        </Label>
+        <withChangeHandler(WrappingInput)
+          autoFocus={false}
+          data-test="question-alias"
+          id="question-alias"
+          maxLength={255}
+          name="alias"
+          onBlur={[MockFunction]}
+          onChange={[MockFunction]}
+          value="Page alias"
+        />
+      </MetaEditor__AliasField>
+      <CharacterCounter
+        limit={24}
+        value="Page alias"
+      />
+    </MetaEditor__Alias>
+  </MetaEditor__Padding>
+  <RichTextEditor
+    autoFocus={false}
+    controls={
+      Object {
+        "emphasis": true,
+        "piping": true,
+      }
+    }
+    fetchAnswers={[Function]}
+    id="title"
+    label="Question"
+    metadata={Array []}
+    multiline={false}
+    onUpdate={[Function]}
+    placeholder=""
+    size="large"
+    testSelector="txt-question-title"
+    value="Page title"
+  />
+  <RichTextEditor
+    autoFocus={false}
+    controls={
+      Object {
+        "bold": true,
+        "emphasis": true,
+        "piping": true,
+      }
+    }
+    fetchAnswers={[Function]}
+    id="description"
+    label="Question description (optional)…"
+    metadata={Array []}
+    multiline={true}
+    onUpdate={[Function]}
+    placeholder=""
+    testSelector="txt-question-description"
+    value="Page description"
+  />
+  <MetaEditor__GuidanceEditor
+    controls={
+      Object {
+        "bold": true,
+        "heading": true,
+        "list": true,
+        "piping": true,
+      }
+    }
+    fetchAnswers={[Function]}
+    id="guidance"
+    label="Include and exclude guidance"
+    metadata={Array []}
+    multiline={true}
+    onUpdate={[Function]}
+    testSelector="txt-question-guidance"
+    value="Page guidance"
+  />
+</div>
+`;

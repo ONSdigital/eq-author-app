@@ -1,0 +1,30 @@
+language: node_js
+node_js:
+  - "10"
+
+
+install:
+  - yarn install --frozen-lockfile
+  - yarn add codecov
+cache:
+  yarn: true
+  directories:
+      - "node_modules"
+
+script:
+  - yarn lint -- --max-warnings=0
+  - yarn test
+  - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+  - export TAG=`if [ "$TRAVIS_PULL_REQUEST_BRANCH" == "" ]; then echo "latest"; else echo $TRAVIS_PULL_REQUEST_BRANCH; fi`
+  - export TAG=${TAG//\//-}
+  - docker build -t onsdigital/eq-author-api:$TAG --build-arg APPLICATION_VERSION=$(git rev-parse HEAD) -f Dockerfile .
+  - echo "Pushing with tag [$TAG]"
+  - docker push onsdigital/eq-author-api:$TAG
+
+after_success:
+ - codecov
+
+branches:
+    only:
+        - master
+        - /^greenkeeper/.*$/

@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Error should render 1`] = `
+<Error__Container
+  data-test="error"
+>
+  <Component />
+  <Error__Message
+    role="alert"
+  >
+    Oops
+  </Error__Message>
+</Error__Container>
+`;

@@ -1,0 +1,31 @@
+version: "3"
+services:
+  web:
+    build:
+      context: .
+    depends_on:
+      - db
+    links:
+      - db
+    volumes:
+      - .:/app
+      #- ./node_modules/eq-author-graphql-schema:/app/node_modules/eq-author-graphql-schema
+    ports:
+      - 4000:4000
+      - 5858:5858 # open port for debugging
+    environment:
+      - DB_CONNECTION_URI=postgres://postgres:mysecretpassword@db:5432/postgres
+      - NODE_ENV=development
+      - RUNNER_SESSION_URL=http://docker.for.mac.localhost:5000/session?token=
+      - PUBLISHER_URL=http://docker.for.mac.localhost:9000/publish/
+    entrypoint:
+      - yarn
+      - start:dev
+  db:
+    image: postgres:9.4-alpine
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=mysecretpassword
+      - POSTGRES_DB=postgres
+    ports:
+      - 5432:5432

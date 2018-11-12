@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FieldWithInclude should render 1`] = `
+<Fragment>
+  <VisuallyHidden>
+    <Label
+      bold={true}
+      hidden={true}
+    >
+      Value
+    </Label>
+  </VisuallyHidden>
+  <div>
+    Children
+  </div>
+  <FieldWithInclude__InlineField>
+    <ToggleSwitch
+      checked={false}
+      id="1"
+      name="name"
+      onChange={[MockFunction]}
+    />
+    <Label
+      bold={true}
+      htmlFor="1"
+      inline={true}
+    >
+      Include this number
+    </Label>
+  </FieldWithInclude__InlineField>
+</Fragment>
+`;

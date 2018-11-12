@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/FadeTransition should render 1`] = `
+.c0 {
+  -webkit-transition-property: opacity;
+  transition-property: opacity;
+  -webkit-transition-duration: 250ms;
+  transition-duration: 250ms;
+  -webkit-transition-timing-function: ease-in-out;
+  transition-timing-function: ease-in-out;
+}
+
+.c0.fade-enter,
+.c0.fade-appear {
+  opacity: 0;
+}
+
+.c0.fade-enter.fade-enter-active,
+.c0.fade-appear.fade-appear-active {
+  opacity: 1;
+}
+
+.c0.fade-exit {
+  opacity: 1;
+}
+
+.c0.fade-exit.fade-exit-active {
+  opacity: 0;
+}
+
+<CSSTransition
+  className="c0"
+  classNames="fade"
+  in={false}
+  timeout={250}
+>
+  <div>
+    Content
+  </div>
+</CSSTransition>
+`;

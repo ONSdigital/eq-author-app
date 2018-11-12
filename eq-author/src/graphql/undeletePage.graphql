@@ -1,0 +1,6 @@
+mutation UndeletePage($input: UndeleteQuestionPageInput!) {
+  undeleteQuestionPage(input: $input) {
+    id
+    position
+  }
+}

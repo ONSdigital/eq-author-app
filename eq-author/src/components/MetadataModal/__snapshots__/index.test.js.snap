@@ -1,0 +1,66 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MetadataModal should render 1`] = `
+<ModalFullScreen
+  isOpen={true}
+  onClose={[MockFunction]}
+>
+  <GetMetadataQuery
+    questionnaireId="1"
+  >
+    <Component />
+  </GetMetadataQuery>
+</ModalFullScreen>
+`;
+
+exports[`MetadataModal should render error state 1`] = `
+<Error>
+  Oops! Something went wrong
+</Error>
+`;
+
+exports[`MetadataModal should render loading state 1`] = `
+<Loading
+  height="100%"
+>
+  Questionnaire metadata loading…
+</Loading>
+`;
+
+exports[`MetadataModal should render metadata content 1`] = `
+<MetadataModal__Scrollable
+  data-test="metadata-modal-content"
+>
+  <DialogHeader___default>
+    <DialogMessage__Message>
+      <MetadataModal__CenteredHeading>
+        Metadata
+      </MetadataModal__CenteredHeading>
+    </DialogMessage__Message>
+  </DialogHeader___default>
+  <MetadataModal__Info
+    icon={[Function]}
+  >
+    Metadata entered here are only used for the creation of this survey.
+  </MetadataModal__Info>
+  <MetadataModal__Content>
+    <MetadataTable
+      metadata={Array []}
+      onAdd={[MockFunction]}
+      onDelete={[MockFunction]}
+      onUpdate={[MockFunction]}
+      questionnaireId="1"
+    />
+  </MetadataModal__Content>
+  <DialogActionButtons
+    primaryAction={[MockFunction]}
+    primaryActionText="Done"
+  />
+</MetadataModal__Scrollable>
+`;
+
+exports[`MetadataModal should render questionnaire error state 1`] = `
+<Error>
+  Oops! Questionnaire could not be found
+</Error>
+`;

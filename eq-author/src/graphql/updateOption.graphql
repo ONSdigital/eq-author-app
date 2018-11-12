@@ -1,0 +1,7 @@
+#import "./fragments/option.graphql"
+
+mutation UpdateOption($input: UpdateOptionInput!) {
+  updateOption(input: $input) {
+    ...Option
+  }
+}

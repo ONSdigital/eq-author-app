@@ -1,0 +1,32 @@
+#import "./fragments/section.graphql"
+
+mutation duplicateSection($input: DuplicateSectionInput!) {
+  duplicateSection(input: $input) {
+    ...Section
+    position
+    displayName
+    pages {
+      id
+      title
+      description
+      position
+      ... on QuestionPage {
+        displayName
+        guidance
+        pageType
+        answers {
+          id
+        }
+      }
+    }
+    questionnaire {
+      id
+      questionnaireInfo {
+        totalSectionCount
+      }
+      sections {
+        id
+      }
+    }
+  }
+}

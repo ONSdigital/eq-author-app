@@ -1,0 +1,77 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PositionModal/ItemSelect Option should render 1`] = `
+<div>
+  <VisuallyHidden
+    checked={true}
+    id="test"
+    name="bar"
+    onChange={[MockFunction]}
+    type="radio"
+    value="foo"
+  />
+  <ItemSelect__Label
+    htmlFor="test"
+    selected={true}
+  >
+    <IconText
+      hideText={false}
+      icon={[Function]}
+    >
+      <Truncated>
+        bar
+      </Truncated>
+    </IconText>
+  </ItemSelect__Label>
+</div>
+`;
+
+exports[`PositionModal/ItemSelect should render 1`] = `
+<div>
+  <Option
+    key=".$0"
+    name="foo"
+    onChange={[Function]}
+    selected={true}
+    value="0"
+  >
+    0
+  </Option>
+  <Option
+    key=".$1"
+    name="foo"
+    onChange={[Function]}
+    selected={false}
+    value="1"
+  >
+    1
+  </Option>
+  <Option
+    key=".$2"
+    name="foo"
+    onChange={[Function]}
+    selected={false}
+    value="2"
+  >
+    2
+  </Option>
+  <Option
+    key=".$3"
+    name="foo"
+    onChange={[Function]}
+    selected={false}
+    value="3"
+  >
+    3
+  </Option>
+  <Option
+    key=".$4"
+    name="foo"
+    onChange={[Function]}
+    selected={false}
+    value="4"
+  >
+    4
+  </Option>
+</div>
+`;

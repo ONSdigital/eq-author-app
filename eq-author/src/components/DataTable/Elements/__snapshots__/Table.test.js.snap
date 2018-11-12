@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Table should render 1`] = `
+.c0 {
+  width: 100%;
+  font-size: 1em;
+  border-collapse: collapse;
+  table-layout: fixed;
+  text-align: left;
+  border: 1px solid #999999;
+}
+
+<table
+  className="c0"
+/>
+`;

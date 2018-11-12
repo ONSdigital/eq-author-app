@@ -1,0 +1,70 @@
+{
+  "name": "eq-author-api",
+  "version": "1.0.0",
+  "main": "app.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "yarn knex -- migrate:latest && nodemon",
+    "start:dev": "yarn knex -- migrate:latest && nodemon -L --inspect=0.0.0.0:5858",
+    "lint": "eslint .",
+    "test": "NODE_ENV=test ./scripts/test.sh",
+    "knex": "knex --knexfile config/knexfile.js --cwd .",
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "cheerio": "^1.0.0-rc.2",
+    "colors": "^1.1.2",
+    "cors": "^2.8.3",
+    "dotenv": "^6.0.0",
+    "eq-author-graphql-schema": "^0.40.0",
+    "express": "^4.15.3",
+    "express-pino-logger": "^4.0.0",
+    "graphql": "^14.0.2",
+    "graphql-iso-date": "^3.3.0",
+    "graphql-relay": "^0.5.2",
+    "graphql-server-express": "^1.3.2",
+    "graphql-tools": "^4.0.0",
+    "graphql-type-json": "^0.2.1",
+    "jest": "^23.0.0",
+    "js-yaml": "^3.12.0",
+    "json-web-key": "^0.4.0",
+    "jsrsasign": "^8.0.12",
+    "knex": "^0.15.2",
+    "lodash": "^4.17.4",
+    "node-jose": "^1.0.0",
+    "nodemon": "^1.11.0",
+    "pg": "^7.4.1",
+    "pg-hstore": "^2.3.2",
+    "wait-for-postgres": "^1.5.3"
+  },
+  "engines": {
+    "node": ">=7.10.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coverageDirectory": "./coverage/",
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "**/*.js",
+      "!config/**/*",
+      "!migrations/*",
+      "!coverage/**/*",
+      "!tests/**/*"
+    ]
+  },
+  "devDependencies": {
+    "eslint": "^5.6.1",
+    "eslint-config-eq-author": "^2.0.1",
+    "husky": "^1.0.1",
+    "lint-staged": "^7.0.5",
+    "prettier": "^1.5.3",
+    "sqlite3": "^4.0.0"
+  }
+}

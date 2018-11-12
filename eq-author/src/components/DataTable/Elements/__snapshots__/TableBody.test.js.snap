@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TableBody should render 1`] = `
+.c0 {
+  color: #333333;
+}
+
+<tbody
+  className="c0"
+/>
+`;

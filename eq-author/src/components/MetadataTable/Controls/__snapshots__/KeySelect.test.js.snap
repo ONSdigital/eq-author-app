@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`KeySelect should render 1`] = `
+<Typeahead
+  inputValue=""
+  onStateChange={[Function]}
+  selectedItem={
+    Object {
+      "value": "",
+    }
+  }
+  stateReducer={[Function]}
+>
+  <Component />
+</Typeahead>
+`;

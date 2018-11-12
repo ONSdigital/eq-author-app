@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Duplicate Button should render 1`] = `
+<DuplicateTooltip>
+  <Button
+    data-test="foo"
+    hideText={false}
+    onClick={[MockFunction]}
+    small={true}
+    type="button"
+    variant="tertiary"
+    withText={true}
+  >
+    <IconText
+      hideText={true}
+      icon={[Function]}
+    >
+      Duplicate
+    </IconText>
+  </Button>
+</DuplicateTooltip>
+`;
+
+exports[`Duplicate Button should render without duplicate text when asked to 1`] = `
+<DuplicateTooltip>
+  <Button
+    data-test="foo"
+    hideText={false}
+    onClick={[MockFunction]}
+    small={true}
+    type="button"
+    variant="tertiary"
+    withText={false}
+  >
+    <IconText
+      hideText={true}
+      icon={[Function]}
+    >
+      Duplicate
+    </IconText>
+  </Button>
+</DuplicateTooltip>
+`;

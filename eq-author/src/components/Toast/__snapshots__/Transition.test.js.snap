@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/Toast/Transition should render 1`] = `
+.c0 {
+  -webkit-transition-property: -webkit-transform,opacity;
+  -webkit-transition-property: transform,opacity;
+  transition-property: transform,opacity;
+  -webkit-transition-duration: 330ms;
+  transition-duration: 330ms;
+}
+
+.c0.toast-enter {
+  opacity: 0;
+  -webkit-transform: translateY(50%);
+  -ms-transform: translateY(50%);
+  transform: translateY(50%);
+  -webkit-transition-timing-function: cubic-bezier(0.73,0.02,0.32,1.49);
+  transition-timing-function: cubic-bezier(0.73,0.02,0.32,1.49);
+  -webkit-transition-delay: 165ms;
+  transition-delay: 165ms;
+}
+
+.c0.toast-enter.toast-enter-active {
+  opacity: 1;
+  -webkit-transform: translateY(0);
+  -ms-transform: translateY(0);
+  transform: translateY(0);
+}
+
+.c0.toast-exit {
+  opacity: 1;
+  -webkit-transform: translateY(0);
+  -ms-transform: translateY(0);
+  transform: translateY(0);
+  -webkit-transition-timing-function: cubic-bezier(0.75,-0.44,0.24,1);
+  transition-timing-function: cubic-bezier(0.75,-0.44,0.24,1);
+}
+
+.c0.toast-exit.toast-exit-active {
+  opacity: 0;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+<CSSTransition
+  className="c0"
+  classNames="toast"
+  in={false}
+  timeout={500}
+>
+  <div>
+    Content
+  </div>
+</CSSTransition>
+`;

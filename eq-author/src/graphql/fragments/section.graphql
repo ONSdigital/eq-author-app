@@ -1,0 +1,8 @@
+fragment Section on Section {
+  id
+  title
+  alias
+  introductionTitle
+  introductionContent
+  introductionEnabled
+}

@@ -1,0 +1,191 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Date Validation should filter the available units for the format 1`] = `
+<withChangeHandler(Select__SimpleSelect)
+  data-test="offset-unit-select"
+  name="offset.unit"
+  onBlur={[MockFunction]}
+  onChange={[MockFunction]}
+  value="Months"
+>
+  <option
+    key="Months"
+    value="Months"
+  >
+    Months
+  </option>
+  <option
+    key="Years"
+    value="Years"
+  >
+    Years
+  </option>
+</withChangeHandler(Select__SimpleSelect)>
+`;
+
+exports[`Date Validation should render a please select for offset unit when the offset unit is not available for the format 1`] = `
+<withChangeHandler(Select__SimpleSelect)
+  data-test="offset-unit-select"
+  name="offset.unit"
+  onBlur={[MockFunction]}
+  onChange={[MockFunction]}
+  value=""
+>
+  <option
+    disabled={true}
+    key="Please select"
+    value=""
+  >
+    Please select…
+  </option>
+  <option
+    key="Years"
+    value="Years"
+  >
+    Years
+  </option>
+</withChangeHandler(Select__SimpleSelect)>
+`;
+
+exports[`Date Validation should render disabled message when not enabled 1`] = `
+<ValidationView
+  data-test="example-test-id"
+  enabled={false}
+  onToggleChange={[Function]}
+>
+  <DisabledMessage>
+    Some date
+     is disabled
+  </DisabledMessage>
+</ValidationView>
+`;
+
+exports[`Date Validation should render the form input with the values when enabled 1`] = `
+<ValidationView
+  data-test="example-test-id"
+  enabled={true}
+  onToggleChange={[Function]}
+>
+  <div>
+    <Grid
+      align="top"
+      fillHeight={true}
+    >
+      <DateValidation__AlignedColumn
+        cols={3}
+      >
+        <DateValidation__EmphasisedText>
+          Some date
+           is
+        </DateValidation__EmphasisedText>
+      </DateValidation__AlignedColumn>
+      <Column
+        cols={9}
+      >
+        <Grid
+          align="top"
+          fillHeight={true}
+        >
+          <Column
+            cols={2}
+          >
+            <Number
+              default={0}
+              id="offset-value"
+              max={99999}
+              min={0}
+              name="offset.value"
+              onBlur={[MockFunction]}
+              onChange={[MockFunction]}
+              step={1}
+              value={5}
+            />
+          </Column>
+          <Column
+            cols={4}
+          >
+            <withChangeHandler(Select__SimpleSelect)
+              data-test="offset-unit-select"
+              name="offset.unit"
+              onBlur={[MockFunction]}
+              onChange={[MockFunction]}
+              value="Months"
+            >
+              <option
+                key="Days"
+                value="Days"
+              >
+                Days
+              </option>
+              <option
+                key="Months"
+                value="Months"
+              >
+                Months
+              </option>
+              <option
+                key="Years"
+                value="Years"
+              >
+                Years
+              </option>
+            </withChangeHandler(Select__SimpleSelect)>
+          </Column>
+        </Grid>
+      </Column>
+    </Grid>
+    <Grid
+      align="top"
+      fillHeight={true}
+    >
+      <Column
+        cols={3}
+      >
+        <DateValidation__ConnectedPath />
+      </Column>
+    </Grid>
+    <Grid
+      align="top"
+      fillHeight={true}
+    >
+      <DateValidation__AlignedColumn
+        cols={3}
+      >
+        <DateValidation__RelativePositionSelect
+          data-test="relative-position-select"
+          name="relativePosition"
+          onBlur={[MockFunction]}
+          onChange={[MockFunction]}
+          value="Before"
+        >
+          <option
+            key="Before"
+            value="Before"
+          >
+            Before
+          </option>
+          <option
+            key="After"
+            value="After"
+          >
+            After
+          </option>
+        </DateValidation__RelativePositionSelect>
+        <Component />
+      </DateValidation__AlignedColumn>
+      <Column
+        cols={9}
+      >
+        <ValidationPills
+          Custom={[Function]}
+          Metadata={[Function]}
+          Now={[Function]}
+          PreviousAnswer={[Function]}
+          entityType="Custom"
+          onEntityTypeChange={[Function]}
+        />
+      </Column>
+    </Grid>
+  </div>
+</ValidationView>
+`;

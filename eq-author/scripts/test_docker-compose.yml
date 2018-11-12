@@ -1,0 +1,72 @@
+version: '3'
+
+services:
+  eq-schema-validator:
+    image: onsdigital/eq-schema-validator
+    ports:
+      - 5000
+    networks:
+      - eq-author
+    restart: always
+
+  eq-author:
+    image: "onsdigital/eq-author:${TRAVIS_BUILD_NUMBER:-latest}"
+    environment:
+      REACT_APP_BASE_NAME: "/"
+      REACT_APP_API_URL: http://localhost:14000/graphql
+      REACT_APP_USE_MOCK_API: "false"
+      REACT_APP_PUBLISHER_URL: http://eq-publisher:9000/publish
+      REACT_APP_FIREBASE_PROJECT_ID: "${REACT_APP_FIREBASE_PROJECT_ID}"
+      REACT_APP_FIREBASE_API_KEY: "${REACT_APP_FIREBASE_API_KEY}"
+      REACT_APP_FIREBASE_MESSAGING_SENDER_ID: "${REACT_APP_FIREBASE_MESSAGING_SENDER_ID}"
+      REACT_APP_FUNCTIONAL_TEST: "true"
+      REACT_APP_ENABLE_AUTH: "true"
+    depends_on:
+      - eq-author-api
+    restart: always
+    networks:
+      - eq-author
+    ports:
+      - 13000:3000
+
+  eq-author-api:
+    image: onsdigital/eq-author-api
+    environment:
+      DB_CONNECTION_URI: postgres://postgres:mysecretpassword@eq-author-db:5432/postgres
+    depends_on:
+      - eq-author-db
+    restart: always
+    networks:
+      - eq-author
+    ports:
+      - 14000:4000
+
+  eq-publisher:
+    image: onsdigital/eq-publisher
+    environment:
+      EQ_AUTHOR_API_URL: http://eq-author-api:4000/graphql
+      EQ_SCHEMA_VALIDATOR_URL: http://eq-schema-validator:5000/validate
+    depends_on:
+      - eq-author-api
+      - eq-schema-validator
+    restart: always
+    networks:
+      - eq-author
+    ports:
+      - 19000:9000
+
+  eq-author-db:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_DB: postgres
+    restart: always
+    networks:
+      - eq-author
+    ports:
+      - 5432
+
+networks:
+  eq-author:
+    driver: bridge

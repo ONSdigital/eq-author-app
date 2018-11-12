@@ -1,0 +1,65 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`OfflineBanner should not render when user and api are online 1`] = `
+<TransitionGroup
+  childFactory={[Function]}
+  component="div"
+/>
+`;
+
+exports[`OfflineBanner should render if api is offline 1`] = `
+<TransitionGroup
+  childFactory={[Function]}
+  component="div"
+>
+  <OfflineBanner__StyledExpansionTransition
+    finalHeight="2.5em"
+  >
+    <OfflineBanner__Banner>
+      <OfflineBanner__WarningMessage
+        icon={[Function]}
+      >
+        We're unable to save your progress right now. Try refreshing the page or try again shortly
+      </OfflineBanner__WarningMessage>
+    </OfflineBanner__Banner>
+  </OfflineBanner__StyledExpansionTransition>
+</TransitionGroup>
+`;
+
+exports[`OfflineBanner should render if user is offline 1`] = `
+<TransitionGroup
+  childFactory={[Function]}
+  component="div"
+>
+  <OfflineBanner__StyledExpansionTransition
+    finalHeight="2.5em"
+  >
+    <OfflineBanner__Banner>
+      <OfflineBanner__WarningMessage
+        icon={[Function]}
+      >
+        You're currently offline and any changes you make won't be saved. Check your connection and try again.
+      </OfflineBanner__WarningMessage>
+    </OfflineBanner__Banner>
+  </OfflineBanner__StyledExpansionTransition>
+</TransitionGroup>
+`;
+
+exports[`OfflineBanner should render with user offline error message when user and api are offline 1`] = `
+<TransitionGroup
+  childFactory={[Function]}
+  component="div"
+>
+  <OfflineBanner__StyledExpansionTransition
+    finalHeight="2.5em"
+  >
+    <OfflineBanner__Banner>
+      <OfflineBanner__WarningMessage
+        icon={[Function]}
+      >
+        You're currently offline and any changes you make won't be saved. Check your connection and try again.
+      </OfflineBanner__WarningMessage>
+    </OfflineBanner__Banner>
+  </OfflineBanner__StyledExpansionTransition>
+</TransitionGroup>
+`;

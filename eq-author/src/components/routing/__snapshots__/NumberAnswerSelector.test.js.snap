@@ -1,0 +1,76 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/NumberAnswerSelector should render 1`] = `
+<NumberAnswerSelector__NumberAnswerRoutingSelector>
+  <VisuallyHidden>
+    <Label
+      bold={true}
+      htmlFor="routing-condition-comparator-6"
+    >
+      Operator
+    </Label>
+  </VisuallyHidden>
+  <NumberAnswerSelector__ComparatorSelector
+    data-test="comparator-selector"
+    id="routing-condition-comparator-6"
+    name="comparator-select"
+    onChange={[Function]}
+    value="Equal"
+  >
+    <option
+      value="Equal"
+    >
+      (=) Equal to
+    </option>
+    <option
+      value="NotEqual"
+    >
+      (≠) Not equal to
+    </option>
+    <option
+      value="GreaterThan"
+    >
+      (&gt;) More than
+    </option>
+    <option
+      value="LessThan"
+    >
+      (&lt;) Less than
+    </option>
+    <option
+      value="GreaterOrEqual"
+    >
+      (≥) More than or equal to
+    </option>
+    <option
+      value="LessOrEqual"
+    >
+      (≤) Less than or equal to
+    </option>
+  </NumberAnswerSelector__ComparatorSelector>
+  <NumberAnswerSelector__Value>
+    <VisuallyHidden>
+      <Label
+        bold={true}
+        htmlFor="routing-condition-value-6"
+      >
+        Value
+      </Label>
+    </VisuallyHidden>
+    <NumberAnswerSelector__CurrencySymbol>
+      £
+    </NumberAnswerSelector__CurrencySymbol>
+    <NumberAnswerSelector__RoutingNumberInput
+      answerType="Currency"
+      data-test="number-value-input"
+      id="routing-condition-value-6"
+      max={999999999}
+      min={-99999999}
+      name="6"
+      onChange={[MockFunction]}
+      placeholder="Value"
+      value={123}
+    />
+  </NumberAnswerSelector__Value>
+</NumberAnswerSelector__NumberAnswerRoutingSelector>
+`;

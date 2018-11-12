@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TableFoot should render 1`] = `
+.c0 {
+  border-top: 1px solid #999999;
+}
+
+<tfoot
+  className="c0"
+/>
+`;

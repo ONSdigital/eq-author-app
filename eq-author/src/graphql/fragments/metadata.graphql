@@ -1,0 +1,10 @@
+fragment Metadata on Metadata {
+  id
+  key
+  alias
+  type
+  textValue
+  languageValue
+  regionValue
+  dateValue
+}

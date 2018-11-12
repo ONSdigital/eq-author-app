@@ -1,0 +1,110 @@
+{
+  "eq_id": "1",
+  "form_type": "1",
+  "mime_type": "application/json/ons/eq",
+  "schema_version": "0.0.1",
+  "data_version": "0.0.2",
+  "survey_id": "1",
+  "title": "UKIS",
+  "sections": [
+    {
+      "id": "section1",
+      "title": "General Business Information",
+      "groups": [
+        {
+          "id": "group1",
+          "title": "General Business Information",
+          "blocks": [
+            {
+              "id": "block1",
+              "type": "Question",
+              "questions": [
+                {
+                  "id": "question1",
+                  "title": "In which geographic markets did Enterprise Ltd offer goods and / or services?",
+                  "description": "",
+                  "type": "General",
+                  "answers": [
+                    {
+                      "id": "answer1",
+                      "mandatory": false,
+                      "type": "Checkbox",
+                      "label": "",
+                      "description": "",
+                      "options": [
+                        {
+                          "label": "UK regional within approximately 100 miles of this business",
+                          "value": "UK regional within approximately 100 miles of this business"
+                        },
+                        {
+                          "label": "UK National",
+                          "value": "UK National"
+                        },
+                        {
+                          "label": "European countries",
+                          "value": "European countries"
+                        },
+                        {
+                          "label": "All other countries",
+                          "value": "All other countries"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "confirmation-group",
+          "title": "confirmation",
+          "blocks": [
+            {
+              "title": "You are now ready to submit this survey",
+              "type": "Confirmation",
+              "id": "confirmation",
+              "description": "",
+              "questions": [
+                {
+                  "id": "ready-to-submit-completed-question",
+                  "title": "Submission",
+                  "type": "Content",
+                  "guidance": {
+                    "content": [
+                      {
+                        "list": [
+                          "You will not be able to access or change your answers on submitting the questionnaire",
+                          "If you wish to review your answers please select the relevant completed sections"
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "theme": "default",
+  "legal_basis": "StatisticsOfTradeAct",
+  "navigation": {
+    "visible": true
+  },
+  "metadata": [
+    {
+      "name": "user_id",
+      "validator": "string"
+    },
+    {
+      "name": "period_id",
+      "validator": "string"
+    },
+    {
+      "name": "ru_name",
+      "validator": "string"
+    }
+  ]
+}

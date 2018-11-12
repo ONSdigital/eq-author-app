@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/App should render 1`] = `
+<ThemeProvider
+  theme={
+    Object {
+      "colors": Object {
+        "black": "#333333",
+        "blue": "#3B7A9E",
+        "borders": "#999999",
+        "bordersLight": "#c3c3c3",
+        "darkBlue": "#5F7682",
+        "darkGrey": "#666666",
+        "grey": "#999999",
+        "lightBlue": "#61BDE0",
+        "lightGrey": "#c3c3c3",
+        "lightMediumGrey": "#E4E8EB",
+        "lighterGrey": "#f5f5f5",
+        "orange": "#FDBD56",
+        "primary": "#3B7A9E",
+        "red": "#D0021B",
+        "secondary": "#5F7682",
+        "tertiary": "#FDBD56",
+        "text": "#333333",
+        "textLight": "#666666",
+        "white": "#FFFFFF",
+      },
+      "radius": "4px",
+      "shadow": "0 2px 4px rgba(0,0,0,0.1)",
+    }
+  }
+>
+  <div>
+    Content
+  </div>
+</ThemeProvider>
+`;

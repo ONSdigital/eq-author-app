@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`containers/withQuestionnaire mapOptionsToProps should pass questionnaireId as a variable 1`] = `
+Object {
+  "variables": Object {
+    "id": "1",
+  },
+}
+`;
+
+exports[`containers/withQuestionnaire mapResultsToProps should select data 1`] = `
+Object {
+  "loading": false,
+  "questionnaire": Object {
+    "id": "1",
+    "sections": Array [
+      Object {
+        "id": "2",
+        "pages": Array [
+          Object {
+            "id": "3",
+            "title": "My Page",
+          },
+        ],
+        "title": "My Section",
+      },
+    ],
+    "title": "My Questionnaire",
+  },
+}
+`;

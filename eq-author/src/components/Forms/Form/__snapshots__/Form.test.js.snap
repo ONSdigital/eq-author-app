@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/Forms/Form should render correctly 1`] = `
+<Form__StyledForm
+  autoComplete="off"
+  method="POST"
+  onSubmit={[MockFunction]}
+>
+  <input
+    name="input"
+    type="text"
+  />
+</Form__StyledForm>
+`;

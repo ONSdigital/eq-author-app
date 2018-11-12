@@ -1,0 +1,10 @@
+server {
+  listen 3000;
+  server_name eq-author;
+  root /etc/nginx/html;
+  index index.html;
+  
+  location / {
+    try_files $uri /index.html =404;
+  }
+}

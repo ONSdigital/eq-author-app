@@ -1,0 +1,11 @@
+{
+  "extends": ["eslint-config-eq-author"],
+  "env": {
+    "node": true,
+    "es6": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "sourceType": "script"
+  }
+}

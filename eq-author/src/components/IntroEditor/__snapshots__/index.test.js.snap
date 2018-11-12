@@ -1,0 +1,94 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Intro Editor should render section disabled 1`] = `
+<IntroEditor__StyledMainCanvas
+  data-test="section-intro-canvas"
+>
+  <TransitionGroup
+    childFactory={[Function]}
+    component="div"
+  />
+  <IntroEditor__AddIntroButton
+    data-test="btn-add-intro"
+    onClick={[Function]}
+    small={true}
+    variant="secondary"
+  >
+    <IconText
+      hideText={false}
+      icon={[Function]}
+    >
+      Add introduction
+    </IconText>
+  </IntroEditor__AddIntroButton>
+</IntroEditor__StyledMainCanvas>
+`;
+
+exports[`Intro Editor should render section enabled 1`] = `
+<IntroEditor__StyledMainCanvas
+  data-test="section-intro-canvas"
+>
+  <TransitionGroup
+    childFactory={[Function]}
+    component="div"
+  >
+    <FadeTransition
+      exit={false}
+      in={false}
+      timeout={250}
+    >
+      <div>
+        <IntroEditor__IntroToolbar>
+          <EditorToolbar__Buttons>
+            <IconButtonDelete
+              data-test="btn-delete"
+              hideText={false}
+              iconText="Delete Introduction"
+              onClick={[Function]}
+            />
+          </EditorToolbar__Buttons>
+        </IntroEditor__IntroToolbar>
+        <IntroEditor__IntroCanvas>
+          <RichTextEditor
+            autoFocus={false}
+            controls={
+              Object {
+                "piping": true,
+              }
+            }
+            id="introduction-title"
+            label="Introduction title"
+            multiline={false}
+            name="introductionTitle"
+            onUpdate={[Function]}
+            placeholder=""
+            size="large"
+            testSelector="txt-introduction-title"
+            value="Foo"
+          />
+          <RichTextEditor
+            autoFocus={false}
+            controls={
+              Object {
+                "bold": true,
+                "emphasis": true,
+                "heading": true,
+                "list": true,
+                "piping": true,
+              }
+            }
+            id="introduction-content"
+            label="Introduction content"
+            multiline={true}
+            name="introductionContent"
+            onUpdate={[Function]}
+            placeholder=""
+            testSelector="txt-introduction-content"
+            value="Bar"
+          />
+        </IntroEditor__IntroCanvas>
+      </div>
+    </FadeTransition>
+  </TransitionGroup>
+</IntroEditor__StyledMainCanvas>
+`;

@@ -1,0 +1,9 @@
+fragment QuestionPageDestination on QuestionPage {
+  ... on QuestionPage {
+    id
+    displayName
+    section {
+      id
+    }
+  }
+}

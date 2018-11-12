@@ -1,0 +1,5 @@
+mutation DeleteQuestionnaire($input: DeleteQuestionnaireInput!) {
+  deleteQuestionnaire(input: $input) {
+    id
+  }
+}

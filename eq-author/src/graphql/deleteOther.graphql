@@ -1,0 +1,13 @@
+#import "./fragments/answer.graphql"
+#import "./fragments/option.graphql"
+
+mutation DeleteOther($input: DeleteOtherInput!) {
+  deleteOther(input: $input) {
+    option {
+      ...Option
+    }
+    answer {
+      ...Answer
+    }
+  }
+}

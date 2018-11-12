@@ -1,0 +1,167 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Row should render 1`] = `
+<FadeTransition
+  enter={false}
+  exit={true}
+  in={false}
+  onDuplicateQuestionnaire={[MockFunction]}
+  timeout={250}
+>
+  <Row__TR
+    disabled={false}
+    innerRef={
+      Object {
+        "current": null,
+      }
+    }
+  >
+    <Row__TD
+      textAlign="left"
+    >
+      <TruncatedQuestionnaireLink
+        data-test="anchor-questionnaire-title"
+        disabled={false}
+        questionnaire={
+          Object {
+            "createdAt": "2017/01/02",
+            "createdBy": Object {
+              "name": "Alan",
+            },
+            "id": "1",
+            "sections": Array [
+              Object {
+                "id": "1",
+                "pages": Array [
+                  Object {
+                    "id": "1",
+                  },
+                ],
+              },
+            ],
+            "title": "Foo",
+          }
+        }
+        title="Foo"
+      >
+        Foo
+      </TruncatedQuestionnaireLink>
+    </Row__TD>
+    <Row__TD
+      textAlign="left"
+    >
+      <FormattedDate
+        date="2017/01/02"
+      />
+    </Row__TD>
+    <Row__TD
+      textAlign="left"
+    >
+      <Truncated>
+        Alan
+      </Truncated>
+    </Row__TD>
+    <Row__TD
+      textAlign="center"
+    >
+      <Row__ButtonGroup>
+        <DuplicateButton
+          data-test="btn-duplicate-questionnaire"
+          disabled={false}
+          hideText={false}
+          onClick={[Function]}
+        />
+        <IconButtonDelete
+          data-test="btn-delete-questionnaire"
+          disabled={false}
+          hideText={true}
+          onClick={[Function]}
+        />
+      </Row__ButtonGroup>
+    </Row__TD>
+  </Row__TR>
+</FadeTransition>
+`;
+
+exports[`Row should render as disabled when the id is a duplicate 1`] = `
+<FadeTransition
+  enter={true}
+  exit={false}
+  in={false}
+  onDuplicateQuestionnaire={[MockFunction]}
+  timeout={250}
+>
+  <Row__TR
+    disabled={true}
+    innerRef={
+      Object {
+        "current": null,
+      }
+    }
+  >
+    <Row__TD
+      textAlign="left"
+    >
+      <TruncatedQuestionnaireLink
+        data-test="anchor-questionnaire-title"
+        disabled={true}
+        questionnaire={
+          Object {
+            "createdAt": "2017/01/02",
+            "createdBy": Object {
+              "name": "Alan",
+            },
+            "id": "dupe-2",
+            "sections": Array [
+              Object {
+                "id": "1",
+                "pages": Array [
+                  Object {
+                    "id": "1",
+                  },
+                ],
+              },
+            ],
+            "title": "Foo",
+          }
+        }
+        title="Foo"
+      >
+        Foo
+      </TruncatedQuestionnaireLink>
+    </Row__TD>
+    <Row__TD
+      textAlign="left"
+    >
+      <FormattedDate
+        date="2017/01/02"
+      />
+    </Row__TD>
+    <Row__TD
+      textAlign="left"
+    >
+      <Truncated>
+        Alan
+      </Truncated>
+    </Row__TD>
+    <Row__TD
+      textAlign="center"
+    >
+      <Row__ButtonGroup>
+        <DuplicateButton
+          data-test="btn-duplicate-questionnaire"
+          disabled={true}
+          hideText={false}
+          onClick={[Function]}
+        />
+        <IconButtonDelete
+          data-test="btn-delete-questionnaire"
+          disabled={true}
+          hideText={true}
+          onClick={[Function]}
+        />
+      </Row__ButtonGroup>
+    </Row__TD>
+  </Row__TR>
+</FadeTransition>
+`;

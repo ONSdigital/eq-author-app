@@ -1,0 +1,69 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/RichTextEditor/Toolbar should render as hidden by default 1`] = `
+<Toolbar__ToolbarPanel
+  visible={false}
+>
+  <TransitionGroup
+    childFactory={[Function]}
+    component="div"
+  />
+</Toolbar__ToolbarPanel>
+`;
+
+exports[`components/RichTextEditor/Toolbar should render as visible 1`] = `
+<Toolbar__ToolbarPanel
+  visible={true}
+>
+  <TransitionGroup
+    childFactory={[Function]}
+    component="div"
+  >
+    <FadeTransition
+      in={false}
+      timeout={250}
+    >
+      <Toolbar__ButtonGroup>
+        <ToolbarButton
+          disabled={true}
+          key="Heading"
+          onClick={[Function]}
+          title="Heading"
+        >
+          <Component />
+        </ToolbarButton>
+        <ToolbarButton
+          disabled={true}
+          key="Bold"
+          onClick={[Function]}
+          title="Bold"
+        >
+          <Component />
+        </ToolbarButton>
+        <ToolbarButton
+          disabled={true}
+          key="Emphasis"
+          onClick={[Function]}
+          title="Emphasis"
+        >
+          <Component />
+        </ToolbarButton>
+        <Toolbar__Separator />
+        <ToolbarButton
+          disabled={true}
+          key="List"
+          onClick={[Function]}
+          title="List"
+        >
+          <Component />
+        </ToolbarButton>
+        <Toolbar__Separator />
+        <withRouter(PipingMenu)
+          disabled={true}
+          onItemChosen={[MockFunction]}
+        />
+      </Toolbar__ButtonGroup>
+    </FadeTransition>
+  </TransitionGroup>
+</Toolbar__ToolbarPanel>
+`;

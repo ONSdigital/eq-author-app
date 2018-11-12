@@ -1,0 +1,6 @@
+mutation MovePage($input: MovePageInput!) {
+  movePage(input: $input) {
+    id
+    position
+  }
+}

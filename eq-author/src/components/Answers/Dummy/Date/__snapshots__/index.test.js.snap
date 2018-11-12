@@ -1,0 +1,76 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Dummy/Date should render 1`] = `
+<Date__Wrapper
+  data-test="dummy-date"
+/>
+`;
+
+exports[`Dummy/Date should render dd/mm/yyy 1`] = `
+<Date__Wrapper
+  data-test="dummy-date"
+>
+  <Date__Field
+    data-test="dummy-date-day"
+  >
+    <Date__Label>
+      Day
+    </Date__Label>
+    <Date__Input />
+  </Date__Field>
+  <Date__SelectField
+    data-test="dummy-date-month"
+  >
+    <Date__Label>
+      Month
+    </Date__Label>
+    <Date__Input />
+  </Date__SelectField>
+  <Date__Field
+    data-test="dummy-date-year"
+  >
+    <Date__Label>
+      Year
+    </Date__Label>
+    <Date__Input />
+  </Date__Field>
+</Date__Wrapper>
+`;
+
+exports[`Dummy/Date should render mm/yyyy 1`] = `
+<Date__Wrapper
+  data-test="dummy-date"
+>
+  <Date__SelectField
+    data-test="dummy-date-month"
+  >
+    <Date__Label>
+      Month
+    </Date__Label>
+    <Date__Input />
+  </Date__SelectField>
+  <Date__Field
+    data-test="dummy-date-year"
+  >
+    <Date__Label>
+      Year
+    </Date__Label>
+    <Date__Input />
+  </Date__Field>
+</Date__Wrapper>
+`;
+
+exports[`Dummy/Date should render yyyy 1`] = `
+<Date__Wrapper
+  data-test="dummy-date"
+>
+  <Date__Field
+    data-test="dummy-date-year"
+  >
+    <Date__Label>
+      Year
+    </Date__Label>
+    <Date__Input />
+  </Date__Field>
+</Date__Wrapper>
+`;

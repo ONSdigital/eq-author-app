@@ -1,0 +1,54 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/Answer/MultipleChoiceAnswer/OptionTransition should render 1`] = `
+.c0 {
+  position: relative;
+}
+
+.c0.option-enter {
+  opacity: 0;
+  -webkit-transform: scale(0.9);
+  -ms-transform: scale(0.9);
+  transform: scale(0.9);
+  z-index: 200;
+}
+
+.c0.option-enter-active {
+  opacity: 1;
+  -webkit-transform: scale(1);
+  -ms-transform: scale(1);
+  transform: scale(1);
+  -webkit-transition: opacity 200ms ease-out,-webkit-transform 200ms cubic-bezier(0.175,0.885,0.32,1.275);
+  -webkit-transition: opacity 200ms ease-out,transform 200ms cubic-bezier(0.175,0.885,0.32,1.275);
+  transition: opacity 200ms ease-out,transform 200ms cubic-bezier(0.175,0.885,0.32,1.275);
+}
+
+.c0.option-exit {
+  opacity: 1;
+  -webkit-transform: scale(1);
+  -ms-transform: scale(1);
+  transform: scale(1);
+}
+
+.c0.option-exit-active {
+  opacity: 0;
+  height: 0 !important;
+  -webkit-transform: scale(0.9);
+  -ms-transform: scale(0.9);
+  transform: scale(0.9);
+  -webkit-transition: opacity 100ms ease-out,height 100ms ease-in 100ms,-webkit-transform 100ms ease-in;
+  -webkit-transition: opacity 100ms ease-out,height 100ms ease-in 100ms,transform 100ms ease-in;
+  transition: opacity 100ms ease-out,height 100ms ease-in 100ms,transform 100ms ease-in;
+}
+
+<CSSTransition
+  className="c0"
+  classNames="option"
+  onExit={[Function]}
+  timeout={200}
+>
+  <div>
+    Content
+  </div>
+</CSSTransition>
+`;

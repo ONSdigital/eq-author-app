@@ -1,0 +1,8 @@
+#import "./fragments/section.graphql"
+
+mutation UpdateSection($input: UpdateSectionInput!) {
+  updateSection(input: $input) {
+    ...Section
+    displayName
+  }
+}

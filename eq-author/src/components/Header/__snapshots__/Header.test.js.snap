@@ -1,0 +1,73 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/Header renders correctly  1`] = `
+<Header__StyledHeader>
+  <Header__LogoContainer>
+    <Header__Logo
+      data-test="logo"
+      to="/"
+    >
+      <Header__LogoImg
+        alt="Author"
+        src="logo.svg"
+        width={20}
+      />
+    </Header__Logo>
+  </Header__LogoContainer>
+  <Header__QuestionnaireTitle />
+  <Header__UtilityBtns />
+</Header__StyledHeader>
+`;
+
+exports[`components/Header when the user is signed in should render user's profile 1`] = `
+<Header__StyledUserProfile
+  onSignOut={[Function]}
+  user={
+    Object {
+      "displayName": "Foo Bar",
+      "email": "foo@b.ar",
+      "photoURL": "http://foo.b.ar/photo.jpg",
+    }
+  }
+/>
+`;
+
+exports[`components/Header when there is a questionnaire should render a preview button 1`] = `
+<LinkButton
+  data-test="btn-preview"
+  href="http://localhost:4000/launch/1"
+  small={true}
+  variant="tertiary-light"
+>
+  <IconText
+    hideText={false}
+    icon={[Function]}
+  >
+    Preview
+  </IconText>
+</LinkButton>
+`;
+
+exports[`components/Header when there is a questionnaire should render a share button 1`] = `
+<Header__ShareButton
+  data-test="btn-share"
+  onClick={[Function]}
+  small={true}
+  variant="tertiary-light"
+>
+  <IconText
+    hideText={false}
+    icon={[Function]}
+  >
+    Share
+  </IconText>
+</Header__ShareButton>
+`;
+
+exports[`components/Header when there is a questionnaire should render the title 1`] = `
+<Header__Title
+  data-test="questionnaire-title"
+>
+  Questionnaire
+</Header__Title>
+`;

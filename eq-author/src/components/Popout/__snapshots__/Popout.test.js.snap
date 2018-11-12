@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/Popout should render content when open 1`] = `
+<Popout__Container>
+  <button
+    aria-expanded={true}
+    aria-haspopup={true}
+    onClick={[Function]}
+  >
+    Click Me
+  </button>
+  <TransitionGroup
+    childFactory={[Function]}
+    component={[Function]}
+  >
+    <DefaultTransition>
+      <Content
+        onClose={[Function]}
+      />
+    </DefaultTransition>
+  </TransitionGroup>
+</Popout__Container>
+`;
+
+exports[`components/Popout shouldn't render content when closed 1`] = `
+<Popout__Container>
+  <button
+    aria-expanded={false}
+    aria-haspopup={true}
+    onClick={[Function]}
+  >
+    Click Me
+  </button>
+  <TransitionGroup
+    childFactory={[Function]}
+    component={[Function]}
+  />
+</Popout__Container>
+`;

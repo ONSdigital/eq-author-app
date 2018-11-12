@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SectionNav should render 1`] = `
+<TransitionGroup
+  childFactory={[Function]}
+  component={[Function]}
+>
+  <NavItemTransition
+    in={false}
+    key="3"
+    onEntered={[Function]}
+    timeout={300}
+  >
+    <SectionNavItem
+      questionnaire={
+        Object {
+          "id": "1",
+          "sections": Array [
+            Object {
+              "id": "3",
+              "pages": Array [
+                Object {
+                  "id": "2",
+                  "title": "Page",
+                },
+              ],
+              "title": "Section",
+            },
+          ],
+          "title": "Questionnaire",
+        }
+      }
+      section={
+        Object {
+          "id": "3",
+          "pages": Array [
+            Object {
+              "id": "2",
+              "title": "Page",
+            },
+          ],
+          "title": "Section",
+        }
+      }
+    />
+  </NavItemTransition>
+</TransitionGroup>
+`;

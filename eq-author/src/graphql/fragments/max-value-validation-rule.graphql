@@ -1,0 +1,11 @@
+fragment MaxValueValidationRule on MaxValueValidationRule {
+  id
+  enabled
+  custom
+  inclusive
+  entityType
+  previousAnswer {
+    id
+    displayName
+  }
+}

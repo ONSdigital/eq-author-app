@@ -1,0 +1,6 @@
+fragment SectionDestination on Section {
+  ... on Section {
+    id
+    displayName
+  }
+}

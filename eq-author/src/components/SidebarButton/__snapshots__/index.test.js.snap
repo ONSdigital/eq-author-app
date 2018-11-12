@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SidebarButton should render 1`] = `
+.c0 {
+  display: block;
+  width: 100%;
+  padding: 0.75em;
+  margin-bottom: 0.5em;
+  color: #333333;
+  border: none;
+  border-radius: 4px;
+  background-color: #E4E8EB;
+  text-align: left;
+  font-size: 1em;
+  -webkit-transition: all 100ms ease-out;
+  transition: all 100ms ease-out;
+}
+
+.c0:hover {
+  background-color: #3B7A9E;
+  cursor: pointer;
+}
+
+.c0:hover > * {
+  color: white;
+}
+
+.c0:focus {
+  box-shadow: 0 0 0 3px #FDBD56;
+  outline: none;
+}
+
+<button
+  className="c0"
+>
+  <SidebarButton__Title>
+    Min value
+  </SidebarButton__Title>
+  <SidebarButton__Detail>
+    0
+  </SidebarButton__Detail>
+</button>
+`;

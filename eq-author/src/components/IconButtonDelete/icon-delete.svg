@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<!-- Generator: Sketch 49.3 (51167) - http://www.bohemiancoding.com/sketch -->
+	<title>
+		icon-delete
+	</title>
+	<desc>
+		Created with Sketch.
+	</desc>
+	<defs>
+	</defs>
+	<g id="icon-delete" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+		<path d="M10.1406435,23.4744687 C10.1406435,24.6232618 11.019547,25.5638994 12.0934072,25.5638994 L19.9065928,25.5638994 C20.980453,25.5638994 21.8593565,24.6232618 21.8593565,23.4744687 L21.8593565,10.9367591 L10.1406435,10.9367591 L10.1406435,23.4744687 Z" class="body" fill="#6F777B" fill-rule="nonzero">
+		</path>
+		<polygon class="lid" fill="#6F777B" fill-rule="nonzero" points="22.924694 7.56126523 19.462347 7.56126523 18.4726484 6.43610059 13.5284169 6.43610059 12.537653 7.56126523 9.075306 7.56126523 9.075306 9.8115945 22.924694 9.8115945">
+		</polygon>
+	</g>
+</svg>

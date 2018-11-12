@@ -1,0 +1,687 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Option should match snapshot 1`] = `
+<Option__StyledOption
+  duration={200}
+  id="Option1"
+  key="1"
+  onDelete={[MockFunction]}
+  onEnterKey={[MockFunction]}
+  onFocus={[MockFunction]}
+  store={
+    Object {
+      "dispatch": [MockFunction],
+      "getState": [MockFunction],
+      "subscribe": [MockFunction],
+    }
+  }
+>
+  <div>
+    <Option__Flex>
+      <MultipleChoice
+        type="Radio"
+      />
+      <Option__OptionField>
+        <Label
+          bold={true}
+          htmlFor="option-label-1"
+        >
+          Label
+        </Label>
+        <withChangeHandler(WrappingInput)
+          bold={true}
+          data-autofocus={true}
+          data-test="option-label"
+          id="option-label-1"
+          name="label"
+          onBlur={[MockFunction]}
+          onChange={[MockFunction]}
+          onKeyDown={[Function]}
+          placeholder="Label"
+          value=""
+        />
+      </Option__OptionField>
+    </Option__Flex>
+    <Option__OptionField>
+      <Label
+        bold={true}
+        htmlFor="option-description-1"
+      >
+        Description (optional)
+      </Label>
+      <withChangeHandler(WrappingInput)
+        data-test="option-description"
+        id="option-description-1"
+        name="description"
+        onBlur={[MockFunction]}
+        onChange={[MockFunction]}
+        onKeyDown={[Function]}
+        value=""
+      />
+    </Option__OptionField>
+    <Option__DeleteContainer>
+      <Tooltip
+        content="Delete option"
+        offset={
+          Object {
+            "bottom": 10,
+          }
+        }
+        place="top"
+      >
+        <DeleteButton
+          aria-label="Delete option"
+          data-test="btn-delete-option"
+          onClick={[Function]}
+          size="medium"
+          type="button"
+        />
+      </Tooltip>
+    </Option__DeleteContainer>
+  </div>
+</Option__StyledOption>
+`;
+
+exports[`Option should render a checkbox 1`] = `
+.c6 {
+  font-weight: bold;
+}
+
+.c8 {
+  font-weight: regular;
+}
+
+.c7 {
+  font-size: 1em;
+  border: 1px solid #999999;
+  padding: 0.5em;
+  color: #333333;
+  display: block;
+  width: 100%;
+  -webkit-transition: outline-color 100ms ease-in,border-color 100ms ease-in;
+  transition: outline-color 100ms ease-in,border-color 100ms ease-in;
+  outline: 1px solid transparent;
+  font-weight: inherit;
+  resize: none;
+  overflow: hidden;
+}
+
+.c7:hover {
+  border-color: #3B7A9E;
+  outline-color: #3B7A9E;
+}
+
+.c7:focus,
+.c7:focus-within {
+  border-color: #3B7A9E;
+  outline-color: #3B7A9E;
+  box-shadow: 0 0 0 3px #FDBD56;
+}
+
+.c7::-webkit-input-placeholder {
+  color: #a3a3a3;
+}
+
+.c7::-moz-placeholder {
+  color: #a3a3a3;
+}
+
+.c7:-ms-input-placeholder {
+  color: #a3a3a3;
+}
+
+.c7::placeholder {
+  color: #a3a3a3;
+}
+
+.c7:focus {
+  outline: none;
+  border: 1px solid #3B7A9E;
+}
+
+.c7[disabled] {
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+.c5 {
+  display: block;
+  margin-bottom: 0.4em;
+  font-weight: bold;
+  vertical-align: middle;
+  color: #666666;
+  line-height: 1.3;
+}
+
+.c4 {
+  display: block;
+  width: 100%;
+  margin-bottom: 1em;
+  position: relative;
+}
+
+.c10 {
+  color: #5F7682;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  -webkit-transition: color 200ms ease-in,opacity 300ms ease-in;
+  transition: color 200ms ease-in,opacity 300ms ease-in;
+  width: 1em;
+  height: 1em;
+  padding: 0;
+  font-size: 2em;
+}
+
+.c10:hover {
+  color: #333333;
+}
+
+.c10:focus {
+  outline: 3px solid #FDBD56;
+}
+
+.c10[disabled] {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.c11 {
+  pointer-events: none;
+  display: block;
+  width: 1em;
+  height: 1em;
+}
+
+.c11 path {
+  fill: currentColor;
+}
+
+.c12 {
+  background-color: black !important;
+  opacity: 1 !important;
+  font-size: 0.8rem !important;
+  line-height: 1 !important;
+  padding: 0.4rem 0.6rem !important;
+  border-radius: 4px !important;
+  white-space: pre;
+}
+
+.c2 {
+  background: transparent url(placeholder.svg) no-repeat center center;
+  background-size: cover;
+  height: 1.4em;
+  width: 1.4em;
+  display: inline-block;
+  margin: 2em 1em 0 0;
+  border-radius: 4px;
+  -webkit-flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  border: 3px solid #c3c3c3;
+}
+
+.c9 {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+}
+
+.c3 {
+  margin-bottom: 1em;
+}
+
+.c0 {
+  border: 1px solid #c3c3c3;
+  padding: 1em 1em 0;
+  border-radius: 4px;
+  position: relative;
+  margin-bottom: 1em;
+}
+
+<StatelessOption
+  autoFocus={true}
+  hasDeleteButton={true}
+  labelPlaceholder="Label"
+  onChange={[MockFunction]}
+  onDelete={[MockFunction]}
+  onEnterKey={[MockFunction]}
+  onFocus={[MockFunction]}
+  onUpdate={[MockFunction]}
+  option={
+    Object {
+      "__typename": "Option",
+      "description": "",
+      "id": "1",
+      "label": "",
+    }
+  }
+  store={
+    Object {
+      "dispatch": [MockFunction],
+      "getState": [MockFunction],
+      "subscribe": [MockFunction],
+    }
+  }
+  type="Checkbox"
+>
+  <Option__StyledOption
+    duration={200}
+    id="Option1"
+    key="1"
+    onDelete={[MockFunction]}
+    onEnterKey={[MockFunction]}
+    onFocus={[MockFunction]}
+    store={
+      Object {
+        "dispatch": [MockFunction],
+        "getState": [MockFunction],
+        "subscribe": [MockFunction],
+      }
+    }
+  >
+    <div
+      className="c0"
+      id="Option1"
+      onFocus={[MockFunction]}
+    >
+      <div>
+        <Option__Flex>
+          <div
+            className="c1"
+          >
+            <MultipleChoice
+              type="Checkbox"
+            >
+              <div
+                className="c2"
+                type="Checkbox"
+              />
+            </MultipleChoice>
+            <Option__OptionField>
+              <Field
+                className="c3"
+                last={false}
+              >
+                <Field__StyledField
+                  className="c3"
+                  last={false}
+                >
+                  <div
+                    className="c3 c4"
+                  >
+                    <Label
+                      bold={true}
+                      htmlFor="option-label-1"
+                    >
+                      <Label__StyledLabel
+                        bold={true}
+                        htmlFor="option-label-1"
+                      >
+                        <label
+                          className="c5"
+                          htmlFor="option-label-1"
+                        >
+                          Label
+                        </label>
+                      </Label__StyledLabel>
+                    </Label>
+                    <withChangeHandler(WrappingInput)
+                      bold={true}
+                      data-autofocus={true}
+                      data-test="option-label"
+                      id="option-label-1"
+                      name="label"
+                      onBlur={[MockFunction]}
+                      onChange={[MockFunction]}
+                      onKeyDown={[Function]}
+                      placeholder="Label"
+                      value=""
+                    >
+                      <WrappingInput
+                        bold={true}
+                        data-autofocus={true}
+                        data-test="option-label"
+                        id="option-label-1"
+                        name="label"
+                        onBlur={[MockFunction]}
+                        onChange={[Function]}
+                        onKeyDown={[Function]}
+                        placeholder="Label"
+                        value=""
+                      >
+                        <WrappingInput__StyleContext
+                          bold={true}
+                          onChange={[Function]}
+                          onKeyDown={[Function]}
+                        >
+                          <div
+                            className="c6"
+                            onChange={[Function]}
+                            onKeyDown={[Function]}
+                          >
+                            <WrappingInput__TextArea
+                              data-autofocus={true}
+                              data-test="option-label"
+                              id="option-label-1"
+                              name="label"
+                              onBlur={[MockFunction]}
+                              onChange={[Function]}
+                              onKeyDown={[Function]}
+                              placeholder="Label"
+                              value=""
+                            >
+                              <TextareaAutosize
+                                className="c7"
+                                data-autofocus={true}
+                                data-test="option-label"
+                                id="option-label-1"
+                                name="label"
+                                onBlur={[MockFunction]}
+                                onChange={[Function]}
+                                onHeightChange={[Function]}
+                                onKeyDown={[Function]}
+                                placeholder="Label"
+                                useCacheForDOMMeasurements={false}
+                                value=""
+                              >
+                                <textarea
+                                  className="c7"
+                                  data-autofocus={true}
+                                  data-test="option-label"
+                                  id="option-label-1"
+                                  name="label"
+                                  onBlur={[MockFunction]}
+                                  onChange={[Function]}
+                                  onKeyDown={[Function]}
+                                  placeholder="Label"
+                                  style={
+                                    Object {
+                                      "height": 0,
+                                    }
+                                  }
+                                  value=""
+                                />
+                              </TextareaAutosize>
+                            </WrappingInput__TextArea>
+                          </div>
+                        </WrappingInput__StyleContext>
+                      </WrappingInput>
+                    </withChangeHandler(WrappingInput)>
+                  </div>
+                </Field__StyledField>
+              </Field>
+            </Option__OptionField>
+          </div>
+        </Option__Flex>
+        <Option__OptionField>
+          <Field
+            className="c3"
+            last={false}
+          >
+            <Field__StyledField
+              className="c3"
+              last={false}
+            >
+              <div
+                className="c3 c4"
+              >
+                <Label
+                  bold={true}
+                  htmlFor="option-description-1"
+                >
+                  <Label__StyledLabel
+                    bold={true}
+                    htmlFor="option-description-1"
+                  >
+                    <label
+                      className="c5"
+                      htmlFor="option-description-1"
+                    >
+                      Description (optional)
+                    </label>
+                  </Label__StyledLabel>
+                </Label>
+                <withChangeHandler(WrappingInput)
+                  data-test="option-description"
+                  id="option-description-1"
+                  name="description"
+                  onBlur={[MockFunction]}
+                  onChange={[MockFunction]}
+                  onKeyDown={[Function]}
+                  value=""
+                >
+                  <WrappingInput
+                    bold={false}
+                    data-test="option-description"
+                    id="option-description-1"
+                    name="description"
+                    onBlur={[MockFunction]}
+                    onChange={[Function]}
+                    onKeyDown={[Function]}
+                    value=""
+                  >
+                    <WrappingInput__StyleContext
+                      bold={false}
+                      onChange={[Function]}
+                      onKeyDown={[Function]}
+                    >
+                      <div
+                        className="c8"
+                        onChange={[Function]}
+                        onKeyDown={[Function]}
+                      >
+                        <WrappingInput__TextArea
+                          data-test="option-description"
+                          id="option-description-1"
+                          name="description"
+                          onBlur={[MockFunction]}
+                          onChange={[Function]}
+                          onKeyDown={[Function]}
+                          value=""
+                        >
+                          <TextareaAutosize
+                            className="c7"
+                            data-test="option-description"
+                            id="option-description-1"
+                            name="description"
+                            onBlur={[MockFunction]}
+                            onChange={[Function]}
+                            onHeightChange={[Function]}
+                            onKeyDown={[Function]}
+                            useCacheForDOMMeasurements={false}
+                            value=""
+                          >
+                            <textarea
+                              className="c7"
+                              data-test="option-description"
+                              id="option-description-1"
+                              name="description"
+                              onBlur={[MockFunction]}
+                              onChange={[Function]}
+                              onKeyDown={[Function]}
+                              style={
+                                Object {
+                                  "height": 0,
+                                }
+                              }
+                              value=""
+                            />
+                          </TextareaAutosize>
+                        </WrappingInput__TextArea>
+                      </div>
+                    </WrappingInput__StyleContext>
+                  </WrappingInput>
+                </withChangeHandler(WrappingInput)>
+              </div>
+            </Field__StyledField>
+          </Field>
+        </Option__OptionField>
+        <Option__DeleteContainer>
+          <div
+            className="c9"
+          >
+            <Tooltip
+              content="Delete option"
+              offset={
+                Object {
+                  "bottom": 10,
+                }
+              }
+              place="top"
+            >
+              <DeleteButton
+                aria-label="Delete option"
+                data-for="tooltip-1"
+                data-test="btn-delete-option"
+                data-tip={true}
+                onClick={[Function]}
+                size="medium"
+                type="button"
+              >
+                <DeleteButton__StyledDeleteButton
+                  aria-label="Delete option"
+                  data-for="tooltip-1"
+                  data-test="btn-delete-option"
+                  data-tip={true}
+                  onClick={[Function]}
+                  size="medium"
+                  type="button"
+                >
+                  <button
+                    aria-label="Delete option"
+                    className="c10"
+                    data-for="tooltip-1"
+                    data-test="btn-delete-option"
+                    data-tip={true}
+                    onClick={[Function]}
+                    size="medium"
+                    type="button"
+                  >
+                    <DeleteButton__CloseIcon>
+                      <Component
+                        className="c11"
+                      >
+                        <svg />
+                      </Component>
+                    </DeleteButton__CloseIcon>
+                  </button>
+                </DeleteButton__StyledDeleteButton>
+              </DeleteButton>
+              <Tooltip__StyledTooltip
+                delayShow={200}
+                effect="solid"
+                id="tooltip-1"
+                offset={
+                  Object {
+                    "bottom": 10,
+                  }
+                }
+                place="top"
+              >
+                <ReactTooltip
+                  className="c12"
+                  delayShow={200}
+                  effect="solid"
+                  id="tooltip-1"
+                  insecure={true}
+                  offset={
+                    Object {
+                      "bottom": 10,
+                    }
+                  }
+                  place="top"
+                  resizeHide={true}
+                  wrapper="div"
+                >
+                  <div
+                    className="__react_component_tooltip place-top type-dark "
+                    data-id="tooltip"
+                    id="tooltip-1"
+                  >
+                    Delete option
+                  </div>
+                </ReactTooltip>
+              </Tooltip__StyledTooltip>
+            </Tooltip>
+          </div>
+        </Option__DeleteContainer>
+      </div>
+    </div>
+  </Option__StyledOption>
+</StatelessOption>
+`;
+
+exports[`Option shouldn't render delete button if not applicable 1`] = `
+<Option__StyledOption
+  duration={200}
+  id="Option1"
+  key="1"
+  onDelete={[MockFunction]}
+  onEnterKey={[MockFunction]}
+  onFocus={[MockFunction]}
+  store={
+    Object {
+      "dispatch": [MockFunction],
+      "getState": [MockFunction],
+      "subscribe": [MockFunction],
+    }
+  }
+>
+  <div>
+    <Option__Flex>
+      <MultipleChoice
+        type="Radio"
+      />
+      <Option__OptionField>
+        <Label
+          bold={true}
+          htmlFor="option-label-1"
+        >
+          Label
+        </Label>
+        <withChangeHandler(WrappingInput)
+          bold={true}
+          data-autofocus={true}
+          data-test="option-label"
+          id="option-label-1"
+          name="label"
+          onBlur={[MockFunction]}
+          onChange={[MockFunction]}
+          onKeyDown={[Function]}
+          placeholder="Label"
+          value=""
+        />
+      </Option__OptionField>
+    </Option__Flex>
+    <Option__OptionField>
+      <Label
+        bold={true}
+        htmlFor="option-description-1"
+      >
+        Description (optional)
+      </Label>
+      <withChangeHandler(WrappingInput)
+        data-test="option-description"
+        id="option-description-1"
+        name="description"
+        onBlur={[MockFunction]}
+        onChange={[MockFunction]}
+        onKeyDown={[Function]}
+        value=""
+      />
+    </Option__OptionField>
+  </div>
+</Option__StyledOption>
+`;

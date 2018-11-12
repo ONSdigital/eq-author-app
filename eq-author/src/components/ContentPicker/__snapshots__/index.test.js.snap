@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Answer Content Picker should render a configured ContentPicker 1`] = `
+<ContentPicker
+  config={
+    Array [
+      Object {
+        "childKey": "pages",
+        "id": "section",
+        "title": "Section",
+      },
+      Object {
+        "childKey": "answers",
+        "id": "page",
+        "title": "Question",
+      },
+      Object {
+        "id": "answer",
+        "title": "Answer",
+      },
+    ]
+  }
+  data={Array []}
+/>
+`;

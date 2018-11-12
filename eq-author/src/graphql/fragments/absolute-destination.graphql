@@ -1,0 +1,11 @@
+#import "./question-page-destination.graphql"
+#import "./section-destination.graphql"
+
+fragment AbsoluteDestination on AbsoluteDestination {
+  ... on AbsoluteDestination {
+    absoluteDestination {
+      ...QuestionPageDestination
+      ...SectionDestination
+    }
+  }
+}

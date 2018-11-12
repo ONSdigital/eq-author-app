@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TableInputDate should render 1`] = `
+.c0 {
+  height: 2.3em;
+}
+
+<TableInput
+  className="c0"
+/>
+`;

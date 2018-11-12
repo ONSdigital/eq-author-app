@@ -1,0 +1,7 @@
+mutation toggleConditionOption($input: ToggleConditionOptionInput!) {
+  toggleConditionOption(input: $input) {
+    ... on IDArrayValue {
+      value
+    }
+  }
+}

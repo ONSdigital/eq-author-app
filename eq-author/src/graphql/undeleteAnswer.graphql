@@ -1,0 +1,5 @@
+mutation UndeleteAnswer($input: UndeleteAnswerInput!) {
+  undeleteAnswer(input: $input) {
+    id
+  }
+}

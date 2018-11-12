@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Select should render 1`] = `
+<TableSelect__DataTableSelect
+  name="test"
+  onChange={[Function]}
+  value="x"
+>
+  <option
+    key="0"
+    value="x"
+  >
+    x
+  </option>
+  <option
+    key="1"
+    value="y"
+  >
+    y
+  </option>
+  <option
+    key="2"
+    value="z"
+  >
+    z
+  </option>
+</TableSelect__DataTableSelect>
+`;

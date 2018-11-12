@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ModalDialog should render when closed 1`] = `
+<Modal
+  hasCloseButton={true}
+  isOpen={false}
+  onClose={[MockFunction]}
+>
+  <Dialog
+    onClose={[MockFunction]}
+  >
+    <div>
+      Modal dialog content
+    </div>
+  </Dialog>
+</Modal>
+`;
+
+exports[`ModalDialog should render when open 1`] = `
+<Modal
+  hasCloseButton={true}
+  isOpen={true}
+  onClose={[MockFunction]}
+>
+  <Dialog
+    onClose={[MockFunction]}
+  >
+    <div>
+      Modal dialog content
+    </div>
+  </Dialog>
+</Modal>
+`;

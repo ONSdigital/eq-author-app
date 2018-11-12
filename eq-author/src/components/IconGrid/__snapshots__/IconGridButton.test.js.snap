@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/IconGrid should render 1`] = `
+<IconGridButton__Button
+  onClick={
+    [MockFunction] {
+      "calls": Array [
+        Array [],
+      ],
+      "results": Array [
+        Object {
+          "isThrow": false,
+          "value": undefined,
+        },
+      ],
+    }
+  }
+  role="menuitem"
+  title="Checkbox"
+  type="button"
+>
+  <img
+    alt="Checkbox"
+    src="checkbox.svg"
+  />
+  <IconGridButton__Title>
+    Checkbox
+  </IconGridButton__Title>
+</IconGridButton__Button>
+`;

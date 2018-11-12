@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PageNavItem should render 1`] = `
+<PageNavItem__StyledPageItem
+  data-test="page-item"
+  title="Title"
+>
+  <NavLink
+    data-test="nav-page-link"
+    icon={[Function]}
+    title="Page title"
+    to="/questionnaire/1/2/3/design"
+  >
+    Page title
+  </NavLink>
+</PageNavItem__StyledPageItem>
+`;

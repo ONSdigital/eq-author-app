@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/RoutingRuleSetMsg should allow adding a rule 1`] = `
+<RoutingRuleSetMsg__Container
+  hasMargin={false}
+>
+  <RoutingRuleSetMsg__Icon />
+  <RoutingRuleSetMsg__Title>
+    Test
+  </RoutingRuleSetMsg__Title>
+  <RoutingRuleSetMsg__Paragraph>
+    Ullamcorper Venenatis Fringilla
+  </RoutingRuleSetMsg__Paragraph>
+  <RoutingRuleSetMsg__AddRuleButton
+    data-test="btn-add-rule"
+    naked={true}
+    onClick={[MockFunction]}
+    small={true}
+    variant="primary"
+  >
+    <IconText
+      hideText={false}
+      icon={[Function]}
+    >
+      Add your first rule
+    </IconText>
+  </RoutingRuleSetMsg__AddRuleButton>
+</RoutingRuleSetMsg__Container>
+`;
+
+exports[`components/RoutingRuleSetMsg should exclude add btn if no hander supplied 1`] = `
+<RoutingRuleSetMsg__Container
+  hasMargin={true}
+>
+  <RoutingRuleSetMsg__Icon />
+  <RoutingRuleSetMsg__Title>
+    Test
+  </RoutingRuleSetMsg__Title>
+  <RoutingRuleSetMsg__Paragraph>
+    Ullamcorper Venenatis Fringilla
+  </RoutingRuleSetMsg__Paragraph>
+</RoutingRuleSetMsg__Container>
+`;

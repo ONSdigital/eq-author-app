@@ -1,0 +1,7 @@
+fragment MoveSectionFragment on Questionnaire {
+  id
+  sections {
+    id
+    position
+  }
+}

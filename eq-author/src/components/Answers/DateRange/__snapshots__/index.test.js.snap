@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DateRange should render 1`] = `
+<DateRange__Wrapper
+  data-test="date-range-editor"
+>
+  <Connect(withEntityEditor(UnwrappedDate))
+    answer={
+      Object {
+        "id": "1from",
+        "label": "Period from",
+      }
+    }
+    key="1from"
+    onChange={[MockFunction]}
+    onUpdate={[MockFunction]}
+    showDay={true}
+    showMonth={true}
+    showYear={true}
+    store={
+      Object {
+        "dispatch": [MockFunction],
+        "getState": [MockFunction],
+        "subscribe": [MockFunction],
+      }
+    }
+  />
+  <Connect(withEntityEditor(UnwrappedDate))
+    answer={
+      Object {
+        "id": "1to",
+        "label": "Period to",
+      }
+    }
+    key="1to"
+    onChange={[MockFunction]}
+    onUpdate={[MockFunction]}
+    showDay={true}
+    showMonth={true}
+    showYear={true}
+    store={
+      Object {
+        "dispatch": [MockFunction],
+        "getState": [MockFunction],
+        "subscribe": [MockFunction],
+      }
+    }
+  />
+</DateRange__Wrapper>
+`;

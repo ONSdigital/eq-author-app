@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NavLink should render 1`] = `
+<NavLink__Link
+  activeClassName="active"
+  title="Page 1"
+  to="/page-1"
+>
+  <IconText
+    hideText={false}
+    icon={[Function]}
+  >
+    <NavLink__Title>
+      Page 1
+    </NavLink__Title>
+  </IconText>
+</NavLink__Link>
+`;

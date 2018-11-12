@@ -1,0 +1,91 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`QuestionnairesTable should render 1`] = `
+<QuestionnairesTable__Table>
+  <thead>
+    <tr>
+      <QuestionnairesTable__TH
+        colWidth="50%"
+      >
+        Questionnaire name
+      </QuestionnairesTable__TH>
+      <QuestionnairesTable__TH
+        colWidth="15%"
+      >
+        Date
+      </QuestionnairesTable__TH>
+      <QuestionnairesTable__TH
+        colWidth="22%"
+      >
+        Created by
+      </QuestionnairesTable__TH>
+      <QuestionnairesTable__TH
+        colWidth="14%"
+      />
+    </tr>
+  </thead>
+  <TransitionGroup
+    childFactory={[Function]}
+    component={[Function]}
+  >
+    <Row
+      autoFocus={false}
+      key="1"
+      onDeleteQuestionnaire={[Function]}
+      onDuplicateQuestionnaire={[Function]}
+      questionnaire={
+        Object {
+          "createdAt": "2017/01/02",
+          "createdBy": Object {
+            "name": "Alan",
+          },
+          "id": "1",
+          "sections": Array [
+            Object {
+              "id": "1",
+              "pages": Array [
+                Object {
+                  "id": "1",
+                },
+              ],
+            },
+          ],
+          "title": "Foo",
+        }
+      }
+    />
+    <Row
+      autoFocus={false}
+      key="2"
+      onDeleteQuestionnaire={[Function]}
+      onDuplicateQuestionnaire={[Function]}
+      questionnaire={
+        Object {
+          "createdAt": "2017/03/04",
+          "createdBy": Object {
+            "name": "Lynn",
+          },
+          "id": "2",
+          "sections": Array [
+            Object {
+              "id": "2",
+              "pages": Array [
+                Object {
+                  "id": "2",
+                },
+              ],
+            },
+          ],
+          "title": "Bar",
+        }
+      }
+    />
+  </TransitionGroup>
+</QuestionnairesTable__Table>
+`;
+
+exports[`QuestionnairesTable should render message when no questionnaires 1`] = `
+<p>
+  You have no questionnaires
+</p>
+`;

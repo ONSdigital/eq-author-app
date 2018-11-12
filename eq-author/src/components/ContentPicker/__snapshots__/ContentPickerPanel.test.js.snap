@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ContentPickerPanel should not render when not open 1`] = `""`;
+
+exports[`ContentPickerPanel should render 1`] = `
+<ContentPickerPanel__PanelWrapper
+  aria-hidden={false}
+  aria-labelledby="some-label"
+  id="1"
+  role="tabpanel"
+>
+  <ContentPickerPanel__StyledScrollPane>
+    Panel contents
+  </ContentPickerPanel__StyledScrollPane>
+</ContentPickerPanel__PanelWrapper>
+`;

@@ -1,0 +1,6 @@
+mutation UndeleteQuestionnaire($input: UndeleteQuestionnaireInput!) {
+  undeleteQuestionnaire(input: $input) {
+    id
+    createdAt
+  }
+}

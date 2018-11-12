@@ -1,0 +1,18 @@
+fragment MinimalAnswer on Answer {
+  ... on MultipleChoiceAnswer {
+    options {
+      id
+    }
+    mutuallyExclusiveOption {
+      id
+    }
+    other {
+      option {
+        id
+      }
+      answer {
+        id
+      }
+    }
+  }
+}

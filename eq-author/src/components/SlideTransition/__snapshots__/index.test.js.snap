@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/SlideTransition should render 1`] = `
+<CSSTransition
+  classNames="fade"
+  enter={true}
+  exit={false}
+  timeout={300}
+>
+  <SlideTransition__AnimatedSection
+    duration={300}
+  >
+    <div>
+      Content
+    </div>
+  </SlideTransition__AnimatedSection>
+</CSSTransition>
+`;

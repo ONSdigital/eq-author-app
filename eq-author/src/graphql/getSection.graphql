@@ -1,0 +1,11 @@
+#import "./fragments/section.graphql"
+
+query getSection($id: ID!) {
+  section(id: $id) {
+    ...Section
+    position
+    pages {
+      id
+    }
+  }
+}

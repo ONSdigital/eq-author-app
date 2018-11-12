@@ -1,0 +1,407 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MultipleChoiceAnswer exclusive options should render exclusive 1`] = `
+<Connect(withEntityEditor(StatelessBasicAnswer))
+  answer={
+    Object {
+      "id": "0",
+      "mutuallyExclusiveOption": Object {
+        "__typename": "Option",
+        "description": "",
+        "id": "4",
+        "label": "I am mutually exclusive",
+      },
+      "options": Array [
+        Object {
+          "description": "",
+          "id": 0,
+          "label": "",
+        },
+      ],
+      "type": "Checkbox",
+    }
+  }
+  autoFocus={false}
+  labelText="Label (optional)"
+  onUpdate={[MockFunction]}
+>
+  <MultipleChoiceAnswer__AnswerWrapper>
+    <MultipleChoiceAnswer__AnswerHelper>
+      Select all that apply
+    </MultipleChoiceAnswer__AnswerHelper>
+    <TransitionGroup
+      childFactory={[Function]}
+      component={[Function]}
+      data-test="multiple-choice-options"
+    >
+      <OptionTransition
+        key="0"
+        timeout={200}
+      >
+        <Connect(withEntityEditor(StatelessOption))
+          hasDeleteButton={false}
+          onAddExclusive={[MockFunction]}
+          onAddOption={[MockFunction]}
+          onAddOther={[MockFunction]}
+          onChange={[MockFunction]}
+          onDelete={[Function]}
+          onDeleteOption={[MockFunction]}
+          onDeleteOther={[MockFunction]}
+          onEnterKey={[Function]}
+          onUpdate={[MockFunction]}
+          option={
+            Object {
+              "description": "",
+              "id": 0,
+              "label": "",
+            }
+          }
+          store={
+            Object {
+              "dispatch": [MockFunction],
+              "getState": [MockFunction],
+              "subscribe": [MockFunction],
+            }
+          }
+        />
+      </OptionTransition>
+      <OptionTransition
+        key="4"
+        timeout={200}
+      >
+        <MultipleChoiceAnswer__SpecialOptionWrapper
+          data-test="exclusive-option"
+        >
+          <MultipleChoiceAnswer__ExclusiveOr>
+            Or
+          </MultipleChoiceAnswer__ExclusiveOr>
+          <Connect(withEntityEditor(StatelessOption))
+            hasDeleteButton={true}
+            onAddExclusive={[MockFunction]}
+            onAddOption={[MockFunction]}
+            onAddOther={[MockFunction]}
+            onChange={[MockFunction]}
+            onDelete={[Function]}
+            onDeleteOption={[MockFunction]}
+            onDeleteOther={[MockFunction]}
+            onEnterKey={[Function]}
+            onUpdate={[MockFunction]}
+            option={
+              Object {
+                "__typename": "Option",
+                "description": "",
+                "id": "4",
+                "label": "I am mutually exclusive",
+              }
+            }
+            store={
+              Object {
+                "dispatch": [MockFunction],
+                "getState": [MockFunction],
+                "subscribe": [MockFunction],
+              }
+            }
+          />
+        </MultipleChoiceAnswer__SpecialOptionWrapper>
+      </OptionTransition>
+    </TransitionGroup>
+    <div>
+      <SplitButton
+        dataTest="btn-add-option"
+        onPrimaryAction={[Function]}
+        onToggleOpen={[Function]}
+        open={false}
+        primaryText="Add checkbox"
+      >
+        <Dropdown>
+          <MenuItem
+            data-test="btn-add-option-other"
+            disabled={true}
+            onClick={[Function]}
+          >
+            Add “Other” option
+          </MenuItem>
+          <MenuItem
+            data-test="btn-add-mutually-exclusive-option"
+            disabled={true}
+            onClick={[Function]}
+          >
+            Add an “Or” option
+          </MenuItem>
+        </Dropdown>
+      </SplitButton>
+    </div>
+  </MultipleChoiceAnswer__AnswerWrapper>
+</Connect(withEntityEditor(StatelessBasicAnswer))>
+`;
+
+exports[`MultipleChoiceAnswer other option and answer should render other 1`] = `
+<Connect(withEntityEditor(StatelessBasicAnswer))
+  answer={
+    Object {
+      "id": "0",
+      "options": Array [
+        Object {
+          "description": "",
+          "id": 0,
+          "label": "",
+        },
+        Object {
+          "description": "",
+          "id": 1,
+          "label": "",
+        },
+      ],
+      "other": Object {
+        "answer": Object {
+          "id": "1",
+          "options": Array [
+            Object {
+              "__typename": "Option",
+              "description": "",
+              "id": "1",
+              "label": "",
+            },
+          ],
+          "type": "TextField",
+        },
+        "option": Object {
+          "__typename": "Option",
+          "id": "2",
+        },
+      },
+    }
+  }
+  autoFocus={false}
+  labelText="Label (optional)"
+  onUpdate={[MockFunction]}
+>
+  <MultipleChoiceAnswer__AnswerWrapper>
+    <TransitionGroup
+      childFactory={[Function]}
+      component={[Function]}
+      data-test="multiple-choice-options"
+    >
+      <OptionTransition
+        key="0"
+        timeout={200}
+      >
+        <Connect(withEntityEditor(StatelessOption))
+          hasDeleteButton={true}
+          onAddExclusive={[MockFunction]}
+          onAddOption={[MockFunction]}
+          onAddOther={[MockFunction]}
+          onChange={[MockFunction]}
+          onDelete={[Function]}
+          onDeleteOption={[MockFunction]}
+          onDeleteOther={[MockFunction]}
+          onEnterKey={[Function]}
+          onUpdate={[MockFunction]}
+          option={
+            Object {
+              "description": "",
+              "id": 0,
+              "label": "",
+            }
+          }
+          store={
+            Object {
+              "dispatch": [MockFunction],
+              "getState": [MockFunction],
+              "subscribe": [MockFunction],
+            }
+          }
+        />
+      </OptionTransition>
+      <OptionTransition
+        key="1"
+        timeout={200}
+      >
+        <Connect(withEntityEditor(StatelessOption))
+          hasDeleteButton={true}
+          onAddExclusive={[MockFunction]}
+          onAddOption={[MockFunction]}
+          onAddOther={[MockFunction]}
+          onChange={[MockFunction]}
+          onDelete={[Function]}
+          onDeleteOption={[MockFunction]}
+          onDeleteOther={[MockFunction]}
+          onEnterKey={[Function]}
+          onUpdate={[MockFunction]}
+          option={
+            Object {
+              "description": "",
+              "id": 1,
+              "label": "",
+            }
+          }
+          store={
+            Object {
+              "dispatch": [MockFunction],
+              "getState": [MockFunction],
+              "subscribe": [MockFunction],
+            }
+          }
+        />
+      </OptionTransition>
+      <OptionTransition
+        key="2"
+        timeout={200}
+      >
+        <Connect(withEntityEditor(StatelessOption))
+          hasDeleteButton={true}
+          labelPlaceholder="eg. Other"
+          onAddExclusive={[MockFunction]}
+          onAddOption={[MockFunction]}
+          onAddOther={[MockFunction]}
+          onChange={[MockFunction]}
+          onDelete={[Function]}
+          onDeleteOption={[MockFunction]}
+          onDeleteOther={[MockFunction]}
+          onEnterKey={[Function]}
+          onUpdate={[MockFunction]}
+          option={
+            Object {
+              "__typename": "Option",
+              "id": "2",
+            }
+          }
+          store={
+            Object {
+              "dispatch": [MockFunction],
+              "getState": [MockFunction],
+              "subscribe": [MockFunction],
+            }
+          }
+        >
+          <MultipleChoiceAnswer__SpecialOptionWrapper
+            data-test="other-answer"
+          >
+            <Connect(withEntityEditor(StatelessBasicAnswer))
+              answer={
+                Object {
+                  "id": "1",
+                  "options": Array [
+                    Object {
+                      "__typename": "Option",
+                      "description": "",
+                      "id": "1",
+                      "label": "",
+                    },
+                  ],
+                  "type": "TextField",
+                }
+              }
+              bold={false}
+              labelPlaceholder="eg. Please specify"
+              labelText="Other label"
+              onUpdate={[MockFunction]}
+              showDescription={false}
+            />
+          </MultipleChoiceAnswer__SpecialOptionWrapper>
+        </Connect(withEntityEditor(StatelessOption))>
+      </OptionTransition>
+    </TransitionGroup>
+    <div>
+      <SplitButton
+        dataTest="btn-add-option"
+        onPrimaryAction={[Function]}
+        onToggleOpen={[Function]}
+        open={false}
+        primaryText="Add another option"
+      >
+        <Dropdown>
+          <MenuItem
+            data-test="btn-add-option-other"
+            disabled={true}
+            onClick={[Function]}
+          >
+            Add “Other” option
+          </MenuItem>
+        </Dropdown>
+      </SplitButton>
+    </div>
+  </MultipleChoiceAnswer__AnswerWrapper>
+</Connect(withEntityEditor(StatelessBasicAnswer))>
+`;
+
+exports[`MultipleChoiceAnswer should match snapshot 1`] = `
+<Connect(withEntityEditor(StatelessBasicAnswer))
+  answer={
+    Object {
+      "id": "0",
+      "options": Array [
+        Object {
+          "__typename": "Option",
+          "description": "",
+          "id": "1",
+          "label": "",
+        },
+      ],
+    }
+  }
+  autoFocus={false}
+  labelText="Label (optional)"
+  onUpdate={[MockFunction]}
+>
+  <MultipleChoiceAnswer__AnswerWrapper>
+    <TransitionGroup
+      childFactory={[Function]}
+      component={[Function]}
+      data-test="multiple-choice-options"
+    >
+      <OptionTransition
+        key="1"
+        timeout={200}
+      >
+        <Connect(withEntityEditor(StatelessOption))
+          hasDeleteButton={false}
+          onAddExclusive={[MockFunction]}
+          onAddOption={[MockFunction]}
+          onAddOther={[MockFunction]}
+          onChange={[MockFunction]}
+          onDelete={[Function]}
+          onDeleteOption={[MockFunction]}
+          onDeleteOther={[MockFunction]}
+          onEnterKey={[Function]}
+          onUpdate={[MockFunction]}
+          option={
+            Object {
+              "__typename": "Option",
+              "description": "",
+              "id": "1",
+              "label": "",
+            }
+          }
+          store={
+            Object {
+              "dispatch": [MockFunction],
+              "getState": [MockFunction],
+              "subscribe": [MockFunction],
+            }
+          }
+        />
+      </OptionTransition>
+    </TransitionGroup>
+    <div>
+      <SplitButton
+        dataTest="btn-add-option"
+        onPrimaryAction={[Function]}
+        onToggleOpen={[Function]}
+        open={false}
+        primaryText="Add another option"
+      >
+        <Dropdown>
+          <MenuItem
+            data-test="btn-add-option-other"
+            disabled={true}
+            onClick={[Function]}
+          >
+            Add “Other” option
+          </MenuItem>
+        </Dropdown>
+      </SplitButton>
+    </div>
+  </MultipleChoiceAnswer__AnswerWrapper>
+</Connect(withEntityEditor(StatelessBasicAnswer))>
+`;

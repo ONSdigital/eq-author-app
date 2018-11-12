@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Content Wrapper should wrap the tab content with a column, transition and close button 1`] = `
+<Column
+  cols={9}
+  gutters={false}
+>
+  <ContentWrapper__MainContainer>
+    <ContentWrapper__Content>
+      <ContentWrapper__TabPanel>
+        <TransitionGroup
+          childFactory={[Function]}
+          component={[Function]}
+        >
+          <FadeTransition
+            appear={true}
+            enter={true}
+            exit={false}
+            in={false}
+            timeout={250}
+          >
+            <h1>
+              hello
+            </h1>
+          </FadeTransition>
+        </TransitionGroup>
+      </ContentWrapper__TabPanel>
+    </ContentWrapper__Content>
+    <ContentWrapper__Buttons>
+      <Button
+        data-test="btn-done"
+        onClick={[Function]}
+        type="button"
+        variant="primary"
+      >
+        Done
+      </Button>
+    </ContentWrapper__Buttons>
+  </ContentWrapper__MainContainer>
+</Column>
+`;

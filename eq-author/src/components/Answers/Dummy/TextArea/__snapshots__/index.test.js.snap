@@ -1,0 +1,64 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/Answers/Dummy/TextArea shoulder render 1`] = `
+.c0 {
+  font-size: 1em;
+  border: 1px solid #999999;
+  padding: 0.5em;
+  color: #333333;
+  display: block;
+  width: 100%;
+  -webkit-transition: outline-color 100ms ease-in,border-color 100ms ease-in;
+  transition: outline-color 100ms ease-in,border-color 100ms ease-in;
+  outline: 1px solid transparent;
+  border-color: #c3c3c3;
+  padding: 1.2em 1.2em 1.2em 2em;
+  position: relative;
+  background-color: transparent;
+  width: 50%;
+  height: NaNem;
+  pointer-events: none;
+}
+
+.c0:hover {
+  border-color: #3B7A9E;
+  outline-color: #3B7A9E;
+}
+
+.c0:focus,
+.c0:focus-within {
+  border-color: #3B7A9E;
+  outline-color: #3B7A9E;
+  box-shadow: 0 0 0 3px #FDBD56;
+}
+
+.c0::-webkit-input-placeholder {
+  color: #a3a3a3;
+}
+
+.c0::-moz-placeholder {
+  color: #a3a3a3;
+}
+
+.c0:-ms-input-placeholder {
+  color: #a3a3a3;
+}
+
+.c0::placeholder {
+  color: #a3a3a3;
+}
+
+.c0:focus {
+  outline: none;
+  border: 1px solid #3B7A9E;
+}
+
+.c0[disabled] {
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+<div
+  className="c0"
+/>
+`;

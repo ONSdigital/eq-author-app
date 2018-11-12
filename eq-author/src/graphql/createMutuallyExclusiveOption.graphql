@@ -1,0 +1,9 @@
+#import "./fragments/option.graphql"
+
+mutation createMutuallyExclusiveOption(
+  $input: CreateMutuallyExclusiveOptionInput!
+) {
+  createMutuallyExclusiveOption(input: $input) {
+    ...Option
+  }
+}

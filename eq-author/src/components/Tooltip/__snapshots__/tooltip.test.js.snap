@@ -1,0 +1,67 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Tooltip should render 1`] = `
+<Fragment>
+  <button
+    data-for="buttonTooltip"
+    data-tip={true}
+    id="buttonTooltip"
+  >
+    Click me
+  </button>
+  <Tooltip__StyledTooltip
+    delayShow={200}
+    effect="solid"
+    id="buttonTooltip"
+    place="bottom"
+  >
+    This is a button
+  </Tooltip__StyledTooltip>
+</Fragment>
+`;
+
+exports[`Tooltip should render arbitrary content 1`] = `
+<Fragment>
+  <button
+    data-for="buttonTooltip"
+    data-tip={true}
+    id="buttonTooltip"
+  >
+    Click me
+  </button>
+  <Tooltip__StyledTooltip
+    delayShow={200}
+    effect="solid"
+    id="buttonTooltip"
+    place="bottom"
+  >
+    <ul>
+      <li>
+        foo
+      </li>
+      <li>
+        bar
+      </li>
+    </ul>
+  </Tooltip__StyledTooltip>
+</Fragment>
+`;
+
+exports[`Tooltip should use auto-generated id if one is not supplied 1`] = `
+<Fragment>
+  <button
+    data-for="tooltip-1"
+    data-tip={true}
+  >
+    Click me
+  </button>
+  <Tooltip__StyledTooltip
+    delayShow={200}
+    effect="solid"
+    id="tooltip-1"
+    place="bottom"
+  >
+    This is a tooltip
+  </Tooltip__StyledTooltip>
+</Fragment>
+`;

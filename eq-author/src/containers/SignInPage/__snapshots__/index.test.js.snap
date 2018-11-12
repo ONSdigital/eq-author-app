@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SignInPage Component when auth state yet to be determined should render nothing 1`] = `""`;
+
+exports[`SignInPage Component when the user lands on the page and is already logged in if they don't have a returnURL should return to root 1`] = `
+<Redirect
+  push={false}
+  to="/"
+/>
+`;
+
+exports[`SignInPage Component when the user lands on the page and is already logged in should redirect user to where they came from 1`] = `
+<Redirect
+  push={false}
+  to="/foo"
+/>
+`;

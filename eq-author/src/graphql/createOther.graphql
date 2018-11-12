@@ -1,0 +1,13 @@
+#import "./fragments/answer.graphql"
+#import "./fragments/option.graphql"
+
+mutation createOther($input: CreateOtherInput!) {
+  createOther(input: $input) {
+    answer {
+      ...Answer
+    }
+    option {
+      ...Option
+    }
+  }
+}

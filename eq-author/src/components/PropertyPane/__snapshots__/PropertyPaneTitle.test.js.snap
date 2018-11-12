@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PropertyPaneTitle should render 1`] = `
+.c0 {
+  font-size: 0.6em;
+  text-transform: uppercase;
+  font-weight: 900;
+  line-height: 1.5;
+  margin: 0 0 3em;
+}
+
+<h3
+  className="c0"
+>
+  Child
+</h3>
+`;

@@ -1,0 +1,739 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ToggleSwitch should render 1`] = `
+<ToggleSwitch__FlexInline
+  aria-checked={false}
+  data-test="test"
+  role="switch"
+>
+  <ToggleSwitch__HiddenInput
+    checked={false}
+    id="test"
+    onChange={[MockFunction]}
+    type="checkbox"
+  />
+  <ToggleSwitch__ToggleSwitchBackground
+    checked={false}
+    onClick={[Function]}
+    role="presentation"
+  >
+    <ToggleSwitch__ToggleSwitchKnob
+      checked={false}
+    />
+  </ToggleSwitch__ToggleSwitchBackground>
+</ToggleSwitch__FlexInline>
+`;
+
+exports[`ToggleSwitch should render a large toggle button 1`] = `
+<ToggleSwitch__FlexInline
+  aria-checked={false}
+  data-test="toggle-3"
+  role="switch"
+>
+  <ToggleSwitch__HiddenInput
+    checked={false}
+    id="toggle-3"
+    onChange={[MockFunction]}
+    type="checkbox"
+  />
+  <ToggleSwitch__ToggleSwitchBackground
+    checked={false}
+    onClick={[Function]}
+    role="presentation"
+  >
+    <ToggleSwitch__ToggleSwitchKnob
+      checked={false}
+    />
+  </ToggleSwitch__ToggleSwitchBackground>
+</ToggleSwitch__FlexInline>
+`;
+
+exports[`ToggleSwitch should render a large toggle button when mounted 1`] = `
+.c2 {
+  font-size: 1em;
+  border: 1px solid #999999;
+  padding: 0.5em;
+  color: #333333;
+  display: block;
+  width: 100%;
+  -webkit-transition: outline-color 100ms ease-in,border-color 100ms ease-in;
+  transition: outline-color 100ms ease-in,border-color 100ms ease-in;
+  outline: 1px solid transparent;
+  display: inline-block;
+  width: 1.1em;
+  height: 1.1em;
+  padding: 0;
+  margin: 0 1em 0 0;
+  vertical-align: middle;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  font-size: 1em;
+}
+
+.c2:hover {
+  border-color: #3B7A9E;
+  outline-color: #3B7A9E;
+}
+
+.c2:focus,
+.c2:focus-within {
+  border-color: #3B7A9E;
+  outline-color: #3B7A9E;
+  box-shadow: 0 0 0 3px #FDBD56;
+}
+
+.c2::-webkit-input-placeholder {
+  color: #a3a3a3;
+}
+
+.c2::-moz-placeholder {
+  color: #a3a3a3;
+}
+
+.c2:-ms-input-placeholder {
+  color: #a3a3a3;
+}
+
+.c2::placeholder {
+  color: #a3a3a3;
+}
+
+.c2:focus {
+  outline: none;
+  border: 1px solid #3B7A9E;
+}
+
+.c2[disabled] {
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+.c2:checked {
+  background: url(icon-checkbox.svg) no-repeat center;
+  background-size: 0.8em auto;
+}
+
+.c4 {
+  height: 1em;
+  width: 1.5em;
+  top: 1em;
+  background: #FFFFFF;
+  border-radius: 2em;
+  position: absolute;
+  border: 1px solid #666666;
+  -webkit-transition: background 100ms ease-out,border-color 100ms ease-in;
+  transition: background 100ms ease-out,border-color 100ms ease-in;
+  outline: 1px solid transparent;
+  cursor: pointer;
+}
+
+.c4:hover {
+  border-color: #3B7A9E;
+}
+
+.c5 {
+  display: inline-block;
+  height: 1em;
+  width: 1em;
+  background: #FFFFFF;
+  top: calc(50% - 1em / 2);
+  left: calc(33% - 1em / 2);
+  position: relative;
+  will-change: transform;
+  -webkit-transform: translateX( 0em );
+  -ms-transform: translateX( 0em );
+  transform: translateX( 0em );
+  border-radius: 50%;
+  -webkit-transition: -webkit-transform 100ms ease-in-out;
+  -webkit-transition: transform 100ms ease-in-out;
+  transition: transform 100ms ease-in-out;
+  border: inherit;
+}
+
+.c1 {
+  opacity: 0;
+  position: relative;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  cursor: pointer;
+}
+
+.c1:focus + .c3 {
+  box-shadow: 0 0 0 2px #FDBD56;
+}
+
+.c1:hover + .c3 {
+  border-color: #3B7A9E;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  height: 3em;
+  width: 3em;
+  position: relative;
+}
+
+<ToggleSwitch
+  checked={false}
+  height={2}
+  id="toggle-3"
+  label="Test switch"
+  name="test"
+  onChange={[MockFunction]}
+  size={2}
+  width={5}
+>
+  <ToggleSwitch__FlexInline
+    aria-checked={false}
+    data-test="toggle-3"
+    role="switch"
+  >
+    <div
+      aria-checked={false}
+      className="c0"
+      data-test="toggle-3"
+      role="switch"
+    >
+      <ToggleSwitch__HiddenInput
+        checked={false}
+        id="toggle-3"
+        onChange={[MockFunction]}
+        type="checkbox"
+      >
+        <withChangeHandler(UncontrolledInput)
+          checked={false}
+          className="c1"
+          id="toggle-3"
+          onChange={[MockFunction]}
+          type="checkbox"
+        >
+          <UncontrolledInput
+            checked={false}
+            className="c1"
+            id="toggle-3"
+            onChange={[Function]}
+            type="checkbox"
+          >
+            <Input__StyledInput
+              checked={false}
+              className="c1"
+              id="toggle-3"
+              name="toggle-3"
+              onChange={[Function]}
+              type="checkbox"
+            >
+              <input
+                checked={false}
+                className="c1 c2"
+                id="toggle-3"
+                name="toggle-3"
+                onChange={[Function]}
+                type="checkbox"
+              />
+            </Input__StyledInput>
+          </UncontrolledInput>
+        </withChangeHandler(UncontrolledInput)>
+      </ToggleSwitch__HiddenInput>
+      <ToggleSwitch__ToggleSwitchBackground
+        checked={false}
+        onClick={[Function]}
+        role="presentation"
+      >
+        <div
+          checked={false}
+          className="c3 c4"
+          onClick={[Function]}
+          role="presentation"
+        >
+          <ToggleSwitch__ToggleSwitchKnob
+            checked={false}
+          >
+            <div
+              checked={false}
+              className="c5"
+            />
+          </ToggleSwitch__ToggleSwitchKnob>
+        </div>
+      </ToggleSwitch__ToggleSwitchBackground>
+    </div>
+  </ToggleSwitch__FlexInline>
+</ToggleSwitch>
+`;
+
+exports[`ToggleSwitch should render checked 1`] = `
+<ToggleSwitch__FlexInline
+  aria-checked={true}
+  data-test="toggle-2"
+  role="switch"
+>
+  <ToggleSwitch__HiddenInput
+    checked={true}
+    id="toggle-2"
+    onChange={[MockFunction]}
+    type="checkbox"
+  />
+  <ToggleSwitch__ToggleSwitchBackground
+    checked={true}
+    onClick={[Function]}
+    role="presentation"
+  >
+    <ToggleSwitch__ToggleSwitchKnob
+      checked={true}
+    />
+  </ToggleSwitch__ToggleSwitchBackground>
+</ToggleSwitch__FlexInline>
+`;
+
+exports[`ToggleSwitch should render when checked and mounted 1`] = `
+.c2 {
+  font-size: 1em;
+  border: 1px solid #999999;
+  padding: 0.5em;
+  color: #333333;
+  display: block;
+  width: 100%;
+  -webkit-transition: outline-color 100ms ease-in,border-color 100ms ease-in;
+  transition: outline-color 100ms ease-in,border-color 100ms ease-in;
+  outline: 1px solid transparent;
+  display: inline-block;
+  width: 1.1em;
+  height: 1.1em;
+  padding: 0;
+  margin: 0 1em 0 0;
+  vertical-align: middle;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  font-size: 1em;
+}
+
+.c2:hover {
+  border-color: #3B7A9E;
+  outline-color: #3B7A9E;
+}
+
+.c2:focus,
+.c2:focus-within {
+  border-color: #3B7A9E;
+  outline-color: #3B7A9E;
+  box-shadow: 0 0 0 3px #FDBD56;
+}
+
+.c2::-webkit-input-placeholder {
+  color: #a3a3a3;
+}
+
+.c2::-moz-placeholder {
+  color: #a3a3a3;
+}
+
+.c2:-ms-input-placeholder {
+  color: #a3a3a3;
+}
+
+.c2::placeholder {
+  color: #a3a3a3;
+}
+
+.c2:focus {
+  outline: none;
+  border: 1px solid #3B7A9E;
+}
+
+.c2[disabled] {
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+.c2:checked {
+  background: url(icon-checkbox.svg) no-repeat center;
+  background-size: 0.8em auto;
+}
+
+.c4 {
+  height: 1em;
+  width: 1.5em;
+  top: 1em;
+  background: #3B7A9E;
+  border-radius: 2em;
+  position: absolute;
+  border: 1px solid #3B7A9E;
+  -webkit-transition: background 100ms ease-out,border-color 100ms ease-in;
+  transition: background 100ms ease-out,border-color 100ms ease-in;
+  outline: 1px solid transparent;
+  cursor: pointer;
+}
+
+.c4:hover {
+  border-color: #3B7A9E;
+}
+
+.c5 {
+  display: inline-block;
+  height: 1em;
+  width: 1em;
+  background: #FFFFFF;
+  top: calc(50% - 1em / 2);
+  left: calc(33% - 1em / 2);
+  position: relative;
+  will-change: transform;
+  -webkit-transform: translateX( 0.5em );
+  -ms-transform: translateX( 0.5em );
+  transform: translateX( 0.5em );
+  border-radius: 50%;
+  -webkit-transition: -webkit-transform 100ms ease-in-out;
+  -webkit-transition: transform 100ms ease-in-out;
+  transition: transform 100ms ease-in-out;
+  border: inherit;
+}
+
+.c1 {
+  opacity: 0;
+  position: relative;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  cursor: pointer;
+}
+
+.c1:focus + .c3 {
+  box-shadow: 0 0 0 2px #FDBD56;
+}
+
+.c1:hover + .c3 {
+  border-color: #3B7A9E;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  height: 3em;
+  width: 3em;
+  position: relative;
+}
+
+<ToggleSwitch
+  checked={true}
+  id="toggle-2"
+  label="Test switch"
+  name="test"
+  onChange={[MockFunction]}
+>
+  <ToggleSwitch__FlexInline
+    aria-checked={true}
+    data-test="toggle-2"
+    role="switch"
+  >
+    <div
+      aria-checked={true}
+      className="c0"
+      data-test="toggle-2"
+      role="switch"
+    >
+      <ToggleSwitch__HiddenInput
+        checked={true}
+        id="toggle-2"
+        onChange={[MockFunction]}
+        type="checkbox"
+      >
+        <withChangeHandler(UncontrolledInput)
+          checked={true}
+          className="c1"
+          id="toggle-2"
+          onChange={[MockFunction]}
+          type="checkbox"
+        >
+          <UncontrolledInput
+            checked={true}
+            className="c1"
+            id="toggle-2"
+            onChange={[Function]}
+            type="checkbox"
+          >
+            <Input__StyledInput
+              checked={true}
+              className="c1"
+              id="toggle-2"
+              name="toggle-2"
+              onChange={[Function]}
+              type="checkbox"
+            >
+              <input
+                checked={true}
+                className="c1 c2"
+                id="toggle-2"
+                name="toggle-2"
+                onChange={[Function]}
+                type="checkbox"
+              />
+            </Input__StyledInput>
+          </UncontrolledInput>
+        </withChangeHandler(UncontrolledInput)>
+      </ToggleSwitch__HiddenInput>
+      <ToggleSwitch__ToggleSwitchBackground
+        checked={true}
+        onClick={[Function]}
+        role="presentation"
+      >
+        <div
+          checked={true}
+          className="c3 c4"
+          onClick={[Function]}
+          role="presentation"
+        >
+          <ToggleSwitch__ToggleSwitchKnob
+            checked={true}
+          >
+            <div
+              checked={true}
+              className="c5"
+            />
+          </ToggleSwitch__ToggleSwitchKnob>
+        </div>
+      </ToggleSwitch__ToggleSwitchBackground>
+    </div>
+  </ToggleSwitch__FlexInline>
+</ToggleSwitch>
+`;
+
+exports[`ToggleSwitch should render when mounted 1`] = `
+.c2 {
+  font-size: 1em;
+  border: 1px solid #999999;
+  padding: 0.5em;
+  color: #333333;
+  display: block;
+  width: 100%;
+  -webkit-transition: outline-color 100ms ease-in,border-color 100ms ease-in;
+  transition: outline-color 100ms ease-in,border-color 100ms ease-in;
+  outline: 1px solid transparent;
+  display: inline-block;
+  width: 1.1em;
+  height: 1.1em;
+  padding: 0;
+  margin: 0 1em 0 0;
+  vertical-align: middle;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  font-size: 1em;
+}
+
+.c2:hover {
+  border-color: #3B7A9E;
+  outline-color: #3B7A9E;
+}
+
+.c2:focus,
+.c2:focus-within {
+  border-color: #3B7A9E;
+  outline-color: #3B7A9E;
+  box-shadow: 0 0 0 3px #FDBD56;
+}
+
+.c2::-webkit-input-placeholder {
+  color: #a3a3a3;
+}
+
+.c2::-moz-placeholder {
+  color: #a3a3a3;
+}
+
+.c2:-ms-input-placeholder {
+  color: #a3a3a3;
+}
+
+.c2::placeholder {
+  color: #a3a3a3;
+}
+
+.c2:focus {
+  outline: none;
+  border: 1px solid #3B7A9E;
+}
+
+.c2[disabled] {
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+.c2:checked {
+  background: url(icon-checkbox.svg) no-repeat center;
+  background-size: 0.8em auto;
+}
+
+.c4 {
+  height: 1em;
+  width: 1.5em;
+  top: 1em;
+  background: #3B7A9E;
+  border-radius: 2em;
+  position: absolute;
+  border: 1px solid #3B7A9E;
+  -webkit-transition: background 100ms ease-out,border-color 100ms ease-in;
+  transition: background 100ms ease-out,border-color 100ms ease-in;
+  outline: 1px solid transparent;
+  cursor: pointer;
+}
+
+.c4:hover {
+  border-color: #3B7A9E;
+}
+
+.c5 {
+  display: inline-block;
+  height: 1em;
+  width: 1em;
+  background: #FFFFFF;
+  top: calc(50% - 1em / 2);
+  left: calc(33% - 1em / 2);
+  position: relative;
+  will-change: transform;
+  -webkit-transform: translateX( 0.5em );
+  -ms-transform: translateX( 0.5em );
+  transform: translateX( 0.5em );
+  border-radius: 50%;
+  -webkit-transition: -webkit-transform 100ms ease-in-out;
+  -webkit-transition: transform 100ms ease-in-out;
+  transition: transform 100ms ease-in-out;
+  border: inherit;
+}
+
+.c1 {
+  opacity: 0;
+  position: relative;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  cursor: pointer;
+}
+
+.c1:focus + .c3 {
+  box-shadow: 0 0 0 2px #FDBD56;
+}
+
+.c1:hover + .c3 {
+  border-color: #3B7A9E;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  height: 3em;
+  width: 3em;
+  position: relative;
+}
+
+<ToggleSwitch
+  checked={true}
+  id="toggle-2"
+  label="Test switch"
+  name="test"
+  onChange={[MockFunction]}
+>
+  <ToggleSwitch__FlexInline
+    aria-checked={true}
+    data-test="toggle-2"
+    role="switch"
+  >
+    <div
+      aria-checked={true}
+      className="c0"
+      data-test="toggle-2"
+      role="switch"
+    >
+      <ToggleSwitch__HiddenInput
+        checked={true}
+        id="toggle-2"
+        onChange={[MockFunction]}
+        type="checkbox"
+      >
+        <withChangeHandler(UncontrolledInput)
+          checked={true}
+          className="c1"
+          id="toggle-2"
+          onChange={[MockFunction]}
+          type="checkbox"
+        >
+          <UncontrolledInput
+            checked={true}
+            className="c1"
+            id="toggle-2"
+            onChange={[Function]}
+            type="checkbox"
+          >
+            <Input__StyledInput
+              checked={true}
+              className="c1"
+              id="toggle-2"
+              name="toggle-2"
+              onChange={[Function]}
+              type="checkbox"
+            >
+              <input
+                checked={true}
+                className="c1 c2"
+                id="toggle-2"
+                name="toggle-2"
+                onChange={[Function]}
+                type="checkbox"
+              />
+            </Input__StyledInput>
+          </UncontrolledInput>
+        </withChangeHandler(UncontrolledInput)>
+      </ToggleSwitch__HiddenInput>
+      <ToggleSwitch__ToggleSwitchBackground
+        checked={true}
+        onClick={[Function]}
+        role="presentation"
+      >
+        <div
+          checked={true}
+          className="c3 c4"
+          onClick={[Function]}
+          role="presentation"
+        >
+          <ToggleSwitch__ToggleSwitchKnob
+            checked={true}
+          >
+            <div
+              checked={true}
+              className="c5"
+            />
+          </ToggleSwitch__ToggleSwitchKnob>
+        </div>
+      </ToggleSwitch__ToggleSwitchBackground>
+    </div>
+  </ToggleSwitch__FlexInline>
+</ToggleSwitch>
+`;

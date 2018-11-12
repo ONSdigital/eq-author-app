@@ -1,0 +1,83 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AnswerValidation Number/Currency Validation preview max value should render custom values 1`] = `5`;
+
+exports[`AnswerValidation Number/Currency Validation preview max value should render custom values 2`] = `5`;
+
+exports[`AnswerValidation Number/Currency Validation preview max value should render previous answer 1`] = `"foobar"`;
+
+exports[`AnswerValidation Number/Currency Validation preview max value should render previous answer 2`] = `"foobar"`;
+
+exports[`AnswerValidation should not render when there are no valid validation types 1`] = `""`;
+
+exports[`AnswerValidation should render 1`] = `
+<AnswerValidation__Container>
+  <ContextProvider
+    value={
+      Object {
+        "answer": Object {
+          "id": "1",
+          "type": "Number",
+          "validation": Object {
+            "maxValue": Object {
+              "enabled": false,
+            },
+            "minValue": Object {
+              "enabled": false,
+            },
+          },
+        },
+      }
+    }
+  >
+    <SidebarButton
+      data-test="sidebar-button-min-value"
+      key="minValue"
+      onClick={[Function]}
+    >
+      <SidebarButton__Title>
+        Min Value
+      </SidebarButton__Title>
+    </SidebarButton>
+    <SidebarButton
+      data-test="sidebar-button-max-value"
+      key="maxValue"
+      onClick={[Function]}
+    >
+      <SidebarButton__Title>
+        Max Value
+      </SidebarButton__Title>
+    </SidebarButton>
+    <Connect(UnconnectedModalWithNav)
+      id="modal-validation-1"
+      isOpen={false}
+      navItems={
+        Array [
+          Object {
+            "id": "minValue",
+            "preview": [Function],
+            "render": [Function],
+            "title": "Min Value",
+            "types": Array [
+              "Currency",
+              "Number",
+            ],
+          },
+          Object {
+            "id": "maxValue",
+            "preview": [Function],
+            "render": [Function],
+            "title": "Max Value",
+            "types": Array [
+              "Currency",
+              "Number",
+            ],
+          },
+        ]
+      }
+      onClose={[Function]}
+      title="Number validation"
+    />
+  </ContextProvider>
+</AnswerValidation__Container>
+`;

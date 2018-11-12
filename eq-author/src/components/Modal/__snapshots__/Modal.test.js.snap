@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/Modal should render its children 1`] = `
+<Modal__StyledModal
+  alias="Subheading"
+  closeTimeoutMS={300}
+  description="Description"
+  icon="move"
+  isOpen={true}
+  onRequestClose={[MockFunction]}
+  shouldCloseOnOverlayClick={true}
+  title="Modal title"
+>
+  <Modal__CloseButton
+    onClick={[MockFunction]}
+  >
+    ×
+  </Modal__CloseButton>
+  <p>
+    Modal content
+  </p>
+</Modal__StyledModal>
+`;

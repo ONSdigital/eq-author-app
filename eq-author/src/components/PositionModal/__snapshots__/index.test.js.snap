@@ -1,0 +1,67 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PositionModal should render 1`] = `
+<div
+  data-test="position-modal"
+>
+  <PositionModal__Label
+    htmlFor="PositionModal1"
+  >
+    Position
+  </PositionModal__Label>
+  <PositionModal__Trigger
+    data-test="position-modal-trigger"
+    id="PositionModal1"
+    onClick={[Function]}
+  >
+    Select
+  </PositionModal__Trigger>
+  <ItemSelectModal
+    data-test="position-select-modal"
+    isOpen={false}
+    onClose={[Function]}
+    onConfirm={[Function]}
+    primaryText="Move"
+    secondaryText="Cancel"
+    title="Position"
+  >
+    <withChangeHandler(ItemSelect)
+      data-test="position-item-select"
+      name="position"
+      onChange={[Function]}
+      value="0"
+    >
+      <Option
+        key="0"
+        value="0"
+      >
+        Section 1
+      </Option>
+      <Option
+        key="1"
+        value="1"
+      >
+        Section 2
+      </Option>
+      <Option
+        key="2"
+        value="2"
+      >
+        Section 3
+      </Option>
+      <Option
+        key="3"
+        value="3"
+      >
+        Section 4
+      </Option>
+      <Option
+        key="4"
+        value="4"
+      >
+        Section 5
+      </Option>
+    </withChangeHandler(ItemSelect)>
+  </ItemSelectModal>
+</div>
+`;

@@ -1,0 +1,81 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ValidationView should render children when enabled 1`] = `
+<ValidationView__Container>
+  <ValidationView__InlineField
+    data-test="validation-view-toggle"
+  >
+    <ToggleSwitch
+      checked={true}
+      id="ValidationView1"
+      name="ValidationView1"
+      onChange={[MockFunction]}
+    />
+    <Label
+      bold={true}
+      htmlFor="ValidationView1"
+      inline={true}
+    >
+      On
+    </Label>
+  </ValidationView__InlineField>
+  <TransitionGroup
+    childFactory={[Function]}
+    component={[Function]}
+  >
+    <FadeTransition
+      enter={true}
+      exit={false}
+      in={false}
+      key="validation-enabled-true"
+      timeout={250}
+    >
+      <ValidationView__ValidationContainer>
+        <div>
+          Children
+        </div>
+      </ValidationView__ValidationContainer>
+    </FadeTransition>
+  </TransitionGroup>
+</ValidationView__Container>
+`;
+
+exports[`ValidationView should render disabled messaged when disabled 1`] = `
+<ValidationView__Container>
+  <ValidationView__InlineField
+    data-test="validation-view-toggle"
+  >
+    <ToggleSwitch
+      checked={false}
+      id="ValidationView2"
+      name="ValidationView2"
+      onChange={[MockFunction]}
+    />
+    <Label
+      bold={true}
+      htmlFor="ValidationView2"
+      inline={true}
+    >
+      On
+    </Label>
+  </ValidationView__InlineField>
+  <TransitionGroup
+    childFactory={[Function]}
+    component={[Function]}
+  >
+    <FadeTransition
+      enter={true}
+      exit={false}
+      in={false}
+      key="validation-enabled-false"
+      timeout={250}
+    >
+      <ValidationView__ValidationContainer>
+        <div>
+          Children
+        </div>
+      </ValidationView__ValidationContainer>
+    </FadeTransition>
+  </TransitionGroup>
+</ValidationView__Container>
+`;

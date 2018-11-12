@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TableInput should render 1`] = `
+.c0 {
+  border-radius: 0;
+  border-color: transparent;
+}
+
+.c0:focus,
+.c0:focus-within {
+  outline: 3px solid #FDBD56;
+  box-shadow: none;
+}
+
+<withChangeHandler(UncontrolledInput)
+  className="c0"
+/>
+`;

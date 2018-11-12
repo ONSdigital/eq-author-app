@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PositionModal/PlainModal should render 1`] = `
+.c0 .Overlay {
+  background: transparent;
+}
+
+.c0 .Modal {
+  width: 23em;
+  padding: 0;
+  top: 8em;
+}
+
+<Modal
+  className="c0"
+  hasCloseButton={false}
+  isOpen={true}
+  onClose={[MockFunction]}
+>
+  <p>
+    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Reiciendis dignissimos, ipsum laboriosam autem ipsa corrupti dicta tempore provident magnam saepe consectetur molestiae illo ad temporibus, quasi animi rem aliquid omnis.
+  </p>
+</Modal>
+`;

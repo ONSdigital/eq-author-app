@@ -1,0 +1,122 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/Forms/Field should render correctly 1`] = `
+.c0 {
+  display: block;
+  width: 100%;
+  margin-bottom: 1em;
+  position: relative;
+}
+
+.c1 {
+  display: block;
+  margin-bottom: 0.4em;
+  font-weight: bold;
+  vertical-align: middle;
+  color: #666666;
+  line-height: 1.3;
+}
+
+.c2 {
+  font-size: 1em;
+  border: 1px solid #999999;
+  padding: 0.5em;
+  color: #333333;
+  display: block;
+  width: 100%;
+  -webkit-transition: outline-color 100ms ease-in,border-color 100ms ease-in;
+  transition: outline-color 100ms ease-in,border-color 100ms ease-in;
+  outline: 1px solid transparent;
+}
+
+.c2:hover {
+  border-color: #3B7A9E;
+  outline-color: #3B7A9E;
+}
+
+.c2:focus,
+.c2:focus-within {
+  border-color: #3B7A9E;
+  outline-color: #3B7A9E;
+  box-shadow: 0 0 0 3px #FDBD56;
+}
+
+.c2::-webkit-input-placeholder {
+  color: #a3a3a3;
+}
+
+.c2::-moz-placeholder {
+  color: #a3a3a3;
+}
+
+.c2:-ms-input-placeholder {
+  color: #a3a3a3;
+}
+
+.c2::placeholder {
+  color: #a3a3a3;
+}
+
+.c2:focus {
+  outline: none;
+  border: 1px solid #3B7A9E;
+}
+
+.c2[disabled] {
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+<Field
+  last={false}
+>
+  <Field__StyledField
+    last={false}
+  >
+    <div
+      className="c0"
+    >
+      <Label
+        bold={true}
+        htmlFor="name"
+      >
+        <Label__StyledLabel
+          bold={true}
+          htmlFor="name"
+        >
+          <label
+            className="c1"
+            htmlFor="name"
+          >
+            Name
+          </label>
+        </Label__StyledLabel>
+      </Label>
+      <withChangeHandler(UncontrolledInput)
+        id="name"
+      >
+        <UncontrolledInput
+          id="name"
+          onChange={[Function]}
+          type="text"
+        >
+          <Input__StyledInput
+            id="name"
+            name="name"
+            onChange={[Function]}
+            type="text"
+          >
+            <input
+              className="c2"
+              id="name"
+              name="name"
+              onChange={[Function]}
+              type="text"
+            />
+          </Input__StyledInput>
+        </UncontrolledInput>
+      </withChangeHandler(UncontrolledInput)>
+    </div>
+  </Field__StyledField>
+</Field>
+`;

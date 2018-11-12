@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ToggleChip should render 1`] = `
+<ToggleChip
+  checked={false}
+  id="test"
+  label="Test chip"
+  name="test"
+  onChange={[Function]}
+  title="Test chip"
+  value="foo"
+>
+  Test
+</ToggleChip>
+`;
+
+exports[`ToggleChip should render checked 1`] = `
+<ToggleChip
+  checked={true}
+  id="chiptoggle-1"
+  label="Test chip"
+  name="test"
+  onChange={[Function]}
+  title="Test chip"
+  value="foo"
+>
+  Test
+</ToggleChip>
+`;

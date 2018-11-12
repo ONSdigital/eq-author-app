@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/Forms/Label should render correctly 1`] = `
+<Label__StyledLabel
+  bold={true}
+>
+  Name
+</Label__StyledLabel>
+`;

@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DialogMessage should render 1`] = `
+<DialogMessage__Message>
+  <DialogMessage__Heading>
+    Dialog Title
+  </DialogMessage__Heading>
+  <DialogMessage__Subheading>
+    Dialog subheading
+  </DialogMessage__Subheading>
+  <DialogMessage__Description>
+    Dialog description
+  </DialogMessage__Description>
+</DialogMessage__Message>
+`;

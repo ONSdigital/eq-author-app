@@ -1,0 +1,348 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/Button renders according to variant 1`] = `
+.c0 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  padding: 0.75em 2em;
+  border-radius: 4px;
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  line-height: 1;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  -webkit-transition: all 100ms ease-out;
+  transition: all 100ms ease-out;
+  -webkit-letter-spacing: 0;
+  -moz-letter-spacing: 0;
+  -ms-letter-spacing: 0;
+  letter-spacing: 0;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--color-bg);
+  --color-text: #FFFFFF;
+  --color-bg: #3B7A9E;
+  position: relative;
+  border: none;
+}
+
+.c0:focus,
+.c0:active {
+  outline-width: 0;
+}
+
+.c0:focus {
+  box-shadow: 0 0 0 3px #FDBD56;
+  outline: none;
+}
+
+.c0[disabled] {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.c0:hover {
+  --color-text: #FFFFFF;
+  --color-bg: #5F7682;
+  border-color: var(--color-bg);
+}
+
+<button
+  className="c0"
+  type="button"
+>
+  Button
+</button>
+`;
+
+exports[`components/Button renders according to variant 2`] = `
+.c0 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  padding: 0.75em 2em;
+  border-radius: 4px;
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  line-height: 1;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  -webkit-transition: all 100ms ease-out;
+  transition: all 100ms ease-out;
+  -webkit-letter-spacing: 0;
+  -moz-letter-spacing: 0;
+  -ms-letter-spacing: 0;
+  letter-spacing: 0;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--color-bg);
+  --color-text: #3B7A9E;
+  --color-bg: #FFFFFF;
+  border: 1px solid var(--color-text);
+}
+
+.c0:focus,
+.c0:active {
+  outline-width: 0;
+}
+
+.c0:focus {
+  box-shadow: 0 0 0 3px #FDBD56;
+  outline: none;
+}
+
+.c0[disabled] {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.c0:hover {
+  --color-text: #FFFFFF;
+  --color-bg: #5F7682;
+  border-color: var(--color-bg);
+}
+
+<button
+  className="c0"
+  type="button"
+>
+  Button
+</button>
+`;
+
+exports[`components/Button renders according to variant 3`] = `
+.c0 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  padding: 0.75em 2em;
+  border-radius: 4px;
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  line-height: 1;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  -webkit-transition: all 100ms ease-out;
+  transition: all 100ms ease-out;
+  -webkit-letter-spacing: 0;
+  -moz-letter-spacing: 0;
+  -ms-letter-spacing: 0;
+  letter-spacing: 0;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--color-bg);
+  --color-text: #3B7A9E;
+  --color-bg: transparent;
+  border: 1px solid transparent;
+}
+
+.c0:focus,
+.c0:active {
+  outline-width: 0;
+}
+
+.c0:focus {
+  box-shadow: 0 0 0 3px #FDBD56;
+  outline: none;
+}
+
+.c0[disabled] {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.c0:hover {
+  --color-text: #FFFFFF;
+  --color-bg: #3B7A9E;
+}
+
+<button
+  className="c0"
+  type="button"
+>
+  Button
+</button>
+`;
+
+exports[`components/Button renders according to variant 4`] = `
+.c0 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  padding: 0.75em 2em;
+  border-radius: 4px;
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  line-height: 1;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  -webkit-transition: all 100ms ease-out;
+  transition: all 100ms ease-out;
+  -webkit-letter-spacing: 0;
+  -moz-letter-spacing: 0;
+  -ms-letter-spacing: 0;
+  letter-spacing: 0;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--color-bg);
+  --color-text: #3B7A9E;
+  --color-bg: transparent;
+  border: 1px solid transparent;
+  --color-text: #FFFFFF;
+}
+
+.c0:focus,
+.c0:active {
+  outline-width: 0;
+}
+
+.c0:focus {
+  box-shadow: 0 0 0 3px #FDBD56;
+  outline: none;
+}
+
+.c0[disabled] {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.c0:hover {
+  --color-text: #FFFFFF;
+  --color-bg: #3B7A9E;
+}
+
+.c0:hover {
+  --color-text: #333333;
+  --color-bg: #FFFFFF;
+}
+
+<button
+  className="c0"
+  type="button"
+>
+  Button
+</button>
+`;
+
+exports[`components/Button renders as disabled 1`] = `
+.c0 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  padding: 0.75em 2em;
+  border-radius: 4px;
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  line-height: 1;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  -webkit-transition: all 100ms ease-out;
+  transition: all 100ms ease-out;
+  -webkit-letter-spacing: 0;
+  -moz-letter-spacing: 0;
+  -ms-letter-spacing: 0;
+  letter-spacing: 0;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--color-bg);
+  --color-text: #FFFFFF;
+  --color-bg: #3B7A9E;
+  position: relative;
+  border: none;
+}
+
+.c0:focus,
+.c0:active {
+  outline-width: 0;
+}
+
+.c0:focus {
+  box-shadow: 0 0 0 3px #FDBD56;
+  outline: none;
+}
+
+.c0[disabled] {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.c0:hover {
+  --color-text: #FFFFFF;
+  --color-bg: #5F7682;
+  border-color: var(--color-bg);
+}
+
+<button
+  className="c0"
+  disabled={true}
+  type="button"
+>
+  Button
+</button>
+`;
