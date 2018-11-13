@@ -8,7 +8,9 @@ const fs = require("fs");
 const findBreakingChanges = require("./findBreakingChanges");
 
 const getMasterSchema = () => {
-  childProcess.execSync("git show origin/master:index.js > ./scripts/temp.js");
+  childProcess.execSync(
+    "git show origin/master:eq-author-graphql-schema/index.js > ./scripts/temp.js"
+  );
   const schema = require("./temp.js");
   fs.unlinkSync("./scripts/temp.js");
 
