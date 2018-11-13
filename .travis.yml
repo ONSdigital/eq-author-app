@@ -1,0 +1,31 @@
+sudo: false
+
+git:
+    depth: false
+
+services:
+  - docker
+
+language: node_js
+
+node_js:
+  - "8"
+
+cache:
+  yarn: true
+
+addons:
+  chrome: stable
+
+matrix:
+    include:
+        - env: PROJECT=eq-author
+        - env: PROJECT=eq-author-api
+        - env: PROJECT=eq-author-graphql-schema
+        - env: PROJECT=eq-publisher
+
+before_script:
+    - set -e
+
+script: 
+    - if .travis/build-condition.sh $PROJECT; then echo "$PROJECT is being built"; pushd $PROJECT; ./scripts/ci.sh; popd; else echo "$PROJECT is NOT being built"; fi
