@@ -28,7 +28,7 @@ before_script:
   - set -e
 
 script:
-  - if .travis/build-condition.sh $PROJECT; then echo "$PROJECT is being built"; pushd $PROJECT; ./scripts/ci.sh; popd; else echo "$PROJECT is NOT being built"; fi
+  - if .travis/build-condition.sh $PROJECT; then BUILD_SKIPPED=false; echo "$PROJECT is being built"; pushd $PROJECT; ./scripts/ci.sh; popd; else echo "$PROJECT is NOT being built"; BUILD_SKIPPED=true; fi
 
 deploy:
   local_dir: eq-author/storybook-static
@@ -38,4 +38,6 @@ deploy:
   on:
     branch:
       - master
-    condition: $PROJECT = eq-author
+    condition:
+      - $PROJECT = eq-author
+      - $BUILD_SKIPPED = false
