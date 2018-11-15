@@ -1,7 +1,7 @@
 sudo: false
 
 git:
-    depth: false
+  depth: false
 
 services:
   - docker
@@ -18,14 +18,23 @@ addons:
   chrome: stable
 
 matrix:
-    include:
-        - env: PROJECT=eq-author
-        - env: PROJECT=eq-author-api
-        - env: PROJECT=eq-author-graphql-schema
-        - env: PROJECT=eq-publisher
+  include:
+    - env: PROJECT=eq-author
+    - env: PROJECT=eq-author-api
+    - env: PROJECT=eq-author-graphql-schema
+    - env: PROJECT=eq-publisher
 
 before_script:
-    - set -e
+  - set -e
 
-script: 
-    - if .travis/build-condition.sh $PROJECT; then echo "$PROJECT is being built"; pushd $PROJECT; ./scripts/ci.sh; popd; else echo "$PROJECT is NOT being built"; fi
+script:
+  - if .travis/build-condition.sh $PROJECT; then echo "$PROJECT is being built"; pushd $PROJECT; ./scripts/ci.sh; popd; else echo "$PROJECT is NOT being built"; fi
+
+deploy:
+  local_dir: eq-author/storybook-static
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN
+  on:
+    branch:
+      - master

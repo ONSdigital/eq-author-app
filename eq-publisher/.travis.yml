@@ -17,7 +17,7 @@ script:
   - docker push onsdigital/eq-publisher:$TAG
 
 after_success:
- - codecov
+  - codecov
 
 cache:
   yarn: true
