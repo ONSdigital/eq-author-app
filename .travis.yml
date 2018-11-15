@@ -38,3 +38,4 @@ deploy:
   on:
     branch:
       - master
+    condition: $PROJECT = eq-author
