@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/ONSdigital/eq-author.svg?branch=master)](https://travis-ci.org/ONSdigital/eq-author)
+# eq-author (Front End)
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
@@ -14,7 +14,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ### Prerequisites
 
-- Node.js 7.10.0 or newer
+- Node.js LTS Dubnium or newer
 - [Yarn](https://yarnpkg.com/en/)
 - Google Chrome
 
@@ -56,8 +56,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 For the project to build, **these files must exist with exact filenames**:
 
-* `public/index.html` is the page template;
-* `src/index.js` is the JavaScript entry point.
+- `public/index.html` is the page template;
+- `src/index.js` is the JavaScript entry point.
 
 You can delete or rename the other files.
 
@@ -105,57 +105,65 @@ Spins up the Storybook development server.
 ## Environment Variables
 
 ### Authentication
-| Name | Description | Required |
-| --- | --- | --- |
-| `REACT_APP_FIREBASE_PROJECT_ID` | Firebase is used for basic authentication this environment and the two below are needed for this. The project ID for your Firebase project. Can be obtained from your Firebase project | Yes If authentication is enabled |
-| `REACT_APP_FIREBASE_API_KEY` | The api key for your Firebase project. Can be obtained from your Firebase project | Yes If authentication is enabled |
-| `REACT_APP_FIREBASE_MESSAGING_SENDER_ID` | The messaging sender ID for your Firebase project. Can be obtained from your Firebase project | Yes If authentication is enabled |
-| `REACT_APP_ENABLE_AUTH` | Used to enable and disable firebase authentication. User can sign in as guest if this is set to false. This is always enabled in the docker images. | Yes |
+
+| Name                                     | Description                                                                                       | Required                         |
+| ---------------------------------------- | ------------------------------------------------------------------------------------------------- | -------------------------------- |
+| `REACT_APP_FIREBASE_PROJECT_ID`          | Firebase is used for basic authentication this environment and the two below are needed for this. | Yes If authentication is enabled |
+|                                          | The project ID for your Firebase project. Can be obtained from your Firebase project              |                                  |
+| `REACT_APP_FIREBASE_API_KEY`             | The api key for your Firebase project. Can be obtained from your Firebase project                 | Yes If authentication is enabled |
+| `REACT_APP_FIREBASE_MESSAGING_SENDER_ID` | The messaging sender ID for your Firebase project. Can be obtained from your Firebase project     | Yes If authentication is enabled |
+| `REACT_APP_ENABLE_AUTH`                  | Used to enable and disable firebase authentication. User can sign in as guest if this is set      | Yes                              |
+|                                          | to false. This is always enabled in the docker images.                                            |                                  |
 
 ### Functional
-| Name | Description | Required |
-| --- | --- | --- |
-| `REACT_APP_API_URL` | Set Author API URL | Yes |
-| `REACT_APP_LAUNCH_URL` | Set the launch-a-survey target | No |
-| `PUBLIC_URL` | The public URL inferred if not provided | No |
-| `REACT_APP_BASE_NAME` | Used to build up URL set to "/eq-author" in production | No |
+
+| Name                   | Description                                            | Required |
+| ---------------------- | ------------------------------------------------------ | -------- |
+| `REACT_APP_API_URL`    | Set Author API URL                                     | Yes      |
+| `REACT_APP_LAUNCH_URL` | Set the launch-a-survey target                         | No       |
+| `PUBLIC_URL`           | The public URL inferred if not provided                | No       |
+| `REACT_APP_BASE_NAME`  | Used to build up URL set to "/eq-author" in production | No       |
 
 ### Testing
-| Name | Description | Required |
-| --- | --- | --- |
-| `CYPRESS_baseUrl` | Set Cypress URL | Yes |
-| `CYPRESS_BASE_NAME` | Not used | No |
-| `REACT_APP_FUNCTIONAL_TEST` | Run functional test switch | No |
+
+| Name                        | Description                | Required |
+| --------------------------- | -------------------------- | -------- |
+| `CYPRESS_baseUrl`           | Set Cypress URL            | Yes      |
+| `CYPRESS_BASE_NAME`         | Not used                   | No       |
+| `REACT_APP_FUNCTIONAL_TEST` | Run functional test switch | No       |
 
 ### Third party services
-| Name | Description | Required |
-| --- | --- | --- |
-| `REACT_APP_USE_SENTRY` | Use Sentry for error checking | Yes |
-| `REACT_APP_USE_FULLSTORY` | Use fullstory if set to true | No |
+
+| Name                      | Description                   | Required |
+| ------------------------- | ----------------------------- | -------- |
+| `REACT_APP_USE_SENTRY`    | Use Sentry for error checking | Yes      |
+| `REACT_APP_USE_FULLSTORY` | Use fullstory if set to true  | No       |
 
 ### Runtime
-| Name | Description | Required |
-| --- | --- | --- |
-| `HOST` | Set to 0.0.0.0 if not provided | No |
-| `PORT` |The port which express listens on (defaults to `3000`). | No |
-| `HTTPS` | HTTP/HTTPS Switch | No |
+
+| Name    | Description                                             | Required |
+| ------- | ------------------------------------------------------- | -------- |
+| `HOST`  | Set to 0.0.0.0 if not provided                          | No       |
+| `PORT`  | The port which express listens on (defaults to `3000`). | No       |
+| `HTTPS` | HTTP/HTTPS Switch                                       | No       |
 
 ### Build configuration
-| Name | Description | Required |
-| --- | --- | --- |
-| `BABEL_ENV` | Sets the environment the code is running in | Yes |
-| `NODE_ENV` | Sets the environment the code is running in | Yes |
-| `NODE_PATH` | Folder path for the code folder structure | Yes |
-| `CI` | Switch that if is set to true will treat warnings as errors | No |
-| `EQ_AUTHOR_VERSION` | The current Author version. This is what gets reported on the /status endpoint | No |
+
+| Name                | Description                                                                    | Required |
+| ------------------- | ------------------------------------------------------------------------------ | -------- |
+| `BABEL_ENV`         | Sets the environment the code is running in                                    | Yes      |
+| `NODE_ENV`          | Sets the environment the code is running in                                    | Yes      |
+| `NODE_PATH`         | Folder path for the code folder structure                                      | Yes      |
+| `CI`                | Switch that if is set to true will treat warnings as errors                    | No       |
+| `EQ_AUTHOR_VERSION` | The current Author version. This is what gets reported on the /status endpoint | No       |
 
 ## Authentication
 
 We currently use firebase for basic authentication requirements. The following environment variables are required for firebase:
 
-* `REACT_APP_FIREBASE_PROJECT_ID`
-* `REACT_APP_FIREBASE_API_KEY`
-* `REACT_APP_FIREBASE_MESSAGING_SENDER_ID`
+- `REACT_APP_FIREBASE_PROJECT_ID`
+- `REACT_APP_FIREBASE_API_KEY`
+- `REACT_APP_FIREBASE_MESSAGING_SENDER_ID`
 
 These can either be passed on command line:
 
@@ -180,10 +188,12 @@ Firebase authentication can be disabled by setting the env var `REACT_APP_ENABLE
 ### Environment variable in different environments
 
 There are two ways we use environment variables in the application:
+
 1. Build time environment variables. These are values that are known at build time and cannot be changed once the docker image is built. Currently these are only `NODE_ENV` and `REACT_APP_AUTH_ENABLED`. These are referenced in the code as `process.env.{key}`
-1. Runtime configurable variables. These are values that can change for each place we run the app for example in staging we want the API url to be different to production. In the code these values are read using the config object for example `config.{key}`. 
-    - Dev - Values are read from the environment.
-    - Docker - Values are read from `window.config` (as defined in `index.html`) and then `process.env`. `index.html` is rewritten in docker to read the available environment variables and pass them to the application every time the docker image starts.
+
+2. Runtime configurable variables. These are values that can change for each place we run the app for example in staging we want the API url to be different to production. In the code these values are read using the config object for example `config.{key}`.
+   - Dev - Values are read from the environment.
+   - Docker - Values are read from `window.config` (as defined in `index.html`) and then `process.env`. `index.html` is rewritten in docker to read the available environment variables and pass them to the application every time the docker image starts.
 
 ## Testing
 
@@ -191,11 +201,11 @@ There are two ways we use environment variables in the application:
 
 Author's integration testing is run using the Cypress framework and can be run using the following commands provided author is already running with AUTH disabled using the `REACT_APP_ENABLE_AUTH=false` env variable:
 
-* `yarn test:integration`
+- `yarn test:integration`
 
-Launches Cypress on Chrome and automatically runs the default test suite. 
+Launches Cypress on Chrome and automatically runs the default test suite.
 
-* `yarn cypress:open`
+- `yarn cypress:open`
 
 Launches Cypress using the Electron framework and allows for choosing which test to run and a more interactive and detailed testing enviroment.
 
@@ -213,13 +223,14 @@ When you run `yarn test`, Jest will launch in the watch mode. Every time you sav
 
 The watcher includes an interactive command-line interface with the ability to run all tests, or focus on a search pattern. It is designed this way so that you can keep it open and enjoy fast re-runs.
 
-# Troubleshooting
+## Troubleshooting
 
-## Jest crashing
+### Jest crashing
 
-### Problem
+#### Problem
 
 Running `yarn test` causes Jest to crash with the following error:
+
 ```
 (FSEvents.framework) FSEventStreamStart: register_with_server: ERROR: f2d_register_rpc() => (null) (-22)
 (FSEvents.framework) FSEventStreamStart: register_with_server: ERROR: f2d_register_rpc() => (null) (-22)
@@ -233,7 +244,6 @@ Error: Error watching file for changes: EMFILE
     at FSEvent.FSWatcher._handle.onchange (fs.js:1406:11)
 ```
 
-### Solution
+#### Solution
 
 According to [this thread](https://github.com/facebook/jest/issues/1767), install watchman: `brew install watchman`
-
