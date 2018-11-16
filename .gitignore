@@ -73,3 +73,5 @@ typings/
 .yarn-integrity
 
 .vscode
+
+fragmentTypes.json

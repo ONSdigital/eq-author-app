@@ -41,6 +41,8 @@ type Section {
   introductionTitle: String
   introductionContent: String
   introductionEnabled: Boolean!
+  availablePipingAnswers: [Answer!]!
+  availablePipingMetadata: [Metadata!]!
 }
 
 interface Page {
@@ -66,6 +68,23 @@ type QuestionPage implements Page {
   section: Section
   position: Int!
   routingRuleSet: RoutingRuleSet
+  availablePipingAnswers: [Answer!]!
+  availablePipingMetadata: [Metadata!]!
+  confirmation: QuestionConfirmation
+}
+
+type ConfirmationOption {
+  label: String
+  description: String
+}
+
+type QuestionConfirmation {
+  id: ID!
+  displayName: String!
+  title: String
+  page: QuestionPage!
+  positive: ConfirmationOption!
+  negative: ConfirmationOption!
 }
 
 interface Answer {
@@ -237,6 +256,7 @@ type MaxValueValidationRule implements ValidationRule {
   custom: Int
   previousAnswer: BasicAnswer
   entityType: ValidationRuleEntityType
+  availablePreviousAnswers: [Answer!]!
 }
 
 type EarliestDateValidationRule implements ValidationRule {
@@ -248,6 +268,8 @@ type EarliestDateValidationRule implements ValidationRule {
   previousAnswer: BasicAnswer
   metadata: Metadata
   entityType: ValidationRuleEntityType
+  availablePreviousAnswers: [Answer!]!
+  availableMetadata: [Metadata!]!
 }
 
 type LatestDateValidationRule implements ValidationRule {
@@ -259,6 +281,8 @@ type LatestDateValidationRule implements ValidationRule {
   previousAnswer: BasicAnswer
   metadata: Metadata
   entityType: ValidationRuleEntityType
+  availablePreviousAnswers: [Answer!]!
+  availableMetadata: [Metadata!]!
 }
 
 type Duration {
@@ -363,6 +387,7 @@ type Query {
   option(id: ID!): Option
   pagesAffectedByDeletion(pageId: ID!): [Page]!
   availableRoutingDestinations(pageId: ID!): AvailableRoutingDestinations!
+  questionConfirmation(id: ID!): QuestionConfirmation
 }
 
 type Mutation {
@@ -417,6 +442,10 @@ type Mutation {
   createMetadata(input: CreateMetadataInput!): Metadata!
   updateMetadata(input: UpdateMetadataInput!): Metadata!
   deleteMetadata(input: DeleteMetadataInput!): Metadata!
+  createQuestionConfirmation(input: CreateQuestionConfirmationInput): QuestionConfirmation!
+  updateQuestionConfirmation(input: UpdateQuestionConfirmationInput): QuestionConfirmation!
+  deleteQuestionConfirmation(input: DeleteQuestionConfirmationInput): QuestionConfirmation!
+  undeleteQuestionConfirmation(input: UndeleteQuestionConfirmationInput): QuestionConfirmation!
 }
 
 input CreateQuestionnaireInput {
@@ -763,5 +792,29 @@ input UpdateMetadataInput {
     regionValue: Region
     languageValue: Language
     textValue: String
+}
+
+input ConfirmationOptionInput {
+  label: String
+  description: String
+}
+
+input UpdateQuestionConfirmationInput {
+  id: ID!
+  title: String
+  positive: ConfirmationOptionInput!
+  negative: ConfirmationOptionInput!
+}
+
+input CreateQuestionConfirmationInput {
+  pageId: ID!
+}
+
+input DeleteQuestionConfirmationInput {
+  id: ID!
+}
+
+input UndeleteQuestionConfirmationInput {
+  id: ID!
 }
 `;
