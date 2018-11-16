@@ -17,6 +17,7 @@ import DateRangeAnswer from "./DateRangeAnswer";
 import MultipleChoiceAnswer from "./MultipleChoiceAnswer";
 import CurrencyAnswer from "./CurrencyAnswer";
 import TextAnswer from "./TextAnswer";
+import NumberAnswer from "./NumberAnswer";
 import TextAreaAnswer from "./TextAreaAnswer";
 import styled from "styled-components";
 
@@ -24,7 +25,7 @@ export const answerComponents = {
   [CHECKBOX]: MultipleChoiceAnswer,
   [RADIO]: MultipleChoiceAnswer,
   [CURRENCY]: CurrencyAnswer,
-  [NUMBER]: TextAnswer,
+  [NUMBER]: NumberAnswer,
   [TEXTFIELD]: TextAnswer,
   [TEXTAREA]: TextAreaAnswer,
   [DATE]: DateAnswer,

@@ -6,6 +6,9 @@ import { colors, radius } from "constants/theme";
 import CustomPropTypes from "custom-prop-types";
 import DeleteButton from "components/DeleteButton";
 import fp from "lodash/fp";
+import { merge, get } from "lodash";
+
+import { connect } from "react-redux";
 
 import MultipleChoiceAnswer from "components/Answers/MultipleChoiceAnswer";
 import DateRange from "components/Answers/DateRange";
@@ -18,12 +21,16 @@ import {
   CHECKBOX,
   RADIO,
   DATE_RANGE,
-  DATE
+  DATE,
+  PERCENTAGE,
+  MEASUREMENT,
+  units
 } from "constants/answer-types";
 import CurrencyAnswer from "components/Answers/CurrencyAnswer";
 import Tooltip from "components/Tooltip";
 import BasicAnswer from "components/Answers/BasicAnswer";
 import gql from "graphql-tag";
+import { getUnit } from "redux/answer/reducer";
 
 const Answer = styled.div`
   border: 1px solid ${colors.bordersLight};
@@ -58,7 +65,7 @@ export const AnswerDeleteButton = styled(DeleteButton)`
   top: 1em;
 `;
 
-class AnswerEditor extends React.Component {
+class UnwrappedAnswerEditor extends React.Component {
   handleDeleteAnswer = () => {
     this.props.onDeleteAnswer(this.props.answer.id);
   };
@@ -71,10 +78,11 @@ class AnswerEditor extends React.Component {
 
   renderAnswer(answer) {
     switch (answer.type) {
+      case PERCENTAGE:
       case TEXTFIELD:
-      case TEXTAREA:
-        return <BasicAnswer {...this.props} />;
+      case MEASUREMENT:
       case NUMBER:
+      case TEXTAREA:
         return <BasicAnswer {...this.props} showDescription />;
       case CURRENCY:
         return <CurrencyAnswer {...this.props} />;
@@ -105,9 +113,28 @@ class AnswerEditor extends React.Component {
   }
 
   render() {
+    const { answer } = this.props;
+
+    console.log(answer);
+
+    let name, unit;
+
+    if (answer.type === "Number") {
+      unit = answer.properties.unit.char;
+      name = answer.properties.unit.name;
+    } else {
+      name = answer.type;
+    }
+
     return (
       <Answer>
-        <AnswerType>{this.props.answer.type}</AnswerType>
+        <AnswerType>
+          {name}
+          {unit && (
+            /*  eslint-disable react/no-danger */
+            <span dangerouslySetInnerHTML={{ __html: ` (${unit})` }} />
+          )}
+        </AnswerType>
         <Padding>{this.renderAnswer(this.props.answer)}</Padding>
         <Tooltip
           content="Delete answer"
@@ -125,6 +152,14 @@ class AnswerEditor extends React.Component {
     );
   }
 }
+
+const mapStateToProps = (state, ownProps) => ({
+  answer: merge({}, ownProps.answer, {
+    properties: getUnit(state, ownProps.answer.id, ownProps.answer.type)
+  })
+});
+
+const AnswerEditor = connect(mapStateToProps)(UnwrappedAnswerEditor);
 
 AnswerEditor.propTypes = {
   answer: CustomPropTypes.answer,

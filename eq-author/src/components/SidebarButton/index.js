@@ -10,7 +10,6 @@ const SidebarButton = styled.button`
   border: none;
   border-radius: ${radius};
   background-color: ${colors.lightMediumGrey};
-
   text-align: left;
   font-size: 1em;
   transition: all 100ms ease-out;

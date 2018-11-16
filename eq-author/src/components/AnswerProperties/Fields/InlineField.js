@@ -9,7 +9,7 @@ const StyledInlineField = styled(Field)`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0;
+  margin-bottom: 0.5em;
 `;
 
 const InlineField = ({ id, label, children }) => (

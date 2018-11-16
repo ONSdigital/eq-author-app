@@ -9,6 +9,7 @@ import toasts from "redux/toast/reducer";
 import saving from "redux/saving/reducer";
 import tabs from "redux/tabs/reducer";
 import authReducer from "redux/auth/reducer";
+import answer from "redux/answer/reducer";
 
 let auth;
 
@@ -25,6 +26,7 @@ const configureStore = (history, client, preloadedState) =>
       saving,
       tabs,
       toasts,
+      answer,
       auth: authReducer
     }),
     preloadedState,

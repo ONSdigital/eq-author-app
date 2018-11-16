@@ -13,13 +13,17 @@ import radioIcon from "./icons/radio.svg";
 import timeIcon from "./icons/time.svg";
 import textareaIcon from "./icons/textarea.svg";
 import textfieldIcon from "./icons/textfield.svg";
+import percentageIcon from "./icons/percentage.svg";
+import measureIcon from "./icons/measure.svg";
 
 export const icons = {
-  [AnswerTypes.CHECKBOX]: checkboxIcon,
   [AnswerTypes.CURRENCY]: currencyIcon,
+  [AnswerTypes.CHECKBOX]: checkboxIcon,
   [AnswerTypes.DATE]: dateIcon,
   [AnswerTypes.DATE_RANGE]: dateRangeIcon,
   [AnswerTypes.NUMBER]: numberIcon,
+  [AnswerTypes.PERCENTAGE]: percentageIcon,
+  [AnswerTypes.MEASUREMENT]: measureIcon,
   [AnswerTypes.RADIO]: radioIcon,
   [AnswerTypes.TIME]: timeIcon,
   [AnswerTypes.TEXTAREA]: textareaIcon,

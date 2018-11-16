@@ -9,9 +9,11 @@ import { IconGrid } from "components/IconGrid";
 import AnswerTypeButton from "./AnswerTypeButton";
 
 import {
+  CURRENCY,
+  MEASUREMENT,
+  PERCENTAGE,
   TEXTFIELD,
   NUMBER,
-  CURRENCY,
   TEXTAREA,
   CHECKBOX,
   RADIO,
@@ -51,11 +53,13 @@ const buttons = [
   { type: RADIO, title: "Radio" },
   { type: TEXTFIELD, title: "Text" },
   { type: TEXTAREA, title: "Textarea" },
-  { type: CURRENCY, title: "Currency" },
   { type: NUMBER, title: "Number" },
+  { type: CURRENCY, title: "Currency" },
+  { type: PERCENTAGE, title: "Percentage" },
+  { type: MEASUREMENT, title: "Measurement" },
   { type: DATE, title: "Date" },
   { type: DATE_RANGE, title: "Date range" },
-  { type: TIME, title: "Time", disabled: true }
+  { type: TIME, title: "Duration" }
 ];
 
 class AnswerTypeGrid extends React.Component {

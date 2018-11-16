@@ -6,6 +6,11 @@ import PropTypes from "prop-types";
 import { CURRENCY } from "constants/answer-types";
 import CustomPropTypes from "custom-prop-types";
 import VisuallyHidden from "components/VisuallyHidden";
+import { merge } from "lodash";
+import { connect } from "react-redux";
+import { getUnit } from "redux/answer/reducer";
+
+/*  eslint-disable react/no-danger */
 
 export const RoutingNumberInput = styled(Number)`
   border-radius: ${radius};
@@ -36,6 +41,10 @@ const CurrencySymbol = styled.div`
   left: 0.5em;
 `;
 
+const Unit = styled.div`
+  margin-left: 0.5em;
+`;
+
 const NumberAnswerRoutingSelector = styled.div`
   display: flex;
   align-items: center;
@@ -45,7 +54,7 @@ const NumberAnswerRoutingSelector = styled.div`
   padding: 1em;
 `;
 
-const NumberAnswerValueSelector = ({
+const UnwrappedNumberAnswerValueSelector = ({
   condition,
   onComparatorChange,
   handleValueChange
@@ -88,6 +97,7 @@ const NumberAnswerValueSelector = ({
         {condition.answer.type === CURRENCY && (
           <CurrencySymbol>£</CurrencySymbol>
         )}
+
         <RoutingNumberInput
           id={`routing-condition-value-${condition.routingValue.id}`}
           min={-99999999}
@@ -99,10 +109,32 @@ const NumberAnswerValueSelector = ({
           data-test="number-value-input"
           answerType={condition.answer.type}
         />
+
+        {condition.answer.properties.unit && (
+          <Unit
+            dangerouslySetInnerHTML={{
+              __html: condition.answer.properties.unit.char
+            }}
+          />
+        )}
       </Value>
     </NumberAnswerRoutingSelector>
   );
 };
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    condition: merge({}, ownProps.condition, {
+      answer: merge({}, ownProps.answer, {
+        properties: getUnit(state, ownProps.condition.answer.id)
+      })
+    })
+  };
+};
+
+const NumberAnswerValueSelector = connect(mapStateToProps)(
+  UnwrappedNumberAnswerValueSelector
+);
 
 NumberAnswerValueSelector.propTypes = {
   condition: PropTypes.shape({

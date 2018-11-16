@@ -146,7 +146,7 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
                 onAddQuestionConfirmation={this.handleAddQuestionConfirmation}
               />
             </Column>
-            <Column>
+            <Column cols={9} gutters={false}>
               <Switch location={location}>
                 <Route path={Routes.SECTION} component={SectionRoute} exact />
                 <Route path={Routes.PAGE} component={QuestionPageRoute} exact />

@@ -22,6 +22,9 @@ export const SimpleSelect = styled.select`
   transition: opacity 100ms ease-in-out;
   border-radius: 4px;
   line-height: 1.2;
+  option {
+    font-feature-settings: "ordn";
+  }
 
   &:hover {
     outline: none;

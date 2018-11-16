@@ -22,6 +22,7 @@ import MinValueValidationRule from "graphql/fragments/min-value-validation-rule.
 
 export const MinValue = ({
   minValue,
+  properties,
   onUpdateAnswerValidation,
   onToggleValidationRule,
   limit
@@ -74,7 +75,7 @@ export const MinValue = ({
       <Column cols={3}>
         <ValidationTitle>Min Value is</ValidationTitle>
       </Column>
-      <Column>
+      <Column cols={9}>
         <FieldWithInclude
           id="min-value-include"
           name="min-value-include"
@@ -90,6 +91,7 @@ export const MinValue = ({
             onChange={handleMinValueChange}
             max={limit}
             min={0 - limit}
+            unit={properties.unit.char}
           />
         </FieldWithInclude>
       </Column>
@@ -127,7 +129,11 @@ const withQuestionPageEditing = flowRight(
 export const MinValueWithAnswer = props => (
   <ValidationContext.Consumer>
     {({ answer }) => (
-      <MinValue minValue={answer.validation.minValue} {...props} />
+      <MinValue
+        minValue={answer.validation.minValue}
+        properties={answer.properties}
+        {...props}
+      />
     )}
   </ValidationContext.Consumer>
 );

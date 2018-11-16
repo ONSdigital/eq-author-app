@@ -7,8 +7,8 @@ import { Input } from "components/Forms";
 import { colors } from "constants/theme";
 
 const hitTarget = {
-  height: 3,
-  width: 3
+  height: 2,
+  width: 2
 };
 
 const backgroundColors = {

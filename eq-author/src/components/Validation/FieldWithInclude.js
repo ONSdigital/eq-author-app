@@ -10,7 +10,11 @@ const InlineField = styled(Field)`
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-left: -0.8em;
+  margin: 0.5em 0 0 -0.4em;
+`;
+
+const IncludeLabel = styled(Label)`
+  margin-left: 0.5em;
 `;
 
 const FieldWithInclude = ({ children, id, name, onChange, ...otherProps }) => (
@@ -21,9 +25,9 @@ const FieldWithInclude = ({ children, id, name, onChange, ...otherProps }) => (
     {children}
     <InlineField>
       <ToggleSwitch id={id} name={name} onChange={onChange} {...otherProps} />
-      <Label inline htmlFor={id}>
+      <IncludeLabel inline htmlFor={id}>
         Include this number
-      </Label>
+      </IncludeLabel>
     </InlineField>
   </Fragment>
 );

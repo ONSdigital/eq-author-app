@@ -1,10 +1,11 @@
 import React from "react";
-import { kebabCase, get } from "lodash";
+import { kebabCase, get, merge } from "lodash";
 import styled from "styled-components";
 import CustomPropTypes from "custom-prop-types";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
+import { getUnit } from "redux/answer/reducer";
 import { gotoTab } from "redux/tabs/actions";
 
 import SidebarButton, { Title, Detail } from "components/SidebarButton";
@@ -23,6 +24,10 @@ const Container = styled.div`
   margin-top: 1em;
   border-top: 1px solid ${colors.lightGrey};
   padding: 1em 0;
+`;
+
+const Unit = styled.span`
+  margin-left: 0.1em;
 `;
 
 const validationTypes = [
@@ -81,24 +86,33 @@ export class UnconnectedAnswerValidation extends React.Component {
 
   handleModalClose = () => this.setState({ modalIsOpen: false });
 
-  renderButton = ({ id, title, value, enabled }) => (
-    <SidebarButton
-      key={id}
-      data-test={`sidebar-button-${kebabCase(title)}`}
-      onClick={() => {
-        this.props.gotoTab(this.modalId, id);
-        this.setState({ modalIsOpen: true });
-      }}
-    >
-      <Title>{title}</Title>
-      {enabled && value && <Detail>{value}</Detail>}
-    </SidebarButton>
-  );
+  /*  eslint-disable react/no-danger */
+  renderButton = ({ id, title, value, enabled, unit }) => {
+    return (
+      <SidebarButton
+        key={id}
+        data-test={`sidebar-button-${kebabCase(title)}`}
+        onClick={() => {
+          this.props.gotoTab(this.modalId, id);
+          this.setState({ modalIsOpen: true });
+        }}
+      >
+        <Title>{title}</Title>
+        {enabled &&
+          value && (
+            <Detail>
+              {value}
+              {unit && <Unit dangerouslySetInnerHTML={{ __html: unit.char }} />}
+            </Detail>
+          )}
+      </SidebarButton>
+    );
+  };
 
   render() {
     const { answer } = this.props;
-
     const validValidationTypes = validations[answer.type] || [];
+    const { unit } = answer.properties;
 
     if (validValidationTypes.length === 0) {
       return null;
@@ -119,6 +133,7 @@ export class UnconnectedAnswerValidation extends React.Component {
             return this.renderButton({
               ...validationType,
               value,
+              unit,
               enabled,
               previousAnswer,
               metadata
@@ -142,7 +157,10 @@ UnconnectedAnswerValidation.propTypes = {
   gotoTab: PropTypes.func.isRequired
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state, ownProps) => ({
+  answer: merge({}, ownProps.answer, {
+    properties: getUnit(state, ownProps.answer.id, ownProps.answer.type)
+  }),
   tabsState: state.tabs
 });
 

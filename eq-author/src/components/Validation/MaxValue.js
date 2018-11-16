@@ -8,6 +8,7 @@ import { flowRight, get, inRange, isNaN } from "lodash";
 import { Field, Label } from "components/Forms/index";
 import { Grid, Column } from "components/Grid/index";
 import ToggleSwitch from "components/ToggleSwitch/index";
+import ContentPickerSelect from "components/ContentPickerSelect";
 
 import PreviousAnswerContentPicker from "components/Validation/PreviousAnswerContentPicker";
 import DisabledMessage from "components/Validation/DisabledMessage";
@@ -24,13 +25,7 @@ import withToggleAnswerValidation from "containers/enhancers/withToggleAnswerVal
 import MaxValueValidationRule from "graphql/fragments/max-value-validation-rule.graphql";
 
 import * as answerTypes from "constants/answer-types";
-
-const InlineField = styled(Field)`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin-left: -0.8em;
-`;
+import FieldWithInclude from "./FieldWithInclude";
 
 const Connector = styled(PathEnd)`
   margin-top: 0.75em;
@@ -50,15 +45,23 @@ export class MaxValue extends React.Component {
   );
 
   Custom = () => (
-    <ValidationInput
-      data-test="max-value-input"
-      list="defaultNumbers"
-      value={this.props.maxValue.custom}
-      type="number"
-      onChange={this.handleCustomValueChange}
-      max={this.props.limit}
-      min={0 - this.props.limit}
-    />
+    <FieldWithInclude
+      id="max-value-include"
+      name="max-value-include"
+      onChange={this.handleIncludeChange}
+      checked={this.props.maxValue.inclusive}
+    >
+      <ValidationInput
+        data-test="max-value-input"
+        list="defaultNumbers"
+        value={this.props.maxValue.custom}
+        type="number"
+        onChange={this.handleCustomValueChange}
+        max={this.props.limit}
+        min={0 - this.props.limit}
+        unit={this.props.properties.unit.char}
+      />
+    </FieldWithInclude>
   );
 
   handlePreviousAnswerChange = ({ value: { id } }) => {
@@ -139,6 +142,7 @@ export class MaxValue extends React.Component {
           <ValidationTitle>Max Value is</ValidationTitle>
           <Connector />
         </Column>
+
         <Column cols={8}>
           <ValidationPills
             entityType={this.props.maxValue.entityType}
@@ -146,17 +150,6 @@ export class MaxValue extends React.Component {
             PreviousAnswer={this.PreviousAnswer}
             Custom={this.Custom}
           />
-          <InlineField>
-            <ToggleSwitch
-              id="max-value-include"
-              name="max-value-include"
-              onChange={this.handleIncludeChange}
-              checked={this.props.maxValue.inclusive}
-            />
-            <Label inline htmlFor="max-value-include">
-              Include this number
-            </Label>
-          </InlineField>
         </Column>
       </Grid>
     );
@@ -201,6 +194,7 @@ export const MaxValueWithAnswer = props => (
     {({ answer }) => (
       <MaxValue
         answerId={answer.id}
+        properties={answer.properties}
         maxValue={answer.validation.maxValue}
         answerType={answer.type}
         {...props}
