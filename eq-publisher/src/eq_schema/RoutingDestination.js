@@ -41,7 +41,10 @@ class RoutingDestination {
         return { id: page.id, sectionId: section.id };
       });
     });
-
+    if (typeof pageId === "string") {
+      const pageNumber = pageId.match(/confirmation-page-for-(\d+)/);
+      pageId = pageNumber ? pageNumber[1] : pageId;
+    }
     const currentPageIndex = findIndex(pages, { id: pageId });
     const currentPage = pages[currentPageIndex];
     const nextPage = pages[currentPageIndex + 1];

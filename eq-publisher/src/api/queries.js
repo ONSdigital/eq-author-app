@@ -174,6 +174,18 @@ exports.getQuestionnaire = `
                 }
               }
             }
+            confirmation {
+              id
+              title
+              positive {
+                label
+                description
+              }
+              negative {
+                label
+                description
+              }
+            }
             answers {
               ...answerFragment
               ... on MultipleChoiceAnswer {
