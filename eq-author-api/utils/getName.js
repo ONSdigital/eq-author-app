@@ -8,7 +8,8 @@ const defaultNames = {
   BasicAnswer: "Untitled Answer",
   MultipleChoiceAnswer: "Untitled Answer",
   CompositeAnswer: "Untitled Answer",
-  Metadata: "Untitled Metadata"
+  Metadata: "Untitled Metadata",
+  QuestionConfirmation: "Untitled Confirmation"
 };
 
 const getName = (entity, typeName) => {

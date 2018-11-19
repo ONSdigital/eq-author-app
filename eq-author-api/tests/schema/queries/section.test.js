@@ -13,7 +13,7 @@ describe("Section query", () => {
   const sectionWithPages = `
     query GetSection($id: ID!) {
       section(id: $id) {
-        id,
+        id
         pages {
           id
         }
@@ -24,8 +24,30 @@ describe("Section query", () => {
   const sectionWithQuestionnaire = `
     query GetSection($id: ID!) {
       section(id: $id) {
-        id,
+        id
         questionnaire {
+          id
+        }
+      }
+    }
+  `;
+
+  const sectionWithAvailablePipingAnswers = `
+    query GetSection($id: ID!) {
+      section(id: $id) {
+        id
+        availablePipingAnswers {
+          id
+        }
+      }
+    }
+  `;
+
+  const sectionWithAvailablePipingMetadata = `
+    query GetSection($id: ID!) {
+      section(id: $id) {
+        id 
+        availablePipingMetadata {
           id
         }
       }
@@ -39,12 +61,16 @@ describe("Section query", () => {
 
   beforeEach(() => {
     repositories = {
-      Section: mockRepository({
-        getById: {
-          id,
-          questionnaireId
-        }
-      }),
+      Section: {
+        ...mockRepository({
+          getById: {
+            id,
+            questionnaireId
+          }
+        }),
+        getPipingAnswersForSection: jest.fn(() => []),
+        getPipingMetadataForSection: jest.fn(() => [])
+      },
       Page: mockRepository(),
       Questionnaire: mockRepository()
     };
@@ -82,5 +108,31 @@ describe("Section query", () => {
     expect(repositories.Questionnaire.getById).toHaveBeenCalledWith(
       questionnaireId
     );
+  });
+
+  it("should fetch availablePipingAnswers", async () => {
+    const result = await executeQuery(
+      sectionWithAvailablePipingAnswers,
+      { id },
+      { repositories }
+    );
+
+    expect(result.errors).toBeUndefined();
+    expect(
+      repositories.Section.getPipingAnswersForSection
+    ).toHaveBeenCalledWith(id);
+  });
+
+  it("should fetch availablePipingMetadata", async () => {
+    const result = await executeQuery(
+      sectionWithAvailablePipingMetadata,
+      { id },
+      { repositories }
+    );
+
+    expect(result.errors).toBeUndefined();
+    expect(
+      repositories.Section.getPipingMetadataForSection
+    ).toHaveBeenCalledWith(id);
   });
 });

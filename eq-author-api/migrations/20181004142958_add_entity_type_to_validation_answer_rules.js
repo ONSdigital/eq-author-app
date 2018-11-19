@@ -1,7 +1,7 @@
 const {
   CUSTOM,
   PREVIOUS_ANSWER
-} = require("../constants/validation-entity-types");
+} = require("../constants/validationEntityTypes");
 
 exports.up = function(knex) {
   return knex.schema.table("Validation_AnswerRules", table => {

@@ -8,6 +8,7 @@ const OptionRepository = require("../../repositories/OptionRepository");
 const ValidationRepository = require("../../repositories/ValidationRepository");
 const MetadataRepository = require("../../repositories/MetadataRepository");
 const RoutingRepository = require("../../repositories/RoutingRepository");
+const QuestionConfirmationRepository = require("../../repositories/QuestionConfirmationRepository");
 
 const {
   getValidationEntity
@@ -206,10 +207,21 @@ const buildAnswers = async (answerConfigs = [], page, references) => {
   return answers;
 };
 
+const buildQuestionConfirmation = async (confirmationConfig, page) => {
+  const confirmation = await QuestionConfirmationRepository.create({
+    pageId: page.id
+  });
+  const update = {
+    id: confirmation.id,
+    ...confirmationConfig
+  };
+  return QuestionConfirmationRepository.update(update);
+};
+
 const buildPages = async (pageConfigs, section, references) => {
   let pages = [];
   for (let i = 0; i < pageConfigs.length; ++i) {
-    const { answers, id, ...pageConfig } = pageConfigs[i];
+    const { answers, id, confirmation, ...pageConfig } = pageConfigs[i];
     let page = await PageRepository.insert({
       pageType: "QuestionPage",
       ...pageConfig,
@@ -227,6 +239,9 @@ const buildPages = async (pageConfigs, section, references) => {
     }
     if (id) {
       references.pages[id] = page.id;
+    }
+    if (confirmation) {
+      page.confirmation = await buildQuestionConfirmation(confirmation, page);
     }
 
     page.answers = await buildAnswers(answers, page, references);

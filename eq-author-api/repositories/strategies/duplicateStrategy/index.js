@@ -92,6 +92,17 @@ const ENTITY_TREE = [
         custom: isString(custom) ? `"${custom}"` : custom
       }),
       noIsDeleted: true
+    },
+    {
+      name: "questionConfirmations",
+      table: "QuestionConfirmations",
+      links: [
+        {
+          column: "pageId",
+          entityName: "pages",
+          parent: true
+        }
+      ]
     }
   ],
   {
