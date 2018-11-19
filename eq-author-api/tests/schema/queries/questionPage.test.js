@@ -5,7 +5,7 @@ describe("QuestionPage query", () => {
   const questionPage = `
     query GetQuestionPage($id: ID!) {
       questionPage(id: $id) {
-        id,
+        id
         section {
           id
         }
@@ -16,7 +16,7 @@ describe("QuestionPage query", () => {
   const questionPageWithAnswers = `
     query GetQuestionPageWithAnswers($id: ID!) {
       questionPage(id: $id) {
-        id,
+        id
         answers {
           id
         }
@@ -27,8 +27,30 @@ describe("QuestionPage query", () => {
   const questionPageWithSection = `
   query GetQuestionPageWithSection($id: ID!) {
     questionPage(id: $id) {
-      id,
+      id
       section {
+        id
+      }
+    }
+  }
+  `;
+
+  const questionPageWithAvailablePipingAnswers = `
+  query GetQuestionPageWithAvailablePipingAnswers($id: ID!) {
+    questionPage(id: $id) {
+      id
+      availablePipingAnswers {
+        id
+      }
+    }
+  }
+  `;
+
+  const questionPageWithAvailablePipingMetadata = `
+  query GetQuestionPageWithAvailablePipingMetadata($id: ID!) {
+    questionPage(id: $id) {
+      id
+      availablePipingMetadata {
         id
       }
     }
@@ -41,12 +63,16 @@ describe("QuestionPage query", () => {
 
   beforeEach(() => {
     repositories = {
-      QuestionPage: mockRepository({
-        getById: {
-          id,
-          sectionId
-        }
-      }),
+      QuestionPage: {
+        ...mockRepository({
+          getById: {
+            id,
+            sectionId
+          }
+        }),
+        getPipingAnswersForQuestionPage: jest.fn(() => []),
+        getPipingMetadataForQuestionPage: jest.fn(() => [])
+      },
       Answer: mockRepository(),
       Section: mockRepository()
     };
@@ -83,5 +109,31 @@ describe("QuestionPage query", () => {
     expect(result.errors).toBeUndefined();
     expect(repositories.QuestionPage.getById).toHaveBeenCalledWith(id);
     expect(repositories.Section.getById).toHaveBeenCalledWith(sectionId);
+  });
+
+  it("should fetch availablePipingAnswers", async () => {
+    const result = await executeQuery(
+      questionPageWithAvailablePipingAnswers,
+      { id },
+      { repositories }
+    );
+
+    expect(result.errors).toBeUndefined();
+    expect(
+      repositories.QuestionPage.getPipingAnswersForQuestionPage
+    ).toHaveBeenCalledWith(id);
+  });
+
+  it("should fetch availablePipingMetadata", async () => {
+    const result = await executeQuery(
+      questionPageWithAvailablePipingMetadata,
+      { id },
+      { repositories }
+    );
+
+    expect(result.errors).toBeUndefined();
+    expect(
+      repositories.QuestionPage.getPipingMetadataForQuestionPage
+    ).toHaveBeenCalledWith(id);
   });
 });

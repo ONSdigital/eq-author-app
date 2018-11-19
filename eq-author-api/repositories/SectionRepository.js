@@ -6,6 +6,11 @@ const {
 } = require("./strategies/spacedOrderStrategy");
 const addPrefix = require("../utils/addPrefix");
 const { duplicateSectionStrategy } = require("./strategies/duplicateStrategy");
+const {
+  getPreviousAnswersForSection
+} = require("./strategies/previousAnswersStrategy");
+
+const { PIPING_ANSWER_TYPES } = require("../constants/pipingAnswerTypes");
 
 module.exports.findAll = function findAll(
   where = {},
@@ -120,3 +125,20 @@ module.exports.duplicateSection = function duplicateSection(id, position) {
     });
   });
 };
+
+module.exports.getPipingAnswersForSection = id =>
+  this.getById(id).then(({ position: sectionPosition, questionnaireId }) =>
+    getPreviousAnswersForSection({
+      answerTypes: PIPING_ANSWER_TYPES,
+      sectionPosition,
+      questionnaireId
+    })
+  );
+
+module.exports.getPipingMetadataForSection = id =>
+  db("Metadata")
+    .select("Metadata.*")
+    .join("Questionnaires", "Metadata.questionnaireId", "Questionnaires.id")
+    .join("SectionsView", "SectionsView.questionnaireId", "Questionnaires.id")
+    .where("SectionsView.id", id)
+    .andWhere("Metadata.isDeleted", false);

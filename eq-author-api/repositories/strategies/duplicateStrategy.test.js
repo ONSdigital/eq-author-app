@@ -13,6 +13,7 @@ const OptionRepository = require("../OptionRepository");
 const ValidationRepository = require("../ValidationRepository");
 const MetadataRepository = require("../MetadataRepository");
 const RoutingRepository = require("../RoutingRepository");
+const QuestionConfirmationRepository = require("../QuestionConfirmationRepository");
 
 const buildTestQuestionnaire = require("../../tests/utils/buildTestQuestionnaire");
 
@@ -42,7 +43,8 @@ const removeChildren = omit([
   "ruleSet",
   "routingValue",
   "conditions",
-  "goto"
+  "goto",
+  "confirmation"
 ]);
 
 const sanitizeAllProperties = obj =>
@@ -356,6 +358,38 @@ describe("Duplicate strategy tests", () => {
 
       expect(duplicateConditionValues[0]).toMatchObject({
         customNumber: 2
+      });
+    });
+
+    it("will duplicate question confirmation", async () => {
+      const questionnaire = await buildTestQuestionnaire({
+        sections: [
+          {
+            pages: [
+              {
+                confirmation: {
+                  title: "confirmation"
+                }
+              }
+            ]
+          }
+        ]
+      });
+
+      const page = questionnaire.sections[0].pages[0];
+
+      const duplicatePage = await db.transaction(trx =>
+        duplicatePageStrategy(trx, removeChildren(page))
+      );
+
+      const duplicateConfirmation = await QuestionConfirmationRepository.findByPageId(
+        duplicatePage.id
+      );
+
+      expect(duplicateConfirmation).toMatchObject({
+        ...sanitize(page.confirmation),
+        pageId: duplicatePage.id,
+        title: "confirmation"
       });
     });
 

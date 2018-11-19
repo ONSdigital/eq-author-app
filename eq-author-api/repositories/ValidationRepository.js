@@ -1,5 +1,11 @@
+const db = require("../db");
 const Validation = require("../db/Validation");
 const { head, flow, keys, remove, first } = require("lodash/fp");
+const {
+  getPreviousAnswersForSectionAndPage
+} = require("./strategies/previousAnswersStrategy");
+const { DATE: ANSWER_DATE } = require("../constants/answerTypes");
+const { DATE: METADATA_DATE } = require("../constants/metadataTypes");
 
 const toggleValidationRule = ({ id, enabled }) => {
   return Validation.update(id, { enabled }).then(head);
@@ -33,8 +39,57 @@ const updateValidationRule = input => {
   }).then(head);
 };
 
+const getPreviousAnswersForValidation = id =>
+  db("Answers")
+    .select("SectionsView.position as sectionPosition")
+    .select("PagesView.position as pagePosition")
+    .select("SectionsView.questionnaireId")
+    .select("Answers.type as answerType")
+    .join(
+      "Validation_AnswerRules",
+      "Answers.id",
+      "Validation_AnswerRules.answerId"
+    )
+    .join("PagesView", "Answers.questionPageId", "PagesView.id")
+    .join("SectionsView", "PagesView.sectionId", "SectionsView.id")
+    .where("Validation_AnswerRules.id", id)
+    .then(head)
+    .then(({ answerType, ...rest }) =>
+      getPreviousAnswersForSectionAndPage({
+        answerTypes: [answerType],
+        ...rest
+      })
+    );
+
+const getMetadataForValidation = id =>
+  db("Answers")
+    .select("SectionsView.questionnaireId")
+    .select("Answers.type as answerType")
+    .join(
+      "Validation_AnswerRules",
+      "Answers.id",
+      "Validation_AnswerRules.answerId"
+    )
+    .join("PagesView", "Answers.questionPageId", "PagesView.id")
+    .join("SectionsView", "PagesView.sectionId", "SectionsView.id")
+    .where("Validation_AnswerRules.id", id)
+    .then(head)
+    .then(({ answerType, questionnaireId }) => {
+      if (answerType === ANSWER_DATE) {
+        return db("Metadata")
+          .select("Metadata.*")
+          .andWhere("type", METADATA_DATE)
+          .andWhere({ questionnaireId })
+          .andWhere({ isDeleted: false });
+      } else {
+        return []; //Currently do not support validation against any other types
+      }
+    });
+
 Object.assign(module.exports, {
   toggleValidationRule,
   findByAnswerIdAndValidationType,
-  updateValidationRule
+  updateValidationRule,
+  getPreviousAnswersForValidation,
+  getMetadataForValidation
 });

@@ -5,7 +5,7 @@ const {
   PREVIOUS_ANSWER,
   METADATA,
   NOW
-} = require("../constants/validation-entity-types");
+} = require("../constants/validationEntityTypes");
 
 exports.up = function(knex) {
   return knex.raw(

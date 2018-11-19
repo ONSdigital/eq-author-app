@@ -1,4 +1,4 @@
-const { CUSTOM, NOW } = require("../constants/validation-entity-types");
+const { CUSTOM, NOW } = require("../constants/validationEntityTypes");
 
 const answerTypeMap = {
   number: ["Currency", "Number"],
