@@ -3,10 +3,26 @@ const respondWithData = require("./respondWithData");
 describe("fetchData", () => {
   let res, req;
 
+  let trimmedQuestionnaire = {
+    id: "123",
+    sections: [
+      {
+        title: "Whitespaced"
+      }
+    ]
+  };
+
   beforeEach(() => {
     res = {
       locals: {
-        questionnaire: { id: "123" }
+        questionnaire: {
+          id: "123   ",
+          sections: [
+            {
+              title: "   Whitespaced   "
+            }
+          ]
+        }
       },
       json: jest.fn()
     };
@@ -16,6 +32,11 @@ describe("fetchData", () => {
 
   it("respond with local data from response", () => {
     respondWithData(req, res);
-    expect(res.json).toHaveBeenCalledWith(res.locals.questionnaire);
+    expect(res.json).toHaveBeenCalledWith(trimmedQuestionnaire);
+  });
+
+  it("respond with trimmed data values", () => {
+    respondWithData(req, res);
+    expect(res.json).toHaveBeenCalledWith(trimmedQuestionnaire);
   });
 });

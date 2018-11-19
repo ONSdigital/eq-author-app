@@ -1,3 +1,8 @@
 module.exports = function respondWithData(req, res) {
-  res.json(res.locals.questionnaire);
+  var questionnaire = res.locals.questionnaire;
+  var trimmedQuestionnaire = JSON.parse(
+    JSON.stringify(questionnaire).replace(/"\s+|\s+"/g, '"')
+  );
+
+  res.json(trimmedQuestionnaire);
 };

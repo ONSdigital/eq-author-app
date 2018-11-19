@@ -1,6 +1,8 @@
 const Question = require("./Question");
 const RoutingRule = require("./RoutingRule");
 const RoutingDestination = require("./RoutingDestination");
+const { getInnerHTMLWithPiping } = require("../utils/HTMLUtils");
+const convertPipes = require("../utils/convertPipes");
 const { get, isNil, remove, isEmpty } = require("lodash");
 const { flow, getOr, last, map, some } = require("lodash/fp");
 
@@ -13,6 +15,12 @@ const getLastPage = flow(
   getOr([], "pages"),
   last
 );
+
+const processPipedText = ctx =>
+  flow(
+    convertPipes(ctx),
+    getInnerHTMLWithPiping
+  );
 
 const isLastPageInSection = (page, ctx) =>
   flow(
@@ -27,7 +35,11 @@ class Block {
     this.type = this.convertPageType(page.pageType);
     this.questions = this.buildQuestions(page, ctx);
 
-    if (!isLastPageInSection(page, ctx) && !isNil(page.routingRuleSet)) {
+    if (
+      !isLastPageInSection(page, ctx) &&
+      !isNil(page.routingRuleSet) &&
+      isNil(page.confirmation)
+    ) {
       // eslint-disable-next-line camelcase
       this.routing_rules = this.buildRoutingRules(
         page.routingRuleSet,
@@ -38,12 +50,16 @@ class Block {
     }
   }
 
-  static buildIntroBlock({ introductionTitle, introductionContent }, groupId) {
+  static buildIntroBlock(
+    { introductionTitle, introductionContent },
+    groupId,
+    ctx
+  ) {
     return {
       type: "Interstitial",
       id: `group${groupId}-introduction`,
-      title: introductionTitle || "",
-      description: introductionContent || ""
+      title: processPipedText(ctx)(introductionTitle) || "",
+      description: processPipedText(ctx)(introductionContent) || ""
     };
   }
 

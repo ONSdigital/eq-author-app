@@ -30,6 +30,21 @@ describe("Block", () => {
     expect(block.title).toBeUndefined();
   });
 
+  it("should not build routing rules when there is a confirmation page", () => {
+    const block = new Block(
+      createBlockJSON({
+        confirmation: {
+          id: "2",
+          title: "<p>Are you sure?</p>"
+        },
+        routingRuleSet: { id: "2" }
+      }),
+      ctx
+    );
+
+    expect(block.routingRuleSet).toBeUndefined();
+  });
+
   describe("conversion of page types", () => {
     it("should convert QuestionPage to Questionnaire", () => {
       const block = new Block(
@@ -70,6 +85,56 @@ describe("Block", () => {
     it("should return false if not a last page in a section", () => {
       expect(isLastPageInSection({ id: "1" }, questionnaire)).toBe(false);
       expect(isLastPageInSection({ id: "3" }, questionnaire)).toBe(false);
+    });
+  });
+
+  describe("piping", () => {
+    const createPipe = ({
+      id = 123,
+      type = "TextField",
+      text = "foo",
+      pipeType = "answers"
+    } = {}) =>
+      `<span data-piped="${pipeType}" data-id="${id}" data-type="${type}">${text}</span>`;
+
+    const createContext = (
+      metadata = [{ id: "123", type: "Text", key: "my_metadata" }]
+    ) => ({
+      questionnaireJson: {
+        metadata
+      }
+    });
+
+    it("should handle piped values in title", () => {
+      // noinspection JSAnnotator
+      let introduction = {
+        introductionTitle: createPipe(),
+        introductionContent: ""
+      };
+
+      const introBlock = Block.buildIntroBlock(
+        introduction,
+        0,
+        createContext()
+      );
+
+      expect(introBlock.title).toEqual("{{ answers['answer123'] }}");
+    });
+
+    it("should handle piped values in description", () => {
+      // noinspection JSAnnotator
+      let introduction = {
+        introductionTitle: "",
+        introductionContent: createPipe()
+      };
+
+      const introBlock = Block.buildIntroBlock(
+        introduction,
+        0,
+        createContext()
+      );
+
+      expect(introBlock.description).toEqual("{{ answers['answer123'] }}");
     });
   });
 });

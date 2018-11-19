@@ -267,4 +267,249 @@ describe("Group", () => {
       expect(runnerJson).toMatchObject(expectedrunnerJson);
     });
   });
+
+  describe("confirmation pages", () => {
+    const ctxGenerator = routingRuleSet => ({
+      routingGotos: [],
+      questionnaireJson: {
+        sections: [
+          {
+            id: "4",
+            title: "<p>Section 1</p>",
+            pages: [
+              {
+                id: "1",
+                title: "<p>Test question</p>",
+                description: "",
+                guidance: null,
+                pageType: "QuestionPage",
+                routingRuleSet: routingRuleSet,
+                confirmation: {
+                  id: "2",
+                  title: "<p>Are you sure?</p>",
+                  page: {
+                    id: "1"
+                  },
+                  positive: {
+                    label: "Oh yes.",
+                    description: "Positive"
+                  },
+                  negative: {
+                    label: "Wait I can get more?",
+                    description: "Negative"
+                  }
+                },
+                answers: [
+                  {
+                    id: "6",
+                    type: "Currency",
+                    label: "How much money do you want?",
+                    description: "",
+                    guidance: "",
+                    properties: {
+                      decimals: 0,
+                      required: false
+                    },
+                    qCode: ""
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    });
+
+    it("should build a confirmation page", () => {
+      const ctx = ctxGenerator(null);
+      const resultantJson = new Group(
+        ctx.questionnaireJson.sections[0].id,
+        ctx.questionnaireJson.sections[0].title,
+        ctx.questionnaireJson.sections[0].pages,
+        { introductionEnabled: false },
+        ctx
+      );
+
+      const expectedRunnerBlock = {
+        id: "blockconfirmation-page-for-1",
+        type: "ConfirmationQuestion",
+        questions: [
+          {
+            id: "questionconfirmation-page-for-1",
+            title: "Are you sure?",
+            description: "",
+            type: "General",
+            answers: [
+              {
+                id: "answerconfirmation-answer-for-1",
+                mandatory: true,
+                type: "Radio",
+                options: [
+                  {
+                    label: "Oh yes.",
+                    value: "Oh yes.",
+                    description: "Positive"
+                  },
+                  {
+                    label: "Wait I can get more?",
+                    value: "Wait I can get more?",
+                    description: "Negative"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        routing_rules: [
+          {
+            goto: {
+              block: "block1",
+              when: [
+                {
+                  id: "answerconfirmation-answer-for-1",
+                  condition: "not equals",
+                  value: "Oh yes."
+                },
+                {
+                  id: "answerconfirmation-answer-for-1",
+                  condition: "set"
+                }
+              ]
+            }
+          },
+          {
+            goto: {
+              group: "confirmation-group"
+            }
+          }
+        ]
+      };
+
+      expect(resultantJson.blocks[1]).toMatchObject(expectedRunnerBlock);
+    });
+
+    it("copies routing rules from the previous question", () => {
+      const routingRuleSet = {
+        id: "2",
+        else: {
+          __typename: "LogicalDestination",
+          logicalDestination: "NextPage"
+        },
+        routingRules: [
+          {
+            id: "2",
+            operation: "And",
+            goto: {
+              __typename: "AbsoluteDestination",
+              absoluteDestination: {
+                id: "2",
+                __typename: "Section"
+              }
+            },
+            conditions: [
+              {
+                id: "2",
+                comparator: "GreaterOrEqual",
+                answer: {
+                  id: "1",
+                  type: "Currency"
+                },
+                routingValue: {
+                  numberValue: 100
+                }
+              }
+            ]
+          },
+          {
+            id: "3",
+            operation: "And",
+            goto: {
+              __typename: "AbsoluteDestination",
+              absoluteDestination: {
+                id: "3",
+                __typename: "Section"
+              }
+            },
+            conditions: [
+              {
+                id: "3",
+                comparator: "LessThan",
+                answer: {
+                  id: "1",
+                  type: "Currency"
+                },
+                routingValue: {
+                  numberValue: 100
+                }
+              }
+            ]
+          }
+        ]
+      };
+
+      const ctx = ctxGenerator(routingRuleSet);
+
+      const resultantJson = new Group(
+        ctx.questionnaireJson.sections[0].id,
+        ctx.questionnaireJson.sections[0].title,
+        ctx.questionnaireJson.sections[0].pages,
+        { introductionEnabled: false },
+        ctx
+      );
+
+      const expectedRunnerRouting = [
+        {
+          goto: {
+            block: "block1",
+            when: [
+              {
+                id: "answerconfirmation-answer-for-1",
+                condition: "not equals",
+                value: "Oh yes."
+              },
+              {
+                id: "answerconfirmation-answer-for-1",
+                condition: "set"
+              }
+            ]
+          }
+        },
+        {
+          goto: {
+            group: "group2",
+            when: [
+              {
+                id: "answer1",
+                condition: "greater than or equal to",
+                value: 100
+              }
+            ]
+          }
+        },
+        {
+          goto: {
+            group: "group3",
+            when: [
+              {
+                id: "answer1",
+                condition: "less than",
+                value: 100
+              }
+            ]
+          }
+        },
+        {
+          goto: {
+            group: "confirmation-group"
+          }
+        }
+      ];
+
+      expect(resultantJson.blocks[0].routing_rules).toBeUndefined();
+
+      expect(resultantJson.blocks[1].routing_rules).toEqual(
+        expectedRunnerRouting
+      );
+    });
+  });
 });
