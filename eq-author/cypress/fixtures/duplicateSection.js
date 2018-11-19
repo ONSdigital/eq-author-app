@@ -16,7 +16,8 @@ export default {
           position: 1,
           displayName: "",
           pageType: "QuestionPage",
-          answers: []
+          answers: [],
+          confirmation: null
         }
       ],
       questionnaire: {

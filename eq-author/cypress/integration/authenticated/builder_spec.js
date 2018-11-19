@@ -332,7 +332,7 @@ describe("builder", () => {
     answerTypes.forEach(answerType => {
       addAnswerType(answerType);
       cy.get(testId("txt-answer-label")).type(answerType + " label");
-      if (includes(["Currency"], answerType)) {
+      if (includes(["Currency", "Number"], answerType)) {
         cy.get(testId("txt-answer-description")).type(
           answerType + " description"
         );

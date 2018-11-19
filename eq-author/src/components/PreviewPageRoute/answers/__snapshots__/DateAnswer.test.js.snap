@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Date Answer should render 1`] = `
+<Field>
+  <Label
+    description="Description"
+  >
+    Label
+  </Label>
+  <DateAnswer__DateFields>
+    <DateAnswer__DayDateField
+      data-test="day-input"
+    >
+      <DateAnswer__DateFieldLabel>
+        Day
+      </DateAnswer__DateFieldLabel>
+      <DateAnswer__DateInput
+        placeholder="DD"
+      />
+    </DateAnswer__DayDateField>
+    <DateAnswer__MonthDateField
+      data-test="month-input"
+    >
+      <DateAnswer__DateFieldLabel>
+        Month
+      </DateAnswer__DateFieldLabel>
+      <DateAnswer__Select>
+        <option
+          value=""
+        >
+          Select month
+        </option>
+      </DateAnswer__Select>
+    </DateAnswer__MonthDateField>
+    <DateAnswer__YearDateField>
+      <DateAnswer__DateFieldLabel>
+        Year
+      </DateAnswer__DateFieldLabel>
+      <DateAnswer__DateInput
+        placeholder="YYYY"
+      />
+    </DateAnswer__YearDateField>
+  </DateAnswer__DateFields>
+</Field>
+`;

@@ -2,6 +2,7 @@ import React from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import ContentPickerModal from "components/ContentPickerModal";
+import { ANSWER, METADATA } from "components/ContentPickerSelect/content-types";
 import generateTestData from "tests/utils/generateMockPiping";
 
 const answerData = generateTestData();
@@ -19,6 +20,7 @@ storiesOf("ContentPicker", module)
       <ContentPickerModal
         answerData={answerData}
         metadataData={metadataData}
+        contentTypes={[ANSWER, METADATA]}
         isOpen
         onClose={action("close")}
         onSubmit={action(`submit`)}
@@ -30,6 +32,7 @@ storiesOf("ContentPicker", module)
     return (
       <ContentPickerModal
         answerData={answerData}
+        contentTypes={[ANSWER]}
         isOpen
         onClose={action("close")}
         onSubmit={action(`submit`)}
@@ -41,6 +44,7 @@ storiesOf("ContentPicker", module)
       <ContentPickerModal
         answerData={[]}
         metadataData={metadataData}
+        contentTypes={[ANSWER, METADATA]}
         isOpen
         onClose={action("close")}
         onSubmit={action(`submit`)}
@@ -52,6 +56,7 @@ storiesOf("ContentPicker", module)
       <ContentPickerModal
         answerData={answerData}
         metadataData={[]}
+        contentTypes={[ANSWER, METADATA]}
         isOpen
         onClose={action("close")}
         onSubmit={action(`submit`)}

@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Label should not render description if not provided 1`] = `
+<Label__Wrapper>
+  label
+</Label__Wrapper>
+`;
+
+exports[`Label should render 1`] = `
+<Label__Wrapper>
+  label
+  <Label__Description>
+    description
+  </Label__Description>
+</Label__Wrapper>
+`;
+
+exports[`Label should render an error when the label is not provided 1`] = `
+<Label__Wrapper>
+  <Error
+    margin={true}
+    small={true}
+  >
+    Missing label
+  </Error>
+  <Label__Description>
+    description
+  </Label__Description>
+</Label__Wrapper>
+`;

@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MetadataContentPicker should render 1`] = `
+<UnwrappedContentPickerSelect
+  answerId="1"
+  contentTypes={
+    Array [
+      "Metadata",
+    ]
+  }
+  metadataData={
+    Array [
+      Object {
+        "displayName": "foobar1",
+        "id": "1",
+      },
+      Object {
+        "displayName": "foobar2",
+        "id": "2",
+      },
+    ]
+  }
+  name="metadata"
+  onSubmit={[MockFunction]}
+  selectedContentDisplayName="foobar"
+/>
+`;

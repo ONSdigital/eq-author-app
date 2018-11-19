@@ -1,0 +1,4 @@
+fragment AvailableMetadata on Metadata {
+  id
+  displayName
+}

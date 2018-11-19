@@ -1,7 +1,7 @@
-import PropTypes from "prop-types";
 import React from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
-import { compact, isArray } from "lodash";
+import { compact } from "lodash";
 
 import BaseTabs from "components/BaseTabs";
 import Modal, { CloseButton } from "components/Modal";
@@ -11,6 +11,7 @@ import {
 } from "components/ContentPicker";
 
 import { colors } from "constants/theme";
+import { ANSWER, METADATA } from "components/ContentPickerSelect/content-types";
 
 const HeaderSegment = styled.div`
   margin: 0;
@@ -118,7 +119,8 @@ class ContentPickerModal extends React.Component {
     ),
     onSubmit: PropTypes.func,
     isOpen: PropTypes.bool,
-    onClose: PropTypes.func
+    onClose: PropTypes.func,
+    contentTypes: PropTypes.arrayOf(PropTypes.string).isRequired
   };
 
   getSelectedTab() {
@@ -153,7 +155,7 @@ class ContentPickerModal extends React.Component {
     id: "answers",
     title: "Answer",
     render: () => {
-      if (this.props.answerData.length === 0) {
+      if (!this.props.answerData || this.props.answerData.length === 0) {
         return (
           <ErrorText>There are no previous answers to pick from</ErrorText>
         );
@@ -177,7 +179,7 @@ class ContentPickerModal extends React.Component {
     id: "metadata",
     title: "Metadata",
     render: () => {
-      if (this.props.metadataData.length === 0) {
+      if (!this.props.metadataData || this.props.metadataData.length === 0) {
         return (
           <ErrorText>There is no configured metadata to pick from</ErrorText>
         );
@@ -198,8 +200,8 @@ class ContentPickerModal extends React.Component {
   };
 
   tabConfig = [
-    isArray(this.props.answerData) ? this.answerTab : null,
-    isArray(this.props.metadataData) ? this.metadataTab : null
+    this.props.contentTypes.indexOf(ANSWER) !== -1 ? this.answerTab : null,
+    this.props.contentTypes.indexOf(METADATA) !== -1 ? this.metadataTab : null
   ];
 
   tabList = ({ children }) => (

@@ -1,106 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`PipingMenu should filter out checkbox answer types 1`] = `
-Object {
-  "sections": Array [
-    Object {
-      "id": "1",
-      "pages": Array [
-        Object {
-          "answers": Array [
-            Object {
-              "id": "2",
-              "label": "Answer 2",
-              "type": "TextField",
-            },
-          ],
-          "id": "1",
-        },
-      ],
-    },
-  ],
-}
-`;
-
-exports[`PipingMenu should filter out radio answer types 1`] = `
-Object {
-  "sections": Array [
-    Object {
-      "id": "1",
-      "pages": Array [
-        Object {
-          "answers": Array [
-            Object {
-              "id": "2",
-              "label": "Answer 2",
-              "type": "TextField",
-            },
-          ],
-          "id": "1",
-        },
-      ],
-    },
-  ],
-}
-`;
-
-exports[`PipingMenu should only allow selection of answers before the current page 1`] = `
-Object {
-  "sections": Array [
-    Object {
-      "id": "1",
-      "pages": Array [
-        Object {
-          "answers": Array [
-            Object {
-              "id": "1",
-              "label": "Answer 1",
-              "type": "TextField",
-            },
-            Object {
-              "id": "2",
-              "label": "Answer 2",
-              "type": "TextField",
-            },
-          ],
-          "id": "1",
-        },
-        Object {
-          "answers": Array [
-            Object {
-              "id": "3",
-              "label": "Answer 3",
-              "type": "TextField",
-            },
-          ],
-          "id": "2",
-        },
-      ],
-    },
-    Object {
-      "id": "2",
-      "pages": Array [
-        Object {
-          "answers": Array [
-            Object {
-              "id": "4",
-              "label": "Answer 4",
-              "type": "TextField",
-            },
-            Object {
-              "id": "5",
-              "label": "Answer 5",
-              "type": "TextField",
-            },
-          ],
-          "id": "3",
-        },
-      ],
-    },
-  ],
-}
-`;
-
 exports[`PipingMenu should render 1`] = `
 <Fragment>
   <PipingMenu__MenuButton
@@ -113,25 +12,47 @@ exports[`PipingMenu should render 1`] = `
     answerData={
       Array [
         Object {
+          "displayName": "Answer 1",
           "id": "1",
-          "pages": Array [
-            Object {
-              "answers": Array [
-                Object {
-                  "id": "1",
-                  "label": "Answer 1",
-                  "type": "TextField",
-                },
-                Object {
-                  "id": "2",
-                  "label": "Answer 2",
-                  "type": "TextField",
-                },
-              ],
+          "page": Object {
+            "displayName": "Page 1",
+            "id": "1",
+            "section": Object {
+              "displayName": "Section 1",
               "id": "1",
             },
-          ],
+          },
         },
+        Object {
+          "displayName": "Answer 2",
+          "id": "2",
+          "page": Object {
+            "displayName": "Page 1",
+            "id": "1",
+            "section": Object {
+              "displayName": "Section 1",
+              "id": "1",
+            },
+          },
+        },
+        Object {
+          "displayName": "3",
+          "id": "3",
+          "page": Object {
+            "displayName": "Page 2",
+            "id": "2",
+            "section": Object {
+              "displayName": "Section 2",
+              "id": "2",
+            },
+          },
+        },
+      ]
+    }
+    contentTypes={
+      Array [
+        "Custom",
+        "Metadata",
       ]
     }
     data-test="picker"
@@ -139,11 +60,7 @@ exports[`PipingMenu should render 1`] = `
     metadataData={
       Array [
         Object {
-          "alias": "Some metadata",
-          "id": "1",
-        },
-        Object {
-          "alias": "Another metadata",
+          "displayName": "Metadata",
           "id": "1",
         },
       ]
@@ -152,83 +69,4 @@ exports[`PipingMenu should render 1`] = `
     onSubmit={[Function]}
   />
 </Fragment>
-`;
-
-exports[`PipingMenu should return child answers for CompositeAnswers 1`] = `
-Object {
-  "sections": Array [
-    Object {
-      "id": "1",
-      "pages": Array [
-        Object {
-          "answers": Array [
-            Object {
-              "displayName": "Earliest",
-              "id": "20",
-              "type": "TextField",
-            },
-            Object {
-              "displayName": "Latest",
-              "id": "21",
-              "type": "TextField",
-            },
-            Object {
-              "id": "2",
-              "label": "Answer 2",
-              "type": "TextField",
-            },
-          ],
-          "id": "1",
-        },
-        Object {
-          "answers": Array [
-            Object {
-              "id": "3",
-              "label": "Answer 3",
-              "type": "TextField",
-            },
-          ],
-          "id": "2",
-        },
-      ],
-    },
-  ],
-}
-`;
-
-exports[`PipingMenu shouldn't show current section if on first page of section 1`] = `
-Object {
-  "sections": Array [
-    Object {
-      "id": "1",
-      "pages": Array [
-        Object {
-          "answers": Array [
-            Object {
-              "id": "1",
-              "label": "Answer 1",
-              "type": "TextField",
-            },
-            Object {
-              "id": "2",
-              "label": "Answer 2",
-              "type": "TextField",
-            },
-          ],
-          "id": "1",
-        },
-        Object {
-          "answers": Array [
-            Object {
-              "id": "3",
-              "label": "Answer 3",
-              "type": "TextField",
-            },
-          ],
-          "id": "2",
-        },
-      ],
-    },
-  ],
-}
 `;

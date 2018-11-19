@@ -1,23 +1,19 @@
-import GetContentPickerQuery from "components/ContentPickerModal/GetContentPickerQuery";
 import React from "react";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import styled from "styled-components";
+import { get, isUndefined } from "lodash";
 
-import filterQuestionnaire from "components/ContentPickerModal/filterQuestionnaire";
 import ContentPickerModal from "components/ContentPickerModal";
+import AvailablePipingContentQuery from "components/RichTextEditor/AvailablePipingContentQuery";
+import shapeTree from "components/ContentPicker/shapeTree";
 
-import {
-  TEXTAREA,
-  TEXTFIELD,
-  NUMBER,
-  CURRENCY,
-  DATE_RANGE
-} from "constants/answer-types";
 import CustomPropTypes from "custom-prop-types";
 
 import IconPiping from "./icon-link.svg?inline";
 import ToolbarButton from "./ToolbarButton";
+
+import { ANSWER, METADATA } from "components/ContentPickerSelect/content-types";
 
 const PipingIconButton = props => (
   <ToolbarButton {...props}>
@@ -39,9 +35,16 @@ export class Menu extends React.Component {
     match: CustomPropTypes.match,
     disabled: PropTypes.bool,
     loading: PropTypes.bool,
-    data: PropTypes.shape({
-      questionnaire: CustomPropTypes.questionnaire
-    })
+    answerData: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string.isRequired
+      })
+    ),
+    metadataData: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string.isRequired
+      })
+    )
   };
 
   state = {
@@ -66,35 +69,17 @@ export class Menu extends React.Component {
   };
 
   render() {
-    const {
-      disabled,
-      loading,
-      data,
-      match: {
-        params: { sectionId, pageId }
-      }
-    } = this.props;
+    const { answerData, metadataData, disabled, loading } = this.props;
+
     const buttonProps = {
       title: "Pipe value"
     };
 
-    if (loading || disabled || !data.questionnaire) {
+    const isDisabled = loading || disabled || (!answerData && !metadataData);
+
+    if (isDisabled) {
       return <MenuButton {...buttonProps} disabled />;
     }
-
-    const { questionnaire } = data;
-
-    const answerTypes = [TEXTAREA, TEXTFIELD, NUMBER, CURRENCY, DATE_RANGE];
-
-    const filteredSections = filterQuestionnaire({
-      answerTypes,
-      questionnaire,
-      sectionId,
-      pageId
-    });
-
-    const isDisabled =
-      filteredSections.length === 0 && questionnaire.metadata.length === 0;
 
     return (
       <React.Fragment>
@@ -106,11 +91,12 @@ export class Menu extends React.Component {
         />
         <ContentPickerModal
           isOpen={this.state.isPickerOpen}
-          answerData={filteredSections}
-          metadataData={questionnaire.metadata}
+          answerData={answerData}
+          metadataData={metadataData}
           onClose={this.handlePickerClose}
           onSubmit={this.handlePickerSubmit}
           data-test="picker"
+          contentTypes={[ANSWER, METADATA]}
         />
       </React.Fragment>
     );
@@ -118,9 +104,22 @@ export class Menu extends React.Component {
 }
 
 const PipingMenu = props => (
-  <GetContentPickerQuery questionnaireId={props.match.params.questionnaireId}>
-    {innerProps => <Menu {...innerProps} {...props} />}
-  </GetContentPickerQuery>
+  <AvailablePipingContentQuery
+    id={props.match.params.pageId || props.match.params.sectionId}
+    sectionContent={isUndefined(props.match.params.pageId)}
+  >
+    {({ data, ...innerProps }) => {
+      const root = `${props.match.params.pageId ? "questionPage" : "section"}`;
+      return (
+        <Menu
+          answerData={shapeTree(get(data, `${root}.availablePipingAnswers`))}
+          metadataData={get(data, `${root}.availablePipingMetadata`)}
+          {...props}
+          {...innerProps}
+        />
+      );
+    }}
+  </AvailablePipingContentQuery>
 );
 
 PipingMenu.propTypes = {

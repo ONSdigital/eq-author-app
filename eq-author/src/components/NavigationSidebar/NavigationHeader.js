@@ -53,7 +53,9 @@ class NavigationHeader extends React.Component {
     onUpdateQuestionnaire: PropTypes.func.isRequired,
     onAddPage: PropTypes.func.isRequired,
     onAddSection: PropTypes.func.isRequired,
-    questionnaire: CustomPropTypes.questionnaire.isRequired
+    questionnaire: CustomPropTypes.questionnaire.isRequired,
+    canAddQuestionConfirmation: PropTypes.bool.isRequired,
+    onAddQuestionConfirmation: PropTypes.func.isRequired
   };
 
   state = {
@@ -82,6 +84,11 @@ class NavigationHeader extends React.Component {
 
   handleAddSection = () => {
     this.props.onAddSection();
+    this.handleAddMenuToggle();
+  };
+
+  handleAddQuestionConfirmation = () => {
+    this.props.onAddQuestionConfirmation();
     this.handleAddMenuToggle();
   };
 
@@ -144,6 +151,8 @@ class NavigationHeader extends React.Component {
             onAddMenuToggle={this.handleAddMenuToggle}
             onAddPage={this.handleAddPage}
             onAddSection={this.handleAddSection}
+            onAddQuestionConfirmation={this.handleAddQuestionConfirmation}
+            canAddQuestionConfirmation={this.props.canAddQuestionConfirmation}
             data-test="add-menu"
           />
         </NavigationHeaderRow>

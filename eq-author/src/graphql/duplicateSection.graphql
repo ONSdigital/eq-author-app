@@ -17,6 +17,10 @@ mutation duplicateSection($input: DuplicateSectionInput!) {
         answers {
           id
         }
+        confirmation {
+          id
+          displayName
+        }
       }
     }
     questionnaire {

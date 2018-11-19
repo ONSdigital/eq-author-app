@@ -16,6 +16,9 @@ mutation CreateSection($input: CreateSectionInput!) {
         answers {
           id
         }
+        confirmation {
+          id
+        }
       }
     }
     questionnaire {

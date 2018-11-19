@@ -1,21 +1,13 @@
 import React, { Component } from "react";
-import { withRouter } from "react-router-dom";
 import CustomPropTypes from "custom-prop-types";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import fp from "lodash/fp";
 
-import filterQuestionnaire from "components/ContentPickerModal/filterQuestionnaire";
 import ContentPickerModal from "components/ContentPickerModal";
-import GetContentPickerQuery from "components/ContentPickerModal/GetContentPickerQuery";
 import Button from "components/Button";
 import Truncated from "components/Truncated";
-import { ANSWER, METADATA } from "components/ContentPickerSelect/content-types";
 
 import { colors } from "constants/theme";
-
-import * as ANSWER_TYPES from "constants/answer-types";
-import * as METADATA_TYPES from "constants/metadata-types";
 
 export const ContentSelectButton = styled(Button).attrs({
   variant: "tertiary"
@@ -46,12 +38,6 @@ const ContentSelectAction = styled.div`
   text-transform: uppercase;
 `;
 
-const filterMetadata = types =>
-  fp.flow(
-    fp.getOr([], "metadata"),
-    fp.filter(({ type }) => fp.includes(type)(types))
-  );
-
 export class UnwrappedContentPickerSelect extends Component {
   state = {
     isPickerOpen: false,
@@ -81,33 +67,14 @@ export class UnwrappedContentPickerSelect extends Component {
   render() {
     const { isPickerOpen, selectedContentDisplayName } = this.state;
     const {
-      match: {
-        params: { sectionId, pageId }
-      },
       loading,
       error,
-      data: { questionnaire },
-      answerTypes,
-      contentTypes,
-      metadataTypes
+      answerData,
+      metadataData,
+      contentTypes
     } = this.props;
 
     const isDisabled = loading || error;
-
-    const dataProps = {};
-
-    if (contentTypes.includes(ANSWER)) {
-      dataProps.answerData = filterQuestionnaire({
-        answerTypes,
-        questionnaire,
-        sectionId,
-        pageId
-      });
-    }
-
-    if (contentTypes.includes(METADATA)) {
-      dataProps.metadataData = filterMetadata(metadataTypes)(questionnaire);
-    }
 
     return (
       <React.Fragment>
@@ -124,7 +91,9 @@ export class UnwrappedContentPickerSelect extends Component {
           onClose={this.handlePickerClose}
           onSubmit={this.handlePickerSubmit}
           data-test="picker"
-          {...dataProps}
+          answerData={answerData}
+          metadataData={metadataData}
+          contentTypes={contentTypes}
         />
       </React.Fragment>
     );
@@ -132,7 +101,6 @@ export class UnwrappedContentPickerSelect extends Component {
 }
 
 UnwrappedContentPickerSelect.propTypes = {
-  match: CustomPropTypes.match,
   loading: PropTypes.bool,
   error: PropTypes.bool,
   data: PropTypes.shape({
@@ -141,21 +109,24 @@ UnwrappedContentPickerSelect.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   selectedContentDisplayName: PropTypes.string,
   name: PropTypes.string.isRequired,
-  answerTypes: PropTypes.arrayOf(PropTypes.string),
   contentTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
-  metadataTypes: PropTypes.arrayOf(PropTypes.string)
+  answerId: PropTypes.string,
+  answerData: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      displayName: PropTypes.string.isRequired
+    })
+  ),
+  metadataData: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      displayName: PropTypes.string.isRequired
+    })
+  )
 };
 
 UnwrappedContentPickerSelect.defaultProps = {
-  selectedContentDisplayName: "Please select...",
-  answerTypes: Object.values(ANSWER_TYPES),
-  metadataTypes: Object.values(METADATA_TYPES)
+  selectedContentDisplayName: "Please select..."
 };
 
-const ContentPickerSelect = props => (
-  <GetContentPickerQuery questionnaireId={props.match.params.questionnaireId}>
-    {innerProps => <UnwrappedContentPickerSelect {...innerProps} {...props} />}
-  </GetContentPickerQuery>
-);
-
-export default withRouter(ContentPickerSelect);
+export default UnwrappedContentPickerSelect;

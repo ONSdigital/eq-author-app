@@ -59,7 +59,9 @@ const props = {
   onAddPage: action("Add Page"),
   onAddSection: action("Add Section"),
   onUpdateQuestionnaire: action("onUpdateQuestionnaire"),
-  loading: false
+  loading: false,
+  canAddQuestionConfirmation: false,
+  onAddQuestionConfirmation: action("Add Question Confirmation")
 };
 
 const client = {
@@ -98,4 +100,7 @@ storiesOf("NavigationSidebar", module)
         questionnaire={questionnaireWithMultipleSection}
       />
     );
+  })
+  .add("Can add a question confirmation", () => {
+    return <NavigationSidebar {...props} canAddQuestionConfirmation />;
   });

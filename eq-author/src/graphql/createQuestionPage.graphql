@@ -12,5 +12,8 @@ mutation createQuestionPage($input: CreateQuestionPageInput!) {
     section {
       id
     }
+    confirmation {
+      id
+    }
   }
 }

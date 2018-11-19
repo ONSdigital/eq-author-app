@@ -1,0 +1,103 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Editor Editor Component should autoFocus the title when there is not one 1`] = `
+<Editor__Wrapper>
+  <RichTextEditor
+    autoFocus={true}
+    controls={
+      Object {
+        "bold": true,
+        "emphasis": true,
+      }
+    }
+    data-test="title-input"
+    id="confirmation-title"
+    label="Confirmation question"
+    multiline={false}
+    onUpdate={[Function]}
+    placeholder=""
+    size="large"
+    testSelector="txt-confirmation-title"
+    value={null}
+  />
+  <Editor__OptionsWrapper>
+    <ConfirmationOption
+      data-test="positive-input"
+      label="Positive confirmation text"
+      name="positive"
+      onChange={[MockFunction]}
+      onUpdate={[MockFunction]}
+      value={
+        Object {
+          "description": "Positive description",
+          "label": "Positive label",
+        }
+      }
+    />
+    <Editor__MarginLessConfirmationOption
+      data-test="negative-input"
+      label="Negative confirmation text"
+      name="negative"
+      onChange={[MockFunction]}
+      onUpdate={[MockFunction]}
+      value={
+        Object {
+          "description": "Negative description",
+          "label": "Negative label",
+        }
+      }
+    />
+  </Editor__OptionsWrapper>
+</Editor__Wrapper>
+`;
+
+exports[`Editor Editor Component should render 1`] = `
+<Editor__Wrapper>
+  <RichTextEditor
+    autoFocus={false}
+    controls={
+      Object {
+        "bold": true,
+        "emphasis": true,
+      }
+    }
+    data-test="title-input"
+    id="confirmation-title"
+    label="Confirmation question"
+    multiline={false}
+    onUpdate={[Function]}
+    placeholder=""
+    size="large"
+    testSelector="txt-confirmation-title"
+    value="My first confirmation"
+  />
+  <Editor__OptionsWrapper>
+    <ConfirmationOption
+      data-test="positive-input"
+      label="Positive confirmation text"
+      name="positive"
+      onChange={[MockFunction]}
+      onUpdate={[MockFunction]}
+      value={
+        Object {
+          "description": "Positive description",
+          "label": "Positive label",
+        }
+      }
+    />
+    <Editor__MarginLessConfirmationOption
+      data-test="negative-input"
+      label="Negative confirmation text"
+      name="negative"
+      onChange={[MockFunction]}
+      onUpdate={[MockFunction]}
+      value={
+        Object {
+          "description": "Negative description",
+          "label": "Negative label",
+        }
+      }
+    />
+  </Editor__OptionsWrapper>
+</Editor__Wrapper>
+`;

@@ -72,9 +72,10 @@ class AnswerEditor extends React.Component {
   renderAnswer(answer) {
     switch (answer.type) {
       case TEXTFIELD:
-      case NUMBER:
       case TEXTAREA:
         return <BasicAnswer {...this.props} />;
+      case NUMBER:
+        return <BasicAnswer {...this.props} showDescription />;
       case CURRENCY:
         return <CurrencyAnswer {...this.props} />;
       case CHECKBOX:

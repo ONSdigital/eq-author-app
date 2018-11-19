@@ -52,9 +52,11 @@ exports[`QuestionnaireDesignPage should render 1`] = `
         gutters={false}
       >
         <withRouter(Apollo(Apollo(UnwrappedNavigationSidebar)))
+          canAddQuestionConfirmation={true}
           data-test="side-nav"
           loading={false}
           onAddPage={[Function]}
+          onAddQuestionConfirmation={[Function]}
           questionnaire={
             Object {
               "id": "3",
@@ -108,6 +110,16 @@ exports[`QuestionnaireDesignPage should render 1`] = `
             component={[Function]}
             exact={true}
             path="/questionnaire/:questionnaireId/:sectionId(\\\\d+)/:pageId(\\\\d+)/routing"
+          />
+          <Route
+            component={[Function]}
+            exact={true}
+            path="/questionnaire/:questionnaireId/:sectionId(\\\\d+)/:pageId(\\\\d+)/preview"
+          />
+          <Route
+            component={[Function]}
+            exact={true}
+            path="/questionnaire/:questionnaireId/:sectionId(\\\\d+)/:pageId(\\\\d+)/:confirmationId(\\\\d+)/design"
           />
           <Route
             path="*"

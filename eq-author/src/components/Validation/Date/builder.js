@@ -56,7 +56,7 @@ export const readToWriteMapper = outputKey => ({
 
 export default (displayName, testId, readKey, writeKey, fragment) => {
   const withEditing = flowRight(
-    withProps({ displayName, testId }),
+    withProps({ displayName, testId, readKey }),
     withAnswerValidation(readKey),
     withUpdateAnswerValidation,
     withToggleAnswerValidation,

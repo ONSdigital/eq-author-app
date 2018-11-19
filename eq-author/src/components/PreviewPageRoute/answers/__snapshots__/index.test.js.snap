@@ -1,0 +1,115 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Answers should render a component for each answer type except time: Checkbox 1`] = `
+<answers__AnswerWrapper>
+  <MultipleChoiceAnswer
+    answer={
+      Object {
+        "options": Array [],
+        "type": "Checkbox",
+      }
+    }
+  />
+</answers__AnswerWrapper>
+`;
+
+exports[`Answers should render a component for each answer type except time: Currency 1`] = `
+<answers__AnswerWrapper>
+  <CurrencyAnswer
+    answer={
+      Object {
+        "options": Array [],
+        "type": "Currency",
+      }
+    }
+  />
+</answers__AnswerWrapper>
+`;
+
+exports[`Answers should render a component for each answer type except time: Number 1`] = `
+<answers__AnswerWrapper>
+  <TextAnswer
+    answer={
+      Object {
+        "options": Array [],
+        "type": "Number",
+      }
+    }
+  />
+</answers__AnswerWrapper>
+`;
+
+exports[`Answers should render a component for each answer type except time: Radio 1`] = `
+<answers__AnswerWrapper>
+  <MultipleChoiceAnswer
+    answer={
+      Object {
+        "options": Array [],
+        "type": "Radio",
+      }
+    }
+  />
+</answers__AnswerWrapper>
+`;
+
+exports[`Answers should render a component for each answer type except time: TextArea 1`] = `
+<answers__AnswerWrapper>
+  <TextAreaAnswer
+    answer={
+      Object {
+        "options": Array [],
+        "type": "TextArea",
+      }
+    }
+  />
+</answers__AnswerWrapper>
+`;
+
+exports[`Answers should render a component for each answer type except time: TextField 1`] = `
+<answers__AnswerWrapper>
+  <TextAnswer
+    answer={
+      Object {
+        "options": Array [],
+        "type": "TextField",
+      }
+    }
+  />
+</answers__AnswerWrapper>
+`;
+
+exports[`Answers should render date answers 1`] = `
+<answers__AnswerWrapper>
+  <DateAnswer
+    answer={
+      Object {
+        "properties": Object {
+          "format": "dd/mm/yyyy",
+        },
+        "type": "Date",
+      }
+    }
+  />
+</answers__AnswerWrapper>
+`;
+
+exports[`Answers should render date range answers 1`] = `
+<answers__AnswerWrapper>
+  <DateRangeAnswer
+    answer={
+      Object {
+        "childAnswers": Array [
+          Object {
+            "properties": Object {},
+          },
+          Object {
+            "properties": Object {},
+          },
+        ],
+        "properties": Object {},
+        "type": "DateRange",
+      }
+    }
+  />
+</answers__AnswerWrapper>
+`;

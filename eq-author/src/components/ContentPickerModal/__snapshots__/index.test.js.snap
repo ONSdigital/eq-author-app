@@ -1,30 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ContentPickerModal should hide metadata tab correctly 1`] = `
-<ContentPickerModal__StyledModal
-  hasCloseButton={false}
->
-  <ContentPickerModal__Flex>
-    <BaseTabs
-      ContentWrapper={[Function]}
-      TabList={[Function]}
-      activeId="answers"
-      buttonRender={[Function]}
-      onChange={[Function]}
-      tabs={
-        Array [
-          Object {
-            "id": "answers",
-            "render": [Function],
-            "title": "Answer",
-          },
-        ]
-      }
-    />
-  </ContentPickerModal__Flex>
-</ContentPickerModal__StyledModal>
-`;
-
 exports[`ContentPickerModal should render 1`] = `
 <ContentPickerModal__StyledModal
   hasCloseButton={false}
@@ -55,6 +30,18 @@ exports[`ContentPickerModal should render 1`] = `
 </ContentPickerModal__StyledModal>
 `;
 
+exports[`ContentPickerModal should show an error message when answerData property is not provided 1`] = `
+<ContentPickerModal__ErrorText>
+  There are no previous answers to pick from
+</ContentPickerModal__ErrorText>
+`;
+
+exports[`ContentPickerModal should show an error message when metadataData property is not provided 1`] = `
+<ContentPickerModal__ErrorText>
+  There is no configured metadata to pick from
+</ContentPickerModal__ErrorText>
+`;
+
 exports[`ContentPickerModal should show an error message when there are no answers to pick from 1`] = `
 <ContentPickerModal__ErrorText>
   There are no previous answers to pick from
@@ -65,4 +52,84 @@ exports[`ContentPickerModal should show an error message when there is no metada
 <ContentPickerModal__ErrorText>
   There is no configured metadata to pick from
 </ContentPickerModal__ErrorText>
+`;
+
+exports[`ContentPickerModal should show answer and metadata tabs 1`] = `
+<ContentPickerModal__StyledModal
+  hasCloseButton={false}
+>
+  <ContentPickerModal__Flex>
+    <BaseTabs
+      ContentWrapper={[Function]}
+      TabList={[Function]}
+      activeId="answers"
+      buttonRender={[Function]}
+      onChange={[Function]}
+      tabs={
+        Array [
+          Object {
+            "id": "answers",
+            "render": [Function],
+            "title": "Answer",
+          },
+          Object {
+            "id": "metadata",
+            "render": [Function],
+            "title": "Metadata",
+          },
+        ]
+      }
+    />
+  </ContentPickerModal__Flex>
+</ContentPickerModal__StyledModal>
+`;
+
+exports[`ContentPickerModal should show answer tab only 1`] = `
+<ContentPickerModal__StyledModal
+  hasCloseButton={false}
+>
+  <ContentPickerModal__Flex>
+    <BaseTabs
+      ContentWrapper={[Function]}
+      TabList={[Function]}
+      activeId="answers"
+      buttonRender={[Function]}
+      onChange={[Function]}
+      tabs={
+        Array [
+          Object {
+            "id": "answers",
+            "render": [Function],
+            "title": "Answer",
+          },
+        ]
+      }
+    />
+  </ContentPickerModal__Flex>
+</ContentPickerModal__StyledModal>
+`;
+
+exports[`ContentPickerModal should show metadata only 1`] = `
+<ContentPickerModal__StyledModal
+  hasCloseButton={false}
+>
+  <ContentPickerModal__Flex>
+    <BaseTabs
+      ContentWrapper={[Function]}
+      TabList={[Function]}
+      activeId="answers"
+      buttonRender={[Function]}
+      onChange={[Function]}
+      tabs={
+        Array [
+          Object {
+            "id": "metadata",
+            "render": [Function],
+            "title": "Metadata",
+          },
+        ]
+      }
+    />
+  </ContentPickerModal__Flex>
+</ContentPickerModal__StyledModal>
 `;

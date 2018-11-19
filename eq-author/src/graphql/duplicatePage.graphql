@@ -13,6 +13,10 @@ mutation duplicatePage($input: DuplicatePageInput!) {
       section {
         id
       }
+      confirmation {
+        id
+        displayName
+      }
     }
   }
 }

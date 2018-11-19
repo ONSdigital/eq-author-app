@@ -12,6 +12,7 @@ describe("Date Validation", () => {
   beforeEach(() => {
     props = {
       answer: {
+        id: "1",
         properties: {
           format: "dd/mm/yyyy"
         }
@@ -30,8 +31,9 @@ describe("Date Validation", () => {
       onToggleValidationRule: jest.fn(),
       onChange: jest.fn(),
       onUpdate: jest.fn(),
-      testId: "example-test-id",
-      displayName: "Some date"
+      displayName: "Some date",
+      readKey: "earliestDate",
+      testId: "example-test-id"
     };
   });
 

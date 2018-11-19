@@ -18,6 +18,7 @@ export default {
           metadata: []
         }
       },
+      confirmation: null,
       __typename: "QuestionPage"
     }
   }

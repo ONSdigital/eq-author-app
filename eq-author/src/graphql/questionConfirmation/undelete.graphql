@@ -1,0 +1,10 @@
+mutation UpdateQuestionConfirmation($input: UndeleteQuestionConfirmationInput!) {
+  undeleteQuestionConfirmation(input: $input) {
+    page {
+      id
+      confirmation {
+        id
+      }
+    }
+  }
+}

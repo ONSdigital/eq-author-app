@@ -208,7 +208,7 @@ exports[`Option should render a checkbox 1`] = `
 }
 
 .c2 {
-  background: transparent url(placeholder.svg) no-repeat center center;
+  background: #E4E8EB;
   background-size: cover;
   height: 1.4em;
   width: 1.4em;
@@ -218,7 +218,6 @@ exports[`Option should render a checkbox 1`] = `
   -webkit-flex: 0 0 auto;
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
-  border: 3px solid #c3c3c3;
 }
 
 .c9 {

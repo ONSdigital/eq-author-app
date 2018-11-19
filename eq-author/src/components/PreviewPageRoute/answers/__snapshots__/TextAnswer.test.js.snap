@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TextAnswer should render 1`] = `
+<Field>
+  <Label
+    description="description"
+  >
+    label
+  </Label>
+  <Input
+    type="text"
+  />
+</Field>
+`;

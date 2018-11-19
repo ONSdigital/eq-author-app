@@ -7,13 +7,15 @@ import MetadataModal from "components/MetadataModal";
 describe("NavigationHeader", () => {
   let mockHandlers = {
     onAddPage: jest.fn(),
-    onAddSection: jest.fn()
+    onAddSection: jest.fn(),
+    onAddQuestionConfirmation: jest.fn()
   };
 
   const createWrapper = props =>
     shallow(
       <NavigationHeader
         questionnaire={{}}
+        canAddQuestionConfirmation
         onUpdateQuestionnaire={jest.fn()}
         {...mockHandlers}
         {...props}
@@ -65,5 +67,12 @@ describe("NavigationHeader", () => {
     wrapper.find('[data-test="add-menu"]').simulate("addSection");
 
     expect(mockHandlers.onAddSection).toHaveBeenCalled();
+  });
+
+  it("should allow a question confirmation to be added", () => {
+    const wrapper = createWrapper();
+    wrapper.find('[data-test="add-menu"]').simulate("addQuestionConfirmation");
+
+    expect(mockHandlers.onAddQuestionConfirmation).toHaveBeenCalled();
   });
 });

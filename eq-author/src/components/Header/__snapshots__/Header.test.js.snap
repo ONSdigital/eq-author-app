@@ -43,7 +43,7 @@ exports[`components/Header when there is a questionnaire should render a preview
     hideText={false}
     icon={[Function]}
   >
-    Preview
+    View survey
   </IconText>
 </LinkButton>
 `;

@@ -14,7 +14,8 @@ export default {
         id: "1",
         __typename: "Section"
       },
-      answers: []
+      answers: [],
+      confirmation: null
     }
   }
 };

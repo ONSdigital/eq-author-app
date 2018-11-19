@@ -1,0 +1,13 @@
+#import "../fragments/question-confirmation.graphql"
+
+mutation CreateQuestionConfirmation($input: CreateQuestionConfirmationInput!) {
+  createQuestionConfirmation(input: $input) {
+    ...QuestionConfirmation
+    page {
+      id
+      confirmation {
+        id
+      }
+    }
+  }
+}

@@ -1,0 +1,79 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PreviewPageRoute should render 1`] = `
+<EditorLayout
+  page={
+    Object {
+      "answers": Array [
+        Object {
+          "id": "1",
+          "type": "TextField",
+        },
+      ],
+      "description": "<p>Description</p>",
+      "displayName": "Question",
+      "guidance": "<p>Guidance</p>",
+      "id": "1",
+      "position": 1,
+      "section": Object {
+        "id": "1",
+        "questionnaire": Object {
+          "id": "1",
+          "metadata": Array [],
+        },
+      },
+      "title": "<p>Hello world</p>",
+    }
+  }
+>
+  <PreviewPageRoute__Container>
+    <PreviewPageRoute__PageTitle>
+      <div
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "Hello world",
+          }
+        }
+      />
+    </PreviewPageRoute__PageTitle>
+    <PreviewPageRoute__Description
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "<p>Description</p>",
+        }
+      }
+      data-test="description"
+    />
+    <PreviewPageRoute__Guidance
+      data-test="guidance"
+    >
+      <PreviewPageRoute__Panel
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "<p>Guidance</p>",
+          }
+        }
+      />
+    </PreviewPageRoute__Guidance>
+    <PreviewPageRoute__Answers>
+      <Answer
+        answer={
+          Object {
+            "id": "1",
+            "type": "TextField",
+          }
+        }
+        key="1"
+      />
+    </PreviewPageRoute__Answers>
+  </PreviewPageRoute__Container>
+</EditorLayout>
+`;
+
+exports[`PreviewPageRoute should render a loading message when loading 1`] = `
+<Loading
+  height="38rem"
+>
+  Preview loading…
+</Loading>
+`;
