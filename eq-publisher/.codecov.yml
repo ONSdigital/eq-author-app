@@ -7,3 +7,7 @@ coverage:
         base: auto
 
 comment: off
+
+ignore:
+  - ".travis.yml"
+  - "yarn.lock"
