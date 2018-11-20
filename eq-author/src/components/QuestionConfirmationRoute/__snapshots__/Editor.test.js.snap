@@ -14,6 +14,7 @@ exports[`Editor Editor Component should autoFocus the title when there is not on
     id="confirmation-title"
     label="Confirmation question"
     multiline={false}
+    name="title"
     onUpdate={[Function]}
     placeholder=""
     size="large"
@@ -65,6 +66,7 @@ exports[`Editor Editor Component should render 1`] = `
     id="confirmation-title"
     label="Confirmation question"
     multiline={false}
+    name="title"
     onUpdate={[Function]}
     placeholder=""
     size="large"
