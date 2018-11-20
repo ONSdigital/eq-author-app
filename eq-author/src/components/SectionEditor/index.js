@@ -133,7 +133,8 @@ export class UnwrappedSectionEditor extends React.Component {
         </Padding>
         <Padding>
           <RichTextEditor
-            id="title"
+            id="section-title"
+            name="title"
             label="Title"
             value={section.title}
             onUpdate={handleUpdate}

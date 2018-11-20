@@ -50,9 +50,10 @@ exports[`SectionEditor should render 1`] = `
           "emphasis": true,
         }
       }
-      id="title"
+      id="section-title"
       label="Title"
       multiline={false}
+      name="title"
       onUpdate={[Function]}
       placeholder=""
       size="large"
@@ -113,9 +114,10 @@ exports[`SectionEditor should render 2`] = `
           "emphasis": true,
         }
       }
-      id="title"
+      id="section-title"
       label="Title"
       multiline={false}
+      name="title"
       onUpdate={[Function]}
       placeholder=""
       size="large"

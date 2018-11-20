@@ -130,7 +130,7 @@ class RichTextEditor extends React.Component {
     onUpdate: PropTypes.func.isRequired,
     label: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
-    name: PropTypes.string,
+    name: PropTypes.string.isRequired,
     className: PropTypes.string,
     multiline: PropTypes.bool,
     size: PropTypes.oneOf(Object.keys(sizes)),
@@ -339,7 +339,7 @@ class RichTextEditor extends React.Component {
 
   handleBlur = () => {
     this.props.onUpdate({
-      name: this.props.name ? this.props.name : this.props.id,
+      name: this.props.name,
       value: this.getHTML()
     });
 

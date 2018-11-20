@@ -34,7 +34,8 @@ describe("components/RichTextEditor", function() {
     props = {
       onUpdate: jest.fn(),
       label: "I am a label",
-      id: "test"
+      id: "test",
+      name: "test-name"
     };
     editorInstance = {
       focus: jest.fn()
@@ -115,7 +116,7 @@ describe("components/RichTextEditor", function() {
   it("should call onUpdate with raw editor state onBlur", () => {
     wrapper.find("[data-test='rte-field']").simulate("blur");
     expect(props.onUpdate).toHaveBeenCalledWith({
-      name: "test",
+      name: "test-name",
       value: "<p></p>"
     });
   });

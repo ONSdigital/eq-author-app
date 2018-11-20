@@ -37,10 +37,11 @@ exports[`MetaEditor should render 1`] = `
       }
     }
     fetchAnswers={[Function]}
-    id="title"
+    id="question-title"
     label="Question"
     metadata={Array []}
     multiline={false}
+    name="title"
     onUpdate={[Function]}
     placeholder=""
     size="large"
@@ -57,10 +58,11 @@ exports[`MetaEditor should render 1`] = `
       }
     }
     fetchAnswers={[Function]}
-    id="description"
+    id="question-description"
     label="Question description (optional)…"
     metadata={Array []}
     multiline={true}
+    name="description"
     onUpdate={[Function]}
     placeholder=""
     testSelector="txt-question-description"
@@ -76,10 +78,11 @@ exports[`MetaEditor should render 1`] = `
       }
     }
     fetchAnswers={[Function]}
-    id="guidance"
+    id="question-guidance"
     label="Include and exclude guidance"
     metadata={Array []}
     multiline={true}
+    name="guidance"
     onUpdate={[Function]}
     testSelector="txt-question-guidance"
     value="Page guidance"

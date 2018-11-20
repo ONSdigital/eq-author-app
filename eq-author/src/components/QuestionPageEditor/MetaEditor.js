@@ -95,7 +95,8 @@ export class StatelessMetaEditor extends React.Component {
           </Alias>
         </Padding>
         <RichTextEditor
-          id="title"
+          id="question-title"
+          name="title"
           label="Question"
           value={page.title}
           onUpdate={handleUpdate}
@@ -107,7 +108,8 @@ export class StatelessMetaEditor extends React.Component {
         />
 
         <RichTextEditor
-          id="description"
+          id="question-description"
+          name="description"
           label="Question description (optional)…"
           value={page.description}
           onUpdate={handleUpdate}
@@ -119,7 +121,8 @@ export class StatelessMetaEditor extends React.Component {
         />
 
         <GuidanceEditor
-          id="guidance"
+          id="question-guidance"
+          name="guidance"
           label="Include and exclude guidance"
           value={page.guidance}
           onUpdate={handleUpdate}

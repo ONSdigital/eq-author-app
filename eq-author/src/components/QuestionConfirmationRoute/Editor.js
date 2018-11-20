@@ -48,6 +48,7 @@ export class UnwrappedEditor extends React.Component {
       <Wrapper>
         <RichTextEditor
           id="confirmation-title"
+          name="title"
           label="Confirmation question"
           value={title}
           onUpdate={this.handleRichTextUpdate}

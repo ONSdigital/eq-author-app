@@ -73,6 +73,7 @@ const props = {
   label: "Enter some text",
   placeholder: "Enter some text...",
   id: "richtext",
+  name: "richtext",
   sectionId: "1",
   client
 };
