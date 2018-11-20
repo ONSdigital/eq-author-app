@@ -11,8 +11,10 @@ exports[`NavigationSidebar should render 1`] = `
   data-test="side-nav"
 >
   <NavigationHeader
+    canAddQuestionConfirmation={true}
     data-test="nav-section-header"
     onAddPage={[MockFunction]}
+    onAddQuestionConfirmation={[MockFunction]}
     onAddSection={[Function]}
     onUpdateQuestionnaire={[MockFunction]}
     questionnaire={

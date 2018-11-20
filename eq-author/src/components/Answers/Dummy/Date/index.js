@@ -3,7 +3,7 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 
 import DummyTextInput from "components/Answers/Dummy/TextInput";
-import placeholder from "./placeholder.svg";
+import placeholder from "../placeholder.svg";
 
 const Field = styled.div`
   display: inline-block;

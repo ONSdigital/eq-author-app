@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PreviousAnswerContentPicker should render 1`] = `
+<UnwrappedContentPickerSelect
+  answerData={
+    Array [
+      Object {
+        "displayName": "Section (1)",
+        "id": "1",
+        "pages": Array [
+          Object {
+            "answers": Array [
+              Object {
+                "displayName": "Date 1",
+                "id": "6",
+              },
+              Object {
+                "displayName": "Date 2",
+                "id": "7",
+              },
+            ],
+            "displayName": "Page (1.1)",
+            "id": "1",
+          },
+        ],
+      },
+    ]
+  }
+  answerId="1"
+  contentTypes={
+    Array [
+      "Custom",
+    ]
+  }
+  name="previousAnswer"
+  onSubmit={[MockFunction]}
+  selectedContentDisplayName="foobar"
+/>
+`;

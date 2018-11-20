@@ -28,7 +28,8 @@ describe("MaxValue", () => {
       onUpdateAnswerValidation: onUpdateAnswerValidation,
       onToggleValidationRule: onToggleValidationRule,
       limit: 999999999,
-      answerType: NUMBER
+      answerType: NUMBER,
+      answerId: "1"
     };
 
     wrapper = createWrapper(props);

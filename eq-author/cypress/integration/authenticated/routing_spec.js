@@ -403,7 +403,7 @@ describe("Routing", () => {
     cy.contains("Question 1").click();
 
     cy.get(testId("tabs-nav"))
-      .contains("Builder")
+      .contains("Design")
       .click();
 
     cy.get(testId("btn-delete")).click();

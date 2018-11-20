@@ -36,6 +36,24 @@ describe("components/Tabs", () => {
     });
   });
 
+  it("should link to confirmation and disable routing when confirmation id is present", () => {
+    const params = {
+      questionnaireId: "123",
+      sectionId: "888",
+      pageId: "123",
+      confirmationId: "444"
+    };
+
+    wrapper.setProps({
+      match: {
+        ...match,
+        params
+      }
+    });
+
+    expect(wrapper).toMatchSnapshot();
+  });
+
   describe("when rendering Tabs", () => {
     it("should provide the activeClassName", () => {
       wrapper.find(Tab).forEach(node => {

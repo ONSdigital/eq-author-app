@@ -1,0 +1,159 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MultipleChoiceAnswer Option should render answer when it has one 1`] = `
+<MultipleChoiceAnswer__OptionItem
+  error={true}
+>
+  <MultipleChoiceAnswer__Input
+    error={true}
+    type="Checkbox"
+  />
+  <MultipleChoiceAnswer__OptionLabel>
+    Missing label
+  </MultipleChoiceAnswer__OptionLabel>
+  <MultipleChoiceAnswer__OtherField>
+    <MultipleChoiceAnswer__OtherLabel />
+    <MultipleChoiceAnswer__TextInput
+      type="text"
+    />
+  </MultipleChoiceAnswer__OtherField>
+</MultipleChoiceAnswer__OptionItem>
+`;
+
+exports[`MultipleChoiceAnswer Option should render checkbox options 1`] = `
+<MultipleChoiceAnswer__OptionItem
+  error={true}
+>
+  <MultipleChoiceAnswer__Input
+    error={true}
+    type="Checkbox"
+  />
+  <MultipleChoiceAnswer__OptionLabel>
+    Missing label
+  </MultipleChoiceAnswer__OptionLabel>
+</MultipleChoiceAnswer__OptionItem>
+`;
+
+exports[`MultipleChoiceAnswer Option should render label when it has one 1`] = `
+<MultipleChoiceAnswer__OptionItem
+  error={false}
+>
+  <MultipleChoiceAnswer__Input
+    error={false}
+    type="Checkbox"
+  />
+  <MultipleChoiceAnswer__OptionLabel>
+    Option label
+  </MultipleChoiceAnswer__OptionLabel>
+</MultipleChoiceAnswer__OptionItem>
+`;
+
+exports[`MultipleChoiceAnswer Option should render radio options 1`] = `
+<MultipleChoiceAnswer__OptionItem
+  error={true}
+>
+  <MultipleChoiceAnswer__Input
+    error={true}
+    type="Radio"
+  />
+  <MultipleChoiceAnswer__OptionLabel>
+    Missing label
+  </MultipleChoiceAnswer__OptionLabel>
+</MultipleChoiceAnswer__OptionItem>
+`;
+
+exports[`MultipleChoiceAnswer should render checkboxes 1`] = `
+<Field>
+  <MultipleChoiceAnswer__Legend>
+    Foo
+  </MultipleChoiceAnswer__Legend>
+  <MultipleChoiceAnswer__SelectAll>
+    Select all that apply:
+  </MultipleChoiceAnswer__SelectAll>
+  <Option
+    key="1"
+    option={
+      Object {
+        "id": "1",
+      }
+    }
+    type="Checkbox"
+  />
+</Field>
+`;
+
+exports[`MultipleChoiceAnswer should render mutually exclusive when it has one 1`] = `
+<Field>
+  <MultipleChoiceAnswer__Legend>
+    Foo
+  </MultipleChoiceAnswer__Legend>
+  <MultipleChoiceAnswer__SelectAll>
+    Select all that apply:
+  </MultipleChoiceAnswer__SelectAll>
+  <Option
+    key="1"
+    option={
+      Object {
+        "id": "1",
+      }
+    }
+    type="Checkbox"
+  />
+  <MultipleChoiceAnswer__MutuallyExclusiveOption>
+    <MultipleChoiceAnswer__MutuallyExclusiveOptionTitle>
+      Or
+    </MultipleChoiceAnswer__MutuallyExclusiveOptionTitle>
+    <Option
+      option={
+        Object {
+          "id": "3",
+        }
+      }
+      type="Checkbox"
+    />
+  </MultipleChoiceAnswer__MutuallyExclusiveOption>
+</Field>
+`;
+
+exports[`MultipleChoiceAnswer should render other when it has one 1`] = `
+<Field>
+  <MultipleChoiceAnswer__Legend>
+    Foo
+  </MultipleChoiceAnswer__Legend>
+  <Option
+    key="1"
+    option={
+      Object {
+        "id": "1",
+      }
+    }
+    type="Radio"
+  />
+  <Option
+    answer={Object {}}
+    option={
+      Object {
+        "id": "2",
+      }
+    }
+    type="Radio"
+  />
+</Field>
+`;
+
+exports[`MultipleChoiceAnswer should render radio 1`] = `
+<Field>
+  <MultipleChoiceAnswer__Legend>
+    Foo
+  </MultipleChoiceAnswer__Legend>
+  <Option
+    key="1"
+    option={
+      Object {
+        "id": "1",
+      }
+    }
+    type="Radio"
+  />
+</Field>
+`;

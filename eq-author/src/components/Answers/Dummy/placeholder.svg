@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="22px" height="22px" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-	<g id="placeholder" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-		<rect id="Field-box-Copy" fill="#E4E8EB" x="0" y="0" width="22" height="22">
+	<g id="placeholder" stroke="none" fill="none" fill-rule="evenodd">
+		<rect id="Field-box-Copy" fill="#5F7682" x="0" y="0" width="22" height="22">
 		</rect>
-		<path d="M0,0.0796897832 L21.9203102,22" id="Line" stroke="#D9DCDF" stroke-linecap="square" transform="translate(10.960155, 11.039845) scale(1, -1) translate(-10.960155, -11.039845) ">
+		<path vector-effect="non-scaling-stroke" d="M0,0.0796897832 L21.9203102,22" id="Line" stroke="#D9DCDF" stroke-linecap="square" transform="translate(10.960155, 11.039845) scale(1, -1) translate(-10.960155, -11.039845) ">
 		</path>
-		<path d="M0.0796897832,0.0796897832 L22,22" id="Line" stroke="#D9DCDF" stroke-linecap="square" transform="translate(11.039845, 11.039845) scale(-1, -1) translate(-11.039845, -11.039845) ">
+		<path vector-effect="non-scaling-stroke" d="M0.0796897832,0.0796897832 L22,22" id="Line" stroke="#D9DCDF" stroke-linecap="square" transform="translate(11.039845, 11.039845) scale(-1, -1) translate(-11.039845, -11.039845) ">
 		</path>
 	</g>
 </svg>

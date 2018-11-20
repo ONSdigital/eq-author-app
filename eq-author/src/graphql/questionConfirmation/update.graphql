@@ -1,0 +1,7 @@
+#import "../fragments/question-confirmation.graphql"
+
+mutation UpdateQuestionConfirmation($input: UpdateQuestionConfirmationInput!) {
+  updateQuestionConfirmation(input: $input) {
+    ...QuestionConfirmation
+  }
+}

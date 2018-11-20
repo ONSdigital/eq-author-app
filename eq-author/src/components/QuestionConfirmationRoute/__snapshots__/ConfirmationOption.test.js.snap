@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ConfirmationOption should render 1`] = `
+<Option__StyledOption
+  duration={200}
+>
+  <div>
+    <Option__Flex>
+      <MultipleChoice
+        type="Radio"
+      />
+      <Option__OptionField>
+        <Label
+          bold={true}
+          htmlFor="option-label-option"
+        >
+          Option label
+        </Label>
+        <withChangeHandler(WrappingInput)
+          bold={true}
+          data-test="option-option-label"
+          id="option-label-option"
+          name="option.label"
+          onBlur={[MockFunction]}
+          onChange={[MockFunction]}
+          placeholder="Label"
+          value="label"
+        />
+      </Option__OptionField>
+    </Option__Flex>
+    <Option__OptionField>
+      <Label
+        bold={true}
+        htmlFor="option-description-option"
+      >
+        Description (optional)
+      </Label>
+      <withChangeHandler(WrappingInput)
+        data-test="option-option-description"
+        id="option-description-option"
+        name="option.description"
+        onBlur={[MockFunction]}
+        onChange={[MockFunction]}
+        value="description"
+      />
+    </Option__OptionField>
+  </div>
+</Option__StyledOption>
+`;

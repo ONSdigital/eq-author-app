@@ -34,8 +34,10 @@ export class UnwrappedNavigationSidebar extends Component {
     questionnaire: CustomPropTypes.questionnaire,
     onAddPage: PropTypes.func.isRequired,
     onAddSection: PropTypes.func.isRequired,
+    onAddQuestionConfirmation: PropTypes.func.isRequired,
     onUpdateQuestionnaire: PropTypes.func.isRequired,
-    loading: PropTypes.bool.isRequired
+    loading: PropTypes.bool.isRequired,
+    canAddQuestionConfirmation: PropTypes.bool.isRequired
   };
 
   handleAddSection = () => {
@@ -47,6 +49,8 @@ export class UnwrappedNavigationSidebar extends Component {
       questionnaire,
       onUpdateQuestionnaire,
       onAddPage,
+      onAddQuestionConfirmation,
+      canAddQuestionConfirmation,
       loading
     } = this.props;
 
@@ -59,6 +63,8 @@ export class UnwrappedNavigationSidebar extends Component {
               onUpdateQuestionnaire={onUpdateQuestionnaire}
               onAddSection={this.handleAddSection}
               onAddPage={onAddPage}
+              onAddQuestionConfirmation={onAddQuestionConfirmation}
+              canAddQuestionConfirmation={canAddQuestionConfirmation}
               data-test="nav-section-header"
             />
             <NavigationScrollPane>

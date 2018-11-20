@@ -1,0 +1,21 @@
+fragment QuestionConfirmation on QuestionConfirmation {
+  id
+  title
+  displayName
+  positive {
+    label
+    description
+  }
+  negative {
+    label
+    description
+  }
+  page {
+    id
+    displayName
+    answers {
+      id
+      type
+    }
+  }
+}

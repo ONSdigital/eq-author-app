@@ -1,0 +1,12 @@
+fragment AvailableAnswers on Answer {
+  id
+  displayName
+  page {
+    id
+    displayName
+    section {
+      id
+      displayName
+    }
+  }
+}

@@ -7,4 +7,3 @@ export const NUMBER = "Number";
 export const TIME = "Time";
 export const DATE = "Date";
 export const DATE_RANGE = "DateRange";
-export const SELECT = "Select";

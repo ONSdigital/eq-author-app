@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PageConfirmationNavItem should render 1`] = `
+<Fragment>
+  <PageConfirmationNavItem__StyledPageItem
+    data-test="question-confirmation-item"
+  >
+    <PageConfirmationNavItem__StyledNavLink
+      data-test="question-confirmation-link"
+      icon={[Function]}
+      to="/questionnaire/1/2/3/4/design"
+    >
+      Confirmation display name
+    </PageConfirmationNavItem__StyledNavLink>
+  </PageConfirmationNavItem__StyledPageItem>
+</Fragment>
+`;

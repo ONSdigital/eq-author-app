@@ -4,7 +4,11 @@ import { UnwrappedNavigationSidebar as NavigationSidebar } from "components/Navi
 import { SynchronousPromise } from "synchronous-promise";
 
 describe("NavigationSidebar", () => {
-  let wrapper, handleAddSection, handleAddPage, handleUpdateQuestionnaire;
+  let wrapper,
+    handleAddSection,
+    handleAddPage,
+    handleUpdateQuestionnaire,
+    handleAddQuestionConfirmation;
 
   const page = { id: "2", title: "Page", position: 0 };
   const section = { id: "3", title: "Section", pages: [page] };
@@ -18,6 +22,7 @@ describe("NavigationSidebar", () => {
     handleAddSection = jest.fn(() => SynchronousPromise.resolve(questionnaire));
     handleAddPage = jest.fn(() => SynchronousPromise.resolve({ section }));
     handleUpdateQuestionnaire = jest.fn();
+    handleAddQuestionConfirmation = jest.fn();
 
     wrapper = shallow(
       <NavigationSidebar
@@ -25,7 +30,9 @@ describe("NavigationSidebar", () => {
         onAddPage={handleAddPage}
         onAddSection={handleAddSection}
         onUpdateQuestionnaire={handleUpdateQuestionnaire}
+        onAddQuestionConfirmation={handleAddQuestionConfirmation}
         loading={false}
+        canAddQuestionConfirmation
       />
     );
   });

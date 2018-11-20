@@ -1,9 +1,12 @@
-import { shallow } from "enzyme";
 import React from "react";
+import { shallow } from "enzyme";
 import { omit } from "lodash";
 
 import BaseTabs from "components/BaseTabs";
-import ContentPickerModal, { StyledCloseButton } from "./";
+import ContentPickerModal, {
+  StyledCloseButton
+} from "components/ContentPickerModal";
+import { ANSWER, METADATA } from "components/ContentPickerSelect/content-types";
 import {
   AnswerContentPicker,
   MetadataContentPicker
@@ -14,10 +17,11 @@ describe("ContentPickerModal", () => {
 
   beforeEach(() => {
     props = {
-      metadataData: [{ id: "1", alias: "Some metadata" }],
+      metadataData: [{ id: "1", displayName: "Some metadata" }],
       answerData: [{ id: "1", displayName: "Some section" }],
       onSubmit: jest.fn(),
-      onClose: jest.fn()
+      onClose: jest.fn(),
+      contentTypes: [ANSWER, METADATA]
     };
   });
 
@@ -69,6 +73,16 @@ describe("ContentPickerModal", () => {
     expect(metadataTabWrapper).toMatchSnapshot();
   });
 
+  it("should show an error message when answerData property is not provided", () => {
+    const wrapper = shallow(
+      <ContentPickerModal {...omit(props, "answerData")} />
+    );
+    const tabs = wrapper.find(BaseTabs).prop("tabs");
+    const MetadataTab = tabs[0].render;
+    const metadataTabWrapper = shallow(<MetadataTab />);
+    expect(metadataTabWrapper).toMatchSnapshot();
+  });
+
   it("should submit with a metadata when the user picks a metadata", () => {
     const wrapper = shallow(<ContentPickerModal {...props} />);
     const tabs = wrapper.find(BaseTabs).prop("tabs");
@@ -94,9 +108,33 @@ describe("ContentPickerModal", () => {
     expect(metadataTabWrapper).toMatchSnapshot();
   });
 
-  it("should hide metadata tab correctly", () => {
+  it("should show an error message when metadataData property is not provided", () => {
     const wrapper = shallow(
       <ContentPickerModal {...omit(props, "metadataData")} />
+    );
+    const tabs = wrapper.find(BaseTabs).prop("tabs");
+    const MetadataTab = tabs[1].render;
+    const metadataTabWrapper = shallow(<MetadataTab />);
+    expect(metadataTabWrapper).toMatchSnapshot();
+  });
+
+  it("should show answer and metadata tabs", () => {
+    const wrapper = shallow(
+      <ContentPickerModal {...props} contentTypes={[ANSWER, METADATA]} />
+    );
+    expect(wrapper).toMatchSnapshot();
+  });
+
+  it("should show answer tab only", () => {
+    const wrapper = shallow(
+      <ContentPickerModal {...props} contentTypes={[ANSWER]} />
+    );
+    expect(wrapper).toMatchSnapshot();
+  });
+
+  it("should show metadata only", () => {
+    const wrapper = shallow(
+      <ContentPickerModal {...props} contentTypes={[METADATA]} />
     );
     expect(wrapper).toMatchSnapshot();
   });

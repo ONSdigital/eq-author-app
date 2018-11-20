@@ -9,7 +9,7 @@ exports[`AddMenu should render 1`] = `
     horizontalAlignment="left"
     layer={[Function]}
     offsetX="4.9em"
-    offsetY="-1.6em"
+    offsetY="-2.8em"
     onToggleOpen={[MockFunction]}
     open={false}
     transition={[Function]}
@@ -35,7 +35,15 @@ exports[`AddMenu should render 1`] = `
         onClick={[MockFunction]}
         primary={true}
       >
-        Question Page
+        Question page
+      </AddMenu__AddMenuButton>
+      <AddMenu__AddMenuButton
+        data-test="btn-add-question-confirmation"
+        disabled={false}
+        onClick={[MockFunction]}
+        primary={true}
+      >
+        Confirmation question
       </AddMenu__AddMenuButton>
       <AddMenu__AddMenuButton
         data-test="btn-add-section"

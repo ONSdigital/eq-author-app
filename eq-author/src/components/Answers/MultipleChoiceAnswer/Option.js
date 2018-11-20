@@ -22,12 +22,12 @@ export const DeleteContainer = styled.div`
   right: 0;
 `;
 
-const Flex = styled.div`
+export const Flex = styled.div`
   display: flex;
   align-items: flex-start;
 `;
 
-const OptionField = styled(Field)`
+export const OptionField = styled(Field)`
   margin-bottom: 1em;
 `;
 
@@ -60,7 +60,8 @@ export class StatelessOption extends Component {
     children: PropTypes.node,
     labelPlaceholder: PropTypes.string,
     descriptionPlaceholder: PropTypes.string,
-    autoFocus: PropTypes.bool
+    autoFocus: PropTypes.bool,
+    label: PropTypes.string
   };
 
   static defaultProps = {
@@ -104,6 +105,7 @@ export class StatelessOption extends Component {
       labelPlaceholder,
       descriptionPlaceholder,
       autoFocus,
+      label,
       ...otherProps
     } = this.props;
 
@@ -113,7 +115,9 @@ export class StatelessOption extends Component {
           <Flex>
             <DummyMultipleChoice type={type} />
             <OptionField>
-              <Label htmlFor={`option-label-${option.id}`}>Label</Label>
+              <Label htmlFor={`option-label-${option.id}`}>
+                {label || "Label"}
+              </Label>
               <WrappingInput
                 id={`option-label-${option.id}`}
                 name="label"

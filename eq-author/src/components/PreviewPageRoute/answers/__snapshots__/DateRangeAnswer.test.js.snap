@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DateRangeAnswer should render 1`] = `
+<div>
+  <DateAnswer
+    answer={
+      Object {
+        "label": "from",
+        "properties": Object {
+          "format": "dd/mm/yyyy",
+        },
+      }
+    }
+  />
+  <DateAnswer
+    answer={
+      Object {
+        "label": "to",
+        "properties": Object {
+          "format": "dd/mm/yyyy",
+        },
+      }
+    }
+  />
+</div>
+`;

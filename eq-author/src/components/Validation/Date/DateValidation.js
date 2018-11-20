@@ -5,9 +5,9 @@ import { get } from "lodash";
 
 import { Input, Number, Select } from "components/Forms";
 import { Grid, Column } from "components/Grid";
-import ContentPickerSelect from "components/ContentPickerSelect";
-import { ANSWER, METADATA } from "components/ContentPickerSelect/content-types";
 
+import PreviousAnswerContentPicker from "components/Validation/PreviousAnswerContentPicker";
+import MetadataContentPicker from "components/Validation/MetadataContentPicker";
 import DisabledMessage from "components/Validation/DisabledMessage";
 import { ValidationPills } from "components/Validation/ValidationPills";
 import ValidationView from "components/Validation/ValidationView";
@@ -15,7 +15,6 @@ import Path from "components/Validation/path.svg?inline";
 import PathEnd from "components/Validation/path-end.svg?inline";
 
 import * as entityTypes from "constants/validation-entity-types";
-import { DATE } from "constants/metadata-types";
 
 const UNITS = ["Days", "Months", "Years"];
 const RELATIVE_POSITIONS = ["Before", "After"];
@@ -68,26 +67,24 @@ const getUnits = format => {
 };
 
 class DateValidation extends React.Component {
-  Metadata = () => (
-    <ContentPickerSelect
-      name="metadata"
-      onSubmit={this.handleUpdate}
-      contentTypes={[METADATA]}
-      metadataTypes={[DATE]}
-      selectedContentDisplayName={get(this.props.date.metadata, "displayName")}
-    />
-  );
-
   PreviousAnswer = () => (
-    <ContentPickerSelect
-      name="previousAnswer"
+    <PreviousAnswerContentPicker
+      answerId={this.props.answer.id}
       onSubmit={this.handleUpdate}
-      answerTypes={[DATE]}
-      contentTypes={[ANSWER]}
       selectedContentDisplayName={get(
         this.props.date.previousAnswer,
         "displayName"
       )}
+      path={`answer.validation.${this.props.readKey}.availablePreviousAnswers`}
+    />
+  );
+
+  Metadata = () => (
+    <MetadataContentPicker
+      answerId={this.props.answer.id}
+      onSubmit={this.handleUpdate}
+      selectedContentDisplayName={get(this.props.date.metadata, "displayName")}
+      path={`answer.validation.${this.props.readKey}.availableMetadata`}
     />
   );
 
@@ -258,6 +255,7 @@ DateValidation.propTypes = {
     entityType: PropTypes.oneOf(Object.values(entityTypes)).isRequired
   }).isRequired,
   answer: PropTypes.shape({
+    id: PropTypes.string.required,
     properties: PropTypes.shape({
       format: PropTypes.string.isRequired
     }).isRequired
@@ -266,6 +264,7 @@ DateValidation.propTypes = {
   onChange: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
   displayName: PropTypes.string.isRequired,
+  readKey: PropTypes.string.isRequired,
   testId: PropTypes.string.isRequired
 };
 

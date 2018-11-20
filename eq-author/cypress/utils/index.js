@@ -75,7 +75,7 @@ export const addQuestionPage = (title = "hello world") => {
         .contains("Add")
         .click()
         .get("button")
-        .contains("Question Page")
+        .contains("Question page")
         .click();
     });
 

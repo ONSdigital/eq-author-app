@@ -53,6 +53,8 @@ const AddMenu = ({
   onAddMenuToggle,
   onAddPage,
   onAddSection,
+  onAddQuestionConfirmation,
+  canAddQuestionConfirmation,
   ...otherProps
 }) => {
   const addBtn = (
@@ -69,7 +71,7 @@ const AddMenu = ({
         horizontalAlignment="left"
         verticalAlignment="top"
         offsetX="4.9em"
-        offsetY="-1.6em"
+        offsetY="-2.8em"
         transition={PopupTransition}
       >
         <AddMenuWindow data-test="addmenu-window">
@@ -78,7 +80,15 @@ const AddMenu = ({
             onClick={onAddPage}
             data-test="btn-add-question-page"
           >
-            Question Page
+            Question page
+          </AddMenuButton>
+          <AddMenuButton
+            primary
+            data-test="btn-add-question-confirmation"
+            onClick={onAddQuestionConfirmation}
+            disabled={!canAddQuestionConfirmation}
+          >
+            Confirmation question
           </AddMenuButton>
           <AddMenuButton
             primary
@@ -97,6 +107,8 @@ AddMenu.propTypes = {
   onAddMenuToggle: PropTypes.func.isRequired,
   onAddPage: PropTypes.func.isRequired,
   onAddSection: PropTypes.func.isRequired,
+  onAddQuestionConfirmation: PropTypes.func.isRequired,
+  canAddQuestionConfirmation: PropTypes.bool.isRequired,
   addMenuOpen: PropTypes.bool.isRequired
 };
 

@@ -1,6 +1,5 @@
 import React from "react";
 import { shallow } from "enzyme";
-
 import {
   UnwrappedContentPickerSelect,
   ContentSelectButton
@@ -80,32 +79,31 @@ describe("ContentPickerSelect", () => {
 
   describe("metadata types", () => {
     let data;
-    beforeEach(() => {
-      data = {
-        questionnaire: {
-          id: "1",
-          metadata: [
-            {
-              id: "1",
-              type: DATE
-            },
-            {
-              id: "2",
-              type: TEXT
-            },
-            {
-              id: "3",
-              type: LANGUAGE
-            },
-            {
-              id: "4",
-              type: REGION
-            }
-          ],
-          sections: []
-        }
-      };
-    });
+    data = {
+      questionnaire: {
+        id: "1",
+        metadata: [
+          {
+            id: "1",
+            type: DATE
+          },
+          {
+            id: "2",
+            type: TEXT
+          },
+          {
+            id: "3",
+            type: LANGUAGE
+          },
+          {
+            id: "4",
+            type: REGION
+          }
+        ],
+        sections: []
+      }
+    };
+    beforeEach(() => {});
 
     it("should correctly filter by type", () => {
       wrapper = render({

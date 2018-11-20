@@ -1,29 +1,37 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
-import BaseLayout from "components/BaseLayout";
-import { Grid, Column } from "components/Grid";
-import NavigationSidebar from "components/NavigationSidebar";
-import { Switch } from "react-router-dom";
-import { Route, Redirect } from "react-router";
-import QuestionPageRoute from "components/QuestionPageRoute";
-import SectionRoute from "components/SectionRoute";
-import { find, flatMap, flowRight } from "lodash";
-import { Titled } from "react-titled";
-import { Routes, buildSectionPath } from "utils/UrlUtils";
-import Loading from "components/Loading";
-import RoutingPageRoute from "components/routing/QuestionnaireRoutingPage";
 import gql from "graphql-tag";
 import { Query } from "react-apollo";
 import { connect } from "react-redux";
+import { Switch } from "react-router-dom";
+import { Titled } from "react-titled";
+import { Route, Redirect } from "react-router";
+import { find, flatMap, flowRight } from "lodash";
 
-import { raiseToast } from "redux/toast/actions";
+import BaseLayout from "components/BaseLayout";
+import { Grid, Column } from "components/Grid";
+import NavigationSidebar from "components/NavigationSidebar";
+import QuestionPageRoute from "components/QuestionPageRoute";
+import PreviewPageRoute from "components/PreviewPageRoute";
+import SectionRoute from "components/SectionRoute";
+import { Routes, buildSectionPath } from "utils/UrlUtils";
+import Loading from "components/Loading";
+import RoutingPageRoute from "components/routing/QuestionnaireRoutingPage";
+import QuestionConfirmationRoute from "components/QuestionConfirmationRoute";
+
 import withCreatePage from "containers/enhancers/withCreatePage";
 import withCreateSection from "containers/enhancers/withCreateSection";
+import withCreateQuestionConfirmation from "containers/enhancers/questionConfirmation/withCreateQuestionConfirmation.js";
+
+import { raiseToast } from "redux/toast/actions";
+
+const isAnId = possibleId => /\d+/.test(possibleId);
 
 export class UnwrappedQuestionnaireDesignPage extends Component {
   static propTypes = {
     onAddPage: PropTypes.func.isRequired,
+    onCreateQuestionConfirmation: PropTypes.func.isRequired,
     loading: PropTypes.bool.isRequired,
     match: CustomPropTypes.match,
     data: PropTypes.shape({
@@ -32,10 +40,7 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
     location: PropTypes.object // eslint-disable-line
   };
 
-  state = {
-    showDeleteConfirmDialog: false,
-    showMovePageDialog: false
-  };
+  state = { showDeleteConfirmDialog: false, showMovePageDialog: false };
 
   handleAddPage = () => {
     const {
@@ -85,6 +90,41 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
     );
   };
 
+  canAddQuestionConfirmation() {
+    const {
+      data: { questionnaire },
+      match: {
+        params: { sectionId, pageId, confirmationId }
+      },
+      loading
+    } = this.props;
+
+    if (loading || !questionnaire) {
+      return false;
+    }
+
+    const isOnPage = sectionId && isAnId(pageId) && !isAnId(confirmationId);
+    if (!isOnPage) {
+      return false;
+    }
+
+    const pages = flatMap(questionnaire.sections, "pages");
+    const page = find(pages, { id: pageId });
+    if (!page || page.confirmation) {
+      return false;
+    }
+    return true;
+  }
+
+  handleAddQuestionConfirmation = () => {
+    const {
+      match: {
+        params: { pageId }
+      }
+    } = this.props;
+    this.props.onCreateQuestionConfirmation(pageId);
+  };
+
   render() {
     const {
       loading,
@@ -102,6 +142,8 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
                 loading={loading}
                 onAddPage={this.handleAddPage}
                 questionnaire={questionnaire}
+                canAddQuestionConfirmation={this.canAddQuestionConfirmation()}
+                onAddQuestionConfirmation={this.handleAddQuestionConfirmation}
               />
             </Column>
             <Column>
@@ -111,6 +153,16 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
                 <Route
                   path={Routes.ROUTING}
                   component={RoutingPageRoute}
+                  exact
+                />
+                <Route
+                  path={Routes.PREVIEW}
+                  component={PreviewPageRoute}
+                  exact
+                />
+                <Route
+                  path={Routes.CONFIRMATION}
+                  component={QuestionConfirmationRoute}
                   exact
                 />
                 <Route path="*" render={this.renderRedirect} />
@@ -129,7 +181,8 @@ const withMutations = flowRight(
     { raiseToast }
   ),
   withCreateSection,
-  withCreatePage
+  withCreatePage,
+  withCreateQuestionConfirmation
 );
 
 const QUESTIONNAIRE_QUERY = gql`

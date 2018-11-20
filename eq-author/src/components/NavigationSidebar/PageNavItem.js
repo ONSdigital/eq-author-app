@@ -1,12 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { buildQuestionnairePath } from "utils/UrlUtils";
-import NavLink from "./NavLink";
-import PageIcon from "./icon-questionpage.svg?inline";
 import { withRouter } from "react-router-dom";
 import CustomPropTypes from "custom-prop-types";
 import gql from "graphql-tag";
+
+import { buildQuestionnairePath } from "utils/UrlUtils";
+import NavLink from "./NavLink";
+import PageIcon from "./icon-questionpage.svg?inline";
 
 const StyledPageItem = styled.li`
   padding: 0;
@@ -29,7 +30,7 @@ export const UnwrappedPageNavItem = ({
         questionnaireId,
         sectionId,
         pageId: page.id,
-        tab: match.params.tab || "design"
+        tab: match.params.tab
       })}
       title={page.displayName}
       icon={PageIcon}
@@ -47,6 +48,9 @@ UnwrappedPageNavItem.fragments = {
       title
       position
       displayName
+      confirmation {
+        id
+      }
     }
   `
 };

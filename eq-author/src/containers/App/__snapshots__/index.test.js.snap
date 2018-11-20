@@ -47,7 +47,7 @@ exports[`containers/App Routes should render  1`] = `
       component={[Function]}
       exact={false}
       isSignedIn={true}
-      path="/questionnaire/:questionnaireId/:sectionId?/:pageId?/:tab?"
+      path="/questionnaire/:questionnaireId/:sectionId(\\\\d+)?/:pageId(\\\\d+)?/:confirmationId(\\\\d+)?/:tab?"
     />
     <Route
       component={[Function]}

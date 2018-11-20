@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`QuestionConfirmationRoute should render 1`] = `
+<EditorLayout>
+  <EditorToolbar__Toolbar>
+    <EditorToolbar__Buttons>
+      <IconButtonDelete
+        data-test="btn-delete"
+        hideText={false}
+        onClick={[Function]}
+      >
+        Delete
+      </IconButtonDelete>
+    </EditorToolbar__Buttons>
+  </EditorToolbar__Toolbar>
+  <Connect(withEntityEditor(UnwrappedEditor))
+    confirmation={
+      Object {
+        "displayName": "My first displayname",
+        "id": "1",
+        "negative": Object {
+          "description": "Negative description",
+          "label": "Negative label",
+        },
+        "page": Object {
+          "answers": Array [],
+          "displayName": "My question",
+          "id": "1",
+        },
+        "positive": Object {
+          "description": "Positive description",
+          "label": "Positive label",
+        },
+        "title": "My first confirmation",
+      }
+    }
+    data-test="editor"
+    onUpdate={[MockFunction]}
+  />
+</EditorLayout>
+`;
+
+exports[`QuestionConfirmationRoute should show error info when there is an error 1`] = `
+<EditorLayout>
+  <Error>
+    Oh no! Something went wrong
+  </Error>
+</EditorLayout>
+`;
+
+exports[`QuestionConfirmationRoute should show loading info when loading 1`] = `
+<EditorLayout>
+  <Loading
+    height="100%"
+  >
+    Confirmation is loading
+  </Loading>
+</EditorLayout>
+`;

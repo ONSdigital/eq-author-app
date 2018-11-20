@@ -1,18 +1,15 @@
-import { ANSWER } from "components/ContentPickerSelect/content-types";
 import React from "react";
 import PropTypes from "prop-types";
-
 import styled from "styled-components";
 import { withApollo } from "react-apollo";
 import { propType } from "graphql-anywhere";
-
 import { flowRight, get, inRange, isNaN } from "lodash";
 
-import ContentPickerSelect from "components/ContentPickerSelect";
-import { Grid, Column } from "components/Grid";
-import { Field, Label } from "components/Forms";
-import ToggleSwitch from "components/ToggleSwitch";
+import { Field, Label } from "components/Forms/index";
+import { Grid, Column } from "components/Grid/index";
+import ToggleSwitch from "components/ToggleSwitch/index";
 
+import PreviousAnswerContentPicker from "components/Validation/PreviousAnswerContentPicker";
 import DisabledMessage from "components/Validation/DisabledMessage";
 import { ValidationPills } from "components/Validation/ValidationPills";
 import ValidationTitle from "components/Validation/ValidationTitle";
@@ -41,15 +38,14 @@ const Connector = styled(PathEnd)`
 
 export class MaxValue extends React.Component {
   PreviousAnswer = () => (
-    <ContentPickerSelect
-      name="previousAnswer"
+    <PreviousAnswerContentPicker
+      answerId={this.props.answerId}
       onSubmit={this.handlePreviousAnswerChange}
-      answerTypes={[this.props.answerType]}
-      contentTypes={[ANSWER]}
       selectedContentDisplayName={get(
         this.props.maxValue.previousAnswer,
         "displayName"
       )}
+      path="answer.validation.maxValue.availablePreviousAnswers"
     />
   );
 
@@ -73,7 +69,6 @@ export class MaxValue extends React.Component {
         previousAnswer: id
       }
     };
-
     this.props.onUpdateAnswerValidation(updateValidationRuleInput);
   };
 
@@ -187,6 +182,7 @@ MaxValue.defaultProps = {
 };
 
 MaxValue.propTypes = {
+  answerId: PropTypes.string.isRequired,
   maxValue: propType(MaxValueValidationRule).isRequired,
   answerType: PropTypes.oneOf(Object.values(answerTypes)).isRequired,
   onUpdateAnswerValidation: PropTypes.func.isRequired,
@@ -204,6 +200,7 @@ export const MaxValueWithAnswer = props => (
   <ValidationContext.Consumer>
     {({ answer }) => (
       <MaxValue
+        answerId={answer.id}
         maxValue={answer.validation.maxValue}
         answerType={answer.type}
         {...props}

@@ -1,6 +1,7 @@
 import React from "react";
-import { UnwrappedQuestionnaireDesignPage as QuestionnaireDesignPage } from "components/QuestionnaireDesignPage";
 import { shallow } from "enzyme";
+
+import { UnwrappedQuestionnaireDesignPage as QuestionnaireDesignPage } from "components/QuestionnaireDesignPage";
 
 describe("QuestionnaireDesignPage", () => {
   let mockHandlers;
@@ -41,7 +42,8 @@ describe("QuestionnaireDesignPage", () => {
       onAddPage: jest.fn(),
       onUpdatePage: jest.fn(),
       onDeletePage: jest.fn(),
-      onDeleteSection: jest.fn()
+      onDeleteSection: jest.fn(),
+      onCreateQuestionConfirmation: jest.fn()
     };
 
     match = {
@@ -51,10 +53,6 @@ describe("QuestionnaireDesignPage", () => {
         pageId: page.id
       }
     };
-
-    const modalRoot = global.document.createElement("div");
-    modalRoot.setAttribute("id", "toast");
-    global.document.body.appendChild(modalRoot);
 
     wrapper = shallow(
       <QuestionnaireDesignPage
@@ -117,6 +115,50 @@ describe("QuestionnaireDesignPage", () => {
 
     it("should display questionnaire title if no longer loading", () => {
       expect(wrapper.instance().getTitle("foo")).toMatchSnapshot();
+    });
+  });
+
+  describe("Adding question confirmation", () => {
+    it("should call create a question confirmation when addQuestionPage is called", () => {
+      wrapper
+        .find(`[data-test="side-nav"]`)
+        .simulate("addQuestionConfirmation");
+      expect(mockHandlers.onCreateQuestionConfirmation).toHaveBeenCalledWith(
+        "1"
+      );
+    });
+
+    it("should disable adding question page when the page already has one", () => {
+      questionnaire.sections[0].pages[0].confirmation = {
+        id: 1
+      };
+      wrapper.setProps({ data: { questionnaire } });
+      expect(wrapper.find(`[data-test="side-nav"]`).props()).toMatchObject({
+        canAddQuestionConfirmation: false
+      });
+    });
+
+    it("should disable adding question confirmation when not on a question page", () => {
+      match.params.pageId = undefined;
+      wrapper.setProps({ match });
+      expect(wrapper.find(`[data-test="side-nav"]`).props()).toMatchObject({
+        canAddQuestionConfirmation: false
+      });
+    });
+
+    it("should disable adding question confirmation when the page cannot be found", () => {
+      match.params.pageId = "hello";
+      wrapper.setProps({ match });
+      expect(wrapper.find(`[data-test="side-nav"]`).props()).toMatchObject({
+        canAddQuestionConfirmation: false
+      });
+    });
+
+    it("should disable adding question confirmation whilst loading", () => {
+      wrapper.setProps({ data: {} });
+      expect(wrapper.find(`[data-test="side-nav"]`).props()).toMatchObject({
+        canAddQuestionConfirmation: false
+      });
     });
   });
 });

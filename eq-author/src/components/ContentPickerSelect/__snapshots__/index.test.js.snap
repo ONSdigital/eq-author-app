@@ -15,7 +15,11 @@ exports[`ContentPickerSelect content types should render answer  1`] = `
     </ContentPickerSelect__ContentSelectAction>
   </ContentPickerSelect__ContentSelectButton>
   <ContentPickerModal
-    answerData={Array []}
+    contentTypes={
+      Array [
+        "Custom",
+      ]
+    }
     data-test="picker"
     isOpen={false}
     onClose={[Function]}
@@ -39,10 +43,14 @@ exports[`ContentPickerSelect content types should render answer and metadata 1`]
     </ContentPickerSelect__ContentSelectAction>
   </ContentPickerSelect__ContentSelectButton>
   <ContentPickerModal
-    answerData={Array []}
+    contentTypes={
+      Array [
+        "Custom",
+        "Metadata",
+      ]
+    }
     data-test="picker"
     isOpen={false}
-    metadataData={Array []}
     onClose={[Function]}
     onSubmit={[Function]}
   />
@@ -64,9 +72,13 @@ exports[`ContentPickerSelect content types should render metadata 1`] = `
     </ContentPickerSelect__ContentSelectAction>
   </ContentPickerSelect__ContentSelectButton>
   <ContentPickerModal
+    contentTypes={
+      Array [
+        "Metadata",
+      ]
+    }
     data-test="picker"
     isOpen={false}
-    metadataData={Array []}
     onClose={[Function]}
     onSubmit={[Function]}
   />
@@ -75,14 +87,13 @@ exports[`ContentPickerSelect content types should render metadata 1`] = `
 
 exports[`ContentPickerSelect metadata types should correctly filter by type 1`] = `
 Object {
+  "answerData": undefined,
+  "contentTypes": Array [
+    "Metadata",
+  ],
   "data-test": "picker",
   "isOpen": false,
-  "metadataData": Array [
-    Object {
-      "id": "1",
-      "type": "Date",
-    },
-  ],
+  "metadataData": undefined,
   "onClose": [Function],
   "onSubmit": [Function],
 }
@@ -90,9 +101,13 @@ Object {
 
 exports[`ContentPickerSelect metadata types should correctly filter empty metadata 1`] = `
 Object {
+  "answerData": undefined,
+  "contentTypes": Array [
+    "Metadata",
+  ],
   "data-test": "picker",
   "isOpen": false,
-  "metadataData": Array [],
+  "metadataData": undefined,
   "onClose": [Function],
   "onSubmit": [Function],
 }
@@ -100,26 +115,13 @@ Object {
 
 exports[`ContentPickerSelect metadata types should correctly show all types when none specified 1`] = `
 Object {
+  "answerData": undefined,
+  "contentTypes": Array [
+    "Metadata",
+  ],
   "data-test": "picker",
   "isOpen": false,
-  "metadataData": Array [
-    Object {
-      "id": "1",
-      "type": "Date",
-    },
-    Object {
-      "id": "2",
-      "type": "Text",
-    },
-    Object {
-      "id": "3",
-      "type": "Language",
-    },
-    Object {
-      "id": "4",
-      "type": "Region",
-    },
-  ],
+  "metadataData": undefined,
   "onClose": [Function],
   "onSubmit": [Function],
 }
@@ -140,7 +142,11 @@ exports[`ContentPickerSelect should correctly handle picker close 1`] = `
     </ContentPickerSelect__ContentSelectAction>
   </ContentPickerSelect__ContentSelectButton>
   <ContentPickerModal
-    answerData={Array []}
+    contentTypes={
+      Array [
+        "Custom",
+      ]
+    }
     data-test="picker"
     isOpen={false}
     onClose={[Function]}
@@ -164,7 +170,11 @@ exports[`ContentPickerSelect should correctly handle picker open 1`] = `
     </ContentPickerSelect__ContentSelectAction>
   </ContentPickerSelect__ContentSelectButton>
   <ContentPickerModal
-    answerData={Array []}
+    contentTypes={
+      Array [
+        "Custom",
+      ]
+    }
     data-test="picker"
     isOpen={true}
     onClose={[Function]}
@@ -188,7 +198,11 @@ exports[`ContentPickerSelect should correctly handle picker submit 1`] = `
     </ContentPickerSelect__ContentSelectAction>
   </ContentPickerSelect__ContentSelectButton>
   <ContentPickerModal
-    answerData={Array []}
+    contentTypes={
+      Array [
+        "Custom",
+      ]
+    }
     data-test="picker"
     isOpen={false}
     onClose={[Function]}
@@ -212,7 +226,11 @@ exports[`ContentPickerSelect should disable select button correctly 1`] = `
     </ContentPickerSelect__ContentSelectAction>
   </ContentPickerSelect__ContentSelectButton>
   <ContentPickerModal
-    answerData={Array []}
+    contentTypes={
+      Array [
+        "Custom",
+      ]
+    }
     data-test="picker"
     isOpen={false}
     onClose={[Function]}
@@ -236,7 +254,11 @@ exports[`ContentPickerSelect should disable select button correctly 2`] = `
     </ContentPickerSelect__ContentSelectAction>
   </ContentPickerSelect__ContentSelectButton>
   <ContentPickerModal
-    answerData={Array []}
+    contentTypes={
+      Array [
+        "Custom",
+      ]
+    }
     data-test="picker"
     isOpen={false}
     onClose={[Function]}
@@ -260,7 +282,11 @@ exports[`ContentPickerSelect should render 1`] = `
     </ContentPickerSelect__ContentSelectAction>
   </ContentPickerSelect__ContentSelectButton>
   <ContentPickerModal
-    answerData={Array []}
+    contentTypes={
+      Array [
+        "Custom",
+      ]
+    }
     data-test="picker"
     isOpen={false}
     onClose={[Function]}

@@ -3,4 +3,7 @@ fragment MinimalPage on QuestionPage {
   answers {
     id
   }
+  confirmation {
+    id
+  }
 }

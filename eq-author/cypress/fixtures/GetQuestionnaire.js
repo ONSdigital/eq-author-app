@@ -24,6 +24,7 @@ export default {
               alias: "",
               displayName: "",
               position: 0,
+              confirmation: null,
               __typename: "QuestionPage"
             }
           ],

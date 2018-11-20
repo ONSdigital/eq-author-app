@@ -7,6 +7,7 @@ import * as UndeleteSectionActions from "redux/undelete/undeleteSection";
 import * as UndeleteSectionIntroductionActions from "redux/undelete/undeleteSectionIntroduction";
 import * as UndeletePageActions from "redux/undelete/undeletePage";
 import * as UndeleteAnswerActions from "redux/undelete/undeleteAnswer";
+import * as UndeleteQuestionConfirmation from "redux/undelete/undeleteQuestionConfirmation";
 import Toast from "components/Toast";
 import ToastList from "components/Toast/ToastList";
 import styled from "styled-components";
@@ -108,6 +109,7 @@ export default connect(
     UndeleteSectionIntroductionActions,
     UndeletePageActions,
     UndeleteAnswerActions,
+    UndeleteQuestionConfirmation,
     ToastActionCreators
   )
 )(ToastArea);

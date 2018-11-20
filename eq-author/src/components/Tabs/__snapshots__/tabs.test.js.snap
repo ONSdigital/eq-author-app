@@ -1,6 +1,36 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/Tabs when no pageId should render section link 1`] = `
+exports[`components/Tabs should link to confirmation and disable routing when confirmation id is present 1`] = `
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  padding-right: 0.5em;
+  line-height: 1.3;
+  color: var(--color-text);
+  width: 100%;
+}
+
+.c2 svg {
+  pointer-events: none;
+  -webkit-flex: 0 0 2em;
+  -ms-flex: 0 0 2em;
+  flex: 0 0 2em;
+}
+
+.c2 svg path {
+  fill: var(--color-text);
+}
+
 .c0 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -16,10 +46,11 @@ exports[`components/Tabs when no pageId should render section link 1`] = `
 }
 
 .c1 {
+  --color-text: #FFFFFF;
   font-size: 1em;
   font-weight: bold;
-  color: #FFFFFF;
-  padding: 0.3em 2em;
+  color: var(--color-text);
+  padding: 0 0.4em 0 0.2em;
   border: 1px solid #5F7682;
   border-bottom: none;
   background-color: #5F7682;
@@ -30,23 +61,28 @@ exports[`components/Tabs when no pageId should render section link 1`] = `
 }
 
 .c1.active {
+  --color-text: #5F7682;
   background: #FFFFFF;
-  color: #5F7682;
   border: 1px solid #c3c3c3;
   border-bottom: none;
 }
 
-.c4 {
+.c1:focus {
+  outline: 3px solid #FDBD56;
+}
+
+.c5 {
   background: #FFFFFF;
   border: 1px solid #c3c3c3;
   border-radius: 4px;
 }
 
-.c3 {
+.c4 {
+  --color-text: #FFFFFF;
   font-size: 1em;
   font-weight: bold;
-  color: #FFFFFF;
-  padding: 0.3em 2em;
+  color: var(--color-text);
+  padding: 0 0.4em 0 0.2em;
   border: 1px solid #5F7682;
   border-bottom: none;
   background-color: #5F7682;
@@ -56,14 +92,268 @@ exports[`components/Tabs when no pageId should render section link 1`] = `
   margin: 0 0.25em 0 0;
 }
 
-.c3.active {
+.c4.active {
+  --color-text: #5F7682;
   background: #FFFFFF;
-  color: #5F7682;
   border: 1px solid #c3c3c3;
   border-bottom: none;
 }
 
+.c4:focus {
+  outline: 3px solid #FDBD56;
+}
+
+.c3 {
+  opacity: 0.5;
+  color: #c3c3c3;
+}
+
+<UnwrappedTabs
+  match={
+    Object {
+      "params": Object {
+        "confirmationId": "444",
+        "pageId": "123",
+        "questionnaireId": "123",
+        "sectionId": "888",
+      },
+    }
+  }
+>
+  <div>
+    <Tabs__TabsContainer
+      data-test="tabs-nav"
+    >
+      <nav
+        className="c0"
+        data-test="tabs-nav"
+      >
+        <Tabs__Tab
+          activeClassName="active"
+          key="design"
+          to="/questionnaire/123/888/123/444/design"
+        >
+          <NavLink
+            activeClassName="active"
+            aria-current="page"
+            className="c1"
+            to="/questionnaire/123/888/123/444/design"
+          >
+            <Route
+              path="\\\\/questionnaire\\\\/123\\\\/888\\\\/123\\\\/444\\\\/design"
+            >
+              <Link
+                aria-current={null}
+                className="c1"
+                replace={false}
+                to="/questionnaire/123/888/123/444/design"
+              >
+                <a
+                  aria-current={null}
+                  className="c1"
+                  href="/questionnaire/123/888/123/444/design"
+                  onClick={[Function]}
+                >
+                  <IconText
+                    hideText={false}
+                    icon={[Function]}
+                  >
+                    <IconText__IconWithText
+                      hideText={false}
+                    >
+                      <span
+                        className="c2"
+                      >
+                        <Component>
+                          <svg />
+                        </Component>
+                        Design
+                      </span>
+                    </IconText__IconWithText>
+                  </IconText>
+                </a>
+              </Link>
+            </Route>
+          </NavLink>
+        </Tabs__Tab>
+        <Tabs__DisabledTab
+          key="preview"
+        >
+          <Tabs__Tab
+            className="c3"
+          >
+            <span
+              className="c3 -span c4"
+            >
+              <IconText
+                hideText={false}
+                icon={[Function]}
+              >
+                <IconText__IconWithText
+                  hideText={false}
+                >
+                  <span
+                    className="c2"
+                  >
+                    <Component>
+                      <svg />
+                    </Component>
+                    Preview
+                  </span>
+                </IconText__IconWithText>
+              </IconText>
+            </span>
+          </Tabs__Tab>
+        </Tabs__DisabledTab>
+        <Tabs__DisabledTab
+          key="routing"
+        >
+          <Tabs__Tab
+            className="c3"
+          >
+            <span
+              className="c3 -span c4"
+            >
+              <IconText
+                hideText={false}
+                icon={[Function]}
+              >
+                <IconText__IconWithText
+                  hideText={false}
+                >
+                  <span
+                    className="c2"
+                  >
+                    <Component>
+                      <svg />
+                    </Component>
+                    Routing
+                  </span>
+                </IconText__IconWithText>
+              </IconText>
+            </span>
+          </Tabs__Tab>
+        </Tabs__DisabledTab>
+      </nav>
+    </Tabs__TabsContainer>
+    <Tabs__TabsBody
+      data-test="tabs-body"
+    >
+      <div
+        className="c5"
+        data-test="tabs-body"
+      >
+        Tab Content
+      </div>
+    </Tabs__TabsBody>
+  </div>
+</UnwrappedTabs>
+`;
+
+exports[`components/Tabs when no pageId should render section link 1`] = `
 .c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  padding-right: 0.5em;
+  line-height: 1.3;
+  color: var(--color-text);
+  width: 100%;
+}
+
+.c2 svg {
+  pointer-events: none;
+  -webkit-flex: 0 0 2em;
+  -ms-flex: 0 0 2em;
+  flex: 0 0 2em;
+}
+
+.c2 svg path {
+  fill: var(--color-text);
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  padding: 0;
+  position: relative;
+  bottom: -1px;
+}
+
+.c1 {
+  --color-text: #FFFFFF;
+  font-size: 1em;
+  font-weight: bold;
+  color: var(--color-text);
+  padding: 0 0.4em 0 0.2em;
+  border: 1px solid #5F7682;
+  border-bottom: none;
+  background-color: #5F7682;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  border-radius: 4px 4px 0 0;
+  margin: 0 0.25em 0 0;
+}
+
+.c1.active {
+  --color-text: #5F7682;
+  background: #FFFFFF;
+  border: 1px solid #c3c3c3;
+  border-bottom: none;
+}
+
+.c1:focus {
+  outline: 3px solid #FDBD56;
+}
+
+.c5 {
+  background: #FFFFFF;
+  border: 1px solid #c3c3c3;
+  border-radius: 4px;
+}
+
+.c4 {
+  --color-text: #FFFFFF;
+  font-size: 1em;
+  font-weight: bold;
+  color: var(--color-text);
+  padding: 0 0.4em 0 0.2em;
+  border: 1px solid #5F7682;
+  border-bottom: none;
+  background-color: #5F7682;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  border-radius: 4px 4px 0 0;
+  margin: 0 0.25em 0 0;
+}
+
+.c4.active {
+  --color-text: #5F7682;
+  background: #FFFFFF;
+  border: 1px solid #c3c3c3;
+  border-bottom: none;
+}
+
+.c4:focus {
+  outline: 3px solid #FDBD56;
+}
+
+.c3 {
   opacity: 0.5;
   color: #c3c3c3;
 }
@@ -89,6 +379,7 @@ exports[`components/Tabs when no pageId should render section link 1`] = `
       >
         <Tabs__Tab
           activeClassName="active"
+          key="design"
           to="/questionnaire/123/888/design"
         >
           <NavLink
@@ -112,20 +403,83 @@ exports[`components/Tabs when no pageId should render section link 1`] = `
                   href="/questionnaire/123/888/design"
                   onClick={[Function]}
                 >
-                  Builder
+                  <IconText
+                    hideText={false}
+                    icon={[Function]}
+                  >
+                    <IconText__IconWithText
+                      hideText={false}
+                    >
+                      <span
+                        className="c2"
+                      >
+                        <Component>
+                          <svg />
+                        </Component>
+                        Design
+                      </span>
+                    </IconText__IconWithText>
+                  </IconText>
                 </a>
               </Link>
             </Route>
           </NavLink>
         </Tabs__Tab>
-        <Tabs__DisabledTab>
+        <Tabs__DisabledTab
+          key="preview"
+        >
           <Tabs__Tab
-            className="c2"
+            className="c3"
           >
             <span
-              className="c2 -span c3"
+              className="c3 -span c4"
             >
-              Routing
+              <IconText
+                hideText={false}
+                icon={[Function]}
+              >
+                <IconText__IconWithText
+                  hideText={false}
+                >
+                  <span
+                    className="c2"
+                  >
+                    <Component>
+                      <svg />
+                    </Component>
+                    Preview
+                  </span>
+                </IconText__IconWithText>
+              </IconText>
+            </span>
+          </Tabs__Tab>
+        </Tabs__DisabledTab>
+        <Tabs__DisabledTab
+          key="routing"
+        >
+          <Tabs__Tab
+            className="c3"
+          >
+            <span
+              className="c3 -span c4"
+            >
+              <IconText
+                hideText={false}
+                icon={[Function]}
+              >
+                <IconText__IconWithText
+                  hideText={false}
+                >
+                  <span
+                    className="c2"
+                  >
+                    <Component>
+                      <svg />
+                    </Component>
+                    Routing
+                  </span>
+                </IconText__IconWithText>
+              </IconText>
             </span>
           </Tabs__Tab>
         </Tabs__DisabledTab>
@@ -135,7 +489,7 @@ exports[`components/Tabs when no pageId should render section link 1`] = `
       data-test="tabs-body"
     >
       <div
-        className="c4"
+        className="c5"
         data-test="tabs-body"
       >
         Tab Content
@@ -146,6 +500,36 @@ exports[`components/Tabs when no pageId should render section link 1`] = `
 `;
 
 exports[`components/Tabs when pageId present should render page link 1`] = `
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  padding-right: 0.5em;
+  line-height: 1.3;
+  color: var(--color-text);
+  width: 100%;
+}
+
+.c2 svg {
+  pointer-events: none;
+  -webkit-flex: 0 0 2em;
+  -ms-flex: 0 0 2em;
+  flex: 0 0 2em;
+}
+
+.c2 svg path {
+  fill: var(--color-text);
+}
+
 .c0 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -161,10 +545,11 @@ exports[`components/Tabs when pageId present should render page link 1`] = `
 }
 
 .c1 {
+  --color-text: #FFFFFF;
   font-size: 1em;
   font-weight: bold;
-  color: #FFFFFF;
-  padding: 0.3em 2em;
+  color: var(--color-text);
+  padding: 0 0.4em 0 0.2em;
   border: 1px solid #5F7682;
   border-bottom: none;
   background-color: #5F7682;
@@ -175,13 +560,17 @@ exports[`components/Tabs when pageId present should render page link 1`] = `
 }
 
 .c1.active {
+  --color-text: #5F7682;
   background: #FFFFFF;
-  color: #5F7682;
   border: 1px solid #c3c3c3;
   border-bottom: none;
 }
 
-.c2 {
+.c1:focus {
+  outline: 3px solid #FDBD56;
+}
+
+.c3 {
   background: #FFFFFF;
   border: 1px solid #c3c3c3;
   border-radius: 4px;
@@ -208,6 +597,7 @@ exports[`components/Tabs when pageId present should render page link 1`] = `
       >
         <Tabs__Tab
           activeClassName="active"
+          key="design"
           to="/questionnaire/1/2/3/design"
         >
           <NavLink
@@ -231,7 +621,23 @@ exports[`components/Tabs when pageId present should render page link 1`] = `
                   href="/questionnaire/1/2/3/design"
                   onClick={[Function]}
                 >
-                  Builder
+                  <IconText
+                    hideText={false}
+                    icon={[Function]}
+                  >
+                    <IconText__IconWithText
+                      hideText={false}
+                    >
+                      <span
+                        className="c2"
+                      >
+                        <Component>
+                          <svg />
+                        </Component>
+                        Design
+                      </span>
+                    </IconText__IconWithText>
+                  </IconText>
                 </a>
               </Link>
             </Route>
@@ -239,6 +645,55 @@ exports[`components/Tabs when pageId present should render page link 1`] = `
         </Tabs__Tab>
         <Tabs__Tab
           activeClassName="active"
+          key="preview"
+          to="/questionnaire/1/2/3/preview"
+        >
+          <NavLink
+            activeClassName="active"
+            aria-current="page"
+            className="c1"
+            to="/questionnaire/1/2/3/preview"
+          >
+            <Route
+              path="\\\\/questionnaire\\\\/1\\\\/2\\\\/3\\\\/preview"
+            >
+              <Link
+                aria-current={null}
+                className="c1"
+                replace={false}
+                to="/questionnaire/1/2/3/preview"
+              >
+                <a
+                  aria-current={null}
+                  className="c1"
+                  href="/questionnaire/1/2/3/preview"
+                  onClick={[Function]}
+                >
+                  <IconText
+                    hideText={false}
+                    icon={[Function]}
+                  >
+                    <IconText__IconWithText
+                      hideText={false}
+                    >
+                      <span
+                        className="c2"
+                      >
+                        <Component>
+                          <svg />
+                        </Component>
+                        Preview
+                      </span>
+                    </IconText__IconWithText>
+                  </IconText>
+                </a>
+              </Link>
+            </Route>
+          </NavLink>
+        </Tabs__Tab>
+        <Tabs__Tab
+          activeClassName="active"
+          key="routing"
           to="/questionnaire/1/2/3/routing"
         >
           <NavLink
@@ -262,7 +717,23 @@ exports[`components/Tabs when pageId present should render page link 1`] = `
                   href="/questionnaire/1/2/3/routing"
                   onClick={[Function]}
                 >
-                  Routing
+                  <IconText
+                    hideText={false}
+                    icon={[Function]}
+                  >
+                    <IconText__IconWithText
+                      hideText={false}
+                    >
+                      <span
+                        className="c2"
+                      >
+                        <Component>
+                          <svg />
+                        </Component>
+                        Routing
+                      </span>
+                    </IconText__IconWithText>
+                  </IconText>
                 </a>
               </Link>
             </Route>
@@ -274,7 +745,7 @@ exports[`components/Tabs when pageId present should render page link 1`] = `
       data-test="tabs-body"
     >
       <div
-        className="c2"
+        className="c3"
         data-test="tabs-body"
       >
         Tab Content

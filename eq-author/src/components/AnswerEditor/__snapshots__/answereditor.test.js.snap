@@ -304,6 +304,7 @@ exports[`Answer Editor should render Number 1`] = `
       onDeleteOther={[MockFunction]}
       onUpdate={[MockFunction]}
       onUpdateOption={[MockFunction]}
+      showDescription={true}
     />
   </AnswerEditor__Padding>
   <Tooltip
