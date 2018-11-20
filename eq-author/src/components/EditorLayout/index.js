@@ -23,14 +23,24 @@ const Margin = styled.div`
   margin-top: 2em;
 `;
 
-const EditorLayout = ({ children, onAddPage, page, ...otherProps }) => (
+const EditorLayout = ({
+  children,
+  onAddPage,
+  page,
+  design,
+  preview,
+  routing,
+  ...otherProps
+}) => (
   <Grid {...otherProps}>
     <Column cols={9} gutters={false}>
       <ScrollPane permanentScrollBar>
         <Margin>
           <MainCanvas>
             <SavingIndicator />
-            <Tabs>{children}</Tabs>
+            <Tabs design={design} preview={preview} routing={routing}>
+              {children}
+            </Tabs>
           </MainCanvas>
         </Margin>
         {onAddPage && (
@@ -56,7 +66,10 @@ const EditorLayout = ({ children, onAddPage, page, ...otherProps }) => (
 EditorLayout.propTypes = {
   children: PropTypes.node.isRequired,
   onAddPage: PropTypes.func,
-  page: CustomPropTypes.page
+  page: CustomPropTypes.page,
+  design: PropTypes.bool,
+  preview: PropTypes.bool,
+  routing: PropTypes.bool
 };
 
 export default EditorLayout;

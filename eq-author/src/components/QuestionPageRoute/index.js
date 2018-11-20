@@ -186,6 +186,8 @@ export class UnwrappedQuestionPageRoute extends React.Component {
       <EditorLayout
         onAddPage={this.handleAddPage}
         page={this.props.data.questionPage}
+        preview
+        routing
       >
         {this.renderContent()}
       </EditorLayout>

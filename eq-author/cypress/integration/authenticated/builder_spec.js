@@ -248,6 +248,29 @@ describe("builder", () => {
     });
   });
 
+  it("can preview a section introducion", () => {
+    checkIsOnDesignPage();
+
+    navigateToFirstSection();
+
+    cy.get(testId("preview")).click();
+    cy.hash().should("match", /\/design$/);
+
+    cy.get(testId("btn-add-intro")).click();
+
+    typeIntoDraftEditor(
+      testId("txt-introduction-title", "testid"),
+      "Section Introduction Title"
+    );
+    typeIntoDraftEditor(
+      testId("txt-introduction-content", "testid"),
+      "Section Introduction Content"
+    );
+
+    cy.get(testId("preview")).click();
+    cy.hash().should("match", /\/preview$/);
+  });
+
   it("Can delete a section", () => {
     checkIsOnDesignPage();
 

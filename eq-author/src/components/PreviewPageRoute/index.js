@@ -8,10 +8,12 @@ import styled from "styled-components";
 import EditorLayout from "components/EditorLayout";
 import IconText from "components/IconText";
 import Loading from "components/Loading";
+import Error from "components/Preview/Error";
 import QuestionPageEditor from "components/QuestionPageEditor";
 
+import { rteIsEmpty } from "utils/preview";
+
 import { Answer } from "./answers";
-import Error from "./Error";
 import IconInfo from "./icon-info.svg?inline";
 
 const Container = styled.div`
@@ -60,8 +62,6 @@ const Answers = styled.div`
   margin-bottom: 1em;
 `;
 
-const rteIsEmpty = field => !field || field === "<p></p>";
-
 export const UnwrappedPreviewPageRoute = ({ loading, data }) => {
   if (loading) {
     return <Loading height="38rem">Preview loading…</Loading>;
@@ -74,7 +74,7 @@ export const UnwrappedPreviewPageRoute = ({ loading, data }) => {
   let title = questionPage.title.replace(/(<p[^>]+?>|<p>|<\/p>)/gim, "");
 
   return (
-    <EditorLayout page={questionPage}>
+    <EditorLayout page={questionPage} preview routing>
       <Container>
         <PageTitle>
           {title ? (
