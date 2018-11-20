@@ -1,5 +1,5 @@
 const path = require("path");
-const schema = require("eq-author-graphql-schema");
+const schema = require("../eq-author-api/schema/typeDefs");
 
 const config = {
   resolve: {
