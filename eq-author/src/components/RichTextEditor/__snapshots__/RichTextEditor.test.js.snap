@@ -115,6 +115,7 @@ exports[`components/RichTextEditor should allow multiline input 1`] = `
           }
         }
         isActiveControl={[Function]}
+        name="test-name"
         onPiping={[Function]}
         onToggle={[Function]}
         onUpdate={[MockFunction]}
@@ -402,6 +403,7 @@ exports[`components/RichTextEditor should render 1`] = `
           }
         }
         isActiveControl={[Function]}
+        name="test-name"
         onPiping={[Function]}
         onToggle={[Function]}
         onUpdate={[MockFunction]}
@@ -740,6 +742,7 @@ exports[`components/RichTextEditor should render existing content 1`] = `
           }
         }
         isActiveControl={[Function]}
+        name="test-name"
         onPiping={[Function]}
         onToggle={[Function]}
         onUpdate={[MockFunction]}
