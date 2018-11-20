@@ -86,18 +86,14 @@ export const UnwrappedPreviewPageRoute = ({ loading, data }) => {
           )}
         </PageTitle>
 
-        {rteIsEmpty(description) ? (
-          <Error large>Missing description</Error>
-        ) : (
+        {!rteIsEmpty(description) && (
           <Description
             data-test="description"
             dangerouslySetInnerHTML={{ __html: description }}
           />
         )}
 
-        {rteIsEmpty(guidance) ? (
-          <Error large>Missing guidance</Error>
-        ) : (
+        {!rteIsEmpty(guidance) && (
           <Guidance data-test="guidance">
             <Panel dangerouslySetInnerHTML={{ __html: guidance }} />
           </Guidance>
