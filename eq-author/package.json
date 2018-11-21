@@ -118,7 +118,7 @@
     "apollo-cache-inmemory": "^1.2.5",
     "apollo-client": "^2.3.5",
     "apollo-client-preset": "^1.0.8",
-    "apollo-link": "1.1.0",
+    "apollo-link": "1.2.4",
     "apollo-link-error": "^1.1.0",
     "apollo-link-http": "^1.5.3",
     "connected-react-router": "^4.2.1",
