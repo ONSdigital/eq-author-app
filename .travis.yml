@@ -41,3 +41,7 @@ deploy:
     condition:
       - $PROJECT = eq-author
       - $BUILD_SKIPPED = false
+
+branches:
+  only:
+  - master
