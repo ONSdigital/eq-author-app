@@ -22,4 +22,10 @@ describe("SchemaValidator", () => {
       expect.any(ValidationError)
     );
   });
+
+  it("should pass the json into the validation API", async () => {
+    const expectedArg = JSON.stringify({ key: "value" });
+    await schemaValidator.validate(expectedArg);
+    expect(mockValidationApi.validate).toHaveBeenCalledWith(expectedArg);
+  });
 });
