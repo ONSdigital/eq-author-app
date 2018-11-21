@@ -17,21 +17,23 @@ cache:
 before_script:
   - set -e
 
-stages:
-  - name: eq-author
-    script: eq-author/script/ci.sh
-    if: .travis/build-condition.sh "eq-author" 
-  - name: eq-author-api
-    script: eq-author-api/script/ci.sh
-    if: .travis/build-condition.sh "eq-author-api" 
-  - name: eq-publisher
-    script: eq-publisher/script/ci.sh
-    if: .travis/build-condition.sh "eq-publisher" 
-  - name: eq-author-graphql-schema
-    script: eq-author-graphql-schema/script/ci.sh
-    if: .travis/build-condition.sh "eq-author-graphql-schema" 
-  - name: e2e
-    script: e2e/script/ci.sh
+jobs:
+  include:
+    - stage: test
+      name: eq-author
+      script: eq-author/script/ci.sh
+      if: .travis/build-condition.sh "eq-author" 
+    - script: eq-author-api/script/ci.sh
+      if: .travis/build-condition.sh "eq-author-api" 
+    - name: eq-publisher
+      script: eq-publisher/script/ci.sh
+      if: .travis/build-condition.sh "eq-publisher" 
+    - name: eq-author-graphql-schema
+      script: eq-author-graphql-schema/script/ci.sh
+      if: .travis/build-condition.sh "eq-author-graphql-schema" 
+    - stage: e2e 
+      name: e2e
+      script: e2e/script/ci.sh
 
 deploy:
   local_dir: eq-author/storybook-static
