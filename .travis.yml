@@ -20,14 +20,10 @@ before_script:
 jobs:
   include:
     - stage: test
-      script: eq-author/script/ci.sh
-      if: [[ .travis/build-condition.sh "eq-author" ]]
-    - script: eq-author-api/script/ci.sh
-      if: .travis/build-condition.sh "eq-author-api" 
-    - script: eq-publisher/script/ci.sh
-      if: .travis/build-condition.sh "eq-publisher" 
-    - script: eq-author-graphql-schema/script/ci.sh
-      if: .travis/build-condition.sh "eq-author-graphql-schema" 
+      script: if .travis/build-condition.sh "eq-author"; RAN_AUTHOR=true; pushd $PROJECT; ./scripts/ci.sh; popd; fi
+    - script: if .travis/build-condition.sh "eq-author-api"; pushd $PROJECT; ./scripts/ci.sh; popd; fi
+    - script: if .travis/build-condition.sh "eq-publisher"; pushd $PROJECT; ./scripts/ci.sh; popd; fi
+    - script: if .travis/build-condition.sh "eq-author-graphql-schema"; pushd $PROJECT; ./scripts/ci.sh; popd; fi
     - stage: e2e 
       script: e2e/script/ci.sh
 
@@ -40,7 +36,7 @@ deploy:
     branch:
       - master
     condition:
-      - .travis/build-condition.sh "eq-author" 
+      - RAN_AUTHOR = true
 
 branches:
   only:
