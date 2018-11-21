@@ -16,7 +16,7 @@ COPY public /app/public
 COPY scripts /app/scripts
 COPY .babelrc .eslintrc.js .env .env.production /app/
 
-RUN yarn build
+RUN yarn build:docker
 
 FROM nginx:stable
 
