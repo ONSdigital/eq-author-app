@@ -89,13 +89,21 @@ describe("Block", () => {
   });
 
   describe("piping", () => {
-    const createPipe = ({
+    const createPipeInText = ({
       id = 123,
       type = "TextField",
       text = "foo",
       pipeType = "answers"
     } = {}) =>
       `<span data-piped="${pipeType}" data-id="${id}" data-type="${type}">${text}</span>`;
+
+    const createPipeInHtml = ({
+      id = 123,
+      type = "TextField",
+      text = "foo",
+      pipeType = "answers"
+    } = {}) =>
+      `<strong><span data-piped="${pipeType}" data-id="${id}" data-type="${type}">${text}</span></strong><ul><li>Some Value</li></ul>`;
 
     const createContext = (
       metadata = [{ id: "123", type: "Text", key: "my_metadata" }]
@@ -108,7 +116,23 @@ describe("Block", () => {
     it("should handle piped values in title", () => {
       // noinspection JSAnnotator
       let introduction = {
-        introductionTitle: createPipe(),
+        introductionTitle: createPipeInText(),
+        introductionContent: ""
+      };
+
+      const introBlock = Block.buildIntroBlock(
+        introduction,
+        0,
+        createContext()
+      );
+
+      expect(introBlock.title).toEqual("{{ answers['answer123'] }}");
+    });
+
+    it("should handle piped values in title while stripping html", () => {
+      // noinspection JSAnnotator
+      let introduction = {
+        introductionTitle: createPipeInHtml(),
         introductionContent: ""
       };
 
@@ -125,7 +149,7 @@ describe("Block", () => {
       // noinspection JSAnnotator
       let introduction = {
         introductionTitle: "",
-        introductionContent: createPipe()
+        introductionContent: createPipeInHtml()
       };
 
       const introBlock = Block.buildIntroBlock(
@@ -134,7 +158,9 @@ describe("Block", () => {
         createContext()
       );
 
-      expect(introBlock.description).toEqual("{{ answers['answer123'] }}");
+      expect(introBlock.description).toEqual(
+        "<strong>{{ answers['answer123'] }}</strong><ul><li>Some Value</li></ul>"
+      );
     });
   });
 });

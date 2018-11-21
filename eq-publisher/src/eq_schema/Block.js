@@ -1,7 +1,10 @@
 const Question = require("./Question");
 const RoutingRule = require("./RoutingRule");
 const RoutingDestination = require("./RoutingDestination");
-const { getInnerHTMLWithPiping } = require("../utils/HTMLUtils");
+const {
+  getInnerHTMLWithPiping,
+  unescapePiping
+} = require("../utils/HTMLUtils");
 const convertPipes = require("../utils/convertPipes");
 const { get, isNil, remove, isEmpty } = require("lodash");
 const { flow, getOr, last, map, some } = require("lodash/fp");
@@ -16,10 +19,16 @@ const getLastPage = flow(
   last
 );
 
-const processPipedText = ctx =>
+const processPipedTitle = ctx =>
   flow(
     convertPipes(ctx),
     getInnerHTMLWithPiping
+  );
+
+const processPipedText = ctx =>
+  flow(
+    convertPipes(ctx),
+    unescapePiping
   );
 
 const isLastPageInSection = (page, ctx) =>
@@ -58,7 +67,7 @@ class Block {
     return {
       type: "Interstitial",
       id: `group${groupId}-introduction`,
-      title: processPipedText(ctx)(introductionTitle) || "",
+      title: processPipedTitle(ctx)(introductionTitle) || "",
       description: processPipedText(ctx)(introductionContent) || ""
     };
   }
