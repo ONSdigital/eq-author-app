@@ -5,11 +5,13 @@
   "license": "MIT",
   "scripts": {
     "start": "yarn knex -- migrate:latest && nodemon",
-    "start:dev": "yarn knex -- migrate:latest && nodemon --inspect=0.0.0.0:5858",
+    "start:dev": "yarn waitForPostgres && yarn knex -- migrate:latest && nodemon --inspect=0.0.0.0:5858",
     "lint": "eslint .",
     "test": "NODE_ENV=test ./scripts/test.sh",
+    "test:breakingChanges": "node scripts/checkForBreakingChanges.js",
     "knex": "knex --knexfile config/knexfile.js --cwd .",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "waitForPostgres": "node scripts/waitForPostgres.js"
   },
   "lint-staged": {
     "*.js": [
@@ -23,7 +25,6 @@
     "colors": "^1.1.2",
     "cors": "^2.8.3",
     "dotenv": "^6.0.0",
-    "eq-author-graphql-schema": "0.42.0",
     "express": "^4.15.3",
     "express-pino-logger": "^4.0.0",
     "graphql": "^14.0.2",
@@ -41,6 +42,7 @@
     "node-jose": "^1.0.0",
     "nodemon": "^1.11.0",
     "pg": "^7.4.1",
+    "pg-connection-string": "^2.0.0",
     "pg-hstore": "^2.3.2",
     "wait-for-postgres": "^1.5.3"
   },
