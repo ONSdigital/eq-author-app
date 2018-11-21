@@ -64,6 +64,15 @@ describe("Questionnaire", () => {
     });
   });
 
+  it("should include view_submitted_response", () => {
+    expect(questionnaire).toMatchObject({
+      view_submitted_response: {
+        enabled: true,
+        duration: 900
+      }
+    });
+  });
+
   it("should build navigation", () => {
     const questionnaire = new Questionnaire(
       createQuestionnaireJSON({
