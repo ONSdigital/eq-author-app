@@ -1,5 +1,4 @@
 const {
-  buildSchema,
   findBreakingChanges,
   isObjectType,
   isInterfaceType,
@@ -37,7 +36,7 @@ const findDeprecatedDirective = directives => {
     const deprecatedDirectives = directives.filter(
       directive => directive.name.value === "deprecated"
     );
-    return deprecatedDirectives.length > 0 ? true : false;
+    return deprecatedDirectives.length > 0;
   }
 };
 

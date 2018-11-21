@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const chalk = require("chalk");
-const schema = require("../");
+const schema = require("../schema/typeDefs");
 const { buildSchema } = require("graphql");
 const childProcess = require("child_process");
 const fs = require("fs");
@@ -9,7 +9,7 @@ const findBreakingChanges = require("./findBreakingChanges");
 
 const getMasterSchema = () => {
   childProcess.execSync(
-    "git show origin/master:eq-author-graphql-schema/index.js > ./scripts/temp.js"
+    "git show origin/master:schema/typeDefs.js > ./scripts/temp.js"
   );
   const schema = require("./temp.js");
   fs.unlinkSync("./scripts/temp.js");

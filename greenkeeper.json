@@ -3,7 +3,6 @@
     "default": {
       "packages": [
         "eq-author-api/package.json",
-        "eq-author-graphql-schema/package.json",
         "eq-author/package.json",
         "eq-publisher/package.json"
       ]

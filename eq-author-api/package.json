@@ -6,6 +6,7 @@
   "scripts": {
     "start": "yarn knex -- migrate:latest && nodemon",
     "start:dev": "yarn knex -- migrate:latest && nodemon --inspect=0.0.0.0:5858",
+    "build:schema": "node scripts/buildSchema.js",
     "lint": "eslint .",
     "test": "NODE_ENV=test ./scripts/test.sh",
     "knex": "knex --knexfile config/knexfile.js --cwd .",

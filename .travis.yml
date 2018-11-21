@@ -21,7 +21,6 @@ matrix:
   include:
     - env: PROJECT=eq-author
     - env: PROJECT=eq-author-api
-    - env: PROJECT=eq-author-graphql-schema
     - env: PROJECT=eq-publisher
 
 before_script:
