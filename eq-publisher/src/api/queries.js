@@ -186,25 +186,6 @@ exports.getQuestionnaire = `
                 description
               }
             }
-            answers {
-              ...answerFragment
-              ... on MultipleChoiceAnswer {
-                options {
-                  ...optionFragment
-                }
-                mutuallyExclusiveOption {
-                  ...optionFragment
-                }
-                other {
-                  option {
-                    ...optionFragment
-                  }
-                  answer {
-                    ...answerFragment
-                  }
-                }
-              }
-            }
           }
         }
       }
