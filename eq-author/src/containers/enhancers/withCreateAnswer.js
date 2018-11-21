@@ -21,12 +21,13 @@ export const createUpdater = pageId => (proxy, result) => {
 
 export const mapMutateToProps = ({ mutate }) => ({
   onAddAnswer(pageId, type) {
+    let newType = type;
     if (type === TIME || type === MEASUREMENT) {
-      type = NUMBER;
+      newType = NUMBER;
     }
 
     const answer = {
-      type,
+      type: newType,
       questionPageId: pageId,
       description: "",
       guidance: "",
@@ -39,7 +40,9 @@ export const mapMutateToProps = ({ mutate }) => ({
     return mutate({
       variables: { input: answer },
       update
-    }).then(res => res.data.createAnswer);
+    }).then(res => {
+      return { ...res.data.createAnswer, type };
+    });
   }
 });
 

@@ -3,13 +3,11 @@ import PropTypes from "prop-types";
 import { merge } from "lodash";
 import CustomPropTypes from "custom-prop-types";
 
-import { connect } from "react-redux";
-
 import {
   Required,
   Decimal,
   DateFormat,
-  NumericType
+  MeasurementType
 } from "components/AnswerProperties/Properties";
 
 import {
@@ -17,11 +15,9 @@ import {
   MultiLineField
 } from "components/AnswerProperties/Fields";
 
-import { DATE, NUMBER } from "constants/answer-types";
-import { changeType, changeFormat } from "redux/answer/actions";
-import { getUnit } from "redux/answer/reducer";
+import { DATE, NUMBER, MEASUREMENT } from "constants/answer-types";
 
-class UnwrappedAnswerProperties extends React.Component {
+class AnswerProperties extends React.Component {
   static propTypes = {
     answer: CustomPropTypes.answer.isRequired,
     onSubmit: PropTypes.func,
@@ -44,10 +40,6 @@ class UnwrappedAnswerProperties extends React.Component {
     this.props.changeType(name.match(/(\d+)/g)[0], value);
   };
 
-  handleFormatChange = ({ name, value }) => {
-    this.props.changeFormat(name.match(/(\d+)/g)[0], value);
-  };
-
   getId = (name, { id }) => `answer-${id}-${name}`;
 
   render() {
@@ -63,13 +55,13 @@ class UnwrappedAnswerProperties extends React.Component {
             value={answer.properties.required}
           />
         </InlineField>
-        {answer.type === NUMBER && (
+        {answer.properties.unitType === MEASUREMENT && (
           <>
             <MultiLineField
               id={this.getId("numeric-type", answer)}
               label={"Type"}
             >
-              <NumericType
+              <MeasurementType
                 id={this.getId("numeric-type", answer)}
                 onChange={this.handleTypeChange}
                 type={answer.properties.type}
@@ -102,13 +94,4 @@ class UnwrappedAnswerProperties extends React.Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  answer: merge({}, ownProps.answer, {
-    properties: getUnit(state, ownProps.answer.id, ownProps.answer.type)
-  })
-});
-
-export default connect(
-  mapStateToProps,
-  { changeType, changeFormat }
-)(UnwrappedAnswerProperties);
+export default AnswerProperties;

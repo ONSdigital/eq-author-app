@@ -3,10 +3,16 @@ import CustomPropTypes from "custom-prop-types";
 import styled from "styled-components";
 import { colors } from "constants/theme";
 import ScrollPane from "components/ScrollPane";
-import { noop, filter, findIndex, flow, toUpper } from "lodash/fp";
+import { noop, filter, findIndex, flow, toUpper, get } from "lodash/fp";
+
+import { merge, map } from "lodash";
+
 import getIdForObject from "utils/getIdForObject";
 import AnswerPropertiesContainer from "containers/AnswerPropertiesContainer";
 import AnswerValidation from "components/Validation/AnswerValidation";
+
+import { connect } from "react-redux";
+import { changeType } from "redux/answer/actions";
 
 const PropertiesPane = styled.div`
   background: ${colors.white};
@@ -22,6 +28,7 @@ const PropertiesPane = styled.div`
 
 const PropertiesPanelTitle = styled.h2`
   font-size: 0.8em;
+  text-transform: uppercase;
   letter-spacing: 0.05em;
   vertical-align: middle;
   color: ${colors.darkGrey};
@@ -56,7 +63,7 @@ const getTitle = ({ answer, answer: { type } }) =>
     toUpper
   );
 
-class PropertiesPanel extends React.Component {
+class UnwrappedPropertiesPanel extends React.Component {
   static propTypes = {
     page: CustomPropTypes.page
   };
@@ -65,6 +72,7 @@ class PropertiesPanel extends React.Component {
 
   render() {
     const { page } = this.props;
+
     return (
       <PropertiesPane>
         <PropertiesPaneBody>
@@ -72,25 +80,29 @@ class PropertiesPanel extends React.Component {
             {page &&
               page.answers.length > 0 && (
                 <div>
-                  {page.answers.map((answer, index) => (
-                    <AnswerProperties
-                      key={getIdForObject(answer)}
-                      data-test={`properties-${index}`}
-                      hasBorder={index > 0}
-                    >
-                      <PropertiesPanelTitle
-                        data-test={`properties-title-${index}`}
+                  {page.answers.map((answer, index) => {
+                    return (
+                      <AnswerProperties
+                        key={getIdForObject(answer)}
+                        data-test={`properties-${index}`}
+                        hasBorder={index > 0}
                       >
-                        {getTitle({ answer })(page.answers)}
-                      </PropertiesPanelTitle>
-                      <AnswerPropertiesContainer
-                        id={getIdForObject(answer)}
-                        answer={{ ...answer, index }}
-                        onSubmit={this.handleSubmit}
-                      />
-                      <AnswerValidation answer={answer} />
-                    </AnswerProperties>
-                  ))}
+                        <PropertiesPanelTitle
+                          data-test={`properties-title-${index}`}
+                        >
+                          {get("properties.unitType", answer) ||
+                            getTitle({ answer })(page.answers)}
+                        </PropertiesPanelTitle>
+                        <AnswerPropertiesContainer
+                          id={getIdForObject(answer)}
+                          answer={{ ...answer, index }}
+                          onSubmit={this.handleSubmit}
+                          changeType={this.props.changeType}
+                        />
+                        <AnswerValidation answer={answer} />
+                      </AnswerProperties>
+                    );
+                  })}
                 </div>
               )}
           </ScrollPane>
@@ -99,5 +111,26 @@ class PropertiesPanel extends React.Component {
     );
   }
 }
+
+const mapStateToProps = (state, ownProps) => {
+  const { page } = ownProps;
+
+  if (page === undefined) {
+    return { page };
+  }
+
+  return {
+    page: merge({}, page, {
+      answers: map(page.answers, answer => ({
+        properties: state.answer[answer.id]
+      }))
+    })
+  };
+};
+
+const PropertiesPanel = connect(
+  mapStateToProps,
+  { changeType }
+)(UnwrappedPropertiesPanel);
 
 export default PropertiesPanel;

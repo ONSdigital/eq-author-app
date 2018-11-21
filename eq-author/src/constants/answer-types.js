@@ -14,20 +14,7 @@ export const LENGTH = "Length";
 export const AREA = "Area";
 export const VOLUME = "Volume";
 
-export const units = {
-  [NUMBER]: {
-    name: NUMBER,
-    types: {
-      number: {
-        label: "Number",
-        char: null
-      },
-      percentage: {
-        label: "Percentage",
-        char: "%"
-      }
-    }
-  },
+export const measurements = {
   [LENGTH]: {
     name: LENGTH,
     types: {

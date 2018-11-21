@@ -16,6 +16,7 @@ import DuplicateButton from "components/DuplicateButton";
 
 import { connect } from "react-redux";
 import { raiseToast } from "redux/toast/actions";
+import { addAnswer } from "redux/answer/actions";
 import withUpdatePage from "containers/enhancers/withUpdatePage";
 import withUpdateAnswer from "containers/enhancers/withUpdateAnswer";
 import withCreateAnswer from "containers/enhancers/withCreateAnswer";
@@ -99,7 +100,10 @@ export class UnwrappedQuestionPageRoute extends React.Component {
   handleAddAnswer = answerType => {
     const { match, onAddAnswer } = this.props;
 
-    return onAddAnswer(match.params.pageId, answerType).then(focusOnEntity);
+    return onAddAnswer(match.params.pageId, answerType).then(res => {
+      this.props.addAnswer(res.id, answerType);
+      focusOnEntity(res);
+    });
   };
 
   handleDuplicatePage = e => {
@@ -109,6 +113,7 @@ export class UnwrappedQuestionPageRoute extends React.Component {
       onDuplicatePage,
       data: { questionPage }
     } = this.props;
+
     onDuplicatePage({
       sectionId: match.params.sectionId,
       pageId: questionPage.id,
@@ -196,7 +201,7 @@ export class UnwrappedQuestionPageRoute extends React.Component {
 const withQuestionPageEditing = flowRight(
   connect(
     null,
-    { raiseToast }
+    { raiseToast, addAnswer }
   ),
   withApollo,
   withMovePage,

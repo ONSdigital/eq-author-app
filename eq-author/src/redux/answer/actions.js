@@ -1,4 +1,4 @@
-export const FORMAT_CHANGE = "FORMAT_CHANGE";
+export const ANSWER_ADD = "ANSWER_ADD";
 export const TYPE_CHANGE = "TYPE_CHANGE";
 
 export const changeType = (answerId, type) => ({
@@ -9,10 +9,10 @@ export const changeType = (answerId, type) => ({
   }
 });
 
-export const changeFormat = (answerId, format) => ({
-  type: FORMAT_CHANGE,
+export const addAnswer = (answerId, type) => ({
+  type: ANSWER_ADD,
   payload: {
     answerId,
-    format
+    type
   }
 });

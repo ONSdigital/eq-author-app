@@ -1,13 +1,13 @@
-import { TYPE_CHANGE } from "./actions";
+import { TYPE_CHANGE, ANSWER_ADD } from "./actions";
 
 import { merge, get } from "lodash";
-import { units } from "constants/answer-types";
+import { measurements, MEASUREMENT } from "constants/answer-types";
 
 const initialState = {};
 
 const unit = key => {
   const [name, type] = key.split("-");
-  const unitType = get(units, name).types;
+  const unitType = get(measurements, name).types;
   const { char, label } = get(unitType, type);
 
   return {
@@ -20,7 +20,14 @@ const unit = key => {
 };
 
 export default (state = initialState, { type, payload }) => {
+  console.log(type, payload);
+
   switch (type) {
+    case ANSWER_ADD: {
+      return merge({}, state, {
+        [payload.answerId]: { unitType: payload.type, unit: unit("Length-cm") }
+      });
+    }
     case TYPE_CHANGE: {
       return merge({}, state, {
         [payload.answerId]: { unit: unit(payload.type) }
@@ -33,12 +40,12 @@ export default (state = initialState, { type, payload }) => {
 };
 
 export const getUnit = (state, answerId, answerType) => {
-  if (answerType !== "Number") {
+  if (answerType !== MEASUREMENT) {
     return state.answer[answerId];
   }
 
   return {
-    unit: unit("Number-number"),
+    unit: unit("Length-cm"),
     ...state.answer[answerId]
   };
 };

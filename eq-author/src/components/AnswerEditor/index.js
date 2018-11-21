@@ -23,8 +23,7 @@ import {
   DATE_RANGE,
   DATE,
   PERCENTAGE,
-  MEASUREMENT,
-  units
+  MEASUREMENT
 } from "constants/answer-types";
 import CurrencyAnswer from "components/Answers/CurrencyAnswer";
 import Tooltip from "components/Tooltip";
@@ -115,11 +114,9 @@ class UnwrappedAnswerEditor extends React.Component {
   render() {
     const { answer } = this.props;
 
-    console.log(answer);
-
     let name, unit;
 
-    if (answer.type === "Number") {
+    if (answer.properties.unitType === MEASUREMENT && answer.properties.unit) {
       unit = answer.properties.unit.char;
       name = answer.properties.unit.name;
     } else {
