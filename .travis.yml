@@ -14,9 +14,6 @@ node_js:
 cache:
   yarn: true
 
-addons:
-  chrome: stable
-
 matrix:
   include:
     - env: PROJECT=eq-author
@@ -29,6 +26,7 @@ before_script:
 
 script:
   - if .travis/build-condition.sh $PROJECT; then BUILD_SKIPPED=false; echo "$PROJECT is being built"; pushd $PROJECT; ./scripts/ci.sh; popd; else echo "$PROJECT is NOT being built"; BUILD_SKIPPED=true; fi
+  - cd eq-author && yarn && yarn test:e2e
 
 deploy:
   local_dir: eq-author/storybook-static
