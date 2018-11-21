@@ -1,9 +1,9 @@
 import React from "react";
 import { shallow } from "enzyme";
 
-import { colors } from "constants/theme";
-
-import ContentPickerTitle, { TitleButton } from "./ContentPickerTitle";
+import ContentPickerTitle, {
+  TitleButton
+} from "components/ContentPicker/ContentPickerTitle";
 
 describe("Content Picker Title", () => {
   let props = {};
@@ -30,17 +30,5 @@ describe("Content Picker Title", () => {
     );
     wrapper.find(TitleButton).simulate("click", "something");
     expect(props.onClick).toHaveBeenCalledWith("something");
-  });
-
-  describe("TitleButton", () => {
-    it("should render with disabled styles", () => {
-      const wrapper = shallow(<TitleButton disabled>Hello</TitleButton>);
-      expect(wrapper).toHaveStyleRule("pointer-events", "none");
-    });
-
-    it("should render with selected styles", () => {
-      const wrapper = shallow(<TitleButton selected>Hello</TitleButton>);
-      expect(wrapper).toHaveStyleRule("background", colors.darkBlue);
-    });
   });
 });

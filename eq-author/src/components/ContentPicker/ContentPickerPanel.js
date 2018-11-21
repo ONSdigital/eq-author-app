@@ -17,6 +17,7 @@ const PanelWrapper = styled.div`
   position: relative;
   overflow: auto;
   border: 1px solid ${colors.lightGrey};
+  border-top: none;
   border-radius: 0 0 ${radius} ${radius};
   display: flex;
   flex-grow: 1;

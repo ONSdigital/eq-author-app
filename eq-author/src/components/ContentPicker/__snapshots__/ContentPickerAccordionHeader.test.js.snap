@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ContentPickerAccordionHeader should render 1`] = `
+.c0 {
+  display: block;
+  width: 100%;
+  cursor: pointer;
+  margin: 0;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  position: relative;
+  padding: 0.8em 2em;
+  background: #5F7682;
+  border-radius: 4px;
+  font-size: 1em;
+  text-align: left;
+}
+
+<Button
+  className="c0"
+  disabled={false}
+  selected={false}
+  type="button"
+  variant="primary"
+>
+  FooBar
+</Button>
+`;

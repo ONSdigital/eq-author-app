@@ -1,9 +1,12 @@
+import MultipleChoiceAnswerOptionsSelector from "components/routing/MultipleChoiceAnswerOptionsSelector";
+import NumberAnswerValueSelector from "components/routing/NumberAnswerSelector";
 import React from "react";
-import { shallow, mount } from "enzyme";
-
-import RoutingCondition from "./RoutingCondition";
-
-import sections from "./mockstate";
+import { shallow } from "enzyme";
+import { RADIO, TEXTFIELD, CURRENCY, NUMBER } from "constants/answer-types";
+import RoutingConditionContentPicker from "components/routing/RoutingConditionContentPicker";
+import { UnwrappedRoutingCondition } from "components/routing/RoutingCondition";
+import sections from "components/routing/mockstate";
+import { byTestAttr } from "tests/utils/selectors";
 
 let mockHandlers, condition, match;
 
@@ -19,12 +22,14 @@ describe("components/RoutingCondition", () => {
     condition = {
       id: "1",
       questionPage: {
-        id: "2"
+        id: "2",
+        displayName: "foobar"
       },
       answer: {
         id: "3",
         type: "Radio"
-      }
+      },
+      comparator: "Equal"
     };
 
     match = {
@@ -38,7 +43,7 @@ describe("components/RoutingCondition", () => {
 
   const createWrapper = (props = {}, render = shallow) =>
     render(
-      <RoutingCondition
+      <UnwrappedRoutingCondition
         id="test"
         ruleId="1"
         sections={sections}
@@ -50,8 +55,6 @@ describe("components/RoutingCondition", () => {
       />
     );
 
-  const testId = id => `[data-test="${id}"]`;
-
   it("should render consistently", () => {
     const wrapper = createWrapper();
     expect(wrapper).toMatchSnapshot();
@@ -60,39 +63,64 @@ describe("components/RoutingCondition", () => {
   it("should render message if question deleted", () => {
     condition.questionPage = null;
     const wrapper = createWrapper();
-    expect(wrapper.find(testId("deleted-answer-msg")).exists()).toBe(true);
+    expect(wrapper.find(byTestAttr("deleted-answer-msg")).exists()).toBe(true);
   });
 
   it("should render message if no answer available", () => {
     condition.answer = null;
     const wrapper = createWrapper();
-    expect(wrapper.find(testId("no-answer-msg")).exists()).toBe(true);
+    expect(wrapper.find(byTestAttr("no-answer-msg")).exists()).toBe(true);
   });
 
   it("should render message if invalid answer type", () => {
-    condition.answer.type = "Text";
+    condition.answer.type = TEXTFIELD;
     const wrapper = createWrapper();
-    expect(wrapper.find(testId("invalid-answer-type-msg")).exists()).toBe(true);
+    expect(wrapper.find(byTestAttr("invalid-answer-type-msg")).exists()).toBe(
+      true
+    );
   });
 
-  it("should render option selector if everything is ok", () => {
-    const wrapper = createWrapper({}, mount);
-    expect(wrapper.find(testId("options-selector")).exists()).toBe(true);
+  it("should render message if cannot add and condition", () => {
+    const wrapper = createWrapper({
+      canAddAndCondition: false
+    });
+    expect(wrapper.find(byTestAttr("and-not-valid-msg")).exists()).toBe(true);
+  });
+
+  it("should render multiple choice editor correctly", () => {
+    condition.answer.type = RADIO;
+    const wrapper = createWrapper();
+    expect(wrapper.find(MultipleChoiceAnswerOptionsSelector).exists()).toBe(
+      true
+    );
+  });
+
+  it("should render number editor correctly", () => {
+    const answerTypes = [CURRENCY, NUMBER];
+    answerTypes.forEach(answerType => {
+      condition.answer.type = answerType;
+      const wrapper = createWrapper();
+      expect(wrapper.find(NumberAnswerValueSelector).exists()).toBe(true);
+    });
   });
 
   it("should call onRemove handler when remove button is clicked", () => {
     const wrapper = createWrapper();
-    wrapper.find("[data-test='btn-remove']").simulate("click");
+    wrapper.find(byTestAttr("btn-remove")).simulate("click");
     expect(mockHandlers.onRemove).toHaveBeenCalled();
   });
 
-  it("should call onUpdate with value of selected page", () => {
-    const wrapper = createWrapper({}, mount);
+  it("should correctly submit from RoutingConditionContentPicker", () => {
+    const wrapper = createWrapper();
 
-    wrapper.find("select").simulate("change");
+    wrapper.find(RoutingConditionContentPicker).simulate("submit", {
+      value: {
+        id: "999"
+      }
+    });
     expect(mockHandlers.onConditionChange).toHaveBeenCalledWith({
       id: condition.id,
-      questionPageId: condition.questionPage.id
+      questionPageId: "999"
     });
   });
 });

@@ -39,13 +39,7 @@ const AvailablePipingContentQuery = ({ id, sectionContent, children }) => (
     variables={{ id, sectionContent }}
     fetchPolicy="cache-and-network"
   >
-    {({ loading, error, data }) =>
-      children({
-        loading,
-        error,
-        data
-      })
-    }
+    {children}
   </Query>
 );
 

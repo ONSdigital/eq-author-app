@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RoutingConditionContentPicker should render 1`] = `
+<UnwrappedContentPickerSelect
+  contentTypes={
+    Array [
+      "Question",
+    ]
+  }
+  name="questionPageId"
+  onSubmit={[MockFunction]}
+  questionData={Array []}
+  selectedContentDisplayName="Please select..."
+/>
+`;

@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ContentPickerButton should not render when hidden prop is true 1`] = `""`;
+
+exports[`ContentPickerButton should render with selected icon 1`] = `
+<ContentPickerAccordionHeader
+  selected={true}
+>
+  <ContentPickerButton__SelectedIcon />
+  foobar
+</ContentPickerAccordionHeader>
+`;
+
+exports[`ContentPickerButton should render without selected icon 1`] = `
+<ContentPickerAccordionHeader
+  selected={false}
+>
+  foobar
+</ContentPickerAccordionHeader>
+`;

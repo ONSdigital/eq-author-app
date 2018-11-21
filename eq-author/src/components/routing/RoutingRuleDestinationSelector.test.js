@@ -1,8 +1,8 @@
 import React from "react";
-import { shallow, mount } from "enzyme";
+import { shallow } from "enzyme";
 
-import RoutingRuleDestinationSelector from "./RoutingRuleDestinationSelector";
-import sections from "./mockstate";
+import { UnwrappedRoutingRuleDestinationSelector } from "components/routing/RoutingRuleDestinationSelector";
+import { byTestAttr } from "tests/utils/selectors";
 
 let wrapper, props;
 
@@ -17,61 +17,58 @@ describe("components/RoutingRuleDestinationSelector", () => {
       },
       label: "Test",
       id: "test-select",
-      destinations: {
-        questionPages: [
-          {
-            id: "1",
-            displayName: "page 1",
-            title: "page 1",
-            __typename: "QuestionPage"
-          },
-          {
-            id: "2",
-            displayName: "page 2",
-            title: "page 2",
-            __typename: "QuestionPage"
-          }
-        ],
-        sections: [
-          {
-            id: "3",
-            displayName: "section 1",
-            title: "section 1",
-            __typename: "Section"
-          },
-          {
-            id: "4",
-            displayName: "section 2",
-            title: "section 2",
-            __typename: "Section"
-          }
-        ]
-      },
-      sections
+      match: {
+        params: {
+          questionnaireId: "1",
+          sectionId: "1",
+          pageId: "1"
+        }
+      }
     };
 
-    wrapper = shallow(<RoutingRuleDestinationSelector {...props} />);
+    wrapper = shallow(<UnwrappedRoutingRuleDestinationSelector {...props} />);
   });
 
   it("should render", () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  it("should allow change of goto select", () => {
-    wrapper = mount(<RoutingRuleDestinationSelector {...props} />);
-    wrapper.find(`select[data-test="result-selector"]`).simulate("change");
+  it("should handle change for absoluteDestination", () => {
+    wrapper
+      .find(byTestAttr("routing-destination-content-picker"))
+      .simulate("submit", {
+        value: {
+          id: 1,
+          config: {
+            destination: {
+              absoluteDestination: {
+                destinationType: "foobar"
+              }
+            }
+          }
+        }
+      });
 
     expect(props.onChange).toHaveBeenCalledWith({
       absoluteDestination: {
-        destinationId: "1",
-        destinationType: "QuestionPage"
+        destinationType: "foobar",
+        destinationId: 1
       }
     });
   });
 
-  it("should pass disabled prop onto select field", () => {
-    wrapper.setProps({ disabled: true });
-    const select = wrapper.find('[data-test="result-selector"]');
-    expect(select.props().disabled).toBe(true);
+  it("should handle change for logicalDestination", () => {
+    wrapper
+      .find(byTestAttr("routing-destination-content-picker"))
+      .simulate("submit", {
+        value: {
+          id: 1,
+          config: {
+            destination: { foo: "foobar" }
+          }
+        }
+      });
+
+    expect(props.onChange).toHaveBeenCalledWith({ foo: "foobar" });
   });
 });

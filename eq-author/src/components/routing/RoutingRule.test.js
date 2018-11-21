@@ -1,6 +1,10 @@
 import React from "react";
 import { shallow } from "enzyme";
-import RoutingRule from "./RoutingRule";
+import Button from "components/Button";
+import TextButton from "components/TextButton";
+import RoutingCondition from "components/routing/RoutingCondition";
+import RoutingRuleDestinationSelector from "components/routing/RoutingRuleDestinationSelector";
+import RoutingRule from "components/routing/RoutingRule";
 
 let wrapper, props;
 
@@ -42,7 +46,7 @@ describe("components/RoutingRule", () => {
   });
 
   it("should allow deleting rule", () => {
-    wrapper.find("[data-test='btn-delete']").simulate("click");
+    wrapper.find(Button).simulate("click");
     expect(props.onDeleteRule).toHaveBeenCalled();
   });
 
@@ -50,14 +54,14 @@ describe("components/RoutingRule", () => {
     props.rule.conditions = [{ id: "2", answer: { id: "1" } }];
 
     wrapper = shallow(<RoutingRule {...props} />);
-    wrapper.find("RoutingCondition").simulate("remove");
+    wrapper.find(RoutingCondition).simulate("remove");
 
     expect(props.onDeleteRoutingCondition).not.toHaveBeenCalled();
   });
 
   it("should allow change of THEN condition", () => {
     const data = { name: "hello", value: "there" };
-    wrapper.find("[data-test='select-then']").simulate("change", data);
+    wrapper.find(RoutingRuleDestinationSelector).simulate("change", data);
 
     expect(props.onThenChange).toHaveBeenLastCalledWith({
       goto: data,
@@ -79,15 +83,15 @@ describe("components/RoutingRule", () => {
 
     wrapper = shallow(<RoutingRule {...props} />);
 
-    const firstCondition = wrapper.find("RoutingCondition").first();
+    const firstCondition = wrapper.find(RoutingCondition).first();
     expect(firstCondition.prop("canAddAndCondition")).toBe(true);
 
-    const lastCondition = wrapper.find("RoutingCondition").last();
+    const lastCondition = wrapper.find(RoutingCondition).last();
     expect(lastCondition.prop("canAddAndCondition")).toBe(false);
   });
 
   it("allows adding of new condition", () => {
-    wrapper.find(`[data-test="btn-and"]`).simulate("click");
+    wrapper.find(TextButton).simulate("click");
 
     expect(props.onAddRoutingCondition).toHaveBeenCalledWith(props.rule);
   });

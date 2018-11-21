@@ -58,7 +58,9 @@
       "!config/**/*",
       "!migrations/*",
       "!coverage/**/*",
-      "!tests/**/*"
+      "!tests/**/*",
+      "!scripts/*",
+      "!middleware/import.js"
     ]
   },
   "devDependencies": {

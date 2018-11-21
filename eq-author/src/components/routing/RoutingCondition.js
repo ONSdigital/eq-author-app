@@ -1,36 +1,24 @@
 import React from "react";
+import { PropTypes } from "prop-types";
 import styled from "styled-components";
+import CustomPropTypes from "custom-prop-types";
+import { NavLink, withRouter } from "react-router-dom";
+import { TransitionGroup } from "react-transition-group";
+import { lowerCase, get, isNil, uniqueId } from "lodash";
 
 import DeleteButton from "components/DeleteButton";
-import IconClose from "./icon-close.svg?inline";
-import { PropTypes } from "prop-types";
-import CustomPropTypes from "custom-prop-types";
-
+import RoutingConditionContentPicker from "components/routing/RoutingConditionContentPicker";
+import MultipleChoiceAnswerOptionsSelector from "components/routing/MultipleChoiceAnswerOptionsSelector";
+import NumberAnswerSelector from "components/routing/NumberAnswerSelector";
+import Transition from "components/routing/Transition";
+import IconText from "components/IconText";
 import { Grid, Column } from "components/Grid";
-import { NavLink } from "react-router-dom";
-
-import { RADIO, NUMBER, CURRENCY } from "constants/answer-types";
+import { Alert, AlertTitle, AlertText } from "components/routing/Alert";
 
 import svgPath from "./path.svg";
 import svgPathEnd from "./path-end.svg";
-import IconText from "components/IconText";
-import {
-  get,
-  isNil,
-  isEmpty,
-  lowerCase,
-  uniqueId,
-  first,
-  flow,
-  negate,
-  overSome
-} from "lodash";
-import MultipleChoiceAnswerOptionsSelector from "components/routing/MultipleChoiceAnswerOptionsSelector";
-import NumberAnswerSelector from "components/routing/NumberAnswerSelector";
-import GroupedSelect from "./GroupedSelect";
-import Transition from "components/routing/Transition";
-import { TransitionGroup } from "react-transition-group";
-import { Alert, AlertTitle, AlertText } from "components/routing/Alert";
+import IconClose from "./icon-close.svg?inline";
+import { RADIO, NUMBER, CURRENCY } from "constants/answer-types";
 import { buildPagePath } from "utils/UrlUtils";
 import isAnswerValidForRouting from "./isAnswerValidForRouting";
 
@@ -43,13 +31,6 @@ const Label = styled.label`
   letter-spacing: 0.05em;
   font-weight: bold;
   text-align: center;
-  align-self: center;
-`;
-
-export const PageSelect = styled(GroupedSelect).attrs({
-  onChange: props => ({ value }) => props.onChange(value)
-})`
-  margin: 0;
   align-self: center;
 `;
 
@@ -77,23 +58,6 @@ const RemoveButton = styled(DeleteButton)`
   position: relative;
   right: 2px;
 `;
-
-const firstAnswerIsValid = flow(
-  first,
-  isAnswerValidForRouting
-);
-const shouldDisable = overSome([isEmpty, negate(firstAnswerIsValid)]);
-
-const convertToGroups = sections =>
-  sections.map(section => ({
-    label: section.displayName,
-    id: section.id,
-    options: section.pages.map(page => ({
-      label: page.displayName,
-      value: page.id,
-      disabled: shouldDisable(page.answers)
-    }))
-  }));
 
 const renderNoAnswer = params => (
   <Transition exit={false}>
@@ -167,11 +131,10 @@ const renderNumberEditor = (
   </Transition>
 );
 
-class RoutingCondition extends React.Component {
+export class UnwrappedRoutingCondition extends React.Component {
   static propTypes = {
     ruleId: PropTypes.string.isRequired,
     condition: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
-    sections: PropTypes.arrayOf(CustomPropTypes.section).isRequired,
     onConditionChange: PropTypes.func.isRequired,
     onUpdateConditionValue: PropTypes.func.isRequired,
     onToggleOption: PropTypes.func.isRequired,
@@ -183,8 +146,6 @@ class RoutingCondition extends React.Component {
 
   constructor(props) {
     super(props);
-
-    this.pageSelectIsValid = true;
 
     this.id = uniqueId("RoutingCondition");
 
@@ -203,10 +164,10 @@ class RoutingCondition extends React.Component {
     ? () => this.props.onRemove(this.props.ruleId, this.props.condition.id)
     : null;
 
-  handlePageChange = ({ value }) => {
+  handlePageChange = ({ value: { id: questionPageId } }) => {
     this.props.onConditionChange({
       id: this.props.condition.id,
-      questionPageId: value
+      questionPageId
     });
   };
 
@@ -223,7 +184,6 @@ class RoutingCondition extends React.Component {
   renderEditor(condition) {
     let routingEditor;
     let isValid = true;
-
     if (isNil(condition.questionPage)) {
       isValid = false;
       routingEditor = renderDeletedQuestion();
@@ -263,7 +223,7 @@ class RoutingCondition extends React.Component {
   }
 
   render() {
-    const { routingEditor, isValid } = this.renderEditor(this.props.condition);
+    const { routingEditor } = this.renderEditor(this.props.condition);
 
     return (
       <div data-test="routing-condition">
@@ -272,12 +232,15 @@ class RoutingCondition extends React.Component {
             <Label htmlFor={this.id}>{this.props.label}</Label>
           </Column>
           <Column gutters={false} cols={10}>
-            <PageSelect
-              value={this.value}
-              valid={isValid}
-              onChange={this.handlePageChange}
-              groups={convertToGroups(this.props.sections)}
+            <RoutingConditionContentPicker
               id={this.id}
+              pageId={this.props.match.params.pageId}
+              path="questionPage.availableRoutingQuestions"
+              selectedContentDisplayName={get(
+                this.props,
+                "condition.questionPage.displayName"
+              )}
+              onSubmit={this.handlePageChange}
             />
           </Column>
           <Column gutters={false} cols={1}>
@@ -306,4 +269,4 @@ class RoutingCondition extends React.Component {
   }
 }
 
-export default RoutingCondition;
+export default withRouter(UnwrappedRoutingCondition);

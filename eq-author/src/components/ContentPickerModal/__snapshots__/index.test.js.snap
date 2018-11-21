@@ -16,12 +16,26 @@ exports[`ContentPickerModal should render 1`] = `
           Object {
             "id": "answers",
             "render": [Function],
+            "showTabButton": true,
             "title": "Answer",
+          },
+          Object {
+            "id": "question",
+            "render": [Function],
+            "showTabButton": true,
+            "title": "Question",
           },
           Object {
             "id": "metadata",
             "render": [Function],
+            "showTabButton": true,
             "title": "Metadata",
+          },
+          Object {
+            "id": "destination",
+            "render": [Function],
+            "showTabButton": false,
+            "title": "Destination",
           },
         ]
       }
@@ -30,9 +44,21 @@ exports[`ContentPickerModal should render 1`] = `
 </ContentPickerModal__StyledModal>
 `;
 
+exports[`ContentPickerModal should render TabButton when showTabButton is true 1`] = `
+<ContentPickerModal__TabButton>
+  hello world
+</ContentPickerModal__TabButton>
+`;
+
 exports[`ContentPickerModal should show an error message when answerData property is not provided 1`] = `
 <ContentPickerModal__ErrorText>
   There are no previous answers to pick from
+</ContentPickerModal__ErrorText>
+`;
+
+exports[`ContentPickerModal should show an error message when destinationData property is not provided 1`] = `
+<ContentPickerModal__ErrorText>
+  There are no destinations to pick from
 </ContentPickerModal__ErrorText>
 `;
 
@@ -42,15 +68,33 @@ exports[`ContentPickerModal should show an error message when metadataData prope
 </ContentPickerModal__ErrorText>
 `;
 
+exports[`ContentPickerModal should show an error message when questionData property is not provided 1`] = `
+<ContentPickerModal__ErrorText>
+  There are no questions to pick from
+</ContentPickerModal__ErrorText>
+`;
+
 exports[`ContentPickerModal should show an error message when there are no answers to pick from 1`] = `
 <ContentPickerModal__ErrorText>
   There are no previous answers to pick from
 </ContentPickerModal__ErrorText>
 `;
 
+exports[`ContentPickerModal should show an error message when there is no destination 1`] = `
+<ContentPickerModal__ErrorText>
+  There are no destinations to pick from
+</ContentPickerModal__ErrorText>
+`;
+
 exports[`ContentPickerModal should show an error message when there is no metadata 1`] = `
 <ContentPickerModal__ErrorText>
   There is no configured metadata to pick from
+</ContentPickerModal__ErrorText>
+`;
+
+exports[`ContentPickerModal should show an error message when there is no question 1`] = `
+<ContentPickerModal__ErrorText>
+  There are no questions to pick from
 </ContentPickerModal__ErrorText>
 `;
 
@@ -70,11 +114,13 @@ exports[`ContentPickerModal should show answer and metadata tabs 1`] = `
           Object {
             "id": "answers",
             "render": [Function],
+            "showTabButton": true,
             "title": "Answer",
           },
           Object {
             "id": "metadata",
             "render": [Function],
+            "showTabButton": true,
             "title": "Metadata",
           },
         ]
@@ -100,6 +146,7 @@ exports[`ContentPickerModal should show answer tab only 1`] = `
           Object {
             "id": "answers",
             "render": [Function],
+            "showTabButton": true,
             "title": "Answer",
           },
         ]
@@ -109,7 +156,33 @@ exports[`ContentPickerModal should show answer tab only 1`] = `
 </ContentPickerModal__StyledModal>
 `;
 
-exports[`ContentPickerModal should show metadata only 1`] = `
+exports[`ContentPickerModal should show destination tab only 1`] = `
+<ContentPickerModal__StyledModal
+  hasCloseButton={false}
+>
+  <ContentPickerModal__Flex>
+    <BaseTabs
+      ContentWrapper={[Function]}
+      TabList={[Function]}
+      activeId="answers"
+      buttonRender={[Function]}
+      onChange={[Function]}
+      tabs={
+        Array [
+          Object {
+            "id": "destination",
+            "render": [Function],
+            "showTabButton": false,
+            "title": "Destination",
+          },
+        ]
+      }
+    />
+  </ContentPickerModal__Flex>
+</ContentPickerModal__StyledModal>
+`;
+
+exports[`ContentPickerModal should show metadata tab only 1`] = `
 <ContentPickerModal__StyledModal
   hasCloseButton={false}
 >
@@ -125,7 +198,34 @@ exports[`ContentPickerModal should show metadata only 1`] = `
           Object {
             "id": "metadata",
             "render": [Function],
+            "showTabButton": true,
             "title": "Metadata",
+          },
+        ]
+      }
+    />
+  </ContentPickerModal__Flex>
+</ContentPickerModal__StyledModal>
+`;
+
+exports[`ContentPickerModal should show question tab only 1`] = `
+<ContentPickerModal__StyledModal
+  hasCloseButton={false}
+>
+  <ContentPickerModal__Flex>
+    <BaseTabs
+      ContentWrapper={[Function]}
+      TabList={[Function]}
+      activeId="answers"
+      buttonRender={[Function]}
+      onChange={[Function]}
+      tabs={
+        Array [
+          Object {
+            "id": "question",
+            "render": [Function],
+            "showTabButton": true,
+            "title": "Question",
           },
         ]
       }

@@ -1,37 +1,65 @@
 const db = require("../../db");
-
-const getAnswers = ({ answerTypes, questionnaireId }) =>
-  db("Answers")
-    .select("Answers.*")
-    .join("PagesView", "Answers.questionPageId", "PagesView.id")
-    .join("SectionsView", "PagesView.sectionId", "SectionsView.id")
-    .whereIn("Answers.type", answerTypes)
-    .andWhere("Answers.isDeleted", false)
-    .andWhere({ questionnaireId });
+const { head } = require("lodash/fp");
 
 module.exports.getPreviousAnswersForSection = ({
   answerTypes,
   sectionPosition,
   questionnaireId
 }) =>
-  getAnswers({ answerTypes, questionnaireId }).andWhere(
-    "SectionsView.position",
-    "<",
-    sectionPosition
-  );
+  db("Answers")
+    .select("Answers.*")
+    .join("PagesView", "Answers.questionPageId", "PagesView.id")
+    .join("SectionsView", "PagesView.sectionId", "SectionsView.id")
+    .whereIn("Answers.type", answerTypes)
+    .andWhere("Answers.isDeleted", false)
+    .andWhere({ questionnaireId })
+    .andWhere("SectionsView.position", "<", sectionPosition);
 
-module.exports.getPreviousAnswersForSectionAndPage = ({
+module.exports.getPreviousAnswersForPage = ({
+  id,
   answerTypes,
-  sectionPosition,
-  pagePosition,
-  questionnaireId
+  select = "Answers.*",
+  includeSelf = false
 }) =>
-  getAnswers({ answerTypes, questionnaireId }).andWhere(query =>
-    query
-      .where("SectionsView.position", "<", sectionPosition)
-      .orWhere(query =>
-        query
-          .where("SectionsView.position", sectionPosition)
-          .andWhere("PagesView.position", "<", pagePosition)
-      )
-  );
+  db("PagesView")
+    .select("SectionsView.position as sectionPosition")
+    .select("PagesView.position as pagePosition")
+    .select("SectionsView.questionnaireId")
+    .join("SectionsView", "PagesView.sectionId", "SectionsView.id")
+    .where("PagesView.id", id)
+    .then(head)
+    .then(({ questionnaireId, sectionPosition, pagePosition }) =>
+      db("PagesView")
+        .select(select)
+        .join("Answers", "Answers.questionPageId", "PagesView.id")
+        .join("SectionsView", "PagesView.sectionId", "SectionsView.id")
+        .whereIn("Answers.type", answerTypes)
+        .andWhere("Answers.isDeleted", false)
+        .andWhere({ questionnaireId })
+        .andWhere("SectionsView.position", "<=", sectionPosition)
+        .andWhere(query =>
+          query
+            .where("SectionsView.position", "<", sectionPosition)
+            .orWhere(query =>
+              query
+                .where("SectionsView.position", sectionPosition)
+                .andWhere(
+                  "PagesView.position",
+                  includeSelf ? "<=" : "<",
+                  pagePosition
+                )
+            )
+        )
+    );
+
+module.exports.getPreviousQuestionsForPage = ({
+  id,
+  answerTypes,
+  includeSelf = false
+}) =>
+  this.getPreviousAnswersForPage({
+    id,
+    answerTypes,
+    select: "PagesView.*",
+    includeSelf
+  });

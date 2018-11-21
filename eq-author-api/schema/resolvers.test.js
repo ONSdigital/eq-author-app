@@ -21,6 +21,7 @@ const {
   updateCondition,
   createSectionMutation,
   createQuestionPageMutation,
+  getAvailableRoutingQuestions,
   getAvailableRoutingDestinations,
   updateRoutingRuleSet,
   deleteRoutingRuleSet,
@@ -35,6 +36,11 @@ const {
   createExclusiveMutation
 } = require("../tests/utils/graphql");
 
+const {
+  NEXT_PAGE,
+  END_OF_QUESTIONNAIRE
+} = require("../constants/logicalDestinations");
+const { RADIO } = require("../constants/answerTypes");
 const ctx = { repositories };
 
 const createNewQuestionnaire = async () => {
@@ -325,6 +331,11 @@ const refreshAnswerDetails = async ({ id }) => {
   const result = await executeQuery(getAnswerQuery, { id }, ctx);
   return result.data.answer;
 };
+
+const addPage = async sectionId =>
+  createQuestionPage(sectionId).then(res => res.data.createQuestionPage);
+const addSection = async questionnaireId =>
+  createSection(questionnaireId).then(res => res.data.createSection);
 
 describe("resolvers", () => {
   let questionnaire;
@@ -670,7 +681,7 @@ describe("resolvers", () => {
     expect(get(first(routingConditions), "routingValue.value")).toHaveLength(0);
   });
 
-  it("should delete routing condition value when answer is updated", async () => {
+  it("should delete routing condition value when page is updated", async () => {
     const routingTree = await createFullRoutingTree(firstPage);
 
     await toggleConditionOptionMutation(
@@ -690,13 +701,17 @@ describe("resolvers", () => {
       first(routingTree.answer.options).id
     );
 
+    const newPage = await addPage(first(sections).id);
+    const answer = await createNewAnswer(newPage, RADIO);
+
     await changeRoutingCondition(
-      firstPage,
-      routingTree.answer,
+      newPage,
+      answer,
       routingTree.routingConditionId
     );
 
     routingStructure = await getFullRoutingTree(firstPage);
+
     routingCondition = get(
       routingStructure,
       "data.questionPage.routingRuleSet.routingRules[0].conditions[0]"
@@ -705,24 +720,35 @@ describe("resolvers", () => {
     expect(get(routingCondition, "routingValue.value")).toHaveLength(0);
   });
 
-  it("should return available routing destinations", async () => {
-    const secondSection = await createSection(questionnaire.id);
-    await createQuestionPage(get(sections, "[0].id"));
-    await createQuestionPage(get(sections, "[0].id"));
-    await createQuestionPage(secondSection.data.createSection.id);
-    const result = await executeQuery(
-      getAvailableRoutingDestinations,
-      {
-        id: firstPage.id
-      },
-      ctx
+  it("should not update routing condition answer when 2nd answer added on page", async () => {
+    const routingTree = await createFullRoutingTree(firstPage);
+
+    await toggleConditionOptionMutation(
+      routingTree.routingConditionId,
+      true,
+      first(routingTree.answer.options).id
     );
 
-    const destinations = get(result, "data.availableRoutingDestinations");
+    const routingStructure = await getFullRoutingTree(firstPage);
+    const routingCondition = get(
+      routingStructure,
+      "data.questionPage.routingRuleSet.routingRules[0].conditions[0]"
+    );
 
-    expect(get(destinations, "logicalDestinations")).toHaveLength(2);
-    expect(get(destinations, "questionPages")).toHaveLength(2);
-    expect(get(destinations, "sections")).toHaveLength(1);
+    await createNewAnswer(firstPage, RADIO);
+
+    const newRoutingStructure = await getFullRoutingTree(firstPage);
+    const newRoutingCondition = get(
+      newRoutingStructure,
+      "data.questionPage.routingRuleSet.routingRules[0].conditions[0]"
+    );
+
+    expect(get(routingCondition, "answer.id")).toEqual(
+      get(newRoutingCondition, "answer.id")
+    );
+    expect(get(routingCondition, "routingValue.value[0]")).toEqual(
+      get(newRoutingCondition, "routingValue.value[0]")
+    );
   });
 
   it("should reorder section with correct position", async () => {
@@ -1020,22 +1046,50 @@ describe("resolvers", () => {
     const mutate = async input => createNewRoutingRule(input);
     const newRoutingRule = async input =>
       mutate(input).then(res => res.data.createRoutingRule);
-    const addPage = async sectionId =>
-      createQuestionPage(sectionId).then(res => res.data.createQuestionPage);
-    const addSection = async questionnaireId =>
-      createSection(questionnaireId).then(res => res.data.createSection);
     const getRoutingDataForPage = async page =>
       getFullRoutingTree(page).then(res => res.data.questionPage);
     const deleteRoutingRule = async input => deleteRoutingRuleMutation(input);
 
     describe("routing rule sets", () => {
-      it("should default else to next page", async () => {
+      it("should correctly calculate next destination as end of questionnaire", async () => {
         const routingRuleSet = await createNewRoutingRuleSet(firstPage.id);
         expect(routingRuleSet).toMatchObject({
           data: {
             createRoutingRuleSet: {
               else: {
-                logicalDestination: "NextPage"
+                logicalDestination: END_OF_QUESTIONNAIRE
+              }
+            }
+          }
+        });
+      });
+
+      it("should correctly calculate destination as NextPage when next destination is a page", async () => {
+        const section = await addSection(questionnaire.id);
+        const pageOne = await addPage(section.id);
+        await addPage(section.id);
+        const routingRuleSet = await createNewRoutingRuleSet(pageOne.id);
+        expect(routingRuleSet).toMatchObject({
+          data: {
+            createRoutingRuleSet: {
+              else: {
+                logicalDestination: NEXT_PAGE
+              }
+            }
+          }
+        });
+      });
+
+      it("should correctly calculate destination as NextPage when next destination is a section", async () => {
+        const section = await addSection(questionnaire.id);
+        const pageOne = await addPage(section.id);
+        await addSection(questionnaire.id);
+        const routingRuleSet = await createNewRoutingRuleSet(pageOne.id);
+        expect(routingRuleSet).toMatchObject({
+          data: {
+            createRoutingRuleSet: {
+              else: {
+                logicalDestination: NEXT_PAGE
               }
             }
           }
@@ -1049,7 +1103,7 @@ describe("resolvers", () => {
           id: get(routingRuleSet, "data.createRoutingRuleSet.id"),
           else: {
             logicalDestination: {
-              destinationType: "EndOfQuestionnaire"
+              destinationType: END_OF_QUESTIONNAIRE
             }
           }
         });
@@ -1058,7 +1112,7 @@ describe("resolvers", () => {
           data: {
             updateRoutingRuleSet: {
               else: {
-                logicalDestination: "EndOfQuestionnaire"
+                logicalDestination: END_OF_QUESTIONNAIRE
               }
             }
           }
@@ -1128,16 +1182,6 @@ describe("resolvers", () => {
           operation: "And",
           routingRuleSetId: routingRuleSet.id
         };
-      });
-
-      it("should default goto next page", async () => {
-        const routingRule = await newRoutingRule(input);
-
-        expect(routingRule).toMatchObject({
-          goto: {
-            logicalDestination: "NextPage"
-          }
-        });
       });
 
       it("should create a routing rule that routes to a question page", async () => {
@@ -1689,6 +1733,50 @@ describe("resolvers", () => {
           id: routingCondition.routingValue.id,
           numberValue: 8
         });
+      });
+    });
+
+    describe("Available routing data", () => {
+      it("should return available routing questions", async () => {
+        await createNewAnswer(firstPage, "Number");
+
+        const result = await executeQuery(
+          getAvailableRoutingQuestions,
+          {
+            id: firstPage.id
+          },
+          ctx
+        );
+
+        const questions = get(
+          result,
+          "data.questionPage.availableRoutingQuestions"
+        );
+
+        expect(questions).toHaveLength(1);
+      });
+
+      it("should return available routing destinations", async () => {
+        const secondSection = await createSection(questionnaire.id);
+        await createQuestionPage(get(sections, "[0].id"));
+        await createQuestionPage(get(sections, "[0].id"));
+        await createQuestionPage(secondSection.data.createSection.id);
+        const result = await executeQuery(
+          getAvailableRoutingDestinations,
+          {
+            id: firstPage.id
+          },
+          ctx
+        );
+
+        const destinations = get(
+          result,
+          "data.questionPage.availableRoutingDestinations"
+        );
+
+        expect(get(destinations, "logicalDestinations")).toHaveLength(2);
+        expect(get(destinations, "questionPages")).toHaveLength(2);
+        expect(get(destinations, "sections")).toHaveLength(1);
       });
     });
   });

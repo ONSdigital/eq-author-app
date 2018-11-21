@@ -34,7 +34,7 @@ exports[`components/RoutingRule should render children 1`] = `
           timeout={200}
         >
           <div>
-            <RoutingCondition
+            <withRouter(UnwrappedRoutingCondition)
               canAddAndCondition={true}
               condition={
                 Object {
@@ -44,6 +44,7 @@ exports[`components/RoutingRule should render children 1`] = `
                   "id": "2",
                 }
               }
+              destinations={Object {}}
               label="IF"
               match={
                 Object {
@@ -59,8 +60,8 @@ exports[`components/RoutingRule should render children 1`] = `
               onRemove={[MockFunction]}
               onToggleOption={[MockFunction]}
               onUpdateConditionValue={[MockFunction]}
+              pagesAvailableForRouting={Array []}
               ruleId="1"
-              sections={Array []}
             />
           </div>
         </Transition__RoutingComponentTransition>
@@ -69,7 +70,7 @@ exports[`components/RoutingRule should render children 1`] = `
           timeout={200}
         >
           <div>
-            <RoutingCondition
+            <withRouter(UnwrappedRoutingCondition)
               canAddAndCondition={true}
               condition={
                 Object {
@@ -79,6 +80,7 @@ exports[`components/RoutingRule should render children 1`] = `
                   "id": "3",
                 }
               }
+              destinations={Object {}}
               label="AND"
               match={
                 Object {
@@ -94,8 +96,8 @@ exports[`components/RoutingRule should render children 1`] = `
               onRemove={[MockFunction]}
               onToggleOption={[MockFunction]}
               onUpdateConditionValue={[MockFunction]}
+              pagesAvailableForRouting={Array []}
               ruleId="1"
-              sections={Array []}
             />
           </div>
         </Transition__RoutingComponentTransition>
@@ -117,13 +119,10 @@ exports[`components/RoutingRule should render children 1`] = `
         </RoutingRule__CenteringColumn>
       </Grid>
     </div>
-    <RoutingRuleDestinationSelector
+    <withRouter(UnwrappedRoutingRuleDestinationSelector)
       data-test="select-then"
-      destinations={Object {}}
-      disabled={false}
-      id="then"
+      id="1"
       label="THEN"
-      loading={false}
       onChange={[Function]}
     />
   </RoutingRule__Box>

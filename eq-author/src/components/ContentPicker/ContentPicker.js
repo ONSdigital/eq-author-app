@@ -79,12 +79,13 @@ export default class ContentPicker extends React.Component {
     const { selectedItems, openLevel } = this.state;
 
     return config.map(({ id, title: defaultTitle }, level) => {
-      const isDisabled = level > selectedItems.length;
+      const data = this.getDataAtLevel(level);
+
+      const isDisabled = level > selectedItems.length || !data.length;
       const isHidden = level > openLevel;
       const isOpen = level === openLevel || config.length === 1;
 
       const selectedItem = selectedItems[level];
-      const isSelected = selectedItem && !isOpen;
       const isLastLevel = config.length - 1 === level;
       const useCustomTitle =
         !isLastLevel && selectedItem && selectedItem.displayName;
@@ -92,8 +93,6 @@ export default class ContentPicker extends React.Component {
       const title = useCustomTitle
         ? `${defaultTitle}: ${selectedItem.displayName}`
         : defaultTitle;
-
-      const data = this.getDataAtLevel(level);
 
       return (
         <ContentPickerSingle
@@ -103,7 +102,7 @@ export default class ContentPicker extends React.Component {
           disabled={isDisabled}
           hidden={isHidden}
           open={isOpen}
-          selected={isSelected}
+          selected={isOpen}
           selectedOption={(selectedItem || {}).id}
           onTitleClick={() => this.handleTitleClick(level)}
           onOptionClick={option => this.handleOptionClick(level, option)}

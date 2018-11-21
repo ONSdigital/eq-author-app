@@ -27,6 +27,7 @@ const Resolvers = {
     answers: async (root, { ids }, ctx) =>
       ctx.repositories.Answer.getAnswers(ids),
     option: (root, { id }, ctx) => ctx.repositories.Option.getById(id),
+    //@deprecated - This will be removed once removed from schema
     availableRoutingDestinations: (root, { pageId }, ctx) =>
       ctx.repositories.Routing.getRoutingDestinations(pageId),
     questionConfirmation: (root, { id }, ctx) =>
@@ -241,9 +242,7 @@ const Resolvers = {
 
   QuestionPage: {
     answers: ({ id }, args, ctx) =>
-      ctx.repositories.Answer.findAll({
-        questionPageId: id
-      }),
+      ctx.repositories.Answer.findAll({ questionPageId: id }),
     section: ({ sectionId }, args, ctx) => {
       return ctx.repositories.Section.getById(sectionId);
     },
@@ -259,7 +258,11 @@ const Resolvers = {
     availablePipingAnswers: ({ id }, args, ctx) =>
       ctx.repositories.QuestionPage.getPipingAnswersForQuestionPage(id),
     availablePipingMetadata: ({ id }, args, ctx) =>
-      ctx.repositories.QuestionPage.getPipingMetadataForQuestionPage(id)
+      ctx.repositories.QuestionPage.getPipingMetadataForQuestionPage(id),
+    availableRoutingQuestions: ({ id }, args, ctx) =>
+      ctx.repositories.QuestionPage.getRoutingQuestionsForQuestionPage(id),
+    availableRoutingDestinations: ({ id }, args, ctx) =>
+      ctx.repositories.Routing.getRoutingDestinations(id)
   },
 
   RoutingRuleSet: {

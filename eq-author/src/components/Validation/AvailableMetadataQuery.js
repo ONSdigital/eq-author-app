@@ -39,13 +39,7 @@ const AvailableMetadataQuery = ({ answerId, children }) => (
     variables={{ id: answerId }}
     fetchPolicy="cache-and-network"
   >
-    {({ loading, error, data }) =>
-      children({
-        loading,
-        error,
-        data
-      })
-    }
+    {children}
   </Query>
 );
 

@@ -238,3 +238,24 @@ export const selectFirstMetadataContentPicker = () => {
 
   cy.get(testId("submit-button")).click();
 };
+
+export const selectQuestionFromContentPicker = ({
+  sectionTitle,
+  questionTitle
+}) => {
+  cy.get(`button[aria-controls='question']`).contains("Question");
+
+  cy.get(testId("picker-title"))
+    .contains("Section")
+    .click();
+  cy.get(testId("picker-option"))
+    .contains(sectionTitle)
+    .click();
+  cy.get(testId("picker-title"))
+    .contains("Question")
+    .click();
+  cy.get(testId("picker-option"))
+    .contains(questionTitle)
+    .click();
+  cy.get(testId("submit-button")).click();
+};

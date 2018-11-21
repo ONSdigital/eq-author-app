@@ -12,22 +12,47 @@ const shapeTree = answers =>
         result.push(section);
       }
 
-      const x = find(result, { id: section.id });
+      const currentSection = find(result, { id: section.id });
 
-      if (!find(x.pages, { id: page.id })) {
-        if (!isArray(x.pages)) {
-          x.pages = [];
+      if (!find(currentSection.pages, { id: page.id })) {
+        if (!isArray(currentSection.pages)) {
+          currentSection.pages = [];
         }
-        x.pages.push(page);
+        currentSection.pages.push(page);
       }
 
-      const y = find(x.pages, { id: page.id });
+      const currentPage = find(currentSection.pages, { id: page.id });
 
-      if (!find(y.answers, { id: answer.id })) {
-        if (!isArray(y.answers)) {
-          y.answers = [];
+      if (!find(currentPage.answers, { id: answer.id })) {
+        if (!isArray(currentPage.answers)) {
+          currentPage.answers = [];
         }
-        y.answers.push(answer);
+        currentPage.answers.push(answer);
+      }
+
+      return result;
+    },
+    []
+  );
+
+export const shapePageTree = answers =>
+  reduce(
+    answers,
+    (result, value) => {
+      const page = pick(value, ["id", "displayName"]);
+      const section = pick(value.section, ["id", "displayName"]);
+
+      if (!find(result, { id: section.id })) {
+        result.push(section);
+      }
+
+      const currentSection = find(result, { id: section.id });
+
+      if (!find(currentSection.pages, { id: page.id })) {
+        if (!isArray(currentSection.pages)) {
+          currentSection.pages = [];
+        }
+        currentSection.pages.push(page);
       }
 
       return result;

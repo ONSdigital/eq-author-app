@@ -29,7 +29,10 @@ const {
   deleteOtherAnswerStrategy
 } = require("./strategies/multipleChoiceOtherAnswerStrategy");
 
-const { handleAnswerDeleted } = require("./strategies/routingStrategy");
+const {
+  handleAnswerDeleted,
+  handleAnswerCreated
+} = require("./strategies/routingStrategy");
 
 const handleDeprecatedMandatoryFieldFromDb = answer =>
   isObject(answer)
@@ -90,7 +93,8 @@ const insert = (
     )
     .returning("*")
     .then(head)
-    .then(fromDb);
+    .then(fromDb)
+    .tap(answer => handleAnswerCreated(trx, answer));
 
 const update = ({
   id,

@@ -44,7 +44,6 @@ class UnwrappedQuestionnaireRoutingPage extends React.Component {
     data: PropTypes.shape({
       questionnaire: CustomPropTypes.questionnaire,
       currentPage: CustomPropTypes.page,
-      availableRoutingDestinations: PropTypes.object
     }),
     match: CustomPropTypes.match
   };
@@ -111,17 +110,6 @@ export const ROUTING_QUERY = gql`
       }
       answers {
         id
-      }
-    }
-    availableRoutingDestinations(pageId: $pageId) {
-      logicalDestinations {
-        ...LogicalDestination
-      }
-      questionPages {
-        ...QuestionPageDestination
-      }
-      sections {
-        ...SectionDestination
       }
     }
   }
