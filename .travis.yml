@@ -21,7 +21,7 @@ jobs:
   include:
     - stage: test
       script: eq-author/script/ci.sh
-      if: .travis/build-condition.sh "eq-author" 
+      if: [[ .travis/build-condition.sh "eq-author" ]]
     - script: eq-author-api/script/ci.sh
       if: .travis/build-condition.sh "eq-author-api" 
     - script: eq-publisher/script/ci.sh
