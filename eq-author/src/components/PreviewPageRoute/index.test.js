@@ -55,7 +55,7 @@ describe("PreviewPageRoute", () => {
   });
 
   it("should not render guidance, or description when they are not populated", () => {
-    questionPage.guidance = "<p></p>";
+    questionPage.guidance = "";
     const wrapper = shallow(
       <PreviewPageRoute loading={false} data={{ questionPage }} />
     );
@@ -63,7 +63,7 @@ describe("PreviewPageRoute", () => {
   });
 
   it("should render a warning there is no title", () => {
-    questionPage.title = "<p></p>";
+    questionPage.title = "";
     const wrapper = shallow(
       <PreviewPageRoute loading={false} data={{ questionPage }} />
     );

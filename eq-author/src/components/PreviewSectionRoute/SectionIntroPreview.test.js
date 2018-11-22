@@ -19,13 +19,13 @@ describe("SectionIntroPreview", () => {
   });
 
   it("should render an error when the title is missing", () => {
-    section.introductionTitle = "<p></p>";
+    section.introductionTitle = "";
     const wrapper = shallow(<SectionIntroPreview section={section} />);
     expect(wrapper).toMatchSnapshot();
   });
 
   it("should render an error when the content is missing", () => {
-    section.introductionContent = "<h2></h2>";
+    section.introductionContent = "";
     const wrapper = shallow(<SectionIntroPreview section={section} />);
     expect(wrapper).toMatchSnapshot();
   });

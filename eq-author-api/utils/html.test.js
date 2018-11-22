@@ -4,6 +4,7 @@ describe("html", () => {
   describe("isHtml", () => {
     it("should correctly determine if value is HTML", () => {
       expect(isHtml("<p>test</p>")).toEqual(true);
+      expect(isHtml("   <p>test</p>   ")).toEqual(true);
       expect(isHtml("<body<h1>test</h1></body>")).toEqual(true);
       expect(isHtml("<dsa i am valid html >")).toEqual(true);
     });
