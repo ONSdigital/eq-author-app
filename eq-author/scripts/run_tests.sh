@@ -30,11 +30,16 @@ function finish {
 trap finish INT KILL TERM EXIT
 
 AUTHOR_IMAGE=`../.travis/image-name.sh "eq-author"`
+docker pull $AUTHOR_IMAGE
+
 AUTHOR_API_IMAGE=`../.travis/image-name.sh "eq-author-api"`
+docker pull $AUTHOR_API_IMAGE
+
 PUBLISHER_IMAGE=`../.travis/image-name.sh "eq-publisher"`
+docker pull $PUBLISHER_IMAGE
+
 
 # Start env
-docker-compose -f "$docker_compose" pull --ignore-pull-failures
 docker-compose -f "$docker_compose" build
 docker-compose -f "$docker_compose" up -d
 ./node_modules/.bin/wait-on http-get://localhost:14000/status
