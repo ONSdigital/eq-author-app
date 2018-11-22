@@ -81,7 +81,7 @@ module.exports.getPipingAnswersForQuestionPage = id =>
 
 module.exports.getPipingMetadataForQuestionPage = id =>
   knex("Metadata")
-    .select()
+    .select("Metadata.*")
     .join("Questionnaires", "Metadata.questionnaireId", "Questionnaires.id")
     .join("SectionsView", "SectionsView.questionnaireId", "Questionnaires.id")
     .join("PagesView", "PagesView.sectionId", "SectionsView.id")

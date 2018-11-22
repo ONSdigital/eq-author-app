@@ -20,6 +20,8 @@ const {
   TEXT: METADATA_TEXT
 } = require("../constants/metadataTypes");
 
+const { getName } = require("../utils/getName");
+
 describe("QuestionPageRepository", () => {
   beforeAll(() => db.migrate.latest());
   afterAll(() => db.destroy());
@@ -158,8 +160,8 @@ describe("QuestionPageRepository", () => {
     beforeEach(async () => {
       questionnaire = await buildTestQuestionnaire({
         metadata: [
-          { key: "metadata_date", type: METADATA_DATE },
-          { key: "metadata_text", type: METADATA_TEXT }
+          { key: "metadata_date", alias: "metadata date", type: METADATA_DATE },
+          { key: "metadata_text", alias: "metadata text", type: METADATA_TEXT }
         ],
         sections: [
           {
@@ -188,6 +190,9 @@ describe("QuestionPageRepository", () => {
           key: "metadata_date"
         })
       ]);
+
+      expect(getName(metadata[0], "Metadata")).toEqual("metadata text");
+      expect(getName(metadata[1], "Metadata")).toEqual("metadata date");
     });
   });
 });
