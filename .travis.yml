@@ -20,10 +20,10 @@ before_script:
 jobs:
   include:
     - stage: test
-      script: if .travis/build-condition.sh "eq-author"; RAN_AUTHOR=true; pushd $PROJECT; ./scripts/ci.sh; popd; fi
-    - script: if .travis/build-condition.sh "eq-author-api"; pushd $PROJECT; ./scripts/ci.sh; popd; fi
-    - script: if .travis/build-condition.sh "eq-publisher"; pushd $PROJECT; ./scripts/ci.sh; popd; fi
-    - script: if .travis/build-condition.sh "eq-author-graphql-schema"; pushd $PROJECT; ./scripts/ci.sh; popd; fi
+      script: if .travis/build-condition.sh "eq-author"; then RAN_AUTHOR=true; pushd eq-author ./scripts/ci.sh; popd; fi
+    - script: if .travis/build-condition.sh "eq-author-api"; then pushd eq-author-api ./scripts/ci.sh; popd; fi
+    - script: if .travis/build-condition.sh "eq-publisher"; then pushd eq-publisher ./scripts/ci.sh; popd; fi
+    - script: if .travis/build-condition.sh "eq-author-graphql-schema"; then pushd author-graphql-schema; ./scripts/ci.sh; popd; fi
     - stage: e2e 
       script: e2e/script/ci.sh
 
