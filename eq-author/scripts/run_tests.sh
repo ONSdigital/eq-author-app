@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -euf -o pipefail
+set -ef -o pipefail
 
 docker_compose="./scripts/test_docker-compose.yml"
 
@@ -29,17 +29,19 @@ function finish {
 }
 trap finish INT KILL TERM EXIT
 
-AUTHOR_IMAGE=`../.travis/image-name.sh "eq-author" $1`
-echo "Author image: $AUTHOR_IMAGE"
-docker pull $AUTHOR_IMAGE
+if [ $CI  != "true" ]; then
+  AUTHOR_IMAGE=`../.travis/image-name.sh "eq-author" $1`
+  echo "Author image: $AUTHOR_IMAGE"
+  docker pull $AUTHOR_IMAGE
 
-AUTHOR_API_IMAGE=`../.travis/image-name.sh "eq-author-api" $1`
-echo "API image: $AUTHOR_API_IMAGE"
-docker pull $AUTHOR_API_IMAGE
+  AUTHOR_API_IMAGE=`../.travis/image-name.sh "eq-author-api" $1`
+  echo "API image: $AUTHOR_API_IMAGE"
+  docker pull $AUTHOR_API_IMAGE
 
-PUBLISHER_IMAGE=`../.travis/image-name.sh "eq-publisher" $1`
-echo "Publisher image: $PUBLISHER_IMAGE"
-docker pull $PUBLISHER_IMAGE
+  PUBLISHER_IMAGE=`../.travis/image-name.sh "eq-publisher" $1`
+  echo "Publisher image: $PUBLISHER_IMAGE"
+  docker pull $PUBLISHER_IMAGE
+fi
 
 # Start env
 docker-compose -f "$docker_compose" build
