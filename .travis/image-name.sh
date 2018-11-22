@@ -5,7 +5,7 @@ if [[ -z $1 ]]; then
     exit 1
 fi
 
-if ./build-condition.sh $1; then
+if $(dirname $0)/build-condition.sh $1; then
   if [[ "$TRAVIS_PULL_REQUEST_BRANCH" != "" ]]; then
     echo "onsdigital/${1}:${TRAVIS_PULL_REQUEST_BRANCH}"
   else
