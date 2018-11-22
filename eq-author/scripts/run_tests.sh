@@ -29,7 +29,7 @@ function finish {
 }
 trap finish INT KILL TERM EXIT
 
-if [ $CI  != "true" ]; then
+if [ $CI  == "true" ]; then
   AUTHOR_IMAGE=`../.travis/image-name.sh "eq-author" $1`
   echo "Author image: $AUTHOR_IMAGE"
   docker pull $AUTHOR_IMAGE
