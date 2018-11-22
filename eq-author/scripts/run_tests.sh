@@ -30,12 +30,15 @@ function finish {
 trap finish INT KILL TERM EXIT
 
 AUTHOR_IMAGE=`../.travis/image-name.sh "eq-author"`
+echo "Author image: $AUTHOR_IMAGE"
 docker pull $AUTHOR_IMAGE
 
 AUTHOR_API_IMAGE=`../.travis/image-name.sh "eq-author-api"`
+echo "API image: $AUTHOR_API_IMAGE"
 docker pull $AUTHOR_API_IMAGE
 
 PUBLISHER_IMAGE=`../.travis/image-name.sh "eq-publisher"`
+echo "Publisher image: $PUBLISHER_IMAGE"
 docker pull $PUBLISHER_IMAGE
 
 
