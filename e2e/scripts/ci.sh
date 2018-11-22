@@ -1,5 +1,5 @@
 #!/bin/bash
 
-cd ../../eq-author
+cd eq-author
 yarn
 yarn test:e2e
