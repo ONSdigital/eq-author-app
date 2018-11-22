@@ -14,21 +14,18 @@ node_js:
 cache:
   yarn: true
 
-addons:
-  chrome: stable
-
-matrix:
-  include:
-    - env: PROJECT=eq-author
-    - env: PROJECT=eq-author-api
-    - env: PROJECT=eq-author-graphql-schema
-    - env: PROJECT=eq-publisher
-
 before_script:
   - set -e
 
 script:
-  - if .travis/build-condition.sh $PROJECT; then BUILD_SKIPPED=false; echo "$PROJECT is being built"; pushd $PROJECT; ./scripts/ci.sh; popd; else echo "$PROJECT is NOT being built"; BUILD_SKIPPED=true; fi
+  - if .travis/build-condition.sh "eq-author"; then AUTHOR_BUILT=true; echo "Author is being built"; pushd eq-author; ./scripts/ci.sh; popd; else echo "Author is NOT being built"; fi
+  - if .travis/build-condition.sh "eq-author-api"; then echo "API is being built"; pushd eq-author-api; ./scripts/ci.sh; popd; else echo "API is NOT being built"; fi
+  - if .travis/build-condition.sh "eq-publisher"; then echo "Publisher is being built"; pushd eq-publisher; ./scripts/ci.sh; popd; else echo "Publisher is NOT being built"; fi
+  - if .travis/build-condition.sh "eq-author-graphql-schema"; then echo "Schema is being built"; pushd eq-author-graphql-schema; ./scripts/ci.sh; popd; else echo "Schema is NOT being built"; fi
+  - cd eq-author
+  - yarn install --frozen-lockfile
+  - yarn test:integration
+  - yarn test:e2e
 
 deploy:
   local_dir: eq-author/storybook-static
@@ -39,8 +36,7 @@ deploy:
     branch:
       - master
     condition:
-      - $PROJECT = eq-author
-      - $BUILD_SKIPPED = false
+      - $AUTHOR_BUILT = true
 
 branches:
   only:
