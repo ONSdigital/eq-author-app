@@ -5,12 +5,21 @@ if [[ -z $1 ]]; then
     exit 1
 fi
 
+if [[ -z $2 ]]; then
+  echo "Action must be provided"
+  exit 1
+fi
+
 if $(dirname $0)/build-condition.sh $1; then
+  if [[ $2 == "integration" && $1 == "eq-author" ]]; then
+    echo "onsdigital/${1}:${TRAVIS_BUILD_NUMBER}"
+    exit 0
+  fi
+
   if [[ "$TRAVIS_PULL_REQUEST_BRANCH" != "" ]]; then
     echo "onsdigital/${1}:${TRAVIS_PULL_REQUEST_BRANCH}"
-  else
-    echo "onsdigital/${1}:latest"
+    exit 0
   fi
-else
-  echo "onsdigital/${1}:latest"
 fi
+
+echo "onsdigital/${1}:latest"

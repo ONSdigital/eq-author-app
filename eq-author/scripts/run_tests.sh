@@ -29,25 +29,23 @@ function finish {
 }
 trap finish INT KILL TERM EXIT
 
-AUTHOR_IMAGE=`../.travis/image-name.sh "eq-author"`
+AUTHOR_IMAGE=`../.travis/image-name.sh "eq-author" $1`
 echo "Author image: $AUTHOR_IMAGE"
 docker pull $AUTHOR_IMAGE
 
-AUTHOR_API_IMAGE=`../.travis/image-name.sh "eq-author-api"`
+AUTHOR_API_IMAGE=`../.travis/image-name.sh "eq-author-api" $1`
 echo "API image: $AUTHOR_API_IMAGE"
 docker pull $AUTHOR_API_IMAGE
 
-PUBLISHER_IMAGE=`../.travis/image-name.sh "eq-publisher"`
+PUBLISHER_IMAGE=`../.travis/image-name.sh "eq-publisher" $1`
 echo "Publisher image: $PUBLISHER_IMAGE"
 docker pull $PUBLISHER_IMAGE
-
 
 # Start env
 docker-compose -f "$docker_compose" build
 docker-compose -f "$docker_compose" up -d
 ./node_modules/.bin/wait-on http-get://localhost:14000/status
 ./node_modules/.bin/wait-on http-get://localhost:13000
-
 
 if [ "$1" == "integration" ]; then
   integration_folder="cypress/integration";
