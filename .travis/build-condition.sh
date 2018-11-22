@@ -6,10 +6,6 @@ if [[ -z $1 ]]; then
     exit 1
 fi
 
-if [[ $1 = "e2e" ]]; then
-    exit 0
-fi
-
 
 if [[ $TRAVIS_BRANCH = "master" ]]; then
     commits=$TRAVIS_COMMIT_RANGE
