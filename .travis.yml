@@ -17,12 +17,16 @@ cache:
 jobs:
   include:
     - stage: test
+      name: author
       script: .travis/run.sh "eq-author"
     - script: .travis/run.sh "eq-author-api"
+      name: author-api
     - script: .travis/run.sh "eq-publisher"
+      name: publisher
     - script: .travis/run.sh "eq-author-grapql-schema"
-    - stage: e2e 
-      script: e2e/script/ci.sh
+      name: schema
+    - stage: e2e
+      script: e2e/scripts/ci.sh
 
 deploy:
   local_dir: eq-author/storybook-static
