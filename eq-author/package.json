@@ -157,6 +157,7 @@
     "react-transition-group": "^2.2.1",
     "redux": "^3.7.2",
     "redux-devtools-extension": "^2.13.2",
+    "redux-localstorage": "^0.4.1",
     "redux-thunk": "^2.2.0",
     "styled-components": "^3.4.9",
     "synchronous-promise": "^2.0.3",

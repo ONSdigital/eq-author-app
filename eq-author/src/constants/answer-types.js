@@ -42,3 +42,15 @@ export const measurements = {
     }
   }
 };
+
+export const duration = {
+  years: {
+    label: "Years"
+  },
+  months: {
+    label: "Months"
+  },
+  weeks: {
+    label: "Weeks"
+  }
+};

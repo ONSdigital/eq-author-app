@@ -2,12 +2,14 @@ import React from "react";
 import PropTypes from "prop-types";
 import { merge } from "lodash";
 import CustomPropTypes from "custom-prop-types";
+import { Field, Label } from "components/Forms";
 
 import {
   Required,
   Decimal,
   DateFormat,
-  MeasurementType
+  MeasurementType,
+  DurationType
 } from "components/AnswerProperties/Properties";
 
 import {
@@ -15,7 +17,19 @@ import {
   MultiLineField
 } from "components/AnswerProperties/Fields";
 
-import { DATE, NUMBER, MEASUREMENT } from "constants/answer-types";
+import { DATE, NUMBER, MEASUREMENT, TIME } from "constants/answer-types";
+import styled from "styled-components";
+
+const DurationField = styled(Field)`
+  margin: 0;
+  &:not(:last-child) {
+    margin-right: 0.5em;
+  }
+`;
+
+const DurationFields = styled.div`
+  display: flex;
+`;
 
 class AnswerProperties extends React.Component {
   static propTypes = {
@@ -76,6 +90,45 @@ class AnswerProperties extends React.Component {
               />
             </InlineField>
           </>
+        )}
+        {answer.properties.unitType === TIME && (
+          <div>
+            <Label bold={false}>Fields</Label>
+            <DurationFields>
+              <DurationField
+                id={this.getId("duration-type", answer)}
+                label={""}
+              >
+                <DurationType
+                  id={this.getId("duration-type", answer)}
+                  onChange={this.handleTypeChange}
+                  type={answer.properties.type}
+                />
+              </DurationField>
+              <DurationField
+                id={this.getId("duration-type-1", answer)}
+                label={""}
+              >
+                <DurationType
+                  id={this.getId("duration-type-1", answer)}
+                  onChange={this.handleTypeChange}
+                  type={answer.properties.type}
+                  hasNone
+                />
+              </DurationField>
+              <DurationField
+                id={this.getId("duration-type-2", answer)}
+                label={""}
+              >
+                <DurationType
+                  id={this.getId("duration-type-2", answer)}
+                  onChange={this.handleTypeChange}
+                  type={answer.properties.type}
+                  hasNone
+                />
+              </DurationField>
+            </DurationFields>
+          </div>
         )}
         {answer.type === DATE && (
           <MultiLineField

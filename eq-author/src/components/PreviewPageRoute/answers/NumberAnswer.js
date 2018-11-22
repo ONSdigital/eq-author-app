@@ -8,8 +8,6 @@ import { merge, get } from "lodash";
 import { connect } from "react-redux";
 import { getUnit } from "redux/answer/reducer";
 
-import { units } from "constants/answer-types";
-
 const InputType = styled.div`
   display: flex;
   align-items: center;
