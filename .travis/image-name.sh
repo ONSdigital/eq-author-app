@@ -6,6 +6,7 @@ if [[ -z $1 ]]; then
 fi
 
 if $(dirname $0)/build-condition.sh $1; then
+  echo "has changes"
   if [[ "$TRAVIS_PULL_REQUEST_BRANCH" != "" ]]; then
     echo "onsdigital/${1}:${TRAVIS_PULL_REQUEST_BRANCH}"
   else
