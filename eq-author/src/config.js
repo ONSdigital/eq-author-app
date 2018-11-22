@@ -2,14 +2,9 @@ window.config = window.config || {};
 const config = {
   REACT_APP_API_URL:
     window.config.REACT_APP_API_URL || process.env.REACT_APP_API_URL,
-  REACT_APP_BASE_NAME:
-    window.config.REACT_APP_BASE_NAME || process.env.REACT_APP_BASE_NAME,
   REACT_APP_FIREBASE_API_KEY:
     window.config.REACT_APP_FIREBASE_API_KEY ||
     process.env.REACT_APP_FIREBASE_API_KEY,
-  REACT_APP_FIREBASE_MESSAGING_SENDER_ID:
-    window.config.REACT_APP_FIREBASE_MESSAGING_SENDER_ID ||
-    process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
   REACT_APP_FIREBASE_PROJECT_ID:
     window.config.REACT_APP_FIREBASE_PROJECT_ID ||
     process.env.REACT_APP_FIREBASE_PROJECT_ID,

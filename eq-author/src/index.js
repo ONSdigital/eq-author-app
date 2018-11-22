@@ -39,9 +39,7 @@ const cache = createApolloCache({
   }
 });
 
-const history = createHistory({
-  basename: config.REACT_APP_BASE_NAME
-});
+const history = createHistory();
 
 const link = ApolloLink.from([
   createErrorLink(getStore),

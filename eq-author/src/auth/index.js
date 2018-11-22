@@ -5,15 +5,12 @@ import config from "config";
 
 const PROJECT_ID = config.REACT_APP_FIREBASE_PROJECT_ID;
 const API_KEY = config.REACT_APP_FIREBASE_API_KEY;
-const MESSAGING_SENDER_ID = config.REACT_APP_FIREBASE_MESSAGING_SENDER_ID;
 
 firebase.initializeApp({
   apiKey: API_KEY,
   authDomain: `${PROJECT_ID}.firebaseapp.com`,
   databaseURL: `https://${PROJECT_ID}.firebaseio.com`,
-  projectId: PROJECT_ID,
-  storageBucket: `${PROJECT_ID}.appspot.com`,
-  messagingSenderId: MESSAGING_SENDER_ID
+  storageBucket: `${PROJECT_ID}.appspot.com`
 });
 
 const auth = firebase.auth();

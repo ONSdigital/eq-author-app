@@ -111,25 +111,20 @@ Spins up the Storybook development server.
 | `REACT_APP_FIREBASE_PROJECT_ID`          | Firebase is used for basic authentication this environment and the two below are needed for this. | Yes If authentication is enabled |
 |                                          | The project ID for your Firebase project. Can be obtained from your Firebase project              |                                  |
 | `REACT_APP_FIREBASE_API_KEY`             | The api key for your Firebase project. Can be obtained from your Firebase project                 | Yes If authentication is enabled |
-| `REACT_APP_FIREBASE_MESSAGING_SENDER_ID` | The messaging sender ID for your Firebase project. Can be obtained from your Firebase project     | Yes If authentication is enabled |
-| `REACT_APP_ENABLE_AUTH`                  | Used to enable and disable firebase authentication. User can sign in as guest if this is set      | Yes                              |
-|                                          | to false. This is always enabled in the docker images.                                            |                                  |
 
 ### Functional
 
 | Name                   | Description                                            | Required |
 | ---------------------- | ------------------------------------------------------ | -------- |
-| `REACT_APP_API_URL`    | Set Author API URL                                     | Yes      |
-| `REACT_APP_LAUNCH_URL` | Set the launch-a-survey target                         | No       |
-| `PUBLIC_URL`           | The public URL inferred if not provided                | No       |
-| `REACT_APP_BASE_NAME`  | Used to build up URL set to "/eq-author" in production | No       |
+| `REACT_APP_API_URL`    | Set Author API URL | Yes |
+| `REACT_APP_LAUNCH_URL` | Set the launch-a-survey target | No |
+| `PUBLIC_URL`           | The public URL inferred if not provided | No |
 
 ### Testing
 
 | Name                        | Description                | Required |
 | --------------------------- | -------------------------- | -------- |
 | `CYPRESS_baseUrl`           | Set Cypress URL            | Yes      |
-| `CYPRESS_BASE_NAME`         | Not used                   | No       |
 | `REACT_APP_FUNCTIONAL_TEST` | Run functional test switch | No       |
 
 ### Third party services
@@ -163,12 +158,11 @@ We currently use firebase for basic authentication requirements. The following e
 
 - `REACT_APP_FIREBASE_PROJECT_ID`
 - `REACT_APP_FIREBASE_API_KEY`
-- `REACT_APP_FIREBASE_MESSAGING_SENDER_ID`
 
 These can either be passed on command line:
 
 ```bash
-REACT_APP_FIREBASE_PROJECT_ID=ABC REACT_APP_FIREBASE_API_KEY=DEF REACT_APP_FIREBASE_MESSAGING_SENDER_ID=GHI yarn start
+REACT_APP_FIREBASE_PROJECT_ID=ABC REACT_APP_FIREBASE_API_KEY=DEF yarn start
 ```
 
 Or they can be added to an `.env.development.local` file in the root of the repo:
@@ -176,14 +170,9 @@ Or they can be added to an `.env.development.local` file in the root of the repo
 ```
 REACT_APP_FIREBASE_PROJECT_ID="ABC"
 REACT_APP_FIREBASE_API_KEY="DEF"
-REACT_APP_FIREBASE_MESSAGING_SENDER_ID="GHI"
 ```
 
 Note: CLI env vars taken precedence over `.env.development.local` vars. For more information about precedence of config files, see: https://github.com/bkeepers/dotenv#what-other-env-files-can-i-use
-
-### Enabling / disabling authentication
-
-Firebase authentication can be disabled by setting the env var `REACT_APP_ENABLE_AUTH=false`. Disabling firebase authentication allows users to login as a guest.
 
 ### Environment variable in different environments
 
@@ -199,7 +188,7 @@ There are two ways we use environment variables in the application:
 
 ### Integration tests
 
-Author's integration testing is run using the Cypress framework and can be run using the following commands provided author is already running with AUTH disabled using the `REACT_APP_ENABLE_AUTH=false` env variable:
+Author's integration testing is run using the Cypress framework and can be run using the following commands:
 
 - `yarn test:integration`
 

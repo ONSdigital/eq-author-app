@@ -9,14 +9,8 @@ import toasts from "redux/toast/reducer";
 import saving from "redux/saving/reducer";
 import tabs from "redux/tabs/reducer";
 import authReducer from "redux/auth/reducer";
+import auth from "auth"
 
-let auth;
-
-if (process.env.REACT_APP_ENABLE_AUTH === "true") {
-  auth = require("auth").default;
-} else {
-  auth = require("auth/fakeAuth").default;
-}
 
 const configureStore = (history, client, preloadedState) =>
   createStore(
