@@ -13,7 +13,7 @@ services:
     build: 
       context: "../../eq-author"
       cache_from: 
-        - onsdigital/eq-author
+        - "${AUTHOR_IMAGE:-onsdigital/eq-author:latest}"
     environment:
       REACT_APP_BASE_NAME: "/"
       REACT_APP_API_URL: http://localhost:14000/graphql
@@ -36,7 +36,7 @@ services:
     build: 
       context: "../../eq-author-api"
       cache_from: 
-        - onsdigital/eq-author-api
+        - "${AUTHOR_API_IMAGE:-onsdigital/eq-author-api:latest}"
     environment:
       DB_CONNECTION_URI: postgres://postgres:mysecretpassword@eq-author-db:5432/postgres
     depends_on:
@@ -51,7 +51,7 @@ services:
     build: 
       context: "../../eq-publisher"
       cache_from: 
-        - onsdigital/eq-publisher
+        - "${PUBLISHER_IMAGE:-onsdigital/eq-publisher:latest}"
     environment:
       EQ_AUTHOR_API_URL: http://eq-author-api:4000/graphql
       EQ_SCHEMA_VALIDATOR_URL: http://eq-schema-validator:5000/validate

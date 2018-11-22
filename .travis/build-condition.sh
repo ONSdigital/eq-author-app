@@ -12,8 +12,8 @@ if [[ $TRAVIS_BRANCH = "master" ]]; then
 else
     # Can't use commit range on PRs as it doesn't work with forced pushes
     commits="master...$TRAVIS_BRANCH"
-    git checkout master
-    git checkout -
+    git checkout --quiet master
+    git checkout --quiet  -
 fi
 
 git diff --name-only $commits | sort -u | uniq | grep $1 > /dev/null
