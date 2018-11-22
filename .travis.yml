@@ -14,16 +14,13 @@ node_js:
 cache:
   yarn: true
 
-before_script:
-  - set -e
-
 jobs:
   include:
     - stage: test
-      script: if .travis/build-condition.sh "eq-author"; then RAN_AUTHOR=true; pushd eq-author ./scripts/ci.sh; popd; fi
-    - script: if .travis/build-condition.sh "eq-author-api"; then pushd eq-author-api ./scripts/ci.sh; popd; fi
-    - script: if .travis/build-condition.sh "eq-publisher"; then pushd eq-publisher ./scripts/ci.sh; popd; fi
-    - script: if .travis/build-condition.sh "eq-author-graphql-schema"; then pushd author-graphql-schema; ./scripts/ci.sh; popd; fi
+      script: .travis/run.sh "eq-author"
+    - script: .travis/run.sh "eq-author-api"
+    - script: .travis/run.sh "eq-publisher"
+    - script: .travis/run.sh "eq-author-grapql-schema"
     - stage: e2e 
       script: e2e/script/ci.sh
 
