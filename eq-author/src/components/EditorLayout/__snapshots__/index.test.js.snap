@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Editor Layout should render 1`] = `
+<Grid
+  align="top"
+  fillHeight={true}
+>
+  <Column
+    cols={9}
+    gutters={false}
+  >
+    <ScrollPane
+      permanentScrollBar={true}
+    >
+      <EditorLayout__Margin>
+        <MainCanvas>
+          <Connect(UnconnectedSavingIndicator) />
+          <withRouter(UnwrappedTabs)
+            design={true}
+            preview={false}
+            routing={true}
+          >
+            Content
+          </withRouter(UnwrappedTabs)>
+        </MainCanvas>
+      </EditorLayout__Margin>
+      <EditorLayout__Centered>
+        <Button
+          data-test="btn-add-page"
+          onClick={[MockFunction]}
+          small={true}
+          type="button"
+          variant="tertiary"
+        >
+          <IconText
+            hideText={false}
+            icon={[Function]}
+          >
+            Add question page
+          </IconText>
+        </Button>
+      </EditorLayout__Centered>
+    </ScrollPane>
+  </Column>
+  <Column
+    cols={3}
+    gutters={false}
+  >
+    <PropertiesPanel
+      page={
+        Object {
+          "answers": Array [],
+          "displayName": "Foo",
+          "id": "1",
+        }
+      }
+    />
+  </Column>
+</Grid>
+`;

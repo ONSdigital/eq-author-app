@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PreviewSectionRoute should redirect to design if section introduciton is not enabled 1`] = `
+<Redirect
+  push={false}
+  to="/questionnaire/1/2/design"
+/>
+`;
+
+exports[`PreviewSectionRoute should render as loading when loading 1`] = `
+<Loading
+  height="38rem"
+>
+  Preview loading…
+</Loading>
+`;
+
+exports[`PreviewSectionRoute should render as loading when no data 1`] = `
+<Loading
+  height="38rem"
+>
+  Preview loading…
+</Loading>
+`;
+
+exports[`PreviewSectionRoute should the section intro preview when it is finished loading and has a section 1`] = `
+<EditorLayout
+  design={true}
+  preview={true}
+>
+  <SectionIntroPreview
+    section={
+      Object {
+        "alias": "",
+        "id": "1",
+        "introductionContent": "",
+        "introductionEnabled": true,
+        "introductionTitle": "",
+        "title": "",
+      }
+    }
+  />
+</EditorLayout>
+`;

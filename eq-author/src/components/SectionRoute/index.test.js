@@ -493,5 +493,91 @@ describe("SectionRoute", () => {
         position: data.section.position + 1
       });
     });
+
+    it("should disable the preview tab when the introduction is disabled", () => {
+      const data = {
+        section: {
+          id: "1",
+          title: "foo",
+          alias: "foo-alias",
+          displayName: "foo",
+          description: "bar",
+          introductionTitle: null,
+          introductionContent: null,
+          introductionEnabled: false,
+          position: 0,
+          questionnaire: {
+            id: "1",
+            questionnaireInfo: { totalSectionCount: 2 }
+          }
+        }
+      };
+
+      const mockHandlers = {
+        onUpdateSection: jest.fn(),
+        onDeleteSection: jest.fn(),
+        onDuplicateSection: jest.fn(),
+        onAddPage: jest.fn(),
+        onMoveSection: jest.fn()
+      };
+
+      const wrapper = render({
+        loading: false,
+        match,
+        data,
+        ...mockHandlers
+      });
+
+      const editorLayout = wrapper.find(
+        `EditorLayout${byTestAttr("section-route")}`
+      );
+
+      expect(editorLayout.props()).toMatchObject({
+        preview: false
+      });
+    });
+
+    it("should enable the preview tab when the introduction is enabled", () => {
+      const data = {
+        section: {
+          id: "1",
+          title: "foo",
+          alias: "foo-alias",
+          displayName: "foo",
+          description: "bar",
+          introductionTitle: null,
+          introductionContent: null,
+          introductionEnabled: true,
+          position: 0,
+          questionnaire: {
+            id: "1",
+            questionnaireInfo: { totalSectionCount: 2 }
+          }
+        }
+      };
+
+      const mockHandlers = {
+        onUpdateSection: jest.fn(),
+        onDeleteSection: jest.fn(),
+        onDuplicateSection: jest.fn(),
+        onAddPage: jest.fn(),
+        onMoveSection: jest.fn()
+      };
+
+      const wrapper = render({
+        loading: false,
+        match,
+        data,
+        ...mockHandlers
+      });
+
+      const editorLayout = wrapper.find(
+        `EditorLayout${byTestAttr("section-route")}`
+      );
+
+      expect(editorLayout.props()).toMatchObject({
+        preview: true
+      });
+    });
   });
 });

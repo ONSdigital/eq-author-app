@@ -25,6 +25,8 @@ exports[`PreviewPageRoute should render 1`] = `
       "title": "<p>Hello world</p>",
     }
   }
+  preview={true}
+  routing={true}
 >
   <PreviewPageRoute__Container>
     <PreviewPageRoute__PageTitle>

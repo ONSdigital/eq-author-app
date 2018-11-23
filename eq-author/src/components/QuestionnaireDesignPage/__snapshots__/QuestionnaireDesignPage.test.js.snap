@@ -114,7 +114,7 @@ exports[`QuestionnaireDesignPage should render 1`] = `
           <Route
             component={[Function]}
             exact={true}
-            path="/questionnaire/:questionnaireId/:sectionId(\\\\d+)/:pageId(\\\\d+)/preview"
+            path="/questionnaire/:questionnaireId/:sectionId(\\\\d+)/:pageId(\\\\d+)?/preview"
           />
           <Route
             component={[Function]}

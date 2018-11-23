@@ -73,7 +73,11 @@ class UnwrappedQuestionnaireRoutingPage extends React.Component {
       return <Error>Something went wrong</Error>;
     }
 
-    return <EditorLayout>{this.renderContent()}</EditorLayout>;
+    return (
+      <EditorLayout design preview routing>
+        {this.renderContent()}
+      </EditorLayout>
+    );
   }
 }
 
