@@ -158,8 +158,6 @@ UnconnectedAnswerValidation.propTypes = {
 
 const mapStateToProps = (state, ownProps) => ({
   answer: merge({}, ownProps.answer, {
-    // properties: getUnit(state, ownProps.answer.id, ownProps.answer.type)
-
     properties: state.answer[ownProps.answer.id]
   }),
   tabsState: state.tabs

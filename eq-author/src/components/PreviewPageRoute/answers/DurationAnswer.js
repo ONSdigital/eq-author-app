@@ -4,14 +4,15 @@ import styled from "styled-components";
 
 import { Field, Input, Label } from "./elements";
 import { colors } from "constants/theme";
-import { merge, get } from "lodash";
-import { connect } from "react-redux";
 
 const InputType = styled.div`
   display: flex;
   align-items: center;
   position: relative;
-  width: 20em;
+  width: 10em;
+  &:not(:first-of-type) {
+    margin-left: 1em;
+  }
 `;
 
 const Type = styled.div`
@@ -31,27 +32,33 @@ const Type = styled.div`
   text-decoration: none;
 `;
 
-const UnwrappedNumberAnswer = ({ answer }) => {
+const FieldGroup = styled.div`
+  display: flex;
+`;
+
+const SmallInput = styled(Input)`
+  width: 10em;
+`;
+
+const NumberAnswer = ({ answer }) => {
   const { char } = answer.properties.unit;
+
+  const units = char.split("/");
 
   return (
     <Field>
       <Label description={answer.description}>{answer.label}</Label>
-      <InputType>
-        <Input type="text" />
-        {char && <Type dangerouslySetInnerHTML={{ __html: char }} />}
-      </InputType>
+      <FieldGroup>
+        {units.map((unit, index) => (
+          <InputType key={index}>
+            <SmallInput type="text" />
+            {unit && <Type dangerouslySetInnerHTML={{ __html: unit }} />}
+          </InputType>
+        ))}
+      </FieldGroup>
     </Field>
   );
 };
-
-const mapStateToProps = (state, ownProps) => ({
-  answer: merge({}, ownProps.answer, {
-    properties: state.answer[ownProps.answer.id]
-  })
-});
-
-const NumberAnswer = connect(mapStateToProps)(UnwrappedNumberAnswer);
 
 NumberAnswer.propTypes = {
   answer: PropTypes.shape({

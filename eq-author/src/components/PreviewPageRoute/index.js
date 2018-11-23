@@ -10,7 +10,7 @@ import IconText from "components/IconText";
 import Loading from "components/Loading";
 import QuestionPageEditor from "components/QuestionPageEditor";
 
-import { Answer } from "./answers";
+import Answer from "./answers";
 import Error from "./Error";
 import IconInfo from "./icon-info.svg?inline";
 

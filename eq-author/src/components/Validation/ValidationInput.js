@@ -9,14 +9,13 @@ const Context = styled.div`
 
 const Unit = styled.span`
   position: absolute;
-  right: -2em;
-  text-align: right;
+  left: calc(100% + 1em);
+  text-align: left;
   top: 0;
   bottom: 0;
   height: 1em;
   line-height: 1;
   margin: auto;
-  font-weight: bold;
 `;
 
 /*  eslint-disable react/no-danger */
