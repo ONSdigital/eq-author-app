@@ -9,7 +9,6 @@ import { raiseToast } from "redux/toast/actions";
 
 import MainCanvas from "components/MainCanvas";
 import IconButtonDelete from "components/IconButtonDelete";
-import withEntityEditor from "components/withEntityEditor";
 import Button from "components/Button";
 import IconText from "components/IconText";
 import AddPage from "components/QuestionnaireDesignPage/icon-add-page.svg?inline";
@@ -20,7 +19,6 @@ import { TransitionGroup } from "react-transition-group";
 
 import { colors, radius } from "constants/theme";
 
-import sectionFragment from "graphql/fragments/section.graphql";
 import withDeleteSectionIntro from "containers/enhancers/withDeleteSectionIntro";
 
 const StyledMainCanvas = styled(MainCanvas)`
@@ -145,6 +143,4 @@ const wrappedSectionIntro = flowRight(
   withDeleteSectionIntro
 )(UnwrappedIntroEditor);
 
-export default withEntityEditor("section", sectionFragment)(
-  wrappedSectionIntro
-);
+export default wrappedSectionIntro;
