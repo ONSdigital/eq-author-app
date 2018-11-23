@@ -30,7 +30,6 @@ import CurrencyAnswer from "components/Answers/CurrencyAnswer";
 import Tooltip from "components/Tooltip";
 import BasicAnswer from "components/Answers/BasicAnswer";
 import gql from "graphql-tag";
-import { getUnit } from "redux/answer/reducer";
 
 const Answer = styled.div`
   border: 1px solid ${colors.bordersLight};
@@ -121,6 +120,7 @@ class UnwrappedAnswerEditor extends React.Component {
       unit = answer.properties.unit.char;
       name = answer.properties.unit.name;
     } else if (answer.properties.unitType === TIME) {
+      unit = answer.properties.unit.label;
       name = TIME;
     } else {
       name = answer.type;
@@ -155,7 +155,8 @@ class UnwrappedAnswerEditor extends React.Component {
 
 const mapStateToProps = (state, ownProps) => ({
   answer: merge({}, ownProps.answer, {
-    properties: getUnit(state, ownProps.answer.id, ownProps.answer.type)
+    // properties: getUnit(state, ownProps.answer.id, ownProps.answer.type),
+    properties: state.answer[ownProps.answer.id]
   })
 });
 

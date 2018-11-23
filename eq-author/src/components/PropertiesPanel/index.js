@@ -12,7 +12,10 @@ import AnswerPropertiesContainer from "containers/AnswerPropertiesContainer";
 import AnswerValidation from "components/Validation/AnswerValidation";
 
 import { connect } from "react-redux";
-import { changeType } from "redux/answer/actions";
+import {
+  changeMeasurementType,
+  changeDurationType
+} from "redux/answer/actions";
 
 const PropertiesPane = styled.div`
   background: ${colors.white};
@@ -97,7 +100,10 @@ class UnwrappedPropertiesPanel extends React.Component {
                           id={getIdForObject(answer)}
                           answer={{ ...answer, index }}
                           onSubmit={this.handleSubmit}
-                          changeType={this.props.changeType}
+                          changeMeasurementType={
+                            this.props.changeMeasurementType
+                          }
+                          changeDurationType={this.props.changeDurationType}
                         />
                         <AnswerValidation answer={answer} />
                       </AnswerProperties>
@@ -130,7 +136,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const PropertiesPanel = connect(
   mapStateToProps,
-  { changeType }
+  { changeMeasurementType, changeDurationType }
 )(UnwrappedPropertiesPanel);
 
 export default PropertiesPanel;

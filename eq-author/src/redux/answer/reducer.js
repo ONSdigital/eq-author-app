@@ -1,11 +1,21 @@
-import { TYPE_CHANGE, ANSWER_ADD } from "./actions";
+import {
+  MEASUREMENT_ANSWER_ADD,
+  DURATION_ANSWER_ADD,
+  MEASUREMENT_TYPE_CHANGE,
+  DURATION_TYPE_CHANGE
+} from "./actions";
 
 import { merge, get } from "lodash";
-import { measurements, MEASUREMENT } from "constants/answer-types";
+import {
+  MEASUREMENT,
+  TIME,
+  measurements,
+  duration
+} from "constants/answer-types";
 
 const initialState = {};
 
-const unit = key => {
+const measurementUnit = key => {
   const [name, type] = key.split("-");
   const unitType = get(measurements, name).types;
   const { char, label } = get(unitType, type);
@@ -19,33 +29,62 @@ const unit = key => {
   };
 };
 
+const durationUnit = key => {
+  // const { label } = get(duration, key);
+
+  // return {
+  //   label,
+  //   key
+  // };
+
+  const [name, type] = key.split("-");
+  const unitType = get(duration, name).types;
+  const { char, label } = get(unitType, type);
+
+  return {
+    key,
+    name,
+    type,
+    char,
+    label
+  };
+};
+
 export default (state = initialState, { type, payload }) => {
-  console.log(type, payload);
+  // console.log(type, payload);
 
   switch (type) {
-    case ANSWER_ADD: {
+    case MEASUREMENT_ANSWER_ADD: {
       return merge({}, state, {
-        [payload.answerId]: { unitType: payload.type, unit: unit("Length-cm") }
+        [payload.answerId]: {
+          unitType: payload.type,
+          unit: measurementUnit("Length-cm", payload.type)
+        }
       });
     }
-    case TYPE_CHANGE: {
+
+    case MEASUREMENT_TYPE_CHANGE: {
       return merge({}, state, {
-        [payload.answerId]: { unit: unit(payload.type) }
+        [payload.answerId]: { unit: measurementUnit(payload.type) }
+      });
+    }
+
+    case DURATION_ANSWER_ADD: {
+      return merge({}, state, {
+        [payload.answerId]: {
+          unitType: payload.type,
+          unit: durationUnit("years", payload.type)
+        }
+      });
+    }
+
+    case DURATION_TYPE_CHANGE: {
+      return merge({}, state, {
+        [payload.answerId]: { unit: durationUnit(payload.type) }
       });
     }
 
     default:
       return state;
   }
-};
-
-export const getUnit = (state, answerId, answerType) => {
-  if (answerType !== MEASUREMENT) {
-    return state.answer[answerId];
-  }
-
-  return {
-    unit: unit("Length-cm"),
-    ...state.answer[answerId]
-  };
 };

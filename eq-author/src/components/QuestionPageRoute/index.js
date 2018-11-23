@@ -16,7 +16,7 @@ import DuplicateButton from "components/DuplicateButton";
 
 import { connect } from "react-redux";
 import { raiseToast } from "redux/toast/actions";
-import { addAnswer } from "redux/answer/actions";
+import { addMeasurementAnswer, addDurationAnswer } from "redux/answer/actions";
 import withUpdatePage from "containers/enhancers/withUpdatePage";
 import withUpdateAnswer from "containers/enhancers/withUpdateAnswer";
 import withCreateAnswer from "containers/enhancers/withCreateAnswer";
@@ -36,6 +36,7 @@ import withCreatePage from "containers/enhancers/withCreatePage";
 import withDuplicatePage from "containers/enhancers/withDuplicatePage";
 
 import EditorLayout from "components/EditorLayout";
+import { MEASUREMENT, TIME } from "constants/answer-types";
 
 export class UnwrappedQuestionPageRoute extends React.Component {
   static propTypes = {
@@ -101,7 +102,11 @@ export class UnwrappedQuestionPageRoute extends React.Component {
     const { match, onAddAnswer } = this.props;
 
     return onAddAnswer(match.params.pageId, answerType).then(res => {
-      this.props.addAnswer(res.id, answerType);
+      if (answerType === MEASUREMENT) {
+        this.props.addMeasurementAnswer(res.id, answerType);
+      } else if (answerType === TIME) {
+        this.props.addDurationAnswer(res.id, answerType);
+      }
       focusOnEntity(res);
     });
   };
@@ -201,7 +206,7 @@ export class UnwrappedQuestionPageRoute extends React.Component {
 const withQuestionPageEditing = flowRight(
   connect(
     null,
-    { raiseToast, addAnswer }
+    { raiseToast, addMeasurementAnswer, addDurationAnswer }
   ),
   withApollo,
   withMovePage,

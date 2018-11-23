@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="9px" height="8px" viewBox="0 0 9 8" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<!-- Generator: Sketch 52.4 (67378) - http://www.bohemiancoding.com/sketch -->
+	<title>
+		ic_clear
+	</title>
+	<desc>
+		Created with Sketch.
+	</desc>
+	<g id="Properties-panel" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+		<g id="Artboard" transform="translate(-313.000000, -181.000000)">
+			<g id="Selected-title-Copy-7" transform="translate(237.114258, 165.771484)">
+				<g id="ic_clear" transform="translate(70.657227, 9.164062)">
+					<polygon id="Bounds" points="0 0 20 0 20 20 0 20">
+					</polygon>
+					<polygon id="Icon" stroke="#999" fill="#5F7682" points="13.4932625 7.21038035 12.7896196 6.50673747 10 9.29635712 7.21038035 6.50673747 6.50673747 7.21038035 9.29635712 10 6.50673747 12.7896196 7.21038035 13.4932625 10 10.7036429 12.7896196 13.4932625 13.4932625 12.7896196 10.7036429 10">
+					</polygon>
+				</g>
+			</g>
+		</g>
+	</g>
+</svg>

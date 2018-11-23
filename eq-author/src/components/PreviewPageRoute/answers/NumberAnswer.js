@@ -6,7 +6,6 @@ import { Field, Input, Label } from "./elements";
 import { colors } from "constants/theme";
 import { merge, get } from "lodash";
 import { connect } from "react-redux";
-import { getUnit } from "redux/answer/reducer";
 
 const InputType = styled.div`
   display: flex;
@@ -48,7 +47,8 @@ const UnwrappedNumberAnswer = ({ answer }) => {
 
 const mapStateToProps = (state, ownProps) => ({
   answer: merge({}, ownProps.answer, {
-    properties: getUnit(state, ownProps.answer.id, ownProps.answer.type)
+    // properties: getUnit(state, ownProps.answer.id, ownProps.answer.type),
+    properties: state.answer[ownProps.answer.id]
   })
 });
 

@@ -8,7 +8,6 @@ import CustomPropTypes from "custom-prop-types";
 import VisuallyHidden from "components/VisuallyHidden";
 import { merge } from "lodash";
 import { connect } from "react-redux";
-import { getUnit } from "redux/answer/reducer";
 
 /*  eslint-disable react/no-danger */
 
@@ -126,7 +125,8 @@ const mapStateToProps = (state, ownProps) => {
   return {
     condition: merge({}, ownProps.condition, {
       answer: merge({}, ownProps.answer, {
-        properties: getUnit(state, ownProps.condition.answer.id)
+        // properties: getUnit(state, ownProps.condition.answer.id)
+        properties: state.answer[ownProps.condition.answer.id]
       })
     })
   };

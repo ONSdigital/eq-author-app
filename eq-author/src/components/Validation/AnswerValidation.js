@@ -5,7 +5,6 @@ import CustomPropTypes from "custom-prop-types";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-import { getUnit } from "redux/answer/reducer";
 import { gotoTab } from "redux/tabs/actions";
 
 import SidebarButton, { Title, Detail } from "components/SidebarButton";
@@ -159,7 +158,9 @@ UnconnectedAnswerValidation.propTypes = {
 
 const mapStateToProps = (state, ownProps) => ({
   answer: merge({}, ownProps.answer, {
-    properties: getUnit(state, ownProps.answer.id, ownProps.answer.type)
+    // properties: getUnit(state, ownProps.answer.id, ownProps.answer.type)
+
+    properties: state.answer[ownProps.answer.id]
   }),
   tabsState: state.tabs
 });

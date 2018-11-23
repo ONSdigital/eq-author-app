@@ -43,14 +43,84 @@ export const measurements = {
   }
 };
 
+// export const duration = {
+//   years: {
+//     label: "Years"
+//   },
+//   yearsMonths: {
+//     label: "Years/months"
+//   },
+//   line0: {
+//     label: "—",
+//     disabled: true
+//   },
+//   months: {
+//     label: "Months"
+//   },
+//   line: {
+//     label: "—",
+//     disabled: true
+//   },
+//   days: {
+//     label: "Days"
+//   },
+//   daysHours: {
+//     label: "Days/hours"
+//   },
+//   line1: {
+//     label: "—",
+//     disabled: true
+//   },
+//   hours: {
+//     label: "Hours"
+//   },
+//   hoursMinutes: {
+//     label: "Hours/minutes"
+//   },
+//   line2: {
+//     label: "—",
+//     disabled: true
+//   },
+//   minutes: {
+//     label: "Minutes"
+//   }
+// };
+
 export const duration = {
   years: {
-    label: "Years"
+    name: "Years",
+    types: {
+      years: { char: "years", label: "Years" },
+      yearsMonths: {
+        char: "years/months",
+        label: "Years/months"
+      }
+    }
   },
   months: {
-    label: "Months"
+    name: "Months",
+    types: {
+      months: { char: "months", label: "Months" }
+    }
   },
-  weeks: {
-    label: "Weeks"
+  days: {
+    name: "Days",
+    types: {
+      days: { char: "days", label: "Days" },
+      daysHours: { char: "days/hours", label: "Days/hours" }
+    }
+  },
+  hours: {
+    name: "Hours",
+    types: {
+      days: { char: "hours", label: "Hours" },
+      hoursMinutes: { char: "hours/minutes", label: "Hours/minutes" }
+    }
+  },
+  minutes: {
+    name: "Minutes",
+    types: {
+      minutes: { char: "minutes", label: "Minutes" }
+    }
   }
 };

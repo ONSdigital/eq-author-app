@@ -9,7 +9,8 @@ import {
   Decimal,
   DateFormat,
   MeasurementType,
-  DurationType
+  DurationType,
+  DurationToggle
 } from "components/AnswerProperties/Properties";
 
 import {
@@ -50,8 +51,14 @@ class AnswerProperties extends React.Component {
     });
   };
 
-  handleTypeChange = ({ name, value }) => {
-    this.props.changeType(name.match(/(\d+)/g)[0], value);
+  handleMeasurementTypeChange = ({ name, value }) => {
+    const { unitType } = this.props.answer.properties;
+    this.props.changeMeasurementType(name.match(/(\d+)/g)[0], value, unitType);
+  };
+
+  handleDurationTypeChange = ({ name, value }) => {
+    const { unitType } = this.props.answer.properties;
+    this.props.changeDurationType(name.match(/(\d+)/g)[0], value, unitType);
   };
 
   getId = (name, { id }) => `answer-${id}-${name}`;
@@ -77,7 +84,7 @@ class AnswerProperties extends React.Component {
             >
               <MeasurementType
                 id={this.getId("numeric-type", answer)}
-                onChange={this.handleTypeChange}
+                onChange={this.handleMeasurementTypeChange}
                 type={answer.properties.type}
               />
             </MultiLineField>
@@ -94,40 +101,13 @@ class AnswerProperties extends React.Component {
         {answer.properties.unitType === TIME && (
           <div>
             <Label bold={false}>Fields</Label>
-            <DurationFields>
-              <DurationField
+            <DurationField>
+              <DurationType
                 id={this.getId("duration-type", answer)}
-                label={""}
-              >
-                <DurationType
-                  id={this.getId("duration-type", answer)}
-                  onChange={this.handleTypeChange}
-                  type={answer.properties.type}
-                />
-              </DurationField>
-              <DurationField
-                id={this.getId("duration-type-1", answer)}
-                label={""}
-              >
-                <DurationType
-                  id={this.getId("duration-type-1", answer)}
-                  onChange={this.handleTypeChange}
-                  type={answer.properties.type}
-                  hasNone
-                />
-              </DurationField>
-              <DurationField
-                id={this.getId("duration-type-2", answer)}
-                label={""}
-              >
-                <DurationType
-                  id={this.getId("duration-type-2", answer)}
-                  onChange={this.handleTypeChange}
-                  type={answer.properties.type}
-                  hasNone
-                />
-              </DurationField>
-            </DurationFields>
+                type={answer.properties.type}
+                onChange={this.handleDurationTypeChange}
+              />
+            </DurationField>
           </div>
         )}
         {answer.type === DATE && (

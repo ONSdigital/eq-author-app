@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="11px" height="10px" viewBox="0 0 11 10" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<g id="Properties-panel" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+		<g id="Artboard" transform="translate(-312.000000, -127.000000)">
+			<g id="Selected-title-Copy-10" transform="translate(237.000000, 112.935547)">
+				<g id="ic_clear" transform="translate(70.771484, 9.000000)">
+					<polygon id="Bounds" points="0 0 20 0 20 20 0 20">
+					</polygon>
+					<polygon id="Icon" stroke="#c3c3c3" fill="#c3c3c3" transform="translate(10.000000, 10.000000) rotate(-315.000000) translate(-10.000000, -10.000000) " points="13.4932625 7.21038035 12.7896196 6.50673747 10 9.29635712 7.21038035 6.50673747 6.50673747 7.21038035 9.29635712 10 6.50673747 12.7896196 7.21038035 13.4932625 10 10.7036429 12.7896196 13.4932625 13.4932625 12.7896196 10.7036429 10">
+					</polygon>
+				</g>
+			</g>
+		</g>
+	</g>
+</svg>

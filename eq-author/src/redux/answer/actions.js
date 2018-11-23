@@ -1,16 +1,34 @@
-export const ANSWER_ADD = "ANSWER_ADD";
-export const TYPE_CHANGE = "TYPE_CHANGE";
+export const MEASUREMENT_ANSWER_ADD = "MEASUREMENT_ANSWER_ADD";
+export const DURATION_ANSWER_ADD = "DURATION_ANSWER_ADD";
+export const MEASUREMENT_TYPE_CHANGE = "MEASUREMENT_TYPE_CHANGE";
+export const DURATION_TYPE_CHANGE = "DURATION_TYPE_CHANGE";
 
-export const changeType = (answerId, type) => ({
-  type: TYPE_CHANGE,
+export const changeMeasurementType = (answerId, type) => ({
+  type: MEASUREMENT_TYPE_CHANGE,
   payload: {
     answerId,
     type
   }
 });
 
-export const addAnswer = (answerId, type) => ({
-  type: ANSWER_ADD,
+export const changeDurationType = (answerId, type) => ({
+  type: DURATION_TYPE_CHANGE,
+  payload: {
+    answerId,
+    type
+  }
+});
+
+export const addMeasurementAnswer = (answerId, type) => ({
+  type: MEASUREMENT_ANSWER_ADD,
+  payload: {
+    answerId,
+    type
+  }
+});
+
+export const addDurationAnswer = (answerId, type) => ({
+  type: DURATION_ANSWER_ADD,
   payload: {
     answerId,
     type
