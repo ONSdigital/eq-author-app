@@ -91,7 +91,7 @@ export const MinValue = ({
             onChange={handleMinValueChange}
             max={limit}
             min={0 - limit}
-            unit={properties.unit.char}
+            unit={properties.unit.msu}
           />
         </FieldWithInclude>
       </Column>

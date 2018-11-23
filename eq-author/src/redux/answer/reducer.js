@@ -6,66 +6,39 @@ import {
 } from "./actions";
 
 import { merge, get } from "lodash";
-import {
-  MEASUREMENT,
-  TIME,
-  measurements,
-  duration
-} from "constants/answer-types";
+import { measurements, duration } from "constants/answer-types";
 
 const initialState = {};
 
-const measurementUnit = key => {
+const unit = (key, answerType) => {
   const [name, type] = key.split("-");
-  const unitType = get(measurements, name).types;
-  const { char, label } = get(unitType, type);
+  const unitType = get(answerType, name).types;
+  const { char, label, msu } = get(unitType, type);
 
   return {
     key,
     name,
     type,
     char,
-    label
-  };
-};
-
-const durationUnit = key => {
-  // const { label } = get(duration, key);
-
-  // return {
-  //   label,
-  //   key
-  // };
-
-  const [name, type] = key.split("-");
-  const unitType = get(duration, name).types;
-  const { char, label } = get(unitType, type);
-
-  return {
-    key,
-    name,
-    type,
-    char,
-    label
+    label,
+    msu
   };
 };
 
 export default (state = initialState, { type, payload }) => {
-  // console.log(type, payload);
-
   switch (type) {
     case MEASUREMENT_ANSWER_ADD: {
       return merge({}, state, {
         [payload.answerId]: {
           unitType: payload.type,
-          unit: measurementUnit("Length-cm", payload.type)
+          unit: unit("Length-cm", measurements)
         }
       });
     }
 
     case MEASUREMENT_TYPE_CHANGE: {
       return merge({}, state, {
-        [payload.answerId]: { unit: measurementUnit(payload.type) }
+        [payload.answerId]: { unit: unit(payload.type, measurements) }
       });
     }
 
@@ -73,14 +46,14 @@ export default (state = initialState, { type, payload }) => {
       return merge({}, state, {
         [payload.answerId]: {
           unitType: payload.type,
-          unit: durationUnit("years", payload.type)
+          unit: unit("Years-years", duration)
         }
       });
     }
 
     case DURATION_TYPE_CHANGE: {
       return merge({}, state, {
-        [payload.answerId]: { unit: durationUnit(payload.type) }
+        [payload.answerId]: { unit: unit(payload.type, duration) }
       });
     }
 

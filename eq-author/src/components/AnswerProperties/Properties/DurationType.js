@@ -37,7 +37,6 @@ const DurationType = ({ type, ...otherProps }) => {
         <optgroup label={unit.name} key={unitKey}>
           {map(unit.types, (unitType, key) => {
             const optionLabel = unitType.label;
-
             return (
               <option
                 value={`${unitKey}-${key}`}

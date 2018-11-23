@@ -14,113 +14,83 @@ export const LENGTH = "Length";
 export const AREA = "Area";
 export const VOLUME = "Volume";
 
+export const YEARS = "Years";
+export const MONTHS = "Months";
+export const DAYS = "Days";
+export const HOURS = "Hours";
+export const MINUTES = "Minutes";
+
+// msu = most significant unit
+
 export const measurements = {
   [LENGTH]: {
     name: LENGTH,
     types: {
-      cm: { char: "cm", label: "Centimetres" },
-      m: { char: "m", label: "Metres" },
-      km: { char: "km", label: "Kilometres" },
-      mi: { char: "mi", label: "Miles" }
+      cm: { char: "cm", msu: "cm", label: "Centimetres" },
+      m: { char: "m", msu: "m", label: "Metres" },
+      km: { char: "km", msu: "km", label: "Kilometres" },
+      mi: { char: "mi", msu: "mi", label: "Miles" }
     }
   },
   [AREA]: {
     name: AREA,
     types: {
-      cm2: { char: "cm&sup2;", label: "Square centimetres" },
-      m2: { char: "m&sup2;", label: "Square metres" },
-      km2: { char: "m&sup2;", label: "Square kilometres" },
-      mi2: { char: "mi&sup2;", label: "Square miles" }
+      cm2: { char: "cm&sup2;", msu: "cm&sup2;", label: "Square centimetres" },
+      m2: { char: "m&sup2;", msu: "m&sup2;", label: "Square metres" },
+      km2: { char: "m&sup2;", msu: "m&sup2;", label: "Square kilometres" },
+      mi2: { char: "mi&sup2;", msu: "mi&sup2;", label: "Square miles" }
     }
   },
   [VOLUME]: {
     name: VOLUME,
     types: {
-      cm3: { char: "cm&sup3;", label: "Cubic centimetres" },
-      m3: { char: "m&sup3;", label: "Cubic metres" },
-      km3: { char: "km&sup3;", label: "Cubic kilometres" }
+      cm3: { char: "cm&sup3;", msu: "cm&sup3;", label: "Cubic centimetres" },
+      m3: { char: "m&sup3;", msu: "m&sup3;", label: "Cubic metres" },
+      km3: { char: "km&sup3;", msu: "km&sup3;", label: "Cubic kilometres" }
     }
   }
 };
 
-// export const duration = {
-//   years: {
-//     label: "Years"
-//   },
-//   yearsMonths: {
-//     label: "Years/months"
-//   },
-//   line0: {
-//     label: "—",
-//     disabled: true
-//   },
-//   months: {
-//     label: "Months"
-//   },
-//   line: {
-//     label: "—",
-//     disabled: true
-//   },
-//   days: {
-//     label: "Days"
-//   },
-//   daysHours: {
-//     label: "Days/hours"
-//   },
-//   line1: {
-//     label: "—",
-//     disabled: true
-//   },
-//   hours: {
-//     label: "Hours"
-//   },
-//   hoursMinutes: {
-//     label: "Hours/minutes"
-//   },
-//   line2: {
-//     label: "—",
-//     disabled: true
-//   },
-//   minutes: {
-//     label: "Minutes"
-//   }
-// };
-
 export const duration = {
-  years: {
-    name: "Years",
+  [YEARS]: {
+    name: YEARS,
     types: {
-      years: { char: "years", label: "Years" },
+      years: { char: "years", msu: "years", label: "Years" },
       yearsMonths: {
         char: "years/months",
+        msu: "years",
         label: "Years/months"
       }
     }
   },
-  months: {
-    name: "Months",
+  [MONTHS]: {
+    name: MONTHS,
     types: {
-      months: { char: "months", label: "Months" }
+      months: { char: "months", msu: "months", label: "Months" }
     }
   },
-  days: {
-    name: "Days",
+  [DAYS]: {
+    name: DAYS,
     types: {
-      days: { char: "days", label: "Days" },
-      daysHours: { char: "days/hours", label: "Days/hours" }
+      days: { char: "days", msu: "days", label: "Days" },
+      daysHours: { char: "days/hours", msu: "days", label: "Days/hours" }
     }
   },
-  hours: {
-    name: "Hours",
+  [HOURS]: {
+    name: HOURS,
     types: {
-      days: { char: "hours", label: "Hours" },
-      hoursMinutes: { char: "hours/minutes", label: "Hours/minutes" }
+      days: { char: "hours", msu: "hours", label: "Hours" },
+      hoursMinutes: {
+        char: "hours/minutes",
+        msu: "hours",
+        label: "Hours/minutes"
+      }
     }
   },
-  minutes: {
-    name: "Minutes",
+  [MINUTES]: {
+    name: MINUTES,
     types: {
-      minutes: { char: "minutes", label: "Minutes" }
+      minutes: { char: "minutes", msu: "minutes", label: "Minutes" }
     }
   }
 };

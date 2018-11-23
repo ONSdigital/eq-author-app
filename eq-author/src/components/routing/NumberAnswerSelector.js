@@ -112,7 +112,7 @@ const UnwrappedNumberAnswerValueSelector = ({
         {condition.answer.properties.unit && (
           <Unit
             dangerouslySetInnerHTML={{
-              __html: condition.answer.properties.unit.char
+              __html: condition.answer.properties.unit.msu
             }}
           />
         )}

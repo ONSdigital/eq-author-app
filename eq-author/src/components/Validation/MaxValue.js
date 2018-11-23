@@ -59,7 +59,7 @@ export class MaxValue extends React.Component {
         onChange={this.handleCustomValueChange}
         max={this.props.limit}
         min={0 - this.props.limit}
-        unit={this.props.properties.unit.char}
+        unit={this.props.properties.unit.msu}
       />
     </FieldWithInclude>
   );
