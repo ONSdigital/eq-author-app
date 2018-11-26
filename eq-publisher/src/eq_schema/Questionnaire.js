@@ -41,6 +41,11 @@ class Questionnaire {
     };
     this.metadata = this.buildMetadata(questionnaireJson.metadata);
 
+    this.view_submitted_response = {
+      enabled: true,
+      duration: 900
+    };
+
     this.buildSummaryOrConfirmation(questionnaireJson.summary);
   }
 

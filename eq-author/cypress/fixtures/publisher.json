@@ -6,6 +6,10 @@
   "data_version": "0.0.2",
   "survey_id": "1",
   "title": "UKIS",
+  "view_submitted_response": {
+    "duration": 900,
+    "enabled": true
+  },
   "sections": [
     {
       "id": "section1",
