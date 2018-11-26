@@ -12,6 +12,7 @@ import WrappingInput from "components/WrappingInput";
 import MoveSectionModal from "components/MoveSectionModal";
 import MoveSectionQuery from "components/MoveSectionModal/MoveSectionQuery";
 import CharacterCounter from "components/CharacterCounter";
+import IntroEditor from "components/IntroEditor";
 
 import { colors, radius } from "constants/theme";
 
@@ -143,11 +144,15 @@ export class UnwrappedSectionEditor extends React.Component {
             testSelector="txt-section-title"
           />
         </Padding>
+        <IntroEditor
+          onUpdate={onUpdate}
+          section={section}
+          onChange={onChange}
+        />
       </SectionCanvas>
     );
   }
 }
-
 UnwrappedSectionEditor.fragments = {
   Section: sectionFragment
 };
