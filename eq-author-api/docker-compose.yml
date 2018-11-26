@@ -9,7 +9,6 @@ services:
       - db
     volumes:
       - .:/app
-      #- ./node_modules/eq-author-graphql-schema:/app/node_modules/eq-author-graphql-schema
     ports:
       - 4000:4000
       - 5858:5858 # open port for debugging

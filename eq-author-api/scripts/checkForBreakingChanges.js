@@ -1,7 +1,7 @@
 #!/usr/bin/env node
-
+/* eslint-disable no-console */
 const chalk = require("chalk");
-const schema = require("../");
+const schema = require("../schema/typeDefs");
 const { buildSchema } = require("graphql");
 const childProcess = require("child_process");
 const fs = require("fs");
@@ -9,7 +9,7 @@ const findBreakingChanges = require("./findBreakingChanges");
 
 const getMasterSchema = () => {
   childProcess.execSync(
-    "git show origin/master:eq-author-graphql-schema/index.js > ./scripts/temp.js"
+    "git show origin/master:eq-author-api/schema/typeDefs.js > ./scripts/temp.js"
   );
   const schema = require("./temp.js");
   fs.unlinkSync("./scripts/temp.js");
@@ -23,9 +23,7 @@ try {
 } catch (e) {
   console.error(chalk.red("Invalid schema:"));
   console.error(e.message);
-
-  process.exitCode = 1;
-  return;
+  process.exit(1);
 }
 
 const oldSchema = buildSchema(getMasterSchema());
@@ -43,5 +41,5 @@ if (breakages.length === 0) {
   });
   console.log();
 
-  process.exitCode = 1;
+  process.exit(1);
 }
