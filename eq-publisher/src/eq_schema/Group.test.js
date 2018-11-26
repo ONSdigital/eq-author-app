@@ -511,5 +511,48 @@ describe("Group", () => {
         expectedRunnerRouting
       );
     });
+
+    it("pipes in checkbox values from the previous questions", () => {
+      const ctx = ctxGenerator(null);
+
+      ctx.questionnaireJson.sections[0].pages[0].answers[0] = {
+        id: "6",
+        type: "Checkbox",
+        label: "Test",
+        description: "",
+        guidance: "",
+        options: [
+          {
+            id: "Foo",
+            label: "Foo"
+          },
+          {
+            id: "Bar",
+            label: "Bar"
+          },
+          {
+            id: "Baz",
+            label: "Baz"
+          }
+        ],
+        properties: {
+          required: false
+        }
+      };
+
+      const resultantJson = new Group(
+        ctx.questionnaireJson.sections[0].id,
+        ctx.questionnaireJson.sections[0].title,
+        ctx.questionnaireJson.sections[0].pages,
+        { introductionEnabled: false },
+        ctx
+      );
+
+      expect(resultantJson.blocks[1].questions[0].description).toEqual(
+        `{{ answers['answer${
+          ctx.questionnaireJson.sections[0].pages[0].answers[0].id
+        }']|format_unordered_list }}`
+      );
+    });
   });
 });

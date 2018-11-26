@@ -1,4 +1,5 @@
 const Block = require("../../Block");
+const { CHECKBOX, RADIO } = require("../../../constants/answerTypes");
 
 const buildAuthorConfirmationQuestion = (
   page,
@@ -8,7 +9,7 @@ const buildAuthorConfirmationQuestion = (
 ) => {
   const confirmationAnswerObject = {
     id: `confirmation-answer-for-${page.id}`,
-    type: "Radio",
+    type: RADIO,
     properties: {
       required: true
     },
@@ -66,6 +67,10 @@ const buildAuthorConfirmationQuestion = (
   const confirmationQuestionObject = {
     id: `confirmation-page-for-${page.id}`,
     title: page.confirmation.title,
+    description:
+      page.answers[0].type === CHECKBOX
+        ? `{{ answers['answer${page.answers[0].id}']|format_unordered_list }}`
+        : null,
     pageType: "ConfirmationQuestion",
     routingRuleSet,
     answers: [confirmationAnswerObject]
