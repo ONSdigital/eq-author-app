@@ -125,7 +125,6 @@ const mapStateToProps = (state, ownProps) => {
   return {
     condition: merge({}, ownProps.condition, {
       answer: merge({}, ownProps.answer, {
-        // properties: getUnit(state, ownProps.condition.answer.id)
         properties: state.answer[ownProps.condition.answer.id]
       })
     })
