@@ -30,7 +30,13 @@ describe("QuestionConfirmation", () => {
           negativeLabel: "nl",
           negativeDescription: "nd",
           pageId: "1"
-        })
+        }),
+        getPipingAnswers: jest
+          .fn()
+          .mockResolvedValue([{ id: 1, label: "Answer" }]),
+        getPipingMetadata: jest
+          .fn()
+          .mockResolvedValue([{ id: 2, alias: "Metadata" }])
       }
     };
   });
@@ -48,6 +54,14 @@ describe("QuestionConfirmation", () => {
           negative {
             description
           }
+          availablePipingAnswers {
+            id
+            label
+          }
+          availablePipingMetadata {
+            id
+            alias
+          }
         }
       }
     `;
@@ -63,7 +77,9 @@ describe("QuestionConfirmation", () => {
         },
         negative: {
           description: "nd"
-        }
+        },
+        availablePipingAnswers: [{ id: "1", label: "Answer" }],
+        availablePipingMetadata: [{ id: "2", alias: "Metadata" }]
       }
     });
     expect(repositories.QuestionConfirmation.findById).toHaveBeenCalledWith(

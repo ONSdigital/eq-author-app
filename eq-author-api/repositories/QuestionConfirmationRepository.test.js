@@ -1,6 +1,8 @@
 /* eslint-disable camelcase */
 
 const knex = require("../db");
+const answerTypes = require("../constants/answerTypes");
+const metadataTypes = require("../constants/metadataTypes");
 
 const buildTestQuestionnaire = require("../tests/utils/buildTestQuestionnaire")(
   knex
@@ -15,17 +17,37 @@ describe("QuestionConfirmationRepository", () => {
   beforeAll(async () => {
     await knex.migrate.latest();
     const questionnaire = await buildTestQuestionnaire({
+      metadata: [
+        {
+          key: "date",
+          alias: "Date",
+          type: metadataTypes.DATE
+        }
+      ],
       sections: [
         {
           pages: [
             {
-              answers: []
+              answers: [
+                {
+                  label: "Previous Answer",
+                  type: answerTypes.CURRENCY
+                }
+              ]
+            },
+            {
+              answers: [
+                {
+                  label: "Answer",
+                  type: answerTypes.TEXTFIELD
+                }
+              ]
             }
           ]
         }
       ]
     });
-    page = questionnaire.sections[0].pages[0];
+    page = questionnaire.sections[0].pages[1];
   });
   afterAll(() => knex.destroy());
   afterEach(() => knex("QuestionConfirmations").delete());
@@ -206,6 +228,37 @@ describe("QuestionConfirmationRepository", () => {
         page.id
       );
       expect(readByPage).toEqual(confirmation);
+    });
+  });
+
+  describe("getPipingAnswers", () => {
+    it("should return the answers on the page and previous pages", async () => {
+      const confirmation = await QuestionConfirmationRepository.create({
+        pageId: page.id
+      });
+
+      const pipingAnswers = await QuestionConfirmationRepository.getPipingAnswers(
+        confirmation.id
+      );
+      expect(pipingAnswers).toEqual([
+        expect.objectContaining({ label: "Previous Answer" }),
+        expect.objectContaining({ label: "Answer" })
+      ]);
+    });
+  });
+
+  describe("getPipingMetadata", () => {
+    it("should return the available metadata", async () => {
+      const confirmation = await QuestionConfirmationRepository.create({
+        pageId: page.id
+      });
+
+      const pipingMetadata = await QuestionConfirmationRepository.getPipingMetadata(
+        confirmation.id
+      );
+      expect(pipingMetadata).toEqual([
+        expect.objectContaining({ key: "date", alias: "Date" })
+      ]);
     });
   });
 });

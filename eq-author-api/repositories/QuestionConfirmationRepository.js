@@ -1,6 +1,10 @@
 const { head, pick } = require("lodash/fp");
 
 const QuestionConfirmation = require("../db/QuestionConfirmation");
+const { PIPING_ANSWER_TYPES } = require("../constants/pipingAnswerTypes");
+
+const QuestionPageRepostory = require("./QuestionPageRepository");
+const PreviousAnswerStrategy = require("./strategies/previousAnswersStrategy");
 
 const USER_MODIFIABLE_FIELDS = [
   "title",
@@ -45,12 +49,28 @@ module.exports = knex => {
       .restore(id)
       .then(head);
 
+  const getPipingAnswers = async id => {
+    const { pageId } = await findById(id);
+    return PreviousAnswerStrategy(knex).getPreviousAnswersForPage({
+      id: pageId,
+      includeSelf: true,
+      answerTypes: PIPING_ANSWER_TYPES
+    });
+  };
+
+  const getPipingMetadata = async id => {
+    const { pageId } = await findById(id);
+    return QuestionPageRepostory(knex).getPipingMetadataForQuestionPage(pageId);
+  };
+
   return {
     findById,
     findByPageId,
     create,
     update,
     delete: remove,
-    restore
+    restore,
+    getPipingAnswers,
+    getPipingMetadata
   };
 };

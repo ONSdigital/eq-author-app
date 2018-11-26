@@ -7,6 +7,7 @@ import {
   selectFirstAnswerFromContentPicker,
   selectFirstMetadataContentPicker
 } from "../../utils";
+import { questionConfirmation } from "../../builders";
 
 const ANSWER = "Number Answer";
 const METADATA = "example_metadata";
@@ -27,6 +28,12 @@ const clickLastPage = () =>
   cy
     .get(testId("nav-page-link"))
     .last()
+    .click({ force: true }); //Metadata modal transition is sometimes too slow
+
+const clickFirstPage = () =>
+  cy
+    .get(testId("nav-page-link"))
+    .first()
     .click({ force: true }); //Metadata modal transition is sometimes too slow
 
 const addSectionIntro = () => cy.get(testId("btn-add-intro")).click();
@@ -83,6 +90,16 @@ describe("Piping", () => {
         );
       });
     });
+    describe("Question Confirmation", () => {
+      beforeEach(() => {
+        clickFirstPage();
+        questionConfirmation.add();
+      });
+
+      it("Can pipe answer on page into title", () => {
+        canPipePreviousAnswer({ selector: "txt-confirmation-title" });
+      });
+    });
     describe("Section Introduction", () => {
       beforeEach(() => {
         clickLastSection();
@@ -113,6 +130,16 @@ describe("Piping", () => {
       });
       it("Can pipe metadata into page guidance", () => {
         canPipeMetadata({ selector: "txt-question-guidance" });
+      });
+    });
+    describe("Question Confirmation", () => {
+      beforeEach(() => {
+        clickLastPage();
+        questionConfirmation.add();
+      });
+
+      it("Can pipe metadata into title", () => {
+        canPipeMetadata({ selector: "txt-confirmation-title" });
       });
     });
     describe("Section Introduction", () => {

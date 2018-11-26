@@ -6,19 +6,9 @@ import gql from "graphql-tag";
 import AvailableAnswers from "graphql/fragments/available-answers.graphql";
 import AvailableMetadata from "graphql/fragments/available-metadata.graphql";
 
-const GET_AVAILABLE_PIPING_CONTENT = gql`
-  query GetAvailablePipingContent($id: ID!, $sectionContent: Boolean!) {
-    questionPage(id: $id) @skip(if: $sectionContent) {
-      id
-      displayName
-      availablePipingAnswers {
-        ...AvailableAnswers
-      }
-      availablePipingMetadata {
-        ...AvailableMetadata
-      }
-    }
-    section(id: $id) @include(if: $sectionContent) {
+export const GET_PIPING_CONTENT_PAGE = gql`
+  query GetAvailablePipingContent($id: ID!) {
+    questionPage(id: $id) {
       id
       displayName
       availablePipingAnswers {
@@ -33,19 +23,78 @@ const GET_AVAILABLE_PIPING_CONTENT = gql`
   ${AvailableMetadata}
 `;
 
-const AvailablePipingContentQuery = ({ id, sectionContent, children }) => (
-  <Query
-    query={GET_AVAILABLE_PIPING_CONTENT}
-    variables={{ id, sectionContent }}
-    fetchPolicy="cache-and-network"
-  >
-    {children}
-  </Query>
-);
+export const GET_PIPING_CONTENT_SECTION = gql`
+  query GetAvailablePipingContent($id: ID!) {
+    section(id: $id) {
+      id
+      displayName
+      availablePipingAnswers {
+        ...AvailableAnswers
+      }
+      availablePipingMetadata {
+        ...AvailableMetadata
+      }
+    }
+  }
+  ${AvailableAnswers}
+  ${AvailableMetadata}
+`;
+
+export const GET_PIPING_CONTENT_QUESTION_CONFIRMATION = gql`
+  query GetAvailablePipingContent($id: ID!) {
+    questionConfirmation(id: $id) {
+      id
+      displayName
+      availablePipingAnswers {
+        ...AvailableAnswers
+      }
+      availablePipingMetadata {
+        ...AvailableMetadata
+      }
+    }
+  }
+  ${AvailableAnswers}
+  ${AvailableMetadata}
+`;
+
+const determineQuery = ({ confirmationId, pageId, sectionId }) => {
+  if (confirmationId) {
+    return {
+      variables: { id: confirmationId },
+      query: GET_PIPING_CONTENT_QUESTION_CONFIRMATION
+    };
+  }
+  if (pageId) {
+    return { variables: { id: pageId }, query: GET_PIPING_CONTENT_PAGE };
+  }
+  return {
+    variables: { id: sectionId },
+    query: GET_PIPING_CONTENT_SECTION
+  };
+};
+
+const AvailablePipingContentQuery = ({
+  pageId,
+  sectionId,
+  confirmationId,
+  children
+}) => {
+  const { variables, query } = determineQuery({
+    pageId,
+    sectionId,
+    confirmationId
+  });
+  return (
+    <Query query={query} variables={variables} fetchPolicy="cache-and-network">
+      {children}
+    </Query>
+  );
+};
 
 AvailablePipingContentQuery.propTypes = {
-  id: PropTypes.string,
-  sectionContent: PropTypes.bool.isRequired,
+  pageId: PropTypes.string,
+  sectionId: PropTypes.string,
+  confirmationId: PropTypes.string,
   children: PropTypes.func.isRequired
 };
 
