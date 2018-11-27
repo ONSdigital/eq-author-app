@@ -3,7 +3,7 @@ const { duplicatePageStrategy } = require("./strategies/duplicateStrategy");
 const { head, get } = require("lodash/fp");
 const Page = require("../db/Page");
 const QuestionPageRepository = require("./QuestionPageRepository");
-const db = require("../db");
+const { getConnection } = require("../db");
 const {
   getOrUpdateOrderForPageInsert
 } = require("./strategies/spacedOrderStrategy");
@@ -23,14 +23,14 @@ function getRepositoryForType({ pageType }) {
 }
 
 function findAll(where = {}, orderBy = "position", direction = "asc") {
-  return db("PagesView")
+  return getConnection()("PagesView")
     .select("*")
     .where(where)
     .orderBy(orderBy, direction);
 }
 
 function getById(id) {
-  return db("PagesView")
+  return getConnection()("PagesView")
     .where("id", parseInt(id, 10))
     .first();
 }
@@ -39,7 +39,7 @@ function insert(args) {
   const repository = getRepositoryForType(args);
   const { sectionId, position } = args;
 
-  return db.transaction(trx => {
+  return getConnection().transaction(trx => {
     return getOrUpdateOrderForPageInsert(trx, sectionId, null, position)
       .then(order => Object.assign(args, { order }))
       .then(page => repository.insert(page, trx));
@@ -63,14 +63,14 @@ const deletePage = async (trx, id) => {
   return deletedPage;
 };
 
-const remove = id => db.transaction(trx => deletePage(trx, id));
+const remove = id => getConnection().transaction(trx => deletePage(trx, id));
 
 function undelete(id) {
   return Page.update(id, { isDeleted: false }).then(head);
 }
 
 function move({ id, sectionId, position }) {
-  return db.transaction(trx => {
+  return getConnection().transaction(trx => {
     return getOrUpdateOrderForPageInsert(trx, sectionId, id, position)
       .then(order => Page.update(id, { sectionId, order }, trx))
       .then(head)
@@ -83,11 +83,13 @@ function getPosition({ id }) {
 }
 
 function getRoutingDestinations(pageId) {
-  return db.transaction(trx => getAvailableRoutingDestinations(trx, pageId));
+  return getConnection().transaction(trx =>
+    getAvailableRoutingDestinations(trx, pageId)
+  );
 }
 
 function duplicatePage(id, position) {
-  return db.transaction(async trx => {
+  return getConnection().transaction(async trx => {
     const page = await trx
       .select("*")
       .from("Pages")

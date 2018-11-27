@@ -25,4 +25,4 @@ echo "waiting on postgres to start..."
 
 echo "running tests..."
 
-NODE_ENV=test DB_CONNECTION_URI="postgres://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST/postgres" yarn jest --runInBand "$@"
+DB_CONNECTION_URI="postgres://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST/postgres" yarn jest --runInBand "$@"

@@ -1,6 +1,6 @@
 const { get, head, pick } = require("lodash/fp");
 const Section = require("../db/Section");
-const db = require("../db");
+const { getConnection } = require("../db");
 const {
   getOrUpdateOrderForSectionInsert
 } = require("./strategies/spacedOrderStrategy");
@@ -17,21 +17,21 @@ module.exports.findAll = function findAll(
   orderBy = "position",
   direction = "asc"
 ) {
-  return db("SectionsView")
+  return getConnection()("SectionsView")
     .select("*")
     .where(where)
     .orderBy(orderBy, direction);
 };
 
 module.exports.getById = function getById(id) {
-  return db("SectionsView")
+  return getConnection()("SectionsView")
     .where("id", parseInt(id, 10))
     .first();
 };
 
 module.exports.insert = function insert(args) {
   const { questionnaireId, position } = args;
-  return db.transaction(trx => {
+  return getConnection().transaction(trx => {
     return getOrUpdateOrderForSectionInsert(
       trx,
       questionnaireId,
@@ -83,7 +83,7 @@ module.exports.undelete = function(id) {
 };
 
 module.exports.move = function({ id, questionnaireId, position }) {
-  return db.transaction(trx => {
+  return getConnection().transaction(trx => {
     return getOrUpdateOrderForSectionInsert(trx, questionnaireId, id, position)
       .then(order => Section.update(id, { questionnaireId, order }, trx))
       .then(head)
@@ -104,7 +104,7 @@ module.exports.getPosition = function({ id }) {
 };
 
 module.exports.getSectionCount = function getSectionCount(questionnaireId) {
-  return db("SectionsView")
+  return getConnection()("SectionsView")
     .count()
     .where({ questionnaireId })
     .then(head)
@@ -112,7 +112,7 @@ module.exports.getSectionCount = function getSectionCount(questionnaireId) {
 };
 
 module.exports.duplicateSection = function duplicateSection(id, position) {
-  return db.transaction(async trx => {
+  return getConnection().transaction(async trx => {
     const section = await trx
       .select("*")
       .from("Sections")
@@ -136,7 +136,7 @@ module.exports.getPipingAnswersForSection = id =>
   );
 
 module.exports.getPipingMetadataForSection = id =>
-  db("Metadata")
+  getConnection()("Metadata")
     .select("Metadata.*")
     .join("Questionnaires", "Metadata.questionnaireId", "Questionnaires.id")
     .join("SectionsView", "SectionsView.questionnaireId", "Questionnaires.id")

@@ -1,7 +1,7 @@
-const db = require("../../db");
+const { getConnection } = require("../../db");
 
 const getAnswers = ({ answerTypes, questionnaireId }) =>
-  db("Answers")
+  getConnection()("Answers")
     .select("Answers.*")
     .join("PagesView", "Answers.questionPageId", "PagesView.id")
     .join("SectionsView", "PagesView.sectionId", "SectionsView.id")

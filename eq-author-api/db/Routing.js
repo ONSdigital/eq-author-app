@@ -1,4 +1,4 @@
-const db = require("./");
+const { getConnection } = require("./");
 const { parseInt } = require("lodash");
 const RoutingRuleSets = "Routing_RuleSets";
 const RoutingRules = "Routing_Rules";
@@ -6,23 +6,26 @@ const RoutingConditions = "Routing_Conditions";
 const RoutingConditionValues = "Routing_ConditionValues";
 const RoutingDestinations = "Routing_Destinations";
 
-const table = (tableName, knex = db) => knex(tableName);
-const select = (tableName, knex = db) => table(tableName, knex).select();
-const selectById = (tableName, id, knex = db) =>
-  select(tableName, knex)
+function table(tableName) {
+  return getConnection()(tableName);
+}
+
+const select = tableName => table(tableName).select();
+const selectById = (tableName, id) =>
+  select(tableName)
     .where("id", parseInt(id))
     .first();
-const insert = (tableName, record, knex = db) =>
-  table(tableName, knex)
+const insert = (tableName, record) =>
+  table(tableName)
     .insert(record)
     .returning("*");
-const update = (tableName, id, record, knex = db) =>
-  table(tableName, knex)
+const update = (tableName, id, record) =>
+  table(tableName)
     .where("id", parseInt(id))
     .update(record)
     .returning("*");
-const deleteById = (tableName, id, knex = db) =>
-  table(tableName, knex)
+const deleteById = (tableName, id) =>
+  table(tableName)
     .where({ id })
     .del()
     .returning("*");

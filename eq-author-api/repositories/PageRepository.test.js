@@ -1,4 +1,4 @@
-const db = require("../db");
+const { getConnection } = require("../db");
 const QuestionnaireRepository = require("../repositories/QuestionnaireRepository");
 const SectionRepository = require("../repositories/SectionRepository");
 const PageRepository = require("../repositories/PageRepository");
@@ -52,9 +52,9 @@ const eachP = (items, iter) =>
   );
 
 describe("PagesRepository", () => {
-  beforeAll(() => db.migrate.latest());
-  afterAll(() => db.destroy());
-  afterEach(() => db("Questionnaires").delete());
+  beforeAll(() => getConnection().migrate.latest());
+  afterAll(() => getConnection().destroy());
+  afterEach(() => getConnection()("Questionnaires").delete());
 
   it("throws for unknown page types", () => {
     const page = buildPage({ pageType: "NotARealPageType" });

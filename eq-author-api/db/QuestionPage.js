@@ -1,7 +1,7 @@
-const knex = require("./index");
+const { getConnection } = require("./");
 
-function Question(db = knex) {
-  return db("Pages");
+function Question() {
+  return getConnection()("Pages");
 }
 
 function restrictType(where = {}) {

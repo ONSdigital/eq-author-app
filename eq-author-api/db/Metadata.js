@@ -1,7 +1,7 @@
-const db = require("./");
+const { getConnection } = require("./");
 
 function Metadata() {
-  return db("Metadata");
+  return getConnection()("Metadata");
 }
 
 module.exports.findAll = function findAll() {

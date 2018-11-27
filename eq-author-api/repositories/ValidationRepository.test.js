@@ -1,4 +1,4 @@
-const db = require("../db");
+const { getConnection } = require("../db");
 const { get } = require("lodash");
 const {
   getPreviousAnswersForValidation,
@@ -12,10 +12,10 @@ const {
 } = require("../constants/metadataTypes");
 
 describe("ValidationRepository", () => {
-  beforeAll(() => db.migrate.latest());
-  afterAll(() => db.destroy());
+  beforeAll(() => getConnection().migrate.latest());
+  afterAll(() => getConnection().destroy());
   afterEach(async () => {
-    await db.transaction(async trx => {
+    await getConnection().transaction(async trx => {
       await trx.table("Questionnaires").delete();
     });
   });

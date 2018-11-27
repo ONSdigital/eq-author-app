@@ -1,6 +1,6 @@
 const { head, isNil } = require("lodash/fp");
 const Option = require("../db/Option");
-const db = require("../db");
+const { getConnection } = require("../db");
 const { handleOptionDeleted } = require("./strategies/routingStrategy");
 
 const findExclusiveOptionByAnswerId = answerId =>
@@ -73,7 +73,7 @@ const deleteOption = async (trx, id) => {
   return deletedOption;
 };
 
-const remove = id => db.transaction(trx => deleteOption(trx, id));
+const remove = id => getConnection().transaction(trx => deleteOption(trx, id));
 
 const undelete = id => Option.update(id, { isDeleted: false }).then(head);
 

@@ -1,6 +1,6 @@
 const { head } = require("lodash/fp");
 const { get, isNil, parseInt } = require("lodash");
-const db = require("../db");
+const { getConnection } = require("../db");
 const Answer = require("../repositories/AnswerRepository");
 
 const {
@@ -26,7 +26,7 @@ const getRoutingDestinations = async pageId => {
       logicalDestination: "EndOfQuestionnaire"
     }
   ];
-  const absoluteDestinations = await db.transaction(trx =>
+  const absoluteDestinations = await getConnection().transaction(trx =>
     getAvailableRoutingDestinations(trx, pageId)
   );
   return {
@@ -87,7 +87,7 @@ function findAllRoutingConditionValues(where = {}) {
 }
 
 function createRoutingRuleSet({ questionPageId }) {
-  return db.transaction(trx =>
+  return getConnection().transaction(trx =>
     createRoutingRuleSetStrategy(trx, questionPageId)
   );
 }
@@ -98,19 +98,19 @@ const deleteRoutingRuleSet = ({ id }) =>
   }).then(head);
 
 async function createRoutingRule(createRoutingRuleInput) {
-  return db.transaction(trx =>
+  return getConnection().transaction(trx =>
     createRoutingRuleStrategy(trx, createRoutingRuleInput)
   );
 }
 
 function createRoutingCondition(routingCondition) {
-  return db.transaction(trx =>
+  return getConnection().transaction(trx =>
     createRoutingConditionStrategy(trx, routingCondition)
   );
 }
 
 const toggleConditionOption = async ({ conditionId, optionId, checked }) =>
-  db.transaction(trx =>
+  getConnection().transaction(trx =>
     toggleConditionOptionStrategy(trx, {
       conditionId,
       optionId,
@@ -185,7 +185,7 @@ async function updateRoutingRule({ id, goto: destination }) {
 }
 
 function updateRoutingCondition({ id, questionPageId, answerId, comparator }) {
-  return db.transaction(trx =>
+  return getConnection().transaction(trx =>
     updateRoutingConditionStrategy(trx, {
       id,
       questionPageId,

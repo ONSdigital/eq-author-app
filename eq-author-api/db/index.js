@@ -1,4 +1,45 @@
-var environment = process.env.NODE_ENV || "development";
-var config = require("../config/knexfile.js")[environment];
+const config = require("../config/knexfile.js");
 
-module.exports = require("knex")(config);
+const getConfig = async function(secretId) {
+  if (secretId && secretId !== "") {
+    const AWS = require("aws-sdk");
+    const client = new AWS.SecretsManager({ region: "eu-west-1" });
+
+    let secretPromise = client.getSecretValue({ SecretId: secretId }).promise();
+
+    try {
+      let secret = await secretPromise;
+      let dbCredentials = JSON.parse(secret.SecretString);
+      config.connection = {
+        host: dbCredentials.host,
+        port: dbCredentials.port,
+        user: dbCredentials.username,
+        password: dbCredentials.password,
+        database: dbCredentials.dbname
+      };
+      return config;
+    } catch (error) {
+      console.error("ERROR");
+      console.error(error);
+      process.exit();
+    }
+  }
+  return config;
+};
+
+let connection;
+
+function getConnection() {
+  if (!connection) {
+    getConfig(process.env.DB_SECRET_ID).then(conf => {
+      connection = require("knex")(conf);
+    });
+  }
+  return connection;
+}
+
+getConnection();
+
+module.exports = {
+  getConnection
+};

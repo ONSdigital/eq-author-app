@@ -1,6 +1,6 @@
 const fp = require("lodash/fp");
 
-const knex = require("../db");
+const { getConnection } = require("../db");
 const QuestionnaireRepository = require("../repositories/QuestionnaireRepository");
 
 const buildQuestionnaire = (json = {}) => {
@@ -18,9 +18,9 @@ const buildQuestionnaire = (json = {}) => {
 };
 
 describe("QuestionnaireRepository", () => {
-  beforeAll(() => knex.migrate.latest());
-  afterAll(() => knex.destroy());
-  afterEach(() => knex("Questionnaires").delete());
+  beforeAll(() => getConnection().migrate.latest());
+  afterAll(() => getConnection().destroy());
+  afterEach(() => getConnection()("Questionnaires").delete());
 
   it("should create new Questionnaire", async () => {
     const questionnaire = buildQuestionnaire({

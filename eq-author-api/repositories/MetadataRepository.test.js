@@ -1,6 +1,6 @@
 const { map, times, omit } = require("lodash");
 
-const db = require("../db");
+const { getConnection } = require("../db");
 const QuestionnaireRepository = require("../repositories/QuestionnaireRepository");
 const MetadataRepository = require("../repositories/MetadataRepository");
 
@@ -31,9 +31,9 @@ const buildMetadata = (questionnaireId, json = {}) => {
 describe("MetadataRepository", () => {
   let questionnaireId;
 
-  beforeAll(() => db.migrate.latest());
-  afterAll(() => db.destroy());
-  afterEach(() => db("Questionnaires").delete());
+  beforeAll(() => getConnection().migrate.latest());
+  afterAll(() => getConnection().destroy());
+  afterEach(() => getConnection()("Questionnaires").delete());
   beforeEach(async () => {
     const questionnaire = buildQuestionnaire({ title: "New questionnaire" });
     ({ id: questionnaireId } = await QuestionnaireRepository.insert(

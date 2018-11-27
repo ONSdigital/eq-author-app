@@ -1,7 +1,7 @@
-const knex = require("./");
+const { getConnection } = require("./");
 
-function Page(db = knex) {
-  return db("Pages");
+function Page() {
+  return getConnection()("Pages");
 }
 
 module.exports.findAll = function findAll() {

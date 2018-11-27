@@ -1,7 +1,7 @@
-const db = require("./");
+const { getConnection } = require("./");
 
 function Validation() {
-  return db("Validation_AnswerRules");
+  return getConnection()("Validation_AnswerRules");
 }
 
 module.exports.findAll = function findAll() {

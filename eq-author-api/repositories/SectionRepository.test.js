@@ -1,4 +1,4 @@
-const db = require("../db");
+const { getConnection } = require("../db");
 const QuestionnaireRepository = require("../repositories/QuestionnaireRepository");
 const SectionRepository = require("../repositories/SectionRepository");
 const { get, last, head, map, toString, times } = require("lodash");
@@ -55,9 +55,9 @@ const eachP = (items, iter) =>
   );
 
 describe("SectionRepository", () => {
-  beforeAll(() => db.migrate.latest());
-  afterAll(() => db.destroy());
-  afterEach(() => db("Questionnaires").delete());
+  beforeAll(() => getConnection().migrate.latest());
+  afterAll(() => getConnection().destroy());
+  afterEach(() => getConnection()("Questionnaires").delete());
 
   it("allows sections to be created", async () => {
     const {

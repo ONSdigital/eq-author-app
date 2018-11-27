@@ -1,4 +1,4 @@
-const db = require("../db");
+const { getConnection } = require("../db");
 const Validation = require("../db/Validation");
 const { head, flow, keys, remove, first } = require("lodash/fp");
 const {
@@ -40,7 +40,7 @@ const updateValidationRule = input => {
 };
 
 const getPreviousAnswersForValidation = id =>
-  db("Answers")
+  getConnection()("Answers")
     .select("SectionsView.position as sectionPosition")
     .select("PagesView.position as pagePosition")
     .select("SectionsView.questionnaireId")
@@ -62,7 +62,7 @@ const getPreviousAnswersForValidation = id =>
     );
 
 const getMetadataForValidation = id =>
-  db("Answers")
+  getConnection()("Answers")
     .select("SectionsView.questionnaireId")
     .select("Answers.type as answerType")
     .join(
@@ -76,7 +76,7 @@ const getMetadataForValidation = id =>
     .then(head)
     .then(({ answerType, questionnaireId }) => {
       if (answerType === ANSWER_DATE) {
-        return db("Metadata")
+        return getConnection()("Metadata")
           .select("Metadata.*")
           .andWhere("type", METADATA_DATE)
           .andWhere({ questionnaireId })

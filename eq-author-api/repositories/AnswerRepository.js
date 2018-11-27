@@ -12,7 +12,7 @@ const {
 } = require("lodash/fp");
 const { get, merge } = require("lodash");
 
-const db = require("../db");
+const { getConnection } = require("../db");
 const Answer = require("../db/Answer");
 
 const childAnswerParser = require("../utils/childAnswerParser");
@@ -129,7 +129,7 @@ const update = ({
 };
 
 const createAnswer = async answerConfig => {
-  return db.transaction(async trx => {
+  return getConnection().transaction(async trx => {
     const defaultProperties = getDefaultAnswerProperties(answerConfig.type);
     const input = merge({}, answerConfig, {
       properties: defaultProperties
@@ -182,7 +182,7 @@ const deleteAnswer = async (trx, id) => {
   return deletedAnswer;
 };
 
-const remove = id => db.transaction(trx => deleteAnswer(trx, id));
+const remove = id => getConnection().transaction(trx => deleteAnswer(trx, id));
 
 const undelete = id =>
   Answer.update(id, { isDeleted: false })
@@ -203,13 +203,13 @@ const getOtherAnswer = (
     .then(fromDb);
 
 const createOtherAnswer = ({ id }) => {
-  return db.transaction(trx =>
+  return getConnection().transaction(trx =>
     createOtherAnswerStrategy(trx, { id }).then(fromDb)
   );
 };
 
 const deleteOtherAnswer = ({ id }) => {
-  return db.transaction(trx =>
+  return getConnection().transaction(trx =>
     deleteOtherAnswerStrategy(trx, { id }).then(fromDb)
   );
 };
@@ -229,7 +229,7 @@ const splitComposites = answer => {
 };
 
 const lookupComposite = async (where = {}) => {
-  return db("CompositeAnswerView")
+  return getConnection()("CompositeAnswerView")
     .select("*")
     .where({ isDeleted: false, parentAnswerId: null })
     .where(where)
