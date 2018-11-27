@@ -4,7 +4,6 @@ import React from "react";
 import styled from "styled-components";
 
 import Error from "components/Preview/Error";
-import { rteIsEmpty } from "utils/preview";
 
 const Wrapper = styled.div`
   padding: 2em;
@@ -45,13 +44,13 @@ const SectionIntroPreview = ({
 }) => (
   <Wrapper>
     <TitleBlock>
-      {rteIsEmpty(introductionTitle) ? (
+      {!introductionTitle ? (
         <Error data-test="no-title">Missing Introduction Title</Error>
       ) : (
         <div dangerouslySetInnerHTML={{ __html: introductionTitle }} />
       )}
     </TitleBlock>
-    {rteIsEmpty(introductionContent) ? (
+    {!introductionContent ? (
       <Error data-test="no-content" large margin={false}>
         Missing Introduction Content
       </Error>

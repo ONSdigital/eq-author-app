@@ -21,7 +21,9 @@ import PipedValueDecorator, {
 
 import createFormatStripper from "./utils/createFormatStripper";
 
-import { flow, uniq, map, keyBy, mapValues } from "lodash/fp";
+import cheerio from "cheerio";
+
+import { flow, uniq, map, keyBy, mapValues, isNull, trim } from "lodash/fp";
 import { sharedStyles } from "../Forms/css";
 import { Field, Label } from "../Forms";
 
@@ -112,6 +114,22 @@ const getContentsOfPipingType = type => contents =>
 
 const getAnswerPipes = getContentsOfPipingType("answers");
 const getMetadataPipes = getContentsOfPipingType("metadata");
+
+function isHtml(string) {
+  return !isNull(cheerio(trim(string)).html());
+}
+
+const filterEmptyTags = value => {
+  if (isHtml(value)) {
+    return cheerio(value)
+      .text()
+      .trim() === ""
+      ? ""
+      : value;
+  } else {
+    return value;
+  }
+};
 
 class RichTextEditor extends React.Component {
   static defaultProps = {
@@ -340,7 +358,7 @@ class RichTextEditor extends React.Component {
   handleBlur = () => {
     this.props.onUpdate({
       name: this.props.name,
-      value: this.getHTML()
+      value: filterEmptyTags(this.getHTML())
     });
 
     this.timeoutID = setTimeout(() => {

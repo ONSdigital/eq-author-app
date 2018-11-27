@@ -113,11 +113,20 @@ describe("components/RichTextEditor", function() {
     expect(handleChange).toHaveBeenCalledTimes(2);
   });
 
-  it("should call onUpdate with raw editor state onBlur", () => {
+  it("empty RTE should call onUpdate with empty value onBlur", () => {
     wrapper.find("[data-test='rte-field']").simulate("blur");
     expect(props.onUpdate).toHaveBeenCalledWith({
       name: "test-name",
-      value: "<p></p>"
+      value: ""
+    });
+  });
+
+  it("should not strip tags with a value", () => {
+    wrapper.setProps({ value: "<p>test</p>" });
+    wrapper.find("[data-test='rte-field']").simulate("blur");
+    expect(props.onUpdate).toHaveBeenCalledWith({
+      name: "test-name",
+      value: "<p>test</p>"
     });
   });
 

@@ -11,8 +11,6 @@ import Loading from "components/Loading";
 import Error from "components/Preview/Error";
 import QuestionPageEditor from "components/QuestionPageEditor";
 
-import { rteIsEmpty } from "utils/preview";
-
 import { Answer } from "./answers";
 import IconInfo from "./icon-info.svg?inline";
 
@@ -86,14 +84,14 @@ export const UnwrappedPreviewPageRoute = ({ loading, data }) => {
           )}
         </PageTitle>
 
-        {!rteIsEmpty(description) && (
+        {description && (
           <Description
             data-test="description"
             dangerouslySetInnerHTML={{ __html: description }}
           />
         )}
 
-        {!rteIsEmpty(guidance) && (
+        {guidance && (
           <Guidance data-test="guidance">
             <Panel dangerouslySetInnerHTML={{ __html: guidance }} />
           </Guidance>
