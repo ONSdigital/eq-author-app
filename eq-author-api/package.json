@@ -37,7 +37,7 @@
     "js-yaml": "^3.12.0",
     "json-web-key": "^0.4.0",
     "jsrsasign": "^8.0.12",
-    "knex": "^0.15.2",
+    "knex": "^0.16.0",
     "lodash": "^4.17.4",
     "node-jose": "^1.0.0",
     "nodemon": "^1.11.0",
