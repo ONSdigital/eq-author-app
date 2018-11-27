@@ -1,9 +1,16 @@
 # eq-author-api
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/ONSdigital/eq-author-api.svg)](https://greenkeeper.io/)
-
 A GraphQL based API for the [eq-author](https://github.com/ONSdigital/eq-author)
 application.
+
+## Table of Contents
+
+- [Installation](#installation)
+- [Environment Variables](#environment-variables)
+- [Run using Docker](#run-using-docker)
+- [Tests](#tests)
+- [Debugging (with VS Code)](#debugging-with-vs-code)
+- [Importing Questionnaires)](#importing-questionnaires)
 
 ## Installation
 
@@ -23,23 +30,24 @@ In most cases sensible defaults have been selected.
 
 ## Environment Variables
 
-| Name | Description | Required |
-| --- | --- | --- |
-| `RUNNER_SESSION_URL` | Authentication URL for survey runner | Yes |
-| `PUBLISHER_URL` | URL that produces valid survey runner JSON | Yes |
-| `DB_CONNECTION_URI` | Connection string for database | Yes |
-| `SECRETS_S3_BUCKET` | Name of S3 bucket where secrets are stored | No |
-| `KEYS_FILE` | Name of the keys file to use inside the bucket | No |
-| `EQ_AUTHOR_API_VERSION` | The current Author API version. This is what gets reported on the /status endpoint | No |
-| `PORT` | The port which express listens on (defaults to `4000`). | No |
-| `NODE_ENV` | Sets the environment the code is running in | No |
+| Name                    | Description                                                                        | Required |
+| ----------------------- | ---------------------------------------------------------------------------------- | -------- |
+| `RUNNER_SESSION_URL`    | Authentication URL for survey runner                                               | Yes      |
+| `PUBLISHER_URL`         | URL that produces valid survey runner JSON                                         | Yes      |
+| `DB_CONNECTION_URI`     | Connection string for database                                                     | Yes      |
+| `SECRETS_S3_BUCKET`     | Name of S3 bucket where secrets are stored                                         | No       |
+| `KEYS_FILE`             | Name of the keys file to use inside the bucket                                     | No       |
+| `EQ_AUTHOR_API_VERSION` | The current Author API version. This is what gets reported on the /status endpoint | No       |
+| `PORT`                  | The port which express listens on (defaults to `4000`)                             | No       |
+| `NODE_ENV`              | Sets the environment the code is running in                                        | No       |
 
-### Run using Docker
+## Run using Docker
 
 To build and run the Author GraphQL API inside a docker container, ensure that
 Docker is installed for your platform, navigate to the project directory, then run:
 
 Build the docker image (1st time run):
+
 ```
 docker-compose build
 ```
@@ -64,22 +72,22 @@ query {
     questionnaire {
       sections {
         pages {
-          id,
+          id
 
           # inline fragment for `QuestionPage` type
           ... on QuestionPage {
-            guidance,
+            guidance
             answers {
-              id,
+              id
               label
             }
-          },
-
-          # For purposes of example only. `InterstitialPage` doesn't exist yet
-          ... on InterstitialPage { # doesn't exist yet
-            someField
           }
 
+          # For purposes of example only. `InterstitialPage` doesn't exist yet
+          ... on InterstitialPage {
+            # doesn't exist yet
+            someField
+          }
         }
       }
     }
@@ -125,9 +133,9 @@ docker-compose exec web yarn knex -- migrate:rollback
 
 ### Debugging app
 
-Follow [this guide](https://github.com/docker/labs/blob/83514855aff21eaed3925d1fd28091b23de0e147/developer-tools/nodejs-debugging/VSCode-README.md) to enable debugging through VS Code. 
+Follow [this guide](https://github.com/docker/labs/blob/83514855aff21eaed3925d1fd28091b23de0e147/developer-tools/nodejs-debugging/VSCode-README.md) to enable debugging through VS Code.
 
-Use this config for VS Code, rather than what is detailed in the guide. This will attach *to the running docker container*:
+Use this config for VS Code, rather than what is detailed in the guide. This will attach _to the running docker container_:
 
 ```json
 {
@@ -165,10 +173,13 @@ Add the following to your `launch.json` configuration:
 Then start your tests [as described above](#tests). You can now start a debugging session, and pick the jest process to attach to.
 
 ## Importing questionnaires
+
 There is a dev only endpoint exposed in the dev environment to be able to import questionnaires from other environments.
 
-## How to use it:
-1. Run the following query against the environment to retrieve the questionnaire. You need to provide the id as well. (You could use https://github.com/skevy/graphiql-app)
+### How to use it
+
+1. Run the following query against the environment to retrieve the questionnaire. You need to provide the id as well. (You could use <https://github.com/skevy/graphiql-app>)
+
 ```graphql
 fragment answerFragment on Answer {
   id
@@ -178,16 +189,16 @@ fragment answerFragment on Answer {
   guidance
   properties
   qCode
-  ...on BasicAnswer{
-    validation{
-      ...on NumberValidation{
-        minValue{
+  ... on BasicAnswer {
+    validation {
+      ... on NumberValidation {
+        minValue {
           id
           inclusive
           enabled
           custom
         }
-        maxValue{
+        maxValue {
           id
           inclusive
           enabled
@@ -198,8 +209,8 @@ fragment answerFragment on Answer {
           }
         }
       }
-      ...on DateValidation{
-        earliestDate{
+      ... on DateValidation {
+        earliestDate {
           id
           enabled
           custom
@@ -209,7 +220,7 @@ fragment answerFragment on Answer {
           }
           relativePosition
         }
-        latestDate{
+        latestDate {
           id
           enabled
           custom
@@ -222,8 +233,8 @@ fragment answerFragment on Answer {
       }
     }
   }
-  ...on CompositeAnswer{
-    childAnswers{
+  ... on CompositeAnswer {
+    childAnswers {
       id
       label
     }
@@ -356,5 +367,6 @@ query GetQuestionnaire($questionnaireId: ID!) {
   }
 }
 ```
-1.`POST` the result to `/import`. (You could use https://www.getpostman.com/)
-1. The questionnaire should be there.
+
+2. `POST` the result to `/import`. (You could use <https://www.getpostman.com/>)
+3. The questionnaire should be there.

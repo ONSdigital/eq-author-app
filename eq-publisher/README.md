@@ -1,7 +1,16 @@
 # eq-publisher
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/ONSdigital/eq-publisher.svg)](https://greenkeeper.io/)
 An API for publishing [eq-author](http://github.com/ONSDigital/eq-author) questionnaires.
+
+## Table of Contents
+
+- [Oveview](#Oveview)
+- [Running with Docker Compose](#running-with-docker-compose)
+- [Running the service manually](#running-the-service-manually)
+- [Environment Variables](#environment-variables)
+- [Testing](#testing)
+- [Routes](#routes)
+- [Debugging](#debugging)
 
 ## Oveview
 
@@ -12,7 +21,6 @@ The conversion pipeline is made up of a series of steps to convert each part of 
 Each step applies a series of transforms to manipulate the resulting JSON.
 
 ![process.jpg](docs/images/process.png)
-
 
 ## Running with Docker Compose
 
@@ -27,12 +35,12 @@ docker-compose up --build
 
 **Note that the `--build` flag is only required on first run.**
 
-
 ## Running the service manually
 
 ### Installation
 
 To install dependencies, simply run:
+
 ```
 yarn install
 ```
@@ -40,6 +48,7 @@ yarn install
 ### Starting the application
 
 To run the application:
+
 ```
 yarn start
 ```
@@ -50,32 +59,32 @@ yarn start
 
 The following environment variables can be configured.
 
-| Name | Description | Required |
-| --- | --- | --- |
-| `EQ_SCHEMA_VALIDATOR_URL` | The URL of the schema validation service. See [Running with Docker Compose](#running-with-docker-compose). | Yes |
-| `EQ_AUTHOR_API_URL` | The URL of the GraphQL API server | Yes |
-| `EQ_PUBLISHER_VERSION` | The current Publisher version. This is what gets reported on the /status endpoint | No |
+| Name                      | Description                                                                                               | Required |
+| ------------------------- | --------------------------------------------------------------------------------------------------------- | -------- |
+| `EQ_SCHEMA_VALIDATOR_URL` | The URL of the schema validation service. See [Running with Docker Compose](#running-with-docker-compose) | Yes      |
+| `EQ_AUTHOR_API_URL`       | The URL of the GraphQL API server                                                                         | Yes      |
+| `EQ_PUBLISHER_VERSION`    | The current Publisher version. This is what gets reported on the /status endpoint                         | No       |
 
 ## Testing
 
 To run all tests:
+
 ```
 yarn test
 ```
 
 ## Routes
 
-By default, the express server will bind to port `9000`. 
+By default, the express server will bind to port `9000`.
 
 You can then navigate to [http://localhost:9000](http://localhost:9000).
 
 Since the API is still under active development, there are only two routes at present:
 
-| Route  | Description |
-| ------------- | ------------- |
-| [/graphql/:questionaireId](http://localhost:9000/graphql/1)  | Demonstrates the JSON that is output by the Author API.  |
-| [/publish/:questionaireId](http://localhost:9000/publish/1)  | Demonstrates the published EQ JSON.  |
-
+| Route                                                       | Description                                            |
+| ----------------------------------------------------------- | ------------------------------------------------------ |
+| [/graphql/:questionaireId](http://localhost:9000/graphql/1) | Demonstrates the JSON that is output by the Author API |
+| [/publish/:questionaireId](http://localhost:9000/publish/1) | Demonstrates the published EQ JSON                     |
 
 ## Debugging
 
