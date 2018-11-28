@@ -12,15 +12,10 @@ services:
   eq-author:
     build: "../../eq-author"
     environment:
-      REACT_APP_BASE_NAME: "/"
       REACT_APP_API_URL: http://localhost:14000/graphql
-      REACT_APP_USE_MOCK_API: "false"
-      REACT_APP_PUBLISHER_URL: http://eq-publisher:9000/publish
       REACT_APP_FIREBASE_PROJECT_ID: "${REACT_APP_FIREBASE_PROJECT_ID}"
       REACT_APP_FIREBASE_API_KEY: "${REACT_APP_FIREBASE_API_KEY}"
-      REACT_APP_FIREBASE_MESSAGING_SENDER_ID: "${REACT_APP_FIREBASE_MESSAGING_SENDER_ID}"
       REACT_APP_FUNCTIONAL_TEST: "true"
-      REACT_APP_ENABLE_AUTH: "true"
     depends_on:
       - eq-author-api
     restart: always

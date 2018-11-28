@@ -1,5 +1,6 @@
 import React from "react";
 import BaseLayout from "components/BaseLayout";
+import SignInForm from "components/SignInForm";
 import styled from "styled-components";
 import { get } from "lodash";
 import { connect } from "react-redux";
@@ -10,15 +11,6 @@ import { Titled } from "react-titled";
 
 import { isSignedIn, verifiedAuthStatus } from "redux/auth/reducer";
 import { signInUser, verifyAuthStatus } from "redux/auth/actions";
-
-let SignInForm;
-
-/* istanbul ignore next */
-if (process.env.REACT_APP_ENABLE_AUTH === "true") {
-  SignInForm = require("components/SignInForm").default;
-} else {
-  SignInForm = require("components/SignInForm/GuestSignInForm").default;
-}
 
 const Centered = styled.div`
   margin: 0 auto;

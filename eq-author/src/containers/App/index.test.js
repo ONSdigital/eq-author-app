@@ -6,9 +6,7 @@ import { shallow } from "enzyme";
 import createHistory from "history/createHashHistory";
 import createMockStore from "tests/utils/createMockStore";
 
-const history = createHistory({
-  basename: process.env.REACT_APP_BASE_NAME
-});
+const history = createHistory();
 
 const store = createMockStore();
 
