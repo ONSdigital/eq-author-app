@@ -1,28 +1,32 @@
+import gql from "graphql-tag";
 import React from "react";
 import styled from "styled-components";
+import { withRouter } from "react-router-dom";
 
+import CustomPropTypes from "custom-prop-types";
 import PageNav from "components/NavigationSidebar/PageNav";
 import NavLink from "./NavLink";
-import CustomPropTypes from "custom-prop-types";
-import { buildSectionPath } from "utils/UrlUtils";
+import { buildQuestionnairePath } from "utils/UrlUtils";
 import SectionIcon from "./icon-section.svg?inline";
-import gql from "graphql-tag";
 
 const StyledSectionNavItem = styled.li`
   display: block;
 `;
 
-class SectionNavItem extends React.Component {
+export class UnwrappedSectionNavItem extends React.Component {
   static propTypes = {
     questionnaire: CustomPropTypes.questionnaire,
-    section: CustomPropTypes.section.isRequired
+    section: CustomPropTypes.section.isRequired,
+    match: CustomPropTypes.match
   };
 
   render() {
-    const { questionnaire, section, ...otherProps } = this.props;
-    const url = buildSectionPath({
+    const { questionnaire, section, match, ...otherProps } = this.props;
+
+    const url = buildQuestionnairePath({
       questionnaireId: questionnaire.id,
-      sectionId: section.id
+      sectionId: section.id,
+      tab: match.params.tab
     });
 
     return (
@@ -43,7 +47,7 @@ class SectionNavItem extends React.Component {
   }
 }
 
-SectionNavItem.fragments = {
+UnwrappedSectionNavItem.fragments = {
   SectionNavItem: gql`
     fragment SectionNavItem on Section {
       id
@@ -56,4 +60,4 @@ SectionNavItem.fragments = {
   `
 };
 
-export default SectionNavItem;
+export default withRouter(UnwrappedSectionNavItem);

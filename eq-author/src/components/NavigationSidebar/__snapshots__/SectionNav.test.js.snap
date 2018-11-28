@@ -11,7 +11,7 @@ exports[`SectionNav should render 1`] = `
     onEntered={[Function]}
     timeout={300}
   >
-    <SectionNavItem
+    <withRouter(UnwrappedSectionNavItem)
       questionnaire={
         Object {
           "id": "1",
