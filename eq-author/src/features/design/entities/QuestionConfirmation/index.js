@@ -12,11 +12,7 @@ export default () => (
   <>
     <Route path={designRoute} component={Design} />
     <RedirectRoute
-      from={`${Routes.QUESTION_CONFIRMATION_BASE}/routing`}
-      to={designRoute}
-    />
-    <RedirectRoute
-      from={`${Routes.QUESTION_CONFIRMATION_BASE}/preview`}
+      from={`${Routes.QUESTION_CONFIRMATION_BASE}/*`}
       to={designRoute}
     />
   </>
