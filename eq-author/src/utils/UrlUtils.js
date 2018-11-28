@@ -9,8 +9,9 @@ export { matchPath };
 const compile = memoize(path => pathToRegexp.compile(path));
 export const generatePath = curry((path, params) => compile(path)(params));
 
-const PAGE_BASE = `/questionnaire/:questionnaireId/:sectionId(\\d+)/:pageId(\\d+)`;
 const SECTION_BASE = `/questionnaire/:questionnaireId/:sectionId(\\d+)`;
+const PAGE_BASE = `/questionnaire/:questionnaireId/:sectionId(\\d+)/:pageId(\\d+)`;
+const QUESTION_CONFIRMATION_BASE = `/questionnaire/:questionnaireId/:sectionId(\\d+)/:pageId(\\d+)/:confirmationId(\\d+)`;
 
 export const Routes = {
   HOME: "/",
@@ -20,9 +21,8 @@ export const Routes = {
   SECTION: `${SECTION_BASE}/:tab`,
   PAGE_BASE,
   PAGE: `${PAGE_BASE}/:tab`,
-  PREVIEW: `/questionnaire/:questionnaireId/:sectionId(\\d+)/:pageId(\\d+)?/preview`,
-  CONFIRMATION: `/questionnaire/:questionnaireId/:sectionId(\\d+)/:pageId(\\d+)/:confirmationId(\\d+)/design`,
-  ROUTING: `/questionnaire/:questionnaireId/:sectionId(\\d+)/:pageId(\\d+)/routing`
+  QUESTION_CONFIRMATION_BASE,
+  CONFIRMATION: `${QUESTION_CONFIRMATION_BASE}/:tab`
 };
 
 export const buildSectionPath = generatePath(Routes.SECTION);
