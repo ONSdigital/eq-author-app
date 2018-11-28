@@ -9,7 +9,7 @@ import IconText from "components/IconText";
 import MainCanvas from "components/MainCanvas";
 import ScrollPane from "components/ScrollPane";
 import PropertiesPanel from "components/PropertiesPanel";
-import AddPage from "components/QuestionnaireDesignPage/icon-add-page.svg?inline";
+import AddPage from "./icon-add-page.svg?inline";
 import SavingIndicator from "components/SavingIndicator";
 import { Grid, Column } from "components/Grid";
 

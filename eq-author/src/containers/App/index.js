@@ -14,7 +14,7 @@ import { Routes as RoutePaths } from "utils/UrlUtils";
 
 import QuestionnairesPage from "components/QuestionnairesPage";
 import SignInPage from "containers/SignInPage";
-import QuestionnaireDesignPage from "components/QuestionnaireDesignPage";
+import QuestionnaireDesignPage from "features/design";
 import NotFoundPage from "containers/NotFoundPage";
 import { Provider, connect } from "react-redux";
 import { isSignedIn } from "redux/auth/reducer";

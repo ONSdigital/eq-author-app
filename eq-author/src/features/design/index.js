@@ -12,12 +12,10 @@ import { find, flatMap, flowRight } from "lodash";
 import BaseLayout from "components/BaseLayout";
 import { Grid, Column } from "components/Grid";
 import NavigationSidebar from "components/NavigationSidebar";
-import QuestionPageRoute from "components/QuestionPageRoute";
-import PreviewRoute from "components/PreviewRoute";
+import QuestionPageRoute from "./entities/QuestionPage";
 import SectionRoute from "components/SectionRoute";
 import { Routes, buildSectionPath } from "utils/UrlUtils";
 import Loading from "components/Loading";
-import RoutingPageRoute from "components/routing/QuestionnaireRoutingPage";
 import QuestionConfirmationRoute from "components/QuestionConfirmationRoute";
 
 import withCreatePage from "containers/enhancers/withCreatePage";
@@ -148,14 +146,8 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
             </Column>
             <Column>
               <Switch location={location}>
-                <Route path={Routes.SECTION} component={SectionRoute} exact />
-                <Route path={Routes.PAGE} component={QuestionPageRoute} exact />
-                <Route
-                  path={Routes.ROUTING}
-                  component={RoutingPageRoute}
-                  exact
-                />
-                <Route path={Routes.PREVIEW} component={PreviewRoute} exact />
+                <Route path={Routes.SECTION} component={SectionRoute} />
+                <Route path={Routes.PAGE} component={QuestionPageRoute} />
                 <Route
                   path={Routes.CONFIRMATION}
                   component={QuestionConfirmationRoute}

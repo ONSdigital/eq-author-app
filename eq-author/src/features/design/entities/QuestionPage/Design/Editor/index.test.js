@@ -1,4 +1,4 @@
-import QuestionPageEditor from "components/QuestionPageEditor";
+import QuestionPageEditor from "./";
 
 import React from "react";
 import { shallow } from "enzyme";

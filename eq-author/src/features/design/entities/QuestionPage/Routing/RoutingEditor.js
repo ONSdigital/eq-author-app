@@ -4,10 +4,10 @@ import styled from "styled-components";
 import { dropRightWhile, first, last, get, isEmpty } from "lodash";
 import { TransitionGroup } from "react-transition-group";
 
-import Transition from "components/routing/Transition";
+import Transition from "./Transition";
 import Loading from "components/Loading";
-import RoutingRuleSet from "components/routing/RoutingRuleSet";
-import RoutingRuleSetMsg from "components/routing/RoutingRuleSetMsg";
+import RoutingRuleSet from "./RoutingRuleSet";
+import RoutingRuleSetMsg from "./RoutingRuleSetMsg";
 
 import { colors } from "constants/theme";
 import CustomPropTypes from "custom-prop-types";

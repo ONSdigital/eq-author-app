@@ -9,7 +9,7 @@ import EditorLayout from "components/EditorLayout";
 import IconText from "components/IconText";
 import Loading from "components/Loading";
 import Error from "components/Preview/Error";
-import QuestionPageEditor from "components/QuestionPageEditor";
+import QuestionPageEditor from "../Design/Editor";
 
 import { Answer } from "./answers";
 import IconInfo from "./icon-info.svg?inline";

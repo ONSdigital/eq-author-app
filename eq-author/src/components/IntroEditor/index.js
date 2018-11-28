@@ -11,7 +11,7 @@ import MainCanvas from "components/MainCanvas";
 import IconButtonDelete from "components/IconButtonDelete";
 import Button from "components/Button";
 import IconText from "components/IconText";
-import AddPage from "components/QuestionnaireDesignPage/icon-add-page.svg?inline";
+import AddPage from "components/EditorLayout/icon-add-page.svg?inline";
 import RichTextEditor from "components/RichTextEditor";
 import { Toolbar, Buttons } from "components/EditorToolbar";
 import FadeTransition from "components/FadeTransition";

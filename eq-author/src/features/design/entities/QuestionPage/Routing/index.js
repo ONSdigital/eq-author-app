@@ -32,7 +32,7 @@ import RoutingRule from "./RoutingRule";
 import RoutingCondition from "./RoutingCondition";
 import BasicAnswer from "components/Answers/BasicAnswer";
 
-import Option from "../Answers/MultipleChoiceAnswer/Option";
+import Option from "components/Answers/MultipleChoiceAnswer/Option";
 
 class UnwrappedQuestionnaireRoutingPage extends React.Component {
   static propTypes = {

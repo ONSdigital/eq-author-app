@@ -6,7 +6,6 @@ import PropTypes from "prop-types";
 import { flowRight, isFunction, isNil } from "lodash";
 import { Titled } from "react-titled";
 
-import QuestionPageEditor from "components/QuestionPageEditor";
 import IconButtonDelete from "components/IconButtonDelete";
 import { Toolbar, Buttons } from "components/EditorToolbar";
 import IconMove from "components/EditorToolbar/icon-move.svg?inline";
@@ -35,6 +34,8 @@ import withCreatePage from "containers/enhancers/withCreatePage";
 import withDuplicatePage from "containers/enhancers/withDuplicatePage";
 
 import EditorLayout from "components/EditorLayout";
+
+import QuestionPageEditor from "./Editor";
 
 export class UnwrappedQuestionPageRoute extends React.Component {
   static propTypes = {

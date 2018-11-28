@@ -25,12 +25,12 @@ import {
   negate,
   overSome
 } from "lodash";
-import MultipleChoiceAnswerOptionsSelector from "components/routing/MultipleChoiceAnswerOptionsSelector";
-import NumberAnswerSelector from "components/routing/NumberAnswerSelector";
+import MultipleChoiceAnswerOptionsSelector from "./MultipleChoiceAnswerOptionsSelector";
+import NumberAnswerSelector from "./NumberAnswerSelector";
 import GroupedSelect from "./GroupedSelect";
-import Transition from "components/routing/Transition";
+import Transition from "./Transition";
 import { TransitionGroup } from "react-transition-group";
-import { Alert, AlertTitle, AlertText } from "components/routing/Alert";
+import { Alert, AlertTitle, AlertText } from "./Alert";
 import { buildPagePath } from "utils/UrlUtils";
 import isAnswerValidForRouting from "./isAnswerValidForRouting";
 

@@ -3,14 +3,14 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import { TransitionGroup } from "react-transition-group";
 
-import Transition from "components/routing/Transition";
+import Transition from "./Transition";
 import Button from "components/Button";
 import IconText from "components/IconText";
 import { colors, radius } from "constants/theme";
 import IconRoute from "./icon-route.svg?inline";
 import RoutingRuleDestinationSelector from "./RoutingRuleDestinationSelector";
 import TextButton from "components/TextButton";
-import RoutingCondition from "components/routing/RoutingCondition";
+import RoutingCondition from "./RoutingCondition";
 import { get } from "lodash";
 import { Grid, Column } from "components/Grid";
 import { RADIO } from "constants/answer-types";
