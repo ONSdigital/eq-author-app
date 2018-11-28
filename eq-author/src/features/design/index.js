@@ -13,7 +13,7 @@ import BaseLayout from "components/BaseLayout";
 import { Grid, Column } from "components/Grid";
 import NavigationSidebar from "components/NavigationSidebar";
 import QuestionPageRoute from "./entities/QuestionPage";
-import SectionRoute from "components/SectionRoute";
+import SectionRoute from "./entities/Section";
 import { Routes, buildSectionPath } from "utils/UrlUtils";
 import Loading from "components/Loading";
 import QuestionConfirmationRoute from "components/QuestionConfirmationRoute";
@@ -146,8 +146,9 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
             </Column>
             <Column>
               <Switch location={location}>
-                <Route path={Routes.SECTION} component={SectionRoute} />
                 <Route path={Routes.PAGE} component={QuestionPageRoute} />
+
+                <Route path={Routes.SECTION} component={SectionRoute} />
                 <Route
                   path={Routes.CONFIRMATION}
                   component={QuestionConfirmationRoute}

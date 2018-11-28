@@ -22,7 +22,8 @@ class SectionNavItem extends React.Component {
     const { questionnaire, section, ...otherProps } = this.props;
     const url = buildSectionPath({
       questionnaireId: questionnaire.id,
-      sectionId: section.id
+      sectionId: section.id,
+      tab: "design"
     });
 
     return (

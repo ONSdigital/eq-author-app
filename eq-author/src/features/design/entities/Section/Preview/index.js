@@ -7,7 +7,7 @@ import { withApollo, Query } from "react-apollo";
 
 import EditorLayout from "components/EditorLayout";
 import Loading from "components/Loading";
-import SectionEditor from "components/SectionEditor";
+import SectionEditor from "../Design/SectionEditor";
 
 import { buildDesignPath } from "utils/UrlUtils";
 

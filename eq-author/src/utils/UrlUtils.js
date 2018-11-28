@@ -10,12 +10,14 @@ const compile = memoize(path => pathToRegexp.compile(path));
 export const generatePath = curry((path, params) => compile(path)(params));
 
 const PAGE_BASE = `/questionnaire/:questionnaireId/:sectionId(\\d+)/:pageId(\\d+)`;
+const SECTION_BASE = `/questionnaire/:questionnaireId/:sectionId(\\d+)`;
 
 export const Routes = {
   HOME: "/",
   SIGN_IN: "/sign-in",
   QUESTIONNAIRE: `/questionnaire/:questionnaireId/:sectionId(\\d+)?/:pageId(\\d+)?/:confirmationId(\\d+)?/:tab?`,
-  SECTION: `/questionnaire/:questionnaireId(\\d+)/:sectionId(\\d+)/design`,
+  SECTION_BASE,
+  SECTION: `${SECTION_BASE}/:tab`,
   PAGE_BASE,
   PAGE: `${PAGE_BASE}/:tab`,
   PREVIEW: `/questionnaire/:questionnaireId/:sectionId(\\d+)/:pageId(\\d+)?/preview`,

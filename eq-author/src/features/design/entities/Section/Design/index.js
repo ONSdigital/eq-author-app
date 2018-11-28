@@ -8,7 +8,7 @@ import { flowRight, isFunction, isNil } from "lodash";
 import fp from "lodash/fp";
 import { Titled } from "react-titled";
 
-import SectionEditor from "components/SectionEditor";
+import SectionEditor from "./SectionEditor";
 import IconButtonDelete from "components/IconButtonDelete";
 import { Toolbar, Buttons } from "components/EditorToolbar";
 import IconMove from "components/EditorToolbar/icon-move.svg?inline";
