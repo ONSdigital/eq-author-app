@@ -7,9 +7,9 @@ import CustomPropTypes from "custom-prop-types";
 import DeleteButton from "components/DeleteButton";
 import fp from "lodash/fp";
 
-import MultipleChoiceAnswer from "./Answers/MultipleChoiceAnswer";
-import DateRange from "./Answers/DateRange";
-import Date from "./Answers/Date";
+import MultipleChoiceAnswer from "components/Answers/MultipleChoiceAnswer";
+import DateRange from "components/Answers/DateRange";
+import Date from "components/Answers/Date";
 import {
   TEXTFIELD,
   NUMBER,
@@ -20,9 +20,9 @@ import {
   DATE_RANGE,
   DATE
 } from "constants/answer-types";
-import CurrencyAnswer from "./Answers/CurrencyAnswer";
+import CurrencyAnswer from "components/Answers/CurrencyAnswer";
 import Tooltip from "components/Tooltip";
-import BasicAnswer from "./Answers/BasicAnswer";
+import BasicAnswer from "components/Answers/BasicAnswer";
 import gql from "graphql-tag";
 
 const Answer = styled.div`

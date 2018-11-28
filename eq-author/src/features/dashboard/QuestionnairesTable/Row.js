@@ -7,13 +7,13 @@ import { partial } from "lodash";
 
 import IconButtonDelete from "components/IconButtonDelete";
 import DuplicateButton from "components/DuplicateButton";
+import FadeTransition from "components/FadeTransition";
 import Truncated from "components/Truncated";
 
 import { colors } from "constants/theme";
 
 import QuestionnaireLink from "../QuestionnaireLink";
 import FormattedDate from "../FormattedDate";
-import FadeTransition from "../../FadeTransition";
 
 const TruncatedQuestionnaireLink = Truncated.withComponent(QuestionnaireLink);
 TruncatedQuestionnaireLink.displayName = "TruncatedQuestionnaireLink";
