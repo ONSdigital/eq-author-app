@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
-import DummyTextInput from "components/Answers/Dummy/TextInput";
+import DummyTextInput from "../TextInput";
 import placeholder from "../placeholder.svg";
 
 const Field = styled.div`

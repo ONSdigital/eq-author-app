@@ -1,14 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
-import DummyDate from "components/Answers/Dummy/Date";
+import DummyDate from "../Dummy/Date";
 
 import { Field, Label } from "components/Forms";
 import WrappingInput from "components/WrappingInput";
 import withEntityEditor from "components/withEntityEditor";
 import answerFragment from "graphql/fragments/answer.graphql";
 import styled from "styled-components";
-import VisuallyHidden from "../../VisuallyHidden";
+import VisuallyHidden from "components/VisuallyHidden";
 import gql from "graphql-tag";
 import { colors } from "constants/theme";
 

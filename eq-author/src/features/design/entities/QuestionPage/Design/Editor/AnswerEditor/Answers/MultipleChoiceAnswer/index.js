@@ -8,7 +8,7 @@ import focusOnEntity from "utils/focusOnEntity";
 
 import Option from "./Option";
 import OptionTransition from "./OptionTransition";
-import BasicAnswer from "components/Answers/BasicAnswer";
+import BasicAnswer from "../BasicAnswer";
 
 import { colors } from "constants/theme";
 import { CHECKBOX } from "constants/answer-types";

@@ -9,7 +9,7 @@ import CustomPropTypes from "custom-prop-types";
 import DeleteButton from "components/DeleteButton";
 import Tooltip from "components/Tooltip";
 import { CHECKBOX, RADIO } from "constants/answer-types";
-import DummyMultipleChoice from "components/Answers/Dummy/MultipleChoice";
+import DummyMultipleChoice from "../Dummy/MultipleChoice";
 
 import optionFragment from "graphql/fragments/option.graphql";
 import getIdForObject from "utils/getIdForObject";

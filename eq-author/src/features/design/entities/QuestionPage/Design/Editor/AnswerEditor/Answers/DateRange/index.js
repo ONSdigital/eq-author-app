@@ -4,7 +4,7 @@ import CustomPropTypes from "custom-prop-types";
 
 import styled from "styled-components";
 
-import Date from "components/Answers/Date";
+import Date from "../Date";
 import gql from "graphql-tag";
 
 const Wrapper = styled.div`

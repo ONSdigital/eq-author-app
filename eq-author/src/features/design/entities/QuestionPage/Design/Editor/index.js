@@ -1,12 +1,12 @@
 import React from "react";
 import styled from "styled-components";
 
-import AnswerEditor from "components/AnswerEditor";
+import AnswerEditor from "./AnswerEditor";
 import MetaEditor from "./MetaEditor";
 
 import AnswerTransition from "./AnswerTransition";
 
-import AnswerTypeSelector from "components/AnswerTypeSelector";
+import AnswerTypeSelector from "./AnswerTypeSelector";
 
 import { TransitionGroup } from "react-transition-group";
 import PropTypes from "prop-types";

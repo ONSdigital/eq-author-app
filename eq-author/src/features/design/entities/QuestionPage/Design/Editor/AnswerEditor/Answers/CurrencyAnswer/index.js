@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { colors, radius } from "constants/theme";
-import BasicAnswer from "components/Answers/BasicAnswer";
+import BasicAnswer from "../BasicAnswer";
 
 const StyledSpan = styled.span`
   display: inline-block;
