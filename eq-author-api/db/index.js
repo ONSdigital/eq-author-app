@@ -1,4 +1,5 @@
 const config = require("../config/knexfile.js");
+const logger = createLogger(pino.logger);
 
 const getConfig = async function(secretId) {
   if (secretId && secretId !== "") {
@@ -19,8 +20,7 @@ const getConfig = async function(secretId) {
       };
       return config;
     } catch (error) {
-      console.error("ERROR");
-      console.error(error);
+      logger.error(error);
       process.exit();
     }
   }

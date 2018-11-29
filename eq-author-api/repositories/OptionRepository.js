@@ -30,7 +30,7 @@ const getById = id => Option.findById(id).where({ isDeleted: false });
 
 const insert = async (
   { label, description, value, qCode, answerId, mutuallyExclusive = false },
-  trx = db
+  trx = getConnection()
 ) => {
   if (mutuallyExclusive) {
     await checkForExistingExclusive(answerId);

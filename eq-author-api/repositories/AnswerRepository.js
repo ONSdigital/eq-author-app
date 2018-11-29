@@ -72,7 +72,7 @@ const insert = (
     properties,
     questionPageId
   },
-  trx = db
+  trx = getConnection()
 ) =>
   trx("Answers")
     .insert(
