@@ -1,4 +1,7 @@
 const config = require("../config/knexfile.js");
+const createLogger = require("../utils/createLogger");
+const pinoMiddleware = require("express-pino-logger");
+const pino = pinoMiddleware();
 const logger = createLogger(pino.logger);
 
 const getConfig = async function(secretId) {
