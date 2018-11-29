@@ -1,5 +1,7 @@
 import React from "react";
 import { mount } from "enzyme";
+import { Redirect } from "react-router-dom";
+
 import QuestionnaireRoutingRoute, {
   ROUTING_QUERY
 } from "./QuestionnaireRoutingPage";
@@ -142,6 +144,25 @@ describe("QuestionnaireRoutingPage", () => {
         );
         expect(wrapper.find(`[data-test="error"]`).exists()).toBe(true);
       });
+    });
+  });
+
+  it("should redirect to the design path if the path is not a page", () => {
+    const match = {
+      params: {
+        questionnaireId: "1",
+        sectionId: "2",
+        tab: "routing"
+      }
+    };
+    const wrapper = mount(
+      <TestProvider reduxProps={{ store }} apolloProps={{ mocks: [] }}>
+        <QuestionnaireRoutingRoute match={match} />
+      </TestProvider>,
+      { context, childContextTypes }
+    );
+    expect(wrapper.find(Redirect).props()).toMatchObject({
+      to: "/questionnaire/1/2/design"
     });
   });
 });

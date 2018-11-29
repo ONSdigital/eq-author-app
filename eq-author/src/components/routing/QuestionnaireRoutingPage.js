@@ -7,6 +7,7 @@ import { flowRight } from "lodash";
 import { connect } from "react-redux";
 import gql from "graphql-tag";
 import { withApollo, Query } from "react-apollo";
+import { Redirect } from "react-router-dom";
 
 import { raiseToast } from "redux/toast/actions";
 
@@ -14,6 +15,8 @@ import EditorLayout from "components/EditorLayout";
 import Loading from "components/Loading";
 import RoutingEditor from "./RoutingEditor";
 import Error from "components/Error";
+
+import { isOnPage, buildDesignPath } from "utils/UrlUtils";
 
 import withCreateRoutingRuleSet from "containers/enhancers/withCreateRoutingRuleSet";
 import withCreateRoutingCondition from "containers/enhancers/withCreateRoutingCondition";
@@ -153,14 +156,21 @@ const withRouting = flowRight(
   withUpdateConditionValue
 );
 
-export default withRouting(props => (
-  <Query
-    query={ROUTING_QUERY}
-    variables={props.match.params}
-    fetchPolicy="network-only"
-  >
-    {innerProps => (
-      <UnwrappedQuestionnaireRoutingPage {...innerProps} {...props} />
-    )}
-  </Query>
-));
+export default withRouting(props => {
+  const { match } = props;
+  if (!isOnPage(match)) {
+    return <Redirect to={buildDesignPath(match.params)} />;
+  }
+
+  return (
+    <Query
+      query={ROUTING_QUERY}
+      variables={match.params}
+      fetchPolicy="network-only"
+    >
+      {innerProps => (
+        <UnwrappedQuestionnaireRoutingPage {...innerProps} {...props} />
+      )}
+    </Query>
+  );
+});
