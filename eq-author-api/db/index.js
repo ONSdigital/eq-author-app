@@ -5,16 +5,20 @@ const pino = pinoMiddleware();
 const logger = createLogger(pino.logger);
 
 const getConfig = async function(secretId) {
+  const result = {
+    ...config
+  };
+
   if (secretId && secretId !== "") {
     const AWS = require("aws-sdk");
     const client = new AWS.SecretsManager({ region: "eu-west-1" });
 
-    let secretPromise = client.getSecretValue({ SecretId: secretId }).promise();
-
     try {
-      let secret = await secretPromise;
-      let dbCredentials = JSON.parse(secret.SecretString);
-      config.connection = {
+      const secret = await client
+        .getSecretValue({ SecretId: secretId })
+        .promise();
+      const dbCredentials = JSON.parse(secret.SecretString);
+      result.connection = {
         host: dbCredentials.host,
         port: dbCredentials.port,
         user: dbCredentials.username,
@@ -27,7 +31,7 @@ const getConfig = async function(secretId) {
       process.exit();
     }
   }
-  return config;
+  return result;
 };
 
 let connection;
