@@ -37,7 +37,7 @@ const getConfig = async function(secretId) {
 
 let db;
 
-const establishConnection = function() {
+const establishConnection = () => {
   return getConfig(process.env.DB_SECRET_ID).then(conf => {
     console.log("########### Connection Config Got ##############");
     db = require("knex")(conf);
@@ -46,11 +46,6 @@ const establishConnection = function() {
   });
 };
 
-establishConnection();
+// establishConnection();
 
-module.exports = function() {
-  if (!db) {
-    return establishConnection();
-  }
-  return db;
-};
+module.exports = establishConnection;

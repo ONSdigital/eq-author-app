@@ -332,10 +332,7 @@ describe("resolvers", () => {
   let pages;
   let firstPage;
 
-  beforeAll(() => {
-    console.log("getConnection", db);
-    db.migrate.latest();
-  });
+  beforeAll(() => db.migrate.latest());
   afterAll(() => db.destroy());
   afterEach(() => db("Questionnaires").delete());
 
