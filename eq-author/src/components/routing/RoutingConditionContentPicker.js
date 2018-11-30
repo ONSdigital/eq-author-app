@@ -8,7 +8,11 @@ import { shapePageTree } from "components/ContentPicker/shapeTree";
 
 import AvailableRoutingQuestionsQuery from "components/routing/AvailableRoutingQuestionsQuery";
 
-export const UnwrappedRoutingConditionContentPicker = ({ data, path, ...otherProps }) => (
+export const UnwrappedRoutingConditionContentPicker = ({
+  data,
+  path,
+  ...otherProps
+}) => (
   <ContentPickerSelect
     name="questionPageId"
     contentTypes={[QUESTION]}
@@ -24,6 +28,8 @@ UnwrappedRoutingConditionContentPicker.propTypes = {
 
 export default props => (
   <AvailableRoutingQuestionsQuery pageId={props.pageId}>
-    {innerProps => <UnwrappedRoutingConditionContentPicker {...innerProps} {...props} />}
+    {innerProps => (
+      <UnwrappedRoutingConditionContentPicker {...innerProps} {...props} />
+    )}
   </AvailableRoutingQuestionsQuery>
 );

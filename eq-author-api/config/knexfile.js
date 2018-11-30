@@ -1,35 +1,11 @@
 module.exports = {
-  development: {
-    client: "postgresql",
-    connection: process.env.DB_CONNECTION_URI
+  client: "postgresql",
+  connection: process.env.DB_CONNECTION_URI,
+  pool: {
+    min: 10,
+    max: 50
   },
-
-  test: {
-    client: "postgresql",
-    connection: process.env.DB_CONNECTION_URI
-  },
-
-  staging: {
-    client: "postgresql",
-    connection: process.env.DB_CONNECTION_URI,
-    pool: {
-      min: 2,
-      max: 10
-    },
-    migrations: {
-      tableName: "knex_migrations"
-    }
-  },
-
-  production: {
-    client: "postgresql",
-    connection: process.env.DB_CONNECTION_URI,
-    pool: {
-      min: 2,
-      max: 10
-    },
-    migrations: {
-      tableName: "knex_migrations"
-    }
+  migrations: {
+    tableName: "knex_migrations"
   }
 };

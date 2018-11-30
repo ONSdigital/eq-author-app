@@ -43,7 +43,7 @@ class UnwrappedQuestionnaireRoutingPage extends React.Component {
     loading: PropTypes.bool.isRequired,
     data: PropTypes.shape({
       questionnaire: CustomPropTypes.questionnaire,
-      currentPage: CustomPropTypes.page,
+      currentPage: CustomPropTypes.page
     }),
     match: CustomPropTypes.match
   };

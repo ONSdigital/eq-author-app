@@ -1,55 +1,53 @@
-const db = require("./");
+module.exports = knex => {
+  const findById = id =>
+    knex("QuestionConfirmations")
+      .where("id", parseInt(id, 10))
+      .andWhere({ isDeleted: false })
+      .first();
 
-const QuestionConfirmation = () => db("QuestionConfirmations");
+  const findByPageId = pageId =>
+    knex("QuestionConfirmations")
+      .where("pageId", parseInt(pageId, 10))
+      .andWhere({ isDeleted: false })
+      .first();
 
-const findById = id =>
-  QuestionConfirmation()
-    .where("id", parseInt(id, 10))
-    .andWhere({ isDeleted: false })
-    .first();
+  const update = ({ id, ...updates }) =>
+    knex("QuestionConfirmations")
+      .where("id", parseInt(id, 10))
+      .update(updates)
+      .returning("*");
 
-const findByPageId = pageId =>
-  QuestionConfirmation()
-    .where("pageId", parseInt(pageId, 10))
-    .andWhere({ isDeleted: false })
-    .first();
+  const create = confirmation =>
+    knex("QuestionConfirmations")
+      .insert(confirmation)
+      .returning("*");
 
-const update = ({ id, ...updates }) =>
-  QuestionConfirmation()
-    .where("id", parseInt(id, 10))
-    .update(updates)
-    .returning("*");
+  const remove = ({ id }) =>
+    knex("QuestionConfirmations")
+      .where("id", parseInt(id, 10))
+      .update({ isDeleted: true })
+      .returning("*");
 
-const create = confirmation =>
-  QuestionConfirmation()
-    .insert(confirmation)
-    .returning("*");
+  const restore = async id => {
+    const { pageId } = await knex("QuestionConfirmations")
+      .where("id", id)
+      .first();
+    await knex("QuestionConfirmations")
+      .where("pageId", pageId)
+      .update({ isDeleted: true });
 
-const remove = ({ id }) =>
-  QuestionConfirmation()
-    .where("id", parseInt(id, 10))
-    .update({ isDeleted: true })
-    .returning("*");
+    return knex("QuestionConfirmations")
+      .where("id", parseInt(id, 10))
+      .update({ isDeleted: false })
+      .returning("*");
+  };
 
-const restore = async id => {
-  const { pageId } = await QuestionConfirmation()
-    .where("id", id)
-    .first();
-  await QuestionConfirmation()
-    .where("pageId", pageId)
-    .update({ isDeleted: true });
-
-  return QuestionConfirmation()
-    .where("id", parseInt(id, 10))
-    .update({ isDeleted: false })
-    .returning("*");
-};
-
-module.exports = {
-  findById,
-  findByPageId,
-  update,
-  create,
-  delete: remove,
-  restore
+  return {
+    findById,
+    findByPageId,
+    update,
+    create,
+    delete: remove,
+    restore
+  };
 };

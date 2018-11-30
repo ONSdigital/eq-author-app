@@ -1,94 +1,99 @@
-const db = require("../db");
 const Validation = require("../db/Validation");
 const { head, flow, keys, remove, first } = require("lodash/fp");
-const {
-  getPreviousAnswersForPage
-} = require("./strategies/previousAnswersStrategy");
-
 const { DATE: ANSWER_DATE } = require("../constants/answerTypes");
 const { DATE: METADATA_DATE } = require("../constants/metadataTypes");
 
-const toggleValidationRule = ({ id, enabled }) => {
-  return Validation.update(id, { enabled }).then(head);
-};
-
-const findByAnswerIdAndValidationType = ({ id }, validationType) => {
-  return Validation.find({ answerId: id, validationType });
-};
-
-const getInputType = flow(
-  keys,
-  remove(key => key === "id"),
-  first
-);
-
-const updateValidationRule = input => {
+module.exports = knex => {
   const {
-    custom,
-    entityType,
-    previousAnswer: previousAnswerId,
-    metadata: metadataId,
-    ...config
-  } = input[getInputType(input)];
+    getPreviousAnswersForPage
+  } = require("./strategies/previousAnswersStrategy")(knex);
 
-  return Validation.update(input.id, {
-    custom: JSON.stringify(custom),
-    config: JSON.stringify(config),
-    entityType,
-    previousAnswerId,
-    metadataId
-  }).then(head);
-};
+  const toggleValidationRule = ({ id, enabled }) => {
+    return Validation(knex)
+      .update(id, { enabled })
+      .then(head);
+  };
 
-const getPreviousAnswersForValidation = id =>
-  db("Answers")
-    .select("PagesView.id as pageId")
-    .select("Answers.type as answerType")
-    .join(
-      "Validation_AnswerRules",
-      "Answers.id",
-      "Validation_AnswerRules.answerId"
-    )
-    .join("PagesView", "Answers.questionPageId", "PagesView.id")
-    .join("SectionsView", "PagesView.sectionId", "SectionsView.id")
-    .where("Validation_AnswerRules.id", id)
-    .then(head)
-    .then(({ answerType, pageId: id }) =>
-      getPreviousAnswersForPage({
-        id,
-        answerTypes: [answerType]
+  const findByAnswerIdAndValidationType = ({ id }, validationType) => {
+    return Validation(knex).find({ answerId: id, validationType });
+  };
+
+  const getInputType = flow(
+    keys,
+    remove(key => key === "id"),
+    first
+  );
+
+  const updateValidationRule = input => {
+    const {
+      custom,
+      entityType,
+      previousAnswer: previousAnswerId,
+      metadata: metadataId,
+      ...config
+    } = input[getInputType(input)];
+
+    return Validation(knex)
+      .update(input.id, {
+        custom: JSON.stringify(custom),
+        config: JSON.stringify(config),
+        entityType,
+        previousAnswerId,
+        metadataId
       })
-    );
+      .then(head);
+  };
 
-const getMetadataForValidation = id =>
-  db("Answers")
-    .select("SectionsView.questionnaireId")
-    .select("Answers.type as answerType")
-    .join(
-      "Validation_AnswerRules",
-      "Answers.id",
-      "Validation_AnswerRules.answerId"
-    )
-    .join("PagesView", "Answers.questionPageId", "PagesView.id")
-    .join("SectionsView", "PagesView.sectionId", "SectionsView.id")
-    .where("Validation_AnswerRules.id", id)
-    .then(head)
-    .then(({ answerType, questionnaireId }) => {
-      if (answerType === ANSWER_DATE) {
-        return db("Metadata")
-          .select("Metadata.*")
-          .andWhere("type", METADATA_DATE)
-          .andWhere({ questionnaireId })
-          .andWhere({ isDeleted: false });
-      } else {
-        return []; //Currently do not support validation against any other types
-      }
-    });
+  const getPreviousAnswersForValidation = id =>
+    knex("Answers")
+      .select("PagesView.id as pageId")
+      .select("Answers.type as answerType")
+      .join(
+        "Validation_AnswerRules",
+        "Answers.id",
+        "Validation_AnswerRules.answerId"
+      )
+      .join("PagesView", "Answers.questionPageId", "PagesView.id")
+      .join("SectionsView", "PagesView.sectionId", "SectionsView.id")
+      .where("Validation_AnswerRules.id", id)
+      .then(head)
+      .then(({ answerType, pageId: id }) =>
+        getPreviousAnswersForPage({
+          id,
+          answerTypes: [answerType]
+        })
+      );
 
-Object.assign(module.exports, {
-  toggleValidationRule,
-  findByAnswerIdAndValidationType,
-  updateValidationRule,
-  getPreviousAnswersForValidation,
-  getMetadataForValidation
-});
+  const getMetadataForValidation = id =>
+    knex("Answers")
+      .select("SectionsView.questionnaireId")
+      .select("Answers.type as answerType")
+      .join(
+        "Validation_AnswerRules",
+        "Answers.id",
+        "Validation_AnswerRules.answerId"
+      )
+      .join("PagesView", "Answers.questionPageId", "PagesView.id")
+      .join("SectionsView", "PagesView.sectionId", "SectionsView.id")
+      .where("Validation_AnswerRules.id", id)
+      .then(head)
+      .then(({ answerType, questionnaireId }) => {
+        if (answerType === ANSWER_DATE) {
+          return knex("Metadata")
+            .select("Metadata.*")
+            .andWhere("type", METADATA_DATE)
+            .andWhere({ questionnaireId })
+            .andWhere({ isDeleted: false });
+        } else {
+          return []; //Currently do not support validation against any other types
+        }
+      });
+
+  return {
+    toggleValidationRule,
+    findByAnswerIdAndValidationType,
+    updateValidationRule,
+    getPreviousAnswersForValidation,
+    getMetadataForValidation
+  };
+};

@@ -1,10 +1,12 @@
-const db = require("../db");
+const knex = require("../db");
 const { get } = require("lodash");
 const {
   getPreviousAnswersForValidation,
   getMetadataForValidation
-} = require("./ValidationRepository");
-const buildTestQuestionnaire = require("../tests/utils/buildTestQuestionnaire");
+} = require("./ValidationRepository")(knex);
+const buildTestQuestionnaire = require("../tests/utils/buildTestQuestionnaire")(
+  knex
+);
 const { DATE, NUMBER, TEXTAREA } = require("../constants/answerTypes");
 const {
   DATE: METADATA_DATE,
@@ -12,10 +14,10 @@ const {
 } = require("../constants/metadataTypes");
 
 describe("ValidationRepository", () => {
-  beforeAll(() => db.migrate.latest());
-  afterAll(() => db.destroy());
+  beforeAll(() => knex.migrate.latest());
+  afterAll(() => knex.destroy());
   afterEach(async () => {
-    await db.transaction(async trx => {
+    await knex.transaction(async trx => {
       await trx.table("Questionnaires").delete();
     });
   });

@@ -1,7 +1,9 @@
 const fp = require("lodash/fp");
 
 const knex = require("../db");
-const QuestionnaireRepository = require("../repositories/QuestionnaireRepository");
+const QuestionnaireRepository = require("../repositories/QuestionnaireRepository")(
+  knex
+);
 
 const buildQuestionnaire = (json = {}) => {
   return Object.assign(

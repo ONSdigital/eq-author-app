@@ -1,144 +1,174 @@
 const { get, head, pick } = require("lodash/fp");
 const Section = require("../db/Section");
-const db = require("../db");
 const {
   getOrUpdateOrderForSectionInsert
 } = require("./strategies/spacedOrderStrategy");
 const addPrefix = require("../utils/addPrefix");
 const { duplicateSectionStrategy } = require("./strategies/duplicateStrategy");
-const {
-  getPreviousAnswersForSection
-} = require("./strategies/previousAnswersStrategy");
 
 const { PIPING_ANSWER_TYPES } = require("../constants/pipingAnswerTypes");
 
-module.exports.findAll = function findAll(
-  where = {},
-  orderBy = "position",
-  direction = "asc"
-) {
-  return db("SectionsView")
-    .select("*")
-    .where(where)
-    .orderBy(orderBy, direction);
-};
+module.exports = knex => {
+  const {
+    getPreviousAnswersForSection
+  } = require("./strategies/previousAnswersStrategy")(knex);
 
-module.exports.getById = function getById(id) {
-  return db("SectionsView")
-    .where("id", parseInt(id, 10))
-    .first();
-};
+  const findAll = function(
+    where = {},
+    orderBy = "position",
+    direction = "asc"
+  ) {
+    return knex("SectionsView")
+      .select("*")
+      .where(where)
+      .orderBy(orderBy, direction);
+  };
 
-module.exports.insert = function insert(args) {
-  const { questionnaireId, position } = args;
-  return db.transaction(trx => {
-    return getOrUpdateOrderForSectionInsert(
-      trx,
-      questionnaireId,
-      null,
-      position
-    )
-      .then(order => Object.assign(args, { order }))
-      .then(
-        pick([
-          "title",
-          "alias",
-          "questionnaireId",
-          "order",
-          "introductionContent",
-          "introductionEnabled",
-          "introductionTitle"
-        ])
+  const getById = function(id) {
+    return knex("SectionsView")
+      .where("id", parseInt(id, 10))
+      .first();
+  };
+
+  const insert = function(args) {
+    const { questionnaireId, position } = args;
+    return knex.transaction(trx => {
+      return getOrUpdateOrderForSectionInsert(
+        trx,
+        questionnaireId,
+        null,
+        position
       )
-      .then(section => Section.create(section, trx))
-      .then(head);
-  });
-};
+        .then(order => Object.assign(args, { order }))
+        .then(
+          pick([
+            "title",
+            "alias",
+            "questionnaireId",
+            "order",
+            "introductionContent",
+            "introductionEnabled",
+            "introductionTitle"
+          ])
+        )
+        .then(section => Section(knex).create(section, trx))
+        .then(head);
+    });
+  };
 
-module.exports.update = function update({
-  id,
-  title,
-  alias,
-  isDeleted,
-  introductionContent,
-  introductionEnabled,
-  introductionTitle
-}) {
-  return Section.update(id, {
+  const update = function({
+    id,
     title,
     alias,
     isDeleted,
     introductionContent,
     introductionEnabled,
     introductionTitle
-  }).then(head);
-};
+  }) {
+    return Section(knex)
+      .update(id, {
+        title,
+        alias,
+        isDeleted,
+        introductionContent,
+        introductionEnabled,
+        introductionTitle
+      })
+      .then(head);
+  };
 
-module.exports.remove = function remove(id) {
-  return Section.update(id, { isDeleted: true }).then(head);
-};
+  const remove = function(id) {
+    return Section(knex)
+      .update(id, { isDeleted: true })
+      .then(head);
+  };
 
-module.exports.undelete = function(id) {
-  return Section.update(id, { isDeleted: false }).then(head);
-};
+  const undelete = function(id) {
+    return Section(knex)
+      .update(id, { isDeleted: false })
+      .then(head);
+  };
 
-module.exports.move = function({ id, questionnaireId, position }) {
-  return db.transaction(trx => {
-    return getOrUpdateOrderForSectionInsert(trx, questionnaireId, id, position)
-      .then(order => Section.update(id, { questionnaireId, order }, trx))
+  const move = function({ id, questionnaireId, position }) {
+    return knex.transaction(trx => {
+      return getOrUpdateOrderForSectionInsert(
+        trx,
+        questionnaireId,
+        id,
+        position
+      )
+        .then(order =>
+          Section(knex).update(id, { questionnaireId, order }, trx)
+        )
+        .then(head)
+
+        .then(section => Object.assign(section, { position }));
+    });
+  };
+
+  const getPosition = function({ id }) {
+    return this.getById(id)
+      .then(get("position"))
+      .then(position => {
+        if (position) {
+          return parseInt(position, 10);
+        }
+        throw new Error(`No position found for section with id: ${id}`);
+      });
+  };
+
+  const getSectionCount = function(questionnaireId) {
+    return knex("SectionsView")
+      .count()
+      .where({ questionnaireId })
       .then(head)
+      .then(get("count"));
+  };
 
-      .then(section => Object.assign(section, { position }));
-  });
-};
+  const duplicateSection = function(id, position) {
+    return knex.transaction(async trx => {
+      const section = await trx
+        .select("*")
+        .from("Sections")
+        .where({ id })
+        .first();
 
-module.exports.getPosition = function({ id }) {
-  return this.getById(id)
-    .then(get("position"))
-    .then(position => {
-      if (position) {
-        return parseInt(position, 10);
-      }
-      throw new Error(`No position found for section with id: ${id}`);
+      return duplicateSectionStrategy(trx, section, position, {
+        alias: addPrefix(section.alias),
+        title: addPrefix(section.title)
+      });
     });
+  };
+
+  const getPipingAnswersForSection = id =>
+    getById(id).then(({ position: sectionPosition, questionnaireId }) =>
+      getPreviousAnswersForSection({
+        answerTypes: PIPING_ANSWER_TYPES,
+        sectionPosition,
+        questionnaireId
+      })
+    );
+
+  const getPipingMetadataForSection = id =>
+    knex("Metadata")
+      .select("Metadata.*")
+      .join("Questionnaires", "Metadata.questionnaireId", "Questionnaires.id")
+      .join("SectionsView", "SectionsView.questionnaireId", "Questionnaires.id")
+      .where("SectionsView.id", id)
+      .andWhere("Metadata.isDeleted", false);
+
+  return {
+    findAll,
+    getById,
+    insert,
+    update,
+    remove,
+    undelete,
+    move,
+    getPosition,
+    getSectionCount,
+    duplicateSection,
+    getPipingAnswersForSection,
+    getPipingMetadataForSection
+  };
 };
-
-module.exports.getSectionCount = function getSectionCount(questionnaireId) {
-  return db("SectionsView")
-    .count()
-    .where({ questionnaireId })
-    .then(head)
-    .then(get("count"));
-};
-
-module.exports.duplicateSection = function duplicateSection(id, position) {
-  return db.transaction(async trx => {
-    const section = await trx
-      .select("*")
-      .from("Sections")
-      .where({ id })
-      .first();
-
-    return duplicateSectionStrategy(trx, section, position, {
-      alias: addPrefix(section.alias),
-      title: addPrefix(section.title)
-    });
-  });
-};
-
-module.exports.getPipingAnswersForSection = id =>
-  this.getById(id).then(({ position: sectionPosition, questionnaireId }) =>
-    getPreviousAnswersForSection({
-      answerTypes: PIPING_ANSWER_TYPES,
-      sectionPosition,
-      questionnaireId
-    })
-  );
-
-module.exports.getPipingMetadataForSection = id =>
-  db("Metadata")
-    .select("Metadata.*")
-    .join("Questionnaires", "Metadata.questionnaireId", "Questionnaires.id")
-    .join("SectionsView", "SectionsView.questionnaireId", "Questionnaires.id")
-    .where("SectionsView.id", id)
-    .andWhere("Metadata.isDeleted", false);

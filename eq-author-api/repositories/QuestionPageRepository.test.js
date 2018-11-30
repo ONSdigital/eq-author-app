@@ -1,11 +1,13 @@
-const db = require("../db");
+const knex = require("../db");
 const { get } = require("lodash");
 const {
   getPipingAnswersForQuestionPage,
   getPipingMetadataForQuestionPage,
   getRoutingQuestionsForQuestionPage
-} = require("./QuestionPageRepository");
-const buildTestQuestionnaire = require("../tests/utils/buildTestQuestionnaire");
+} = require("./QuestionPageRepository")(knex);
+const buildTestQuestionnaire = require("../tests/utils/buildTestQuestionnaire")(
+  knex
+);
 const {
   CHECKBOX,
   RADIO,
@@ -24,10 +26,10 @@ const {
 const { getName } = require("../utils/getName");
 
 describe("QuestionPageRepository", () => {
-  beforeAll(() => db.migrate.latest());
-  afterAll(() => db.destroy());
+  beforeAll(() => knex.migrate.latest());
+  afterAll(() => knex.destroy());
   afterEach(async () => {
-    await db.transaction(async trx => {
+    await knex.transaction(async trx => {
       await trx.table("Questionnaires").delete();
     });
   });

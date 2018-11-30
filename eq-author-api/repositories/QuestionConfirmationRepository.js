@@ -12,33 +12,45 @@ const USER_MODIFIABLE_FIELDS = [
 
 const sanitise = pick(["id", ...USER_MODIFIABLE_FIELDS]);
 
-const findById = id => QuestionConfirmation.findById(id);
+module.exports = knex => {
+  const findById = id => QuestionConfirmation(knex).findById(id);
 
-const findByPageId = pageId => QuestionConfirmation.findByPageId(pageId);
+  const findByPageId = pageId =>
+    QuestionConfirmation(knex).findByPageId(pageId);
 
-const create = async ({ pageId }) => {
-  const existing = await findByPageId(pageId);
-  if (existing) {
-    throw new Error(
-      `Cannot create a question confirmation as one already exists for page: ${pageId}`
-    );
-  }
-  return QuestionConfirmation.create({ pageId }).then(head);
-};
+  const create = async ({ pageId }) => {
+    const existing = await findByPageId(pageId);
+    if (existing) {
+      throw new Error(
+        `Cannot create a question confirmation as one already exists for page: ${pageId}`
+      );
+    }
+    return QuestionConfirmation(knex)
+      .create({ pageId })
+      .then(head);
+  };
 
-const update = confirmation =>
-  QuestionConfirmation.update(sanitise(confirmation)).then(head);
+  const update = confirmation =>
+    QuestionConfirmation(knex)
+      .update(sanitise(confirmation))
+      .then(head);
 
-const remove = confirmation =>
-  QuestionConfirmation.delete(confirmation).then(head);
+  const remove = confirmation =>
+    QuestionConfirmation(knex)
+      .delete(confirmation)
+      .then(head);
 
-const restore = id => QuestionConfirmation.restore(id).then(head);
+  const restore = id =>
+    QuestionConfirmation(knex)
+      .restore(id)
+      .then(head);
 
-module.exports = {
-  findById,
-  findByPageId,
-  create,
-  update,
-  delete: remove,
-  restore
+  return {
+    findById,
+    findByPageId,
+    create,
+    update,
+    delete: remove,
+    restore
+  };
 };

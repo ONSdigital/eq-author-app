@@ -9,8 +9,7 @@ import toasts from "redux/toast/reducer";
 import saving from "redux/saving/reducer";
 import tabs from "redux/tabs/reducer";
 import authReducer from "redux/auth/reducer";
-import auth from "auth"
-
+import auth from "auth";
 
 const configureStore = (history, client, preloadedState) =>
   createStore(
