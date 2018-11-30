@@ -1,4 +1,4 @@
-#import "./fragments/option.graphql"
+#import "graphql/fragments/option.graphql"
 
 mutation createMutuallyExclusiveOption(
   $input: CreateMutuallyExclusiveOptionInput!

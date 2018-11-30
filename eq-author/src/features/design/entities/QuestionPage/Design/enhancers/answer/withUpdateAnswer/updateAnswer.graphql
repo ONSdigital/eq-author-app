@@ -1,4 +1,4 @@
-#import "./fragments/answer.graphql"
+#import "graphql/fragments/answer.graphql"
 
 mutation UpdateAnswer($input: UpdateAnswerInput!) {
   updateAnswer(input: $input) {

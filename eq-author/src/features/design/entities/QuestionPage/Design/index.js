@@ -15,23 +15,23 @@ import DuplicateButton from "components/DuplicateButton";
 
 import { connect } from "react-redux";
 import { raiseToast } from "redux/toast/actions";
-import withUpdatePage from "containers/enhancers/withUpdatePage";
-import withUpdateAnswer from "containers/enhancers/withUpdateAnswer";
-import withCreateAnswer from "containers/enhancers/withCreateAnswer";
-import withDeleteAnswer from "containers/enhancers/withDeleteAnswer";
-import withCreateOption from "containers/enhancers/withCreateOption";
-import withUpdateOption from "containers/enhancers/withUpdateOption";
-import withDeleteOption from "containers/enhancers/withDeleteOption";
-import withCreateExclusive from "containers/enhancers/withCreateExclusive";
-import withCreateOther from "containers/enhancers/withCreateOther";
-import withDeleteOther from "containers/enhancers/withDeleteOther";
-import withMovePage from "containers/enhancers/withMovePage";
+import withUpdatePage from "./enhancers/page/withUpdatePage";
+import withUpdateAnswer from "./enhancers/answer/withUpdateAnswer";
+import withCreateAnswer from "./enhancers/answer/withCreateAnswer";
+import withDeleteAnswer from "./enhancers/answer/withDeleteAnswer";
+import withCreateOption from "./enhancers/option/withCreateOption";
+import withUpdateOption from "./enhancers/option/withUpdateOption";
+import withDeleteOption from "./enhancers/option/withDeleteOption";
+import withCreateExclusive from "./enhancers/exclusive/withCreateExclusive";
+import withCreateOther from "./enhancers/other/withCreateOther";
+import withDeleteOther from "./enhancers/other/withDeleteOther";
+import withMovePage from "./enhancers/page/withMovePage";
 import focusOnEntity from "utils/focusOnEntity";
-import withDeletePage from "containers/enhancers/withDeletePage";
+import withDeletePage from "./enhancers/page/withDeletePage";
 import Loading from "components/Loading";
 import Error from "components/Error";
 import withCreatePage from "containers/enhancers/withCreatePage";
-import withDuplicatePage from "containers/enhancers/withDuplicatePage";
+import withDuplicatePage from "./enhancers/page/withDuplicatePage";
 
 import EditorLayout from "components/EditorLayout";
 

@@ -1,4 +1,4 @@
-import updateAnswerMutation from "graphql/updateAnswer.graphql";
+import updateAnswerMutation from "./updateAnswer.graphql";
 import { graphql } from "react-apollo";
 
 export const mapMutateToProps = ({ mutate }) => ({

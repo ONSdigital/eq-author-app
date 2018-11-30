@@ -1,5 +1,5 @@
 import { graphql } from "react-apollo";
-import createExclusiveOptionMutation from "graphql/createMutuallyExclusiveOption.graphql";
+import createExclusiveOptionMutation from "./createMutuallyExclusiveOption.graphql";
 import fragment from "graphql/answerFragment.graphql";
 
 export const createUpdater = answerId => (proxy, result) => {

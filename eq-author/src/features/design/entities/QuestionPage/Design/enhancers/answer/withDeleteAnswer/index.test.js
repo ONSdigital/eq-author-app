@@ -1,7 +1,4 @@
-import {
-  mapMutateToProps,
-  deleteUpdater
-} from "containers/enhancers/withDeleteAnswer";
+import { mapMutateToProps, deleteUpdater } from ".";
 import fragment from "graphql/pageFragment.graphql";
 
 describe("containers/QuestionnaireDesignPage/withDeleteAnswer", () => {

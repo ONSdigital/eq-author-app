@@ -1,7 +1,4 @@
-import {
-  mapMutateToProps,
-  createUpdater
-} from "containers/enhancers/withCreateExclusive";
+import { mapMutateToProps, createUpdater } from ".";
 import fragment from "graphql/answerFragment.graphql";
 
 describe("withCreateExclusive", () => {

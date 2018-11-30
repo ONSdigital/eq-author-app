@@ -1,4 +1,4 @@
-import { mapMutateToProps } from "./withUpdateAnswer";
+import { mapMutateToProps } from ".";
 
 describe("withUpdateAnswer", () => {
   let mutate;

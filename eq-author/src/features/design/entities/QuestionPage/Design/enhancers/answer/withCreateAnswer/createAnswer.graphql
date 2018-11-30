@@ -1,9 +1,9 @@
-#import "./fragments/answer.graphql"
-#import "./fragments/option.graphql"
-#import "./fragments/min-value-validation-rule.graphql"
-#import "./fragments/max-value-validation-rule.graphql"
-#import "./fragments/earliest-date-validation-rule.graphql"
-#import "./fragments/latest-date-validation-rule.graphql"
+#import "graphql/fragments/answer.graphql"
+#import "graphql/fragments/option.graphql"
+#import "graphql/fragments/min-value-validation-rule.graphql"
+#import "graphql/fragments/max-value-validation-rule.graphql"
+#import "graphql/fragments/earliest-date-validation-rule.graphql"
+#import "graphql/fragments/latest-date-validation-rule.graphql"
 
 mutation createAnswer($input: CreateAnswerInput!) {
   createAnswer(input: $input) {

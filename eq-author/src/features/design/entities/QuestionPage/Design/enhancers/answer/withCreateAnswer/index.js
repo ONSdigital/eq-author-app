@@ -1,5 +1,5 @@
 import { graphql } from "react-apollo";
-import createAnswerMutation from "graphql/createAnswer.graphql";
+import createAnswerMutation from "./createAnswer.graphql";
 import fragment from "graphql/pageFragment.graphql";
 
 export const createUpdater = pageId => (proxy, result) => {
