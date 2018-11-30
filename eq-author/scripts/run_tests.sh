@@ -38,6 +38,8 @@ docker-compose -f "$docker_compose" up -d
 
 if [ "$1" == "integration" ]; then
   integration_folder="cypress/integration";
+elif [ "$1" == "routing_e2e" ]; then 
+  integration_folder="cypress/routingTests";
 else
   integration_folder="cypress/e2e";
 fi

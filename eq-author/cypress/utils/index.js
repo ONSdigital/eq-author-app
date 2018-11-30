@@ -244,7 +244,6 @@ export const selectQuestionFromContentPicker = ({
   questionTitle
 }) => {
   cy.get(`button[aria-controls='question']`).contains("Question");
-
   cy.get(testId("picker-title"))
     .contains("Section")
     .click();
