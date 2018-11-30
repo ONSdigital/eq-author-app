@@ -1,4 +1,4 @@
-const { getConnection } = require("./");
+const { db } = require("./");
 const { parseInt } = require("lodash");
 const RoutingRuleSets = "Routing_RuleSets";
 const RoutingRules = "Routing_Rules";
@@ -7,7 +7,7 @@ const RoutingConditionValues = "Routing_ConditionValues";
 const RoutingDestinations = "Routing_Destinations";
 
 function table(tableName) {
-  return getConnection()(tableName);
+  return db(tableName);
 }
 
 const select = tableName => table(tableName).select();

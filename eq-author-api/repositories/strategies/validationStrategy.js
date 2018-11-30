@@ -4,17 +4,14 @@ const {
   defaultValidationRuleConfigs,
   defaultValidationEntityTypes
 } = require("../../utils/defaultAnswerValidations");
-const { getConnection } = require("../../db");
+const { db } = require("../../db");
 
 const { findKey, includes } = require("lodash");
 
 const getValidationEntity = type =>
   findKey(answerTypeMap, field => includes(field, type));
 
-const createDefaultValidationsForAnswer = async (
-  { id, type },
-  trx = getConnection()
-) => {
+const createDefaultValidationsForAnswer = async ({ id, type }, trx = db) => {
   const validationEntity = getValidationEntity(type);
 
   const validationTypes = validationRuleMap[validationEntity];

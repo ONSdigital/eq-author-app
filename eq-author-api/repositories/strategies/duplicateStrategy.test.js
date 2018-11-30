@@ -1,6 +1,6 @@
 const { flow, map, omit } = require("lodash/fp");
 
-const { getConnection } = require("../../db");
+const { db } = require("../../db");
 const {
   duplicatePageStrategy,
   duplicateSectionStrategy,
@@ -62,10 +62,10 @@ const sanitizeParent = flow(
 );
 
 describe("Duplicate strategy tests", () => {
-  beforeAll(() => getConnection().migrate.latest());
-  afterAll(() => getConnection().destroy());
+  beforeAll(() => db.migrate.latest());
+  afterAll(() => db.destroy());
   afterEach(async () => {
-    await getConnection().transaction(async trx => {
+    await db.transaction(async trx => {
       await trx.table("Questionnaires").delete();
     });
   });
@@ -86,7 +86,7 @@ describe("Duplicate strategy tests", () => {
 
       const page = questionnaire.sections[0].pages[0];
 
-      const duplicatePage = await getConnection().transaction(trx =>
+      const duplicatePage = await db.transaction(trx =>
         duplicatePageStrategy(trx, removeChildren(page))
       );
       expect(sanitize(duplicatePage)).toMatchObject({
@@ -120,7 +120,7 @@ describe("Duplicate strategy tests", () => {
 
       const page = questionnaire.sections[0].pages[0];
 
-      const duplicatePage = await getConnection().transaction(trx =>
+      const duplicatePage = await db.transaction(trx =>
         duplicatePageStrategy(trx, removeChildren(page))
       );
 
@@ -154,7 +154,7 @@ describe("Duplicate strategy tests", () => {
 
       const page = questionnaire.sections[0].pages[0];
 
-      const duplicatePage = await getConnection().transaction(trx =>
+      const duplicatePage = await db.transaction(trx =>
         duplicatePageStrategy(trx, removeChildren(page))
       );
 
@@ -223,7 +223,7 @@ describe("Duplicate strategy tests", () => {
 
       const page = questionnaire.sections[0].pages[0];
 
-      const duplicatePage = await getConnection().transaction(trx =>
+      const duplicatePage = await db.transaction(trx =>
         duplicatePageStrategy(trx, removeChildren(page))
       );
 
@@ -332,7 +332,7 @@ describe("Duplicate strategy tests", () => {
 
       const page = questionnaire.sections[0].pages[0];
 
-      const duplicatePage = await getConnection().transaction(trx =>
+      const duplicatePage = await db.transaction(trx =>
         duplicatePageStrategy(trx, removeChildren(page))
       );
 
@@ -378,7 +378,7 @@ describe("Duplicate strategy tests", () => {
 
       const page = questionnaire.sections[0].pages[0];
 
-      const duplicatePage = await getConnection().transaction(trx =>
+      const duplicatePage = await db.transaction(trx =>
         duplicatePageStrategy(trx, removeChildren(page))
       );
 
@@ -415,7 +415,7 @@ describe("Duplicate strategy tests", () => {
         const page = questionnaire.sections[0].pages[0];
         const option = page.answers[0].options[0];
 
-        const duplicatePage = await getConnection().transaction(trx =>
+        const duplicatePage = await db.transaction(trx =>
           duplicatePageStrategy(trx, removeChildren(page))
         );
 
@@ -454,7 +454,7 @@ describe("Duplicate strategy tests", () => {
 
         const page = questionnaire.sections[0].pages[0];
 
-        const duplicatePage = await getConnection().transaction(trx =>
+        const duplicatePage = await db.transaction(trx =>
           duplicatePageStrategy(trx, removeChildren(page))
         );
 
@@ -507,7 +507,7 @@ describe("Duplicate strategy tests", () => {
         const otherAnswer = answer.otherAnswer;
         const otherOption = otherAnswer.options[0];
 
-        const duplicatePage = await getConnection().transaction(trx =>
+        const duplicatePage = await db.transaction(trx =>
           duplicatePageStrategy(trx, removeChildren(page))
         );
         const dupAnswers = await AnswerRepository.findAll({
@@ -555,7 +555,7 @@ describe("Duplicate strategy tests", () => {
         });
 
         const page = questionnaire.sections[0].pages[0];
-        const duplicatePage = await getConnection().transaction(trx =>
+        const duplicatePage = await db.transaction(trx =>
           duplicatePageStrategy(trx, removeChildren(page))
         );
         const dupAnswers = await AnswerRepository.findAll({
@@ -599,7 +599,7 @@ describe("Duplicate strategy tests", () => {
 
         const answer = page.answers[0];
 
-        const duplicatePage = await getConnection().transaction(trx =>
+        const duplicatePage = await db.transaction(trx =>
           duplicatePageStrategy(trx, removeChildren(page))
         );
 
@@ -657,7 +657,7 @@ describe("Duplicate strategy tests", () => {
 
         const answer = page.answers[0];
 
-        const duplicatePage = await getConnection().transaction(trx =>
+        const duplicatePage = await db.transaction(trx =>
           duplicatePageStrategy(trx, removeChildren(page))
         );
 
@@ -720,7 +720,7 @@ describe("Duplicate strategy tests", () => {
 
         const page = questionnaire.sections[0].pages[0];
 
-        const duplicatePage = await getConnection().transaction(trx =>
+        const duplicatePage = await db.transaction(trx =>
           duplicatePageStrategy(trx, removeChildren(page))
         );
 
@@ -777,7 +777,7 @@ describe("Duplicate strategy tests", () => {
 
         const page = questionnaire.sections[0].pages[0];
 
-        const duplicatePage = await getConnection().transaction(trx =>
+        const duplicatePage = await db.transaction(trx =>
           duplicatePageStrategy(trx, removeChildren(page))
         );
 
@@ -819,7 +819,7 @@ describe("Duplicate strategy tests", () => {
 
       const section = questionnaire.sections[0];
 
-      const duplicateSection = await getConnection().transaction(trx => {
+      const duplicateSection = await db.transaction(trx => {
         return duplicateSectionStrategy(trx, removeChildren(section), 1);
       });
 
@@ -854,7 +854,7 @@ describe("Duplicate strategy tests", () => {
 
       const section = questionnaire.sections[0];
 
-      const duplicateSection = await getConnection().transaction(trx =>
+      const duplicateSection = await db.transaction(trx =>
         duplicateSectionStrategy(trx, removeChildren(section), 1)
       );
 
@@ -895,7 +895,7 @@ describe("Duplicate strategy tests", () => {
 
       const section = questionnaire.sections[0];
 
-      const duplicateSection = await getConnection().transaction(trx =>
+      const duplicateSection = await db.transaction(trx =>
         duplicateSectionStrategy(trx, removeChildren(section), 1)
       );
 
@@ -957,7 +957,7 @@ describe("Duplicate strategy tests", () => {
 
       const section = questionnaire.sections[1];
 
-      const duplicateSection = await getConnection().transaction(trx =>
+      const duplicateSection = await db.transaction(trx =>
         duplicateSectionStrategy(trx, removeChildren(section), 1)
       );
 
@@ -1041,7 +1041,7 @@ describe("Duplicate strategy tests", () => {
 
       const section = questionnaire.sections[0];
 
-      const duplicateSection = await getConnection().transaction(trx =>
+      const duplicateSection = await db.transaction(trx =>
         duplicateSectionStrategy(trx, removeChildren(section), 1)
       );
 
@@ -1086,7 +1086,7 @@ describe("Duplicate strategy tests", () => {
         ]
       });
 
-      const duplicateQuestionnaire = await getConnection().transaction(trx => {
+      const duplicateQuestionnaire = await db.transaction(trx => {
         return duplicateQuestionnaireStrategy(
           trx,
           removeChildren(questionnaire)
@@ -1107,7 +1107,7 @@ describe("Duplicate strategy tests", () => {
         ]
       });
 
-      const duplicateQuestionnaire = await getConnection().transaction(trx =>
+      const duplicateQuestionnaire = await db.transaction(trx =>
         duplicateQuestionnaireStrategy(trx, removeChildren(questionnaire))
       );
 
@@ -1136,7 +1136,7 @@ describe("Duplicate strategy tests", () => {
         ]
       });
 
-      const duplicateQuestionnaire = await getConnection().transaction(trx =>
+      const duplicateQuestionnaire = await db.transaction(trx =>
         duplicateQuestionnaireStrategy(trx, removeChildren(questionnaire))
       );
 
@@ -1187,7 +1187,7 @@ describe("Duplicate strategy tests", () => {
         ]
       });
 
-      const duplicateQuestionnaire = await getConnection().transaction(trx =>
+      const duplicateQuestionnaire = await db.transaction(trx =>
         duplicateQuestionnaireStrategy(trx, removeChildren(questionnaire))
       );
 
@@ -1290,7 +1290,7 @@ describe("Duplicate strategy tests", () => {
         ]
       });
 
-      const duplicateQuestionnaire = await getConnection().transaction(trx =>
+      const duplicateQuestionnaire = await db.transaction(trx =>
         duplicateQuestionnaireStrategy(trx, removeChildren(questionnaire))
       );
 

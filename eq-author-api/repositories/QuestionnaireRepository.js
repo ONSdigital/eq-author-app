@@ -1,7 +1,7 @@
 const { head } = require("lodash/fp");
 
 const Questionnaire = require("../db/Questionnaire");
-const { getConnection } = require("../db");
+const { db } = require("../db");
 const addPrefix = require("../utils/addPrefix");
 
 const {
@@ -77,7 +77,7 @@ module.exports.undelete = function(id) {
 };
 
 module.exports.duplicate = (id, createdBy) => {
-  return getConnection().transaction(async trx => {
+  return db.transaction(async trx => {
     const questionnaire = await trx
       .select("*")
       .from("Questionnaires")

@@ -1,6 +1,6 @@
 const { head, isNil } = require("lodash/fp");
 const Option = require("../db/Option");
-const { getConnection } = require("../db");
+const { db } = require("../db");
 const { handleOptionDeleted } = require("./strategies/routingStrategy");
 
 const findExclusiveOptionByAnswerId = answerId =>
@@ -30,7 +30,7 @@ const getById = id => Option.findById(id).where({ isDeleted: false });
 
 const insert = async (
   { label, description, value, qCode, answerId, mutuallyExclusive = false },
-  trx = getConnection()
+  trx = db
 ) => {
   if (mutuallyExclusive) {
     await checkForExistingExclusive(answerId);
@@ -73,7 +73,7 @@ const deleteOption = async (trx, id) => {
   return deletedOption;
 };
 
-const remove = id => getConnection().transaction(trx => deleteOption(trx, id));
+const remove = id => db.transaction(trx => deleteOption(trx, id));
 
 const undelete = id => Option.update(id, { isDeleted: false }).then(head);
 

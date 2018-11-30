@@ -9,6 +9,8 @@ const getConfig = async function(secretId) {
     ...config
   };
 
+  console.log("########### getConfig() ##############");
+
   if (secretId && secretId !== "") {
     const AWS = require("aws-sdk");
     const client = new AWS.SecretsManager({ region: "eu-west-1" });
@@ -25,7 +27,6 @@ const getConfig = async function(secretId) {
         password: dbCredentials.password,
         database: dbCredentials.dbname
       };
-      return config;
     } catch (error) {
       logger.error(error);
       process.exit();
@@ -34,19 +35,22 @@ const getConfig = async function(secretId) {
   return result;
 };
 
-let connection;
+let db;
 
-function getConnection() {
-  if (!connection) {
-    getConfig(process.env.DB_SECRET_ID).then(conf => {
-      connection = require("knex")(conf);
-    });
+const establishConnection = function() {
+  return getConfig(process.env.DB_SECRET_ID).then(conf => {
+    console.log("########### Connection Config Got ##############");
+    db = require("knex")(conf);
+    console.log("########### Connection Established ##############");
+    return db;
+  });
+};
+
+establishConnection();
+
+module.exports = function() {
+  if (!db) {
+    return establishConnection();
   }
-  return connection;
-}
-
-getConnection();
-
-module.exports = {
-  getConnection
+  return db;
 };

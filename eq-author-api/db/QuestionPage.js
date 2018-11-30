@@ -1,7 +1,7 @@
-const { getConnection } = require("./");
+const { db } = require("./");
 
 function Question() {
-  return getConnection()("Pages");
+  return db("Pages");
 }
 
 function restrictType(where = {}) {

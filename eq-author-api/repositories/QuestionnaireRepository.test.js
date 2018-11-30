@@ -1,6 +1,6 @@
 const fp = require("lodash/fp");
 
-const { getConnection } = require("../db");
+const { db } = require("../db");
 const QuestionnaireRepository = require("../repositories/QuestionnaireRepository");
 
 const buildQuestionnaire = (json = {}) => {
@@ -18,9 +18,9 @@ const buildQuestionnaire = (json = {}) => {
 };
 
 describe("QuestionnaireRepository", () => {
-  beforeAll(() => getConnection().migrate.latest());
-  afterAll(() => getConnection().destroy());
-  afterEach(() => getConnection()("Questionnaires").delete());
+  beforeAll(() => db.migrate.latest());
+  afterAll(() => db.destroy());
+  afterEach(() => db("Questionnaires").delete());
 
   it("should create new Questionnaire", async () => {
     const questionnaire = buildQuestionnaire({

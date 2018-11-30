@@ -1,7 +1,7 @@
-const { getConnection } = require("./");
+const { db } = require("./");
 
 function QuestionConfirmation() {
-  return getConnection()("QuestionConfirmations");
+  return db("QuestionConfirmations");
 }
 
 const findById = id =>

@@ -1,4 +1,4 @@
-const { getConnection } = require("../db");
+const { db } = require("../db");
 const { get } = require("lodash");
 const {
   getPipingAnswersForQuestionPage,
@@ -23,10 +23,10 @@ const {
 const { getName } = require("../utils/getName");
 
 describe("QuestionPageRepository", () => {
-  beforeAll(() => getConnection().migrate.latest());
-  afterAll(() => getConnection().destroy());
+  beforeAll(() => db.migrate.latest());
+  afterAll(() => db.destroy());
   afterEach(async () => {
-    await getConnection().transaction(async trx => {
+    await db.transaction(async trx => {
       await trx.table("Questionnaires").delete();
     });
   });

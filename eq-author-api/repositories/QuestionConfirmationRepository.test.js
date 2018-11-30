@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 
-const { getConnection } = require("../db");
+const { db } = require("../db");
 
 const buildTestQuestionnaire = require("../tests/utils/buildTestQuestionnaire");
 
@@ -9,7 +9,7 @@ const QuestionConfirmationRepository = require("./QuestionConfirmationRepository
 describe("QuestionConfirmationRepository", () => {
   let page;
   beforeAll(async () => {
-    await getConnection().migrate.latest();
+    await db.migrate.latest();
     const questionnaire = await buildTestQuestionnaire({
       sections: [
         {
@@ -23,8 +23,8 @@ describe("QuestionConfirmationRepository", () => {
     });
     page = questionnaire.sections[0].pages[0];
   });
-  afterAll(() => getConnection().destroy());
-  afterEach(() => getConnection()("QuestionConfirmations").delete());
+  afterAll(() => db.destroy());
+  afterEach(() => db("QuestionConfirmations").delete());
 
   describe("create", () => {
     it("should create and return the confirmation", async () => {

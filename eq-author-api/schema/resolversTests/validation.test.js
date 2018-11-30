@@ -1,6 +1,6 @@
 const { first } = require("lodash");
 const repositories = require("../../repositories");
-const { getConnection } = require("../../db");
+const { db } = require("../../db");
 const executeQuery = require("../../tests/utils/executeQuery");
 const {
   createQuestionnaireMutation,
@@ -116,9 +116,9 @@ describe("resolvers", () => {
   let pages;
   let firstPage;
 
-  beforeAll(() => getConnection().migrate.latest());
-  afterAll(() => getConnection().destroy());
-  afterEach(() => getConnection()("Questionnaires").delete());
+  beforeAll(() => db.migrate.latest());
+  afterAll(() => db.destroy());
+  afterEach(() => db("Questionnaires").delete());
 
   beforeEach(async () => {
     questionnaire = await createNewQuestionnaire();

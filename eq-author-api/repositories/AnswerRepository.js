@@ -12,7 +12,7 @@ const {
 } = require("lodash/fp");
 const { get, merge } = require("lodash");
 
-const { getConnection } = require("../db");
+const { db } = require("../db");
 const Answer = require("../db/Answer");
 
 const childAnswerParser = require("../utils/childAnswerParser");
@@ -72,7 +72,7 @@ const insert = (
     properties,
     questionPageId
   },
-  trx = getConnection()
+  trx = db
 ) =>
   trx("Answers")
     .insert(
@@ -129,7 +129,7 @@ const update = ({
 };
 
 const createAnswer = async answerConfig => {
-  return getConnection().transaction(async trx => {
+  return db.transaction(async trx => {
     const defaultProperties = getDefaultAnswerProperties(answerConfig.type);
     const input = merge({}, answerConfig, {
       properties: defaultProperties
@@ -182,7 +182,7 @@ const deleteAnswer = async (trx, id) => {
   return deletedAnswer;
 };
 
-const remove = id => getConnection().transaction(trx => deleteAnswer(trx, id));
+const remove = id => db.transaction(trx => deleteAnswer(trx, id));
 
 const undelete = id =>
   Answer.update(id, { isDeleted: false })
@@ -203,13 +203,13 @@ const getOtherAnswer = (
     .then(fromDb);
 
 const createOtherAnswer = ({ id }) => {
-  return getConnection().transaction(trx =>
+  return db.transaction(trx =>
     createOtherAnswerStrategy(trx, { id }).then(fromDb)
   );
 };
 
 const deleteOtherAnswer = ({ id }) => {
-  return getConnection().transaction(trx =>
+  return db.transaction(trx =>
     deleteOtherAnswerStrategy(trx, { id }).then(fromDb)
   );
 };
@@ -229,7 +229,7 @@ const splitComposites = answer => {
 };
 
 const lookupComposite = async (where = {}) => {
-  return getConnection()("CompositeAnswerView")
+  return db("CompositeAnswerView")
     .select("*")
     .where({ isDeleted: false, parentAnswerId: null })
     .where(where)

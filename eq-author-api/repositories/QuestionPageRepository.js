@@ -1,4 +1,4 @@
-const { getConnection } = require("../db");
+const { db } = require("../db");
 const { head } = require("lodash/fp");
 const QuestionPage = require("../db/QuestionPage");
 const {
@@ -24,7 +24,7 @@ module.exports.getById = function getById(id) {
 
 module.exports.insert = function insert(
   { title, alias, description, guidance, sectionId, order },
-  db = getConnection()
+  db = db
 ) {
   return QuestionPage.create(
     {
@@ -65,7 +65,7 @@ module.exports.undelete = function(id) {
 };
 
 module.exports.getPipingAnswersForQuestionPage = id =>
-  getConnection()("PagesView")
+  db("PagesView")
     .select("SectionsView.position as sectionPosition")
     .select("PagesView.position as pagePosition")
     .select("SectionsView.questionnaireId")
@@ -80,7 +80,7 @@ module.exports.getPipingAnswersForQuestionPage = id =>
     );
 
 module.exports.getPipingMetadataForQuestionPage = id =>
-  getConnection()("Metadata")
+  db("Metadata")
     .select("Metadata.*")
     .join("Questionnaires", "Metadata.questionnaireId", "Questionnaires.id")
     .join("SectionsView", "SectionsView.questionnaireId", "Questionnaires.id")
