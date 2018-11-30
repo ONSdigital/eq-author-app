@@ -1,6 +1,6 @@
 const { head, isNil } = require("lodash/fp");
 const Option = require("../db/Option");
-const { db } = require("../db");
+const db = require("../db");
 const { handleOptionDeleted } = require("./strategies/routingStrategy");
 
 const findExclusiveOptionByAnswerId = answerId =>

@@ -1,6 +1,6 @@
 const { head } = require("lodash/fp");
 const { get, isNil, parseInt } = require("lodash");
-const { db } = require("../db");
+const db = require("../db");
 const Answer = require("../repositories/AnswerRepository");
 
 const {

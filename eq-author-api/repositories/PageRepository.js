@@ -3,7 +3,7 @@ const { duplicatePageStrategy } = require("./strategies/duplicateStrategy");
 const { head, get } = require("lodash/fp");
 const Page = require("../db/Page");
 const QuestionPageRepository = require("./QuestionPageRepository");
-const { db } = require("../db");
+const db = require("../db");
 const {
   getOrUpdateOrderForPageInsert
 } = require("./strategies/spacedOrderStrategy");

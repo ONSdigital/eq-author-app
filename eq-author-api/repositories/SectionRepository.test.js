@@ -1,4 +1,4 @@
-const { db } = require("../db");
+const db = require("../db");
 const QuestionnaireRepository = require("../repositories/QuestionnaireRepository");
 const SectionRepository = require("../repositories/SectionRepository");
 const { get, last, head, map, toString, times } = require("lodash");

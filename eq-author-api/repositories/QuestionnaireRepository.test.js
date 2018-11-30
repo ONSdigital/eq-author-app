@@ -1,6 +1,6 @@
 const fp = require("lodash/fp");
 
-const { db } = require("../db");
+const db = require("../db");
 const QuestionnaireRepository = require("../repositories/QuestionnaireRepository");
 
 const buildQuestionnaire = (json = {}) => {

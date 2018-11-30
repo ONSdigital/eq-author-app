@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 
-const { db } = require("../db");
+const db = require("../db");
 
 const buildTestQuestionnaire = require("../tests/utils/buildTestQuestionnaire");
 

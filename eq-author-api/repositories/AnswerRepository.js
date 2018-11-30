@@ -12,7 +12,7 @@ const {
 } = require("lodash/fp");
 const { get, merge } = require("lodash");
 
-const { db } = require("../db");
+const db = require("../db");
 const Answer = require("../db/Answer");
 
 const childAnswerParser = require("../utils/childAnswerParser");

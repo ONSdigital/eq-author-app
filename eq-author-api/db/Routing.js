@@ -1,4 +1,4 @@
-const { db } = require("./");
+const db = require("./");
 const { parseInt } = require("lodash");
 const RoutingRuleSets = "Routing_RuleSets";
 const RoutingRules = "Routing_Rules";

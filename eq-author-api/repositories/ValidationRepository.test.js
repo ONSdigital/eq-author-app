@@ -1,4 +1,4 @@
-const { db } = require("../db");
+const db = require("../db");
 const { get } = require("lodash");
 const {
   getPreviousAnswersForValidation,

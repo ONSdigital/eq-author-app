@@ -1,4 +1,4 @@
-const { db } = require("./");
+const db = require("./");
 
 function Answer() {
   return db("Answers");

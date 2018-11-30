@@ -1,4 +1,4 @@
-const { db } = require("../db");
+const db = require("../db");
 const { head } = require("lodash/fp");
 const QuestionPage = require("../db/QuestionPage");
 const {

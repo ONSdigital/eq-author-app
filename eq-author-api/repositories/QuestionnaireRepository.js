@@ -1,7 +1,7 @@
 const { head } = require("lodash/fp");
 
 const Questionnaire = require("../db/Questionnaire");
-const { db } = require("../db");
+const db = require("../db");
 const addPrefix = require("../utils/addPrefix");
 
 const {

@@ -4,7 +4,7 @@ const {
   defaultValidationRuleConfigs,
   defaultValidationEntityTypes
 } = require("../../utils/defaultAnswerValidations");
-const { db } = require("../../db");
+const db = require("../../db");
 
 const { findKey, includes } = require("lodash");
 

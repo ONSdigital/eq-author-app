@@ -1,4 +1,4 @@
-const { db } = require("../db");
+const db = require("../db");
 const Validation = require("../db/Validation");
 const { head, flow, keys, remove, first } = require("lodash/fp");
 const {

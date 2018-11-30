@@ -1,4 +1,4 @@
-const { db } = require("./");
+const db = require("./");
 
 function Validation() {
   return db("Validation_AnswerRules");

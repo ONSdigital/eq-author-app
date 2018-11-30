@@ -1,6 +1,6 @@
 const { get, head, pick } = require("lodash/fp");
 const Section = require("../db/Section");
-const { db } = require("../db");
+const db = require("../db");
 const {
   getOrUpdateOrderForSectionInsert
 } = require("./strategies/spacedOrderStrategy");

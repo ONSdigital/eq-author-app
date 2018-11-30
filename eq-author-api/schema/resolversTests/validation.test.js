@@ -1,6 +1,6 @@
 const { first } = require("lodash");
 const repositories = require("../../repositories");
-const { db } = require("../../db");
+const db = require("../../db");
 const executeQuery = require("../../tests/utils/executeQuery");
 const {
   createQuestionnaireMutation,

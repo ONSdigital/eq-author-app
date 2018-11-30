@@ -1,6 +1,6 @@
 const { map, times, omit } = require("lodash");
 
-const { db } = require("../db");
+const db = require("../db");
 const QuestionnaireRepository = require("../repositories/QuestionnaireRepository");
 const MetadataRepository = require("../repositories/MetadataRepository");
 

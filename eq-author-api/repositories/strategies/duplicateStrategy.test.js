@@ -1,6 +1,6 @@
 const { flow, map, omit } = require("lodash/fp");
 
-const { db } = require("../../db");
+const db = require("../../db");
 const {
   duplicatePageStrategy,
   duplicateSectionStrategy,
