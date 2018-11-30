@@ -40,9 +40,7 @@ const establishConnection = () => {
     return db;
   }
   return getConfig(process.env.DB_SECRET_ID).then(conf => {
-    console.log("########### Connection Config Got ##############");
     db = require("knex")(conf);
-    console.log("########### Connection Established ##############");
     return db;
   });
 };

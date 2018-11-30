@@ -22,10 +22,14 @@ module.exports.getById = function getById(id) {
   return QuestionPage.findById(id).where({ isDeleted: false });
 };
 
-module.exports.insert = function insert(
-  { title, alias, description, guidance, sectionId, order },
-  db = db
-) {
+module.exports.insert = function insert({
+  title,
+  alias,
+  description,
+  guidance,
+  sectionId,
+  order
+}) {
   return QuestionPage.create(
     {
       title,
