@@ -128,7 +128,7 @@ const RoutingRule = ({
           </Grid>
         </div>
         <RoutingRuleDestinationSelector
-          id="then"
+          id={rule.id}
           label="THEN"
           destinations={destinations}
           onChange={handleThenChange}
