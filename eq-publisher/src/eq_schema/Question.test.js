@@ -66,6 +66,32 @@ describe("Question", () => {
   });
 
   describe("DateRange", () => {
+    let validation = {};
+    beforeEach(() => {
+      validation = {
+        earliestDate: {
+          id: "1",
+          enabled: true,
+          custom: "2017-02-17",
+          offset: {
+            value: 4,
+            unit: "Days"
+          },
+          relativePosition: "Before"
+        },
+        latestDate: {
+          id: "2",
+          enabled: true,
+          custom: "2018-02-17",
+          offset: {
+            value: 10,
+            unit: "Years"
+          },
+          relativePosition: "After"
+        }
+      };
+    });
+
     it("should convert Author DateRange to Runner-compatible format", () => {
       const answers = [
         {
@@ -73,6 +99,7 @@ describe("Question", () => {
           id: "1",
           label: "Period from",
           properties: { required: true },
+          validation,
           childAnswers: [
             { id: "1from", label: "Period from" },
             { id: "1to", label: "Period to" }
@@ -106,6 +133,7 @@ describe("Question", () => {
           type: "DateRange",
           id: "1",
           properties: { required: true },
+          validation,
           childAnswers: [
             { id: "1from", label: "Period from" },
             { id: "1to", label: "Period to" }
@@ -128,6 +156,7 @@ describe("Question", () => {
           type: "Checkbox",
           id: "1",
           properties: { required: true },
+          validation,
           options: [
             {
               id: "1",
@@ -165,6 +194,7 @@ describe("Question", () => {
           type: "Checkbox",
           id: "1",
           properties: { required: true },
+          validation,
           options: [
             {
               id: "1",
@@ -181,6 +211,45 @@ describe("Question", () => {
           type: "Checkbox"
         })
       ]);
+    });
+
+    it("should create date validation", () => {
+      const answers = [
+        {
+          type: "DateRange",
+          id: "1",
+          properties: { required: true },
+          validation,
+          childAnswers: [
+            { id: "1from", label: "Period from" },
+            { id: "1to", label: "Period to" }
+          ]
+        }
+      ];
+      const question = new Question(createQuestionJSON({ answers }));
+
+      expect(question.answers[0]).toEqual(
+        expect.objectContaining({
+          minimum: {
+            value: "2017-02-17",
+            // eslint-disable-next-line camelcase
+            offset_by: {
+              days: -4
+            }
+          }
+        })
+      );
+      expect(question.answers[1]).toEqual(
+        expect.objectContaining({
+          maximum: {
+            value: "2018-02-17",
+            // eslint-disable-next-line camelcase
+            offset_by: {
+              years: 10
+            }
+          }
+        })
+      );
     });
   });
 

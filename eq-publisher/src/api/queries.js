@@ -7,69 +7,99 @@ exports.getQuestionnaire = `
     guidance
     properties
     qCode
-    ...on BasicAnswer{
-      validation{
-        ...on NumberValidation{
-          minValue{
-            id
-            inclusive
-            enabled
-            custom
-          }
-          maxValue{
-            id
-            inclusive
-            enabled
-            custom
-            entityType
-            previousAnswer {
-              id
-            }
-          }
+    ...BasicAnswer
+    ...CompositeAnswer
+  }
+  
+  fragment CompositeAnswer on CompositeAnswer {
+    validation {
+      ... on DateValidation {
+        earliestDate {
+          ...EarliestDateValidationRule
         }
-        ...on DateValidation{
-          earliestDate{
-            id
-            enabled
-            custom
-            offset {
-              value
-              unit
-            }
-            relativePosition
-            entityType
-            previousAnswer {
-              id
-            }
-            metadata {
-              key
-            }
-          }
-          latestDate{
-            id
-            enabled
-            custom
-            offset {
-              value
-              unit
-            }
-            relativePosition
-            entityType
-            previousAnswer {
-              id
-            }
-            metadata {
-              key
-            }
-          }
+        latestDate {
+          ...LatestDateValidationRule
         }
       }
     }
-    ...on CompositeAnswer{
-      childAnswers{
-        id
-        label
+    childAnswers {
+      id
+      label
+    }
+  }
+  
+  fragment BasicAnswer on BasicAnswer {
+    validation {
+      ... on NumberValidation {
+        minValue {
+          ...MinValueValidationRule
+        }
+        maxValue {
+          ...MaxValueValidationRule
+        }
       }
+      ... on DateValidation {
+        earliestDate {
+          ...EarliestDateValidationRule
+        }
+        latestDate {
+          ...LatestDateValidationRule
+        }
+      }
+    }
+  }
+  
+  fragment MinValueValidationRule on MinValueValidationRule {
+    id
+    enabled
+    custom
+    inclusive
+  }
+  
+  fragment MaxValueValidationRule on MaxValueValidationRule {
+    id
+    enabled
+    custom
+    inclusive
+    entityType
+    previousAnswer {
+      id
+    }
+  }
+  
+  fragment EarliestDateValidationRule on EarliestDateValidationRule {
+    id
+    enabled
+    entityType
+    custom
+    offset {
+      value
+      unit
+    }
+    relativePosition
+    previousAnswer {
+      id
+    }
+    metadata {
+      key
+    }
+  }
+  
+  fragment LatestDateValidationRule on LatestDateValidationRule {
+    id
+    enabled
+    entityType
+    custom
+    offset {
+      value
+      unit
+    }
+    relativePosition
+    previousAnswer {
+      id
+    }
+    metadata {
+      key
     }
   }
 

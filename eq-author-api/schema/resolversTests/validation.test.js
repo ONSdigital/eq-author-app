@@ -18,6 +18,8 @@ const {
   NOW
 } = require("../../constants/validationEntityTypes");
 
+const { DATE, DATE_RANGE } = require("../../constants/answerTypes");
+
 const ctx = { repositories };
 
 const createNewQuestionnaire = async () => {
@@ -299,6 +301,13 @@ describe("resolvers", () => {
       };
     });
 
+    it("should default earliest and latest date to NOW entityType", async () => {
+      const answer = await createNewAnswer(firstPage, DATE);
+      const validation = await queryAnswerValidations(answer.id);
+      expect(validation.earliestDate.entityType).toEqual(NOW);
+      expect(validation.latestDate.entityType).toEqual(NOW);
+    });
+
     it("should create earliest validation db entries for Date answers", async () => {
       const answer = await createNewAnswer(firstPage, "Date");
       const validation = await queryAnswerValidations(answer.id);
@@ -507,6 +516,104 @@ describe("resolvers", () => {
         });
 
         await Promise.all(promises);
+      });
+    });
+  });
+
+  describe("DateRange", () => {
+    let params;
+
+    beforeEach(() => {
+      params = {
+        entityType: CUSTOM,
+        offset: {
+          value: 8,
+          unit: "Months"
+        },
+        relativePosition: "After"
+      };
+    });
+
+    it("should default earliest and latest date to CUSTOM entityType", async () => {
+      const answer = await createNewAnswer(firstPage, DATE_RANGE);
+      const validation = await queryAnswerValidations(answer.id);
+
+      expect(validation.earliestDate.entityType).toEqual(CUSTOM);
+      expect(validation.latestDate.entityType).toEqual(CUSTOM);
+    });
+
+    it("should create earliest validation db entries for DateRange answers", async () => {
+      const answer = await createNewAnswer(firstPage, DATE_RANGE);
+      const validation = await queryAnswerValidations(answer.id);
+      const validationObject = (earliestId, latestId) => ({
+        earliestDate: {
+          id: earliestId,
+          enabled: false,
+          offset: {
+            value: 0,
+            unit: "Days"
+          },
+          relativePosition: "Before",
+          custom: null
+        },
+        latestDate: {
+          id: latestId,
+          offset: {
+            value: 0,
+            unit: "Days"
+          },
+          relativePosition: "After",
+          custom: null
+        }
+      });
+
+      expect(validation).toMatchObject(
+        validationObject(validation.earliestDate.id, validation.latestDate.id)
+      );
+    });
+
+    describe("Earliest", () => {
+      it("should be able to update properties", async () => {
+        const answer = await createNewAnswer(firstPage, "Date");
+        const validation = await queryAnswerValidations(answer.id);
+        const result = await mutateValidationParameters({
+          id: validation.earliestDate.id,
+          earliestDateInput: {
+            ...params,
+            custom: "2017-01-01"
+          }
+        });
+        const expected = {
+          id: validation.earliestDate.id,
+          ...params,
+          customDate: "2017-01-01",
+          previousAnswer: null,
+          metadata: null
+        };
+        expect(result).toEqual(expected);
+      });
+    });
+
+    describe("Latest", () => {
+      it("should be able to update properties", async () => {
+        const answer = await createNewAnswer(firstPage, "Date");
+        const validation = await queryAnswerValidations(answer.id);
+        const result = await mutateValidationParameters({
+          id: validation.latestDate.id,
+          latestDateInput: {
+            custom: "2017-01-01",
+            ...params
+          }
+        });
+        const expected = {
+          id: validation.latestDate.id,
+          customDate: "2017-01-01",
+          previousAnswer: null,
+          metadata: null,
+          ...params
+        };
+
+        expect(result).toEqual(expected);
       });
     });
   });

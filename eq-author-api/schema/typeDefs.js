@@ -143,6 +143,7 @@ type CompositeAnswer implements Answer {
   page: QuestionPage
   childAnswers: [BasicAnswer]!
   properties: JSON
+  validation: ValidationType
 }
 
 type Option {

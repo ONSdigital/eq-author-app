@@ -1,5 +1,10 @@
 /* eslint-disable  camelcase */
-import { CURRENCY, DATE, NUMBER } from "../../../src/constants/answer-types";
+import {
+  CURRENCY,
+  DATE,
+  DATE_RANGE,
+  NUMBER
+} from "../../../src/constants/answer-types";
 
 import {
   addAnswerType,
@@ -405,6 +410,137 @@ describe("Answer Validation", () => {
       it("should update metadata", () => {
         toggleCheckboxOn("@latestDateToggle");
         setMetadata("@latestDate", METADATA_KEY);
+      });
+
+      afterEach(() => {
+        removeAnswer();
+      });
+    });
+  });
+
+  describe("Date Range", () => {
+    describe("Earliest date", () => {
+      beforeEach(() => {
+        addAnswerType(DATE_RANGE);
+        cy.get(testId("date-answer-label"))
+          .eq(0)
+          .type("Validation Answer 1");
+        cy.get(testId("date-answer-label"))
+          .eq(1)
+          .type("Validation Answer 2");
+        cy.get(testId("sidebar-button-earliest-date")).as("earliestDate");
+        cy.get("@earliestDate").click();
+        cy.get(testId("validation-view-toggle")).within(() => {
+          cy.get('[role="switch"]').as("earliestDateToggle");
+        });
+      });
+
+      it("should exist in the side bar", () => {
+        cy.get("@earliestDate").should("be.visible");
+      });
+
+      it("should show the date validation modal", () => {
+        cy.get(testId("sidebar-title")).contains("Date Range validation");
+      });
+
+      it("can be toggled on", () => {
+        cy.get(testId("earliest-date-validation")).contains(
+          "Earliest date is disabled"
+        );
+
+        toggleCheckboxOn("@earliestDateToggle");
+
+        cy.get(testId("earliest-date-validation")).should(
+          "not.contain",
+          "Earliest date is disabled"
+        );
+      });
+
+      it("should update the offset value", () => {
+        toggleCheckboxOn("@earliestDateToggle");
+        cy.get('[name="offset.value"]')
+          .type("{backspace}5")
+          .blur()
+          .should("have.value", "5");
+      });
+
+      it("should update the offset unit", () => {
+        toggleCheckboxOn("@earliestDateToggle");
+
+        cy.get('[name="offset.unit"]')
+          .select("Months")
+          .blur()
+          .should("have.value", "Months");
+      });
+
+      it("should update the custom value", () => {
+        toggleCheckboxOn("@earliestDateToggle");
+
+        cy.get('[type="date"]')
+          .type("1985-09-14")
+          .blur()
+          .should("have.value", "1985-09-14");
+      });
+
+      afterEach(() => {
+        removeAnswer();
+      });
+    });
+
+    describe("Latest date", () => {
+      beforeEach(() => {
+        addAnswerType(DATE_RANGE);
+        cy.get(testId("date-answer-label"))
+          .eq(0)
+          .type("Validation Answer 1");
+        cy.get(testId("date-answer-label"))
+          .eq(1)
+          .type("Validation Answer 2");
+        cy.get(testId("sidebar-button-latest-date")).as("latestDate");
+        cy.get("@latestDate").click();
+        cy.get(testId("validation-view-toggle")).within(() => {
+          cy.get('[role="switch"]').as("latestDateToggle");
+        });
+      });
+
+      it("should exist in the side bar", () => {
+        cy.get(testId("sidebar-button-latest-date")).should("be.visible");
+      });
+
+      it("should show the date validation modal", () => {
+        cy.get(testId("sidebar-title")).contains("Date Range validation");
+      });
+
+      it("can be toggled on", () => {
+        toggleCheckboxOn("@latestDateToggle");
+        cy.get(testId("latest-date-validation")).should(
+          "not.contain",
+          "Latest date is disabled"
+        );
+      });
+
+      it("should update the offset value", () => {
+        toggleCheckboxOn("@latestDateToggle");
+        cy.get('[name="offset.value"]')
+          .type("{backspace}5")
+          .blur()
+          .should("have.value", "5");
+      });
+
+      it("should update the offset unit", () => {
+        toggleCheckboxOn("@latestDateToggle");
+        cy.get('[name="offset.unit"]')
+          .select("Months")
+          .blur()
+          .should("have.value", "Months");
+      });
+
+      it("should update the custom value", () => {
+        toggleCheckboxOn("@latestDateToggle");
+        cy.get('[type="date"]')
+          .type("1985-09-14")
+          .blur()
+          .should("have.value", "1985-09-14");
       });
 
       afterEach(() => {

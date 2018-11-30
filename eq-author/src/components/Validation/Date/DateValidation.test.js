@@ -1,8 +1,9 @@
-import { ValidationPills } from "components/Validation/ValidationPills";
-import { CUSTOM, PREVIOUS_ANSWER } from "constants/validation-entity-types";
 import React from "react";
 import { shallow } from "enzyme";
 import { Number } from "components/Forms";
+import { ValidationPills } from "components/Validation/ValidationPills";
+import { DATE, DATE_RANGE } from "constants/answer-types";
+import { CUSTOM, PREVIOUS_ANSWER } from "constants/validation-entity-types";
 
 import DateValidation from "./DateValidation";
 
@@ -15,7 +16,8 @@ describe("Date Validation", () => {
         id: "1",
         properties: {
           format: "dd/mm/yyyy"
-        }
+        },
+        type: DATE
       },
       date: {
         id: "123",
@@ -45,6 +47,15 @@ describe("Date Validation", () => {
 
   it("should render the form input with the values when enabled", () => {
     const wrapper = shallow(<DateValidation {...props} />);
+    expect(wrapper).toMatchSnapshot();
+  });
+
+  it("should render custom input for date range type answer", () => {
+    const answer = {
+      ...props.answer,
+      type: DATE_RANGE
+    };
+    const wrapper = shallow(<DateValidation {...props} answer={answer} />);
     expect(wrapper).toMatchSnapshot();
   });
 
@@ -165,6 +176,16 @@ describe("Date Validation", () => {
       properties: {
         format: "yyyy"
       }
+    };
+    const wrapper = shallow(<DateValidation {...props} answer={answer} />);
+    const updateUnitField = wrapper.find('[data-test="offset-unit-select"]');
+    expect(updateUnitField).toMatchSnapshot();
+  });
+
+  it("should render all units for date range answers", () => {
+    const answer = {
+      properties: {},
+      type: DATE_RANGE
     };
     const wrapper = shallow(<DateValidation {...props} answer={answer} />);
     const updateUnitField = wrapper.find('[data-test="offset-unit-select"]');

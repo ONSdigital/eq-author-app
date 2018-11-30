@@ -48,6 +48,16 @@ mutation createAnswer($input: CreateAnswerInput!) {
       childAnswers {
         ...Answer
       }
+      validation {
+        ... on DateValidation {
+          earliestDate {
+            ...EarliestDateValidationRule
+          }
+          latestDate {
+            ...LatestDateValidationRule
+          }
+        }
+      }
     }
   }
 }

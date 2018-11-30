@@ -47,6 +47,151 @@ exports[`Date Validation should render a please select for offset unit when the 
 </withChangeHandler(Select__SimpleSelect)>
 `;
 
+exports[`Date Validation should render all units for date range answers 1`] = `
+<withChangeHandler(Select__SimpleSelect)
+  data-test="offset-unit-select"
+  name="offset.unit"
+  onBlur={[MockFunction]}
+  onChange={[MockFunction]}
+  value="Months"
+>
+  <option
+    key="Days"
+    value="Days"
+  >
+    Days
+  </option>
+  <option
+    key="Months"
+    value="Months"
+  >
+    Months
+  </option>
+  <option
+    key="Years"
+    value="Years"
+  >
+    Years
+  </option>
+</withChangeHandler(Select__SimpleSelect)>
+`;
+
+exports[`Date Validation should render custom input for date range type answer 1`] = `
+<ValidationView
+  data-test="example-test-id"
+  enabled={true}
+  onToggleChange={[Function]}
+>
+  <div>
+    <Grid
+      align="top"
+      fillHeight={true}
+    >
+      <DateValidation__AlignedColumn
+        cols={3}
+      >
+        <DateValidation__EmphasisedText>
+          Some date
+           is
+        </DateValidation__EmphasisedText>
+      </DateValidation__AlignedColumn>
+      <Column
+        cols={9}
+      >
+        <Grid
+          align="top"
+          fillHeight={true}
+        >
+          <Column
+            cols={2}
+          >
+            <Number
+              default={0}
+              id="offset-value"
+              max={99999}
+              min={0}
+              name="offset.value"
+              onBlur={[MockFunction]}
+              onChange={[MockFunction]}
+              step={1}
+              value={5}
+            />
+          </Column>
+          <Column
+            cols={4}
+          >
+            <withChangeHandler(Select__SimpleSelect)
+              data-test="offset-unit-select"
+              name="offset.unit"
+              onBlur={[MockFunction]}
+              onChange={[MockFunction]}
+              value="Months"
+            >
+              <option
+                key="Days"
+                value="Days"
+              >
+                Days
+              </option>
+              <option
+                key="Months"
+                value="Months"
+              >
+                Months
+              </option>
+              <option
+                key="Years"
+                value="Years"
+              >
+                Years
+              </option>
+            </withChangeHandler(Select__SimpleSelect)>
+          </Column>
+        </Grid>
+      </Column>
+    </Grid>
+    <Grid
+      align="top"
+      fillHeight={true}
+    >
+      <Column
+        cols={3}
+      >
+        <DateValidation__ConnectedPath />
+      </Column>
+    </Grid>
+    <Grid
+      align="top"
+      fillHeight={true}
+    >
+      <DateValidation__AlignedColumn
+        cols={3}
+      >
+        <DateValidation__EmphasisedText>
+          Before
+        </DateValidation__EmphasisedText>
+        <Component />
+      </DateValidation__AlignedColumn>
+      <Column
+        cols={9}
+      >
+        <DateValidation__CustomInput>
+          <DateValidation__DateInput
+            max="9999-12-30"
+            min="1000-01-01"
+            name="customDate"
+            onBlur={[MockFunction]}
+            onChange={[MockFunction]}
+            type="date"
+            value="2018-01-01"
+          />
+        </DateValidation__CustomInput>
+      </Column>
+    </Grid>
+  </div>
+</ValidationView>
+`;
+
 exports[`Date Validation should render disabled message when not enabled 1`] = `
 <ValidationView
   data-test="example-test-id"

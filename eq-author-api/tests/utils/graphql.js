@@ -584,10 +584,10 @@ const updateAnswerMutation = `
 mutation UpdateAnswer($input: UpdateAnswerInput!) {
   updateAnswer(input: $input) {
     id,
-    description,
-    guidance,
-    qCode,
-    label,
+    description
+    guidance
+    qCode
+    label
     type
     ...on CompositeAnswer{
       childAnswers{
@@ -610,51 +610,89 @@ mutation MoveSection($input: MoveSectionInput!) {
 
 const getAnswerValidations = `
   query QuestionPage($id: ID!) {
-    answer(id: $id){
-     id
-     ...on BasicAnswer {
-       validation{
-         ...on NumberValidation{
-           minValue{
-             id
-             enabled
-             inclusive
-             custom
-           }
-           maxValue{
-            id
-            enabled
-            inclusive
-            custom
-            entityType
-          }
-         }
-         ...on DateValidation {
-           earliestDate {
-             id
-             enabled
-             custom
-             offset {
-               value
-               unit
-             }
-             relativePosition
-           }
-           latestDate {
-             id
-             enabled
-             custom
-             offset {
-               value
-               unit
-             }
-             relativePosition
-           }
-         }
-       }
-     }
-   }
+  answer(id: $id) {
+    id
+    ...CompositeAnswer
+    ...BasicAnswer
   }
+}
+
+fragment CompositeAnswer on CompositeAnswer {
+  validation {
+    ... on DateValidation {
+      earliestDate {
+        ...EarliestDateValidationRule
+      }
+      latestDate {
+        ...LatestDateValidationRule
+      }
+    }
+  }
+  childAnswers {
+    id
+    label
+  }
+}
+
+fragment BasicAnswer on BasicAnswer {
+  validation {
+    ... on NumberValidation {
+      minValue {
+        ...MinValueValidationRule
+      }
+      maxValue {
+        ...MaxValueValidationRule
+      }
+    }
+    ... on DateValidation {
+      earliestDate {
+        ...EarliestDateValidationRule
+      }
+      latestDate {
+        ...LatestDateValidationRule
+      }
+    }
+  }
+}
+
+fragment MinValueValidationRule on MinValueValidationRule {
+  id
+  enabled
+  custom
+  inclusive
+}
+
+fragment MaxValueValidationRule on MaxValueValidationRule {
+  id
+  enabled
+  custom
+  inclusive
+  entityType
+}
+
+fragment EarliestDateValidationRule on EarliestDateValidationRule {
+  id
+  enabled
+  entityType
+  custom
+  offset {
+    value
+    unit
+  }
+  relativePosition
+}
+
+fragment LatestDateValidationRule on LatestDateValidationRule {
+  id
+  enabled
+  entityType
+  custom
+  offset {
+    value
+    unit
+  }
+  relativePosition
+}
 `;
 
 const toggleAnswerValidation = `

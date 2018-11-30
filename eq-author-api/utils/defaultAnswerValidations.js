@@ -1,13 +1,14 @@
 const { CUSTOM, NOW } = require("../constants/validationEntityTypes");
+const { DATE } = require("../constants/answerTypes");
 
 const answerTypeMap = {
   number: ["Currency", "Number"],
-  date: ["Date"]
+  date: ["Date", "DateRange"]
 };
 
 const validationRuleMap = {
   number: ["minValue", "maxValue"],
-  date: ["earliestDate", "latestDate"]
+  date: ["earliestDate", "latestDate"],
 };
 
 const defaultValidationRuleConfigs = {
@@ -33,7 +34,7 @@ const defaultValidationRuleConfigs = {
   }
 };
 
-const defaultValidationEntityTypes = {
+const defaultValidationEntityTypes = ({type}) => ({
   minValue: {
     entityType: CUSTOM
   },
@@ -41,12 +42,12 @@ const defaultValidationEntityTypes = {
     entityType: CUSTOM
   },
   earliestDate: {
-    entityType: NOW
+    entityType: type === DATE ? NOW : CUSTOM
   },
   latestDate: {
-    entityType: NOW
+    entityType:  type === DATE ? NOW : CUSTOM
   }
-};
+});
 
 Object.assign(module.exports, {
   answerTypeMap,

@@ -20,7 +20,7 @@ const createDefaultValidationsForAnswer = async ({ id, type }, trx) => {
       answerId: id,
       validationType,
       config: defaultValidationRuleConfigs[validationType],
-      entityType: defaultValidationEntityTypes[validationType].entityType
+      entityType: defaultValidationEntityTypes({type})[validationType].entityType
     });
   });
   await Promise.all(promises);
