@@ -1,5 +1,11 @@
 module.exports = {
-  client: "pg",
+  client: "postgresql",
   connection: process.env.DB_CONNECTION_URI,
-  acquireConnectionTimeout: 5000
+  pool: {
+    min: 2,
+    max: 10
+  },
+  migrations: {
+    tableName: "knex_migrations"
+  }
 };
