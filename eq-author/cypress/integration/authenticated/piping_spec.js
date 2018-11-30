@@ -72,6 +72,16 @@ describe("Piping", () => {
       it("Can pipe previous answer into page guidance", () => {
         canPipePreviousAnswer({ selector: "txt-question-guidance" });
       });
+      it("Can pipe to the cursor location after making an edit", () => {
+        cy.get(testId("txt-question-title", "testid")).type("hello ");
+        clickPipingButton();
+        selectFirstAnswerFromContentPicker();
+        cy.get(testId("txt-question-title", "testid")).type(" world");
+        cy.get(testId("txt-question-title", "testid")).should(
+          "contain",
+          `hello [${ANSWER}] world`
+        );
+      });
     });
     describe("Section Introduction", () => {
       beforeEach(() => {
