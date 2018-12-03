@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled, { css } from "styled-components";
+import * as convert from "draft-convert";
 import {
   Editor,
   EditorState,
@@ -200,13 +201,24 @@ class RichTextEditor extends React.Component {
     }
     /*eslint-disable react/no-did-update-set-state */
     if (prevProps.value !== this.props.value) {
-      const editorState = this.configureEditorState(
-        this.props.value,
-        this.props.controls
+      const { editorState } = this.state;
+      const anchorOffset = editorState.getSelection().get("anchorOffset");
+      const valueUpdatedES = EditorState.push(
+        editorState,
+        convert.convertFromHTML({ htmlToEntity: htmlToPipedEntity })(
+          this.props.value
+        ),
+        "insert-characters"
       );
-      this.setState({
-        editorState
-      });
+      const selectionUpdated = EditorState.forceSelection(
+        valueUpdatedES,
+        valueUpdatedES.getSelection().merge({
+          anchorOffset,
+          focusOffset: anchorOffset
+        })
+      );
+
+      this.handleChange(selectionUpdated);
     }
   }
 
