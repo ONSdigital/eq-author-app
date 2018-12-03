@@ -76,6 +76,7 @@ type QuestionPage implements Page {
   availableRoutingQuestions: [Page!]!
   availableRoutingDestinations: AvailableRoutingDestinations!
   confirmation: QuestionConfirmation
+  routing: Routing2
 }
 
 type ConfirmationOption {
@@ -398,6 +399,58 @@ enum Language {
     cy
 }
 
+
+union Expression2 = BinaryExpression2 | ExpressionGroup2
+
+type Routing2 {
+  elseDesination: RoutingDestination!
+  rules: [RoutingRule2!]! 
+}
+
+type RoutingRule2 {
+  destination: RoutingDestination!
+  expressionGroup: ExpressionGroup2!
+}
+
+enum RoutingOperator2 {
+  And
+  Or
+}
+
+type ExpressionGroup2 {
+  operator: RoutingOperator2!
+  expressions: [Expression2!]!
+}
+
+union LeftSide2 = BasicAnswer | MultipleChoiceAnswer | Metadata
+
+union RightSide2 = SelectedOptions2 | BasicAnswer | Metadata | CustomValue2
+
+
+type CustomValue2 {
+  number: Int
+}
+
+type SelectedOptions2 {
+  options: [Option!]!
+}
+
+enum RoutingCondition2 {
+  Equal
+  NotEqual
+  GreaterThan
+  LessThan
+  GreaterOrEqual
+  LessOrEqual
+}
+
+type BinaryExpression2 {
+  left: LeftSide2!
+  condition: RoutingCondition2!
+  right: RightSide2
+}
+
+
 type Query {
   questionnaires: [Questionnaire]
   questionnaire(id: ID!): Questionnaire
@@ -467,7 +520,70 @@ type Mutation {
   updateQuestionConfirmation(input: UpdateQuestionConfirmationInput): QuestionConfirmation!
   deleteQuestionConfirmation(input: DeleteQuestionConfirmationInput): QuestionConfirmation!
   undeleteQuestionConfirmation(input: UndeleteQuestionConfirmationInput): QuestionConfirmation!
+  createRouting2(input: CreateRouting2Input): Routing2!
+  updateRouting2(input: UpdateRouting2Input): Routing2!
+  createRoutingRule2(input: CreateRoutingRule2Input): RoutingRule2!
+  updateRoutingRule2(input: UpdateRoutingRule2Input): RoutingRule2!
+  deleteRoutingRule2(input: DeleteRoutingRule2Input): RoutingRule2!
+  createExpressionGroup2(input: CreateExpressionGroup2Input): ExpressionGroup2!
+  updateExpressionGroup2(input: UpdateExpressionGroup2Input): ExpressionGroup2!
+  deleteExpressionGroup2(input: DeleteExpressionGroup2Input): ExpressionGroup2!
+  createBinaryExpression2(input: CreateBinaryExpression2Input): BinaryExpression2!
+  updateBinaryExpression2(input: UpdateBinaryExpression2Input): BinaryExpression2!
+  deleteBinaryExpression2(input: DeleteBinaryExpression2Input): BinaryExpression2! 
 }
+
+input CreateRouting2Input {
+  parentPageId: ID!
+}
+
+input UpdateRouting2Input {
+  id: ID!
+  fallThroughDest: RoutingDestinationInput! 
+}
+
+input CreateRoutingRule2Input {
+  parentRoutingId: ID!
+}
+
+input UpdateRoutingRule2Input {
+  id: ID!
+  destination: RoutingDestinationInput! 
+}
+
+input DeleteRoutingRule2Input {
+  id: ID!
+}
+
+input CreateExpressionGroup2Input {
+  parentRuleId: ID
+  parentGroupId: ID
+}
+
+input UpdateExpressionGroup2Input {
+  id: ID!
+  operator: RoutingOperator2!
+}
+
+input DeleteExpressionGroup2Input {
+  id: ID!
+}
+
+input CreateBinaryExpression2Input {
+  parentGroupId: ID!
+}
+
+input UpdateBinaryExpression2Input {
+  id: ID!
+  leftSide: LeftSide2
+  condition: RoutingCondition2
+  rightSide: RightSide2
+}
+
+input DeleteBinaryExpression2Input {
+  id: ID!
+}
+
 
 input CreateQuestionnaireInput {
   title: String!
@@ -840,4 +956,5 @@ input DeleteQuestionConfirmationInput {
 input UndeleteQuestionConfirmationInput {
   id: ID!
 }
+
 `;
