@@ -7,9 +7,14 @@ import { get, noop, filter, findIndex, flow, toUpper } from "lodash/fp";
 import getIdForObject from "utils/getIdForObject";
 import AnswerValidation from "App/questionPage/Design/Validation/AnswerValidation";
 import { flowRight } from "lodash";
+import { Field, Label, Select } from "components/Forms";
 
 import withUpdateAnswer from "App/questionPage/Design/answers/withUpdateAnswer";
 import AnswerProperties from "App/questionPage/Design/AnswerProperties";
+
+import gql from "graphql-tag";
+import { withRouter } from "react-router-dom";
+import { Query } from "react-apollo";
 
 const Properties = flowRight(withUpdateAnswer)(AnswerProperties);
 
@@ -31,6 +36,7 @@ const PropertiesPanelTitle = styled.h2`
   vertical-align: middle;
   color: ${colors.darkGrey};
   text-align: center;
+  text-transform: uppercase;
 `;
 
 const PropertiesPaneBody = styled.div`
@@ -40,6 +46,12 @@ const PropertiesPaneBody = styled.div`
   height: 100%;
   padding: 0;
   margin: 0;
+`;
+
+const IntroProperties = styled.div`
+  padding: 1em;
+  border-top: ${props =>
+    props.hasBorder ? `8px solid ${colors.lighterGrey}` : "none"};
 `;
 
 const AnswerPropertiesContainer = styled.div`
@@ -69,11 +81,31 @@ class PropertiesPanel extends React.Component {
   handleSubmit = noop;
 
   render() {
-    const { page } = this.props;
+    const { page, intro, changeField, data } = this.props;
+
     return (
       <PropertiesPane>
         <PropertiesPaneBody>
           <ScrollPane>
+            {intro &&
+              data.questionnaire.theme === "default" && (
+                <IntroProperties key="intro-properties">
+                  <PropertiesPanelTitle>Introduction Page</PropertiesPanelTitle>
+                  <Field style={{ marginTop: "1em" }}>
+                    <Label>Legal basis</Label>
+                    <Select
+                      id="intro-legal"
+                      name="legal"
+                      onChange={changeField}
+                      value={intro.legal}
+                    >
+                      <option value="notice-1">Notice 1</option>
+                      <option value="notice-2">Notice 2</option>
+                      <option value="voluntary">Voluntary</option>
+                    </Select>
+                  </Field>
+                </IntroProperties>
+              )}
             {get("answers.length", page) > 0 && (
               <div>
                 {page.answers.map((answer, index) => (
@@ -104,4 +136,19 @@ class PropertiesPanel extends React.Component {
   }
 }
 
-export default PropertiesPanel;
+const QUESTIONNAIRE_QUERY = gql`
+  query GetQuestionnaire($id: ID!) {
+    questionnaire(id: $id) {
+      theme
+    }
+  }
+`;
+
+export default withRouter(props => (
+  <Query
+    query={QUESTIONNAIRE_QUERY}
+    variables={{ id: props.match.params.questionnaireId }}
+  >
+    {innerProps => <PropertiesPanel {...innerProps} {...props} />}
+  </Query>
+));

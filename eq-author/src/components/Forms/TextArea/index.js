@@ -9,7 +9,7 @@ const StyledTextArea = styled.textarea`
   resize: none;
 `;
 
-const TextArea = ({ defaultValue, id, rows, ...otherProps }) => (
+const TextArea = ({ defaultValue, id, rows, onUpdate, ...otherProps }) => (
   <StyledTextArea
     defaultValue={defaultValue}
     rows={rows}

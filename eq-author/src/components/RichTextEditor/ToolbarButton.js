@@ -49,14 +49,27 @@ const StyledToolbarButton = styled.button.attrs({ type: "button" })`
   ${props => props.active && activeState};
 `;
 
-const ToolbarButton = ({ title, children, active, ...otherProps }) => (
-  <Tooltip content={title} place="top" offset={{ bottom: 8 }} key={title}>
-    <StyledToolbarButton active={active} {...otherProps}>
-      {children}
-      <VisuallyHidden>{title}</VisuallyHidden>
-    </StyledToolbarButton>
-  </Tooltip>
-);
+const ToolbarButton = ({
+  title,
+  children,
+  active,
+  canFocus,
+  disabled,
+  ...otherProps
+}) => {
+  return (
+    <Tooltip content={title} place="top" offset={{ bottom: 8 }} key={title}>
+      <StyledToolbarButton
+        active={active && canFocus}
+        disabled={disabled || !canFocus}
+        {...otherProps}
+      >
+        {children}
+        <VisuallyHidden>{title}</VisuallyHidden>
+      </StyledToolbarButton>
+    </Tooltip>
+  );
+};
 
 ToolbarButton.propTypes = {
   active: PropTypes.bool,

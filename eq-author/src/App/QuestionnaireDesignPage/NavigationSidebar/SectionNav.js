@@ -7,6 +7,11 @@ import NavItemTransition from "./NavItemTransition";
 import SectionNavItem from "./SectionNavItem";
 import scrollIntoView from "utils/scrollIntoView";
 import gql from "graphql-tag";
+import NavLink from "./NavLink";
+import PageIcon from "./icon-survey-intro.svg?inline";
+import { buildQuestionnaireIntroPath } from "utils/UrlUtils";
+import { last } from "lodash";
+import { withRouter } from "react-router-dom";
 
 const NavList = styled.ol`
   margin: 0 0 1em;
@@ -21,9 +26,24 @@ class SectionNav extends Component {
   };
 
   render() {
-    const { questionnaire } = this.props;
+    const { questionnaire, match } = this.props;
+
     return (
       <TransitionGroup component={NavList}>
+        <NavItemTransition key="survey-intro" onEntered={scrollIntoView}>
+          <NavLink
+            to={buildQuestionnaireIntroPath({
+              questionnaireId: questionnaire.id,
+              introductionId: "introduction",
+              tab: last(document.location.hash.split("/"))
+            })}
+            title="Intro"
+            icon={PageIcon}
+          >
+            Questionnaire intro
+          </NavLink>
+        </NavItemTransition>
+
         {questionnaire.sections.map(section => (
           <NavItemTransition key={section.id} onEntered={scrollIntoView}>
             <SectionNavItem questionnaire={questionnaire} section={section} />
@@ -46,4 +66,4 @@ SectionNav.fragments = {
   `
 };
 
-export default SectionNav;
+export default withRouter(SectionNav);

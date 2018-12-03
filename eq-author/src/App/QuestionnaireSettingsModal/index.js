@@ -24,7 +24,9 @@ const CenteredHeading = styled(Heading)`
 `;
 
 const StyledModal = styled(Modal)`
-  width: 30em;
+  .Modal {
+    width: 37em;
+  }
 `;
 
 const QuestionnaireSettingsModal = ({

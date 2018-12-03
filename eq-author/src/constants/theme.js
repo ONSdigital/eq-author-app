@@ -18,6 +18,7 @@ colors.secondary = colors.darkBlue;
 colors.tertiary = colors.orange;
 colors.text = colors.black;
 colors.textLight = colors.darkGrey;
+colors.textDark = "#4A4A4A";
 colors.borders = colors.grey;
 colors.bordersLight = colors.lightGrey;
 

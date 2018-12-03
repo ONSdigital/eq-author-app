@@ -1,5 +1,6 @@
 mutation createQuestionnaire($input: CreateQuestionnaireInput!) {
   createQuestionnaire(input: $input) {
+    theme
     id
     title
     createdAt

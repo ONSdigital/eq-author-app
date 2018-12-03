@@ -10,6 +10,7 @@ export const UnwrappedPreviewRoute = props => {
   if (isOnPage(props.match)) {
     return <PreviewPageRoute {...props} />;
   }
+
   if (isOnSection(props.match)) {
     return <PreviewSectionRoute {...props} />;
   }

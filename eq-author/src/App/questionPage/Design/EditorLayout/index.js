@@ -28,9 +28,11 @@ const EditorLayout = ({
   children,
   onAddPage,
   page,
+  intro,
   design,
   preview,
   routing,
+  changeField,
   ...otherProps
 }) => (
   <Grid {...otherProps}>
@@ -59,7 +61,7 @@ const EditorLayout = ({
       </ScrollPane>
     </Column>
     <Column cols={3} gutters={false}>
-      <PropertiesPanel page={page} />
+      <PropertiesPanel page={page} intro={intro} changeField={changeField} />
     </Column>
   </Grid>
 );

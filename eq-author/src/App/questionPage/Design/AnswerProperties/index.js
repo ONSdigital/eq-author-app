@@ -38,6 +38,9 @@ class AnswerProperties extends React.Component {
 
   render() {
     const { answer } = this.props;
+
+    console.log(answer);
+
     return (
       <React.Fragment>
         <InlineField id={this.getId("required", answer)} label={"Required"}>

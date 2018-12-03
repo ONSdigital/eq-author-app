@@ -4620,6 +4620,11 @@ decode-uri-component@^0.2.0:
   resolved "https://registry.yarnpkg.com/decode-uri-component/-/decode-uri-component-0.2.0.tgz#eb3913333458775cb84cd1a1fae062106bb87545"
   integrity sha1-6zkTMzRYd1y4TNGh+uBiEGu4dUU=
 
+decorate-component-with-props@^1.0.2:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/decorate-component-with-props/-/decorate-component-with-props-1.1.0.tgz#b496c814c6a2aba0cf2ad26e44cbedb8ead42f15"
+  integrity sha512-tTYQojixN64yK3/WBODMfvss/zbmyUx9HQXhzSxZiSiofeekVeRyyuToy9BCiTMrVEIKWxTcla2t3y5qdaUF7Q==
+
 deep-equal@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/deep-equal/-/deep-equal-1.0.1.tgz#f5d260292b660e084eff4cdbc9f08ad3247448b5"
@@ -4979,6 +4984,34 @@ draft-convert@^2.0.0:
   dependencies:
     immutable "~3.7.4"
     invariant "^2.2.1"
+
+draft-js-anchor-plugin@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/draft-js-anchor-plugin/-/draft-js-anchor-plugin-2.0.2.tgz#ffe05e52ffd58080a075a2ac741e3250dd46605e"
+  integrity sha512-e+15BdiCNdy0qCSwR9+yFZEdSnU8t8kxrB+Hv+AFrxDqyrVtRYd4jw5engFaGK+kwk6UbKZw4MDWZ0QAla+8bA==
+  dependencies:
+    decorate-component-with-props "^1.0.2"
+    draft-js-plugins-utils "2.0.2"
+    prepend-http "1.0.4"
+    prop-types "^15.5.8"
+    tlds "^1.197.0"
+    union-class-names "^1.0.0"
+
+draft-js-plugins-editor@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/draft-js-plugins-editor/-/draft-js-plugins-editor-2.1.1.tgz#7c9aedd696737c6ddf45d47c978bd764ef33f688"
+  integrity sha512-fKGe71irNvFHJ5L/lUrh+3vPkBNq0de6x+cgiZUJ9zQERc5KPBtGXIFiarLFVHyrRTCPq+K6xmgfFSAERaFHPw==
+  dependencies:
+    decorate-component-with-props "^1.0.2"
+    find-with-regex "^1.1.3"
+    immutable "~3.7.4"
+    prop-types "^15.5.8"
+    union-class-names "^1.0.0"
+
+draft-js-plugins-utils@2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/draft-js-plugins-utils/-/draft-js-plugins-utils-2.0.2.tgz#b2f8572808a2b921e079ff44d03ac7e74fb2c598"
+  integrity sha512-PXbNnMDYzu7CS72+Sx1vnwqE7lcW7q9+4LiZryOjYRbv0iwdf1pj9Wgcj52JGhBK1kkUtaKR8pH1x7DkaYbHoQ==
 
 draft-js-raw-content-state@^1.2.5:
   version "1.2.7"
@@ -6099,6 +6132,11 @@ find-up@^2.0.0, find-up@^2.1.0:
   dependencies:
     locate-path "^2.0.0"
 
+find-with-regex@^1.1.3:
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/find-with-regex/-/find-with-regex-1.1.3.tgz#d6c6f2debee898d36b6a77e05709b13dd5dc8a26"
+  integrity sha512-zkEVQ1H3PIQL/19ADKt1lCQU4QGM3OneiderUcFgn5EgTm/TnoUh7HxPAwP8w/vXxWSLC6KtpbDQpypJ5+majw==
+
 firebase@^5.5.8:
   version "5.7.2"
   resolved "https://registry.yarnpkg.com/firebase/-/firebase-5.7.2.tgz#53593b4b507a3045f75feca620491cfb8a54518b"
@@ -6837,7 +6875,7 @@ hoist-non-react-statics@1.x.x, hoist-non-react-statics@^1.2.0:
   resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-1.2.0.tgz#aa448cf0986d55cc40773b17174b7dd066cb7cfb"
   integrity sha1-qkSM8JhtVcxAdzsXF0t90GbLfPs=
 
-hoist-non-react-statics@^2.5.0:
+hoist-non-react-statics@^2.1.1, hoist-non-react-statics@^2.5.0:
   version "2.5.5"
   resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-2.5.5.tgz#c5903cf409c0dfd908f388e619d86b9c1174cb47"
   integrity sha512-rqcy4pJo55FTTLWt+bU8ukscqHeE/e9KWvsOW2b/a3afxQZhwkQdT1rPPCJ0rYXdj4vNcasY8zHTH+jF/qStxw==
@@ -8816,6 +8854,13 @@ lodash-es@^4.2.1:
   resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.17.11.tgz#145ab4a7ac5c5e52a3531fb4f310255a152b4be0"
   integrity sha512-DHb1ub+rMjjrxqlB3H56/6MXtm1lSksDp2rA2cNWjG8mlDUYFhUj3Di2Zn5IwSU87xLv8tNIQ7sSwE/YOX/D/Q==
 
+lodash-move@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/lodash-move/-/lodash-move-1.1.1.tgz#59f76e0f1ac57e6d8683f531bec07c5b6ea4e348"
+  integrity sha1-WfduDxrFfm2Gg/UxvsB8W26k40g=
+  dependencies:
+    lodash "^4.6.1"
+
 lodash._baseget@^3.0.0:
   version "3.7.2"
   resolved "https://registry.yarnpkg.com/lodash._baseget/-/lodash._baseget-3.7.2.tgz#1b6ae1d5facf3c25532350a13c1197cb8bb674f4"
@@ -8956,7 +9001,7 @@ lodash.uniq@^4.5.0:
   resolved "https://registry.yarnpkg.com/lodash.uniq/-/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
   integrity sha1-0CJTc662Uq3BvILklFM5qEJ1R3M=
 
-lodash@4.17.11, lodash@>4.17.4, "lodash@>=3.5 <5", lodash@^4.0.1, lodash@^4.11.1, lodash@^4.13.1, lodash@^4.14.0, lodash@^4.15.0, lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.2, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.2.1:
+lodash@4.17.11, lodash@>4.17.4, "lodash@>=3.5 <5", lodash@^4.0.1, lodash@^4.11.1, lodash@^4.13.1, lodash@^4.14.0, lodash@^4.15.0, lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.2, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.2.1, lodash@^4.6.1:
   version "4.17.11"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
   integrity sha512-cQKh8igo5QUhZ7lg38DYWAxMvjSAKG0A8wGSVimP07SIUEK2UO+arSRKbRZWtelMtN5V0Hkwh5ryOto/SshYIg==
@@ -11185,7 +11230,7 @@ prelude-ls@~1.1.2:
   resolved "https://registry.yarnpkg.com/prelude-ls/-/prelude-ls-1.1.2.tgz#21932a549f5e52ffd9a827f570e04be62a97da54"
   integrity sha1-IZMqVJ9eUv/ZqCf1cOBL5iqX2lQ=
 
-prepend-http@^1.0.0, prepend-http@^1.0.1:
+prepend-http@1.0.4, prepend-http@^1.0.0, prepend-http@^1.0.1:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/prepend-http/-/prepend-http-1.0.4.tgz#d4f4562b0ce3696e41ac52d0e002e57a635dc6dc"
   integrity sha1-1PRWKwzjaW5BrFLQ4ALlemNdxtw=
@@ -11549,6 +11594,13 @@ react-apollo@^2.1.4:
     lodash.flowright "^3.5.0"
     lodash.isequal "^4.5.0"
     prop-types "^15.6.0"
+
+react-click-outside@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/react-click-outside/-/react-click-outside-3.0.1.tgz#6e77e84d2f17afaaac26dbad743cbbf909f5e24c"
+  integrity sha512-d0KWFvBt+esoZUF15rL2UBB7jkeAqLU8L/Ny35oLK6fW6mIbOv/ChD+ExF4sR9PD26kVx+9hNfD0FTIqRZEyRQ==
+  dependencies:
+    hoist-non-react-statics "^2.1.1"
 
 react-color@^2.14.1:
   version "2.17.0"
@@ -12002,6 +12054,11 @@ redux-devtools-extension@^2.13.2:
   version "2.13.7"
   resolved "https://registry.yarnpkg.com/redux-devtools-extension/-/redux-devtools-extension-2.13.7.tgz#14bd7a1a7c8bee7f397beb1116fd16fc9633b752"
   integrity sha512-F2GlWMWxCTJGRjJ+GSZcGDcVAj6Pbf77FKb4C9S8eni5Eah6UBGNwxNj8K1MTtmItdZH1Wx+EvIifHN2KKcQrw==
+
+redux-localstorage@^0.4.1:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/redux-localstorage/-/redux-localstorage-0.4.1.tgz#faf6d719c581397294d811473ffcedee065c933c"
+  integrity sha1-+vbXGcWBOXKU2BFHP/zt7gZckzw=
 
 redux-mock-store@^1.3.0:
   version "1.5.3"
@@ -13734,6 +13791,11 @@ tinycolor2@^1.4.1:
   resolved "https://registry.yarnpkg.com/tinycolor2/-/tinycolor2-1.4.1.tgz#f4fad333447bc0b07d4dc8e9209d8f39a8ac77e8"
   integrity sha1-9PrTM0R7wLB9TcjpIJ2POaisd+g=
 
+tlds@^1.197.0:
+  version "1.203.1"
+  resolved "https://registry.yarnpkg.com/tlds/-/tlds-1.203.1.tgz#4dc9b02f53de3315bc98b80665e13de3edfc1dfc"
+  integrity sha512-7MUlYyGJ6rSitEZ3r1Q1QNV8uSIzapS8SmmhSusBuIc7uIxPPwsKllEP0GRp1NS6Ik6F+fRZvnjDWm3ecv2hDw==
+
 tmp@0.0.31:
   version "0.0.31"
   resolved "https://registry.yarnpkg.com/tmp/-/tmp-0.0.31.tgz#8f38ab9438e17315e5dbd8b3657e8bfb277ae4a7"
@@ -14018,6 +14080,11 @@ unified@^7.0.2:
     trough "^1.0.0"
     vfile "^3.0.0"
     x-is-string "^0.1.0"
+
+union-class-names@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/union-class-names/-/union-class-names-1.0.0.tgz#9259608adacc39094a2b0cfe16c78e6200617847"
+  integrity sha1-kllgitrMOQlKKwz+FseOYgBheEc=
 
 union-value@^1.0.0:
   version "1.0.0"

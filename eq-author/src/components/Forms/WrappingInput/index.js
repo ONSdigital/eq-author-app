@@ -12,7 +12,13 @@ const StyleContext = styled.div`
   font-weight: ${props => (props.bold ? "bold" : "regular")};
 `;
 
-const TextArea = styled(AutoResizeTextArea)`
+/* eslint-disable no-unused-vars  */
+const TextArea = ({ invalid, onUpdate, staticContext, ...otherProps }) => (
+  <AutoResizeTextArea {...otherProps} />
+);
+/* eslint-enable no-unused-vars  */
+
+const StyledTextArea = styled(TextArea)`
   ${sharedStyles};
   font-weight: inherit;
   resize: none;
@@ -55,7 +61,7 @@ class WrappingInput extends React.Component {
         onChange={this.handleChange}
         onKeyDown={this.handleKeyDown}
       >
-        <TextArea {...otherProps} placeholder={placeholder} />
+        <StyledTextArea {...otherProps} placeholder={placeholder} />
       </StyleContext>
     );
   }

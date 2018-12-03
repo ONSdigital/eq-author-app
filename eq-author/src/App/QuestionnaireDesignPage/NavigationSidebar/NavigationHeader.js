@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
+import { get } from "lodash";
 
 import CustomPropTypes from "custom-prop-types";
 import HomeIcon from "./icon-home.svg?inline";
@@ -92,6 +93,11 @@ class NavigationHeader extends React.Component {
     this.handleAddMenuToggle();
   };
 
+  handleAddSurveyIntroduction = () => {
+    this.props.onAddIntro({ id: this.props.questionnaire.id });
+    this.handleAddMenuToggle();
+  };
+
   render() {
     const { questionnaire, onUpdateQuestionnaire } = this.props;
 
@@ -153,6 +159,8 @@ class NavigationHeader extends React.Component {
             onAddSection={this.handleAddSection}
             onAddQuestionConfirmation={this.handleAddQuestionConfirmation}
             canAddQuestionConfirmation={this.props.canAddQuestionConfirmation}
+            onAddSurveyIntroduction={this.handleAddSurveyIntroduction}
+            canAddSurveyIntroduction={!get(questionnaire, "intro.enabled")}
             data-test="add-menu"
           />
         </NavigationHeaderRow>

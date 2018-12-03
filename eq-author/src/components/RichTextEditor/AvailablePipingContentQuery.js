@@ -6,6 +6,18 @@ import gql from "graphql-tag";
 import AvailableAnswers from "graphql/fragments/available-answers.graphql";
 import AvailableMetadata from "graphql/fragments/available-metadata.graphql";
 
+export const GET_METADATA_PIPING_CONTENT = gql`
+  query GetMetadata($id: ID!) {
+    questionnaire(id: $id) {
+      id
+      metadata {
+        id
+        displayName
+      }
+    }
+  }
+`;
+
 export const GET_PIPING_CONTENT_PAGE = gql`
   query GetAvailablePipingContent($id: ID!) {
     questionPage(id: $id) {
@@ -57,7 +69,20 @@ export const GET_PIPING_CONTENT_QUESTION_CONFIRMATION = gql`
   ${AvailableMetadata}
 `;
 
-const determineQuery = ({ confirmationId, pageId, sectionId }) => {
+const determineQuery = ({
+  confirmationId,
+  pageId,
+  sectionId,
+  questionnaireId,
+  introductionId
+}) => {
+  if (introductionId) {
+    return {
+      variables: { id: questionnaireId },
+      query: GET_METADATA_PIPING_CONTENT
+    };
+  }
+
   if (confirmationId) {
     return {
       variables: { id: confirmationId },
@@ -77,12 +102,16 @@ const AvailablePipingContentQuery = ({
   pageId,
   sectionId,
   confirmationId,
+  introductionId,
+  questionnaireId,
   children
 }) => {
   const { variables, query } = determineQuery({
     pageId,
     sectionId,
-    confirmationId
+    confirmationId,
+    introductionId,
+    questionnaireId
   });
   return (
     <Query query={query} variables={variables} fetchPolicy="cache-and-network">

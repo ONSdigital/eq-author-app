@@ -27,6 +27,10 @@ import withDuplicateQuestionnaire from "./withDuplicateQuestionnaire";
 
 import { raiseToast } from "redux/toast/actions";
 
+import withCreateMetadata from "App/MetadataModal/withCreateMetadata.js";
+import withUpdateMetadata from "App/MetadataModal/withUpdateMetadata.js";
+import { createIntro } from "redux/questionnaireIntro/actions";
+
 const StyledButtonGroup = styled(ButtonGroup)`
   margin: 0 0 1em;
 `;
@@ -75,7 +79,12 @@ export class UnconnectedQuestionnairesPage extends React.PureComponent {
   renderTitle = title => `Your Questionnaires - ${title}`;
 
   render() {
-    const { onCreateQuestionnaire } = this.props;
+    const {
+      onCreateQuestionnaire,
+      createIntro,
+      onAddMetadata,
+      onUpdateMetadata
+    } = this.props;
 
     return (
       <Titled title={this.renderTitle}>
@@ -92,7 +101,26 @@ export class UnconnectedQuestionnairesPage extends React.PureComponent {
               <QuestionnaireSettingsModal
                 isOpen={this.state.isModalOpen}
                 onClose={this.handleModalClose}
-                onSubmit={onCreateQuestionnaire}
+                onSubmit={questionnaire => {
+                  onCreateQuestionnaire(questionnaire).then(({ id }) => {
+                    onAddMetadata(id).then(
+                      ({ data: { createMetadata: metadata } }) => {
+                        if (questionnaire.theme === "default") {
+                          const tradAsMetadata = {
+                            id: metadata.id,
+                            key: "trad_as",
+                            alias: "Trad As",
+                            type: "Text",
+                            textValue: "ACME CO."
+                          };
+
+                          onUpdateMetadata(tradAsMetadata);
+                          createIntro(id, tradAsMetadata);
+                        }
+                      }
+                    );
+                  });
+                }}
                 confirmText="Create"
               />
             </StyledButtonGroup>
@@ -117,8 +145,10 @@ UnconnectedQuestionnairesPage.propTypes = {
 export default flowRight(
   connect(
     null,
-    { raiseToast }
+    { raiseToast, createIntro }
   ),
+  withCreateMetadata,
+  withUpdateMetadata,
   withCreateQuestionnaire,
   withDuplicateQuestionnaire,
   withDeleteQuestionnaire, // relies on raiseToast to display undo

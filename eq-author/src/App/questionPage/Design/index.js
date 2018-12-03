@@ -25,8 +25,6 @@ import { withPropRenamed } from "utils/enhancers";
 import pageFragment from "graphql/fragments/page.graphql";
 import { propType } from "graphql-anywhere";
 
-import { Label } from "components/Forms";
-import VisuallyHidden from "components/VisuallyHidden";
 import withCreatePage from "enhancers/withCreatePage";
 
 import withUpdatePage from "./withUpdatePage";
@@ -148,9 +146,6 @@ export class UnwrappedQuestionPageRoute extends React.Component {
     return (
       <Titled title={this.getPageTitle(page)}>
         <Toolbar>
-          <VisuallyHidden>
-            <Label htmlFor="alias">Question short code (optional)</Label>
-          </VisuallyHidden>
           <AliasEditor
             alias={page.alias}
             onUpdate={onUpdate}

@@ -3,7 +3,8 @@ import styled from "styled-components";
 import CharacterCounter from "components/CharacterCounter";
 import WrappingInput from "components/Forms/WrappingInput";
 import PropTypes from "prop-types";
-
+import { Label } from "components/Forms";
+import VisuallyHidden from "components/VisuallyHidden";
 export const Wrapper = styled.div`
   position: relative;
   max-width: 22em;
@@ -16,6 +17,9 @@ const StyledWrappingInput = styled(WrappingInput)`
 
 const AliasEditor = ({ onChange, onUpdate, alias }) => (
   <Wrapper>
+    <VisuallyHidden>
+      <Label htmlFor="alias">Question short code (optional)</Label>
+    </VisuallyHidden>
     <StyledWrappingInput
       id="alias"
       data-test="alias"

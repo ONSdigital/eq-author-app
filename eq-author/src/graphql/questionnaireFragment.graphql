@@ -3,6 +3,8 @@ fragment MinimalQuestionnaire on Questionnaire {
     id
     questionnaire {
       id
+      shortTitle
+      type
       questionnaireInfo {
         totalSectionCount
       }

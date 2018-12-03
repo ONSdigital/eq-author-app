@@ -11,20 +11,25 @@ import { find, flatMap, flowRight } from "lodash";
 
 import BaseLayout from "components/BaseLayout";
 import { Grid, Column } from "components/Grid";
+
 import QuestionPageRoute from "App/questionPage/Design";
+
+import PreviewIntroRoute from "components/PreviewIntroRoute";
+
+import { Routes, buildSectionPath } from "utils/UrlUtils";
 import Loading from "components/Loading";
+
+import QuestionnaireIntroRoute from "components/QuestionnaireIntroRoute";
 
 import withCreatePage from "enhancers/withCreatePage";
 import withCreateSection from "enhancers/withCreateSection";
-
-import { Routes, buildSectionPath } from "utils/UrlUtils";
 
 import SectionRoute from "App/section/Design";
 import RoutingPageRoute from "App/questionPage/Routing";
 import QuestionConfirmationRoute from "App/questionConfirmation/Design";
 
 import PreviewRoute from "./PreviewRoute";
-import NavigationSidebar from "./NavigationSidebar";
+import NavigationSidebar from "App/QuestionnaireDesignPage/NavigationSidebar";
 import withCreateQuestionConfirmation from "./withCreateQuestionConfirmation";
 
 import { raiseToast } from "redux/toast/actions";
@@ -98,7 +103,7 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
     const {
       data: { questionnaire },
       match: {
-        params: { sectionId, pageId, confirmationId }
+        params: { sectionId, pageId, confirmationId, introductionId }
       },
       loading
     } = this.props;
@@ -107,7 +112,7 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
       return false;
     }
 
-    const isOnPage = sectionId && isAnId(pageId) && !isAnId(confirmationId);
+    const isOnPage = sectionId && isAnId(pageId) && !isAnId(introductionId);
     if (!isOnPage) {
       return false;
     }
@@ -133,7 +138,8 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
     const {
       loading,
       data: { questionnaire },
-      location
+      location,
+      match
     } = this.props;
 
     return (
@@ -166,6 +172,17 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
                   component={QuestionConfirmationRoute}
                   exact
                 />
+                <Route
+                  path={Routes.QUESTIONNAIRE_INTRO_DESIGN}
+                  component={QuestionnaireIntroRoute}
+                  exact
+                />
+                <Route
+                  path={Routes.QUESTIONNAIRE_INTRO_PREVIEW}
+                  component={PreviewIntroRoute}
+                  exact
+                />
+
                 <Route path="*" render={this.renderRedirect} />
               </Switch>
             </Column>

@@ -4,14 +4,17 @@ import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 import { colors } from "constants/theme";
 import ScrollPane from "components/ScrollPane";
-import { flowRight } from "lodash";
-import { withRouter } from "react-router";
+import { flowRight, merge } from "lodash";
+
 import gql from "graphql-tag";
 
 import withUpdateQuestionnaire from "./withUpdateQuestionnaire";
 
 import SectionNav from "./SectionNav";
 import NavigationHeader from "./NavigationHeader";
+import { connect } from "react-redux";
+
+import withCreateSection from "enhancers/withCreateSection";
 
 const Container = styled.div`
   background: ${colors.darkBlue};
@@ -51,6 +54,7 @@ export class UnwrappedNavigationSidebar extends Component {
       onAddPage,
       onAddQuestionConfirmation,
       canAddQuestionConfirmation,
+      introAdd,
       loading
     } = this.props;
 
@@ -65,6 +69,7 @@ export class UnwrappedNavigationSidebar extends Component {
               onAddPage={onAddPage}
               onAddQuestionConfirmation={onAddQuestionConfirmation}
               canAddQuestionConfirmation={canAddQuestionConfirmation}
+              onAddIntro={introAdd}
               data-test="nav-section-header"
             />
             <NavigationScrollPane>
@@ -90,7 +95,20 @@ UnwrappedNavigationSidebar.fragments = {
   `
 };
 
+const mapStateToProps = (state, props) => {
+  const questionnaire = props.questionnaire;
+
+  if (!questionnaire) {
+    return props;
+  }
+
+  return merge(questionnaire, {
+    intro: state.questionnaireIntro[props.questionnaire.id]
+  });
+};
+
 export default flowRight(
-  withRouter,
+  connect(mapStateToProps),
+  withCreateSection,
   withUpdateQuestionnaire
 )(UnwrappedNavigationSidebar);

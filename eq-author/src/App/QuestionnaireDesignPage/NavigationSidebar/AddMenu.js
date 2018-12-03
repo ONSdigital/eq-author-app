@@ -26,10 +26,9 @@ const AddMenuWindow = styled.div`
     background: white;
     transform: rotate(45deg);
     position: absolute;
-    top: 0;
+    top: 1em;
     bottom: 0;
     left: -0.4em;
-    margin: auto;
   }
 `;
 
@@ -55,6 +54,8 @@ const AddMenu = ({
   onAddSection,
   onAddQuestionConfirmation,
   canAddQuestionConfirmation,
+  onAddSurveyIntroduction,
+  canAddSurveyIntroduction,
   ...otherProps
 }) => {
   const addBtn = (
@@ -71,7 +72,7 @@ const AddMenu = ({
         horizontalAlignment="left"
         verticalAlignment="top"
         offsetX="4.9em"
-        offsetY="-2.8em"
+        offsetY="-0.3em"
         transition={PopupTransition}
       >
         <AddMenuWindow data-test="addmenu-window">
@@ -90,6 +91,7 @@ const AddMenu = ({
           >
             Confirmation question
           </AddMenuButton>
+
           <AddMenuButton
             primary
             onClick={onAddSection}

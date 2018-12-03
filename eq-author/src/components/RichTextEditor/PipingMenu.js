@@ -12,10 +12,7 @@ import CustomPropTypes from "custom-prop-types";
 import IconPiping from "components/RichTextEditor/icon-link.svg?inline";
 import ToolbarButton from "components/RichTextEditor/ToolbarButton";
 
-import {
-  ANSWER,
-  METADATA
-} from "components/ContentPickerSelect/content-types";
+import { ANSWER, METADATA } from "components/ContentPickerSelect/content-types";
 
 const PipingIconButton = props => (
   <ToolbarButton {...props}>
@@ -60,9 +57,7 @@ export class Menu extends React.Component {
   };
 
   handlePickerClose = () => {
-    this.setState({
-      isPickerOpen: false
-    });
+    this.setState({ isPickerOpen: false });
   };
 
   handlePickerSubmit = (...args) => {
@@ -71,12 +66,15 @@ export class Menu extends React.Component {
   };
 
   render() {
-    const { answerData, metadataData, disabled, loading } = this.props;
+    const {
+      answerData,
+      metadataData,
+      disabled,
+      loading,
+      canFocus
+    } = this.props;
 
-    const buttonProps = {
-      title: "Pipe value"
-    };
-
+    const buttonProps = { title: "Pipe value" };
     const isDisabled = loading || disabled || (!answerData && !metadataData);
 
     if (isDisabled) {
@@ -90,6 +88,7 @@ export class Menu extends React.Component {
           disabled={isDisabled}
           onClick={this.handleButtonClick}
           data-test="piping-button"
+          canFocus={canFocus}
         />
         <ContentPickerModal
           isOpen={this.state.isPickerOpen}
@@ -120,6 +119,8 @@ export const UnwrappedPipingMenu = props => (
     pageId={props.match.params.pageId}
     sectionId={props.match.params.sectionId}
     confirmationId={props.match.params.confirmationId}
+    introductionId={props.match.params.introductionId}
+    questionnaireId={props.match.params.questionnaireId}
   >
     {({ data = {}, ...innerProps }) => {
       const entityName = calculateEntityName(props.match.params);

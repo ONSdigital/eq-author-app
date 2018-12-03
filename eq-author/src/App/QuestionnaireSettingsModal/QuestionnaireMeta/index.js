@@ -1,7 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
-import { Form, Field, Input, Label } from "components/Forms";
+import { Form, Field, Input, Label, Select } from "components/Forms";
+import { Grid, Column } from "components/Grid";
 import withEntityEditor from "components/withEntityEditor";
 import questionnaireFragment from "graphql/fragments/questionnaire.graphql";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
@@ -26,15 +27,25 @@ const InlineField = styled(Field)`
   align-items: center;
   padding: 1em 0;
   margin: 0 1em 0 0;
-  border-top: 1px solid #ebebeb;
-
-  &:last-child {
-    border-bottom: 1px solid #ebebeb;
-  }
 `;
 
 const ToggleWrapper = styled.div`
-  margin: 2em 0 3em;
+  margin: 0 0 1em;
+`;
+
+const FlexLabel = styled(Label)`
+  display: flex;
+  align-items: center;
+`;
+
+const Small = styled.small`
+  font-weight: normal;
+  font-size: 0.9em;
+  &::before {
+    content: "";
+    display: block;
+    margin-right: 1em;
+  }
 `;
 
 export const StatelessQuestionnaireMeta = ({
@@ -56,12 +67,49 @@ export const StatelessQuestionnaireMeta = ({
         data-test="txt-questionnaire-title"
       />
     </Field>
+    <Grid>
+      <Column cols={6}>
+        <Field>
+          <Label htmlFor="description">Short title (optional)</Label>
+          <Input
+            id="description"
+            defaultValue={questionnaire.description}
+            onChange={onChange}
+          />
+        </Field>
+      </Column>
+      <Column cols={6}>
+        <Field>
+          <Label htmlFor="theme">Questionnaire type</Label>
+          <Select
+            id="theme"
+            onChange={onChange}
+            defaultValue={questionnaire.theme}
+          >
+            <option value="default">Business</option>
+            <option value="census">Social</option>
+          </Select>
+        </Field>
+      </Column>
+    </Grid>
+
     <ToggleWrapper>
       <InlineField>
-        <Label inline htmlFor="navigation">
-          <Icon src={showNavIcon} alt="" fade={!questionnaire.navigation} />
-          Show section navigation
-        </Label>
+        <FlexLabel inline htmlFor="navigation">
+          <Icon
+            src={showNavIcon}
+            alt="Show section navigation"
+            fade={!questionnaire.navigation}
+          />
+          <span>
+            <span>Show section navigation</span>
+
+            <Small>
+              Allows respondents to navigate between sections when they are
+              completing the survey.
+            </Small>
+          </span>
+        </FlexLabel>
         <ToggleSwitch
           id="navigation"
           name="navigation"
@@ -70,14 +118,20 @@ export const StatelessQuestionnaireMeta = ({
         />
       </InlineField>
       <InlineField>
-        <Label inline htmlFor="summary">
+        <FlexLabel inline htmlFor="summary">
           <Icon
             src={showConfirmationIcon}
             alt=""
             fade={!questionnaire.summary}
           />
-          Show summary on confirmation page
-        </Label>
+          <span>
+            <span>Show summary on confirmation page</span>
+            <Small>
+              A summary of the all of the respondents answers will be on the
+              confirmation page at the end of the survey.
+            </Small>
+          </span>
+        </FlexLabel>
         <ToggleSwitch
           id="summary"
           name="summary"

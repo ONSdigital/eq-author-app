@@ -8,6 +8,7 @@ import PageNav from "./PageNav";
 import NavLink from "./NavLink";
 import { buildQuestionnairePath } from "utils/UrlUtils";
 import SectionIcon from "./icon-section.svg?inline";
+import { last } from "lodash";
 
 const StyledSectionNavItem = styled.li`
   display: block;
@@ -26,7 +27,7 @@ export class UnwrappedSectionNavItem extends React.Component {
     const url = buildQuestionnairePath({
       questionnaireId: questionnaire.id,
       sectionId: section.id,
-      tab: match.params.tab
+      tab: last(document.location.hash.split("/"))
     });
 
     return (

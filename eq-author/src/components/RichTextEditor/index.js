@@ -20,6 +20,8 @@ import PipedValueDecorator, {
   insertPipedValue
 } from "./entities/PipedValue";
 
+import HyperLinkDecorator from "./entities/HyperLink";
+
 import createFormatStripper from "./utils/createFormatStripper";
 
 import cheerio from "cheerio";
@@ -136,11 +138,14 @@ class RichTextEditor extends React.Component {
   static defaultProps = {
     placeholder: "",
     multiline: false,
-    autoFocus: false
+    autoFocus: false,
+    toolbar: true
   };
 
   state = {
-    focused: false
+    focused: false,
+    showURLInput: true,
+    urlValue: ""
   };
 
   static propTypes = {
@@ -176,7 +181,10 @@ class RichTextEditor extends React.Component {
   }
 
   configureEditorState(value, controls) {
-    const decorator = new CompositeDecorator([PipedValueDecorator]);
+    const decorator = new CompositeDecorator([
+      PipedValueDecorator,
+      HyperLinkDecorator
+    ]);
 
     this.stripFormatting = createFormatStripper(controls);
 
@@ -331,6 +339,8 @@ class RichTextEditor extends React.Component {
 
   focus() {
     if (this.editorInstance) {
+      console.log("focus");
+
       this.editorInstance.focus();
     }
   }
@@ -351,13 +361,13 @@ class RichTextEditor extends React.Component {
 
   handleMouseDown = e => {
     // prevent blur when mousedown on non-editor elements
-    if (!this.editorInstance.editor.contains(e.target)) {
-      e.preventDefault();
-    }
+    // if (!this.editorInstance.editor.contains(e.target)) {
+    //   e.preventDefault();
+    // }
   };
 
   handleChange = (editorState, callback) => {
-    editorState = this.stripFormatting(editorState);
+    // editorState = this.stripFormatting(editorState);
     return this.setState({ editorState }, callback);
   };
 
@@ -433,6 +443,60 @@ class RichTextEditor extends React.Component {
     return "handled";
   };
 
+  handleLinkToggle = e => {
+    const { editorState } = this.state;
+    const selection = editorState.getSelection();
+    if (!selection.isCollapsed()) {
+      const contentState = editorState.getCurrentContent();
+      const startKey = editorState.getSelection().getStartKey();
+      const startOffset = editorState.getSelection().getStartOffset();
+      const blockWithLinkAtBeginning = contentState.getBlockForKey(startKey);
+      const linkKey = blockWithLinkAtBeginning.getEntityAt(startOffset);
+      let url = "";
+      if (linkKey) {
+        const linkInstance = contentState.getEntity(linkKey);
+        url = linkInstance.getData().url;
+      }
+    }
+  };
+
+  handleLinkConfirm = url => {
+    const { editorState } = this.state;
+    const contentState = editorState.getCurrentContent();
+    const contentStateWithEntity = contentState.createEntity(
+      "LINK",
+      "MUTABLE",
+      { url }
+    );
+    const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
+    const newEditorState = EditorState.set(editorState, {
+      currentContent: contentStateWithEntity
+    });
+
+    this.handleChange(
+      RichUtils.toggleLink(
+        newEditorState,
+        newEditorState.getSelection(),
+        entityKey
+      ),
+      () => {
+        setTimeout(() => {
+          this.focus();
+        }, 0);
+      }
+    );
+  };
+
+  handleLinkRemove = e => {
+    const { editorState } = this.state;
+    const selection = editorState.getSelection();
+    if (!selection.isCollapsed()) {
+      this.setState({
+        editorState: RichUtils.toggleLink(editorState, selection, null)
+      });
+    }
+  };
+
   render() {
     const { editorState, focused } = this.state;
     const contentState = editorState.getCurrentContent();
@@ -445,6 +509,7 @@ class RichTextEditor extends React.Component {
       testSelector,
       id,
       placeholder,
+      toolbar,
       ...otherProps
     } = this.props;
 
@@ -466,16 +531,20 @@ class RichTextEditor extends React.Component {
               .first()
               .getType()}
           >
-            <Toolbar
-              editorState={editorState}
-              onToggle={this.handleToggle}
-              onPiping={this.handlePiping}
-              isActiveControl={this.isActiveControl}
-              selectionIsCollapsed={selection.isCollapsed()}
-              visible={focused}
-              {...otherProps}
-            />
-
+            {toolbar && (
+              <Toolbar
+                editorState={editorState}
+                onToggle={this.handleToggle}
+                onPiping={this.handlePiping}
+                onLinkConfirm={this.handleLinkConfirm}
+                onLinkRemove={this.handleLinkRemove}
+                onLinkToggle={this.handleLinkToggle}
+                isActiveControl={this.isActiveControl}
+                selectionIsCollapsed={selection.isCollapsed()}
+                visible={focused}
+                {...otherProps}
+              />
+            )}
             <Editor
               ariaLabel={label}
               ariaLabelledBy={`label-${id}`}
