@@ -8,6 +8,12 @@ const RoutingRepository = require("./RoutingRepository");
 const ValidationRepository = require("./ValidationRepository");
 const MetadataRepository = require("./MetadataRepository");
 const QuestionConfirmationRepository = require("./QuestionConfirmationRepository");
+const Routing2Repository = require("./Routing2Repository");
+const Destination = require("./DestinationRepository");
+const RoutingRule2 = require("./RoutingRule2Repository");
+const ExpressionGroup2 = require("./ExpressionGroup2Repository");
+const BinaryExpression2 = require("./BinaryExpression2Repository");
+const LeftSide2 = require("./LeftSide2Repository");
 
 module.exports = knex => {
   return {
@@ -20,6 +26,12 @@ module.exports = knex => {
     Routing: RoutingRepository(knex),
     Validation: ValidationRepository(knex),
     Metadata: MetadataRepository(knex),
-    QuestionConfirmation: QuestionConfirmationRepository(knex)
+    QuestionConfirmation: QuestionConfirmationRepository(knex),
+    Routing2: Routing2Repository(knex),
+    Destination: Destination(knex),
+    RoutingRule2: RoutingRule2(knex),
+    ExpressionGroup2: ExpressionGroup2(knex),
+    BinaryExpression2: BinaryExpression2(knex),
+    LeftSide2: LeftSide2(knex)
   };
 };

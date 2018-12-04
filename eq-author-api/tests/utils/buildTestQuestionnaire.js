@@ -28,6 +28,24 @@ module.exports = knex => {
   const QuestionConfirmationRepository = require("../../repositories/QuestionConfirmationRepository")(
     knex
   );
+  const Routing2Repository = require("../../repositories/Routing2Repository")(
+    knex
+  );
+  const DestinationRepository = require("../../repositories/DestinationRepository")(
+    knex
+  );
+  const RoutingRule2Repository = require("../../repositories/RoutingRule2Repository")(
+    knex
+  );
+  const ExpressionGroup2Repository = require("../../repositories/ExpressionGroup2Repository")(
+    knex
+  );
+  const BinaryExpression2Repository = require("../../repositories/BinaryExpression2Repository")(
+    knex
+  );
+  const LeftSide2Repository = require("../../repositories/LeftSide2Repository")(
+    knex
+  );
 
   const replacePiping = (field, references) => {
     if (!field || field.indexOf("<span") === -1) {
@@ -218,6 +236,67 @@ module.exports = knex => {
     return answers;
   };
 
+  const buildExpression2 = async (
+    expressionConfig,
+    expressionGroup,
+    references
+  ) => {
+    const expression = await BinaryExpression2Repository.insert({
+      groupId: expressionGroup.id
+    });
+    if (expressionConfig.left && expressionConfig.left.answerId) {
+      await LeftSide2Repository.insert({
+        expressionId: expression.id,
+        answerId: references.answers[expressionConfig.left.answerId]
+      });
+    }
+    return expression;
+  };
+
+  const buildExpressionGroup2 = async ({ expressions }, rule, references) => {
+    const group = await ExpressionGroup2Repository.insert({ ruleId: rule.id });
+    if (expressions) {
+      group.expressions = await Promise.all(
+        expressions.map(expression =>
+          buildExpression2(expression, group, references)
+        )
+      );
+    }
+    return group;
+  };
+
+  const buildRule2 = async (ruleConfig, routing, references) => {
+    const destination = await DestinationRepository.insert();
+    const rule = await RoutingRule2Repository.insert({
+      routingId: routing.id,
+      destinationId: destination.id
+    });
+
+    if (ruleConfig.expressionGroup) {
+      rule.expressionGroup = await buildExpressionGroup2(
+        ruleConfig.expressionGroup,
+        rule,
+        references
+      );
+    }
+
+    return rule;
+  };
+
+  const buildRouting2 = async ({ rules = [] }, page, references) => {
+    const destination = await DestinationRepository.insert();
+    const routing = await Routing2Repository.insert({
+      pageId: page.id,
+      destinationId: destination.id
+    });
+
+    routing.rules = await Promise.all(
+      rules.map(rule => buildRule2(rule, routing, references))
+    );
+
+    return routing;
+  };
+
   const buildQuestionConfirmation = async (confirmationConfig, page) => {
     const confirmation = await QuestionConfirmationRepository.create({
       pageId: page.id
@@ -232,7 +311,9 @@ module.exports = knex => {
   const buildPages = async (pageConfigs, section, references) => {
     let pages = [];
     for (let i = 0; i < pageConfigs.length; ++i) {
-      const { answers, id, confirmation, ...pageConfig } = pageConfigs[i];
+      const { answers, id, confirmation, routing, ...pageConfig } = pageConfigs[
+        i
+      ];
       let page = await PageRepository.insert({
         pageType: "QuestionPage",
         ...pageConfig,
@@ -256,6 +337,10 @@ module.exports = knex => {
       }
 
       page.answers = await buildAnswers(answers, page, references);
+
+      if (routing) {
+        page.routing = await buildRouting2(routing, page, references);
+      }
 
       pages.push(page);
     }

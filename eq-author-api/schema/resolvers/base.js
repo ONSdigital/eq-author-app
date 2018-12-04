@@ -1,11 +1,11 @@
 const { GraphQLDate } = require("graphql-iso-date");
 const { includes, isNil, pick } = require("lodash");
 const GraphQLJSON = require("graphql-type-json");
-const { getName } = require("../utils/getName");
-const formatRichText = require("../utils/formatRichText");
+const { getName } = require("../../utils/getName");
+const formatRichText = require("../../utils/formatRichText");
 const {
   getValidationEntity
-} = require("../repositories/strategies/validationStrategy");
+} = require("../../repositories/strategies/validationStrategy");
 
 const Resolvers = {
   Query: {
@@ -258,7 +258,8 @@ const Resolvers = {
     availableRoutingQuestions: ({ id }, args, ctx) =>
       ctx.repositories.QuestionPage.getRoutingQuestionsForQuestionPage(id),
     availableRoutingDestinations: ({ id }, args, ctx) =>
-      ctx.repositories.Routing.getRoutingDestinations(id)
+      ctx.repositories.Routing.getRoutingDestinations(id),
+    routing: ({ id }, args, ctx) => ctx.repositories.Routing2.getByPageId(id)
   },
 
   RoutingRuleSet: {
