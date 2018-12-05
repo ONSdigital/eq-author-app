@@ -70,17 +70,18 @@ describe("Content Picker", () => {
       );
     });
 
-    it("when the 1st title is open the 2nd and 3rd should be hidden", () => {
+    it("when the 1st title is open and selected, 2nd and 3rd should be hidden", () => {
       const wrapper = createWrapper({ data: generateMockPiping(1, 1, 1) });
 
       wrapper.find(SECTION_PICKER_SELECTOR).simulate("titleClick");
 
       expect(wrapper.find(SECTION_PICKER_SELECTOR).prop("open")).toBe(true);
+      expect(wrapper.find(SECTION_PICKER_SELECTOR).prop("selected")).toBe(true);
       expect(wrapper.find(PAGE_PICKER_SELECTOR).prop("hidden")).toBe(true);
       expect(wrapper.find(ANSWER_PICKER_SELECTOR).prop("hidden")).toBe(true);
     });
 
-    it("when the 2nd title is open, 1st should be selected 3rd should be hidden", () => {
+    it("when the 2nd title is open and selected, 1st should be visible and 3rd should be hidden", () => {
       const wrapper = createWrapper({ data: generateMockPiping(1, 1, 1) });
 
       let sectionPicker = wrapper.find(SECTION_PICKER_SELECTOR);
@@ -91,15 +92,16 @@ describe("Content Picker", () => {
         pages: []
       });
 
-      expect(wrapper.find(SECTION_PICKER_SELECTOR).prop("selected")).toBe(true);
       expect(wrapper.find(SECTION_PICKER_SELECTOR).prop("title")).toBe(
         "Section: Section 1"
       );
+      expect(wrapper.find(SECTION_PICKER_SELECTOR).prop("hidden")).toBe(false);
+      expect(wrapper.find(PAGE_PICKER_SELECTOR).prop("selected")).toBe(true);
       expect(wrapper.find(PAGE_PICKER_SELECTOR).prop("open")).toBe(true);
       expect(wrapper.find(ANSWER_PICKER_SELECTOR).prop("hidden")).toBe(true);
     });
 
-    it("when the 3nd title is open, 1st and 2nd should be selected", () => {
+    it("when the 3nd title is open, 1st and 2nd should be visible", () => {
       const wrapper = createWrapper({ data: generateMockPiping(1, 1, 1) });
       let sectionPicker = wrapper.find(SECTION_PICKER_SELECTOR);
       sectionPicker.simulate("titleClick");
@@ -116,11 +118,12 @@ describe("Content Picker", () => {
         answers: []
       });
 
-      expect(wrapper.find(SECTION_PICKER_SELECTOR).prop("selected")).toBe(true);
-      expect(wrapper.find(PAGE_PICKER_SELECTOR).prop("selected")).toBe(true);
+      expect(wrapper.find(SECTION_PICKER_SELECTOR).prop("hidden")).toBe(false);
+      expect(wrapper.find(PAGE_PICKER_SELECTOR).prop("hidden")).toBe(false);
       expect(wrapper.find(PAGE_PICKER_SELECTOR).prop("title")).toBe(
         "Question: Page 1"
       );
+      expect(wrapper.find(ANSWER_PICKER_SELECTOR).prop("selected")).toBe(true);
       expect(wrapper.find(ANSWER_PICKER_SELECTOR).prop("open")).toBe(true);
     });
 
@@ -146,8 +149,7 @@ describe("Content Picker", () => {
         displayName: "Answer 1"
       });
 
-      expect(wrapper.find(SECTION_PICKER_SELECTOR).prop("selected")).toBe(true);
-      expect(wrapper.find(PAGE_PICKER_SELECTOR).prop("selected")).toBe(true);
+      expect(wrapper.find(ANSWER_PICKER_SELECTOR).prop("selected")).toBe(true);
       expect(wrapper.find(ANSWER_PICKER_SELECTOR).prop("open")).toBe(true);
       expect(wrapper.find(ANSWER_PICKER_SELECTOR).prop("title")).toBe("Answer");
     });

@@ -2,8 +2,9 @@ const db = require("../db");
 const Validation = require("../db/Validation");
 const { head, flow, keys, remove, first } = require("lodash/fp");
 const {
-  getPreviousAnswersForSectionAndPage
+  getPreviousAnswersForPage
 } = require("./strategies/previousAnswersStrategy");
+
 const { DATE: ANSWER_DATE } = require("../constants/answerTypes");
 const { DATE: METADATA_DATE } = require("../constants/metadataTypes");
 
@@ -41,9 +42,7 @@ const updateValidationRule = input => {
 
 const getPreviousAnswersForValidation = id =>
   db("Answers")
-    .select("SectionsView.position as sectionPosition")
-    .select("PagesView.position as pagePosition")
-    .select("SectionsView.questionnaireId")
+    .select("PagesView.id as pageId")
     .select("Answers.type as answerType")
     .join(
       "Validation_AnswerRules",
@@ -54,10 +53,10 @@ const getPreviousAnswersForValidation = id =>
     .join("SectionsView", "PagesView.sectionId", "SectionsView.id")
     .where("Validation_AnswerRules.id", id)
     .then(head)
-    .then(({ answerType, ...rest }) =>
-      getPreviousAnswersForSectionAndPage({
-        answerTypes: [answerType],
-        ...rest
+    .then(({ answerType, pageId: id }) =>
+      getPreviousAnswersForPage({
+        id,
+        answerTypes: [answerType]
       })
     );
 

@@ -1,36 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Button from "components/Button";
-import styled, { css } from "styled-components";
-import { colors, radius } from "constants/theme";
-import chevronIcon from "./chevron.svg";
+import styled from "styled-components";
+import chevronIcon from "components/ContentPicker/chevron.svg";
+import ContentPickerAccordionHeader from "components/ContentPicker/ContentPickerAccordionHeader";
 
-const titleStyles = {
-  selected: css`
-    background: ${colors.darkBlue};
-  `,
-  disabled: css`
-    background: #ccc;
-    pointer-events: none;
-  `
-};
-
-export const TitleButton = styled(Button)`
-  display: block;
-  width: 100%;
-  cursor: pointer;
-  margin: 0;
-  user-select: none;
-  position: relative;
-  padding: 0.8em 2em;
-  background: ${colors.blue};
-  border-radius: ${radius};
-  font-size: 1em;
-  text-align: left;
-
-  ${props => (props.disabled ? titleStyles.disabled : null)};
-  ${props => (props.selected ? titleStyles.selected : null)};
-
+export const TitleButton = styled(ContentPickerAccordionHeader)`
   &::after {
     content: url(${chevronIcon});
     position: absolute;
@@ -54,31 +28,18 @@ export const TitleButton = styled(Button)`
 
 class ContentPickerTitle extends React.Component {
   static propTypes = {
-    onClick: PropTypes.func.isRequired,
     open: PropTypes.bool.isRequired,
-    children: PropTypes.node.isRequired,
-    selected: PropTypes.bool,
-    disabled: PropTypes.bool
+    children: PropTypes.node.isRequired
   };
 
   render() {
-    const {
-      children,
-      onClick,
-      disabled,
-      selected,
-      open,
-      ...otherProps
-    } = this.props;
+    const { children, open, ...otherProps } = this.props;
 
     return (
       <TitleButton
-        onClick={onClick}
         role="tab"
         aria-expanded={open}
         aria-selected={open}
-        disabled={disabled}
-        selected={selected}
         {...otherProps}
       >
         {children}

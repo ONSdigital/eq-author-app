@@ -283,6 +283,16 @@ const createRoutingRuleSet = `
         ... on LogicalDestination {
           logicalDestination
         }
+        ... on AbsoluteDestination {
+          absoluteDestination {
+            ... on QuestionPage {
+              id
+            }
+            ... on Section {
+              id
+            }
+          }
+        }
       }
     }
   }
@@ -526,10 +536,22 @@ query QuestionPage($id: ID!) {
 }
 `;
 
+const getAvailableRoutingQuestions = `
+query GetAvailableRoutingQuestions($id: ID!) {
+  questionPage(id: $id) {
+    id
+      availableRoutingQuestions {
+      id
+    }
+  }
+}
+`;
+
 const getAvailableRoutingDestinations = `
-query QuestionPage($id: ID!) {
-  availableRoutingDestinations(pageId: $id) {
-    ... on AvailableRoutingDestinations {
+query GetAvailableRoutingDestinations($id: ID!) {
+  questionPage(id: $id) {
+    id
+    availableRoutingDestinations {
       logicalDestinations {
         logicalDestination
       }
@@ -720,6 +742,7 @@ module.exports = {
   updateCondition,
   createSectionMutation,
   createQuestionPageMutation,
+  getAvailableRoutingQuestions,
   getAvailableRoutingDestinations,
   getQuestionnaire,
   getPageQuery,

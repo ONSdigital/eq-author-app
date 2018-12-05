@@ -2,7 +2,8 @@ const db = require("../db");
 const { get } = require("lodash");
 const {
   getPipingAnswersForQuestionPage,
-  getPipingMetadataForQuestionPage
+  getPipingMetadataForQuestionPage,
+  getRoutingQuestionsForQuestionPage
 } = require("./QuestionPageRepository");
 const buildTestQuestionnaire = require("../tests/utils/buildTestQuestionnaire");
 const {
@@ -193,6 +194,118 @@ describe("QuestionPageRepository", () => {
 
       expect(getName(metadata[0], "Metadata")).toEqual("metadata text");
       expect(getName(metadata[1], "Metadata")).toEqual("metadata date");
+    });
+  });
+
+  describe("Routing", () => {
+    let questionnaire;
+    beforeEach(async () => {
+      questionnaire = await buildTestQuestionnaire({
+        sections: [
+          {
+            title: "Section 1",
+            pages: [
+              {
+                title: "Page 1.1",
+                answers: [
+                  {
+                    label: "Answer 1.1.1",
+                    type: CURRENCY
+                  }
+                ]
+              },
+              {
+                title: "Page 1.2",
+                answers: [
+                  {
+                    label: "Answer 1.2.1",
+                    type: RADIO
+                  }
+                ]
+              },
+              {
+                title: "Page 1.3",
+                answers: [
+                  {
+                    label: "Answer 1.3.1",
+                    type: TEXTFIELD
+                  }
+                ]
+              },
+              {
+                title: "Page 1.4",
+                answers: [
+                  {
+                    label: "Answer 1.4.1",
+                    type: DATE
+                  }
+                ]
+              },
+              {
+                title: "Page 1.5",
+                answers: [
+                  {
+                    label: "Answer 1.5.1",
+                    type: DATE
+                  },
+                  {
+                    label: "Answer 1.5.2",
+                    type: NUMBER
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            title: "Section 2",
+            pages: [
+              {
+                title: "Page 2.1",
+                answers: [
+                  {
+                    label: "Answer 2.1.1",
+                    type: RADIO
+                  }
+                ]
+              },
+              {
+                title: "Page 2.2",
+                answers: [
+                  {
+                    label: "Answer 2.2.1",
+                    type: RADIO
+                  },
+                  {
+                    label: "Answer 2.2.2",
+                    type: TEXTAREA
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      });
+    });
+
+    it("should get the current and previous question pages of specific types", async () => {
+      const routingQuestions = await getRoutingQuestionsForQuestionPage(
+        get(questionnaire, "sections[1].pages[0].id")
+      );
+
+      expect(routingQuestions).toEqual([
+        expect.objectContaining({
+          title: "Page 1.1"
+        }),
+        expect.objectContaining({
+          title: "Page 1.2"
+        }),
+        expect.objectContaining({
+          title: "Page 1.5"
+        }),
+        expect.objectContaining({
+          title: "Page 2.1"
+        })
+      ]);
     });
   });
 });

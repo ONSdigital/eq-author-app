@@ -36,6 +36,7 @@ exports[`Content Picker should render full content picker 1`] = `
       onOptionClick={[Function]}
       onTitleClick={[Function]}
       open={false}
+      selected={false}
       title="Section"
     />
     <ContentPickerSingle
@@ -48,6 +49,7 @@ exports[`Content Picker should render full content picker 1`] = `
       onOptionClick={[Function]}
       onTitleClick={[Function]}
       open={false}
+      selected={false}
       title="Question"
     />
     <ContentPickerSingle
@@ -59,6 +61,7 @@ exports[`Content Picker should render full content picker 1`] = `
       onOptionClick={[Function]}
       onTitleClick={[Function]}
       open={false}
+      selected={false}
       title="Answer"
     />
   </ContentPicker__ContentWrapper>

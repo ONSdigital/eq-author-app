@@ -1,16 +1,15 @@
 import React from "react";
-import PropTypes from "prop-types";
-import styled from "styled-components";
-import { dropRightWhile, first, last, get, isEmpty } from "lodash";
+import CustomPropTypes from "custom-prop-types";
 import { TransitionGroup } from "react-transition-group";
+import styled from "styled-components";
+import PropTypes from "prop-types";
+import { first, get } from "lodash";
 
-import Transition from "components/routing/Transition";
 import Loading from "components/Loading";
 import RoutingRuleSet from "components/routing/RoutingRuleSet";
 import RoutingRuleSetMsg from "components/routing/RoutingRuleSetMsg";
-
+import Transition from "components/routing/Transition";
 import { colors } from "constants/theme";
-import CustomPropTypes from "custom-prop-types";
 
 const Title = styled.h2`
   padding: 0.5em 1em;
@@ -24,25 +23,8 @@ const Padding = styled.div`
   padding: 2em;
 `;
 
-const getPagesAvailableForRouting = (sections, sectionId, pageId) => {
-  if (isEmpty(sections)) {
-    return [];
-  }
-
-  const filteredSections = dropRightWhile(sections, s => s.id !== sectionId);
-  const currentSection = last(filteredSections);
-
-  filteredSections[filteredSections.length - 1] = {
-    ...currentSection,
-    pages: dropRightWhile(currentSection.pages, p => p.id !== pageId)
-  };
-
-  return filteredSections;
-};
-
 class RoutingEditor extends React.Component {
   static propTypes = {
-    questionnaire: CustomPropTypes.questionnaire.isRequired,
     currentPage: CustomPropTypes.page.isRequired,
     onAddRoutingRuleSet: PropTypes.func.isRequired,
     onAddRoutingCondition: PropTypes.func.isRequired,
@@ -50,11 +32,6 @@ class RoutingEditor extends React.Component {
     onUpdateRoutingRule: PropTypes.func.isRequired,
     onUpdateRoutingRuleSet: PropTypes.func.isRequired,
     onDeleteRoutingRuleSet: PropTypes.func.isRequired,
-    availableRoutingDestinations: PropTypes.shape({
-      logicalDestinations: PropTypes.arrayOf(PropTypes.any),
-      questionPages: PropTypes.arrayOf(CustomPropTypes.page),
-      sections: PropTypes.arrayOf(CustomPropTypes.section)
-    }).isRequired,
     match: CustomPropTypes.match
   };
 
@@ -100,19 +77,7 @@ class RoutingEditor extends React.Component {
   }
 
   renderRoutingRuleSet() {
-    const {
-      questionnaire,
-      currentPage,
-      availableRoutingDestinations,
-      match,
-      ...otherProps
-    } = this.props;
-
-    const pagesAvailableForRouting = getPagesAvailableForRouting(
-      questionnaire.sections,
-      match.params.sectionId,
-      match.params.pageId
-    );
+    const { currentPage, match, ...otherProps } = this.props;
 
     const { routingRuleSet } = currentPage;
 
@@ -122,8 +87,6 @@ class RoutingEditor extends React.Component {
           <RoutingRuleSet
             {...otherProps}
             ruleSet={routingRuleSet}
-            destinations={availableRoutingDestinations}
-            pagesAvailableForRouting={pagesAvailableForRouting}
             onElseChange={this.handleElseChange}
             onAddRoutingCondition={this.handleAddCondition}
             onDeleteRule={this.handleDeleteRule}

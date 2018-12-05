@@ -1,8 +1,12 @@
 import React from "react";
 import styled from "styled-components";
-import GroupedSelect from "./GroupedSelect";
+import { withRouter } from "react-router-dom";
+import CustomPropTypes from "custom-prop-types";
+
 import { Grid, Column } from "components/Grid";
 import PropTypes from "prop-types";
+
+import RoutingDestinationContentPicker from "components/routing/RoutingDestinationContentPicker";
 
 import AbsoluteDestination from "graphql/fragments/absolute-destination.graphql";
 import LogicalDestination from "graphql/fragments/logical-destination.graphql";
@@ -28,80 +32,24 @@ const Goto = styled.span`
   margin-right: 1em;
 `;
 
-const toAbsoluteDestination = entity => ({
-  absoluteDestination: {
-    destinationType: entity.__typename,
-    destinationId: entity.id
-  }
-});
-
-const toLogicalDestination = destinationType => ({
-  logicalDestination: {
-    destinationType
-  }
-});
-
-const toOption = () => entity => ({
-  label: entity.displayName,
-  value: toAbsoluteDestination(entity)
-});
-
-class RoutingRuleDestinationSelector extends React.Component {
-  groupDestinations({ questionPages, sections }) {
-    const pagesGroup = {
-      label: "Questions in this section",
-      id: "questions",
-      options: questionPages.map(toOption("Page Title"))
-    };
-
-    const sectionGroup = {
-      label: "Sections in this questionnaire",
-      id: "sections",
-      options: sections.map(toOption("Section Title"))
-    };
-
-    const logicalGroup = {
-      label: "End of Questionnaire",
-      id: "endOfQuestionnaire",
-      options: [
-        {
-          label: "End of Questionnaire",
-          value: toLogicalDestination("EndOfQuestionnaire")
-        }
-      ]
-    };
-
-    return [pagesGroup, sectionGroup, logicalGroup].filter(
-      group => group.options.length
-    );
-  }
-
-  convertValueToDestination(value) {
-    if (!value) {
-      return null;
+export class UnwrappedRoutingRuleDestinationSelector extends React.Component {
+  handleChange = ({
+    value,
+    value: {
+      config: { destination }
+    }
+  }) => {
+    if (destination.hasOwnProperty("absoluteDestination")) {
+      destination.absoluteDestination.destinationId = value.id;
     }
 
-    const { absoluteDestination, logicalDestination } = value;
-    return absoluteDestination
-      ? toAbsoluteDestination(absoluteDestination)
-      : toLogicalDestination(logicalDestination);
-  }
-
-  handleChange = ({ value }) => {
-    this.props.onChange(JSON.parse(value));
+    this.props.onChange({
+      ...destination
+    });
   };
 
   render() {
-    const { destinations, label, id, value, disabled } = this.props;
-
-    const convertedValue = this.convertValueToDestination(value);
-    const groups = this.groupDestinations(destinations);
-    groups.forEach(group =>
-      group.options.forEach(option => {
-        option.value = JSON.stringify(option.value);
-      })
-    );
-
+    const { label, id, disabled, value } = this.props;
     return (
       <RoutingRuleResult key={id}>
         <Grid align="center">
@@ -111,13 +59,14 @@ class RoutingRuleDestinationSelector extends React.Component {
             </Label>
           </Column>
           <Column gutters={false} cols={7}>
-            <GroupedSelect
+            <RoutingDestinationContentPicker
               id={id}
-              value={convertedValue ? JSON.stringify(convertedValue) : null}
-              groups={groups}
-              onChange={this.handleChange}
+              pageId={this.props.match.params.pageId}
+              path="questionPage.availableRoutingDestinations"
+              selected={value}
+              onSubmit={this.handleChange}
               disabled={disabled}
-              data-test="result-selector"
+              data-test="routing-destination-content-picker"
             />
           </Column>
         </Grid>
@@ -126,25 +75,25 @@ class RoutingRuleDestinationSelector extends React.Component {
   }
 }
 
-RoutingRuleDestinationSelector.propTypes = {
+UnwrappedRoutingRuleDestinationSelector.propTypes = {
   onChange: PropTypes.func.isRequired,
-  destinations: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   label: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   value: PropTypes.object, // eslint-disable-line react/forbid-prop-types
-  disabled: PropTypes.bool.isRequired
+  disabled: PropTypes.bool.isRequired,
+  match: CustomPropTypes.match
 };
 
-RoutingRuleDestinationSelector.defaultProps = {
+UnwrappedRoutingRuleDestinationSelector.defaultProps = {
   disabled: false,
   loading: false
 };
 
-RoutingRuleDestinationSelector.fragments = {
+UnwrappedRoutingRuleDestinationSelector.fragments = {
   LogicalDestination,
   AbsoluteDestination,
   QuestionPageDestination,
   SectionDestination
 };
 
-export default RoutingRuleDestinationSelector;
+export default withRouter(UnwrappedRoutingRuleDestinationSelector);

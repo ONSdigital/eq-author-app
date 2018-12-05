@@ -28,7 +28,6 @@ const Box = styled.div`
 
 const RoutingRuleSet = ({
   ruleSet,
-  destinations,
   onAddRoutingRule,
   onElseChange,
   ...otherProps
@@ -36,7 +35,6 @@ const RoutingRuleSet = ({
   const handleAddClick = () => onAddRoutingRule(ruleSet.id);
   const handleElseChange = value =>
     onElseChange({ id: ruleSet.id, else: value });
-
   return (
     <React.Fragment>
       <TransitionGroup>
@@ -46,7 +44,6 @@ const RoutingRuleSet = ({
               rule={rule}
               title={index > 0 ? "Or" : null}
               key={rule.id}
-              destinations={destinations}
               {...otherProps}
             />
           </Transition>
@@ -65,7 +62,6 @@ const RoutingRuleSet = ({
           id="else"
           label="ELSE"
           value={ruleSet.else}
-          destinations={destinations}
           onChange={handleElseChange}
           data-test="select-else"
         />
@@ -80,7 +76,6 @@ RoutingRuleSet.fragments = {
 
 RoutingRuleSet.propTypes = {
   ruleSet: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
-  destinations: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   onAddRoutingRule: PropTypes.func.isRequired,
   onElseChange: PropTypes.func.isRequired
 };

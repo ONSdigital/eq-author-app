@@ -14,9 +14,7 @@ const openStyle = css`
 
 export const PickerWrapper = styled.div`
   ${props => (props.open ? openStyle : null)};
-  &:not(:last-of-type) {
-    margin-bottom: 3px;
-  }
+  margin-bottom: 3px;
 `;
 
 const ContentPickerSingle = ({

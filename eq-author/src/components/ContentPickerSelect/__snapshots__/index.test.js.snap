@@ -3,16 +3,37 @@
 exports[`ContentPickerSelect content types should render answer  1`] = `
 <Fragment>
   <ContentPickerSelect__ContentSelectButton
+    answerTypes={
+      Array [
+        "Number",
+        "Currency",
+      ]
+    }
+    data={
+      Object {
+        "questionnaire": Object {
+          "id": "1",
+          "metadata": Array [],
+          "sections": Array [],
+        },
+      }
+    }
     data-test="content-picker-select"
-    disabled={false}
+    match={
+      Object {
+        "params": Object {
+          "questionnaireId": "1",
+        },
+      }
+    }
+    name="contentPicker"
     onClick={[Function]}
+    onSubmit={[MockFunction]}
+    selectedContentDisplayName="foobar"
   >
     <ContentPickerSelect__ContentSelected>
       foobar
     </ContentPickerSelect__ContentSelected>
-    <ContentPickerSelect__ContentSelectAction>
-      Select
-    </ContentPickerSelect__ContentSelectAction>
   </ContentPickerSelect__ContentSelectButton>
   <ContentPickerModal
     contentTypes={
@@ -31,16 +52,37 @@ exports[`ContentPickerSelect content types should render answer  1`] = `
 exports[`ContentPickerSelect content types should render answer and metadata 1`] = `
 <Fragment>
   <ContentPickerSelect__ContentSelectButton
+    answerTypes={
+      Array [
+        "Number",
+        "Currency",
+      ]
+    }
+    data={
+      Object {
+        "questionnaire": Object {
+          "id": "1",
+          "metadata": Array [],
+          "sections": Array [],
+        },
+      }
+    }
     data-test="content-picker-select"
-    disabled={false}
+    match={
+      Object {
+        "params": Object {
+          "questionnaireId": "1",
+        },
+      }
+    }
+    name="contentPicker"
     onClick={[Function]}
+    onSubmit={[MockFunction]}
+    selectedContentDisplayName="foobar"
   >
     <ContentPickerSelect__ContentSelected>
       foobar
     </ContentPickerSelect__ContentSelected>
-    <ContentPickerSelect__ContentSelectAction>
-      Select
-    </ContentPickerSelect__ContentSelectAction>
   </ContentPickerSelect__ContentSelectButton>
   <ContentPickerModal
     contentTypes={
@@ -57,24 +99,143 @@ exports[`ContentPickerSelect content types should render answer and metadata 1`]
 </Fragment>
 `;
 
-exports[`ContentPickerSelect content types should render metadata 1`] = `
+exports[`ContentPickerSelect content types should render destination 1`] = `
 <Fragment>
   <ContentPickerSelect__ContentSelectButton
+    answerTypes={
+      Array [
+        "Number",
+        "Currency",
+      ]
+    }
+    data={
+      Object {
+        "questionnaire": Object {
+          "id": "1",
+          "metadata": Array [],
+          "sections": Array [],
+        },
+      }
+    }
     data-test="content-picker-select"
-    disabled={false}
+    match={
+      Object {
+        "params": Object {
+          "questionnaireId": "1",
+        },
+      }
+    }
+    name="contentPicker"
     onClick={[Function]}
+    onSubmit={[MockFunction]}
+    selectedContentDisplayName="foobar"
   >
     <ContentPickerSelect__ContentSelected>
       foobar
     </ContentPickerSelect__ContentSelected>
-    <ContentPickerSelect__ContentSelectAction>
-      Select
-    </ContentPickerSelect__ContentSelectAction>
+  </ContentPickerSelect__ContentSelectButton>
+  <ContentPickerModal
+    contentTypes={
+      Array [
+        "Destination",
+      ]
+    }
+    data-test="picker"
+    isOpen={false}
+    onClose={[Function]}
+    onSubmit={[Function]}
+  />
+</Fragment>
+`;
+
+exports[`ContentPickerSelect content types should render metadata 1`] = `
+<Fragment>
+  <ContentPickerSelect__ContentSelectButton
+    answerTypes={
+      Array [
+        "Number",
+        "Currency",
+      ]
+    }
+    data={
+      Object {
+        "questionnaire": Object {
+          "id": "1",
+          "metadata": Array [],
+          "sections": Array [],
+        },
+      }
+    }
+    data-test="content-picker-select"
+    match={
+      Object {
+        "params": Object {
+          "questionnaireId": "1",
+        },
+      }
+    }
+    name="contentPicker"
+    onClick={[Function]}
+    onSubmit={[MockFunction]}
+    selectedContentDisplayName="foobar"
+  >
+    <ContentPickerSelect__ContentSelected>
+      foobar
+    </ContentPickerSelect__ContentSelected>
   </ContentPickerSelect__ContentSelectButton>
   <ContentPickerModal
     contentTypes={
       Array [
         "Metadata",
+      ]
+    }
+    data-test="picker"
+    isOpen={false}
+    onClose={[Function]}
+    onSubmit={[Function]}
+  />
+</Fragment>
+`;
+
+exports[`ContentPickerSelect content types should render question 1`] = `
+<Fragment>
+  <ContentPickerSelect__ContentSelectButton
+    answerTypes={
+      Array [
+        "Number",
+        "Currency",
+      ]
+    }
+    data={
+      Object {
+        "questionnaire": Object {
+          "id": "1",
+          "metadata": Array [],
+          "sections": Array [],
+        },
+      }
+    }
+    data-test="content-picker-select"
+    match={
+      Object {
+        "params": Object {
+          "questionnaireId": "1",
+        },
+      }
+    }
+    name="contentPicker"
+    onClick={[Function]}
+    onSubmit={[MockFunction]}
+    selectedContentDisplayName="foobar"
+  >
+    <ContentPickerSelect__ContentSelected>
+      foobar
+    </ContentPickerSelect__ContentSelected>
+  </ContentPickerSelect__ContentSelectButton>
+  <ContentPickerModal
+    contentTypes={
+      Array [
+        "Question",
       ]
     }
     data-test="picker"
@@ -92,10 +253,12 @@ Object {
     "Metadata",
   ],
   "data-test": "picker",
+  "destinationData": undefined,
   "isOpen": false,
   "metadataData": undefined,
   "onClose": [Function],
   "onSubmit": [Function],
+  "questionData": undefined,
 }
 `;
 
@@ -106,10 +269,12 @@ Object {
     "Metadata",
   ],
   "data-test": "picker",
+  "destinationData": undefined,
   "isOpen": false,
   "metadataData": undefined,
   "onClose": [Function],
   "onSubmit": [Function],
+  "questionData": undefined,
 }
 `;
 
@@ -120,26 +285,49 @@ Object {
     "Metadata",
   ],
   "data-test": "picker",
+  "destinationData": undefined,
   "isOpen": false,
   "metadataData": undefined,
   "onClose": [Function],
   "onSubmit": [Function],
+  "questionData": undefined,
 }
 `;
 
 exports[`ContentPickerSelect should correctly handle picker close 1`] = `
 <Fragment>
   <ContentPickerSelect__ContentSelectButton
+    answerTypes={
+      Array [
+        "Number",
+        "Currency",
+      ]
+    }
+    data={
+      Object {
+        "questionnaire": Object {
+          "id": "1",
+          "metadata": Array [],
+          "sections": Array [],
+        },
+      }
+    }
     data-test="content-picker-select"
-    disabled={false}
+    match={
+      Object {
+        "params": Object {
+          "questionnaireId": "1",
+        },
+      }
+    }
+    name="contentPicker"
     onClick={[Function]}
+    onSubmit={[MockFunction]}
+    selectedContentDisplayName="foobar"
   >
     <ContentPickerSelect__ContentSelected>
       foobar
     </ContentPickerSelect__ContentSelected>
-    <ContentPickerSelect__ContentSelectAction>
-      Select
-    </ContentPickerSelect__ContentSelectAction>
   </ContentPickerSelect__ContentSelectButton>
   <ContentPickerModal
     contentTypes={
@@ -158,16 +346,37 @@ exports[`ContentPickerSelect should correctly handle picker close 1`] = `
 exports[`ContentPickerSelect should correctly handle picker open 1`] = `
 <Fragment>
   <ContentPickerSelect__ContentSelectButton
+    answerTypes={
+      Array [
+        "Number",
+        "Currency",
+      ]
+    }
+    data={
+      Object {
+        "questionnaire": Object {
+          "id": "1",
+          "metadata": Array [],
+          "sections": Array [],
+        },
+      }
+    }
     data-test="content-picker-select"
-    disabled={false}
+    match={
+      Object {
+        "params": Object {
+          "questionnaireId": "1",
+        },
+      }
+    }
+    name="contentPicker"
     onClick={[Function]}
+    onSubmit={[MockFunction]}
+    selectedContentDisplayName="foobar"
   >
     <ContentPickerSelect__ContentSelected>
       foobar
     </ContentPickerSelect__ContentSelected>
-    <ContentPickerSelect__ContentSelectAction>
-      Select
-    </ContentPickerSelect__ContentSelectAction>
   </ContentPickerSelect__ContentSelectButton>
   <ContentPickerModal
     contentTypes={
@@ -183,47 +392,41 @@ exports[`ContentPickerSelect should correctly handle picker open 1`] = `
 </Fragment>
 `;
 
-exports[`ContentPickerSelect should correctly handle picker submit 1`] = `
-<Fragment>
-  <ContentPickerSelect__ContentSelectButton
-    data-test="content-picker-select"
-    disabled={false}
-    onClick={[Function]}
-  >
-    <ContentPickerSelect__ContentSelected>
-      New selected answer
-    </ContentPickerSelect__ContentSelected>
-    <ContentPickerSelect__ContentSelectAction>
-      Select
-    </ContentPickerSelect__ContentSelectAction>
-  </ContentPickerSelect__ContentSelectButton>
-  <ContentPickerModal
-    contentTypes={
-      Array [
-        "Custom",
-      ]
-    }
-    data-test="picker"
-    isOpen={false}
-    onClose={[Function]}
-    onSubmit={[Function]}
-  />
-</Fragment>
-`;
-
 exports[`ContentPickerSelect should disable select button correctly 1`] = `
 <Fragment>
   <ContentPickerSelect__ContentSelectButton
+    answerTypes={
+      Array [
+        "Number",
+        "Currency",
+      ]
+    }
+    data={
+      Object {
+        "questionnaire": Object {
+          "id": "1",
+          "metadata": Array [],
+          "sections": Array [],
+        },
+      }
+    }
     data-test="content-picker-select"
     disabled={true}
+    match={
+      Object {
+        "params": Object {
+          "questionnaireId": "1",
+        },
+      }
+    }
+    name="contentPicker"
     onClick={[Function]}
+    onSubmit={[MockFunction]}
+    selectedContentDisplayName="foobar"
   >
     <ContentPickerSelect__ContentSelected>
       foobar
     </ContentPickerSelect__ContentSelected>
-    <ContentPickerSelect__ContentSelectAction>
-      Select
-    </ContentPickerSelect__ContentSelectAction>
   </ContentPickerSelect__ContentSelectButton>
   <ContentPickerModal
     contentTypes={
@@ -242,16 +445,38 @@ exports[`ContentPickerSelect should disable select button correctly 1`] = `
 exports[`ContentPickerSelect should disable select button correctly 2`] = `
 <Fragment>
   <ContentPickerSelect__ContentSelectButton
+    answerTypes={
+      Array [
+        "Number",
+        "Currency",
+      ]
+    }
+    data={
+      Object {
+        "questionnaire": Object {
+          "id": "1",
+          "metadata": Array [],
+          "sections": Array [],
+        },
+      }
+    }
     data-test="content-picker-select"
     disabled={true}
+    match={
+      Object {
+        "params": Object {
+          "questionnaireId": "1",
+        },
+      }
+    }
+    name="contentPicker"
     onClick={[Function]}
+    onSubmit={[MockFunction]}
+    selectedContentDisplayName="foobar"
   >
     <ContentPickerSelect__ContentSelected>
       foobar
     </ContentPickerSelect__ContentSelected>
-    <ContentPickerSelect__ContentSelectAction>
-      Select
-    </ContentPickerSelect__ContentSelectAction>
   </ContentPickerSelect__ContentSelectButton>
   <ContentPickerModal
     contentTypes={
@@ -270,16 +495,37 @@ exports[`ContentPickerSelect should disable select button correctly 2`] = `
 exports[`ContentPickerSelect should render 1`] = `
 <Fragment>
   <ContentPickerSelect__ContentSelectButton
+    answerTypes={
+      Array [
+        "Number",
+        "Currency",
+      ]
+    }
+    data={
+      Object {
+        "questionnaire": Object {
+          "id": "1",
+          "metadata": Array [],
+          "sections": Array [],
+        },
+      }
+    }
     data-test="content-picker-select"
-    disabled={false}
+    match={
+      Object {
+        "params": Object {
+          "questionnaireId": "1",
+        },
+      }
+    }
+    name="contentPicker"
     onClick={[Function]}
+    onSubmit={[MockFunction]}
+    selectedContentDisplayName="foobar"
   >
     <ContentPickerSelect__ContentSelected>
       foobar
     </ContentPickerSelect__ContentSelected>
-    <ContentPickerSelect__ContentSelectAction>
-      Select
-    </ContentPickerSelect__ContentSelectAction>
   </ContentPickerSelect__ContentSelectButton>
   <ContentPickerModal
     contentTypes={

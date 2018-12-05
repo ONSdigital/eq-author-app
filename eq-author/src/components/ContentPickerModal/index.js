@@ -1,17 +1,29 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { propType } from "graphql-anywhere";
 import styled from "styled-components";
-import { compact } from "lodash";
+import { compact, find, isEmpty } from "lodash";
 
 import BaseTabs from "components/BaseTabs";
 import Modal, { CloseButton } from "components/Modal";
 import {
   AnswerContentPicker,
-  MetadataContentPicker
+  QuestionContentPicker,
+  MetadataContentPicker,
+  RoutingDestinationContentPicker
 } from "components/ContentPicker";
 
 import { colors } from "constants/theme";
-import { ANSWER, METADATA } from "components/ContentPickerSelect/content-types";
+import {
+  ANSWER,
+  QUESTION,
+  METADATA,
+  DESTINATION
+} from "components/ContentPickerSelect/content-types";
+
+import LogicalDestination from "graphql/fragments/logical-destination.graphql";
+import QuestionPageDestination from "graphql/fragments/question-page-destination.graphql";
+import SectionDestination from "graphql/fragments/section-destination.graphql";
 
 const HeaderSegment = styled.div`
   margin: 0;
@@ -27,7 +39,7 @@ const Title = styled.h1`
 export const StyledCloseButton = styled(CloseButton)`
   position: absolute;
   right: 0.5em;
-  top: 0;
+  top: ${props => (props.hasTabs ? "0" : "2em")};
   bottom: 0;
   margin: auto;
   align-items: center;
@@ -36,7 +48,6 @@ export const StyledCloseButton = styled(CloseButton)`
 const NavigationHeader = styled.div`
   align-items: center;
   border-bottom: 1px solid #ccc;
-  display: flex;
   position: relative;
   width: 100%;
 `;
@@ -44,7 +55,7 @@ const NavigationHeader = styled.div`
 export const TabButton = styled.button`
   text-transform: uppercase;
   border: 0;
-  color: ${colors.blue};
+  color: ${colors.darkGrey};
   cursor: pointer;
   font-size: 0.9em;
   font-weight: bold;
@@ -53,7 +64,7 @@ export const TabButton = styled.button`
   position: relative;
 
   &[aria-selected="true"] {
-    color: ${colors.darkGrey};
+    color: ${colors.blue};
     border-bottom: 2px solid ${colors.primary};
     margin-bottom: -2px;
   }
@@ -117,6 +128,16 @@ class ContentPickerModal extends React.Component {
         id: PropTypes.string.isRequired
       })
     ),
+    questionData: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string.isRequired
+      })
+    ),
+    destinationData: PropTypes.shape({
+      logicalDestinations: PropTypes.arrayOf(propType(LogicalDestination)),
+      questionPages: PropTypes.arrayOf(propType(QuestionPageDestination)),
+      sections: PropTypes.arrayOf(propType(SectionDestination))
+    }),
     onSubmit: PropTypes.func,
     isOpen: PropTypes.bool,
     onClose: PropTypes.func,
@@ -149,11 +170,13 @@ class ContentPickerModal extends React.Component {
     });
   };
 
-  buttonRender = (props, tab) => <TabButton {...props}>{tab.title}</TabButton>;
+  buttonRender = (props, tab) =>
+    tab.showTabButton ? <TabButton {...props}>{tab.title}</TabButton> : null;
 
   answerTab = {
     id: "answers",
     title: "Answer",
+    showTabButton: true,
     render: () => {
       if (!this.props.answerData || this.props.answerData.length === 0) {
         return (
@@ -175,9 +198,33 @@ class ContentPickerModal extends React.Component {
     }
   };
 
+  questionTab = {
+    id: "question",
+    title: "Question",
+    showTabButton: true,
+    render: () => {
+      if (!this.props.questionData || this.props.questionData.length === 0) {
+        return <ErrorText>There are no questions to pick from</ErrorText>;
+      }
+      return (
+        <React.Fragment>
+          <HeaderSegment>
+            <Title>Select a previous question</Title>
+          </HeaderSegment>
+          <QuestionContentPicker
+            data={this.props.questionData}
+            onSubmit={this.props.onSubmit}
+            onClose={this.props.onClose}
+          />
+        </React.Fragment>
+      );
+    }
+  };
+
   metadataTab = {
     id: "metadata",
     title: "Metadata",
+    showTabButton: true,
     render: () => {
       if (!this.props.metadataData || this.props.metadataData.length === 0) {
         return (
@@ -199,17 +246,47 @@ class ContentPickerModal extends React.Component {
     }
   };
 
+  destinationTab = {
+    id: "destination",
+    title: "Destination",
+    showTabButton: false,
+    render: () => {
+      if (!this.props.destinationData || isEmpty(this.props.destinationData)) {
+        return <ErrorText>There are no destinations to pick from</ErrorText>;
+      }
+      return (
+        <React.Fragment>
+          <HeaderSegment>
+            <Title>Select a destination</Title>
+          </HeaderSegment>
+          <RoutingDestinationContentPicker
+            data={this.props.destinationData}
+            onSubmit={this.props.onSubmit}
+            onClose={this.props.onClose}
+          />
+        </React.Fragment>
+      );
+    }
+  };
+
   tabConfig = [
     this.props.contentTypes.indexOf(ANSWER) !== -1 ? this.answerTab : null,
-    this.props.contentTypes.indexOf(METADATA) !== -1 ? this.metadataTab : null
+    this.props.contentTypes.indexOf(QUESTION) !== -1 ? this.questionTab : null,
+    this.props.contentTypes.indexOf(METADATA) !== -1 ? this.metadataTab : null,
+    this.props.contentTypes.indexOf(DESTINATION) !== -1
+      ? this.destinationTab
+      : null
   ];
 
   tabList = ({ children }) => (
     <NavigationHeader>
-      {children}
-      <StyledCloseButton onClick={this.props.onClose}>
+      <StyledCloseButton
+        onClick={this.props.onClose}
+        hasTabs={find(this.tabConfig, "showTabButton")}
+      >
         &times;
       </StyledCloseButton>
+      {children}
     </NavigationHeader>
   );
 

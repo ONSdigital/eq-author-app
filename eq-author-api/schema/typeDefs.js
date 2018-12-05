@@ -70,6 +70,8 @@ type QuestionPage implements Page {
   routingRuleSet: RoutingRuleSet
   availablePipingAnswers: [Answer!]!
   availablePipingMetadata: [Metadata!]!
+  availableRoutingQuestions: [Page!]!
+  availableRoutingDestinations: AvailableRoutingDestinations!
   confirmation: QuestionConfirmation
 }
 
@@ -385,8 +387,8 @@ type Query {
   answer(id: ID!): Answer
   answers(ids: [ID]!): [Answer]
   option(id: ID!): Option
-  pagesAffectedByDeletion(pageId: ID!): [Page]!
-  availableRoutingDestinations(pageId: ID!): AvailableRoutingDestinations!
+  pagesAffectedByDeletion(pageId: ID!): [Page]! @deprecated(reason: "Not implemented")
+  availableRoutingDestinations(pageId: ID!): AvailableRoutingDestinations! @deprecated(reason: "Use availableRoutingDestinations on QuestionPage type instead")
   questionConfirmation(id: ID!): QuestionConfirmation
 }
 

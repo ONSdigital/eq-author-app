@@ -6,7 +6,12 @@ import {
 } from "components/ContentPickerSelect";
 import ContentPickerModal from "components/ContentPickerModal";
 
-import { ANSWER, METADATA } from "components/ContentPickerSelect/content-types";
+import {
+  ANSWER,
+  DESTINATION,
+  METADATA,
+  QUESTION
+} from "components/ContentPickerSelect/content-types";
 import { CURRENCY, NUMBER } from "constants/answer-types";
 import { DATE, LANGUAGE, REGION, TEXT } from "constants/metadata-types";
 
@@ -36,7 +41,6 @@ describe("ContentPickerSelect", () => {
       selectedContentDisplayName: "foobar",
       name: "contentPicker",
       loading: false,
-      error: false,
       contentTypes: [ANSWER]
     };
 
@@ -51,7 +55,7 @@ describe("ContentPickerSelect", () => {
     wrapper = render({ ...props, loading: true });
     expect(wrapper).toMatchSnapshot();
 
-    wrapper = render({ ...props, error: true });
+    wrapper = render({ ...props, error: { foo: "bar" } });
     expect(wrapper).toMatchSnapshot();
   });
 
@@ -63,7 +67,6 @@ describe("ContentPickerSelect", () => {
       name: props.name,
       value: selectedItem
     });
-    expect(wrapper).toMatchSnapshot();
   });
 
   it("should correctly handle picker close", () => {
@@ -153,6 +156,16 @@ describe("ContentPickerSelect", () => {
 
     it("should render metadata", () => {
       wrapper = render({ ...props, contentTypes: [METADATA] });
+      expect(wrapper).toMatchSnapshot();
+    });
+
+    it("should render question", () => {
+      wrapper = render({ ...props, contentTypes: [QUESTION] });
+      expect(wrapper).toMatchSnapshot();
+    });
+
+    it("should render destination", () => {
+      wrapper = render({ ...props, contentTypes: [DESTINATION] });
       expect(wrapper).toMatchSnapshot();
     });
   });

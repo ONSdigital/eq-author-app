@@ -17,7 +17,7 @@ exports[`RoutingEditor routing rule set should render routing rule set 1`] = `
       >
         <div>
           <RoutingRuleSet
-            destinations={
+            availableRoutingDestinations={
               Object {
                 "questionPages": Array [
                   Object {
@@ -69,23 +69,26 @@ exports[`RoutingEditor routing rule set should render routing rule set 1`] = `
             onUpdateRoutingCondition={[MockFunction]}
             onUpdateRoutingRule={[MockFunction]}
             onUpdateRoutingRuleSet={[MockFunction]}
-            pagesAvailableForRouting={
-              Array [
-                Object {
-                  "id": "1",
-                  "pages": Array [
-                    Object {
-                      "answers": Array [
-                        Object {
-                          "id": "1",
-                          "type": "Number",
-                        },
-                      ],
-                      "id": "1",
-                    },
-                  ],
-                },
-              ]
+            questionnaire={
+              Object {
+                "id": "1",
+                "sections": Array [
+                  Object {
+                    "id": "1",
+                    "pages": Array [
+                      Object {
+                        "answers": Array [
+                          Object {
+                            "id": "1",
+                            "type": "Number",
+                          },
+                        ],
+                        "id": "1",
+                      },
+                    ],
+                  },
+                ],
+              }
             }
             ruleSet={
               Object {
@@ -128,7 +131,7 @@ exports[`RoutingEditor routing rules should render routing rules 1`] = `
       >
         <div>
           <RoutingRuleSet
-            destinations={
+            availableRoutingDestinations={
               Object {
                 "questionPages": Array [
                   Object {
@@ -180,23 +183,26 @@ exports[`RoutingEditor routing rules should render routing rules 1`] = `
             onUpdateRoutingCondition={[MockFunction]}
             onUpdateRoutingRule={[MockFunction]}
             onUpdateRoutingRuleSet={[MockFunction]}
-            pagesAvailableForRouting={
-              Array [
-                Object {
-                  "id": "1",
-                  "pages": Array [
-                    Object {
-                      "answers": Array [
-                        Object {
-                          "id": "1",
-                          "type": "Number",
-                        },
-                      ],
-                      "id": "1",
-                    },
-                  ],
-                },
-              ]
+            questionnaire={
+              Object {
+                "id": "1",
+                "sections": Array [
+                  Object {
+                    "id": "1",
+                    "pages": Array [
+                      Object {
+                        "answers": Array [
+                          Object {
+                            "id": "1",
+                            "type": "Number",
+                          },
+                        ],
+                        "id": "1",
+                      },
+                    ],
+                  },
+                ],
+              }
             }
             ruleSet={
               Object {

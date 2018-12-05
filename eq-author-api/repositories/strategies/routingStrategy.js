@@ -1,5 +1,10 @@
 const { head } = require("lodash/fp");
 const { parseInt, isNil, find, isEmpty, get, includes } = require("lodash");
+const {
+  NEXT_PAGE,
+  END_OF_QUESTIONNAIRE
+} = require("../../constants/logicalDestinations");
+const { CURRENCY, NUMBER } = require("../../constants/answerTypes");
 
 const updateAllRoutingConditions = (trx, where, values) =>
   trx("Routing_Conditions")
@@ -82,17 +87,18 @@ const createSpecificConditionValue = async (trx, conditionId) =>
     .returning("*")
     .then(head);
 
+const addConditionValue = (trx, { answer, condition }) => {
+  if (!isNil(answer) && includes([CURRENCY, NUMBER], answer.type)) {
+    return createSpecificConditionValue(trx, condition.id);
+  }
+};
+
 const insertRoutingCondition = async (trx, routingCondition, answer) => {
-  const condition = await trx("Routing_Conditions")
+  return trx("Routing_Conditions")
     .insert(routingCondition)
     .returning("*")
-    .then(head);
-
-  if (!isNil(answer) && includes(["Currency", "Number"], answer.type)) {
-    await createSpecificConditionValue(trx, condition.id);
-  }
-
-  return condition;
+    .then(head)
+    .tap(condition => addConditionValue(trx, { answer, condition }));
 };
 
 const insertRoutingRule = (trx, routingRule) =>
@@ -174,7 +180,7 @@ const updateRoutingConditionStrategy = async (
     comparator = "Equal";
     if (
       !isNil(routingConditionAnswer) &&
-      includes(["Currency", "Number"], routingConditionAnswer.type)
+      includes([CURRENCY, NUMBER], routingConditionAnswer.type)
     ) {
       await createSpecificConditionValue(trx, routingConditionId);
     }
@@ -285,33 +291,81 @@ async function createRoutingConditionStrategy(trx, routingCondition) {
   );
 }
 
-const createRoutingDestination = async trx =>
-  trx("Routing_Destinations")
-    .insert({})
-    .returning("*")
-    .then(head);
+const getNextDestination = (trx, { questionPageId: id }) => {
+  return trx("PagesView")
+    .where({ id })
+    .then(head)
+    .then(({ sectionId, position: pagePosition }) => {
+      return trx("PagesView")
+        .where({ sectionId })
+        .andWhere("position", ">", pagePosition)
+        .then(pages => {
+          if (pages.length) {
+            return {
+              entityType: "Page",
+              result: head(pages)
+            };
+          }
+
+          return trx("SectionsView")
+            .where({ id: sectionId })
+            .then(head)
+            .then(({ questionnaireId, position: sectionPosition }) => {
+              return trx("SectionsView")
+                .where({ questionnaireId })
+                .andWhere("position", ">", sectionPosition)
+                .then(sections => {
+                  if (sections.length) {
+                    return {
+                      entityType: "Section",
+                      result: head(sections)
+                    };
+                  } else {
+                    return {
+                      result: END_OF_QUESTIONNAIRE
+                    };
+                  }
+                });
+            });
+        });
+    });
+};
+
+const createRoutingDestination = (trx, { questionPageId }) => {
+  return getNextDestination(trx, {
+    questionPageId
+  }).then(({ result }) => {
+    const destination = {};
+    if (result === END_OF_QUESTIONNAIRE) {
+      destination.logicalDestination = END_OF_QUESTIONNAIRE;
+    } else {
+      destination.logicalDestination = NEXT_PAGE;
+    }
+    return trx("Routing_Destinations")
+      .insert(destination)
+      .returning("*")
+      .then(head);
+  });
+};
 
 async function createRoutingRuleStrategy(
   trx,
   { routingRuleSetId, operation = "And" }
 ) {
-  const routingDestination = await createRoutingDestination(trx);
-
+  const { questionPageId } = await getRoutingRuleSetById(trx, routingRuleSetId);
+  const routingDestination = await createRoutingDestination(trx, {
+    questionPageId
+  });
   const routingRule = await insertRoutingRule(trx, {
     operation,
     routingRuleSetId,
     routingDestinationId: routingDestination.id
   });
 
-  const routingRuleSet = await getRoutingRuleSetById(
-    trx,
-    routingRule.routingRuleSetId
-  );
-
   await createRoutingConditionStrategy(trx, {
     comparator: "Equal",
     routingRuleId: routingRule.id,
-    questionPageId: routingRuleSet.questionPageId
+    questionPageId
   });
 
   return routingRule;
@@ -325,7 +379,10 @@ async function createRoutingRuleSetStrategy(trx, questionPageId) {
     );
   }
 
-  const routingDestination = await createRoutingDestination(trx);
+  const routingDestination = await createRoutingDestination(trx, {
+    questionPageId
+  });
+
   const routingRuleSetDefaults = {
     questionPageId,
     routingDestinationId: routingDestination.id
@@ -337,7 +394,8 @@ async function createRoutingRuleSetStrategy(trx, questionPageId) {
   );
 
   const routingRuleInput = {
-    routingRuleSetId: routingRuleSet.id
+    routingRuleSetId: routingRuleSet.id,
+    questionPageId
   };
 
   await createRoutingRuleStrategy(trx, routingRuleInput);
@@ -368,6 +426,21 @@ const handleAnswerDeleted = (trx, answerId) =>
     }
   );
 
+const handleAnswerCreated = (trx, answer) =>
+  getFirstAnswer(trx, answer.questionPageId).then(firstAnswer => {
+    if (firstAnswer.id === answer.id) {
+      updateAllRoutingConditions(
+        trx,
+        {
+          questionPageId: parseInt(answer.questionPageId)
+        },
+        {
+          answerId: answer.id
+        }
+      ).map(condition => addConditionValue(trx, { answer, condition }));
+    }
+  });
+
 const handleOptionDeleted = (trx, optionId) =>
   deleteRoutingConditionValues(trx, {
     optionId: parseInt(optionId)
@@ -383,5 +456,6 @@ Object.assign(module.exports, {
   createRoutingConditionStrategy,
   handlePageDeleted,
   handleAnswerDeleted,
-  handleOptionDeleted
+  handleOptionDeleted,
+  handleAnswerCreated
 });

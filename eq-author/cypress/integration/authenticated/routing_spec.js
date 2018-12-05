@@ -5,16 +5,11 @@ import {
   addQuestionPage,
   buildMultipleChoiceAnswer,
   testId,
-  selectOptionByLabel,
-  addAnswerType
+  addAnswerType,
+  selectQuestionFromContentPicker
 } from "../../utils";
 
 let title;
-
-const setRoutingCondition = (questionTitle, label) => {
-  findByLabel("IF").within(() => selectOptionByLabel(questionTitle));
-  cy.get(testId("options-selector")).within(() => cy.contains(label).click());
-};
 
 const navigateToRoutingTab = () =>
   cy
@@ -23,6 +18,16 @@ const navigateToRoutingTab = () =>
     .within(() => cy.contains("Routing").click())
     .url()
     .should("contain", "routing");
+
+const clickOnRoutingRuleOption = ({ label }) => {
+  cy.get(testId("routing-rule"))
+    .last()
+    .within(() => {
+      cy.get(testId("options-selector")).within(() => {
+        cy.contains(label).click();
+      });
+    });
+};
 
 describe("Routing", () => {
   beforeEach(() => {
@@ -83,13 +88,18 @@ describe("Routing", () => {
 
     cy.get(testId("btn-add-rule")).click();
 
-    findByLabel("THEN")
-      .select("Question 2")
-      .should("have.length", 1);
+    findByLabel("THEN").contains("Question 2");
 
-    findByLabel("THEN")
-      .select("Question 3")
-      .should("have.length", 1);
+    findByLabel("THEN").click();
+    cy.get(testId("picker-title"))
+      .first()
+      .click();
+    cy.get(testId("picker-option"))
+      .last()
+      .click();
+    cy.get(testId("submit-button")).click();
+
+    findByLabel("THEN").contains("Question 4");
   });
 
   it("should be able to add a currency routing rule and edit the inputs", () => {
@@ -147,7 +157,9 @@ describe("Routing", () => {
     navigateToRoutingTab();
 
     cy.get(testId("routing-rule")).within(() => {
-      findByLabel("IF").select("Question 1");
+      findByLabel("IF")
+        .first()
+        .contains("Question 1");
     });
 
     cy.get(testId("options-selector")).within(() => {
@@ -161,7 +173,14 @@ describe("Routing", () => {
     title = "Test OR rules";
 
     cy.createQuestionnaire(title);
+    cy.get(testId("nav-section-link"))
+      .first()
+      .click();
+    typeIntoDraftEditor(testId("txt-section-title", "testid"), "Section 1");
 
+    cy.get(testId("nav-page-link"))
+      .first()
+      .click();
     typeIntoDraftEditor(testId("txt-question-title", "testid"), "Question 1");
     cy.get(testId("nav-page-link")).should("contain", "Question 1");
     buildMultipleChoiceAnswer(["A", "B", "C"]);
@@ -179,37 +198,54 @@ describe("Routing", () => {
       .click();
 
     typeIntoDraftEditor(testId("txt-question-title", "testid"), "Question 4");
-    buildMultipleChoiceAnswer(["G", "H", "I"]);
+    buildMultipleChoiceAnswer(["J", "K", "L"]);
 
     addQuestionPage("Question 5");
-    buildMultipleChoiceAnswer(["J", "K", "L"]);
+    buildMultipleChoiceAnswer(["M", "N", "O"]);
 
     cy.contains("Question 4").click();
     navigateToRoutingTab();
 
     cy.get(testId("btn-add-rule")).click();
 
-    cy.get(testId("routing-rule"));
+    cy.get(testId("routing-rule"))
+      .last()
+      .within(() => findByLabel("IF").click());
 
-    cy.get(testId("routing-editor")).within(() => {
-      cy.get(testId("routing-rule"))
-        .last()
-        .within(() => setRoutingCondition("Question 1", "A"));
-
-      cy.get(testId("btn-add-rule")).click();
-      cy.get(testId("routing-rule")).should("have.length", 2);
-
-      cy.get(testId("routing-rule"))
-        .last()
-        .within(() => setRoutingCondition("Question 2", "D"));
-
-      cy.get(testId("btn-add-rule")).click();
-      cy.get(testId("routing-rule")).should("have.length", 3);
-
-      cy.get(testId("routing-rule"))
-        .last()
-        .within(() => setRoutingCondition("Question 3", "G"));
+    selectQuestionFromContentPicker({
+      sectionTitle: "Section 1",
+      questionTitle: "Question 1"
     });
+
+    clickOnRoutingRuleOption({ label: "A" });
+
+    cy.get(testId("btn-add-rule")).click();
+    cy.get(testId("routing-rule")).should("have.length", 2);
+
+    cy.get(testId("routing-rule"))
+      .last()
+      .within(() => findByLabel("IF").click());
+
+    selectQuestionFromContentPicker({
+      sectionTitle: "Section 1",
+      questionTitle: "Question 2"
+    });
+
+    clickOnRoutingRuleOption({ label: "D" });
+
+    cy.get(testId("btn-add-rule")).click();
+    cy.get(testId("routing-rule")).should("have.length", 3);
+
+    cy.get(testId("routing-rule"))
+      .last()
+      .within(() => findByLabel("IF").click());
+
+    selectQuestionFromContentPicker({
+      sectionTitle: "Section 1",
+      questionTitle: "Question 3"
+    });
+
+    clickOnRoutingRuleOption({ label: "G" });
 
     cy.get(testId("options-selector"))
       .eq(0)
@@ -264,7 +300,14 @@ describe("Routing", () => {
     title = "Test options";
 
     cy.createQuestionnaire(title);
+    cy.get(testId("nav-section-link"))
+      .first()
+      .click();
+    typeIntoDraftEditor(testId("txt-section-title", "testid"), "Section 1");
 
+    cy.get(testId("nav-page-link"))
+      .first()
+      .click();
     typeIntoDraftEditor(testId("txt-question-title", "testid"), "Question 1");
     buildMultipleChoiceAnswer(["A", "B", "C"]);
 
@@ -284,10 +327,11 @@ describe("Routing", () => {
       .first()
       .contains("D");
 
-    findByLabel("IF")
-      .first()
-      .select("Question 1");
-
+    findByLabel("IF").click();
+    selectQuestionFromContentPicker({
+      sectionTitle: "Section 1",
+      questionTitle: "Question 1"
+    });
     cy.get(testId("options-selector"))
       .first()
       .contains("A");
@@ -297,7 +341,14 @@ describe("Routing", () => {
     title = "Test options";
 
     cy.createQuestionnaire(title);
+    cy.get(testId("nav-section-link"))
+      .first()
+      .click();
+    typeIntoDraftEditor(testId("txt-section-title", "testid"), "Section 1");
 
+    cy.get(testId("nav-page-link"))
+      .first()
+      .click();
     typeIntoDraftEditor(testId("txt-question-title", "testid"), "Question 1");
     buildMultipleChoiceAnswer(["A", "B", "C"]);
 
@@ -315,32 +366,28 @@ describe("Routing", () => {
 
     cy.get(testId("routing-rule"));
 
-    cy.get(testId("result-selector"))
+    findByLabel("THEN").click();
+    cy.get(testId("picker-title"))
       .first()
-      .within(() => {
-        cy.contains("Question 1").should("not.exist");
-      });
-  });
-
-  it("defaults to unselected if rule is made on a unsupported answer", () => {
-    title = "Test unsupported answer";
-    cy.createQuestionnaire(title);
-
-    typeIntoDraftEditor(testId("txt-question-title", "testid"), "Question 1");
-
-    addAnswerType("Date");
-
-    navigateToRoutingTab();
-
-    cy.get(testId("btn-add-rule")).click();
-
-    findByLabel("IF").should("have.value", null);
+      .click();
+    cy.get(testId("picker-option"))
+      .contains("Question 1")
+      .should("not.exist");
+    cy.get(testId("cancel-button")).click();
   });
 
   it("can build an AND rule", () => {
     title = "Test AND";
 
     cy.createQuestionnaire(title);
+    cy.get(testId("nav-section-link"))
+      .first()
+      .click();
+    typeIntoDraftEditor(testId("txt-section-title", "testid"), "Section 1");
+
+    cy.get(testId("nav-page-link"))
+      .first()
+      .click();
 
     typeIntoDraftEditor(testId("txt-question-title", "testid"), "Question 1");
     buildMultipleChoiceAnswer(["A", "B", "C"]);
@@ -366,8 +413,15 @@ describe("Routing", () => {
     cy.get(testId("btn-and")).click();
 
     cy.get(testId("and-not-valid-msg"));
+
+    findByLabel("AND").click();
+
+    selectQuestionFromContentPicker({
+      sectionTitle: "Section 1",
+      questionTitle: "Question 3"
+    });
+
     findByLabel("AND")
-      .within(() => selectOptionByLabel("Question 1"))
       .closest(testId("routing-condition"))
       .within(() => {
         cy.get(testId("options-selector")).should("have.length", 1);
@@ -380,7 +434,14 @@ describe("Routing", () => {
     title = "Test remove question";
 
     cy.createQuestionnaire(title);
+    cy.get(testId("nav-section-link"))
+      .first()
+      .click();
+    typeIntoDraftEditor(testId("txt-section-title", "testid"), "Section 1");
 
+    cy.get(testId("nav-page-link"))
+      .first()
+      .click();
     typeIntoDraftEditor(testId("txt-question-title", "testid"), "Question 1");
     buildMultipleChoiceAnswer(["A", "B", "C"]);
 
@@ -398,7 +459,12 @@ describe("Routing", () => {
 
     cy.get(testId("routing-rule"))
       .last()
-      .within(() => setRoutingCondition("Question 1", "A"));
+      .within(() => findByLabel("IF").click());
+
+    selectQuestionFromContentPicker({
+      sectionTitle: "Section 1",
+      questionTitle: "Question 1"
+    });
 
     cy.contains("Question 1").click();
 
@@ -411,7 +477,7 @@ describe("Routing", () => {
 
     cy.get(testId("page-item")).should("have.length", 2);
 
-    cy.get("[data-testid='txt-question-title']").contains("Question 2");
+    cy.get(testId("txt-question-title", "testid")).contains("Question 2");
 
     navigateToRoutingTab();
 

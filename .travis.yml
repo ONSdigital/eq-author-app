@@ -18,12 +18,10 @@ before_script:
   - set -e
 
 script:
-  - ./concourse.sh
-  - if .travis/build-condition.sh "eq-author"; then AUTHOR_BUILT=true; echo "Author is being built"; pushd eq-author; ./scripts/ci.sh; popd; else echo "Author is NOT being built"; fi
-  - if .travis/build-condition.sh "eq-author-api"; then echo "API is being built"; pushd eq-author-api; ./scripts/ci.sh; popd; else echo "API is NOT being built"; fi
-  - if .travis/build-condition.sh "eq-publisher"; then echo "Publisher is being built"; pushd eq-publisher; ./scripts/ci.sh; popd; else echo "Publisher is NOT being built"; fi
+  - pushd eq-author; ./scripts/ci.sh; popd;
+  - pushd eq-author-api; ./scripts/ci.sh; popd;
+  - pushd eq-publisher; ./scripts/ci.sh; popd;
   - cd eq-author
-  - yarn install --frozen-lockfile
   - yarn test:integration
   - yarn test:e2e
 
@@ -35,8 +33,6 @@ deploy:
   on:
     branch:
       - master
-    condition:
-      - $AUTHOR_BUILT = true
 
 branches:
   only:

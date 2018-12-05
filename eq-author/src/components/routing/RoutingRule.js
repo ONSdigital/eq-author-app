@@ -57,8 +57,6 @@ const RoutingRule = ({
   onDeleteRoutingCondition,
   onUpdateConditionValue,
   title,
-  destinations,
-  pagesAvailableForRouting,
   className,
   ...otherProps
 }) => {
@@ -98,7 +96,6 @@ const RoutingRule = ({
                       condition={condition}
                       label={index > 0 ? "AND" : "IF"}
                       ruleId={id}
-                      sections={pagesAvailableForRouting}
                       onRemove={
                         conditions.length > 1 ? onDeleteRoutingCondition : null
                       }
@@ -128,9 +125,8 @@ const RoutingRule = ({
           </Grid>
         </div>
         <RoutingRuleDestinationSelector
-          id="then"
+          id={rule.id}
           label="THEN"
-          destinations={destinations}
           onChange={handleThenChange}
           value={goto}
           data-test="select-then"
@@ -151,8 +147,6 @@ RoutingRule.propTypes = {
   onDeleteRoutingCondition: PropTypes.func,
   onThenChange: PropTypes.func.isRequired,
   title: PropTypes.string,
-  destinations: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
-  pagesAvailableForRouting: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
   className: PropTypes.string
 };
 

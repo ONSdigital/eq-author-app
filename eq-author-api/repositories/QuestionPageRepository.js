@@ -2,10 +2,12 @@ const knex = require("../db");
 const { head } = require("lodash/fp");
 const QuestionPage = require("../db/QuestionPage");
 const {
-  getPreviousAnswersForSectionAndPage
+  getPreviousAnswersForPage,
+  getPreviousQuestionsForPage
 } = require("./strategies/previousAnswersStrategy");
 
 const { PIPING_ANSWER_TYPES } = require("../constants/pipingAnswerTypes");
+const { ROUTING_ANSWER_TYPES } = require("../constants/routingAnswerTypes");
 
 module.exports.findAll = function findAll(
   where = {},
@@ -65,19 +67,10 @@ module.exports.undelete = function(id) {
 };
 
 module.exports.getPipingAnswersForQuestionPage = id =>
-  knex("PagesView")
-    .select("SectionsView.position as sectionPosition")
-    .select("PagesView.position as pagePosition")
-    .select("SectionsView.questionnaireId")
-    .join("SectionsView", "PagesView.sectionId", "SectionsView.id")
-    .where("PagesView.id", id)
-    .then(head)
-    .then(selectedFields =>
-      getPreviousAnswersForSectionAndPage({
-        answerTypes: PIPING_ANSWER_TYPES,
-        ...selectedFields
-      })
-    );
+  getPreviousAnswersForPage({
+    id,
+    answerTypes: PIPING_ANSWER_TYPES
+  });
 
 module.exports.getPipingMetadataForQuestionPage = id =>
   knex("Metadata")
@@ -87,3 +80,10 @@ module.exports.getPipingMetadataForQuestionPage = id =>
     .join("PagesView", "PagesView.sectionId", "SectionsView.id")
     .where("PagesView.id", id)
     .andWhere("Metadata.isDeleted", false);
+
+module.exports.getRoutingQuestionsForQuestionPage = id =>
+  getPreviousQuestionsForPage({
+    id,
+    answerTypes: ROUTING_ANSWER_TYPES,
+    includeSelf: true
+  });

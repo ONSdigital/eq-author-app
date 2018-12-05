@@ -22,31 +22,12 @@ exports[`components/RoutingCondition should render consistently 1`] = `
       cols={10}
       gutters={false}
     >
-      <RoutingCondition__PageSelect
-        groups={
-          Array [
-            Object {
-              "id": "1",
-              "label": "1. Integer posuere erat a ante",
-              "options": Array [
-                Object {
-                  "disabled": true,
-                  "label": "1.1 Curabitur blandit tempus porttitor",
-                  "value": "2",
-                },
-                Object {
-                  "disabled": true,
-                  "label": "1.2 Nulla vitae elit libero, a pharetra augue.",
-                  "value": "9",
-                },
-              ],
-            },
-          ]
-        }
+      <_default
         id="RoutingCondition1"
-        onChange={[Function]}
-        valid={true}
-        value="2"
+        onSubmit={[Function]}
+        pageId="3"
+        path="questionPage.availableRoutingQuestions"
+        selectedContentDisplayName="foobar"
       />
     </Column>
     <Column
@@ -99,8 +80,10 @@ exports[`components/RoutingCondition should render consistently 1`] = `
                   "id": "3",
                   "type": "Radio",
                 },
+                "comparator": "Equal",
                 "id": "1",
                 "questionPage": Object {
+                  "displayName": "foobar",
                   "id": "2",
                 },
               }
