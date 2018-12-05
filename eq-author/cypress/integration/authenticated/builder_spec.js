@@ -35,7 +35,7 @@ describe("builder", () => {
   it("Can edit page title, alias and description", () => {
     cy.get(testId("page-item")).click();
 
-    cy.get(testId("question-alias")).type("question alias");
+    cy.get(testId("alias")).type("question alias");
 
     typeIntoDraftEditor(
       testId("txt-question-title", "testid"),
@@ -174,7 +174,7 @@ describe("builder", () => {
 
     navigateToFirstSection();
 
-    cy.get(testId("section-alias")).type("section alias");
+    cy.get(testId("alias")).type("section alias");
 
     typeIntoDraftEditor(
       testId("txt-section-title", "testid"),

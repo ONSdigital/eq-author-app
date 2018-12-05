@@ -9,7 +9,7 @@ const updateDetails = ({
   routing
 }) => {
   if (alias) {
-    cy.get(testId("question-alias")).type(alias);
+    cy.get(testId("alias")).type(alias);
   }
   if (title) {
     typeIntoDraftEditor(testId("txt-question-title", "testid"), title);

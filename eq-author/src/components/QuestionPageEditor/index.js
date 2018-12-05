@@ -49,7 +49,9 @@ export default class QuestionPageEditor extends React.Component {
     showDeleteConfirmDialog: PropTypes.bool.isRequired,
     onCloseMovePageDialog: PropTypes.func.isRequired,
     match: CustomPropTypes.match,
-    page: CustomPropTypes.page.isRequired
+    page: CustomPropTypes.page.isRequired,
+    onChange: PropTypes.func.isRequired,
+    onUpdate: PropTypes.func.isRequired
   };
 
   handleDeleteAnswer = answerId => {
@@ -110,13 +112,15 @@ export default class QuestionPageEditor extends React.Component {
 
   render() {
     const {
-      onUpdatePage,
       onAddAnswer,
       showDeleteConfirmDialog,
       onCloseDeleteConfirmDialog,
       onDeletePageConfirm,
       match,
-      page
+      page,
+      page: { answers },
+      onChange,
+      onUpdate
     } = this.props;
 
     const id = getIdForObject(page);
@@ -125,7 +129,7 @@ export default class QuestionPageEditor extends React.Component {
       <div data-test="question-page-editor">
         <div>
           <QuestionSegment id={id}>
-            <MetaEditor onUpdate={onUpdatePage} page={page} />
+            <MetaEditor onChange={onChange} onUpdate={onUpdate} page={page} />
             <DeleteConfirmDialog
               isOpen={showDeleteConfirmDialog}
               onClose={onCloseDeleteConfirmDialog}
@@ -140,13 +144,13 @@ export default class QuestionPageEditor extends React.Component {
             </MovePageQuery>
           </QuestionSegment>
           <TransitionGroup>
-            {page.answers.map(this.renderAnswerEditor)}
+            {answers.map(this.renderAnswerEditor)}
           </TransitionGroup>
         </div>
 
         <AddAnswerSegment>
           <AnswerTypeSelector
-            answerCount={page.answers.length}
+            answerCount={answers.length}
             onSelect={onAddAnswer}
             data-test="add-answer"
           />

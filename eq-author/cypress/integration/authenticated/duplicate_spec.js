@@ -1,29 +1,20 @@
 /* eslint-disable camelcase */
-import { addQuestionnaire, testId, typeIntoDraftEditor } from "../../utils";
+import {
+  addQuestionnaire,
+  testId,
+  typeIntoDraftEditor,
+  navigateToFirstSection
+} from "../../utils";
 
-import createQuestionnaire from "../../fixtures/createQuestionnaire";
-import GetQuestionPage from "../../fixtures/GetQuestionPage";
-import GetQuestionnaire from "../../fixtures/GetQuestionnaire";
-import UpdateQuestionPage from "../../fixtures/duplicatePage/UpdateQuestionPage";
-import duplicatePage from "../../fixtures/duplicatePage/duplicatePage";
-import GetQuestionnaire_Piping from "../../fixtures/GetQuestionnaire_Piping";
-import SectionQuery from "../../fixtures/SectionQuery";
-import duplicateSection from "../../fixtures/duplicateSection";
-import GetCurrentUser from "../../fixtures/GetCurrentUser";
+const pageAfterDup = /\/questionnaire\/\d+\/\d+\/\d+\/design$/;
+const sectionAfterDup = /\/questionnaire\/\d+\/\d+\/design$/;
 
 describe("Duplicate", () => {
   describe("Page duplication", () => {
     beforeEach(() => {
-      cy.visitStubbed("#/questionnaire/1/1/1/design", {
-        createQuestionnaire,
-        GetQuestionPage,
-        GetQuestionnaire,
-        GetQuestionnaire_Piping,
-        UpdateQuestionPage,
-        duplicatePage,
-        GetCurrentUser
-      });
+      cy.visit("/");
       cy.login();
+      addQuestionnaire("questionnaireTitle");
 
       typeIntoDraftEditor(testId("txt-question-title", "testid"), "Question 1");
       cy.get(testId("side-nav")).should("contain", "Question 1");
@@ -35,35 +26,17 @@ describe("Duplicate", () => {
     });
 
     it("should navigate to new page after duplicating", () => {
-      cy.hash().should("match", /\/questionnaire\/1\/1\/2\/design$/);
+      cy.hash().should("match", pageAfterDup);
     });
   });
 
   describe("Section duplication", () => {
     beforeEach(() => {
-      cy.visitStubbed("#/questionnaire/1/1/design", {
-        createQuestionnaire,
-        GetQuestionnaire,
-        GetQuestionnaire_Piping,
-        duplicateSection,
-        GetCurrentUser,
-        SectionQuery: req => {
-          const {
-            variables: { id }
-          } = JSON.parse(req.body);
-          if (id === "1") {
-            return SectionQuery();
-          }
-          if (id === "2") {
-            return SectionQuery({
-              id: "2",
-              title: "Copy of Section 1",
-              displayName: "Copy of Section 1"
-            });
-          }
-        }
-      });
+      cy.visit("/");
       cy.login();
+      addQuestionnaire("questionnaireTitle");
+      navigateToFirstSection();
+      typeIntoDraftEditor(testId("txt-section-title", "testid"), "Section 1");
       cy.get(testId("btn-duplicate-section")).click();
     });
 
@@ -72,7 +45,7 @@ describe("Duplicate", () => {
     });
 
     it("should navigate to the new section after duplicating", () => {
-      cy.hash().should("match", /\/questionnaire\/1\/2\/design$/);
+      cy.hash().should("match", sectionAfterDup);
     });
   });
 

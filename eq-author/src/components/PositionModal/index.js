@@ -51,9 +51,9 @@ class PositionModal extends React.Component {
     onClose: PropTypes.func.isRequired,
     onMove: PropTypes.func.isRequired,
     selected: PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      displayName: PropTypes.string.isRequired,
-      position: PropTypes.number.isRequired
+      id: PropTypes.string,
+      displayName: PropTypes.string,
+      position: PropTypes.number
     }).isRequired
   };
 

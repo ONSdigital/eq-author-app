@@ -2,7 +2,7 @@ import { testId, typeIntoDraftEditor } from "../utils";
 
 const updateDetails = ({ alias, title }) => {
   if (alias) {
-    cy.get(testId("section-alias")).type(alias);
+    cy.get(testId("alias")).type(alias);
   }
   if (title) {
     typeIntoDraftEditor(testId("txt-section-title", "testid"), title);

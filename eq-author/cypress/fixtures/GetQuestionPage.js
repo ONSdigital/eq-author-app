@@ -6,11 +6,12 @@ export default {
       alias: "",
       description: "",
       position: 0,
-      guidance: null,
+      guidance: "",
       displayName: "",
       answers: [],
       section: {
         id: "1",
+        alias: "",
         __typename: "Section",
         questionnaire: {
           __typename: "Questionnaire",

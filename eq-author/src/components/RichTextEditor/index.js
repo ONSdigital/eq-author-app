@@ -440,6 +440,7 @@ class RichTextEditor extends React.Component {
       className,
       testSelector,
       id,
+      placeholder,
       ...otherProps
     } = this.props;
 
@@ -483,6 +484,7 @@ class RichTextEditor extends React.Component {
               handlePastedText={multiline ? undefined : this.handlePaste}
               spellCheck
               webDriverTestID={testSelector}
+              placeholder={placeholder}
             />
           </Input>
         </Field>

@@ -52,7 +52,11 @@ describe("Question Page Editor", () => {
       onAddExclusive: jest.fn(),
       onUpdateOption: jest.fn(),
       onMovePage: jest.fn(),
-      onCloseMovePageDialog: jest.fn()
+      onCloseMovePageDialog: jest.fn(),
+      onAddOther: jest.fn(),
+      onDeleteOther: jest.fn(),
+      onChange: jest.fn(),
+      onUpdate: jest.fn()
     };
 
     page = {
@@ -90,7 +94,7 @@ describe("Question Page Editor", () => {
       sections: [section]
     };
 
-    wrapper = render();
+    wrapper = render({});
   });
 
   it("should delete the correct answer", () => {
