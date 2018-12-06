@@ -62,7 +62,8 @@ const routingDestinationConfig = [
         destinationType: "QuestionPage"
       }
     }
-  },  {
+  },
+  {
     id: "sections",
     title: "Other sections",
     groupKey: "sections",
@@ -73,12 +74,13 @@ const routingDestinationConfig = [
         destinationType: "Section"
       }
     }
-  },  {
+  },
+  {
     id: "endOfQuestionnaire",
     title: "End of questionnaire",
     groupKey: "logicalDestinations",
     expandable: false,
-    type: 'RoutingLogicalDestination',
+    type: "RoutingLogicalDestination",
     destination: {
       logicalDestination: {
         destinationType: "EndOfQuestionnaire"

@@ -20,7 +20,9 @@ const pino = pinoMiddleware();
 const logger = createLogger(pino.logger);
 addErrorLoggingToSchema(schema, logger);
 
-const context = { repositories };
+const knex = require("./db");
+
+const context = { repositories: repositories(knex) };
 
 app.use(
   "/graphql",

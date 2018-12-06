@@ -1,21 +1,25 @@
 const { flow, map, omit } = require("lodash/fp");
 
-const db = require("../../db");
+const knex = require("../../db");
 const {
   duplicatePageStrategy,
   duplicateSectionStrategy,
   duplicateQuestionnaireStrategy
 } = require("./duplicateStrategy");
-const SectionRepository = require("../SectionRepository");
-const PageRepository = require("../PageRepository");
-const AnswerRepository = require("../AnswerRepository");
-const OptionRepository = require("../OptionRepository");
-const ValidationRepository = require("../ValidationRepository");
-const MetadataRepository = require("../MetadataRepository");
-const RoutingRepository = require("../RoutingRepository");
-const QuestionConfirmationRepository = require("../QuestionConfirmationRepository");
+const SectionRepository = require("../SectionRepository")(knex);
+const PageRepository = require("../PageRepository")(knex);
+const AnswerRepository = require("../AnswerRepository")(knex);
+const OptionRepository = require("../OptionRepository")(knex);
+const ValidationRepository = require("../ValidationRepository")(knex);
+const MetadataRepository = require("../MetadataRepository")(knex);
+const RoutingRepository = require("../RoutingRepository")(knex);
+const QuestionConfirmationRepository = require("../QuestionConfirmationRepository")(
+  knex
+);
 
-const buildTestQuestionnaire = require("../../tests/utils/buildTestQuestionnaire");
+const buildTestQuestionnaire = require("../../tests/utils/buildTestQuestionnaire")(
+  knex
+);
 
 const sanitize = omit([
   "id",
@@ -62,10 +66,10 @@ const sanitizeParent = flow(
 );
 
 describe("Duplicate strategy tests", () => {
-  beforeAll(() => db.migrate.latest());
-  afterAll(() => db.destroy());
+  beforeAll(() => knex.migrate.latest());
+  afterAll(() => knex.destroy());
   afterEach(async () => {
-    await db.transaction(async trx => {
+    await knex.transaction(async trx => {
       await trx.table("Questionnaires").delete();
     });
   });
@@ -86,7 +90,7 @@ describe("Duplicate strategy tests", () => {
 
       const page = questionnaire.sections[0].pages[0];
 
-      const duplicatePage = await db.transaction(trx =>
+      const duplicatePage = await knex.transaction(trx =>
         duplicatePageStrategy(trx, removeChildren(page))
       );
       expect(sanitize(duplicatePage)).toMatchObject({
@@ -120,7 +124,7 @@ describe("Duplicate strategy tests", () => {
 
       const page = questionnaire.sections[0].pages[0];
 
-      const duplicatePage = await db.transaction(trx =>
+      const duplicatePage = await knex.transaction(trx =>
         duplicatePageStrategy(trx, removeChildren(page))
       );
 
@@ -154,7 +158,7 @@ describe("Duplicate strategy tests", () => {
 
       const page = questionnaire.sections[0].pages[0];
 
-      const duplicatePage = await db.transaction(trx =>
+      const duplicatePage = await knex.transaction(trx =>
         duplicatePageStrategy(trx, removeChildren(page))
       );
 
@@ -223,7 +227,7 @@ describe("Duplicate strategy tests", () => {
 
       const page = questionnaire.sections[0].pages[0];
 
-      const duplicatePage = await db.transaction(trx =>
+      const duplicatePage = await knex.transaction(trx =>
         duplicatePageStrategy(trx, removeChildren(page))
       );
 
@@ -332,7 +336,7 @@ describe("Duplicate strategy tests", () => {
 
       const page = questionnaire.sections[0].pages[0];
 
-      const duplicatePage = await db.transaction(trx =>
+      const duplicatePage = await knex.transaction(trx =>
         duplicatePageStrategy(trx, removeChildren(page))
       );
 
@@ -378,7 +382,7 @@ describe("Duplicate strategy tests", () => {
 
       const page = questionnaire.sections[0].pages[0];
 
-      const duplicatePage = await db.transaction(trx =>
+      const duplicatePage = await knex.transaction(trx =>
         duplicatePageStrategy(trx, removeChildren(page))
       );
 
@@ -415,7 +419,7 @@ describe("Duplicate strategy tests", () => {
         const page = questionnaire.sections[0].pages[0];
         const option = page.answers[0].options[0];
 
-        const duplicatePage = await db.transaction(trx =>
+        const duplicatePage = await knex.transaction(trx =>
           duplicatePageStrategy(trx, removeChildren(page))
         );
 
@@ -454,7 +458,7 @@ describe("Duplicate strategy tests", () => {
 
         const page = questionnaire.sections[0].pages[0];
 
-        const duplicatePage = await db.transaction(trx =>
+        const duplicatePage = await knex.transaction(trx =>
           duplicatePageStrategy(trx, removeChildren(page))
         );
 
@@ -507,7 +511,7 @@ describe("Duplicate strategy tests", () => {
         const otherAnswer = answer.otherAnswer;
         const otherOption = otherAnswer.options[0];
 
-        const duplicatePage = await db.transaction(trx =>
+        const duplicatePage = await knex.transaction(trx =>
           duplicatePageStrategy(trx, removeChildren(page))
         );
         const dupAnswers = await AnswerRepository.findAll({
@@ -555,7 +559,7 @@ describe("Duplicate strategy tests", () => {
         });
 
         const page = questionnaire.sections[0].pages[0];
-        const duplicatePage = await db.transaction(trx =>
+        const duplicatePage = await knex.transaction(trx =>
           duplicatePageStrategy(trx, removeChildren(page))
         );
         const dupAnswers = await AnswerRepository.findAll({
@@ -599,7 +603,7 @@ describe("Duplicate strategy tests", () => {
 
         const answer = page.answers[0];
 
-        const duplicatePage = await db.transaction(trx =>
+        const duplicatePage = await knex.transaction(trx =>
           duplicatePageStrategy(trx, removeChildren(page))
         );
 
@@ -657,7 +661,7 @@ describe("Duplicate strategy tests", () => {
 
         const answer = page.answers[0];
 
-        const duplicatePage = await db.transaction(trx =>
+        const duplicatePage = await knex.transaction(trx =>
           duplicatePageStrategy(trx, removeChildren(page))
         );
 
@@ -720,7 +724,7 @@ describe("Duplicate strategy tests", () => {
 
         const page = questionnaire.sections[0].pages[0];
 
-        const duplicatePage = await db.transaction(trx =>
+        const duplicatePage = await knex.transaction(trx =>
           duplicatePageStrategy(trx, removeChildren(page))
         );
 
@@ -777,7 +781,7 @@ describe("Duplicate strategy tests", () => {
 
         const page = questionnaire.sections[0].pages[0];
 
-        const duplicatePage = await db.transaction(trx =>
+        const duplicatePage = await knex.transaction(trx =>
           duplicatePageStrategy(trx, removeChildren(page))
         );
 
@@ -819,7 +823,7 @@ describe("Duplicate strategy tests", () => {
 
       const section = questionnaire.sections[0];
 
-      const duplicateSection = await db.transaction(trx => {
+      const duplicateSection = await knex.transaction(trx => {
         return duplicateSectionStrategy(trx, removeChildren(section), 1);
       });
 
@@ -854,7 +858,7 @@ describe("Duplicate strategy tests", () => {
 
       const section = questionnaire.sections[0];
 
-      const duplicateSection = await db.transaction(trx =>
+      const duplicateSection = await knex.transaction(trx =>
         duplicateSectionStrategy(trx, removeChildren(section), 1)
       );
 
@@ -895,7 +899,7 @@ describe("Duplicate strategy tests", () => {
 
       const section = questionnaire.sections[0];
 
-      const duplicateSection = await db.transaction(trx =>
+      const duplicateSection = await knex.transaction(trx =>
         duplicateSectionStrategy(trx, removeChildren(section), 1)
       );
 
@@ -957,7 +961,7 @@ describe("Duplicate strategy tests", () => {
 
       const section = questionnaire.sections[1];
 
-      const duplicateSection = await db.transaction(trx =>
+      const duplicateSection = await knex.transaction(trx =>
         duplicateSectionStrategy(trx, removeChildren(section), 1)
       );
 
@@ -1041,7 +1045,7 @@ describe("Duplicate strategy tests", () => {
 
       const section = questionnaire.sections[0];
 
-      const duplicateSection = await db.transaction(trx =>
+      const duplicateSection = await knex.transaction(trx =>
         duplicateSectionStrategy(trx, removeChildren(section), 1)
       );
 
@@ -1086,7 +1090,7 @@ describe("Duplicate strategy tests", () => {
         ]
       });
 
-      const duplicateQuestionnaire = await db.transaction(trx => {
+      const duplicateQuestionnaire = await knex.transaction(trx => {
         return duplicateQuestionnaireStrategy(
           trx,
           removeChildren(questionnaire)
@@ -1107,7 +1111,7 @@ describe("Duplicate strategy tests", () => {
         ]
       });
 
-      const duplicateQuestionnaire = await db.transaction(trx =>
+      const duplicateQuestionnaire = await knex.transaction(trx =>
         duplicateQuestionnaireStrategy(trx, removeChildren(questionnaire))
       );
 
@@ -1136,7 +1140,7 @@ describe("Duplicate strategy tests", () => {
         ]
       });
 
-      const duplicateQuestionnaire = await db.transaction(trx =>
+      const duplicateQuestionnaire = await knex.transaction(trx =>
         duplicateQuestionnaireStrategy(trx, removeChildren(questionnaire))
       );
 
@@ -1187,7 +1191,7 @@ describe("Duplicate strategy tests", () => {
         ]
       });
 
-      const duplicateQuestionnaire = await db.transaction(trx =>
+      const duplicateQuestionnaire = await knex.transaction(trx =>
         duplicateQuestionnaireStrategy(trx, removeChildren(questionnaire))
       );
 
@@ -1290,7 +1294,7 @@ describe("Duplicate strategy tests", () => {
         ]
       });
 
-      const duplicateQuestionnaire = await db.transaction(trx =>
+      const duplicateQuestionnaire = await knex.transaction(trx =>
         duplicateQuestionnaireStrategy(trx, removeChildren(questionnaire))
       );
 

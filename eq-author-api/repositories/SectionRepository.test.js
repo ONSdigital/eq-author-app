@@ -1,8 +1,12 @@
-const db = require("../db");
-const QuestionnaireRepository = require("../repositories/QuestionnaireRepository");
-const SectionRepository = require("../repositories/SectionRepository");
+const knex = require("../db");
+const QuestionnaireRepository = require("../repositories/QuestionnaireRepository")(
+  knex
+);
+const SectionRepository = require("../repositories/SectionRepository")(knex);
 const { get, last, head, map, toString, times } = require("lodash");
-const buildTestQuestionnaire = require("../tests/utils/buildTestQuestionnaire");
+const buildTestQuestionnaire = require("../tests/utils/buildTestQuestionnaire")(
+  knex
+);
 
 const {
   CHECKBOX,
@@ -55,9 +59,9 @@ const eachP = (items, iter) =>
   );
 
 describe("SectionRepository", () => {
-  beforeAll(() => db.migrate.latest());
-  afterAll(() => db.destroy());
-  afterEach(() => db("Questionnaires").delete());
+  beforeAll(() => knex.migrate.latest());
+  afterAll(() => knex.destroy());
+  afterEach(() => knex("Questionnaires").delete());
 
   it("allows sections to be created", async () => {
     const {

@@ -31,12 +31,15 @@ const buildPage = page => ({
   ...page
 });
 
+const questionnaireRepository = QuestionnaireRepository(db);
+const sectionRepository = SectionRepository(db);
+
 const setup = async () => {
-  const questionnaire = await QuestionnaireRepository.insert(
+  const questionnaire = await questionnaireRepository.insert(
     buildQuestionnaire()
   );
 
-  const section = await SectionRepository.insert(
+  const section = await sectionRepository.insert(
     buildSection({
       questionnaireId: questionnaire.id
     })
@@ -56,9 +59,11 @@ describe("PagesRepository", () => {
   afterAll(() => db.destroy());
   afterEach(() => db("Questionnaires").delete());
 
+  const pageRepository = PageRepository(db);
+
   it("throws for unknown page types", () => {
     const page = buildPage({ pageType: "NotARealPageType" });
-    expect(() => PageRepository.insert(page)).toThrow();
+    expect(() => pageRepository.insert(page)).toThrow();
   });
 
   it("allows pages to be created", async () => {
@@ -66,7 +71,7 @@ describe("PagesRepository", () => {
 
     const page = buildPage({ sectionId: section.id });
 
-    const result = await PageRepository.insert(page);
+    const result = await pageRepository.insert(page);
 
     expect(result).toMatchObject(page);
     expect(result.order).not.toBeNull();
@@ -75,28 +80,28 @@ describe("PagesRepository", () => {
   it("allows pages to be updated", async () => {
     const { section } = await setup();
 
-    const result = await PageRepository.insert(
+    const result = await pageRepository.insert(
       buildPage({ sectionId: section.id })
     );
 
-    await PageRepository.update({
+    await pageRepository.update({
       id: result.id,
       title: "updated title",
       pageType: "QuestionPage"
     });
-    const updated = await PageRepository.getById(result.id);
+    const updated = await pageRepository.getById(result.id);
 
     expect(updated.title).not.toEqual(result.title);
   });
 
   it("allow pages to be deleted", async () => {
     const { section } = await setup();
-    const page = await PageRepository.insert(
+    const page = await pageRepository.insert(
       buildPage({ sectionId: section.id })
     );
 
-    await PageRepository.remove(page.id);
-    const result = await PageRepository.getById(page.id);
+    await pageRepository.remove(page.id);
+    const result = await pageRepository.getById(page.id);
 
     expect(result).toBeUndefined();
   });
@@ -104,14 +109,14 @@ describe("PagesRepository", () => {
   it("allows pages to be un-deleted", async () => {
     const { section } = await setup();
 
-    const page = await PageRepository.insert(
+    const page = await pageRepository.insert(
       buildPage({ sectionId: section.id })
     );
 
-    await PageRepository.remove(page.id);
-    await PageRepository.undelete(page.id);
+    await pageRepository.remove(page.id);
+    await pageRepository.undelete(page.id);
 
-    const result = await PageRepository.getById(page.id);
+    const result = await pageRepository.getById(page.id);
     expect(result).toMatchObject(page);
   });
 
@@ -124,8 +129,8 @@ describe("PagesRepository", () => {
         })
       );
 
-      return eachP(pages, PageRepository.insert).then(() =>
-        PageRepository.findAll({ sectionId })
+      return eachP(pages, pageRepository.insert).then(() =>
+        pageRepository.findAll({ sectionId })
       );
     };
 
@@ -147,14 +152,14 @@ describe("PagesRepository", () => {
 
       // reverse the list
       await eachP(pages, page =>
-        PageRepository.move({
+        pageRepository.move({
           id: page.id,
           sectionId: section.id,
           position: 0
         })
       );
 
-      const updatePages = await PageRepository.findAll({
+      const updatePages = await pageRepository.findAll({
         sectionId: section.id
       });
 
@@ -167,13 +172,13 @@ describe("PagesRepository", () => {
 
       const middlePage = pages[3];
 
-      await PageRepository.move({
+      await pageRepository.move({
         id: middlePage.id,
         sectionId: section.id,
         position: "5"
       });
 
-      const updatePages = await PageRepository.findAll({
+      const updatePages = await pageRepository.findAll({
         sectionId: section.id
       });
 
@@ -186,13 +191,13 @@ describe("PagesRepository", () => {
 
       const firstPage = pages[0];
 
-      await PageRepository.move({
+      await pageRepository.move({
         id: firstPage.id,
         sectionId: section.id,
         position: "3"
       });
 
-      const updatePages = await PageRepository.findAll({
+      const updatePages = await pageRepository.findAll({
         sectionId: section.id
       });
 
@@ -203,13 +208,13 @@ describe("PagesRepository", () => {
       const { section } = await setup();
       const results = await createPages(section.id, 5);
 
-      await PageRepository.move({
+      await pageRepository.move({
         id: head(results).id,
         sectionId: section.id,
         position: results.length * 2
       });
 
-      const updatedResults = await PageRepository.findAll({
+      const updatedResults = await pageRepository.findAll({
         sectionId: section.id
       });
 
@@ -220,13 +225,13 @@ describe("PagesRepository", () => {
       const { section } = await setup();
       const results = await createPages(section.id, 5);
 
-      await PageRepository.move({
+      await pageRepository.move({
         id: last(results).id,
         sectionId: section.id,
         position: -100
       });
 
-      const updatedResults = await PageRepository.findAll({
+      const updatedResults = await pageRepository.findAll({
         sectionId: section.id
       });
 
@@ -239,18 +244,18 @@ describe("PagesRepository", () => {
         questionnaire: { id: questionnaireId }
       } = await setup();
 
-      const section2 = await SectionRepository.insert(
+      const section2 = await sectionRepository.insert(
         buildSection({ title: "Section 2", questionnaireId })
       );
       const results = await createPages(section.id, 3);
 
-      await PageRepository.move({
+      await pageRepository.move({
         id: head(results).id,
         sectionId: section2.id,
         position: 0
       });
 
-      const updatedResults = await PageRepository.findAll({
+      const updatedResults = await pageRepository.findAll({
         sectionId: section2.id
       });
 
@@ -263,23 +268,23 @@ describe("PagesRepository", () => {
         questionnaire: { id: questionnaireId }
       } = await setup();
 
-      const section2 = await SectionRepository.insert(
+      const section2 = await sectionRepository.insert(
         buildSection({ title: "Section 2", questionnaireId })
       );
       const results = await createPages(section.id, 3);
 
-      await PageRepository.move({
+      await pageRepository.move({
         id: results[0].id,
         sectionId: section2.id,
         position: 0
       });
-      await PageRepository.move({
+      await pageRepository.move({
         id: results[1].id,
         sectionId: section2.id,
         position: 0
       });
 
-      const updatedResults = await PageRepository.findAll({
+      const updatedResults = await pageRepository.findAll({
         sectionId: section2.id
       });
 
@@ -292,18 +297,18 @@ describe("PagesRepository", () => {
       const { section } = await setup();
       const pages = await createPages(section.id, 3);
 
-      await PageRepository.remove(pages[1].id);
-      const newPage = await PageRepository.insert(
+      await pageRepository.remove(pages[1].id);
+      const newPage = await pageRepository.insert(
         buildPage({ title: "newest page", sectionId: section.id })
       );
 
-      await PageRepository.move({
+      await pageRepository.move({
         id: newPage.id,
         sectionId: section.id,
         position: 0
       });
 
-      const updatedResults = await PageRepository.findAll({
+      const updatedResults = await pageRepository.findAll({
         sectionId: section.id
       });
 
@@ -320,17 +325,17 @@ describe("PagesRepository", () => {
       const { section } = await setup();
       const pages = await createPages(section.id, 5);
 
-      await PageRepository.remove(pages[3].id);
+      await pageRepository.remove(pages[3].id);
 
-      await PageRepository.move({
+      await pageRepository.move({
         id: pages[4].id,
         sectionId: section.id,
         position: 2
       });
 
-      await PageRepository.undelete(pages[3].id);
+      await pageRepository.undelete(pages[3].id);
 
-      const updatedResults = await PageRepository.findAll({
+      const updatedResults = await pageRepository.findAll({
         sectionId: section.id
       });
 
@@ -342,23 +347,23 @@ describe("PagesRepository", () => {
     it("allow insertion at specific position", async () => {
       const { section } = await setup();
 
-      const page1 = await PageRepository.insert(
+      const page1 = await pageRepository.insert(
         buildPage({ sectionId: section.id, position: 0 })
       );
-      const page2 = await PageRepository.insert(
+      const page2 = await pageRepository.insert(
         buildPage({ sectionId: section.id, position: 0 })
       );
-      const page3 = await PageRepository.insert(
+      const page3 = await pageRepository.insert(
         buildPage({ sectionId: section.id, position: 0 })
       );
-      const page4 = await PageRepository.insert(
+      const page4 = await pageRepository.insert(
         buildPage({ sectionId: section.id, position: 0 })
       );
-      const page5 = await PageRepository.insert(
+      const page5 = await pageRepository.insert(
         buildPage({ sectionId: section.id, position: 0 })
       );
 
-      const updatedResults = await PageRepository.findAll({
+      const updatedResults = await pageRepository.findAll({
         sectionId: section.id
       });
 
@@ -370,23 +375,23 @@ describe("PagesRepository", () => {
     it("allows insertion at middle of list", async () => {
       const { section } = await setup();
 
-      const page1 = await PageRepository.insert(
+      const page1 = await pageRepository.insert(
         buildPage({ sectionId: section.id, position: 0 })
       );
-      const page2 = await PageRepository.insert(
+      const page2 = await pageRepository.insert(
         buildPage({ sectionId: section.id, position: 1 })
       );
-      const page3 = await PageRepository.insert(
+      const page3 = await pageRepository.insert(
         buildPage({ sectionId: section.id, position: 2 })
       );
 
-      await PageRepository.move({
+      await pageRepository.move({
         id: page3.id,
         sectionId: section.id,
         position: 1
       });
 
-      const updatedResults = await PageRepository.findAll({
+      const updatedResults = await pageRepository.findAll({
         sectionId: section.id
       });
 
@@ -398,10 +403,10 @@ describe("PagesRepository", () => {
     it("makes space when `order` values converge", async () => {
       const { section } = await setup();
 
-      const page1 = await PageRepository.insert(
+      const page1 = await pageRepository.insert(
         buildPage({ sectionId: section.id, position: 0 })
       );
-      const page2 = await PageRepository.insert(
+      const page2 = await pageRepository.insert(
         buildPage({ sectionId: section.id, position: 1 })
       );
 
@@ -409,14 +414,14 @@ describe("PagesRepository", () => {
       const plan = times(12, i => (i % 2 === 0 ? page1 : page2));
 
       await eachP(plan, page =>
-        PageRepository.move({
+        pageRepository.move({
           id: page.id,
           sectionId: section.id,
           position: 0
         })
       );
 
-      const updatedResults = await PageRepository.findAll({
+      const updatedResults = await pageRepository.findAll({
         sectionId: section.id
       });
 
@@ -429,14 +434,14 @@ describe("PagesRepository", () => {
       const pages = await createPages(section.id, 3);
 
       await eachP(reverse(pages), page =>
-        PageRepository.move({
+        pageRepository.move({
           id: page.id,
           sectionId: section.id,
           position: 2
         })
       );
 
-      const updatedResults = await PageRepository.findAll({
+      const updatedResults = await pageRepository.findAll({
         sectionId: section.id
       });
 
@@ -447,13 +452,13 @@ describe("PagesRepository", () => {
       const { section } = await setup();
       const pages = await createPages(section.id, 3);
 
-      await PageRepository.move({
+      await pageRepository.move({
         id: pages[1].id,
         sectionId: section.id,
         position: 1
       });
 
-      const updatedResults = await PageRepository.findAll({
+      const updatedResults = await pageRepository.findAll({
         sectionId: section.id
       });
 
@@ -464,13 +469,13 @@ describe("PagesRepository", () => {
       const { section } = await setup();
       const pages = await createPages(section.id, 1);
 
-      await PageRepository.move({
+      await pageRepository.move({
         id: pages[0].id,
         sectionId: section.id,
         position: 1000
       });
 
-      const updatedResults = await PageRepository.findAll({
+      const updatedResults = await pageRepository.findAll({
         sectionId: section.id
       });
 
@@ -481,7 +486,7 @@ describe("PagesRepository", () => {
       const { section } = await setup();
       const pages = await createPages(section.id, 5);
 
-      const position = await PageRepository.getPosition({ id: pages[2].id });
+      const position = await pageRepository.getPosition({ id: pages[2].id });
 
       expect(position).toBe(pages[2].position);
     });
@@ -492,9 +497,9 @@ describe("PagesRepository", () => {
       const { section } = await setup();
 
       const page = buildPage({ sectionId: section.id });
-      const result = await PageRepository.insert(page);
+      const result = await pageRepository.insert(page);
 
-      const duplicatePage = await PageRepository.duplicatePage(result.id, 1);
+      const duplicatePage = await pageRepository.duplicatePage(result.id, 1);
 
       const fieldsToOmit = [
         "id",
@@ -514,9 +519,9 @@ describe("PagesRepository", () => {
       const { section } = await setup();
 
       const page = buildPage({ sectionId: section.id });
-      const result = await PageRepository.insert(page);
+      const result = await pageRepository.insert(page);
 
-      const duplicatePage = await PageRepository.duplicatePage(result.id, 1);
+      const duplicatePage = await pageRepository.duplicatePage(result.id, 1);
 
       const startsWithCopyOf = duplicatePage.alias.startsWith("Copy of");
 
@@ -527,9 +532,9 @@ describe("PagesRepository", () => {
       const { section } = await setup();
 
       const page = buildPage({ sectionId: section.id });
-      const result = await PageRepository.insert(page);
+      const result = await pageRepository.insert(page);
 
-      const duplicatePage = await PageRepository.duplicatePage(result.id, 1);
+      const duplicatePage = await pageRepository.duplicatePage(result.id, 1);
 
       const startsWithCopyOf = duplicatePage.title.startsWith("Copy of");
 
@@ -539,17 +544,17 @@ describe("PagesRepository", () => {
     it("is able to insert the copied page below the original", async () => {
       const { section } = await setup();
 
-      const pageOne = await PageRepository.insert(
+      const pageOne = await pageRepository.insert(
         buildPage({ sectionId: section.id })
       );
-      const positionOfPageOne = await PageRepository.getPosition(pageOne);
+      const positionOfPageOne = await pageRepository.getPosition(pageOne);
 
-      const pageTwo = await PageRepository.duplicatePage(
+      const pageTwo = await pageRepository.duplicatePage(
         pageOne.id,
         parseInt(positionOfPageOne) + 1
       );
 
-      const positionOfPageTwo = await PageRepository.getPosition(pageTwo);
+      const positionOfPageTwo = await pageRepository.getPosition(pageTwo);
 
       expect(parseInt(positionOfPageOne) + 1).toEqual(
         parseInt(positionOfPageTwo)
@@ -559,18 +564,18 @@ describe("PagesRepository", () => {
     it("maintains the order of other questions within the section after duplicating a page", async () => {
       const { section } = await setup();
 
-      const pageOne = await PageRepository.insert(
+      const pageOne = await pageRepository.insert(
         buildPage({ sectionId: section.id })
       );
-      const pageTwo = await PageRepository.insert(
+      const pageTwo = await pageRepository.insert(
         buildPage({ sectionId: section.id })
       );
 
-      const pageThree = await PageRepository.duplicatePage(pageOne.id, 1);
+      const pageThree = await pageRepository.duplicatePage(pageOne.id, 1);
 
-      const positionOfPageOne = await PageRepository.getPosition(pageOne);
-      const positionOfPageTwo = await PageRepository.getPosition(pageTwo);
-      const positionOfPageThree = await PageRepository.getPosition(pageThree);
+      const positionOfPageOne = await pageRepository.getPosition(pageOne);
+      const positionOfPageTwo = await pageRepository.getPosition(pageTwo);
+      const positionOfPageThree = await pageRepository.getPosition(pageThree);
 
       expect(parseInt(positionOfPageOne) + 1).toEqual(
         parseInt(positionOfPageThree)

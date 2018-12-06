@@ -1,15 +1,19 @@
 /* eslint-disable camelcase */
 
-const db = require("../db");
+const knex = require("../db");
 
-const buildTestQuestionnaire = require("../tests/utils/buildTestQuestionnaire");
+const buildTestQuestionnaire = require("../tests/utils/buildTestQuestionnaire")(
+  knex
+);
 
-const QuestionConfirmationRepository = require("./QuestionConfirmationRepository");
+const QuestionConfirmationRepository = require("./QuestionConfirmationRepository")(
+  knex
+);
 
 describe("QuestionConfirmationRepository", () => {
   let page;
   beforeAll(async () => {
-    await db.migrate.latest();
+    await knex.migrate.latest();
     const questionnaire = await buildTestQuestionnaire({
       sections: [
         {
@@ -23,8 +27,8 @@ describe("QuestionConfirmationRepository", () => {
     });
     page = questionnaire.sections[0].pages[0];
   });
-  afterAll(() => db.destroy());
-  afterEach(() => db("QuestionConfirmations").delete());
+  afterAll(() => knex.destroy());
+  afterEach(() => knex("QuestionConfirmations").delete());
 
   describe("create", () => {
     it("should create and return the confirmation", async () => {

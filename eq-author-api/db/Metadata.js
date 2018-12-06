@@ -1,35 +1,39 @@
-const db = require("./");
+module.exports = knex => {
+  const findAll = function() {
+    return knex("Metadata").select();
+  };
 
-function Metadata() {
-  return db("Metadata");
-}
+  const findById = function(id) {
+    return knex("Metadata")
+      .where("id", parseInt(id, 10))
+      .first();
+  };
 
-module.exports.findAll = function findAll() {
-  return Metadata().select();
-};
+  const update = function(id, updates) {
+    return knex("Metadata")
+      .where("id", parseInt(id, 10))
+      .update(updates)
+      .returning("*");
+  };
 
-module.exports.findById = function findById(id) {
-  return Metadata()
-    .where("id", parseInt(id, 10))
-    .first();
-};
+  const create = function(obj) {
+    return knex("Metadata")
+      .insert(obj)
+      .returning("*");
+  };
 
-module.exports.update = function update(id, updates) {
-  return Metadata()
-    .where("id", parseInt(id, 10))
-    .update(updates)
-    .returning("*");
-};
+  const destroy = function(id) {
+    return knex("Metadata")
+      .where("id", parseInt(id, 10))
+      .delete()
+      .returning("*");
+  };
 
-module.exports.create = function create(obj) {
-  return Metadata()
-    .insert(obj)
-    .returning("*");
-};
-
-module.exports.destroy = function destroy(id) {
-  return Metadata()
-    .where("id", parseInt(id, 10))
-    .delete()
-    .returning("*");
+  return {
+    findAll,
+    findById,
+    update,
+    create,
+    destroy
+  };
 };

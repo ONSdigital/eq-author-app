@@ -1,42 +1,31 @@
-const db = require("./");
+module.exports = knex => {
+  const findAll = function() {
+    return knex("Validation_AnswerRules").select();
+  };
 
-function Validation() {
-  return db("Validation_AnswerRules");
-}
+  const find = function(where) {
+    return knex("Validation_AnswerRules")
+      .where(where)
+      .first();
+  };
 
-module.exports.findAll = function findAll() {
-  return Validation().select();
-};
+  const update = function(id, updates) {
+    return knex("Validation_AnswerRules")
+      .where({ id: parseInt(id, 10) })
+      .update(updates)
+      .returning("*");
+  };
 
-module.exports.find = function find(where) {
-  return Validation()
-    .where(where)
-    .first();
-};
+  const create = function(obj) {
+    return knex("Validation_AnswerRules")
+      .insert(obj)
+      .returning("*");
+  };
 
-module.exports.findField = function findById(where = {}, field) {
-  return Validation()
-    .select(field)
-    .where(where)
-    .first();
-};
-
-module.exports.update = function update(id, updates) {
-  return Validation()
-    .where({ id: parseInt(id, 10) })
-    .update(updates)
-    .returning("*");
-};
-
-module.exports.create = function create(obj) {
-  return Validation()
-    .insert(obj)
-    .returning("*");
-};
-
-module.exports.destroy = function destroy(id) {
-  return Validation()
-    .where({ id: parseInt(id, 10) })
-    .delete()
-    .returning("*");
+  return {
+    findAll,
+    find,
+    update,
+    create
+  };
 };

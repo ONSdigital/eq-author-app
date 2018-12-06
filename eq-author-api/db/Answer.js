@@ -1,35 +1,31 @@
-const db = require("./");
+module.exports = knex => {
+  const findAll = function() {
+    return knex("Answers").select();
+  };
 
-function Answer() {
-  return db("Answers");
-}
+  const findById = function(id) {
+    return knex("Answers")
+      .where("id", parseInt(id, 10))
+      .first();
+  };
 
-module.exports.findAll = function findAll() {
-  return Answer().select();
-};
+  const update = function(id, updates) {
+    return knex("Answers")
+      .where("id", parseInt(id, 10))
+      .update(updates)
+      .returning("*");
+  };
 
-module.exports.findById = function findById(id) {
-  return Answer()
-    .where("id", parseInt(id, 10))
-    .first();
-};
+  const create = function(answer) {
+    return knex("Answers")
+      .insert(answer)
+      .returning("*");
+  };
 
-module.exports.update = function update(id, updates) {
-  return Answer()
-    .where("id", parseInt(id, 10))
-    .update(updates)
-    .returning("*");
-};
-
-module.exports.create = function create(answer) {
-  return Answer()
-    .insert(answer)
-    .returning("*");
-};
-
-module.exports.destroy = function destroy(id) {
-  return Answer()
-    .where("id", parseInt(id, 10))
-    .delete()
-    .returning("*");
+  return {
+    findAll,
+    findById,
+    update,
+    create
+  };
 };
