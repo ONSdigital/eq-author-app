@@ -1,5 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
+import { Routes } from "utils/UrlUtils";
 
 describe("components/Header", () => {
   let now;
@@ -84,13 +85,22 @@ describe("components/Header", () => {
 
   describe("when the user is signed in", () => {
     const user = {
+      id: "user_id",
+      name: "Foo Bar",
       displayName: "Foo Bar",
       email: "foo@b.ar",
       photoURL: "http://foo.b.ar/photo.jpg"
     };
 
+    const data = {
+      me: {
+        name: "Foo Bar",
+        photo: "file:///path/to/some/photo.jpg"
+      }
+    };
+
     it("should render user's profile", () => {
-      const wrapper = render({ questionnaire: undefined, user });
+      const wrapper = render({ questionnaire: undefined, user, data });
       const profile = wrapper.find(StyledUserProfile);
 
       expect(profile).toHaveLength(1);
@@ -98,10 +108,49 @@ describe("components/Header", () => {
     });
 
     it("should allow user to sign out", () => {
-      const wrapper = render({ questionnaire: undefined, user });
+      const wrapper = render({ questionnaire: undefined, user, data });
       wrapper.find(StyledUserProfile).simulate("signOut");
 
       expect(handleSignOut).toHaveBeenCalled();
     });
+  });
+});
+
+describe("withCurrentUser", () => {
+  let withCurrentUser;
+  let UnconnectedHeader;
+  let WrappedComponent;
+
+  let defaultProps;
+
+  beforeEach(() => {
+    defaultProps = {
+      raiseToast: jest.fn(),
+      signOutUser: jest.fn()
+    };
+
+    const Header = require("components/Header");
+    UnconnectedHeader = Header.UnconnectedHeader;
+    withCurrentUser = Header.withCurrentUser;
+    WrappedComponent = withCurrentUser(UnconnectedHeader);
+  });
+
+  it("should not query for user info when on the sign-in page", () => {
+    const match = {
+      path: Routes.SIGN_IN
+    };
+
+    expect(
+      shallow(<WrappedComponent {...defaultProps} match={match} />)
+    ).toMatchSnapshot();
+  });
+
+  it("should query for user info when on any other page", () => {
+    const match = {
+      path: Routes.QUESTIONNAIRE
+    };
+    expect(
+      shallow(<WrappedComponent {...defaultProps} match={match} />)
+    ).toMatchSnapshot();
   });
 });

@@ -88,9 +88,10 @@ const CustomPropTypes = {
     pathname: PropTypes.string.isRequired
   }),
   user: PropTypes.shape({
-    photoURL: PropTypes.string,
-    displayName: PropTypes.string.isRequired,
-    email: PropTypes.string.isRequired
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
+    picture: PropTypes.string
   })
 };
 

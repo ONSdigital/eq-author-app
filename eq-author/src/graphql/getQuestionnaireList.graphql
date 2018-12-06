@@ -4,6 +4,7 @@ query GetQuestionnaireList {
     title
     createdAt
     createdBy {
+      id
       name
     }
   }

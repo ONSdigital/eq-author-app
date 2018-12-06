@@ -88,8 +88,7 @@ describe("resolvers", () => {
         legalBasis: "Voluntary",
         navigation: false,
         surveyId: "001",
-        summary: true,
-        createdBy: "Integration test"
+        summary: true
       };
 
       const result = await executeQuery(
@@ -1721,6 +1720,32 @@ describe("resolvers", () => {
         expect(get(destinations, "logicalDestinations")).toHaveLength(2);
         expect(get(destinations, "questionPages")).toHaveLength(2);
         expect(get(destinations, "sections")).toHaveLength(1);
+      });
+    });
+  });
+
+  describe("authenticated user", () => {
+    it("should be possible to query user details", () => {
+      const getUserDetails = `
+      query GetCurrentUser {
+        me {
+          id
+          name
+          email
+          picture
+        }
+      }
+      `;
+
+      expect(executeQuery(getUserDetails)).resolves.toEqual({
+        data: {
+          me: {
+            email: "eq-team@ons.gov.uk",
+            id: "mock_user_id",
+            name: "Author Integration Test",
+            picture: "file:///path/to/some/picture.jpg"
+          }
+        }
       });
     });
   });

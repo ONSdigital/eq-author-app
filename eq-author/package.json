@@ -28,7 +28,7 @@
     "cypress:open:routing": "CYPRESS_baseUrl=${CYPRESS_baseUrl:=http://localhost:3000/} CYPRESS_chromeWebSecurity='false' cypress open --config integrationFolder=cypress/routingTests"
   },
   "lint-staged": {
-    "*.js": [
+    "**/*.js": [
       "prettier --write",
       "git add"
     ]
@@ -122,6 +122,7 @@
     "apollo-client": "^2.3.5",
     "apollo-client-preset": "^1.0.8",
     "apollo-link": "^1.1.0",
+    "apollo-link-context": "^1.0.10",
     "apollo-link-error": "^1.1.0",
     "apollo-link-http": "^1.5.3",
     "connected-react-router": "^6.0.0",
@@ -139,6 +140,7 @@
     "graphql-iso-date": "^3.3.0",
     "graphql-tag": "^2.10.0",
     "graphql-tools": "^4.0.3",
+    "jsonwebtoken": "^8.4.0",
     "lodash": "^4.17.4",
     "normalize.css": "^7.0.0",
     "normalizr": "^3.2.4",
@@ -163,7 +165,8 @@
     "redux-thunk": "^2.2.0",
     "styled-components": "^3.4.9",
     "synchronous-promise": "^2.0.3",
-    "uncontrollable": "^4.1.0"
+    "uncontrollable": "^4.1.0",
+    "uuid": "^3.3.2"
   },
   "jest": {
     "coverageDirectory": "./coverage/",

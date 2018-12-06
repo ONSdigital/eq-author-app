@@ -1,4 +1,5 @@
 import { testId } from "../../utils";
+import GetCurrentUser from "../../fixtures/GetCurrentUser";
 describe("dashboard", () => {
   beforeEach(() => {
     cy.visit("/");
@@ -21,7 +22,8 @@ describe("dashboard", () => {
           data: {
             questionnaires: []
           }
-        }
+        },
+        GetCurrentUser
       });
       cy.login();
     });
@@ -41,12 +43,13 @@ describe("dashboard", () => {
                 id: "1",
                 title: "Test Questionnaire",
                 createdAt: "2018-08-01",
-                createdBy: { name: "Test user", __typename: "User" },
+                createdBy: { id: "1", name: "Test user", __typename: "User" },
                 __typename: "Questionnaire"
               }
             ]
           }
-        }
+        },
+        GetCurrentUser
       });
 
       cy.login();
@@ -70,7 +73,7 @@ describe("dashboard", () => {
                   id: "1",
                   title: "Test Questionnaire",
                   createdAt: "2018-08-01",
-                  createdBy: { name: "Test user", __typename: "User" },
+                  createdBy: { id: "1", name: "Test user", __typename: "User" },
                   __typename: "Questionnaire"
                 }
               ]
@@ -82,7 +85,7 @@ describe("dashboard", () => {
                 id: "1",
                 title: "Test Questionnaire",
                 createdAt: "2018-08-01",
-                createdBy: { name: "Test user", __typename: "User" },
+                createdBy: { id: "1", name: "Test user", __typename: "User" },
                 __typename: "Questionnaire"
               }
             }
@@ -93,11 +96,12 @@ describe("dashboard", () => {
                 id: "1",
                 title: "Test Questionnaire",
                 createdAt: "2018-08-01",
-                createdBy: { name: "Test user", __typename: "User" },
+                createdBy: { id: "1", name: "Test user", __typename: "User" },
                 __typename: "Questionnaire"
               }
             }
-          }
+          },
+          GetCurrentUser
         });
 
         cy.login();

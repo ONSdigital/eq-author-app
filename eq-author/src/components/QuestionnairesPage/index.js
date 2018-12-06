@@ -25,7 +25,6 @@ import withCreateQuestionnaire from "containers/enhancers/withCreateQuestionnair
 import withDuplicateQuestionnaire from "containers/enhancers/withDuplicateQuestionnaire";
 
 import { raiseToast } from "redux/toast/actions";
-import { getUser } from "redux/auth/reducer";
 
 const StyledButtonGroup = styled(ButtonGroup)`
   margin: 0 0 1em;
@@ -114,13 +113,9 @@ UnconnectedQuestionnairesPage.propTypes = {
   onDuplicateQuestionnaire: PropTypes.func.isRequired
 };
 
-const mapStateToProps = state => ({
-  user: getUser(state)
-});
-
 export default flowRight(
   connect(
-    mapStateToProps,
+    null,
     { raiseToast }
   ),
   withCreateQuestionnaire,

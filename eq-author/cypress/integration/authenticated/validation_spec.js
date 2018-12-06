@@ -67,11 +67,16 @@ const setMetadata = (sidebar, METADATA_KEY) => {
 };
 
 describe("Answer Validation", () => {
-  it("Can create a questionnaire", () => {
+  before(() => {
     cy.visit("/");
     cy.login();
     addQuestionnaire("Answer Validation Question Test");
   });
+
+  beforeEach(() => {
+    cy.login();
+  });
+
   describe("Number", () => {
     beforeEach(() => {
       addAnswerType(NUMBER);
@@ -234,8 +239,14 @@ describe("Answer Validation", () => {
 
   describe("Date", () => {
     before(() => {
+      cy.login();
       addMetadata(METADATA_KEY, "Date");
     });
+
+    beforeEach(() => {
+      cy.login();
+    });
+
     describe("Earliest date", () => {
       beforeEach(() => {
         addAnswerType(DATE);
@@ -419,6 +430,10 @@ describe("Answer Validation", () => {
   });
 
   describe("Date Range", () => {
+    beforeEach(() => {
+      cy.login();
+    });
+
     describe("Earliest date", () => {
       beforeEach(() => {
         addAnswerType(DATE_RANGE);

@@ -1,6 +1,5 @@
 const { GraphQLDate } = require("graphql-iso-date");
-
-const { includes, isNil } = require("lodash");
+const { includes, isNil, pick } = require("lodash");
 const GraphQLJSON = require("graphql-type-json");
 const { getName } = require("../utils/getName");
 const formatRichText = require("../utils/formatRichText");
@@ -24,14 +23,19 @@ const Resolvers = {
     availableRoutingDestinations: (root, { pageId }, ctx) =>
       ctx.repositories.Routing.getRoutingDestinations(pageId),
     questionConfirmation: (root, { id }, ctx) =>
-      ctx.repositories.QuestionConfirmation.findById(id)
+      ctx.repositories.QuestionConfirmation.findById(id),
+    me: (root, args, ctx) => ({
+      id: ctx.auth.user_id,
+      ...pick(ctx.auth, ["name", "email", "picture"])
+    })
   },
 
   Mutation: {
     createQuestionnaire: async (root, args, ctx) => {
-      const questionnaire = await ctx.repositories.Questionnaire.insert(
-        args.input
-      );
+      const questionnaire = await ctx.repositories.Questionnaire.insert({
+        ...args.input,
+        createdBy: ctx.auth.name
+      });
       const section = {
         title: "",
         questionnaireId: questionnaire.id
@@ -47,10 +51,7 @@ const Resolvers = {
     undeleteQuestionnaire: (_, args, ctx) =>
       ctx.repositories.Questionnaire.undelete(args.input.id),
     duplicateQuestionnaire: (_, args, ctx) =>
-      ctx.repositories.Questionnaire.duplicate(
-        args.input.id,
-        args.input.createdBy
-      ),
+      ctx.repositories.Questionnaire.duplicate(args.input.id, ctx.auth.name),
 
     createSection: async (root, args, ctx) => {
       const section = await ctx.repositories.Section.insert(args.input);
@@ -192,7 +193,10 @@ const Resolvers = {
   Questionnaire: {
     sections: (questionnaire, args, ctx) =>
       ctx.repositories.Section.findAll({ questionnaireId: questionnaire.id }),
-    createdBy: questionnaire => ({ name: questionnaire.createdBy }),
+    createdBy: questionnaire => ({
+      id: questionnaire.createdBy, // Temporary until next PR introduces users table.
+      name: questionnaire.createdBy
+    }),
     questionnaireInfo: ({ id }) => id,
     metadata: (questionnaire, args, ctx) =>
       ctx.repositories.Metadata.findAll({ questionnaireId: questionnaire.id })
@@ -559,11 +563,11 @@ const Resolvers = {
   },
 
   MinDurationValidationRule: {
-    duration: ({ config: { duration } }) => duration,
+    duration: ({ config: { duration } }) => duration
   },
 
   MaxDurationValidationRule: {
-    duration: ({ config: { duration } }) => duration,
+    duration: ({ config: { duration } }) => duration
   },
 
   Metadata: {

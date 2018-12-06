@@ -39,8 +39,7 @@ describe("createQuestionnaire", () => {
       theme: "test theme",
       legalBasis: "Voluntary",
       navigation: true,
-      surveyId: "abc",
-      createdBy: "John Doe"
+      surveyId: "abc"
     };
 
     const result = await executeQuery(
@@ -52,7 +51,9 @@ describe("createQuestionnaire", () => {
     expect(result.errors).toBeUndefined();
     expect(result.data.createQuestionnaire.id).toBe(QUESTIONNAIRE_ID);
 
-    expect(repositories.Questionnaire.insert).toHaveBeenCalledWith(input);
+    expect(repositories.Questionnaire.insert).toHaveBeenCalledWith(
+      expect.objectContaining(input)
+    );
     expect(repositories.Section.insert).toHaveBeenCalledWith(
       expect.objectContaining({ questionnaireId: QUESTIONNAIRE_ID })
     );

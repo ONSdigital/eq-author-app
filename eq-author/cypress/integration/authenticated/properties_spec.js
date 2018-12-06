@@ -18,11 +18,16 @@ import {
 
 const questionnaireTitle = "Answer Properties Question Test";
 describe("Answer Properties", () => {
-  it("Can create a questionnaire", () => {
+  before(() => {
     cy.visit("/");
     cy.login();
     addQuestionnaire(questionnaireTitle);
   });
+
+  beforeEach(() => {
+    cy.login();
+  });
+
   describe("Title", () => {
     it("Should show answer type as uppercase text", () => {
       [TEXTFIELD, NUMBER, CURRENCY, TEXTAREA].forEach(answerType => {

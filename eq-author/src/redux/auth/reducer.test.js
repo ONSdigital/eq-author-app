@@ -1,7 +1,13 @@
 import reducer from "./reducer";
 import { signInUser, signedOutUser } from "./actions";
 
-const user = { displayName: "nick" };
+const user = {
+  uid: "user_id",
+  displayName: "nick",
+  photoURL: "picture",
+  email: "email",
+  stsTokenManager: { accessToken: "token" }
+};
 
 describe("auth reducer", () => {
   it("should start with null user", () => {
@@ -14,7 +20,12 @@ describe("auth reducer", () => {
   it("should sign in user", () => {
     const state = reducer(undefined, signInUser(user));
     expect(state).toEqual({
-      user,
+      user: {
+        id: user.uid,
+        displayName: "nick",
+        photoURL: "picture",
+        email: "email"
+      },
       verifiedStatus: true
     });
   });

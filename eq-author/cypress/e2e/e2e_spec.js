@@ -3,9 +3,15 @@ import { question, questionnaire, section } from "../builders";
 describe("End to end", () => {
   let questionnaireId;
 
-  it("Can create a questionnaire", () => {
+  before(() => {
     cy.visit("/");
+  });
+
+  beforeEach(() => {
     cy.login();
+  });
+
+  it("Can create a questionnaire", () => {
     questionnaire.add({ title: "UKIS" }).then(({ id }) => {
       questionnaireId = id;
     });

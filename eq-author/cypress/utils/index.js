@@ -1,5 +1,7 @@
 import { matchPath } from "../../src/utils/UrlUtils";
 import { RADIO } from "../../src/constants/answer-types";
+import jwt from "jsonwebtoken";
+import uuid from "uuid";
 export const testId = (id, attr = "test") => `[data-${attr}="${id}"]`;
 
 export const answerTypes = ["Textfield", "Textarea", "Currency", "Number"];
@@ -257,4 +259,8 @@ export const selectQuestionFromContentPicker = ({
     .contains(questionTitle)
     .click();
   cy.get(testId("submit-button")).click();
+};
+
+export const createAccessToken = (payload, signingKey = uuid.v4()) => {
+  return jwt.sign(payload, signingKey);
 };

@@ -6,7 +6,6 @@ import styled from "styled-components";
 
 import { colors } from "constants/theme";
 import ModalFullScreen from "components/ModalFullScreen";
-import Header from "components/Header";
 import DialogHeader from "components/Dialog/DialogHeader";
 import { Message, Heading } from "components/Dialog/DialogMessage";
 import Button from "components/Button";
@@ -41,7 +40,6 @@ storiesOf("ModalFullScreen", module)
   ))
   .add("With scrollable content", () => (
     <div>
-      <Header />
       <ModalFullScreen onClose={handleOnClose} isOpen>
         <DialogHeader>
           <Message>

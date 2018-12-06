@@ -4,7 +4,7 @@ export default {
       id: "1",
       title: "Settings Spec Questionnaire",
       createdAt: "2018-07-30",
-      createdBy: { name: "Cypress", __typename: "User" },
+      createdBy: { id: "1", name: "Cypress", __typename: "User" },
       sections: [
         {
           id: "1",
