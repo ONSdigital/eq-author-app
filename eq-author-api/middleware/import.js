@@ -8,8 +8,7 @@ module.exports = async (req, res) => {
       status: "OK"
     });
   } catch (e) {
-    // eslint-disable-next-line no-console
-    console.error(e);
+    req.log.error(e);
     res.status(500);
     res.json({
       error: e

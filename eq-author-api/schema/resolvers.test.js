@@ -1,6 +1,5 @@
 const { first, get } = require("lodash");
-const knex = require("../db");
-const repositories = require("../repositories")(knex);
+const db = require("../db");
 const executeQuery = require("../tests/utils/executeQuery");
 const {
   createQuestionnaireMutation,
@@ -41,301 +40,6 @@ const {
   END_OF_QUESTIONNAIRE
 } = require("../constants/logicalDestinations");
 const { RADIO } = require("../constants/answerTypes");
-const ctx = { repositories };
-
-const createNewQuestionnaire = async () => {
-  const input = {
-    title: "Test Questionnaire",
-    description: "Questionnaire created by integration test.",
-    theme: "default",
-    legalBasis: "Voluntary",
-    navigation: false,
-    surveyId: "001",
-    summary: true,
-    createdBy: "Integration test"
-  };
-
-  const result = await executeQuery(
-    createQuestionnaireMutation,
-    { input },
-    ctx
-  );
-  return result.data.createQuestionnaire;
-};
-
-const createSection = async questionnaireId =>
-  executeQuery(
-    createSectionMutation,
-    {
-      input: {
-        title: "Foo",
-        questionnaireId: questionnaireId
-      }
-    },
-    ctx
-  );
-
-const createNewAnswer = async ({ id: pageId }, type) => {
-  const input = {
-    description: "",
-    guidance: "",
-    label: `${type} answer`,
-    qCode: null,
-    type: `${type}`,
-    questionPageId: pageId
-  };
-
-  const result = await executeQuery(createAnswerMutation, { input }, ctx);
-  return result.data.createAnswer;
-};
-
-const createNewOtherMutation = async answer =>
-  executeQuery(
-    createOtherMutation,
-    { input: { parentAnswerId: answer.id } },
-    ctx
-  );
-
-const createOther = async answer => {
-  const result = await createNewOtherMutation(answer);
-  return result.data.createOther;
-};
-
-const createExclusive = async answer => {
-  const result = await executeQuery(
-    createExclusiveMutation,
-    { input: { answerId: answer.id } },
-    ctx
-  );
-  return result;
-};
-
-const deleteOther = async answer =>
-  executeQuery(
-    deleteOtherMutation,
-    {
-      input: {
-        parentAnswerId: answer.id
-      }
-    },
-    ctx
-  );
-
-const deleteQuestionPage = async input =>
-  executeQuery(
-    deletePageMutation,
-    {
-      input
-    },
-    ctx
-  );
-
-const updateAnswer = async args =>
-  executeQuery(
-    updateAnswerMutation,
-    {
-      input: args
-    },
-    ctx
-  );
-
-const deleteAnswer = async ({ id }) =>
-  executeQuery(
-    deleteAnswerMutation,
-    {
-      input: {
-        id
-      }
-    },
-    ctx
-  );
-
-const deleteOption = async input =>
-  executeQuery(
-    deleteOptionMutation,
-    {
-      input
-    },
-    ctx
-  );
-
-const createThenDeleteOther = async (page, type) => {
-  const answer = await createNewAnswer(page, type);
-  await createOther(answer);
-  await deleteOther(answer);
-
-  return answer;
-};
-
-const createNewRoutingRuleSet = async questionPageId => {
-  return executeQuery(
-    createRoutingRuleSet,
-    {
-      input: {
-        questionPageId
-      }
-    },
-    ctx
-  );
-};
-
-const deleteRoutingRuleSetMutation = async id => {
-  return executeQuery(
-    deleteRoutingRuleSet,
-    {
-      input: {
-        id
-      }
-    },
-    ctx
-  );
-};
-
-const createNewRoutingRule = async input => {
-  return executeQuery(
-    createRoutingRule,
-    {
-      input
-    },
-    ctx
-  );
-};
-
-const createNewRoutingCondition = async input => {
-  return executeQuery(
-    createRoutingCondition,
-    {
-      input
-    },
-    ctx
-  );
-};
-
-const updateRoutingRuleSetMutation = async input =>
-  executeQuery(
-    updateRoutingRuleSet,
-    {
-      input
-    },
-    ctx
-  );
-
-const updateRoutingRuleMutation = (destinationType, destinationId, id) =>
-  executeQuery(
-    updateRoutingRule,
-    {
-      input: {
-        id,
-        operation: "And",
-        goto: {
-          absoluteDestination: {
-            destinationType,
-            destinationId
-          }
-        }
-      }
-    },
-    ctx
-  );
-
-const deleteRoutingRuleMutation = async input =>
-  executeQuery(
-    deleteRoutingRule,
-    {
-      input
-    },
-    ctx
-  );
-
-const deleteRoutingConditionMutation = async input =>
-  executeQuery(
-    deleteRoutingCondition,
-    {
-      input
-    },
-    ctx
-  );
-
-const updateConditionValueMutation = async ({ id, customNumber }) =>
-  executeQuery(updateConditionValue, { input: { id, customNumber } }, ctx);
-
-const toggleConditionOptionMutation = async (
-  conditionId,
-  checked,
-  optionId = null
-) =>
-  executeQuery(
-    toggleConditionOption,
-    {
-      input: {
-        conditionId,
-        optionId,
-        checked
-      }
-    },
-    ctx
-  );
-
-const changeRoutingConditionMutation = async input =>
-  executeQuery(
-    updateCondition,
-    {
-      input
-    },
-    ctx
-  );
-
-const changeRoutingCondition = async (firstPage, answer, conditionId) => {
-  const RoutingCondition = await changeRoutingConditionMutation({
-    id: conditionId,
-    questionPageId: firstPage.id,
-    answerId: answer.id
-  });
-  return RoutingCondition.data;
-};
-
-const createFullRoutingTree = async firstPage => {
-  await createNewRoutingRuleSet(firstPage.id);
-  const result = await executeQuery(
-    getBasicRoutingQuery,
-    { id: firstPage.id },
-    ctx
-  );
-  const routingConditionId = get(
-    result,
-    "data.page.routingRuleSet.routingRules[0].conditions[0].id"
-  );
-
-  const answer = await createNewAnswer(firstPage, "Checkbox");
-
-  const routingConditionValue = await toggleConditionOptionMutation(
-    routingConditionId,
-    true,
-    first(answer.options).id
-  ).then(res => res.data);
-
-  return { routingConditionId, answer, routingConditionValue };
-};
-
-const getFullRoutingTree = async firstPage =>
-  executeQuery(getEntireRoutingStructure, { id: firstPage.id }, ctx);
-
-const createQuestionPage = async id =>
-  executeQuery(
-    createQuestionPageMutation,
-    { input: { title: "Bar", sectionId: id } },
-    ctx
-  );
-
-const refreshAnswerDetails = async ({ id }) => {
-  const result = await executeQuery(getAnswerQuery, { id }, ctx);
-  return result.data.answer;
-};
-
-const addPage = async sectionId =>
-  createQuestionPage(sectionId).then(res => res.data.createQuestionPage);
-const addSection = async questionnaireId =>
-  createSection(questionnaireId).then(res => res.data.createSection);
 
 describe("resolvers", () => {
   let questionnaire;
@@ -343,8 +47,342 @@ describe("resolvers", () => {
   let pages;
   let firstPage;
 
-  beforeAll(() => knex.migrate.latest());
-  afterAll(() => knex.destroy());
+  let knex;
+  let ctx;
+
+  let createNewQuestionnaire;
+  let createSection;
+  let createNewAnswer;
+  let createNewOtherMutation;
+  let createOther;
+  let createExclusive;
+  let deleteOther;
+  let deleteQuestionPage;
+  let updateAnswer;
+  let deleteAnswer;
+  let deleteOption;
+  let createThenDeleteOther;
+  let createNewRoutingRuleSet;
+  let deleteRoutingRuleSetMutation;
+  let createNewRoutingRule;
+  let createNewRoutingCondition;
+  let updateRoutingRuleSetMutation;
+  let updateRoutingRuleMutation;
+  let deleteRoutingRuleMutation;
+  let deleteRoutingConditionMutation;
+  let updateConditionValueMutation;
+  let toggleConditionOptionMutation;
+  let changeRoutingConditionMutation;
+  let changeRoutingCondition;
+  let createFullRoutingTree;
+  let getFullRoutingTree;
+  let createQuestionPage;
+  let refreshAnswerDetails;
+  let addPage;
+  let addSection;
+
+  beforeAll(async () => {
+    const conf = await db(process.env.DB_SECRET_ID);
+    knex = require("knex")(conf);
+    await knex.migrate.latest();
+    let repositories = require("../repositories")(knex);
+    ctx = { repositories };
+
+    createNewQuestionnaire = async () => {
+      const input = {
+        title: "Test Questionnaire",
+        description: "Questionnaire created by integration test.",
+        theme: "default",
+        legalBasis: "Voluntary",
+        navigation: false,
+        surveyId: "001",
+        summary: true,
+        createdBy: "Integration test"
+      };
+
+      const result = await executeQuery(
+        createQuestionnaireMutation,
+        { input },
+        ctx
+      );
+      return result.data.createQuestionnaire;
+    };
+
+    createSection = async questionnaireId =>
+      executeQuery(
+        createSectionMutation,
+        {
+          input: {
+            title: "Foo",
+            questionnaireId: questionnaireId
+          }
+        },
+        ctx
+      );
+
+    createNewAnswer = async ({ id: pageId }, type) => {
+      const input = {
+        description: "",
+        guidance: "",
+        label: `${type} answer`,
+        qCode: null,
+        type: `${type}`,
+        questionPageId: pageId
+      };
+
+      const result = await executeQuery(createAnswerMutation, { input }, ctx);
+      return result.data.createAnswer;
+    };
+
+    createNewOtherMutation = async answer =>
+      executeQuery(
+        createOtherMutation,
+        { input: { parentAnswerId: answer.id } },
+        ctx
+      );
+
+    createOther = async answer => {
+      const result = await createNewOtherMutation(answer);
+      return result.data.createOther;
+    };
+
+    createExclusive = async answer => {
+      const result = await executeQuery(
+        createExclusiveMutation,
+        { input: { answerId: answer.id } },
+        ctx
+      );
+      return result;
+    };
+
+    deleteOther = async answer =>
+      executeQuery(
+        deleteOtherMutation,
+        {
+          input: {
+            parentAnswerId: answer.id
+          }
+        },
+        ctx
+      );
+
+    deleteQuestionPage = async input =>
+      executeQuery(
+        deletePageMutation,
+        {
+          input
+        },
+        ctx
+      );
+
+    updateAnswer = async args =>
+      executeQuery(
+        updateAnswerMutation,
+        {
+          input: args
+        },
+        ctx
+      );
+
+    deleteAnswer = async ({ id }) =>
+      executeQuery(
+        deleteAnswerMutation,
+        {
+          input: {
+            id
+          }
+        },
+        ctx
+      );
+
+    deleteOption = async input =>
+      executeQuery(
+        deleteOptionMutation,
+        {
+          input
+        },
+        ctx
+      );
+
+    createThenDeleteOther = async (page, type) => {
+      const answer = await createNewAnswer(page, type);
+      await createOther(answer);
+      await deleteOther(answer);
+
+      return answer;
+    };
+
+    createNewRoutingRuleSet = async questionPageId => {
+      return executeQuery(
+        createRoutingRuleSet,
+        {
+          input: {
+            questionPageId
+          }
+        },
+        ctx
+      );
+    };
+
+    deleteRoutingRuleSetMutation = async id => {
+      return executeQuery(
+        deleteRoutingRuleSet,
+        {
+          input: {
+            id
+          }
+        },
+        ctx
+      );
+    };
+
+    createNewRoutingRule = async input => {
+      return executeQuery(
+        createRoutingRule,
+        {
+          input
+        },
+        ctx
+      );
+    };
+
+    createNewRoutingCondition = async input => {
+      return executeQuery(
+        createRoutingCondition,
+        {
+          input
+        },
+        ctx
+      );
+    };
+
+    updateRoutingRuleSetMutation = async input =>
+      executeQuery(
+        updateRoutingRuleSet,
+        {
+          input
+        },
+        ctx
+      );
+
+    updateRoutingRuleMutation = (destinationType, destinationId, id) =>
+      executeQuery(
+        updateRoutingRule,
+        {
+          input: {
+            id,
+            operation: "And",
+            goto: {
+              absoluteDestination: {
+                destinationType,
+                destinationId
+              }
+            }
+          }
+        },
+        ctx
+      );
+
+    deleteRoutingRuleMutation = async input =>
+      executeQuery(
+        deleteRoutingRule,
+        {
+          input
+        },
+        ctx
+      );
+
+    deleteRoutingConditionMutation = async input =>
+      executeQuery(
+        deleteRoutingCondition,
+        {
+          input
+        },
+        ctx
+      );
+
+    updateConditionValueMutation = async ({ id, customNumber }) =>
+      executeQuery(updateConditionValue, { input: { id, customNumber } }, ctx);
+
+    toggleConditionOptionMutation = async (
+      conditionId,
+      checked,
+      optionId = null
+    ) =>
+      executeQuery(
+        toggleConditionOption,
+        {
+          input: {
+            conditionId,
+            optionId,
+            checked
+          }
+        },
+        ctx
+      );
+
+    changeRoutingConditionMutation = async input =>
+      executeQuery(
+        updateCondition,
+        {
+          input
+        },
+        ctx
+      );
+
+    changeRoutingCondition = async (firstPage, answer, conditionId) => {
+      const RoutingCondition = await changeRoutingConditionMutation({
+        id: conditionId,
+        questionPageId: firstPage.id,
+        answerId: answer.id
+      });
+      return RoutingCondition.data;
+    };
+
+    createFullRoutingTree = async firstPage => {
+      await createNewRoutingRuleSet(firstPage.id);
+      const result = await executeQuery(
+        getBasicRoutingQuery,
+        { id: firstPage.id },
+        ctx
+      );
+      const routingConditionId = get(
+        result,
+        "data.page.routingRuleSet.routingRules[0].conditions[0].id"
+      );
+
+      const answer = await createNewAnswer(firstPage, "Checkbox");
+
+      const routingConditionValue = await toggleConditionOptionMutation(
+        routingConditionId,
+        true,
+        first(answer.options).id
+      ).then(res => res.data);
+
+      return { routingConditionId, answer, routingConditionValue };
+    };
+
+    getFullRoutingTree = async firstPage =>
+      executeQuery(getEntireRoutingStructure, { id: firstPage.id }, ctx);
+
+    createQuestionPage = async id =>
+      executeQuery(
+        createQuestionPageMutation,
+        { input: { title: "Bar", sectionId: id } },
+        ctx
+      );
+
+    refreshAnswerDetails = async ({ id }) => {
+      const result = await executeQuery(getAnswerQuery, { id }, ctx);
+      return result.data.answer;
+    };
+
+    addPage = async sectionId =>
+      createQuestionPage(sectionId).then(res => res.data.createQuestionPage);
+    addSection = async questionnaireId =>
+      createSection(questionnaireId).then(res => res.data.createSection);
+  });
+
   afterEach(() => knex("Questionnaires").delete());
 
   beforeEach(async () => {

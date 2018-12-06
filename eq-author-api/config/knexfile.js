@@ -5,6 +5,7 @@ module.exports = {
     min: 10,
     max: 50
   },
+  acquireConnectionTimeout: 5000,
   migrations: {
     tableName: "knex_migrations"
   }

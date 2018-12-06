@@ -1,12 +1,5 @@
-const knex = require("../db");
-const QuestionnaireRepository = require("../repositories/QuestionnaireRepository")(
-  knex
-);
-const SectionRepository = require("../repositories/SectionRepository")(knex);
+const db = require("../db");
 const { get, last, head, map, toString, times } = require("lodash");
-const buildTestQuestionnaire = require("../tests/utils/buildTestQuestionnaire")(
-  knex
-);
 
 const {
   CHECKBOX,
@@ -44,14 +37,6 @@ const buildSection = section => ({
   ...section
 });
 
-const setup = async () => {
-  const questionnaire = await QuestionnaireRepository.insert(
-    buildQuestionnaire()
-  );
-
-  return { questionnaire };
-};
-
 const eachP = (items, iter) =>
   items.reduce(
     (promise, item) => promise.then(() => iter(item)),
@@ -59,8 +44,33 @@ const eachP = (items, iter) =>
   );
 
 describe("SectionRepository", () => {
-  beforeAll(() => knex.migrate.latest());
-  afterAll(() => knex.destroy());
+  let knex;
+  let QuestionnaireRepository;
+  let SectionRepository;
+  let buildTestQuestionnaire;
+  let setup;
+
+  beforeAll(async () => {
+    const conf = await db(process.env.DB_SECRET_ID);
+    knex = require("knex")(conf);
+    await knex.migrate.latest();
+    QuestionnaireRepository = require("../repositories/QuestionnaireRepository")(
+      knex
+    );
+    SectionRepository = require("../repositories/SectionRepository")(knex);
+    buildTestQuestionnaire = require("../tests/utils/buildTestQuestionnaire")(
+      knex
+    );
+
+    setup = async () => {
+      const questionnaire = await QuestionnaireRepository.insert(
+        buildQuestionnaire()
+      );
+
+      return { questionnaire };
+    };
+  });
+
   afterEach(() => knex("Questionnaires").delete());
 
   it("allows sections to be created", async () => {

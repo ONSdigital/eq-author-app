@@ -1,12 +1,5 @@
-const knex = require("../db");
+const db = require("../db");
 const { get } = require("lodash");
-const {
-  getPreviousAnswersForValidation,
-  getMetadataForValidation
-} = require("./ValidationRepository")(knex);
-const buildTestQuestionnaire = require("../tests/utils/buildTestQuestionnaire")(
-  knex
-);
 const { DATE, NUMBER, TEXTAREA } = require("../constants/answerTypes");
 const {
   DATE: METADATA_DATE,
@@ -14,13 +7,21 @@ const {
 } = require("../constants/metadataTypes");
 
 describe("ValidationRepository", () => {
-  beforeAll(() => knex.migrate.latest());
-  afterAll(() => knex.destroy());
-  afterEach(async () => {
-    await knex.transaction(async trx => {
-      await trx.table("Questionnaires").delete();
-    });
+  let knex;
+  let ValidationRepository;
+  let buildTestQuestionnaire;
+
+  beforeAll(async () => {
+    const conf = await db(process.env.DB_SECRET_ID);
+    knex = require("knex")(conf);
+    await knex.migrate.latest();
+    ValidationRepository = require("./ValidationRepository")(knex);
+    buildTestQuestionnaire = require("../tests/utils/buildTestQuestionnaire")(
+      knex
+    );
   });
+
+  afterEach(() => knex.table("Questionnaires").delete());
 
   describe("Previous answers", () => {
     let questionnaire;
@@ -98,7 +99,7 @@ describe("ValidationRepository", () => {
     });
 
     it("should get answers of same type on previous pages and sections", async () => {
-      const previousAnswers = await getPreviousAnswersForValidation(
+      const previousAnswers = await ValidationRepository.getPreviousAnswersForValidation(
         get(
           questionnaire,
           "sections[1].pages[0].answers[3].validation.earliestDate.id"
@@ -116,7 +117,7 @@ describe("ValidationRepository", () => {
     });
 
     it("should get answers of same type on previous pages within the same section", async () => {
-      const previousAnswers = await getPreviousAnswersForValidation(
+      const previousAnswers = await ValidationRepository.getPreviousAnswersForValidation(
         get(
           questionnaire,
           "sections[0].pages[1].answers[0].validation.earliestDate.id"
@@ -163,7 +164,7 @@ describe("ValidationRepository", () => {
     });
 
     it("should get metadata of date type answers", async () => {
-      const metadata = await getMetadataForValidation(
+      const metadata = await ValidationRepository.getMetadataForValidation(
         get(
           questionnaire,
           "sections[0].pages[0].answers[0].validation.earliestDate.id"
@@ -178,7 +179,7 @@ describe("ValidationRepository", () => {
     });
 
     it("should return empty array for non-date type answers", async () => {
-      const metadata = await getMetadataForValidation(
+      const metadata = await ValidationRepository.getMetadataForValidation(
         get(
           questionnaire,
           "sections[0].pages[0].answers[1].validation.maxValue.id"

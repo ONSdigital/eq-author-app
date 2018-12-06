@@ -1,4 +1,3 @@
-/* eslint-disable camelcase*/
 const KJUR = require("jsrsasign");
 const fs = require("fs");
 const JSONWebKey = require("json-web-key");

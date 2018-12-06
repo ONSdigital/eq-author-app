@@ -5,5 +5,4 @@ if [ -n "$SECRETS_S3_BUCKET" ]; then
     aws s3 sync s3://$SECRETS_S3_BUCKET/ /secrets
 fi
 
-yarn waitForPostgres
 yarn start
