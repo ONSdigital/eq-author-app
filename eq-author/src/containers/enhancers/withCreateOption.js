@@ -16,8 +16,8 @@ export const createUpdater = answerId => (proxy, result) => {
 };
 
 export const mapMutateToProps = ({ mutate }) => ({
-  onAddOption(answerId) {
-    const option = { answerId };
+  onAddOption(answerId, { hasAdditionalAnswer }) {
+    const option = { answerId, hasAdditionalAnswer };
 
     const update = createUpdater(answerId);
 

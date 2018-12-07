@@ -7,8 +7,6 @@ module.exports = knex => {
     Option(knex)
       .findAll()
       .where({
-        isDeleted: false,
-        otherAnswerId: null,
         mutuallyExclusive: true,
         answerId
       })
@@ -24,7 +22,7 @@ module.exports = knex => {
   const findAll = (where = {}, orderBy = "id", direction = "asc") =>
     Option(knex)
       .findAll()
-      .where({ isDeleted: false, otherAnswerId: null })
+      .where({ isDeleted: false })
       .where(where)
       .orderBy(orderBy, direction);
 
@@ -39,7 +37,8 @@ module.exports = knex => {
     value,
     qCode,
     answerId,
-    mutuallyExclusive = false
+    mutuallyExclusive = false,
+    additionalAnswerId
   }) => {
     if (mutuallyExclusive) {
       await checkForExistingExclusive(answerId);
@@ -51,7 +50,8 @@ module.exports = knex => {
         value,
         qCode,
         answerId,
-        mutuallyExclusive
+        mutuallyExclusive,
+        additionalAnswerId
       })
       .then(head);
   };
@@ -90,13 +90,6 @@ module.exports = knex => {
       .update(id, { isDeleted: false })
       .then(head);
 
-  const getOtherOption = (answerId, orderBy = "createdAt", direction = "asc") =>
-    Option(knex)
-      .findAll()
-      .where({ isDeleted: false, otherAnswerId: answerId })
-      .orderBy(orderBy, direction)
-      .first();
-
   return {
     findAll,
     findExclusiveOptionByAnswerId,
@@ -104,7 +97,6 @@ module.exports = knex => {
     insert,
     update,
     remove,
-    undelete,
-    getOtherOption
+    undelete
   };
 };

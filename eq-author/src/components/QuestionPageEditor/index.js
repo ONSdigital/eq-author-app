@@ -43,8 +43,6 @@ export default class QuestionPageEditor extends React.Component {
     onUpdateOption: PropTypes.func.isRequired,
     onMovePage: PropTypes.func.isRequired,
     showMovePageDialog: PropTypes.bool.isRequired,
-    onAddOther: PropTypes.func.isRequired,
-    onDeleteOther: PropTypes.func.isRequired,
     onAddExclusive: PropTypes.func.isRequired,
     onDeletePageConfirm: PropTypes.func.isRequired,
     onCloseDeleteConfirmDialog: PropTypes.func.isRequired,
@@ -64,9 +62,7 @@ export default class QuestionPageEditor extends React.Component {
       onAddOption,
       onUpdateOption,
       onDeleteOption,
-      onAddOther,
-      onAddExclusive,
-      onDeleteOther
+      onAddExclusive
     } = this.props;
 
     return (
@@ -76,9 +72,7 @@ export default class QuestionPageEditor extends React.Component {
             answer={answer}
             onUpdate={onUpdateAnswer}
             onAddOption={onAddOption}
-            onAddOther={onAddOther}
             onAddExclusive={onAddExclusive}
-            onDeleteOther={onDeleteOther}
             onUpdateOption={onUpdateOption}
             onDeleteOption={onDeleteOption}
             onDeleteAnswer={this.handleDeleteAnswer}

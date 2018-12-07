@@ -12,7 +12,7 @@ const sanitize = omit([
   "createdAt",
   "updatedAt",
   "answerId",
-  "otherAnswerId",
+  "additionalAnswerId",
   "parentAnswerId",
   "questionPageId",
   "sectionId",
@@ -492,7 +492,7 @@ describe("Duplicate strategy tests", () => {
         ]);
       });
 
-      it("will duplicate an answer with an other option", async () => {
+      it("will duplicate an answer with an additionalAnswer option", async () => {
         const questionnaire = await buildTestQuestionnaire({
           sections: [
             {
@@ -501,15 +501,17 @@ describe("Duplicate strategy tests", () => {
                   answers: [
                     {
                       type: "Radio",
-                      options: [{ label: "1" }, { label: "2" }],
-                      other: {
-                        answer: {
-                          label: "Other answer label"
-                        },
-                        option: {
-                          label: "Other option label"
+                      options: [
+                        { label: "1" },
+                        { label: "2" },
+                        {
+                          label: "Other option label",
+                          additionalAnswer: {
+                            label: "Other answer label",
+                            type: "TextField"
+                          }
                         }
-                      }
+                      ]
                     }
                   ]
                 }
@@ -521,8 +523,7 @@ describe("Duplicate strategy tests", () => {
         const page = questionnaire.sections[0].pages[0];
 
         const answer = page.answers[0];
-        const otherAnswer = answer.otherAnswer;
-        const otherOption = otherAnswer.options[0];
+        const optionWithAdditional = answer.options[2];
 
         const duplicatePage = await knex.transaction(trx =>
           duplicatePageStrategy(trx, removeChildren(page))
@@ -531,21 +532,13 @@ describe("Duplicate strategy tests", () => {
           questionPageId: duplicatePage.id
         });
         const duplicateAnswer = dupAnswers[0];
-        const duplicateOtherAnswer = await AnswerRepository.getOtherAnswer(
-          duplicateAnswer.id
-        );
-        const duplicateOtherOption = await OptionRepository.getOtherOption(
-          duplicateOtherAnswer.id
-        );
+        const duplicateOtherOption = await OptionRepository.findAll({
+          answerId: duplicateAnswer.id
+        });
 
         expect(sanitize(duplicateAnswer)).toMatchObject(sanitizeParent(answer));
-        expect(duplicateOtherAnswer.parentAnswerId).toEqual(duplicateAnswer.id);
-        expect(sanitize(duplicateOtherAnswer)).toMatchObject({
-          ...sanitizeParent(otherAnswer),
-          label: "Other answer label"
-        });
-        expect(sanitize(duplicateOtherOption)).toMatchObject({
-          ...sanitize(otherOption),
+        expect(sanitize(duplicateOtherOption[2])).toEqual({
+          ...sanitize(optionWithAdditional),
           label: "Other option label"
         });
       });

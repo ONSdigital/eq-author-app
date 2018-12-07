@@ -20,7 +20,7 @@ const absoluteSectionGoto = {
   }
 };
 
-const otherCondition = [
+const additionAnswerCondition = [
   {
     id: 1,
     comparator: "Equal",
@@ -35,14 +35,16 @@ const otherCondition = [
         {
           id: 5,
           label: "pineapple"
-        }
-      ],
-      other: {
-        option: {
+        },
+        {
           id: 6,
-          label: "other"
+          label: "additionAnswer",
+          additionalAnswer: {
+            id: 7,
+            label: "additional"
+          }
         }
-      }
+      ]
     },
     routingValue: {
       value: [5]
@@ -200,9 +202,9 @@ describe("Rule", () => {
     });
   });
 
-  it("should build valid runner routing with 'other' answers", () => {
+  it("should build valid runner routing with 'additionalAnswer' answers", () => {
     const block = new Block(
-      createRuleJSON(nextPageGoto, otherCondition),
+      createRuleJSON(nextPageGoto, additionAnswerCondition),
       "1",
       ctx
     );
@@ -217,7 +219,11 @@ describe("Rule", () => {
             block: "block2",
             when: [
               { id: "answer3", condition: "not equals", value: "pepperoni" },
-              { id: "answer3", condition: "not equals", value: "other" },
+              {
+                id: "answer3",
+                condition: "not equals",
+                value: "additionAnswer"
+              },
               { id: "answer3", condition: "set" }
             ]
           }

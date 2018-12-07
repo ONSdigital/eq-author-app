@@ -1,5 +1,10 @@
+#import "./answer.graphql"
+
 fragment Option on Option {
   id
   description
   label
+  additionalAnswer {
+    ...Answer
+  }
 }

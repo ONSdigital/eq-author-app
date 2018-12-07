@@ -132,8 +132,6 @@ AnswerEditor.propTypes = {
   onDeleteAnswer: PropTypes.func.isRequired,
   onAddOption: PropTypes.func.isRequired,
   onAddExclusive: PropTypes.func.isRequired,
-  onAddOther: PropTypes.func.isRequired,
-  onDeleteOther: PropTypes.func.isRequired,
   onUpdateOption: PropTypes.func.isRequired,
   onDeleteOption: PropTypes.func.isRequired
 };

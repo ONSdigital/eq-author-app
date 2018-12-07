@@ -1,4 +1,5 @@
 const cheerio = require("cheerio");
+const { omit } = require("lodash");
 
 const {
   getValidationEntity
@@ -120,6 +121,19 @@ module.exports = knex => {
         ...optionDetails
       });
     } else {
+      if (optionDetails.additionalAnswer) {
+        const additionalAnswer = await AnswerRepository.createAnswer({
+          ...optionDetails.additionalAnswer
+        });
+        await AnswerRepository.update({
+          id: additionalAnswer.id,
+          parentAnswerId: answer.id
+        });
+        await OptionRepository.insert({
+          additionalAnswerId: additionalAnswer.id,
+          ...omit(optionDetails, "additionalAnswer")
+        });
+      }
       option = await OptionRepository.insert(optionDetails);
     }
     if (id) {
@@ -150,26 +164,6 @@ module.exports = knex => {
     return options;
   };
 
-  const buildOtherAnswer = async (
-    { answer: answerConfig, option: optionConfig },
-    parentAnswer
-  ) => {
-    const { answer, option } = await AnswerRepository.createOtherAnswer(
-      parentAnswer
-    );
-    const otherAnswer = await AnswerRepository.update({
-      ...answerConfig,
-      id: answer.id
-    });
-    otherAnswer.options = [
-      await OptionRepository.update({
-        ...optionConfig,
-        id: option.id
-      })
-    ];
-    return otherAnswer;
-  };
-
   const buildAnswers = async (answerConfigs = [], page, references) => {
     let answers = [];
     for (let i = 0; i < answerConfigs.length; ++i) {
@@ -177,7 +171,6 @@ module.exports = knex => {
         options,
         mutuallyExclusiveOption,
         validation,
-        other,
         id,
         childAnswers,
         ...answerConfig
@@ -218,9 +211,6 @@ module.exports = knex => {
         answer,
         references
       );
-      if (other) {
-        answer.otherAnswer = await buildOtherAnswer(other, answer);
-      }
 
       answers.push(answer);
     }

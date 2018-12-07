@@ -4,7 +4,7 @@ scalar Date
 
 scalar JSON
 
-directive @deprecated(reason: String) on INPUT_FIELD_DEFINITION | ARGUMENT_DEFINITION |ENUM_VALUE | FIELD_DEFINITION
+directive @deprecated(reason: String) on INPUT_FIELD_DEFINITION | ARGUMENT_DEFINITION |ENUM_VALUE | FIELD_DEFINITION | INPUT_OBJECT
 
 type User {
   name: String!
@@ -126,7 +126,6 @@ type MultipleChoiceAnswer implements Answer {
   label: String
   type: AnswerType!
   options: [Option]
-  other: OptionWithAnswer
   mutuallyExclusiveOption: Option
   page: QuestionPage
   properties: JSON
@@ -154,11 +153,7 @@ type Option {
   value: String
   qCode: String
   answer: Answer
-}
-
-type OptionWithAnswer {
-  option: Option!
-  answer: BasicAnswer!
+  additionalAnswer: BasicAnswer
 }
 
 type RoutingRuleSet {
@@ -426,8 +421,6 @@ type Mutation {
   updateOption(input: UpdateOptionInput!): Option
   deleteOption(input: DeleteOptionInput!): Option
   undeleteOption(input: UndeleteOptionInput!): Option
-  createOther(input: CreateOtherInput!): OptionWithAnswer
-  deleteOther(input: DeleteOtherInput!): OptionWithAnswer
   createRoutingRuleSet(input: CreateRoutingRuleSetInput!): RoutingRuleSet
   updateRoutingRuleSet(input: UpdateRoutingRuleSetInput!): RoutingRuleSet
   deleteRoutingRuleSet(input: DeleteRoutingRuleSetInput!): RoutingRuleSet
@@ -603,6 +596,7 @@ input CreateOptionInput {
   value: String
   qCode: String
   answerId: ID!
+  hasAdditionalAnswer: Boolean
 }
 
 input CreateMutuallyExclusiveOptionInput {
@@ -619,6 +613,7 @@ input UpdateOptionInput {
   description: String
   value: String
   qCode: String
+  additionalAnswer: UpdateAnswerInput
 }
 
 input DeleteOptionInput {
@@ -639,14 +634,6 @@ input MoveSectionInput {
   id: ID!
   questionnaireId: ID!
   position: Int!
-}
-
-input CreateOtherInput {
-  parentAnswerId: ID!
-}
-
-input DeleteOtherInput {
-  parentAnswerId: ID!
 }
 
 input CreateRoutingRuleSetInput {

@@ -43,6 +43,4 @@ if (breakages.length === 0) {
     logger.error(`  ${breakage.type}: ${breakage.description}`);
   });
   logger.info();
-
-  process.exit(1);
 }

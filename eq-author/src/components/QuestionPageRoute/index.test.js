@@ -281,8 +281,6 @@ describe("QuestionPageRoute", () => {
         onAddOption: jest.fn(),
         onUpdateOption: jest.fn(),
         onDeleteOption: jest.fn(),
-        onAddOther: jest.fn(),
-        onDeleteOther: jest.fn(),
         onDuplicatePage: jest.fn()
       };
     });

@@ -631,7 +631,7 @@ describe("builder", () => {
     });
   });
 
-  describe('Checkbox/Radio with "other" option', () => {
+  describe("Checkbox/Radio with additionalValue option", () => {
     const addMultipleChoiceAnswer = (type = "Checkbox", withOther = true) => {
       addAnswerType(type);
       if (withOther) {
@@ -640,13 +640,13 @@ describe("builder", () => {
       }
     };
 
-    it('should add an "other" answer', () => {
+    it("should add an additionalValue option answer", () => {
       addMultipleChoiceAnswer();
       cy.get(testId("option-label")).should("have.length", 2);
       cy.get(testId("other-answer")).should("have.length", 1);
     });
 
-    it("should update the other option and answer values", () => {
+    it("should update the additionalValue option and answer values", () => {
       addMultipleChoiceAnswer();
       cy.get(testId("option-label"))
         .last()
@@ -662,7 +662,18 @@ describe("builder", () => {
         .click();
     });
 
-    it('should remove the "other" option.', () => {
+    it("should allow a mixture of additionalOptions and regular option answers", () => {
+      addMultipleChoiceAnswer();
+      cy.get(testId("btn-add-option-menu")).click();
+      cy.get(testId("btn-add-option-other")).click();
+      cy.get(testId("btn-add-option")).click();
+      cy.get(testId("btn-add-option-menu")).click();
+      cy.get(testId("btn-add-option-other")).click();
+      cy.get(testId("option-label")).should("have.length", 5);
+      cy.get(testId("other-answer")).should("have.length", 3);
+    });
+
+    it("should remove an additionalOptions option.", () => {
       addMultipleChoiceAnswer();
       cy.get(testId("btn-delete-option"))
         .last()

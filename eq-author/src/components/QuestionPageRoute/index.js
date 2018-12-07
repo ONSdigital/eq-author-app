@@ -24,8 +24,6 @@ import withCreateOption from "containers/enhancers/withCreateOption";
 import withUpdateOption from "containers/enhancers/withUpdateOption";
 import withDeleteOption from "containers/enhancers/withDeleteOption";
 import withCreateExclusive from "containers/enhancers/withCreateExclusive";
-import withCreateOther from "containers/enhancers/withCreateOther";
-import withDeleteOther from "containers/enhancers/withDeleteOther";
 import withMovePage from "containers/enhancers/withMovePage";
 import focusOnEntity from "utils/focusOnEntity";
 import withDeletePage from "containers/enhancers/withDeletePage";
@@ -212,9 +210,7 @@ const withQuestionPageEditing = flowRight(
   withCreateOption,
   withCreateExclusive,
   withUpdateOption,
-  withDeleteOption,
-  withCreateOther,
-  withDeleteOther
+  withDeleteOption
 );
 
 export const QUESTION_PAGE_QUERY = gql`

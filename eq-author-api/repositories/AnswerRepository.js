@@ -23,10 +23,6 @@ const OptionRepository = require("./OptionRepository");
 const {
   createDefaultValidationsForAnswer
 } = require("./strategies/validationStrategy");
-const {
-  createOtherAnswerStrategy,
-  deleteOtherAnswerStrategy
-} = require("./strategies/multipleChoiceOtherAnswerStrategy");
 
 const {
   handleAnswerDeleted,
@@ -75,7 +71,8 @@ module.exports = knex => {
       type,
       mandatory,
       properties,
-      questionPageId
+      questionPageId,
+      parentAnswerId
     },
     trx
   ) =>
@@ -90,7 +87,8 @@ module.exports = knex => {
           type,
           mandatory,
           properties,
-          questionPageId
+          questionPageId,
+          parentAnswerId
         })
       )
       .returning("*")
@@ -197,32 +195,6 @@ module.exports = knex => {
       .then(head)
       .then(fromDb);
 
-  const getOtherAnswer = (
-    id,
-    where = {},
-    orderBy = "createdAt",
-    direction = "asc"
-  ) =>
-    Answer(knex)
-      .findAll()
-      .where({ isDeleted: false, parentAnswerId: id })
-      .where(where)
-      .orderBy(orderBy, direction)
-      .first()
-      .then(fromDb);
-
-  const createOtherAnswer = ({ id }) => {
-    return knex.transaction(trx =>
-      createOtherAnswerStrategy(trx, { id }).then(fromDb)
-    );
-  };
-
-  const deleteOtherAnswer = ({ id }) => {
-    return knex.transaction(trx =>
-      deleteOtherAnswerStrategy(trx, { id }).then(fromDb)
-    );
-  };
-
   const splitComposites = answer => {
     const firstAnswer = omit("secondaryLabel", answer);
     const secondAnswer = omit("label", answer);
@@ -265,9 +237,6 @@ module.exports = knex => {
     update,
     remove,
     undelete,
-    getOtherAnswer,
-    createOtherAnswer,
-    deleteOtherAnswer,
     splitComposites,
     getAnswers,
     createAnswer

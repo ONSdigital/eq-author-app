@@ -1,15 +1,6 @@
 const Answer = require("./Answer");
 const { parseGuidance, getInnerHTMLWithPiping } = require("../utils/HTMLUtils");
-const {
-  find,
-  get,
-  flow,
-  flatten,
-  isNil,
-  assign,
-  concat,
-  omit
-} = require("lodash/fp");
+const { find, get, flow, isNil, assign, concat } = require("lodash/fp");
 const convertPipes = require("../utils/convertPipes");
 
 const findDateRange = flow(
@@ -64,18 +55,7 @@ class Question {
   }
 
   buildAnswers(answers) {
-    const answerArray = flatten(
-      answers.map(answer => {
-        if (!isNil(answer.other)) {
-          return [
-            answer,
-            Answer.buildChildAnswer(answer.other.answer, answer.id)
-          ];
-        }
-        return answer;
-      })
-    );
-    return answerArray.map(answer => new Answer(answer));
+    return answers.map(answer => new Answer(answer));
   }
 
   buildDateRangeAnswers(answer) {
@@ -90,7 +70,7 @@ class Question {
   buildMutuallyExclusiveAnswers(mutuallyExclusive) {
     Object.assign(mutuallyExclusive.properties, { required: false });
     const mutuallyExclusiveAnswer = new Answer({
-      ...omit("other", mutuallyExclusive),
+      ...mutuallyExclusive,
       id: `${mutuallyExclusive.id}-exclusive`,
       type: "Checkbox",
       options: [mutuallyExclusive.mutuallyExclusiveOption]

@@ -7,14 +7,6 @@ const {
   getValidationEntity
 } = require("../repositories/strategies/validationStrategy");
 
-const assertMultipleChoiceAnswer = answer => {
-  if (isNil(answer) || !includes(["Checkbox", "Radio"], answer.type)) {
-    throw new Error(
-      `Answer with id '${answer.id}' must be a Checkbox or Radio.`
-    );
-  }
-};
-
 const Resolvers = {
   Query: {
     questionnaires: (_, args, ctx) => ctx.repositories.Questionnaire.findAll(),
@@ -113,8 +105,21 @@ const Resolvers = {
     undeleteAnswer: (_, args, ctx) =>
       ctx.repositories.Answer.undelete(args.input.id),
 
-    createOption: (root, args, ctx) =>
-      ctx.repositories.Option.insert(args.input),
+    createOption: async (root, args, ctx) => {
+      let additionalAnswerId;
+      if (args.input.hasAdditionalAnswer) {
+        const additionalAnswer = await ctx.repositories.Answer.createAnswer({
+          description: "",
+          type: "TextField",
+          parentAnswerId: args.input.answerId
+        });
+        additionalAnswerId = additionalAnswer.id;
+      }
+      return ctx.repositories.Option.insert({
+        ...args.input,
+        additionalAnswerId
+      });
+    },
     createMutuallyExclusiveOption: (root, { input }, ctx) =>
       ctx.repositories.Option.insert({ mutuallyExclusive: true, ...input }),
     updateOption: (_, args, ctx) => ctx.repositories.Option.update(args.input),
@@ -122,20 +127,6 @@ const Resolvers = {
       ctx.repositories.Option.remove(args.input.id),
     undeleteOption: (_, args, ctx) =>
       ctx.repositories.Option.undelete(args.input.id),
-    createOther: async (root, args, ctx) => {
-      const parentAnswer = await ctx.repositories.Answer.getById(
-        args.input.parentAnswerId
-      );
-      assertMultipleChoiceAnswer(parentAnswer);
-      return ctx.repositories.Answer.createOtherAnswer(parentAnswer);
-    },
-    deleteOther: async (_, args, ctx) => {
-      const parentAnswer = await ctx.repositories.Answer.getById(
-        args.input.parentAnswerId
-      );
-      assertMultipleChoiceAnswer(parentAnswer);
-      return ctx.repositories.Answer.deleteOtherAnswer(parentAnswer);
-    },
     createRoutingRuleSet: async (root, args, ctx) =>
       ctx.repositories.Routing.createRoutingRuleSet(args.input),
     updateRoutingRuleSet: (_, args, ctx) =>
@@ -408,31 +399,17 @@ const Resolvers = {
       }),
     mutuallyExclusiveOption: (answer, args, ctx) =>
       ctx.repositories.Option.findExclusiveOptionByAnswerId(answer.id),
-    other: async ({ id }, args, ctx) => {
-      const answer = await ctx.repositories.Answer.getOtherAnswer(id);
-
-      if (isNil(answer)) {
-        return null;
-      }
-
-      const option = await ctx.repositories.Option.getOtherOption(answer.id);
-
-      if (isNil(option)) {
-        return null;
-      }
-
-      return {
-        answer,
-        option
-      };
-    },
     displayName: answer => getName(answer, "MultipleChoiceAnswer")
   },
 
   Option: {
     answer: ({ answerId }, args, ctx) =>
       ctx.repositories.Answer.getById(answerId),
-    displayName: option => getName(option, "Option")
+    displayName: option => getName(option, "Option"),
+    additionalAnswer: ({ additionalAnswerId }, args, ctx) =>
+      additionalAnswerId
+        ? ctx.repositories.Answer.getById(additionalAnswerId)
+        : null
   },
 
   ValidationType: {

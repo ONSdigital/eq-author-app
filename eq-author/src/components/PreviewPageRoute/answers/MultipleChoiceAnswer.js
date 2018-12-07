@@ -148,15 +148,13 @@ const MultipleChoiceAnswer = ({ answer }) => {
         <SelectAll>Select all that apply:</SelectAll>
       )}
       {answer.options.map(option => (
-        <Option key={option.id} option={option} type={answer.type} />
-      ))}
-      {answer.other && (
         <Option
-          option={answer.other.option}
-          answer={answer.other.answer}
+          key={option.id}
+          option={option}
           type={answer.type}
+          answer={option.additionalAnswer}
         />
-      )}
+      ))}
       {answer.mutuallyExclusiveOption && (
         <MutuallyExclusiveOption>
           <MutuallyExclusiveOptionTitle>Or</MutuallyExclusiveOptionTitle>
