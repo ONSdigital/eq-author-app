@@ -140,14 +140,14 @@ module.exports = knex => {
     });
   };
 
-  const getPipingAnswersForSection = id =>
-    getById(id).then(({ position: sectionPosition, questionnaireId }) =>
-      getPreviousAnswersForSection({
-        answerTypes: PIPING_ANSWER_TYPES,
-        sectionPosition,
-        questionnaireId
-      })
-    );
+  const getPipingAnswersForSection = async id => {
+    const { position: sectionPosition, questionnaireId } = await getById(id);
+    return getPreviousAnswersForSection({
+      answerTypes: PIPING_ANSWER_TYPES,
+      sectionPosition,
+      questionnaireId
+    });
+  };
 
   const getPipingMetadataForSection = id =>
     knex("Metadata")
@@ -155,7 +155,8 @@ module.exports = knex => {
       .join("Questionnaires", "Metadata.questionnaireId", "Questionnaires.id")
       .join("SectionsView", "SectionsView.questionnaireId", "Questionnaires.id")
       .where("SectionsView.id", id)
-      .andWhere("Metadata.isDeleted", false);
+      .andWhere("Metadata.isDeleted", false)
+      .orderBy("Metadata.id", "asc");
 
   return {
     findAll,

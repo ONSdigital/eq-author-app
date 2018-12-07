@@ -81,7 +81,8 @@ module.exports = knex => {
       .join("SectionsView", "SectionsView.questionnaireId", "Questionnaires.id")
       .join("PagesView", "PagesView.sectionId", "SectionsView.id")
       .where("PagesView.id", id)
-      .andWhere("Metadata.isDeleted", false);
+      .andWhere("Metadata.isDeleted", false)
+      .orderBy("Metadata.id", "asc");
 
   const getRoutingQuestionsForQuestionPage = id =>
     getPreviousQuestionsForPage({
