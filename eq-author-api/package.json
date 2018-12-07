@@ -8,6 +8,7 @@
     "start:dev": "yarn waitForPostgres && yarn knex -- migrate:latest && nodemon --inspect=0.0.0.0:5858",
     "lint": "eslint .",
     "test": "NODE_ENV=test ./scripts/test.sh",
+    "test:coverage": "yarn test --coverage",
     "test:breakingChanges": "node scripts/checkForBreakingChanges.js",
     "knex": "knex --knexfile config/knexfile.js --cwd .",
     "precommit": "lint-staged",
@@ -52,7 +53,6 @@
   "jest": {
     "testEnvironment": "node",
     "coverageDirectory": "./coverage/",
-    "collectCoverage": true,
     "collectCoverageFrom": [
       "**/*.js",
       "!config/**/*",
