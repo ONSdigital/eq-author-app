@@ -58,7 +58,7 @@ exports[`components/RichTextEditor/Toolbar should render as visible 1`] = `
           <Component />
         </ToolbarButton>
         <Toolbar__Separator />
-        <withRouter(PipingMenu)
+        <withRouter(UnwrappedPipingMenu)
           disabled={true}
           onItemChosen={[MockFunction]}
         />

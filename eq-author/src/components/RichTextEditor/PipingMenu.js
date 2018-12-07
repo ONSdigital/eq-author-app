@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import styled from "styled-components";
-import { get, isUndefined } from "lodash";
 
 import ContentPickerModal from "components/ContentPickerModal";
 import AvailablePipingContentQuery from "components/RichTextEditor/AvailablePipingContentQuery";
@@ -103,17 +102,29 @@ export class Menu extends React.Component {
   }
 }
 
-const PipingMenu = props => (
+const calculateEntityName = ({ pageId, confirmationId }) => {
+  if (confirmationId) {
+    return "questionConfirmation";
+  }
+  if (pageId) {
+    return "questionPage";
+  }
+  return "section";
+};
+
+export const UnwrappedPipingMenu = props => (
   <AvailablePipingContentQuery
-    id={props.match.params.pageId || props.match.params.sectionId}
-    sectionContent={isUndefined(props.match.params.pageId)}
+    pageId={props.match.params.pageId}
+    sectionId={props.match.params.sectionId}
+    confirmationId={props.match.params.confirmationId}
   >
-    {({ data, ...innerProps }) => {
-      const root = `${props.match.params.pageId ? "questionPage" : "section"}`;
+    {({ data = {}, ...innerProps }) => {
+      const entityName = calculateEntityName(props.match.params);
+      const entity = data[entityName] || {};
       return (
         <Menu
-          answerData={shapeTree(get(data, `${root}.availablePipingAnswers`))}
-          metadataData={get(data, `${root}.availablePipingMetadata`)}
+          answerData={shapeTree(entity.availablePipingAnswers)}
+          metadataData={entity.availablePipingMetadata}
           {...props}
           {...innerProps}
         />
@@ -122,9 +133,9 @@ const PipingMenu = props => (
   </AvailablePipingContentQuery>
 );
 
-PipingMenu.propTypes = {
+UnwrappedPipingMenu.propTypes = {
   match: CustomPropTypes.match,
   disabled: PropTypes.bool
 };
 
-export default withRouter(PipingMenu);
+export default withRouter(UnwrappedPipingMenu);

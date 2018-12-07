@@ -141,6 +141,41 @@ describe("Update piping", () => {
     });
   });
 
+  it("should update piping for Question Confirmation titles", async () => {
+    const references = {
+      questionConfirmations: {
+        "1": "new1"
+      },
+      answers: {
+        a1: "newA1"
+      },
+      metadata: {
+        m1: "newM1"
+      }
+    };
+    trx.andWhere = async func => {
+      func(builder);
+      return [
+        {
+          id: "new1",
+          title:
+            'title <span data-piped="answers" data-id="a1" data-type="TextField">{{Answer 1}}</span>'
+        }
+      ];
+    };
+
+    await updatePiping(trx, references);
+
+    expect(trx.table).toHaveBeenCalledWith("QuestionConfirmations");
+    expect(trx.update).toHaveBeenCalledWith({
+      title:
+        'title <span data-piped="answers" data-id="newA1" data-type="TextField">{{Answer 1}}</span>'
+    });
+    expect(trx.where).toHaveBeenCalledWith({
+      id: "new1"
+    });
+  });
+
   it("should do nothing if there are no changed entities that could have piping", async () => {
     const references = {
       answers: {

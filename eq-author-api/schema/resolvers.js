@@ -573,7 +573,11 @@ const Resolvers = {
     negative: ({ negativeLabel, negativeDescription }) => ({
       label: negativeLabel,
       description: negativeDescription
-    })
+    }),
+    availablePipingAnswers: ({ id }, args, ctx) =>
+      ctx.repositories.QuestionConfirmation.getPipingAnswers(id),
+    availablePipingMetadata: ({ id }, args, ctx) =>
+      ctx.repositories.QuestionConfirmation.getPipingMetadata(id)
   },
 
   Date: GraphQLDate,

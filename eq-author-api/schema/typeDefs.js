@@ -87,6 +87,8 @@ type QuestionConfirmation {
   page: QuestionPage!
   positive: ConfirmationOption!
   negative: ConfirmationOption!
+  availablePipingAnswers: [Answer!]!
+  availablePipingMetadata: [Metadata!]!
 }
 
 interface Answer {
