@@ -140,16 +140,22 @@ describe("QuestionPageRepository", () => {
 
       expect(pipingAnswers).toEqual([
         expect.objectContaining({
-          label: "Answer 1.1.7"
+          label: "Answer 1.1.1"
         }),
         expect.objectContaining({
-          label: "Answer 1.1.6"
+          label: "Answer 1.1.2"
         }),
         expect.objectContaining({
           label: "Answer 1.1.5"
         }),
         expect.objectContaining({
-          label: "Answer 1.1.2"
+          label: "Answer 1.1.6"
+        }),
+        expect.objectContaining({
+          label: "Answer 1.1.7"
+        }),
+        expect.objectContaining({
+          label: "Answer 1.2.1"
         }),
         expect.objectContaining({
           label: "Answer 1.2.2"
@@ -187,15 +193,15 @@ describe("QuestionPageRepository", () => {
 
       expect(metadata).toEqual([
         expect.objectContaining({
-          key: "metadata_text"
+          key: "metadata_date"
         }),
         expect.objectContaining({
-          key: "metadata_date"
+          key: "metadata_text"
         })
       ]);
 
-      expect(getName(metadata[0], "Metadata")).toEqual("metadata text");
-      expect(getName(metadata[1], "Metadata")).toEqual("metadata date");
+      expect(getName(metadata[0], "Metadata")).toEqual("metadata date");
+      expect(getName(metadata[1], "Metadata")).toEqual("metadata text");
     });
   });
 

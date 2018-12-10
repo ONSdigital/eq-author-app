@@ -30,8 +30,16 @@ describe("QuestionConfirmationRepository", () => {
             {
               answers: [
                 {
-                  label: "Previous Answer",
+                  label: "Previous Currency Answer",
                   type: answerTypes.CURRENCY
+                },
+                {
+                  label: "Previous Date Answer",
+                  type: answerTypes.DATE
+                },
+                {
+                  label: "Previous Date Range Answer",
+                  type: answerTypes.DATE_RANGE
                 }
               ]
             },
@@ -241,7 +249,9 @@ describe("QuestionConfirmationRepository", () => {
         confirmation.id
       );
       expect(pipingAnswers).toEqual([
-        expect.objectContaining({ label: "Previous Answer" }),
+        expect.objectContaining({ label: "Previous Currency Answer" }),
+        expect.objectContaining({ label: "Previous Date Answer" }),
+        expect.objectContaining({ label: "Previous Date Range Answer" }),
         expect.objectContaining({ label: "Answer" })
       ]);
     });

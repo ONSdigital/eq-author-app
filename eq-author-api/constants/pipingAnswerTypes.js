@@ -1,3 +1,9 @@
-const { TEXTFIELD, NUMBER, CURRENCY, DATE_RANGE } = require("./answerTypes");
+const type = require("./answerTypes");
 
-module.exports.PIPING_ANSWER_TYPES = [TEXTFIELD, NUMBER, CURRENCY, DATE_RANGE];
+module.exports.PIPING_ANSWER_TYPES = [
+  type.TEXTFIELD,
+  type.NUMBER,
+  type.CURRENCY,
+  type.DATE,
+  type.DATE_RANGE
+];
