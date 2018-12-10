@@ -15,6 +15,7 @@ import Path from "components/Validation/path.svg?inline";
 import PathEnd from "components/Validation/path-end.svg?inline";
 
 import * as entityTypes from "constants/validation-entity-types";
+import { DATE, DATE_RANGE } from "constants/answer-types";
 
 const UNITS = ["Days", "Months", "Years"];
 const RELATIVE_POSITIONS = ["Before", "After"];
@@ -51,10 +52,18 @@ const StartDateText = styled.div`
   padding-top: 0.4em;
 `;
 
+const CustomInput = styled.div`
+  margin-top: 6em;
+`;
+
 const START_COL_SIZE = 3;
 const END_COL_SIZE = 12 - START_COL_SIZE;
 
-const getUnits = format => {
+const getUnits = ({ format, type }) => {
+  if (type === DATE_RANGE) {
+    return UNITS;
+  }
+
   if (format === "dd/mm/yyyy") {
     return UNITS;
   }
@@ -125,14 +134,15 @@ class DateValidation extends React.Component {
     const {
       date: { offset, relativePosition, entityType },
       answer: {
-        properties: { format }
+        properties: { format },
+        type
       },
       displayName,
       onChange,
       onUpdate
     } = this.props;
 
-    const availableUnits = getUnits(format);
+    const availableUnits = getUnits({ format, type });
     const offsetUnitIsInvalid = !availableUnits.includes(offset.unit);
 
     return (
@@ -184,30 +194,38 @@ class DateValidation extends React.Component {
         </Grid>
         <Grid>
           <AlignedColumn cols={START_COL_SIZE}>
-            <RelativePositionSelect
-              name="relativePosition"
-              value={relativePosition}
-              onChange={onChange}
-              onBlur={onUpdate}
-              data-test="relative-position-select"
-            >
-              {RELATIVE_POSITIONS.map(position => (
-                <option key={position} value={position}>
-                  {position}
-                </option>
-              ))}
-            </RelativePositionSelect>
+            {type === DATE && (
+              <RelativePositionSelect
+                name="relativePosition"
+                value={relativePosition}
+                onChange={onChange}
+                onBlur={onUpdate}
+                data-test="relative-position-select"
+              >
+                {RELATIVE_POSITIONS.map(position => (
+                  <option key={position} value={position}>
+                    {position}
+                  </option>
+                ))}
+              </RelativePositionSelect>
+            )}
+            {type === DATE_RANGE && (
+              <EmphasisedText>{relativePosition}</EmphasisedText>
+            )}
             <PathEnd />
           </AlignedColumn>
           <Column cols={9}>
-            <ValidationPills
-              entityType={entityType}
-              onEntityTypeChange={this.handleEntityTypeChange}
-              PreviousAnswer={this.PreviousAnswer}
-              Metadata={this.Metadata}
-              Custom={this.Custom}
-              Now={this.Now}
-            />
+            {type === DATE && (
+              <ValidationPills
+                entityType={entityType}
+                onEntityTypeChange={this.handleEntityTypeChange}
+                PreviousAnswer={this.PreviousAnswer}
+                Metadata={this.Metadata}
+                Custom={this.Custom}
+                Now={this.Now}
+              />
+            )}
+            {type === DATE_RANGE && <CustomInput>{this.Custom()}</CustomInput>}
           </Column>
         </Grid>
       </div>
@@ -257,7 +275,7 @@ DateValidation.propTypes = {
   answer: PropTypes.shape({
     id: PropTypes.string.required,
     properties: PropTypes.shape({
-      format: PropTypes.string.isRequired
+      format: PropTypes.string
     }).isRequired
   }).isRequired,
   onToggleValidationRule: PropTypes.func.isRequired,

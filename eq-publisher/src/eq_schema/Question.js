@@ -47,6 +47,12 @@ class Question {
     if (dateRange) {
       this.type = "DateRange";
       this.answers = this.buildDateRangeAnswers(dateRange);
+
+      const { earliestDate, latestDate } = dateRange.validation;
+      if (earliestDate.enabled || latestDate.enabled) {
+        this.answers[0].minimum = Answer.buildDateValidation(earliestDate);
+        this.answers[1].maximum = Answer.buildDateValidation(latestDate);
+      }
     } else if (mutuallyExclusive) {
       this.type = "MutuallyExclusive";
       this.mandatory = get("properties.required", mutuallyExclusive);

@@ -393,6 +393,8 @@ const Resolvers = {
       ctx.repositories.Answer.splitComposites(answer),
     page: (answer, args, ctx) =>
       ctx.repositories.QuestionPage.getById(answer.questionPageId),
+    validation: answer =>
+      ["date"].includes(getValidationEntity(answer.type)) ? answer : null,
     displayName: answer => getName(answer, "CompositeAnswer")
   },
 

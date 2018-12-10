@@ -17,8 +17,8 @@ class Answer {
         this.buildNumberValidation(maxValue, "max_value");
       } else if (answer.type === "Date") {
         const { earliestDate, latestDate } = answer.validation;
-        this.buildDateValidation(earliestDate, "minimum");
-        this.buildDateValidation(latestDate, "maximum");
+        this.minimum = Answer.buildDateValidation(earliestDate);
+        this.maximum = Answer.buildDateValidation(latestDate);
       }
     }
 
@@ -75,7 +75,7 @@ class Answer {
       return;
     }
 
-    const comparator = this.buildComparator(validationRule);
+    const comparator = Answer.buildComparator(validationRule);
 
     if (isNil(comparator)) {
       return;
@@ -87,7 +87,7 @@ class Answer {
     };
   }
 
-  buildComparator(validationRule) {
+  static buildComparator(validationRule) {
     const {
       entityType = "Custom",
       custom,
@@ -119,13 +119,13 @@ class Answer {
     return;
   }
 
-  buildDateValidation(validationRule, validationType) {
+  static buildDateValidation(validationRule) {
     const { enabled } = validationRule;
     if (!enabled) {
       return;
     }
 
-    const comparator = this.buildComparator(validationRule);
+    const comparator = Answer.buildComparator(validationRule);
 
     if (isNil(comparator)) {
       return;
@@ -136,14 +136,12 @@ class Answer {
     const offsetValue = offset.value * multiplier;
     const offsetUnit = offset.unit.toLowerCase();
 
-    Object.assign(this, {
-      [validationType]: {
-        ...comparator,
-        offset_by: {
-          [offsetUnit]: offsetValue
-        }
+    return {
+      ...comparator,
+      offset_by: {
+        [offsetUnit]: offsetValue
       }
-    });
+    };
   }
 
   static buildOption({ label, description }) {

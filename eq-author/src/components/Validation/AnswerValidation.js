@@ -1,5 +1,5 @@
 import React from "react";
-import { kebabCase, get } from "lodash";
+import { kebabCase, get, startCase } from "lodash";
 import styled from "styled-components";
 import CustomPropTypes from "custom-prop-types";
 import PropTypes from "prop-types";
@@ -16,7 +16,7 @@ import { EarliestDate, LatestDate } from "components/Validation/Date";
 import ValidationContext from "components/Validation/ValidationContext";
 import DatePreview from "components/Validation/Date/DatePreview";
 
-import { CURRENCY, DATE, NUMBER } from "constants/answer-types";
+import { CURRENCY, DATE, DATE_RANGE, NUMBER } from "constants/answer-types";
 import { colors } from "constants/theme";
 
 const Container = styled.div`
@@ -45,14 +45,14 @@ const validationTypes = [
     id: "earliestDate",
     title: "Earliest Date",
     render: () => <EarliestDate />,
-    types: [DATE],
+    types: [DATE, DATE_RANGE],
     preview: DatePreview
   },
   {
     id: "latestDate",
     title: "Latest Date",
     render: () => <LatestDate />,
-    types: [DATE],
+    types: [DATE, DATE_RANGE],
     preview: DatePreview
   }
 ];
@@ -60,7 +60,7 @@ const validationTypes = [
 const getValidationsForType = type =>
   validationTypes.filter(({ types }) => types.includes(type));
 
-const validations = [NUMBER, CURRENCY, DATE].reduce(
+const validations = [NUMBER, CURRENCY, DATE, DATE_RANGE].reduce(
   (hash, type) => ({
     ...hash,
     [type]: getValidationsForType(type)
@@ -97,9 +97,7 @@ export class UnconnectedAnswerValidation extends React.Component {
 
   render() {
     const { answer } = this.props;
-
     const validValidationTypes = validations[answer.type] || [];
-
     if (validValidationTypes.length === 0) {
       return null;
     }
@@ -128,7 +126,7 @@ export class UnconnectedAnswerValidation extends React.Component {
             id={this.modalId}
             onClose={this.handleModalClose}
             navItems={validValidationTypes}
-            title={`${answer.type} validation`}
+            title={`${startCase(answer.type)} validation`}
             isOpen={this.state.modalIsOpen}
           />
         </ValidationContext.Provider>
