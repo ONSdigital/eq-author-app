@@ -11,6 +11,7 @@
     "test": "node scripts/test.js",
     "test:storybook": "jest --testRegex ^.+\\.storytest\\.js$",
     "test:integration": "./scripts/run_tests.sh integration",
+    "test:routing_e2e": "./scripts/run_tests.sh routing_e2e",
     "test:e2e": "./scripts/run_tests.sh e2e",
     "lint": "yarn lint:js && yarn lint:css",
     "lint:js": "yarn build:fragmentTypes && eslint src cypress --ext .graphql --ext .js --max-warnings=0",
@@ -23,7 +24,8 @@
     "precommit": "lint-staged",
     "coverage": "yarn test -- --coverage",
     "cypress:open": "CYPRESS_baseUrl=${CYPRESS_baseUrl:=http://localhost:3000/} cypress open",
-    "cypress:open:e2e": "CYPRESS_baseUrl=${CYPRESS_baseUrl:=http://localhost:13000/} cypress open --config integrationFolder=cypress/e2e"
+    "cypress:open:e2e": "CYPRESS_baseUrl=${CYPRESS_baseUrl:=http://localhost:13000/} cypress open --config integrationFolder=cypress/e2e",
+    "cypress:open:routing": "CYPRESS_baseUrl=${CYPRESS_baseUrl:=http://localhost:3000/} CYPRESS_chromeWebSecurity='false' cypress open --config integrationFolder=cypress/routingTests"
   },
   "lint-staged": {
     "*.js": [
