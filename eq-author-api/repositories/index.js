@@ -14,6 +14,8 @@ const RoutingRule2 = require("./RoutingRule2Repository");
 const ExpressionGroup2 = require("./ExpressionGroup2Repository");
 const BinaryExpression2 = require("./BinaryExpression2Repository");
 const LeftSide2 = require("./LeftSide2Repository");
+const RightSide2 = require("./RightSide2Repository");
+const SelectedOptions2 = require("./SelectedOptions2Repository");
 
 module.exports = knex => {
   return {
@@ -32,6 +34,8 @@ module.exports = knex => {
     RoutingRule2: RoutingRule2(knex),
     ExpressionGroup2: ExpressionGroup2(knex),
     BinaryExpression2: BinaryExpression2(knex),
-    LeftSide2: LeftSide2(knex)
+    LeftSide2: LeftSide2(knex),
+    RightSide2: RightSide2(knex),
+    SelectedOptions2: SelectedOptions2(knex)
   };
 };

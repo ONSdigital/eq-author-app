@@ -19,9 +19,17 @@ module.exports = knex => {
       .where({ id })
       .first();
 
+  const update = ({ id, operator }) =>
+    knex("ExpressionGroups2")
+      .where({ id })
+      .update({ operator })
+      .returning("*")
+      .then(head);
+
   return {
     insert,
     getByRuleId,
-    getById
+    getById,
+    update
   };
 };

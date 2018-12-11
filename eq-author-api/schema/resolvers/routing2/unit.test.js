@@ -4,6 +4,8 @@ const {
   NEXT_PAGE,
   END_OF_QUESTIONNAIRE
 } = require("../../../constants/logicalDestinations");
+const { AND, OR } = require("../../../constants/routingOperators");
+const conditions = require("../../../constants/routingConditions");
 
 const ROUTING_ID = 1;
 const ROUTING_RULE_ID = 2;
@@ -11,11 +13,13 @@ const FIRST_DESTINATION_ID = 3;
 const SECOND_DESTINATION_ID = 4;
 const EXPRESSION_GROUP_ID = 5;
 const LEFT_SIDE_ID = 6;
-const ANSWER_ID = 7;
+const BASIC_ANSWER_ID = 7;
 const BINARY_EXPRESSION_ID = 8;
 const PAGE_ID = 9;
 const LATER_PAGE_ID = 10;
-const LATER_SECTION_ID = 10;
+const LATER_SECTION_ID = 11;
+const MULTIPLE_CHOICE_ANSWER_ID = 12;
+const RIGHT_SIDE_ID = 13;
 
 describe("Routing2 Unit", () => {
   let ctx;
@@ -23,52 +27,22 @@ describe("Routing2 Unit", () => {
     ctx = {
       repositories: {
         Routing2: {
-          insert: jest.fn().mockResolvedValueOnce({
-            id: ROUTING_ID,
-            destinationId: FIRST_DESTINATION_ID
-          }),
           getById: jest.fn().mockResolvedValue({
             id: ROUTING_ID,
             destinationId: FIRST_DESTINATION_ID
           })
         },
         Destination: {
-          insert: jest
-            .fn()
-            .mockResolvedValueOnce({
-              id: FIRST_DESTINATION_ID,
-              logical: NEXT_PAGE
-            })
-            .mockResolvedValueOnce({
-              id: SECOND_DESTINATION_ID,
-              logical: NEXT_PAGE
-            }),
           getById: jest.fn(id => {
             return Promise.resolve({ id, logical: NEXT_PAGE });
-          }),
-          update: jest.fn(input => Promise.resolve(input))
+          })
         },
         QuestionPage: {
           getById: jest.fn(id =>
             Promise.resolve({ id, pageType: "QuestionPage" })
           )
         },
-        Section: {
-          getById: jest.fn(id => Promise.resolve({ id }))
-        },
         RoutingRule2: {
-          insert: jest.fn(({ routingId, destinationId }) =>
-            Promise.resolve({
-              id: ROUTING_RULE_ID,
-              routingId,
-              destinationId
-            })
-          ),
-          getByRoutingId: jest
-            .fn()
-            .mockResolvedValueOnce([
-              { id: ROUTING_RULE_ID, destinationId: SECOND_DESTINATION_ID }
-            ]),
           getById: jest.fn().mockResolvedValueOnce({
             id: ROUTING_RULE_ID,
             routingId: ROUTING_ID,
@@ -76,56 +50,45 @@ describe("Routing2 Unit", () => {
           })
         },
         ExpressionGroup2: {
-          insert: jest.fn().mockResolvedValueOnce({
-            id: EXPRESSION_GROUP_ID,
-            operator: "And"
-          }),
           getByRuleId: jest.fn().mockResolvedValueOnce({
             id: EXPRESSION_GROUP_ID,
-            operator: "And"
+            operator: AND
           }),
           getById: jest.fn().mockResolvedValue({
             id: EXPRESSION_GROUP_ID,
-            operator: "And"
-          })
+            operator: AND
+          }),
+          update: jest.fn(input => Promise.resolve(input))
         },
         Answer: {
-          getFirstOnPage: jest.fn().mockResolvedValueOnce({
-            id: ANSWER_ID,
-            type: answerTypes.TEXTFIELD
-          }),
-          getById: jest.fn().mockResolvedValueOnce({
-            id: ANSWER_ID,
-            type: answerTypes.TEXTFIELD
+          getById: jest.fn(id => {
+            if (id === BASIC_ANSWER_ID) {
+              return Promise.resolve({ id, type: answerTypes.NUMBER });
+            }
+            if (id === MULTIPLE_CHOICE_ANSWER_ID) {
+              return Promise.resolve({ id, type: answerTypes.RADIO });
+            }
           })
         },
         BinaryExpression2: {
-          insert: jest.fn().mockResolvedValueOnce({
-            id: BINARY_EXPRESSION_ID,
-            expressionGroupId: EXPRESSION_GROUP_ID,
-            condition: "Equal"
-          }),
           getByExpressionGroupId: jest.fn().mockResolvedValueOnce([
             {
               id: BINARY_EXPRESSION_ID,
               expressionGroupId: EXPRESSION_GROUP_ID,
-              condition: "Equal"
+              condition: conditions.EQUAL
             }
           ])
         },
         LeftSide2: {
-          insert: jest.fn().mockResolvedValueOnce({
-            id: LEFT_SIDE_ID,
-            expressionId: BINARY_EXPRESSION_ID,
-            answerId: ANSWER_ID,
-            type: "Answer"
-          }),
           getByExpressionId: jest.fn().mockResolvedValueOnce({
             id: LEFT_SIDE_ID,
             expressionId: BINARY_EXPRESSION_ID,
-            answerId: ANSWER_ID,
+            answerId: BASIC_ANSWER_ID,
             type: "Answer"
           })
+        },
+        RightSide2: {
+          getByExpressionId: jest.fn().mockResolvedValueOnce()
         }
       }
     };
@@ -133,7 +96,15 @@ describe("Routing2 Unit", () => {
 
   describe("Routing2", () => {
     describe("create", () => {
-      it("should create a Routing2 with a default else destination", async () => {
+      it("should call the modifier to create the routing", async () => {
+        ctx.modifiers = {
+          Routing: {
+            create: jest.fn().mockResolvedValue({
+              id: ROUTING_ID,
+              destinationId: FIRST_DESTINATION_ID
+            })
+          }
+        };
         const query = `
           mutation createRouting2($input: CreateRouting2Input!) {
             createRouting2(input: $input) {
@@ -149,11 +120,11 @@ describe("Routing2 Unit", () => {
         };
         const result = await executeQuery(query, { input }, ctx);
         expect(result.errors).toBeUndefined();
-        expect(ctx.repositories.Routing2.insert).toHaveBeenCalledWith({
-          pageId: PAGE_ID,
-          destinationId: FIRST_DESTINATION_ID
-        });
-        expect(ctx.repositories.Destination.insert).toHaveBeenCalled();
+
+        expect(ctx.modifiers.Routing.create).toHaveBeenCalledWith(
+          PAGE_ID.toString()
+        );
+
         expect(result.data).toMatchObject({
           createRouting2: {
             id: ROUTING_ID.toString(),
@@ -161,154 +132,18 @@ describe("Routing2 Unit", () => {
           }
         });
       });
-
-      it("should create a Routing2 with a first rule with a default destination", async () => {
-        const query = `
-          mutation createRouting2($input: CreateRouting2Input!) {
-            createRouting2(input: $input) {
-              id
-              rules {
-                id
-                destination {
-                  id
-                  logical
-                }
-              }
-            }
-          }`;
-        const input = { pageId: PAGE_ID };
-        const result = await executeQuery(query, { input }, ctx);
-        expect(result.errors).toBeUndefined();
-        expect(ctx.repositories.RoutingRule2.insert).toHaveBeenCalledWith({
-          routingId: ROUTING_ID,
-          destinationId: SECOND_DESTINATION_ID
-        });
-        expect(ctx.repositories.Destination.insert).toHaveBeenCalled();
-        expect(result.data).toMatchObject({
-          createRouting2: {
-            id: ROUTING_ID.toString(),
-            rules: [
-              {
-                id: ROUTING_RULE_ID.toString(),
-                destination: {
-                  id: SECOND_DESTINATION_ID.toString(),
-                  logical: NEXT_PAGE
-                }
-              }
-            ]
-          }
-        });
-      });
-
-      it("should create a Routing2 with a rule with an expression group", async () => {
-        const query = `
-          mutation createRouting2($input: CreateRouting2Input!) {
-            createRouting2(input: $input) {
-              id
-              rules {
-                id
-                expressionGroup {
-                  id
-                  operator
-                }
-              }
-            }
-          }`;
-        const input = { pageId: PAGE_ID };
-        const result = await executeQuery(query, { input }, ctx);
-        expect(result.errors).toBeUndefined();
-        expect(ctx.repositories.RoutingRule2.insert).toHaveBeenCalledWith({
-          routingId: ROUTING_ID,
-          destinationId: SECOND_DESTINATION_ID
-        });
-        expect(ctx.repositories.ExpressionGroup2.insert).toHaveBeenCalledWith({
-          ruleId: ROUTING_RULE_ID
-        });
-        expect(result.data).toMatchObject({
-          createRouting2: {
-            id: ROUTING_ID.toString(),
-            rules: [
-              {
-                id: ROUTING_RULE_ID.toString(),
-                expressionGroup: {
-                  id: EXPRESSION_GROUP_ID.toString(),
-                  operator: "And"
-                }
-              }
-            ]
-          }
-        });
-      });
-
-      it("should create a Routing2 with a BinaryExpression with a left side of the first answer of the page", async () => {
-        const query = `
-          mutation createRouting2($input: CreateRouting2Input!) {
-            createRouting2(input: $input) {
-              id
-              rules {
-                id
-                expressionGroup {
-                  id
-                  expressions {
-                    ... on BinaryExpression2 {
-                      id
-                      left {
-                        ... on BasicAnswer {
-                          id
-                          type
-                        }
-                      }
-                      condition
-                      right {
-                        ... on BasicAnswer {
-                          id
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }`;
-        const input = { pageId: PAGE_ID };
-        const result = await executeQuery(query, { input }, ctx);
-        expect(result.errors).toBeUndefined();
-        expect(ctx.repositories.BinaryExpression2.insert).toHaveBeenCalledWith({
-          groupId: EXPRESSION_GROUP_ID
-        });
-        expect(ctx.repositories.LeftSide2.insert).toHaveBeenCalledWith({
-          expressionId: BINARY_EXPRESSION_ID,
-          answerId: ANSWER_ID
-        });
-        expect(result.data).toMatchObject({
-          createRouting2: {
-            id: ROUTING_ID.toString(),
-            rules: [
-              {
-                id: ROUTING_RULE_ID.toString(),
-                expressionGroup: {
-                  id: EXPRESSION_GROUP_ID.toString(),
-                  expressions: [
-                    {
-                      id: BINARY_EXPRESSION_ID.toString(),
-                      left: {
-                        id: ANSWER_ID.toString(),
-                        type: answerTypes.TEXTFIELD
-                      },
-                      condition: "Equal",
-                      right: null
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        });
-      });
     });
 
     describe("update", () => {
       it("should update the destination to a page", async () => {
+        ctx.modifiers = {
+          Routing: {
+            update: jest.fn().mockResolvedValueOnce({
+              id: ROUTING_ID,
+              destinationId: FIRST_DESTINATION_ID
+            })
+          }
+        };
         ctx.repositories.Destination.getById = jest.fn().mockResolvedValue({
           id: FIRST_DESTINATION_ID,
           pageId: LATER_PAGE_ID
@@ -337,9 +172,11 @@ describe("Routing2 Unit", () => {
         );
 
         expect(updateResult.errors).toBeUndefined();
-        expect(ctx.repositories.Destination.update).toHaveBeenCalledWith({
-          id: FIRST_DESTINATION_ID,
-          pageId: LATER_PAGE_ID
+        expect(ctx.modifiers.Routing.update).toHaveBeenCalledWith({
+          id: ROUTING_ID.toString(),
+          else: {
+            pageId: LATER_PAGE_ID.toString()
+          }
         });
 
         expect(updateResult.data).toMatchObject({
@@ -353,98 +190,8 @@ describe("Routing2 Unit", () => {
           }
         });
       });
-      it("should update the destination to a section", async () => {
-        ctx.repositories.Destination.getById = jest.fn().mockResolvedValue({
-          id: FIRST_DESTINATION_ID,
-          sectionId: LATER_SECTION_ID
-        });
-        const updateRouting2Mutation = `
-        mutation updateRouting2($input: UpdateRouting2Input!) {
-          updateRouting2(input: $input) {
-            id
-            else {
-              logical
-              page {
-                id
-              }
-              section {
-                id
-              }
-            }
-          }
-        }`;
 
-        const updateResult = await executeQuery(
-          updateRouting2Mutation,
-          { input: { id: ROUTING_ID, else: { sectionId: LATER_SECTION_ID } } },
-          ctx
-        );
-
-        expect(updateResult.errors).toBeUndefined();
-        expect(ctx.repositories.Destination.update).toHaveBeenCalledWith({
-          id: FIRST_DESTINATION_ID,
-          sectionId: LATER_SECTION_ID
-        });
-
-        expect(updateResult.data).toMatchObject({
-          updateRouting2: {
-            id: ROUTING_ID.toString(),
-            else: {
-              logical: null,
-              page: null,
-              section: { id: LATER_SECTION_ID.toString() }
-            }
-          }
-        });
-      });
-      it("should update the destination to a new logical", async () => {
-        ctx.repositories.Destination.getById = jest.fn().mockResolvedValue({
-          id: FIRST_DESTINATION_ID,
-          logical: END_OF_QUESTIONNAIRE
-        });
-        const updateRouting2Mutation = `
-        mutation updateRouting2($input: UpdateRouting2Input!) {
-          updateRouting2(input: $input) {
-            id
-            else {
-              logical
-              page {
-                id
-              }
-              section {
-                id
-              }
-            }
-          }
-        }`;
-
-        const updateResult = await executeQuery(
-          updateRouting2Mutation,
-          {
-            input: { id: ROUTING_ID, else: { logical: END_OF_QUESTIONNAIRE } }
-          },
-          ctx
-        );
-
-        expect(updateResult.errors).toBeUndefined();
-        expect(ctx.repositories.Destination.update).toHaveBeenCalledWith({
-          id: FIRST_DESTINATION_ID,
-          logical: END_OF_QUESTIONNAIRE
-        });
-
-        expect(updateResult.data).toMatchObject({
-          updateRouting2: {
-            id: ROUTING_ID.toString(),
-            else: {
-              logical: END_OF_QUESTIONNAIRE,
-              page: null,
-              section: null
-            }
-          }
-        });
-      });
-
-      it("Should error when providing more than one destination", async () => {
+      it("should error when providing more than one destination", async () => {
         const updateRouting2Mutation = `
           mutation updateRouting2($input: UpdateRouting2Input!) {
             updateRouting2(input: $input) {
@@ -482,146 +229,90 @@ describe("Routing2 Unit", () => {
   });
 
   describe("RoutingRule2", () => {
-    describe("create", () => {
-      it("should create a rule with a default destination and expression group", async () => {
-        const query = `
-        mutation createRoutingRule2($input: CreateRoutingRule2Input!) {
-          createRoutingRule2(input: $input) {
+    it("should call the create modifier", async () => {
+      ctx.modifiers = {
+        RoutingRule: {
+          create: jest.fn().mockResolvedValueOnce({
+            id: ROUTING_RULE_ID,
+            destinationId: FIRST_DESTINATION_ID
+          })
+        }
+      };
+      const query = `
+      mutation createRoutingRule2($input: CreateRoutingRule2Input!) {
+        createRoutingRule2(input: $input) {
+          id
+          routing {
             id
-            routing {
-              id
-            }
-            destination {
-              id
-              logical
-            }
-            expressionGroup {
-              id
-              operator
-              expressions {
-                ... on BinaryExpression2 {
-                  id
-                  left {
-                    ... on BasicAnswer {
-                      id
-                      type
-                    }
+          }
+          destination {
+            id
+            logical
+          }
+          expressionGroup {
+            id
+            operator
+            expressions {
+              ... on BinaryExpression2 {
+                id
+                left {
+                  ... on BasicAnswer {
+                    id
+                    type
                   }
-                  condition
-                  right {
-                    ... on BasicAnswer {
-                      id
-                    }
+                }
+                condition
+                right {
+                  ... on BasicAnswer {
+                    id
                   }
                 }
               }
             }
           }
         }
-        `;
-        const input = { routingId: ROUTING_ID };
-        const result = await executeQuery(query, { input }, ctx);
-        expect(result.errors).toBeUndefined();
-        expect(ctx.repositories.Destination.insert).toHaveBeenCalled();
-        expect(ctx.repositories.RoutingRule2.insert).toHaveBeenCalledWith({
-          routingId: ROUTING_ID,
-          destinationId: FIRST_DESTINATION_ID
-        });
-        expect(ctx.repositories.ExpressionGroup2.insert).toHaveBeenCalledWith({
-          ruleId: ROUTING_RULE_ID
-        });
-        expect(result.data).toMatchObject({
-          createRoutingRule2: {
-            id: ROUTING_RULE_ID.toString(),
-            routing: {
-              id: ROUTING_ID.toString()
-            },
-            destination: {
-              id: FIRST_DESTINATION_ID.toString(),
-              logical: NEXT_PAGE
-            },
-            expressionGroup: {
-              id: EXPRESSION_GROUP_ID.toString(),
-              operator: "And"
-            }
-          }
-        });
-      });
+      }
+      `;
+      const input = { routingId: ROUTING_ID };
+      const result = await executeQuery(query, { input }, ctx);
 
-      it("should create an expression group with a default BinaryExpression with a left side of the first answer of the page", async () => {
-        const query = `
-        mutation createRoutingRule2($input: CreateRoutingRule2Input!) {
-          createRoutingRule2(input: $input) {
-            id
-            expressionGroup {
-              id
-              expressions {
-                ... on BinaryExpression2 {
-                  id
-                  left {
-                    ... on BasicAnswer {
-                      id
-                      type
-                    }
-                  }
-                  condition
-                  right {
-                    ... on BasicAnswer {
-                      id
-                    }
-                  }
-                }
-              }
-            }
+      expect(ctx.modifiers.RoutingRule.create).toHaveBeenCalledWith(
+        ROUTING_ID.toString()
+      );
+
+      expect(result.errors).toBeUndefined();
+      expect(result.data).toMatchObject({
+        createRoutingRule2: {
+          id: ROUTING_RULE_ID.toString(),
+          routing: {
+            id: ROUTING_ID.toString()
+          },
+          destination: {
+            id: FIRST_DESTINATION_ID.toString(),
+            logical: NEXT_PAGE
+          },
+          expressionGroup: {
+            id: EXPRESSION_GROUP_ID.toString(),
+            operator: AND
           }
         }
-        `;
-        const input = { routingId: ROUTING_ID };
-        const result = await executeQuery(query, { input }, ctx);
-        expect(result.errors).toBeUndefined();
-        expect(ctx.repositories.Destination.insert).toHaveBeenCalled();
-        expect(ctx.repositories.RoutingRule2.insert).toHaveBeenCalledWith({
-          routingId: ROUTING_ID,
-          destinationId: FIRST_DESTINATION_ID
-        });
-        expect(ctx.repositories.ExpressionGroup2.insert).toHaveBeenCalledWith({
-          ruleId: ROUTING_RULE_ID
-        });
-        expect(ctx.repositories.BinaryExpression2.insert).toHaveBeenCalledWith({
-          groupId: EXPRESSION_GROUP_ID
-        });
-        expect(ctx.repositories.LeftSide2.insert).toHaveBeenCalledWith({
-          expressionId: BINARY_EXPRESSION_ID,
-          answerId: ANSWER_ID
-        });
-        expect(result.data).toMatchObject({
-          createRoutingRule2: {
-            id: ROUTING_RULE_ID.toString(),
-            expressionGroup: {
-              id: EXPRESSION_GROUP_ID.toString(),
-              expressions: [
-                {
-                  id: BINARY_EXPRESSION_ID.toString(),
-                  left: {
-                    id: ANSWER_ID.toString(),
-                    type: answerTypes.TEXTFIELD
-                  },
-                  condition: "Equal",
-                  right: null
-                }
-              ]
-            }
-          }
-        });
       });
     });
 
     describe("update", () => {
-      it("should update the destination to a page", async () => {
+      it("should update the destination", async () => {
         ctx.repositories.Destination.getById = jest.fn().mockResolvedValue({
           id: SECOND_DESTINATION_ID,
           pageId: LATER_PAGE_ID
         });
+        ctx.modifiers = {
+          RoutingRule: {
+            update: jest.fn().mockResolvedValueOnce({
+              id: ROUTING_RULE_ID,
+              destinationId: SECOND_DESTINATION_ID
+            })
+          }
+        };
 
         const updateRoutingRule2Mutation = `
         mutation updateRoutingRule2($input: UpdateRoutingRule2Input!) {
@@ -651,9 +342,11 @@ describe("Routing2 Unit", () => {
         );
 
         expect(updateResult.errors).toBeUndefined();
-        expect(ctx.repositories.Destination.update).toHaveBeenCalledWith({
-          id: SECOND_DESTINATION_ID,
-          pageId: LATER_PAGE_ID
+        expect(ctx.modifiers.RoutingRule.update).toHaveBeenCalledWith({
+          id: ROUTING_RULE_ID.toString(),
+          destination: {
+            pageId: LATER_PAGE_ID.toString()
+          }
         });
 
         expect(updateResult.data).toMatchObject({
@@ -668,109 +361,7 @@ describe("Routing2 Unit", () => {
         });
       });
 
-      it("should update the destination to a section", async () => {
-        ctx.repositories.Destination.getById = jest.fn().mockResolvedValue({
-          id: SECOND_DESTINATION_ID,
-          sectionId: LATER_SECTION_ID
-        });
-
-        const updateRoutingRule2Mutation = `
-        mutation updateRoutingRule2($input: UpdateRoutingRule2Input!) {
-          updateRoutingRule2(input: $input) {
-            id
-            destination {
-              logical
-              page {
-                id
-              }
-              section {
-                id
-              }
-            }
-          }
-        }`;
-
-        const updateResult = await executeQuery(
-          updateRoutingRule2Mutation,
-          {
-            input: {
-              id: ROUTING_RULE_ID,
-              destination: { sectionId: LATER_SECTION_ID }
-            }
-          },
-          ctx
-        );
-
-        expect(updateResult.errors).toBeUndefined();
-        expect(ctx.repositories.Destination.update).toHaveBeenCalledWith({
-          id: SECOND_DESTINATION_ID,
-          sectionId: LATER_SECTION_ID
-        });
-
-        expect(updateResult.data).toMatchObject({
-          updateRoutingRule2: {
-            id: ROUTING_RULE_ID.toString(),
-            destination: {
-              logical: null,
-              page: null,
-              section: { id: LATER_SECTION_ID.toString() }
-            }
-          }
-        });
-      });
-
-      it("should update the destination to a logical", async () => {
-        ctx.repositories.Destination.getById = jest.fn().mockResolvedValue({
-          id: SECOND_DESTINATION_ID,
-          logical: END_OF_QUESTIONNAIRE
-        });
-
-        const updateRoutingRule2Mutation = `
-        mutation updateRoutingRule2($input: UpdateRoutingRule2Input!) {
-          updateRoutingRule2(input: $input) {
-            id
-            destination {
-              logical
-              page {
-                id
-              }
-              section {
-                id
-              }
-            }
-          }
-        }`;
-
-        const updateResult = await executeQuery(
-          updateRoutingRule2Mutation,
-          {
-            input: {
-              id: ROUTING_RULE_ID,
-              destination: { logical: END_OF_QUESTIONNAIRE }
-            }
-          },
-          ctx
-        );
-
-        expect(updateResult.errors).toBeUndefined();
-        expect(ctx.repositories.Destination.update).toHaveBeenCalledWith({
-          id: SECOND_DESTINATION_ID,
-          logical: END_OF_QUESTIONNAIRE
-        });
-
-        expect(updateResult.data).toMatchObject({
-          updateRoutingRule2: {
-            id: ROUTING_RULE_ID.toString(),
-            destination: {
-              logical: END_OF_QUESTIONNAIRE,
-              page: null,
-              section: null
-            }
-          }
-        });
-      });
-
-      it("Should error when providing more than one destination", async () => {
+      it("should error when providing more than one destination", async () => {
         const updateRoutingRule2Mutation = `
         mutation updateRoutingRule2($input: UpdateRoutingRule2Input!) {
           updateRoutingRule2(input: $input) {
@@ -807,35 +398,68 @@ describe("Routing2 Unit", () => {
     });
   });
 
-  describe("BinaryExpression2", () => {
-    describe("create", () => {
-      it("should create a BinaryExpression2 defaulted left side to first answer of the page", async () => {
-        const BINARY_EXPRESSION_ID_2 = 10;
+  describe("ExpressionGroup2", () => {
+    it("should update the operator of an expression group", async () => {
+      const updateExpressionGroup2 = `
+    mutation updateExpressionGroup2($input: UpdateExpressionGroup2Input!) {
+      updateExpressionGroup2(input: $input) {
+        id
+        operator
+      }
+    }
+    `;
 
-        ctx.repositories = {
-          ...ctx.repositories,
-          BinaryExpression2: {
-            insert: jest.fn().mockResolvedValueOnce({
+      const updateResult = await executeQuery(
+        updateExpressionGroup2,
+        { input: { id: EXPRESSION_GROUP_ID, operator: OR } },
+        ctx
+      );
+
+      expect(updateResult.errors).toBeUndefined();
+      expect(ctx.repositories.ExpressionGroup2.update).toHaveBeenCalledWith({
+        id: EXPRESSION_GROUP_ID.toString(),
+        operator: OR
+      });
+      expect(updateResult.data).toMatchObject({
+        updateExpressionGroup2: {
+          id: EXPRESSION_GROUP_ID.toString(),
+          operator: OR
+        }
+      });
+    });
+  });
+
+  describe("BinaryExpression2", () => {
+    it("should call the modifier with the parsed input on create", async () => {
+      const BINARY_EXPRESSION_ID_2 = 20;
+      ctx.repositories = {
+        ...ctx.repositories,
+        BinaryExpression2: {
+          getByExpressionGroupId: jest.fn().mockResolvedValueOnce([
+            {
+              id: BINARY_EXPRESSION_ID,
+              expressionGroupId: EXPRESSION_GROUP_ID,
+              condition: conditions.EQUAL
+            },
+            {
               id: BINARY_EXPRESSION_ID_2,
               expressionGroupId: EXPRESSION_GROUP_ID,
-              condition: "Equal"
-            }),
-            getByExpressionGroupId: jest.fn().mockResolvedValueOnce([
-              {
-                id: BINARY_EXPRESSION_ID,
-                expressionGroupId: EXPRESSION_GROUP_ID,
-                condition: "Equal"
-              },
-              {
-                id: BINARY_EXPRESSION_ID_2,
-                expressionGroupId: EXPRESSION_GROUP_ID,
-                condition: "Equal"
-              }
-            ])
-          }
-        };
+              condition: conditions.EQUAL
+            }
+          ])
+        }
+      };
+      ctx.modifiers = {
+        BinaryExpression: {
+          create: jest.fn().mockResolvedValueOnce({
+            id: BINARY_EXPRESSION_ID_2,
+            expressionGroupId: EXPRESSION_GROUP_ID,
+            condition: conditions.EQUAL
+          })
+        }
+      };
 
-        const query = `
+      const query = `
         mutation createBinaryExpression2($input: CreateBinaryExpression2Input!) {
           createBinaryExpression2(input: $input) {
             id
@@ -862,34 +486,152 @@ describe("Routing2 Unit", () => {
           }
         }
         `;
-        const input = { expressionGroupId: EXPRESSION_GROUP_ID };
+      const input = { expressionGroupId: EXPRESSION_GROUP_ID };
+      const result = await executeQuery(query, { input }, ctx);
+      expect(result.errors).toBeUndefined();
+      expect(ctx.modifiers.BinaryExpression.create).toHaveBeenCalledWith(
+        EXPRESSION_GROUP_ID
+      );
+      expect(result.data).toMatchObject({
+        createBinaryExpression2: {
+          expressionGroup: {
+            id: EXPRESSION_GROUP_ID.toString(),
+            expressions: [
+              { id: BINARY_EXPRESSION_ID.toString() },
+              { id: BINARY_EXPRESSION_ID_2.toString() }
+            ]
+          },
+          id: BINARY_EXPRESSION_ID_2.toString(),
+          left: {
+            id: BASIC_ANSWER_ID.toString(),
+            type: answerTypes.NUMBER
+          },
+          condition: conditions.EQUAL,
+          right: null
+        }
+      });
+    });
+    describe("update", () => {
+      it("should call the modifier with the parsed input on create", async () => {
+        ctx.repositories.RightSide2 = {
+          getByExpressionId: jest.fn().mockResolvedValue({
+            id: RIGHT_SIDE_ID,
+            type: "Custom",
+            customValue: { number: 42 }
+          })
+        };
+        ctx.modifiers = {
+          BinaryExpression: {
+            update: jest.fn().mockResolvedValueOnce({
+              id: BINARY_EXPRESSION_ID,
+              condition: conditions.NOT_EQUAL
+            })
+          }
+        };
+
+        const query = `
+          mutation updateBinaryExpression2($input: UpdateBinaryExpression2Input!) {
+            updateBinaryExpression2(input: $input) {
+              id
+              left {
+                ... on BasicAnswer {
+                  id
+                }
+              }
+              condition
+              right {
+                ... on CustomValue2 {
+                  number
+                }
+              }
+            }
+          }
+          `;
+        const input = {
+          id: BINARY_EXPRESSION_ID,
+          left: {
+            answerId: BASIC_ANSWER_ID
+          },
+          condition: conditions.NOT_EQUAL,
+          right: {
+            customValue: {
+              number: 42
+            }
+          }
+        };
         const result = await executeQuery(query, { input }, ctx);
         expect(result.errors).toBeUndefined();
-        expect(ctx.repositories.BinaryExpression2.insert).toHaveBeenCalledWith({
-          groupId: EXPRESSION_GROUP_ID
-        });
-        expect(ctx.repositories.LeftSide2.insert).toHaveBeenCalledWith({
-          expressionId: BINARY_EXPRESSION_ID_2,
-          answerId: ANSWER_ID
-        });
-        expect(result.data).toMatchObject({
-          createBinaryExpression2: {
-            expressionGroup: {
-              id: EXPRESSION_GROUP_ID.toString(),
-              expressions: [
-                { id: BINARY_EXPRESSION_ID.toString() },
-                { id: BINARY_EXPRESSION_ID_2.toString() }
-              ]
-            },
-            id: BINARY_EXPRESSION_ID_2.toString(),
-            left: {
-              id: ANSWER_ID.toString(),
-              type: answerTypes.TEXTFIELD
-            },
-            condition: "Equal",
-            right: null
+        expect(ctx.modifiers.BinaryExpression.update).toHaveBeenCalledWith({
+          id: BINARY_EXPRESSION_ID.toString(),
+          left: {
+            answerId: BASIC_ANSWER_ID.toString()
+          },
+          condition: conditions.NOT_EQUAL,
+          right: {
+            customValue: {
+              number: 42
+            }
           }
         });
+        expect(result.data).toMatchObject({
+          updateBinaryExpression2: {
+            id: BINARY_EXPRESSION_ID.toString(),
+            left: {
+              id: BASIC_ANSWER_ID.toString()
+            },
+            condition: conditions.NOT_EQUAL,
+            right: {
+              number: 42
+            }
+          }
+        });
+      });
+
+      it("should error if more than one entity passed to left", async () => {
+        const query = `
+          mutation updateBinaryExpression2($input: UpdateBinaryExpression2Input!) {
+            updateBinaryExpression2(input: $input) {
+              id
+            }
+          }
+          `;
+        const input = {
+          id: BINARY_EXPRESSION_ID,
+          left: {
+            answerId: BASIC_ANSWER_ID,
+            metadataId: 5
+          },
+          condition: conditions.EQUAL
+        };
+        const result = await executeQuery(query, { input }, ctx);
+        expect(result.errors).not.toBeUndefined();
+        expect(result.errors[0].message).toMatch(/Left/);
+        expect(result.errors[0].message).toMatch(/one entity/);
+      });
+
+      it("should error if more than one entity passed to right", async () => {
+        const query = `
+          mutation updateBinaryExpression2($input: UpdateBinaryExpression2Input!) {
+            updateBinaryExpression2(input: $input) {
+              id
+            }
+          }
+          `;
+        const input = {
+          id: BINARY_EXPRESSION_ID,
+          left: {
+            answerId: BASIC_ANSWER_ID
+          },
+          condition: conditions.EQUAL,
+          right: {
+            answerId: BASIC_ANSWER_ID,
+            selectedOptions: [1, 2]
+          }
+        };
+        const result = await executeQuery(query, { input }, ctx);
+        expect(result.errors).not.toBeUndefined();
+        expect(result.errors[0].message).toMatch(/Right/);
+        expect(result.errors[0].message).toMatch(/one entity/);
       });
     });
   });

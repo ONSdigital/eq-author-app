@@ -23,5 +23,12 @@ module.exports = knex => {
       .where({ expressionId })
       .first();
 
-  return { insert, getByExpressionId };
+  const update = ({ id, answerId, type }) =>
+    knex("LeftSides2")
+      .where({ id })
+      .update({ answerId, type })
+      .returning("*")
+      .then(head);
+
+  return { insert, getByExpressionId, update };
 };

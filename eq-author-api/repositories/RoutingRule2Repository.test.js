@@ -1,17 +1,17 @@
-const db = require("../db");
+const knex = require("knex")(require("../config/knexfile"));
 const buildTestQuestionnaire = require("../tests/utils/buildTestQuestionnaire")(
-  db
+  knex
 );
-const DestinationRepository = require("./DestinationRepository")(db);
+const DestinationRepository = require("./DestinationRepository")(knex);
 
-const RoutingRule2Repository = require("./RoutingRule2Repository")(db);
+const RoutingRule2Repository = require("./RoutingRule2Repository")(knex);
 
 describe("Routing Rule 2 Repository", () => {
-  beforeAll(() => db.migrate.latest());
-  afterAll(() => db.destroy());
+  beforeAll(() => knex.migrate.latest());
+  afterAll(() => knex.destroy());
 
   afterEach(async () => {
-    await db.transaction(async trx => {
+    await knex.transaction(async trx => {
       await trx.table("Questionnaires").delete();
     });
   });

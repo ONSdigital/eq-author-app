@@ -1,16 +1,17 @@
-const db = require("../db");
+const knex = require("knex")(require("../config/knexfile"));
 const buildTestQuestionnaire = require("../tests/utils/buildTestQuestionnaire")(
-  db
+  knex
 );
+const { AND, OR } = require("../constants/routingOperators");
 
-const ExpressionGroupRepository = require("./ExpressionGroup2Repository")(db);
+const ExpressionGroupRepository = require("./ExpressionGroup2Repository")(knex);
 
 describe("Expression Group Repository", () => {
-  beforeAll(() => db.migrate.latest());
-  afterAll(() => db.destroy());
+  beforeAll(() => knex.migrate.latest());
+  afterAll(() => knex.destroy());
 
   afterEach(async () => {
-    await db.transaction(async trx => {
+    await knex.transaction(async trx => {
       await trx.table("Questionnaires").delete();
     });
   });
@@ -39,7 +40,7 @@ describe("Expression Group Repository", () => {
       expect(group).toMatchObject({
         id: expect.any(Number),
         ruleId: rule.id,
-        operator: "And"
+        operator: AND
       });
     });
   });
@@ -53,10 +54,21 @@ describe("Expression Group Repository", () => {
   });
 
   describe("getById", () => {
-    it("shold return the expression group for the id", async () => {
+    it("should return the expression group for the id", async () => {
       const group = await ExpressionGroupRepository.insert({ ruleId: rule.id });
       const readGroup = await ExpressionGroupRepository.getById(group.id);
       expect(readGroup).toMatchObject(group);
+    });
+  });
+
+  describe("update", () => {
+    it("should update the expression group operator", async () => {
+      const group = await ExpressionGroupRepository.insert({ ruleId: rule.id });
+      const updatedGroup = await ExpressionGroupRepository.update({
+        id: group.id,
+        operator: OR
+      });
+      expect(updatedGroup).toMatchObject({ ...group, operator: OR });
     });
   });
 });

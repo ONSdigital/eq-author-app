@@ -89,7 +89,8 @@ exports.up = async function(knex) {
         "GreaterThan",
         "LessThan",
         "GreaterOrEqual",
-        "LessOrEqual"
+        "LessOrEqual",
+        "OneOf"
       ])
       .notNullable();
   });
@@ -112,6 +113,38 @@ exports.up = async function(knex) {
       .unsigned()
       .references("id")
       .inTable("Answers")
+      .onDelete("CASCADE");
+  });
+
+  await knex.schema.createTable("RightSides2", table => {
+    table.increments();
+
+    table
+      .integer("expressionId")
+      .unsigned()
+      .references("id")
+      .inTable("BinaryExpressions2")
+      .onDelete("CASCADE")
+      .unique();
+
+    table.enum("type", ["Custom", "SelectedOptions"]).notNullable();
+
+    table.jsonb("customValue");
+  });
+
+  await knex.schema.createTable("SelectedOptions2", table => {
+    table
+      .integer("sideId")
+      .unsigned()
+      .references("id")
+      .inTable("RightSides2")
+      .onDelete("CASCADE");
+
+    table
+      .integer("optionId")
+      .unsigned()
+      .references("id")
+      .inTable("Options")
       .onDelete("CASCADE");
   });
 };

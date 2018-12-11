@@ -46,6 +46,12 @@ module.exports = knex => {
   const LeftSide2Repository = require("../../repositories/LeftSide2Repository")(
     knex
   );
+  const RightSide2Repository = require("../../repositories/RightSide2Repository")(
+    knex
+  );
+  const SelectedOptionsRepository = require("../../repositories/SelectedOptions2Repository")(
+    knex
+  );
 
   const replacePiping = (field, references) => {
     if (!field || field.indexOf("<span") === -1) {
@@ -177,6 +183,7 @@ module.exports = knex => {
         references
       );
       options.push(option);
+      references.options[optionConfigs[i].id] = option.id;
     }
 
     return options;
@@ -236,6 +243,20 @@ module.exports = knex => {
     return answers;
   };
 
+  const buildSelectedOptions = (
+    selectedOptionsConfig = [],
+    right,
+    references
+  ) => {
+    const selectedOptionsInsert = selectedOptionsConfig.map(optionConfigId =>
+      SelectedOptionsRepository.insert({
+        optionId: references.options[optionConfigId],
+        sideId: right.id
+      })
+    );
+    return Promise.all(selectedOptionsInsert);
+  };
+
   const buildExpression2 = async (
     expressionConfig,
     expressionGroup,
@@ -245,10 +266,24 @@ module.exports = knex => {
       groupId: expressionGroup.id
     });
     if (expressionConfig.left && expressionConfig.left.answerId) {
-      await LeftSide2Repository.insert({
+      expression.left = await LeftSide2Repository.insert({
         expressionId: expression.id,
         answerId: references.answers[expressionConfig.left.answerId]
       });
+    }
+    if (expressionConfig.right && expressionConfig.right.type) {
+      expression.right = await RightSide2Repository.insert({
+        expressionId: expression.id,
+        type: expressionConfig.right.type
+      });
+
+      if (expressionConfig.right.type === "SelectedOptions") {
+        expression.right.selectedOptions = await buildSelectedOptions(
+          expressionConfig.right.selectedOptions,
+          expression.right,
+          references
+        );
+      }
     }
     return expression;
   };

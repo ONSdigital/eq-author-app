@@ -1,100 +1,74 @@
+const answerTypes = require("../../../constants/answerTypes");
+
 const Resolvers = {};
 
-const createRule = async (routing, ctx) => {
-  const ruleDestination = await ctx.repositories.Destination.insert();
-  const rule = await ctx.repositories.RoutingRule2.insert({
-    routingId: routing.id,
-    destinationId: ruleDestination.id
-  });
-  const expressionGroup = await ctx.repositories.ExpressionGroup2.insert({
-    ruleId: rule.id
-  });
-  const expression = await ctx.repositories.BinaryExpression2.insert({
-    groupId: expressionGroup.id
-  });
-  const firstAnswer = await ctx.repositories.Answer.getFirstOnPage(
-    routing.pageId
+const isMutuallyExclusive = mutuallyExclusiveFields => object => {
+  const applicableFields = Object.keys(object).filter(key =>
+    mutuallyExclusiveFields.includes(key)
   );
-  await ctx.repositories.LeftSide2.insert({
-    expressionId: expression.id,
-    answerId: firstAnswer.id
-  });
-  return rule;
+  return applicableFields.length === 1;
 };
-const NUMERIC_DESTINATION_FIELDS = ["sectionId", "pageId"];
-const normaliseDestinationInput = destination => {
-  if (Object.keys(destination).length > 1) {
-    throw new Error(`Can only provide one destination.`);
-  }
 
-  const destinationField = Object.keys(destination)[0];
-  let value = destination[destinationField];
-  if (NUMERIC_DESTINATION_FIELDS.includes(destinationField)) {
-    value = parseInt(value, 10);
-  }
-  return { [destinationField]: value };
-};
+const isMutuallyExclusiveDestination = isMutuallyExclusive([
+  "sectionId",
+  "pageId",
+  "logical"
+]);
 
 Resolvers.Mutation = {
-  createRouting2: async (root, { input }, ctx) => {
-    const destination = await ctx.repositories.Destination.insert();
-    const pageId = parseInt(input.pageId, 10);
-    const routing = await ctx.repositories.Routing2.insert({
-      pageId,
-      destinationId: destination.id
-    });
-    await createRule(routing, ctx);
-    return routing;
-  },
+  createRouting2: async (root, { input }, ctx) =>
+    ctx.modifiers.Routing.create(input.pageId),
   updateRouting2: async (root, { input }, ctx) => {
-    const routingId = parseInt(input.id, 10);
-    const routing = await ctx.repositories.Routing2.getById(routingId);
-
-    const normalisedDestination = normaliseDestinationInput(input.else);
-
-    await ctx.repositories.Destination.update({
-      id: routing.destinationId,
-      ...normalisedDestination
+    if (!isMutuallyExclusiveDestination(input.else)) {
+      throw new Error("Can only provide one destination.");
+    }
+    return ctx.modifiers.Routing.update({
+      id: input.id,
+      else: input.else
     });
-    return routing;
   },
-  createRoutingRule2: async (root, { input }, ctx) => {
-    const routingId = parseInt(input.routingId, 10);
-    const routing = await ctx.repositories.Routing2.getById(routingId);
-    return createRule(routing, ctx);
+  createRoutingRule2: async (root, { input }, ctx) =>
+    ctx.modifiers.RoutingRule.create(input.routingId),
+  updateRoutingRule2: async (root, { input: { id, destination } }, ctx) => {
+    if (!isMutuallyExclusiveDestination(destination)) {
+      throw new Error("Can only provide one destination.");
+    }
+    return ctx.modifiers.RoutingRule.update({ id, destination });
   },
-  updateRoutingRule2: async (root, { input }, ctx) => {
-    const normalisedDestination = normaliseDestinationInput(input.destination);
-
-    const routingRuleId = parseInt(input.id, 10);
-    const routingRule = await ctx.repositories.RoutingRule2.getById(
-      routingRuleId
-    );
-
-    await ctx.repositories.Destination.update({
-      id: routingRule.destinationId,
-      ...normalisedDestination
-    });
-    return routingRule;
-  },
+  updateExpressionGroup2: async (root, { input: { id, operator } }, ctx) =>
+    ctx.repositories.ExpressionGroup2.update({
+      id,
+      operator
+    }),
   createBinaryExpression2: async (root, { input }, ctx) => {
     const expressionGroupId = parseInt(input.expressionGroupId, 10);
-    const expressionGroup = await ctx.repositories.ExpressionGroup2.getById(
-      expressionGroupId
-    );
-    const rule = await ctx.repositories.RoutingRule2.getById(
-      expressionGroup.ruleId
-    );
-    const routing = await ctx.repositories.Routing2.getById(rule.routingId);
-    const firstAnswer = await ctx.repositories.Answer.getFirstOnPage(
-      routing.pageId
-    );
-    const expression = await ctx.repositories.BinaryExpression2.insert({
-      groupId: expressionGroupId
-    });
-    await ctx.repositories.LeftSide2.insert({
-      expressionId: expression.id,
-      answerId: firstAnswer.id
+    return ctx.modifiers.BinaryExpression.create(expressionGroupId);
+  },
+  updateBinaryExpression2: async (
+    root,
+    { input: { id, left, condition, right } },
+    ctx
+  ) => {
+    if (left && !isMutuallyExclusive(["answerId", "metadataId"])(left)) {
+      throw new Error("Left can only link to one entity");
+    }
+    if (
+      right &&
+      !isMutuallyExclusive([
+        "answerId",
+        "metadataId",
+        "customValue",
+        "selectedOptions"
+      ])(right)
+    ) {
+      throw new Error("Right can only link to one entity");
+    }
+
+    const expression = await ctx.modifiers.BinaryExpression.update({
+      id,
+      left,
+      condition,
+      right
     });
     return expression;
   }
@@ -137,22 +111,58 @@ Resolvers.BinaryExpression2 = {
   left: async ({ id }, args, ctx) => {
     const left = await ctx.repositories.LeftSide2.getByExpressionId(id);
     if (left.type === "Answer") {
-      return ctx.repositories.Answer.getById(left.answerId);
-    } else {
-      throw new Error(`Unsupported side comparison of type: ${left.type}`);
+      const answer = await ctx.repositories.Answer.getById(left.answerId);
+      return { ...answer, sideType: left.type };
     }
+    throw new Error(`Unsupported side comparison of type: ${left.type}`);
   },
-  right: () => null,
+  right: async ({ id }, args, ctx) => {
+    const right = await ctx.repositories.RightSide2.getByExpressionId(id);
+    if (right && ["Custom", "SelectedOptions"].includes(right.type)) {
+      return right;
+    }
+
+    return null;
+  },
   expressionGroup: async ({ expressionGroupId }, args, ctx) =>
     ctx.repositories.ExpressionGroup2.getById(expressionGroupId)
 };
 
 Resolvers.LeftSide2 = {
-  __resolveType: () => "BasicAnswer"
+  __resolveType: ({ type, sideType }) => {
+    if (sideType === "Answer") {
+      if ([answerTypes.RADIO, answerTypes.CHECKBOX].includes(type)) {
+        return "MultipleChoiceAnswer";
+      }
+      return "BasicAnswer";
+    }
+  }
 };
 
 Resolvers.RightSide2 = {
-  __resolveType: () => "BasicAnswer"
+  __resolveType: right => {
+    if (right.type === "Custom") {
+      return "CustomValue2";
+    }
+    if (right.type === "SelectedOptions") {
+      return "SelectedOptions2";
+    }
+    return "BasicAnswer";
+  }
+};
+
+Resolvers.CustomValue2 = {
+  number: ({ customValue: { number } }) => number
+};
+
+Resolvers.SelectedOptions2 = {
+  options: async ({ id }, args, ctx) => {
+    const optionIds = await ctx.repositories.SelectedOptions2.getBySideId(id);
+    const options = await Promise.all(
+      optionIds.map(({ optionId }) => ctx.repositories.Option.getById(optionId))
+    );
+    return options;
+  }
 };
 
 module.exports = Resolvers;

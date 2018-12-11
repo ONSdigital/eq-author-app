@@ -457,6 +457,7 @@ enum RoutingCondition2 {
   LessThan
   GreaterOrEqual
   LessOrEqual
+  OneOf
 }
 
 type BinaryExpression2 {
@@ -541,7 +542,9 @@ type Mutation {
   updateRouting2(input: UpdateRouting2Input!): Routing2! 
   createRoutingRule2(input: CreateRoutingRule2Input!): RoutingRule2!
   updateRoutingRule2(input: UpdateRoutingRule2Input!): RoutingRule2! 
+  updateExpressionGroup2(input: UpdateExpressionGroup2Input!): ExpressionGroup2!
   createBinaryExpression2(input: CreateBinaryExpression2Input!): BinaryExpression2!
+  updateBinaryExpression2(input: UpdateBinaryExpression2Input!): BinaryExpression2!
 }
 
 input CreateRouting2Input {
@@ -569,9 +572,36 @@ input UpdateRoutingRule2Input {
   destination: DestinationInput!
 }
 
+input UpdateExpressionGroup2Input {
+  id: ID!
+  operator: RoutingOperator2!
+}
 
 input CreateBinaryExpression2Input {
   expressionGroupId: ID!
+}
+
+input UpdateBinaryExpression2Input {
+  id: ID!
+  condition: RoutingCondition2!
+  left: LeftSideInput!
+  right: RightSideInput
+}
+
+input LeftSideInput{
+  answerId: ID
+  metadataId: ID
+}
+
+input RightSideInput{
+  answerId: ID
+  metadataId: ID
+  customValue: CustomRightSideInput
+  selectedOptions: [ID!]
+}
+
+input CustomRightSideInput {
+  number: Int
 }
 
 input CreateQuestionnaireInput {

@@ -12,8 +12,23 @@ module.exports = knex => {
       .select()
       .where({ expressionGroupId });
 
+  const getById = id =>
+    knex("BinaryExpressions2")
+      .select()
+      .where({ id })
+      .first();
+
+  const update = ({ id, condition }) =>
+    knex("BinaryExpressions2")
+      .where({ id })
+      .update({ condition })
+      .returning("*")
+      .then(head);
+
   return {
     insert,
+    getById,
+    update,
     getByExpressionGroupId
   };
 };

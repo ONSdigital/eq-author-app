@@ -1,17 +1,17 @@
-const db = require("../db");
+const knex = require("knex")(require("../config/knexfile"));
 const buildTestQuestionnaire = require("../tests/utils/buildTestQuestionnaire")(
-  db
+  knex
 );
 const answerTypes = require("../constants/answerTypes");
 
-const AnswerRepository = require("./AnswerRepository")(db);
+const AnswerRepository = require("./AnswerRepository")(knex);
 
 describe("Answer Repository", () => {
-  beforeAll(() => db.migrate.latest());
-  afterAll(() => db.destroy());
+  beforeAll(() => knex.migrate.latest());
+  afterAll(() => knex.destroy());
 
   afterEach(async () => {
-    await db.transaction(async trx => {
+    await knex.transaction(async trx => {
       await trx.table("Questionnaires").delete();
     });
   });
@@ -36,14 +36,14 @@ describe("Answer Repository", () => {
           questionPageId: page.id,
           type: answerTypes.TEXTFIELD
         },
-        db
+        knex
       );
       secondAnswer = await AnswerRepository.insert(
         {
           questionPageId: page.id,
           type: answerTypes.TEXTFIELD
         },
-        db
+        knex
       );
     });
 

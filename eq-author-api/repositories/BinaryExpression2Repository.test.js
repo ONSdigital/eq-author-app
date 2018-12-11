@@ -1,16 +1,19 @@
-const db = require("../db");
+const knex = require("knex")(require("../config/knexfile"));
 const buildTestQuestionnaire = require("../tests/utils/buildTestQuestionnaire")(
-  db
+  knex
+);
+const routingConditions = require("../constants/routingConditions");
+
+const BinaryExpressionRepository = require("./BinaryExpression2Repository")(
+  knex
 );
 
-const BinaryExpressionRepository = require("./BinaryExpression2Repository")(db);
-
 describe("Binary Expression Repository", () => {
-  beforeAll(() => db.migrate.latest());
-  afterAll(() => db.destroy());
+  beforeAll(() => knex.migrate.latest());
+  afterAll(() => knex.destroy());
 
   afterEach(async () => {
-    await db.transaction(async trx => {
+    await knex.transaction(async trx => {
       await trx.table("Questionnaires").delete();
     });
   });
@@ -48,6 +51,41 @@ describe("Binary Expression Repository", () => {
         expressionGroupId: expressionGroup.id,
         condition: "Equal"
       });
+    });
+  });
+
+  describe("update", () => {
+    it("should update the condition on a Binary Expression", async () => {
+      const binaryExpression = await BinaryExpressionRepository.insert({
+        groupId: expressionGroup.id
+      });
+
+      const updateResult = await BinaryExpressionRepository.update({
+        id: binaryExpression.id,
+        condition: routingConditions.ONE_OF
+      });
+
+      expect(updateResult).toEqual({
+        id: binaryExpression.id,
+        expressionGroupId: expressionGroup.id,
+        condition: routingConditions.ONE_OF
+      });
+    });
+  });
+
+  describe("getById", () => {
+    it("should get Binary expression by Id", async () => {
+      const binaryExpression = await BinaryExpressionRepository.insert({
+        groupId: expressionGroup.id
+      });
+      const expression = await BinaryExpressionRepository.getById(
+        binaryExpression.id
+      );
+      expect(expression).toEqual(
+        expect.objectContaining({
+          id: binaryExpression.id
+        })
+      );
     });
   });
 

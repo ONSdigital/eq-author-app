@@ -1,23 +1,24 @@
-const db = require("../db");
+const knex = require("knex")(require("../config/knexfile"));
 const buildTestQuestionnaire = require("../tests/utils/buildTestQuestionnaire")(
-  db
+  knex
 );
 const answerTypes = require("../constants/answerTypes");
 
-const LeftSideRepository = require("./LeftSide2Repository")(db);
+const LeftSideRepository = require("./LeftSide2Repository")(knex);
 
 describe("Left Side Repository", () => {
-  beforeAll(() => db.migrate.latest());
-  afterAll(() => db.destroy());
+  beforeAll(() => knex.migrate.latest());
+  afterAll(() => knex.destroy());
 
   afterEach(async () => {
-    await db.transaction(async trx => {
+    await knex.transaction(async trx => {
       await trx.table("Questionnaires").delete();
     });
   });
 
   let expression;
   let answer;
+  let secondAnswer;
   beforeEach(async () => {
     const questionnaire = await buildTestQuestionnaire({
       sections: [
@@ -25,6 +26,9 @@ describe("Left Side Repository", () => {
           pages: [
             {
               answers: [
+                {
+                  type: answerTypes.NUMBER
+                },
                 {
                   type: answerTypes.NUMBER
                 }
@@ -46,15 +50,16 @@ describe("Left Side Repository", () => {
     const page = questionnaire.sections[0].pages[0];
     expression = page.routing.rules[0].expressionGroup.expressions[0];
     answer = page.answers[0];
+    secondAnswer = page.answers[1];
   });
 
   describe("insert", () => {
     it("should create an expression side for the expression", async () => {
-      const binaryExpression = await LeftSideRepository.insert({
+      const leftSide = await LeftSideRepository.insert({
         expressionId: expression.id,
         answerId: answer.id
       });
-      expect(binaryExpression).toMatchObject({
+      expect(leftSide).toMatchObject({
         id: expect.any(Number),
         expressionId: expression.id,
         answerId: answer.id,
@@ -80,9 +85,30 @@ describe("Left Side Repository", () => {
     });
   });
 
+  describe("update", () => {
+    it("should update the left side to new answer", async () => {
+      const leftSide = await LeftSideRepository.insert({
+        expressionId: expression.id,
+        answerId: answer.id
+      });
+
+      const updateResult = await LeftSideRepository.update({
+        id: leftSide.id,
+        answerId: secondAnswer.id
+      });
+
+      expect(updateResult).toMatchObject({
+        id: leftSide.id,
+        expressionId: expression.id,
+        answerId: secondAnswer.id,
+        type: "Answer"
+      });
+    });
+  });
+
   describe("getByExpressionId", () => {
     it("should return the left side expression for the expression id", async () => {
-      const binaryExpression = await LeftSideRepository.insert({
+      const leftSide = await LeftSideRepository.insert({
         expressionId: expression.id,
         answerId: answer.id
       });
@@ -90,7 +116,7 @@ describe("Left Side Repository", () => {
         expression.id
       );
       expect(readExpression).toMatchObject({
-        id: binaryExpression.id
+        id: leftSide.id
       });
     });
   });

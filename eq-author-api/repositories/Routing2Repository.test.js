@@ -1,4 +1,4 @@
-const knex = require("../db");
+const knex = require("knex")(require("../config/knexfile"));
 const Routing2Repository = require("./Routing2Repository")(knex);
 const DestinationRepository = require("./DestinationRepository")(knex);
 const buildTestQuestionnaire = require("../tests/utils/buildTestQuestionnaire")(

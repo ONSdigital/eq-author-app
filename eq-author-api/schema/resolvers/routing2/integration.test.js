@@ -1,12 +1,15 @@
-const knex = require("../../../db");
+const knex = require("knex")(require("../../../config/knexfile"));
 const executeQuery = require("../../../tests/utils/executeQuery");
 const buildTestQuestionnaire = require("../../../tests/utils/buildTestQuestionnaire")(
   knex
 );
 const repositories = require("../../../repositories")(knex);
+const modifiers = require("../../../modifiers")(repositories);
 const answerTypes = require("../../../constants/answerTypes");
+const { AND, OR } = require("../../../constants/routingOperators");
+const conditions = require("../../../constants/routingConditions");
 
-const ctx = { repositories };
+const ctx = { repositories, modifiers };
 
 describe("Routing2 Integration", () => {
   beforeAll(() => knex.migrate.latest());
@@ -531,6 +534,241 @@ describe("Routing2 Integration", () => {
               id: pageDestinationId.toString()
             },
             section: null
+          }
+        }
+      });
+    });
+
+    it("can update the operator on an expression Group", async () => {
+      const questionnaire = await buildTestQuestionnaire({
+        sections: [
+          {
+            pages: [
+              {
+                routing: {
+                  rules: [
+                    {
+                      expressionGroup: {
+                        operator: AND
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      });
+
+      const expressionGroupId =
+        questionnaire.sections[0].pages[0].routing.rules[0].expressionGroup.id;
+
+      const updateExpressionGroup2 = `
+      mutation updateExpressionGroup2($input: UpdateExpressionGroup2Input!) {
+        updateExpressionGroup2(input: $input) {
+          id
+          operator
+        }
+      }
+      `;
+
+      const updateResult = await executeQuery(
+        updateExpressionGroup2,
+        { input: { id: expressionGroupId, operator: OR } },
+        ctx
+      );
+
+      expect(updateResult.errors).toBeUndefined();
+      expect(updateResult.data).toMatchObject({
+        updateExpressionGroup2: {
+          id: expressionGroupId.toString(),
+          operator: OR
+        }
+      });
+    });
+
+    it("can update a binary expression to selected options", async () => {
+      const questionnaire = await buildTestQuestionnaire({
+        sections: [
+          {
+            pages: [
+              {
+                answers: [
+                  { id: "numberAnswer", type: answerTypes.NUMBER },
+                  {
+                    type: answerTypes.RADIO,
+                    options: [{ label: "option1" }, { label: "option2" }]
+                  }
+                ],
+                routing: {
+                  rules: [
+                    {
+                      expressionGroup: {
+                        operator: AND,
+                        expressions: [
+                          {
+                            left: { answerId: "numberAnswer" }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      });
+
+      const page = questionnaire.sections[0].pages[0];
+      const answer = page.answers[1];
+      const optionIds = answer.options.map(({ id }) => id);
+      const options = answer.options.map(({ id, label }) => ({
+        id: id.toString(),
+        label
+      }));
+      const expressionId =
+        page.routing.rules[0].expressionGroup.expressions[0].id;
+
+      const updateBinaryExpressionMutation = `
+      mutation updateBinaryExpression2($input: UpdateBinaryExpression2Input!) {
+        updateBinaryExpression2(input: $input) {
+          id
+          left{
+            ...on MultipleChoiceAnswer{
+              id
+            }
+          }  
+          condition
+          right {
+            ...on SelectedOptions2 {
+              options {
+                id
+                label
+              }
+            }
+          }
+        }
+      }
+      `;
+
+      const updateResult = await executeQuery(
+        updateBinaryExpressionMutation,
+        {
+          input: {
+            id: expressionId,
+            left: { answerId: answer.id },
+            condition: conditions.ONE_OF,
+            right: { selectedOptions: optionIds }
+          }
+        },
+        ctx
+      );
+
+      expect(updateResult.errors).toBeUndefined();
+      expect(updateResult.data).toMatchObject({
+        updateBinaryExpression2: {
+          id: expressionId.toString(),
+          left: { id: answer.id.toString() },
+          condition: conditions.ONE_OF,
+          right: {
+            options
+          }
+        }
+      });
+    });
+
+    it("can update a binary expression to a custom value", async () => {
+      const questionnaire = await buildTestQuestionnaire({
+        sections: [
+          {
+            pages: [
+              {
+                answers: [
+                  { type: answerTypes.NUMBER },
+                  {
+                    id: "radioAnswer",
+                    type: answerTypes.RADIO,
+                    options: [
+                      { id: "option1", label: "option1" },
+                      { id: "option2", label: "option2" }
+                    ]
+                  }
+                ],
+                routing: {
+                  rules: [
+                    {
+                      expressionGroup: {
+                        operator: AND,
+                        expressions: [
+                          {
+                            left: { answerId: "radioAnswer" },
+                            condition: conditions.ONE_OF,
+                            right: {
+                              type: "SelectedOptions",
+                              selectedOptions: ["option1", "option2"]
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      });
+
+      const page = questionnaire.sections[0].pages[0];
+      const answer = page.answers[0];
+      const expressionId =
+        page.routing.rules[0].expressionGroup.expressions[0].id;
+
+      const updateBinaryExpressionMutation = `
+        mutation updateBinaryExpression2($input: UpdateBinaryExpression2Input!) {
+          updateBinaryExpression2(input: $input) {
+            id
+            left{
+              ...on BasicAnswer{
+                id
+              }
+            }
+            condition
+            right {
+              ...on CustomValue2 {
+                number
+              }
+            }
+          }
+        }
+        `;
+
+      const updateResult = await executeQuery(
+        updateBinaryExpressionMutation,
+        {
+          input: {
+            id: expressionId,
+            left: { answerId: answer.id },
+            condition: conditions.GREATER_THAN,
+            right: {
+              customValue: {
+                number: 5
+              }
+            }
+          }
+        },
+        ctx
+      );
+
+      expect(updateResult.errors).toBeUndefined();
+      expect(JSON.parse(JSON.stringify(updateResult.data))).toMatchObject({
+        updateBinaryExpression2: {
+          id: expressionId.toString(),
+          left: { id: answer.id.toString() },
+          condition: conditions.GREATER_THAN,
+          right: {
+            number: 5
           }
         }
       });
