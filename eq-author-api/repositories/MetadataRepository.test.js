@@ -1,10 +1,6 @@
 const { map, times, omit } = require("lodash");
 
-const knex = require("../db");
-const QuestionnaireRepository = require("../repositories/QuestionnaireRepository")(
-  knex
-);
-const MetadataRepository = require("../repositories/MetadataRepository")(knex);
+const db = require("../db");
 
 const buildQuestionnaire = (json = {}) => {
   return Object.assign(
@@ -32,9 +28,19 @@ const buildMetadata = (questionnaireId, json = {}) => {
 
 describe("MetadataRepository", () => {
   let questionnaireId;
+  let knex;
+  let QuestionnaireRepository;
+  let MetadataRepository;
 
-  beforeAll(() => knex.migrate.latest());
-  afterAll(() => knex.destroy());
+  beforeAll(async () => {
+    const conf = await db(process.env.DB_SECRET_ID);
+    knex = require("knex")(conf);
+    await knex.migrate.latest();
+    QuestionnaireRepository = require("../repositories/QuestionnaireRepository")(
+      knex
+    );
+    MetadataRepository = require("../repositories/MetadataRepository")(knex);
+  });
   afterEach(() => knex("Questionnaires").delete());
   beforeEach(async () => {
     const questionnaire = buildQuestionnaire({ title: "New questionnaire" });

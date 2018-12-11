@@ -1,22 +1,27 @@
 /* eslint-disable camelcase */
-
-const knex = require("../db");
+const db = require("../db");
 const answerTypes = require("../constants/answerTypes");
 const metadataTypes = require("../constants/metadataTypes");
 
-const buildTestQuestionnaire = require("../tests/utils/buildTestQuestionnaire")(
-  knex
-);
-
-const QuestionConfirmationRepository = require("./QuestionConfirmationRepository")(
-  knex
-);
-
 describe("QuestionConfirmationRepository", () => {
   let page;
+
+  let knex;
+  let buildTestQuestionnaire;
+  let QuestionConfirmationRepository;
+  let questionnaire;
+
   beforeAll(async () => {
+    const conf = await db(process.env.DB_SECRET_ID);
+    knex = require("knex")(conf);
     await knex.migrate.latest();
-    const questionnaire = await buildTestQuestionnaire({
+    buildTestQuestionnaire = require("../tests/utils/buildTestQuestionnaire")(
+      knex
+    );
+    QuestionConfirmationRepository = require("./QuestionConfirmationRepository")(
+      knex
+    );
+    questionnaire = await buildTestQuestionnaire({
       metadata: [
         {
           key: "date",
@@ -57,7 +62,6 @@ describe("QuestionConfirmationRepository", () => {
     });
     page = questionnaire.sections[0].pages[1];
   });
-  afterAll(() => knex.destroy());
   afterEach(() => knex("QuestionConfirmations").delete());
 
   describe("create", () => {

@@ -1,27 +1,36 @@
 const fp = require("lodash/fp");
 
-const knex = require("../db");
-const QuestionnaireRepository = require("../repositories/QuestionnaireRepository")(
-  knex
-);
-
-const buildQuestionnaire = (json = {}) => {
-  return Object.assign(
-    {
-      title: "Test questionnaire",
-      surveyId: "1",
-      theme: "default",
-      legalBasis: "Voluntary",
-      navigation: false,
-      createdBy: "foo"
-    },
-    json
-  );
-};
+const db = require("../db");
 
 describe("QuestionnaireRepository", () => {
-  beforeAll(() => knex.migrate.latest());
-  afterAll(() => knex.destroy());
+  let knex;
+  let QuestionnaireRepository;
+  let buildQuestionnaire;
+
+  beforeAll(async () => {
+    const conf = await db(process.env.DB_SECRET_ID);
+    knex = require("knex")(conf);
+    await knex.migrate.latest();
+
+    QuestionnaireRepository = require("../repositories/QuestionnaireRepository")(
+      knex
+    );
+
+    buildQuestionnaire = (json = {}) => {
+      return Object.assign(
+        {
+          title: "Test questionnaire",
+          surveyId: "1",
+          theme: "default",
+          legalBasis: "Voluntary",
+          navigation: false,
+          createdBy: "foo"
+        },
+        json
+      );
+    };
+  });
+
   afterEach(() => knex("Questionnaires").delete());
 
   it("should create new Questionnaire", async () => {

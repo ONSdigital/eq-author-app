@@ -1,57 +1,64 @@
-/* eslint-disable no-console */
 const express = require("express");
-const { graphqlExpress, graphiqlExpress } = require("graphql-server-express");
-const { addErrorLoggingToSchema } = require("graphql-tools");
+const { graphqlExpress } = require("graphql-server-express");
 const repositories = require("./repositories");
-const colors = require("colors");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const schema = require("./schema");
 const pinoMiddleware = require("express-pino-logger");
 const { PORT } = require("./config/settings");
-const createLogger = require("./utils/createLogger");
 const status = require("./middleware/status");
 const { getLaunchUrl } = require("./middleware/launch");
-const importAction = require("./middleware/import");
 
 const app = express();
 const pino = pinoMiddleware();
+const logger = pino.logger;
 
-const logger = createLogger(pino.logger);
-addErrorLoggingToSchema(schema, logger);
+const db = require("./db");
 
-const knex = require("./db");
+db(process.env.DB_SECRET_ID)
+  .then(async conf => {
+    let knex = require("knex")(conf);
+    logger.info("Running Migrate");
+    await knex.migrate.latest();
+    logger.info("Ran Migrate");
 
-const context = { repositories: repositories(knex) };
+    const context = { repositories: repositories(knex) };
 
-app.use(
-  "/graphql",
-  pino,
-  cors(),
-  bodyParser.json(),
-  graphqlExpress({
-    schema,
-    context,
-    formatError: logger.log
+    app.use(
+      "/graphql",
+      pino,
+      cors(),
+      bodyParser.json(),
+      graphqlExpress({
+        schema,
+        context,
+        formatError: logger.info
+      })
+    );
+
+    app.get("/status", status);
+
+    app.get("/launch/:questionnaireId", getLaunchUrl(context));
+    if (process.env.NODE_ENV === "development") {
+      const importAction = require("./middleware/import");
+      app.post("/import", bodyParser.json({ limit: "50mb" }), importAction);
+    }
+
+    if (process.env.NODE_ENV === "development") {
+      const { graphiqlExpress } = require("graphql-server-express");
+      app.use(
+        "/graphiql",
+        pino,
+        cors(),
+        graphiqlExpress({ endpointURL: "/graphql" })
+      );
+    }
+
+    app.listen(PORT, "0.0.0.0", () => {
+      logger.child({ port: PORT }).info("Listening on port");
+    });
   })
-);
-
-app.get("/status", status);
-
-app.get("/launch/:questionnaireId", getLaunchUrl(context));
-if (process.env.NODE_ENV === "development") {
-  app.post("/import", bodyParser.json({ limit: "50mb" }), importAction);
-}
-
-if (process.env.NODE_ENV === "development") {
-  app.use(
-    "/graphiql",
-    pino,
-    cors(),
-    graphiqlExpress({ endpointURL: "/graphql" })
-  );
-}
-
-app.listen(PORT, "0.0.0.0", () => {
-  console.log(colors.green("Listening on port"), PORT);
-});
+  .catch(error => {
+    logger.info(error);
+    process.exit(1);
+  });

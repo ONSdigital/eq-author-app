@@ -1,11 +1,14 @@
 #!/usr/bin/env node
-/* eslint-disable no-console */
 const chalk = require("chalk");
 const schema = require("../schema/typeDefs");
 const { buildSchema } = require("graphql");
 const childProcess = require("child_process");
 const fs = require("fs");
 const findBreakingChanges = require("./findBreakingChanges");
+
+const pinoMiddleware = require("express-pino-logger");
+const pino = pinoMiddleware();
+const logger = pino.logger;
 
 const getMasterSchema = () => {
   childProcess.execSync(
@@ -19,10 +22,10 @@ const getMasterSchema = () => {
 
 try {
   buildSchema(schema);
-  console.log(chalk.green("Valid schema"));
+  logger.info(chalk.green("Valid schema"));
 } catch (e) {
-  console.error(chalk.red("Invalid schema:"));
-  console.error(e.message);
+  logger.error(chalk.red("Invalid schema:"));
+  logger.error(e.message);
   process.exit(1);
 }
 
@@ -31,15 +34,15 @@ const newSchema = buildSchema(schema);
 const breakages = findBreakingChanges(oldSchema, newSchema);
 
 if (breakages.length === 0) {
-  console.log(chalk.green("Changes are backwards compatible"));
+  logger.info(chalk.green("Changes are backwards compatible"));
 } else {
-  console.error(chalk.red("Breaking changes found"));
-  console.error("Please deprecate these fields instead of removing:");
+  logger.error(chalk.red("Breaking changes found"));
+  logger.error("Please deprecate these fields instead of removing:");
 
   breakages.forEach(breakage => {
-    console.error(`  ${breakage.type}: ${breakage.description}`);
+    logger.error(`  ${breakage.type}: ${breakage.description}`);
   });
-  console.log();
+  logger.info();
 
   process.exit(1);
 }

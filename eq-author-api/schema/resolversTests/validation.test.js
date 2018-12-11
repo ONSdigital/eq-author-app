@@ -1,6 +1,5 @@
 const { first } = require("lodash");
-const knex = require("../../db");
-const repositories = require("../../repositories")(knex);
+const db = require("../../db");
 const executeQuery = require("../../tests/utils/executeQuery");
 const {
   createQuestionnaireMutation,
@@ -20,106 +19,118 @@ const {
 
 const { DATE, DATE_RANGE } = require("../../constants/answerTypes");
 
-const ctx = { repositories };
-
-const createNewQuestionnaire = async () => {
-  const input = {
-    title: "Test Questionnaire",
-    description: "Questionnaire created by integration test.",
-    theme: "default",
-    legalBasis: "Voluntary",
-    navigation: false,
-    surveyId: "001",
-    summary: true,
-    createdBy: "Integration test"
-  };
-
-  const result = await executeQuery(
-    createQuestionnaireMutation,
-    { input },
-    ctx
-  );
-  return result.data.createQuestionnaire;
-};
-
-const createNewAnswer = async ({ id: pageId }, type) => {
-  const input = {
-    description: "",
-    guidance: "",
-    label: `${type} answer`,
-    qCode: null,
-    type: `${type}`,
-    questionPageId: pageId
-  };
-
-  const result = await executeQuery(createAnswerMutation, { input }, ctx);
-  if (result.errors) {
-    throw new Error(result.errors[0]);
-  }
-  return result.data.createAnswer;
-};
-
-const createMetadata = async questionnaireId => {
-  const input = {
-    questionnaireId
-  };
-
-  const result = await executeQuery(createMetadataMutation, { input }, ctx);
-
-  if (result.errors) {
-    throw new Error(result.errors[0]);
-  }
-  return result.data.createMetadata;
-};
-
-const queryAnswerValidations = async id => {
-  const result = await executeQuery(
-    getAnswerValidations,
-    {
-      id
-    },
-    ctx
-  );
-  if (result.errors) {
-    throw new Error(result.errors[0]);
-  }
-  return result.data.answer.validation;
-};
-
-const mutateValidationToggle = async input => {
-  const result = await executeQuery(
-    toggleAnswerValidation,
-    {
-      input
-    },
-    ctx
-  );
-
-  return result.data.toggleValidationRule;
-};
-
-const mutateValidationParameters = async input => {
-  const result = await executeQuery(
-    updateAnswerValidation,
-    {
-      input
-    },
-    ctx
-  );
-  if (result.errors) {
-    throw new Error(result.errors[0]);
-  }
-  return result.data.updateValidationRule;
-};
-
 describe("resolvers", () => {
   let questionnaire;
   let sections;
   let pages;
   let firstPage;
 
-  beforeAll(() => knex.migrate.latest());
-  afterAll(() => knex.destroy());
+  let knex;
+  let createNewQuestionnaire;
+  let createNewAnswer;
+  let createMetadata;
+  let queryAnswerValidations;
+  let mutateValidationToggle;
+  let mutateValidationParameters;
+
+  beforeAll(async () => {
+    const conf = await db(process.env.DB_SECRET_ID);
+    knex = require("knex")(conf);
+    await knex.migrate.latest();
+
+    let repositories = require("../../repositories")(knex);
+    let ctx = { repositories };
+
+    createNewQuestionnaire = async () => {
+      const input = {
+        title: "Test Questionnaire",
+        description: "Questionnaire created by integration test.",
+        theme: "default",
+        legalBasis: "Voluntary",
+        navigation: false,
+        surveyId: "001",
+        summary: true,
+        createdBy: "Integration test"
+      };
+
+      const result = await executeQuery(
+        createQuestionnaireMutation,
+        { input },
+        ctx
+      );
+      return result.data.createQuestionnaire;
+    };
+
+    createNewAnswer = async ({ id: pageId }, type) => {
+      const input = {
+        description: "",
+        guidance: "",
+        label: `${type} answer`,
+        qCode: null,
+        type: `${type}`,
+        questionPageId: pageId
+      };
+
+      const result = await executeQuery(createAnswerMutation, { input }, ctx);
+      if (result.errors) {
+        throw new Error(result.errors[0]);
+      }
+      return result.data.createAnswer;
+    };
+
+    createMetadata = async questionnaireId => {
+      const input = {
+        questionnaireId
+      };
+
+      const result = await executeQuery(createMetadataMutation, { input }, ctx);
+
+      if (result.errors) {
+        throw new Error(result.errors[0]);
+      }
+      return result.data.createMetadata;
+    };
+
+    queryAnswerValidations = async id => {
+      const result = await executeQuery(
+        getAnswerValidations,
+        {
+          id
+        },
+        ctx
+      );
+      if (result.errors) {
+        throw new Error(result.errors[0]);
+      }
+      return result.data.answer.validation;
+    };
+
+    mutateValidationToggle = async input => {
+      const result = await executeQuery(
+        toggleAnswerValidation,
+        {
+          input
+        },
+        ctx
+      );
+
+      return result.data.toggleValidationRule;
+    };
+
+    mutateValidationParameters = async input => {
+      const result = await executeQuery(
+        updateAnswerValidation,
+        {
+          input
+        },
+        ctx
+      );
+      if (result.errors) {
+        throw new Error(result.errors[0]);
+      }
+      return result.data.updateValidationRule;
+    };
+  });
   afterEach(() => knex("Questionnaires").delete());
 
   beforeEach(async () => {

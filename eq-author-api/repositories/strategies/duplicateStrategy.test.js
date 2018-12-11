@@ -1,25 +1,11 @@
 const { flow, map, omit } = require("lodash/fp");
 
-const knex = require("../../db");
+const db = require("../../db");
 const {
   duplicatePageStrategy,
   duplicateSectionStrategy,
   duplicateQuestionnaireStrategy
 } = require("./duplicateStrategy");
-const SectionRepository = require("../SectionRepository")(knex);
-const PageRepository = require("../PageRepository")(knex);
-const AnswerRepository = require("../AnswerRepository")(knex);
-const OptionRepository = require("../OptionRepository")(knex);
-const ValidationRepository = require("../ValidationRepository")(knex);
-const MetadataRepository = require("../MetadataRepository")(knex);
-const RoutingRepository = require("../RoutingRepository")(knex);
-const QuestionConfirmationRepository = require("../QuestionConfirmationRepository")(
-  knex
-);
-
-const buildTestQuestionnaire = require("../../tests/utils/buildTestQuestionnaire")(
-  knex
-);
 
 const sanitize = omit([
   "id",
@@ -66,13 +52,40 @@ const sanitizeParent = flow(
 );
 
 describe("Duplicate strategy tests", () => {
-  beforeAll(() => knex.migrate.latest());
-  afterAll(() => knex.destroy());
-  afterEach(async () => {
-    await knex.transaction(async trx => {
-      await trx.table("Questionnaires").delete();
-    });
+  let knex;
+
+  let SectionRepository;
+  let PageRepository;
+  let AnswerRepository;
+  let OptionRepository;
+  let ValidationRepository;
+  let MetadataRepository;
+  let RoutingRepository;
+  let QuestionConfirmationRepository;
+  let buildTestQuestionnaire;
+
+  beforeAll(async () => {
+    const conf = await db(process.env.DB_SECRET_ID);
+    knex = require("knex")(conf);
+    await knex.migrate.latest();
+
+    SectionRepository = require("../SectionRepository")(knex);
+    PageRepository = require("../PageRepository")(knex);
+    AnswerRepository = require("../AnswerRepository")(knex);
+    OptionRepository = require("../OptionRepository")(knex);
+    ValidationRepository = require("../ValidationRepository")(knex);
+    MetadataRepository = require("../MetadataRepository")(knex);
+    RoutingRepository = require("../RoutingRepository")(knex);
+    QuestionConfirmationRepository = require("../QuestionConfirmationRepository")(
+      knex
+    );
+
+    buildTestQuestionnaire = require("../../tests/utils/buildTestQuestionnaire")(
+      knex
+    );
   });
+
+  afterEach(() => knex.table("Questionnaires").delete());
 
   describe("Page", () => {
     it("will duplicate a page", async () => {

@@ -1,6 +1,5 @@
 const { first } = require("lodash");
-const knex = require("../../db");
-const repositories = require("../../repositories")(knex);
+const db = require("../../db");
 const executeQuery = require("../../tests/utils/executeQuery");
 const {
   createQuestionnaireMutation,
@@ -9,73 +8,84 @@ const {
   updateAnswerMutation
 } = require("../../tests/utils/graphql");
 
-const ctx = { repositories };
-
-const createNewQuestionnaire = async () => {
-  const input = {
-    title: "Test Questionnaire",
-    description: "Questionnaire created by integration test.",
-    theme: "default",
-    legalBasis: "Voluntary",
-    navigation: false,
-    surveyId: "001",
-    summary: true,
-    createdBy: "Integration test"
-  };
-
-  const result = await executeQuery(
-    createQuestionnaireMutation,
-    { input },
-    ctx
-  );
-  return result.data.createQuestionnaire;
-};
-
-const createNewAnswer = async ({ id: pageId }, type) => {
-  const input = {
-    description: "",
-    guidance: "",
-    label: `${type} answer`,
-    qCode: null,
-    type: `${type}`,
-    questionPageId: pageId
-  };
-
-  const result = await executeQuery(createAnswerMutation, { input }, ctx);
-  return result.data.createAnswer;
-};
-
-const queryAnswer = async id => {
-  const result = await executeQuery(
-    getAnswerQuery,
-    {
-      id
-    },
-    ctx
-  );
-  return result.data.answer;
-};
-
-const updateAnswer = async input => {
-  const result = await executeQuery(
-    updateAnswerMutation,
-    {
-      input
-    },
-    ctx
-  );
-
-  return result.data;
-};
-
 describe("resolvers", () => {
   let questionnaire;
   let sections;
   let pages;
   let firstPage;
 
-  beforeAll(() => knex.migrate.latest());
-  afterAll(() => knex.destroy());
+  let knex;
+  let createNewQuestionnaire;
+  let createNewAnswer;
+  let queryAnswer;
+  let updateAnswer;
+
+  beforeAll(async () => {
+    const conf = await db(process.env.DB_SECRET_ID);
+    knex = require("knex")(conf);
+    await knex.migrate.latest();
+
+    let repositories = require("../../repositories")(knex);
+    let ctx = { repositories };
+
+    createNewQuestionnaire = async () => {
+      const input = {
+        title: "Test Questionnaire",
+        description: "Questionnaire created by integration test.",
+        theme: "default",
+        legalBasis: "Voluntary",
+        navigation: false,
+        surveyId: "001",
+        summary: true,
+        createdBy: "Integration test"
+      };
+
+      const result = await executeQuery(
+        createQuestionnaireMutation,
+        { input },
+        ctx
+      );
+      return result.data.createQuestionnaire;
+    };
+
+    createNewAnswer = async ({ id: pageId }, type) => {
+      const input = {
+        description: "",
+        guidance: "",
+        label: `${type} answer`,
+        qCode: null,
+        type: `${type}`,
+        questionPageId: pageId
+      };
+
+      const result = await executeQuery(createAnswerMutation, { input }, ctx);
+      return result.data.createAnswer;
+    };
+
+    queryAnswer = async id => {
+      const result = await executeQuery(
+        getAnswerQuery,
+        {
+          id
+        },
+        ctx
+      );
+      return result.data.answer;
+    };
+
+    updateAnswer = async input => {
+      const result = await executeQuery(
+        updateAnswerMutation,
+        {
+          input
+        },
+        ctx
+      );
+
+      return result.data;
+    };
+  });
+
   afterEach(() => knex("Questionnaires").delete());
 
   beforeEach(async () => {

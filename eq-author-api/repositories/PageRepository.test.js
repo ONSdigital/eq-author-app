@@ -31,23 +31,6 @@ const buildPage = page => ({
   ...page
 });
 
-const questionnaireRepository = QuestionnaireRepository(db);
-const sectionRepository = SectionRepository(db);
-
-const setup = async () => {
-  const questionnaire = await questionnaireRepository.insert(
-    buildQuestionnaire()
-  );
-
-  const section = await sectionRepository.insert(
-    buildSection({
-      questionnaireId: questionnaire.id
-    })
-  );
-
-  return { questionnaire, section };
-};
-
 const eachP = (items, iter) =>
   items.reduce(
     (promise, item) => promise.then(() => iter(item)),
@@ -55,11 +38,34 @@ const eachP = (items, iter) =>
   );
 
 describe("PagesRepository", () => {
-  beforeAll(() => db.migrate.latest());
-  afterAll(() => db.destroy());
-  afterEach(() => db("Questionnaires").delete());
+  let knex;
+  let questionnaireRepository;
+  let sectionRepository;
+  let pageRepository;
 
-  const pageRepository = PageRepository(db);
+  beforeAll(async () => {
+    const conf = await db(process.env.DB_SECRET_ID);
+    knex = require("knex")(conf);
+    await knex.migrate.latest();
+    questionnaireRepository = QuestionnaireRepository(knex);
+    sectionRepository = SectionRepository(knex);
+    pageRepository = PageRepository(knex);
+  });
+  afterEach(() => knex("Questionnaires").delete());
+
+  const setup = async () => {
+    const questionnaire = await questionnaireRepository.insert(
+      buildQuestionnaire()
+    );
+
+    const section = await sectionRepository.insert(
+      buildSection({
+        questionnaireId: questionnaire.id
+      })
+    );
+
+    return { questionnaire, section };
+  };
 
   it("throws for unknown page types", () => {
     const page = buildPage({ pageType: "NotARealPageType" });

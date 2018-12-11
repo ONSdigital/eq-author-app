@@ -1,13 +1,5 @@
-const knex = require("../db");
+const db = require("../db");
 const { get } = require("lodash");
-const {
-  getPipingAnswersForQuestionPage,
-  getPipingMetadataForQuestionPage,
-  getRoutingQuestionsForQuestionPage
-} = require("./QuestionPageRepository")(knex);
-const buildTestQuestionnaire = require("../tests/utils/buildTestQuestionnaire")(
-  knex
-);
 const {
   CHECKBOX,
   RADIO,
@@ -26,13 +18,21 @@ const {
 const { getName } = require("../utils/getName");
 
 describe("QuestionPageRepository", () => {
-  beforeAll(() => knex.migrate.latest());
-  afterAll(() => knex.destroy());
-  afterEach(async () => {
-    await knex.transaction(async trx => {
-      await trx.table("Questionnaires").delete();
-    });
+  let knex;
+  let QuestionPageRepository;
+  let buildTestQuestionnaire;
+
+  beforeAll(async () => {
+    const conf = await db(process.env.DB_SECRET_ID);
+    knex = require("knex")(conf);
+    await knex.migrate.latest();
+    QuestionPageRepository = require("./QuestionPageRepository")(knex);
+    buildTestQuestionnaire = require("../tests/utils/buildTestQuestionnaire")(
+      knex
+    );
   });
+
+  afterEach(() => knex.table("Questionnaires").delete());
 
   describe("Piping answers", () => {
     let questionnaire;
@@ -134,7 +134,7 @@ describe("QuestionPageRepository", () => {
     });
 
     it("should get answers of specific types on previous pages and sections", async () => {
-      const pipingAnswers = await getPipingAnswersForQuestionPage(
+      const pipingAnswers = await QuestionPageRepository.getPipingAnswersForQuestionPage(
         get(questionnaire, "sections[1].pages[0].id")
       );
 
@@ -187,7 +187,7 @@ describe("QuestionPageRepository", () => {
     });
 
     it("should get all metadata for questionnaire", async () => {
-      const metadata = await getPipingMetadataForQuestionPage(
+      const metadata = await QuestionPageRepository.getPipingMetadataForQuestionPage(
         get(questionnaire, "sections[0].pages[0].id")
       );
 
@@ -296,7 +296,7 @@ describe("QuestionPageRepository", () => {
     });
 
     it("should get the current and previous question pages of specific types", async () => {
-      const routingQuestions = await getRoutingQuestionsForQuestionPage(
+      const routingQuestions = await QuestionPageRepository.getRoutingQuestionsForQuestionPage(
         get(questionnaire, "sections[1].pages[0].id")
       );
 
