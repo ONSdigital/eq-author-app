@@ -9,10 +9,15 @@ const onExit = node => {
   node.style.height = `${height}px`;
 };
 
-const OptionTransition = styled(CSSTransition).attrs({
-  classNames: "option",
-  onExit: () => onExit
-})`
+const OptionTransition = styled(CSSTransition)
+  .attrs({
+    classNames: "option",
+    onExit: () => onExit
+  })
+  .attrs(({ classNames = "option", onExit = onExit }) => ({
+    classNames: classNames,
+    onExit: onExit
+  }))`
   position: relative;
 
   &.option-enter {

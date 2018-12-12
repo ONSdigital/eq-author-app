@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import styled, { keyframes } from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 import { colors } from "constants/theme";
 import { connect } from "react-redux";
 import { isOffline, hasApiError, hasError } from "redux/saving/reducer";
@@ -34,11 +34,15 @@ const fade = keyframes`
   }
 `;
 
+const animationRule = css`
+  ${fade} 750ms ease-in forwards;
+`;
+
 const WarningMessage = styled(IconText)`
   align-items: center;
   display: flex;
   color: ${colors.white};
-  animation: ${fade} 750ms ease-in forwards;
+  animation: ${animationRule};
 `;
 
 const errorMessage = {

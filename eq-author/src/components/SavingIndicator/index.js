@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import styled, { keyframes } from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 import SavingIcon from "./icon-saving.svg?inline";
 import timer from "utils/timer";
 import { connect } from "react-redux";
@@ -25,8 +25,12 @@ const rotate360 = keyframes`
   }
 `;
 
+const animationRule = css`
+  ${rotate360} 1s infinite alternate;
+`;
+
 const Icon = styled(SavingIcon)`
-  animation: ${rotate360} 3s linear infinite;
+  animation: ${animationRule};
 `;
 
 export class UnconnectedSavingIndicator extends React.Component {

@@ -1,6 +1,6 @@
 import React from "react";
 import Icon from "./icon-loading.svg?inline";
-import styled, { keyframes } from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 import PropTypes from "prop-types";
 import { colors } from "constants/theme";
 import Delay from "components/Delay";
@@ -12,6 +12,10 @@ const colorChange = keyframes`
   to {
     fill: ${colors.primary};
   }
+`;
+
+const animationRule = css`
+  ${colorChange} 1s ease-in infinite alternate;
 `;
 
 const Container = styled.div`
@@ -33,7 +37,7 @@ const StyledIcon = styled(Icon)`
 
   .block {
     fill: #ccc;
-    animation: ${colorChange} 1s ease-in infinite alternate;
+    animation: ${animationRule};
   }
 `;
 

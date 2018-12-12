@@ -2,9 +2,11 @@ import { CSSTransition } from "react-transition-group";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-const ExpansionTransition = styled(CSSTransition).attrs({
-  classNames: "expansion"
-})`
+const ExpansionTransition = styled(CSSTransition).attrs(
+  ({ classNames = "expansion" }) => ({
+    classNames: classNames
+  })
+)`
   transition-property: height;
   transition-duration: ${props => props.timeout}ms;
   transition-timing-function: ease-in-out;

@@ -100,7 +100,7 @@ class Row extends React.Component {
         enter={isOptimisticDupe}
         exit={!isOptimisticDupe}
       >
-        <TR innerRef={this.rowRef} disabled={isOptimisticDupe}>
+        <TR ref={this.rowRef} disabled={isOptimisticDupe}>
           <TD>
             <TruncatedQuestionnaireLink
               data-test="anchor-questionnaire-title"

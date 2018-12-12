@@ -121,7 +121,7 @@ export class AccordionPanel extends React.Component {
           controls={"panel-body-" + id}
           open={this.state.open}
           onClick={this.handleTitleClick}
-          innerRef={this.saveRef}
+          ref={this.saveRef}
         >
           {title}
         </AccordionTitle>
