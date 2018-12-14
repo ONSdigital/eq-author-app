@@ -1,14 +1,17 @@
-import { readToWriteMapper } from "./builder";
+import {
+  dateReadToWriteMapper,
+  durationReadToWriteMapper
+} from "components/Validation/Date/readToWriteMapper";
 import {
   CUSTOM,
   METADATA,
   PREVIOUS_ANSWER
 } from "constants/validation-entity-types";
 
-describe("Date validation builder", () => {
-  describe("readToWriteMapper", () => {
+describe("readToWriteMapper", () => {
+  describe("dateReadToWriteMapper", () => {
     it("should map from the read to write structure for custom date", () => {
-      const mapper = readToWriteMapper("earliestDateInput");
+      const mapper = dateReadToWriteMapper("earliestDateInput");
       expect(
         mapper({
           id: 1,
@@ -40,7 +43,7 @@ describe("Date validation builder", () => {
     });
 
     it("should map from the read to write structure for previous answer", () => {
-      const mapper = readToWriteMapper("earliestDateInput");
+      const mapper = dateReadToWriteMapper("earliestDateInput");
       expect(
         mapper({
           id: 1,
@@ -58,8 +61,8 @@ describe("Date validation builder", () => {
       ).toEqual({
         id: 1,
         earliestDateInput: {
-          custom: null,
           previousAnswer: "1",
+          custom: null,
           metadata: null,
           entityType: PREVIOUS_ANSWER,
           offset: {
@@ -72,7 +75,7 @@ describe("Date validation builder", () => {
     });
 
     it("should map from the read to write structure for metadata", () => {
-      const mapper = readToWriteMapper("earliestDateInput");
+      const mapper = dateReadToWriteMapper("earliestDateInput");
       expect(
         mapper({
           id: 1,
@@ -90,9 +93,9 @@ describe("Date validation builder", () => {
       ).toEqual({
         id: 1,
         earliestDateInput: {
+          metadata: "1",
           custom: null,
           previousAnswer: null,
-          metadata: "1",
           entityType: METADATA,
           offset: {
             unit: "Months",
@@ -104,7 +107,7 @@ describe("Date validation builder", () => {
     });
 
     it("should null custom date when different entity type", () => {
-      const mapper = readToWriteMapper("earliestDateInput");
+      const mapper = dateReadToWriteMapper("earliestDateInput");
       expect(
         mapper({
           id: 1,
@@ -121,7 +124,6 @@ describe("Date validation builder", () => {
       ).toMatchObject({
         id: 1,
         earliestDateInput: {
-          custom: null,
           previousAnswer: "1",
           entityType: PREVIOUS_ANSWER
         }
@@ -129,7 +131,7 @@ describe("Date validation builder", () => {
     });
 
     it("should null previous answer when different entity type", () => {
-      const mapper = readToWriteMapper("earliestDateInput");
+      const mapper = dateReadToWriteMapper("earliestDateInput");
       expect(
         mapper({
           id: 1,
@@ -147,14 +149,13 @@ describe("Date validation builder", () => {
         id: 1,
         earliestDateInput: {
           custom: "12/12/2000",
-          previousAnswer: null,
           entityType: CUSTOM
         }
       });
     });
 
     it("should send null when the custom date is empty", () => {
-      const mapper = readToWriteMapper("latestDateInput");
+      const mapper = dateReadToWriteMapper("latestDateInput");
       expect(
         mapper({
           id: 1,
@@ -171,8 +172,8 @@ describe("Date validation builder", () => {
         id: 1,
         latestDateInput: {
           custom: null,
-          previousAnswer: null,
           metadata: null,
+          previousAnswer: null,
           offset: {
             unit: "Months",
             value: 1
@@ -184,7 +185,7 @@ describe("Date validation builder", () => {
     });
 
     it("should not get previous answer id when previous answer is null", () => {
-      const mapper = readToWriteMapper("latestDateInput");
+      const mapper = dateReadToWriteMapper("latestDateInput");
       expect(
         mapper({
           id: 1,
@@ -203,8 +204,8 @@ describe("Date validation builder", () => {
         id: 1,
         latestDateInput: {
           custom: null,
-          previousAnswer: null,
           metadata: null,
+          previousAnswer: null,
           offset: {
             unit: "Months",
             value: 1
@@ -216,7 +217,7 @@ describe("Date validation builder", () => {
     });
 
     it("should not get metadata id when metadata is null", () => {
-      const mapper = readToWriteMapper("latestDateInput");
+      const mapper = dateReadToWriteMapper("latestDateInput");
       expect(
         mapper({
           id: 1,
@@ -235,14 +236,38 @@ describe("Date validation builder", () => {
         id: 1,
         latestDateInput: {
           custom: null,
-          previousAnswer: null,
           metadata: null,
+          previousAnswer: null,
           offset: {
             unit: "Months",
             value: 1
           },
           relativePosition: "Before",
           entityType: METADATA
+        }
+      });
+    });
+  });
+
+  describe("durationReadToWriteMapper", () => {
+    it("should remove enabled key", () => {
+      const mapper = durationReadToWriteMapper("minDurationInput");
+      expect(
+        mapper({
+          id: 1,
+          duration: {
+            unit: "Months",
+            value: 1
+          },
+          enabled: true
+        })
+      ).toEqual({
+        id: 1,
+        minDurationInput: {
+          duration: {
+            unit: "Months",
+            value: 1
+          }
         }
       });
     });

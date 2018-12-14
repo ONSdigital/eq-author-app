@@ -1,40 +1,38 @@
 const { CUSTOM, NOW } = require("../constants/validationEntityTypes");
-const { DATE } = require("../constants/answerTypes");
+const {
+  DATE,
+  DATE_RANGE,
+  CURRENCY,
+  NUMBER
+} = require("../constants/answerTypes");
 
 const answerTypeMap = {
-  number: ["Currency", "Number"],
-  date: ["Date", "DateRange"]
+  number: [CURRENCY, NUMBER],
+  date: [DATE],
+  dateRange: [DATE_RANGE]
 };
 
 const validationRuleMap = {
   number: ["minValue", "maxValue"],
   date: ["earliestDate", "latestDate"],
+  dateRange: ["earliestDate", "latestDate", "minDuration", "maxDuration"]
+};
+
+const duration = {
+  value: 0,
+  unit: "Days"
 };
 
 const defaultValidationRuleConfigs = {
-  minValue: {
-    inclusive: false
-  },
-  maxValue: {
-    inclusive: false
-  },
-  earliestDate: {
-    offset: {
-      value: 0,
-      unit: "Days"
-    },
-    relativePosition: "Before"
-  },
-  latestDate: {
-    offset: {
-      value: 0,
-      unit: "Days"
-    },
-    relativePosition: "After"
-  }
+  minValue: { inclusive: false },
+  maxValue: { inclusive: false },
+  earliestDate: { offset: duration, relativePosition: "Before" },
+  latestDate: { offset: duration, relativePosition: "After" },
+  minDuration: { duration },
+  maxDuration: { duration }
 };
 
-const defaultValidationEntityTypes = ({type}) => ({
+const defaultValidationEntityTypes = ({ type }) => ({
   minValue: {
     entityType: CUSTOM
   },
@@ -45,7 +43,13 @@ const defaultValidationEntityTypes = ({type}) => ({
     entityType: type === DATE ? NOW : CUSTOM
   },
   latestDate: {
-    entityType:  type === DATE ? NOW : CUSTOM
+    entityType: type === DATE ? NOW : CUSTOM
+  },
+  minDuration: {
+    entityType: CUSTOM
+  },
+  maxDuration: {
+    entityType: CUSTOM
   }
 });
 

@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Duration Validation should render disabled message when not enabled 1`] = `
+<ValidationView
+  data-test="duration-test-id"
+  enabled={false}
+  onToggleChange={[Function]}
+>
+  <DisabledMessage
+    name="Some date"
+  />
+</ValidationView>
+`;
+
+exports[`Duration Validation should render the form input with the values when enabled 1`] = `
+<ValidationView
+  data-test="duration-test-id"
+  enabled={true}
+  onToggleChange={[Function]}
+>
+  <div>
+    <Grid
+      align="top"
+      fillHeight={true}
+    >
+      <AlignedColumn
+        cols={3}
+      >
+        <EmphasisedText>
+          Some date
+           is
+        </EmphasisedText>
+      </AlignedColumn>
+      <Column
+        cols={9}
+      >
+        <Duration
+          duration={
+            Object {
+              "unit": "Months",
+              "value": 5,
+            }
+          }
+          name="duration"
+          onChange={[MockFunction]}
+          onUpdate={[MockFunction]}
+          units={
+            Array [
+              "Days",
+              "Months",
+              "Years",
+            ]
+          }
+        />
+      </Column>
+    </Grid>
+  </div>
+</ValidationView>
+`;

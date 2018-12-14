@@ -4,6 +4,8 @@ import MinValueValidationRule from "graphql/fragments/min-value-validation-rule.
 import MaxValueValidationRule from "graphql/fragments/max-value-validation-rule.graphql";
 import EarliestDateValidationRule from "graphql/fragments/earliest-date-validation-rule.graphql";
 import LatestDateValidationRule from "graphql/fragments/latest-date-validation-rule.graphql";
+import MinDurationValidationRule from "graphql/fragments/min-duration-validation-rule.graphql";
+import MaxDurationValidationRule from "graphql/fragments/max-duration-validation-rule.graphql";
 
 export const UPDATE_VALIDATION_RULE = gql`
   mutation updateValidationRule($input: UpdateValidationRuleInput!) {
@@ -12,6 +14,8 @@ export const UPDATE_VALIDATION_RULE = gql`
       ...MaxValueValidationRule
       ...EarliestDateValidationRule
       ...LatestDateValidationRule
+      ...MinDurationValidationRule
+      ...MaxDurationValidationRule
     }
   }
 
@@ -19,6 +23,8 @@ export const UPDATE_VALIDATION_RULE = gql`
   ${MaxValueValidationRule}
   ${EarliestDateValidationRule}
   ${LatestDateValidationRule}
+  ${MinDurationValidationRule}
+  ${MaxDurationValidationRule}
 `;
 
 export const mapMutateToProps = ({ mutate }) => ({

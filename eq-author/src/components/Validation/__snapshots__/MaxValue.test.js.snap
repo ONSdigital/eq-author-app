@@ -53,8 +53,8 @@ exports[`MaxValue should render with disabled content 1`] = `
   enabled={false}
   onToggleChange={[Function]}
 >
-  <DisabledMessage>
-    Max value is disabled
-  </DisabledMessage>
+  <DisabledMessage
+    name="Max value"
+  />
 </ValidationView>
 `;

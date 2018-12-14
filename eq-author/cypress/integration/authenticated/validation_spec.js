@@ -547,5 +547,123 @@ describe("Answer Validation", () => {
         removeAnswer();
       });
     });
+
+    describe("Min duration", () => {
+      beforeEach(() => {
+        addAnswerType(DATE_RANGE);
+        cy.get(testId("date-answer-label"))
+          .eq(0)
+          .type("Validation Answer 1");
+        cy.get(testId("date-answer-label"))
+          .eq(1)
+          .type("Validation Answer 2");
+        cy.get(testId("sidebar-button-min-duration")).as("minDuration");
+        cy.get("@minDuration").click();
+        cy.get(testId("validation-view-toggle")).within(() => {
+          cy.get('[role="switch"]').as("minDurationToggle");
+        });
+      });
+
+      it("should exist in the side bar", () => {
+        cy.get("@minDuration").should("be.visible");
+      });
+
+      it("should show the validation modal", () => {
+        cy.get(testId("sidebar-title")).contains("Date Range validation");
+      });
+
+      it("can be toggled on", () => {
+        cy.get(testId("min-duration-validation")).contains(
+          "Min duration is disabled"
+        );
+
+        toggleCheckboxOn("@minDurationToggle");
+
+        cy.get(testId("min-duration-validation")).should(
+          "not.contain",
+          "Min duration is disabled"
+        );
+      });
+
+      it("should update the duration value", () => {
+        toggleCheckboxOn("@minDurationToggle");
+        cy.get('[name="duration.value"]')
+          .type("{backspace}5")
+          .blur()
+          .should("have.value", "5");
+      });
+
+      it("should update the duration unit", () => {
+        toggleCheckboxOn("@minDurationToggle");
+
+        cy.get('[name="duration.unit"]')
+          .select("Months")
+          .blur()
+          .should("have.value", "Months");
+      });
+
+      afterEach(() => {
+        removeAnswer();
+      });
+    });
+
+    describe("Max duration", () => {
+      beforeEach(() => {
+        addAnswerType(DATE_RANGE);
+        cy.get(testId("date-answer-label"))
+          .eq(0)
+          .type("Validation Answer 1");
+        cy.get(testId("date-answer-label"))
+          .eq(1)
+          .type("Validation Answer 2");
+        cy.get(testId("sidebar-button-max-duration")).as("maxDuration");
+        cy.get("@maxDuration").click();
+        cy.get(testId("validation-view-toggle")).within(() => {
+          cy.get('[role="switch"]').as("maxDurationToggle");
+        });
+      });
+
+      it("should exist in the side bar", () => {
+        cy.get("@maxDuration").should("be.visible");
+      });
+
+      it("should show the validation modal", () => {
+        cy.get(testId("sidebar-title")).contains("Date Range validation");
+      });
+
+      it("can be toggled on", () => {
+        cy.get(testId("max-duration-validation")).contains(
+          "Max duration is disabled"
+        );
+
+        toggleCheckboxOn("@maxDurationToggle");
+
+        cy.get(testId("max-duration-validation")).should(
+          "not.contain",
+          "Max duration is disabled"
+        );
+      });
+
+      it("should update the duration value", () => {
+        toggleCheckboxOn("@maxDurationToggle");
+        cy.get('[name="duration.value"]')
+          .type("{backspace}5")
+          .blur()
+          .should("have.value", "5");
+      });
+
+      it("should update the duration unit", () => {
+        toggleCheckboxOn("@maxDurationToggle");
+
+        cy.get('[name="duration.unit"]')
+          .select("Months")
+          .blur()
+          .should("have.value", "Months");
+      });
+
+      afterEach(() => {
+        removeAnswer();
+      });
+    });
   });
 });

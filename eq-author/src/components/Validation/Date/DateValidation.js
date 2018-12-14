@@ -1,9 +1,10 @@
+import Duration from "components/Validation/Date/Duration";
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { get } from "lodash";
 
-import { Input, Number, Select } from "components/Forms";
+import { Input, Select } from "components/Forms";
 import { Grid, Column } from "components/Grid";
 
 import PreviousAnswerContentPicker from "components/Validation/PreviousAnswerContentPicker";
@@ -13,11 +14,14 @@ import { ValidationPills } from "components/Validation/ValidationPills";
 import ValidationView from "components/Validation/ValidationView";
 import Path from "components/Validation/path.svg?inline";
 import PathEnd from "components/Validation/path-end.svg?inline";
+import EmphasisedText from "components/Validation/Date/EmphasisedText";
+import AlignedColumn from "components/Validation/Date/AlignedColumn";
 
 import * as entityTypes from "constants/validation-entity-types";
 import { DATE, DATE_RANGE } from "constants/answer-types";
+import { DAYS, MONTHS, YEARS } from "constants/durations";
 
-const UNITS = ["Days", "Months", "Years"];
+const UNITS = [DAYS, MONTHS, YEARS];
 const RELATIVE_POSITIONS = ["Before", "After"];
 
 const DateInput = styled(Input)`
@@ -29,22 +33,8 @@ const ConnectedPath = styled(Path)`
   height: 3.6em;
 `;
 
-const AlignedColumn = styled(Column)`
-  align-items: center;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-`;
-
 const RelativePositionSelect = styled(Select)`
   width: 6em;
-`;
-
-const EmphasisedText = styled.p`
-  font-size: 0.9em;
-  font-weight: bold;
-  margin: 0;
-  text-transform: uppercase;
 `;
 
 const StartDateText = styled.div`
@@ -53,7 +43,7 @@ const StartDateText = styled.div`
 `;
 
 const CustomInput = styled.div`
-  margin-top: 6em;
+  margin-top: 5em;
 `;
 
 const START_COL_SIZE = 3;
@@ -143,7 +133,6 @@ class DateValidation extends React.Component {
     } = this.props;
 
     const availableUnits = getUnits({ format, type });
-    const offsetUnitIsInvalid = !availableUnits.includes(offset.unit);
 
     return (
       <div>
@@ -152,39 +141,13 @@ class DateValidation extends React.Component {
             <EmphasisedText>{displayName} is</EmphasisedText>
           </AlignedColumn>
           <Column cols={END_COL_SIZE}>
-            <Grid>
-              <Column cols={2}>
-                <Number
-                  id="offset-value"
-                  name="offset.value"
-                  value={offset.value}
-                  onChange={onChange}
-                  onBlur={onUpdate}
-                  max={99999}
-                  min={0}
-                />
-              </Column>
-              <Column cols={4}>
-                <Select
-                  name="offset.unit"
-                  value={!offsetUnitIsInvalid ? offset.unit : ""}
-                  onChange={onChange}
-                  onBlur={onUpdate}
-                  data-test="offset-unit-select"
-                >
-                  {offsetUnitIsInvalid && (
-                    <option key="Please select" value="" disabled>
-                      Please select…
-                    </option>
-                  )}
-                  {availableUnits.map(unit => (
-                    <option key={unit} value={unit}>
-                      {unit}
-                    </option>
-                  ))}
-                </Select>
-              </Column>
-            </Grid>
+            <Duration
+              name="offset"
+              duration={offset}
+              units={availableUnits}
+              onChange={onChange}
+              onUpdate={onUpdate}
+            />
           </Column>
         </Grid>
         <Grid>
@@ -232,9 +195,7 @@ class DateValidation extends React.Component {
     );
   };
 
-  renderDisabled = () => (
-    <DisabledMessage>{this.props.displayName} is disabled</DisabledMessage>
-  );
+  renderDisabled = () => <DisabledMessage name={this.props.displayName} />;
 
   render() {
     const {

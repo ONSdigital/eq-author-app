@@ -1,79 +1,32 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Date Validation should filter the available units for the format 1`] = `
-<withChangeHandler(Select__SimpleSelect)
-  data-test="offset-unit-select"
-  name="offset.unit"
-  onBlur={[MockFunction]}
-  onChange={[MockFunction]}
-  value="Months"
->
-  <option
-    key="Months"
-    value="Months"
-  >
-    Months
-  </option>
-  <option
-    key="Years"
-    value="Years"
-  >
-    Years
-  </option>
-</withChangeHandler(Select__SimpleSelect)>
+exports[`Date Validation should filter the available units for the dd/mm/yyyy 1`] = `
+Array [
+  "Days",
+  "Months",
+  "Years",
+]
 `;
 
-exports[`Date Validation should render a please select for offset unit when the offset unit is not available for the format 1`] = `
-<withChangeHandler(Select__SimpleSelect)
-  data-test="offset-unit-select"
-  name="offset.unit"
-  onBlur={[MockFunction]}
-  onChange={[MockFunction]}
-  value=""
->
-  <option
-    disabled={true}
-    key="Please select"
-    value=""
-  >
-    Please select…
-  </option>
-  <option
-    key="Years"
-    value="Years"
-  >
-    Years
-  </option>
-</withChangeHandler(Select__SimpleSelect)>
+exports[`Date Validation should filter the available units for the mm/yyyy 1`] = `
+Array [
+  "Months",
+  "Years",
+]
+`;
+
+exports[`Date Validation should filter the available units for the yyyy 1`] = `
+Array [
+  "Years",
+]
 `;
 
 exports[`Date Validation should render all units for date range answers 1`] = `
-<withChangeHandler(Select__SimpleSelect)
-  data-test="offset-unit-select"
-  name="offset.unit"
-  onBlur={[MockFunction]}
-  onChange={[MockFunction]}
-  value="Months"
->
-  <option
-    key="Days"
-    value="Days"
-  >
-    Days
-  </option>
-  <option
-    key="Months"
-    value="Months"
-  >
-    Months
-  </option>
-  <option
-    key="Years"
-    value="Years"
-  >
-    Years
-  </option>
-</withChangeHandler(Select__SimpleSelect)>
+Array [
+  "Days",
+  "Months",
+  "Years",
+]
 `;
 
 exports[`Date Validation should render custom input for date range type answer 1`] = `
@@ -87,67 +40,35 @@ exports[`Date Validation should render custom input for date range type answer 1
       align="top"
       fillHeight={true}
     >
-      <DateValidation__AlignedColumn
+      <AlignedColumn
         cols={3}
       >
-        <DateValidation__EmphasisedText>
+        <EmphasisedText>
           Some date
            is
-        </DateValidation__EmphasisedText>
-      </DateValidation__AlignedColumn>
+        </EmphasisedText>
+      </AlignedColumn>
       <Column
         cols={9}
       >
-        <Grid
-          align="top"
-          fillHeight={true}
-        >
-          <Column
-            cols={2}
-          >
-            <Number
-              default={0}
-              id="offset-value"
-              max={99999}
-              min={0}
-              name="offset.value"
-              onBlur={[MockFunction]}
-              onChange={[MockFunction]}
-              step={1}
-              value={5}
-            />
-          </Column>
-          <Column
-            cols={4}
-          >
-            <withChangeHandler(Select__SimpleSelect)
-              data-test="offset-unit-select"
-              name="offset.unit"
-              onBlur={[MockFunction]}
-              onChange={[MockFunction]}
-              value="Months"
-            >
-              <option
-                key="Days"
-                value="Days"
-              >
-                Days
-              </option>
-              <option
-                key="Months"
-                value="Months"
-              >
-                Months
-              </option>
-              <option
-                key="Years"
-                value="Years"
-              >
-                Years
-              </option>
-            </withChangeHandler(Select__SimpleSelect)>
-          </Column>
-        </Grid>
+        <Duration
+          duration={
+            Object {
+              "unit": "Months",
+              "value": 5,
+            }
+          }
+          name="offset"
+          onChange={[MockFunction]}
+          onUpdate={[MockFunction]}
+          units={
+            Array [
+              "Days",
+              "Months",
+              "Years",
+            ]
+          }
+        />
       </Column>
     </Grid>
     <Grid
@@ -164,14 +85,14 @@ exports[`Date Validation should render custom input for date range type answer 1
       align="top"
       fillHeight={true}
     >
-      <DateValidation__AlignedColumn
+      <AlignedColumn
         cols={3}
       >
-        <DateValidation__EmphasisedText>
+        <EmphasisedText>
           Before
-        </DateValidation__EmphasisedText>
+        </EmphasisedText>
         <Component />
-      </DateValidation__AlignedColumn>
+      </AlignedColumn>
       <Column
         cols={9}
       >
@@ -198,10 +119,9 @@ exports[`Date Validation should render disabled message when not enabled 1`] = `
   enabled={false}
   onToggleChange={[Function]}
 >
-  <DisabledMessage>
-    Some date
-     is disabled
-  </DisabledMessage>
+  <DisabledMessage
+    name="Some date"
+  />
 </ValidationView>
 `;
 
@@ -216,67 +136,35 @@ exports[`Date Validation should render the form input with the values when enabl
       align="top"
       fillHeight={true}
     >
-      <DateValidation__AlignedColumn
+      <AlignedColumn
         cols={3}
       >
-        <DateValidation__EmphasisedText>
+        <EmphasisedText>
           Some date
            is
-        </DateValidation__EmphasisedText>
-      </DateValidation__AlignedColumn>
+        </EmphasisedText>
+      </AlignedColumn>
       <Column
         cols={9}
       >
-        <Grid
-          align="top"
-          fillHeight={true}
-        >
-          <Column
-            cols={2}
-          >
-            <Number
-              default={0}
-              id="offset-value"
-              max={99999}
-              min={0}
-              name="offset.value"
-              onBlur={[MockFunction]}
-              onChange={[MockFunction]}
-              step={1}
-              value={5}
-            />
-          </Column>
-          <Column
-            cols={4}
-          >
-            <withChangeHandler(Select__SimpleSelect)
-              data-test="offset-unit-select"
-              name="offset.unit"
-              onBlur={[MockFunction]}
-              onChange={[MockFunction]}
-              value="Months"
-            >
-              <option
-                key="Days"
-                value="Days"
-              >
-                Days
-              </option>
-              <option
-                key="Months"
-                value="Months"
-              >
-                Months
-              </option>
-              <option
-                key="Years"
-                value="Years"
-              >
-                Years
-              </option>
-            </withChangeHandler(Select__SimpleSelect)>
-          </Column>
-        </Grid>
+        <Duration
+          duration={
+            Object {
+              "unit": "Months",
+              "value": 5,
+            }
+          }
+          name="offset"
+          onChange={[MockFunction]}
+          onUpdate={[MockFunction]}
+          units={
+            Array [
+              "Days",
+              "Months",
+              "Years",
+            ]
+          }
+        />
       </Column>
     </Grid>
     <Grid
@@ -293,7 +181,7 @@ exports[`Date Validation should render the form input with the values when enabl
       align="top"
       fillHeight={true}
     >
-      <DateValidation__AlignedColumn
+      <AlignedColumn
         cols={3}
       >
         <DateValidation__RelativePositionSelect
@@ -317,7 +205,7 @@ exports[`Date Validation should render the form input with the values when enabl
           </option>
         </DateValidation__RelativePositionSelect>
         <Component />
-      </DateValidation__AlignedColumn>
+      </AlignedColumn>
       <Column
         cols={9}
       >

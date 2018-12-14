@@ -584,12 +584,18 @@ const getAnswerValidations = `
 
 fragment CompositeAnswer on CompositeAnswer {
   validation {
-    ... on DateValidation {
+    ... on DateRangeValidation {
       earliestDate {
         ...EarliestDateValidationRule
       }
       latestDate {
         ...LatestDateValidationRule
+      }
+      minDuration {
+        ...MinDurationValidationRule
+      }
+      maxDuration {
+        ...MaxDurationValidationRule
       }
     }
   }
@@ -658,6 +664,24 @@ fragment LatestDateValidationRule on LatestDateValidationRule {
   }
   relativePosition
 }
+
+fragment MinDurationValidationRule on MinDurationValidationRule {
+  id
+  enabled
+  duration {
+    value
+    unit
+  }
+}
+
+fragment MaxDurationValidationRule on MaxDurationValidationRule {
+  id
+  enabled
+  duration {
+    value
+    unit
+  }
+}
 `;
 
 const toggleAnswerValidation = `
@@ -713,6 +737,18 @@ mutation updateValidation($input: UpdateValidationRuleInput!){
       }
       metadata {
         id
+      }
+    }
+    ...on MinDurationValidationRule {
+      duration {
+        value
+        unit
+      }
+    }
+    ...on MaxDurationValidationRule {
+      duration {
+        value
+        unit
       }
     }
   }

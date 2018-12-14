@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AnswerValidation should render 1`] = `
+<DisabledMessage__Message>
+  foobar
+   is disabled
+</DisabledMessage__Message>
+`;
