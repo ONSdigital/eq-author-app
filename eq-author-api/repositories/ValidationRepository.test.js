@@ -1,4 +1,8 @@
-const db = require("../db");
+const knex = require("knex")(require("../config/knexfile"));
+const ValidationRepository = require("./ValidationRepository")(knex);
+const buildTestQuestionnaire = require("../tests/utils/buildTestQuestionnaire")(
+  knex
+);
 const { get } = require("lodash");
 const { DATE, NUMBER, TEXTAREA } = require("../constants/answerTypes");
 const {
@@ -7,20 +11,7 @@ const {
 } = require("../constants/metadataTypes");
 
 describe("ValidationRepository", () => {
-  let knex;
-  let ValidationRepository;
-  let buildTestQuestionnaire;
-
-  beforeAll(async () => {
-    const conf = await db(process.env.DB_SECRET_ID);
-    knex = require("knex")(conf);
-    await knex.migrate.latest();
-    ValidationRepository = require("./ValidationRepository")(knex);
-    buildTestQuestionnaire = require("../tests/utils/buildTestQuestionnaire")(
-      knex
-    );
-  });
-
+  beforeAll(() => knex.migrate.latest());
   afterEach(() => knex.table("Questionnaires").delete());
 
   describe("Previous answers", () => {

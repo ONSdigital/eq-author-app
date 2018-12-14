@@ -1,5 +1,6 @@
 const { first } = require("lodash");
-const db = require("../../db");
+const knex = require("knex")(require("../../config/knexfile"));
+const repositories = require("../../repositories")(knex);
 const executeQuery = require("../../tests/utils/executeQuery");
 const {
   createQuestionnaireMutation,
@@ -14,18 +15,14 @@ describe("resolvers", () => {
   let pages;
   let firstPage;
 
-  let knex;
   let createNewQuestionnaire;
   let createNewAnswer;
   let queryAnswer;
   let updateAnswer;
 
   beforeAll(async () => {
-    const conf = await db(process.env.DB_SECRET_ID);
-    knex = require("knex")(conf);
     await knex.migrate.latest();
 
-    let repositories = require("../../repositories")(knex);
     let ctx = { repositories };
 
     createNewQuestionnaire = async () => {

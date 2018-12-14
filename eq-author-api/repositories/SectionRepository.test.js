@@ -1,5 +1,13 @@
-const db = require("../db");
 const { get, last, head, map, toString, times } = require("lodash");
+const knex = require("knex")(require("../config/knexfile"));
+
+const QuestionnaireRepository = require("../repositories/QuestionnaireRepository")(
+  knex
+);
+const SectionRepository = require("../repositories/SectionRepository")(knex);
+const buildTestQuestionnaire = require("../tests/utils/buildTestQuestionnaire")(
+  knex
+);
 
 const {
   CHECKBOX,
@@ -44,23 +52,10 @@ const eachP = (items, iter) =>
   );
 
 describe("SectionRepository", () => {
-  let knex;
-  let QuestionnaireRepository;
-  let SectionRepository;
-  let buildTestQuestionnaire;
   let setup;
 
   beforeAll(async () => {
-    const conf = await db(process.env.DB_SECRET_ID);
-    knex = require("knex")(conf);
     await knex.migrate.latest();
-    QuestionnaireRepository = require("../repositories/QuestionnaireRepository")(
-      knex
-    );
-    SectionRepository = require("../repositories/SectionRepository")(knex);
-    buildTestQuestionnaire = require("../tests/utils/buildTestQuestionnaire")(
-      knex
-    );
 
     setup = async () => {
       const questionnaire = await QuestionnaireRepository.insert(
