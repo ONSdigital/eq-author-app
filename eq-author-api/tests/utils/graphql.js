@@ -69,6 +69,11 @@ const createOptionMutation = `
 mutation CreateOption($input: CreateOptionInput!){
   createOption(input: $input){
     id
+    additionalAnswer{
+      id
+      type
+      description
+    }
   }
 }
 `;
@@ -109,55 +114,20 @@ const getPageQuery = `
 const createAnswerMutation = `
   mutation CreateAnswer($input: CreateAnswerInput!) {
     createAnswer(input: $input) {
-      id,
-      description,
-      guidance,
-      qCode,
-      label,
-      type,
+      id
+      description
+      guidance
+      qCode
+      label
+      type
       ... on MultipleChoiceAnswer {
         options {
           id
-        },
-        other {
-          answer {
+          additionalAnswer {
             id
             type
-          },
-          option {
-            id
           }
         }
-      }
-    }
-  }
-`;
-
-const createOtherMutation = `
-  mutation CreateOther($input: CreateOtherInput!) {
-    createOther(input: $input) {
-      option {
-        id
-      }
-      answer {
-        id
-        type
-        description
-      }
-    }
-  }
-`;
-
-const deleteOtherMutation = `
-  mutation DeleteOther($input: DeleteOtherInput!) {
-    deleteOther(input: $input) {
-      option {
-        id
-      }
-      answer {
-        id
-        type
-        description
       }
     }
   }
@@ -182,15 +152,10 @@ const getAnswerQuery = `
       ... on MultipleChoiceAnswer {
         options {
           id
-        },
-        other {
-          answer {
+          additionalAnswer{
             id
             type
             description
-          }
-          option {
-            id
           }
         }
       }
@@ -767,8 +732,6 @@ module.exports = {
   createQuestionnaireMutation,
   getSectionQuery,
   createAnswerMutation,
-  createOtherMutation,
-  deleteOtherMutation,
   getAnswerQuery,
   getAnswersQuery,
   createRoutingRuleSet,

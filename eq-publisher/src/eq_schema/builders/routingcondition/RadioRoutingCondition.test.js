@@ -6,16 +6,28 @@ const buildOption = (id, label) => ({
   label
 });
 
+const buildAdditionalAnswerOption = (id, label) => ({
+  id,
+  label,
+  additionalAnswer: {
+    id: `additional-${id}`,
+    label: `additional-${label}`
+  }
+});
+
 describe("RadioRoutingCondition", () => {
-  const buildOptions = answerId => [
+  const buildOptions = (answerId, additional) => [
     buildOption(`${answerId}_1`, "Yes"),
-    buildOption(`${answerId}_2`, "No")
+    buildOption(`${answerId}_2`, "No"),
+    ...(additional
+      ? [buildAdditionalAnswerOption(`${answerId}_3`, "additional")]
+      : [])
   ];
 
   const buildAnswer = (id, props = {}) => ({
     id,
     type: "Radio",
-    options: buildOptions(id),
+    options: buildOptions(id, props.additional),
     ...props
   });
 
@@ -106,22 +118,20 @@ describe("RadioRoutingCondition", () => {
     ]);
   });
 
-  it("should include other options if included", () => {
-    const otherCondition = {
+  it("should include additionAnswer options if included", () => {
+    const additionalAnswerCondition = {
       ...condition,
       routingValue: { value: ["1_3"] },
       answer: {
         ...buildAnswer("1", {
-          other: {
-            option: buildOption("1_3", "Other")
-          }
+          additional: true
         })
       }
     };
 
-    const result = new RadioRoutingCondition(otherCondition, [
+    const result = new RadioRoutingCondition(additionalAnswerCondition, [
       ...conditions,
-      otherCondition
+      additionalAnswerCondition
     ]).buildRoutingCondition();
 
     expect(result).toEqual([

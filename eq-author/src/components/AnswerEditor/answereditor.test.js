@@ -33,8 +33,6 @@ describe("Answer Editor", () => {
       onAddOption: jest.fn(),
       onUpdateOption: jest.fn(),
       onDeleteOption: jest.fn(),
-      onAddOther: jest.fn(),
-      onDeleteOther: jest.fn(),
       onAddExclusive: jest.fn()
     };
 

@@ -75,8 +75,6 @@ describe("MultipleChoiceAnswer", () => {
       onAddExclusive: jest.fn(() => Promise.resolve(option)),
       onUpdateOption: jest.fn(),
       onDeleteOption: jest.fn(),
-      onAddOther: jest.fn(() => Promise.resolve(optionWithAnswer)),
-      onDeleteOther: jest.fn(() => Promise.resolve(optionWithAnswer)),
       onChange: jest.fn()
     };
 
@@ -100,7 +98,9 @@ describe("MultipleChoiceAnswer", () => {
 
     expect(preventDefault).toHaveBeenCalled();
     expect(stopPropagation).toHaveBeenCalled();
-    expect(mockHandlers.onAddOption).toHaveBeenCalledWith(answer.id);
+    expect(mockHandlers.onAddOption).toHaveBeenCalledWith(answer.id, {
+      hasAdditionalAnswer: false
+    });
   });
 
   describe("delete button", () => {
@@ -177,20 +177,15 @@ describe("MultipleChoiceAnswer", () => {
       expect(wrapper).toMatchSnapshot();
     });
 
-    it("should add call create other on click of split button menu item", () => {
+    it("should call add option with 2nd argument true on click of split button menu item", () => {
       wrapper
         .find("[data-test='btn-add-option-other']")
         .first()
         .simulate("click", { preventDefault });
-      expect(mockHandlers.onAddOther).toHaveBeenCalledWith(answerWithOther);
-    });
-
-    it('should call onDeleteOther when deleting the "other" option', () => {
-      wrapper
-        .find(Option)
-        .last()
-        .simulate("delete", { preventDefault });
-      expect(mockHandlers.onDeleteOther).toHaveBeenCalledWith(answerWithOther);
+      expect(mockHandlers.onAddOption).toHaveBeenCalledWith(
+        answerWithOther.id,
+        { hasAdditionalAnswer: true }
+      );
     });
 
     it("should show delete button when number options + other > minOptions", () => {

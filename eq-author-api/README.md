@@ -247,6 +247,15 @@ fragment optionFragment on Option {
   description
   value
   qCode
+  additionalAnswer {
+    id
+    type
+    label
+    description
+    guidance
+    properties
+    qCode
+  }
 }
 
 fragment destinationFragment on RoutingDestination {
@@ -323,12 +332,6 @@ query GetQuestionnaire($questionnaireId: ID!) {
                       id
                       label
                     }
-                    other {
-                      option {
-                        id
-                        label
-                      }
-                    }
                   }
                 }
                 routingValue {
@@ -350,14 +353,6 @@ query GetQuestionnaire($questionnaireId: ID!) {
               }
               mutuallyExclusiveOption {
                 ...optionFragment
-              }
-              other {
-                option {
-                  ...optionFragment
-                }
-                answer {
-                  ...answerFragment
-                }
               }
             }
           }

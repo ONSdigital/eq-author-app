@@ -54,19 +54,23 @@ describe("containers/QuestionnaireDesignPage/withCreateOption", () => {
     });
 
     it("should call mutate", () => {
-      return props.onAddOption(answer.id).then(() => {
-        expect(mutate).toHaveBeenCalledWith(
-          expect.objectContaining({
-            variables: {
-              input: { answerId: answer.id }
-            }
-          })
-        );
-      });
+      return props
+        .onAddOption(answer.id, { hasAdditionalAnswer: false })
+        .then(() => {
+          expect(mutate).toHaveBeenCalledWith(
+            expect.objectContaining({
+              variables: {
+                input: { answerId: answer.id, hasAdditionalAnswer: false }
+              }
+            })
+          );
+        });
     });
 
     it("should unwrap the entity from the apollo result", () => {
-      expect(props.onAddOption(answer.id)).resolves.toBe(newOption);
+      expect(
+        props.onAddOption(answer.id, { hasAdditionalAnswer: false })
+      ).resolves.toBe(newOption);
     });
   });
 });

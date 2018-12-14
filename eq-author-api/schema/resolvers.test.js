@@ -5,11 +5,8 @@ const {
   createQuestionnaireMutation,
   getPipableAnswersQuery,
   createAnswerMutation,
-  createOtherMutation,
-  deleteOtherMutation,
   getAnswerQuery,
   getPageQuery,
-  getAnswersQuery,
   updateAnswerMutation,
   createRoutingRuleSet,
   updateRoutingRule,
@@ -31,6 +28,7 @@ const {
   deletePageMutation,
   deleteAnswerMutation,
   deleteOptionMutation,
+  createOptionMutation,
   moveSectionMutation,
   createExclusiveMutation
 } = require("../tests/utils/graphql");
@@ -53,15 +51,12 @@ describe("resolvers", () => {
   let createNewQuestionnaire;
   let createSection;
   let createNewAnswer;
-  let createNewOtherMutation;
-  let createOther;
   let createExclusive;
-  let deleteOther;
   let deleteQuestionPage;
   let updateAnswer;
+  let createOption;
   let deleteAnswer;
   let deleteOption;
-  let createThenDeleteOther;
   let createNewRoutingRuleSet;
   let deleteRoutingRuleSetMutation;
   let createNewRoutingRule;
@@ -134,17 +129,8 @@ describe("resolvers", () => {
       return result.data.createAnswer;
     };
 
-    createNewOtherMutation = async answer =>
-      executeQuery(
-        createOtherMutation,
-        { input: { parentAnswerId: answer.id } },
-        ctx
-      );
-
-    createOther = async answer => {
-      const result = await createNewOtherMutation(answer);
-      return result.data.createOther;
-    };
+    createOption = async input =>
+      executeQuery(createOptionMutation, { input }, ctx);
 
     createExclusive = async answer => {
       const result = await executeQuery(
@@ -154,17 +140,6 @@ describe("resolvers", () => {
       );
       return result;
     };
-
-    deleteOther = async answer =>
-      executeQuery(
-        deleteOtherMutation,
-        {
-          input: {
-            parentAnswerId: answer.id
-          }
-        },
-        ctx
-      );
 
     deleteQuestionPage = async input =>
       executeQuery(
@@ -203,14 +178,6 @@ describe("resolvers", () => {
         },
         ctx
       );
-
-    createThenDeleteOther = async (page, type) => {
-      const answer = await createNewAnswer(page, type);
-      await createOther(answer);
-      await deleteOther(answer);
-
-      return answer;
-    };
 
     createNewRoutingRuleSet = async questionPageId => {
       return executeQuery(
@@ -465,16 +432,38 @@ describe("resolvers", () => {
     ]);
   });
 
-  it("should create other answer for Checkbox answers", async () => {
+  it("should create a regular checkbox option", async () => {
     const checkboxAnswer = await createNewAnswer(firstPage, "Checkbox");
-    expect(checkboxAnswer.other).toBeNull();
 
-    const other = await createOther(checkboxAnswer);
-    expect(other.answer).toMatchObject({ type: "TextField", description: "" });
+    await createOption({
+      answerId: checkboxAnswer.id
+    });
 
     const updatedCheckboxAnswer = await refreshAnswerDetails(checkboxAnswer);
-    expect(updatedCheckboxAnswer.other).not.toBeNull();
-    expect(updatedCheckboxAnswer.other).toMatchObject(other);
+
+    expect(updatedCheckboxAnswer.options[1].additionalAnswer).toBeNull();
+    expect(updatedCheckboxAnswer.options).toHaveLength(2);
+  });
+
+  it("should create additionalAnswerOption for Checkbox answers", async () => {
+    const checkboxAnswer = await createNewAnswer(firstPage, "Checkbox");
+
+    const additionalAnswerOption = await createOption({
+      answerId: checkboxAnswer.id,
+      hasAdditionalAnswer: true
+    });
+
+    expect(
+      additionalAnswerOption.data.createOption.additionalAnswer
+    ).toMatchObject({
+      type: "TextField",
+      description: ""
+    });
+
+    const updatedCheckboxAnswer = await refreshAnswerDetails(checkboxAnswer);
+    expect(updatedCheckboxAnswer.options[1].additionalAnswer).toMatchObject(
+      additionalAnswerOption.data.createOption.additionalAnswer
+    );
   });
 
   it("can create exclusive option for checkbox answers", async () => {
@@ -492,117 +481,37 @@ describe("resolvers", () => {
     expect(result.errors).toHaveLength(1);
   });
 
-  it("should create other answer for Radio answers", async () => {
+  it("should create a regular radio option", async () => {
     const radioAnswer = await createNewAnswer(firstPage, "Radio");
-    expect(radioAnswer.other).toBeNull();
 
-    const other = await createOther(radioAnswer);
-    expect(other.answer).toMatchObject({ type: "TextField" });
+    await createOption({
+      answerId: radioAnswer.id
+    });
 
     const updatedRadioAnswer = await refreshAnswerDetails(radioAnswer);
-    expect(updatedRadioAnswer.other).not.toBeNull();
-    expect(updatedRadioAnswer.other).toMatchObject(other);
+
+    expect(updatedRadioAnswer.options[1].additionalAnswer).toBeNull();
+    expect(updatedRadioAnswer.options).toHaveLength(3);
   });
 
-  it("should throw error when creating other answer for BasicAnswer", async () => {
-    const textAnswer = await createNewAnswer(firstPage, "TextField");
-    const result = await createNewOtherMutation(textAnswer);
-    expect(result).toHaveProperty("errors");
-    expect(result.errors).toHaveLength(1);
-  });
+  it("should create additionalAnswerOption on Radio answers", async () => {
+    const radioAnswer = await createNewAnswer(firstPage, "Radio");
 
-  it("should throw error when deleting other answer for BasicAnswer", async () => {
-    const textAnswer = await createNewAnswer(firstPage, "TextField");
-    const result = await deleteOther(textAnswer);
-    expect(result).toHaveProperty("errors");
-    expect(result.errors).toHaveLength(1);
-  });
+    const additionalAnswerOption = await createOption({
+      answerId: radioAnswer.id,
+      hasAdditionalAnswer: true
+    });
+    expect(
+      additionalAnswerOption.data.createOption.additionalAnswer
+    ).toMatchObject({
+      type: "TextField",
+      description: ""
+    });
 
-  it("should return undefined when accessing other property on BasicAnswers", async () => {
-    const textAnswer = await createNewAnswer(firstPage, "TextField");
-    expect(textAnswer.other).toBeUndefined();
-  });
-
-  it("should delete other answer for Checkbox answers", async () => {
-    const parentAnswer = await createThenDeleteOther(firstPage, "Checkbox");
-    const checkboxAnswer = await refreshAnswerDetails(parentAnswer);
-
-    expect(checkboxAnswer.other).toBeNull();
-  });
-
-  it("should delete other answer for Radio answers", async () => {
-    const parentAnswer = await createThenDeleteOther(firstPage, "Radio");
-    const radioAnswer = await refreshAnswerDetails(parentAnswer);
-
-    expect(radioAnswer.other).toBeNull();
-  });
-
-  it("should not create a new other answer if one already exists", async () => {
-    const parentAnswer = await createNewAnswer(firstPage, "Checkbox");
-    const other = await createOther(parentAnswer);
-
-    await expect(createOther(parentAnswer)).resolves.toBeNull();
-
-    const updatedParent = await refreshAnswerDetails(parentAnswer);
-    expect(updatedParent.other).toMatchObject(other);
-  });
-
-  it("should filter out Other answers from regular answers", async () => {
-    const checkboxAnswer = await createNewAnswer(firstPage, "Checkbox");
-    await createOther(checkboxAnswer);
-
-    const textFieldAnswer = await createNewAnswer(firstPage, "TextField");
-
-    const result = await executeQuery(
-      getAnswersQuery,
-      { id: firstPage.id },
-      ctx
+    const updatedRadioAnswer = await refreshAnswerDetails(radioAnswer);
+    expect(updatedRadioAnswer.options[2].additionalAnswer).toMatchObject(
+      additionalAnswerOption.data.createOption.additionalAnswer
     );
-    expect(result.data.page.answers).toHaveLength(2);
-    expect(result.data.page.answers).toContainEqual({
-      id: checkboxAnswer.id,
-      type: checkboxAnswer.type
-    });
-    expect(result.data.page.answers).toContainEqual({
-      id: textFieldAnswer.id,
-      type: textFieldAnswer.type
-    });
-  });
-
-  it("should create an other option while creating an other answer", async () => {
-    const checkboxAnswer = await createNewAnswer(firstPage, "Checkbox");
-    await createOther(checkboxAnswer);
-    const refreshedCheckbox = await refreshAnswerDetails(checkboxAnswer);
-    expect(refreshedCheckbox.other.option).not.toBeNull();
-    expect(refreshedCheckbox.other.option).toHaveProperty("id");
-  });
-
-  it("should not return 'other' option with regular checkbox/radio options", async () => {
-    const checkboxAnswer = await createNewAnswer(firstPage, "Checkbox");
-    await createOther(checkboxAnswer);
-    const refreshedCheckbox = await refreshAnswerDetails(checkboxAnswer);
-    expect(refreshedCheckbox.options).toHaveLength(1);
-    expect(refreshedCheckbox.options).not.toContainEqual({
-      id: refreshedCheckbox.other.option.id
-    });
-  });
-
-  it("should return an error when trying to delete a non-existent other Answer", async () => {
-    const checkboxAnswer = await createNewAnswer(firstPage, "Checkbox");
-    const result = await deleteOther(checkboxAnswer);
-    expect(result).toHaveProperty("errors");
-    expect(result.errors).toHaveLength(1);
-  });
-
-  it("should return an error when trying to create other answer when one already exists", async () => {
-    const checkboxAnswer = await createNewAnswer(firstPage, "Checkbox");
-    const firstAttempt = await createNewOtherMutation(checkboxAnswer);
-    const secondAttempt = await createNewOtherMutation(checkboxAnswer);
-
-    expect(firstAttempt).not.toHaveProperty("errors");
-
-    expect(secondAttempt).toHaveProperty("errors");
-    expect(secondAttempt.errors).toHaveLength(1);
   });
 
   it("should create a RoutingRule and RoutingCondition on RoutingRuleSet creation", async () => {
@@ -1433,7 +1342,7 @@ describe("resolvers", () => {
         );
         expect(conditionValues).toEqual(options[0].id);
 
-        await deleteOption(options[0]);
+        await deleteOption({ id: options[0].id });
 
         const afterDeletion = await getFullRoutingTree(firstPage);
         conditionValues = get(

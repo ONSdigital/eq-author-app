@@ -17,14 +17,6 @@ fragment RoutingCondition on RoutingCondition {
       mutuallyExclusiveOption {
         id
       }
-      other {
-        option {
-          ...Option
-        }
-        answer {
-          ...Answer
-        }
-      }
     }
   }
   routingValue {

@@ -136,8 +136,8 @@ describe("RoutingConditions", () => {
       });
     });
 
-    it("should include other options if included", () => {
-      const radioWithOther = [
+    it("should include additionalAnswer options if included", () => {
+      const radioWithAdditionalAnswer = [
         {
           id: "2",
           comparator: "Equal",
@@ -154,15 +154,14 @@ describe("RoutingConditions", () => {
                 id: "2",
                 label: "No",
                 value: "no"
-              }
-            ],
-            other: {
-              option: {
+              },
+              {
                 id: "3",
                 label: "Maybe",
-                value: "maybe"
+                value: "maybe",
+                additionalAnswer: { id: "4", label: "additionalAnswer" }
               }
-            }
+            ]
           },
           routingValue: {
             value: ["1", "3"]
@@ -170,7 +169,7 @@ describe("RoutingConditions", () => {
         }
       ];
 
-      expect(new RoutingConditions(radioWithOther)).toEqual({
+      expect(new RoutingConditions(radioWithAdditionalAnswer)).toEqual({
         when: [
           {
             condition: "not equals",

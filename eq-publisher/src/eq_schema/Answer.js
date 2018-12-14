@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 const { isNil } = require("lodash/fp");
-const { get, has, merge } = require("lodash");
+const { get, has, pick } = require("lodash");
 
 class Answer {
   constructor(answer) {
@@ -47,11 +47,9 @@ class Answer {
     }
 
     if (!isNil(answer.options)) {
-      this.options = answer.options.map(Answer.buildOption);
-    }
-
-    if (!isNil(answer.other)) {
-      this.options = this.options.concat(Answer.buildOtherOption(answer.other));
+      this.options = answer.options.map(option =>
+        Answer.buildOption(option, answer)
+      );
     }
   }
 
@@ -144,7 +142,7 @@ class Answer {
     };
   }
 
-  static buildOption({ label, description }) {
+  static buildOption({ label, description, additionalAnswer }, { properties }) {
     const option = {
       label,
       value: label
@@ -153,13 +151,14 @@ class Answer {
     if (description) {
       option.description = description;
     }
+    if (additionalAnswer) {
+      option.detail_answer = {
+        ...pick(additionalAnswer, ["label", "type"]),
+        id: `answer${additionalAnswer.id}`,
+        mandatory: properties.required
+      };
+    }
     return option;
-  }
-
-  static buildOtherOption(other) {
-    return merge({}, Answer.buildOption(other.option), {
-      child_answer_id: `answer${other.answer.id}`
-    });
   }
 }
 

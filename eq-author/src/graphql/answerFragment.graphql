@@ -2,17 +2,12 @@ fragment MinimalAnswer on Answer {
   ... on MultipleChoiceAnswer {
     options {
       id
+      additionalAnswer {
+        id
+      }
     }
     mutuallyExclusiveOption {
       id
-    }
-    other {
-      option {
-        id
-      }
-      answer {
-        id
-      }
     }
   }
 }

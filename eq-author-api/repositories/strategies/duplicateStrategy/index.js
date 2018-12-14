@@ -115,7 +115,7 @@ const ENTITY_TREE = [
         parent: true
       },
       {
-        column: "otherAnswerId",
+        column: "additionalAnswerId",
         entityName: "answers",
         parent: true
       }

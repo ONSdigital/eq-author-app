@@ -35,14 +35,6 @@ mutation createAnswer($input: CreateAnswerInput!) {
       mutuallyExclusiveOption {
         id
       }
-      other {
-        option {
-          ...Option
-        }
-        answer {
-          ...Answer
-        }
-      }
     }
     ... on CompositeAnswer {
       childAnswers {

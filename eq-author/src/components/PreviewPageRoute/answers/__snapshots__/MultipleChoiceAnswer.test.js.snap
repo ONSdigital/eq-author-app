@@ -130,9 +130,19 @@ exports[`MultipleChoiceAnswer should render other when it has one 1`] = `
     type="Radio"
   />
   <Option
-    answer={Object {}}
+    answer={
+      Object {
+        "id": 2,
+        "type": "TextField",
+      }
+    }
+    key="2"
     option={
       Object {
+        "additionalAnswer": Object {
+          "id": 2,
+          "type": "TextField",
+        },
         "id": "2",
       }
     }

@@ -52,9 +52,7 @@ describe("Question Page Editor", () => {
       onAddExclusive: jest.fn(),
       onUpdateOption: jest.fn(),
       onMovePage: jest.fn(),
-      onCloseMovePageDialog: jest.fn(),
-      onAddOther: jest.fn(),
-      onDeleteOther: jest.fn()
+      onCloseMovePageDialog: jest.fn()
     };
 
     page = {

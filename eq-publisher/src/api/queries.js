@@ -109,6 +109,9 @@ exports.getQuestionnaire = `
     description
     value
     qCode
+    additionalAnswer{
+      ...answerFragment
+    }
   }
 
   fragment destinationFragment on RoutingDestination {
@@ -184,11 +187,10 @@ exports.getQuestionnaire = `
                       options {
                         id
                         label
-                      }
-                      other {
-                        option {
+                        additionalAnswer{
                           id
                           label
+                          type
                         }
                       }
                     }
@@ -224,14 +226,6 @@ exports.getQuestionnaire = `
                 }
                 mutuallyExclusiveOption {
                   ...optionFragment
-                }
-                other {
-                  option {
-                    ...optionFragment
-                  }
-                  answer {
-                    ...answerFragment
-                  }
                 }
               }
             }

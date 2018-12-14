@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 const Question = require("./Question");
 const Answer = require("./Answer");
 const { omit, set, last } = require("lodash/fp");
@@ -150,7 +151,7 @@ describe("Question", () => {
       );
     });
 
-    it("should create other answer if exists", () => {
+    it("should create additionalAnswer answer if exists", () => {
       const answers = [
         {
           type: "Checkbox",
@@ -161,31 +162,29 @@ describe("Question", () => {
             {
               id: "1",
               label: "Option 1"
-            }
-          ],
-          other: {
-            option: {
-              id: "2",
-              label: "Other option"
             },
-            answer: {
+            {
               id: "2",
-              type: "TextField",
-              properties: { required: true }
+              label: "additionalAnswer option",
+              additionalAnswer: {
+                id: "3",
+                type: "TextField",
+                properties: { required: true }
+              }
             }
-          }
+          ]
         }
       ];
       const question = new Question(createQuestionJSON({ answers }));
 
-      expect(question.answers).toEqual([
-        expect.objectContaining({
-          type: "Checkbox"
-        }),
-        expect.objectContaining({
+      expect(question.answers[0].options).toHaveLength(2);
+      expect(question.answers[0].options[1]).toMatchObject({
+        detail_answer: {
+          id: "answer3",
+          mandatory: true,
           type: "TextField"
-        })
-      ]);
+        }
+      });
     });
 
     it("should not create other answer if other property is nil", () => {
@@ -423,7 +422,7 @@ describe("Question", () => {
       ]);
     });
 
-    it("should have a single option in mutually exclusive answer when other present", () => {
+    it("should have a single option in mutually exclusive answer when another additionalAnswerOption is present", () => {
       const question = new Question(
         createQuestionJSON({
           answers: [
@@ -431,18 +430,20 @@ describe("Question", () => {
               "type",
               "Radio",
               set(
-                "other",
-                {
-                  option: {
-                    id: "4",
-                    label: "Other option"
-                  },
-                  answer: {
-                    id: "2",
-                    type: "TextField",
-                    properties: { required: true }
+                "options",
+                [
+                  {
+                    option: {
+                      id: "4",
+                      label: "additionalAnswer option",
+                      additionalAnswer: {
+                        id: "2",
+                        type: "TextField",
+                        properties: { required: true }
+                      }
+                    }
                   }
-                },
+                ],
                 answers[0]
               )
             )
@@ -455,46 +456,6 @@ describe("Question", () => {
           label: "Mutually exclusive",
           value: "Mutually exclusive"
         }
-      ]);
-    });
-
-    it("should inject child answers in between original and mutually exclusive", () => {
-      const question = new Question(
-        createQuestionJSON({
-          answers: [
-            set(
-              "type",
-              "Radio",
-              set(
-                "other",
-                {
-                  option: {
-                    id: "4",
-                    label: "Other option"
-                  },
-                  answer: {
-                    id: "2",
-                    type: "TextField",
-                    properties: { required: true }
-                  }
-                },
-                answers[0]
-              )
-            )
-          ]
-        })
-      );
-
-      expect(question.answers).toEqual([
-        expect.objectContaining({
-          type: "Radio"
-        }),
-        expect.objectContaining({
-          type: "TextField"
-        }),
-        expect.objectContaining({
-          type: "Checkbox"
-        })
       ]);
     });
   });

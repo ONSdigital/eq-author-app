@@ -16,7 +16,6 @@ import SplitButton from "components/SplitButton";
 import Dropdown from "components/SplitButton/Dropdown";
 import MenuItem from "components/SplitButton/MenuItem";
 
-import { last } from "lodash";
 import gql from "graphql-tag";
 
 const AnswerWrapper = styled.div`
@@ -61,8 +60,6 @@ class MultipleChoiceAnswer extends Component {
     onAddOption: PropTypes.func.isRequired,
     onUpdateOption: PropTypes.func.isRequired,
     onDeleteOption: PropTypes.func.isRequired,
-    onAddOther: PropTypes.func.isRequired,
-    onDeleteOther: PropTypes.func.isRequired,
     minOptions: PropTypes.number.isRequired,
     onAddExclusive: PropTypes.func.isRequired
   };
@@ -82,7 +79,9 @@ class MultipleChoiceAnswer extends Component {
   handleAddOption = e => {
     e.preventDefault();
     e.stopPropagation();
-    return this.props.onAddOption(this.props.answer.id).then(focusOnEntity);
+    return this.props
+      .onAddOption(this.props.answer.id, { hasAdditionalAnswer: false })
+      .then(focusOnEntity);
   };
 
   handleAddExclusive = e => {
@@ -97,19 +96,12 @@ class MultipleChoiceAnswer extends Component {
   handleAddOther = e => {
     e.preventDefault();
     return this.props
-      .onAddOther(this.props.answer)
+      .onAddOption(this.props.answer.id, { hasAdditionalAnswer: true })
       .then(res => {
         this.handleToggleOpen(false);
         return res;
       })
       .then(res => res.option)
-      .then(focusOnEntity);
-  };
-
-  handleDeleteOther = () => {
-    return this.props
-      .onDeleteOther(this.props.answer)
-      .then(() => last(this.props.answer.options))
       .then(focusOnEntity);
   };
 
@@ -155,33 +147,22 @@ class MultipleChoiceAnswer extends Component {
                   onUpdate={onUpdateOption}
                   onEnterKey={this.handleAddOption}
                   hasDeleteButton={showDeleteOption}
-                />
-              </OptionTransition>
-            ))}
-            {answer.other && (
-              <OptionTransition key={answer.other.option.id}>
-                <Option
-                  {...otherProps}
-                  option={answer.other.option}
-                  onDelete={this.handleDeleteOther}
-                  onUpdate={onUpdateOption}
-                  onEnterKey={this.handleAddOption}
-                  hasDeleteButton={showDeleteOption}
-                  labelPlaceholder="eg. Other"
                 >
-                  <SpecialOptionWrapper data-test="other-answer">
-                    <BasicAnswer
-                      answer={answer.other.answer}
-                      onUpdate={onUpdate}
-                      showDescription={false}
-                      labelText="Other label"
-                      labelPlaceholder="eg. Please specify"
-                      bold={false}
-                    />
-                  </SpecialOptionWrapper>
+                  {option.additionalAnswer && (
+                    <SpecialOptionWrapper data-test="other-answer">
+                      <BasicAnswer
+                        answer={option.additionalAnswer}
+                        onUpdate={onUpdate}
+                        showDescription={false}
+                        labelText="Other label"
+                        labelPlaceholder="eg. Please specify"
+                        bold={false}
+                      />
+                    </SpecialOptionWrapper>
+                  )}
                 </Option>
               </OptionTransition>
-            )}
+            ))}
             {answer.mutuallyExclusiveOption && (
               <OptionTransition key={answer.mutuallyExclusiveOption.id}>
                 <SpecialOptionWrapper data-test="exclusive-option">
@@ -211,7 +192,6 @@ class MultipleChoiceAnswer extends Component {
               <Dropdown>
                 <MenuItem
                   onClick={this.handleAddOther}
-                  disabled={answer.other !== null}
                   data-test="btn-add-option-other"
                 >
                   Add &ldquo;Other&rdquo; option
@@ -241,14 +221,6 @@ MultipleChoiceAnswer.fragments = {
       ... on MultipleChoiceAnswer {
         options {
           ...Option
-        }
-        other {
-          option {
-            ...Option
-          }
-          answer {
-            ...Answer
-          }
         }
         mutuallyExclusiveOption {
           ...Option

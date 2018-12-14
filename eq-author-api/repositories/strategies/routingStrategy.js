@@ -113,8 +113,8 @@ const insertRoutingRuleSet = async (
 ) =>
   trx("Routing_RuleSets")
     .insert({
-      questionPageId: parseInt(questionPageId),
-      routingDestinationId: parseInt(routingDestinationId)
+      questionPageId: parseInt(questionPageId, 10),
+      routingDestinationId: parseInt(routingDestinationId, 10)
     })
 
     .returning("*")
@@ -252,7 +252,9 @@ const checkRoutingDestinations = async (
     const key =
       destinationType === "QuestionPage" ? "questionPages" : "sections";
     if (
-      !find(availableRoutingDestinations[key], { id: parseInt(destinationId) })
+      !find(availableRoutingDestinations[key], {
+        id: parseInt(destinationId, 10)
+      })
     ) {
       throw new Error(
         `Unable to route from this question to ${destinationType} ${destinationId}`
@@ -406,7 +408,7 @@ const handlePageDeleted = (trx, pageId) =>
   updateAllRoutingConditions(
     trx,
     {
-      questionPageId: parseInt(pageId)
+      questionPageId: parseInt(pageId, 10)
     },
     {
       questionPageId: null,
@@ -418,7 +420,7 @@ const handleAnswerDeleted = (trx, answerId) =>
   updateAllRoutingConditions(
     trx,
     {
-      answerId: parseInt(answerId)
+      answerId: parseInt(answerId, 10)
     },
     {
       questionPageId: null,
@@ -426,24 +428,31 @@ const handleAnswerDeleted = (trx, answerId) =>
     }
   );
 
-const handleAnswerCreated = (trx, answer) =>
-  getFirstAnswer(trx, answer.questionPageId).then(firstAnswer => {
-    if (firstAnswer.id === answer.id) {
-      updateAllRoutingConditions(
-        trx,
-        {
-          questionPageId: parseInt(answer.questionPageId)
-        },
-        {
-          answerId: answer.id
-        }
-      ).map(condition => addConditionValue(trx, { answer, condition }));
-    }
-  });
+const handleAnswerCreated = async (trx, answer) => {
+  if (!answer.questionPageId) {
+    return;
+  }
+  const firstAnswer = await getFirstAnswer(trx, answer.questionPageId);
+
+  if (firstAnswer.id === answer.id) {
+    const conditions = await updateAllRoutingConditions(
+      trx,
+      {
+        questionPageId: parseInt(answer.questionPageId, 10)
+      },
+      {
+        answerId: answer.id
+      }
+    );
+    return Promise.all(
+      conditions.map(condition => addConditionValue(trx, { answer, condition }))
+    );
+  }
+};
 
 const handleOptionDeleted = (trx, optionId) =>
   deleteRoutingConditionValues(trx, {
-    optionId: parseInt(optionId)
+    optionId: parseInt(optionId, 10)
   });
 
 Object.assign(module.exports, {

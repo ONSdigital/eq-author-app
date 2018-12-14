@@ -710,12 +710,12 @@ describe("Answer", () => {
     ]);
   });
 
-  describe('creating checkbox/radio answers with "other"', () => {
-    let checkboxWithOther;
+  describe("creating checkbox/radio answers with additionalAnswers", () => {
+    let checkboxWithAdditionalAnswers;
     let question;
 
     beforeEach(() => {
-      checkboxWithOther = createAnswerJSON({
+      checkboxWithAdditionalAnswers = createAnswerJSON({
         id: 1,
         type: "Checkbox",
         options: [
@@ -726,62 +726,36 @@ describe("Answer", () => {
           {
             id: 2,
             label: "Two"
-          }
-        ],
-        other: {
-          option: {
-            id: 3,
-            label: "Other",
-            description: "Hello"
           },
-          answer: {
-            id: 4,
-            description: "This is a description",
-            guidance: "Here's your guidance",
-            properties: {
-              required: false
-            },
-            qCode: "20",
-            label: "This is not a label",
-            type: "TextField"
+          {
+            id: 3,
+            label: "Three",
+            additionalAnswer: {
+              id: 4,
+              label: "Additional",
+              type: "TextField"
+            }
           }
-        }
+        ]
       });
 
       question = new Question(
         createAnswerJSON({
-          answers: [checkboxWithOther]
+          answers: [checkboxWithAdditionalAnswers]
         })
       );
     });
 
-    it('should generate a second answer for the "other" text field', () => {
-      expect(question.answers).toHaveLength(2);
-      expect(question.answers[0]).toEqual(
-        expect.objectContaining({
-          type: "Checkbox"
-        })
-      );
-      expect(question.answers[1]).toEqual(
-        expect.objectContaining({
-          parent_answer_id: "answer1",
-          description: "This is a description",
-          mandatory: false,
-          id: "answer4",
-          label: "This is not a label",
-          type: "TextField"
-        })
-      );
-    });
-
-    it("should create an additional option for the checkbox answer", () => {
-      const { label, description } = checkboxWithOther.other.option;
+    it("should 3 options one of which with a detail_answer field", () => {
       expect(question.answers[0].options).toHaveLength(3);
       expect(question.answers[0].options[2]).toEqual(
         expect.objectContaining({
-          label,
-          description,
-          child_answer_id: `answer${checkboxWithOther.other.answer.id}`
+          detail_answer: {
+            id: "answer4",
+            label: "Additional",
+            type: "TextField",
+            mandatory: true
+          }
         })
       );
     });

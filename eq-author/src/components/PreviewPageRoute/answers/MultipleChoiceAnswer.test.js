@@ -27,11 +27,12 @@ describe("MultipleChoiceAnswer", () => {
 
   it("should render other when it has one", () => {
     answer.type = RADIO;
-    answer.other = {
-      option: {
-        id: "2"
-      },
-      answer: {}
+    answer.options[1] = {
+      id: "2",
+      additionalAnswer: {
+        id: 2,
+        type: "TextField"
+      }
     };
     expect(shallow(<MultipleChoiceAnswer answer={answer} />)).toMatchSnapshot();
   });
