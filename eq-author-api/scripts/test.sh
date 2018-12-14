@@ -26,4 +26,4 @@ echo "waiting on postgres to start..."
 echo "running tests..."
 
 # --runInBand is required to run the tests in parallel, as all tests use the same database
-DB_CONNECTION_URI="postgres://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST/postgres" yarn jest --runInBand --detectOpenHandles --forceExit "$@"
+DB_CONNECTION_URI="postgres://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST/postgres" SILENCE_LOGS=true yarn jest --runInBand --detectOpenHandles --forceExit "$@"
