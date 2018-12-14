@@ -1,5 +1,5 @@
 const pinoMiddleware = require("express-pino-logger");
-const pino = pinoMiddleware();
+const pino = pinoMiddleware({ enabled: !process.env.SILENCE_LOGS });
 const logger = pino.logger;
 
 const config = require("../config/knexfile.js");
