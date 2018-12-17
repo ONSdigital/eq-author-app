@@ -31,8 +31,7 @@ db(process.env.DB_SECRET_ID)
       bodyParser.json(),
       graphqlExpress({
         schema,
-        context,
-        formatError: logger.info
+        context
       })
     );
 
