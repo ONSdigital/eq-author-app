@@ -396,6 +396,36 @@ describe("Routing2 Unit", () => {
         );
       });
     });
+
+    describe("delete", () => {
+      it("should delete a rule", async () => {
+        ctx.repositories.RoutingRule2.delete = jest
+          .fn()
+          .mockResolvedValueOnce({ id: ROUTING_RULE_ID });
+        const deleteRoutingRuleMutation = `
+        mutation deleteRoutingRule2($input: DeleteRoutingRule2Input!) {
+          deleteRoutingRule2(input: $input) {
+            id
+          }
+        }
+        `;
+
+        const deleteResult = await executeQuery(
+          deleteRoutingRuleMutation,
+          { input: { id: ROUTING_RULE_ID } },
+          ctx
+        );
+
+        expect(deleteResult.errors).toBeUndefined();
+        expect(deleteResult.data).toMatchObject({
+          deleteRoutingRule2: { id: ROUTING_RULE_ID.toString() }
+        });
+
+        expect(ctx.repositories.RoutingRule2.delete).toHaveBeenLastCalledWith(
+          ROUTING_RULE_ID.toString()
+        );
+      });
+    });
   });
 
   describe("ExpressionGroup2", () => {
@@ -632,6 +662,36 @@ describe("Routing2 Unit", () => {
         expect(result.errors).not.toBeUndefined();
         expect(result.errors[0].message).toMatch(/Right/);
         expect(result.errors[0].message).toMatch(/one entity/);
+      });
+    });
+    describe("delete", () => {
+      it("should call delete", async () => {
+        ctx.repositories.BinaryExpression2.delete = jest
+          .fn()
+          .mockResolvedValueOnce({ id: BINARY_EXPRESSION_ID });
+
+        const deleteBinaryExpression2Mutation = `
+          mutation deleteBinaryExpression2($input: DeleteBinaryExpression2Input!) {
+            deleteBinaryExpression2(input: $input) {
+              id
+            }
+          }
+        `;
+
+        const deleteResult = await executeQuery(
+          deleteBinaryExpression2Mutation,
+          { input: { id: BINARY_EXPRESSION_ID } },
+          ctx
+        );
+
+        expect(deleteResult.errors).toBeUndefined();
+        expect(deleteResult.data).toMatchObject({
+          deleteBinaryExpression2: { id: BINARY_EXPRESSION_ID.toString() }
+        });
+
+        expect(
+          ctx.repositories.BinaryExpression2.delete
+        ).toHaveBeenLastCalledWith(BINARY_EXPRESSION_ID.toString());
       });
     });
   });

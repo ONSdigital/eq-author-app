@@ -25,10 +25,18 @@ module.exports = knex => {
       .returning("*")
       .then(head);
 
+  const del = id =>
+    knex("BinaryExpressions2")
+      .where({ id })
+      .delete()
+      .returning("*")
+      .then(head);
+
   return {
     insert,
     getById,
     update,
-    getByExpressionGroupId
+    getByExpressionGroupId,
+    delete: del
   };
 };

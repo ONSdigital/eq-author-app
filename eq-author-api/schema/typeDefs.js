@@ -542,9 +542,11 @@ type Mutation {
   updateRouting2(input: UpdateRouting2Input!): Routing2! 
   createRoutingRule2(input: CreateRoutingRule2Input!): RoutingRule2!
   updateRoutingRule2(input: UpdateRoutingRule2Input!): RoutingRule2! 
+  deleteRoutingRule2(input: DeleteRoutingRule2Input!): RoutingRule2!
   updateExpressionGroup2(input: UpdateExpressionGroup2Input!): ExpressionGroup2!
   createBinaryExpression2(input: CreateBinaryExpression2Input!): BinaryExpression2!
   updateBinaryExpression2(input: UpdateBinaryExpression2Input!): BinaryExpression2!
+  deleteBinaryExpression2(input: DeleteBinaryExpression2Input!): BinaryExpression2!
 }
 
 input CreateRouting2Input {
@@ -572,6 +574,10 @@ input UpdateRoutingRule2Input {
   destination: DestinationInput!
 }
 
+input DeleteRoutingRule2Input {
+  id: ID!
+}
+
 input UpdateExpressionGroup2Input {
   id: ID!
   operator: RoutingOperator2!
@@ -586,6 +592,10 @@ input UpdateBinaryExpression2Input {
   condition: RoutingCondition2!
   left: LeftSideInput!
   right: RightSideInput
+}
+
+input DeleteBinaryExpression2Input {
+  id: ID!
 }
 
 input LeftSideInput{

@@ -99,4 +99,18 @@ describe("Routing Rule 2 Repository", () => {
       expect(readRule).toMatchObject(rule);
     });
   });
+
+  describe("delete", () => {
+    it("should delete returning the deleted rule", async () => {
+      const destination = await DestinationRepository.insert();
+      const rule = await RoutingRule2Repository.insert({
+        routingId: routing.id,
+        destinationId: destination.id
+      });
+
+      const deleteResult = await RoutingRule2Repository.delete(rule.id);
+
+      expect(deleteResult).toMatchObject(rule);
+    });
+  });
 });

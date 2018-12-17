@@ -104,4 +104,17 @@ describe("Binary Expression Repository", () => {
       ]);
     });
   });
+
+  describe("delete", () => {
+    it("should delete the binary expreesion returning deleted object", async () => {
+      const binaryExpression = await BinaryExpressionRepository.insert({
+        groupId: expressionGroup.id
+      });
+      const deleteResult = await BinaryExpressionRepository.delete(
+        binaryExpression.id
+      );
+
+      expect(deleteResult).toMatchObject(binaryExpression);
+    });
+  });
 });

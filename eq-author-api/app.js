@@ -11,7 +11,6 @@ const createAuthMiddleware = require("./middleware/auth");
 const repositories = require("./repositories");
 const modifiers = require("./modifiers");
 const schema = require("./schema");
-const createLogger = require("./utils/createLogger");
 
 const app = express();
 const pino = pinoMiddleware();

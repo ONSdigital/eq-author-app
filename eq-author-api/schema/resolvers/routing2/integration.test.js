@@ -774,4 +774,172 @@ describe("Routing2 Integration", () => {
       });
     });
   });
+
+  describe("Routing Delete operations", () => {
+    it("can delete a routingRule", async () => {
+      const questionnaire = await buildTestQuestionnaire({
+        sections: [
+          {
+            pages: [
+              {
+                answers: [
+                  { type: answerTypes.NUMBER },
+                  {
+                    id: "radioAnswer",
+                    type: answerTypes.RADIO,
+                    options: [
+                      { id: "option1", label: "option1" },
+                      { id: "option2", label: "option2" }
+                    ]
+                  }
+                ],
+                routing: {
+                  rules: [
+                    {
+                      expressionGroup: {
+                        operator: AND,
+                        expressions: [
+                          {
+                            left: { answerId: "radioAnswer" },
+                            condition: conditions.ONE_OF,
+                            right: {
+                              type: "SelectedOptions",
+                              selectedOptions: ["option1", "option2"]
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      });
+
+      const page = questionnaire.sections[0].pages[0];
+      const routingRuleId = page.routing.rules[0].id;
+
+      const deleteRoutingRuleMutation = `
+        mutation deleteRoutingRule2($input: DeleteRoutingRule2Input!) {
+          deleteRoutingRule2(input: $input) {
+            id
+          }
+        }
+        `;
+
+      const deleteResult = await executeQuery(
+        deleteRoutingRuleMutation,
+        { input: { id: routingRuleId } },
+        ctx
+      );
+
+      expect(deleteResult.errors).toBeUndefined();
+
+      const readRoutingTreeQuery = `
+      query GetPage {
+        questionPage(id: ${page.id}) {
+          id
+          routing {
+            id
+            rules {
+              id
+            }
+          }
+        }
+      }
+        `;
+
+      const readResult = await executeQuery(readRoutingTreeQuery, {}, ctx);
+
+      expect(readResult.data.questionPage.routing.rules).toHaveLength(0);
+    });
+    it("can delete a Binary Expression", async () => {
+      const questionnaire = await buildTestQuestionnaire({
+        sections: [
+          {
+            pages: [
+              {
+                answers: [
+                  { type: answerTypes.NUMBER },
+                  {
+                    id: "radioAnswer",
+                    type: answerTypes.RADIO,
+                    options: [
+                      { id: "option1", label: "option1" },
+                      { id: "option2", label: "option2" }
+                    ]
+                  }
+                ],
+                routing: {
+                  rules: [
+                    {
+                      expressionGroup: {
+                        operator: AND,
+                        expressions: [
+                          {
+                            left: { answerId: "radioAnswer" },
+                            condition: conditions.ONE_OF,
+                            right: {
+                              type: "SelectedOptions",
+                              selectedOptions: ["option1", "option2"]
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      });
+
+      const page = questionnaire.sections[0].pages[0];
+      const expressionId =
+        page.routing.rules[0].expressionGroup.expressions[0].id;
+
+      const deleteBinaryExpressionMutation = `
+        mutation deleteBinaryExpression2($input: DeleteBinaryExpression2Input!) {
+          deleteBinaryExpression2(input: $input) {
+            id
+          }
+        }
+        `;
+
+      const deleteResult = await executeQuery(
+        deleteBinaryExpressionMutation,
+        { input: { id: expressionId } },
+        ctx
+      );
+
+      expect(deleteResult.errors).toBeUndefined();
+
+      const readRoutingTreeQuery = `
+      query GetPage {
+        questionPage(id: ${page.id}) {
+          routing {
+            rules {
+              expressionGroup{
+                  expressions{
+                    ...on BinaryExpression2{
+                    id
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+        `;
+
+      const readResult = await executeQuery(readRoutingTreeQuery, {}, ctx);
+      expect(
+        readResult.data.questionPage.routing.rules[0].expressionGroup
+          .expressions
+      ).toHaveLength(0);
+    });
+  });
 });

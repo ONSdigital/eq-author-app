@@ -35,6 +35,8 @@ Resolvers.Mutation = {
     }
     return ctx.modifiers.RoutingRule.update({ id, destination });
   },
+  deleteRoutingRule2: (root, { input }, ctx) =>
+    ctx.repositories.RoutingRule2.delete(input.id),
   updateExpressionGroup2: async (root, { input: { id, operator } }, ctx) =>
     ctx.repositories.ExpressionGroup2.update({
       id,
@@ -71,7 +73,9 @@ Resolvers.Mutation = {
       right
     });
     return expression;
-  }
+  },
+  deleteBinaryExpression2: (root, { input }, ctx) =>
+    ctx.repositories.BinaryExpression2.delete(input.id)
 };
 
 Resolvers.Routing2 = {
