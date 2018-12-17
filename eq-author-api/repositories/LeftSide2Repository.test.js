@@ -120,4 +120,128 @@ describe("Left Side Repository", () => {
       });
     });
   });
+
+  describe("deleteByAnswerId", () => {
+    it("should delete all left sides with a given answerId", async () => {
+      const leftSide = await LeftSideRepository.insert({
+        expressionId: expression.id,
+        answerId: answer.id
+      });
+      const deleteResult = await LeftSideRepository.deleteByAnswerId(answer.id);
+      expect(deleteResult).toMatchObject([leftSide]);
+    });
+  });
+
+  describe("insertMissingDefaults", () => {
+    it("should insert all LeftSides for a Routing to the given answer", async () => {
+      const questionnaire = await buildTestQuestionnaire({
+        sections: [
+          {
+            pages: [
+              {
+                answers: [{ type: answerTypes.NUMBER }],
+                routing: {
+                  rules: [
+                    {
+                      expressionGroup: {
+                        expressions: [{}]
+                      }
+                    },
+                    {
+                      expressionGroup: {
+                        expressions: [{}]
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      });
+
+      const page = questionnaire.sections[0].pages[0];
+      const expression1 = page.routing.rules[0].expressionGroup.expressions[0];
+      const expression2 = page.routing.rules[1].expressionGroup.expressions[0];
+      answer = page.answers[0];
+
+      const insertedRows = await LeftSideRepository.insertMissingDefaults(
+        answer
+      );
+
+      expect(insertedRows).toMatchObject([
+        {
+          expressionId: expression1.id,
+          type: "Answer",
+          answerId: answer.id
+        },
+        {
+          expressionId: expression2.id,
+          type: "Answer",
+          answerId: answer.id
+        }
+      ]);
+      const readLeft1 = await LeftSideRepository.getByExpressionId(
+        expression1.id
+      );
+      expect(readLeft1.answerId).toEqual(answer.id);
+      const readLeft2 = await LeftSideRepository.getByExpressionId(
+        expression2.id
+      );
+      expect(readLeft2.answerId).toEqual(answer.id);
+    });
+
+    it("should not insert when LeftSide already exists", async () => {
+      const questionnaire = await buildTestQuestionnaire({
+        sections: [
+          {
+            pages: [
+              {
+                answers: [
+                  { id: "answer1", type: answerTypes.NUMBER },
+                  { type: answerTypes.NUMBER }
+                ],
+                routing: {
+                  rules: [
+                    {
+                      expressionGroup: {
+                        expressions: [
+                          {
+                            left: {
+                              answerId: "answer1"
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      expressionGroup: {
+                        expressions: [{}]
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      });
+
+      const page = questionnaire.sections[0].pages[0];
+      const expression1 = page.routing.rules[0].expressionGroup.expressions[0];
+      const expression2 = page.routing.rules[1].expressionGroup.expressions[0];
+      answer = page.answers[0];
+      const answer2 = page.answers[1];
+
+      await LeftSideRepository.insertMissingDefaults(answer2);
+      const readLeft1 = await LeftSideRepository.getByExpressionId(
+        expression1.id
+      );
+      expect(readLeft1.answerId).toEqual(answer.id);
+      const readLeft2 = await LeftSideRepository.getByExpressionId(
+        expression2.id
+      );
+      expect(readLeft2.answerId).toEqual(answer2.id);
+    });
+  });
 });

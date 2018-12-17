@@ -73,6 +73,7 @@ type QuestionPage implements Page {
   routingRuleSet: RoutingRuleSet
   availablePipingAnswers: [Answer!]!
   availablePipingMetadata: [Metadata!]!
+  availableRoutingAnswers: [Answer!]!
   availableRoutingQuestions: [Page!]!
   availableRoutingDestinations: AvailableRoutingDestinations!
   confirmation: QuestionConfirmation
@@ -438,9 +439,9 @@ type ExpressionGroup2 {
   expressions: [Expression2!]!
 }
 
-union LeftSide2 = BasicAnswer | MultipleChoiceAnswer | Metadata
+union LeftSide2 = BasicAnswer | MultipleChoiceAnswer
 
-union RightSide2 = SelectedOptions2 | BasicAnswer | Metadata | CustomValue2
+union RightSide2 = SelectedOptions2 | BasicAnswer | CustomValue2
 
 type CustomValue2 {
   number: Int
@@ -462,7 +463,7 @@ enum RoutingCondition2 {
 
 type BinaryExpression2 {
   id: ID!
-  left: LeftSide2!
+  left: LeftSide2
   condition: RoutingCondition2!
   right: RightSide2
   expressionGroup: ExpressionGroup2!
@@ -546,6 +547,8 @@ type Mutation {
   updateExpressionGroup2(input: UpdateExpressionGroup2Input!): ExpressionGroup2!
   createBinaryExpression2(input: CreateBinaryExpression2Input!): BinaryExpression2!
   updateBinaryExpression2(input: UpdateBinaryExpression2Input!): BinaryExpression2!
+  updateLeftSide2(input: UpdateLeftSide2Input!): BinaryExpression2!
+  updateRightSide2(input: UpdateRightSide2Input!): BinaryExpression2!  
   deleteBinaryExpression2(input: DeleteBinaryExpression2Input!): BinaryExpression2!
 }
 
@@ -590,24 +593,21 @@ input CreateBinaryExpression2Input {
 input UpdateBinaryExpression2Input {
   id: ID!
   condition: RoutingCondition2!
-  left: LeftSideInput!
-  right: RightSideInput
+}
+
+input UpdateLeftSide2Input {
+  expressionId: ID!
+  answerId: ID
+}
+
+input UpdateRightSide2Input {
+  expressionId: ID! 
+  customValue: CustomRightSideInput
+  selectedOptions: [ID!]
 }
 
 input DeleteBinaryExpression2Input {
   id: ID!
-}
-
-input LeftSideInput{
-  answerId: ID
-  metadataId: ID
-}
-
-input RightSideInput{
-  answerId: ID
-  metadataId: ID
-  customValue: CustomRightSideInput
-  selectedOptions: [ID!]
 }
 
 input CustomRightSideInput {

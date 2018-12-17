@@ -1,5 +1,4 @@
 const executeQuery = require("../../utils/executeQuery");
-const mockRepository = require("../../utils/mockRepository");
 
 describe("createAnswer", () => {
   const createAnswer = `
@@ -20,23 +19,23 @@ describe("createAnswer", () => {
     }
   `;
 
-  let repositories;
-
-  beforeEach(() => {
-    repositories = {
-      Answer: mockRepository({
-        insert: {
+  it("should call createAnswer on create mutation", async () => {
+    const repositories = {
+      Answer: {
+        createAnswer: jest.fn().mockResolvedValueOnce({
           id: "1",
           type: "TextField",
           page: {
             id: "1"
           }
-        }
-      })
+        })
+      }
     };
-  });
-
-  it("should call createAnswer on create mutation", async () => {
+    const modifiers = {
+      BinaryExpression: {
+        onAnswerCreated: jest.fn().mockResolvedValueOnce()
+      }
+    };
     const input = {
       description: "Test answer description",
       guidance: "Test answer guidance",
@@ -47,10 +46,17 @@ describe("createAnswer", () => {
     const result = await executeQuery(
       createAnswer,
       { input },
-      { repositories }
+      { repositories, modifiers }
     );
 
     expect(result.errors).toBeUndefined();
     expect(repositories.Answer.createAnswer).toHaveBeenCalled();
+    expect(modifiers.BinaryExpression.onAnswerCreated).toHaveBeenCalledWith({
+      id: "1",
+      type: "TextField",
+      page: {
+        id: "1"
+      }
+    });
   });
 });

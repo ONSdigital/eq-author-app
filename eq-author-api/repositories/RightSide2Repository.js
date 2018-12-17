@@ -2,25 +2,30 @@ const { head } = require("lodash/fp");
 
 module.exports = knex => {
   const insert = ({ expressionId, customValue, type }) => {
-    return knex("RightSides2")
+    return knex("Routing2_RightSides")
       .insert({ expressionId, customValue, type })
       .returning("*")
       .then(head);
   };
 
   const getByExpressionId = expressionId =>
-    knex("RightSides2")
+    knex("Routing2_RightSides")
       .select()
       .where({ expressionId })
       .first();
 
   const update = ({ id, customValue, type }) => {
-    return knex("RightSides2")
+    return knex("Routing2_RightSides")
       .where({ id })
       .update({ customValue, type })
       .returning("*")
       .then(head);
   };
 
-  return { insert, getByExpressionId, update };
+  const deleteByExpressionId = expressionId =>
+    knex("Routing2_RightSides")
+      .where({ expressionId })
+      .delete();
+
+  return { insert, getByExpressionId, update, deleteByExpressionId };
 };

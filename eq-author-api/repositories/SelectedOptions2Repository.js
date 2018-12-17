@@ -2,19 +2,19 @@ const { head } = require("lodash/fp");
 
 module.exports = knex => {
   const insert = ({ sideId, optionId }) =>
-    knex("SelectedOptions2")
+    knex("Routing2_SelectedOptions")
       .insert({ optionId, sideId })
       .returning("*")
       .then(head);
 
   const getBySideId = sideId =>
-    knex("SelectedOptions2")
+    knex("Routing2_SelectedOptions")
       .select()
       .where({ sideId })
       .orderBy("optionId", "asc");
 
   const deleteBySideId = sideId =>
-    knex("SelectedOptions2")
+    knex("Routing2_SelectedOptions")
       .del()
       .where({ sideId });
 

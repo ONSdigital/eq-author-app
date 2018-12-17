@@ -10,5 +10,13 @@ module.exports = repositories => {
     modifiers
   });
 
+  modifiers.LeftSide = require("./LeftSide")({
+    repositories
+  });
+
+  modifiers.RightSide = require("./RightSide")({
+    repositories
+  });
+
   return modifiers;
 };

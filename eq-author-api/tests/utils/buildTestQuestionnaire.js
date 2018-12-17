@@ -263,7 +263,8 @@ module.exports = knex => {
     references
   ) => {
     const expression = await BinaryExpression2Repository.insert({
-      groupId: expressionGroup.id
+      groupId: expressionGroup.id,
+      condition: expressionConfig.condition
     });
     if (expressionConfig.left && expressionConfig.left.answerId) {
       expression.left = await LeftSide2Repository.insert({
@@ -291,11 +292,16 @@ module.exports = knex => {
   const buildExpressionGroup2 = async ({ expressions }, rule, references) => {
     const group = await ExpressionGroup2Repository.insert({ ruleId: rule.id });
     if (expressions) {
-      group.expressions = await Promise.all(
-        expressions.map(expression =>
-          buildExpression2(expression, group, references)
-        )
-      );
+      const exp = [];
+      for (let i = 0; i < expressions.length; ++i) {
+        const expression = await buildExpression2(
+          expressions[i],
+          group,
+          references
+        );
+        exp.push(expression);
+      }
+      group.expressions = exp;
     }
     return group;
   };
@@ -325,9 +331,11 @@ module.exports = knex => {
       destinationId: destination.id
     });
 
-    routing.rules = await Promise.all(
-      rules.map(rule => buildRule2(rule, routing, references))
-    );
+    routing.rules = [];
+    for (let i = 0; i < rules.length; ++i) {
+      const rule = await buildRule2(rules[i], routing, references);
+      routing.rules.push(rule);
+    }
 
     return routing;
   };

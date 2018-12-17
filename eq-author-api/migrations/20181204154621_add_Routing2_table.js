@@ -21,7 +21,7 @@ exports.up = async function(knex) {
       .onDelete("CASCADE");
   });
 
-  await knex.schema.createTable("Routing2", table => {
+  await knex.schema.createTable("Routing2_Routing", table => {
     table.increments();
 
     table
@@ -47,7 +47,7 @@ exports.up = async function(knex) {
       .integer("routingId")
       .unsigned()
       .references("id")
-      .inTable("Routing2")
+      .inTable("Routing2_Routing")
       .onDelete("CASCADE");
 
     table
@@ -59,7 +59,7 @@ exports.up = async function(knex) {
       .onDelete("CASCADE");
   });
 
-  await knex.schema.createTable("ExpressionGroups2", table => {
+  await knex.schema.createTable("Routing2_ExpressionGroups", table => {
     table.increments();
 
     table
@@ -72,37 +72,35 @@ exports.up = async function(knex) {
     table.enum("operator", ["Or", "And"]).notNullable();
   });
 
-  await knex.schema.createTable("BinaryExpressions2", table => {
+  await knex.schema.createTable("Routing2_BinaryExpressions", table => {
     table.increments();
 
     table
       .integer("expressionGroupId")
       .unsigned()
       .references("id")
-      .inTable("ExpressionGroups2")
+      .inTable("Routing2_ExpressionGroups")
       .onDelete("CASCADE");
 
-    table
-      .enum("condition", [
-        "Equal",
-        "NotEqual",
-        "GreaterThan",
-        "LessThan",
-        "GreaterOrEqual",
-        "LessOrEqual",
-        "OneOf"
-      ])
-      .notNullable();
+    table.enum("condition", [
+      "Equal",
+      "NotEqual",
+      "GreaterThan",
+      "LessThan",
+      "GreaterOrEqual",
+      "LessOrEqual",
+      "OneOf"
+    ]);
   });
 
-  await knex.schema.createTable("LeftSides2", table => {
+  await knex.schema.createTable("Routing2_LeftSides", table => {
     table.increments();
 
     table
       .integer("expressionId")
       .unsigned()
       .references("id")
-      .inTable("BinaryExpressions2")
+      .inTable("Routing2_BinaryExpressions")
       .onDelete("CASCADE")
       .unique();
 
@@ -116,14 +114,14 @@ exports.up = async function(knex) {
       .onDelete("CASCADE");
   });
 
-  await knex.schema.createTable("RightSides2", table => {
+  await knex.schema.createTable("Routing2_RightSides", table => {
     table.increments();
 
     table
       .integer("expressionId")
       .unsigned()
       .references("id")
-      .inTable("BinaryExpressions2")
+      .inTable("Routing2_BinaryExpressions")
       .onDelete("CASCADE")
       .unique();
 
@@ -132,12 +130,12 @@ exports.up = async function(knex) {
     table.jsonb("customValue");
   });
 
-  await knex.schema.createTable("SelectedOptions2", table => {
+  await knex.schema.createTable("Routing2_SelectedOptions", table => {
     table
       .integer("sideId")
       .unsigned()
       .references("id")
-      .inTable("RightSides2")
+      .inTable("Routing2_RightSides")
       .onDelete("CASCADE");
 
     table

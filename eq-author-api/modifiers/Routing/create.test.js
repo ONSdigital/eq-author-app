@@ -16,7 +16,8 @@ describe("Create", () => {
       Routing2: {
         insert: jest.fn().mockResolvedValueOnce({
           id: ROUTING_ID
-        })
+        }),
+        getByPageId: jest.fn().mockResolvedValueOnce()
       }
     };
     const modifiers = {
@@ -38,5 +39,24 @@ describe("Create", () => {
     expect(routing).toMatchObject({
       id: ROUTING_ID
     });
+  });
+
+  it("should error when creating a second Routing for a Page", async () => {
+    const repositories = {
+      Routing2: {
+        getByPageId: jest.fn().mockResolvedValueOnce({
+          id: ROUTING_ID
+        })
+      }
+    };
+
+    try {
+      await create({ repositories })(PAGE_ID);
+      expect(true).toBe(false);
+    } catch (e) {
+      expect(e.message).toMatch("one Routing per Page");
+    }
+
+    expect(repositories.Routing2.getByPageId).toHaveBeenCalledWith(PAGE_ID);
   });
 });

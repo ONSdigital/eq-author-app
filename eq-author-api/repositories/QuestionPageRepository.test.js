@@ -307,5 +307,26 @@ describe("QuestionPageRepository", () => {
         })
       ]);
     });
+
+    it("should get the current and previous answers of allowed types", async () => {
+      const routingAnswers = await QuestionPageRepository.getRoutingAnswers(
+        get(questionnaire, "sections[1].pages[0].id")
+      );
+
+      expect(routingAnswers).toEqual([
+        expect.objectContaining({
+          label: "Answer 1.1.1"
+        }),
+        expect.objectContaining({
+          label: "Answer 1.2.1"
+        }),
+        expect.objectContaining({
+          label: "Answer 1.5.2"
+        }),
+        expect.objectContaining({
+          label: "Answer 2.1.1"
+        })
+      ]);
+    });
   });
 });

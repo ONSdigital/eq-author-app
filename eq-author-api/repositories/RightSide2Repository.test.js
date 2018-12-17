@@ -82,6 +82,23 @@ describe("Right Side Repository", () => {
     });
   });
 
+  describe("deleteByExpressionId", () => {
+    it("should delete the rightSide for an expressionId", async () => {
+      await RightSideRepository.insert({
+        expressionId: expression.id,
+        customValue: { number: 42 },
+        type: "Custom"
+      });
+
+      await RightSideRepository.deleteByExpressionId(expression.id);
+
+      const readRightSide = await RightSideRepository.getByExpressionId(
+        expression.id
+      );
+      expect(readRightSide).toBeUndefined();
+    });
+  });
+
   describe("update", () => {
     it("should be able to update the type and custom value", async () => {
       const rightSide = await RightSideRepository.insert({

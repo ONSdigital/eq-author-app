@@ -91,6 +91,13 @@ module.exports = knex => {
       includeSelf: true
     });
 
+  const getRoutingAnswers = id =>
+    getPreviousAnswersForPage({
+      id,
+      answerTypes: ROUTING_ANSWER_TYPES,
+      includeSelf: true
+    });
+
   return {
     getById,
     insert,
@@ -99,6 +106,7 @@ module.exports = knex => {
     undelete,
     getPipingAnswersForQuestionPage,
     getPipingMetadataForQuestionPage,
-    getRoutingQuestionsForQuestionPage
+    getRoutingQuestionsForQuestionPage,
+    getRoutingAnswers
   };
 };
