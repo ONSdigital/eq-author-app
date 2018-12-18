@@ -1,20 +1,15 @@
 const fp = require("lodash/fp");
+const knex = require("knex")(require("../config/knexfile"));
 
-const db = require("../db");
+const QuestionnaireRepository = require("../repositories/QuestionnaireRepository")(
+  knex
+);
 
 describe("QuestionnaireRepository", () => {
-  let knex;
-  let QuestionnaireRepository;
   let buildQuestionnaire;
 
   beforeAll(async () => {
-    const conf = await db(process.env.DB_SECRET_ID);
-    knex = require("knex")(conf);
     await knex.migrate.latest();
-
-    QuestionnaireRepository = require("../repositories/QuestionnaireRepository")(
-      knex
-    );
 
     buildQuestionnaire = (json = {}) => {
       return Object.assign(

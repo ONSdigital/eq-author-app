@@ -1,5 +1,9 @@
-const db = require("../db");
 const { get } = require("lodash");
+const knex = require("knex")(require("../config/knexfile"));
+const QuestionPageRepository = require("./QuestionPageRepository")(knex);
+const buildTestQuestionnaire = require("../tests/utils/buildTestQuestionnaire")(
+  knex
+);
 const {
   CHECKBOX,
   RADIO,
@@ -18,19 +22,7 @@ const {
 const { getName } = require("../utils/getName");
 
 describe("QuestionPageRepository", () => {
-  let knex;
-  let QuestionPageRepository;
-  let buildTestQuestionnaire;
-
-  beforeAll(async () => {
-    const conf = await db(process.env.DB_SECRET_ID);
-    knex = require("knex")(conf);
-    await knex.migrate.latest();
-    QuestionPageRepository = require("./QuestionPageRepository")(knex);
-    buildTestQuestionnaire = require("../tests/utils/buildTestQuestionnaire")(
-      knex
-    );
-  });
+  beforeAll(() => knex.migrate.latest());
 
   afterEach(() => knex.table("Questionnaires").delete());
 
