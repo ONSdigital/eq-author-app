@@ -1,7 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
-import { Number } from "components/Forms";
 import { ValidationPills } from "components/Validation/ValidationPills";
+import Duration from "components/Validation/Date/Duration";
 import { DATE, DATE_RANGE } from "constants/answer-types";
 import { CUSTOM, PREVIOUS_ANSWER } from "constants/validation-entity-types";
 
@@ -68,21 +68,12 @@ describe("Date Validation", () => {
     });
   });
 
-  it("should trigger update answer validation when the offset value changes", () => {
+  it("should trigger update answer validation when the duration value changes", () => {
     const wrapper = shallow(<DateValidation {...props} />);
-    const updateValueField = wrapper.find(Number);
-    updateValueField.simulate("change", "event");
+    const duration = wrapper.find(Duration);
+    duration.simulate("change", "event");
     expect(props.onChange).toHaveBeenCalledWith("event");
-    updateValueField.simulate("blur", "event");
-    expect(props.onUpdate).toHaveBeenCalledWith("event");
-  });
-
-  it("should trigger update answer validation when the offset unit changes", () => {
-    const wrapper = shallow(<DateValidation {...props} />);
-    const updateUnitField = wrapper.find('[data-test="offset-unit-select"]');
-    updateUnitField.simulate("change", "event");
-    expect(props.onChange).toHaveBeenCalledWith("event");
-    updateUnitField.simulate("blur", "event");
+    duration.simulate("update", "event");
     expect(props.onUpdate).toHaveBeenCalledWith("event");
   });
 
@@ -160,26 +151,29 @@ describe("Date Validation", () => {
     );
   });
 
-  it("should filter the available units for the format", () => {
+  it("should filter the available units for the mm/yyyy", () => {
     const answer = {
       properties: {
         format: "mm/yyyy"
       }
     };
     const wrapper = shallow(<DateValidation {...props} answer={answer} />);
-    const updateUnitField = wrapper.find('[data-test="offset-unit-select"]');
-    expect(updateUnitField).toMatchSnapshot();
+    const duration = wrapper.find(Duration);
+    expect(duration.prop("units")).toMatchSnapshot();
   });
 
-  it("should render a please select for offset unit when the offset unit is not available for the format", () => {
-    const answer = {
-      properties: {
-        format: "yyyy"
-      }
-    };
+  it("should filter the available units for the dd/mm/yyyy", () => {
+    const answer = { properties: { format: "dd/mm/yyyy" } };
     const wrapper = shallow(<DateValidation {...props} answer={answer} />);
-    const updateUnitField = wrapper.find('[data-test="offset-unit-select"]');
-    expect(updateUnitField).toMatchSnapshot();
+    const duration = wrapper.find(Duration);
+    expect(duration.prop("units")).toMatchSnapshot();
+  });
+
+  it("should filter the available units for the yyyy", () => {
+    const answer = { properties: { format: "yyyy" } };
+    const wrapper = shallow(<DateValidation {...props} answer={answer} />);
+    const duration = wrapper.find(Duration);
+    expect(duration.prop("units")).toMatchSnapshot();
   });
 
   it("should render all units for date range answers", () => {
@@ -188,7 +182,7 @@ describe("Date Validation", () => {
       type: DATE_RANGE
     };
     const wrapper = shallow(<DateValidation {...props} answer={answer} />);
-    const updateUnitField = wrapper.find('[data-test="offset-unit-select"]');
-    expect(updateUnitField).toMatchSnapshot();
+    const duration = wrapper.find(Duration);
+    expect(duration.prop("units")).toMatchSnapshot();
   });
 });

@@ -12,9 +12,16 @@ import ModalWithNav from "components/ModalWithNav";
 
 import MinValueValidation from "components/Validation/MinValue";
 import MaxValueValidation from "components/Validation/MaxValue";
-import { EarliestDate, LatestDate } from "components/Validation/Date";
+import {
+  EarliestDate,
+  LatestDate,
+  MinDuration,
+  MaxDuration
+} from "components/Validation/Date";
+
 import ValidationContext from "components/Validation/ValidationContext";
 import DatePreview from "components/Validation/Date/DatePreview";
+import DurationPreview from "components/Validation/Date/DurationPreview";
 
 import { CURRENCY, DATE, DATE_RANGE, NUMBER } from "constants/answer-types";
 import { colors } from "constants/theme";
@@ -54,6 +61,20 @@ const validationTypes = [
     render: () => <LatestDate />,
     types: [DATE, DATE_RANGE],
     preview: DatePreview
+  },
+  {
+    id: "minDuration",
+    title: "Min Duration",
+    render: () => <MinDuration />,
+    types: [DATE_RANGE],
+    preview: DurationPreview
+  },
+  {
+    id: "maxDuration",
+    title: "Max Duration",
+    render: () => <MaxDuration />,
+    types: [DATE_RANGE],
+    preview: DurationPreview
   }
 ];
 

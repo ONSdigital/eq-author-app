@@ -348,7 +348,7 @@ describe("resolvers", () => {
 
     describe("Earliest", () => {
       it("should be able to update properties", async () => {
-        const answer = await createNewAnswer(firstPage, "Date");
+        const answer = await createNewAnswer(firstPage, DATE);
         const validation = await queryAnswerValidations(answer.id);
         const result = await mutateValidationParameters({
           id: validation.earliestDate.id,
@@ -368,8 +368,8 @@ describe("resolvers", () => {
       });
 
       it("can update previous answer", async () => {
-        const previousAnswer = await createNewAnswer(firstPage, "Date");
-        const answer = await createNewAnswer(firstPage, "Date");
+        const previousAnswer = await createNewAnswer(firstPage, DATE);
+        const answer = await createNewAnswer(firstPage, DATE);
         const validation = await queryAnswerValidations(answer.id);
 
         const result = await mutateValidationParameters({
@@ -391,7 +391,7 @@ describe("resolvers", () => {
 
       it("can update metadata", async () => {
         const metadata = await createMetadata(questionnaire.id);
-        const answer = await createNewAnswer(firstPage, "Date");
+        const answer = await createNewAnswer(firstPage, DATE);
         const validation = await queryAnswerValidations(answer.id);
 
         const result = await mutateValidationParameters({
@@ -412,7 +412,7 @@ describe("resolvers", () => {
       });
 
       it("can update entity type", async () => {
-        const answer = await createNewAnswer(firstPage, "Date");
+        const answer = await createNewAnswer(firstPage, DATE);
         const validation = await queryAnswerValidations(answer.id);
 
         const entityTypes = [CUSTOM, PREVIOUS_ANSWER, METADATA, NOW];
@@ -582,7 +582,7 @@ describe("resolvers", () => {
 
     describe("Earliest", () => {
       it("should be able to update properties", async () => {
-        const answer = await createNewAnswer(firstPage, "Date");
+        const answer = await createNewAnswer(firstPage, DATE_RANGE);
         const validation = await queryAnswerValidations(answer.id);
         const result = await mutateValidationParameters({
           id: validation.earliestDate.id,
@@ -604,7 +604,7 @@ describe("resolvers", () => {
 
     describe("Latest", () => {
       it("should be able to update properties", async () => {
-        const answer = await createNewAnswer(firstPage, "Date");
+        const answer = await createNewAnswer(firstPage, DATE_RANGE);
         const validation = await queryAnswerValidations(answer.id);
         const result = await mutateValidationParameters({
           id: validation.latestDate.id,
@@ -621,6 +621,54 @@ describe("resolvers", () => {
           ...params
         };
 
+        expect(result).toEqual(expected);
+      });
+    });
+
+    describe("MinDuration", () => {
+      it("should be able to update properties", async () => {
+        const answer = await createNewAnswer(firstPage, DATE_RANGE);
+        const validation = await queryAnswerValidations(answer.id);
+        const input = {
+          duration: {
+            value: 8,
+            unit: "Days"
+          }
+        };
+        const result = await mutateValidationParameters({
+          id: validation.minDuration.id,
+          minDurationInput: {
+            ...input
+          }
+        });
+        const expected = {
+          id: validation.minDuration.id,
+          ...input
+        };
+        expect(result).toEqual(expected);
+      });
+    });
+
+    describe("MaxDuration", () => {
+      it("should be able to update properties", async () => {
+        const answer = await createNewAnswer(firstPage, DATE_RANGE);
+        const validation = await queryAnswerValidations(answer.id);
+        const input = {
+          duration: {
+            value: 8,
+            unit: "Days"
+          }
+        };
+        const result = await mutateValidationParameters({
+          id: validation.maxDuration.id,
+          maxDurationInput: {
+            ...input
+          }
+        });
+        const expected = {
+          id: validation.maxDuration.id,
+          ...input
+        };
         expect(result).toEqual(expected);
       });
     });

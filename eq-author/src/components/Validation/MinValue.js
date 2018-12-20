@@ -65,9 +65,7 @@ export const MinValue = ({
     onUpdateAnswerValidation(updateValidationRuleInput);
   };
 
-  const renderDisabled = () => (
-    <DisabledMessage>Min value is disabled</DisabledMessage>
-  );
+  const renderDisabled = () => <DisabledMessage name="Min value" />;
 
   const renderContent = () => (
     <Grid>

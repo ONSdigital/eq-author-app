@@ -48,8 +48,8 @@ exports[`MinValue should render with disabled content 1`] = `
   enabled={false}
   onToggleChange={[Function]}
 >
-  <DisabledMessage>
-    Min value is disabled
-  </DisabledMessage>
+  <DisabledMessage
+    name="Min value"
+  />
 </ValidationView>
 `;

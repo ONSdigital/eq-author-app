@@ -1,6 +1,7 @@
 const Answer = require("./Answer");
 const { parseGuidance, getInnerHTMLWithPiping } = require("../utils/HTMLUtils");
 const { find, get, flow, isNil, assign, concat } = require("lodash/fp");
+const { set } = require("lodash");
 const convertPipes = require("../utils/convertPipes");
 
 const findDateRange = flow(
@@ -39,10 +40,34 @@ class Question {
       this.type = "DateRange";
       this.answers = this.buildDateRangeAnswers(dateRange);
 
-      const { earliestDate, latestDate } = dateRange.validation;
+      const {
+        earliestDate,
+        latestDate,
+        minDuration,
+        maxDuration
+      } = dateRange.validation;
+
       if (earliestDate.enabled || latestDate.enabled) {
         this.answers[0].minimum = Answer.buildDateValidation(earliestDate);
         this.answers[1].maximum = Answer.buildDateValidation(latestDate);
+      }
+
+      if (minDuration.enabled || maxDuration.enabled) {
+        /* eslint-disable-next-line camelcase */
+        if (minDuration.enabled) {
+          set(
+            this,
+            `period_limits.minimum.${minDuration.duration.unit}`.toLowerCase(),
+            minDuration.duration.value
+          );
+        }
+        if (maxDuration.enabled) {
+          set(
+            this,
+            `period_limits.maximum.${maxDuration.duration.unit}`.toLowerCase(),
+            maxDuration.duration.value
+          );
+        }
       }
     } else if (mutuallyExclusive) {
       this.type = "MutuallyExclusive";

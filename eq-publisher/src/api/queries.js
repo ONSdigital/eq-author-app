@@ -13,12 +13,18 @@ exports.getQuestionnaire = `
   
   fragment CompositeAnswer on CompositeAnswer {
     validation {
-      ... on DateValidation {
+      ... on DateRangeValidation {
         earliestDate {
           ...EarliestDateValidationRule
         }
         latestDate {
           ...LatestDateValidationRule
+        }
+        minDuration {
+          ...MinDurationValidationRule
+        }
+        maxDuration {
+          ...MaxDurationValidationRule
         }
       }
     }
@@ -100,6 +106,24 @@ exports.getQuestionnaire = `
     }
     metadata {
       key
+    }
+  }
+  
+  fragment MinDurationValidationRule on MinDurationValidationRule {
+    id
+    enabled
+    duration {
+      value
+      unit
+    }
+  }
+    
+  fragment MaxDurationValidationRule on MaxDurationValidationRule {
+    id
+    enabled
+    duration {
+      value
+      unit
     }
   }
 

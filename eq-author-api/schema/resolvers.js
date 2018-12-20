@@ -1,4 +1,5 @@
 const { GraphQLDate } = require("graphql-iso-date");
+
 const { includes, isNil } = require("lodash");
 const GraphQLJSON = require("graphql-type-json");
 const { getName } = require("../utils/getName");
@@ -385,7 +386,7 @@ const Resolvers = {
     page: (answer, args, ctx) =>
       ctx.repositories.QuestionPage.getById(answer.questionPageId),
     validation: answer =>
-      ["date"].includes(getValidationEntity(answer.type)) ? answer : null,
+      ["dateRange"].includes(getValidationEntity(answer.type)) ? answer : null,
     displayName: answer => getName(answer, "CompositeAnswer")
   },
 
@@ -421,6 +422,8 @@ const Resolvers = {
           return "NumberValidation";
         case "date":
           return "DateValidation";
+        case "dateRange":
+          return "DateRangeValidation";
 
         default:
           throw new TypeError(
@@ -441,7 +444,10 @@ const Resolvers = {
           return "EarliestDateValidationRule";
         case "latestDate":
           return "LatestDateValidationRule";
-
+        case "minDuration":
+          return "MinDurationValidationRule";
+        case "maxDuration":
+          return "MaxDurationValidationRule";
         default:
           throw new TypeError(
             `Validation is not supported on '${validationType}' answers`
@@ -473,6 +479,29 @@ const Resolvers = {
       ctx.repositories.Validation.findByAnswerIdAndValidationType(
         answer,
         "latestDate"
+      )
+  },
+
+  DateRangeValidation: {
+    earliestDate: (answer, args, ctx) =>
+      ctx.repositories.Validation.findByAnswerIdAndValidationType(
+        answer,
+        "earliestDate"
+      ),
+    latestDate: (answer, args, ctx) =>
+      ctx.repositories.Validation.findByAnswerIdAndValidationType(
+        answer,
+        "latestDate"
+      ),
+    minDuration: (answer, args, ctx) =>
+      ctx.repositories.Validation.findByAnswerIdAndValidationType(
+        answer,
+        "minDuration"
+      ),
+    maxDuration: (answer, args, ctx) =>
+      ctx.repositories.Validation.findByAnswerIdAndValidationType(
+        answer,
+        "maxDuration"
       )
   },
 
@@ -527,6 +556,14 @@ const Resolvers = {
       ctx.repositories.Validation.getPreviousAnswersForValidation(id),
     availableMetadata: ({ id }, args, ctx) =>
       ctx.repositories.Validation.getMetadataForValidation(id)
+  },
+
+  MinDurationValidationRule: {
+    duration: ({ config: { duration } }) => duration,
+  },
+
+  MaxDurationValidationRule: {
+    duration: ({ config: { duration } }) => duration,
   },
 
   Metadata: {

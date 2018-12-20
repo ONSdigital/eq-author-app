@@ -1,0 +1,8 @@
+fragment MinDurationValidationRule on MinDurationValidationRule {
+  id
+  enabled
+  duration {
+    value
+    unit
+  }
+}

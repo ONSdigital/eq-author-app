@@ -8,6 +8,8 @@ import Date from "components/Answers/Date";
 
 import EarliestDateValidationRule from "graphql/fragments/earliest-date-validation-rule.graphql";
 import LatestDateValidationRule from "graphql/fragments/latest-date-validation-rule.graphql";
+import MinDurationValidationRule from "graphql/fragments/min-duration-validation-rule.graphql";
+import MaxDurationValidationRule from "graphql/fragments/max-duration-validation-rule.graphql";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -39,12 +41,18 @@ DateRange.fragments = {
       id
       ... on CompositeAnswer {
         validation {
-          ... on DateValidation {
+          ... on DateRangeValidation {
             earliestDate {
               ...EarliestDateValidationRule
             }
             latestDate {
               ...LatestDateValidationRule
+            }
+            minDuration {
+              ...MinDurationValidationRule
+            }
+            maxDuration {
+              ...MaxDurationValidationRule
             }
           }
         }
@@ -57,6 +65,8 @@ DateRange.fragments = {
     ${Date.fragments.Date}
     ${EarliestDateValidationRule}
     ${LatestDateValidationRule}
+    ${MinDurationValidationRule}
+    ${MaxDurationValidationRule}
   `
 };
 

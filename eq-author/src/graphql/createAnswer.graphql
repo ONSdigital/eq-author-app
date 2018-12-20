@@ -4,6 +4,8 @@
 #import "./fragments/max-value-validation-rule.graphql"
 #import "./fragments/earliest-date-validation-rule.graphql"
 #import "./fragments/latest-date-validation-rule.graphql"
+#import "./fragments/min-duration-validation-rule.graphql"
+#import "./fragments/max-duration-validation-rule.graphql"
 
 mutation createAnswer($input: CreateAnswerInput!) {
   createAnswer(input: $input) {
@@ -41,12 +43,18 @@ mutation createAnswer($input: CreateAnswerInput!) {
         ...Answer
       }
       validation {
-        ... on DateValidation {
+        ... on DateRangeValidation {
           earliestDate {
             ...EarliestDateValidationRule
           }
           latestDate {
             ...LatestDateValidationRule
+          }
+          minDuration {
+            ...MinDurationValidationRule
+          }
+          maxDuration {
+            ...MaxDurationValidationRule
           }
         }
       }

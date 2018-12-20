@@ -218,7 +218,7 @@ type NumberValue {
 
 union RoutingConditionValue = IDArrayValue | NumberValue
 
-union ValidationType = NumberValidation | DateValidation
+union ValidationType = NumberValidation | DateValidation | DateRangeValidation
 
 enum ValidationRuleEntityType {
   Custom
@@ -235,6 +235,13 @@ type NumberValidation {
 type DateValidation {
   earliestDate: EarliestDateValidationRule!
   latestDate: LatestDateValidationRule!
+}
+
+type DateRangeValidation {
+  earliestDate: EarliestDateValidationRule!
+  latestDate: LatestDateValidationRule!
+  minDuration: MinDurationValidationRule!
+  maxDuration: MaxDurationValidationRule!
 }
 
 interface ValidationRule {
@@ -283,6 +290,18 @@ type LatestDateValidationRule implements ValidationRule {
   entityType: ValidationRuleEntityType
   availablePreviousAnswers: [Answer!]!
   availableMetadata: [Metadata!]!
+}
+
+type MinDurationValidationRule implements ValidationRule {
+  id: ID!
+  enabled: Boolean!
+  duration: Duration!
+}
+
+type MaxDurationValidationRule implements ValidationRule {
+  id: ID!
+  enabled: Boolean!
+  duration: Duration!
 }
 
 type Duration {
@@ -730,6 +749,8 @@ input UpdateValidationRuleInput {
   maxValueInput:  UpdateMaxValueInput
   earliestDateInput: UpdateEarliestDateInput
   latestDateInput: UpdateLatestDateInput
+  minDurationInput: UpdateMinDurationInput
+  maxDurationInput: UpdateMaxDurationInput
 }
 
 input UpdateMinValueInput {
@@ -760,6 +781,14 @@ input UpdateLatestDateInput {
   custom: Date
   previousAnswer: ID
   metadata: ID
+}
+
+input UpdateMinDurationInput {
+  duration: DurationInput!
+}
+
+input UpdateMaxDurationInput {
+  duration: DurationInput!
 }
 
 input DurationInput {

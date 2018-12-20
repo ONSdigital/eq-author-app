@@ -89,6 +89,22 @@ describe("Question", () => {
             unit: "Years"
           },
           relativePosition: "After"
+        },
+        minDuration: {
+          id: "3",
+          enabled: true,
+          duration: {
+            value: 13,
+            unit: "Days"
+          }
+        },
+        maxDuration: {
+          id: "4",
+          enabled: true,
+          duration: {
+            value: 2,
+            unit: "Months"
+          }
         }
       };
     });
@@ -246,6 +262,20 @@ describe("Question", () => {
             offset_by: {
               years: 10
             }
+          }
+        })
+      );
+      expect(question.period_limits).toEqual(
+        expect.objectContaining({
+          minimum: {
+            days: 13
+          }
+        })
+      );
+      expect(question.period_limits).toEqual(
+        expect.objectContaining({
+          maximum: {
+            months: 2
           }
         })
       );

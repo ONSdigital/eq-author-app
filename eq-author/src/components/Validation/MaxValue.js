@@ -128,9 +128,7 @@ export class MaxValue extends React.Component {
     this.props.onUpdateAnswerValidation(updateValidationRuleInput);
   };
 
-  renderDisabled = () => (
-    <DisabledMessage>Max value is disabled</DisabledMessage>
-  );
+  renderDisabled = () => <DisabledMessage name="Max value" />;
 
   renderContent = () => {
     return (
