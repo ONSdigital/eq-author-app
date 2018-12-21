@@ -26,7 +26,7 @@ const RELATIVE_POSITIONS = ["Before", "After"];
 
 const DateInput = styled(Input)`
   width: 12em;
-  height: 2.25em;
+  height: 2.5em;
 `;
 
 const ConnectedPath = styled(Path)`
@@ -37,13 +37,15 @@ const RelativePositionSelect = styled(Select)`
   width: 6em;
 `;
 
-const StartDateText = styled.div`
-  margin: 0;
-  padding-top: 0.4em;
+const RelativePositionText = styled(EmphasisedText)`
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
 `;
 
-const CustomInput = styled.div`
-  margin-top: 5em;
+const StartDateText = styled.div`
+  margin: 0;
+  padding-top: 0.5em;
+  height: 2.5em;
 `;
 
 const START_COL_SIZE = 3;
@@ -134,6 +136,16 @@ class DateValidation extends React.Component {
 
     const availableUnits = getUnits({ format, type });
 
+    const validationPills = {
+      Metadata: this.Metadata,
+      Custom: this.Custom
+    };
+
+    if (type === DATE) {
+      validationPills.PreviousAnswer = this.PreviousAnswer;
+      validationPills.Now = this.Now;
+    }
+
     return (
       <div>
         <Grid>
@@ -173,22 +185,16 @@ class DateValidation extends React.Component {
               </RelativePositionSelect>
             )}
             {type === DATE_RANGE && (
-              <EmphasisedText>{relativePosition}</EmphasisedText>
+              <RelativePositionText>{relativePosition}</RelativePositionText>
             )}
             <PathEnd />
           </AlignedColumn>
           <Column cols={9}>
-            {type === DATE && (
-              <ValidationPills
-                entityType={entityType}
-                onEntityTypeChange={this.handleEntityTypeChange}
-                PreviousAnswer={this.PreviousAnswer}
-                Metadata={this.Metadata}
-                Custom={this.Custom}
-                Now={this.Now}
-              />
-            )}
-            {type === DATE_RANGE && <CustomInput>{this.Custom()}</CustomInput>}
+            <ValidationPills
+              entityType={entityType}
+              onEntityTypeChange={this.handleEntityTypeChange}
+              {...validationPills}
+            />
           </Column>
         </Grid>
       </div>

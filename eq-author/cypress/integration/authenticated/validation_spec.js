@@ -19,7 +19,7 @@ import {
   switchPilltab
 } from "../../utils";
 
-import { addMetadata } from "../../builders/metadata";
+import { addMetadata, deleteFirstMetadata } from "../../builders/metadata";
 
 const METADATA_KEY = "ru_ref_custom";
 
@@ -427,9 +427,18 @@ describe("Answer Validation", () => {
         removeAnswer();
       });
     });
+
+    after(() => {
+      deleteFirstMetadata();
+    });
   });
 
   describe("Date Range", () => {
+    before(() => {
+      cy.login();
+      addMetadata(METADATA_KEY, "Date");
+    });
+
     beforeEach(() => {
       cy.login();
     });
@@ -497,6 +506,11 @@ describe("Answer Validation", () => {
           .should("have.value", "1985-09-14");
       });
 
+      it("should update metadata", () => {
+        toggleCheckboxOn("@earliestDateToggle");
+        setMetadata("@earliestDate", METADATA_KEY);
+      });
+
       afterEach(() => {
         removeAnswer();
       });
@@ -556,6 +570,11 @@ describe("Answer Validation", () => {
           .type("1985-09-14")
           .blur()
           .should("have.value", "1985-09-14");
+      });
+
+      it("should update metadata", () => {
+        toggleCheckboxOn("@latestDateToggle");
+        setMetadata("@latestDate", METADATA_KEY);
       });
 
       afterEach(() => {
@@ -679,6 +698,10 @@ describe("Answer Validation", () => {
       afterEach(() => {
         removeAnswer();
       });
+    });
+
+    after(() => {
+      deleteFirstMetadata();
     });
   });
 });

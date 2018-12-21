@@ -1,6 +1,6 @@
 const Validation = require("../db/Validation");
 const { head, flow, keys, remove, first } = require("lodash/fp");
-const { DATE: ANSWER_DATE } = require("../constants/answerTypes");
+const { DATE, DATE_RANGE } = require("../constants/answerTypes");
 const { DATE: METADATA_DATE } = require("../constants/metadataTypes");
 
 module.exports = knex => {
@@ -78,7 +78,7 @@ module.exports = knex => {
       .where("Validation_AnswerRules.id", id)
       .then(head)
       .then(({ answerType, questionnaireId }) => {
-        if (answerType === ANSWER_DATE) {
+        if (answerType === DATE || answerType === DATE_RANGE) {
           return knex("Metadata")
             .select("Metadata.*")
             .andWhere("type", METADATA_DATE)

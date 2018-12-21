@@ -21,3 +21,17 @@ export const addMetadata = (metadataKey, type) => {
     .contains("Done")
     .click();
 };
+
+export const deleteFirstMetadata = () => {
+  cy.get(testId("metadata-btn")).as("metadataBtn");
+  cy.get("@metadataBtn").should("be.visible");
+  cy.get("@metadataBtn").click();
+
+  cy.get(testId("metadata-delete-row")).as("deleteMetadataBtn");
+  cy.get("@deleteMetadataBtn").should("be.visible");
+  cy.get("@deleteMetadataBtn").click();
+
+  cy.get("button")
+    .contains("Done")
+    .click();
+};

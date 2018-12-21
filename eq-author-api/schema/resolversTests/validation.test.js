@@ -437,7 +437,7 @@ describe("resolvers", () => {
 
     describe("Latest", () => {
       it("should be able to update properties", async () => {
-        const answer = await createNewAnswer(firstPage, "Date");
+        const answer = await createNewAnswer(firstPage, DATE);
         const validation = await queryAnswerValidations(answer.id);
         const result = await mutateValidationParameters({
           id: validation.latestDate.id,
@@ -458,8 +458,8 @@ describe("resolvers", () => {
       });
 
       it("can update previous answer", async () => {
-        const previousAnswer = await createNewAnswer(firstPage, "Date");
-        const answer = await createNewAnswer(firstPage, "Date");
+        const previousAnswer = await createNewAnswer(firstPage, DATE);
+        const answer = await createNewAnswer(firstPage, DATE);
         const validation = await queryAnswerValidations(answer.id);
 
         const result = await mutateValidationParameters({
@@ -481,7 +481,7 @@ describe("resolvers", () => {
 
       it("can update metadata", async () => {
         const metadata = await createMetadata(questionnaire.id);
-        const answer = await createNewAnswer(firstPage, "Date");
+        const answer = await createNewAnswer(firstPage, DATE);
         const validation = await queryAnswerValidations(answer.id);
 
         const result = await mutateValidationParameters({
@@ -502,7 +502,7 @@ describe("resolvers", () => {
       });
 
       it("can update entity type", async () => {
-        const answer = await createNewAnswer(firstPage, "Date");
+        const answer = await createNewAnswer(firstPage, DATE);
         const validation = await queryAnswerValidations(answer.id);
 
         const entityTypes = [CUSTOM, PREVIOUS_ANSWER, METADATA, NOW];
@@ -599,6 +599,52 @@ describe("resolvers", () => {
         };
         expect(result).toEqual(expected);
       });
+
+      it("can update metadata", async () => {
+        const metadata = await createMetadata(questionnaire.id);
+        const answer = await createNewAnswer(firstPage, DATE_RANGE);
+        const validation = await queryAnswerValidations(answer.id);
+
+        const result = await mutateValidationParameters({
+          id: validation.earliestDate.id,
+          earliestDateInput: {
+            ...params,
+            entityType: METADATA,
+            metadata: metadata.id
+          }
+        });
+
+        expect(result).toMatchObject({
+          entityType: METADATA,
+          metadata: {
+            id: metadata.id
+          }
+        });
+      });
+
+      it("can update entity type", async () => {
+        const answer = await createNewAnswer(firstPage, DATE_RANGE);
+        const validation = await queryAnswerValidations(answer.id);
+
+        const entityTypes = [CUSTOM, METADATA];
+
+        const promises = entityTypes.map(async entityType => {
+          const result = await mutateValidationParameters({
+            id: validation.earliestDate.id,
+            earliestDateInput: {
+              ...params,
+              entityType
+            }
+          });
+
+          expect(result).toMatchObject({
+            id: validation.earliestDate.id,
+            entityType
+          });
+        });
+
+        await Promise.all(promises);
+      });
     });
 
     describe("Latest", () => {
@@ -621,6 +667,52 @@ describe("resolvers", () => {
         };
 
         expect(result).toEqual(expected);
+      });
+
+      it("can update metadata", async () => {
+        const metadata = await createMetadata(questionnaire.id);
+        const answer = await createNewAnswer(firstPage, DATE_RANGE);
+        const validation = await queryAnswerValidations(answer.id);
+
+        const result = await mutateValidationParameters({
+          id: validation.latestDate.id,
+          latestDateInput: {
+            ...params,
+            entityType: METADATA,
+            metadata: metadata.id
+          }
+        });
+
+        expect(result).toMatchObject({
+          entityType: METADATA,
+          metadata: {
+            id: metadata.id
+          }
+        });
+      });
+
+      it("can update entity type", async () => {
+        const answer = await createNewAnswer(firstPage, DATE_RANGE);
+        const validation = await queryAnswerValidations(answer.id);
+
+        const entityTypes = [CUSTOM, METADATA];
+
+        const promises = entityTypes.map(async entityType => {
+          const result = await mutateValidationParameters({
+            id: validation.latestDate.id,
+            latestDateInput: {
+              ...params,
+              entityType
+            }
+          });
+
+          expect(result).toMatchObject({
+            id: validation.latestDate.id,
+            entityType
+          });
+        });
+
+        await Promise.all(promises);
       });
     });
 
