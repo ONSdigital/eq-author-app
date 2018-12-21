@@ -27,7 +27,6 @@ export const ContentSelectButton = styled(Button).attrs({
   height: 2.5em;
   width: 100%;
   justify-content: space-between;
-  margin-bottom: 1px;
 
   &::after {
     content: url(${iconChevron});

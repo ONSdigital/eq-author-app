@@ -50,13 +50,22 @@ describe("Date Validation", () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  it("should render custom input for date range type answer", () => {
+  it("should render previous answer, metadata, custom and now for date type answer", () => {
+    const answer = {
+      ...props.answer,
+      type: DATE
+    };
+    const wrapper = shallow(<DateValidation {...props} answer={answer} />);
+    expect(wrapper.find(ValidationPills)).toMatchSnapshot();
+  });
+
+  it("should render metadata and custom for date range type answer", () => {
     const answer = {
       ...props.answer,
       type: DATE_RANGE
     };
     const wrapper = shallow(<DateValidation {...props} answer={answer} />);
-    expect(wrapper).toMatchSnapshot();
+    expect(wrapper.find(ValidationPills)).toMatchSnapshot();
   });
 
   it("should call onToggleValidationRule when enabled/disabled", () => {

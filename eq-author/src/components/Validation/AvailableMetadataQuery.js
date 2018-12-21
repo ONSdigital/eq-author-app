@@ -28,6 +28,24 @@ const GET_AVAILABLE_METADATA = gql`
           }
         }
       }
+      ... on CompositeAnswer {
+        validation {
+          ... on DateRangeValidation {
+            earliestDate {
+              id
+              availableMetadata {
+                ...AvailableMetadata
+              }
+            }
+            latestDate {
+              id
+              availableMetadata {
+                ...AvailableMetadata
+              }
+            }
+          }
+        }
+      }
     }
   }
   ${AvailableMetadata}

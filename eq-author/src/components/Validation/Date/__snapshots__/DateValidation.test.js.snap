@@ -29,90 +29,6 @@ Array [
 ]
 `;
 
-exports[`Date Validation should render custom input for date range type answer 1`] = `
-<ValidationView
-  data-test="example-test-id"
-  enabled={true}
-  onToggleChange={[Function]}
->
-  <div>
-    <Grid
-      align="top"
-      fillHeight={true}
-    >
-      <AlignedColumn
-        cols={3}
-      >
-        <EmphasisedText>
-          Some date
-           is
-        </EmphasisedText>
-      </AlignedColumn>
-      <Column
-        cols={9}
-      >
-        <Duration
-          duration={
-            Object {
-              "unit": "Months",
-              "value": 5,
-            }
-          }
-          name="offset"
-          onChange={[MockFunction]}
-          onUpdate={[MockFunction]}
-          units={
-            Array [
-              "Days",
-              "Months",
-              "Years",
-            ]
-          }
-        />
-      </Column>
-    </Grid>
-    <Grid
-      align="top"
-      fillHeight={true}
-    >
-      <Column
-        cols={3}
-      >
-        <DateValidation__ConnectedPath />
-      </Column>
-    </Grid>
-    <Grid
-      align="top"
-      fillHeight={true}
-    >
-      <AlignedColumn
-        cols={3}
-      >
-        <EmphasisedText>
-          Before
-        </EmphasisedText>
-        <Component />
-      </AlignedColumn>
-      <Column
-        cols={9}
-      >
-        <DateValidation__CustomInput>
-          <DateValidation__DateInput
-            max="9999-12-30"
-            min="1000-01-01"
-            name="customDate"
-            onBlur={[MockFunction]}
-            onChange={[MockFunction]}
-            type="date"
-            value="2018-01-01"
-          />
-        </DateValidation__CustomInput>
-      </Column>
-    </Grid>
-  </div>
-</ValidationView>
-`;
-
 exports[`Date Validation should render disabled message when not enabled 1`] = `
 <ValidationView
   data-test="example-test-id"
@@ -123,6 +39,26 @@ exports[`Date Validation should render disabled message when not enabled 1`] = `
     name="Some date"
   />
 </ValidationView>
+`;
+
+exports[`Date Validation should render metadata and custom for date range type answer 1`] = `
+<ValidationPills
+  Custom={[Function]}
+  Metadata={[Function]}
+  entityType="Custom"
+  onEntityTypeChange={[Function]}
+/>
+`;
+
+exports[`Date Validation should render previous answer, metadata, custom and now for date type answer 1`] = `
+<ValidationPills
+  Custom={[Function]}
+  Metadata={[Function]}
+  Now={[Function]}
+  PreviousAnswer={[Function]}
+  entityType="Custom"
+  onEntityTypeChange={[Function]}
+/>
 `;
 
 exports[`Date Validation should render the form input with the values when enabled 1`] = `
