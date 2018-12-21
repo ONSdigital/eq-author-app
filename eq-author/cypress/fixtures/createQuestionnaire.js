@@ -10,7 +10,7 @@ export default {
           id: "1",
           alias: "",
           displayName: "",
-          pages: [{ id: "1", __typename: "QuestionPage" }],
+          pages: [{ id: "1", alias: "", __typename: "QuestionPage" }],
           __typename: "Section"
         }
       ],

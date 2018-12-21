@@ -3,7 +3,7 @@ import { withApollo, Query } from "react-apollo";
 import gql from "graphql-tag";
 import CustomPropTypes from "custom-prop-types";
 import PropTypes from "prop-types";
-import { flowRight, isFunction, isNil } from "lodash";
+import { get, flowRight, isFunction, isEmpty } from "lodash";
 import { Titled } from "react-titled";
 
 import QuestionPageEditor from "components/QuestionPageEditor";
@@ -31,8 +31,17 @@ import Loading from "components/Loading";
 import Error from "components/Error";
 import withCreatePage from "containers/enhancers/withCreatePage";
 import withDuplicatePage from "containers/enhancers/withDuplicatePage";
+import withEntityEditor from "components/withEntityEditor";
 
 import EditorLayout from "components/EditorLayout";
+import { withPropRenamed } from "utils/enhancers";
+
+import pageFragment from "graphql/fragments/page.graphql";
+import { propType } from "graphql-anywhere";
+
+import { Label } from "components/Forms";
+import VisuallyHidden from "components/VisuallyHidden";
+import AliasEditor from "components/AliasEditor";
 
 export class UnwrappedQuestionPageRoute extends React.Component {
   static propTypes = {
@@ -42,10 +51,12 @@ export class UnwrappedQuestionPageRoute extends React.Component {
     onAddPage: PropTypes.func.isRequired,
     onMovePage: PropTypes.func.isRequired,
     onDuplicatePage: PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired,
+    onUpdate: PropTypes.func.isRequired,
     error: PropTypes.object, // eslint-disable-line
     loading: PropTypes.bool.isRequired,
-    data: PropTypes.shape({
-      questionPage: CustomPropTypes.page
+    page: PropTypes.shape({
+      questionPage: propType(QuestionPageEditor.fragments.QuestionPage)
     })
   };
 
@@ -88,10 +99,10 @@ export class UnwrappedQuestionPageRoute extends React.Component {
   handleAddPage = () => {
     const {
       match: { params },
-      data: { questionPage }
+      page
     } = this.props;
 
-    this.props.onAddPage(params.sectionId, questionPage.position + 1);
+    this.props.onAddPage(params.sectionId, page.position + 1);
   };
 
   handleAddAnswer = answerType => {
@@ -102,15 +113,11 @@ export class UnwrappedQuestionPageRoute extends React.Component {
 
   handleDuplicatePage = e => {
     e.preventDefault();
-    const {
-      match,
-      onDuplicatePage,
-      data: { questionPage }
-    } = this.props;
+    const { match, onDuplicatePage, page } = this.props;
     onDuplicatePage({
       sectionId: match.params.sectionId,
-      pageId: questionPage.id,
-      position: questionPage.position + 1
+      pageId: page.id,
+      position: page.position + 1
     });
   };
 
@@ -120,7 +127,7 @@ export class UnwrappedQuestionPageRoute extends React.Component {
   };
 
   renderContent = () => {
-    const { loading, error, data } = this.props;
+    const { loading, error, page, onChange, onUpdate } = this.props;
 
     if (loading) {
       return <Loading height="38rem">Page loading…</Loading>;
@@ -130,15 +137,22 @@ export class UnwrappedQuestionPageRoute extends React.Component {
       return <Error>Something went wrong</Error>;
     }
 
-    if (isNil(this.props.data.questionPage)) {
+    if (isEmpty(page)) {
       return <Error>Something went wrong</Error>;
     }
 
     const { showMovePageDialog, showDeleteConfirmDialog } = this.state;
-
     return (
-      <Titled title={this.getPageTitle(data.questionPage)}>
+      <Titled title={this.getPageTitle(page)}>
         <Toolbar>
+          <VisuallyHidden>
+            <Label htmlFor="alias">Question short code (optional)</Label>
+          </VisuallyHidden>
+          <AliasEditor
+            alias={page.alias}
+            onUpdate={onUpdate}
+            onChange={onChange}
+          />
           <Buttons>
             <Button
               onClick={this.handleOpenMovePageDialog}
@@ -163,9 +177,8 @@ export class UnwrappedQuestionPageRoute extends React.Component {
           </Buttons>
         </Toolbar>
         <QuestionPageEditor
-          key={data.questionPage.id} // this is needed to reset the state of the RichTextEditors when moving between pages
+          key={page.id} // this is needed to reset the state of the RichTextEditors when moving between pages
           {...this.props}
-          page={data.questionPage}
           showMovePageDialog={showMovePageDialog}
           onCloseMovePageDialog={this.handleCloseMovePageDialog}
           onMovePage={this.handleMovePage}
@@ -183,7 +196,7 @@ export class UnwrappedQuestionPageRoute extends React.Component {
     return (
       <EditorLayout
         onAddPage={this.handleAddPage}
-        page={this.props.data.questionPage}
+        page={this.props.page}
         preview
         routing
       >
@@ -210,7 +223,13 @@ const withQuestionPageEditing = flowRight(
   withCreateOption,
   withCreateExclusive,
   withUpdateOption,
-  withDeleteOption
+  withDeleteOption,
+  withPropRenamed("onUpdatePage", "onUpdate"),
+  withEntityEditor("page", pageFragment)
+);
+
+const WrappedQuestionPageRoute = withQuestionPageEditing(
+  UnwrappedQuestionPageRoute
 );
 
 export const QUESTION_PAGE_QUERY = gql`
@@ -223,12 +242,22 @@ export const QUESTION_PAGE_QUERY = gql`
   ${QuestionPageEditor.fragments.QuestionPage}
 `;
 
-export default withQuestionPageEditing(props => (
+export default props => (
   <Query
     query={QUESTION_PAGE_QUERY}
     fetchPolicy="cache-and-network"
     variables={{ id: props.match.params.pageId }}
   >
-    {innerProps => <UnwrappedQuestionPageRoute {...innerProps} {...props} />}
+    {innerProps => (
+      <WrappedQuestionPageRoute
+        {...innerProps}
+        {...props}
+        page={
+          isEmpty(get(innerProps, "data.questionPage", {}))
+            ? {}
+            : innerProps.data.questionPage
+        }
+      />
+    )}
   </Query>
-));
+);

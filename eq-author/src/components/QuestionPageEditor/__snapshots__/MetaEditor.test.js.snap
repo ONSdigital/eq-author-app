@@ -2,32 +2,6 @@
 
 exports[`MetaEditor should render 1`] = `
 <div>
-  <MetaEditor__Padding>
-    <MetaEditor__Alias>
-      <MetaEditor__AliasField>
-        <Label
-          bold={true}
-          htmlFor="question-alias"
-        >
-          Question short code (optional)
-        </Label>
-        <withChangeHandler(WrappingInput)
-          autoFocus={false}
-          data-test="question-alias"
-          id="question-alias"
-          maxLength={255}
-          name="alias"
-          onBlur={[MockFunction]}
-          onChange={[MockFunction]}
-          value="Page alias"
-        />
-      </MetaEditor__AliasField>
-      <CharacterCounter
-        limit={24}
-        value="Page alias"
-      />
-    </MetaEditor__Alias>
-  </MetaEditor__Padding>
   <RichTextEditor
     autoFocus={false}
     controls={
@@ -43,7 +17,7 @@ exports[`MetaEditor should render 1`] = `
     multiline={false}
     name="title"
     onUpdate={[Function]}
-    placeholder=""
+    placeholder="What is the question?"
     size="large"
     testSelector="txt-question-title"
     value="Page title"
@@ -68,7 +42,8 @@ exports[`MetaEditor should render 1`] = `
     testSelector="txt-question-description"
     value="Page description"
   />
-  <MetaEditor__GuidanceEditor
+  <RichTextEditor
+    autoFocus={false}
     controls={
       Object {
         "bold": true,
@@ -84,6 +59,7 @@ exports[`MetaEditor should render 1`] = `
     multiline={true}
     name="guidance"
     onUpdate={[Function]}
+    placeholder=""
     testSelector="txt-question-guidance"
     value="Page guidance"
   />

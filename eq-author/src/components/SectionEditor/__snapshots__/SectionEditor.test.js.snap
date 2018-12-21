@@ -19,30 +19,6 @@ exports[`SectionEditor should render 1`] = `
     <Component />
   </MoveSectionQuery>
   <SectionEditor__Padding>
-    <SectionEditor__Alias>
-      <SectionEditor__AliasField>
-        <Label
-          bold={true}
-          htmlFor="section-alias"
-        >
-          Section short code (optional)
-        </Label>
-        <withChangeHandler(WrappingInput)
-          autoFocus={true}
-          data-test="section-alias"
-          id="section-alias"
-          maxLength={255}
-          name="alias"
-          onBlur={[MockFunction]}
-          onChange={[MockFunction]}
-        />
-      </SectionEditor__AliasField>
-      <CharacterCounter
-        limit={24}
-      />
-    </SectionEditor__Alias>
-  </SectionEditor__Padding>
-  <SectionEditor__Padding>
     <RichTextEditor
       autoFocus={false}
       controls={
@@ -92,30 +68,6 @@ exports[`SectionEditor should render 2`] = `
   >
     <Component />
   </MoveSectionQuery>
-  <SectionEditor__Padding>
-    <SectionEditor__Alias>
-      <SectionEditor__AliasField>
-        <Label
-          bold={true}
-          htmlFor="section-alias"
-        >
-          Section short code (optional)
-        </Label>
-        <withChangeHandler(WrappingInput)
-          autoFocus={true}
-          data-test="section-alias"
-          id="section-alias"
-          maxLength={255}
-          name="alias"
-          onBlur={[MockFunction]}
-          onChange={[MockFunction]}
-        />
-      </SectionEditor__AliasField>
-      <CharacterCounter
-        limit={24}
-      />
-    </SectionEditor__Alias>
-  </SectionEditor__Padding>
   <SectionEditor__Padding>
     <RichTextEditor
       autoFocus={false}

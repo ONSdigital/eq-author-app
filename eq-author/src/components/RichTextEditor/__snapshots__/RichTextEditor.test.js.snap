@@ -119,7 +119,6 @@ exports[`components/RichTextEditor should allow multiline input 1`] = `
         onPiping={[Function]}
         onToggle={[Function]}
         onUpdate={[MockFunction]}
-        placeholder=""
         selectionIsCollapsed={true}
         visible={false}
       />
@@ -279,6 +278,7 @@ exports[`components/RichTextEditor should allow multiline input 1`] = `
         }
         keyBindingFn={[Function]}
         onChange={[Function]}
+        placeholder=""
         readOnly={false}
         spellCheck={true}
         stripPastedStyles={false}
@@ -407,7 +407,6 @@ exports[`components/RichTextEditor should render 1`] = `
         onPiping={[Function]}
         onToggle={[Function]}
         onUpdate={[MockFunction]}
-        placeholder=""
         selectionIsCollapsed={true}
         visible={false}
       />
@@ -569,6 +568,7 @@ exports[`components/RichTextEditor should render 1`] = `
         handleReturn={[Function]}
         keyBindingFn={[Function]}
         onChange={[Function]}
+        placeholder=""
         readOnly={false}
         spellCheck={true}
         stripPastedStyles={false}
@@ -746,7 +746,6 @@ exports[`components/RichTextEditor should render existing content 1`] = `
         onPiping={[Function]}
         onToggle={[Function]}
         onUpdate={[MockFunction]}
-        placeholder=""
         selectionIsCollapsed={true}
         value="
   <h2>List of styles:</h2>
@@ -965,6 +964,7 @@ exports[`components/RichTextEditor should render existing content 1`] = `
         handleReturn={[Function]}
         keyBindingFn={[Function]}
         onChange={[Function]}
+        placeholder=""
         readOnly={false}
         spellCheck={true}
         stripPastedStyles={false}

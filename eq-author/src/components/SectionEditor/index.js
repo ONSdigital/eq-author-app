@@ -6,15 +6,9 @@ import { flip, partial } from "lodash";
 
 import RichTextEditor from "components/RichTextEditor";
 import DeleteConfirmDialog from "components/DeleteConfirmDialog";
-import withEntityEditor from "components/withEntityEditor";
-import { Field, Label } from "components/Forms";
-import WrappingInput from "components/WrappingInput";
 import MoveSectionModal from "components/MoveSectionModal";
 import MoveSectionQuery from "components/MoveSectionModal/MoveSectionQuery";
-import CharacterCounter from "components/CharacterCounter";
 import IntroEditor from "components/IntroEditor";
-
-import { colors, radius } from "constants/theme";
 
 import getIdForObject from "utils/getIdForObject";
 
@@ -27,30 +21,14 @@ const titleControls = {
 };
 
 const Padding = styled.div`
-  padding: 2em 2em 0;
+  padding: 0 2em;
 `;
 
 const SectionCanvas = styled.div`
   padding: 0;
 `;
 
-const AliasField = styled(Field)`
-  margin-bottom: 0.5em;
-`;
-
-const Alias = styled.div`
-  padding: 0.5em;
-  border: 1px solid ${colors.bordersLight};
-  position: relative;
-  border-radius: ${radius};
-
-  &:focus-within {
-    border-color: ${colors.blue};
-    box-shadow: 0 0 0 1px ${colors.blue};
-  }
-`;
-
-export class UnwrappedSectionEditor extends React.Component {
+class SectionEditor extends React.Component {
   static propTypes = {
     section: CustomPropTypes.section.isRequired,
     onChange: PropTypes.func.isRequired,
@@ -113,26 +91,6 @@ export class UnwrappedSectionEditor extends React.Component {
           {this.renderMoveSectionModal}
         </MoveSectionQuery>
         <Padding>
-          <Alias>
-            <AliasField>
-              <Label htmlFor="section-alias">
-                Section short code (optional)
-              </Label>
-              <WrappingInput
-                id="section-alias"
-                data-test="section-alias"
-                name="alias"
-                onChange={onChange}
-                onBlur={onUpdate}
-                value={section.alias}
-                maxLength={255}
-                autoFocus={!section.alias}
-              />
-            </AliasField>
-            <CharacterCounter value={section.alias} limit={24} />
-          </Alias>
-        </Padding>
-        <Padding>
           <RichTextEditor
             id="section-title"
             name="title"
@@ -142,6 +100,7 @@ export class UnwrappedSectionEditor extends React.Component {
             controls={titleControls}
             size="large"
             testSelector="txt-section-title"
+            autoFocus={!section.title}
           />
         </Padding>
         <IntroEditor
@@ -153,10 +112,9 @@ export class UnwrappedSectionEditor extends React.Component {
     );
   }
 }
-UnwrappedSectionEditor.fragments = {
+
+SectionEditor.fragments = {
   Section: sectionFragment
 };
 
-export default withEntityEditor("section", sectionFragment)(
-  UnwrappedSectionEditor
-);
+export default SectionEditor;

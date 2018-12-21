@@ -3,7 +3,7 @@ import CustomPropTypes from "custom-prop-types";
 import styled from "styled-components";
 import { colors } from "constants/theme";
 import ScrollPane from "components/ScrollPane";
-import { noop, filter, findIndex, flow, toUpper } from "lodash/fp";
+import { get, noop, filter, findIndex, flow, toUpper } from "lodash/fp";
 import getIdForObject from "utils/getIdForObject";
 import AnswerPropertiesContainer from "containers/AnswerPropertiesContainer";
 import AnswerValidation from "components/Validation/AnswerValidation";
@@ -69,30 +69,29 @@ class PropertiesPanel extends React.Component {
       <PropertiesPane>
         <PropertiesPaneBody>
           <ScrollPane>
-            {page &&
-              page.answers.length > 0 && (
-                <div>
-                  {page.answers.map((answer, index) => (
-                    <AnswerProperties
-                      key={getIdForObject(answer)}
-                      data-test={`properties-${index}`}
-                      hasBorder={index > 0}
+            {get("answers.length", page) > 0 && (
+              <div>
+                {page.answers.map((answer, index) => (
+                  <AnswerProperties
+                    key={getIdForObject(answer)}
+                    data-test={`properties-${index}`}
+                    hasBorder={index > 0}
+                  >
+                    <PropertiesPanelTitle
+                      data-test={`properties-title-${index}`}
                     >
-                      <PropertiesPanelTitle
-                        data-test={`properties-title-${index}`}
-                      >
-                        {getTitle({ answer })(page.answers)}
-                      </PropertiesPanelTitle>
-                      <AnswerPropertiesContainer
-                        id={getIdForObject(answer)}
-                        answer={{ ...answer, index }}
-                        onSubmit={this.handleSubmit}
-                      />
-                      <AnswerValidation answer={answer} />
-                    </AnswerProperties>
-                  ))}
-                </div>
-              )}
+                      {getTitle({ answer })(page.answers)}
+                    </PropertiesPanelTitle>
+                    <AnswerPropertiesContainer
+                      id={getIdForObject(answer)}
+                      answer={{ ...answer, index }}
+                      onSubmit={this.handleSubmit}
+                    />
+                    <AnswerValidation answer={answer} />
+                  </AnswerProperties>
+                ))}
+              </div>
+            )}
           </ScrollPane>
         </PropertiesPaneBody>
       </PropertiesPane>

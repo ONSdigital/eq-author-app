@@ -275,6 +275,33 @@ describe("SectionRoute", () => {
   });
 
   describe("behaviour", () => {
+    const mockHandlers = {
+      onUpdateSection: jest.fn(),
+      onDeleteSection: jest.fn(),
+      onDuplicateSection: jest.fn(),
+      onAddPage: jest.fn(),
+      onMoveSection: jest.fn(),
+      onUpdate: jest.fn(),
+      onChange: jest.fn()
+    };
+
+    const section = {
+      id: "1",
+      title: "foo",
+      alias: "foo alias",
+      description: "bar",
+      introductionTitle: null,
+      introductionContent: null,
+      introductionEnabled: false,
+      position: 0,
+      questionnaire: {
+        id: "1",
+        questionnaireInfo: {
+          totalSectionCount: 1
+        }
+      }
+    };
+
     const render = (props = {}) =>
       mount(
         <TestProvider
@@ -287,30 +314,10 @@ describe("SectionRoute", () => {
       );
 
     it("ensures confirmation before delete", () => {
-      const data = {
-        section: {
-          id: "1",
-          title: "foo",
-          alias: "foo alias",
-          description: "bar",
-          introductionTitle: null,
-          introductionContent: null,
-          introductionEnabled: false
-        }
-      };
-
-      const mockHandlers = {
-        onUpdateSection: jest.fn(),
-        onDeleteSection: jest.fn(),
-        onDuplicateSection: jest.fn(),
-        onAddPage: jest.fn(),
-        onMoveSection: jest.fn()
-      };
-
       const wrapper = render({
         loading: false,
         match,
-        data,
+        section,
         ...mockHandlers
       });
 
@@ -328,30 +335,10 @@ describe("SectionRoute", () => {
     });
 
     it("allows new pages to be added", () => {
-      const data = {
-        section: {
-          id: "1",
-          title: "foo",
-          alias: "foo alias",
-          description: "bar",
-          introductionTitle: null,
-          introductionContent: null,
-          introductionEnabled: false
-        }
-      };
-
-      const mockHandlers = {
-        onUpdateSection: jest.fn(),
-        onDeleteSection: jest.fn(),
-        onDuplicateSection: jest.fn(),
-        onAddPage: jest.fn(),
-        onMoveSection: jest.fn()
-      };
-
       const wrapper = render({
         loading: false,
         match,
-        data,
+        section,
         ...mockHandlers
       });
 
@@ -367,38 +354,10 @@ describe("SectionRoute", () => {
     });
 
     it("should disable move section button when one section", () => {
-      const data = {
-        section: {
-          id: "1",
-          title: "foo",
-          alias: "foo alias",
-          displayName: "foo",
-          description: "bar",
-          introductionTitle: null,
-          introductionContent: null,
-          introductionEnabled: false,
-          position: 0,
-          questionnaire: {
-            id: "1",
-            questionnaireInfo: {
-              totalSectionCount: 1
-            }
-          }
-        }
-      };
-
-      const mockHandlers = {
-        onUpdateSection: jest.fn(),
-        onDeleteSection: jest.fn(),
-        onDuplicateSection: jest.fn(),
-        onAddPage: jest.fn(),
-        onMoveSection: jest.fn()
-      };
-
       const wrapper = render({
         loading: false,
         match,
-        data,
+        section,
         ...mockHandlers
       });
 
@@ -408,38 +367,17 @@ describe("SectionRoute", () => {
     });
 
     it("should enable move section button when multiple sections", () => {
-      const data = {
-        section: {
-          id: "1",
-          title: "foo",
-          alias: "foo-alias",
-          displayName: "foo",
-          description: "bar",
-          introductionTitle: null,
-          introductionContent: null,
-          introductionEnabled: false,
-          position: 0,
-          questionnaire: {
-            id: "1",
-            questionnaireInfo: {
-              totalSectionCount: 2
-            }
-          }
+      const questionnaire = {
+        id: "1",
+        questionnaireInfo: {
+          totalSectionCount: 2
         }
-      };
-
-      const mockHandlers = {
-        onUpdateSection: jest.fn(),
-        onDeleteSection: jest.fn(),
-        onDuplicateSection: jest.fn(),
-        onAddPage: jest.fn(),
-        onMoveSection: jest.fn()
       };
 
       const wrapper = render({
         loading: false,
         match,
-        data,
+        section: { ...section, questionnaire },
         ...mockHandlers
       });
 
@@ -449,38 +387,17 @@ describe("SectionRoute", () => {
     });
 
     it("should call onDuplicateSection with the section id and position when the duplicate button is clicked", () => {
-      const data = {
-        section: {
-          id: "1",
-          title: "foo",
-          alias: "foo-alias",
-          displayName: "foo",
-          description: "bar",
-          introductionTitle: null,
-          introductionContent: null,
-          introductionEnabled: false,
-          position: 0,
-          questionnaire: {
-            id: "1",
-            questionnaireInfo: {
-              totalSectionCount: 2
-            }
-          }
+      const questionnaire = {
+        id: "1",
+        questionnaireInfo: {
+          totalSectionCount: 2
         }
-      };
-
-      const mockHandlers = {
-        onUpdateSection: jest.fn(),
-        onDeleteSection: jest.fn(),
-        onDuplicateSection: jest.fn(),
-        onAddPage: jest.fn(),
-        onMoveSection: jest.fn()
       };
 
       const wrapper = render({
         loading: false,
         match,
-        data,
+        section: { ...section, questionnaire },
         ...mockHandlers
       });
 
@@ -489,42 +406,16 @@ describe("SectionRoute", () => {
         .simulate("click");
 
       expect(mockHandlers.onDuplicateSection).toHaveBeenCalledWith({
-        sectionId: data.section.id,
-        position: data.section.position + 1
+        sectionId: section.id,
+        position: section.position + 1
       });
     });
 
     it("should disable the preview tab when the introduction is disabled", () => {
-      const data = {
-        section: {
-          id: "1",
-          title: "foo",
-          alias: "foo-alias",
-          displayName: "foo",
-          description: "bar",
-          introductionTitle: null,
-          introductionContent: null,
-          introductionEnabled: false,
-          position: 0,
-          questionnaire: {
-            id: "1",
-            questionnaireInfo: { totalSectionCount: 2 }
-          }
-        }
-      };
-
-      const mockHandlers = {
-        onUpdateSection: jest.fn(),
-        onDeleteSection: jest.fn(),
-        onDuplicateSection: jest.fn(),
-        onAddPage: jest.fn(),
-        onMoveSection: jest.fn()
-      };
-
       const wrapper = render({
         loading: false,
         match,
-        data,
+        section,
         ...mockHandlers
       });
 
@@ -538,36 +429,10 @@ describe("SectionRoute", () => {
     });
 
     it("should enable the preview tab when the introduction is enabled", () => {
-      const data = {
-        section: {
-          id: "1",
-          title: "foo",
-          alias: "foo-alias",
-          displayName: "foo",
-          description: "bar",
-          introductionTitle: null,
-          introductionContent: null,
-          introductionEnabled: true,
-          position: 0,
-          questionnaire: {
-            id: "1",
-            questionnaireInfo: { totalSectionCount: 2 }
-          }
-        }
-      };
-
-      const mockHandlers = {
-        onUpdateSection: jest.fn(),
-        onDeleteSection: jest.fn(),
-        onDuplicateSection: jest.fn(),
-        onAddPage: jest.fn(),
-        onMoveSection: jest.fn()
-      };
-
       const wrapper = render({
         loading: false,
         match,
-        data,
+        section: { ...section, introductionEnabled: true },
         ...mockHandlers
       });
 

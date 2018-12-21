@@ -1,6 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
-import { UnwrappedSectionEditor } from "components/SectionEditor";
+import SectionEditor from "components/SectionEditor";
 import RichTextEditor from "components/RichTextEditor";
 
 describe("SectionEditor", () => {
@@ -35,7 +35,7 @@ describe("SectionEditor", () => {
 
   const render = ({ ...props }) =>
     shallow(
-      <UnwrappedSectionEditor
+      <SectionEditor
         section={section1}
         showDeleteConfirmDialog={false}
         showMoveSectionDialog={false}

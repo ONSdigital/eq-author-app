@@ -15,6 +15,7 @@ const METADATA = "example_metadata";
 const clickPipingButton = () =>
   cy
     .get(testId("piping-button"))
+    .should("have.length", 1)
     .first()
     .click();
 
@@ -42,6 +43,9 @@ const canPipePreviousAnswer = ({ selector }) => {
   cy.get(testId(selector, "testid")).focus();
   clickPipingButton();
   selectFirstAnswerFromContentPicker();
+  cy.focused()
+    .should("have.attr", "data-testid")
+    .and("eq", selector);
   cy.get(testId(selector, "testid")).should("contain", `[${ANSWER}]`);
 };
 

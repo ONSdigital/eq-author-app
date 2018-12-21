@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AliasEditor should render 1`] = `
+<AliasEditor__Wrapper>
+  <AliasEditor__StyledWrappingInput
+    data-test="alias"
+    id="alias"
+    maxLength={255}
+    maxRows={1}
+    name="alias"
+    onBlur={[MockFunction]}
+    onChange={[MockFunction]}
+    placeholder="Shortcode"
+    value="FooBar"
+  />
+  <CharacterCounter
+    limit={24}
+    value="FooBar"
+  />
+</AliasEditor__Wrapper>
+`;

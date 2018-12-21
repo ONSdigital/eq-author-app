@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import gql from "graphql-tag";
 import CustomPropTypes from "custom-prop-types";
 import PropTypes from "prop-types";
-import { flowRight, isFunction, isNil } from "lodash";
+import { get, flowRight, isFunction, isEmpty } from "lodash";
 import fp from "lodash/fp";
 import { Titled } from "react-titled";
 
@@ -24,10 +24,19 @@ import withCreatePage from "containers/enhancers/withCreatePage";
 import withCreateSection from "containers/enhancers/withCreateSection";
 import withMoveSection from "containers/enhancers/withMoveSection";
 
+import { Label } from "components/Forms";
+
 import Loading from "components/Loading";
 import Error from "components/Error";
+import VisuallyHidden from "components/VisuallyHidden";
+
+import withEntityEditor from "components/withEntityEditor";
+import { withPropRenamed } from "utils/enhancers";
+import sectionFragment from "graphql/fragments/section.graphql";
 
 import { raiseToast } from "redux/toast/actions";
+import AliasEditor from "components/AliasEditor";
+
 export class UnwrappedSectionRoute extends React.Component {
   static propTypes = {
     match: CustomPropTypes.match,
@@ -36,11 +45,11 @@ export class UnwrappedSectionRoute extends React.Component {
     onAddPage: PropTypes.func.isRequired,
     onMoveSection: PropTypes.func.isRequired,
     onDuplicateSection: PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired,
+    onUpdate: PropTypes.func.isRequired,
     error: PropTypes.object, // eslint-disable-line
     loading: PropTypes.bool.isRequired,
-    data: PropTypes.shape({
-      section: CustomPropTypes.section
-    })
+    section: CustomPropTypes.section
   };
 
   state = {
@@ -86,10 +95,7 @@ export class UnwrappedSectionRoute extends React.Component {
   };
 
   handleDuplicateSection = () => {
-    const {
-      onDuplicateSection,
-      data: { section }
-    } = this.props;
+    const { onDuplicateSection, section } = this.props;
     onDuplicateSection({
       sectionId: section.id,
       position: section.position + 1
@@ -107,30 +113,35 @@ export class UnwrappedSectionRoute extends React.Component {
   );
 
   renderContent() {
-    const { loading, error, data } = this.props;
-
+    const { loading, error, section, onUpdate, onChange } = this.props;
     if (loading) {
       return <Loading height="24.25rem">Section loading…</Loading>;
     }
     if (error) {
       return <Error>Something went wrong</Error>;
     }
-    if (isNil(data.section)) {
+    if (isEmpty(section)) {
       return <Error>Oops! Section could not be found</Error>;
     }
 
     return (
-      <Titled title={this.getSectionTitle(data.section)}>
+      <Titled title={this.getSectionTitle(section)}>
         <Toolbar>
+          <VisuallyHidden>
+            <Label htmlFor="alias">Section short code (optional)</Label>
+          </VisuallyHidden>
+          <AliasEditor
+            alias={section.alias}
+            onUpdate={onUpdate}
+            onChange={onChange}
+          />
           <Buttons>
             <Button
               onClick={this.handleOpenMoveSectionDialog}
               data-test="btn-move"
               variant="tertiary"
               small
-              disabled={this.isMoveSectionButtonDisabled(
-                data.section.questionnaire
-              )}
+              disabled={this.isMoveSectionButtonDisabled(section.questionnaire)}
             >
               <IconText icon={IconMove}>Move</IconText>
             </Button>
@@ -149,10 +160,7 @@ export class UnwrappedSectionRoute extends React.Component {
           </Buttons>
         </Toolbar>
         <SectionEditor
-          key={data.section.id}
-          section={
-            data.section // this is needed to reset the state of the RichTextEditors when moving between sections
-          }
+          key={section.id}
           onUpdate={this.props.onUpdateSection}
           showDeleteConfirmDialog={this.state.showDeleteConfirmDialog}
           onCloseDeleteConfirmDialog={this.handleCloseDeleteConfirmDialog}
@@ -161,20 +169,19 @@ export class UnwrappedSectionRoute extends React.Component {
           onCloseMoveSectionDialog={this.handleCloseMoveSectionDialog}
           onMoveSectionDialog={this.handleMoveSection}
           {...this.props}
+          section={section}
         />
       </Titled>
     );
   }
 
   render() {
-    const { data = {} } = this.props;
-    const section = data.section || {};
-
+    const { section = {} } = this.props;
     const isPreviewEnabled = Boolean(section.introductionEnabled);
 
     return (
       <EditorLayout
-        section={data.section}
+        section={section}
         onUpdate={this.props.onUpdateSection}
         onAddPage={this.handleAddPage}
         data-test="section-route"
@@ -197,8 +204,12 @@ const withSectionEditing = flowRight(
   withUpdateSection,
   withDeleteSection,
   withCreatePage,
-  withMoveSection
+  withMoveSection,
+  withPropRenamed("onUpdateSection", "onUpdate"),
+  withEntityEditor("section", sectionFragment)
 );
+
+const WrappedSectionRoute = withSectionEditing(UnwrappedSectionRoute);
 
 export const SECTION_QUERY = gql`
   query SectionQuery($id: ID!) {
@@ -218,8 +229,14 @@ export const SECTION_QUERY = gql`
   ${SectionEditor.fragments.Section}
 `;
 
-export default withSectionEditing(props => (
+export default props => (
   <Query query={SECTION_QUERY} variables={{ id: props.match.params.sectionId }}>
-    {innerProps => <UnwrappedSectionRoute {...innerProps} {...props} />}
+    {innerProps => (
+      <WrappedSectionRoute
+        section={get(innerProps, "data.section", {})}
+        {...innerProps}
+        {...props}
+      />
+    )}
   </Query>
-));
+);

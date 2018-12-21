@@ -86,7 +86,7 @@ const movePageMock = {
 };
 
 describe("QuestionPageRoute", () => {
-  let store, match, context, childContextTypes;
+  let store, match, context, childContextTypes, mockHandlers;
 
   beforeEach(() => {
     childContextTypes = { router: PropTypes.object };
@@ -108,6 +108,25 @@ describe("QuestionPageRoute", () => {
       location: { pathname: buildPagePath(match.params) },
       match
     });
+
+    mockHandlers = {
+      onMovePage: jest.fn(),
+      onUpdatePage: jest.fn(),
+      onDeletePage: jest.fn(),
+      onAddPage: jest.fn(),
+      onAddExclusive: jest.fn(),
+      onUpdateAnswer: jest.fn(),
+      onAddAnswer: jest.fn(),
+      onDeleteAnswer: jest.fn(),
+      onAddOption: jest.fn(),
+      onUpdateOption: jest.fn(),
+      onDeleteOption: jest.fn(),
+      onAddOther: jest.fn(),
+      onDeleteOther: jest.fn(),
+      onDuplicatePage: jest.fn(),
+      onChange: jest.fn(),
+      onUpdate: jest.fn()
+    };
   });
 
   describe("data fetching", () => {
@@ -154,7 +173,7 @@ describe("QuestionPageRoute", () => {
         }
       };
 
-      const wrapper = render([mock, mock, movePageMock, movePageMock]);
+      const wrapper = render([mock, movePageMock]);
 
       expect(wrapper.find(`[data-test="loading"]`).exists()).toBe(true);
       expect(wrapper.find(`[data-test="question-page-editor"]`).exists()).toBe(
@@ -225,11 +244,7 @@ describe("QuestionPageRoute", () => {
           error={new Error("oops")}
           loading={false}
           match={match}
-          onAddAnswer={jest.fn()}
-          onDeletePage={jest.fn()}
-          onMovePage={jest.fn()}
-          onAddPage={jest.fn()}
-          onDuplicatePage={jest.fn()}
+          {...mockHandlers}
         />
       );
 
@@ -266,25 +281,25 @@ describe("QuestionPageRoute", () => {
   });
 
   describe("behaviour", () => {
-    let mockHandlers;
-
-    beforeEach(() => {
-      mockHandlers = {
-        onMovePage: jest.fn(),
-        onUpdatePage: jest.fn(),
-        onDeletePage: jest.fn(),
-        onAddPage: jest.fn(),
-        onAddExclusive: jest.fn(),
-        onUpdateAnswer: jest.fn(),
-        onAddAnswer: jest.fn(),
-        onDeleteAnswer: jest.fn(),
-        onAddOption: jest.fn(),
-        onUpdateOption: jest.fn(),
-        onDeleteOption: jest.fn(),
-        onDuplicatePage: jest.fn()
-      };
-    });
-
+    const page = {
+      __typename: "QuestionPage",
+      id: "3",
+      title: "foo",
+      alias: "foo-alias",
+      displayName: "foo",
+      description: "bar",
+      pageType: "QuestionPage",
+      position: 0,
+      guidance: "",
+      answers: [],
+      section: {
+        __typename: "Section",
+        questionnaire: {
+          __typename: "Questionnaire",
+          metadata: []
+        }
+      }
+    };
     const render = (props = {}, renderer = mount) =>
       renderer(
         <TestProvider
@@ -297,32 +312,10 @@ describe("QuestionPageRoute", () => {
       );
 
     it("ensures confirmation before delete", () => {
-      const data = {
-        questionPage: {
-          __typename: "QuestionPage",
-          id: "3",
-          title: "foo",
-          alias: "foo-alias",
-          displayName: "foo",
-          description: "bar",
-          pageType: "QuestionPage",
-          position: 0,
-          guidance: "",
-          answers: [],
-          section: {
-            __typename: "Section",
-            questionnaire: {
-              __typename: "Questionnaire",
-              metadata: []
-            }
-          }
-        }
-      };
-
       const wrapper = render({
         loading: false,
         match,
-        data,
+        page,
         ...mockHandlers
       });
 
@@ -340,34 +333,12 @@ describe("QuestionPageRoute", () => {
     });
 
     it("should allow answers to be added", () => {
-      const data = {
-        questionPage: {
-          __typename: "QuestionPage",
-          id: "3",
-          title: "foo",
-          alias: "foo-alias",
-          description: "bar",
-          pageType: "QuestionPage",
-          position: 0,
-          guidance: "",
-          answers: [],
-          section: {
-            __typename: "Section",
-            questionnaire: {
-              __typename: "Questionnaire",
-              metadata: []
-            }
-          }
-        }
-      };
-
       const onAddAnswer = jest.fn(() => Promise.resolve(() => ({ id: "1" })));
-
       const wrapper = render(
         {
           loading: false,
           match,
-          data,
+          page,
           ...mockHandlers,
           onAddAnswer
         },
@@ -388,32 +359,11 @@ describe("QuestionPageRoute", () => {
     });
 
     it("should call onDuplicatePage prop with correct arguments", () => {
-      const data = {
-        questionPage: {
-          __typename: "QuestionPage",
-          id: "3",
-          title: "foo",
-          alias: "foo-alias",
-          description: "bar",
-          pageType: "QuestionPage",
-          position: 0,
-          guidance: "",
-          answers: [],
-          section: {
-            __typename: "Section",
-            questionnaire: {
-              __typename: "Questionnaire",
-              metadata: []
-            }
-          }
-        }
-      };
-
       const wrapper = render(
         {
           loading: false,
           match,
-          data,
+          page,
           ...mockHandlers
         },
         mount
@@ -426,8 +376,8 @@ describe("QuestionPageRoute", () => {
 
       expect(mockHandlers.onDuplicatePage).toHaveBeenCalledWith({
         sectionId: match.params.sectionId,
-        pageId: data.questionPage.id,
-        position: parseInt(data.questionPage.position, 10) + 1
+        pageId: page.id,
+        position: parseInt(page.position, 10) + 1
       });
     });
   });

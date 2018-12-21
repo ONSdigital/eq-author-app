@@ -1,6 +1,7 @@
+import { colors } from "constants/theme";
 import React from "react";
 import { shallow } from "enzyme";
-import CharacterCounter from "components/CharacterCounter/index";
+import CharacterCounter, { Counter } from "components/CharacterCounter";
 
 const createWrapper = (props = {}, render = shallow) => {
   return render(<CharacterCounter {...props} />);
@@ -28,7 +29,7 @@ describe("CharacterCounter", () => {
       ...props,
       value: "FooBarFooBarFooBar"
     });
-    expect(wrapper).toMatchSnapshot();
+    expect(wrapper.find(Counter)).toMatchSnapshot();
   });
 
   it("should update counter with negative count when limit exceeded", () => {
@@ -45,5 +46,21 @@ describe("CharacterCounter", () => {
       value: null
     });
     expect(wrapper).toMatchSnapshot();
+  });
+
+  it("should render correct style when limit exceeded", () => {
+    wrapper = shallow(
+      <Counter limit={10} value={"FooBarFooBarFooBarFooBarFooBarFooBar"} />
+    );
+    expect(wrapper).toMatchSnapshot();
+    expect(wrapper).toHaveStyleRule("color", colors.red);
+    expect(wrapper).not.toHaveStyleRule("color", colors.lightGrey);
+  });
+
+  it("should render correct style when limit not exceeded", () => {
+    wrapper = shallow(<Counter {...props} />);
+    expect(wrapper).toMatchSnapshot();
+    expect(wrapper).toHaveStyleRule("color", colors.lightGrey);
+    expect(wrapper).not.toHaveStyleRule("color", colors.red);
   });
 });

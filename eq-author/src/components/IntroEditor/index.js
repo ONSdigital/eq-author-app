@@ -13,7 +13,7 @@ import Button from "components/Button";
 import IconText from "components/IconText";
 import AddPage from "components/QuestionnaireDesignPage/icon-add-page.svg?inline";
 import RichTextEditor from "components/RichTextEditor";
-import { Toolbar, Buttons } from "components/EditorToolbar";
+import { Buttons } from "components/EditorToolbar";
 import FadeTransition from "components/FadeTransition";
 import { TransitionGroup } from "react-transition-group";
 
@@ -31,11 +31,12 @@ const AddIntroButton = styled(Button)`
   border: 1px solid ${colors.bordersLight};
 `;
 
-const IntroToolbar = styled(Toolbar)`
+const IntroToolbar = styled.div`
   border: 1px solid ${colors.bordersLight};
   border-bottom: 0;
-  background-color: ${colors.white};
   border-radius: ${radius} ${radius} 0 0;
+  display: flex;
+  padding: 1em 1em 0;
 `;
 
 export const IntroCanvas = styled.div`

@@ -4,13 +4,9 @@ import withToggleAnswerValidation from "containers/enhancers/withToggleAnswerVal
 import withUpdateAnswerValidation from "containers/enhancers/withUpdateAnswerValidation";
 import withEntityEditor from "components/withEntityEditor";
 
-import withAnswerValidation from "components/Validation/withAnswerValidation";
+import withAnswerValidation from "../withAnswerValidation";
 
-import {
-  withProps,
-  withPropRenamed,
-  withPropRemapped
-} from "components/Validation/Date/enhancers";
+import { withProps, withPropRenamed, withPropRemapped } from "utils/enhancers";
 
 export default (
   displayName,
