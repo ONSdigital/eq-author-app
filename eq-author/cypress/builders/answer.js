@@ -17,6 +17,7 @@ const configureMultipleChoice = ({ initialCount }, { options }) => {
       cy.get(testId("btn-add-option")).click();
     }
   });
+  cy.get(testId("option-label")).should("have.length", options.length);
 };
 
 const configueBasicAnswer = ({ label, description }) => {

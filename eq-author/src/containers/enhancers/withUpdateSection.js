@@ -4,11 +4,9 @@ import updateSectionMutation from "graphql/updateSection.graphql";
 
 export const mapMutateToProps = ({ mutate }) => ({
   onUpdateSection(section) {
-    const mutation = mutate({
+    return mutate({
       variables: { input: section }
     });
-
-    return mutation.then(() => mutation);
   }
 });
 

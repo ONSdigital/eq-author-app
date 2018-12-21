@@ -3,21 +3,12 @@ import { question, questionnaire, section } from "../builders";
 describe("End to end", () => {
   let questionnaireId;
 
-  before(() => {
-    cy.visit("/");
-  });
-
-  beforeEach(() => {
-    cy.login();
-  });
-
   it("Can create a questionnaire", () => {
+    cy.visit("/");
+    cy.login();
     questionnaire.add({ title: "UKIS" }).then(({ id }) => {
       questionnaireId = id;
     });
-  });
-
-  it("Can create General Business Information Section", () => {
     section.updateInitial({
       title: "General Business Information"
     });
