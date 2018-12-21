@@ -35,11 +35,8 @@ const IntroToolbar = styled.div`
   border: 1px solid ${colors.bordersLight};
   border-bottom: 0;
   border-radius: ${radius} ${radius} 0 0;
-  padding: 1.5em;
-`;
-
-const StyledWrapper = styled.div`
-  float: right;
+  display: flex;
+  padding: 1em 1em 0;
 `;
 
 export const IntroCanvas = styled.div`
@@ -77,15 +74,13 @@ export class UnwrappedIntroEditor extends React.Component {
             <FadeTransition exit={false}>
               <div>
                 <IntroToolbar>
-                  <StyledWrapper>
-                    <Buttons>
-                      <IconButtonDelete
-                        onClick={this.handleDeleteSectionIntroduction}
-                        data-test="btn-delete"
-                        iconText="Delete Introduction"
-                      />
-                    </Buttons>
-                  </StyledWrapper>
+                  <Buttons>
+                    <IconButtonDelete
+                      onClick={this.handleDeleteSectionIntroduction}
+                      data-test="btn-delete"
+                      iconText="Delete Introduction"
+                    />
+                  </Buttons>
                 </IntroToolbar>
                 <IntroCanvas>
                   <RichTextEditor

@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const Toolbar = styled.div`
   display: flex;
   align-items: center;
-  padding: 2em;
+  padding: 1.5em 2em;
 `;
 
 export const Buttons = styled.div`
