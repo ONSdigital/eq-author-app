@@ -5,6 +5,8 @@ import { UnconnectedHeader as Header } from "components/Header";
 import { MemoryRouter } from "react-router";
 
 const user = {
+  id: "1",
+  name: "Angelina McLongmoniker",
   photoURL: "",
   displayName: "Angelina McLongmoniker",
   email: "test@test.com"

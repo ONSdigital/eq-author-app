@@ -8,9 +8,11 @@ describe("UserProfile", () => {
   beforeEach(() => {
     onSignOut = jest.fn();
     user = {
+      id: "1",
       displayName: "Foo Bar",
+      name: "Foo Bar",
       email: "foo@b.ar",
-      photoURL: "http://foo.b.ar/photo.jpg"
+      picture: "http://foo.b.ar/photo.jpg"
     };
   });
 

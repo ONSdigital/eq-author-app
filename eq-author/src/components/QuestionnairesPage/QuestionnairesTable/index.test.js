@@ -19,6 +19,7 @@ describe("QuestionnairesTable", () => {
         }
       ],
       createdBy: {
+        id: "1",
         name: "Alan"
       }
     },
@@ -33,12 +34,15 @@ describe("QuestionnairesTable", () => {
         }
       ],
       createdBy: {
+        id: "2",
         name: "Lynn"
       }
     }
   ];
 
   const user = {
+    id: "3",
+    name: "Foo",
     email: "foo@bar.com",
     displayName: "Foo"
   };

@@ -8,13 +8,12 @@ import { raiseToast } from "redux/toast/actions";
 
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 
 import Button from "components/Button";
 import LinkButton from "components/Button/LinkButton";
 import UserProfile from "components/UserProfile";
 
-import { getUser } from "redux/auth/reducer";
 import { signOutUser } from "redux/auth/actions";
 
 import logo from "./logo.svg";
@@ -24,6 +23,10 @@ import viewIcon from "./icon-view.svg?inline";
 
 import IconText from "components/IconText";
 import Truncated from "../Truncated";
+import gql from "graphql-tag";
+import { Query } from "react-apollo";
+import { flowRight, get } from "lodash/fp";
+import { Routes } from "utils/UrlUtils";
 
 const StyledHeader = styled.header`
   display: flex;
@@ -88,7 +91,6 @@ export const UtilityBtns = styled.div`
 export class UnconnectedHeader extends React.Component {
   static propTypes = {
     questionnaire: CustomPropTypes.questionnaire,
-    user: CustomPropTypes.user,
     signOutUser: PropTypes.func.isRequired,
     raiseToast: PropTypes.func.isRequired
   };
@@ -117,6 +119,7 @@ export class UnconnectedHeader extends React.Component {
 
   render() {
     const { questionnaire } = this.props;
+    const currentUser = get("data.me", this.props);
 
     return (
       <StyledHeader>
@@ -152,9 +155,9 @@ export class UnconnectedHeader extends React.Component {
               </ShareButton>
             </React.Fragment>
           )}
-          {this.props.user && (
+          {currentUser && (
             <StyledUserProfile
-              user={this.props.user}
+              user={currentUser}
               onSignOut={this.handleSignOut}
             />
           )}
@@ -164,11 +167,33 @@ export class UnconnectedHeader extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  user: getUser(state)
-});
+const CURRENT_USER_QUERY = gql`
+  query GetCurrentUser {
+    me {
+      id
+      name
+      email
+      picture
+    }
+  }
+`;
 
-export default connect(
-  mapStateToProps,
-  { signOutUser, raiseToast }
+export const withCurrentUser = Component => props =>
+  props.match.path !== Routes.SIGN_IN ? (
+    <Query query={CURRENT_USER_QUERY} fetchPolicy="network-only">
+      {innerProps => {
+        return <Component {...innerProps} {...props} />;
+      }}
+    </Query>
+  ) : (
+    <Component {...props} />
+  );
+
+export default flowRight(
+  connect(
+    null,
+    { signOutUser, raiseToast }
+  ),
+  withRouter,
+  withCurrentUser
 )(UnconnectedHeader);

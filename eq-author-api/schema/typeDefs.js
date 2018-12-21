@@ -7,7 +7,10 @@ scalar JSON
 directive @deprecated(reason: String) on INPUT_FIELD_DEFINITION | ARGUMENT_DEFINITION |ENUM_VALUE | FIELD_DEFINITION | INPUT_OBJECT
 
 type User {
+  id: ID!
   name: String!
+  picture: String
+  email: String
 }
 
 type QuestionnaireInfo {
@@ -407,6 +410,7 @@ type Query {
   pagesAffectedByDeletion(pageId: ID!): [Page]! @deprecated(reason: "Not implemented")
   availableRoutingDestinations(pageId: ID!): AvailableRoutingDestinations! @deprecated(reason: "Use availableRoutingDestinations on QuestionPage type instead")
   questionConfirmation(id: ID!): QuestionConfirmation
+  me: User!
 }
 
 type Mutation {
@@ -473,7 +477,6 @@ input CreateQuestionnaireInput {
   navigation: Boolean
   surveyId: String!
   summary: Boolean
-  createdBy: String
 }
 
 input UpdateQuestionnaireInput {
@@ -497,7 +500,6 @@ input UndeleteQuestionnaireInput {
 
 input DuplicateQuestionnaireInput {
   id: ID!
-  createdBy: String!
 }
 
 input CreateSectionInput {

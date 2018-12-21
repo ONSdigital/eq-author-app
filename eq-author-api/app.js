@@ -8,6 +8,7 @@ const pinoMiddleware = require("express-pino-logger");
 const { PORT } = require("./config/settings");
 const status = require("./middleware/status");
 const { getLaunchUrl } = require("./middleware/launch");
+const createAuthMiddleware = require("./middleware/auth");
 
 const app = express();
 const pino = pinoMiddleware();
@@ -24,10 +25,13 @@ db(process.env.DB_SECRET_ID)
 
     const context = { repositories: repositories(knex) };
 
+    const authMiddleware = createAuthMiddleware(logger, context);
+
     app.use(
       "/graphql",
       pino,
       cors(),
+      authMiddleware,
       bodyParser.json(),
       graphqlExpress({
         schema,

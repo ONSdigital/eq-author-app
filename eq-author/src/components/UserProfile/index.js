@@ -35,8 +35,7 @@ export const LogoutButton = styled(Button)`
     background: ${colors.white};
     color: ${colors.text};
   }
-
-  &:focus {
+  QuestionnairesTable/index.test.js &:focus {
     box-shadow: 0 0 0 3px ${colors.tertiary};
     outline: none;
   }
@@ -51,11 +50,11 @@ const UserProfile = ({ user, onSignOut, ...otherProps }) => (
       {...otherProps}
     >
       <UserAvatar
-        src={user.photoURL || guestAvatar}
+        src={user.picture || guestAvatar}
         alt=""
         role="presentation"
       />
-      <UserName data-test="username">{user.displayName}</UserName>
+      <UserName data-test="username">{user.name}</UserName>
     </LogoutButton>
   </Tooltip>
 );

@@ -28,11 +28,12 @@
     "graphql": "^14.0.2",
     "json-schema": "^0.2.3",
     "jsonschema": "^1.1.1",
+    "jsonwebtoken": "^8.4.0",
     "lodash": "^4.17.4",
     "nodemon": "^1.11.0",
     "request": "^2.83.0",
     "request-promise": "^4.2.2",
-    "uuid": "^3.0.1"
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
     "eslint": "^5.0.1",
@@ -51,7 +52,8 @@
     "coverageDirectory": "./coverage/",
     "collectCoverage": true,
     "collectCoverageFrom": [
-      "src/**/*.js"
+      "src/**/*.js",
+      "!src/main.js"
     ]
   },
   "husky": {

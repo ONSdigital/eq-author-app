@@ -6,7 +6,12 @@ describe("auth actions", () => {
   const user = {
     displayName: "foo",
     email: "foo@bar.com",
-    photoURL: "http://foo.org/bar.jpg"
+    photoURL: "http://foo.org/bar.jpg",
+    stsTokenManager: {
+      accessToken: "token"
+    },
+    toJSON: jest.fn(),
+    uid: "user_id"
   };
   let store, auth;
   const getActions = (config = {}) => {
@@ -88,8 +93,9 @@ describe("auth actions", () => {
 
     it("should sign in user if determined to be authenticated", () => {
       store.dispatch(verifyAuthStatus());
-      changeHandler(user);
-      expect(store.getActions()).toEqual([signInUser(user)]);
+      const toJSON = jest.fn().mockReturnValue(user);
+      changeHandler({ toJSON });
+      expect(store.getActions()).toEqual([signInUser(toJSON())]);
     });
 
     it("should not sign in user if determined to be unauthenticated", () => {
@@ -113,7 +119,8 @@ describe("auth actions", () => {
 
       it("should identify user with full story", () => {
         store.dispatch(verifyAuthStatus());
-        changeHandler(user);
+        const toJSON = jest.fn().mockReturnValue(user);
+        changeHandler({ toJSON });
 
         expect(FS.identify).toHaveBeenCalledWith(user.email, {
           displayName: user.displayName

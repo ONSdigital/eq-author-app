@@ -85,6 +85,8 @@ describe("SignInPage", () => {
         state: { returnURL: "/foobar" }
       };
 
+      localStorage.setItem("accessToken", "some auth token");
+
       const result = mapStateToProps({ auth }, { location });
 
       expect(result).toEqual({

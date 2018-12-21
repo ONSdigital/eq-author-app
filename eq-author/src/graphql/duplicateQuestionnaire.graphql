@@ -4,6 +4,7 @@ mutation duplicateQuestionnaire($input: DuplicateQuestionnaireInput!) {
     title
     createdAt
     createdBy {
+      id
       name
     }
   }

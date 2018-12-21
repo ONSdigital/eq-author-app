@@ -1,4 +1,4 @@
-import { get } from "lodash";
+import { get, isNil } from "lodash";
 import { SIGN_IN_USER, SIGN_OUT_USER } from "./actions";
 
 const initialState = {
@@ -26,5 +26,5 @@ export default (state = initialState, { type, payload }) => {
 };
 
 export const getUser = state => get(state, "auth.user");
-export const isSignedIn = state => Boolean(getUser(state));
+export const isSignedIn = () => !isNil(localStorage.getItem("accessToken"));
 export const verifiedAuthStatus = state => get(state, "auth.verifiedStatus");

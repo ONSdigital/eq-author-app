@@ -1,11 +1,25 @@
-import { setQuestionnaireSettings, testId } from "../utils";
+/* eslint-disable camelcase */
+import { setQuestionnaireSettings, testId, createAccessToken } from "../utils";
+import { get } from "lodash/fp";
 
 Cypress.Commands.add("login", options => {
+  const tokenPayload = {
+    user_id: "CypressUserId",
+    name: get("displayName", options) || "Cypress",
+    email: "cypresstest@ons.gov.uk",
+    picture: ""
+  };
+
+  const accessToken = createAccessToken(tokenPayload);
+  window.localStorage.setItem("accessToken", accessToken);
+
   const payload = Object.assign(
     {
-      displayName: "Cypress",
-      email: "cypresstest@ons.gov.uk",
-      photoURL: "https://avatars0.githubusercontent.com/u/8908513?s=64"
+      id: tokenPayload.user_id,
+      name: tokenPayload.name,
+      displayName: tokenPayload.name,
+      email: tokenPayload.email,
+      photoURL: tokenPayload.picture
     },
     options
   );
@@ -20,6 +34,7 @@ Cypress.Commands.add("login", options => {
 });
 
 Cypress.Commands.add("logout", () => {
+  window.localStorage.removeItem("accessToken");
   cy.window()
     .its("__store__")
     .then(store => {

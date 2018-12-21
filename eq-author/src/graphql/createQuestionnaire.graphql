@@ -4,6 +4,7 @@ mutation createQuestionnaire($input: CreateQuestionnaireInput!) {
     title
     createdAt
     createdBy {
+      id
       name
     }
     sections {

@@ -21,7 +21,11 @@ describe("withDuplicateQuestionnaire", () => {
 
     questionnaire = {
       id: "1",
-      title: "My questionnaire"
+      title: "My questionnaire",
+      createdBy: {
+        name: "Foo Person",
+        __typename: "User"
+      }
     };
 
     user = {
@@ -61,8 +65,7 @@ describe("withDuplicateQuestionnaire", () => {
         expect(mutate).toHaveBeenCalledWith({
           variables: {
             input: {
-              id: questionnaire.id,
-              createdBy: "Foo Person"
+              id: questionnaire.id
             }
           },
           optimisticResponse: {

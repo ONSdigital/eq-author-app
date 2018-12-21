@@ -5,9 +5,6 @@ import CustomPropTypes from "custom-prop-types";
 import { TransitionGroup } from "react-transition-group";
 import { isEmpty } from "lodash";
 import gql from "graphql-tag";
-import { connect } from "react-redux";
-
-import { getUser } from "redux/auth/reducer";
 import scrollIntoView from "utils/scrollIntoView";
 
 import Row from "./Row";
@@ -37,8 +34,7 @@ export class UnconnectedQuestionnairesTable extends React.PureComponent {
   static propTypes = {
     questionnaires: CustomPropTypes.questionnaireList,
     onDeleteQuestionnaire: PropTypes.func.isRequired,
-    onDuplicateQuestionnaire: PropTypes.func.isRequired,
-    user: CustomPropTypes.user
+    onDuplicateQuestionnaire: PropTypes.func.isRequired
   };
 
   static fragments = {
@@ -48,6 +44,7 @@ export class UnconnectedQuestionnairesTable extends React.PureComponent {
         title
         createdAt
         createdBy {
+          id
           name
         }
       }
@@ -63,7 +60,7 @@ export class UnconnectedQuestionnairesTable extends React.PureComponent {
   handleDuplicateQuestionnaire = questionnaire => {
     scrollIntoView(this.headRef.current);
     this.props
-      .onDuplicateQuestionnaire(questionnaire, this.props.user)
+      .onDuplicateQuestionnaire(questionnaire)
       .then(duplicateQuestionnaire => {
         this.setState({ focusedId: duplicateQuestionnaire.id });
       });
@@ -124,8 +121,4 @@ export class UnconnectedQuestionnairesTable extends React.PureComponent {
   }
 }
 
-export const mapStateToProps = state => ({
-  user: getUser(state)
-});
-
-export default connect(mapStateToProps)(UnconnectedQuestionnairesTable);
+export default UnconnectedQuestionnairesTable;

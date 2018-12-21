@@ -7,11 +7,12 @@ import createApolloCache from "apollo/createApolloCache";
 import createHttpLink from "apollo/createHttpLink";
 import createErrorLink from "apollo/createApolloErrorLink";
 import { ApolloLink } from "apollo-link";
-
+import { setContext } from "apollo-link-context";
 import config from "config";
 import App from "containers/App";
 import getIdForObject from "utils/getIdForObject";
 import render from "utils/render";
+import appendAuthHeader from "utils/appendAuthHeader";
 
 if (config.REACT_APP_USE_SENTRY === "true") {
   Raven.config(
@@ -41,9 +42,13 @@ const cache = createApolloCache({
 
 const history = createHistory();
 
+const httpLink = createHttpLink(config.REACT_APP_API_URL);
+
+const authLink = setContext((_, { headers }) => appendAuthHeader(headers));
+
 const link = ApolloLink.from([
   createErrorLink(getStore),
-  createHttpLink(config.REACT_APP_API_URL)
+  authLink.concat(httpLink)
 ]);
 
 const client = createApolloClient(link, cache);

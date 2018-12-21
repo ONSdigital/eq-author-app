@@ -56,14 +56,9 @@ describe("withCreateQuestionnaire", () => {
     });
 
     it("should redirect after mutation", () => {
-      const input = {
-        ...questionnaire,
-        createdBy: user.displayName
-      };
-
       return props.onCreateQuestionnaire(questionnaire).then(() => {
         expect(mutate).toHaveBeenCalledWith({
-          variables: { input }
+          variables: { input: questionnaire }
         });
         expect(history.push).toHaveBeenCalled();
       });

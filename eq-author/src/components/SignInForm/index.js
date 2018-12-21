@@ -43,7 +43,7 @@ SignInForm.defaultProps = {
     signInOptions: providers,
     credentialHelper,
     callbacks: {
-      signInSuccess: () => false // Avoid redirects after sign-in.
+      signInSuccessWithAuthResult: () => false // Avoid redirects after sign-in.
     }
   }
 };

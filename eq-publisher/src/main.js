@@ -6,6 +6,8 @@ const schemaConverter = require("./middleware/schemaConverter");
 const respondWithData = require("./middleware/respondWithData");
 const status = require("./middleware/status");
 const noContent = require("./middleware/nocontent");
+const createAuthToken = require("./middleware/createAuthToken");
+const createAuthHeaderMiddleware = require("./middleware/createAuthHeaderMiddleware");
 const { isNil } = require("lodash");
 
 const Convert = require("./process/Convert");
@@ -33,6 +35,7 @@ const converter = new Convert(
 
 const logger = pino();
 const app = express();
+const setAuthHeaders = createAuthHeaderMiddleware(apolloFetch);
 
 if (process.env.NODE_ENV === "development") {
   app.get("/graphql/:questionnaireId", logger, fetchData(api), respondWithData);
@@ -41,6 +44,8 @@ if (process.env.NODE_ENV === "development") {
 app.get(
   "/publish/:questionnaireId",
   logger,
+  createAuthToken,
+  setAuthHeaders,
   fetchData(api),
   schemaConverter(converter),
   respondWithData

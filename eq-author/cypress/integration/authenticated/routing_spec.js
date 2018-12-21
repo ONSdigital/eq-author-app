@@ -33,8 +33,6 @@ describe("Routing", () => {
   beforeEach(() => {
     cy.visit("/");
     cy.login();
-    // delete the previous questionnaire if it exists
-    title && cy.deleteQuestionnaire(title);
   });
 
   after(() => {

@@ -9,6 +9,7 @@ import duplicatePage from "../../fixtures/duplicatePage/duplicatePage";
 import GetQuestionnaire_Piping from "../../fixtures/GetQuestionnaire_Piping";
 import SectionQuery from "../../fixtures/SectionQuery";
 import duplicateSection from "../../fixtures/duplicateSection";
+import GetCurrentUser from "../../fixtures/GetCurrentUser";
 
 describe("Duplicate", () => {
   describe("Page duplication", () => {
@@ -19,7 +20,8 @@ describe("Duplicate", () => {
         GetQuestionnaire,
         GetQuestionnaire_Piping,
         UpdateQuestionPage,
-        duplicatePage
+        duplicatePage,
+        GetCurrentUser
       });
       cy.login();
 
@@ -44,6 +46,7 @@ describe("Duplicate", () => {
         GetQuestionnaire,
         GetQuestionnaire_Piping,
         duplicateSection,
+        GetCurrentUser,
         SectionQuery: req => {
           const {
             variables: { id }

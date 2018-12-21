@@ -28,9 +28,7 @@ class DurationValidation extends React.Component {
 
   renderContent = () => {
     const {
-      duration: {
-        duration
-      },
+      duration: { duration },
       displayName,
       onChange,
       onUpdate

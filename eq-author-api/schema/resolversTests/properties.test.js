@@ -33,8 +33,7 @@ describe("resolvers", () => {
         legalBasis: "Voluntary",
         navigation: false,
         surveyId: "001",
-        summary: true,
-        createdBy: "Integration test"
+        summary: true
       };
 
       const result = await executeQuery(
