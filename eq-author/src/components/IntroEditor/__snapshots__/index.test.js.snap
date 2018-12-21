@@ -39,16 +39,14 @@ exports[`Intro Editor should render section enabled 1`] = `
     >
       <div>
         <IntroEditor__IntroToolbar>
-          <IntroEditor__StyledWrapper>
-            <EditorToolbar__Buttons>
-              <IconButtonDelete
-                data-test="btn-delete"
-                hideText={false}
-                iconText="Delete Introduction"
-                onClick={[Function]}
-              />
-            </EditorToolbar__Buttons>
-          </IntroEditor__StyledWrapper>
+          <EditorToolbar__Buttons>
+            <IconButtonDelete
+              data-test="btn-delete"
+              hideText={false}
+              iconText="Delete Introduction"
+              onClick={[Function]}
+            />
+          </EditorToolbar__Buttons>
         </IntroEditor__IntroToolbar>
         <IntroEditor__IntroCanvas>
           <RichTextEditor
