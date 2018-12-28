@@ -1,6 +1,6 @@
 import { mapKeys } from "lodash";
 import { filterEditorState } from "draftjs-filters";
-import { filterConfig } from "../entities/PipedValue";
+import { filterConfig } from "components/RichTextEditor/entities/PipedValue";
 
 const mapper = {
   bold: { format: "BOLD", type: "styles" },

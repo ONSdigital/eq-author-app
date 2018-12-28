@@ -10,19 +10,19 @@ import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 import { Link, withRouter } from "react-router-dom";
 
-import Button from "components/Button";
-import LinkButton from "components/Button/LinkButton";
-import UserProfile from "components/UserProfile";
+import Button from "components/buttons/Button";
+import LinkButton from "components/buttons/Button/LinkButton";
+import UserProfile from "App/UserProfile";
 
 import { signOutUser } from "redux/auth/actions";
 
-import logo from "./logo.svg";
+import logo from "components/Header/logo.svg";
 
-import shareIcon from "./icon-share.svg?inline";
-import viewIcon from "./icon-view.svg?inline";
+import shareIcon from "components/Header/icon-share.svg?inline";
+import viewIcon from "components/Header/icon-view.svg?inline";
 
 import IconText from "components/IconText";
-import Truncated from "../Truncated";
+import Truncated from "components/Truncated";
 import gql from "graphql-tag";
 import { Query } from "react-apollo";
 import { flowRight, get } from "lodash/fp";
@@ -96,7 +96,7 @@ export class UnconnectedHeader extends React.Component {
   };
 
   displayToast = () => {
-    this.props.raiseToast("ShareToast", "Preview link copied to clipboard");
+    this.props.raiseToast("ShareToast", "Error link copied to clipboard");
   };
 
   handleSignOut = () => {

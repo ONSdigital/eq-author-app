@@ -1,7 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
 
-import DialogHeader from "components/Dialog/DialogHeader/index";
+import DialogHeader from "./";
 
 describe("DialogHeader", () => {
   let wrapper;

@@ -3,10 +3,10 @@ import styled from "styled-components";
 import { colors } from "constants/theme";
 import PropTypes from "prop-types";
 import VisuallyHidden from "components/VisuallyHidden";
-import IconMoveIndicator from "./icon-move-indicator.svg?inline";
+import IconMoveIndicator from "components/ItemSelectModal/icon-move-indicator.svg?inline";
 import { uniqueId } from "lodash";
-import withChangeHandler from "../Forms/withChangeHandler";
-import IconText from "../IconText";
+import withChangeHandler from "components/Forms/withChangeHandler";
+import IconText from "components/IconText";
 import Truncated from "components/Truncated";
 
 const Input = VisuallyHidden.withComponent("input");

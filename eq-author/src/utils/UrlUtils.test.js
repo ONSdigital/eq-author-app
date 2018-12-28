@@ -102,7 +102,7 @@ describe("buildPreviewPath", () => {
 });
 
 describe("buildRoutingPath", () => {
-  it("builds a page routing path", () => {
+  it("builds a page Routing path", () => {
     const path = buildRoutingPath({
       questionnaireId,
       sectionId,

@@ -1,5 +1,5 @@
 import React from "react";
-import PlainModal from "./PlainModal";
+import PlainModal from "components/ItemSelectModal/PlainModal";
 import { shallow } from "enzyme";
 
 describe("PositionModal/PlainModal", () => {

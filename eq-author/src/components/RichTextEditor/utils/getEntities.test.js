@@ -1,4 +1,4 @@
-import getEntities from "./getEntities";
+import getEntities from "components/RichTextEditor/utils/getEntities";
 import Raw from "draft-js-raw-content-state";
 
 describe("getEntities", () => {

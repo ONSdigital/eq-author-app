@@ -1,6 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
-import Form from "components/Forms/Form";
+import Form from "./";
 
 let wrapper;
 const handleSubmit = jest.fn();

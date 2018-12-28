@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import App from "components/App";
+import App from "./App";
 import Header from "components/Header";
 import ScrollPane from "components/ScrollPane";
 import { Titled } from "react-titled";
@@ -12,7 +12,7 @@ import ConnectedOfflineBanner from "components/OfflineBanner";
 import CustomPropTypes from "custom-prop-types";
 import { colors } from "constants/theme";
 
-import ToastContainer from "containers/ToastContainer";
+import ToastContainer from "components/ToastContainer";
 
 const Wrapper = styled.div`
   background-color: ${colors.lighterGrey};

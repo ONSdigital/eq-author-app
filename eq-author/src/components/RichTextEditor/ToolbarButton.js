@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import styled, { css } from "styled-components";
 
 import { colors } from "constants/theme";
-import Tooltip from "../Tooltip";
-import VisuallyHidden from "../VisuallyHidden";
+import Tooltip from "components/Forms/Tooltip";
+import VisuallyHidden from "components/VisuallyHidden";
 
 const activeState = css`
   color: ${colors.black};

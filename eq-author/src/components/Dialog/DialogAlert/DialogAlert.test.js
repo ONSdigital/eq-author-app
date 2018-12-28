@@ -3,7 +3,7 @@ import { shallow } from "enzyme";
 import {
   DialogAlertList,
   DialogAlert
-} from "components/Dialog/DialogAlert/index";
+} from "./";
 
 describe("components/Modal/DialogAlert", () => {
   let wrapper;

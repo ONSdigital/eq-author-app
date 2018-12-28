@@ -1,6 +1,6 @@
-import ContentPickerButton from "components/ContentPicker/ContentPickerButton";
 import React from "react";
 import { shallow } from "enzyme";
+import ContentPickerButton from "components/ContentPicker/ContentPickerButton";
 import GroupContentPicker from "components/ContentPicker/GroupContentPicker";
 import { byTestAttr } from "tests/utils/selectors";
 

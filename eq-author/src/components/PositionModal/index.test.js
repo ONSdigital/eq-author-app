@@ -1,5 +1,5 @@
 import React from "react";
-import PositionModal from ".";
+import PositionModal from "./";
 import { shallow } from "enzyme";
 import { buildSections } from "tests/utils/createMockQuestionnaire";
 import { byName, byTestAttr } from "tests/utils/selectors";
@@ -29,7 +29,7 @@ describe("PositionModal", () => {
     expect(createWrapper({})).toMatchSnapshot();
   });
 
-  it("should close modal on confirm", () => {
+  it("should close Modals on confirm", () => {
     const wrapper = createWrapper();
 
     getPositionModalTrigger(wrapper)
@@ -43,7 +43,7 @@ describe("PositionModal", () => {
     expect(getItemSelectModal(wrapper).prop("isOpen")).toBe(false);
   });
 
-  it("should close modal on cancel", () => {
+  it("should close Modals on cancel", () => {
     const wrapper = createWrapper();
 
     getPositionModalTrigger(wrapper)
@@ -82,7 +82,7 @@ describe("PositionModal", () => {
     expect(onMove).toHaveBeenCalledWith(position);
   });
 
-  it("resets the position if modal is closed", () => {
+  it("resets the position if Modals is closed", () => {
     const wrapper = createWrapper();
 
     getPositionModalTrigger(wrapper)

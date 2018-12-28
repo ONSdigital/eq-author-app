@@ -1,6 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
-import AliasEditor from "components/AliasEditor";
+import AliasEditor from "./";
 
 const createWrapper = (props = {}, render = shallow) => {
   return render(<AliasEditor {...props} />);

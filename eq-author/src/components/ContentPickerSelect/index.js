@@ -6,7 +6,7 @@ import { propType } from "graphql-anywhere";
 import { isNil } from "lodash";
 
 import ContentPickerModal from "components/ContentPickerModal";
-import Button from "components/Button";
+import Button from "components/buttons/Button";
 import Truncated from "components/Truncated";
 
 import { colors } from "constants/theme";
@@ -15,7 +15,7 @@ import LogicalDestination from "graphql/fragments/logical-destination.graphql";
 import QuestionPageDestination from "graphql/fragments/question-page-destination.graphql";
 import SectionDestination from "graphql/fragments/section-destination.graphql";
 
-import iconChevron from "./icon-chevron.svg";
+import iconChevron from "components/ContentPickerSelect/icon-chevron.svg";
 
 export const ContentSelectButton = styled(Button).attrs({
   variant: "tertiary"

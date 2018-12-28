@@ -3,7 +3,7 @@ import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import styled from "styled-components";
 
-import BaseTabs from "./";
+import BaseTabs from ".";
 
 const Padding = styled.div`
   padding: 2em;

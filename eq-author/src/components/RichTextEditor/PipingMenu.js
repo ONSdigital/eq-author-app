@@ -9,10 +9,13 @@ import shapeTree from "components/ContentPicker/shapeTree";
 
 import CustomPropTypes from "custom-prop-types";
 
-import IconPiping from "./icon-link.svg?inline";
-import ToolbarButton from "./ToolbarButton";
+import IconPiping from "components/RichTextEditor/icon-link.svg?inline";
+import ToolbarButton from "components/RichTextEditor/ToolbarButton";
 
-import { ANSWER, METADATA } from "components/ContentPickerSelect/content-types";
+import {
+  ANSWER,
+  METADATA
+} from "components/ContentPickerSelect/content-types";
 
 const PipingIconButton = props => (
   <ToolbarButton {...props}>

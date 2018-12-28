@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import Button from "components/Button";
+import Button from "components/buttons/Button";
 import styled, { css } from "styled-components";
 import { colors } from "constants/theme";
 

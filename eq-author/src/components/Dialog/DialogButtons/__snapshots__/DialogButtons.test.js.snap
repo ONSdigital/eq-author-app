@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Dialog buttons Invoking dialog button actions should render multiple actions 1`] = `
+exports[`Dialog Buttons Invoking dialog button actions should render multiple actions 1`] = `
 <DialogButtons__StyledButtonGroup>
   <DialogButtons__ActionButton
     autoFocus={true}
@@ -24,7 +24,7 @@ exports[`Dialog buttons Invoking dialog button actions should render multiple ac
 </DialogButtons__StyledButtonGroup>
 `;
 
-exports[`Dialog buttons should render the dialog buttons 1`] = `
+exports[`Dialog Buttons should render the dialog Buttons 1`] = `
 <DialogButtons__StyledButtonGroup>
   <DialogButtons__ActionButton
     autoFocus={true}

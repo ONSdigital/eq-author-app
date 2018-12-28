@@ -1,12 +1,12 @@
 import React from "react";
 import { shallow } from "enzyme";
-import DialogButtons from "components/Dialog/DialogButtons/index";
+import DialogButtons from "./";
 
 const createWrapper = (props, render = shallow) => {
   return render(<DialogButtons {...props} />);
 };
 
-describe("Dialog buttons", () => {
+describe("Dialog Buttons", () => {
   let wrapper;
   let props;
 
@@ -18,7 +18,7 @@ describe("Dialog buttons", () => {
     wrapper = createWrapper(props);
   });
 
-  it("should render the dialog buttons", () => {
+  it("should render the dialog Buttons", () => {
     expect(wrapper).toMatchSnapshot();
   });
 

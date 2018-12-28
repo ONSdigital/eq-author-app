@@ -2,9 +2,9 @@ import PropTypes from "prop-types";
 import React from "react";
 import styled, { css } from "styled-components";
 
-import PickerOption from "./PickerOption";
-import ContentPickerTitle from "./ContentPickerTitle";
-import ContentPickerPanel from "./ContentPickerPanel";
+import PickerOption from "components/ContentPicker/PickerOption";
+import ContentPickerTitle from "components/ContentPicker/ContentPickerTitle";
+import ContentPickerPanel from "components/ContentPicker/ContentPickerPanel";
 
 const openStyle = css`
   display: flex;

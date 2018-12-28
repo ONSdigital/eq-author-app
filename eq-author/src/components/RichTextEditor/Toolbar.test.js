@@ -1,7 +1,7 @@
 import React from "react";
 import Toolbar from "components/RichTextEditor/Toolbar";
 import ToolbarButton from "components/RichTextEditor/ToolbarButton";
-import PipingMenu from "./PipingMenu";
+import PipingMenu from "components/RichTextEditor/PipingMenu";
 import { shallow } from "enzyme";
 
 let wrapper, props, buttons;

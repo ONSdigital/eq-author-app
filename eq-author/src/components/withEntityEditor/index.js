@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { filter } from "graphql-anywhere";
 import { debounce, isEqual } from "lodash";
 import fp from "lodash/fp";
-import { startRequest, endRequest } from "../../redux/saving/actions";
+import { startRequest, endRequest } from "redux/saving/actions";
 import { connect } from "react-redux";
 
 const withSaveTracking = connect(

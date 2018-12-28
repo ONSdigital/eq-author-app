@@ -1,4 +1,4 @@
-import replaceEntityText from "./replaceEntityText";
+import replaceEntityText from "components/RichTextEditor/utils/replaceEntityText";
 import Raw from "draft-js-raw-content-state";
 import { convertToRaw } from "draft-js";
 

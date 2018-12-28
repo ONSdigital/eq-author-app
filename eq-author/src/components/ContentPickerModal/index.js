@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { compact, find, isEmpty } from "lodash";
 
 import BaseTabs from "components/BaseTabs";
-import Modal, { CloseButton } from "components/Modal";
+import Modal, { CloseButton } from "components/modals/Modal";
 import {
   AnswerContentPicker,
   QuestionContentPicker,

@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import CharacterCounter from "components/CharacterCounter";
-import WrappingInput from "components/WrappingInput";
+import WrappingInput from "components/Forms/WrappingInput";
 import PropTypes from "prop-types";
 
 export const Wrapper = styled.div`

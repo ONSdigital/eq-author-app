@@ -6,7 +6,7 @@ import AvailablePipingContentQuery, {
   GET_PIPING_CONTENT_PAGE,
   GET_PIPING_CONTENT_SECTION,
   GET_PIPING_CONTENT_QUESTION_CONFIRMATION
-} from "./AvailablePipingContentQuery";
+} from "components/RichTextEditor/AvailablePipingContentQuery";
 
 describe("Available Piping Content Query", () => {
   const sectionId = "1";

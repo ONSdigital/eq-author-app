@@ -1,7 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
 
-import ContentPickerPanel from "./ContentPickerPanel";
+import ContentPickerPanel from "components/ContentPicker/ContentPickerPanel";
 
 describe("ContentPickerPanel", () => {
   const props = {

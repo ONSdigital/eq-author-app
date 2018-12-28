@@ -1,6 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
-import DialogMessage from "components/Dialog/DialogMessage/index";
+import DialogMessage from "./";
 
 describe("DialogMessage", () => {
   let wrapper;

@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Date Error custom should render a preview without a customDate 1`] = `"Invalid Rule"`;
+
+exports[`Date Error custom should render preview dates with offset 1`] = `
+<React.Fragment>
+  <div>
+    5 months before:
+  </div>
+  <div>
+    02/09/2018
+  </div>
+</React.Fragment>
+`;
+
+exports[`Date Error custom should render preview dates without offset 1`] = `"02/09/2018"`;
+
+exports[`Date Error should render a preview startDate 1`] = `
+<React.Fragment>
+  <div>
+    12 days before:
+  </div>
+  <div>
+    (Start date)
+  </div>
+</React.Fragment>
+`;
+
+exports[`Date Error should render a preview with previous answer 1`] = `
+<React.Fragment>
+  <div>
+    5 months before:
+  </div>
+  <div>
+    foobar
+  </div>
+</React.Fragment>
+`;

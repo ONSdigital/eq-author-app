@@ -1,5 +1,5 @@
 import React from "react";
-import ItemSelect, { Option } from "./ItemSelect";
+import ItemSelect, { Option } from "components/ItemSelectModal/ItemSelect";
 import { shallow } from "enzyme";
 import { times } from "lodash";
 

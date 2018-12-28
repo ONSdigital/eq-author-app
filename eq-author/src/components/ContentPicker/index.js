@@ -1,6 +1,6 @@
 import React from "react";
-import ContentPicker from "./ContentPicker";
-import GroupContentPicker from "./GroupContentPicker";
+import ContentPicker from "components/ContentPicker/ContentPicker";
+import GroupContentPicker from "components/ContentPicker/GroupContentPicker";
 
 const config = [
   {

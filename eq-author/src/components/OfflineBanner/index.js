@@ -4,9 +4,9 @@ import styled, { keyframes } from "styled-components";
 import { colors } from "constants/theme";
 import { connect } from "react-redux";
 import { isOffline, hasApiError, hasError } from "redux/saving/reducer";
-import WarningIcon from "./icon-warning.svg?inline";
+import WarningIcon from "components/OfflineBanner/icon-warning.svg?inline";
 import { TransitionGroup } from "react-transition-group";
-import ExpansionTransition from "components/ExpansionTransition";
+import ExpansionTransition from "components/transitions/ExpansionTransition";
 import IconText from "components/IconText";
 
 const Banner = styled.div`
