@@ -1,7 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
 
-import { TableHead } from "components/DataTable/Elements";
+import { TableHead } from "./";
 
 const createWrapper = (props = {}, render = shallow) => {
   return render(<TableHead {...props} />);

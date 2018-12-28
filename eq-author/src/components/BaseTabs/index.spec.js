@@ -2,7 +2,7 @@ import React from "react";
 import { shallow } from "enzyme";
 import styled from "styled-components";
 
-import BaseTabs from "./";
+import BaseTabs from ".";
 
 describe("Base Tabs", () => {
   const tabs = [

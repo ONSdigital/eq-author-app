@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import Button from "components/Button/index";
-import ButtonGroup from "components/ButtonGroup/index";
+import Button from "components/Buttons/Button";
+import ButtonGroup from "components/Buttons/ButtonGroup";
 import PropTypes from "prop-types";
 
 const StyledButtonGroup = styled(ButtonGroup)`

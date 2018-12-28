@@ -5,7 +5,7 @@ import SavingIcon from "./icon-saving.svg?inline";
 import timer from "utils/timer";
 import { connect } from "react-redux";
 import { isSaving, hasError } from "redux/saving/reducer";
-import FadeTransition from "components/FadeTransition";
+import FadeTransition from "components/Transitions/FadeTransition";
 import { TransitionGroup } from "react-transition-group";
 import IconText from "components/IconText";
 

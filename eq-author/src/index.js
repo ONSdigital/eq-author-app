@@ -9,7 +9,7 @@ import createErrorLink from "apollo/createApolloErrorLink";
 import { ApolloLink } from "apollo-link";
 import { setContext } from "apollo-link-context";
 import config from "config";
-import App from "containers/App";
+import App from "App/AppContainer";
 import getIdForObject from "utils/getIdForObject";
 import render from "utils/render";
 import appendAuthHeader from "utils/appendAuthHeader";
@@ -68,8 +68,8 @@ const renderApp = render(document.getElementById("root"), {
 renderApp(App);
 
 if (module.hot) {
-  module.hot.accept("containers/App", () => {
-    const NextApp = require("containers/App").default;
+  module.hot.accept("App/AppContainer", () => {
+    const NextApp = require("App/AppContainer").default;
     renderApp(NextApp);
   });
 }

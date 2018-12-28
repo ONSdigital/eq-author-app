@@ -1,0 +1,75 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ModalWithNav should render a list of items 1`] = `
+<ModalWithNav__Dialog
+  isOpen={false}
+  onClose={[MockFunction]}
+>
+  <Grid
+    align="top"
+    fillHeight={true}
+  >
+    <Tabs
+      navItems={
+        Array [
+          Object {
+            "id": "tab-1",
+            "render": [Function],
+            "title": "Cursus Bibendum",
+          },
+          Object {
+            "id": "tab-2",
+            "render": [Function],
+            "title": "Euismod Ridiculus Parturient",
+          },
+          Object {
+            "id": "tab-3",
+            "render": [Function],
+            "title": "Tellus Dolor",
+          },
+        ]
+      }
+      onChange={[Function]}
+      onClose={[MockFunction]}
+      title="I am a title"
+    />
+  </Grid>
+</ModalWithNav__Dialog>
+`;
+
+exports[`ModalWithNav should render an open Modals 1`] = `
+<ModalWithNav__Dialog
+  isOpen={true}
+  onClose={[MockFunction]}
+>
+  <Grid
+    align="top"
+    fillHeight={true}
+  >
+    <Tabs
+      navItems={
+        Array [
+          Object {
+            "id": "tab-1",
+            "render": [Function],
+            "title": "Cursus Bibendum",
+          },
+          Object {
+            "id": "tab-2",
+            "render": [Function],
+            "title": "Euismod Ridiculus Parturient",
+          },
+          Object {
+            "id": "tab-3",
+            "render": [Function],
+            "title": "Tellus Dolor",
+          },
+        ]
+      }
+      onChange={[Function]}
+      onClose={[MockFunction]}
+      title="I am a title"
+    />
+  </Grid>
+</ModalWithNav__Dialog>
+`;

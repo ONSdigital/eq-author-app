@@ -2,7 +2,7 @@ import React from "react";
 import { storiesOf } from "@storybook/react";
 import styled from "styled-components";
 
-import CharacterCounter from "components/CharacterCounter";
+import CharacterCounter from "./";
 
 const Wrapper = styled.div`
   position: absolute;

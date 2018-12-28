@@ -1,6 +1,6 @@
 import React from "react";
 import { storiesOf } from "@storybook/react";
-import Panel from "components/Panel";
+import Panel from "./";
 import styled from "styled-components";
 
 const Background = styled.span`

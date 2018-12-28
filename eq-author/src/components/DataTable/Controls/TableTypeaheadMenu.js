@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import TypeaheadMenu from "components/Typeahead/TypeaheadMenu";
+import TypeaheadMenu from "components/Forms/Typeahead/TypeaheadMenu";
 
 const DataTableTypeaheadMenu = styled(TypeaheadMenu)`
   position: absolute;

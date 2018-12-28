@@ -1,6 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
-import Number from "components/Forms/Number";
+import Number from "./";
 
 const defaultValue = 0;
 

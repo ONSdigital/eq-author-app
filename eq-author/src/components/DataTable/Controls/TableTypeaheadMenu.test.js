@@ -1,7 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
 
-import { TableTypeaheadMenu } from "components/DataTable/Controls";
+import { TableTypeaheadMenu } from "./";
 
 const createWrapper = (props = {}, render = shallow) => {
   return render(<TableTypeaheadMenu {...props} />);

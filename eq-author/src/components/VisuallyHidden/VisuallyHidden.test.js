@@ -1,6 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
-import VisuallyHidden from "components/VisuallyHidden";
+import VisuallyHidden from "./";
 
 describe("VisuallyHidden", () => {
   let component;

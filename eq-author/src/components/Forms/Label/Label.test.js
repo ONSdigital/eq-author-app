@@ -1,6 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
-import Label from "components/Forms/Label";
+import Label from "./";
 
 let wrapper;
 

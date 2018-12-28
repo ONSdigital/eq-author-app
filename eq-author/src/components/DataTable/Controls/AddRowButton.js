@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import Button from "components/Button";
+import Button from "components/Buttons/Button";
 
 const AddRowButton = styled(Button)`
   height: 2.5em;

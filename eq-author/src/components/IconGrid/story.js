@@ -1,16 +1,16 @@
 import React from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
-import { IconGrid, IconGridButton } from "./index";
-import checkboxIcon from "components/AnswerTypeSelector/icons/checkbox.svg";
-import currencyIcon from "components/AnswerTypeSelector/icons/currency.svg";
-import dateIcon from "components/AnswerTypeSelector/icons/date.svg";
-import dateRangeIcon from "components/AnswerTypeSelector/icons/date-range.svg";
-import numberIcon from "components/AnswerTypeSelector/icons/number.svg";
-import radioIcon from "components/AnswerTypeSelector/icons/radio.svg";
-import timeIcon from "components/AnswerTypeSelector/icons/time.svg";
-import textareaIcon from "components/AnswerTypeSelector/icons/textarea.svg";
-import textfieldIcon from "components/AnswerTypeSelector/icons/textfield.svg";
+import { IconGrid, IconGridButton } from ".";
+import checkboxIcon from "App/QuestionPage/Design/AnswerTypeSelector/icons/checkbox.svg";
+import currencyIcon from "App/QuestionPage/Design/AnswerTypeSelector/icons/currency.svg";
+import dateIcon from "App/QuestionPage/Design/AnswerTypeSelector/icons/date.svg";
+import dateRangeIcon from "App/QuestionPage/Design/AnswerTypeSelector/icons/date-range.svg";
+import numberIcon from "App/QuestionPage/Design/AnswerTypeSelector/icons/number.svg";
+import radioIcon from "App/QuestionPage/Design/AnswerTypeSelector/icons/radio.svg";
+import timeIcon from "App/QuestionPage/Design/AnswerTypeSelector/icons/time.svg";
+import textareaIcon from "App/QuestionPage/Design/AnswerTypeSelector/icons/textarea.svg";
+import textfieldIcon from "App/QuestionPage/Design/AnswerTypeSelector/icons/textfield.svg";
 
 storiesOf("IconGrid", module).add("Default", () => (
   <IconGrid>

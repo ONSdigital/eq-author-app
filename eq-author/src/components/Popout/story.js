@@ -1,6 +1,6 @@
 import React from "react";
 import { storiesOf } from "@storybook/react";
-import Popout, { UncontrolledPopout } from "./index";
+import Popout, { UncontrolledPopout } from ".";
 import { withKnobs, boolean } from "@storybook/addon-knobs";
 import { action } from "@storybook/addon-actions";
 import styled from "styled-components";

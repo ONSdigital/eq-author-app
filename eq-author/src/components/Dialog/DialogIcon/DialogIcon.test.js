@@ -1,6 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
-import DialogIcon from "components/Dialog/DialogIcon/index";
+import DialogIcon from "./";
 
 const createWrapper = (props, render = shallow) => {
   return render(<DialogIcon {...props} />);

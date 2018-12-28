@@ -1,7 +1,7 @@
 import React from "react";
 import { storiesOf } from "@storybook/react";
 import styled from "styled-components";
-import { Grid, Column } from "components/Grid";
+import { Grid, Column } from "./";
 import { colors } from "constants/theme";
 import { times } from "lodash";
 

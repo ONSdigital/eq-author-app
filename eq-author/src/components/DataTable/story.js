@@ -5,7 +5,7 @@ import { action } from "@storybook/addon-actions";
 import { map, size, times } from "lodash";
 
 import IconText from "components/IconText";
-import Typeahead from "components/Typeahead";
+import Typeahead from "components/Forms/Typeahead";
 import {
   Table,
   TableHead,
@@ -14,7 +14,7 @@ import {
   TableRow,
   TableColumn,
   TableHeadColumn
-} from "components/DataTable/Elements";
+} from "./Elements";
 import {
   AddRowButton,
   TableInput,
@@ -23,7 +23,7 @@ import {
   TableTypeaheadInput,
   TableTypeaheadMenu,
   DeleteRowButton
-} from "components/DataTable/Controls";
+} from "./Controls";
 
 import Icon from "./icon-plus.svg?inline";
 

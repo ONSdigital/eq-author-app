@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import DeleteButton from "components/DeleteButton";
+import DeleteButton from "components/Buttons/DeleteButton";
 
 const DeleteRowButton = styled(DeleteButton)`
   vertical-align: middle;
