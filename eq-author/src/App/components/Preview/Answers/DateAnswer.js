@@ -5,9 +5,9 @@ import {
   Field,
   Input,
   Label
-} from "App/QuestionPage/Preview/PreviewPageRoute/answers/elements";
+} from "./elements";
 
-import iconSelect from "App/QuestionPage/Preview/PreviewPageRoute/answers/icon-select.svg";
+import iconSelect from "./icon-select.svg";
 import { colors } from "constants/theme";
 
 const DateInput = styled(Input)`

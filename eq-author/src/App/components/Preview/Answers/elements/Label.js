@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
-import Error from "App/QuestionPage/Preview/Error/Error";
+import Error from "App/components/Preview/Error/Error";
 
 const Description = styled.div`
   font-size: 0.8em;

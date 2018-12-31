@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
 
-import { Field, Input, Label } from "App/QuestionPage/Preview/PreviewPageRoute/answers/elements";
+import { Field, Input, Label } from "./elements";
 import { colors } from "constants/theme";
 
 const InputType = styled.div`

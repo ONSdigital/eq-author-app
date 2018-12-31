@@ -12,12 +12,12 @@ import {
   NUMBER
 } from "constants/answer-types";
 
-import DateAnswer from "App/QuestionPage/Preview/PreviewPageRoute/answers/DateAnswer";
-import DateRangeAnswer from "App/QuestionPage/Preview/PreviewPageRoute/answers/DateRangeAnswer";
-import MultipleChoiceAnswer from "App/QuestionPage/Preview/PreviewPageRoute/answers/MultipleChoiceAnswer";
-import CurrencyAnswer from "App/QuestionPage/Preview/PreviewPageRoute/answers/CurrencyAnswer";
-import TextAnswer from "App/QuestionPage/Preview/PreviewPageRoute/answers/TextAnswer";
-import TextAreaAnswer from "App/QuestionPage/Preview/PreviewPageRoute/answers/TextAreaAnswer";
+import DateAnswer from "./DateAnswer";
+import DateRangeAnswer from "./DateRangeAnswer";
+import MultipleChoiceAnswer from "./MultipleChoiceAnswer";
+import CurrencyAnswer from "./CurrencyAnswer";
+import TextAnswer from "./TextAnswer";
+import TextAreaAnswer from "./TextAreaAnswer";
 import styled from "styled-components";
 
 export const answerComponents = {

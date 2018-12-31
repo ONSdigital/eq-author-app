@@ -1,7 +1,7 @@
 import { shallow } from "enzyme";
 import React from "react";
 
-import DateAnswer from "App/QuestionPage/Preview/PreviewPageRoute/answers/DateAnswer";
+import DateAnswer from "./DateAnswer";
 
 describe("Date Answer", () => {
   let answer;

@@ -155,12 +155,13 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
                   component={RoutingPageRoute}
                   exact
                 />
-                <Route path={Routes.PREVIEW} component={PreviewRoute} exact />
+                <Route path={Routes.PAGE_PREVIEW} component={PreviewRoute} exact />
                 <Route
                   path={Routes.CONFIRMATION}
                   component={QuestionConfirmationRoute}
                   exact
                 />
+                <Route path={Routes.CONFIRMATION_PREVIEW} component={PreviewRoute} exact />
                 <Route path="*" render={this.renderRedirect} />
               </Switch>
             </Column>

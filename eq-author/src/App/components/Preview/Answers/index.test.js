@@ -3,7 +3,7 @@ import { shallow } from "enzyme";
 
 import * as AnswerTypes from "constants/answer-types";
 
-import { Answer } from "App/QuestionPage/Preview/PreviewPageRoute/answers";
+import { Answer } from "./";
 
 describe("Answers", () => {
   it("should render a component for each answer type except time", () => {

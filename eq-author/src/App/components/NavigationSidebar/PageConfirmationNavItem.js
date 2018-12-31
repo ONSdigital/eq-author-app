@@ -36,7 +36,7 @@ export const UnwrappedPageConfirmationNavItem = ({
           sectionId,
           pageId: page.id,
           confirmationId: page.confirmation.id,
-          tab: match.params.tab || "design"
+          tab: match.params.tab
         })}
         title={page.displayName}
         icon={PlaybackIcon}

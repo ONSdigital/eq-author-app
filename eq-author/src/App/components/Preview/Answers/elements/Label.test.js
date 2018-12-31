@@ -1,7 +1,7 @@
 import { shallow } from "enzyme";
 import React from "react";
 
-import Label from "App/QuestionPage/Preview/PreviewPageRoute/answers/elements/Label";
+import Label from "./Label";
 
 describe("Label", () => {
   it("should render", () => {

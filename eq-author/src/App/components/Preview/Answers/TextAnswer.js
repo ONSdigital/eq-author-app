@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 
-import { Field, Input, Label } from "App/QuestionPage/Preview/PreviewPageRoute/answers/elements";
+import { Field, Input, Label } from "./elements";
 
 const TextAnswer = ({ answer }) => (
   <Field>

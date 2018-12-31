@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MultipleChoiceAnswerOptionsReplay should render 1`] = `
+<ul>
+  <li
+    key="1"
+  >
+    label 1
+  </li>
+  <li
+    key="2"
+  >
+    label 2
+  </li>
+</ul>
+`;

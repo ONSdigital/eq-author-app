@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import DateAnswer from "App/QuestionPage/Preview/PreviewPageRoute/answers/DateAnswer";
+import DateAnswer from "./DateAnswer";
 
 const DateRangeAnswer = ({ answer }) => {
   const { childAnswers, properties } = answer;

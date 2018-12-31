@@ -3,7 +3,7 @@ import React from "react";
 import styled, { css } from "styled-components";
 
 import { CHECKBOX, RADIO } from "constants/answer-types";
-import { Field } from "App/QuestionPage/Preview/PreviewPageRoute/answers/elements";
+import { Field } from "./elements";
 import { colors } from "constants/theme";
 
 const Legend = styled.div`
@@ -110,9 +110,9 @@ const MutuallyExclusiveOptionTitle = styled.div`
 `;
 
 const OptionPropType = PropTypes.shape({
-  id: PropTypes.string.isRequired,
+  id: PropTypes.string,
   label: PropTypes.string,
-  description: PropTypes.description
+  description: PropTypes.string
 });
 
 export const Option = ({ option, type, answer }) => (
@@ -147,9 +147,9 @@ const MultipleChoiceAnswer = ({ answer }) => {
       {answer.type === CHECKBOX && (
         <SelectAll>Select all that apply:</SelectAll>
       )}
-      {answer.options.map(option => (
+      {answer.options.map((option, index) => (
         <Option
-          key={option.id}
+          key={option.id || index}
           option={option}
           type={answer.type}
           answer={option.additionalAnswer}

@@ -1,7 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
 
-import TextAnswer from "App/QuestionPage/Preview/PreviewPageRoute/answers/TextAnswer";
+import TextAreaAnswer from "./TextAreaAnswer";
 
 describe("TextAnswer", () => {
   it("should render", () => {
@@ -9,6 +9,6 @@ describe("TextAnswer", () => {
       label: "label",
       description: "description"
     };
-    expect(shallow(<TextAnswer answer={answer} />)).toMatchSnapshot();
+    expect(shallow(<TextAreaAnswer answer={answer} />)).toMatchSnapshot();
   });
 });

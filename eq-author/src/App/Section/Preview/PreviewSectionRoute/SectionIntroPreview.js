@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
 
-import Error from "App/QuestionPage/Preview/Error/Error";
+import Error from "App/components/Preview/Error/Error";
 
 const Wrapper = styled.div`
   padding: 2em;

@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import styled, { css } from "styled-components";
 
-import { colors } from "constants/theme";
+import { colors } from "../../../../constants/theme";
 
 const small = css`
   padding: 0.2em 0.5em;

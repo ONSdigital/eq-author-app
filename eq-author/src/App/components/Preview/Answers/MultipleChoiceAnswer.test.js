@@ -3,7 +3,7 @@ import { shallow } from "enzyme";
 
 import { CHECKBOX, RADIO } from "constants/answer-types";
 
-import MultipleChoiceAnswer, { Option } from "App/QuestionPage/Preview/PreviewPageRoute/answers/MultipleChoiceAnswer";
+import MultipleChoiceAnswer, { Option } from "./MultipleChoiceAnswer";
 
 describe("MultipleChoiceAnswer", () => {
   let answer;

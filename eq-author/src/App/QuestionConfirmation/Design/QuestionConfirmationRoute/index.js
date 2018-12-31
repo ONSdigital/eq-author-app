@@ -64,7 +64,11 @@ export class UnwrappedQuestionConfirmationRoute extends React.Component {
   }
 
   render() {
-    return <EditorLayout>{this.renderContent()}</EditorLayout>;
+    return (
+      <EditorLayout page={this.props.data.questionConfirmation} preview>
+        {this.renderContent()}
+      </EditorLayout>
+    );
   }
 }
 

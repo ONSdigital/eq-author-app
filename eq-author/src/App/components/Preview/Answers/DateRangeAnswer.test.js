@@ -1,7 +1,7 @@
 import { shallow } from "enzyme";
 import React from "react";
 
-import DateRangeAnswer from "App/QuestionPage/Preview/PreviewPageRoute/answers/DateRangeAnswer";
+import DateRangeAnswer from "./DateRangeAnswer";
 
 describe("DateRangeAnswer", () => {
   const answer = {

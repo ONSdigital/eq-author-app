@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 
-import { Field, Label, Input } from "App/QuestionPage/Preview/PreviewPageRoute/answers/elements";
+import { Field, Label, Input } from "./elements";
 
 const Textarea = Input.withComponent("textarea");
 

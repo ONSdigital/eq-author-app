@@ -1,7 +1,7 @@
 import { shallow } from "enzyme";
 import React from "react";
 
-import CurrencyAnswer from "App/QuestionPage/Preview/PreviewPageRoute/answers/CurrencyAnswer";
+import CurrencyAnswer from "./CurrencyAnswer";
 
 describe("Currency Answer", () => {
   it("should render", () => {

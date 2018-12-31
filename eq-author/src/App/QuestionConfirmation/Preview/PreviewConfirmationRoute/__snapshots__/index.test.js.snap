@@ -1,0 +1,91 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PageConfirmationNavItem should render 1`] = `
+<EditorLayout
+  page={
+    Object {
+      "displayName": "Hello world",
+      "id": "1",
+      "negative": Object {
+        "description": "negative description",
+        "label": "negative label",
+      },
+      "page": Object {
+        "answers": Array [
+          Object {
+            "id": "1",
+            "options": Array [
+              Object {
+                "id": "1",
+                "label": "label 1",
+              },
+              Object {
+                "id": "2",
+                "label": "label 2",
+              },
+            ],
+            "type": "Radio",
+          },
+        ],
+        "displayName": "page name",
+        "id": "1",
+      },
+      "positive": Object {
+        "description": "positive description",
+        "label": "positive label",
+      },
+      "title": "<p>Hello world</p>",
+    }
+  }
+  preview={true}
+>
+  <PreviewConfirmationRoute__Container>
+    <PageTitle
+      title="<p>Hello world</p>"
+    />
+    <PreviewConfirmationRoute__Replay
+      key="1"
+    >
+      <MultipleChoiceAnswerOptionsReplay
+        options={
+          Array [
+            Object {
+              "id": "1",
+              "label": "label 1",
+            },
+            Object {
+              "id": "2",
+              "label": "label 2",
+            },
+          ]
+        }
+      />
+    </PreviewConfirmationRoute__Replay>
+    <MultipleChoiceAnswer
+      answer={
+        Object {
+          "options": Array [
+            Object {
+              "description": "positive description",
+              "label": "positive label",
+            },
+            Object {
+              "description": "negative description",
+              "label": "negative label",
+            },
+          ],
+          "type": "Radio",
+        }
+      }
+    />
+  </PreviewConfirmationRoute__Container>
+</EditorLayout>
+`;
+
+exports[`PageConfirmationNavItem should render a loading message when loading 1`] = `
+<Loading
+  height="38rem"
+>
+  Preview loading…
+</Loading>
+`;
