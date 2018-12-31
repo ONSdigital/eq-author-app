@@ -1,0 +1,168 @@
+import React from "react";
+import styled from "styled-components";
+import SidebarButton, { Title, Detail } from "components/SidebarButton";
+
+import ModalWithNav from "components/ModalWithNav";
+
+import MinValueValidation from "components/Validation/TotalMinValue";
+import MaxValueValidation from "components/Validation/TotalMaxValue";
+import { connect } from "react-redux";
+import ValidationContext from "components/Validation/ValidationContext";
+import { gotoTab } from "redux/tabs/actions";
+import { CURRENCY, NUMBER } from "constants/answer-types";
+import { kebabCase, get, startCase } from "lodash";
+
+const SectionTitle = styled.h3`
+  margin: 0 0 0.5em 0;
+  padding: 0;
+  font-size: 1em;
+  color: #666666;
+  position: relative;
+`;
+
+const Container = styled.div`
+  padding: 0.25em 0 0;
+`;
+
+const validationTypes = [
+  {
+    id: "minValue",
+    title: "Min Value",
+    render: props => <MinValueValidation {...props} />,
+    types: [CURRENCY, NUMBER],
+    preview: ({ custom, previousAnswer }) =>
+      custom ? custom : get(previousAnswer, "displayName")
+  },
+  {
+    id: "maxValue",
+    title: "Max Value",
+    render: props => <MaxValueValidation {...props} />,
+    types: [CURRENCY, NUMBER],
+    preview: ({ custom, previousAnswer }) =>
+      custom ? custom : get(previousAnswer, "displayName")
+  }
+];
+
+class TotalValidation extends React.Component {
+  state = {
+    modalIsOpen: false,
+    answer: {
+      id: "hello",
+      validation: {
+        minValue: {
+          custom: "",
+          enabled: true,
+          entityType: "Custom",
+          id: "minValue",
+          inclusive: false,
+          previousAnswer: null
+        },
+        maxValue: {
+          custom: "",
+          enabled: true,
+          entityType: "Custom",
+          id: "maxValue",
+          inclusive: false,
+          previousAnswer: null
+        }
+      }
+    }
+  };
+
+  constructor(props) {
+    super(props);
+    this.modalId = `modal-validation-total`;
+  }
+
+  handleModalClose = () => this.setState({ modalIsOpen: false });
+
+  renderButton = ({ id, title, value, enabled }) => (
+    <SidebarButton
+      key={id}
+      onClick={() => {
+        this.props.gotoTab(this.modalId, id);
+        this.setState({ modalIsOpen: true });
+      }}
+    >
+      <Title>{title}</Title>
+      {enabled && value && <Detail>{value}</Detail>}
+    </SidebarButton>
+  );
+
+  handleUpdateAnswerValidation = ({ id, validation }) => {
+    this.setState({
+      answer: {
+        ...this.state.answer,
+        validation: {
+          ...this.state.answer.validation,
+          [id]: {
+            ...this.state.answer.validation[id],
+            ...validation
+          }
+        }
+      }
+    });
+  };
+
+  handleToggleValidationRule = ({ id, enabled }) => {
+    this.setState({
+      answer: {
+        ...this.state.answer,
+        validation: {
+          ...this.state.answer.validation,
+          [id]: {
+            ...this.state.answer.validation[id],
+            enabled: enabled
+          }
+        }
+      }
+    });
+  };
+
+  render() {
+    const { answer } = this.state;
+    return (
+      <Container>
+        <SectionTitle>Total</SectionTitle>
+        <ValidationContext.Provider
+          value={{
+            answer,
+            onUpdateAnswerValidation: this.handleUpdateAnswerValidation,
+            onToggleValidationRule: this.handleToggleValidationRule
+          }}
+        >
+          {validationTypes.map(validationType => {
+            const validation = get(
+              this.state.answer.validation,
+              validationType.id
+            );
+            const { enabled } = validation;
+            const value = enabled ? validationType.preview(validation) : "";
+
+            return this.renderButton({
+              ...validationType,
+              value,
+              enabled
+            });
+          })}
+          <ModalWithNav
+            id={this.modalId}
+            onClose={this.handleModalClose}
+            navItems={validationTypes}
+            title={`Total validation`}
+            isOpen={this.state.modalIsOpen}
+          />
+        </ValidationContext.Provider>
+      </Container>
+    );
+  }
+}
+
+const mapStateToProps = state => ({
+  tabsState: state.tabs
+});
+
+export default connect(
+  mapStateToProps,
+  { gotoTab }
+)(TotalValidation);

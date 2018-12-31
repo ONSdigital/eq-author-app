@@ -1,10 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
+import styled from "styled-components";
 
 import { Number } from "components/Forms";
 
+const StyledNumber = styled(Number)`
+  padding: 0.25em 0.5em;
+`;
+
 const Decimal = ({ id, value, onChange }) => (
-  <Number
+  <StyledNumber
     id={id}
     name={id}
     onChange={onChange}

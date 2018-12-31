@@ -41,11 +41,13 @@ const AnswerType = styled.div`
   border-bottom: 1px solid ${colors.bordersLight};
   text-align: center;
   padding: 0.5em 1em;
-  font-size: 0.8em;
   line-height: 1;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   border-radius: ${radius} ${radius} 0 0;
+  font-weight: bold;
+  font-size: 12px;
+  vertical-align: middle;
 `;
 
 const Padding = styled.div`

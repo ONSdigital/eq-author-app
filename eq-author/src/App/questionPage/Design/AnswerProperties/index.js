@@ -14,12 +14,20 @@ import {
 } from "App/questionPage/Design/AnswerProperties/Fields";
 
 import { CURRENCY, DATE, NUMBER } from "constants/answer-types";
+import styled from "styled-components";
+
+const Container = styled.div``;
 
 class AnswerProperties extends React.Component {
   static propTypes = {
     answer: CustomPropTypes.answer.isRequired,
     onSubmit: PropTypes.func,
     onUpdateAnswer: PropTypes.func.isRequired
+  };
+
+  static defaultProps = {
+    decimals: true,
+    required: true
   };
 
   handleChange = propName => ({ value }) => {
@@ -37,35 +45,39 @@ class AnswerProperties extends React.Component {
   getId = (name, { id }) => `answer-${id}-${name}`;
 
   render() {
-    const { answer } = this.props;
+    const { answer, decimals, required } = this.props;
     return (
-      <React.Fragment>
-        <InlineField id={this.getId("required", answer)} label={"Required"}>
-          <Required
-            data-test="answer-properties-required-toggle"
-            id={this.getId("required", answer)}
-            onChange={this.handleChange("required")}
-            value={answer.properties.required}
-          />
-        </InlineField>
-        {answer.type === NUMBER && (
-          <InlineField id={this.getId("decimals", answer)} label={"Decimals"}>
-            <Decimal
-              id={this.getId("decimals", answer)}
-              onChange={this.handleChange("decimals")}
-              value={answer.properties.decimals}
+      <Container>
+        {required && (
+          <InlineField id={this.getId("required", answer)} label={"Required"}>
+            <Required
+              data-test="answer-properties-required-toggle"
+              id={this.getId("required", answer)}
+              onChange={this.handleChange("required")}
+              value={answer.properties.required}
             />
           </InlineField>
         )}
-        {answer.type === CURRENCY && (
-          <InlineField id={this.getId("decimals", answer)} label={"Decimals"}>
-            <Decimal
-              id={this.getId("decimals", answer)}
-              onChange={this.handleChange("decimals")}
-              value={answer.properties.decimals}
-            />
-          </InlineField>
-        )}
+        {answer.type === NUMBER &&
+          decimals && (
+            <InlineField id={this.getId("decimals", answer)} label={"Decimals"}>
+              <Decimal
+                id={this.getId("decimals", answer)}
+                onChange={this.handleChange("decimals")}
+                value={answer.properties.decimals}
+              />
+            </InlineField>
+          )}
+        {answer.type === CURRENCY &&
+          decimals && (
+            <InlineField id={this.getId("decimals", answer)} label={"Decimals"}>
+              <Decimal
+                id={this.getId("decimals", answer)}
+                onChange={this.handleChange("decimals")}
+                value={answer.properties.decimals}
+              />
+            </InlineField>
+          )}
         {answer.type === DATE && (
           <MultiLineField
             id={this.getId("date-format", answer)}
@@ -78,7 +90,7 @@ class AnswerProperties extends React.Component {
             />
           </MultiLineField>
         )}
-      </React.Fragment>
+      </Container>
     );
   }
 }

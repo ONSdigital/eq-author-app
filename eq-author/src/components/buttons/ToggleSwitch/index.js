@@ -7,8 +7,8 @@ import { Input } from "components/Forms";
 import { colors } from "constants/theme";
 
 const hitTarget = {
-  height: 3,
-  width: 3
+  height: 2.2,
+  width: 2.2
 };
 
 const backgroundColors = {
@@ -51,7 +51,7 @@ const ToggleSwitchKnob = styled.div`
   width: ${knobSize}em;
   background: ${colors.white};
   top: calc(50% - ${knobSize}em / 2);
-  left: calc(33% - ${knobSize}em / 2);
+  left: calc(33.333333% - ${knobSize}em / 2 - 1px);
   position: relative;
   will-change: transform;
   transform: translateX(
@@ -68,12 +68,16 @@ export const HiddenInput = styled(Input)`
   height: 100%;
   width: 100%;
   margin: 0;
+  border: none;
   cursor: pointer;
   &:focus + ${ToggleSwitchBackground} {
     box-shadow: 0 0 0 2px ${colors.tertiary};
   }
   &:hover + ${ToggleSwitchBackground} {
     border-color: ${colors.blue};
+  }
+  &:hover {
+    border: none;
   }
 `;
 
@@ -121,7 +125,7 @@ class ToggleSwitch extends React.Component {
   };
 
   render() {
-    const { id, checked, onChange } = this.props;
+    const { id, checked, onChange, disabled } = this.props;
     return (
       <FlexInline role="switch" aria-checked={checked} data-test={id}>
         <HiddenInput
@@ -130,6 +134,7 @@ class ToggleSwitch extends React.Component {
           onChange={onChange}
           checked={checked}
           ref={this.inputRef}
+          disabled={disabled}
         />
         <ToggleSwitchBackground
           role="presentation"

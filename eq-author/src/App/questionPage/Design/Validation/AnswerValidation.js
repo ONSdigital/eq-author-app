@@ -27,12 +27,9 @@ import {
 } from "./";
 
 import { CURRENCY, DATE, DATE_RANGE, NUMBER } from "constants/answer-types";
-import { colors } from "constants/theme";
 
 const Container = styled.div`
-  margin-top: 1em;
-  border-top: 1px solid ${colors.lightGrey};
-  padding: 1em 0;
+  padding: 0;
 `;
 
 const validationTypes = [

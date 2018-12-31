@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 
 import AnswerEditor from "App/questionPage/Design/AnswerEditor";
@@ -9,12 +10,11 @@ import AnswerTransition from "App/questionPage/Design/QuestionPageEditor/AnswerT
 import AnswerTypeSelector from "App/questionPage/Design/AnswerTypeSelector";
 
 import { TransitionGroup } from "react-transition-group";
-import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 import getIdForObject from "utils/getIdForObject";
 
-import iconPage from "App/questionPage/Design/QuestionPageEditor/icon-dialog-page.svg";
-
+import iconPage from "./icon-dialog-page.svg";
+import Button from "components/Button";
 import DeleteConfirmDialog from "components/DeleteConfirmDialog";
 import MovePageModal from "App/questionPage/Design/MovePageModal";
 import MovePageQuery from "App/questionPage/Design/MovePageModal/MovePageQuery";
@@ -58,7 +58,7 @@ export default class QuestionPageEditor extends React.Component {
     this.props.onDeleteAnswer(this.props.page.id, answerId);
   };
 
-  renderAnswerEditor = answer => {
+  renderAnswerEditor = (answer, index) => {
     const {
       onUpdateAnswer,
       onAddOption,

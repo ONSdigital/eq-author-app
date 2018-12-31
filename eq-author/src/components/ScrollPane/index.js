@@ -16,14 +16,14 @@ const ScrollPane = styled.div`
   ::-webkit-scrollbar-thumb {
     border-radius: 0;
     box-shadow: none;
-    background-color: ${colors.lightGrey};
+    background-color: rgba(0, 0, 0, 0.1);
     transition: background-color 0.2s;
   }
 
   ::-webkit-scrollbar-track {
     border-radius: 0;
     box-shadow: none;
-    display: none;
+    background-color: rgba(0, 0, 0, 0.05);
   }
 
   ::-webkit-scrollbar {
