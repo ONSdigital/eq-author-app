@@ -202,7 +202,8 @@ class RichTextEditor extends React.Component {
     /*eslint-disable react/no-did-update-set-state */
     if (
       prevProps.value !== this.props.value &&
-      typeof this.props.value === "string"
+      typeof this.props.value === "string" &&
+      this.props.value !== filterEmptyTags(this.getHTML())
     ) {
       const { editorState } = this.state;
       const anchorOffset = editorState.getSelection().get("anchorOffset");
