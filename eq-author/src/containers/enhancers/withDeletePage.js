@@ -5,45 +5,47 @@ import fragment from "graphql/sectionFragment.graphql";
 import getNextPage from "utils/getNextOnDelete";
 import { buildPagePath } from "utils/UrlUtils";
 
-export const handleDeletion = (
-  { history, onAddPage, match: { params } },
-  section
-) => {
-  const { pageId, sectionId, questionnaireId } = params;
+const getCachedSection = (client, id) =>
+  client.readFragment({
+    id: `Section${id}`,
+    fragment
+  });
 
-  if (section.pages.length === 1) {
+const handleDeletion = (
+  { history, onAddPage, client, match: { params } },
+  nextPage
+) => {
+  const { sectionId, questionnaireId } = params;
+  const section = getCachedSection(client, sectionId);
+
+  if (section.pages.length === 0) {
     return onAddPage(params.sectionId);
   }
-
-  const page = getNextPage(section.pages, pageId);
 
   history.push(
     buildPagePath({
       questionnaireId,
       sectionId,
-      pageId: page.id
+      pageId: nextPage.id
     })
   );
-
-  return Promise.resolve();
 };
 
-export const displayToast = (ownProps, sectionId, pageId) => {
+const displayToast = (ownProps, sectionId, pageId) => {
   ownProps.raiseToast(`Page${pageId}`, "Page deleted", "undeletePage", {
     sectionId,
     pageId
   });
 };
 
-export const createUpdater = (sectionId, pageId) => proxy => {
-  const id = `Section${sectionId}`;
-  const section = proxy.readFragment({ id, fragment });
+export const createUpdater = (sectionId, pageId) => client => {
+  const section = getCachedSection(client, sectionId);
 
   remove(section.pages, { id: pageId });
   section.pages.forEach((page, i) => (page.position = i));
 
-  proxy.writeFragment({
-    id,
+  client.writeFragment({
+    id: `Section${sectionId}`,
     fragment,
     data: section
   });
@@ -55,10 +57,8 @@ export const mapMutateToProps = ({ ownProps, mutate }) => ({
     const page = { id: pageId };
     const update = createUpdater(sectionId, pageId);
 
-    const section = client.readFragment({
-      id: `Section${sectionId}`,
-      fragment
-    });
+    const section = getCachedSection(client, sectionId);
+    const nextPage = getNextPage(section.pages, pageId);
 
     const mutation = mutate({
       variables: { input: page },
@@ -66,9 +66,8 @@ export const mapMutateToProps = ({ ownProps, mutate }) => ({
     });
 
     return mutation
-      .then(() => handleDeletion(ownProps, section))
-      .then(() => displayToast(ownProps, sectionId, pageId))
-      .then(() => mutation);
+      .then(() => handleDeletion(ownProps, nextPage))
+      .then(() => displayToast(ownProps, sectionId, pageId));
   }
 });
 
