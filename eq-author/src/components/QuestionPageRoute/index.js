@@ -242,7 +242,7 @@ export const QUESTION_PAGE_QUERY = gql`
   ${QuestionPageEditor.fragments.QuestionPage}
 `;
 
-export default props => (
+const QuestionPageRoute = props => (
   <Query
     query={QUESTION_PAGE_QUERY}
     fetchPolicy="cache-and-network"
@@ -261,3 +261,13 @@ export default props => (
     )}
   </Query>
 );
+
+QuestionPageRoute.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      pageId: PropTypes.string.isRequired
+    }).isRequired
+  }).isRequired
+};
+
+export default QuestionPageRoute;

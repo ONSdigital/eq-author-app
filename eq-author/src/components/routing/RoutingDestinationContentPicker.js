@@ -51,10 +51,16 @@ UnwrappedRoutingDestinationContentPicker.propTypes = {
   selected: PropTypes.object // eslint-disable-line react/forbid-prop-types
 };
 
-export default props => (
+const RoutingDestinationContentPicker = props => (
   <AvailableRoutingDestinationsQuery pageId={props.pageId}>
     {innerProps => (
       <UnwrappedRoutingDestinationContentPicker {...innerProps} {...props} />
     )}
   </AvailableRoutingDestinationsQuery>
 );
+
+RoutingDestinationContentPicker.propTypes = {
+  pageId: PropTypes.string.isRequired
+};
+
+export default RoutingDestinationContentPicker;
