@@ -155,7 +155,6 @@ export function assertHash({
 export const typeIntoDraftEditor = (selector, text) => {
   cy.get(selector)
     .type(text)
-    .blur()
     .blur();
   cy.get(selector).should("contain", text);
 };
