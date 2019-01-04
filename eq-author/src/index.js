@@ -9,10 +9,11 @@ import createErrorLink from "apollo/createApolloErrorLink";
 import { ApolloLink } from "apollo-link";
 import { setContext } from "apollo-link-context";
 import config from "config";
-import App from "containers/App";
 import getIdForObject from "utils/getIdForObject";
 import render from "utils/render";
 import appendAuthHeader from "utils/appendAuthHeader";
+
+import App from "App";
 
 if (config.REACT_APP_USE_SENTRY === "true") {
   Raven.config(
@@ -68,8 +69,8 @@ const renderApp = render(document.getElementById("root"), {
 renderApp(App);
 
 if (module.hot) {
-  module.hot.accept("containers/App", () => {
-    const NextApp = require("containers/App").default;
+  module.hot.accept("App", () => {
+    const NextApp = require("App").default;
     renderApp(NextApp);
   });
 }

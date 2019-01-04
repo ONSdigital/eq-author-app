@@ -4,7 +4,7 @@ import {
   Accordion,
   AccordionPanel,
   KEY_CODE_ESCAPE
-} from "components/Accordion";
+} from "./";
 
 describe("Accordion", () => {
   let wrapper;

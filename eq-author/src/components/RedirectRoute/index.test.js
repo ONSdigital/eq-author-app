@@ -1,6 +1,6 @@
 import React from "react";
 import { mount } from "enzyme";
-import RedirectRoute from "./";
+import RedirectRoute from ".";
 import createRouterContext from "react-router-test-context";
 import PropTypes from "prop-types";
 

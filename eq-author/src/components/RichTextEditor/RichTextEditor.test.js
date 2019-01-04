@@ -13,7 +13,7 @@ import Toolbar, {
 } from "components/RichTextEditor/Toolbar";
 import findById from "utils/findById";
 
-import { createPipedEntity } from "./entities/PipedValue";
+import { createPipedEntity } from "components/RichTextEditor/entities/PipedValue";
 
 // https://github.com/facebook/draft-js/issues/702
 jest.mock("draft-js/lib/generateRandomKey", () => () => "123");

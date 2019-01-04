@@ -1,5 +1,5 @@
 import React from "react";
-import Modal from "components/Modal";
+import Modal from "components/modals/Modal";
 import styled from "styled-components";
 import DialogHeader from "components/Dialog/DialogHeader";
 import { Message, Heading } from "components/Dialog/DialogMessage";

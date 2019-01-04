@@ -3,7 +3,7 @@ import { shallow } from "enzyme";
 
 import { colors } from "constants/theme";
 
-import PickerOption from "./PickerOption";
+import PickerOption from "components/ContentPicker/PickerOption";
 
 describe("PickerOption", () => {
   const props = {

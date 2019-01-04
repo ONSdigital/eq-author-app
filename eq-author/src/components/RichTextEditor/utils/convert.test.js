@@ -1,5 +1,5 @@
 import React from "react";
-import { toHTML, fromHTML } from "./convert";
+import { toHTML, fromHTML } from "components/RichTextEditor/utils/convert";
 import { convertToRaw } from "draft-js";
 import Raw from "draft-js-raw-content-state";
 

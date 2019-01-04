@@ -1,6 +1,6 @@
 import React from "react";
 import { shallow, mount } from "enzyme";
-import Popout from "components/Popout";
+import Popout from "./";
 
 let component, handleToggleOpen, trigger;
 

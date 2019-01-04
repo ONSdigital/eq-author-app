@@ -1,6 +1,6 @@
 import React from "react";
 import { mount } from "enzyme";
-import TextArea from "components/Forms/TextArea";
+import TextArea from "./";
 
 const defaultValue = "I am some text";
 

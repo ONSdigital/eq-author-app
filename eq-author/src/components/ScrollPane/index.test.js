@@ -1,6 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
-import ScrollPane from "./index";
+import ScrollPane from ".";
 
 describe("ScrollPane", () => {
   let component;

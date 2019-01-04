@@ -1,4 +1,4 @@
-#import "../fragments/question-confirmation.graphql"
+#import "graphql/fragments/question-confirmation.graphql"
 
 mutation CreateQuestionConfirmation($input: CreateQuestionConfirmationInput!) {
   createQuestionConfirmation(input: $input) {

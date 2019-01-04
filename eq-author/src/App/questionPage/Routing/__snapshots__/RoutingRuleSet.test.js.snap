@@ -1,0 +1,155 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/RoutingRuleSet should render children 1`] = `
+<Fragment>
+  <TransitionGroup
+    childFactory={[Function]}
+    component="div"
+  >
+    <Transition__RoutingComponentTransition
+      key="2"
+      timeout={200}
+    >
+      <RoutingRule
+        destinations={Object {}}
+        key="2"
+        onAddRoutingCondition={[MockFunction]}
+        onDeleteRule={[MockFunction]}
+        onThenChange={[MockFunction]}
+        onToggleConditionOption={[MockFunction]}
+        onUpdateConditionValue={[MockFunction]}
+        onUpdateRoutingCondition={[MockFunction]}
+        pagesAvailableForRouting={Array []}
+        rule={
+          Object {
+            "id": "2",
+            "operation": "And",
+          }
+        }
+        title={null}
+      />
+    </Transition__RoutingComponentTransition>
+    <Transition__RoutingComponentTransition
+      key="3"
+      timeout={200}
+    >
+      <RoutingRule
+        destinations={Object {}}
+        key="3"
+        onAddRoutingCondition={[MockFunction]}
+        onDeleteRule={[MockFunction]}
+        onThenChange={[MockFunction]}
+        onToggleConditionOption={[MockFunction]}
+        onUpdateConditionValue={[MockFunction]}
+        onUpdateRoutingCondition={[MockFunction]}
+        pagesAvailableForRouting={Array []}
+        rule={
+          Object {
+            "id": "3",
+            "operation": "And",
+          }
+        }
+        title="Or"
+      />
+    </Transition__RoutingComponentTransition>
+  </TransitionGroup>
+  <RoutingRuleSet__AddRuleButton
+    data-test="btn-add-rule"
+    onClick={[Function]}
+    small={true}
+    variant="secondary"
+  >
+    <IconText
+      hideText={false}
+      icon={[Function]}
+    >
+      Add rule
+    </IconText>
+  </RoutingRuleSet__AddRuleButton>
+  <RoutingRuleSet__Box>
+    <withRouter(UnwrappedRoutingRuleDestinationSelector)
+      data-test="select-else"
+      id="else"
+      label="ELSE"
+      onChange={[Function]}
+    />
+  </RoutingRuleSet__Box>
+</Fragment>
+`;
+
+exports[`components/RoutingRuleSet should render children 1`] = `
+<Fragment>
+  <TransitionGroup
+    childFactory={[Function]}
+    component="div"
+  >
+    <Transition__RoutingComponentTransition
+      key="2"
+      timeout={200}
+    >
+      <RoutingRule
+        destinations={Object {}}
+        key="2"
+        onAddRoutingCondition={[MockFunction]}
+        onDeleteRule={[MockFunction]}
+        onThenChange={[MockFunction]}
+        onToggleConditionOption={[MockFunction]}
+        onUpdateConditionValue={[MockFunction]}
+        onUpdateRoutingCondition={[MockFunction]}
+        pagesAvailableForRouting={Array []}
+        rule={
+          Object {
+            "id": "2",
+            "operation": "And",
+          }
+        }
+        title={null}
+      />
+    </Transition__RoutingComponentTransition>
+    <Transition__RoutingComponentTransition
+      key="3"
+      timeout={200}
+    >
+      <RoutingRule
+        destinations={Object {}}
+        key="3"
+        onAddRoutingCondition={[MockFunction]}
+        onDeleteRule={[MockFunction]}
+        onThenChange={[MockFunction]}
+        onToggleConditionOption={[MockFunction]}
+        onUpdateConditionValue={[MockFunction]}
+        onUpdateRoutingCondition={[MockFunction]}
+        pagesAvailableForRouting={Array []}
+        rule={
+          Object {
+            "id": "3",
+            "operation": "And",
+          }
+        }
+        title="Or"
+      />
+    </Transition__RoutingComponentTransition>
+  </TransitionGroup>
+  <RoutingRuleSet__AddRuleButton
+    data-test="btn-add-rule"
+    onClick={[Function]}
+    small={true}
+    variant="secondary"
+  >
+    <IconText
+      hideText={false}
+      icon={[Function]}
+    >
+      Add rule
+    </IconText>
+  </RoutingRuleSet__AddRuleButton>
+  <RoutingRuleSet__Box>
+    <withRouter(UnwrappedRoutingRuleDestinationSelector)
+      data-test="select-else"
+      id="else"
+      label="ELSE"
+      onChange={[Function]}
+    />
+  </RoutingRuleSet__Box>
+</Fragment>
+`;

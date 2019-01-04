@@ -2,9 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { radius } from "constants/theme";
-import findEntitiesByType from "../utils/findEntitiesByType";
-import getEntities from "../utils/getEntities";
-import replaceEntityText from "../utils/replaceEntityText";
+import findEntitiesByType from "components/RichTextEditor/utils/findEntitiesByType";
+import getEntities from "components/RichTextEditor/utils/getEntities";
+import replaceEntityText from "components/RichTextEditor/utils/replaceEntityText";
 import { Modifier } from "draft-js";
 import { bindKey } from "lodash";
 

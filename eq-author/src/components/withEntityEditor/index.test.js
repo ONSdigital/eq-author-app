@@ -1,5 +1,5 @@
 import React from "react";
-import withEntityEditor from "./";
+import withEntityEditor from ".";
 import { shallow } from "enzyme";
 import gql from "graphql-tag";
 import { SynchronousPromise } from "synchronous-promise";

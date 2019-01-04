@@ -2,7 +2,7 @@ import React from "react";
 
 import styled from "styled-components";
 
-import Modal from "components/Modal";
+import Modal from "components/modals/Modal";
 import DialogHeader from "components/Dialog/DialogHeader";
 import DialogIcon from "components/Dialog/DialogIcon";
 import {
@@ -11,8 +11,8 @@ import {
   Subheading,
   Description
 } from "components/Dialog/DialogMessage";
-import Button from "components/Button/index";
-import ButtonGroup from "components/ButtonGroup/index";
+import Button from "components/buttons/Button";
+import ButtonGroup from "components/buttons/ButtonGroup";
 
 import PropTypes from "prop-types";
 

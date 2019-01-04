@@ -1,7 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
 
-import ContentPickerSingle, { PickerWrapper } from "./ContentPickerSingle";
+import ContentPickerSingle, { PickerWrapper } from "components/ContentPicker/ContentPickerSingle";
 
 describe("Content Picker Single", () => {
   let props;

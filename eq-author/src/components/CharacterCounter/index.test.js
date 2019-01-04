@@ -1,7 +1,7 @@
 import { colors } from "constants/theme";
 import React from "react";
 import { shallow } from "enzyme";
-import CharacterCounter, { Counter } from "components/CharacterCounter";
+import CharacterCounter, { Counter } from "./";
 
 const createWrapper = (props = {}, render = shallow) => {
   return render(<CharacterCounter {...props} />);

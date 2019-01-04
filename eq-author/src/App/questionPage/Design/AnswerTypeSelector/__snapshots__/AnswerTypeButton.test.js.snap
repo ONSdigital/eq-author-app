@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/AnswerTypeButton should render 1`] = `
+<IconGridButton
+  data-test="btn-answer-type-textfield"
+  iconSrc="textfield.svg"
+  onClick={[Function]}
+  title="Text field"
+/>
+`;
+
+exports[`components/AnswerTypeButton should render 1`] = `
+<IconGridButton
+  data-test="btn-answer-type-textfield"
+  iconSrc="textfield.svg"
+  onClick={[Function]}
+  title="Text field"
+/>
+`;

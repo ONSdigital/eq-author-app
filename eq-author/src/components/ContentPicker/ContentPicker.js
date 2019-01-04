@@ -3,10 +3,10 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import { isNil } from "lodash";
 
-import ButtonGroup from "components/ButtonGroup";
-import Button from "components/Button";
+import ButtonGroup from "components/buttons/ButtonGroup";
+import Button from "components/buttons/Button";
 
-import ContentPickerSingle from "./ContentPickerSingle";
+import ContentPickerSingle from "components/ContentPicker/ContentPickerSingle";
 
 const ContentWrapper = styled.div`
   display: flex;

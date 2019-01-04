@@ -1,6 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
-import ContentPicker from "./ContentPicker";
+import ContentPicker from "components/ContentPicker/ContentPicker";
 import generateMockPiping from "tests/utils/generateMockPiping";
 
 const SECTION_PICKER_SELECTOR = "[data-test='section-picker']";

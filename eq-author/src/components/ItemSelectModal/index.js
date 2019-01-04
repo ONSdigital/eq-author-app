@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import Button from "components/Button";
-import PlainModal from "./PlainModal";
-import ButtonGroup from "components/ButtonGroup";
+import Button from "components/buttons/Button";
+import PlainModal from "components/ItemSelectModal/PlainModal";
+import ButtonGroup from "components/buttons/ButtonGroup";
 import ScrollPane from "components/ScrollPane";
 import { colors } from "constants/theme";
 

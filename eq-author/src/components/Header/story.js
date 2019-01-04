@@ -1,7 +1,7 @@
 import React from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
-import { UnconnectedHeader as Header } from "components/Header";
+import { UnconnectedHeader as Header } from "./";
 import { MemoryRouter } from "react-router";
 
 const user = {

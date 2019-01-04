@@ -1,7 +1,7 @@
 import React from "react";
 import { storiesOf } from "@storybook/react";
 import styled from "styled-components";
-import { UnconnectedSavingIndicator } from "components/SavingIndicator";
+import { UnconnectedSavingIndicator } from "./";
 
 const Padding = styled.div`
   padding: 2em;

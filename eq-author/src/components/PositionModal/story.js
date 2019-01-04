@@ -2,7 +2,7 @@ import React from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import { buildSections } from "tests/utils/createMockQuestionnaire";
-import PositionModal from ".";
+import PositionModal from "./";
 
 class PositionModalStory extends React.Component {
   state = {

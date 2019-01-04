@@ -1,6 +1,6 @@
 import React from "react";
 import { mount } from "enzyme";
-import { Grid, Column } from "components/Grid";
+import { Grid, Column } from "./";
 
 let wrapper;
 

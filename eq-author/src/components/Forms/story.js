@@ -11,7 +11,7 @@ import {
   Select,
   TextArea,
   Number
-} from "components/Forms";
+} from "./";
 
 const Width = styled.div`
   max-width: 30em;

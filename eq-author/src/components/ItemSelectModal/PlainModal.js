@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Modal from "components/Modal";
+import Modal from "components/modals/Modal";
 
 const PlainModal = styled(Modal).attrs({ hasCloseButton: false })`
   .Overlay {

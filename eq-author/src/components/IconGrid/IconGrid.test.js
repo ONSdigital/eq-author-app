@@ -1,5 +1,5 @@
 import React from "react";
-import { IconGrid } from "components/IconGrid";
+import { IconGrid } from "./";
 import { shallow } from "enzyme";
 
 let wrapper;

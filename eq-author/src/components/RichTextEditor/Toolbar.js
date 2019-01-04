@@ -4,14 +4,14 @@ import styled from "styled-components";
 import { TransitionGroup } from "react-transition-group";
 
 import { colors } from "constants/theme";
-import iconBold from "./icon-bold.svg?inline";
-import iconEmphasis from "./icon-emphasis.svg?inline";
-import iconHeading from "./icon-heading.svg?inline";
-import iconList from "./icon-list.svg?inline";
+import iconBold from "components/RichTextEditor/icon-bold.svg?inline";
+import iconEmphasis from "components/RichTextEditor/icon-emphasis.svg?inline";
+import iconHeading from "components/RichTextEditor/icon-heading.svg?inline";
+import iconList from "components/RichTextEditor/icon-list.svg?inline";
 
-import PipingMenu from "./PipingMenu";
-import ToolbarButton from "./ToolbarButton";
-import FadeTransition from "../FadeTransition";
+import PipingMenu from "components/RichTextEditor/PipingMenu";
+import ToolbarButton from "components/RichTextEditor/ToolbarButton";
+import FadeTransition from "components/transitions/FadeTransition";
 
 export const STYLE_BLOCK = "block";
 export const STYLE_INLINE = "inline";

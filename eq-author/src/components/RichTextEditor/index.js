@@ -25,8 +25,8 @@ import createFormatStripper from "./utils/createFormatStripper";
 import cheerio from "cheerio";
 
 import { flow, uniq, map, keyBy, mapValues, isNull, trim } from "lodash/fp";
-import { sharedStyles } from "../Forms/css";
-import { Field, Label } from "../Forms";
+import { sharedStyles } from "components/Forms/css";
+import { Field, Label } from "components/Forms";
 
 const styleMap = {
   ITALIC: {

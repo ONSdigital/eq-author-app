@@ -1,7 +1,7 @@
 import React from "react";
 import { storiesOf } from "@storybook/react";
 import styled from "styled-components";
-import { Accordion, AccordionPanel } from "components/Accordion";
+import { Accordion, AccordionPanel } from "./";
 
 const CenterXY = styled.div`
   position: absolute;

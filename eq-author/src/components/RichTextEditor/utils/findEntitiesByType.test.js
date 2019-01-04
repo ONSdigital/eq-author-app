@@ -1,4 +1,4 @@
-import findEntitiesByType from "./findEntitiesByType";
+import findEntitiesByType from "components/RichTextEditor/utils/findEntitiesByType";
 import Raw from "draft-js-raw-content-state";
 
 describe("findEntitiesByType", () => {

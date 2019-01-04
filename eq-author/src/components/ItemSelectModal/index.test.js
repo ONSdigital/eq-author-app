@@ -1,5 +1,5 @@
 import React from "react";
-import ItemSelectModal from ".";
+import ItemSelectModal from "components/ItemSelectModal";
 import { shallow } from "enzyme";
 
 describe("ItemSelectModal", () => {
@@ -28,7 +28,7 @@ describe("ItemSelectModal", () => {
     expect(onConfirm).toHaveBeenCalled();
   });
 
-  it("should close the modal when cancel button is clicked", () => {
+  it("should close the Modals when cancel button is clicked", () => {
     const onClose = jest.fn();
     const wrapper = createWrapper({ onClose });
 
