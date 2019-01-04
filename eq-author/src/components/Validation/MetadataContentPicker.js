@@ -25,10 +25,16 @@ UnwrappedMetadataContentPicker.propTypes = {
   path: PropTypes.string.isRequired
 };
 
-export default props => (
+const MetadataContentPicker = props => (
   <AvailableMetadataQuery answerId={props.answerId}>
     {innerProps => (
       <UnwrappedMetadataContentPicker {...innerProps} {...props} />
     )}
   </AvailableMetadataQuery>
 );
+
+MetadataContentPicker.propTypes = {
+  answerId: PropTypes.string.isRequired
+};
+
+export default MetadataContentPicker;

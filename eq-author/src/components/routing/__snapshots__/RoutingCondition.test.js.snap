@@ -22,7 +22,7 @@ exports[`components/RoutingCondition should render consistently 1`] = `
       cols={10}
       gutters={false}
     >
-      <_default
+      <RoutingConditionContentPicker
         id="RoutingCondition1"
         onSubmit={[Function]}
         pageId="3"

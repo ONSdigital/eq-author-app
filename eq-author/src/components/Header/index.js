@@ -178,16 +178,24 @@ const CURRENT_USER_QUERY = gql`
   }
 `;
 
-export const withCurrentUser = Component => props =>
-  props.match.path !== Routes.SIGN_IN ? (
-    <Query query={CURRENT_USER_QUERY} fetchPolicy="network-only">
-      {innerProps => {
-        return <Component {...innerProps} {...props} />;
-      }}
-    </Query>
-  ) : (
-    <Component {...props} />
-  );
+export const withCurrentUser = Component => {
+  const Comp = props =>
+    props.match.path !== Routes.SIGN_IN ? (
+      <Query query={CURRENT_USER_QUERY} fetchPolicy="network-only">
+        {innerProps => {
+          return <Component {...innerProps} {...props} />;
+        }}
+      </Query>
+    ) : (
+      <Component {...props} />
+    );
+  Comp.propTypes = {
+    match: PropTypes.shape({
+      path: PropTypes.string.isRequired
+    }).isRequired
+  };
+  return Comp;
+};
 
 export default flowRight(
   connect(

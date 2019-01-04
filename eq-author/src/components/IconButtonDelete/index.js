@@ -47,11 +47,13 @@ DeleteTooltip.propTypes = {
 };
 
 IconButtonDelete.propTypes = {
-  hideText: PropTypes.bool
+  hideText: PropTypes.bool,
+  iconText: PropTypes.string
 };
 
 IconButtonDelete.defaultProps = {
-  hideText: false
+  hideText: false,
+  iconText: "Delete"
 };
 
 export default IconButtonDelete;

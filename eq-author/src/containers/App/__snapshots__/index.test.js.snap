@@ -59,7 +59,7 @@ exports[`containers/App Routes should render  1`] = `
 `;
 
 exports[`containers/App should render 1`] = `
-<e>
+<t>
   <ApolloProvider
     client={
       Object {
@@ -101,5 +101,5 @@ exports[`containers/App should render 1`] = `
       />
     </Provider>
   </ApolloProvider>
-</e>
+</t>
 `;

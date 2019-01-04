@@ -27,7 +27,7 @@ exports[`components/RoutingRuleDestinationSelector should render 1`] = `
       cols={7}
       gutters={false}
     >
-      <_default
+      <RoutingDestinationContentPicker
         data-test="routing-destination-content-picker"
         disabled={false}
         id="test-select"

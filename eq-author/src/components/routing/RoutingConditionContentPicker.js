@@ -26,10 +26,16 @@ UnwrappedRoutingConditionContentPicker.propTypes = {
   path: PropTypes.string.isRequired
 };
 
-export default props => (
+const RoutingConditionContentPicker = props => (
   <AvailableRoutingQuestionsQuery pageId={props.pageId}>
     {innerProps => (
       <UnwrappedRoutingConditionContentPicker {...innerProps} {...props} />
     )}
   </AvailableRoutingQuestionsQuery>
 );
+
+RoutingConditionContentPicker.propTypes = {
+  pageId: PropTypes.string.isRequired
+};
+
+export default RoutingConditionContentPicker;

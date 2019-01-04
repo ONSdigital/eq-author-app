@@ -229,7 +229,7 @@ export const SECTION_QUERY = gql`
   ${SectionEditor.fragments.Section}
 `;
 
-export default props => (
+const SectionRoute = props => (
   <Query query={SECTION_QUERY} variables={{ id: props.match.params.sectionId }}>
     {innerProps => (
       <WrappedSectionRoute
@@ -240,3 +240,13 @@ export default props => (
     )}
   </Query>
 );
+
+SectionRoute.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      sectionId: PropTypes.string.isRequired
+    }).isRequired
+  }).isRequired
+};
+
+export default SectionRoute;

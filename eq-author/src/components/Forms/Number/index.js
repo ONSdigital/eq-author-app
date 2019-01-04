@@ -108,7 +108,8 @@ Number.propTypes = {
   value: PropTypes.number,
   step: PropTypes.number,
   min: PropTypes.number,
-  max: PropTypes.number.isRequired
+  max: PropTypes.number.isRequired,
+  default: PropTypes.number
 };
 
 export default Number;

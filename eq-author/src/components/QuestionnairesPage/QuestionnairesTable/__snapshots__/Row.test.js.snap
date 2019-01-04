@@ -75,6 +75,7 @@ exports[`Row should render 1`] = `
           data-test="btn-delete-questionnaire"
           disabled={false}
           hideText={true}
+          iconText="Delete"
           onClick={[Function]}
         />
       </Row__ButtonGroup>
@@ -158,6 +159,7 @@ exports[`Row should render as disabled when the id is a duplicate 1`] = `
           data-test="btn-delete-questionnaire"
           disabled={true}
           hideText={true}
+          iconText="Delete"
           onClick={[Function]}
         />
       </Row__ButtonGroup>
