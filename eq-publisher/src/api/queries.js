@@ -10,7 +10,7 @@ exports.getQuestionnaire = `
     ...BasicAnswer
     ...CompositeAnswer
   }
-  
+
   fragment CompositeAnswer on CompositeAnswer {
     validation {
       ... on DateRangeValidation {
@@ -33,7 +33,7 @@ exports.getQuestionnaire = `
       label
     }
   }
-  
+
   fragment BasicAnswer on BasicAnswer {
     validation {
       ... on NumberValidation {
@@ -54,14 +54,14 @@ exports.getQuestionnaire = `
       }
     }
   }
-  
+
   fragment MinValueValidationRule on MinValueValidationRule {
     id
     enabled
     custom
     inclusive
   }
-  
+
   fragment MaxValueValidationRule on MaxValueValidationRule {
     id
     enabled
@@ -72,7 +72,7 @@ exports.getQuestionnaire = `
       id
     }
   }
-  
+
   fragment EarliestDateValidationRule on EarliestDateValidationRule {
     id
     enabled
@@ -90,7 +90,7 @@ exports.getQuestionnaire = `
       key
     }
   }
-  
+
   fragment LatestDateValidationRule on LatestDateValidationRule {
     id
     enabled
@@ -108,7 +108,7 @@ exports.getQuestionnaire = `
       key
     }
   }
-  
+
   fragment MinDurationValidationRule on MinDurationValidationRule {
     id
     enabled
@@ -117,7 +117,7 @@ exports.getQuestionnaire = `
       unit
     }
   }
-    
+
   fragment MaxDurationValidationRule on MaxDurationValidationRule {
     id
     enabled
@@ -133,7 +133,7 @@ exports.getQuestionnaire = `
     description
     value
     qCode
-    additionalAnswer{
+    additionalAnswer {
       ...answerFragment
     }
   }
@@ -156,6 +156,16 @@ exports.getQuestionnaire = `
         }
       }
     }
+  }
+
+  fragment destination2Fragment on Destination2 {
+    section {
+      id
+    }
+    page {
+      id
+    }
+    logical
   }
 
   fragment metadataFragment on Metadata {
@@ -213,7 +223,7 @@ exports.getQuestionnaire = `
                       options {
                         id
                         label
-                        additionalAnswer{
+                        additionalAnswer {
                           id
                           label
                           type
@@ -227,9 +237,52 @@ exports.getQuestionnaire = `
                     }
                     ... on NumberValue {
                       numberValue
-                    }                
+                    }
                   }
                 }
+              }
+            }
+            routing {
+              rules {
+                expressionGroup {
+                  operator
+                  expressions {
+                    ... on BinaryExpression2 {
+                      left {
+                        ... on BasicAnswer {
+                          id
+                          type
+                          label
+                        }
+                        ... on MultipleChoiceAnswer {
+                          id
+                          type
+                          options {
+                            id
+                          }
+                        }
+                      }
+                      condition
+                      right {
+                        ... on CustomValue2 {
+                          number
+                        }
+                        ... on SelectedOptions2 {
+                          options {
+                            id
+                            label
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+                destination {
+                  ...destination2Fragment
+                }
+              }
+              else {
+                ...destination2Fragment
               }
             }
             confirmation {
