@@ -87,6 +87,7 @@ exports[`WrappingInput should render 1`] = `
           <TextareaAutosize
             className="c1"
             id="foo"
+            inputRef={[Function]}
             onChange={[Function]}
             onHeightChange={[Function]}
             useCacheForDOMMeasurements={false}
