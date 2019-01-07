@@ -21,17 +21,10 @@
     "storybook": "export NODE_PATH=src/ && start-storybook -p 9001",
     "storybook-build": "export NODE_PATH=src/ && build-storybook -s public -o storybook-static",
     "storybook-deploy": "yarn storybook-build && gh-pages -d .out",
-    "precommit": "lint-staged",
     "coverage": "yarn test -- --coverage",
     "cypress:open": "CYPRESS_baseUrl=${CYPRESS_baseUrl:=http://localhost:3000/} cypress open",
     "cypress:open:e2e": "CYPRESS_baseUrl=${CYPRESS_baseUrl:=http://localhost:13000/} cypress open --config integrationFolder=cypress/e2e",
     "cypress:open:routing": "CYPRESS_baseUrl=${CYPRESS_baseUrl:=http://localhost:3000/} CYPRESS_chromeWebSecurity='false' cypress open --config integrationFolder=cypress/routingTests"
-  },
-  "lint-staged": {
-    "**/*.js": [
-      "prettier --write",
-      "git add"
-    ]
   },
   "devDependencies": {
     "@babel/core": "^7.1.2",
@@ -76,7 +69,6 @@
     "gzip-size": "^4.0.0",
     "html-webpack-plugin": "^4.0.0-alpha.2",
     "http-proxy-middleware": "^0.17.4",
-    "husky": "^1.2.1",
     "jest": "^23.6.0",
     "jest-styled-components": "^6.2.0",
     "jest-transform-graphql": "^2.1.0",
@@ -90,7 +82,6 @@
     "postcss-loader": "^3.0.0",
     "postcss-preset-env": "^6.0.10",
     "postcss-safe-parser": "^4.0.1",
-    "prettier": "^1.14.2",
     "prop-types": "^15.6.0",
     "react-dev-utils": "^6.0.4",
     "react-router-test-context": "^0.1.0",

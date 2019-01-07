@@ -12,12 +12,6 @@
   "resolutions": {
     "eslint-scope": "3.7.1"
   },
-  "lint-staged": {
-    "*.js": [
-      "prettier --write",
-      "git add"
-    ]
-  },
   "dependencies": {
     "apollo-fetch": "^0.7.0",
     "cheerio": "^1.0.0-rc.2",
@@ -37,10 +31,8 @@
   },
   "devDependencies": {
     "eslint": "^5.0.1",
-    "husky": "^1.2.1",
     "jest": "^23.6.0",
-    "lint-staged": "^8.0.4",
-    "prettier": "^1.5.3"
+    "lint-staged": "^8.0.4"
   },
   "moduleRoots": [
     "src/"
@@ -55,10 +47,5 @@
       "src/**/*.js",
       "!src/main.js"
     ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
   }
 }
