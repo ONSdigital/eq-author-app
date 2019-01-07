@@ -63,4 +63,10 @@ describe("Question Confirmation", () => {
     cy.hash().should("match", /\/questionnaire\/\d+\/\d+\/\d+\/design$/);
     cy.get(testId("question-confirmation-item")).should("have.length", 0);
   });
+
+  it("should be preview-able", () => {
+    questionConfirmation.add();
+    cy.get(testId("preview")).click();
+    cy.hash().should("match", /\/preview$/);
+  });
 });

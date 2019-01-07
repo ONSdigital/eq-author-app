@@ -22,7 +22,7 @@ const inputWithError = css`
   box-shadow: none;
 `;
 
-const Input = styled.input`
+export const Input = styled.input`
   width: 20px;
   height: 20px;
   appearance: none;
@@ -61,7 +61,7 @@ const optionItemError = css`
   font-weight: bold;
 `;
 
-const OptionItem = styled.div`
+export const OptionItem = styled.div`
   font-size: 1em;
   background: #fff;
   border: 1px solid ${colors.grey};
@@ -110,9 +110,9 @@ const MutuallyExclusiveOptionTitle = styled.div`
 `;
 
 const OptionPropType = PropTypes.shape({
-  id: PropTypes.string.isRequired,
+  id: PropTypes.string,
   label: PropTypes.string,
-  description: PropTypes.description
+  description: PropTypes.string
 });
 
 export const Option = ({ option, type, answer }) => (
@@ -147,9 +147,9 @@ const MultipleChoiceAnswer = ({ answer }) => {
       {answer.type === CHECKBOX && (
         <SelectAll>Select all that apply:</SelectAll>
       )}
-      {answer.options.map(option => (
+      {answer.options.map((option, index) => (
         <Option
-          key={option.id}
+          key={option.id || index}
           option={option}
           type={answer.type}
           answer={option.additionalAnswer}

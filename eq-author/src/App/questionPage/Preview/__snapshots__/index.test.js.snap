@@ -29,15 +29,9 @@ exports[`PreviewPageRoute should render 1`] = `
   routing={true}
 >
   <Preview__Container>
-    <Preview__PageTitle>
-      <div
-        dangerouslySetInnerHTML={
-          Object {
-            "__html": "Hello world",
-          }
-        }
-      />
-    </Preview__PageTitle>
+    <PageTitle
+      title="<p>Hello world</p>"
+    />
     <Preview__Description
       dangerouslySetInnerHTML={
         Object {

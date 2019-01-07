@@ -1,9 +1,9 @@
+import React from "react";
+import PropTypes from "prop-types";
+import { Query } from "react-apollo";
 import { propType } from "graphql-anywhere";
 import gql from "graphql-tag";
 import { flow } from "lodash/fp";
-import PropTypes from "prop-types";
-import React from "react";
-import { Query } from "react-apollo";
 
 import EditorLayout from "App/questionPage/Design/EditorLayout";
 import { Toolbar, Buttons } from "App/questionPage/Design/EditorToolbar";
@@ -64,7 +64,11 @@ export class UnwrappedQuestionConfirmationRoute extends React.Component {
   }
 
   render() {
-    return <EditorLayout>{this.renderContent()}</EditorLayout>;
+    return (
+      <EditorLayout page={this.props.data.questionConfirmation} preview>
+        {this.renderContent()}
+      </EditorLayout>
+    );
   }
 }
 

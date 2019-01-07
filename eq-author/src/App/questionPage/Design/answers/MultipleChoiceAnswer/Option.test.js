@@ -1,11 +1,11 @@
 import React from "react";
 
 import WrappingInput from "components/Forms/WrappingInput";
+import { shallow, mount } from "enzyme";
 import { StatelessOption } from "App/questionPage/Design/answers/MultipleChoiceAnswer/Option";
 import DeleteButton from "components/buttons/DeleteButton";
 import { CHECKBOX, RADIO } from "constants/answer-types";
 
-import { shallow, mount } from "enzyme";
 import { merge } from "lodash";
 import createMockStore from "tests/utils/createMockStore";
 

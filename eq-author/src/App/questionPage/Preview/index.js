@@ -11,8 +11,9 @@ import Loading from "components/Loading";
 import Error from "components/preview/Error";
 import QuestionPageEditor from "App/questionPage/Design/QuestionPageEditor";
 
-import { Answer } from "./answers";
+import { Answer } from "components/preview/Answers";
 import IconInfo from "./icon-info.svg?inline";
+import PageTitle from "components/preview/elements/PageTitle";
 
 const Container = styled.div`
   padding: 2em;
@@ -37,11 +38,6 @@ const Container = styled.div`
   }
 `;
 
-const PageTitle = styled.h1`
-  font-size: 1.4em;
-  margin: 0 0 1em;
-`;
-
 const Description = styled.div`
   margin-bottom: 1em;
 `;
@@ -64,25 +60,13 @@ export const UnwrappedPreviewPageRoute = ({ loading, data }) => {
   if (loading) {
     return <Loading height="38rem">Preview loading…</Loading>;
   }
-
-  /*  eslint-disable react/no-danger */
   const { questionPage } = data;
-  const { description, guidance, answers } = questionPage;
-
-  let title = questionPage.title.replace(/(<p[^>]+?>|<p>|<\/p>)/gim, "");
+  const { title, description, guidance, answers } = questionPage;
 
   return (
     <EditorLayout page={questionPage} preview routing>
       <Container>
-        <PageTitle>
-          {title ? (
-            <div dangerouslySetInnerHTML={{ __html: title }} />
-          ) : (
-            <Error data-test="no-title" large>
-              Missing Page Title
-            </Error>
-          )}
-        </PageTitle>
+        <PageTitle title={title} />
 
         {description && (
           <Description
@@ -117,7 +101,7 @@ export const UnwrappedPreviewPageRoute = ({ loading, data }) => {
 UnwrappedPreviewPageRoute.propTypes = {
   loading: PropTypes.bool.isRequired,
   data: PropTypes.shape({
-    questionPage: propType(QuestionPageEditor.fragments.QuestionPage).isRequired
+    questionPage: propType(QuestionPageEditor.fragments.QuestionPage)
   })
 };
 

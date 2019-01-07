@@ -1,8 +1,8 @@
+import React from "react";
+import PropTypes from "prop-types";
+import styled from "styled-components";
 import { propType } from "graphql-anywhere";
 import { flow } from "lodash/fp";
-import PropTypes from "prop-types";
-import React from "react";
-import styled from "styled-components";
 
 import confirmationFragment from "graphql/fragments/question-confirmation.graphql";
 

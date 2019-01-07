@@ -11,20 +11,17 @@ import { find, flatMap, flowRight } from "lodash";
 
 import BaseLayout from "components/BaseLayout";
 import { Grid, Column } from "components/Grid";
+import NavigationSidebar from "./NavigationSidebar";
 import QuestionPageRoute from "App/questionPage/Design";
-import Loading from "components/Loading";
-
-import withCreatePage from "enhancers/withCreatePage";
-import withCreateSection from "enhancers/withCreateSection";
-
-import { Routes, buildSectionPath } from "utils/UrlUtils";
-
+import PreviewRoute from "components/PreviewRoute";
 import SectionRoute from "App/section/Design";
+import { Routes, buildSectionPath } from "utils/UrlUtils";
+import Loading from "components/Loading";
 import RoutingPageRoute from "App/questionPage/Routing";
 import QuestionConfirmationRoute from "App/questionConfirmation/Design";
 
-import PreviewRoute from "./PreviewRoute";
-import NavigationSidebar from "./NavigationSidebar";
+import withCreatePage from "enhancers/withCreatePage";
+import withCreateSection from "enhancers/withCreateSection";
 import withCreateQuestionConfirmation from "./withCreateQuestionConfirmation";
 
 import { raiseToast } from "redux/toast/actions";
@@ -160,10 +157,19 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
                   component={RoutingPageRoute}
                   exact
                 />
-                <Route path={Routes.PREVIEW} component={PreviewRoute} exact />
+                <Route
+                  path={Routes.PAGE_PREVIEW}
+                  component={PreviewRoute}
+                  exact
+                />
                 <Route
                   path={Routes.CONFIRMATION}
                   component={QuestionConfirmationRoute}
+                  exact
+                />
+                <Route
+                  path={Routes.CONFIRMATION_PREVIEW}
+                  component={PreviewRoute}
                   exact
                 />
                 <Route path="*" render={this.renderRedirect} />
