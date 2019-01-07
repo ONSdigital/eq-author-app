@@ -1,6 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
-import Duration from "App/questionPage/Design/Validation/Date/Duration";
+import Duration from "./Duration";
 import { Number, Select } from "components/Forms";
 
 import { DAYS, MONTHS, YEARS } from "constants/durations";

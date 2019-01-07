@@ -26,7 +26,7 @@ UnwrappedPreviousAnswerContentPicker.propTypes = {
   path: PropTypes.string.isRequired
 };
 
-const PreviousAnswerContentPicker = props => (
+const GetAvailablePreviewAnswersQuery = props => (
   <AvailablePreviousAnswersQuery answerId={props.answerId}>
     {innerProps => (
       <UnwrappedPreviousAnswerContentPicker {...innerProps} {...props} />
@@ -34,8 +34,8 @@ const PreviousAnswerContentPicker = props => (
   </AvailablePreviousAnswersQuery>
 );
 
-PreviousAnswerContentPicker.propTypes = {
+GetAvailablePreviewAnswersQuery.propTypes = {
   answerId: PropTypes.string.isRequired
 };
 
-export default PreviousAnswerContentPicker;
+export default GetAvailablePreviewAnswersQuery;

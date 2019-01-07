@@ -32,7 +32,7 @@ import Error from "components/Error";
 import VisuallyHidden from "components/VisuallyHidden";
 
 import withEntityEditor from "components/withEntityEditor";
-import { withPropRenamed } from "utils/enhancers";
+import withPropRenamed from "enhancers/withPropRenamed";
 import sectionFragment from "graphql/fragments/section.graphql";
 
 import { raiseToast } from "redux/toast/actions";

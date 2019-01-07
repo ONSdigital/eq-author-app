@@ -1,12 +1,14 @@
 import { flowRight } from "lodash/fp";
 
-import withToggleAnswerValidation from "App/questionPage/Design/Validation/withToggleAnswerValidation";
-import withUpdateAnswerValidation from "App/questionPage/Design/Validation/withUpdateAnswerValidation";
+import withToggleAnswerValidation from "./withToggleAnswerValidation";
+import withUpdateAnswerValidation from "./withUpdateAnswerValidation";
 import withEntityEditor from "components/withEntityEditor";
 
-import withAnswerValidation from "App/questionPage/Design/Validation/withAnswerValidation";
-
-import { withProps, withPropRenamed, withPropRemapped } from "utils/enhancers";
+import withAnswerValidation from "./withAnswerValidation";
+import Validation from "./Validation";
+import withProps from "enhancers/withProps";
+import withPropRenamed from "enhancers/withPropRenamed";
+import withPropRemapped from "enhancers/withPropRemapped";
 
 export default (
   displayName,
@@ -14,8 +16,7 @@ export default (
   readKey,
   writeKey,
   fragment,
-  readToWriteMapper,
-  propKey
+  readToWriteMapper
 ) =>
   flowRight(
     withProps({ displayName, testId, readKey }),
@@ -28,5 +29,5 @@ export default (
       readToWriteMapper(writeKey)
     ),
     withEntityEditor(readKey, fragment),
-    withPropRenamed(readKey, propKey)
-  );
+    withPropRenamed(readKey, "validation")
+  )(Validation);

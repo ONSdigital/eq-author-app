@@ -105,7 +105,7 @@ describe("Answer Validation", () => {
       });
       it("Can toggle include/exclude", () => {
         toggleCheckboxOn("@minValueToggle");
-        toggleCheckboxOn(testId("min-value-include"));
+        toggleCheckboxOn(testId("inclusive"));
       });
       it("Can retain input value after on/off toggle", () => {
         toggleCheckboxOn("@minValueToggle");
@@ -141,7 +141,7 @@ describe("Answer Validation", () => {
       });
       it("Can toggle include/exclude", () => {
         toggleCheckboxOn("@maxValueToggle");
-        toggleCheckboxOn(testId("max-value-include"));
+        toggleCheckboxOn(testId("inclusive"));
       });
       it("Can retain input value after on/off toggle", () => {
         toggleCheckboxOn("@maxValueToggle");
@@ -185,7 +185,7 @@ describe("Answer Validation", () => {
       });
       it("Can toggle include/exclude", () => {
         toggleCheckboxOn("@minValueToggle");
-        toggleCheckboxOn(testId("min-value-include"));
+        toggleCheckboxOn(testId("inclusive"));
       });
       it("Can retain input value after on/off toggle", () => {
         toggleCheckboxOn("@minValueToggle");
@@ -221,7 +221,7 @@ describe("Answer Validation", () => {
       });
       it("Can toggle include/exclude", () => {
         toggleCheckboxOn("@maxValueToggle");
-        toggleCheckboxOn(testId("max-value-include"));
+        toggleCheckboxOn(testId("inclusive"));
       });
       it("Can retain input value after on/off toggle", () => {
         toggleCheckboxOn("@maxValueToggle");

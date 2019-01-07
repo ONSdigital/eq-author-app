@@ -1,22 +1,21 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { get } from "lodash";
+import { flowRight, get } from "lodash";
 
 import { Input, Select } from "components/Forms";
 import { Grid, Column } from "components/Grid";
 
-import PreviousAnswerContentPicker from "App/questionPage/Design/Validation/PreviousAnswerContentPicker";
-import MetadataContentPicker from "App/questionPage/Design/Validation/MetadataContentPicker";
-import DisabledMessage from "App/questionPage/Design/Validation/DisabledMessage";
-import { ValidationPills } from "App/questionPage/Design/Validation/ValidationPills";
-import ValidationView from "App/questionPage/Design/Validation/ValidationView";
-import Path from "App/questionPage/Design/Validation/path.svg?inline";
-import PathEnd from "App/questionPage/Design/Validation/path-end.svg?inline";
+import PreviousAnswerContentPicker from "./PreviousAnswerContentPicker";
+import MetadataContentPicker from "./MetadataContentPicker";
+import { ValidationPills } from "./ValidationPills";
+import Path from "./path.svg?inline";
+import PathEnd from "./path-end.svg?inline";
+import EmphasisedText from "./EmphasisedText";
+import AlignedColumn from "./AlignedColumn";
+import Duration from "./Duration";
 
-import EmphasisedText from "App/questionPage/Design/Validation/Date/EmphasisedText";
-import AlignedColumn from "App/questionPage/Design/Validation/Date/AlignedColumn";
-import Duration from "App/questionPage/Design/Validation/Date/Duration";
+import withChangeUpdate from "enhancers/withChangeUpdate";
 
 import * as entityTypes from "constants/validation-entity-types";
 import { DATE, DATE_RANGE } from "constants/answer-types";
@@ -68,13 +67,13 @@ const getUnits = ({ format, type }) => {
   return UNITS.slice(2);
 };
 
-class DateValidation extends React.Component {
+export class UnwrappedDateValidation extends React.Component {
   PreviousAnswer = () => (
     <PreviousAnswerContentPicker
       answerId={this.props.answer.id}
-      onSubmit={this.handleUpdate}
+      onSubmit={this.props.onChangeUpdate}
       selectedContentDisplayName={get(
-        this.props.date.previousAnswer,
+        this.props.validation.previousAnswer,
         "displayName"
       )}
       path={`answer.validation.${this.props.readKey}.availablePreviousAnswers`}
@@ -84,8 +83,11 @@ class DateValidation extends React.Component {
   Metadata = () => (
     <MetadataContentPicker
       answerId={this.props.answer.id}
-      onSubmit={this.handleUpdate}
-      selectedContentDisplayName={get(this.props.date.metadata, "displayName")}
+      onSubmit={this.props.onChangeUpdate}
+      selectedContentDisplayName={get(
+        this.props.validation.metadata,
+        "displayName"
+      )}
       path={`answer.validation.${this.props.readKey}.availableMetadata`}
     />
   );
@@ -98,7 +100,7 @@ class DateValidation extends React.Component {
     <DateInput
       name="customDate"
       type="date"
-      value={this.props.date.customDate}
+      value={this.props.validation.customDate}
       onChange={this.props.onChange}
       onBlur={this.props.onUpdate}
       max="9999-12-30"
@@ -106,33 +108,17 @@ class DateValidation extends React.Component {
     />
   );
 
-  handleUpdate = update => this.props.onChange(update, this.props.onUpdate);
-
-  handleEntityTypeChange = value =>
-    this.handleUpdate({ name: "entityType", value });
-
-  handleToggleChange = ({ value: enabled }) => {
+  render() {
     const {
-      onToggleValidationRule,
-      date: { id }
-    } = this.props;
-
-    onToggleValidationRule({
-      id,
-      enabled
-    });
-  };
-
-  renderContent = () => {
-    const {
-      date: { offset, relativePosition, entityType },
+      validation: { offset, relativePosition, entityType },
       answer: {
         properties: { format },
         type
       },
       displayName,
       onChange,
-      onUpdate
+      onUpdate,
+      onChangeUpdate
     } = this.props;
 
     const availableUnits = getUnits({ format, type });
@@ -193,37 +179,18 @@ class DateValidation extends React.Component {
           <Column cols={9}>
             <ValidationPills
               entityType={entityType}
-              onEntityTypeChange={this.handleEntityTypeChange}
+              onEntityTypeChange={onChangeUpdate}
               {...validationPills}
             />
           </Column>
         </Grid>
       </div>
     );
-  };
-
-  renderDisabled = () => <DisabledMessage name={this.props.displayName} />;
-
-  render() {
-    const {
-      testId,
-      date: { enabled }
-    } = this.props;
-
-    return (
-      <ValidationView
-        data-test={testId}
-        enabled={enabled}
-        onToggleChange={this.handleToggleChange}
-      >
-        {enabled ? this.renderContent() : this.renderDisabled()}
-      </ValidationView>
-    );
   }
 }
 
-DateValidation.propTypes = {
-  date: PropTypes.shape({
+UnwrappedDateValidation.propTypes = {
+  validation: PropTypes.shape({
     id: PropTypes.string.isRequired,
     enabled: PropTypes.bool.isRequired,
     customDate: PropTypes.string,
@@ -247,6 +214,7 @@ DateValidation.propTypes = {
     }).isRequired
   }).isRequired,
   onToggleValidationRule: PropTypes.func.isRequired,
+  onChangeUpdate: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
   displayName: PropTypes.string.isRequired,
@@ -254,4 +222,4 @@ DateValidation.propTypes = {
   testId: PropTypes.string.isRequired
 };
 
-export default DateValidation;
+export default flowRight(withChangeUpdate)(UnwrappedDateValidation);

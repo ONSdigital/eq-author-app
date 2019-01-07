@@ -24,58 +24,63 @@ export const ValidationPills = ({
   Metadata,
   Now,
   Custom
-}) => (
-  <Pills
-    value={entityType}
-    onChange={onEntityTypeChange}
-    options={compact([
-      isFunction(Now)
-        ? {
-            id: "Now",
-            title: "Start date",
-            render: () => (
-              <PillTabContent>
-                <Now />
-              </PillTabContent>
-            )
-          }
-        : null,
-      isFunction(PreviousAnswer)
-        ? {
-            id: "PreviousAnswer",
-            title: "Previous answer",
-            render: () => (
-              <PillTabContent>
-                <PreviousAnswer />
-              </PillTabContent>
-            )
-          }
-        : null,
-      isFunction(Metadata)
-        ? {
-            id: "Metadata",
-            title: "Metadata",
-            render: () => (
-              <PillTabContent>
-                <Metadata />
-              </PillTabContent>
-            )
-          }
-        : null,
-      isFunction(Custom)
-        ? {
-            id: "Custom",
-            title: "Custom",
-            render: () => (
-              <PillTabContent>
-                <Custom />
-              </PillTabContent>
-            )
-          }
-        : null
-    ])}
-  />
-);
+}) => {
+  const handleOnChange = value =>
+    onEntityTypeChange({ name: "entityType", value });
+
+  return (
+    <Pills
+      value={entityType}
+      onChange={handleOnChange}
+      options={compact([
+        isFunction(Now)
+          ? {
+              id: "Now",
+              title: "Start date",
+              render: () => (
+                <PillTabContent>
+                  <Now />
+                </PillTabContent>
+              )
+            }
+          : null,
+        isFunction(PreviousAnswer)
+          ? {
+              id: "PreviousAnswer",
+              title: "Previous answer",
+              render: () => (
+                <PillTabContent>
+                  <PreviousAnswer />
+                </PillTabContent>
+              )
+            }
+          : null,
+        isFunction(Metadata)
+          ? {
+              id: "Metadata",
+              title: "Metadata",
+              render: () => (
+                <PillTabContent>
+                  <Metadata />
+                </PillTabContent>
+              )
+            }
+          : null,
+        isFunction(Custom)
+          ? {
+              id: "Custom",
+              title: "Custom",
+              render: () => (
+                <PillTabContent>
+                  <Custom />
+                </PillTabContent>
+              )
+            }
+          : null
+      ])}
+    />
+  );
+};
 
 ValidationPills.propTypes = {
   entityType: PropTypes.oneOf(Object.values(entityTypes)).isRequired,

@@ -1,7 +1,7 @@
 import {
   dateReadToWriteMapper,
   durationReadToWriteMapper
-} from "App/questionPage/Design/Validation/Date/readToWriteMapper";
+} from "./readToWriteMapper";
 import {
   CUSTOM,
   METADATA,

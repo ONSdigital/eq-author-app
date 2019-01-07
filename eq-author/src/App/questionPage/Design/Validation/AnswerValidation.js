@@ -6,22 +6,25 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 import { gotoTab } from "redux/tabs/actions";
-
-import SidebarButton, { Title, Detail } from "components/buttons/SidebarButton";
 import ModalWithNav from "components/modals/ModalWithNav";
+import SidebarButton, { Title, Detail } from "components/buttons/SidebarButton";
 
-import MinValueValidation from "App/questionPage/Design/Validation/MinValue";
-import MaxValueValidation from "App/questionPage/Design/Validation/MaxValue";
+import ValidationContext from "./ValidationContext";
+import DurationValidation from "./DurationValidation";
+import DateValidation from "./DateValidation";
+import MinValueValidation from "./MinValueValidation";
+import MaxValueValidation from "./MaxValueValidation";
+import DatePreview from "./DatePreview";
+import DurationPreview from "./DurationPreview";
+
 import {
   EarliestDate,
   LatestDate,
   MinDuration,
-  MaxDuration
-} from "App/questionPage/Design/Validation/Date";
-
-import ValidationContext from "App/questionPage/Design/Validation/ValidationContext";
-import DatePreview from "App/questionPage/Design/Validation/Date/DatePreview";
-import DurationPreview from "App/questionPage/Design/Validation/Date/DurationPreview";
+  MaxDuration,
+  MinValue,
+  MaxValue
+} from "./";
 
 import { CURRENCY, DATE, DATE_RANGE, NUMBER } from "constants/answer-types";
 import { colors } from "constants/theme";
@@ -36,14 +39,18 @@ const validationTypes = [
   {
     id: "minValue",
     title: "Min Value",
-    render: () => <MinValueValidation />,
+    render: () => (
+      <MinValue>{props => <MinValueValidation {...props} />}</MinValue>
+    ),
     types: [CURRENCY, NUMBER],
     preview: ({ custom }) => custom
   },
   {
     id: "maxValue",
     title: "Max Value",
-    render: () => <MaxValueValidation />,
+    render: () => (
+      <MaxValue>{props => <MaxValueValidation {...props} />}</MaxValue>
+    ),
     types: [CURRENCY, NUMBER],
     preview: ({ custom, previousAnswer }) =>
       custom ? custom : get(previousAnswer, "displayName")
@@ -51,28 +58,36 @@ const validationTypes = [
   {
     id: "earliestDate",
     title: "Earliest Date",
-    render: () => <EarliestDate />,
+    render: () => (
+      <EarliestDate>{props => <DateValidation {...props} />}</EarliestDate>
+    ),
     types: [DATE, DATE_RANGE],
     preview: DatePreview
   },
   {
     id: "latestDate",
     title: "Latest Date",
-    render: () => <LatestDate />,
+    render: () => (
+      <LatestDate>{props => <DateValidation {...props} />}</LatestDate>
+    ),
     types: [DATE, DATE_RANGE],
     preview: DatePreview
   },
   {
     id: "minDuration",
     title: "Min Duration",
-    render: () => <MinDuration />,
+    render: () => (
+      <MinDuration>{props => <DurationValidation {...props} />}</MinDuration>
+    ),
     types: [DATE_RANGE],
     preview: DurationPreview
   },
   {
     id: "maxDuration",
     title: "Max Duration",
-    render: () => <MaxDuration />,
+    render: () => (
+      <MaxDuration>{props => <DurationValidation {...props} />}</MaxDuration>
+    ),
     types: [DATE_RANGE],
     preview: DurationPreview
   }
