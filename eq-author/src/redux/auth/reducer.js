@@ -26,5 +26,6 @@ export default (state = initialState, { type, payload }) => {
 };
 
 export const getUser = state => get(state, "auth.user");
-export const isSignedIn = () => !isNil(localStorage.getItem("accessToken"));
+export const isSignedIn = () =>
+  localStorage && !isNil(localStorage.getItem("accessToken"));
 export const verifiedAuthStatus = state => get(state, "auth.verifiedStatus");
