@@ -230,6 +230,14 @@ module.exports = knex => {
     );
   };
 
+
+  const getFirstOnPage = async pageId =>
+    Answer(knex).findAll()
+      .where({ isDeleted: false, questionPageId: pageId })
+      .orderBy("id", "asc")
+      .first()
+      .then(fromDb);
+
   return {
     findAll,
     getById,
@@ -239,6 +247,7 @@ module.exports = knex => {
     undelete,
     splitComposites,
     getAnswers,
-    createAnswer
+    createAnswer,
+    getFirstOnPage
   };
 };

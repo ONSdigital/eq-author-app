@@ -23,7 +23,14 @@ describe("deleteAnswer", () => {
     const result = await executeQuery(
       deleteAnswer,
       { input },
-      { repositories }
+      {
+        repositories,
+        modifiers: {
+          BinaryExpression: {
+            onAnswerDeleted: jest.fn().mockResolvedValueOnce()
+          }
+        }
+      }
     );
 
     expect(result.errors).toBeUndefined();

@@ -1,6 +1,7 @@
 const { first } = require("lodash");
 const knex = require("knex")(require("../../config/knexfile"));
 const repositories = require("../../repositories")(knex);
+const modifiers = require("../../modifiers")(repositories);
 const executeQuery = require("../../tests/utils/executeQuery");
 const {
   createQuestionnaireMutation,
@@ -36,7 +37,7 @@ describe("resolvers", () => {
   beforeAll(async () => {
     await knex.migrate.latest();
 
-    let ctx = { repositories };
+    let ctx = { repositories, modifiers };
 
     createNewQuestionnaire = async () => {
       const input = {

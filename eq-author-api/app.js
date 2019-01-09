@@ -1,14 +1,16 @@
 const express = require("express");
 const { graphqlExpress } = require("graphql-server-express");
-const repositories = require("./repositories");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const schema = require("./schema");
 const pinoMiddleware = require("express-pino-logger");
+
 const { PORT } = require("./config/settings");
 const status = require("./middleware/status");
 const { getLaunchUrl } = require("./middleware/launch");
 const createAuthMiddleware = require("./middleware/auth");
+const repositories = require("./repositories");
+const modifiers = require("./modifiers");
+const schema = require("./schema");
 
 const app = express();
 const pino = pinoMiddleware();
@@ -23,7 +25,8 @@ db(process.env.DB_SECRET_ID)
     await knex.migrate.latest();
     logger.info("Ran Migrate");
 
-    const context = { repositories: repositories(knex) };
+    const repos = repositories(knex);
+    const context = { repositories: repos, modifiers: modifiers(repos) };
 
     const authMiddleware = createAuthMiddleware(logger, context);
 

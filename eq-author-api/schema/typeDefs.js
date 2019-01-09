@@ -73,9 +73,11 @@ type QuestionPage implements Page {
   routingRuleSet: RoutingRuleSet
   availablePipingAnswers: [Answer!]!
   availablePipingMetadata: [Metadata!]!
+  availableRoutingAnswers: [Answer!]!
   availableRoutingQuestions: [Page!]!
   availableRoutingDestinations: AvailableRoutingDestinations!
   confirmation: QuestionConfirmation
+  routing: Routing2
 }
 
 type ConfirmationOption {
@@ -398,6 +400,76 @@ enum Language {
     cy
 }
 
+enum LogicalDestination2 {
+  NextPage
+  EndOfQuestionnaire
+}
+
+type Destination2  {
+  id: ID!
+  section: Section
+  page: Page
+  logical: LogicalDestination2
+}
+
+type Routing2 {
+  id: ID!
+  page: Page!
+  else: Destination2!
+  rules: [RoutingRule2!]! 
+}
+
+type RoutingRule2 {
+  id: ID!
+  destination: Destination2!
+  expressionGroup: ExpressionGroup2!
+  routing: Routing2!
+}
+
+enum RoutingOperator2 {
+  And
+  Or
+}
+
+union Expression2 = BinaryExpression2 | ExpressionGroup2
+
+type ExpressionGroup2 {
+  id: ID!
+  operator: RoutingOperator2!
+  expressions: [Expression2!]!
+}
+
+union LeftSide2 = BasicAnswer | MultipleChoiceAnswer
+
+union RightSide2 = SelectedOptions2 | BasicAnswer | CustomValue2
+
+type CustomValue2 {
+  number: Int
+}
+
+type SelectedOptions2 {
+  options: [Option!]!
+}
+
+enum RoutingCondition2 {
+  Equal
+  NotEqual
+  GreaterThan
+  LessThan
+  GreaterOrEqual
+  LessOrEqual
+  OneOf
+}
+
+type BinaryExpression2 {
+  id: ID!
+  left: LeftSide2
+  condition: RoutingCondition2!
+  right: RightSide2
+  expressionGroup: ExpressionGroup2!
+}
+
+
 type Query {
   questionnaires: [Questionnaire]
   questionnaire(id: ID!): Questionnaire
@@ -467,6 +539,79 @@ type Mutation {
   updateQuestionConfirmation(input: UpdateQuestionConfirmationInput): QuestionConfirmation!
   deleteQuestionConfirmation(input: DeleteQuestionConfirmationInput): QuestionConfirmation!
   undeleteQuestionConfirmation(input: UndeleteQuestionConfirmationInput): QuestionConfirmation!
+  createRouting2(input: CreateRouting2Input!): Routing2!
+  updateRouting2(input: UpdateRouting2Input!): Routing2! 
+  createRoutingRule2(input: CreateRoutingRule2Input!): RoutingRule2!
+  updateRoutingRule2(input: UpdateRoutingRule2Input!): RoutingRule2! 
+  deleteRoutingRule2(input: DeleteRoutingRule2Input!): RoutingRule2!
+  updateExpressionGroup2(input: UpdateExpressionGroup2Input!): ExpressionGroup2!
+  createBinaryExpression2(input: CreateBinaryExpression2Input!): BinaryExpression2!
+  updateBinaryExpression2(input: UpdateBinaryExpression2Input!): BinaryExpression2!
+  updateLeftSide2(input: UpdateLeftSide2Input!): BinaryExpression2!
+  updateRightSide2(input: UpdateRightSide2Input!): BinaryExpression2!  
+  deleteBinaryExpression2(input: DeleteBinaryExpression2Input!): BinaryExpression2!
+}
+
+input CreateRouting2Input {
+  pageId: ID!
+}
+
+input DestinationInput {
+  pageId: ID
+  sectionId: ID
+  logical: LogicalDestination2
+}
+
+input UpdateRouting2Input {
+  id: ID!
+  else: DestinationInput!
+}
+
+
+input CreateRoutingRule2Input {
+  routingId: ID!
+}
+
+input UpdateRoutingRule2Input { 
+  id: ID!
+  destination: DestinationInput!
+}
+
+input DeleteRoutingRule2Input {
+  id: ID!
+}
+
+input UpdateExpressionGroup2Input {
+  id: ID!
+  operator: RoutingOperator2!
+}
+
+input CreateBinaryExpression2Input {
+  expressionGroupId: ID!
+}
+
+input UpdateBinaryExpression2Input {
+  id: ID!
+  condition: RoutingCondition2!
+}
+
+input UpdateLeftSide2Input {
+  expressionId: ID!
+  answerId: ID
+}
+
+input UpdateRightSide2Input {
+  expressionId: ID! 
+  customValue: CustomRightSideInput
+  selectedOptions: [ID!]
+}
+
+input DeleteBinaryExpression2Input {
+  id: ID!
+}
+
+input CustomRightSideInput {
+  number: Int
 }
 
 input CreateQuestionnaireInput {
@@ -840,4 +985,5 @@ input DeleteQuestionConfirmationInput {
 input UndeleteQuestionConfirmationInput {
   id: ID!
 }
+
 `;

@@ -28,6 +28,30 @@ module.exports = knex => {
   const QuestionConfirmationRepository = require("../../repositories/QuestionConfirmationRepository")(
     knex
   );
+  const Routing2Repository = require("../../repositories/Routing2Repository")(
+    knex
+  );
+  const DestinationRepository = require("../../repositories/DestinationRepository")(
+    knex
+  );
+  const RoutingRule2Repository = require("../../repositories/RoutingRule2Repository")(
+    knex
+  );
+  const ExpressionGroup2Repository = require("../../repositories/ExpressionGroup2Repository")(
+    knex
+  );
+  const BinaryExpression2Repository = require("../../repositories/BinaryExpression2Repository")(
+    knex
+  );
+  const LeftSide2Repository = require("../../repositories/LeftSide2Repository")(
+    knex
+  );
+  const RightSide2Repository = require("../../repositories/RightSide2Repository")(
+    knex
+  );
+  const SelectedOptionsRepository = require("../../repositories/SelectedOptions2Repository")(
+    knex
+  );
 
   const replacePiping = (field, references) => {
     if (!field || field.indexOf("<span") === -1) {
@@ -159,6 +183,7 @@ module.exports = knex => {
         references
       );
       options.push(option);
+      references.options[optionConfigs[i].id] = option.id;
     }
 
     return options;
@@ -218,6 +243,103 @@ module.exports = knex => {
     return answers;
   };
 
+  const buildSelectedOptions = (
+    selectedOptionsConfig = [],
+    right,
+    references
+  ) => {
+    const selectedOptionsInsert = selectedOptionsConfig.map(optionConfigId =>
+      SelectedOptionsRepository.insert({
+        optionId: references.options[optionConfigId],
+        sideId: right.id
+      })
+    );
+    return Promise.all(selectedOptionsInsert);
+  };
+
+  const buildExpression2 = async (
+    expressionConfig,
+    expressionGroup,
+    references
+  ) => {
+    const expression = await BinaryExpression2Repository.insert({
+      groupId: expressionGroup.id,
+      condition: expressionConfig.condition
+    });
+    if (expressionConfig.left && expressionConfig.left.answerId) {
+      expression.left = await LeftSide2Repository.insert({
+        expressionId: expression.id,
+        answerId: references.answers[expressionConfig.left.answerId]
+      });
+    }
+    if (expressionConfig.right && expressionConfig.right.type) {
+      expression.right = await RightSide2Repository.insert({
+        expressionId: expression.id,
+        type: expressionConfig.right.type
+      });
+
+      if (expressionConfig.right.type === "SelectedOptions") {
+        expression.right.selectedOptions = await buildSelectedOptions(
+          expressionConfig.right.selectedOptions,
+          expression.right,
+          references
+        );
+      }
+    }
+    return expression;
+  };
+
+  const buildExpressionGroup2 = async ({ expressions }, rule, references) => {
+    const group = await ExpressionGroup2Repository.insert({ ruleId: rule.id });
+    if (expressions) {
+      const exp = [];
+      for (let i = 0; i < expressions.length; ++i) {
+        const expression = await buildExpression2(
+          expressions[i],
+          group,
+          references
+        );
+        exp.push(expression);
+      }
+      group.expressions = exp;
+    }
+    return group;
+  };
+
+  const buildRule2 = async (ruleConfig, routing, references) => {
+    const destination = await DestinationRepository.insert();
+    const rule = await RoutingRule2Repository.insert({
+      routingId: routing.id,
+      destinationId: destination.id
+    });
+
+    if (ruleConfig.expressionGroup) {
+      rule.expressionGroup = await buildExpressionGroup2(
+        ruleConfig.expressionGroup,
+        rule,
+        references
+      );
+    }
+
+    return rule;
+  };
+
+  const buildRouting2 = async ({ rules = [] }, page, references) => {
+    const destination = await DestinationRepository.insert();
+    const routing = await Routing2Repository.insert({
+      pageId: page.id,
+      destinationId: destination.id
+    });
+
+    routing.rules = [];
+    for (let i = 0; i < rules.length; ++i) {
+      const rule = await buildRule2(rules[i], routing, references);
+      routing.rules.push(rule);
+    }
+
+    return routing;
+  };
+
   const buildQuestionConfirmation = async (confirmationConfig, page) => {
     const confirmation = await QuestionConfirmationRepository.create({
       pageId: page.id
@@ -232,7 +354,9 @@ module.exports = knex => {
   const buildPages = async (pageConfigs, section, references) => {
     let pages = [];
     for (let i = 0; i < pageConfigs.length; ++i) {
-      const { answers, id, confirmation, ...pageConfig } = pageConfigs[i];
+      const { answers, id, confirmation, routing, ...pageConfig } = pageConfigs[
+        i
+      ];
       let page = await PageRepository.insert({
         pageType: "QuestionPage",
         ...pageConfig,
@@ -256,6 +380,10 @@ module.exports = knex => {
       }
 
       page.answers = await buildAnswers(answers, page, references);
+
+      if (routing) {
+        page.routing = await buildRouting2(routing, page, references);
+      }
 
       pages.push(page);
     }
