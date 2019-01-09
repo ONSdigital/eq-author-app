@@ -102,6 +102,7 @@ export const buildMultipleChoiceAnswer = labelArray => {
       .get(testId("option-label"))
       .eq(index)
       .type(label)
+      .blur()
   );
 };
 
