@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-const knex = require("knex")(require("../config/knexfile"));
+const knex = require("knex")(require("../knexfile"));
 const answerTypes = require("../constants/answerTypes");
 const metadataTypes = require("../constants/metadataTypes");
 

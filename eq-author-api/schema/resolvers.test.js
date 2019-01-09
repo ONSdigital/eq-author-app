@@ -1,5 +1,5 @@
 const { first, get } = require("lodash");
-const knex = require("knex")(require("../config/knexfile"));
+const knex = require("knex")(require("../knexfile"));
 const repositories = require("../repositories")(knex);
 const modifiers = require("../modifiers")(repositories);
 const executeQuery = require("../tests/utils/executeQuery");

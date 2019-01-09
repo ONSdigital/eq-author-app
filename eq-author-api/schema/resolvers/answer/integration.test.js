@@ -1,4 +1,4 @@
-const knex = require("knex")(require("../../../config/knexfile"));
+const knex = require("knex")(require("../../../knexfile"));
 const executeQuery = require("../../../tests/utils/executeQuery");
 const buildTestQuestionnaire = require("../../../tests/utils/buildTestQuestionnaire")(
   knex

@@ -1,5 +1,5 @@
 const db = require("./");
-const config = require("../config/knexfile.js");
+const config = require("../knexfile.js");
 jest.mock("aws-sdk");
 
 describe("Knex", () => {

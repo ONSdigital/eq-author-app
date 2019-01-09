@@ -4,7 +4,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const pinoMiddleware = require("express-pino-logger");
 
-const { PORT } = require("./config/settings");
+const { PORT } = require("./settings");
 const status = require("./middleware/status");
 const { getLaunchUrl } = require("./middleware/launch");
 const createAuthMiddleware = require("./middleware/auth");

@@ -1,5 +1,5 @@
 const { flow, map, omit } = require("lodash/fp");
-const knex = require("knex")(require("../../config/knexfile"));
+const knex = require("knex")(require("../../knexfile"));
 
 const {
   duplicatePageStrategy,
