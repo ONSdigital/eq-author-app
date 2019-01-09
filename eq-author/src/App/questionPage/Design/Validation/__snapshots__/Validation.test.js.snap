@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Validation should render with content 1`] = `
+<ValidationView
+  data-test="test-id"
+  enabled={true}
+  onToggleChange={[Function]}
+>
+  <div>
+    foobar
+  </div>
+</ValidationView>
+`;
+
+exports[`Validation should render with disabled content 1`] = `
+<ValidationView
+  data-test="test-id"
+  enabled={false}
+  onToggleChange={[Function]}
+>
+  <DisabledMessage
+    name="display-name"
+  />
+</ValidationView>
+`;

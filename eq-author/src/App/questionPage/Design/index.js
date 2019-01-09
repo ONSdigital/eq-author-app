@@ -20,7 +20,7 @@ import Error from "components/Error";
 import withEntityEditor from "components/withEntityEditor";
 
 import EditorLayout from "App/questionPage/Design/EditorLayout";
-import { withPropRenamed } from "utils/enhancers";
+import withPropRenamed from "enhancers/withPropRenamed";
 
 import pageFragment from "graphql/fragments/page.graphql";
 import { propType } from "graphql-anywhere";

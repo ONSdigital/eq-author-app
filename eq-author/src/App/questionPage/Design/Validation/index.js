@@ -1,15 +1,17 @@
-import builder from "App/questionPage/Design/Validation/Date/builder";
+import builder from "./builder";
 import {
   dateReadToWriteMapper,
-  durationReadToWriteMapper
-} from "App/questionPage/Design/Validation/Date/readToWriteMapper";
-import DateValidation from "App/questionPage/Design/Validation/Date/DateValidation";
-import DurationValidation from "App/questionPage/Design/Validation/Date/DurationValidation";
+  durationReadToWriteMapper,
+  minValueReadToWriteMapper,
+  maxValueReadToWriteMapper
+} from "./readToWriteMapper";
 
 import EarliestDateValidationRule from "graphql/fragments/earliest-date-validation-rule.graphql";
 import LatestDateValidationRule from "graphql/fragments/latest-date-validation-rule.graphql";
 import MinDurationValidationRule from "graphql/fragments/min-duration-validation-rule.graphql";
 import MaxDurationValidationRule from "graphql/fragments/max-duration-validation-rule.graphql";
+import MinValueValidationRule from "graphql/fragments/min-value-validation-rule.graphql";
+import MaxValueValidationRule from "graphql/fragments/max-value-validation-rule.graphql";
 
 export const LatestDate = builder(
   "Latest date",
@@ -17,9 +19,8 @@ export const LatestDate = builder(
   "latestDate",
   "latestDateInput",
   LatestDateValidationRule,
-  dateReadToWriteMapper,
-  "date"
-)(DateValidation);
+  dateReadToWriteMapper
+);
 
 export const EarliestDate = builder(
   "Earliest date",
@@ -27,9 +28,8 @@ export const EarliestDate = builder(
   "earliestDate",
   "earliestDateInput",
   EarliestDateValidationRule,
-  dateReadToWriteMapper,
-  "date"
-)(DateValidation);
+  dateReadToWriteMapper
+);
 
 export const MinDuration = builder(
   "Min duration",
@@ -37,9 +37,8 @@ export const MinDuration = builder(
   "minDuration",
   "minDurationInput",
   MinDurationValidationRule,
-  durationReadToWriteMapper,
-  "duration"
-)(DurationValidation);
+  durationReadToWriteMapper
+);
 
 export const MaxDuration = builder(
   "Max duration",
@@ -47,6 +46,23 @@ export const MaxDuration = builder(
   "maxDuration",
   "maxDurationInput",
   MaxDurationValidationRule,
-  durationReadToWriteMapper,
-  "duration"
-)(DurationValidation);
+  durationReadToWriteMapper
+);
+
+export const MinValue = builder(
+  "Min value",
+  "min-value-validation",
+  "minValue",
+  "minValueInput",
+  MinValueValidationRule,
+  minValueReadToWriteMapper
+);
+
+export const MaxValue = builder(
+  "Max value",
+  "max-value-validation",
+  "maxValue",
+  "maxValueInput",
+  MaxValueValidationRule,
+  maxValueReadToWriteMapper
+);

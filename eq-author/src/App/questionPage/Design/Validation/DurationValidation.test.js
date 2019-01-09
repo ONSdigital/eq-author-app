@@ -1,12 +1,15 @@
 import React from "react";
 import { shallow } from "enzyme";
-import Duration from "App/questionPage/Design/Validation/Date/Duration";
+import Duration from "./Duration";
 import { DATE_RANGE } from "constants/answer-types";
 
-import DurationValidation from "App/questionPage/Design/Validation/Date/DurationValidation";
+import DurationValidation from "./DurationValidation";
+
+const createWrapper = (props, render = shallow) =>
+  render(<DurationValidation {...props} />);
 
 describe("Duration Validation", () => {
-  let props;
+  let props, wrapper;
 
   beforeEach(() => {
     props = {
@@ -17,7 +20,7 @@ describe("Duration Validation", () => {
         },
         type: DATE_RANGE
       },
-      duration: {
+      validation: {
         id: "123",
         enabled: true,
         duration: {
@@ -31,30 +34,15 @@ describe("Duration Validation", () => {
       displayName: "Some date",
       testId: "duration-test-id"
     };
+
+    wrapper = createWrapper(props);
   });
 
-  it("should render disabled message when not enabled", () => {
-    props.duration.enabled = false;
-    const wrapper = shallow(<DurationValidation {...props} />);
+  it("should render", () => {
     expect(wrapper).toMatchSnapshot();
-  });
-
-  it("should render the form input with the values when enabled", () => {
-    const wrapper = shallow(<DurationValidation {...props} />);
-    expect(wrapper).toMatchSnapshot();
-  });
-
-  it("should call onToggleValidationRule when enabled/disabled", () => {
-    const wrapper = shallow(<DurationValidation {...props} />);
-    wrapper.find("ValidationView").simulate("toggleChange", { value: true });
-    expect(props.onToggleValidationRule).toHaveBeenCalledWith({
-      id: "123",
-      enabled: true
-    });
   });
 
   it("should trigger update answer validation when the duration value changes", () => {
-    const wrapper = shallow(<DurationValidation {...props} />);
     const duration = wrapper.find(Duration);
     duration.simulate("change", "event");
     expect(props.onChange).toHaveBeenCalledWith("event");

@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Duration Validation should render 1`] = `
+<div>
+  <Grid
+    align="top"
+    fillHeight={true}
+  >
+    <AlignedColumn
+      cols={3}
+    >
+      <EmphasisedText>
+        Some date
+         is
+      </EmphasisedText>
+    </AlignedColumn>
+    <Column
+      cols={9}
+    >
+      <Duration
+        duration={
+          Object {
+            "unit": "Months",
+            "value": 5,
+          }
+        }
+        name="duration"
+        onChange={[MockFunction]}
+        onUpdate={[MockFunction]}
+        units={
+          Array [
+            "Days",
+            "Months",
+            "Years",
+          ]
+        }
+      />
+    </Column>
+  </Grid>
+</div>
+`;

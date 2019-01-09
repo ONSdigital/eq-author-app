@@ -2,7 +2,7 @@
 
 exports[`ValidationPills should render 1`] = `
 <ValidationPills__Pills
-  onChange={[MockFunction]}
+  onChange={[Function]}
   options={
     Array [
       Object {
@@ -47,7 +47,7 @@ exports[`ValidationPills should render custom 1`] = `
 
 exports[`ValidationPills should render if missing an option component 1`] = `
 <ValidationPills__Pills
-  onChange={[MockFunction]}
+  onChange={[Function]}
   options={
     Array [
       Object {

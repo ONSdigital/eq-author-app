@@ -3,7 +3,7 @@ import { shallow } from "enzyme";
 
 import { Detail as SidebarButtonDetail } from "components/buttons/SidebarButton";
 
-import { UnconnectedAnswerValidation } from "App/questionPage/Design/Validation/AnswerValidation";
+import { UnconnectedAnswerValidation } from "./AnswerValidation";
 
 import {
   CUSTOM,

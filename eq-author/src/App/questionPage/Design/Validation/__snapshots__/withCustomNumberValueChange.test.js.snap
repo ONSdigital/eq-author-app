@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`withCustomValueChange should render 1`] = `
+<div
+  limit={999999999}
+  onChange={[MockFunction]}
+  onCustomNumberValueChange={[Function]}
+/>
+`;

@@ -2,7 +2,10 @@ import React from "react";
 import { shallow } from "enzyme";
 import { omit } from "lodash";
 
-import { Pills, ValidationPills } from "App/questionPage/Design/Validation/ValidationPills";
+import {
+  Pills,
+  ValidationPills
+} from "App/questionPage/Design/Validation/ValidationPills";
 
 import { PREVIOUS_ANSWER } from "constants/validation-entity-types";
 
@@ -52,5 +55,16 @@ describe("ValidationPills", () => {
   it("should render startDate", () => {
     const custom = wrapper.find(Pills).prop("options")[0];
     expect(shallow(custom.render())).toMatchSnapshot();
+  });
+
+  it("should correctly handle entity type change", () => {
+    const pills = wrapper.find(Pills);
+    const value = { foo: "bar" };
+
+    pills.simulate("change", value);
+    expect(props.onEntityTypeChange).toHaveBeenCalledWith({
+      name: "entityType",
+      value
+    });
   });
 });

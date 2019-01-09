@@ -1,7 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
 
-import DurationPreview from "App/questionPage/Design/Validation/Date/DurationPreview";
+import DurationPreview from "./DurationPreview";
 
 import { DAYS } from "constants/durations";
 

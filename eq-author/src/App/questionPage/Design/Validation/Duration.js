@@ -5,6 +5,7 @@ import { Number, Select } from "components/Forms";
 import { Grid, Column } from "components/Grid";
 
 import { DAYS, MONTHS, YEARS } from "constants/durations";
+
 const UNITS = [DAYS, MONTHS, YEARS];
 
 const Duration = ({
