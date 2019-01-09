@@ -106,7 +106,7 @@ First start app using Docker.
 #### Create migration
 
 ```
-yarn knex -- migrate:make name_of_migration
+yarn knex migrate:make name_of_migration
 ```
 
 Where `name_of_migration` is the name you wish to use. e.g. `create_questionnaires_table`
