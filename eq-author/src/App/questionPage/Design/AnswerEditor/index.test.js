@@ -2,7 +2,9 @@ import React from "react";
 import { shallow } from "enzyme";
 import { map } from "lodash";
 import MultipleChoiceAnswer from "App/questionPage/Design/answers/MultipleChoiceAnswer";
-import AnswerEditor, { AnswerDeleteButton } from "App/questionPage/Design/AnswerEditor";
+import AnswerEditor, {
+  AnswerDeleteButton
+} from "App/questionPage/Design/AnswerEditor";
 import Date from "App/questionPage/Design/answers/Date";
 import {
   TEXTFIELD,

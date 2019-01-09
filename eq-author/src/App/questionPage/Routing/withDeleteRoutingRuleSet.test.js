@@ -1,4 +1,7 @@
-import { mapMutateToProps, createUpdater } from "App/questionPage/Routing/withDeleteRoutingRuleSet";
+import {
+  mapMutateToProps,
+  createUpdater
+} from "App/questionPage/Routing/withDeleteRoutingRuleSet";
 
 import gql from "graphql-tag";
 

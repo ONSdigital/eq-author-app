@@ -2,10 +2,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { shallow, mount } from "enzyme";
-import ToggleSwitch, {
-  HiddenInput,
-  ToggleSwitchBackground
-} from "./";
+import ToggleSwitch, { HiddenInput, ToggleSwitchBackground } from "./";
 
 const createWrapper = (props, render = shallow) => {
   return render(<ToggleSwitch {...props} />);

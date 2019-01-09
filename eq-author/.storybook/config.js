@@ -2,15 +2,16 @@ import React from "react";
 import { configure, addDecorator } from "@storybook/react";
 import { withOptions } from "@storybook/addon-options";
 import { Provider } from "react-redux";
-import configureStore from "redux/configureStore";
+import { createStore } from "redux";
+import { noop as mockReducer } from "lodash/fp";
 
 import App from "components/BaseLayout/App";
 
 addDecorator(story => <App>{story()}</App>);
 
-addDecorator(story => (
-  <Provider store={configureStore(null, null, {})}>{story()}</Provider>
-));
+const mockStore = createStore(mockReducer);
+
+addDecorator(story => <Provider store={mockStore}>{story()}</Provider>);
 
 function requireAll(requireContext) {
   return requireContext.keys().map(requireContext);

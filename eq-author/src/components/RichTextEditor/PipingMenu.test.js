@@ -3,7 +3,11 @@ import { shallow } from "enzyme";
 
 import AvailablePipingContentQuery from "components/RichTextEditor/AvailablePipingContentQuery";
 
-import { Menu, MenuButton, UnwrappedPipingMenu } from "components/RichTextEditor/PipingMenu";
+import {
+  Menu,
+  MenuButton,
+  UnwrappedPipingMenu
+} from "components/RichTextEditor/PipingMenu";
 
 describe("PipingMenu", () => {
   let handleItemChosen, answerData, metadataData;

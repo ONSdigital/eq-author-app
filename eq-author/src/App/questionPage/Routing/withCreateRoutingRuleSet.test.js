@@ -1,4 +1,7 @@
-import { mapMutateToProps, createUpdater } from "App/questionPage/Routing/withCreateRoutingRuleSet";
+import {
+  mapMutateToProps,
+  createUpdater
+} from "App/questionPage/Routing/withCreateRoutingRuleSet";
 import gql from "graphql-tag";
 
 const fragment = gql`

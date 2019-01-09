@@ -1,10 +1,6 @@
 import React from "react";
 import { shallow, mount } from "enzyme";
-import {
-  Accordion,
-  AccordionPanel,
-  KEY_CODE_ESCAPE
-} from "./";
+import { Accordion, AccordionPanel, KEY_CODE_ESCAPE } from "./";
 
 describe("Accordion", () => {
   let wrapper;

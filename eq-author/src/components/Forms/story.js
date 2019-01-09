@@ -4,14 +4,7 @@ import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 
 import styled from "styled-components";
-import {
-  Field,
-  Input,
-  Label,
-  Select,
-  TextArea,
-  Number
-} from "./";
+import { Field, Input, Label, Select, TextArea, Number } from "./";
 
 const Width = styled.div`
   max-width: 30em;

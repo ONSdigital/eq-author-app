@@ -1,4 +1,7 @@
-import { mapMutateToProps, createUpdater } from "App/questionPage/Routing/withDeleteRoutingRule";
+import {
+  mapMutateToProps,
+  createUpdater
+} from "App/questionPage/Routing/withDeleteRoutingRule";
 import fragment from "graphql/fragments/routing-rule-set.graphql";
 
 describe("components/QuestionnaireRoutingPage/withDeleteRoutingRule", () => {

@@ -1,6 +1,4 @@
-import shapeTree, {
-  shapePageTree
-} from "components/ContentPicker/shapeTree";
+import shapeTree, { shapePageTree } from "components/ContentPicker/shapeTree";
 
 const answerTree = [
   {

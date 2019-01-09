@@ -1,7 +1,7 @@
 import React from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
-import ModalWithNav from "./";
+import { UnconnectedModalWithNav } from "./";
 
 export const NAV_ITEMS = [
   {
@@ -56,12 +56,13 @@ export const NAV_ITEMS = [
 ];
 
 storiesOf("ModalWithNav", module).add("Default", () => (
-  <ModalWithNav
+  <UnconnectedModalWithNav
     id="MODAL_WITH_NAV"
     onClose={action("Close")}
     navItems={NAV_ITEMS}
     title="Ridiculus Tellus Sit"
     defaultActiveTabId={NAV_ITEMS[2].id}
     isOpen
+    gotoTab={action("gotoTab")}
   />
 ));

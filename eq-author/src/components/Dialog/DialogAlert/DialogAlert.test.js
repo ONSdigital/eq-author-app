@@ -1,9 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
-import {
-  DialogAlertList,
-  DialogAlert
-} from "./";
+import { DialogAlertList, DialogAlert } from "./";
 
 describe("components/Modal/DialogAlert", () => {
   let wrapper;
