@@ -305,7 +305,14 @@ module.exports = {
                 resourceQuery: /inline/, // foo.svg?inline
                 use: [
                   { loader: "babel-loader" },
-                  { loader: "react-svg-loader" }
+                  {
+                    loader: "react-svg-loader",
+                    options: {
+                      svgo: {
+                        plugins: [{ removeTitle: true }]
+                      }
+                    }
+                  }
                 ]
               },
               {
