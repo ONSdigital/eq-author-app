@@ -61,13 +61,4 @@ describe("PreviewPageRoute", () => {
     );
     expect(wrapper.exists('[data-test="guidance"]')).toBeFalsy();
   });
-
-  it("should render a warning there is no title", () => {
-    questionPage.title = "";
-    const wrapper = shallow(
-      <PreviewPageRoute loading={false} data={{ questionPage }} />
-    );
-
-    expect(wrapper.find('[data-test="no-title"]')).toBeTruthy();
-  });
 });

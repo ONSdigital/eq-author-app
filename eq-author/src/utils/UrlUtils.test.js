@@ -13,6 +13,7 @@ import {
 const questionnaireId = "1";
 const sectionId = "2";
 const pageId = "3";
+const confirmationId = "4";
 
 describe("buildQuestionnairePath", () => {
   it("builds a valid path", () => {
@@ -99,6 +100,17 @@ describe("buildPreviewPath", () => {
     });
     expect(path).toEqual("/questionnaire/1/2/3/preview");
   });
+
+  it("builds a page confirmation preview path", () => {
+    const path = buildPreviewPath({
+      questionnaireId,
+      sectionId,
+      pageId,
+      confirmationId,
+      tab: "routing"
+    });
+    expect(path).toEqual("/questionnaire/1/2/3/4/preview");
+  });
 });
 
 describe("buildRoutingPath", () => {
@@ -161,7 +173,7 @@ describe("isOnConfirmation", () => {
       questionnaireId,
       sectionId,
       pageId,
-      confirmationId: "1",
+      confirmationId,
       tab: "design"
     };
     expect(isOnConfirmation(match)).toBeTruthy();

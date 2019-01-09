@@ -1,7 +1,11 @@
 import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
-import { Field, Input, Label } from "./elements";
+import {
+  Field,
+  Input,
+  Label
+} from "./elements";
 
 import iconSelect from "./icon-select.svg";
 import { colors } from "constants/theme";

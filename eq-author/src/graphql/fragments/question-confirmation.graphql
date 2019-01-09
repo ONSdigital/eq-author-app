@@ -15,7 +15,16 @@ fragment QuestionConfirmation on QuestionConfirmation {
     displayName
     answers {
       id
-      type
+      ... on MultipleChoiceAnswer {
+        options {
+          id
+          label
+        }
+        mutuallyExclusiveOption {
+          id
+          label
+        }
+      }
     }
   }
 }

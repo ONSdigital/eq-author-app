@@ -3,7 +3,11 @@ import { shallow } from "enzyme";
 
 import { CHECKBOX, RADIO } from "constants/answer-types";
 
-import MultipleChoiceAnswer, { Option } from "./MultipleChoiceAnswer";
+import MultipleChoiceAnswer, {
+  Option,
+  OptionItem,
+  Input
+} from "./MultipleChoiceAnswer";
 
 describe("MultipleChoiceAnswer", () => {
   let answer;
@@ -43,6 +47,22 @@ describe("MultipleChoiceAnswer", () => {
       id: "3"
     };
     expect(shallow(<MultipleChoiceAnswer answer={answer} />)).toMatchSnapshot();
+  });
+
+  it("should render Input", () => {
+    expect(shallow(<Input />)).toMatchSnapshot();
+  });
+
+  it("should render Input with radio and error", () => {
+    expect(shallow(<Input type={RADIO} error />)).toMatchSnapshot();
+  });
+
+  it("should render OptionItem", () => {
+    expect(shallow(<OptionItem />)).toMatchSnapshot();
+  });
+
+  it("should render OptionItem with error", () => {
+    expect(shallow(<OptionItem error />)).toMatchSnapshot();
   });
 
   describe("Option", () => {
