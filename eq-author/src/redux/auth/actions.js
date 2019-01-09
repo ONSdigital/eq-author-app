@@ -11,7 +11,7 @@ export const signInUser = ({
   stsTokenManager: { accessToken },
   uid
 }) => {
-  if (config.REACT_APP_USE_FULLSTORY === "true") {
+  if (config.REACT_APP_FULLSTORY_ORG) {
     window.FS.identify(email, { displayName });
   }
 
@@ -36,7 +36,7 @@ export const signedOutUser = () => {
 };
 
 export const signOutUser = () => (dispatch, getState, { auth }) => {
-  if (config.REACT_APP_USE_FULLSTORY === "true") {
+  if (config.REACT_APP_FULLSTORY_ORG) {
     window.FS.identify(false);
   }
 

@@ -38,8 +38,8 @@ const navigateToPage = (sectionDisplayName, previousPageDisplayName) =>
       cy.contains(sectionDisplayName)
         .parent()
         .within(() => {
-          cy.contains(previousPageDisplayName).then(
-            ele => (ele.attr("aria-current") ? null : cy.wrap(ele).click())
+          cy.contains(previousPageDisplayName).then(ele =>
+            ele.attr("aria-current") ? null : cy.wrap(ele).click()
           );
         });
     });

@@ -25,11 +25,10 @@ const configueBasicAnswer = ({ label, description }) => {
     cy.get(testId("txt-answer-label")).type(label);
   }
   if (description) {
-    cy.get(testId("txt-answer-description")).then(
-      $el =>
-        $el
-          ? cy.wrap($el).type(description)
-          : new Error(`Answer type doesn't support description`)
+    cy.get(testId("txt-answer-description")).then($el =>
+      $el
+        ? cy.wrap($el).type(description)
+        : new Error(`Answer type doesn't support description`)
     );
   }
 };

@@ -33,14 +33,14 @@
     window.config.REACT_APP_FIREBASE_PROJECT_ID="";
     window.config.REACT_APP_FUNCTIONAL_TEST="";
     window.config.REACT_APP_LAUNCH_URL="";
-    window.config.REACT_APP_USE_FULLSTORY="";
-    window.config.REACT_APP_USE_SENTRY="";
+    window.config.REACT_APP_FULLSTORY_ORG="";
+    window.config.REACT_APP_SENTRY_DSN="";
   </script>
   <script type="text/javascript">
-    if (window.config.REACT_APP_USE_FULLSTORY === "true") {
+    if (window.config.REACT_APP_FULLSTORY_ORG) {
       window['_fs_debug'] = false;
       window['_fs_host'] = 'fullstory.com';
-      window['_fs_org'] = '82RHG';
+      window['_fs_org'] = window.config.REACT_APP_FULLSTORY_ORG;
       window['_fs_namespace'] = 'FS';
       (function (m, n, e, t, l, o, g, y) {
         if (e in m) { if (m.console && m.console.log) { m.console.log('FullStory namespace conflict. Please set window["_fs_namespace"].'); } return; }

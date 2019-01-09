@@ -7,4 +7,3 @@ export default (oldName, newName) => Component => props => {
   };
   return <Component {...newProps} />;
 };
-
