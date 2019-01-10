@@ -10390,10 +10390,12 @@ pnp-webpack-plugin@^1.1.0:
   dependencies:
     ts-pnp "^1.0.0"
 
-polished@^1.8.0:
-  version "1.9.3"
-  resolved "https://registry.yarnpkg.com/polished/-/polished-1.9.3.tgz#d61b8a0c4624efe31e2583ff24a358932b6b75e1"
-  integrity sha512-4NmSD7fMFlM8roNxs7YXPv7UFRbYzb0gufR5zBxJLRzY54+zFsavxBo6zsQzP9ep6Hh3pC2pTyrpSTBEaB6IkQ==
+polished@^2.3.2:
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/polished/-/polished-2.3.2.tgz#7b879a65ab2c89ccefac2b306efdf40d5251e7f9"
+  integrity sha512-rEU+rAGjCw9mve3uOtkjfZqCDfLtCp4YC9Y/xIfYkkcAB5nb8pGXx23UQlWDwlWcHTasb1w9XYAebQw8XWHstQ==
+  dependencies:
+    "@babel/runtime" "^7.0.0"
 
 portfinder@^1.0.9:
   version "1.0.20"
