@@ -1,16 +1,21 @@
 import React from "react";
 import styled from "styled-components";
-import SidebarButton, { Title, Detail } from "components/SidebarButton";
-
-import ModalWithNav from "components/ModalWithNav";
-
-import MinValueValidation from "components/Validation/TotalMinValue";
-import MaxValueValidation from "components/Validation/TotalMaxValue";
 import { connect } from "react-redux";
-import ValidationContext from "components/Validation/ValidationContext";
+
+import SidebarButton, {
+  Title,
+  Detail
+} from "components/buttons/SidebarButton/index.js";
+
+import ModalWithNav from "components/modals/ModalWithNav";
+
+import MinValueValidation from "./TotalMinValue";
+import MaxValueValidation from "./TotalMaxValue";
+
+import ValidationContext from "./ValidationContext";
 import { gotoTab } from "redux/tabs/actions";
 import { CURRENCY, NUMBER } from "constants/answer-types";
-import { kebabCase, get, startCase } from "lodash";
+import { get } from "lodash";
 
 const SectionTitle = styled.h3`
   margin: 0 0 0.5em 0;

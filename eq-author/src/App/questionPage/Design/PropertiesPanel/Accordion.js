@@ -71,7 +71,7 @@ const Button = styled.button`
   }
 `;
 
-class Section extends Component {
+class Accordion extends Component {
   state = { open: true, height: "auto" };
 
   constructor(props) {
@@ -101,4 +101,4 @@ class Section extends Component {
   }
 }
 
-export default Section;
+export default Accordion;

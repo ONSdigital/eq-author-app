@@ -7,13 +7,13 @@ import { propType } from "graphql-anywhere";
 import { flowRight, inRange, isNaN } from "lodash";
 
 import { Grid, Column } from "components/Grid";
-import DisabledMessage from "components/Validation/DisabledMessage";
+import DisabledMessage from "./DisabledMessage";
 
-import ValidationTitle from "components/Validation/ValidationTitle";
-import ValidationInput from "components/Validation/ValidationInput";
-import ValidationView from "components/Validation/ValidationView";
-import FieldWithInclude from "components/Validation/FieldWithInclude";
-import ValidationContext from "components/Validation/ValidationContext";
+import ValidationTitle from "./ValidationTitle";
+import ValidationInput from "./ValidationInput";
+import ValidationView from "./ValidationView";
+import FieldWithInclude from "./FieldWithInclude";
+import ValidationContext from "./ValidationContext";
 
 import MinValueValidationRule from "graphql/fragments/min-value-validation-rule.graphql";
 

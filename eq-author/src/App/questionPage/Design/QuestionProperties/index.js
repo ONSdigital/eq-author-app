@@ -6,7 +6,7 @@ import styled from "styled-components";
 import { noop } from "lodash";
 
 import { Label, Field } from "components/Forms";
-import ToggleSwitch from "components/ToggleSwitch";
+import ToggleSwitch from "components/buttons/ToggleSwitch";
 import { colors } from "constants/theme";
 
 const Padding = styled.div`

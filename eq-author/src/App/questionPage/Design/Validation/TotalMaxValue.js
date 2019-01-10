@@ -1,29 +1,24 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { withApollo } from "react-apollo";
+
 import { propType } from "graphql-anywhere";
-import { flowRight, get, inRange, isNaN } from "lodash";
+import { get, inRange, isNaN } from "lodash";
 
 import { Field, Label } from "components/Forms/index";
 import { Grid, Column } from "components/Grid/index";
-import ToggleSwitch from "components/ToggleSwitch/index";
+import ToggleSwitch from "components/buttons/ToggleSwitch";
 
-import PreviousAnswerContentPicker from "components/Validation/PreviousAnswerContentPicker";
-import DisabledMessage from "components/Validation/DisabledMessage";
-import { ValidationPills } from "components/Validation/ValidationPills";
-import ValidationTitle from "components/Validation/ValidationTitle";
-import ValidationView from "components/Validation/ValidationView";
-import ValidationContext from "components/Validation/ValidationContext";
-import ValidationInput from "components/Validation/ValidationInput";
-import PathEnd from "components/Validation/path-end.svg?inline";
-
-import withUpdateAnswerValidation from "containers/enhancers/withUpdateAnswerValidation";
-import withToggleAnswerValidation from "containers/enhancers/withToggleAnswerValidation";
+import PreviousAnswerContentPicker from "./PreviousAnswerContentPicker";
+import DisabledMessage from "./DisabledMessage";
+import { ValidationPills } from "./ValidationPills";
+import ValidationTitle from "./ValidationTitle";
+import ValidationView from "./ValidationView";
+import ValidationContext from "./ValidationContext";
+import ValidationInput from "./ValidationInput";
+import PathEnd from "./path-end.svg?inline";
 
 import MaxValueValidationRule from "graphql/fragments/max-value-validation-rule.graphql";
-
-import * as answerTypes from "constants/answer-types";
 
 const InlineField = styled(Field)`
   display: flex;
@@ -64,7 +59,7 @@ export class MaxValue extends React.Component {
   handlePreviousAnswerChange = ({ value: { id } }) => {
     const updateValidationRuleInput = {
       id: this.props.maxValue.id,
-      maxValueInput: {
+      validation: {
         inclusive: this.props.maxValue.inclusive,
         previousAnswer: id
       }
@@ -85,7 +80,7 @@ export class MaxValue extends React.Component {
 
     const updateValidationRuleInput = {
       id: this.props.maxValue.id,
-      maxValueInput: {
+      validation: {
         inclusive: this.props.maxValue.inclusive,
         custom: isNaN(intValue) ? null : intValue
       }
@@ -97,7 +92,7 @@ export class MaxValue extends React.Component {
   handleEntityTypeChange = value => {
     const updateValidationRuleInput = {
       id: this.props.maxValue.id,
-      maxValueInput: {
+      validation: {
         inclusive: this.props.maxValue.inclusive,
         entityType: value,
         previousAnswer: null,
@@ -120,7 +115,7 @@ export class MaxValue extends React.Component {
   handleIncludeChange = ({ value }) => {
     const updateValidationRuleInput = {
       id: this.props.maxValue.id,
-      maxValueInput: {
+      validation: {
         custom: this.props.maxValue.custom,
         inclusive: value
       }
@@ -184,29 +179,22 @@ MaxValue.defaultProps = {
 MaxValue.propTypes = {
   answerId: PropTypes.string.isRequired,
   maxValue: propType(MaxValueValidationRule).isRequired,
-  answerType: PropTypes.oneOf(Object.values(answerTypes)).isRequired,
   onUpdateAnswerValidation: PropTypes.func.isRequired,
   onToggleValidationRule: PropTypes.func.isRequired,
   limit: PropTypes.number
 };
 
-const withQuestionPageEditing = flowRight(
-  withApollo,
-  withUpdateAnswerValidation,
-  withToggleAnswerValidation
-);
-
 export const MaxValueWithAnswer = props => (
   <ValidationContext.Consumer>
-    {({ answer }) => (
+    {({ answer, ...rest }) => (
       <MaxValue
         answerId={answer.id}
         maxValue={answer.validation.maxValue}
-        answerType={answer.type}
         {...props}
+        {...rest}
       />
     )}
   </ValidationContext.Consumer>
 );
 
-export default withQuestionPageEditing(MaxValueWithAnswer);
+export default MaxValueWithAnswer;

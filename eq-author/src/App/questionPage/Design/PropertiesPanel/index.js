@@ -10,7 +10,6 @@ import { flowRight } from "lodash";
 import withUpdateAnswer from "App/questionPage/Design/answers/withUpdateAnswer";
 import AnswerProperties from "App/questionPage/Design/AnswerProperties";
 
-const Properties = flowRight(withUpdateAnswer)(AnswerProperties);
 import {
   noop,
   filter,
@@ -20,16 +19,19 @@ import {
   first,
   map,
   groupBy,
-  contains
+  contains,
+  get
 } from "lodash/fp";
 import getIdForObject from "utils/getIdForObject";
 
-import TotalValidation from "components/Validation/TotalValidation";
-import QuestionProperties from "components/QuestionProperties";
-import Section, { Title } from "./Section";
+import TotalValidation from "App/questionPage/Design/Validation/TotalValidation";
+import QuestionProperties from "App/questionPage/Design/QuestionProperties";
+import Accordion from "./Accordion";
 import { NUMBER, CURRENCY } from "constants/answer-types";
 
-const SectionTitle = styled.h3`
+const Properties = flowRight(withUpdateAnswer)(AnswerProperties);
+
+const AccordionTitle = styled.h3`
   margin: 0;
   padding: 0;
   font-size: 1em;
@@ -37,7 +39,7 @@ const SectionTitle = styled.h3`
   color: #666666;
 `;
 
-const AnswerProperties = styled.div`
+const Answer = styled.div`
   &:not(:only-of-type) {
     border-bottom: 1px solid #e4e8eb;
     margin-bottom: 0.5em;
@@ -106,51 +108,29 @@ class PropertiesPanel extends React.Component {
       <PropertiesPane>
         <PropertiesPaneBody>
           <ScrollPane>
-            {get("answers.length", page) > 0 && (
-              <div>
-                {page.answers.map((answer, index) => (
-                  <AnswerPropertiesContainer
-                    key={getIdForObject(answer)}
-                    data-test={`properties-${index}`}
-                    hasBorder={index > 0}
-                  >
-                    <PropertiesPanelTitle
-                      data-test={`properties-title-${index}`}
-                    >
-                      {getTitle({ answer })(page.answers)}
-                    </PropertiesPanelTitle>
-                    <Properties
-                      id={getIdForObject(answer)}
-                      answer={{ ...answer, index }}
-                      onSubmit={this.handleSubmit}
-                    />
-                    <AnswerValidation answer={answer} />
-                  </AnswerPropertiesContainer>
-                ))}
-              </div>
-            )}
             {page && (
-              <Section title="Optional fields">
+              <Accordion title="Optional fields">
                 <Padding>
                   <QuestionProperties
                     page={page}
                     onHelpClick={() => this.setState({ showModal: true })}
                   />
                 </Padding>
-              </Section>
+              </Accordion>
             )}
 
             {page &&
-              map(answerGroup => {
+              map((answerGroup, index) => {
                 const firstAnswer = first(answerGroup);
+
                 return (
-                  <Section
+                  <Accordion
                     title={`${firstAnswer.type} properties`}
-                    key={getIdForObject(firstAnswer)}
+                    key={getIdForObject(answerGroup)}
                   >
                     <Padding>
                       <div style={{ padding: "0.5em 0" }}>
-                        <AnswerPropertiesContainer
+                        <Properties
                           id={getIdForObject(firstAnswer)}
                           answer={firstAnswer}
                           onSubmit={this.handleSubmit}
@@ -161,12 +141,12 @@ class PropertiesPanel extends React.Component {
                     <ValidationContainer>
                       {map(
                         answer => (
-                          <AnswerProperties>
+                          <Answer key={getIdForObject(answer)}>
                             <Padding>
-                              <SectionTitle>
+                              <AccordionTitle>
                                 {answer.label || answer.type}
-                              </SectionTitle>
-                              <AnswerPropertiesContainer
+                              </AccordionTitle>
+                              <Properties
                                 id={getIdForObject(answer)}
                                 answer={answer}
                                 onSubmit={this.handleSubmit}
@@ -177,7 +157,7 @@ class PropertiesPanel extends React.Component {
                                 key={answer.id}
                               />
                             </Padding>
-                          </AnswerProperties>
+                          </Answer>
                         ),
                         answerGroup
                       )}
@@ -191,7 +171,7 @@ class PropertiesPanel extends React.Component {
                         </Padding>
                       )}
                     </ValidationContainer>
-                  </Section>
+                  </Accordion>
                 );
               }, groupedAnswers)}
           </ScrollPane>

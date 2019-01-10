@@ -14,7 +14,7 @@ import CustomPropTypes from "custom-prop-types";
 import getIdForObject from "utils/getIdForObject";
 
 import iconPage from "./icon-dialog-page.svg";
-import Button from "components/Button";
+
 import DeleteConfirmDialog from "components/DeleteConfirmDialog";
 import MovePageModal from "App/questionPage/Design/MovePageModal";
 import MovePageQuery from "App/questionPage/Design/MovePageModal/MovePageQuery";
