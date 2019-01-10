@@ -163,12 +163,14 @@ class PropertiesPanel extends React.Component {
                       )}
 
                       {contains(firstAnswer.type, answerTypesWithTotals) && (
-                        <Padding>
-                          <TotalValidation
-                            answers={answerGroup}
-                            onSubmit={this.handleSubmit}
-                          />
-                        </Padding>
+                        <Answer>
+                          <Padding>
+                            <TotalValidation
+                              answers={answerGroup}
+                              onSubmit={this.handleSubmit}
+                            />
+                          </Padding>
+                        </Answer>
                       )}
                     </ValidationContainer>
                   </Accordion>
