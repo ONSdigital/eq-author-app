@@ -22,5 +22,29 @@ exports[`PageNav should render 1`] = `
       sectionId="3"
     />
   </NavItemTransition>
+  <NavItemTransition
+    in={false}
+    key="confirmation-4"
+    onEntered={[Function]}
+    timeout={300}
+  >
+    <withRouter(UnwrappedPageConfirmationNavItem)
+      confirmation={
+        Object {
+          "__typename": "QuestionConfirmation",
+          "id": "4",
+          "title": "Confirmation Page",
+        }
+      }
+      page={
+        Object {
+          "id": "2",
+          "title": "Page",
+        }
+      }
+      questionnaireId="1"
+      sectionId="3"
+    />
+  </NavItemTransition>
 </TransitionGroup>
 `;
