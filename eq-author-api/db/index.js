@@ -2,7 +2,7 @@ const pinoMiddleware = require("express-pino-logger");
 const pino = pinoMiddleware({ enabled: !process.env.SILENCE_LOGS });
 const logger = pino.logger;
 
-const config = require("../config/knexfile.js");
+const config = require("../knexfile.js");
 
 const getConfig = async function(secretId) {
   const result = {

@@ -1,6 +1,6 @@
 const { map, times, omit } = require("lodash");
 
-const knex = require("knex")(require("../config/knexfile"));
+const knex = require("knex")(require("../knexfile"));
 const QuestionnaireRepository = require("../repositories/QuestionnaireRepository")(
   knex
 );
