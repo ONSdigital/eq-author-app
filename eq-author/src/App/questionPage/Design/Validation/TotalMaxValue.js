@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 
 import { propType } from "graphql-anywhere";
-import { get, inRange, isNaN } from "lodash";
+import { get, inRange, isNaN, noop } from "lodash";
 
 import { Field, Label } from "components/Forms/index";
 import { Grid, Column } from "components/Grid/index";
@@ -17,8 +17,6 @@ import ValidationView from "./ValidationView";
 import ValidationContext from "./ValidationContext";
 import ValidationInput from "./ValidationInput";
 import PathEnd from "./path-end.svg?inline";
-
-import MaxValueValidationRule from "graphql/fragments/max-value-validation-rule.graphql";
 
 const InlineField = styled(Field)`
   display: flex;
@@ -51,6 +49,7 @@ export class MaxValue extends React.Component {
       defaultValue={this.props.maxValue.custom}
       type="number"
       onBlur={this.handleCustomValueChange}
+      onChange={noop}
       max={this.props.limit}
       min={0 - this.props.limit}
     />
@@ -85,6 +84,8 @@ export class MaxValue extends React.Component {
         custom: isNaN(intValue) ? null : intValue
       }
     };
+
+    console.log(updateValidationRuleInput);
 
     this.props.onUpdateAnswerValidation(updateValidationRuleInput);
   };
@@ -178,7 +179,7 @@ MaxValue.defaultProps = {
 
 MaxValue.propTypes = {
   answerId: PropTypes.string.isRequired,
-  maxValue: propType(MaxValueValidationRule).isRequired,
+
   onUpdateAnswerValidation: PropTypes.func.isRequired,
   onToggleValidationRule: PropTypes.func.isRequired,
   limit: PropTypes.number

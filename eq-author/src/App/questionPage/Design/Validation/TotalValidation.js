@@ -20,7 +20,7 @@ import { get } from "lodash";
 const SectionTitle = styled.h3`
   margin: 0 0 0.5em 0;
   padding: 0;
-  font-size: 1em;
+  font-size: 1.1em;
   color: #666666;
   position: relative;
 `;

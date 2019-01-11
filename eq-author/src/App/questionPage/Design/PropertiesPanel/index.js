@@ -125,7 +125,9 @@ class PropertiesPanel extends React.Component {
 
                 return (
                   <Accordion
-                    title={`${firstAnswer.type} properties`}
+                    title={`${firstAnswer.type} answer${
+                      answerGroup.length > 1 ? "s" : ""
+                    }`}
                     key={getIdForObject(answerGroup)}
                   >
                     <Padding>
@@ -162,16 +164,17 @@ class PropertiesPanel extends React.Component {
                         answerGroup
                       )}
 
-                      {contains(firstAnswer.type, answerTypesWithTotals) && (
-                        <Answer>
-                          <Padding>
-                            <TotalValidation
-                              answers={answerGroup}
-                              onSubmit={this.handleSubmit}
-                            />
-                          </Padding>
-                        </Answer>
-                      )}
+                      {contains(firstAnswer.type, answerTypesWithTotals) &&
+                        answerGroup.length > 1 && (
+                          <Answer>
+                            <Padding>
+                              <TotalValidation
+                                answers={answerGroup}
+                                onSubmit={this.handleSubmit}
+                              />
+                            </Padding>
+                          </Answer>
+                        )}
                     </ValidationContainer>
                   </Accordion>
                 );

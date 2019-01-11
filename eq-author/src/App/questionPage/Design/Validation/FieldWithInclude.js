@@ -11,6 +11,7 @@ const InlineField = styled(Field)`
   flex-direction: row;
   align-items: center;
   margin-left: -0.8em;
+  padding: 0 0.5em;
 `;
 
 const FieldWithInclude = ({ children, id, name, onChange, ...otherProps }) => (
