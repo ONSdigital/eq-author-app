@@ -15,6 +15,8 @@ describe("PreviewPageRoute", () => {
       title: "<p>Hello world</p>",
       guidance: "<p>Guidance</p>",
       description: "<p>Description</p>",
+      definitionLabel: "<p>Definition Label</p>",
+      definitionContent: "<p>Definition Content</p>",
       answers: [{ id: "1", type: TEXTFIELD }],
       section: {
         id: "1",
@@ -60,5 +62,14 @@ describe("PreviewPageRoute", () => {
       <PreviewPageRoute loading={false} data={{ questionPage }} />
     );
     expect(wrapper.exists('[data-test="guidance"]')).toBeFalsy();
+  });
+
+  it("should not render definition if definition label and content empty", () => {
+    questionPage.definitionLabel = "";
+    questionPage.definitionContent = "";
+    const wrapper = shallow(
+      <PreviewPageRoute loading={false} data={{ questionPage }} />
+    );
+    expect(wrapper.exists('[data-test="definition"]')).toBeFalsy();
   });
 });

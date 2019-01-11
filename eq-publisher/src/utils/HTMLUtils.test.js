@@ -1,4 +1,4 @@
-const { getInnerHTML, getText, parseGuidance } = require("./HTMLUtils");
+const { getInnerHTML, getText, parseContent } = require("./HTMLUtils");
 
 describe("HTMLUtils", () => {
   describe("getInnerHTML", () => {
@@ -21,14 +21,14 @@ describe("HTMLUtils", () => {
     });
   });
 
-  describe("parseGuidance", () => {
-    it("should return undefined if no guidance supplied", () => {
-      expect(parseGuidance()).toBeUndefined();
-      expect(parseGuidance("")).toBeUndefined();
-      expect(parseGuidance("<p></p>")).toBeUndefined();
+  describe("parseContent", () => {
+    it("should return undefined if no content supplied", () => {
+      expect(parseContent()).toBeUndefined();
+      expect(parseContent("")).toBeUndefined();
+      expect(parseContent("<p></p>")).toBeUndefined();
     });
 
-    it("should correctly parse guidance into runner-compatible object", () => {
+    it("should correctly parse content into runner-compatible object", () => {
       const guidance = `
         <h2>Vivamus sagittis lacus vel augue laoreet</h2>
         <p></p>
@@ -42,7 +42,7 @@ describe("HTMLUtils", () => {
         </ul>
       `;
 
-      expect(parseGuidance(guidance)).toEqual({
+      expect(parseContent(guidance)).toEqual({
         content: [
           {
             title: "Vivamus sagittis lacus vel augue laoreet"

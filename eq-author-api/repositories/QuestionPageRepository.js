@@ -22,7 +22,9 @@ module.exports = knex => {
     description,
     guidance,
     sectionId,
-    order
+    order,
+    definitionLabel,
+    definitionContent
   }) {
     return QuestionPage(knex)
       .create({
@@ -31,7 +33,9 @@ module.exports = knex => {
         description,
         guidance,
         sectionId,
-        order
+        order,
+        definitionLabel,
+        definitionContent
       })
       .then(head);
   };
@@ -42,7 +46,9 @@ module.exports = knex => {
     alias,
     description,
     guidance,
-    isDeleted
+    isDeleted,
+    definitionLabel,
+    definitionContent
   }) {
     return QuestionPage(knex)
       .update(id, {
@@ -50,7 +56,9 @@ module.exports = knex => {
         alias,
         description,
         guidance,
-        isDeleted
+        isDeleted,
+        definitionLabel,
+        definitionContent
       })
       .then(head);
   };
@@ -70,7 +78,6 @@ module.exports = knex => {
   const getPipingAnswersForQuestionPage = id =>
     getPreviousAnswersForPage({
       id,
-
       answerTypes: PIPING_ANSWER_TYPES
     });
 

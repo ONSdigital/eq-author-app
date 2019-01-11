@@ -1,19 +1,25 @@
+/* eslint-disable react/no-danger */
 import PropTypes from "prop-types";
 import React from "react";
 import { withApollo, Query } from "react-apollo";
 import gql from "graphql-tag";
 import { propType } from "graphql-anywhere";
 import styled from "styled-components";
+import { isEmpty } from "lodash";
 
-import EditorLayout from "App/questionPage/Design/EditorLayout";
 import IconText from "components/IconText";
 import Loading from "components/Loading";
 import Error from "components/preview/Error";
+import { Answer } from "components/preview/Answers";
+import PageTitle from "components/preview/elements/PageTitle";
+
+import EditorLayout from "App/questionPage/Design/EditorLayout";
 import QuestionPageEditor from "App/questionPage/Design/QuestionPageEditor";
 
-import { Answer } from "components/preview/Answers";
 import IconInfo from "./icon-info.svg?inline";
-import PageTitle from "components/preview/elements/PageTitle";
+import IconChevron from "./icon-chevron.svg";
+
+import { colors } from "constants/theme";
 
 const Container = styled.div`
   padding: 2em;
@@ -56,12 +62,45 @@ const Answers = styled.div`
   margin-bottom: 1em;
 `;
 
+const Details = styled.div`
+  margin-bottom: 1em;
+`;
+
+const DetailsTitle = styled.div`
+  display: flex;
+  align-items: center;
+  color: ${colors.primary};
+  margin-bottom: 0.5em;
+
+  &::before {
+    width: 32px;
+    height: 32px;
+    display: inline-block;
+    margin-left: -10px;
+    content: url(${IconChevron});
+    transform: rotate(90deg);
+  }
+`;
+
+const DetailsContent = styled.div`
+  border-left: 2px solid #999;
+  margin-left: 6px;
+  padding: 0.2em 0 0.2em 1em;
+`;
+
 export const UnwrappedPreviewPageRoute = ({ loading, data }) => {
   if (loading) {
     return <Loading height="38rem">Preview loading…</Loading>;
   }
   const { questionPage } = data;
-  const { title, description, guidance, answers } = questionPage;
+  const {
+    title,
+    description,
+    guidance,
+    definitionLabel,
+    definitionContent,
+    answers
+  } = questionPage;
 
   return (
     <EditorLayout page={questionPage} preview routing>
@@ -80,6 +119,24 @@ export const UnwrappedPreviewPageRoute = ({ loading, data }) => {
             <Panel dangerouslySetInnerHTML={{ __html: guidance }} />
           </Guidance>
         )}
+
+        {(!isEmpty(definitionLabel) || !isEmpty(definitionContent)) && (
+          <Details data-test="definition">
+            <DetailsTitle>
+              {definitionLabel || <Error small>Missing definition label</Error>}
+            </DetailsTitle>
+            <DetailsContent>
+              {definitionContent ? (
+                <span dangerouslySetInnerHTML={{ __html: definitionContent }} />
+              ) : (
+                <Error large margin={false}>
+                  Missing definition content
+                </Error>
+              )}
+            </DetailsContent>
+          </Details>
+        )}
+
         {answers.length ? (
           <Answers>
             {answers.map(answer => (

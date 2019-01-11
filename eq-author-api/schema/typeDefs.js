@@ -70,6 +70,8 @@ type QuestionPage implements Page {
   answers: [Answer]
   section: Section
   position: Int!
+  definitionLabel: String
+  definitionContent: String
   routingRuleSet: RoutingRuleSet
   availablePipingAnswers: [Answer!]!
   availablePipingMetadata: [Metadata!]!
@@ -709,6 +711,8 @@ input CreateQuestionPageInput {
   guidance: String
   sectionId: ID!
   position: Int
+  definitionLabel: String
+  definitionContent: String
 }
 
 input UpdateQuestionPageInput {
@@ -717,6 +721,8 @@ input UpdateQuestionPageInput {
   title: String
   description: String
   guidance: String
+  definitionLabel: String
+  definitionContent: String
 }
 
 input DeleteQuestionPageInput {

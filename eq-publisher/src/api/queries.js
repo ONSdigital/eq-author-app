@@ -189,6 +189,8 @@ exports.getQuestionnaire = `
             title
             description
             guidance
+            definitionLabel
+            definitionContent
             pageType
             routingRuleSet {
               id

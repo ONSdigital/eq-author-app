@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DefinitionEditor should render 1`] = `
+<Fragment>
+  <DefinitionEditor__DefinitionLabel>
+    foobar
+  </DefinitionEditor__DefinitionLabel>
+  <DefinitionEditor__Definition>
+    <DefinitionEditor__Padding>
+      <p>
+        Test
+      </p>
+    </DefinitionEditor__Padding>
+  </DefinitionEditor__Definition>
+</Fragment>
+`;

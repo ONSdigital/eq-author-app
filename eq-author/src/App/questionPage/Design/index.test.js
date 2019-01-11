@@ -46,6 +46,8 @@ const movePageMock = {
                 alias: "bar-alias",
                 displayName: "bar",
                 position: 0,
+                definitionLabel: "definition label",
+                definitionContent: "definitionContent",
                 section: {
                   __typename: "Section",
                   questionnaire: {
@@ -61,6 +63,8 @@ const movePageMock = {
                 alias: "blah-alias",
                 displayName: "blah",
                 position: 1,
+                definitionLabel: "definition label",
+                definitionContent: "definitionContent",
                 section: {
                   __typename: "Section",
                   questionnaire: {
@@ -157,6 +161,8 @@ describe("QuestionPageRoute", () => {
               description: "bar",
               pageType: "QuestionPage",
               position: 0,
+              definitionLabel: "definition label",
+              definitionContent: "definitionContent",
               guidance: "",
               answers: [],
               section: {
@@ -200,6 +206,8 @@ describe("QuestionPageRoute", () => {
               description: "bar",
               pageType: "QuestionPage",
               position: 0,
+              definitionLabel: "definition label",
+              definitionContent: "definitionContent",
               guidance: "",
               answers: [],
               section: {
@@ -290,6 +298,8 @@ describe("QuestionPageRoute", () => {
       description: "bar",
       pageType: "QuestionPage",
       position: 0,
+      definitionLabel: "definition label",
+      definitionContent: "definitionContent",
       guidance: "",
       answers: [],
       section: {

@@ -22,10 +22,13 @@ describe("MetaEditor", () => {
     handleUpdate = jest.fn();
     handleTitleRef = jest.fn();
     page = {
+      id: "1",
       title: "Page title",
       alias: "Page alias",
       description: "Page description",
       guidance: "Page guidance",
+      definitionLabel: "Page definition label",
+      definitionContent: "Page definition content",
       section: {
         questionnaire: {
           metadata: []

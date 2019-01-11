@@ -60,12 +60,14 @@ exports[`WrappingInput should render 1`] = `
 
 <withChangeHandler(WrappingInput)
   id="foo"
+  onBlur={[MockFunction]}
   onChange={[MockFunction]}
   value="123"
 >
   <WrappingInput
     bold={false}
     id="foo"
+    onBlur={[MockFunction]}
     onChange={[Function]}
     value="123"
   >
@@ -81,6 +83,7 @@ exports[`WrappingInput should render 1`] = `
       >
         <WrappingInput__TextArea
           id="foo"
+          onBlur={[MockFunction]}
           onChange={[Function]}
           value="123"
         >
@@ -88,6 +91,7 @@ exports[`WrappingInput should render 1`] = `
             className="c1"
             id="foo"
             inputRef={[Function]}
+            onBlur={[MockFunction]}
             onChange={[Function]}
             onHeightChange={[Function]}
             useCacheForDOMMeasurements={false}
@@ -96,6 +100,7 @@ exports[`WrappingInput should render 1`] = `
             <textarea
               className="c1"
               id="foo"
+              onBlur={[MockFunction]}
               onChange={[Function]}
               style={
                 Object {
