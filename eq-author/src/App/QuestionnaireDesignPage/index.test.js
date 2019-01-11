@@ -125,7 +125,7 @@ describe("QuestionnaireDesignPage", () => {
         .find(`[data-test="side-nav"]`)
         .simulate("addQuestionConfirmation");
       expect(mockHandlers.onCreateQuestionConfirmation).toHaveBeenCalledWith(
-        "1"
+        page.id
       );
     });
 

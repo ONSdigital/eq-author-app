@@ -13,6 +13,7 @@ exports[`Tooltip should render 1`] = `
     delayShow={200}
     effect="solid"
     id="buttonTooltip"
+    innerRef={[Function]}
     place="bottom"
   >
     This is a button
@@ -33,6 +34,7 @@ exports[`Tooltip should render arbitrary content 1`] = `
     delayShow={200}
     effect="solid"
     id="buttonTooltip"
+    innerRef={[Function]}
     place="bottom"
   >
     <ul>
@@ -59,6 +61,7 @@ exports[`Tooltip should use auto-generated id if one is not supplied 1`] = `
     delayShow={200}
     effect="solid"
     id="tooltip-1"
+    innerRef={[Function]}
     place="bottom"
   >
     This is a tooltip

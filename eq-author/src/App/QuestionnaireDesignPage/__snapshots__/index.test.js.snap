@@ -100,32 +100,32 @@ exports[`QuestionnaireDesignPage should render 1`] = `
           <Route
             component={[Function]}
             exact={true}
-            path="/questionnaire/:questionnaireId/:sectionId(\\\\d+)/design"
+            path="/questionnaire/:questionnaireId/:sectionId([a-f0-9-]+)/design"
           />
           <Route
             component={[Function]}
             exact={true}
-            path="/questionnaire/:questionnaireId/:sectionId(\\\\d+)/:pageId(\\\\d+)/design"
+            path="/questionnaire/:questionnaireId/:sectionId([a-f0-9-]+)/:pageId([a-f0-9-]+)/design"
           />
           <Route
             component={[Function]}
             exact={true}
-            path="/questionnaire/:questionnaireId/:sectionId(\\\\d+)/:pageId(\\\\d+)/routing"
+            path="/questionnaire/:questionnaireId/:sectionId([a-f0-9-]+)/:pageId([a-f0-9-]+)/routing"
           />
           <Route
             component={[Function]}
             exact={true}
-            path="/questionnaire/:questionnaireId/:sectionId(\\\\d+)/:pageId(\\\\d+)?/preview"
+            path="/questionnaire/:questionnaireId/:sectionId([a-f0-9-]+)/:pageId([a-f0-9-]+)?/preview"
           />
           <Route
             component={[Function]}
             exact={true}
-            path="/questionnaire/:questionnaireId/:sectionId(\\\\d+)/:pageId(\\\\d+)/:confirmationId(\\\\d+)/design"
+            path="/questionnaire/:questionnaireId/:sectionId([a-f0-9-]+)/:pageId([a-f0-9-]+)/:confirmationId([a-f0-9-]+)/design"
           />
           <Route
             component={[Function]}
             exact={true}
-            path="/questionnaire/:questionnaireId/:sectionId(\\\\d+)/:pageId(\\\\d+)/:confirmationId(\\\\d+)?/preview"
+            path="/questionnaire/:questionnaireId/:sectionId([a-f0-9-]+)/:pageId([a-f0-9-]+)/:confirmationId([a-f0-9-]+)/preview"
           />
           <Route
             path="*"

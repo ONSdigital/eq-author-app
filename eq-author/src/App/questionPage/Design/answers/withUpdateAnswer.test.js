@@ -21,4 +21,14 @@ describe("withUpdateAnswer", () => {
       variables: { input: answer },
     });
   });
+
+  it("should filter out invalid inputs", () => {
+    const props = mapMutateToProps({ mutate });
+    const answer = { id: "1", type: "foo" };
+
+    props.onUpdateAnswer(answer);
+    expect(mutate).toHaveBeenCalledWith({
+      variables: { input: { id: "1" } },
+    });
+  });
 });

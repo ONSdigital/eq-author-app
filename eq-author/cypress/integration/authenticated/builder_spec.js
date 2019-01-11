@@ -9,6 +9,8 @@ import {
   addQuestionPage,
   testId,
   navigateToFirstSection,
+  questionPageRegex,
+  sectionRegex,
 } from "../../utils";
 import { times, includes } from "lodash";
 import { Routes } from "../../../src/utils/UrlUtils";
@@ -25,9 +27,6 @@ import {
 } from "../../../src/constants/answer-types";
 
 const questionnaireTitle = "My Questionnaire Title";
-
-const questionPageRegex = /\/questionnaire\/\d+\/\d+\/\d+\/design$/;
-const sectionRegex = /\/questionnaire\/\d+\/\d+\/design$/;
 
 describe("builder", () => {
   const checkIsOnDesignPage = () => cy.hash().should("match", /\/design$/);
@@ -682,6 +681,64 @@ describe("builder", () => {
 
       cy.get(testId("option-label")).should("have.length", 1);
       cy.get(testId("other-answer")).should("have.length", 0);
+    });
+  });
+
+  describe("Moving answers", () => {
+    it("can move an answer down", () => {
+      addAnswerType(NUMBER);
+      addAnswerType(CURRENCY);
+
+      cy.get(testId("answer-type")).should("have.length", 2);
+
+      cy.get(testId("answer-type"))
+        .first()
+        .should("have.text", "Number");
+
+      cy.get(testId("btn-move-answer-up"))
+        .first()
+        .should("have.attr", "aria-disabled", "true");
+
+      cy.get(testId("btn-move-answer-down"))
+        .first()
+        .click();
+
+      // Navigate away and back to skip animation and ensure it
+      // is changed on the server
+      cy.contains("Untitled Section").click();
+      cy.contains("Untitled Page").click();
+
+      cy.get(testId("answer-type"))
+        .first()
+        .should("contain", "Currency");
+    });
+
+    it("can move an answer up", () => {
+      addAnswerType(NUMBER);
+      addAnswerType(CURRENCY);
+
+      cy.get(testId("answer-type")).should("have.length", 2);
+
+      cy.get(testId("answer-type"))
+        .last()
+        .should("have.text", "Currency");
+
+      cy.get(testId("btn-move-answer-down"))
+        .last()
+        .should("have.attr", "aria-disabled", "true");
+
+      cy.get(testId("btn-move-answer-up"))
+        .last()
+        .click();
+
+      // Navigate away and back to skip animation and ensure it
+      // is changed on the server
+      cy.contains("Untitled Section").click();
+      cy.contains("Untitled Page").click();
+
+      cy.get(testId("answer-type"))
+        .last()
+        .should("contain", "Number");
     });
   });
 });

@@ -1,10 +1,8 @@
 import { mapMutateToProps } from "./withDuplicateSection";
 import { buildSectionPath } from "utils/UrlUtils";
 
-const nextId = previousId => `${parseInt(previousId, 10) + 1}`;
-
 describe("withDuplicateSection", () => {
-  let ownProps, history, match, props, mutate, args, result;
+  let ownProps, history, match, props, mutate, args, result, dupeSectionId;
 
   beforeEach(() => {
     match = {
@@ -24,15 +22,17 @@ describe("withDuplicateSection", () => {
     };
 
     args = {
-      questionnaireId: "1",
-      sectionId: "1",
+      questionnaireId: "3",
+      sectionId: "2",
       position: 0,
     };
+
+    dupeSectionId = "4";
 
     result = {
       data: {
         duplicateSection: {
-          id: nextId(args.sectionId),
+          id: dupeSectionId,
           position: args.position,
           questionnaire: {
             id: "1",
@@ -76,11 +76,9 @@ describe("withDuplicateSection", () => {
       });
 
       it("should redirect to new section on copy", () => {
-        const copiedSectionId = nextId(args.sectionId);
-
         const expected = buildSectionPath({
           questionnaireId: match.params.questionnaireId,
-          sectionId: copiedSectionId,
+          sectionId: dupeSectionId,
         });
 
         return props.onDuplicateSection(args).then(() => {

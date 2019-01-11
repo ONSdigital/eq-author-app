@@ -83,7 +83,6 @@ export const displayToast = (ownProps, questionnaire) => {
       numberOfDeletedPages,
       "page"
     )} deleted`,
-    "undeleteSection",
     {
       questionnaireId,
       sectionId,

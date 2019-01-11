@@ -4,14 +4,11 @@ const uuid = require("uuid");
 
 describe("auth middleware", () => {
   let logger;
-  let context;
 
   beforeEach(() => {
     logger = {
       error: jest.fn(),
     };
-
-    context = {};
   });
 
   it("should export a function", () => {
@@ -19,7 +16,7 @@ describe("auth middleware", () => {
   });
 
   it("should create middleware function", () => {
-    const middleware = createAuthMiddleware(logger, context);
+    const middleware = createAuthMiddleware(logger);
     expect(middleware).toEqual(expect.any(Function));
   });
 
@@ -38,7 +35,7 @@ describe("auth middleware", () => {
       };
       next = jest.fn();
 
-      middleware = createAuthMiddleware(logger, context);
+      middleware = createAuthMiddleware(logger);
     });
 
     it("should check the authorization header", () => {
@@ -88,7 +85,7 @@ describe("auth middleware", () => {
     });
 
     describe("valid token", () => {
-      it("should add token payload to context if valid token", () => {
+      it("should add token payload to request if valid token", () => {
         let payload = {
           payload: {
             data: {
@@ -100,11 +97,11 @@ describe("auth middleware", () => {
         const expected = jwt.sign(payload, uuid.v4());
         req.header.mockImplementation(() => `Bearer ${expected}`);
         middleware(req, res, next);
-        expect(context.auth).toMatchObject(payload);
+        expect(req.auth).toMatchObject(payload);
         expect(next).toHaveBeenCalled();
       });
 
-      it("should add token payload to context if valid token with padding", () => {
+      it("should add token payload to request if valid token with padding", () => {
         let payload = {
           payload: {
             data: {
@@ -122,7 +119,7 @@ describe("auth middleware", () => {
         ].join("");
         req.header.mockImplementation(() => `Bearer ${expectedWithEquals}`);
         middleware(req, res, next);
-        expect(context.auth).toMatchObject(payload);
+        expect(req.auth).toMatchObject(payload);
         expect(next).toHaveBeenCalled();
       });
     });

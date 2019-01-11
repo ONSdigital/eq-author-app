@@ -7,7 +7,13 @@ describe("components/Tabs", () => {
 
   beforeEach(() => {
     props = {
-      match: { params: { questionnaireId: "1", sectionId: "2", pageId: "3" } },
+      match: {
+        params: {
+          questionnaireId: "1",
+          sectionId: "2",
+          pageId: "3",
+        },
+      },
       children: "Tab Content",
     };
   });

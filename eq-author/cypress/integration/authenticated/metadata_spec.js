@@ -92,6 +92,7 @@ describe("Metadata", () => {
     cy.get(testId("metadata-delete-row")).as("deleteMetadataBtn");
     cy.get("@deleteMetadataBtn").should("be.visible");
     cy.get("@deleteMetadataBtn").click();
+    cy.get(testId("metadata-table-row")).should("have.length", 0);
     cy.contains("Done").click();
   });
 });
