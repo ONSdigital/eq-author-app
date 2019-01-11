@@ -8,7 +8,6 @@ export default (state = {}, action) => {
         ...state,
         [action.payload.id]: {
           message: action.payload.message,
-          undoAction: action.payload.undoAction,
           context: action.payload.context,
         },
       };

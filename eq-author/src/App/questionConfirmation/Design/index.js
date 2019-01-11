@@ -4,16 +4,17 @@ import { Query } from "react-apollo";
 import { propType } from "graphql-anywhere";
 import gql from "graphql-tag";
 import { flow } from "lodash/fp";
-
 import EditorLayout from "App/questionPage/Design/EditorLayout";
+
 import { Toolbar, Buttons } from "App/questionPage/Design/EditorToolbar";
 import Error from "components/Error";
 import IconButtonDelete from "components/buttons/IconButtonDelete";
 import Loading from "components/Loading";
+import DeleteConfirmDialog from "components/DeleteConfirmDialog";
 
 import withUpdateQuestionConfirmation from "./withUpdateQuestionConfirmation";
 import withDeleteQuestionConfirmation from "./withDeleteQuestionConfirmation";
-
+import questionConfirmationIcon from "./question-confirmation-icon.svg";
 import Editor from "./Editor";
 
 export class UnwrappedQuestionConfirmationRoute extends React.Component {
@@ -27,14 +28,29 @@ export class UnwrappedQuestionConfirmationRoute extends React.Component {
     onDeleteQuestionConfirmation: PropTypes.func.isRequired,
   };
 
-  handleDeleteClick = () => {
-    this.props.onDeleteQuestionConfirmation(
-      this.props.data.questionConfirmation
+  state = {
+    showDeleteConfirmDialog: false,
+  };
+
+  handleOpenDeleteConfirmDialog = () =>
+    this.setState({ showDeleteConfirmDialog: true });
+
+  handleCloseDeleteConfirmDialog = () => {
+    this.setState({ showDeleteConfirmDialog: false });
+  };
+
+  handleDeletePageConfirm = () => {
+    this.setState({ showDeleteConfirmDialog: false }, () =>
+      this.props.onDeleteQuestionConfirmation(
+        this.props.data.questionConfirmation
+      )
     );
   };
 
   renderContent() {
     const { loading, error, data, onUpdateQuestionConfirmation } = this.props;
+    const { showDeleteConfirmDialog } = this.state;
+
     if (loading) {
       return <Loading height="100%">Confirmation is loading</Loading>;
     }
@@ -44,11 +60,20 @@ export class UnwrappedQuestionConfirmationRoute extends React.Component {
 
     return (
       <>
+        <DeleteConfirmDialog
+          isOpen={showDeleteConfirmDialog}
+          onClose={this.handleCloseDeleteConfirmDialog}
+          onDelete={this.handleDeletePageConfirm}
+          title={data.questionConfirmation.displayName}
+          alertText="All edits will be removed."
+          icon={questionConfirmationIcon}
+          data-test="delete-question-confirmation"
+        />
         <Toolbar>
           <Buttons>
             <IconButtonDelete
               data-test="btn-delete"
-              onClick={this.handleDeleteClick}
+              onClick={this.handleOpenDeleteConfirmDialog}
             >
               Delete
             </IconButtonDelete>

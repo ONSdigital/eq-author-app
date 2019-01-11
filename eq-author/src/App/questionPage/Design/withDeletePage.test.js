@@ -6,12 +6,13 @@ describe("withDeletePage", () => {
   let deletedPage,
     currentPage,
     sectionId,
+    questionnaireId,
     beforeDeleteSection,
     afterDeleteSection;
 
   beforeEach(() => {
-    sectionId = "10";
-
+    sectionId = "9";
+    questionnaireId = "1";
     deletedPage = {
       id: "2",
       sectionId,
@@ -56,8 +57,8 @@ describe("withDeletePage", () => {
       },
       match: {
         params: {
-          questionnaireId: "1",
-          sectionId: sectionId,
+          questionnaireId,
+          sectionId,
           pageId: currentPage.id,
         },
       },
@@ -146,7 +147,6 @@ describe("withDeletePage", () => {
             expect(raiseToast).toHaveBeenCalledWith(
               `Page${deletedPage.id}`,
               expect.stringContaining("Page"),
-              "undeletePage",
               expect.objectContaining({
                 sectionId: deletedPage.sectionId,
                 pageId: deletedPage.id,
@@ -173,7 +173,9 @@ describe("withDeletePage", () => {
           .onDeletePage(deletedPage.sectionId, deletedPage.id)
           .then(() => {
             expect(history.push).toHaveBeenCalledWith(
-              "/questionnaire/1/10/1/design"
+              `/questionnaire/${questionnaireId}/${sectionId}/${
+                currentPage.id
+              }/design`
             );
           });
       });

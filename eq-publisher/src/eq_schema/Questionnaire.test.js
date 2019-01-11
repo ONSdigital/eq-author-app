@@ -140,11 +140,13 @@ describe("Questionnaire", () => {
     });
   });
 
-  it("should use the questionnaire Id in the absence of surveyId", () => {
-    const questionnaireJson = createQuestionnaireJSON();
+  it("should convert questionnaire title to a valid survey id", () => {
+    const questionnaireJson = createQuestionnaireJSON({
+      title: 'Questionnaire-For-Test-With-!@£$%^&*()foo+"{}',
+    });
     delete questionnaireJson.surveyId;
     questionnaire = new Questionnaire(questionnaireJson);
-    expect(questionnaire.survey_id).toEqual(questionnaireJson.id);
+    expect(questionnaire.survey_id).toEqual("questionnairefortestwithfoo");
   });
 
   it("should add a summary page if toggled on", () => {

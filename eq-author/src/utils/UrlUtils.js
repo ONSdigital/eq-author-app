@@ -12,13 +12,13 @@ export const generatePath = curry((path, params) => compile(path)(params));
 export const Routes = {
   HOME: "/",
   SIGN_IN: "/sign-in",
-  QUESTIONNAIRE: `/questionnaire/:questionnaireId/:sectionId(\\d+)?/:pageId(\\d+)?/:confirmationId(\\d+)?/:tab?`,
-  SECTION: `/questionnaire/:questionnaireId/:sectionId(\\d+)/design`,
-  PAGE: `/questionnaire/:questionnaireId/:sectionId(\\d+)/:pageId(\\d+)/design`,
-  PAGE_PREVIEW: `/questionnaire/:questionnaireId/:sectionId(\\d+)/:pageId(\\d+)?/preview`,
-  CONFIRMATION: `/questionnaire/:questionnaireId/:sectionId(\\d+)/:pageId(\\d+)/:confirmationId(\\d+)/design`,
-  CONFIRMATION_PREVIEW: `/questionnaire/:questionnaireId/:sectionId(\\d+)/:pageId(\\d+)/:confirmationId(\\d+)?/preview`,
-  ROUTING: `/questionnaire/:questionnaireId/:sectionId(\\d+)/:pageId(\\d+)/routing`,
+  QUESTIONNAIRE: `/questionnaire/:questionnaireId/:sectionId([a-f0-9-]+)?/:pageId([a-f0-9-]+)?/:confirmationId([a-f0-9-]+)?/:tab?`,
+  SECTION: `/questionnaire/:questionnaireId/:sectionId([a-f0-9-]+)/design`,
+  PAGE: `/questionnaire/:questionnaireId/:sectionId([a-f0-9-]+)/:pageId([a-f0-9-]+)/design`,
+  PAGE_PREVIEW: `/questionnaire/:questionnaireId/:sectionId([a-f0-9-]+)/:pageId([a-f0-9-]+)?/preview`,
+  CONFIRMATION: `/questionnaire/:questionnaireId/:sectionId([a-f0-9-]+)/:pageId([a-f0-9-]+)/:confirmationId([a-f0-9-]+)/design`,
+  CONFIRMATION_PREVIEW: `/questionnaire/:questionnaireId/:sectionId([a-f0-9-]+)/:pageId([a-f0-9-]+)/:confirmationId([a-f0-9-]+)/preview`,
+  ROUTING: `/questionnaire/:questionnaireId/:sectionId([a-f0-9-]+)/:pageId([a-f0-9-]+)/routing`,
 };
 
 export const buildSectionPath = generatePath(Routes.SECTION);

@@ -1,16 +1,17 @@
 import React from "react";
 import PropTypes from "prop-types";
-import CustomPropTypes from "custom-prop-types";
-import DummyDate from "App/questionPage/Design/answers/dummy/Date";
+import { propType } from "graphql-anywhere";
+import gql from "graphql-tag";
+import styled from "styled-components";
 
+import answerFragment from "graphql/fragments/answer.graphql";
 import { Field, Label } from "components/Forms";
 import WrappingInput from "components/Forms/WrappingInput";
 import withEntityEditor from "components/withEntityEditor";
-import answerFragment from "graphql/fragments/answer.graphql";
-import styled from "styled-components";
 import VisuallyHidden from "components/VisuallyHidden";
-import gql from "graphql-tag";
 import { colors } from "constants/theme";
+
+import DummyDate from "../dummy/Date";
 
 const Format = styled.div`
   padding: 1em;
@@ -49,7 +50,7 @@ export const UnwrappedDate = ({
         size="medium"
         onChange={onChange}
         onBlur={onUpdate}
-        value={answer.label}
+        value={answer[name]}
         placeholder={placeholder}
         data-test="date-answer-label"
         data-autofocus
@@ -70,11 +71,11 @@ export const UnwrappedDate = ({
 );
 
 UnwrappedDate.propTypes = {
-  answer: CustomPropTypes.answer.isRequired,
+  label: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  answer: propType(answerFragment),
   onChange: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
-  name: PropTypes.string,
-  label: PropTypes.string,
   placeholder: PropTypes.string,
   showDay: PropTypes.bool,
   showMonth: PropTypes.bool,

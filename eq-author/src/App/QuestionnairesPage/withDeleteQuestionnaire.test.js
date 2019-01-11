@@ -111,7 +111,6 @@ describe("withDeleteQuestionnaire", () => {
           expect(raiseToast).toHaveBeenCalledWith(
             `Questionnaire${questionnaireId}`,
             expect.stringContaining("Questionnaire"),
-            "undeleteQuestionnaire",
             expect.objectContaining({
               questionnaireId,
             })

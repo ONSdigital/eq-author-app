@@ -1,17 +1,18 @@
 #!/bin/bash
 set -e
 
-POSTGRES_USER=postgres
-POSTGRES_PASSWORD=mysecretpassword
-POSTGRES_DB=postgres
+AWS_REGION=eu-west-1
+AWS_ACCESS_KEY_ID=dummy
+AWS_SECRET_ACCESS_KEY=dummy
+DYNAMO_QUESTIONNAIRE_TABLE_NAME=test-author-questionnaires
+DYNAMO_QUESTIONNAIRE_VERSION_TABLE_NAME=test-author-questionnaire-versions
 
-echo "starting postgres docker..."
+echo "starting Dynamo docker..."
 
-CONTAINER_ID=$(docker run -tid -P -e POSTGRES_USER=$POSTGRES_USER -e POSTGRES_PASSWORD=$POSTGRES_PASSWORD -e POSTGRES_DB=$POSTGRES_DB postgres:9.4-alpine)
-POSTGRES_HOST=$(docker port $CONTAINER_ID 5432)
-POSTGRES_PORT=$(echo $POSTGRES_HOST | awk -F: '{print $NF}')
+CONTAINER_ID=$(docker run -tid -P -e AWS_REGION=$AWS_REGION -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY amazon/dynamodb-local)
+DYNAMO_HOST=$(docker port $CONTAINER_ID 8000)
 
-echo "docker started at: $POSTGRES_HOST"
+echo "docker started at: $DYNAMO_HOST"
 
 function finish {
   echo "killing docker..."
@@ -19,11 +20,25 @@ function finish {
 }
 trap finish EXIT
 
-echo "waiting on postgres to start..."
+echo "waiting on Dynamo to start..."
 
-./node_modules/.bin/wait-for-postgres --quiet --port $POSTGRES_PORT --password $POSTGRES_PASSWORD
+./node_modules/.bin/wait-on http://$DYNAMO_HOST/shell
+
+if [ ! -f "data/QuestionnaireList.json" ]; then
+    if [ ! -d "data" ]; then
+        echo "creating file system folder..."
+        mkdir "data";
+    fi
+    echo "creating QuestionnaireList.json";
+    echo "[]" > "data/QuestionnaireList.json";
+fi
 
 echo "running tests..."
 
-# --runInBand is required to run the tests in parallel, as all tests use the same database
-DB_CONNECTION_URI="postgres://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST/postgres" SILENCE_LOGS=true yarn jest --runInBand --detectOpenHandles --forceExit "$@"
+AWS_REGION=${AWS_REGION} \
+AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \
+AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \
+DYNAMO_ENDPOINT_OVERRIDE=http://${DYNAMO_HOST} \
+DYNAMO_QUESTIONNAIRE_TABLE_NAME=${DYNAMO_QUESTIONNAIRE_TABLE_NAME} \
+DYNAMO_QUESTIONNAIRE_VERSION_TABLE_NAME=${DYNAMO_QUESTIONNAIRE_VERSION_TABLE_NAME} \
+yarn jest --runInBand --detectOpenHandles --forceExit "$@"

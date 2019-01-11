@@ -1,26 +1,223 @@
 const { GraphQLDate } = require("graphql-iso-date");
-const { includes, isNil, pick } = require("lodash");
+const {
+  compact,
+  includes,
+  isNil,
+  pick,
+  find,
+  filter,
+  flatten,
+  findIndex,
+  map,
+  merge,
+  remove,
+  flatMap,
+  omit,
+  set,
+  slice,
+  cloneDeep,
+  first,
+  some,
+  concat,
+  takeRightWhile,
+  kebabCase,
+} = require("lodash");
 const GraphQLJSON = require("graphql-type-json");
 const { getName } = require("../../utils/getName");
-const formatRichText = require("../../utils/formatRichText");
 const {
   getValidationEntity,
-} = require("../../repositories/strategies/validationStrategy");
+} = require("../../src/businessLogic/createValidation");
+const uuid = require("uuid");
+const deepMap = require("deep-map");
+
+const createAnswer = require("../../src/businessLogic/createAnswer");
+const onAnswerCreated = require("../../src/businessLogic/onAnswerCreated");
+const onAnswerDeleted = require("../../src/businessLogic/onAnswerDeleted");
+const updateMetadata = require("../../src/businessLogic/updateMetadata");
+const getPreviousAnswersForPage = require("../../src/businessLogic/getPreviousAnswersForPage");
+const getPreviousAnswersForSection = require("../../src/businessLogic/getPreviousAnswersForSection");
+const createOption = require("../../src/businessLogic/createOption");
+const addPrefix = require("../../utils/addPrefix");
+const { DATE, DATE_RANGE } = require("../../constants/answerTypes");
+const { DATE: METADATA_DATE } = require("../../constants/metadataTypes");
+const { ROUTING_ANSWER_TYPES } = require("../../constants/routingAnswerTypes");
+const {
+  createQuestionnaire,
+  saveQuestionnaire,
+  deleteQuestionnaire,
+  getQuestionnaire,
+  listQuestionnaires,
+} = require("../../utils/datastore");
+
+const { VALIDATION_TYPES } = require("../../constants/validationTypes");
+
+const getSection = ctx => input => {
+  return find(ctx.questionnaire.sections, { id: input.sectionId });
+};
+
+const getPage = ctx => input => {
+  const pages = flatMap(ctx.questionnaire.sections, section => section.pages);
+  return find(pages, { id: input.pageId });
+};
+
+const getAnswers = ctx => {
+  return flatMap(ctx.questionnaire.sections, section =>
+    flatMap(section.pages, page => page.answers)
+  );
+};
+
+const getAnswer = ctx => input => {
+  const answers = getAnswers(ctx);
+  return find(answers, { id: input.answerId });
+};
+
+const getOption = ctx => input => {
+  const options = flatMap(ctx.questionnaire.sections, section =>
+    flatMap(section.pages, page =>
+      flatMap(page.answers, answer => answer.options)
+    )
+  );
+  return find(options, { id: input.optionId });
+};
+
+const getValidation = ctx => id => {
+  const answers = getAnswers(ctx);
+  const answerValidations = map(answers, answer => ({
+    answerId: answer.id,
+    ...answer.validation,
+  }));
+  const validations = flatMap(answerValidations, validation => {
+    return VALIDATION_TYPES.map(type => {
+      if (validation[type]) {
+        validation[type].answerId = validation.answerId;
+      }
+      return merge(validation[type], { validationType: type });
+    });
+  });
+
+  return find(validations, { id: id });
+};
+
+const getAvailableMetadataForValidation = ctx => id => {
+  const validation = getValidation(ctx)(id);
+  const answer = getAnswer(ctx)({ answerId: validation.answerId });
+  if (answer.type === DATE || answer.type === DATE_RANGE) {
+    return filter(ctx.questionnaire.metadata, { type: METADATA_DATE });
+  } else {
+    return []; //Currently do not support validation against any other types
+  }
+};
+
+const getAvailablePreviousAnswersForValidation = ctx => id => {
+  const validation = getValidation(ctx)(id);
+  const answer = getAnswer(ctx)({ answerId: validation.answerId });
+  const pages = flatMap(ctx.questionnaire.sections, section => section.pages);
+  const currentPageIndex = findIndex(pages, { id: answer.questionPageId });
+  const previousPages = slice(pages, 0, currentPageIndex);
+  const previousAnswers = flatMap(previousPages, page => page.answers);
+  const previousAnswersOfSameType = filter(previousAnswers, {
+    type: answer.type,
+  });
+  return previousAnswersOfSameType;
+};
+
+const findSectionByPageId = (sections, id) =>
+  find(sections, section => {
+    if (section.pages && some(section.pages, { id })) {
+      return section;
+    }
+  });
+
+const createPage = (input = {}) => ({
+  id: uuid.v4(),
+  pageType: "QuestionPage",
+  title: "",
+  description: "",
+  answers: [],
+  routing: null,
+  alias: null,
+  ...input,
+});
+
+const createSection = (input = {}) => ({
+  id: uuid.v4(),
+  title: "",
+  introductionEnabled: false,
+  pages: [createPage()],
+  alias: "",
+  ...input,
+});
+
+const createNewQuestionnaire = input => ({
+  id: uuid.v4(),
+  title: null,
+  description: null,
+  theme: "default",
+  legalBasis: "Voluntary",
+  navigation: false,
+  surveyId: "",
+  createdAt: new Date(),
+  metadata: [],
+  sections: [createSection()],
+  summary: false,
+  ...input,
+});
+
+const remapAllNestedIds = entity => {
+  const transformationMatrix = {};
+  const remappedIdEntity = deepMap(entity, (value, key) => {
+    if (key === "id") {
+      const newEntityId = uuid.v4();
+      transformationMatrix[value] = newEntityId;
+      return newEntityId;
+    }
+    return value;
+  });
+  return deepMap(remappedIdEntity, value => {
+    if (Object.keys(transformationMatrix).includes(value)) {
+      return transformationMatrix[value];
+    }
+    return value;
+  });
+};
+
+const getQuestionnaireList = () => {
+  return listQuestionnaires();
+};
 
 const Resolvers = {
   Query: {
-    questionnaires: (_, args, ctx) => ctx.repositories.Questionnaire.findAll(),
-    questionnaire: (root, { id }, ctx) =>
-      ctx.repositories.Questionnaire.getById(id),
-    section: (parent, { id }, ctx) => ctx.repositories.Section.getById(id),
-    page: (parent, { id }, ctx) => ctx.repositories.Page.getById(id),
-    questionPage: (_, { id }, ctx) => ctx.repositories.QuestionPage.getById(id),
-    answer: (root, { id }, ctx) => ctx.repositories.Answer.getById(id),
+    questionnaires: () => getQuestionnaireList(),
+    questionnaire: (root, args, ctx) => ctx.questionnaire,
+    section: (root, { input }, ctx) => getSection(ctx)(input),
+    page: (root, { input }, ctx) => getPage(ctx)(input),
+    questionPage: (root, { input }, ctx) => getPage(ctx)(input),
+    answer: (root, { input }, ctx) => getAnswer(ctx)(input),
     answers: async (root, { ids }, ctx) =>
-      ctx.repositories.Answer.getAnswers(ids),
-    option: (root, { id }, ctx) => ctx.repositories.Option.getById(id),
-    questionConfirmation: (root, { id }, ctx) =>
-      ctx.repositories.QuestionConfirmation.findById(id),
+      getAnswers(ctx).filter(({ id }) => ids.includes(id)),
+    option: (root, { input }, ctx) => getOption(ctx)(input),
+    questionConfirmation: (root, { id }, ctx) => {
+      const pages = flatMap(
+        ctx.questionnaire.sections,
+        section => section.pages
+      );
+
+      let confirmationPage;
+      let pageId;
+
+      pages.map(page => {
+        if (page.confirmation && page.confirmation.id === id) {
+          confirmationPage = page.confirmation;
+          pageId = page.id;
+        }
+      });
+
+      if (!confirmationPage) {
+        return null;
+      }
+
+      return { pageId, ...confirmationPage };
+    },
     me: (root, args, ctx) => ({
       id: ctx.auth.sub,
       ...pick(ctx.auth, ["name", "email", "picture"]),
@@ -30,216 +227,467 @@ const Resolvers = {
 
   Mutation: {
     createQuestionnaire: async (root, args, ctx) => {
-      const questionnaire = await ctx.repositories.Questionnaire.insert({
+      const questionnaire = createNewQuestionnaire({
         ...args.input,
         createdBy: ctx.auth.name || ctx.auth.email,
       });
-      const section = {
-        title: "",
-        questionnaireId: questionnaire.id,
-      };
-
-      await Resolvers.Mutation.createSection(root, { input: section }, ctx);
-      return questionnaire;
+      // Saving to ctx so it can be used by all other resolvers and read by tests
+      ctx.questionnaire = await createQuestionnaire(questionnaire);
+      return ctx.questionnaire;
     },
-    updateQuestionnaire: (_, args, ctx) =>
-      ctx.repositories.Questionnaire.update(args.input),
-    deleteQuestionnaire: (_, args, ctx) =>
-      ctx.repositories.Questionnaire.remove(args.input.id),
-    undeleteQuestionnaire: (_, args, ctx) =>
-      ctx.repositories.Questionnaire.undelete(args.input.id),
-    duplicateQuestionnaire: (_, args, ctx) =>
-      ctx.repositories.Questionnaire.duplicate(args.input.id, ctx.auth.name),
+    updateQuestionnaire: async (_, { input }, ctx) => {
+      ctx.questionnaire = merge(ctx.questionnaire, input);
+      await saveQuestionnaire(ctx.questionnaire);
+      return ctx.questionnaire;
+    },
+    deleteQuestionnaire: async (_, { input }) => {
+      await deleteQuestionnaire(input.id);
+      return { id: input.id };
+    },
 
-    createSection: async (root, args, ctx) => {
-      const section = await ctx.repositories.Section.insert(args.input);
-      const page = {
-        pageType: "QuestionPage",
-        title: "",
-        description: "",
-        sectionId: section.id,
+    duplicateQuestionnaire: async (_, { input }) => {
+      const questionnaire = await getQuestionnaire(input.id);
+      const newQuestionnaire = {
+        ...questionnaire,
+        title: addPrefix(questionnaire.title),
+        id: uuid.v4(),
       };
 
-      await Resolvers.Mutation.createPage(root, { input: page }, ctx);
+      return createQuestionnaire(newQuestionnaire);
+    },
+    createSection: async (root, { input }, ctx) => {
+      const section = createSection(input);
+      ctx.questionnaire.sections.push(section);
+      await saveQuestionnaire(ctx.questionnaire);
       return section;
     },
-    updateSection: (_, { input }, ctx) =>
-      ctx.repositories.Section.update(input),
-    deleteSection: (_, args, ctx) =>
-      ctx.repositories.Section.remove(args.input.id),
-    undeleteSection: (_, args, ctx) =>
-      ctx.repositories.Section.undelete(args.input.id),
-    moveSection: (_, args, ctx) => ctx.repositories.Section.move(args.input),
-    duplicateSection: (_, args, ctx) =>
-      ctx.repositories.Section.duplicateSection(
-        args.input.id,
-        args.input.position
-      ),
+    updateSection: async (_, { input }, ctx) => {
+      const section = find(ctx.questionnaire.sections, { id: input.id });
+      merge(section, input);
+      await saveQuestionnaire(ctx.questionnaire);
+      return section;
+    },
+    deleteSection: async (root, { input }, ctx) => {
+      const section = find(ctx.questionnaire.sections, { id: input.id });
+      remove(ctx.questionnaire.sections, section);
+      await saveQuestionnaire(ctx.questionnaire);
+      return section;
+    },
+    moveSection: async (_, { input }, ctx) => {
+      const removedSection = first(
+        remove(ctx.questionnaire.sections, { id: input.id })
+      );
+      ctx.questionnaire.sections.splice(input.position, 0, removedSection);
+      await saveQuestionnaire(ctx.questionnaire);
+      return removedSection;
+    },
+    duplicateSection: async (_, { input }, ctx) => {
+      const section = find(ctx.questionnaire.sections, { id: input.id });
+      const newSection = omit(cloneDeep(section), "id");
+      set(newSection, "alias", addPrefix(newSection.alias));
+      set(newSection, "title", addPrefix(newSection.title));
+      const duplicatedSection = createSection(newSection);
+      const remappedSection = remapAllNestedIds(duplicatedSection);
+      ctx.questionnaire.sections.splice(input.position, 0, remappedSection);
+      await saveQuestionnaire(ctx.questionnaire);
+      return remappedSection;
+    },
 
-    createPage: (root, args, ctx) => ctx.repositories.Page.insert(args.input),
+    movePage: async (_, { input }, ctx) => {
+      const section = findSectionByPageId(ctx.questionnaire.sections, input.id);
+      const removedPage = first(remove(section.pages, { id: input.id }));
+      if (input.sectionId === section.id) {
+        section.pages.splice(input.position, 0, removedPage);
+      } else {
+        const newsection = find(ctx.questionnaire.sections, {
+          id: input.sectionId,
+        });
+        newsection.pages.splice(input.position, 0, removedPage);
+      }
+      await saveQuestionnaire(ctx.questionnaire);
+      return removedPage;
+    },
 
-    updatePage: (_, args, ctx) => ctx.repositories.Page.update(args.input),
-    deletePage: (_, args, ctx) => ctx.repositories.Page.remove(args.input.id),
-    undeletePage: (_, args, ctx) =>
-      ctx.repositories.Page.undelete(args.input.id),
-    movePage: (_, args, ctx) => ctx.repositories.Page.move(args.input),
-    duplicatePage: (_, args, ctx) =>
-      ctx.repositories.Page.duplicatePage(args.input.id, args.input.position),
+    duplicatePage: async (_, { input }, ctx) => {
+      const section = findSectionByPageId(ctx.questionnaire.sections, input.id);
+      const page = find(section.pages, { id: input.id });
+      const newpage = omit(page, "id");
+      set(newpage, "alias", addPrefix(newpage.alias));
+      set(newpage, "title", addPrefix(newpage.title));
+      const duplicatedPage = createPage(newpage);
+      const remappedPage = remapAllNestedIds(duplicatedPage);
+      section.pages.splice(input.position, 0, remappedPage);
+      await saveQuestionnaire(ctx.questionnaire);
+      return remappedPage;
+    },
 
-    createQuestionPage: (root, args, ctx) =>
-      ctx.repositories.Page.insert(
-        Object.assign({}, args.input, { pageType: "QuestionPage" })
-      ),
-    updateQuestionPage: (_, args, ctx) =>
-      ctx.repositories.QuestionPage.update(args.input),
-    deleteQuestionPage: (_, args, ctx) =>
-      ctx.repositories.QuestionPage.remove(args.input.id),
-    undeleteQuestionPage: (_, args, ctx) =>
-      ctx.repositories.QuestionPage.undelete(args.input.id),
+    createQuestionPage: async (root, { input }, ctx) => {
+      const section = find(ctx.questionnaire.sections, { id: input.sectionId });
+      const page = createPage(input);
 
-    createAnswer: async (root, args, ctx) => {
-      const answer = await ctx.repositories.Answer.createAnswer(args.input);
-      await ctx.modifiers.BinaryExpression.onAnswerCreated(answer);
+      section.pages.push(page);
+      await saveQuestionnaire(ctx.questionnaire);
+      return page;
+    },
+    updateQuestionPage: async (_, { input }, ctx) => {
+      const page = getPage(ctx)({ pageId: input.id });
+      merge(page, input);
+      await saveQuestionnaire(ctx.questionnaire);
+      return page;
+    },
+    deleteQuestionPage: async (_, { input }, ctx) => {
+      const removedPage = flatten(
+        ctx.questionnaire.sections.map(section =>
+          remove(section.pages, { id: input.id })
+        )
+      );
+      await saveQuestionnaire(ctx.questionnaire);
+      return removedPage[0];
+    },
+
+    createAnswer: async (root, { input }, ctx) => {
+      const page = getPage(ctx)({ pageId: input.questionPageId });
+      const answer = createAnswer(input);
+      page.answers.push(answer);
+
+      onAnswerCreated(ctx.questionnaire, page, answer);
+
+      await saveQuestionnaire(ctx.questionnaire);
       return answer;
     },
-    updateAnswer: (_, args, ctx) => ctx.repositories.Answer.update(args.input),
-    deleteAnswer: async (_, args, ctx) => {
-      const deletedAnswer = await ctx.repositories.Answer.remove(args.input.id);
-      await ctx.modifiers.BinaryExpression.onAnswerDeleted(deletedAnswer);
+    updateAnswer: async (root, { input }, ctx) => {
+      const pages = flatMap(
+        ctx.questionnaire.sections,
+        section => section.pages
+      );
+      const answers = compact(
+        flatMap(pages, page => (page.answers ? page.answers : null))
+      );
+
+      const additionalAnswers = flatMap(answers, answer =>
+        answer.options
+          ? flatMap(answer.options, option => option.additionalAnswer)
+          : null
+      );
+
+      const answer = find(concat(answers, additionalAnswers), { id: input.id });
+      merge(answer, input);
+      await saveQuestionnaire(ctx.questionnaire);
+
+      return answer;
+    },
+    deleteAnswer: async (_, { input }, ctx) => {
+      const pages = flatMap(
+        ctx.questionnaire.sections,
+        section => section.pages
+      );
+      const page = find(pages, page => {
+        if (page.answers && some(page.answers, { id: input.id })) {
+          return page;
+        }
+      });
+
+      const deletedAnswer = first(remove(page.answers, { id: input.id }));
+
+      onAnswerDeleted(ctx.questionnaire, page, deletedAnswer);
+
+      await saveQuestionnaire(ctx.questionnaire);
       return deletedAnswer;
     },
-    undeleteAnswer: (_, args, ctx) =>
-      ctx.repositories.Answer.undelete(args.input.id),
 
-    createOption: async (root, args, ctx) => {
-      let additionalAnswerId;
-      if (args.input.hasAdditionalAnswer) {
-        const additionalAnswer = await ctx.repositories.Answer.createAnswer({
-          description: "",
-          type: "TextField",
-          parentAnswerId: args.input.answerId,
-        });
-        additionalAnswerId = additionalAnswer.id;
-      }
-      return ctx.repositories.Option.insert({
-        ...args.input,
-        additionalAnswerId,
-      });
-    },
-    createMutuallyExclusiveOption: (root, { input }, ctx) =>
-      ctx.repositories.Option.insert({ mutuallyExclusive: true, ...input }),
-    updateOption: (_, args, ctx) => ctx.repositories.Option.update(args.input),
-    deleteOption: async (_, args, ctx) => {
-      const deletedOption = await ctx.repositories.Option.remove(args.input.id);
-      await ctx.repositories.SelectedOptions2.deleteByOptionId(
-        deletedOption.id
+    createOption: async (root, { input }, ctx) => {
+      const pages = flatMap(
+        ctx.questionnaire.sections,
+        section => section.pages
       );
-      return deletedOption;
-    },
-    undeleteOption: (_, args, ctx) =>
-      ctx.repositories.Option.undelete(args.input.id),
-    toggleValidationRule: (_, args, ctx) =>
-      ctx.repositories.Validation.toggleValidationRule(args.input),
-    updateValidationRule: (_, args, ctx) =>
-      ctx.repositories.Validation.updateValidationRule(args.input),
-    createMetadata: (root, args, ctx) =>
-      ctx.repositories.Metadata.insert(args.input),
-    updateMetadata: (_, args, ctx) =>
-      ctx.repositories.Metadata.update(args.input),
-    deleteMetadata: (_, args, ctx) =>
-      ctx.repositories.Metadata.remove(args.input.id),
+      const answers = flatMap(pages, page => page.answers);
+      const parent = find(answers, { id: input.answerId });
+      const option = createOption(input);
 
-    createQuestionConfirmation: (_, args, ctx) =>
-      ctx.repositories.QuestionConfirmation.create(args.input),
-    updateQuestionConfirmation: (
+      parent.options.push(option);
+
+      await saveQuestionnaire(ctx.questionnaire);
+
+      return option;
+    },
+
+    createMutuallyExclusiveOption: async (root, { input }, ctx) => {
+      const pages = flatMap(
+        ctx.questionnaire.sections,
+        section => section.pages
+      );
+      const answers = flatMap(pages, page => page.answers);
+      const answer = find(answers, { id: input.answerId });
+
+      const existing = find(answer.options, { mutuallyExclusive: true });
+      if (!isNil(existing)) {
+        throw new Error(
+          "There is already an exclusive checkbox on this answer."
+        );
+      }
+
+      const option = createOption({ mutuallyExclusive: true, ...input });
+
+      answer.options.push(option);
+
+      await saveQuestionnaire(ctx.questionnaire);
+
+      return option;
+    },
+    updateOption: async (_, { input }, ctx) => {
+      const pages = flatMap(
+        ctx.questionnaire.sections,
+        section => section.pages
+      );
+      const answers = compact(flatMap(pages, page => page.answers));
+      const options = flatMap(answers, answer => answer.options);
+      const option = find(options, { id: input.id });
+
+      merge(option, input);
+
+      await saveQuestionnaire(ctx.questionnaire);
+
+      return option;
+    },
+    deleteOption: async (_, { input }, ctx) => {
+      const pages = flatMap(
+        ctx.questionnaire.sections,
+        section => section.pages
+      );
+      const answers = flatMap(pages, page => page.answers);
+
+      const answer = find(answers, answer => {
+        if (answer.options && some(answer.options, { id: input.id })) {
+          return answer;
+        }
+      });
+
+      const removedOption = first(remove(answer.options, { id: input.id }));
+
+      pages.forEach(page => {
+        if (!page.routing) {
+          return;
+        }
+
+        page.routing.rules.forEach(rule => {
+          rule.expressionGroup.expressions.forEach(expression => {
+            if (expression.right && expression.right.optionIds) {
+              remove(
+                expression.right.optionIds,
+                value => value === removedOption.id
+              );
+            }
+          });
+        });
+      });
+
+      await saveQuestionnaire(ctx.questionnaire);
+
+      return removedOption;
+    },
+    toggleValidationRule: async (_, args, ctx) => {
+      const validation = getValidation(ctx)(args.input.id);
+      validation.enabled = args.input.enabled;
+
+      const newValidation = Object.assign({}, validation);
+      delete validation.validationType;
+
+      await saveQuestionnaire(ctx.questionnaire);
+
+      return newValidation;
+    },
+    updateValidationRule: async (_, args, ctx) => {
+      const validation = getValidation(ctx)(args.input.id);
+      const { validationType } = validation;
+
+      merge(validation, args.input[`${validationType}Input`]);
+
+      const newValidation = Object.assign({}, validation);
+      delete validation.validationType;
+
+      await saveQuestionnaire(ctx.questionnaire);
+
+      return newValidation;
+    },
+    createMetadata: async (root, args, ctx) => {
+      const newMetadata = {
+        alias: null,
+        id: uuid.v4(),
+        key: null,
+        type: "Text",
+        value: null,
+      };
+      ctx.questionnaire.metadata.push(newMetadata);
+      await saveQuestionnaire(ctx.questionnaire);
+      return newMetadata;
+    },
+    updateMetadata: async (_, { input }, ctx) => {
+      const original = find(ctx.questionnaire.metadata, { id: input.id });
+      const result = updateMetadata(original, input);
+      merge(original, result);
+      await saveQuestionnaire(ctx.questionnaire);
+      return result;
+    },
+    deleteMetadata: async (_, { input }, ctx) => {
+      const deletedMetadata = first(
+        remove(ctx.questionnaire.metadata, {
+          id: input.id,
+        })
+      );
+      await saveQuestionnaire(ctx.questionnaire);
+      return deletedMetadata;
+    },
+    createQuestionConfirmation: async (_, { input }, ctx) => {
+      const section = findSectionByPageId(
+        ctx.questionnaire.sections,
+        input.pageId
+      );
+      const page = find(section.pages, { id: input.pageId });
+      const questionConfirmation = {
+        id: uuid.v4(),
+        title: "",
+        positive: { label: null, description: null },
+        negative: { label: null, description: null },
+      };
+      set(page, "confirmation", questionConfirmation);
+      await saveQuestionnaire(ctx.questionnaire);
+      return {
+        pageId: input.pageId,
+        ...questionConfirmation,
+      };
+    },
+    updateQuestionConfirmation: async (
       _,
       { input: { positive, negative, id, title } },
       ctx
-    ) =>
-      ctx.repositories.QuestionConfirmation.update({
-        id,
+    ) => {
+      const newValues = {
         title,
-        positiveLabel: positive.label,
-        positiveDescription: positive.description,
-        negativeLabel: negative.label,
-        negativeDescription: negative.description,
-      }),
-    deleteQuestionConfirmation: (_, { input }, ctx) =>
-      ctx.repositories.QuestionConfirmation.delete(input),
-    undeleteQuestionConfirmation: (_, { input }, ctx) =>
-      ctx.repositories.QuestionConfirmation.restore(input.id),
+        positive,
+        negative,
+      };
+
+      const pages = flatMap(
+        ctx.questionnaire.sections,
+        section => section.pages
+      );
+
+      let confirmationPage;
+      let pageId;
+
+      pages.map(page => {
+        if (page.confirmation && page.confirmation.id === id) {
+          confirmationPage = page.confirmation;
+          pageId = page.id;
+        }
+      });
+
+      merge(confirmationPage, newValues);
+
+      await saveQuestionnaire(ctx.questionnaire);
+
+      return {
+        pageId,
+        ...confirmationPage,
+      };
+    },
+    deleteQuestionConfirmation: async (_, { input }, ctx) => {
+      const pages = flatMap(
+        ctx.questionnaire.sections,
+        section => section.pages
+      );
+
+      let confirmationPage;
+      let pageContainingConfirmation;
+
+      pages.map(page => {
+        if (page.confirmation && page.confirmation.id === input.id) {
+          confirmationPage = page.confirmation;
+          pageContainingConfirmation = page;
+        }
+      });
+
+      delete pageContainingConfirmation.confirmation;
+      await saveQuestionnaire(ctx.questionnaire);
+
+      return {
+        pageId: pageContainingConfirmation.id,
+        ...confirmationPage,
+      };
+    },
   },
 
   Questionnaire: {
-    sections: (questionnaire, args, ctx) =>
-      ctx.repositories.Section.findAll({ questionnaireId: questionnaire.id }),
-    createdBy: questionnaire => ({
-      id: questionnaire.createdBy, // Temporary until next PR introduces users table.
-      name: questionnaire.createdBy,
-    }),
-    questionnaireInfo: ({ id }) => id,
-    metadata: (questionnaire, args, ctx) =>
-      ctx.repositories.Metadata.findAll({ questionnaireId: questionnaire.id }),
+    sections: questionnaire => questionnaire.sections,
+    createdBy: ({ createdBy }) => {
+      return {
+        id: kebabCase(createdBy), // Temporary until next PR introduces users table.
+        name: createdBy,
+      };
+    },
+    createdAt: questionnaire => new Date(questionnaire.createdAt),
+    questionnaireInfo: questionnaire => questionnaire,
+    metadata: questionnaire => questionnaire.metadata,
   },
 
   QuestionnaireInfo: {
-    totalSectionCount: (questionnaireId, args, ctx) =>
-      ctx.repositories.Section.getSectionCount(questionnaireId),
+    totalSectionCount: questionnaire => questionnaire.sections.length,
   },
 
   Section: {
-    pages: (section, args, ctx) =>
-      ctx.repositories.Page.findAll({ sectionId: section.id }),
-    questionnaire: (section, args, ctx) =>
-      ctx.repositories.Questionnaire.getById(section.questionnaireId),
+    pages: section => section.pages,
+    questionnaire: (section, args, ctx) => ctx.questionnaire,
     displayName: section => getName(section, "Section"),
-    title: (page, args) => formatRichText(page.title, args.format),
-    position: ({ position, id }, args, ctx) => {
-      if (position !== undefined) {
-        return position;
-      }
-      return ctx.repositories.Section.getPosition({ id });
+    position: ({ id }, args, ctx) => {
+      return findIndex(ctx.questionnaire.sections, { id });
     },
     availablePipingAnswers: ({ id }, args, ctx) =>
-      ctx.repositories.Section.getPipingAnswersForSection(id),
-    availablePipingMetadata: ({ id }, args, ctx) =>
-      ctx.repositories.Section.getPipingMetadataForSection(id),
+      getPreviousAnswersForSection(ctx.questionnaire, id),
+    availablePipingMetadata: (section, args, ctx) => ctx.questionnaire.metadata,
   },
 
   Page: {
     __resolveType: ({ pageType }) => pageType,
-    position: ({ position, id }, args, ctx) => {
-      if (position !== undefined) {
-        return position;
-      }
-
-      return ctx.repositories.Page.getPosition({ id });
+    position: ({ id }, args, ctx) => {
+      const section = findSectionByPageId(ctx.questionnaire.sections, id);
+      return findIndex(section.pages, { id });
     },
   },
 
   QuestionPage: {
-    answers: ({ id }, args, ctx) =>
-      ctx.repositories.Answer.findAll({ questionPageId: id }),
-    section: ({ sectionId }, args, ctx) => {
-      return ctx.repositories.Section.getById(sectionId);
+    answers: page => page.answers,
+    section: ({ id }, input, ctx) =>
+      findSectionByPageId(ctx.questionnaire.sections, id),
+    position: ({ id }, args, ctx) => {
+      const section = findSectionByPageId(ctx.questionnaire.sections, id);
+      return findIndex(section.pages, { id });
     },
-    position: (page, args, ctx) => Resolvers.Page.position(page, args, ctx),
     displayName: page => getName(page, "QuestionPage"),
-    title: (page, args) => formatRichText(page.title, args.format),
-    confirmation: async (page, args, ctx) =>
-      ctx.repositories.QuestionConfirmation.findByPageId(page.id),
+    confirmation: page => page.confirmation,
     availablePipingAnswers: ({ id }, args, ctx) =>
-      ctx.repositories.QuestionPage.getPipingAnswersForQuestionPage(id),
-    availablePipingMetadata: ({ id }, args, ctx) =>
-      ctx.repositories.QuestionPage.getPipingMetadataForQuestionPage(id),
+      getPreviousAnswersForPage(ctx.questionnaire, id),
+    availablePipingMetadata: (page, args, ctx) => ctx.questionnaire.metadata,
     availableRoutingAnswers: ({ id }, args, ctx) =>
-      ctx.repositories.QuestionPage.getRoutingAnswers(id),
-    availableRoutingDestinations: async (page, args, ctx) => {
-      const questionPages = await ctx.repositories.QuestionPage.getFuturePagesInSection(
-        page.id
+      getPreviousAnswersForPage(
+        ctx.questionnaire,
+        id,
+        true,
+        ROUTING_ANSWER_TYPES
+      ),
+    availableRoutingDestinations: ({ id }, args, ctx) => {
+      const section = find(ctx.questionnaire.sections, section => {
+        if (section.pages && some(section.pages, { id })) {
+          return section;
+        }
+      });
+
+      const questionPages = takeRightWhile(
+        section.pages,
+        page => page.id !== id
       );
-      const sections = await ctx.repositories.Section.getFutureSections(
-        page.sectionId
+      const sections = takeRightWhile(
+        ctx.questionnaire.sections,
+        futureSection => futureSection.id !== section.id
       );
 
       const logicalDestinations = [
@@ -250,13 +698,14 @@ const Resolvers = {
           logicalDestination: "EndOfQuestionnaire",
         },
       ];
+
       return {
         logicalDestinations,
-        questionPages,
         sections,
+        questionPages,
       };
     },
-    routing: ({ id }, args, ctx) => ctx.repositories.Routing2.getByPageId(id),
+    routing: questionPage => questionPage.routing,
   },
 
   LogicalDestination: {
@@ -267,8 +716,6 @@ const Resolvers = {
     __resolveType: ({ type }) => {
       if (includes(["Checkbox", "Radio"], type)) {
         return "MultipleChoiceAnswer";
-      } else if (includes(["DateRange"], type)) {
-        return "CompositeAnswer";
       } else {
         return "BasicAnswer";
       }
@@ -276,46 +723,58 @@ const Resolvers = {
   },
 
   BasicAnswer: {
-    page: (answer, args, ctx) =>
-      ctx.repositories.QuestionPage.getById(answer.questionPageId),
+    page: ({ id }, args, ctx) => {
+      const pages = flatMap(
+        ctx.questionnaire.sections,
+        section => section.pages
+      );
+
+      const parentPage = find(pages, page =>
+        some(page.answers, answer => answer.id === id)
+      );
+
+      return parentPage;
+    },
     validation: answer =>
-      ["number", "date"].includes(getValidationEntity(answer.type))
+      ["number", "date", "dateRange"].includes(getValidationEntity(answer.type))
         ? answer
         : null,
     displayName: answer => getName(answer, "BasicAnswer"),
   },
 
-  CompositeAnswer: {
-    childAnswers: (answer, args, ctx) =>
-      ctx.repositories.Answer.splitComposites(answer),
-    page: (answer, args, ctx) =>
-      ctx.repositories.QuestionPage.getById(answer.questionPageId),
-    validation: answer =>
-      ["dateRange"].includes(getValidationEntity(answer.type)) ? answer : null,
-    displayName: answer => getName(answer, "CompositeAnswer"),
-  },
-
   MultipleChoiceAnswer: {
-    page: (answer, args, ctx) =>
-      ctx.repositories.QuestionPage.getById(answer.questionPageId),
-    options: (answer, args, ctx) =>
-      ctx.repositories.Option.findAll({
-        answerId: answer.id,
-        mutuallyExclusive: false,
-      }),
-    mutuallyExclusiveOption: (answer, args, ctx) =>
-      ctx.repositories.Option.findExclusiveOptionByAnswerId(answer.id),
+    page: (answer, args, ctx) => {
+      const pages = flatMap(
+        ctx.questionnaire.sections,
+        section => section.pages
+      );
+      return find(pages, page => {
+        if (page.answers && some(page.answers, { id: answer.id })) {
+          return page;
+        }
+      });
+    },
+    options: answer => answer.options,
+    mutuallyExclusiveOption: answer =>
+      find(answer.options, { mutuallyExclusive: true }),
     displayName: answer => getName(answer, "MultipleChoiceAnswer"),
   },
 
   Option: {
-    answer: ({ answerId }, args, ctx) =>
-      ctx.repositories.Answer.getById(answerId),
+    answer: (option, args, ctx) => {
+      const pages = flatMap(
+        ctx.questionnaire.sections,
+        section => section.pages
+      );
+      const answers = flatMap(pages, page => page.answers);
+      return find(answers, answer => {
+        if (answer.options && some(answer.options, { id: option.id })) {
+          return answer;
+        }
+      });
+    },
     displayName: option => getName(option, "Option"),
-    additionalAnswer: ({ additionalAnswerId }, args, ctx) =>
-      additionalAnswerId
-        ? ctx.repositories.Answer.getById(additionalAnswerId)
-        : null,
+    additionalAnswer: option => option.additionalAnswer,
   },
 
   ValidationType: {
@@ -362,120 +821,92 @@ const Resolvers = {
   },
 
   NumberValidation: {
-    minValue: (answer, args, ctx) =>
-      ctx.repositories.Validation.findByAnswerIdAndValidationType(
-        answer,
-        "minValue"
-      ),
-    maxValue: (answer, args, ctx) =>
-      ctx.repositories.Validation.findByAnswerIdAndValidationType(
-        answer,
-        "maxValue"
-      ),
+    minValue: answer => answer.validation.minValue,
+    maxValue: answer => answer.validation.maxValue,
   },
 
   DateValidation: {
-    earliestDate: (answer, args, ctx) =>
-      ctx.repositories.Validation.findByAnswerIdAndValidationType(
-        answer,
-        "earliestDate"
-      ),
-    latestDate: (answer, args, ctx) =>
-      ctx.repositories.Validation.findByAnswerIdAndValidationType(
-        answer,
-        "latestDate"
-      ),
+    earliestDate: answer => answer.validation.earliestDate,
+    latestDate: answer => answer.validation.latestDate,
   },
 
   DateRangeValidation: {
-    earliestDate: (answer, args, ctx) =>
-      ctx.repositories.Validation.findByAnswerIdAndValidationType(
-        answer,
-        "earliestDate"
-      ),
-    latestDate: (answer, args, ctx) =>
-      ctx.repositories.Validation.findByAnswerIdAndValidationType(
-        answer,
-        "latestDate"
-      ),
-    minDuration: (answer, args, ctx) =>
-      ctx.repositories.Validation.findByAnswerIdAndValidationType(
-        answer,
-        "minDuration"
-      ),
-    maxDuration: (answer, args, ctx) =>
-      ctx.repositories.Validation.findByAnswerIdAndValidationType(
-        answer,
-        "maxDuration"
-      ),
+    earliestDate: answer => answer.validation.earliestDate,
+    latestDate: answer => answer.validation.latestDate,
+    minDuration: answer => answer.validation.minDuration,
+    maxDuration: answer => answer.validation.maxDuration,
   },
 
   MinValueValidationRule: {
     enabled: ({ enabled }) => enabled,
-    inclusive: ({ config }) => config.inclusive,
+    inclusive: ({ inclusive }) => inclusive,
     custom: ({ custom }) => custom,
     entityType: ({ entityType }) => entityType,
-    previousAnswer: ({ previousAnswerId }, args, ctx) =>
-      isNil(previousAnswerId)
+    previousAnswer: ({ previousAnswer }, args, ctx) =>
+      isNil(previousAnswer)
         ? null
-        : ctx.repositories.Answer.getById(previousAnswerId),
+        : getAnswer(ctx)({ answerId: previousAnswer }),
     availablePreviousAnswers: ({ id }, args, ctx) =>
-      ctx.repositories.Validation.getPreviousAnswersForValidation(id),
+      getAvailablePreviousAnswersForValidation(ctx)(id),
   },
 
   MaxValueValidationRule: {
     enabled: ({ enabled }) => enabled,
-    inclusive: ({ config }) => config.inclusive,
+    inclusive: ({ inclusive }) => inclusive,
     custom: ({ custom }) => custom,
     entityType: ({ entityType }) => entityType,
-    previousAnswer: ({ previousAnswerId }, args, ctx) =>
-      isNil(previousAnswerId)
+    previousAnswer: ({ previousAnswer }, args, ctx) =>
+      isNil(previousAnswer)
         ? null
-        : ctx.repositories.Answer.getById(previousAnswerId),
+        : getAnswer(ctx)({ answerId: previousAnswer }),
     availablePreviousAnswers: ({ id }, args, ctx) =>
-      ctx.repositories.Validation.getPreviousAnswersForValidation(id),
+      getAvailablePreviousAnswersForValidation(ctx)(id),
   },
 
   EarliestDateValidationRule: {
     custom: ({ custom }) => (custom ? new Date(custom) : null),
-    offset: ({ config: { offset } }) => offset,
-    relativePosition: ({ config: { relativePosition } }) => relativePosition,
+    offset: ({ offset }) => offset,
+    relativePosition: ({ relativePosition }) => relativePosition,
     entityType: ({ entityType }) => entityType,
-    previousAnswer: ({ previousAnswerId }, args, ctx) =>
-      isNil(previousAnswerId)
+    previousAnswer: ({ previousAnswer }, args, ctx) =>
+      isNil(previousAnswer)
         ? null
-        : ctx.repositories.Answer.getById(previousAnswerId),
-    metadata: ({ metadataId }, args, ctx) =>
-      isNil(metadataId) ? null : ctx.repositories.Metadata.getById(metadataId),
+        : getAnswer(ctx)({ answerId: previousAnswer }),
+    metadata: ({ metadata }, args, ctx) =>
+      isNil(metadata)
+        ? null
+        : find(ctx.questionnaire.metadata, { id: metadata }),
     availablePreviousAnswers: ({ id }, args, ctx) =>
-      ctx.repositories.Validation.getPreviousAnswersForValidation(id),
+      getAvailablePreviousAnswersForValidation(ctx)(id),
     availableMetadata: ({ id }, args, ctx) =>
-      ctx.repositories.Validation.getMetadataForValidation(id),
+      getAvailableMetadataForValidation(ctx)(id),
   },
 
   LatestDateValidationRule: {
     custom: ({ custom }) => (custom ? new Date(custom) : null),
-    offset: ({ config: { offset } }) => offset,
-    relativePosition: ({ config: { relativePosition } }) => relativePosition,
+    offset: ({ offset }) => offset,
+    relativePosition: ({ relativePosition }) => relativePosition,
     entityType: ({ entityType }) => entityType,
-    previousAnswer: ({ previousAnswerId }, args, ctx) =>
-      isNil(previousAnswerId)
+    previousAnswer: ({ previousAnswer }, args, ctx) =>
+      isNil(previousAnswer)
         ? null
-        : ctx.repositories.Answer.getById(previousAnswerId),
-    metadata: ({ metadataId }, args, ctx) =>
-      isNil(metadataId) ? null : ctx.repositories.Metadata.getById(metadataId),
+        : getAnswer(ctx)({ answerId: previousAnswer }),
+    metadata: ({ metadata }, args, ctx) =>
+      isNil(metadata)
+        ? null
+        : find(ctx.questionnaire.metadata, { id: metadata }),
     availablePreviousAnswers: ({ id }, args, ctx) =>
-      ctx.repositories.Validation.getPreviousAnswersForValidation(id),
+      getAvailablePreviousAnswersForValidation(ctx)(id),
     availableMetadata: ({ id }, args, ctx) =>
-      ctx.repositories.Validation.getMetadataForValidation(id),
+      getAvailableMetadataForValidation(ctx)(id),
   },
 
   MinDurationValidationRule: {
-    duration: ({ config: { duration } }) => duration,
+    duration: ({ duration }) => duration,
   },
 
   MaxDurationValidationRule: {
-    duration: ({ config: { duration } }) => duration,
+    duration: ({ duration }) => duration,
   },
 
   Metadata: {
@@ -493,19 +924,17 @@ const Resolvers = {
 
   QuestionConfirmation: {
     displayName: confirmation => getName(confirmation, "QuestionConfirmation"),
-    page: ({ pageId }, args, ctx) => ctx.repositories.Page.getById(pageId),
-    positive: ({ positiveLabel, positiveDescription }) => ({
-      label: positiveLabel,
-      description: positiveDescription,
-    }),
-    negative: ({ negativeLabel, negativeDescription }) => ({
-      label: negativeLabel,
-      description: negativeDescription,
-    }),
+    page: ({ pageId }, args, ctx) => {
+      const pages = flatMap(
+        ctx.questionnaire.sections,
+        section => section.pages
+      );
+
+      return find(pages, { id: pageId });
+    },
     availablePipingAnswers: ({ id }, args, ctx) =>
-      ctx.repositories.QuestionConfirmation.getPipingAnswers(id),
-    availablePipingMetadata: ({ id }, args, ctx) =>
-      ctx.repositories.QuestionConfirmation.getPipingMetadata(id),
+      getPreviousAnswersForPage(ctx.questionnaire, id),
+    availablePipingMetadata: (page, args, ctx) => ctx.questionnaire.metadata,
   },
 
   Date: GraphQLDate,

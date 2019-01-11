@@ -7,8 +7,8 @@ import AvailableAnswers from "graphql/fragments/available-answers.graphql";
 import AvailableMetadata from "graphql/fragments/available-metadata.graphql";
 
 export const GET_PIPING_CONTENT_PAGE = gql`
-  query GetAvailablePipingContent($id: ID!) {
-    questionPage(id: $id) {
+  query GetAvailablePipingContent($input: QueryInput!) {
+    questionPage(input: $input) {
       id
       displayName
       availablePipingAnswers {
@@ -24,8 +24,8 @@ export const GET_PIPING_CONTENT_PAGE = gql`
 `;
 
 export const GET_PIPING_CONTENT_SECTION = gql`
-  query GetAvailablePipingContent($id: ID!) {
-    section(id: $id) {
+  query GetAvailablePipingContent($input: QueryInput!) {
+    section(input: $input) {
       id
       displayName
       availablePipingAnswers {
@@ -57,7 +57,12 @@ export const GET_PIPING_CONTENT_QUESTION_CONFIRMATION = gql`
   ${AvailableMetadata}
 `;
 
-const determineQuery = ({ confirmationId, pageId, sectionId }) => {
+const determineQuery = ({
+  questionnaireId,
+  confirmationId,
+  pageId,
+  sectionId,
+}) => {
   if (confirmationId) {
     return {
       variables: { id: confirmationId },
@@ -65,21 +70,26 @@ const determineQuery = ({ confirmationId, pageId, sectionId }) => {
     };
   }
   if (pageId) {
-    return { variables: { id: pageId }, query: GET_PIPING_CONTENT_PAGE };
+    return {
+      variables: { input: { questionnaireId, pageId } },
+      query: GET_PIPING_CONTENT_PAGE,
+    };
   }
   return {
-    variables: { id: sectionId },
+    variables: { input: { questionnaireId, sectionId } },
     query: GET_PIPING_CONTENT_SECTION,
   };
 };
 
 const AvailablePipingContentQuery = ({
+  questionnaireId,
   pageId,
   sectionId,
   confirmationId,
   children,
 }) => {
   const { variables, query } = determineQuery({
+    questionnaireId,
     pageId,
     sectionId,
     confirmationId,
@@ -92,6 +102,7 @@ const AvailablePipingContentQuery = ({
 };
 
 AvailablePipingContentQuery.propTypes = {
+  questionnaireId: PropTypes.string,
   pageId: PropTypes.string,
   sectionId: PropTypes.string,
   confirmationId: PropTypes.string,

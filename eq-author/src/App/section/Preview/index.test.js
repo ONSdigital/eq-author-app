@@ -8,7 +8,9 @@ describe("PreviewSectionRoute", () => {
     const wrapper = shallow(
       <PreviewSectionRoute
         loading
-        match={{ params: { questionnaireId: "1", sectionId: "2" } }}
+        match={{
+          params: { questionnaireId: "1", sectionId: "2" },
+        }}
         data={null}
       />
     );
@@ -19,7 +21,9 @@ describe("PreviewSectionRoute", () => {
     const wrapper = shallow(
       <PreviewSectionRoute
         loading={false}
-        match={{ params: { questionnaireId: "1", sectionId: "2" } }}
+        match={{
+          params: { questionnaireId: "1", sectionId: "2" },
+        }}
         data={null}
       />
     );
@@ -30,7 +34,9 @@ describe("PreviewSectionRoute", () => {
     const wrapper = shallow(
       <PreviewSectionRoute
         loading={false}
-        match={{ params: { questionnaireId: "1", sectionId: "2" } }}
+        match={{
+          params: { questionnaireId: "1", sectionId: "2" },
+        }}
         data={{
           section: {
             id: "1",
@@ -53,7 +59,9 @@ describe("PreviewSectionRoute", () => {
     const wrapper = shallow(
       <PreviewSectionRoute
         loading={false}
-        match={{ params: { questionnaireId: "1", sectionId: "2" } }}
+        match={{
+          params: { questionnaireId: "1", sectionId: "2" },
+        }}
         data={{
           section: {
             id: "1",

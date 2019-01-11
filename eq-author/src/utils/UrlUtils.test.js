@@ -18,7 +18,7 @@ const confirmationId = "4";
 describe("buildQuestionnairePath", () => {
   it("builds a valid path", () => {
     const path = buildQuestionnairePath({ questionnaireId });
-    expect(path).toEqual("/questionnaire/1");
+    expect(path).toEqual(`/questionnaire/${questionnaireId}`);
   });
 
   it("throws if questionnaireId not supplied", () => {
@@ -29,7 +29,9 @@ describe("buildQuestionnairePath", () => {
 describe("buildSectionPath", () => {
   it("builds a valid path", () => {
     const path = buildSectionPath({ questionnaireId, sectionId });
-    expect(path).toEqual("/questionnaire/1/2/design");
+    expect(path).toEqual(
+      `/questionnaire/${questionnaireId}/${sectionId}/design`
+    );
   });
 
   it("throws if any param not supplied", () => {
@@ -46,7 +48,9 @@ describe("buildPagePath", () => {
       sectionId,
       pageId,
     });
-    expect(path).toEqual("/questionnaire/1/2/3/design");
+    expect(path).toEqual(
+      `/questionnaire/${questionnaireId}/${sectionId}/${pageId}/design`
+    );
   });
 
   it("throws if any param not supplied", () => {
@@ -66,7 +70,9 @@ describe("buildDesignPath", () => {
       pageId,
       tab: "routing",
     });
-    expect(path).toEqual("/questionnaire/1/2/3/design");
+    expect(path).toEqual(
+      `/questionnaire/${questionnaireId}/${sectionId}/${pageId}/design`
+    );
   });
 
   it("builds a confirmation design path", () => {
@@ -74,10 +80,12 @@ describe("buildDesignPath", () => {
       questionnaireId,
       sectionId,
       pageId,
-      confirmationId: 4,
+      confirmationId,
       tab: "preview",
     });
-    expect(path).toEqual("/questionnaire/1/2/3/4/design");
+    expect(path).toEqual(
+      `/questionnaire/${questionnaireId}/${sectionId}/${pageId}/${confirmationId}/design`
+    );
   });
 });
 
@@ -88,7 +96,9 @@ describe("buildPreviewPath", () => {
       sectionId,
       tab: "design",
     });
-    expect(path).toEqual("/questionnaire/1/2/preview");
+    expect(path).toEqual(
+      `/questionnaire/${questionnaireId}/${sectionId}/preview`
+    );
   });
 
   it("builds a page preview path", () => {
@@ -98,7 +108,9 @@ describe("buildPreviewPath", () => {
       pageId,
       tab: "routing",
     });
-    expect(path).toEqual("/questionnaire/1/2/3/preview");
+    expect(path).toEqual(
+      `/questionnaire/${questionnaireId}/${sectionId}/${pageId}/preview`
+    );
   });
 
   it("builds a page confirmation preview path", () => {
@@ -109,7 +121,9 @@ describe("buildPreviewPath", () => {
       confirmationId,
       tab: "routing",
     });
-    expect(path).toEqual("/questionnaire/1/2/3/4/preview");
+    expect(path).toEqual(
+      `/questionnaire/${questionnaireId}/${sectionId}/${pageId}/${confirmationId}/preview`
+    );
   });
 });
 
@@ -121,7 +135,9 @@ describe("buildRoutingPath", () => {
       pageId,
       tab: "design",
     });
-    expect(path).toEqual("/questionnaire/1/2/3/routing");
+    expect(path).toEqual(
+      `/questionnaire/${questionnaireId}/${sectionId}/${pageId}/routing`
+    );
   });
 });
 
@@ -228,7 +244,7 @@ describe("isOnSection", () => {
       questionnaireId,
       sectionId,
       pageId,
-      confirmationId: "1",
+      confirmationId,
       tab: "design",
     };
     expect(isOnSection(match)).toBeFalsy();
