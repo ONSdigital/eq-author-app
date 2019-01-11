@@ -6,15 +6,17 @@ const formatRichText = require("../../utils/formatRichText");
 const {
   getValidationEntity,
 } = require("../../repositories/strategies/validationStrategy");
+const { find } = require("lodash/fp");
 
 const Resolvers = {
   Query: {
     questionnaires: (_, args, ctx) => ctx.repositories.Questionnaire.findAll(),
-    questionnaire: (root, { id }, ctx) =>
-      ctx.repositories.Questionnaire.getById(id),
-    section: (parent, { id }, ctx) => ctx.repositories.Section.getById(id),
+    questionnaire: (root, _, ctx) => ctx.questionnaire,
+    section: (parent, { id }, ctx) =>
+      find({ id: id.toString() }, ctx.questionnaire.sections),
     page: (parent, { id }, ctx) => ctx.repositories.Page.getById(id),
-    questionPage: (_, { id }, ctx) => ctx.repositories.QuestionPage.getById(id),
+    questionPage: (_, { id }, ctx) =>
+      find({ id: id.toString() }, ctx.questionnaire.sections[0].pages),
     answer: (root, { id }, ctx) => ctx.repositories.Answer.getById(id),
     answers: async (root, { ids }, ctx) =>
       ctx.repositories.Answer.getAnswers(ids),
@@ -197,35 +199,26 @@ const Resolvers = {
   },
 
   Questionnaire: {
-    sections: (questionnaire, args, ctx) =>
-      ctx.repositories.Section.findAll({ questionnaireId: questionnaire.id }),
+    sections: (questionnaire, args, ctx) => questionnaire.sections,
     createdBy: questionnaire => ({
       id: questionnaire.createdBy, // Temporary until next PR introduces users table.
       name: questionnaire.createdBy,
     }),
-    questionnaireInfo: ({ id }) => id,
-    metadata: (questionnaire, args, ctx) =>
-      ctx.repositories.Metadata.findAll({ questionnaireId: questionnaire.id }),
+    questionnaireInfo: questionnaire => questionnaire,
+    metadata: (questionnaire, args, ctx) => questionnaire.metadata,
   },
 
   QuestionnaireInfo: {
-    totalSectionCount: (questionnaireId, args, ctx) =>
-      ctx.repositories.Section.getSectionCount(questionnaireId),
+    totalSectionCount: (questionnaire, args, ctx) =>
+      questionnaire.sections.length,
   },
 
   Section: {
-    pages: (section, args, ctx) =>
-      ctx.repositories.Page.findAll({ sectionId: section.id }),
-    questionnaire: (section, args, ctx) =>
-      ctx.repositories.Questionnaire.getById(section.questionnaireId),
+    pages: section => section.pages,
+    questionnaire: (section, args, ctx) => ctx.questionnaire,
     displayName: section => getName(section, "Section"),
     title: (page, args) => formatRichText(page.title, args.format),
-    position: ({ position, id }, args, ctx) => {
-      if (position !== undefined) {
-        return position;
-      }
-      return ctx.repositories.Section.getPosition({ id });
-    },
+    position: () => 1,
     availablePipingAnswers: ({ id }, args, ctx) =>
       ctx.repositories.Section.getPipingAnswersForSection(id),
     availablePipingMetadata: ({ id }, args, ctx) =>
@@ -233,21 +226,21 @@ const Resolvers = {
   },
   Page: {
     __resolveType: ({ pageType }) => pageType,
-    position: ({ position, id }, args, ctx) => {
-      if (position !== undefined) {
-        return position;
-      }
-
-      return ctx.repositories.Page.getPosition({ id });
-    },
+    position: () => 1,
+    // position: ({ position, id }, args, ctx) => {
+    //   if (position !== undefined) {
+    //     return position;
+    //   }
+    //
+    //   return ctx.repositories.Page.getPosition({ id });
+    // }
   },
 
   QuestionPage: {
     answers: ({ id }, args, ctx) =>
       ctx.repositories.Answer.findAll({ questionPageId: id }),
-    section: ({ sectionId }, args, ctx) => {
-      return ctx.repositories.Section.getById(sectionId);
-    },
+    section: ({ sectionId }, args, ctx) =>
+      find({ id: sectionId }, ctx.questionnaire.sections),
     position: (page, args, ctx) => Resolvers.Page.position(page, args, ctx),
     routingRuleSet: ({ id: questionPageId }, args, ctx) =>
       ctx.repositories.Routing.findRoutingRuleSetByQuestionPageId({
