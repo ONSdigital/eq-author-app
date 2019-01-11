@@ -1,6 +1,7 @@
 import { shallow } from "enzyme";
-import { UnwrappedSectionNavItem as SectionNavItem } from "./SectionNavItem";
 import React from "react";
+
+import { UnwrappedSectionNavItem as SectionNavItem } from "./SectionNavItem";
 
 describe("SectionNavItem", () => {
   const page = { id: "2", title: "Page", displayName: "Page" };
@@ -28,7 +29,7 @@ describe("SectionNavItem", () => {
         isActive={jest.fn()}
         match={{
           params: {
-            questionnaireId: "1",
+            questionnaireId: questionnaire.id,
             tab: "design",
           },
         }}

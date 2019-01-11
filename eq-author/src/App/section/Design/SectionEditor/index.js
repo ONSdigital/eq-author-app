@@ -76,7 +76,7 @@ class SectionEditor extends React.Component {
       section,
     } = this.props;
 
-    if (loading || error) {
+    if (loading || error || !data) {
       return null;
     }
     return (

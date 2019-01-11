@@ -9,6 +9,8 @@ import {
   addQuestionPage,
   testId,
   navigateToFirstSection,
+  questionPageRegex,
+  sectionRegex,
 } from "../../utils";
 import { times, includes } from "lodash";
 import { Routes } from "../../../src/utils/UrlUtils";
@@ -25,9 +27,6 @@ import {
 } from "../../../src/constants/answer-types";
 
 const questionnaireTitle = "My Questionnaire Title";
-
-const questionPageRegex = /\/questionnaire\/\d+\/\d+\/\d+\/design$/;
-const sectionRegex = /\/questionnaire\/\d+\/\d+\/design$/;
 
 describe("builder", () => {
   const checkIsOnDesignPage = () => cy.hash().should("match", /\/design$/);

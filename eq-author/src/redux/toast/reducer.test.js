@@ -15,7 +15,6 @@ describe("toastReducer", () => {
       payload = {
         id: "Toast1",
         message: "Hello",
-        undoAction: "actionName",
         context: {
           additionalData: true,
         },
@@ -28,7 +27,6 @@ describe("toastReducer", () => {
       ).toMatchObject({
         Toast1: {
           message: "Hello",
-          undoAction: "actionName",
           context: {
             additionalData: true,
           },
@@ -42,7 +40,6 @@ describe("toastReducer", () => {
           createState({
             Toast1: {
               message: "Hello",
-              undoAction: "actionName",
               context: {
                 additionalData: true,
               },

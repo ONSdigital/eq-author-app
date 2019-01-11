@@ -2,6 +2,7 @@
 const Question = require("./Question");
 const Answer = require("./Answer");
 const { omit, set, last } = require("lodash/fp");
+const { DATE, DATE_RANGE } = require("../constants/answerTypes");
 
 describe("Question", () => {
   const createQuestionJSON = options =>
@@ -209,31 +210,28 @@ describe("Question", () => {
     it("should convert Author DateRange to Runner-compatible format", () => {
       const answers = [
         {
-          type: "DateRange",
-          id: "1",
+          type: DATE_RANGE,
+          id: "answer1",
           label: "Period from",
+          secondaryLabel: "Period to",
           properties: { required: true },
           validation,
-          childAnswers: [
-            { id: "1from", label: "Period from" },
-            { id: "1to", label: "Period to" },
-          ],
         },
       ];
       const question = new Question(createQuestionJSON({ answers }));
 
       expect(question).toMatchObject({
-        type: "DateRange",
+        type: DATE_RANGE,
         answers: [
           {
             label: "Period from",
-            type: "Date",
+            type: DATE,
             id: "answer1from",
             mandatory: true,
           },
           {
             label: "Period to",
-            type: "Date",
+            type: DATE,
             id: "answer1to",
             mandatory: true,
           },
@@ -244,7 +242,7 @@ describe("Question", () => {
     it("discards any other answers if DateRange used", () => {
       const answers = [
         {
-          type: "DateRange",
+          type: DATE_RANGE,
           id: "1",
           properties: { required: true },
           validation,
@@ -328,7 +326,7 @@ describe("Question", () => {
     it("should create date validation", () => {
       const answers = [
         {
-          type: "DateRange",
+          type: DATE_RANGE,
           id: "1",
           properties: { required: true },
           validation,

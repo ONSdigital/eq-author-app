@@ -18,7 +18,11 @@ describe("PageNavItem", () => {
         title="Title"
         page={page}
         match={{
-          params: { questionnaireId: "1", sectionId: "2", pageId: page.id },
+          params: {
+            questionnaireId: "1",
+            sectionId: "2",
+            pageId: page.id,
+          },
         }}
       />
     );

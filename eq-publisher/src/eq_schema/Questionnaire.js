@@ -29,7 +29,9 @@ class Questionnaire {
     this.mime_type = "application/json/ons/eq";
     this.schema_version = "0.0.1";
     this.data_version = "0.0.2";
-    this.survey_id = questionnaireJson.surveyId || questionnaireId;
+    this.survey_id =
+      questionnaireJson.surveyId ||
+      questionnaireJson.title.toLowerCase().replace(/[^a-z0-9]/g, "");
     this.title = questionnaireJson.title;
 
     const ctx = this.createContext(questionnaireJson);

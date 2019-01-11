@@ -27,9 +27,14 @@ services:
   eq-author-api:
     image: "onsdigital/eq-author-api:${TAG:-latest}"
     environment:
-      DB_CONNECTION_URI: postgres://postgres:mysecretpassword@eq-author-db:5432/postgres
+      AWS_REGION: eu-west-1
+      AWS_ACCESS_KEY_ID: dummy
+      AWS_SECRET_ACCESS_KEY: dummy
+      DYNAMO_ENDPOINT_OVERRIDE: http://dynamo:8000
+      DYNAMO_QUESTIONNAIRE_TABLE_NAME: cypress-author-questionnaires
+      DYNAMO_QUESTIONNAIRE_VERSION_TABLE_NAME: cypress-author-questionnaire-versions
     depends_on:
-      - eq-author-db
+      - dynamo
     restart: always
     networks:
       - eq-author
@@ -50,18 +55,17 @@ services:
     ports:
       - 19000:9000
 
-  eq-author-db:
-    image: postgres:9.4-alpine
+
+  dynamo:
+    image: amazon/dynamodb-local
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: mysecretpassword
-      POSTGRES_DB: postgres
-    restart: always
+      AWS_REGION: eu-west-1
+      AWS_ACCESS_KEY_ID: dummy
+      AWS_SECRET_ACCESS_KEY: dummy
     networks:
       - eq-author
     ports:
-      - 5432
-
+      - 8000
 networks:
   eq-author:
     driver: bridge

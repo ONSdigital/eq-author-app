@@ -28,7 +28,6 @@ export const displayToast = (
   raiseToast(
     `QuestionConfirmation${questionConfirmation.id}`,
     "Confirmation deleted",
-    "undeleteQuestionConfirmation",
     {
       questionConfirmation,
       goBack: () => {

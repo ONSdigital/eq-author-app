@@ -6,8 +6,8 @@ import gql from "graphql-tag";
 import AvailableAnswers from "graphql/fragments/available-answers.graphql";
 
 const GET_AVAILABLE_PREVIOUS_ANSWERS = gql`
-  query GetAvailablePreviousAnswers($id: ID!) {
-    answer(id: $id) {
+  query GetAvailablePreviousAnswers($input: QueryInput!) {
+    answer(input: $input) {
       id
       displayName
       ... on BasicAnswer {
@@ -50,7 +50,7 @@ const GET_AVAILABLE_PREVIOUS_ANSWERS = gql`
 const AvailablePreviousAnswersQuery = ({ answerId, children }) => (
   <Query
     query={GET_AVAILABLE_PREVIOUS_ANSWERS}
-    variables={{ id: answerId }}
+    variables={{ input: { answerId } }}
     fetchPolicy="cache-and-network"
   >
     {children}

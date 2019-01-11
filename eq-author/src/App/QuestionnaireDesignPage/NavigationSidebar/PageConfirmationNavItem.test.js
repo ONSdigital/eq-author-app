@@ -3,10 +3,8 @@ import { shallow } from "enzyme";
 
 import { UnwrappedPageConfirmationNavItem as PageConfirmationNavItem } from "./PageConfirmationNavItem";
 
-const createWrapper = props => shallow(<PageConfirmationNavItem {...props} />);
-
 describe("PageConfirmationNavItem", () => {
-  let props, wrapper;
+  let props;
 
   beforeEach(() => {
     props = {
@@ -26,16 +24,14 @@ describe("PageConfirmationNavItem", () => {
         },
       },
     };
-
-    wrapper = createWrapper(props);
   });
 
   it("should render design", () => {
-    expect(wrapper).toMatchSnapshot();
+    expect(shallow(<PageConfirmationNavItem {...props} />)).toMatchSnapshot();
   });
 
   it("should render preview", () => {
     props.match.params.tab = "preview";
-    expect(createWrapper({ ...props })).toMatchSnapshot();
+    expect(shallow(<PageConfirmationNavItem {...props} />)).toMatchSnapshot();
   });
 });

@@ -32,21 +32,6 @@ mutation createAnswer($input: CreateAnswerInput!) {
             ...LatestDateValidationRule
           }
         }
-      }
-    }
-    ... on MultipleChoiceAnswer {
-      options {
-        ...Option
-      }
-      mutuallyExclusiveOption {
-        id
-      }
-    }
-    ... on CompositeAnswer {
-      childAnswers {
-        ...Answer
-      }
-      validation {
         ... on DateRangeValidation {
           earliestDate {
             enabled
@@ -65,6 +50,14 @@ mutation createAnswer($input: CreateAnswerInput!) {
             ...MaxDurationValidationRule
           }
         }
+      }
+    }
+    ... on MultipleChoiceAnswer {
+      options {
+        ...Option
+      }
+      mutuallyExclusiveOption {
+        id
       }
     }
   }

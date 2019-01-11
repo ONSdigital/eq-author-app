@@ -4,7 +4,7 @@ import query from "graphql/getQuestionnaire.graphql";
 import PropTypes from "prop-types";
 
 const MovePageQuery = ({ questionnaireId, children }) => (
-  <Query query={query} variables={{ id: questionnaireId }}>
+  <Query query={query} variables={{ input: { questionnaireId } }}>
     {({ loading, data }) => children({ loading, data })}
   </Query>
 );

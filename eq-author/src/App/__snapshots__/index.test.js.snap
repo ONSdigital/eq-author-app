@@ -37,17 +37,17 @@ exports[`containers/AppContainer Routes should render  1`] = `
     />
     <RedirectRoute
       from="/questionnaire/:questionnaireId/design/:sectionId/:pageId"
-      to="/questionnaire/:questionnaireId/:sectionId(\\\\d+)/:pageId(\\\\d+)/design"
+      to="/questionnaire/:questionnaireId/:sectionId([a-f0-9-]+)/:pageId([a-f0-9-]+)/design"
     />
     <RedirectRoute
       from="/questionnaire/:questionnaireId/design/:sectionId"
-      to="/questionnaire/:questionnaireId/:sectionId(\\\\d+)/design"
+      to="/questionnaire/:questionnaireId/:sectionId([a-f0-9-]+)/design"
     />
     <PrivateRoute
       component={[Function]}
       exact={false}
       isSignedIn={true}
-      path="/questionnaire/:questionnaireId/:sectionId(\\\\d+)?/:pageId(\\\\d+)?/:confirmationId(\\\\d+)?/:tab?"
+      path="/questionnaire/:questionnaireId/:sectionId([a-f0-9-]+)?/:pageId([a-f0-9-]+)?/:confirmationId([a-f0-9-]+)?/:tab?"
     />
     <Route
       component={[Function]}

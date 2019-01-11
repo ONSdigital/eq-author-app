@@ -22,25 +22,24 @@ In most cases sensible defaults have been selected.
 > **Tip**
 >
 > If you decide to run the Author API directly using `yarn` you will need to
-> ensure that a suitable database instance is running and configure the
-> associated database environment variables appropriately.
+> ensure that the environment variables listed below are configured appropriately.
 >
-> Running using `docker-compose` will ensure that a suitable postgres instance
-> is started. So there is no need to configure the environment variables.
+> The `docker-compose` configuration should ensure that all required environment variables are set up correctly so there
+> should be no need to manually configure the environment variables when [running with docker compose](#run-using-docker).
 
 ## Environment Variables
 
-| Name                    | Description                                                                        | Required |
-| ----------------------- | ---------------------------------------------------------------------------------- | -------- |
-| `RUNNER_SESSION_URL`    | Authentication URL for survey runner                                               | Yes      |
-| `PUBLISHER_URL`         | URL that produces valid survey runner JSON                                         | Yes      |
-| `DB_CONNECTION_URI`     | Connection string for database                                                     | Yes      |
-| `SECRETS_S3_BUCKET`     | Name of S3 bucket where secrets are stored                                         | No       |
-| `KEYS_FILE`             | Name of the keys file to use inside the bucket                                     | No       |
-| `AUTH_HEADER_KEY`       | Name of the header values that contains the Auth token                             | No       |
-| `EQ_AUTHOR_API_VERSION` | The current Author API version. This is what gets reported on the /status endpoint | No       |
-| `PORT`                  | The port which express listens on (defaults to `4000`)                             | No       |
-| `NODE_ENV`              | Sets the environment the code is running in                                        | No       |
+| Name                    | Description                                                                                                                                          | Required |
+| ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| `RUNNER_SESSION_URL`    | Authentication URL for survey runner                                                                                                                 | Yes      |
+| `PUBLISHER_URL`         | URL that produces valid survey runner JSON                                                                                                           | Yes      |
+| `SECRETS_S3_BUCKET`     | Name of S3 bucket where secrets are stored                                                                                                           | No       |
+| `KEYS_FILE`             | Name of the keys file to use inside the bucket                                                                                                       | No       |
+| `AUTH_HEADER_KEY`       | Name of the header values that contains the Auth token                                                                                               | No       |
+| `EQ_AUTHOR_API_VERSION` | The current Author API version. This is what gets reported on the /status endpoint                                                                   | No       |
+| `PORT`                  | The port which express listens on (defaults to `4000`)                                                                                               | No       |
+| `NODE_ENV`              | Sets the environment the code is running in                                                                                                          | No       |
+| `DATASTORE`             | Sets place we store the data, allows us to have the data stored locally in JSON files which makes debugging easier (for this set it to `filesystem`) | No       |
 
 ## Run using Docker
 
@@ -100,30 +99,6 @@ query {
 
 There are [queries](tests/fixtures/queries.gql) and [example data](tests/fixtures/data.json) in the [fixtures folder](tests/fixtures). These can be used with graphiql to manually build up a questionnaire.
 
-### DB migrations
-
-First start app using Docker.
-
-#### Create migration
-
-```
-yarn knex migrate:make name_of_migration
-```
-
-Where `name_of_migration` is the name you wish to use. e.g. `create_questionnaires_table`
-
-#### Apply migrations
-
-```
-docker-compose exec web yarn knex migrate:latest
-```
-
-#### Rollback migrations
-
-```
-docker-compose exec web yarn knex migrate:rollback
-```
-
 ## Tests
 
 `yarn test` will start a single run of unit and integration tests.
@@ -172,197 +147,3 @@ Add the following to your `launch.json` configuration:
 ```
 
 Then start your tests [as described above](#tests). You can now start a debugging session, and pick the jest process to attach to.
-
-## Importing questionnaires
-
-There is a dev only endpoint exposed in the dev environment to be able to import questionnaires from other environments.
-
-### How to use it
-
-1. Run the following query against the environment to retrieve the questionnaire. You need to provide the id as well. (You could use <https://github.com/skevy/graphiql-app>)
-
-```graphql
-fragment answerFragment on Answer {
-  id
-  type
-  label
-  description
-  guidance
-  properties
-  qCode
-  ... on BasicAnswer {
-    validation {
-      ... on NumberValidation {
-        minValue {
-          id
-          inclusive
-          enabled
-          custom
-        }
-        maxValue {
-          id
-          inclusive
-          enabled
-          custom
-          entityType
-          previousAnswer {
-            id
-          }
-        }
-      }
-      ... on DateValidation {
-        earliestDate {
-          id
-          enabled
-          custom
-          offset {
-            value
-            unit
-          }
-          relativePosition
-        }
-        latestDate {
-          id
-          enabled
-          custom
-          offset {
-            value
-            unit
-          }
-          relativePosition
-        }
-      }
-    }
-  }
-  ... on CompositeAnswer {
-    childAnswers {
-      id
-      label
-    }
-  }
-}
-
-fragment optionFragment on Option {
-  id
-  label
-  description
-  value
-  qCode
-  additionalAnswer {
-    id
-    type
-    label
-    description
-    guidance
-    properties
-    qCode
-  }
-}
-
-fragment destinationFragment on RoutingDestination {
-  ... on LogicalDestination {
-    __typename
-    logicalDestination
-  }
-  ... on AbsoluteDestination {
-    __typename
-    absoluteDestination {
-      ... on QuestionPage {
-        id
-        __typename
-      }
-      ... on Section {
-        id
-        __typename
-      }
-    }
-  }
-}
-
-fragment metadataFragment on Metadata {
-  id
-  key
-  type
-}
-
-query GetQuestionnaire($questionnaireId: ID!) {
-  questionnaire(id: $questionnaireId) {
-    id
-    title
-    description
-    theme
-    legalBasis
-    navigation
-    surveyId
-    summary
-    metadata {
-      ...metadataFragment
-    }
-    sections {
-      id
-      alias
-      title
-      description
-      pages {
-        ... on QuestionPage {
-          id
-          alias
-          title
-          description
-          guidance
-          pageType
-          routingRuleSet {
-            id
-            else {
-              ...destinationFragment
-            }
-            routingRules {
-              id
-              operation
-              goto {
-                ...destinationFragment
-              }
-              conditions {
-                id
-                comparator
-                answer {
-                  id
-                  type
-                  ... on MultipleChoiceAnswer {
-                    options {
-                      id
-                      label
-                    }
-                  }
-                }
-                routingValue {
-                  ... on IDArrayValue {
-                    value
-                  }
-                  ... on NumberValue {
-                    numberValue
-                  }
-                }
-              }
-            }
-          }
-          answers {
-            ...answerFragment
-            ... on MultipleChoiceAnswer {
-              options {
-                ...optionFragment
-              }
-              mutuallyExclusiveOption {
-                ...optionFragment
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-}
-```
-
-2. `POST` the result to `/import`. (You could use <https://www.getpostman.com/>)
-3. The questionnaire should be there.

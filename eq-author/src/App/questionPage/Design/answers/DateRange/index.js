@@ -17,16 +17,24 @@ const Wrapper = styled.div`
 
 const DateRange = ({ answer, ...otherProps }) => (
   <Wrapper data-test="date-range-editor">
-    {answer.childAnswers.map(answer => (
-      <Date
-        key={answer.id}
-        answer={answer}
-        showDay
-        showMonth
-        showYear
-        {...otherProps}
-      />
-    ))}
+    <Date
+      key={`from-${answer.id}`}
+      answer={answer}
+      name="label"
+      showDay
+      showMonth
+      showYear
+      {...otherProps}
+    />
+    <Date
+      key={`to-${answer.id}`}
+      answer={answer}
+      name="secondaryLabel"
+      showDay
+      showMonth
+      showYear
+      {...otherProps}
+    />
   </Wrapper>
 );
 
@@ -39,7 +47,7 @@ DateRange.fragments = {
   DateRange: gql`
     fragment DateRange on Answer {
       id
-      ... on CompositeAnswer {
+      ... on BasicAnswer {
         validation {
           ... on DateRangeValidation {
             earliestDate {
@@ -59,10 +67,6 @@ DateRange.fragments = {
               ...MaxDurationValidationRule
             }
           }
-        }
-        childAnswers {
-          id
-          label
         }
       }
     }

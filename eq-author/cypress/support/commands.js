@@ -76,6 +76,18 @@ Cypress.Commands.add("deleteQuestionnaire", title => {
   cy.dismissAllToast();
 });
 
+function responseStub(result) {
+  return {
+    json() {
+      return Promise.resolve(result);
+    },
+    text() {
+      return Promise.resolve(JSON.stringify(result));
+    },
+    ok: true,
+  };
+}
+
 Cypress.Commands.add("visitStubbed", function(url, operations = {}) {
   cy.visit(url, {
     onBeforeLoad: win => {
@@ -99,17 +111,6 @@ Cypress.Commands.add("visitStubbed", function(url, operations = {}) {
   }
 });
 
-function responseStub(result) {
-  return {
-    json() {
-      return Promise.resolve(result);
-    },
-    text() {
-      return Promise.resolve(JSON.stringify(result));
-    },
-    ok: true,
-  };
-}
 //
 //
 // -- This is a child command --

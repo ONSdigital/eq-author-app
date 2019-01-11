@@ -82,7 +82,6 @@ describe("containers/QuestionnaireDesignPage/withDeleteAnswer", () => {
         expect(raiseToast).toHaveBeenCalledWith(
           `Answer${deletedAnswer.id}`,
           expect.stringContaining("Answer"),
-          "undeleteAnswer",
           expect.objectContaining({
             pageId: currentPage.id,
             answerId: deletedAnswer.id,
