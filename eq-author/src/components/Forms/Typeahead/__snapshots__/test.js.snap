@@ -3,9 +3,7 @@
 exports[`Typeahead should render 1`] = `
 <Downshift
   defaultHighlightedIndex={null}
-  defaultInputValue=""
   defaultIsOpen={false}
-  defaultSelectedItem={null}
   environment={Object {}}
   getA11yStatusMessage={[Function]}
   itemToString={[Function]}

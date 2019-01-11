@@ -117,7 +117,7 @@
     "apollo-link-error": "^1.1.0",
     "apollo-link-http": "^1.5.3",
     "connected-react-router": "^6.0.0",
-    "downshift": "^2.0.20",
+    "downshift": "^3.1.6",
     "draft-convert": "^2.0.0",
     "draft-js": "^0.10.5",
     "draft-js-raw-content-state": "^1.2.5",
