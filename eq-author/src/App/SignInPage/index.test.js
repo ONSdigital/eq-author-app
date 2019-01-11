@@ -1,5 +1,8 @@
 import React from "react";
-import { UnconnectedSignInPage as SignInPage, mapStateToProps } from "App/SignInPage";
+import {
+  UnconnectedSignInPage as SignInPage,
+  mapStateToProps
+} from "App/SignInPage";
 import { shallow } from "enzyme";
 
 describe("SignInPage", () => {

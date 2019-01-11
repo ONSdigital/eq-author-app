@@ -1,5 +1,7 @@
 import React from "react";
-import GroupedSelect, { textSelect } from "App/questionPage/Routing/GroupedSelect";
+import GroupedSelect, {
+  textSelect
+} from "App/questionPage/Routing/GroupedSelect";
 import { shallow, mount } from "enzyme";
 
 describe("GroupedSelect", () => {

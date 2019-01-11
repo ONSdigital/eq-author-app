@@ -1,6 +1,10 @@
 import React from "react";
 import { NUMBER, DATE } from "constants/answer-types";
-import { Decimal, Required, DateFormat } from "App/questionPage/Design/AnswerProperties/Properties";
+import {
+  Decimal,
+  Required,
+  DateFormat
+} from "App/questionPage/Design/AnswerProperties/Properties";
 
 import AnswerProperties from "./";
 import { shallow } from "enzyme";

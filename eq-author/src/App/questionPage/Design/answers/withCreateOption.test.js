@@ -1,4 +1,7 @@
-import { mapMutateToProps, createUpdater } from "App/questionPage/Design/answers/withCreateOption";
+import {
+  mapMutateToProps,
+  createUpdater
+} from "App/questionPage/Design/answers/withCreateOption";
 import fragment from "graphql/answerFragment.graphql";
 
 describe("containers/QuestionnaireDesignPage/withCreateOption", () => {

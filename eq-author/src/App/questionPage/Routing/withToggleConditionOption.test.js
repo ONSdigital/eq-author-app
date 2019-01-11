@@ -1,4 +1,7 @@
-import { mapMutateToProps, createUpdater } from "App/questionPage/Routing/withToggleConditionOption";
+import {
+  mapMutateToProps,
+  createUpdater
+} from "App/questionPage/Routing/withToggleConditionOption";
 import fragment from "graphql/fragments/routing-rule.graphql";
 
 describe("containers/enhancers/withToggleConditionOption", () => {

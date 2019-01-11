@@ -1,4 +1,7 @@
-import { mapMutateToProps, createUpdater } from "App/questionPage/Design/answers/withCreateExclusive";
+import {
+  mapMutateToProps,
+  createUpdater
+} from "App/questionPage/Design/answers/withCreateExclusive";
 import fragment from "graphql/answerFragment.graphql";
 
 describe("withCreateExclusive", () => {
