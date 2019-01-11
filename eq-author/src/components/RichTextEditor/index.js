@@ -76,9 +76,12 @@ const Input = styled.div`
   padding: 0;
 
   .header-two,
-  .unstyled,
   .unordered-list-item {
     margin: 0;
+  }
+
+  .unstyled:not(:last-of-type) {
+    margin: 0 0 1em;
   }
 
   .header-two {

@@ -323,6 +323,17 @@ describe("Question", () => {
       });
     });
 
+    it("should ensure discription text is not truncated if it includes multiple p tags", () => {
+      const question = new Question(
+        createQuestionJSON({
+          description: `<p>foo</p><p>bar</p>`
+        }),
+        createContext()
+      );
+
+      expect(question.description).toEqual("<p>foo</p><p>bar</p>");
+    });
+
     it("should handle piped values in description", () => {
       const question = new Question(
         createQuestionJSON({
@@ -331,7 +342,9 @@ describe("Question", () => {
         createContext()
       );
 
-      expect(question.description).toEqual("{{ answers['answer123'] }}");
+      expect(question.description).toEqual(
+        "<h2>{{ answers['answer123'] }}</h2>"
+      );
     });
   });
 
