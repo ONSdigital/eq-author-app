@@ -233,7 +233,9 @@ describe("builder", () => {
     cy.get(testId("section-intro-canvas")).within(() => {
       cy.get(testId("btn-delete")).click();
     });
-    cy.get(testId("btn-add-intro"));
+
+    cy.get(testId("btn-add-intro")).should("be.visible");
+    cy.get(testId("btn-undo")).should("be.visible");
     cy.get(testId("btn-undo")).click();
 
     cy.get(testId("section-intro-canvas")).within(() => {
@@ -663,21 +665,28 @@ describe("builder", () => {
     });
 
     it("should allow a mixture of additionalOptions and regular option answers", () => {
-      addMultipleChoiceAnswer();
+      addMultipleChoiceAnswer("Checkbox", false);
       cy.get(testId("btn-add-option-menu")).click();
       cy.get(testId("btn-add-option-other")).click();
+
+      cy.get(testId("option-label")).should("have.length", 2);
+      cy.get(testId("other-answer")).should("have.length", 1);
+
       cy.get(testId("btn-add-option")).click();
-      cy.get(testId("btn-add-option-menu")).click();
-      cy.get(testId("btn-add-option-other")).click();
-      cy.get(testId("option-label")).should("have.length", 5);
-      cy.get(testId("other-answer")).should("have.length", 3);
+
+      cy.get(testId("option-label")).should("have.length", 3);
+      cy.get(testId("other-answer")).should("have.length", 1);
     });
 
     it("should remove an additionalOptions option.", () => {
       addMultipleChoiceAnswer();
+      cy.get(testId("option-label")).should("have.length", 2);
+      cy.get(testId("other-answer")).should("have.length", 1);
+
       cy.get(testId("btn-delete-option"))
         .last()
         .click();
+
       cy.get(testId("option-label")).should("have.length", 1);
       cy.get(testId("other-answer")).should("have.length", 0);
     });
