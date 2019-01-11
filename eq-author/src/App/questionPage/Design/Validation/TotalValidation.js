@@ -49,34 +49,36 @@ const validationTypes = [
 ];
 
 class TotalValidation extends React.Component {
-  state = {
-    modalIsOpen: false,
-    answer: {
-      id: "hello",
-      validation: {
-        minValue: {
-          custom: "",
-          enabled: true,
-          entityType: "Custom",
-          id: "minValue",
-          inclusive: false,
-          previousAnswer: null
-        },
-        maxValue: {
-          custom: "",
-          enabled: true,
-          entityType: "Custom",
-          id: "maxValue",
-          inclusive: false,
-          previousAnswer: null
-        }
-      }
-    }
-  };
-
   constructor(props) {
     super(props);
     this.modalId = `modal-validation-total`;
+
+    console.log(this.props);
+
+    this.state = {
+      modalIsOpen: false,
+      answer: {
+        id: this.props.answers[0].id,
+        validation: {
+          minValue: {
+            custom: "",
+            enabled: true,
+            entityType: "Custom",
+            id: "minValue",
+            inclusive: false,
+            previousAnswer: null
+          },
+          maxValue: {
+            custom: "",
+            enabled: true,
+            entityType: "Custom",
+            id: "maxValue",
+            inclusive: false,
+            previousAnswer: null
+          }
+        }
+      }
+    };
   }
 
   handleModalClose = () => this.setState({ modalIsOpen: false });

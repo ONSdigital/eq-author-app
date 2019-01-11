@@ -85,8 +85,6 @@ export class MaxValue extends React.Component {
       }
     };
 
-    console.log(updateValidationRuleInput);
-
     this.props.onUpdateAnswerValidation(updateValidationRuleInput);
   };
 
@@ -129,6 +127,8 @@ export class MaxValue extends React.Component {
   );
 
   renderContent = () => {
+    const entityType = this.props.maxValue.entityType;
+
     return (
       <Grid>
         <Column cols={3}>
@@ -137,7 +137,7 @@ export class MaxValue extends React.Component {
         </Column>
         <Column cols={8}>
           <ValidationPills
-            entityType={this.props.maxValue.entityType}
+            entityType={entityType}
             onEntityTypeChange={this.handleEntityTypeChange}
             PreviousAnswer={this.PreviousAnswer}
             Custom={this.Custom}
@@ -179,7 +179,6 @@ MaxValue.defaultProps = {
 
 MaxValue.propTypes = {
   answerId: PropTypes.string.isRequired,
-
   onUpdateAnswerValidation: PropTypes.func.isRequired,
   onToggleValidationRule: PropTypes.func.isRequired,
   limit: PropTypes.number

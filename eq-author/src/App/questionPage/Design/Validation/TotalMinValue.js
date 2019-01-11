@@ -84,8 +84,6 @@ export class MinValue extends React.Component {
       }
     };
 
-    console.log(updateValidationRuleInput);
-
     this.props.onUpdateAnswerValidation(updateValidationRuleInput);
   };
 
