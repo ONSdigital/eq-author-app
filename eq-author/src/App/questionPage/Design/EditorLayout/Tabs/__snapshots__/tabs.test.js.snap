@@ -5,7 +5,7 @@ exports[`components/Tabs should enable the Routing tab when prop is passed 1`] =
   activeClassName="active"
   data-test="routing"
   key="routing"
-  to="/questionnaire/1/2/3/routing"
+  to="/questionnaire/111111111111111111111111111111111111/222222222222222222222222222222222222/333333333333333333333333333333333333/routing"
 >
   <IconText
     hideText={false}
@@ -21,7 +21,7 @@ exports[`components/Tabs should enable the preview tab when prop is passed 1`] =
   activeClassName="active"
   data-test="preview"
   key="preview"
-  to="/questionnaire/1/2/3/preview"
+  to="/questionnaire/111111111111111111111111111111111111/222222222222222222222222222222222222/333333333333333333333333333333333333/preview"
 >
   <IconText
     hideText={false}
@@ -41,7 +41,7 @@ exports[`components/Tabs should render a confirmation link when provided 1`] = `
       activeClassName="active"
       data-test="design"
       key="design"
-      to="/questionnaire/1/2/3/4/design"
+      to="/questionnaire/111111111111111111111111111111111111/222222222222222222222222222222222222/333333333333333333333333333333333333/444444444444444444444444444444444444/design"
     >
       <IconText
         hideText={false}
@@ -90,7 +90,7 @@ exports[`components/Tabs should render link to section if params are for a secti
       activeClassName="active"
       data-test="design"
       key="design"
-      to="/questionnaire/1/2/design"
+      to="/questionnaire/111111111111111111111111111111111111/222222222222222222222222222222222222/design"
     >
       <IconText
         hideText={false}
@@ -139,7 +139,7 @@ exports[`components/Tabs should render with design tab enabled by default 1`] = 
       activeClassName="active"
       data-test="design"
       key="design"
-      to="/questionnaire/1/2/3/design"
+      to="/questionnaire/111111111111111111111111111111111111/222222222222222222222222222222222222/333333333333333333333333333333333333/design"
     >
       <IconText
         hideText={false}

@@ -10,97 +10,111 @@ import flushPromises from "tests/utils/flushPromises";
 import createRouterContext from "react-router-test-context";
 import PropTypes from "prop-types";
 
+import fakeId from "tests/utils/fakeId";
+
 import movePageQuery from "graphql/getQuestionnaire.graphql";
 
-const movePageMock = {
-  request: {
-    query: movePageQuery,
-    variables: {
-      id: "1",
-    },
-  },
-  result: {
-    data: {
-      questionnaire: {
-        id: "1",
-        title: "",
-        description: "",
-        surveyId: "1",
-        theme: "foo",
-        legalBasis: "",
-        navigation: true,
-        summary: "",
-        __typename: "Questionnaire",
-        sections: [
-          {
-            __typename: "Section",
-            id: "2",
-            title: "foo",
-            displayName: "foo",
-            position: 0,
-            pages: [
-              {
-                __typename: "QuestionPage",
-                id: "3",
-                title: "bar",
-                alias: "bar-alias",
-                displayName: "bar",
-                position: 0,
-                definitionLabel: "definition label",
-                definitionContent: "definitionContent",
-                additionalInfoLabel: "additional info label",
-                additionalInfoContent: "additional info content",
-                section: {
-                  __typename: "Section",
-                  questionnaire: {
-                    __typename: "Questionnaire",
-                    metadata: [],
-                  },
-                },
-              },
-              {
-                __typename: "QuestionPage",
-                id: "4",
-                title: "blah",
-                alias: "blah-alias",
-                displayName: "blah",
-                position: 1,
-                definitionLabel: "definition label",
-                definitionContent: "definitionContent",
-                additionalInfoLabel: "additional info label",
-                additionalInfoContent: "additional info content",
-                section: {
-                  __typename: "Section",
-                  questionnaire: {
-                    __typename: "Questionnaire",
-                    metadata: [],
-                  },
-                },
-              },
-            ],
-            questionnaire: {
-              __typename: "Questionnaire",
-              id: "1",
-              questionnaireInfo: {
-                __typename: "QuestionnaireInfo",
-                totalSectionCount: 1,
-              },
-            },
-          },
-        ],
-      },
-    },
-  },
-};
-
 describe("QuestionPageRoute", () => {
-  let store, match, context, childContextTypes, mockHandlers;
+  let store,
+    match,
+    context,
+    childContextTypes,
+    mockHandlers,
+    questionnaireId,
+    sectionId,
+    pageId,
+    movePageMock;
 
   beforeEach(() => {
     childContextTypes = { router: PropTypes.object };
 
+    questionnaireId = fakeId("1");
+    sectionId = fakeId("2");
+    pageId = fakeId("3");
+
+    movePageMock = {
+      request: {
+        query: movePageQuery,
+        variables: {
+          input: { questionnaireId },
+        },
+      },
+      result: {
+        data: {
+          questionnaire: {
+            id: questionnaireId,
+            title: "",
+            description: "",
+            surveyId: "1",
+            theme: "foo",
+            legalBasis: "",
+            navigation: true,
+            summary: "",
+            __typename: "Questionnaire",
+            sections: [
+              {
+                __typename: "Section",
+                id: sectionId,
+                title: "foo",
+                displayName: "foo",
+                position: 0,
+                pages: [
+                  {
+                    __typename: "QuestionPage",
+                    id: pageId,
+                    title: "bar",
+                    alias: "bar-alias",
+                    displayName: "bar",
+                    position: 0,
+                    definitionLabel: "definition label",
+                    definitionContent: "definitionContent",
+                    additionalInfoLabel: "additional info label",
+                    additionalInfoContent: "additional info content",
+                    section: {
+                      __typename: "Section",
+                      questionnaire: {
+                        __typename: "Questionnaire",
+                        metadata: [],
+                      },
+                    },
+                  },
+                  {
+                    __typename: "QuestionPage",
+                    id: fakeId("4"),
+                    title: "blah",
+                    alias: "blah-alias",
+                    displayName: "blah",
+                    position: 1,
+                    definitionLabel: "definition label",
+                    definitionContent: "definitionContent",
+                    additionalInfoLabel: "additional info label",
+                    additionalInfoContent: "additional info content",
+                    section: {
+                      __typename: "Section",
+                      questionnaire: {
+                        __typename: "Questionnaire",
+                        metadata: [],
+                      },
+                    },
+                  },
+                ],
+                questionnaire: {
+                  __typename: "Questionnaire",
+                  id: questionnaireId,
+                  questionnaireInfo: {
+                    __typename: "QuestionnaireInfo",
+                    totalSectionCount: 1,
+                  },
+                },
+              },
+            ],
+          },
+        },
+      },
+    };
+
     match = {
-      params: { questionnaireId: "1", sectionId: "2", pageId: "3" },
+      params: { questionnaireId, sectionId, pageId },
     };
 
     store = {
@@ -151,14 +165,18 @@ describe("QuestionPageRoute", () => {
         request: {
           query: QUESTION_PAGE_QUERY,
           variables: {
-            id: "3",
+            input: {
+              questionnaireId,
+              sectionId,
+              pageId,
+            },
           },
         },
         result: {
           data: {
             questionPage: {
               __typename: "QuestionPage",
-              id: "3",
+              id: pageId,
               title: "foo",
               alias: "foo-alias",
               displayName: "foo",
@@ -173,10 +191,10 @@ describe("QuestionPageRoute", () => {
               answers: [],
               section: {
                 __typename: "Section",
-                id: "1",
+                id: sectionId,
                 questionnaire: {
                   __typename: "Questionnaire",
-                  id: "1",
+                  id: questionnaireId,
                   metadata: [],
                 },
               },
@@ -198,14 +216,18 @@ describe("QuestionPageRoute", () => {
         request: {
           query: QUESTION_PAGE_QUERY,
           variables: {
-            id: "3",
+            input: {
+              questionnaireId,
+              sectionId,
+              pageId,
+            },
           },
         },
         result: {
           data: {
             questionPage: {
               __typename: "QuestionPage",
-              id: "3",
+              id: pageId,
               title: "foo",
               alias: "foo-alias",
               displayName: "foo",
@@ -220,10 +242,10 @@ describe("QuestionPageRoute", () => {
               answers: [],
               section: {
                 __typename: "Section",
-                id: "1",
+                id: sectionId,
                 questionnaire: {
                   __typename: "Questionnaire",
-                  id: "1",
+                  id: questionnaireId,
                   metadata: [],
                 },
               },
@@ -248,7 +270,7 @@ describe("QuestionPageRoute", () => {
         request: {
           query: QUESTION_PAGE_QUERY,
           variables: {
-            id: "3",
+            id: pageId,
           },
         },
         error: new Error("oops"),
@@ -273,7 +295,11 @@ describe("QuestionPageRoute", () => {
         request: {
           query: QUESTION_PAGE_QUERY,
           variables: {
-            id: "3",
+            input: {
+              questionnaireId,
+              sectionId,
+              pageId,
+            },
           },
         },
         result: {
@@ -299,7 +325,7 @@ describe("QuestionPageRoute", () => {
   describe("behaviour", () => {
     const page = {
       __typename: "QuestionPage",
-      id: "3",
+      id: pageId,
       title: "foo",
       alias: "foo-alias",
       displayName: "foo",
@@ -313,8 +339,10 @@ describe("QuestionPageRoute", () => {
       guidance: "",
       answers: [],
       section: {
+        id: sectionId,
         __typename: "Section",
         questionnaire: {
+          id: questionnaireId,
           __typename: "Questionnaire",
           metadata: [],
         },
@@ -349,11 +377,13 @@ describe("QuestionPageRoute", () => {
         .first()
         .simulate("click");
 
-      expect(mockHandlers.onDeletePage).toHaveBeenCalledWith("2", "3");
+      expect(mockHandlers.onDeletePage).toHaveBeenCalledWith(sectionId, pageId);
     });
 
     it("should allow answers to be added", () => {
-      const onAddAnswer = jest.fn(() => Promise.resolve(() => ({ id: "1" })));
+      const onAddAnswer = jest.fn(() =>
+        Promise.resolve(() => ({ id: fakeId("1") }))
+      );
       const wrapper = render(
         {
           loading: false,
@@ -375,7 +405,7 @@ describe("QuestionPageRoute", () => {
         .first()
         .simulate("click");
 
-      expect(onAddAnswer).toHaveBeenCalledWith("3", "Radio");
+      expect(onAddAnswer).toHaveBeenCalledWith(pageId, "Radio");
     });
 
     it("should call onDuplicatePage prop with correct arguments", () => {

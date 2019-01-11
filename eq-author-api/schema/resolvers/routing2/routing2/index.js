@@ -6,28 +6,106 @@ const isMutuallyExclusiveDestination = isMutuallyExclusive([
   "logical",
 ]);
 
+const { flatMap, find, first } = require("lodash/fp");
+const { save } = require("../../../../utils/datastore");
+const {
+  createRouting,
+  createDestination,
+  createRoutingRule,
+  createExpressionGroup,
+  createExpression,
+  createLeftSide,
+} = require("../../../../src/businessLogic");
+
+const answerTypeToConditions = require("../../../../modifiers/BinaryExpression/answerTypeToConditions");
+const {
+  NO_ROUTABLE_ANSWER_ON_PAGE,
+  NULL,
+} = require("../../../../constants/routingNoLeftSide");
 const Resolvers = {};
 
 Resolvers.Routing2 = {
-  else: ({ destinationId }, args, ctx) =>
-    ctx.repositories.Destination.getById(destinationId),
-  page: ({ pageId }, args, ctx) =>
-    ctx.repositories.QuestionPage.getById(pageId),
-  rules: ({ id }, args, ctx) =>
-    ctx.repositories.RoutingRule2.getByRoutingId(id),
+  else: routing => routing.else,
+  page: ({ id }, args, ctx) => {
+    const pages = flatMap(section => section.pages, ctx.questionnaire.sections);
+    return find(page => {
+      if (page.routing && page.routing.id === id) {
+        return page;
+      }
+    }, pages);
+  },
+  rules: routing => routing.rules,
 };
 
 Resolvers.Mutation = {
-  createRouting2: async (root, { input }, ctx) =>
-    ctx.modifiers.Routing.create(input.pageId),
+  createRouting2: async (root, { input }, ctx) => {
+    const pages = flatMap(section => section.pages, ctx.questionnaire.sections);
+    const page = find({ id: input.pageId }, pages);
+
+    if (page.routing) {
+      throw new Error("Can only have one Routing per Page.");
+    }
+
+    const firstAnswer = first(page.answers);
+
+    const hasRoutableFirstAnswer =
+      firstAnswer &&
+      answerTypeToConditions.isAnswerTypeSupported(firstAnswer.type);
+
+    let condition;
+    if (hasRoutableFirstAnswer) {
+      condition = answerTypeToConditions.getDefault(firstAnswer.type);
+    } else {
+      condition = "Equal";
+    }
+
+    const leftHandSide = hasRoutableFirstAnswer
+      ? {
+          answerId: firstAnswer.id,
+          type: "Answer",
+        }
+      : {
+          type: NULL,
+          nullReason: NO_ROUTABLE_ANSWER_ON_PAGE,
+        };
+
+    page.routing = createRouting({
+      else: createDestination({ logical: "NextPage" }),
+      rules: [
+        createRoutingRule({
+          expressionGroup: createExpressionGroup({
+            expressions: [
+              createExpression({
+                left: createLeftSide(leftHandSide),
+                condition,
+              }),
+            ],
+          }),
+          destination: createDestination({ logical: "NextPage" }),
+        }),
+      ],
+    });
+    save(ctx.questionnaire);
+    return page.routing;
+  },
   updateRouting2: async (root, { input }, ctx) => {
     if (!isMutuallyExclusiveDestination(input.else)) {
       throw new Error("Can only provide one destination.");
     }
-    return ctx.modifiers.Routing.update({
-      id: input.id,
-      else: input.else,
-    });
+
+    const allRouting = flatMap(
+      page => page.routing,
+      flatMap(section => section.pages, ctx.questionnaire.sections)
+    );
+
+    const routing = find({ id: input.id }, allRouting);
+
+    routing.else = {
+      id: routing.else.id,
+      ...input.else,
+    };
+    save(ctx.questionnaire);
+    return routing;
   },
 };
 

@@ -1,5 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
+import fakeId from "tests/utils/fakeId";
 
 import { UnwrappedPreviewSectionRoute as PreviewSectionRoute } from "./";
 
@@ -8,7 +9,9 @@ describe("PreviewSectionRoute", () => {
     const wrapper = shallow(
       <PreviewSectionRoute
         loading
-        match={{ params: { questionnaireId: "1", sectionId: "2" } }}
+        match={{
+          params: { questionnaireId: fakeId("1"), sectionId: fakeId("2") },
+        }}
         data={null}
       />
     );
@@ -19,7 +22,9 @@ describe("PreviewSectionRoute", () => {
     const wrapper = shallow(
       <PreviewSectionRoute
         loading={false}
-        match={{ params: { questionnaireId: "1", sectionId: "2" } }}
+        match={{
+          params: { questionnaireId: fakeId("1"), sectionId: fakeId("2") },
+        }}
         data={null}
       />
     );
@@ -30,14 +35,16 @@ describe("PreviewSectionRoute", () => {
     const wrapper = shallow(
       <PreviewSectionRoute
         loading={false}
-        match={{ params: { questionnaireId: "1", sectionId: "2" } }}
+        match={{
+          params: { questionnaireId: fakeId("1"), sectionId: fakeId("2") },
+        }}
         data={{
           section: {
-            id: "1",
+            id: fakeId("1"),
             alias: "",
             title: "",
             introduction: {
-              id: "1",
+              id: fakeId("1"),
               introductionTitle: "",
               introductionContent: "",
             },
@@ -52,10 +59,12 @@ describe("PreviewSectionRoute", () => {
     const wrapper = shallow(
       <PreviewSectionRoute
         loading={false}
-        match={{ params: { questionnaireId: "1", sectionId: "2" } }}
+        match={{
+          params: { questionnaireId: fakeId("1"), sectionId: fakeId("2") },
+        }}
         data={{
           section: {
-            id: "1",
+            id: fakeId("1"),
             alias: "",
             title: "",
             introduction: null,

@@ -8,7 +8,7 @@ class GraphQLApi {
   getAuthorData(questionnaireId) {
     return this.apolloFetch({
       query: getQuestionnaire,
-      variables: { questionnaireId: questionnaireId.toString() },
+      variables: { input: { questionnaireId: questionnaireId.toString() } },
     });
   }
 }

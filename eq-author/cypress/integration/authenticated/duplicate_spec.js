@@ -4,10 +4,9 @@ import {
   testId,
   typeIntoDraftEditor,
   navigateToFirstSection,
+  questionPageRegex,
+  sectionRegex,
 } from "../../utils";
-
-const pageAfterDup = /\/questionnaire\/\d+\/\d+\/\d+\/design$/;
-const sectionAfterDup = /\/questionnaire\/\d+\/\d+\/design$/;
 
 describe("Duplicate", () => {
   describe("Page duplication", () => {
@@ -26,7 +25,7 @@ describe("Duplicate", () => {
     });
 
     it("should navigate to new page after duplicating", () => {
-      cy.hash().should("match", pageAfterDup);
+      cy.hash().should("match", questionPageRegex);
     });
   });
 
@@ -45,7 +44,7 @@ describe("Duplicate", () => {
     });
 
     it("should navigate to the new section after duplicating", () => {
-      cy.hash().should("match", sectionAfterDup);
+      cy.hash().should("match", sectionRegex);
     });
   });
 

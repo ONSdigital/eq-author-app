@@ -1,15 +1,10 @@
 mutation deleteRoutingRule2($input: DeleteRoutingRule2Input!) {
   deleteRoutingRule2(input: $input) {
     id
-    rules {
+    routing {
       id
-    }
-    page {
-      ... on QuestionPage {
+      rules {
         id
-        routing {
-          id
-        }
       }
     }
   }

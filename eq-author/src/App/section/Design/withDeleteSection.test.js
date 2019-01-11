@@ -4,6 +4,7 @@ import {
   handleDeletion,
 } from "./withDeleteSection";
 import fragment from "graphql/questionnaireFragment.graphql";
+import fakeId from "tests/utils/fakeId";
 
 describe("withDeleteSection", () => {
   let history, mutate, result, ownProps, onAddSection, raiseToast;
@@ -11,27 +12,27 @@ describe("withDeleteSection", () => {
 
   beforeEach(() => {
     deletedPage = {
-      id: "2",
-      sectionId: "2",
+      id: fakeId("2"),
+      sectionId: fakeId("2"),
     };
 
     currentPage = {
-      id: "1",
-      sectionId: "1",
+      id: fakeId("1"),
+      sectionId: fakeId("1"),
     };
 
     currentSection = {
-      id: "1",
-      pages: [currentPage, { id: "3" }],
+      id: currentPage.sectionId,
+      pages: [currentPage, { id: fakeId("3") }],
     };
 
     questionnaire = {
-      id: "1",
+      id: fakeId("1"),
       title: "My Questionnaire",
       sections: [
         currentSection,
         {
-          id: "2",
+          id: deletedPage.sectionId,
           pages: [deletedPage],
         },
       ],
@@ -118,7 +119,6 @@ describe("withDeleteSection", () => {
           expect(raiseToast).toHaveBeenCalledWith(
             `Section${currentSection.id}`,
             expect.stringContaining("Section"),
-            "undeleteSection",
             expect.objectContaining({
               questionnaireId: questionnaire.id,
               sectionId: currentSection.id,
@@ -135,7 +135,6 @@ describe("withDeleteSection", () => {
           expect(raiseToast).toHaveBeenCalledWith(
             `Section${currentSection.id}`,
             expect.stringContaining("1 page"),
-            "undeleteSection",
             expect.objectContaining({
               questionnaireId: questionnaire.id,
               sectionId: currentSection.id,
@@ -151,7 +150,6 @@ describe("withDeleteSection", () => {
           expect(raiseToast).toHaveBeenCalledWith(
             `Section${currentSection.id}`,
             expect.stringContaining("2 pages"),
-            "undeleteSection",
             expect.objectContaining({
               questionnaireId: questionnaire.id,
               sectionId: currentSection.id,

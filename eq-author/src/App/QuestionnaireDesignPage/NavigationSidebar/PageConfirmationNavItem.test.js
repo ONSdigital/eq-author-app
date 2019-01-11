@@ -1,41 +1,39 @@
 import React from "react";
 import { shallow } from "enzyme";
 
+import fakeId from "tests/utils/fakeId";
+
 import { UnwrappedPageConfirmationNavItem as PageConfirmationNavItem } from "./PageConfirmationNavItem";
 
-const createWrapper = props => shallow(<PageConfirmationNavItem {...props} />);
-
 describe("PageConfirmationNavItem", () => {
-  let props, wrapper;
+  let props;
 
   beforeEach(() => {
     props = {
-      questionnaireId: "1",
-      sectionId: "2",
+      questionnaireId: fakeId("1"),
+      sectionId: fakeId("2"),
       page: {
-        id: "3",
+        id: fakeId("3"),
         confirmation: {
-          id: "4",
+          id: fakeId("4"),
           displayName: "Confirmation display name",
         },
       },
       match: {
         params: {
-          questionnaireId: "1",
+          questionnaireId: fakeId("1"),
           tab: "design",
         },
       },
     };
-
-    wrapper = createWrapper(props);
   });
 
   it("should render design", () => {
-    expect(wrapper).toMatchSnapshot();
+    expect(shallow(<PageConfirmationNavItem {...props} />)).toMatchSnapshot();
   });
 
   it("should render preview", () => {
     props.match.params.tab = "preview";
-    expect(createWrapper({ ...props })).toMatchSnapshot();
+    expect(shallow(<PageConfirmationNavItem {...props} />)).toMatchSnapshot();
   });
 });
