@@ -6,18 +6,22 @@ const formatRichText = require("../../utils/formatRichText");
 const {
   getValidationEntity,
 } = require("../../repositories/strategies/validationStrategy");
-const { find } = require("lodash/fp");
+const { find, flatMap } = require("lodash/fp");
+
+const getSections = ctx => ctx.questionnaire.sections;
+const getPages = ctx => flatMap(section => section.pages, getSections(ctx));
+const getAnswers = ctx => flatMap(page => page.answers, getPages(ctx));
 
 const Resolvers = {
   Query: {
     questionnaires: (_, args, ctx) => ctx.repositories.Questionnaire.findAll(),
     questionnaire: (root, _, ctx) => ctx.questionnaire,
     section: (parent, { id }, ctx) =>
-      find({ id: id.toString() }, ctx.questionnaire.sections),
-    page: (parent, { id }, ctx) => ctx.repositories.Page.getById(id),
+      find({ id: id.toString() }, getSections(ctx)),
+    page: (parent, { id }, ctx) => find({ id: id.toString() }, getPages(ctx)),
     questionPage: (_, { id }, ctx) =>
-      find({ id: id.toString() }, ctx.questionnaire.sections[0].pages),
-    answer: (root, { id }, ctx) => ctx.repositories.Answer.getById(id),
+      find({ id: id.toString() }, getPages(ctx)),
+    answer: (root, { id }, ctx) => find({ id: id.toString() }, getAnswers(ctx)),
     answers: async (root, { ids }, ctx) =>
       ctx.repositories.Answer.getAnswers(ids),
     option: (root, { id }, ctx) => ctx.repositories.Option.getById(id),
