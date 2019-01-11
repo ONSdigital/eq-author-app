@@ -66,7 +66,7 @@ describe("Question Confirmation", () => {
 
   it("should be preview-able", () => {
     questionConfirmation.add();
-    cy.get(testId("preview")).contains('Preview');
+    cy.get(testId("question-confirmation-item")).should("be.visible");
     cy.get(testId("preview")).click();
     cy.hash().should("match", /\/preview$/);
   });
