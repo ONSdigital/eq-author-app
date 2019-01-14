@@ -432,15 +432,23 @@ type BinaryExpression2 {
 
 type Query {
   questionnaires: [Questionnaire]
-  questionnaire(id: ID!): Questionnaire
-  section(id: ID!): Section
-  page(id: ID!): Page
-  questionPage(id: ID!): QuestionPage
-  answer(id: ID!): Answer
-  answers(ids: [ID]!): [Answer]
-  option(id: ID!): Option
+  questionnaire(input: QueryInput!): Questionnaire
+  section(input: QueryInput!): Section
+  page(input: QueryInput!): Page
+  questionPage(input: QueryInput!): QuestionPage
+  answer(input: QueryInput!): Answer
+  answers(input: QueryInput!, ids: [ID]!): [Answer]
+  option(input: QueryInput!): Option
   questionConfirmation(id: ID!): QuestionConfirmation
   me: User!
+}
+
+input QueryInput {
+  questionnaireId: ID!
+  sectionId: ID
+  pageId: ID
+  answerId: ID
+  optionId: ID
 }
 
 type Mutation {

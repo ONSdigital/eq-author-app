@@ -236,8 +236,8 @@ const WrappedQuestionPageRoute = withQuestionPageEditing(
 );
 
 export const QUESTION_PAGE_QUERY = gql`
-  query GetQuestionPage($id: ID!) {
-    questionPage(id: $id) {
+  query GetQuestionPage($input: QueryInput!) {
+    questionPage(input: $input) {
       ...QuestionPage
     }
   }
@@ -249,7 +249,13 @@ const QuestionPageRoute = props => (
   <Query
     query={QUESTION_PAGE_QUERY}
     fetchPolicy="cache-and-network"
-    variables={{ id: props.match.params.pageId }}
+    variables={{
+      input: {
+        questionnaireId: props.match.params.questionnaireId,
+        sectionId: props.match.params.sectionId,
+        pageId: props.match.params.pageId,
+      },
+    }}
   >
     {innerProps => (
       <WrappedQuestionPageRoute

@@ -7,21 +7,46 @@ const {
   getValidationEntity,
 } = require("../../repositories/strategies/validationStrategy");
 const { find, flatMap } = require("lodash/fp");
+const fs = require("fs");
 
-const getSections = ctx => ctx.questionnaire.sections;
-const getPages = ctx => flatMap(section => section.pages, getSections(ctx));
-const getAnswers = ctx => flatMap(page => page.answers, getPages(ctx));
+const getQuestionnaire = ctx => questionnaireId => {
+  if (ctx.questionnaire) {
+    return ctx.questionnaire;
+  }
+  const questionnaire = fs.readFileSync(`data/${questionnaireId}.json`, "utf8");
+  const result = JSON.parse(questionnaire);
+  ctx.questionnaire = result;
+  return result;
+};
 
 const Resolvers = {
   Query: {
-    questionnaires: (_, args, ctx) => ctx.repositories.Questionnaire.findAll(),
-    questionnaire: (root, _, ctx) => ctx.questionnaire,
-    section: (parent, { id }, ctx) =>
-      find({ id: id.toString() }, getSections(ctx)),
-    page: (parent, { id }, ctx) => find({ id: id.toString() }, getPages(ctx)),
-    questionPage: (_, { id }, ctx) =>
-      find({ id: id.toString() }, getPages(ctx)),
-    answer: (root, { id }, ctx) => find({ id: id.toString() }, getAnswers(ctx)),
+    questionnaires: (root, args, ctx) =>
+      ctx.repositories.Questionnaire.findAll(),
+    questionnaire: (root, { input: { questionnaireId } }, ctx) =>
+      getQuestionnaire(ctx)(questionnaireId),
+    section: (root, { input: { questionnaireId, sectionId } }, ctx) => {
+      const questionnaire = getQuestionnaire(ctx)(questionnaireId);
+      return find({ id: sectionId }, questionnaire.sections);
+    },
+    page: (root, { input: { questionnaireId, sectionId, pageId } }, ctx) => {
+      const questionnaire = getQuestionnaire(ctx)(questionnaireId);
+      const section = find({ id: sectionId }, questionnaire.sections);
+      return find({ id: pageId }, section.pages);
+    },
+    questionPage: (
+      root,
+      { input: { questionnaireId, sectionId, pageId } },
+      ctx
+    ) => {
+      const questionnaire = getQuestionnaire(ctx)(questionnaireId);
+      console.log("questionnaire is ", questionnaire);
+      const section = find({ id: sectionId }, questionnaire.sections);
+
+      console.log("section is ", section);
+      return find({ id: pageId }, section.pages);
+    },
+    answer: (root, { id }, ctx) => find({ id }, page.answers),
     answers: async (root, { ids }, ctx) =>
       ctx.repositories.Answer.getAnswers(ids),
     option: (root, { id }, ctx) => ctx.repositories.Option.getById(id),
