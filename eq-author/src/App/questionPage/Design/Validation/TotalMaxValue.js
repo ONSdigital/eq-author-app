@@ -8,7 +8,7 @@ import { get, inRange, isNaN, noop } from "lodash";
 import { Field, Label } from "components/Forms/index";
 import { Grid, Column } from "components/Grid/index";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
-
+import FieldWithInclude from "./FieldWithInclude";
 import PreviousAnswerContentPicker from "./PreviousAnswerContentPicker";
 import DisabledMessage from "./DisabledMessage";
 import { ValidationPills } from "./ValidationPills";
@@ -29,38 +29,52 @@ const Connector = styled(PathEnd)`
   margin-top: 0.75em;
 `;
 
-export class MaxValue extends React.Component {
+export class TotalMaxValue extends React.Component {
   PreviousAnswer = () => (
-    <PreviousAnswerContentPicker
-      answerId={this.props.answerId}
-      onSubmit={this.handlePreviousAnswerChange}
-      selectedContentDisplayName={get(
-        this.props.maxValue.previousAnswer,
-        "displayName"
-      )}
-      path="answer.validation.maxValue.availablePreviousAnswers"
-    />
+    <FieldWithInclude
+      id="inclusive"
+      name="inclusive"
+      onChange={this.handleIncludeChange}
+      checked={this.props.maxValue.inclusive}
+    >
+      <PreviousAnswerContentPicker
+        answerId={this.props.answerId}
+        onSubmit={this.handlePreviousAnswerChange}
+        selectedContentDisplayName={get(
+          this.props.maxValue.previousAnswer,
+          "displayName"
+        )}
+        path="answer.validation.maxValue.availablePreviousAnswers"
+      />
+    </FieldWithInclude>
   );
 
   Custom = () => (
-    <ValidationInput
-      data-test="max-value-input"
-      list="defaultNumbers"
-      defaultValue={this.props.maxValue.custom}
-      type="number"
-      onBlur={this.handleCustomValueChange}
-      onChange={noop}
-      max={this.props.limit}
-      min={0 - this.props.limit}
-    />
+    <FieldWithInclude
+      id="inclusive"
+      name="inclusive"
+      onChange={this.handleIncludeChange}
+      checked={this.props.maxValue.inclusive}
+    >
+      <ValidationInput
+        data-test="max-value-input"
+        list="defaultNumbers"
+        defaultValue={this.props.maxValue.custom}
+        type="number"
+        onBlur={this.handleCustomValueChange}
+        onChange={noop}
+        max={this.props.limit}
+        min={0 - this.props.limit}
+      />
+    </FieldWithInclude>
   );
 
-  handlePreviousAnswerChange = ({ value: { id } }) => {
+  handlePreviousAnswerChange = ({ value }) => {
     const updateValidationRuleInput = {
       id: this.props.maxValue.id,
       validation: {
         inclusive: this.props.maxValue.inclusive,
-        previousAnswer: id
+        previousAnswer: value
       }
     };
     this.props.onUpdateAnswerValidation(updateValidationRuleInput);
@@ -88,7 +102,7 @@ export class MaxValue extends React.Component {
     this.props.onUpdateAnswerValidation(updateValidationRuleInput);
   };
 
-  handleEntityTypeChange = value => {
+  handleEntityTypeChange = ({ value }) => {
     const updateValidationRuleInput = {
       id: this.props.maxValue.id,
       validation: {
@@ -142,17 +156,6 @@ export class MaxValue extends React.Component {
             PreviousAnswer={this.PreviousAnswer}
             Custom={this.Custom}
           />
-          <InlineField>
-            <ToggleSwitch
-              id="max-value-include"
-              name="max-value-include"
-              onChange={this.handleIncludeChange}
-              checked={this.props.maxValue.inclusive}
-            />
-            <Label inline htmlFor="max-value-include">
-              Include this number
-            </Label>
-          </InlineField>
         </Column>
       </Grid>
     );
@@ -173,21 +176,21 @@ export class MaxValue extends React.Component {
   }
 }
 
-MaxValue.defaultProps = {
+TotalMaxValue.defaultProps = {
   limit: 999999999
 };
 
-MaxValue.propTypes = {
+TotalMaxValue.propTypes = {
   answerId: PropTypes.string.isRequired,
   onUpdateAnswerValidation: PropTypes.func.isRequired,
   onToggleValidationRule: PropTypes.func.isRequired,
   limit: PropTypes.number
 };
 
-export const MaxValueWithAnswer = props => (
+export const TotalMaxValueWithAnswer = props => (
   <ValidationContext.Consumer>
     {({ answer, ...rest }) => (
-      <MaxValue
+      <TotalMaxValue
         answerId={answer.id}
         maxValue={answer.validation.maxValue}
         {...props}
@@ -197,4 +200,4 @@ export const MaxValueWithAnswer = props => (
   </ValidationContext.Consumer>
 );
 
-export default MaxValueWithAnswer;
+export default TotalMaxValueWithAnswer;

@@ -17,6 +17,8 @@ import ValidationContext from "./ValidationContext";
 import ValidationInput from "./ValidationInput";
 import PathEnd from "./path-end.svg?inline";
 
+import FieldWithInclude from "./FieldWithInclude";
+
 const InlineField = styled(Field)`
   display: flex;
   flex-direction: row;
@@ -28,38 +30,52 @@ const Connector = styled(PathEnd)`
   margin-top: 0.75em;
 `;
 
-export class MinValue extends React.Component {
+export class TotalMinValue extends React.Component {
   PreviousAnswer = () => (
-    <PreviousAnswerContentPicker
-      answerId={this.props.answerId}
-      onSubmit={this.handlePreviousAnswerChange}
-      selectedContentDisplayName={get(
-        this.props.minValue.previousAnswer,
-        "displayName"
-      )}
-      path="answer.validation.minValue.availablePreviousAnswers"
-    />
+    <FieldWithInclude
+      id="inclusive"
+      name="inclusive"
+      onChange={this.handleIncludeChange}
+      checked={this.props.minValue.inclusive}
+    >
+      <PreviousAnswerContentPicker
+        answerId={this.props.answerId}
+        onSubmit={this.handlePreviousAnswerChange}
+        selectedContentDisplayName={get(
+          this.props.minValue.previousAnswer,
+          "displayName"
+        )}
+        path="answer.validation.maxValue.availablePreviousAnswers"
+      />
+    </FieldWithInclude>
   );
 
   Custom = () => (
-    <ValidationInput
-      data-test="min-value-input"
-      list="defaultNumbers"
-      defaultValue={this.props.minValue.custom}
-      type="number"
-      onBlur={this.handleCustomValueChange}
-      onChange={noop}
-      max={this.props.limit}
-      min={0 - this.props.limit}
-    />
+    <FieldWithInclude
+      id="inclusive"
+      name="inclusive"
+      onChange={this.handleIncludeChange}
+      checked={this.props.minValue.inclusive}
+    >
+      <ValidationInput
+        data-test="min-value-input"
+        list="defaultNumbers"
+        defaultValue={this.props.minValue.custom}
+        type="number"
+        onBlur={this.handleCustomValueChange}
+        onChange={noop}
+        max={this.props.limit}
+        min={0 - this.props.limit}
+      />
+    </FieldWithInclude>
   );
 
-  handlePreviousAnswerChange = ({ value: { id } }) => {
+  handlePreviousAnswerChange = ({ value }) => {
     const updateValidationRuleInput = {
       id: this.props.minValue.id,
       validation: {
         inclusive: this.props.minValue.inclusive,
-        previousAnswer: id
+        previousAnswer: value
       }
     };
     this.props.onUpdateAnswerValidation(updateValidationRuleInput);
@@ -87,7 +103,7 @@ export class MinValue extends React.Component {
     this.props.onUpdateAnswerValidation(updateValidationRuleInput);
   };
 
-  handleEntityTypeChange = value => {
+  handleEntityTypeChange = ({ value }) => {
     const updateValidationRuleInput = {
       id: this.props.minValue.id,
       validation: {
@@ -126,6 +142,8 @@ export class MinValue extends React.Component {
   );
 
   renderContent = () => {
+    console.log(this.props);
+
     return (
       <Grid>
         <Column cols={3}>
@@ -139,17 +157,6 @@ export class MinValue extends React.Component {
             PreviousAnswer={this.PreviousAnswer}
             Custom={this.Custom}
           />
-          <InlineField>
-            <ToggleSwitch
-              id="min-value-include"
-              name="min-value-include"
-              onChange={this.handleIncludeChange}
-              checked={this.props.minValue.inclusive}
-            />
-            <Label inline htmlFor="min-value-include">
-              Include this number
-            </Label>
-          </InlineField>
         </Column>
       </Grid>
     );
@@ -170,22 +177,21 @@ export class MinValue extends React.Component {
   }
 }
 
-MinValue.defaultProps = {
+TotalMinValue.defaultProps = {
   limit: 999999999
 };
 
-MinValue.propTypes = {
+TotalMinValue.propTypes = {
   answerId: PropTypes.string.isRequired,
-
   onUpdateAnswerValidation: PropTypes.func.isRequired,
   onToggleValidationRule: PropTypes.func.isRequired,
   limit: PropTypes.number
 };
 
-export const MaxValueWithAnswer = props => (
+export const TotalMinValueWithAnswer = props => (
   <ValidationContext.Consumer>
     {({ answer, ...rest }) => (
-      <MinValue
+      <TotalMinValue
         answerId={answer.id}
         minValue={answer.validation.minValue}
         {...props}
@@ -195,4 +201,4 @@ export const MaxValueWithAnswer = props => (
   </ValidationContext.Consumer>
 );
 
-export default MaxValueWithAnswer;
+export default TotalMinValueWithAnswer;

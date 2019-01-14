@@ -53,8 +53,6 @@ class TotalValidation extends React.Component {
     super(props);
     this.modalId = `modal-validation-total`;
 
-    console.log(this.props);
-
     this.state = {
       modalIsOpen: false,
       answer: {
