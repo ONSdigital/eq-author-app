@@ -6,8 +6,11 @@ describe("PageNav", () => {
   let component, handleDelete;
 
   const questionnaire = { id: "1", title: "Questionnaire" };
-  const page = { id: "2", title: "Page" };
-  const section = { id: "3", title: "Section", pages: [page], number: 1 };
+  const pages = [
+    { id: "2", title: "Page" },
+    { id: "4", title: "Confirmation Page", __typename: "QuestionConfirmation" }
+  ];
+  const section = { id: "3", title: "Section", pages: pages, number: 1 };
 
   beforeEach(() => {
     handleDelete = jest.fn(() => Promise.resolve());
