@@ -441,9 +441,18 @@ type ExpressionGroup2 {
   expressions: [Expression2!]!
 }
 
-union LeftSide2 = BasicAnswer | MultipleChoiceAnswer
+enum NoLeftSideReason {
+  SelectedAnswerDeleted
+  NoRoutableAnswerOnPage
+}
 
-union RightSide2 = SelectedOptions2 | BasicAnswer | CustomValue2
+type NoLeftSide {
+  reason: NoLeftSideReason!
+}
+
+union LeftSide2 = BasicAnswer | MultipleChoiceAnswer | NoLeftSide
+
+union RightSide2 = SelectedOptions2 | CustomValue2
 
 type CustomValue2 {
   number: Int
@@ -465,7 +474,7 @@ enum RoutingCondition2 {
 
 type BinaryExpression2 {
   id: ID!
-  left: LeftSide2
+  left: LeftSide2!
   condition: RoutingCondition2!
   right: RightSide2
   expressionGroup: ExpressionGroup2!
@@ -545,7 +554,7 @@ type Mutation {
   updateRouting2(input: UpdateRouting2Input!): Routing2! 
   createRoutingRule2(input: CreateRoutingRule2Input!): RoutingRule2!
   updateRoutingRule2(input: UpdateRoutingRule2Input!): RoutingRule2! 
-  deleteRoutingRule2(input: DeleteRoutingRule2Input!): RoutingRule2!
+  deleteRoutingRule2(input: DeleteRoutingRule2Input!): Routing2!
   updateExpressionGroup2(input: UpdateExpressionGroup2Input!): ExpressionGroup2!
   createBinaryExpression2(input: CreateBinaryExpression2Input!): BinaryExpression2!
   updateBinaryExpression2(input: UpdateBinaryExpression2Input!): BinaryExpression2!

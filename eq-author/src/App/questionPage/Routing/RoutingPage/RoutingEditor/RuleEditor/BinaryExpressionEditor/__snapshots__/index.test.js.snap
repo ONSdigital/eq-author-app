@@ -1,0 +1,97 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BinaryExpressionEditor should render consistently 1`] = `
+<div
+  data-test="routing-binary-expression"
+>
+  <Grid
+    align="center"
+    fillHeight={true}
+  >
+    <Column
+      cols={1}
+      gutters={false}
+    >
+      <BinaryExpressionEditor__Label
+        htmlFor="RoutingCondition1"
+      >
+        IF
+      </BinaryExpressionEditor__Label>
+    </Column>
+    <Column
+      cols={10}
+      gutters={false}
+    >
+      <withRouter(RoutingAnswerContentPicker)
+        id="RoutingCondition1"
+        onSubmit={[Function]}
+        path="questionPage.availableRoutingAnswers"
+      />
+    </Column>
+    <Column
+      cols={1}
+      gutters={false}
+    >
+      <BinaryExpressionEditor__RemoveButton
+        data-test="btn-remove"
+        disabled={false}
+        onClick={[Function]}
+      >
+        <IconText
+          hideText={true}
+          icon={[Function]}
+        >
+          Remove
+        </IconText>
+      </BinaryExpressionEditor__RemoveButton>
+    </Column>
+  </Grid>
+  <Grid
+    align="top"
+    fillHeight={true}
+  >
+    <Column
+      cols={1}
+      gutters={false}
+    >
+      <BinaryExpressionEditor__ConnectedPath
+        pathEnd={false}
+      />
+    </Column>
+    <Column
+      cols={10}
+      gutters={false}
+    >
+      <TransitionGroup
+        childFactory={[Function]}
+        component="div"
+      >
+        <Transition__RoutingComponentTransition
+          exit={false}
+          key="answer"
+          timeout={200}
+        >
+          <MultipleChoiceAnswerOptionsSelector
+            expression={
+              Object {
+                "condition": "Equal",
+                "id": "1",
+                "left": Object {
+                  "id": "2",
+                  "type": "Radio",
+                },
+                "right": null,
+              }
+            }
+            onConditionChange={[Function]}
+            onRightChange={[Function]}
+          />
+        </Transition__RoutingComponentTransition>
+      </TransitionGroup>
+    </Column>
+    <Column
+      cols={1}
+    />
+  </Grid>
+</div>
+`;

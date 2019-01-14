@@ -27,7 +27,7 @@ Resolvers.Mutation = {
     return ctx.modifiers.RoutingRule.update({ id, destination });
   },
   deleteRoutingRule2: (root, { input }, ctx) =>
-    ctx.repositories.RoutingRule2.delete(input.id),
+    ctx.modifiers.RoutingRule.delete(input.id),
 };
 
 module.exports = Resolvers;

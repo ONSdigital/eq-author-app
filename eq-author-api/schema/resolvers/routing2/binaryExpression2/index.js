@@ -5,14 +5,12 @@ const Resolvers = {};
 Resolvers.BinaryExpression2 = {
   left: async ({ id }, args, ctx) => {
     const left = await ctx.repositories.LeftSide2.getByExpressionId(id);
-    if (!left) {
-      return null;
-    }
     if (left.type === "Answer") {
       const answer = await ctx.repositories.Answer.getById(left.answerId);
       return { ...answer, sideType: left.type };
     }
-    throw new Error(`Unsupported side comparison of type: ${left.type}`);
+
+    return { sideType: left.type, reason: left.nullReason };
   },
   right: async ({ id }, args, ctx) => {
     const right = await ctx.repositories.RightSide2.getByExpressionId(id);
@@ -34,6 +32,9 @@ Resolvers.LeftSide2 = {
       }
       return "BasicAnswer";
     }
+    if (sideType === "Null") {
+      return "NoLeftSide";
+    }
   },
 };
 
@@ -45,7 +46,6 @@ Resolvers.RightSide2 = {
     if (right.type === "SelectedOptions") {
       return "SelectedOptions2";
     }
-    return "BasicAnswer";
   },
 };
 

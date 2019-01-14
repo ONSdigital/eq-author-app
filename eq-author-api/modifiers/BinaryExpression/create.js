@@ -1,4 +1,7 @@
 const answerTypeToConditions = require("./answerTypeToConditions");
+const {
+  NO_ROUTABLE_ANSWER_ON_PAGE,
+} = require("../../constants/routingNoLeftSide");
 
 module.exports = ({ repositories }) => async expressionGroupId => {
   const expressionGroup = await repositories.ExpressionGroup2.getById(
@@ -12,7 +15,7 @@ module.exports = ({ repositories }) => async expressionGroupId => {
   const hasRoutableFirstAnswer =
     firstAnswer &&
     answerTypeToConditions.isAnswerTypeSupported(firstAnswer.type);
-  let condition = null;
+  let condition;
   if (hasRoutableFirstAnswer) {
     condition = answerTypeToConditions.getDefault(firstAnswer.type);
   }
@@ -26,6 +29,11 @@ module.exports = ({ repositories }) => async expressionGroupId => {
     await repositories.LeftSide2.insert({
       expressionId: expression.id,
       answerId: firstAnswer.id,
+    });
+  } else {
+    await repositories.LeftSide2.insert({
+      expressionId: expression.id,
+      nullReason: NO_ROUTABLE_ANSWER_ON_PAGE,
     });
   }
   return expression;

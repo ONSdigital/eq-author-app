@@ -88,8 +88,13 @@ describe("Routing Integration", () => {
                         }
                         condition
                         right {
-                          ... on BasicAnswer {
-                            id
+                          ... on CustomValue2 {
+                            number
+                          }
+                          ... on SelectedOptions2 {
+                            options {
+                              id
+                            }
                           }
                         }
                       }

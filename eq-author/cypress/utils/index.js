@@ -90,14 +90,18 @@ export const addQuestionPage = (title = "hello world") => {
   });
 };
 
-export const buildMultipleChoiceAnswer = labelArray => {
+export const buildMultipleChoiceAnswer = (optionLabels, label = "") => {
   addAnswerType(RADIO);
+
+  if (label) {
+    cy.get(testId("txt-answer-label")).type(label);
+  }
 
   cy.get(testId("btn-add-option")).click();
 
   cy.get(testId("option-label")).should("have.length", 3);
 
-  labelArray.forEach((label, index) =>
+  optionLabels.forEach((label, index) =>
     cy
       .get(testId("option-label"))
       .eq(index)
@@ -241,11 +245,12 @@ export const selectFirstMetadataContentPicker = () => {
   cy.get(testId("submit-button")).click();
 };
 
-export const selectQuestionFromContentPicker = ({
+export const selectAnswerFromContentPicker = ({
   sectionTitle,
   questionTitle,
+  answerTitle,
 }) => {
-  cy.get(`button[aria-controls='question']`).contains("Question");
+  cy.get(`button[aria-controls='answers']`).contains("Answer");
   cy.get(testId("picker-title"))
     .contains("Section")
     .click();
@@ -257,6 +262,12 @@ export const selectQuestionFromContentPicker = ({
     .click();
   cy.get(testId("picker-option"))
     .contains(questionTitle)
+    .click();
+  cy.get(testId("picker-title"))
+    .contains("Answer")
+    .click();
+  cy.get(testId("picker-option"))
+    .contains(answerTitle)
     .click();
   cy.get(testId("submit-button")).click();
 };

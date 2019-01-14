@@ -266,12 +266,15 @@ module.exports = knex => {
       groupId: expressionGroup.id,
       condition: expressionConfig.condition,
     });
-    if (expressionConfig.left && expressionConfig.left.answerId) {
+
+    if (expressionConfig.left) {
       expression.left = await LeftSide2Repository.insert({
+        ...expressionConfig.left,
         expressionId: expression.id,
         answerId: references.answers[expressionConfig.left.answerId],
       });
     }
+
     if (expressionConfig.right && expressionConfig.right.type) {
       expression.right = await RightSide2Repository.insert({
         expressionId: expression.id,

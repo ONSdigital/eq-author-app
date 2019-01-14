@@ -1,0 +1,20 @@
+# import "./RuleEditor/fragment.graphql"
+
+fragment RoutingEditor on Routing2 {
+  id
+  rules {
+    ...RuleEditor
+  }
+  else {
+    id
+    logical
+    page {
+      id
+      displayName
+    }
+    section {
+      id
+      displayName
+    }
+  }
+}

@@ -2,9 +2,7 @@
 const { isEmpty } = require("lodash");
 
 const { RADIO, CURRENCY, NUMBER } = require("../../../constants/answerTypes");
-const {
-  conditionConversion,
-} = require("../../../utils/convertRoutingConditions");
+const conditionConverter = require("../../../utils/convertRoutingConditions");
 
 const buildMuiltpleChoiceAnswerBinaryExpression = binaryExpression => {
   if (isEmpty(binaryExpression.right.options)) {
@@ -27,7 +25,7 @@ const buildBasicAnswerBinaryExpression = ({ left, condition, right }) => {
   return [
     {
       id: `answer${left.id}`,
-      condition: conditionConversion(condition),
+      condition: conditionConverter(condition),
       value: right.number,
     },
   ];

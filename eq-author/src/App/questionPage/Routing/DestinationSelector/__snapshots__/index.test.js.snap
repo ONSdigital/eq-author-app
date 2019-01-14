@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/RoutingRuleDestinationSelector should render 1`] = `
+<DestinationSelector__RoutingRuleResult
+  key="test-select"
+>
+  <Grid
+    align="center"
+    fillHeight={true}
+  >
+    <Column
+      cols={5}
+      gutters={false}
+    >
+      <DestinationSelector__Label
+        disabled={false}
+        htmlFor="test-select"
+      >
+        Test
+         
+        <DestinationSelector__Goto>
+          Go to: 
+        </DestinationSelector__Goto>
+      </DestinationSelector__Label>
+    </Column>
+    <Column
+      cols={7}
+      gutters={false}
+    >
+      <RoutingDestinationContentPicker
+        data-test="routing-destination-content-picker"
+        disabled={false}
+        id="test-select"
+        onSubmit={[Function]}
+        pageId="1"
+        selected={
+          Object {
+            "logicalDestination": Object {
+              "destinationType": "EndOfQuestionnaire",
+            },
+          }
+        }
+      />
+    </Column>
+  </Grid>
+</DestinationSelector__RoutingRuleResult>
+`;

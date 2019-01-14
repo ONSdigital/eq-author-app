@@ -1,0 +1,34 @@
+fragment BinaryExpressionEditor on BinaryExpression2 {
+  id
+  left {
+    ... on BasicAnswer {
+      id
+      displayName
+      type
+    }
+    ... on MultipleChoiceAnswer {
+      id
+      displayName
+      type
+      options {
+        id
+        label
+      }
+    }
+    ... on NoLeftSide {
+      reason
+    }
+  }
+  condition
+  right {
+    ... on SelectedOptions2 {
+      options {
+        id
+        label
+      }
+    }
+    ... on CustomValue2 {
+      number
+    }
+  }
+}

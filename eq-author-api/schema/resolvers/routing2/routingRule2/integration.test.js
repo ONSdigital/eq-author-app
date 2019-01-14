@@ -88,8 +88,13 @@ describe("RoutingRule Integration", () => {
                       }
                       condition
                       right {
-                        ... on BasicAnswer {
-                          id
+                        ... on CustomValue2 {
+                          number
+                        }
+                        ... on SelectedOptions2 {
+                          options {
+                            id
+                          }
                         }
                       }
                     }
@@ -278,70 +283,94 @@ describe("RoutingRule Integration", () => {
     });
   });
 
-  it("can delete a routingRule", async () => {
-    const questionnaire = await buildTestQuestionnaire({
-      sections: [
-        {
-          pages: [
-            {
-              answers: [
-                { type: answerTypes.NUMBER },
-                {
-                  id: "radioAnswer",
-                  type: answerTypes.RADIO,
-                  options: [
-                    { id: "option1", label: "option1" },
-                    { id: "option2", label: "option2" },
-                  ],
-                },
-              ],
-              routing: {
-                rules: [
+  describe("delete", () => {
+    it("can delete a routingRule", async () => {
+      const questionnaire = await buildTestQuestionnaire({
+        sections: [
+          {
+            pages: [
+              {
+                answers: [
+                  { type: answerTypes.NUMBER },
                   {
-                    expressionGroup: {
-                      operator: AND,
-                      expressions: [
-                        {
-                          left: { answerId: "radioAnswer" },
-                          condition: conditions.ONE_OF,
-                          right: {
-                            type: "SelectedOptions",
-                            selectedOptions: ["option1", "option2"],
-                          },
-                        },
-                      ],
-                    },
+                    id: "radioAnswer",
+                    type: answerTypes.RADIO,
+                    options: [
+                      { id: "option1", label: "option1" },
+                      { id: "option2", label: "option2" },
+                    ],
                   },
                 ],
+                routing: {
+                  rules: [
+                    {
+                      expressionGroup: {
+                        operator: AND,
+                        expressions: [
+                          {
+                            left: { answerId: "radioAnswer" },
+                            condition: conditions.ONE_OF,
+                            right: {
+                              type: "SelectedOptions",
+                              selectedOptions: ["option1", "option2"],
+                            },
+                          },
+                        ],
+                      },
+                    },
+                    {
+                      expressionGroup: {
+                        operator: AND,
+                        expressions: [
+                          {
+                            left: { answerId: "radioAnswer" },
+                            condition: conditions.ONE_OF,
+                            right: {
+                              type: "SelectedOptions",
+                              selectedOptions: ["option1", "option2"],
+                            },
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                },
               },
-            },
-          ],
-        },
-      ],
-    });
+            ],
+          },
+        ],
+      });
 
-    const page = questionnaire.sections[0].pages[0];
-    const routingRuleId = page.routing.rules[0].id;
+      const page = questionnaire.sections[0].pages[0];
+      const routingRuleId = page.routing.rules[0].id;
 
-    const deleteRoutingRuleMutation = `
+      const deleteRoutingRuleMutation = `
         mutation deleteRoutingRule2($input: DeleteRoutingRule2Input!) {
           deleteRoutingRule2(input: $input) {
             id
+            rules {
+              id
+            }
           }
         }
         `;
 
-    const deleteResult = await executeQuery(
-      deleteRoutingRuleMutation,
-      { input: { id: routingRuleId } },
-      ctx
-    );
+      const deleteResult = await executeQuery(
+        deleteRoutingRuleMutation,
+        { input: { id: routingRuleId } },
+        ctx
+      );
 
-    expect(deleteResult.errors).toBeUndefined();
+      expect(deleteResult.errors).toBeUndefined();
+      expect(deleteResult.data.deleteRoutingRule2).toMatchObject({
+        rules: [
+          expect.objectContaining({ id: page.routing.rules[1].id.toString() }),
+        ],
+      });
 
-    const readRoutingTreeQuery = `
-      query GetPage {
-        questionPage(id: ${page.id}) {
+      const readRoutingTreeQuery = `
+      query GetPage($id: ID!) {
+        questionPage(id: $id) {
           id
           routing {
             id
@@ -353,8 +382,93 @@ describe("RoutingRule Integration", () => {
       }
         `;
 
-    const readResult = await executeQuery(readRoutingTreeQuery, {}, ctx);
+      const readResult = await executeQuery(
+        readRoutingTreeQuery,
+        { id: page.id },
+        ctx
+      );
 
-    expect(readResult.data.questionPage.routing.rules).toHaveLength(0);
+      expect(readResult.data.questionPage.routing.rules).toHaveLength(1);
+    });
+
+    it("should delete the parent routing when the last rule is removed", async () => {
+      const questionnaire = await buildTestQuestionnaire({
+        sections: [
+          {
+            pages: [
+              {
+                answers: [
+                  { type: answerTypes.NUMBER },
+                  {
+                    id: "radioAnswer",
+                    type: answerTypes.RADIO,
+                    options: [
+                      { id: "option1", label: "option1" },
+                      { id: "option2", label: "option2" },
+                    ],
+                  },
+                ],
+                routing: {
+                  rules: [
+                    {
+                      expressionGroup: {
+                        operator: AND,
+                        expressions: [
+                          {
+                            left: { answerId: "radioAnswer" },
+                            condition: conditions.ONE_OF,
+                            right: {
+                              type: "SelectedOptions",
+                              selectedOptions: ["option1", "option2"],
+                            },
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        ],
+      });
+
+      const page = questionnaire.sections[0].pages[0];
+      const routingRuleId = page.routing.rules[0].id;
+
+      const deleteRoutingRuleMutation = `
+        mutation deleteRoutingRule2($input: DeleteRoutingRule2Input!) {
+          deleteRoutingRule2(input: $input) {
+            id
+            rules {
+              id
+            }
+          }
+        }
+        `;
+
+      const deleteResult = await executeQuery(
+        deleteRoutingRuleMutation,
+        { input: { id: routingRuleId } },
+        ctx
+      );
+
+      expect(deleteResult.errors).toBeUndefined();
+
+      const readRoutingTreeQuery = `
+      query GetPage {
+        questionPage(id: ${page.id}) {
+          id
+          routing {
+            id
+          }
+        }
+      }
+        `;
+
+      const readResult = await executeQuery(readRoutingTreeQuery, {}, ctx);
+
+      expect(readResult.data.questionPage.routing).toBe(null);
+    });
   });
 });

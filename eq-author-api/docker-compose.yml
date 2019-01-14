@@ -15,8 +15,8 @@ services:
     environment:
       - DB_CONNECTION_URI=postgres://postgres:mysecretpassword@db:5432/postgres
       - NODE_ENV=development
-      - RUNNER_SESSION_URL=http://docker.for.mac.localhost:5000/session?token=
-      - PUBLISHER_URL=http://docker.for.mac.localhost:9000/publish/
+      - RUNNER_SESSION_URL=http://localhost:5000/session?token=
+      - PUBLISHER_URL=http://localhost:9000/publish/
     entrypoint:
       - yarn
       - start:dev

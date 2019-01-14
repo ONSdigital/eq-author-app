@@ -1,0 +1,58 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/RoutingRuleSet should render children 1`] = `
+<Fragment>
+  <TransitionGroup
+    childFactory={[Function]}
+    component="div"
+  >
+    <Transition__RoutingComponentTransition
+      exit={false}
+      key="2"
+      timeout={200}
+    >
+      <Apollo(Apollo(Apollo(UnwrappedRuleEditor)))
+        key="2"
+        rule={
+          Object {
+            "id": "2",
+          }
+        }
+        title={null}
+      />
+    </Transition__RoutingComponentTransition>
+  </TransitionGroup>
+  <RoutingEditor__AddRuleButton
+    data-test="btn-add-rule"
+    onClick={[Function]}
+    small={true}
+    variant="secondary"
+  >
+    <IconText
+      hideText={false}
+      icon={[Function]}
+    >
+      Add rule
+    </IconText>
+  </RoutingEditor__AddRuleButton>
+  <RoutingEditor__Box>
+    <withRouter(UnwrappedDestinationSelector)
+      data-test="select-else"
+      id="else"
+      label="ELSE"
+      onChange={[Function]}
+      value={
+        Object {
+          "id": "4",
+          "logical": null,
+          "page": Object {
+            "displayName": "page",
+            "id": "3",
+          },
+          "section": null,
+        }
+      }
+    />
+  </RoutingEditor__Box>
+</Fragment>
+`;

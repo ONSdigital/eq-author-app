@@ -1,7 +1,7 @@
 import {
   navigateToPage,
   testId,
-  selectQuestionFromContentPicker,
+  selectAnswerFromContentPicker,
   findByLabel,
 } from "../utils";
 
@@ -29,7 +29,8 @@ export const add = (config, pageTitle) => {
   }
   navigateToRoutingTab();
   config.rules.forEach((rule, i) => {
-    cy.get(testId("btn-add-rule")).click();
+    const addButtonId = i === 0 ? "btn-add-routing" : "btn-add-rule";
+    cy.get(testId(addButtonId)).click();
     cy.get(testId("routing-rule")).should("have.length", i + 1);
     cy.get(testId("routing-rule"))
       .eq(i)
@@ -38,9 +39,10 @@ export const add = (config, pageTitle) => {
       findByLabel("IF").click();
     });
 
-    selectQuestionFromContentPicker({
+    selectAnswerFromContentPicker({
       sectionTitle: rule.leftSide.sectionTitle,
       questionTitle: rule.leftSide.pageTitle,
+      answerTitle: rule.leftSide.answerTitle,
     });
 
     cy.get("@currentRule").within(() => {
@@ -62,7 +64,7 @@ export const add = (config, pageTitle) => {
     if (Array.isArray(rule.rightSide)) {
       rule.rightSide.map(label => clickOnRoutingRuleOption({ label }));
     } else {
-      cy.get(testId("comparator-selector"))
+      cy.get(testId("condition-selector"))
         .last()
         .select(rule.condition);
       cy.get(testId("number-input"))

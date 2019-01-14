@@ -1,0 +1,7 @@
+#import "./fragment.graphql"
+
+mutation updateBinaryExpression2($input: UpdateBinaryExpression2Input!) {
+  updateBinaryExpression2(input: $input) {
+    ...BinaryExpressionEditor
+  }
+}

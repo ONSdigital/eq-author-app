@@ -1,6 +1,13 @@
 import { testId } from "../utils";
 
-const configureMultipleChoice = ({ initialCount }, { options }) => {
+const configureMultipleChoice = (
+  { initialCount },
+  { options, label: answerLabel }
+) => {
+  if (answerLabel) {
+    cy.get(testId("txt-answer-label")).type(answerLabel);
+  }
+
   options.forEach(({ label }, index) => {
     cy.get(testId("option-label")).should(
       "have.length",

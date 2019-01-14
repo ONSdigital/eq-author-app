@@ -3,6 +3,11 @@ const buildTestQuestionnaire = require("../tests/utils/buildTestQuestionnaire")(
   knex
 );
 const answerTypes = require("../constants/answerTypes");
+const {
+  SELECTED_ANSWER_DELETED,
+  NO_ROUTABLE_ANSWER_ON_PAGE,
+  NULL,
+} = require("../constants/routingNoLeftSide");
 
 const LeftSideRepository = require("./LeftSide2Repository")(knex);
 
@@ -83,6 +88,19 @@ describe("Left Side Repository", () => {
       }
       expect(true).toBe(false);
     });
+
+    it("should create a Null left side when a nullReason is given", async () => {
+      const leftSide = await LeftSideRepository.insert({
+        expressionId: expression.id,
+        nullReason: NO_ROUTABLE_ANSWER_ON_PAGE,
+      });
+      expect(leftSide).toMatchObject({
+        id: expect.any(Number),
+        expressionId: expression.id,
+        type: "Null",
+        nullReason: NO_ROUTABLE_ANSWER_ON_PAGE,
+      });
+    });
   });
 
   describe("update", () => {
@@ -102,6 +120,7 @@ describe("Left Side Repository", () => {
         expressionId: expression.id,
         answerId: secondAnswer.id,
         type: "Answer",
+        nullReason: NULL,
       });
     });
   });
@@ -121,35 +140,63 @@ describe("Left Side Repository", () => {
     });
   });
 
-  describe("deleteByAnswerId", () => {
-    it("should delete all left sides with a given answerId", async () => {
+  describe("clearByAnswerId", () => {
+    it("should clear all left sides with a given answerId and give reason", async () => {
       const leftSide = await LeftSideRepository.insert({
         expressionId: expression.id,
         answerId: answer.id,
       });
-      const deleteResult = await LeftSideRepository.deleteByAnswerId(answer.id);
-      expect(deleteResult).toMatchObject([leftSide]);
+      const deleteResult = await LeftSideRepository.clearByAnswerId(
+        answer.id,
+        SELECTED_ANSWER_DELETED
+      );
+      expect(deleteResult).toMatchObject([
+        {
+          ...leftSide,
+          answerId: null,
+          type: "Null",
+          nullReason: SELECTED_ANSWER_DELETED,
+        },
+      ]);
     });
   });
 
-  describe("insertMissingDefaults", () => {
-    it("should insert all LeftSides for a Routing to the given answer", async () => {
+  describe("setMissingDefaults", () => {
+    it("should update all Null LeftSides for a Routing to the given answer", async () => {
       const questionnaire = await buildTestQuestionnaire({
         sections: [
           {
             pages: [
               {
-                answers: [{ type: answerTypes.NUMBER }],
+                answers: [
+                  {
+                    type: answerTypes.NUMBER,
+                  },
+                ],
                 routing: {
                   rules: [
                     {
                       expressionGroup: {
-                        expressions: [{}],
+                        expressions: [
+                          {
+                            left: {
+                              type: "Null",
+                              nullReason: NO_ROUTABLE_ANSWER_ON_PAGE,
+                            },
+                          },
+                        ],
                       },
                     },
                     {
                       expressionGroup: {
-                        expressions: [{}],
+                        expressions: [
+                          {
+                            left: {
+                              type: "Null",
+                              nullReason: NO_ROUTABLE_ANSWER_ON_PAGE,
+                            },
+                          },
+                        ],
                       },
                     },
                   ],
@@ -165,22 +212,22 @@ describe("Left Side Repository", () => {
       const expression2 = page.routing.rules[1].expressionGroup.expressions[0];
       answer = page.answers[0];
 
-      const insertedRows = await LeftSideRepository.insertMissingDefaults(
-        answer
-      );
+      const insertedRows = await LeftSideRepository.setMissingDefaults(answer);
 
-      expect(insertedRows).toMatchObject([
-        {
-          expressionId: expression1.id,
-          type: "Answer",
-          answerId: answer.id,
-        },
-        {
-          expressionId: expression2.id,
-          type: "Answer",
-          answerId: answer.id,
-        },
-      ]);
+      expect(insertedRows).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            expressionId: expression1.id,
+            type: "Answer",
+            answerId: answer.id,
+          }),
+          expect.objectContaining({
+            expressionId: expression2.id,
+            type: "Answer",
+            answerId: answer.id,
+          }),
+        ])
+      );
       const readLeft1 = await LeftSideRepository.getByExpressionId(
         expression1.id
       );
@@ -191,7 +238,7 @@ describe("Left Side Repository", () => {
       expect(readLeft2.answerId).toEqual(answer.id);
     });
 
-    it("should not insert when LeftSide already exists", async () => {
+    it("should not update non-Null Left Sides", async () => {
       const questionnaire = await buildTestQuestionnaire({
         sections: [
           {
@@ -216,7 +263,14 @@ describe("Left Side Repository", () => {
                     },
                     {
                       expressionGroup: {
-                        expressions: [{}],
+                        expressions: [
+                          {
+                            left: {
+                              type: "Null",
+                              nullReason: NO_ROUTABLE_ANSWER_ON_PAGE,
+                            },
+                          },
+                        ],
                       },
                     },
                   ],
@@ -233,7 +287,7 @@ describe("Left Side Repository", () => {
       answer = page.answers[0];
       const answer2 = page.answers[1];
 
-      await LeftSideRepository.insertMissingDefaults(answer2);
+      await LeftSideRepository.setMissingDefaults(answer2);
       const readLeft1 = await LeftSideRepository.getByExpressionId(
         expression1.id
       );

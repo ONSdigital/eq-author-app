@@ -1,7 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
 
-import Transition from "App/questionPage/Routing/Transition";
+import Transition from "./Transition";
 
 describe("components/Routing/Transition", () => {
   it("should render", () => {

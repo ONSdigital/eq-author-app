@@ -1,166 +1,53 @@
 import React from "react";
-import { mount } from "enzyme";
-import { Redirect } from "react-router-dom";
+import { shallow } from "enzyme";
 
-import QuestionnaireRoutingRoute, { ROUTING_QUERY } from "./";
-import TestProvider from "tests/utils/TestProvider";
-import { buildSectionPath } from "utils/UrlUtils";
-import flushPromises from "tests/utils/flushPromises";
-import createRouterContext from "react-router-test-context";
-import PropTypes from "prop-types";
+import Loading from "components/Loading";
+import Error from "components/Error";
 
-describe("QuestionnaireRoutingPage", () => {
-  let store, match, context, childContextTypes;
+import RoutingPage from "./RoutingPage";
 
-  beforeEach(() => {
-    childContextTypes = { router: PropTypes.object };
+import { UnwrappedQuestionRoutingRoute } from "./";
 
-    match = {
-      params: { questionnaireId: "1", sectionId: "2", pageId: "3" },
-    };
-
-    store = {
-      getState: jest.fn(() => ({
-        toasts: {},
-        saving: {
-          apiDownError: false,
-        },
-      })),
-      subscribe: jest.fn(),
-      dispatch: jest.fn(),
-    };
-
-    context = createRouterContext({
-      location: { pathname: buildSectionPath(match.params) },
-      match,
-    });
+describe("Question Routing Route", () => {
+  it("should render a loading icon when loading", () => {
+    const wrapper = shallow(<UnwrappedQuestionRoutingRoute loading />);
+    expect(wrapper.find(Loading).exists()).toBe(true);
   });
 
-  describe("data fetching", () => {
-    const render = mocks =>
-      mount(
-        <TestProvider reduxProps={{ store }} apolloProps={{ mocks }}>
-          <QuestionnaireRoutingRoute match={match} />
-        </TestProvider>,
-        { context, childContextTypes }
-      );
-
-    it("should show loading spinner while request in flight", () => {
-      const mock = {
-        request: {
-          query: ROUTING_QUERY,
-          variables: match.params,
-        },
-        result: {
-          data: {
-            questionnaire: {
-              __typename: "Questionnaire",
-              id: "1",
-              title: "foo",
-              sections: [],
-            },
-            currentPage: {
-              __typename: "QuestionPage",
-              id: "3",
-              displayName: "hello world",
-              routingRuleSet: null,
-              answers: [],
-            },
-            availableRoutingDestinations: {
-              __typename: "AvailableRoutingDestinations",
-              logicalDestinations: [],
-              questionPages: [],
-              sections: [],
-            },
-          },
-        },
-      };
-
-      const wrapper = render([mock]);
-      expect(wrapper.find(`[data-test="loading"]`).exists()).toBe(true);
-      expect(wrapper.find(`[data-test="routing-editor"]`).exists()).toBe(false);
-    });
-
-    it("should render the editor once loaded", () => {
-      const mock = {
-        request: {
-          query: ROUTING_QUERY,
-          variables: match.params,
-        },
-        result: {
-          data: {
-            questionnaire: {
-              __typename: "Questionnaire",
-              id: "1",
-              title: "foo",
-              sections: [],
-            },
-            currentPage: {
-              __typename: "QuestionPage",
-              id: "3",
-              displayName: "hello world",
-              routingRuleSet: null,
-              answers: [],
-            },
-            availableRoutingDestinations: {
-              __typename: "AvailableRoutingDestinations",
-              logicalDestinations: [],
-              questionPages: [],
-              sections: [],
-            },
-          },
-        },
-      };
-
-      const wrapper = render([mock, mock]);
-
-      return flushPromises().then(() => {
-        wrapper.update();
-        expect(wrapper.find(`[data-test="loading"]`).exists()).toBe(false);
-        expect(wrapper.find(`[data-test="routing-editor"]`).exists()).toBe(
-          true
-        );
-      });
-    });
-
-    it("should render error if problem with request", () => {
-      const mock = {
-        request: {
-          query: ROUTING_QUERY,
-          variables: match.params,
-        },
-        error: new Error("something went wrong"),
-      };
-
-      const wrapper = render([mock]);
-
-      return flushPromises().then(() => {
-        wrapper.update();
-        expect(wrapper.find(`[data-test="loading"]`).exists()).toBe(false);
-        expect(wrapper.find(`[data-test="routing-editor"]`).exists()).toBe(
-          false
-        );
-        expect(wrapper.find(`[data-test="error"]`).exists()).toBe(true);
-      });
-    });
-  });
-
-  it("should redirect to the design path if the path is not a page", () => {
-    const match = {
-      params: {
-        questionnaireId: "1",
-        sectionId: "2",
-        tab: "routing",
-      },
-    };
-    const wrapper = mount(
-      <TestProvider reduxProps={{ store }} apolloProps={{ mocks: [] }}>
-        <QuestionnaireRoutingRoute match={match} />
-      </TestProvider>,
-      { context, childContextTypes }
+  it("should show an error when there is a server error", () => {
+    const wrapper = shallow(
+      <UnwrappedQuestionRoutingRoute
+        loading={false}
+        error={{ message: "Oh no" }}
+      />
     );
-    expect(wrapper.find(Redirect).props()).toMatchObject({
-      to: "/questionnaire/1/2/design",
+    expect(wrapper.find(Error).exists()).toBe(true);
+  });
+
+  it("should render an error when there is no data", () => {
+    const wrapper = shallow(
+      <UnwrappedQuestionRoutingRoute loading={false} data={undefined} />
+    );
+    expect(wrapper.find(Error).exists()).toBe(true);
+  });
+
+  it("should render the RoutingPage when data is loaded", () => {
+    const questionPage = {
+      id: "1",
+      displayName: "Untitled Page",
+      routing: null,
+    };
+    const wrapper = shallow(
+      <UnwrappedQuestionRoutingRoute
+        loading={false}
+        data={{
+          questionPage,
+        }}
+      />
+    );
+    expect(wrapper.find(RoutingPage).exists()).toBe(true);
+    expect(wrapper.find(RoutingPage).props()).toMatchObject({
+      page: questionPage,
     });
   });
 });

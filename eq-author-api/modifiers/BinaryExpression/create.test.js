@@ -1,5 +1,9 @@
 const conditions = require("../../constants/routingConditions");
 const answerTypes = require("../../constants/answerTypes");
+const {
+  NO_ROUTABLE_ANSWER_ON_PAGE,
+} = require("../../constants/routingNoLeftSide");
+
 const create = require("./create");
 
 const ROUTING_ID = 1;
@@ -96,10 +100,13 @@ describe("Create", () => {
     );
 
     expect(repositories.BinaryExpression2.insert).toHaveBeenCalledWith({
-      condition: null,
+      condition: undefined,
       groupId: EXPRESSION_GROUP_ID,
     });
-    expect(repositories.LeftSide2.insert).not.toHaveBeenCalled();
+    expect(repositories.LeftSide2.insert).toHaveBeenCalledWith({
+      expressionId: NEW_BINARY_EXPRESSION_ID,
+      nullReason: NO_ROUTABLE_ANSWER_ON_PAGE,
+    });
 
     expect(binaryExpression).toMatchObject({
       id: NEW_BINARY_EXPRESSION_ID,
@@ -119,10 +126,13 @@ describe("Create", () => {
     );
 
     expect(repositories.BinaryExpression2.insert).toHaveBeenCalledWith({
-      condition: null,
+      condition: undefined,
       groupId: EXPRESSION_GROUP_ID,
     });
-    expect(repositories.LeftSide2.insert).not.toHaveBeenCalled();
+    expect(repositories.LeftSide2.insert).toHaveBeenCalledWith({
+      expressionId: NEW_BINARY_EXPRESSION_ID,
+      nullReason: NO_ROUTABLE_ANSWER_ON_PAGE,
+    });
 
     expect(binaryExpression).toMatchObject({
       id: NEW_BINARY_EXPRESSION_ID,

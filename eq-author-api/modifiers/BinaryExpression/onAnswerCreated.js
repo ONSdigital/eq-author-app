@@ -14,7 +14,7 @@ module.exports = ({ repositories }) => async ({ questionPageId, id, type }) => {
   }
 
   const condition = answerTypeToConditions.getDefault(firstAnswerOnPage.type);
-  const newLeftSides = await repositories.LeftSide2.insertMissingDefaults(
+  const newLeftSides = await repositories.LeftSide2.setMissingDefaults(
     firstAnswerOnPage
   );
 

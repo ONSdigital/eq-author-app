@@ -41,18 +41,18 @@ const setAuthHeaders = createAuthHeaderMiddleware(apolloFetch);
 app.use(
   helmet({
     referrerPolicy: {
-      policy: "no-referrer"
+      policy: "no-referrer",
     },
     frameguard: {
-      action: "deny"
+      action: "deny",
     },
     contentSecurityPolicy: {
       directives: {
         defaultSrc: ["'self'"],
         objectSrc: ["'none'"],
-        baseUri: ["'none'"]
-      }
-    }
+        baseUri: ["'none'"],
+      },
+    },
   })
 );
 
