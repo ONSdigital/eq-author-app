@@ -129,10 +129,10 @@ Spins up the Storybook development server.
 
 ### Third party services
 
-| Name                      | Description                   | Required |
-| ------------------------- | ----------------------------- | -------- |
-| `REACT_APP_USE_SENTRY`    | Use Sentry for error checking | Yes      |
-| `REACT_APP_USE_FULLSTORY` | Use fullstory if set to true  | No       |
+| Name                      | Description                                     | Required |
+| ------------------------- | ----------------------------------------------- | -------- |
+| `REACT_APP_SENTRY_DSN`    | Use Sentry for error checking, by providing dsn | No       |
+| `REACT_APP_FULLSTORY_ORG` | Use fullstory, by providing org id              | No       |
 
 ### Runtime
 

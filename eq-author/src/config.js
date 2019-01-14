@@ -13,11 +13,11 @@ const config = {
     process.env.REACT_APP_FUNCTIONAL_TEST,
   REACT_APP_LAUNCH_URL:
     window.config.REACT_APP_LAUNCH_URL || process.env.REACT_APP_LAUNCH_URL,
-  REACT_APP_USE_FULLSTORY:
-    window.config.REACT_APP_USE_FULLSTORY ||
-    process.env.REACT_APP_USE_FULLSTORY,
-  REACT_APP_USE_SENTRY:
-    window.config.REACT_APP_USE_SENTRY || process.env.REACT_APP_USE_SENTRY
+  REACT_APP_FULLSTORY_ORG:
+    window.config.REACT_APP_FULLSTORY_ORG ||
+    process.env.REACT_APP_FULLSTORY_ORG,
+  REACT_APP_SENTRY_DSN:
+    window.config.REACT_APP_SENTRY_DSN || process.env.REACT_APP_SENTRY_DSN
 };
 
 export default config;

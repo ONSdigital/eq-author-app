@@ -166,7 +166,8 @@
       "src/**/*.{js,jsx}",
       "!src/**/*story.js",
       "!src/graphql/*.js",
-      "!src/tests/**/*.js"
+      "!src/tests/**/*.js",
+      "!src/index.js"
     ],
     "setupFiles": [
       "<rootDir>/src/tests/setup/throwOnConsole.js",

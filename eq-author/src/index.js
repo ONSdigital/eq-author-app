@@ -15,10 +15,8 @@ import appendAuthHeader from "utils/appendAuthHeader";
 
 import App from "App";
 
-if (config.REACT_APP_USE_SENTRY === "true") {
-  Raven.config(
-    "https://b72ac0e6b36344fca4698290bf9a191d@sentry.io/233989"
-  ).install();
+if (config.REACT_APP_SENTRY_DSN !== "") {
+  Raven.config(config.REACT_APP_SENTRY_DSN).install();
 }
 
 let store;

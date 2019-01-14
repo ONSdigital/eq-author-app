@@ -58,7 +58,9 @@ describe("auth actions", () => {
       });
 
       it("should anonymise user", () => {
-        const { signOutUser } = getActions({ REACT_APP_USE_FULLSTORY: "true" });
+        const { signOutUser } = getActions({
+          REACT_APP_FULLSTORY_ORG: "ORG_ID"
+        });
         return store.dispatch(signOutUser()).then(() => {
           expect(FS.identify).toHaveBeenCalledWith(false);
         });
@@ -108,7 +110,7 @@ describe("auth actions", () => {
       let FS;
 
       beforeEach(() => {
-        verifyAuthStatus = getActions({ REACT_APP_USE_FULLSTORY: "true" })
+        verifyAuthStatus = getActions({ REACT_APP_FULLSTORY_ORG: "ORG_ID" })
           .verifyAuthStatus;
         window.FS = FS = { identify: jest.fn() };
       });
