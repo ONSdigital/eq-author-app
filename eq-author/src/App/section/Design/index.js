@@ -213,8 +213,8 @@ const withSectionEditing = flowRight(
 const WrappedSectionRoute = withSectionEditing(UnwrappedSectionRoute);
 
 export const SECTION_QUERY = gql`
-  query SectionQuery($id: ID!) {
-    section(id: $id) {
+  query SectionQuery($input: QueryInput!) {
+    section(input: $input) {
       ...Section
       displayName
       position
@@ -231,7 +231,15 @@ export const SECTION_QUERY = gql`
 `;
 
 const SectionRoute = props => (
-  <Query query={SECTION_QUERY} variables={{ id: props.match.params.sectionId }}>
+  <Query
+    query={SECTION_QUERY}
+    variables={{
+      input: {
+        questionnaireId: props.match.params.questionnaireId,
+        sectionId: props.match.params.sectionId,
+      },
+    }}
+  >
     {innerProps => (
       <WrappedSectionRoute
         section={get(innerProps, "data.section", {})}

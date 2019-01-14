@@ -193,8 +193,8 @@ const withMutations = flowRight(
 );
 
 const QUESTIONNAIRE_QUERY = gql`
-  query GetQuestionnaire($id: ID!) {
-    questionnaire(id: $id) {
+  query GetQuestionnaire($input: QueryInput!) {
+    questionnaire(input: $input) {
       ...NavigationSidebar
     }
   }
@@ -204,7 +204,11 @@ const QUESTIONNAIRE_QUERY = gql`
 export default withMutations(props => (
   <Query
     query={QUESTIONNAIRE_QUERY}
-    variables={{ id: props.match.params.questionnaireId }}
+    variables={{
+      input: {
+        questionnaireId: props.match.params.questionnaireId,
+      },
+    }}
   >
     {innerProps => (
       <UnwrappedQuestionnaireDesignPage {...innerProps} {...props} />

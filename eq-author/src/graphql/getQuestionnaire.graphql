@@ -1,7 +1,7 @@
 #import "./fragments/questionnaire.graphql"
 
-query GetQuestionnaire($id: ID!) {
-  questionnaire(id: $id) {
+query GetQuestionnaire($input: QueryInput!) {
+  questionnaire(input: $input) {
     ...Questionnaire
     sections {
       id
