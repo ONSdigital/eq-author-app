@@ -1,12 +1,13 @@
 {
   "id": "1",
   "createdBy": "Samiwel",
+  "metadata": [],
   "sections": [
     {
       "id": "1",
       "alias": "",
       "title": "",
-      "introductionEnabled":false,
+      "introductionEnabled": false,
       "pages": [
         {
           "id": "1",
@@ -14,9 +15,7 @@
           "description": "",
           "guidance": "",
           "pageType": "QuestionPage",
-          "answers": [
-
-          ]
+          "answers": []
         },
         {
           "id": "2",
@@ -25,7 +24,32 @@
           "guidance": "",
           "pageType": "QuestionPage",
           "answers": [
-
+            {
+              "id": "1",
+              "type": "Number",
+              "validation": {
+                "minValue": {
+                  "id": "1",
+                  "enabled": false,
+                  "config": {
+                    "inclusive": false
+                  },
+                  "custom": null
+                },
+                "maxValue": {
+                  "id": "2",
+                  "enabled": false,
+                  "config": {
+                    "inclusive": false
+                  },
+                  "custom": null
+                }
+              },
+              "properties": {
+                "required": false,
+                "decimals": 2
+              }
+            }
           ]
         }
       ]

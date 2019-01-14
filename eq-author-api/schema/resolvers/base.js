@@ -6,50 +6,98 @@ const formatRichText = require("../../utils/formatRichText");
 const {
   getValidationEntity,
 } = require("../../repositories/strategies/validationStrategy");
-const { find, flatMap } = require("lodash/fp");
+const { find } = require("lodash/fp");
 const fs = require("fs");
+const uuid = require("uuid");
 
-const getQuestionnaire = ctx => questionnaireId => {
+const getQuestionnaire = ctx => input => {
   if (ctx.questionnaire) {
     return ctx.questionnaire;
   }
+  const { questionnaireId } = input;
   const questionnaire = fs.readFileSync(`data/${questionnaireId}.json`, "utf8");
   const result = JSON.parse(questionnaire);
   ctx.questionnaire = result;
   return result;
 };
 
+const getSection = ctx => input => {
+  const questionnaire = getQuestionnaire(ctx)(input);
+  const { sectionId } = input;
+  return find({ id: sectionId }, questionnaire.sections);
+};
+
+const getPage = ctx => input => {
+  const section = getSection(ctx)(input);
+  const { pageId } = input;
+  return find({ id: pageId }, section.pages);
+};
+
+const getAnswer = ctx => input => {
+  const page = getPage(ctx)(input);
+  const { answerId } = input;
+  return find({ id: answerId }, page.answers);
+};
+
+const getOption = ctx => input => {
+  const answer = getAnswer(ctx)(input);
+  const { optionId } = input;
+  return find({ id: optionId }, answer.options);
+};
+
+const createPage = (input = {}) => ({
+  id: uuid.v4(),
+  pageType: "QuestionPage",
+  title: "",
+  description: "",
+  answers: [],
+  ...input,
+});
+
+const createSection = (input = {}) => ({
+  id: uuid.v4(),
+  title: "",
+  introductionEnabled: false,
+  pages: [createPage()],
+  ...input,
+});
+
+const createQuestionnaire = input => ({
+  id: uuid.v4(),
+  title: null,
+  description: null,
+  theme: "default",
+  legalBasis: "Voluntary",
+  navigation: false,
+  surveyId: "",
+  createdAt: new Date(),
+  metadata: [],
+  sections: [createSection()],
+  ...input,
+});
+
+const save = questionnaire => {
+  fs.writeFileSync(
+    `data/${questionnaire.id}.json`,
+    JSON.stringify(questionnaire, null, 4)
+  );
+  return questionnaire;
+};
+
 const Resolvers = {
   Query: {
     questionnaires: (root, args, ctx) =>
       ctx.repositories.Questionnaire.findAll(),
-    questionnaire: (root, { input: { questionnaireId } }, ctx) =>
-      getQuestionnaire(ctx)(questionnaireId),
-    section: (root, { input: { questionnaireId, sectionId } }, ctx) => {
-      const questionnaire = getQuestionnaire(ctx)(questionnaireId);
-      return find({ id: sectionId }, questionnaire.sections);
-    },
-    page: (root, { input: { questionnaireId, sectionId, pageId } }, ctx) => {
-      const questionnaire = getQuestionnaire(ctx)(questionnaireId);
-      const section = find({ id: sectionId }, questionnaire.sections);
-      return find({ id: pageId }, section.pages);
-    },
-    questionPage: (
-      root,
-      { input: { questionnaireId, sectionId, pageId } },
-      ctx
-    ) => {
-      const questionnaire = getQuestionnaire(ctx)(questionnaireId);
-      console.log("questionnaire is ", questionnaire);
-      const section = find({ id: sectionId }, questionnaire.sections);
-
-      console.log("section is ", section);
-      return find({ id: pageId }, section.pages);
-    },
-    answer: (root, { id }, ctx) => find({ id }, page.answers),
+    questionnaire: (root, { input }, ctx) => getQuestionnaire(ctx)(input),
+    section: (root, { input }, ctx) => getSection(ctx)(input),
+    page: (root, { input }, ctx) => getPage(ctx)(input),
+    questionPage: (root, { input }, ctx) => getPage(ctx)(input),
+    answer: (root, { input }, ctx) => getAnswer(ctx)(input),
     answers: async (root, { ids }, ctx) =>
-      ctx.repositories.Answer.getAnswers(ids),
-    option: (root, { id }, ctx) => ctx.repositories.Option.getById(id),
+      ctx.repositories.Answer.getAnswers(ids), // TODO
+    option: (root, { input }, ctx) => getOption(ctx)(input),
+    availableRoutingDestinations: (root, { pageId }, ctx) =>
+      ctx.repositories.Routing.getRoutingDestinations(pageId),
     questionConfirmation: (root, { id }, ctx) =>
       ctx.repositories.QuestionConfirmation.findById(id),
     me: (root, args, ctx) => ({
@@ -60,20 +108,21 @@ const Resolvers = {
 
   Mutation: {
     createQuestionnaire: async (root, args, ctx) => {
-      const questionnaire = await ctx.repositories.Questionnaire.insert({
+      const questionnaire = createQuestionnaire({
         ...args.input,
         createdBy: ctx.auth.name,
       });
-      const section = {
-        title: "",
-        questionnaireId: questionnaire.id,
-      };
-
-      await Resolvers.Mutation.createSection(root, { input: section }, ctx);
-      return questionnaire;
+      return save(questionnaire);
     },
-    updateQuestionnaire: (_, args, ctx) =>
-      ctx.repositories.Questionnaire.update(args.input),
+    updateQuestionnaire: (_, { input }, ctx) => {
+      const questionnaire = getQuestionnaire(ctx)({
+        questionnaireId: input.id,
+      });
+      return save({
+        ...questionnaire,
+        ...input,
+      });
+    },
     deleteQuestionnaire: (_, args, ctx) =>
       ctx.repositories.Questionnaire.remove(args.input.id),
     undeleteQuestionnaire: (_, args, ctx) =>
@@ -81,20 +130,19 @@ const Resolvers = {
     duplicateQuestionnaire: (_, args, ctx) =>
       ctx.repositories.Questionnaire.duplicate(args.input.id, ctx.auth.name),
 
-    createSection: async (root, args, ctx) => {
-      const section = await ctx.repositories.Section.insert(args.input);
-      const page = {
-        pageType: "QuestionPage",
-        title: "",
-        description: "",
-        sectionId: section.id,
-      };
-
-      await Resolvers.Mutation.createPage(root, { input: page }, ctx);
+    createSection: async (root, { input }, ctx) => {
+      const questionnaire = getQuestionnaire(ctx)(input);
+      const section = createSection(input);
+      questionnaire.sections.push(section);
+      save(questionnaire);
       return section;
     },
-    updateSection: (_, { input }, ctx) =>
-      ctx.repositories.Section.update(input),
+    updateSection: (_, { input }, ctx) => {
+      const section = getSection(ctx)(input);
+
+      save(ctx.questionnaire);
+      return section;
+    },
     deleteSection: (_, args, ctx) =>
       ctx.repositories.Section.remove(args.input.id),
     undeleteSection: (_, args, ctx) =>
@@ -229,18 +277,17 @@ const Resolvers = {
   },
 
   Questionnaire: {
-    sections: (questionnaire, args, ctx) => questionnaire.sections,
+    sections: questionnaire => questionnaire.sections,
     createdBy: questionnaire => ({
       id: questionnaire.createdBy, // Temporary until next PR introduces users table.
       name: questionnaire.createdBy,
     }),
     questionnaireInfo: questionnaire => questionnaire,
-    metadata: (questionnaire, args, ctx) => questionnaire.metadata,
+    metadata: questionnaire => questionnaire.metadata,
   },
 
   QuestionnaireInfo: {
-    totalSectionCount: (questionnaire, args, ctx) =>
-      questionnaire.sections.length,
+    totalSectionCount: questionnaire => questionnaire.sections.length,
   },
 
   Section: {
@@ -275,15 +322,13 @@ const Resolvers = {
   },
 
   QuestionPage: {
-    answers: ({ id }, args, ctx) =>
-      ctx.repositories.Answer.findAll({ questionPageId: id }),
+    answers: page => page.answers,
     section: ({ sectionId }, args, ctx) =>
       find({ id: sectionId }, ctx.questionnaire.sections),
     position: (page, args, ctx) => Resolvers.Page.position(page, args, ctx),
     displayName: page => getName(page, "QuestionPage"),
     title: (page, args) => formatRichText(page.title, args.format),
-    confirmation: async (page, args, ctx) =>
-      ctx.repositories.QuestionConfirmation.findByPageId(page.id),
+    confirmation: page => page.confirmation,
     availablePipingAnswers: ({ id }, args, ctx) =>
       ctx.repositories.QuestionPage.getPipingAnswersForQuestionPage(id),
     availablePipingMetadata: ({ id }, args, ctx) =>
@@ -418,52 +463,20 @@ const Resolvers = {
   },
 
   NumberValidation: {
-    minValue: (answer, args, ctx) =>
-      ctx.repositories.Validation.findByAnswerIdAndValidationType(
-        answer,
-        "minValue"
-      ),
-    maxValue: (answer, args, ctx) =>
-      ctx.repositories.Validation.findByAnswerIdAndValidationType(
-        answer,
-        "maxValue"
-      ),
+    minValue: answer => answer.validation.minValue,
+    maxValue: answer => answer.validation.maxValue,
   },
 
   DateValidation: {
-    earliestDate: (answer, args, ctx) =>
-      ctx.repositories.Validation.findByAnswerIdAndValidationType(
-        answer,
-        "earliestDate"
-      ),
-    latestDate: (answer, args, ctx) =>
-      ctx.repositories.Validation.findByAnswerIdAndValidationType(
-        answer,
-        "latestDate"
-      ),
+    earliestDate: answer => answer.validation.earliestDate,
+    latestDate: answer => answer.validation.latestDate,
   },
 
   DateRangeValidation: {
-    earliestDate: (answer, args, ctx) =>
-      ctx.repositories.Validation.findByAnswerIdAndValidationType(
-        answer,
-        "earliestDate"
-      ),
-    latestDate: (answer, args, ctx) =>
-      ctx.repositories.Validation.findByAnswerIdAndValidationType(
-        answer,
-        "latestDate"
-      ),
-    minDuration: (answer, args, ctx) =>
-      ctx.repositories.Validation.findByAnswerIdAndValidationType(
-        answer,
-        "minDuration"
-      ),
-    maxDuration: (answer, args, ctx) =>
-      ctx.repositories.Validation.findByAnswerIdAndValidationType(
-        answer,
-        "maxDuration"
-      ),
+    earliestDate: answer => answer.validation.earliestDate,
+    latestDate: answer => answer.validation.latestDate,
+    minDuration: answer => answer.validation.minDuration,
+    maxDuration: answer => answer.validation.maxDuration,
   },
 
   MinValueValidationRule: {
