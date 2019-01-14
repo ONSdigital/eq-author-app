@@ -6,8 +6,8 @@ import gql from "graphql-tag";
 import metadataFragment from "graphql/fragments/metadata.graphql";
 
 export const METADATA_QUERY = gql`
-  query GetQuestionnaireWithMetadata($id: ID!) {
-    questionnaire(id: $id) {
+  query GetQuestionnaireWithMetadata($input: QueryInput!) {
+    questionnaire(input: $input) {
       id
       metadata {
         ...Metadata
@@ -18,7 +18,7 @@ export const METADATA_QUERY = gql`
 `;
 
 const GetMetadataQuery = ({ questionnaireId, children }) => (
-  <Query query={METADATA_QUERY} variables={{ id: questionnaireId }}>
+  <Query query={METADATA_QUERY} variables={{ input: { questionnaireId } }}>
     {({ loading, error, data }) => children({ loading, error, data })}
   </Query>
 );

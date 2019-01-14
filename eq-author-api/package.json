@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "start": "node app.js",
-    "start:dev": "NODE_ENV=development nodemon --inspect=0.0.0.0:5858",
+    "start:dev": "NODE_ENV=development nodemon --ignore 'data/' --inspect=0.0.0.0:5858",
     "lint": "eslint .",
     "test": "./scripts/test.sh",
     "test:breakingChanges": "node scripts/checkForBreakingChanges.js",
@@ -34,6 +34,7 @@
     "node-jose": "latest",
     "pg": "latest",
     "pg-hstore": "latest",
+    "uuid": "latest",
     "wait-for-postgres": "latest"
   },
   "engines": {

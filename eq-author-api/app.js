@@ -12,24 +12,12 @@ const createAuthMiddleware = require("./middleware/auth");
 const repositories = require("./repositories");
 const modifiers = require("./modifiers");
 const schema = require("./schema");
-const fs = require("fs");
 
 const app = express();
 const pino = pinoMiddleware();
 const logger = pino.logger;
 
 const db = require("./db");
-
-const createLoadQuestionnaireMiddleware = (logger, context) => (
-  req,
-  res,
-  next
-) => {
-  const questionnaire = fs.readFileSync("data/1.json", "utf8");
-  context.questionnaire = JSON.parse(questionnaire);
-
-  next();
-};
 
 db(process.env.DB_SECRET_ID)
   .then(async conf => {
@@ -42,10 +30,6 @@ db(process.env.DB_SECRET_ID)
     const context = { repositories: repos, modifiers: modifiers(repos) };
 
     const authMiddleware = createAuthMiddleware(logger, context);
-    const loadQuestionnaireMiddleware = createLoadQuestionnaireMiddleware(
-      logger,
-      context
-    );
 
     app.use(
       "/graphql",
@@ -72,7 +56,6 @@ db(process.env.DB_SECRET_ID)
       pino,
       cors(),
       authMiddleware,
-      loadQuestionnaireMiddleware,
       bodyParser.json(),
       graphqlExpress({
         schema,

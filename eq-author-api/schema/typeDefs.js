@@ -674,6 +674,7 @@ input CreateSectionInput {
 }
 
 input UpdateSectionInput {
+  questionnaireId: ID!
   id: ID!
   title: String
   alias: String
