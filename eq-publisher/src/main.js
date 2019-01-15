@@ -38,7 +38,14 @@ const app = express();
 const setAuthHeaders = createAuthHeaderMiddleware(apolloFetch);
 
 if (process.env.NODE_ENV === "development") {
-  app.get("/graphql/:questionnaireId", logger, fetchData(api), respondWithData);
+  app.get(
+    "/graphql/:questionnaireId",
+    logger,
+    createAuthToken,
+    setAuthHeaders,
+    fetchData(api),
+    respondWithData
+  );
 }
 
 app.get(
