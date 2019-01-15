@@ -94,6 +94,25 @@ describe("builder", () => {
     );
   });
 
+  it("Can edit question definition", () => {
+    const definitionLabel = "this is some definition label";
+    cy.get(testId("txt-question-definition-label")).type(definitionLabel);
+    cy.get(testId("txt-question-definition-label")).should(
+      "contain",
+      definitionLabel
+    );
+
+    const definitionContent = "this is some definition content";
+    typeIntoDraftEditor(
+      testId("txt-question-definition-content", "testid"),
+      definitionContent
+    );
+    cy.get(testId("txt-question-definition-content", "testid")).should(
+      "contain",
+      definitionContent
+    );
+  });
+
   it("Can delete a page", () => {
     checkIsOnDesignPage();
 

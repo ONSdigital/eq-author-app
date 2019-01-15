@@ -10,6 +10,8 @@ describe("updateQuestionPage", () => {
         title
         description
         guidance
+        definitionLabel
+        definitionContent
       }
     }
   `;
@@ -28,7 +30,9 @@ describe("updateQuestionPage", () => {
       alias: "Updated question alias",
       title: "Updated question title",
       description: "This is an updated question description",
-      guidance: "Updated question description"
+      guidance: "Updated question description",
+      definitionLabel: "Updated question definition label",
+      definitionContent: "Updated question definition content"
     };
 
     const result = await executeQuery(

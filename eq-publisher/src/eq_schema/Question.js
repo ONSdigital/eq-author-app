@@ -1,6 +1,6 @@
 const Answer = require("./Answer");
 const {
-  parseGuidance,
+  parseContent,
   getInnerHTMLWithPiping,
   unescapePiping
 } = require("../utils/HTMLUtils");
@@ -23,18 +23,29 @@ const processPipedText = ctx =>
     convertPipes(ctx),
     getInnerHTMLWithPiping
   );
-const processGuidance = ctx =>
+
+const processContent = ctx =>
   flow(
     convertPipes(ctx),
-    parseGuidance
+    parseContent
   );
 
 class Question {
   constructor(question, ctx) {
     this.id = `question${question.id}`;
     this.title = processPipedText(ctx)(question.title);
-    this.guidance = processGuidance(ctx)(question.guidance);
+    this.description = processPipedText(ctx)(question.description);
+    this.guidance = processContent(ctx)(question.guidance);
     this.description = unescapePiping(convertPipes(ctx)(question.description));
+
+    if (question.definitionLabel || question.definitionContent) {
+      this.definitions = [
+        {
+          title: question.definitionLabel,
+          ...processContent(ctx)(question.definitionContent)
+        }
+      ];
+    }
 
     const dateRange = findDateRange(question);
 

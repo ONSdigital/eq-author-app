@@ -66,6 +66,50 @@ describe("Question", () => {
     });
   });
 
+  describe("defintions", () => {
+    describe("when there is content", () => {
+      it("should be populated when both label and content", () => {
+        const question = new Question(
+          createQuestionJSON({
+            definitionLabel: "definition label",
+            definitionContent: "<p>definition content</p>"
+          })
+        );
+        expect(question.definitions).toBeDefined();
+      });
+      it("should be populated when label and no content", () => {
+        const question = new Question(
+          createQuestionJSON({
+            definitionLabel: "definition label",
+            definitionContent: ""
+          })
+        );
+        expect(question.definitions).toBeDefined();
+      });
+      it("should be populated when no label and content", () => {
+        const question = new Question(
+          createQuestionJSON({
+            definitionLabel: "",
+            definitionContent: "<p>definition content</p>"
+          })
+        );
+        expect(question.definitions).toBeDefined();
+      });
+    });
+
+    describe("when there is no content", () => {
+      it("should be undefined when neither label or content", () => {
+        const question = new Question(
+          createQuestionJSON({
+            definitionLabel: "",
+            definitionContent: ""
+          })
+        );
+        expect(question.guidance).toBeUndefined();
+      });
+    });
+  });
+
   describe("DateRange", () => {
     let validation = {};
     beforeEach(() => {

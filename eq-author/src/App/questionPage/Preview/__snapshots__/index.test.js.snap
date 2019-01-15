@@ -10,6 +10,8 @@ exports[`PreviewPageRoute should render 1`] = `
           "type": "TextField",
         },
       ],
+      "definitionContent": "<p>Definition Content</p>",
+      "definitionLabel": "<p>Definition Label</p>",
       "description": "<p>Description</p>",
       "displayName": "Question",
       "guidance": "<p>Guidance</p>",
@@ -51,6 +53,22 @@ exports[`PreviewPageRoute should render 1`] = `
         }
       />
     </Preview__Guidance>
+    <Preview__Details
+      data-test="definition"
+    >
+      <Preview__DetailsTitle>
+        &lt;p&gt;Definition Label&lt;/p&gt;
+      </Preview__DetailsTitle>
+      <Preview__DetailsContent>
+        <span
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "<p>Definition Content</p>",
+            }
+          }
+        />
+      </Preview__DetailsContent>
+    </Preview__Details>
     <Preview__Answers>
       <Answer
         answer={

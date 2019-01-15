@@ -10,6 +10,8 @@ describe("createQuestionPage", () => {
         alias
         description
         guidance
+        definitionLabel
+        definitionContent
       }
     }
   `;
@@ -28,7 +30,9 @@ describe("createQuestionPage", () => {
       alias: "Test alias",
       description: "Test question description",
       guidance: "Test question guidance",
-      sectionId: "1"
+      sectionId: "1",
+      definitionLabel: "Test question definition label",
+      definitionContent: "Test question definition content"
     };
 
     const result = await executeQuery(

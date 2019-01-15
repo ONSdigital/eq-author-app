@@ -39,7 +39,7 @@ const mapElementToObject = elem => {
   }
 };
 
-const parseGuidance = html => {
+const parseContent = html => {
   const content = cheerio(html)
     .filter((i, elem) => getInnerHTML(elem) !== "")
     .map((i, elem) => mapElementToObject(elem))
@@ -55,7 +55,7 @@ const parseGuidance = html => {
 module.exports = {
   getInnerHTML,
   getText,
-  parseGuidance,
+  parseContent,
   getInnerHTMLWithPiping,
   unescapePiping
 };

@@ -66,6 +66,13 @@ describe("convertPipes", () => {
     });
 
     describe("formatting", () => {
+      it("should format Date Range answers with `format_date`", () => {
+        const html = createPipe({ id: "123", type: "DateRange" });
+        expect(convertPipes(createContext())(html)).toEqual(
+          "{{ answers['answer123'] | format_date }}"
+        );
+      });
+
       it("should format Date answers with `format_date`", () => {
         const html = createPipe({ id: "123", type: "Date" });
         expect(convertPipes(createContext())(html)).toEqual(

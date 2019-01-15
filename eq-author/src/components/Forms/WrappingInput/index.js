@@ -23,6 +23,7 @@ class WrappingInput extends React.Component {
   static propTypes = {
     value: PropTypes.string.isRequired,
     onChange: PropTypes.func.isRequired,
+    onBlur: PropTypes.func.isRequired,
     onKeyDown: PropTypes.func,
     id: PropTypes.string.isRequired,
     bold: PropTypes.bool,
@@ -48,7 +49,6 @@ class WrappingInput extends React.Component {
 
   render() {
     const { bold, placeholder, ...otherProps } = this.props;
-
     return (
       <StyleContext
         bold={bold}

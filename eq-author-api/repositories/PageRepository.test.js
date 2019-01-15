@@ -29,7 +29,9 @@ const buildPage = page => ({
   alias: "Page alias",
   title: "Test page",
   description: "page description",
-  guidance: "page description",
+  guidance: "page guidance",
+  definitionLabel: "page definitionLabel",
+  definitionContent: "page definitionContent",
   pageType: "QuestionPage",
   ...page
 });

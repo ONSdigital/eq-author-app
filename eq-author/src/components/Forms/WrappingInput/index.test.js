@@ -3,13 +3,19 @@ import { mount } from "enzyme";
 import WrappingInput from ".";
 
 describe("WrappingInput", () => {
-  let component, handleChange;
+  let component, handleChange, handleUpdate;
 
   beforeEach(() => {
     handleChange = jest.fn();
+    handleUpdate = jest.fn();
 
     component = mount(
-      <WrappingInput id="foo" value="123" onChange={handleChange} />
+      <WrappingInput
+        id="foo"
+        value="123"
+        onChange={handleChange}
+        onBlur={handleUpdate}
+      />
     );
   });
 

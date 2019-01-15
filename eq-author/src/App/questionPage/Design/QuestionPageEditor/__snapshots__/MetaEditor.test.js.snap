@@ -33,7 +33,7 @@ exports[`MetaEditor should render 1`] = `
     }
     fetchAnswers={[Function]}
     id="question-description"
-    label="Question description (optional)…"
+    label="Question description"
     metadata={Array []}
     multiline={true}
     name="description"
@@ -42,6 +42,52 @@ exports[`MetaEditor should render 1`] = `
     testSelector="txt-question-description"
     value="Page description"
   />
+  <DefinitionEditor
+    label="Question definition"
+  >
+    <MetaEditor__Paragraph>
+      Only to be used to define word(s) or acronym(s) within the question.
+    </MetaEditor__Paragraph>
+    <Field
+      last={false}
+    >
+      <Label
+        bold={true}
+        htmlFor="definition-label"
+      >
+        Label
+      </Label>
+      <withChangeHandler(WrappingInput)
+        bold={true}
+        data-test="txt-question-definition-label"
+        id="definition-label"
+        name="definitionLabel"
+        onBlur={[MockFunction]}
+        onChange={[MockFunction]}
+        value="Page definition label"
+      />
+    </Field>
+    <RichTextEditor
+      autoFocus={false}
+      controls={
+        Object {
+          "bold": true,
+          "emphasis": true,
+          "piping": true,
+        }
+      }
+      fetchAnswers={[Function]}
+      id="definition-content"
+      label="Content"
+      metadata={Array []}
+      multiline={true}
+      name="definitionContent"
+      onUpdate={[Function]}
+      placeholder=""
+      testSelector="txt-question-definition-content"
+      value="Page definition content"
+    />
+  </DefinitionEditor>
   <RichTextEditor
     autoFocus={false}
     controls={
@@ -54,7 +100,7 @@ exports[`MetaEditor should render 1`] = `
     }
     fetchAnswers={[Function]}
     id="question-guidance"
-    label="Include and exclude guidance"
+    label="Include/exclude"
     metadata={Array []}
     multiline={true}
     name="guidance"
