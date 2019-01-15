@@ -1,49 +1,72 @@
 const { GraphQLDate } = require("graphql-iso-date");
-const { includes, isNil, pick } = require("lodash");
+const {
+  includes,
+  isNil,
+  pick,
+  find,
+  findIndex,
+  set,
+  merge,
+  remove,
+  flatMap,
+} = require("lodash");
 const GraphQLJSON = require("graphql-type-json");
 const { getName } = require("../../utils/getName");
 const formatRichText = require("../../utils/formatRichText");
 const {
   getValidationEntity,
 } = require("../../repositories/strategies/validationStrategy");
-const { find } = require("lodash/fp");
 const fs = require("fs");
 const uuid = require("uuid");
+const stringify = require("json-stable-stringify");
 
-const getQuestionnaire = ctx => input => {
-  if (ctx.questionnaire) {
+const loadQuestionnaire = questionnaireId =>
+  fs.readFileSync(`data/${questionnaireId}.json`, "utf8");
+
+const getQuestionnaire = ctx => ({ questionnaireId }) => {
+  if (!questionnaireId) {
+    throw new Error("questionnaireId not supplied");
+  }
+
+  if (ctx && ctx.questionnaire && ctx.questionnaire.id === questionnaireId) {
     return ctx.questionnaire;
   }
-  const { questionnaireId } = input;
-  const questionnaire = fs.readFileSync(`data/${questionnaireId}.json`, "utf8");
-  const result = JSON.parse(questionnaire);
-  ctx.questionnaire = result;
-  return result;
+
+  ctx.questionnaire = JSON.parse(loadQuestionnaire(questionnaireId));
+  return ctx.questionnaire;
 };
 
 const getSection = ctx => input => {
   const questionnaire = getQuestionnaire(ctx)(input);
-  const { sectionId } = input;
-  return find({ id: sectionId }, questionnaire.sections);
+  return find(questionnaire.sections, { id: input.sectionId });
 };
 
 const getPage = ctx => input => {
-  const section = getSection(ctx)(input);
-  const { pageId } = input;
-  return find({ id: pageId }, section.pages);
+  const questionnaire = getQuestionnaire(ctx)(input);
+  const pages = flatMap(questionnaire.sections, section => section.pages);
+  return find(pages, { id: input.pageId });
 };
 
 const getAnswer = ctx => input => {
-  const page = getPage(ctx)(input);
-  const { answerId } = input;
-  return find({ id: answerId }, page.answers);
+  const questionnaire = getQuestionnaire(ctx)(input);
+  const answers = flatMap(questionnaire.sections, section =>
+    flatMap(section.pages, page => page.answers)
+  );
+  return find(answers, { id: input.answerId });
 };
 
 const getOption = ctx => input => {
-  const answer = getAnswer(ctx)(input);
-  const { optionId } = input;
-  return find({ id: optionId }, answer.options);
+  const questionnaire = getQuestionnaire(ctx)(input);
+  const options = flatMap(questionnaire.sections, section =>
+    flatMap(section.pages, page =>
+      flatMap(page.answers, answer => answer.options)
+    )
+  );
+  return find(options, { id: input.optionId });
 };
+
+const findSectionByPageId = (sections, id) =>
+  find(sections, section => find(section.pages, { id }));
 
 const createPage = (input = {}) => ({
   id: uuid.v4(),
@@ -79,7 +102,7 @@ const createQuestionnaire = input => ({
 const save = questionnaire => {
   fs.writeFileSync(
     `data/${questionnaire.id}.json`,
-    JSON.stringify(questionnaire, null, 4)
+    stringify(questionnaire, { space: 4 })
   );
   return questionnaire;
 };
@@ -138,13 +161,16 @@ const Resolvers = {
       return section;
     },
     updateSection: (_, { input }, ctx) => {
-      const section = getSection(ctx)(input);
-
-      save(ctx.questionnaire);
+      const questionnaire = getQuestionnaire(ctx)(input);
+      const section = find(questionnaire.sections, { id: input.id });
+      merge(section, input);
+      save(questionnaire);
       return section;
     },
-    deleteSection: (_, args, ctx) =>
-      ctx.repositories.Section.remove(args.input.id),
+    deleteSection: (root, { input }, ctx) => {
+      const questionnaire = getQuestionnaire(ctx)(input);
+      return remove(questionnaire.sections, { id: input.sectionId });
+    },
     undeleteSection: (_, args, ctx) =>
       ctx.repositories.Section.undelete(args.input.id),
     createSectionIntroduction: (
@@ -182,7 +208,14 @@ const Resolvers = {
         args.input.position
       ),
 
-    createPage: (root, args, ctx) => ctx.repositories.Page.insert(args.input),
+    createPage: (root, { input }, ctx) => {
+      const questionnaire = getQuestionnaire(ctx)(input);
+      const section = find(questionnaire.section, { id: input.sectionId });
+      const page = createPage();
+      section.pages.push(page);
+      save(questionnaire);
+      return page;
+    },
 
     updatePage: (_, args, ctx) => ctx.repositories.Page.update(args.input),
     deletePage: (_, args, ctx) => ctx.repositories.Page.remove(args.input.id),
@@ -192,10 +225,14 @@ const Resolvers = {
     duplicatePage: (_, args, ctx) =>
       ctx.repositories.Page.duplicatePage(args.input.id, args.input.position),
 
-    createQuestionPage: (root, args, ctx) =>
-      ctx.repositories.Page.insert(
-        Object.assign({}, args.input, { pageType: "QuestionPage" })
-      ),
+    createQuestionPage: (root, { input }, ctx) => {
+      const questionnaire = getQuestionnaire(ctx)(input);
+      const section = find(questionnaire.sections, { id: input.sectionId });
+      const page = createPage();
+      section.pages.push(page);
+      save(questionnaire);
+      return page;
+    },
     updateQuestionPage: (_, args, ctx) =>
       ctx.repositories.QuestionPage.update(args.input),
     deleteQuestionPage: (_, args, ctx) =>
@@ -271,7 +308,7 @@ const Resolvers = {
         negativeDescription: negative.description,
       }),
     deleteQuestionConfirmation: (_, { input }, ctx) =>
-      ctx.repositories.QuestionConfirmation.delete(input),
+      ctx.repositories.QuestionConfirmation.delete(ctx)(input),
     undeleteQuestionConfirmation: (_, { input }, ctx) =>
       ctx.repositories.QuestionConfirmation.restore(input.id),
   },
@@ -311,21 +348,20 @@ const Resolvers = {
 
   Page: {
     __resolveType: ({ pageType }) => pageType,
-    position: () => 1,
-    // position: ({ position, id }, args, ctx) => {
-    //   if (position !== undefined) {
-    //     return position;
-    //   }
-    //
-    //   return ctx.repositories.Page.getPosition({ id });
-    // }
+    position: ({ id }, args, ctx) => {
+      const section = findSectionByPageId(ctx.questionnaire.sections, id);
+      return findIndex(section.pages, { id });
+    },
   },
 
   QuestionPage: {
     answers: page => page.answers,
-    section: ({ sectionId }, args, ctx) =>
-      find({ id: sectionId }, ctx.questionnaire.sections),
-    position: (page, args, ctx) => Resolvers.Page.position(page, args, ctx),
+    section: ({ id }, input, ctx) =>
+      findSectionByPageId(ctx.questionnaire.sections, id),
+    position: ({ id }, args, ctx) => {
+      const section = findSectionByPageId(ctx.questionnaire.sections, id);
+      return findIndex(section.pages, { id });
+    },
     displayName: page => getName(page, "QuestionPage"),
     title: (page, args) => formatRichText(page.title, args.format),
     confirmation: page => page.confirmation,
