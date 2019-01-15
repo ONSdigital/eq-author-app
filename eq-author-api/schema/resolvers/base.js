@@ -20,44 +20,24 @@ const fs = require("fs");
 const uuid = require("uuid");
 const stringify = require("json-stable-stringify");
 
-const loadQuestionnaire = questionnaireId =>
-  fs.readFileSync(`data/${questionnaireId}.json`, "utf8");
-
-const getQuestionnaire = ctx => ({ questionnaireId }) => {
-  if (!questionnaireId) {
-    throw new Error("questionnaireId not supplied");
-  }
-
-  if (ctx && ctx.questionnaire && ctx.questionnaire.id === questionnaireId) {
-    return ctx.questionnaire;
-  }
-
-  ctx.questionnaire = JSON.parse(loadQuestionnaire(questionnaireId));
-  return ctx.questionnaire;
-};
-
 const getSection = ctx => input => {
-  const questionnaire = getQuestionnaire(ctx)(input);
-  return find(questionnaire.sections, { id: input.sectionId });
+  return find(ctx.questionnaire.sections, { id: input.sectionId });
 };
 
 const getPage = ctx => input => {
-  const questionnaire = getQuestionnaire(ctx)(input);
-  const pages = flatMap(questionnaire.sections, section => section.pages);
+  const pages = flatMap(ctx.questionnaire.sections, section => section.pages);
   return find(pages, { id: input.pageId });
 };
 
 const getAnswer = ctx => input => {
-  const questionnaire = getQuestionnaire(ctx)(input);
-  const answers = flatMap(questionnaire.sections, section =>
+  const answers = flatMap(ctx.questionnaire.sections, section =>
     flatMap(section.pages, page => page.answers)
   );
   return find(answers, { id: input.answerId });
 };
 
 const getOption = ctx => input => {
-  const questionnaire = getQuestionnaire(ctx)(input);
-  const options = flatMap(questionnaire.sections, section =>
+  const options = flatMap(ctx.questionnaire.sections, section =>
     flatMap(section.pages, page =>
       flatMap(page.answers, answer => answer.options)
     )
@@ -111,7 +91,7 @@ const Resolvers = {
   Query: {
     questionnaires: (root, args, ctx) =>
       ctx.repositories.Questionnaire.findAll(),
-    questionnaire: (root, { input }, ctx) => getQuestionnaire(ctx)(input),
+    questionnaire: (root, args, ctx) => ctx.questionnaire,
     section: (root, { input }, ctx) => getSection(ctx)(input),
     page: (root, { input }, ctx) => getPage(ctx)(input),
     questionPage: (root, { input }, ctx) => getPage(ctx)(input),
@@ -138,11 +118,8 @@ const Resolvers = {
       return save(questionnaire);
     },
     updateQuestionnaire: (_, { input }, ctx) => {
-      const questionnaire = getQuestionnaire(ctx)({
-        questionnaireId: input.id,
-      });
       return save({
-        ...questionnaire,
+        ...ctx.questionnaire,
         ...input,
       });
     },
@@ -154,22 +131,19 @@ const Resolvers = {
       ctx.repositories.Questionnaire.duplicate(args.input.id, ctx.auth.name),
 
     createSection: async (root, { input }, ctx) => {
-      const questionnaire = getQuestionnaire(ctx)(input);
       const section = createSection(input);
-      questionnaire.sections.push(section);
-      save(questionnaire);
+      ctx.questionnaire.sections.push(section);
+      save(ctx.questionnaire);
       return section;
     },
     updateSection: (_, { input }, ctx) => {
-      const questionnaire = getQuestionnaire(ctx)(input);
-      const section = find(questionnaire.sections, { id: input.id });
+      const section = find(ctx.questionnaire.sections, { id: input.id });
       merge(section, input);
-      save(questionnaire);
+      save(ctx.questionnaire);
       return section;
     },
     deleteSection: (root, { input }, ctx) => {
-      const questionnaire = getQuestionnaire(ctx)(input);
-      return remove(questionnaire.sections, { id: input.sectionId });
+      return remove(ctx.questionnaire.sections, { id: input.sectionId });
     },
     undeleteSection: (_, args, ctx) =>
       ctx.repositories.Section.undelete(args.input.id), // TODO
@@ -181,11 +155,10 @@ const Resolvers = {
       ),
 
     createPage: (root, { input }, ctx) => {
-      const questionnaire = getQuestionnaire(ctx)(input);
-      const section = find(questionnaire.section, { id: input.sectionId });
+      const section = find(ctx.questionnaire.section, { id: input.sectionId });
       const page = createPage();
       section.pages.push(page);
-      save(questionnaire);
+      save(ctx.questionnaire);
       return page;
     },
 
@@ -198,11 +171,10 @@ const Resolvers = {
       ctx.repositories.Page.duplicatePage(args.input.id, args.input.position),
 
     createQuestionPage: (root, { input }, ctx) => {
-      const questionnaire = getQuestionnaire(ctx)(input);
-      const section = find(questionnaire.sections, { id: input.sectionId });
+      const section = find(ctx.questionnaire.sections, { id: input.sectionId });
       const page = createPage();
       section.pages.push(page);
-      save(questionnaire);
+      save(ctx.questionnaire);
       return page;
     },
     updateQuestionPage: (_, args, ctx) =>

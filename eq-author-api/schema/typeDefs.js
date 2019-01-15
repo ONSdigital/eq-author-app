@@ -673,7 +673,6 @@ input CreateSectionInput {
 }
 
 input UpdateSectionInput {
-  questionnaireId: ID!
   id: ID!
   title: String
   alias: String
@@ -696,7 +695,6 @@ input DuplicateSectionInput {
 }
 
 input CreatePageInput {
-  questionnaireId: ID!
   title: String!
   description: String
   sectionId: ID!
@@ -723,7 +721,6 @@ input DuplicatePageInput {
 }
 
 input CreateQuestionPageInput {
-  questionnaireId: ID!
   title: String!
   alias: String
   description: String
