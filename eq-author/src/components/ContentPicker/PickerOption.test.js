@@ -8,7 +8,7 @@ import PickerOption from "components/ContentPicker/PickerOption";
 describe("PickerOption", () => {
   const props = {
     onClick: jest.fn(),
-    selected: false
+    selected: false,
   };
   it("should render", () => {
     const wrapper = shallow(<PickerOption {...props}>Option</PickerOption>);

@@ -37,7 +37,7 @@ describe("PositionModal", () => {
       .simulate("click");
 
     getItemSelectModal(wrapper).simulate("confirm", {
-      preventDefault: jest.fn()
+      preventDefault: jest.fn(),
     });
 
     expect(getItemSelectModal(wrapper).prop("isOpen")).toBe(false);
@@ -75,7 +75,7 @@ describe("PositionModal", () => {
     getItemSelect(wrapper).simulate("change", { value: position });
 
     getItemSelectModal(wrapper).simulate("confirm", {
-      preventDefault: jest.fn()
+      preventDefault: jest.fn(),
     });
 
     expect(getItemSelectModal(wrapper).prop("isOpen")).toBe(false);

@@ -1,6 +1,6 @@
 import React from "react";
 import GroupedSelect, {
-  textSelect
+  textSelect,
 } from "App/questionPage/Routing/GroupedSelect";
 import { shallow, mount } from "enzyme";
 
@@ -12,8 +12,8 @@ describe("GroupedSelect", () => {
       options: [
         { label: "a", value: "1" },
         { label: "b", value: "2" },
-        { label: "c", value: "3" }
-      ]
+        { label: "c", value: "3" },
+      ],
     },
     {
       label: "bar",
@@ -21,9 +21,9 @@ describe("GroupedSelect", () => {
       options: [
         { label: "d", value: "4" },
         { label: "e", value: "5" },
-        { label: "f", value: "6" }
-      ]
-    }
+        { label: "f", value: "6" },
+      ],
+    },
   ];
 
   it("renders", () => {
@@ -49,7 +49,7 @@ describe("GroupedSelect", () => {
 
     expect(handleChange).toHaveBeenCalledWith({
       value: "1",
-      name: "test"
+      name: "test",
     });
   });
 

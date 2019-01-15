@@ -24,20 +24,20 @@ export default class ContentPicker extends React.Component {
     onClose: PropTypes.func,
     data: PropTypes.arrayOf(
       PropTypes.shape({
-        id: PropTypes.string.isRequired
+        id: PropTypes.string.isRequired,
       })
     ).isRequired,
     config: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.string.isRequired,
         title: PropTypes.string.isRequired,
-        childKey: PropTypes.string
+        childKey: PropTypes.string,
       })
-    ).isRequired
+    ).isRequired,
   };
 
   state = {
-    selectedItems: []
+    selectedItems: [],
   };
 
   getDataAtLevel(level) {
@@ -61,7 +61,7 @@ export default class ContentPicker extends React.Component {
         openLevel = Math.min(state.selectedItems.length, config.length - 1);
       }
       return {
-        openLevel
+        openLevel,
       };
     });
   };
@@ -70,7 +70,7 @@ export default class ContentPicker extends React.Component {
     const { config } = this.props;
     this.setState(state => ({
       openLevel: Math.min(level + 1, config.length - 1),
-      selectedItems: [...state.selectedItems.slice(0, level), option]
+      selectedItems: [...state.selectedItems.slice(0, level), option],
     }));
   };
 

@@ -5,5 +5,5 @@ module.exports.PIPING_ANSWER_TYPES = [
   type.NUMBER,
   type.CURRENCY,
   type.DATE,
-  type.DATE_RANGE
+  type.DATE_RANGE,
 ];

@@ -7,20 +7,20 @@ export const mapMutateToProps = ({ ownProps, mutate }) => ({
   onDeleteQuestionnaire(questionnaireId) {
     const mutation = mutate({
       variables: {
-        input: { id: questionnaireId }
+        input: { id: questionnaireId },
       },
       optimisticResponse: {
         deleteQuestionnaire: {
           id: questionnaireId,
-          __typename: "Questionnaire"
-        }
-      }
+          __typename: "Questionnaire",
+        },
+      },
     });
 
     return mutation
       .then(() => displayToast(ownProps, questionnaireId))
       .then(() => mutation);
-  }
+  },
 });
 
 export const displayToast = (ownProps, questionnaireId) => {
@@ -41,6 +41,6 @@ export const handleUpdate = (proxy, { data: { deleteQuestionnaire } }) => {
 export default graphql(deleteQuestionnaire, {
   props: mapMutateToProps,
   options: {
-    update: handleUpdate
-  }
+    update: handleUpdate,
+  },
 });

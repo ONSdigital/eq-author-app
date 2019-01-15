@@ -6,10 +6,10 @@ export const mapResultsToProps = ({ data }) => {
 
   return {
     loading,
-    questionnaires
+    questionnaires,
   };
 };
 
 export default graphql(getQuestionnaireList, {
-  props: mapResultsToProps
+  props: mapResultsToProps,
 });

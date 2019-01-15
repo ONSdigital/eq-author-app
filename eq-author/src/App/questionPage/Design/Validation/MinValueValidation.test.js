@@ -21,13 +21,13 @@ describe("MinValueValidation", () => {
         id: "1",
         enabled: true,
         custom: 123,
-        inclusive: true
+        inclusive: true,
       },
       answer: {
         id: "1",
         properties: {
-          format: "YYYY"
-        }
+          format: "YYYY",
+        },
       },
       onCustomNumberValueChange: onCustomNumberValueChange,
       onChangeUpdate: onChangeUpdate,
@@ -35,7 +35,7 @@ describe("MinValueValidation", () => {
       onUpdate: onUpdate,
       displayName: "foobar",
       readKey: "read",
-      testId: "test-id"
+      testId: "test-id",
     };
 
     wrapper = createWrapper(props);
@@ -49,13 +49,13 @@ describe("MinValueValidation", () => {
     wrapper.find(FieldWithInclude).simulate("change", { value: false });
 
     expect(onChangeUpdate).toHaveBeenCalledWith({
-      value: false
+      value: false,
     });
   });
 
   it("should correctly handle custom value changes", () => {
     wrapper.find(ValidationInput).simulate("change", {
-      value: 1
+      value: 1,
     });
 
     expect(onCustomNumberValueChange).toHaveBeenCalledWith({ value: 1 });

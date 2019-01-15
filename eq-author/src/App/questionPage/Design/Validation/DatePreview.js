@@ -15,7 +15,7 @@ const DatePreview = ({
   entityType,
   customDate,
   previousAnswer,
-  metadata
+  metadata,
 }) => {
   const isCustom = entityType === entityTypes.CUSTOM;
   const isPreviousAnswer = entityType === entityTypes.PREVIOUS_ANSWER;
@@ -36,7 +36,7 @@ const DatePreview = ({
       ? previousAnswer.displayName
       : "",
     [entityTypes.METADATA]: metadata ? metadata.displayName : "",
-    [entityTypes.NOW]: "(Start date)"
+    [entityTypes.NOW]: "(Start date)",
   };
 
   if (value === 0) {
@@ -57,15 +57,15 @@ DatePreview.propTypes = {
   customDate: PropTypes.string,
   offset: PropTypes.shape({
     value: PropTypes.number.isRequired,
-    unit: PropTypes.string.isRequired
+    unit: PropTypes.string.isRequired,
   }).isRequired,
   entityType: PropTypes.oneOf(Object.values(entityTypes)).isRequired,
   previousAnswer: PropTypes.shape({
-    displayName: PropTypes.string.isRequired
+    displayName: PropTypes.string.isRequired,
   }),
   metadata: PropTypes.shape({
-    displayName: PropTypes.string.isRequired
-  })
+    displayName: PropTypes.string.isRequired,
+  }),
 };
 
 export default DatePreview;

@@ -5,7 +5,7 @@ import {
   addQuestionnaire,
   findByLabel,
   removeAnswer,
-  testId
+  testId,
 } from "../../utils";
 
 import {
@@ -13,7 +13,7 @@ import {
   NUMBER,
   CURRENCY,
   TEXTAREA,
-  DATE
+  DATE,
 } from "../../../src/constants/answer-types";
 
 const questionnaireTitle = "Answer Properties Question Test";
@@ -42,24 +42,24 @@ describe("Answer Properties", () => {
       const answerTypeTitles = [
         {
           type: NUMBER,
-          title: "NUMBER"
+          title: "NUMBER",
         },
         {
           type: NUMBER,
-          title: "NUMBER 2"
+          title: "NUMBER 2",
         },
         {
           type: TEXTFIELD,
-          title: "TEXTFIELD"
+          title: "TEXTFIELD",
         },
         {
           type: NUMBER,
-          title: "NUMBER 3"
+          title: "NUMBER 3",
         },
         {
           type: TEXTFIELD,
-          title: "TEXTFIELD"
-        }
+          title: "TEXTFIELD",
+        },
       ];
 
       answerTypeTitles.forEach(({ title, type }, index) => {

@@ -35,7 +35,7 @@ const Body = props => (
 );
 
 const StyledButtonGroup = styled(ButtonGroup).attrs({
-  horizontal: true
+  horizontal: true,
 })`
   padding: 1em;
   justify-content: space-around;
@@ -79,12 +79,12 @@ ItemSelectModal.propTypes = {
   primaryText: PropTypes.string,
   secondaryText: PropTypes.string,
   title: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
 };
 
 ItemSelectModal.defaultProps = {
   secondaryText: "Cancel",
-  primaryText: "Select"
+  primaryText: "Select",
 };
 
 export default ItemSelectModal;

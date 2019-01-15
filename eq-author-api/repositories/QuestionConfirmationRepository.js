@@ -11,7 +11,7 @@ const USER_MODIFIABLE_FIELDS = [
   "positiveLabel",
   "positiveDescription",
   "negativeLabel",
-  "negativeDescription"
+  "negativeDescription",
 ];
 
 const sanitise = pick(["id", ...USER_MODIFIABLE_FIELDS]);
@@ -54,7 +54,7 @@ module.exports = knex => {
     return PreviousAnswerStrategy(knex).getPreviousAnswersForPage({
       id: pageId,
       includeSelf: true,
-      answerTypes: PIPING_ANSWER_TYPES
+      answerTypes: PIPING_ANSWER_TYPES,
     });
   };
 
@@ -71,6 +71,6 @@ module.exports = knex => {
     delete: remove,
     restore,
     getPipingAnswers,
-    getPipingMetadata
+    getPipingMetadata,
   };
 };

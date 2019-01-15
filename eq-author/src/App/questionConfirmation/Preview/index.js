@@ -62,8 +62,8 @@ export const UnwrappedPreviewConfirmationRoute = ({ loading, data }) => {
     questionConfirmation,
     questionConfirmation: { title, negative, positive },
     questionConfirmation: {
-      page: { answers }
-    }
+      page: { answers },
+    },
   } = data;
 
   const pageTitle = title && title.replace(/[[\]]/g, "");
@@ -95,8 +95,8 @@ export const UnwrappedPreviewConfirmationRoute = ({ loading, data }) => {
 UnwrappedPreviewConfirmationRoute.propTypes = {
   loading: PropTypes.bool.isRequired,
   data: PropTypes.shape({
-    questionConfirmation: propType(Editor.fragments.QuestionConfirmation)
-  })
+    questionConfirmation: propType(Editor.fragments.QuestionConfirmation),
+  }),
 };
 
 const CONFIRMATION_QUERY = gql`

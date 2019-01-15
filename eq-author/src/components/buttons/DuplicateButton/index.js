@@ -12,7 +12,7 @@ const DuplicateTooltip = ({ children }) => (
   </Tooltip>
 );
 DuplicateTooltip.propTypes = {
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
 };
 
 const DuplicateButton = ({ onClick, children, ...props }) => {
@@ -30,13 +30,13 @@ const DuplicateButton = ({ onClick, children, ...props }) => {
 
 DuplicateButton.defaultProps = {
   hideText: false,
-  children: undefined
+  children: undefined,
 };
 
 DuplicateButton.propTypes = {
   children: PropTypes.node,
   onClick: PropTypes.func.isRequired,
-  hideText: PropTypes.bool
+  hideText: PropTypes.bool,
 };
 
 export default DuplicateButton;

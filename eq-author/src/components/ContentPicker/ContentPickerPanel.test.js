@@ -7,7 +7,7 @@ describe("ContentPickerPanel", () => {
   const props = {
     id: "1",
     open: true,
-    labelledBy: "some-label"
+    labelledBy: "some-label",
   };
   it("should render", () => {
     const wrapper = shallow(

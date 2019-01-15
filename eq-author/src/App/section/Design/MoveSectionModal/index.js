@@ -10,7 +10,7 @@ class MoveSectionModal extends React.Component {
     questionnaire: CustomPropTypes.questionnaire.isRequired,
     isOpen: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
-    onMoveSection: PropTypes.func.isRequired
+    onMoveSection: PropTypes.func.isRequired,
   };
 
   handleOnMove = position => {
@@ -18,19 +18,19 @@ class MoveSectionModal extends React.Component {
     onMoveSection({
       from: {
         id: section.id,
-        position: section.position
+        position: section.position,
       },
       to: {
         id: section.id,
-        position: position
-      }
+        position: position,
+      },
     });
   };
 
   render() {
     const {
       questionnaire: { sections },
-      section
+      section,
     } = this.props;
 
     return (

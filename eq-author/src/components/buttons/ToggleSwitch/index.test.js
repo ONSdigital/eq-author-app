@@ -22,7 +22,7 @@ describe("ToggleSwitch", () => {
       label: "Test switch",
       name: "test",
       onChange: handleChange,
-      checked: false
+      checked: false,
     };
 
     focus = jest.fn();
@@ -71,7 +71,7 @@ describe("ToggleSwitch", () => {
         id: "toggle-3",
         width: 5,
         height: 2,
-        size: 2
+        size: 2,
       }),
       mount
     );
@@ -90,8 +90,8 @@ describe("ToggleSwitch", () => {
     expect(handleChange).toHaveBeenCalledWith({
       target: {
         name: props.name,
-        checked: true
-      }
+        checked: true,
+      },
     });
   });
 
@@ -100,7 +100,7 @@ describe("ToggleSwitch", () => {
     wrapper.find(ToggleSwitchBackground).simulate("click");
     expect(handleChange).toHaveBeenCalledWith({
       name: props.name,
-      value: true
+      value: true,
     });
   });
 

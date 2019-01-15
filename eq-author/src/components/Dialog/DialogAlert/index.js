@@ -7,7 +7,7 @@ export const DialogAlertList = styled.ul`
 `;
 
 DialogAlertList.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
 };
 
 export const DialogAlert = styled.li`
@@ -17,5 +17,5 @@ export const DialogAlert = styled.li`
 `;
 
 DialogAlert.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
 };

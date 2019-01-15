@@ -31,9 +31,9 @@ describe("MetaEditor", () => {
       definitionContent: "Page definition content",
       section: {
         questionnaire: {
-          metadata: []
-        }
-      }
+          metadata: [],
+        },
+      },
     };
     client = { readQuery: jest.fn(), query: jest.fn() };
 

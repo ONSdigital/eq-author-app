@@ -8,7 +8,7 @@ describe("Base Tabs", () => {
   const tabs = [
     { id: 1, title: "Example 1", render: () => <div>Hello 1</div> },
     { id: 2, title: "Example 2", render: () => <div>Hello 2</div> },
-    { id: 3, title: "Example 3", render: () => <div>Hello 3</div> }
+    { id: 3, title: "Example 3", render: () => <div>Hello 3</div> },
   ];
   const renderButton = (props, { title }) => <li {...props}>{title}</li>;
 

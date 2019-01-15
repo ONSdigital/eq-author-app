@@ -25,20 +25,20 @@ export default {
               displayName: "",
               position: 0,
               confirmation: null,
-              __typename: "QuestionPage"
-            }
+              __typename: "QuestionPage",
+            },
           ],
           questionnaire: {
             id: "1",
             questionnaireInfo: {
               totalSectionCount: 1,
-              __typename: "QuestionnaireInfo"
+              __typename: "QuestionnaireInfo",
             },
-            __typename: "Questionnaire"
+            __typename: "Questionnaire",
           },
-          __typename: "Section"
-        }
-      ]
-    }
-  }
+          __typename: "Section",
+        },
+      ],
+    },
+  },
 };

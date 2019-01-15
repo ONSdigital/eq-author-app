@@ -4,7 +4,7 @@ const Questionnaire = require("../db/Questionnaire");
 const addPrefix = require("../utils/addPrefix");
 
 const {
-  duplicateQuestionnaireStrategy
+  duplicateQuestionnaireStrategy,
 } = require("./strategies/duplicateStrategy");
 
 module.exports = knex => {
@@ -34,7 +34,7 @@ module.exports = knex => {
     navigation,
     surveyId,
     summary,
-    createdBy
+    createdBy,
   }) {
     return Questionnaire(knex)
       .create({
@@ -45,7 +45,7 @@ module.exports = knex => {
         navigation,
         surveyId,
         summary,
-        createdBy
+        createdBy,
       })
       .then(head);
   };
@@ -59,7 +59,7 @@ module.exports = knex => {
     navigation,
     surveyId,
     isDeleted,
-    summary
+    summary,
   }) {
     return Questionnaire(knex)
       .update(id, {
@@ -70,7 +70,7 @@ module.exports = knex => {
         legalBasis,
         navigation,
         isDeleted,
-        summary
+        summary,
       })
       .then(head);
   };
@@ -96,7 +96,7 @@ module.exports = knex => {
         .then(head);
       return duplicateQuestionnaireStrategy(trx, questionnaire, {
         title: addPrefix(questionnaire.title),
-        createdBy
+        createdBy,
       });
     });
   };
@@ -108,6 +108,6 @@ module.exports = knex => {
     update,
     remove,
     undelete,
-    duplicate
+    duplicate,
   };
 };

@@ -1,6 +1,6 @@
 import {
   mapMutateToProps,
-  createUpdater
+  createUpdater,
 } from "App/questionPage/Design/answers/withCreateExclusive";
 import fragment from "graphql/answerFragment.graphql";
 
@@ -11,7 +11,7 @@ describe("withCreateExclusive", () => {
     answer = {
       options: [{ id: "1" }],
       mutuallyExclusiveOption: null,
-      other: null
+      other: null,
     };
 
     result = {
@@ -19,9 +19,9 @@ describe("withCreateExclusive", () => {
         createMutuallyExclusiveOption: {
           id: "2",
           description: null,
-          label: null
-        }
-      }
+          label: null,
+        },
+      },
     };
 
     mutate = jest.fn(() => Promise.resolve(result));
@@ -45,7 +45,7 @@ describe("withCreateExclusive", () => {
       expect(writeFragment).toHaveBeenCalledWith({
         id,
         fragment,
-        data: answer
+        data: answer,
       });
     });
   });
@@ -69,9 +69,9 @@ describe("withCreateExclusive", () => {
           expect.objectContaining({
             variables: {
               input: {
-                answerId: answer.id
-              }
-            }
+                answerId: answer.id,
+              },
+            },
           })
         );
       });

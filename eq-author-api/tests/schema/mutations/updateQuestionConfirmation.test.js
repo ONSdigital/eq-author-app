@@ -29,9 +29,9 @@ describe("updateQuestionConfirmation", () => {
           positiveDescription: "pd",
           negativeLabel: "nl",
           negativeDescription: "nd",
-          pageId: "2"
-        })
-      }
+          pageId: "2",
+        }),
+      },
     };
   });
 
@@ -40,7 +40,7 @@ describe("updateQuestionConfirmation", () => {
       id: "1",
       title: "My new title",
       positive: { label: "pl", description: "pd" },
-      negative: { label: "nl", description: "nd" }
+      negative: { label: "nl", description: "nd" },
     };
 
     const result = await executeQuery(MUTATION, { input }, { repositories });
@@ -52,7 +52,7 @@ describe("updateQuestionConfirmation", () => {
       positiveLabel: "pl",
       positiveDescription: "pd",
       negativeLabel: "nl",
-      negativeDescription: "nd"
+      negativeDescription: "nd",
     });
 
     expect(result.data).toMatchObject({
@@ -61,13 +61,13 @@ describe("updateQuestionConfirmation", () => {
         title: "My new title",
         positive: {
           label: "pl",
-          description: "pd"
+          description: "pd",
         },
         negative: {
           label: "nl",
-          description: "nd"
-        }
-      }
+          description: "nd",
+        },
+      },
     });
   });
 });

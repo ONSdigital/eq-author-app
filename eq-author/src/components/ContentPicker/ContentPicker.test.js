@@ -15,17 +15,17 @@ describe("Content Picker", () => {
     {
       id: "section",
       title: "Section",
-      childKey: "pages"
+      childKey: "pages",
     },
     {
       id: "page",
       title: "Question",
-      childKey: "answers"
+      childKey: "answers",
     },
     {
       id: "answer",
-      title: "Answer"
-    }
+      title: "Answer",
+    },
   ];
   const createWrapper = (props, render = shallow) => {
     return render(
@@ -58,12 +58,12 @@ describe("Content Picker", () => {
     it("should start open when there is only one level", () => {
       const oneLevelData = [
         { id: "1", displayName: "Item 1" },
-        { id: "1", displayName: "Item 2" }
+        { id: "1", displayName: "Item 2" },
       ];
       const oneLevelConfig = [{ id: "oneLevel", title: "Item" }];
       const wrapper = createWrapper({
         data: oneLevelData,
-        config: oneLevelConfig
+        config: oneLevelConfig,
       });
       expect(wrapper.find("[data-test='oneLevel-picker']").prop("open")).toBe(
         true
@@ -89,7 +89,7 @@ describe("Content Picker", () => {
       sectionPicker.simulate("optionClick", {
         id: "Section 1",
         displayName: "Section 1",
-        pages: []
+        pages: [],
       });
 
       expect(wrapper.find(SECTION_PICKER_SELECTOR).prop("title")).toBe(
@@ -108,14 +108,14 @@ describe("Content Picker", () => {
       sectionPicker.simulate("optionClick", {
         id: "Section 1",
         displayName: "Section 1",
-        pages: []
+        pages: [],
       });
 
       let pagePicker = wrapper.find(PAGE_PICKER_SELECTOR);
       pagePicker.simulate("optionClick", {
         id: "Page 1",
         displayName: "Page 1",
-        answers: []
+        answers: [],
       });
 
       expect(wrapper.find(SECTION_PICKER_SELECTOR).prop("hidden")).toBe(false);
@@ -134,19 +134,19 @@ describe("Content Picker", () => {
       sectionPicker.simulate("optionClick", {
         id: "Section 1",
         displayName: "Section 1",
-        pages: []
+        pages: [],
       });
 
       let pagePicker = wrapper.find(PAGE_PICKER_SELECTOR);
       pagePicker.simulate("optionClick", {
         id: "Page 1",
         displayName: "Page 1",
-        answers: []
+        answers: [],
       });
 
       wrapper.find(ANSWER_PICKER_SELECTOR).simulate("optionClick", {
         id: "Answer 1",
-        displayName: "Answer 1"
+        displayName: "Answer 1",
       });
 
       expect(wrapper.find(ANSWER_PICKER_SELECTOR).prop("selected")).toBe(true);
@@ -161,13 +161,13 @@ describe("Content Picker", () => {
       sectionPicker.simulate("optionClick", {
         id: "Section 1",
         displayName: "Section 1",
-        pages: []
+        pages: [],
       });
       let pagePicker = wrapper.find(PAGE_PICKER_SELECTOR);
       pagePicker.simulate("optionClick", {
         id: "Page 1",
         displayName: "Page 1",
-        answers: []
+        answers: [],
       });
 
       // open
@@ -186,7 +186,7 @@ describe("Content Picker", () => {
       sectionPicker.simulate("optionClick", {
         id: "Section 1",
         displayName: "Section 1",
-        pages: []
+        pages: [],
       });
 
       expect(wrapper.find(PAGE_PICKER_SELECTOR).prop("open")).toBe(true);

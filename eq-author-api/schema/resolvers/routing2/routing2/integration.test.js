@@ -27,13 +27,13 @@ describe("Routing Integration", () => {
               {
                 answers: [
                   {
-                    type: answerTypes.NUMBER
-                  }
-                ]
-              }
-            ]
-          }
-        ]
+                    type: answerTypes.NUMBER,
+                  },
+                ],
+              },
+            ],
+          },
+        ],
       });
       const createMutation = `
         mutation createRouting2($input: CreateRouting2Input!) {
@@ -47,15 +47,15 @@ describe("Routing Integration", () => {
       const page = questionnaire.sections[0].pages[0];
       const pageId = page.id;
       const input = {
-        pageId
+        pageId,
       };
       const createResult = await executeQuery(createMutation, { input }, ctx);
       expect(createResult.errors).toBeUndefined();
       expect(createResult.data).toMatchObject({
         createRouting2: {
           id: expect.any(String),
-          page: { id: pageId.toString() }
-        }
+          page: { id: pageId.toString() },
+        },
       });
 
       const query = `
@@ -124,7 +124,7 @@ describe("Routing Integration", () => {
               id: expect.any(String),
               logical: "NextPage",
               page: null,
-              section: null
+              section: null,
             },
             rules: [
               {
@@ -133,7 +133,7 @@ describe("Routing Integration", () => {
                   id: expect.any(String),
                   logical: "NextPage",
                   page: null,
-                  section: null
+                  section: null,
                 },
                 expressionGroup: {
                   id: expect.any(String),
@@ -142,17 +142,17 @@ describe("Routing Integration", () => {
                     {
                       id: expect.any(String),
                       left: {
-                        id: page.answers[0].id.toString()
+                        id: page.answers[0].id.toString(),
                       },
                       condition: "Equal",
-                      right: null
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        }
+                      right: null,
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        },
       });
     });
 
@@ -163,11 +163,11 @@ describe("Routing Integration", () => {
             pages: [
               {
                 answers: [{}],
-                routing: {}
-              }
-            ]
-          }
-        ]
+                routing: {},
+              },
+            ],
+          },
+        ],
       });
 
       const createMutation = `
@@ -179,7 +179,7 @@ describe("Routing Integration", () => {
       const page = questionnaire.sections[0].pages[0];
       const pageId = page.id;
       const input = {
-        pageId
+        pageId,
       };
       const createResult = await executeQuery(createMutation, { input }, ctx);
       expect(createResult.errors[0].message).toMatch("one Routing per Page");
@@ -195,14 +195,14 @@ describe("Routing Integration", () => {
               {
                 routing: {
                   else: {
-                    logical: "NextPage"
-                  }
-                }
-              }
-            ]
+                    logical: "NextPage",
+                  },
+                },
+              },
+            ],
           },
-          { pages: [] }
-        ]
+          { pages: [] },
+        ],
       });
 
       const updateRouting2Mutation = `
@@ -238,10 +238,10 @@ describe("Routing Integration", () => {
             logical: null,
             page: null,
             section: {
-              id: sectionDestinationId.toString()
-            }
-          }
-        }
+              id: sectionDestinationId.toString(),
+            },
+          },
+        },
       });
     });
 
@@ -249,21 +249,21 @@ describe("Routing Integration", () => {
       const questionnaire = await buildTestQuestionnaire({
         sections: [
           {
-            pages: []
+            pages: [],
           },
           {
             pages: [
               {
                 routing: {
                   else: {
-                    logical: "NextPage"
-                  }
-                }
-              }
-            ]
+                    logical: "NextPage",
+                  },
+                },
+              },
+            ],
           },
-          { pages: [] }
-        ]
+          { pages: [] },
+        ],
       });
 
       const updateRouting2Mutation = `

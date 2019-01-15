@@ -7,7 +7,7 @@ const { ROUTING_ANSWER_TYPES } = require("../constants/routingAnswerTypes");
 module.exports = knex => {
   const {
     getPreviousAnswersForPage,
-    getPreviousQuestionsForPage
+    getPreviousQuestionsForPage,
   } = require("./strategies/previousAnswersStrategy")(knex);
 
   const getById = function(id) {
@@ -24,7 +24,7 @@ module.exports = knex => {
     sectionId,
     order,
     definitionLabel,
-    definitionContent
+    definitionContent,
   }) {
     return QuestionPage(knex)
       .create({
@@ -35,7 +35,7 @@ module.exports = knex => {
         sectionId,
         order,
         definitionLabel,
-        definitionContent
+        definitionContent,
       })
       .then(head);
   };
@@ -48,7 +48,7 @@ module.exports = knex => {
     guidance,
     isDeleted,
     definitionLabel,
-    definitionContent
+    definitionContent,
   }) {
     return QuestionPage(knex)
       .update(id, {
@@ -58,7 +58,7 @@ module.exports = knex => {
         guidance,
         isDeleted,
         definitionLabel,
-        definitionContent
+        definitionContent,
       })
       .then(head);
   };
@@ -78,7 +78,7 @@ module.exports = knex => {
   const getPipingAnswersForQuestionPage = id =>
     getPreviousAnswersForPage({
       id,
-      answerTypes: PIPING_ANSWER_TYPES
+      answerTypes: PIPING_ANSWER_TYPES,
     });
 
   const getPipingMetadataForQuestionPage = id =>
@@ -95,14 +95,14 @@ module.exports = knex => {
     getPreviousQuestionsForPage({
       id,
       answerTypes: ROUTING_ANSWER_TYPES,
-      includeSelf: true
+      includeSelf: true,
     });
 
   const getRoutingAnswers = id =>
     getPreviousAnswersForPage({
       id,
       answerTypes: ROUTING_ANSWER_TYPES,
-      includeSelf: true
+      includeSelf: true,
     });
 
   return {
@@ -114,6 +114,6 @@ module.exports = knex => {
     getPipingAnswersForQuestionPage,
     getPipingMetadataForQuestionPage,
     getRoutingQuestionsForQuestionPage,
-    getRoutingAnswers
+    getRoutingAnswers,
   };
 };

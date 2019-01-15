@@ -20,10 +20,10 @@ describe("dashboard", () => {
       cy.visitStubbed("/", {
         GetQuestionnaireList: {
           data: {
-            questionnaires: []
-          }
+            questionnaires: [],
+          },
         },
-        GetCurrentUser
+        GetCurrentUser,
       });
       cy.login();
     });
@@ -44,12 +44,12 @@ describe("dashboard", () => {
                 title: "Test Questionnaire",
                 createdAt: "2018-08-01",
                 createdBy: { id: "1", name: "Test user", __typename: "User" },
-                __typename: "Questionnaire"
-              }
-            ]
-          }
+                __typename: "Questionnaire",
+              },
+            ],
+          },
         },
-        GetCurrentUser
+        GetCurrentUser,
       });
 
       cy.login();
@@ -74,10 +74,10 @@ describe("dashboard", () => {
                   title: "Test Questionnaire",
                   createdAt: "2018-08-01",
                   createdBy: { id: "1", name: "Test user", __typename: "User" },
-                  __typename: "Questionnaire"
-                }
-              ]
-            }
+                  __typename: "Questionnaire",
+                },
+              ],
+            },
           },
           DeleteQuestionnaire: {
             data: {
@@ -86,9 +86,9 @@ describe("dashboard", () => {
                 title: "Test Questionnaire",
                 createdAt: "2018-08-01",
                 createdBy: { id: "1", name: "Test user", __typename: "User" },
-                __typename: "Questionnaire"
-              }
-            }
+                __typename: "Questionnaire",
+              },
+            },
           },
           UndeleteQuestionnaire: {
             data: {
@@ -97,11 +97,11 @@ describe("dashboard", () => {
                 title: "Test Questionnaire",
                 createdAt: "2018-08-01",
                 createdBy: { id: "1", name: "Test user", __typename: "User" },
-                __typename: "Questionnaire"
-              }
-            }
+                __typename: "Questionnaire",
+              },
+            },
           },
-          GetCurrentUser
+          GetCurrentUser,
         });
 
         cy.login();

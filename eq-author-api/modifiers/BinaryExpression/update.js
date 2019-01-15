@@ -19,7 +19,7 @@ module.exports = ({ repositories }) => {
 
     await repositories.BinaryExpression2.update({
       id: expression.id,
-      condition
+      condition,
     });
 
     return repositories.BinaryExpression2.getById(expression.id);

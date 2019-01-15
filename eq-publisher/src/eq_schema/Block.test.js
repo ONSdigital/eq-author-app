@@ -10,7 +10,7 @@ describe("Block", () => {
         id: 1,
         pageType: "Question",
         type: "General",
-        answers: []
+        answers: [],
       },
       block
     );
@@ -20,7 +20,7 @@ describe("Block", () => {
 
     expect(block).toMatchObject({
       id: "block1",
-      questions: [expect.any(Question)]
+      questions: [expect.any(Question)],
     });
   });
 
@@ -35,9 +35,9 @@ describe("Block", () => {
       createBlockJSON({
         confirmation: {
           id: "2",
-          title: "<p>Are you sure?</p>"
+          title: "<p>Are you sure?</p>",
         },
-        routingRuleSet: { id: "2" }
+        routingRuleSet: { id: "2" },
       }),
       ctx
     );
@@ -69,12 +69,12 @@ describe("Block", () => {
     const questionnaire = {
       sections: [
         {
-          pages: [{ id: "1" }, { id: "2" }]
+          pages: [{ id: "1" }, { id: "2" }],
         },
         {
-          pages: [{ id: "3" }, { id: "4" }]
-        }
-      ]
+          pages: [{ id: "3" }, { id: "4" }],
+        },
+      ],
     };
 
     it("should return true if is a last page", () => {
@@ -93,7 +93,7 @@ describe("Block", () => {
       id = 123,
       type = "TextField",
       text = "foo",
-      pipeType = "answers"
+      pipeType = "answers",
     } = {}) =>
       `<span data-piped="${pipeType}" data-id="${id}" data-type="${type}">${text}</span>`;
 
@@ -101,7 +101,7 @@ describe("Block", () => {
       id = 123,
       type = "TextField",
       text = "foo",
-      pipeType = "answers"
+      pipeType = "answers",
     } = {}) =>
       `<strong><span data-piped="${pipeType}" data-id="${id}" data-type="${type}">${text}</span></strong><ul><li>Some Value</li></ul>`;
 
@@ -109,15 +109,15 @@ describe("Block", () => {
       metadata = [{ id: "123", type: "Text", key: "my_metadata" }]
     ) => ({
       questionnaireJson: {
-        metadata
-      }
+        metadata,
+      },
     });
 
     it("should handle piped values in title", () => {
       // noinspection JSAnnotator
       let introduction = {
         introductionTitle: createPipeInText(),
-        introductionContent: ""
+        introductionContent: "",
       };
 
       const introBlock = Block.buildIntroBlock(
@@ -133,7 +133,7 @@ describe("Block", () => {
       // noinspection JSAnnotator
       let introduction = {
         introductionTitle: createPipeInHtml(),
-        introductionContent: ""
+        introductionContent: "",
       };
 
       const introBlock = Block.buildIntroBlock(
@@ -149,7 +149,7 @@ describe("Block", () => {
       // noinspection JSAnnotator
       let introduction = {
         introductionTitle: "",
-        introductionContent: createPipeInHtml()
+        introductionContent: createPipeInHtml(),
       };
 
       const introBlock = Block.buildIntroBlock(

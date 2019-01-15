@@ -18,7 +18,7 @@ describe("components/Modal", () => {
       description: "Description",
       onClose: jest.fn(),
       icon: "move",
-      isOpen: true
+      isOpen: true,
     };
 
     children = <p>Modal content</p>;

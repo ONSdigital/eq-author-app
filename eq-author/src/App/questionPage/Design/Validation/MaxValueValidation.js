@@ -65,7 +65,7 @@ export class UnwrappedMaxValueValidation extends React.Component {
     const {
       validation: { entityType },
       displayName,
-      onChangeUpdate
+      onChangeUpdate,
     } = this.props;
 
     return (
@@ -95,15 +95,15 @@ UnwrappedMaxValueValidation.propTypes = {
     custom: PropTypes.number,
     inclusive: PropTypes.bool.isRequired,
     previousAnswer: PropTypes.shape({
-      displayName: PropTypes.string.isRequired
+      displayName: PropTypes.string.isRequired,
     }),
-    entityType: PropTypes.oneOf(Object.values(entityTypes))
+    entityType: PropTypes.oneOf(Object.values(entityTypes)),
   }).isRequired,
   answer: PropTypes.shape({
     id: PropTypes.string.required,
     properties: PropTypes.shape({
-      format: PropTypes.string
-    }).isRequired
+      format: PropTypes.string,
+    }).isRequired,
   }).isRequired,
   onCustomNumberValueChange: PropTypes.func.isRequired,
   onChangeUpdate: PropTypes.func.isRequired,
@@ -111,7 +111,7 @@ UnwrappedMaxValueValidation.propTypes = {
   onUpdate: PropTypes.func.isRequired,
   displayName: PropTypes.string.isRequired,
   readKey: PropTypes.string.isRequired,
-  testId: PropTypes.string.isRequired
+  testId: PropTypes.string.isRequired,
 };
 
 export default flowRight(

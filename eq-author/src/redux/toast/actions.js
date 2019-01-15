@@ -7,18 +7,18 @@ export const raiseToast = (id, message, undoAction, context) => {
       id,
       message,
       undoAction,
-      context
+      context,
     },
-    type: TOAST_RAISE
+    type: TOAST_RAISE,
   };
 };
 
 export const dismissToast = id => {
   return {
     payload: {
-      id
+      id,
     },
-    type: TOAST_DISMISS
+    type: TOAST_DISMISS,
   };
 };
 

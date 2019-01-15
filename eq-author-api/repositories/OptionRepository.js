@@ -8,7 +8,7 @@ module.exports = knex => {
       .findAll()
       .where({
         mutuallyExclusive: true,
-        answerId
+        answerId,
       })
       .then(head);
 
@@ -38,7 +38,7 @@ module.exports = knex => {
     qCode,
     answerId,
     mutuallyExclusive = false,
-    additionalAnswerId
+    additionalAnswerId,
   }) => {
     if (mutuallyExclusive) {
       await checkForExistingExclusive(answerId);
@@ -51,7 +51,7 @@ module.exports = knex => {
         qCode,
         answerId,
         mutuallyExclusive,
-        additionalAnswerId
+        additionalAnswerId,
       })
       .then(head);
   };
@@ -63,17 +63,17 @@ module.exports = knex => {
         description,
         value,
         qCode,
-        isDeleted
+        isDeleted,
       })
       .then(head);
 
   const deleteOption = async (trx, id) => {
     const deletedOption = await trx("Options")
       .where({
-        id: parseInt(id)
+        id: parseInt(id),
       })
       .update({
-        isDeleted: true
+        isDeleted: true,
       })
       .returning("*")
       .then(head);
@@ -97,6 +97,6 @@ module.exports = knex => {
     insert,
     update,
     remove,
-    undelete
+    undelete,
   };
 };

@@ -14,7 +14,7 @@ const Message = styled.div`
 const DisabledMessage = ({ name }) => <Message>{name} is disabled</Message>;
 
 DisabledMessage.propTypes = {
-  name: PropTypes.string.isRequired
+  name: PropTypes.string.isRequired,
 };
 
 export default DisabledMessage;

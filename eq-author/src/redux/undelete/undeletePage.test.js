@@ -1,7 +1,7 @@
 import {
   undeletePage,
   createUndelete,
-  createUpdate
+  createUpdate,
 } from "redux/undelete/undeletePage";
 import fragment from "graphql/sectionFragment.graphql";
 import configureStore from "redux-mock-store";
@@ -17,7 +17,7 @@ describe("undeletePage", () => {
     id = "Page1";
     context = {
       sectionId: 1,
-      pageId: 1
+      pageId: 1,
     };
 
     dispatch = jest.fn();
@@ -25,25 +25,25 @@ describe("undeletePage", () => {
     mutate = jest.fn(() => Promise.resolve());
 
     client = {
-      mutate
+      mutate,
     };
 
     result = {
       data: {
         undeleteQuestionPage: {
           id: 1,
-          position: 1
-        }
-      }
+          position: 1,
+        },
+      },
     };
 
     proxy = {
       readFragment: jest.fn(() => {
         return {
-          pages: [{ id: 2, position: 0 }, { id: 3, position: 2 }]
+          pages: [{ id: 2, position: 0 }, { id: 3, position: 2 }],
         };
       }),
-      writeFragment: jest.fn()
+      writeFragment: jest.fn(),
     };
   });
 
@@ -63,7 +63,7 @@ describe("undeletePage", () => {
       createUndelete(mutate)(id, context);
       expect(mutate).toHaveBeenCalledWith({
         update: expect.any(Function),
-        variables: { input: { id } }
+        variables: { input: { id } },
       });
     });
   });
@@ -74,7 +74,7 @@ describe("undeletePage", () => {
 
       expect(proxy.readFragment).toHaveBeenCalledWith({
         id: "Section1",
-        fragment
+        fragment,
       });
 
       expect(proxy.writeFragment).toHaveBeenCalledWith({
@@ -84,9 +84,9 @@ describe("undeletePage", () => {
           pages: [
             { id: 2, position: 0 },
             { id: 1, position: 1 },
-            { id: 3, position: 2 }
-          ]
-        }
+            { id: 3, position: 2 },
+          ],
+        },
       });
     });
   });
@@ -106,11 +106,11 @@ describe("undeletePage", () => {
       return store.dispatch(undeletePage(id, context)).then(() => {
         expect(store.getActions()).toEqual([
           {
-            type: "UNDELETE_PAGE_REQUEST"
+            type: "UNDELETE_PAGE_REQUEST",
           },
           {
-            type: "UNDELETE_PAGE_SUCCESS"
-          }
+            type: "UNDELETE_PAGE_SUCCESS",
+          },
         ]);
       });
     });
@@ -120,11 +120,11 @@ describe("undeletePage", () => {
       return store.dispatch(undeletePage(id, context)).then(() => {
         expect(store.getActions()).toEqual([
           {
-            type: "UNDELETE_PAGE_REQUEST"
+            type: "UNDELETE_PAGE_REQUEST",
           },
           {
-            type: "UNDELETE_PAGE_FAILURE"
-          }
+            type: "UNDELETE_PAGE_FAILURE",
+          },
         ]);
       });
     });

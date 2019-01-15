@@ -67,14 +67,14 @@ describe("QuestionPage query", () => {
         ...mockRepository({
           getById: {
             id,
-            sectionId
-          }
+            sectionId,
+          },
         }),
         getPipingAnswersForQuestionPage: jest.fn(() => []),
-        getPipingMetadataForQuestionPage: jest.fn(() => [])
+        getPipingMetadataForQuestionPage: jest.fn(() => []),
       },
       Answer: mockRepository(),
-      Section: mockRepository()
+      Section: mockRepository(),
     };
   });
 
@@ -95,7 +95,7 @@ describe("QuestionPage query", () => {
     expect(result.errors).toBeUndefined();
     expect(repositories.QuestionPage.getById).toHaveBeenCalledWith(id);
     expect(repositories.Answer.findAll).toHaveBeenCalledWith({
-      questionPageId: id
+      questionPageId: id,
     });
   });
 

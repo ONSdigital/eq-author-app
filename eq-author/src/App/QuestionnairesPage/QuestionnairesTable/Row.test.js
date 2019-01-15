@@ -17,12 +17,12 @@ describe("Row", () => {
       sections: [
         {
           id: "1",
-          pages: [{ id: "1" }]
-        }
+          pages: [{ id: "1" }],
+        },
       ],
       createdBy: {
-        name: "Alan"
-      }
+        name: "Alan",
+      },
     };
     handleDeleteQuestionnaire = jest.fn();
     handleDuplicateQuestionnaire = jest.fn();
@@ -88,7 +88,7 @@ describe("Row", () => {
     instance.rowRef = { current: { getElementsByTagName } };
 
     wrapper.setProps({
-      autoFocus: true
+      autoFocus: true,
     });
 
     expect(getElementsByTagName).toHaveBeenCalled();
@@ -136,7 +136,7 @@ describe("Row", () => {
         questionnaire,
         onDeleteQuestionnaire: handleDeleteQuestionnaire,
         onDuplicateQuestionnaire: handleDuplicateQuestionnaire,
-        foo: "bar"
+        foo: "bar",
       })
     ).toBeFalsy();
   });

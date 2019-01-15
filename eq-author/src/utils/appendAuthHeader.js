@@ -2,13 +2,13 @@ export default headers => {
   if (!window.localStorage) {
     return {
       headers: {
-        ...headers
-      }
+        ...headers,
+      },
     };
   }
   const accessToken = localStorage.getItem("accessToken");
   const returnedHeaders = {
-    ...headers
+    ...headers,
   };
 
   if (accessToken) {
@@ -17,7 +17,7 @@ export default headers => {
 
   return {
     headers: {
-      ...returnedHeaders
-    }
+      ...returnedHeaders,
+    },
   };
 };

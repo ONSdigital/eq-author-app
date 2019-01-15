@@ -10,7 +10,7 @@ const Required = ({ id, value, onChange }) => (
 Required.propTypes = {
   id: PropTypes.string.isRequired,
   value: PropTypes.bool.isRequired,
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
 };
 
 export default Required;

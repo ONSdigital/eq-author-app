@@ -33,7 +33,7 @@ export const displayToast = (
       questionConfirmation,
       goBack: () => {
         history.push(location.pathname);
-      }
+      },
     }
   );
 };
@@ -42,11 +42,11 @@ export const mapMutateToProps = ({ ownProps, mutate }) => ({
   onDeleteQuestionConfirmation: questionConfirmation =>
     mutate({
       variables: {
-        input: filterToInput(questionConfirmation)
-      }
+        input: filterToInput(questionConfirmation),
+      },
     })
       .then(() => redirectToParentPage(ownProps))
-      .then(() => displayToast(ownProps, questionConfirmation))
+      .then(() => displayToast(ownProps, questionConfirmation)),
 });
 
 export default flowRight(
@@ -56,6 +56,6 @@ export default flowRight(
     { raiseToast }
   ),
   graphql(updateMutation, {
-    props: mapMutateToProps
+    props: mapMutateToProps,
   })
 );

@@ -16,7 +16,7 @@ const DateFormat = ({ id, value, onChange }) => (
 DateFormat.propTypes = {
   id: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
 };
 
 export default DateFormat;

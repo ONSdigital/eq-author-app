@@ -11,9 +11,9 @@ describe("validation error", () => {
       validationErrors: [
         {
           error: "some error",
-          description: "some description"
-        }
-      ]
+          description: "some description",
+        },
+      ],
     };
 
     const validationError = new ValidationError(
@@ -30,9 +30,9 @@ describe("validation error", () => {
       validationErrors: [
         {
           error: "some error",
-          description: "some description"
-        }
-      ]
+          description: "some description",
+        },
+      ],
     };
 
     const validationError = new ValidationError(
@@ -51,14 +51,14 @@ describe("validation error", () => {
       validationErrors: [
         {
           error: "some error",
-          description: "some description"
-        }
-      ]
+          description: "some description",
+        },
+      ],
     };
 
     const mockQuestionnaire = {
       id: 1,
-      title: "hello world"
+      title: "hello world",
     };
 
     const validationError = new ValidationError(

@@ -10,7 +10,7 @@ export const colors = {
   red: "#D0021B",
   orange: "#FDBD56",
   black: "#333333",
-  white: "#FFFFFF"
+  white: "#FFFFFF",
 };
 
 colors.primary = colors.blue;
@@ -27,5 +27,5 @@ export const shadow = "0 2px 4px rgba(0,0,0,0.1)";
 export default {
   colors,
   radius,
-  shadow
+  shadow,
 };

@@ -5,8 +5,8 @@ import { Route, Redirect } from "react-router";
 const createRedirect = ({ location }) => ({
   pathname: "/sign-in",
   state: {
-    returnURL: location.pathname
-  }
+    returnURL: location.pathname,
+  },
 });
 
 const PrivateRoute = ({ component: Component, isSignedIn, ...rest }) => {
@@ -22,7 +22,7 @@ const PrivateRoute = ({ component: Component, isSignedIn, ...rest }) => {
 
 PrivateRoute.propTypes = {
   component: PropTypes.func.isRequired,
-  isSignedIn: PropTypes.bool.isRequired
+  isSignedIn: PropTypes.bool.isRequired,
 };
 
 export default PrivateRoute;

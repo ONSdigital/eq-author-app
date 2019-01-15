@@ -20,13 +20,13 @@ const section1 = {
   pages: [
     {
       displayName: "Question 1.1",
-      id: "2"
+      id: "2",
     },
     {
       displayName: "Question 1.2",
-      id: "3"
-    }
-  ]
+      id: "3",
+    },
+  ],
 };
 
 const section2 = {
@@ -35,20 +35,20 @@ const section2 = {
   pages: [
     {
       displayName: "Question 2.1",
-      id: "5"
+      id: "5",
     },
     {
       displayName: "Question 2.2",
-      id: "6"
-    }
-  ]
+      id: "6",
+    },
+  ],
 };
 
 const questionnaire = {
   title: "Questionnaire title",
   id: "0",
   sections: [section1],
-  metadata: []
+  metadata: [],
 };
 
 const props = {
@@ -61,11 +61,11 @@ const props = {
   onUpdateQuestionnaire: action("onUpdateQuestionnaire"),
   loading: false,
   canAddQuestionConfirmation: false,
-  onAddQuestionConfirmation: action("Add Question Confirmation")
+  onAddQuestionConfirmation: action("Add Question Confirmation"),
 };
 
 const client = {
-  query: () => ({ questionnaire })
+  query: () => ({ questionnaire }),
 };
 
 storiesOf("NavigationSidebar", module)
@@ -91,7 +91,7 @@ storiesOf("NavigationSidebar", module)
     const { ...otherProps } = props;
     const questionnaireWithMultipleSection = {
       ...questionnaire,
-      sections: [...questionnaire.sections, section2]
+      sections: [...questionnaire.sections, section2],
     };
 
     return (

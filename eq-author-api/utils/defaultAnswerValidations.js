@@ -3,24 +3,24 @@ const {
   DATE,
   DATE_RANGE,
   CURRENCY,
-  NUMBER
+  NUMBER,
 } = require("../constants/answerTypes");
 
 const answerTypeMap = {
   number: [CURRENCY, NUMBER],
   date: [DATE],
-  dateRange: [DATE_RANGE]
+  dateRange: [DATE_RANGE],
 };
 
 const validationRuleMap = {
   number: ["minValue", "maxValue"],
   date: ["earliestDate", "latestDate"],
-  dateRange: ["earliestDate", "latestDate", "minDuration", "maxDuration"]
+  dateRange: ["earliestDate", "latestDate", "minDuration", "maxDuration"],
 };
 
 const duration = {
   value: 0,
-  unit: "Days"
+  unit: "Days",
 };
 
 const defaultValidationRuleConfigs = {
@@ -29,33 +29,33 @@ const defaultValidationRuleConfigs = {
   earliestDate: { offset: duration, relativePosition: "Before" },
   latestDate: { offset: duration, relativePosition: "After" },
   minDuration: { duration },
-  maxDuration: { duration }
+  maxDuration: { duration },
 };
 
 const defaultValidationEntityTypes = ({ type }) => ({
   minValue: {
-    entityType: CUSTOM
+    entityType: CUSTOM,
   },
   maxValue: {
-    entityType: CUSTOM
+    entityType: CUSTOM,
   },
   earliestDate: {
-    entityType: type === DATE ? NOW : CUSTOM
+    entityType: type === DATE ? NOW : CUSTOM,
   },
   latestDate: {
-    entityType: type === DATE ? NOW : CUSTOM
+    entityType: type === DATE ? NOW : CUSTOM,
   },
   minDuration: {
-    entityType: CUSTOM
+    entityType: CUSTOM,
   },
   maxDuration: {
-    entityType: CUSTOM
-  }
+    entityType: CUSTOM,
+  },
 });
 
 Object.assign(module.exports, {
   answerTypeMap,
   validationRuleMap,
   defaultValidationRuleConfigs,
-  defaultValidationEntityTypes
+  defaultValidationEntityTypes,
 });

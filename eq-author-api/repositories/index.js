@@ -36,6 +36,6 @@ module.exports = knex => {
     BinaryExpression2: BinaryExpression2(knex),
     LeftSide2: LeftSide2(knex),
     RightSide2: RightSide2(knex),
-    SelectedOptions2: SelectedOptions2(knex)
+    SelectedOptions2: SelectedOptions2(knex),
   };
 };

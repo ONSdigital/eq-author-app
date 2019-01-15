@@ -25,9 +25,9 @@ describe("PreviousAnswerContentPicker", () => {
                 displayName: "Page (1.1)",
                 section: {
                   id: "1",
-                  displayName: "Section (1)"
-                }
-              }
+                  displayName: "Section (1)",
+                },
+              },
             },
             {
               id: "7",
@@ -37,13 +37,13 @@ describe("PreviousAnswerContentPicker", () => {
                 displayName: "Page (1.1)",
                 section: {
                   id: "1",
-                  displayName: "Section (1)"
-                }
-              }
-            }
-          ]
-        }
-      }
+                  displayName: "Section (1)",
+                },
+              },
+            },
+          ],
+        },
+      },
     };
 
     wrapper = render(props);

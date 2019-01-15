@@ -13,7 +13,7 @@ class Section {
       pages,
       introductionTitle,
       introductionContent,
-      introductionEnabled
+      introductionEnabled,
     } = section;
 
     // Sections always contain a single group currently
@@ -25,10 +25,10 @@ class Section {
         {
           introductionTitle,
           introductionContent,
-          introductionEnabled
+          introductionEnabled,
         },
         ctx
-      )
+      ),
     ];
   }
 }

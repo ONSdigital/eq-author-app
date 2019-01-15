@@ -2,7 +2,7 @@ const { head } = require("lodash/fp");
 const { parseInt, isNil, find, isEmpty, get, includes } = require("lodash");
 const {
   NEXT_PAGE,
-  END_OF_QUESTIONNAIRE
+  END_OF_QUESTIONNAIRE,
 } = require("../../constants/logicalDestinations");
 const { CURRENCY, NUMBER } = require("../../constants/answerTypes");
 
@@ -24,7 +24,7 @@ const updateRoutingCondition = (
     .update({
       questionPageId,
       answerId,
-      comparator
+      comparator,
     })
     .returning("*")
     .then(head);
@@ -82,7 +82,7 @@ const createSpecificConditionValue = async (trx, conditionId) =>
   trx("Routing_ConditionValues")
     .insert({
       conditionId,
-      customNumber: null
+      customNumber: null,
     })
     .returning("*")
     .then(head);
@@ -114,7 +114,7 @@ const insertRoutingRuleSet = async (
   trx("Routing_RuleSets")
     .insert({
       questionPageId: parseInt(questionPageId, 10),
-      routingDestinationId: parseInt(routingDestinationId, 10)
+      routingDestinationId: parseInt(routingDestinationId, 10),
     })
 
     .returning("*")
@@ -175,7 +175,7 @@ const updateRoutingConditionStrategy = async (
 
   if (hasPageChanged) {
     await deleteRoutingConditionValues(trx, {
-      conditionId: routingConditionId
+      conditionId: routingConditionId,
     });
     comparator = "Equal";
     if (
@@ -222,7 +222,7 @@ async function getAvailableRoutingDestinations(trx, pageId) {
 
   return {
     questionPages,
-    sections
+    sections,
   };
 }
 
@@ -236,7 +236,7 @@ const checkRoutingDestinations = async (
   if (!isNil(logicalDestination)) {
     if (
       !find(logicalDestinations, {
-        logicalDestination: logicalDestination.destinationType
+        logicalDestination: logicalDestination.destinationType,
       })
     ) {
       throw new Error(
@@ -253,7 +253,7 @@ const checkRoutingDestinations = async (
       destinationType === "QuestionPage" ? "questionPages" : "sections";
     if (
       !find(availableRoutingDestinations[key], {
-        id: parseInt(destinationId, 10)
+        id: parseInt(destinationId, 10),
       })
     ) {
       throw new Error(
@@ -287,7 +287,7 @@ async function createRoutingConditionStrategy(trx, routingCondition) {
     trx,
     {
       ...routingCondition,
-      answerId: targetAnswerId
+      answerId: targetAnswerId,
     },
     targetAnswer
   );
@@ -305,7 +305,7 @@ const getNextDestination = (trx, { questionPageId: id }) => {
           if (pages.length) {
             return {
               entityType: "Page",
-              result: head(pages)
+              result: head(pages),
             };
           }
 
@@ -320,11 +320,11 @@ const getNextDestination = (trx, { questionPageId: id }) => {
                   if (sections.length) {
                     return {
                       entityType: "Section",
-                      result: head(sections)
+                      result: head(sections),
                     };
                   } else {
                     return {
-                      result: END_OF_QUESTIONNAIRE
+                      result: END_OF_QUESTIONNAIRE,
                     };
                   }
                 });
@@ -335,7 +335,7 @@ const getNextDestination = (trx, { questionPageId: id }) => {
 
 const createRoutingDestination = (trx, { questionPageId }) => {
   return getNextDestination(trx, {
-    questionPageId
+    questionPageId,
   }).then(({ result }) => {
     const destination = {};
     if (result === END_OF_QUESTIONNAIRE) {
@@ -356,18 +356,18 @@ async function createRoutingRuleStrategy(
 ) {
   const { questionPageId } = await getRoutingRuleSetById(trx, routingRuleSetId);
   const routingDestination = await createRoutingDestination(trx, {
-    questionPageId
+    questionPageId,
   });
   const routingRule = await insertRoutingRule(trx, {
     operation,
     routingRuleSetId,
-    routingDestinationId: routingDestination.id
+    routingDestinationId: routingDestination.id,
   });
 
   await createRoutingConditionStrategy(trx, {
     comparator: "Equal",
     routingRuleId: routingRule.id,
-    questionPageId
+    questionPageId,
   });
 
   return routingRule;
@@ -382,12 +382,12 @@ async function createRoutingRuleSetStrategy(trx, questionPageId) {
   }
 
   const routingDestination = await createRoutingDestination(trx, {
-    questionPageId
+    questionPageId,
   });
 
   const routingRuleSetDefaults = {
     questionPageId,
-    routingDestinationId: routingDestination.id
+    routingDestinationId: routingDestination.id,
   };
 
   const routingRuleSet = await insertRoutingRuleSet(
@@ -397,7 +397,7 @@ async function createRoutingRuleSetStrategy(trx, questionPageId) {
 
   const routingRuleInput = {
     routingRuleSetId: routingRuleSet.id,
-    questionPageId
+    questionPageId,
   };
 
   await createRoutingRuleStrategy(trx, routingRuleInput);
@@ -408,11 +408,11 @@ const handlePageDeleted = (trx, pageId) =>
   updateAllRoutingConditions(
     trx,
     {
-      questionPageId: parseInt(pageId, 10)
+      questionPageId: parseInt(pageId, 10),
     },
     {
       questionPageId: null,
-      answerId: null
+      answerId: null,
     }
   );
 
@@ -420,11 +420,11 @@ const handleAnswerDeleted = (trx, answerId) =>
   updateAllRoutingConditions(
     trx,
     {
-      answerId: parseInt(answerId, 10)
+      answerId: parseInt(answerId, 10),
     },
     {
       questionPageId: null,
-      answerId: null
+      answerId: null,
     }
   );
 
@@ -438,10 +438,10 @@ const handleAnswerCreated = async (trx, answer) => {
     const conditions = await updateAllRoutingConditions(
       trx,
       {
-        questionPageId: parseInt(answer.questionPageId, 10)
+        questionPageId: parseInt(answer.questionPageId, 10),
       },
       {
-        answerId: answer.id
+        answerId: answer.id,
       }
     );
     return Promise.all(
@@ -452,7 +452,7 @@ const handleAnswerCreated = async (trx, answer) => {
 
 const handleOptionDeleted = (trx, optionId) =>
   deleteRoutingConditionValues(trx, {
-    optionId: parseInt(optionId, 10)
+    optionId: parseInt(optionId, 10),
   });
 
 Object.assign(module.exports, {
@@ -466,5 +466,5 @@ Object.assign(module.exports, {
   handlePageDeleted,
   handleAnswerDeleted,
   handleOptionDeleted,
-  handleAnswerCreated
+  handleAnswerCreated,
 });

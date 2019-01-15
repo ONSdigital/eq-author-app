@@ -18,7 +18,7 @@ export const Routes = {
   PAGE_PREVIEW: `/questionnaire/:questionnaireId/:sectionId(\\d+)/:pageId(\\d+)?/preview`,
   CONFIRMATION: `/questionnaire/:questionnaireId/:sectionId(\\d+)/:pageId(\\d+)/:confirmationId(\\d+)/design`,
   CONFIRMATION_PREVIEW: `/questionnaire/:questionnaireId/:sectionId(\\d+)/:pageId(\\d+)/:confirmationId(\\d+)?/preview`,
-  ROUTING: `/questionnaire/:questionnaireId/:sectionId(\\d+)/:pageId(\\d+)/routing`
+  ROUTING: `/questionnaire/:questionnaireId/:sectionId(\\d+)/:pageId(\\d+)/routing`,
 };
 
 export const buildSectionPath = generatePath(Routes.SECTION);

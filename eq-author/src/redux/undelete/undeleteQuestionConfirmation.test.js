@@ -4,7 +4,7 @@ import {
   undeleteQuestionConfirmation,
   UNDELETE_QUESTION_CONFIRMATION_REQUEST,
   UNDELETE_QUESTION_CONFIRMATION_SUCCESS,
-  UNDELETE_QUESTION_CONFIRMATION_FAILURE
+  UNDELETE_QUESTION_CONFIRMATION_FAILURE,
 } from "./undeleteQuestionConfirmation";
 
 describe("undelete question confirmation", () => {
@@ -17,15 +17,15 @@ describe("undelete question confirmation", () => {
       mutate: jest.fn().mockResolvedValue({
         data: {
           undeleteQuestionConfirmation: {
-            id: "1"
-          }
-        }
-      })
+            id: "1",
+          },
+        },
+      }),
     };
     const getState = jest.fn();
     createArgs = [
       "cacheId",
-      { questionConfirmation: { id: "1" }, goBack: jest.fn() }
+      { questionConfirmation: { id: "1" }, goBack: jest.fn() },
     ];
     runArgs = [dispatch, getState, { client }];
   });
@@ -41,18 +41,18 @@ describe("undelete question confirmation", () => {
     expect(client.mutate).toHaveBeenCalledWith({
       mutation: query,
       variables: {
-        input: { id: "1" }
-      }
+        input: { id: "1" },
+      },
     });
     expect(dispatch).toHaveBeenCalledWith({
-      type: UNDELETE_QUESTION_CONFIRMATION_REQUEST
+      type: UNDELETE_QUESTION_CONFIRMATION_REQUEST,
     });
   });
 
   it("should dispatch success on completion", async () => {
     await undeleteQuestionConfirmation(...createArgs)(...runArgs);
     expect(dispatch).toHaveBeenCalledWith({
-      type: UNDELETE_QUESTION_CONFIRMATION_SUCCESS
+      type: UNDELETE_QUESTION_CONFIRMATION_SUCCESS,
     });
   });
 
@@ -65,7 +65,7 @@ describe("undelete question confirmation", () => {
     runArgs[2].client.mutate = jest.fn().mockRejectedValue("Error");
     await undeleteQuestionConfirmation(...createArgs)(...runArgs);
     expect(dispatch).toHaveBeenCalledWith({
-      type: UNDELETE_QUESTION_CONFIRMATION_FAILURE
+      type: UNDELETE_QUESTION_CONFIRMATION_FAILURE,
     });
     expect(createArgs[1].goBack).not.toHaveBeenCalled();
   });

@@ -23,7 +23,7 @@ export const UnwrappedPreviousAnswerContentPicker = ({
 
 UnwrappedPreviousAnswerContentPicker.propTypes = {
   data: PropTypes.object, // eslint-disable-line
-  path: PropTypes.string.isRequired
+  path: PropTypes.string.isRequired,
 };
 
 const GetAvailablePreviewAnswersQuery = props => (
@@ -35,7 +35,7 @@ const GetAvailablePreviewAnswersQuery = props => (
 );
 
 GetAvailablePreviewAnswersQuery.propTypes = {
-  answerId: PropTypes.string.isRequired
+  answerId: PropTypes.string.isRequired,
 };
 
 export default GetAvailablePreviewAnswersQuery;

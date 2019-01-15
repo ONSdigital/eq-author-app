@@ -25,13 +25,13 @@ describe("Routing Rule 2 Repository", () => {
             {
               routing: {
                 else: {
-                  logical: "NextPage"
-                }
-              }
-            }
-          ]
-        }
-      ]
+                  logical: "NextPage",
+                },
+              },
+            },
+          ],
+        },
+      ],
     });
     routing = questionnaire.sections[0].pages[0].routing;
   });
@@ -45,13 +45,13 @@ describe("Routing Rule 2 Repository", () => {
     it("should create a routing rule", async () => {
       const routingRule = await RoutingRule2Repository.insert({
         routingId: routing.id,
-        destinationId: destination.id
+        destinationId: destination.id,
       });
 
       expect(routingRule).toMatchObject({
         id: expect.any(Number),
         routingId: routing.id,
-        destinationId: destination.id
+        destinationId: destination.id,
       });
     });
   });
@@ -61,12 +61,12 @@ describe("Routing Rule 2 Repository", () => {
       const destination1 = await DestinationRepository.insert();
       const routingRule1 = await RoutingRule2Repository.insert({
         routingId: routing.id,
-        destinationId: destination1.id
+        destinationId: destination1.id,
       });
       const destination2 = await DestinationRepository.insert();
       const routingRule2 = await RoutingRule2Repository.insert({
         routingId: routing.id,
-        destinationId: destination2.id
+        destinationId: destination2.id,
       });
 
       const rules = await RoutingRule2Repository.getByRoutingId(routing.id);
@@ -75,13 +75,13 @@ describe("Routing Rule 2 Repository", () => {
         expect.objectContaining({
           id: routingRule1.id,
           routingId: routing.id,
-          destinationId: destination1.id
+          destinationId: destination1.id,
         }),
         expect.objectContaining({
           id: routingRule2.id,
           routingId: routing.id,
-          destinationId: destination2.id
-        })
+          destinationId: destination2.id,
+        }),
       ]);
     });
   });
@@ -91,7 +91,7 @@ describe("Routing Rule 2 Repository", () => {
       const destination = await DestinationRepository.insert();
       const rule = await RoutingRule2Repository.insert({
         routingId: routing.id,
-        destinationId: destination.id
+        destinationId: destination.id,
       });
 
       const readRule = await RoutingRule2Repository.getById(rule.id);
@@ -105,7 +105,7 @@ describe("Routing Rule 2 Repository", () => {
       const destination = await DestinationRepository.insert();
       const rule = await RoutingRule2Repository.insert({
         routingId: routing.id,
-        destinationId: destination.id
+        destinationId: destination.id,
       });
 
       const deleteResult = await RoutingRule2Repository.delete(rule.id);

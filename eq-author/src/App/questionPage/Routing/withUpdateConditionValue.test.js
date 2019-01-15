@@ -19,7 +19,7 @@ describe("enhancers > withUpdateConditionValue", () => {
     it("should call mutate", () => {
       props.onUpdateConditionValue(conditionValue);
       expect(mutate).toHaveBeenCalledWith({
-        variables: { input: conditionValue }
+        variables: { input: conditionValue },
       });
     });
   });

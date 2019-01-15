@@ -2,7 +2,7 @@ import {
   END_REQUEST,
   START_REQUEST,
   GAIN_CONNECTION,
-  LOST_CONNECTION
+  LOST_CONNECTION,
 } from "redux/saving/actions";
 import saveReducer from "redux/saving/reducer";
 import createAction from "tests/utils/createAction";
@@ -20,7 +20,7 @@ describe("saveReducer", () => {
         createAction(START_REQUEST)
       )
     ).toMatchObject({
-      pendingRequestCount: 1
+      pendingRequestCount: 1,
     });
   });
 
@@ -28,12 +28,12 @@ describe("saveReducer", () => {
     expect(
       saveReducer(
         createState({
-          pendingRequestCount: 1
+          pendingRequestCount: 1,
         }),
         createAction(END_REQUEST)
       )
     ).toMatchObject({
-      pendingRequestCount: 0
+      pendingRequestCount: 0,
     });
   });
   it("can switch from offline state to online state", () => {
@@ -41,13 +41,13 @@ describe("saveReducer", () => {
       saveReducer(
         createState({
           pendingRequestCount: 0,
-          offline: true
+          offline: true,
         }),
         createAction(GAIN_CONNECTION)
       )
     ).toMatchObject({
       pendingRequestCount: 0,
-      offline: false
+      offline: false,
     });
   });
 
@@ -56,13 +56,13 @@ describe("saveReducer", () => {
       saveReducer(
         createState({
           pendingRequestCount: 0,
-          offline: false
+          offline: false,
         }),
         createAction(LOST_CONNECTION)
       )
     ).toMatchObject({
       pendingRequestCount: 0,
-      offline: true
+      offline: true,
     });
   });
 });

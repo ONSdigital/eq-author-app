@@ -5,21 +5,21 @@ export const GAIN_CONNECTION = "GAIN_CONNECTION";
 export const API_DOWN_ERROR = "API_DOWN_ERROR";
 
 export const startRequest = () => ({
-  type: START_REQUEST
+  type: START_REQUEST,
 });
 
 export const endRequest = () => ({
-  type: END_REQUEST
+  type: END_REQUEST,
 });
 
 export const lostConnection = () => ({
-  type: LOST_CONNECTION
+  type: LOST_CONNECTION,
 });
 
 export const gainConnection = () => ({
-  type: GAIN_CONNECTION
+  type: GAIN_CONNECTION,
 });
 
 export const apiDownError = () => ({
-  type: API_DOWN_ERROR
+  type: API_DOWN_ERROR,
 });

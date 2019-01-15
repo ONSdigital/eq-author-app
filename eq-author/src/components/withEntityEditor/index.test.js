@@ -47,7 +47,7 @@ describe("withEntityEditor", () => {
       id: "1",
       title: "foo",
       alias: "alias",
-      __typename: "Foo"
+      __typename: "Foo",
     };
     jest.useFakeTimers();
 
@@ -59,8 +59,8 @@ describe("withEntityEditor", () => {
       entity: {
         id: 1,
         title: "new title",
-        __typename: "Foo"
-      }
+        __typename: "Foo",
+      },
     };
     wrapper.setProps(newProps);
     expect(wrapper.state("entity")).toEqual(newProps.entity);
@@ -74,14 +74,14 @@ describe("withEntityEditor", () => {
     jest.runAllTimers();
     expect(handleUpdate).toHaveBeenCalledWith({
       ...omit(entity, "__typename"),
-      title: "foo1"
+      title: "foo1",
     });
   });
 
   it("should update the state if the entity does change", () => {
     wrapper.setProps({ entity: { ...entity, title: "hello" } });
     expect(wrapper.dive().prop("entity")).toMatchObject({
-      title: "hello"
+      title: "hello",
     });
   });
 
@@ -146,7 +146,7 @@ describe("withEntityEditor", () => {
     const newEntity = {
       id: "1",
       title: "bar",
-      __typename: "Bar"
+      __typename: "Bar",
     };
 
     wrapper.setProps({ entity: newEntity });
@@ -159,9 +159,9 @@ describe("withEntityEditor", () => {
       id: "1",
       title: "foo",
       properties: {
-        value: "updated"
+        value: "updated",
       },
-      __typename: "Foo"
+      __typename: "Foo",
     };
 
     wrapper.setProps({ entity: newEntity });
@@ -188,7 +188,7 @@ describe("withEntityEditor", () => {
 
     wrapper.setProps({
       startRequest: handleStartRequest,
-      endRequest: handleEndRequest
+      endRequest: handleEndRequest,
     });
     wrapper.simulate("change", { name: "title", value: newValue });
     wrapper.simulate("update");
@@ -206,7 +206,7 @@ describe("withEntityEditor", () => {
     const failingWrapper = render();
     failingWrapper.setProps({
       startRequest: handleStartRequest,
-      endRequest: handleEndRequest
+      endRequest: handleEndRequest,
     });
 
     failingWrapper.simulate("change", { name: "title", value: newValue });
@@ -240,9 +240,9 @@ describe("withEntityEditor", () => {
       id: 1,
       title: "title",
       deep: {
-        thing: "original"
+        thing: "original",
       },
-      __typename: "Foo"
+      __typename: "Foo",
     };
     const wrapper = shallow(
       <ComponentWithEntity
@@ -260,8 +260,8 @@ describe("withEntityEditor", () => {
       id: 1,
       title: "title",
       deep: {
-        thing: "updated"
-      }
+        thing: "updated",
+      },
     });
   });
 
@@ -274,12 +274,12 @@ describe("withEntityEditor", () => {
         id: 1,
         title: "New title",
         alias: "alias",
-        __typename: "Example"
-      }
+        __typename: "Example",
+      },
     });
     expect(wrapper.dive().prop("entity")).toMatchObject({
       title: "New title",
-      alias: "updated"
+      alias: "updated",
     });
 
     wrapper.simulate("update");
@@ -288,7 +288,7 @@ describe("withEntityEditor", () => {
     expect(handleUpdate).toHaveBeenCalledWith({
       id: 1,
       title: "New title",
-      alias: "updated"
+      alias: "updated",
     });
   });
 
@@ -299,8 +299,8 @@ describe("withEntityEditor", () => {
         id: 1,
         title: "New title",
         alias: "alias",
-        __typename: "Example"
-      }
+        __typename: "Example",
+      },
     });
 
     wrapper.simulate("submit", { preventDefault: jest.fn() });
@@ -333,7 +333,7 @@ describe("withEntityEditor", () => {
     expect(handleUpdate).toHaveBeenCalledWith({
       id: entity.id,
       title: "updated title",
-      alias: "updated alias"
+      alias: "updated alias",
     });
   });
 });

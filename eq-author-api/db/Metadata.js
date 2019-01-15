@@ -34,6 +34,6 @@ module.exports = knex => {
     findById,
     update,
     create,
-    destroy
+    destroy,
   };
 };

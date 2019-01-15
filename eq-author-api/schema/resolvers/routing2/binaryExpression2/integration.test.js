@@ -29,34 +29,34 @@ describe("BinaryExpression Integration", () => {
               answers: [
                 {
                   id: "a1",
-                  type: answerTypes.NUMBER
-                }
+                  type: answerTypes.NUMBER,
+                },
               ],
               routing: {
                 else: {
-                  logical: "NextPage"
+                  logical: "NextPage",
                 },
                 rules: [
                   {
                     destination: {
-                      logical: "NextPage"
+                      logical: "NextPage",
                     },
                     expressionGroup: {
                       expressions: [
                         {
                           left: {
-                            answerId: "a1"
-                          }
-                        }
-                      ]
-                    }
-                  }
-                ]
-              }
-            }
-          ]
-        }
-      ]
+                            answerId: "a1",
+                          },
+                        },
+                      ],
+                    },
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      ],
     });
     const createMutation = `
     mutation createBinaryExpression2($input: CreateBinaryExpression2Input!) {
@@ -70,15 +70,15 @@ describe("BinaryExpression Integration", () => {
     const page = questionnaire.sections[0].pages[0];
     const expressionGroupId = page.routing.rules[0].expressionGroup.id;
     const input = {
-      expressionGroupId
+      expressionGroupId,
     };
     const createResult = await executeQuery(createMutation, { input }, ctx);
     expect(createResult.errors).toBeUndefined();
     expect(createResult.data).toMatchObject({
       createBinaryExpression2: {
         id: expect.any(String),
-        expressionGroup: { id: expressionGroupId.toString() }
-      }
+        expressionGroup: { id: expressionGroupId.toString() },
+      },
     });
 
     const query = `
@@ -127,17 +127,17 @@ describe("BinaryExpression Integration", () => {
                   {
                     id: createResult.data.createBinaryExpression2.id,
                     left: {
-                      id: page.answers[0].id.toString()
+                      id: page.answers[0].id.toString(),
                     },
                     condition: "Equal",
-                    right: null
-                  }
-                ]
-              }
-            }
-          ]
-        }
-      }
+                    right: null,
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      },
     });
   });
 
@@ -150,23 +150,23 @@ describe("BinaryExpression Integration", () => {
               answers: [],
               routing: {
                 else: {
-                  logical: "NextPage"
+                  logical: "NextPage",
                 },
                 rules: [
                   {
                     destination: {
-                      logical: "NextPage"
+                      logical: "NextPage",
                     },
                     expressionGroup: {
-                      expressions: []
-                    }
-                  }
-                ]
-              }
-            }
-          ]
-        }
-      ]
+                      expressions: [],
+                    },
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      ],
     });
 
     const createMutation = `
@@ -182,13 +182,13 @@ describe("BinaryExpression Integration", () => {
     const page = questionnaire.sections[0].pages[0];
     const expressionGroupId = page.routing.rules[0].expressionGroup.id;
     const input = {
-      expressionGroupId
+      expressionGroupId,
     };
     const createResult = await executeQuery(createMutation, { input }, ctx);
 
     expect(createResult.errors).toBeUndefined();
     expect(createResult.data).toMatchObject({
-      createBinaryExpression2: { left: null }
+      createBinaryExpression2: { left: null },
     });
   });
 
@@ -205,9 +205,9 @@ describe("BinaryExpression Integration", () => {
                   type: answerTypes.RADIO,
                   options: [
                     { id: "option1", label: "option1" },
-                    { id: "option2", label: "option2" }
-                  ]
-                }
+                    { id: "option2", label: "option2" },
+                  ],
+                },
               ],
               routing: {
                 rules: [
@@ -220,18 +220,18 @@ describe("BinaryExpression Integration", () => {
                           condition: conditions.ONE_OF,
                           right: {
                             type: "SelectedOptions",
-                            selectedOptions: ["option1", "option2"]
-                          }
-                        }
-                      ]
-                    }
-                  }
-                ]
-              }
-            }
-          ]
-        }
-      ]
+                            selectedOptions: ["option1", "option2"],
+                          },
+                        },
+                      ],
+                    },
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      ],
     });
 
     const page = questionnaire.sections[0].pages[0];
@@ -266,8 +266,8 @@ describe("BinaryExpression Integration", () => {
       {
         input: {
           expressionId: expressionId,
-          answerId: answer.id
-        }
+          answerId: answer.id,
+        },
       },
       ctx
     );
@@ -278,8 +278,8 @@ describe("BinaryExpression Integration", () => {
         id: expressionId.toString(),
         left: { id: answer.id.toString() },
         condition: conditions.EQUAL,
-        right: {}
-      }
+        right: {},
+      },
     });
   });
 
@@ -295,9 +295,9 @@ describe("BinaryExpression Integration", () => {
                   type: answerTypes.RADIO,
                   options: [
                     { id: "option1", label: "option1" },
-                    { id: "option2", label: "option2" }
-                  ]
-                }
+                    { id: "option2", label: "option2" },
+                  ],
+                },
               ],
               routing: {
                 rules: [
@@ -308,17 +308,17 @@ describe("BinaryExpression Integration", () => {
                         {
                           left: { answerId: "radioAnswer" },
                           condition: conditions.ONE_OF,
-                          right: {}
-                        }
-                      ]
-                    }
-                  }
-                ]
-              }
-            }
-          ]
-        }
-      ]
+                          right: {},
+                        },
+                      ],
+                    },
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      ],
     });
 
     const page = questionnaire.sections[0].pages[0];
@@ -326,7 +326,7 @@ describe("BinaryExpression Integration", () => {
     const optionIds = answer.options.map(({ id }) => id);
     const options = answer.options.map(({ id, label }) => ({
       id: id.toString(),
-      label
+      label,
     }));
     const expressionId =
       page.routing.rules[0].expressionGroup.expressions[0].id;
@@ -358,8 +358,8 @@ describe("BinaryExpression Integration", () => {
       {
         input: {
           expressionId: expressionId,
-          selectedOptions: optionIds
-        }
+          selectedOptions: optionIds,
+        },
       },
       ctx
     );
@@ -370,8 +370,8 @@ describe("BinaryExpression Integration", () => {
         id: expressionId.toString(),
         left: { id: answer.id.toString() },
         condition: conditions.ONE_OF,
-        right: { options }
-      }
+        right: { options },
+      },
     });
   });
 
@@ -388,9 +388,9 @@ describe("BinaryExpression Integration", () => {
                   type: answerTypes.RADIO,
                   options: [
                     { id: "option1", label: "option1" },
-                    { id: "option2", label: "option2" }
-                  ]
-                }
+                    { id: "option2", label: "option2" },
+                  ],
+                },
               ],
               routing: {
                 rules: [
@@ -403,18 +403,18 @@ describe("BinaryExpression Integration", () => {
                           condition: conditions.ONE_OF,
                           right: {
                             type: "SelectedOptions",
-                            selectedOptions: ["option1", "option2"]
-                          }
-                        }
-                      ]
-                    }
-                  }
-                ]
-              }
-            }
-          ]
-        }
-      ]
+                            selectedOptions: ["option1", "option2"],
+                          },
+                        },
+                      ],
+                    },
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      ],
     });
 
     const page = questionnaire.sections[0].pages[0];

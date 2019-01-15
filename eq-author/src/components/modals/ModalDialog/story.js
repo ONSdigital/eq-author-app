@@ -24,11 +24,11 @@ const LargeContent = styled.div`
 
 class StatefulModalDialog extends React.Component {
   static propTypes = {
-    children: PropTypes.node
+    children: PropTypes.node,
   };
 
   state = {
-    showDialog: true
+    showDialog: true,
   };
 
   handleOpen = () => {

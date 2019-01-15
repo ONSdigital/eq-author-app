@@ -4,7 +4,7 @@ const comparatorLookup = {
   GreaterThan: "greater than",
   GreaterOrEqual: "greater than or equal to",
   LessThan: "less than",
-  LessOrEqual: "less than or equal to"
+  LessOrEqual: "less than or equal to",
 };
 
 class NumberRoutingCondition {
@@ -16,7 +16,7 @@ class NumberRoutingCondition {
     return {
       id: `answer${this.condition.answer.id}`,
       condition: comparatorLookup[this.condition.comparator],
-      value: this.condition.routingValue.numberValue
+      value: this.condition.routingValue.numberValue,
     };
   }
 }

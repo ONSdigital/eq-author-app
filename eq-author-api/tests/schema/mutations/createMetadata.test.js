@@ -10,14 +10,14 @@ describe("createMetadata", () => {
   beforeEach(() => {
     repositories = {
       Metadata: mockRepository({
-        insert: { id: METADATA_ID, questionnaireId: QUESTIONNAIRE_ID }
-      })
+        insert: { id: METADATA_ID, questionnaireId: QUESTIONNAIRE_ID },
+      }),
     };
   });
 
   it("should allow creation of Metadata", async () => {
     const input = {
-      questionnaireId: QUESTIONNAIRE_ID
+      questionnaireId: QUESTIONNAIRE_ID,
     };
 
     const result = await executeQuery(

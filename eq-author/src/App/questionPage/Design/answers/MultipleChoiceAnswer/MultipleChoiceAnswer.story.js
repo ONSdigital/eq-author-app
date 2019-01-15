@@ -18,20 +18,20 @@ const options = [
     label: "",
     value: "",
     description: "",
-    __typename: "Option"
+    __typename: "Option",
   },
   {
     id: "1",
     label: "",
     value: "",
     description: "",
-    __typename: "Option"
-  }
+    __typename: "Option",
+  },
 ];
 
 class MultipleChoiceAnswerWrapper extends React.Component {
   static propTypes = {
-    type: PropTypes.string
+    type: PropTypes.string,
   };
 
   state = {
@@ -39,8 +39,8 @@ class MultipleChoiceAnswerWrapper extends React.Component {
       id: "0",
       options,
       label: "test",
-      description: "test"
-    }
+      description: "test",
+    },
   };
 
   nextId = 1;
@@ -50,14 +50,14 @@ class MultipleChoiceAnswerWrapper extends React.Component {
     const newOption = {
       ...options[0],
       id: (++this.nextId).toString(),
-      __typename: "Option"
+      __typename: "Option",
     };
 
     const newState = {
       answer: {
         ...answer,
-        options: answer.options.concat(newOption)
-      }
+        options: answer.options.concat(newOption),
+      },
     };
 
     this.setState(newState);
@@ -71,8 +71,8 @@ class MultipleChoiceAnswerWrapper extends React.Component {
     const newState = {
       answer: {
         ...answer,
-        options: reject(answer.options, { id })
-      }
+        options: reject(answer.options, { id }),
+      },
     };
 
     this.setState(newState);

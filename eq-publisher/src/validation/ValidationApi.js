@@ -13,14 +13,14 @@ class ValidationApi {
     return this.http
       .post(this.validationApiUrl, {
         body: json,
-        json: true
+        json: true,
       })
       .then(() => ({
-        valid: true
+        valid: true,
       }))
       .catch(e => ({
         valid: false,
-        errors: getValidationErrors(e)
+        errors: getValidationErrors(e),
       }));
   }
 }

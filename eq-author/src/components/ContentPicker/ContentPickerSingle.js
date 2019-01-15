@@ -27,7 +27,7 @@ const ContentPickerSingle = ({
   hidden,
   data,
   selectedOption,
-  childKey
+  childKey,
 }) => {
   if (hidden) {
     return null;
@@ -79,10 +79,10 @@ ContentPickerSingle.propTypes = {
   hidden: PropTypes.bool,
   data: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.string.isRequired
+      id: PropTypes.string.isRequired,
     })
   ).isRequired,
-  childKey: PropTypes.string
+  childKey: PropTypes.string,
 };
 
 export default ContentPickerSingle;

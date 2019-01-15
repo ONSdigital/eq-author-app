@@ -17,8 +17,8 @@ describe("toastReducer", () => {
         message: "Hello",
         undoAction: "actionName",
         context: {
-          additionalData: true
-        }
+          additionalData: true,
+        },
       };
     });
 
@@ -30,9 +30,9 @@ describe("toastReducer", () => {
           message: "Hello",
           undoAction: "actionName",
           context: {
-            additionalData: true
-          }
-        }
+            additionalData: true,
+          },
+        },
       });
     });
 
@@ -44,9 +44,9 @@ describe("toastReducer", () => {
               message: "Hello",
               undoAction: "actionName",
               context: {
-                additionalData: true
-              }
-            }
+                additionalData: true,
+              },
+            },
           }),
           createAction(TOAST_DISMISS, payload)
         )

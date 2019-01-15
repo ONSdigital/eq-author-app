@@ -4,7 +4,7 @@ import * as metadataTypes from "constants/metadata-types";
 
 const CustomPropTypes = {
   breadcrumb: PropTypes.shape({
-    title: PropTypes.string.isRequired
+    title: PropTypes.string.isRequired,
   }),
   questionnaire: PropTypes.shape({
     id: PropTypes.string,
@@ -12,7 +12,7 @@ const CustomPropTypes = {
     legalBasis: PropTypes.string,
     theme: PropTypes.string,
     title: PropTypes.string,
-    navigation: PropTypes.bool
+    navigation: PropTypes.bool,
   }),
   metadata: PropTypes.shape({
     id: PropTypes.string.isRequired,
@@ -22,7 +22,7 @@ const CustomPropTypes = {
     languageValue: PropTypes.string,
     regionValue: PropTypes.string,
     textValue: PropTypes.string,
-    dateValue: PropTypes.string
+    dateValue: PropTypes.string,
   }),
   section: PropTypes.shape({
     id: PropTypes.string,
@@ -32,21 +32,21 @@ const CustomPropTypes = {
     position: PropTypes.number,
     introductionTitle: PropTypes.string,
     introductionContent: PropTypes.string,
-    introductionEnabled: PropTypes.bool
+    introductionEnabled: PropTypes.bool,
   }),
   page: PropTypes.shape({
     id: PropTypes.string,
     title: PropTypes.string,
     displayName: PropTypes.string,
     description: PropTypes.string,
-    guidance: PropTypes.string
+    guidance: PropTypes.string,
   }),
   answer: PropTypes.shape({
     id: PropTypes.string,
     label: PropTypes.string,
     displayName: PropTypes.string,
     description: PropTypes.string,
-    type: PropTypes.oneOf(Object.values(answerTypes))
+    type: PropTypes.oneOf(Object.values(answerTypes)),
   }),
   option: PropTypes.shape({
     id: PropTypes.string.isRequired,
@@ -54,15 +54,15 @@ const CustomPropTypes = {
     displayName: PropTypes.string,
     description: PropTypes.string,
     qCode: PropTypes.string,
-    value: PropTypes.string
+    value: PropTypes.string,
   }),
   match: PropTypes.shape({
     params: PropTypes.shape({
       questionnaireId: PropTypes.string.isRequired,
       sectionId: PropTypes.string,
       pageId: PropTypes.string,
-      tab: PropTypes.string
-    }).isRequired
+      tab: PropTypes.string,
+    }).isRequired,
   }).isRequired,
   questionnaireList: PropTypes.arrayOf(
     PropTypes.shape({
@@ -70,29 +70,29 @@ const CustomPropTypes = {
       title: PropTypes.string.isRequired,
       createdAt: PropTypes.string.isRequired,
       createdBy: PropTypes.shape({
-        name: PropTypes.string
-      }).isRequired
+        name: PropTypes.string,
+      }).isRequired,
     }).isRequired
   ),
   apolloClient: PropTypes.shape({
     query: PropTypes.func.isRequired,
-    readQuery: PropTypes.func.isRequired
+    readQuery: PropTypes.func.isRequired,
   }),
   store: PropTypes.shape({
-    getState: PropTypes.func.isRequired
+    getState: PropTypes.func.isRequired,
   }),
   history: PropTypes.shape({
-    push: PropTypes.func.isRequired
+    push: PropTypes.func.isRequired,
   }),
   location: PropTypes.shape({
-    pathname: PropTypes.string.isRequired
+    pathname: PropTypes.string.isRequired,
   }),
   user: PropTypes.shape({
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired,
-    picture: PropTypes.string
-  })
+    picture: PropTypes.string,
+  }),
 };
 
 export default CustomPropTypes;

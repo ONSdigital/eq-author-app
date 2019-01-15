@@ -6,7 +6,7 @@ export const createUpdater = pageId => (proxy, result) => {
   const id = `QuestionPage${pageId}`;
   const page = proxy.readFragment({
     id,
-    fragment
+    fragment,
   });
 
   page.answers.push(result.data.createAnswer);
@@ -14,7 +14,7 @@ export const createUpdater = pageId => (proxy, result) => {
   proxy.writeFragment({
     id,
     fragment,
-    data: page
+    data: page,
   });
 };
 
@@ -26,18 +26,18 @@ export const mapMutateToProps = ({ mutate }) => ({
       description: "",
       guidance: "",
       qCode: "",
-      label: ""
+      label: "",
     };
 
     const update = createUpdater(pageId);
 
     return mutate({
       variables: { input: answer },
-      update
+      update,
     }).then(res => res.data.createAnswer);
-  }
+  },
 });
 
 export default graphql(createAnswerMutation, {
-  props: mapMutateToProps
+  props: mapMutateToProps,
 });

@@ -2,7 +2,7 @@ import React from "react";
 import { shallow } from "enzyme";
 
 import ContentPickerTitle, {
-  TitleButton
+  TitleButton,
 } from "components/ContentPicker/ContentPickerTitle";
 
 describe("Content Picker Title", () => {
@@ -13,7 +13,7 @@ describe("Content Picker Title", () => {
       onClick: jest.fn(),
       selected: true,
       open: true,
-      disabled: false
+      disabled: false,
     };
   });
 

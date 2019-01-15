@@ -16,7 +16,7 @@ import { colors } from "constants/theme";
 
 const mapStateToProps = state => {
   return {
-    toasts: state.toasts
+    toasts: state.toasts,
   };
 };
 
@@ -97,7 +97,7 @@ export const ToastArea = ({
 ToastArea.propTypes = {
   toasts: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   dismissToast: PropTypes.func.isRequired,
-  undoToast: PropTypes.func.isRequired
+  undoToast: PropTypes.func.isRequired,
 };
 
 export default connect(

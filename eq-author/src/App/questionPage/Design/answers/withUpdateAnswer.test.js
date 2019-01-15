@@ -18,7 +18,7 @@ describe("withUpdateAnswer", () => {
 
     props.onUpdateAnswer(answer);
     expect(mutate).toHaveBeenCalledWith({
-      variables: { input: answer }
+      variables: { input: answer },
     });
   });
 });

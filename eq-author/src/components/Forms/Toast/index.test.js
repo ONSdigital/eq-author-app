@@ -40,7 +40,7 @@ describe("Toast", () => {
 
       wrapper = render({
         timeout: TIMEOUT,
-        onClose: handleClose
+        onClose: handleClose,
       });
     });
 

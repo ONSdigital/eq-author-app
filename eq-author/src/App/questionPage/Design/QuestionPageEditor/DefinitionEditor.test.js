@@ -11,7 +11,7 @@ describe("DefinitionEditor", () => {
   beforeEach(() => {
     props = {
       label: "foobar",
-      children: <p>Test</p>
+      children: <p>Test</p>,
     };
 
     wrapper = createWrapper(props);

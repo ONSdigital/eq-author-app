@@ -68,12 +68,12 @@ PageNav.fragments = {
     }
     ${PageNavItem.fragments.PageNavItem}
     ${PageConfirmationNavItem.fragments.PageConfirmationNavItem}
-  `
+  `,
 };
 
 PageNav.propTypes = {
   questionnaire: CustomPropTypes.questionnaire.isRequired,
-  section: CustomPropTypes.section.isRequired
+  section: CustomPropTypes.section.isRequired,
 };
 
 export default PageNav;

@@ -7,5 +7,5 @@ module.exports = {
   CUSTOM,
   PREVIOUS_ANSWER,
   METADATA,
-  NOW
+  NOW,
 };

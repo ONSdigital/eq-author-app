@@ -9,8 +9,8 @@ describe("QuestionConfirmation", () => {
         getById: jest.fn().mockResolvedValue({
           id: "1",
           title: "page title",
-          pageType: "QuestionPage"
-        })
+          pageType: "QuestionPage",
+        }),
       },
       QuestionConfirmation: {
         findById: jest.fn().mockResolvedValue({
@@ -20,7 +20,7 @@ describe("QuestionConfirmation", () => {
           positiveDescription: "pd",
           negativeLabel: "nl",
           negativeDescription: "nd",
-          pageId: "1"
+          pageId: "1",
         }),
         findByPageId: jest.fn().mockResolvedValue({
           id: "1",
@@ -29,15 +29,15 @@ describe("QuestionConfirmation", () => {
           positiveDescription: "pd",
           negativeLabel: "nl",
           negativeDescription: "nd",
-          pageId: "1"
+          pageId: "1",
         }),
         getPipingAnswers: jest
           .fn()
           .mockResolvedValue([{ id: 1, label: "Answer" }]),
         getPipingMetadata: jest
           .fn()
-          .mockResolvedValue([{ id: 2, alias: "Metadata" }])
-      }
+          .mockResolvedValue([{ id: 2, alias: "Metadata" }]),
+      },
     };
   });
 
@@ -73,14 +73,14 @@ describe("QuestionConfirmation", () => {
         displayName: "My new title",
         title: "My new title",
         positive: {
-          label: "pl"
+          label: "pl",
         },
         negative: {
-          description: "nd"
+          description: "nd",
         },
         availablePipingAnswers: [{ id: "1", label: "Answer" }],
-        availablePipingMetadata: [{ id: "2", alias: "Metadata" }]
-      }
+        availablePipingMetadata: [{ id: "2", alias: "Metadata" }],
+      },
     });
     expect(repositories.QuestionConfirmation.findById).toHaveBeenCalledWith(
       "1"
@@ -98,15 +98,15 @@ describe("QuestionConfirmation", () => {
     `;
     repositories.QuestionConfirmation.findById = jest.fn().mockResolvedValue({
       id: "1",
-      title: null
+      title: null,
     });
     const result = await executeQuery(query, { input: "1" }, { repositories });
     expect(result.errors).toBeUndefined();
     expect(result.data).toMatchObject({
       questionConfirmation: {
         id: "1",
-        displayName: "Untitled Confirmation"
-      }
+        displayName: "Untitled Confirmation",
+      },
     });
   });
 
@@ -132,9 +132,9 @@ describe("QuestionConfirmation", () => {
         id: "1",
         confirmation: {
           id: "1",
-          title: "My new title"
-        }
-      }
+          title: "My new title",
+        },
+      },
     });
   });
 
@@ -159,9 +159,9 @@ describe("QuestionConfirmation", () => {
         id: "1",
         page: {
           id: "1",
-          title: "page title"
-        }
-      }
+          title: "page title",
+        },
+      },
     });
   });
 });

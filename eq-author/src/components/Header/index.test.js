@@ -11,7 +11,7 @@ describe("components/Header", () => {
 
   beforeEach(() => {
     jest.mock("config", () => ({
-      REACT_APP_LAUNCH_URL: "http://localhost:4000/launch"
+      REACT_APP_LAUNCH_URL: "http://localhost:4000/launch",
     }));
     const Header = require("components/Header");
     UnconnectedHeader = Header.UnconnectedHeader;
@@ -89,14 +89,14 @@ describe("components/Header", () => {
       name: "Foo Bar",
       displayName: "Foo Bar",
       email: "foo@b.ar",
-      photoURL: "http://foo.b.ar/photo.jpg"
+      photoURL: "http://foo.b.ar/photo.jpg",
     };
 
     const data = {
       me: {
         name: "Foo Bar",
-        photo: "file:///path/to/some/photo.jpg"
-      }
+        photo: "file:///path/to/some/photo.jpg",
+      },
     };
 
     it("should render user's profile", () => {
@@ -126,7 +126,7 @@ describe("withCurrentUser", () => {
   beforeEach(() => {
     defaultProps = {
       raiseToast: jest.fn(),
-      signOutUser: jest.fn()
+      signOutUser: jest.fn(),
     };
 
     const Header = require("./");
@@ -137,7 +137,7 @@ describe("withCurrentUser", () => {
 
   it("should not query for user info when on the sign-in page", () => {
     const match = {
-      path: Routes.SIGN_IN
+      path: Routes.SIGN_IN,
     };
 
     expect(
@@ -147,7 +147,7 @@ describe("withCurrentUser", () => {
 
   it("should query for user info when on any other page", () => {
     const match = {
-      path: Routes.QUESTIONNAIRE
+      path: Routes.QUESTIONNAIRE,
     };
     expect(
       shallow(<WrappedComponent {...defaultProps} match={match} />)

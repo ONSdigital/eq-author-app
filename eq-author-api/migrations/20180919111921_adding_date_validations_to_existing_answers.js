@@ -18,10 +18,10 @@ exports.up = async function(knex, Promise) {
         config: {
           offset: {
             value: 0,
-            unit: "Days"
+            unit: "Days",
           },
-          relativePosition: "Before"
-        }
+          relativePosition: "Before",
+        },
       },
       {
         answerId: id,
@@ -29,11 +29,11 @@ exports.up = async function(knex, Promise) {
         config: {
           offset: {
             value: 0,
-            unit: "Days"
+            unit: "Days",
           },
-          relativePosition: "After"
-        }
-      }
+          relativePosition: "After",
+        },
+      },
     ])
   );
 

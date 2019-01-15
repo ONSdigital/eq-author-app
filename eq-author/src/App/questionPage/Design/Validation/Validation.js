@@ -8,12 +8,12 @@ class Validation extends React.Component {
   handleToggleChange = ({ value: enabled }) => {
     const {
       onToggleValidationRule,
-      validation: { id }
+      validation: { id },
     } = this.props;
 
     onToggleValidationRule({
       id,
-      enabled
+      enabled,
     });
   };
 
@@ -23,7 +23,7 @@ class Validation extends React.Component {
     const {
       testId,
       validation: { enabled },
-      children
+      children,
     } = this.props;
 
     return (
@@ -43,10 +43,10 @@ Validation.propTypes = {
   displayName: PropTypes.string,
   validation: PropTypes.shape({
     id: PropTypes.string,
-    enabled: PropTypes.bool
+    enabled: PropTypes.bool,
   }),
   onToggleValidationRule: PropTypes.func,
-  children: PropTypes.func
+  children: PropTypes.func,
 };
 
 export default Validation;

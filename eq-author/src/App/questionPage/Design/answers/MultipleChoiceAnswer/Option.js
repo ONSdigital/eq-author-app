@@ -41,11 +41,11 @@ export const StyledOption = styled.div`
 `;
 
 StyledOption.defaultProps = {
-  duration: 200
+  duration: 200,
 };
 
 StyledOption.propTypes = {
-  duration: PropTypes.number
+  duration: PropTypes.number,
 };
 
 export class StatelessOption extends Component {
@@ -61,12 +61,12 @@ export class StatelessOption extends Component {
     labelPlaceholder: PropTypes.string,
     descriptionPlaceholder: PropTypes.string,
     autoFocus: PropTypes.bool,
-    label: PropTypes.string
+    label: PropTypes.string,
   };
 
   static defaultProps = {
     labelPlaceholder: "Label",
-    autoFocus: true
+    autoFocus: true,
   };
 
   handleDeleteClick = () => {
@@ -156,7 +156,7 @@ export class StatelessOption extends Component {
 }
 
 StatelessOption.fragments = {
-  Option: optionFragment
+  Option: optionFragment,
 };
 
 export default withEntityEditor("option", optionFragment)(StatelessOption);

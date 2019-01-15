@@ -11,19 +11,19 @@ const radioRoutingCondition = [
         {
           id: "1",
           label: "Yes",
-          value: "yes"
+          value: "yes",
         },
         {
           id: "2",
           label: "No",
-          value: "no"
-        }
-      ]
+          value: "no",
+        },
+      ],
     },
     routingValue: {
-      value: ["1"]
-    }
-  }
+      value: ["1"],
+    },
+  },
 ];
 
 const buildNumberAnswer = (id, value, comparator = "Equal") => ({
@@ -31,11 +31,11 @@ const buildNumberAnswer = (id, value, comparator = "Equal") => ({
   comparator,
   answer: {
     id: `${id}`,
-    type: "Number"
+    type: "Number",
   },
   routingValue: {
-    numberValue: value
-  }
+    numberValue: value,
+  },
 });
 
 describe("RoutingConditions", () => {
@@ -47,9 +47,9 @@ describe("RoutingConditions", () => {
           {
             id: "answer101",
             condition: "equals",
-            value: 30
-          }
-        ]
+            value: 30,
+          },
+        ],
       });
     });
 
@@ -61,21 +61,21 @@ describe("RoutingConditions", () => {
     it("should create condition for two number answers", () => {
       const conditions = [
         buildNumberAnswer(101, 20),
-        buildNumberAnswer(102, 30)
+        buildNumberAnswer(102, 30),
       ];
       expect(new RoutingConditions(conditions)).toEqual({
         when: [
           {
             id: "answer101",
             condition: "equals",
-            value: 20
+            value: 20,
           },
           {
             id: "answer102",
             condition: "equals",
-            value: 30
-          }
-        ]
+            value: 30,
+          },
+        ],
       });
     });
 
@@ -86,9 +86,9 @@ describe("RoutingConditions", () => {
           {
             id: "answer101",
             condition: "not equals",
-            value: 30
-          }
-        ]
+            value: 30,
+          },
+        ],
       });
     });
 
@@ -99,9 +99,9 @@ describe("RoutingConditions", () => {
           {
             id: "answer101",
             condition: "greater than",
-            value: 30
-          }
-        ]
+            value: 30,
+          },
+        ],
       });
     });
 
@@ -112,9 +112,9 @@ describe("RoutingConditions", () => {
           {
             id: "answer101",
             condition: "less than",
-            value: 30
-          }
-        ]
+            value: 30,
+          },
+        ],
       });
     });
   });
@@ -126,13 +126,13 @@ describe("RoutingConditions", () => {
           {
             condition: "not equals",
             id: "answer1",
-            value: "No"
+            value: "No",
           },
           {
             condition: "set",
-            id: "answer1"
-          }
-        ]
+            id: "answer1",
+          },
+        ],
       });
     });
 
@@ -148,25 +148,25 @@ describe("RoutingConditions", () => {
               {
                 id: "1",
                 label: "Yes",
-                value: "yes"
+                value: "yes",
               },
               {
                 id: "2",
                 label: "No",
-                value: "no"
+                value: "no",
               },
               {
                 id: "3",
                 label: "Maybe",
                 value: "maybe",
-                additionalAnswer: { id: "4", label: "additionalAnswer" }
-              }
-            ]
+                additionalAnswer: { id: "4", label: "additionalAnswer" },
+              },
+            ],
           },
           routingValue: {
-            value: ["1", "3"]
-          }
-        }
+            value: ["1", "3"],
+          },
+        },
       ];
 
       expect(new RoutingConditions(radioWithAdditionalAnswer)).toEqual({
@@ -174,13 +174,13 @@ describe("RoutingConditions", () => {
           {
             condition: "not equals",
             id: "answer1",
-            value: "No"
+            value: "No",
           },
           {
             condition: "set",
-            id: "answer1"
-          }
-        ]
+            id: "answer1",
+          },
+        ],
       });
     });
   });
@@ -193,12 +193,12 @@ describe("RoutingConditions", () => {
           comparator: "equals",
           answer: {
             id: `101`,
-            type: "TextArea"
+            type: "TextArea",
           },
           routingValue: {
-            numberValue: 0
-          }
-        }
+            numberValue: 0,
+          },
+        },
       ];
       expect(() => new RoutingConditions(conditions)).toThrowError();
     });
@@ -210,12 +210,12 @@ describe("RoutingConditions", () => {
           comparator: "equals",
           answer: {
             id: `101`,
-            type: null
+            type: null,
           },
           routingValue: {
-            numberValue: 0
-          }
-        }
+            numberValue: 0,
+          },
+        },
       ];
       expect(() => new RoutingConditions(conditions)).toThrowError();
     });

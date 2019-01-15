@@ -17,11 +17,11 @@ const {
   CURRENCY,
   NUMBER,
   DATE,
-  DATE_RANGE
+  DATE_RANGE,
 } = require("../constants/answerTypes");
 const {
   DATE: METADATA_DATE,
-  TEXT: METADATA_TEXT
+  TEXT: METADATA_TEXT,
 } = require("../constants/metadataTypes");
 
 const reverse = array => array.slice().reverse();
@@ -33,7 +33,7 @@ const buildQuestionnaire = questionnaire => ({
   legalBasis: "Voluntary",
   navigation: false,
   createdBy: "foo",
-  ...questionnaire
+  ...questionnaire,
 });
 
 const buildSection = section => ({
@@ -42,7 +42,7 @@ const buildSection = section => ({
   introductionTitle: null,
   introductionContent: null,
   introductionEnabled: false,
-  ...section
+  ...section,
 });
 
 const eachP = (items, iter) =>
@@ -70,7 +70,7 @@ describe("SectionRepository", () => {
 
   it("allows sections to be created", async () => {
     const {
-      questionnaire: { id: questionnaireId }
+      questionnaire: { id: questionnaireId },
     } = await setup();
 
     const section = buildSection({ questionnaireId: questionnaireId });
@@ -82,7 +82,7 @@ describe("SectionRepository", () => {
 
   it("allows sections to be updated", async () => {
     const {
-      questionnaire: { id: questionnaireId }
+      questionnaire: { id: questionnaireId },
     } = await setup();
 
     const section = await SectionRepository.insert(
@@ -95,7 +95,7 @@ describe("SectionRepository", () => {
       alias: "updated alias",
       introductionTitle: "updated intro title",
       introductionContent: "updated intro content",
-      introductionEnabled: true
+      introductionEnabled: true,
     };
 
     await SectionRepository.update(update);
@@ -106,7 +106,7 @@ describe("SectionRepository", () => {
 
   it("allow sections to be deleted", async () => {
     const {
-      questionnaire: { id: questionnaireId }
+      questionnaire: { id: questionnaireId },
     } = await setup();
     const section = await SectionRepository.insert(
       buildSection({ questionnaireId: questionnaireId })
@@ -120,7 +120,7 @@ describe("SectionRepository", () => {
 
   it("allows sections to be un-deleted", async () => {
     const {
-      questionnaire: { id: questionnaireId }
+      questionnaire: { id: questionnaireId },
     } = await setup();
 
     const section = await SectionRepository.insert(
@@ -136,7 +136,7 @@ describe("SectionRepository", () => {
 
   it("can get section position", async () => {
     const {
-      questionnaire: { id: questionnaireId }
+      questionnaire: { id: questionnaireId },
     } = await setup();
 
     const result = await SectionRepository.insert(
@@ -159,7 +159,7 @@ describe("SectionRepository", () => {
 
   it("can get section count ", async () => {
     const {
-      questionnaire: { id: questionnaireId }
+      questionnaire: { id: questionnaireId },
     } = await setup();
 
     await SectionRepository.insert(buildSection({ questionnaireId }));
@@ -181,7 +181,7 @@ describe("SectionRepository", () => {
 
     it("should add sections in correct order", async () => {
       const {
-        questionnaire: { id: questionnaireId }
+        questionnaire: { id: questionnaireId },
       } = await setup();
 
       const results = await createSections(questionnaireId, 5);
@@ -196,7 +196,7 @@ describe("SectionRepository", () => {
 
     it("can move sections within a questionnaire", async () => {
       const {
-        questionnaire: { id: questionnaireId }
+        questionnaire: { id: questionnaireId },
       } = await setup();
 
       const sections = await createSections(questionnaireId, 5);
@@ -206,12 +206,12 @@ describe("SectionRepository", () => {
         SectionRepository.move({
           id: id,
           questionnaireId: questionnaireId,
-          position: 0
+          position: 0,
         })
       );
 
       const updatedSections = await SectionRepository.findAll({
-        questionnaireId
+        questionnaireId,
       });
 
       expect(map(updatedSections, "id")).toEqual(map(reverse(sections), "id"));
@@ -219,7 +219,7 @@ describe("SectionRepository", () => {
 
     it("can move sections forwards", async () => {
       const {
-        questionnaire: { id: questionnaireId }
+        questionnaire: { id: questionnaireId },
       } = await setup();
 
       const sections = await createSections(questionnaireId, 5);
@@ -229,11 +229,11 @@ describe("SectionRepository", () => {
       await SectionRepository.move({
         id: firstSection.id,
         questionnaireId: questionnaireId,
-        position: "3"
+        position: "3",
       });
 
       const updatedSections = await SectionRepository.findAll({
-        questionnaireId
+        questionnaireId,
       });
 
       expect(updatedSections[3].id).toEqual(firstSection.id);
@@ -241,7 +241,7 @@ describe("SectionRepository", () => {
 
     it("gracefully handles position values greater than number of pages", async () => {
       const {
-        questionnaire: { id: questionnaireId }
+        questionnaire: { id: questionnaireId },
       } = await setup();
 
       const results = await createSections(questionnaireId, 5);
@@ -249,11 +249,11 @@ describe("SectionRepository", () => {
       await SectionRepository.move({
         id: head(results).id,
         questionnaireId: questionnaireId,
-        position: 10
+        position: 10,
       });
 
       const updatedResults = await SectionRepository.findAll({
-        questionnaireId: questionnaireId
+        questionnaireId: questionnaireId,
       });
 
       expect(last(updatedResults).id).toBe(head(results).id);
@@ -261,7 +261,7 @@ describe("SectionRepository", () => {
 
     it("gracefully handles position values less than zero", async () => {
       const {
-        questionnaire: { id: questionnaireId }
+        questionnaire: { id: questionnaireId },
       } = await setup();
 
       const results = await createSections(questionnaireId, 5);
@@ -269,11 +269,11 @@ describe("SectionRepository", () => {
       await SectionRepository.move({
         id: last(results).id,
         questionnaireId: questionnaireId,
-        position: -100
+        position: -100,
       });
 
       const updatedResults = await SectionRepository.findAll({
-        questionnaireId: questionnaireId
+        questionnaireId: questionnaireId,
       });
 
       expect(head(updatedResults).id).toBe(last(results).id);
@@ -281,7 +281,7 @@ describe("SectionRepository", () => {
 
     it("reorders sections correctly even when there are deleted sections", async () => {
       const {
-        questionnaire: { id: questionnaireId }
+        questionnaire: { id: questionnaireId },
       } = await setup();
 
       const sections = await createSections(questionnaireId, 3);
@@ -295,11 +295,11 @@ describe("SectionRepository", () => {
       await SectionRepository.move({
         id: newSection.id,
         questionnaireId: questionnaireId,
-        position: 0
+        position: 0,
       });
 
       const updatedResults = await SectionRepository.findAll({
-        questionnaireId: questionnaireId
+        questionnaireId: questionnaireId,
       });
 
       expect(updatedResults).not.toContainEqual(
@@ -313,7 +313,7 @@ describe("SectionRepository", () => {
 
     it("returns deleted section to correct position when un-deleted ", async () => {
       const {
-        questionnaire: { id: questionnaireId }
+        questionnaire: { id: questionnaireId },
       } = await setup();
 
       const sections = await createSections(questionnaireId, 5);
@@ -323,13 +323,13 @@ describe("SectionRepository", () => {
       await SectionRepository.move({
         id: sections[4].id,
         questionnaireId: questionnaireId,
-        position: 2
+        position: 2,
       });
 
       await SectionRepository.undelete(sections[3].id);
 
       const updatedResults = await SectionRepository.findAll({
-        questionnaireId: questionnaireId
+        questionnaireId: questionnaireId,
       });
 
       expect(map(updatedResults, "id")).toEqual(
@@ -342,7 +342,7 @@ describe("SectionRepository", () => {
 
     it("allow insertion at specific position", async () => {
       const {
-        questionnaire: { id: questionnaireId }
+        questionnaire: { id: questionnaireId },
       } = await setup();
 
       const section1 = await SectionRepository.insert(
@@ -362,7 +362,7 @@ describe("SectionRepository", () => {
       );
 
       const updatedResults = await SectionRepository.findAll({
-        questionnaireId: questionnaireId
+        questionnaireId: questionnaireId,
       });
 
       expect(map(updatedResults, "id")).toEqual(
@@ -372,7 +372,7 @@ describe("SectionRepository", () => {
 
     it("allows insertion at middle of list", async () => {
       const {
-        questionnaire: { id: questionnaireId }
+        questionnaire: { id: questionnaireId },
       } = await setup();
 
       const section1 = await SectionRepository.insert(
@@ -388,11 +388,11 @@ describe("SectionRepository", () => {
       await SectionRepository.move({
         id: section3.id,
         questionnaireId: questionnaireId,
-        position: 1
+        position: 1,
       });
 
       const updatedResults = await SectionRepository.findAll({
-        questionnaireId: questionnaireId
+        questionnaireId: questionnaireId,
       });
 
       expect(map(updatedResults, "id")).toEqual(
@@ -402,7 +402,7 @@ describe("SectionRepository", () => {
 
     it("correctly inserts at end of list", async () => {
       const {
-        questionnaire: { id: questionnaireId }
+        questionnaire: { id: questionnaireId },
       } = await setup();
 
       const sections = await createSections(questionnaireId, 3);
@@ -411,12 +411,12 @@ describe("SectionRepository", () => {
         SectionRepository.move({
           id: section.id,
           questionnaireId: questionnaireId,
-          position: 2
+          position: 2,
         })
       );
 
       const updatedResults = await SectionRepository.findAll({
-        questionnaireId: questionnaireId
+        questionnaireId: questionnaireId,
       });
 
       expect(map(updatedResults, "id")).toEqual(map(reverse(sections), "id"));
@@ -426,7 +426,7 @@ describe("SectionRepository", () => {
   describe("Duplication", () => {
     it("should duplicate a section", async () => {
       const {
-        questionnaire: { id: questionnaireId }
+        questionnaire: { id: questionnaireId },
       } = await setup();
 
       const section = await SectionRepository.insert(
@@ -440,7 +440,7 @@ describe("SectionRepository", () => {
       );
       expect(duplicateSection).toMatchObject({
         title: `Copy of ${section.title}`,
-        alias: `Copy of ${section.alias}`
+        alias: `Copy of ${section.alias}`,
       });
     });
   });
@@ -458,48 +458,48 @@ describe("SectionRepository", () => {
                 answers: [
                   {
                     label: "Answer 1.1.1",
-                    type: DATE
+                    type: DATE,
                   },
                   {
                     label: "Answer 1.1.2",
-                    type: NUMBER
+                    type: NUMBER,
                   },
                   {
                     label: "Answer 1.1.3",
-                    type: CHECKBOX
+                    type: CHECKBOX,
                   },
                   {
                     label: "Answer 1.1.4",
-                    type: RADIO
+                    type: RADIO,
                   },
                   {
                     label: "Answer 1.1.5",
-                    type: TEXTFIELD
+                    type: TEXTFIELD,
                   },
                   {
                     label: "Answer 1.1.6",
-                    type: CURRENCY
+                    type: CURRENCY,
                   },
                   {
                     label: "Answer 1.1.7",
-                    type: DATE_RANGE
-                  }
-                ]
+                    type: DATE_RANGE,
+                  },
+                ],
               },
               {
                 title: "Page 1.2",
                 answers: [
                   {
                     label: "Answer 1.2.1",
-                    type: DATE
+                    type: DATE,
                   },
                   {
                     label: "Answer 1.2.2",
-                    type: NUMBER
-                  }
-                ]
-              }
-            ]
+                    type: NUMBER,
+                  },
+                ],
+              },
+            ],
           },
           {
             title: "Section 2",
@@ -509,38 +509,38 @@ describe("SectionRepository", () => {
                 answers: [
                   {
                     label: "Answer 2.1.1",
-                    type: DATE
+                    type: DATE,
                   },
                   {
                     label: "Answer 2.1.2",
-                    type: NUMBER
+                    type: NUMBER,
                   },
                   {
                     label: "Answer 2.1.3",
-                    type: NUMBER
+                    type: NUMBER,
                   },
                   {
                     label: "Answer 2.1.4",
-                    type: DATE
-                  }
-                ]
+                    type: DATE,
+                  },
+                ],
               },
               {
                 title: "Page 2.2",
                 answers: [
                   {
                     label: "Answer 2.2.1",
-                    type: DATE
+                    type: DATE,
                   },
                   {
                     label: "Answer 2.2.2",
-                    type: TEXTAREA
-                  }
-                ]
-              }
-            ]
-          }
-        ]
+                    type: TEXTAREA,
+                  },
+                ],
+              },
+            ],
+          },
+        ],
       });
     });
 
@@ -551,26 +551,26 @@ describe("SectionRepository", () => {
 
       expect(pipingAnswers).toEqual([
         expect.objectContaining({
-          label: "Answer 1.1.1"
+          label: "Answer 1.1.1",
         }),
         expect.objectContaining({
-          label: "Answer 1.1.2"
+          label: "Answer 1.1.2",
         }),
         expect.objectContaining({
-          label: "Answer 1.1.5"
+          label: "Answer 1.1.5",
         }),
         expect.objectContaining({
-          label: "Answer 1.1.6"
+          label: "Answer 1.1.6",
         }),
         expect.objectContaining({
-          label: "Answer 1.1.7"
+          label: "Answer 1.1.7",
         }),
         expect.objectContaining({
-          label: "Answer 1.2.1"
+          label: "Answer 1.2.1",
         }),
         expect.objectContaining({
-          label: "Answer 1.2.2"
-        })
+          label: "Answer 1.2.2",
+        }),
       ]);
     });
   });
@@ -581,7 +581,7 @@ describe("SectionRepository", () => {
       questionnaire = await buildTestQuestionnaire({
         metadata: [
           { key: "metadata_date", type: METADATA_DATE },
-          { key: "metadata_text", type: METADATA_TEXT }
+          { key: "metadata_text", type: METADATA_TEXT },
         ],
         sections: [
           {
@@ -589,11 +589,11 @@ describe("SectionRepository", () => {
             pages: [
               {
                 title: "Page 1.1",
-                answers: []
-              }
-            ]
-          }
-        ]
+                answers: [],
+              },
+            ],
+          },
+        ],
       });
     });
 
@@ -604,11 +604,11 @@ describe("SectionRepository", () => {
 
       expect(metadata).toEqual([
         expect.objectContaining({
-          key: "metadata_date"
+          key: "metadata_date",
         }),
         expect.objectContaining({
-          key: "metadata_text"
-        })
+          key: "metadata_text",
+        }),
       ]);
     });
   });

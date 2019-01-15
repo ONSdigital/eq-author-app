@@ -11,8 +11,8 @@ describe("errorHandler", () => {
 
     req = {
       log: {
-        error: jest.fn()
-      }
+        error: jest.fn(),
+      },
     };
 
     next = jest.fn();

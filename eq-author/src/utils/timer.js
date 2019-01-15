@@ -2,20 +2,20 @@ import fsm from "./fsm";
 
 const states = {
   stopped: {
-    start: "started"
+    start: "started",
   },
   started: {
     pause: "paused",
     stop: "stopped",
-    complete: "completed"
+    complete: "completed",
   },
   paused: {
     resume: "started",
-    stop: "stopped"
+    stop: "stopped",
   },
   completed: {
-    start: "started"
-  }
+    start: "started",
+  },
 };
 
 export default function timer(done, ms) {
@@ -59,6 +59,6 @@ export default function timer(done, ms) {
       if (sm.transition("resume")) {
         timeoutId = setTimeout(complete, remaining);
       }
-    }
+    },
   };
 }

@@ -34,7 +34,7 @@ describe("components/Popout", () => {
 
     beforeEach(() => {
       mounted = mount(component, {
-        attachTo: document.body.appendChild(document.createElement("div"))
+        attachTo: document.body.appendChild(document.createElement("div")),
       });
     });
 

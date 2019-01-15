@@ -7,7 +7,7 @@ export const createUpdater = routingRuleSetId => (proxy, result) => {
   const routingRuleSet = proxy.readFragment({
     id,
     fragment,
-    fragmentName: "RoutingRuleSet"
+    fragmentName: "RoutingRuleSet",
   });
 
   routingRuleSet.routingRules.push(result.data.createRoutingRule);
@@ -16,7 +16,7 @@ export const createUpdater = routingRuleSetId => (proxy, result) => {
     id,
     fragment,
     fragmentName: "RoutingRuleSet",
-    data: routingRuleSet
+    data: routingRuleSet,
   });
 };
 
@@ -24,18 +24,18 @@ export const mapMutateToProps = ({ mutate }) => ({
   onAddRoutingRule(routingRuleSetId) {
     const input = {
       operation: "And",
-      routingRuleSetId
+      routingRuleSetId,
     };
 
     const update = createUpdater(routingRuleSetId);
 
     return mutate({
       variables: { input },
-      update
+      update,
     }).then(res => res.data.createRoutingRule);
-  }
+  },
 });
 
 export default graphql(createRoutingRule, {
-  props: mapMutateToProps
+  props: mapMutateToProps,
 });

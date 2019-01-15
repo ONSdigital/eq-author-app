@@ -1,7 +1,7 @@
 const executeQuery = require("../../../../tests/utils/executeQuery");
 const {
   NEXT_PAGE,
-  END_OF_QUESTIONNAIRE
+  END_OF_QUESTIONNAIRE,
 } = require("../../../../constants/logicalDestinations");
 
 const ROUTING_ID = 1;
@@ -19,17 +19,17 @@ describe("Routing2 Unit", () => {
           Destination: {
             getById: jest.fn(id => {
               return Promise.resolve({ id, logical: NEXT_PAGE });
-            })
-          }
+            }),
+          },
         },
         modifiers: {
           Routing: {
             create: jest.fn().mockResolvedValue({
               id: ROUTING_ID,
-              destinationId: FIRST_DESTINATION_ID
-            })
-          }
-        }
+              destinationId: FIRST_DESTINATION_ID,
+            }),
+          },
+        },
       };
 
       const query = `
@@ -43,7 +43,7 @@ describe("Routing2 Unit", () => {
             }
           }`;
       const input = {
-        pageId: PAGE_ID
+        pageId: PAGE_ID,
       };
       const result = await executeQuery(query, { input }, ctx);
       expect(result.errors).toBeUndefined();
@@ -55,8 +55,8 @@ describe("Routing2 Unit", () => {
       expect(result.data).toMatchObject({
         createRouting2: {
           id: ROUTING_ID.toString(),
-          else: { id: FIRST_DESTINATION_ID.toString(), logical: NEXT_PAGE }
-        }
+          else: { id: FIRST_DESTINATION_ID.toString(), logical: NEXT_PAGE },
+        },
       });
     });
   });
@@ -68,23 +68,23 @@ describe("Routing2 Unit", () => {
           Routing: {
             update: jest.fn().mockResolvedValueOnce({
               id: ROUTING_ID,
-              destinationId: FIRST_DESTINATION_ID
-            })
-          }
+              destinationId: FIRST_DESTINATION_ID,
+            }),
+          },
         },
         repositories: {
           Destination: {
             getById: jest.fn().mockResolvedValue({
               id: FIRST_DESTINATION_ID,
-              pageId: LATER_PAGE_ID
-            })
+              pageId: LATER_PAGE_ID,
+            }),
           },
           QuestionPage: {
             getById: jest.fn(id =>
               Promise.resolve({ id, pageType: "QuestionPage" })
-            )
-          }
-        }
+            ),
+          },
+        },
       };
 
       const updateRouting2Mutation = `
@@ -113,8 +113,8 @@ describe("Routing2 Unit", () => {
       expect(ctx.modifiers.Routing.update).toHaveBeenCalledWith({
         id: ROUTING_ID.toString(),
         else: {
-          pageId: LATER_PAGE_ID.toString()
-        }
+          pageId: LATER_PAGE_ID.toString(),
+        },
       });
 
       expect(updateResult.data).toMatchObject({
@@ -123,9 +123,9 @@ describe("Routing2 Unit", () => {
           else: {
             logical: null,
             page: { id: LATER_PAGE_ID.toString() },
-            section: null
-          }
-        }
+            section: null,
+          },
+        },
       });
     });
 
@@ -152,9 +152,9 @@ describe("Routing2 Unit", () => {
             id: ROUTING_RULE_ID,
             else: {
               logical: END_OF_QUESTIONNAIRE,
-              sectionId: LATER_SECTION_ID
-            }
-          }
+              sectionId: LATER_SECTION_ID,
+            },
+          },
         },
         {}
       );

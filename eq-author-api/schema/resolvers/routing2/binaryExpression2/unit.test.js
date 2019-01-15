@@ -19,10 +19,10 @@ describe("Routing2 Unit", () => {
             create: jest.fn().mockResolvedValueOnce({
               id: BINARY_EXPRESSION_ID_2,
               expressionGroupId: EXPRESSION_GROUP_ID,
-              condition: conditions.EQUAL
-            })
-          }
-        }
+              condition: conditions.EQUAL,
+            }),
+          },
+        },
       };
 
       const query = `
@@ -40,8 +40,8 @@ describe("Routing2 Unit", () => {
       );
       expect(result.data).toMatchObject({
         createBinaryExpression2: {
-          id: BINARY_EXPRESSION_ID_2.toString()
-        }
+          id: BINARY_EXPRESSION_ID_2.toString(),
+        },
       });
     });
 
@@ -53,54 +53,54 @@ describe("Routing2 Unit", () => {
             Answer: {
               getById: jest.fn().mockResolvedValueOnce({
                 id: BASIC_ANSWER_ID,
-                type: answerTypes.NUMBER
-              })
+                type: answerTypes.NUMBER,
+              }),
             },
             ExpressionGroup2: {
               getById: jest.fn().mockResolvedValue({
                 id: EXPRESSION_GROUP_ID,
-                operator: AND
-              })
+                operator: AND,
+              }),
             },
             BinaryExpression2: {
               getByExpressionGroupId: jest.fn().mockResolvedValueOnce([
                 {
                   id: BINARY_EXPRESSION_ID,
                   expressionGroupId: EXPRESSION_GROUP_ID,
-                  condition: conditions.EQUAL
+                  condition: conditions.EQUAL,
                 },
                 {
                   id: BINARY_EXPRESSION_ID_2,
                   expressionGroupId: EXPRESSION_GROUP_ID,
-                  condition: conditions.EQUAL
-                }
-              ])
+                  condition: conditions.EQUAL,
+                },
+              ]),
             },
             LeftSide2: {
               getByExpressionId: jest.fn().mockResolvedValueOnce({
                 id: LEFT_SIDE_ID,
                 expressionId: BINARY_EXPRESSION_ID,
                 answerId: BASIC_ANSWER_ID,
-                type: "Answer"
-              })
+                type: "Answer",
+              }),
             },
             RightSide2: {
               getByExpressionId: jest.fn().mockResolvedValueOnce({
                 id: RIGHT_SIDE_ID,
                 type: "Custom",
-                customValue: { number: 42 }
-              })
-            }
+                customValue: { number: 42 },
+              }),
+            },
           },
           modifiers: {
             BinaryExpression: {
               create: jest.fn().mockResolvedValueOnce({
                 id: BINARY_EXPRESSION_ID_2,
                 expressionGroupId: EXPRESSION_GROUP_ID,
-                condition: conditions.EQUAL
-              })
-            }
-          }
+                condition: conditions.EQUAL,
+              }),
+            },
+          },
         };
 
         const query = `
@@ -142,17 +142,17 @@ describe("Routing2 Unit", () => {
               id: EXPRESSION_GROUP_ID.toString(),
               expressions: [
                 { id: BINARY_EXPRESSION_ID.toString() },
-                { id: BINARY_EXPRESSION_ID_2.toString() }
-              ]
+                { id: BINARY_EXPRESSION_ID_2.toString() },
+              ],
             },
             id: BINARY_EXPRESSION_ID_2.toString(),
             left: {
               id: BASIC_ANSWER_ID.toString(),
-              type: answerTypes.NUMBER
+              type: answerTypes.NUMBER,
             },
             condition: conditions.EQUAL,
-            right: { number: 42 }
-          }
+            right: { number: 42 },
+          },
         });
       });
     });
@@ -164,10 +164,10 @@ describe("Routing2 Unit", () => {
             BinaryExpression: {
               update: jest.fn().mockResolvedValueOnce({
                 id: BINARY_EXPRESSION_ID,
-                condition: conditions.NOT_EQUAL
-              })
-            }
-          }
+                condition: conditions.NOT_EQUAL,
+              }),
+            },
+          },
         };
 
         const query = `
@@ -180,19 +180,19 @@ describe("Routing2 Unit", () => {
 
         const input = {
           id: BINARY_EXPRESSION_ID,
-          condition: conditions.NOT_EQUAL
+          condition: conditions.NOT_EQUAL,
         };
 
         const result = await executeQuery(query, { input }, ctx);
         expect(result.errors).toBeUndefined();
         expect(ctx.modifiers.BinaryExpression.update).toHaveBeenCalledWith({
           id: BINARY_EXPRESSION_ID.toString(),
-          condition: conditions.NOT_EQUAL
+          condition: conditions.NOT_EQUAL,
         });
         expect(result.data).toMatchObject({
           updateBinaryExpression2: {
-            id: BINARY_EXPRESSION_ID.toString()
-          }
+            id: BINARY_EXPRESSION_ID.toString(),
+          },
         });
       });
 
@@ -202,10 +202,10 @@ describe("Routing2 Unit", () => {
             LeftSide: {
               update: jest.fn().mockResolvedValueOnce({
                 id: BINARY_EXPRESSION_ID,
-                condition: conditions.NOT_EQUAL
-              })
-            }
-          }
+                condition: conditions.NOT_EQUAL,
+              }),
+            },
+          },
         };
 
         const query = `
@@ -218,20 +218,20 @@ describe("Routing2 Unit", () => {
 
         const input = {
           expressionId: BINARY_EXPRESSION_ID,
-          answerId: BASIC_ANSWER_ID
+          answerId: BASIC_ANSWER_ID,
         };
 
         const result = await executeQuery(query, { input }, ctx);
         expect(result.errors).toBeUndefined();
         expect(ctx.modifiers.LeftSide.update).toHaveBeenCalledWith({
           expressionId: BINARY_EXPRESSION_ID.toString(),
-          answerId: BASIC_ANSWER_ID.toString()
+          answerId: BASIC_ANSWER_ID.toString(),
         });
 
         expect(result.data).toMatchObject({
           updateLeftSide2: {
-            id: BINARY_EXPRESSION_ID.toString()
-          }
+            id: BINARY_EXPRESSION_ID.toString(),
+          },
         });
       });
 
@@ -241,10 +241,10 @@ describe("Routing2 Unit", () => {
             RightSide: {
               update: jest.fn().mockResolvedValueOnce({
                 id: BINARY_EXPRESSION_ID,
-                condition: conditions.NOT_EQUAL
-              })
-            }
-          }
+                condition: conditions.NOT_EQUAL,
+              }),
+            },
+          },
         };
 
         const query = `
@@ -257,19 +257,19 @@ describe("Routing2 Unit", () => {
 
         const input = {
           expressionId: BINARY_EXPRESSION_ID,
-          customValue: { number: 42 }
+          customValue: { number: 42 },
         };
 
         const result = await executeQuery(query, { input }, ctx);
         expect(result.errors).toBeUndefined();
         expect(ctx.modifiers.RightSide.update).toHaveBeenCalledWith({
           expressionId: BINARY_EXPRESSION_ID.toString(),
-          customValue: { number: 42 }
+          customValue: { number: 42 },
         });
         expect(result.data).toMatchObject({
           updateRightSide2: {
-            id: BINARY_EXPRESSION_ID.toString()
-          }
+            id: BINARY_EXPRESSION_ID.toString(),
+          },
         });
       });
 
@@ -285,7 +285,7 @@ describe("Routing2 Unit", () => {
         const input = {
           expressionId: BINARY_EXPRESSION_ID,
           customValue: { number: 42 },
-          selectedOptions: ["option1"]
+          selectedOptions: ["option1"],
         };
 
         const result = await executeQuery(query, { input }, {});
@@ -299,9 +299,9 @@ describe("Routing2 Unit", () => {
             BinaryExpression2: {
               delete: jest
                 .fn()
-                .mockResolvedValueOnce({ id: BINARY_EXPRESSION_ID })
-            }
-          }
+                .mockResolvedValueOnce({ id: BINARY_EXPRESSION_ID }),
+            },
+          },
         };
 
         const deleteBinaryExpression2Mutation = `
@@ -320,7 +320,7 @@ describe("Routing2 Unit", () => {
 
         expect(deleteResult.errors).toBeUndefined();
         expect(deleteResult.data).toMatchObject({
-          deleteBinaryExpression2: { id: BINARY_EXPRESSION_ID.toString() }
+          deleteBinaryExpression2: { id: BINARY_EXPRESSION_ID.toString() },
         });
 
         expect(

@@ -10,7 +10,7 @@ const filterUnacceptableMeta = omit([
   "exp",
   "eq_id",
   "form_type",
-  "account_service_url"
+  "account_service_url",
 ]);
 
 const defaultMetadata = (questionnaireId, tokenIssueTime, surveyUrl) => ({
@@ -27,7 +27,7 @@ const defaultMetadata = (questionnaireId, tokenIssueTime, surveyUrl) => ({
   collection_exercise_sid: uuid(),
   period_id: "201605",
   form_type: questionnaireId,
-  survey_url: `${surveyUrl}${questionnaireId}?r${tokenIssueTime}`
+  survey_url: `${surveyUrl}${questionnaireId}?r${tokenIssueTime}`,
 });
 
 module.exports.sanitiseMetadata = (metadata, questionnaireId) => {

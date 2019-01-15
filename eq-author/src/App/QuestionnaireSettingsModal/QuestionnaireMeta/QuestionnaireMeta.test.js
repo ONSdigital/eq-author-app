@@ -16,7 +16,7 @@ const questionnaire = {
   legalBasis: "StatisticsOfTradeAct",
   theme: "default",
   title: "I am the title",
-  id: "123"
+  id: "123",
 };
 
 describe("QuestionnaireMeta", () => {

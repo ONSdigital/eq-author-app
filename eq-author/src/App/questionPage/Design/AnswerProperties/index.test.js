@@ -3,7 +3,7 @@ import { NUMBER, DATE } from "constants/answer-types";
 import {
   Decimal,
   Required,
-  DateFormat
+  DateFormat,
 } from "App/questionPage/Design/AnswerProperties/Properties";
 
 import AnswerProperties from "./";
@@ -21,8 +21,8 @@ let answer = {
   type: NUMBER,
   properties: {
     required: true,
-    decimals: 2
-  }
+    decimals: 2,
+  },
 };
 
 describe("Answer Properties", () => {
@@ -56,8 +56,8 @@ describe("Answer Properties", () => {
         id: "1",
         properties: {
           decimals: 2,
-          required: false
-        }
+          required: false,
+        },
       });
     });
 
@@ -67,8 +67,8 @@ describe("Answer Properties", () => {
         id: "1",
         properties: {
           required: true,
-          decimals: 3
-        }
+          decimals: 3,
+        },
       });
     });
 
@@ -80,9 +80,9 @@ describe("Answer Properties", () => {
             type: DATE,
             properties: {
               required: true,
-              format: "dd/mm/yyyy"
-            }
-          }
+              format: "dd/mm/yyyy",
+            },
+          },
         })
       );
 
@@ -91,8 +91,8 @@ describe("Answer Properties", () => {
         id: "1",
         properties: {
           required: true,
-          format: "mm/yy"
-        }
+          format: "mm/yy",
+        },
       });
     });
   });

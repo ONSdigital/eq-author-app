@@ -16,7 +16,7 @@ describe("withDuplicateQuestionnaire", () => {
   beforeEach(() => {
     ownProps = {
       history,
-      match
+      match,
     };
 
     questionnaire = {
@@ -24,20 +24,20 @@ describe("withDuplicateQuestionnaire", () => {
       title: "My questionnaire",
       createdBy: {
         name: "Foo Person",
-        __typename: "User"
-      }
+        __typename: "User",
+      },
     };
 
     user = {
-      displayName: "Foo Person"
+      displayName: "Foo Person",
     };
 
     expectedResult = {
       data: {
         duplicateQuestionnaire: {
-          id: nextId(questionnaire.id)
-        }
-      }
+          id: nextId(questionnaire.id),
+        },
+      },
     };
   });
 
@@ -65,8 +65,8 @@ describe("withDuplicateQuestionnaire", () => {
         expect(mutate).toHaveBeenCalledWith({
           variables: {
             input: {
-              id: questionnaire.id
-            }
+              id: questionnaire.id,
+            },
           },
           optimisticResponse: {
             duplicateQuestionnaire: {
@@ -76,10 +76,10 @@ describe("withDuplicateQuestionnaire", () => {
               createdAt: new Date(Date.now()).toISOString(),
               createdBy: {
                 name: "Foo Person",
-                __typename: "User"
-              }
-            }
-          }
+                __typename: "User",
+              },
+            },
+          },
         });
       });
 
@@ -96,23 +96,23 @@ describe("withDuplicateQuestionnaire", () => {
       it("should update the questionnaire list cache to start with the duplicate", () => {
         const proxy = {
           readQuery: jest.fn().mockReturnValue({
-            questionnaires: [{ id: 1 }, { id: 2 }]
+            questionnaires: [{ id: 1 }, { id: 2 }],
           }),
-          writeQuery: jest.fn()
+          writeQuery: jest.fn(),
         };
 
         handleUpdate(proxy, {
-          data: { duplicateQuestionnaire: { id: "dupe" } }
+          data: { duplicateQuestionnaire: { id: "dupe" } },
         });
 
         expect(proxy.readQuery).toHaveBeenCalledWith({
-          query: getQuestionnaireList
+          query: getQuestionnaireList,
         });
         expect(proxy.writeQuery).toHaveBeenCalledWith({
           query: getQuestionnaireList,
           data: {
-            questionnaires: [{ id: "dupe" }, { id: 1 }, { id: 2 }]
-          }
+            questionnaires: [{ id: "dupe" }, { id: 1 }, { id: 2 }],
+          },
         });
       });
     });

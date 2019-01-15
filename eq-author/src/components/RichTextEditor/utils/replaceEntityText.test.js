@@ -9,7 +9,7 @@ describe("replaceEntityText", () => {
   it("should replace an entity's text", () => {
     const entity = {
       type: "MY_ENTITY",
-      mutability: "IMMUTABLE"
+      mutability: "IMMUTABLE",
     };
 
     const content = new Raw()

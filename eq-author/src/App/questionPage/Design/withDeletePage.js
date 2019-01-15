@@ -8,7 +8,7 @@ import { buildPagePath } from "utils/UrlUtils";
 const getCachedSection = (client, id) =>
   client.readFragment({
     id: `Section${id}`,
-    fragment
+    fragment,
   });
 
 const handleDeletion = (
@@ -26,7 +26,7 @@ const handleDeletion = (
     buildPagePath({
       questionnaireId,
       sectionId,
-      pageId: nextPage.id
+      pageId: nextPage.id,
     })
   );
 };
@@ -34,7 +34,7 @@ const handleDeletion = (
 const displayToast = (ownProps, sectionId, pageId) => {
   ownProps.raiseToast(`Page${pageId}`, "Page deleted", "undeletePage", {
     sectionId,
-    pageId
+    pageId,
   });
 };
 
@@ -47,7 +47,7 @@ export const createUpdater = (sectionId, pageId) => client => {
   client.writeFragment({
     id: `Section${sectionId}`,
     fragment,
-    data: section
+    data: section,
   });
 };
 
@@ -62,15 +62,15 @@ export const mapMutateToProps = ({ ownProps, mutate }) => ({
 
     const mutation = mutate({
       variables: { input: page },
-      update
+      update,
     });
 
     return mutation
       .then(() => handleDeletion(ownProps, nextPage))
       .then(() => displayToast(ownProps, sectionId, pageId));
-  }
+  },
 });
 
 export default graphql(deletePageMutation, {
-  props: mapMutateToProps
+  props: mapMutateToProps,
 });

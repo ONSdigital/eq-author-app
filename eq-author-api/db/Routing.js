@@ -68,6 +68,6 @@ module.exports = knex => {
     updateRoutingConditionValue,
     deleteRoutingCondition,
     findRoutingDestinationById,
-    updateRoutingDestination
+    updateRoutingDestination,
   };
 };

@@ -9,14 +9,14 @@ const {
   getAnswerValidations,
   toggleAnswerValidation,
   updateAnswerValidation,
-  createMetadataMutation
+  createMetadataMutation,
 } = require("../../tests/utils/graphql");
 
 const {
   CUSTOM,
   PREVIOUS_ANSWER,
   METADATA,
-  NOW
+  NOW,
 } = require("../../constants/validationEntityTypes");
 
 const { DATE, DATE_RANGE } = require("../../constants/answerTypes");
@@ -47,7 +47,7 @@ describe("resolvers", () => {
         legalBasis: "Voluntary",
         navigation: false,
         surveyId: "001",
-        summary: true
+        summary: true,
       };
 
       const result = await executeQuery(
@@ -65,7 +65,7 @@ describe("resolvers", () => {
         label: `${type} answer`,
         qCode: null,
         type: `${type}`,
-        questionPageId: pageId
+        questionPageId: pageId,
       };
 
       const result = await executeQuery(createAnswerMutation, { input }, ctx);
@@ -77,7 +77,7 @@ describe("resolvers", () => {
 
     createMetadata = async questionnaireId => {
       const input = {
-        questionnaireId
+        questionnaireId,
       };
 
       const result = await executeQuery(createMetadataMutation, { input }, ctx);
@@ -92,7 +92,7 @@ describe("resolvers", () => {
       const result = await executeQuery(
         getAnswerValidations,
         {
-          id
+          id,
         },
         ctx
       );
@@ -106,7 +106,7 @@ describe("resolvers", () => {
       const result = await executeQuery(
         toggleAnswerValidation,
         {
-          input
+          input,
         },
         ctx
       );
@@ -118,7 +118,7 @@ describe("resolvers", () => {
       const result = await executeQuery(
         updateAnswerValidation,
         {
-          input
+          input,
         },
         ctx
       );
@@ -144,7 +144,7 @@ describe("resolvers", () => {
 
       await mutateValidationToggle({
         id: currencyValidation.minValue.id,
-        enabled: true
+        enabled: true,
       });
 
       currencyValidation = await queryAnswerValidations(currencyAnswer.id);
@@ -154,7 +154,7 @@ describe("resolvers", () => {
 
       await mutateValidationToggle({
         id: currencyValidation.minValue.id,
-        enabled: false
+        enabled: false,
       });
 
       currencyValidation = await queryAnswerValidations(currencyAnswer.id);
@@ -179,15 +179,15 @@ describe("resolvers", () => {
           id: minValueId,
           enabled: false,
           inclusive: false,
-          custom: null
+          custom: null,
         },
         maxValue: {
           id: maxValueId,
           enabled: false,
           inclusive: false,
           custom: null,
-          entityType: CUSTOM
-        }
+          entityType: CUSTOM,
+        },
       });
       expect(currencyValidation).toEqual(
         validationObject(
@@ -213,13 +213,13 @@ describe("resolvers", () => {
         id: currencyValidation.minValue.id,
         minValueInput: {
           custom: 10,
-          inclusive: true
-        }
+          inclusive: true,
+        },
       });
       expect(result).toMatchObject({
         id: currencyValidation.minValue.id,
         custom: 10,
-        inclusive: true
+        inclusive: true,
       });
     });
 
@@ -233,14 +233,14 @@ describe("resolvers", () => {
         id: currencyValidation.maxValue.id,
         maxValueInput: {
           custom: 10,
-          inclusive: true
-        }
+          inclusive: true,
+        },
       });
 
       expect(result).toMatchObject({
         id: currencyValidation.maxValue.id,
         custom: 10,
-        inclusive: true
+        inclusive: true,
       });
     });
 
@@ -255,16 +255,16 @@ describe("resolvers", () => {
         id: currencyValidation.maxValue.id,
         maxValueInput: {
           previousAnswer: previousAnswer.id,
-          inclusive: true
-        }
+          inclusive: true,
+        },
       });
 
       expect(result).toMatchObject({
         id: currencyValidation.maxValue.id,
         previousAnswer: {
-          id: previousAnswer.id
+          id: previousAnswer.id,
         },
-        inclusive: true
+        inclusive: true,
       });
     });
 
@@ -281,13 +281,13 @@ describe("resolvers", () => {
           id: currencyValidation.maxValue.id,
           maxValueInput: {
             entityType,
-            inclusive: true
-          }
+            inclusive: true,
+          },
         });
 
         expect(result).toMatchObject({
           id: currencyValidation.maxValue.id,
-          entityType
+          entityType,
         });
       });
 
@@ -303,9 +303,9 @@ describe("resolvers", () => {
         entityType: CUSTOM,
         offset: {
           value: 8,
-          unit: "Months"
+          unit: "Months",
         },
-        relativePosition: "After"
+        relativePosition: "After",
       };
     });
 
@@ -325,20 +325,20 @@ describe("resolvers", () => {
           enabled: false,
           offset: {
             value: 0,
-            unit: "Days"
+            unit: "Days",
           },
           relativePosition: "Before",
-          custom: null
+          custom: null,
         },
         latestDate: {
           id: latestId,
           offset: {
             value: 0,
-            unit: "Days"
+            unit: "Days",
           },
           relativePosition: "After",
-          custom: null
-        }
+          custom: null,
+        },
       });
 
       expect(validation).toMatchObject(
@@ -354,15 +354,15 @@ describe("resolvers", () => {
           id: validation.earliestDate.id,
           earliestDateInput: {
             ...params,
-            custom: "2017-01-01"
-          }
+            custom: "2017-01-01",
+          },
         });
         const expected = {
           id: validation.earliestDate.id,
           ...params,
           customDate: "2017-01-01",
           previousAnswer: null,
-          metadata: null
+          metadata: null,
         };
         expect(result).toEqual(expected);
       });
@@ -377,15 +377,15 @@ describe("resolvers", () => {
           earliestDateInput: {
             ...params,
             entityType: PREVIOUS_ANSWER,
-            previousAnswer: previousAnswer.id
-          }
+            previousAnswer: previousAnswer.id,
+          },
         });
 
         expect(result).toMatchObject({
           entityType: PREVIOUS_ANSWER,
           previousAnswer: {
-            id: previousAnswer.id
-          }
+            id: previousAnswer.id,
+          },
         });
       });
 
@@ -399,15 +399,15 @@ describe("resolvers", () => {
           earliestDateInput: {
             ...params,
             entityType: METADATA,
-            metadata: metadata.id
-          }
+            metadata: metadata.id,
+          },
         });
 
         expect(result).toMatchObject({
           entityType: METADATA,
           metadata: {
-            id: metadata.id
-          }
+            id: metadata.id,
+          },
         });
       });
 
@@ -422,13 +422,13 @@ describe("resolvers", () => {
             id: validation.earliestDate.id,
             earliestDateInput: {
               ...params,
-              entityType
-            }
+              entityType,
+            },
           });
 
           expect(result).toMatchObject({
             id: validation.earliestDate.id,
-            entityType
+            entityType,
           });
         });
 
@@ -444,15 +444,15 @@ describe("resolvers", () => {
           id: validation.latestDate.id,
           latestDateInput: {
             custom: "2017-01-01",
-            ...params
-          }
+            ...params,
+          },
         });
         const expected = {
           id: validation.latestDate.id,
           customDate: "2017-01-01",
           previousAnswer: null,
           metadata: null,
-          ...params
+          ...params,
         };
 
         expect(result).toEqual(expected);
@@ -468,15 +468,15 @@ describe("resolvers", () => {
           latestDateInput: {
             ...params,
             entityType: PREVIOUS_ANSWER,
-            previousAnswer: previousAnswer.id
-          }
+            previousAnswer: previousAnswer.id,
+          },
         });
 
         expect(result).toMatchObject({
           entityType: PREVIOUS_ANSWER,
           previousAnswer: {
-            id: previousAnswer.id
-          }
+            id: previousAnswer.id,
+          },
         });
       });
 
@@ -490,15 +490,15 @@ describe("resolvers", () => {
           latestDateInput: {
             ...params,
             entityType: METADATA,
-            metadata: metadata.id
-          }
+            metadata: metadata.id,
+          },
         });
 
         expect(result).toMatchObject({
           entityType: METADATA,
           metadata: {
-            id: metadata.id
-          }
+            id: metadata.id,
+          },
         });
       });
 
@@ -513,13 +513,13 @@ describe("resolvers", () => {
             id: validation.latestDate.id,
             latestDateInput: {
               ...params,
-              entityType
-            }
+              entityType,
+            },
           });
 
           expect(result).toMatchObject({
             id: validation.latestDate.id,
-            entityType
+            entityType,
           });
         });
 
@@ -536,9 +536,9 @@ describe("resolvers", () => {
         entityType: CUSTOM,
         offset: {
           value: 8,
-          unit: "Months"
+          unit: "Months",
         },
-        relativePosition: "After"
+        relativePosition: "After",
       };
     });
 
@@ -559,20 +559,20 @@ describe("resolvers", () => {
           enabled: false,
           offset: {
             value: 0,
-            unit: "Days"
+            unit: "Days",
           },
           relativePosition: "Before",
-          custom: null
+          custom: null,
         },
         latestDate: {
           id: latestId,
           offset: {
             value: 0,
-            unit: "Days"
+            unit: "Days",
           },
           relativePosition: "After",
-          custom: null
-        }
+          custom: null,
+        },
       });
 
       expect(validation).toMatchObject(
@@ -588,15 +588,15 @@ describe("resolvers", () => {
           id: validation.earliestDate.id,
           earliestDateInput: {
             ...params,
-            custom: "2017-01-01"
-          }
+            custom: "2017-01-01",
+          },
         });
         const expected = {
           id: validation.earliestDate.id,
           ...params,
           customDate: "2017-01-01",
           previousAnswer: null,
-          metadata: null
+          metadata: null,
         };
         expect(result).toEqual(expected);
       });
@@ -611,15 +611,15 @@ describe("resolvers", () => {
           earliestDateInput: {
             ...params,
             entityType: METADATA,
-            metadata: metadata.id
-          }
+            metadata: metadata.id,
+          },
         });
 
         expect(result).toMatchObject({
           entityType: METADATA,
           metadata: {
-            id: metadata.id
-          }
+            id: metadata.id,
+          },
         });
       });
 
@@ -634,13 +634,13 @@ describe("resolvers", () => {
             id: validation.earliestDate.id,
             earliestDateInput: {
               ...params,
-              entityType
-            }
+              entityType,
+            },
           });
 
           expect(result).toMatchObject({
             id: validation.earliestDate.id,
-            entityType
+            entityType,
           });
         });
 
@@ -656,15 +656,15 @@ describe("resolvers", () => {
           id: validation.latestDate.id,
           latestDateInput: {
             custom: "2017-01-01",
-            ...params
-          }
+            ...params,
+          },
         });
         const expected = {
           id: validation.latestDate.id,
           customDate: "2017-01-01",
           previousAnswer: null,
           metadata: null,
-          ...params
+          ...params,
         };
 
         expect(result).toEqual(expected);
@@ -680,15 +680,15 @@ describe("resolvers", () => {
           latestDateInput: {
             ...params,
             entityType: METADATA,
-            metadata: metadata.id
-          }
+            metadata: metadata.id,
+          },
         });
 
         expect(result).toMatchObject({
           entityType: METADATA,
           metadata: {
-            id: metadata.id
-          }
+            id: metadata.id,
+          },
         });
       });
 
@@ -703,13 +703,13 @@ describe("resolvers", () => {
             id: validation.latestDate.id,
             latestDateInput: {
               ...params,
-              entityType
-            }
+              entityType,
+            },
           });
 
           expect(result).toMatchObject({
             id: validation.latestDate.id,
-            entityType
+            entityType,
           });
         });
 
@@ -724,18 +724,18 @@ describe("resolvers", () => {
         const input = {
           duration: {
             value: 8,
-            unit: "Days"
-          }
+            unit: "Days",
+          },
         };
         const result = await mutateValidationParameters({
           id: validation.minDuration.id,
           minDurationInput: {
-            ...input
-          }
+            ...input,
+          },
         });
         const expected = {
           id: validation.minDuration.id,
-          ...input
+          ...input,
         };
         expect(result).toEqual(expected);
       });
@@ -748,18 +748,18 @@ describe("resolvers", () => {
         const input = {
           duration: {
             value: 8,
-            unit: "Days"
-          }
+            unit: "Days",
+          },
         };
         const result = await mutateValidationParameters({
           id: validation.maxDuration.id,
           maxDurationInput: {
-            ...input
-          }
+            ...input,
+          },
         });
         const expected = {
           id: validation.maxDuration.id,
-          ...input
+          ...input,
         };
         expect(result).toEqual(expected);
       });

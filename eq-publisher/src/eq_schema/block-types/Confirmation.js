@@ -18,14 +18,14 @@ class Confirmation {
                 {
                   list: [
                     "You will not be able to access or change your answers on submitting the questionnaire",
-                    "If you wish to review your answers please select the relevant completed sections"
-                  ]
-                }
-              ]
-            }
-          }
-        ]
-      }
+                    "If you wish to review your answers please select the relevant completed sections",
+                  ],
+                },
+              ],
+            },
+          },
+        ],
+      },
     ];
   }
 }

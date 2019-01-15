@@ -61,7 +61,7 @@ const determineQuery = ({ confirmationId, pageId, sectionId }) => {
   if (confirmationId) {
     return {
       variables: { id: confirmationId },
-      query: GET_PIPING_CONTENT_QUESTION_CONFIRMATION
+      query: GET_PIPING_CONTENT_QUESTION_CONFIRMATION,
     };
   }
   if (pageId) {
@@ -69,7 +69,7 @@ const determineQuery = ({ confirmationId, pageId, sectionId }) => {
   }
   return {
     variables: { id: sectionId },
-    query: GET_PIPING_CONTENT_SECTION
+    query: GET_PIPING_CONTENT_SECTION,
   };
 };
 
@@ -77,12 +77,12 @@ const AvailablePipingContentQuery = ({
   pageId,
   sectionId,
   confirmationId,
-  children
+  children,
 }) => {
   const { variables, query } = determineQuery({
     pageId,
     sectionId,
-    confirmationId
+    confirmationId,
   });
   return (
     <Query query={query} variables={variables} fetchPolicy="cache-and-network">
@@ -95,7 +95,7 @@ AvailablePipingContentQuery.propTypes = {
   pageId: PropTypes.string,
   sectionId: PropTypes.string,
   confirmationId: PropTypes.string,
-  children: PropTypes.func.isRequired
+  children: PropTypes.func.isRequired,
 };
 
 export default AvailablePipingContentQuery;

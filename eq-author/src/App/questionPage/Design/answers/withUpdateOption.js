@@ -4,10 +4,10 @@ import { graphql } from "react-apollo";
 export const mapMutateToProps = ({ mutate }) => ({
   onUpdateOption: option =>
     mutate({
-      variables: { input: option }
-    })
+      variables: { input: option },
+    }),
 });
 
 export default graphql(updateOptionMutation, {
-  props: mapMutateToProps
+  props: mapMutateToProps,
 });

@@ -15,13 +15,13 @@ class NumberWrapper extends React.Component {
   constructor(props) {
     super();
     this.state = {
-      "number.input": props.min
+      "number.input": props.min,
     };
   }
 
   handleChange = ({ value }) => {
     this.setState({
-      "number.input": value
+      "number.input": value,
     });
   };
 

@@ -1,6 +1,6 @@
 import {
   mapMutateToProps,
-  createUpdater
+  createUpdater,
 } from "App/questionPage/Design/answers/withDeleteOption";
 import fragment from "graphql/answerFragment.graphql";
 
@@ -9,27 +9,27 @@ describe("containers/QuestionnaireDesignPage/withDeleteOption", () => {
 
   beforeEach(() => {
     option = {
-      id: "123"
+      id: "123",
     };
 
     answer = {
       id: "456",
       label: "foo",
       description: "bar",
-      options: [option]
+      options: [option],
     };
 
     answerWithMutuallyExclusive = {
       ...answer,
       mutuallyExclusiveOption: {
-        id: option.id
-      }
+        id: option.id,
+      },
     };
 
     result = {
       data: {
-        deleteOption: answer
-      }
+        deleteOption: answer,
+      },
     };
 
     mutate = jest.fn(() => Promise.resolve(result));
@@ -48,7 +48,7 @@ describe("containers/QuestionnaireDesignPage/withDeleteOption", () => {
       expect(writeFragment).toHaveBeenCalledWith({
         id,
         fragment,
-        data: answer
+        data: answer,
       });
       expect(answer.options).not.toContain(option);
     });
@@ -68,7 +68,7 @@ describe("containers/QuestionnaireDesignPage/withDeleteOption", () => {
     expect(writeFragment).toHaveBeenCalledWith({
       id,
       fragment,
-      data: answerWithMutuallyExclusive
+      data: answerWithMutuallyExclusive,
     });
   });
 
@@ -88,8 +88,8 @@ describe("containers/QuestionnaireDesignPage/withDeleteOption", () => {
       expect(mutate).toHaveBeenCalledWith(
         expect.objectContaining({
           variables: {
-            input: { id: option.id }
-          }
+            input: { id: option.id },
+          },
         })
       );
     });

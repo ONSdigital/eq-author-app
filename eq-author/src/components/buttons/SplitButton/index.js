@@ -17,11 +17,11 @@ class SplitButton extends React.Component {
     onToggleOpen: PropTypes.func.isRequired,
     open: PropTypes.bool,
     children: PropTypes.node,
-    dataTest: PropTypes.string
+    dataTest: PropTypes.string,
   };
 
   static defaultProps = {
-    open: false
+    open: false,
   };
 
   handleToggleOpen = open => {
@@ -34,7 +34,7 @@ class SplitButton extends React.Component {
       primaryText,
       open,
       children,
-      dataTest
+      dataTest,
     } = this.props;
     const trigger = <MenuButton data-test={`${dataTest}-menu`} />;
     return (

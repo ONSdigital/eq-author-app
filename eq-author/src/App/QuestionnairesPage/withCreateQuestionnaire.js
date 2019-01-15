@@ -12,7 +12,7 @@ export const redirectToDesigner = history => ({ data }) => {
     buildPagePath({
       questionnaireId: questionnaire.id,
       sectionId: section.id,
-      pageId: page.id
+      pageId: page.id,
     })
   );
 };
@@ -20,13 +20,13 @@ export const redirectToDesigner = history => ({ data }) => {
 export const mapMutateToProps = ({ ownProps, mutate }) => ({
   onCreateQuestionnaire: questionnaire => {
     const input = {
-      ...questionnaire
+      ...questionnaire,
     };
 
     return mutate({
-      variables: { input }
+      variables: { input },
     }).then(redirectToDesigner(ownProps.history));
-  }
+  },
 });
 
 export const updateQuestionnaireList = (
@@ -41,6 +41,6 @@ export const updateQuestionnaireList = (
 export default graphql(createQuestionnaireQuery, {
   props: mapMutateToProps,
   options: {
-    update: updateQuestionnaireList
-  }
+    update: updateQuestionnaireList,
+  },
 });

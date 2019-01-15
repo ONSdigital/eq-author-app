@@ -7,7 +7,7 @@ class RoutingRule {
   constructor(rule, pageId, groupId, ctx) {
     this.goto = {
       ...this.buildRoutingDestination(rule.goto, pageId, ctx),
-      ...this.buildRoutingConditions(rule.conditions)
+      ...this.buildRoutingConditions(rule.conditions),
     };
 
     this.addRuleToContext(this.goto, groupId, ctx);

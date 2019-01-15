@@ -4,7 +4,7 @@ import { UnwrappedDate } from "./";
 
 const answer = {
   id: "1",
-  label: "Lorem ipsum"
+  label: "Lorem ipsum",
 };
 
 describe("Date", () => {

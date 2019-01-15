@@ -14,7 +14,7 @@ describe("ModalFullScreen", () => {
     props = {
       onClose: jest.fn(),
       isOpen: false,
-      children: <div>Modal content</div>
+      children: <div>Modal content</div>,
     };
 
     wrapper = createWrapper(props);
@@ -27,7 +27,7 @@ describe("ModalFullScreen", () => {
   it("should render when open", () => {
     wrapper = createWrapper({
       ...props,
-      isOpen: true
+      isOpen: true,
     });
 
     expect(wrapper).toMatchSnapshot();

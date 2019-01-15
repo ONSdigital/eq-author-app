@@ -7,7 +7,7 @@ export default validationName => Component => props => (
       let propsWithValidation = {
         [validationName]: answer.validation[validationName],
         answer,
-        ...props
+        ...props,
       };
       return <Component {...propsWithValidation} />;
     }}

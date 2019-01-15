@@ -6,20 +6,20 @@ import RichTextEditor from "components/RichTextEditor";
 describe("SectionEditor", () => {
   const section1 = {
     id: "section-1",
-    title: "Section 1"
+    title: "Section 1",
   };
 
   const section2 = {
     id: "section-2",
-    title: "Section 2"
+    title: "Section 2",
   };
 
   const match = {
     params: {
       questionnaireId: "1",
       sectionId: "2",
-      pageId: "3"
-    }
+      pageId: "3",
+    },
   };
 
   const mockHandlers = {
@@ -28,7 +28,7 @@ describe("SectionEditor", () => {
     onDeleteSectionConfirm: jest.fn(),
     onCloseDeleteConfirmDialog: jest.fn(),
     onMoveSectionDialog: jest.fn(),
-    onCloseMoveSectionDialog: jest.fn()
+    onCloseMoveSectionDialog: jest.fn(),
   };
 
   let wrapper;

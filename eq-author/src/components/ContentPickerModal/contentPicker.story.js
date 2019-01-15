@@ -10,7 +10,7 @@ const answerData = generateTestData();
 const metadataData = [
   { id: "1", displayName: "ru_name" },
   { id: "2", displayName: "collection_exercise_sid" },
-  { id: "3", displayName: "language_code" }
+  { id: "3", displayName: "language_code" },
 ];
 
 storiesOf("ContentPicker", module)

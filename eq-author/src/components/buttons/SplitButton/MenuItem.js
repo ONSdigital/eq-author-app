@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { colors } from "constants/theme";
 
 const MenuItem = styled.button.attrs({
-  type: "button"
+  type: "button",
 })`
   font-size: 1em;
   border: none;

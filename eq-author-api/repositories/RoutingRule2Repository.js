@@ -29,6 +29,6 @@ module.exports = knex => {
     insert,
     getByRoutingId,
     getById,
-    delete: del
+    delete: del,
   };
 };

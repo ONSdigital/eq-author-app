@@ -8,7 +8,7 @@ describe("NavigationHeader", () => {
   let mockHandlers = {
     onAddPage: jest.fn(),
     onAddSection: jest.fn(),
-    onAddQuestionConfirmation: jest.fn()
+    onAddQuestionConfirmation: jest.fn(),
   };
 
   const createWrapper = props =>

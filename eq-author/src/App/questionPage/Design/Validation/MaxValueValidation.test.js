@@ -26,13 +26,13 @@ describe("MaxValueValidation", () => {
         custom: 123,
         inclusive: true,
         entityType: CUSTOM,
-        previousAnswer: null
+        previousAnswer: null,
       },
       answer: {
         id: "1",
         properties: {
-          format: "YYYY"
-        }
+          format: "YYYY",
+        },
       },
       onCustomNumberValueChange: onCustomNumberValueChange,
       onChangeUpdate: onChangeUpdate,
@@ -40,7 +40,7 @@ describe("MaxValueValidation", () => {
       onUpdate: onUpdate,
       displayName: "foobar",
       readKey: "read",
-      testId: "test-id"
+      testId: "test-id",
     };
 
     wrapper = createWrapper(props);
@@ -60,18 +60,18 @@ describe("MaxValueValidation", () => {
 
     it("should correctly handle previous answer change", () => {
       const previousAnswer = {
-        id: 1
+        id: 1,
       };
       previousAnswerWrapper
         .find(PreviousAnswerContentPicker)
         .simulate("submit", {
           name: "previousAnswer",
-          value: previousAnswer
+          value: previousAnswer,
         });
 
       expect(onChangeUpdate).toHaveBeenCalledWith({
         name: "previousAnswer",
-        value: { id: 1 }
+        value: { id: 1 },
       });
     });
 
@@ -92,7 +92,7 @@ describe("MaxValueValidation", () => {
 
     it("should correctly handle custom value changes", () => {
       customInputWrapper.find(ValidationInput).simulate("change", {
-        value: 1
+        value: 1,
       });
 
       expect(onCustomNumberValueChange).toHaveBeenCalledWith({ value: 1 });

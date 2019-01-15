@@ -4,7 +4,7 @@ const RoutingRule = require("./RoutingRule");
 const RoutingDestination = require("./RoutingDestination");
 const {
   getInnerHTMLWithPiping,
-  unescapePiping
+  unescapePiping,
 } = require("../utils/HTMLUtils");
 const convertPipes = require("../utils/convertPipes");
 const { get, isNil, remove, isEmpty } = require("lodash");
@@ -12,7 +12,7 @@ const { flow, getOr, last, map, some } = require("lodash/fp");
 
 const pageTypeMappings = {
   QuestionPage: "Question",
-  InterstitialPage: "Interstitial"
+  InterstitialPage: "Interstitial",
 };
 
 const getLastPage = flow(
@@ -76,7 +76,7 @@ class Block {
       type: "Interstitial",
       id: `group${groupId}-introduction`,
       title: processPipedTitle(ctx)(introductionTitle) || "",
-      description: processPipedText(ctx)(introductionContent) || ""
+      description: processPipedText(ctx)(introductionContent) || "",
     };
   }
 
@@ -94,7 +94,7 @@ class Block {
       .map(rule => new RoutingRule(rule, pageId, groupId, ctx));
 
     const elseRule = {
-      goto: new RoutingDestination(elseDest, pageId, ctx)
+      goto: new RoutingDestination(elseDest, pageId, ctx),
     };
 
     return rules.concat(elseRule);

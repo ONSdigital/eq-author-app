@@ -9,7 +9,7 @@ describe("SectionIntroPreview", () => {
   beforeEach(() => {
     section = {
       introductionTitle: "<p>title</p>",
-      introductionContent: "<h2>Content</h2>"
+      introductionContent: "<h2>Content</h2>",
     };
   });
 

@@ -14,8 +14,8 @@ describe("PreviewRoute", () => {
         questionnaireId: "1",
         sectionId: "2",
         pageId: "3",
-        tab: "preview"
-      }
+        tab: "preview",
+      },
     };
 
     const wrapper = shallow(<PreviewRoute match={match} />);
@@ -28,8 +28,8 @@ describe("PreviewRoute", () => {
       params: {
         questionnaireId: "1",
         sectionId: "2",
-        tab: "preview"
-      }
+        tab: "preview",
+      },
     };
 
     const wrapper = shallow(<PreviewRoute match={match} />);
@@ -43,8 +43,8 @@ describe("PreviewRoute", () => {
         questionnaireId: "1",
         sectionId: "2",
         confirmationId: "3",
-        tab: "preview"
-      }
+        tab: "preview",
+      },
     };
 
     const wrapper = shallow(<PreviewRoute match={match} />);

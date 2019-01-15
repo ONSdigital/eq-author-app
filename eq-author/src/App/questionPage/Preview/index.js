@@ -99,7 +99,7 @@ export const UnwrappedPreviewPageRoute = ({ loading, data }) => {
     guidance,
     definitionLabel,
     definitionContent,
-    answers
+    answers,
   } = questionPage;
 
   return (
@@ -158,8 +158,8 @@ export const UnwrappedPreviewPageRoute = ({ loading, data }) => {
 UnwrappedPreviewPageRoute.propTypes = {
   loading: PropTypes.bool.isRequired,
   data: PropTypes.shape({
-    questionPage: propType(QuestionPageEditor.fragments.QuestionPage)
-  })
+    questionPage: propType(QuestionPageEditor.fragments.QuestionPage),
+  }),
 };
 
 export const QUESTION_PAGE_QUERY = gql`

@@ -9,7 +9,7 @@ import RichTextEditor from "components/RichTextEditor";
 import Toolbar, {
   STYLE_BLOCK,
   STYLE_INLINE,
-  styleButtons
+  styleButtons,
 } from "components/RichTextEditor/Toolbar";
 import findById from "utils/findById";
 
@@ -35,10 +35,10 @@ describe("components/RichTextEditor", function() {
       onUpdate: jest.fn(),
       label: "I am a label",
       id: "test",
-      name: "test-name"
+      name: "test-name",
     };
     editorInstance = {
-      focus: jest.fn()
+      focus: jest.fn(),
     };
     wrapper = shallow(<RichTextEditor {...props} />);
   });
@@ -81,7 +81,7 @@ describe("components/RichTextEditor", function() {
 
   it("should focus upon click", () => {
     wrapper = shallow(<RichTextEditor {...props} />, {
-      disableLifecycleMethods: true
+      disableLifecycleMethods: true,
     });
     wrapper.instance().setEditorInstance(editorInstance);
     wrapper.find("[data-test='rte-field']").simulate("click");
@@ -117,7 +117,7 @@ describe("components/RichTextEditor", function() {
     wrapper.find("[data-test='rte-field']").simulate("blur");
     expect(props.onUpdate).toHaveBeenCalledWith({
       name: "test-name",
-      value: ""
+      value: "",
     });
   });
 
@@ -126,7 +126,7 @@ describe("components/RichTextEditor", function() {
     wrapper.find("[data-test='rte-field']").simulate("blur");
     expect(props.onUpdate).toHaveBeenCalledWith({
       name: "test-name",
-      value: "<p>test</p>"
+      value: "<p>test</p>",
     });
   });
 
@@ -167,17 +167,17 @@ describe("components/RichTextEditor", function() {
 
   it("should be able to determine current block style", () => {
     const selection = {
-      getStartKey: jest.fn(() => "selection")
+      getStartKey: jest.fn(() => "selection"),
     };
     const block = {
-      getType: () => "block-type"
+      getType: () => "block-type",
     };
     const currentContent = {
-      getBlockForKey: jest.fn(() => block)
+      getBlockForKey: jest.fn(() => block),
     };
     const editorState = {
       getCurrentContent: () => currentContent,
-      getSelection: () => selection
+      getSelection: () => selection,
     };
 
     let result = wrapper.instance().hasBlockStyle(editorState, "block-type");
@@ -191,10 +191,10 @@ describe("components/RichTextEditor", function() {
 
   it("should be able to determine current inline style", () => {
     const currentStyle = {
-      has: jest.fn()
+      has: jest.fn(),
     };
     const editorState = {
-      getCurrentInlineStyle: () => currentStyle
+      getCurrentInlineStyle: () => currentStyle,
     };
 
     wrapper.instance().hasInlineStyle(editorState, "foo");
@@ -208,7 +208,7 @@ describe("components/RichTextEditor", function() {
     const createEntity = (type, mutability, data) => ({
       type,
       mutability,
-      data
+      data,
     });
 
     describe("existing piped values", () => {
@@ -217,27 +217,27 @@ describe("components/RichTextEditor", function() {
           id: "1",
           displayName: "answer 1",
           label: "answer 1",
-          type: "TextField"
+          type: "TextField",
         },
         {
           id: "2",
           displayName: "answer 2",
           label: "answer 2",
-          type: "TextField"
+          type: "TextField",
         },
         {
           id: "3",
           displayName: "answer 3",
           label: "answer 3",
-          type: "TextField"
-        }
+          type: "TextField",
+        },
       ];
 
       const metadata = [
         {
           id: "1",
-          displayName: "metadata 1"
-        }
+          displayName: "metadata 1",
+        },
       ];
 
       let fetch;
@@ -264,7 +264,7 @@ describe("components/RichTextEditor", function() {
             createPipedEntity(createEntity, {
               id: answers[0].id,
               type: answers[0].type,
-              pipingType: "answers"
+              pipingType: "answers",
             }),
             0,
             10
@@ -273,7 +273,7 @@ describe("components/RichTextEditor", function() {
             createPipedEntity(createEntity, {
               id: answers[1].id,
               type: answers[1].type,
-              pipingType: "answers"
+              pipingType: "answers",
             }),
             11,
             10
@@ -282,7 +282,7 @@ describe("components/RichTextEditor", function() {
             createPipedEntity(createEntity, {
               id: metadata[0].id,
               type: null,
-              pipingType: "metadata"
+              pipingType: "metadata",
             }),
             22,
             12
@@ -296,12 +296,12 @@ describe("components/RichTextEditor", function() {
         const nonExistentAnswer = {
           id: "4",
           type: "TextField",
-          pipingType: "answers"
+          pipingType: "answers",
         };
         const nonExistentMetadata = {
           id: "2",
           type: null,
-          pipingType: "metadata"
+          pipingType: "metadata",
         };
         const html = `<p><span data-piped="answers" data-id="4" data-type="TextField">[Piped Value]</span> <span data-piped="answers" data-id="2" data-type="TextField">[Piped Value]</span> <span data-piped="metadata" data-id="2">[Piped Value]</span></p>`;
 
@@ -321,7 +321,7 @@ describe("components/RichTextEditor", function() {
             createPipedEntity(createEntity, {
               id: answers[1].id,
               type: answers[1].type,
-              pipingType: "answers"
+              pipingType: "answers",
             }),
             17,
             10
@@ -347,7 +347,7 @@ describe("components/RichTextEditor", function() {
         const metadataNoAlias = {
           id: "456",
           type: null,
-          pipingType: "metadata"
+          pipingType: "metadata",
         };
         fetch = jest.fn(() => Promise.resolve([answer]));
 
@@ -376,7 +376,7 @@ describe("components/RichTextEditor", function() {
           id: "123",
           displayName: "FooBar",
           type: "TextField",
-          pipingType: "answers"
+          pipingType: "answers",
         };
 
         wrapper.find(Toolbar).simulate("piping", answer);
@@ -397,7 +397,7 @@ describe("components/RichTextEditor", function() {
         const answer = {
           id: "123",
           displayName: "FooBar",
-          pipingType: "metadata"
+          pipingType: "metadata",
         };
 
         wrapper.find(Toolbar).simulate("piping", answer);
@@ -423,7 +423,7 @@ describe("components/RichTextEditor", function() {
         label: "pipe",
         type: "TextField",
         displayName: "FooBar",
-        pipingType: "answers"
+        pipingType: "answers",
       };
 
       wrapper.find(Toolbar).simulate("piping", answer);

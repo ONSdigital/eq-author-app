@@ -31,10 +31,10 @@ describe("option query", () => {
       Option: mockRepository({
         getById: {
           id,
-          answerId
-        }
+          answerId,
+        },
       }),
-      Answer: mockRepository()
+      Answer: mockRepository(),
     };
   });
 

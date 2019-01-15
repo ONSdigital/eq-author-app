@@ -2,20 +2,20 @@ module.exports = repositories => {
   const modifiers = {};
   modifiers.BinaryExpression = require("./BinaryExpression")({
     repositories,
-    modifiers
+    modifiers,
   });
   modifiers.Routing = require("./Routing")({ repositories, modifiers });
   modifiers.RoutingRule = require("./RoutingRule")({
     repositories,
-    modifiers
+    modifiers,
   });
 
   modifiers.LeftSide = require("./LeftSide")({
-    repositories
+    repositories,
   });
 
   modifiers.RightSide = require("./RightSide")({
-    repositories
+    repositories,
   });
 
   return modifiers;

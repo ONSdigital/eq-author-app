@@ -28,19 +28,19 @@ const InlineField = styled.div`
 class StatefulToggleSwitch extends React.Component {
   static propTypes = {
     label: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired
+    name: PropTypes.string.isRequired,
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      value: false
+      value: false,
     };
   }
 
   handleChange = ({ value }) => {
     this.setState({
-      value
+      value,
     });
   };
 

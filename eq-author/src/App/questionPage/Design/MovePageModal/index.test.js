@@ -61,7 +61,7 @@ describe("MovePageModal", () => {
     wrapper.find("MovePageModal__Trigger").simulate("click");
 
     getSectionModal(wrapper).simulate("confirm", {
-      preventDefault: jest.fn()
+      preventDefault: jest.fn(),
     });
 
     expect(getSectionModal(wrapper).prop("isOpen")).toBe(false);

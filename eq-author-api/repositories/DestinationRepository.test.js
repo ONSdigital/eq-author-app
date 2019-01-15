@@ -23,7 +23,7 @@ describe("Destination Repository", () => {
         id: expect.any(Number),
         logical: "NextPage",
         pageId: null,
-        sectionId: null
+        sectionId: null,
       });
     });
 
@@ -44,9 +44,9 @@ describe("Destination Repository", () => {
       const questionnaire = await buildTestQuestionnaire({
         sections: [
           {
-            pages: [{}]
-          }
-        ]
+            pages: [{}],
+          },
+        ],
       });
       const section = questionnaire.sections[0];
       sectionId = section.id;
@@ -58,14 +58,14 @@ describe("Destination Repository", () => {
 
       const updatedDestination = await DestinationRepository.update({
         id: destination.id,
-        pageId
+        pageId,
       });
 
       expect(updatedDestination).toMatchObject({
         id: destination.id,
         pageId,
         sectionId: null,
-        logical: null
+        logical: null,
       });
     });
 
@@ -74,14 +74,14 @@ describe("Destination Repository", () => {
 
       const updatedDestination = await DestinationRepository.update({
         id: destination.id,
-        sectionId
+        sectionId,
       });
 
       expect(updatedDestination).toMatchObject({
         id: destination.id,
         pageId: null,
         sectionId,
-        logical: null
+        logical: null,
       });
     });
 
@@ -90,14 +90,14 @@ describe("Destination Repository", () => {
 
       const updatedDestination = await DestinationRepository.update({
         id: destination.id,
-        logical: END_OF_QUESTIONNAIRE
+        logical: END_OF_QUESTIONNAIRE,
       });
 
       expect(updatedDestination).toMatchObject({
         id: destination.id,
         pageId: null,
         sectionId: null,
-        logical: END_OF_QUESTIONNAIRE
+        logical: END_OF_QUESTIONNAIRE,
       });
     });
   });

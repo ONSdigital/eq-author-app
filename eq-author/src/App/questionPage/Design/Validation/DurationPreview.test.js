@@ -14,8 +14,8 @@ describe("Duration Error", () => {
     props = {
       duration: {
         unit: DAYS,
-        value: 5
-      }
+        value: 5,
+      },
     };
     wrapper = render(props);
   });
@@ -27,7 +27,7 @@ describe("Duration Error", () => {
   it("should not render when value 0", () => {
     const duration = {
       unit: DAYS,
-      value: 0
+      value: 0,
     };
     expect(render({ duration })).toMatchSnapshot();
   });

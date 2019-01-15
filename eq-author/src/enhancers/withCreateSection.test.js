@@ -1,7 +1,7 @@
 import {
   mapMutateToProps,
   createUpdater,
-  redirectToNewSection
+  redirectToNewSection,
 } from "./withCreateSection";
 import fragment from "graphql/questionnaireFragment.graphql";
 import { buildSectionPath } from "utils/UrlUtils";
@@ -10,30 +10,30 @@ describe("withCreateSection", () => {
   const questionnaire = {
     id: "1",
     title: "My Questionnaire",
-    sections: []
+    sections: [],
   };
 
   let history, mutate, result, newSection, newPage, ownProps;
 
   beforeEach(() => {
     history = {
-      push: jest.fn()
+      push: jest.fn(),
     };
 
     newPage = {
-      id: "5"
+      id: "5",
     };
 
     newSection = {
       id: "4",
       title: "New Section",
-      pages: [newPage]
+      pages: [newPage],
     };
 
     result = {
       data: {
-        createSection: newSection
-      }
+        createSection: newSection,
+      },
     };
 
     ownProps = {
@@ -42,9 +42,9 @@ describe("withCreateSection", () => {
       history,
       match: {
         params: {
-          questionnaireId: questionnaire.id
-        }
-      }
+          questionnaireId: questionnaire.id,
+        },
+      },
     };
 
     mutate = jest.fn(() => Promise.resolve(result));
@@ -67,8 +67,8 @@ describe("withCreateSection", () => {
         fragment,
         data: {
           ...questionnaire,
-          sections: [newSection]
-        }
+          sections: [newSection],
+        },
       });
 
       expect(questionnaire.sections).toContain(newSection);
@@ -82,7 +82,7 @@ describe("withCreateSection", () => {
       expect(history.push).toHaveBeenCalledWith(
         buildSectionPath({
           questionnaireId: questionnaire.id,
-          sectionId: newSection.id
+          sectionId: newSection.id,
         })
       );
     });

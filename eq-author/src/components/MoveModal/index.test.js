@@ -15,7 +15,7 @@ describe("components/MoveModal", () => {
     props = {
       isOpen: true,
       onClose: jest.fn(),
-      title: "Modal title"
+      title: "Modal title",
     };
 
     children = <p>Modal content</p>;

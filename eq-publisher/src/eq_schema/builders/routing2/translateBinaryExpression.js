@@ -3,7 +3,7 @@ const { isEmpty } = require("lodash");
 
 const { RADIO, CURRENCY, NUMBER } = require("../../../constants/answerTypes");
 const {
-  conditionConversion
+  conditionConversion,
 } = require("../../../utils/convertRoutingConditions");
 
 const buildMuiltpleChoiceAnswerBinaryExpression = binaryExpression => {
@@ -11,14 +11,14 @@ const buildMuiltpleChoiceAnswerBinaryExpression = binaryExpression => {
     return [
       {
         id: `answer${binaryExpression.left.id}`,
-        condition: "not set"
-      }
+        condition: "not set",
+      },
     ];
   } else {
     return binaryExpression.right.options.map(option => ({
       id: `answer${binaryExpression.left.id}`,
       condition: "equals",
-      value: option.label
+      value: option.label,
     }));
   }
 };
@@ -28,8 +28,8 @@ const buildBasicAnswerBinaryExpression = ({ left, condition, right }) => {
     {
       id: `answer${left.id}`,
       condition: conditionConversion(condition),
-      value: right.number
-    }
+      value: right.number,
+    },
   ];
 };
 

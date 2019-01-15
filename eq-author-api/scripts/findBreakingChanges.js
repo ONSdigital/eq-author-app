@@ -4,7 +4,7 @@ const {
   isInterfaceType,
   BreakingChangeType,
   isInputObjectType,
-  isEnumType
+  isEnumType,
 } = require("graphql");
 
 const tail = ([, ...rest]) => rest;
@@ -65,7 +65,7 @@ const findDeprecatedFields = schema => {
         if (value.isDeprecated) {
           deprecatedFields.push({
             field: value.name,
-            type: type.toString()
+            type: type.toString(),
           });
         }
       });
@@ -80,7 +80,7 @@ const findDeprecatedFields = schema => {
         ) {
           deprecatedFields.push({
             field: fieldName,
-            type: typeName
+            type: typeName,
           });
         }
         if (field.hasOwnProperty("args") && field.args.length > 0) {
@@ -88,7 +88,7 @@ const findDeprecatedFields = schema => {
             if (findDeprecatedDirective(arg.astNode.directives)) {
               deprecatedFields.push({
                 field: fieldName,
-                type: typeName
+                type: typeName,
               });
             }
           });
@@ -105,7 +105,7 @@ const filterOutDeprecatedFields = (breakages, deprecated) => {
       [
         BreakingChangeType.FIELD_REMOVED,
         BreakingChangeType.ARG_REMOVED,
-        BreakingChangeType.VALUE_REMOVED_FROM_ENUM
+        BreakingChangeType.VALUE_REMOVED_FROM_ENUM,
       ].includes(breakage.type)
     ) {
       let type, field;

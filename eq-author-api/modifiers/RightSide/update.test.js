@@ -20,9 +20,9 @@ describe("Right side updates", () => {
       LeftSide2: {
         getByExpressionId: jest.fn().mockResolvedValue({
           id: LEFT_SIDE_ID,
-          answerId: BASIC_ANSWER_ID
-        })
-      }
+          answerId: BASIC_ANSWER_ID,
+        }),
+      },
     };
   });
 
@@ -32,31 +32,31 @@ describe("Right side updates", () => {
       BinaryExpression2: {
         getById: jest.fn().mockResolvedValue({
           id: BINARY_EXPRESSION_ID,
-          condition: conditions.EQUAL
-        })
+          condition: conditions.EQUAL,
+        }),
       },
       RightSide2: {
         getByExpressionId: jest.fn().mockResolvedValueOnce(),
         insert: jest.fn().mockResolvedValue({
           id: RIGHT_SIDE_ID,
           type: "Custom",
-          customValue: { number: CUSTOM_RIGHT_SIDE_VALUE }
-        })
+          customValue: { number: CUSTOM_RIGHT_SIDE_VALUE },
+        }),
       },
       Answer: {
-        getById: jest.fn().mockResolvedValueOnce({ type: answerTypes.NUMBER })
-      }
+        getById: jest.fn().mockResolvedValueOnce({ type: answerTypes.NUMBER }),
+      },
     };
 
     await update({ repositories })({
       expressionId: BINARY_EXPRESSION_ID,
-      customValue: { number: CUSTOM_RIGHT_SIDE_VALUE }
+      customValue: { number: CUSTOM_RIGHT_SIDE_VALUE },
     });
 
     expect(repositories.RightSide2.insert).toHaveBeenCalledWith({
       customValue: { number: CUSTOM_RIGHT_SIDE_VALUE },
       expressionId: BINARY_EXPRESSION_ID,
-      type: "Custom"
+      type: "Custom",
     });
   });
 
@@ -66,35 +66,35 @@ describe("Right side updates", () => {
       BinaryExpression2: {
         getById: jest.fn().mockResolvedValue({
           id: BINARY_EXPRESSION_ID,
-          condition: conditions.EQUAL
-        })
+          condition: conditions.EQUAL,
+        }),
       },
       RightSide2: {
         getByExpressionId: jest.fn().mockResolvedValueOnce({
           id: RIGHT_SIDE_ID,
           type: "Answer",
-          answerId: BASIC_ANSWER_ID
+          answerId: BASIC_ANSWER_ID,
         }),
         update: jest.fn().mockResolvedValue({
           id: RIGHT_SIDE_ID,
           type: "Custom",
-          customValue: { number: CUSTOM_RIGHT_SIDE_VALUE }
-        })
+          customValue: { number: CUSTOM_RIGHT_SIDE_VALUE },
+        }),
       },
       Answer: {
-        getById: jest.fn().mockResolvedValueOnce({ type: answerTypes.NUMBER })
-      }
+        getById: jest.fn().mockResolvedValueOnce({ type: answerTypes.NUMBER }),
+      },
     };
 
     await update({ repositories })({
       expressionId: BINARY_EXPRESSION_ID,
-      customValue: { number: CUSTOM_RIGHT_SIDE_VALUE }
+      customValue: { number: CUSTOM_RIGHT_SIDE_VALUE },
     });
 
     expect(repositories.RightSide2.update).toHaveBeenCalledWith({
       customValue: { number: CUSTOM_RIGHT_SIDE_VALUE },
       type: "Custom",
-      id: RIGHT_SIDE_ID
+      id: RIGHT_SIDE_ID,
     });
   });
 
@@ -104,43 +104,43 @@ describe("Right side updates", () => {
       BinaryExpression2: {
         getById: jest.fn().mockResolvedValue({
           id: BINARY_EXPRESSION_ID,
-          condition: conditions.ONE_OF
-        })
+          condition: conditions.ONE_OF,
+        }),
       },
       LeftSide2: {
         getByExpressionId: jest.fn().mockResolvedValue({
           id: LEFT_SIDE_ID,
-          answerId: MULTIPLE_CHOICE_ANSWER_ID
-        })
+          answerId: MULTIPLE_CHOICE_ANSWER_ID,
+        }),
       },
       RightSide2: {
         getByExpressionId: jest.fn().mockResolvedValueOnce({
           id: RIGHT_SIDE_ID,
           type: "Answer",
-          answerId: BASIC_ANSWER_ID
+          answerId: BASIC_ANSWER_ID,
         }),
         update: jest.fn().mockResolvedValue({
           id: RIGHT_SIDE_ID,
-          type: "SelectedOptions"
-        })
+          type: "SelectedOptions",
+        }),
       },
       SelectedOptions2: {
         deleteBySideId: jest.fn().mockResolvedValueOnce(),
-        insert: jest.fn().mockResolvedValueOnce()
+        insert: jest.fn().mockResolvedValueOnce(),
       },
       Answer: {
-        getById: jest.fn().mockResolvedValueOnce({ type: answerTypes.RADIO })
-      }
+        getById: jest.fn().mockResolvedValueOnce({ type: answerTypes.RADIO }),
+      },
     };
 
     await update({ repositories })({
       expressionId: BINARY_EXPRESSION_ID,
-      selectedOptions: [OPTION_ONE_ID, OPTION_TWO_ID]
+      selectedOptions: [OPTION_ONE_ID, OPTION_TWO_ID],
     });
 
     expect(repositories.RightSide2.update).toHaveBeenCalledWith({
       id: RIGHT_SIDE_ID,
-      type: "SelectedOptions"
+      type: "SelectedOptions",
     });
 
     expect(repositories.SelectedOptions2.deleteBySideId).toHaveBeenCalledWith(
@@ -148,24 +148,24 @@ describe("Right side updates", () => {
     );
     expect(repositories.SelectedOptions2.insert).toHaveBeenCalledWith({
       sideId: RIGHT_SIDE_ID,
-      optionId: OPTION_ONE_ID
+      optionId: OPTION_ONE_ID,
     });
     expect(repositories.SelectedOptions2.insert).toHaveBeenCalledWith({
       sideId: RIGHT_SIDE_ID,
-      optionId: OPTION_TWO_ID
+      optionId: OPTION_TWO_ID,
     });
   });
 
   it("should error if you have no leftside for the expression", async () => {
     const repositories = {
       LeftSide2: {
-        getByExpressionId: jest.fn().mockResolvedValue(null)
-      }
+        getByExpressionId: jest.fn().mockResolvedValue(null),
+      },
     };
     try {
       await update({ repositories })({
         expressionId: BINARY_EXPRESSION_ID,
-        customValue: { number: CUSTOM_RIGHT_SIDE_VALUE }
+        customValue: { number: CUSTOM_RIGHT_SIDE_VALUE },
       });
     } catch (e) {
       expect(e.message).toMatch("Cannot have a right side without a left");
@@ -178,39 +178,39 @@ describe("Right side updates", () => {
       BinaryExpression2: {
         getById: jest.fn().mockResolvedValue({
           id: BINARY_EXPRESSION_ID,
-          condition: conditions.ONE_OF
-        })
+          condition: conditions.ONE_OF,
+        }),
       },
       LeftSide2: {
         getByExpressionId: jest.fn().mockResolvedValue({
           id: LEFT_SIDE_ID,
-          answerId: MULTIPLE_CHOICE_ANSWER_ID
-        })
+          answerId: MULTIPLE_CHOICE_ANSWER_ID,
+        }),
       },
       RightSide2: {
         getByExpressionId: jest.fn().mockResolvedValueOnce({
           id: RIGHT_SIDE_ID,
           type: "Answer",
-          answerId: BASIC_ANSWER_ID
+          answerId: BASIC_ANSWER_ID,
         }),
         update: jest.fn().mockResolvedValue({
           id: RIGHT_SIDE_ID,
-          type: "SelectedOptions"
-        })
+          type: "SelectedOptions",
+        }),
       },
       SelectedOptions2: {
         deleteBySideId: jest.fn().mockResolvedValueOnce(),
-        insert: jest.fn().mockResolvedValueOnce()
+        insert: jest.fn().mockResolvedValueOnce(),
       },
       Answer: {
-        getById: jest.fn().mockResolvedValueOnce({ type: answerTypes.RADIO })
-      }
+        getById: jest.fn().mockResolvedValueOnce({ type: answerTypes.RADIO }),
+      },
     };
 
     try {
       await update({ repositories })({
         expressionId: BINARY_EXPRESSION_ID,
-        customValue: { number: CUSTOM_RIGHT_SIDE_VALUE }
+        customValue: { number: CUSTOM_RIGHT_SIDE_VALUE },
       });
     } catch (e) {
       expect(e.message).toMatch("incompatible");

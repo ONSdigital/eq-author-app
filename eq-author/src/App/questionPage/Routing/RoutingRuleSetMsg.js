@@ -63,7 +63,7 @@ const RoutingRuleSetMsg = ({
 RoutingRuleSetMsg.propTypes = {
   title: PropTypes.string.isRequired,
   onAddRuleSet: PropTypes.func,
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
 };
 
 export default RoutingRuleSetMsg;

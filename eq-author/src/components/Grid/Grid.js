@@ -13,18 +13,18 @@ const Grid = styled.div`
 const alignOptions = {
   center: "center",
   top: "stretch",
-  bottom: "flex-end"
+  bottom: "flex-end",
 };
 
 Grid.propTypes = {
   align: PropTypes.oneOf(Object.keys(alignOptions)),
   children: PropTypes.node.isRequired,
-  fillHeight: PropTypes.bool
+  fillHeight: PropTypes.bool,
 };
 
 Grid.defaultProps = {
   align: "top",
-  fillHeight: true
+  fillHeight: true,
 };
 
 export default Grid;

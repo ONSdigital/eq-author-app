@@ -23,7 +23,7 @@ import {
   MinDuration,
   MaxDuration,
   MinValue,
-  MaxValue
+  MaxValue,
 } from "./";
 
 import { CURRENCY, DATE, DATE_RANGE, NUMBER } from "constants/answer-types";
@@ -43,7 +43,7 @@ const validationTypes = [
       <MinValue>{props => <MinValueValidation {...props} />}</MinValue>
     ),
     types: [CURRENCY, NUMBER],
-    preview: ({ custom }) => custom
+    preview: ({ custom }) => custom,
   },
   {
     id: "maxValue",
@@ -53,7 +53,7 @@ const validationTypes = [
     ),
     types: [CURRENCY, NUMBER],
     preview: ({ custom, previousAnswer }) =>
-      custom ? custom : get(previousAnswer, "displayName")
+      custom ? custom : get(previousAnswer, "displayName"),
   },
   {
     id: "earliestDate",
@@ -62,7 +62,7 @@ const validationTypes = [
       <EarliestDate>{props => <DateValidation {...props} />}</EarliestDate>
     ),
     types: [DATE, DATE_RANGE],
-    preview: DatePreview
+    preview: DatePreview,
   },
   {
     id: "latestDate",
@@ -71,7 +71,7 @@ const validationTypes = [
       <LatestDate>{props => <DateValidation {...props} />}</LatestDate>
     ),
     types: [DATE, DATE_RANGE],
-    preview: DatePreview
+    preview: DatePreview,
   },
   {
     id: "minDuration",
@@ -80,7 +80,7 @@ const validationTypes = [
       <MinDuration>{props => <DurationValidation {...props} />}</MinDuration>
     ),
     types: [DATE_RANGE],
-    preview: DurationPreview
+    preview: DurationPreview,
   },
   {
     id: "maxDuration",
@@ -89,8 +89,8 @@ const validationTypes = [
       <MaxDuration>{props => <DurationValidation {...props} />}</MaxDuration>
     ),
     types: [DATE_RANGE],
-    preview: DurationPreview
-  }
+    preview: DurationPreview,
+  },
 ];
 
 const getValidationsForType = type =>
@@ -99,7 +99,7 @@ const getValidationsForType = type =>
 const validations = [NUMBER, CURRENCY, DATE, DATE_RANGE].reduce(
   (hash, type) => ({
     ...hash,
-    [type]: getValidationsForType(type)
+    [type]: getValidationsForType(type),
   }),
   {}
 );
@@ -107,7 +107,7 @@ const validations = [NUMBER, CURRENCY, DATE, DATE_RANGE].reduce(
 export class UnconnectedAnswerValidation extends React.Component {
   state = {
     modalIsOpen: false,
-    answerId: null
+    answerId: null,
   };
 
   constructor(props) {
@@ -155,7 +155,7 @@ export class UnconnectedAnswerValidation extends React.Component {
               value,
               enabled,
               previousAnswer,
-              metadata
+              metadata,
             });
           })}
           <ModalWithNav
@@ -173,11 +173,11 @@ export class UnconnectedAnswerValidation extends React.Component {
 
 UnconnectedAnswerValidation.propTypes = {
   answer: CustomPropTypes.answer,
-  gotoTab: PropTypes.func.isRequired
+  gotoTab: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
-  tabsState: state.tabs
+  tabsState: state.tabs,
 });
 
 export default connect(

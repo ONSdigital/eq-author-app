@@ -1,11 +1,11 @@
 import {
   dateReadToWriteMapper,
-  durationReadToWriteMapper
+  durationReadToWriteMapper,
 } from "./readToWriteMapper";
 import {
   CUSTOM,
   METADATA,
-  PREVIOUS_ANSWER
+  PREVIOUS_ANSWER,
 } from "constants/validation-entity-types";
 
 describe("readToWriteMapper", () => {
@@ -20,11 +20,11 @@ describe("readToWriteMapper", () => {
           metadata: null,
           offset: {
             unit: "Months",
-            value: 1
+            value: 1,
           },
           relativePosition: "Before",
           enabled: true,
-          entityType: CUSTOM
+          entityType: CUSTOM,
         })
       ).toEqual({
         id: 1,
@@ -35,10 +35,10 @@ describe("readToWriteMapper", () => {
           entityType: CUSTOM,
           offset: {
             unit: "Months",
-            value: 1
+            value: 1,
           },
-          relativePosition: "Before"
-        }
+          relativePosition: "Before",
+        },
       });
     });
 
@@ -52,11 +52,11 @@ describe("readToWriteMapper", () => {
           metadata: null,
           offset: {
             unit: "Months",
-            value: 1
+            value: 1,
           },
           relativePosition: "Before",
           enabled: true,
-          entityType: PREVIOUS_ANSWER
+          entityType: PREVIOUS_ANSWER,
         })
       ).toEqual({
         id: 1,
@@ -67,10 +67,10 @@ describe("readToWriteMapper", () => {
           entityType: PREVIOUS_ANSWER,
           offset: {
             unit: "Months",
-            value: 1
+            value: 1,
           },
-          relativePosition: "Before"
-        }
+          relativePosition: "Before",
+        },
       });
     });
 
@@ -84,11 +84,11 @@ describe("readToWriteMapper", () => {
           metadata: { id: "1", displayName: "foobar" },
           offset: {
             unit: "Months",
-            value: 1
+            value: 1,
           },
           relativePosition: "Before",
           enabled: true,
-          entityType: METADATA
+          entityType: METADATA,
         })
       ).toEqual({
         id: 1,
@@ -99,10 +99,10 @@ describe("readToWriteMapper", () => {
           entityType: METADATA,
           offset: {
             unit: "Months",
-            value: 1
+            value: 1,
           },
-          relativePosition: "Before"
-        }
+          relativePosition: "Before",
+        },
       });
     });
 
@@ -115,18 +115,18 @@ describe("readToWriteMapper", () => {
           previousAnswer: { id: "1", displayName: "foobar" },
           offset: {
             unit: "Months",
-            value: 1
+            value: 1,
           },
           relativePosition: "Before",
           enabled: true,
-          entityType: PREVIOUS_ANSWER
+          entityType: PREVIOUS_ANSWER,
         })
       ).toMatchObject({
         id: 1,
         earliestDateInput: {
           previousAnswer: "1",
-          entityType: PREVIOUS_ANSWER
-        }
+          entityType: PREVIOUS_ANSWER,
+        },
       });
     });
 
@@ -139,18 +139,18 @@ describe("readToWriteMapper", () => {
           previousAnswer: { id: "1", displayName: "foobar" },
           offset: {
             unit: "Months",
-            value: 1
+            value: 1,
           },
           relativePosition: "Before",
           enabled: true,
-          entityType: CUSTOM
+          entityType: CUSTOM,
         })
       ).toMatchObject({
         id: 1,
         earliestDateInput: {
           custom: "12/12/2000",
-          entityType: CUSTOM
-        }
+          entityType: CUSTOM,
+        },
       });
     });
 
@@ -162,11 +162,11 @@ describe("readToWriteMapper", () => {
           customDate: "",
           offset: {
             unit: "Months",
-            value: 1
+            value: 1,
           },
           relativePosition: "Before",
           enabled: true,
-          entityType: CUSTOM
+          entityType: CUSTOM,
         })
       ).toEqual({
         id: 1,
@@ -176,11 +176,11 @@ describe("readToWriteMapper", () => {
           previousAnswer: null,
           offset: {
             unit: "Months",
-            value: 1
+            value: 1,
           },
           relativePosition: "Before",
-          entityType: CUSTOM
-        }
+          entityType: CUSTOM,
+        },
       });
     });
 
@@ -194,11 +194,11 @@ describe("readToWriteMapper", () => {
           metadata: null,
           offset: {
             unit: "Months",
-            value: 1
+            value: 1,
           },
           relativePosition: "Before",
           enabled: true,
-          entityType: PREVIOUS_ANSWER
+          entityType: PREVIOUS_ANSWER,
         })
       ).toEqual({
         id: 1,
@@ -208,11 +208,11 @@ describe("readToWriteMapper", () => {
           previousAnswer: null,
           offset: {
             unit: "Months",
-            value: 1
+            value: 1,
           },
           relativePosition: "Before",
-          entityType: PREVIOUS_ANSWER
-        }
+          entityType: PREVIOUS_ANSWER,
+        },
       });
     });
 
@@ -226,11 +226,11 @@ describe("readToWriteMapper", () => {
           metadata: null,
           offset: {
             unit: "Months",
-            value: 1
+            value: 1,
           },
           relativePosition: "Before",
           enabled: true,
-          entityType: METADATA
+          entityType: METADATA,
         })
       ).toEqual({
         id: 1,
@@ -240,11 +240,11 @@ describe("readToWriteMapper", () => {
           previousAnswer: null,
           offset: {
             unit: "Months",
-            value: 1
+            value: 1,
           },
           relativePosition: "Before",
-          entityType: METADATA
-        }
+          entityType: METADATA,
+        },
       });
     });
   });
@@ -257,18 +257,18 @@ describe("readToWriteMapper", () => {
           id: 1,
           duration: {
             unit: "Months",
-            value: 1
+            value: 1,
           },
-          enabled: true
+          enabled: true,
         })
       ).toEqual({
         id: 1,
         minDurationInput: {
           duration: {
             unit: "Months",
-            value: 1
-          }
-        }
+            value: 1,
+          },
+        },
       });
     });
   });

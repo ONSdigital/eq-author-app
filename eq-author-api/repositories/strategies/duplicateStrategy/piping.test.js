@@ -4,7 +4,7 @@ describe("Update piping", () => {
   let trx, builder;
   beforeEach(() => {
     builder = {
-      orWhere: jest.fn()
+      orWhere: jest.fn(),
     };
     trx = {
       select: jest.fn().mockReturnThis(),
@@ -16,7 +16,7 @@ describe("Update piping", () => {
       whereIn: jest.fn().mockReturnThis(),
       table: jest.fn().mockReturnThis(),
       update: jest.fn().mockReturnThis(),
-      where: jest.fn().mockResolvedValue([])
+      where: jest.fn().mockResolvedValue([]),
     };
   });
 
@@ -24,8 +24,8 @@ describe("Update piping", () => {
     const references = {
       pages: {
         "1": "new1",
-        "2": "new2"
-      }
+        "2": "new2",
+      },
     };
 
     await updatePiping(trx, references);
@@ -42,8 +42,8 @@ describe("Update piping", () => {
     const references = {
       sections: {
         "1": "new1",
-        "2": "new2"
-      }
+        "2": "new2",
+      },
     };
 
     await updatePiping(trx, references);
@@ -66,14 +66,14 @@ describe("Update piping", () => {
   it("should update the piping value and save it back to the database", async () => {
     const references = {
       pages: {
-        "1": "new1"
+        "1": "new1",
       },
       answers: {
-        a1: "newA1"
+        a1: "newA1",
       },
       metadata: {
-        m1: "newM1"
-      }
+        m1: "newM1",
+      },
     };
     trx.andWhere = async func => {
       func(builder);
@@ -83,8 +83,8 @@ describe("Update piping", () => {
           title:
             'Title <span data-piped="answers" data-id="a1" data-type="TextField">{{Answer 1}}</span>',
           guidance:
-            'Guidance <span data-piped="metadata" data-id="m1" data-type="TextField">{{Metadata 1}}</span>'
-        }
+            'Guidance <span data-piped="metadata" data-id="m1" data-type="TextField">{{Metadata 1}}</span>',
+        },
       ];
     };
 
@@ -95,24 +95,24 @@ describe("Update piping", () => {
       title:
         'Title <span data-piped="answers" data-id="newA1" data-type="TextField">{{Answer 1}}</span>',
       guidance:
-        'Guidance <span data-piped="metadata" data-id="newM1" data-type="TextField">{{Metadata 1}}</span>'
+        'Guidance <span data-piped="metadata" data-id="newM1" data-type="TextField">{{Metadata 1}}</span>',
     });
     expect(trx.where).toHaveBeenCalledWith({
-      id: "new1"
+      id: "new1",
     });
   });
 
   it("should update the piping for sections and save it back to the database", async () => {
     const references = {
       sections: {
-        "1": "new1"
+        "1": "new1",
       },
       answers: {
-        a1: "newA1"
+        a1: "newA1",
       },
       metadata: {
-        m1: "newM1"
-      }
+        m1: "newM1",
+      },
     };
     trx.andWhere = async func => {
       func(builder);
@@ -122,8 +122,8 @@ describe("Update piping", () => {
           introductionTitle:
             'introTitle <span data-piped="answers" data-id="a1" data-type="TextField">{{Answer 1}}</span>',
           introductionContent:
-            'introContent <span data-piped="metadata" data-id="m1" data-type="TextField">{{Metadata 1}}</span>'
-        }
+            'introContent <span data-piped="metadata" data-id="m1" data-type="TextField">{{Metadata 1}}</span>',
+        },
       ];
     };
 
@@ -134,24 +134,24 @@ describe("Update piping", () => {
       introductionTitle:
         'introTitle <span data-piped="answers" data-id="newA1" data-type="TextField">{{Answer 1}}</span>',
       introductionContent:
-        'introContent <span data-piped="metadata" data-id="newM1" data-type="TextField">{{Metadata 1}}</span>'
+        'introContent <span data-piped="metadata" data-id="newM1" data-type="TextField">{{Metadata 1}}</span>',
     });
     expect(trx.where).toHaveBeenCalledWith({
-      id: "new1"
+      id: "new1",
     });
   });
 
   it("should update piping for Question Confirmation titles", async () => {
     const references = {
       questionConfirmations: {
-        "1": "new1"
+        "1": "new1",
       },
       answers: {
-        a1: "newA1"
+        a1: "newA1",
       },
       metadata: {
-        m1: "newM1"
-      }
+        m1: "newM1",
+      },
     };
     trx.andWhere = async func => {
       func(builder);
@@ -159,8 +159,8 @@ describe("Update piping", () => {
         {
           id: "new1",
           title:
-            'title <span data-piped="answers" data-id="a1" data-type="TextField">{{Answer 1}}</span>'
-        }
+            'title <span data-piped="answers" data-id="a1" data-type="TextField">{{Answer 1}}</span>',
+        },
       ];
     };
 
@@ -169,21 +169,21 @@ describe("Update piping", () => {
     expect(trx.table).toHaveBeenCalledWith("QuestionConfirmations");
     expect(trx.update).toHaveBeenCalledWith({
       title:
-        'title <span data-piped="answers" data-id="newA1" data-type="TextField">{{Answer 1}}</span>'
+        'title <span data-piped="answers" data-id="newA1" data-type="TextField">{{Answer 1}}</span>',
     });
     expect(trx.where).toHaveBeenCalledWith({
-      id: "new1"
+      id: "new1",
     });
   });
 
   it("should do nothing if there are no changed entities that could have piping", async () => {
     const references = {
       answers: {
-        a1: "newA1"
+        a1: "newA1",
       },
       metadata: {
-        m1: "newM1"
-      }
+        m1: "newM1",
+      },
     };
 
     await updatePiping(trx, references);

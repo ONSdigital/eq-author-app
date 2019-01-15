@@ -9,14 +9,14 @@ const createWrapper = (props, render = shallow) => {
 const defaultProps = {
   children: <div>Children</div>,
   enabled: true,
-  onToggleChange: jest.fn()
+  onToggleChange: jest.fn(),
 };
 
 describe("ValidationView", () => {
   it("should render children when enabled", () => {
     const props = {
       ...defaultProps,
-      enabled: true
+      enabled: true,
     };
     expect(createWrapper(props)).toMatchSnapshot();
   });
@@ -24,7 +24,7 @@ describe("ValidationView", () => {
   it("should render disabled messaged when disabled", () => {
     const props = {
       ...defaultProps,
-      enabled: false
+      enabled: false,
     };
     expect(createWrapper(props)).toMatchSnapshot();
   });

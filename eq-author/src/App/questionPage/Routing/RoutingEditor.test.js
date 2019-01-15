@@ -11,36 +11,36 @@ describe("RoutingEditor", () => {
 
   const answer = {
     id: "1",
-    type: "Number"
+    type: "Number",
   };
 
   const page = {
     id: "1",
-    answers: [answer]
+    answers: [answer],
   };
 
   const section = {
     id: "1",
-    pages: [page]
+    pages: [page],
   };
 
   const questionnaire = {
     id: "1",
-    sections: [section]
+    sections: [section],
   };
 
   const routingRule = {
     id: "1",
     operation: "And",
     conditions: [],
-    goto: null
+    goto: null,
   };
 
   const routingRuleSet = {
     id: "1",
     routingRules: [],
     questionPage: page,
-    else: null
+    else: null,
   };
 
   const availableRoutingDestinations = {
@@ -49,40 +49,40 @@ describe("RoutingEditor", () => {
         id: "2",
         __typename: "QuestionPage",
         section: {
-          id: "1"
-        }
+          id: "1",
+        },
       },
       {
         id: "3",
         __typename: "QuestionPage",
         section: {
-          id: "1"
-        }
-      }
+          id: "1",
+        },
+      },
     ],
     sections: [
       {
         id: "2",
-        __typename: "Section"
+        __typename: "Section",
       },
       {
         id: "3",
-        __typename: "Section"
-      }
-    ]
+        __typename: "Section",
+      },
+    ],
   };
 
   const pageWithRoutingRuleSet = {
     ...page,
-    routingRuleSet
+    routingRuleSet,
   };
 
   const pageWithRoutingRules = {
     ...pageWithRoutingRuleSet,
     routingRuleSet: {
       id: "2",
-      routingRules: [routingRule]
-    }
+      routingRules: [routingRule],
+    },
   };
 
   beforeEach(() => {
@@ -104,9 +104,9 @@ describe("RoutingEditor", () => {
         params: {
           questionnaireId: questionnaire.id,
           sectionId: section.id,
-          pageId: page.id
-        }
-      }
+          pageId: page.id,
+        },
+      },
     };
 
     wrapper = createWrapper(props);
@@ -130,7 +130,7 @@ describe("RoutingEditor", () => {
       const withRoutingRuleSet = {
         ...props,
         currentPage: pageWithRoutingRuleSet,
-        availableRoutingDestinations
+        availableRoutingDestinations,
       };
 
       wrapper = createWrapper(withRoutingRuleSet);
@@ -146,9 +146,9 @@ describe("RoutingEditor", () => {
         else: {
           absoluteDestination: {
             destinationType: "QuestionPage",
-            destinationId: "19"
-          }
-        }
+            destinationId: "19",
+          },
+        },
       };
 
       wrapper.find("RoutingRuleSet").simulate("elseChange", destination);
@@ -160,7 +160,7 @@ describe("RoutingEditor", () => {
     beforeEach(() => {
       const withRoutingRules = {
         ...props,
-        currentPage: pageWithRoutingRules
+        currentPage: pageWithRoutingRules,
       };
 
       wrapper = createWrapper(withRoutingRules);
@@ -175,12 +175,12 @@ describe("RoutingEditor", () => {
         ...pageWithRoutingRuleSet,
         routingRuleSet: {
           ...pageWithRoutingRuleSet.routingRuleSet,
-          routingRules: [routingRule, routingRule]
-        }
+          routingRules: [routingRule, routingRule],
+        },
       };
       wrapper = createWrapper({
         ...props,
-        currentPage
+        currentPage,
       });
 
       wrapper.find("RoutingRuleSet").simulate("deleteRule", routingRule);
@@ -204,9 +204,9 @@ describe("RoutingEditor", () => {
         goto: {
           absoluteDestination: {
             destinationType: "QuestionPage",
-            destinationId: "19"
-          }
-        }
+            destinationId: "19",
+          },
+        },
       };
 
       wrapper.find("RoutingRuleSet").simulate("thenChange", destination);

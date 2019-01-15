@@ -4,20 +4,20 @@ const { concat } = require("lodash");
 
 const nextPageGoto = {
   __typename: "LogicalDestination",
-  logicalDestination: "NextPage"
+  logicalDestination: "NextPage",
 };
 
 const endQuestionnaireGoto = {
   __typename: "LogicalDestination",
-  logicalDestination: "EndOfQuestionnaire"
+  logicalDestination: "EndOfQuestionnaire",
 };
 
 const absoluteSectionGoto = {
   __typename: "AbsoluteDestination",
   absoluteDestination: {
     __typename: "Section",
-    id: 2
-  }
+    id: 2,
+  },
 };
 
 const additionAnswerCondition = [
@@ -30,26 +30,26 @@ const additionAnswerCondition = [
       options: [
         {
           id: 4,
-          label: "pepperoni"
+          label: "pepperoni",
         },
         {
           id: 5,
-          label: "pineapple"
+          label: "pineapple",
         },
         {
           id: 6,
           label: "additionAnswer",
           additionalAnswer: {
             id: 7,
-            label: "additional"
-          }
-        }
-      ]
+            label: "additional",
+          },
+        },
+      ],
     },
     routingValue: {
-      value: [5]
-    }
-  }
+      value: [5],
+    },
+  },
 ];
 
 const secondCondition = {
@@ -61,21 +61,21 @@ const secondCondition = {
     options: [
       {
         id: 4,
-        label: "pepperoni"
+        label: "pepperoni",
       },
       {
         id: 5,
-        label: "pineapple"
+        label: "pineapple",
       },
       {
         id: 6,
-        label: "chorizo"
-      }
-    ]
+        label: "chorizo",
+      },
+    ],
   },
   routingValue: {
-    value: [5]
-  }
+    value: [5],
+  },
 };
 
 const basicRadioCondition = [
@@ -88,22 +88,22 @@ const basicRadioCondition = [
       options: [
         {
           id: 1,
-          label: "yes"
+          label: "yes",
         },
         {
           id: 2,
-          label: "no"
+          label: "no",
         },
         {
           id: 3,
-          label: "maybe"
-        }
-      ]
+          label: "maybe",
+        },
+      ],
     },
     routingValue: {
-      value: [1]
-    }
-  }
+      value: [1],
+    },
+  },
 ];
 
 describe("Rule", () => {
@@ -122,10 +122,10 @@ describe("Rule", () => {
           id: 1,
           operation: "And",
           goto: destination,
-          conditions: conditions
-        }
-      ]
-    }
+          conditions: conditions,
+        },
+      ],
+    },
   });
   beforeEach(() => {
     ctx = {
@@ -135,18 +135,18 @@ describe("Rule", () => {
         sections: [
           {
             id: 1,
-            pages: [{ id: 1 }, { id: 2 }, { id: 3 }]
+            pages: [{ id: 1 }, { id: 2 }, { id: 3 }],
           },
           {
             id: 2,
-            pages: [{ id: 4 }, { id: 5 }, { id: 6 }]
+            pages: [{ id: 4 }, { id: 5 }, { id: 6 }],
           },
           {
             id: 3,
-            pages: [{ id: 7 }, { id: 8 }, { id: 9 }]
-          }
-        ]
-      }
+            pages: [{ id: 7 }, { id: 8 }, { id: 9 }],
+          },
+        ],
+      },
     };
   });
 
@@ -167,12 +167,12 @@ describe("Rule", () => {
             when: [
               { id: "answer2", condition: "not equals", value: "no" },
               { id: "answer2", condition: "not equals", value: "maybe" },
-              { id: "answer2", condition: "set" }
-            ]
-          }
+              { id: "answer2", condition: "set" },
+            ],
+          },
         },
-        { goto: { block: "block2" } }
-      ]
+        { goto: { block: "block2" } },
+      ],
     });
   });
 
@@ -193,12 +193,12 @@ describe("Rule", () => {
             when: [
               { id: "answer2", condition: "not equals", value: "no" },
               { id: "answer2", condition: "not equals", value: "maybe" },
-              { id: "answer2", condition: "set" }
-            ]
-          }
+              { id: "answer2", condition: "set" },
+            ],
+          },
         },
-        { goto: { group: "summary-group" } }
-      ]
+        { goto: { group: "summary-group" } },
+      ],
     });
   });
 
@@ -222,14 +222,14 @@ describe("Rule", () => {
               {
                 id: "answer3",
                 condition: "not equals",
-                value: "additionAnswer"
+                value: "additionAnswer",
               },
-              { id: "answer3", condition: "set" }
-            ]
-          }
+              { id: "answer3", condition: "set" },
+            ],
+          },
         },
-        { goto: { block: "block2" } }
-      ]
+        { goto: { block: "block2" } },
+      ],
     });
   });
 
@@ -254,14 +254,14 @@ describe("Rule", () => {
               { id: "answer2", condition: "set" },
               { id: "answer3", condition: "not equals", value: "pepperoni" },
               { id: "answer3", condition: "not equals", value: "chorizo" },
-              { id: "answer3", condition: "set" }
-            ]
-          }
+              { id: "answer3", condition: "set" },
+            ],
+          },
         },
         {
-          goto: { group: "group2" }
-        }
-      ]
+          goto: { group: "group2" },
+        },
+      ],
     });
   });
 
@@ -279,9 +279,9 @@ describe("Rule", () => {
       when: [
         { condition: "not equals", id: "answer2", value: "no" },
         { condition: "not equals", id: "answer2", value: "maybe" },
-        { condition: "set", id: "answer2" }
+        { condition: "set", id: "answer2" },
       ],
-      groupId: "group1"
+      groupId: "group1",
     });
   });
 });

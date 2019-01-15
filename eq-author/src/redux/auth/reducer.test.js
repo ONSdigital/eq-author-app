@@ -6,14 +6,14 @@ const user = {
   displayName: "nick",
   photoURL: "picture",
   email: "email",
-  stsTokenManager: { accessToken: "token" }
+  stsTokenManager: { accessToken: "token" },
 };
 
 describe("auth reducer", () => {
   it("should start with null user", () => {
     expect(reducer(undefined, {})).toEqual({
       user: null,
-      verifiedStatus: false
+      verifiedStatus: false,
     });
   });
 
@@ -24,9 +24,9 @@ describe("auth reducer", () => {
         id: user.uid,
         displayName: "nick",
         photoURL: "picture",
-        email: "email"
+        email: "email",
       },
-      verifiedStatus: true
+      verifiedStatus: true,
     });
   });
 
@@ -36,7 +36,7 @@ describe("auth reducer", () => {
 
     expect(state).toEqual({
       user: null,
-      verifiedStatus: true
+      verifiedStatus: true,
     });
   });
 

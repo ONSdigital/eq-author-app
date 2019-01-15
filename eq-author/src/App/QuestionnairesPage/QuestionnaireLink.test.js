@@ -9,12 +9,12 @@ const questionnaire = {
   sections: [
     {
       id: "1",
-      pages: [{ id: "1" }]
-    }
+      pages: [{ id: "1" }],
+    },
   ],
   createdBy: {
-    name: "Alan"
-  }
+    name: "Alan",
+  },
 };
 
 describe("QuestionnaireLink", () => {

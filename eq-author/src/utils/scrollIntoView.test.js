@@ -8,7 +8,7 @@ describe("scrollIntoView", () => {
 
     expect(node.scrollIntoView).toHaveBeenCalledWith(
       expect.objectContaining({
-        behavior: "smooth"
+        behavior: "smooth",
       })
     );
   });

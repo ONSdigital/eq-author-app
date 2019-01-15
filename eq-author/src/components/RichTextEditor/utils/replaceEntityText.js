@@ -15,7 +15,7 @@ const getEntityRange = (block, entityKey) => {
     anchorKey: block.key,
     anchorOffset: range.start,
     focusKey: block.key,
-    focusOffset: range.end
+    focusOffset: range.end,
   });
 };
 
@@ -34,7 +34,7 @@ const replaceText = (contentState, entityKey, blockKey, text, inlineStyles) => {
 
   // then create new selection, which covers the updated entity
   const updatedEntitySelection = entitySelection.merge({
-    focusOffset: entitySelection.getStartOffset() + text.length
+    focusOffset: entitySelection.getStartOffset() + text.length,
   });
 
   // apply the updated entity to the content

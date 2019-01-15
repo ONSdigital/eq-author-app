@@ -2,7 +2,7 @@ const cheerio = require("cheerio");
 const { omit } = require("lodash");
 
 const {
-  getValidationEntity
+  getValidationEntity,
 } = require("../../repositories/strategies/validationStrategy");
 const { validationRuleMap } = require("../../utils/defaultAnswerValidations");
 
@@ -105,7 +105,7 @@ module.exports = knex => {
         if (enabled) {
           await ValidationRepository.toggleValidationRule({
             id: validation.id,
-            enabled
+            enabled,
           });
         }
         const update = {
@@ -113,8 +113,8 @@ module.exports = knex => {
           [`${validationType}Input`]: {
             ...restOfConfig,
             previousAnswer: references.answers[(previousAnswer || {}).id],
-            metadata: references.metadata[(metadata || {}).id]
-          }
+            metadata: references.metadata[(metadata || {}).id],
+          },
         };
         validation = await ValidationRepository.updateValidationRule(update);
       }
@@ -135,27 +135,27 @@ module.exports = knex => {
 
     const optionDetails = {
       ...config,
-      answerId: answer.id
+      answerId: answer.id,
     };
 
     let option;
     if (existingOption) {
       option = await OptionRepository.update({
         ...existingOption,
-        ...optionDetails
+        ...optionDetails,
       });
     } else {
       if (optionDetails.additionalAnswer) {
         const additionalAnswer = await AnswerRepository.createAnswer({
-          ...optionDetails.additionalAnswer
+          ...optionDetails.additionalAnswer,
         });
         await AnswerRepository.update({
           id: additionalAnswer.id,
-          parentAnswerId: answer.id
+          parentAnswerId: answer.id,
         });
         await OptionRepository.insert({
           additionalAnswerId: additionalAnswer.id,
-          ...omit(optionDetails, "additionalAnswer")
+          ...omit(optionDetails, "additionalAnswer"),
         });
       }
       option = await OptionRepository.insert(optionDetails);
@@ -172,7 +172,7 @@ module.exports = knex => {
 
     const existingOptions = await OptionRepository.findAll({
       answerId: answer.id,
-      mutuallyExclusive: false
+      mutuallyExclusive: false,
     });
 
     for (let i = 0; i < optionConfigs.length; ++i) {
@@ -210,7 +210,7 @@ module.exports = knex => {
         type: "TextField",
         ...answerConfig,
         secondaryLabel,
-        questionPageId: page.id
+        questionPageId: page.id,
       });
 
       if (answerConfig.isDeleted) {
@@ -251,7 +251,7 @@ module.exports = knex => {
     const selectedOptionsInsert = selectedOptionsConfig.map(optionConfigId =>
       SelectedOptionsRepository.insert({
         optionId: references.options[optionConfigId],
-        sideId: right.id
+        sideId: right.id,
       })
     );
     return Promise.all(selectedOptionsInsert);
@@ -264,18 +264,18 @@ module.exports = knex => {
   ) => {
     const expression = await BinaryExpression2Repository.insert({
       groupId: expressionGroup.id,
-      condition: expressionConfig.condition
+      condition: expressionConfig.condition,
     });
     if (expressionConfig.left && expressionConfig.left.answerId) {
       expression.left = await LeftSide2Repository.insert({
         expressionId: expression.id,
-        answerId: references.answers[expressionConfig.left.answerId]
+        answerId: references.answers[expressionConfig.left.answerId],
       });
     }
     if (expressionConfig.right && expressionConfig.right.type) {
       expression.right = await RightSide2Repository.insert({
         expressionId: expression.id,
-        type: expressionConfig.right.type
+        type: expressionConfig.right.type,
       });
 
       if (expressionConfig.right.type === "SelectedOptions") {
@@ -310,7 +310,7 @@ module.exports = knex => {
     const destination = await DestinationRepository.insert();
     const rule = await RoutingRule2Repository.insert({
       routingId: routing.id,
-      destinationId: destination.id
+      destinationId: destination.id,
     });
 
     if (ruleConfig.expressionGroup) {
@@ -328,7 +328,7 @@ module.exports = knex => {
     const destination = await DestinationRepository.insert();
     const routing = await Routing2Repository.insert({
       pageId: page.id,
-      destinationId: destination.id
+      destinationId: destination.id,
     });
 
     routing.rules = [];
@@ -342,11 +342,11 @@ module.exports = knex => {
 
   const buildQuestionConfirmation = async (confirmationConfig, page) => {
     const confirmation = await QuestionConfirmationRepository.create({
-      pageId: page.id
+      pageId: page.id,
     });
     const update = {
       id: confirmation.id,
-      ...confirmationConfig
+      ...confirmationConfig,
     };
     return QuestionConfirmationRepository.update(update);
   };
@@ -363,7 +363,7 @@ module.exports = knex => {
         title: replacePiping(pageConfig.title || "Untitled Page", references),
         description: replacePiping(pageConfig.description, references),
         guidance: replacePiping(pageConfig.guidance, references),
-        sectionId: section.id
+        sectionId: section.id,
       });
 
       if (pageConfig.isDeleted) {
@@ -399,7 +399,7 @@ module.exports = knex => {
       const section = await SectionRepository.insert({
         title: "Test section",
         ...sectionConfig,
-        questionnaireId: questionnaire.id
+        questionnaireId: questionnaire.id,
       });
 
       if (id) {
@@ -424,11 +424,11 @@ module.exports = knex => {
     for (let i = 0; i < metadataConfigs.length; ++i) {
       const { id, ...metadataConfig } = metadataConfigs[i];
       let metadata = await MetadataRepository.insert({
-        questionnaireId: questionnaire.id
+        questionnaireId: questionnaire.id,
       });
       metadata = await MetadataRepository.update({
         ...metadataConfig,
-        id: metadata.id
+        id: metadata.id,
       });
 
       if (id) {
@@ -453,7 +453,7 @@ module.exports = knex => {
           return RoutingRepository.toggleConditionOption({
             conditionId,
             optionId: references.options[v],
-            checked: true
+            checked: true,
           });
         })
       );
@@ -463,19 +463,19 @@ module.exports = knex => {
     if (numberValue) {
       const existingValues = await RoutingRepository.findAllRoutingConditionValues(
         {
-          conditionId
+          conditionId,
         }
       );
       const existingValue = existingValues[0];
       let valueToUpdate = existingValue;
       if (!existingValue) {
         valueToUpdate = await RoutingRepository.createConditionValue({
-          conditionId
+          conditionId,
         });
       }
       const newConditionValue = await RoutingRepository.updateConditionValue({
         ...valueToUpdate,
-        customNumber: numberValue
+        customNumber: numberValue,
       });
 
       return { numberValue: newConditionValue };
@@ -497,7 +497,7 @@ module.exports = knex => {
         answerId: references.answers[answer.id],
         questionPageId: pageId,
         routingRuleId: ruleId,
-        comparator: rest.comparator || "Equal"
+        comparator: rest.comparator || "Equal",
       });
 
       condition.routingValue = await buildConditionValues(
@@ -519,8 +519,8 @@ module.exports = knex => {
     if (logicalDestination) {
       return {
         logicalDestination: {
-          destinationType: logicalDestination
-        }
+          destinationType: logicalDestination,
+        },
       };
     }
 
@@ -528,21 +528,21 @@ module.exports = knex => {
 
     const typenameToRef = {
       Section: "sections",
-      QuestionPage: "pages"
+      QuestionPage: "pages",
     };
 
     return {
       absoluteDestination: {
         destinationType: __typename,
-        destinationId: references[typenameToRef[__typename]][id]
-      }
+        destinationId: references[typenameToRef[__typename]][id],
+      },
     };
   };
 
   const buildRules = async (ruleConfigs, ruleSetId, pageId, references) => {
     let rules = [];
     const existingRules = await RoutingRepository.findAllRoutingRules({
-      routingRuleSetId: ruleSetId
+      routingRuleSetId: ruleSetId,
     });
 
     for (let i = 0; i < ruleConfigs.length; ++i) {
@@ -550,7 +550,7 @@ module.exports = knex => {
       let existingRule = existingRules[i];
       if (!existingRule) {
         existingRule = await RoutingRepository.createRoutingRule({
-          routingRuleSetId: ruleSetId
+          routingRuleSetId: ruleSetId,
         });
       }
 
@@ -558,8 +558,8 @@ module.exports = knex => {
         id: existingRule.id,
         goto: {
           id: existingRule.routingDestinationId,
-          ...transformDestinationConfig(goto, references)
-        }
+          ...transformDestinationConfig(goto, references),
+        },
       });
 
       rule.goto = await RoutingRepository.getRoutingDestination(
@@ -568,7 +568,7 @@ module.exports = knex => {
 
       const existingConditions = await RoutingRepository.findAllRoutingConditions(
         {
-          routingRuleId: rule.id
+          routingRuleId: rule.id,
         }
       );
 
@@ -593,7 +593,7 @@ module.exports = knex => {
 
   const buildRuleSet = async (ruleSetConfig, pageId, references) => {
     const ruleSet = await RoutingRepository.createRoutingRuleSet({
-      questionPageId: pageId
+      questionPageId: pageId,
     });
 
     const { else: elseConfig, routingRules } = ruleSetConfig;
@@ -602,8 +602,8 @@ module.exports = knex => {
       id: ruleSet.id,
       else: {
         id: ruleSet.routingDestinationId,
-        ...transformDestinationConfig(elseConfig, references)
-      }
+        ...transformDestinationConfig(elseConfig, references),
+      },
     });
 
     ruleSet.else = await RoutingRepository.getRoutingDestination(
@@ -630,7 +630,7 @@ module.exports = knex => {
       legalBasis: "Voluntary",
       navigation: false,
       createdBy: "test-suite",
-      ...questionnaireProps
+      ...questionnaireProps,
     });
 
     const references = {
@@ -639,7 +639,7 @@ module.exports = knex => {
       pages: {},
       sections: {},
       metadata: {},
-      pagesWithRouting: []
+      pagesWithRouting: [],
     };
 
     questionnaire.metadata = await buildMetadata(

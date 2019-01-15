@@ -45,7 +45,7 @@ const errorMessage = {
   apiError:
     "We're unable to save your progress right now. Try refreshing the page or try again shortly",
   isOffline:
-    "You're currently offline and any changes you make won't be saved. Check your connection and try again."
+    "You're currently offline and any changes you make won't be saved. Check your connection and try again.",
 };
 
 export const UnconnectedOfflineBanner = props => {
@@ -67,13 +67,13 @@ export const UnconnectedOfflineBanner = props => {
 UnconnectedOfflineBanner.propTypes = {
   isOffline: PropTypes.bool.isRequired,
   apiError: PropTypes.bool.isRequired,
-  hasError: PropTypes.bool.isRequired
+  hasError: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
   isOffline: isOffline(state),
   apiError: hasApiError(state),
-  hasError: hasError(state)
+  hasError: hasError(state),
 });
 
 export default connect(mapStateToProps)(UnconnectedOfflineBanner);

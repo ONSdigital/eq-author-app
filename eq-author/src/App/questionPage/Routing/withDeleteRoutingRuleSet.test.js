@@ -1,6 +1,6 @@
 import {
   mapMutateToProps,
-  createUpdater
+  createUpdater,
 } from "App/questionPage/Routing/withDeleteRoutingRuleSet";
 
 import gql from "graphql-tag";
@@ -23,23 +23,23 @@ describe("components/QuestionnaireRoutingPage/withDeleteRoutingRuleSet", () => {
 
   beforeEach(() => {
     deleteRoutingRuleSet = {
-      id: "2"
+      id: "2",
     };
 
     routingRuleSet = {
       id: "2",
-      routingRules: []
+      routingRules: [],
     };
 
     questionPage = {
       id: "1",
-      routingRuleSet
+      routingRuleSet,
     };
 
     result = {
       data: {
-        deleteRoutingRuleSet
-      }
+        deleteRoutingRuleSet,
+      },
     };
 
     mutate = jest.fn(() => Promise.resolve(result));
@@ -57,12 +57,12 @@ describe("components/QuestionnaireRoutingPage/withDeleteRoutingRuleSet", () => {
 
       expect(readFragment).toHaveBeenCalledWith({
         id,
-        fragment
+        fragment,
       });
       expect(writeFragment).toHaveBeenCalledWith({
         id,
         fragment,
-        data: questionPage
+        data: questionPage,
       });
       expect(questionPage.routingRuleSet).toBeNull();
     });
@@ -87,8 +87,8 @@ describe("components/QuestionnaireRoutingPage/withDeleteRoutingRuleSet", () => {
             expect(mutate).toHaveBeenCalledWith(
               expect.objectContaining({
                 variables: {
-                  input: { id: routingRuleSet.id }
-                }
+                  input: { id: routingRuleSet.id },
+                },
               })
             );
           });

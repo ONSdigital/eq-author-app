@@ -16,7 +16,7 @@ const metadataTypes = [
     textValue: "text",
     languageValue: null,
     regionValue: null,
-    dateValue: null
+    dateValue: null,
   },
   {
     id: "2",
@@ -26,7 +26,7 @@ const metadataTypes = [
     textValue: null,
     languageValue: null,
     regionValue: null,
-    dateValue: "2018-09-17"
+    dateValue: "2018-09-17",
   },
   {
     id: "3",
@@ -36,7 +36,7 @@ const metadataTypes = [
     textValue: null,
     languageValue: null,
     regionValue: "GB_ENG",
-    dateValue: null
+    dateValue: null,
   },
   {
     id: "4",
@@ -46,8 +46,8 @@ const metadataTypes = [
     textValue: null,
     languageValue: "cy",
     regionValue: null,
-    dateValue: null
-  }
+    dateValue: null,
+  },
 ];
 
 describe("MetadataTable", () => {
@@ -63,7 +63,7 @@ describe("MetadataTable", () => {
       onDelete: jest.fn(),
       onUpdate: jest.fn(),
       onChange: jest.fn(),
-      usedKeys: []
+      usedKeys: [],
     };
 
     wrapper = render(props);
@@ -78,7 +78,7 @@ describe("MetadataTable", () => {
       expect(
         render({
           ...props,
-          metadata
+          metadata,
         })
       ).toMatchSnapshot();
     });

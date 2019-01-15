@@ -7,13 +7,13 @@ describe("createMutate", () => {
 
   beforeEach(() => {
     client = {
-      mutate: jest.fn()
+      mutate: jest.fn(),
     };
 
     mutation = jest.fn();
 
     options = {
-      some: "option"
+      some: "option",
     };
   });
 
@@ -26,7 +26,7 @@ describe("createMutate", () => {
     expect(client.mutate).toHaveBeenCalledWith(
       expect.objectContaining({
         mutation,
-        ...options
+        ...options,
       })
     );
   });

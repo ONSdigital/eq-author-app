@@ -21,7 +21,7 @@ export const StatelessBasicAnswer = ({
   descriptionText,
   descriptionPlaceholder,
   showDescription,
-  autoFocus
+  autoFocus,
 }) => (
   <div>
     <Field>
@@ -70,14 +70,14 @@ StatelessBasicAnswer.propTypes = {
   descriptionText: PropTypes.string,
   descriptionPlaceholder: PropTypes.string,
   showDescription: PropTypes.bool,
-  autoFocus: PropTypes.bool
+  autoFocus: PropTypes.bool,
 };
 
 StatelessBasicAnswer.defaultProps = {
   labelText: "Label",
   descriptionText: "Description (optional)",
   showDescription: false,
-  autoFocus: true
+  autoFocus: true,
 };
 
 StatelessBasicAnswer.fragments = {
@@ -107,7 +107,7 @@ StatelessBasicAnswer.fragments = {
     ${MaxValueValidationRule}
     ${EarliestDateValidationRule}
     ${LatestDateValidationRule}
-  `
+  `,
 };
 
 export default withEntityEditor("answer", answerFragment)(StatelessBasicAnswer);

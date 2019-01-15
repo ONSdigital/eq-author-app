@@ -29,14 +29,14 @@ describe("WrappingInput", () => {
 
     component.simulate("keyDown", {
       keyCode: 12,
-      preventDefault
+      preventDefault,
     });
 
     expect(preventDefault).not.toHaveBeenCalled();
 
     component.simulate("keyDown", {
       keyCode: ENTER_KEY,
-      preventDefault
+      preventDefault,
     });
 
     expect(preventDefault).toHaveBeenCalled();

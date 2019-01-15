@@ -12,14 +12,14 @@ describe("Group", () => {
         introduction: {
           introductionTitle: "Intro Title",
           introductionContent: "Intro Content",
-          introductionEnabled: false
+          introductionEnabled: false,
         },
         pages: [
           {
             id: "2",
-            answers: []
-          }
-        ]
+            answers: [],
+          },
+        ],
       },
       options
     );
@@ -37,7 +37,7 @@ describe("Group", () => {
     expect(group).toMatchObject({
       id: "group1",
       title: "Section 1",
-      blocks: [expect.any(Block)]
+      blocks: [expect.any(Block)],
     });
   });
 
@@ -52,7 +52,7 @@ describe("Group", () => {
     );
 
     expect(group).toMatchObject({
-      title: "Section <em>1</em>"
+      title: "Section <em>1</em>",
     });
   });
 
@@ -65,7 +65,7 @@ describe("Group", () => {
       groupJSON.pages,
       {
         ...groupJSON.introduction,
-        introductionEnabled: true
+        introductionEnabled: true,
       },
       ctx
     );
@@ -78,10 +78,10 @@ describe("Group", () => {
           description: "Intro Content",
           id: "group1-introduction",
           title: "Intro Title",
-          type: "Interstitial"
+          type: "Interstitial",
         },
-        expect.any(Block)
-      ]
+        expect.any(Block),
+      ],
     });
   });
 
@@ -95,7 +95,7 @@ describe("Group", () => {
       {
         introductionTitle: null,
         introductionContent: null,
-        introductionEnabled: true
+        introductionEnabled: true,
       },
       ctx
     );
@@ -108,10 +108,10 @@ describe("Group", () => {
           id: "group1-introduction",
           title: "",
           description: "",
-          type: "Interstitial"
+          type: "Interstitial",
         },
-        expect.any(Block)
-      ]
+        expect.any(Block),
+      ],
     });
   });
 
@@ -138,8 +138,8 @@ describe("Group", () => {
         introduction: {
           introductionTitle: "Intro Title",
           introductionContent: "Intro Content",
-          introductionEnabled: false
-        }
+          introductionEnabled: false,
+        },
       },
       {
         id: 2,
@@ -148,8 +148,8 @@ describe("Group", () => {
         introduction: {
           introductionTitle: "Intro Title",
           introductionContent: "Intro Content",
-          introductionEnabled: false
-        }
+          introductionEnabled: false,
+        },
       },
       {
         id: 3,
@@ -158,9 +158,9 @@ describe("Group", () => {
         introduction: {
           introductionTitle: "Intro Title",
           introductionContent: "Intro Content",
-          introductionEnabled: false
-        }
-      }
+          introductionEnabled: false,
+        },
+      },
     ];
 
     it("should add skip conditions to the required groups", () => {
@@ -173,11 +173,11 @@ describe("Group", () => {
             when: {
               id: "answer1",
               condition: "equals",
-              value: "Goto End"
+              value: "Goto End",
             },
-            groupId: "group1"
-          }
-        ]
+            groupId: "group1",
+          },
+        ],
       };
 
       const runnerJson = groupsJson.map(
@@ -192,17 +192,17 @@ describe("Group", () => {
           title: "Group 2",
           blocks: [],
           skip_conditions: [
-            { when: { id: "answer1", condition: "equals", value: "Goto End" } }
-          ]
+            { when: { id: "answer1", condition: "equals", value: "Goto End" } },
+          ],
         },
         {
           id: "group3",
           title: "Group 3",
           blocks: [],
           skip_conditions: [
-            { when: { id: "answer1", condition: "equals", value: "Goto End" } }
-          ]
-        }
+            { when: { id: "answer1", condition: "equals", value: "Goto End" } },
+          ],
+        },
       ];
 
       expect(runnerJson[0]).not.toHaveProperty("skip_conditions");
@@ -220,20 +220,20 @@ describe("Group", () => {
             when: {
               id: "answer1",
               condition: "equals",
-              value: "Goto End"
+              value: "Goto End",
             },
-            groupId: "group1"
+            groupId: "group1",
           },
           {
             group: "group3",
             when: {
               id: "answer1",
               condition: "equals",
-              value: "Goto group3"
+              value: "Goto group3",
             },
-            groupId: "group1"
-          }
-        ]
+            groupId: "group1",
+          },
+        ],
       };
 
       const runnerJson = groupsJson.map(
@@ -250,18 +250,22 @@ describe("Group", () => {
           skip_conditions: [
             { when: { id: "answer1", condition: "equals", value: "Goto End" } },
             {
-              when: { id: "answer1", condition: "equals", value: "Goto group3" }
-            }
-          ]
+              when: {
+                id: "answer1",
+                condition: "equals",
+                value: "Goto group3",
+              },
+            },
+          ],
         },
         {
           id: "group3",
           title: "Group 3",
           blocks: [],
           skip_conditions: [
-            { when: { id: "answer1", condition: "equals", value: "Goto End" } }
-          ]
-        }
+            { when: { id: "answer1", condition: "equals", value: "Goto End" } },
+          ],
+        },
       ];
 
       expect(runnerJson).toMatchObject(expectedrunnerJson);
@@ -289,16 +293,16 @@ describe("Group", () => {
                   id: "2",
                   title: "<p>Are you sure?</p>",
                   page: {
-                    id: "1"
+                    id: "1",
                   },
                   positive: {
                     label: "Oh yes.",
-                    description: "Positive"
+                    description: "Positive",
                   },
                   negative: {
                     label: "Wait I can get more?",
-                    description: "Negative"
-                  }
+                    description: "Negative",
+                  },
                 },
                 answers: [
                   {
@@ -309,16 +313,16 @@ describe("Group", () => {
                     guidance: "",
                     properties: {
                       decimals: 0,
-                      required: false
+                      required: false,
                     },
-                    qCode: ""
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+                    qCode: "",
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
     });
 
     it("should build a confirmation page", () => {
@@ -349,17 +353,17 @@ describe("Group", () => {
                   {
                     label: "Oh yes.",
                     value: "Oh yes.",
-                    description: "Positive"
+                    description: "Positive",
                   },
                   {
                     label: "Wait I can get more?",
                     value: "Wait I can get more?",
-                    description: "Negative"
-                  }
-                ]
-              }
-            ]
-          }
+                    description: "Negative",
+                  },
+                ],
+              },
+            ],
+          },
         ],
         routing_rules: [
           {
@@ -369,17 +373,17 @@ describe("Group", () => {
                 {
                   id: "answerconfirmation-answer-for-1",
                   condition: "equals",
-                  value: "Wait I can get more?"
-                }
-              ]
-            }
+                  value: "Wait I can get more?",
+                },
+              ],
+            },
           },
           {
             goto: {
-              group: "confirmation-group"
-            }
-          }
-        ]
+              group: "confirmation-group",
+            },
+          },
+        ],
       };
 
       expect(resultantJson.blocks[1]).toMatchObject(expectedRunnerBlock);
@@ -390,7 +394,7 @@ describe("Group", () => {
         id: "2",
         else: {
           __typename: "LogicalDestination",
-          logicalDestination: "NextPage"
+          logicalDestination: "NextPage",
         },
         routingRules: [
           {
@@ -400,8 +404,8 @@ describe("Group", () => {
               __typename: "AbsoluteDestination",
               absoluteDestination: {
                 id: "2",
-                __typename: "Section"
-              }
+                __typename: "Section",
+              },
             },
             conditions: [
               {
@@ -409,13 +413,13 @@ describe("Group", () => {
                 comparator: "GreaterOrEqual",
                 answer: {
                   id: "1",
-                  type: "Currency"
+                  type: "Currency",
                 },
                 routingValue: {
-                  numberValue: 100
-                }
-              }
-            ]
+                  numberValue: 100,
+                },
+              },
+            ],
           },
           {
             id: "3",
@@ -424,8 +428,8 @@ describe("Group", () => {
               __typename: "AbsoluteDestination",
               absoluteDestination: {
                 id: "3",
-                __typename: "Section"
-              }
+                __typename: "Section",
+              },
             },
             conditions: [
               {
@@ -433,15 +437,15 @@ describe("Group", () => {
                 comparator: "LessThan",
                 answer: {
                   id: "1",
-                  type: "Currency"
+                  type: "Currency",
                 },
                 routingValue: {
-                  numberValue: 100
-                }
-              }
-            ]
-          }
-        ]
+                  numberValue: 100,
+                },
+              },
+            ],
+          },
+        ],
       };
 
       const ctx = ctxGenerator(routingRuleSet);
@@ -462,14 +466,14 @@ describe("Group", () => {
               {
                 id: "answerconfirmation-answer-for-1",
                 condition: "not equals",
-                value: "Oh yes."
+                value: "Oh yes.",
               },
               {
                 id: "answerconfirmation-answer-for-1",
-                condition: "set"
-              }
-            ]
-          }
+                condition: "set",
+              },
+            ],
+          },
         },
         {
           goto: {
@@ -478,10 +482,10 @@ describe("Group", () => {
               {
                 id: "answer1",
                 condition: "greater than or equal to",
-                value: 100
-              }
-            ]
-          }
+                value: 100,
+              },
+            ],
+          },
         },
         {
           goto: {
@@ -490,16 +494,16 @@ describe("Group", () => {
               {
                 id: "answer1",
                 condition: "less than",
-                value: 100
-              }
-            ]
-          }
+                value: 100,
+              },
+            ],
+          },
         },
         {
           goto: {
-            group: "confirmation-group"
-          }
-        }
+            group: "confirmation-group",
+          },
+        },
       ];
 
       expect(resultantJson.blocks[0].routing_rules).toBeUndefined();
@@ -522,36 +526,36 @@ describe("Group", () => {
                     type: "Radio",
                     options: [
                       {
-                        id: "1"
-                      }
-                    ]
+                        id: "1",
+                      },
+                    ],
                   },
                   condition: "OneOf",
                   right: {
                     options: [
                       {
                         id: "1",
-                        label: "2.3"
-                      }
-                    ]
-                  }
-                }
-              ]
+                        label: "2.3",
+                      },
+                    ],
+                  },
+                },
+              ],
             },
             destination: {
               section: {
-                id: "2"
+                id: "2",
               },
               page: null,
-              logical: null
-            }
-          }
+              logical: null,
+            },
+          },
         ],
         else: {
           section: null,
           page: null,
-          logical: "EndOfQuestionnaire"
-        }
+          logical: "EndOfQuestionnaire",
+        },
       };
 
       const ctx = ctxGenerator(null, routing);
@@ -572,10 +576,10 @@ describe("Group", () => {
               {
                 id: "answerconfirmation-answer-for-1",
                 condition: "equals",
-                value: "Wait I can get more?"
-              }
-            ]
-          }
+                value: "Wait I can get more?",
+              },
+            ],
+          },
         },
         {
           goto: {
@@ -584,16 +588,16 @@ describe("Group", () => {
               {
                 id: "answer1",
                 condition: "equals",
-                value: "2.3"
-              }
-            ]
-          }
+                value: "2.3",
+              },
+            ],
+          },
         },
         {
           goto: {
-            group: "confirmation-group"
-          }
-        }
+            group: "confirmation-group",
+          },
+        },
       ];
 
       expect(resultantJson.blocks[0].routing_rules).toBeUndefined();
@@ -615,20 +619,20 @@ describe("Group", () => {
         options: [
           {
             id: "Foo",
-            label: "Foo"
+            label: "Foo",
           },
           {
             id: "Bar",
-            label: "Bar"
+            label: "Bar",
           },
           {
             id: "Baz",
-            label: "Baz"
-          }
+            label: "Baz",
+          },
         ],
         properties: {
-          required: false
-        }
+          required: false,
+        },
       };
 
       const resultantJson = new Group(

@@ -24,12 +24,12 @@ describe("Expression Group Repository", () => {
           pages: [
             {
               routing: {
-                rules: [{}]
-              }
-            }
-          ]
-        }
-      ]
+                rules: [{}],
+              },
+            },
+          ],
+        },
+      ],
     });
     rule = questionnaire.sections[0].pages[0].routing.rules[0];
   });
@@ -40,7 +40,7 @@ describe("Expression Group Repository", () => {
       expect(group).toMatchObject({
         id: expect.any(Number),
         ruleId: rule.id,
-        operator: AND
+        operator: AND,
       });
     });
   });
@@ -66,7 +66,7 @@ describe("Expression Group Repository", () => {
       const group = await ExpressionGroupRepository.insert({ ruleId: rule.id });
       const updatedGroup = await ExpressionGroupRepository.update({
         id: group.id,
-        operator: OR
+        operator: OR,
       });
       expect(updatedGroup).toMatchObject({ ...group, operator: OR });
     });

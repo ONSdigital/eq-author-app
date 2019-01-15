@@ -3,7 +3,7 @@ import { CSSTransition } from "react-transition-group";
 import PropTypes from "prop-types";
 
 const FadeTransition = styled(CSSTransition).attrs({
-  classNames: "fade"
+  classNames: "fade",
 })`
   transition-property: opacity;
   transition-duration: ${props => props.timeout}ms;
@@ -30,12 +30,12 @@ const FadeTransition = styled(CSSTransition).attrs({
 
 FadeTransition.defaultProps = {
   in: false,
-  timeout: 250
+  timeout: 250,
 };
 
 FadeTransition.propTypes = {
   timeout: PropTypes.number,
-  children: PropTypes.element
+  children: PropTypes.element,
 };
 
 export default FadeTransition;

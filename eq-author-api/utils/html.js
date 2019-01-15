@@ -8,5 +8,5 @@ const stripTags = value =>
 
 module.exports = {
   isHtml,
-  stripTags
+  stripTags,
 };

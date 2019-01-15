@@ -23,12 +23,12 @@ describe("createQuestionnaire", () => {
   beforeEach(() => {
     repositories = {
       Questionnaire: mockRepository({
-        insert: { id: QUESTIONNAIRE_ID }
+        insert: { id: QUESTIONNAIRE_ID },
       }),
       Section: mockRepository({
-        insert: { id: SECTION_ID }
+        insert: { id: SECTION_ID },
       }),
-      Page: mockRepository()
+      Page: mockRepository(),
     };
   });
 
@@ -39,7 +39,7 @@ describe("createQuestionnaire", () => {
       theme: "test theme",
       legalBasis: "Voluntary",
       navigation: true,
-      surveyId: "abc"
+      surveyId: "abc",
     };
 
     const result = await executeQuery(

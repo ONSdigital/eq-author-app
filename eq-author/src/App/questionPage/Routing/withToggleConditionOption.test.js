@@ -1,34 +1,34 @@
 import {
   mapMutateToProps,
-  createUpdater
+  createUpdater,
 } from "App/questionPage/Routing/withToggleConditionOption";
 import fragment from "graphql/fragments/routing-rule.graphql";
 
 describe("containers/enhancers/withToggleConditionOption", () => {
   const routingCondition = {
-    id: "1"
+    id: "1",
   };
 
   const option = {
-    id: "1"
+    id: "1",
   };
 
   const questionPage = {
     id: "1",
-    routingRuleSet: null
+    routingRuleSet: null,
   };
 
   let mutate, result, toggleConditionOption;
 
   beforeEach(() => {
     toggleConditionOption = {
-      value: [option.id]
+      value: [option.id],
     };
 
     result = {
       data: {
-        toggleConditionOption
-      }
+        toggleConditionOption,
+      },
     };
 
     mutate = jest.fn(() => Promise.resolve(result));
@@ -52,13 +52,13 @@ describe("containers/enhancers/withToggleConditionOption", () => {
       expect(readFragment).toHaveBeenCalledWith({
         id,
         fragment,
-        fragmentName: "RoutingCondition"
+        fragmentName: "RoutingCondition",
       });
       expect(writeFragment).toHaveBeenCalledWith({
         id,
         fragment,
         fragmentName: "RoutingCondition",
-        data: routingCondition
+        data: routingCondition,
       });
 
       expect(routingCondition.routingValue).toMatchObject(
@@ -88,9 +88,9 @@ describe("containers/enhancers/withToggleConditionOption", () => {
                 input: {
                   conditionId: routingCondition.id,
                   optionId: option.id,
-                  checked: true
-                }
-              }
+                  checked: true,
+                },
+              },
             })
           );
         });

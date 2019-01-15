@@ -6,7 +6,7 @@ import PositionModal from "./";
 
 class PositionModalStory extends React.Component {
   state = {
-    isModalOpen: true
+    isModalOpen: true,
   };
 
   handleToggleModal = () => {
@@ -15,7 +15,7 @@ class PositionModalStory extends React.Component {
 
   handleChange = ({ value }) => {
     this.setState({
-      selectedPosition: value
+      selectedPosition: value,
     });
   };
 

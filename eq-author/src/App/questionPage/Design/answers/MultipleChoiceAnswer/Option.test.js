@@ -19,7 +19,7 @@ describe("Option", () => {
     id: "1",
     label: "",
     description: "",
-    __typename: "Option"
+    __typename: "Option",
   };
 
   const render = (method = shallow, otherProps) => {
@@ -40,7 +40,7 @@ describe("Option", () => {
   beforeEach(() => {
     mockEvent = {
       stopPropagation: jest.fn(),
-      preventDefault: jest.fn()
+      preventDefault: jest.fn(),
     };
 
     store = createMockStore();
@@ -50,7 +50,7 @@ describe("Option", () => {
       onUpdate: jest.fn(),
       onFocus: jest.fn(),
       onDelete: jest.fn(),
-      onEnterKey: jest.fn()
+      onEnterKey: jest.fn(),
     };
 
     render();

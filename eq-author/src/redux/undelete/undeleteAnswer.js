@@ -9,19 +9,19 @@ export const UNDELETE_ANSWER_FAILURE = "UNDELETE_ANSWER_FAILURE";
 
 const undeleteRequest = () => {
   return {
-    type: UNDELETE_ANSWER_REQUEST
+    type: UNDELETE_ANSWER_REQUEST,
   };
 };
 
 const undeleteSuccess = () => {
   return {
-    type: UNDELETE_ANSWER_SUCCESS
+    type: UNDELETE_ANSWER_SUCCESS,
   };
 };
 
 const undeleteFailure = () => {
   return {
-    type: UNDELETE_ANSWER_FAILURE
+    type: UNDELETE_ANSWER_FAILURE,
   };
 };
 
@@ -35,14 +35,14 @@ export const createUpdate = context => (proxy, result) => {
   proxy.writeFragment({
     id,
     fragment,
-    data: page
+    data: page,
   });
 };
 
 export const createUndelete = mutate => (id, context) =>
   mutate({
     variables: { input: { id } },
-    update: createUpdate(context)
+    update: createUpdate(context),
   });
 
 export const undeleteAnswer = (id, context) => {

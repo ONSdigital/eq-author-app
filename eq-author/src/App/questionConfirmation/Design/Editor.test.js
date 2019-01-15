@@ -15,17 +15,17 @@ describe("Editor", () => {
         page: {
           id: "1",
           displayName: "My question",
-          answers: []
+          answers: [],
         },
         positive: {
           label: "Positive label",
-          description: "Positive description"
+          description: "Positive description",
         },
         negative: {
           label: "Negative label",
-          description: "Negative description"
-        }
-      }
+          description: "Negative description",
+        },
+      },
     };
 
     const render = props =>
@@ -34,7 +34,7 @@ describe("Editor", () => {
     beforeEach(() => {
       mockHandlers = {
         onUpdate: jest.fn(),
-        onChange: jest.fn()
+        onChange: jest.fn(),
       };
     });
 
@@ -47,8 +47,8 @@ describe("Editor", () => {
         render({
           confirmation: {
             ...defaultProps.confirmation,
-            title: null
-          }
+            title: null,
+          },
         })
       ).toMatchSnapshot();
     });

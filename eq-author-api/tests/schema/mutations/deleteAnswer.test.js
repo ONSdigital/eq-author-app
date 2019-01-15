@@ -14,7 +14,7 @@ describe("deleteAnswer", () => {
 
   beforeEach(() => {
     repositories = {
-      Answer: mockRepository()
+      Answer: mockRepository(),
     };
   });
 
@@ -27,9 +27,9 @@ describe("deleteAnswer", () => {
         repositories,
         modifiers: {
           BinaryExpression: {
-            onAnswerDeleted: jest.fn().mockResolvedValueOnce()
-          }
-        }
+            onAnswerDeleted: jest.fn().mockResolvedValueOnce(),
+          },
+        },
       }
     );
 

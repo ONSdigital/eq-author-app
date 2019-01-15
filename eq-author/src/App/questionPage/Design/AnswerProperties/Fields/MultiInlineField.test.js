@@ -15,7 +15,7 @@ describe("MultiLineLabel", () => {
     props = {
       id: "1",
       label: "Label",
-      children: <input type="text" />
+      children: <input type="text" />,
     };
     wrapper = createWrapper(props, shallow);
   });

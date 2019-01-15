@@ -14,7 +14,7 @@ describe("CharacterCounter", () => {
   beforeEach(() => {
     props = {
       value: "FooBar",
-      limit: 25
+      limit: 25,
     };
 
     wrapper = createWrapper(props);
@@ -27,7 +27,7 @@ describe("CharacterCounter", () => {
   it("should update counter based on length of value", () => {
     wrapper = createWrapper({
       ...props,
-      value: "FooBarFooBarFooBar"
+      value: "FooBarFooBarFooBar",
     });
     expect(wrapper.find(Counter)).toMatchSnapshot();
   });
@@ -35,7 +35,7 @@ describe("CharacterCounter", () => {
   it("should update counter with negative count when limit exceeded", () => {
     wrapper = createWrapper({
       ...props,
-      value: "FooBarFooBarFooBarFooBarFooBarFooBar"
+      value: "FooBarFooBarFooBarFooBarFooBarFooBar",
     });
     expect(wrapper).toMatchSnapshot();
   });
@@ -43,7 +43,7 @@ describe("CharacterCounter", () => {
   it("should handle null value", () => {
     wrapper = createWrapper({
       ...props,
-      value: null
+      value: null,
     });
     expect(wrapper).toMatchSnapshot();
   });

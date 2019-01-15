@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 
 const ExpansionTransition = styled(CSSTransition).attrs({
-  classNames: "expansion"
+  classNames: "expansion",
 })`
   transition-property: height;
   transition-duration: ${props => props.timeout}ms;
@@ -29,13 +29,13 @@ const ExpansionTransition = styled(CSSTransition).attrs({
 ExpansionTransition.defaultProps = {
   in: false,
   timeout: 250,
-  finalHeight: "1em"
+  finalHeight: "1em",
 };
 
 ExpansionTransition.propTypes = {
   timeout: PropTypes.number,
   children: PropTypes.element,
-  finalHeight: PropTypes.string
+  finalHeight: PropTypes.string,
 };
 
 export default ExpansionTransition;

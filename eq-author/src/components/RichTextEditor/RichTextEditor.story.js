@@ -44,11 +44,11 @@ const questionnaire = {
         {
           id: "1",
           title: "",
-          answers: [{ id: "1", label: "", type: "Currency" }]
-        }
-      ]
-    }
-  ]
+          answers: [{ id: "1", label: "", type: "Currency" }],
+        },
+      ],
+    },
+  ],
 };
 
 const client = {
@@ -64,8 +64,8 @@ const client = {
     getLastResult: () => questionnaire,
     resetLastResults: noop,
     getLastErrro: noop,
-    setOptions: () => Promise.resolve()
-  })
+    setOptions: () => Promise.resolve(),
+  }),
 };
 
 const props = {
@@ -75,7 +75,7 @@ const props = {
   id: "richtext",
   name: "richtext",
   sectionId: "1",
-  client
+  client,
 };
 
 storiesOf("RichTextEditor", module)
@@ -89,8 +89,8 @@ storiesOf("RichTextEditor", module)
           <MemoryRouter
             initialEntries={[
               {
-                pathname: "/questionnaire/1/design/1/1"
-              }
+                pathname: "/questionnaire/1/design/1/1",
+              },
             ]}
             initialIndex={0}
           >
@@ -112,7 +112,7 @@ storiesOf("RichTextEditor", module)
         heading: boolean("heading", true),
         bold: boolean("bold", true),
         emphasis: boolean("emphasis", true),
-        list: boolean("list", true)
+        list: boolean("list", true),
       }}
     />
   ))
@@ -127,7 +127,7 @@ storiesOf("RichTextEditor", module)
           bold: false,
           list: false,
           heading: false,
-          emphasis: true
+          emphasis: true,
         }}
       />
     </Title>

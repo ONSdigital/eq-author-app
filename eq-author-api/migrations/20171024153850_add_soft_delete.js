@@ -5,7 +5,7 @@ const TABLES_TO_CHANGE = [
   "Sections",
   "Pages",
   "Answers",
-  "Options"
+  "Options",
 ];
 
 const addIsDeletedColumn = table =>

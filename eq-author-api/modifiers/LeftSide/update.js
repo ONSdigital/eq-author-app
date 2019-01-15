@@ -8,14 +8,14 @@ module.exports = ({ repositories }) => async ({ expressionId, answerId }) => {
   await repositories.LeftSide2.update({
     id: leftSide.id,
     answerId,
-    type: "Answer"
+    type: "Answer",
   });
 
   await repositories.RightSide2.deleteByExpressionId(expressionId);
 
   const binaryExpression = repositories.BinaryExpression2.update({
     id: expressionId,
-    condition: answerTypeToConditions.getDefault(answer.type)
+    condition: answerTypeToConditions.getDefault(answer.type),
   });
 
   return binaryExpression;

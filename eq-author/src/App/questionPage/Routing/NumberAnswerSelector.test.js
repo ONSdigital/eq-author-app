@@ -2,7 +2,7 @@ import React from "react";
 import { shallow } from "enzyme";
 import NumberAnswerSelector, {
   RoutingNumberInput,
-  ComparatorSelector
+  ComparatorSelector,
 } from "App/questionPage/Routing/NumberAnswerSelector";
 
 let mockHandlers, condition;
@@ -11,7 +11,7 @@ describe("components/NumberAnswerSelector", () => {
   beforeEach(() => {
     mockHandlers = {
       onComparatorChange: jest.fn(),
-      handleValueChange: jest.fn()
+      handleValueChange: jest.fn(),
     };
 
     condition = {
@@ -20,12 +20,12 @@ describe("components/NumberAnswerSelector", () => {
         description: "",
         guidance: "",
         label: "",
-        type: "Currency"
+        type: "Currency",
       },
       comparator: "Equal",
       id: "2",
       questionPage: { id: "1", displayName: "Untitled Page" },
-      routingValue: { id: "6", numberValue: 123 }
+      routingValue: { id: "6", numberValue: 123 },
     };
   });
   it("should render", () => {
@@ -54,7 +54,7 @@ describe("components/NumberAnswerSelector", () => {
     );
     wrapper.find(RoutingNumberInput).simulate("change", { value: 123 });
     expect(mockHandlers.handleValueChange).toHaveBeenCalledWith({
-      value: 123
+      value: 123,
     });
   });
 });

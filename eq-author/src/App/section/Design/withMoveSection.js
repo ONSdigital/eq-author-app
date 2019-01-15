@@ -6,14 +6,14 @@ import { remove } from "lodash";
 export const createUpdater = ({ questionnaireId }) => (proxy, result) => {
   const {
     data: {
-      moveSection: { id, position }
-    }
+      moveSection: { id, position },
+    },
   } = result;
   const questionnaireFragmentId = `Questionnaire${questionnaireId}`;
 
   const questionnaire = proxy.readFragment({
     id: questionnaireFragmentId,
-    fragment
+    fragment,
   });
 
   const [movedSection] = remove(questionnaire.sections, { id: id });
@@ -23,7 +23,7 @@ export const createUpdater = ({ questionnaireId }) => (proxy, result) => {
   proxy.writeFragment({
     id: questionnaireFragmentId,
     fragment,
-    data: questionnaire
+    data: questionnaire,
   });
 };
 
@@ -31,30 +31,30 @@ export const mapMutateToProps = ({ ownProps, mutate }) => ({
   onMoveSection({ from, to }) {
     const {
       match: {
-        params: { questionnaireId }
-      }
+        params: { questionnaireId },
+      },
     } = ownProps;
     const input = {
       ...to,
-      questionnaireId
+      questionnaireId,
     };
     const optimisticResponse = {
       moveSection: {
         ...input,
-        __typename: "Section"
-      }
+        __typename: "Section",
+      },
     };
 
     const mutation = mutate({
       variables: { input: input },
       optimisticResponse,
-      update: createUpdater({ from, to, questionnaireId })
+      update: createUpdater({ from, to, questionnaireId }),
     });
 
     return mutation.then(() => mutation);
-  }
+  },
 });
 
 export default graphql(moveSectionMutation, {
-  props: mapMutateToProps
+  props: mapMutateToProps,
 });

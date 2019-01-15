@@ -3,7 +3,7 @@ const RadioRoutingCondition = require("./RadioRoutingCondition");
 
 const buildOption = (id, label) => ({
   id,
-  label
+  label,
 });
 
 const buildAdditionalAnswerOption = (id, label) => ({
@@ -11,8 +11,8 @@ const buildAdditionalAnswerOption = (id, label) => ({
   label,
   additionalAnswer: {
     id: `additional-${id}`,
-    label: `additional-${label}`
-  }
+    label: `additional-${label}`,
+  },
 });
 
 describe("RadioRoutingCondition", () => {
@@ -21,27 +21,27 @@ describe("RadioRoutingCondition", () => {
     buildOption(`${answerId}_2`, "No"),
     ...(additional
       ? [buildAdditionalAnswerOption(`${answerId}_3`, "additional")]
-      : [])
+      : []),
   ];
 
   const buildAnswer = (id, props = {}) => ({
     id,
     type: "Radio",
     options: buildOptions(id, props.additional),
-    ...props
+    ...props,
   });
 
   const conditions = [
     {
       id: "1",
       comparator: "Equal",
-      answer: buildAnswer("1")
+      answer: buildAnswer("1"),
     },
     {
       id: "2",
       comparator: "Equal",
-      answer: buildAnswer("2")
-    }
+      answer: buildAnswer("2"),
+    },
   ];
 
   const condition = first(conditions);
@@ -52,8 +52,8 @@ describe("RadioRoutingCondition", () => {
         {
           ...condition,
           routingValue: {
-            value: []
-          }
+            value: [],
+          },
         },
         conditions
       ).buildRoutingCondition()
@@ -61,17 +61,17 @@ describe("RadioRoutingCondition", () => {
       {
         condition: "not equals",
         id: "answer1",
-        value: "Yes"
+        value: "Yes",
       },
       {
         condition: "not equals",
         id: "answer1",
-        value: "No"
+        value: "No",
       },
       {
         condition: "set",
-        id: "answer1"
-      }
+        id: "answer1",
+      },
     ]);
   });
 
@@ -81,8 +81,8 @@ describe("RadioRoutingCondition", () => {
         {
           ...condition,
           routingValue: {
-            value: ["1_1"]
-          }
+            value: ["1_1"],
+          },
         },
         conditions
       ).buildRoutingCondition()
@@ -90,12 +90,12 @@ describe("RadioRoutingCondition", () => {
       {
         condition: "not equals",
         id: "answer1",
-        value: "No"
+        value: "No",
       },
       {
         condition: "set",
-        id: "answer1"
-      }
+        id: "answer1",
+      },
     ]);
   });
 
@@ -105,16 +105,16 @@ describe("RadioRoutingCondition", () => {
         {
           ...condition,
           routingValue: {
-            value: ["1_1", "1_2"]
-          }
+            value: ["1_1", "1_2"],
+          },
         },
         conditions
       ).buildRoutingCondition()
     ).toEqual([
       {
         condition: "set",
-        id: "answer1"
-      }
+        id: "answer1",
+      },
     ]);
   });
 
@@ -124,31 +124,31 @@ describe("RadioRoutingCondition", () => {
       routingValue: { value: ["1_3"] },
       answer: {
         ...buildAnswer("1", {
-          additional: true
-        })
-      }
+          additional: true,
+        }),
+      },
     };
 
     const result = new RadioRoutingCondition(additionalAnswerCondition, [
       ...conditions,
-      additionalAnswerCondition
+      additionalAnswerCondition,
     ]).buildRoutingCondition();
 
     expect(result).toEqual([
       {
         condition: "not equals",
         id: "answer1",
-        value: "Yes"
+        value: "Yes",
       },
       {
         condition: "not equals",
         id: "answer1",
-        value: "No"
+        value: "No",
       },
       {
         condition: "set",
-        id: "answer1"
-      }
+        id: "answer1",
+      },
     ]);
   });
 });

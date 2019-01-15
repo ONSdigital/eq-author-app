@@ -1,7 +1,7 @@
 const { get, head, pick } = require("lodash/fp");
 const Section = require("../db/Section");
 const {
-  getOrUpdateOrderForSectionInsert
+  getOrUpdateOrderForSectionInsert,
 } = require("./strategies/spacedOrderStrategy");
 const addPrefix = require("../utils/addPrefix");
 const { duplicateSectionStrategy } = require("./strategies/duplicateStrategy");
@@ -10,7 +10,7 @@ const { PIPING_ANSWER_TYPES } = require("../constants/pipingAnswerTypes");
 
 module.exports = knex => {
   const {
-    getPreviousAnswersForSection
+    getPreviousAnswersForSection,
   } = require("./strategies/previousAnswersStrategy")(knex);
 
   const findAll = function(
@@ -48,7 +48,7 @@ module.exports = knex => {
             "order",
             "introductionContent",
             "introductionEnabled",
-            "introductionTitle"
+            "introductionTitle",
           ])
         )
         .then(section => Section(knex).create(section, trx))
@@ -63,7 +63,7 @@ module.exports = knex => {
     isDeleted,
     introductionContent,
     introductionEnabled,
-    introductionTitle
+    introductionTitle,
   }) {
     return Section(knex)
       .update(id, {
@@ -72,7 +72,7 @@ module.exports = knex => {
         isDeleted,
         introductionContent,
         introductionEnabled,
-        introductionTitle
+        introductionTitle,
       })
       .then(head);
   };
@@ -135,7 +135,7 @@ module.exports = knex => {
 
       return duplicateSectionStrategy(trx, section, position, {
         alias: addPrefix(section.alias),
-        title: addPrefix(section.title)
+        title: addPrefix(section.title),
       });
     });
   };
@@ -145,7 +145,7 @@ module.exports = knex => {
     return getPreviousAnswersForSection({
       answerTypes: PIPING_ANSWER_TYPES,
       sectionPosition,
-      questionnaireId
+      questionnaireId,
     });
   };
 
@@ -170,6 +170,6 @@ module.exports = knex => {
     getSectionCount,
     duplicateSection,
     getPipingAnswersForSection,
-    getPipingMetadataForSection
+    getPipingMetadataForSection,
   };
 };

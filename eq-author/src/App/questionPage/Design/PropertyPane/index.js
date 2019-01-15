@@ -1,6 +1,6 @@
 export {
-  default as PropertyPane
+  default as PropertyPane,
 } from "App/questionPage/Design/PropertyPane/PropertyPane";
 export {
-  default as PropertyPaneTitle
+  default as PropertyPaneTitle,
 } from "App/questionPage/Design/PropertyPane/PropertyPaneTitle";

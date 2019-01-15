@@ -5,7 +5,7 @@ import createRouterContext from "react-router-test-context";
 const shallowWithRouter = child =>
   shallow(child, {
     context: createRouterContext(),
-    childContextTypes: { router: PropTypes.object }
+    childContextTypes: { router: PropTypes.object },
   });
 
 export default shallowWithRouter;

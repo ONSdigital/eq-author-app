@@ -1,7 +1,7 @@
 import {
   undeleteQuestionnaire,
   createUndelete,
-  createUpdate
+  createUpdate,
 } from "redux/undelete/undeleteQuestionnaire";
 import GetQuestionnaireList from "graphql/getQuestionnaireList.graphql";
 import configureStore from "redux-mock-store";
@@ -16,7 +16,7 @@ describe("undeleteQuestionnaire", () => {
   beforeEach(() => {
     id = "Questionnaire1";
     context = {
-      questionnaireId: 1
+      questionnaireId: 1,
     };
 
     dispatch = jest.fn();
@@ -24,16 +24,16 @@ describe("undeleteQuestionnaire", () => {
     mutate = jest.fn(() => Promise.resolve());
 
     client = {
-      mutate
+      mutate,
     };
 
     result = {
       data: {
         undeleteQuestionnaire: {
           id: 2,
-          createdAt: "2018-04-02"
-        }
-      }
+          createdAt: "2018-04-02",
+        },
+      },
     };
 
     proxy = {
@@ -42,16 +42,16 @@ describe("undeleteQuestionnaire", () => {
           questionnaires: [
             {
               id: 3,
-              createdAt: "2018-04-03"
+              createdAt: "2018-04-03",
             },
             {
               id: 1,
-              createdAt: "2018-04-01"
-            }
-          ]
+              createdAt: "2018-04-01",
+            },
+          ],
         };
       }),
-      writeQuery: jest.fn()
+      writeQuery: jest.fn(),
     };
   });
 
@@ -71,7 +71,7 @@ describe("undeleteQuestionnaire", () => {
       createUndelete(mutate)(id, context);
       expect(mutate).toHaveBeenCalledWith({
         update: expect.any(Function),
-        variables: { input: { id } }
+        variables: { input: { id } },
       });
     });
   });
@@ -85,7 +85,7 @@ describe("undeleteQuestionnaire", () => {
       createUpdate(context)(proxy, result);
 
       expect(proxy.readQuery).toHaveBeenCalledWith({
-        query: GetQuestionnaireList
+        query: GetQuestionnaireList,
       });
 
       expect(proxy.writeQuery).toHaveBeenCalledWith({
@@ -94,18 +94,18 @@ describe("undeleteQuestionnaire", () => {
           questionnaires: [
             {
               id: 3,
-              createdAt: "2018-04-03"
+              createdAt: "2018-04-03",
             },
             {
               id: 2,
-              createdAt: "2018-04-02"
+              createdAt: "2018-04-02",
             },
             {
               id: 1,
-              createdAt: "2018-04-01"
-            }
-          ]
-        }
+              createdAt: "2018-04-01",
+            },
+          ],
+        },
       });
     });
   });
@@ -125,11 +125,11 @@ describe("undeleteQuestionnaire", () => {
       return store.dispatch(undeleteQuestionnaire(id, context)).then(() => {
         expect(store.getActions()).toEqual([
           {
-            type: "UNDELETE_QUESTIONNAIRE_REQUEST"
+            type: "UNDELETE_QUESTIONNAIRE_REQUEST",
           },
           {
-            type: "UNDELETE_QUESTIONNAIRE_SUCCESS"
-          }
+            type: "UNDELETE_QUESTIONNAIRE_SUCCESS",
+          },
         ]);
       });
     });
@@ -139,11 +139,11 @@ describe("undeleteQuestionnaire", () => {
       return store.dispatch(undeleteQuestionnaire(id, context)).then(() => {
         expect(store.getActions()).toEqual([
           {
-            type: "UNDELETE_QUESTIONNAIRE_REQUEST"
+            type: "UNDELETE_QUESTIONNAIRE_REQUEST",
           },
           {
-            type: "UNDELETE_QUESTIONNAIRE_FAILURE"
-          }
+            type: "UNDELETE_QUESTIONNAIRE_FAILURE",
+          },
         ]);
       });
     });

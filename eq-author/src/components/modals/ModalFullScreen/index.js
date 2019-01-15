@@ -41,7 +41,7 @@ const ModalFullScreen = props => {
 ModalFullScreen.propTypes = {
   children: PropTypes.node.isRequired,
   onClose: PropTypes.func.isRequired,
-  isOpen: PropTypes.bool.isRequired
+  isOpen: PropTypes.bool.isRequired,
 };
 
 export default ModalFullScreen;

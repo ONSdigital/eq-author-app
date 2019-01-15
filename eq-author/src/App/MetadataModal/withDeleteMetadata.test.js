@@ -1,7 +1,7 @@
 import {
   mapMutateToProps,
   deleteUpdater,
-  fragment
+  fragment,
 } from "./withDeleteMetadata";
 
 describe("withDeleteMetadata", () => {
@@ -9,19 +9,19 @@ describe("withDeleteMetadata", () => {
 
   beforeEach(() => {
     metadata = {
-      id: "1"
+      id: "1",
     };
 
     questionnaire = {
       id: "1",
       title: "My Questionnaire",
-      metadata: [metadata]
+      metadata: [metadata],
     };
 
     result = {
       data: {
-        withDeleteMetadata: { id: "1" }
-      }
+        withDeleteMetadata: { id: "1" },
+      },
     };
 
     mutate = jest.fn(() => Promise.resolve(result));
@@ -40,7 +40,7 @@ describe("withDeleteMetadata", () => {
       expect(writeFragment).toHaveBeenCalledWith({
         id,
         fragment,
-        data: questionnaire
+        data: questionnaire,
       });
       expect(questionnaire.metadata).not.toContain(metadata);
     });
@@ -65,8 +65,8 @@ describe("withDeleteMetadata", () => {
             expect(mutate).toHaveBeenCalledWith(
               expect.objectContaining({
                 variables: {
-                  input: { id: metadata.id }
-                }
+                  input: { id: metadata.id },
+                },
               })
             );
           });

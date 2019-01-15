@@ -14,7 +14,7 @@ describe("Routing_e2e", () => {
     questionnaire.add({ title: "Routing e2e" });
 
     section.updateInitial({
-      title: "Section 1"
+      title: "Section 1",
     });
 
     question.updateInitial({
@@ -24,9 +24,9 @@ describe("Routing_e2e", () => {
         type: "Radio",
         options: [
           { label: "Goto S1P4" },
-          { label: "Goto end of questionnaire" }
-        ]
-      }
+          { label: "Goto end of questionnaire" },
+        ],
+      },
     });
 
     question.add({
@@ -36,12 +36,12 @@ describe("Routing_e2e", () => {
       confirmation: {
         title: "Confirmation question for Section 1, Page 2",
         positive: "Yes",
-        negative: "No"
+        negative: "No",
       },
       answer: {
         type: "Number",
-        label: "Less than 5 goes to S1P4 Greater than 5 goes to EoQ"
-      }
+        label: "Less than 5 goes to S1P4 Greater than 5 goes to EoQ",
+      },
     });
 
     question.add({
@@ -50,8 +50,8 @@ describe("Routing_e2e", () => {
       title: "Section 1, Page 3",
       answer: {
         type: "Number",
-        label: "Placeholder Answer"
-      }
+        label: "Placeholder Answer",
+      },
     });
 
     question.add({
@@ -60,8 +60,8 @@ describe("Routing_e2e", () => {
       title: "Section 1, Page 4",
       answer: {
         type: "Number",
-        label: "Placeholder Answer"
-      }
+        label: "Placeholder Answer",
+      },
     });
 
     routingBuilder.add(
@@ -69,25 +69,25 @@ describe("Routing_e2e", () => {
         rules: [
           {
             destination: {
-              pageTitle: "Section 1, Page 4"
+              pageTitle: "Section 1, Page 4",
             },
             leftSide: {
               sectionTitle: "Section 1",
-              pageTitle: "Section 1, Page 1"
+              pageTitle: "Section 1, Page 1",
             },
-            rightSide: ["Goto S1P4"]
+            rightSide: ["Goto S1P4"],
           },
           {
             destination: {
-              logical: "End of questionnaire"
+              logical: "End of questionnaire",
             },
             leftSide: {
               sectionTitle: "Section 1",
-              pageTitle: "Section 1, Page 1"
+              pageTitle: "Section 1, Page 1",
             },
-            rightSide: ["Goto end of questionnaire"]
-          }
-        ]
+            rightSide: ["Goto end of questionnaire"],
+          },
+        ],
       },
       "Section 1, Page 1"
     );
@@ -97,27 +97,27 @@ describe("Routing_e2e", () => {
         rules: [
           {
             destination: {
-              pageTitle: "Section 1, Page 4"
+              pageTitle: "Section 1, Page 4",
             },
             leftSide: {
               sectionTitle: "Section 1",
-              pageTitle: "Section 1, Page 2"
+              pageTitle: "Section 1, Page 2",
             },
             condition: "LessThan",
-            rightSide: 5
+            rightSide: 5,
           },
           {
             destination: {
-              logical: "End of questionnaire"
+              logical: "End of questionnaire",
             },
             leftSide: {
               sectionTitle: "Section 1",
-              pageTitle: "Section 1, Page 2"
+              pageTitle: "Section 1, Page 2",
             },
             condition: "GreaterThan",
-            rightSide: 5
-          }
-        ]
+            rightSide: 5,
+          },
+        ],
       },
       "Section 1, Page 2"
     );
@@ -129,8 +129,8 @@ describe("Routing_e2e", () => {
       title: "Section 2, Page 1",
       answer: {
         type: "Number",
-        label: "Placeholder Answer"
-      }
+        label: "Placeholder Answer",
+      },
     });
   });
 

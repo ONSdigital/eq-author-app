@@ -61,15 +61,15 @@ class MultipleChoiceAnswer extends Component {
     onUpdateOption: PropTypes.func.isRequired,
     onDeleteOption: PropTypes.func.isRequired,
     minOptions: PropTypes.number.isRequired,
-    onAddExclusive: PropTypes.func.isRequired
+    onAddExclusive: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
-    minOptions: 1
+    minOptions: 1,
   };
 
   state = {
-    open: false
+    open: false,
   };
 
   handleOptionDelete = optionId => {
@@ -107,7 +107,7 @@ class MultipleChoiceAnswer extends Component {
 
   handleToggleOpen = open => {
     this.setState({
-      open
+      open,
     });
   };
 
@@ -229,7 +229,7 @@ MultipleChoiceAnswer.fragments = {
     }
     ${Option.fragments.Option}
     ${BasicAnswer.fragments.Answer}
-  `
+  `,
 };
 
 export default MultipleChoiceAnswer;

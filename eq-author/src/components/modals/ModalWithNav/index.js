@@ -51,17 +51,17 @@ UnconnectedModalWithNav.propTypes = {
     PropTypes.shape({
       id: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
-      render: PropTypes.func.isRequired
+      render: PropTypes.func.isRequired,
     })
-  )
+  ),
 };
 
 UnconnectedModalWithNav.defaultProps = {
-  isOpen: false
+  isOpen: false,
 };
 
 const mapStateToProps = (state, ownProps) => ({
-  activeTabId: state.tabs[ownProps.id]
+  activeTabId: state.tabs[ownProps.id],
 });
 
 export default connect(

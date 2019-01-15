@@ -24,14 +24,14 @@ Layer.defaultProps = {
   horizontalAlignment: "left",
   verticalAlignment: "bottom",
   offsetX: "0",
-  offsetY: "0"
+  offsetY: "0",
 };
 
 Layer.propTypes = {
   horizontalAlignment: PropTypes.oneOf(["left", "right"]),
   verticalAlignment: PropTypes.oneOf(["top", "bottom"]),
   offsetX: PropTypes.string,
-  offsetY: PropTypes.string
+  offsetY: PropTypes.string,
 };
 
 const DefaultTransition = props => (
@@ -52,14 +52,14 @@ class Popout extends React.Component {
     horizontalAlignment: Layer.propTypes.horizontalAlignment,
     verticalAlignment: Layer.propTypes.verticalAlignment,
     offsetX: Layer.propTypes.offsetX,
-    offsetY: Layer.propTypes.offsetY
+    offsetY: Layer.propTypes.offsetY,
   };
 
   static defaultProps = {
     open: false,
     transition: DefaultTransition,
     container: Container,
-    layer: Layer
+    layer: Layer,
   };
 
   bindRootCloseHandlers() {
@@ -120,14 +120,14 @@ class Popout extends React.Component {
       children,
       transition: Transition,
       onEntered,
-      onExited
+      onExited,
     } = this.props;
 
     return (
       <Transition onEntered={onEntered} onExited={onExited}>
         {React.cloneElement(React.Children.only(children), {
           onClose: this.handleClose,
-          "aria-labelledby": this.props.trigger.props.id
+          "aria-labelledby": this.props.trigger.props.id,
         })}
       </Transition>
     );
@@ -143,7 +143,7 @@ class Popout extends React.Component {
           onClick: this.handleToggleOpen,
           "aria-haspopup": true,
           "aria-expanded": this.props.open,
-          ref: trigger => (this.trigger = trigger)
+          ref: trigger => (this.trigger = trigger),
         })}
 
         <TransitionGroup
@@ -162,5 +162,5 @@ class Popout extends React.Component {
 
 export default Popout;
 export const UncontrolledPopout = uncontrollable(Popout, {
-  open: "onToggleOpen"
+  open: "onToggleOpen",
 });

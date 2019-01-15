@@ -34,7 +34,7 @@ const AliasEditor = ({ onChange, onUpdate, alias }) => (
 AliasEditor.propTypes = {
   alias: PropTypes.string,
   onChange: PropTypes.func.isRequired,
-  onUpdate: PropTypes.func.isRequired
+  onUpdate: PropTypes.func.isRequired,
 };
 
 export default AliasEditor;

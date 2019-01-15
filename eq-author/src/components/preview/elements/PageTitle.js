@@ -26,7 +26,7 @@ const PageTitle = ({ title }) => {
 };
 
 PageTitle.propTypes = {
-  title: PropTypes.string
+  title: PropTypes.string,
 };
 
 export default PageTitle;

@@ -10,39 +10,39 @@ describe("Create", () => {
     const repositories = {
       Destination: {
         insert: jest.fn().mockResolvedValueOnce({
-          id: FIRST_DESTINATION_ID
-        })
+          id: FIRST_DESTINATION_ID,
+        }),
       },
       ExpressionGroup2: {
         insert: jest.fn().mockResolvedValueOnce({
-          id: EXPRESSION_GROUP_ID
-        })
+          id: EXPRESSION_GROUP_ID,
+        }),
       },
       RoutingRule2: {
         insert: jest.fn().mockResolvedValueOnce({
-          id: ROUTING_RULE_ID
-        })
-      }
+          id: ROUTING_RULE_ID,
+        }),
+      },
     };
     const modifiers = {
       BinaryExpression: {
-        create: jest.fn().mockResolvedValueOnce()
-      }
+        create: jest.fn().mockResolvedValueOnce(),
+      },
     };
     const rule = await create({ repositories, modifiers })(ROUTING_ID);
     expect(repositories.Destination.insert).toHaveBeenCalled();
     expect(repositories.RoutingRule2.insert).toHaveBeenCalledWith({
       routingId: ROUTING_ID,
-      destinationId: FIRST_DESTINATION_ID
+      destinationId: FIRST_DESTINATION_ID,
     });
     expect(repositories.ExpressionGroup2.insert).toHaveBeenCalledWith({
-      ruleId: ROUTING_RULE_ID
+      ruleId: ROUTING_RULE_ID,
     });
     expect(modifiers.BinaryExpression.create).toHaveBeenCalledWith(
       EXPRESSION_GROUP_ID
     );
     expect(rule).toMatchObject({
-      id: ROUTING_RULE_ID
+      id: ROUTING_RULE_ID,
     });
   });
 });

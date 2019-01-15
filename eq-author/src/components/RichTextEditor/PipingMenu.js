@@ -36,29 +36,29 @@ export class Menu extends React.Component {
     loading: PropTypes.bool,
     answerData: PropTypes.arrayOf(
       PropTypes.shape({
-        id: PropTypes.string.isRequired
+        id: PropTypes.string.isRequired,
       })
     ),
     metadataData: PropTypes.arrayOf(
       PropTypes.shape({
-        id: PropTypes.string.isRequired
+        id: PropTypes.string.isRequired,
       })
-    )
+    ),
   };
 
   state = {
-    isPickerOpen: false
+    isPickerOpen: false,
   };
 
   handleButtonClick = () => {
     this.setState(state => ({
-      isPickerOpen: !state.isPickerOpen
+      isPickerOpen: !state.isPickerOpen,
     }));
   };
 
   handlePickerClose = () => {
     this.setState({
-      isPickerOpen: false
+      isPickerOpen: false,
     });
   };
 
@@ -71,7 +71,7 @@ export class Menu extends React.Component {
     const { answerData, metadataData, disabled, loading } = this.props;
 
     const buttonProps = {
-      title: "Pipe value"
+      title: "Pipe value",
     };
 
     const isDisabled = loading || disabled || (!answerData && !metadataData);
@@ -135,7 +135,7 @@ export const UnwrappedPipingMenu = props => (
 
 UnwrappedPipingMenu.propTypes = {
   match: CustomPropTypes.match,
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
 };
 
 export default withRouter(UnwrappedPipingMenu);

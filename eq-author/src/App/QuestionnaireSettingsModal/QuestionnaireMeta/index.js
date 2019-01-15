@@ -42,7 +42,7 @@ export const StatelessQuestionnaireMeta = ({
   onSubmit,
   onCancel,
   onChange,
-  confirmText
+  confirmText,
 }) => (
   <Form onSubmit={onSubmit}>
     <Field>
@@ -102,11 +102,11 @@ StatelessQuestionnaireMeta.propTypes = {
   onSubmit: PropTypes.func,
   onCancel: PropTypes.func,
   questionnaire: CustomPropTypes.questionnaire.isRequired,
-  confirmText: PropTypes.string.isRequired
+  confirmText: PropTypes.string.isRequired,
 };
 
 StatelessQuestionnaireMeta.fragments = {
-  Questionnaire: questionnaireFragment
+  Questionnaire: questionnaireFragment,
 };
 
 export default withEntityEditor("questionnaire", questionnaireFragment)(

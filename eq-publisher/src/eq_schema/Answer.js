@@ -63,7 +63,7 @@ class Answer {
       type,
       label,
       description,
-      parentAnswerId
+      parentAnswerId,
     };
   }
 
@@ -81,7 +81,7 @@ class Answer {
 
     this[validationType] = {
       ...comparator,
-      exclusive: !validationRule.inclusive
+      exclusive: !validationRule.inclusive,
     };
   }
 
@@ -90,7 +90,7 @@ class Answer {
       entityType = "Custom",
       custom,
       previousAnswer,
-      metadata
+      metadata,
     } = validationRule;
     if (entityType === "Custom") {
       if (isNil(custom)) {
@@ -137,15 +137,15 @@ class Answer {
     return {
       ...comparator,
       offset_by: {
-        [offsetUnit]: offsetValue
-      }
+        [offsetUnit]: offsetValue,
+      },
     };
   }
 
   static buildOption({ label, description, additionalAnswer }, { properties }) {
     const option = {
       label,
-      value: label
+      value: label,
     };
 
     if (description) {
@@ -155,7 +155,7 @@ class Answer {
       option.detail_answer = {
         ...pick(additionalAnswer, ["label", "type"]),
         id: `answer${additionalAnswer.id}`,
-        mandatory: properties.required
+        mandatory: properties.required,
       };
     }
     return option;

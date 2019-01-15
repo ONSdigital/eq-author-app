@@ -13,7 +13,7 @@ describe("Select", () => {
       name: "test",
       value: "x",
       onChange: jest.fn(),
-      onUpdate: jest.fn()
+      onUpdate: jest.fn(),
     };
 
     wrapper = render(props);

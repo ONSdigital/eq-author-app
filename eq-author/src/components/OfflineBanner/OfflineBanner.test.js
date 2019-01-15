@@ -13,7 +13,7 @@ describe("OfflineBanner", () => {
     const wrapper = createWrapper({
       isOffline: true,
       apiError: false,
-      hasError: true
+      hasError: true,
     });
     expect(wrapper).toMatchSnapshot();
   });
@@ -22,7 +22,7 @@ describe("OfflineBanner", () => {
     const wrapper = createWrapper({
       isOffline: false,
       apiError: true,
-      hasError: true
+      hasError: true,
     });
     expect(wrapper).toMatchSnapshot();
   });
@@ -31,7 +31,7 @@ describe("OfflineBanner", () => {
     const wrapper = createWrapper({
       isOffline: false,
       apiError: false,
-      hasError: false
+      hasError: false,
     });
     expect(wrapper).toMatchSnapshot();
   });
@@ -40,7 +40,7 @@ describe("OfflineBanner", () => {
     const wrapper = createWrapper({
       isOffline: true,
       apiError: true,
-      hasError: true
+      hasError: true,
     });
     expect(wrapper).toMatchSnapshot();
   });

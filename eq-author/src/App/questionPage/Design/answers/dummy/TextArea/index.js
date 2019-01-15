@@ -15,11 +15,11 @@ const DummyTextArea = styled.div`
 `;
 
 DummyTextArea.propTypes = {
-  rows: PropTypes.number
+  rows: PropTypes.number,
 };
 
 DummyTextArea.defaultPropTypes = {
-  rows: 1
+  rows: 1,
 };
 
 export default DummyTextArea;

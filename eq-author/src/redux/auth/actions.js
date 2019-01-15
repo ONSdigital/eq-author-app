@@ -9,7 +9,7 @@ export const signInUser = ({
   email,
   photoURL,
   stsTokenManager: { accessToken },
-  uid
+  uid,
 }) => {
   if (config.REACT_APP_FULLSTORY_ORG) {
     window.FS.identify(email, { displayName });
@@ -23,15 +23,15 @@ export const signInUser = ({
       id: uid,
       displayName,
       email,
-      photoURL
-    }
+      photoURL,
+    },
   };
 };
 
 export const signedOutUser = () => {
   localStorage.removeItem("accessToken");
   return {
-    type: SIGN_OUT_USER
+    type: SIGN_OUT_USER,
   };
 };
 

@@ -5,7 +5,7 @@ import createRouterContext from "react-router-test-context";
 const mountWithRouter = child =>
   mount(child, {
     context: createRouterContext(),
-    childContextTypes: { router: PropTypes.object }
+    childContextTypes: { router: PropTypes.object },
   });
 
 export default mountWithRouter;

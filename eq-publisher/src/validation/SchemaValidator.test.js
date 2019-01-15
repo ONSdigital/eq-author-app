@@ -7,7 +7,7 @@ describe("SchemaValidator", () => {
 
   beforeEach(() => {
     mockValidationApi = {
-      validate: jest.fn()
+      validate: jest.fn(),
     };
 
     schemaValidator = new SchemaValidator(mockValidationApi);

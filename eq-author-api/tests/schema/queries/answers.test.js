@@ -19,14 +19,14 @@ describe("answers query", () => {
   const answers = ids.map(id => ({
     id,
     label: `Label${1}`,
-    secondaryLabel: `Label${1}`
+    secondaryLabel: `Label${1}`,
   }));
 
   beforeEach(() => {
     repositories = {
       Answer: mockRepository({
-        getAnswers: answers
-      })
+        getAnswers: answers,
+      }),
     };
   });
 

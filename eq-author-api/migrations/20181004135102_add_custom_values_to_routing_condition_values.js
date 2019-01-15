@@ -9,7 +9,7 @@ exports.up = async function(knex) {
       "GreaterThan",
       "LessThan",
       "GreaterOrEqual",
-      "LessOrEqual"
+      "LessOrEqual",
     ])
   );
   return knex.schema.table("Routing_ConditionValues", table => {

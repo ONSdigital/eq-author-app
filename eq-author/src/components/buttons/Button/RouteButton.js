@@ -13,7 +13,7 @@ const StyledRouteLink = Button.withComponent(RouteLink);
 class RouteButton extends React.Component {
   static propTypes = {
     ...propTypes,
-    to: PropTypes.string.isRequired
+    to: PropTypes.string.isRequired,
   };
   render() {
     const { children, to, ...otherProps } = this.props;

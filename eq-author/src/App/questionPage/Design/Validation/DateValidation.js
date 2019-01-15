@@ -113,19 +113,19 @@ export class UnwrappedDateValidation extends React.Component {
       validation: { offset, relativePosition, entityType },
       answer: {
         properties: { format },
-        type
+        type,
       },
       displayName,
       onChange,
       onUpdate,
-      onChangeUpdate
+      onChangeUpdate,
     } = this.props;
 
     const availableUnits = getUnits({ format, type });
 
     const validationPills = {
       Metadata: this.Metadata,
-      Custom: this.Custom
+      Custom: this.Custom,
     };
 
     if (type === DATE) {
@@ -195,23 +195,23 @@ UnwrappedDateValidation.propTypes = {
     enabled: PropTypes.bool.isRequired,
     customDate: PropTypes.string,
     previousAnswer: PropTypes.shape({
-      displayName: PropTypes.string.isRequired
+      displayName: PropTypes.string.isRequired,
     }),
     metadata: PropTypes.shape({
-      displayName: PropTypes.string.isRequired
+      displayName: PropTypes.string.isRequired,
     }),
     offset: PropTypes.shape({
       unit: PropTypes.string.isRequired,
-      value: PropTypes.number.isRequired
+      value: PropTypes.number.isRequired,
     }).isRequired,
     relativePosition: PropTypes.string.isRequired,
-    entityType: PropTypes.oneOf(Object.values(entityTypes)).isRequired
+    entityType: PropTypes.oneOf(Object.values(entityTypes)).isRequired,
   }).isRequired,
   answer: PropTypes.shape({
     id: PropTypes.string.required,
     properties: PropTypes.shape({
-      format: PropTypes.string
-    }).isRequired
+      format: PropTypes.string,
+    }).isRequired,
   }).isRequired,
   onToggleValidationRule: PropTypes.func.isRequired,
   onChangeUpdate: PropTypes.func.isRequired,
@@ -219,7 +219,7 @@ UnwrappedDateValidation.propTypes = {
   onUpdate: PropTypes.func.isRequired,
   displayName: PropTypes.string.isRequired,
   readKey: PropTypes.string.isRequired,
-  testId: PropTypes.string.isRequired
+  testId: PropTypes.string.isRequired,
 };
 
 export default flowRight(withChangeUpdate)(UnwrappedDateValidation);

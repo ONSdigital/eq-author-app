@@ -33,14 +33,14 @@ export const UnwrappedPreviewSectionRoute = ({ match, data, loading }) => {
 UnwrappedPreviewSectionRoute.propTypes = {
   loading: PropTypes.bool.isRequired,
   data: PropTypes.shape({
-    section: propType(SectionEditor.fragments.Section)
+    section: propType(SectionEditor.fragments.Section),
   }),
   match: PropTypes.shape({
     params: PropTypes.shape({
       questionnaireId: PropTypes.string.isRequired,
-      sectionId: PropTypes.string.isRequired
-    }).isRequired
-  }).isRequired
+      sectionId: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
 };
 
 export const SECTION_QUERY = gql`

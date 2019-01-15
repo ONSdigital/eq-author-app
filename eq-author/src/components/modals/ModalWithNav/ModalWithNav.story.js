@@ -17,7 +17,7 @@ export const NAV_ITEMS = [
           auctor fringilla.
         </p>
       </div>
-    )
+    ),
   },
   {
     id: "tab-2",
@@ -34,7 +34,7 @@ export const NAV_ITEMS = [
           gravida at eget metus.
         </p>
       </div>
-    )
+    ),
   },
   {
     id: "tab-3",
@@ -51,8 +51,8 @@ export const NAV_ITEMS = [
           interdum.
         </p>
       </div>
-    )
-  }
+    ),
+  },
 ];
 
 storiesOf("ModalWithNav", module).add("Default", () => (

@@ -8,7 +8,7 @@ const answerConditions = {
     conditions.GREATER_THAN,
     conditions.LESS_THAN,
     conditions.GREATER_OR_EQUAL,
-    conditions.LESS_OR_EQUAL
+    conditions.LESS_OR_EQUAL,
   ],
   [answerTypes.CURRENCY]: [
     conditions.EQUAL,
@@ -16,9 +16,9 @@ const answerConditions = {
     conditions.GREATER_THAN,
     conditions.LESS_THAN,
     conditions.GREATER_OR_EQUAL,
-    conditions.LESS_OR_EQUAL
+    conditions.LESS_OR_EQUAL,
   ],
-  [answerTypes.RADIO]: [conditions.ONE_OF]
+  [answerTypes.RADIO]: [conditions.ONE_OF],
 };
 
 const isAnswerTypeSupported = answerType =>
@@ -32,5 +32,5 @@ const isValid = (answerType, condition) =>
 module.exports = {
   getDefault,
   isAnswerTypeSupported,
-  isValid
+  isValid,
 };

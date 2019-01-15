@@ -7,16 +7,16 @@ describe("withDeleteQuestionConfirmation", () => {
     mutate = jest.fn().mockResolvedValue({
       data: {
         deleteQuestionConfirmation: {
-          id: "4"
-        }
-      }
+          id: "4",
+        },
+      },
     });
     ownProps = {
       history: {
-        push: jest.fn()
+        push: jest.fn(),
       },
       location: {
-        pathname: "/1/2/3/4/design"
+        pathname: "/1/2/3/4/design",
       },
       match: {
         params: {
@@ -24,10 +24,10 @@ describe("withDeleteQuestionConfirmation", () => {
           sectionId: "2",
           pageId: "3",
           confirmationId: "4",
-          tab: "design"
-        }
+          tab: "design",
+        },
       },
-      raiseToast: jest.fn()
+      raiseToast: jest.fn(),
     };
   });
 
@@ -41,12 +41,12 @@ describe("withDeleteQuestionConfirmation", () => {
     const confirmationToDelete = {
       id: "4",
       page: {
-        id: "5"
+        id: "5",
       },
       positive: {
         label: "yes",
-        something: "wrong"
-      }
+        something: "wrong",
+      },
     };
     await mapMutateToProps({ mutate, ownProps }).onDeleteQuestionConfirmation(
       confirmationToDelete
@@ -55,15 +55,15 @@ describe("withDeleteQuestionConfirmation", () => {
     expect(mutate).toHaveBeenCalledWith({
       variables: {
         input: {
-          id: "4"
-        }
-      }
+          id: "4",
+        },
+      },
     });
   });
 
   it("should navigate to the parent page", async () => {
     await mapMutateToProps({ mutate, ownProps }).onDeleteQuestionConfirmation({
-      id: "4"
+      id: "4",
     });
     expect(ownProps.history.push).toHaveBeenCalledWith(
       "/questionnaire/1/2/3/design"
@@ -74,7 +74,7 @@ describe("withDeleteQuestionConfirmation", () => {
     const questionConfirmation = { id: "4" };
     await mapMutateToProps({
       mutate,
-      ownProps
+      ownProps,
     }).onDeleteQuestionConfirmation(questionConfirmation);
     expect(ownProps.raiseToast).toHaveBeenCalledWith(
       "QuestionConfirmation4",
@@ -88,7 +88,7 @@ describe("withDeleteQuestionConfirmation", () => {
     const questionConfirmation = { id: "4" };
     await mapMutateToProps({
       mutate,
-      ownProps
+      ownProps,
     }).onDeleteQuestionConfirmation(questionConfirmation);
     ownProps.raiseToast.mock.calls[0][3].goBack();
     expect(ownProps.history.push).toHaveBeenCalledWith("/1/2/3/4/design");

@@ -70,7 +70,7 @@ EditorLayout.propTypes = {
   page: CustomPropTypes.page,
   design: PropTypes.bool,
   preview: PropTypes.bool,
-  routing: PropTypes.bool
+  routing: PropTypes.bool,
 };
 
 export default EditorLayout;

@@ -4,7 +4,7 @@ import PipedValueDecorator, {
   entityToHTML,
   ENTITY_TYPE,
   htmlToEntity,
-  findPipedEntities
+  findPipedEntities,
 } from "components/RichTextEditor/entities/PipedValue";
 import Raw from "draft-js-raw-content-state";
 
@@ -16,11 +16,11 @@ describe("PipedValue", () => {
     it("should find piped entities only", () => {
       const pipeEntity = {
         type: ENTITY_TYPE,
-        mutability: "IMMUTABLE"
+        mutability: "IMMUTABLE",
       };
       const otherEntity = {
         type: "NOT_PIPED",
-        mutability: "MUTABLE"
+        mutability: "MUTABLE",
       };
 
       const contentState = new Raw()
@@ -39,11 +39,11 @@ describe("PipedValue", () => {
     it("should find and convert entities", () => {
       const pipeEntity = {
         type: ENTITY_TYPE,
-        mutability: "IMMUTABLE"
+        mutability: "IMMUTABLE",
       };
       const otherEntity = {
         type: "NOT_PIPED",
-        mutability: "MUTABLE"
+        mutability: "MUTABLE",
       };
 
       const content = new Raw()
@@ -73,7 +73,7 @@ describe("PipedValue", () => {
         id: "123",
         text: "hello world",
         type: "TextField",
-        pipingType: "SomeType"
+        pipingType: "SomeType",
       };
 
       const wrapper = shallow(<Component data={data} />);
@@ -111,7 +111,7 @@ describe("PipedValue", () => {
       expect(createEntity).toHaveBeenCalledWith(ENTITY_TYPE, "IMMUTABLE", {
         pipingType,
         type,
-        id
+        id,
       });
     });
 

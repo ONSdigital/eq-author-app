@@ -36,15 +36,15 @@ export class UnwrappedRoutingRuleDestinationSelector extends React.Component {
   handleChange = ({
     value,
     value: {
-      config: { destination }
-    }
+      config: { destination },
+    },
   }) => {
     if (destination.hasOwnProperty("absoluteDestination")) {
       destination.absoluteDestination.destinationId = value.id;
     }
 
     this.props.onChange({
-      ...destination
+      ...destination,
     });
   };
 
@@ -81,19 +81,19 @@ UnwrappedRoutingRuleDestinationSelector.propTypes = {
   id: PropTypes.string.isRequired,
   value: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   disabled: PropTypes.bool.isRequired,
-  match: CustomPropTypes.match
+  match: CustomPropTypes.match,
 };
 
 UnwrappedRoutingRuleDestinationSelector.defaultProps = {
   disabled: false,
-  loading: false
+  loading: false,
 };
 
 UnwrappedRoutingRuleDestinationSelector.fragments = {
   LogicalDestination,
   AbsoluteDestination,
   QuestionPageDestination,
-  SectionDestination
+  SectionDestination,
 };
 
 export default withRouter(UnwrappedRoutingRuleDestinationSelector);

@@ -14,7 +14,7 @@ const fetchData = API => async (req, res, next) => {
   if (!questionnaire) {
     return res.status(404).send({
       params: req.params,
-      error: result.errors
+      error: result.errors,
     });
   }
 

@@ -34,7 +34,7 @@ describe("components/Forms/Input", () => {
       wrapper.simulate("change", { target: { value: "hello" } });
       expect(handleChange).toHaveBeenCalledWith({
         name: "text",
-        value: "hello"
+        value: "hello",
       });
     });
   });
@@ -70,12 +70,12 @@ describe("components/Forms/Input", () => {
 
     it("should call onChange with appropriate args", () => {
       wrapper.simulate("change", {
-        target: { type: "checkbox", checked: true }
+        target: { type: "checkbox", checked: true },
       });
       expect(handleChange).toHaveBeenCalledWith(
         expect.objectContaining({
           name: "my-checkbox",
-          value: true
+          value: true,
         })
       );
     });

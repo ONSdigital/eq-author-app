@@ -9,7 +9,7 @@ import {
   Message,
   Heading,
   Subheading,
-  Description
+  Description,
 } from "components/Dialog/DialogMessage";
 import Button from "components/buttons/Button";
 import ButtonGroup from "components/buttons/ButtonGroup";
@@ -85,7 +85,7 @@ DeleteConfirmDialog.propTypes = {
   onDelete: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   alertText: PropTypes.string.isRequired,
-  icon: PropTypes.string.isRequired
+  icon: PropTypes.string.isRequired,
 };
 
 export default DeleteConfirmDialog;

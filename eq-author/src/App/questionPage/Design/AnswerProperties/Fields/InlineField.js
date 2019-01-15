@@ -24,7 +24,7 @@ const InlineField = ({ id, label, children }) => (
 InlineField.propTypes = {
   id: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
 };
 
 export default InlineField;

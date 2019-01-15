@@ -48,7 +48,7 @@ const TabList = ({ title, children }) => (
 
 TabList.propTypes = {
   title: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
 };
 
 export default TabList;

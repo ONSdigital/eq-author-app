@@ -8,7 +8,7 @@ import { UnconnectedAnswerValidation } from "./AnswerValidation";
 import {
   CUSTOM,
   PREVIOUS_ANSWER,
-  NOW
+  NOW,
 } from "constants/validation-entity-types";
 
 const render = (props, render = shallow) => {
@@ -25,14 +25,14 @@ describe("Date Error", () => {
         type: "Number",
         validation: {
           minValue: {
-            enabled: false
+            enabled: false,
           },
           maxValue: {
-            enabled: false
-          }
-        }
+            enabled: false,
+          },
+        },
       },
-      gotoTab: jest.fn()
+      gotoTab: jest.fn(),
     };
   });
 
@@ -49,16 +49,16 @@ describe("Date Error", () => {
               customDate: "2018-09-02",
               offset: {
                 unit: "Days",
-                value: 0
+                value: 0,
               },
               relativePosition: "Before",
-              entityType: CUSTOM
+              entityType: CUSTOM,
             },
             latestDate: {
-              enabled: false
-            }
-          }
-        }
+              enabled: false,
+            },
+          },
+        },
       });
       expect(
         wrapper
@@ -80,16 +80,16 @@ describe("Date Error", () => {
               customDate: "2018-09-02",
               offset: {
                 unit: "Months",
-                value: 5
+                value: 5,
               },
               relativePosition: "Before",
-              entityType: CUSTOM
+              entityType: CUSTOM,
             },
             latestDate: {
-              enabled: false
-            }
-          }
-        }
+              enabled: false,
+            },
+          },
+        },
       });
       expect(
         wrapper
@@ -111,16 +111,16 @@ describe("Date Error", () => {
               customDate: null,
               offset: {
                 unit: "Months",
-                value: 5
+                value: 5,
               },
               relativePosition: "Before",
-              entityType: CUSTOM
+              entityType: CUSTOM,
             },
             latestDate: {
-              enabled: false
-            }
-          }
-        }
+              enabled: false,
+            },
+          },
+        },
       });
       expect(
         wrapper
@@ -143,20 +143,20 @@ describe("Date Error", () => {
             customDate: null,
             previousAnswer: {
               id: "2",
-              displayName: "foobar"
+              displayName: "foobar",
             },
             offset: {
               unit: "Months",
-              value: 5
+              value: 5,
             },
             relativePosition: "Before",
-            entityType: PREVIOUS_ANSWER
+            entityType: PREVIOUS_ANSWER,
           },
           latestDate: {
-            enabled: false
-          }
-        }
-      }
+            enabled: false,
+          },
+        },
+      },
     });
     expect(
       wrapper
@@ -178,16 +178,16 @@ describe("Date Error", () => {
             customDate: null,
             offset: {
               unit: "days",
-              value: 12
+              value: 12,
             },
             relativePosition: "Before",
-            entityType: NOW
+            entityType: NOW,
           },
           latestDate: {
-            enabled: false
-          }
-        }
-      }
+            enabled: false,
+          },
+        },
+      },
     });
     expect(
       wrapper

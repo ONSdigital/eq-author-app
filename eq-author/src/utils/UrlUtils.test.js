@@ -7,7 +7,7 @@ import {
   buildRoutingPath,
   isOnPage,
   isOnConfirmation,
-  isOnSection
+  isOnSection,
 } from "utils/UrlUtils";
 
 const questionnaireId = "1";
@@ -44,7 +44,7 @@ describe("buildPagePath", () => {
     const path = buildPagePath({
       questionnaireId,
       sectionId,
-      pageId
+      pageId,
     });
     expect(path).toEqual("/questionnaire/1/2/3/design");
   });
@@ -64,7 +64,7 @@ describe("buildDesignPath", () => {
       questionnaireId,
       sectionId,
       pageId,
-      tab: "routing"
+      tab: "routing",
     });
     expect(path).toEqual("/questionnaire/1/2/3/design");
   });
@@ -75,7 +75,7 @@ describe("buildDesignPath", () => {
       sectionId,
       pageId,
       confirmationId: 4,
-      tab: "preview"
+      tab: "preview",
     });
     expect(path).toEqual("/questionnaire/1/2/3/4/design");
   });
@@ -86,7 +86,7 @@ describe("buildPreviewPath", () => {
     const path = buildPreviewPath({
       questionnaireId,
       sectionId,
-      tab: "design"
+      tab: "design",
     });
     expect(path).toEqual("/questionnaire/1/2/preview");
   });
@@ -96,7 +96,7 @@ describe("buildPreviewPath", () => {
       questionnaireId,
       sectionId,
       pageId,
-      tab: "routing"
+      tab: "routing",
     });
     expect(path).toEqual("/questionnaire/1/2/3/preview");
   });
@@ -107,7 +107,7 @@ describe("buildPreviewPath", () => {
       sectionId,
       pageId,
       confirmationId,
-      tab: "routing"
+      tab: "routing",
     });
     expect(path).toEqual("/questionnaire/1/2/3/4/preview");
   });
@@ -119,7 +119,7 @@ describe("buildRoutingPath", () => {
       questionnaireId,
       sectionId,
       pageId,
-      tab: "design"
+      tab: "design",
     });
     expect(path).toEqual("/questionnaire/1/2/3/routing");
   });
@@ -136,7 +136,7 @@ describe("isOnPage", () => {
       questionnaireId,
       sectionId,
       pageId,
-      tab: "design"
+      tab: "design",
     };
     expect(isOnPage(match)).toBeTruthy();
   });
@@ -147,7 +147,7 @@ describe("isOnPage", () => {
       sectionId,
       pageId,
       confirmationId: "1",
-      tab: "design"
+      tab: "design",
     };
     expect(isOnPage(match)).toBeFalsy();
   });
@@ -156,7 +156,7 @@ describe("isOnPage", () => {
     match.params = {
       questionnaireId,
       sectionId,
-      tab: "design"
+      tab: "design",
     };
     expect(isOnPage(match)).toBeFalsy();
   });
@@ -174,7 +174,7 @@ describe("isOnConfirmation", () => {
       sectionId,
       pageId,
       confirmationId,
-      tab: "design"
+      tab: "design",
     };
     expect(isOnConfirmation(match)).toBeTruthy();
   });
@@ -184,7 +184,7 @@ describe("isOnConfirmation", () => {
       questionnaireId,
       sectionId,
       pageId,
-      tab: "design"
+      tab: "design",
     };
     expect(isOnConfirmation(match)).toBeFalsy();
   });
@@ -193,7 +193,7 @@ describe("isOnConfirmation", () => {
     match.params = {
       questionnaireId,
       sectionId,
-      tab: "design"
+      tab: "design",
     };
     expect(isOnConfirmation(match)).toBeFalsy();
   });
@@ -208,7 +208,7 @@ describe("isOnSection", () => {
   it("should be true when on a section", () => {
     match.params = {
       questionnaireId,
-      sectionId
+      sectionId,
     };
     expect(isOnSection(match)).toBeTruthy();
   });
@@ -218,7 +218,7 @@ describe("isOnSection", () => {
       questionnaireId,
       sectionId,
       pageId,
-      tab: "design"
+      tab: "design",
     };
     expect(isOnSection(match)).toBeFalsy();
   });
@@ -229,7 +229,7 @@ describe("isOnSection", () => {
       sectionId,
       pageId,
       confirmationId: "1",
-      tab: "design"
+      tab: "design",
     };
     expect(isOnSection(match)).toBeFalsy();
   });

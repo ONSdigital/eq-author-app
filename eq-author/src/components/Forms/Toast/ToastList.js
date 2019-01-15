@@ -7,7 +7,7 @@ import DefaultTransition from "./Transition";
 const ToastList = styled.ol.attrs({
   "aria-live": "assertive",
   "aria-relevant": "additions removals",
-  role: "alert"
+  role: "alert",
 })`
   list-style: none;
   margin: 0;
@@ -24,11 +24,11 @@ const ToastItem = styled.li`
 export default class ToastContainer extends React.Component {
   static propTypes = {
     transition: PropTypes.any, // eslint-disable-line react/forbid-prop-types
-    children: PropTypes.node.isRequired
+    children: PropTypes.node.isRequired,
   };
 
   static defaultProps = {
-    transition: DefaultTransition
+    transition: DefaultTransition,
   };
 
   renderChild = child => {

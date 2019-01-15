@@ -16,7 +16,7 @@ const ModalDialog = props => {
 ModalDialog.propTypes = {
   children: PropTypes.node.isRequired,
   onClose: PropTypes.func.isRequired,
-  isOpen: PropTypes.bool.isRequired
+  isOpen: PropTypes.bool.isRequired,
 };
 
 export default ModalDialog;

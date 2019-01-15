@@ -3,7 +3,7 @@ import {
   addQuestionnaire,
   testId,
   typeIntoDraftEditor,
-  navigateToFirstSection
+  navigateToFirstSection,
 } from "../../utils";
 
 const pageAfterDup = /\/questionnaire\/\d+\/\d+\/\d+\/design$/;

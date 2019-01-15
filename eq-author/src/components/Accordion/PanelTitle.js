@@ -9,7 +9,7 @@ class PanelTitle extends React.Component {
     controls: PropTypes.string.isRequired,
     open: PropTypes.bool.isRequired,
     children: PropTypes.node.isRequired,
-    className: PropTypes.string
+    className: PropTypes.string,
   };
 
   scrollIntoView() {

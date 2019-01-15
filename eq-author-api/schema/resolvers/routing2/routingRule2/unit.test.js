@@ -2,7 +2,7 @@ const executeQuery = require("../../../../tests/utils/executeQuery");
 const answerTypes = require("../../../../constants/answerTypes");
 const {
   NEXT_PAGE,
-  END_OF_QUESTIONNAIRE
+  END_OF_QUESTIONNAIRE,
 } = require("../../../../constants/logicalDestinations");
 const { AND } = require("../../../../constants/routingOperators");
 const conditions = require("../../../../constants/routingConditions");
@@ -25,55 +25,55 @@ describe("Routing2 Unit", () => {
         Routing2: {
           getById: jest.fn().mockResolvedValue({
             id: ROUTING_ID,
-            destinationId: FIRST_DESTINATION_ID
-          })
+            destinationId: FIRST_DESTINATION_ID,
+          }),
         },
         Destination: {
           getById: jest.fn(id => {
             return Promise.resolve({ id, logical: NEXT_PAGE });
-          })
+          }),
         },
         ExpressionGroup2: {
           getByRuleId: jest.fn().mockResolvedValueOnce({
             id: EXPRESSION_GROUP_ID,
-            operator: AND
-          })
+            operator: AND,
+          }),
         },
         Answer: {
           getById: jest.fn().mockResolvedValueOnce({
             id: BASIC_ANSWER_ID,
-            type: answerTypes.NUMBER
-          })
+            type: answerTypes.NUMBER,
+          }),
         },
         BinaryExpression2: {
           getByExpressionGroupId: jest.fn().mockResolvedValueOnce([
             {
               id: BINARY_EXPRESSION_ID,
               expressionGroupId: EXPRESSION_GROUP_ID,
-              condition: conditions.EQUAL
-            }
-          ])
+              condition: conditions.EQUAL,
+            },
+          ]),
         },
         LeftSide2: {
           getByExpressionId: jest.fn().mockResolvedValueOnce({
             id: LEFT_SIDE_ID,
             expressionId: BINARY_EXPRESSION_ID,
             answerId: BASIC_ANSWER_ID,
-            type: "Answer"
-          })
+            type: "Answer",
+          }),
         },
         RightSide2: {
-          getByExpressionId: jest.fn().mockResolvedValueOnce()
-        }
+          getByExpressionId: jest.fn().mockResolvedValueOnce(),
+        },
       },
       modifiers: {
         RoutingRule: {
           create: jest.fn().mockResolvedValueOnce({
             id: ROUTING_RULE_ID,
-            destinationId: FIRST_DESTINATION_ID
-          })
-        }
-      }
+            destinationId: FIRST_DESTINATION_ID,
+          }),
+        },
+      },
     };
     const query = `
       mutation createRoutingRule2($input: CreateRoutingRule2Input!) {
@@ -122,11 +122,11 @@ describe("Routing2 Unit", () => {
       createRoutingRule2: {
         id: ROUTING_RULE_ID.toString(),
         routing: {
-          id: ROUTING_ID.toString()
+          id: ROUTING_ID.toString(),
         },
         destination: {
           id: FIRST_DESTINATION_ID.toString(),
-          logical: NEXT_PAGE
+          logical: NEXT_PAGE,
         },
         expressionGroup: {
           id: EXPRESSION_GROUP_ID.toString(),
@@ -137,13 +137,13 @@ describe("Routing2 Unit", () => {
               id: BINARY_EXPRESSION_ID.toString(),
               left: {
                 id: BASIC_ANSWER_ID.toString(),
-                type: answerTypes.NUMBER
+                type: answerTypes.NUMBER,
               },
-              right: null
-            }
-          ]
-        }
-      }
+              right: null,
+            },
+          ],
+        },
+      },
     });
   });
 
@@ -154,23 +154,23 @@ describe("Routing2 Unit", () => {
           QuestionPage: {
             getById: jest.fn(id =>
               Promise.resolve({ id, pageType: "QuestionPage" })
-            )
+            ),
           },
           Destination: {
             getById: jest.fn().mockResolvedValue({
               id: SECOND_DESTINATION_ID,
-              pageId: LATER_PAGE_ID
-            })
-          }
+              pageId: LATER_PAGE_ID,
+            }),
+          },
         },
         modifiers: {
           RoutingRule: {
             update: jest.fn().mockResolvedValueOnce({
               id: ROUTING_RULE_ID,
-              destinationId: SECOND_DESTINATION_ID
-            })
-          }
-        }
+              destinationId: SECOND_DESTINATION_ID,
+            }),
+          },
+        },
       };
 
       const updateRoutingRule2Mutation = `
@@ -194,8 +194,8 @@ describe("Routing2 Unit", () => {
         {
           input: {
             id: ROUTING_RULE_ID,
-            destination: { pageId: LATER_PAGE_ID }
-          }
+            destination: { pageId: LATER_PAGE_ID },
+          },
         },
         ctx
       );
@@ -204,8 +204,8 @@ describe("Routing2 Unit", () => {
       expect(ctx.modifiers.RoutingRule.update).toHaveBeenCalledWith({
         id: ROUTING_RULE_ID.toString(),
         destination: {
-          pageId: LATER_PAGE_ID.toString()
-        }
+          pageId: LATER_PAGE_ID.toString(),
+        },
       });
 
       expect(updateResult.data).toMatchObject({
@@ -214,9 +214,9 @@ describe("Routing2 Unit", () => {
           destination: {
             logical: null,
             page: { id: LATER_PAGE_ID.toString() },
-            section: null
-          }
-        }
+            section: null,
+          },
+        },
       });
     });
 
@@ -243,9 +243,9 @@ describe("Routing2 Unit", () => {
             id: ROUTING_RULE_ID,
             destination: {
               logical: END_OF_QUESTIONNAIRE,
-              sectionId: LATER_SECTION_ID
-            }
-          }
+              sectionId: LATER_SECTION_ID,
+            },
+          },
         },
         {}
       );
@@ -261,9 +261,9 @@ describe("Routing2 Unit", () => {
       const ctx = {
         repositories: {
           RoutingRule2: {
-            delete: jest.fn().mockResolvedValueOnce({ id: ROUTING_RULE_ID })
-          }
-        }
+            delete: jest.fn().mockResolvedValueOnce({ id: ROUTING_RULE_ID }),
+          },
+        },
       };
 
       const deleteRoutingRuleMutation = `
@@ -282,7 +282,7 @@ describe("Routing2 Unit", () => {
 
       expect(deleteResult.errors).toBeUndefined();
       expect(deleteResult.data).toMatchObject({
-        deleteRoutingRule2: { id: ROUTING_RULE_ID.toString() }
+        deleteRoutingRule2: { id: ROUTING_RULE_ID.toString() },
       });
 
       expect(ctx.repositories.RoutingRule2.delete).toHaveBeenLastCalledWith(

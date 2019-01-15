@@ -2,7 +2,7 @@ const { flatten, omit, get } = require("lodash/fp");
 
 const DESTINATION_CONFIG = [
   { table: "Routing_RuleSets", name: "routingRuleSets" },
-  { table: "Routing_Rules", name: "routingRules" }
+  { table: "Routing_Rules", name: "routingRules" },
 ];
 
 const getDestinationEntities = async (trx, references, { table, name }) => {
@@ -30,7 +30,7 @@ const updateDestinationEntities = async (
       .table(table)
       .where({ id })
       .update({
-        routingDestinationId: destLookup[routingDestinationId]
+        routingDestinationId: destLookup[routingDestinationId],
       });
   }
 };
@@ -52,7 +52,7 @@ const duplicateDestinations = async (trx, references) => {
   const updatedDestinations = destinations.map(dest => ({
     ...omit("id")(dest),
     pageId: references.pages[dest.pageId] || dest.pageId,
-    sectionId: references.sections[dest.sectionId] || dest.sectionId
+    sectionId: references.sections[dest.sectionId] || dest.sectionId,
   }));
 
   const newDestinations = await trx

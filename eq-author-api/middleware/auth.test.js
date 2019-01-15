@@ -8,7 +8,7 @@ describe("auth middleware", () => {
 
   beforeEach(() => {
     logger = {
-      error: jest.fn()
+      error: jest.fn(),
     };
 
     context = {};
@@ -31,10 +31,10 @@ describe("auth middleware", () => {
     let middleware;
     beforeEach(() => {
       req = {
-        header: jest.fn()
+        header: jest.fn(),
       };
       res = {
-        send: jest.fn()
+        send: jest.fn(),
       };
       next = jest.fn();
 
@@ -94,9 +94,9 @@ describe("auth middleware", () => {
         payload = {
           payload: {
             data: {
-              some: "value"
-            }
-          }
+              some: "value",
+            },
+          },
         };
 
         const expected = jwt.sign(payload, uuid.v4());

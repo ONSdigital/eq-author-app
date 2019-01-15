@@ -14,7 +14,7 @@ describe("deleteQuestionnaire", () => {
 
   beforeEach(() => {
     repositories = {
-      Questionnaire: mockRepository()
+      Questionnaire: mockRepository(),
     };
   });
 

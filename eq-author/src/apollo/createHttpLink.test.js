@@ -12,7 +12,7 @@ describe("createHttpLink", () => {
 
   it("should pass uri to HttpLink constructor", () => {
     expect(HttpLink).toHaveBeenCalledWith({
-      uri
+      uri,
     });
   });
 });

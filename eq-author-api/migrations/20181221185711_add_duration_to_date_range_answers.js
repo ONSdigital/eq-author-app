@@ -10,7 +10,7 @@ exports.up = async function(knex, Promise) {
       "earliestDate",
       "latestDate",
       "minDuration",
-      "maxDuration"
+      "maxDuration",
     ])
   );
 
@@ -33,9 +33,9 @@ exports.up = async function(knex, Promise) {
         config: {
           duration: {
             value: 0,
-            unit: "Days"
-          }
-        }
+            unit: "Days",
+          },
+        },
       },
       {
         answerId: id,
@@ -43,10 +43,10 @@ exports.up = async function(knex, Promise) {
         config: {
           duration: {
             value: 0,
-            unit: "Days"
-          }
-        }
-      }
+            unit: "Days",
+          },
+        },
+      },
     ])
   );
 

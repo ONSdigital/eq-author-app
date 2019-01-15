@@ -28,14 +28,14 @@ describe("Binary Expression Repository", () => {
               routing: {
                 rules: [
                   {
-                    expressionGroup: {}
-                  }
-                ]
-              }
-            }
-          ]
-        }
-      ]
+                    expressionGroup: {},
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      ],
     });
     expressionGroup =
       questionnaire.sections[0].pages[0].routing.rules[0].expressionGroup;
@@ -44,12 +44,12 @@ describe("Binary Expression Repository", () => {
   describe("insert", () => {
     it("should create a binary expression", async () => {
       const binaryExpression = await BinaryExpressionRepository.insert({
-        groupId: expressionGroup.id
+        groupId: expressionGroup.id,
       });
       expect(binaryExpression).toMatchObject({
         id: expect.any(Number),
         expressionGroupId: expressionGroup.id,
-        condition: "Equal"
+        condition: "Equal",
       });
     });
   });
@@ -57,18 +57,18 @@ describe("Binary Expression Repository", () => {
   describe("update", () => {
     it("should update the condition on a Binary Expression", async () => {
       const binaryExpression = await BinaryExpressionRepository.insert({
-        groupId: expressionGroup.id
+        groupId: expressionGroup.id,
       });
 
       const updateResult = await BinaryExpressionRepository.update({
         id: binaryExpression.id,
-        condition: routingConditions.ONE_OF
+        condition: routingConditions.ONE_OF,
       });
 
       expect(updateResult).toEqual({
         id: binaryExpression.id,
         expressionGroupId: expressionGroup.id,
-        condition: routingConditions.ONE_OF
+        condition: routingConditions.ONE_OF,
       });
     });
   });
@@ -76,14 +76,14 @@ describe("Binary Expression Repository", () => {
   describe("getById", () => {
     it("should get Binary expression by Id", async () => {
       const binaryExpression = await BinaryExpressionRepository.insert({
-        groupId: expressionGroup.id
+        groupId: expressionGroup.id,
       });
       const expression = await BinaryExpressionRepository.getById(
         binaryExpression.id
       );
       expect(expression).toEqual(
         expect.objectContaining({
-          id: binaryExpression.id
+          id: binaryExpression.id,
         })
       );
     });
@@ -92,15 +92,15 @@ describe("Binary Expression Repository", () => {
   describe("getByExpressionGroupId", () => {
     it("should return the binary expressions for the expression group", async () => {
       const binaryExpression = await BinaryExpressionRepository.insert({
-        groupId: expressionGroup.id
+        groupId: expressionGroup.id,
       });
       const expressions = await BinaryExpressionRepository.getByExpressionGroupId(
         expressionGroup.id
       );
       expect(expressions).toEqual([
         expect.objectContaining({
-          id: binaryExpression.id
-        })
+          id: binaryExpression.id,
+        }),
       ]);
     });
   });
@@ -108,7 +108,7 @@ describe("Binary Expression Repository", () => {
   describe("delete", () => {
     it("should delete the binary expreesion returning deleted object", async () => {
       const binaryExpression = await BinaryExpressionRepository.insert({
-        groupId: expressionGroup.id
+        groupId: expressionGroup.id,
       });
       const deleteResult = await BinaryExpressionRepository.delete(
         binaryExpression.id

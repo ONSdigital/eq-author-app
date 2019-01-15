@@ -12,7 +12,7 @@ const store = createMockStore();
 
 const client = {
   query: jest.fn(),
-  readQuery: jest.fn()
+  readQuery: jest.fn(),
 };
 
 describe("containers/AppContainer", () => {

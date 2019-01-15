@@ -25,8 +25,8 @@ describe("ChoseOptions Repository", () => {
               answers: [
                 {
                   type: "Radio",
-                  options: [{ label: "1" }, { label: "2" }]
-                }
+                  options: [{ label: "1" }, { label: "2" }],
+                },
               ],
               routing: {
                 rules: [
@@ -34,17 +34,17 @@ describe("ChoseOptions Repository", () => {
                     expressionGroup: {
                       expressions: [
                         {
-                          right: { type: "SelectedOptions" }
-                        }
-                      ]
-                    }
-                  }
-                ]
-              }
-            }
-          ]
-        }
-      ]
+                          right: { type: "SelectedOptions" },
+                        },
+                      ],
+                    },
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      ],
     });
     answer = questionnaire.sections[0].pages[0].answers[0];
     rightSide =
@@ -56,12 +56,12 @@ describe("ChoseOptions Repository", () => {
     it("will insert a number of option ids", async () => {
       const selectedOption = await SelectedOptionsRepository.insert({
         sideId: rightSide.id,
-        optionId: answer.options[0].id
+        optionId: answer.options[0].id,
       });
 
       expect(selectedOption).toMatchObject({
         sideId: rightSide.id,
-        optionId: answer.options[0].id
+        optionId: answer.options[0].id,
       });
     });
   });
@@ -70,11 +70,11 @@ describe("ChoseOptions Repository", () => {
     it("will retrieve the selected id using the sideId", async () => {
       await SelectedOptionsRepository.insert({
         sideId: rightSide.id,
-        optionId: answer.options[0].id
+        optionId: answer.options[0].id,
       });
       await SelectedOptionsRepository.insert({
         sideId: rightSide.id,
-        optionId: answer.options[1].id
+        optionId: answer.options[1].id,
       });
 
       const selectedOptions = await SelectedOptionsRepository.getBySideId(
@@ -84,12 +84,12 @@ describe("ChoseOptions Repository", () => {
       expect(selectedOptions).toEqual([
         {
           sideId: rightSide.id,
-          optionId: answer.options[0].id
+          optionId: answer.options[0].id,
         },
         {
           sideId: rightSide.id,
-          optionId: answer.options[1].id
-        }
+          optionId: answer.options[1].id,
+        },
       ]);
     });
   });
@@ -98,7 +98,7 @@ describe("ChoseOptions Repository", () => {
     it("will delete all selected options for a given side Id", async () => {
       await SelectedOptionsRepository.insert({
         sideId: rightSide.id,
-        optionId: answer.options[0].id
+        optionId: answer.options[0].id,
       });
 
       await SelectedOptionsRepository.deleteBySideId(rightSide.id);

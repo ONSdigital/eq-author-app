@@ -5,12 +5,12 @@ describe("withQuestionnaireList", () => {
     it("should return loading if data still loading", () => {
       const result = mapResultsToProps({
         data: {
-          loading: true
-        }
+          loading: true,
+        },
       });
 
       expect(result).toEqual({
-        loading: true
+        loading: true,
       });
     });
 
@@ -18,13 +18,13 @@ describe("withQuestionnaireList", () => {
       const result = mapResultsToProps({
         data: {
           loading: false,
-          questionnaires: []
-        }
+          questionnaires: [],
+        },
       });
 
       expect(result).toEqual({
         loading: false,
-        questionnaires: []
+        questionnaires: [],
       });
     });
 
@@ -34,19 +34,19 @@ describe("withQuestionnaireList", () => {
           loading: false,
           questionnaires: [
             {
-              id: "1"
-            }
-          ]
-        }
+              id: "1",
+            },
+          ],
+        },
       });
 
       expect(result).toEqual({
         loading: false,
         questionnaires: [
           {
-            id: "1"
-          }
-        ]
+            id: "1",
+          },
+        ],
       });
     });
   });

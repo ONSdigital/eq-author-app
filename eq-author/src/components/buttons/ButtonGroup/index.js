@@ -35,7 +35,7 @@ const ButtonGroup = ({ children, ...otherProps }) => (
 );
 
 ButtonGroup.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
 };
 
 export default ButtonGroup;

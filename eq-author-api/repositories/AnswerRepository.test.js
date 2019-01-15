@@ -21,9 +21,9 @@ describe("Answer Repository", () => {
     const questionnaire = await buildTestQuestionnaire({
       sections: [
         {
-          pages: [{}]
-        }
-      ]
+          pages: [{}],
+        },
+      ],
     });
     page = questionnaire.sections[0].pages[0];
   });
@@ -34,14 +34,14 @@ describe("Answer Repository", () => {
       firstAnswer = await AnswerRepository.insert(
         {
           questionPageId: page.id,
-          type: answerTypes.TEXTFIELD
+          type: answerTypes.TEXTFIELD,
         },
         knex
       );
       secondAnswer = await AnswerRepository.insert(
         {
           questionPageId: page.id,
-          type: answerTypes.TEXTFIELD
+          type: answerTypes.TEXTFIELD,
         },
         knex
       );

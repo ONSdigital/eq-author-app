@@ -13,9 +13,9 @@ MultipleChoiceAnswerOptionsReplay.propTypes = {
   options: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string,
-      label: PropTypes.string
+      label: PropTypes.string,
     })
-  )
+  ),
 };
 
 export default MultipleChoiceAnswerOptionsReplay;

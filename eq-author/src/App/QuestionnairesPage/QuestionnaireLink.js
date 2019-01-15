@@ -38,12 +38,12 @@ const QuestionnaireLink = ({ questionnaire, disabled, ...otherProps }) => {
 };
 
 QuestionnaireLink.defaultProps = {
-  disabled: false
+  disabled: false,
 };
 
 QuestionnaireLink.propTypes = {
   questionnaire: CustomPropTypes.questionnaire,
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
 };
 
 export default QuestionnaireLink;

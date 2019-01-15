@@ -65,7 +65,7 @@ class ValidationView extends Component {
 ValidationView.propTypes = {
   children: PropTypes.node.isRequired,
   enabled: PropTypes.bool.isRequired,
-  onToggleChange: PropTypes.func.isRequired
+  onToggleChange: PropTypes.func.isRequired,
 };
 
 export default ValidationView;

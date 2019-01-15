@@ -11,10 +11,10 @@ export default {
           alias: "",
           displayName: "",
           pages: [{ id: "1", alias: "", __typename: "QuestionPage" }],
-          __typename: "Section"
-        }
+          __typename: "Section",
+        },
       ],
-      __typename: "Questionnaire"
-    }
-  }
+      __typename: "Questionnaire",
+    },
+  },
 };

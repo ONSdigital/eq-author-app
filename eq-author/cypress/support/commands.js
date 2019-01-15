@@ -7,7 +7,7 @@ Cypress.Commands.add("login", options => {
     user_id: "CypressUserId",
     name: get("displayName", options) || "Cypress",
     email: "cypresstest@ons.gov.uk",
-    picture: ""
+    picture: "",
   };
 
   const accessToken = createAccessToken(tokenPayload);
@@ -19,7 +19,7 @@ Cypress.Commands.add("login", options => {
       name: tokenPayload.name,
       displayName: tokenPayload.name,
       email: tokenPayload.email,
-      photoURL: tokenPayload.picture
+      photoURL: tokenPayload.picture,
     },
     options
   );
@@ -28,7 +28,7 @@ Cypress.Commands.add("login", options => {
     .then(store => {
       store.dispatch({
         type: "SIGN_IN_USER",
-        payload
+        payload,
       });
     });
 });
@@ -39,7 +39,7 @@ Cypress.Commands.add("logout", () => {
     .its("__store__")
     .then(store => {
       store.dispatch({
-        type: "SIGN_OUT_USER"
+        type: "SIGN_OUT_USER",
       });
     });
 });
@@ -51,7 +51,7 @@ Cypress.Commands.add("dismissAllToast", () => {
       cy.get("[data-test='toast']").each(elem => {
         store.dispatch({
           type: "TOAST_DISMISS",
-          payload: { id: elem.attr("id") }
+          payload: { id: elem.attr("id") },
         });
       });
     });
@@ -79,7 +79,7 @@ Cypress.Commands.add("visitStubbed", function(url, operations = {}) {
   cy.visit(url, {
     onBeforeLoad: win => {
       cy.stub(win, "fetch", serverStub).withArgs("/graphql");
-    }
+    },
   });
 
   function serverStub(_, req) {
@@ -106,7 +106,7 @@ function responseStub(result) {
     text() {
       return Promise.resolve(JSON.stringify(result));
     },
-    ok: true
+    ok: true,
   };
 }
 //

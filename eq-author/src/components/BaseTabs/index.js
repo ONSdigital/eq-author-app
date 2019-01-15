@@ -14,7 +14,7 @@ const renderButton = ({ onChange, activeId, buttonRender }, item) => {
         }
         onChange(id);
       },
-      key: id
+      key: id,
     },
     { ...item, isSelected }
   );
@@ -26,7 +26,7 @@ const BaseTabs = ({
   buttonRender,
   onChange,
   activeId,
-  tabs
+  tabs,
 }) => {
   const activeTab = tabs.find(({ id }) => id === activeId) || tabs[0];
   const { render: renderTab, id: activeTabId } = activeTab;
@@ -47,7 +47,7 @@ const BaseTabs = ({
 
 const StringOrNumber = PropTypes.oneOfType([
   PropTypes.string,
-  PropTypes.number
+  PropTypes.number,
 ]);
 const Component = PropTypes.oneOfType([PropTypes.node, PropTypes.func]);
 
@@ -61,13 +61,13 @@ BaseTabs.propTypes = {
     PropTypes.shape({
       id: StringOrNumber.isRequired,
       title: PropTypes.string.isRequired,
-      render: PropTypes.func.isRequired
+      render: PropTypes.func.isRequired,
     })
-  )
+  ),
 };
 BaseTabs.defaultProps = {
   TabList: "ul",
-  ContentWrapper: "div"
+  ContentWrapper: "div",
 };
 
 export default BaseTabs;

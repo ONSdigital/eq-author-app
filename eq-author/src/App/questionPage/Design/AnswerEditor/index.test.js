@@ -3,7 +3,7 @@ import { shallow } from "enzyme";
 import { map } from "lodash";
 import MultipleChoiceAnswer from "App/questionPage/Design/answers/MultipleChoiceAnswer";
 import AnswerEditor, {
-  AnswerDeleteButton
+  AnswerDeleteButton,
 } from "App/questionPage/Design/AnswerEditor";
 import Date from "App/questionPage/Design/answers/Date";
 import {
@@ -15,7 +15,7 @@ import {
   RADIO,
   TIME,
   DATE_RANGE,
-  DATE
+  DATE,
 } from "constants/answer-types";
 
 describe("Answer Editor", () => {
@@ -35,14 +35,14 @@ describe("Answer Editor", () => {
       onAddOption: jest.fn(),
       onUpdateOption: jest.fn(),
       onDeleteOption: jest.fn(),
-      onAddExclusive: jest.fn()
+      onAddExclusive: jest.fn(),
     };
 
     mockAnswer = {
       id: "1",
       title: "",
       description: "",
-      type: TEXTFIELD
+      type: TEXTFIELD,
     };
 
     mockMultipleChoiceAnswer = {
@@ -52,16 +52,16 @@ describe("Answer Editor", () => {
         {
           id: "1",
           label: "",
-          description: ""
-        }
-      ]
+          description: "",
+        },
+      ],
     };
   });
 
   it("should render TextField", () => {
     const wrapper = createWrapper({
       answer: mockAnswer,
-      ...mockMutations
+      ...mockMutations,
     });
     expect(wrapper).toMatchSnapshot();
   });
@@ -69,7 +69,7 @@ describe("Answer Editor", () => {
   it("should render Number", () => {
     const wrapper = createWrapper({
       answer: { ...mockAnswer, type: NUMBER },
-      ...mockMutations
+      ...mockMutations,
     });
     expect(wrapper).toMatchSnapshot();
   });
@@ -77,7 +77,7 @@ describe("Answer Editor", () => {
   it("should render Currency", () => {
     const wrapper = createWrapper({
       answer: { ...mockAnswer, type: CURRENCY },
-      ...mockMutations
+      ...mockMutations,
     });
     expect(wrapper).toMatchSnapshot();
   });
@@ -85,7 +85,7 @@ describe("Answer Editor", () => {
   it("should render TextArea", () => {
     const wrapper = createWrapper({
       answer: { ...mockAnswer, type: TEXTAREA },
-      ...mockMutations
+      ...mockMutations,
     });
     expect(wrapper).toMatchSnapshot();
   });
@@ -93,7 +93,7 @@ describe("Answer Editor", () => {
   it("should render Checkbox", () => {
     const wrapper = createWrapper({
       answer: mockMultipleChoiceAnswer,
-      ...mockMutations
+      ...mockMutations,
     });
     expect(wrapper).toMatchSnapshot();
   });
@@ -102,9 +102,9 @@ describe("Answer Editor", () => {
     const wrapper = createWrapper({
       answer: {
         ...mockMultipleChoiceAnswer,
-        type: RADIO
+        type: RADIO,
       },
-      ...mockMutations
+      ...mockMutations,
     });
     expect(wrapper).toMatchSnapshot();
   });
@@ -113,9 +113,9 @@ describe("Answer Editor", () => {
     const wrapper = createWrapper({
       answer: {
         ...mockAnswer,
-        type: DATE_RANGE
+        type: DATE_RANGE,
       },
-      ...mockMutations
+      ...mockMutations,
     });
     expect(wrapper).toMatchSnapshot();
   });
@@ -124,9 +124,9 @@ describe("Answer Editor", () => {
     const wrapper = createWrapper({
       answer: {
         ...mockAnswer,
-        type: DATE
+        type: DATE,
       },
-      ...mockMutations
+      ...mockMutations,
     });
     expect(wrapper).toMatchSnapshot();
   });
@@ -134,13 +134,13 @@ describe("Answer Editor", () => {
   it("should throw for unknown answer types", () => {
     const unknownAnswer = {
       ...mockAnswer,
-      type: TIME
+      type: TIME,
     };
 
     expect(() => {
       createWrapper({
         answer: unknownAnswer,
-        ...mockMutations
+        ...mockMutations,
       });
     }).toThrow(TypeError);
   });
@@ -148,7 +148,7 @@ describe("Answer Editor", () => {
   it("should call handler when answer deleted", () => {
     const wrapper = createWrapper({
       answer: mockAnswer,
-      ...mockMutations
+      ...mockMutations,
     });
 
     wrapper
@@ -161,7 +161,7 @@ describe("Answer Editor", () => {
   it("should add an option to answer via `id`", () => {
     const wrapper = createWrapper({
       answer: mockMultipleChoiceAnswer,
-      ...mockMutations
+      ...mockMutations,
     });
     wrapper.find(MultipleChoiceAnswer).simulate("addOption");
     expect(mockMutations.onAddOption).toHaveBeenCalled();
@@ -175,9 +175,9 @@ describe("Answer Editor", () => {
         answer: {
           ...mockAnswer,
           type: DATE,
-          properties: { format: format }
+          properties: { format: format },
         },
-        ...mockMutations
+        ...mockMutations,
       });
       expect(wrapper.find(Date)).toMatchSnapshot();
     });

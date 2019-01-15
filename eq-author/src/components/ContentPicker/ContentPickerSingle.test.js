@@ -2,7 +2,7 @@ import React from "react";
 import { shallow } from "enzyme";
 
 import ContentPickerSingle, {
-  PickerWrapper
+  PickerWrapper,
 } from "components/ContentPicker/ContentPickerSingle";
 
 describe("Content Picker Single", () => {
@@ -14,14 +14,14 @@ describe("Content Picker Single", () => {
       data: [
         { displayName: "Option 1", id: "1" },
         { displayName: "Option Label 2", id: "2" },
-        { displayName: "Untitled Answer", id: "3" }
+        { displayName: "Untitled Answer", id: "3" },
       ],
       selectedOption: "1",
       title: "Title",
       selected: false,
       open: false,
       hidden: false,
-      disabled: false
+      disabled: false,
     };
   });
 
@@ -49,14 +49,14 @@ describe("Content Picker Single", () => {
       .simulate("click");
     expect(props.onOptionClick).toHaveBeenCalledWith({
       displayName: "Option Label 2",
-      id: "2"
+      id: "2",
     });
   });
 
   it("should render the option has disabled when there should be children", () => {
     const data = [
       { displayName: "Option 1", id: "1", children: ["someChild"] },
-      { displayName: "Option Label 2", id: "2" }
+      { displayName: "Option Label 2", id: "2" },
     ];
     const wrapper = shallow(
       <ContentPickerSingle {...props} data={data} childKey="children" />

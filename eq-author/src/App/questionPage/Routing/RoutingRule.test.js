@@ -15,8 +15,8 @@ describe("components/RoutingRule", () => {
         id: "1",
         conditions: [
           { id: "2", answer: { id: "1" } },
-          { id: "3", answer: { id: "2" } }
-        ]
+          { id: "3", answer: { id: "2" } },
+        ],
       },
       onAddRule: jest.fn(),
       onDeleteRule: jest.fn(),
@@ -33,9 +33,9 @@ describe("components/RoutingRule", () => {
         params: {
           questionnaireId: "1",
           sectionId: "2",
-          pageId: "3"
-        }
-      }
+          pageId: "3",
+        },
+      },
     };
 
     wrapper = shallow(<RoutingRule {...props} />);
@@ -65,7 +65,7 @@ describe("components/RoutingRule", () => {
 
     expect(props.onThenChange).toHaveBeenLastCalledWith({
       goto: data,
-      id: "1"
+      id: "1",
     });
   });
 
@@ -73,12 +73,12 @@ describe("components/RoutingRule", () => {
     props.rule.conditions = [
       {
         id: "1",
-        answer: { type: "Radio", id: "1" }
+        answer: { type: "Radio", id: "1" },
       },
       {
         id: "2",
-        answer: { type: "Radio", id: "1" }
-      }
+        answer: { type: "Radio", id: "1" },
+      },
     ];
 
     wrapper = shallow(<RoutingRule {...props} />);

@@ -17,7 +17,7 @@ describe("PanelTitle", () => {
       onClick: handleClick,
       controls: "panel-body-1",
       id: "panel-title-1",
-      open: false
+      open: false,
     };
     wrapper = createWrapper(props);
   });
@@ -28,7 +28,7 @@ describe("PanelTitle", () => {
 
   it("should render when open", () => {
     wrapper.setProps({
-      open: true
+      open: true,
     });
     expect(wrapper).toMatchSnapshot();
   });

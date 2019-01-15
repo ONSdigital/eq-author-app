@@ -15,7 +15,7 @@ const DurationValidation = ({
   validation: { duration },
   displayName,
   onChange,
-  onUpdate
+  onUpdate,
 }) => (
   <div>
     <Grid>
@@ -42,19 +42,19 @@ DurationValidation.propTypes = {
     enabled: PropTypes.bool,
     duration: PropTypes.shape({
       unit: PropTypes.string,
-      value: PropTypes.number
-    })
+      value: PropTypes.number,
+    }),
   }),
   answer: PropTypes.shape({
     id: PropTypes.string.required,
     properties: PropTypes.shape({
-      format: PropTypes.string
-    })
+      format: PropTypes.string,
+    }),
   }),
   onToggleValidationRule: PropTypes.func,
   onChange: PropTypes.func,
   onUpdate: PropTypes.func,
-  testId: PropTypes.string
+  testId: PropTypes.string,
 };
 
 export default DurationValidation;

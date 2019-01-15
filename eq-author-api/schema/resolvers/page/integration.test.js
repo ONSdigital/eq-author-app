@@ -24,31 +24,31 @@ describe("answer", () => {
           {
             pages: [
               {
-                answers: [{ type: answerTypes.RADIO, label: "Radio answer" }]
+                answers: [{ type: answerTypes.RADIO, label: "Radio answer" }],
               },
               {
-                answers: [{ type: answerTypes.DATE, label: "Previous date" }]
-              }
-            ]
+                answers: [{ type: answerTypes.DATE, label: "Previous date" }],
+              },
+            ],
           },
           {
             pages: [
               {
-                answers: [{ type: answerTypes.NUMBER, label: "Number answer" }]
+                answers: [{ type: answerTypes.NUMBER, label: "Number answer" }],
               },
               {
                 answers: [
-                  { type: answerTypes.CURRENCY, label: "Currency answer" }
-                ]
+                  { type: answerTypes.CURRENCY, label: "Currency answer" },
+                ],
               },
               {
                 answers: [
-                  { type: answerTypes.NUMBER, label: "Future number Answer" }
-                ]
-              }
-            ]
-          }
-        ]
+                  { type: answerTypes.NUMBER, label: "Future number Answer" },
+                ],
+              },
+            ],
+          },
+        ],
       });
       const page = questionnaire.sections[1].pages[1];
 
@@ -67,7 +67,7 @@ describe("answer", () => {
       const readResult = await executeQuery(
         createAnswerMutation,
         {
-          id: page.id
+          id: page.id,
         },
         ctx
       );
@@ -78,7 +78,7 @@ describe("answer", () => {
       expect(availableRoutingAnswers).toMatchObject([
         expect.objectContaining({ label: "Radio answer" }),
         expect.objectContaining({ label: "Number answer" }),
-        expect.objectContaining({ label: "Currency answer" })
+        expect.objectContaining({ label: "Currency answer" }),
       ]);
     });
   });

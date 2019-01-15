@@ -22,7 +22,7 @@ describe("components/QuestionnairesPage", () => {
   it("should render loading message when loading", () => {
     const instance = createWrapper().instance();
     const renderResults = instance.renderResults({
-      loading: true
+      loading: true,
     });
 
     expect(renderResults).toMatchSnapshot();
@@ -36,7 +36,7 @@ describe("components/QuestionnairesPage", () => {
   it("should render error message when there is an error", () => {
     const instance = createWrapper().instance();
     const renderResults = instance.renderResults({
-      error: true
+      error: true,
     });
 
     expect(renderResults).toMatchSnapshot();
@@ -52,16 +52,16 @@ describe("components/QuestionnairesPage", () => {
         sections: [
           {
             id: "5",
-            pages: [{ id: "10" }]
-          }
-        ]
-      }
+            pages: [{ id: "10" }],
+          },
+        ],
+      },
     ];
 
     const wrapper = createWrapper({ questionnaires });
     const instance = wrapper.instance();
     const renderResults = instance.renderResults({
-      data: { questionnaires }
+      data: { questionnaires },
     });
 
     expect(wrapper).toMatchSnapshot();

@@ -31,7 +31,7 @@ const Label = ({ description, children }) => (
 );
 Label.propTypes = {
   description: PropTypes.string,
-  children: PropTypes.node
+  children: PropTypes.node,
 };
 
 export default Label;

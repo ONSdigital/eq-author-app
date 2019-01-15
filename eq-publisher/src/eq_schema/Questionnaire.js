@@ -7,16 +7,16 @@ const { last } = require("lodash");
 const DEFAULT_METADATA = [
   {
     name: "user_id",
-    validator: "string"
+    validator: "string",
   },
   {
     name: "period_id",
-    validator: "string"
+    validator: "string",
   },
   {
     name: "ru_name",
-    validator: "string"
-  }
+    validator: "string",
+  },
 ];
 
 const DEFAULT_METADATA_NAMES = DEFAULT_METADATA.map(({ name }) => name);
@@ -37,13 +37,13 @@ class Questionnaire {
     this.theme = questionnaireJson.theme;
     this.legal_basis = questionnaireJson.legalBasis;
     this.navigation = {
-      visible: questionnaireJson.navigation
+      visible: questionnaireJson.navigation,
     };
     this.metadata = this.buildMetadata(questionnaireJson.metadata);
 
     this.view_submitted_response = {
       enabled: true,
-      duration: 900
+      duration: 900,
     };
 
     this.buildSummaryOrConfirmation(questionnaireJson.summary);
@@ -52,7 +52,7 @@ class Questionnaire {
   createContext(questionnaireJson) {
     return {
       routingGotos: [],
-      questionnaireJson
+      questionnaireJson,
     };
   }
 
@@ -70,7 +70,7 @@ class Questionnaire {
       .filter(({ key }) => !DEFAULT_METADATA_NAMES.includes(key))
       .map(({ key, type }) => ({
         name: key,
-        validator: type === "Date" ? "date" : "string"
+        validator: type === "Date" ? "date" : "string",
       }));
 
     return [...DEFAULT_METADATA, ...userMetadata];

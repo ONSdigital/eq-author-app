@@ -47,7 +47,7 @@ describe("convert", () => {
       const htmlToEntity = (nodeName, node, createEntity) => {
         if (nodeName === "span") {
           return createEntity("TEST_ENTITY", "IMMUTABLE", {
-            text: node.innerText
+            text: node.innerText,
           });
         }
       };

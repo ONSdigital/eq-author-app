@@ -10,24 +10,24 @@ describe("withDuplicatePage", () => {
   beforeEach(() => {
     match = {
       params: {
-        questionnaireId: "1"
-      }
+        questionnaireId: "1",
+      },
     };
 
     history = {
       replace: jest.fn(),
-      push: jest.fn()
+      push: jest.fn(),
     };
 
     ownProps = {
       history,
-      match
+      match,
     };
 
     args = {
       sectionId: "1",
       pageId: "1",
-      position: 0
+      position: 0,
     };
 
     result = {
@@ -38,10 +38,10 @@ describe("withDuplicatePage", () => {
           __typename: "QuestionPage",
           section: {
             id: "1",
-            __typename: "Section"
-          }
-        }
-      }
+            __typename: "Section",
+          },
+        },
+      },
     };
   });
 
@@ -59,12 +59,12 @@ describe("withDuplicatePage", () => {
       it("provides the necessary arguments to mutate", () => {
         const input = {
           id: args.pageId,
-          position: args.position
+          position: args.position,
         };
 
         const expected = {
           variables: { input },
-          update: expect.any(Function)
+          update: expect.any(Function),
         };
 
         return props.onDuplicatePage(args).then(() => {
@@ -84,7 +84,7 @@ describe("withDuplicatePage", () => {
         const expected = buildPagePath({
           questionnaireId: match.params.questionnaireId,
           sectionId: args.sectionId,
-          pageId: copiedPageId
+          pageId: copiedPageId,
         });
 
         return props.onDuplicatePage(args).then(() => {
@@ -102,12 +102,12 @@ describe("withDuplicatePage", () => {
 
       fromSection = {
         id: args.sectionId,
-        pages: [page, { id: "3", position: 1 }]
+        pages: [page, { id: "3", position: 1 }],
       };
 
       proxy = {
         writeFragment: jest.fn(),
-        readFragment: jest.fn()
+        readFragment: jest.fn(),
       };
 
       proxy.readFragment.mockReturnValueOnce(fromSection);
@@ -119,18 +119,18 @@ describe("withDuplicatePage", () => {
 
       expect(proxy.readFragment).toHaveBeenCalledWith({
         id: `Section${args.sectionId}`,
-        fragment
+        fragment,
       });
 
       expect(proxy.writeFragment).toHaveBeenCalledWith({
         id: `Section${args.sectionId}`,
         fragment,
-        data: fromSection
+        data: fromSection,
       });
 
       expect(fromSection.pages[args.position]).toMatchObject({
         id: nextId(args.pageId),
-        position: args.position
+        position: args.position,
       });
     });
 
@@ -141,9 +141,9 @@ describe("withDuplicatePage", () => {
           pages: [
             { id: "A", position: 0 },
             { id: "B", position: 1 },
-            { id: "C", position: 2 }
-          ]
-        }
+            { id: "C", position: 2 },
+          ],
+        },
       };
 
       proxy = {
@@ -152,12 +152,12 @@ describe("withDuplicatePage", () => {
         }),
         readFragment: jest.fn(({ id }) => {
           return sections[id];
-        })
+        }),
       };
 
       let updater = createUpdater({
         sectionId: "1",
-        position: 2
+        position: 2,
       });
 
       // order: A, C, B
@@ -165,16 +165,16 @@ describe("withDuplicatePage", () => {
         data: {
           duplicatePage: {
             id: "D",
-            position: 2
-          }
-        }
+            position: 2,
+          },
+        },
       });
 
       expect(sections.Section1.pages).toEqual([
         { id: "A", position: 0 },
         { id: "B", position: 1 },
         { id: "D", position: 2 },
-        { id: "C", position: 3 }
+        { id: "C", position: 3 },
       ]);
     });
   });

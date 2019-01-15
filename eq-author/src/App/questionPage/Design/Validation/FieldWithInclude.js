@@ -32,7 +32,7 @@ FieldWithInclude.propTypes = {
   children: PropTypes.node.isRequired,
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
 };
 
 export default FieldWithInclude;

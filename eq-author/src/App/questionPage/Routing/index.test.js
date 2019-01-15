@@ -16,23 +16,23 @@ describe("QuestionnaireRoutingPage", () => {
     childContextTypes = { router: PropTypes.object };
 
     match = {
-      params: { questionnaireId: "1", sectionId: "2", pageId: "3" }
+      params: { questionnaireId: "1", sectionId: "2", pageId: "3" },
     };
 
     store = {
       getState: jest.fn(() => ({
         toasts: {},
         saving: {
-          apiDownError: false
-        }
+          apiDownError: false,
+        },
       })),
       subscribe: jest.fn(),
-      dispatch: jest.fn()
+      dispatch: jest.fn(),
     };
 
     context = createRouterContext({
       location: { pathname: buildSectionPath(match.params) },
-      match
+      match,
     });
   });
 
@@ -49,7 +49,7 @@ describe("QuestionnaireRoutingPage", () => {
       const mock = {
         request: {
           query: ROUTING_QUERY,
-          variables: match.params
+          variables: match.params,
         },
         result: {
           data: {
@@ -57,23 +57,23 @@ describe("QuestionnaireRoutingPage", () => {
               __typename: "Questionnaire",
               id: "1",
               title: "foo",
-              sections: []
+              sections: [],
             },
             currentPage: {
               __typename: "QuestionPage",
               id: "3",
               displayName: "hello world",
               routingRuleSet: null,
-              answers: []
+              answers: [],
             },
             availableRoutingDestinations: {
               __typename: "AvailableRoutingDestinations",
               logicalDestinations: [],
               questionPages: [],
-              sections: []
-            }
-          }
-        }
+              sections: [],
+            },
+          },
+        },
       };
 
       const wrapper = render([mock]);
@@ -85,7 +85,7 @@ describe("QuestionnaireRoutingPage", () => {
       const mock = {
         request: {
           query: ROUTING_QUERY,
-          variables: match.params
+          variables: match.params,
         },
         result: {
           data: {
@@ -93,23 +93,23 @@ describe("QuestionnaireRoutingPage", () => {
               __typename: "Questionnaire",
               id: "1",
               title: "foo",
-              sections: []
+              sections: [],
             },
             currentPage: {
               __typename: "QuestionPage",
               id: "3",
               displayName: "hello world",
               routingRuleSet: null,
-              answers: []
+              answers: [],
             },
             availableRoutingDestinations: {
               __typename: "AvailableRoutingDestinations",
               logicalDestinations: [],
               questionPages: [],
-              sections: []
-            }
-          }
-        }
+              sections: [],
+            },
+          },
+        },
       };
 
       const wrapper = render([mock, mock]);
@@ -127,9 +127,9 @@ describe("QuestionnaireRoutingPage", () => {
       const mock = {
         request: {
           query: ROUTING_QUERY,
-          variables: match.params
+          variables: match.params,
         },
-        error: new Error("something went wrong")
+        error: new Error("something went wrong"),
       };
 
       const wrapper = render([mock]);
@@ -150,8 +150,8 @@ describe("QuestionnaireRoutingPage", () => {
       params: {
         questionnaireId: "1",
         sectionId: "2",
-        tab: "routing"
-      }
+        tab: "routing",
+      },
     };
     const wrapper = mount(
       <TestProvider reduxProps={{ store }} apolloProps={{ mocks: [] }}>
@@ -160,7 +160,7 @@ describe("QuestionnaireRoutingPage", () => {
       { context, childContextTypes }
     );
     expect(wrapper.find(Redirect).props()).toMatchObject({
-      to: "/questionnaire/1/2/design"
+      to: "/questionnaire/1/2/design",
     });
   });
 });

@@ -9,7 +9,7 @@ class ValidationError extends Error {
     return {
       message: this.message,
       validatorInput: this.input,
-      validatorResult: this.result
+      validatorResult: this.result,
     };
   }
 

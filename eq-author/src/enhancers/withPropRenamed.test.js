@@ -10,7 +10,7 @@ describe("withPropRemapped", () => {
     const EnhancedComponent = withPropRenamed("a", "b")(Component);
     const wrapper = shallow(<EnhancedComponent a={1} />);
     expect(wrapper.props()).toMatchObject({
-      b: 1
+      b: 1,
     });
   });
 });

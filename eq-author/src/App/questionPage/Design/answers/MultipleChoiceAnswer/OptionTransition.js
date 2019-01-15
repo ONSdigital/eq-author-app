@@ -11,7 +11,7 @@ const onExit = node => {
 
 const OptionTransition = styled(CSSTransition).attrs({
   classNames: "option",
-  onExit: () => onExit
+  onExit: () => onExit,
 })`
   position: relative;
 
@@ -45,12 +45,12 @@ const OptionTransition = styled(CSSTransition).attrs({
 `;
 
 OptionTransition.defaultProps = {
-  timeout: 200
+  timeout: 200,
 };
 
 OptionTransition.propTypes = {
   timeout: PropTypes.number,
-  children: PropTypes.element
+  children: PropTypes.element,
 };
 
 export default OptionTransition;

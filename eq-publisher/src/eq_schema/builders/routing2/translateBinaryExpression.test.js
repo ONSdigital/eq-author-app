@@ -7,13 +7,13 @@ describe("Should build a runner representation of a binary expression", () => {
     const expression = {
       left: {
         id: "1",
-        type: "Text"
+        type: "Text",
       },
       condition: "Equal",
       right: {
         number: 5,
-        __typeName: "CustomValue2"
-      }
+        __typeName: "CustomValue2",
+      },
     };
 
     expect(() => translateBinaryExpression(expression)).toThrow(
@@ -28,23 +28,23 @@ describe("Should build a runner representation of a binary expression", () => {
         options: [
           {
             id: "1",
-            value: "yes"
+            value: "yes",
           },
           {
             id: "2",
-            value: "no"
+            value: "no",
           },
           {
             id: "3",
-            value: "maybe"
-          }
-        ]
+            value: "maybe",
+          },
+        ],
       },
       condition,
       right: {
         options: optionsArray,
-        __typeName: "SelectedOptions2"
-      }
+        __typeName: "SelectedOptions2",
+      },
     });
 
     it("With a radio answer and single selected option", () => {
@@ -59,8 +59,8 @@ describe("Should build a runner representation of a binary expression", () => {
         {
           id: "answer1",
           condition: "equals",
-          value: "no"
-        }
+          value: "no",
+        },
       ]);
     });
 
@@ -70,7 +70,7 @@ describe("Should build a runner representation of a binary expression", () => {
       const runnerExpression = translateBinaryExpression(expression);
 
       expect(runnerExpression).toMatchObject([
-        { condition: "not set", id: "answer1" }
+        { condition: "not set", id: "answer1" },
       ]);
     });
 
@@ -86,13 +86,13 @@ describe("Should build a runner representation of a binary expression", () => {
         {
           id: "answer1",
           condition: "equals",
-          value: "no"
+          value: "no",
         },
         {
           id: "answer1",
           condition: "equals",
-          value: "maybe"
-        }
+          value: "maybe",
+        },
       ]);
     });
   });
@@ -102,21 +102,21 @@ describe("Should build a runner representation of a binary expression", () => {
       const expression = {
         left: {
           id: "1",
-          type: "Number"
+          type: "Number",
         },
         condition: "Equal",
         right: {
           number: 5,
-          __typeName: "CustomValue2"
-        }
+          __typeName: "CustomValue2",
+        },
       };
       const runnerExpression = translateBinaryExpression(expression);
       expect(runnerExpression).toMatchObject([
         {
           id: "answer1",
           condition: "equals",
-          value: 5
-        }
+          value: 5,
+        },
       ]);
     });
   });

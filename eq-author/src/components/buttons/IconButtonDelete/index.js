@@ -9,7 +9,7 @@ import Tooltip from "components/Forms/Tooltip";
 
 const DeleteButton = styled(Button).attrs({
   variant: "tertiary",
-  small: true
+  small: true,
 })`
   .lid {
     transform-origin: 50% 50%;
@@ -43,17 +43,17 @@ const IconButtonDelete = ({ hideText, iconText = "Delete", ...otherProps }) => {
   );
 };
 DeleteTooltip.propTypes = {
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
 };
 
 IconButtonDelete.propTypes = {
   hideText: PropTypes.bool,
-  iconText: PropTypes.string
+  iconText: PropTypes.string,
 };
 
 IconButtonDelete.defaultProps = {
   hideText: false,
-  iconText: "Delete"
+  iconText: "Delete",
 };
 
 export default IconButtonDelete;

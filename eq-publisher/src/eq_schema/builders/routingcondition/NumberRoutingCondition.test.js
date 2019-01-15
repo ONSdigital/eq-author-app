@@ -3,12 +3,12 @@ const NumberRoutingCondition = require("./NumberRoutingCondition");
 describe("NumberRoutingCondtion", () => {
   const condition = {
     answer: {
-      id: "1"
+      id: "1",
     },
     comparator: "LessThan",
     routingValue: {
-      numberValue: 10
-    }
+      numberValue: 10,
+    },
   };
 
   it("should create a number condition", () => {
@@ -17,7 +17,7 @@ describe("NumberRoutingCondtion", () => {
     ).toEqual({
       id: "answer1",
       condition: "less than",
-      value: 10
+      value: 10,
     });
   });
 });

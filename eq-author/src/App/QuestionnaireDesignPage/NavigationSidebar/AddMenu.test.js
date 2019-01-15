@@ -8,13 +8,13 @@ describe("AddMenu", () => {
     onAddMenuToggle: jest.fn(),
     onAddPage: jest.fn(),
     onAddSection: jest.fn(),
-    onAddQuestionConfirmation: jest.fn()
+    onAddQuestionConfirmation: jest.fn(),
   };
 
   const createWrapper = props => {
     const defaultProps = {
       addMenuOpen: true,
-      canAddQuestionConfirmation: true
+      canAddQuestionConfirmation: true,
     };
     return shallow(<AddMenu {...defaultProps} {...mockHandlers} {...props} />);
   };
@@ -48,7 +48,7 @@ describe("AddMenu", () => {
     expect(
       wrapper.find('[data-test="btn-add-question-confirmation"]').props()
     ).toMatchObject({
-      disabled: true
+      disabled: true,
     });
   });
 });

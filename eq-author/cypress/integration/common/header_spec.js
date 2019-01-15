@@ -14,7 +14,7 @@ describe("header", () => {
 
     beforeEach(() => {
       cy.login({
-        displayName
+        displayName,
       });
     });
 

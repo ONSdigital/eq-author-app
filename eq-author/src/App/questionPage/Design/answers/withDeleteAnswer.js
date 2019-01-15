@@ -12,14 +12,14 @@ export const deleteUpdater = (pageId, answerId) => proxy => {
   proxy.writeFragment({
     id,
     fragment,
-    data: page
+    data: page,
   });
 };
 
 export const displayToast = (ownProps, pageId, answerId) => {
   ownProps.raiseToast(`Answer${answerId}`, "Answer deleted", "undeleteAnswer", {
     pageId,
-    answerId
+    answerId,
   });
 };
 
@@ -30,15 +30,15 @@ export const mapMutateToProps = ({ ownProps, mutate }) => ({
 
     const mutation = mutate({
       variables: { input: answer },
-      update
+      update,
     });
 
     return mutation
       .then(() => displayToast(ownProps, pageId, answerId))
       .then(() => mutation);
-  }
+  },
 });
 
 export default graphql(deleteAnswerMutation, {
-  props: mapMutateToProps
+  props: mapMutateToProps,
 });

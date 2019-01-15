@@ -48,6 +48,6 @@ module.exports = knex => {
     update,
     create,
     delete: remove,
-    restore
+    restore,
   };
 };

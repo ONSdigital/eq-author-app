@@ -30,10 +30,10 @@ export const UPDATE_VALIDATION_RULE = gql`
 export const mapMutateToProps = ({ mutate }) => ({
   onUpdateAnswerValidation: input =>
     mutate({
-      variables: { input }
-    })
+      variables: { input },
+    }),
 });
 
 export default graphql(UPDATE_VALIDATION_RULE, {
-  props: mapMutateToProps
+  props: mapMutateToProps,
 });

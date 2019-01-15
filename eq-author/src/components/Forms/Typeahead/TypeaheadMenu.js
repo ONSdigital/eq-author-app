@@ -71,7 +71,7 @@ const TypeaheadMenu = ({
             key={item.value}
             {...getItemProps({
               index,
-              item
+              item,
             })}
           >
             <MenuItemText
@@ -95,7 +95,7 @@ TypeaheadMenu.propTypes = {
   inputValue: PropTypes.string,
   items: PropTypes.arrayOf(
     PropTypes.shape({ value: PropTypes.string.isRequired })
-  )
+  ),
 };
 
 export default TypeaheadMenu;

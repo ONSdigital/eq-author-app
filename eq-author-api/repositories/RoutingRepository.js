@@ -8,7 +8,7 @@ const {
   checkRoutingDestinations,
   createRoutingRuleSetStrategy,
   createRoutingRuleStrategy,
-  createRoutingConditionStrategy
+  createRoutingConditionStrategy,
 } = require("./strategies/routingStrategy");
 
 module.exports = knex => {
@@ -20,18 +20,18 @@ module.exports = knex => {
   const getRoutingDestinations = async pageId => {
     const logicalDestinations = [
       {
-        logicalDestination: "NextPage"
+        logicalDestination: "NextPage",
       },
       {
-        logicalDestination: "EndOfQuestionnaire"
-      }
+        logicalDestination: "EndOfQuestionnaire",
+      },
     ];
     const absoluteDestinations = await knex.transaction(trx =>
       getAvailableRoutingDestinations(trx, pageId)
     );
     return {
       logicalDestinations,
-      ...absoluteDestinations
+      ...absoluteDestinations,
     };
   };
 
@@ -96,7 +96,7 @@ module.exports = knex => {
 
   const deleteRoutingRuleSet = ({ id }) =>
     Routing.updateRoutingRuleSet(id, {
-      isDeleted: true
+      isDeleted: true,
     }).then(head);
 
   async function createRoutingRule(createRoutingRuleInput) {
@@ -116,14 +116,14 @@ module.exports = knex => {
       toggleConditionOptionStrategy(trx, {
         conditionId,
         optionId,
-        checked
+        checked,
       })
     );
 
   const createConditionValue = async ({ conditionId }) =>
     Routing.createRoutingConditionValue({
       conditionId,
-      customNumber: null
+      customNumber: null,
     }).then(head);
 
   const updateConditionValue = async ({ id, customNumber }) =>
@@ -135,7 +135,7 @@ module.exports = knex => {
     const updatedFields = {
       logicalDestination: get(logicalDestination, "destinationType", null),
       pageId: null,
-      sectionId: null
+      sectionId: null,
     };
 
     if (!isNil(absoluteDestination)) {
@@ -190,14 +190,14 @@ module.exports = knex => {
     id,
     questionPageId,
     answerId,
-    comparator
+    comparator,
   }) {
     return knex.transaction(trx =>
       updateRoutingConditionStrategy(trx, {
         id,
         questionPageId,
         answerId,
-        comparator
+        comparator,
       })
     );
   }
@@ -258,6 +258,6 @@ module.exports = knex => {
     getRoutingDestinations,
     deleteRoutingRuleSet,
     getRoutingDestination,
-    getAnswerTypeByConditionId
+    getAnswerTypeByConditionId,
   };
 };

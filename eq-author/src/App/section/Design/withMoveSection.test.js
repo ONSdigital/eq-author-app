@@ -7,28 +7,28 @@ describe("withMoveSection", () => {
   beforeEach(() => {
     match = {
       params: {
-        questionnaireId: "1"
-      }
+        questionnaireId: "1",
+      },
     };
 
     history = {
-      replace: jest.fn()
+      replace: jest.fn(),
     };
 
     ownProps = {
       history,
-      match
+      match,
     };
 
     args = {
       from: {
         id: "1",
-        position: 0
+        position: 0,
       },
       to: {
         id: "1",
-        position: 1
-      }
+        position: 1,
+      },
     };
 
     result = {
@@ -36,9 +36,9 @@ describe("withMoveSection", () => {
         moveSection: {
           id: "1",
           position: 1,
-          __typename: "Section"
-        }
-      }
+          __typename: "Section",
+        },
+      },
     };
   });
 
@@ -58,17 +58,17 @@ describe("withMoveSection", () => {
           variables: {
             input: {
               ...args.to,
-              questionnaireId: match.params.questionnaireId
-            }
+              questionnaireId: match.params.questionnaireId,
+            },
           },
           optimisticResponse: {
             moveSection: {
               ...args.to,
               questionnaireId: match.params.questionnaireId,
-              __typename: "Section"
-            }
+              __typename: "Section",
+            },
           },
-          update: expect.any(Function)
+          update: expect.any(Function),
         };
 
         return props.onMoveSection(args).then(() => {
@@ -91,17 +91,17 @@ describe("withMoveSection", () => {
 
       fromQuestionnaire = {
         id: questionnaireId,
-        sections: [section, { id: "2", position: 1 }]
+        sections: [section, { id: "2", position: 1 }],
       };
 
       toQuestionnaire = {
         id: questionnaireId,
-        sections: [{ id: "2", position: 0 }, { id: "1", position: 1 }]
+        sections: [{ id: "2", position: 0 }, { id: "1", position: 1 }],
       };
 
       proxy = {
         writeFragment: jest.fn(),
-        readFragment: jest.fn()
+        readFragment: jest.fn(),
       };
 
       proxy.readFragment
@@ -112,25 +112,25 @@ describe("withMoveSection", () => {
     it("should update the cache correctly", () => {
       const updater = createUpdater({
         ...args,
-        questionnaireId
+        questionnaireId,
       });
 
       updater(proxy, result);
 
       expect(proxy.readFragment).toHaveBeenCalledWith({
         id: `Questionnaire${questionnaireId}`,
-        fragment
+        fragment,
       });
 
       expect(proxy.writeFragment).toHaveBeenCalledWith({
         id: `Questionnaire${questionnaireId}`,
         fragment,
-        data: toQuestionnaire
+        data: toQuestionnaire,
       });
 
       expect(toQuestionnaire.sections[args.to.position]).toMatchObject({
         id: section.id,
-        position: args.to.position
+        position: args.to.position,
       });
     });
   });

@@ -8,8 +8,8 @@ const answer = {
   label: "Lorem ipsum",
   childAnswers: [
     { id: "1from", label: "Period from" },
-    { id: "1to", label: "Period to" }
-  ]
+    { id: "1to", label: "Period to" },
+  ],
 };
 
 describe("DateRange", () => {

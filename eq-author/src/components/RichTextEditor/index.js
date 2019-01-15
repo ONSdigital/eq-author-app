@@ -7,7 +7,7 @@ import {
   EditorState,
   RichUtils,
   Modifier,
-  CompositeDecorator
+  CompositeDecorator,
 } from "draft-js";
 import "draft-js/dist/Draft.css";
 import { toHTML, fromHTML } from "./utils/convert";
@@ -17,7 +17,7 @@ import PipedValueDecorator, {
   htmlToEntity as htmlToPipedEntity,
   findPipedEntities,
   replacePipedValues,
-  insertPipedValue
+  insertPipedValue,
 } from "./entities/PipedValue";
 
 import createFormatStripper from "./utils/createFormatStripper";
@@ -30,8 +30,8 @@ import { Field, Label } from "components/Forms";
 
 const styleMap = {
   ITALIC: {
-    backgroundColor: "#cbe2c8"
-  }
+    backgroundColor: "#cbe2c8",
+  },
 };
 
 const heading = css`
@@ -58,7 +58,7 @@ const sizes = {
 
   small: css`
     font-size: 1em;
-  `
+  `,
 };
 
 const Wrapper = styled.div`
@@ -68,7 +68,7 @@ const Wrapper = styled.div`
 `;
 
 Wrapper.defaultProps = {
-  size: "small"
+  size: "small",
 };
 
 const Input = styled.div`
@@ -139,11 +139,11 @@ class RichTextEditor extends React.Component {
   static defaultProps = {
     placeholder: "",
     multiline: false,
-    autoFocus: false
+    autoFocus: false,
   };
 
   state = {
-    focused: false
+    focused: false,
   };
 
   static propTypes = {
@@ -165,9 +165,9 @@ class RichTextEditor extends React.Component {
       PropTypes.shape({
         __typename: PropTypes.string,
         id: PropTypes.string,
-        alias: PropTypes.string
+        alias: PropTypes.string,
       })
-    )
+    ),
   };
 
   constructor(props) {
@@ -221,7 +221,7 @@ class RichTextEditor extends React.Component {
         valueUpdatedES,
         valueUpdatedES.getSelection().merge({
           anchorOffset,
-          focusOffset: anchorOffset
+          focusOffset: anchorOffset,
         })
       );
 
@@ -377,7 +377,7 @@ class RichTextEditor extends React.Component {
   handleBlur = () => {
     this.props.onUpdate({
       name: this.props.name,
-      value: filterEmptyTags(this.getHTML())
+      value: filterEmptyTags(this.getHTML()),
     });
 
     this.timeoutID = setTimeout(() => {

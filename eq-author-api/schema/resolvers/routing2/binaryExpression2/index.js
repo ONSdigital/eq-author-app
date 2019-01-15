@@ -23,7 +23,7 @@ Resolvers.BinaryExpression2 = {
     return null;
   },
   expressionGroup: async ({ expressionGroupId }, args, ctx) =>
-    ctx.repositories.ExpressionGroup2.getById(expressionGroupId)
+    ctx.repositories.ExpressionGroup2.getById(expressionGroupId),
 };
 
 Resolvers.LeftSide2 = {
@@ -34,7 +34,7 @@ Resolvers.LeftSide2 = {
       }
       return "BasicAnswer";
     }
-  }
+  },
 };
 
 Resolvers.RightSide2 = {
@@ -46,11 +46,11 @@ Resolvers.RightSide2 = {
       return "SelectedOptions2";
     }
     return "BasicAnswer";
-  }
+  },
 };
 
 Resolvers.CustomValue2 = {
-  number: ({ customValue: { number } }) => number
+  number: ({ customValue: { number } }) => number,
 };
 
 Resolvers.SelectedOptions2 = {
@@ -60,7 +60,7 @@ Resolvers.SelectedOptions2 = {
       optionIds.map(({ optionId }) => ctx.repositories.Option.getById(optionId))
     );
     return options;
-  }
+  },
 };
 
 Resolvers.Mutation = {
@@ -80,7 +80,7 @@ Resolvers.Mutation = {
     return ctx.modifiers.RightSide.update(input);
   },
   deleteBinaryExpression2: (root, { input }, ctx) =>
-    ctx.repositories.BinaryExpression2.delete(input.id)
+    ctx.repositories.BinaryExpression2.delete(input.id),
 };
 
 module.exports = Resolvers;

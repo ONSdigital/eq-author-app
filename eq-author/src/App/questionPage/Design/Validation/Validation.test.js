@@ -16,10 +16,10 @@ describe("Validation", () => {
       displayName: "display-name",
       validation: {
         id: "666",
-        enabled: true
+        enabled: true,
       },
       onToggleValidationRule: onToggleValidationRule,
-      children: () => <div>foobar</div>
+      children: () => <div>foobar</div>,
     };
 
     wrapper = createWrapper(props);
@@ -39,7 +39,7 @@ describe("Validation", () => {
     wrapper.simulate("toggleChange", { value: false });
     expect(onToggleValidationRule).toHaveBeenCalledWith({
       enabled: false,
-      id: "666"
+      id: "666",
     });
   });
 });

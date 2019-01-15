@@ -10,7 +10,7 @@ describe("ContentPickerButton", () => {
     props = {
       hidden: false,
       selected: false,
-      label: "foobar"
+      label: "foobar",
     };
 
     wrapper = render(props);

@@ -25,7 +25,7 @@ const DeletionInfo = ({ id, onClose }) => (
 );
 DeletionInfo.propTypes = {
   id: PropTypes.number.isRequired,
-  onClose: PropTypes.func
+  onClose: PropTypes.func,
 };
 
 const StoryContainer = styled.div`
@@ -50,7 +50,7 @@ const Basic = ({ toast, onClose }) => (
 );
 Basic.propTypes = {
   toast: PropTypes.number.isRequired,
-  onClose: PropTypes.func.isRequired
+  onClose: PropTypes.func.isRequired,
 };
 
 const Dismissble = ({ toast, onClose }) => (
@@ -60,16 +60,16 @@ const Dismissble = ({ toast, onClose }) => (
 );
 Dismissble.propTypes = {
   toast: PropTypes.number.isRequired,
-  onClose: PropTypes.func.isRequired
+  onClose: PropTypes.func.isRequired,
 };
 
 class StatefulStory extends React.Component {
   static propTypes = {
-    children: PropTypes.func.isRequired
+    children: PropTypes.func.isRequired,
   };
 
   state = {
-    toasts: [Date.now()]
+    toasts: [Date.now()],
   };
 
   handleAdd = () => {

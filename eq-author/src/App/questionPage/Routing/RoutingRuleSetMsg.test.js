@@ -16,7 +16,7 @@ describe("components/RoutingRuleSetMsg", () => {
 
   it("should exclude add btn if no hander supplied", () => {
     props = {
-      title: "Test"
+      title: "Test",
     };
     render(props);
     expect(wrapper).toMatchSnapshot();
@@ -25,7 +25,7 @@ describe("components/RoutingRuleSetMsg", () => {
   it("should allow adding a rule", () => {
     props = {
       onAddRuleSet: jest.fn(),
-      title: "Test"
+      title: "Test",
     };
     render(props);
     expect(wrapper).toMatchSnapshot();

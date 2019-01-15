@@ -20,11 +20,11 @@ describe("Routing2 Repository", () => {
         {
           pages: [
             {
-              title: "foo"
-            }
-          ]
-        }
-      ]
+              title: "foo",
+            },
+          ],
+        },
+      ],
     });
 
     const pageId = questionnaire.sections[0].pages[0].id;
@@ -33,12 +33,12 @@ describe("Routing2 Repository", () => {
 
     const routing = await Routing2Repository.insert({
       pageId,
-      destinationId: destination.id
+      destinationId: destination.id,
     });
 
     expect(routing).toMatchObject({
       id: expect.any(Number),
-      pageId
+      pageId,
     });
   });
 
@@ -48,11 +48,11 @@ describe("Routing2 Repository", () => {
         {
           pages: [
             {
-              title: "foo"
-            }
-          ]
-        }
-      ]
+              title: "foo",
+            },
+          ],
+        },
+      ],
     });
 
     const pageId = questionnaire.sections[0].pages[0].id;
@@ -61,13 +61,13 @@ describe("Routing2 Repository", () => {
 
     await Routing2Repository.insert({
       pageId,
-      destinationId: destination.id
+      destinationId: destination.id,
     });
 
     const routing = await Routing2Repository.getByPageId(pageId);
     expect(routing).toMatchObject({
       id: expect.any(Number),
-      pageId
+      pageId,
     });
   });
 
@@ -77,11 +77,11 @@ describe("Routing2 Repository", () => {
         {
           pages: [
             {
-              title: "foo"
-            }
-          ]
-        }
-      ]
+              title: "foo",
+            },
+          ],
+        },
+      ],
     });
 
     const pageId = questionnaire.sections[0].pages[0].id;
@@ -90,14 +90,14 @@ describe("Routing2 Repository", () => {
 
     const insertedRouting = await Routing2Repository.insert({
       pageId,
-      destinationId: destination.id
+      destinationId: destination.id,
     });
 
     const routing = await Routing2Repository.getById(insertedRouting.id);
     expect(routing).toMatchObject({
       id: expect.any(Number),
       destinationId: destination.id,
-      pageId
+      pageId,
     });
   });
 });

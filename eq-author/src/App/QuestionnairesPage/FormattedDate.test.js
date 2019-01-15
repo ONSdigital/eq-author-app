@@ -12,7 +12,7 @@ describe("FormattedDate", () => {
     expect(spy).toHaveBeenCalledWith("en-GB", {
       month: "2-digit",
       day: "2-digit",
-      year: "numeric"
+      year: "numeric",
     });
   });
 });

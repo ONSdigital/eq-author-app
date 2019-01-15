@@ -9,7 +9,7 @@ import {
   addSection,
   addQuestionPage,
   testId,
-  navigateToFirstSection
+  navigateToFirstSection,
 } from "../../utils";
 import { times, includes } from "lodash";
 import { Routes } from "../../../src/utils/UrlUtils";
@@ -68,8 +68,8 @@ describe("builder", () => {
           equality: {
             questionnaireId: true,
             sectionId: true,
-            pageId: false
-          }
+            pageId: false,
+          },
         });
       });
 
@@ -159,8 +159,8 @@ describe("builder", () => {
           currentPath: Routes.SECTION,
           equality: {
             questionnaireId: true,
-            sectionId: false
-          }
+            sectionId: false,
+          },
         });
       });
   });
@@ -320,8 +320,8 @@ describe("builder", () => {
         equality: {
           questionnaireId: true,
           sectionId: false,
-          pageId: false
-        }
+          pageId: false,
+        },
       });
     });
   });
@@ -436,8 +436,8 @@ describe("builder", () => {
         equality: {
           questionnaireId: true,
           sectionId: true,
-          pageId: false
-        }
+          pageId: false,
+        },
       });
     });
   });
@@ -467,8 +467,8 @@ describe("builder", () => {
         currentPath: Routes.SECTION,
         equality: {
           questionnaireId: true,
-          sectionId: false
-        }
+          sectionId: false,
+        },
       });
     });
   });

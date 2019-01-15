@@ -20,7 +20,7 @@ describe("updateQuestionPage", () => {
 
   beforeEach(() => {
     repositories = {
-      QuestionPage: mockRepository()
+      QuestionPage: mockRepository(),
     };
   });
 
@@ -32,7 +32,7 @@ describe("updateQuestionPage", () => {
       description: "This is an updated question description",
       guidance: "Updated question description",
       definitionLabel: "Updated question definition label",
-      definitionContent: "Updated question definition content"
+      definitionContent: "Updated question definition content",
     };
 
     const result = await executeQuery(

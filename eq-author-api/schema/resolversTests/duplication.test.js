@@ -10,10 +10,10 @@ describe("Duplication", () => {
           duplicatePage: jest.fn(() => ({
             id: 2,
             title: "Duplicate page",
-            pageType: "QuestionPage"
-          }))
-        }
-      }
+            pageType: "QuestionPage",
+          })),
+        },
+      },
     };
     const query = `
     mutation duplicatePage($input: DuplicatePageInput!) {
@@ -30,7 +30,7 @@ describe("Duplication", () => {
     expect(result.errors).toBeUndefined();
     expect(ctx.repositories.Page.duplicatePage).toHaveBeenCalledWith("1", 1);
     expect(result.data).toMatchObject({
-      duplicatePage: { id: "2" }
+      duplicatePage: { id: "2" },
     });
   });
 
@@ -40,10 +40,10 @@ describe("Duplication", () => {
         Section: {
           duplicateSection: jest.fn(() => ({
             id: 2,
-            title: "Duplicate Section"
-          }))
-        }
-      }
+            title: "Duplicate Section",
+          })),
+        },
+      },
     };
     const query = `
     mutation duplicateSection($input: DuplicateSectionInput!) {
@@ -63,7 +63,7 @@ describe("Duplication", () => {
       1
     );
     expect(result.data).toMatchObject({
-      duplicateSection: { id: "2" }
+      duplicateSection: { id: "2" },
     });
   });
 
@@ -73,10 +73,10 @@ describe("Duplication", () => {
         Questionnaire: {
           duplicate: jest.fn(() => ({
             id: 2,
-            title: "Duplicate Questionnaire"
-          }))
-        }
-      }
+            title: "Duplicate Questionnaire",
+          })),
+        },
+      },
     };
     const query = `
     mutation duplicateQuestionnaire($input: DuplicateQuestionnaireInput!) {
@@ -93,7 +93,7 @@ describe("Duplication", () => {
       "Author Integration Test"
     );
     expect(result.data).toMatchObject({
-      duplicateQuestionnaire: { id: "2" }
+      duplicateQuestionnaire: { id: "2" },
     });
   });
 });

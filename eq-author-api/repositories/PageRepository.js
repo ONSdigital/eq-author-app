@@ -4,12 +4,12 @@ const { head, get } = require("lodash/fp");
 const Page = require("../db/Page");
 const QuestionPageRepository = require("./QuestionPageRepository");
 const {
-  getOrUpdateOrderForPageInsert
+  getOrUpdateOrderForPageInsert,
 } = require("./strategies/spacedOrderStrategy");
 
 const {
   getAvailableRoutingDestinations,
-  handlePageDeleted
+  handlePageDeleted,
 } = require("./strategies/routingStrategy");
 
 module.exports = knex => {
@@ -104,7 +104,7 @@ module.exports = knex => {
 
       return duplicatePageStrategy(trx, page, position, {
         alias: addPrefix(page.alias),
-        title: addPrefix(page.title)
+        title: addPrefix(page.title),
       });
     });
   };
@@ -120,6 +120,6 @@ module.exports = knex => {
     move,
     getPosition,
     getRoutingDestinations,
-    duplicatePage
+    duplicatePage,
   };
 };

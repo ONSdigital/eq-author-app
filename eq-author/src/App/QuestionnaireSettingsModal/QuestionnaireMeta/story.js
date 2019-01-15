@@ -19,7 +19,7 @@ storiesOf("QuestionnaireMeta", module)
         title: "",
         description: "",
         navigation: true,
-        theme: "census"
+        theme: "census",
       }}
       onUpdate={action("update")}
       onSubmit={action("submit")}
@@ -33,7 +33,7 @@ storiesOf("QuestionnaireMeta", module)
         title: "Monthly Business Survey",
         description: "Nullam id dolor id nibh ultricies vehicula ut id elit.",
         navigation: true,
-        theme: "census"
+        theme: "census",
       }}
       onUpdate={action("update")}
       onSubmit={action("submit")}

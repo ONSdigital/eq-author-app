@@ -6,7 +6,7 @@ import { get } from "lodash";
 
 const borderRadii = {
   [CHECKBOX]: radius,
-  [RADIO]: "100%"
+  [RADIO]: "100%",
 };
 
 const MultipleChoice = styled.div`
@@ -21,7 +21,7 @@ const MultipleChoice = styled.div`
 `;
 
 MultipleChoice.propTypes = {
-  type: PropTypes.oneOf(Object.keys(borderRadii))
+  type: PropTypes.oneOf(Object.keys(borderRadii)),
 };
 
 export default MultipleChoice;

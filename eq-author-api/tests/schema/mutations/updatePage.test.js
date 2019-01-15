@@ -19,7 +19,7 @@ describe("updatePage", () => {
 
   beforeEach(() => {
     repositories = {
-      Page: mockRepository()
+      Page: mockRepository(),
     };
   });
 
@@ -27,7 +27,7 @@ describe("updatePage", () => {
     const input = {
       id: "1",
       title: "Updated page title",
-      description: "This is an updated page description"
+      description: "This is an updated page description",
     };
 
     const result = await executeQuery(updatePage, { input }, { repositories });

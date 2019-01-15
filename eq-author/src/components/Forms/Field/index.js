@@ -17,11 +17,11 @@ const Field = ({ children, last, ...otherProps }) => (
 
 Field.propTypes = {
   children: PropTypes.node.isRequired,
-  last: PropTypes.bool
+  last: PropTypes.bool,
 };
 
 Field.defaultProps = {
-  last: false
+  last: false,
 };
 
 export default Field;

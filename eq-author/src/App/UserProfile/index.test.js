@@ -12,7 +12,7 @@ describe("UserProfile", () => {
       displayName: "Foo Bar",
       name: "Foo Bar",
       email: "foo@b.ar",
-      picture: "http://foo.b.ar/photo.jpg"
+      picture: "http://foo.b.ar/photo.jpg",
     };
   });
 

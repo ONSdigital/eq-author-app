@@ -15,7 +15,7 @@ const defaultQuestionnaire = {
   surveyId: "",
   theme: "default",
   legalBasis: "StatisticsOfTradeAct",
-  navigation: false
+  navigation: false,
 };
 
 const CenteredHeading = styled(Heading)`
@@ -32,7 +32,7 @@ const QuestionnaireSettingsModal = ({
   isOpen,
   onClose,
   onSubmit,
-  confirmText
+  confirmText,
 }) => (
   <StyledModal
     isOpen={isOpen}
@@ -59,11 +59,11 @@ QuestionnaireSettingsModal.propTypes = {
   isOpen: PropTypes.bool,
   onClose: PropTypes.func,
   confirmText: PropTypes.string.isRequired,
-  questionnaire: CustomPropTypes.questionnaire
+  questionnaire: CustomPropTypes.questionnaire,
 };
 
 QuestionnaireSettingsModal.defaultProps = {
-  questionnaire: defaultQuestionnaire
+  questionnaire: defaultQuestionnaire,
 };
 
 QuestionnaireSettingsModal.fragments = {
@@ -72,7 +72,7 @@ QuestionnaireSettingsModal.fragments = {
       ...Questionnaire
     }
     ${QuestionnaireMeta.fragments.Questionnaire}
-  `
+  `,
 };
 
 export default QuestionnaireSettingsModal;

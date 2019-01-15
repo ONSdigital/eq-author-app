@@ -16,11 +16,11 @@ export default [
           {
             label: "Consectetur Ultricies Purus Elit Fermentum",
             id: "8",
-            selected: false
-          }
+            selected: false,
+          },
         ],
         id: "2",
-        disabled: false
+        disabled: false,
       },
       {
         title: "1.2 Nulla vitae elit libero, a pharetra augue.",
@@ -28,12 +28,12 @@ export default [
         pageType: "QuestionPage",
         options: [
           { label: "Yes", id: "10", selected: false },
-          { label: "No", id: "11", selected: false }
+          { label: "No", id: "11", selected: false },
         ],
         id: "9",
-        disabled: false
-      }
+        disabled: false,
+      },
     ],
-    id: "1"
-  }
+    id: "1",
+  },
 ];

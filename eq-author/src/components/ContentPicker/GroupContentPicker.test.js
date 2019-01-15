@@ -12,41 +12,41 @@ const data = {
   logicalDestinations: [
     {
       id: "NextPage",
-      logicalDestination: "NextPage"
+      logicalDestination: "NextPage",
     },
     {
       id: "EndOfQuestionnaire",
-      logicalDestination: "EndOfQuestionnaire"
-    }
+      logicalDestination: "EndOfQuestionnaire",
+    },
   ],
   questionPages: [
     {
       id: "1",
-      displayName: "Page 1"
+      displayName: "Page 1",
     },
     {
       id: "2",
-      displayName: "Page 2"
+      displayName: "Page 2",
     },
     {
       id: "3",
-      displayName: "Page 3"
-    }
+      displayName: "Page 3",
+    },
   ],
   sections: [
     {
       id: "1",
-      displayName: "Section 1"
+      displayName: "Section 1",
     },
     {
       id: "2",
-      displayName: "Section 2"
+      displayName: "Section 2",
     },
     {
       id: "3",
-      displayName: "Section 3"
-    }
-  ]
+      displayName: "Section 3",
+    },
+  ],
 };
 
 const config = [
@@ -54,21 +54,21 @@ const config = [
     id: "pages",
     title: "Other pages in this section",
     groupKey: "questionPages",
-    expandable: true
+    expandable: true,
   },
   {
     id: "sections",
     title: "Other sections",
     groupKey: "sections",
-    expandable: true
+    expandable: true,
   },
   {
     id: "endOfQuestionnaire",
     title: "End of questionnaire",
     groupKey: "logicalDestinations",
     expandable: false,
-    type: "RoutingLogicalDestination"
-  }
+    type: "RoutingLogicalDestination",
+  },
 ];
 
 describe("GroupContentPicker", () => {
@@ -100,8 +100,8 @@ describe("GroupContentPicker", () => {
       data: {
         ...data,
         questionPages: [],
-        logicalDestinations: []
-      }
+        logicalDestinations: [],
+      },
     });
 
     expect(wrapper.find(PAGES_PICKER).prop("disabled")).toBe(true);
@@ -157,8 +157,8 @@ describe("GroupContentPicker", () => {
           id: "pages",
           title: "Other pages in this section",
           groupKey: "questionPages",
-          expandable: true
-        }
+          expandable: true,
+        },
       });
     });
 
@@ -174,8 +174,8 @@ describe("GroupContentPicker", () => {
           title: "End of questionnaire",
           groupKey: "logicalDestinations",
           expandable: false,
-          type: "RoutingLogicalDestination"
-        }
+          type: "RoutingLogicalDestination",
+        },
       });
     });
   });

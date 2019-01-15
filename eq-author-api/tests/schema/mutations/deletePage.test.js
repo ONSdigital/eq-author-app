@@ -14,7 +14,7 @@ describe("deletePage", () => {
 
   beforeEach(() => {
     repositories = {
-      Page: mockRepository()
+      Page: mockRepository(),
     };
   });
 

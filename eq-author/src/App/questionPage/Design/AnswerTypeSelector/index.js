@@ -31,11 +31,11 @@ const PopoutLayer = styled(Layer)`
 export default class AnswerTypeSelector extends React.Component {
   static propTypes = {
     onSelect: PropTypes.func.isRequired,
-    answerCount: PropTypes.number.isRequired
+    answerCount: PropTypes.number.isRequired,
   };
 
   state = {
-    open: false
+    open: false,
   };
 
   handleOpenToggle = open => {

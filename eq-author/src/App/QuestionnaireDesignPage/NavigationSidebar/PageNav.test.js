@@ -8,7 +8,7 @@ describe("PageNav", () => {
   const questionnaire = { id: "1", title: "Questionnaire" };
   const pages = [
     { id: "2", title: "Page" },
-    { id: "4", title: "Confirmation Page", __typename: "QuestionConfirmation" }
+    { id: "4", title: "Confirmation Page", __typename: "QuestionConfirmation" },
   ];
   const section = { id: "3", title: "Section", pages: pages, number: 1 };
 

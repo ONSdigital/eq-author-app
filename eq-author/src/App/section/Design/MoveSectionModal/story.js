@@ -8,10 +8,10 @@ import { buildQuestionnaire } from "tests/utils/createMockQuestionnaire";
 
 class MoveSectionStory extends React.Component {
   static propTypes = {
-    questionnaire: CustomPropTypes.questionnaire
+    questionnaire: CustomPropTypes.questionnaire,
   };
   state = {
-    isModalOpen: true
+    isModalOpen: true,
   };
 
   handleToggleModal = () => {
@@ -41,8 +41,8 @@ class MoveSectionStory extends React.Component {
 const questionnaire = buildQuestionnaire(10);
 const client = {
   query: () => ({
-    questionnaire
-  })
+    questionnaire,
+  }),
 };
 
 storiesOf("MoveSectionModal", module).add("Modal", () => (

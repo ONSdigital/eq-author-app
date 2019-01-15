@@ -26,7 +26,7 @@ const getNextPageDestination = (pageId, ctx) => {
     return {
       group: get(ctx, "questionnaireJson.summary")
         ? "summary-group"
-        : "confirmation-group"
+        : "confirmation-group",
     };
   } else if (currentPage.sectionId === nextPage.sectionId) {
     return { block: `block${nextPage.id}` };
@@ -40,7 +40,7 @@ const getLogicalDestination = (pageId, { logical }, ctx) => {
     return {
       group: get(ctx.questionnaireJson, "summary")
         ? "summary-group"
-        : "confirmation-group"
+        : "confirmation-group",
     };
   } else if (logical === "NextPage") {
     return getNextPageDestination(pageId, ctx);

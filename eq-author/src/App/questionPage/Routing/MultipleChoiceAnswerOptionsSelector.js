@@ -17,7 +17,7 @@ const MultipleChoiceAnswerOptions = styled.div`
 
 const MultipleChoiceAnswerOptionsSelector = ({
   condition,
-  onOptionSelectionChange
+  onOptionSelectionChange,
 }) => {
   const answerOptions = get(condition, "answer.options", []);
   const answerOtherOption = get(condition, "answer.other.option");
@@ -48,7 +48,7 @@ const MultipleChoiceAnswerOptionsSelector = ({
 
 MultipleChoiceAnswerOptionsSelector.propTypes = {
   condition: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
-  onOptionSelectionChange: PropTypes.func.isRequired
+  onOptionSelectionChange: PropTypes.func.isRequired,
 };
 
 export default MultipleChoiceAnswerOptionsSelector;

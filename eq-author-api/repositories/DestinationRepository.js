@@ -23,6 +23,6 @@ module.exports = knex => {
   return {
     insert,
     getById,
-    update
+    update,
   };
 };

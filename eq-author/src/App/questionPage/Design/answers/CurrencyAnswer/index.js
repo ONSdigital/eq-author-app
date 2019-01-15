@@ -34,11 +34,11 @@ const CurrencyComponent = props => (
 );
 
 CurrencyComponent.propTypes = {
-  currencyUnit: PropTypes.string
+  currencyUnit: PropTypes.string,
 };
 
 CurrencyComponent.defaultProps = {
-  currencyUnit: "£"
+  currencyUnit: "£",
 };
 
 const CurrencyAnswer = props => (
@@ -50,7 +50,7 @@ const CurrencyAnswer = props => (
 );
 
 CurrencyAnswer.fragments = {
-  Currency: BasicAnswer.fragments.Answer
+  Currency: BasicAnswer.fragments.Answer,
 };
 
 export default CurrencyAnswer;

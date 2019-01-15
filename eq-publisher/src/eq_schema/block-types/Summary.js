@@ -5,8 +5,8 @@ class Summary {
     this.blocks = [
       {
         type: "Summary",
-        id: "summary-block"
-      }
+        id: "summary-block",
+      },
     ];
   }
 }

@@ -36,7 +36,7 @@ const ContentPickerButton = ({ hidden, selected, label, ...otherProps }) => {
 ContentPickerButton.propTypes = {
   hidden: PropTypes.bool,
   selected: PropTypes.bool,
-  label: PropTypes.string
+  label: PropTypes.string,
 };
 
 export default ContentPickerButton;

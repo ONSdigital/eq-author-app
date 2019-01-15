@@ -51,7 +51,7 @@ export default class QuestionPageEditor extends React.Component {
     match: CustomPropTypes.match,
     page: CustomPropTypes.page.isRequired,
     onChange: PropTypes.func.isRequired,
-    onUpdate: PropTypes.func.isRequired
+    onUpdate: PropTypes.func.isRequired,
   };
 
   handleDeleteAnswer = answerId => {
@@ -64,7 +64,7 @@ export default class QuestionPageEditor extends React.Component {
       onAddOption,
       onUpdateOption,
       onDeleteOption,
-      onAddExclusive
+      onAddExclusive,
     } = this.props;
 
     return (
@@ -91,7 +91,7 @@ export default class QuestionPageEditor extends React.Component {
       showMovePageDialog,
       onCloseMovePageDialog,
       match,
-      page
+      page,
     } = this.props;
 
     if (loading || error) {
@@ -120,7 +120,7 @@ export default class QuestionPageEditor extends React.Component {
       page,
       page: { answers },
       onChange,
-      onUpdate
+      onUpdate,
     } = this.props;
 
     const id = getIdForObject(page);
@@ -183,5 +183,5 @@ QuestionPageEditor.fragments = {
 
     ${MetaEditor.fragments.Page}
     ${AnswerEditor.fragments.AnswerEditor}
-  `
+  `,
 };

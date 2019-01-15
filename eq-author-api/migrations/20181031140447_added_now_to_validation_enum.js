@@ -4,7 +4,7 @@ const {
   CUSTOM,
   PREVIOUS_ANSWER,
   METADATA,
-  NOW
+  NOW,
 } = require("../constants/validationEntityTypes");
 
 exports.up = function(knex) {
@@ -13,7 +13,7 @@ exports.up = function(knex) {
       CUSTOM,
       PREVIOUS_ANSWER,
       METADATA,
-      NOW
+      NOW,
     ])
   );
 };

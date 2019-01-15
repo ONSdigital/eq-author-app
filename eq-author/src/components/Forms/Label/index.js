@@ -21,11 +21,11 @@ const Label = ({ htmlFor, children, ...otherProps }) => (
 Label.propTypes = {
   htmlFor: PropTypes.string,
   children: PropTypes.node.isRequired,
-  bold: PropTypes.bool
+  bold: PropTypes.bool,
 };
 
 Label.defaultProps = {
-  bold: true
+  bold: true,
 };
 
 export default Label;

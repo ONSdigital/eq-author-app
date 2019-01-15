@@ -5,12 +5,12 @@ import { inRange, isNaN } from "lodash";
 const withCustomNumberValueChange = WrappedComponent => {
   return class extends React.Component {
     static defaultProps = {
-      limit: 999999999
+      limit: 999999999,
     };
 
     static propTypes = {
       limit: PropTypes.number.isRequired,
-      onChange: PropTypes.func.isRequired
+      onChange: PropTypes.func.isRequired,
     };
 
     handleCustomValueChange = ({ value }) => {
@@ -29,7 +29,7 @@ const withCustomNumberValueChange = WrappedComponent => {
       const intValue = parseInt(value, 10);
       this.props.onChange({
         name: "custom",
-        value: isNaN(intValue) ? null : intValue
+        value: isNaN(intValue) ? null : intValue,
       });
     };
 

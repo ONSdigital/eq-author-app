@@ -11,7 +11,7 @@ describe("createAccessToken", () => {
       user_id: "mock_user_id",
       name: "Author Integration Test",
       email: "eq-team@ons.gov.uk",
-      picture: "file:///path/to/some/picture.jpg"
+      picture: "file:///path/to/some/picture.jpg",
     };
   });
 

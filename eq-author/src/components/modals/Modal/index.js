@@ -7,7 +7,7 @@ import DeleteButton from "components/buttons/DeleteButton";
 
 export const CloseButton = styled(DeleteButton).attrs({
   "aria-label": "Close",
-  size: "medium"
+  size: "medium",
 })`
   position: absolute;
   top: 0.25em;
@@ -26,7 +26,7 @@ const ReactModalAdapter = ({ className, modalClassName, ...props }) => (
 ReactModalAdapter.propTypes = {
   className: ReactModal.propTypes.portalClassName,
   modalClassName: ReactModal.propTypes.className,
-  overlayClassName: ReactModal.propTypes.overlayClassName
+  overlayClassName: ReactModal.propTypes.overlayClassName,
 };
 
 ReactModal.setAppElement("body");
@@ -35,13 +35,13 @@ const StyledModal = styled(ReactModalAdapter).attrs({
   overlayClassName: {
     base: "Overlay",
     afterOpen: "Overlay--after-open",
-    beforeClose: "Overlay--before-close"
+    beforeClose: "Overlay--before-close",
   },
   modalClassName: {
     base: "Modal",
     afterOpen: "Modal--after-open",
-    beforeClose: "Modal--before-close"
-  }
+    beforeClose: "Modal--before-close",
+  },
 })`
   .Modal {
     padding: 2em;
@@ -93,11 +93,11 @@ class Modal extends React.Component {
     children: PropTypes.node.isRequired,
     isOpen: PropTypes.bool.isRequired,
     onClose: PropTypes.func,
-    hasCloseButton: PropTypes.bool.isRequired
+    hasCloseButton: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
-    hasCloseButton: true
+    hasCloseButton: true,
   };
 
   componentDidMount() {

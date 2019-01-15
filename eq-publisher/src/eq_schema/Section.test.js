@@ -11,9 +11,9 @@ describe("Section", () => {
         pages: [
           {
             id: "2",
-            answers: []
-          }
-        ]
+            answers: [],
+          },
+        ],
       },
       options
     );
@@ -28,9 +28,9 @@ describe("Section", () => {
         {
           id: "group1",
           title: "Section 1",
-          blocks: [expect.any(Block)]
-        }
-      ]
+          blocks: [expect.any(Block)],
+        },
+      ],
     });
   });
 });

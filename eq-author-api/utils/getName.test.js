@@ -8,7 +8,7 @@ describe("getName", () => {
     entity = {
       alias: "",
       title: "",
-      label: ""
+      label: "",
     };
 
     map(keys(defaultNames), typeName =>
@@ -21,7 +21,7 @@ describe("getName", () => {
       alias: "I am an alias",
       title: "I am a title",
       label: "I am a label",
-      key: "I am a key"
+      key: "I am a key",
     };
 
     map(keys(defaultNames), typeName =>
@@ -31,7 +31,7 @@ describe("getName", () => {
       alias: "",
       title: "I am a title",
       label: "I am a label",
-      key: "I am a key"
+      key: "I am a key",
     };
 
     map(keys(defaultNames), typeName =>
@@ -42,7 +42,7 @@ describe("getName", () => {
       alias: "",
       title: "",
       label: "I am a label",
-      key: "I am a key"
+      key: "I am a key",
     };
 
     map(keys(defaultNames), typeName =>
@@ -53,7 +53,7 @@ describe("getName", () => {
       alias: "",
       title: "",
       label: "",
-      key: "I am a key"
+      key: "I am a key",
     };
 
     map(keys(defaultNames), typeName =>
@@ -65,7 +65,7 @@ describe("getName", () => {
     entity = {
       alias: "<p></p>",
       title: "<p>I am a title</p>",
-      label: "<p>I am a label</p>"
+      label: "<p>I am a label</p>",
     };
 
     map(keys(defaultNames), typeName =>
@@ -77,7 +77,7 @@ describe("getName", () => {
     entity = {
       alias: "<p></p>",
       foo: "I am a title",
-      label: "I am a label"
+      label: "I am a label",
     };
 
     map(keys(defaultNames), typeName =>
@@ -88,7 +88,7 @@ describe("getName", () => {
   it("should ignore whitespace", () => {
     entity = {
       alias: "<p> </p><p> </p>",
-      label: "Some label"
+      label: "Some label",
     };
     map(keys(defaultNames), typeName =>
       expect(getName(entity, typeName)).toEqual(entity.label)
@@ -96,7 +96,7 @@ describe("getName", () => {
 
     entity = {
       alias: "  ",
-      label: "Some label"
+      label: "Some label",
     };
     map(keys(defaultNames), typeName =>
       expect(getName(entity, typeName)).toEqual(entity.label)

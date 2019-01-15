@@ -16,7 +16,7 @@ const sizes = {
 
   large: css`
     font-size: 3em;
-  `
+  `,
 };
 
 const StyledDeleteButton = styled.button`
@@ -65,11 +65,11 @@ const DeleteButton = props => (
 DeleteButton.defaultProps = {
   size: "medium",
   type: "button",
-  "aria-label": "Delete"
+  "aria-label": "Delete",
 };
 
 DeleteButton.propTypes = {
-  size: PropTypes.oneOf(["small", "medium", "large"])
+  size: PropTypes.oneOf(["small", "medium", "large"]),
 };
 
 export default DeleteButton;

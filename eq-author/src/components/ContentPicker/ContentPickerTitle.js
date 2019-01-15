@@ -29,7 +29,7 @@ export const TitleButton = styled(ContentPickerAccordionHeader)`
 class ContentPickerTitle extends React.Component {
   static propTypes = {
     open: PropTypes.bool.isRequired,
-    children: PropTypes.node.isRequired
+    children: PropTypes.node.isRequired,
   };
 
   render() {

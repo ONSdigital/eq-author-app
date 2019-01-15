@@ -34,5 +34,8 @@
     "hooks": {
       "pre-commit": "lint-staged"
     }
+  },
+  "prettier": {
+    "trailingComma": "es5"
   }
 }

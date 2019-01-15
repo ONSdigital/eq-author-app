@@ -8,7 +8,7 @@ const withChangeHandler = WrappedComponent => {
       value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
       id: PropTypes.string,
       name: PropTypes.string,
-      className: PropTypes.string
+      className: PropTypes.string,
     };
 
     static displayName = `withChangeHandler(${WrappedComponent.displayName})`;

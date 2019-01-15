@@ -14,11 +14,11 @@ export default (function() {
       },
       removeItem: function(key) {
         delete store[key];
-      }
+      },
     };
   })();
 
   Object.defineProperty(window, "localStorage", {
-    value: localStorageMock
+    value: localStorageMock,
   });
 })();

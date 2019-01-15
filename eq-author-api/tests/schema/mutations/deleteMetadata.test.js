@@ -15,8 +15,8 @@ describe("deleteMetadata", () => {
   beforeEach(() => {
     repositories = {
       Metadata: mockRepository({
-        remove: { id: "1" }
-      })
+        remove: { id: "1" },
+      }),
     };
   });
 

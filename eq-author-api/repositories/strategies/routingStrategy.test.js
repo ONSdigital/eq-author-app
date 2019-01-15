@@ -5,18 +5,18 @@ describe("repositories / strategies / routingStrategy", () => {
     const availableRoutingDestinations = {
       logicalDestinations: [
         {
-          logicalDestination: "NextPage"
+          logicalDestination: "NextPage",
         },
         {
-          logicalDestination: "Summary"
-        }
-      ]
+          logicalDestination: "Summary",
+        },
+      ],
     };
 
     const destination = {
       logicalDestination: {
-        destinationType: "DoesNotExist"
-      }
+        destinationType: "DoesNotExist",
+      },
     };
 
     expect(

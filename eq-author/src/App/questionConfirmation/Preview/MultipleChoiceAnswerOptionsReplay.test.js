@@ -9,12 +9,12 @@ describe("MultipleChoiceAnswerOptionsReplay", () => {
     options = [
       {
         id: "1",
-        label: "label 1"
+        label: "label 1",
       },
       {
         id: "2",
-        label: "label 2"
-      }
+        label: "label 2",
+      },
     ];
   });
 

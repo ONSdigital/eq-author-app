@@ -6,7 +6,7 @@ const Metadata = require("../db/Metadata");
 const {
   defaultTypeValueNames,
   defaultTypeValues,
-  defaultValues
+  defaultValues,
 } = require("../utils/defaultMetadata");
 
 module.exports = knex => {
@@ -36,7 +36,7 @@ module.exports = knex => {
         key,
         alias,
         type,
-        value: values[defaultTypeValueNames[type]]
+        value: values[defaultTypeValueNames[type]],
       };
 
       if (current.type !== type && !update.value) {
@@ -64,6 +64,6 @@ module.exports = knex => {
     findAll,
     insert,
     update,
-    remove
+    remove,
   };
 };

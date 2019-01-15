@@ -27,11 +27,11 @@ class WrappingInput extends React.Component {
     onKeyDown: PropTypes.func,
     id: PropTypes.string.isRequired,
     bold: PropTypes.bool,
-    placeholder: PropTypes.string
+    placeholder: PropTypes.string,
   };
 
   static defaultProps = {
-    bold: false
+    bold: false,
   };
 
   handleChange = e => {

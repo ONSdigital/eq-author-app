@@ -5,7 +5,7 @@ import Button from "components/buttons/Button";
 import IconText from "components/IconText";
 
 const StyledButton = styled(Button).attrs({
-  variant: "secondary"
+  variant: "secondary",
 })`
   border-radius: 0 4px 4px 0;
   flex: 0;

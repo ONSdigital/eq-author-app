@@ -13,15 +13,15 @@ describe("Question Page Editor", () => {
 
   const answer = {
     id: "123",
-    __typename: "Answer"
+    __typename: "Answer",
   };
 
   const match = {
     params: {
       questionnaireId: "1",
       sectionId: "2",
-      pageId: "3"
-    }
+      pageId: "3",
+    },
   };
 
   const render = ({ ...props }) => {
@@ -56,7 +56,7 @@ describe("Question Page Editor", () => {
       onAddOther: jest.fn(),
       onDeleteOther: jest.fn(),
       onChange: jest.fn(),
-      onUpdate: jest.fn()
+      onUpdate: jest.fn(),
     };
 
     page = {
@@ -71,27 +71,27 @@ describe("Question Page Editor", () => {
           id: "1",
           title: "First name",
           description: "",
-          type: "TextField"
+          type: "TextField",
         },
         {
           __typename: "BasicAnswer",
           id: "2",
           title: "Last name",
           description: "",
-          type: "TextField"
-        }
-      ]
+          type: "TextField",
+        },
+      ],
     };
 
     section = {
       id: "3",
-      pages: [page]
+      pages: [page],
     };
 
     questionnaire = {
       id: "1",
       __typename: "Questionnaire",
-      sections: [section]
+      sections: [section],
     };
 
     wrapper = render({});

@@ -7,7 +7,7 @@ export const createUpdater = routingConditionId => (proxy, result) => {
   const routingCondition = proxy.readFragment({
     id,
     fragment,
-    fragmentName: "RoutingCondition"
+    fragmentName: "RoutingCondition",
   });
 
   routingCondition.routingValue = result.data.toggleConditionOption;
@@ -16,7 +16,7 @@ export const createUpdater = routingConditionId => (proxy, result) => {
     id,
     fragment,
     fragmentName: "RoutingCondition",
-    data: routingCondition
+    data: routingCondition,
   });
 };
 
@@ -25,18 +25,18 @@ export const mapMutateToProps = ({ mutate }) => ({
     const input = {
       conditionId,
       optionId,
-      checked
+      checked,
     };
 
     const update = createUpdater(conditionId);
 
     return mutate({
       variables: { input },
-      update
+      update,
     }).then(res => res.data.toggleConditionOption);
-  }
+  },
 });
 
 export default graphql(toggleConditionOption, {
-  props: mapMutateToProps
+  props: mapMutateToProps,
 });

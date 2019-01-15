@@ -19,8 +19,8 @@ const answer = {
   type: NUMBER,
   properties: {
     decimals: 2,
-    required: true
-  }
+    required: true,
+  },
 };
 
 storiesOf("Properties/Answer", module).add("With multiple properties", () => (

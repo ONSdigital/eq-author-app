@@ -73,17 +73,17 @@ export class AccordionPanel extends React.Component {
     id: PropTypes.string,
     title: PropTypes.node.isRequired,
     children: PropTypes.node.isRequired,
-    open: PropTypes.bool
+    open: PropTypes.bool,
   };
 
   static defaultProps = {
-    open: false
+    open: false,
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      open: props.open
+      open: props.open,
     };
   }
 
@@ -148,7 +148,7 @@ const StatelessAccordion = ({ children }) => (
 );
 
 StatelessAccordion.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
 };
 
 export const Accordion = StatelessAccordion;

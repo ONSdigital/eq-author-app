@@ -92,7 +92,7 @@ export class UnconnectedHeader extends React.Component {
   static propTypes = {
     questionnaire: CustomPropTypes.questionnaire,
     signOutUser: PropTypes.func.isRequired,
-    raiseToast: PropTypes.func.isRequired
+    raiseToast: PropTypes.func.isRequired,
   };
 
   displayToast = () => {
@@ -191,8 +191,8 @@ export const withCurrentUser = Component => {
     );
   Comp.propTypes = {
     match: PropTypes.shape({
-      path: PropTypes.string.isRequired
-    }).isRequired
+      path: PropTypes.string.isRequired,
+    }).isRequired,
   };
   return Comp;
 };

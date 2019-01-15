@@ -36,9 +36,9 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
     loading: PropTypes.bool.isRequired,
     match: CustomPropTypes.match,
     data: PropTypes.shape({
-      questionnaire: CustomPropTypes.questionnaire
+      questionnaire: CustomPropTypes.questionnaire,
     }),
-    location: PropTypes.object // eslint-disable-line
+    location: PropTypes.object, // eslint-disable-line
   };
 
   state = { showDeleteConfirmDialog: false, showMovePageDialog: false };
@@ -47,7 +47,7 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
     const {
       onAddPage,
       match,
-      data: { questionnaire }
+      data: { questionnaire },
     } = this.props;
     const { pageId, sectionId } = match.params;
 
@@ -60,7 +60,7 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
   getTitle = title => {
     const {
       loading,
-      data: { questionnaire }
+      data: { questionnaire },
     } = this.props;
     return loading ? title : `${questionnaire.title} - ${title}`;
   };
@@ -68,7 +68,7 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
   renderRedirect = () => {
     const {
       loading,
-      data: { questionnaire }
+      data: { questionnaire },
     } = this.props;
 
     if (loading) {
@@ -85,7 +85,7 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
       <Redirect
         to={buildSectionPath({
           questionnaireId: questionnaire.id,
-          sectionId: questionnaire.sections[0].id
+          sectionId: questionnaire.sections[0].id,
         })}
       />
     );
@@ -95,9 +95,9 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
     const {
       data: { questionnaire },
       match: {
-        params: { sectionId, pageId, confirmationId }
+        params: { sectionId, pageId, confirmationId },
       },
-      loading
+      loading,
     } = this.props;
 
     if (loading || !questionnaire) {
@@ -120,8 +120,8 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
   handleAddQuestionConfirmation = () => {
     const {
       match: {
-        params: { pageId }
-      }
+        params: { pageId },
+      },
     } = this.props;
     this.props.onCreateQuestionConfirmation(pageId);
   };
@@ -130,7 +130,7 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
     const {
       loading,
       data: { questionnaire },
-      location
+      location,
     } = this.props;
 
     return (

@@ -19,7 +19,7 @@ describe("QuestionnaireRepository", () => {
           theme: "default",
           legalBasis: "Voluntary",
           navigation: false,
-          createdBy: "foo"
+          createdBy: "foo",
         },
         json
       );
@@ -30,7 +30,7 @@ describe("QuestionnaireRepository", () => {
 
   it("should create new Questionnaire", async () => {
     const questionnaire = buildQuestionnaire({
-      title: "creating a new questionnaire "
+      title: "creating a new questionnaire ",
     });
     const result = await QuestionnaireRepository.insert(questionnaire);
 
@@ -60,7 +60,7 @@ describe("QuestionnaireRepository", () => {
 
     expect(results).toEqual([
       expect.objectContaining({ id: id2, isDeleted: false }),
-      expect.objectContaining({ id: id1, isDeleted: false })
+      expect.objectContaining({ id: id1, isDeleted: false }),
     ]);
   });
 
@@ -77,7 +77,7 @@ describe("QuestionnaireRepository", () => {
     const { id } = await QuestionnaireRepository.insert(buildQuestionnaire());
     const result = await QuestionnaireRepository.update({
       id,
-      surveyId: "456"
+      surveyId: "456",
     });
 
     expect(result).toMatchObject({ surveyId: "456" });
@@ -97,7 +97,7 @@ describe("QuestionnaireRepository", () => {
     expect(filterUnwanted(duplicatedQuestionnaire)).toMatchObject({
       ...filterUnwanted(questionnaire),
       title: `Copy of ${questionnaire.title}`,
-      createdBy: "Test Person"
+      createdBy: "Test Person",
     });
   });
 });

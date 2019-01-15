@@ -37,7 +37,7 @@ export const UnwrappedDate = ({
   placeholder,
   showDay,
   showMonth,
-  showYear
+  showYear,
 }) => (
   <Fieldset>
     <Legend>Date options</Legend>
@@ -78,12 +78,12 @@ UnwrappedDate.propTypes = {
   placeholder: PropTypes.string,
   showDay: PropTypes.bool,
   showMonth: PropTypes.bool,
-  showYear: PropTypes.bool
+  showYear: PropTypes.bool,
 };
 
 UnwrappedDate.defaultProps = {
   label: "Label",
-  name: "label"
+  name: "label",
 };
 
 UnwrappedDate.fragments = {
@@ -93,7 +93,7 @@ UnwrappedDate.fragments = {
       label
       properties
     }
-  `
+  `,
 };
 
 export default withEntityEditor("answer", answerFragment)(UnwrappedDate);

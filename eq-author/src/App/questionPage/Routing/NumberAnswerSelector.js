@@ -48,10 +48,10 @@ const NumberAnswerRoutingSelector = styled.div`
 const NumberAnswerValueSelector = ({
   condition,
   onComparatorChange,
-  handleValueChange
+  handleValueChange,
 }) => {
   const otherProps = {
-    questionPageId: condition.questionPage.id
+    questionPageId: condition.questionPage.id,
   };
 
   return (
@@ -110,17 +110,17 @@ NumberAnswerValueSelector.propTypes = {
     comparator: PropTypes.string.isRequired,
     questionPage: PropTypes.shape({
       id: PropTypes.string.isRequired,
-      displayName: PropTypes.string
+      displayName: PropTypes.string,
     }),
     answer: CustomPropTypes.answer,
     routingValue: PropTypes.shape({
       id: PropTypes.string,
       value: PropTypes.array,
-      numberValue: PropTypes.number
-    })
+      numberValue: PropTypes.number,
+    }),
   }).isRequired,
   onComparatorChange: PropTypes.func.isRequired,
-  handleValueChange: PropTypes.func.isRequired
+  handleValueChange: PropTypes.func.isRequired,
 };
 
 export default NumberAnswerValueSelector;

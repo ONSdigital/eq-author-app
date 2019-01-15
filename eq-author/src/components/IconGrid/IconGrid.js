@@ -22,7 +22,7 @@ const IconGrid = ({
 
 IconGrid.propTypes = {
   children: PropTypes.node.isRequired,
-  "aria-labelledby": PropTypes.string
+  "aria-labelledby": PropTypes.string,
 };
 
 export default IconGrid;

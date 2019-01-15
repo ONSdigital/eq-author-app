@@ -14,7 +14,7 @@ describe("TableTypeaheadMenu", () => {
   beforeEach(() => {
     props = {
       getMenuProps: jest.fn(),
-      getItemProps: jest.fn()
+      getItemProps: jest.fn(),
     };
 
     wrapper = createWrapper(props, shallow);

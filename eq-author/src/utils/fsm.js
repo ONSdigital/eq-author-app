@@ -15,6 +15,6 @@ export default function fsm(states, initial = "initial") {
       if (next) {
         return (current = next);
       }
-    }
+    },
   };
 }

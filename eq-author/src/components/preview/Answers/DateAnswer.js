@@ -61,7 +61,7 @@ const DateAnswer = ({ answer }) => {
   const {
     label,
     description,
-    properties: { format = "dd/mm/yyyy" }
+    properties: { format = "dd/mm/yyyy" },
   } = answer;
 
   return (
@@ -98,9 +98,9 @@ DateAnswer.propTypes = {
     label: PropTypes.string,
     description: PropTypes.string,
     properties: PropTypes.shape({
-      format: PropTypes.string
-    }).isRequired
-  }).isRequired
+      format: PropTypes.string,
+    }).isRequired,
+  }).isRequired,
 };
 
 export default DateAnswer;

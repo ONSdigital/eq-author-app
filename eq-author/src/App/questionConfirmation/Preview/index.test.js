@@ -13,11 +13,11 @@ describe("PageConfirmationNavItem", () => {
       title: "<p>Hello world</p>",
       positive: {
         label: "positive label",
-        description: "positive description"
+        description: "positive description",
       },
       negative: {
         label: "negative label",
-        description: "negative description"
+        description: "negative description",
       },
       page: {
         id: "1",
@@ -29,20 +29,20 @@ describe("PageConfirmationNavItem", () => {
             options: [
               {
                 id: "1",
-                label: "label 1"
+                label: "label 1",
               },
               {
                 id: "2",
-                label: "label 2"
-              }
+                label: "label 2",
+              },
             ],
             mutuallyExclusiveOption: {
               id: "3",
-              label: "label 3"
-            }
-          }
-        ]
-      }
+              label: "label 3",
+            },
+          },
+        ],
+      },
     };
   });
 
@@ -74,8 +74,8 @@ describe("PageConfirmationNavItem", () => {
         data={{
           questionConfirmation: {
             ...questionConfirmation,
-            page: { id: "1", displayName: "foobar", answers: [] }
-          }
+            page: { id: "1", displayName: "foobar", answers: [] },
+          },
         }}
       />
     );

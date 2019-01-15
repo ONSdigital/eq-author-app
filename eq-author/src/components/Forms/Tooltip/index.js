@@ -29,7 +29,7 @@ class Tooltip extends React.Component {
       <React.Fragment>
         {React.cloneElement(child, {
           "data-tip": true,
-          "data-for": id
+          "data-for": id,
         })}
         <StyledTooltip
           id={id}
@@ -47,7 +47,7 @@ class Tooltip extends React.Component {
 
 Tooltip.propTypes = {
   content: PropTypes.node.isRequired,
-  children: PropTypes.element.isRequired
+  children: PropTypes.element.isRequired,
 };
 
 export default Tooltip;

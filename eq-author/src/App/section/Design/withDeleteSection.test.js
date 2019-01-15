@@ -1,7 +1,7 @@
 import {
   mapMutateToProps,
   deleteUpdater,
-  handleDeletion
+  handleDeletion,
 } from "./withDeleteSection";
 import fragment from "graphql/questionnaireFragment.graphql";
 
@@ -12,17 +12,17 @@ describe("withDeleteSection", () => {
   beforeEach(() => {
     deletedPage = {
       id: "2",
-      sectionId: "2"
+      sectionId: "2",
     };
 
     currentPage = {
       id: "1",
-      sectionId: "1"
+      sectionId: "1",
     };
 
     currentSection = {
       id: "1",
-      pages: [currentPage, { id: "3" }]
+      pages: [currentPage, { id: "3" }],
     };
 
     questionnaire = {
@@ -32,19 +32,19 @@ describe("withDeleteSection", () => {
         currentSection,
         {
           id: "2",
-          pages: [deletedPage]
-        }
-      ]
+          pages: [deletedPage],
+        },
+      ],
     };
 
     history = {
-      push: jest.fn()
+      push: jest.fn(),
     };
 
     result = {
       data: {
-        deleteSection: deletedPage
-      }
+        deleteSection: deletedPage,
+      },
     };
 
     onAddSection = jest.fn();
@@ -56,15 +56,15 @@ describe("withDeleteSection", () => {
         params: {
           questionnaireId: questionnaire.id,
           sectionId: currentSection.id,
-          pageId: currentPage.id
-        }
+          pageId: currentPage.id,
+        },
       },
       history,
       onAddSection,
       raiseToast,
       client: {
-        readFragment: jest.fn(() => questionnaire)
-      }
+        readFragment: jest.fn(() => questionnaire),
+      },
     };
 
     mutate = jest.fn(() => Promise.resolve(result));
@@ -83,7 +83,7 @@ describe("withDeleteSection", () => {
       expect(writeFragment).toHaveBeenCalledWith({
         id,
         fragment,
-        data: questionnaire
+        data: questionnaire,
       });
       expect(questionnaire.sections).not.toContain(currentSection);
     });
@@ -106,8 +106,8 @@ describe("withDeleteSection", () => {
           expect(mutate).toHaveBeenCalledWith(
             expect.objectContaining({
               variables: {
-                input: { id: currentSection.id }
-              }
+                input: { id: currentSection.id },
+              },
             })
           );
         });
@@ -121,7 +121,7 @@ describe("withDeleteSection", () => {
             "undeleteSection",
             expect.objectContaining({
               questionnaireId: questionnaire.id,
-              sectionId: currentSection.id
+              sectionId: currentSection.id,
             })
           );
         });
@@ -138,7 +138,7 @@ describe("withDeleteSection", () => {
             "undeleteSection",
             expect.objectContaining({
               questionnaireId: questionnaire.id,
-              sectionId: currentSection.id
+              sectionId: currentSection.id,
             })
           );
 
@@ -154,7 +154,7 @@ describe("withDeleteSection", () => {
             "undeleteSection",
             expect.objectContaining({
               questionnaireId: questionnaire.id,
-              sectionId: currentSection.id
+              sectionId: currentSection.id,
             })
           );
         });

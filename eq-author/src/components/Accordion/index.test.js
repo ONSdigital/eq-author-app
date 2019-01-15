@@ -28,7 +28,7 @@ describe("AccordionPanel", () => {
   beforeEach(() => {
     props = {
       id: "Answer-1",
-      title: "Answer properties"
+      title: "Answer properties",
     };
     wrapper = createWrapper(props);
   });
@@ -73,7 +73,7 @@ describe("AccordionPanel", () => {
     it("should close the panel when escape key is pressed", () => {
       wrapper.instance().open();
       wrapper.instance().handleKeyUp({
-        keyCode: KEY_CODE_ESCAPE
+        keyCode: KEY_CODE_ESCAPE,
       });
       expect(wrapper.state("open")).toBe(false);
     });

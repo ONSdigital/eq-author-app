@@ -11,8 +11,8 @@ describe("Modal Content", () => {
       title: "Example title",
       navItems: [
         { id: "1", title: "hello", render: () => <div /> },
-        { id: "2", title: "world", render: () => <div /> }
-      ]
+        { id: "2", title: "world", render: () => <div /> },
+      ],
     };
 
     it("should render", () => {

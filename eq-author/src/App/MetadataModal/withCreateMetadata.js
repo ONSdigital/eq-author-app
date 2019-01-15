@@ -37,25 +37,25 @@ export const createUpdater = questionnaireId => (proxy, result) => {
     id,
     fragment,
     fragmentName,
-    data: questionnaire
+    data: questionnaire,
   });
 };
 
 export const mapMutateToProps = ({ mutate }) => ({
   onAddMetadata(questionnaireId) {
     const metadata = {
-      questionnaireId
+      questionnaireId,
     };
 
     const update = createUpdater(questionnaireId);
 
     return mutate({
       variables: { input: metadata },
-      update
+      update,
     });
-  }
+  },
 });
 
 export default graphql(createMetadataMutation, {
-  props: mapMutateToProps
+  props: mapMutateToProps,
 });

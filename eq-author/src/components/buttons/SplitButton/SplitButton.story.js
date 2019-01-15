@@ -13,7 +13,7 @@ const Wrapper = styled.div`
 `;
 
 const UncontrolledSplitButton = uncontrollable(SplitButton, {
-  open: "onToggleOpen"
+  open: "onToggleOpen",
 });
 
 storiesOf("SplitButton", module).add("Default", () => (

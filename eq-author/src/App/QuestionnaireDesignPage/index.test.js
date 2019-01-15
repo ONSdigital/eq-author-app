@@ -11,7 +11,7 @@ describe("QuestionnaireDesignPage", () => {
   const answer = {
     id: "1",
     label: "",
-    options: [{ id: "1" }]
+    options: [{ id: "1" }],
   };
 
   const page = {
@@ -21,19 +21,19 @@ describe("QuestionnaireDesignPage", () => {
     title: "",
     type: "General",
     position: 0,
-    answers: [answer]
+    answers: [answer],
   };
 
   const section = {
     id: "2",
     title: "",
-    pages: [page]
+    pages: [page],
   };
 
   const questionnaire = {
     id: "3",
     title: "hello world",
-    sections: [section]
+    sections: [section],
   };
 
   beforeEach(() => {
@@ -44,15 +44,15 @@ describe("QuestionnaireDesignPage", () => {
       onUpdatePage: jest.fn(),
       onDeletePage: jest.fn(),
       onDeleteSection: jest.fn(),
-      onCreateQuestionConfirmation: jest.fn()
+      onCreateQuestionConfirmation: jest.fn(),
     };
 
     match = {
       params: {
         questionnaireId: questionnaire.id,
         sectionId: section.id,
-        pageId: page.id
-      }
+        pageId: page.id,
+      },
     };
 
     wrapper = shallow(
@@ -96,10 +96,10 @@ describe("QuestionnaireDesignPage", () => {
           sections: [
             {
               ...section,
-              pages: []
-            }
-          ]
-        }
+              pages: [],
+            },
+          ],
+        },
       });
 
       wrapper.find(`[data-test="side-nav"]`).simulate("addPage");
@@ -131,11 +131,11 @@ describe("QuestionnaireDesignPage", () => {
 
     it("should disable adding question page when the page already has one", () => {
       questionnaire.sections[0].pages[0].confirmation = {
-        id: 1
+        id: 1,
       };
       wrapper.setProps({ data: { questionnaire } });
       expect(wrapper.find(`[data-test="side-nav"]`).props()).toMatchObject({
-        canAddQuestionConfirmation: false
+        canAddQuestionConfirmation: false,
       });
     });
 
@@ -143,7 +143,7 @@ describe("QuestionnaireDesignPage", () => {
       match.params.pageId = undefined;
       wrapper.setProps({ match });
       expect(wrapper.find(`[data-test="side-nav"]`).props()).toMatchObject({
-        canAddQuestionConfirmation: false
+        canAddQuestionConfirmation: false,
       });
     });
 
@@ -151,14 +151,14 @@ describe("QuestionnaireDesignPage", () => {
       match.params.pageId = "hello";
       wrapper.setProps({ match });
       expect(wrapper.find(`[data-test="side-nav"]`).props()).toMatchObject({
-        canAddQuestionConfirmation: false
+        canAddQuestionConfirmation: false,
       });
     });
 
     it("should disable adding question confirmation whilst loading", () => {
       wrapper.setProps({ data: {} });
       expect(wrapper.find(`[data-test="side-nav"]`).props()).toMatchObject({
-        canAddQuestionConfirmation: false
+        canAddQuestionConfirmation: false,
       });
     });
   });

@@ -7,7 +7,7 @@ describe("nocontent middleware", () => {
   beforeEach(() => {
     req = jest.fn();
     res = {
-      status: jest.fn()
+      status: jest.fn(),
     };
   });
 

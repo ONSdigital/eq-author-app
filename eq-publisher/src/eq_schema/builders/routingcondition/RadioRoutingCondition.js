@@ -24,11 +24,11 @@ class RadioRoutingCondition {
       .map(id => ({
         id: `answer${this.condition.answer.id}`,
         condition: "not equals",
-        value: this.optionsById[id].label
+        value: this.optionsById[id].label,
       }))
       .concat({
         id: `answer${this.condition.answer.id}`,
-        condition: "set"
+        condition: "set",
       });
   }
 }

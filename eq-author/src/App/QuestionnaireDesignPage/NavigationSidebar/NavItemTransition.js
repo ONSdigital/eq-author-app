@@ -12,7 +12,7 @@ const onExit = node => {
 
 const NavItemTransition = styled(CSSTransition).attrs({
   classNames: "nav-item",
-  onExit: () => onExit
+  onExit: () => onExit,
 })`
   &.nav-item-enter {
     opacity: 0;
@@ -42,12 +42,12 @@ const NavItemTransition = styled(CSSTransition).attrs({
 
 NavItemTransition.defaultProps = {
   in: false,
-  timeout: 300
+  timeout: 300,
 };
 
 NavItemTransition.propTypes = {
   timeout: PropTypes.number,
-  children: PropTypes.element
+  children: PropTypes.element,
 };
 
 export default NavItemTransition;
