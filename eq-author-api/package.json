@@ -8,7 +8,6 @@
     "start:dev": "NODE_ENV=development nodemon --inspect=0.0.0.0:5858",
     "lint": "eslint .",
     "test": "./scripts/test.sh",
-    "test:coverage": "yarn test --coverage",
     "test:breakingChanges": "node scripts/checkForBreakingChanges.js",
     "knex": "knex"
   },
@@ -43,6 +42,7 @@
   "jest": {
     "testEnvironment": "node",
     "coverageDirectory": "./coverage/",
+    "collectCoverage": false,
     "collectCoverageFrom": [
       "**/*.js",
       "!config/**/*",
