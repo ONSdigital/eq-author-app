@@ -41,12 +41,7 @@ export const mapMutateToProps = ({ ownProps, mutate }) => ({
     const update = createUpdater(sectionId, position);
 
     return mutate({
-      variables: {
-        input: {
-          questionnaireId: ownProps.match.params.questionnaireId,
-          ...page,
-        },
-      },
+      variables: { input: page },
       update,
     })
       .then(get("data.createQuestionPage"))

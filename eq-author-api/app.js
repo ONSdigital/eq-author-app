@@ -9,6 +9,7 @@ const { PORT } = require("./settings");
 const status = require("./middleware/status");
 const { getLaunchUrl } = require("./middleware/launch");
 const createAuthMiddleware = require("./middleware/auth");
+const createLoadQuestionnaireMiddleware = require("./middleware/loadQuestionnaire");
 const repositories = require("./repositories");
 const modifiers = require("./modifiers");
 const schema = require("./schema");
@@ -28,6 +29,11 @@ db(process.env.DB_SECRET_ID)
 
     const repos = repositories(knex);
     const context = { repositories: repos, modifiers: modifiers(repos) };
+
+    const loadQuestionnaire = createLoadQuestionnaireMiddleware(
+      logger,
+      context
+    );
 
     const authMiddleware = createAuthMiddleware(logger, context);
 
@@ -56,6 +62,7 @@ db(process.env.DB_SECRET_ID)
       pino,
       cors(),
       authMiddleware,
+      loadQuestionnaire,
       bodyParser.json(),
       graphqlExpress({
         schema,
