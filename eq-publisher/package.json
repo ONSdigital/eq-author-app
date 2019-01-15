@@ -20,6 +20,7 @@
     "express": "^4.15.3",
     "express-pino-logger": "^4.0.0",
     "graphql": "^14.1.0",
+    "helmet": "^3.15.0",
     "json-schema": "^0.2.3",
     "jsonschema": "^1.1.1",
     "jsonwebtoken": "^8.4.0",

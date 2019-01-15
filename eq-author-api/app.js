@@ -3,6 +3,7 @@ const { graphqlExpress } = require("graphql-server-express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const pinoMiddleware = require("express-pino-logger");
+const helmet = require("helmet");
 
 const { PORT } = require("./settings");
 const status = require("./middleware/status");
@@ -32,6 +33,26 @@ db(process.env.DB_SECRET_ID)
 
     app.use(
       "/graphql",
+      helmet({
+        referrerPolicy: {
+          policy: "no-referrer"
+        },
+        frameguard: {
+          action: "deny"
+        },
+        contentSecurityPolicy: {
+          directives: {
+            defaultSrc: ["'self'"],
+            objectSrc: ["'none'"],
+            baseUri: ["'none'"],
+            fontSrc: ["'self'", "'https://fonts.gstatic.com'"],
+            scriptSrc: [
+              "'self'",
+              "'https://www.googleapis.com/identitytoolkit/v3'"
+            ]
+          }
+        }
+      }),
       pino,
       cors(),
       authMiddleware,
