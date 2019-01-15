@@ -480,7 +480,6 @@ type BinaryExpression2 {
   expressionGroup: ExpressionGroup2!
 }
 
-
 type Query {
   questionnaires: [Questionnaire]
   questionnaire(input: QueryInput!): Questionnaire
@@ -697,6 +696,7 @@ input DuplicateSectionInput {
 }
 
 input CreatePageInput {
+  questionnaireId: ID!
   title: String!
   description: String
   sectionId: ID!
@@ -723,6 +723,7 @@ input DuplicatePageInput {
 }
 
 input CreateQuestionPageInput {
+  questionnaireId: ID!
   title: String!
   alias: String
   description: String

@@ -26,6 +26,7 @@
     "graphql-type-json": "latest",
     "helmet": "latest",
     "js-yaml": "latest",
+    "json-stable-stringify": "latest",
     "json-web-key": "latest",
     "jsonwebtoken": "latest",
     "jsrsasign": "latest",
