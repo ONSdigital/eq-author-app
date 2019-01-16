@@ -5,7 +5,6 @@ const {
   pick,
   find,
   findIndex,
-  set,
   merge,
   remove,
   flatMap,
@@ -19,6 +18,8 @@ const {
 const fs = require("fs");
 const uuid = require("uuid");
 const stringify = require("json-stable-stringify");
+
+const createAnswer = require("../../src/businessLogic/createAnswer");
 
 const getSection = ctx => input => {
   return find(ctx.questionnaire.sections, { id: input.sectionId });
@@ -190,7 +191,12 @@ const Resolvers = {
       return page;
     },
 
-    updatePage: (_, args, ctx) => ctx.repositories.Page.update(args.input),
+    updatePage: (_, { input }, ctx) => {
+      const page = getPage(ctx, { id: input.id });
+      merge(page, input);
+      save(ctx.questionnaire);
+      return page;
+    },
     deletePage: (_, args, ctx) => ctx.repositories.Page.remove(args.input.id),
     undeletePage: (_, args, ctx) =>
       ctx.repositories.Page.undelete(args.input.id),
@@ -205,16 +211,23 @@ const Resolvers = {
       save(ctx.questionnaire);
       return page;
     },
-    updateQuestionPage: (_, args, ctx) =>
-      ctx.repositories.QuestionPage.update(args.input),
+    updateQuestionPage: (_, { input }, ctx) => {
+      const page = getPage(ctx, { id: input.id });
+      merge(page, input);
+      save(ctx.questionnaire);
+      return page;
+    },
     deleteQuestionPage: (_, args, ctx) =>
       ctx.repositories.QuestionPage.remove(args.input.id),
     undeleteQuestionPage: (_, args, ctx) =>
       ctx.repositories.QuestionPage.undelete(args.input.id),
 
-    createAnswer: async (root, args, ctx) => {
-      const answer = await ctx.repositories.Answer.createAnswer(args.input);
-      await ctx.modifiers.BinaryExpression.onAnswerCreated(answer);
+    createAnswer: async (root, { input }, ctx) => {
+      const page = getPage(ctx)({ pageId: input.questionPageId });
+      const answer = createAnswer(input);
+      page.answers.push(answer);
+      save(ctx.questionnaire);
+      // await ctx.modifiers.BinaryExpression.onAnswerCreated(answer); // TODO
       return answer;
     },
     updateAnswer: (_, args, ctx) => ctx.repositories.Answer.update(args.input),
@@ -304,7 +317,9 @@ const Resolvers = {
     questionnaire: (section, args, ctx) => ctx.questionnaire,
     displayName: section => getName(section, "Section"),
     title: (page, args) => formatRichText(page.title, args.format),
-    position: () => 1,
+    position: ({ id }, args, ctx) => {
+      return findIndex(ctx.questionnaire.sections, { id });
+    },
     introduction: section => (section.introductionEnabled ? section : null),
     availablePipingAnswers: ({ id }, args, ctx) =>
       ctx.repositories.Section.getPipingAnswersForSection(id),
