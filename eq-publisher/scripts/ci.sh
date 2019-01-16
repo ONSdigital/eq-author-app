@@ -3,7 +3,7 @@ set -e
 
 yarn install --frozen-lockfile
 yarn lint
-yarn test
+yarn test --coverage
 bash <(curl -s https://codecov.io/bash) -e TRAVIS_NODE_VERSION
 docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
 TAG=`if [ "$TRAVIS_PULL_REQUEST_BRANCH" == "" ]; then echo "latest"; else echo $TRAVIS_PULL_REQUEST_BRANCH; fi`

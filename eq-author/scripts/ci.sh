@@ -3,7 +3,7 @@ set -e
 
 yarn install --frozen-lockfile
 yarn lint
-yarn coverage
+yarn test --coverage
 bash <(curl -s https://codecov.io/bash) -e TRAVIS_NODE_VERSION
 yarn test:storybook
 yarn storybook-build
