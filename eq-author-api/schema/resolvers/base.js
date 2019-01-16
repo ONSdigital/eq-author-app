@@ -8,6 +8,9 @@ const {
   merge,
   remove,
   flatMap,
+  omit,
+  set,
+  cloneDeep,
 } = require("lodash");
 const GraphQLJSON = require("graphql-type-json");
 const { getName } = require("../../utils/getName");
@@ -20,6 +23,7 @@ const uuid = require("uuid");
 const stringify = require("json-stable-stringify");
 
 const createAnswer = require("../../src/businessLogic/createAnswer");
+const addPrefix = require("../../utils/addPrefix");
 
 const getSection = ctx => input => {
   return find(ctx.questionnaire.sections, { id: input.sectionId });
@@ -177,11 +181,18 @@ const Resolvers = {
         introductionTitle: null,
       }),
     moveSection: (_, args, ctx) => ctx.repositories.Section.move(args.input),
-    duplicateSection: (_, args, ctx) =>
-      ctx.repositories.Section.duplicateSection(
-        args.input.id,
-        args.input.position
-      ),
+
+    duplicateSection: (_, { input }, ctx) => {
+      const section = find(ctx.questionnaire.sections, { id: input.id });
+      const newSection = omit(cloneDeep(section), "id");
+      set(newSection, "alias", addPrefix(newSection.alias));
+      set(newSection, "title", addPrefix(newSection.title));
+      const duplicatedSection = createSection(newSection);
+      duplicatedSection.pages.map(page => set(page, "id", uuid.v4()));
+      ctx.questionnaire.sections.splice(input.position, 0, duplicatedSection);
+      save(ctx.questionnaire);
+      return duplicatedSection;
+    },
 
     createPage: (root, { input }, ctx) => {
       const section = find(ctx.questionnaire.section, { id: input.sectionId });
@@ -197,12 +208,27 @@ const Resolvers = {
       save(ctx.questionnaire);
       return page;
     },
-    deletePage: (_, args, ctx) => ctx.repositories.Page.remove(args.input.id),
+    deletePage: (_, { input }, ctx) => {
+      const section = findSectionByPageId(ctx.questionnaire.sections, input.id);
+      const page = find(section.pages, { id: input.id });
+      const removedPage = remove(section.pages, { id: page.id });
+      save(ctx.questionnaire);
+      return removedPage[0];
+    },
     undeletePage: (_, args, ctx) =>
       ctx.repositories.Page.undelete(args.input.id),
     movePage: (_, args, ctx) => ctx.repositories.Page.move(args.input),
-    duplicatePage: (_, args, ctx) =>
-      ctx.repositories.Page.duplicatePage(args.input.id, args.input.position),
+    duplicatePage: (_, { input }, ctx) => {
+      const section = findSectionByPageId(ctx.questionnaire.sections, input.id);
+      const page = find(section.pages, { id: input.id });
+      const newpage = omit(page, "id");
+      set(newpage, "alias", addPrefix(newpage.alias));
+      set(newpage, "title", addPrefix(newpage.title));
+      const duplicatedPage = createPage(newpage);
+      section.pages.splice(input.position, 0, duplicatedPage);
+      save(ctx.questionnaire);
+      return duplicatedPage;
+    },
 
     createQuestionPage: (root, { input }, ctx) => {
       const section = find(ctx.questionnaire.sections, { id: input.sectionId });
@@ -217,8 +243,13 @@ const Resolvers = {
       save(ctx.questionnaire);
       return page;
     },
-    deleteQuestionPage: (_, args, ctx) =>
-      ctx.repositories.QuestionPage.remove(args.input.id),
+    deleteQuestionPage: (_, { input }, ctx) => {
+      const section = find(ctx.questionnaire.sections, { id: input.sectionId });
+      const page = find(section.pages, { id: input.pageId });
+      const removedPage = remove(section.pages, { id: page.pageId });
+      save(ctx.questionnaire);
+      return removedPage[0];
+    },
     undeleteQuestionPage: (_, args, ctx) =>
       ctx.repositories.QuestionPage.undelete(args.input.id),
 
