@@ -96,7 +96,7 @@ export class UnconnectedHeader extends React.Component {
   };
 
   displayToast = () => {
-    this.props.raiseToast("ShareToast", "Error link copied to clipboard");
+    this.props.raiseToast("ShareToast", "Link copied to clipboard");
   };
 
   handleSignOut = () => {

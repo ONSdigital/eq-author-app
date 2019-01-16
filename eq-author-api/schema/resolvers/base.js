@@ -25,7 +25,7 @@ const Resolvers = {
     questionConfirmation: (root, { id }, ctx) =>
       ctx.repositories.QuestionConfirmation.findById(id),
     me: (root, args, ctx) => ({
-      id: ctx.auth.user_id,
+      id: ctx.auth.sub,
       ...pick(ctx.auth, ["name", "email", "picture"]),
     }),
   },

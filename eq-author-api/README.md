@@ -37,6 +37,7 @@ In most cases sensible defaults have been selected.
 | `DB_CONNECTION_URI`     | Connection string for database                                                     | Yes      |
 | `SECRETS_S3_BUCKET`     | Name of S3 bucket where secrets are stored                                         | No       |
 | `KEYS_FILE`             | Name of the keys file to use inside the bucket                                     | No       |
+| `AUTH_HEADER_KEY`       | Name of the header values that contains the Auth token                             | No       |
 | `EQ_AUTHOR_API_VERSION` | The current Author API version. This is what gets reported on the /status endpoint | No       |
 | `PORT`                  | The port which express listens on (defaults to `4000`)                             | No       |
 | `NODE_ENV`              | Sets the environment the code is running in                                        | No       |
