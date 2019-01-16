@@ -9,6 +9,7 @@ const noContent = require("./middleware/nocontent");
 const createAuthToken = require("./middleware/createAuthToken");
 const createAuthHeaderMiddleware = require("./middleware/createAuthHeaderMiddleware");
 const { isNil } = require("lodash");
+const helmet = require("helmet");
 
 const Convert = require("./process/Convert");
 const SchemaValidator = require("./validation/SchemaValidator");
@@ -36,6 +37,24 @@ const converter = new Convert(
 const logger = pino();
 const app = express();
 const setAuthHeaders = createAuthHeaderMiddleware(apolloFetch);
+
+app.use(
+  helmet({
+    referrerPolicy: {
+      policy: "no-referrer"
+    },
+    frameguard: {
+      action: "deny"
+    },
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        objectSrc: ["'none'"],
+        baseUri: ["'none'"]
+      }
+    }
+  })
+);
 
 if (process.env.NODE_ENV === "development") {
   app.get(
