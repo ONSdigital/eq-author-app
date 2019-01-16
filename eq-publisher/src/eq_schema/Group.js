@@ -48,6 +48,7 @@ class Group {
               page,
               groupId,
               page.routingRuleSet,
+              page.routing,
               ctx
             )
           ];

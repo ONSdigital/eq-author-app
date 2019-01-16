@@ -1,4 +1,5 @@
 const Question = require("./Question");
+const translateAuthorRouting = require("./builders/routing2");
 const RoutingRule = require("./RoutingRule");
 const RoutingDestination = require("./RoutingDestination");
 const {
@@ -43,8 +44,15 @@ class Block {
     this.id = `block${page.id}`;
     this.type = this.convertPageType(page.pageType);
     this.questions = this.buildQuestions(page, ctx);
-
-    if (
+    if (page.routing && isNil(page.confirmation)) {
+      // eslint-disable-next-line camelcase
+      this.routing_rules = translateAuthorRouting(
+        page.routing,
+        page.id,
+        groupId,
+        ctx
+      );
+    } else if (
       !isLastPageInSection(page, ctx) &&
       !isNil(page.routingRuleSet) &&
       isNil(page.confirmation)

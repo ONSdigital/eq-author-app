@@ -5,6 +5,7 @@ const buildAuthorConfirmationQuestion = (
   page,
   groupId,
   routingRuleSet,
+  routing,
   ctx
 ) => {
   const confirmationAnswerObject = {
@@ -29,7 +30,7 @@ const buildAuthorConfirmationQuestion = (
     ]
   };
 
-  const confirmationBackwardsRouting = {
+  const confirmationBackwardsRoutingRuleSet = {
     id: "negative-confirmation-answered",
     operation: "Or",
     goto: {
@@ -51,18 +52,47 @@ const buildAuthorConfirmationQuestion = (
     ]
   };
 
-  if (!routingRuleSet) {
-    routingRuleSet = {
+  const confirmationBackwardsRouting2Rule = {
+    expressionGroup: {
+      operator: "OR",
+      expressions: [
+        {
+          left: {
+            id: `confirmation-answer-for-${page.id}`,
+            type: RADIO
+          },
+          condition: "OneOf",
+          right: {
+            options: [
+              {
+                label: page.confirmation.negative.label
+              }
+            ]
+          }
+        }
+      ]
+    },
+    destination: {
+      page: {
+        id: page.id
+      }
+    }
+  };
+
+  if (!routingRuleSet && !routing) {
+    routing = {
       id: "default-rule-set",
       else: {
-        __typename: "LogicalDestination",
-        logicalDestination: "NextPage"
+        logical: "NextPage"
       },
-      routingRules: []
+      rules: []
     };
   }
-
-  routingRuleSet.routingRules.unshift(confirmationBackwardsRouting);
+  if (routingRuleSet) {
+    routingRuleSet.routingRules.unshift(confirmationBackwardsRoutingRuleSet);
+  } else {
+    routing.rules.unshift(confirmationBackwardsRouting2Rule);
+  }
 
   const confirmationQuestionObject = {
     id: `confirmation-page-for-${page.id}`,
@@ -73,6 +103,7 @@ const buildAuthorConfirmationQuestion = (
         : null,
     pageType: "ConfirmationQuestion",
     routingRuleSet,
+    routing,
     answers: [confirmationAnswerObject]
   };
 

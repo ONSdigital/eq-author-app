@@ -269,7 +269,7 @@ describe("Group", () => {
   });
 
   describe("confirmation pages", () => {
-    const ctxGenerator = routingRuleSet => ({
+    const ctxGenerator = (routingRuleSet, routing) => ({
       routingGotos: [],
       questionnaireJson: {
         sections: [
@@ -283,7 +283,8 @@ describe("Group", () => {
                 description: "",
                 guidance: null,
                 pageType: "QuestionPage",
-                routingRuleSet: routingRuleSet,
+                routingRuleSet,
+                routing,
                 confirmation: {
                   id: "2",
                   title: "<p>Are you sure?</p>",
@@ -367,12 +368,8 @@ describe("Group", () => {
               when: [
                 {
                   id: "answerconfirmation-answer-for-1",
-                  condition: "not equals",
-                  value: "Oh yes."
-                },
-                {
-                  id: "answerconfirmation-answer-for-1",
-                  condition: "set"
+                  condition: "equals",
+                  value: "Wait I can get more?"
                 }
               ]
             }
@@ -388,7 +385,7 @@ describe("Group", () => {
       expect(resultantJson.blocks[1]).toMatchObject(expectedRunnerBlock);
     });
 
-    it("copies routing rules from the previous question", () => {
+    it("copies routingRuleSets from the previous question", () => {
       const routingRuleSet = {
         id: "2",
         else: {
@@ -494,6 +491,100 @@ describe("Group", () => {
                 id: "answer1",
                 condition: "less than",
                 value: 100
+              }
+            ]
+          }
+        },
+        {
+          goto: {
+            group: "confirmation-group"
+          }
+        }
+      ];
+
+      expect(resultantJson.blocks[0].routing_rules).toBeUndefined();
+
+      expect(resultantJson.blocks[1].routing_rules).toEqual(
+        expectedRunnerRouting
+      );
+    });
+
+    it("copies a routing2 from the previous question and converts it to runner format", () => {
+      const routing = {
+        rules: [
+          {
+            expressionGroup: {
+              operator: "And",
+              expressions: [
+                {
+                  left: {
+                    id: "1",
+                    type: "Radio",
+                    options: [
+                      {
+                        id: "1"
+                      }
+                    ]
+                  },
+                  condition: "OneOf",
+                  right: {
+                    options: [
+                      {
+                        id: "1",
+                        label: "2.3"
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            destination: {
+              section: {
+                id: "2"
+              },
+              page: null,
+              logical: null
+            }
+          }
+        ],
+        else: {
+          section: null,
+          page: null,
+          logical: "EndOfQuestionnaire"
+        }
+      };
+
+      const ctx = ctxGenerator(null, routing);
+
+      const resultantJson = new Group(
+        ctx.questionnaireJson.sections[0].id,
+        ctx.questionnaireJson.sections[0].title,
+        ctx.questionnaireJson.sections[0].pages,
+        { introductionEnabled: false },
+        ctx
+      );
+
+      const expectedRunnerRouting = [
+        {
+          goto: {
+            block: "block1",
+            when: [
+              {
+                id: "answerconfirmation-answer-for-1",
+                condition: "equals",
+                value: "Wait I can get more?"
+              }
+            ]
+          }
+        },
+        {
+          goto: {
+            group: "group2",
+            when: [
+              {
+                id: "answer1",
+                condition: "equals",
+                value: "2.3"
               }
             ]
           }
