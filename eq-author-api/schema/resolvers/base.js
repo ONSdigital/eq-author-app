@@ -308,8 +308,23 @@ const Resolvers = {
     deleteMetadata: (_, args, ctx) =>
       ctx.repositories.Metadata.remove(args.input.id),
 
-    createQuestionConfirmation: (_, args, ctx) =>
-      ctx.repositories.QuestionConfirmation.create(args.input),
+    createQuestionConfirmation: (_, { input }, ctx) => {
+      const section = findSectionByPageId(
+        ctx.questionnaire.sections,
+        input.pageId
+      );
+      const page = find(section.pages, { id: input.pageId });
+      const questionConfimation = set(page, "confirmation", {
+        id: uuid.v4(),
+        title: "",
+        positive: { label: null, description: null },
+        negative: { label: null, description: null },
+        availablePipingAnswers: [],
+        availablePipingMetadata: [],
+      });
+      save(ctx.questionnaire);
+      return questionConfimation;
+    },
     updateQuestionConfirmation: (
       _,
       { input: { positive, negative, id, title } },
