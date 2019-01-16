@@ -6,6 +6,8 @@ const {
   createDefaultValidationsForAnswer
 } = require("../../repositories/strategies/validationStrategy");
 
+const createOption = require("./createOption");
+
 module.exports = answer => {
   const defaultProperties = getDefaultAnswerProperties(answer.type);
   merge(answer, {
@@ -13,7 +15,7 @@ module.exports = answer => {
   });
 
   const validation = {};
-  if ((includes(answer.type), flatten(values(answerTypeMap)))) {
+  if (includes(answer.type, flatten(values(answerTypeMap)))) {
     const validations = createDefaultValidationsForAnswer(answer);
     validations.map(v => {
       validation[v.validationType] = {
@@ -24,30 +26,21 @@ module.exports = answer => {
     });
   }
 
-  // if (answer.type === "Checkbox" || answer.type === "Radio") {
-  //   const defaultOptions = [];
-  //   const defaultOption = {
-  //     label: "",
-  //     description: "",
-  //     value: "",
-  //     qCode: "",
-  //     answerId: answer.id
-  //   };
-  //
-  //   defaultOptions.push(defaultOption);
-  //
-  //   if (answer.type === "Radio") {
-  //     defaultOptions.push(defaultOption);
-  //   }
-  //
-  //   const promises = defaultOptions.map(it =>
-  //     OptionRepository(trx).insert(it)
-  //   );
-  //
-  // }
+  const defaultOptions = [];
+  if (answer.type === "Checkbox" || answer.type === "Radio") {
+    defaultOptions.push(createOption());
+
+    if (answer.type === "Radio") {
+      defaultOptions.push(createOption());
+    }
+  }
 
   return {
     id: uuid.v4(),
-    ...merge(answer, { properties: defaultProperties, validation })
+    ...merge(answer, {
+      properties: defaultProperties,
+      validation,
+      options: defaultOptions
+    })
   };
 };

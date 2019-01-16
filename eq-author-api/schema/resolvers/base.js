@@ -422,13 +422,9 @@ const Resolvers = {
   MultipleChoiceAnswer: {
     page: (answer, args, ctx) =>
       ctx.repositories.QuestionPage.getById(answer.questionPageId),
-    options: (answer, args, ctx) =>
-      ctx.repositories.Option.findAll({
-        answerId: answer.id,
-        mutuallyExclusive: false,
-      }),
-    mutuallyExclusiveOption: (answer, args, ctx) =>
-      ctx.repositories.Option.findExclusiveOptionByAnswerId(answer.id),
+    options: answer => answer.options,
+    // mutuallyExclusiveOption: (answer, args, ctx) =>
+    //   ctx.repositories.Option.findExclusiveOptionByAnswerId(answer.id),
     displayName: answer => getName(answer, "MultipleChoiceAnswer"),
   },
 
