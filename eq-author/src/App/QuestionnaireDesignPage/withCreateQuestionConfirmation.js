@@ -7,7 +7,7 @@ import { buildConfirmationPath } from "utils/UrlUtils";
 
 export const redirectToNewPage = ({
   history,
-  match: { params }
+  match: { params },
 }) => questionConfirmation => {
   const { id, page } = questionConfirmation;
   history.push(
@@ -16,7 +16,7 @@ export const redirectToNewPage = ({
       sectionId: params.sectionId,
       pageId: page.id,
       confirmationId: id,
-      tab: "design"
+      tab: "design",
     })
   );
 };
@@ -24,13 +24,13 @@ export const redirectToNewPage = ({
 export const mapMutateToProps = ({ ownProps, mutate }) => ({
   onCreateQuestionConfirmation(pageId) {
     return mutate({
-      variables: { input: { pageId } }
+      variables: { input: { pageId } },
     })
       .then(get("data.createQuestionConfirmation"))
       .then(redirectToNewPage(ownProps));
-  }
+  },
 });
 
 export default graphql(createQuestionPageMutation, {
-  props: mapMutateToProps
+  props: mapMutateToProps,
 });

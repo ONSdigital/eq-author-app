@@ -10,7 +10,7 @@ describe("enhancers > withDeleteSectionIntro", () => {
     beforeEach(() => {
       mutate = jest.fn(() => Promise.resolve());
       ownProps = {
-        raiseToast: jest.fn(() => Promise.resolve())
+        raiseToast: jest.fn(() => Promise.resolve()),
       };
       props = mapMutateToProps({ ownProps, mutate });
       section = { id: 1, introductionContent: "bar", introductionTitle: "foo" };
@@ -28,9 +28,9 @@ describe("enhancers > withDeleteSectionIntro", () => {
             id: section.id,
             introductionTitle: null,
             introductionContent: null,
-            introductionEnabled: false
-          }
-        }
+            introductionEnabled: false,
+          },
+        },
       });
     });
     it("should raise a toast with old intro object", () => {
@@ -43,7 +43,7 @@ describe("enhancers > withDeleteSectionIntro", () => {
             id: section.id,
             introductionTitle: section.introductionTitle,
             introductionContent: section.introductionContent,
-            introductionEnabled: true
+            introductionEnabled: true,
           }
         );
       });

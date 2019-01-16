@@ -6,7 +6,7 @@ const config = require("../knexfile.js");
 
 const getConfig = async function(secretId) {
   const result = {
-    ...config
+    ...config,
   };
   logger.info("Getting DB Credentials");
   if (secretId && secretId !== "") {
@@ -23,7 +23,7 @@ const getConfig = async function(secretId) {
       result.connection = {
         user: username,
         database: dbname,
-        ...otherProps
+        ...otherProps,
       };
     } catch (error) {
       logger.error(error);

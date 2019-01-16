@@ -3,7 +3,7 @@ import {
   dateReadToWriteMapper,
   durationReadToWriteMapper,
   minValueReadToWriteMapper,
-  maxValueReadToWriteMapper
+  maxValueReadToWriteMapper,
 } from "./readToWriteMapper";
 
 import EarliestDateValidationRule from "graphql/fragments/earliest-date-validation-rule.graphql";

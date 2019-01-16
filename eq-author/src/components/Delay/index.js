@@ -4,15 +4,15 @@ import PropTypes from "prop-types";
 class Delay extends React.Component {
   static propTypes = {
     delay: PropTypes.number,
-    children: PropTypes.node.isRequired
+    children: PropTypes.node.isRequired,
   };
 
   static defaultProps = {
-    delay: 250
+    delay: 250,
   };
 
   state = {
-    ready: false
+    ready: false,
   };
 
   componentDidMount() {

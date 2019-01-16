@@ -6,7 +6,7 @@ import {
   buildMultipleChoiceAnswer,
   testId,
   addAnswerType,
-  selectQuestionFromContentPicker
+  selectQuestionFromContentPicker,
 } from "../../utils";
 
 let title;
@@ -212,7 +212,7 @@ describe("Routing", () => {
 
     selectQuestionFromContentPicker({
       sectionTitle: "Section 1",
-      questionTitle: "Question 1"
+      questionTitle: "Question 1",
     });
 
     clickOnRoutingRuleOption({ label: "A" });
@@ -226,7 +226,7 @@ describe("Routing", () => {
 
     selectQuestionFromContentPicker({
       sectionTitle: "Section 1",
-      questionTitle: "Question 2"
+      questionTitle: "Question 2",
     });
 
     clickOnRoutingRuleOption({ label: "D" });
@@ -240,7 +240,7 @@ describe("Routing", () => {
 
     selectQuestionFromContentPicker({
       sectionTitle: "Section 1",
-      questionTitle: "Question 3"
+      questionTitle: "Question 3",
     });
 
     clickOnRoutingRuleOption({ label: "G" });
@@ -328,7 +328,7 @@ describe("Routing", () => {
     findByLabel("IF").click();
     selectQuestionFromContentPicker({
       sectionTitle: "Section 1",
-      questionTitle: "Question 1"
+      questionTitle: "Question 1",
     });
     cy.get(testId("options-selector"))
       .first()
@@ -416,7 +416,7 @@ describe("Routing", () => {
 
     selectQuestionFromContentPicker({
       sectionTitle: "Section 1",
-      questionTitle: "Question 3"
+      questionTitle: "Question 3",
     });
 
     findByLabel("AND")
@@ -461,7 +461,7 @@ describe("Routing", () => {
 
     selectQuestionFromContentPicker({
       sectionTitle: "Section 1",
-      questionTitle: "Question 1"
+      questionTitle: "Question 1",
     });
 
     cy.contains("Question 1").click();

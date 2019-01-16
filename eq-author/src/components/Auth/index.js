@@ -10,7 +10,7 @@ firebase.initializeApp({
   apiKey: API_KEY,
   authDomain: `${PROJECT_ID}.firebaseapp.com`,
   databaseURL: `https://${PROJECT_ID}.firebaseio.com`,
-  storageBucket: `${PROJECT_ID}.appspot.com`
+  storageBucket: `${PROJECT_ID}.appspot.com`,
 });
 
 const auth = firebase.auth();
@@ -19,8 +19,8 @@ export default auth;
 export const providers = [
   {
     provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
-    requireDisplayName: true
-  }
+    requireDisplayName: true,
+  },
 ];
 
 export const credentialHelper = firebaseui.auth.CredentialHelper.NONE;

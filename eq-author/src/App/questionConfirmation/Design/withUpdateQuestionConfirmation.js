@@ -26,11 +26,11 @@ export const mapMutateToProps = ({ mutate }) => ({
   onUpdateQuestionConfirmation: questionConfirmation =>
     mutate({
       variables: {
-        input: filterToWrite(questionConfirmation)
-      }
-    })
+        input: filterToWrite(questionConfirmation),
+      },
+    }),
 });
 
 export default graphql(updateMutation, {
-  props: mapMutateToProps
+  props: mapMutateToProps,
 });

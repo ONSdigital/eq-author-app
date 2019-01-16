@@ -9,22 +9,22 @@ describe("withCreateQuestionConfirmation", () => {
         createQuestionConfirmation: {
           id: "4",
           page: {
-            id: "3"
-          }
-        }
-      }
+            id: "3",
+          },
+        },
+      },
     });
 
     ownProps = {
       history: {
-        push: jest.fn()
+        push: jest.fn(),
       },
       match: {
         params: {
           questionnaireId: "1",
-          sectionId: "2"
-        }
-      }
+          sectionId: "2",
+        },
+      },
     };
   });
 
@@ -40,7 +40,7 @@ describe("withCreateQuestionConfirmation", () => {
       pageId
     );
     expect(mutate).toHaveBeenCalledWith({
-      variables: { input: { pageId } }
+      variables: { input: { pageId } },
     });
   });
 

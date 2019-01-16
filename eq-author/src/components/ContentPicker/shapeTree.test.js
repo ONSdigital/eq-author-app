@@ -9,9 +9,9 @@ const answerTree = [
       displayName: "Page (1.1)",
       section: {
         id: "1",
-        displayName: "Section (1)"
-      }
-    }
+        displayName: "Section (1)",
+      },
+    },
   },
   {
     id: "7",
@@ -21,9 +21,9 @@ const answerTree = [
       displayName: "Page (1.2)",
       section: {
         id: "1",
-        displayName: "Section (1)"
-      }
-    }
+        displayName: "Section (1)",
+      },
+    },
   },
   {
     id: "2",
@@ -33,9 +33,9 @@ const answerTree = [
       displayName: "Page (2.1)",
       section: {
         id: "2",
-        displayName: "Section (2)"
-      }
-    }
+        displayName: "Section (2)",
+      },
+    },
   },
   {
     id: "3",
@@ -45,9 +45,9 @@ const answerTree = [
       displayName: "Page (3.1)",
       section: {
         id: "3",
-        displayName: "Section (3)"
-      }
-    }
+        displayName: "Section (3)",
+      },
+    },
   },
   {
     id: "9",
@@ -57,10 +57,10 @@ const answerTree = [
       displayName: "Page (3.1)",
       section: {
         id: "3",
-        displayName: "Section (3)"
-      }
-    }
-  }
+        displayName: "Section (3)",
+      },
+    },
+  },
 ];
 
 const expectedAnswerTree = [
@@ -74,9 +74,9 @@ const expectedAnswerTree = [
         answers: [
           {
             id: "6",
-            displayName: "Date 1"
-          }
-        ]
+            displayName: "Date 1",
+          },
+        ],
       },
       {
         id: "6",
@@ -84,11 +84,11 @@ const expectedAnswerTree = [
         answers: [
           {
             id: "7",
-            displayName: "Date 2"
-          }
-        ]
-      }
-    ]
+            displayName: "Date 2",
+          },
+        ],
+      },
+    ],
   },
   {
     id: "2",
@@ -100,11 +100,11 @@ const expectedAnswerTree = [
         answers: [
           {
             id: "2",
-            displayName: "Date 3"
-          }
-        ]
-      }
-    ]
+            displayName: "Date 3",
+          },
+        ],
+      },
+    ],
   },
   {
     id: "3",
@@ -116,16 +116,16 @@ const expectedAnswerTree = [
         answers: [
           {
             id: "3",
-            displayName: "Date 4"
+            displayName: "Date 4",
           },
           {
             id: "9",
-            displayName: "Date 5"
-          }
-        ]
-      }
-    ]
-  }
+            displayName: "Date 5",
+          },
+        ],
+      },
+    ],
+  },
 ];
 
 const questionTree = [
@@ -134,41 +134,41 @@ const questionTree = [
     displayName: "Page (1.1)",
     section: {
       id: "1",
-      displayName: "Section (1)"
-    }
+      displayName: "Section (1)",
+    },
   },
   {
     id: "6",
     displayName: "Page (1.2)",
     section: {
       id: "1",
-      displayName: "Section (1)"
-    }
+      displayName: "Section (1)",
+    },
   },
   {
     id: "2",
     displayName: "Page (2.1)",
     section: {
       id: "2",
-      displayName: "Section (2)"
-    }
+      displayName: "Section (2)",
+    },
   },
   {
     id: "5",
     displayName: "Page (3.1)",
     section: {
       id: "3",
-      displayName: "Section (3)"
-    }
+      displayName: "Section (3)",
+    },
   },
   {
     id: "5",
     displayName: "Page (3.1)",
     section: {
       id: "3",
-      displayName: "Section (3)"
-    }
-  }
+      displayName: "Section (3)",
+    },
+  },
 ];
 
 const expectedQuestionTree = [
@@ -178,13 +178,13 @@ const expectedQuestionTree = [
     pages: [
       {
         id: "1",
-        displayName: "Page (1.1)"
+        displayName: "Page (1.1)",
       },
       {
         id: "6",
-        displayName: "Page (1.2)"
-      }
-    ]
+        displayName: "Page (1.2)",
+      },
+    ],
   },
   {
     id: "2",
@@ -192,9 +192,9 @@ const expectedQuestionTree = [
     pages: [
       {
         id: "2",
-        displayName: "Page (2.1)"
-      }
-    ]
+        displayName: "Page (2.1)",
+      },
+    ],
   },
   {
     id: "3",
@@ -202,10 +202,10 @@ const expectedQuestionTree = [
     pages: [
       {
         id: "5",
-        displayName: "Page (3.1)"
-      }
-    ]
-  }
+        displayName: "Page (3.1)",
+      },
+    ],
+  },
 ];
 
 describe("shapeTree", () => {

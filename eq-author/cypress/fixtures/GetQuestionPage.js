@@ -16,11 +16,11 @@ export default {
         questionnaire: {
           __typename: "Questionnaire",
           id: "1",
-          metadata: []
-        }
+          metadata: [],
+        },
       },
       confirmation: null,
-      __typename: "QuestionPage"
-    }
-  }
+      __typename: "QuestionPage",
+    },
+  },
 };

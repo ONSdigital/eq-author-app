@@ -19,7 +19,7 @@ describe("sanitise Metadata", () => {
       collection_exercise_sid: 123,
       period_id: "201605",
       form_type: 1,
-      survey_url: expect.any(String)
+      survey_url: expect.any(String),
     };
   });
 
@@ -32,7 +32,7 @@ describe("sanitise Metadata", () => {
     const sanitisedMetadata = sanitiseMetadata(
       {
         iat: "foo",
-        exp: "bar"
+        exp: "bar",
       },
       1
     );
@@ -45,7 +45,7 @@ describe("sanitise Metadata", () => {
     const sanitisedMetadata = sanitiseMetadata(
       {
         ru_name: "foo",
-        trad_as: "bar"
+        trad_as: "bar",
       },
       1
     );

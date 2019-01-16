@@ -28,18 +28,18 @@ describe("RoutingRule Integration", () => {
             {
               answers: [
                 {
-                  type: answerTypes.NUMBER
-                }
+                  type: answerTypes.NUMBER,
+                },
               ],
               routing: {
                 else: {
-                  logical: "NextPage"
-                }
-              }
-            }
-          ]
-        }
-      ]
+                  logical: "NextPage",
+                },
+              },
+            },
+          ],
+        },
+      ],
     });
     const createMutation = `
     mutation createRoutingRule2($input: CreateRoutingRule2Input!) {
@@ -53,15 +53,15 @@ describe("RoutingRule Integration", () => {
     const page = questionnaire.sections[0].pages[0];
     const routing = page.routing;
     const input = {
-      routingId: routing.id
+      routingId: routing.id,
     };
     const createResult = await executeQuery(createMutation, { input }, ctx);
     expect(createResult.errors).toBeUndefined();
     expect(createResult.data).toMatchObject({
       createRoutingRule2: {
         id: expect.any(String),
-        routing: { id: routing.id.toString() }
-      }
+        routing: { id: routing.id.toString() },
+      },
     });
 
     const query = `
@@ -126,7 +126,7 @@ describe("RoutingRule Integration", () => {
                 id: expect.any(String),
                 logical: "NextPage",
                 page: null,
-                section: null
+                section: null,
               },
               expressionGroup: {
                 id: expect.any(String),
@@ -135,17 +135,17 @@ describe("RoutingRule Integration", () => {
                   {
                     id: expect.any(String),
                     left: {
-                      id: page.answers[0].id.toString()
+                      id: page.answers[0].id.toString(),
                     },
                     condition: "Equal",
-                    right: null
-                  }
-                ]
-              }
-            }
-          ]
-        }
-      }
+                    right: null,
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      },
     });
   });
 
@@ -158,21 +158,21 @@ describe("RoutingRule Integration", () => {
               {
                 routing: {
                   else: {
-                    logical: "NextPage"
+                    logical: "NextPage",
                   },
                   rules: [
                     {
                       destination: {
-                        logical: "NextPage"
-                      }
-                    }
-                  ]
-                }
+                        logical: "NextPage",
+                      },
+                    },
+                  ],
+                },
               },
-              {}
-            ]
-          }
-        ]
+              {},
+            ],
+          },
+        ],
       });
 
       const updateRoutingRule2Mutation = `
@@ -200,8 +200,8 @@ describe("RoutingRule Integration", () => {
         {
           input: {
             id: routingRuleId,
-            destination: { pageId: pageDestinationId }
-          }
+            destination: { pageId: pageDestinationId },
+          },
         },
         ctx
       );
@@ -213,11 +213,11 @@ describe("RoutingRule Integration", () => {
           destination: {
             logical: null,
             page: {
-              id: pageDestinationId.toString()
+              id: pageDestinationId.toString(),
             },
-            section: null
-          }
-        }
+            section: null,
+          },
+        },
       });
     });
 
@@ -229,24 +229,24 @@ describe("RoutingRule Integration", () => {
               {
                 routing: {
                   else: {
-                    logical: "NextPage"
+                    logical: "NextPage",
                   },
                   rules: [
                     {
                       destination: {
-                        logical: "NextPage"
-                      }
-                    }
-                  ]
-                }
+                        logical: "NextPage",
+                      },
+                    },
+                  ],
+                },
               },
-              {}
-            ]
+              {},
+            ],
           },
           {
-            pages: [{}]
-          }
-        ]
+            pages: [{}],
+          },
+        ],
       });
 
       const routingRuleId =
@@ -265,8 +265,8 @@ describe("RoutingRule Integration", () => {
         {
           input: {
             id: routingRuleId,
-            destination: { pageId: pageInNextSectionId }
-          }
+            destination: { pageId: pageInNextSectionId },
+          },
         },
         ctx
       );
@@ -291,9 +291,9 @@ describe("RoutingRule Integration", () => {
                   type: answerTypes.RADIO,
                   options: [
                     { id: "option1", label: "option1" },
-                    { id: "option2", label: "option2" }
-                  ]
-                }
+                    { id: "option2", label: "option2" },
+                  ],
+                },
               ],
               routing: {
                 rules: [
@@ -306,18 +306,18 @@ describe("RoutingRule Integration", () => {
                           condition: conditions.ONE_OF,
                           right: {
                             type: "SelectedOptions",
-                            selectedOptions: ["option1", "option2"]
-                          }
-                        }
-                      ]
-                    }
-                  }
-                ]
-              }
-            }
-          ]
-        }
-      ]
+                            selectedOptions: ["option1", "option2"],
+                          },
+                        },
+                      ],
+                    },
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      ],
     });
 
     const page = questionnaire.sections[0].pages[0];

@@ -27,7 +27,7 @@ export const deleteUpdater = (questionnaireId, metadataId) => proxy => {
   proxy.writeFragment({
     id,
     fragment,
-    data: questionnaire
+    data: questionnaire,
   });
 };
 
@@ -38,13 +38,13 @@ export const mapMutateToProps = ({ mutate }) => ({
 
     const mutation = mutate({
       variables: { input: metadata },
-      update
+      update,
     });
 
     return mutation.then(() => mutation);
-  }
+  },
 });
 
 export default graphql(deleteMetadataMutation, {
-  props: mapMutateToProps
+  props: mapMutateToProps,
 });

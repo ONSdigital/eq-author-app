@@ -19,13 +19,13 @@ module.exports = ({ repositories }) => async expressionGroupId => {
 
   const expression = await repositories.BinaryExpression2.insert({
     groupId: expressionGroupId,
-    condition
+    condition,
   });
 
   if (hasRoutableFirstAnswer) {
     await repositories.LeftSide2.insert({
       expressionId: expression.id,
-      answerId: firstAnswer.id
+      answerId: firstAnswer.id,
     });
   }
   return expression;

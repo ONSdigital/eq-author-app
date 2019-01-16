@@ -12,7 +12,7 @@ describe("ModalWithNav", () => {
       title: "I am a title",
       onClose: jest.fn(),
       gotoTab: jest.fn(),
-      navItems: NAV_ITEMS
+      navItems: NAV_ITEMS,
     };
   });
 

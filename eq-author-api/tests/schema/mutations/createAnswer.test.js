@@ -26,21 +26,21 @@ describe("createAnswer", () => {
           id: "1",
           type: "TextField",
           page: {
-            id: "1"
-          }
-        })
-      }
+            id: "1",
+          },
+        }),
+      },
     };
     const modifiers = {
       BinaryExpression: {
-        onAnswerCreated: jest.fn().mockResolvedValueOnce()
-      }
+        onAnswerCreated: jest.fn().mockResolvedValueOnce(),
+      },
     };
     const input = {
       description: "Test answer description",
       guidance: "Test answer guidance",
       type: "TextField",
-      questionPageId: "1"
+      questionPageId: "1",
     };
 
     const result = await executeQuery(
@@ -55,8 +55,8 @@ describe("createAnswer", () => {
       id: "1",
       type: "TextField",
       page: {
-        id: "1"
-      }
+        id: "1",
+      },
     });
   });
 });

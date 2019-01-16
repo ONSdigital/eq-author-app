@@ -16,7 +16,7 @@ export const UnwrappedMinValueValidation = ({
   onUpdate,
   limit,
   onChangeUpdate,
-  onCustomNumberValueChange
+  onCustomNumberValueChange,
 }) => (
   <Grid>
     <Column cols={3}>
@@ -49,13 +49,13 @@ UnwrappedMinValueValidation.propTypes = {
     id: PropTypes.string.isRequired,
     enabled: PropTypes.bool.isRequired,
     custom: PropTypes.number,
-    inclusive: PropTypes.bool.isRequired
+    inclusive: PropTypes.bool.isRequired,
   }).isRequired,
   answer: PropTypes.shape({
     id: PropTypes.string.required,
     properties: PropTypes.shape({
-      format: PropTypes.string
-    }).isRequired
+      format: PropTypes.string,
+    }).isRequired,
   }).isRequired,
   onCustomNumberValueChange: PropTypes.func.isRequired,
   onChangeUpdate: PropTypes.func.isRequired,
@@ -63,7 +63,7 @@ UnwrappedMinValueValidation.propTypes = {
   onUpdate: PropTypes.func.isRequired,
   displayName: PropTypes.string.isRequired,
   readKey: PropTypes.string.isRequired,
-  testId: PropTypes.string.isRequired
+  testId: PropTypes.string.isRequired,
 };
 
 export default flowRight(

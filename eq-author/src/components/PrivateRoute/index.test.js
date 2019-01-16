@@ -6,7 +6,7 @@ const Component = () => <div />;
 
 describe("PrivateRoute", () => {
   const location = {
-    pathname: "/foo"
+    pathname: "/foo",
   };
 
   const render = (props = {}) =>

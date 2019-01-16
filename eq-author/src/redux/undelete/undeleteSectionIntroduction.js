@@ -12,19 +12,19 @@ export const UNDELETE_SECTION_INTRODUCTION_FAILURE =
 
 const undeleteRequest = () => {
   return {
-    type: UNDELETE_SECTION_INTRODUCTION_REQUEST
+    type: UNDELETE_SECTION_INTRODUCTION_REQUEST,
   };
 };
 
 const undeleteSuccess = () => {
   return {
-    type: UNDELETE_SECTION_INTRODUCTION_SUCCESS
+    type: UNDELETE_SECTION_INTRODUCTION_SUCCESS,
   };
 };
 
 const undeleteFailure = () => {
   return {
-    type: UNDELETE_SECTION_INTRODUCTION_FAILURE
+    type: UNDELETE_SECTION_INTRODUCTION_FAILURE,
   };
 };
 
@@ -35,14 +35,14 @@ export const createUpdate = () => (proxy, result) => {
   proxy.writeFragment({
     id,
     fragment,
-    data: { ...section, ...result.data.updateSection }
+    data: { ...section, ...result.data.updateSection },
   });
 };
 
 export const createUndelete = mutate => section =>
   mutate({
     variables: { input: section },
-    update: createUpdate(section)
+    update: createUpdate(section),
   });
 
 export const undeleteSectionIntroduction = (id, section) => {

@@ -5,7 +5,7 @@ import {
   addSection,
   testId,
   selectFirstAnswerFromContentPicker,
-  selectFirstMetadataContentPicker
+  selectFirstMetadataContentPicker,
 } from "../../utils";
 import { questionConfirmation } from "../../builders";
 

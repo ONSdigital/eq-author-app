@@ -1,26 +1,26 @@
 import {
   mapMutateToProps,
-  createUpdater
+  createUpdater,
 } from "App/questionPage/Design/answers/withCreateOption";
 import fragment from "graphql/answerFragment.graphql";
 
 describe("containers/QuestionnaireDesignPage/withCreateOption", () => {
   const answer = {
     id: "1",
-    options: []
+    options: [],
   };
 
   let mutate, result, newOption;
 
   beforeEach(() => {
     newOption = {
-      id: "2"
+      id: "2",
     };
 
     result = {
       data: {
-        createOption: newOption
-      }
+        createOption: newOption,
+      },
     };
 
     mutate = jest.fn(() => Promise.resolve(result));
@@ -39,7 +39,7 @@ describe("containers/QuestionnaireDesignPage/withCreateOption", () => {
       expect(writeFragment).toHaveBeenCalledWith({
         id,
         fragment,
-        data: answer
+        data: answer,
       });
       expect(answer.options).toContain(newOption);
     });
@@ -63,8 +63,8 @@ describe("containers/QuestionnaireDesignPage/withCreateOption", () => {
           expect(mutate).toHaveBeenCalledWith(
             expect.objectContaining({
               variables: {
-                input: { answerId: answer.id, hasAdditionalAnswer: false }
-              }
+                input: { answerId: answer.id, hasAdditionalAnswer: false },
+              },
             })
           );
         });

@@ -6,7 +6,7 @@ import AvailablePipingContentQuery from "components/RichTextEditor/AvailablePipi
 import {
   Menu,
   MenuButton,
-  UnwrappedPipingMenu
+  UnwrappedPipingMenu,
 } from "components/RichTextEditor/PipingMenu";
 
 describe("PipingMenu", () => {
@@ -28,8 +28,8 @@ describe("PipingMenu", () => {
     params: {
       questionnaireId,
       sectionId,
-      pageId
-    }
+      pageId,
+    },
   });
 
   beforeEach(() => {
@@ -43,9 +43,9 @@ describe("PipingMenu", () => {
           displayName: "Page 1",
           section: {
             id: "1",
-            displayName: "Section 1"
-          }
-        }
+            displayName: "Section 1",
+          },
+        },
       },
       {
         id: "2",
@@ -55,9 +55,9 @@ describe("PipingMenu", () => {
           displayName: "Page 1",
           section: {
             id: "1",
-            displayName: "Section 1"
-          }
-        }
+            displayName: "Section 1",
+          },
+        },
       },
       {
         id: "3",
@@ -67,17 +67,17 @@ describe("PipingMenu", () => {
           displayName: "Page 2",
           section: {
             id: "2",
-            displayName: "Section 2"
-          }
-        }
-      }
+            displayName: "Section 2",
+          },
+        },
+      },
     ];
 
     metadataData = [
       {
         id: "1",
-        displayName: "Metadata"
-      }
+        displayName: "Metadata",
+      },
     ];
   });
 
@@ -88,14 +88,14 @@ describe("PipingMenu", () => {
 
   it("should render as disabled when disabled", () => {
     const wrapper = render({
-      disabled: true
+      disabled: true,
     });
     expect(wrapper.find(MenuButton).prop("disabled")).toBe(true);
   });
 
   it("should render as disabled when loading", () => {
     const wrapper = render({
-      loading: true
+      loading: true,
     });
     expect(wrapper.find(MenuButton).prop("disabled")).toBe(true);
   });
@@ -103,7 +103,7 @@ describe("PipingMenu", () => {
   it("should render as disabled when there is no answerData and metadataData", () => {
     const wrapper = render({
       answerData: null,
-      metadataData: null
+      metadataData: null,
     });
     expect(wrapper.find(MenuButton).prop("disabled")).toBe(true);
   });
@@ -119,11 +119,11 @@ describe("PipingMenu", () => {
     wrapper.find("[data-test='piping-button']").simulate("click");
     wrapper.find("[data-test='picker']").simulate("submit", {
       id: 1,
-      displayName: "item"
+      displayName: "item",
     });
     expect(handleItemChosen).toHaveBeenCalledWith({
       id: 1,
-      displayName: "item"
+      displayName: "item",
     });
     expect(wrapper.find("[data-test='picker']").prop("isOpen")).toBe(false);
   });
@@ -143,29 +143,29 @@ describe("PipingMenu", () => {
           questionnaireId: "4",
           sectionId: "3",
           pageId: "2",
-          confirmationId: "1"
-        }
+          confirmationId: "1",
+        },
       },
       {
         name: "questionPage",
         params: {
           questionnaireId: "4",
           sectionId: "3",
-          pageId: "2"
-        }
+          pageId: "2",
+        },
       },
       {
         name: "section",
         params: {
           questionnaireId: "4",
-          sectionId: "3"
-        }
-      }
+          sectionId: "3",
+        },
+      },
     ];
 
     entities.forEach(({ name, params }) => {
       const match = {
-        params
+        params,
       };
       const wrapper = shallow(<UnwrappedPipingMenu match={match} />);
       const data = {
@@ -179,24 +179,24 @@ describe("PipingMenu", () => {
                 displayName: "Page 1",
                 section: {
                   id: "1",
-                  displayName: "Section 1"
-                }
-              }
-            }
+                  displayName: "Section 1",
+                },
+              },
+            },
           ],
           availablePipingMetadata: [
             {
               id: "1",
-              alias: "Metadata"
-            }
-          ]
-        }
+              alias: "Metadata",
+            },
+          ],
+        },
       };
 
       const result = wrapper.find(AvailablePipingContentQuery).prop("children")(
         {
           data,
-          onItemChosen: jest.fn()
+          onItemChosen: jest.fn(),
         }
       );
 
@@ -209,17 +209,17 @@ describe("PipingMenu", () => {
               {
                 id: "1",
                 displayName: "Page 1",
-                answers: [{ id: "1", displayName: "Answer 1" }]
-              }
-            ]
-          }
+                answers: [{ id: "1", displayName: "Answer 1" }],
+              },
+            ],
+          },
         ],
         metadataData: [
           {
             id: "1",
-            alias: "Metadata"
-          }
-        ]
+            alias: "Metadata",
+          },
+        ],
       });
     });
   });

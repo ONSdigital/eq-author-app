@@ -13,13 +13,13 @@ class StatefulToggleChip extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: false
+      value: false,
     };
   }
 
   handleChange = ({ value }) => {
     this.setState({
-      value
+      value,
     });
   };
 

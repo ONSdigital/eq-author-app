@@ -102,12 +102,12 @@ const Button = styled.button`
 
 Button.propTypes = {
   ...propTypes,
-  type: PropTypes.oneOf(["button", "submit"])
+  type: PropTypes.oneOf(["button", "submit"]),
 };
 
 Button.defaultProps = {
   type: "button",
-  variant: "primary"
+  variant: "primary",
 };
 
 export default Button;

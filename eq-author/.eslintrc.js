@@ -5,22 +5,22 @@ const config = {
   resolve: {
     modules: [
       path.resolve(__dirname, "src"),
-      path.resolve(__dirname, "node_modules")
-    ]
-  }
+      path.resolve(__dirname, "node_modules"),
+    ],
+  },
 };
 
 module.exports = {
   extends: ["eslint-config-eq-author", "eslint-config-eq-author/react"],
   settings: {
     react: {
-      version: "latest"
+      version: "latest",
     },
     "import/resolver": {
       webpack: {
-        config
-      }
-    }
+        config,
+      },
+    },
   },
   rules: {
     "react/jsx-no-bind": [2, { allowArrowFunctions: true }],
@@ -28,9 +28,9 @@ module.exports = {
       "error",
       {
         env: "literal",
-        schemaString: schema
-      }
-    ]
+        schemaString: schema,
+      },
+    ],
   },
-  plugins: ["graphql"]
+  plugins: ["graphql"],
 };

@@ -9,7 +9,9 @@ exports.up = function(knex) {
     .then(() => {
       return knex.schema.table("Pages", t => {
         t.renameColumn("GroupId", "SectionId");
-        t.foreign("SectionId").references("Sections.id").onDelete("CASCADE");
+        t.foreign("SectionId")
+          .references("Sections.id")
+          .onDelete("CASCADE");
       });
     });
 };
@@ -25,7 +27,9 @@ exports.down = function(knex) {
     .then(() => {
       return knex.schema.table("Pages", t => {
         t.renameColumn("SectionId", "GroupId");
-        t.foreign("GroupId").references("Groups.id").onDelete("CASCADE");
+        t.foreign("GroupId")
+          .references("Groups.id")
+          .onDelete("CASCADE");
       });
     });
 };

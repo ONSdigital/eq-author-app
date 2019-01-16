@@ -20,10 +20,10 @@ describe("Questionnaire", () => {
           {
             id: "1",
             title: "Section",
-            pages: []
-          }
+            pages: [],
+          },
         ],
-        metadata: []
+        metadata: [],
       },
       questionnaire
     );
@@ -44,7 +44,7 @@ describe("Questionnaire", () => {
       theme: "default",
       sections: [expect.any(Section)],
       legal_basis: "StatisticsOfTradeAct",
-      metadata: expect.arrayContaining(Questionnaire.DEFAULT_METADATA)
+      metadata: expect.arrayContaining(Questionnaire.DEFAULT_METADATA),
     });
   });
 
@@ -60,7 +60,7 @@ describe("Questionnaire", () => {
     const questionnaireId = createQuestionnaireJSON().id;
     expect(questionnaire).toMatchObject({
       eq_id: questionnaireId,
-      form_type: questionnaireId
+      form_type: questionnaireId,
     });
   });
 
@@ -68,8 +68,8 @@ describe("Questionnaire", () => {
     expect(questionnaire).toMatchObject({
       view_submitted_response: {
         enabled: true,
-        duration: 900
-      }
+        duration: 900,
+      },
     });
   });
 
@@ -81,29 +81,29 @@ describe("Questionnaire", () => {
           {
             id: "2",
             title: "Section number 2",
-            pages: []
+            pages: [],
           },
           {
             id: "3",
             title: "Section number 3",
-            pages: []
-          }
-        ]
+            pages: [],
+          },
+        ],
       })
     );
 
     expect(questionnaire).toMatchObject({
       navigation: {
-        visible: true
+        visible: true,
       },
       sections: [
         {
-          id: "section2"
+          id: "section2",
         },
         {
-          id: "section3"
-        }
-      ]
+          id: "section3",
+        },
+      ],
     });
   });
 
@@ -114,14 +114,14 @@ describe("Questionnaire", () => {
           {
             id: "2",
             title: "<p>Section <em>number</em> 2</p>",
-            pages: []
+            pages: [],
           },
           {
             id: "3",
             title: "<p>Section <em>number</em> 3</p>",
-            pages: []
-          }
-        ]
+            pages: [],
+          },
+        ],
       })
     );
 
@@ -129,13 +129,13 @@ describe("Questionnaire", () => {
       sections: [
         {
           id: "section2",
-          title: "Section number 2"
+          title: "Section number 2",
         },
         {
           id: "section3",
-          title: "Section number 3"
-        }
-      ]
+          title: "Section number 3",
+        },
+      ],
     });
   });
 
@@ -149,7 +149,7 @@ describe("Questionnaire", () => {
   it("should add a summary page if toggled on", () => {
     const questionnaire = new Questionnaire(
       createQuestionnaireJSON({
-        summary: true
+        summary: true,
       })
     );
     const lastSection = last(questionnaire.sections);
@@ -160,7 +160,7 @@ describe("Questionnaire", () => {
   it("should add a confirmation page if summary is toggled off", () => {
     const questionnaire = new Questionnaire(
       createQuestionnaireJSON({
-        summary: false
+        summary: false,
       })
     );
     const lastSection = last(questionnaire.sections);
@@ -173,17 +173,17 @@ describe("Questionnaire", () => {
       metadata: [
         {
           name: "user_id",
-          validator: "string"
+          validator: "string",
         },
         {
           name: "period_id",
-          validator: "string"
+          validator: "string",
         },
         {
           name: "ru_name",
-          validator: "string"
-        }
-      ]
+          validator: "string",
+        },
+      ],
     });
   });
 
@@ -192,52 +192,52 @@ describe("Questionnaire", () => {
       metadata: [
         {
           key: "example_date",
-          type: "Date"
+          type: "Date",
         },
         {
           key: "example_text",
-          type: "Text"
+          type: "Text",
         },
         {
           key: "example_region",
-          type: "Region"
+          type: "Region",
         },
         {
           key: "example_language",
-          type: "Language"
-        }
-      ]
+          type: "Language",
+        },
+      ],
     });
 
     expect(new Questionnaire(questionnaireJson)).toHaveProperty("metadata", [
       {
         name: "user_id",
-        validator: "string"
+        validator: "string",
       },
       {
         name: "period_id",
-        validator: "string"
+        validator: "string",
       },
       {
         name: "ru_name",
-        validator: "string"
+        validator: "string",
       },
       {
         name: "example_date",
-        validator: "date"
+        validator: "date",
       },
       {
         name: "example_text",
-        validator: "string"
+        validator: "string",
       },
       {
         name: "example_region",
-        validator: "string"
+        validator: "string",
       },
       {
         name: "example_language",
-        validator: "string"
-      }
+        validator: "string",
+      },
     ]);
   });
 
@@ -246,24 +246,24 @@ describe("Questionnaire", () => {
       metadata: [
         {
           key: "ru_name",
-          type: "Date"
-        }
-      ]
+          type: "Date",
+        },
+      ],
     });
 
     expect(new Questionnaire(questionnaireJson)).toHaveProperty("metadata", [
       {
         name: "user_id",
-        validator: "string"
+        validator: "string",
       },
       {
         name: "period_id",
-        validator: "string"
+        validator: "string",
       },
       {
         name: "ru_name",
-        validator: "string"
-      }
+        validator: "string",
+      },
     ]);
   });
 });

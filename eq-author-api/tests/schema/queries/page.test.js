@@ -31,11 +31,11 @@ describe("Page query", () => {
         getById: {
           id,
           sectionId,
-          pageType: "QuestionPage"
-        }
+          pageType: "QuestionPage",
+        },
       }),
       QuestionPage: mockRepository(),
-      Section: mockRepository()
+      Section: mockRepository(),
     };
   });
 

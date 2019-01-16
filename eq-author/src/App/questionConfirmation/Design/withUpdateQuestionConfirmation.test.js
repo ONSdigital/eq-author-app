@@ -7,9 +7,9 @@ describe("withUpdateQuestionConfirmation", () => {
     mutate = jest.fn().mockResolvedValue({
       data: {
         updateQuestionConfirmation: {
-          id: "4"
-        }
-      }
+          id: "4",
+        },
+      },
     });
   });
 
@@ -23,12 +23,12 @@ describe("withUpdateQuestionConfirmation", () => {
     const change = {
       id: "4",
       page: {
-        id: "5"
+        id: "5",
       },
       positive: {
         label: "yes",
-        something: "wrong"
-      }
+        something: "wrong",
+      },
     };
     await mapMutateToProps({ mutate }).onUpdateQuestionConfirmation(change);
 
@@ -37,10 +37,10 @@ describe("withUpdateQuestionConfirmation", () => {
         input: {
           id: "4",
           positive: {
-            label: "yes"
-          }
-        }
-      }
+            label: "yes",
+          },
+        },
+      },
     });
   });
 });

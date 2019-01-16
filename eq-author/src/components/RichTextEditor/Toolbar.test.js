@@ -11,7 +11,7 @@ const shape = expect.objectContaining({
   title: expect.any(String),
   icon: expect.any(Function),
   type: expect.any(String),
-  style: expect.any(String)
+  style: expect.any(String),
 });
 
 describe("components/RichTextEditor/Toolbar", () => {
@@ -22,7 +22,7 @@ describe("components/RichTextEditor/Toolbar", () => {
       onBlur: jest.fn(),
       onPiping: jest.fn(),
       isActiveControl: jest.fn(),
-      selectionIsCollapsed: true
+      selectionIsCollapsed: true,
     };
     wrapper = shallow(<Toolbar {...props} visible />);
     buttons = wrapper.find(ToolbarButton);
@@ -44,7 +44,7 @@ describe("components/RichTextEditor/Toolbar", () => {
       bold: false,
       emphasis: false,
       list: false,
-      heading: false
+      heading: false,
     };
     wrapper = shallow(<Toolbar {...props} controls={controls} visible />);
     wrapper.find(ToolbarButton).forEach(node => {

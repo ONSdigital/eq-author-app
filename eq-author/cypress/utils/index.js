@@ -121,7 +121,7 @@ export const matchHashToPath = (path, hash) => {
   return matchPath(hash, {
     path,
     exact: true,
-    strict: false
+    strict: false,
   });
 };
 
@@ -129,7 +129,7 @@ export function assertHash({
   previousPath,
   previousHash,
   currentPath,
-  equality
+  equality,
 }) {
   cy.log("comparing previous hash", previousHash)
     .hash()
@@ -243,7 +243,7 @@ export const selectFirstMetadataContentPicker = () => {
 
 export const selectQuestionFromContentPicker = ({
   sectionTitle,
-  questionTitle
+  questionTitle,
 }) => {
   cy.get(`button[aria-controls='question']`).contains("Question");
   cy.get(testId("picker-title"))

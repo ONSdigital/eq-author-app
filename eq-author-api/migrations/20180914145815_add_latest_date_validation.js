@@ -4,7 +4,7 @@ const formatAlterTableEnumSql = (tableName, columnName, enums) => {
     `ALTER TABLE "${tableName}" DROP CONSTRAINT IF EXISTS "${constraintName}";`,
     `ALTER TABLE "${tableName}" ADD CONSTRAINT "${constraintName}" CHECK ("${columnName}" = ANY (ARRAY['${enums.join(
       "'::text, '"
-    )}'::text]));`
+    )}'::text]));`,
   ].join("\n");
 };
 
@@ -14,7 +14,7 @@ exports.up = async function(knex) {
       "minValue",
       "maxValue",
       "earliestDate",
-      "latestDate"
+      "latestDate",
     ])
   );
 
@@ -30,10 +30,10 @@ exports.up = async function(knex) {
       config: {
         offset: {
           value: 0,
-          unit: "Days"
+          unit: "Days",
         },
-        relativePosition: "Before"
-      }
+        relativePosition: "Before",
+      },
     })
   );
   return Promise.resolve(inserts);

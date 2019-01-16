@@ -13,7 +13,7 @@ import {
   TableFoot,
   TableRow,
   TableColumn,
-  TableHeadColumn
+  TableHeadColumn,
 } from "./Elements";
 import {
   AddRowButton,
@@ -22,7 +22,7 @@ import {
   TableSelect,
   TableTypeaheadInput,
   TableTypeaheadMenu,
-  DeleteRowButton
+  DeleteRowButton,
 } from "./Controls";
 
 import Icon from "./icon-plus.svg?inline";
@@ -63,20 +63,20 @@ const typeahead = (
 const header = [
   {
     name: "Heading 1",
-    width: 15
+    width: 15,
   },
   {
     name: "Heading 2",
-    width: 20
+    width: 20,
   },
   {
     name: "Heading 3",
-    width: 20
+    width: 20,
   },
   {
     name: "Heading 4",
-    width: 40
-  }
+    width: 40,
+  },
 ];
 
 const row = () => [typeahead, input, select(1), date];

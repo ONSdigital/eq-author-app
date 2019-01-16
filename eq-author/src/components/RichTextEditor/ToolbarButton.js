@@ -61,7 +61,7 @@ const ToolbarButton = ({ title, children, active, ...otherProps }) => (
 ToolbarButton.propTypes = {
   active: PropTypes.bool,
   title: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
 };
 
 export default ToolbarButton;

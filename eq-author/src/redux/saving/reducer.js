@@ -4,13 +4,13 @@ import {
   END_REQUEST,
   LOST_CONNECTION,
   GAIN_CONNECTION,
-  API_DOWN_ERROR
+  API_DOWN_ERROR,
 } from "redux/saving/actions";
 
 const initialState = {
   pendingRequestCount: 0,
   offline: false,
-  apiDownError: false
+  apiDownError: false,
 };
 
 export default (state = initialState, action) => {
@@ -18,31 +18,31 @@ export default (state = initialState, action) => {
     case LOST_CONNECTION: {
       return {
         ...state,
-        offline: true
+        offline: true,
       };
     }
     case GAIN_CONNECTION: {
       return {
         ...state,
-        offline: false
+        offline: false,
       };
     }
     case START_REQUEST: {
       return {
         ...state,
-        pendingRequestCount: state.pendingRequestCount + 1
+        pendingRequestCount: state.pendingRequestCount + 1,
       };
     }
     case END_REQUEST: {
       return {
         ...state,
-        pendingRequestCount: Math.max(0, state.pendingRequestCount - 1)
+        pendingRequestCount: Math.max(0, state.pendingRequestCount - 1),
       };
     }
     case API_DOWN_ERROR: {
       return {
         ...state,
-        apiDownError: true
+        apiDownError: true,
       };
     }
     default:

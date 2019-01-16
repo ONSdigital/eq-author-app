@@ -42,11 +42,11 @@ const ScrollPane = styled.div`
 `;
 
 ScrollPane.propTypes = {
-  permanentScrollBar: PropTypes.bool
+  permanentScrollBar: PropTypes.bool,
 };
 
 ScrollPane.defaultProps = {
-  permanentScrollBar: false
+  permanentScrollBar: false,
 };
 
 export default ScrollPane;

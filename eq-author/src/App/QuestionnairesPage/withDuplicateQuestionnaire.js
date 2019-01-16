@@ -14,11 +14,11 @@ export const mapMutateToProps = ({ mutate }) => ({
           title: `Copy of ${title}`,
           createdAt: new Date(Date.now()).toISOString(),
           createdBy,
-          __typename: "Questionnaire"
-        }
-      }
+          __typename: "Questionnaire",
+        },
+      },
     }).then(get("data.duplicateQuestionnaire"));
-  }
+  },
 });
 
 export const handleUpdate = (proxy, { data: { duplicateQuestionnaire } }) => {
@@ -26,13 +26,13 @@ export const handleUpdate = (proxy, { data: { duplicateQuestionnaire } }) => {
   data.questionnaires = [duplicateQuestionnaire, ...data.questionnaires];
   proxy.writeQuery({
     query: getQuestionnaireList,
-    data
+    data,
   });
 };
 
 export default graphql(duplicateQuestionnaireMutation, {
   props: mapMutateToProps,
   options: {
-    update: handleUpdate
-  }
+    update: handleUpdate,
+  },
 });

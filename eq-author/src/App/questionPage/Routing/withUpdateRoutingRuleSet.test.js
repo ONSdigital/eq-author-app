@@ -19,7 +19,7 @@ describe("enhancers > withUpdateRoutingRuleSet", () => {
     it("should call mutate", () => {
       props.onUpdateRoutingRuleSet(routingRuleSet);
       expect(mutate).toHaveBeenCalledWith({
-        variables: { input: routingRuleSet }
+        variables: { input: routingRuleSet },
       });
     });
   });

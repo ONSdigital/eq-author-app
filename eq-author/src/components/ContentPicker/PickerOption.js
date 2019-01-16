@@ -30,7 +30,7 @@ const PickerOption = styled(Button)`
 PickerOption.propTypes = {
   onClick: PropTypes.func.isRequired,
   children: PropTypes.node.isRequired,
-  selected: PropTypes.bool
+  selected: PropTypes.bool,
 };
 
 export default PickerOption;

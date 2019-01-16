@@ -11,7 +11,7 @@ const MoveSectionQuery = ({ questionnaireId, children }) => (
 
 MoveSectionQuery.propTypes = {
   questionnaireId: PropTypes.string.isRequired,
-  children: PropTypes.func.isRequired
+  children: PropTypes.func.isRequired,
 };
 
 export default MoveSectionQuery;

@@ -32,11 +32,11 @@ const cache = createApolloCache({
       questionnaire: (_, args, { getCacheKey }) => {
         return getCacheKey({
           __typename: "Questionnaire",
-          id: args.id
+          id: args.id,
         });
-      }
-    }
-  }
+      },
+    },
+  },
 });
 
 const history = createHistory();
@@ -47,7 +47,7 @@ const authLink = setContext((_, { headers }) => appendAuthHeader(headers));
 
 const link = ApolloLink.from([
   createErrorLink(getStore),
-  authLink.concat(httpLink)
+  authLink.concat(httpLink),
 ]);
 
 const client = createApolloClient(link, cache);
@@ -61,7 +61,7 @@ if (window.Cypress && config.REACT_APP_FUNCTIONAL_TEST === "true") {
 const renderApp = render(document.getElementById("root"), {
   store,
   client,
-  history
+  history,
 });
 
 renderApp(App);

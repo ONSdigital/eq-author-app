@@ -6,6 +6,6 @@ module.exports = function mockRepository(returnValues = {}) {
     findAll: jest.fn(() => returnValues.findAll),
     insert: jest.fn(() => returnValues.insert),
     update: jest.fn(() => returnValues.update),
-    remove: jest.fn(() => returnValues.remove)
+    remove: jest.fn(() => returnValues.remove),
   };
 };

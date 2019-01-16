@@ -1,6 +1,6 @@
 const {
   CUSTOM,
-  PREVIOUS_ANSWER
+  PREVIOUS_ANSWER,
 } = require("../constants/validationEntityTypes");
 
 exports.up = function(knex) {

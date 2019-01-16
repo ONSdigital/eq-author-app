@@ -1,13 +1,13 @@
 import {
   mapMutateToProps,
-  createUpdater
+  createUpdater,
 } from "App/questionPage/Routing/withCreateRoutingRule";
 import fragment from "graphql/fragments/routing-rule-set.graphql";
 
 describe("containers/enhancers/withCreateRoutingRule", () => {
   const routingRuleSet = {
     id: "1",
-    routingRules: []
+    routingRules: [],
   };
 
   let mutate, ownProps, result, createRoutingRule;
@@ -17,13 +17,13 @@ describe("containers/enhancers/withCreateRoutingRule", () => {
       id: "1",
       operation: "And",
       conditions: [],
-      goto: null
+      goto: null,
     };
 
     result = {
       data: {
-        createRoutingRule
-      }
+        createRoutingRule,
+      },
     };
 
     mutate = jest.fn(() => Promise.resolve(result));
@@ -47,13 +47,13 @@ describe("containers/enhancers/withCreateRoutingRule", () => {
       expect(readFragment).toHaveBeenCalledWith({
         id,
         fragment,
-        fragmentName: "RoutingRuleSet"
+        fragmentName: "RoutingRuleSet",
       });
       expect(writeFragment).toHaveBeenCalledWith({
         id,
         fragment,
         data: routingRuleSet,
-        fragmentName: "RoutingRuleSet"
+        fragmentName: "RoutingRuleSet",
       });
 
       expect(routingRuleSet.routingRules).toContainEqual(createRoutingRule);
@@ -80,9 +80,9 @@ describe("containers/enhancers/withCreateRoutingRule", () => {
             variables: {
               input: {
                 operation: "And",
-                routingRuleSetId: "1"
-              }
-            }
+                routingRuleSetId: "1",
+              },
+            },
           })
         );
       });

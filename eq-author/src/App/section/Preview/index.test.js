@@ -38,8 +38,8 @@ describe("PreviewSectionRoute", () => {
             title: "",
             introductionTitle: "",
             introductionContent: "",
-            introductionEnabled: true
-          }
+            introductionEnabled: true,
+          },
         }}
       />
     );
@@ -58,8 +58,8 @@ describe("PreviewSectionRoute", () => {
             title: "",
             introductionTitle: "",
             introductionContent: "",
-            introductionEnabled: false
-          }
+            introductionEnabled: false,
+          },
         }}
       />
     );

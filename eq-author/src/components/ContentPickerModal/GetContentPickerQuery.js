@@ -48,7 +48,7 @@ const GetContentPickerQuery = ({ questionnaireId, children }) => (
 
 GetContentPickerQuery.propTypes = {
   questionnaireId: PropTypes.string.isRequired,
-  children: PropTypes.func.isRequired
+  children: PropTypes.func.isRequired,
 };
 
 export default GetContentPickerQuery;

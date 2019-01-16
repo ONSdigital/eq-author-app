@@ -15,7 +15,7 @@ describe("withCustomValueChange", () => {
   beforeEach(() => {
     props = {
       limit: 999999999,
-      onChange: onChange
+      onChange: onChange,
     };
 
     wrapper = createWrapper(props);

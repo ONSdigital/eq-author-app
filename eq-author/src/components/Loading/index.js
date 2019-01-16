@@ -48,12 +48,12 @@ const Loading = ({ children, height }) => (
 
 Loading.propTypes = {
   children: PropTypes.string.isRequired,
-  height: PropTypes.string
+  height: PropTypes.string,
 };
 
 Loading.defaultProps = {
   height: "auto",
-  children: "Loading…"
+  children: "Loading…",
 };
 
 export default Loading;

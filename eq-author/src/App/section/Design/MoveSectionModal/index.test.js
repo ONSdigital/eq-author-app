@@ -20,7 +20,7 @@ describe("MoveSectionModal", () => {
       section,
       onClose: jest.fn(),
       onMoveSection: jest.fn(),
-      isOpen: true
+      isOpen: true,
     };
     wrapper = createWrapper(props);
   });
@@ -37,12 +37,12 @@ describe("MoveSectionModal", () => {
     expect(props.onMoveSection).toHaveBeenCalledWith({
       from: {
         id: section.id,
-        position: section.position
+        position: section.position,
       },
       to: {
         id: section.id,
-        position: position
-      }
+        position: position,
+      },
     });
   });
 

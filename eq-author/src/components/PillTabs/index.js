@@ -21,7 +21,7 @@ const TabListWrapper = ({ children }) => (
   </GrowthWrapper>
 );
 TabListWrapper.propTypes = {
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
 };
 
 const ListItem = styled.button`
@@ -76,11 +76,11 @@ PillTabs.propTypes = {
     PropTypes.shape({
       id: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
-      render: PropTypes.func.isRequired
+      render: PropTypes.func.isRequired,
     })
   ),
   value: PropTypes.string,
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
 };
 
 export default PillTabs;

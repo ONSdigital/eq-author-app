@@ -32,12 +32,12 @@ const {
   deleteOptionMutation,
   createOptionMutation,
   moveSectionMutation,
-  createExclusiveMutation
+  createExclusiveMutation,
 } = require("../tests/utils/graphql");
 
 const {
   NEXT_PAGE,
-  END_OF_QUESTIONNAIRE
+  END_OF_QUESTIONNAIRE,
 } = require("../constants/logicalDestinations");
 const { RADIO } = require("../constants/answerTypes");
 
@@ -89,7 +89,7 @@ describe("resolvers", () => {
         legalBasis: "Voluntary",
         navigation: false,
         surveyId: "001",
-        summary: true
+        summary: true,
       };
 
       const result = await executeQuery(
@@ -106,8 +106,8 @@ describe("resolvers", () => {
         {
           input: {
             title: "Foo",
-            questionnaireId: questionnaireId
-          }
+            questionnaireId: questionnaireId,
+          },
         },
         ctx
       );
@@ -119,7 +119,7 @@ describe("resolvers", () => {
         label: `${type} answer`,
         qCode: null,
         type: `${type}`,
-        questionPageId: pageId
+        questionPageId: pageId,
       };
 
       const result = await executeQuery(createAnswerMutation, { input }, ctx);
@@ -142,7 +142,7 @@ describe("resolvers", () => {
       executeQuery(
         deletePageMutation,
         {
-          input
+          input,
         },
         ctx
       );
@@ -151,7 +151,7 @@ describe("resolvers", () => {
       executeQuery(
         updateAnswerMutation,
         {
-          input: args
+          input: args,
         },
         ctx
       );
@@ -161,8 +161,8 @@ describe("resolvers", () => {
         deleteAnswerMutation,
         {
           input: {
-            id
-          }
+            id,
+          },
         },
         ctx
       );
@@ -171,7 +171,7 @@ describe("resolvers", () => {
       executeQuery(
         deleteOptionMutation,
         {
-          input
+          input,
         },
         ctx
       );
@@ -181,8 +181,8 @@ describe("resolvers", () => {
         createRoutingRuleSet,
         {
           input: {
-            questionPageId
-          }
+            questionPageId,
+          },
         },
         ctx
       );
@@ -193,8 +193,8 @@ describe("resolvers", () => {
         deleteRoutingRuleSet,
         {
           input: {
-            id
-          }
+            id,
+          },
         },
         ctx
       );
@@ -204,7 +204,7 @@ describe("resolvers", () => {
       return executeQuery(
         createRoutingRule,
         {
-          input
+          input,
         },
         ctx
       );
@@ -214,7 +214,7 @@ describe("resolvers", () => {
       return executeQuery(
         createRoutingCondition,
         {
-          input
+          input,
         },
         ctx
       );
@@ -224,7 +224,7 @@ describe("resolvers", () => {
       executeQuery(
         updateRoutingRuleSet,
         {
-          input
+          input,
         },
         ctx
       );
@@ -239,10 +239,10 @@ describe("resolvers", () => {
             goto: {
               absoluteDestination: {
                 destinationType,
-                destinationId
-              }
-            }
-          }
+                destinationId,
+              },
+            },
+          },
         },
         ctx
       );
@@ -251,7 +251,7 @@ describe("resolvers", () => {
       executeQuery(
         deleteRoutingRule,
         {
-          input
+          input,
         },
         ctx
       );
@@ -260,7 +260,7 @@ describe("resolvers", () => {
       executeQuery(
         deleteRoutingCondition,
         {
-          input
+          input,
         },
         ctx
       );
@@ -279,8 +279,8 @@ describe("resolvers", () => {
           input: {
             conditionId,
             optionId,
-            checked
-          }
+            checked,
+          },
         },
         ctx
       );
@@ -289,7 +289,7 @@ describe("resolvers", () => {
       executeQuery(
         updateCondition,
         {
-          input
+          input,
         },
         ctx
       );
@@ -298,7 +298,7 @@ describe("resolvers", () => {
       const RoutingCondition = await changeRoutingConditionMutation({
         id: conditionId,
         questionPageId: firstPage.id,
-        answerId: answer.id
+        answerId: answer.id,
       });
       return RoutingCondition.data;
     };
@@ -365,7 +365,7 @@ describe("resolvers", () => {
     );
     expect(result.data.answer.properties).toMatchObject({
       decimals: 0,
-      required: false
+      required: false,
     });
   });
 
@@ -382,7 +382,7 @@ describe("resolvers", () => {
 
     expect(childAnswers).toEqual([
       { id: `${dateRangeAnswer.id}from`, label: "DateRange answer" },
-      { id: `${dateRangeAnswer.id}to`, label: null }
+      { id: `${dateRangeAnswer.id}to`, label: null },
     ]);
   });
 
@@ -408,11 +408,11 @@ describe("resolvers", () => {
 
     await updateAnswer({
       id: `${dateRangeAnswer.id}from`,
-      label: "This is the from"
+      label: "This is the from",
     });
     await updateAnswer({
       id: `${dateRangeAnswer.id}to`,
-      label: "This is the to"
+      label: "This is the to",
     });
 
     const result = await executeQuery(
@@ -425,7 +425,7 @@ describe("resolvers", () => {
 
     expect(childAnswers).toEqual([
       { id: `${dateRangeAnswer.id}from`, label: "This is the from" },
-      { id: `${dateRangeAnswer.id}to`, label: "This is the to" }
+      { id: `${dateRangeAnswer.id}to`, label: "This is the to" },
     ]);
   });
 
@@ -433,7 +433,7 @@ describe("resolvers", () => {
     const checkboxAnswer = await createNewAnswer(firstPage, "Checkbox");
 
     await createOption({
-      answerId: checkboxAnswer.id
+      answerId: checkboxAnswer.id,
     });
 
     const updatedCheckboxAnswer = await refreshAnswerDetails(checkboxAnswer);
@@ -447,14 +447,14 @@ describe("resolvers", () => {
 
     const additionalAnswerOption = await createOption({
       answerId: checkboxAnswer.id,
-      hasAdditionalAnswer: true
+      hasAdditionalAnswer: true,
     });
 
     expect(
       additionalAnswerOption.data.createOption.additionalAnswer
     ).toMatchObject({
       type: "TextField",
-      description: ""
+      description: "",
     });
 
     const updatedCheckboxAnswer = await refreshAnswerDetails(checkboxAnswer);
@@ -482,7 +482,7 @@ describe("resolvers", () => {
     const radioAnswer = await createNewAnswer(firstPage, "Radio");
 
     await createOption({
-      answerId: radioAnswer.id
+      answerId: radioAnswer.id,
     });
 
     const updatedRadioAnswer = await refreshAnswerDetails(radioAnswer);
@@ -496,13 +496,13 @@ describe("resolvers", () => {
 
     const additionalAnswerOption = await createOption({
       answerId: radioAnswer.id,
-      hasAdditionalAnswer: true
+      hasAdditionalAnswer: true,
     });
     expect(
       additionalAnswerOption.data.createOption.additionalAnswer
     ).toMatchObject({
       type: "TextField",
-      description: ""
+      description: "",
     });
 
     const updatedRadioAnswer = await refreshAnswerDetails(radioAnswer);
@@ -538,9 +538,9 @@ describe("resolvers", () => {
     expect(result).toMatchObject({
       data: {
         deleteRoutingRuleSet: {
-          id: routingRuleSet.id
-        }
-      }
+          id: routingRuleSet.id,
+        },
+      },
     });
 
     return expect(
@@ -549,9 +549,9 @@ describe("resolvers", () => {
       data: {
         page: {
           id: firstPage.id,
-          routingRuleSet: null
-        }
-      }
+          routingRuleSet: null,
+        },
+      },
     });
   });
 
@@ -587,9 +587,9 @@ describe("resolvers", () => {
         else: {
           absoluteDestination: {
             destinationType: "Section",
-            destinationId: get(page, "data.questionPage.section.id")
-          }
-        }
+            destinationId: get(page, "data.questionPage.section.id"),
+          },
+        },
       }
     );
     expect(result.errors).toHaveLength(1);
@@ -698,10 +698,10 @@ describe("resolvers", () => {
   it("should reorder section with correct position", async () => {
     const sectionOne = sections[0];
     const {
-      data: { createSection: sectionTwo }
+      data: { createSection: sectionTwo },
     } = await createSection(questionnaire.id);
     const {
-      data: { createSection: sectionThree }
+      data: { createSection: sectionThree },
     } = await createSection(questionnaire.id);
 
     const getSectionsQuery = `
@@ -722,8 +722,8 @@ describe("resolvers", () => {
         input: {
           id: sectionOne.id,
           questionnaireId: questionnaire.id,
-          position: 3
-        }
+          position: 3,
+        },
       },
       ctx
     );
@@ -731,7 +731,7 @@ describe("resolvers", () => {
     const result = await executeQuery(
       getSectionsQuery,
       {
-        id: questionnaire.id
+        id: questionnaire.id,
       },
       ctx
     );
@@ -743,10 +743,10 @@ describe("resolvers", () => {
           sections: [
             { id: sectionTwo.id, position: 0 },
             { id: sectionThree.id, position: 1 },
-            { id: sectionOne.id, position: 2 }
-          ]
-        }
-      }
+            { id: sectionOne.id, position: 2 },
+          ],
+        },
+      },
     };
 
     expect(result).toMatchObject(expected);
@@ -766,7 +766,7 @@ describe("resolvers", () => {
     const result = await executeQuery(
       getTotalSectionCountQuery,
       {
-        id: questionnaire.id
+        id: questionnaire.id,
       },
       ctx
     );
@@ -775,10 +775,10 @@ describe("resolvers", () => {
       data: {
         questionnaire: {
           questionnaireInfo: {
-            totalSectionCount: 1
-          }
-        }
-      }
+            totalSectionCount: 1,
+          },
+        },
+      },
     };
     expect(result).toMatchObject(expected);
   });
@@ -806,11 +806,11 @@ describe("resolvers", () => {
     `;
 
     const {
-      data: { createMetadata: metadata }
+      data: { createMetadata: metadata },
     } = await executeQuery(
       createMetadata,
       {
-        input: { questionnaireId: questionnaire.id }
+        input: { questionnaireId: questionnaire.id },
       },
       ctx
     );
@@ -843,7 +843,7 @@ describe("resolvers", () => {
     const result = await executeQuery(
       getQuestionnaireWithMetadata,
       {
-        id: questionnaire.id
+        id: questionnaire.id,
       },
       ctx
     );
@@ -853,9 +853,9 @@ describe("resolvers", () => {
         questionnaire: {
           id: questionnaire.id,
           metadata: [metadata],
-          __typename: "Questionnaire"
-        }
-      }
+          __typename: "Questionnaire",
+        },
+      },
     };
     expect(result).toMatchObject(expected);
   });
@@ -870,11 +870,11 @@ describe("resolvers", () => {
       }
       `;
     const {
-      data: { section }
+      data: { section },
     } = await executeQuery(
       getSectionWithDisplayName,
       {
-        id: first(sections).id
+        id: first(sections).id,
       },
       ctx
     );
@@ -892,11 +892,11 @@ describe("resolvers", () => {
       }
       `;
     const {
-      data: { questionPage }
+      data: { questionPage },
     } = await executeQuery(
       getQuestionPageWithDisplayName,
       {
-        id: firstPage.id
+        id: firstPage.id,
       },
       ctx
     );
@@ -917,11 +917,11 @@ describe("resolvers", () => {
       `;
 
     const {
-      data: { answer }
+      data: { answer },
     } = await executeQuery(
       getBasicAnswerWithDisplayName,
       {
-        id: id
+        id: id,
       },
       ctx
     );
@@ -942,11 +942,11 @@ describe("resolvers", () => {
       `;
 
     const {
-      data: { answer }
+      data: { answer },
     } = await executeQuery(
       getBasicAnswerWithDisplayName,
       {
-        id: id
+        id: id,
       },
       ctx
     );
@@ -973,11 +973,11 @@ describe("resolvers", () => {
       `;
 
     const {
-      data: { answer }
+      data: { answer },
     } = await executeQuery(
       getBasicAnswerWithDisplayName,
       {
-        id: id
+        id: id,
       },
       ctx
     );
@@ -1001,10 +1001,10 @@ describe("resolvers", () => {
           data: {
             createRoutingRuleSet: {
               else: {
-                logicalDestination: END_OF_QUESTIONNAIRE
-              }
-            }
-          }
+                logicalDestination: END_OF_QUESTIONNAIRE,
+              },
+            },
+          },
         });
       });
 
@@ -1017,10 +1017,10 @@ describe("resolvers", () => {
           data: {
             createRoutingRuleSet: {
               else: {
-                logicalDestination: NEXT_PAGE
-              }
-            }
-          }
+                logicalDestination: NEXT_PAGE,
+              },
+            },
+          },
         });
       });
 
@@ -1033,10 +1033,10 @@ describe("resolvers", () => {
           data: {
             createRoutingRuleSet: {
               else: {
-                logicalDestination: NEXT_PAGE
-              }
-            }
-          }
+                logicalDestination: NEXT_PAGE,
+              },
+            },
+          },
         });
       });
 
@@ -1047,19 +1047,19 @@ describe("resolvers", () => {
           id: get(routingRuleSet, "data.createRoutingRuleSet.id"),
           else: {
             logicalDestination: {
-              destinationType: END_OF_QUESTIONNAIRE
-            }
-          }
+              destinationType: END_OF_QUESTIONNAIRE,
+            },
+          },
         });
 
         expect(updated).toMatchObject({
           data: {
             updateRoutingRuleSet: {
               else: {
-                logicalDestination: END_OF_QUESTIONNAIRE
-              }
-            }
-          }
+                logicalDestination: END_OF_QUESTIONNAIRE,
+              },
+            },
+          },
         });
       });
 
@@ -1073,19 +1073,19 @@ describe("resolvers", () => {
           else: {
             absoluteDestination: {
               destinationType: "QuestionPage",
-              destinationId: `${newPage.id}`
-            }
-          }
+              destinationId: `${newPage.id}`,
+            },
+          },
         });
 
         expect(updated).toMatchObject({
           data: {
             updateRoutingRuleSet: {
               else: {
-                absoluteDestination: newPage
-              }
-            }
-          }
+                absoluteDestination: newPage,
+              },
+            },
+          },
         });
       });
 
@@ -1098,19 +1098,19 @@ describe("resolvers", () => {
           else: {
             absoluteDestination: {
               destinationType: "Section",
-              destinationId: `${newSection.id}`
-            }
-          }
+              destinationId: `${newSection.id}`,
+            },
+          },
         });
 
         expect(updated).toMatchObject({
           data: {
             updateRoutingRuleSet: {
               else: {
-                absoluteDestination: newSection
-              }
-            }
-          }
+                absoluteDestination: newSection,
+              },
+            },
+          },
         });
       });
     });
@@ -1124,7 +1124,7 @@ describe("resolvers", () => {
         );
         input = {
           operation: "And",
-          routingRuleSetId: routingRuleSet.id
+          routingRuleSetId: routingRuleSet.id,
         };
       });
 
@@ -1145,11 +1145,11 @@ describe("resolvers", () => {
               goto: {
                 absoluteDestination: {
                   id: newPage.id,
-                  __typename: "QuestionPage"
-                }
-              }
-            }
-          }
+                  __typename: "QuestionPage",
+                },
+              },
+            },
+          },
         });
       });
 
@@ -1169,11 +1169,11 @@ describe("resolvers", () => {
               goto: {
                 absoluteDestination: {
                   id: newSection.id,
-                  __typename: "Section"
-                }
-              }
-            }
-          }
+                  __typename: "Section",
+                },
+              },
+            },
+          },
         });
       });
 
@@ -1188,7 +1188,7 @@ describe("resolvers", () => {
         expect(page.routingRuleSet.routingRules).toHaveLength(2);
 
         await deleteRoutingRule({
-          id: routingRule.id
+          id: routingRule.id,
         });
 
         const updated = await getRoutingDataForPage(firstPage);
@@ -1211,7 +1211,7 @@ describe("resolvers", () => {
         input = {
           comparator: "Equal",
           questionPageId: firstPage.id,
-          routingRuleId: get(routingRuleSet, "routingRules[0].id")
+          routingRuleId: get(routingRuleSet, "routingRules[0].id"),
         };
       });
 
@@ -1219,8 +1219,8 @@ describe("resolvers", () => {
         const newRoutingCondition = await newCondition(input);
         expect(newRoutingCondition).toMatchObject({
           questionPage: {
-            id: firstPage.id
-          }
+            id: firstPage.id,
+          },
         });
       });
 
@@ -1245,7 +1245,7 @@ describe("resolvers", () => {
         );
         await changeRoutingConditionMutation({
           id: routingCondition.id,
-          questionPageId: pageA.id
+          questionPageId: pageA.id,
         });
 
         await deleteQuestionPage(pageA);
@@ -1258,7 +1258,7 @@ describe("resolvers", () => {
 
         expect(updatedRoutingCondition).toMatchObject({
           questionPage: null,
-          answer: null
+          answer: null,
         });
       });
 
@@ -1285,7 +1285,7 @@ describe("resolvers", () => {
         await changeRoutingConditionMutation({
           id: routingCondition.id,
           questionPageId: pageA.id,
-          answerId: answer.id
+          answerId: answer.id,
         });
 
         await deleteAnswer(answer);
@@ -1298,7 +1298,7 @@ describe("resolvers", () => {
 
         expect(updatedRoutingCondition).toMatchObject({
           questionPage: null,
-          answer: null
+          answer: null,
         });
       });
 
@@ -1323,7 +1323,7 @@ describe("resolvers", () => {
         await changeRoutingConditionMutation({
           id: routingCondition.id,
           questionPageId: firstPage.id,
-          answerId: answer.id
+          answerId: answer.id,
         });
 
         await toggleConditionOptionMutation(
@@ -1370,8 +1370,8 @@ describe("resolvers", () => {
 
         expect(routingCondition).toMatchObject({
           answer: {
-            id: answer.id
-          }
+            id: answer.id,
+          },
         });
       });
 
@@ -1382,8 +1382,8 @@ describe("resolvers", () => {
 
         expect(routingCondition).toMatchObject({
           answer: {
-            id: answer1.id
-          }
+            id: answer1.id,
+          },
         });
       });
 
@@ -1397,8 +1397,8 @@ describe("resolvers", () => {
         );
         expect(routingCondition).toMatchObject({
           questionPage: {
-            id: firstPage.id
-          }
+            id: firstPage.id,
+          },
         });
 
         const newPage = await addPage(section.id);
@@ -1407,7 +1407,7 @@ describe("resolvers", () => {
 
         await changeRoutingConditionMutation({
           id: routingCondition.id,
-          questionPageId: newPage.id
+          questionPageId: newPage.id,
         });
 
         const updated = await getRoutingDataForPage(firstPage);
@@ -1415,8 +1415,8 @@ describe("resolvers", () => {
           get(updated, "routingRuleSet.routingRules[0].conditions[0]")
         ).toMatchObject({
           questionPage: {
-            id: newPage.id
-          }
+            id: newPage.id,
+          },
         });
       });
 
@@ -1442,7 +1442,7 @@ describe("resolvers", () => {
         const res1 = await changeRoutingConditionMutation({
           id: routingCondition.id,
           questionPageId: pageA.id,
-          answerId: answerJ.id
+          answerId: answerJ.id,
         });
 
         expect(res1.errors).toHaveLength(1);
@@ -1450,7 +1450,7 @@ describe("resolvers", () => {
         const res2 = await changeRoutingConditionMutation({
           id: routingCondition.id,
           questionPageId: pageB.id,
-          answerId: answerI.id
+          answerId: answerI.id,
         });
 
         expect(res2.errors).toHaveLength(1);
@@ -1477,7 +1477,7 @@ describe("resolvers", () => {
         const conditionInput = pageId => ({
           comparator: "Equal",
           questionPageId: pageId,
-          routingRuleId: get(finalPageRoutingRuleSet, "routingRules[0].id")
+          routingRuleId: get(finalPageRoutingRuleSet, "routingRules[0].id"),
         });
 
         const routingInfo = await getRoutingDataForPage(pageD);
@@ -1487,7 +1487,7 @@ describe("resolvers", () => {
         );
         await changeRoutingConditionMutation({
           id: routingCondition.id,
-          questionPageId: pageD.id
+          questionPageId: pageD.id,
         });
         await newCondition(conditionInput(pageC.id));
         await newCondition(conditionInput(pageB.id));
@@ -1522,7 +1522,7 @@ describe("resolvers", () => {
         expect(routingCondition).toMatchObject({
           comparator: "Equal",
           questionPage: { id: firstPage.id },
-          answer: { id: answer.id }
+          answer: { id: answer.id },
         });
       });
 
@@ -1543,7 +1543,7 @@ describe("resolvers", () => {
 
         await changeRoutingConditionMutation({
           id: routingCondition.id,
-          questionPageId: firstPage.id
+          questionPageId: firstPage.id,
         });
 
         const updatedRoutingInfo = await getFullRoutingTree(pageB);
@@ -1567,7 +1567,7 @@ describe("resolvers", () => {
 
         await updateConditionValueMutation({
           id: routingCondition.routingValue.id,
-          customNumber: 8
+          customNumber: 8,
         });
 
         const updatedRoutingInfo = await getFullRoutingTree(firstPage);
@@ -1580,7 +1580,10 @@ describe("resolvers", () => {
           comparator: "Equal",
           questionPage: { id: firstPage.id },
           answer: { id: answer.id },
-          routingValue: { id: routingCondition.routingValue.id, numberValue: 8 }
+          routingValue: {
+            id: routingCondition.routingValue.id,
+            numberValue: 8,
+          },
         });
       });
 
@@ -1597,7 +1600,7 @@ describe("resolvers", () => {
         await changeRoutingConditionMutation({
           id: routingCondition.id,
           comparator: "GreaterThan",
-          questionPageId: firstPage.id
+          questionPageId: firstPage.id,
         });
 
         const updatedRoutingInfo = await getFullRoutingTree(firstPage);
@@ -1609,7 +1612,7 @@ describe("resolvers", () => {
         expect(updatedRoutingCondition).toMatchObject({
           comparator: "GreaterThan",
           questionPage: { id: firstPage.id },
-          answer: { id: answer.id }
+          answer: { id: answer.id },
         });
       });
 
@@ -1626,12 +1629,12 @@ describe("resolvers", () => {
         await changeRoutingConditionMutation({
           id: routingCondition.id,
           comparator: "GreaterThan",
-          questionPageId: firstPage.id
+          questionPageId: firstPage.id,
         });
 
         await updateConditionValueMutation({
           id: routingCondition.routingValue.id,
-          customNumber: 8
+          customNumber: 8,
         });
 
         const updatedRoutingInfo = await getFullRoutingTree(firstPage);
@@ -1642,7 +1645,7 @@ describe("resolvers", () => {
 
         expect(updatedRoutingConditionValue).toMatchObject({
           id: routingCondition.routingValue.id,
-          numberValue: 8
+          numberValue: 8,
         });
       });
 
@@ -1658,13 +1661,13 @@ describe("resolvers", () => {
 
         await updateConditionValueMutation({
           id: routingCondition.routingValue.id,
-          customNumber: 8
+          customNumber: 8,
         });
 
         await changeRoutingConditionMutation({
           id: routingCondition.id,
           comparator: "GreaterThan",
-          questionPageId: firstPage.id
+          questionPageId: firstPage.id,
         });
 
         const updatedRoutingInfo = await getFullRoutingTree(firstPage);
@@ -1675,7 +1678,7 @@ describe("resolvers", () => {
 
         expect(updatedRoutingConditionValue).toMatchObject({
           id: routingCondition.routingValue.id,
-          numberValue: 8
+          numberValue: 8,
         });
       });
     });
@@ -1687,7 +1690,7 @@ describe("resolvers", () => {
         const result = await executeQuery(
           getAvailableRoutingQuestions,
           {
-            id: firstPage.id
+            id: firstPage.id,
           },
           ctx
         );
@@ -1708,7 +1711,7 @@ describe("resolvers", () => {
         const result = await executeQuery(
           getAvailableRoutingDestinations,
           {
-            id: firstPage.id
+            id: firstPage.id,
           },
           ctx
         );
@@ -1744,9 +1747,9 @@ describe("resolvers", () => {
             email: "eq-team@ons.gov.uk",
             id: "mock_user_id",
             name: "Author Integration Test",
-            picture: "file:///path/to/some/picture.jpg"
-          }
-        }
+            picture: "file:///path/to/some/picture.jpg",
+          },
+        },
       });
     });
   });

@@ -13,12 +13,12 @@ const TestProvider = ({ reduxProps, apolloProps, children }) => (
 
 TestProvider.propTypes = {
   reduxProps: PropTypes.shape({
-    store: Provider.propTypes.store
+    store: Provider.propTypes.store,
   }),
   apolloProps: PropTypes.shape({
-    mocks: PropTypes.array.isRequired // eslint-disable prop-types
+    mocks: PropTypes.array.isRequired, // eslint-disable prop-types
   }),
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
 };
 
 export default TestProvider;

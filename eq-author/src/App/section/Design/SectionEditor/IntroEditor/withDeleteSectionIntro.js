@@ -12,7 +12,7 @@ export const displayToast = (ownProps, section) => {
       id,
       introductionTitle,
       introductionContent,
-      introductionEnabled: true
+      introductionEnabled: true,
     }
   );
 };
@@ -25,17 +25,17 @@ export const mapMutateToProps = ({ ownProps, mutate }) => ({
           id: section.id,
           introductionTitle: null,
           introductionContent: null,
-          introductionEnabled: false
-        }
-      }
+          introductionEnabled: false,
+        },
+      },
     });
 
     return mutation
       .then(() => displayToast(ownProps, section))
       .then(() => mutation);
-  }
+  },
 });
 
 export default graphql(updateSectionMutation, {
-  props: mapMutateToProps
+  props: mapMutateToProps,
 });

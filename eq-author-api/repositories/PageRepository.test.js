@@ -16,13 +16,13 @@ const buildQuestionnaire = questionnaire => ({
   legalBasis: "Voluntary",
   navigation: false,
   createdBy: "foo",
-  ...questionnaire
+  ...questionnaire,
 });
 
 const buildSection = section => ({
   title: "Test section",
   description: "section description",
-  ...section
+  ...section,
 });
 
 const buildPage = page => ({
@@ -33,7 +33,7 @@ const buildPage = page => ({
   definitionLabel: "page definitionLabel",
   definitionContent: "page definitionContent",
   pageType: "QuestionPage",
-  ...page
+  ...page,
 });
 
 const eachP = (items, iter) =>
@@ -55,7 +55,7 @@ describe("PagesRepository", () => {
 
     const section = await SectionRepository.insert(
       buildSection({
-        questionnaireId: questionnaire.id
+        questionnaireId: questionnaire.id,
       })
     );
 
@@ -88,7 +88,7 @@ describe("PagesRepository", () => {
     await PageRepository.update({
       id: result.id,
       title: "updated title",
-      pageType: "QuestionPage"
+      pageType: "QuestionPage",
     });
     const updated = await PageRepository.getById(result.id);
 
@@ -126,7 +126,7 @@ describe("PagesRepository", () => {
       const pages = times(numberOfPages, i =>
         buildPage({
           title: `Page ${i}`,
-          sectionId
+          sectionId,
         })
       );
 
@@ -156,12 +156,12 @@ describe("PagesRepository", () => {
         PageRepository.move({
           id: page.id,
           sectionId: section.id,
-          position: 0
+          position: 0,
         })
       );
 
       const updatePages = await PageRepository.findAll({
-        sectionId: section.id
+        sectionId: section.id,
       });
 
       expect(map(updatePages, "id")).toEqual(map(reverse(pages), "id"));
@@ -176,11 +176,11 @@ describe("PagesRepository", () => {
       await PageRepository.move({
         id: middlePage.id,
         sectionId: section.id,
-        position: "5"
+        position: "5",
       });
 
       const updatePages = await PageRepository.findAll({
-        sectionId: section.id
+        sectionId: section.id,
       });
 
       expect(last(updatePages).id).toEqual(middlePage.id);
@@ -195,11 +195,11 @@ describe("PagesRepository", () => {
       await PageRepository.move({
         id: firstPage.id,
         sectionId: section.id,
-        position: "3"
+        position: "3",
       });
 
       const updatePages = await PageRepository.findAll({
-        sectionId: section.id
+        sectionId: section.id,
       });
 
       expect(updatePages[3].id).toEqual(firstPage.id);
@@ -212,11 +212,11 @@ describe("PagesRepository", () => {
       await PageRepository.move({
         id: head(results).id,
         sectionId: section.id,
-        position: results.length * 2
+        position: results.length * 2,
       });
 
       const updatedResults = await PageRepository.findAll({
-        sectionId: section.id
+        sectionId: section.id,
       });
 
       expect(last(updatedResults).id).toBe(head(results).id);
@@ -229,11 +229,11 @@ describe("PagesRepository", () => {
       await PageRepository.move({
         id: last(results).id,
         sectionId: section.id,
-        position: -100
+        position: -100,
       });
 
       const updatedResults = await PageRepository.findAll({
-        sectionId: section.id
+        sectionId: section.id,
       });
 
       expect(head(updatedResults).id).toBe(last(results).id);
@@ -242,7 +242,7 @@ describe("PagesRepository", () => {
     it("can move pages between sections", async () => {
       const {
         section,
-        questionnaire: { id: questionnaireId }
+        questionnaire: { id: questionnaireId },
       } = await setup();
 
       const section2 = await SectionRepository.insert(
@@ -253,11 +253,11 @@ describe("PagesRepository", () => {
       await PageRepository.move({
         id: head(results).id,
         sectionId: section2.id,
-        position: 0
+        position: 0,
       });
 
       const updatedResults = await PageRepository.findAll({
-        sectionId: section2.id
+        sectionId: section2.id,
       });
 
       expect(head(updatedResults)).toMatchObject({ id: head(results).id });
@@ -266,7 +266,7 @@ describe("PagesRepository", () => {
     it("correctly re-orders pages as they're moved between sections", async () => {
       const {
         section,
-        questionnaire: { id: questionnaireId }
+        questionnaire: { id: questionnaireId },
       } = await setup();
 
       const section2 = await SectionRepository.insert(
@@ -277,16 +277,16 @@ describe("PagesRepository", () => {
       await PageRepository.move({
         id: results[0].id,
         sectionId: section2.id,
-        position: 0
+        position: 0,
       });
       await PageRepository.move({
         id: results[1].id,
         sectionId: section2.id,
-        position: 0
+        position: 0,
       });
 
       const updatedResults = await PageRepository.findAll({
-        sectionId: section2.id
+        sectionId: section2.id,
       });
 
       expect(map(updatedResults, "id")).toEqual(
@@ -306,11 +306,11 @@ describe("PagesRepository", () => {
       await PageRepository.move({
         id: newPage.id,
         sectionId: section.id,
-        position: 0
+        position: 0,
       });
 
       const updatedResults = await PageRepository.findAll({
-        sectionId: section.id
+        sectionId: section.id,
       });
 
       expect(updatedResults).not.toContainEqual(
@@ -331,13 +331,13 @@ describe("PagesRepository", () => {
       await PageRepository.move({
         id: pages[4].id,
         sectionId: section.id,
-        position: 2
+        position: 2,
       });
 
       await PageRepository.undelete(pages[3].id);
 
       const updatedResults = await PageRepository.findAll({
-        sectionId: section.id
+        sectionId: section.id,
       });
 
       expect(map(updatedResults, "id")).toEqual(
@@ -365,7 +365,7 @@ describe("PagesRepository", () => {
       );
 
       const updatedResults = await PageRepository.findAll({
-        sectionId: section.id
+        sectionId: section.id,
       });
 
       expect(map(updatedResults, "id")).toEqual(
@@ -389,11 +389,11 @@ describe("PagesRepository", () => {
       await PageRepository.move({
         id: page3.id,
         sectionId: section.id,
-        position: 1
+        position: 1,
       });
 
       const updatedResults = await PageRepository.findAll({
-        sectionId: section.id
+        sectionId: section.id,
       });
 
       expect(map(updatedResults, "id")).toEqual(
@@ -418,12 +418,12 @@ describe("PagesRepository", () => {
         PageRepository.move({
           id: page.id,
           sectionId: section.id,
-          position: 0
+          position: 0,
         })
       );
 
       const updatedResults = await PageRepository.findAll({
-        sectionId: section.id
+        sectionId: section.id,
       });
 
       expect(map(updatedResults, "id")).toEqual(map([page2, page1], "id"));
@@ -438,12 +438,12 @@ describe("PagesRepository", () => {
         PageRepository.move({
           id: page.id,
           sectionId: section.id,
-          position: 2
+          position: 2,
         })
       );
 
       const updatedResults = await PageRepository.findAll({
-        sectionId: section.id
+        sectionId: section.id,
       });
 
       expect(map(updatedResults, "id")).toEqual(map(reverse(pages), "id"));
@@ -456,11 +456,11 @@ describe("PagesRepository", () => {
       await PageRepository.move({
         id: pages[1].id,
         sectionId: section.id,
-        position: 1
+        position: 1,
       });
 
       const updatedResults = await PageRepository.findAll({
-        sectionId: section.id
+        sectionId: section.id,
       });
 
       expect(map(updatedResults, "id")).toEqual(map(pages, "id"));
@@ -473,11 +473,11 @@ describe("PagesRepository", () => {
       await PageRepository.move({
         id: pages[0].id,
         sectionId: section.id,
-        position: 1000
+        position: 1000,
       });
 
       const updatedResults = await PageRepository.findAll({
-        sectionId: section.id
+        sectionId: section.id,
       });
 
       expect(map(updatedResults, "id")).toEqual(map(pages, "id"));
@@ -508,7 +508,7 @@ describe("PagesRepository", () => {
         "alias",
         "title",
         "createdAt",
-        "updatedAt"
+        "updatedAt",
       ];
 
       expect(omit(result, fieldsToOmit)).toMatchObject(

@@ -52,7 +52,7 @@ const ContentWrapper = ({ onClose, children }) => (
 
 ContentWrapper.propTypes = {
   onClose: PropTypes.func.isRequired,
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
 };
 
 export default ContentWrapper;

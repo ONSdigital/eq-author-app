@@ -23,7 +23,7 @@ export const UnwrappedRoutingConditionContentPicker = ({
 
 UnwrappedRoutingConditionContentPicker.propTypes = {
   data: PropTypes.object, // eslint-disable-line react/forbid-prop-types
-  path: PropTypes.string.isRequired
+  path: PropTypes.string.isRequired,
 };
 
 const RoutingConditionContentPicker = props => (
@@ -35,7 +35,7 @@ const RoutingConditionContentPicker = props => (
 );
 
 RoutingConditionContentPicker.propTypes = {
-  pageId: PropTypes.string.isRequired
+  pageId: PropTypes.string.isRequired,
 };
 
 export default RoutingConditionContentPicker;

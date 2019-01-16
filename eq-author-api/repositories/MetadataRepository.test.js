@@ -14,7 +14,7 @@ const buildQuestionnaire = (json = {}) => {
       theme: "default",
       legalBasis: "Voluntary",
       navigation: false,
-      createdBy: "foo"
+      createdBy: "foo",
     },
     json
   );
@@ -24,7 +24,7 @@ const buildMetadata = (questionnaireId, json = {}) => {
   return Object.assign(
     {
       type: "Text",
-      questionnaireId: questionnaireId
+      questionnaireId: questionnaireId,
     },
     json
   );
@@ -50,7 +50,7 @@ describe("MetadataRepository", () => {
     expect(result.id).toBe(id);
     expect(result).toMatchObject({
       type: "Text",
-      questionnaireId
+      questionnaireId,
     });
   });
 
@@ -70,7 +70,7 @@ describe("MetadataRepository", () => {
     const result = await MetadataRepository.insert(metadata);
     expect(result).toMatchObject({
       type: "Text",
-      questionnaireId
+      questionnaireId,
     });
   });
 
@@ -84,7 +84,7 @@ describe("MetadataRepository", () => {
       alias: "Reporting Unit Reference",
       type: "Text",
       textValue: "10000000",
-      questionnaireId: questionnaireId
+      questionnaireId: questionnaireId,
     };
 
     const result = await MetadataRepository.update(updateValues);
@@ -104,7 +104,7 @@ describe("MetadataRepository", () => {
       alias: "Reporting Unit Reference",
       type: "Date",
       dateValue: new Date("2018-09-04"),
-      questionnaireId: questionnaireId
+      questionnaireId: questionnaireId,
     };
 
     const result = await MetadataRepository.update(updateValues);
@@ -113,7 +113,7 @@ describe("MetadataRepository", () => {
       omit(
         {
           ...updateValues,
-          value: expect.stringContaining("2018-09-04")
+          value: expect.stringContaining("2018-09-04"),
         },
         ["dateValue"]
       )
@@ -130,7 +130,7 @@ describe("MetadataRepository", () => {
       alias: "Reporting Unit Reference",
       type: "Region",
       regionValue: "GB_ENG",
-      questionnaireId: questionnaireId
+      questionnaireId: questionnaireId,
     };
 
     const result = await MetadataRepository.update(updateValues);
@@ -150,7 +150,7 @@ describe("MetadataRepository", () => {
       alias: "Reporting Unit Reference",
       type: "Language",
       languageValue: "en",
-      questionnaireId: questionnaireId
+      questionnaireId: questionnaireId,
     };
 
     const result = await MetadataRepository.update(updateValues);
@@ -170,7 +170,7 @@ describe("MetadataRepository", () => {
       alias: "",
       type: "Language",
       languageValue: "",
-      questionnaireId: questionnaireId
+      questionnaireId: questionnaireId,
     };
 
     const result = await MetadataRepository.update(updateValues);
@@ -190,7 +190,7 @@ describe("MetadataRepository", () => {
       alias: "",
       type: "Region",
       regionValue: "",
-      questionnaireId: questionnaireId
+      questionnaireId: questionnaireId,
     };
 
     const result = await MetadataRepository.update(updateValues);
@@ -210,7 +210,7 @@ describe("MetadataRepository", () => {
       alias: "",
       type: "Text",
       textValue: "test",
-      questionnaireId: questionnaireId
+      questionnaireId: questionnaireId,
     };
 
     await MetadataRepository.update(updateValues);
@@ -218,7 +218,7 @@ describe("MetadataRepository", () => {
     const result = await MetadataRepository.update({
       ...updateValues,
       type: "Region",
-      regionValue: "GB_ENG"
+      regionValue: "GB_ENG",
     });
 
     expect(result).toMatchObject(
@@ -226,7 +226,7 @@ describe("MetadataRepository", () => {
         {
           ...updateValues,
           type: "Region",
-          value: "GB_ENG"
+          value: "GB_ENG",
         },
         ["regionValue", "textValue"]
       )
@@ -243,7 +243,7 @@ describe("MetadataRepository", () => {
       alias: "",
       type: "Text",
       languageValue: "",
-      questionnaireId: questionnaireId
+      questionnaireId: questionnaireId,
     };
 
     const result = await MetadataRepository.update(updateValues);
@@ -253,7 +253,7 @@ describe("MetadataRepository", () => {
       key: "ru_ref",
       alias: "Ru Ref",
       type: "Text",
-      value: "12346789012A"
+      value: "12346789012A",
     });
   });
 
@@ -267,13 +267,13 @@ describe("MetadataRepository", () => {
       alias: "",
       type: "Text",
       languageValue: "",
-      questionnaireId: questionnaireId
+      questionnaireId: questionnaireId,
     };
 
     await MetadataRepository.update(updateValues);
     const result = await MetadataRepository.update({
       ...updateValues,
-      key: "ru_name"
+      key: "ru_name",
     });
 
     expect(result).toMatchObject({
@@ -281,7 +281,7 @@ describe("MetadataRepository", () => {
       key: "ru_name",
       alias: "Ru Name",
       type: "Text",
-      value: "ESSENTIAL ENTERPRISE LTD."
+      value: "ESSENTIAL ENTERPRISE LTD.",
     });
   });
 
@@ -295,19 +295,19 @@ describe("MetadataRepository", () => {
       alias: "",
       type: "Text",
       textValue: "",
-      questionnaireId: questionnaireId
+      questionnaireId: questionnaireId,
     };
 
     await MetadataRepository.update(updateValues);
     const result = await MetadataRepository.update({
       ...updateValues,
       key: "tx_id",
-      textValue: "foobar"
+      textValue: "foobar",
     });
 
     expect(result).toMatchObject({
       id,
-      value: "foobar"
+      value: "foobar",
     });
   });
 

@@ -8,7 +8,7 @@ describe("PillTabs", () => {
   const props = {
     value: "1",
     options: OPTIONS,
-    onChange: () => {}
+    onChange: () => {},
   };
 
   it("should render base tabs configured as per design", () => {

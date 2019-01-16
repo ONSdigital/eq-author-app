@@ -7,7 +7,7 @@ const { get } = require("lodash");
 const { DATE, NUMBER, TEXTAREA } = require("../constants/answerTypes");
 const {
   DATE: METADATA_DATE,
-  TEXT: METADATA_TEXT
+  TEXT: METADATA_TEXT,
 } = require("../constants/metadataTypes");
 
 describe("ValidationRepository", () => {
@@ -27,24 +27,24 @@ describe("ValidationRepository", () => {
                 answers: [
                   {
                     label: "Answer 1.1.1",
-                    type: DATE
+                    type: DATE,
                   },
                   {
                     label: "Answer 1.1.2",
-                    type: NUMBER
-                  }
-                ]
+                    type: NUMBER,
+                  },
+                ],
               },
               {
                 title: "Page 1.2",
                 answers: [
                   {
                     label: "Answer 1.2.1",
-                    type: DATE
-                  }
-                ]
-              }
-            ]
+                    type: DATE,
+                  },
+                ],
+              },
+            ],
           },
           {
             title: "Section 2",
@@ -54,38 +54,38 @@ describe("ValidationRepository", () => {
                 answers: [
                   {
                     label: "Answer 2.1.1",
-                    type: DATE
+                    type: DATE,
                   },
                   {
                     label: "Answer 2.1.2",
-                    type: NUMBER
+                    type: NUMBER,
                   },
                   {
                     label: "Answer 2.1.3",
-                    type: NUMBER
+                    type: NUMBER,
                   },
                   {
                     label: "Answer 2.1.4",
-                    type: DATE
-                  }
-                ]
+                    type: DATE,
+                  },
+                ],
               },
               {
                 title: "Page 2.2",
                 answers: [
                   {
                     label: "Answer 2.2.1",
-                    type: DATE
+                    type: DATE,
                   },
                   {
                     label: "Answer 2.2.2",
-                    type: TEXTAREA
-                  }
-                ]
-              }
-            ]
-          }
-        ]
+                    type: TEXTAREA,
+                  },
+                ],
+              },
+            ],
+          },
+        ],
       });
     });
 
@@ -99,11 +99,11 @@ describe("ValidationRepository", () => {
 
       expect(previousAnswers).toEqual([
         expect.objectContaining({
-          label: "Answer 1.1.1"
+          label: "Answer 1.1.1",
         }),
         expect.objectContaining({
-          label: "Answer 1.2.1"
-        })
+          label: "Answer 1.2.1",
+        }),
       ]);
     });
 
@@ -117,8 +117,8 @@ describe("ValidationRepository", () => {
 
       expect(previousAnswers).toEqual([
         expect.objectContaining({
-          label: "Answer 1.1.1"
-        })
+          label: "Answer 1.1.1",
+        }),
       ]);
     });
   });
@@ -129,7 +129,7 @@ describe("ValidationRepository", () => {
       questionnaire = await buildTestQuestionnaire({
         metadata: [
           { key: "metadata_date", type: METADATA_DATE },
-          { key: "metadata_text", type: METADATA_TEXT }
+          { key: "metadata_text", type: METADATA_TEXT },
         ],
         sections: [
           {
@@ -140,17 +140,17 @@ describe("ValidationRepository", () => {
                 answers: [
                   {
                     label: "Answer 1.1.1",
-                    type: DATE
+                    type: DATE,
                   },
                   {
                     label: "Answer 1.1.2",
-                    type: NUMBER
-                  }
-                ]
-              }
-            ]
-          }
-        ]
+                    type: NUMBER,
+                  },
+                ],
+              },
+            ],
+          },
+        ],
       });
     });
 
@@ -164,8 +164,8 @@ describe("ValidationRepository", () => {
 
       expect(metadata).toEqual([
         expect.objectContaining({
-          key: "metadata_date"
-        })
+          key: "metadata_date",
+        }),
       ]);
     });
 

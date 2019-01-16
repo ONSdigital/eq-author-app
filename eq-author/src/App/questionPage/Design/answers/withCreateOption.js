@@ -11,7 +11,7 @@ export const createUpdater = answerId => (proxy, result) => {
   proxy.writeFragment({
     id,
     fragment,
-    data: answer
+    data: answer,
   });
 };
 
@@ -23,11 +23,11 @@ export const mapMutateToProps = ({ mutate }) => ({
 
     return mutate({
       variables: { input: option },
-      update
+      update,
     }).then(res => res.data.createOption);
-  }
+  },
 });
 
 export default graphql(createOptionMutation, {
-  props: mapMutateToProps
+  props: mapMutateToProps,
 });

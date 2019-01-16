@@ -1,7 +1,7 @@
 import React from "react";
 import {
   UnconnectedSignInPage as SignInPage,
-  mapStateToProps
+  mapStateToProps,
 } from "App/SignInPage";
 import { shallow } from "enzyme";
 
@@ -46,7 +46,7 @@ describe("SignInPage", () => {
         const wrapper = render({
           isSignedIn: true,
           verifiedAuthStatus: true,
-          returnURL: "/foo"
+          returnURL: "/foo",
         });
 
         expect(wrapper).toMatchSnapshot();
@@ -55,7 +55,7 @@ describe("SignInPage", () => {
       it("if they don't have a returnURL should return to root", () => {
         const wrapper = render({
           isSignedIn: true,
-          verifiedAuthStatus: true
+          verifiedAuthStatus: true,
         });
 
         expect(wrapper).toMatchSnapshot();
@@ -82,10 +82,10 @@ describe("SignInPage", () => {
     it("does the right thing", () => {
       const auth = {
         user: {},
-        verifiedStatus: false
+        verifiedStatus: false,
       };
       const location = {
-        state: { returnURL: "/foobar" }
+        state: { returnURL: "/foobar" },
       };
 
       localStorage.setItem("accessToken", "some auth token");
@@ -95,7 +95,7 @@ describe("SignInPage", () => {
       expect(result).toEqual({
         isSignedIn: true,
         verifiedAuthStatus: false,
-        returnURL: "/foobar"
+        returnURL: "/foobar",
       });
     });
   });

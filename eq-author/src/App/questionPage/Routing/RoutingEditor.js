@@ -32,7 +32,7 @@ class RoutingEditor extends React.Component {
     onUpdateRoutingRule: PropTypes.func.isRequired,
     onUpdateRoutingRuleSet: PropTypes.func.isRequired,
     onDeleteRoutingRuleSet: PropTypes.func.isRequired,
-    match: CustomPropTypes.match
+    match: CustomPropTypes.match,
   };
 
   handleElseChange = value => {
@@ -52,7 +52,7 @@ class RoutingEditor extends React.Component {
     const {
       currentPage,
       onDeleteRoutingRule,
-      onDeleteRoutingRuleSet
+      onDeleteRoutingRuleSet,
     } = this.props;
     const { routingRuleSet } = currentPage;
 

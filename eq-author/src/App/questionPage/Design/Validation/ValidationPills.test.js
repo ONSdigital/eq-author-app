@@ -4,7 +4,7 @@ import { omit } from "lodash";
 
 import {
   Pills,
-  ValidationPills
+  ValidationPills,
 } from "App/questionPage/Design/Validation/ValidationPills";
 
 import { PREVIOUS_ANSWER } from "constants/validation-entity-types";
@@ -22,7 +22,7 @@ describe("ValidationPills", () => {
       Now: () => <div>Start Date Content</div>,
       PreviousAnswer: () => <div>Previous Answer Content</div>,
       Metadata: () => <div>Metadata Content</div>,
-      Custom: () => <div>Previous Answer Content</div>
+      Custom: () => <div>Previous Answer Content</div>,
     };
 
     wrapper = createWrapper(props);
@@ -64,7 +64,7 @@ describe("ValidationPills", () => {
     pills.simulate("change", value);
     expect(props.onEntityTypeChange).toHaveBeenCalledWith({
       name: "entityType",
-      value
+      value,
     });
   });
 });

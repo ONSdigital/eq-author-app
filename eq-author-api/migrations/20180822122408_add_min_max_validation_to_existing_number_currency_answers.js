@@ -15,7 +15,7 @@ exports.up = async function(knex) {
       return knex("Validation_AnswerRules").insert({
         AnswerId: id,
         validationType,
-        config: { inclusive: false }
+        config: { inclusive: false },
       });
     });
   });

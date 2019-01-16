@@ -17,7 +17,7 @@ const NavList = styled.ol`
 
 class SectionNav extends Component {
   static propTypes = {
-    questionnaire: CustomPropTypes.questionnaire
+    questionnaire: CustomPropTypes.questionnaire,
   };
 
   render() {
@@ -43,7 +43,7 @@ SectionNav.fragments = {
       }
     }
     ${SectionNavItem.fragments.SectionNavItem}
-  `
+  `,
 };
 
 export default SectionNav;

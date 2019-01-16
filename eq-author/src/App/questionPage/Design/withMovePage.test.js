@@ -8,30 +8,30 @@ describe("withMovePage", () => {
   beforeEach(() => {
     match = {
       params: {
-        questionnaireId: "1"
-      }
+        questionnaireId: "1",
+      },
     };
 
     history = {
-      replace: jest.fn()
+      replace: jest.fn(),
     };
 
     ownProps = {
       history,
-      match
+      match,
     };
 
     args = {
       from: {
         id: "1",
         sectionId: "1",
-        position: 0
+        position: 0,
       },
       to: {
         id: "1",
         sectionId: "2",
-        position: 1
-      }
+        position: 1,
+      },
     };
 
     result = {
@@ -40,12 +40,12 @@ describe("withMovePage", () => {
           id: args.to.id,
           section: {
             id: args.to.sectionId,
-            __typename: "Section"
+            __typename: "Section",
           },
           position: args.to.position,
-          __typename: "QuestionPage"
-        }
-      }
+          __typename: "QuestionPage",
+        },
+      },
     };
   });
 
@@ -63,10 +63,10 @@ describe("withMovePage", () => {
       it("provides the necessary arguments to mutate", () => {
         const expected = {
           variables: {
-            input: args.to
+            input: args.to,
           },
           optimisticResponse: result.data,
-          update: expect.any(Function)
+          update: expect.any(Function),
         };
 
         return props.onMovePage(args).then(() => {
@@ -82,7 +82,7 @@ describe("withMovePage", () => {
         const expected = buildPagePath({
           questionnaireId: match.params.questionnaireId,
           sectionId: args.to.sectionId,
-          pageId: args.to.id
+          pageId: args.to.id,
         });
 
         return props.onMovePage(args).then(() => {
@@ -100,17 +100,17 @@ describe("withMovePage", () => {
 
       fromSection = {
         id: args.from.sectionId,
-        pages: [page, { id: "2", position: 1 }]
+        pages: [page, { id: "2", position: 1 }],
       };
 
       toSection = {
         id: args.to.sectionId,
-        pages: [{ id: "3", position: 0 }]
+        pages: [{ id: "3", position: 0 }],
       };
 
       proxy = {
         writeFragment: jest.fn(),
-        readFragment: jest.fn()
+        readFragment: jest.fn(),
       };
 
       proxy.readFragment
@@ -125,19 +125,19 @@ describe("withMovePage", () => {
       expect(proxy.writeFragment).toHaveBeenCalledWith({
         id: `Section${args.from.sectionId}`,
         fragment,
-        data: fromSection
+        data: fromSection,
       });
 
       expect(proxy.writeFragment).toHaveBeenCalledWith({
         id: `Section${args.to.sectionId}`,
         fragment,
-        data: toSection
+        data: toSection,
       });
 
       expect(fromSection.pages).not.toContain(page);
       expect(toSection.pages[args.to.position]).toMatchObject({
         id: page.id,
-        position: args.to.position
+        position: args.to.position,
       });
     });
 
@@ -148,9 +148,9 @@ describe("withMovePage", () => {
           pages: [
             { id: "A", position: 0 },
             { id: "B", position: 1 },
-            { id: "C", position: 2 }
-          ]
-        }
+            { id: "C", position: 2 },
+          ],
+        },
       };
 
       proxy = {
@@ -159,20 +159,20 @@ describe("withMovePage", () => {
         }),
         readFragment: jest.fn(({ id }) => {
           return sections[id];
-        })
+        }),
       };
 
       let updater = createUpdater({
         from: {
           id: "C",
           sectionId: "1",
-          position: 2
+          position: 2,
         },
         to: {
           id: "C",
           sectionId: "1",
-          position: 1
-        }
+          position: 1,
+        },
       });
 
       // order: A, C, B
@@ -184,23 +184,23 @@ describe("withMovePage", () => {
             __typename: "QuestionPage",
             section: {
               id: "1",
-              __typename: "Section"
-            }
-          }
-        }
+              __typename: "Section",
+            },
+          },
+        },
       });
 
       updater = createUpdater({
         from: {
           id: "B",
           sectionId: "1",
-          position: 2
+          position: 2,
         },
         to: {
           id: "B",
           sectionId: "1",
-          position: 0
-        }
+          position: 0,
+        },
       });
 
       // order: B, A, C
@@ -212,16 +212,16 @@ describe("withMovePage", () => {
             __typename: "QuestionPage",
             section: {
               id: "1",
-              __typename: "Section"
-            }
-          }
-        }
+              __typename: "Section",
+            },
+          },
+        },
       });
 
       expect(sections.Section1.pages).toEqual([
         { id: "B", position: 0 },
         { id: "A", position: 1 },
-        { id: "C", position: 2 }
+        { id: "C", position: 2 },
       ]);
     });
   });

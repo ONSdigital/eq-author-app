@@ -5,7 +5,7 @@ export default (state = {}, { type, payload }) => {
     case TAB_GOTO: {
       return {
         ...state,
-        [payload.tabsId]: payload.activeTabId
+        [payload.tabsId]: payload.activeTabId,
       };
     }
 

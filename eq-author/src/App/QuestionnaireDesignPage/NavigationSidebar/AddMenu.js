@@ -43,7 +43,7 @@ const AddMenuButton = styled(Button)`
 
 const AddButton = styled(Button).attrs({
   variant: "tertiary-light",
-  small: true
+  small: true,
 })`
   top: 1px; /* adjust for misalignment caused by PopoutContainer */
 `;
@@ -109,7 +109,7 @@ AddMenu.propTypes = {
   onAddSection: PropTypes.func.isRequired,
   onAddQuestionConfirmation: PropTypes.func.isRequired,
   canAddQuestionConfirmation: PropTypes.bool.isRequired,
-  addMenuOpen: PropTypes.bool.isRequired
+  addMenuOpen: PropTypes.bool.isRequired,
 };
 
 export default AddMenu;

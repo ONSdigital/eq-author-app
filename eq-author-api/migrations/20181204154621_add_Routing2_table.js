@@ -89,7 +89,7 @@ exports.up = async function(knex) {
       "LessThan",
       "GreaterOrEqual",
       "LessOrEqual",
-      "OneOf"
+      "OneOf",
     ]);
   });
 

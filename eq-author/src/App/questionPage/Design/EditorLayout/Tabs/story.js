@@ -14,11 +14,11 @@ const questionnaire = {
       pages: [
         {
           title: "Question 1.1",
-          id: "2"
-        }
-      ]
-    }
-  ]
+          id: "2",
+        },
+      ],
+    },
+  ],
 };
 
 const Wrapper = styled.div`

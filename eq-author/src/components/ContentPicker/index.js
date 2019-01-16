@@ -6,17 +6,17 @@ const config = [
   {
     id: "section",
     title: "Section",
-    childKey: "pages"
+    childKey: "pages",
   },
   {
     id: "page",
     title: "Question",
-    childKey: "answers"
+    childKey: "answers",
   },
   {
     id: "answer",
-    title: "Answer"
-  }
+    title: "Answer",
+  },
 ];
 
 export const AnswerContentPicker = props => (
@@ -26,8 +26,8 @@ export const AnswerContentPicker = props => (
 const metadataConfig = [
   {
     id: "metadata",
-    title: "Metadata"
-  }
+    title: "Metadata",
+  },
 ];
 
 export const MetadataContentPicker = props => (
@@ -38,12 +38,12 @@ const questionConfig = [
   {
     id: "section",
     title: "Section",
-    childKey: "pages"
+    childKey: "pages",
   },
   {
     id: "page",
-    title: "Question"
-  }
+    title: "Question",
+  },
 ];
 
 export const QuestionContentPicker = props => (
@@ -59,9 +59,9 @@ const routingDestinationConfig = [
     destination: {
       absoluteDestination: {
         destinationId: null,
-        destinationType: "QuestionPage"
-      }
-    }
+        destinationType: "QuestionPage",
+      },
+    },
   },
   {
     id: "sections",
@@ -71,9 +71,9 @@ const routingDestinationConfig = [
     destination: {
       absoluteDestination: {
         destinationId: null,
-        destinationType: "Section"
-      }
-    }
+        destinationType: "Section",
+      },
+    },
   },
   {
     id: "endOfQuestionnaire",
@@ -83,10 +83,10 @@ const routingDestinationConfig = [
     type: "RoutingLogicalDestination",
     destination: {
       logicalDestination: {
-        destinationType: "EndOfQuestionnaire"
-      }
-    }
-  }
+        destinationType: "EndOfQuestionnaire",
+      },
+    },
+  },
 ];
 
 export const RoutingDestinationContentPicker = props => (

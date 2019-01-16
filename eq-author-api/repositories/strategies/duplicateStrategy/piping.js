@@ -4,18 +4,18 @@ const PIPING_LOCATIONS = [
   {
     entityName: "pages",
     table: "Pages",
-    fields: ["title", "description", "guidance"]
+    fields: ["title", "description", "guidance"],
   },
   {
     entityName: "sections",
     table: "Sections",
-    fields: ["introductionTitle", "introductionContent"]
+    fields: ["introductionTitle", "introductionContent"],
   },
   {
     entityName: "questionConfirmations",
     table: "QuestionConfirmations",
-    fields: ["title"]
-  }
+    fields: ["title"],
+  },
 ];
 
 const updatePipingField = references => field => {
@@ -65,7 +65,7 @@ const updateEntityPiping = async (
     const modifiedEntity = fields.reduce(
       (obj, field) => ({
         ...obj,
-        [field]: updateField(entity[field])
+        [field]: updateField(entity[field]),
       }),
       {}
     );

@@ -799,5 +799,5 @@ module.exports = {
   updateConditionValue,
   updateAnswerValidation,
   createExclusiveMutation,
-  createMetadataMutation
+  createMetadataMutation,
 };

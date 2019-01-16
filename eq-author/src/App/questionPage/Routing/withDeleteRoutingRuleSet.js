@@ -14,7 +14,7 @@ export const createUpdater = (routingRuleSetId, pageId) => proxy => {
   const id = `QuestionPage${pageId}`;
   const page = proxy.readFragment({
     id,
-    fragment
+    fragment,
   });
 
   page.routingRuleSet = null;
@@ -22,7 +22,7 @@ export const createUpdater = (routingRuleSetId, pageId) => proxy => {
   proxy.writeFragment({
     id,
     fragment,
-    data: page
+    data: page,
   });
 };
 
@@ -33,11 +33,11 @@ export const mapMutateToProps = ({ mutate }) => ({
 
     return mutate({
       variables: { input },
-      update
+      update,
     }).then(res => res.data.deleteRoutingRuleSet);
-  }
+  },
 });
 
 export default graphql(deleteRoutingRuleSet, {
-  props: mapMutateToProps
+  props: mapMutateToProps,
 });

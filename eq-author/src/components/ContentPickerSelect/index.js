@@ -18,7 +18,7 @@ import SectionDestination from "graphql/fragments/section-destination.graphql";
 import iconChevron from "components/ContentPickerSelect/icon-chevron.svg";
 
 export const ContentSelectButton = styled(Button).attrs({
-  variant: "tertiary"
+  variant: "tertiary",
 })`
   font-size: 1em;
   font-weight: normal;
@@ -60,18 +60,18 @@ const ContentSelected = styled(Truncated)`
 
 export class UnwrappedContentPickerSelect extends Component {
   state = {
-    isPickerOpen: false
+    isPickerOpen: false,
   };
 
   handlePickerOpen = () => {
     this.setState({
-      isPickerOpen: true
+      isPickerOpen: true,
     });
   };
 
   handlePickerClose = () => {
     this.setState({
-      isPickerOpen: false
+      isPickerOpen: false,
     });
   };
 
@@ -127,7 +127,7 @@ UnwrappedContentPickerSelect.propTypes = {
   error: PropTypes.object, // eslint-disable-line
   disabled: PropTypes.bool,
   data: PropTypes.shape({
-    questionnaire: CustomPropTypes.questionnaire
+    questionnaire: CustomPropTypes.questionnaire,
   }),
   onSubmit: PropTypes.func.isRequired,
   selectedContentDisplayName: PropTypes.string,
@@ -137,30 +137,30 @@ UnwrappedContentPickerSelect.propTypes = {
   answerData: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,
-      displayName: PropTypes.string.isRequired
+      displayName: PropTypes.string.isRequired,
     })
   ),
   questionData: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,
-      displayName: PropTypes.string.isRequired
+      displayName: PropTypes.string.isRequired,
     })
   ),
   metadataData: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,
-      displayName: PropTypes.string.isRequired
+      displayName: PropTypes.string.isRequired,
     })
   ),
   destinationData: PropTypes.shape({
     logicalDestinations: PropTypes.arrayOf(propType(LogicalDestination)),
     questionPages: PropTypes.arrayOf(propType(QuestionPageDestination)),
-    sections: PropTypes.arrayOf(propType(SectionDestination))
-  })
+    sections: PropTypes.arrayOf(propType(SectionDestination)),
+  }),
 };
 
 UnwrappedContentPickerSelect.defaultProps = {
-  selectedContentDisplayName: "Please select..."
+  selectedContentDisplayName: "Please select...",
 };
 
 export default UnwrappedContentPickerSelect;

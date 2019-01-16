@@ -28,23 +28,23 @@ describe("answer", () => {
                 answers: [],
                 routing: {
                   else: {
-                    logical: "NextPage"
+                    logical: "NextPage",
                   },
                   rules: [
                     {
                       destination: {
-                        logical: "NextPage"
+                        logical: "NextPage",
                       },
                       expressionGroup: {
-                        expressions: [{}]
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ]
+                        expressions: [{}],
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        ],
       });
       const page = questionnaire.sections[0].pages[0];
 
@@ -77,7 +77,7 @@ describe("answer", () => {
       const createResult = await executeQuery(
         createAnswerMutation,
         {
-          input: { questionPageId: page.id, type: answerTypes.NUMBER }
+          input: { questionPageId: page.id, type: answerTypes.NUMBER },
         },
         ctx
       );
@@ -89,7 +89,7 @@ describe("answer", () => {
           .expressions[0];
       expect(expression).toMatchObject({
         left: { id: answerId },
-        condition: conditions.EQUAL
+        condition: conditions.EQUAL,
       });
     });
 
@@ -102,29 +102,29 @@ describe("answer", () => {
                 answers: [{ id: "answer", type: answerTypes.NUMBER }],
                 routing: {
                   else: {
-                    logical: "NextPage"
+                    logical: "NextPage",
                   },
                   rules: [
                     {
                       destination: {
-                        logical: "NextPage"
+                        logical: "NextPage",
                       },
                       expressionGroup: {
                         expressions: [
                           {
                             left: { answerId: "answer" },
                             condition: conditions.EQUAL,
-                            right: { customValue: { number: 5 } }
-                          }
-                        ]
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ]
+                            right: { customValue: { number: 5 } },
+                          },
+                        ],
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        ],
       });
       const answer = questionnaire.sections[0].pages[0].answers[0];
 
@@ -162,7 +162,7 @@ describe("answer", () => {
       const deleteResult = await executeQuery(
         deleteAnswerMutation,
         {
-          input: { id: answer.id }
+          input: { id: answer.id },
         },
         ctx
       );
@@ -178,14 +178,14 @@ describe("answer", () => {
                     {
                       left: null,
                       condition: conditions.EQUAL,
-                      right: null
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        }
+                      right: null,
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        },
       });
     });
   });

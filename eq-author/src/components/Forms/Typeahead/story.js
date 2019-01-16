@@ -30,7 +30,7 @@ const items = [
   { value: "melon" },
   { value: "strawberry" },
   { value: "raspberry" },
-  { value: "blackberry" }
+  { value: "blackberry" },
 ];
 
 storiesOf("Typeahead", module)

@@ -5,7 +5,7 @@ import createMockStore from "tests/utils/createMockStore";
 
 const answer = {
   title: "Lorem ipsum",
-  description: "Nullam id dolor id nibh ultricies."
+  description: "Nullam id dolor id nibh ultricies.",
 };
 
 describe("CurrencyAnswer", () => {

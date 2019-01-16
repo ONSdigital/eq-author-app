@@ -112,7 +112,7 @@ const MutuallyExclusiveOptionTitle = styled.div`
 const OptionPropType = PropTypes.shape({
   id: PropTypes.string,
   label: PropTypes.string,
-  description: PropTypes.string
+  description: PropTypes.string,
 });
 
 export const Option = ({ option, type, answer }) => (
@@ -136,8 +136,8 @@ Option.propTypes = {
   option: OptionPropType.isRequired,
   type: PropTypes.string.isRequired,
   answer: PropTypes.shape({
-    label: PropTypes.string
-  })
+    label: PropTypes.string,
+  }),
 };
 
 const MultipleChoiceAnswer = ({ answer }) => {
@@ -171,11 +171,11 @@ MultipleChoiceAnswer.propTypes = {
     label: PropTypes.string,
     other: PropTypes.shape({
       option: OptionPropType,
-      answer: Option.propTypes.answer
+      answer: Option.propTypes.answer,
     }),
     options: PropTypes.arrayOf(OptionPropType).isRequired,
-    mutuallyExclusiveOption: OptionPropType
-  }).isRequired
+    mutuallyExclusiveOption: OptionPropType,
+  }).isRequired,
 };
 
 export default MultipleChoiceAnswer;

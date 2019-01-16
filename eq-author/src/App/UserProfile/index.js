@@ -61,7 +61,7 @@ const UserProfile = ({ user, onSignOut, ...otherProps }) => (
 
 UserProfile.propTypes = {
   onSignOut: PropTypes.func.isRequired,
-  user: CustomPropTypes.user.isRequired
+  user: CustomPropTypes.user.isRequired,
 };
 
 export default UserProfile;

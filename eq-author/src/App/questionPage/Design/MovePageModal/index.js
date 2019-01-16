@@ -44,7 +44,7 @@ class MovePageModal extends React.Component {
     questionnaire: CustomPropTypes.questionnaire.isRequired,
     isOpen: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
-    onMovePage: PropTypes.func.isRequired
+    onMovePage: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -53,34 +53,34 @@ class MovePageModal extends React.Component {
     this.state = {
       isSectionSelectOpen: false,
       selectedSectionId: props.sectionId,
-      previousSelectedSectionId: null
+      previousSelectedSectionId: null,
     };
   }
 
   handleCloseSectionSelect = () => {
     this.setState({
       isSectionSelectOpen: false,
-      selectedSectionId: this.state.previousSelectedSectionId
+      selectedSectionId: this.state.previousSelectedSectionId,
     });
   };
 
   handleOpenSectionSelect = () => {
     this.setState({
       isSectionSelectOpen: true,
-      previousSelectedSectionId: this.state.selectedSectionId
+      previousSelectedSectionId: this.state.selectedSectionId,
     });
   };
 
   handleSectionChange = ({ value }) => {
     this.setState({
-      selectedSectionId: value
+      selectedSectionId: value,
     });
   };
 
   handleSectionConfirm = e => {
     e.preventDefault();
     this.setState({
-      isSectionSelectOpen: false
+      isSectionSelectOpen: false,
     });
   };
 
@@ -99,13 +99,13 @@ class MovePageModal extends React.Component {
       from: {
         id: page.id,
         sectionId: sectionId,
-        position: page.position
+        position: page.position,
       },
       to: {
         id: page.id,
         sectionId: selectedSectionId,
-        position: position
-      }
+        position: position,
+      },
     });
   };
 

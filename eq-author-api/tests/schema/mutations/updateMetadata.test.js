@@ -14,7 +14,7 @@ describe("updateMetadata", () => {
   const basicInput = {
     id: METADATA_ID,
     key: "ru_ref",
-    alias: "Reporting Unit Reference"
+    alias: "Reporting Unit Reference",
   };
 
   let repositories;
@@ -23,9 +23,9 @@ describe("updateMetadata", () => {
     repositories = {
       Metadata: mockRepository({
         update: {
-          id: METADATA_ID
-        }
-      })
+          id: METADATA_ID,
+        },
+      }),
     };
   });
 
@@ -33,13 +33,13 @@ describe("updateMetadata", () => {
     const input = {
       ...basicInput,
       type: "Text",
-      textValue: "test value"
+      textValue: "test value",
     };
 
     const expected = {
       ...basicInput,
       type: "Text",
-      textValue: "test value"
+      textValue: "test value",
     };
 
     const result = await executeQuery(
@@ -57,13 +57,13 @@ describe("updateMetadata", () => {
     const input = {
       ...basicInput,
       type: "Region",
-      regionValue: "GB_ENG"
+      regionValue: "GB_ENG",
     };
 
     const expected = {
       ...basicInput,
       type: "Region",
-      regionValue: "GB_ENG"
+      regionValue: "GB_ENG",
     };
 
     const result = await executeQuery(
@@ -81,13 +81,13 @@ describe("updateMetadata", () => {
     const input = {
       ...basicInput,
       type: "Language",
-      languageValue: "cy"
+      languageValue: "cy",
     };
 
     const expected = {
       ...basicInput,
       type: "Language",
-      languageValue: "cy"
+      languageValue: "cy",
     };
 
     const result = await executeQuery(
@@ -105,13 +105,13 @@ describe("updateMetadata", () => {
     const input = {
       ...basicInput,
       type: "Date",
-      dateValue: "2007-12-03"
+      dateValue: "2007-12-03",
     };
 
     const expected = {
       ...basicInput,
       type: "Date",
-      dateValue: new Date("2007-12-03")
+      dateValue: new Date("2007-12-03"),
     };
 
     const result = await executeQuery(

@@ -25,7 +25,7 @@ const list = elem => ({
   list: cheerio(elem)
     .find("li")
     .map((i, li) => getInnerHTMLWithPiping(li))
-    .toArray()
+    .toArray(),
 });
 
 const mapElementToObject = elem => {
@@ -57,5 +57,5 @@ module.exports = {
   getText,
   parseContent,
   getInnerHTMLWithPiping,
-  unescapePiping
+  unescapePiping,
 };

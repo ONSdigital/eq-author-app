@@ -17,10 +17,10 @@ const updateMetadataMutation = gql`
 export const mapMutateToProps = ({ mutate }) => ({
   onUpdateMetadata: metadata =>
     mutate({
-      variables: { input: metadata }
-    })
+      variables: { input: metadata },
+    }),
 });
 
 export default graphql(updateMetadataMutation, {
-  props: mapMutateToProps
+  props: mapMutateToProps,
 });

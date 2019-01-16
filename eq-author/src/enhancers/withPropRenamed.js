@@ -3,7 +3,7 @@ import React from "react";
 export default (oldName, newName) => Component => props => {
   const newProps = {
     [newName]: props[oldName],
-    ...props
+    ...props,
   };
   return <Component {...newProps} />;
 };

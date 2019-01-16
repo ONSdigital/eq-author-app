@@ -22,11 +22,11 @@ const Column = styled.div`
 Column.propTypes = {
   cols: PropTypes.number,
   gutters: PropTypes.bool,
-  offset: PropTypes.number
+  offset: PropTypes.number,
 };
 
 Column.defaultProps = {
-  cols: numCols
+  cols: numCols,
 };
 
 export default Column;

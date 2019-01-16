@@ -3,7 +3,7 @@ const isMutuallyExclusive = require("../../../../utils/isMutuallyExclusive");
 const isMutuallyExclusiveDestination = isMutuallyExclusive([
   "sectionId",
   "pageId",
-  "logical"
+  "logical",
 ]);
 
 const Resolvers = {};
@@ -14,7 +14,7 @@ Resolvers.RoutingRule2 = {
   expressionGroup: ({ id }, args, ctx) =>
     ctx.repositories.ExpressionGroup2.getByRuleId(id),
   routing: ({ routingId }, args, ctx) =>
-    ctx.repositories.Routing2.getById(routingId)
+    ctx.repositories.Routing2.getById(routingId),
 };
 
 Resolvers.Mutation = {
@@ -27,7 +27,7 @@ Resolvers.Mutation = {
     return ctx.modifiers.RoutingRule.update({ id, destination });
   },
   deleteRoutingRule2: (root, { input }, ctx) =>
-    ctx.repositories.RoutingRule2.delete(input.id)
+    ctx.repositories.RoutingRule2.delete(input.id),
 };
 
 module.exports = Resolvers;

@@ -40,7 +40,7 @@ const TitleBlock = styled.h1`
 `;
 
 const SectionIntroPreview = ({
-  section: { introductionTitle, introductionContent }
+  section: { introductionTitle, introductionContent },
 }) => (
   <Wrapper>
     <TitleBlock>
@@ -63,8 +63,8 @@ const SectionIntroPreview = ({
 SectionIntroPreview.propTypes = {
   section: PropTypes.shape({
     introductionTitle: PropTypes.string,
-    introductionContent: PropTypes.string
-  }).isRequired
+    introductionContent: PropTypes.string,
+  }).isRequired,
 };
 
 export default SectionIntroPreview;

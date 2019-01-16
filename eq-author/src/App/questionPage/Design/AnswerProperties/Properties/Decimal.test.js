@@ -14,7 +14,7 @@ describe("Decimal Property", () => {
     props = {
       id: "1",
       value: 2,
-      onChange: jest.fn()
+      onChange: jest.fn(),
     };
     wrapper = createWrapper(props, shallow);
   });

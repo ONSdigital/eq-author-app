@@ -47,7 +47,7 @@ export class UnwrappedMetadataModal extends Component {
       onAddMetadata,
       onDeleteMetadata,
       onUpdateMetadata,
-      onClose
+      onClose,
     } = this.props;
 
     if (loading) {
@@ -105,7 +105,7 @@ UnwrappedMetadataModal.propTypes = {
   onAddMetadata: PropTypes.func.isRequired,
   onDeleteMetadata: PropTypes.func.isRequired,
   onUpdateMetadata: PropTypes.func.isRequired,
-  questionnaireId: PropTypes.string.isRequired
+  questionnaireId: PropTypes.string.isRequired,
 };
 
 export default flowRight(

@@ -6,7 +6,7 @@ const timeout = props => props.timeout;
 const quarterTimeout = props => props.timeout / 4;
 
 const PopupTransition = styled(CSSTransition).attrs({
-  classNames: "popup"
+  classNames: "popup",
 })`
   transform-origin: center bottom;
   transition: opacity ${quarterTimeout}ms ease-in,
@@ -38,12 +38,12 @@ const PopupTransition = styled(CSSTransition).attrs({
 
 PopupTransition.defaultProps = {
   in: false,
-  timeout: 200
+  timeout: 200,
 };
 
 PopupTransition.propTypes = {
   timeout: PropTypes.number,
-  children: PropTypes.element
+  children: PropTypes.element,
 };
 
 export default PopupTransition;

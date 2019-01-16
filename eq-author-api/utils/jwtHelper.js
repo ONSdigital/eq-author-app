@@ -25,7 +25,7 @@ module.exports.generateToken = function(payload) {
   const jwtHeader = JSON.stringify({
     alg: SIGNING_ALGORITHM,
     typ: "JWT",
-    kid: signingKeyObject.kid
+    kid: signingKeyObject.kid,
   });
 
   // Payload
@@ -45,14 +45,14 @@ module.exports.generateToken = function(payload) {
   return JWK.asKey(webKey.toJSON())
     .then(function(jwk) {
       const cfg = {
-        contentAlg: "A256GCM"
+        contentAlg: "A256GCM",
       };
       const recipient = {
         key: jwk,
         header: {
           alg: "RSA-OAEP",
-          kid: encryptionKeyObject.kid
-        }
+          kid: encryptionKeyObject.kid,
+        },
       };
       const jwe = JWE.createEncrypt(cfg, recipient);
       return jwe.update(signedJWT).final();

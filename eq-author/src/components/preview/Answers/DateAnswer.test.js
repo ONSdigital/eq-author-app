@@ -11,8 +11,8 @@ describe("Date Answer", () => {
       label: "Label",
       description: "Description",
       properties: {
-        format: "dd/mm/yyyy"
-      }
+        format: "dd/mm/yyyy",
+      },
     };
   });
 

@@ -32,7 +32,7 @@ module.exports = ({ repositories }) => {
 
     await repositories.Destination.update({
       id: routing.destinationId,
-      ...destination
+      ...destination,
     });
     return routing;
   };

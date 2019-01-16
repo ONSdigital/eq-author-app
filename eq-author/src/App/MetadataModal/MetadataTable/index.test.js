@@ -20,7 +20,7 @@ describe("MetadataTable", () => {
       questionnaireId: questionnaireId,
       onAdd: jest.fn(),
       onDelete: jest.fn(),
-      onUpdate: jest.fn()
+      onUpdate: jest.fn(),
     };
 
     wrapper = render(props);

@@ -13,7 +13,7 @@ describe("RedirectRoute", () => {
     it("redirects if match", () => {
       const wrapper = mount(<RedirectRoute from="/a" to="/b" />, {
         context: createContext("/a"),
-        childContextTypes
+        childContextTypes,
       });
 
       expect(wrapper.find("Redirect").prop("to")).toBe("/b");
@@ -22,7 +22,7 @@ describe("RedirectRoute", () => {
     it("redirects along with route params", () => {
       const wrapper = mount(<RedirectRoute from="/a/:id" to="/b/:id" />, {
         context: createContext("/a/123"),
-        childContextTypes
+        childContextTypes,
       });
 
       expect(wrapper.find("Redirect").prop("to")).toBe("/b/123");
@@ -33,7 +33,7 @@ describe("RedirectRoute", () => {
     it("doesn't redirect", () => {
       const wrapper = mount(<RedirectRoute from="/a" to="/b" />, {
         context: createContext("/c"),
-        childContextTypes
+        childContextTypes,
       });
 
       expect(wrapper.find("Redirect")).toHaveLength(0);

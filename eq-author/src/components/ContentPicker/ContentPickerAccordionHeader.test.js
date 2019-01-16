@@ -18,7 +18,7 @@ describe("ContentPickerAccordionHeader", () => {
   beforeEach(() => {
     props = {
       selected: false,
-      disabled: false
+      disabled: false,
     };
     wrapper = render(props);
   });

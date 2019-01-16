@@ -17,28 +17,28 @@ describe("components/RoutingCondition", () => {
       onConditionChange: jest.fn(),
       onRemove: jest.fn(),
       onToggleOption: jest.fn(),
-      onUpdateConditionValue: jest.fn()
+      onUpdateConditionValue: jest.fn(),
     };
 
     condition = {
       id: "1",
       questionPage: {
         id: "2",
-        displayName: "foobar"
+        displayName: "foobar",
       },
       answer: {
         id: "3",
-        type: "Radio"
+        type: "Radio",
       },
-      comparator: "Equal"
+      comparator: "Equal",
     };
 
     match = {
       params: {
         questionnaireId: "1",
         sectionId: "2",
-        pageId: "3"
-      }
+        pageId: "3",
+      },
     };
   });
 
@@ -83,7 +83,7 @@ describe("components/RoutingCondition", () => {
 
   it("should render message if cannot add and condition", () => {
     const wrapper = createWrapper({
-      canAddAndCondition: false
+      canAddAndCondition: false,
     });
     expect(wrapper.find(byTestAttr("and-not-valid-msg")).exists()).toBe(true);
   });
@@ -116,12 +116,12 @@ describe("components/RoutingCondition", () => {
 
     wrapper.find(RoutingConditionContentPicker).simulate("submit", {
       value: {
-        id: "999"
-      }
+        id: "999",
+      },
     });
     expect(mockHandlers.onConditionChange).toHaveBeenCalledWith({
       id: condition.id,
-      questionPageId: "999"
+      questionPageId: "999",
     });
   });
 });

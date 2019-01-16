@@ -3,7 +3,7 @@ import Button from "components/buttons/Button";
 import { radius } from "constants/theme";
 
 const PrimaryButton = styled(Button).attrs({
-  variant: "secondary"
+  variant: "secondary",
 })`
   border-radius: ${radius} 0 0 ${radius};
   border-right: 0;

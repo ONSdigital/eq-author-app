@@ -8,7 +8,7 @@ export const createUpdater = (routingRuleId, routingConditionId) => proxy => {
   const routingRule = proxy.readFragment({
     id,
     fragment,
-    fragmentName: "RoutingRule"
+    fragmentName: "RoutingRule",
   });
 
   remove(routingRule.conditions, { id: routingConditionId });
@@ -17,25 +17,25 @@ export const createUpdater = (routingRuleId, routingConditionId) => proxy => {
     id,
     fragment,
     fragmentName: "RoutingRule",
-    data: routingRule
+    data: routingRule,
   });
 };
 
 export const mapMutateToProps = ({ mutate }) => ({
   onDeleteRoutingCondition(routingRuleId, routingConditionId) {
     const input = {
-      id: routingConditionId
+      id: routingConditionId,
     };
 
     const update = createUpdater(routingRuleId, routingConditionId);
 
     return mutate({
       variables: { input },
-      update
+      update,
     }).then(res => res.data.deleteRoutingCondition);
-  }
+  },
 });
 
 export default graphql(deleteRoutingCondition, {
-  props: mapMutateToProps
+  props: mapMutateToProps,
 });

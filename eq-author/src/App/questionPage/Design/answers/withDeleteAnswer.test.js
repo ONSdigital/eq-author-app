@@ -1,6 +1,6 @@
 import {
   mapMutateToProps,
-  deleteUpdater
+  deleteUpdater,
 } from "App/questionPage/Design/answers/withDeleteAnswer";
 import fragment from "graphql/pageFragment.graphql";
 
@@ -11,25 +11,25 @@ describe("containers/QuestionnaireDesignPage/withDeleteAnswer", () => {
   beforeEach(() => {
     deletedAnswer = {
       id: "2",
-      sectionId: "2"
+      sectionId: "2",
     };
 
     currentPage = {
       id: "1",
       sectionId: "1",
-      answers: [deletedAnswer]
+      answers: [deletedAnswer],
     };
 
     result = {
       data: {
-        deleteAnswer: deletedAnswer
-      }
+        deleteAnswer: deletedAnswer,
+      },
     };
 
     raiseToast = jest.fn(() => Promise.resolve());
 
     ownProps = {
-      raiseToast
+      raiseToast,
     };
 
     mutate = jest.fn(() => Promise.resolve(result));
@@ -48,7 +48,7 @@ describe("containers/QuestionnaireDesignPage/withDeleteAnswer", () => {
       expect(writeFragment).toHaveBeenCalledWith({
         id,
         fragment,
-        data: currentPage
+        data: currentPage,
       });
       expect(currentPage.answers).not.toContain(deletedAnswer);
     });
@@ -70,8 +70,8 @@ describe("containers/QuestionnaireDesignPage/withDeleteAnswer", () => {
         expect(mutate).toHaveBeenCalledWith(
           expect.objectContaining({
             variables: {
-              input: { id: deletedAnswer.id }
-            }
+              input: { id: deletedAnswer.id },
+            },
           })
         );
       });
@@ -85,7 +85,7 @@ describe("containers/QuestionnaireDesignPage/withDeleteAnswer", () => {
           "undeleteAnswer",
           expect.objectContaining({
             pageId: currentPage.id,
-            answerId: deletedAnswer.id
+            answerId: deletedAnswer.id,
           })
         );
       });

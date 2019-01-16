@@ -17,7 +17,7 @@ describe("MetadataModal", () => {
       onAddMetadata: jest.fn(),
       onDeleteMetadata: jest.fn(),
       onUpdateMetadata: jest.fn(),
-      questionnaireId: questionnaireId
+      questionnaireId: questionnaireId,
     };
 
     contentProps = {
@@ -26,9 +26,9 @@ describe("MetadataModal", () => {
       data: {
         questionnaire: {
           id: questionnaireId,
-          metadata: []
-        }
-      }
+          metadata: [],
+        },
+      },
     };
 
     wrapper = render(props);
@@ -42,7 +42,7 @@ describe("MetadataModal", () => {
     const instance = wrapper.instance();
     const renderContent = instance.renderContent({
       ...contentProps,
-      loading: true
+      loading: true,
     });
     expect(renderContent).toMatchSnapshot();
   });
@@ -51,7 +51,7 @@ describe("MetadataModal", () => {
     const instance = wrapper.instance();
     const renderContent = instance.renderContent({
       ...contentProps,
-      error: true
+      error: true,
     });
     expect(renderContent).toMatchSnapshot();
   });
@@ -61,8 +61,8 @@ describe("MetadataModal", () => {
     const renderContent = instance.renderContent({
       ...contentProps,
       data: {
-        questionnaire: null
-      }
+        questionnaire: null,
+      },
     });
     expect(renderContent).toMatchSnapshot();
   });
@@ -70,7 +70,7 @@ describe("MetadataModal", () => {
   it("should render metadata content", () => {
     const instance = wrapper.instance();
     const renderContent = instance.renderContent({
-      ...contentProps
+      ...contentProps,
     });
     expect(renderContent).toMatchSnapshot();
   });

@@ -3,10 +3,10 @@ module.exports = {
   connection: process.env.DB_CONNECTION_URI,
   pool: {
     min: 10,
-    max: 50
+    max: 50,
   },
   acquireConnectionTimeout: 5000,
   migrations: {
-    tableName: "knex_migrations"
-  }
+    tableName: "knex_migrations",
+  },
 };

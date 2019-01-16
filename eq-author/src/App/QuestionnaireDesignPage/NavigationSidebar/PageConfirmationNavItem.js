@@ -36,7 +36,7 @@ export const UnwrappedPageConfirmationNavItem = ({
           sectionId,
           pageId: page.id,
           confirmationId: page.confirmation.id,
-          tab: match.params.tab
+          tab: match.params.tab,
         })}
         title={page.displayName}
         icon={PlaybackIcon}
@@ -57,14 +57,14 @@ UnwrappedPageConfirmationNavItem.fragments = {
         displayName
       }
     }
-  `
+  `,
 };
 
 UnwrappedPageConfirmationNavItem.propTypes = {
   sectionId: PropTypes.string.isRequired,
   questionnaireId: PropTypes.string.isRequired,
   page: CustomPropTypes.page,
-  match: CustomPropTypes.match
+  match: CustomPropTypes.match,
 };
 
 export default withRouter(UnwrappedPageConfirmationNavItem);

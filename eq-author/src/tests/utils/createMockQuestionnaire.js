@@ -5,7 +5,7 @@ export const buildPages = (sectionNumber, count) =>
     id: `${sectionNumber}.${i + 1}`,
     title: `Page ${sectionNumber}.${i + 1}`,
     displayName: `Page ${sectionNumber}.${i + 1}`,
-    position: i
+    position: i,
   }));
 
 export const buildSections = count =>
@@ -14,10 +14,10 @@ export const buildSections = count =>
     title: `Section ${i + 1}`,
     displayName: `Section ${i + 1}`,
     pages: buildPages(i + 1, 2),
-    position: i
+    position: i,
   }));
 
 export const buildQuestionnaire = (numOfSections = 2) => ({
   id: "1",
-  sections: buildSections(numOfSections)
+  sections: buildSections(numOfSections),
 });

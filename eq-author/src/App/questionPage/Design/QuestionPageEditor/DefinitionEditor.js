@@ -37,7 +37,7 @@ const DefinitionEditor = ({ label, children }) => (
 
 DefinitionEditor.propTypes = {
   label: PropTypes.string.isRequired,
-  children: PropTypes.node
+  children: PropTypes.node,
 };
 
 export default DefinitionEditor;

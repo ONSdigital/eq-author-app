@@ -45,21 +45,21 @@ describe("HTMLUtils", () => {
       expect(parseContent(guidance)).toEqual({
         content: [
           {
-            title: "Vivamus sagittis lacus vel augue laoreet"
+            title: "Vivamus sagittis lacus vel augue laoreet",
           },
           {
             description:
-              "Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Duis mollis, est non commodo luctus, nisi erat porttitor ligula."
+              "Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Duis mollis, est non commodo luctus, nisi erat porttitor ligula.",
           },
           {
             list: [
               "Cras justo odio, dapibus ac facilisis in, egestas eget quam.",
               "Aenean eu leo quam.",
               "Pellentesque ornare sem lacinia quam venenatis vestibulum.",
-              "Vestibulum id ligula porta felis euismod semper."
-            ]
-          }
-        ]
+              "Vestibulum id ligula porta felis euismod semper.",
+            ],
+          },
+        ],
       });
     });
   });

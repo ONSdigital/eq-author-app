@@ -32,7 +32,7 @@ const DateRange = ({ answer, ...otherProps }) => (
 
 DateRange.propTypes = {
   answer: CustomPropTypes.answer.isRequired,
-  onUpdate: PropTypes.func.isRequired
+  onUpdate: PropTypes.func.isRequired,
 };
 
 DateRange.fragments = {
@@ -67,7 +67,7 @@ DateRange.fragments = {
     ${LatestDateValidationRule}
     ${MinDurationValidationRule}
     ${MaxDurationValidationRule}
-  `
+  `,
 };
 
 export default DateRange;

@@ -25,10 +25,10 @@ class AnswerEditorWrapper extends React.Component {
           {
             id: "0",
             label: "Option 1",
-            description: "Option 1 description"
-          }
-        ]
-      }
+            description: "Option 1 description",
+          },
+        ],
+      },
     };
   }
 

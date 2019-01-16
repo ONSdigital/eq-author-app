@@ -38,7 +38,7 @@ export const handleDeletion = (
     buildPagePath({
       questionnaireId,
       sectionId: nextSection.id,
-      pageId: nextPage.id
+      pageId: nextPage.id,
     })
   );
 };
@@ -54,7 +54,7 @@ export const deleteUpdater = (questionnaireId, sectionId) => (
 
   const sections = questionnaire.sections.map(section => ({
     ...section,
-    questionnaire: result.data.deleteSection.questionnaire
+    questionnaire: result.data.deleteSection.questionnaire,
   }));
 
   proxy.writeFragment({
@@ -62,19 +62,19 @@ export const deleteUpdater = (questionnaireId, sectionId) => (
     fragment,
     data: {
       ...questionnaire,
-      sections
-    }
+      sections,
+    },
   });
 };
 
 export const displayToast = (ownProps, questionnaire) => {
   const {
-    match: { params }
+    match: { params },
   } = ownProps;
   const { sectionId, questionnaireId } = params;
 
   const numberOfDeletedPages = find(questionnaire.sections, {
-    id: params.sectionId
+    id: params.sectionId,
   }).pages.length;
 
   ownProps.raiseToast(
@@ -86,7 +86,7 @@ export const displayToast = (ownProps, questionnaire) => {
     "undeleteSection",
     {
       questionnaireId,
-      sectionId
+      sectionId,
     }
   );
 };
@@ -95,28 +95,28 @@ export const mapMutateToProps = ({ ownProps, mutate }) => ({
   onDeleteSection(sectionId) {
     const {
       match: { params },
-      client
+      client,
     } = ownProps;
     const section = { id: sectionId };
     const update = deleteUpdater(params.questionnaireId, sectionId);
 
     const questionnaire = client.readFragment({
       id: `Questionnaire${params.questionnaireId}`,
-      fragment: questionnaireFragment
+      fragment: questionnaireFragment,
     });
 
     const mutation = mutate({
       variables: { input: section },
-      update
+      update,
     });
 
     return mutation
       .then(() => handleDeletion(ownProps, questionnaire))
       .then(() => displayToast(ownProps, questionnaire))
       .then(() => mutation);
-  }
+  },
 });
 
 export default graphql(deleteSectionMutation, {
-  props: mapMutateToProps
+  props: mapMutateToProps,
 });

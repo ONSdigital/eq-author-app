@@ -16,25 +16,25 @@ export const createUpdater = (optionId, answerId) => proxy => {
   proxy.writeFragment({
     id,
     fragment,
-    data: answer
+    data: answer,
   });
 };
 
 export const mapMutateToProps = ({ mutate }) => ({
   onDeleteOption(optionId, answerId) {
     const option = {
-      id: optionId
+      id: optionId,
     };
 
     const update = createUpdater(optionId, answerId);
 
     return mutate({
       variables: { input: option },
-      update
+      update,
     });
-  }
+  },
 });
 
 export default graphql(deleteOptionMutation, {
-  props: mapMutateToProps
+  props: mapMutateToProps,
 });

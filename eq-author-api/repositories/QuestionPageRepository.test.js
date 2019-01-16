@@ -12,11 +12,11 @@ const {
   CURRENCY,
   NUMBER,
   DATE,
-  DATE_RANGE
+  DATE_RANGE,
 } = require("../constants/answerTypes");
 const {
   DATE: METADATA_DATE,
-  TEXT: METADATA_TEXT
+  TEXT: METADATA_TEXT,
 } = require("../constants/metadataTypes");
 
 const { getName } = require("../utils/getName");
@@ -39,48 +39,48 @@ describe("QuestionPageRepository", () => {
                 answers: [
                   {
                     label: "Answer 1.1.1",
-                    type: DATE
+                    type: DATE,
                   },
                   {
                     label: "Answer 1.1.2",
-                    type: NUMBER
+                    type: NUMBER,
                   },
                   {
                     label: "Answer 1.1.3",
-                    type: CHECKBOX
+                    type: CHECKBOX,
                   },
                   {
                     label: "Answer 1.1.4",
-                    type: RADIO
+                    type: RADIO,
                   },
                   {
                     label: "Answer 1.1.5",
-                    type: TEXTFIELD
+                    type: TEXTFIELD,
                   },
                   {
                     label: "Answer 1.1.6",
-                    type: CURRENCY
+                    type: CURRENCY,
                   },
                   {
                     label: "Answer 1.1.7",
-                    type: DATE_RANGE
-                  }
-                ]
+                    type: DATE_RANGE,
+                  },
+                ],
               },
               {
                 title: "Page 1.2",
                 answers: [
                   {
                     label: "Answer 1.2.1",
-                    type: DATE
+                    type: DATE,
                   },
                   {
                     label: "Answer 1.2.2",
-                    type: NUMBER
-                  }
-                ]
-              }
-            ]
+                    type: NUMBER,
+                  },
+                ],
+              },
+            ],
           },
           {
             title: "Section 2",
@@ -90,38 +90,38 @@ describe("QuestionPageRepository", () => {
                 answers: [
                   {
                     label: "Answer 2.1.1",
-                    type: DATE
+                    type: DATE,
                   },
                   {
                     label: "Answer 2.1.2",
-                    type: NUMBER
+                    type: NUMBER,
                   },
                   {
                     label: "Answer 2.1.3",
-                    type: NUMBER
+                    type: NUMBER,
                   },
                   {
                     label: "Answer 2.1.4",
-                    type: DATE
-                  }
-                ]
+                    type: DATE,
+                  },
+                ],
               },
               {
                 title: "Page 2.2",
                 answers: [
                   {
                     label: "Answer 2.2.1",
-                    type: DATE
+                    type: DATE,
                   },
                   {
                     label: "Answer 2.2.2",
-                    type: TEXTAREA
-                  }
-                ]
-              }
-            ]
-          }
-        ]
+                    type: TEXTAREA,
+                  },
+                ],
+              },
+            ],
+          },
+        ],
       });
     });
 
@@ -132,26 +132,26 @@ describe("QuestionPageRepository", () => {
 
       expect(pipingAnswers).toEqual([
         expect.objectContaining({
-          label: "Answer 1.1.1"
+          label: "Answer 1.1.1",
         }),
         expect.objectContaining({
-          label: "Answer 1.1.2"
+          label: "Answer 1.1.2",
         }),
         expect.objectContaining({
-          label: "Answer 1.1.5"
+          label: "Answer 1.1.5",
         }),
         expect.objectContaining({
-          label: "Answer 1.1.6"
+          label: "Answer 1.1.6",
         }),
         expect.objectContaining({
-          label: "Answer 1.1.7"
+          label: "Answer 1.1.7",
         }),
         expect.objectContaining({
-          label: "Answer 1.2.1"
+          label: "Answer 1.2.1",
         }),
         expect.objectContaining({
-          label: "Answer 1.2.2"
-        })
+          label: "Answer 1.2.2",
+        }),
       ]);
     });
   });
@@ -162,7 +162,7 @@ describe("QuestionPageRepository", () => {
       questionnaire = await buildTestQuestionnaire({
         metadata: [
           { key: "metadata_date", alias: "metadata date", type: METADATA_DATE },
-          { key: "metadata_text", alias: "metadata text", type: METADATA_TEXT }
+          { key: "metadata_text", alias: "metadata text", type: METADATA_TEXT },
         ],
         sections: [
           {
@@ -170,11 +170,11 @@ describe("QuestionPageRepository", () => {
             pages: [
               {
                 title: "Page 1.1",
-                answers: []
-              }
-            ]
-          }
-        ]
+                answers: [],
+              },
+            ],
+          },
+        ],
       });
     });
 
@@ -185,11 +185,11 @@ describe("QuestionPageRepository", () => {
 
       expect(metadata).toEqual([
         expect.objectContaining({
-          key: "metadata_date"
+          key: "metadata_date",
         }),
         expect.objectContaining({
-          key: "metadata_text"
-        })
+          key: "metadata_text",
+        }),
       ]);
 
       expect(getName(metadata[0], "Metadata")).toEqual("metadata date");
@@ -210,51 +210,51 @@ describe("QuestionPageRepository", () => {
                 answers: [
                   {
                     label: "Answer 1.1.1",
-                    type: CURRENCY
-                  }
-                ]
+                    type: CURRENCY,
+                  },
+                ],
               },
               {
                 title: "Page 1.2",
                 answers: [
                   {
                     label: "Answer 1.2.1",
-                    type: RADIO
-                  }
-                ]
+                    type: RADIO,
+                  },
+                ],
               },
               {
                 title: "Page 1.3",
                 answers: [
                   {
                     label: "Answer 1.3.1",
-                    type: TEXTFIELD
-                  }
-                ]
+                    type: TEXTFIELD,
+                  },
+                ],
               },
               {
                 title: "Page 1.4",
                 answers: [
                   {
                     label: "Answer 1.4.1",
-                    type: DATE
-                  }
-                ]
+                    type: DATE,
+                  },
+                ],
               },
               {
                 title: "Page 1.5",
                 answers: [
                   {
                     label: "Answer 1.5.1",
-                    type: DATE
+                    type: DATE,
                   },
                   {
                     label: "Answer 1.5.2",
-                    type: NUMBER
-                  }
-                ]
-              }
-            ]
+                    type: NUMBER,
+                  },
+                ],
+              },
+            ],
           },
           {
             title: "Section 2",
@@ -264,26 +264,26 @@ describe("QuestionPageRepository", () => {
                 answers: [
                   {
                     label: "Answer 2.1.1",
-                    type: RADIO
-                  }
-                ]
+                    type: RADIO,
+                  },
+                ],
               },
               {
                 title: "Page 2.2",
                 answers: [
                   {
                     label: "Answer 2.2.1",
-                    type: RADIO
+                    type: RADIO,
                   },
                   {
                     label: "Answer 2.2.2",
-                    type: TEXTAREA
-                  }
-                ]
-              }
-            ]
-          }
-        ]
+                    type: TEXTAREA,
+                  },
+                ],
+              },
+            ],
+          },
+        ],
       });
     });
 
@@ -294,17 +294,17 @@ describe("QuestionPageRepository", () => {
 
       expect(routingQuestions).toEqual([
         expect.objectContaining({
-          title: "Page 1.1"
+          title: "Page 1.1",
         }),
         expect.objectContaining({
-          title: "Page 1.2"
+          title: "Page 1.2",
         }),
         expect.objectContaining({
-          title: "Page 1.5"
+          title: "Page 1.5",
         }),
         expect.objectContaining({
-          title: "Page 2.1"
-        })
+          title: "Page 2.1",
+        }),
       ]);
     });
 
@@ -315,17 +315,17 @@ describe("QuestionPageRepository", () => {
 
       expect(routingAnswers).toEqual([
         expect.objectContaining({
-          label: "Answer 1.1.1"
+          label: "Answer 1.1.1",
         }),
         expect.objectContaining({
-          label: "Answer 1.2.1"
+          label: "Answer 1.2.1",
         }),
         expect.objectContaining({
-          label: "Answer 1.5.2"
+          label: "Answer 1.5.2",
         }),
         expect.objectContaining({
-          label: "Answer 2.1.1"
-        })
+          label: "Answer 2.1.1",
+        }),
       ]);
     });
   });

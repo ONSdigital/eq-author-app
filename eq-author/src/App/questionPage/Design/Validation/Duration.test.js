@@ -16,11 +16,11 @@ describe("Duration", () => {
       name: "foobar",
       duration: {
         value: 3,
-        unit: YEARS
+        unit: YEARS,
       },
       units: UNITS,
       onChange: jest.fn(),
-      onUpdate: jest.fn()
+      onUpdate: jest.fn(),
     };
 
     wrapper = render(props);

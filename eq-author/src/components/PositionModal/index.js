@@ -44,7 +44,7 @@ class PositionModal extends React.Component {
       PropTypes.shape({
         id: PropTypes.string.isRequired,
         displayName: PropTypes.string.isRequired,
-        position: PropTypes.number.isRequired
+        position: PropTypes.number.isRequired,
       })
     ).isRequired,
     isOpen: PropTypes.bool.isRequired,
@@ -53,8 +53,8 @@ class PositionModal extends React.Component {
     selected: PropTypes.shape({
       id: PropTypes.string,
       displayName: PropTypes.string,
-      position: PropTypes.number
-    }).isRequired
+      position: PropTypes.number,
+    }).isRequired,
   };
 
   constructor(props) {
@@ -63,7 +63,7 @@ class PositionModal extends React.Component {
     this.state = {
       isOpen: false,
       selectedPosition: props.selected.position,
-      previousSelectedPosition: props.selected.position
+      previousSelectedPosition: props.selected.position,
     };
   }
 
@@ -72,13 +72,13 @@ class PositionModal extends React.Component {
 
     this.setState({
       isOpen: false,
-      selectedPosition: previousSelectedPosition
+      selectedPosition: previousSelectedPosition,
     });
   };
 
   handleOpen = () => {
     this.setState({
-      isOpen: true
+      isOpen: true,
     });
   };
 

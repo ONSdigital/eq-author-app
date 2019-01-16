@@ -3,7 +3,7 @@ import { SIGN_IN_USER, SIGN_OUT_USER } from "./actions";
 
 const initialState = {
   user: null,
-  verifiedStatus: false
+  verifiedStatus: false,
 };
 
 export default (state = initialState, { type, payload }) => {
@@ -12,13 +12,13 @@ export default (state = initialState, { type, payload }) => {
       return {
         ...state,
         user: payload,
-        verifiedStatus: true
+        verifiedStatus: true,
       };
     case SIGN_OUT_USER:
       return {
         ...state,
         user: null,
-        verifiedStatus: true
+        verifiedStatus: true,
       };
     default:
       return state;

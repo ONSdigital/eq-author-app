@@ -10,7 +10,7 @@ export const redirectToNewPage = ({ history, match: { params } }) => page => {
     buildPagePath({
       questionnaireId: params.questionnaireId,
       sectionId: section.id,
-      pageId: id
+      pageId: id,
     })
   );
 };
@@ -25,7 +25,7 @@ export const createUpdater = (sectionId, position) => (proxy, result) => {
   proxy.writeFragment({
     id,
     fragment,
-    data: section
+    data: section,
   });
 };
 
@@ -35,20 +35,20 @@ export const mapMutateToProps = ({ ownProps, mutate }) => ({
       title: "",
       description: "",
       sectionId,
-      position
+      position,
     };
 
     const update = createUpdater(sectionId, position);
 
     return mutate({
       variables: { input: page },
-      update
+      update,
     })
       .then(get("data.createQuestionPage"))
       .then(tap(redirectToNewPage(ownProps)));
-  }
+  },
 });
 
 export default graphql(createQuestionPageMutation, {
-  props: mapMutateToProps
+  props: mapMutateToProps,
 });

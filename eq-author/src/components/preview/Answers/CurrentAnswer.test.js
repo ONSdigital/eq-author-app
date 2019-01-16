@@ -7,7 +7,7 @@ describe("Currency Answer", () => {
   it("should render", () => {
     const answer = {
       label: "Label",
-      description: "Description"
+      description: "Description",
     };
 
     expect(shallow(<CurrencyAnswer answer={answer} />)).toMatchSnapshot();

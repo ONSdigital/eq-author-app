@@ -1,6 +1,6 @@
 import {
   mapMutateToProps,
-  createUpdater
+  createUpdater,
 } from "App/questionPage/Routing/withCreateRoutingRuleSet";
 import gql from "graphql-tag";
 
@@ -15,7 +15,7 @@ const fragment = gql`
 describe("containers/enhancers/withCreateRoutingRuleSet", () => {
   const questionPage = {
     id: "1",
-    routingRuleSet: null
+    routingRuleSet: null,
   };
 
   let mutate, ownProps, result, createRoutingRuleSet;
@@ -24,23 +24,23 @@ describe("containers/enhancers/withCreateRoutingRuleSet", () => {
     ownProps = {
       match: {
         params: {
-          pageId: questionPage.id
-        }
-      }
+          pageId: questionPage.id,
+        },
+      },
     };
 
     createRoutingRuleSet = {
       id: "1",
       questionPage: {
-        id: "1"
+        id: "1",
       },
-      routingDestination: null
+      routingDestination: null,
     };
 
     result = {
       data: {
-        createRoutingRuleSet
-      }
+        createRoutingRuleSet,
+      },
     };
 
     mutate = jest.fn(() => Promise.resolve(result));
@@ -65,7 +65,7 @@ describe("containers/enhancers/withCreateRoutingRuleSet", () => {
       expect(writeFragment).toHaveBeenCalledWith({
         id,
         fragment,
-        data: questionPage
+        data: questionPage,
       });
 
       expect(questionPage.routingRuleSet).toMatchObject(createRoutingRuleSet);
@@ -88,8 +88,8 @@ describe("containers/enhancers/withCreateRoutingRuleSet", () => {
         expect(mutate).toHaveBeenCalledWith(
           expect.objectContaining({
             variables: {
-              input: { questionPageId: questionPage.id }
-            }
+              input: { questionPageId: questionPage.id },
+            },
           })
         );
       });

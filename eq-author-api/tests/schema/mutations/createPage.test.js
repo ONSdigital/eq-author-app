@@ -19,7 +19,7 @@ describe("createPage", () => {
 
   beforeEach(() => {
     repositories = {
-      Page: mockRepository()
+      Page: mockRepository(),
     };
   });
 
@@ -27,7 +27,7 @@ describe("createPage", () => {
     const input = {
       title: "Test page",
       description: "Test page description",
-      sectionId: "1"
+      sectionId: "1",
     };
 
     const result = await executeQuery(createPage, { input }, { repositories });

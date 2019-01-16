@@ -10,25 +10,25 @@ export const UNDELETE_QUESTION_CONFIRMATION_FAILURE =
 
 const undeleteRequest = () => {
   return {
-    type: UNDELETE_QUESTION_CONFIRMATION_REQUEST
+    type: UNDELETE_QUESTION_CONFIRMATION_REQUEST,
   };
 };
 
 const undeleteSuccess = () => {
   return {
-    type: UNDELETE_QUESTION_CONFIRMATION_SUCCESS
+    type: UNDELETE_QUESTION_CONFIRMATION_SUCCESS,
   };
 };
 
 const undeleteFailure = () => {
   return {
-    type: UNDELETE_QUESTION_CONFIRMATION_FAILURE
+    type: UNDELETE_QUESTION_CONFIRMATION_FAILURE,
   };
 };
 
 const createUndelete = mutate => ({ id }) =>
   mutate({
-    variables: { input: { id } }
+    variables: { input: { id } },
   });
 
 export const undeleteQuestionConfirmation = (

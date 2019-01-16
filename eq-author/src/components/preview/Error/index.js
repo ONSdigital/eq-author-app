@@ -26,12 +26,12 @@ const Error = styled.div`
 `;
 
 Error.defaultProps = {
-  margin: true
+  margin: true,
 };
 Error.propTypes = {
   margin: PropTypes.bool,
   small: PropTypes.bool,
-  large: PropTypes.bool
+  large: PropTypes.bool,
 };
 
 export default Error;

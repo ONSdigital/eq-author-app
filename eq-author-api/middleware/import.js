@@ -5,13 +5,13 @@ module.exports = async (req, res) => {
   try {
     await buildQuestionnaire(data);
     res.json({
-      status: "OK"
+      status: "OK",
     });
   } catch (e) {
     req.log.error(e);
     res.status(500);
     res.json({
-      error: e
+      error: e,
     });
   }
 };

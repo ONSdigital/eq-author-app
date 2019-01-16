@@ -71,13 +71,13 @@ const RoutingRuleSet = ({
 };
 
 RoutingRuleSet.fragments = {
-  RoutingRuleSet: routingRuleSetFragment
+  RoutingRuleSet: routingRuleSetFragment,
 };
 
 RoutingRuleSet.propTypes = {
   ruleSet: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   onAddRoutingRule: PropTypes.func.isRequired,
-  onElseChange: PropTypes.func.isRequired
+  onElseChange: PropTypes.func.isRequired,
 };
 
 export default RoutingRuleSet;

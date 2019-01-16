@@ -6,7 +6,7 @@ import { CHECKBOX, RADIO } from "constants/answer-types";
 import MultipleChoiceAnswer, {
   Option,
   OptionItem,
-  Input
+  Input,
 } from "./MultipleChoiceAnswer";
 
 describe("MultipleChoiceAnswer", () => {
@@ -15,7 +15,7 @@ describe("MultipleChoiceAnswer", () => {
   beforeEach(() => {
     answer = {
       label: "Foo",
-      options: [{ id: "1" }]
+      options: [{ id: "1" }],
     };
   });
 
@@ -35,8 +35,8 @@ describe("MultipleChoiceAnswer", () => {
       id: "2",
       additionalAnswer: {
         id: 2,
-        type: "TextField"
-      }
+        type: "TextField",
+      },
     };
     expect(shallow(<MultipleChoiceAnswer answer={answer} />)).toMatchSnapshot();
   });
@@ -44,7 +44,7 @@ describe("MultipleChoiceAnswer", () => {
   it("should render mutually exclusive when it has one", () => {
     answer.type = CHECKBOX;
     answer.mutuallyExclusiveOption = {
-      id: "3"
+      id: "3",
     };
     expect(shallow(<MultipleChoiceAnswer answer={answer} />)).toMatchSnapshot();
   });
@@ -70,7 +70,7 @@ describe("MultipleChoiceAnswer", () => {
 
     beforeEach(() => {
       option = {
-        id: "1"
+        id: "1",
       };
     });
 
@@ -95,7 +95,7 @@ describe("MultipleChoiceAnswer", () => {
 
     it("should render answer when it has one", () => {
       answer = {
-        id: "1"
+        id: "1",
       };
       expect(
         shallow(<Option option={option} type={CHECKBOX} answer={answer} />)

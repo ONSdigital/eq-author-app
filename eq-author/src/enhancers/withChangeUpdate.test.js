@@ -16,7 +16,7 @@ describe("withChangeUpdate", () => {
   beforeEach(() => {
     props = {
       onChange: onChange,
-      onUpdate: onUpdate
+      onUpdate: onUpdate,
     };
 
     wrapper = createWrapper(props);

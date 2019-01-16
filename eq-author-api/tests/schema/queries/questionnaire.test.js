@@ -38,9 +38,9 @@ describe("questionnaire query", () => {
   beforeEach(() => {
     repositories = {
       Questionnaire: mockRepository({
-        getById: { id, createdBy: "foo" }
+        getById: { id, createdBy: "foo" },
       }),
-      Section: mockRepository()
+      Section: mockRepository(),
     };
   });
 
@@ -62,7 +62,7 @@ describe("questionnaire query", () => {
     expect(result.errors).toBeUndefined();
     expect(repositories.Questionnaire.getById).toHaveBeenCalledWith(id);
     expect(repositories.Section.findAll).toHaveBeenCalledWith({
-      questionnaireId: id
+      questionnaireId: id,
     });
   });
 
@@ -76,8 +76,8 @@ describe("questionnaire query", () => {
     expect(result.errors).toBeUndefined();
     expect(result.data.questionnaire).toMatchObject({
       createdBy: {
-        name: "foo"
-      }
+        name: "foo",
+      },
     });
   });
 });

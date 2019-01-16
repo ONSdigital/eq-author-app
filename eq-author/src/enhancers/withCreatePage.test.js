@@ -1,7 +1,7 @@
 import {
   mapMutateToProps,
   createUpdater,
-  redirectToNewPage
+  redirectToNewPage,
 } from "./withCreatePage";
 import fragment from "graphql/sectionFragment.graphql";
 import { buildPagePath } from "utils/UrlUtils";
@@ -9,24 +9,24 @@ import { buildPagePath } from "utils/UrlUtils";
 describe("containers/QuestionnaireDesignPage/withCreatePage", () => {
   const page = {
     id: "3",
-    title: "My Page"
+    title: "My Page",
   };
   const section = {
     id: "2",
     title: "My Section",
-    pages: [page]
+    pages: [page],
   };
   const questionnaire = {
     id: "1",
     title: "My Questionnaire",
-    sections: [section]
+    sections: [section],
   };
 
   let history, mutate, result, newPage, ownProps;
 
   beforeEach(() => {
     history = {
-      push: jest.fn()
+      push: jest.fn(),
     };
 
     newPage = {
@@ -34,23 +34,23 @@ describe("containers/QuestionnaireDesignPage/withCreatePage", () => {
       title: "New Page",
       position: 1,
       section: {
-        id: section.id
-      }
+        id: section.id,
+      },
     };
 
     result = {
       data: {
-        createQuestionPage: newPage
-      }
+        createQuestionPage: newPage,
+      },
     };
 
     ownProps = {
       history,
       match: {
         params: {
-          questionnaireId: questionnaire.id
-        }
-      }
+          questionnaireId: questionnaire.id,
+        },
+      },
     };
 
     mutate = jest.fn(() => Promise.resolve(result));
@@ -69,7 +69,7 @@ describe("containers/QuestionnaireDesignPage/withCreatePage", () => {
       expect(writeFragment).toHaveBeenCalledWith({
         id,
         fragment,
-        data: section
+        data: section,
       });
       expect(section.pages).toContain(newPage);
       expect(section.pages[0]).toBe(newPage);
@@ -82,14 +82,14 @@ describe("containers/QuestionnaireDesignPage/withCreatePage", () => {
           pages: [
             { id: "A", position: 0 },
             { id: "B", position: 1 },
-            { id: "C", position: 2 }
-          ]
-        }
+            { id: "C", position: 2 },
+          ],
+        },
       };
 
       const proxy = {
         writeFragment: jest.fn(({ data }) => (cache.section = data)),
-        readFragment: jest.fn(() => cache.section)
+        readFragment: jest.fn(() => cache.section),
       };
 
       const updater = createUpdater("1", newPage.position);
@@ -99,7 +99,7 @@ describe("containers/QuestionnaireDesignPage/withCreatePage", () => {
         { id: "A", position: 0 },
         newPage,
         { id: "B", position: 2 },
-        { id: "C", position: 3 }
+        { id: "C", position: 3 },
       ]);
     });
   });
@@ -112,7 +112,7 @@ describe("containers/QuestionnaireDesignPage/withCreatePage", () => {
         buildPagePath({
           questionnaireId: questionnaire.id,
           sectionId: section.id,
-          pageId: newPage.id
+          pageId: newPage.id,
         })
       );
     });

@@ -8,7 +8,7 @@ storiesOf("QuestionnaireSettingsModal", module).add("Default", () => (
     questionnaire={{
       id: "1",
       title: "Lorem ipsum dolor sit, amet consectetur adipisicing elit",
-      navigation: true
+      navigation: true,
     }}
     isOpen
     onSubmit={action("submit")}

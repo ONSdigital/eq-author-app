@@ -21,7 +21,7 @@ function getEntities(contentState, entityType) {
         selectedEntity = {
           entityKey,
           entity,
-          blockKey: block.getKey()
+          blockKey: block.getKey(),
         };
 
         return true;

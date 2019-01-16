@@ -1,8 +1,7 @@
 const executeQuery = require("../../utils/executeQuery");
 const mockRepository = require("../../utils/mockRepository");
 
-describe("questionnaire query" , () => {
-
+describe("questionnaire query", () => {
   const questionnaires = `
     query GetQuestionnaires {
       questionnaires {
@@ -20,8 +19,8 @@ describe("questionnaire query" , () => {
 
   beforeEach(() => {
     repositories = {
-      Questionnaire : mockRepository()
-    }
+      Questionnaire: mockRepository(),
+    };
   });
 
   it("should fetch all Questionnaires", async () => {

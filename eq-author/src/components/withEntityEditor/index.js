@@ -18,11 +18,11 @@ const withEntityEditor = (entityPropName, fragment) => WrappedComponent => {
       onUpdate: PropTypes.func.isRequired,
       onSubmit: PropTypes.func,
       startRequest: PropTypes.func,
-      endRequest: PropTypes.func
+      endRequest: PropTypes.func,
     };
 
     state = {
-      [entityPropName]: this.props[entityPropName]
+      [entityPropName]: this.props[entityPropName],
     };
 
     dirtyField = null;
@@ -40,7 +40,7 @@ const withEntityEditor = (entityPropName, fragment) => WrappedComponent => {
 
         // eslint-disable-next-line react/no-did-update-set-state
         this.setState({
-          [entityPropName]: newEntity
+          [entityPropName]: newEntity,
         });
       }
     }
@@ -103,7 +103,7 @@ const withEntityEditor = (entityPropName, fragment) => WrappedComponent => {
 
     render() {
       const props = {
-        [entityPropName]: this.entity
+        [entityPropName]: this.entity,
       };
 
       return (

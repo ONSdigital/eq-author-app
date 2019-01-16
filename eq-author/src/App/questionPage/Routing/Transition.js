@@ -12,7 +12,7 @@ const handleExit = node => {
 
 const RoutingComponentTransition = styled(CSSTransition).attrs({
   classNames: "component",
-  onExit: () => handleExit
+  onExit: () => handleExit,
 })`
   position: relative;
 
@@ -46,11 +46,11 @@ const RoutingComponentTransition = styled(CSSTransition).attrs({
 
 RoutingComponentTransition.propTypes = {
   timeout: PropTypes.number,
-  children: PropTypes.element
+  children: PropTypes.element,
 };
 
 RoutingComponentTransition.defaultProps = {
-  timeout: 200
+  timeout: 200,
 };
 
 export default RoutingComponentTransition;

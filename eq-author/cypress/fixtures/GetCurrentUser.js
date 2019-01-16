@@ -5,7 +5,7 @@ export default {
       name: "Test user",
       picture: "",
       email: "cypress@ons.gov.uk",
-      __typename: "User"
-    }
-  }
+      __typename: "User",
+    },
+  },
 };

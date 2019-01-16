@@ -9,7 +9,7 @@ import CustomPropTypes from "custom-prop-types";
 import {
   buildRoutingPath,
   buildPreviewPath,
-  buildDesignPath
+  buildDesignPath,
 } from "utils/UrlUtils";
 
 import IconPreview from "./icon-preview.svg?inline";
@@ -67,18 +67,18 @@ const TABS = [
   {
     key: "design",
     children: <IconText icon={IconDesign}>Design</IconText>,
-    url: match => buildDesignPath(match.params)
+    url: match => buildDesignPath(match.params),
   },
   {
     key: "preview",
     children: <IconText icon={IconPreview}>Preview</IconText>,
-    url: match => buildPreviewPath(match.params)
+    url: match => buildPreviewPath(match.params),
   },
   {
     key: "routing",
     children: <IconText icon={IconRouting}>Routing</IconText>,
-    url: match => buildRoutingPath(match.params)
-  }
+    url: match => buildRoutingPath(match.params),
+  },
 ];
 
 export const UnwrappedTabs = props => {
@@ -90,7 +90,7 @@ export const UnwrappedTabs = props => {
           const { Component, otherProps } = props[key]
             ? {
                 Component: Tab,
-                otherProps: { to: url(match), activeClassName }
+                otherProps: { to: url(match), activeClassName },
               }
             : { Component: DisabledTab, otherProps: {} };
 
@@ -109,7 +109,7 @@ export const UnwrappedTabs = props => {
 UnwrappedTabs.defaultProps = {
   design: true,
   preview: false,
-  routing: false
+  routing: false,
 };
 
 UnwrappedTabs.propTypes = {
@@ -118,7 +118,7 @@ UnwrappedTabs.propTypes = {
   routing: PropTypes.bool,
 
   match: CustomPropTypes.match,
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
 };
 
 export default withRouter(UnwrappedTabs);

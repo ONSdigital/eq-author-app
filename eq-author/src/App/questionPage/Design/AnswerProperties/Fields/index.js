@@ -1,6 +1,6 @@
 export {
-  default as InlineField
+  default as InlineField,
 } from "App/questionPage/Design/AnswerProperties/Fields/InlineField";
 export {
-  default as MultiLineField
+  default as MultiLineField,
 } from "App/questionPage/Design/AnswerProperties/Fields/MultiLineField";

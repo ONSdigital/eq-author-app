@@ -50,12 +50,12 @@ export class UnwrappedSectionRoute extends React.Component {
     onUpdate: PropTypes.func.isRequired,
     error: PropTypes.object, // eslint-disable-line
     loading: PropTypes.bool.isRequired,
-    section: CustomPropTypes.section
+    section: CustomPropTypes.section,
   };
 
   state = {
     showDeleteConfirmDialog: false,
-    showMoveSectionDialog: false
+    showMoveSectionDialog: false,
   };
 
   handleOpenMoveSectionDialog = () => {
@@ -82,7 +82,7 @@ export class UnwrappedSectionRoute extends React.Component {
   handleDeleteSectionConfirm = () => {
     const { onDeleteSection, match } = this.props;
     const {
-      params: { sectionId }
+      params: { sectionId },
     } = match;
 
     this.handleCloseDeleteConfirmDialog(() => onDeleteSection(sectionId));
@@ -90,7 +90,7 @@ export class UnwrappedSectionRoute extends React.Component {
 
   handleAddPage = () => {
     const {
-      params: { sectionId }
+      params: { sectionId },
     } = this.props.match;
     this.props.onAddPage(sectionId, 0);
   };
@@ -99,7 +99,7 @@ export class UnwrappedSectionRoute extends React.Component {
     const { onDuplicateSection, section } = this.props;
     onDuplicateSection({
       sectionId: section.id,
-      position: section.position + 1
+      position: section.position + 1,
     });
   };
 
@@ -245,9 +245,9 @@ const SectionRoute = props => (
 SectionRoute.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
-      sectionId: PropTypes.string.isRequired
-    }).isRequired
-  }).isRequired
+      sectionId: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
 };
 
 export default SectionRoute;

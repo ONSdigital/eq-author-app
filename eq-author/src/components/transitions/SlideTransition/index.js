@@ -37,11 +37,11 @@ const SlideTransition = ({ children, duration, ...otherProps }) => (
 
 SlideTransition.propTypes = {
   duration: PropTypes.number,
-  children: PropTypes.element
+  children: PropTypes.element,
 };
 
 SlideTransition.defaultProps = {
-  duration: 300
+  duration: 300,
 };
 
 export default SlideTransition;

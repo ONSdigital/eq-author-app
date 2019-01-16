@@ -8,24 +8,24 @@ import { colors } from "constants/theme";
 
 const hitTarget = {
   height: 3,
-  width: 3
+  width: 3,
 };
 
 const backgroundColors = {
   on: colors.blue,
-  off: colors.white
+  off: colors.white,
 };
 
 const backgroundSize = {
   width: 1.5,
-  height: 1
+  height: 1,
 };
 
 const knobSize = 1;
 
 const border = {
   on: `1px solid ${backgroundColors.on}`,
-  off: `1px solid ${colors.darkGrey}`
+  off: `1px solid ${colors.darkGrey}`,
 };
 
 export const ToggleSwitchBackground = styled.div`
@@ -91,11 +91,11 @@ class ToggleSwitch extends React.Component {
     id: PropTypes.string,
     checked: PropTypes.bool,
     onChange: PropTypes.func.isRequired,
-    name: PropTypes.string.isRequired
+    name: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
-    checked: false
+    checked: false,
   };
 
   constructor(props) {
@@ -112,7 +112,7 @@ class ToggleSwitch extends React.Component {
     ReactDOM.findDOMNode(this.hiddenInput).focus();
     this.props.onChange({
       name: this.id,
-      value: !this.props.checked
+      value: !this.props.checked,
     });
   };
 

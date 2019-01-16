@@ -28,7 +28,7 @@ withOptions({
   showDownPanel: true,
   showSearchBox: false,
   downPanelInRight: true,
-  sortStoriesByKind: true
+  sortStoriesByKind: true,
 });
 
 configure(loadStories, module);

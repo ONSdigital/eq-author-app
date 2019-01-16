@@ -7,9 +7,9 @@ describe("fetchData", () => {
     id: "123",
     sections: [
       {
-        title: "Whitespaced"
-      }
-    ]
+        title: "Whitespaced",
+      },
+    ],
   };
 
   beforeEach(() => {
@@ -19,12 +19,12 @@ describe("fetchData", () => {
           id: "123   ",
           sections: [
             {
-              title: "   Whitespaced   "
-            }
-          ]
-        }
+              title: "   Whitespaced   ",
+            },
+          ],
+        },
       },
-      json: jest.fn()
+      json: jest.fn(),
     };
 
     req = {};

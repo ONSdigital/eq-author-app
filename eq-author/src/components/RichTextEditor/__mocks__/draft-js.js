@@ -11,5 +11,5 @@ RichUtils.toggleInlineStyle.mockImplementation(mockImplementation);
 
 module.exports = {
   ...draftjs,
-  RichUtils
+  RichUtils,
 };

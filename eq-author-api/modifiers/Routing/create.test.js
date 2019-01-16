@@ -10,34 +10,34 @@ describe("Create", () => {
     const repositories = {
       Destination: {
         insert: jest.fn().mockResolvedValueOnce({
-          id: DESTINATION_ID
-        })
+          id: DESTINATION_ID,
+        }),
       },
       Routing2: {
         insert: jest.fn().mockResolvedValueOnce({
-          id: ROUTING_ID
+          id: ROUTING_ID,
         }),
-        getByPageId: jest.fn().mockResolvedValueOnce()
-      }
+        getByPageId: jest.fn().mockResolvedValueOnce(),
+      },
     };
     const modifiers = {
       RoutingRule: {
         create: jest.fn().mockResolvedValueOnce({
-          id: ROUTING_RULE_ID
-        })
-      }
+          id: ROUTING_RULE_ID,
+        }),
+      },
     };
     const routing = await create({ repositories, modifiers })(PAGE_ID);
 
     expect(repositories.Destination.insert).toHaveBeenCalledWith();
     expect(repositories.Routing2.insert).toHaveBeenCalledWith({
       pageId: PAGE_ID,
-      destinationId: DESTINATION_ID
+      destinationId: DESTINATION_ID,
     });
     expect(modifiers.RoutingRule.create).toHaveBeenCalledWith(ROUTING_ID);
 
     expect(routing).toMatchObject({
-      id: ROUTING_ID
+      id: ROUTING_ID,
     });
   });
 
@@ -45,9 +45,9 @@ describe("Create", () => {
     const repositories = {
       Routing2: {
         getByPageId: jest.fn().mockResolvedValueOnce({
-          id: ROUTING_ID
-        })
-      }
+          id: ROUTING_ID,
+        }),
+      },
     };
 
     try {

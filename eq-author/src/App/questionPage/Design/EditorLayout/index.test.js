@@ -10,11 +10,11 @@ describe("Editor Layout", () => {
       page: {
         id: "1",
         displayName: "Foo",
-        answers: []
+        answers: [],
       },
       design: true,
       preview: false,
-      routing: true
+      routing: true,
     };
     const wrapper = shallow(<EditorLayout {...props}>Content</EditorLayout>);
     expect(wrapper).toMatchSnapshot();

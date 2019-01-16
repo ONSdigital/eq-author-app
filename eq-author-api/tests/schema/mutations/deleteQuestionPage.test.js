@@ -14,7 +14,7 @@ describe("deleteQuestionPage", () => {
 
   beforeEach(() => {
     repositories = {
-      QuestionPage: mockRepository()
+      QuestionPage: mockRepository(),
     };
   });
 

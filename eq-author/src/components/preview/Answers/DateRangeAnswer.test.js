@@ -6,18 +6,18 @@ import DateRangeAnswer from "./DateRangeAnswer";
 describe("DateRangeAnswer", () => {
   const answer = {
     properties: {
-      format: "dd/mm/yyyy"
+      format: "dd/mm/yyyy",
     },
     childAnswers: [
       {
         label: "from",
-        properties: {}
+        properties: {},
       },
       {
         label: "to",
-        properties: {}
-      }
-    ]
+        properties: {},
+      },
+    ],
   };
 
   it("should render", () => {

@@ -19,9 +19,9 @@ describe("createSection", () => {
   beforeEach(() => {
     repositories = {
       Section: mockRepository({
-        insert: { id: SECTION_ID, title: "Test section" }
+        insert: { id: SECTION_ID, title: "Test section" },
       }),
-      Page: mockRepository({})
+      Page: mockRepository({}),
     };
   });
 
@@ -29,7 +29,7 @@ describe("createSection", () => {
     const input = {
       alias: "Section alias",
       title: "Test section",
-      questionnaireId: QUESTIONNAIRE_ID
+      questionnaireId: QUESTIONNAIRE_ID,
     };
 
     const result = await executeQuery(

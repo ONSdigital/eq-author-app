@@ -20,8 +20,8 @@ describe("QuestionConfirmationRepository", () => {
         {
           key: "date",
           alias: "Date",
-          type: metadataTypes.DATE
-        }
+          type: metadataTypes.DATE,
+        },
       ],
       sections: [
         {
@@ -30,29 +30,29 @@ describe("QuestionConfirmationRepository", () => {
               answers: [
                 {
                   label: "Previous Currency Answer",
-                  type: answerTypes.CURRENCY
+                  type: answerTypes.CURRENCY,
                 },
                 {
                   label: "Previous Date Answer",
-                  type: answerTypes.DATE
+                  type: answerTypes.DATE,
                 },
                 {
                   label: "Previous Date Range Answer",
-                  type: answerTypes.DATE_RANGE
-                }
-              ]
+                  type: answerTypes.DATE_RANGE,
+                },
+              ],
             },
             {
               answers: [
                 {
                   label: "Answer",
-                  type: answerTypes.TEXTFIELD
-                }
-              ]
-            }
-          ]
-        }
-      ]
+                  type: answerTypes.TEXTFIELD,
+                },
+              ],
+            },
+          ],
+        },
+      ],
     });
     page = questionnaire.sections[0].pages[1];
   });
@@ -61,7 +61,7 @@ describe("QuestionConfirmationRepository", () => {
   describe("create", () => {
     it("should create and return the confirmation", async () => {
       const confirmation = await QuestionConfirmationRepository.create({
-        pageId: page.id
+        pageId: page.id,
       });
       expect(confirmation).toMatchObject({
         id: expect.any(Number),
@@ -73,18 +73,18 @@ describe("QuestionConfirmationRepository", () => {
         negativeDescription: null,
         isDeleted: false,
         created_at: expect.any(Date),
-        updated_at: expect.any(Date)
+        updated_at: expect.any(Date),
       });
     });
 
     it("should not allow you to create a confirmation for a question if one already exists", async () => {
       await QuestionConfirmationRepository.create({
-        pageId: page.id
+        pageId: page.id,
       });
       let thrown = false;
       try {
         await QuestionConfirmationRepository.create({
-          pageId: page.id
+          pageId: page.id,
         });
       } catch (e) {
         thrown = e;
@@ -98,7 +98,7 @@ describe("QuestionConfirmationRepository", () => {
     let confirmation;
     beforeEach(async () => {
       confirmation = await QuestionConfirmationRepository.create({
-        pageId: page.id
+        pageId: page.id,
       });
     });
 
@@ -125,7 +125,7 @@ describe("QuestionConfirmationRepository", () => {
     let confirmation;
     beforeEach(async () => {
       confirmation = await QuestionConfirmationRepository.create({
-        pageId: page.id
+        pageId: page.id,
       });
     });
 
@@ -134,7 +134,7 @@ describe("QuestionConfirmationRepository", () => {
         id: confirmation.id,
         title: "My title",
         positiveDescription: "Positivity flows",
-        negativeLabel: "Negativity grows"
+        negativeLabel: "Negativity grows",
       });
 
       const foundConfirmation = await QuestionConfirmationRepository.findById(
@@ -145,7 +145,7 @@ describe("QuestionConfirmationRepository", () => {
         id: confirmation.id,
         title: "My title",
         positiveDescription: "Positivity flows",
-        negativeLabel: "Negativity grows"
+        negativeLabel: "Negativity grows",
       });
       expect(updatedConfirmation).toMatchObject(foundConfirmation);
     });
@@ -155,14 +155,14 @@ describe("QuestionConfirmationRepository", () => {
         id: confirmation.id,
         title: "My title",
         isDeleted: true,
-        pageId: 2
+        pageId: 2,
       });
 
       expect(updatedConfirmation).toMatchObject({
         ...confirmation,
         title: "My title",
         isDeleted: false,
-        pageId: page.id
+        pageId: page.id,
       });
     });
   });
@@ -171,7 +171,7 @@ describe("QuestionConfirmationRepository", () => {
     let confirmation;
     beforeEach(async () => {
       confirmation = await QuestionConfirmationRepository.create({
-        pageId: page.id
+        pageId: page.id,
       });
     });
 
@@ -181,7 +181,7 @@ describe("QuestionConfirmationRepository", () => {
       );
       expect(deletedConfirmation).toMatchObject({
         ...confirmation,
-        isDeleted: true
+        isDeleted: true,
       });
     });
 
@@ -203,7 +203,7 @@ describe("QuestionConfirmationRepository", () => {
     let confirmation;
     beforeEach(async () => {
       confirmation = await QuestionConfirmationRepository.create({
-        pageId: page.id
+        pageId: page.id,
       });
       await QuestionConfirmationRepository.delete(confirmation);
     });
@@ -215,13 +215,13 @@ describe("QuestionConfirmationRepository", () => {
       );
       expect(readConfirmation).toMatchObject({
         id: confirmation.id,
-        isDeleted: false
+        isDeleted: false,
       });
     });
 
     it("should delete all those linked to the page for the restored confirmation", async () => {
       const newConfirmation = await QuestionConfirmationRepository.create({
-        pageId: page.id
+        pageId: page.id,
       });
       await QuestionConfirmationRepository.restore(confirmation.id);
 
@@ -240,7 +240,7 @@ describe("QuestionConfirmationRepository", () => {
   describe("getPipingAnswers", () => {
     it("should return the answers on the page and previous pages", async () => {
       const confirmation = await QuestionConfirmationRepository.create({
-        pageId: page.id
+        pageId: page.id,
       });
 
       const pipingAnswers = await QuestionConfirmationRepository.getPipingAnswers(
@@ -250,7 +250,7 @@ describe("QuestionConfirmationRepository", () => {
         expect.objectContaining({ label: "Previous Currency Answer" }),
         expect.objectContaining({ label: "Previous Date Answer" }),
         expect.objectContaining({ label: "Previous Date Range Answer" }),
-        expect.objectContaining({ label: "Answer" })
+        expect.objectContaining({ label: "Answer" }),
       ]);
     });
   });
@@ -258,14 +258,14 @@ describe("QuestionConfirmationRepository", () => {
   describe("getPipingMetadata", () => {
     it("should return the available metadata", async () => {
       const confirmation = await QuestionConfirmationRepository.create({
-        pageId: page.id
+        pageId: page.id,
       });
 
       const pipingMetadata = await QuestionConfirmationRepository.getPipingMetadata(
         confirmation.id
       );
       expect(pipingMetadata).toEqual([
-        expect.objectContaining({ key: "date", alias: "Date" })
+        expect.objectContaining({ key: "date", alias: "Date" }),
       ]);
     });
   });

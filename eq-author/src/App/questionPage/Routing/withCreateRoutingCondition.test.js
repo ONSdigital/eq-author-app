@@ -4,7 +4,7 @@ import fragment from "graphql/fragments/routing-rule.graphql";
 describe("containers/enhancers/withCreateRoutingCondition", () => {
   const routingRule = {
     id: "1",
-    conditions: []
+    conditions: [],
   };
 
   let mutate, ownProps, result, createRoutingCondition;
@@ -13,22 +13,22 @@ describe("containers/enhancers/withCreateRoutingCondition", () => {
     ownProps = {
       match: {
         params: {
-          pageId: "1"
-        }
-      }
+          pageId: "1",
+        },
+      },
     };
 
     createRoutingCondition = {
       id: "1",
       operation: "And",
       conditions: [],
-      goto: null
+      goto: null,
     };
 
     result = {
       data: {
-        createRoutingCondition
-      }
+        createRoutingCondition,
+      },
     };
 
     mutate = jest.fn(() => Promise.resolve(result));
@@ -52,13 +52,13 @@ describe("containers/enhancers/withCreateRoutingCondition", () => {
       expect(readFragment).toHaveBeenCalledWith({
         id,
         fragment,
-        fragmentName: "RoutingRule"
+        fragmentName: "RoutingRule",
       });
       expect(writeFragment).toHaveBeenCalledWith({
         id,
         fragment,
         data: routingRule,
-        fragmentName: "RoutingRule"
+        fragmentName: "RoutingRule",
       });
 
       expect(routingRule.conditions).toContainEqual(createRoutingCondition);
@@ -88,9 +88,9 @@ describe("containers/enhancers/withCreateRoutingCondition", () => {
                 comparator: "Equal",
                 questionPageId: ownProps.match.params.pageId,
                 routingRuleId: routingRule.id,
-                answerId
-              }
-            }
+                answerId,
+              },
+            },
           })
         );
       });

@@ -107,7 +107,7 @@ export class UnwrappedIntroEditor extends React.Component {
                       bold: true,
                       list: true,
                       piping: true,
-                      emphasis: true
+                      emphasis: true,
                     }}
                   />
                 </IntroCanvas>
@@ -134,7 +134,7 @@ UnwrappedIntroEditor.propTypes = {
   section: CustomPropTypes.section.isRequired,
   onUpdate: PropTypes.func,
   onChange: PropTypes.func,
-  onDeleteSectionIntro: PropTypes.func.isRequired
+  onDeleteSectionIntro: PropTypes.func.isRequired,
 };
 
 const wrappedSectionIntro = flowRight(

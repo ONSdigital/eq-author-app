@@ -19,7 +19,7 @@ describe("enhancers > withUpdateRoutingCondition", () => {
     it("should call mutate", () => {
       props.onUpdateRoutingCondition(routingCondition);
       expect(mutate).toHaveBeenCalledWith({
-        variables: { input: routingCondition }
+        variables: { input: routingCondition },
       });
     });
   });

@@ -9,24 +9,24 @@ describe("withDuplicateSection", () => {
   beforeEach(() => {
     match = {
       params: {
-        questionnaireId: "1"
-      }
+        questionnaireId: "1",
+      },
     };
 
     history = {
       replace: jest.fn(),
-      push: jest.fn()
+      push: jest.fn(),
     };
 
     ownProps = {
       history,
-      match
+      match,
     };
 
     args = {
       questionnaireId: "1",
       sectionId: "1",
-      position: 0
+      position: 0,
     };
 
     result = {
@@ -36,10 +36,10 @@ describe("withDuplicateSection", () => {
           position: args.position,
           questionnaire: {
             id: "1",
-            __typename: "Questionnaire"
-          }
-        }
-      }
+            __typename: "Questionnaire",
+          },
+        },
+      },
     };
   });
 
@@ -57,11 +57,11 @@ describe("withDuplicateSection", () => {
       it("provides the necessary arguments to mutate", () => {
         const input = {
           id: args.sectionId,
-          position: args.position
+          position: args.position,
         };
 
         const expected = {
-          variables: { input }
+          variables: { input },
         };
 
         return props.onDuplicateSection(args).then(() => {
@@ -80,7 +80,7 @@ describe("withDuplicateSection", () => {
 
         const expected = buildSectionPath({
           questionnaireId: match.params.questionnaireId,
-          sectionId: copiedSectionId
+          sectionId: copiedSectionId,
         });
 
         return props.onDuplicateSection(args).then(() => {

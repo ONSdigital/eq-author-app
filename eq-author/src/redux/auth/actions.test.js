@@ -8,10 +8,10 @@ describe("auth actions", () => {
     email: "foo@bar.com",
     photoURL: "http://foo.org/bar.jpg",
     stsTokenManager: {
-      accessToken: "token"
+      accessToken: "token",
     },
     toJSON: jest.fn(),
-    uid: "user_id"
+    uid: "user_id",
   };
   let store, auth;
   const getActions = (config = {}) => {
@@ -23,13 +23,13 @@ describe("auth actions", () => {
   beforeEach(() => {
     auth = {
       signOut: jest.fn(() => SynchronousPromise.resolve()),
-      onAuthStateChanged: jest.fn()
+      onAuthStateChanged: jest.fn(),
     };
 
     const middleware = [thunk.withExtraArgument({ auth })];
     const mockStore = configureStore(middleware);
     store = mockStore({
-      auth: { user }
+      auth: { user },
     });
   });
 
@@ -59,7 +59,7 @@ describe("auth actions", () => {
 
       it("should anonymise user", () => {
         const { signOutUser } = getActions({
-          REACT_APP_FULLSTORY_ORG: "ORG_ID"
+          REACT_APP_FULLSTORY_ORG: "ORG_ID",
         });
         return store.dispatch(signOutUser()).then(() => {
           expect(FS.identify).toHaveBeenCalledWith(false);
@@ -125,7 +125,7 @@ describe("auth actions", () => {
         changeHandler({ toJSON });
 
         expect(FS.identify).toHaveBeenCalledWith(user.email, {
-          displayName: user.displayName
+          displayName: user.displayName,
         });
       });
     });

@@ -1,6 +1,6 @@
 import {
   createUndelete,
-  undeleteSectionIntroduction
+  undeleteSectionIntroduction,
 } from "./undeleteSectionIntroduction";
 import thunk from "redux-thunk";
 import configureStore from "redux-mock-store";
@@ -15,13 +15,13 @@ describe("undelete Section Introduction", () => {
     mutate = jest.fn(() => Promise.resolve());
 
     client = {
-      mutate
+      mutate,
     };
     section = {
       id: 1,
       introductionTitle: "Foo",
       introductionContent: "Bar",
-      introductionEnabled: true
+      introductionEnabled: true,
     };
   });
 
@@ -44,9 +44,9 @@ describe("undelete Section Introduction", () => {
           id: 1,
           introductionContent: "Bar",
           introductionEnabled: true,
-          introductionTitle: "Foo"
-        }
-      }
+          introductionTitle: "Foo",
+        },
+      },
     });
   });
 
@@ -65,11 +65,11 @@ describe("undelete Section Introduction", () => {
       return store.dispatch(undeleteSectionIntroduction(section)).then(() => {
         expect(store.getActions()).toEqual([
           {
-            type: "UNDELETE_SECTION_INTRODUCTION_REQUEST"
+            type: "UNDELETE_SECTION_INTRODUCTION_REQUEST",
           },
           {
-            type: "UNDELETE_SECTION_INTRODUCTION_SUCCESS"
-          }
+            type: "UNDELETE_SECTION_INTRODUCTION_SUCCESS",
+          },
         ]);
       });
     });
@@ -79,11 +79,11 @@ describe("undelete Section Introduction", () => {
       return store.dispatch(undeleteSectionIntroduction(section)).then(() => {
         expect(store.getActions()).toEqual([
           {
-            type: "UNDELETE_SECTION_INTRODUCTION_REQUEST"
+            type: "UNDELETE_SECTION_INTRODUCTION_REQUEST",
           },
           {
-            type: "UNDELETE_SECTION_INTRODUCTION_FAILURE"
-          }
+            type: "UNDELETE_SECTION_INTRODUCTION_FAILURE",
+          },
         ]);
       });
     });

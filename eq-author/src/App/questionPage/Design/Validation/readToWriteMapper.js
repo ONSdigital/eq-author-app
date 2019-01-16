@@ -3,7 +3,7 @@ import { omit } from "lodash/fp";
 import {
   CUSTOM,
   PREVIOUS_ANSWER,
-  METADATA
+  METADATA,
 } from "constants/validation-entity-types";
 
 const getCustom = (entityType, customDate) => {
@@ -41,18 +41,18 @@ export const dateReadToWriteMapper = outputKey => ({
     entityType,
     custom: getCustom(entityType, customDate),
     previousAnswer: getPreviousAnswer(entityType, previousAnswer),
-    metadata: getMetadata(entityType, metadata)
-  }
+    metadata: getMetadata(entityType, metadata),
+  },
 });
 
 export const durationReadToWriteMapper = outputKey => ({ id, ...rest }) => ({
   id,
-  [outputKey]: { ...omit("enabled", rest) }
+  [outputKey]: { ...omit("enabled", rest) },
 });
 
 export const minValueReadToWriteMapper = outputKey => ({ id, ...rest }) => ({
   id,
-  [outputKey]: { ...omit("enabled", rest) }
+  [outputKey]: { ...omit("enabled", rest) },
 });
 
 export const maxValueReadToWriteMapper = outputKey => ({
@@ -65,6 +65,6 @@ export const maxValueReadToWriteMapper = outputKey => ({
   [outputKey]: {
     ...omit("enabled", rest),
     entityType,
-    previousAnswer: getPreviousAnswer(entityType, previousAnswer)
-  }
+    previousAnswer: getPreviousAnswer(entityType, previousAnswer),
+  },
 });

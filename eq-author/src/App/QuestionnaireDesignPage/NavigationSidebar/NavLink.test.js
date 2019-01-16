@@ -9,7 +9,7 @@ describe("NavLink", () => {
   const props = {
     to: "/page-1",
     title: "Page 1",
-    icon: () => <svg />
+    icon: () => <svg />,
   };
 
   beforeEach(() => {

@@ -9,7 +9,7 @@ import {
   DATE,
   DATE_RANGE,
   CURRENCY,
-  NUMBER
+  NUMBER,
 } from "constants/answer-types";
 
 import DateAnswer from "./DateAnswer";
@@ -28,7 +28,7 @@ export const answerComponents = {
   [TEXTFIELD]: TextAnswer,
   [TEXTAREA]: TextAreaAnswer,
   [DATE]: DateAnswer,
-  [DATE_RANGE]: DateRangeAnswer
+  [DATE_RANGE]: DateRangeAnswer,
 };
 
 const AnswerWrapper = styled.div`
@@ -45,6 +45,6 @@ export const Answer = ({ answer }) => {
 };
 Answer.propTypes = {
   answer: PropTypes.shape({
-    type: PropTypes.oneOf(Object.keys(answerComponents)).isRequired
-  }).isRequired
+    type: PropTypes.oneOf(Object.keys(answerComponents)).isRequired,
+  }).isRequired,
 };

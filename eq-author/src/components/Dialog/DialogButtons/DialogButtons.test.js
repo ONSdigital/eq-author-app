@@ -13,7 +13,7 @@ describe("Dialog Buttons", () => {
   beforeEach(() => {
     props = {
       primaryAction: jest.fn(),
-      primaryActionText: "Primary action"
+      primaryActionText: "Primary action",
     };
     wrapper = createWrapper(props);
   });
@@ -30,7 +30,7 @@ describe("Dialog Buttons", () => {
         secondaryAction: jest.fn(),
         secondaryActionText: "Secondary Action",
         tertiaryAction: jest.fn(),
-        tertiaryActionText: "Tertiary Action"
+        tertiaryActionText: "Tertiary Action",
       };
 
       wrapper = createWrapper({ ...props, ...actions }, shallow);

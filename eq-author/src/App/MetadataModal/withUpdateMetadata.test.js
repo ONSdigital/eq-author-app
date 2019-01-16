@@ -20,7 +20,7 @@ describe("withUpdateMetadata", () => {
       it("should call mutate", () => {
         props.onUpdateMetadata(metadata);
         expect(mutate).toHaveBeenCalledWith({
-          variables: { input: metadata }
+          variables: { input: metadata },
         });
       });
     });

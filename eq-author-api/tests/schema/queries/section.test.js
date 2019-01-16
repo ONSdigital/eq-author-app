@@ -65,14 +65,14 @@ describe("Section query", () => {
         ...mockRepository({
           getById: {
             id,
-            questionnaireId
-          }
+            questionnaireId,
+          },
         }),
         getPipingAnswersForSection: jest.fn(() => []),
-        getPipingMetadataForSection: jest.fn(() => [])
+        getPipingMetadataForSection: jest.fn(() => []),
       },
       Page: mockRepository(),
-      Questionnaire: mockRepository()
+      Questionnaire: mockRepository(),
     };
   });
 

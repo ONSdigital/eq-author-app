@@ -9,7 +9,7 @@ describe("AnswerValidation", () => {
   let props, wrapper;
   beforeEach(() => {
     props = {
-      name: "foobar"
+      name: "foobar",
     };
 
     wrapper = render(props);

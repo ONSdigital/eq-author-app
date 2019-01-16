@@ -8,7 +8,7 @@ const {
   assign,
   values,
   includes,
-  flatten
+  flatten,
 } = require("lodash/fp");
 const { get, merge } = require("lodash");
 
@@ -21,12 +21,12 @@ const { answerTypeMap } = require("../utils/defaultAnswerValidations");
 const OptionRepository = require("./OptionRepository");
 
 const {
-  createDefaultValidationsForAnswer
+  createDefaultValidationsForAnswer,
 } = require("./strategies/validationStrategy");
 
 const {
   handleAnswerDeleted,
-  handleAnswerCreated
+  handleAnswerCreated,
 } = require("./strategies/routingStrategy");
 
 const handleDeprecatedMandatoryFieldFromDb = answer =>
@@ -72,7 +72,7 @@ module.exports = knex => {
       mandatory,
       properties,
       questionPageId,
-      parentAnswerId
+      parentAnswerId,
     },
     trx
   ) =>
@@ -88,7 +88,7 @@ module.exports = knex => {
           mandatory,
           properties,
           questionPageId,
-          parentAnswerId
+          parentAnswerId,
         })
       )
       .returning("*")
@@ -107,7 +107,7 @@ module.exports = knex => {
     isDeleted,
     parentAnswerId,
     mandatory,
-    properties
+    properties,
   }) => {
     if (childAnswerParser(id) === "secondary") {
       secondaryLabel = label;
@@ -126,7 +126,7 @@ module.exports = knex => {
           isDeleted,
           parentAnswerId,
           mandatory,
-          properties
+          properties,
         })
       )
       .then(head)
@@ -137,7 +137,7 @@ module.exports = knex => {
     return knex.transaction(async trx => {
       const defaultProperties = getDefaultAnswerProperties(answerConfig.type);
       const input = merge({}, answerConfig, {
-        properties: defaultProperties
+        properties: defaultProperties,
       });
       const answer = await insert(input, trx);
 
@@ -152,7 +152,7 @@ module.exports = knex => {
           description: "",
           value: "",
           qCode: "",
-          answerId: answer.id
+          answerId: answer.id,
         };
 
         defaultOptions.push(defaultOption);
@@ -175,7 +175,7 @@ module.exports = knex => {
   const deleteAnswer = async (trx, id) => {
     const deletedAnswer = await trx("Answers")
       .where({
-        id: parseInt(id)
+        id: parseInt(id),
       })
       .update({ isDeleted: true })
       .returning("*")
@@ -200,12 +200,12 @@ module.exports = knex => {
     const secondAnswer = omit("label", answer);
     return [
       assign(firstAnswer, {
-        id: `${answer.id}from`
+        id: `${answer.id}from`,
       }),
       assign(secondAnswer, {
         id: `${answer.id}to`,
-        label: secondAnswer.secondaryLabel
-      })
+        label: secondAnswer.secondaryLabel,
+      }),
     ];
   };
 
@@ -230,9 +230,9 @@ module.exports = knex => {
     );
   };
 
-
   const getFirstOnPage = async pageId =>
-    Answer(knex).findAll()
+    Answer(knex)
+      .findAll()
       .where({ isDeleted: false, questionPageId: pageId })
       .orderBy("id", "asc")
       .first()
@@ -248,6 +248,6 @@ module.exports = knex => {
     splitComposites,
     getAnswers,
     createAnswer,
-    getFirstOnPage
+    getFirstOnPage,
   };
 };

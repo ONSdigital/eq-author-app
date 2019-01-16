@@ -7,7 +7,7 @@ describe("TextAnswer", () => {
   it("should render", () => {
     const answer = {
       label: "label",
-      description: "description"
+      description: "description",
     };
     expect(shallow(<TextAreaAnswer answer={answer} />)).toMatchSnapshot();
   });

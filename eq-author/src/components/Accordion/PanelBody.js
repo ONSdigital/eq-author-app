@@ -17,7 +17,7 @@ PanelBody.propTypes = {
   id: PropTypes.string.isRequired,
   labelledBy: PropTypes.string.isRequired,
   open: PropTypes.bool.isRequired,
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
 };
 
 export default PanelBody;

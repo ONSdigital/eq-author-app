@@ -16,15 +16,15 @@ describe("PageConfirmationNavItem", () => {
         id: "3",
         confirmation: {
           id: "4",
-          displayName: "Confirmation display name"
-        }
+          displayName: "Confirmation display name",
+        },
       },
       match: {
         params: {
           questionnaireId: "1",
-          tab: "design"
-        }
-      }
+          tab: "design",
+        },
+      },
     };
 
     wrapper = createWrapper(props);

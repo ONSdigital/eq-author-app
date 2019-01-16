@@ -24,7 +24,7 @@ storiesOf("AnswerTypes/CurrencyAnswer", module)
       answer={{
         id: "1",
         label: "Lorem ipsum",
-        description: "Nullam id dolor id nibh ultricies."
+        description: "Nullam id dolor id nibh ultricies.",
       }}
       onChange={action("changed")}
       onUpdate={action("updated")}

@@ -22,14 +22,14 @@ describe("components/RoutingRuleSet", () => {
         routingRules: [
           {
             id: "2",
-            operation: "And"
+            operation: "And",
           },
           {
             id: "3",
-            operation: "And"
-          }
-        ]
-      }
+            operation: "And",
+          },
+        ],
+      },
     };
 
     wrapper = shallow(<RoutingRuleSet {...props} />);
@@ -45,7 +45,7 @@ describe("components/RoutingRuleSet", () => {
 
     expect(props.onElseChange).toHaveBeenLastCalledWith({
       id: props.ruleSet.id,
-      else: data
+      else: data,
     });
   });
 

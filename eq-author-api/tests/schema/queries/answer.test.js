@@ -44,11 +44,11 @@ describe("answer query", () => {
         getById: {
           id,
           questionPageId,
-          type: "Checkbox"
-        }
+          type: "Checkbox",
+        },
       }),
       Option: mockRepository(),
-      QuestionPage: mockRepository()
+      QuestionPage: mockRepository(),
     };
   });
 
@@ -70,7 +70,7 @@ describe("answer query", () => {
     expect(repositories.Answer.getById).toHaveBeenCalledWith(id);
     expect(repositories.Option.findAll).toHaveBeenCalledWith({
       answerId: id,
-      mutuallyExclusive: false
+      mutuallyExclusive: false,
     });
   });
 

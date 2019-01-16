@@ -4,7 +4,7 @@ const GraphQLJSON = require("graphql-type-json");
 const { getName } = require("../../utils/getName");
 const formatRichText = require("../../utils/formatRichText");
 const {
-  getValidationEntity
+  getValidationEntity,
 } = require("../../repositories/strategies/validationStrategy");
 
 const Resolvers = {
@@ -26,19 +26,19 @@ const Resolvers = {
       ctx.repositories.QuestionConfirmation.findById(id),
     me: (root, args, ctx) => ({
       id: ctx.auth.user_id,
-      ...pick(ctx.auth, ["name", "email", "picture"])
-    })
+      ...pick(ctx.auth, ["name", "email", "picture"]),
+    }),
   },
 
   Mutation: {
     createQuestionnaire: async (root, args, ctx) => {
       const questionnaire = await ctx.repositories.Questionnaire.insert({
         ...args.input,
-        createdBy: ctx.auth.name
+        createdBy: ctx.auth.name,
       });
       const section = {
         title: "",
-        questionnaireId: questionnaire.id
+        questionnaireId: questionnaire.id,
       };
 
       await Resolvers.Mutation.createSection(root, { input: section }, ctx);
@@ -59,7 +59,7 @@ const Resolvers = {
         pageType: "QuestionPage",
         title: "",
         description: "",
-        sectionId: section.id
+        sectionId: section.id,
       };
 
       await Resolvers.Mutation.createPage(root, { input: page }, ctx);
@@ -119,13 +119,13 @@ const Resolvers = {
         const additionalAnswer = await ctx.repositories.Answer.createAnswer({
           description: "",
           type: "TextField",
-          parentAnswerId: args.input.answerId
+          parentAnswerId: args.input.answerId,
         });
         additionalAnswerId = additionalAnswer.id;
       }
       return ctx.repositories.Option.insert({
         ...args.input,
-        additionalAnswerId
+        additionalAnswerId,
       });
     },
     createMutuallyExclusiveOption: (root, { input }, ctx) =>
@@ -188,12 +188,12 @@ const Resolvers = {
         positiveLabel: positive.label,
         positiveDescription: positive.description,
         negativeLabel: negative.label,
-        negativeDescription: negative.description
+        negativeDescription: negative.description,
       }),
     deleteQuestionConfirmation: (_, { input }, ctx) =>
       ctx.repositories.QuestionConfirmation.delete(input),
     undeleteQuestionConfirmation: (_, { input }, ctx) =>
-      ctx.repositories.QuestionConfirmation.restore(input.id)
+      ctx.repositories.QuestionConfirmation.restore(input.id),
   },
 
   Questionnaire: {
@@ -201,16 +201,16 @@ const Resolvers = {
       ctx.repositories.Section.findAll({ questionnaireId: questionnaire.id }),
     createdBy: questionnaire => ({
       id: questionnaire.createdBy, // Temporary until next PR introduces users table.
-      name: questionnaire.createdBy
+      name: questionnaire.createdBy,
     }),
     questionnaireInfo: ({ id }) => id,
     metadata: (questionnaire, args, ctx) =>
-      ctx.repositories.Metadata.findAll({ questionnaireId: questionnaire.id })
+      ctx.repositories.Metadata.findAll({ questionnaireId: questionnaire.id }),
   },
 
   QuestionnaireInfo: {
     totalSectionCount: (questionnaireId, args, ctx) =>
-      ctx.repositories.Section.getSectionCount(questionnaireId)
+      ctx.repositories.Section.getSectionCount(questionnaireId),
   },
 
   Section: {
@@ -229,7 +229,7 @@ const Resolvers = {
     availablePipingAnswers: ({ id }, args, ctx) =>
       ctx.repositories.Section.getPipingAnswersForSection(id),
     availablePipingMetadata: ({ id }, args, ctx) =>
-      ctx.repositories.Section.getPipingMetadataForSection(id)
+      ctx.repositories.Section.getPipingMetadataForSection(id),
   },
   Page: {
     __resolveType: ({ pageType }) => pageType,
@@ -239,7 +239,7 @@ const Resolvers = {
       }
 
       return ctx.repositories.Page.getPosition({ id });
-    }
+    },
   },
 
   QuestionPage: {
@@ -251,7 +251,7 @@ const Resolvers = {
     position: (page, args, ctx) => Resolvers.Page.position(page, args, ctx),
     routingRuleSet: ({ id: questionPageId }, args, ctx) =>
       ctx.repositories.Routing.findRoutingRuleSetByQuestionPageId({
-        questionPageId
+        questionPageId,
       }),
     displayName: page => getName(page, "QuestionPage"),
     title: (page, args) => formatRichText(page.title, args.format),
@@ -267,32 +267,32 @@ const Resolvers = {
       ctx.repositories.QuestionPage.getRoutingAnswers(id),
     availableRoutingDestinations: ({ id }, args, ctx) =>
       ctx.repositories.Routing.getRoutingDestinations(id),
-    routing: ({ id }, args, ctx) => ctx.repositories.Routing2.getByPageId(id)
+    routing: ({ id }, args, ctx) => ctx.repositories.Routing2.getByPageId(id),
   },
 
   RoutingRuleSet: {
     routingRules: ({ id }, args, ctx) => {
       return ctx.repositories.Routing.findAllRoutingRules({
-        routingRuleSetId: id
+        routingRuleSetId: id,
       });
     },
     questionPage: ({ questionPageId }, args, ctx) => {
       return ctx.repositories.Page.getById(questionPageId);
     },
     else: ({ routingDestinationId }, args, ctx) =>
-      ctx.repositories.Routing.getRoutingDestination(routingDestinationId)
+      ctx.repositories.Routing.getRoutingDestination(routingDestinationId),
   },
 
   RoutingRule: {
     conditions: ({ id }, args, ctx) => {
       return ctx.repositories.Routing.findAllRoutingConditions({
-        routingRuleId: id
+        routingRuleId: id,
       });
     },
     goto: (routingRule, args, ctx) =>
       ctx.repositories.Routing.getRoutingDestination(
         routingRule.routingDestinationId
-      )
+      ),
   },
 
   RoutingCondition: {
@@ -306,7 +306,7 @@ const Resolvers = {
     },
     answer: ({ answerId }, args, ctx) => {
       return isNil(answerId) ? null : ctx.repositories.Answer.getById(answerId);
-    }
+    },
   },
 
   RoutingConditionValue: {
@@ -320,18 +320,18 @@ const Resolvers = {
       } else {
         return "IDArrayValue";
       }
-    }
+    },
   },
 
   IDArrayValue: {
     value: async ({ conditionId }, args, ctx) => {
       const conditionValues = await ctx.repositories.Routing.findAllRoutingConditionValues(
         {
-          conditionId
+          conditionId,
         }
       );
       return conditionValues.map(conditionValue => conditionValue.optionId);
-    }
+    },
   },
 
   NumberValue: {
@@ -346,7 +346,7 @@ const Resolvers = {
         { conditionId }
       );
       return conditionValues[0].customNumber;
-    }
+    },
   },
 
   RoutingDestination: {
@@ -354,7 +354,7 @@ const Resolvers = {
       return isNil(logicalDestination)
         ? "AbsoluteDestination"
         : "LogicalDestination";
-    }
+    },
   },
 
   AbsoluteDestinations: {
@@ -364,11 +364,11 @@ const Resolvers = {
       } else {
         return "Section";
       }
-    }
+    },
   },
 
   LogicalDestination: {
-    id: destination => destination.logicalDestination
+    id: destination => destination.logicalDestination,
   },
 
   Answer: {
@@ -380,7 +380,7 @@ const Resolvers = {
       } else {
         return "BasicAnswer";
       }
-    }
+    },
   },
 
   BasicAnswer: {
@@ -390,7 +390,7 @@ const Resolvers = {
       ["number", "date"].includes(getValidationEntity(answer.type))
         ? answer
         : null,
-    displayName: answer => getName(answer, "BasicAnswer")
+    displayName: answer => getName(answer, "BasicAnswer"),
   },
 
   CompositeAnswer: {
@@ -400,7 +400,7 @@ const Resolvers = {
       ctx.repositories.QuestionPage.getById(answer.questionPageId),
     validation: answer =>
       ["dateRange"].includes(getValidationEntity(answer.type)) ? answer : null,
-    displayName: answer => getName(answer, "CompositeAnswer")
+    displayName: answer => getName(answer, "CompositeAnswer"),
   },
 
   MultipleChoiceAnswer: {
@@ -409,11 +409,11 @@ const Resolvers = {
     options: (answer, args, ctx) =>
       ctx.repositories.Option.findAll({
         answerId: answer.id,
-        mutuallyExclusive: false
+        mutuallyExclusive: false,
       }),
     mutuallyExclusiveOption: (answer, args, ctx) =>
       ctx.repositories.Option.findExclusiveOptionByAnswerId(answer.id),
-    displayName: answer => getName(answer, "MultipleChoiceAnswer")
+    displayName: answer => getName(answer, "MultipleChoiceAnswer"),
   },
 
   Option: {
@@ -423,7 +423,7 @@ const Resolvers = {
     additionalAnswer: ({ additionalAnswerId }, args, ctx) =>
       additionalAnswerId
         ? ctx.repositories.Answer.getById(additionalAnswerId)
-        : null
+        : null,
   },
 
   ValidationType: {
@@ -443,7 +443,7 @@ const Resolvers = {
             `Validation is not supported on '${answer.type}' answers`
           );
       }
-    }
+    },
   },
 
   ValidationRule: {
@@ -466,7 +466,7 @@ const Resolvers = {
             `Validation is not supported on '${validationType}' answers`
           );
       }
-    }
+    },
   },
 
   NumberValidation: {
@@ -479,7 +479,7 @@ const Resolvers = {
       ctx.repositories.Validation.findByAnswerIdAndValidationType(
         answer,
         "maxValue"
-      )
+      ),
   },
 
   DateValidation: {
@@ -492,7 +492,7 @@ const Resolvers = {
       ctx.repositories.Validation.findByAnswerIdAndValidationType(
         answer,
         "latestDate"
-      )
+      ),
   },
 
   DateRangeValidation: {
@@ -515,13 +515,13 @@ const Resolvers = {
       ctx.repositories.Validation.findByAnswerIdAndValidationType(
         answer,
         "maxDuration"
-      )
+      ),
   },
 
   MinValueValidationRule: {
     enabled: ({ enabled }) => enabled,
     inclusive: ({ config }) => config.inclusive,
-    custom: ({ custom }) => custom
+    custom: ({ custom }) => custom,
   },
 
   MaxValueValidationRule: {
@@ -534,7 +534,7 @@ const Resolvers = {
         ? null
         : ctx.repositories.Answer.getById(previousAnswerId),
     availablePreviousAnswers: ({ id }, args, ctx) =>
-      ctx.repositories.Validation.getPreviousAnswersForValidation(id)
+      ctx.repositories.Validation.getPreviousAnswersForValidation(id),
   },
 
   EarliestDateValidationRule: {
@@ -551,7 +551,7 @@ const Resolvers = {
     availablePreviousAnswers: ({ id }, args, ctx) =>
       ctx.repositories.Validation.getPreviousAnswersForValidation(id),
     availableMetadata: ({ id }, args, ctx) =>
-      ctx.repositories.Validation.getMetadataForValidation(id)
+      ctx.repositories.Validation.getMetadataForValidation(id),
   },
 
   LatestDateValidationRule: {
@@ -568,15 +568,15 @@ const Resolvers = {
     availablePreviousAnswers: ({ id }, args, ctx) =>
       ctx.repositories.Validation.getPreviousAnswersForValidation(id),
     availableMetadata: ({ id }, args, ctx) =>
-      ctx.repositories.Validation.getMetadataForValidation(id)
+      ctx.repositories.Validation.getMetadataForValidation(id),
   },
 
   MinDurationValidationRule: {
-    duration: ({ config: { duration } }) => duration
+    duration: ({ config: { duration } }) => duration,
   },
 
   MaxDurationValidationRule: {
-    duration: ({ config: { duration } }) => duration
+    duration: ({ config: { duration } }) => duration,
   },
 
   Metadata: {
@@ -589,7 +589,7 @@ const Resolvers = {
       }
       return new Date(value);
     },
-    displayName: metadata => getName(metadata, "Metadata")
+    displayName: metadata => getName(metadata, "Metadata"),
   },
 
   QuestionConfirmation: {
@@ -597,21 +597,21 @@ const Resolvers = {
     page: ({ pageId }, args, ctx) => ctx.repositories.Page.getById(pageId),
     positive: ({ positiveLabel, positiveDescription }) => ({
       label: positiveLabel,
-      description: positiveDescription
+      description: positiveDescription,
     }),
     negative: ({ negativeLabel, negativeDescription }) => ({
       label: negativeLabel,
-      description: negativeDescription
+      description: negativeDescription,
     }),
     availablePipingAnswers: ({ id }, args, ctx) =>
       ctx.repositories.QuestionConfirmation.getPipingAnswers(id),
     availablePipingMetadata: ({ id }, args, ctx) =>
-      ctx.repositories.QuestionConfirmation.getPipingMetadata(id)
+      ctx.repositories.QuestionConfirmation.getPipingMetadata(id),
   },
 
   Date: GraphQLDate,
 
-  JSON: GraphQLJSON
+  JSON: GraphQLJSON,
 };
 
 module.exports = Resolvers;

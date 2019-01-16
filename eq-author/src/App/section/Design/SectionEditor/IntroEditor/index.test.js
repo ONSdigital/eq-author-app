@@ -17,7 +17,7 @@ describe("Intro Editor", () => {
       id: "1",
       introductionTitle: "Foo",
       introductionContent: "Bar",
-      introductionEnabled: true
+      introductionEnabled: true,
     };
   });
 
@@ -25,7 +25,7 @@ describe("Intro Editor", () => {
     Object.assign(section, {
       introductionTitle: null,
       introductionContent: null,
-      introductionEnabled: false
+      introductionEnabled: false,
     });
 
     const wrapper = shallow(
@@ -56,7 +56,7 @@ describe("Intro Editor", () => {
     Object.assign(section, {
       introductionTitle: null,
       introductionContent: null,
-      introductionEnabled: false
+      introductionEnabled: false,
     });
 
     const wrapper = shallow(
@@ -109,7 +109,7 @@ describe("Intro Editor", () => {
       id: "1",
       introductionContent: "Bar",
       introductionEnabled: true,
-      introductionTitle: "Foo"
+      introductionTitle: "Foo",
     });
   });
 });

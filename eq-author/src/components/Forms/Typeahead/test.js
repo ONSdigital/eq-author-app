@@ -2,7 +2,7 @@ import React from "react";
 import { shallow } from "enzyme";
 import Typeahead from "components/Forms/Typeahead";
 import TypeaheadMenu, {
-  filterItemsByInputValue
+  filterItemsByInputValue,
 } from "components/Forms/Typeahead/TypeaheadMenu";
 
 const apple = { value: "apple" };
@@ -43,7 +43,7 @@ describe("TypeaheadMenu", () => {
     props = {
       items,
       getMenuProps: jest.fn(),
-      getItemProps: jest.fn()
+      getItemProps: jest.fn(),
     };
   });
 
@@ -77,7 +77,7 @@ describe("TypeaheadMenu", () => {
     expect(filterItemsByInputValue(items, "app")).toEqual([apple]);
     expect(filterItemsByInputValue(items, "berry")).toEqual([
       strawberry,
-      raspberry
+      raspberry,
     ]);
     expect(filterItemsByInputValue(items, "")).toEqual(items);
     expect(filterItemsByInputValue(items, "blah")).toEqual([]);

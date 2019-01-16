@@ -47,7 +47,7 @@ const DialogMessage = props => {
 DialogMessage.propTypes = {
   heading: PropTypes.string.isRequired,
   subheading: PropTypes.string,
-  description: PropTypes.string
+  description: PropTypes.string,
 };
 
 export default DialogMessage;

@@ -8,20 +8,20 @@ const FILTER_MAP = {
   Number: value => `${value} | format_number`,
   Currency: (value, unit = "GBP") => `format_currency(${value}, '${unit}')`,
   Date: value => `${value} | format_date`,
-  DateRange: value => `${value} | format_date`
+  DateRange: value => `${value} | format_date`,
 };
 
 const PIPE_TYPES = {
   answers: {
     retrieve: element => element,
     render: ({ id }) => `answers['answer${id}']`,
-    getType: ({ type }) => type
+    getType: ({ type }) => type,
   },
   metadata: {
     retrieve: ({ id }, ctx) => getMetadata(ctx, id.toString()),
     render: ({ key }) => `metadata['${key}']`,
-    getType: ({ type }) => type
-  }
+    getType: ({ type }) => type,
+  },
 };
 
 const convertElementToPipe = ($elem, ctx) => {

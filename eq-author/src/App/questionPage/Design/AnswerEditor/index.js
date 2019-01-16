@@ -18,7 +18,7 @@ import {
   CHECKBOX,
   RADIO,
   DATE_RANGE,
-  DATE
+  DATE,
 } from "constants/answer-types";
 import CurrencyAnswer from "App/questionPage/Design/answers/CurrencyAnswer";
 import Tooltip from "components/Forms/Tooltip";
@@ -133,7 +133,7 @@ AnswerEditor.propTypes = {
   onAddOption: PropTypes.func.isRequired,
   onAddExclusive: PropTypes.func.isRequired,
   onUpdateOption: PropTypes.func.isRequired,
-  onDeleteOption: PropTypes.func.isRequired
+  onDeleteOption: PropTypes.func.isRequired,
 };
 
 AnswerEditor.fragments = {
@@ -150,7 +150,7 @@ AnswerEditor.fragments = {
     ${MultipleChoiceAnswer.fragments.MultipleChoice}
     ${DateRange.fragments.DateRange}
     ${Date.fragments.Date}
-  `
+  `,
 };
 
 export default AnswerEditor;

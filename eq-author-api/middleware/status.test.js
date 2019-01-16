@@ -8,7 +8,7 @@ describe("status middleware", () => {
   beforeEach(() => {
     req = jest.fn();
     res = {
-      json: jest.fn()
+      json: jest.fn(),
     };
 
     previousEnv = process.env;
@@ -18,7 +18,7 @@ describe("status middleware", () => {
     status(req, res);
     expect(res.json).toHaveBeenCalledWith(
       expect.objectContaining({
-        status: "OK"
+        status: "OK",
       })
     );
   });
@@ -28,7 +28,7 @@ describe("status middleware", () => {
     status(req, res);
     expect(res.json).toHaveBeenCalledWith(
       expect.objectContaining({
-        version: process.env.EQ_AUTHOR_API_VERSION
+        version: process.env.EQ_AUTHOR_API_VERSION,
       })
     );
   });

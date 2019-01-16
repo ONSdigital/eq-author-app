@@ -9,7 +9,7 @@ describe("Duplicate Button", () => {
     props = {
       onClick: jest.fn(),
       "data-test": "foo",
-      withText: true
+      withText: true,
     };
   });
   it("should render", () => {

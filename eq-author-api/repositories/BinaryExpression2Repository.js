@@ -37,6 +37,6 @@ module.exports = knex => {
     getById,
     update,
     getByExpressionGroupId,
-    delete: del
+    delete: del,
   };
 };

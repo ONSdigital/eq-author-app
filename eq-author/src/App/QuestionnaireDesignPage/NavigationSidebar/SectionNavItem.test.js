@@ -8,13 +8,13 @@ describe("SectionNavItem", () => {
     id: "3",
     title: "Section",
     displayName: "Section",
-    pages: [page]
+    pages: [page],
   };
   const questionnaire = {
     id: "1",
     title: "Questionnaire",
     displayName: "Questionnaire",
-    sections: [section]
+    sections: [section],
   };
 
   it("should render", () => {
@@ -29,8 +29,8 @@ describe("SectionNavItem", () => {
         match={{
           params: {
             questionnaireId: "1",
-            tab: "design"
-          }
+            tab: "design",
+          },
         }}
       />
     );

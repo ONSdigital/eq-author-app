@@ -26,17 +26,17 @@ describe("Date Validation", () => {
         customDate: "2018-01-01",
         offset: {
           value: 5,
-          unit: "Months"
+          unit: "Months",
         },
         relativePosition: "Before",
-        entityType: CUSTOM
+        entityType: CUSTOM,
       },
       answer: {
         id: "1",
         type: DATE,
         properties: {
-          format: "YYYY"
-        }
+          format: "YYYY",
+        },
       },
       onCustomNumberValueChange: onCustomNumberValueChange,
       onChangeUpdate: onChangeUpdate,
@@ -45,7 +45,7 @@ describe("Date Validation", () => {
       onToggleValidationRule: onToggleValidationRule,
       displayName: "foobar",
       readKey: "read",
-      testId: "test-id"
+      testId: "test-id",
     };
 
     wrapper = createWrapper(props);
@@ -58,7 +58,7 @@ describe("Date Validation", () => {
   it("should render previous answer, metadata, custom and now for date type answer", () => {
     const answer = {
       ...props.answer,
-      type: DATE
+      type: DATE,
     };
     const wrapper = createWrapper({ ...props, answer });
     expect(wrapper.find(ValidationPills)).toMatchSnapshot();
@@ -67,7 +67,7 @@ describe("Date Validation", () => {
   it("should render metadata and custom for date range type answer", () => {
     const answer = {
       ...props.answer,
-      type: DATE_RANGE
+      type: DATE_RANGE,
     };
     const wrapper = createWrapper({ ...props, answer });
     expect(wrapper.find(ValidationPills)).toMatchSnapshot();
@@ -102,33 +102,33 @@ describe("Date Validation", () => {
 
   it("should correctly handle previous answer", () => {
     const previousAnswer = {
-      id: 1
+      id: 1,
     };
     const PreviousAnswer = wrapper.find(ValidationPills).prop("PreviousAnswer");
     shallow(<PreviousAnswer />).simulate("submit", {
       name: "previousAnswer",
-      value: previousAnswer
+      value: previousAnswer,
     });
 
     expect(onChangeUpdate).toHaveBeenCalledWith({
       name: "previousAnswer",
-      value: { id: 1 }
+      value: { id: 1 },
     });
   });
 
   it("should correctly handle metadata change", () => {
     const metadata = {
-      id: 1
+      id: 1,
     };
 
     const Metadata = wrapper.find(ValidationPills).prop("Metadata");
     shallow(<Metadata />).simulate("submit", {
       name: "metadata",
-      value: metadata
+      value: metadata,
     });
     expect(props.onChangeUpdate).toHaveBeenCalledWith({
       name: "metadata",
-      value: metadata
+      value: metadata,
     });
   });
 
@@ -141,8 +141,8 @@ describe("Date Validation", () => {
     const answer = {
       ...props.answer,
       properties: {
-        format: "mm/yyyy"
-      }
+        format: "mm/yyyy",
+      },
     };
     const wrapper = createWrapper({ ...props, answer });
     const duration = wrapper.find(Duration);
@@ -153,8 +153,8 @@ describe("Date Validation", () => {
     const answer = {
       ...props.answer,
       properties: {
-        format: "dd/mm/yyyy"
-      }
+        format: "dd/mm/yyyy",
+      },
     };
     const wrapper = createWrapper({ ...props, answer });
     const duration = wrapper.find(Duration);
@@ -165,8 +165,8 @@ describe("Date Validation", () => {
     const answer = {
       ...props.answer,
       properties: {
-        format: "yyyy"
-      }
+        format: "yyyy",
+      },
     };
     const wrapper = createWrapper({ ...props, answer });
     const duration = wrapper.find(Duration);
@@ -176,7 +176,7 @@ describe("Date Validation", () => {
   it("should render all units for date range answers", () => {
     const answer = {
       ...props.answer,
-      type: DATE_RANGE
+      type: DATE_RANGE,
     };
     const wrapper = createWrapper({ ...props, answer });
     const duration = wrapper.find(Duration);

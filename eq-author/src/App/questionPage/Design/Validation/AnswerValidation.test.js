@@ -2,7 +2,7 @@ import React from "react";
 import { shallow } from "enzyme";
 
 import SidebarButton, {
-  Detail as SidebarButtonDetail
+  Detail as SidebarButtonDetail,
 } from "components/buttons/SidebarButton";
 import ModalWithNav from "components/modals/ModalWithNav";
 import { UnconnectedAnswerValidation } from "App/questionPage/Design/Validation/AnswerValidation";
@@ -21,14 +21,14 @@ describe("AnswerValidation", () => {
         type: "Number",
         validation: {
           minValue: {
-            enabled: false
+            enabled: false,
           },
           maxValue: {
-            enabled: false
-          }
-        }
+            enabled: false,
+          },
+        },
       },
-      gotoTab: jest.fn()
+      gotoTab: jest.fn(),
     };
   });
 
@@ -70,10 +70,10 @@ describe("AnswerValidation", () => {
         validation: {
           minValue: {
             enabled: true,
-            custom: 5
-          }
-        }
-      }
+            custom: 5,
+          },
+        },
+      },
     });
 
     expect(
@@ -96,10 +96,10 @@ describe("AnswerValidation", () => {
               validation: {
                 maxValue: {
                   enabled: true,
-                  custom: 5
-                }
-              }
-            }
+                  custom: 5,
+                },
+              },
+            },
           });
 
         expect(
@@ -128,11 +128,11 @@ describe("AnswerValidation", () => {
                 maxValue: {
                   enabled: true,
                   previousAnswer: {
-                    displayName: "foobar"
-                  }
-                }
-              }
-            }
+                    displayName: "foobar",
+                  },
+                },
+              },
+            },
           });
 
         expect(

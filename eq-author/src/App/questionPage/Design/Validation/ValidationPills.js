@@ -23,7 +23,7 @@ export const ValidationPills = ({
   PreviousAnswer,
   Metadata,
   Now,
-  Custom
+  Custom,
 }) => {
   const handleOnChange = value =>
     onEntityTypeChange({ name: "entityType", value });
@@ -41,7 +41,7 @@ export const ValidationPills = ({
                 <PillTabContent>
                   <Now />
                 </PillTabContent>
-              )
+              ),
             }
           : null,
         isFunction(PreviousAnswer)
@@ -52,7 +52,7 @@ export const ValidationPills = ({
                 <PillTabContent>
                   <PreviousAnswer />
                 </PillTabContent>
-              )
+              ),
             }
           : null,
         isFunction(Metadata)
@@ -63,7 +63,7 @@ export const ValidationPills = ({
                 <PillTabContent>
                   <Metadata />
                 </PillTabContent>
-              )
+              ),
             }
           : null,
         isFunction(Custom)
@@ -74,9 +74,9 @@ export const ValidationPills = ({
                 <PillTabContent>
                   <Custom />
                 </PillTabContent>
-              )
+              ),
             }
-          : null
+          : null,
       ])}
     />
   );
@@ -88,5 +88,5 @@ ValidationPills.propTypes = {
   PreviousAnswer: PropTypes.func,
   Metadata: PropTypes.func,
   Custom: PropTypes.func,
-  Now: PropTypes.func
+  Now: PropTypes.func,
 };

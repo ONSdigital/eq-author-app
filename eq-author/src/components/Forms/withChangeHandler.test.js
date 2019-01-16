@@ -36,7 +36,7 @@ describe("withChangeHandler", () => {
     expect(handleChange).toHaveBeenCalledWith(
       expect.objectContaining({
         name: "foo",
-        value: "2"
+        value: "2",
       })
     );
   });
@@ -52,14 +52,14 @@ describe("withChangeHandler", () => {
     component.simulate("change", {
       target: {
         type: "checkbox",
-        checked: true
-      }
+        checked: true,
+      },
     });
 
     expect(handleChange).toHaveBeenCalledWith(
       expect.objectContaining({
         name: "foo",
-        value: true
+        value: true,
       })
     );
   });

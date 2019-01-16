@@ -22,7 +22,7 @@ const Form = ({ action, children, onSubmit, ...otherProps }) => (
 Form.propTypes = {
   action: PropTypes.string,
   children: PropTypes.node.isRequired,
-  onSubmit: PropTypes.func.isRequired
+  onSubmit: PropTypes.func.isRequired,
 };
 
 export default Form;

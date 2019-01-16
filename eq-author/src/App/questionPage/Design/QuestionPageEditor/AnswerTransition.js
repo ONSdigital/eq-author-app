@@ -12,7 +12,7 @@ const handleExit = node => {
 
 const AnswerTransition = styled(CSSTransition).attrs({
   classNames: "answer",
-  onExit: () => handleExit
+  onExit: () => handleExit,
 })`
   position: relative;
 
@@ -46,11 +46,11 @@ const AnswerTransition = styled(CSSTransition).attrs({
 
 AnswerTransition.propTypes = {
   timeout: PropTypes.number,
-  children: PropTypes.element
+  children: PropTypes.element,
 };
 
 AnswerTransition.defaultProps = {
-  timeout: 200
+  timeout: 200,
 };
 
 export default AnswerTransition;

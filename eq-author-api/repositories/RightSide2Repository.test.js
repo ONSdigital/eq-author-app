@@ -25,25 +25,25 @@ describe("Right Side Repository", () => {
             {
               answers: [
                 {
-                  type: answerTypes.NUMBER
+                  type: answerTypes.NUMBER,
                 },
                 {
-                  type: answerTypes.NUMBER
-                }
+                  type: answerTypes.NUMBER,
+                },
               ],
               routing: {
                 rules: [
                   {
                     expressionGroup: {
-                      expressions: [{}]
-                    }
-                  }
-                ]
-              }
-            }
-          ]
-        }
-      ]
+                      expressions: [{}],
+                    },
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      ],
     });
     const page = questionnaire.sections[0].pages[0];
     expression = page.routing.rules[0].expressionGroup.expressions[0];
@@ -54,13 +54,13 @@ describe("Right Side Repository", () => {
       const rightSide = await RightSideRepository.insert({
         expressionId: expression.id,
         customValue: { number: 42 },
-        type: "Custom"
+        type: "Custom",
       });
       expect(rightSide).toMatchObject({
         id: expect.any(Number),
         expressionId: expression.id,
         customValue: { number: 42 },
-        type: "Custom"
+        type: "Custom",
       });
     });
   });
@@ -70,14 +70,14 @@ describe("Right Side Repository", () => {
       const rightSide = await RightSideRepository.insert({
         expressionId: expression.id,
         customValue: { number: 42 },
-        type: "Custom"
+        type: "Custom",
       });
 
       const readRightSide = await RightSideRepository.getByExpressionId(
         expression.id
       );
       expect(readRightSide).toMatchObject({
-        id: rightSide.id
+        id: rightSide.id,
       });
     });
   });
@@ -87,7 +87,7 @@ describe("Right Side Repository", () => {
       await RightSideRepository.insert({
         expressionId: expression.id,
         customValue: { number: 42 },
-        type: "Custom"
+        type: "Custom",
       });
 
       await RightSideRepository.deleteByExpressionId(expression.id);
@@ -103,19 +103,19 @@ describe("Right Side Repository", () => {
     it("should be able to update the type and custom value", async () => {
       const rightSide = await RightSideRepository.insert({
         expressionId: expression.id,
-        type: "SelectedOptions"
+        type: "SelectedOptions",
       });
 
       const updateRightSide = await RightSideRepository.update({
         id: rightSide.id,
         type: "Custom",
-        customValue: { number: 42 }
+        customValue: { number: 42 },
       });
 
       expect(updateRightSide).toMatchObject({
         id: rightSide.id,
         type: "Custom",
-        customValue: { number: 42 }
+        customValue: { number: 42 },
       });
     });
   });

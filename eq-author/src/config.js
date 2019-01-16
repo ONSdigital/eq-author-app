@@ -17,7 +17,7 @@ const config = {
     window.config.REACT_APP_FULLSTORY_ORG ||
     process.env.REACT_APP_FULLSTORY_ORG,
   REACT_APP_SENTRY_DSN:
-    window.config.REACT_APP_SENTRY_DSN || process.env.REACT_APP_SENTRY_DSN
+    window.config.REACT_APP_SENTRY_DSN || process.env.REACT_APP_SENTRY_DSN,
 };
 
 export default config;

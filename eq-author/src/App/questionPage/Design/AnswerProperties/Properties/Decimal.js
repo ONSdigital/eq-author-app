@@ -16,7 +16,7 @@ const Decimal = ({ id, value, onChange }) => (
 Decimal.propTypes = {
   id: PropTypes.string.isRequired,
   value: PropTypes.number.isRequired,
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
 };
 
 export default Decimal;

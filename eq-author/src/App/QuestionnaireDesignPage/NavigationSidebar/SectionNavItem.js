@@ -17,7 +17,7 @@ export class UnwrappedSectionNavItem extends React.Component {
   static propTypes = {
     questionnaire: CustomPropTypes.questionnaire,
     section: CustomPropTypes.section.isRequired,
-    match: CustomPropTypes.match
+    match: CustomPropTypes.match,
   };
 
   render() {
@@ -26,7 +26,7 @@ export class UnwrappedSectionNavItem extends React.Component {
     const url = buildQuestionnairePath({
       questionnaireId: questionnaire.id,
       sectionId: section.id,
-      tab: match.params.tab
+      tab: match.params.tab,
     });
 
     return (
@@ -57,7 +57,7 @@ UnwrappedSectionNavItem.fragments = {
     }
 
     ${PageNav.fragments.PageNav}
-  `
+  `,
 };
 
 export default withRouter(UnwrappedSectionNavItem);

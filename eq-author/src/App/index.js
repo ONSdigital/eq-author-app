@@ -49,11 +49,11 @@ export const Routes = ({ isSignedIn, ...otherProps }) => (
 );
 
 Routes.propTypes = {
-  isSignedIn: PropTypes.bool.isRequired
+  isSignedIn: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
-  isSignedIn: isSignedIn(state)
+  isSignedIn: isSignedIn(state),
 });
 const ConnectedRoutes = connect(mapStateToProps)(Routes);
 
@@ -72,7 +72,7 @@ const App = ({ store, client, history }) => {
 App.propTypes = {
   client: CustomPropTypes.apolloClient.isRequired,
   store: CustomPropTypes.store.isRequired,
-  history: CustomPropTypes.history.isRequired
+  history: CustomPropTypes.history.isRequired,
 };
 
 export default App;

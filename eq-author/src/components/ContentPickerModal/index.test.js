@@ -4,19 +4,19 @@ import { omit } from "lodash";
 
 import BaseTabs from "components/BaseTabs";
 import ContentPickerModal, {
-  StyledCloseButton
+  StyledCloseButton,
 } from "components/ContentPickerModal";
 import {
   ANSWER,
   DESTINATION,
   METADATA,
-  QUESTION
+  QUESTION,
 } from "components/ContentPickerSelect/content-types";
 import {
   AnswerContentPicker,
   MetadataContentPicker,
   QuestionContentPicker,
-  RoutingDestinationContentPicker
+  RoutingDestinationContentPicker,
 } from "components/ContentPicker";
 
 describe("ContentPickerModal", () => {
@@ -30,7 +30,7 @@ describe("ContentPickerModal", () => {
       destinationData: { foo: "bar" },
       onSubmit: jest.fn(),
       onClose: jest.fn(),
-      contentTypes: [ANSWER, METADATA, QUESTION, DESTINATION]
+      contentTypes: [ANSWER, METADATA, QUESTION, DESTINATION],
     };
   });
 
@@ -86,7 +86,7 @@ describe("ContentPickerModal", () => {
       id: "1",
       displayName: "Foo",
       type: "text",
-      pipingType: "answers"
+      pipingType: "answers",
     });
   });
 
@@ -119,7 +119,7 @@ describe("ContentPickerModal", () => {
     expect(props.onSubmit).toHaveBeenCalledWith({
       id: "2",
       displayName: "Metadata",
-      pipingType: "metadata"
+      pipingType: "metadata",
     });
   });
 
@@ -153,7 +153,7 @@ describe("ContentPickerModal", () => {
       .simulate("submit", { id: "2", displayName: "Question" });
     expect(props.onSubmit).toHaveBeenCalledWith({
       id: "2",
-      displayName: "Question"
+      displayName: "Question",
     });
   });
 

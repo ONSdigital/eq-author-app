@@ -39,24 +39,24 @@ const GroupedSelect = ({ groups, onChange, value, valid, ...otherProps }) => {
 
 const OptionProp = PropTypes.shape({
   label: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired
+  value: PropTypes.string.isRequired,
 });
 
 const GroupProp = PropTypes.shape({
   label: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
-  options: PropTypes.arrayOf(OptionProp).isRequired
+  options: PropTypes.arrayOf(OptionProp).isRequired,
 });
 
 GroupedSelect.propTypes = {
   groups: PropTypes.arrayOf(GroupProp).isRequired,
   onChange: PropTypes.func.isRequired,
   value: PropTypes.string,
-  valid: PropTypes.bool
+  valid: PropTypes.bool,
 };
 
 GroupedSelect.defaultProps = {
-  valid: true
+  valid: true,
 };
 
 export default GroupedSelect;

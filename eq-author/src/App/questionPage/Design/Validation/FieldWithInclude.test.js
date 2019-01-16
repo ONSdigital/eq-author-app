@@ -15,7 +15,7 @@ describe("FieldWithInclude", () => {
       children: <div>Children</div>,
       id: "1",
       name: "name",
-      onChange: jest.fn()
+      onChange: jest.fn(),
     };
 
     wrapper = createWrapper(props);

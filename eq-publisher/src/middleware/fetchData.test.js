@@ -7,17 +7,17 @@ describe("fetchData", () => {
     res = {
       locals: {},
       send: jest.fn(() => res),
-      status: jest.fn(() => res)
+      status: jest.fn(() => res),
     };
 
     req = {
       params: {
-        questionnaireId: "123"
-      }
+        questionnaireId: "123",
+      },
     };
 
     API = {
-      getAuthorData: jest.fn(() => Promise.resolve({}))
+      getAuthorData: jest.fn(() => Promise.resolve({})),
     };
 
     next = jest.fn();
@@ -51,7 +51,7 @@ describe("fetchData", () => {
     expect(res.send).toHaveBeenCalledWith(
       expect.objectContaining({
         params: expect.any(Object),
-        error: expect.any(Object)
+        error: expect.any(Object),
       })
     );
   });
@@ -61,7 +61,7 @@ describe("fetchData", () => {
 
     API.getAuthorData.mockImplementation(() =>
       Promise.resolve({
-        data: { questionnaire }
+        data: { questionnaire },
       })
     );
 

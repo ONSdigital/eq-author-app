@@ -19,16 +19,16 @@ const Decorator = storyFn => <Wrapper>{storyFn()}</Wrapper>;
 const props = {
   match: {
     params: {
-      questionnaireId: "1"
-    }
+      questionnaireId: "1",
+    },
   },
   data: {
     questionnaire: {
-      id: "1"
-    }
+      id: "1",
+    },
   },
   onSubmit: action("submit"),
-  name: "previousAnswer"
+  name: "previousAnswer",
 };
 
 storiesOf("ContentPickerSelect", module)

@@ -30,7 +30,7 @@ export const UnwrappedPageNavItem = ({
         questionnaireId,
         sectionId,
         pageId: page.id,
-        tab: match.params.tab
+        tab: match.params.tab,
       })}
       title={page.displayName}
       icon={PageIcon}
@@ -52,14 +52,14 @@ UnwrappedPageNavItem.fragments = {
         id
       }
     }
-  `
+  `,
 };
 
 UnwrappedPageNavItem.propTypes = {
   sectionId: PropTypes.string.isRequired,
   questionnaireId: PropTypes.string.isRequired,
   page: CustomPropTypes.page,
-  match: CustomPropTypes.match
+  match: CustomPropTypes.match,
 };
 
 export default withRouter(UnwrappedPageNavItem);

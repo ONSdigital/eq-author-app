@@ -16,7 +16,7 @@ export const createUpdater = ({ from, to }) => (proxy, result) => {
   proxy.writeFragment({
     id: fromSectionId,
     fragment,
-    data: fromSection
+    data: fromSection,
   });
 
   const toSectionId = `Section${to.sectionId}`;
@@ -29,7 +29,7 @@ export const createUpdater = ({ from, to }) => (proxy, result) => {
   proxy.writeFragment({
     id: toSectionId,
     fragment,
-    data: toSection
+    data: toSection,
   });
 };
 
@@ -41,7 +41,7 @@ const redirect = ({ history, match }, { from, to }) => {
       buildPagePath({
         questionnaireId: match.params.questionnaireId,
         sectionId: to.sectionId,
-        pageId: to.id
+        pageId: to.id,
       })
     );
   }
@@ -54,25 +54,25 @@ export const mapMutateToProps = ({ ownProps, mutate }) => ({
         id: to.id,
         section: {
           id: to.sectionId,
-          __typename: "Section"
+          __typename: "Section",
         },
         position: to.position,
-        __typename: "QuestionPage"
-      }
+        __typename: "QuestionPage",
+      },
     };
 
     const mutation = mutate({
       update: createUpdater({ from, to }),
       variables: { input: to },
-      optimisticResponse
+      optimisticResponse,
     });
 
     return mutation
       .then(() => redirect(ownProps, { from, to }))
       .then(() => mutation);
-  }
+  },
 });
 
 export default graphql(movePageMutation, {
-  props: mapMutateToProps
+  props: mapMutateToProps,
 });

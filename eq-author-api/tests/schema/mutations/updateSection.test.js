@@ -25,10 +25,10 @@ describe("updateSection", () => {
       description: "This is an updated section description",
       introductionTitle: "updated intro title",
       introductionContent: "updated intro content",
-      introductionEnabled: true
+      introductionEnabled: true,
     };
     repositories = {
-      Section: mockRepository()
+      Section: mockRepository(),
     };
   });
 
@@ -36,7 +36,7 @@ describe("updateSection", () => {
     input = {
       id: "1",
       title: "Updated section title",
-      alias: "Updated section alias"
+      alias: "Updated section alias",
     };
 
     const result = await executeQuery(

@@ -37,11 +37,11 @@ const TD = styled.td`
 `;
 
 TD.propTypes = {
-  textAlign: PropTypes.oneOf(["left", "center", "right"])
+  textAlign: PropTypes.oneOf(["left", "center", "right"]),
 };
 
 TD.defaultProps = {
-  textAlign: "left"
+  textAlign: "left",
 };
 
 class Row extends React.Component {
@@ -52,7 +52,7 @@ class Row extends React.Component {
     in: PropTypes.bool,
     exit: PropTypes.bool,
     enter: PropTypes.bool,
-    autoFocus: PropTypes.bool
+    autoFocus: PropTypes.bool,
   };
 
   rowRef = React.createRef();

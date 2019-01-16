@@ -6,7 +6,7 @@ const mapper = {
   bold: { format: "BOLD", type: "styles" },
   emphasis: { format: "ITALIC", type: "styles" },
   list: { format: "unordered-list-item", type: "blocks" },
-  heading: { format: "header-two", type: "blocks" }
+  heading: { format: "header-two", type: "blocks" },
 };
 
 export default function createFormatStripper(controls) {
@@ -15,7 +15,7 @@ export default function createFormatStripper(controls) {
     styles: [],
     entities: [filterConfig],
     maxNesting: 0,
-    whitespacedCharacters: []
+    whitespacedCharacters: [],
   };
 
   mapKeys(controls, (value, key) => {

@@ -6,7 +6,7 @@ import { reject, includes, isUndefined } from "lodash";
 import Typeahead from "components/Forms/Typeahead";
 import {
   TableTypeaheadInput,
-  TableTypeaheadMenu
+  TableTypeaheadMenu,
 } from "components/datatable/Controls";
 
 export const suggestedKeys = [
@@ -22,7 +22,7 @@ export const suggestedKeys = [
   { value: "employmentDate" },
   { value: "region_code" },
   { value: "display_address" },
-  { value: "country" }
+  { value: "country" },
 ];
 
 export const removeUsedKeys = usedKeys =>
@@ -30,7 +30,7 @@ export const removeUsedKeys = usedKeys =>
 
 class KeySelect extends Component {
   state = {
-    value: this.props.defaultValue || ""
+    value: this.props.defaultValue || "",
   };
 
   getChangeValue = changes => {
@@ -109,7 +109,7 @@ KeySelect.propTypes = {
   defaultValue: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
-  usedKeys: PropTypes.arrayOf(PropTypes.string).isRequired
+  usedKeys: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default KeySelect;

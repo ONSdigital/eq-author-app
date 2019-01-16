@@ -14,8 +14,8 @@ describe("Answer", () => {
         type: "Number",
         properties: {
           required: true,
-          decimals: 2
-        }
+          decimals: 2,
+        },
       },
       answer
     );
@@ -28,7 +28,7 @@ describe("Answer", () => {
       type: "Number",
       mandatory: true,
       decimal_places: 2,
-      description: "This is a description"
+      description: "This is a description",
     });
   });
 
@@ -42,8 +42,8 @@ describe("Answer", () => {
       createAnswerJSON({
         type: "Date",
         properties: {
-          format: "dd/mm/yyyy"
-        }
+          format: "dd/mm/yyyy",
+        },
       })
     );
     expect(date.type).toBe("Date");
@@ -52,8 +52,8 @@ describe("Answer", () => {
       createAnswerJSON({
         type: "Date",
         properties: {
-          format: "mm/yyyy"
-        }
+          format: "mm/yyyy",
+        },
       })
     );
     expect(monthYearDate.type).toBe("MonthYearDate");
@@ -62,8 +62,8 @@ describe("Answer", () => {
       createAnswerJSON({
         type: "Date",
         properties: {
-          format: "yyyy"
-        }
+          format: "yyyy",
+        },
       })
     );
     expect(yearDate.type).toBe("YearDate");
@@ -72,7 +72,7 @@ describe("Answer", () => {
     it("should not add validation if undefined", () => {
       const answer = new Answer(
         createAnswerJSON({
-          validation: null
+          validation: null,
         })
       );
       expect(answer.validation).toBeUndefined();
@@ -84,16 +84,16 @@ describe("Answer", () => {
           validation: {
             minValue: {
               id: "2",
-              enabled: false
+              enabled: false,
             },
             maxValue: {
               id: "1",
               inclusive: false,
               enabled: true,
               custom: 5,
-              entityType: "Typefoo"
-            }
-          }
+              entityType: "Typefoo",
+            },
+          },
         })
       );
       expect(answer.max_value).toBeUndefined();
@@ -106,20 +106,20 @@ describe("Answer", () => {
             validation: {
               minValue: {
                 id: "2",
-                enabled: false
+                enabled: false,
               },
               maxValue: {
                 id: "1",
                 inclusive: false,
                 enabled: true,
-                custom: 5
-              }
-            }
+                custom: 5,
+              },
+            },
           })
         );
         expect(answer.max_value).toMatchObject({
           value: 5,
-          exclusive: true
+          exclusive: true,
         });
       });
 
@@ -129,16 +129,16 @@ describe("Answer", () => {
             validation: {
               minValue: {
                 id: "2",
-                enabled: false
+                enabled: false,
               },
               maxValue: {
                 id: "1",
                 inclusive: false,
                 enabled: true,
                 custom: null,
-                entityType: "Custom"
-              }
-            }
+                entityType: "Custom",
+              },
+            },
           })
         );
         expect(answer.max_value).toBeUndefined();
@@ -150,7 +150,7 @@ describe("Answer", () => {
             validation: {
               minValue: {
                 id: "2",
-                enabled: false
+                enabled: false,
               },
               maxValue: {
                 id: "1",
@@ -158,14 +158,14 @@ describe("Answer", () => {
                 enabled: true,
                 entityType: "PreviousAnswer",
                 previousAnswer: {
-                  id: "3"
-                }
-              }
-            }
+                  id: "3",
+                },
+              },
+            },
           })
         );
         expect(answer.max_value).toMatchObject({
-          answer_id: "answer3"
+          answer_id: "answer3",
         });
       });
 
@@ -175,16 +175,16 @@ describe("Answer", () => {
             validation: {
               minValue: {
                 id: "2",
-                enabled: false
+                enabled: false,
               },
               maxValue: {
                 id: "1",
                 inclusive: true,
                 enabled: true,
                 entityType: "PreviousAnswer",
-                previousAnswer: null
-              }
-            }
+                previousAnswer: null,
+              },
+            },
           })
         );
         expect(answer.max_value).toBeUndefined();
@@ -203,14 +203,14 @@ describe("Answer", () => {
               custom: "2017-02-17",
               offset: {
                 value: 4,
-                unit: "Days"
+                unit: "Days",
               },
-              relativePosition: "Before"
+              relativePosition: "Before",
             },
             latestDate: {
-              enabled: false
-            }
-          }
+              enabled: false,
+            },
+          },
         };
       });
 
@@ -232,19 +232,19 @@ describe("Answer", () => {
                 custom: null,
                 offset: {
                   value: 4,
-                  unit: "Days"
+                  unit: "Days",
                 },
-                relativePosition: "Before"
+                relativePosition: "Before",
               },
               latestDate: {
-                enabled: false
-              }
-            }
+                enabled: false,
+              },
+            },
           })
         );
         expect(answer.minimum).toMatchObject({
           offset_by: { days: -4 },
-          value: "now"
+          value: "now",
         });
       });
 
@@ -259,23 +259,23 @@ describe("Answer", () => {
                 entityType: "PreviousAnswer",
                 custom: null,
                 previousAnswer: {
-                  id: "3"
+                  id: "3",
                 },
                 offset: {
                   value: 4,
-                  unit: "Days"
+                  unit: "Days",
                 },
-                relativePosition: "Before"
+                relativePosition: "Before",
               },
               latestDate: {
-                enabled: false
-              }
-            }
+                enabled: false,
+              },
+            },
           })
         );
 
         expect(answer.minimum).toMatchObject({
-          answer_id: "answer3"
+          answer_id: "answer3",
         });
       });
 
@@ -291,23 +291,23 @@ describe("Answer", () => {
                 custom: null,
                 previousAnswer: null,
                 metadata: {
-                  key: "test_ref"
+                  key: "test_ref",
                 },
                 offset: {
                   value: 4,
-                  unit: "Days"
+                  unit: "Days",
                 },
-                relativePosition: "Before"
+                relativePosition: "Before",
               },
               latestDate: {
-                enabled: false
-              }
-            }
+                enabled: false,
+              },
+            },
           })
         );
 
         expect(answer.minimum).toMatchObject({
-          meta: "test_ref"
+          meta: "test_ref",
         });
       });
 
@@ -324,14 +324,14 @@ describe("Answer", () => {
                 previousAnswer: null,
                 offset: {
                   value: 4,
-                  unit: "Days"
+                  unit: "Days",
                 },
-                relativePosition: "Before"
+                relativePosition: "Before",
               },
               latestDate: {
-                enabled: false
-              }
-            }
+                enabled: false,
+              },
+            },
           })
         );
         expect(answer.minimum).toBeUndefined();
@@ -351,14 +351,14 @@ describe("Answer", () => {
                 metadata: null,
                 offset: {
                   value: 4,
-                  unit: "Days"
+                  unit: "Days",
                 },
-                relativePosition: "Before"
+                relativePosition: "Before",
               },
               latestDate: {
-                enabled: false
-              }
-            }
+                enabled: false,
+              },
+            },
           })
         );
         expect(answer.minimum).toBeUndefined();
@@ -368,11 +368,11 @@ describe("Answer", () => {
         authorDateAnswer.validation.earliestDate.relativePosition = "After";
         authorDateAnswer.validation.earliestDate.offset = {
           value: 4,
-          unit: "Days"
+          unit: "Days",
         };
         const answer = new Answer(createAnswerJSON(authorDateAnswer));
         expect(answer.minimum.offset_by).toMatchObject({
-          days: 4
+          days: 4,
         });
       });
 
@@ -380,11 +380,11 @@ describe("Answer", () => {
         authorDateAnswer.validation.earliestDate.relativePosition = "Before";
         authorDateAnswer.validation.earliestDate.offset = {
           value: 7,
-          unit: "Months"
+          unit: "Months",
         };
         const answer = new Answer(createAnswerJSON(authorDateAnswer));
         expect(answer.minimum.offset_by).toMatchObject({
-          months: -7
+          months: -7,
         });
       });
 
@@ -408,7 +408,7 @@ describe("Answer", () => {
           type: "Date",
           validation: {
             earliestDate: {
-              enabled: false
+              enabled: false,
             },
             latestDate: {
               id: "1",
@@ -416,11 +416,11 @@ describe("Answer", () => {
               custom: "2017-02-17",
               offset: {
                 value: 4,
-                unit: "Days"
+                unit: "Days",
               },
-              relativePosition: "Before"
-            }
-          }
+              relativePosition: "Before",
+            },
+          },
         };
       });
 
@@ -441,23 +441,23 @@ describe("Answer", () => {
                 entityType: "PreviousAnswer",
                 custom: null,
                 previousAnswer: {
-                  id: "3"
+                  id: "3",
                 },
                 offset: {
                   value: 4,
-                  unit: "Days"
+                  unit: "Days",
                 },
-                relativePosition: "Before"
+                relativePosition: "Before",
               },
               earliestDate: {
-                enabled: false
-              }
-            }
+                enabled: false,
+              },
+            },
           })
         );
 
         expect(answer.maximum).toMatchObject({
-          answer_id: "answer3"
+          answer_id: "answer3",
         });
       });
 
@@ -467,7 +467,7 @@ describe("Answer", () => {
             type: "Date",
             validation: {
               earliestDate: {
-                enabled: false
+                enabled: false,
               },
               latestDate: {
                 id: "1",
@@ -476,16 +476,16 @@ describe("Answer", () => {
                 custom: null,
                 offset: {
                   value: 3,
-                  unit: "Years"
+                  unit: "Years",
                 },
-                relativePosition: "After"
-              }
-            }
+                relativePosition: "After",
+              },
+            },
           })
         );
         expect(answer.maximum).toMatchObject({
           offset_by: { years: 3 },
-          value: "now"
+          value: "now",
         });
       });
 
@@ -501,23 +501,23 @@ describe("Answer", () => {
                 custom: null,
                 previousAnswer: null,
                 metadata: {
-                  key: "test_ref"
+                  key: "test_ref",
                 },
                 offset: {
                   value: 4,
-                  unit: "Days"
+                  unit: "Days",
                 },
-                relativePosition: "Before"
+                relativePosition: "Before",
               },
               earliestDate: {
-                enabled: false
-              }
-            }
+                enabled: false,
+              },
+            },
           })
         );
 
         expect(answer.maximum).toMatchObject({
-          meta: "test_ref"
+          meta: "test_ref",
         });
       });
 
@@ -534,14 +534,14 @@ describe("Answer", () => {
                 previousAnswer: null,
                 offset: {
                   value: 4,
-                  unit: "Days"
+                  unit: "Days",
                 },
-                relativePosition: "Before"
+                relativePosition: "Before",
               },
               earliestDate: {
-                enabled: false
-              }
-            }
+                enabled: false,
+              },
+            },
           })
         );
         expect(answer.maximum).toBeUndefined();
@@ -561,14 +561,14 @@ describe("Answer", () => {
                 metadata: null,
                 offset: {
                   value: 4,
-                  unit: "Days"
+                  unit: "Days",
                 },
-                relativePosition: "Before"
+                relativePosition: "Before",
               },
               earliestDate: {
-                enabled: false
-              }
-            }
+                enabled: false,
+              },
+            },
           })
         );
         expect(answer.maximum).toBeUndefined();
@@ -578,11 +578,11 @@ describe("Answer", () => {
         authorDateAnswer.validation.latestDate.relativePosition = "After";
         authorDateAnswer.validation.latestDate.offset = {
           value: 4,
-          unit: "Days"
+          unit: "Days",
         };
         const answer = new Answer(createAnswerJSON(authorDateAnswer));
         expect(answer.maximum.offset_by).toMatchObject({
-          days: 4
+          days: 4,
         });
       });
 
@@ -590,11 +590,11 @@ describe("Answer", () => {
         authorDateAnswer.validation.latestDate.relativePosition = "Before";
         authorDateAnswer.validation.latestDate.offset = {
           value: 7,
-          unit: "Months"
+          unit: "Months",
         };
         const answer = new Answer(createAnswerJSON(authorDateAnswer));
         expect(answer.maximum.offset_by).toMatchObject({
-          months: -7
+          months: -7,
         });
       });
 
@@ -626,14 +626,14 @@ describe("Answer", () => {
             {
               id: 1,
               label: "Option one",
-              description: "A short description"
+              description: "A short description",
             },
             {
               id: 2,
               label: "Option two",
-              description: "Another description"
-            }
-          ]
+              description: "Another description",
+            },
+          ],
         })
       );
 
@@ -641,13 +641,13 @@ describe("Answer", () => {
         {
           label: "Option one",
           value: "Option one",
-          description: "A short description"
+          description: "A short description",
         },
         {
           label: "Option two",
           value: "Option two",
-          description: "Another description"
-        }
+          description: "Another description",
+        },
       ]);
     });
 
@@ -658,13 +658,13 @@ describe("Answer", () => {
           options: [
             {
               id: 1,
-              label: "Option one"
+              label: "Option one",
             },
             {
               id: 2,
-              label: "Option two"
-            }
-          ]
+              label: "Option two",
+            },
+          ],
         })
       );
 
@@ -687,26 +687,26 @@ describe("Answer", () => {
           {
             id: 1,
             label: "Option one",
-            description: null
+            description: null,
           },
           {
             id: 2,
             label: "Option two",
-            description: null
-          }
-        ]
+            description: null,
+          },
+        ],
       })
     );
 
     expect(answer.options).toEqual([
       {
         label: "Option one",
-        value: "Option one"
+        value: "Option one",
       },
       {
         label: "Option two",
-        value: "Option two"
-      }
+        value: "Option two",
+      },
     ]);
   });
 
@@ -721,11 +721,11 @@ describe("Answer", () => {
         options: [
           {
             id: 1,
-            label: "One"
+            label: "One",
           },
           {
             id: 2,
-            label: "Two"
+            label: "Two",
           },
           {
             id: 3,
@@ -733,15 +733,15 @@ describe("Answer", () => {
             additionalAnswer: {
               id: 4,
               label: "Additional",
-              type: "TextField"
-            }
-          }
-        ]
+              type: "TextField",
+            },
+          },
+        ],
       });
 
       question = new Question(
         createAnswerJSON({
-          answers: [checkboxWithAdditionalAnswers]
+          answers: [checkboxWithAdditionalAnswers],
         })
       );
     });
@@ -754,8 +754,8 @@ describe("Answer", () => {
             id: "answer4",
             label: "Additional",
             type: "TextField",
-            mandatory: true
-          }
+            mandatory: true,
+          },
         })
       );
     });

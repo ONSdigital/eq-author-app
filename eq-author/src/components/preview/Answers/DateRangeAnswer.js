@@ -18,9 +18,9 @@ DateRangeAnswer.propTypes = {
   answer: PropTypes.shape({
     childAnswers: PropTypes.arrayOf(DateAnswer.propTypes.answer).isRequired,
     properties: PropTypes.shape({
-      format: PropTypes.string
-    }).isRequired
-  })
+      format: PropTypes.string,
+    }).isRequired,
+  }),
 };
 
 export default DateRangeAnswer;

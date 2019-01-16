@@ -13,7 +13,7 @@ describe("settings", () => {
       createQuestionnaire,
       GetQuestionPage,
       GetQuestionnaire,
-      GetQuestionnaireList
+      GetQuestionnaireList,
     });
     cy.login();
     cy.get(testId("create-questionnaire")).click();

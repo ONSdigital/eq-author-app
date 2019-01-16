@@ -11,7 +11,7 @@ import Truncated from "components/Truncated";
 
 const Input = VisuallyHidden.withComponent("input");
 Input.defaultProps = {
-  type: "radio"
+  type: "radio",
 };
 
 const Label = styled.label`
@@ -77,7 +77,7 @@ Option.propTypes = {
   name: PropTypes.string,
   onChange: PropTypes.func,
   id: PropTypes.string,
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
 };
 
 const ItemSelect = ({ children, value, name, onChange, ...otherProps }) => (
@@ -86,7 +86,7 @@ const ItemSelect = ({ children, value, name, onChange, ...otherProps }) => (
       React.cloneElement(child, {
         onChange,
         name,
-        selected: child.props.value === value
+        selected: child.props.value === value,
       })
     )}
   </div>
@@ -96,7 +96,7 @@ ItemSelect.propTypes = {
   children: PropTypes.node.isRequired,
   value: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
 };
 
 export default withChangeHandler(ItemSelect);

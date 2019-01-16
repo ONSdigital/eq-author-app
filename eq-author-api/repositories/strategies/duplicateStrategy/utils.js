@@ -1,7 +1,7 @@
 const { omit, head, get, isNil, isFunction } = require("lodash");
 const {
   getOrUpdateOrderForPageInsert,
-  getOrUpdateOrderForSectionInsert
+  getOrUpdateOrderForSectionInsert,
 } = require("../spacedOrderStrategy");
 
 const insertData = async (
@@ -92,7 +92,7 @@ const duplicateTree = async (trx, tree, references) => {
     table,
     where,
     noIsDeleted,
-    transform
+    transform,
   } = entityTypeToDuplicate;
 
   const selectQuery = trx
@@ -124,7 +124,7 @@ const duplicateTree = async (trx, tree, references) => {
     links.reduce(
       (e, { column, entityName }) => ({
         ...e,
-        [column]: (references[entityName] || {})[e[column]] || e[column]
+        [column]: (references[entityName] || {})[e[column]] || e[column],
       }),
       omit(entity, FIELDS_TO_NEVER_DUPLICATE)
     );
@@ -154,5 +154,5 @@ module.exports = {
   insertData,
   selectData,
   duplicateRecord,
-  duplicateTree
+  duplicateTree,
 };

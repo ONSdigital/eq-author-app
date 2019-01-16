@@ -4,7 +4,7 @@ import { UnwrappedPageNavItem } from "./PageNavItem";
 
 const page = {
   id: "3",
-  displayName: "Page title"
+  displayName: "Page title",
 };
 
 describe("PageNavItem", () => {
@@ -18,7 +18,7 @@ describe("PageNavItem", () => {
         title="Title"
         page={page}
         match={{
-          params: { questionnaireId: "1", sectionId: "2", pageId: page.id }
+          params: { questionnaireId: "1", sectionId: "2", pageId: page.id },
         }}
       />
     );

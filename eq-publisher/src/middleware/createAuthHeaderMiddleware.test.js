@@ -1,13 +1,12 @@
 const createAuthHeaderMiddleware = require("./createAuthHeaderMiddleware");
 
 describe("createAuthHeaderMiddleware", () => {
-
   let apolloFetch;
 
   beforeEach(() => {
     apolloFetch = {
-      use: jest.fn()
-    }
+      use: jest.fn(),
+    };
   });
 
   it("should return a middleware function", () => {
@@ -17,7 +16,6 @@ describe("createAuthHeaderMiddleware", () => {
   });
 
   describe("calling middleware", () => {
-
     let middleware;
 
     let req;
@@ -30,8 +28,8 @@ describe("createAuthHeaderMiddleware", () => {
       req = jest.fn();
       res = {
         locals: {
-          accessToken: "abc.def.ghi"
-        }
+          accessToken: "abc.def.ghi",
+        },
       };
       next = jest.fn();
     });

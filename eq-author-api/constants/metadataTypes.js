@@ -7,5 +7,5 @@ module.exports = {
   DATE,
   TEXT,
   LANGUAGE,
-  REGION
+  REGION,
 };

@@ -25,13 +25,13 @@ const StyledInput = styled(Input)`
 
 class Number extends React.Component {
   state = {
-    value: this.props.value
+    value: this.props.value,
   };
 
   onComponentDidUpdate() {
     if (this.props.value !== this.state.value) {
       this.setState({
-        value: this.props.value
+        value: this.props.value,
       });
     }
   }
@@ -40,7 +40,7 @@ class Number extends React.Component {
     if (this.props.value !== prevProps.value) {
       /*eslint-disable-next-line  */
       this.setState({
-        value: this.props.value
+        value: this.props.value,
       });
     }
   }
@@ -67,7 +67,7 @@ class Number extends React.Component {
 
     this.props.onChange({
       name,
-      value: newValue
+      value: newValue,
     });
     if (this.props.onBlur) {
       setImmediate(() => {
@@ -97,7 +97,7 @@ class Number extends React.Component {
 Number.defaultProps = {
   min: 0,
   step: 1,
-  default: 0
+  default: 0,
 };
 
 Number.propTypes = {
@@ -109,7 +109,7 @@ Number.propTypes = {
   step: PropTypes.number,
   min: PropTypes.number,
   max: PropTypes.number.isRequired,
-  default: PropTypes.number
+  default: PropTypes.number,
 };
 
 export default Number;

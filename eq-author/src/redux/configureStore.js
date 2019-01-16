@@ -3,7 +3,7 @@ import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 import {
   routerMiddleware as createRouterMiddleware,
-  routerReducer as router
+  routerReducer as router,
 } from "react-router-redux";
 import toasts from "redux/toast/reducer";
 import saving from "redux/saving/reducer";
@@ -18,7 +18,7 @@ const configureStore = (history, client, preloadedState) =>
       saving,
       tabs,
       toasts,
-      auth: authReducer
+      auth: authReducer,
     }),
     preloadedState,
     composeWithDevTools(

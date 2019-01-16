@@ -7,7 +7,7 @@ let mockHandlers, condition;
 describe("components/MultipleChoiceAnswerOptionsSelector", () => {
   beforeEach(() => {
     mockHandlers = {
-      onOptionSelectionChange: jest.fn()
+      onOptionSelectionChange: jest.fn(),
     };
 
     condition = {
@@ -15,12 +15,12 @@ describe("components/MultipleChoiceAnswerOptionsSelector", () => {
         options: [
           { label: "a", id: "1" },
           { label: "b", id: "2" },
-          { label: "c", id: "3" }
-        ]
+          { label: "c", id: "3" },
+        ],
       },
       routingValue: {
-        value: ["1", "2"]
-      }
+        value: ["1", "2"],
+      },
     };
   });
 
@@ -57,7 +57,7 @@ describe("components/MultipleChoiceAnswerOptionsSelector", () => {
 
   it("should offer 'other' option if answer has one", () => {
     const other = {
-      option: { label: "other", id: "4" }
+      option: { label: "other", id: "4" },
     };
     condition.answer.other = other;
 

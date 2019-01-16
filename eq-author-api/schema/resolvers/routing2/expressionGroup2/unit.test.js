@@ -8,9 +8,9 @@ describe("ExpressionGroup2 Unit", () => {
     const ctx = {
       repositories: {
         ExpressionGroup2: {
-          update: jest.fn(input => Promise.resolve(input))
-        }
-      }
+          update: jest.fn(input => Promise.resolve(input)),
+        },
+      },
     };
     const updateExpressionGroup2 = `
     mutation updateExpressionGroup2($input: UpdateExpressionGroup2Input!) {
@@ -30,13 +30,13 @@ describe("ExpressionGroup2 Unit", () => {
     expect(updateResult.errors).toBeUndefined();
     expect(ctx.repositories.ExpressionGroup2.update).toHaveBeenCalledWith({
       id: EXPRESSION_GROUP_ID.toString(),
-      operator: OR
+      operator: OR,
     });
     expect(updateResult.data).toMatchObject({
       updateExpressionGroup2: {
         id: EXPRESSION_GROUP_ID.toString(),
-        operator: OR
-      }
+        operator: OR,
+      },
     });
   });
 });

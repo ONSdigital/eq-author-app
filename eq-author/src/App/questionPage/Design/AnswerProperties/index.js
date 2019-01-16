@@ -6,11 +6,11 @@ import CustomPropTypes from "custom-prop-types";
 import {
   Required,
   Decimal,
-  DateFormat
+  DateFormat,
 } from "App/questionPage/Design/AnswerProperties/Properties";
 import {
   InlineField,
-  MultiLineField
+  MultiLineField,
 } from "App/questionPage/Design/AnswerProperties/Fields";
 
 import { CURRENCY, DATE, NUMBER } from "constants/answer-types";
@@ -19,18 +19,18 @@ class AnswerProperties extends React.Component {
   static propTypes = {
     answer: CustomPropTypes.answer.isRequired,
     onSubmit: PropTypes.func,
-    onUpdateAnswer: PropTypes.func.isRequired
+    onUpdateAnswer: PropTypes.func.isRequired,
   };
 
   handleChange = propName => ({ value }) => {
     const { id, properties: currentProperties } = this.props.answer;
     const properties = merge({}, currentProperties, {
-      [propName]: value
+      [propName]: value,
     });
 
     this.props.onUpdateAnswer({
       id,
-      properties
+      properties,
     });
   };
 

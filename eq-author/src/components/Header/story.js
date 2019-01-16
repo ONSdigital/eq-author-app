@@ -9,7 +9,7 @@ const user = {
   name: "Angelina McLongmoniker",
   photoURL: "",
   displayName: "Angelina McLongmoniker",
-  email: "test@test.com"
+  email: "test@test.com",
 };
 
 storiesOf("Header", module)
@@ -20,7 +20,7 @@ storiesOf("Header", module)
     <Header
       user={user}
       questionnaire={{
-        title: "Morbi leo risus porta ac consectetur ac vestibulum at eros"
+        title: "Morbi leo risus porta ac consectetur ac vestibulum at eros",
       }}
       signOutUser={action("sign out user")}
       raiseToast={action("copied")}

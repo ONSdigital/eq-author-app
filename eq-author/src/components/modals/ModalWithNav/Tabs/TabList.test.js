@@ -5,7 +5,7 @@ import TabList from "./TabList";
 
 describe("Tab List", () => {
   const props = {
-    title: "hello world"
+    title: "hello world",
   };
 
   it("should render the sidebar with title and children", () => {

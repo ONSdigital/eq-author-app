@@ -19,7 +19,7 @@ describe("BasicAnswer", () => {
       title: "Answer title",
       description: "Answer description",
       label: "",
-      type: "TextField"
+      type: "TextField",
     };
     onChange = jest.fn();
     onUpdate = jest.fn();
@@ -29,7 +29,7 @@ describe("BasicAnswer", () => {
       answer,
       onChange,
       onUpdate,
-      children: <div>This is the child component</div>
+      children: <div>This is the child component</div>,
     };
   });
 

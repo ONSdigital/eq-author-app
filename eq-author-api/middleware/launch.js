@@ -5,7 +5,7 @@ const { sanitiseMetadata } = require("../utils/sanitiseMetadata");
 const buildClaims = metadata => {
   const result = {
     claims: {},
-    errors: []
+    errors: [],
   };
 
   metadata.map(({ key, value, id, type }) => {
@@ -15,7 +15,7 @@ const buildClaims = metadata => {
 
     return assign(result.claims, {
       [key]:
-        type === "Date" ? new Date(value).toISOString().split("T")[0] : value
+        type === "Date" ? new Date(value).toISOString().split("T")[0] : value,
     });
   });
 
@@ -28,7 +28,7 @@ module.exports.getLaunchUrl = ctx => async (req, res, next) => {
   const questionnaireId = req.params.questionnaireId;
 
   const result = await ctx.repositories.Metadata.findAll({
-    questionnaireId
+    questionnaireId,
   });
 
   const { errors, claims: metadataValues } = buildClaims(result);

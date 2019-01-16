@@ -15,13 +15,13 @@ describe("QuestionnairesTable", () => {
       sections: [
         {
           id: "1",
-          pages: [{ id: "1" }]
-        }
+          pages: [{ id: "1" }],
+        },
       ],
       createdBy: {
         id: "1",
-        name: "Alan"
-      }
+        name: "Alan",
+      },
     },
     {
       id: "2",
@@ -30,21 +30,21 @@ describe("QuestionnairesTable", () => {
       sections: [
         {
           id: "2",
-          pages: [{ id: "2" }]
-        }
+          pages: [{ id: "2" }],
+        },
       ],
       createdBy: {
         id: "2",
-        name: "Lynn"
-      }
-    }
+        name: "Lynn",
+      },
+    },
   ];
 
   const user = {
     id: "3",
     name: "Foo",
     email: "foo@bar.com",
-    displayName: "Foo"
+    displayName: "Foo",
   };
 
   let handleDeleteQuestionnaire, handleDuplicateQuestionnaire, headRef;
@@ -54,8 +54,8 @@ describe("QuestionnairesTable", () => {
     handleDuplicateQuestionnaire = jest.fn();
     headRef = {
       current: {
-        scrollIntoView: jest.fn()
-      }
+        scrollIntoView: jest.fn(),
+      },
     };
   });
 
@@ -99,8 +99,8 @@ describe("QuestionnairesTable", () => {
     const instance = wrapper.instance();
     const headRef = {
       current: {
-        scrollIntoView: jest.fn()
-      }
+        scrollIntoView: jest.fn(),
+      },
     };
     instance.headRef = headRef;
 
@@ -140,11 +140,11 @@ describe("QuestionnairesTable", () => {
           title: "My dupe",
           createdAt: "12-09-2040",
           createdBy: {
-            displayName: "Dave"
-          }
+            displayName: "Dave",
+          },
         },
-        ...questionnaires
-      ]
+        ...questionnaires,
+      ],
     });
 
     wrapper.update();
@@ -180,8 +180,8 @@ describe("QuestionnairesTable", () => {
     ).toMatchObject({
       autoFocus: true,
       questionnaire: {
-        id: "2"
-      }
+        id: "2",
+      },
     });
   });
 
@@ -208,8 +208,8 @@ describe("QuestionnairesTable", () => {
     ).toMatchObject({
       autoFocus: true,
       questionnaire: {
-        id: "1"
-      }
+        id: "1",
+      },
     });
   });
 });

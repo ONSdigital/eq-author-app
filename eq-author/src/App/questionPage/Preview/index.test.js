@@ -22,9 +22,9 @@ describe("PreviewPageRoute", () => {
         id: "1",
         questionnaire: {
           id: "1",
-          metadata: []
-        }
-      }
+          metadata: [],
+        },
+      },
     };
   });
 

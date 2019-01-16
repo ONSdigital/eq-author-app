@@ -9,8 +9,8 @@ export default (state = {}, action) => {
         [action.payload.id]: {
           message: action.payload.message,
           undoAction: action.payload.undoAction,
-          context: action.payload.context
-        }
+          context: action.payload.context,
+        },
       };
     }
     case TOAST_DISMISS: {

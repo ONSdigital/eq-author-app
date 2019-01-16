@@ -15,5 +15,5 @@ module.exports = {
   CURRENCY,
   NUMBER,
   DATE,
-  DATE_RANGE
+  DATE_RANGE,
 };

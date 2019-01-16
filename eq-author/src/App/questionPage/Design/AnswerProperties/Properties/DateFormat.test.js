@@ -15,7 +15,7 @@ describe("DateFormat Property", () => {
     props = {
       id: "1",
       value: "dd/mm/yyyy",
-      onChange: jest.fn()
+      onChange: jest.fn(),
     };
   });
 
@@ -30,7 +30,7 @@ describe("DateFormat Property", () => {
 
     expect(props.onChange).toHaveBeenCalledWith({
       name: "1",
-      value: "mm/yy"
+      value: "mm/yy",
     });
   });
 });

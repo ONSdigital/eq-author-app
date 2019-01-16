@@ -16,7 +16,7 @@ describe("Knex", () => {
       host: "localhost",
       port: 5432,
       dbname: "author",
-      dbInstanceIdentifier: "authordb"
+      dbInstanceIdentifier: "authordb",
     };
 
     require("aws-sdk").__setSecretValue(JSON.stringify(secretValue));
@@ -29,7 +29,7 @@ describe("Knex", () => {
       password: secretValue.password,
       database: secretValue.dbname,
       dbInstanceIdentifier: secretValue.dbInstanceIdentifier,
-      engine: secretValue.engine
+      engine: secretValue.engine,
     });
   });
 

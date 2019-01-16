@@ -19,15 +19,15 @@ describe("MetadataContentPicker", () => {
           bar: [
             {
               id: "1",
-              displayName: "foobar1"
+              displayName: "foobar1",
             },
             {
               id: "2",
-              displayName: "foobar2"
-            }
-          ]
-        }
-      }
+              displayName: "foobar2",
+            },
+          ],
+        },
+      },
     };
 
     wrapper = render(props);

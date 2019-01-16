@@ -21,10 +21,10 @@ export class UnwrappedQuestionConfirmationRoute extends React.Component {
     loading: PropTypes.bool.isRequired,
     error: PropTypes.object, // eslint-disable-line
     data: PropTypes.shape({
-      questionConfirmation: propType(Editor.fragments.QuestionConfirmation)
+      questionConfirmation: propType(Editor.fragments.QuestionConfirmation),
     }),
     onUpdateQuestionConfirmation: PropTypes.func.isRequired,
-    onDeleteQuestionConfirmation: PropTypes.func.isRequired
+    onDeleteQuestionConfirmation: PropTypes.func.isRequired,
   };
 
   handleDeleteClick = () => {

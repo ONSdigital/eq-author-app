@@ -40,11 +40,11 @@ export class UnconnectedSignInPage extends React.Component {
     isSignedIn: PropTypes.bool.isRequired,
     verifiedAuthStatus: PropTypes.bool.isRequired,
     verifyAuthStatus: PropTypes.func.isRequired,
-    signInUser: PropTypes.func.isRequired
+    signInUser: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
-    returnURL: "/"
+    returnURL: "/",
   };
 
   componentDidMount() {
@@ -99,7 +99,7 @@ export class UnconnectedSignInPage extends React.Component {
 export const mapStateToProps = (state, { location }) => ({
   isSignedIn: isSignedIn(state),
   verifiedAuthStatus: verifiedAuthStatus(state),
-  returnURL: get(location, "state.returnURL")
+  returnURL: get(location, "state.returnURL"),
 });
 
 export default connect(

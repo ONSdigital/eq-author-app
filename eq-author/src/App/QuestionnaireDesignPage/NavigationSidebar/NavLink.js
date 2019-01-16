@@ -62,7 +62,7 @@ NavLink.propTypes = {
   to: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
-  icon: PropTypes.func.isRequired
+  icon: PropTypes.func.isRequired,
 };
 
 export default NavLink;

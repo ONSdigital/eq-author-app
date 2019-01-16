@@ -5,7 +5,7 @@ import { Query } from "react-apollo";
 import AvailablePipingContentQuery, {
   GET_PIPING_CONTENT_PAGE,
   GET_PIPING_CONTENT_SECTION,
-  GET_PIPING_CONTENT_QUESTION_CONFIRMATION
+  GET_PIPING_CONTENT_QUESTION_CONFIRMATION,
 } from "components/RichTextEditor/AvailablePipingContentQuery";
 
 describe("Available Piping Content Query", () => {
@@ -21,7 +21,7 @@ describe("Available Piping Content Query", () => {
     );
     expect(wrapper.find(Query).props()).toMatchObject({
       variables: { id: sectionId },
-      query: GET_PIPING_CONTENT_SECTION
+      query: GET_PIPING_CONTENT_SECTION,
     });
   });
 
@@ -33,7 +33,7 @@ describe("Available Piping Content Query", () => {
     );
     expect(wrapper.find(Query).props()).toMatchObject({
       variables: { id: pageId },
-      query: GET_PIPING_CONTENT_PAGE
+      query: GET_PIPING_CONTENT_PAGE,
     });
   });
 
@@ -49,7 +49,7 @@ describe("Available Piping Content Query", () => {
     );
     expect(wrapper.find(Query).props()).toMatchObject({
       variables: { id: confirmationId },
-      query: GET_PIPING_CONTENT_QUESTION_CONFIRMATION
+      query: GET_PIPING_CONTENT_QUESTION_CONFIRMATION,
     });
   });
 });

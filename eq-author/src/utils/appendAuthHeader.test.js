@@ -5,7 +5,7 @@ describe("appendAuthHeader", () => {
 
   beforeEach(() => {
     otherHeaders = {
-      ContentType: "text/html"
+      ContentType: "text/html",
     };
 
     localStorage.removeItem("accessToken");
@@ -19,13 +19,13 @@ describe("appendAuthHeader", () => {
     });
     afterEach(() => {
       Object.defineProperty(window, "localStorage", {
-        value: tempLocalStorage
+        value: tempLocalStorage,
       });
     });
 
     it("should just return default headers if no localStorage exists", () => {
       expect(appendAuthHeader(otherHeaders).headers).toMatchObject({
-        ContentType: "text/html"
+        ContentType: "text/html",
       });
     });
   });
@@ -35,7 +35,7 @@ describe("appendAuthHeader", () => {
 
     expect(appendAuthHeader(otherHeaders).headers).toMatchObject({
       ContentType: "text/html",
-      authorization: "Bearer abc.def.ghi"
+      authorization: "Bearer abc.def.ghi",
     });
   });
 

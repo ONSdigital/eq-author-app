@@ -147,11 +147,11 @@ RoutingRule.propTypes = {
   onDeleteRoutingCondition: PropTypes.func,
   onThenChange: PropTypes.func.isRequired,
   title: PropTypes.string,
-  className: PropTypes.string
+  className: PropTypes.string,
 };
 
 RoutingRule.fragments = {
-  RoutingRule: routingRuleFragment
+  RoutingRule: routingRuleFragment,
 };
 
 export default RoutingRule;

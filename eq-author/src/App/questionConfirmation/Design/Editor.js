@@ -27,10 +27,10 @@ export class UnwrappedEditor extends React.Component {
   static propTypes = {
     onChange: PropTypes.func.isRequired,
     onUpdate: PropTypes.func.isRequired,
-    confirmation: propType(confirmationFragment).isRequired
+    confirmation: propType(confirmationFragment).isRequired,
   };
   static fragments = {
-    QuestionConfirmation: confirmationFragment
+    QuestionConfirmation: confirmationFragment,
   };
 
   handleRichTextUpdate = (...args) => {
@@ -42,7 +42,7 @@ export class UnwrappedEditor extends React.Component {
     const {
       confirmation: { title, positive, negative },
       onChange,
-      onUpdate
+      onUpdate,
     } = this.props;
     return (
       <Wrapper>

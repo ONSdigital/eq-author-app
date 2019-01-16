@@ -37,7 +37,7 @@ export class UnwrappedNavigationSidebar extends Component {
     onAddQuestionConfirmation: PropTypes.func.isRequired,
     onUpdateQuestionnaire: PropTypes.func.isRequired,
     loading: PropTypes.bool.isRequired,
-    canAddQuestionConfirmation: PropTypes.bool.isRequired
+    canAddQuestionConfirmation: PropTypes.bool.isRequired,
   };
 
   handleAddSection = () => {
@@ -51,7 +51,7 @@ export class UnwrappedNavigationSidebar extends Component {
       onAddPage,
       onAddQuestionConfirmation,
       canAddQuestionConfirmation,
-      loading
+      loading,
     } = this.props;
 
     return (
@@ -87,7 +87,7 @@ UnwrappedNavigationSidebar.fragments = {
 
     ${NavigationHeader.fragments.NavigationHeader}
     ${SectionNav.fragments.SectionNav}
-  `
+  `,
 };
 
 export default flowRight(

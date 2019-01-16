@@ -1,6 +1,6 @@
 import {
   mapMutateToProps,
-  createUpdater
+  createUpdater,
 } from "App/questionPage/Design/answers/withCreateAnswer";
 import fragment from "graphql/pageFragment.graphql";
 
@@ -12,19 +12,19 @@ describe("containers/QuestionnaireDesignPage/withCreateAnswer", () => {
       id: "22",
       sectionId: "33",
       title: "New Page",
-      answers: []
+      answers: [],
     };
 
     answer = {
       id: "123",
       label: "foo",
-      description: "bar"
+      description: "bar",
     };
 
     result = {
       data: {
-        createAnswer: answer
-      }
+        createAnswer: answer,
+      },
     };
 
     mutate = jest.fn(() => Promise.resolve(result));
@@ -43,7 +43,7 @@ describe("containers/QuestionnaireDesignPage/withCreateAnswer", () => {
       expect(writeFragment).toHaveBeenCalledWith({
         id,
         fragment,
-        data: page
+        data: page,
       });
       expect(page.answers).toContain(answer);
     });
@@ -67,9 +67,9 @@ describe("containers/QuestionnaireDesignPage/withCreateAnswer", () => {
           variables: {
             input: expect.objectContaining({
               questionPageId: page.id,
-              type: "Checkbox"
-            })
-          }
+              type: "Checkbox",
+            }),
+          },
         })
       );
     });

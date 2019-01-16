@@ -23,7 +23,7 @@ const labelStyles = {
     &:hover {
       background: #007ab3;
     }
-  `
+  `,
 };
 
 const checkboxStyle = {
@@ -38,7 +38,7 @@ const checkboxStyle = {
     border-color: white;
     background: white url(${checkedIcon}) no-repeat center;
     background-size: contain;
-  `
+  `,
 };
 
 const Field = styled.div`
@@ -69,7 +69,7 @@ const Text = styled(Truncated)`
 `;
 
 Text.defaultProps = {
-  maxWidth: 30
+  maxWidth: 30,
 };
 
 const Input = styled.input`
@@ -98,7 +98,7 @@ class ToggleChip extends React.Component {
     children: PropTypes.node.isRequired,
     checked: PropTypes.bool,
     maxWidth: PropTypes.number,
-    onChange: PropTypes.func.isRequired
+    onChange: PropTypes.func.isRequired,
   };
 
   render() {

@@ -2,7 +2,7 @@ import styled from "styled-components";
 import Button from "components/buttons/Button";
 
 const TextButton = styled(Button).attrs({
-  variant: "tertiary"
+  variant: "tertiary",
 })`
   padding: 0.25em 0.5em;
   letter-spacing: 0.05em;

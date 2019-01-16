@@ -7,7 +7,7 @@ export default [
     textValue: "text",
     languageValue: null,
     regionValue: null,
-    dateValue: null
+    dateValue: null,
   },
   {
     id: "2",
@@ -17,7 +17,7 @@ export default [
     textValue: null,
     languageValue: null,
     regionValue: null,
-    dateValue: "2018-09-17"
+    dateValue: "2018-09-17",
   },
   {
     id: "3",
@@ -27,7 +27,7 @@ export default [
     textValue: null,
     languageValue: null,
     regionValue: "GB_ENG",
-    dateValue: null
+    dateValue: null,
   },
   {
     id: "4",
@@ -37,6 +37,6 @@ export default [
     textValue: null,
     languageValue: "cy",
     regionValue: null,
-    dateValue: null
-  }
+    dateValue: null,
+  },
 ];

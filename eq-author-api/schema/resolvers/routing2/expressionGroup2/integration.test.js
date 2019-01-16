@@ -28,15 +28,15 @@ describe("Expression group Integration", () => {
                 rules: [
                   {
                     expressionGroup: {
-                      operator: AND
-                    }
-                  }
-                ]
-              }
-            }
-          ]
-        }
-      ]
+                      operator: AND,
+                    },
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      ],
     });
 
     const expressionGroupId =
@@ -61,8 +61,8 @@ describe("Expression group Integration", () => {
     expect(updateResult.data).toMatchObject({
       updateExpressionGroup2: {
         id: expressionGroupId.toString(),
-        operator: OR
-      }
+        operator: OR,
+      },
     });
   });
 });

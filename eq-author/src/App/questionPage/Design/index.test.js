@@ -2,7 +2,7 @@ import React from "react";
 import { mount, shallow } from "enzyme";
 import QuestionPageRoute, {
   UnwrappedQuestionPageRoute,
-  QUESTION_PAGE_QUERY
+  QUESTION_PAGE_QUERY,
 } from "./";
 import TestProvider from "tests/utils/TestProvider";
 import { buildPagePath } from "utils/UrlUtils";
@@ -16,8 +16,8 @@ const movePageMock = {
   request: {
     query: movePageQuery,
     variables: {
-      id: "1"
-    }
+      id: "1",
+    },
   },
   result: {
     data: {
@@ -52,9 +52,9 @@ const movePageMock = {
                   __typename: "Section",
                   questionnaire: {
                     __typename: "Questionnaire",
-                    metadata: []
-                  }
-                }
+                    metadata: [],
+                  },
+                },
               },
               {
                 __typename: "QuestionPage",
@@ -69,24 +69,24 @@ const movePageMock = {
                   __typename: "Section",
                   questionnaire: {
                     __typename: "Questionnaire",
-                    metadata: []
-                  }
-                }
-              }
+                    metadata: [],
+                  },
+                },
+              },
             ],
             questionnaire: {
               __typename: "Questionnaire",
               id: "1",
               questionnaireInfo: {
                 __typename: "QuestionnaireInfo",
-                totalSectionCount: 1
-              }
-            }
-          }
-        ]
-      }
-    }
-  }
+                totalSectionCount: 1,
+              },
+            },
+          },
+        ],
+      },
+    },
+  },
 };
 
 describe("QuestionPageRoute", () => {
@@ -96,21 +96,21 @@ describe("QuestionPageRoute", () => {
     childContextTypes = { router: PropTypes.object };
 
     match = {
-      params: { questionnaireId: "1", sectionId: "2", pageId: "3" }
+      params: { questionnaireId: "1", sectionId: "2", pageId: "3" },
     };
 
     store = {
       getState: jest.fn(() => ({
         toasts: {},
-        saving: { apiDownError: false }
+        saving: { apiDownError: false },
       })),
       subscribe: jest.fn(),
-      dispatch: jest.fn()
+      dispatch: jest.fn(),
     };
 
     context = createRouterContext({
       location: { pathname: buildPagePath(match.params) },
-      match
+      match,
     });
 
     mockHandlers = {
@@ -129,7 +129,7 @@ describe("QuestionPageRoute", () => {
       onDeleteOther: jest.fn(),
       onDuplicatePage: jest.fn(),
       onChange: jest.fn(),
-      onUpdate: jest.fn()
+      onUpdate: jest.fn(),
     };
   });
 
@@ -147,8 +147,8 @@ describe("QuestionPageRoute", () => {
         request: {
           query: QUESTION_PAGE_QUERY,
           variables: {
-            id: "3"
-          }
+            id: "3",
+          },
         },
         result: {
           data: {
@@ -171,12 +171,12 @@ describe("QuestionPageRoute", () => {
                 questionnaire: {
                   __typename: "Questionnaire",
                   id: "1",
-                  metadata: []
-                }
-              }
-            }
-          }
-        }
+                  metadata: [],
+                },
+              },
+            },
+          },
+        },
       };
 
       const wrapper = render([mock, movePageMock]);
@@ -192,8 +192,8 @@ describe("QuestionPageRoute", () => {
         request: {
           query: QUESTION_PAGE_QUERY,
           variables: {
-            id: "3"
-          }
+            id: "3",
+          },
         },
         result: {
           data: {
@@ -216,12 +216,12 @@ describe("QuestionPageRoute", () => {
                 questionnaire: {
                   __typename: "Questionnaire",
                   id: "1",
-                  metadata: []
-                }
-              }
-            }
-          }
-        }
+                  metadata: [],
+                },
+              },
+            },
+          },
+        },
       };
 
       const wrapper = render([mock, mock, movePageMock, movePageMock]);
@@ -240,10 +240,10 @@ describe("QuestionPageRoute", () => {
         request: {
           query: QUESTION_PAGE_QUERY,
           variables: {
-            id: "3"
-          }
+            id: "3",
+          },
         },
-        error: new Error("oops")
+        error: new Error("oops"),
       };
 
       const wrapper = shallow(
@@ -265,14 +265,14 @@ describe("QuestionPageRoute", () => {
         request: {
           query: QUESTION_PAGE_QUERY,
           variables: {
-            id: "3"
-          }
+            id: "3",
+          },
         },
         result: {
           data: {
-            questionPage: null
-          }
-        }
+            questionPage: null,
+          },
+        },
       };
 
       const wrapper = render([mock, mock, movePageMock, movePageMock]);
@@ -306,9 +306,9 @@ describe("QuestionPageRoute", () => {
         __typename: "Section",
         questionnaire: {
           __typename: "Questionnaire",
-          metadata: []
-        }
-      }
+          metadata: [],
+        },
+      },
     };
     const render = (props = {}, renderer = mount) =>
       renderer(
@@ -326,7 +326,7 @@ describe("QuestionPageRoute", () => {
         loading: false,
         match,
         page,
-        ...mockHandlers
+        ...mockHandlers,
       });
 
       wrapper
@@ -350,7 +350,7 @@ describe("QuestionPageRoute", () => {
           match,
           page,
           ...mockHandlers,
-          onAddAnswer
+          onAddAnswer,
         },
         mount
       );
@@ -374,7 +374,7 @@ describe("QuestionPageRoute", () => {
           loading: false,
           match,
           page,
-          ...mockHandlers
+          ...mockHandlers,
         },
         mount
       );
@@ -387,7 +387,7 @@ describe("QuestionPageRoute", () => {
       expect(mockHandlers.onDuplicatePage).toHaveBeenCalledWith({
         sectionId: match.params.sectionId,
         pageId: page.id,
-        position: parseInt(page.position, 10) + 1
+        position: parseInt(page.position, 10) + 1,
       });
     });
   });

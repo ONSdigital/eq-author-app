@@ -8,7 +8,7 @@ const StyledLink = Button.withComponent("a");
 class LinkButton extends React.Component {
   static propTypes = {
     ...propTypes,
-    href: PropTypes.string.isRequired
+    href: PropTypes.string.isRequired,
   };
 
   render() {

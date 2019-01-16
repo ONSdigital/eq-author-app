@@ -12,22 +12,22 @@ const buildAuthorConfirmationQuestion = (
     id: `confirmation-answer-for-${page.id}`,
     type: RADIO,
     properties: {
-      required: true
+      required: true,
     },
     options: [
       {
         id: "positive-confirmation",
         label: page.confirmation.positive.label,
         description: page.confirmation.positive.description,
-        value: page.confirmation.positive.label
+        value: page.confirmation.positive.label,
       },
       {
         id: "negative-confirmation",
         label: page.confirmation.negative.label,
         description: page.confirmation.negative.description,
-        value: page.confirmation.negative.label
-      }
-    ]
+        value: page.confirmation.negative.label,
+      },
+    ],
   };
 
   const confirmationBackwardsRoutingRuleSet = {
@@ -37,8 +37,8 @@ const buildAuthorConfirmationQuestion = (
       __typename: "AbsoluteDestination",
       absoluteDestination: {
         id: page.id,
-        __typename: "QuestionPage"
-      }
+        __typename: "QuestionPage",
+      },
     },
     conditions: [
       {
@@ -46,10 +46,10 @@ const buildAuthorConfirmationQuestion = (
         answer: confirmationAnswerObject,
         comparator: "equal",
         routingValue: {
-          value: ["negative-confirmation"]
-        }
-      }
-    ]
+          value: ["negative-confirmation"],
+        },
+      },
+    ],
   };
 
   const confirmationBackwardsRouting2Rule = {
@@ -59,33 +59,33 @@ const buildAuthorConfirmationQuestion = (
         {
           left: {
             id: `confirmation-answer-for-${page.id}`,
-            type: RADIO
+            type: RADIO,
           },
           condition: "OneOf",
           right: {
             options: [
               {
-                label: page.confirmation.negative.label
-              }
-            ]
-          }
-        }
-      ]
+                label: page.confirmation.negative.label,
+              },
+            ],
+          },
+        },
+      ],
     },
     destination: {
       page: {
-        id: page.id
-      }
-    }
+        id: page.id,
+      },
+    },
   };
 
   if (!routingRuleSet && !routing) {
     routing = {
       id: "default-rule-set",
       else: {
-        logical: "NextPage"
+        logical: "NextPage",
       },
-      rules: []
+      rules: [],
     };
   }
   if (routingRuleSet) {
@@ -104,12 +104,12 @@ const buildAuthorConfirmationQuestion = (
     pageType: "ConfirmationQuestion",
     routingRuleSet,
     routing,
-    answers: [confirmationAnswerObject]
+    answers: [confirmationAnswerObject],
   };
 
   return new Block(confirmationQuestionObject, groupId, ctx);
 };
 
 module.exports = {
-  buildAuthorConfirmationQuestion
+  buildAuthorConfirmationQuestion,
 };

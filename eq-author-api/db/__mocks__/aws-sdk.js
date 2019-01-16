@@ -18,17 +18,17 @@ AWS.SecretsManager = function() {
         throw Error("Failed");
       }
       return {
-        SecretString: secretValueToReturn
+        SecretString: secretValueToReturn,
       };
     };
 
     return {
-      promise
+      promise,
     };
   };
 
   return {
-    getSecretValue
+    getSecretValue,
   };
 };
 

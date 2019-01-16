@@ -51,7 +51,7 @@ describe("Number", () => {
     number.find("[data-test='number-input']").simulate("blur");
     expect(handleChange).toHaveBeenCalledWith({
       name: "numberName",
-      value: 3
+      value: 3,
     });
   });
 
@@ -89,7 +89,7 @@ describe("Number", () => {
       numberWithMinMax.find("[data-test='number-input']").simulate("blur");
       expect(handleChange).toBeCalledWith({
         name: "number",
-        value: 100
+        value: 100,
       });
       expect(
         numberWithMinMax.find("[data-test='number-input']").prop("value")
@@ -103,7 +103,7 @@ describe("Number", () => {
       numberWithMinMax.find("[data-test='number-input']").simulate("blur");
       expect(handleChange).toBeCalledWith({
         name: "number",
-        value: 0
+        value: 0,
       });
       expect(
         numberWithMinMax.find("[data-test='number-input']").prop("value")
@@ -117,7 +117,7 @@ describe("Number", () => {
       numberWithMinMax.find("[data-test='number-input']").simulate("blur");
       expect(handleChange).toBeCalledWith({
         name: "number",
-        value: 0
+        value: 0,
       });
       expect(
         numberWithMinMax.find("[data-test='number-input']").prop("value")

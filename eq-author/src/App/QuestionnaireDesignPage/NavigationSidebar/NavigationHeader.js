@@ -55,13 +55,13 @@ class NavigationHeader extends React.Component {
     onAddSection: PropTypes.func.isRequired,
     questionnaire: CustomPropTypes.questionnaire.isRequired,
     canAddQuestionConfirmation: PropTypes.bool.isRequired,
-    onAddQuestionConfirmation: PropTypes.func.isRequired
+    onAddQuestionConfirmation: PropTypes.func.isRequired,
   };
 
   state = {
     isSettingsModalOpen: false,
     isMetadataModalOpen: false,
-    addMenuOpen: false
+    addMenuOpen: false,
   };
 
   handleSettingsModalOpen = () => this.setState({ isSettingsModalOpen: true });
@@ -168,7 +168,7 @@ NavigationHeader.fragments = {
     }
 
     ${QuestionnaireSettingsModal.fragments.QuestionnaireSettingsModal}
-  `
+  `,
 };
 
 export default NavigationHeader;

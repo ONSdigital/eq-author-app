@@ -4,7 +4,7 @@ const isLeftSideAnswerTypeCompatible = (leftSideType, rightSideType) => {
   const AnswerTypesToRightTypes = {
     [answerTypes.CURRENCY]: "Custom",
     [answerTypes.NUMBER]: "Custom",
-    [answerTypes.RADIO]: "SelectedOptions"
+    [answerTypes.RADIO]: "SelectedOptions",
   };
 
   return AnswerTypesToRightTypes[leftSideType] === rightSideType;
@@ -13,19 +13,19 @@ const isLeftSideAnswerTypeCompatible = (leftSideType, rightSideType) => {
 module.exports = ({ repositories }) => async ({
   expressionId,
   customValue,
-  selectedOptions
+  selectedOptions,
 }) => {
   let type, newRightProperties;
   if (customValue) {
     type = "Custom";
     newRightProperties = {
       type,
-      customValue
+      customValue,
     };
   } else {
     type = "SelectedOptions";
     newRightProperties = {
-      type
+      type,
     };
   }
 
@@ -47,12 +47,12 @@ module.exports = ({ repositories }) => async ({
   if (existingRightSide) {
     updatedRightSide = await repositories.RightSide2.update({
       ...newRightProperties,
-      id: existingRightSide.id
+      id: existingRightSide.id,
     });
   } else {
     updatedRightSide = await repositories.RightSide2.insert({
       ...newRightProperties,
-      expressionId: expressionId
+      expressionId: expressionId,
     });
   }
 
@@ -62,7 +62,7 @@ module.exports = ({ repositories }) => async ({
       selectedOptions.map(optionId =>
         repositories.SelectedOptions2.insert({
           sideId: updatedRightSide.id,
-          optionId
+          optionId,
         })
       )
     );

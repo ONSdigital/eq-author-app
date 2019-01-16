@@ -13,7 +13,7 @@ describe("KeySelect", () => {
       name: "test",
       onChange: jest.fn(),
       onUpdate: jest.fn(),
-      usedKeys: []
+      usedKeys: [],
     };
 
     wrapper = render(props);
@@ -30,7 +30,7 @@ describe("KeySelect", () => {
     expect(wrapper.state("value")).toEqual(input);
     expect(props.onChange).toHaveBeenCalledWith({
       name: props.name,
-      value: input
+      value: input,
     });
   });
 
@@ -41,7 +41,7 @@ describe("KeySelect", () => {
     expect(wrapper.state("value")).toEqual(input);
     expect(props.onChange).toHaveBeenCalledWith({
       name: props.name,
-      value: input
+      value: input,
     });
   });
 
@@ -52,7 +52,7 @@ describe("KeySelect", () => {
     expect(wrapper.state("value")).toEqual(input);
     expect(props.onChange).toHaveBeenCalledWith({
       name: props.name,
-      value: input
+      value: input,
     });
   });
 
@@ -61,7 +61,7 @@ describe("KeySelect", () => {
     instance.stateReducer(
       {},
       {
-        type: Downshift.stateChangeTypes.blurInput
+        type: Downshift.stateChangeTypes.blurInput,
       }
     );
     expect(props.onUpdate).toHaveBeenCalled();
@@ -72,7 +72,7 @@ describe("KeySelect", () => {
     instance.stateReducer(
       {},
       {
-        type: Downshift.stateChangeTypes.mouseUp
+        type: Downshift.stateChangeTypes.mouseUp,
       }
     );
 
@@ -84,7 +84,7 @@ describe("KeySelect", () => {
     instance.stateReducer(
       {},
       {
-        type: Downshift.stateChangeTypes.keyDownEnter
+        type: Downshift.stateChangeTypes.keyDownEnter,
       }
     );
 
@@ -99,7 +99,7 @@ describe("KeySelect", () => {
       {},
       {
         type: Downshift.stateChangeTypes.clickItem,
-        selectedItem: { value: selectedItem }
+        selectedItem: { value: selectedItem },
       }
     );
 

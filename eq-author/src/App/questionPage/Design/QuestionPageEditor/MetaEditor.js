@@ -19,20 +19,20 @@ import { colors } from "constants/theme";
 
 const titleControls = {
   emphasis: true,
-  piping: true
+  piping: true,
 };
 
 const descriptionControls = {
   bold: true,
   emphasis: true,
-  piping: true
+  piping: true,
 };
 
 const guidanceControls = {
   heading: true,
   bold: true,
   list: true,
-  piping: true
+  piping: true,
 };
 
 const Paragraph = styled.p`
@@ -51,7 +51,7 @@ export class StatelessMetaEditor extends React.Component {
       return client
         .query({
           query: getAnswersQuery,
-          variables: { ids }
+          variables: { ids },
         })
         .then(result => result.data.answers);
     };
@@ -134,11 +134,11 @@ StatelessMetaEditor.propTypes = {
   onChange: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
   page: propType(pageFragment).isRequired,
-  client: CustomPropTypes.apolloClient.isRequired
+  client: CustomPropTypes.apolloClient.isRequired,
 };
 
 StatelessMetaEditor.fragments = {
-  Page: pageFragment
+  Page: pageFragment,
 };
 
 export default flowRight(withApollo)(StatelessMetaEditor);

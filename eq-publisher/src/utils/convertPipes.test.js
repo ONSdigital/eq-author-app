@@ -4,14 +4,14 @@ const createPipe = ({
   pipeType = "answers",
   id = 123,
   type = "TextField",
-  text = "foo"
+  text = "foo",
 } = {}) =>
   `<span data-piped="${pipeType}" data-id="${id}" data-type="${type}">${text}</span>`;
 
 const createContext = (metadata = []) => ({
   questionnaireJson: {
-    metadata
-  }
+    metadata,
+  },
 });
 
 describe("convertPipes", () => {

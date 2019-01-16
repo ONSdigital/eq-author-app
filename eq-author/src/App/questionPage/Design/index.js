@@ -59,14 +59,14 @@ export class UnwrappedQuestionPageRoute extends React.Component {
     error: PropTypes.object, // eslint-disable-line
     loading: PropTypes.bool.isRequired,
     page: PropTypes.shape({
-      questionPage: propType(QuestionPageEditor.fragments.QuestionPage)
-    })
+      questionPage: propType(QuestionPageEditor.fragments.QuestionPage),
+    }),
   };
 
   state = {
     showDeleteConfirmDialog: false,
     showMovePageDialog: false,
-    hasError: false
+    hasError: false,
   };
 
   handleOpenMovePageDialog = () => {
@@ -93,7 +93,7 @@ export class UnwrappedQuestionPageRoute extends React.Component {
   handleDeletePageConfirm = () => {
     const { onDeletePage, match } = this.props;
     const {
-      params: { pageId, sectionId }
+      params: { pageId, sectionId },
     } = match;
 
     this.handleCloseDeleteConfirmDialog(() => onDeletePage(sectionId, pageId));
@@ -102,7 +102,7 @@ export class UnwrappedQuestionPageRoute extends React.Component {
   handleAddPage = () => {
     const {
       match: { params },
-      page
+      page,
     } = this.props;
 
     this.props.onAddPage(params.sectionId, page.position + 1);
@@ -120,7 +120,7 @@ export class UnwrappedQuestionPageRoute extends React.Component {
     onDuplicatePage({
       sectionId: match.params.sectionId,
       pageId: page.id,
-      position: page.position + 1
+      position: page.position + 1,
     });
   };
 
@@ -268,9 +268,9 @@ const QuestionPageRoute = props => (
 QuestionPageRoute.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
-      pageId: PropTypes.string.isRequired
-    }).isRequired
-  }).isRequired
+      pageId: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
 };
 
 export default QuestionPageRoute;

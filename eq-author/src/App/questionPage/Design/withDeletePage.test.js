@@ -15,33 +15,33 @@ describe("withDeletePage", () => {
     deletedPage = {
       id: "2",
       sectionId,
-      position: 1
+      position: 1,
     };
 
     currentPage = {
       id: "1",
       sectionId,
-      position: 0
+      position: 0,
     };
 
     beforeDeleteSection = {
       id: sectionId,
-      pages: [currentPage, deletedPage, { id: "3", position: 2 }]
+      pages: [currentPage, deletedPage, { id: "3", position: 2 }],
     };
 
     afterDeleteSection = {
       ...beforeDeleteSection,
-      pages: [{ ...currentPage, position: 0 }, { id: "3", position: 1 }]
+      pages: [{ ...currentPage, position: 0 }, { id: "3", position: 1 }],
     };
 
     history = {
-      push: jest.fn()
+      push: jest.fn(),
     };
 
     result = {
       data: {
-        deletePage: currentPage
-      }
+        deletePage: currentPage,
+      },
     };
 
     onAddPage = jest.fn(() => Promise.resolve());
@@ -52,18 +52,18 @@ describe("withDeletePage", () => {
         readFragment: jest
           .fn()
           .mockReturnValueOnce(beforeDeleteSection)
-          .mockReturnValueOnce(afterDeleteSection)
+          .mockReturnValueOnce(afterDeleteSection),
       },
       match: {
         params: {
           questionnaireId: "1",
           sectionId: sectionId,
-          pageId: currentPage.id
-        }
+          pageId: currentPage.id,
+        },
       },
       history,
       onAddPage,
-      raiseToast
+      raiseToast,
     };
 
     mutate = jest.fn(() => Promise.resolve(result));
@@ -82,7 +82,7 @@ describe("withDeletePage", () => {
       expect(writeFragment).toHaveBeenCalledWith({
         id,
         fragment,
-        data: afterDeleteSection
+        data: afterDeleteSection,
       });
     });
 
@@ -93,14 +93,14 @@ describe("withDeletePage", () => {
           pages: [
             { id: "1", position: 0 },
             deletedPage,
-            { id: "3", position: 2 }
-          ]
-        }
+            { id: "3", position: 2 },
+          ],
+        },
       };
 
       const proxy = {
         writeFragment: jest.fn(({ data }) => (cache.section = data)),
-        readFragment: jest.fn(() => cache.section)
+        readFragment: jest.fn(() => cache.section),
       };
 
       const updater = createUpdater(cache.section.id, deletedPage.id);
@@ -108,7 +108,7 @@ describe("withDeletePage", () => {
 
       expect(cache.section.pages).toEqual([
         { id: "1", position: 0 },
-        { id: "3", position: 1 }
+        { id: "3", position: 1 },
       ]);
     });
   });
@@ -132,8 +132,8 @@ describe("withDeletePage", () => {
             expect(mutate).toHaveBeenCalledWith(
               expect.objectContaining({
                 variables: {
-                  input: { id: deletedPage.id }
-                }
+                  input: { id: deletedPage.id },
+                },
               })
             );
           });
@@ -149,7 +149,7 @@ describe("withDeletePage", () => {
               "undeletePage",
               expect.objectContaining({
                 sectionId: deletedPage.sectionId,
-                pageId: deletedPage.id
+                pageId: deletedPage.id,
               })
             );
           });

@@ -13,7 +13,7 @@ const Duration = ({
   units,
   duration: { value, unit },
   onChange,
-  onUpdate
+  onUpdate,
 }) => (
   <Grid>
     <Column cols={2}>
@@ -49,11 +49,11 @@ Duration.propTypes = {
   name: PropTypes.string.isRequired,
   duration: PropTypes.shape({
     value: PropTypes.number.isRequired,
-    unit: PropTypes.oneOf(UNITS).isRequired
+    unit: PropTypes.oneOf(UNITS).isRequired,
   }).isRequired,
   units: PropTypes.arrayOf(PropTypes.string).isRequired,
   onChange: PropTypes.func.isRequired,
-  onUpdate: PropTypes.func.isRequired
+  onUpdate: PropTypes.func.isRequired,
 };
 
 export default Duration;

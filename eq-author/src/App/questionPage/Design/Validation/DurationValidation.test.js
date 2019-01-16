@@ -16,23 +16,23 @@ describe("Duration Validation", () => {
       answer: {
         id: "1",
         properties: {
-          format: "dd/mm/yyyy"
+          format: "dd/mm/yyyy",
         },
-        type: DATE_RANGE
+        type: DATE_RANGE,
       },
       validation: {
         id: "123",
         enabled: true,
         duration: {
           value: 5,
-          unit: "Months"
-        }
+          unit: "Months",
+        },
       },
       onToggleValidationRule: jest.fn(),
       onChange: jest.fn(),
       onUpdate: jest.fn(),
       displayName: "Some date",
-      testId: "duration-test-id"
+      testId: "duration-test-id",
     };
 
     wrapper = createWrapper(props);

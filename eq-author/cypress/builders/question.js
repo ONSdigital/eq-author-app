@@ -6,7 +6,7 @@ const updateDetails = ({
   alias,
   answer: answerConfig,
   confirmation,
-  routing
+  routing,
 }) => {
   if (alias) {
     cy.get(testId("alias")).type(alias);

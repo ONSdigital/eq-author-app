@@ -15,8 +15,8 @@ const DurationPreview = ({ duration: { unit, value } }) => {
 DurationPreview.propTypes = {
   duration: PropTypes.shape({
     value: PropTypes.number.isRequired,
-    unit: PropTypes.string.isRequired
-  }).isRequired
+    unit: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default DurationPreview;

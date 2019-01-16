@@ -22,11 +22,11 @@ const TextArea = ({ defaultValue, id, rows, ...otherProps }) => (
 TextArea.propTypes = {
   defaultValue: PropTypes.string,
   id: PropTypes.string.isRequired,
-  rows: PropTypes.number
+  rows: PropTypes.number,
 };
 
 TextArea.defaultProps = {
-  rows: 10
+  rows: 10,
 };
 
 export default withChangeHandler(TextArea);

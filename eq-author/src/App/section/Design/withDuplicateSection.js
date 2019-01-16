@@ -6,13 +6,13 @@ import { buildSectionPath } from "utils/UrlUtils";
 
 export const redirectToNewPage = ({
   history,
-  match: { params }
+  match: { params },
 }) => section => {
   const { id } = section;
   history.push(
     buildSectionPath({
       questionnaireId: params.questionnaireId,
-      sectionId: id
+      sectionId: id,
     })
   );
 };
@@ -21,17 +21,17 @@ export const mapMutateToProps = ({ ownProps, mutate }) => ({
   onDuplicateSection({ sectionId, position }) {
     const input = {
       id: sectionId,
-      position
+      position,
     };
 
     return mutate({
-      variables: { input }
+      variables: { input },
     })
       .then(get("data.duplicateSection"))
       .then(tap(redirectToNewPage(ownProps)));
-  }
+  },
 });
 
 export default graphql(duplicateSectionMutation, {
-  props: mapMutateToProps
+  props: mapMutateToProps,
 });

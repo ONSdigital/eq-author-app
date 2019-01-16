@@ -7,7 +7,7 @@ const {
   createQuestionnaireMutation,
   createAnswerMutation,
   getAnswerQuery,
-  updateAnswerMutation
+  updateAnswerMutation,
 } = require("../../tests/utils/graphql");
 
 describe("resolvers", () => {
@@ -34,7 +34,7 @@ describe("resolvers", () => {
         legalBasis: "Voluntary",
         navigation: false,
         surveyId: "001",
-        summary: true
+        summary: true,
       };
 
       const result = await executeQuery(
@@ -52,7 +52,7 @@ describe("resolvers", () => {
         label: `${type} answer`,
         qCode: null,
         type: `${type}`,
-        questionPageId: pageId
+        questionPageId: pageId,
       };
 
       const result = await executeQuery(createAnswerMutation, { input }, ctx);
@@ -63,7 +63,7 @@ describe("resolvers", () => {
       const result = await executeQuery(
         getAnswerQuery,
         {
-          id
+          id,
         },
         ctx
       );
@@ -74,7 +74,7 @@ describe("resolvers", () => {
       const result = await executeQuery(
         updateAnswerMutation,
         {
-          input
+          input,
         },
         ctx
       );

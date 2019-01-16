@@ -12,8 +12,8 @@ describe("components/RoutingRuleDestinationSelector", () => {
       onChange: jest.fn(),
       value: {
         logicalDestination: {
-          destinationType: "EndOfQuestionnaire"
-        }
+          destinationType: "EndOfQuestionnaire",
+        },
       },
       label: "Test",
       id: "test-select",
@@ -21,9 +21,9 @@ describe("components/RoutingRuleDestinationSelector", () => {
         params: {
           questionnaireId: "1",
           sectionId: "1",
-          pageId: "1"
-        }
-      }
+          pageId: "1",
+        },
+      },
     };
 
     wrapper = shallow(<UnwrappedRoutingRuleDestinationSelector {...props} />);
@@ -42,18 +42,18 @@ describe("components/RoutingRuleDestinationSelector", () => {
           config: {
             destination: {
               absoluteDestination: {
-                destinationType: "foobar"
-              }
-            }
-          }
-        }
+                destinationType: "foobar",
+              },
+            },
+          },
+        },
       });
 
     expect(props.onChange).toHaveBeenCalledWith({
       absoluteDestination: {
         destinationType: "foobar",
-        destinationId: 1
-      }
+        destinationId: 1,
+      },
     });
   });
 
@@ -64,9 +64,9 @@ describe("components/RoutingRuleDestinationSelector", () => {
         value: {
           id: 1,
           config: {
-            destination: { foo: "foobar" }
-          }
-        }
+            destination: { foo: "foobar" },
+          },
+        },
       });
 
     expect(props.onChange).toHaveBeenCalledWith({ foo: "foobar" });

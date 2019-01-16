@@ -2,7 +2,7 @@ import {
   mapMutateToProps,
   createUpdater,
   fragment,
-  fragmentName
+  fragmentName,
 } from "./withCreateMetadata";
 
 describe("withCreateMetadata", () => {
@@ -11,13 +11,13 @@ describe("withCreateMetadata", () => {
 
   beforeEach(() => {
     newMetadata = {
-      id: "4"
+      id: "4",
     };
 
     result = {
       data: {
-        createMetadata: newMetadata
-      }
+        createMetadata: newMetadata,
+      },
     };
 
     mutate = jest.fn(() => Promise.resolve(result));
@@ -41,8 +41,8 @@ describe("withCreateMetadata", () => {
         fragmentName,
         data: {
           ...questionnaire,
-          metadata: [newMetadata]
-        }
+          metadata: [newMetadata],
+        },
       });
 
       expect(questionnaire.metadata).toContain(newMetadata);
@@ -66,8 +66,8 @@ describe("withCreateMetadata", () => {
           expect(mutate).toHaveBeenCalledWith(
             expect.objectContaining({
               variables: {
-                input: { questionnaireId: questionnaire.id }
-              }
+                input: { questionnaireId: questionnaire.id },
+              },
             })
           );
         });

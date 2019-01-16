@@ -8,14 +8,14 @@ describe("launcher middleware", () => {
   let res;
   let req = { params: { questionnaireId: QUESTIONNAIRE_ID } };
   res = {
-    redirect: jest.fn()
+    redirect: jest.fn(),
   };
   let next = jest.fn();
 
   repositories = {
     Metadata: mockRepository({
-      findAll: [{ id: 1, key: "hello", type: "Text", value: "hello" }]
-    })
+      findAll: [{ id: 1, key: "hello", type: "Text", value: "hello" }],
+    }),
   };
 
   it("should find all metadata when the endpoint is hit", async () => {
@@ -23,7 +23,7 @@ describe("launcher middleware", () => {
     await getLaunchUrl(ctx)(req, res, next);
 
     expect(repositories.Metadata.findAll).toHaveBeenCalledWith({
-      questionnaireId: QUESTIONNAIRE_ID
+      questionnaireId: QUESTIONNAIRE_ID,
     });
   });
 
@@ -38,9 +38,9 @@ describe("launcher middleware", () => {
     const ctx = {
       repositories: {
         Metadata: mockRepository({
-          findAll: [{ id: 1, type: "Text", value: "hello" }]
-        })
-      }
+          findAll: [{ id: 1, type: "Text", value: "hello" }],
+        }),
+      },
     };
     await getLaunchUrl(ctx)(req, res, next);
 
@@ -51,9 +51,9 @@ describe("launcher middleware", () => {
     const ctx = {
       repositories: {
         Metadata: mockRepository({
-          findAll: [{ id: 1, key: null, type: "Text", value: "hello" }]
-        })
-      }
+          findAll: [{ id: 1, key: null, type: "Text", value: "hello" }],
+        }),
+      },
     };
     await getLaunchUrl(ctx)(req, res, next);
 
@@ -64,9 +64,9 @@ describe("launcher middleware", () => {
     const ctx = {
       repositories: {
         Metadata: mockRepository({
-          findAll: [{ id: 1, key: "", type: "Text", value: "hello" }]
-        })
-      }
+          findAll: [{ id: 1, key: "", type: "Text", value: "hello" }],
+        }),
+      },
     };
     await getLaunchUrl(ctx)(req, res, next);
 
@@ -77,9 +77,9 @@ describe("launcher middleware", () => {
     const ctx = {
       repositories: {
         Metadata: mockRepository({
-          findAll: [{ id: 1, key: "    ", type: "Text", value: "hello" }]
-        })
-      }
+          findAll: [{ id: 1, key: "    ", type: "Text", value: "hello" }],
+        }),
+      },
     };
     await getLaunchUrl(ctx)(req, res, next);
 
@@ -91,8 +91,8 @@ describe("launcher middleware", () => {
       buildClaims([{ id: 1, key: "hello", type: "Date", value: "01/01/2018" }])
     ).toMatchObject({
       claims: {
-        hello: "2018-01-01"
-      }
+        hello: "2018-01-01",
+      },
     });
   });
 
@@ -103,13 +103,13 @@ describe("launcher middleware", () => {
           id: 1,
           key: "hello",
           type: "Date",
-          value: "2018-01-01T00:00:00+00:00"
-        }
+          value: "2018-01-01T00:00:00+00:00",
+        },
       ])
     ).toMatchObject({
       claims: {
-        hello: "2018-01-01"
-      }
+        hello: "2018-01-01",
+      },
     });
   });
 });

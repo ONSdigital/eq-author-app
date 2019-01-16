@@ -27,25 +27,25 @@ describe("Left Side Repository", () => {
             {
               answers: [
                 {
-                  type: answerTypes.NUMBER
+                  type: answerTypes.NUMBER,
                 },
                 {
-                  type: answerTypes.NUMBER
-                }
+                  type: answerTypes.NUMBER,
+                },
               ],
               routing: {
                 rules: [
                   {
                     expressionGroup: {
-                      expressions: [{}]
-                    }
-                  }
-                ]
-              }
-            }
-          ]
-        }
-      ]
+                      expressions: [{}],
+                    },
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      ],
     });
     const page = questionnaire.sections[0].pages[0];
     expression = page.routing.rules[0].expressionGroup.expressions[0];
@@ -57,25 +57,25 @@ describe("Left Side Repository", () => {
     it("should create an expression side for the expression", async () => {
       const leftSide = await LeftSideRepository.insert({
         expressionId: expression.id,
-        answerId: answer.id
+        answerId: answer.id,
       });
       expect(leftSide).toMatchObject({
         id: expect.any(Number),
         expressionId: expression.id,
         answerId: answer.id,
-        type: "Answer"
+        type: "Answer",
       });
     });
 
     it("should error when attempting to insert a second for an expression", async () => {
       await LeftSideRepository.insert({
         expressionId: expression.id,
-        answerId: answer.id
+        answerId: answer.id,
       });
       try {
         await LeftSideRepository.insert({
           expressionId: expression.id,
-          answerId: answer.id
+          answerId: answer.id,
         });
       } catch (e) {
         expect(e.message).toMatch(/unique constraint/);
@@ -89,19 +89,19 @@ describe("Left Side Repository", () => {
     it("should update the left side to new answer", async () => {
       const leftSide = await LeftSideRepository.insert({
         expressionId: expression.id,
-        answerId: answer.id
+        answerId: answer.id,
       });
 
       const updateResult = await LeftSideRepository.update({
         id: leftSide.id,
-        answerId: secondAnswer.id
+        answerId: secondAnswer.id,
       });
 
       expect(updateResult).toMatchObject({
         id: leftSide.id,
         expressionId: expression.id,
         answerId: secondAnswer.id,
-        type: "Answer"
+        type: "Answer",
       });
     });
   });
@@ -110,13 +110,13 @@ describe("Left Side Repository", () => {
     it("should return the left side expression for the expression id", async () => {
       const leftSide = await LeftSideRepository.insert({
         expressionId: expression.id,
-        answerId: answer.id
+        answerId: answer.id,
       });
       const readExpression = await LeftSideRepository.getByExpressionId(
         expression.id
       );
       expect(readExpression).toMatchObject({
-        id: leftSide.id
+        id: leftSide.id,
       });
     });
   });
@@ -125,7 +125,7 @@ describe("Left Side Repository", () => {
     it("should delete all left sides with a given answerId", async () => {
       const leftSide = await LeftSideRepository.insert({
         expressionId: expression.id,
-        answerId: answer.id
+        answerId: answer.id,
       });
       const deleteResult = await LeftSideRepository.deleteByAnswerId(answer.id);
       expect(deleteResult).toMatchObject([leftSide]);
@@ -144,20 +144,20 @@ describe("Left Side Repository", () => {
                   rules: [
                     {
                       expressionGroup: {
-                        expressions: [{}]
-                      }
+                        expressions: [{}],
+                      },
                     },
                     {
                       expressionGroup: {
-                        expressions: [{}]
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ]
+                        expressions: [{}],
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        ],
       });
 
       const page = questionnaire.sections[0].pages[0];
@@ -173,13 +173,13 @@ describe("Left Side Repository", () => {
         {
           expressionId: expression1.id,
           type: "Answer",
-          answerId: answer.id
+          answerId: answer.id,
         },
         {
           expressionId: expression2.id,
           type: "Answer",
-          answerId: answer.id
-        }
+          answerId: answer.id,
+        },
       ]);
       const readLeft1 = await LeftSideRepository.getByExpressionId(
         expression1.id
@@ -199,7 +199,7 @@ describe("Left Side Repository", () => {
               {
                 answers: [
                   { id: "answer1", type: answerTypes.NUMBER },
-                  { type: answerTypes.NUMBER }
+                  { type: answerTypes.NUMBER },
                 ],
                 routing: {
                   rules: [
@@ -208,23 +208,23 @@ describe("Left Side Repository", () => {
                         expressions: [
                           {
                             left: {
-                              answerId: "answer1"
-                            }
-                          }
-                        ]
-                      }
+                              answerId: "answer1",
+                            },
+                          },
+                        ],
+                      },
                     },
                     {
                       expressionGroup: {
-                        expressions: [{}]
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        ]
+                        expressions: [{}],
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        ],
       });
 
       const page = questionnaire.sections[0].pages[0];

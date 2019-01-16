@@ -9,7 +9,7 @@ const defaultNames = {
   MultipleChoiceAnswer: "Untitled Answer",
   CompositeAnswer: "Untitled Answer",
   Metadata: "Untitled Metadata",
-  QuestionConfirmation: "Untitled Confirmation"
+  QuestionConfirmation: "Untitled Confirmation",
 };
 
 const getName = (entity, typeName) => {
@@ -28,5 +28,5 @@ const getName = (entity, typeName) => {
 
 module.exports = {
   getName,
-  defaultNames
+  defaultNames,
 };

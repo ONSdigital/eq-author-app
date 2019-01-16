@@ -3,7 +3,7 @@ import { CSSTransition } from "react-transition-group";
 import PropTypes from "prop-types";
 
 const ToastTransition = styled(CSSTransition).attrs({
-  classNames: "toast"
+  classNames: "toast",
 })`
   transition-property: transform, opacity;
   transition-duration: ${props => props.timeout * 0.66}ms;
@@ -34,12 +34,12 @@ const ToastTransition = styled(CSSTransition).attrs({
 
 ToastTransition.defaultProps = {
   in: false,
-  timeout: 500
+  timeout: 500,
 };
 
 ToastTransition.propTypes = {
   timeout: PropTypes.number,
-  children: PropTypes.element
+  children: PropTypes.element,
 };
 
 export default ToastTransition;

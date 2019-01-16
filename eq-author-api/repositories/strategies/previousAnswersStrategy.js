@@ -2,7 +2,7 @@ module.exports = knex => {
   const getPreviousAnswersForSection = ({
     answerTypes,
     sectionPosition,
-    questionnaireId
+    questionnaireId,
   }) =>
     knex("Answers")
       .select("Answers.*")
@@ -20,7 +20,7 @@ module.exports = knex => {
     id,
     answerTypes,
     select = "Answers.*",
-    includeSelf = false
+    includeSelf = false,
   }) => {
     const { questionnaireId, sectionPosition, pagePosition } = await knex(
       "PagesView"
@@ -61,18 +61,18 @@ module.exports = knex => {
   const getPreviousQuestionsForPage = ({
     id,
     answerTypes,
-    includeSelf = false
+    includeSelf = false,
   }) =>
     getPreviousAnswersForPage({
       id,
       answerTypes,
       select: "PagesView.*",
-      includeSelf
+      includeSelf,
     });
 
   return {
     getPreviousAnswersForSection,
     getPreviousAnswersForPage,
-    getPreviousQuestionsForPage
+    getPreviousQuestionsForPage,
   };
 };

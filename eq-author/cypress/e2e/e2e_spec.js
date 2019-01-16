@@ -10,7 +10,7 @@ describe("End to end", () => {
       questionnaireId = id;
     });
     section.updateInitial({
-      title: "General Business Information"
+      title: "General Business Information",
     });
     question.updateInitial({
       sectionDisplayName: "General Business Information",
@@ -21,19 +21,20 @@ describe("End to end", () => {
         type: "Checkbox",
         options: [
           {
-            label: "UK regional within approximately 100 miles of this business"
+            label:
+              "UK regional within approximately 100 miles of this business",
           },
           {
-            label: "UK National"
+            label: "UK National",
           },
           {
-            label: "European countries"
+            label: "European countries",
           },
           {
-            label: "All other countries"
-          }
-        ]
-      }
+            label: "All other countries",
+          },
+        ],
+      },
     });
   });
 

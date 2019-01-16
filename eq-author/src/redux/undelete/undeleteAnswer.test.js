@@ -1,7 +1,7 @@
 import {
   undeleteAnswer,
   createUndelete,
-  createUpdate
+  createUpdate,
 } from "redux/undelete/undeleteAnswer";
 import fragment from "graphql/pageFragment.graphql";
 import configureStore from "redux-mock-store";
@@ -17,7 +17,7 @@ describe("undeleteAnswer", () => {
     id = "Answer1";
     context = {
       pageId: 1,
-      answerId: 1
+      answerId: 1,
     };
 
     dispatch = jest.fn();
@@ -25,24 +25,24 @@ describe("undeleteAnswer", () => {
     mutate = jest.fn(() => Promise.resolve());
 
     client = {
-      mutate
+      mutate,
     };
 
     result = {
       data: {
         undeleteAnswer: {
-          id: 1
-        }
-      }
+          id: 1,
+        },
+      },
     };
 
     proxy = {
       readFragment: jest.fn(() => {
         return {
-          answers: []
+          answers: [],
         };
       }),
-      writeFragment: jest.fn()
+      writeFragment: jest.fn(),
     };
   });
 
@@ -62,7 +62,7 @@ describe("undeleteAnswer", () => {
       createUndelete(mutate)(id, context);
       expect(mutate).toHaveBeenCalledWith({
         update: expect.any(Function),
-        variables: { input: { id } }
+        variables: { input: { id } },
       });
     });
   });
@@ -72,7 +72,7 @@ describe("undeleteAnswer", () => {
       createUpdate(context)(proxy, result);
       expect(proxy.readFragment).toHaveBeenCalledWith({
         id: "QuestionPage1",
-        fragment
+        fragment,
       });
     });
 
@@ -82,8 +82,8 @@ describe("undeleteAnswer", () => {
         id: "QuestionPage1",
         fragment,
         data: {
-          answers: [{ id: 1 }]
-        }
+          answers: [{ id: 1 }],
+        },
       });
     });
   });
@@ -103,11 +103,11 @@ describe("undeleteAnswer", () => {
       return store.dispatch(undeleteAnswer(id, context)).then(() => {
         expect(store.getActions()).toEqual([
           {
-            type: "UNDELETE_ANSWER_REQUEST"
+            type: "UNDELETE_ANSWER_REQUEST",
           },
           {
-            type: "UNDELETE_ANSWER_SUCCESS"
-          }
+            type: "UNDELETE_ANSWER_SUCCESS",
+          },
         ]);
       });
     });
@@ -117,11 +117,11 @@ describe("undeleteAnswer", () => {
       return store.dispatch(undeleteAnswer(id, context)).then(() => {
         expect(store.getActions()).toEqual([
           {
-            type: "UNDELETE_ANSWER_REQUEST"
+            type: "UNDELETE_ANSWER_REQUEST",
           },
           {
-            type: "UNDELETE_ANSWER_FAILURE"
-          }
+            type: "UNDELETE_ANSWER_FAILURE",
+          },
         ]);
       });
     });

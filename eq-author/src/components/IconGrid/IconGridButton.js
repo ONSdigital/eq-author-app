@@ -70,7 +70,7 @@ IconGridButton.propTypes = {
   title: PropTypes.string.isRequired,
   disabled: PropTypes.bool,
   order: PropTypes.number,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
 };
 
 export default IconGridButton;

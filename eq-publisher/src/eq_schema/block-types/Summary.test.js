@@ -9,9 +9,9 @@ describe("Summary", () => {
       blocks: [
         {
           type: "Summary",
-          id: "summary-block"
-        }
-      ]
+          id: "summary-block",
+        },
+      ],
     });
   });
 });

@@ -57,7 +57,7 @@ export const UncontrolledInput = ({
 );
 
 UncontrolledInput.defaultProps = {
-  type: "text"
+  type: "text",
 };
 
 UncontrolledInput.propTypes = {
@@ -67,8 +67,8 @@ UncontrolledInput.propTypes = {
   defaultValue: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.bool,
-    PropTypes.number
-  ])
+    PropTypes.number,
+  ]),
 };
 
 export default withChangeHandler(UncontrolledInput);

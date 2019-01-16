@@ -7,13 +7,13 @@ describe("withDeleteQuestionnaire", () => {
 
   beforeEach(() => {
     questionnaire = {
-      id: "1"
+      id: "1",
     };
 
     result = {
       data: {
-        deleteQuestionnaire: questionnaire
-      }
+        deleteQuestionnaire: questionnaire,
+      },
     };
 
     raiseToast = jest.fn(() => Promise.resolve());
@@ -21,7 +21,7 @@ describe("withDeleteQuestionnaire", () => {
     ownProps = {
       questionnaireId: questionnaire.id,
       onAddPage,
-      raiseToast
+      raiseToast,
     };
 
     mutate = jest.fn(() => Promise.resolve(result));
@@ -30,38 +30,38 @@ describe("withDeleteQuestionnaire", () => {
   describe("handleUpdate", () => {
     let cachedQuestionnaires = [
       {
-        id: "1"
+        id: "1",
       },
       {
-        id: "2"
+        id: "2",
       },
       {
-        id: "3"
-      }
+        id: "3",
+      },
     ];
 
     it("should remove the questionnaire from the cache", () => {
       const readQuery = jest.fn(() => ({
-        questionnaires: cachedQuestionnaires
+        questionnaires: cachedQuestionnaires,
       }));
 
       const writeQuery = jest.fn();
 
       const proxy = {
         readQuery,
-        writeQuery
+        writeQuery,
       };
 
       handleUpdate(proxy, {
         data: {
           deleteQuestionnaire: {
-            id: "1"
-          }
-        }
+            id: "1",
+          },
+        },
       });
 
       expect(readQuery).toHaveBeenCalledWith({
-        query: getQuestionnaireList
+        query: getQuestionnaireList,
       });
 
       expect(writeQuery).toHaveBeenCalledWith({
@@ -69,13 +69,13 @@ describe("withDeleteQuestionnaire", () => {
         data: {
           questionnaires: [
             {
-              id: "2"
+              id: "2",
             },
             {
-              id: "3"
-            }
-          ]
-        }
+              id: "3",
+            },
+          ],
+        },
       });
     });
   });
@@ -99,8 +99,8 @@ describe("withDeleteQuestionnaire", () => {
           expect(mutate).toHaveBeenCalledWith(
             expect.objectContaining({
               variables: {
-                input: { id: questionnaireId }
-              }
+                input: { id: questionnaireId },
+              },
             })
           );
         });
@@ -113,7 +113,7 @@ describe("withDeleteQuestionnaire", () => {
             expect.stringContaining("Questionnaire"),
             "undeleteQuestionnaire",
             expect.objectContaining({
-              questionnaireId
+              questionnaireId,
             })
           );
         });
@@ -126,9 +126,9 @@ describe("withDeleteQuestionnaire", () => {
               optimisticResponse: {
                 deleteQuestionnaire: {
                   id: questionnaireId,
-                  __typename: "Questionnaire"
-                }
-              }
+                  __typename: "Questionnaire",
+                },
+              },
             })
           );
         });

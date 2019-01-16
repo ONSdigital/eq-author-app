@@ -5,7 +5,7 @@ const {
   clamp,
   getOr,
   isNil,
-  reject
+  reject,
 } = require("lodash/fp");
 
 const SPACING = 1000;
@@ -109,5 +109,5 @@ const getOrUpdateOrderForSectionInsert = async (
 
 module.exports = {
   getOrUpdateOrderForPageInsert,
-  getOrUpdateOrderForSectionInsert
+  getOrUpdateOrderForSectionInsert,
 };

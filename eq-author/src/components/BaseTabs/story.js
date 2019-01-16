@@ -34,7 +34,7 @@ const tabs = [
       <ContentWrapper>
         <h2>Content 1</h2>
       </ContentWrapper>
-    )
+    ),
   },
   {
     id: 2,
@@ -43,8 +43,8 @@ const tabs = [
       <ContentWrapper>
         <h2>Content 2</h2>
       </ContentWrapper>
-    )
-  }
+    ),
+  },
 ];
 
 storiesOf("BaseTabs", module)
@@ -61,7 +61,7 @@ storiesOf("BaseTabs", module)
   .add("State management", () => {
     class BaseTabsStateManager extends React.Component {
       state = {
-        id: 1
+        id: 1,
       };
       handleChange = id => {
         action("change")(id);

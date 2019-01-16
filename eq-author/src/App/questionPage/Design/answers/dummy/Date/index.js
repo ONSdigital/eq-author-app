@@ -66,5 +66,5 @@ export default Date;
 Date.propTypes = {
   showDay: PropTypes.bool,
   showMonth: PropTypes.bool,
-  showYear: PropTypes.bool
+  showYear: PropTypes.bool,
 };

@@ -14,7 +14,7 @@ describe("AliasEditor", () => {
     props = {
       alias: "FooBar",
       onChange: jest.fn(),
-      onUpdate: jest.fn()
+      onUpdate: jest.fn(),
     };
 
     wrapper = createWrapper(props);

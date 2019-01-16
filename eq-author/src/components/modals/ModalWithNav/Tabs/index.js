@@ -86,9 +86,9 @@ Tabs.propTypes = {
     PropTypes.shape({
       id: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
-      render: PropTypes.func.isRequired
+      render: PropTypes.func.isRequired,
     })
-  )
+  ),
 };
 
 export default Tabs;

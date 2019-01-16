@@ -19,11 +19,11 @@ describe("Updating", async () => {
             type = answerTypes.NUMBER;
           }
           return Promise.resolve({ id, type });
-        })
+        }),
       },
       RightSide2: {
-        deleteByExpressionId: jest.fn().mockResolvedValueOnce()
-      }
+        deleteByExpressionId: jest.fn().mockResolvedValueOnce(),
+      },
     };
   });
   it("should be able to update the left side", async () => {
@@ -32,37 +32,37 @@ describe("Updating", async () => {
       BinaryExpression2: {
         getById: jest.fn().mockResolvedValue({
           id: BINARY_EXPRESSION_ID,
-          condition: conditions.EQUAL
+          condition: conditions.EQUAL,
         }),
         update: jest.fn().mockResolvedValueOnce({
           id: BINARY_EXPRESSION_ID,
-          condition: conditions.EQUAL
-        })
+          condition: conditions.EQUAL,
+        }),
       },
       LeftSide2: {
         getByExpressionId: jest.fn().mockResolvedValue({
-          id: LEFT_SIDE_ID
+          id: LEFT_SIDE_ID,
         }),
         update: jest
           .fn()
-          .mockResolvedValue({ expressionId: BINARY_EXPRESSION_ID })
-      }
+          .mockResolvedValue({ expressionId: BINARY_EXPRESSION_ID }),
+      },
     };
 
     const binaryExpression = await update({ repositories })({
       expressionId: BINARY_EXPRESSION_ID,
-      answerId: BASIC_ANSWER_ID
+      answerId: BASIC_ANSWER_ID,
     });
 
     expect(repositories.LeftSide2.update).toHaveBeenCalledWith({
       id: LEFT_SIDE_ID,
       answerId: BASIC_ANSWER_ID,
-      type: "Answer"
+      type: "Answer",
     });
 
     expect(binaryExpression).toMatchObject({
       id: BINARY_EXPRESSION_ID,
-      condition: conditions.EQUAL
+      condition: conditions.EQUAL,
     });
   });
 
@@ -72,42 +72,42 @@ describe("Updating", async () => {
       BinaryExpression2: {
         getById: jest.fn().mockResolvedValue({
           id: BINARY_EXPRESSION_ID,
-          condition: conditions.EQUAL
+          condition: conditions.EQUAL,
         }),
         update: jest.fn().mockResolvedValueOnce({
           id: BINARY_EXPRESSION_ID,
-          condition: conditions.EQUAL
-        })
+          condition: conditions.EQUAL,
+        }),
       },
       LeftSide2: {
         getByExpressionId: jest.fn().mockResolvedValue({
-          id: LEFT_SIDE_ID
+          id: LEFT_SIDE_ID,
         }),
         update: jest
           .fn()
-          .mockResolvedValue({ expressionId: BINARY_EXPRESSION_ID })
-      }
+          .mockResolvedValue({ expressionId: BINARY_EXPRESSION_ID }),
+      },
     };
 
     const binaryExpression = await update({ repositories })({
       expressionId: BINARY_EXPRESSION_ID,
-      answerId: MULTIPLE_CHOICE_ANSWER_ID
+      answerId: MULTIPLE_CHOICE_ANSWER_ID,
     });
 
     expect(repositories.LeftSide2.update).toHaveBeenCalledWith({
       id: LEFT_SIDE_ID,
       answerId: MULTIPLE_CHOICE_ANSWER_ID,
-      type: "Answer"
+      type: "Answer",
     });
 
     expect(repositories.BinaryExpression2.update).toHaveBeenCalledWith({
       id: BINARY_EXPRESSION_ID,
-      condition: conditions.ONE_OF
+      condition: conditions.ONE_OF,
     });
 
     expect(binaryExpression).toMatchObject({
       id: BINARY_EXPRESSION_ID,
-      condition: conditions.EQUAL
+      condition: conditions.EQUAL,
     });
   });
 
@@ -117,32 +117,32 @@ describe("Updating", async () => {
       BinaryExpression2: {
         getById: jest.fn().mockResolvedValue({
           id: BINARY_EXPRESSION_ID,
-          condition: conditions.EQUAL
+          condition: conditions.EQUAL,
         }),
         update: jest.fn().mockResolvedValueOnce({
           id: BINARY_EXPRESSION_ID,
-          condition: conditions.EQUAL
-        })
+          condition: conditions.EQUAL,
+        }),
       },
       LeftSide2: {
         getByExpressionId: jest.fn().mockResolvedValue({
-          id: LEFT_SIDE_ID
+          id: LEFT_SIDE_ID,
         }),
         update: jest
           .fn()
-          .mockResolvedValue({ expressionId: BINARY_EXPRESSION_ID })
-      }
+          .mockResolvedValue({ expressionId: BINARY_EXPRESSION_ID }),
+      },
     };
 
     const binaryExpression = await update({ repositories })({
       expressionId: BINARY_EXPRESSION_ID,
-      answerId: MULTIPLE_CHOICE_ANSWER_ID
+      answerId: MULTIPLE_CHOICE_ANSWER_ID,
     });
 
     expect(repositories.LeftSide2.update).toHaveBeenCalledWith({
       id: LEFT_SIDE_ID,
       answerId: MULTIPLE_CHOICE_ANSWER_ID,
-      type: "Answer"
+      type: "Answer",
     });
 
     expect(repositories.RightSide2.deleteByExpressionId).toHaveBeenCalledWith(
@@ -151,7 +151,7 @@ describe("Updating", async () => {
 
     expect(binaryExpression).toMatchObject({
       id: BINARY_EXPRESSION_ID,
-      condition: conditions.EQUAL
+      condition: conditions.EQUAL,
     });
   });
 });

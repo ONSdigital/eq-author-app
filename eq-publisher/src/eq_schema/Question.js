@@ -2,7 +2,7 @@ const Answer = require("./Answer");
 const {
   parseContent,
   getInnerHTMLWithPiping,
-  unescapePiping
+  unescapePiping,
 } = require("../utils/HTMLUtils");
 const { find, get, flow, isNil, assign, concat } = require("lodash/fp");
 const { set } = require("lodash");
@@ -42,8 +42,8 @@ class Question {
       this.definitions = [
         {
           title: question.definitionLabel,
-          ...processContent(ctx)(question.definitionContent)
-        }
+          ...processContent(ctx)(question.definitionContent),
+        },
       ];
     }
 
@@ -59,7 +59,7 @@ class Question {
         earliestDate,
         latestDate,
         minDuration,
-        maxDuration
+        maxDuration,
       } = dateRange.validation;
 
       if (earliestDate.enabled || latestDate.enabled) {
@@ -113,7 +113,7 @@ class Question {
       ...mutuallyExclusive,
       id: `${mutuallyExclusive.id}-exclusive`,
       type: "Checkbox",
-      options: [mutuallyExclusive.mutuallyExclusiveOption]
+      options: [mutuallyExclusive.mutuallyExclusiveOption],
     });
 
     return concat(

@@ -16,15 +16,15 @@ const result = {
                 {
                   id: 1,
                   type: "TextField",
-                  properties: { required: true }
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    }
-  }
+                  properties: { required: true },
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+  },
 };
 
 describe("Convert", () => {
@@ -33,7 +33,7 @@ describe("Convert", () => {
 
   beforeEach(() => {
     mockSchemaValidator = {
-      validate: jest.fn()
+      validate: jest.fn(),
     };
     convert = new Convert(mockSchemaValidator);
   });

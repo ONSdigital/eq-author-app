@@ -17,7 +17,7 @@ import {
   RADIO,
   TIME,
   DATE_RANGE,
-  DATE
+  DATE,
 } from "constants/answer-types";
 
 const Menu = styled.div`
@@ -55,14 +55,14 @@ const buttons = [
   { type: NUMBER, title: "Number" },
   { type: DATE, title: "Date" },
   { type: DATE_RANGE, title: "Date range" },
-  { type: TIME, title: "Time", disabled: true }
+  { type: TIME, title: "Time", disabled: true },
 ];
 
 class AnswerTypeGrid extends React.Component {
   static propTypes = {
     onClose: PropTypes.func,
     onSelect: PropTypes.func.isRequired,
-    "aria-labelledby": PropTypes.string
+    "aria-labelledby": PropTypes.string,
   };
 
   handleSelect = type => {
@@ -89,7 +89,7 @@ class AnswerTypeGrid extends React.Component {
               const props = {
                 ...button,
                 onClick: this.handleSelect,
-                order: buttons.length - index
+                order: buttons.length - index,
               };
 
               if (index === 0) {

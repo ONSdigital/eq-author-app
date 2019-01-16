@@ -4,7 +4,7 @@ const knex = require("knex")(require("../../knexfile"));
 const {
   duplicatePageStrategy,
   duplicateSectionStrategy,
-  duplicateQuestionnaireStrategy
+  duplicateQuestionnaireStrategy,
 } = require("./duplicateStrategy");
 
 const SectionRepository = require("../SectionRepository")(knex);
@@ -34,7 +34,7 @@ const sanitize = omit([
   "questionnaireId",
   "routingDestinationId",
   "routingRuleSetId",
-  "conditionId"
+  "conditionId",
 ]);
 const removeChildren = omit([
   "answers",
@@ -48,14 +48,14 @@ const removeChildren = omit([
   "routingValue",
   "conditions",
   "goto",
-  "confirmation"
+  "confirmation",
 ]);
 
 const sanitizeAllProperties = obj =>
   Object.keys(obj).reduce(
     (struct, key) => ({
       ...struct,
-      [key]: sanitize(obj[key])
+      [key]: sanitize(obj[key]),
     }),
     {}
   );
@@ -77,11 +77,11 @@ describe("Duplicate strategy tests", () => {
           {
             pages: [
               {
-                title: "My page"
-              }
-            ]
-          }
-        ]
+                title: "My page",
+              },
+            ],
+          },
+        ],
       });
 
       const page = questionnaire.sections[0].pages[0];
@@ -91,7 +91,7 @@ describe("Duplicate strategy tests", () => {
       );
       expect(sanitize(duplicatePage)).toMatchObject({
         ...sanitize(removeChildren(page)),
-        order: page.order + 1000
+        order: page.order + 1000,
       });
     });
 
@@ -105,17 +105,17 @@ describe("Duplicate strategy tests", () => {
                 answers: [
                   {
                     label: "Is deleted",
-                    isDeleted: true
+                    isDeleted: true,
                   },
                   {
                     label: "Is not deleted",
-                    isDeleted: false
-                  }
-                ]
-              }
-            ]
-          }
-        ]
+                    isDeleted: false,
+                  },
+                ],
+              },
+            ],
+          },
+        ],
       });
 
       const page = questionnaire.sections[0].pages[0];
@@ -125,7 +125,7 @@ describe("Duplicate strategy tests", () => {
       );
 
       const duplicateAnswers = await AnswerRepository.findAll({
-        questionPageId: duplicatePage.id
+        questionPageId: duplicatePage.id,
       });
 
       expect(duplicateAnswers).toHaveLength(1);
@@ -145,11 +145,11 @@ describe("Duplicate strategy tests", () => {
               {
                 title:
                   'MyPage <span data-piped="metadata" data-id="m1" data-type="Text">{{foo}}</span>',
-                answers: []
-              }
-            ]
-          }
-        ]
+                answers: [],
+              },
+            ],
+          },
+        ],
       });
 
       const page = questionnaire.sections[0].pages[0];
@@ -179,46 +179,46 @@ describe("Duplicate strategy tests", () => {
                     options: [
                       {
                         id: "yes",
-                        label: "Yes"
+                        label: "Yes",
                       },
                       {
                         id: "no",
-                        label: "No"
-                      }
-                    ]
-                  }
+                        label: "No",
+                      },
+                    ],
+                  },
                 ],
                 routingRuleSet: {
                   else: {
-                    logicalDestination: "EndOfQuestionnaire"
+                    logicalDestination: "EndOfQuestionnaire",
                   },
                   routingRules: [
                     {
                       goto: {
                         absoluteDestination: {
                           id: "section2",
-                          __typename: "Section"
-                        }
+                          __typename: "Section",
+                        },
                       },
                       conditions: [
                         {
                           answer: { id: "answer1" },
                           routingValue: {
-                            value: ["yes"]
-                          }
-                        }
-                      ]
-                    }
-                  ]
-                }
-              }
-            ]
+                            value: ["yes"],
+                          },
+                        },
+                      ],
+                    },
+                  ],
+                },
+              },
+            ],
           },
           {
             id: "section2",
-            pages: [{}]
-          }
-        ]
+            pages: [{}],
+          },
+        ],
       });
 
       const page = questionnaire.sections[0].pages[0];
@@ -238,7 +238,7 @@ describe("Duplicate strategy tests", () => {
       );
 
       const duplicateRules = await RoutingRepository.findAllRoutingRules({
-        routingRuleSetId: duplicateRuleSet.id
+        routingRuleSetId: duplicateRuleSet.id,
       });
       const duplicateRuleDestination = await RoutingRepository.getRoutingDestination(
         duplicateRules[0].routingDestinationId
@@ -247,30 +247,30 @@ describe("Duplicate strategy tests", () => {
         questionnaire.sections[1].id
       );
       expect(duplicateRules[0]).toMatchObject({
-        ...sanitizeParent(page.ruleSet.rules[0])
+        ...sanitizeParent(page.ruleSet.rules[0]),
       });
 
       const duplicateConditions = await RoutingRepository.findAllRoutingConditions(
         {
-          routingRuleId: duplicateRules[0].id
+          routingRuleId: duplicateRules[0].id,
         }
       );
       const duplicateAnswers = await AnswerRepository.findAll({
-        questionPageId: duplicatePage.id
+        questionPageId: duplicatePage.id,
       });
       expect(duplicateConditions[0]).toMatchObject({
         ...sanitizeParent(page.ruleSet.rules[0].conditions[0]),
         routingRuleId: duplicateRules[0].id,
-        answerId: duplicateAnswers[0].id
+        answerId: duplicateAnswers[0].id,
       });
 
       const duplicateValues = await RoutingRepository.findAllRoutingConditionValues(
         {
-          conditionId: duplicateConditions[0].id
+          conditionId: duplicateConditions[0].id,
         }
       );
       const duplicateOptions = await OptionRepository.findAll({
-        answerId: duplicateAnswers[0].id
+        answerId: duplicateAnswers[0].id,
       });
 
       expect(duplicateValues).toMatchObject([
@@ -278,8 +278,8 @@ describe("Duplicate strategy tests", () => {
           ...sanitize(
             page.ruleSet.rules[0].conditions[0].routingValue.value[0]
           ),
-          optionId: duplicateOptions[0].id
-        }
+          optionId: duplicateOptions[0].id,
+        },
       ]);
     });
 
@@ -293,41 +293,41 @@ describe("Duplicate strategy tests", () => {
                 answers: [
                   {
                     id: "answer1",
-                    type: "Number"
-                  }
+                    type: "Number",
+                  },
                 ],
                 routingRuleSet: {
                   else: {
-                    logicalDestination: "EndOfQuestionnaire"
+                    logicalDestination: "EndOfQuestionnaire",
                   },
                   routingRules: [
                     {
                       goto: {
                         absoluteDestination: {
                           __typename: "Section",
-                          id: "section2"
-                        }
+                          id: "section2",
+                        },
                       },
                       conditions: [
                         {
                           comparator: "Equal",
                           answer: { id: "answer1" },
                           routingValue: {
-                            numberValue: 2
-                          }
-                        }
-                      ]
-                    }
-                  ]
-                }
-              }
-            ]
+                            numberValue: 2,
+                          },
+                        },
+                      ],
+                    },
+                  ],
+                },
+              },
+            ],
           },
           {
             id: "section2",
-            pages: [{}]
-          }
-        ]
+            pages: [{}],
+          },
+        ],
       });
 
       const page = questionnaire.sections[0].pages[0];
@@ -340,11 +340,11 @@ describe("Duplicate strategy tests", () => {
         { questionPageId: duplicatePage.id }
       );
       const duplicateRules = await RoutingRepository.findAllRoutingRules({
-        routingRuleSetId: duplicateRuleSet.id
+        routingRuleSetId: duplicateRuleSet.id,
       });
       const duplicateConditions = await RoutingRepository.findAllRoutingConditions(
         {
-          routingRuleId: duplicateRules[0].id
+          routingRuleId: duplicateRules[0].id,
         }
       );
 
@@ -352,12 +352,12 @@ describe("Duplicate strategy tests", () => {
 
       const duplicateConditionValues = await RoutingRepository.findAllRoutingConditionValues(
         {
-          conditionId: duplicateConditions[0].id
+          conditionId: duplicateConditions[0].id,
         }
       );
 
       expect(duplicateConditionValues[0]).toMatchObject({
-        customNumber: 2
+        customNumber: 2,
       });
     });
 
@@ -368,12 +368,12 @@ describe("Duplicate strategy tests", () => {
             pages: [
               {
                 confirmation: {
-                  title: "confirmation"
-                }
-              }
-            ]
-          }
-        ]
+                  title: "confirmation",
+                },
+              },
+            ],
+          },
+        ],
       });
 
       const page = questionnaire.sections[0].pages[0];
@@ -389,7 +389,7 @@ describe("Duplicate strategy tests", () => {
       expect(duplicateConfirmation).toMatchObject({
         ...sanitize(page.confirmation),
         pageId: duplicatePage.id,
-        title: "confirmation"
+        title: "confirmation",
       });
     });
 
@@ -403,13 +403,13 @@ describe("Duplicate strategy tests", () => {
                   answers: [
                     {
                       type: "Radio",
-                      options: [{}]
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
+                      options: [{}],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
         });
 
         const page = questionnaire.sections[0].pages[0];
@@ -420,10 +420,10 @@ describe("Duplicate strategy tests", () => {
         );
 
         const duplicateAnswers = await AnswerRepository.findAll({
-          questionPageId: duplicatePage.id
+          questionPageId: duplicatePage.id,
         });
         const duplicateOptions = await OptionRepository.findAll({
-          answerId: duplicateAnswers[0].id
+          answerId: duplicateAnswers[0].id,
         });
 
         expect(sanitize(duplicateOptions[0])).toMatchObject(sanitize(option));
@@ -442,14 +442,14 @@ describe("Duplicate strategy tests", () => {
                         { label: "1" },
                         { label: "2" },
                         { label: "3" },
-                        { label: "4" }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
+                        { label: "4" },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
         });
 
         const page = questionnaire.sections[0].pages[0];
@@ -459,10 +459,10 @@ describe("Duplicate strategy tests", () => {
         );
 
         const duplicateAnswers = await AnswerRepository.findAll({
-          questionPageId: duplicatePage.id
+          questionPageId: duplicatePage.id,
         });
         const duplicateOptions = await OptionRepository.findAll({
-          answerId: duplicateAnswers[0].id
+          answerId: duplicateAnswers[0].id,
         });
 
         const optionLabels = map(o => o.label);
@@ -471,7 +471,7 @@ describe("Duplicate strategy tests", () => {
           "1",
           "2",
           "3",
-          "4"
+          "4",
         ]);
       });
 
@@ -491,16 +491,16 @@ describe("Duplicate strategy tests", () => {
                           label: "Other option label",
                           additionalAnswer: {
                             label: "Other answer label",
-                            type: "TextField"
-                          }
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
+                            type: "TextField",
+                          },
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
         });
 
         const page = questionnaire.sections[0].pages[0];
@@ -512,17 +512,17 @@ describe("Duplicate strategy tests", () => {
           duplicatePageStrategy(trx, removeChildren(page))
         );
         const dupAnswers = await AnswerRepository.findAll({
-          questionPageId: duplicatePage.id
+          questionPageId: duplicatePage.id,
         });
         const duplicateAnswer = dupAnswers[0];
         const duplicateOtherOption = await OptionRepository.findAll({
-          answerId: duplicateAnswer.id
+          answerId: duplicateAnswer.id,
         });
 
         expect(sanitize(duplicateAnswer)).toMatchObject(sanitizeParent(answer));
         expect(sanitize(duplicateOtherOption[2])).toEqual({
           ...sanitize(optionWithAdditional),
-          label: "Other option label"
+          label: "Other option label",
         });
       });
 
@@ -537,14 +537,14 @@ describe("Duplicate strategy tests", () => {
                       type: "Radio",
                       options: [{ label: "1" }, { label: "2" }],
                       mutuallyExclusiveOption: {
-                        label: "3"
-                      }
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
+                        label: "3",
+                      },
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
         });
 
         const page = questionnaire.sections[0].pages[0];
@@ -552,7 +552,7 @@ describe("Duplicate strategy tests", () => {
           duplicatePageStrategy(trx, removeChildren(page))
         );
         const dupAnswers = await AnswerRepository.findAll({
-          questionPageId: duplicatePage.id
+          questionPageId: duplicatePage.id,
         });
         const duplicateAnswer = dupAnswers[0];
         const duplicateMutuallyExclusiveOption = await OptionRepository.findExclusiveOptionByAnswerId(
@@ -577,15 +577,15 @@ describe("Duplicate strategy tests", () => {
                         minValue: {
                           enabled: true,
                           custom: 5,
-                          inclusive: true
-                        }
-                      }
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
+                          inclusive: true,
+                        },
+                      },
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
         });
 
         const page = questionnaire.sections[0].pages[0];
@@ -597,7 +597,7 @@ describe("Duplicate strategy tests", () => {
         );
 
         const dupAnswers = await AnswerRepository.findAll({
-          questionPageId: duplicatePage.id
+          questionPageId: duplicatePage.id,
         });
 
         const duplicatedAnswer = dupAnswers[0];
@@ -610,7 +610,7 @@ describe("Duplicate strategy tests", () => {
           maxValue: await ValidationRepository.findByAnswerIdAndValidationType(
             duplicatedAnswer,
             "maxValue"
-          )
+          ),
         };
 
         expect(sanitizeAllProperties(duplicatedValidations)).toMatchObject(
@@ -635,15 +635,15 @@ describe("Duplicate strategy tests", () => {
                           custom: "2018-10-10T00:00:00.000Z",
                           entityType: "Custom",
                           previousAnswerId: null,
-                          metadataId: null
-                        }
-                      }
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
+                          metadataId: null,
+                        },
+                      },
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
         });
 
         const page = questionnaire.sections[0].pages[0];
@@ -655,7 +655,7 @@ describe("Duplicate strategy tests", () => {
         );
 
         const dupAnswers = await AnswerRepository.findAll({
-          questionPageId: duplicatePage.id
+          questionPageId: duplicatePage.id,
         });
 
         const duplicatedAnswer = dupAnswers[0];
@@ -668,7 +668,7 @@ describe("Duplicate strategy tests", () => {
           latestDate: await ValidationRepository.findByAnswerIdAndValidationType(
             duplicatedAnswer,
             "latestDate"
-          )
+          ),
         };
 
         expect(sanitizeAllProperties(duplicatedValidations)).toMatchObject(
@@ -676,7 +676,7 @@ describe("Duplicate strategy tests", () => {
         );
         expect(duplicatedValidations.earliestDate).toMatchObject({
           entityType: "Custom",
-          custom: "2018-10-10T00:00:00.000Z"
+          custom: "2018-10-10T00:00:00.000Z",
         });
       });
 
@@ -699,16 +699,16 @@ describe("Duplicate strategy tests", () => {
                           entityType: "Metadata",
                           previousAnswer: null,
                           metadata: {
-                            id: "metadata1"
-                          }
-                        }
-                      }
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
+                            id: "metadata1",
+                          },
+                        },
+                      },
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
         });
 
         const page = questionnaire.sections[0].pages[0];
@@ -718,7 +718,7 @@ describe("Duplicate strategy tests", () => {
         );
 
         const dupAnswers = await AnswerRepository.findAll({
-          questionPageId: duplicatePage.id
+          questionPageId: duplicatePage.id,
         });
 
         const duplicatedAnswer = dupAnswers[0];
@@ -727,12 +727,12 @@ describe("Duplicate strategy tests", () => {
           earliestDate: await ValidationRepository.findByAnswerIdAndValidationType(
             duplicatedAnswer,
             "earliestDate"
-          )
+          ),
         };
 
         expect(duplicatedValidations.earliestDate).toMatchObject({
           entityType: "Metadata",
-          metadataId: questionnaire.metadata[0].id
+          metadataId: questionnaire.metadata[0].id,
         });
       });
 
@@ -745,7 +745,7 @@ describe("Duplicate strategy tests", () => {
                   answers: [
                     {
                       id: "answer1",
-                      type: "Date"
+                      type: "Date",
                     },
                     {
                       type: "Date",
@@ -757,15 +757,15 @@ describe("Duplicate strategy tests", () => {
                           custom: null,
                           entityType: "PreviousAnswer",
                           previousAnswer: { id: "answer1" },
-                          metadataId: null
-                        }
-                      }
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
+                          metadataId: null,
+                        },
+                      },
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
         });
 
         const page = questionnaire.sections[0].pages[0];
@@ -777,7 +777,7 @@ describe("Duplicate strategy tests", () => {
         // Returns answers on page in reverse order if created at the same time
         const dupAnswers = await AnswerRepository.findAll(
           {
-            questionPageId: duplicatePage.id
+            questionPageId: duplicatePage.id,
           },
           "id",
           "asc"
@@ -789,11 +789,11 @@ describe("Duplicate strategy tests", () => {
           earliestDate: await ValidationRepository.findByAnswerIdAndValidationType(
             duplicatedAnswer,
             "earliestDate"
-          )
+          ),
         };
         expect(duplicatedValidations.earliestDate).toMatchObject({
           entityType: "PreviousAnswer",
-          previousAnswerId: dupAnswers[0].id
+          previousAnswerId: dupAnswers[0].id,
         });
       });
     });
@@ -805,9 +805,9 @@ describe("Duplicate strategy tests", () => {
         sections: [
           {
             title: "My section",
-            pages: [{}]
-          }
-        ]
+            pages: [{}],
+          },
+        ],
       });
 
       const section = questionnaire.sections[0];
@@ -830,19 +830,19 @@ describe("Duplicate strategy tests", () => {
             pages: [
               {
                 title: "Question 1",
-                isDeleted: false
+                isDeleted: false,
               },
               {
                 title: "Question 2",
-                isDeleted: true
+                isDeleted: true,
               },
               {
                 title: "Question 3",
-                isDeleted: false
-              }
-            ]
-          }
-        ]
+                isDeleted: false,
+              },
+            ],
+          },
+        ],
       });
 
       const section = questionnaire.sections[0];
@@ -852,7 +852,7 @@ describe("Duplicate strategy tests", () => {
       );
 
       const duplicatePages = await PageRepository.findAll({
-        sectionId: duplicateSection.id
+        sectionId: duplicateSection.id,
       });
 
       expect(duplicatePages).toHaveLength(2);
@@ -871,7 +871,7 @@ describe("Duplicate strategy tests", () => {
             pages: [
               {
                 title: "Question 1",
-                answers: [{ id: "a1", label: "Answer 1" }]
+                answers: [{ id: "a1", label: "Answer 1" }],
               },
               {
                 title:
@@ -879,11 +879,11 @@ describe("Duplicate strategy tests", () => {
                 description:
                   'Description <span data-piped="answers" data-id="a1" data-type="TextField">{{Answer 1}}</span>',
                 guidance:
-                  'Guidance <span data-piped="answers" data-id="a1" data-type="TextField">{{Answer 1}}</span>'
-              }
-            ]
-          }
-        ]
+                  'Guidance <span data-piped="answers" data-id="a1" data-type="TextField">{{Answer 1}}</span>',
+              },
+            ],
+          },
+        ],
       });
 
       const section = questionnaire.sections[0];
@@ -893,11 +893,11 @@ describe("Duplicate strategy tests", () => {
       );
 
       const duplicatePages = await PageRepository.findAll({
-        sectionId: duplicateSection.id
+        sectionId: duplicateSection.id,
       });
 
       const duplicateFirstPageAnswers = await AnswerRepository.findAll({
-        questionPageId: duplicatePages[0].id
+        questionPageId: duplicatePages[0].id,
       });
       const newPipedAnswerId = duplicateFirstPageAnswers[0].id;
 
@@ -921,8 +921,8 @@ describe("Duplicate strategy tests", () => {
             id: "m1",
             key: "foo",
             type: "Text",
-            textValue: "Hello world"
-          }
+            textValue: "Hello world",
+          },
         ],
         sections: [
           {
@@ -930,9 +930,9 @@ describe("Duplicate strategy tests", () => {
             pages: [
               {
                 title: "Question 1",
-                answers: [{ id: "s1q1a1", label: "S1Q1A1" }]
-              }
-            ]
+                answers: [{ id: "s1q1a1", label: "S1Q1A1" }],
+              },
+            ],
           },
           {
             title: "My section 2",
@@ -941,11 +941,11 @@ describe("Duplicate strategy tests", () => {
                 title:
                   'Question <span data-piped="answers" data-id="s1q1a1" data-type="TextField">{{S1Q1A1}}</span>',
                 description:
-                  'Description <span data-piped="metadata" data-id="m1" data-type="Text">{{foo}}</span>'
-              }
-            ]
-          }
-        ]
+                  'Description <span data-piped="metadata" data-id="m1" data-type="Text">{{foo}}</span>',
+              },
+            ],
+          },
+        ],
       });
 
       const section = questionnaire.sections[1];
@@ -955,7 +955,7 @@ describe("Duplicate strategy tests", () => {
       );
 
       const duplicatePages = await PageRepository.findAll({
-        sectionId: duplicateSection.id
+        sectionId: duplicateSection.id,
       });
       const referencedAnswerId =
         questionnaire.sections[0].pages[0].answers[0].id;
@@ -984,52 +984,52 @@ describe("Duplicate strategy tests", () => {
                     options: [
                       {
                         id: "yes",
-                        label: "Yes"
+                        label: "Yes",
                       },
                       {
                         id: "no",
-                        label: "No"
-                      }
-                    ]
-                  }
+                        label: "No",
+                      },
+                    ],
+                  },
                 ],
                 routingRuleSet: {
                   else: {
                     absoluteDestination: {
                       id: "page2",
-                      __typename: "QuestionPage"
-                    }
+                      __typename: "QuestionPage",
+                    },
                   },
                   routingRules: [
                     {
                       goto: {
                         absoluteDestination: {
                           id: "section2",
-                          __typename: "Section"
-                        }
+                          __typename: "Section",
+                        },
                       },
                       conditions: [
                         {
                           answer: { id: "answer1" },
                           routingValue: {
-                            value: ["yes"]
-                          }
-                        }
-                      ]
-                    }
-                  ]
-                }
+                            value: ["yes"],
+                          },
+                        },
+                      ],
+                    },
+                  ],
+                },
               },
               {
-                id: "page2"
-              }
-            ]
+                id: "page2",
+              },
+            ],
           },
           {
             id: "section2",
-            pages: [{}]
-          }
-        ]
+            pages: [{}],
+          },
+        ],
       });
 
       const section = questionnaire.sections[0];
@@ -1039,7 +1039,7 @@ describe("Duplicate strategy tests", () => {
       );
 
       const duplicatePages = await PageRepository.findAll({
-        sectionId: duplicateSection.id
+        sectionId: duplicateSection.id,
       });
 
       const duplicatedPage = duplicatePages[0];
@@ -1052,12 +1052,12 @@ describe("Duplicate strategy tests", () => {
       // Internal reference updated
       expect(duplicateRuleSetDestination).toMatchObject({
         absoluteDestination: {
-          id: duplicatePages[1].id
-        }
+          id: duplicatePages[1].id,
+        },
       });
 
       const duplicateRules = await RoutingRepository.findAllRoutingRules({
-        routingRuleSetId: duplicatedPageRuleSet.id
+        routingRuleSetId: duplicatedPageRuleSet.id,
       });
       const duplicateRuleDestination = await RoutingRepository.getRoutingDestination(
         duplicateRules[0].routingDestinationId
@@ -1074,9 +1074,9 @@ describe("Duplicate strategy tests", () => {
       const questionnaire = await buildTestQuestionnaire({
         sections: [
           {
-            pages: [{}]
-          }
-        ]
+            pages: [{}],
+          },
+        ],
       });
 
       const duplicateQuestionnaire = await knex.transaction(trx => {
@@ -1095,9 +1095,9 @@ describe("Duplicate strategy tests", () => {
       const questionnaire = await buildTestQuestionnaire({
         sections: [
           {
-            pages: [{}]
-          }
-        ]
+            pages: [{}],
+          },
+        ],
       });
 
       const duplicateQuestionnaire = await knex.transaction(trx =>
@@ -1105,10 +1105,10 @@ describe("Duplicate strategy tests", () => {
       );
 
       const duplicateSections = await SectionRepository.findAll({
-        questionnaireId: duplicateQuestionnaire.id
+        questionnaireId: duplicateQuestionnaire.id,
       });
       const duplicatePages = await PageRepository.findAll({
-        sectionId: duplicateSections[0].id
+        sectionId: duplicateSections[0].id,
       });
 
       expect(sanitize(duplicateSections[0])).toMatchObject(
@@ -1124,9 +1124,9 @@ describe("Duplicate strategy tests", () => {
         metadata: [{ key: "foo", type: "Text", textValue: "Hello world" }],
         sections: [
           {
-            pages: [{}]
-          }
-        ]
+            pages: [{}],
+          },
+        ],
       });
 
       const duplicateQuestionnaire = await knex.transaction(trx =>
@@ -1134,7 +1134,7 @@ describe("Duplicate strategy tests", () => {
       );
 
       const duplicateMetadata = await MetadataRepository.findAll({
-        questionnaireId: duplicateQuestionnaire.id
+        questionnaireId: duplicateQuestionnaire.id,
       });
 
       expect(duplicateMetadata.map(sanitize)).toMatchObject(
@@ -1149,8 +1149,8 @@ describe("Duplicate strategy tests", () => {
             id: "m1",
             key: "foo",
             type: "Text",
-            textValue: "Hello world"
-          }
+            textValue: "Hello world",
+          },
         ],
         sections: [
           {
@@ -1162,22 +1162,22 @@ describe("Duplicate strategy tests", () => {
                 answers: [
                   {
                     id: "a1",
-                    label: "Answer 1"
-                  }
-                ]
-              }
-            ]
+                    label: "Answer 1",
+                  },
+                ],
+              },
+            ],
           },
           {
             title: "Section 2",
             pages: [
               {
                 guidance:
-                  'Section 2 title <span data-piped="answers" data-id="a1" data-type="TextField">{{Answer 1}}</span>'
-              }
-            ]
-          }
-        ]
+                  'Section 2 title <span data-piped="answers" data-id="a1" data-type="TextField">{{Answer 1}}</span>',
+              },
+            ],
+          },
+        ],
       });
 
       const duplicateQuestionnaire = await knex.transaction(trx =>
@@ -1185,15 +1185,15 @@ describe("Duplicate strategy tests", () => {
       );
 
       const duplicateMetadata = await MetadataRepository.findAll({
-        questionnaireId: duplicateQuestionnaire.id
+        questionnaireId: duplicateQuestionnaire.id,
       });
       const duplicateSections = await SectionRepository.findAll({
-        questionnaireId: duplicateQuestionnaire.id
+        questionnaireId: duplicateQuestionnaire.id,
       });
 
       const dupSection1 = duplicateSections[0];
       const dupSection1Pages = await PageRepository.findAll({
-        sectionId: dupSection1.id
+        sectionId: dupSection1.id,
       });
       const dupSection1Page1 = dupSection1Pages[0];
 
@@ -1204,13 +1204,13 @@ describe("Duplicate strategy tests", () => {
       );
 
       const dupSection1Page1Answers = await AnswerRepository.findAll({
-        questionPageId: dupSection1Page1.id
+        questionPageId: dupSection1Page1.id,
       });
       const dupSection1Page1Answer1 = dupSection1Page1Answers[0];
 
       const dupSection2 = duplicateSections[1];
       const dupSection2Pages = await PageRepository.findAll({
-        sectionId: dupSection2.id
+        sectionId: dupSection2.id,
       });
       const dupSection2Page1 = dupSection2Pages[0];
 
@@ -1235,52 +1235,52 @@ describe("Duplicate strategy tests", () => {
                     options: [
                       {
                         id: "yes",
-                        label: "Yes"
+                        label: "Yes",
                       },
                       {
                         id: "no",
-                        label: "No"
-                      }
-                    ]
-                  }
+                        label: "No",
+                      },
+                    ],
+                  },
                 ],
                 routingRuleSet: {
                   else: {
                     absoluteDestination: {
                       id: "page2",
-                      __typename: "QuestionPage"
-                    }
+                      __typename: "QuestionPage",
+                    },
                   },
                   routingRules: [
                     {
                       goto: {
                         absoluteDestination: {
                           id: "section2",
-                          __typename: "Section"
-                        }
+                          __typename: "Section",
+                        },
                       },
                       conditions: [
                         {
                           answer: { id: "answer1" },
                           routingValue: {
-                            value: ["yes"]
-                          }
-                        }
-                      ]
-                    }
-                  ]
-                }
+                            value: ["yes"],
+                          },
+                        },
+                      ],
+                    },
+                  ],
+                },
               },
               {
-                id: "page2"
-              }
-            ]
+                id: "page2",
+              },
+            ],
           },
           {
             id: "section2",
-            pages: [{}]
-          }
-        ]
+            pages: [{}],
+          },
+        ],
       });
 
       const duplicateQuestionnaire = await knex.transaction(trx =>
@@ -1288,11 +1288,11 @@ describe("Duplicate strategy tests", () => {
       );
 
       const duplicateSections = await SectionRepository.findAll({
-        questionnaireId: duplicateQuestionnaire.id
+        questionnaireId: duplicateQuestionnaire.id,
       });
 
       const duplicatePages = await PageRepository.findAll({
-        sectionId: duplicateSections[0].id
+        sectionId: duplicateSections[0].id,
       });
 
       const duplicatedPage = duplicatePages[0];
@@ -1305,12 +1305,12 @@ describe("Duplicate strategy tests", () => {
       // Internal reference updated
       expect(duplicateRuleSetDestination).toMatchObject({
         absoluteDestination: {
-          id: duplicatePages[1].id
-        }
+          id: duplicatePages[1].id,
+        },
       });
 
       const duplicateRules = await RoutingRepository.findAllRoutingRules({
-        routingRuleSetId: duplicatedPageRuleSet.id
+        routingRuleSetId: duplicatedPageRuleSet.id,
       });
       const duplicateRuleDestination = await RoutingRepository.getRoutingDestination(
         duplicateRules[0].routingDestinationId

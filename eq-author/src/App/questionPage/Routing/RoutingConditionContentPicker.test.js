@@ -10,7 +10,7 @@ describe("RoutingConditionContentPicker", () => {
   beforeEach(() => {
     props = {
       path: "foobar",
-      onSubmit: jest.fn()
+      onSubmit: jest.fn(),
     };
 
     wrapper = render(props);

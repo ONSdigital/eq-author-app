@@ -3,7 +3,7 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 
 const PopupTransition = styled(CSSTransition).attrs({
-  classNames: "popup"
+  classNames: "popup",
 })`
   transform-origin: left center;
   transition: opacity ${props => props.timeout / 4}ms ease-in,
@@ -35,12 +35,12 @@ const PopupTransition = styled(CSSTransition).attrs({
 
 PopupTransition.defaultProps = {
   in: false,
-  timeout: 200
+  timeout: 200,
 };
 
 PopupTransition.propTypes = {
   timeout: PropTypes.number,
-  children: PropTypes.element
+  children: PropTypes.element,
 };
 
 export default PopupTransition;

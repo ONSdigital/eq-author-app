@@ -5,7 +5,7 @@ import ContentWrapper from "./ContentWrapper";
 
 describe("Content Wrapper", () => {
   const props = {
-    onClose: () => {}
+    onClose: () => {},
   };
 
   it("should wrap the tab content with a column, transition and close button", () => {

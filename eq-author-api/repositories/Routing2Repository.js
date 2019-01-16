@@ -22,6 +22,6 @@ module.exports = knex => {
   return {
     insert,
     getByPageId,
-    getById
+    getById,
   };
 };

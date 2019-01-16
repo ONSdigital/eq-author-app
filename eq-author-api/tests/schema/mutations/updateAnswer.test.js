@@ -20,7 +20,7 @@ describe("updateAnswer", () => {
 
   beforeEach(() => {
     repositories = {
-      Answer: mockRepository()
+      Answer: mockRepository(),
     };
   });
 
@@ -32,7 +32,7 @@ describe("updateAnswer", () => {
       qCode: "123",
       label: "updated test answer",
       type: "Date",
-      properties: { required: true }
+      properties: { required: true },
     };
 
     const result = await executeQuery(
@@ -52,7 +52,7 @@ describe("updateAnswer", () => {
       guidance: "This is an update answer guidance",
       qCode: "123",
       label: "updated test answer",
-      type: "Date"
+      type: "Date",
     };
 
     const result = await executeQuery(

@@ -7,7 +7,7 @@ describe("Routing2", () => {
     const routingGotos = [];
     const ctx = {
       questionnaireJson,
-      routingGotos
+      routingGotos,
     };
     const authorRouting = {
       rules: [
@@ -18,18 +18,18 @@ describe("Routing2", () => {
               {
                 left: {
                   id: "1",
-                  type: CURRENCY
+                  type: CURRENCY,
                 },
                 condition: "Equal",
                 right: {
-                  number: 5
-                }
-              }
-            ]
+                  number: 5,
+                },
+              },
+            ],
           },
           destination: {
-            logical: "NextPage"
-          }
+            logical: "NextPage",
+          },
         },
         {
           expressionGroup: {
@@ -38,32 +38,32 @@ describe("Routing2", () => {
               {
                 left: {
                   id: "2",
-                  type: RADIO
+                  type: RADIO,
                 },
                 condition: "OneOf",
                 right: {
                   options: [
                     {
-                      label: "red"
+                      label: "red",
                     },
                     {
-                      label: "white"
-                    }
-                  ]
-                }
-              }
-            ]
+                      label: "white",
+                    },
+                  ],
+                },
+              },
+            ],
           },
           destination: {
-            logical: "EndOfQuestionnaire"
-          }
-        }
+            logical: "EndOfQuestionnaire",
+          },
+        },
       ],
       else: {
         page: {
-          id: "3"
-        }
-      }
+          id: "3",
+        },
+      },
     };
 
     const runnerRouting = translateAuthorRouting(authorRouting, "1", "1", ctx);
@@ -74,9 +74,9 @@ describe("Routing2", () => {
         groupId: "group1",
         when: [
           { condition: "equals", id: "answer2", value: "red" },
-          { condition: "equals", id: "answer2", value: "white" }
-        ]
-      }
+          { condition: "equals", id: "answer2", value: "white" },
+        ],
+      },
     ]);
 
     expect(runnerRouting).toMatchObject([
@@ -87,10 +87,10 @@ describe("Routing2", () => {
             {
               id: "answer1",
               condition: "equals",
-              value: 5
-            }
-          ]
-        }
+              value: 5,
+            },
+          ],
+        },
       },
       {
         goto: {
@@ -100,21 +100,21 @@ describe("Routing2", () => {
             {
               id: "answer2",
               condition: "equals",
-              value: "red"
+              value: "red",
             },
             {
               id: "answer2",
               condition: "equals",
-              value: "white"
-            }
-          ]
-        }
+              value: "white",
+            },
+          ],
+        },
       },
       {
         goto: {
-          block: "block3"
-        }
-      }
+          block: "block3",
+        },
+      },
     ]);
   });
 });

@@ -22,7 +22,7 @@ module.exports = ({ repositories }) => async ({ questionPageId, id, type }) => {
     newLeftSides.map(leftSide =>
       repositories.BinaryExpression2.update({
         id: leftSide.expressionId,
-        condition
+        condition,
       })
     )
   );

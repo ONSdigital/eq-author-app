@@ -21,7 +21,7 @@ describe("ToggleChip", () => {
       name: "test",
       onChange: handleChange,
       checked: false,
-      value: "foo"
+      value: "foo",
     };
 
     wrapper = createWrapper(props);
@@ -35,7 +35,7 @@ describe("ToggleChip", () => {
     let wrapper = createWrapper({
       ...props,
       id: "chiptoggle-1",
-      checked: true
+      checked: true,
     });
     expect(wrapper).toMatchSnapshot();
   });

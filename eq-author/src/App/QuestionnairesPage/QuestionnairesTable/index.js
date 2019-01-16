@@ -25,7 +25,7 @@ const TH = styled.th`
 `;
 
 TH.propTypes = {
-  colWidth: PropTypes.string.isRequired
+  colWidth: PropTypes.string.isRequired,
 };
 
 const TBody = props => <tbody {...props} />;
@@ -34,7 +34,7 @@ export class UnconnectedQuestionnairesTable extends React.PureComponent {
   static propTypes = {
     questionnaires: CustomPropTypes.questionnaireList,
     onDeleteQuestionnaire: PropTypes.func.isRequired,
-    onDuplicateQuestionnaire: PropTypes.func.isRequired
+    onDuplicateQuestionnaire: PropTypes.func.isRequired,
   };
 
   static fragments = {
@@ -48,13 +48,13 @@ export class UnconnectedQuestionnairesTable extends React.PureComponent {
           name
         }
       }
-    `
+    `,
   };
 
   headRef = React.createRef();
 
   state = {
-    focusedId: null
+    focusedId: null,
   };
 
   handleDuplicateQuestionnaire = questionnaire => {
@@ -82,7 +82,7 @@ export class UnconnectedQuestionnairesTable extends React.PureComponent {
     // We have to account to set focusedId to undefined when there are no
     // questionnaires left
     this.setState({
-      focusedId: (questionnaires[nextIndex] || {}).id
+      focusedId: (questionnaires[nextIndex] || {}).id,
     });
     this.props.onDeleteQuestionnaire(questionnaireId);
   };

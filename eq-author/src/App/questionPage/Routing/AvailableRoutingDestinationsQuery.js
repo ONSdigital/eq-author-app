@@ -42,7 +42,7 @@ const AvailableRoutingDestinationsQuery = ({ pageId, children }) => (
 
 AvailableRoutingDestinationsQuery.propTypes = {
   pageId: PropTypes.string.isRequired,
-  children: PropTypes.func.isRequired
+  children: PropTypes.func.isRequired,
 };
 
 export default AvailableRoutingDestinationsQuery;

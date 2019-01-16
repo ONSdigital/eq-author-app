@@ -13,7 +13,7 @@ const generateTestData = (sections = 4, pages = 5, answers = 6) => {
           id: `Answer ${answerId}`,
           displayName: `Answer ${answerId}`,
           type: "Currency",
-          __typename: "BasicAnswer"
+          __typename: "BasicAnswer",
         });
         answerId++;
       }
@@ -21,7 +21,7 @@ const generateTestData = (sections = 4, pages = 5, answers = 6) => {
         id: `Page ${pageId}`,
         displayName: `Page ${pageId}`,
         answers: answerArray,
-        __typename: "QuestionPage"
+        __typename: "QuestionPage",
       });
       answerArray = [];
       pageId++;
@@ -30,7 +30,7 @@ const generateTestData = (sections = 4, pages = 5, answers = 6) => {
       id: `Section ${sectionId}`,
       displayName: `Section ${sectionId}`,
       pages: pageArray,
-      __typename: "Section"
+      __typename: "Section",
     });
     sectionId++;
     pageArray = [];

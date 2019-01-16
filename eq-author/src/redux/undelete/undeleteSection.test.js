@@ -1,7 +1,7 @@
 import {
   undeleteSection,
   createUndelete,
-  createUpdate
+  createUpdate,
 } from "redux/undelete/undeleteSection";
 import fragment from "graphql/questionnaireFragment.graphql";
 import configureStore from "redux-mock-store";
@@ -17,7 +17,7 @@ describe("undeleteSection", () => {
     id = "Section1";
     context = {
       questionnaireId: 1,
-      sectionId: 1
+      sectionId: 1,
     };
 
     dispatch = jest.fn();
@@ -25,24 +25,24 @@ describe("undeleteSection", () => {
     mutate = jest.fn(() => Promise.resolve());
 
     client = {
-      mutate
+      mutate,
     };
 
     result = {
       data: {
         undeleteSection: {
-          id: 1
-        }
-      }
+          id: 1,
+        },
+      },
     };
 
     proxy = {
       readFragment: jest.fn(() => {
         return {
-          sections: []
+          sections: [],
         };
       }),
-      writeFragment: jest.fn()
+      writeFragment: jest.fn(),
     };
   });
 
@@ -62,7 +62,7 @@ describe("undeleteSection", () => {
       createUndelete(mutate)(id, context);
       expect(mutate).toHaveBeenCalledWith({
         update: expect.any(Function),
-        variables: { input: { id } }
+        variables: { input: { id } },
       });
     });
   });
@@ -72,7 +72,7 @@ describe("undeleteSection", () => {
       createUpdate(context)(proxy, result);
       expect(proxy.readFragment).toHaveBeenCalledWith({
         id: "Questionnaire1",
-        fragment
+        fragment,
       });
     });
 
@@ -82,8 +82,8 @@ describe("undeleteSection", () => {
         id: "Questionnaire1",
         fragment,
         data: {
-          sections: [{ id: 1 }]
-        }
+          sections: [{ id: 1 }],
+        },
       });
     });
   });
@@ -103,11 +103,11 @@ describe("undeleteSection", () => {
       return store.dispatch(undeleteSection(id, context)).then(() => {
         expect(store.getActions()).toEqual([
           {
-            type: "UNDELETE_SECTION_REQUEST"
+            type: "UNDELETE_SECTION_REQUEST",
           },
           {
-            type: "UNDELETE_SECTION_SUCCESS"
-          }
+            type: "UNDELETE_SECTION_SUCCESS",
+          },
         ]);
       });
     });
@@ -117,11 +117,11 @@ describe("undeleteSection", () => {
       return store.dispatch(undeleteSection(id, context)).then(() => {
         expect(store.getActions()).toEqual([
           {
-            type: "UNDELETE_SECTION_REQUEST"
+            type: "UNDELETE_SECTION_REQUEST",
           },
           {
-            type: "UNDELETE_SECTION_FAILURE"
-          }
+            type: "UNDELETE_SECTION_FAILURE",
+          },
         ]);
       });
     });

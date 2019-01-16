@@ -7,7 +7,7 @@ describe("Duplicate utils", () => {
       builder = {
         andWhere: jest.fn(),
         andWhereRaw: jest.fn(),
-        orWhereIn: jest.fn()
+        orWhereIn: jest.fn(),
       };
       trx = {
         select: jest.fn().mockReturnThis(),
@@ -19,7 +19,7 @@ describe("Duplicate utils", () => {
         },
         insert: jest.fn().mockReturnThis(),
         into: jest.fn().mockReturnThis(),
-        returning: jest.fn().mockResolvedValue([])
+        returning: jest.fn().mockResolvedValue([]),
       };
     });
 
@@ -27,8 +27,8 @@ describe("Duplicate utils", () => {
       const references = {
         parents: {
           1: "newId1",
-          2: "newId2"
-        }
+          2: "newId2",
+        },
       };
       const tree = [
         {
@@ -38,10 +38,10 @@ describe("Duplicate utils", () => {
             {
               column: "parentId",
               entityName: "parents",
-              parent: true
-            }
-          ]
-        }
+              parent: true,
+            },
+          ],
+        },
       ];
       await duplicateTree(trx, tree, references);
       expect(trx.select).toHaveBeenCalledWith("*");
@@ -57,8 +57,8 @@ describe("Duplicate utils", () => {
           name: "entity",
           table: "entities",
           links: [{ column: "parentId", entityName: "parents", parent: true }],
-          noIsDeleted: true
-        }
+          noIsDeleted: true,
+        },
       ];
 
       await duplicateTree(trx, tree, references);
@@ -73,8 +73,8 @@ describe("Duplicate utils", () => {
           name: "entity",
           table: "entities",
           links: [{ column: "parentId", entityName: "parents", parent: true }],
-          where: "1 = 1"
-        }
+          where: "1 = 1",
+        },
       ];
 
       await duplicateTree(trx, tree, references);
@@ -88,13 +88,13 @@ describe("Duplicate utils", () => {
         {
           name: "entity",
           table: "entities",
-          links: [{ column: "parentId", entityName: "parents", parent: true }]
-        }
+          links: [{ column: "parentId", entityName: "parents", parent: true }],
+        },
       ];
 
       const entities = [
         { id: "e1", parentId: "p1" },
-        { id: "e2", parentId: "p2" }
+        { id: "e2", parentId: "p2" },
       ];
       trx.orderBy = jest.fn().mockResolvedValue(entities);
 
@@ -102,7 +102,7 @@ describe("Duplicate utils", () => {
 
       expect(trx.insert).toHaveBeenCalledWith([
         { parentId: "newId1" },
-        { parentId: "newId2" }
+        { parentId: "newId2" },
       ]);
       expect(trx.into).toHaveBeenCalledWith("entities");
       expect(trx.returning).toHaveBeenCalledWith("id");
@@ -111,7 +111,7 @@ describe("Duplicate utils", () => {
     it("should update references for non parent links", async () => {
       const references = {
         parents: { p1: "newId1", p2: "newId2" },
-        others: { o1: "newO1", o2: "newO2" }
+        others: { o1: "newO1", o2: "newO2" },
       };
       const tree = [
         {
@@ -119,14 +119,14 @@ describe("Duplicate utils", () => {
           table: "entities",
           links: [
             { column: "parentId", entityName: "parents", parent: true },
-            { column: "otherId", entityName: "others" }
-          ]
-        }
+            { column: "otherId", entityName: "others" },
+          ],
+        },
       ];
 
       const entities = [
         { id: "e1", parentId: "p1", otherId: "o2" },
-        { id: "e2", parentId: "p2", otherId: "o1" }
+        { id: "e2", parentId: "p2", otherId: "o1" },
       ];
       trx.orderBy = jest.fn().mockResolvedValue(entities);
 
@@ -134,13 +134,13 @@ describe("Duplicate utils", () => {
 
       expect(trx.insert).toHaveBeenCalledWith([
         { otherId: "newO2", parentId: "newId1" },
-        { otherId: "newO1", parentId: "newId2" }
+        { otherId: "newO1", parentId: "newId2" },
       ]);
     });
 
     it("should not update references if no replacement is found", async () => {
       const references = {
-        parents: { p1: "newId1", p2: "newId2" }
+        parents: { p1: "newId1", p2: "newId2" },
       };
       const tree = [
         {
@@ -148,14 +148,14 @@ describe("Duplicate utils", () => {
           table: "entities",
           links: [
             { column: "parentId", entityName: "parents", parent: true },
-            { column: "otherId", entityName: "others" }
-          ]
-        }
+            { column: "otherId", entityName: "others" },
+          ],
+        },
       ];
 
       const entities = [
         { id: "e1", parentId: "p1", otherId: "o2" },
-        { id: "e2", parentId: "p2", otherId: "o1" }
+        { id: "e2", parentId: "p2", otherId: "o1" },
       ];
       trx.orderBy = jest.fn().mockResolvedValue(entities);
 
@@ -163,7 +163,7 @@ describe("Duplicate utils", () => {
 
       expect(trx.insert).toHaveBeenCalledWith([
         { otherId: "o2", parentId: "newId1" },
-        { otherId: "o1", parentId: "newId2" }
+        { otherId: "o1", parentId: "newId2" },
       ]);
     });
 
@@ -173,13 +173,13 @@ describe("Duplicate utils", () => {
         {
           name: "entity",
           table: "entities",
-          links: [{ column: "parentId", entityName: "parents", parent: true }]
-        }
+          links: [{ column: "parentId", entityName: "parents", parent: true }],
+        },
       ];
 
       const entities = [
         { id: "e1", parentId: "p1" },
-        { id: "e2", parentId: "p2" }
+        { id: "e2", parentId: "p2" },
       ];
       trx.orderBy = jest.fn().mockResolvedValue(entities);
       trx.returning = jest.fn().mockResolvedValue(["newE1", "newE2"]);
@@ -189,8 +189,8 @@ describe("Duplicate utils", () => {
       expect(references).toMatchObject({
         entity: {
           e1: "newE1",
-          e2: "newE2"
-        }
+          e2: "newE2",
+        },
       });
     });
 
@@ -200,8 +200,8 @@ describe("Duplicate utils", () => {
         {
           name: "entity",
           table: "entities",
-          links: [{ column: "parentId", entityName: "parents", parent: true }]
-        }
+          links: [{ column: "parentId", entityName: "parents", parent: true }],
+        },
       ];
 
       const entities = [
@@ -210,15 +210,15 @@ describe("Duplicate utils", () => {
           parentId: "p1",
           other: "bar",
           createdAt: "createdTime",
-          updatedAt: "updatedTime"
+          updatedAt: "updatedTime",
         },
         {
           id: "e2",
           parentId: "p2",
           other: "foo",
           createdAt: "createdTime",
-          updatedAt: "updatedTime"
-        }
+          updatedAt: "updatedTime",
+        },
       ];
       trx.orderBy = jest.fn().mockResolvedValue(entities);
 
@@ -226,7 +226,7 @@ describe("Duplicate utils", () => {
 
       expect(trx.insert).toHaveBeenCalledWith([
         { parentId: "newId1", other: "bar" },
-        { parentId: "newId2", other: "foo" }
+        { parentId: "newId2", other: "foo" },
       ]);
     });
 
@@ -239,20 +239,20 @@ describe("Duplicate utils", () => {
           links: [{ column: "parentId", entityName: "parents", parent: true }],
           transform: entity => ({
             ...entity,
-            parentId: `${entity.parentId}foo`
-          })
-        }
+            parentId: `${entity.parentId}foo`,
+          }),
+        },
       ];
 
       const entities = [
         {
           id: "e1",
-          parentId: "p1"
+          parentId: "p1",
         },
         {
           id: "e2",
-          parentId: "p2"
-        }
+          parentId: "p2",
+        },
       ];
       trx.orderBy = jest.fn().mockResolvedValue(entities);
 
@@ -260,7 +260,7 @@ describe("Duplicate utils", () => {
 
       expect(trx.insert).toHaveBeenCalledWith([
         { parentId: "newId1foo" },
-        { parentId: "newId2foo" }
+        { parentId: "newId2foo" },
       ]);
     });
 
@@ -270,13 +270,13 @@ describe("Duplicate utils", () => {
         {
           name: "entity",
           table: "entities",
-          links: [{ column: "parentId", entityName: "parents", parent: true }]
+          links: [{ column: "parentId", entityName: "parents", parent: true }],
         },
         {
           name: "child",
           table: "children",
-          links: [{ column: "entityId", entityName: "entity", parent: true }]
-        }
+          links: [{ column: "entityId", entityName: "entity", parent: true }],
+        },
       ];
 
       let orderCount = 0;
@@ -306,11 +306,11 @@ describe("Duplicate utils", () => {
       await duplicateTree(trx, tree, references);
       expect(builder.orWhereIn.mock.calls[1]).toEqual([
         "entityId",
-        ["e1", "e2"]
+        ["e1", "e2"],
       ]);
 
       expect(trx.insert.mock.calls[1]).toEqual([
-        [{ entityId: "newE1" }, { entityId: "newE2" }]
+        [{ entityId: "newE1" }, { entityId: "newE2" }],
       ]);
     });
   });

@@ -10,7 +10,7 @@ import {
   AnswerContentPicker,
   QuestionContentPicker,
   MetadataContentPicker,
-  RoutingDestinationContentPicker
+  RoutingDestinationContentPicker,
 } from "components/ContentPicker";
 
 import { colors } from "constants/theme";
@@ -18,7 +18,7 @@ import {
   ANSWER,
   QUESTION,
   METADATA,
-  DESTINATION
+  DESTINATION,
 } from "components/ContentPickerSelect/content-types";
 
 import LogicalDestination from "graphql/fragments/logical-destination.graphql";
@@ -114,34 +114,34 @@ const Flex = styled.div`
 
 class ContentPickerModal extends React.Component {
   state = {
-    selectedTab: this.getSelectedTab()
+    selectedTab: this.getSelectedTab(),
   };
 
   static propTypes = {
     answerData: PropTypes.arrayOf(
       PropTypes.shape({
-        id: PropTypes.string.isRequired
+        id: PropTypes.string.isRequired,
       })
     ),
     metadataData: PropTypes.arrayOf(
       PropTypes.shape({
-        id: PropTypes.string.isRequired
+        id: PropTypes.string.isRequired,
       })
     ),
     questionData: PropTypes.arrayOf(
       PropTypes.shape({
-        id: PropTypes.string.isRequired
+        id: PropTypes.string.isRequired,
       })
     ),
     destinationData: PropTypes.shape({
       logicalDestinations: PropTypes.arrayOf(propType(LogicalDestination)),
       questionPages: PropTypes.arrayOf(propType(QuestionPageDestination)),
-      sections: PropTypes.arrayOf(propType(SectionDestination))
+      sections: PropTypes.arrayOf(propType(SectionDestination)),
     }),
     onSubmit: PropTypes.func,
     isOpen: PropTypes.bool,
     onClose: PropTypes.func,
-    contentTypes: PropTypes.arrayOf(PropTypes.string).isRequired
+    contentTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
   };
 
   getSelectedTab() {
@@ -158,7 +158,7 @@ class ContentPickerModal extends React.Component {
       id,
       displayName,
       type,
-      pipingType: "answers"
+      pipingType: "answers",
     });
   };
 
@@ -166,7 +166,7 @@ class ContentPickerModal extends React.Component {
     this.props.onSubmit({
       id,
       displayName,
-      pipingType: "metadata"
+      pipingType: "metadata",
     });
   };
 
@@ -195,7 +195,7 @@ class ContentPickerModal extends React.Component {
           />
         </React.Fragment>
       );
-    }
+    },
   };
 
   questionTab = {
@@ -218,7 +218,7 @@ class ContentPickerModal extends React.Component {
           />
         </React.Fragment>
       );
-    }
+    },
   };
 
   metadataTab = {
@@ -243,7 +243,7 @@ class ContentPickerModal extends React.Component {
           />
         </React.Fragment>
       );
-    }
+    },
   };
 
   destinationTab = {
@@ -266,7 +266,7 @@ class ContentPickerModal extends React.Component {
           />
         </React.Fragment>
       );
-    }
+    },
   };
 
   tabConfig = [
@@ -275,7 +275,7 @@ class ContentPickerModal extends React.Component {
     this.props.contentTypes.indexOf(METADATA) !== -1 ? this.metadataTab : null,
     this.props.contentTypes.indexOf(DESTINATION) !== -1
       ? this.destinationTab
-      : null
+      : null,
   ];
 
   tabList = ({ children }) => (

@@ -3,7 +3,7 @@ const formatAlterTableEnumSql = require("../utils/migrateEnumChecks");
 const {
   CUSTOM,
   PREVIOUS_ANSWER,
-  METADATA
+  METADATA,
 } = require("../constants/validationEntityTypes");
 
 exports.up = async function(knex) {
@@ -11,7 +11,7 @@ exports.up = async function(knex) {
     formatAlterTableEnumSql("Validation_AnswerRules", "entityType", [
       CUSTOM,
       PREVIOUS_ANSWER,
-      METADATA
+      METADATA,
     ])
   );
 };

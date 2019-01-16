@@ -22,12 +22,12 @@ describe("Toastcontainer", () => {
           undoAction: "undoAction",
           context: {
             sectionId: 1,
-            pageId: 1
-          }
-        }
+            pageId: 1,
+          },
+        },
       },
       dismissToast,
-      undoToast
+      undoToast,
     };
   });
 

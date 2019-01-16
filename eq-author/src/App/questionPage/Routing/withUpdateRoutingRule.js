@@ -4,10 +4,10 @@ import { graphql } from "react-apollo";
 export const mapMutateToProps = ({ mutate }) => ({
   onUpdateRoutingRule: routingRule =>
     mutate({
-      variables: { input: routingRule }
-    })
+      variables: { input: routingRule },
+    }),
 });
 
 export default graphql(updateRoutingRule, {
-  props: mapMutateToProps
+  props: mapMutateToProps,
 });

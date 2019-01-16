@@ -23,7 +23,7 @@ export const icons = {
   [AnswerTypes.RADIO]: radioIcon,
   [AnswerTypes.TIME]: timeIcon,
   [AnswerTypes.TEXTAREA]: textareaIcon,
-  [AnswerTypes.TEXTFIELD]: textfieldIcon
+  [AnswerTypes.TEXTFIELD]: textfieldIcon,
 };
 export default class AnswerTypeButton extends React.Component {
   static propTypes = {
@@ -31,7 +31,7 @@ export default class AnswerTypeButton extends React.Component {
     title: PropTypes.string.isRequired,
     onClick: PropTypes.func.isRequired,
     disabled: PropTypes.bool,
-    order: PropTypes.number
+    order: PropTypes.number,
   };
 
   handleClick = () => {

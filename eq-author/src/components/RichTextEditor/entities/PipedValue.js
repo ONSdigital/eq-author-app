@@ -12,7 +12,7 @@ export const ENTITY_TYPE = "PIPED-DATA";
 
 export const filterConfig = {
   type: ENTITY_TYPE,
-  attributes: ["id", "type", "pipingType"]
+  attributes: ["id", "type", "pipingType"],
 };
 
 const PipedValueDecorator = styled.span`
@@ -32,8 +32,8 @@ PipedValueSerialized.propTypes = {
   data: PropTypes.shape({
     type: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
-    text: PropTypes.string.isRequired
-  }).isRequired
+    text: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export const findPipedEntities = contentState =>
@@ -53,7 +53,7 @@ export const htmlToEntity = (nodeName, node, createEntity) => {
 };
 
 export const entityToHTML = {
-  [ENTITY_TYPE]: PipedValueSerialized
+  [ENTITY_TYPE]: PipedValueSerialized,
 };
 
 export const replacePipedValues = (labels, placeholder) => (
@@ -89,5 +89,5 @@ export const insertPipedValue = (entity, contentState, selection) => {
 
 export default {
   strategy: findEntitiesByType(ENTITY_TYPE),
-  component: PipedValueDecorator
+  component: PipedValueDecorator,
 };

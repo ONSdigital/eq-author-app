@@ -12,5 +12,5 @@ function renderOnly({ story, context }) {
 
 initStoryshots({
   framework: "react",
-  test: renderOnly
+  test: renderOnly,
 });

@@ -46,7 +46,7 @@ const QUESTIONNAIRES_QUERY = gql`
 
 export class UnconnectedQuestionnairesPage extends React.PureComponent {
   state = {
-    isModalOpen: false
+    isModalOpen: false,
   };
 
   handleModalOpen = () => this.setState({ isModalOpen: true });
@@ -111,7 +111,7 @@ UnconnectedQuestionnairesPage.propTypes = {
   questionnaires: CustomPropTypes.questionnaireList,
   onCreateQuestionnaire: PropTypes.func.isRequired,
   onDeleteQuestionnaire: PropTypes.func.isRequired,
-  onDuplicateQuestionnaire: PropTypes.func.isRequired
+  onDuplicateQuestionnaire: PropTypes.func.isRequired,
 };
 
 export default flowRight(

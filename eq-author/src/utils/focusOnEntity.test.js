@@ -5,7 +5,7 @@ describe("focusOnEntity", () => {
   let querySelector;
   const entity = {
     id: "123",
-    __typename: "Foo"
+    __typename: "Foo",
   };
 
   beforeEach(() => {

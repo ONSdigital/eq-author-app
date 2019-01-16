@@ -10,19 +10,19 @@ const createWrapper = (props, render = shallow) => {
 
 const questionnaire = {
   id: "1",
-  __typename: "Questionnaire"
+  __typename: "Questionnaire",
 };
 
 const page = {
   id: "1",
   __typename: "Page",
   type: "Questionnaire",
-  answers: []
+  answers: [],
 };
 
 const props = {
   page,
-  questionnaire
+  questionnaire,
 };
 
 describe("PropertiesPanel", () => {
@@ -44,16 +44,16 @@ describe("PropertiesPanel", () => {
             id: "1",
             index: 0,
             type: NUMBER,
-            __typename: "Answer"
+            __typename: "Answer",
           },
           {
             id: "2",
             index: 1,
             type: TEXTFIELD,
-            __typename: "Answer"
-          }
-        ]
-      }
+            __typename: "Answer",
+          },
+        ],
+      },
     });
 
     wrapper = createWrapper(withAnswers);

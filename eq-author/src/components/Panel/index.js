@@ -9,7 +9,7 @@ const Panel = styled.div`
 `;
 
 Panel.propTypes = {
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
 };
 
 export const CenteredPanel = styled(Panel)`

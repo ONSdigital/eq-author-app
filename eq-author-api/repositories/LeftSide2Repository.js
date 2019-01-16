@@ -64,6 +64,6 @@ module.exports = knex => {
     getByExpressionId,
     update,
     insertMissingDefaults,
-    deleteByAnswerId
+    deleteByAnswerId,
   };
 };

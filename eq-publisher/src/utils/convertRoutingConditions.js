@@ -1,10 +1,10 @@
 const routingConditionConversions = {
-  Equal: "equals"
+  Equal: "equals",
 };
 
 const conditionConversion = authorCondition =>
   routingConditionConversions[authorCondition];
 
 module.exports = {
-  conditionConversion
+  conditionConversion,
 };

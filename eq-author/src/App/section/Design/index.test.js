@@ -15,8 +15,8 @@ const moveSectionMock = {
   request: {
     query: GET_QUESTIONNAIRE_QUERY,
     variables: {
-      id: "1"
-    }
+      id: "1",
+    },
   },
   result: {
     data: {
@@ -48,7 +48,7 @@ const moveSectionMock = {
                 title: "bar",
                 alias: "bar alias",
                 displayName: "bar",
-                position: 0
+                position: 0,
               },
               {
                 __typename: "QuestionPage",
@@ -56,17 +56,17 @@ const moveSectionMock = {
                 title: "blah",
                 alias: "blah alias",
                 displayName: "blah",
-                position: 1
-              }
+                position: 1,
+              },
             ],
             questionnaire: {
               __typename: "Questionnaire",
               id: "1",
               questionnaireInfo: {
                 __typename: "QuestionnaireInfo",
-                totalSectionCount: 1
-              }
-            }
+                totalSectionCount: 1,
+              },
+            },
           },
           {
             __typename: "Section",
@@ -85,7 +85,7 @@ const moveSectionMock = {
                 title: "bar",
                 alias: "bar alias",
                 displayName: "bar",
-                position: 0
+                position: 0,
               },
               {
                 __typename: "QuestionPage",
@@ -93,22 +93,22 @@ const moveSectionMock = {
                 title: "blah",
                 alias: "blah alias",
                 displayName: "blah",
-                position: 1
-              }
+                position: 1,
+              },
             ],
             questionnaire: {
               __typename: "Questionnaire",
               id: "1",
               questionnaireInfo: {
                 __typename: "QuestionnaireInfo",
-                totalSectionCount: 1
-              }
-            }
-          }
-        ]
-      }
-    }
-  }
+                totalSectionCount: 1,
+              },
+            },
+          },
+        ],
+      },
+    },
+  },
 };
 
 describe("SectionRoute", () => {
@@ -118,21 +118,21 @@ describe("SectionRoute", () => {
     childContextTypes = { router: PropTypes.object };
 
     match = {
-      params: { questionnaireId: "1", sectionId: "2" }
+      params: { questionnaireId: "1", sectionId: "2" },
     };
 
     store = {
       getState: jest.fn(() => ({
         toasts: {},
-        saving: { apiDownError: false }
+        saving: { apiDownError: false },
       })),
       subscribe: jest.fn(),
-      dispatch: jest.fn()
+      dispatch: jest.fn(),
     };
 
     context = createRouterContext({
       location: { pathname: buildSectionPath(match.params) },
-      match
+      match,
     });
   });
 
@@ -150,8 +150,8 @@ describe("SectionRoute", () => {
         request: {
           query: SECTION_QUERY,
           variables: {
-            id: "2"
-          }
+            id: "2",
+          },
         },
         result: {
           data: {
@@ -171,12 +171,12 @@ describe("SectionRoute", () => {
                 id: "1",
                 questionnaireInfo: {
                   __typename: "QuestionnaireInfo",
-                  totalSectionCount: 1
-                }
-              }
-            }
-          }
-        }
+                  totalSectionCount: 1,
+                },
+              },
+            },
+          },
+        },
       };
 
       const wrapper = render([mock, moveSectionMock]);
@@ -189,8 +189,8 @@ describe("SectionRoute", () => {
         request: {
           query: SECTION_QUERY,
           variables: {
-            id: "2"
-          }
+            id: "2",
+          },
         },
         result: {
           data: {
@@ -210,12 +210,12 @@ describe("SectionRoute", () => {
                 id: "1",
                 questionnaireInfo: {
                   __typename: "QuestionnaireInfo",
-                  totalSectionCount: 1
-                }
-              }
-            }
-          }
-        }
+                  totalSectionCount: 1,
+                },
+              },
+            },
+          },
+        },
       };
 
       const wrapper = render([mock, mock, moveSectionMock, moveSectionMock]);
@@ -232,9 +232,9 @@ describe("SectionRoute", () => {
     it("should render error if problem with request", () => {
       const mock = {
         request: {
-          query: SECTION_QUERY
+          query: SECTION_QUERY,
         },
-        error: new Error("something went wrong")
+        error: new Error("something went wrong"),
       };
 
       const wrapper = render([mock]);
@@ -252,13 +252,13 @@ describe("SectionRoute", () => {
     it("should render error if no section returned", () => {
       const mock = {
         request: {
-          query: SECTION_QUERY
+          query: SECTION_QUERY,
         },
         result: {
           data: {
-            section: null
-          }
-        }
+            section: null,
+          },
+        },
       };
 
       const wrapper = render([mock]);
@@ -282,7 +282,7 @@ describe("SectionRoute", () => {
       onAddPage: jest.fn(),
       onMoveSection: jest.fn(),
       onUpdate: jest.fn(),
-      onChange: jest.fn()
+      onChange: jest.fn(),
     };
 
     const section = {
@@ -297,9 +297,9 @@ describe("SectionRoute", () => {
       questionnaire: {
         id: "1",
         questionnaireInfo: {
-          totalSectionCount: 1
-        }
-      }
+          totalSectionCount: 1,
+        },
+      },
     };
 
     const render = (props = {}) =>
@@ -318,7 +318,7 @@ describe("SectionRoute", () => {
         loading: false,
         match,
         section,
-        ...mockHandlers
+        ...mockHandlers,
       });
 
       wrapper
@@ -339,7 +339,7 @@ describe("SectionRoute", () => {
         loading: false,
         match,
         section,
-        ...mockHandlers
+        ...mockHandlers,
       });
 
       wrapper
@@ -358,7 +358,7 @@ describe("SectionRoute", () => {
         loading: false,
         match,
         section,
-        ...mockHandlers
+        ...mockHandlers,
       });
 
       expect(
@@ -370,15 +370,15 @@ describe("SectionRoute", () => {
       const questionnaire = {
         id: "1",
         questionnaireInfo: {
-          totalSectionCount: 2
-        }
+          totalSectionCount: 2,
+        },
       };
 
       const wrapper = render({
         loading: false,
         match,
         section: { ...section, questionnaire },
-        ...mockHandlers
+        ...mockHandlers,
       });
 
       expect(
@@ -390,15 +390,15 @@ describe("SectionRoute", () => {
       const questionnaire = {
         id: "1",
         questionnaireInfo: {
-          totalSectionCount: 2
-        }
+          totalSectionCount: 2,
+        },
       };
 
       const wrapper = render({
         loading: false,
         match,
         section: { ...section, questionnaire },
-        ...mockHandlers
+        ...mockHandlers,
       });
 
       wrapper
@@ -407,7 +407,7 @@ describe("SectionRoute", () => {
 
       expect(mockHandlers.onDuplicateSection).toHaveBeenCalledWith({
         sectionId: section.id,
-        position: section.position + 1
+        position: section.position + 1,
       });
     });
 
@@ -416,7 +416,7 @@ describe("SectionRoute", () => {
         loading: false,
         match,
         section,
-        ...mockHandlers
+        ...mockHandlers,
       });
 
       const editorLayout = wrapper.find(
@@ -424,7 +424,7 @@ describe("SectionRoute", () => {
       );
 
       expect(editorLayout.props()).toMatchObject({
-        preview: false
+        preview: false,
       });
     });
 
@@ -433,7 +433,7 @@ describe("SectionRoute", () => {
         loading: false,
         match,
         section: { ...section, introductionEnabled: true },
-        ...mockHandlers
+        ...mockHandlers,
       });
 
       const editorLayout = wrapper.find(
@@ -441,7 +441,7 @@ describe("SectionRoute", () => {
       );
 
       expect(editorLayout.props()).toMatchObject({
-        preview: true
+        preview: true,
       });
     });
   });

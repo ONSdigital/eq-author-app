@@ -141,7 +141,7 @@ export class UnwrappedRoutingCondition extends React.Component {
     onRemove: PropTypes.func,
     label: PropTypes.oneOf(["IF", "AND"]).isRequired,
     match: CustomPropTypes.match,
-    canAddAndCondition: PropTypes.bool.isRequired
+    canAddAndCondition: PropTypes.bool.isRequired,
   };
 
   constructor(props) {
@@ -153,11 +153,11 @@ export class UnwrappedRoutingCondition extends React.Component {
   }
 
   static defaultProps = {
-    label: "IF"
+    label: "IF",
   };
 
   static fragments = {
-    RoutingCondition: routingConditionFragment
+    RoutingCondition: routingConditionFragment,
   };
 
   handleRemove = this.props.onRemove
@@ -167,7 +167,7 @@ export class UnwrappedRoutingCondition extends React.Component {
   handlePageChange = ({ value: { id: questionPageId } }) => {
     this.props.onConditionChange({
       id: this.props.condition.id,
-      questionPageId
+      questionPageId,
     });
   };
 
@@ -175,7 +175,7 @@ export class UnwrappedRoutingCondition extends React.Component {
     this.props.onConditionChange({
       id: this.props.condition.id,
       questionPageId: otherProps.questionPageId,
-      comparator: value
+      comparator: value,
     });
 
   handleValueChange = ({ value, name }) =>
@@ -218,7 +218,7 @@ export class UnwrappedRoutingCondition extends React.Component {
 
     return {
       routingEditor,
-      isValid
+      isValid,
     };
   }
 

@@ -22,22 +22,22 @@ export const styleButtons = [
     title: "Heading",
     icon: iconHeading,
     type: STYLE_BLOCK,
-    style: "header-two"
+    style: "header-two",
   },
   {
     id: "bold",
     title: "Bold",
     icon: iconBold,
     type: STYLE_INLINE,
-    style: "BOLD"
+    style: "BOLD",
   },
   {
     id: "emphasis",
     title: "Emphasis",
     icon: iconEmphasis,
     type: STYLE_INLINE,
-    style: "ITALIC"
-  }
+    style: "ITALIC",
+  },
 ];
 
 export const formattingButtons = [
@@ -46,8 +46,8 @@ export const formattingButtons = [
     title: "List",
     icon: iconList,
     type: STYLE_BLOCK,
-    style: "unordered-list-item"
-  }
+    style: "unordered-list-item",
+  },
 ];
 
 const ButtonGroup = styled.div`
@@ -75,7 +75,7 @@ const ToolbarPanel = styled.div`
 class ToolBar extends React.Component {
   static defaultProps = {
     controls: {},
-    visible: false
+    visible: false,
   };
 
   static propTypes = {
@@ -89,8 +89,8 @@ class ToolBar extends React.Component {
       emphasis: PropTypes.bool,
       heading: PropTypes.bool,
       list: PropTypes.bool,
-      piping: PropTypes.bool
-    })
+      piping: PropTypes.bool,
+    }),
   };
 
   renderButton = button => {
@@ -115,7 +115,7 @@ class ToolBar extends React.Component {
       visible,
       onPiping,
       selectionIsCollapsed,
-      controls: { piping }
+      controls: { piping },
     } = this.props;
 
     const isPipingDisabled = !(piping && selectionIsCollapsed);

@@ -51,12 +51,12 @@ const Animated = styled.div`
 class ScaleTransition extends React.Component {
   static defaultProps = {
     in: false,
-    duration: 250
+    duration: 250,
   };
 
   static propTypes = {
     duration: PropTypes.number,
-    children: PropTypes.element
+    children: PropTypes.element,
   };
 
   render() {

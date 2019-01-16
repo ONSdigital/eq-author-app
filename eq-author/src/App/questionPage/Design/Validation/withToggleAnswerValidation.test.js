@@ -9,7 +9,7 @@ describe("withToggleAnswerValidation", () => {
 
   it("should add onToggleValidationRule prop", () => {
     const props = mapMutateToProps({
-      mutate
+      mutate,
     });
 
     expect(props.onToggleValidationRule).toBeInstanceOf(Function);
@@ -19,12 +19,12 @@ describe("withToggleAnswerValidation", () => {
     const props = mapMutateToProps({ mutate });
     const answer = {
       id: "1",
-      minValueInput: { inclusive: true, custom: "201" }
+      minValueInput: { inclusive: true, custom: "201" },
     };
 
     props.onToggleValidationRule(answer);
     expect(mutate).toHaveBeenCalledWith({
-      variables: { input: answer }
+      variables: { input: answer },
     });
   });
 });

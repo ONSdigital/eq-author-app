@@ -15,7 +15,7 @@ describe("NavigationSidebar", () => {
   const questionnaire = {
     id: "1",
     title: "Questionnaire",
-    sections: [section]
+    sections: [section],
   };
 
   beforeEach(() => {

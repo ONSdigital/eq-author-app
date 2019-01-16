@@ -14,7 +14,7 @@ describe("ModalDialog", () => {
     props = {
       onClose: jest.fn(),
       isOpen: false,
-      children: <div>Modal dialog content</div>
+      children: <div>Modal dialog content</div>,
     };
 
     wrapper = createWrapper(props);
@@ -27,7 +27,7 @@ describe("ModalDialog", () => {
   it("should render when open", () => {
     wrapper = createWrapper({
       ...props,
-      isOpen: true
+      isOpen: true,
     });
 
     expect(wrapper).toMatchSnapshot();

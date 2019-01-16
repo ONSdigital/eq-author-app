@@ -10,7 +10,7 @@ const titleStyles = {
   disabled: css`
     background: ${colors.grey};
     pointer-events: none;
-  `
+  `,
 };
 
 const ContentPickerAccordionHeader = styled(Button)`
@@ -31,7 +31,7 @@ const ContentPickerAccordionHeader = styled(Button)`
 
 ContentPickerAccordionHeader.propTypes = {
   selected: PropTypes.bool,
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
 };
 
 export default ContentPickerAccordionHeader;

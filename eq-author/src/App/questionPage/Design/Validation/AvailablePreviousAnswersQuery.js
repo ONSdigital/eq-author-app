@@ -53,7 +53,7 @@ const AvailablePreviousAnswersQuery = ({ answerId, children }) => (
 
 AvailablePreviousAnswersQuery.propTypes = {
   answerId: PropTypes.string.isRequired,
-  children: PropTypes.func.isRequired
+  children: PropTypes.func.isRequired,
 };
 
 export default AvailablePreviousAnswersQuery;

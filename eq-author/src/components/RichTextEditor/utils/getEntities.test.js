@@ -32,8 +32,8 @@ describe("getEntities", () => {
       expect(entity).toMatchObject({
         entity: expect.objectContaining({
           type: "ENTITY_A",
-          mutability: "IMMUTABLE"
-        })
+          mutability: "IMMUTABLE",
+        }),
       });
     });
   });
@@ -45,7 +45,7 @@ describe("getEntities", () => {
         start: expect.any(Number),
         end: expect.any(Number),
         blockKey: expect.any(String),
-        entityKey: expect.any(String)
+        entityKey: expect.any(String),
       });
     });
   });

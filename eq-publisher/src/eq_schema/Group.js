@@ -3,7 +3,7 @@ const Block = require("./Block");
 const { getInnerHTML } = require("../utils/HTMLUtils");
 const { isEmpty, reject, flatten } = require("lodash");
 const {
-  buildAuthorConfirmationQuestion
+  buildAuthorConfirmationQuestion,
 } = require("./builders/confirmationPage/ConfirmationPage");
 
 class Group {
@@ -32,7 +32,7 @@ class Group {
   buildSkipConditions(currentId, ctx) {
     return reject(ctx.routingGotos, goto => goto.groupId === currentId).map(
       ({ when }) => ({
-        when
+        when,
       })
     );
   }
@@ -50,7 +50,7 @@ class Group {
               page.routingRuleSet,
               page.routing,
               ctx
-            )
+            ),
           ];
         }
         return block;

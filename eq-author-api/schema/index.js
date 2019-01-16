@@ -7,5 +7,5 @@ const resolvers = require("./resolvers");
  */
 module.exports = graphqlTools.makeExecutableSchema({
   typeDefs,
-  resolvers
+  resolvers,
 });

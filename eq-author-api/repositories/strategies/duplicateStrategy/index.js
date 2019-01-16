@@ -10,7 +10,7 @@ const getDefaultReferenceStructure = () => ({
   pages: {},
   sections: {},
   metadata: {},
-  questionnaires: {}
+  questionnaires: {},
 });
 
 const ENTITY_TREE = [
@@ -22,9 +22,9 @@ const ENTITY_TREE = [
         {
           column: "questionnaireId",
           entityName: "questionnaires",
-          parent: true
-        }
-      ]
+          parent: true,
+        },
+      ],
     },
     {
       name: "metadata",
@@ -33,15 +33,15 @@ const ENTITY_TREE = [
         {
           column: "questionnaireId",
           entityName: "questionnaires",
-          parent: true
-        }
-      ]
-    }
+          parent: true,
+        },
+      ],
+    },
   ],
   {
     name: "pages",
     table: "Pages",
-    links: [{ column: "sectionId", entityName: "sections", parent: true }]
+    links: [{ column: "sectionId", entityName: "sections", parent: true }],
   },
   {
     name: "answers",
@@ -50,10 +50,10 @@ const ENTITY_TREE = [
       {
         column: "questionPageId",
         entityName: "pages",
-        parent: true
-      }
+        parent: true,
+      },
     ],
-    where: '"parentAnswerId" is null'
+    where: '"parentAnswerId" is null',
   },
   [
     // Other answers
@@ -64,9 +64,9 @@ const ENTITY_TREE = [
         {
           column: "parentAnswerId",
           entityName: "answers",
-          parent: true
-        }
-      ]
+          parent: true,
+        },
+      ],
     },
     {
       name: "validations",
@@ -75,23 +75,23 @@ const ENTITY_TREE = [
         {
           column: "answerId",
           entityName: "answers",
-          parent: true
+          parent: true,
         },
         {
           column: "previousAnswerId",
-          entityName: "answers"
+          entityName: "answers",
         },
         {
           column: "metadataId",
-          entityName: "metadata"
-        }
+          entityName: "metadata",
+        },
       ],
       transform: ({ custom, ...rest }) => ({
         ...rest,
         //Required as it's stored as JSONB
-        custom: isString(custom) ? `"${custom}"` : custom
+        custom: isString(custom) ? `"${custom}"` : custom,
       }),
-      noIsDeleted: true
+      noIsDeleted: true,
     },
     {
       name: "questionConfirmations",
@@ -100,10 +100,10 @@ const ENTITY_TREE = [
         {
           column: "pageId",
           entityName: "pages",
-          parent: true
-        }
-      ]
-    }
+          parent: true,
+        },
+      ],
+    },
   ],
   {
     name: "options",
@@ -112,14 +112,14 @@ const ENTITY_TREE = [
       {
         column: "answerId",
         entityName: "answers",
-        parent: true
+        parent: true,
       },
       {
         column: "additionalAnswerId",
         entityName: "answers",
-        parent: true
-      }
-    ]
+        parent: true,
+      },
+    ],
   },
   {
     name: "routingRuleSets",
@@ -128,9 +128,9 @@ const ENTITY_TREE = [
       {
         column: "questionPageId",
         entityName: "pages",
-        parent: true
-      }
-    ]
+        parent: true,
+      },
+    ],
   },
   {
     name: "routingRules",
@@ -139,9 +139,9 @@ const ENTITY_TREE = [
       {
         column: "routingRuleSetId",
         entityName: "routingRuleSets",
-        parent: true
-      }
-    ]
+        parent: true,
+      },
+    ],
   },
   {
     name: "routingConditions",
@@ -150,18 +150,18 @@ const ENTITY_TREE = [
       {
         column: "routingRuleId",
         entityName: "routingRules",
-        parent: true
+        parent: true,
       },
       {
         column: "questionPageId",
-        entityName: "pages"
+        entityName: "pages",
       },
       {
         column: "answerId",
-        entityName: "answers"
-      }
+        entityName: "answers",
+      },
     ],
-    noIsDeleted: true
+    noIsDeleted: true,
   },
   {
     name: "routingConditionValues",
@@ -170,15 +170,15 @@ const ENTITY_TREE = [
       {
         column: "conditionId",
         entityName: "routingConditions",
-        parent: true
+        parent: true,
       },
       {
         column: "optionId",
-        entityName: "options"
-      }
+        entityName: "options",
+      },
     ],
-    noIsDeleted: true
-  }
+    noIsDeleted: true,
+  },
 ];
 
 const duplicatePageStrategy = async (
@@ -193,7 +193,7 @@ const duplicatePageStrategy = async (
     "Pages",
     page,
     {
-      ...overrides
+      ...overrides,
     },
     position
   );
@@ -226,7 +226,7 @@ const duplicateSectionStrategy = async (
   await duplicateTree(trx, ENTITY_TREE, references);
   await Promise.all([
     duplicateDestinations(trx, references),
-    updatePiping(trx, references)
+    updatePiping(trx, references),
   ]);
 
   return duplicateSection;
@@ -251,7 +251,7 @@ const duplicateQuestionnaireStrategy = async (
   await duplicateTree(trx, ENTITY_TREE, references);
   await Promise.all([
     duplicateDestinations(trx, references),
-    updatePiping(trx, references)
+    updatePiping(trx, references),
   ]);
 
   return duplicateQuestionnaire;
@@ -260,5 +260,5 @@ const duplicateQuestionnaireStrategy = async (
 Object.assign(module.exports, {
   duplicatePageStrategy,
   duplicateSectionStrategy,
-  duplicateQuestionnaireStrategy
+  duplicateQuestionnaireStrategy,
 });

@@ -23,7 +23,7 @@ const DialogActionButtons = props => {
     secondaryAction,
     secondaryActionText,
     tertiaryAction,
-    tertiaryActionText
+    tertiaryActionText,
   } = props;
 
   return (
@@ -51,7 +51,7 @@ DialogActionButtons.propTypes = {
   secondaryAction: PropTypes.func,
   secondaryActionText: PropTypes.string,
   tertiaryAction: PropTypes.func,
-  tertiaryActionText: PropTypes.string
+  tertiaryActionText: PropTypes.string,
 };
 
 export default DialogActionButtons;

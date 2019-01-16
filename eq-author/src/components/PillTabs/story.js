@@ -24,7 +24,7 @@ export const OPTIONS = [
         aspernatur sed beatae adipisci? Ullam, consequatur nemo saepe voluptates
         minus, sunt dolore.
       </p>
-    )
+    ),
   },
   {
     id: "previous-answer",
@@ -35,7 +35,7 @@ export const OPTIONS = [
         facilisis sed odio morbi quis commodo odio aenean sed adipiscing diam
         donec adipiscing tristique risus nec feugiat in fermentum posuere
       </p>
-    )
+    ),
   },
   {
     id: "survey-data",
@@ -46,7 +46,7 @@ export const OPTIONS = [
         neque viverra justo nec ultrices dui sapien eget mi proin sed libero
         enim sed faucibus turpis in eu mi bibendum
       </p>
-    )
+    ),
   },
   {
     id: "custom",
@@ -57,8 +57,8 @@ export const OPTIONS = [
         neque viverra justo nec ultrices dui sapien eget mi proin sed libero
         enim sed faucibus turpis in eu mi bibendum
       </p>
-    )
-  }
+    ),
+  },
 ];
 
 storiesOf("PillTabs", module)

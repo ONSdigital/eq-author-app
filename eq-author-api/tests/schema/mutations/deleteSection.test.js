@@ -14,7 +14,7 @@ describe("deleteSection", () => {
 
   beforeEach(() => {
     repositories = {
-      Section: mockRepository()
+      Section: mockRepository(),
     };
   });
 

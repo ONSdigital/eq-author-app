@@ -33,24 +33,24 @@ export class UnconnectedSavingIndicator extends React.Component {
   static propTypes = {
     isSaving: PropTypes.bool.isRequired,
     hasError: PropTypes.bool.isRequired,
-    minDisplayTime: PropTypes.number
+    minDisplayTime: PropTypes.number,
   };
 
   static defaultProps = {
-    minDisplayTime: 1000
+    minDisplayTime: 1000,
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      timerRunning: false
+      timerRunning: false,
     };
     this.timer = timer(this.handleClose, this.props.minDisplayTime);
   }
 
   handleClose = () => {
     this.setState({
-      timerRunning: false
+      timerRunning: false,
     });
   };
 
@@ -59,7 +59,7 @@ export class UnconnectedSavingIndicator extends React.Component {
       this.timer.start();
       // eslint-disable-next-line react/no-did-update-set-state
       this.setState({
-        timerRunning: true
+        timerRunning: true,
       });
     }
   }
@@ -95,7 +95,7 @@ export class UnconnectedSavingIndicator extends React.Component {
 const mapStateToProps = state => {
   return {
     isSaving: isSaving(state),
-    hasError: hasError(state)
+    hasError: hasError(state),
   };
 };
 

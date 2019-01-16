@@ -65,7 +65,7 @@ const BaseLayout = ({ children, title, questionnaire }) => (
 BaseLayout.propTypes = {
   children: PropTypes.node,
   title: PropTypes.string,
-  questionnaire: CustomPropTypes.questionnaire
+  questionnaire: CustomPropTypes.questionnaire,
 };
 
 export default BaseLayout;

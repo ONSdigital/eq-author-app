@@ -9,7 +9,7 @@ describe("fsm", () => {
 
     it("allows user-configurable starting state", () => {
       const states = {
-        foo: {}
+        foo: {},
       };
       const machine = fsm(states, "foo");
       expect(machine.state()).toBe("foo");
@@ -23,11 +23,11 @@ describe("fsm", () => {
   describe("transitioning", () => {
     const states = {
       locked: {
-        coin: "unlocked"
+        coin: "unlocked",
       },
       unlocked: {
-        push: "locked"
-      }
+        push: "locked",
+      },
     };
 
     let turnstile;

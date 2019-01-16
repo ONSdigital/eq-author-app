@@ -63,7 +63,7 @@ const getTitle = ({ answer, answer: { type } }) =>
 
 class PropertiesPanel extends React.Component {
   static propTypes = {
-    page: CustomPropTypes.page
+    page: CustomPropTypes.page,
   };
 
   handleSubmit = noop;

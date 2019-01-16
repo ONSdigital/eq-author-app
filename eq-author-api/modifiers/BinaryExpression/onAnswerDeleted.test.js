@@ -12,16 +12,16 @@ describe("onAnswerDeleted", () => {
           .fn()
           .mockResolvedValueOnce([
             { expressionId: EXPRESSION_1_ID },
-            { expressionId: EXPRESSION_2_ID }
-          ])
+            { expressionId: EXPRESSION_2_ID },
+          ]),
       },
       RightSide2: {
-        deleteByExpressionId: jest.fn().mockResolvedValueOnce()
-      }
+        deleteByExpressionId: jest.fn().mockResolvedValueOnce(),
+      },
     };
 
     await onAnswerDeleted({ repositories })({
-      id: ANSWER_ID
+      id: ANSWER_ID,
     });
 
     expect(repositories.LeftSide2.deleteByAnswerId).toHaveBeenCalledWith(

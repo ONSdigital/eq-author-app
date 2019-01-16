@@ -21,11 +21,11 @@ export default class Toast extends React.Component {
     timeout: PropTypes.number,
     onClose: PropTypes.func,
     children: PropTypes.node.isRequired,
-    id: PropTypes.any.isRequired // eslint-disable-line react/forbid-prop-types
+    id: PropTypes.any.isRequired, // eslint-disable-line react/forbid-prop-types
   };
 
   static defaultProps = {
-    timeout: 0
+    timeout: 0,
   };
 
   constructor(props) {

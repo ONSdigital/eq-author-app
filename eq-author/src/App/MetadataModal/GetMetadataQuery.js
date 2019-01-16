@@ -25,7 +25,7 @@ const GetMetadataQuery = ({ questionnaireId, children }) => (
 
 GetMetadataQuery.propTypes = {
   questionnaireId: PropTypes.string.isRequired,
-  children: PropTypes.func.isRequired
+  children: PropTypes.func.isRequired,
 };
 
 export default GetMetadataQuery;

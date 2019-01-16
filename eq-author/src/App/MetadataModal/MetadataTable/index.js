@@ -11,7 +11,7 @@ import {
   TableFoot,
   TableRow,
   TableColumn,
-  TableHeadColumn
+  TableHeadColumn,
 } from "components/datatable/Elements";
 import { AddRowButton } from "components/datatable/Controls";
 import IconText from "components/IconText";
@@ -29,7 +29,7 @@ const MetadataTable = ({
   metadata,
   onAdd,
   onDelete,
-  onUpdate
+  onUpdate,
 }) => (
   <Table>
     <TableHead>
@@ -79,7 +79,7 @@ MetadataTable.propTypes = {
   questionnaireId: PropTypes.string.isRequired,
   onAdd: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
-  onUpdate: PropTypes.func.isRequired
+  onUpdate: PropTypes.func.isRequired,
 };
 
 export default MetadataTable;

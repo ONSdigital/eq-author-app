@@ -11,19 +11,19 @@ const orderCreatedAtDesc = (a, b) =>
 
 const undeleteRequest = () => {
   return {
-    type: UNDELETE_QUESTIONNAIRE_REQUEST
+    type: UNDELETE_QUESTIONNAIRE_REQUEST,
   };
 };
 
 const undeleteSuccess = () => {
   return {
-    type: UNDELETE_QUESTIONNAIRE_SUCCESS
+    type: UNDELETE_QUESTIONNAIRE_SUCCESS,
   };
 };
 
 const undeleteFailure = () => {
   return {
-    type: UNDELETE_QUESTIONNAIRE_FAILURE
+    type: UNDELETE_QUESTIONNAIRE_FAILURE,
   };
 };
 
@@ -35,14 +35,14 @@ export const createUpdate = () => (proxy, result) => {
 
   proxy.writeQuery({
     query: GetQuestionnaireList,
-    data
+    data,
   });
 };
 
 export const createUndelete = mutate => (id, context) =>
   mutate({
     variables: { input: { id } },
-    update: createUpdate(context)
+    update: createUpdate(context),
   });
 
 export const undeleteQuestionnaire = (id, context) => {

@@ -2,7 +2,7 @@ import {
   navigateToPage,
   testId,
   selectQuestionFromContentPicker,
-  findByLabel
+  findByLabel,
 } from "../utils";
 
 export const navigateToRoutingTab = () =>
@@ -40,7 +40,7 @@ export const add = (config, pageTitle) => {
 
     selectQuestionFromContentPicker({
       sectionTitle: rule.leftSide.sectionTitle,
-      questionTitle: rule.leftSide.pageTitle
+      questionTitle: rule.leftSide.pageTitle,
     });
 
     cy.get("@currentRule").within(() => {

@@ -12,7 +12,7 @@ describe("RoutingDestinationContentPicker", () => {
       path: "foobar",
       data: {},
       onSubmit: jest.fn(),
-      selected: {}
+      selected: {},
     };
 
     wrapper = render(props);
@@ -26,8 +26,8 @@ describe("RoutingDestinationContentPicker", () => {
     it("should correctly render absoluteDestination", () => {
       const selected = {
         absoluteDestination: {
-          displayName: "foobar"
-        }
+          displayName: "foobar",
+        },
       };
       wrapper = render({ ...props, selected });
       expect(wrapper).toMatchSnapshot();
@@ -35,7 +35,7 @@ describe("RoutingDestinationContentPicker", () => {
 
     it("should correctly render logicalDestination EndOfQuestionnaire", () => {
       const selected = {
-        logicalDestination: "EndOfQuestionnaire"
+        logicalDestination: "EndOfQuestionnaire",
       };
       wrapper = render({ ...props, selected });
       expect(wrapper).toMatchSnapshot();
@@ -50,9 +50,9 @@ describe("RoutingDestinationContentPicker", () => {
       wrapper = render({
         ...props,
         selected: {
-          logicalDestination: "NextPage"
+          logicalDestination: "NextPage",
         },
-        data: { foobar: { questionPages: [{ displayName: "hello world" }] } }
+        data: { foobar: { questionPages: [{ displayName: "hello world" }] } },
       });
       expect(wrapper).toMatchSnapshot();
     });

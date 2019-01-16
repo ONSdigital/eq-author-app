@@ -2,7 +2,7 @@ import React from "react";
 import { shallow } from "enzyme";
 import {
   UnwrappedContentPickerSelect,
-  ContentSelectButton
+  ContentSelectButton,
 } from "components/ContentPickerSelect";
 import ContentPickerModal from "components/ContentPickerModal";
 
@@ -10,7 +10,7 @@ import {
   ANSWER,
   DESTINATION,
   METADATA,
-  QUESTION
+  QUESTION,
 } from "components/ContentPickerSelect/content-types";
 import { CURRENCY, NUMBER } from "constants/answer-types";
 import { DATE, LANGUAGE, REGION, TEXT } from "constants/metadata-types";
@@ -26,22 +26,22 @@ describe("ContentPickerSelect", () => {
     props = {
       match: {
         params: {
-          questionnaireId: "1"
-        }
+          questionnaireId: "1",
+        },
       },
       data: {
         questionnaire: {
           id: "1",
           metadata: [],
-          sections: []
-        }
+          sections: [],
+        },
       },
       onSubmit: jest.fn(),
       answerTypes: [NUMBER, CURRENCY],
       selectedContentDisplayName: "foobar",
       name: "contentPicker",
       loading: false,
-      contentTypes: [ANSWER]
+      contentTypes: [ANSWER],
     };
 
     wrapper = render(props);
@@ -65,7 +65,7 @@ describe("ContentPickerSelect", () => {
 
     expect(props.onSubmit).toHaveBeenCalledWith({
       name: props.name,
-      value: selectedItem
+      value: selectedItem,
     });
   });
 
@@ -88,23 +88,23 @@ describe("ContentPickerSelect", () => {
         metadata: [
           {
             id: "1",
-            type: DATE
+            type: DATE,
           },
           {
             id: "2",
-            type: TEXT
+            type: TEXT,
           },
           {
             id: "3",
-            type: LANGUAGE
+            type: LANGUAGE,
           },
           {
             id: "4",
-            type: REGION
-          }
+            type: REGION,
+          },
         ],
-        sections: []
-      }
+        sections: [],
+      },
     };
     beforeEach(() => {});
 
@@ -113,7 +113,7 @@ describe("ContentPickerSelect", () => {
         ...props,
         metadataTypes: [DATE],
         contentTypes: [METADATA],
-        data
+        data,
       });
 
       let metadataData = wrapper.find(ContentPickerModal).props("metadataData");
@@ -124,7 +124,7 @@ describe("ContentPickerSelect", () => {
       wrapper = render({
         ...props,
         contentTypes: [METADATA],
-        data
+        data,
       });
 
       let metadataData = wrapper.find(ContentPickerModal).props("metadataData");
@@ -135,7 +135,7 @@ describe("ContentPickerSelect", () => {
       wrapper = render({
         ...props,
         metadataTypes: [DATE],
-        contentTypes: [METADATA]
+        contentTypes: [METADATA],
       });
 
       let metadataData = wrapper.find(ContentPickerModal).props("metadataData");

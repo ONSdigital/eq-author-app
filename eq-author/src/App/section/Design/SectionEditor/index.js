@@ -18,7 +18,7 @@ import iconSection from "App/section/Design/SectionEditor/icon-dialog-section.sv
 import IntroEditor from "./IntroEditor";
 
 const titleControls = {
-  emphasis: true
+  emphasis: true,
 };
 
 const Padding = styled.div`
@@ -40,7 +40,7 @@ class SectionEditor extends React.Component {
     onMoveSectionDialog: PropTypes.func.isRequired,
     showMoveSectionDialog: PropTypes.bool.isRequired,
     onCloseMoveSectionDialog: PropTypes.func.isRequired,
-    match: CustomPropTypes.match
+    match: CustomPropTypes.match,
   };
 
   renderMoveSectionModal = ({ loading, error, data }) => {
@@ -48,7 +48,7 @@ class SectionEditor extends React.Component {
       onMoveSectionDialog,
       showMoveSectionDialog,
       onCloseMoveSectionDialog,
-      section
+      section,
     } = this.props;
 
     if (loading || error) {
@@ -73,7 +73,7 @@ class SectionEditor extends React.Component {
       showDeleteConfirmDialog,
       onCloseDeleteConfirmDialog,
       onDeleteSectionConfirm,
-      match
+      match,
     } = this.props;
     const handleUpdate = partial(flip(onChange), onUpdate);
 
@@ -115,7 +115,7 @@ class SectionEditor extends React.Component {
 }
 
 SectionEditor.fragments = {
-  Section: sectionFragment
+  Section: sectionFragment,
 };
 
 export default SectionEditor;

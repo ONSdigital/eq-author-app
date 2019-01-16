@@ -14,7 +14,7 @@ describe("updateQuestionnaire", () => {
 
   beforeEach(() => {
     repositories = {
-      Questionnaire: mockRepository()
+      Questionnaire: mockRepository(),
     };
   });
 
@@ -25,7 +25,7 @@ describe("updateQuestionnaire", () => {
       description: "This is a test questionnaire",
       theme: "test theme",
       legalBasis: "Voluntary",
-      navigation: false
+      navigation: false,
     };
 
     const result = await executeQuery(

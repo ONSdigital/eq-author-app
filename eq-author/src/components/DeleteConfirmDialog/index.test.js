@@ -12,7 +12,7 @@ describe("DeleteConfirmDialog", () => {
   beforeEach(() => {
     mockMutations = {
       onDelete: jest.fn(),
-      onClose: jest.fn()
+      onClose: jest.fn(),
     };
 
     page = {
@@ -20,7 +20,7 @@ describe("DeleteConfirmDialog", () => {
       id: "1",
       title: "",
       description: "",
-      guidance: ""
+      guidance: "",
     };
 
     wrapper = shallow(

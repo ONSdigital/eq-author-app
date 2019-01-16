@@ -29,7 +29,7 @@ module.exports = ({ repositories }) => {
 
     await repositories.Destination.update({
       id: routingRule.destinationId,
-      ...destination
+      ...destination,
     });
     return routingRule;
   };

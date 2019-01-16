@@ -22,7 +22,7 @@ export const UnwrappedMetadataContentPicker = ({
 
 UnwrappedMetadataContentPicker.propTypes = {
   data: PropTypes.object, // eslint-disable-line
-  path: PropTypes.string.isRequired
+  path: PropTypes.string.isRequired,
 };
 
 const GetAvailableMetadataQuery = props => (
@@ -34,7 +34,7 @@ const GetAvailableMetadataQuery = props => (
 );
 
 GetAvailableMetadataQuery.propTypes = {
-  answerId: PropTypes.string.isRequired
+  answerId: PropTypes.string.isRequired,
 };
 
 export default GetAvailableMetadataQuery;

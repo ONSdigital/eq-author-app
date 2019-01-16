@@ -7,11 +7,11 @@ describe("schemaConverter", () => {
     questionnaire = { id: "123" };
 
     res = {
-      locals: { questionnaire }
+      locals: { questionnaire },
     };
 
     converter = {
-      convert: jest.fn()
+      convert: jest.fn(),
     };
 
     req = {};

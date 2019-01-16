@@ -30,14 +30,14 @@ export default class GroupContentPicker extends React.Component {
         id: PropTypes.string.isRequired,
         title: PropTypes.string.isRequired,
         childKey: PropTypes.string,
-        groupKey: PropTypes.string
+        groupKey: PropTypes.string,
       })
-    ).isRequired
+    ).isRequired,
   };
 
   state = {
     openLevel: null,
-    selectedItem: null
+    selectedItem: null,
   };
 
   handleTitleClick = level => {
@@ -48,7 +48,7 @@ export default class GroupContentPicker extends React.Component {
       }
       return {
         openLevel,
-        selectedItem: null
+        selectedItem: null,
       };
     });
   };
@@ -60,8 +60,8 @@ export default class GroupContentPicker extends React.Component {
       openLevel: level,
       selectedItem: {
         ...option,
-        config
-      }
+        config,
+      },
     });
   };
 

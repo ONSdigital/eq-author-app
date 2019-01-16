@@ -4,10 +4,10 @@ export const propTypes = {
     "primary",
     "secondary",
     "tertiary",
-    "tertiary-light"
+    "tertiary-light",
   ]),
   small: PropTypes.bool,
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
 };
 
 export default propTypes;

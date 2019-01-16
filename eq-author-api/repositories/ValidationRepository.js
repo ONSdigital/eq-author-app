@@ -5,7 +5,7 @@ const { DATE: METADATA_DATE } = require("../constants/metadataTypes");
 
 module.exports = knex => {
   const {
-    getPreviousAnswersForPage
+    getPreviousAnswersForPage,
   } = require("./strategies/previousAnswersStrategy")(knex);
 
   const toggleValidationRule = ({ id, enabled }) => {
@@ -39,7 +39,7 @@ module.exports = knex => {
         config: JSON.stringify(config),
         entityType,
         previousAnswerId,
-        metadataId
+        metadataId,
       })
       .then(head);
   };
@@ -60,7 +60,7 @@ module.exports = knex => {
       .then(({ answerType, pageId: id }) =>
         getPreviousAnswersForPage({
           id,
-          answerTypes: [answerType]
+          answerTypes: [answerType],
         })
       );
 
@@ -94,6 +94,6 @@ module.exports = knex => {
     findByAnswerIdAndValidationType,
     updateValidationRule,
     getPreviousAnswersForValidation,
-    getMetadataForValidation
+    getMetadataForValidation,
   };
 };

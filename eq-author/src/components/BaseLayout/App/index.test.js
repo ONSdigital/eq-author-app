@@ -24,7 +24,7 @@ describe("components/AppContainer", () => {
   beforeEach(() => {
     props = {
       gainConnection: jest.fn(),
-      lostConnection: jest.fn()
+      lostConnection: jest.fn(),
     };
 
     wrapper = createWrapper(props, shallow);

@@ -1,7 +1,7 @@
 import {
   redirectToDesigner,
   mapMutateToProps,
-  updateQuestionnaireList
+  updateQuestionnaireList,
 } from "App/QuestionnairesPage/withCreateQuestionnaire";
 import { buildPagePath } from "utils/UrlUtils";
 import getQuestionnaireList from "graphql/getQuestionnaireList.graphql";
@@ -15,15 +15,15 @@ describe("withCreateQuestionnaire", () => {
 
   beforeEach(() => {
     results = {
-      data: { createQuestionnaire: questionnaire }
+      data: { createQuestionnaire: questionnaire },
     };
 
     history = {
-      push: jest.fn()
+      push: jest.fn(),
     };
 
     user = {
-      displayName: "Dave McDave"
+      displayName: "Dave McDave",
     };
 
     mutate = jest.fn(() => Promise.resolve(results));
@@ -37,7 +37,7 @@ describe("withCreateQuestionnaire", () => {
         buildPagePath({
           questionnaireId: questionnaire.id,
           sectionId: section.id,
-          pageId: page.id
+          pageId: page.id,
         })
       );
     });
@@ -58,7 +58,7 @@ describe("withCreateQuestionnaire", () => {
     it("should redirect after mutation", () => {
       return props.onCreateQuestionnaire(questionnaire).then(() => {
         expect(mutate).toHaveBeenCalledWith({
-          variables: { input: questionnaire }
+          variables: { input: questionnaire },
         });
         expect(history.push).toHaveBeenCalled();
       });
@@ -70,7 +70,7 @@ describe("withCreateQuestionnaire", () => {
 
     beforeEach(() => {
       data = {
-        questionnaires: [{ id: "2" }, { id: "1" }]
+        questionnaires: [{ id: "2" }, { id: "1" }],
       };
 
       readQuery = jest.fn(() => data);
@@ -78,7 +78,7 @@ describe("withCreateQuestionnaire", () => {
 
       proxy = {
         readQuery,
-        writeQuery
+        writeQuery,
       };
     });
 
@@ -86,17 +86,17 @@ describe("withCreateQuestionnaire", () => {
       const newQuestionnaire = { id: "3" };
 
       updateQuestionnaireList(proxy, {
-        data: { createQuestionnaire: newQuestionnaire }
+        data: { createQuestionnaire: newQuestionnaire },
       });
 
       expect(readQuery).toHaveBeenCalledWith({
-        query: getQuestionnaireList
+        query: getQuestionnaireList,
       });
       expect(writeQuery).toHaveBeenCalledWith({
         query: getQuestionnaireList,
         data: {
-          questionnaires: [newQuestionnaire, { id: "2" }, { id: "1" }]
-        }
+          questionnaires: [newQuestionnaire, { id: "2" }, { id: "1" }],
+        },
       });
     });
   });

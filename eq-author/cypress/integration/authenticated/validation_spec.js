@@ -3,7 +3,7 @@ import {
   CURRENCY,
   DATE,
   DATE_RANGE,
-  NUMBER
+  NUMBER,
 } from "../../../src/constants/answer-types";
 
 import {
@@ -16,7 +16,7 @@ import {
   toggleCheckboxOff,
   selectFirstAnswerFromContentPicker,
   selectFirstMetadataContentPicker,
-  switchPilltab
+  switchPilltab,
 } from "../../utils";
 
 import { addMetadata, deleteFirstMetadata } from "../../builders/metadata";

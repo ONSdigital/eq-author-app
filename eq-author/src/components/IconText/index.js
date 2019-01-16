@@ -31,11 +31,11 @@ const IconText = ({ icon: Icon, hideText, children, ...otherProps }) => (
 IconText.propTypes = {
   icon: PropTypes.func.isRequired,
   children: PropTypes.node.isRequired,
-  hideText: PropTypes.bool
+  hideText: PropTypes.bool,
 };
 
 IconText.defaultProps = {
-  hideText: false
+  hideText: false,
 };
 
 export default IconText;

@@ -40,7 +40,7 @@ describe("SplitButton", () => {
       primaryText: "Add checkbox",
       onToggleOpen: jest.fn(),
       open: false,
-      children
+      children,
     };
     wrapper = createWrapper(props);
   });

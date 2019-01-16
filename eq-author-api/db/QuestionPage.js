@@ -25,6 +25,6 @@ module.exports = knex => {
   return {
     findById,
     update,
-    create
+    create,
   };
 };

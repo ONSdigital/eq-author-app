@@ -30,6 +30,6 @@ module.exports = knex => {
     insert,
     getByRuleId,
     getById,
-    update
+    update,
   };
 };

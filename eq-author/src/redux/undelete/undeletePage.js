@@ -8,19 +8,19 @@ export const UNDELETE_PAGE_FAILURE = "UNDELETE_PAGE_FAILURE";
 
 const undeleteRequest = () => {
   return {
-    type: UNDELETE_PAGE_REQUEST
+    type: UNDELETE_PAGE_REQUEST,
   };
 };
 
 const undeleteSuccess = () => {
   return {
-    type: UNDELETE_PAGE_SUCCESS
+    type: UNDELETE_PAGE_SUCCESS,
   };
 };
 
 const undeleteFailure = () => {
   return {
-    type: UNDELETE_PAGE_FAILURE
+    type: UNDELETE_PAGE_FAILURE,
   };
 };
 
@@ -34,14 +34,14 @@ export const createUpdate = context => (proxy, result) => {
   proxy.writeFragment({
     id,
     fragment,
-    data: section
+    data: section,
   });
 };
 
 export const createUndelete = mutate => (id, context) =>
   mutate({
     variables: { input: { id } },
-    update: createUpdate(context)
+    update: createUpdate(context),
   });
 
 export const undeletePage = (id, context) => {

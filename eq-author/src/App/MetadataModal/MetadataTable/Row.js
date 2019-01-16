@@ -7,7 +7,7 @@ import withEntityEditor from "components/withEntityEditor";
 import {
   DeleteRowButton,
   TableInput,
-  TableInputDate
+  TableInputDate,
 } from "components/datatable/Controls";
 import { TableColumn, TableRow } from "components/datatable/Elements";
 import { KeySelect, Select } from "./Controls";
@@ -26,13 +26,13 @@ export class StatelessRow extends Component {
         dateValue,
         textValue,
         languageValue,
-        regionValue
+        regionValue,
       },
       onDelete,
       onChange,
       onUpdate,
       questionnaireId,
-      usedKeys
+      usedKeys,
     } = this.props;
     return (
       <TableRow data-test="metadata-table-row">
@@ -117,7 +117,7 @@ StatelessRow.propTypes = {
   onDelete: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
-  usedKeys: PropTypes.arrayOf(PropTypes.string).isRequired
+  usedKeys: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default withEntityEditor("metadata", metadataFragment)(StatelessRow);

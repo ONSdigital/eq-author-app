@@ -15,35 +15,35 @@ describe("MultipleChoiceAnswer", () => {
         id: "1",
         label: "",
         description: "",
-        __typename: "Option"
-      }
-    ]
+        __typename: "Option",
+      },
+    ],
   };
 
   let store;
 
   const option = {
     id: "123",
-    __typename: "Option"
+    __typename: "Option",
   };
 
   const optionWithAnswer = {
     answer: {
       ...answer,
       id: "1",
-      type: "TextField"
+      type: "TextField",
     },
     option: {
       ...option,
-      id: "2"
-    }
+      id: "2",
+    },
   };
 
   const mutuallyExclusiveOption = {
     id: "4",
     label: "I am mutually exclusive",
     description: "",
-    __typename: "Option"
+    __typename: "Option",
   };
 
   let mockHandlers;
@@ -53,8 +53,8 @@ describe("MultipleChoiceAnswer", () => {
     options: times(numberOptions, id => ({
       id: id,
       label: "",
-      description: ""
-    }))
+      description: "",
+    })),
   });
 
   const createWrapper = ({ answer, minOptions }, render = shallow) =>
@@ -75,7 +75,7 @@ describe("MultipleChoiceAnswer", () => {
       onAddExclusive: jest.fn(() => Promise.resolve(option)),
       onUpdateOption: jest.fn(),
       onDeleteOption: jest.fn(),
-      onChange: jest.fn()
+      onChange: jest.fn(),
     };
 
     wrapper = createWrapper({ answer });
@@ -99,7 +99,7 @@ describe("MultipleChoiceAnswer", () => {
     expect(preventDefault).toHaveBeenCalled();
     expect(stopPropagation).toHaveBeenCalled();
     expect(mockHandlers.onAddOption).toHaveBeenCalledWith(answer.id, {
-      hasAdditionalAnswer: false
+      hasAdditionalAnswer: false,
     });
   });
 
@@ -165,7 +165,7 @@ describe("MultipleChoiceAnswer", () => {
     beforeEach(() => {
       answerWithOther = {
         ...createAnswer(minOptions),
-        other: optionWithAnswer
+        other: optionWithAnswer,
       };
 
       preventDefault = jest.fn();
@@ -191,7 +191,7 @@ describe("MultipleChoiceAnswer", () => {
     it("should show delete button when number options + other > minOptions", () => {
       const moreThanTwoOptions = {
         ...createAnswer(2),
-        other: optionWithAnswer
+        other: optionWithAnswer,
       };
       wrapper = createWrapper({ answer: moreThanTwoOptions, minOptions });
       wrapper.find(Option).forEach(option => {
@@ -202,7 +202,7 @@ describe("MultipleChoiceAnswer", () => {
     it("should not show delete button when number options + other <= minOptions", () => {
       const twoOptionsExactly = {
         ...createAnswer(1),
-        other: optionWithAnswer
+        other: optionWithAnswer,
       };
       wrapper = createWrapper({ answer: twoOptionsExactly, minOptions });
       wrapper.find(Option).forEach(option => {
@@ -221,7 +221,7 @@ describe("MultipleChoiceAnswer", () => {
       answerWithExclusive = {
         ...createAnswer(minOptions),
         mutuallyExclusiveOption,
-        type: "Checkbox"
+        type: "Checkbox",
       };
 
       preventDefault = jest.fn();

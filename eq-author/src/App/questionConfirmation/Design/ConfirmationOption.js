@@ -5,7 +5,7 @@ import DummyMultipleChoice from "App/questionPage/Design/answers/dummy/MultipleC
 import {
   StyledOption,
   Flex,
-  OptionField
+  OptionField,
 } from "App/questionPage/Design/answers/MultipleChoiceAnswer/Option";
 import { Label } from "components/Forms";
 import WrappingInput from "components/Forms/WrappingInput";
@@ -51,12 +51,12 @@ const ConfirmationOption = ({ value, name, label, onChange, onUpdate }) => (
 ConfirmationOption.propTypes = {
   value: PropTypes.shape({
     label: PropTypes.string,
-    description: PropTypes.string
+    description: PropTypes.string,
   }).isRequired,
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
-  onUpdate: PropTypes.func.isRequired
+  onUpdate: PropTypes.func.isRequired,
 };
 
 export default ConfirmationOption;

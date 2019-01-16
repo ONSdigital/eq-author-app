@@ -26,6 +26,6 @@ module.exports = knex => {
     findAll,
     find,
     update,
-    create
+    create,
   };
 };
