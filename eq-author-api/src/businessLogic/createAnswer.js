@@ -3,7 +3,7 @@ const uuid = require("uuid");
 const getDefaultAnswerProperties = require("../../utils/defaultAnswerProperties");
 const { answerTypeMap } = require("../../utils/defaultAnswerValidations");
 const {
-  createDefaultValidationsForAnswer
+  createDefaultValidationsForAnswer,
 } = require("../../repositories/strategies/validationStrategy");
 
 const createOption = require("./createOption");
@@ -11,7 +11,7 @@ const createOption = require("./createOption");
 module.exports = answer => {
   const defaultProperties = getDefaultAnswerProperties(answer.type);
   merge(answer, {
-    properties: defaultProperties
+    properties: defaultProperties,
   });
 
   const validation = {};
@@ -21,13 +21,14 @@ module.exports = answer => {
       validation[v.validationType] = {
         id: uuid.v4(),
         config: v.config,
-        enabled: false
+        enabled: false,
       };
     });
   }
 
-  const defaultOptions = [];
+  let defaultOptions;
   if (answer.type === "Checkbox" || answer.type === "Radio") {
+    defaultOptions = [];
     defaultOptions.push(createOption());
 
     if (answer.type === "Radio") {
@@ -40,7 +41,7 @@ module.exports = answer => {
     ...merge(answer, {
       properties: defaultProperties,
       validation,
-      options: defaultOptions
-    })
+      options: defaultOptions,
+    }),
   };
 };
