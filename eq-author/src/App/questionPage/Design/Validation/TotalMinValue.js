@@ -19,13 +19,6 @@ import PathEnd from "./path-end.svg?inline";
 
 import FieldWithInclude from "./FieldWithInclude";
 
-const InlineField = styled(Field)`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin-left: -0.8em;
-`;
-
 const Connector = styled(PathEnd)`
   margin-top: 0.75em;
 `;
@@ -147,7 +140,7 @@ export class TotalMinValue extends React.Component {
     return (
       <Grid>
         <Column cols={3}>
-          <ValidationTitle>Min Value is</ValidationTitle>
+          <ValidationTitle>Total equals</ValidationTitle>
           <Connector />
         </Column>
         <Column cols={8}>

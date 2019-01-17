@@ -45,6 +45,16 @@ const Answer = styled.div`
     margin-bottom: 0.5em;
     padding-bottom: 0.5em;
   }
+
+  &:nth-last-child(2) {
+    border-bottom: 4px solid #e4e8eb;
+  }
+
+  &:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
 `;
 
 const PropertiesPane = styled.div`

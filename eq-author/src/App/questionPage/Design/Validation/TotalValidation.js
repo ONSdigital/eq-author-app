@@ -20,7 +20,7 @@ import { get } from "lodash";
 const SectionTitle = styled.h3`
   margin: 0 0 0.5em 0;
   padding: 0;
-  font-size: 1.1em;
+  font-size: 1em;
   color: #666666;
   position: relative;
 `;
@@ -32,7 +32,7 @@ const Container = styled.div`
 const validationTypes = [
   {
     id: "minValue",
-    title: "Min Value",
+    title: "Equals",
     render: props => <MinValueValidation {...props} />,
     types: [CURRENCY, NUMBER],
     preview: ({ custom, previousAnswer }) =>
@@ -63,7 +63,7 @@ class TotalValidation extends React.Component {
             enabled: true,
             entityType: "Custom",
             id: "minValue",
-            inclusive: false,
+            inclusive: true,
             previousAnswer: null
           },
           maxValue: {
@@ -71,7 +71,7 @@ class TotalValidation extends React.Component {
             enabled: true,
             entityType: "Custom",
             id: "maxValue",
-            inclusive: false,
+            inclusive: true,
             previousAnswer: null
           }
         }
