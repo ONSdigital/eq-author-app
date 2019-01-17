@@ -11,6 +11,7 @@ const {
   omit,
   set,
   cloneDeep,
+  first,
 } = require("lodash");
 const GraphQLJSON = require("graphql-type-json");
 const { getName } = require("../../utils/getName");
@@ -182,21 +183,26 @@ const Resolvers = {
     },
     deletePage: (_, { input }, ctx) => {
       const section = findSectionByPageId(ctx.questionnaire.sections, input.id);
-      const page = find(section.pages, { id: input.id });
-      const removedPage = remove(section.pages, { id: page.id });
+      const removedPage = first(remove(section.pages, { id: input.id }));
       save(ctx.questionnaire);
-      return removedPage[0];
+      return removedPage;
     },
     undeletePage: (_, args, ctx) =>
       ctx.repositories.Page.undelete(args.input.id),
 
     movePage: (_, { input }, ctx) => {
       const section = findSectionByPageId(ctx.questionnaire.sections, input.id);
-      const page = find(section.pages, { id: input.id });
+      const removedPage = first(remove(section.pages, { id: input.id }));
       if (input.sectionId === section.id) {
-        const removedPage = remove(section.pages, { id: page.id });
         section.pages.splice(input.position, 0, removedPage);
+      } else {
+        const newsection = find(ctx.questionnaire.sections, {
+          id: input.sectionId,
+        });
+        newsection.pages.splice(input.position, 0, removedPage);
       }
+      save(ctx.questionnaire);
+      return removedPage;
     },
 
     duplicatePage: (_, { input }, ctx) => {
