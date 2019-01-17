@@ -153,7 +153,15 @@ const Resolvers = {
     },
     undeleteSection: (_, args, ctx) =>
       ctx.repositories.Section.undelete(args.input.id), // TODO
-    moveSection: (_, args, ctx) => ctx.repositories.Section.move(args.input),
+
+    moveSection: (_, { input }, ctx) => {
+      const removedSection = first(
+        remove(ctx.questionnaire.sections, { id: input.id })
+      );
+      ctx.questionnaire.sections.splice(input.position, 0, removedSection);
+      save(ctx.questionnaire);
+      return removedSection;
+    },
 
     duplicateSection: (_, { input }, ctx) => {
       const section = find(ctx.questionnaire.sections, { id: input.id });
