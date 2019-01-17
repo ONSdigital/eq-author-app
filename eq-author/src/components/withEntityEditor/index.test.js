@@ -49,7 +49,6 @@ describe("withEntityEditor", () => {
       alias: "alias",
       __typename: "Foo",
     };
-    jest.useFakeTimers();
 
     wrapper = render();
   });
@@ -71,7 +70,6 @@ describe("withEntityEditor", () => {
     wrapper.simulate("change", { name: "title", value: newValue });
     wrapper.setProps({ entity });
     wrapper.simulate("update");
-    jest.runAllTimers();
     expect(handleUpdate).toHaveBeenCalledWith({
       ...omit(entity, "__typename"),
       title: "foo1",
@@ -118,7 +116,6 @@ describe("withEntityEditor", () => {
 
     wrapper.simulate("change", { name: "title", value: newValue });
     wrapper.simulate("update");
-    jest.runAllTimers();
 
     expect(handleUpdate).toHaveBeenCalledWith(
       expect.objectContaining({ title: newValue })
@@ -178,7 +175,6 @@ describe("withEntityEditor", () => {
 
     wrapper.simulate("change", { name: "title", value: newValue });
     wrapper.simulate("update");
-    jest.runAllTimers();
 
     expect(handleUpdate).toHaveBeenCalled();
   });
@@ -192,7 +188,6 @@ describe("withEntityEditor", () => {
     });
     wrapper.simulate("change", { name: "title", value: newValue });
     wrapper.simulate("update");
-    jest.runAllTimers();
 
     expect(handleStartRequest).toHaveBeenCalled();
     expect(handleEndRequest).toHaveBeenCalled();
@@ -211,7 +206,6 @@ describe("withEntityEditor", () => {
 
     failingWrapper.simulate("change", { name: "title", value: newValue });
     failingWrapper.simulate("update");
-    jest.runAllTimers();
 
     expect(handleStartRequest).toHaveBeenCalled();
     expect(handleEndRequest).toHaveBeenCalled();
@@ -254,7 +248,6 @@ describe("withEntityEditor", () => {
 
     wrapper.simulate("change", { name: "deep.thing", value: "updated" });
     wrapper.simulate("update");
-    jest.runAllTimers();
 
     expect(handleUpdate).toHaveBeenCalledWith({
       id: 1,
@@ -283,7 +276,6 @@ describe("withEntityEditor", () => {
     });
 
     wrapper.simulate("update");
-    jest.runAllTimers();
 
     expect(handleUpdate).toHaveBeenCalledWith({
       id: 1,
@@ -306,7 +298,6 @@ describe("withEntityEditor", () => {
     wrapper.simulate("submit", { preventDefault: jest.fn() });
 
     wrapper.simulate("update");
-    jest.runAllTimers();
 
     expect(handleUpdate).not.toHaveBeenCalled();
   });
@@ -317,23 +308,5 @@ describe("withEntityEditor", () => {
     expect(() => {
       instance.handleChange({ name: "title", value: "New title" });
     }).not.toThrow();
-  });
-
-  it("should run update once if triggered in quick succession", () => {
-    wrapper.simulate("change", { name: "alias", value: "updated alias" });
-    wrapper.simulate("update");
-
-    wrapper.simulate("change", { name: "title", value: "updated title" });
-    wrapper.simulate("update");
-
-    wrapper.simulate("update");
-    jest.runAllTimers();
-
-    expect(handleUpdate.mock.calls).toHaveLength(1);
-    expect(handleUpdate).toHaveBeenCalledWith({
-      id: entity.id,
-      title: "updated title",
-      alias: "updated alias",
-    });
   });
 });

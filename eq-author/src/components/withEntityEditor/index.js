@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { filter } from "graphql-anywhere";
-import { debounce, isEqual } from "lodash";
+import { isEqual } from "lodash";
 import fp from "lodash/fp";
 import { startRequest, endRequest } from "redux/saving/actions";
 import { connect } from "react-redux";
@@ -68,27 +68,23 @@ const withEntityEditor = (entityPropName, fragment) => WrappedComponent => {
       }
     };
 
-    handleUpdate = debounce(
-      () => {
-        if (!this.dirtyField) {
-          return;
-        }
+    handleUpdate = () => {
+      if (!this.dirtyField) {
+        return;
+      }
 
-        this.dirtyField = null;
-        this.props.startRequest();
+      this.dirtyField = null;
+      this.props.startRequest();
 
-        this.props
-          .onUpdate(this.filteredEntity)
-          .then(() => {
-            this.props.endRequest();
-          })
-          .catch(() => {
-            this.props.endRequest();
-          });
-      },
-      20,
-      { trailing: true }
-    );
+      this.props
+        .onUpdate(this.filteredEntity)
+        .then(() => {
+          this.props.endRequest();
+        })
+        .catch(() => {
+          this.props.endRequest();
+        });
+    };
 
     componentWillUnmount() {
       this.unmounted = true;
