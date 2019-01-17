@@ -24,6 +24,7 @@ const uuid = require("uuid");
 const stringify = require("json-stable-stringify");
 
 const createAnswer = require("../../src/businessLogic/createAnswer");
+const updateMetadata = require("../../src/businessLogic/updateMetadata");
 const addPrefix = require("../../utils/addPrefix");
 
 const getSection = ctx => input => {
@@ -320,12 +321,27 @@ const Resolvers = {
       ctx.repositories.Validation.toggleValidationRule(args.input),
     updateValidationRule: (_, args, ctx) =>
       ctx.repositories.Validation.updateValidationRule(args.input),
-    createMetadata: (root, args, ctx) =>
-      ctx.repositories.Metadata.insert(args.input),
-    updateMetadata: (_, args, ctx) =>
-      ctx.repositories.Metadata.update(args.input),
-    deleteMetadata: (_, args, ctx) =>
-      ctx.repositories.Metadata.remove(args.input.id),
+    createMetadata: (root, args, ctx) => {
+      const newMetadata = {
+        alias: null,
+        id: uuid.v4(),
+        key: null,
+        type: "Text",
+        value: null,
+      };
+      ctx.questionnaire.metadata.push(newMetadata);
+      save(ctx.questionnaire);
+      return newMetadata;
+    },
+    updateMetadata: (_, { input }, ctx) => {
+      const original = find(ctx.questionnaire.metadata, { id: input.id });
+      const result = updateMetadata(original, input);
+      merge(original, result);
+      save(ctx.questionnaire);
+      return result;
+    },
+    deleteMetadata: (_, { input }, ctx) =>
+      ctx.repositories.Metadata.remove(input),
 
     createQuestionConfirmation: (_, { input }, ctx) => {
       const section = findSectionByPageId(
