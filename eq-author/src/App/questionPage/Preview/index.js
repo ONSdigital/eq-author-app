@@ -186,8 +186,8 @@ UnwrappedPreviewPageRoute.propTypes = {
 };
 
 export const QUESTION_PAGE_QUERY = gql`
-  query GetQuestionPage($id: ID!) {
-    questionPage(id: $id) {
+  query GetQuestionPage($input: QueryInput!) {
+    questionPage(input: $input) {
       ...QuestionPage
     }
   }
@@ -198,7 +198,12 @@ export const QUESTION_PAGE_QUERY = gql`
 export default withApollo(props => (
   <Query
     query={QUESTION_PAGE_QUERY}
-    variables={{ id: props.match.params.pageId }}
+    variables={{
+      input: {
+        pageId: props.match.params.pageId,
+        questionnaireId: props.match.params.questionnaireId,
+      },
+    }}
   >
     {innerProps => <UnwrappedPreviewPageRoute {...innerProps} {...props} />}
   </Query>
