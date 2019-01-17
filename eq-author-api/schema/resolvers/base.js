@@ -217,7 +217,16 @@ const Resolvers = {
     },
     undeletePage: (_, args, ctx) =>
       ctx.repositories.Page.undelete(args.input.id),
-    movePage: (_, args, ctx) => ctx.repositories.Page.move(args.input),
+
+    movePage: (_, { input }, ctx) => {
+      const section = findSectionByPageId(ctx.questionnaire.sections, input.id);
+      const page = find(section.pages, { id: input.id });
+      if (input.sectionId === section.id) {
+        const removedPage = remove(section.pages, { id: page.id });
+        section.pages.splice(input.position, 0, removedPage);
+      }
+    },
+
     duplicatePage: (_, { input }, ctx) => {
       const section = findSectionByPageId(ctx.questionnaire.sections, input.id);
       const page = find(section.pages, { id: input.id });
