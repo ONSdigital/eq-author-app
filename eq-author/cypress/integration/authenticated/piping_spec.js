@@ -19,12 +19,6 @@ const clickPipingButton = () =>
     .first()
     .click();
 
-const clickLastSection = () =>
-  cy
-    .get(testId("nav-section-link"))
-    .last()
-    .click({ force: true }); //Metadata modal transition is sometimes too slow
-
 const clickLastPage = () =>
   cy
     .get(testId("nav-page-link"))
@@ -36,8 +30,6 @@ const clickFirstPage = () =>
     .get(testId("nav-page-link"))
     .first()
     .click({ force: true }); //Metadata modal transition is sometimes too slow
-
-const addSectionIntro = () => cy.get(testId("btn-add-intro")).click();
 
 const canPipePreviousAnswer = ({ selector }) => {
   cy.get(testId(selector, "testid")).focus();
@@ -104,18 +96,6 @@ describe("Piping", () => {
         canPipePreviousAnswer({ selector: "txt-confirmation-title" });
       });
     });
-    describe("Section Introduction", () => {
-      beforeEach(() => {
-        clickLastSection();
-        addSectionIntro();
-      });
-      it("Can pipe previous answer into section introduction title", () => {
-        canPipePreviousAnswer({ selector: "txt-introduction-title" });
-      });
-      it("Can pipe previous answer into section introduction content", () => {
-        canPipePreviousAnswer({ selector: "txt-introduction-content" });
-      });
-    });
   });
 
   describe("Metadata", () => {
@@ -144,18 +124,6 @@ describe("Piping", () => {
 
       it("Can pipe metadata into title", () => {
         canPipeMetadata({ selector: "txt-confirmation-title" });
-      });
-    });
-    describe("Section Introduction", () => {
-      beforeEach(() => {
-        clickLastSection();
-        addSectionIntro();
-      });
-      it("Can pipe metadata into section introduction title", () => {
-        canPipeMetadata({ selector: "txt-introduction-title" });
-      });
-      it("Can pipe metadata into section introduction content", () => {
-        canPipeMetadata({ selector: "txt-introduction-content" });
       });
     });
   });
