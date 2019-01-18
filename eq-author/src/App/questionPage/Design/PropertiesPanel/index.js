@@ -135,9 +135,7 @@ class PropertiesPanel extends React.Component {
 
                 return (
                   <Accordion
-                    title={`${firstAnswer.type} answer${
-                      answerGroup.length > 1 ? "s" : ""
-                    }`}
+                    title={`${firstAnswer.type} properties`}
                     key={getIdForObject(answerGroup)}
                   >
                     <Padding>

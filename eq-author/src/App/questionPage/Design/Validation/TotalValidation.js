@@ -7,15 +7,23 @@ import SidebarButton, {
   Detail
 } from "components/buttons/SidebarButton/index.js";
 
-import ModalWithNav from "components/modals/ModalWithNav";
-
+import ModalDialog from "components/modals/ModalDialog";
 import MinValueValidation from "./TotalMinValue";
-import MaxValueValidation from "./TotalMaxValue";
 
 import ValidationContext from "./ValidationContext";
 import { gotoTab } from "redux/tabs/actions";
-import { CURRENCY, NUMBER } from "constants/answer-types";
+
 import { get } from "lodash";
+import Button from "components/buttons/Button";
+
+import IconTotal from "./icon-calculator.svg?inline";
+
+const ValidationModalDialog = styled(ModalDialog)`
+  .Modal {
+    width: 40em;
+    height: 23em;
+  }
+`;
 
 const SectionTitle = styled.h3`
   margin: 0 0 0.5em 0;
@@ -23,30 +31,30 @@ const SectionTitle = styled.h3`
   font-size: 1em;
   color: #666666;
   position: relative;
+  display: flex;
+  align-items: center;
 `;
 
 const Container = styled.div`
   padding: 0.25em 0 0;
 `;
 
-const validationTypes = [
-  {
-    id: "minValue",
-    title: "Equals",
-    render: props => <MinValueValidation {...props} />,
-    types: [CURRENCY, NUMBER],
-    preview: ({ custom, previousAnswer }) =>
-      custom ? custom : get(previousAnswer, "displayName")
-  },
-  {
-    id: "maxValue",
-    title: "Max Value",
-    render: props => <MaxValueValidation {...props} />,
-    types: [CURRENCY, NUMBER],
-    preview: ({ custom, previousAnswer }) =>
-      custom ? custom : get(previousAnswer, "displayName")
-  }
-];
+const Buttons = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`;
+
+const TotalButton = styled(SidebarButton)`
+  display: flex;
+  align-items: center;
+`;
+
+const Details = styled.div`
+  margin-left: 0.1em;
+`;
+
+const preview = ({ custom, previousAnswer }) =>
+  custom ? custom : get(previousAnswer, "displayName");
 
 class TotalValidation extends React.Component {
   constructor(props) {
@@ -59,18 +67,11 @@ class TotalValidation extends React.Component {
         id: this.props.answers[0].id,
         validation: {
           minValue: {
+            comparator: "Equals",
             custom: "",
             enabled: true,
             entityType: "Custom",
             id: "minValue",
-            inclusive: true,
-            previousAnswer: null
-          },
-          maxValue: {
-            custom: "",
-            enabled: true,
-            entityType: "Custom",
-            id: "maxValue",
             inclusive: true,
             previousAnswer: null
           }
@@ -79,20 +80,7 @@ class TotalValidation extends React.Component {
     };
   }
 
-  handleModalClose = () => this.setState({ modalIsOpen: false });
-
-  renderButton = ({ id, title, value, enabled }) => (
-    <SidebarButton
-      key={id}
-      onClick={() => {
-        this.props.gotoTab(this.modalId, id);
-        this.setState({ modalIsOpen: true });
-      }}
-    >
-      <Title>{title}</Title>
-      {enabled && value && <Detail>{value}</Detail>}
-    </SidebarButton>
-  );
+  handleModalDialogClose = () => this.setState({ modalIsOpen: false });
 
   handleUpdateAnswerValidation = ({ id, validation }) => {
     this.setState({
@@ -109,54 +97,55 @@ class TotalValidation extends React.Component {
     });
   };
 
-  handleToggleValidationRule = ({ id, enabled }) => {
-    this.setState({
-      answer: {
-        ...this.state.answer,
-        validation: {
-          ...this.state.answer.validation,
-          [id]: {
-            ...this.state.answer.validation[id],
-            enabled: enabled
-          }
-        }
-      }
-    });
-  };
-
   render() {
     const { answer } = this.state;
+    const validation = get(this.state.answer.validation, "minValue");
+    const { enabled } = validation;
+    const value = enabled ? preview(validation) : "";
+    const comparator = get(this.state.answer.validation.minValue, "comparator");
+
     return (
       <Container>
-        <SectionTitle>Total</SectionTitle>
         <ValidationContext.Provider
           value={{
             answer,
-            onUpdateAnswerValidation: this.handleUpdateAnswerValidation,
-            onToggleValidationRule: this.handleToggleValidationRule
+            onUpdateAnswerValidation: this.handleUpdateAnswerValidation
           }}
         >
-          {validationTypes.map(validationType => {
-            const validation = get(
-              this.state.answer.validation,
-              validationType.id
-            );
-            const { enabled } = validation;
-            const value = enabled ? validationType.preview(validation) : "";
+          <TotalButton
+            onClick={() => {
+              this.setState({ modalIsOpen: true });
+            }}
+          >
+            <IconTotal />
+            <Details>
+              <Title>Total</Title>
+              {enabled && value && (
+                <Detail>
+                  {comparator} {value.toLowerCase()}
+                </Detail>
+              )}
+            </Details>
+          </TotalButton>
 
-            return this.renderButton({
-              ...validationType,
-              value,
-              enabled
-            });
-          })}
-          <ModalWithNav
+          <ValidationModalDialog
             id={this.modalId}
-            onClose={this.handleModalClose}
-            navItems={validationTypes}
+            onClose={this.handleModalDialogClose}
             title={`Total validation`}
             isOpen={this.state.modalIsOpen}
-          />
+          >
+            <MinValueValidation
+              answerId={answer.id}
+              onUpdateAnswerValidation={this.handleUpdateAnswerValidation}
+              onToggleValidationRule={this.handleToggleValidationRule}
+            />
+
+            <Buttons>
+              <Button onClick={this.handleModalDialogClose} variant="primary">
+                Done
+              </Button>
+            </Buttons>
+          </ValidationModalDialog>
         </ValidationContext.Provider>
       </Container>
     );

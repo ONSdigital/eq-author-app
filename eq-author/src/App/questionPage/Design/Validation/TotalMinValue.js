@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 import { get, inRange, isNaN, noop } from "lodash";
 
-import { Field, Label } from "components/Forms/index";
+import { Select } from "components/Forms/index";
 import { Grid, Column } from "components/Grid/index";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
 
@@ -20,7 +20,26 @@ import PathEnd from "./path-end.svg?inline";
 import FieldWithInclude from "./FieldWithInclude";
 
 const Connector = styled(PathEnd)`
-  margin-top: 0.75em;
+  display: block;
+  margin-left: auto;
+`;
+
+const Flex = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+`;
+
+const EqualsSelect = styled(Select)`
+  width: 8em;
+`;
+
+const Pills = styled(ValidationPills)`
+  margin-top: -2em;
+`;
+
+const Margin = styled.div`
+  margin: 0 3em;
 `;
 
 export class TotalMinValue extends React.Component {
@@ -116,7 +135,7 @@ export class TotalMinValue extends React.Component {
       enabled: value
     };
 
-    this.props.onToggleValidationRule(toggleValidationRuleInput);
+    this.props.onUpdateAnswerValidation(toggleValidationRuleInput);
   };
 
   handleIncludeChange = ({ value }) => {
@@ -130,28 +149,51 @@ export class TotalMinValue extends React.Component {
     this.props.onUpdateAnswerValidation(updateValidationRuleInput);
   };
 
+  handleEqualsChange = ({ value }) => {
+    const updateValidationRuleInput = {
+      id: this.props.minValue.id,
+      validation: {
+        comparator: value
+      }
+    };
+    this.props.onUpdateAnswerValidation(updateValidationRuleInput);
+  };
+
   renderDisabled = () => (
-    <DisabledMessage>Min value is disabled</DisabledMessage>
+    <DisabledMessage>Total validation is disabled</DisabledMessage>
   );
 
   renderContent = () => {
-    console.log(this.props);
-
     return (
-      <Grid>
-        <Column cols={3}>
-          <ValidationTitle>Total equals</ValidationTitle>
-          <Connector />
-        </Column>
-        <Column cols={8}>
-          <ValidationPills
-            entityType={this.props.minValue.entityType}
-            onEntityTypeChange={this.handleEntityTypeChange}
-            PreviousAnswer={this.PreviousAnswer}
-            Custom={this.Custom}
-          />
-        </Column>
-      </Grid>
+      <Margin>
+        <Grid>
+          <Column cols={5}>
+            <Flex>
+              <ValidationTitle style={{ margin: "0 1em 0 0" }}>
+                Total
+              </ValidationTitle>
+
+              <EqualsSelect
+                onChange={this.handleEqualsChange}
+                aria-label="Total"
+                id="equals-select"
+              >
+                <option value="Equals">Equals</option>
+                <option value="Less than">Less than</option>
+              </EqualsSelect>
+            </Flex>
+            <Connector />
+          </Column>
+          <Column cols={7}>
+            <Pills
+              entityType={this.props.minValue.entityType}
+              onEntityTypeChange={this.handleEntityTypeChange}
+              PreviousAnswer={this.PreviousAnswer}
+              Custom={this.Custom}
+            />
+          </Column>
+        </Grid>
+      </Margin>
     );
   };
 
