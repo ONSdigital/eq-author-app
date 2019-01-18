@@ -12,6 +12,7 @@ const {
   set,
   cloneDeep,
   first,
+  some,
 } = require("lodash");
 const GraphQLJSON = require("graphql-type-json");
 const { getName } = require("../../utils/getName");
@@ -25,6 +26,7 @@ const stringify = require("json-stable-stringify");
 
 const createAnswer = require("../../src/businessLogic/createAnswer");
 const updateMetadata = require("../../src/businessLogic/updateMetadata");
+const getPreviousAnswersForPage = require("../../src/businessLogic/getPreviousAnswersForPage");
 const addPrefix = require("../../utils/addPrefix");
 
 const getSection = ctx => input => {
@@ -301,7 +303,16 @@ const Resolvers = {
       // await ctx.modifiers.BinaryExpression.onAnswerCreated(answer); // TODO
       return answer;
     },
-    updateAnswer: (_, args, ctx) => ctx.repositories.Answer.update(args.input),
+    updateAnswer: (root, { input }, ctx) => {
+      const pages = flatMap(
+        ctx.questionnaire.sections,
+        section => section.pages
+      );
+      const answers = flatMap(pages, page => page.answers);
+      const answer = find(answers, { id: input.id });
+      merge(answer, input);
+      save(ctx.questionnaire);
+    },
     deleteAnswer: async (_, args, ctx) => {
       const deletedAnswer = await ctx.repositories.Answer.remove(args.input.id);
       await ctx.modifiers.BinaryExpression.onAnswerDeleted(deletedAnswer);
@@ -504,9 +515,8 @@ const Resolvers = {
     title: (page, args) => formatRichText(page.title, args.format),
     confirmation: page => page.confirmation,
     availablePipingAnswers: ({ id }, args, ctx) =>
-      ctx.repositories.QuestionPage.getPipingAnswersForQuestionPage(id),
-    availablePipingMetadata: ({ id }, args, ctx) =>
-      ctx.repositories.QuestionPage.getPipingMetadataForQuestionPage(id),
+      getPreviousAnswersForPage(ctx.questionnaire, id),
+    availablePipingMetadata: (page, args, ctx) => ctx.questionnaire.metadata,
     availableRoutingAnswers: ({ id }, args, ctx) =>
       ctx.repositories.QuestionPage.getRoutingAnswers(id),
     availableRoutingDestinations: async (page, args, ctx) => {
@@ -551,8 +561,18 @@ const Resolvers = {
   },
 
   BasicAnswer: {
-    page: (answer, args, ctx) =>
-      ctx.repositories.QuestionPage.getById(answer.questionPageId),
+    page: ({ id }, args, ctx) => {
+      const pages = flatMap(
+        ctx.questionnaire.sections,
+        section => section.pages
+      );
+
+      const parentPage = find(pages, page =>
+        some(page.answers, answer => answer.id === id)
+      );
+
+      return parentPage;
+    },
     validation: answer =>
       ["number", "date"].includes(getValidationEntity(answer.type))
         ? answer
