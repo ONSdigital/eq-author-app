@@ -1,4 +1,4 @@
-const { flatMap, takeWhile, filter, some, concat } = require("lodash/fp");
+const { flatMap, takeWhile, filter, some, concat, find } = require("lodash/fp");
 const { PIPING_ANSWER_TYPES } = require("../../constants/pipingAnswerTypes");
 
 module.exports = (questionnaire, currentPageId, includeSelf = false) => {
