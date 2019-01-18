@@ -108,8 +108,24 @@ const Resolvers = {
     option: (root, { input }, ctx) => getOption(ctx)(input),
     availableRoutingDestinations: (root, { pageId }, ctx) =>
       ctx.repositories.Routing.getRoutingDestinations(pageId),
-    questionConfirmation: (root, { id }, ctx) =>
-      ctx.repositories.QuestionConfirmation.findById(id),
+    questionConfirmation: (root, { id }, ctx) => {
+      const pages = flatMap(
+        ctx.questionnaire.sections,
+        section => section.pages
+      );
+
+      let confirmationPage;
+      let pageId;
+
+      pages.map(page => {
+        if (page.confirmation && page.confirmation.id === id) {
+          confirmationPage = page.confirmation;
+          pageId = page.id;
+        }
+      });
+
+      return { pageId, ...confirmationPage };
+    },
     me: (root, args, ctx) => ({
       id: ctx.auth.sub,
       ...pick(ctx.auth, ["name", "email", "picture"]),
@@ -353,32 +369,82 @@ const Resolvers = {
         input.pageId
       );
       const page = find(section.pages, { id: input.pageId });
-      const questionConfimation = set(page, "confirmation", {
+      const questionConfimation = {
         id: uuid.v4(),
         title: "",
         positive: { label: null, description: null },
         negative: { label: null, description: null },
         availablePipingAnswers: [],
         availablePipingMetadata: [],
-      });
+      };
+      set(page, "confirmation", questionConfimation);
       save(ctx.questionnaire);
-      return questionConfimation;
+      return {
+        pageId: input.pageId,
+        ...questionConfimation,
+      };
     },
     updateQuestionConfirmation: (
       _,
       { input: { positive, negative, id, title } },
       ctx
-    ) =>
-      ctx.repositories.QuestionConfirmation.update({
-        id,
+    ) => {
+      const newValues = {
         title,
         positiveLabel: positive.label,
         positiveDescription: positive.description,
         negativeLabel: negative.label,
         negativeDescription: negative.description,
-      }),
-    deleteQuestionConfirmation: (_, { input }, ctx) =>
-      ctx.repositories.QuestionConfirmation.delete(ctx)(input),
+      };
+
+      const pages = flatMap(
+        ctx.questionnaire.sections,
+        section => section.pages
+      );
+
+      let confirmationPage;
+      let pageId;
+
+      pages.map(page => {
+        if (page.confirmation && page.confirmation.id === id) {
+          confirmationPage = page.confirmation;
+          pageId = page.id;
+        }
+      });
+
+      merge(confirmationPage, newValues);
+
+      save(ctx.questionnaire);
+
+      return {
+        pageId,
+        ...confirmationPage,
+      };
+    },
+    deleteQuestionConfirmation: (_, { input }, ctx) => {
+      const pages = flatMap(
+        ctx.questionnaire.sections,
+        section => section.pages
+      );
+
+      let confirmationPage;
+      let pageContainingConfirmation;
+
+      pages.map(page => {
+        if (page.confirmation && page.confirmation.id === input.id) {
+          confirmationPage = page.confirmation;
+          pageContainingConfirmation = page;
+        }
+      });
+
+      delete pageContainingConfirmation.confirmation;
+      save(ctx.questionnaire);
+
+      return {
+        pageId: pageContainingConfirmation.id,
+        ...confirmationPage,
+      };
+    },
     undeleteQuestionConfirmation: (_, { input }, ctx) =>
       ctx.repositories.QuestionConfirmation.restore(input.id),
   },
@@ -666,7 +732,14 @@ const Resolvers = {
 
   QuestionConfirmation: {
     displayName: confirmation => getName(confirmation, "QuestionConfirmation"),
-    page: ({ pageId }, args, ctx) => ctx.repositories.Page.getById(pageId),
+    page: ({ pageId }, args, ctx) => {
+      const pages = flatMap(
+        ctx.questionnaire.sections,
+        section => section.pages
+      );
+
+      return find(pages, { id: pageId });
+    },
     positive: ({ positiveLabel, positiveDescription }) => ({
       label: positiveLabel,
       description: positiveDescription,
