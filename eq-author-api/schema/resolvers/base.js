@@ -84,11 +84,25 @@ const createQuestionnaire = input => ({
   legalBasis: "Voluntary",
   navigation: false,
   surveyId: "",
-  createdAt: new Date(),
+  createdAt: "2019-01-01",
   metadata: [],
   sections: [createSection()],
   ...input,
 });
+
+const getQuestionnaireList = () =>
+  JSON.parse(loadQuestionnaire("QuestionnaireList"));
+
+const getQuestionnaireById = questionnaireID =>
+  JSON.parse(loadQuestionnaire(questionnaireID));
+
+const saveQuestionnaireList = data => {
+  fs.writeFileSync(
+    `data/QuestionnaireList.json`,
+    stringify(data, { space: 4 })
+  );
+  return data;
+};
 
 const save = questionnaire => {
   fs.writeFileSync(
@@ -100,8 +114,7 @@ const save = questionnaire => {
 
 const Resolvers = {
   Query: {
-    questionnaires: (root, args, ctx) =>
-      JSON.parse(loadQuestionnaire("QuestionnaireList")),
+    questionnaires: (root, args, ctx) => getQuestionnaireList(),
     questionnaire: (root, args, ctx) => ctx.questionnaire,
     section: (root, { input }, ctx) => getSection(ctx)(input),
     page: (root, { input }, ctx) => getPage(ctx)(input),
@@ -142,7 +155,15 @@ const Resolvers = {
         ...args.input,
         createdBy: ctx.auth.name,
       });
-      return save(questionnaire);
+      save(questionnaire);
+      const questionnaireList = getQuestionnaireList();
+      questionnaireList.push({
+        ...omit(questionnaire, "sections", "metadata"),
+        createdAt: questionnaire.createdAt.toString().split("T")[0],
+      });
+      saveQuestionnaireList(questionnaireList);
+
+      return questionnaire;
     },
     updateQuestionnaire: (_, { input }, ctx) => {
       return save({
@@ -150,13 +171,33 @@ const Resolvers = {
         ...input,
       });
     },
-    deleteQuestionnaire: (_, args, ctx) =>
-      ctx.repositories.Questionnaire.remove(args.input.id),
+    deleteQuestionnaire: (_, { input }, ctx) => {
+      const questionnaireList = getQuestionnaireList();
+      const deletedQuestionnaire = first(
+        remove(questionnaireList, { id: input.id })
+      );
+      saveQuestionnaireList(questionnaireList);
+      return deletedQuestionnaire;
+    },
     undeleteQuestionnaire: (_, args, ctx) =>
       ctx.repositories.Questionnaire.undelete(args.input.id),
-    duplicateQuestionnaire: (_, args, ctx) =>
-      ctx.repositories.Questionnaire.duplicate(args.input.id, ctx.auth.name),
 
+    duplicateQuestionnaire: (_, { input }, ctx) => {
+      const questionnaire = getQuestionnaireById(input.id);
+      const newQuestionnaire = omit(cloneDeep(questionnaire), "id");
+      set(newQuestionnaire, "title", addPrefix(newQuestionnaire.title));
+      set(newQuestionnaire, "id", uuid.v4());
+
+      save(newQuestionnaire);
+
+      const questionnaireList = getQuestionnaireList();
+      questionnaireList.push({
+        ...omit(newQuestionnaire, "sections", "metadata"),
+        createdAt: newQuestionnaire.createdAt.toString().split("T")[0],
+      });
+      saveQuestionnaireList(questionnaireList);
+      return newQuestionnaire;
+    },
     createSection: async (root, { input }, ctx) => {
       const section = createSection(input);
       ctx.questionnaire.sections.push(section);
