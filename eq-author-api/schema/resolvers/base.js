@@ -27,6 +27,7 @@ const stringify = require("json-stable-stringify");
 const createAnswer = require("../../src/businessLogic/createAnswer");
 const updateMetadata = require("../../src/businessLogic/updateMetadata");
 const getPreviousAnswersForPage = require("../../src/businessLogic/getPreviousAnswersForPage");
+const getPreviousAnswersForSection = require("../../src/businessLogic/getPreviousAnswersForSection");
 const addPrefix = require("../../utils/addPrefix");
 
 const getSection = ctx => input => {
@@ -479,9 +480,8 @@ const Resolvers = {
       return findIndex(ctx.questionnaire.sections, { id });
     },
     availablePipingAnswers: ({ id }, args, ctx) =>
-      ctx.repositories.Section.getPipingAnswersForSection(id),
-    availablePipingMetadata: ({ id }, args, ctx) =>
-      ctx.repositories.Section.getPipingMetadataForSection(id),
+      getPreviousAnswersForSection(ctx.questionnaire, id),
+    availablePipingMetadata: (section, args, ctx) => ctx.questionnaire.metadata,
   },
 
   Page: {
