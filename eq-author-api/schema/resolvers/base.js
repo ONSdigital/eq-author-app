@@ -29,6 +29,7 @@ const updateMetadata = require("../../src/businessLogic/updateMetadata");
 const getPreviousAnswersForPage = require("../../src/businessLogic/getPreviousAnswersForPage");
 const getPreviousAnswersForSection = require("../../src/businessLogic/getPreviousAnswersForSection");
 const addPrefix = require("../../utils/addPrefix");
+const loadQuestionnaire = require("../../utils/loadQuestionnaire");
 
 const getSection = ctx => input => {
   return find(ctx.questionnaire.sections, { id: input.sectionId });
@@ -100,7 +101,7 @@ const save = questionnaire => {
 const Resolvers = {
   Query: {
     questionnaires: (root, args, ctx) =>
-      ctx.repositories.Questionnaire.findAll(),
+      JSON.parse(loadQuestionnaire("QuestionnaireList")),
     questionnaire: (root, args, ctx) => ctx.questionnaire,
     section: (root, { input }, ctx) => getSection(ctx)(input),
     page: (root, { input }, ctx) => getPage(ctx)(input),
@@ -368,8 +369,15 @@ const Resolvers = {
       save(ctx.questionnaire);
       return result;
     },
-    deleteMetadata: (_, { input }, ctx) =>
-      ctx.repositories.Metadata.remove(input),
+    deleteMetadata: (_, { input }, ctx) => {
+      const deletedMetadata = first(
+        remove(ctx.questionnaire.metadata, {
+          id: input.id,
+        })
+      );
+      save(ctx.questionnaire);
+      return deletedMetadata;
+    },
 
     createQuestionConfirmation: (_, { input }, ctx) => {
       const section = findSectionByPageId(

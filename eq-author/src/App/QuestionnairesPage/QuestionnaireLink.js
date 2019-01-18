@@ -32,7 +32,10 @@ const QuestionnaireLink = ({ questionnaire, disabled, ...otherProps }) => {
     <StyledLink
       {...otherProps}
       disabled={disabled}
-      to={buildQuestionnairePath({ questionnaireId: questionnaire.id })}
+      to={buildQuestionnairePath({
+        questionnaireId: questionnaire.id,
+        tab: "design",
+      })}
     />
   );
 };
