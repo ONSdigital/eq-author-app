@@ -1,11 +1,11 @@
 const { flatMap, takeWhile, filter, some, concat, find } = require("lodash/fp");
-const { PIPING_ANSWER_TYPES } = require("../../constants/pipingAnswerTypes");
+const { ROUTING_ANSWER_TYPES } = require("../../constants/routingAnswerTypes");
 
 module.exports = (
   questionnaire,
   currentPageId,
   includeSelf = false,
-  answerTypes = PIPING_ANSWER_TYPES
+  answerTypes = ROUTING_ANSWER_TYPES
 ) => {
   const allPages = flatMap(section => section.pages, questionnaire.sections);
 
@@ -19,10 +19,10 @@ module.exports = (
     ? concat(currentPage, pagesBeforeCurrent)
     : pagesBeforeCurrent;
 
-  const answers = flatMap(page => page.answers, pagesToInclude);
-
   return filter(
-    answer => some(type => type === answer.type, answerTypes),
-    answers
+    pagesToInclude,
+    page =>
+      page.answers &&
+      some(page.answers, answer => answerTypes.includes(answer.type))
   );
 };

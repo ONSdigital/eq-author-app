@@ -14,6 +14,8 @@ const {
   first,
   some,
   concat,
+  takeRightWhile,
+  get,
 } = require("lodash");
 const GraphQLJSON = require("graphql-type-json");
 const { getName } = require("../../utils/getName");
@@ -32,10 +34,13 @@ const getPreviousAnswersForSection = require("../../src/businessLogic/getPreviou
 const createOption = require("../../src/businessLogic/createOption");
 const addPrefix = require("../../utils/addPrefix");
 const loadQuestionnaire = require("../../utils/loadQuestionnaire");
-
+const getPreviousPagesForPage = require("../../src/businessLogic/getPreviousPagesForPage");
+const { ROUTING_ANSWER_TYPES } = require("../../constants/routingAnswerTypes");
 const getSection = ctx => input => {
   return find(ctx.questionnaire.sections, { id: input.sectionId });
 };
+
+const createRoutingRuleSet = require("../../src/businessLogic/createRoutingRuleSet");
 
 const getPage = ctx => input => {
   const pages = flatMap(ctx.questionnaire.sections, section => section.pages);
@@ -636,13 +641,26 @@ const Resolvers = {
       getPreviousAnswersForPage(ctx.questionnaire, id),
     availablePipingMetadata: (page, args, ctx) => ctx.questionnaire.metadata,
     availableRoutingAnswers: ({ id }, args, ctx) =>
-      ctx.repositories.QuestionPage.getRoutingAnswers(id),
-    availableRoutingDestinations: async (page, args, ctx) => {
-      const questionPages = await ctx.repositories.QuestionPage.getFuturePagesInSection(
-        page.id
+      getPreviousAnswersForPage(
+        ctx.questionnaire,
+        id,
+        true,
+        ROUTING_ANSWER_TYPES
+      ),
+    availableRoutingDestinations: ({ id }, args, ctx) => {
+      const section = find(ctx.questionnaire.sections, section => {
+        if (section.pages && some(section.pages, { id })) {
+          return section;
+        }
+      });
+
+      const questionPages = takeRightWhile(
+        section.pages,
+        page => page.id !== id
       );
-      const sections = await ctx.repositories.Section.getFutureSections(
-        page.sectionId
+      const sections = takeRightWhile(
+        ctx.questionnaire.sections,
+        futureSection => futureSection.id !== section.id
       );
 
       const logicalDestinations = [
@@ -653,10 +671,11 @@ const Resolvers = {
           logicalDestination: "EndOfQuestionnaire",
         },
       ];
+
       return {
         logicalDestinations,
-        questionPages,
         sections,
+        questionPages,
       };
     },
     routing: ({ id }, args, ctx) => ctx.repositories.Routing2.getByPageId(id),
