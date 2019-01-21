@@ -13,6 +13,7 @@ const {
   cloneDeep,
   first,
   some,
+  concat,
 } = require("lodash");
 const GraphQLJSON = require("graphql-type-json");
 const { getName } = require("../../utils/getName");
@@ -325,7 +326,12 @@ const Resolvers = {
         section => section.pages
       );
       const answers = flatMap(pages, page => page.answers);
-      const answer = find(answers, { id: input.id });
+
+      const additionalAnswers = flatMap(answers, answer => {
+        return flatMap(answer.options, option => option.additionalAnswer);
+      });
+
+      const answer = find(concat(answers, additionalAnswers), { id: input.id });
       merge(answer, input);
       save(ctx.questionnaire);
 
@@ -366,6 +372,7 @@ const Resolvers = {
 
       return option;
     },
+
     createMutuallyExclusiveOption: (root, { input }, ctx) => {
       const pages = flatMap(
         ctx.questionnaire.sections,
@@ -779,22 +786,38 @@ const Resolvers = {
   },
 
   MultipleChoiceAnswer: {
-    page: (answer, args, ctx) =>
-      ctx.repositories.QuestionPage.getById(answer.questionPageId),
+    page: (answer, args, ctx) => {
+      const pages = flatMap(
+        ctx.questionnaire.sections,
+        section => section.pages
+      );
+      return find(pages, page => {
+        if (page.answers && some(page.answers, { id: answer.id })) {
+          return page;
+        }
+      });
+    },
     options: answer => answer.options,
-    // mutuallyExclusiveOption: (answer, args, ctx) =>
-    //   ctx.repositories.Option.findExclusiveOptionByAnswerId(answer.id),
+    mutuallyExclusiveOption: answer =>
+      find(answer.options, { mutuallyExclusive: true }),
     displayName: answer => getName(answer, "MultipleChoiceAnswer"),
   },
 
   Option: {
-    answer: ({ answerId }, args, ctx) =>
-      ctx.repositories.Answer.getById(answerId),
+    answer: (option, args, ctx) => {
+      const pages = flatMap(
+        ctx.questionnaire.sections,
+        section => section.pages
+      );
+      const answers = flatMap(pages, page => page.answers);
+      return find(answers, answer => {
+        if (answer.options && some(answer.options, { id: option.id })) {
+          return answer;
+        }
+      });
+    },
     displayName: option => getName(option, "Option"),
-    additionalAnswer: ({ additionalAnswerId }, args, ctx) =>
-      additionalAnswerId
-        ? ctx.repositories.Answer.getById(additionalAnswerId)
-        : null,
+    additionalAnswer: option => option.additionalAnswer,
   },
 
   ValidationType: {
