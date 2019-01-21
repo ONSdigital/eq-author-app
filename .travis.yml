@@ -28,11 +28,13 @@ jobs:
       script:
         - cd eq-author
         - yarn test:integration
-        - yarn test:e2e
     - stage: cypress
       script:
         - cd eq-author
         - yarn test:integration
+    - stage: e2e
+      script:
+        - cd eq-author
         - yarn test:e2e
 
 deploy:
