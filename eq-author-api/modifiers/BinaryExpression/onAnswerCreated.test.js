@@ -14,7 +14,7 @@ describe("onAnswerCreated", () => {
           .mockResolvedValueOnce({ id: ANSWER_ID, type: answerTypes.NUMBER }),
       },
       LeftSide2: {
-        insertMissingDefaults: jest.fn().mockResolvedValueOnce([]),
+        setMissingDefaults: jest.fn().mockResolvedValueOnce([]),
       },
     };
 
@@ -25,7 +25,7 @@ describe("onAnswerCreated", () => {
     });
 
     expect(repositories.Answer.getFirstOnPage).toHaveBeenCalledWith(PAGE_ID);
-    expect(repositories.LeftSide2.insertMissingDefaults).toHaveBeenCalledWith({
+    expect(repositories.LeftSide2.setMissingDefaults).toHaveBeenCalledWith({
       id: ANSWER_ID,
       type: answerTypes.NUMBER,
     });
@@ -37,7 +37,7 @@ describe("onAnswerCreated", () => {
         getFirstOnPage: jest.fn().mockResolvedValueOnce({ id: ANSWER_ID + 1 }),
       },
       LeftSide2: {
-        insertMissingDefaults: jest.fn().mockResolvedValueOnce(),
+        setMissingDefaults: jest.fn().mockResolvedValueOnce(),
       },
     };
 
@@ -48,7 +48,7 @@ describe("onAnswerCreated", () => {
     });
 
     expect(repositories.Answer.getFirstOnPage).toHaveBeenCalledWith(PAGE_ID);
-    expect(repositories.LeftSide2.insertMissingDefaults).not.toHaveBeenCalled();
+    expect(repositories.LeftSide2.setMissingDefaults).not.toHaveBeenCalled();
   });
 
   it("should update the condition with the correct default condition for a number answer", async () => {
@@ -59,7 +59,7 @@ describe("onAnswerCreated", () => {
           .mockResolvedValueOnce({ id: ANSWER_ID, type: answerTypes.NUMBER }),
       },
       LeftSide2: {
-        insertMissingDefaults: jest.fn().mockResolvedValueOnce([
+        setMissingDefaults: jest.fn().mockResolvedValueOnce([
           {
             answerId: ANSWER_ID,
             expressionId: BINARY_EXPRESSION_ID,
@@ -91,7 +91,7 @@ describe("onAnswerCreated", () => {
           .mockResolvedValueOnce({ id: ANSWER_ID, type: answerTypes.RADIO }),
       },
       LeftSide2: {
-        insertMissingDefaults: jest.fn().mockResolvedValueOnce([
+        setMissingDefaults: jest.fn().mockResolvedValueOnce([
           {
             answerId: ANSWER_ID,
             expressionId: BINARY_EXPRESSION_ID,

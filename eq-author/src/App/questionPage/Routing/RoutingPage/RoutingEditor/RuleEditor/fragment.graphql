@@ -1,0 +1,22 @@
+#import "./BinaryExpressionEditor/fragment.graphql"
+
+fragment RuleEditor on RoutingRule2 {
+  id
+  destination {
+    logical
+    page {
+      id
+      displayName
+    }
+    section {
+      id
+      displayName
+    }
+  }
+  expressionGroup {
+    id
+    expressions {
+      ...BinaryExpressionEditor
+    }
+  }
+}

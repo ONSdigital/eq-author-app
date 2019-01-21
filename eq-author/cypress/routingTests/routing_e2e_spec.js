@@ -21,6 +21,7 @@ describe("Routing_e2e", () => {
       sectionDisplayName: "Section 1",
       title: "Section 1, Page 1",
       answer: {
+        label: "Section 1, Page 1, Answer 1",
         type: "Radio",
         options: [
           { label: "Goto S1P4" },
@@ -50,7 +51,7 @@ describe("Routing_e2e", () => {
       title: "Section 1, Page 3",
       answer: {
         type: "Number",
-        label: "Placeholder Answer",
+        label: "Section 1, Page 3, Answer 1",
       },
     });
 
@@ -60,7 +61,7 @@ describe("Routing_e2e", () => {
       title: "Section 1, Page 4",
       answer: {
         type: "Number",
-        label: "Placeholder Answer",
+        label: "Section 1, Page 4, Answer 1",
       },
     });
 
@@ -74,6 +75,7 @@ describe("Routing_e2e", () => {
             leftSide: {
               sectionTitle: "Section 1",
               pageTitle: "Section 1, Page 1",
+              answerTitle: "Section 1, Page 1, Answer 1",
             },
             rightSide: ["Goto S1P4"],
           },
@@ -84,6 +86,7 @@ describe("Routing_e2e", () => {
             leftSide: {
               sectionTitle: "Section 1",
               pageTitle: "Section 1, Page 1",
+              answerTitle: "Section 1, Page 1, Answer 1",
             },
             rightSide: ["Goto end of questionnaire"],
           },
@@ -102,6 +105,8 @@ describe("Routing_e2e", () => {
             leftSide: {
               sectionTitle: "Section 1",
               pageTitle: "Section 1, Page 2",
+              answerTitle:
+                "Less than 5 goes to S1P4 Greater than 5 goes to EoQ",
             },
             condition: "LessThan",
             rightSide: 5,
@@ -113,6 +118,8 @@ describe("Routing_e2e", () => {
             leftSide: {
               sectionTitle: "Section 1",
               pageTitle: "Section 1, Page 2",
+              answerTitle:
+                "Less than 5 goes to S1P4 Greater than 5 goes to EoQ",
             },
             condition: "GreaterThan",
             rightSide: 5,

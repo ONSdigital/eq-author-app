@@ -1,0 +1,19 @@
+query GetAvailableRoutingDestinations($id: ID!) {
+  questionPage(id: $id) {
+    id
+    availableRoutingDestinations {
+      logicalDestinations {
+        id
+        logicalDestination
+      }
+      questionPages {
+        id
+        displayName
+      }
+      sections {
+        id
+        displayName
+      }
+    }
+  }
+}

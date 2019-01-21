@@ -7,6 +7,7 @@ const repositories = require("../../../repositories")(knex);
 const modifiers = require("../../../modifiers")(repositories);
 const answerTypes = require("../../../constants/answerTypes");
 const conditions = require("../../../constants/routingConditions");
+const noLeftSide = require("../../../constants/routingNoLeftSide");
 
 const ctx = { repositories, modifiers };
 
@@ -36,7 +37,14 @@ describe("answer", () => {
                         logical: "NextPage",
                       },
                       expressionGroup: {
-                        expressions: [{}],
+                        expressions: [
+                          {
+                            left: {
+                              type: "Null",
+                              nullReason: noLeftSide.NO_ROUTABLE_ANSWER_ON_PAGE,
+                            },
+                          },
+                        ],
                       },
                     },
                   ],
@@ -136,11 +144,14 @@ describe("answer", () => {
               routing {
                 rules {
                   expressionGroup {
-                    expressions { 
+                    expressions {
                       ...on BinaryExpression2 {
                         left {
                           ...on BasicAnswer {
                             id
+                          }
+                          ...on NoLeftSide {
+                            reason
                           }
                         }
                         condition
@@ -176,7 +187,9 @@ describe("answer", () => {
                 expressionGroup: {
                   expressions: [
                     {
-                      left: null,
+                      left: {
+                        reason: noLeftSide.SELECTED_ANSWER_DELETED,
+                      },
                       condition: conditions.EQUAL,
                       right: null,
                     },

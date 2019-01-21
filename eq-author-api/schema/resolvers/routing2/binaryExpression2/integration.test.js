@@ -8,6 +8,9 @@ const modifiers = require("../../../../modifiers")(repositories);
 const answerTypes = require("../../../../constants/answerTypes");
 const { AND } = require("../../../../constants/routingOperators");
 const conditions = require("../../../../constants/routingConditions");
+const {
+  NO_ROUTABLE_ANSWER_ON_PAGE,
+} = require("../../../../constants/routingNoLeftSide");
 
 const ctx = { repositories, modifiers };
 
@@ -99,8 +102,13 @@ describe("BinaryExpression Integration", () => {
                       }
                       condition
                       right {
-                        ... on BasicAnswer {
-                          id
+                        ... on CustomValue2 {
+                          number
+                        }
+                        ... on SelectedOptions2 {
+                          options {
+                            id
+                          }
                         }
                       }
                     }
@@ -141,7 +149,7 @@ describe("BinaryExpression Integration", () => {
     });
   });
 
-  it("should not create a left hand side when no answer on the Page", async () => {
+  it("should create a 'Null' left hand side when no answer on page", async () => {
     const questionnaire = await buildTestQuestionnaire({
       sections: [
         {
@@ -175,8 +183,12 @@ describe("BinaryExpression Integration", () => {
         left {
           ...on BasicAnswer{
             id
-          }  
+          }
+          ...on NoLeftSide {
+            reason
+          }
         }
+        condition 
       }
     }`;
     const page = questionnaire.sections[0].pages[0];
@@ -188,7 +200,10 @@ describe("BinaryExpression Integration", () => {
 
     expect(createResult.errors).toBeUndefined();
     expect(createResult.data).toMatchObject({
-      createBinaryExpression2: { left: null },
+      createBinaryExpression2: {
+        left: { reason: NO_ROUTABLE_ANSWER_ON_PAGE },
+        condition: conditions.EQUAL,
+      },
     });
   });
 

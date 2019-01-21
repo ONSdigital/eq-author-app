@@ -100,4 +100,30 @@ describe("Routing2 Repository", () => {
       pageId,
     });
   });
+
+  it("should allow delete of a routing", async () => {
+    const questionnaire = await buildTestQuestionnaire({
+      sections: [
+        {
+          pages: [
+            {
+              routing: {
+                rules: [],
+              },
+            },
+          ],
+        },
+      ],
+    });
+
+    const routingId = questionnaire.sections[0].pages[0].routing.id;
+
+    const deletedRouting = await Routing2Repository.delete(routingId);
+
+    expect(deletedRouting).toMatchObject({ id: routingId });
+
+    const routing = await Routing2Repository.getById(routingId);
+
+    expect(routing).toBeFalsy();
+  });
 });

@@ -1,0 +1,9 @@
+    # import "./RoutingEditor/fragment.graphql"
+    
+    fragment RoutingPage on QuestionPage {
+      id
+      displayName
+      routing {
+        ...RoutingEditor
+      }
+    }

@@ -1,0 +1,7 @@
+#import "./fragment.graphql"
+
+mutation updateLeftSide2($input: UpdateLeftSide2Input!) {
+  updateLeftSide2(input: $input) {
+    ...BinaryExpressionEditor
+  }
+}

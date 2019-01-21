@@ -19,9 +19,17 @@ module.exports = knex => {
       .where({ id })
       .first();
 
+  const del = id =>
+    knex("Routing2_Routing")
+      .where({ id })
+      .del()
+      .returning("*")
+      .then(head);
+
   return {
     insert,
     getByPageId,
     getById,
+    delete: del,
   };
 };

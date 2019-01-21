@@ -1,0 +1,7 @@
+#import "./fragment.graphql"
+
+mutation updateRoutingRule2($input: UpdateRoutingRule2Input!) {
+  updateRoutingRule2(input: $input) {
+    ...RuleEditor
+  }
+}

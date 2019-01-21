@@ -76,15 +76,13 @@ const routingDestinationConfig = [
     },
   },
   {
-    id: "endOfQuestionnaire",
+    id: "EndOfQuestionnaire",
     title: "End of questionnaire",
     groupKey: "logicalDestinations",
     expandable: false,
     type: "RoutingLogicalDestination",
     destination: {
-      logicalDestination: {
-        destinationType: "EndOfQuestionnaire",
-      },
+      logical: "EndOfQuestionnaire",
     },
   },
 ];

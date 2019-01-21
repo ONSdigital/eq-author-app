@@ -35,10 +35,10 @@ db(process.env.DB_SECRET_ID)
       "/graphql",
       helmet({
         referrerPolicy: {
-          policy: "no-referrer"
+          policy: "no-referrer",
         },
         frameguard: {
-          action: "deny"
+          action: "deny",
         },
         contentSecurityPolicy: {
           directives: {
@@ -48,10 +48,10 @@ db(process.env.DB_SECRET_ID)
             fontSrc: ["'self'", "'https://fonts.gstatic.com'"],
             scriptSrc: [
               "'self'",
-              "'https://www.googleapis.com/identitytoolkit/v3'"
-            ]
-          }
-        }
+              "'https://www.googleapis.com/identitytoolkit/v3'",
+            ],
+          },
+        },
       }),
       pino,
       cors(),

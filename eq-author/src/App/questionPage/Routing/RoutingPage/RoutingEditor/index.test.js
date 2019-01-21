@@ -1,0 +1,60 @@
+import React from "react";
+import { shallow } from "enzyme";
+import { UnwrappedRoutingEditor } from "./";
+import RuleEditor from "./RuleEditor";
+
+describe("components/RoutingRuleSet", () => {
+  let defaultProps;
+  beforeEach(() => {
+    defaultProps = {
+      routing: {
+        id: "1",
+        rules: [{ id: "2" }],
+        else: {
+          id: "4",
+          logical: null,
+          section: null,
+          page: {
+            id: "3",
+            displayName: "page",
+          },
+        },
+      },
+      createRule: jest.fn(),
+      updateRouting: jest.fn(),
+    };
+  });
+
+  it("should render children", () => {
+    const wrapper = shallow(<UnwrappedRoutingEditor {...defaultProps} />);
+    expect(wrapper).toMatchSnapshot();
+  });
+
+  it("should allow change of ELSE condition", () => {
+    const destination = { logical: "EndOfQuestionnaire" };
+
+    const wrapper = shallow(<UnwrappedRoutingEditor {...defaultProps} />);
+    wrapper.find("[data-test='select-else']").simulate("change", destination);
+
+    expect(defaultProps.updateRouting).toHaveBeenCalledWith({
+      ...defaultProps.routing,
+      else: destination,
+    });
+  });
+
+  it("should allow creating a rule", () => {
+    const wrapper = shallow(<UnwrappedRoutingEditor {...defaultProps} />);
+    wrapper.find("[data-test='btn-add-rule']").simulate("click");
+    expect(defaultProps.createRule).toHaveBeenCalledWith(
+      defaultProps.routing.id
+    );
+  });
+
+  it("should render all subsequent rule editor titles as 'Or'", () => {
+    defaultProps.routing.rules.push({ id: "5" }, { id: "6" });
+    const wrapper = shallow(<UnwrappedRoutingEditor {...defaultProps} />);
+    wrapper.find(RuleEditor).forEach((ruleEditor, index) => {
+      expect(ruleEditor.prop("title")).toEqual(index > 0 ? "Or" : null);
+    });
+  });
+});

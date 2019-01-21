@@ -1,0 +1,13 @@
+mutation deleteBinaryExpression2($input: DeleteBinaryExpression2Input!) {
+  deleteBinaryExpression2(input: $input) {
+    id
+    expressionGroup {
+      id
+      expressions {
+        ... on BinaryExpression2 {
+          id
+        }
+      }
+    }
+  }
+}

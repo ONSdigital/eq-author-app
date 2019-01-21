@@ -1,0 +1,13 @@
+#import "./RuleEditor/fragment.graphql"
+
+mutation createRoutingRule2($input: CreateRoutingRule2Input!) {
+  createRoutingRule2(input: $input) {
+    ...RuleEditor
+    routing {
+      id
+      rules {
+        id
+      }
+    }
+  }
+}

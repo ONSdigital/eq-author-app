@@ -100,8 +100,13 @@ describe("Routing2 Unit", () => {
                 }
                 condition
                 right {
-                  ... on BasicAnswer {
-                    id
+                  ... on CustomValue2 {
+                    number
+                  }
+                  ... on SelectedOptions2 {
+                    options {
+                      id
+                    }
                   }
                 }
               }
@@ -118,7 +123,7 @@ describe("Routing2 Unit", () => {
     );
 
     expect(result.errors).toBeUndefined();
-    expect(JSON.parse(JSON.stringify(result.data))).toMatchObject({
+    expect(result.data).toMatchObject({
       createRoutingRule2: {
         id: ROUTING_RULE_ID.toString(),
         routing: {
@@ -259,9 +264,9 @@ describe("Routing2 Unit", () => {
   describe("delete", () => {
     it("should delete a rule", async () => {
       const ctx = {
-        repositories: {
-          RoutingRule2: {
-            delete: jest.fn().mockResolvedValueOnce({ id: ROUTING_RULE_ID }),
+        modifiers: {
+          RoutingRule: {
+            delete: jest.fn().mockResolvedValueOnce({ id: ROUTING_ID }),
           },
         },
       };
@@ -282,10 +287,10 @@ describe("Routing2 Unit", () => {
 
       expect(deleteResult.errors).toBeUndefined();
       expect(deleteResult.data).toMatchObject({
-        deleteRoutingRule2: { id: ROUTING_RULE_ID.toString() },
+        deleteRoutingRule2: { id: ROUTING_ID.toString() },
       });
 
-      expect(ctx.repositories.RoutingRule2.delete).toHaveBeenLastCalledWith(
+      expect(ctx.modifiers.RoutingRule.delete).toHaveBeenLastCalledWith(
         ROUTING_RULE_ID.toString()
       );
     });
