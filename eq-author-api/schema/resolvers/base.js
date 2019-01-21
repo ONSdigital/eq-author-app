@@ -28,6 +28,7 @@ const createAnswer = require("../../src/businessLogic/createAnswer");
 const updateMetadata = require("../../src/businessLogic/updateMetadata");
 const getPreviousAnswersForPage = require("../../src/businessLogic/getPreviousAnswersForPage");
 const getPreviousAnswersForSection = require("../../src/businessLogic/getPreviousAnswersForSection");
+const createOption = require("../../src/businessLogic/createOption");
 const addPrefix = require("../../utils/addPrefix");
 const loadQuestionnaire = require("../../utils/loadQuestionnaire");
 
@@ -355,39 +356,100 @@ const Resolvers = {
       const answer = find(answers, { id: input.id });
       merge(answer, input);
       save(ctx.questionnaire);
+
+      return answer;
     },
-    deleteAnswer: async (_, args, ctx) => {
-      const deletedAnswer = await ctx.repositories.Answer.remove(args.input.id);
-      await ctx.modifiers.BinaryExpression.onAnswerDeleted(deletedAnswer);
+    deleteAnswer: async (_, { input }, ctx) => {
+      const pages = flatMap(
+        ctx.questionnaire.sections,
+        section => section.pages
+      );
+      const page = find(pages, page => {
+        if (page.answers && some(page.answers, { id: input.id })) {
+          return page;
+        }
+      });
+
+      const deletedAnswer = first(remove(page.answers, { id: input.id }));
+      save(ctx.questionnaire);
       return deletedAnswer;
+
+      // await ctx.modifiers.BinaryExpression.onAnswerDeleted(deletedAnswer); // TODO
     },
     undeleteAnswer: (_, args, ctx) =>
       ctx.repositories.Answer.undelete(args.input.id),
 
-    createOption: async (root, args, ctx) => {
-      let additionalAnswerId;
-      if (args.input.hasAdditionalAnswer) {
-        const additionalAnswer = await ctx.repositories.Answer.createAnswer({
-          description: "",
-          type: "TextField",
-          parentAnswerId: args.input.answerId,
-        });
-        additionalAnswerId = additionalAnswer.id;
-      }
-      return ctx.repositories.Option.insert({
-        ...args.input,
-        additionalAnswerId,
-      });
-    },
-    createMutuallyExclusiveOption: (root, { input }, ctx) =>
-      ctx.repositories.Option.insert({ mutuallyExclusive: true, ...input }),
-    updateOption: (_, args, ctx) => ctx.repositories.Option.update(args.input),
-    deleteOption: async (_, args, ctx) => {
-      const deletedOption = await ctx.repositories.Option.remove(args.input.id);
-      await ctx.repositories.SelectedOptions2.deleteByOptionId(
-        deletedOption.id
+    createOption: async (root, { input }, ctx) => {
+      const pages = flatMap(
+        ctx.questionnaire.sections,
+        section => section.pages
       );
-      return deletedOption;
+      const answers = flatMap(pages, page => page.answers);
+      const parent = find(answers, { id: input.answerId });
+      const option = createOption(input);
+
+      parent.options.push(option);
+
+      save(ctx.questionnaire);
+
+      return option;
+    },
+    createMutuallyExclusiveOption: (root, { input }, ctx) => {
+      const pages = flatMap(
+        ctx.questionnaire.sections,
+        section => section.pages
+      );
+      const answers = flatMap(pages, page => page.answers);
+      const answer = find(answers, { id: input.answerId });
+
+      const existing = find(answer.options, { mutuallyExclusive: true });
+      if (!isNil(existing)) {
+        throw new Error(
+          "There is already an exclusive checkbox on this answer."
+        );
+      }
+
+      const option = createOption({ mutuallyExclusive: true, ...input });
+
+      answer.options.push(option);
+
+      save(ctx.questionnaire);
+
+      return option;
+    },
+    updateOption: (_, { input }, ctx) => {
+      const pages = flatMap(
+        ctx.questionnaire.sections,
+        section => section.pages
+      );
+      const answers = flatMap(pages, page => page.answers);
+      const options = flatMap(answers, answer => answer.options);
+      const option = find(options, { id: input.id });
+
+      merge(option, input);
+
+      save(ctx.questionnaire);
+
+      return option;
+    },
+    deleteOption: (_, { input }, ctx) => {
+      const pages = flatMap(
+        ctx.questionnaire.sections,
+        section => section.pages
+      );
+      const answers = flatMap(pages, page => page.answers);
+
+      const answer = find(answers, answer => {
+        if (answer.options && some(answer.options, { id: input.id })) {
+          return answer;
+        }
+      });
+
+      const removedOption = first(remove(answer.options, { id: input.id }));
+
+      save(ctx.questionnaire);
+
+      return removedOption;
     },
     undeleteOption: (_, args, ctx) =>
       ctx.repositories.Option.undelete(args.input.id),
