@@ -7,7 +7,7 @@ docker_compose="./scripts/test_docker-compose.yml"
 export TAG=`if [ "$TRAVIS_PULL_REQUEST_BRANCH" == "" ]; then echo "latest"; else echo $TRAVIS_PULL_REQUEST_BRANCH; fi`
 export TAG=${TAG//\//-}
 
-npm install cypress wait-on jsonwebtoken lodash uuid
+npm install cypress wait-on jsonwebtoken lodash uuid react-router path-to-regexp
 
 function read_vars {
   if [ -f $1 ]; then
