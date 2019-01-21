@@ -496,7 +496,7 @@ type Query {
 }
 
 input QueryInput {
-  questionnaireId: ID!
+  questionnaireId: ID
   sectionId: ID
   pageId: ID
   answerId: ID

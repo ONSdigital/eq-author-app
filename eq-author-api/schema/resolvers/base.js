@@ -14,6 +14,8 @@ const {
   first,
   some,
   concat,
+  takeRightWhile,
+  get,
 } = require("lodash");
 const GraphQLJSON = require("graphql-type-json");
 const { getName } = require("../../utils/getName");
@@ -32,10 +34,13 @@ const getPreviousAnswersForSection = require("../../src/businessLogic/getPreviou
 const createOption = require("../../src/businessLogic/createOption");
 const addPrefix = require("../../utils/addPrefix");
 const loadQuestionnaire = require("../../utils/loadQuestionnaire");
-
+const getPreviousPagesForPage = require("../../src/businessLogic/getPreviousPagesForPage");
+const { ROUTING_ANSWER_TYPES } = require("../../constants/routingAnswerTypes");
 const getSection = ctx => input => {
   return find(ctx.questionnaire.sections, { id: input.sectionId });
 };
+
+const createRoutingRuleSet = require("../../src/businessLogic/createRoutingRuleSet");
 
 const getPage = ctx => input => {
   const pages = flatMap(ctx.questionnaire.sections, section => section.pages);
@@ -432,8 +437,33 @@ const Resolvers = {
     },
     undeleteOption: (_, args, ctx) =>
       ctx.repositories.Option.undelete(args.input.id),
-    createRoutingRuleSet: async (root, args, ctx) =>
-      ctx.repositories.Routing.createRoutingRuleSet(args.input),
+    createRoutingRuleSet: (root, { input }, ctx) => {
+      const page = find(
+        flatMap(ctx.questionnaire.sections, section => section.pages),
+        {
+          id: input.questionPageId,
+        }
+      );
+
+      if (!isNil(page.routingRuleSet)) {
+        throw new Error(
+          `Cannot add a second RoutingRuleSet to question ${
+            input.questionPageId
+          }. Delete the existing one first.`
+        );
+      }
+
+      const routingRuleSet = createRoutingRuleSet(
+        ctx.questionnaire,
+        input.questionPageId
+      );
+
+      set(page, "routingRuleSet", routingRuleSet);
+
+      save(ctx.questionnaire);
+
+      return routingRuleSet;
+    },
     updateRoutingRuleSet: (_, args, ctx) =>
       ctx.repositories.Routing.updateRoutingRuleSet(args.input),
     deleteRoutingRuleSet: (_, args, ctx) =>
@@ -623,10 +653,7 @@ const Resolvers = {
       const section = findSectionByPageId(ctx.questionnaire.sections, id);
       return findIndex(section.pages, { id });
     },
-    routingRuleSet: ({ id: questionPageId }, args, ctx) =>
-      ctx.repositories.Routing.findRoutingRuleSetByQuestionPageId({
-        questionPageId,
-      }),
+    routingRuleSet: questionPage => questionPage.routingRuleSet,
     displayName: page => getName(page, "QuestionPage"),
     title: (page, args) => formatRichText(page.title, args.format),
     confirmation: page => page.confirmation,
@@ -634,43 +661,74 @@ const Resolvers = {
       getPreviousAnswersForPage(ctx.questionnaire, id),
     availablePipingMetadata: (page, args, ctx) => ctx.questionnaire.metadata,
     availableRoutingQuestions: ({ id }, args, ctx) =>
-      ctx.repositories.QuestionPage.getRoutingQuestionsForQuestionPage(id),
+      getPreviousPagesForPage(ctx.questionnaire, id, true),
     availableRoutingAnswers: ({ id }, args, ctx) =>
-      ctx.repositories.QuestionPage.getRoutingAnswers(id),
-    availableRoutingDestinations: ({ id }, args, ctx) =>
-      ctx.repositories.Routing.getRoutingDestinations(id),
+      getPreviousAnswersForPage(
+        ctx.questionnaire,
+        id,
+        true,
+        ROUTING_ANSWER_TYPES
+      ),
+    availableRoutingDestinations: ({ id }, args, ctx) => {
+      const section = find(ctx.questionnaire.sections, section => {
+        if (section.pages && some(section.pages, { id })) {
+          return section;
+        }
+      });
+
+      const questionPages = takeRightWhile(
+        section.pages,
+        page => page.id !== id
+      );
+      const sections = takeRightWhile(
+        ctx.questionnaire.sections,
+        futureSection => futureSection.id !== section.id
+      );
+
+      const logicalDestinations = [
+        {
+          logicalDestination: "NextPage",
+        },
+        {
+          logicalDestination: "EndOfQuestionnaire",
+        },
+      ];
+
+      return {
+        logicalDestinations,
+        sections,
+        questionPages,
+      };
+    },
     routing: ({ id }, args, ctx) => ctx.repositories.Routing2.getByPageId(id),
   },
 
   RoutingRuleSet: {
-    routingRules: ({ id }, args, ctx) => {
-      return ctx.repositories.Routing.findAllRoutingRules({
-        routingRuleSetId: id,
+    routingRules: routingRuleSet => routingRuleSet.routingRules,
+    questionPage: (routingRuleSet, args, ctx) => {
+      const pages = flatMap(
+        ctx.questionnaire.sections,
+        section => section.pages
+      );
+      return find(pages, page => {
+        if (
+          page.routingRuleSet &&
+          page.routingRuleSet.id === routingRuleSet.id
+        ) {
+          return page;
+        }
       });
     },
-    questionPage: ({ questionPageId }, args, ctx) => {
-      return ctx.repositories.Page.getById(questionPageId);
-    },
-    else: ({ routingDestinationId }, args, ctx) =>
-      ctx.repositories.Routing.getRoutingDestination(routingDestinationId),
+    else: routingRuleSet => routingRuleSet.else,
   },
 
   RoutingRule: {
-    conditions: ({ id }, args, ctx) => {
-      return ctx.repositories.Routing.findAllRoutingConditions({
-        routingRuleId: id,
-      });
-    },
-    goto: (routingRule, args, ctx) =>
-      ctx.repositories.Routing.getRoutingDestination(
-        routingRule.routingDestinationId
-      ),
+    conditions: routingRule => routingRule.conditions,
+    goto: routingRule => routingRule.goto,
   },
 
   RoutingCondition: {
-    routingValue: ({ id, answerId }) => {
-      return { conditionId: id, answerId };
-    },
+    routingValue: routingCondition => routingCondition,
     questionPage: ({ questionPageId }, args, ctx) => {
       return isNil(questionPageId)
         ? null
@@ -682,11 +740,16 @@ const Resolvers = {
   },
 
   RoutingConditionValue: {
-    __resolveType: async ({ conditionId }, ctx) => {
-      const answerType = await ctx.repositories.Routing.getAnswerTypeByConditionId(
-        conditionId,
-        ctx
+    __resolveType: async ({ answerId }, ctx) => {
+      const pages = flatMap(
+        ctx.questionnaire.sections,
+        section => section.pages
       );
+      const answers = flatMap(pages, page => page.answers);
+      const answerType = !isNil(answerId)
+        ? get(find(answers, { id: answerId }), "type")
+        : null;
+
       if (includes(["Currency", "Number"], answerType)) {
         return "NumberValue";
       } else {
@@ -696,29 +759,12 @@ const Resolvers = {
   },
 
   IDArrayValue: {
-    value: async ({ conditionId }, args, ctx) => {
-      const conditionValues = await ctx.repositories.Routing.findAllRoutingConditionValues(
-        {
-          conditionId,
-        }
-      );
-      return conditionValues.map(conditionValue => conditionValue.optionId);
-    },
+    value: routingCondition => routingCondition.routingValue,
   },
 
   NumberValue: {
-    id: async ({ conditionId }, args, ctx) => {
-      const conditionValues = await ctx.repositories.Routing.findAllRoutingConditionValues(
-        { conditionId }
-      );
-      return conditionValues[0].id;
-    },
-    numberValue: async ({ conditionId }, args, ctx) => {
-      const conditionValues = await ctx.repositories.Routing.findAllRoutingConditionValues(
-        { conditionId }
-      );
-      return conditionValues[0].customNumber;
-    },
+    id: routingCondition => routingCondition.routingValue.answerId,
+    numberValue: routingCondition => routingCondition.routingValue.customNumber,
   },
 
   RoutingDestination: {
