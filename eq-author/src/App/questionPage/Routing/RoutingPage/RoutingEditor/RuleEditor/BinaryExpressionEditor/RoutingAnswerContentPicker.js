@@ -12,8 +12,8 @@ import { ANSWER } from "components/ContentPickerSelect/content-types";
 import shapeTree from "components/ContentPicker/shapeTree";
 
 const GET_AVAILABLE_ROUTING_ANSWERS = gql`
-  query GetAvailableRoutingAnswers($id: ID!) {
-    questionPage(id: $id) {
+  query GetAvailableRoutingAnswers($input: QueryInput!) {
+    questionPage(input: $input) {
       id
       displayName
       availableRoutingAnswers {
@@ -53,7 +53,7 @@ UnwrappedRoutingAnswerContentPicker.propTypes = {
 const RoutingAnswerContentPicker = props => (
   <Query
     query={GET_AVAILABLE_ROUTING_ANSWERS}
-    variables={{ id: props.match.params.pageId }}
+    variables={{ input: props.match.params }}
     fetchPolicy="cache-and-network"
   >
     {innerProps => (

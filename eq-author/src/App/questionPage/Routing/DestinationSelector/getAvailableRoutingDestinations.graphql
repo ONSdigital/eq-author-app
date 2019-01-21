@@ -1,5 +1,5 @@
-query GetAvailableRoutingDestinations($id: ID!) {
-  questionPage(id: $id) {
+query GetAvailableRoutingDestinations($input: QueryInput!) {
+  questionPage(input: $input) {
     id
     availableRoutingDestinations {
       logicalDestinations {

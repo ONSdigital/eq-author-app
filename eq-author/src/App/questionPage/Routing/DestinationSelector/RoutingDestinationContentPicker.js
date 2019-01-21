@@ -108,7 +108,7 @@ UnwrappedRoutingDestinationContentPicker.propTypes = {
 const RoutingDestinationContentPicker = props => (
   <Query
     query={getAvailableRoutingDestinations}
-    variables={{ id: props.pageId }}
+    variables={{ input: { pageId: props.pageId } }}
     fetchPolicy="cache-and-network"
   >
     {innerProps => (
