@@ -6,8 +6,6 @@ const {
   createDefaultValidationsForAnswer,
 } = require("../../repositories/strategies/validationStrategy");
 
-const createOption = require("./createOption");
-
 module.exports = answer => {
   const defaultProperties = getDefaultAnswerProperties(answer.type);
   merge(answer, {
@@ -28,6 +26,8 @@ module.exports = answer => {
 
   let defaultOptions;
   if (answer.type === "Checkbox" || answer.type === "Radio") {
+    const createOption = require("./createOption");
+
     defaultOptions = [];
     defaultOptions.push(createOption());
 
