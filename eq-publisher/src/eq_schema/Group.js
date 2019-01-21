@@ -57,10 +57,10 @@ class Group {
       })
     );
 
-    if (introduction.introductionEnabled) {
-      return [Block.buildIntroBlock(introduction, groupId, ctx), ...blocks];
+    if (!introduction) {
+      return blocks;
     }
-    return blocks;
+    return [Block.buildIntroBlock(introduction, groupId, ctx), ...blocks];
   }
 }
 

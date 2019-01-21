@@ -20,13 +20,13 @@ export const UnwrappedPreviewSectionRoute = ({ match, data, loading }) => {
 
   const { section } = data;
 
-  if (!section.introductionEnabled) {
+  if (!section.introduction) {
     return <Redirect to={buildDesignPath(match.params)} />;
   }
 
   return (
     <EditorLayout design preview>
-      <SectionIntroPreview section={section} />
+      <SectionIntroPreview introduction={section.introduction} />
     </EditorLayout>
   );
 };

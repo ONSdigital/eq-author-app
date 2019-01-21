@@ -190,9 +190,10 @@ exports.getQuestionnaire = `
       sections {
         id
         title
-        introductionTitle
-        introductionContent
-        introductionEnabled
+        introduction {
+          introductionTitle
+          introductionContent 
+        }
         pages {
           ... on QuestionPage {
             id

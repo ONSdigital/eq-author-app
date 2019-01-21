@@ -1,9 +1,11 @@
 /* eslint-disable react/no-danger */
-import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
 
+import fragment from "App/section/Design/SectionEditor/SectionIntroduction/SectionIntroductionFragment.graphql";
+
 import Error from "components/preview/Error";
+import { propType } from "graphql-anywhere";
 
 const Wrapper = styled.div`
   padding: 2em;
@@ -40,7 +42,7 @@ const TitleBlock = styled.h1`
 `;
 
 const SectionIntroPreview = ({
-  section: { introductionTitle, introductionContent },
+  introduction: { introductionTitle, introductionContent },
 }) => (
   <Wrapper>
     <TitleBlock>
@@ -61,10 +63,7 @@ const SectionIntroPreview = ({
 );
 
 SectionIntroPreview.propTypes = {
-  section: PropTypes.shape({
-    introductionTitle: PropTypes.string,
-    introductionContent: PropTypes.string,
-  }).isRequired,
+  introduction: propType(fragment).isRequired,
 };
 
 export default SectionIntroPreview;
