@@ -4,6 +4,9 @@ set -euf -o pipefail
 
 docker_compose="./scripts/test_docker-compose.yml"
 
+export TAG=`if [ "$TRAVIS_PULL_REQUEST_BRANCH" == "" ]; then echo "latest"; else echo $TRAVIS_PULL_REQUEST_BRANCH; fi`
+export TAG=${TAG//\//-}
+
 function read_vars {
   if [ -f $1 ]; then
     echo "reading env vars: $1"

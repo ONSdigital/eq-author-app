@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 services:
   eq-schema-validator:
@@ -10,7 +10,7 @@ services:
     restart: always
 
   eq-author:
-    build: "../../eq-author"
+    image: "onsdigital/eq-author:${TAG:latest}"
     environment:
       REACT_APP_API_URL: http://localhost:14000/graphql
       REACT_APP_FIREBASE_PROJECT_ID: "${REACT_APP_FIREBASE_PROJECT_ID}"
@@ -25,7 +25,7 @@ services:
       - 13000:3000
 
   eq-author-api:
-    build: "../../eq-author-api"
+    image: "onsdigital/eq-author-api:${TAG:latest}"
     environment:
       DB_CONNECTION_URI: postgres://postgres:mysecretpassword@eq-author-db:5432/postgres
     depends_on:
@@ -37,7 +37,7 @@ services:
       - 14000:4000
 
   eq-publisher:
-    build: "../../eq-publisher"
+    image: "onsdigital/eq-publisher:${TAG:latest}"
     environment:
       EQ_AUTHOR_API_URL: http://eq-author-api:4000/graphql
       EQ_SCHEMA_VALIDATOR_URL: http://eq-schema-validator:5000/validate
