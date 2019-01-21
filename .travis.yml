@@ -17,13 +17,23 @@ cache:
 before_script:
   - set -e
 
-script:
-  - pushd eq-author; ./scripts/ci.sh; popd;
-  - pushd eq-author-api; ./scripts/ci.sh; popd;
-  - pushd eq-publisher; ./scripts/ci.sh; popd;
-  - cd eq-author
-  - yarn test:integration
-  - yarn test:e2e
+jobs:
+  include:
+    - stage: test
+      script:
+        - pushd eq-author; ./scripts/ci.sh; popd;
+        - pushd eq-author-api; ./scripts/ci.sh; popd;
+        - pushd eq-publisher; ./scripts/ci.sh; popd;
+    - stage: cypress
+      script:
+        - cd eq-author
+        - yarn test:integration
+        - yarn test:e2e
+    - stage: cypress
+      script:
+        - cd eq-author
+        - yarn test:integration
+        - yarn test:e2e
 
 deploy:
   local_dir: eq-author/storybook-static

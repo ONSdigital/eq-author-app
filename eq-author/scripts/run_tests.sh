@@ -50,5 +50,5 @@ cypress_config="watchForFileChanges=false,integrationFolder=$integration_folder"
 if [ -z "${CYPRESS_RECORD_KEY-}" ]; then
   yarn cypress run --browser chrome --config "$cypress_config"
 else
-  yarn cypress run --browser electron --record --config "$cypress_config" --parallel
+  yarn cypress run --browser electron --record --config "$cypress_config"  --group "CI" --parallel
 fi
