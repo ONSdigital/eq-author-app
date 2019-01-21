@@ -1,19 +1,25 @@
 const answerTypes = require("../../../../constants/answerTypes");
+const { find, flatMap } = require("lodash/fp");
 
 const Resolvers = {};
 
 Resolvers.BinaryExpression2 = {
-  left: async ({ id }, args, ctx) => {
-    const left = await ctx.repositories.LeftSide2.getByExpressionId(id);
+  left: async ({ left }, args, ctx) => {
     if (left.type === "Answer") {
-      const answer = await ctx.repositories.Answer.getById(left.answerId);
+      const answer = find(
+        { id: left.answerId },
+        flatMap(
+          page => page.answers,
+          flatMap(section => section.pages, ctx.questionnaire.sections)
+        )
+      );
+
       return { ...answer, sideType: left.type };
     }
 
     return { sideType: left.type, reason: left.nullReason };
   },
-  right: async ({ id }, args, ctx) => {
-    const right = await ctx.repositories.RightSide2.getByExpressionId(id);
+  right: async ({ right }, args, ctx) => {
     if (right && ["Custom", "SelectedOptions"].includes(right.type)) {
       return right;
     }

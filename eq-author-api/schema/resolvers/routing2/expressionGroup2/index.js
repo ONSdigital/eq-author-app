@@ -1,8 +1,7 @@
 const Resolvers = {};
 
 Resolvers.ExpressionGroup2 = {
-  expressions: ({ id }, args, ctx) =>
-    ctx.repositories.BinaryExpression2.getByExpressionGroupId(id),
+  expressions: expressionGroup => expressionGroup.expressions,
 };
 
 Resolvers.Mutation = {

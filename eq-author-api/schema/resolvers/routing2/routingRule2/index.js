@@ -1,5 +1,7 @@
 const isMutuallyExclusive = require("../../../../utils/isMutuallyExclusive");
 
+const { flatMap, find, some } = require("lodash/fp");
+
 const isMutuallyExclusiveDestination = isMutuallyExclusive([
   "sectionId",
   "pageId",
@@ -9,12 +11,16 @@ const isMutuallyExclusiveDestination = isMutuallyExclusive([
 const Resolvers = {};
 
 Resolvers.RoutingRule2 = {
-  destination: ({ destinationId }, args, ctx) =>
-    ctx.repositories.Destination.getById(destinationId),
-  expressionGroup: ({ id }, args, ctx) =>
-    ctx.repositories.ExpressionGroup2.getByRuleId(id),
-  routing: ({ routingId }, args, ctx) =>
-    ctx.repositories.Routing2.getById(routingId),
+  destination: routingRule => routingRule.destination,
+  expressionGroup: routingRule => routingRule.expressionGroup,
+  routing: ({ id }, args, ctx) => {
+    const pages = flatMap(section => section.pages, ctx.questionnaire.sections);
+    return find(page => {
+      if (page.routing && some({ id }, page.routing.rules)) {
+        return page.routing;
+      }
+    }, pages);
+  },
 };
 
 Resolvers.Mutation = {
