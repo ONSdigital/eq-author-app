@@ -700,7 +700,7 @@ const Resolvers = {
         questionPages,
       };
     },
-    routing: ({ id }, args, ctx) => ctx.repositories.Routing2.getByPageId(id),
+    routing: questionPage => questionPage.routing,
   },
 
   RoutingRuleSet: {
