@@ -1,4 +1,4 @@
-const { find, some, head, takeRightWhile } = require("lodash/fp");
+const { find, some, head, takeRightWhile, get } = require("lodash/fp");
 const { END_OF_QUESTIONNAIRE } = require("../../constants/logicalDestinations");
 
 module.exports = (questionnaire, pageId) => {
@@ -14,8 +14,7 @@ module.exports = (questionnaire, pageId) => {
   );
   if (pagesAfterCurrent.length) {
     return {
-      entityType: "Page",
-      result: head(pagesAfterCurrent),
+      pageId: get("id", head(pagesAfterCurrent)),
     };
   }
 
@@ -25,12 +24,11 @@ module.exports = (questionnaire, pageId) => {
   );
   if (sectionsAfterCurrent.length) {
     return {
-      entityType: "Section",
-      result: head(sectionsAfterCurrent),
+      sectionId: get("id", head(sectionsAfterCurrent)),
     };
   }
 
   return {
-    result: END_OF_QUESTIONNAIRE,
+    logical: END_OF_QUESTIONNAIRE,
   };
 };

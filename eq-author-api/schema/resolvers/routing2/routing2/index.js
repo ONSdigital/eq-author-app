@@ -6,9 +6,11 @@ const isMutuallyExclusiveDestination = isMutuallyExclusive([
   "logical",
 ]);
 
-const { flatMap, find } = require("lodash/fp");
+const { flatMap, find, set, flow } = require("lodash/fp");
 const save = require("../../../../utils/saveQuestionnaire");
 const createRouting = require("../../../../src/businessLogic/createRouting");
+const createDestination = require("../../../../src/businessLogic/createDestination");
+const getNextDestination = require("../../../../src/businessLogic/getNextDestination");
 
 const Resolvers = {};
 
@@ -34,7 +36,23 @@ Resolvers.Mutation = {
       throw new Error("Can only have one Routing per Page.");
     }
 
-    page.routing = createRouting();
+    const nextDestination = getNextDestination(ctx.questionnaire, page.id);
+
+    page.routing = set(
+      "rules.0.expressionGroup.expressions.0.left.nullReason",
+      "NoRoutableAnswerOnPage",
+      set(
+        "rules.0.expressionGroup.expressions.0.left.type",
+        "Null",
+        set(
+          "rules.0.destination",
+          createDestination(nextDestination),
+          createRouting({
+            else: createDestination(nextDestination),
+          })
+        )
+      )
+    );
     save(ctx.questionnaire);
     return page.routing;
   },

@@ -1,7 +1,10 @@
 const uuid = require("uuid");
+const createDestination = require("./createDestination");
+const createExpressionGroup = require("./createExpressionGroup");
 
-module.exports = (input = {}) => ({
+module.exports = input => ({
   id: uuid.v4(),
-  operation: "And",
+  destination: createDestination(),
+  expressionGroup: createExpressionGroup(),
   ...input,
 });
