@@ -36,6 +36,8 @@ const addPrefix = require("../../utils/addPrefix");
 const loadQuestionnaire = require("../../utils/loadQuestionnaire");
 const getPreviousPagesForPage = require("../../src/businessLogic/getPreviousPagesForPage");
 const { ROUTING_ANSWER_TYPES } = require("../../constants/routingAnswerTypes");
+const save = require("../../utils/saveQuestionnaire");
+
 const getSection = ctx => input => {
   return find(ctx.questionnaire.sections, { id: input.sectionId });
 };
@@ -109,14 +111,6 @@ const saveQuestionnaireList = data => {
     stringify(data, { space: 4 })
   );
   return data;
-};
-
-const save = questionnaire => {
-  fs.writeFileSync(
-    `data/${questionnaire.id}.json`,
-    stringify(questionnaire, { space: 4 })
-  );
-  return questionnaire;
 };
 
 const Resolvers = {

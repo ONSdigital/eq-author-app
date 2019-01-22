@@ -7,6 +7,8 @@ const isMutuallyExclusiveDestination = isMutuallyExclusive([
 ]);
 
 const { flatMap, find } = require("lodash/fp");
+const save = require("../../../../utils/saveQuestionnaire");
+const createRouting = require("../../../../src/businessLogic/createRouting");
 
 const Resolvers = {};
 
@@ -24,12 +26,23 @@ Resolvers.Routing2 = {
 };
 
 Resolvers.Mutation = {
-  createRouting2: async (root, { input }, ctx) =>
-    ctx.modifiers.Routing.create(input.pageId),
+  createRouting2: async (root, { input }, ctx) => {
+    const pages = flatMap(section => section.pages, ctx.questionnaire.sections);
+    const page = find({ id: input.pageId }, pages);
+
+    if (page.routing) {
+      throw new Error("Can only have one Routing per Page.");
+    }
+
+    page.routing = createRouting();
+    save(ctx.questionnaire);
+    return page.routing;
+  },
   updateRouting2: async (root, { input }, ctx) => {
     if (!isMutuallyExclusiveDestination(input.else)) {
       throw new Error("Can only provide one destination.");
     }
+
     return ctx.modifiers.Routing.update({
       id: input.id,
       else: input.else,
