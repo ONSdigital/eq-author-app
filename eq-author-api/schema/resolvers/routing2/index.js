@@ -1,10 +1,17 @@
 const Resolvers = {};
 
+const { find, flatMap } = require("lodash/fp");
+
 Resolvers.Destination2 = {
   page: ({ pageId }, args, ctx) =>
-    pageId ? ctx.repositories.QuestionPage.getById(pageId) : null,
+    pageId
+      ? find(
+          { id: pageId },
+          flatMap(section => section.pages, ctx.questionnaire.sections)
+        )
+      : null,
   section: ({ sectionId }, args, ctx) =>
-    sectionId ? ctx.repositories.Section.getById(sectionId) : null,
+    sectionId ? find({ id: sectionId }, ctx.questionnaire.sections) : null,
 };
 
 Resolvers.Expression2 = {

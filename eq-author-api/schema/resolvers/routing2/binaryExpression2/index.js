@@ -1,5 +1,5 @@
 const answerTypes = require("../../../../constants/answerTypes");
-const { find, flatMap, some } = require("lodash/fp");
+const { find, flatMap, some, intersectionBy } = require("lodash/fp");
 
 const Resolvers = {};
 
@@ -69,12 +69,16 @@ Resolvers.CustomValue2 = {
 };
 
 Resolvers.SelectedOptions2 = {
-  options: async ({ id }, args, ctx) => {
-    const optionIds = await ctx.repositories.SelectedOptions2.getBySideId(id);
-    const options = await Promise.all(
-      optionIds.map(({ optionId }) => ctx.repositories.Option.getById(optionId))
+  options: async (right, args, ctx) => {
+    const options = flatMap(
+      answer => answer.options,
+      flatMap(
+        page => page.answers,
+        flatMap(section => section.pages, ctx.questionnaire.sections)
+      )
     );
-    return options;
+
+    return intersectionBy("id", options, right.selectedOptions);
   },
 };
 
