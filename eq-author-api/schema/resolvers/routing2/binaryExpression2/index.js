@@ -1,5 +1,5 @@
 const answerTypes = require("../../../../constants/answerTypes");
-const { find, flatMap } = require("lodash/fp");
+const { find, flatMap, some } = require("lodash/fp");
 
 const Resolvers = {};
 
@@ -26,8 +26,17 @@ Resolvers.BinaryExpression2 = {
 
     return null;
   },
-  expressionGroup: async ({ expressionGroupId }, args, ctx) =>
-    ctx.repositories.ExpressionGroup2.getById(expressionGroupId),
+  expressionGroup: async ({ id }, args, ctx) => {
+    const pages = flatMap(section => section.pages, ctx.questionnaire.sections);
+    return find(expressionGroup => {
+      if (
+        expressionGroup.expressions &&
+        some({ id }, expressionGroup.expressions)
+      ) {
+        return expressionGroup;
+      }
+    }, flatMap(rule => rule.expressionGroup, flatMap(routing => routing.rules, flatMap(page => page.routing, pages))));
+  },
 };
 
 Resolvers.LeftSide2 = {
