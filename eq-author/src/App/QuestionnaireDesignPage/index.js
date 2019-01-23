@@ -49,8 +49,8 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
       match,
       data: { questionnaire },
     } = this.props;
-    const { pageId, sectionId } = match.params;
 
+    const { pageId, sectionId } = match.params;
     const pages = flatMap(questionnaire.sections, "pages");
     const page = find(pages, { id: pageId });
 
@@ -134,7 +134,7 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
     } = this.props;
 
     return (
-      <BaseLayout questionnaire={questionnaire}>
+      <BaseLayout questionnaire={questionnaire} title={this.getTitle("")}>
         <Titled title={this.getTitle}>
           <Grid>
             <Column cols={3} gutters={false}>

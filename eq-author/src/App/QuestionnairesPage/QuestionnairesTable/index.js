@@ -2,8 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
-import { TransitionGroup } from "react-transition-group";
-import { isEmpty } from "lodash";
+
 import gql from "graphql-tag";
 import scrollIntoView from "utils/scrollIntoView";
 
@@ -11,21 +10,38 @@ import Row from "App/QuestionnairesPage/QuestionnairesTable/Row";
 
 const Table = styled.table`
   width: 100%;
-  font-size: 0.9em;
+  font-size: 1em;
   border-collapse: collapse;
   table-layout: fixed;
   text-align: left;
 `;
 
 const TH = styled.th`
-  padding: 1.5em 1em;
-  color: #8e8e8e;
+  padding: 0.5em 1em;
+  color: #666666;
   width: ${props => props.colWidth};
   border-bottom: 1px solid #e2e2e2;
+  font-weight: normal;
+  font-size: 0.9em;
+  font-weight: bold;
 `;
 
 TH.propTypes = {
   colWidth: PropTypes.string.isRequired,
+};
+
+const TableHead = () => {
+  return (
+    <thead>
+      <tr>
+        <TH colWidth="40%">Title</TH>
+        <TH colWidth="15%">Created</TH>
+        <TH colWidth="15%">Modified</TH>
+        <TH colWidth="15%">Created by</TH>
+        <TH colWidth="15%" />
+      </tr>
+    </thead>
+  );
 };
 
 const TBody = props => <tbody {...props} />;
@@ -84,30 +100,25 @@ export class UnconnectedQuestionnairesTable extends React.PureComponent {
     this.setState({
       focusedId: (questionnaires[nextIndex] || {}).id,
     });
+
     this.props.onDeleteQuestionnaire(questionnaireId);
   };
 
   render() {
     const { questionnaires } = this.props;
-    if (isEmpty(questionnaires)) {
-      return <p>You have no questionnaires</p>;
-    }
 
     return (
       <Table>
-        <thead ref={this.headRef}>
-          <tr>
-            <TH colWidth="50%">Questionnaire name</TH>
-            <TH colWidth="15%">Date</TH>
-            <TH colWidth="22%">Created by</TH>
-            <TH colWidth="14%" />
-          </tr>
-        </thead>
-        <TransitionGroup component={TBody}>
-          {questionnaires.map(questionnaire => {
+        <TableHead />
+        <TBody>
+          {questionnaires.map((questionnaire, index) => {
+            const dupe = questionnaire.id.startsWith("dupe");
+
             return (
               <Row
+                odd={index % 2}
                 key={questionnaire.id}
+                dupe={dupe}
                 autoFocus={questionnaire.id === this.state.focusedId}
                 questionnaire={questionnaire}
                 onDeleteQuestionnaire={this.handleDeleteQuestionnaire}
@@ -115,7 +126,7 @@ export class UnconnectedQuestionnairesTable extends React.PureComponent {
               />
             );
           })}
-        </TransitionGroup>
+        </TBody>
       </Table>
     );
   }

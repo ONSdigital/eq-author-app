@@ -10,11 +10,15 @@ const StyledLink = styled(NavLink)`
   text-decoration: none;
   color: ${colors.blue};
   padding: 0.5em;
+  display: flex;
+  flex-direction: column;
+
   &:focus {
     border-radius: ${radius};
     outline: none;
     box-shadow: 0 0 0 3px ${colors.tertiary};
   }
+
   &:hover {
     text-decoration: underline;
   }

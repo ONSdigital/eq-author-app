@@ -28,31 +28,15 @@ const Main = styled.main`
   flex-direction: column;
 `;
 
-const Title = styled.h1`
-  font-size: 1.4em;
-  font-weight: 700;
-  margin: 2em 0;
-  text-align: center;
-`;
-
 const defaultTitle = () => "Author";
 
 const BaseLayout = ({ children, title, questionnaire }) => (
   <Titled title={defaultTitle}>
     <App>
       <Wrapper>
-        <Header questionnaire={questionnaire} />
+        <Header questionnaire={questionnaire} title={title} />
         <ConnectedOfflineBanner />
-        <Main>
-          {title ? (
-            <ScrollPane>
-              <Title>{title}</Title>
-              {children}
-            </ScrollPane>
-          ) : (
-            children
-          )}
-        </Main>
+        <Main>{children}</Main>
         {ReactDOM.createPortal(
           <ToastContainer />,
           document.getElementById("toast")

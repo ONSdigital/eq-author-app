@@ -30,7 +30,7 @@ const getTitle = title => `Page not found - ${title}`;
 
 const NotFound = () => {
   return (
-    <BaseLayout>
+    <BaseLayout title={getTitle}>
       <Titled title={getTitle}>
         <Grid>
           <Column cols={6} offset={3}>

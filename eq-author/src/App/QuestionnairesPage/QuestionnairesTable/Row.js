@@ -15,24 +15,28 @@ import QuestionnaireLink from "App/QuestionnairesPage/QuestionnaireLink";
 import FormattedDate from "App/QuestionnairesPage/FormattedDate";
 import FadeTransition from "components/transitions/FadeTransition";
 
-const TruncatedQuestionnaireLink = Truncated.withComponent(QuestionnaireLink);
-TruncatedQuestionnaireLink.displayName = "TruncatedQuestionnaireLink";
-
 const ButtonGroup = styled.div`
   display: flex;
   justify-content: space-evenly;
 `;
 
+const Shortcode = styled.span`
+  color: ${colors.textLight};
+  font-size: 0.8em;
+  font-weight: bold;
+  letter-spacing: 0.05em;
+`;
+
 const TR = styled.tr`
-  border-bottom: 1px solid #e2e2e2;
   border-top: 1px solid #e2e2e2;
+  background-color: ${props => (props.odd ? "#fff" : "#FAFAFA")};
   opacity: 1;
   color: ${props => (props.disabled ? `${colors.textLight}` : "inherit")};
 `;
 
 const TD = styled.td`
   line-height: 1.3;
-  padding: 0.5em 1em;
+  padding: 0.25em 1em;
   text-align: ${props => props.textAlign};
 `;
 
@@ -44,7 +48,7 @@ TD.defaultProps = {
   textAlign: "left",
 };
 
-class Row extends React.Component {
+class Row extends React.PureComponent {
   static propTypes = {
     questionnaire: CustomPropTypes.questionnaire.isRequired,
     onDeleteQuestionnaire: PropTypes.func.isRequired,
@@ -65,21 +69,12 @@ class Row extends React.Component {
     return this.props.questionnaire.id.startsWith("dupe");
   }
 
-  shouldComponentUpdate(nextProps) {
-    for (let key of Object.keys(Row.propTypes)) {
-      if (this.props[key] !== nextProps[key]) {
-        return true;
-      }
-    }
-    return false;
-  }
-
   focusLink() {
     this.rowRef.current.getElementsByTagName("a")[0].focus();
   }
 
   componentDidMount() {
-    if (this.isQuestionnaireADuplicate() || this.props.autoFocus) {
+    if (this.props.dupe || this.props.autoFocus) {
       this.focusLink();
     }
   }
@@ -91,49 +86,52 @@ class Row extends React.Component {
   }
 
   render() {
-    const { questionnaire, onDeleteQuestionnaire, ...rest } = this.props;
-    const isOptimisticDupe = this.isQuestionnaireADuplicate();
+    const {
+      questionnaire,
+      onDeleteQuestionnaire,
+      dupe,
+      odd,
+      ...rest
+    } = this.props;
 
     return (
-      <FadeTransition
-        {...rest}
-        enter={isOptimisticDupe}
-        exit={!isOptimisticDupe}
-      >
-        <TR innerRef={this.rowRef} disabled={isOptimisticDupe}>
-          <TD>
-            <TruncatedQuestionnaireLink
-              data-test="anchor-questionnaire-title"
-              questionnaire={questionnaire}
-              title={questionnaire.title}
-              disabled={isOptimisticDupe}
-            >
-              {questionnaire.title}
-            </TruncatedQuestionnaireLink>
-          </TD>
-          <TD>
-            <FormattedDate date={questionnaire.createdAt} />
-          </TD>
-          <TD>
-            <Truncated>{questionnaire.createdBy.name || "Unknown"}</Truncated>
-          </TD>
-          <TD textAlign="center">
-            <ButtonGroup>
-              <DuplicateButton
-                data-test="btn-duplicate-questionnaire"
-                onClick={this.handleDuplicateQuestionnaire}
-                disabled={isOptimisticDupe}
-              />
-              <IconButtonDelete
-                hideText
-                data-test="btn-delete-questionnaire"
-                onClick={partial(onDeleteQuestionnaire, questionnaire.id)}
-                disabled={isOptimisticDupe}
-              />
-            </ButtonGroup>
-          </TD>
-        </TR>
-      </FadeTransition>
+      <TR innerRef={this.rowRef} disabled={dupe} odd={odd}>
+        <TD>
+          <QuestionnaireLink
+            data-test="anchor-questionnaire-title"
+            questionnaire={questionnaire}
+            title={questionnaire.title}
+            disabled={dupe}
+            css={{ marginLeft: "-0.5em" }}
+          >
+            <Truncated>{questionnaire.title}</Truncated>
+          </QuestionnaireLink>
+        </TD>
+        <TD>
+          <FormattedDate date={questionnaire.createdAt} />
+        </TD>
+        <TD>
+          <FormattedDate date={questionnaire.createdAt} />
+        </TD>
+        <TD>
+          <Truncated>{questionnaire.createdBy.name || "Unknown"}</Truncated>
+        </TD>
+        <TD textAlign="center">
+          <ButtonGroup>
+            <DuplicateButton
+              data-test="btn-duplicate-questionnaire"
+              onClick={this.handleDuplicateQuestionnaire}
+              disabled={dupe}
+            />
+            <IconButtonDelete
+              hideText
+              data-test="btn-delete-questionnaire"
+              onClick={partial(onDeleteQuestionnaire, questionnaire.id)}
+              disabled={dupe}
+            />
+          </ButtonGroup>
+        </TD>
+      </TR>
     );
   }
 }
