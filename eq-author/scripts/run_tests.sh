@@ -30,7 +30,6 @@ function finish {
 trap finish INT KILL TERM EXIT
 
 # Start env
-docker-compose -f "$docker_compose" build
 docker-compose -f "$docker_compose" up -d
 ./node_modules/.bin/wait-on http-get://localhost:14000/status
 ./node_modules/.bin/wait-on http-get://localhost:13000

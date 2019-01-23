@@ -16,6 +16,8 @@ cache:
 
 before_script:
   - set -e
+  - export TAG=`if [ "$TRAVIS_PULL_REQUEST_BRANCH" == "" ]; then echo "latest"; else echo $TRAVIS_PULL_REQUEST_BRANCH; fi`
+  - export TAG=${TAG//\//-}
 
 script:
   - pushd eq-author; ./scripts/ci.sh; popd;
@@ -24,6 +26,10 @@ script:
   - cd eq-author
   - yarn test:integration
   - yarn test:e2e
+  - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+  - docker push onsdigital/eq-author:$TAG
+  - docker push onsdigital/eq-author-api:$TAG
+  - docker push onsdigital/eq-publisher:$TAG
 
 deploy:
   local_dir: eq-author/storybook-static
