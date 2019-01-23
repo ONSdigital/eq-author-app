@@ -437,4 +437,38 @@ describe("Routing", () => {
 
     cy.get(testId("deleted-answer-msg")).should("exist");
   });
+
+  it("can change the else destination", () => {
+    title = "Routing else destination";
+
+    cy.createQuestionnaire(title);
+    cy.get(testId("nav-section-link"))
+      .first()
+      .click();
+    typeIntoDraftEditor(testId("txt-section-title", "testid"), "Section 1");
+
+    cy.get(testId("nav-page-link"))
+      .first()
+      .click();
+    typeIntoDraftEditor(testId("txt-question-title", "testid"), "Question 1");
+
+    addQuestionPage("Question 2");
+
+    cy.contains("Question 1").click();
+    navigateToRoutingTab();
+
+    cy.get(testId("btn-add-routing")).click();
+
+    findByLabel("ELSE").contains("Question 2");
+
+    findByLabel("ELSE")
+      .parent()
+      .within(() => {
+        cy.get(testId("routing-destination-content-picker")).click();
+      });
+
+    cy.get(testId("EndOfQuestionnaire-picker")).click();
+    cy.get(testId("submit-button")).click();
+    findByLabel("ELSE").contains("End of questionnaire");
+  });
 });
