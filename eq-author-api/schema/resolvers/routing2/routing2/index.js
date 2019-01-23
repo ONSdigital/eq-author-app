@@ -6,11 +6,14 @@ const isMutuallyExclusiveDestination = isMutuallyExclusive([
   "logical",
 ]);
 
-const { flatMap, find, set, flow } = require("lodash/fp");
+const { flatMap, find } = require("lodash/fp");
 const save = require("../../../../utils/saveQuestionnaire");
 const createRouting = require("../../../../src/businessLogic/createRouting");
 const createDestination = require("../../../../src/businessLogic/createDestination");
 const getNextDestination = require("../../../../src/businessLogic/getNextDestination");
+const createRoutingRule = require("../../../../src/businessLogic/createRoutingRule");
+const createExpressionGroup = require("../../../../src/businessLogic/createExpressionGroup");
+const createExpression = require("../../../../src/businessLogic/createExpresion");
 
 const Resolvers = {};
 
@@ -38,21 +41,24 @@ Resolvers.Mutation = {
 
     const nextDestination = getNextDestination(ctx.questionnaire, page.id);
 
-    page.routing = set(
-      "rules.0.expressionGroup.expressions.0.left.nullReason",
-      "NoRoutableAnswerOnPage",
-      set(
-        "rules.0.expressionGroup.expressions.0.left.type",
-        "Null",
-        set(
-          "rules.0.destination",
-          createDestination(nextDestination),
-          createRouting({
-            else: createDestination(nextDestination),
-          })
-        )
-      )
-    );
+    page.routing = createRouting({
+      else: createDestination(nextDestination),
+      rules: [
+        createRoutingRule({
+          expressionGroup: createExpressionGroup({
+            expressions: [
+              createExpression({
+                left: {
+                  type: "Null",
+                  nullReason: "NoRoutableAnswerOnPage",
+                },
+              }),
+            ],
+          }),
+          destination: createDestination(nextDestination),
+        }),
+      ],
+    });
     save(ctx.questionnaire);
     return page.routing;
   },
