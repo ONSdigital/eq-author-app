@@ -4,12 +4,15 @@ const {
   isNil,
   pick,
   find,
+  filter,
   findIndex,
+  map,
   merge,
   remove,
   flatMap,
   omit,
   set,
+  slice,
   cloneDeep,
   first,
   some,
@@ -35,8 +38,15 @@ const createOption = require("../../src/businessLogic/createOption");
 const addPrefix = require("../../utils/addPrefix");
 const loadQuestionnaire = require("../../utils/loadQuestionnaire");
 const getPreviousPagesForPage = require("../../src/businessLogic/getPreviousPagesForPage");
+const { DATE, DATE_RANGE } = require("../../constants/answerTypes");
+const { DATE: METADATA_DATE } = require("../../constants/metadataTypes");
 const { ROUTING_ANSWER_TYPES } = require("../../constants/routingAnswerTypes");
 const save = require("../../utils/saveQuestionnaire");
+
+const {
+  VALIDATION_TYPES,
+  VALIDATION_INPUT_TYPES,
+} = require("../../constants/validationTypes");
 
 const getSection = ctx => input => {
   return find(ctx.questionnaire.sections, { id: input.sectionId });
@@ -49,10 +59,14 @@ const getPage = ctx => input => {
   return find(pages, { id: input.pageId });
 };
 
-const getAnswer = ctx => input => {
-  const answers = flatMap(ctx.questionnaire.sections, section =>
+const getAnswers = ctx => {
+  return flatMap(ctx.questionnaire.sections, section =>
     flatMap(section.pages, page => page.answers)
   );
+};
+
+const getAnswer = ctx => input => {
+  const answers = getAnswers(ctx);
   return find(answers, { id: input.answerId });
 };
 
@@ -63,6 +77,47 @@ const getOption = ctx => input => {
     )
   );
   return find(options, { id: input.optionId });
+};
+
+const getValidation = ctx => id => {
+  const answers = getAnswers(ctx);
+  const answerValidations = map(answers, answer => ({
+    answerId: answer.id,
+    ...answer.validation,
+  }));
+  const validations = flatMap(answerValidations, validation => {
+    return VALIDATION_TYPES.map(type => {
+      if (validation[type]) {
+        validation[type].answerId = validation.answerId;
+      }
+      return validation[type];
+    });
+  });
+
+  return find(validations, { id: id });
+};
+
+const getAvailableMetadataForValidation = ctx => id => {
+  const validation = getValidation(ctx)(id);
+  const answer = getAnswer(ctx)({ answerId: validation.answerId });
+  if (answer.type === DATE || answer.type === DATE_RANGE) {
+    return filter(ctx.questionnaire.metadata, { type: METADATA_DATE });
+  } else {
+    return []; //Currently do not support validation against any other types
+  }
+};
+
+const getAvailablePreviousAnswersForValidation = ctx => id => {
+  const validation = getValidation(ctx)(id);
+  const answer = getAnswer(ctx)({ answerId: validation.answerId });
+  const pages = flatMap(ctx.questionnaire.sections, section => section.pages);
+  const currentPageIndex = findIndex(pages, { id: answer.questionPageId });
+  const previousPages = slice(pages, 0, currentPageIndex);
+  const previousAnswers = flatMap(previousPages, page => page.answers);
+  const previousAnswersOfSameType = filter(previousAnswers, {
+    type: answer.type,
+  });
+  return previousAnswersOfSameType;
 };
 
 const findSectionByPageId = (sections, id) =>
@@ -485,10 +540,23 @@ const Resolvers = {
       ctx.repositories.Routing.createConditionValue(args.input),
     updateConditionValue: async (_, args, ctx) =>
       ctx.repositories.Routing.updateConditionValue(args.input),
-    toggleValidationRule: (_, args, ctx) =>
-      ctx.repositories.Validation.toggleValidationRule(args.input),
-    updateValidationRule: (_, args, ctx) =>
-      ctx.repositories.Validation.updateValidationRule(args.input),
+    toggleValidationRule: (_, args, ctx) => {
+      const validation = getValidation(ctx)(args.input.id);
+      validation.enabled = args.input.enabled;
+      merge(validation, args.input);
+      save(ctx.questionnaire);
+
+      return validation;
+    },
+    updateValidationRule: (_, args, ctx) => {
+      const validation = getValidation(ctx)(args.input.id);
+      VALIDATION_INPUT_TYPES.map(type => {
+        merge(validation, args.input[type]);
+      });
+      save(ctx.questionnaire);
+
+      return validation;
+    },
     createMetadata: (root, args, ctx) => {
       const newMetadata = {
         alias: null,
@@ -922,13 +990,13 @@ const Resolvers = {
 
   MinValueValidationRule: {
     enabled: ({ enabled }) => enabled,
-    inclusive: ({ config }) => config.inclusive,
+    inclusive: ({ inclusive }) => inclusive,
     custom: ({ custom }) => custom,
   },
 
   MaxValueValidationRule: {
     enabled: ({ enabled }) => enabled,
-    inclusive: ({ config }) => config.inclusive,
+    inclusive: ({ inclusive }) => inclusive,
     custom: ({ custom }) => custom,
     entityType: ({ entityType }) => entityType,
     previousAnswer: ({ previousAnswerId }, args, ctx) =>
@@ -936,49 +1004,53 @@ const Resolvers = {
         ? null
         : ctx.repositories.Answer.getById(previousAnswerId),
     availablePreviousAnswers: ({ id }, args, ctx) =>
-      ctx.repositories.Validation.getPreviousAnswersForValidation(id),
+      getAvailablePreviousAnswersForValidation(ctx)(id),
   },
 
   EarliestDateValidationRule: {
     custom: ({ custom }) => (custom ? new Date(custom) : null),
-    offset: ({ config: { offset } }) => offset,
-    relativePosition: ({ config: { relativePosition } }) => relativePosition,
+    offset: ({ offset }) => offset,
+    relativePosition: ({ relativePosition }) => relativePosition,
     entityType: ({ entityType }) => entityType,
-    previousAnswer: ({ previousAnswerId }, args, ctx) =>
-      isNil(previousAnswerId)
+    previousAnswer: ({ previousAnswer }, args, ctx) =>
+      isNil(previousAnswer)
         ? null
-        : ctx.repositories.Answer.getById(previousAnswerId),
-    metadata: ({ metadataId }, args, ctx) =>
-      isNil(metadataId) ? null : ctx.repositories.Metadata.getById(metadataId),
+        : getAnswer(ctx)({ answerId: previousAnswer }),
+    metadata: ({ metadata }, args, ctx) =>
+      isNil(metadata)
+        ? null
+        : find(ctx.questionnaire.metadata, { id: metadata }),
     availablePreviousAnswers: ({ id }, args, ctx) =>
-      ctx.repositories.Validation.getPreviousAnswersForValidation(id),
+      getAvailablePreviousAnswersForValidation(ctx)(id),
     availableMetadata: ({ id }, args, ctx) =>
-      ctx.repositories.Validation.getMetadataForValidation(id),
+      getAvailableMetadataForValidation(ctx)(id),
   },
 
   LatestDateValidationRule: {
     custom: ({ custom }) => (custom ? new Date(custom) : null),
-    offset: ({ config: { offset } }) => offset,
-    relativePosition: ({ config: { relativePosition } }) => relativePosition,
+    offset: ({ offset }) => offset,
+    relativePosition: ({ relativePosition }) => relativePosition,
     entityType: ({ entityType }) => entityType,
-    previousAnswer: ({ previousAnswerId }, args, ctx) =>
-      isNil(previousAnswerId)
+    previousAnswer: ({ previousAnswer }, args, ctx) =>
+      isNil(previousAnswer)
         ? null
-        : ctx.repositories.Answer.getById(previousAnswerId),
-    metadata: ({ metadataId }, args, ctx) =>
-      isNil(metadataId) ? null : ctx.repositories.Metadata.getById(metadataId),
+        : getAnswer(ctx)({ answerId: previousAnswer }),
+    metadata: ({ metadata }, args, ctx) =>
+      isNil(metadata)
+        ? null
+        : find(ctx.questionnaire.metadata, { id: metadata }),
     availablePreviousAnswers: ({ id }, args, ctx) =>
-      ctx.repositories.Validation.getPreviousAnswersForValidation(id),
+      getAvailablePreviousAnswersForValidation(ctx)(id),
     availableMetadata: ({ id }, args, ctx) =>
-      ctx.repositories.Validation.getMetadataForValidation(id),
+      getAvailableMetadataForValidation(ctx)(id),
   },
 
   MinDurationValidationRule: {
-    duration: ({ config: { duration } }) => duration,
+    duration: ({ duration }) => duration,
   },
 
   MaxDurationValidationRule: {
-    duration: ({ config: { duration } }) => duration,
+    duration: ({ duration }) => duration,
   },
 
   Metadata: {

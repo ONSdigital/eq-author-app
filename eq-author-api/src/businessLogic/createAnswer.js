@@ -1,4 +1,4 @@
-const { merge, includes, flatten, values } = require("lodash/fp");
+const { merge, includes, flatten, values, omit } = require("lodash/fp");
 const uuid = require("uuid");
 const getDefaultAnswerProperties = require("../../utils/defaultAnswerProperties");
 const { answerTypeMap } = require("../../utils/defaultAnswerValidations");
@@ -18,8 +18,9 @@ module.exports = answer => {
     validations.map(v => {
       validation[v.validationType] = {
         id: uuid.v4(),
-        config: v.config,
         enabled: false,
+        ...omit("config", v),
+        ...v.config,
       };
     });
   }
