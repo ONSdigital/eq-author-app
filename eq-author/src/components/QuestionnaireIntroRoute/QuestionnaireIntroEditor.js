@@ -7,6 +7,8 @@ import { colors } from "constants/theme";
 import { Input } from "components/Forms";
 import DetailsEditor from "./DetailsEditor";
 
+import iconCheck from "./icon-check.svg";
+
 const Section = styled.section`
   border-bottom: 1px solid #e0e0e0;
   margin-bottom: 2em;
@@ -100,6 +102,7 @@ const LegalLabel = styled.label`
   color: ${colors.textLight};
   height: 13em;
   transition: all 200ms ease-in-out;
+  position: relative;
 
   &:not(:last-of-type) {
     margin-right: 1em;
@@ -115,6 +118,15 @@ const LegalLabel = styled.label`
     props.selected &&
     css`
       border: 2px solid ${colors.primary};
+      &::before {
+        content: url(${iconCheck});
+        display: inline-block;
+        width: 1em;
+        height: 1em;
+        position: absolute;
+        top: 0.5em;
+        z-index: 1;
+      }
     `};
 `;
 
