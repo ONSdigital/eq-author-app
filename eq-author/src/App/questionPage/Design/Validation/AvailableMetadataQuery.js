@@ -6,8 +6,8 @@ import gql from "graphql-tag";
 import AvailableMetadata from "graphql/fragments/available-metadata.graphql";
 
 const GET_AVAILABLE_METADATA = gql`
-  query GetAvailableMetadata($id: ID!) {
-    answer(id: $id) {
+  query GetAvailableMetadata($input: QueryInput!) {
+    answer(input: $input) {
       id
       displayName
       ... on BasicAnswer {
@@ -54,7 +54,7 @@ const GET_AVAILABLE_METADATA = gql`
 const AvailableMetadataQuery = ({ answerId, children }) => (
   <Query
     query={GET_AVAILABLE_METADATA}
-    variables={{ id: answerId }}
+    variables={{ input: { answerId } }}
     fetchPolicy="cache-and-network"
   >
     {children}
