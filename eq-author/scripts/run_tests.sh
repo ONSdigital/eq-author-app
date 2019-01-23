@@ -49,5 +49,13 @@ cypress_config="watchForFileChanges=false,integrationFolder=$integration_folder"
 if [ -z "${CYPRESS_RECORD_KEY-}" ]; then
   yarn cypress run --browser chrome --config "$cypress_config"
 else
-  yarn cypress run --browser electron --record --config "$cypress_config"
+  yarn cypress run --browser electron --record --config "$cypress_config" --parallel --group "CI-$TAG" &
+  worker1_pid=$!
+  echo "Worker 1: $worker1_pid"
+  yarn cypress run --browser electron --record --config "$cypress_config" --parallel --group "CI-$TAG" &
+  worker2_pid=$!
+  echo "Worker 2: $worker2_pid"
+
+  wait "$worker1_pid"
+  wait "$worker2_pid"
 fi
