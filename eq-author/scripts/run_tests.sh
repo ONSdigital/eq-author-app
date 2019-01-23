@@ -52,6 +52,8 @@ else
   yarn cypress run --browser electron --record --config "$cypress_config" --parallel --group "CI-$TAG" &
   worker1_pid=$!
   echo "Worker 1: $worker1_pid"
+  # Waiting for first worker to start
+  sleep 3
   yarn cypress run --browser electron --record --config "$cypress_config" --parallel --group "CI-$TAG" &
   worker2_pid=$!
   echo "Worker 2: $worker2_pid"
