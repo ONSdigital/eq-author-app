@@ -7,7 +7,7 @@ ENV NODE_ENV production
 
 COPY . /app
 WORKDIR /app
-RUN yarn install
+RUN yarn install --frozen-lockfile
 
 EXPOSE 9000
 
