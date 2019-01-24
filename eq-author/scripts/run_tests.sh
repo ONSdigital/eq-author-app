@@ -26,6 +26,8 @@ function finish {
 
   echo "stopping docker containers"
   docker-compose -f "$docker_compose" down
+  kill "$worker1_pid" || true
+  kill "$worker2_pid" || true
 }
 trap finish INT KILL TERM EXIT
 
