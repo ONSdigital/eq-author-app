@@ -49,12 +49,12 @@ cypress_config="watchForFileChanges=false"
 if [ -z "${CYPRESS_RECORD_KEY-}" ]; then
   yarn cypress run --browser chrome --config "$cypress_config"
 else
-  yarn cypress run --browser electron --record --config "$cypress_config" --group "CI-$TRAVIS_JOB_ID" --spec "$integration_folder/**/*.1.js"
+  yarn cypress run --browser electron --record --config "$cypress_config" --spec "$integration_folder/**/*.1.js"
   worker1_pid=$!
   echo "Worker 1: $worker1_pid"
   # Waiting for first worker to start
   sleep 10
-  yarn cypress run --browser electron --record --config "$cypress_config" --group "CI-$TRAVIS_JOB_ID" --spec "$integration_folder/**/*.2.js"
+  yarn cypress run --browser electron --record --config "$cypress_config" --spec "$integration_folder/**/*.2.js"
   worker2_pid=$!
   echo "Worker 2: $worker2_pid"
 
