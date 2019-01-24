@@ -3,9 +3,10 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 
+import { sortBy, get } from "lodash";
 import gql from "graphql-tag";
 import scrollIntoView from "utils/scrollIntoView";
-
+import IconArrow from "./icon-arrow-down.svg?inline";
 import Row from "App/QuestionnairesPage/QuestionnairesTable/Row";
 
 const Table = styled.table`
@@ -17,28 +18,52 @@ const Table = styled.table`
 `;
 
 const TH = styled.th`
-  padding: 0.5em 1em;
-  color: #666666;
+  padding: 1em;
+  color: #666;
   width: ${props => props.colWidth};
   border-bottom: 1px solid #e2e2e2;
   font-weight: normal;
   font-size: 0.9em;
-  font-weight: bold;
 `;
 
-TH.propTypes = {
-  colWidth: PropTypes.string.isRequired,
+const SortableWrapper = styled.span`
+  display: flex;
+  cursor: pointer;
+`;
+
+const Sortable = ({ children, onClick, sortKey }) => {
+  return (
+    <SortableWrapper onClick={() => onClick(sortKey)}>
+      {children}
+      <IconArrow />
+    </SortableWrapper>
+  );
 };
 
-const TableHead = () => {
+const TableHead = ({ onSortClick }) => {
   return (
     <thead>
       <tr>
-        <TH colWidth="40%">Title</TH>
-        <TH colWidth="15%">Created</TH>
-        <TH colWidth="15%">Modified</TH>
-        <TH colWidth="15%">Created by</TH>
-        <TH colWidth="15%" />
+        <TH colWidth="40%">
+          <Sortable onClick={onSortClick} sortKey="title">
+            Title
+          </Sortable>
+        </TH>
+        <TH colWidth="15%">
+          <Sortable onClick={onSortClick} sortKey="createdAt">
+            Created
+          </Sortable>
+        </TH>
+        <TH colWidth="15%">
+          <Sortable onClick={onSortClick} sortKey="createdAt">
+            Modified
+          </Sortable>
+        </TH>
+        <TH colWidth="15%">
+          <Sortable onClick={onSortClick} sortKey="createdBy.id">
+            Created by
+          </Sortable>
+        </TH>
       </tr>
     </thead>
   );
@@ -71,6 +96,7 @@ export class UnconnectedQuestionnairesTable extends React.PureComponent {
 
   state = {
     focusedId: null,
+    sortKey: "title",
   };
 
   handleDuplicateQuestionnaire = questionnaire => {
@@ -104,14 +130,20 @@ export class UnconnectedQuestionnairesTable extends React.PureComponent {
     this.props.onDeleteQuestionnaire(questionnaireId);
   };
 
+  handleSortClick = sortKey => {
+    this.setState({ sortKey });
+  };
+
   render() {
     const { questionnaires } = this.props;
 
     return (
       <Table>
-        <TableHead />
+        <TableHead onSortClick={this.handleSortClick} />
         <TBody>
-          {questionnaires.map((questionnaire, index) => {
+          {sortBy(questionnaires, q =>
+            get(q, this.state.sortKey).toLowerCase()
+          ).map((questionnaire, index) => {
             const dupe = questionnaire.id.startsWith("dupe");
 
             return (
