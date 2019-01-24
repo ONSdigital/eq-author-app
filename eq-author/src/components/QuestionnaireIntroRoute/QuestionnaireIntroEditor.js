@@ -10,8 +10,10 @@ import DetailsEditor from "./DetailsEditor";
 import iconCheck from "./icon-check.svg";
 
 const Section = styled.section`
-  border-bottom: 1px solid #e0e0e0;
-  margin-bottom: 2em;
+  &:not(:last-of-type) {
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 2em;
+  }
 `;
 
 const Padding = styled.div`
@@ -21,8 +23,6 @@ const Padding = styled.div`
 const SectionTitle = styled.h2`
   font-size: 1.1em;
   font-weight: bold;
-  /* text-transform: uppercase;
-  letter-spacing: 0.05em; */
   color: ${colors.text};
   margin: 0 0 1em;
 `;
@@ -30,13 +30,6 @@ const SectionTitle = styled.h2`
 const SectionDescription = styled.p`
   margin: 0.1em 0 1em;
   color: ${colors.textLight};
-`;
-
-const Box = styled.div`
-  border: 1px solid ${colors.bordersLight};
-  padding: 1em;
-  border-radius: 4px;
-  margin-bottom: 2em;
 `;
 
 const disabled = css`
@@ -51,16 +44,14 @@ const Toggle = styled.div`
 
 const titleControls = {
   emphasis: true,
-  piping: true,
-  link: false
+  piping: true
 };
 
 const descriptionControls = {
   bold: true,
   emphasis: true,
   piping: true,
-  list: true,
-  link: true
+  list: true
 };
 
 const LegalField = styled.div`
@@ -86,8 +77,7 @@ const LegalInput = styled(Input)`
 `;
 
 const LegalLabel = styled.label`
-  display: block;
-  padding: 1.5em;
+  padding: 2.5em 1.5em;
   border-radius: 4px;
   border: 1px solid ${colors.bordersLight};
   flex: 1 1 33.3333333%;
@@ -100,9 +90,8 @@ const LegalLabel = styled.label`
   background: #ffffff;
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.18);
   color: ${colors.textLight};
-  height: 13em;
-  transition: all 200ms ease-in-out;
   position: relative;
+  transition: padding 200ms ease-in-out;
 
   &:not(:last-of-type) {
     margin-right: 1em;
@@ -114,18 +103,28 @@ const LegalLabel = styled.label`
     box-shadow: 0 0 0 3px ${colors.tertiary};
   }
 
+  &::before {
+    content: url(${iconCheck});
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    margin: 0 auto;
+    z-index: 1;
+    transform: scale(0);
+    opacity: 0;
+    transition: all 100ms ease-out 100ms;
+    margin-top: -1.5em;
+    margin-bottom: 0.5em;
+  }
+
   ${props =>
     props.selected &&
     css`
-      border: 2px solid ${colors.primary};
+      border: 1px solid ${colors.primary};
+      padding: 3em 1.5em 2em;
       &::before {
-        content: url(${iconCheck});
-        display: inline-block;
-        width: 1em;
-        height: 1em;
-        position: absolute;
-        top: 0.5em;
-        z-index: 1;
+        transform: scale(1);
+        opacity: 1;
       }
     `};
 `;

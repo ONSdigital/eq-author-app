@@ -166,50 +166,57 @@ class DetailsEditor extends React.Component {
             const isMoving = this.elementIsMoving(index);
             return (
               <Transition key={index} onEntered={this.handleTransitionEnd}>
-                <Detail
-                  key={id}
-                  id={id}
-                  innerRef={node => this.setDetailRef(index, node)}
-                  {...this.handleMoving(index)}
-                >
-                  <DetailHeader>
-                    <MoveButton
-                      icon={IconUp}
-                      disabled={index === 0}
-                      onClick={() => this.handleMoveClick(id, index, UP)}
-                    />
-                    <MoveButton
-                      icon={IconDown}
-                      disabled={index === details.length - 1}
-                      onClick={() => this.handleMoveClick(id, index, DOWN)}
-                    />
-                    <DetailDeleteButton
-                      onClick={() => onRemoveDetail(id)}
-                      disabled={!isMoving}
-                    />
-                  </DetailHeader>
+                <div>
+                  <Detail
+                    key={id}
+                    id={id}
+                    innerRef={node => this.setDetailRef(index, node)}
+                    {...this.handleMoving(index)}
+                  >
+                    <DetailHeader>
+                      <MoveButton
+                        icon={IconUp}
+                        disabled={index === 0}
+                        onClick={() => this.handleMoveClick(id, index, UP)}
+                      />
+                      <MoveButton
+                        icon={IconDown}
+                        disabled={index === details.length - 1}
+                        onClick={() => this.handleMoveClick(id, index, DOWN)}
+                      />
+                      <DetailDeleteButton
+                        onClick={() => onRemoveDetail(id)}
+                        disabled={!isMoving}
+                      />
+                    </DetailHeader>
 
-                  <SmallRichTextEditor
-                    id={`details-title-${id}`}
-                    name={`details-title-${id}`}
-                    onUpdate={onChange}
-                    label="Title"
-                    value={title}
-                    bold
-                    data-autofocus
-                    toolbar={false}
-                  />
+                    <SmallRichTextEditor
+                      id={`details-title-${id}`}
+                      name={`details-title-${id}`}
+                      onUpdate={onChange}
+                      label="Title"
+                      value={title}
+                      bold
+                      data-autofocus
+                      toolbar={false}
+                    />
 
-                  <RichTextEditor
-                    id={`details-description-${id}`}
-                    name={`details-description-${id}`}
-                    label="Description"
-                    value={description}
-                    onUpdate={onChange}
-                    controls={{ emphasis: true, piping: false }}
-                    multiline
-                  />
-                </Detail>
+                    <RichTextEditor
+                      id={`details-description-${id}`}
+                      name={`details-description-${id}`}
+                      label="Description"
+                      value={description}
+                      onUpdate={onChange}
+                      controls={{
+                        emphasis: true,
+                        piping: false,
+                        list: true,
+                        bold: true
+                      }}
+                      multiline
+                    />
+                  </Detail>
+                </div>
               </Transition>
             );
           })}
