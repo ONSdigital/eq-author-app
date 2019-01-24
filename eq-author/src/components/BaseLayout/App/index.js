@@ -1,12 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { createGlobalStyle, ThemeProvider } from "styled-components";
+import { injectGlobal, ThemeProvider } from "styled-components";
 import theme, { colors } from "constants/theme";
 
 import { lostConnection, gainConnection } from "redux/saving/actions";
 
-const GlobalStyle = createGlobalStyle`
+/* eslint no-unused-expressions: 0 */
+injectGlobal`
   html {
     box-sizing: border-box;
   }
@@ -68,14 +69,7 @@ export class UnconnectedApp extends React.Component {
   };
 
   render() {
-    return (
-      <ThemeProvider theme={theme}>
-        <React.Fragment>
-          <GlobalStyle />
-          {this.props.children}
-        </React.Fragment>
-      </ThemeProvider>
-    );
+    return <ThemeProvider theme={theme}>{this.props.children}</ThemeProvider>;
   }
 }
 
