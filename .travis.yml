@@ -32,7 +32,7 @@ script:
   - docker push onsdigital/eq-publisher:$TAG
 
 before_deploy:
-  - if ["$TRAVIS_BRANCH" == "master"]; then pushd eq-author; yarn storybook-build; popd; fi
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then pushd eq-author; yarn storybook-build; popd; fi
 
 deploy:
   local_dir: eq-author/storybook-static
