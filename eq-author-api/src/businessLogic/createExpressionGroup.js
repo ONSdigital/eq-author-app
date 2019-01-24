@@ -1,5 +1,5 @@
 const uuid = require("uuid");
-const createExpression = require("./createExpresion");
+const createExpression = require("./createExpression");
 
 module.exports = input => ({
   id: uuid.v4(),

@@ -19,7 +19,7 @@ module.exports = ({ repositories }) => {
 
     const result = find({ id })(list);
     if (isNil(result)) {
-      throw new Error(`The provided desination is invalid`);
+      throw new Error(`The provided destination is invalid`);
     }
   };
 

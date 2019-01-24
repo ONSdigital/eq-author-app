@@ -8,13 +8,14 @@ const isMutuallyExclusiveDestination = isMutuallyExclusive([
 
 const { flatMap, find } = require("lodash/fp");
 const save = require("../../../../utils/saveQuestionnaire");
-const createRouting = require("../../../../src/businessLogic/createRouting");
-const createDestination = require("../../../../src/businessLogic/createDestination");
-const getNextDestination = require("../../../../src/businessLogic/getNextDestination");
-const createRoutingRule = require("../../../../src/businessLogic/createRoutingRule");
-const createExpressionGroup = require("../../../../src/businessLogic/createExpressionGroup");
-const createExpression = require("../../../../src/businessLogic/createExpresion");
-
+const {
+  createRouting,
+  createDestination,
+  createRoutingRule,
+  createExpressionGroup,
+  createExpression,
+  createLeftSide,
+} = require("../../../../src/businessLogic");
 const Resolvers = {};
 
 Resolvers.Routing2 = {
@@ -39,23 +40,21 @@ Resolvers.Mutation = {
       throw new Error("Can only have one Routing per Page.");
     }
 
-    const nextDestination = getNextDestination(ctx.questionnaire, page.id);
-
     page.routing = createRouting({
-      else: createDestination(nextDestination),
+      else: createDestination({ logical: "NextPage" }),
       rules: [
         createRoutingRule({
           expressionGroup: createExpressionGroup({
             expressions: [
               createExpression({
-                left: {
+                left: createLeftSide({
                   type: "Null",
                   nullReason: "NoRoutableAnswerOnPage",
-                },
+                }),
               }),
             ],
           }),
-          destination: createDestination(nextDestination),
+          destination: createDestination({ logical: "NextPage" }),
         }),
       ],
     });
@@ -67,10 +66,16 @@ Resolvers.Mutation = {
       throw new Error("Can only provide one destination.");
     }
 
-    return ctx.modifiers.Routing.update({
-      id: input.id,
-      else: input.else,
-    });
+    const allRouting = flatMap(
+      page => page.routing,
+      flatMap(section => section.pages, ctx.questionnaire.sections)
+    );
+
+    const routing = find({ id: input.id }, allRouting);
+
+    routing.else = input.else;
+    save(ctx.questionnaire);
+    return routing;
   },
 };
 
