@@ -77,12 +77,6 @@ module.exports = knex => {
       .then(head);
   };
 
-  const undelete = function(id) {
-    return QuestionPage(knex)
-      .update(id, { isDeleted: false })
-      .then(head);
-  };
-
   const getPipingAnswersForQuestionPage = id =>
     getPreviousAnswersForPage({
       id,
@@ -118,7 +112,6 @@ module.exports = knex => {
     insert,
     update,
     remove,
-    undelete,
     getPipingAnswersForQuestionPage,
     getPipingMetadataForQuestionPage,
     getRoutingQuestionsForQuestionPage,

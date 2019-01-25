@@ -32,7 +32,7 @@ const handleDeletion = (
 };
 
 const displayToast = (ownProps, sectionId, pageId) => {
-  ownProps.raiseToast(`Page${pageId}`, "Page deleted", "undeletePage", {
+  ownProps.raiseToast(`Page${pageId}`, "Page deleted", {
     sectionId,
     pageId,
   });

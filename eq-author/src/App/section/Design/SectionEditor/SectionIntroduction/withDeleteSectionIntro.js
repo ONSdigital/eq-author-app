@@ -2,18 +2,14 @@ import { graphql } from "react-apollo";
 
 import deleteSectionIntroMutation from "./deleteSectionIntro.graphql";
 
-export const displayToast = (ownProps, sectionIntro) => {
-  const { id, introductionTitle, introductionContent } = sectionIntro;
-  ownProps.raiseToast(
-    `Section${id}`,
-    "Section introduction deleted",
-    "undeleteSectionIntroduction",
-    {
-      id,
-      introductionTitle,
-      introductionContent,
-    }
-  );
+export const displayToast = (ownProps, section) => {
+  const { id, introductionTitle, introductionContent } = section;
+  ownProps.raiseToast(`Section${id}`, "Section introduction deleted", {
+    id,
+    introductionTitle,
+    introductionContent,
+    introductionEnabled: true,
+  });
 };
 
 export const mapMutateToProps = ({ ownProps, mutate }) => ({

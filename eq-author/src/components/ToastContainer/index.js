@@ -2,17 +2,10 @@ import React from "react";
 import { connect } from "react-redux";
 import { map } from "lodash";
 import * as ToastActionCreators from "redux/toast/actions";
-import * as UndeleteQuestionnaireActions from "redux/undelete/undeleteQuestionnaire";
-import * as UndeleteSectionActions from "redux/undelete/undeleteSection";
-import * as UndeleteSectionIntroductionActions from "redux/undelete/undeleteSectionIntroduction";
-import * as UndeletePageActions from "redux/undelete/undeletePage";
-import * as UndeleteAnswerActions from "redux/undelete/undeleteAnswer";
-import * as UndeleteQuestionConfirmation from "redux/undelete/undeleteQuestionConfirmation";
 import Toast from "components/Forms/Toast";
 import ToastList from "components/Forms/Toast/ToastList";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import { colors } from "constants/theme";
 
 const mapStateToProps = state => {
   return {
@@ -21,17 +14,7 @@ const mapStateToProps = state => {
 };
 
 const StyledDiv = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-`;
-
-export const UndoButton = styled.button`
-  background: none;
-  border: none;
-  color: ${colors.lightBlue};
-  margin-left: 2em;
-  font-size: inherit;
+  text-align: center;
 `;
 
 const ToastOuterContainer = styled.div`
@@ -55,12 +38,7 @@ const ToastWrapper = styled.div`
   justify-content: center;
 `;
 
-export const ToastArea = ({
-  toasts,
-  dismissToast,
-  undoToast,
-  ...otherProps
-}) => {
+export const ToastArea = ({ toasts, dismissToast, ...otherProps }) => {
   return (
     <ToastWrapper>
       <ToastOuterContainer>
@@ -68,23 +46,7 @@ export const ToastArea = ({
           <ToastList>
             {map(toasts, (toast, id) => (
               <Toast key={id} id={id} timeout={5000} onClose={dismissToast}>
-                <StyledDiv>
-                  {toast.message}
-                  {toast.undoAction && (
-                    <UndoButton
-                      data-test="btn-undo"
-                      onClick={() =>
-                        undoToast(
-                          id,
-                          otherProps[toast.undoAction],
-                          toast.context
-                        )
-                      }
-                    >
-                      Undo
-                    </UndoButton>
-                  )}
-                </StyledDiv>
+                <StyledDiv>{toast.message}</StyledDiv>
               </Toast>
             ))}
           </ToastList>
@@ -102,14 +64,5 @@ ToastArea.propTypes = {
 
 export default connect(
   mapStateToProps,
-  Object.assign(
-    {},
-    UndeleteQuestionnaireActions,
-    UndeleteSectionActions,
-    UndeleteSectionIntroductionActions,
-    UndeletePageActions,
-    UndeleteAnswerActions,
-    UndeleteQuestionConfirmation,
-    ToastActionCreators
-  )
+  Object.assign({}, ToastActionCreators)
 )(ToastArea);

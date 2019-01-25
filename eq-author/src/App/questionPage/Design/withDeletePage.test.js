@@ -146,7 +146,6 @@ describe("withDeletePage", () => {
             expect(raiseToast).toHaveBeenCalledWith(
               `Page${deletedPage.id}`,
               expect.stringContaining("Page"),
-              "undeletePage",
               expect.objectContaining({
                 sectionId: deletedPage.sectionId,
                 pageId: deletedPage.id,

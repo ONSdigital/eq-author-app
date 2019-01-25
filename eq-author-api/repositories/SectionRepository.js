@@ -73,12 +73,6 @@ module.exports = knex => {
       .then(head);
   };
 
-  const undelete = function(id) {
-    return Section(knex)
-      .update(id, { isDeleted: false })
-      .then(head);
-  };
-
   const move = function({ id, questionnaireId, position }) {
     return knex.transaction(trx => {
       return getOrUpdateOrderForSectionInsert(
@@ -154,7 +148,6 @@ module.exports = knex => {
     insert,
     update,
     remove,
-    undelete,
     move,
     getPosition,
     getSectionCount,

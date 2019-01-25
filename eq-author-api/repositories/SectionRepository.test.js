@@ -128,7 +128,6 @@ describe("SectionRepository", () => {
     );
 
     await SectionRepository.remove(section.id);
-    await SectionRepository.undelete(section.id);
 
     const result = await SectionRepository.getById(section.id);
     expect(result).toMatchObject(section);
@@ -325,8 +324,6 @@ describe("SectionRepository", () => {
         questionnaireId: questionnaireId,
         position: 2,
       });
-
-      await SectionRepository.undelete(sections[3].id);
 
       const updatedResults = await SectionRepository.findAll({
         questionnaireId: questionnaireId,

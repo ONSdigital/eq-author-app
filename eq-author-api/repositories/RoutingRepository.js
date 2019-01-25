@@ -210,10 +210,6 @@ module.exports = knex => {
     return Routing.deleteRoutingCondition(id).then(() => null);
   }
 
-  function undeleteRoutingRule(id) {
-    return Routing.updateRoutingRule(id, { isDeleted: false }).then(head);
-  }
-
   const getRoutingDestination = async routingDestinationId => {
     const destination = await Routing.findRoutingDestinationById(
       routingDestinationId
@@ -239,7 +235,6 @@ module.exports = knex => {
   };
 
   return {
-    undeleteRoutingRule,
     removeRoutingCondition,
     removeRoutingRule,
     updateRoutingCondition,

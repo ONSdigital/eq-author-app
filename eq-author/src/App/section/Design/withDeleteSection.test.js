@@ -118,7 +118,6 @@ describe("withDeleteSection", () => {
           expect(raiseToast).toHaveBeenCalledWith(
             `Section${currentSection.id}`,
             expect.stringContaining("Section"),
-            "undeleteSection",
             expect.objectContaining({
               questionnaireId: questionnaire.id,
               sectionId: currentSection.id,
@@ -135,7 +134,6 @@ describe("withDeleteSection", () => {
           expect(raiseToast).toHaveBeenCalledWith(
             `Section${currentSection.id}`,
             expect.stringContaining("1 page"),
-            "undeleteSection",
             expect.objectContaining({
               questionnaireId: questionnaire.id,
               sectionId: currentSection.id,
@@ -151,7 +149,6 @@ describe("withDeleteSection", () => {
           expect(raiseToast).toHaveBeenCalledWith(
             `Section${currentSection.id}`,
             expect.stringContaining("2 pages"),
-            "undeleteSection",
             expect.objectContaining({
               questionnaireId: questionnaire.id,
               sectionId: currentSection.id,

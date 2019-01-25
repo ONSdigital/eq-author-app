@@ -27,7 +27,6 @@ export const displayToast = (ownProps, questionnaireId) => {
   ownProps.raiseToast(
     `Questionnaire${questionnaireId}`,
     "Questionnaire deleted",
-    "undeleteQuestionnaire",
     { questionnaireId }
   );
 };

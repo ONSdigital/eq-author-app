@@ -85,11 +85,6 @@ module.exports = knex => {
 
   const remove = id => knex.transaction(trx => deleteOption(trx, id));
 
-  const undelete = id =>
-    Option(knex)
-      .update(id, { isDeleted: false })
-      .then(head);
-
   return {
     findAll,
     findExclusiveOptionByAnswerId,
@@ -97,6 +92,5 @@ module.exports = knex => {
     insert,
     update,
     remove,
-    undelete,
   };
 };

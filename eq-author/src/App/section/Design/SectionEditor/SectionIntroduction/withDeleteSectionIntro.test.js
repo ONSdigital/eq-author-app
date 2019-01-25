@@ -39,7 +39,6 @@ describe("enhancers > withDeleteSectionIntro", () => {
         expect(ownProps.raiseToast).toHaveBeenCalledWith(
           `Section${sectionIntro.id}`,
           "Section introduction deleted",
-          "undeleteSectionIntroduction",
           {
             id: sectionIntro.id,
             introductionTitle: sectionIntro.introductionTitle,

@@ -235,8 +235,6 @@ const Resolvers = {
       saveQuestionnaireList(questionnaireList);
       return deletedQuestionnaire;
     },
-    undeleteQuestionnaire: (_, args, ctx) =>
-      ctx.repositories.Questionnaire.undelete(args.input.id),
 
     duplicateQuestionnaire: (_, { input }, ctx) => {
       const questionnaire = getQuestionnaireById(input.id);
@@ -267,10 +265,12 @@ const Resolvers = {
       return section;
     },
     deleteSection: (root, { input }, ctx) => {
-      return remove(ctx.questionnaire.sections, { id: input.sectionId });
+      const section = first(
+        remove(ctx.questionnaire.sections, { id: input.id })
+      );
+      save(ctx.questionnaire);
+      return section;
     },
-    undeleteSection: (_, args, ctx) =>
-      ctx.repositories.Section.undelete(args.input.id), // TODO
 
     createSectionIntroduction: (
       _,
@@ -341,8 +341,6 @@ const Resolvers = {
       save(ctx.questionnaire);
       return removedPage;
     },
-    undeletePage: (_, args, ctx) =>
-      ctx.repositories.Page.undelete(args.input.id),
 
     movePage: (_, { input }, ctx) => {
       const section = findSectionByPageId(ctx.questionnaire.sections, input.id);
@@ -391,8 +389,6 @@ const Resolvers = {
       save(ctx.questionnaire);
       return removedPage[0];
     },
-    undeleteQuestionPage: (_, args, ctx) =>
-      ctx.repositories.QuestionPage.undelete(args.input.id),
 
     createAnswer: async (root, { input }, ctx) => {
       const page = getPage(ctx)({ pageId: input.questionPageId });
@@ -436,8 +432,6 @@ const Resolvers = {
 
       // await ctx.modifiers.BinaryExpression.onAnswerDeleted(deletedAnswer); // TODO
     },
-    undeleteAnswer: (_, args, ctx) =>
-      ctx.repositories.Answer.undelete(args.input.id),
 
     createOption: async (root, { input }, ctx) => {
       const pages = flatMap(
@@ -512,8 +506,6 @@ const Resolvers = {
 
       return removedOption;
     },
-    undeleteOption: (_, args, ctx) =>
-      ctx.repositories.Option.undelete(args.input.id),
     createRoutingRuleSet: (root, { input }, ctx) => {
       const page = find(
         flatMap(ctx.questionnaire.sections, section => section.pages),
@@ -554,8 +546,6 @@ const Resolvers = {
       ctx.repositories.Routing.updateRoutingRule(args.input),
     deleteRoutingRule: (_, args, ctx) =>
       ctx.repositories.Routing.removeRoutingRule(args.input),
-    undeleteRoutingRule: (_, args, ctx) =>
-      ctx.repositories.Routing.undeleteRoutingRule(args.input),
     createRoutingCondition: (_, args, ctx) =>
       ctx.repositories.Routing.createRoutingCondition(args.input),
     updateRoutingCondition: (_, args, ctx) =>
@@ -691,8 +681,6 @@ const Resolvers = {
         ...confirmationPage,
       };
     },
-    undeleteQuestionConfirmation: (_, { input }, ctx) =>
-      ctx.repositories.QuestionConfirmation.restore(input.id),
   },
 
   Questionnaire: {
