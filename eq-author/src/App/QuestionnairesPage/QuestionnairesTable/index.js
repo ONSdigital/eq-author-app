@@ -33,6 +33,7 @@ const SortButton = styled.span`
   display: flex;
   align-items: center;
   cursor: pointer;
+  opacity: 0.8;
 
   &::after {
     content: url(${iconArrow});
@@ -41,6 +42,10 @@ const SortButton = styled.span`
     height: 16px;
     opacity: ${props => (props.active ? "0.8" : "0.2")};
     transform: rotate(${props => (props.order === DESC ? "0deg" : "180deg")});
+  }
+
+  &:hover {
+    opacity: 1;
   }
 `;
 
@@ -74,19 +79,19 @@ const TableHead = props => {
   return (
     <thead>
       <tr>
-        <SortableTH sortKey="title" colWidth="40%" {...props}>
+        <SortableTH sortKey="title" colWidth="35%" {...props}>
           Title
         </SortableTH>
-        <SortableTH sortKey="createdAt" colWidth="10%" {...props}>
+        <SortableTH sortKey="createdAt" colWidth="12.5%" {...props}>
           Created
         </SortableTH>
-        <SortableTH sortKey="modifiedAt" colWidth="10%" {...props}>
+        <SortableTH sortKey="modifiedAt" colWidth="12.5%" {...props}>
           Modified
         </SortableTH>
-        <SortableTH sortKey="createdBy.id" colWidth="10%" {...props}>
+        <SortableTH sortKey="createdBy.id" colWidth="17%" {...props}>
           Created by
         </SortableTH>
-        <TH colWidth="10%" />
+        <TH colWidth="12%" />
       </tr>
     </thead>
   );
