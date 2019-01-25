@@ -51,7 +51,7 @@ services:
       - 19000:9000
 
   eq-author-db:
-    image: postgres
+    image: postgres:9.4-alpine
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: mysecretpassword
