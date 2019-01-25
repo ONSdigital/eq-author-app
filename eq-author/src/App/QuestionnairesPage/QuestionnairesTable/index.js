@@ -9,8 +9,8 @@ import scrollIntoView from "utils/scrollIntoView";
 import iconArrow from "./icon-arrow-down.svg";
 import Row from "App/QuestionnairesPage/QuestionnairesTable/Row";
 
-const ASC = ASC;
-const DESC = DESC;
+const ASC = "ascending";
+const DESC = "descending";
 
 const Table = styled.table`
   width: 100%;
