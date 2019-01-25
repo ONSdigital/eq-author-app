@@ -1,4 +1,5 @@
-import { question, questionnaire, section } from "../builders";
+import omitDeep from "omit-deep-lodash";
+import { question, questionnaire, section } from "../../builders";
 
 const assertSecurityHeaders = response => {
   expect(response.headers["referrer-policy"]).to.equal("no-referrer");
@@ -16,7 +17,7 @@ describe("End to end", () => {
   let questionnaireId;
   it("Has correct response headers", () => {
     cy.request({
-      url: "http://localhost:14000/graphql",
+      url: `${Cypress.env("API_URL") || "http://localhost:4000"}/graphql`,
       method: "POST",
       failOnStatusCode: false,
     }).then(response => {
@@ -61,18 +62,22 @@ describe("End to end", () => {
   });
 
   it("Publishes successfully", () => {
-    cy.request(`http://localhost:19000/publish/${questionnaireId}`).then(
-      response => {
-        // Use this to grab a copy of what was sent from publisher
-        // cy.writeFile(
-        //   "cypress/fixtures/publisher_new.json",
-        //   JSON.stringify(response.body, null, 2)
-        // );
-        assertSecurityHeaders(response);
-        cy.fixture("publisher.json").then(expectedBody => {
-          expect(response.body).to.deep.equal(expectedBody);
-        });
-      }
-    );
+    const fieldsToIgnore = ["id", "form_type", "eq_id", "survey_id"];
+    cy.request(
+      `${Cypress.env("PUBLISHER_URL") ||
+        "http://localhost:9000"}/publish/${questionnaireId}`
+    ).then(response => {
+      // Use this to grab a copy of what was sent from publisher
+      // cy.writeFile(
+      //   "cypress/fixtures/publisher_new.json",
+      //   JSON.stringify(response.body, null, 2)
+      // );
+      assertSecurityHeaders(response);
+      cy.fixture("publisher.json").then(expectedBody => {
+        expect(omitDeep(response.body, ...fieldsToIgnore)).to.deep.equal(
+          omitDeep(expectedBody, ...fieldsToIgnore)
+        );
+      });
+    });
   });
 });

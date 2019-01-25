@@ -39,15 +39,13 @@ if [ "$1" == "integration" ]; then
   integration_folder="cypress/integration";
 elif [ "$1" == "routing_e2e" ]; then 
   integration_folder="cypress/routingTests";
-else
-  integration_folder="cypress/e2e";
 fi
 
 cypress_config="watchForFileChanges=false,integrationFolder=$integration_folder"
 
 # Run the tests
 if [ -z "${CYPRESS_RECORD_KEY-}" ]; then
-  yarn cypress run --browser chrome --config "$cypress_config"
+  CYPRESS_PUBLISHER_URL=http://localhost:19000 CYPRESS_API_URL=http://localhost:14000 yarn cypress run --browser chrome --config "$cypress_config"
 else
-  yarn cypress run --browser electron --record --config "$cypress_config"
+  CYPRESS_PUBLISHER_URL=http://localhost:19000 CYPRESS_API_URL=http://localhost:14000  yarn cypress run --browser electron --record --config "$cypress_config"
 fi
