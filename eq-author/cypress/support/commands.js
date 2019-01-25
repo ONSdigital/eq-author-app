@@ -4,7 +4,7 @@ import { get } from "lodash/fp";
 
 Cypress.Commands.add("login", options => {
   const tokenPayload = {
-    user_id: "CypressUserId",
+    sub: "CypressUserId",
     name: get("displayName", options) || "Cypress",
     email: "cypresstest@ons.gov.uk",
     picture: "",

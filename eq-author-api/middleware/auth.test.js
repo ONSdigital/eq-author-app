@@ -88,10 +88,8 @@ describe("auth middleware", () => {
     });
 
     describe("valid token", () => {
-      let payload;
-
-      beforeEach(() => {
-        payload = {
+      it("should add token payload to context if valid token", () => {
+        let payload = {
           payload: {
             data: {
               some: "value",
@@ -101,15 +99,30 @@ describe("auth middleware", () => {
 
         const expected = jwt.sign(payload, uuid.v4());
         req.header.mockImplementation(() => `Bearer ${expected}`);
-      });
-
-      it("should add token payload to context if valid token", () => {
         middleware(req, res, next);
         expect(context.auth).toMatchObject(payload);
+        expect(next).toHaveBeenCalled();
       });
 
-      it("should call next middleware function", () => {
+      it("should add token payload to context if valid token with padding", () => {
+        let payload = {
+          payload: {
+            data: {
+              some: "value",
+            },
+          },
+        };
+
+        const expected = jwt.sign(payload, uuid.v4());
+        const position = expected.indexOf(".");
+        const expectedWithEquals = [
+          expected.slice(0, position),
+          "==",
+          expected.slice(position),
+        ].join("");
+        req.header.mockImplementation(() => `Bearer ${expectedWithEquals}`);
         middleware(req, res, next);
+        expect(context.auth).toMatchObject(payload);
         expect(next).toHaveBeenCalled();
       });
     });

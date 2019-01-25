@@ -18,6 +18,8 @@ const config = {
     process.env.REACT_APP_FULLSTORY_ORG,
   REACT_APP_SENTRY_DSN:
     window.config.REACT_APP_SENTRY_DSN || process.env.REACT_APP_SENTRY_DSN,
+  REACT_APP_AUTH_TYPE:
+    window.config.REACT_APP_AUTH_TYPE || process.env.REACT_APP_AUTH_TYPE,
 };
 
 export default config;

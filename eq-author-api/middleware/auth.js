@@ -2,14 +2,14 @@ const { isNil, isEmpty } = require("lodash/fp");
 const jwt = require("jsonwebtoken");
 
 module.exports = (logger, context) => (req, res, next) => {
-  const authHeader = req.header("authorization");
+  const authHeader = req.header(process.env.AUTH_HEADER_KEY || "authorization");
   if (isNil(authHeader)) {
     logger.error("Request must contain a valid authorization header.");
     res.send(401);
     return;
   }
 
-  const accessToken = authHeader.replace("Bearer ", "");
+  const accessToken = authHeader.replace("Bearer ", "").replace(/=/g, "");
   if (isEmpty(accessToken)) {
     logger.error("Request must contain a valid access token.");
     res.send(401);
