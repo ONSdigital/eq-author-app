@@ -25,6 +25,8 @@ module.exports = knex => {
     order,
     definitionLabel,
     definitionContent,
+    additionalInfoLabel,
+    additionalInfoContent,
   }) {
     return QuestionPage(knex)
       .create({
@@ -36,6 +38,8 @@ module.exports = knex => {
         order,
         definitionLabel,
         definitionContent,
+        additionalInfoLabel,
+        additionalInfoContent,
       })
       .then(head);
   };
@@ -49,6 +53,8 @@ module.exports = knex => {
     isDeleted,
     definitionLabel,
     definitionContent,
+    additionalInfoLabel,
+    additionalInfoContent,
   }) {
     return QuestionPage(knex)
       .update(id, {
@@ -59,6 +65,8 @@ module.exports = knex => {
         isDeleted,
         definitionLabel,
         definitionContent,
+        additionalInfoLabel,
+        additionalInfoContent,
       })
       .then(head);
   };

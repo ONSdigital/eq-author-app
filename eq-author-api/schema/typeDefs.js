@@ -72,6 +72,8 @@ type QuestionPage implements Page {
   position: Int!
   definitionLabel: String
   definitionContent: String
+  additionalInfoLabel: String
+  additionalInfoContent: String
   routingRuleSet: RoutingRuleSet
   availablePipingAnswers: [Answer!]!
   availablePipingMetadata: [Metadata!]!
@@ -722,6 +724,8 @@ input CreateQuestionPageInput {
   position: Int
   definitionLabel: String
   definitionContent: String
+  additionalInfoLabel: String
+  additionalInfoContent: String
 }
 
 input UpdateQuestionPageInput {
@@ -732,6 +736,8 @@ input UpdateQuestionPageInput {
   guidance: String
   definitionLabel: String
   definitionContent: String
+  additionalInfoLabel: String
+  additionalInfoContent: String
 }
 
 input DeleteQuestionPageInput {

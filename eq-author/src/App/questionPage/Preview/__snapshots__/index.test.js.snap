@@ -4,6 +4,8 @@ exports[`PreviewPageRoute should render 1`] = `
 <EditorLayout
   page={
     Object {
+      "additionalInfoContent": "<p>Additional Info Content</p>",
+      "additionalInfoLabel": "<p>Additional Info Label</p>",
       "answers": Array [
         Object {
           "id": "1",
@@ -42,17 +44,6 @@ exports[`PreviewPageRoute should render 1`] = `
       }
       data-test="description"
     />
-    <Preview__Guidance
-      data-test="guidance"
-    >
-      <Preview__Panel
-        dangerouslySetInnerHTML={
-          Object {
-            "__html": "<p>Guidance</p>",
-          }
-        }
-      />
-    </Preview__Guidance>
     <Preview__Details
       data-test="definition"
     >
@@ -69,6 +60,17 @@ exports[`PreviewPageRoute should render 1`] = `
         />
       </Preview__DetailsContent>
     </Preview__Details>
+    <Preview__Guidance
+      data-test="guidance"
+    >
+      <Preview__Panel
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "<p>Guidance</p>",
+          }
+        }
+      />
+    </Preview__Guidance>
     <Preview__Answers>
       <Answer
         answer={
@@ -80,6 +82,22 @@ exports[`PreviewPageRoute should render 1`] = `
         key="1"
       />
     </Preview__Answers>
+    <Preview__Details
+      data-test="additional-info"
+    >
+      <Preview__DetailsTitle>
+        &lt;p&gt;Additional Info Label&lt;/p&gt;
+      </Preview__DetailsTitle>
+      <Preview__DetailsContent>
+        <span
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "<p>Additional Info Content</p>",
+            }
+          }
+        />
+      </Preview__DetailsContent>
+    </Preview__Details>
   </Preview__Container>
 </EditorLayout>
 `;
@@ -90,4 +108,48 @@ exports[`PreviewPageRoute should render a loading message when loading 1`] = `
 >
   Preview loading…
 </Loading>
+`;
+
+exports[`PreviewPageRoute should render additional info content missing message 1`] = `
+<Preview__DetailsContent>
+  <Error
+    large={true}
+    margin={false}
+  >
+    Missing additional information content
+  </Error>
+</Preview__DetailsContent>
+`;
+
+exports[`PreviewPageRoute should render additional info label missing message 1`] = `
+<Preview__DetailsTitle>
+  <Error
+    margin={true}
+    small={true}
+  >
+    Missing additional information label
+  </Error>
+</Preview__DetailsTitle>
+`;
+
+exports[`PreviewPageRoute should render definition content missing message 1`] = `
+<Preview__DetailsContent>
+  <Error
+    large={true}
+    margin={false}
+  >
+    Missing definition content
+  </Error>
+</Preview__DetailsContent>
+`;
+
+exports[`PreviewPageRoute should render definition label missing message 1`] = `
+<Preview__DetailsTitle>
+  <Error
+    margin={true}
+    small={true}
+  >
+    Missing definition label
+  </Error>
+</Preview__DetailsTitle>
 `;

@@ -113,6 +113,27 @@ describe("builder", () => {
     );
   });
 
+  it("Can edit question additional information", () => {
+    const additionalInfoLabel = "this is some additionalInfo label";
+    cy.get(testId("txt-question-additional-info-label")).type(
+      additionalInfoLabel
+    );
+    cy.get(testId("txt-question-additional-info-label")).should(
+      "contain",
+      additionalInfoLabel
+    );
+
+    const additionalInfoContent = "this is some additionalInfo content";
+    typeIntoDraftEditor(
+      testId("txt-question-additional-info-content", "testid"),
+      additionalInfoContent
+    );
+    cy.get(testId("txt-question-additional-info-content", "testid")).should(
+      "contain",
+      additionalInfoContent
+    );
+  });
+
   it("Can delete a page", () => {
     checkIsOnDesignPage();
 

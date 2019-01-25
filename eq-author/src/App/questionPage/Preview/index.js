@@ -66,7 +66,7 @@ const Details = styled.div`
   margin-bottom: 1em;
 `;
 
-const DetailsTitle = styled.div`
+export const DetailsTitle = styled.div`
   display: flex;
   align-items: center;
   color: ${colors.primary};
@@ -82,7 +82,7 @@ const DetailsTitle = styled.div`
   }
 `;
 
-const DetailsContent = styled.div`
+export const DetailsContent = styled.div`
   border-left: 2px solid #999;
   margin-left: 6px;
   padding: 0.2em 0 0.2em 1em;
@@ -99,6 +99,8 @@ export const UnwrappedPreviewPageRoute = ({ loading, data }) => {
     guidance,
     definitionLabel,
     definitionContent,
+    additionalInfoLabel,
+    additionalInfoContent,
     answers,
   } = questionPage;
 
@@ -112,12 +114,6 @@ export const UnwrappedPreviewPageRoute = ({ loading, data }) => {
             data-test="description"
             dangerouslySetInnerHTML={{ __html: description }}
           />
-        )}
-
-        {guidance && (
-          <Guidance data-test="guidance">
-            <Panel dangerouslySetInnerHTML={{ __html: guidance }} />
-          </Guidance>
         )}
 
         {(!isEmpty(definitionLabel) || !isEmpty(definitionContent)) && (
@@ -137,6 +133,12 @@ export const UnwrappedPreviewPageRoute = ({ loading, data }) => {
           </Details>
         )}
 
+        {guidance && (
+          <Guidance data-test="guidance">
+            <Panel dangerouslySetInnerHTML={{ __html: guidance }} />
+          </Guidance>
+        )}
+
         {answers.length ? (
           <Answers>
             {answers.map(answer => (
@@ -149,6 +151,27 @@ export const UnwrappedPreviewPageRoute = ({ loading, data }) => {
               No answers have been added to this question.
             </IconText>
           </Error>
+        )}
+
+        {(!isEmpty(additionalInfoLabel) || !isEmpty(additionalInfoContent)) && (
+          <Details data-test="additional-info">
+            <DetailsTitle>
+              {additionalInfoLabel || (
+                <Error small>Missing additional information label</Error>
+              )}
+            </DetailsTitle>
+            <DetailsContent>
+              {additionalInfoContent ? (
+                <span
+                  dangerouslySetInnerHTML={{ __html: additionalInfoContent }}
+                />
+              ) : (
+                <Error large margin={false}>
+                  Missing additional information content
+                </Error>
+              )}
+            </DetailsContent>
+          </Details>
         )}
       </Container>
     </EditorLayout>

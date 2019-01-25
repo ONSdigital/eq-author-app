@@ -6,4 +6,6 @@ fragment Page on QuestionPage {
   guidance
   definitionLabel
   definitionContent
+  additionalInfoLabel
+  additionalInfoContent
 }

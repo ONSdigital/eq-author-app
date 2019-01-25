@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MultipleFieldEditor should render 1`] = `
+<Fragment>
+  <MultipleFieldEditor__Label>
+    foobar
+  </MultipleFieldEditor__Label>
+  <MultipleFieldEditor__Content>
+    <MultipleFieldEditor__Padding>
+      <p>
+        Test
+      </p>
+    </MultipleFieldEditor__Padding>
+  </MultipleFieldEditor__Content>
+</Fragment>
+`;

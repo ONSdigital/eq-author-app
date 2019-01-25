@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 import { colors, radius } from "constants/theme";
 
-const Definition = styled.div`
+const Content = styled.div`
   border: 1px solid ${colors.bordersLight};
   position: relative;
   margin-bottom: 2em;
@@ -16,7 +16,7 @@ const Definition = styled.div`
   }
 `;
 
-const DefinitionLabel = styled.div`
+const Label = styled.div`
   color: ${colors.darkGrey};
   font-weight: bold;
   margin-bottom: 0.5em;
@@ -26,18 +26,18 @@ const Padding = styled.div`
   padding: 1.5em 1.5em 0;
 `;
 
-const DefinitionEditor = ({ label, children }) => (
+const MultipleFieldEditor = ({ label, children }) => (
   <>
-    <DefinitionLabel>{label}</DefinitionLabel>
-    <Definition>
+    <Label>{label}</Label>
+    <Content>
       <Padding>{children}</Padding>
-    </Definition>
+    </Content>
   </>
 );
 
-DefinitionEditor.propTypes = {
+MultipleFieldEditor.propTypes = {
   label: PropTypes.string.isRequired,
   children: PropTypes.node,
 };
 
-export default DefinitionEditor;
+export default MultipleFieldEditor;
