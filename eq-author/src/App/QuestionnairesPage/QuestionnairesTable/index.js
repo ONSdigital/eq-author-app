@@ -3,11 +3,14 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 
-import { sortBy, get } from "lodash";
+import { sortBy, get, reverse, map } from "lodash";
 import gql from "graphql-tag";
 import scrollIntoView from "utils/scrollIntoView";
-import IconArrow from "./icon-arrow-down.svg?inline";
+import iconArrow from "./icon-arrow-down.svg";
 import Row from "App/QuestionnairesPage/QuestionnairesTable/Row";
+
+const ASC = ASC;
+const DESC = DESC;
 
 const Table = styled.table`
   width: 100%;
@@ -26,44 +29,64 @@ const TH = styled.th`
   font-size: 0.9em;
 `;
 
-const SortableWrapper = styled.span`
+const SortButton = styled.span`
   display: flex;
+  align-items: center;
   cursor: pointer;
+
+  &::after {
+    content: url(${iconArrow});
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    opacity: ${props => (props.active ? "0.8" : "0.2")};
+    transform: rotate(${props => (props.order === DESC ? "0deg" : "180deg")});
+  }
 `;
 
-const Sortable = ({ children, onClick, sortKey }) => {
+const SortableTH = ({
+  children,
+  sortBy,
+  sortOrder,
+  sortKey,
+  onClick,
+  ...otherProps
+}) => {
+  const active = sortKey === sortBy;
+
   return (
-    <SortableWrapper onClick={() => onClick(sortKey)}>
-      {children}
-      <IconArrow />
-    </SortableWrapper>
+    <TH aria-sort={active ? sortOrder : "none"} {...otherProps}>
+      <SortButton
+        active={active}
+        order={active ? sortOrder : DESC}
+        role="button"
+        onClick={() => {
+          onClick(sortKey);
+        }}
+      >
+        {children}
+      </SortButton>
+    </TH>
   );
 };
 
-const TableHead = ({ onSortClick }) => {
+const TableHead = props => {
   return (
     <thead>
       <tr>
-        <TH colWidth="40%">
-          <Sortable onClick={onSortClick} sortKey="title">
-            Title
-          </Sortable>
-        </TH>
-        <TH colWidth="15%">
-          <Sortable onClick={onSortClick} sortKey="createdAt">
-            Created
-          </Sortable>
-        </TH>
-        <TH colWidth="15%">
-          <Sortable onClick={onSortClick} sortKey="createdAt">
-            Modified
-          </Sortable>
-        </TH>
-        <TH colWidth="15%">
-          <Sortable onClick={onSortClick} sortKey="createdBy.id">
-            Created by
-          </Sortable>
-        </TH>
+        <SortableTH sortKey="title" colWidth="40%" {...props}>
+          Title
+        </SortableTH>
+        <SortableTH sortKey="createdAt" colWidth="10%" {...props}>
+          Created
+        </SortableTH>
+        <SortableTH sortKey="modifiedAt" colWidth="10%" {...props}>
+          Modified
+        </SortableTH>
+        <SortableTH sortKey="createdBy.id" colWidth="10%" {...props}>
+          Created by
+        </SortableTH>
+        <TH colWidth="10%" />
       </tr>
     </thead>
   );
@@ -96,7 +119,10 @@ export class UnconnectedQuestionnairesTable extends React.PureComponent {
 
   state = {
     focusedId: null,
-    sortKey: "title",
+    sort: {
+      by: "title",
+      order: ASC,
+    },
   };
 
   handleDuplicateQuestionnaire = questionnaire => {
@@ -131,19 +157,42 @@ export class UnconnectedQuestionnairesTable extends React.PureComponent {
   };
 
   handleSortClick = sortKey => {
-    this.setState({ sortKey });
+    let order;
+
+    if (this.state.sort.by === sortKey) {
+      order = this.state.sort.order === ASC ? DESC : ASC;
+    } else {
+      order = ASC;
+    }
+
+    this.setState({
+      sort: {
+        by: sortKey,
+        order,
+      },
+    });
   };
 
   render() {
     const { questionnaires } = this.props;
+    const { sort, focusedId } = this.state;
+    let sortedQuestionnaires = sortBy(questionnaires, q =>
+      get(q, this.state.sort.by).toLowerCase()
+    );
+
+    if (sort.order === DESC) {
+      sortedQuestionnaires = reverse(sortedQuestionnaires);
+    }
 
     return (
-      <Table>
-        <TableHead onSortClick={this.handleSortClick} />
+      <Table role="grid">
+        <TableHead
+          onClick={this.handleSortClick}
+          sortBy={sort.by}
+          sortOrder={sort.order}
+        />
         <TBody>
-          {sortBy(questionnaires, q =>
-            get(q, this.state.sortKey).toLowerCase()
-          ).map((questionnaire, index) => {
+          {map(sortedQuestionnaires, (questionnaire, index) => {
             const dupe = questionnaire.id.startsWith("dupe");
 
             return (
@@ -151,7 +200,7 @@ export class UnconnectedQuestionnairesTable extends React.PureComponent {
                 odd={index % 2}
                 key={questionnaire.id}
                 dupe={dupe}
-                autoFocus={questionnaire.id === this.state.focusedId}
+                autoFocus={questionnaire.id === focusedId}
                 questionnaire={questionnaire}
                 onDeleteQuestionnaire={this.handleDeleteQuestionnaire}
                 onDuplicateQuestionnaire={this.handleDuplicateQuestionnaire}
