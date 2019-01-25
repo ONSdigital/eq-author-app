@@ -90,17 +90,6 @@ describe("dashboard", () => {
               },
             },
           },
-          UndeleteQuestionnaire: {
-            data: {
-              undeleteQuestionnaire: {
-                id: "1",
-                title: "Test Questionnaire",
-                createdAt: "2018-08-01",
-                createdBy: { id: "1", name: "Test user", __typename: "User" },
-                __typename: "Questionnaire",
-              },
-            },
-          },
           GetCurrentUser,
         });
 

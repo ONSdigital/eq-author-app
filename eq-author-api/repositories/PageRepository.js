@@ -59,12 +59,6 @@ module.exports = knex => {
 
   const remove = id => knex.transaction(trx => deletePage(trx, id));
 
-  const undelete = function(id) {
-    return Page(knex)
-      .update(id, { isDeleted: false })
-      .then(head);
-  };
-
   const move = function({ id, sectionId, position }) {
     return knex.transaction(trx => {
       return getOrUpdateOrderForPageInsert(trx, sectionId, id, position)
@@ -100,7 +94,6 @@ module.exports = knex => {
     update,
     deletePage,
     remove,
-    undelete,
     move,
     getPosition,
     duplicatePage,

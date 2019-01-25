@@ -79,7 +79,6 @@ describe("withDeleteQuestionConfirmation", () => {
     expect(ownProps.raiseToast).toHaveBeenCalledWith(
       "QuestionConfirmation4",
       "Confirmation deleted",
-      "undeleteQuestionConfirmation",
       { questionConfirmation, goBack: expect.any(Function) }
     );
   });

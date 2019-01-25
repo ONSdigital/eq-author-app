@@ -252,8 +252,6 @@ const Resolvers = {
       saveQuestionnaireList(questionnaireList);
       return deletedQuestionnaire;
     },
-    undeleteQuestionnaire: (_, args, ctx) =>
-      ctx.repositories.Questionnaire.undelete(args.input.id),
 
     duplicateQuestionnaire: (_, { input }, ctx) => {
       const questionnaire = getQuestionnaireById(input.id);
@@ -284,10 +282,12 @@ const Resolvers = {
       return section;
     },
     deleteSection: (root, { input }, ctx) => {
-      return remove(ctx.questionnaire.sections, { id: input.sectionId });
+      const section = first(
+        remove(ctx.questionnaire.sections, { id: input.id })
+      );
+      save(ctx.questionnaire);
+      return section;
     },
-    undeleteSection: (_, args, ctx) =>
-      ctx.repositories.Section.undelete(args.input.id),
     createSectionIntroduction: (_, { input }, ctx) => {
       const section = find(ctx.questionnaire.sections, { id: input.sectionId });
       merge(section, {
@@ -335,6 +335,19 @@ const Resolvers = {
       ctx.questionnaire.sections.splice(input.position, 0, remappedSection);
       save(ctx.questionnaire);
       return remappedSection;
+    },
+
+    updatePage: (_, { input }, ctx) => {
+      const page = getPage(ctx, { id: input.id });
+      merge(page, input);
+      save(ctx.questionnaire);
+      return page;
+    },
+    deletePage: (_, { input }, ctx) => {
+      const section = findSectionByPageId(ctx.questionnaire.sections, input.id);
+      const removedPage = first(remove(section.pages, { id: input.id }));
+      save(ctx.questionnaire);
+      return removedPage;
     },
 
     movePage: (_, { input }, ctx) => {
@@ -385,8 +398,6 @@ const Resolvers = {
       save(ctx.questionnaire);
       return removedPage[0];
     },
-    undeleteQuestionPage: (_, args, ctx) =>
-      ctx.repositories.QuestionPage.undelete(args.input.id),
 
     createAnswer: async (root, { input }, ctx) => {
       const page = getPage(ctx)({ pageId: input.questionPageId });
@@ -433,8 +444,6 @@ const Resolvers = {
       save(ctx.questionnaire);
       return deletedAnswer;
     },
-    undeleteAnswer: (_, args, ctx) =>
-      ctx.repositories.Answer.undelete(args.input.id),
 
     createOption: async (root, { input }, ctx) => {
       const pages = flatMap(
@@ -526,8 +535,6 @@ const Resolvers = {
 
       return removedOption;
     },
-    undeleteOption: (_, args, ctx) =>
-      ctx.repositories.Option.undelete(args.input.id),
     toggleValidationRule: (_, args, ctx) => {
       const validation = getValidation(ctx)(args.input.id);
       validation.enabled = args.input.enabled;
@@ -651,8 +658,6 @@ const Resolvers = {
         ...confirmationPage,
       };
     },
-    undeleteQuestionConfirmation: (_, { input }, ctx) =>
-      ctx.repositories.QuestionConfirmation.restore(input.id),
   },
 
   Questionnaire: {
