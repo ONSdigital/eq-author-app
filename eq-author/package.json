@@ -12,7 +12,6 @@
     "test:storybook": "jest --testRegex ^.+\\.storytest\\.js$",
     "test:integration": "./scripts/run_tests.sh integration",
     "test:routing_e2e": "./scripts/run_tests.sh routing_e2e",
-    "test:e2e": "./scripts/run_tests.sh e2e",
     "lint": "yarn lint:js && yarn lint:css",
     "lint:js": "yarn build:fragmentTypes && eslint src cypress --ext .graphql --ext .js --max-warnings=0",
     "lint:css": "stylelint './src/**/*.js'",
@@ -23,7 +22,6 @@
     "storybook-deploy": "yarn storybook-build && gh-pages -d .out",
     "coverage": "yarn test -- --coverage",
     "cypress:open": "CYPRESS_baseUrl=${CYPRESS_baseUrl:=http://localhost:3000/} cypress open",
-    "cypress:open:e2e": "CYPRESS_baseUrl=${CYPRESS_baseUrl:=http://localhost:13000/} cypress open --config integrationFolder=cypress/e2e",
     "cypress:open:routing": "CYPRESS_baseUrl=${CYPRESS_baseUrl:=http://localhost:3000/} CYPRESS_chromeWebSecurity='false' cypress open --config integrationFolder=cypress/routingTests"
   },
   "devDependencies": {
@@ -134,6 +132,7 @@
     "lodash": "latest",
     "normalize.css": "^7.0.0",
     "normalizr": "latest",
+    "omit-deep-lodash": "^1.1.4",
     "polished": "latest",
     "raven-js": "latest",
     "react": "latest",
