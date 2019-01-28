@@ -31,6 +31,8 @@ const stringify = require("json-stable-stringify");
 const deepMap = require("deep-map");
 
 const createAnswer = require("../../src/businessLogic/createAnswer");
+const onAnswerCreated = require("../../src/businessLogic/onAnswerCreated");
+const onAnswerDeleted = require("../../src/businessLogic/onAnswerDeleted");
 const updateMetadata = require("../../src/businessLogic/updateMetadata");
 const getPreviousAnswersForPage = require("../../src/businessLogic/getPreviousAnswersForPage");
 const getPreviousAnswersForSection = require("../../src/businessLogic/getPreviousAnswersForSection");
@@ -197,8 +199,6 @@ const Resolvers = {
     answers: async (root, { ids }, ctx) =>
       getAnswers(ctx).filter(({ id }) => ids.includes(id)),
     option: (root, { input }, ctx) => getOption(ctx)(input),
-    availableRoutingDestinations: (root, { pageId }, ctx) =>
-      ctx.repositories.Routing.getRoutingDestinations(pageId),
     questionConfirmation: (root, { id }, ctx) => {
       const pages = flatMap(
         ctx.questionnaire.sections,
@@ -393,8 +393,10 @@ const Resolvers = {
       const page = getPage(ctx)({ pageId: input.questionPageId });
       const answer = createAnswer(input);
       page.answers.push(answer);
+
+      onAnswerCreated(ctx.questionnaire, page, answer);
+
       save(ctx.questionnaire);
-      // await ctx.modifiers.BinaryExpression.onAnswerCreated(answer); // TODO
       return answer;
     },
     updateAnswer: (root, { input }, ctx) => {
@@ -426,10 +428,11 @@ const Resolvers = {
       });
 
       const deletedAnswer = first(remove(page.answers, { id: input.id }));
+
+      onAnswerDeleted(ctx.questionnaire, page, deletedAnswer);
+
       save(ctx.questionnaire);
       return deletedAnswer;
-
-      // await ctx.modifiers.BinaryExpression.onAnswerDeleted(deletedAnswer); // TODO
     },
     undeleteAnswer: (_, args, ctx) =>
       ctx.repositories.Answer.undelete(args.input.id),
@@ -502,6 +505,23 @@ const Resolvers = {
       });
 
       const removedOption = first(remove(answer.options, { id: input.id }));
+
+      pages.forEach(page => {
+        if (!page.routing) {
+          return;
+        }
+
+        page.routing.rules.forEach(rule => {
+          rule.expressionGroup.expressions.forEach(expression => {
+            if (expression.right && expression.right.optionIds) {
+              remove(
+                expression.right.optionIds,
+                value => value === removedOption.id
+              );
+            }
+          });
+        });
+      });
 
       save(ctx.questionnaire);
 

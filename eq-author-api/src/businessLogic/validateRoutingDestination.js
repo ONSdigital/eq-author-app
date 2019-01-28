@@ -1,4 +1,4 @@
-const { isNil } = require("lodash/fp");
+const { isNil, find } = require("lodash/fp");
 
 module.exports = ({ availableDestinations, destinationField, destination }) => {
   let list;
