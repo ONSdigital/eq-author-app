@@ -73,6 +73,7 @@ class SectionEditor extends React.Component {
       showDeleteConfirmDialog,
       onCloseDeleteConfirmDialog,
       onDeleteSectionConfirm,
+      hasNavigation,
       match,
     } = this.props;
     const handleUpdate = partial(flip(onChange), onUpdate);
@@ -91,19 +92,23 @@ class SectionEditor extends React.Component {
         <MoveSectionQuery questionnaireId={match.params.questionnaireId}>
           {this.renderMoveSectionModal}
         </MoveSectionQuery>
-        <Padding>
-          <RichTextEditor
-            id="section-title"
-            name="title"
-            label="Title"
-            value={section.title}
-            onUpdate={handleUpdate}
-            controls={titleControls}
-            size="large"
-            testSelector="txt-section-title"
-            autoFocus={!section.title}
-          />
-        </Padding>
+        {hasNavigation && (
+          <Padding>
+            <RichTextEditor
+              id="section-title"
+              name="title"
+              label="Section title"
+              description="Displayed in section navigation"
+              value={section.title}
+              onUpdate={handleUpdate}
+              controls={titleControls}
+              size="large"
+              testSelector="txt-section-title"
+              autoFocus={!section.title}
+            />
+          </Padding>
+        )}
+
         <IntroEditor
           onUpdate={onUpdate}
           section={section}

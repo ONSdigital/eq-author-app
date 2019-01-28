@@ -79,7 +79,7 @@ export class UnwrappedIntroEditor extends React.Component {
                     <IconButtonDelete
                       onClick={this.handleDeleteSectionIntroduction}
                       data-test="btn-delete"
-                      iconText="Delete Introduction"
+                      iconText="Delete introduction"
                     />
                   </Buttons>
                 </IntroToolbar>
@@ -122,7 +122,7 @@ export class UnwrappedIntroEditor extends React.Component {
             onClick={this.handleEnableSectionIntroduction}
             data-test="btn-add-intro"
           >
-            <IconText icon={AddPage}>Add introduction</IconText>
+            <IconText icon={AddPage}>Add section introduction</IconText>
           </AddIntroButton>
         )}
       </StyledMainCanvas>

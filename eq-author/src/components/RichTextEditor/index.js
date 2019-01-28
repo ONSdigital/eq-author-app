@@ -61,6 +61,15 @@ const sizes = {
   `,
 };
 
+const Description = styled.small`
+  font-weight: normal;
+  font-size: 0.9em;
+  &::before {
+    content: "";
+    display: block;
+  }
+`;
+
 const Wrapper = styled.div`
   position: relative;
   line-height: 1.5;
@@ -442,12 +451,14 @@ class RichTextEditor extends React.Component {
     const selection = editorState.getSelection();
     const {
       label,
+      description,
       multiline,
       size,
       className,
       testSelector,
       id,
       placeholder,
+
       ...otherProps
     } = this.props;
 
@@ -460,7 +471,11 @@ class RichTextEditor extends React.Component {
           onFocus={this.handleFocus}
           data-test="rte-field"
         >
-          <Label id={`label-${id}`}>{label}</Label>
+          <Label id={`label-${id}`}>
+            {label}
+            {description && <Description>{description}</Description>}
+          </Label>
+
           <Input
             className={className}
             size={size}

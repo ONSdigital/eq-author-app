@@ -37,6 +37,7 @@ import sectionFragment from "graphql/fragments/section.graphql";
 
 import { raiseToast } from "redux/toast/actions";
 import AliasEditor from "components/AliasEditor";
+import withQuestionnaire from "App/QuestionnairesPage/withQuestionnaire";
 
 export class UnwrappedSectionRoute extends React.Component {
   static propTypes = {
@@ -114,7 +115,15 @@ export class UnwrappedSectionRoute extends React.Component {
   );
 
   renderContent() {
-    const { loading, error, section, onUpdate, onChange } = this.props;
+    const {
+      loading,
+      error,
+      section,
+      onUpdate,
+      onChange,
+      questionnaire,
+    } = this.props;
+
     if (loading) {
       return <Loading height="24.25rem">Section loading…</Loading>;
     }
@@ -169,6 +178,7 @@ export class UnwrappedSectionRoute extends React.Component {
           showMoveSectionDialog={this.state.showMoveSectionDialog}
           onCloseMoveSectionDialog={this.handleCloseMoveSectionDialog}
           onMoveSectionDialog={this.handleMoveSection}
+          hasNavigation={questionnaire.navigation}
           {...this.props}
           section={section}
         />
@@ -199,6 +209,7 @@ const withSectionEditing = flowRight(
     null,
     { raiseToast }
   ),
+  withQuestionnaire,
   withApollo,
   withCreateSection,
   withDuplicateSection,
