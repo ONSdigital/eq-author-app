@@ -1,6 +1,6 @@
 const Resolvers = {};
 
-const { find, flatMap } = require("lodash/fp");
+const { find, flatMap, getOr } = require("lodash/fp");
 const save = require("../../../../utils/saveQuestionnaire");
 
 Resolvers.ExpressionGroup2 = {
@@ -16,7 +16,7 @@ Resolvers.Mutation = {
         flatMap(
           routing => routing.rules,
           flatMap(
-            page => page.routing,
+            page => getOr([], "routing", page),
             flatMap(section => section.pages, ctx.questionnaire.sections)
           )
         )

@@ -1,7 +1,22 @@
 const answerTypes = require("../../../../constants/answerTypes");
-const { find, flatMap, some, intersectionBy } = require("lodash/fp");
+const {
+  find,
+  flatMap,
+  some,
+  intersectionBy,
+  first,
+  getOr,
+} = require("lodash/fp");
 
+const {
+  createExpression,
+  createLeftSide,
+} = require("../../../../src/businessLogic");
+
+const save = require("../../../../utils/saveQuestionnaire");
 const Resolvers = {};
+
+const answerTypeToConditions = require("../../../../modifiers/BinaryExpression/answerTypeToConditions");
 
 Resolvers.BinaryExpression2 = {
   left: async ({ left }, args, ctx) => {
@@ -35,7 +50,7 @@ Resolvers.BinaryExpression2 = {
       ) {
         return expressionGroup;
       }
-    }, flatMap(rule => rule.expressionGroup, flatMap(routing => routing.rules, flatMap(page => page.routing, pages))));
+    }, flatMap(rule => rule.expressionGroup, flatMap(routing => getOr([], "rules", routing), flatMap(page => page.routing, pages))));
   },
 };
 
@@ -84,8 +99,59 @@ Resolvers.SelectedOptions2 = {
 
 Resolvers.Mutation = {
   createBinaryExpression2: async (root, { input }, ctx) => {
-    const expressionGroupId = parseInt(input.expressionGroupId, 10);
-    return ctx.modifiers.BinaryExpression.create(expressionGroupId);
+    const pages = flatMap(section => section.pages, ctx.questionnaire.sections);
+    const rules = flatMap(
+      routing => getOr([], "rules", routing),
+      flatMap(page => page.routing, pages)
+    );
+
+    const expressionGroup = find(
+      { id: input.expressionGroupId },
+      flatMap(rule => rule.expressionGroup, rules)
+    );
+
+    const page = find(page => {
+      if (
+        page.routing &&
+        some(rule => {
+          if (rule.expressionGroup.id === input.expressionGroupId) {
+            return true;
+          }
+        }, getOr([], "routing.rules", page))
+      ) {
+        return page;
+      }
+    }, pages);
+
+    const firstAnswer = first(getOr([], "answers", page));
+
+    const hasRoutableFirstAnswer =
+      firstAnswer &&
+      answerTypeToConditions.isAnswerTypeSupported(firstAnswer.type);
+    let condition;
+    if (hasRoutableFirstAnswer) {
+      condition = answerTypeToConditions.getDefault(firstAnswer.type);
+    }
+
+    const left = hasRoutableFirstAnswer
+      ? createLeftSide({
+          type: "Answer",
+          answerId: firstAnswer.id,
+        })
+      : createLeftSide({
+          type: "Null",
+          nullReason: "NoRoutableAnswerOnPage",
+        });
+
+    const expression = createExpression({
+      left,
+      condition: condition || "Equal",
+    });
+
+    expressionGroup.expressions.push(expression);
+
+    save(ctx.questionnaire);
+    return expression;
   },
   updateBinaryExpression2: async (root, { input: { id, condition } }, ctx) =>
     ctx.modifiers.BinaryExpression.update({ id, condition }),
