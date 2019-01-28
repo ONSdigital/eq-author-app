@@ -138,26 +138,6 @@ exports.getQuestionnaire = `
     }
   }
 
-  fragment destinationFragment on RoutingDestination {
-    ... on LogicalDestination {
-      __typename
-      logicalDestination
-    }
-    ... on AbsoluteDestination {
-      __typename
-      absoluteDestination {
-        ... on QuestionPage {
-          id
-          __typename
-        }
-        ... on Section {
-          id
-          __typename
-        }
-      }
-    }
-  }
-
   fragment destination2Fragment on Destination2 {
     section {
       id
@@ -205,46 +185,6 @@ exports.getQuestionnaire = `
             additionalInfoLabel
             additionalInfoContent
             pageType
-            routingRuleSet {
-              id
-              else {
-                ...destinationFragment
-              }
-              routingRules {
-                id
-                operation
-                goto {
-                  ...destinationFragment
-                }
-                conditions {
-                  id
-                  comparator
-                  answer {
-                    id
-                    type
-                    ... on MultipleChoiceAnswer {
-                      options {
-                        id
-                        label
-                        additionalAnswer {
-                          id
-                          label
-                          type
-                        }
-                      }
-                    }
-                  }
-                  routingValue {
-                    ... on IDArrayValue {
-                      value
-                    }
-                    ... on NumberValue {
-                      numberValue
-                    }
-                  }
-                }
-              }
-            }
             routing {
               rules {
                 expressionGroup {

@@ -19,9 +19,6 @@ const Resolvers = {
     answers: async (root, { ids }, ctx) =>
       ctx.repositories.Answer.getAnswers(ids),
     option: (root, { id }, ctx) => ctx.repositories.Option.getById(id),
-    //@deprecated - This will be removed once removed from schema
-    availableRoutingDestinations: (root, { pageId }, ctx) =>
-      ctx.repositories.Routing.getRoutingDestinations(pageId),
     questionConfirmation: (root, { id }, ctx) =>
       ctx.repositories.QuestionConfirmation.findById(id),
     me: (root, args, ctx) => ({
@@ -168,35 +165,6 @@ const Resolvers = {
     },
     undeleteOption: (_, args, ctx) =>
       ctx.repositories.Option.undelete(args.input.id),
-    createRoutingRuleSet: async (root, args, ctx) =>
-      ctx.repositories.Routing.createRoutingRuleSet(args.input),
-    updateRoutingRuleSet: (_, args, ctx) =>
-      ctx.repositories.Routing.updateRoutingRuleSet(args.input),
-    deleteRoutingRuleSet: (_, args, ctx) =>
-      ctx.repositories.Routing.deleteRoutingRuleSet(args.input),
-    resetRoutingRuleSetElse: (_, args, ctx) => {
-      return ctx.repositories.Routing.updateRoutingRuleSet(args.input);
-    },
-    createRoutingRule: async (_, args, ctx) =>
-      ctx.repositories.Routing.createRoutingRule(args.input),
-    updateRoutingRule: (_, args, ctx) =>
-      ctx.repositories.Routing.updateRoutingRule(args.input),
-    deleteRoutingRule: (_, args, ctx) =>
-      ctx.repositories.Routing.removeRoutingRule(args.input),
-    undeleteRoutingRule: (_, args, ctx) =>
-      ctx.repositories.Routing.undeleteRoutingRule(args.input),
-    createRoutingCondition: (_, args, ctx) =>
-      ctx.repositories.Routing.createRoutingCondition(args.input),
-    updateRoutingCondition: (_, args, ctx) =>
-      ctx.repositories.Routing.updateRoutingCondition(args.input),
-    deleteRoutingCondition: (_, args, ctx) =>
-      ctx.repositories.Routing.removeRoutingCondition(args.input),
-    toggleConditionOption: async (_, args, ctx) =>
-      ctx.repositories.Routing.toggleConditionOption(args.input),
-    createConditionValue: async (_, args, ctx) =>
-      ctx.repositories.Routing.createConditionValue(args.input),
-    updateConditionValue: async (_, args, ctx) =>
-      ctx.repositories.Routing.updateConditionValue(args.input),
     toggleValidationRule: (_, args, ctx) =>
       ctx.repositories.Validation.toggleValidationRule(args.input),
     updateValidationRule: (_, args, ctx) =>
@@ -290,10 +258,6 @@ const Resolvers = {
       return ctx.repositories.Section.getById(sectionId);
     },
     position: (page, args, ctx) => Resolvers.Page.position(page, args, ctx),
-    routingRuleSet: ({ id: questionPageId }, args, ctx) =>
-      ctx.repositories.Routing.findRoutingRuleSetByQuestionPageId({
-        questionPageId,
-      }),
     displayName: page => getName(page, "QuestionPage"),
     title: (page, args) => formatRichText(page.title, args.format),
     confirmation: async (page, args, ctx) =>
@@ -302,110 +266,31 @@ const Resolvers = {
       ctx.repositories.QuestionPage.getPipingAnswersForQuestionPage(id),
     availablePipingMetadata: ({ id }, args, ctx) =>
       ctx.repositories.QuestionPage.getPipingMetadataForQuestionPage(id),
-    availableRoutingQuestions: ({ id }, args, ctx) =>
-      ctx.repositories.QuestionPage.getRoutingQuestionsForQuestionPage(id),
     availableRoutingAnswers: ({ id }, args, ctx) =>
       ctx.repositories.QuestionPage.getRoutingAnswers(id),
-    availableRoutingDestinations: ({ id }, args, ctx) =>
-      ctx.repositories.Routing.getRoutingDestinations(id),
-    routing: ({ id }, args, ctx) => ctx.repositories.Routing2.getByPageId(id),
-  },
-
-  RoutingRuleSet: {
-    routingRules: ({ id }, args, ctx) => {
-      return ctx.repositories.Routing.findAllRoutingRules({
-        routingRuleSetId: id,
-      });
-    },
-    questionPage: ({ questionPageId }, args, ctx) => {
-      return ctx.repositories.Page.getById(questionPageId);
-    },
-    else: ({ routingDestinationId }, args, ctx) =>
-      ctx.repositories.Routing.getRoutingDestination(routingDestinationId),
-  },
-
-  RoutingRule: {
-    conditions: ({ id }, args, ctx) => {
-      return ctx.repositories.Routing.findAllRoutingConditions({
-        routingRuleId: id,
-      });
-    },
-    goto: (routingRule, args, ctx) =>
-      ctx.repositories.Routing.getRoutingDestination(
-        routingRule.routingDestinationId
-      ),
-  },
-
-  RoutingCondition: {
-    routingValue: ({ id, answerId }) => {
-      return { conditionId: id, answerId };
-    },
-    questionPage: ({ questionPageId }, args, ctx) => {
-      return isNil(questionPageId)
-        ? null
-        : ctx.repositories.Page.getById(questionPageId);
-    },
-    answer: ({ answerId }, args, ctx) => {
-      return isNil(answerId) ? null : ctx.repositories.Answer.getById(answerId);
-    },
-  },
-
-  RoutingConditionValue: {
-    __resolveType: async ({ conditionId }, ctx) => {
-      const answerType = await ctx.repositories.Routing.getAnswerTypeByConditionId(
-        conditionId,
-        ctx
+    availableRoutingDestinations: async (page, args, ctx) => {
+      const questionPages = await ctx.repositories.QuestionPage.getFuturePagesInSection(
+        page.id
       );
-      if (includes(["Currency", "Number"], answerType)) {
-        return "NumberValue";
-      } else {
-        return "IDArrayValue";
-      }
-    },
-  },
+      const sections = await ctx.repositories.Section.getFutureSections(
+        page.sectionId
+      );
 
-  IDArrayValue: {
-    value: async ({ conditionId }, args, ctx) => {
-      const conditionValues = await ctx.repositories.Routing.findAllRoutingConditionValues(
+      const logicalDestinations = [
         {
-          conditionId,
-        }
-      );
-      return conditionValues.map(conditionValue => conditionValue.optionId);
+          logicalDestination: "NextPage",
+        },
+        {
+          logicalDestination: "EndOfQuestionnaire",
+        },
+      ];
+      return {
+        logicalDestinations,
+        questionPages,
+        sections,
+      };
     },
-  },
-
-  NumberValue: {
-    id: async ({ conditionId }, args, ctx) => {
-      const conditionValues = await ctx.repositories.Routing.findAllRoutingConditionValues(
-        { conditionId }
-      );
-      return conditionValues[0].id;
-    },
-    numberValue: async ({ conditionId }, args, ctx) => {
-      const conditionValues = await ctx.repositories.Routing.findAllRoutingConditionValues(
-        { conditionId }
-      );
-      return conditionValues[0].customNumber;
-    },
-  },
-
-  RoutingDestination: {
-    __resolveType: ({ logicalDestination }) => {
-      return isNil(logicalDestination)
-        ? "AbsoluteDestination"
-        : "LogicalDestination";
-    },
-  },
-
-  AbsoluteDestinations: {
-    __resolveType: ({ pageType }) => {
-      if (pageType) {
-        return "QuestionPage";
-      } else {
-        return "Section";
-      }
-    },
+    routing: ({ id }, args, ctx) => ctx.repositories.Routing2.getByPageId(id),
   },
 
   LogicalDestination: {

@@ -1,7 +1,0 @@
-#import "./fragments/routing-condition.graphql"
-
-mutation deleteRoutingCondition($input: DeleteRoutingConditionInput!) {
-  deleteRoutingCondition(input: $input) {
-    ...RoutingCondition
-  }
-}

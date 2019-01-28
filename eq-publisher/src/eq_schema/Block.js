@@ -1,13 +1,11 @@
 const Question = require("./Question");
 const translateAuthorRouting = require("./builders/routing2");
-const RoutingRule = require("./RoutingRule");
-const RoutingDestination = require("./RoutingDestination");
 const {
   getInnerHTMLWithPiping,
   unescapePiping,
 } = require("../utils/HTMLUtils");
 const convertPipes = require("../utils/convertPipes");
-const { get, isNil, remove, isEmpty } = require("lodash");
+const { get, isNil } = require("lodash");
 const { flow, getOr, last, map, some } = require("lodash/fp");
 
 const pageTypeMappings = {
@@ -52,18 +50,6 @@ class Block {
         groupId,
         ctx
       );
-    } else if (
-      !isLastPageInSection(page, ctx) &&
-      !isNil(page.routingRuleSet) &&
-      isNil(page.confirmation)
-    ) {
-      // eslint-disable-next-line camelcase
-      this.routing_rules = this.buildRoutingRules(
-        page.routingRuleSet,
-        page.id,
-        groupId,
-        ctx
-      );
     }
   }
 
@@ -82,22 +68,6 @@ class Block {
 
   buildQuestions(page, ctx) {
     return [new Question(page, ctx)];
-  }
-
-  buildRoutingRules({ routingRules, else: elseDest }, pageId, groupId, ctx) {
-    routingRules.forEach(rule => {
-      remove(rule.conditions, condition => isNil(condition.answer));
-    });
-
-    const rules = routingRules
-      .filter(rule => !isEmpty(rule.conditions))
-      .map(rule => new RoutingRule(rule, pageId, groupId, ctx));
-
-    const elseRule = {
-      goto: new RoutingDestination(elseDest, pageId, ctx),
-    };
-
-    return rules.concat(elseRule);
   }
 
   convertPageType(type) {

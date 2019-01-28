@@ -1,6 +1,5 @@
 const { head, isNil } = require("lodash/fp");
 const Option = require("../db/Option");
-const { handleOptionDeleted } = require("./strategies/routingStrategy");
 
 module.exports = knex => {
   const findExclusiveOptionByAnswerId = answerId =>
@@ -77,8 +76,6 @@ module.exports = knex => {
       })
       .returning("*")
       .then(head);
-
-    await handleOptionDeleted(trx, id);
 
     return deletedOption;
   };

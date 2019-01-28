@@ -1,8 +1,0 @@
-mutation UpdateConditionValue($input: UpdateConditionValueInput!) {
-  updateConditionValue(input: $input) {
-    ... on NumberValue {
-      id
-      numberValue
-    }
-  }
-}

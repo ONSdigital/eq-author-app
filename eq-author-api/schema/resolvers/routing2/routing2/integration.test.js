@@ -298,7 +298,7 @@ describe("Routing Integration", () => {
 
       expect(updateResult.errors).not.toBeUndefined();
       expect(updateResult.errors[0].message).toMatch(
-        "The provided desination is invalid"
+        "The provided destination is invalid"
       );
     });
   });

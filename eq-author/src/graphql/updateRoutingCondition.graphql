@@ -1,7 +1,0 @@
-#import "./fragments/routing-condition.graphql"
-
-mutation updateRoutingCondition($input: UpdateRoutingConditionInput!) {
-  updateRoutingCondition(input: $input) {
-    ...RoutingCondition
-  }
-}

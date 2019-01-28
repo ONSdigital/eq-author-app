@@ -6,20 +6,20 @@ module.exports = ({ repositories }) => {
     destinationField,
     destination
   ) => {
-    const availableDestinations = await repositories.Page.getRoutingDestinations(
-      routing.pageId
-    );
     let list;
     if (destinationField === "pageId") {
-      list = availableDestinations.questionPages;
+      list = await repositories.QuestionPage.getFuturePagesInSection(
+        routing.pageId
+      );
     } else if (destinationField === "sectionId") {
-      list = availableDestinations.sections;
+      const { sectionId } = await repositories.Page.getById(routing.pageId);
+      list = await repositories.Section.getFutureSections(sectionId);
     }
     const id = parseInt(destination[destinationField], 10);
 
     const result = find({ id })(list);
     if (isNil(result)) {
-      throw new Error(`The provided desination is invalid`);
+      throw new Error(`The provided destination is invalid`);
     }
   };
 

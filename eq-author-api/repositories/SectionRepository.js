@@ -148,6 +148,20 @@ module.exports = knex => {
       .andWhere("Metadata.isDeleted", false)
       .orderBy("Metadata.id", "asc");
 
+  const getFutureSections = async id => {
+    const result = await knex.raw(
+      `
+    select sections2.* from "SectionsView" as sections 
+      inner join "SectionsView" as sections2 
+      on sections."questionnaireId" = sections2."questionnaireId"
+      where sections."order" < sections2."order" 
+      and sections.id = ?;
+      `,
+      id
+    );
+    return result.rows;
+  };
+
   return {
     findAll,
     getById,
@@ -161,5 +175,6 @@ module.exports = knex => {
     duplicateSection,
     getPipingAnswersForSection,
     getPipingMetadataForSection,
+    getFutureSections,
   };
 };

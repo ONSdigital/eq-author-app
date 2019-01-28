@@ -16,53 +16,12 @@ const createQuestionnaireMutation = `mutation CreateQuestionnaire($input: Create
   }
 `;
 
-const getSectionQuery = `
-query getSection($id: ID!) {
-  section(id: $id) {
-    id
-    title
-    alias
-    displayName
-    pages{
-      id
-    }
-    introductionTitle
-    introductionContent
-    introductionEnabled
-  }
-}
-`;
-
 const createSectionMutation = `
   mutation CreateSection($input: CreateSectionInput!){
     createSection(input: $input){
       id
     }
   }
-`;
-
-const deletePageMutation = `
-  mutation DeletePage($input: DeletePageInput!){
-    deletePage(input: $input){
-      id
-    }
-  }
-`;
-
-const deleteAnswerMutation = `
-mutation DeleteAnswer($input: DeleteAnswerInput!){
-  deleteAnswer(input: $input){
-    id
-  }
-}
-`;
-
-const deleteOptionMutation = `
-mutation DeleteOption($input: DeleteOptionInput!){
-  deleteOption(input: $input){
-    id
-  }
-}
 `;
 
 const createOptionMutation = `
@@ -86,29 +45,6 @@ mutation createMutuallyExclusiveOption($input: CreateMutuallyExclusiveOptionInpu
     label
   }
 }
-`;
-
-const createQuestionPageMutation = `
-  mutation CreateQuestionPage($input: CreateQuestionPageInput!){
-    createQuestionPage(input: $input){
-      id
-    }
-  }
-`;
-
-const getPageQuery = `
-  query GetQuestionPage($id: ID!){
-    questionPage(id:$id){
-      id
-      guidance
-      description
-      pageType
-      position
-      section{
-        id
-      }
-    }
-  }
 `;
 
 const createAnswerMutation = `
@@ -163,25 +99,6 @@ const getAnswerQuery = `
   }
 `;
 
-const getAnswersQuery = `
-  query GetAnswers($id: ID!) {
-    page(id: $id) {
-      ... on QuestionPage {
-        answers {
-          id
-          type
-          ...on CompositeAnswer{
-            childAnswers{
-              id
-              label
-            }
-          }
-        }
-      }
-    }
-  }
-`;
-
 const getPipableAnswersQuery = `
   query GetAnswers($ids: [ID]!) {
     answers(ids: $ids) {
@@ -200,335 +117,6 @@ const getPipableAnswersQuery = `
         }
       }
 
-`;
-
-const getBasicRoutingQuery = `
-query GetPage($id: ID!){
-  page(id: $id){
-    ...on QuestionPage{
-      id
-      routingRuleSet{
-        id
-        questionPage{
-          id
-        }
-        routingRules{
-          id
-          conditions{
-            id
-            routingValue{
-              ...on IDArrayValue{
-                value
-              }
-              ...on NumberValue {
-                id
-                numberValue
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-}
-`;
-
-const createRoutingRuleSet = `
-  mutation CreateRoutingRuleSet($input: CreateRoutingRuleSetInput!){
-    createRoutingRuleSet(input: $input)
-    {
-      id
-      questionPage{
-        id
-      }
-      routingRules{
-        id
-      }
-      else {
-        ... on LogicalDestination {
-          logicalDestination
-        }
-        ... on AbsoluteDestination {
-          absoluteDestination {
-            ... on QuestionPage {
-              id
-            }
-            ... on Section {
-              id
-            }
-          }
-        }
-      }
-    }
-  }
-`;
-
-const createRoutingRule = `
-  mutation CreateRoutingRule($input: CreateRoutingRuleInput!){
-    createRoutingRule(input: $input)
-    {
-      id
-      operation
-      conditions {
-        id
-      }
-      goto {
-        ... on LogicalDestination {
-          logicalDestination
-        }
-        ... on AbsoluteDestination {
-          absoluteDestination {
-            ...on QuestionPage{
-              id
-              section{
-                id
-              }
-            }
-            ...on Section{
-              id
-            }
-          }
-        }
-      }
-    }
-  }
-`;
-
-const createRoutingCondition = `
-  mutation CreateRoutingCondition($input: CreateRoutingConditionInput!){
-    createRoutingCondition(input: $input)
-    {
-      id
-      comparator
-      questionPage {
-        id
-      }
-      answer {
-        id
-      }
-      routingValue {
-        ... on IDArrayValue {
-          value
-        }
-        ...on NumberValue{
-          numberValue
-        }
-      }
-    }
-  }
-`;
-
-const updateRoutingRuleSet = `
-mutation UpdateRoutingRuleSet($input: UpdateRoutingRuleSetInput!){
-  updateRoutingRuleSet (input: $input)
-  {
-    id
-    else {
-      ... on LogicalDestination {
-        logicalDestination
-      }
-      ... on AbsoluteDestination {
-        absoluteDestination {
-          ...on QuestionPage{
-            id
-            section{
-              id
-            }
-          }
-          ...on Section{
-            id
-          }
-        }
-      }
-    }
-  }
-}
-`;
-
-const deleteRoutingRuleSet = `
-mutation DeleteRoutingRuleSet($input: DeleteRoutingRuleSetInput!) {
-  deleteRoutingRuleSet(input: $input) {
-    id
-  }
-}
-`;
-
-const updateRoutingRule = `
-mutation UpdateRoutingRule($input: UpdateRoutingRuleInput!){
-  updateRoutingRule (input: $input)
-  {
-    id
-    goto {
-      ... on LogicalDestination {
-        logicalDestination
-      }
-      ... on AbsoluteDestination {
-        absoluteDestination {
-          __typename
-          ...on QuestionPage{
-            id
-            section{
-              id
-            }
-          }
-          ...on Section{
-            id
-          }
-        }
-      }
-    }
-  }
-}
-`;
-
-const updateCondition = `
-mutation($input: UpdateRoutingConditionInput!){
-  updateRoutingCondition (input: $input)
-  {
-    id
-    comparator
-  }
-}
-`;
-
-const deleteRoutingRule = `
-  mutation($input: DeleteRoutingRuleInput!) {
-    deleteRoutingRule(input: $input) {
-      id
-    }
-  }
-`;
-
-const deleteRoutingCondition = `
-  mutation($input: DeleteRoutingConditionInput!) {
-    deleteRoutingCondition(input: $input) {
-      id
-    }
-  }
-`;
-
-const updateConditionValue = `
-  mutation($input: UpdateConditionValueInput!) {
-    updateConditionValue(input: $input) {
-      ...on NumberValue {
-        id
-        numberValue
-      }
-    }
-  }
-`;
-
-const toggleConditionOption = `
-  mutation($input: ToggleConditionOptionInput!) {
-    toggleConditionOption (input: $input)
-    {
-      ...on IDArrayValue{
-        value
-      }
-    }
-  }
-`;
-
-const getEntireRoutingStructure = `
-query QuestionPage($id: ID!) {
-  questionPage(id: $id) {
-    routingRuleSet {
-      id
-      questionPage {
-        id
-      }
-      else {
-        ... on LogicalDestination {
-          logicalDestination
-        }
-        ... on AbsoluteDestination {
-          absoluteDestination {
-            ...on QuestionPage{
-              id
-              section{
-                id
-              }
-            }
-            ...on Section{
-              id
-            }
-          }
-        }
-      }
-      routingRules {
-        id
-        operation
-        goto {
-          ... on LogicalDestination {
-            logicalDestination
-          }
-          ... on AbsoluteDestination {
-            absoluteDestination {
-              ...on QuestionPage{
-                id
-                section{
-                  id
-                }
-              }
-              ...on Section{
-                id
-              }
-            }
-          }
-        }
-        conditions {
-          id
-          comparator
-          questionPage {
-            id
-          }
-          answer {
-            id
-          }
-          routingValue {
-            ...on IDArrayValue {
-              value
-            }
-            ...on NumberValue {
-              id
-              numberValue
-            }
-          }
-        }
-      }
-    }
-  }
-}
-`;
-
-const getAvailableRoutingQuestions = `
-query GetAvailableRoutingQuestions($id: ID!) {
-  questionPage(id: $id) {
-    id
-      availableRoutingQuestions {
-      id
-    }
-  }
-}
-`;
-
-const getAvailableRoutingDestinations = `
-query GetAvailableRoutingDestinations($id: ID!) {
-  questionPage(id: $id) {
-    id
-    availableRoutingDestinations {
-      logicalDestinations {
-        logicalDestination
-      }
-      questionPages {
-        id
-      }
-      sections {
-        id
-      }
-    }
-  }
-}
 `;
 
 const getQuestionnaire = `
@@ -766,37 +354,15 @@ const createMetadataMutation = `
 module.exports = {
   getPipableAnswersQuery,
   createQuestionnaireMutation,
-  getSectionQuery,
   createAnswerMutation,
   getAnswerQuery,
-  getAnswersQuery,
-  createRoutingRuleSet,
-  toggleConditionOption,
-  getEntireRoutingStructure,
   updateAnswerMutation,
-  getBasicRoutingQuery,
-  updateRoutingRule,
-  updateCondition,
   createSectionMutation,
-  createQuestionPageMutation,
-  getAvailableRoutingQuestions,
-  getAvailableRoutingDestinations,
   getQuestionnaire,
-  getPageQuery,
-  updateRoutingRuleSet,
-  createRoutingRule,
-  deleteRoutingRule,
-  createRoutingCondition,
-  deleteRoutingCondition,
-  deleteRoutingRuleSet,
-  deletePageMutation,
-  deleteAnswerMutation,
-  deleteOptionMutation,
   createOptionMutation,
   moveSectionMutation,
   getAnswerValidations,
   toggleAnswerValidation,
-  updateConditionValue,
   updateAnswerValidation,
   createExclusiveMutation,
   createMetadataMutation,

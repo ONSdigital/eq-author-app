@@ -1,7 +1,0 @@
-#import "./fragments/routing-rule.graphql"
-
-mutation deleteRoutingRule($input: DeleteRoutingRuleInput!) {
-  deleteRoutingRule(input: $input) {
-    ...RoutingRule
-  }
-}
