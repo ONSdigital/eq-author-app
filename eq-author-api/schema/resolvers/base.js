@@ -559,26 +559,23 @@ const Resolvers = {
       save(ctx.questionnaire);
       return deletedMetadata;
     },
-
     createQuestionConfirmation: (_, { input }, ctx) => {
       const section = findSectionByPageId(
         ctx.questionnaire.sections,
         input.pageId
       );
       const page = find(section.pages, { id: input.pageId });
-      const questionConfimation = {
+      const questionConfirmation = {
         id: uuid.v4(),
         title: "",
         positive: { label: null, description: null },
         negative: { label: null, description: null },
-        availablePipingAnswers: [],
-        availablePipingMetadata: [],
       };
-      set(page, "confirmation", questionConfimation);
+      set(page, "confirmation", questionConfirmation);
       save(ctx.questionnaire);
       return {
         pageId: input.pageId,
-        ...questionConfimation,
+        ...questionConfirmation,
       };
     },
     updateQuestionConfirmation: (
@@ -588,10 +585,8 @@ const Resolvers = {
     ) => {
       const newValues = {
         title,
-        positiveLabel: positive.label,
-        positiveDescription: positive.description,
-        negativeLabel: negative.label,
-        negativeDescription: negative.description,
+        positive,
+        negative,
       };
 
       const pages = flatMap(
@@ -979,18 +974,9 @@ const Resolvers = {
 
       return find(pages, { id: pageId });
     },
-    positive: ({ positiveLabel, positiveDescription }) => ({
-      label: positiveLabel,
-      description: positiveDescription,
-    }),
-    negative: ({ negativeLabel, negativeDescription }) => ({
-      label: negativeLabel,
-      description: negativeDescription,
-    }),
     availablePipingAnswers: ({ id }, args, ctx) =>
-      ctx.repositories.QuestionConfirmation.getPipingAnswers(id),
-    availablePipingMetadata: ({ id }, args, ctx) =>
-      ctx.repositories.QuestionConfirmation.getPipingMetadata(id),
+      getPreviousAnswersForPage(ctx.questionnaire, id),
+    availablePipingMetadata: (page, args, ctx) => ctx.questionnaire.metadata,
   },
 
   Date: GraphQLDate,
