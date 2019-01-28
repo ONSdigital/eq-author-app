@@ -6,7 +6,7 @@ const isMutuallyExclusiveDestination = isMutuallyExclusive([
   "logical",
 ]);
 
-const { flatMap, find } = require("lodash/fp");
+const { flatMap, find, first } = require("lodash/fp");
 const save = require("../../../../utils/saveQuestionnaire");
 const {
   createRouting,
@@ -16,6 +16,12 @@ const {
   createExpression,
   createLeftSide,
 } = require("../../../../src/businessLogic");
+
+const answerTypeToConditions = require("../../../../modifiers/BinaryExpression/answerTypeToConditions");
+const {
+  NO_ROUTABLE_ANSWER_ON_PAGE,
+  NULL,
+} = require("../../../../constants/routingNoLeftSide");
 const Resolvers = {};
 
 Resolvers.Routing2 = {
@@ -40,6 +46,29 @@ Resolvers.Mutation = {
       throw new Error("Can only have one Routing per Page.");
     }
 
+    const firstAnswer = first(page.answers);
+
+    const hasRoutableFirstAnswer =
+      firstAnswer &&
+      answerTypeToConditions.isAnswerTypeSupported(firstAnswer.type);
+
+    let condition;
+    if (hasRoutableFirstAnswer) {
+      condition = answerTypeToConditions.getDefault(firstAnswer.type);
+    } else {
+      condition = "Equal";
+    }
+
+    const leftHandSide = hasRoutableFirstAnswer
+      ? {
+          answerId: firstAnswer.id,
+          type: "Answer",
+        }
+      : {
+          type: NULL,
+          nullReason: NO_ROUTABLE_ANSWER_ON_PAGE,
+        };
+
     page.routing = createRouting({
       else: createDestination({ logical: "NextPage" }),
       rules: [
@@ -47,10 +76,8 @@ Resolvers.Mutation = {
           expressionGroup: createExpressionGroup({
             expressions: [
               createExpression({
-                left: createLeftSide({
-                  type: "Null",
-                  nullReason: "NoRoutableAnswerOnPage",
-                }),
+                left: createLeftSide(leftHandSide),
+                condition,
               }),
             ],
           }),
