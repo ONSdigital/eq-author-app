@@ -1,6 +1,6 @@
 const isMutuallyExclusive = require("../../../../utils/isMutuallyExclusive");
 
-const { flatMap, find, some, first, remove, reject } = require("lodash/fp");
+const { flatMap, find, some, reject, getOr, pick } = require("lodash/fp");
 const save = require("../../../../utils/saveQuestionnaire");
 const {
   createDestination,
@@ -9,6 +9,8 @@ const {
   createExpression,
   createLeftSide,
 } = require("../../../../src/businessLogic");
+const availableRoutingDestinations = require("../../../../src/businessLogic/availableRoutingDestinations");
+const validateRoutingDestinations = require("../../../../src/businessLogic/validateRoutingDestination");
 
 const isMutuallyExclusiveDestination = isMutuallyExclusive([
   "sectionId",
@@ -62,47 +64,51 @@ Resolvers.Mutation = {
     save(ctx.questionnaire);
     return routingRule;
   },
-  updateRoutingRule2: async (root, { input: { id, destination } }, ctx) => {
+  updateRoutingRule2: (root, { input: { id, destination } }, ctx) => {
     if (!isMutuallyExclusiveDestination(destination)) {
       throw new Error("Can only provide one destination.");
     }
 
-    /**
-     *
-     * const validateDestination = async (rule, destinationField, destination) => {
-    const routing = await repositories.Routing2.getById(rule.routingId);
-    const availableDestinations = await repositories.Page.getRoutingDestinations(
-      routing.pageId
+    const allPages = flatMap(
+      section => section.pages,
+      ctx.questionnaire.sections
     );
-    let list;
-    if (destinationField === "pageId") {
-      list = availableDestinations.questionPages;
-    } else if (destinationField === "sectionId") {
-      list = availableDestinations.sections;
-    }
-    const id = parseInt(destination[destinationField], 10);
 
-    const result = find({ id })(list);
-    if (isNil(result)) {
-      throw new Error(`The provided desination is invalid`);
-    }
-  };
+    const routingRule = find(
+      { id },
+      flatMap(
+        routing => getOr([], "rules", routing),
+        flatMap(page => page.routing, allPages)
+      )
+    );
 
-     return async ({ id, destination }) => {
-    const routingRule = await repositories.RoutingRule2.getById(id);
+    const page = find(page => {
+      if (page.routing && some({ id }, page.routing.rules)) {
+        return page;
+      }
+    }, allPages);
+
+    const availableDestinations = availableRoutingDestinations(
+      ctx.questionnaire,
+      page.id
+    );
     const destinationField = Object.keys(destination)[0];
     if (destinationField !== "logical") {
-      await validateDestination(routingRule, destinationField, destination);
+      validateRoutingDestinations({
+        availableDestinations,
+        destinationField,
+        destination,
+      });
     }
 
-    await repositories.Destination.update({
-      id: routingRule.destinationId,
+    routingRule.destination = {
+      ...pick("id", routingRule.destination),
       ...destination,
-    });
+    };
+
+    save(ctx.questionnaire);
+
     return routingRule;
-  };
-     */
-    return ctx.modifiers.RoutingRule.update({ id, destination });
   },
   deleteRoutingRule2: (root, { input }, ctx) => {
     const routing = find(routing => {
