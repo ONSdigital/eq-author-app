@@ -1,6 +1,8 @@
 import React from "react";
 import { shallow } from "enzyme";
 
+import IconButtonDelete from "components/buttons/IconButtonDelete";
+import DeleteConfirmDialog from "components/DeleteConfirmDialog";
 import { UnwrappedQuestionConfirmationRoute as QuestionConfirmationRoute } from "./";
 
 describe("QuestionConfirmationRoute", () => {
@@ -69,11 +71,29 @@ describe("QuestionConfirmationRoute", () => {
     );
   });
 
-  it("should delete the confirmation when the toolbar delete button is clicked", () => {
+  it("should open delete confirm dialog when the toolbar delete button is clicked", () => {
     const wrapper = render();
-    wrapper.find(`[data-test="btn-delete"]`).simulate("click");
+    expect(wrapper.find(DeleteConfirmDialog).prop("isOpen")).toBeFalsy();
+    wrapper.find(IconButtonDelete).simulate("click");
+    expect(wrapper.find(DeleteConfirmDialog).prop("isOpen")).toBeTruthy();
+  });
+
+  it("should delete question confirmation when modal confirm clicked", () => {
+    const wrapper = render();
+    wrapper.find(DeleteConfirmDialog).simulate("delete");
     expect(mockHandlers.onDeleteQuestionConfirmation).toHaveBeenCalledWith(
       defaultProps.data.questionConfirmation
     );
+  });
+
+  it("should close modal when modal cancel clicked", () => {
+    const wrapper = render();
+
+    expect(wrapper.find(DeleteConfirmDialog).prop("isOpen")).toBeFalsy();
+    wrapper.find(IconButtonDelete).simulate("click");
+    expect(wrapper.find(DeleteConfirmDialog).prop("isOpen")).toBeTruthy();
+
+    wrapper.find(DeleteConfirmDialog).simulate("close");
+    expect(wrapper.find(DeleteConfirmDialog).prop("isOpen")).toBeFalsy();
   });
 });
