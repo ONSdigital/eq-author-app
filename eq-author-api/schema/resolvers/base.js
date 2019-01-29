@@ -159,8 +159,13 @@ const Resolvers = {
     createMutuallyExclusiveOption: (root, { input }, ctx) =>
       ctx.repositories.Option.insert({ mutuallyExclusive: true, ...input }),
     updateOption: (_, args, ctx) => ctx.repositories.Option.update(args.input),
-    deleteOption: (_, args, ctx) =>
-      ctx.repositories.Option.remove(args.input.id),
+    deleteOption: async (_, args, ctx) => {
+      const deletedOption = await ctx.repositories.Option.remove(args.input.id);
+      await ctx.repositories.SelectedOptions2.deleteByOptionId(
+        deletedOption.id
+      );
+      return deletedOption;
+    },
     undeleteOption: (_, args, ctx) =>
       ctx.repositories.Option.undelete(args.input.id),
     createRoutingRuleSet: async (root, args, ctx) =>

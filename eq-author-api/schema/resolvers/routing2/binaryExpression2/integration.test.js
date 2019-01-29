@@ -207,6 +207,97 @@ describe("BinaryExpression Integration", () => {
     });
   });
 
+  it("should not return selected options that have been deleted", async () => {
+    const questionnaire = await buildTestQuestionnaire({
+      sections: [
+        {
+          pages: [
+            {
+              answers: [
+                {
+                  id: "radioAnswer",
+                  type: answerTypes.RADIO,
+                  options: [
+                    { id: "1", label: "option1" },
+                    { id: "2", label: "option2" },
+                  ],
+                },
+              ],
+              routing: {
+                rules: [
+                  {
+                    expressionGroup: {
+                      operator: AND,
+                      expressions: [
+                        {
+                          left: { answerId: "radioAnswer" },
+                          condition: conditions.ONE_OF,
+                          right: {
+                            type: "SelectedOptions",
+                            selectedOptions: ["1", "2"],
+                          },
+                        },
+                      ],
+                    },
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      ],
+    });
+    const page = questionnaire.sections[0].pages[0];
+    const option1 = page.answers[0].options[0];
+    const option2 = page.answers[0].options[1];
+
+    const deleteOptionQuery = `
+    mutation DeleteOption($input: DeleteOptionInput!) {
+      deleteOption(input: $input) {
+        id
+        __typename
+      }
+    }
+    `;
+    await executeQuery(deleteOptionQuery, { input: { id: option1.id } }, ctx);
+
+    const readRoutingTreeQuery = `
+    query GetPage {
+      questionPage(id: ${page.id}) {
+        routing {
+          rules {
+            expressionGroup{
+                expressions{
+                  ...on BinaryExpression2{
+                  id
+                  right {
+                    ...on SelectedOptions2 {
+                      options {
+                        id
+                        label
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+      `;
+
+    const read = await executeQuery(readRoutingTreeQuery, {}, ctx);
+    const result =
+      read.data.questionPage.routing.rules[0].expressionGroup.expressions[0]
+        .right;
+    expect(result.options).toHaveLength(1);
+    expect(result.options[0]).toMatchObject({
+      id: option2.id.toString(),
+      label: option2.label,
+    });
+  });
+
   it("can update the left side to a new answer", async () => {
     const questionnaire = await buildTestQuestionnaire({
       sections: [

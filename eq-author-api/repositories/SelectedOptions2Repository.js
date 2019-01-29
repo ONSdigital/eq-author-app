@@ -18,5 +18,10 @@ module.exports = knex => {
       .del()
       .where({ sideId });
 
-  return { insert, getBySideId, deleteBySideId };
+  const deleteByOptionId = optionId =>
+    knex("Routing2_SelectedOptions")
+      .del()
+      .where({ optionId });
+
+  return { insert, getBySideId, deleteBySideId, deleteByOptionId };
 };
