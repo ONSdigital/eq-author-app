@@ -1,4 +1,4 @@
-import { testId, typeIntoDraftEditor } from "../../utils";
+import { idRegex, testId, typeIntoDraftEditor } from "../../utils";
 import { questionnaire, questionConfirmation } from "../../builders";
 
 describe("Question Confirmation", () => {
@@ -29,7 +29,10 @@ describe("Question Confirmation", () => {
 
   it("should navigate to when the question confirmation when created", () => {
     questionConfirmation.add();
-    cy.hash().should("match", /\/questionnaire\/\d+\/\d+\/\d+\/\d+\/design$/);
+    const pattern = new RegExp(
+      `/questionnaire/${idRegex}/${idRegex}/${idRegex}/${idRegex}/design`
+    );
+    cy.hash().should("match", pattern);
   });
 
   it("should allow modification of the properties", () => {
@@ -60,7 +63,11 @@ describe("Question Confirmation", () => {
     questionConfirmation.add();
     cy.get(testId("question-confirmation-item")).should("have.length", 1);
     cy.get(testId("btn-delete")).click();
-    cy.hash().should("match", /\/questionnaire\/\d+\/\d+\/\d+\/design$/);
+    cy.get(testId("btn-delete-modal")).click();
+    const pattern = new RegExp(
+      `/questionnaire/${idRegex}/${idRegex}/${idRegex}/design`
+    );
+    cy.hash().should("match", pattern);
     cy.get(testId("question-confirmation-item")).should("have.length", 0);
   });
 
