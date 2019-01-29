@@ -1,4 +1,4 @@
-import { testId } from "../utils";
+import { testId, idRegex } from "../utils";
 
 const checkIsOnDesignPage = () => cy.hash().should("match", /\/design$/);
 
@@ -18,7 +18,8 @@ export const add = config => {
   updateDetails(config);
   checkIsOnDesignPage();
   return cy.hash().then(hash => {
-    const id = /questionnaire\/(\d+)\//.exec(hash)[1];
+    const pattern = new RegExp(`/questionnaire/${idRegex}/`);
+    const id = pattern.exec(hash)[1];
     return { id };
   });
 };
