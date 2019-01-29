@@ -71,6 +71,34 @@ const Resolvers = {
       ctx.repositories.Section.remove(args.input.id),
     undeleteSection: (_, args, ctx) =>
       ctx.repositories.Section.undelete(args.input.id),
+    createSectionIntroduction: (
+      _,
+      { input: { sectionId, introductionContent, introductionTitle } },
+      ctx
+    ) =>
+      ctx.repositories.Section.update({
+        id: sectionId,
+        introductionEnabled: true,
+        introductionContent,
+        introductionTitle,
+      }),
+    updateSectionIntroduction: (
+      _,
+      { input: { sectionId, introductionContent, introductionTitle } },
+      ctx
+    ) =>
+      ctx.repositories.Section.update({
+        id: sectionId,
+        introductionContent,
+        introductionTitle,
+      }),
+    deleteSectionIntroduction: (_, { input: { sectionId } }, ctx) =>
+      ctx.repositories.Section.update({
+        id: sectionId,
+        introductionEnabled: false,
+        introductionContent: null,
+        introductionTitle: null,
+      }),
     moveSection: (_, args, ctx) => ctx.repositories.Section.move(args.input),
     duplicateSection: (_, args, ctx) =>
       ctx.repositories.Section.duplicateSection(
@@ -226,11 +254,19 @@ const Resolvers = {
       }
       return ctx.repositories.Section.getPosition({ id });
     },
+    introduction: section => (section.introductionEnabled ? section : null),
     availablePipingAnswers: ({ id }, args, ctx) =>
       ctx.repositories.Section.getPipingAnswersForSection(id),
     availablePipingMetadata: ({ id }, args, ctx) =>
       ctx.repositories.Section.getPipingMetadataForSection(id),
   },
+
+  SectionIntroduction: {
+    section: ({ id: sectionId }, args, ctx) => {
+      return ctx.repositories.Section.getById(sectionId);
+    },
+  },
+
   Page: {
     __resolveType: ({ pageType }) => pageType,
     position: ({ position, id }, args, ctx) => {

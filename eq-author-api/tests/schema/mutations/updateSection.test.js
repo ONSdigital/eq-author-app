@@ -8,9 +8,6 @@ describe("updateSection", () => {
         id
         title
         alias
-        introductionTitle
-        introductionContent
-        introductionEnabled
       }
     }
   `;
@@ -23,9 +20,6 @@ describe("updateSection", () => {
       title: "Updated section title",
       alias: "Updated section alias",
       description: "This is an updated section description",
-      introductionTitle: "updated intro title",
-      introductionContent: "updated intro content",
-      introductionEnabled: true,
     };
     repositories = {
       Section: mockRepository(),

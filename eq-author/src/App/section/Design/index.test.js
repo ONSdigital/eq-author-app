@@ -36,9 +36,7 @@ const moveSectionMock = {
             id: "2",
             title: "foo",
             alias: "foo-alias",
-            introductionTitle: null,
-            introductionContent: null,
-            introductionEnabled: false,
+            introduction: null,
             displayName: "foo",
             position: 0,
             pages: [
@@ -162,9 +160,7 @@ describe("SectionRoute", () => {
               alias: "foo-alias",
               displayName: "foo",
               description: "bar",
-              introductionTitle: null,
-              introductionContent: null,
-              introductionEnabled: false,
+              introduction: null,
               position: 0,
               questionnaire: {
                 __typename: "Questionnaire",
@@ -201,9 +197,7 @@ describe("SectionRoute", () => {
               alias: "foo-alias",
               displayName: "foo",
               description: "bar",
-              introductionTitle: null,
-              introductionContent: null,
-              introductionEnabled: false,
+              introduction: null,
               position: 0,
               questionnaire: {
                 __typename: "Questionnaire",
@@ -290,9 +284,7 @@ describe("SectionRoute", () => {
       title: "foo",
       alias: "foo alias",
       description: "bar",
-      introductionTitle: null,
-      introductionContent: null,
-      introductionEnabled: false,
+      introduction: null,
       position: 0,
       questionnaire: {
         id: "1",
@@ -432,7 +424,14 @@ describe("SectionRoute", () => {
       const wrapper = render({
         loading: false,
         match,
-        section: { ...section, introductionEnabled: true },
+        section: {
+          ...section,
+          introduction: {
+            id: "2",
+            introductionTitle: "",
+            introductionContent: "",
+          },
+        },
         ...mockHandlers,
       });
 

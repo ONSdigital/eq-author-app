@@ -1,0 +1,7 @@
+mutation updateSectionIntroduction($input: UpdateSectionIntroductionInput!) {
+  updateSectionIntroduction(input: $input) {
+    id
+    introductionTitle
+    introductionContent
+  }
+}

@@ -9,11 +9,7 @@ describe("Group", () => {
       {
         id: "1",
         title: "Section 1",
-        introduction: {
-          introductionTitle: "Intro Title",
-          introductionContent: "Intro Content",
-          introductionEnabled: false,
-        },
+        introduction: null,
         pages: [
           {
             id: "2",
@@ -64,8 +60,8 @@ describe("Group", () => {
       groupJSON.title,
       groupJSON.pages,
       {
-        ...groupJSON.introduction,
-        introductionEnabled: true,
+        introductionTitle: "Intro Title",
+        introductionContent: "Intro Content",
       },
       ctx
     );
@@ -95,7 +91,6 @@ describe("Group", () => {
       {
         introductionTitle: null,
         introductionContent: null,
-        introductionEnabled: true,
       },
       ctx
     );
@@ -135,31 +130,19 @@ describe("Group", () => {
         id: 1,
         title: "Group 1",
         pages: [],
-        introduction: {
-          introductionTitle: "Intro Title",
-          introductionContent: "Intro Content",
-          introductionEnabled: false,
-        },
+        introduction: null,
       },
       {
         id: 2,
         title: "Group 2",
         pages: [],
-        introduction: {
-          introductionTitle: "Intro Title",
-          introductionContent: "Intro Content",
-          introductionEnabled: false,
-        },
+        introduction: null,
       },
       {
         id: 3,
         title: "Group 3",
         pages: [],
-        introduction: {
-          introductionTitle: "Intro Title",
-          introductionContent: "Intro Content",
-          introductionEnabled: false,
-        },
+        introduction: null,
       },
     ];
 
@@ -331,7 +314,7 @@ describe("Group", () => {
         ctx.questionnaireJson.sections[0].id,
         ctx.questionnaireJson.sections[0].title,
         ctx.questionnaireJson.sections[0].pages,
-        { introductionEnabled: false },
+        null,
         ctx
       );
 
@@ -454,7 +437,7 @@ describe("Group", () => {
         ctx.questionnaireJson.sections[0].id,
         ctx.questionnaireJson.sections[0].title,
         ctx.questionnaireJson.sections[0].pages,
-        { introductionEnabled: false },
+        null,
         ctx
       );
 
@@ -564,7 +547,7 @@ describe("Group", () => {
         ctx.questionnaireJson.sections[0].id,
         ctx.questionnaireJson.sections[0].title,
         ctx.questionnaireJson.sections[0].pages,
-        { introductionEnabled: false },
+        null,
         ctx
       );
 
@@ -639,7 +622,7 @@ describe("Group", () => {
         ctx.questionnaireJson.sections[0].id,
         ctx.questionnaireJson.sections[0].title,
         ctx.questionnaireJson.sections[0].pages,
-        { introductionEnabled: false },
+        null,
         ctx
       );
 

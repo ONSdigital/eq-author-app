@@ -26,7 +26,7 @@ describe("PreviewSectionRoute", () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  it("should the section intro preview when it is finished loading and has a section", () => {
+  it("should show the section intro preview when it is finished loading and has a section", () => {
     const wrapper = shallow(
       <PreviewSectionRoute
         loading={false}
@@ -36,9 +36,11 @@ describe("PreviewSectionRoute", () => {
             id: "1",
             alias: "",
             title: "",
-            introductionTitle: "",
-            introductionContent: "",
-            introductionEnabled: true,
+            introduction: {
+              id: "1",
+              introductionTitle: "",
+              introductionContent: "",
+            },
           },
         }}
       />
@@ -46,7 +48,7 @@ describe("PreviewSectionRoute", () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  it("should redirect to design if section introduciton is not enabled", () => {
+  it("should redirect to design if section introduction is not enabled", () => {
     const wrapper = shallow(
       <PreviewSectionRoute
         loading={false}
@@ -56,9 +58,7 @@ describe("PreviewSectionRoute", () => {
             id: "1",
             alias: "",
             title: "",
-            introductionTitle: "",
-            introductionContent: "",
-            introductionEnabled: false,
+            introduction: null,
           },
         }}
       />
