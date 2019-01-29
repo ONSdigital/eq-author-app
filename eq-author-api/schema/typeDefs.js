@@ -4,7 +4,9 @@ scalar Date
 
 scalar JSON
 
-directive @deprecated(reason: String) on INPUT_FIELD_DEFINITION | ARGUMENT_DEFINITION |ENUM_VALUE | FIELD_DEFINITION | INPUT_OBJECT
+directive @deprecated(
+  reason: String
+) on INPUT_FIELD_DEFINITION | ARGUMENT_DEFINITION | ENUM_VALUE | FIELD_DEFINITION | INPUT_OBJECT
 
 type User {
   id: ID!
@@ -79,11 +81,9 @@ type QuestionPage implements Page {
   definitionContent: String
   additionalInfoLabel: String
   additionalInfoContent: String
-  routingRuleSet: RoutingRuleSet
   availablePipingAnswers: [Answer!]!
   availablePipingMetadata: [Metadata!]!
   availableRoutingAnswers: [Answer!]!
-  availableRoutingQuestions: [Page!]!
   availableRoutingDestinations: AvailableRoutingDestinations!
   confirmation: QuestionConfirmation
   routing: Routing2
@@ -170,34 +170,9 @@ type Option {
   additionalAnswer: BasicAnswer
 }
 
-type RoutingRuleSet {
-  id: ID!
-  routingRules: [RoutingRule]
-  questionPage: QuestionPage
-  else: RoutingDestination
-}
-
-type RoutingRule {
-  id: ID!
-  operation: RoutingOperation
-  conditions: [RoutingCondition]
-  goto: RoutingDestination
-}
-
 enum LogicalDestinations {
   NextPage
   EndOfQuestionnaire
-}
-
-enum AbsoluteDestinationTypes {
-  Section
-  QuestionPage
-}
-
-union AbsoluteDestinations = QuestionPage | Section
-
-type AbsoluteDestination {
-  absoluteDestination: AbsoluteDestinations!
 }
 
 type LogicalDestination {
@@ -205,32 +180,11 @@ type LogicalDestination {
   logicalDestination: LogicalDestinations!
 }
 
-union RoutingDestination = AbsoluteDestination | LogicalDestination
-
 type AvailableRoutingDestinations {
   logicalDestinations: [LogicalDestination]!
   questionPages: [QuestionPage]!
   sections: [Section]!
 }
-
-type RoutingCondition {
-  id: ID!
-  comparator: RoutingComparator
-  questionPage: QuestionPage
-  answer: Answer
-  routingValue: RoutingConditionValue
-}
-
-type IDArrayValue {
-  value: [ID]
-}
-
-type NumberValue {
-  id: ID!
-  numberValue: Int 
-}
-
-union RoutingConditionValue = IDArrayValue | NumberValue
 
 union ValidationType = NumberValidation | DateValidation | DateRangeValidation
 
@@ -334,20 +288,6 @@ enum RelativePosition {
   After
 }
 
-enum RoutingOperation {
-  And
-  Or
-}
-
-enum RoutingComparator {
-  Equal
-  NotEqual
-  GreaterThan
-  LessThan
-  GreaterOrEqual
-  LessOrEqual
-}
-
 enum PageType {
   QuestionPage
   InterstitialPage
@@ -378,35 +318,35 @@ enum Theme {
 }
 
 type Metadata {
-    id: ID!
-    key: String
-    alias: String
-    type: MetadataType!
-    dateValue: Date
-    regionValue: Region
-    languageValue: Language
-    textValue: String
-    displayName: String!
+  id: ID!
+  key: String
+  alias: String
+  type: MetadataType!
+  dateValue: Date
+  regionValue: Region
+  languageValue: Language
+  textValue: String
+  displayName: String!
 }
 
 enum MetadataType {
-    Date
-    Text
-    Region
-    Language
+  Date
+  Text
+  Region
+  Language
 }
 
 enum Region {
-    GB_ENG
-    GB_GBN
-    GB_NIR
-    GB_SCT
-    GB_WLS
+  GB_ENG
+  GB_GBN
+  GB_NIR
+  GB_SCT
+  GB_WLS
 }
 
 enum Language {
-    en
-    cy
+  en
+  cy
 }
 
 enum LogicalDestination2 {
@@ -414,7 +354,7 @@ enum LogicalDestination2 {
   EndOfQuestionnaire
 }
 
-type Destination2  {
+type Destination2 {
   id: ID!
   section: Section
   page: Page
@@ -425,7 +365,7 @@ type Routing2 {
   id: ID!
   page: Page!
   else: Destination2!
-  rules: [RoutingRule2!]! 
+  rules: [RoutingRule2!]!
 }
 
 type RoutingRule2 {
@@ -487,7 +427,6 @@ type BinaryExpression2 {
   expressionGroup: ExpressionGroup2!
 }
 
-
 type Query {
   questionnaires: [Questionnaire]
   questionnaire(id: ID!): Questionnaire
@@ -497,8 +436,6 @@ type Query {
   answer(id: ID!): Answer
   answers(ids: [ID]!): [Answer]
   option(id: ID!): Option
-  pagesAffectedByDeletion(pageId: ID!): [Page]! @deprecated(reason: "Not implemented")
-  availableRoutingDestinations(pageId: ID!): AvailableRoutingDestinations! @deprecated(reason: "Use availableRoutingDestinations on QuestionPage type instead")
   questionConfirmation(id: ID!): QuestionConfirmation
   me: User!
 }
@@ -537,20 +474,6 @@ type Mutation {
   updateOption(input: UpdateOptionInput!): Option
   deleteOption(input: DeleteOptionInput!): Option
   undeleteOption(input: UndeleteOptionInput!): Option
-  createRoutingRuleSet(input: CreateRoutingRuleSetInput!): RoutingRuleSet
-  updateRoutingRuleSet(input: UpdateRoutingRuleSetInput!): RoutingRuleSet
-  deleteRoutingRuleSet(input: DeleteRoutingRuleSetInput!): RoutingRuleSet
-  resetRoutingRuleSetElse(input: ResetRoutingRuleSetElseInput!): RoutingRuleSet
-  createRoutingRule(input: CreateRoutingRuleInput!): RoutingRule
-  updateRoutingRule(input: UpdateRoutingRuleInput!): RoutingRule
-  deleteRoutingRule(input: DeleteRoutingRuleInput!): RoutingRule
-  undeleteRoutingRule(input: UndeleteRoutingRuleInput!): RoutingRule
-  createRoutingCondition(input: CreateRoutingConditionInput!): RoutingCondition
-  updateRoutingCondition(input: UpdateRoutingConditionInput!): RoutingCondition
-  deleteRoutingCondition(input: DeleteRoutingConditionInput!): RoutingCondition
-  toggleConditionOption(input: ToggleConditionOptionInput!): RoutingConditionValue
-  createConditionValue(input: CreateConditionValueInput!): RoutingConditionValue
-  updateConditionValue(input: UpdateConditionValueInput!): RoutingConditionValue
   toggleValidationRule(input: ToggleValidationRuleInput!): ValidationRule!
   updateValidationRule(input: UpdateValidationRuleInput!): ValidationRule!
   createMetadata(input: CreateMetadataInput!): Metadata!
@@ -561,15 +484,15 @@ type Mutation {
   deleteQuestionConfirmation(input: DeleteQuestionConfirmationInput): QuestionConfirmation!
   undeleteQuestionConfirmation(input: UndeleteQuestionConfirmationInput): QuestionConfirmation!
   createRouting2(input: CreateRouting2Input!): Routing2!
-  updateRouting2(input: UpdateRouting2Input!): Routing2! 
+  updateRouting2(input: UpdateRouting2Input!): Routing2!
   createRoutingRule2(input: CreateRoutingRule2Input!): RoutingRule2!
-  updateRoutingRule2(input: UpdateRoutingRule2Input!): RoutingRule2! 
+  updateRoutingRule2(input: UpdateRoutingRule2Input!): RoutingRule2!
   deleteRoutingRule2(input: DeleteRoutingRule2Input!): Routing2!
   updateExpressionGroup2(input: UpdateExpressionGroup2Input!): ExpressionGroup2!
   createBinaryExpression2(input: CreateBinaryExpression2Input!): BinaryExpression2!
   updateBinaryExpression2(input: UpdateBinaryExpression2Input!): BinaryExpression2!
   updateLeftSide2(input: UpdateLeftSide2Input!): BinaryExpression2!
-  updateRightSide2(input: UpdateRightSide2Input!): BinaryExpression2!  
+  updateRightSide2(input: UpdateRightSide2Input!): BinaryExpression2!
   deleteBinaryExpression2(input: DeleteBinaryExpression2Input!): BinaryExpression2!
 }
 
@@ -588,12 +511,11 @@ input UpdateRouting2Input {
   else: DestinationInput!
 }
 
-
 input CreateRoutingRule2Input {
   routingId: ID!
 }
 
-input UpdateRoutingRule2Input { 
+input UpdateRoutingRule2Input {
   id: ID!
   destination: DestinationInput!
 }
@@ -622,7 +544,7 @@ input UpdateLeftSide2Input {
 }
 
 input UpdateRightSide2Input {
-  expressionId: ID! 
+  expressionId: ID!
   customValue: CustomRightSideInput
   selectedOptions: [ID!]
 }
@@ -844,89 +766,6 @@ input MoveSectionInput {
   position: Int!
 }
 
-input CreateRoutingRuleSetInput {
-  questionPageId: ID!
-}
-
-input UpdateRoutingRuleSetInput {
-  id: ID!
-  else: RoutingDestinationInput!
-}
-
-input DeleteRoutingRuleSetInput {
-  id: ID!
-}
-
-input ResetRoutingRuleSetElseInput {
-  id: ID!
-}
-
-input CreateRoutingRuleInput {
-  operation: RoutingOperation!
-  routingRuleSetId: ID!
-}
-
-input UpdateRoutingRuleInput {
-  id: ID!
-  operation: RoutingOperation
-  goto: RoutingDestinationInput
-}
-
-input DeleteRoutingRuleInput {
-  id: ID!
-}
-
-input UndeleteRoutingRuleInput {
-  id: ID!
-}
-
-input CreateRoutingConditionInput {
-  comparator: RoutingComparator!
-  questionPageId: ID!
-  answerId: ID
-  routingRuleId: ID!
-}
-
-input UpdateRoutingConditionInput {
-  id: ID!
-  comparator: RoutingComparator
-  questionPageId: ID!
-  answerId: ID
-}
-
-input DeleteRoutingConditionInput {
-  id: ID!
-}
-
-input ToggleConditionOptionInput {
-  optionId: ID
-  conditionId: ID!
-  checked: Boolean!
-}
-
-input CreateConditionValueInput {
-  conditionId: ID!
-}
-
-input UpdateConditionValueInput {
-  id: ID!
-  customNumber: Int
-}
-
-input LogicalDestinationInput {
-  destinationType: LogicalDestinations!
-}
-
-input AbsoluteDestinationInput {
-  destinationType: AbsoluteDestinationTypes!
-  destinationId: ID!
-}
-
-input RoutingDestinationInput {
-  logicalDestination: LogicalDestinationInput
-  absoluteDestination: AbsoluteDestinationInput
-}
-
 input ToggleValidationRuleInput {
   id: ID!
   enabled: Boolean!
@@ -934,8 +773,8 @@ input ToggleValidationRuleInput {
 
 input UpdateValidationRuleInput {
   id: ID!
-  minValueInput:  UpdateMinValueInput
-  maxValueInput:  UpdateMaxValueInput
+  minValueInput: UpdateMinValueInput
+  maxValueInput: UpdateMaxValueInput
   earliestDateInput: UpdateEarliestDateInput
   latestDateInput: UpdateLatestDateInput
   minDurationInput: UpdateMinDurationInput
@@ -986,22 +825,22 @@ input DurationInput {
 }
 
 input CreateMetadataInput {
-    questionnaireId: ID!
+  questionnaireId: ID!
 }
 
 input DeleteMetadataInput {
-    id: ID!
+  id: ID!
 }
 
 input UpdateMetadataInput {
-    id: ID!
-    key: String
-    alias: String
-    type: MetadataType!
-    dateValue: Date
-    regionValue: Region
-    languageValue: Language
-    textValue: String
+  id: ID!
+  key: String
+  alias: String
+  type: MetadataType!
+  dateValue: Date
+  regionValue: Region
+  languageValue: Language
+  textValue: String
 }
 
 input ConfirmationOptionInput {
@@ -1027,5 +866,4 @@ input DeleteQuestionConfirmationInput {
 input UndeleteQuestionConfirmationInput {
   id: ID!
 }
-
 `;

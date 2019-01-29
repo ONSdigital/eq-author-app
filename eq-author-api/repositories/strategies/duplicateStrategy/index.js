@@ -2,7 +2,6 @@ const { head, isString } = require("lodash");
 
 const { selectData, duplicateRecord, duplicateTree } = require("./utils");
 const updatePiping = require("./piping");
-const duplicateDestinations = require("./destinations");
 
 const getDefaultReferenceStructure = () => ({
   options: {},
@@ -121,64 +120,6 @@ const ENTITY_TREE = [
       },
     ],
   },
-  {
-    name: "routingRuleSets",
-    table: "Routing_RuleSets",
-    links: [
-      {
-        column: "questionPageId",
-        entityName: "pages",
-        parent: true,
-      },
-    ],
-  },
-  {
-    name: "routingRules",
-    table: "Routing_Rules",
-    links: [
-      {
-        column: "routingRuleSetId",
-        entityName: "routingRuleSets",
-        parent: true,
-      },
-    ],
-  },
-  {
-    name: "routingConditions",
-    table: "Routing_Conditions",
-    links: [
-      {
-        column: "routingRuleId",
-        entityName: "routingRules",
-        parent: true,
-      },
-      {
-        column: "questionPageId",
-        entityName: "pages",
-      },
-      {
-        column: "answerId",
-        entityName: "answers",
-      },
-    ],
-    noIsDeleted: true,
-  },
-  {
-    name: "routingConditionValues",
-    table: "Routing_ConditionValues",
-    links: [
-      {
-        column: "conditionId",
-        entityName: "routingConditions",
-        parent: true,
-      },
-      {
-        column: "optionId",
-        entityName: "options",
-      },
-    ],
-    noIsDeleted: true,
-  },
 ];
 
 const duplicatePageStrategy = async (
@@ -201,7 +142,6 @@ const duplicatePageStrategy = async (
   references.pages[page.id] = duplicatePage.id;
 
   await duplicateTree(trx, ENTITY_TREE, references);
-  await duplicateDestinations(trx, references);
 
   return selectData(trx, "Pages", "*", { id: duplicatePage.id }).then(head);
 };
@@ -224,10 +164,7 @@ const duplicateSectionStrategy = async (
   references.sections[section.id] = duplicateSection.id;
 
   await duplicateTree(trx, ENTITY_TREE, references);
-  await Promise.all([
-    duplicateDestinations(trx, references),
-    updatePiping(trx, references),
-  ]);
+  await Promise.all([updatePiping(trx, references)]);
 
   return duplicateSection;
 };
@@ -249,10 +186,7 @@ const duplicateQuestionnaireStrategy = async (
   references.questionnaires[questionnaire.id] = duplicateQuestionnaire.id;
 
   await duplicateTree(trx, ENTITY_TREE, references);
-  await Promise.all([
-    duplicateDestinations(trx, references),
-    updatePiping(trx, references),
-  ]);
+  await Promise.all([updatePiping(trx, references)]);
 
   return duplicateQuestionnaire;
 };

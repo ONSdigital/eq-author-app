@@ -7,11 +7,6 @@ const {
   getOrUpdateOrderForPageInsert,
 } = require("./strategies/spacedOrderStrategy");
 
-const {
-  getAvailableRoutingDestinations,
-  handlePageDeleted,
-} = require("./strategies/routingStrategy");
-
 module.exports = knex => {
   function getRepositoryForType({ pageType }) {
     switch (pageType) {
@@ -55,17 +50,12 @@ module.exports = knex => {
     return repository.update(args);
   };
 
-  const deletePage = async (trx, id) => {
-    const deletedPage = await trx("Pages")
+  const deletePage = (trx, id) =>
+    trx("Pages")
       .where({ id: parseInt(id, 10) })
       .update({ isDeleted: true })
       .returning("*")
       .then(head);
-
-    await handlePageDeleted(trx, id);
-
-    return deletedPage;
-  };
 
   const remove = id => knex.transaction(trx => deletePage(trx, id));
 
@@ -86,12 +76,6 @@ module.exports = knex => {
 
   const getPosition = function({ id }) {
     return getById(id).then(get("position"));
-  };
-
-  const getRoutingDestinations = function(pageId) {
-    return knex.transaction(trx =>
-      getAvailableRoutingDestinations(trx, pageId)
-    );
   };
 
   const duplicatePage = function(id, position) {
@@ -119,7 +103,6 @@ module.exports = knex => {
     undelete,
     move,
     getPosition,
-    getRoutingDestinations,
     duplicatePage,
   };
 };

@@ -24,11 +24,6 @@ const {
   createDefaultValidationsForAnswer,
 } = require("./strategies/validationStrategy");
 
-const {
-  handleAnswerDeleted,
-  handleAnswerCreated,
-} = require("./strategies/routingStrategy");
-
 const handleDeprecatedMandatoryFieldFromDb = answer =>
   isObject(answer)
     ? merge({}, answer, { mandatory: get(answer, "properties.required") })
@@ -93,8 +88,7 @@ module.exports = knex => {
       )
       .returning("*")
       .then(head)
-      .then(fromDb)
-      .tap(answer => handleAnswerCreated(trx, answer));
+      .then(fromDb);
 
   const update = ({
     id,
@@ -181,8 +175,6 @@ module.exports = knex => {
       .returning("*")
       .then(head)
       .then(fromDb);
-
-    await handleAnswerDeleted(trx, id);
 
     return deletedAnswer;
   };

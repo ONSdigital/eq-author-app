@@ -6,6 +6,7 @@ const DESTINATION_ID = 2;
 const LATER_PAGE_ID = 3;
 const SECTION_ID = 4;
 const CURRENT_PAGE_ID = 5;
+const CURRENT_SECTION_ID = 6;
 
 describe("Update", () => {
   let repositories;
@@ -24,10 +25,18 @@ describe("Update", () => {
         }),
       },
       Page: {
-        getRoutingDestinations: jest.fn().mockResolvedValue({
-          questionPages: [{ id: LATER_PAGE_ID }],
-          sections: [{ id: SECTION_ID }],
+        getById: jest.fn().mockResolvedValue({
+          id: CURRENT_PAGE_ID,
+          sectionId: CURRENT_SECTION_ID,
         }),
+      },
+      QuestionPage: {
+        getFuturePagesInSection: jest
+          .fn()
+          .mockResolvedValue([{ id: LATER_PAGE_ID }]),
+      },
+      Section: {
+        getFutureSections: jest.fn().mockResolvedValue([{ id: SECTION_ID }]),
       },
     };
   });
@@ -38,9 +47,9 @@ describe("Update", () => {
       else: { pageId: LATER_PAGE_ID.toString() },
     });
 
-    expect(repositories.Page.getRoutingDestinations).toHaveBeenCalledWith(
-      CURRENT_PAGE_ID
-    );
+    expect(
+      repositories.QuestionPage.getFuturePagesInSection
+    ).toHaveBeenCalledWith(CURRENT_PAGE_ID);
     expect(repositories.Destination.update).toHaveBeenCalledWith({
       id: DESTINATION_ID,
       pageId: LATER_PAGE_ID.toString(),
@@ -56,8 +65,8 @@ describe("Update", () => {
       else: { sectionId: SECTION_ID.toString() },
     });
 
-    expect(repositories.Page.getRoutingDestinations).toHaveBeenCalledWith(
-      CURRENT_PAGE_ID
+    expect(repositories.Section.getFutureSections).toHaveBeenCalledWith(
+      CURRENT_SECTION_ID
     );
     expect(repositories.Destination.update).toHaveBeenCalledWith({
       id: DESTINATION_ID,
@@ -94,11 +103,11 @@ describe("Update", () => {
       error = e;
     }
 
-    expect(repositories.Page.getRoutingDestinations).toHaveBeenCalledWith(
-      CURRENT_PAGE_ID
-    );
+    expect(
+      repositories.QuestionPage.getFuturePagesInSection
+    ).toHaveBeenCalledWith(CURRENT_PAGE_ID);
     expect(repositories.Destination.update).not.toHaveBeenCalled();
-    expect(error.message).toMatch("The provided desination is invalid");
+    expect(error.message).toMatch("The provided destination is invalid");
   });
 
   it("should error if the destination section is invalid", async () => {
@@ -112,10 +121,10 @@ describe("Update", () => {
       error = e;
     }
 
-    expect(repositories.Page.getRoutingDestinations).toHaveBeenCalledWith(
-      CURRENT_PAGE_ID
+    expect(repositories.Section.getFutureSections).toHaveBeenCalledWith(
+      CURRENT_SECTION_ID
     );
     expect(repositories.Destination.update).not.toHaveBeenCalled();
-    expect(error.message).toMatch("The provided desination is invalid");
+    expect(error.message).toMatch("The provided destination is invalid");
   });
 });

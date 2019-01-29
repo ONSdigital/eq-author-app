@@ -113,6 +113,20 @@ module.exports = knex => {
       includeSelf: true,
     });
 
+  const getFuturePagesInSection = async id => {
+    const result = await knex.raw(
+      `
+    select pages2.* from "PagesView" as pages 
+	    inner join "PagesView" as pages2 
+	      on pages."sectionId" = pages2."sectionId"
+	  where pages."order" < pages2."order" 
+    and pages.id = ?;
+  `,
+      id
+    );
+    return result.rows;
+  };
+
   return {
     getById,
     insert,
@@ -123,5 +137,6 @@ module.exports = knex => {
     getPipingMetadataForQuestionPage,
     getRoutingQuestionsForQuestionPage,
     getRoutingAnswers,
+    getFuturePagesInSection,
   };
 };

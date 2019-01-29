@@ -7,11 +7,6 @@ import PropTypes from "prop-types";
 
 import RoutingDestinationContentPicker from "./RoutingDestinationContentPicker";
 
-import AbsoluteDestination from "graphql/fragments/absolute-destination.graphql";
-import LogicalDestination from "graphql/fragments/logical-destination.graphql";
-import QuestionPageDestination from "graphql/fragments/question-page-destination.graphql";
-import SectionDestination from "graphql/fragments/section-destination.graphql";
-
 const RoutingRuleResult = styled.div`
   padding: 1em 1em 1em 0.7em;
 `;
@@ -89,13 +84,6 @@ UnwrappedDestinationSelector.propTypes = {
 UnwrappedDestinationSelector.defaultProps = {
   disabled: false,
   loading: false,
-};
-
-UnwrappedDestinationSelector.fragments = {
-  LogicalDestination,
-  AbsoluteDestination,
-  QuestionPageDestination,
-  SectionDestination,
 };
 
 export default withRouter(UnwrappedDestinationSelector);

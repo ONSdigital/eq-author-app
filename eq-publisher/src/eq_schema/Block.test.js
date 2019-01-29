@@ -37,12 +37,12 @@ describe("Block", () => {
           id: "2",
           title: "<p>Are you sure?</p>",
         },
-        routingRuleSet: { id: "2" },
+        routing: { id: "2" },
       }),
       ctx
     );
 
-    expect(block.routingRuleSet).toBeUndefined();
+    expect(block.routing_rules).toBeUndefined();
   });
 
   describe("conversion of page types", () => {
