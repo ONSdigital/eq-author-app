@@ -3,4 +3,9 @@ fragment MinValueValidationRule on MinValueValidationRule {
   enabled
   custom
   inclusive
+  entityType
+  previousAnswer {
+    id
+    displayName
+  }
 }

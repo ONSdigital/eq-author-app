@@ -2,8 +2,7 @@ import builder from "./builder";
 import {
   dateReadToWriteMapper,
   durationReadToWriteMapper,
-  minValueReadToWriteMapper,
-  maxValueReadToWriteMapper,
+  numericReadToWriteMapper,
 } from "./readToWriteMapper";
 
 import EarliestDateValidationRule from "graphql/fragments/earliest-date-validation-rule.graphql";
@@ -55,7 +54,7 @@ export const MinValue = builder(
   "minValue",
   "minValueInput",
   MinValueValidationRule,
-  minValueReadToWriteMapper
+  numericReadToWriteMapper
 );
 
 export const MaxValue = builder(
@@ -64,5 +63,5 @@ export const MaxValue = builder(
   "maxValue",
   "maxValueInput",
   MaxValueValidationRule,
-  maxValueReadToWriteMapper
+  numericReadToWriteMapper
 );

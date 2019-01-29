@@ -448,6 +448,13 @@ const Resolvers = {
     enabled: ({ enabled }) => enabled,
     inclusive: ({ config }) => config.inclusive,
     custom: ({ custom }) => custom,
+    entityType: ({ entityType }) => entityType,
+    previousAnswer: ({ previousAnswerId }, args, ctx) =>
+      isNil(previousAnswerId)
+        ? null
+        : ctx.repositories.Answer.getById(previousAnswerId),
+    availablePreviousAnswers: ({ id }, args, ctx) =>
+      ctx.repositories.Validation.getPreviousAnswersForValidation(id),
   },
 
   MaxValueValidationRule: {

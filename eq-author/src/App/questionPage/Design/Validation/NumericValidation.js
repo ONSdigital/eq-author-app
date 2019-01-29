@@ -20,7 +20,7 @@ const Connector = styled(PathEnd)`
   margin-top: 0.75em;
 `;
 
-export class UnwrappedMaxValueValidation extends React.Component {
+export class UnwrappedNumericValidation extends React.Component {
   PreviousAnswer = () => (
     <FieldWithInclude
       id="inclusive"
@@ -50,7 +50,7 @@ export class UnwrappedMaxValueValidation extends React.Component {
       checked={this.props.validation.inclusive}
     >
       <ValidationInput
-        data-test="max-value-input"
+        data-test="numeric-value-input"
         value={this.props.validation.custom}
         type="number"
         onChange={this.props.onCustomNumberValueChange}
@@ -87,7 +87,7 @@ export class UnwrappedMaxValueValidation extends React.Component {
   }
 }
 
-UnwrappedMaxValueValidation.propTypes = {
+UnwrappedNumericValidation.propTypes = {
   limit: PropTypes.number,
   validation: PropTypes.shape({
     id: PropTypes.string.isRequired,
@@ -117,4 +117,4 @@ UnwrappedMaxValueValidation.propTypes = {
 export default flowRight(
   withCustomNumberValueChange,
   withChangeUpdate
-)(UnwrappedMaxValueValidation);
+)(UnwrappedNumericValidation);

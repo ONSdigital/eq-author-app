@@ -180,6 +180,7 @@ describe("resolvers", () => {
           enabled: false,
           inclusive: false,
           custom: null,
+          entityType: CUSTOM,
         },
         maxValue: {
           id: maxValueId,
@@ -244,15 +245,35 @@ describe("resolvers", () => {
       });
     });
 
-    it("can update inclusive and previous answer max values", async () => {
+    it("can update inclusive and previous answer min values", async () => {
       const previousAnswer = await createNewAnswer(firstPage, "Number");
-      const currencyAnswer = await createNewAnswer(firstPage, "Currency");
-      const currencyValidation = await queryAnswerValidations(
-        currencyAnswer.id
-      );
+      const numberAnswer = await createNewAnswer(firstPage, "Number");
+      const numberValidation = await queryAnswerValidations(numberAnswer.id);
 
       const result = await mutateValidationParameters({
-        id: currencyValidation.maxValue.id,
+        id: numberValidation.minValue.id,
+        minValueInput: {
+          previousAnswer: previousAnswer.id,
+          inclusive: true,
+        },
+      });
+
+      expect(result).toMatchObject({
+        id: numberValidation.minValue.id,
+        previousAnswer: {
+          id: previousAnswer.id,
+        },
+        inclusive: true,
+      });
+    });
+
+    it("can update inclusive and previous answer max values", async () => {
+      const previousAnswer = await createNewAnswer(firstPage, "Number");
+      const numberAnswer = await createNewAnswer(firstPage, "Number");
+      const numberValidation = await queryAnswerValidations(numberAnswer.id);
+
+      const result = await mutateValidationParameters({
+        id: numberValidation.maxValue.id,
         maxValueInput: {
           previousAnswer: previousAnswer.id,
           inclusive: true,
@@ -260,7 +281,7 @@ describe("resolvers", () => {
       });
 
       expect(result).toMatchObject({
-        id: currencyValidation.maxValue.id,
+        id: numberValidation.maxValue.id,
         previousAnswer: {
           id: previousAnswer.id,
         },

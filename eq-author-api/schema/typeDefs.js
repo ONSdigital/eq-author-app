@@ -222,6 +222,9 @@ type MinValueValidationRule implements ValidationRule {
   enabled: Boolean!
   inclusive: Boolean!
   custom: Int
+  previousAnswer: BasicAnswer
+  entityType: ValidationRuleEntityType
+  availablePreviousAnswers: [Answer!]!
 }
 
 type MaxValueValidationRule implements ValidationRule {
@@ -784,6 +787,8 @@ input UpdateValidationRuleInput {
 input UpdateMinValueInput {
   inclusive: Boolean!
   custom: Int
+  entityType: ValidationRuleEntityType
+  previousAnswer: ID
 }
 
 input UpdateMaxValueInput {

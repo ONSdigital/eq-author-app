@@ -13,6 +13,12 @@ const GET_AVAILABLE_PREVIOUS_ANSWERS = gql`
       ... on BasicAnswer {
         validation {
           ... on NumberValidation {
+            minValue {
+              id
+              availablePreviousAnswers {
+                ...AvailableAnswers
+              }
+            }
             maxValue {
               id
               availablePreviousAnswers {

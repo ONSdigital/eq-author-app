@@ -50,12 +50,7 @@ export const durationReadToWriteMapper = outputKey => ({ id, ...rest }) => ({
   [outputKey]: { ...omit("enabled", rest) },
 });
 
-export const minValueReadToWriteMapper = outputKey => ({ id, ...rest }) => ({
-  id,
-  [outputKey]: { ...omit("enabled", rest) },
-});
-
-export const maxValueReadToWriteMapper = outputKey => ({
+export const numericReadToWriteMapper = outputKey => ({
   id,
   previousAnswer,
   entityType,
