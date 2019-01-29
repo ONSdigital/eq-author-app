@@ -108,4 +108,19 @@ describe("ChoseOptions Repository", () => {
       expect(remainingOptions.length).toEqual(0);
     });
   });
+
+  describe("deleteByOptionId", () => {
+    it("will delete all selected options for a given option Id", async () => {
+      await SelectedOptionsRepository.insert({
+        sideId: rightSide.id,
+        optionId: answer.options[0].id,
+      });
+
+      await SelectedOptionsRepository.deleteByOptionId(answer.options[0].id);
+      const remainingOptions = await SelectedOptionsRepository.getBySideId(
+        rightSide.id
+      );
+      expect(remainingOptions.length).toEqual(0);
+    });
+  });
 });
