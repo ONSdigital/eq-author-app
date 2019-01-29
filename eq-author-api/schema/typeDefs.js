@@ -577,7 +577,7 @@ type Mutation {
   updateBinaryExpression2(input: UpdateBinaryExpression2Input!): BinaryExpression2!
   updateLeftSide2(input: UpdateLeftSide2Input!): BinaryExpression2!
   updateRightSide2(input: UpdateRightSide2Input!): BinaryExpression2!  
-  deleteBinaryExpression2(input: DeleteBinaryExpression2Input!): BinaryExpression2!
+  deleteBinaryExpression2(input: DeleteBinaryExpression2Input!): ExpressionGroup2!
 }
 
 input CreateRouting2Input {

@@ -6,6 +6,7 @@ const {
   intersectionBy,
   first,
   getOr,
+  reject,
 } = require("lodash/fp");
 
 const {
@@ -164,8 +165,33 @@ Resolvers.Mutation = {
     }
     return ctx.modifiers.RightSide.update(input);
   },
-  deleteBinaryExpression2: (root, { input }, ctx) =>
-    ctx.repositories.BinaryExpression2.delete(input.id),
+  deleteBinaryExpression2: (root, { input }, ctx) => {
+    {
+      const pages = flatMap(
+        section => section.pages,
+        ctx.questionnaire.sections
+      );
+      const rules = flatMap(
+        routing => getOr([], "rules", routing),
+        flatMap(page => page.routing, pages)
+      );
+
+      const expressionGroup = find(expressionGroup => {
+        if (some({ id: input.id }, expressionGroup.expressions)) {
+          return expressionGroup;
+        }
+      }, flatMap(rule => rule.expressionGroup, rules));
+
+      expressionGroup.expressions = reject(
+        { id: input.id },
+        expressionGroup.expressions
+      );
+
+      save(ctx.questionnaire);
+
+      return expressionGroup;
+    }
+  },
 };
 
 module.exports = Resolvers;
