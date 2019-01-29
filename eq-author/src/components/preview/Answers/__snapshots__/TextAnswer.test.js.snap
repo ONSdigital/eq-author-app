@@ -7,7 +7,7 @@ exports[`TextAnswer should render 1`] = `
   >
     label
   </Label>
-  <Input
+  <TextAnswer__TextInput
     type="text"
   />
 </Field>

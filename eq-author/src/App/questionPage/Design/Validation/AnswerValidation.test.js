@@ -1,6 +1,8 @@
 import React from "react";
 import { shallow } from "enzyme";
 
+import { NUMBER, CURRENCY, PERCENTAGE } from "constants/answer-types";
+
 import SidebarButton, {
   Detail as SidebarButtonDetail,
 } from "components/buttons/SidebarButton";
@@ -21,7 +23,7 @@ describe("AnswerValidation", () => {
     props = {
       answer: {
         id: "1",
-        type: "Number",
+        type: NUMBER,
         validation: {
           minValue: {
             enabled: false,
@@ -64,30 +66,6 @@ describe("AnswerValidation", () => {
     expect(wrapper.state("modalIsOpen")).toEqual(false);
   });
 
-  it("should render min validation values in the preview", () => {
-    const wrapper = render({
-      ...props,
-      answer: {
-        id: "1",
-        type: "Number",
-        validation: {
-          minValue: {
-            enabled: true,
-            custom: 5,
-            entityType: "Custom",
-          },
-        },
-      },
-    });
-
-    expect(
-      wrapper
-        .find(SidebarButtonDetail)
-        .at(0)
-        .prop("children")
-    ).toEqual(5);
-  });
-
   describe("validation object array", () => {
     validationTypes.forEach(validationType => {
       it(`should render the ${validationType.title} validation`, () => {
@@ -98,71 +76,87 @@ describe("AnswerValidation", () => {
     });
   });
 
-  describe("Number/Currency Validation preview", () => {
-    describe("max value", () => {
-      it("should render custom values", () => {
-        const wrapper = type =>
-          render({
-            ...props,
-            answer: {
-              id: "1",
-              type: type,
-              validation: {
-                maxValue: {
-                  enabled: true,
-                  custom: 5,
-                  entityType: "Custom",
-                },
-              },
-            },
-          });
-
-        expect(
-          wrapper("Number")
-            .find(SidebarButtonDetail)
-            .at(0)
-            .prop("children")
-        ).toMatchSnapshot();
-
-        expect(
-          wrapper("Currency")
-            .find(SidebarButtonDetail)
-            .at(0)
-            .prop("children")
-        ).toMatchSnapshot();
-      });
-
-      it("should render previous answer", () => {
-        const wrapper = type =>
-          render({
-            ...props,
-            answer: {
-              id: "1",
-              type: type,
-              validation: {
-                maxValue: {
-                  enabled: true,
-                  previousAnswer: {
-                    displayName: "foobar",
+  describe("Numeric answer validation preview", () => {
+    const NUMBER_TYPES = [PERCENTAGE, NUMBER, CURRENCY];
+    const VALIDATIONS = ["maxValue", "minValue"];
+    VALIDATIONS.forEach(validation => {
+      describe(validation, () => {
+        it("should render custom values", () => {
+          const wrapper = type =>
+            render({
+              ...props,
+              answer: {
+                id: "1",
+                type: type,
+                validation: {
+                  [validation]: {
+                    enabled: true,
+                    custom: 5,
+                    entityType: "Custom",
                   },
                 },
               },
-            },
+            });
+
+          NUMBER_TYPES.forEach(type => {
+            expect(
+              wrapper(type)
+                .find(SidebarButtonDetail)
+                .at(0)
+                .prop("children")
+            ).toMatchSnapshot();
           });
+        });
 
-        expect(
-          wrapper("Number")
-            .find(SidebarButtonDetail)
-            .at(0)
-            .prop("children")
-        ).toMatchSnapshot();
+        it("should not render when the custom value is null", () => {
+          const wrapper = type =>
+            render({
+              ...props,
+              answer: {
+                id: "1",
+                type: type,
+                validation: {
+                  [validation]: {
+                    enabled: true,
+                    custom: null,
+                    entityType: "Custom",
+                  },
+                },
+              },
+            });
 
-        expect(
-          wrapper("Currency")
-            .find(SidebarButtonDetail)
-            .at(0)
-            .prop("children")
-        ).toMatchSnapshot();
+          NUMBER_TYPES.forEach(type => {
+            expect(wrapper(type).find(SidebarButtonDetail)).toMatchSnapshot();
+          });
+        });
+
+        it("should render previous answer", () => {
+          const wrapper = type =>
+            render({
+              ...props,
+              answer: {
+                id: "1",
+                type: type,
+                validation: {
+                  [validation]: {
+                    enabled: true,
+                    previousAnswer: {
+                      displayName: "foobar",
+                    },
+                  },
+                },
+              },
+            });
+
+          NUMBER_TYPES.forEach(type => {
+            expect(
+              wrapper(type)
+                .find(SidebarButtonDetail)
+                .at(0)
+                .prop("children")
+            ).toMatchSnapshot();
+          });
+        });
       });
     });
   });

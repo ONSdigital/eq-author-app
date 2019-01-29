@@ -4,6 +4,6 @@ export const TEXTFIELD = "TextField";
 export const TEXTAREA = "TextArea";
 export const CURRENCY = "Currency";
 export const NUMBER = "Number";
-export const TIME = "Time";
+export const PERCENTAGE = "Percentage";
 export const DATE = "Date";
 export const DATE_RANGE = "DateRange";

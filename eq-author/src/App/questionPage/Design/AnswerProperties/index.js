@@ -3,17 +3,10 @@ import PropTypes from "prop-types";
 import { merge } from "lodash";
 import CustomPropTypes from "custom-prop-types";
 
-import {
-  Required,
-  Decimal,
-  DateFormat,
-} from "App/questionPage/Design/AnswerProperties/Properties";
-import {
-  InlineField,
-  MultiLineField,
-} from "App/questionPage/Design/AnswerProperties/Fields";
+import { Required, Decimal, DateFormat } from "./Properties";
+import { InlineField, MultiLineField } from "./Fields";
 
-import { CURRENCY, DATE, NUMBER } from "constants/answer-types";
+import { CURRENCY, DATE, NUMBER, PERCENTAGE } from "constants/answer-types";
 
 class AnswerProperties extends React.Component {
   static propTypes = {
@@ -48,16 +41,7 @@ class AnswerProperties extends React.Component {
             value={answer.properties.required}
           />
         </InlineField>
-        {answer.type === NUMBER && (
-          <InlineField id={this.getId("decimals", answer)} label={"Decimals"}>
-            <Decimal
-              id={this.getId("decimals", answer)}
-              onChange={this.handleChange("decimals")}
-              value={answer.properties.decimals}
-            />
-          </InlineField>
-        )}
-        {answer.type === CURRENCY && (
+        {[NUMBER, PERCENTAGE, CURRENCY].includes(answer.type) && (
           <InlineField id={this.getId("decimals", answer)} label={"Decimals"}>
             <Decimal
               id={this.getId("decimals", answer)}

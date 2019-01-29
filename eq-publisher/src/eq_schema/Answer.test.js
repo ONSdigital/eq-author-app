@@ -1,4 +1,13 @@
 /* eslint-disable camelcase */
+const {
+  NUMBER,
+  DATE,
+  CHECKBOX,
+  RADIO,
+  TEXTFIELD,
+  CURRENCY,
+  PERCENTAGE,
+} = require("../constants/answerTypes");
 const Answer = require("./Answer");
 const Question = require("./Question");
 
@@ -11,7 +20,7 @@ describe("Answer", () => {
         guidance: null,
         qCode: "51",
         label: "Number of male employees working more than 30 hours per week",
-        type: "Number",
+        type: NUMBER,
         properties: {
           required: true,
           decimals: 2,
@@ -21,11 +30,11 @@ describe("Answer", () => {
     );
 
   it("should generate a valid eQ answer from an author answer", () => {
-    const answer = new Answer(createAnswerJSON({ type: "Number" }));
+    const answer = new Answer(createAnswerJSON({ type: NUMBER }));
 
     expect(answer).toMatchObject({
       id: "answer1",
-      type: "Number",
+      type: NUMBER,
       mandatory: true,
       decimal_places: 2,
       description: "This is a description",
@@ -33,24 +42,24 @@ describe("Answer", () => {
   });
 
   it("should set currency to GBP for currency types", () => {
-    const answer = new Answer(createAnswerJSON({ type: "Currency" }));
+    const answer = new Answer(createAnswerJSON({ type: CURRENCY }));
     expect(answer.currency).toBe("GBP");
   });
 
   it("should set correct to answer type for different date formats", () => {
     const date = new Answer(
       createAnswerJSON({
-        type: "Date",
+        type: DATE,
         properties: {
           format: "dd/mm/yyyy",
         },
       })
     );
-    expect(date.type).toBe("Date");
+    expect(date.type).toBe(DATE);
 
     const monthYearDate = new Answer(
       createAnswerJSON({
-        type: "Date",
+        type: DATE,
         properties: {
           format: "mm/yyyy",
         },
@@ -60,7 +69,7 @@ describe("Answer", () => {
 
     const yearDate = new Answer(
       createAnswerJSON({
-        type: "Date",
+        type: DATE,
         properties: {
           format: "yyyy",
         },
@@ -99,27 +108,58 @@ describe("Answer", () => {
       expect(answer.max_value).toBeUndefined();
     });
 
+    describe("Min value", () => {
+      it("should add a min value validation rule for number types", () => {
+        [NUMBER, PERCENTAGE, CURRENCY].forEach(type => {
+          const answer = new Answer(
+            createAnswerJSON({
+              type,
+              validation: {
+                minValue: {
+                  id: "2",
+                  enabled: true,
+                  inclusive: false,
+                  custom: 0,
+                },
+                maxValue: {
+                  id: "1",
+                  enabled: false,
+                },
+              },
+            })
+          );
+          expect(answer.min_value).toMatchObject({
+            value: 0,
+            exclusive: true,
+          });
+        });
+      });
+    });
+
     describe("Max value", () => {
-      it("should add a max value validation rule", () => {
-        const answer = new Answer(
-          createAnswerJSON({
-            validation: {
-              minValue: {
-                id: "2",
-                enabled: false,
+      it("should add a max value validation rule for number types", () => {
+        [NUMBER, PERCENTAGE, CURRENCY].forEach(type => {
+          const answer = new Answer(
+            createAnswerJSON({
+              type,
+              validation: {
+                minValue: {
+                  id: "2",
+                  enabled: false,
+                },
+                maxValue: {
+                  id: "1",
+                  inclusive: false,
+                  enabled: true,
+                  custom: 5,
+                },
               },
-              maxValue: {
-                id: "1",
-                inclusive: false,
-                enabled: true,
-                custom: 5,
-              },
-            },
-          })
-        );
-        expect(answer.max_value).toMatchObject({
-          value: 5,
-          exclusive: true,
+            })
+          );
+          expect(answer.max_value).toMatchObject({
+            value: 5,
+            exclusive: true,
+          });
         });
       });
 
@@ -221,7 +261,7 @@ describe("Answer", () => {
       let authorDateAnswer;
       beforeEach(() => {
         authorDateAnswer = {
-          type: "Date",
+          type: DATE,
           validation: {
             earliestDate: {
               id: "1",
@@ -249,7 +289,7 @@ describe("Answer", () => {
       it("should add earliest date current date value", () => {
         const answer = new Answer(
           createAnswerJSON({
-            type: "Date",
+            type: DATE,
             validation: {
               earliestDate: {
                 id: "1",
@@ -277,7 +317,7 @@ describe("Answer", () => {
       it("should add earliest date previous answer", () => {
         const answer = new Answer(
           createAnswerJSON({
-            type: "Date",
+            type: DATE,
             validation: {
               earliestDate: {
                 id: "1",
@@ -308,7 +348,7 @@ describe("Answer", () => {
       it("should add earliest date metadata", () => {
         const answer = new Answer(
           createAnswerJSON({
-            type: "Date",
+            type: DATE,
             validation: {
               earliestDate: {
                 id: "1",
@@ -340,7 +380,7 @@ describe("Answer", () => {
       it("should drop validation that has an entity type of PreviousAnswer but no answer", () => {
         const answer = new Answer(
           createAnswerJSON({
-            type: "Date",
+            type: DATE,
             validation: {
               earliestDate: {
                 id: "1",
@@ -366,7 +406,7 @@ describe("Answer", () => {
       it("should drop validation that has an entity type of Metadata but no metadata", () => {
         const answer = new Answer(
           createAnswerJSON({
-            type: "Date",
+            type: DATE,
             validation: {
               earliestDate: {
                 id: "1",
@@ -431,7 +471,7 @@ describe("Answer", () => {
       let authorDateAnswer;
       beforeEach(() => {
         authorDateAnswer = {
-          type: "Date",
+          type: DATE,
           validation: {
             earliestDate: {
               enabled: false,
@@ -459,7 +499,7 @@ describe("Answer", () => {
       it("should add latest date previous answer", () => {
         const answer = new Answer(
           createAnswerJSON({
-            type: "Date",
+            type: DATE,
             validation: {
               latestDate: {
                 id: "1",
@@ -490,7 +530,7 @@ describe("Answer", () => {
       it("should add latest date current date value", () => {
         const answer = new Answer(
           createAnswerJSON({
-            type: "Date",
+            type: DATE,
             validation: {
               earliestDate: {
                 enabled: false,
@@ -518,7 +558,7 @@ describe("Answer", () => {
       it("should add latest date metadata", () => {
         const answer = new Answer(
           createAnswerJSON({
-            type: "Date",
+            type: DATE,
             validation: {
               latestDate: {
                 id: "1",
@@ -550,7 +590,7 @@ describe("Answer", () => {
       it("should drop validation that has an entity type of PreviousAnswer but no answer", () => {
         const answer = new Answer(
           createAnswerJSON({
-            type: "Date",
+            type: DATE,
             validation: {
               latestDate: {
                 id: "1",
@@ -576,7 +616,7 @@ describe("Answer", () => {
       it("should drop validation that has an entity type of Metadata but no metadata", () => {
         const answer = new Answer(
           createAnswerJSON({
-            type: "Date",
+            type: DATE,
             validation: {
               latestDate: {
                 id: "1",
@@ -647,7 +687,7 @@ describe("Answer", () => {
     it("should add options for multiple choice answers", () => {
       const answer = new Answer(
         createAnswerJSON({
-          type: "Radio",
+          type: RADIO,
           options: [
             {
               id: 1,
@@ -680,7 +720,7 @@ describe("Answer", () => {
     it("should omit child_answer_id if not supplied", () => {
       const answer = new Answer(
         createAnswerJSON({
-          type: "Radio",
+          type: RADIO,
           options: [
             {
               id: 1,
@@ -708,7 +748,7 @@ describe("Answer", () => {
   it("should omit option description if null value provided", () => {
     const answer = new Answer(
       createAnswerJSON({
-        type: "Radio",
+        type: RADIO,
         options: [
           {
             id: 1,
@@ -743,7 +783,7 @@ describe("Answer", () => {
     beforeEach(() => {
       checkboxWithAdditionalAnswers = createAnswerJSON({
         id: 1,
-        type: "Checkbox",
+        type: CHECKBOX,
         options: [
           {
             id: 1,
@@ -759,7 +799,7 @@ describe("Answer", () => {
             additionalAnswer: {
               id: 4,
               label: "Additional",
-              type: "TextField",
+              type: TEXTFIELD,
             },
           },
         ],
@@ -779,7 +819,7 @@ describe("Answer", () => {
           detail_answer: {
             id: "answer4",
             label: "Additional",
-            type: "TextField",
+            type: TEXTFIELD,
             mandatory: true,
           },
         })

@@ -4,16 +4,8 @@ import PropTypes from "prop-types";
 import { get } from "lodash/fp";
 
 import { colors, radius } from "constants/theme";
-import { CURRENCY } from "constants/answer-types";
 import { Number, Select, Label } from "components/Forms";
 import VisuallyHidden from "components/VisuallyHidden";
-
-export const RoutingNumberInput = styled(Number)`
-  border-radius: ${radius};
-  width: 8em;
-  outline: none;
-  ${props => props.answerType === CURRENCY && "padding-left: 1.2em;"}
-`;
 
 export const ConditionSelector = styled(Select)`
   width: auto;
@@ -25,12 +17,6 @@ const Value = styled.div`
   margin-left: 1em;
   align-items: center;
   position: relative;
-`;
-
-const CurrencySymbol = styled.div`
-  position: absolute;
-  opacity: 0.5;
-  left: 0.5em;
 `;
 
 const NumberAnswerRoutingSelector = styled.div`
@@ -92,10 +78,7 @@ class NumberAnswerSelector extends React.Component {
           <VisuallyHidden>
             <Label htmlFor={`expression-right-${expression.id}`}>Value</Label>
           </VisuallyHidden>
-          {expression.left.type === CURRENCY && (
-            <CurrencySymbol>£</CurrencySymbol>
-          )}
-          <RoutingNumberInput
+          <Number
             id={`expression-right-${expression.id}`}
             min={-99999999}
             max={999999999}
@@ -104,7 +87,7 @@ class NumberAnswerSelector extends React.Component {
             name={`expression-right-${expression.id}`}
             onChange={this.handleRightChange}
             data-test="number-value-input"
-            answerType={expression.left.type}
+            type={expression.left.type}
           />
         </Value>
       </NumberAnswerRoutingSelector>

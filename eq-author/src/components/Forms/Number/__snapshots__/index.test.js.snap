@@ -1,8 +1,28 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Number min/max render with a unit type for currency 1`] = `
+<Number__UnitSymbol
+  data-test="unit"
+  id="unit-number"
+>
+  £
+</Number__UnitSymbol>
+`;
+
+exports[`Number min/max render with a unit type for percentage 1`] = `
+<Number__UnitSymbol
+  data-test="unit"
+  id="unit-number"
+  trailing={true}
+>
+  %
+</Number__UnitSymbol>
+`;
+
 exports[`Number should render correctly 1`] = `
 <Number__StyledDiv>
   <Number__StyledInput
+    aria-labelledby="unit-number"
     aria-live="assertive"
     data-test="number-input"
     default={0}

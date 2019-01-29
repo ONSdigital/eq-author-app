@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import styled from "styled-components";
 
 import {
   RADIO,
@@ -10,6 +11,7 @@ import {
   DATE_RANGE,
   CURRENCY,
   NUMBER,
+  PERCENTAGE,
 } from "constants/answer-types";
 
 import DateAnswer from "./DateAnswer";
@@ -18,7 +20,7 @@ import MultipleChoiceAnswer from "./MultipleChoiceAnswer";
 import CurrencyAnswer from "./CurrencyAnswer";
 import TextAnswer from "./TextAnswer";
 import TextAreaAnswer from "./TextAreaAnswer";
-import styled from "styled-components";
+import PercentageAnswer from "./PercentageAnswer";
 
 export const answerComponents = {
   [CHECKBOX]: MultipleChoiceAnswer,
@@ -29,6 +31,7 @@ export const answerComponents = {
   [TEXTAREA]: TextAreaAnswer,
   [DATE]: DateAnswer,
   [DATE_RANGE]: DateRangeAnswer,
+  [PERCENTAGE]: PercentageAnswer,
 };
 
 const AnswerWrapper = styled.div`

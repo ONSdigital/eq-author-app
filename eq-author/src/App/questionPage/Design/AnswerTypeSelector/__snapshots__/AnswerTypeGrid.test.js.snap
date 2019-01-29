@@ -66,90 +66,11 @@ exports[`components/AnswerTypeGrid should render 1`] = `
         type="DateRange"
       />
       <AnswerTypeButton
-        disabled={true}
-        key="Time"
+        key="Percentage"
         onClick={[Function]}
         order={1}
-        title="Time"
-        type="Time"
-      />
-    </IconGrid>
-  </AnswerTypeGrid__MenuBackground>
-</AnswerTypeGrid__Menu>
-`;
-
-exports[`components/AnswerTypeGrid should render 1`] = `
-<AnswerTypeGrid__Menu
-  onClose={[MockFunction]}
-  onSelect={[MockFunction]}
->
-  <AnswerTypeGrid__MenuBackground>
-    <IconGrid
-      aria-labelledby="foo"
-    >
-      <AnswerTypeButton
-        key="Checkbox"
-        onClick={[Function]}
-        order={9}
-        title="Checkbox"
-        type="Checkbox"
-      />
-      <AnswerTypeButton
-        key="Radio"
-        onClick={[Function]}
-        order={8}
-        title="Radio"
-        type="Radio"
-      />
-      <AnswerTypeButton
-        key="TextField"
-        onClick={[Function]}
-        order={7}
-        title="Text"
-        type="TextField"
-      />
-      <AnswerTypeButton
-        key="TextArea"
-        onClick={[Function]}
-        order={6}
-        title="Textarea"
-        type="TextArea"
-      />
-      <AnswerTypeButton
-        key="Currency"
-        onClick={[Function]}
-        order={5}
-        title="Currency"
-        type="Currency"
-      />
-      <AnswerTypeButton
-        key="Number"
-        onClick={[Function]}
-        order={4}
-        title="Number"
-        type="Number"
-      />
-      <AnswerTypeButton
-        key="Date"
-        onClick={[Function]}
-        order={3}
-        title="Date"
-        type="Date"
-      />
-      <AnswerTypeButton
-        key="DateRange"
-        onClick={[Function]}
-        order={2}
-        title="Date range"
-        type="DateRange"
-      />
-      <AnswerTypeButton
-        disabled={true}
-        key="Time"
-        onClick={[Function]}
-        order={1}
-        title="Time"
-        type="Time"
+        title="Percentage"
+        type="Percentage"
       />
     </IconGrid>
   </AnswerTypeGrid__MenuBackground>

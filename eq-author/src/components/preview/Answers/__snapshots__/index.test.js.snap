@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Answers should render a component for each answer type except time: Checkbox 1`] = `
+exports[`Answers should render a component for each answer type: Checkbox 1`] = `
 <Answers__AnswerWrapper>
   <MultipleChoiceAnswer
     answer={
@@ -13,7 +13,7 @@ exports[`Answers should render a component for each answer type except time: Che
 </Answers__AnswerWrapper>
 `;
 
-exports[`Answers should render a component for each answer type except time: Currency 1`] = `
+exports[`Answers should render a component for each answer type: Currency 1`] = `
 <Answers__AnswerWrapper>
   <CurrencyAnswer
     answer={
@@ -26,7 +26,7 @@ exports[`Answers should render a component for each answer type except time: Cur
 </Answers__AnswerWrapper>
 `;
 
-exports[`Answers should render a component for each answer type except time: Number 1`] = `
+exports[`Answers should render a component for each answer type: Number 1`] = `
 <Answers__AnswerWrapper>
   <TextAnswer
     answer={
@@ -39,7 +39,20 @@ exports[`Answers should render a component for each answer type except time: Num
 </Answers__AnswerWrapper>
 `;
 
-exports[`Answers should render a component for each answer type except time: Radio 1`] = `
+exports[`Answers should render a component for each answer type: Percentage 1`] = `
+<Answers__AnswerWrapper>
+  <PercentageAnswer
+    answer={
+      Object {
+        "options": Array [],
+        "type": "Percentage",
+      }
+    }
+  />
+</Answers__AnswerWrapper>
+`;
+
+exports[`Answers should render a component for each answer type: Radio 1`] = `
 <Answers__AnswerWrapper>
   <MultipleChoiceAnswer
     answer={
@@ -52,7 +65,7 @@ exports[`Answers should render a component for each answer type except time: Rad
 </Answers__AnswerWrapper>
 `;
 
-exports[`Answers should render a component for each answer type except time: TextArea 1`] = `
+exports[`Answers should render a component for each answer type: TextArea 1`] = `
 <Answers__AnswerWrapper>
   <TextAreaAnswer
     answer={
@@ -65,7 +78,7 @@ exports[`Answers should render a component for each answer type except time: Tex
 </Answers__AnswerWrapper>
 `;
 
-exports[`Answers should render a component for each answer type except time: TextField 1`] = `
+exports[`Answers should render a component for each answer type: TextField 1`] = `
 <Answers__AnswerWrapper>
   <TextAnswer
     answer={

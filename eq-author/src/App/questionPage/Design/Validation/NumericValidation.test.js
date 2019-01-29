@@ -1,12 +1,15 @@
-import ValidationInput from "App/questionPage/Design/Validation/ValidationInput";
 import React from "react";
 import { shallow } from "enzyme";
+
+import { CUSTOM } from "constants/validation-entity-types";
+import { NUMBER } from "constants/answer-types";
+
+import { Number } from "components/Forms";
 
 import FieldWithInclude from "./FieldWithInclude";
 import PreviousAnswerContentPicker from "./PreviousAnswerContentPicker";
 import { UnwrappedNumericValidation } from "./NumericValidation";
 import { ValidationPills } from "./ValidationPills";
-import { CUSTOM } from "constants/validation-entity-types";
 
 const createWrapper = (props, render = shallow) =>
   render(<UnwrappedNumericValidation {...props} />);
@@ -30,9 +33,7 @@ describe("NumericValidation", () => {
       },
       answer: {
         id: "1",
-        properties: {
-          format: "YYYY",
-        },
+        type: NUMBER,
       },
       onCustomNumberValueChange: onCustomNumberValueChange,
       onChangeUpdate: onChangeUpdate,
@@ -41,6 +42,7 @@ describe("NumericValidation", () => {
       displayName: "foobar",
       readKey: "read",
       testId: "test-id",
+      limit: 999,
     };
 
     wrapper = createWrapper(props);
@@ -91,7 +93,7 @@ describe("NumericValidation", () => {
     });
 
     it("should correctly handle custom value changes", () => {
-      customInputWrapper.find(ValidationInput).simulate("change", {
+      customInputWrapper.find(Number).simulate("change", {
         value: 1,
       });
 

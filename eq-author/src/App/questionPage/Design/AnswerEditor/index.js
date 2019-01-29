@@ -14,11 +14,11 @@ import {
   TEXTFIELD,
   NUMBER,
   CURRENCY,
+  PERCENTAGE,
   TEXTAREA,
   CHECKBOX,
   RADIO,
   DATE_RANGE,
-  DATE,
 } from "constants/answer-types";
 import CurrencyAnswer from "App/questionPage/Design/answers/CurrencyAnswer";
 import Tooltip from "components/Forms/Tooltip";
@@ -70,38 +70,40 @@ class AnswerEditor extends React.Component {
     );
 
   renderAnswer(answer) {
-    switch (answer.type) {
-      case TEXTFIELD:
-      case TEXTAREA:
-        return <BasicAnswer {...this.props} />;
-      case NUMBER:
-        return <BasicAnswer {...this.props} showDescription />;
-      case CURRENCY:
-        return <CurrencyAnswer {...this.props} />;
-      case CHECKBOX:
-        return <MultipleChoiceAnswer type={answer.type} {...this.props} />;
-      case RADIO:
-        return (
-          <MultipleChoiceAnswer
-            minOptions={2}
-            type={answer.type}
-            {...this.props}
-          />
-        );
-      case DATE_RANGE:
-        return <DateRange {...this.props} />;
-      case DATE:
-        return (
-          <Date
-            {...this.props}
-            showDay={this.formatIncludes("dd")(answer)}
-            showMonth={this.formatIncludes("mm")(answer)}
-            showYear={this.formatIncludes("yyyy")(answer)}
-          />
-        );
-      default:
-        throw new TypeError(`Unknown answer type: ${answer.type}`);
+    const { type } = answer;
+    if ([TEXTFIELD, TEXTAREA].includes(type)) {
+      return <BasicAnswer {...this.props} />;
     }
+    if ([PERCENTAGE, NUMBER].includes(type)) {
+      return <BasicAnswer {...this.props} showDescription />;
+    }
+    if (type === CURRENCY) {
+      return <CurrencyAnswer {...this.props} />;
+    }
+    if (type === CHECKBOX) {
+      return <MultipleChoiceAnswer type={answer.type} {...this.props} />;
+    }
+    if (type === RADIO) {
+      return (
+        <MultipleChoiceAnswer
+          minOptions={2}
+          type={answer.type}
+          {...this.props}
+        />
+      );
+    }
+    if (type === DATE_RANGE) {
+      return <DateRange {...this.props} />;
+    }
+    // Only option left is Date as validation done in prop types
+    return (
+      <Date
+        {...this.props}
+        showDay={this.formatIncludes("dd")(answer)}
+        showMonth={this.formatIncludes("mm")(answer)}
+        showYear={this.formatIncludes("yyyy")(answer)}
+      />
+    );
   }
 
   render() {

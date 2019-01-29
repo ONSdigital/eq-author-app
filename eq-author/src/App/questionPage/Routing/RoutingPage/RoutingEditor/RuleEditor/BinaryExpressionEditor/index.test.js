@@ -1,7 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
 
-import { RADIO, CURRENCY, NUMBER } from "constants/answer-types";
+import { RADIO, CURRENCY, NUMBER, PERCENTAGE } from "constants/answer-types";
 import {
   NO_ROUTABLE_ANSWER_ON_PAGE,
   SELECTED_ANSWER_DELETED,
@@ -64,7 +64,7 @@ describe("BinaryExpressionEditor", () => {
   });
 
   it("should render number editor correctly", () => {
-    const answerTypes = [CURRENCY, NUMBER];
+    const answerTypes = [CURRENCY, NUMBER, PERCENTAGE];
     answerTypes.forEach(answerType => {
       defaultProps.expression.left.type = answerType;
       const wrapper = shallow(<BinaryExpressionEditor {...defaultProps} />);

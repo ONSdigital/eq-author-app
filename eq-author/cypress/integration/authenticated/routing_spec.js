@@ -8,6 +8,11 @@ import {
   addAnswerType,
   selectAnswerFromContentPicker,
 } from "../../utils";
+import {
+  CURRENCY,
+  PERCENTAGE,
+  NUMBER,
+} from "../../../src/constants/answer-types";
 
 let title;
 
@@ -88,36 +93,22 @@ describe("Routing", () => {
     findByLabel("THEN").contains("Question 3");
   });
 
-  it("should be able to add a currency routing rule and edit the inputs", () => {
-    title = "Test add number";
-    cy.createQuestionnaire(title);
-    typeIntoDraftEditor(testId("txt-question-title", "testid"), "Question 1");
+  [CURRENCY, NUMBER, PERCENTAGE].forEach(type => {
+    it(`should be able to add a ${type} routing rule and edit the inputs`, () => {
+      title = `Test add ${type}`;
+      cy.createQuestionnaire(title);
+      typeIntoDraftEditor(testId("txt-question-title", "testid"), "Question 1");
 
-    addAnswerType("Currency");
+      addAnswerType(type);
 
-    navigateToRoutingTab();
+      navigateToRoutingTab();
 
-    cy.get(testId("btn-add-routing")).click();
+      cy.get(testId("btn-add-routing")).click();
 
-    cy.get(testId("condition-selector")).select("LessThan");
+      cy.get(testId("condition-selector")).select("LessThan");
 
-    cy.get(testId("number-input")).type("123");
-  });
-
-  it("should be able to add a number routing rule and edit the inputs", () => {
-    title = "Test add number";
-    cy.createQuestionnaire(title);
-    typeIntoDraftEditor(testId("txt-question-title", "testid"), "Question 1");
-
-    addAnswerType("Number");
-
-    navigateToRoutingTab();
-
-    cy.get(testId("btn-add-routing")).click();
-
-    cy.get(testId("condition-selector")).select("GreaterThan");
-
-    cy.get(testId("number-input")).type("321");
+      cy.get(testId("number-value-input")).type("123");
+    });
   });
 
   it("follows the link to add an answer and routing updates with the new answer", () => {

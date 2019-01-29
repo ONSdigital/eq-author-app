@@ -1,5 +1,8 @@
 import React from "react";
 import { shallow } from "enzyme";
+
+import { PERCENTAGE, CURRENCY } from "constants/answer-types";
+
 import Number from "./";
 
 const defaultValue = 0;
@@ -81,6 +84,16 @@ describe("Number", () => {
       .catch(cb);
   });
 
+  it("should update the value if the prop changes", () => {
+    number.find("[data-test='number-input']").simulate("change", { value: 3 });
+    number.setProps({ min: 6 });
+    expect(number.find("[data-test='number-input']").prop("value")).toEqual(3);
+    number.setProps({ value: 100 });
+    expect(number.find("[data-test='number-input']").prop("value")).toEqual(
+      100
+    );
+  });
+
   describe("min/max", () => {
     it("should not go over the max when changed", () => {
       numberWithMinMax
@@ -122,6 +135,40 @@ describe("Number", () => {
       expect(
         numberWithMinMax.find("[data-test='number-input']").prop("value")
       ).toEqual(0);
+    });
+
+    it("render with a unit type for currency", () => {
+      const wrapper = shallow(
+        <Number
+          name="numberName"
+          id="number"
+          type={CURRENCY}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          value={defaultValue}
+          min={-10}
+          max={10}
+        />
+      );
+
+      expect(wrapper.find("[data-test='unit']")).toMatchSnapshot();
+    });
+
+    it("render with a unit type for percentage", () => {
+      const wrapper = shallow(
+        <Number
+          name="numberName"
+          id="number"
+          type={PERCENTAGE}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          value={defaultValue}
+          min={-10}
+          max={10}
+        />
+      );
+
+      expect(wrapper.find("[data-test='unit']")).toMatchSnapshot();
     });
   });
 });

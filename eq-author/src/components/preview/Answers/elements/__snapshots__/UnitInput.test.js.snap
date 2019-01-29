@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UnitInput should render with a unit 1`] = `
+<UnitInput__InputType>
+  <UnitInput__Type>
+    £
+  </UnitInput__Type>
+  <Input
+    type="text"
+  />
+</UnitInput__InputType>
+`;

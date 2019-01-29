@@ -4,15 +4,15 @@ import { IconGridButton } from "components/IconGrid";
 import { keys } from "lodash";
 import * as AnswerTypes from "constants/answer-types";
 
-import checkboxIcon from "App/questionPage/Design/AnswerTypeSelector/icons/checkbox.svg";
-import currencyIcon from "App/questionPage/Design/AnswerTypeSelector/icons/currency.svg";
-import dateIcon from "App/questionPage/Design/AnswerTypeSelector/icons/date.svg";
-import dateRangeIcon from "App/questionPage/Design/AnswerTypeSelector/icons/date-range.svg";
-import numberIcon from "App/questionPage/Design/AnswerTypeSelector/icons/number.svg";
-import radioIcon from "App/questionPage/Design/AnswerTypeSelector/icons/radio.svg";
-import timeIcon from "App/questionPage/Design/AnswerTypeSelector/icons/time.svg";
-import textareaIcon from "App/questionPage/Design/AnswerTypeSelector/icons/textarea.svg";
-import textfieldIcon from "App/questionPage/Design/AnswerTypeSelector/icons/textfield.svg";
+import checkboxIcon from "./icons/checkbox.svg";
+import currencyIcon from "./icons/currency.svg";
+import dateIcon from "./icons/date.svg";
+import dateRangeIcon from "./icons/date-range.svg";
+import numberIcon from "./icons/number.svg";
+import radioIcon from "./icons/radio.svg";
+import percentageIcon from "./icons/percentage.svg";
+import textareaIcon from "./icons/textarea.svg";
+import textfieldIcon from "./icons/textfield.svg";
 
 export const icons = {
   [AnswerTypes.CHECKBOX]: checkboxIcon,
@@ -21,10 +21,11 @@ export const icons = {
   [AnswerTypes.DATE_RANGE]: dateRangeIcon,
   [AnswerTypes.NUMBER]: numberIcon,
   [AnswerTypes.RADIO]: radioIcon,
-  [AnswerTypes.TIME]: timeIcon,
+  [AnswerTypes.PERCENTAGE]: percentageIcon,
   [AnswerTypes.TEXTAREA]: textareaIcon,
   [AnswerTypes.TEXTFIELD]: textfieldIcon,
 };
+
 export default class AnswerTypeButton extends React.Component {
   static propTypes = {
     type: PropTypes.oneOf(keys(icons)).isRequired,

@@ -1,7 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
-import AnswerTypeGrid from "App/questionPage/Design/AnswerTypeSelector/AnswerTypeGrid";
-import AnswerTypeButton from "App/questionPage/Design/AnswerTypeSelector/AnswerTypeButton";
+import AnswerTypeGrid from "./AnswerTypeGrid";
+import AnswerTypeButton from "./AnswerTypeButton";
 
 let wrapper, handleClose, handleSelect;
 

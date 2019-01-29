@@ -9,6 +9,7 @@ exports[`Duration should render 1`] = `
     cols={2}
   >
     <Number
+      data-test="number-input"
       default={0}
       id="foobar-value"
       max={99999}

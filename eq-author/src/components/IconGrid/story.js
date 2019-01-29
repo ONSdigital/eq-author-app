@@ -8,9 +8,9 @@ import dateIcon from "App/questionPage/Design/AnswerTypeSelector/icons/date.svg"
 import dateRangeIcon from "App/questionPage/Design/AnswerTypeSelector/icons/date-range.svg";
 import numberIcon from "App/questionPage/Design/AnswerTypeSelector/icons/number.svg";
 import radioIcon from "App/questionPage/Design/AnswerTypeSelector/icons/radio.svg";
-import timeIcon from "App/questionPage/Design/AnswerTypeSelector/icons/time.svg";
 import textareaIcon from "App/questionPage/Design/AnswerTypeSelector/icons/textarea.svg";
 import textfieldIcon from "App/questionPage/Design/AnswerTypeSelector/icons/textfield.svg";
+import percentageIcon from "App/questionPage/Design/AnswerTypeSelector/icons/percentage.svg";
 
 storiesOf("IconGrid", module).add("Default", () => (
   <IconGrid>
@@ -45,10 +45,14 @@ storiesOf("IconGrid", module).add("Default", () => (
       title="textfield"
       onClick={action("click")}
     />
-    <IconGridButton iconSrc={timeIcon} title="time" onClick={action("click")} />
     <IconGridButton
       iconSrc={dateRangeIcon}
       title="date range"
+      onClick={action("click")}
+    />
+    <IconGridButton
+      iconSrc={percentageIcon}
+      title="percentage"
       onClick={action("click")}
     />
   </IconGrid>

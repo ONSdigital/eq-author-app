@@ -16,7 +16,6 @@ describe("Right side updates", () => {
   let sharedStubs;
   beforeEach(() => {
     sharedStubs = {
-      ...sharedStubs,
       LeftSide2: {
         getByExpressionId: jest.fn().mockResolvedValue({
           id: LEFT_SIDE_ID,
@@ -82,7 +81,9 @@ describe("Right side updates", () => {
         }),
       },
       Answer: {
-        getById: jest.fn().mockResolvedValueOnce({ type: answerTypes.NUMBER }),
+        getById: jest
+          .fn()
+          .mockResolvedValueOnce({ type: answerTypes.PERCENTAGE }),
       },
     };
 

@@ -4,8 +4,6 @@ import jwt from "jsonwebtoken";
 import uuid from "uuid";
 export const testId = (id, attr = "test") => `[data-${attr}="${id}"]`;
 
-export const answerTypes = ["Textfield", "Textarea", "Currency", "Number"];
-
 export const selectOptionByLabel = label => {
   cy.get("option")
     .contains(label)

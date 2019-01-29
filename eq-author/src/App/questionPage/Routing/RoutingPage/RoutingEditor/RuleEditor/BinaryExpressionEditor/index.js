@@ -7,7 +7,7 @@ import { propType } from "graphql-anywhere";
 import { NavLink, withRouter } from "react-router-dom";
 
 import CustomPropTypes from "custom-prop-types";
-import { RADIO, NUMBER, CURRENCY } from "constants/answer-types";
+import { RADIO, NUMBER, CURRENCY, PERCENTAGE } from "constants/answer-types";
 import {
   NO_ROUTABLE_ANSWER_ON_PAGE,
   SELECTED_ANSWER_DELETED,
@@ -118,6 +118,7 @@ const ERROR_SITUATIONS = [
 const ANSWER_TYPE_TO_RIGHT_EDITOR = {
   [RADIO]: MultipleChoiceAnswerOptionsSelector,
   [NUMBER]: NumberAnswerSelector,
+  [PERCENTAGE]: NumberAnswerSelector,
   [CURRENCY]: NumberAnswerSelector,
 };
 
