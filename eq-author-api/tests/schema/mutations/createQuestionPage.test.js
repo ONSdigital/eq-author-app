@@ -12,6 +12,8 @@ describe("createQuestionPage", () => {
         guidance
         definitionLabel
         definitionContent
+        additionalInfoLabel
+        additionalInfoContent
       }
     }
   `;
@@ -33,6 +35,8 @@ describe("createQuestionPage", () => {
       sectionId: "1",
       definitionLabel: "Test question definition label",
       definitionContent: "Test question definition content",
+      additionalInfoLabel: "Test question additionalInfo label",
+      additionalInfoContent: "Test question additionalInfo content",
     };
 
     const result = await executeQuery(

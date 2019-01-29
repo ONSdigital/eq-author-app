@@ -4,7 +4,7 @@ const {
   getInnerHTMLWithPiping,
   unescapePiping,
 } = require("../utils/HTMLUtils");
-const { find, get, flow, isNil, assign, concat } = require("lodash/fp");
+const { find, get, flow, isNil, assign, concat, last } = require("lodash/fp");
 const { set } = require("lodash");
 const convertPipes = require("../utils/convertPipes");
 
@@ -91,6 +91,16 @@ class Question {
     } else {
       this.type = "General";
       this.answers = this.buildAnswers(question.answers);
+    }
+
+    if (question.additionalInfoLabel || question.additionalInfoContent) {
+      last(this.answers).guidance = {
+        /* eslint-disable-next-line camelcase */
+        show_guidance: question.additionalInfoLabel,
+        /* eslint-disable-next-line camelcase */
+        hide_guidance: question.additionalInfoLabel,
+        ...processContent(ctx)(question.additionalInfoContent),
+      };
     }
   }
 

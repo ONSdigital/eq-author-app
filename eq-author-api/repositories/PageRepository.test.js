@@ -32,6 +32,8 @@ const buildPage = page => ({
   guidance: "page guidance",
   definitionLabel: "page definitionLabel",
   definitionContent: "page definitionContent",
+  additionalInfoLabel: "page additionalInfoLabel",
+  additionalInfoContent: "page additionalInfoContent",
   pageType: "QuestionPage",
   ...page,
 });
