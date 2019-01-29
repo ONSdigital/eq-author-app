@@ -4,7 +4,6 @@ import { Query } from "react-apollo";
 import { propType } from "graphql-anywhere";
 import gql from "graphql-tag";
 import { flow } from "lodash/fp";
-import { isFunction } from "lodash";
 import EditorLayout from "App/questionPage/Design/EditorLayout";
 
 import { Toolbar, Buttons } from "App/questionPage/Design/EditorToolbar";
@@ -36,18 +35,16 @@ export class UnwrappedQuestionConfirmationRoute extends React.Component {
   handleOpenDeleteConfirmDialog = () =>
     this.setState({ showDeleteConfirmDialog: true });
 
-  handleCloseDeleteConfirmDialog = cb =>
-    this.setState(
-      { showDeleteConfirmDialog: false },
-      isFunction(cb) ? cb : null
-    );
+  handleCloseDeleteConfirmDialog = () => {
+    this.setState({ showDeleteConfirmDialog: false });
+  };
 
   handleDeletePageConfirm = () => {
-    this.handleCloseDeleteConfirmDialog(() => {
+    this.setState({ showDeleteConfirmDialog: false }, () =>
       this.props.onDeleteQuestionConfirmation(
         this.props.data.questionConfirmation
-      );
-    });
+      )
+    );
   };
 
   renderContent() {
