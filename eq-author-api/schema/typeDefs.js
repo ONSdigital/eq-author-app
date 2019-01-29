@@ -41,11 +41,16 @@ type Section {
   pages: [Page]
   questionnaire: Questionnaire
   position: Int!
-  introductionTitle: String
-  introductionContent: String
-  introductionEnabled: Boolean!
+  introduction: SectionIntroduction
   availablePipingAnswers: [Answer!]!
   availablePipingMetadata: [Metadata!]!
+}
+
+type SectionIntroduction {
+  id: ID!
+  introductionTitle: String
+  introductionContent: String
+  section: Section!
 }
 
 interface Page {
@@ -72,6 +77,8 @@ type QuestionPage implements Page {
   position: Int!
   definitionLabel: String
   definitionContent: String
+  additionalInfoLabel: String
+  additionalInfoContent: String
   routingRuleSet: RoutingRuleSet
   availablePipingAnswers: [Answer!]!
   availablePipingMetadata: [Metadata!]!
@@ -515,6 +522,9 @@ type Mutation {
   undeleteSection(input: UndeleteSectionInput!): Section
   moveSection(input: MoveSectionInput!): Section
   duplicateSection(input: DuplicateSectionInput!): Section
+  createSectionIntroduction(input: CreateSectionIntroductionInput!): SectionIntroduction!
+  updateSectionIntroduction(input: UpdateSectionIntroductionInput!): SectionIntroduction!
+  deleteSectionIntroduction(input: DeleteSectionIntroductionInput!): SectionIntroduction!
   createPage(input: CreatePageInput!): Page
   updatePage(input: UpdatePageInput!): Page
   deletePage(input: DeletePageInput!): Page
@@ -676,9 +686,22 @@ input UpdateSectionInput {
   id: ID!
   title: String
   alias: String
+}
+
+input CreateSectionIntroductionInput { 
+  sectionId: ID!
   introductionTitle: String
   introductionContent: String
-  introductionEnabled: Boolean
+}
+
+input UpdateSectionIntroductionInput { 
+  sectionId: ID!
+  introductionTitle: String
+  introductionContent: String
+}
+
+input DeleteSectionIntroductionInput { 
+  sectionId: ID!
 }
 
 input DeleteSectionInput {
@@ -729,6 +752,8 @@ input CreateQuestionPageInput {
   position: Int
   definitionLabel: String
   definitionContent: String
+  additionalInfoLabel: String
+  additionalInfoContent: String
 }
 
 input UpdateQuestionPageInput {
@@ -739,6 +764,8 @@ input UpdateQuestionPageInput {
   guidance: String
   definitionLabel: String
   definitionContent: String
+  additionalInfoLabel: String
+  additionalInfoContent: String
 }
 
 input DeleteQuestionPageInput {

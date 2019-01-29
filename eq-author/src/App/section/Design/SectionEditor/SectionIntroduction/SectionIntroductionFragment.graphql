@@ -1,0 +1,5 @@
+fragment SectionIntro on SectionIntroduction {
+  id
+  introductionTitle
+  introductionContent
+}

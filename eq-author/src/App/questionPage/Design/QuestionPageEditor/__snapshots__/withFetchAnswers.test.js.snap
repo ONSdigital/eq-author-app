@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`withFetchAnswers should render 1`] = `
+<div
+  client={
+    Object {
+      "query": [MockFunction],
+      "readQuery": [MockFunction],
+    }
+  }
+  fetchAnswers={[Function]}
+/>
+`;

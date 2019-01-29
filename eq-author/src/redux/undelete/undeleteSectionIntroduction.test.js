@@ -1,13 +1,15 @@
 import {
   createUndelete,
   undeleteSectionIntroduction,
+  createUpdate,
 } from "./undeleteSectionIntroduction";
 import thunk from "redux-thunk";
 import configureStore from "redux-mock-store";
+import fragment from "graphql/fragments/section.graphql";
 
 describe("undelete Section Introduction", () => {
-  let section;
-  let dispatch, getState, client, mutate;
+  let introduction;
+  let dispatch, getState, client, mutate, proxy, result, context;
 
   beforeEach(() => {
     dispatch = jest.fn();
@@ -17,36 +19,83 @@ describe("undelete Section Introduction", () => {
     client = {
       mutate,
     };
-    section = {
-      id: 1,
+    introduction = {
+      id: "1",
       introductionTitle: "Foo",
       introductionContent: "Bar",
-      introductionEnabled: true,
+    };
+
+    context = {
+      sectionId: 1,
+      introductionTitle: "Foo",
+      introductionContent: "Bar",
+    };
+
+    result = {
+      data: {
+        createSectionIntroduction: {
+          id: 1,
+          introductionTitle: "Foo",
+          introductionContent: "Bar",
+        },
+      },
+    };
+
+    proxy = {
+      readFragment: jest.fn(() => ({ introduction: null })),
+      writeFragment: jest.fn(),
     };
   });
 
   it("should return a thunk function", () => {
-    expect(undeleteSectionIntroduction(section)).toEqual(expect.any(Function));
+    expect(undeleteSectionIntroduction("Section1", introduction)).toEqual(
+      expect.any(Function)
+    );
   });
 
   it("should call dispatch asynchronously when thunk is invoked", () => {
-    const thunk = undeleteSectionIntroduction(section);
+    const thunk = undeleteSectionIntroduction("Section1", introduction);
     thunk(dispatch, getState, { client }).then(() => {
       expect(dispatch).toHaveBeenCalledTimes(2);
     });
   });
+
   it("should pass section to mutate", () => {
-    createUndelete(mutate)(section);
+    createUndelete(mutate)(introduction);
     expect(mutate).toHaveBeenCalledWith({
       update: expect.any(Function),
       variables: {
         input: {
-          id: 1,
-          introductionContent: "Bar",
-          introductionEnabled: true,
-          introductionTitle: "Foo",
+          sectionId: introduction.id,
+          introductionContent: introduction.introductionContent,
+          introductionTitle: introduction.introductionTitle,
         },
       },
+    });
+  });
+
+  describe("createUpdate", () => {
+    it("should call the correct query on the proxy", () => {
+      createUpdate(context)(proxy, result);
+      expect(proxy.readFragment).toHaveBeenCalledWith({
+        id: "Section1",
+        fragment,
+      });
+    });
+
+    it("should write data back to the proxy", () => {
+      createUpdate(context)(proxy, result);
+      expect(proxy.writeFragment).toHaveBeenCalledWith({
+        id: "Section1",
+        fragment,
+        data: {
+          introduction: {
+            id: 1,
+            introductionTitle: "Foo",
+            introductionContent: "Bar",
+          },
+        },
+      });
     });
   });
 
@@ -62,30 +111,34 @@ describe("undelete Section Introduction", () => {
     });
 
     it("should send a request then a success action", () => {
-      return store.dispatch(undeleteSectionIntroduction(section)).then(() => {
-        expect(store.getActions()).toEqual([
-          {
-            type: "UNDELETE_SECTION_INTRODUCTION_REQUEST",
-          },
-          {
-            type: "UNDELETE_SECTION_INTRODUCTION_SUCCESS",
-          },
-        ]);
-      });
+      return store
+        .dispatch(undeleteSectionIntroduction("Section1", introduction))
+        .then(() => {
+          expect(store.getActions()).toEqual([
+            {
+              type: "UNDELETE_SECTION_INTRODUCTION_REQUEST",
+            },
+            {
+              type: "UNDELETE_SECTION_INTRODUCTION_SUCCESS",
+            },
+          ]);
+        });
     });
 
     it("should send a request then an error action", () => {
       client.mutate = jest.fn(() => Promise.reject());
-      return store.dispatch(undeleteSectionIntroduction(section)).then(() => {
-        expect(store.getActions()).toEqual([
-          {
-            type: "UNDELETE_SECTION_INTRODUCTION_REQUEST",
-          },
-          {
-            type: "UNDELETE_SECTION_INTRODUCTION_FAILURE",
-          },
-        ]);
-      });
+      return store
+        .dispatch(undeleteSectionIntroduction("Section1", introduction))
+        .then(() => {
+          expect(store.getActions()).toEqual([
+            {
+              type: "UNDELETE_SECTION_INTRODUCTION_REQUEST",
+            },
+            {
+              type: "UNDELETE_SECTION_INTRODUCTION_FAILURE",
+            },
+          ]);
+        });
     });
   });
 });

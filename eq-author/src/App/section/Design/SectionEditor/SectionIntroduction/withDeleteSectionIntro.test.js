@@ -4,7 +4,7 @@ describe("enhancers > withDeleteSectionIntro", () => {
   describe("mapMutateToProps", () => {
     let props;
     let mutate;
-    let section;
+    let sectionIntro;
     let ownProps;
 
     beforeEach(() => {
@@ -13,37 +13,37 @@ describe("enhancers > withDeleteSectionIntro", () => {
         raiseToast: jest.fn(() => Promise.resolve()),
       };
       props = mapMutateToProps({ ownProps, mutate });
-      section = { id: 1, introductionContent: "bar", introductionTitle: "foo" };
+      sectionIntro = {
+        id: 1,
+        introductionContent: "bar",
+        introductionTitle: "foo",
+      };
     });
 
     it("should have an onUpdateSection prop", () => {
-      expect(props.onDeleteSectionIntro).toBeInstanceOf(Function);
+      expect(props.deleteSectionIntro).toBeInstanceOf(Function);
     });
 
     it("should call mutate", () => {
-      props.onDeleteSectionIntro(section);
+      props.deleteSectionIntro(sectionIntro);
       expect(mutate).toHaveBeenCalledWith({
         variables: {
           input: {
-            id: section.id,
-            introductionTitle: null,
-            introductionContent: null,
-            introductionEnabled: false,
+            sectionId: sectionIntro.id,
           },
         },
       });
     });
     it("should raise a toast with old intro object", () => {
-      props.onDeleteSectionIntro(section).then(() => {
+      props.deleteSectionIntro(sectionIntro).then(() => {
         expect(ownProps.raiseToast).toHaveBeenCalledWith(
-          `Section${section.id}`,
+          `Section${sectionIntro.id}`,
           "Section introduction deleted",
           "undeleteSectionIntroduction",
           {
-            id: section.id,
-            introductionTitle: section.introductionTitle,
-            introductionContent: section.introductionContent,
-            introductionEnabled: true,
+            id: sectionIntro.id,
+            introductionTitle: sectionIntro.introductionTitle,
+            introductionContent: sectionIntro.introductionContent,
           }
         );
       });

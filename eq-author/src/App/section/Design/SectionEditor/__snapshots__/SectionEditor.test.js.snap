@@ -37,15 +37,8 @@ exports[`SectionEditor should render 1`] = `
       value="Section 1"
     />
   </SectionEditor__Padding>
-  <Connect(Apollo(UnwrappedIntroEditor))
-    onChange={[MockFunction]}
-    onUpdate={[MockFunction]}
-    section={
-      Object {
-        "id": "section-1",
-        "title": "Section 1",
-      }
-    }
+  <Apollo(UnwrappedSectionIntroduction)
+    sectionId="section-1"
   />
 </SectionEditor__SectionCanvas>
 `;
@@ -87,15 +80,8 @@ exports[`SectionEditor should render 2`] = `
       value="Section 2"
     />
   </SectionEditor__Padding>
-  <Connect(Apollo(UnwrappedIntroEditor))
-    onChange={[MockFunction]}
-    onUpdate={[MockFunction]}
-    section={
-      Object {
-        "id": "section-2",
-        "title": "Section 2",
-      }
-    }
+  <Apollo(UnwrappedSectionIntroduction)
+    sectionId="section-2"
   />
 </SectionEditor__SectionCanvas>
 `;

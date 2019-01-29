@@ -1,0 +1,13 @@
+mutation deleteSectionIntroduction($input: DeleteSectionIntroductionInput!) {
+  deleteSectionIntroduction(input: $input) {
+    id
+    introductionTitle
+    introductionContent
+    section {
+      id
+      introduction {
+        id
+      }
+    }
+  }
+}

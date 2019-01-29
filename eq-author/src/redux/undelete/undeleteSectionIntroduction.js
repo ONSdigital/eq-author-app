@@ -1,4 +1,4 @@
-import query from "graphql/updateSection.graphql";
+import query from "App/section/Design/SectionEditor/SectionIntroduction/createSectionIntro.graphql";
 import createMutate from "utils/createMutate";
 
 import fragment from "graphql/fragments/section.graphql";
@@ -29,27 +29,33 @@ const undeleteFailure = () => {
 };
 
 export const createUpdate = () => (proxy, result) => {
-  const id = `Section${result.data.updateSection.id}`;
+  const id = `Section${result.data.createSectionIntroduction.id}`;
   const section = proxy.readFragment({ id, fragment });
 
   proxy.writeFragment({
     id,
     fragment,
-    data: { ...section, ...result.data.updateSection },
+    data: { ...section, introduction: result.data.createSectionIntroduction },
   });
 };
 
-export const createUndelete = mutate => section =>
+export const createUndelete = mutate => ({
+  id,
+  introductionTitle,
+  introductionContent,
+}) =>
   mutate({
-    variables: { input: section },
-    update: createUpdate(section),
+    variables: {
+      input: { sectionId: id, introductionTitle, introductionContent },
+    },
+    update: createUpdate({ id, introductionTitle, introductionContent }),
   });
 
-export const undeleteSectionIntroduction = (id, section) => {
+export const undeleteSectionIntroduction = (id, introduction) => {
   return (dispatch, getState, { client }) => {
     const undelete = createUndelete(createMutate(client, query));
     dispatch(undeleteRequest());
-    return undelete(section)
+    return undelete(introduction)
       .then(() => dispatch(undeleteSuccess()))
       .catch(() => dispatch(undeleteFailure()));
   };

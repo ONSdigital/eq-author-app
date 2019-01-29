@@ -48,6 +48,8 @@ const movePageMock = {
                 position: 0,
                 definitionLabel: "definition label",
                 definitionContent: "definitionContent",
+                additionalInfoLabel: "additional info label",
+                additionalInfoContent: "additional info content",
                 section: {
                   __typename: "Section",
                   questionnaire: {
@@ -65,6 +67,8 @@ const movePageMock = {
                 position: 1,
                 definitionLabel: "definition label",
                 definitionContent: "definitionContent",
+                additionalInfoLabel: "additional info label",
+                additionalInfoContent: "additional info content",
                 section: {
                   __typename: "Section",
                   questionnaire: {
@@ -163,6 +167,8 @@ describe("QuestionPageRoute", () => {
               position: 0,
               definitionLabel: "definition label",
               definitionContent: "definitionContent",
+              additionalInfoLabel: "additional info label",
+              additionalInfoContent: "additional info content",
               guidance: "",
               answers: [],
               section: {
@@ -208,6 +214,8 @@ describe("QuestionPageRoute", () => {
               position: 0,
               definitionLabel: "definition label",
               definitionContent: "definitionContent",
+              additionalInfoLabel: "additional info label",
+              additionalInfoContent: "additional info content",
               guidance: "",
               answers: [],
               section: {
@@ -300,6 +308,8 @@ describe("QuestionPageRoute", () => {
       position: 0,
       definitionLabel: "definition label",
       definitionContent: "definitionContent",
+      additionalInfoLabel: "additional info label",
+      additionalInfoContent: "additional info content",
       guidance: "",
       answers: [],
       section: {

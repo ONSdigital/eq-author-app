@@ -15,7 +15,7 @@ import sectionFragment from "graphql/fragments/section.graphql";
 
 import iconSection from "App/section/Design/SectionEditor/icon-dialog-section.svg";
 
-import IntroEditor from "./IntroEditor";
+import SectionIntroduction from "./SectionIntroduction";
 
 const titleControls = {
   emphasis: true,
@@ -104,10 +104,9 @@ class SectionEditor extends React.Component {
             autoFocus={!section.title}
           />
         </Padding>
-        <IntroEditor
-          onUpdate={onUpdate}
-          section={section}
-          onChange={onChange}
+        <SectionIntroduction
+          sectionId={section.id}
+          sectionIntro={section.introduction}
         />
       </SectionCanvas>
     );

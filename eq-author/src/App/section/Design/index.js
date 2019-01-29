@@ -178,7 +178,7 @@ export class UnwrappedSectionRoute extends React.Component {
 
   render() {
     const { section = {} } = this.props;
-    const isPreviewEnabled = Boolean(section.introductionEnabled);
+    const isPreviewEnabled = Boolean(section.introduction);
 
     return (
       <EditorLayout

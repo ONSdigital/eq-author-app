@@ -272,6 +272,34 @@ const Resolvers = {
     undeleteSection: (_, args, ctx) =>
       ctx.repositories.Section.undelete(args.input.id), // TODO
 
+    createSectionIntroduction: (
+      _,
+      { input: { sectionId, introductionContent, introductionTitle } },
+      ctx
+    ) =>
+      ctx.repositories.Section.update({
+        id: sectionId,
+        introductionEnabled: true,
+        introductionContent,
+        introductionTitle,
+      }),
+    updateSectionIntroduction: (
+      _,
+      { input: { sectionId, introductionContent, introductionTitle } },
+      ctx
+    ) =>
+      ctx.repositories.Section.update({
+        id: sectionId,
+        introductionContent,
+        introductionTitle,
+      }),
+    deleteSectionIntroduction: (_, { input: { sectionId } }, ctx) =>
+      ctx.repositories.Section.update({
+        id: sectionId,
+        introductionEnabled: false,
+        introductionContent: null,
+        introductionTitle: null,
+      }),
     moveSection: (_, { input }, ctx) => {
       const removedSection = first(
         remove(ctx.questionnaire.sections, { id: input.id })
@@ -689,9 +717,16 @@ const Resolvers = {
     position: ({ id }, args, ctx) => {
       return findIndex(ctx.questionnaire.sections, { id });
     },
+    introduction: section => (section.introductionEnabled ? section : null),
     availablePipingAnswers: ({ id }, args, ctx) =>
       getPreviousAnswersForSection(ctx.questionnaire, id),
     availablePipingMetadata: (section, args, ctx) => ctx.questionnaire.metadata,
+  },
+
+  SectionIntroduction: {
+    section: ({ id: sectionId }, args, ctx) => {
+      return ctx.repositories.Section.getById(sectionId);
+    },
   },
 
   Page: {

@@ -9,27 +9,10 @@ class Section {
   }
 
   buildGroups(id, title, section, ctx) {
-    const {
-      pages,
-      introductionTitle,
-      introductionContent,
-      introductionEnabled,
-    } = section;
+    const { pages, introduction } = section;
 
     // Sections always contain a single group currently
-    return [
-      new Group(
-        id,
-        title,
-        pages,
-        {
-          introductionTitle,
-          introductionContent,
-          introductionEnabled,
-        },
-        ctx
-      ),
-    ];
+    return [new Group(id, title, pages, introduction, ctx)];
   }
 }
 

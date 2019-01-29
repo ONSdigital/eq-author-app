@@ -12,6 +12,8 @@ describe("updateQuestionPage", () => {
         guidance
         definitionLabel
         definitionContent
+        additionalInfoLabel
+        additionalInfoContent
       }
     }
   `;
@@ -33,6 +35,8 @@ describe("updateQuestionPage", () => {
       guidance: "Updated question description",
       definitionLabel: "Updated question definition label",
       definitionContent: "Updated question definition content",
+      additionalInfoLabel: "Updated question additionalInfo label",
+      additionalInfoContent: "Updated question additionalInfo content",
     };
 
     const result = await executeQuery(

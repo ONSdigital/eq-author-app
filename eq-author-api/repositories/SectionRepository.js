@@ -40,17 +40,7 @@ module.exports = knex => {
         position
       )
         .then(order => Object.assign(args, { order }))
-        .then(
-          pick([
-            "title",
-            "alias",
-            "questionnaireId",
-            "order",
-            "introductionContent",
-            "introductionEnabled",
-            "introductionTitle",
-          ])
-        )
+        .then(pick(["title", "alias", "questionnaireId", "order"]))
         .then(section => Section(knex).create(section, trx))
         .then(head);
     });

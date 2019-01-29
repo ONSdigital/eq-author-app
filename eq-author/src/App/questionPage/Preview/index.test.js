@@ -1,9 +1,14 @@
-import { shallow } from "enzyme";
 import React from "react";
+import { shallow } from "enzyme";
 
+import { byTestAttr } from "tests/utils/selectors";
 import { TEXTFIELD } from "constants/answer-types";
 
-import { UnwrappedPreviewPageRoute as PreviewPageRoute } from "./";
+import {
+  DetailsContent,
+  DetailsTitle,
+  UnwrappedPreviewPageRoute as PreviewPageRoute,
+} from "./";
 
 describe("PreviewPageRoute", () => {
   let questionPage;
@@ -17,6 +22,8 @@ describe("PreviewPageRoute", () => {
       description: "<p>Description</p>",
       definitionLabel: "<p>Definition Label</p>",
       definitionContent: "<p>Definition Content</p>",
+      additionalInfoLabel: "<p>Additional Info Label</p>",
+      additionalInfoContent: "<p>Additional Info Content</p>",
       answers: [{ id: "1", type: TEXTFIELD }],
       section: {
         id: "1",
@@ -45,7 +52,7 @@ describe("PreviewPageRoute", () => {
     const wrapper = shallow(
       <PreviewPageRoute loading={false} data={{ questionPage }} />
     );
-    expect(wrapper.find('[data-test="no-answers"]')).toBeTruthy();
+    expect(wrapper.find(byTestAttr("no-answers"))).toBeTruthy();
   });
 
   it("should not render description when not populated", () => {
@@ -53,7 +60,7 @@ describe("PreviewPageRoute", () => {
     const wrapper2 = shallow(
       <PreviewPageRoute loading={false} data={{ questionPage }} />
     );
-    expect(wrapper2.exists('[data-test="description"]')).toBeFalsy();
+    expect(wrapper2.exists(byTestAttr("description"))).toBeFalsy();
   });
 
   it("should not render guidance, or description when they are not populated", () => {
@@ -61,7 +68,7 @@ describe("PreviewPageRoute", () => {
     const wrapper = shallow(
       <PreviewPageRoute loading={false} data={{ questionPage }} />
     );
-    expect(wrapper.exists('[data-test="guidance"]')).toBeFalsy();
+    expect(wrapper.exists(byTestAttr("guidance"))).toBeFalsy();
   });
 
   it("should not render definition if definition label and content empty", () => {
@@ -70,6 +77,55 @@ describe("PreviewPageRoute", () => {
     const wrapper = shallow(
       <PreviewPageRoute loading={false} data={{ questionPage }} />
     );
-    expect(wrapper.exists('[data-test="definition"]')).toBeFalsy();
+    expect(wrapper.exists(byTestAttr("definition"))).toBeFalsy();
+  });
+
+  it("should render definition label missing message", () => {
+    questionPage.definitionLabel = "";
+    const wrapper = shallow(
+      <PreviewPageRoute loading={false} data={{ questionPage }} />
+    );
+    expect(
+      wrapper.find(byTestAttr("definition")).find(DetailsTitle)
+    ).toMatchSnapshot();
+  });
+
+  it("should render definition content missing message", () => {
+    questionPage.definitionContent = "";
+    const wrapper = shallow(
+      <PreviewPageRoute loading={false} data={{ questionPage }} />
+    );
+    expect(
+      wrapper.find(byTestAttr("definition")).find(DetailsContent)
+    ).toMatchSnapshot();
+  });
+
+  it("should not render additional information if additional information label and content empty", () => {
+    questionPage.additionalInfoLabel = "";
+    questionPage.additionalInfoContent = "";
+    const wrapper = shallow(
+      <PreviewPageRoute loading={false} data={{ questionPage }} />
+    );
+    expect(wrapper.exists(byTestAttr("additional-info"))).toBeFalsy();
+  });
+
+  it("should render additional info label missing message", () => {
+    questionPage.additionalInfoLabel = "";
+    const wrapper = shallow(
+      <PreviewPageRoute loading={false} data={{ questionPage }} />
+    );
+    expect(
+      wrapper.find(byTestAttr("additional-info")).find(DetailsTitle)
+    ).toMatchSnapshot();
+  });
+
+  it("should render additional info content missing message", () => {
+    questionPage.additionalInfoContent = "";
+    const wrapper = shallow(
+      <PreviewPageRoute loading={false} data={{ questionPage }} />
+    );
+    expect(
+      wrapper.find(byTestAttr("additional-info")).find(DetailsContent)
+    ).toMatchSnapshot();
   });
 });

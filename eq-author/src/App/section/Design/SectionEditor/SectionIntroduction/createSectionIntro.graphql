@@ -1,0 +1,13 @@
+mutation createSectionIntroduction($input: CreateSectionIntroductionInput!) {
+  createSectionIntroduction(input: $input) {
+    id
+    introductionTitle
+    introductionContent
+    section {
+      id
+      introduction {
+        id
+      }
+    }
+  }
+}

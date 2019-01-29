@@ -190,9 +190,10 @@ exports.getQuestionnaire = `
       sections {
         id
         title
-        introductionTitle
-        introductionContent
-        introductionEnabled
+        introduction {
+          introductionTitle
+          introductionContent 
+        }
         pages {
           ... on QuestionPage {
             id
@@ -201,6 +202,8 @@ exports.getQuestionnaire = `
             guidance
             definitionLabel
             definitionContent
+            additionalInfoLabel
+            additionalInfoContent
             pageType
             routingRuleSet {
               id

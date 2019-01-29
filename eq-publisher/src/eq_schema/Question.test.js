@@ -66,7 +66,7 @@ describe("Question", () => {
     });
   });
 
-  describe("defintions", () => {
+  describe("definitions", () => {
     describe("when there is content", () => {
       it("should be populated when both label and content", () => {
         const question = new Question(
@@ -106,6 +106,59 @@ describe("Question", () => {
           })
         );
         expect(question.guidance).toBeUndefined();
+      });
+    });
+  });
+
+  describe("additional information", () => {
+    describe("when there is content", () => {
+      it("should be populated when both label and content", () => {
+        const question = new Question(
+          createQuestionJSON({
+            additionalInfoLabel: "additionalInfo label",
+            additionalInfoContent: "<p>additionalInfo content</p>",
+          })
+        );
+        expect(last(question.answers).guidance).toBeDefined();
+        expect(last(question.answers).guidance.show_guidance).toBeDefined();
+        expect(last(question.answers).guidance.hide_guidance).toBeDefined();
+        expect(last(question.answers).guidance.content).toBeDefined();
+      });
+      it("should be populated when label and no content", () => {
+        const question = new Question(
+          createQuestionJSON({
+            additionalInfoLabel: "additionalInfo label",
+            additionalInfoContent: "",
+          })
+        );
+        expect(last(question.answers).guidance).toBeDefined();
+        expect(last(question.answers).guidance.show_guidance).toBeDefined();
+        expect(last(question.answers).guidance.hide_guidance).toBeDefined();
+        expect(last(question.answers).guidance.content).toBeUndefined();
+      });
+      it("should be populated when no label and content", () => {
+        const question = new Question(
+          createQuestionJSON({
+            additionalInfoLabel: "",
+            additionalInfoContent: "<p>additionalInfo content</p>",
+          })
+        );
+        expect(last(question.answers).guidance).toBeDefined();
+        expect(last(question.answers).guidance.show_guidance).toBeFalsy();
+        expect(last(question.answers).guidance.hide_guidance).toBeFalsy();
+        expect(last(question.answers).guidance.content).toBeDefined();
+      });
+    });
+
+    describe("when there is no content", () => {
+      it("should be undefined when neither label or content", () => {
+        const question = new Question(
+          createQuestionJSON({
+            definitionLabel: "",
+            definitionContent: "",
+          })
+        );
+        expect(last(question.answers).guidance).toBeUndefined();
       });
     });
   });

@@ -1,24 +1,25 @@
 import React from "react";
 import styled from "styled-components";
-
-import AnswerEditor from "App/questionPage/Design/AnswerEditor";
-import MetaEditor from "App/questionPage/Design/QuestionPageEditor/MetaEditor";
-
-import AnswerTransition from "App/questionPage/Design/QuestionPageEditor/AnswerTransition";
-
-import AnswerTypeSelector from "App/questionPage/Design/AnswerTypeSelector";
-
 import { TransitionGroup } from "react-transition-group";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
-import getIdForObject from "utils/getIdForObject";
-
-import iconPage from "App/questionPage/Design/QuestionPageEditor/icon-dialog-page.svg";
+import gql from "graphql-tag";
 
 import DeleteConfirmDialog from "components/DeleteConfirmDialog";
+
+import AnswerEditor from "App/questionPage/Design/AnswerEditor";
+import AnswerTypeSelector from "App/questionPage/Design/AnswerTypeSelector";
 import MovePageModal from "App/questionPage/Design/MovePageModal";
 import MovePageQuery from "App/questionPage/Design/MovePageModal/MovePageQuery";
-import gql from "graphql-tag";
+
+import AnswerTransition from "./AnswerTransition";
+import MetaEditor from "./MetaEditor";
+import AdditionalInfo from "./AdditionalInfo";
+import iconPage from "./icon-dialog-page.svg";
+
+import Page from "graphql/fragments/page.graphql";
+
+import getIdForObject from "utils/getIdForObject";
 
 const AddAnswerSegment = styled.div`
   padding: 1em 2em 2em;
@@ -155,6 +156,9 @@ export default class QuestionPageEditor extends React.Component {
             data-test="add-answer"
           />
         </AddAnswerSegment>
+        <QuestionSegment>
+          <AdditionalInfo onChange={onChange} onUpdate={onUpdate} page={page} />
+        </QuestionSegment>
       </div>
     );
   }
@@ -180,8 +184,7 @@ QuestionPageEditor.fragments = {
         }
       }
     }
-
-    ${MetaEditor.fragments.Page}
+    ${Page}
     ${AnswerEditor.fragments.AnswerEditor}
   `,
 };

@@ -3,11 +3,9 @@ import { graphql } from "react-apollo";
 import updateSectionMutation from "graphql/updateSection.graphql";
 
 export const mapMutateToProps = ({ mutate }) => ({
-  onUpdateSection(section) {
+  onUpdateSection({ id, title, alias }) {
     return mutate({
-      variables: {
-        input: section,
-      },
+      variables: { input: { id, title, alias } },
     });
   },
 });

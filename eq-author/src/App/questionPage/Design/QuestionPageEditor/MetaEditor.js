@@ -1,19 +1,19 @@
 import React from "react";
-import { withApollo } from "react-apollo";
 import PropTypes from "prop-types";
-import CustomPropTypes from "custom-prop-types";
 import { propType } from "graphql-anywhere";
 import styled from "styled-components";
-import { get, flip, partial, flowRight } from "lodash";
+import { get, flowRight } from "lodash";
 
 import WrappingInput from "components/Forms/WrappingInput";
 import RichTextEditor from "components/RichTextEditor";
 import { Field, Label } from "components/Forms";
 
-import DefinitionEditor from "./DefinitionEditor";
+import withChangeUpdate from "enhancers/withChangeUpdate";
+
+import withFetchAnswers from "./withFetchAnswers";
+import MultipleFieldEditor from "./MultipleFieldEditor";
 
 import pageFragment from "graphql/fragments/page.graphql";
-import getAnswersQuery from "graphql/getAnswers.graphql";
 
 import { colors } from "constants/theme";
 
@@ -44,17 +44,13 @@ const Paragraph = styled.p`
 
 export class StatelessMetaEditor extends React.Component {
   render() {
-    const { page, onChange, onUpdate, client } = this.props;
-    const handleUpdate = partial(flip(onChange), onUpdate);
-
-    const fetchAnswers = ids => {
-      return client
-        .query({
-          query: getAnswersQuery,
-          variables: { ids },
-        })
-        .then(result => result.data.answers);
-    };
+    const {
+      page,
+      onChange,
+      onUpdate,
+      onChangeUpdate,
+      fetchAnswers,
+    } = this.props;
 
     return (
       <div>
@@ -64,7 +60,7 @@ export class StatelessMetaEditor extends React.Component {
           label="Question"
           placeholder="What is the question?"
           value={page.title}
-          onUpdate={handleUpdate}
+          onUpdate={onChangeUpdate}
           controls={titleControls}
           size="large"
           fetchAnswers={fetchAnswers}
@@ -77,14 +73,14 @@ export class StatelessMetaEditor extends React.Component {
           name="description"
           label="Question description"
           value={page.description}
-          onUpdate={handleUpdate}
+          onUpdate={onChangeUpdate}
           controls={descriptionControls}
           multiline
           fetchAnswers={fetchAnswers}
           metadata={get(page, "section.questionnaire.metadata", [])}
           testSelector="txt-question-description"
         />
-        <DefinitionEditor label="Question definition">
+        <MultipleFieldEditor label="Question definition">
           <Paragraph>
             Only to be used to define word(s) or acronym(s) within the question.
           </Paragraph>
@@ -105,20 +101,20 @@ export class StatelessMetaEditor extends React.Component {
             name="definitionContent"
             label="Content"
             value={page.definitionContent}
-            onUpdate={handleUpdate}
+            onUpdate={onChangeUpdate}
             controls={descriptionControls}
             multiline
             fetchAnswers={fetchAnswers}
             metadata={page.section.questionnaire.metadata}
             testSelector="txt-question-definition-content"
           />
-        </DefinitionEditor>
+        </MultipleFieldEditor>
         <RichTextEditor
           id="question-guidance"
           name="guidance"
           label="Include/exclude"
           value={page.guidance}
-          onUpdate={handleUpdate}
+          onUpdate={onChangeUpdate}
           controls={guidanceControls}
           multiline
           fetchAnswers={fetchAnswers}
@@ -133,12 +129,16 @@ export class StatelessMetaEditor extends React.Component {
 StatelessMetaEditor.propTypes = {
   onChange: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
+  fetchAnswers: PropTypes.func.isRequired,
   page: propType(pageFragment).isRequired,
-  client: CustomPropTypes.apolloClient.isRequired,
+  onChangeUpdate: PropTypes.func.isRequired,
 };
 
 StatelessMetaEditor.fragments = {
   Page: pageFragment,
 };
 
-export default flowRight(withApollo)(StatelessMetaEditor);
+export default flowRight(
+  withChangeUpdate,
+  withFetchAnswers
+)(StatelessMetaEditor);

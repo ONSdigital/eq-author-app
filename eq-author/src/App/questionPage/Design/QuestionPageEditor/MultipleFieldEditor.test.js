@@ -1,11 +1,11 @@
 import React from "react";
 import { shallow } from "enzyme";
 
-import DefinitionEditor from "./DefinitionEditor";
+import MultipleFieldEditor from "./MultipleFieldEditor";
 
-const createWrapper = props => shallow(<DefinitionEditor {...props} />);
+const createWrapper = props => shallow(<MultipleFieldEditor {...props} />);
 
-describe("DefinitionEditor", () => {
+describe("MultipleFieldEditor", () => {
   let wrapper, props;
 
   beforeEach(() => {
