@@ -271,34 +271,34 @@ const Resolvers = {
     undeleteSection: (_, args, ctx) =>
       ctx.repositories.Section.undelete(args.input.id), // TODO
 
-    createSectionIntroduction: (
-      _,
-      { input: { sectionId, introductionContent, introductionTitle } },
-      ctx
-    ) =>
-      ctx.repositories.Section.update({
-        id: sectionId,
+    createSectionIntroduction: (_, { input }, ctx) => {
+      const section = find(ctx.questionnaire.sections, { id: input.sectionId });
+      merge(section, {
+        id: input.sectionId,
         introductionEnabled: true,
-        introductionContent,
-        introductionTitle,
-      }),
-    updateSectionIntroduction: (
-      _,
-      { input: { sectionId, introductionContent, introductionTitle } },
-      ctx
-    ) =>
-      ctx.repositories.Section.update({
-        id: sectionId,
-        introductionContent,
-        introductionTitle,
-      }),
-    deleteSectionIntroduction: (_, { input: { sectionId } }, ctx) =>
-      ctx.repositories.Section.update({
-        id: sectionId,
+        introductionContent: null,
+        introductionTitle: null,
+      });
+      save(ctx.questionnaire);
+      return section;
+    },
+    updateSectionIntroduction: (_, { input }, ctx) => {
+      const section = find(ctx.questionnaire.sections, { id: input.sectionId });
+      merge(section, input);
+      save(ctx.questionnaire);
+      return section;
+    },
+    deleteSectionIntroduction: (_, { input }, ctx) => {
+      const section = find(ctx.questionnaire.sections, { id: input.sectionId });
+      merge(section, {
+        id: input.sectionId,
         introductionEnabled: false,
         introductionContent: null,
         introductionTitle: null,
-      }),
+      });
+      save(ctx.questionnaire);
+      return section;
+    },
     moveSection: (_, { input }, ctx) => {
       const removedSection = first(
         remove(ctx.questionnaire.sections, { id: input.id })
@@ -699,9 +699,7 @@ const Resolvers = {
   },
 
   SectionIntroduction: {
-    section: ({ id: sectionId }, args, ctx) => {
-      return ctx.repositories.Section.getById(sectionId);
-    },
+    section: ({ id: sectionId }, args, ctx) => getSection(ctx)({ sectionId }),
   },
 
   Page: {
