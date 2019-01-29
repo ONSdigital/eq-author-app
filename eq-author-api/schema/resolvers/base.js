@@ -22,7 +22,6 @@ const {
 } = require("lodash");
 const GraphQLJSON = require("graphql-type-json");
 const { getName } = require("../../utils/getName");
-const formatRichText = require("../../utils/formatRichText");
 const {
   getValidationEntity,
 } = require("../../repositories/strategies/validationStrategy");
@@ -321,29 +320,6 @@ const Resolvers = {
       return duplicatedSection;
     },
 
-    createPage: (root, { input }, ctx) => {
-      const section = find(ctx.questionnaire.section, { id: input.sectionId });
-      const page = createPage();
-      section.pages.push(page);
-      save(ctx.questionnaire);
-      return page;
-    },
-
-    updatePage: (_, { input }, ctx) => {
-      const page = getPage(ctx, { id: input.id });
-      merge(page, input);
-      save(ctx.questionnaire);
-      return page;
-    },
-    deletePage: (_, { input }, ctx) => {
-      const section = findSectionByPageId(ctx.questionnaire.sections, input.id);
-      const removedPage = first(remove(section.pages, { id: input.id }));
-      save(ctx.questionnaire);
-      return removedPage;
-    },
-    undeletePage: (_, args, ctx) =>
-      ctx.repositories.Page.undelete(args.input.id),
-
     movePage: (_, { input }, ctx) => {
       const section = findSectionByPageId(ctx.questionnaire.sections, input.id);
       const removedPage = first(remove(section.pages, { id: input.id }));
@@ -379,7 +355,7 @@ const Resolvers = {
       return page;
     },
     updateQuestionPage: (_, { input }, ctx) => {
-      const page = getPage(ctx, { id: input.id });
+      const page = getPage(ctx)({ pageId: input.id });
       merge(page, input);
       save(ctx.questionnaire);
       return page;
@@ -713,7 +689,6 @@ const Resolvers = {
     pages: section => section.pages,
     questionnaire: (section, args, ctx) => ctx.questionnaire,
     displayName: section => getName(section, "Section"),
-    title: (page, args) => formatRichText(page.title, args.format),
     position: ({ id }, args, ctx) => {
       return findIndex(ctx.questionnaire.sections, { id });
     },
@@ -747,7 +722,6 @@ const Resolvers = {
     },
     routingRuleSet: questionPage => questionPage.routingRuleSet,
     displayName: page => getName(page, "QuestionPage"),
-    title: (page, args) => formatRichText(page.title, args.format),
     confirmation: page => page.confirmation,
     availablePipingAnswers: ({ id }, args, ctx) =>
       getPreviousAnswersForPage(ctx.questionnaire, id),
