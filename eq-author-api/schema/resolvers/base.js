@@ -177,7 +177,7 @@ const Resolvers = {
     questionPage: (root, { input }, ctx) => getPage(ctx)(input),
     answer: (root, { input }, ctx) => getAnswer(ctx)(input),
     answers: async (root, { ids }, ctx) =>
-      ctx.repositories.Answer.getAnswers(ids), // TODO
+      getAnswers(ctx).filter(({ id }) => ids.includes(id)),
     option: (root, { input }, ctx) => getOption(ctx)(input),
     availableRoutingDestinations: (root, { pageId }, ctx) =>
       ctx.repositories.Routing.getRoutingDestinations(pageId),
