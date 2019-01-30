@@ -14,17 +14,21 @@ mutation createAnswer($input: CreateAnswerInput!) {
       validation {
         ... on NumberValidation {
           minValue {
+            enabled
             ...MinValueValidationRule
           }
           maxValue {
+            enabled
             ...MaxValueValidationRule
           }
         }
         ... on DateValidation {
           earliestDate {
+            enabled
             ...EarliestDateValidationRule
           }
           latestDate {
+            enabled
             ...LatestDateValidationRule
           }
         }
@@ -45,15 +49,19 @@ mutation createAnswer($input: CreateAnswerInput!) {
       validation {
         ... on DateRangeValidation {
           earliestDate {
+            enabled
             ...EarliestDateValidationRule
           }
           latestDate {
+            enabled
             ...LatestDateValidationRule
           }
           minDuration {
+            enabled
             ...MinDurationValidationRule
           }
           maxDuration {
+            enabled
             ...MaxDurationValidationRule
           }
         }

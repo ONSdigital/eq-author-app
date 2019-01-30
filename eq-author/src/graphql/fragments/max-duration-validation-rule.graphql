@@ -1,6 +1,5 @@
 fragment MaxDurationValidationRule on MaxDurationValidationRule {
     id
-    enabled
     duration {
         value
         unit

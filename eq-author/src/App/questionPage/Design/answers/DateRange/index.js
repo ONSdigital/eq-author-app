@@ -43,15 +43,19 @@ DateRange.fragments = {
         validation {
           ... on DateRangeValidation {
             earliestDate {
+              enabled
               ...EarliestDateValidationRule
             }
             latestDate {
+              enabled
               ...LatestDateValidationRule
             }
             minDuration {
+              enabled
               ...MinDurationValidationRule
             }
             maxDuration {
+              enabled
               ...MaxDurationValidationRule
             }
           }
