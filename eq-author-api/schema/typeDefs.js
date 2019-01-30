@@ -437,7 +437,7 @@ type Query {
   page(input: QueryInput!): Page
   questionPage(input: QueryInput!): QuestionPage
   answer(input: QueryInput!): Answer
-  answers(input: QueryInput!, ids: [ID]!): [Answer]
+  answers(ids: [ID]!): [Answer]
   option(input: QueryInput!): Option
   questionConfirmation(id: ID!): QuestionConfirmation
   me: User!
