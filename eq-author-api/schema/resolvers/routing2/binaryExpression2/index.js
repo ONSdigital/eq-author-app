@@ -7,6 +7,7 @@ const {
   first,
   getOr,
   reject,
+  map,
 } = require("lodash/fp");
 
 const {
@@ -18,6 +19,16 @@ const save = require("../../../../utils/saveQuestionnaire");
 const Resolvers = {};
 
 const answerTypeToConditions = require("../../../../modifiers/BinaryExpression/answerTypeToConditions");
+
+const isLeftSideAnswerTypeCompatible = (leftSideType, rightSideType) => {
+  const AnswerTypesToRightTypes = {
+    [answerTypes.CURRENCY]: "Custom",
+    [answerTypes.NUMBER]: "Custom",
+    [answerTypes.RADIO]: "SelectedOptions",
+  };
+
+  return AnswerTypesToRightTypes[leftSideType] === rightSideType;
+};
 
 Resolvers.BinaryExpression2 = {
   left: async ({ left }, args, ctx) => {
@@ -94,7 +105,11 @@ Resolvers.SelectedOptions2 = {
       )
     );
 
-    return intersectionBy("id", options, right.selectedOptions);
+    return intersectionBy(
+      "id",
+      options,
+      map(optionId => ({ id: optionId }), right.optionIds)
+    );
   },
 };
 
@@ -154,16 +169,147 @@ Resolvers.Mutation = {
     save(ctx.questionnaire);
     return expression;
   },
-  updateBinaryExpression2: async (root, { input: { id, condition } }, ctx) =>
-    ctx.modifiers.BinaryExpression.update({ id, condition }),
+  updateBinaryExpression2: async (root, { input: { id, condition } }, ctx) => {
+    const pages = flatMap(section => section.pages, ctx.questionnaire.sections);
+    const rules = flatMap(
+      routing => getOr([], "rules", routing),
+      flatMap(page => page.routing, pages)
+    );
 
-  updateLeftSide2: (root, { input }, ctx) =>
-    ctx.modifiers.LeftSide.update(input),
+    const expressionGroup = find(expressionGroup => {
+      if (some({ id }, expressionGroup.expressions)) {
+        return expressionGroup;
+      }
+    }, flatMap(rule => rule.expressionGroup, rules));
+
+    const expression = find({ id }, expressionGroup.expressions);
+
+    const leftSide = expression.left;
+
+    if (!leftSide) {
+      throw new Error("Can't have a condition without a left side");
+    }
+
+    const answers = flatMap(page => page.answers, pages);
+
+    const leftSideAnswer = find({ id: leftSide.answerId }, answers);
+    if (!answerTypeToConditions.isValid(leftSideAnswer.type, condition)) {
+      throw new Error(
+        "This condition is not compatible with the existing left side"
+      );
+    }
+
+    expression.condition = condition;
+
+    save(ctx.questionnaire);
+
+    return expression;
+  },
+
+  updateLeftSide2: (root, { input }, ctx) => {
+    const { expressionId, answerId } = input;
+
+    const pages = flatMap(section => section.pages, ctx.questionnaire.sections);
+    const rules = flatMap(
+      routing => getOr([], "rules", routing),
+      flatMap(page => page.routing, pages)
+    );
+
+    const expressionGroup = find(expressionGroup => {
+      if (some({ id: input.id }, expressionGroup.expressions)) {
+        return expressionGroup;
+      }
+    }, flatMap(rule => rule.expressionGroup, rules));
+
+    const expression = find({ id: expressionId }, expressionGroup.expressions);
+
+    const answer = find({ id: answerId }, flatMap(page => page.answers, pages));
+
+    const updatedLeftSide = {
+      ...expression.left,
+      answerId,
+      type: "Answer",
+    };
+
+    expression.left = updatedLeftSide;
+    expression.right = null;
+    expression.condition = answerTypeToConditions.getDefault(answer.type);
+
+    save(ctx.questionnaire);
+
+    return expression;
+  },
   updateRightSide2: (root, { input }, ctx) => {
     if (input.customValue && input.selectedOptions) {
       throw new Error("Too many right side inputs");
     }
-    return ctx.modifiers.RightSide.update(input);
+
+    const { expressionId, customValue, selectedOptions } = input;
+
+    const pages = flatMap(section => section.pages, ctx.questionnaire.sections);
+    const rules = flatMap(
+      routing => getOr([], "rules", routing),
+      flatMap(page => page.routing, pages)
+    );
+
+    const expressionGroup = find(expressionGroup => {
+      if (some({ id: input.expressionId }, expressionGroup.expressions)) {
+        return expressionGroup;
+      }
+    }, flatMap(rule => rule.expressionGroup, rules));
+
+    const expression = find({ id: expressionId }, expressionGroup.expressions);
+
+    let type, newRightProperties;
+    if (customValue) {
+      type = "Custom";
+      newRightProperties = {
+        type,
+        customValue,
+      };
+    } else {
+      type = "SelectedOptions";
+      newRightProperties = {
+        type,
+      };
+    }
+
+    const leftSide = expression.left;
+    if (!leftSide) {
+      throw new Error("Cannot have a right side without a left");
+    }
+
+    const allAnswers = flatMap(page => page.answers, pages);
+
+    const leftSideAnswer = find({ id: leftSide.answerId }, allAnswers);
+
+    if (!isLeftSideAnswerTypeCompatible(leftSideAnswer.type, type)) {
+      throw new Error("Left side is incompatible with Right side.");
+    }
+
+    let existingRightSide = expression.right;
+
+    let updatedRightSide;
+    if (existingRightSide) {
+      updatedRightSide = {
+        ...existingRightSide,
+        ...newRightProperties,
+      };
+    } else {
+      updatedRightSide = {
+        ...newRightProperties,
+      };
+    }
+
+    if (updatedRightSide.type === "SelectedOptions") {
+      updatedRightSide.optionIds = selectedOptions;
+    }
+
+    expression.right = updatedRightSide;
+
+    save(ctx.questionnaire);
+
+    return expression;
   },
   deleteBinaryExpression2: (root, { input }, ctx) => {
     {

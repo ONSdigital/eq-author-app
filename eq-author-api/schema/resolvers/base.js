@@ -379,7 +379,10 @@ const Resolvers = {
       return page;
     },
     updateQuestionPage: (_, { input }, ctx) => {
-      const page = getPage(ctx, { id: input.id });
+      const page = find(
+        flatMap(ctx.questionnaire.sections, section => section.pages),
+        { id: input.id }
+      );
       merge(page, input);
       save(ctx.questionnaire);
       return page;
