@@ -11,7 +11,7 @@ const {
   pick,
   first,
 } = require("lodash/fp");
-const save = require("../../../../utils/saveQuestionnaire");
+const { saveQuestionnaire } = require("../../../../utils/datastore");
 const {
   createDestination,
   createRoutingRule,
@@ -94,10 +94,10 @@ Resolvers.Mutation = {
 
     page.routing.rules.push(routingRule);
 
-    save(ctx.questionnaire);
+    await saveQuestionnaire(ctx.questionnaire);
     return routingRule;
   },
-  updateRoutingRule2: (root, { input: { id, destination } }, ctx) => {
+  updateRoutingRule2: async (root, { input: { id, destination } }, ctx) => {
     if (!isMutuallyExclusiveDestination(destination)) {
       throw new Error("Can only provide one destination.");
     }
@@ -139,11 +139,11 @@ Resolvers.Mutation = {
       ...destination,
     };
 
-    save(ctx.questionnaire);
+    await saveQuestionnaire(ctx.questionnaire);
 
     return routingRule;
   },
-  deleteRoutingRule2: (root, { input }, ctx) => {
+  deleteRoutingRule2: async (root, { input }, ctx) => {
     const pages = flatMap(section => section.pages, ctx.questionnaire.sections);
     const page = find(page => {
       const routing = page.routing || { rules: [] };
@@ -158,7 +158,7 @@ Resolvers.Mutation = {
       page.routing = null;
     }
 
-    save(ctx.questionnaire);
+    await saveQuestionnaire(ctx.questionnaire);
     return page;
   },
 };

@@ -15,7 +15,7 @@ const {
   createLeftSide,
 } = require("../../../../src/businessLogic");
 
-const save = require("../../../../utils/saveQuestionnaire");
+const { saveQuestionnaire } = require("../../../../utils/datastore");
 const Resolvers = {};
 
 const answerTypeToConditions = require("../../../../modifiers/BinaryExpression/answerTypeToConditions");
@@ -46,7 +46,7 @@ Resolvers.BinaryExpression2 = {
 
     return { sideType: left.type, reason: left.nullReason };
   },
-  right: async ({ right }, args, ctx) => {
+  right: async ({ right }) => {
     if (right && ["Custom", "SelectedOptions"].includes(right.type)) {
       return right;
     }
@@ -166,7 +166,7 @@ Resolvers.Mutation = {
 
     expressionGroup.expressions.push(expression);
 
-    save(ctx.questionnaire);
+    await saveQuestionnaire(ctx.questionnaire);
     return expression;
   },
   updateBinaryExpression2: async (root, { input: { id, condition } }, ctx) => {
@@ -201,12 +201,12 @@ Resolvers.Mutation = {
 
     expression.condition = condition;
 
-    save(ctx.questionnaire);
+    await saveQuestionnaire(ctx.questionnaire);
 
     return expression;
   },
 
-  updateLeftSide2: (root, { input }, ctx) => {
+  updateLeftSide2: async (root, { input }, ctx) => {
     const { expressionId, answerId } = input;
 
     const pages = flatMap(section => section.pages, ctx.questionnaire.sections);
@@ -235,11 +235,11 @@ Resolvers.Mutation = {
     expression.right = null;
     expression.condition = answerTypeToConditions.getDefault(answer.type);
 
-    save(ctx.questionnaire);
+    await saveQuestionnaire(ctx.questionnaire);
 
     return expression;
   },
-  updateRightSide2: (root, { input }, ctx) => {
+  updateRightSide2: async (root, { input }, ctx) => {
     if (input.customValue && input.selectedOptions) {
       throw new Error("Too many right side inputs");
     }
@@ -307,11 +307,11 @@ Resolvers.Mutation = {
 
     expression.right = updatedRightSide;
 
-    save(ctx.questionnaire);
+    await saveQuestionnaire(ctx.questionnaire);
 
     return expression;
   },
-  deleteBinaryExpression2: (root, { input }, ctx) => {
+  deleteBinaryExpression2: async (root, { input }, ctx) => {
     {
       const pages = flatMap(
         section => section.pages,
@@ -333,7 +333,7 @@ Resolvers.Mutation = {
         expressionGroup.expressions
       );
 
-      save(ctx.questionnaire);
+      await saveQuestionnaire(ctx.questionnaire);
 
       return expressionGroup;
     }

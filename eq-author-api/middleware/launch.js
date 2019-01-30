@@ -1,7 +1,7 @@
 const { generateToken } = require("../utils/jwtHelper");
 const { assign, isNil, isEmpty } = require("lodash");
 const { sanitiseMetadata } = require("../utils/sanitiseMetadata");
-const loadQuestionnaire = require("../utils/loadQuestionnaire");
+const { getQuestionnaire } = require("../utils/datastore");
 
 const buildClaims = metadata => {
   const result = {
@@ -27,7 +27,7 @@ module.exports.buildClaims = buildClaims;
 
 module.exports.getLaunchUrl = async (req, res, next) => {
   const questionnaireId = req.params.questionnaireId;
-  const questionnaire = JSON.parse(loadQuestionnaire(questionnaireId));
+  const questionnaire = await getQuestionnaire(questionnaireId);
   const result = questionnaire.metadata;
 
   const { errors, claims: metadataValues } = buildClaims(result);

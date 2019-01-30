@@ -18,6 +18,7 @@
     "cors": "latest",
     "deep-map": "^1.5",
     "dotenv": "latest",
+    "dynamoose": "latest",
     "express": "latest",
     "express-pino-logger": "latest",
     "graphql": "latest",

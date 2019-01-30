@@ -24,9 +24,7 @@ const { getName } = require("../../utils/getName");
 const {
   getValidationEntity,
 } = require("../../repositories/strategies/validationStrategy");
-const fs = require("fs");
 const uuid = require("uuid");
-const stringify = require("json-stable-stringify");
 const deepMap = require("deep-map");
 
 const createAnswer = require("../../src/businessLogic/createAnswer");
@@ -37,11 +35,16 @@ const getPreviousAnswersForPage = require("../../src/businessLogic/getPreviousAn
 const getPreviousAnswersForSection = require("../../src/businessLogic/getPreviousAnswersForSection");
 const createOption = require("../../src/businessLogic/createOption");
 const addPrefix = require("../../utils/addPrefix");
-const loadQuestionnaire = require("../../utils/loadQuestionnaire");
 const { DATE, DATE_RANGE } = require("../../constants/answerTypes");
 const { DATE: METADATA_DATE } = require("../../constants/metadataTypes");
 const { ROUTING_ANSWER_TYPES } = require("../../constants/routingAnswerTypes");
-const save = require("../../utils/saveQuestionnaire");
+const {
+  createQuestionnaire,
+  saveQuestionnaire,
+  deleteQuestionnaire,
+  getQuestionnaire,
+  listQuestionnaires,
+} = require("../../utils/datastore");
 
 const {
   VALIDATION_TYPES,
@@ -128,6 +131,7 @@ const createPage = (input = {}) => ({
   description: "",
   answers: [],
   routing: null,
+  alias: null,
   ...input,
 });
 
@@ -136,10 +140,11 @@ const createSection = (input = {}) => ({
   title: "",
   introductionEnabled: false,
   pages: [createPage()],
+  alias: null,
   ...input,
 });
 
-const createQuestionnaire = input => ({
+const createNewQuestionnaire = input => ({
   id: uuid.v4(),
   title: null,
   description: null,
@@ -171,18 +176,8 @@ const remapAllNestedIds = entity => {
   });
 };
 
-const getQuestionnaireList = () =>
-  JSON.parse(loadQuestionnaire("QuestionnaireList"));
-
-const getQuestionnaireById = questionnaireID =>
-  JSON.parse(loadQuestionnaire(questionnaireID));
-
-const saveQuestionnaireList = data => {
-  fs.writeFileSync(
-    `data/QuestionnaireList.json`,
-    stringify(data, { space: 4 })
-  );
-  return data;
+const getQuestionnaireList = () => {
+  return listQuestionnaires();
 };
 
 const Resolvers = {
@@ -222,69 +217,53 @@ const Resolvers = {
 
   Mutation: {
     createQuestionnaire: async (root, args, ctx) => {
-      const questionnaire = createQuestionnaire({
+      const questionnaire = createNewQuestionnaire({
         ...args.input,
         createdBy: ctx.auth.name,
       });
-      save(questionnaire);
-      const questionnaireList = getQuestionnaireList();
-      questionnaireList.push({
-        ...omit(questionnaire, "sections", "metadata"),
-      });
-      saveQuestionnaireList(questionnaireList);
 
-      return questionnaire;
+      return createQuestionnaire(questionnaire);
     },
-    updateQuestionnaire: (_, { input }, ctx) => {
-      return save({
-        ...ctx.questionnaire,
-        ...input,
-      });
+    updateQuestionnaire: async (_, { input }, ctx) => {
+      ctx.questionnaire = merge(ctx.questionnaire, input);
+      await saveQuestionnaire(ctx.questionnaire);
+      return ctx.questionnaire;
     },
-    deleteQuestionnaire: (_, { input }) => {
-      const questionnaireList = getQuestionnaireList();
-      const deletedQuestionnaire = first(
-        remove(questionnaireList, { id: input.id })
-      );
-      saveQuestionnaireList(questionnaireList);
-      return deletedQuestionnaire;
+    deleteQuestionnaire: async (_, { input }) => {
+      await deleteQuestionnaire(input.id);
+
+      return { id: input.id };
     },
 
-    duplicateQuestionnaire: (_, { input }) => {
-      const questionnaire = getQuestionnaireById(input.id);
-      const newQuestionnaire = omit(cloneDeep(questionnaire), "id");
-      set(newQuestionnaire, "title", addPrefix(newQuestionnaire.title));
-      set(newQuestionnaire, "id", uuid.v4());
+    duplicateQuestionnaire: async (_, { input }) => {
+      const questionnaire = await getQuestionnaire(input.id);
+      const newQuestionnaire = {
+        ...questionnaire,
+        title: addPrefix(questionnaire.title),
+        id: uuid.v4(),
+      };
 
-      save(newQuestionnaire);
-
-      const questionnaireList = getQuestionnaireList();
-      questionnaireList.push({
-        ...omit(newQuestionnaire, "sections", "metadata"),
-        createdAt: new Date(),
-      });
-      saveQuestionnaireList(questionnaireList);
-      return newQuestionnaire;
+      return createQuestionnaire(newQuestionnaire);
     },
     createSection: async (root, { input }, ctx) => {
       const section = createSection(input);
       ctx.questionnaire.sections.push(section);
-      save(ctx.questionnaire);
+      await saveQuestionnaire(ctx.questionnaire);
       return section;
     },
-    updateSection: (_, { input }, ctx) => {
+    updateSection: async (_, { input }, ctx) => {
       const section = find(ctx.questionnaire.sections, { id: input.id });
       merge(section, input);
-      save(ctx.questionnaire);
+      await saveQuestionnaire(ctx.questionnaire);
       return section;
     },
-    deleteSection: (root, { input }, ctx) => {
+    deleteSection: async (root, { input }, ctx) => {
       const section = find(ctx.questionnaire.sections, { id: input.id });
       remove(ctx.questionnaire.sections, section);
-      save(ctx.questionnaire);
+      await saveQuestionnaire(ctx.questionnaire);
       return section;
     },
-    createSectionIntroduction: (_, { input }, ctx) => {
+    createSectionIntroduction: async (_, { input }, ctx) => {
       const section = find(ctx.questionnaire.sections, { id: input.sectionId });
       merge(section, {
         id: input.sectionId,
@@ -292,16 +271,16 @@ const Resolvers = {
         introductionContent: null,
         introductionTitle: null,
       });
-      save(ctx.questionnaire);
+      await saveQuestionnaire(ctx.questionnaire);
       return section;
     },
-    updateSectionIntroduction: (_, { input }, ctx) => {
+    updateSectionIntroduction: async (_, { input }, ctx) => {
       const section = find(ctx.questionnaire.sections, { id: input.sectionId });
       merge(section, input);
-      save(ctx.questionnaire);
+      await saveQuestionnaire(ctx.questionnaire);
       return section;
     },
-    deleteSectionIntroduction: (_, { input }, ctx) => {
+    deleteSectionIntroduction: async (_, { input }, ctx) => {
       const section = find(ctx.questionnaire.sections, { id: input.sectionId });
       merge(section, {
         id: input.sectionId,
@@ -309,19 +288,19 @@ const Resolvers = {
         introductionContent: null,
         introductionTitle: null,
       });
-      save(ctx.questionnaire);
+      await saveQuestionnaire(ctx.questionnaire);
       return section;
     },
-    moveSection: (_, { input }, ctx) => {
+    moveSection: async (_, { input }, ctx) => {
       const removedSection = first(
         remove(ctx.questionnaire.sections, { id: input.id })
       );
       ctx.questionnaire.sections.splice(input.position, 0, removedSection);
-      save(ctx.questionnaire);
+      await saveQuestionnaire(ctx.questionnaire);
       return removedSection;
     },
 
-    duplicateSection: (_, { input }, ctx) => {
+    duplicateSection: async (_, { input }, ctx) => {
       const section = find(ctx.questionnaire.sections, { id: input.id });
       const newSection = omit(cloneDeep(section), "id");
       set(newSection, "alias", addPrefix(newSection.alias));
@@ -329,11 +308,12 @@ const Resolvers = {
       const duplicatedSection = createSection(newSection);
       const remappedSection = remapAllNestedIds(duplicatedSection);
       ctx.questionnaire.sections.splice(input.position, 0, remappedSection);
-      save(ctx.questionnaire);
-      return remappedSection;
+      ctx.questionnaire.sections.splice(input.position, 0, duplicatedSection);
+      await saveQuestionnaire(ctx.questionnaire);
+      return duplicatedSection;
     },
 
-    movePage: (_, { input }, ctx) => {
+    movePage: async (_, { input }, ctx) => {
       const section = findSectionByPageId(ctx.questionnaire.sections, input.id);
       const removedPage = first(remove(section.pages, { id: input.id }));
       if (input.sectionId === section.id) {
@@ -344,11 +324,11 @@ const Resolvers = {
         });
         newsection.pages.splice(input.position, 0, removedPage);
       }
-      save(ctx.questionnaire);
+      await saveQuestionnaire(ctx.questionnaire);
       return removedPage;
     },
 
-    duplicatePage: (_, { input }, ctx) => {
+    duplicatePage: async (_, { input }, ctx) => {
       const section = findSectionByPageId(ctx.questionnaire.sections, input.id);
       const page = find(section.pages, { id: input.id });
       const newpage = omit(page, "id");
@@ -357,28 +337,28 @@ const Resolvers = {
       const duplicatedPage = createPage(newpage);
       const remappedPage = remapAllNestedIds(duplicatedPage);
       section.pages.splice(input.position, 0, remappedPage);
-      save(ctx.questionnaire);
+      await saveQuestionnaire(ctx.questionnaire);
       return remappedPage;
     },
 
-    createQuestionPage: (root, { input }, ctx) => {
+    createQuestionPage: async (root, { input }, ctx) => {
       const section = find(ctx.questionnaire.sections, { id: input.sectionId });
       const page = createPage();
       section.pages.push(page);
-      save(ctx.questionnaire);
+      await saveQuestionnaire(ctx.questionnaire);
       return page;
     },
     updateQuestionPage: (_, { input }, ctx) => {
       const page = getPage(ctx)({ pageId: input.id });
       merge(page, input);
-      save(ctx.questionnaire);
+      saveQuestionnaire(ctx.questionnaire);
       return page;
     },
-    deleteQuestionPage: (_, { input }, ctx) => {
+    deleteQuestionPage: async (_, { input }, ctx) => {
       const section = find(ctx.questionnaire.sections, { id: input.sectionId });
       const page = find(section.pages, { id: input.pageId });
       const removedPage = remove(section.pages, { id: page.pageId });
-      save(ctx.questionnaire);
+      await saveQuestionnaire(ctx.questionnaire);
       return removedPage[0];
     },
 
@@ -389,10 +369,10 @@ const Resolvers = {
 
       onAnswerCreated(ctx.questionnaire, page, answer);
 
-      save(ctx.questionnaire);
+      await saveQuestionnaire(ctx.questionnaire);
       return answer;
     },
-    updateAnswer: (root, { input }, ctx) => {
+    updateAnswer: async (root, { input }, ctx) => {
       const pages = flatMap(
         ctx.questionnaire.sections,
         section => section.pages
@@ -405,7 +385,7 @@ const Resolvers = {
 
       const answer = find(concat(answers, additionalAnswers), { id: input.id });
       merge(answer, input);
-      save(ctx.questionnaire);
+      await saveQuestionnaire(ctx.questionnaire);
 
       return answer;
     },
@@ -424,7 +404,7 @@ const Resolvers = {
 
       onAnswerDeleted(ctx.questionnaire, page, deletedAnswer);
 
-      save(ctx.questionnaire);
+      await saveQuestionnaire(ctx.questionnaire);
       return deletedAnswer;
     },
 
@@ -439,12 +419,12 @@ const Resolvers = {
 
       parent.options.push(option);
 
-      save(ctx.questionnaire);
+      await saveQuestionnaire(ctx.questionnaire);
 
       return option;
     },
 
-    createMutuallyExclusiveOption: (root, { input }, ctx) => {
+    createMutuallyExclusiveOption: async (root, { input }, ctx) => {
       const pages = flatMap(
         ctx.questionnaire.sections,
         section => section.pages
@@ -463,11 +443,11 @@ const Resolvers = {
 
       answer.options.push(option);
 
-      save(ctx.questionnaire);
+      await saveQuestionnaire(ctx.questionnaire);
 
       return option;
     },
-    updateOption: (_, { input }, ctx) => {
+    updateOption: async (_, { input }, ctx) => {
       const pages = flatMap(
         ctx.questionnaire.sections,
         section => section.pages
@@ -478,11 +458,11 @@ const Resolvers = {
 
       merge(option, input);
 
-      save(ctx.questionnaire);
+      await saveQuestionnaire(ctx.questionnaire);
 
       return option;
     },
-    deleteOption: (_, { input }, ctx) => {
+    deleteOption: async (_, { input }, ctx) => {
       const pages = flatMap(
         ctx.questionnaire.sections,
         section => section.pages
@@ -514,28 +494,28 @@ const Resolvers = {
         });
       });
 
-      save(ctx.questionnaire);
+      await saveQuestionnaire(ctx.questionnaire);
 
       return removedOption;
     },
-    toggleValidationRule: (_, args, ctx) => {
+    toggleValidationRule: async (_, args, ctx) => {
       const validation = getValidation(ctx)(args.input.id);
       validation.enabled = args.input.enabled;
       merge(validation, args.input);
-      save(ctx.questionnaire);
+      await saveQuestionnaire(ctx.questionnaire);
 
       return validation;
     },
-    updateValidationRule: (_, args, ctx) => {
+    updateValidationRule: async (_, args, ctx) => {
       const validation = getValidation(ctx)(args.input.id);
       VALIDATION_INPUT_TYPES.map(type => {
         merge(validation, args.input[type]);
       });
-      save(ctx.questionnaire);
+      await saveQuestionnaire(ctx.questionnaire);
 
       return validation;
     },
-    createMetadata: (root, args, ctx) => {
+    createMetadata: async (root, args, ctx) => {
       const newMetadata = {
         alias: null,
         id: uuid.v4(),
@@ -544,26 +524,26 @@ const Resolvers = {
         value: null,
       };
       ctx.questionnaire.metadata.push(newMetadata);
-      save(ctx.questionnaire);
+      await saveQuestionnaire(ctx.questionnaire);
       return newMetadata;
     },
-    updateMetadata: (_, { input }, ctx) => {
+    updateMetadata: async (_, { input }, ctx) => {
       const original = find(ctx.questionnaire.metadata, { id: input.id });
       const result = updateMetadata(original, input);
       merge(original, result);
-      save(ctx.questionnaire);
+      await saveQuestionnaire(ctx.questionnaire);
       return result;
     },
-    deleteMetadata: (_, { input }, ctx) => {
+    deleteMetadata: async (_, { input }, ctx) => {
       const deletedMetadata = first(
         remove(ctx.questionnaire.metadata, {
           id: input.id,
         })
       );
-      save(ctx.questionnaire);
+      await saveQuestionnaire(ctx.questionnaire);
       return deletedMetadata;
     },
-    createQuestionConfirmation: (_, { input }, ctx) => {
+    createQuestionConfirmation: async (_, { input }, ctx) => {
       const section = findSectionByPageId(
         ctx.questionnaire.sections,
         input.pageId
@@ -576,13 +556,13 @@ const Resolvers = {
         negative: { label: null, description: null },
       };
       set(page, "confirmation", questionConfirmation);
-      save(ctx.questionnaire);
+      await saveQuestionnaire(ctx.questionnaire);
       return {
         pageId: input.pageId,
         ...questionConfirmation,
       };
     },
-    updateQuestionConfirmation: (
+    updateQuestionConfirmation: async (
       _,
       { input: { positive, negative, id, title } },
       ctx
@@ -610,14 +590,14 @@ const Resolvers = {
 
       merge(confirmationPage, newValues);
 
-      save(ctx.questionnaire);
+      await saveQuestionnaire(ctx.questionnaire);
 
       return {
         pageId,
         ...confirmationPage,
       };
     },
-    deleteQuestionConfirmation: (_, { input }, ctx) => {
+    deleteQuestionConfirmation: async (_, { input }, ctx) => {
       const pages = flatMap(
         ctx.questionnaire.sections,
         section => section.pages
@@ -634,7 +614,7 @@ const Resolvers = {
       });
 
       delete pageContainingConfirmation.confirmation;
-      save(ctx.questionnaire);
+      await saveQuestionnaire(ctx.questionnaire);
 
       return {
         pageId: pageContainingConfirmation.id,

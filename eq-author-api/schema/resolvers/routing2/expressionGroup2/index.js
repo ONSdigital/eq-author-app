@@ -1,14 +1,14 @@
 const Resolvers = {};
 
 const { find, flatMap, getOr } = require("lodash/fp");
-const save = require("../../../../utils/saveQuestionnaire");
+const { saveQuestionnaire } = require("../../../../utils/datastore");
 
 Resolvers.ExpressionGroup2 = {
   expressions: expressionGroup => expressionGroup.expressions,
 };
 
 Resolvers.Mutation = {
-  updateExpressionGroup2: async (root, { input: { id, operator } }, ctx) => {
+  updateExpressionGroup2: (root, { input: { id, operator } }, ctx) => {
     const expressionGroup = find(
       { id },
       flatMap(
@@ -23,7 +23,7 @@ Resolvers.Mutation = {
       )
     );
     expressionGroup.operator = operator;
-    save(ctx.questionnaire);
+    return saveQuestionnaire(ctx.questionnaire);
   },
 };
 
