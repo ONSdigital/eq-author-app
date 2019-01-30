@@ -219,6 +219,7 @@ fragment MinValueValidationRule on MinValueValidationRule {
   enabled
   custom
   inclusive
+  entityType
 }
 
 fragment MaxValueValidationRule on MaxValueValidationRule {
@@ -288,6 +289,10 @@ mutation updateValidation($input: UpdateValidationRuleInput!){
     ...on MinValueValidationRule {
       custom
       inclusive
+      entityType
+      previousAnswer {
+        id
+      }
     }
     ...on MaxValueValidationRule {
       custom

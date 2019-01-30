@@ -60,6 +60,10 @@ exports.getQuestionnaire = `
     enabled
     custom
     inclusive
+    entityType
+    previousAnswer {
+      id
+    }
   }
 
   fragment MaxValueValidationRule on MaxValueValidationRule {

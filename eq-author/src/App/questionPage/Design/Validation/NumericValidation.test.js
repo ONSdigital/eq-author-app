@@ -4,14 +4,14 @@ import { shallow } from "enzyme";
 
 import FieldWithInclude from "./FieldWithInclude";
 import PreviousAnswerContentPicker from "./PreviousAnswerContentPicker";
-import { UnwrappedMaxValueValidation } from "./MaxValueValidation";
+import { UnwrappedNumericValidation } from "./NumericValidation";
 import { ValidationPills } from "./ValidationPills";
 import { CUSTOM } from "constants/validation-entity-types";
 
 const createWrapper = (props, render = shallow) =>
-  render(<UnwrappedMaxValueValidation {...props} />);
+  render(<UnwrappedNumericValidation {...props} />);
 
-describe("MaxValueValidation", () => {
+describe("NumericValidation", () => {
   let props, wrapper;
   let onCustomNumberValueChange = jest.fn();
   let onChangeUpdate = jest.fn();

@@ -12,8 +12,7 @@ import SidebarButton, { Title, Detail } from "components/buttons/SidebarButton";
 import ValidationContext from "./ValidationContext";
 import DurationValidation from "./DurationValidation";
 import DateValidation from "./DateValidation";
-import MinValueValidation from "./MinValueValidation";
-import MaxValueValidation from "./MaxValueValidation";
+import NumericValidation from "./NumericValidation";
 import DatePreview from "./DatePreview";
 import DurationPreview from "./DurationPreview";
 
@@ -35,25 +34,26 @@ const Container = styled.div`
   padding: 1em 0;
 `;
 
-const validationTypes = [
+export const validationTypes = [
   {
     id: "minValue",
     title: "Min Value",
     render: () => (
-      <MinValue>{props => <MinValueValidation {...props} />}</MinValue>
+      <MinValue>{props => <NumericValidation {...props} />}</MinValue>
     ),
     types: [CURRENCY, NUMBER],
-    preview: ({ custom }) => custom,
+    preview: ({ custom, previousAnswer, entityType }) =>
+      entityType === "Custom" ? custom : get(previousAnswer, "displayName"),
   },
   {
     id: "maxValue",
     title: "Max Value",
     render: () => (
-      <MaxValue>{props => <MaxValueValidation {...props} />}</MaxValue>
+      <MaxValue>{props => <NumericValidation {...props} />}</MaxValue>
     ),
     types: [CURRENCY, NUMBER],
-    preview: ({ custom, previousAnswer }) =>
-      custom ? custom : get(previousAnswer, "displayName"),
+    preview: ({ custom, previousAnswer, entityType }) =>
+      entityType === "Custom" ? custom : get(previousAnswer, "displayName"),
   },
   {
     id: "earliestDate",

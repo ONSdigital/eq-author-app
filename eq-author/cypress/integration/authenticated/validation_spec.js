@@ -99,9 +99,12 @@ describe("Answer Validation", () => {
       });
       it("Can set input value", () => {
         toggleCheckboxOn("@minValueToggle");
-        cy.get(testId("min-value-input"))
+        cy.get(testId("numeric-value-input"))
           .type("3")
           .should("have.value", "3");
+      });
+      it("Can set previous answer", () => {
+        setPreviousAnswer("@minValue", NUMBER);
       });
       it("Can toggle include/exclude", () => {
         toggleCheckboxOn("@minValueToggle");
@@ -109,10 +112,10 @@ describe("Answer Validation", () => {
       });
       it("Can retain input value after on/off toggle", () => {
         toggleCheckboxOn("@minValueToggle");
-        cy.get(testId("min-value-input")).type("3");
+        cy.get(testId("numeric-value-input")).type("3");
         toggleCheckboxOff("@minValueToggle");
         toggleCheckboxOn("@minValueToggle");
-        cy.get(testId("min-value-input")).should("have.value", "3");
+        cy.get(testId("numeric-value-input")).should("have.value", "3");
       });
     });
 
@@ -132,7 +135,7 @@ describe("Answer Validation", () => {
       });
       it("Can set input value", () => {
         toggleCheckboxOn("@maxValueToggle");
-        cy.get(testId("max-value-input"))
+        cy.get(testId("numeric-value-input"))
           .type("3")
           .should("have.value", "3");
       });
@@ -145,10 +148,10 @@ describe("Answer Validation", () => {
       });
       it("Can retain input value after on/off toggle", () => {
         toggleCheckboxOn("@maxValueToggle");
-        cy.get(testId("max-value-input")).type("3");
+        cy.get(testId("numeric-value-input")).type("3");
         toggleCheckboxOff("@maxValueToggle");
         toggleCheckboxOn("@maxValueToggle");
-        cy.get(testId("max-value-input")).should("have.value", "3");
+        cy.get(testId("numeric-value-input")).should("have.value", "3");
       });
     });
 
@@ -179,7 +182,7 @@ describe("Answer Validation", () => {
       });
       it("Can set input value", () => {
         toggleCheckboxOn("@minValueToggle");
-        cy.get(testId("min-value-input"))
+        cy.get(testId("numeric-value-input"))
           .type("3")
           .should("have.value", "3");
       });
@@ -189,10 +192,10 @@ describe("Answer Validation", () => {
       });
       it("Can retain input value after on/off toggle", () => {
         toggleCheckboxOn("@minValueToggle");
-        cy.get(testId("min-value-input")).type("3");
+        cy.get(testId("numeric-value-input")).type("3");
         toggleCheckboxOff("@minValueToggle");
         toggleCheckboxOn("@minValueToggle");
-        cy.get(testId("min-value-input")).should("have.value", "3");
+        cy.get(testId("numeric-value-input")).should("have.value", "3");
       });
     });
 
@@ -212,7 +215,7 @@ describe("Answer Validation", () => {
       });
       it("Can set input value", () => {
         toggleCheckboxOn("@maxValueToggle");
-        cy.get(testId("max-value-input"))
+        cy.get(testId("numeric-value-input"))
           .type("3")
           .should("have.value", "3");
       });
@@ -225,10 +228,10 @@ describe("Answer Validation", () => {
       });
       it("Can retain input value after on/off toggle", () => {
         toggleCheckboxOn("@maxValueToggle");
-        cy.get(testId("max-value-input")).type("3");
+        cy.get(testId("numeric-value-input")).type("3");
         toggleCheckboxOff("@maxValueToggle");
         toggleCheckboxOn("@maxValueToggle");
-        cy.get(testId("max-value-input")).should("have.value", "3");
+        cy.get(testId("numeric-value-input")).should("have.value", "3");
       });
     });
 

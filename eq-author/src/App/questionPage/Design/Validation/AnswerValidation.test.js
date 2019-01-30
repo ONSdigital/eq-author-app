@@ -5,7 +5,10 @@ import SidebarButton, {
   Detail as SidebarButtonDetail,
 } from "components/buttons/SidebarButton";
 import ModalWithNav from "components/modals/ModalWithNav";
-import { UnconnectedAnswerValidation } from "App/questionPage/Design/Validation/AnswerValidation";
+import {
+  UnconnectedAnswerValidation,
+  validationTypes,
+} from "App/questionPage/Design/Validation/AnswerValidation";
 
 const render = (props, render = shallow) => {
   return render(<UnconnectedAnswerValidation {...props} />);
@@ -71,6 +74,7 @@ describe("AnswerValidation", () => {
           minValue: {
             enabled: true,
             custom: 5,
+            entityType: "Custom",
           },
         },
       },
@@ -82,6 +86,16 @@ describe("AnswerValidation", () => {
         .at(0)
         .prop("children")
     ).toEqual(5);
+  });
+
+  describe("validation object array", () => {
+    validationTypes.forEach(validationType => {
+      it(`should render the ${validationType.title} validation`, () => {
+        const wrapper = shallow(validationType.render());
+
+        expect(wrapper).toMatchSnapshot();
+      });
+    });
   });
 
   describe("Number/Currency Validation preview", () => {
@@ -97,6 +111,7 @@ describe("AnswerValidation", () => {
                 maxValue: {
                   enabled: true,
                   custom: 5,
+                  entityType: "Custom",
                 },
               },
             },

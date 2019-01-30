@@ -144,6 +144,32 @@ describe("Answer", () => {
         expect(answer.max_value).toBeUndefined();
       });
 
+      it("should add a previous answer min validation when entityType is PreviousAnswer", () => {
+        const answer = new Answer(
+          createAnswerJSON({
+            validation: {
+              minValue: {
+                id: "1",
+                inclusive: true,
+                enabled: true,
+                entityType: "PreviousAnswer",
+                previousAnswer: {
+                  id: "3",
+                },
+              },
+              maxValue: {
+                id: "1",
+                inclusive: true,
+                enabled: false,
+              },
+            },
+          })
+        );
+        expect(answer.min_value).toMatchObject({
+          answer_id: "answer3",
+        });
+      });
+
       it("should add a previous answer max validation when entityType is PreviousAnswer", () => {
         const answer = new Answer(
           createAnswerJSON({
