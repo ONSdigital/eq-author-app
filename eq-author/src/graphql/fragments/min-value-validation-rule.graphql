@@ -1,6 +1,5 @@
 fragment MinValueValidationRule on MinValueValidationRule {
   id
-  enabled
   custom
   inclusive
   entityType

@@ -87,17 +87,21 @@ StatelessBasicAnswer.fragments = {
       validation {
         ... on NumberValidation {
           minValue {
+            enabled
             ...MinValueValidationRule
           }
           maxValue {
+            enabled
             ...MaxValueValidationRule
           }
         }
         ... on DateValidation {
           earliestDate {
+            enabled
             ...EarliestDateValidationRule
           }
           latestDate {
+            enabled
             ...LatestDateValidationRule
           }
         }
