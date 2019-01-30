@@ -48,7 +48,7 @@ class ValidationView extends Component {
           </Label>
         </InlineField>
 
-        <TransitionGroup component={Container}>
+        <TransitionGroup>
           <FadeTransition
             key={`validation-enabled-${enabled}`}
             enter
