@@ -7,7 +7,7 @@ const isMutuallyExclusiveDestination = isMutuallyExclusive([
 ]);
 
 const { flatMap, find } = require("lodash/fp");
-const save = require("../../../../utils/saveQuestionnaire");
+const { save } = require("../../../../utils/datastore");
 const {
   createRouting,
   createDestination,

@@ -36,12 +36,19 @@ const getPreviousAnswersForPage = require("../../src/businessLogic/getPreviousAn
 const getPreviousAnswersForSection = require("../../src/businessLogic/getPreviousAnswersForSection");
 const createOption = require("../../src/businessLogic/createOption");
 const addPrefix = require("../../utils/addPrefix");
-const loadQuestionnaire = require("../../utils/loadQuestionnaire");
 const getPreviousPagesForPage = require("../../src/businessLogic/getPreviousPagesForPage");
 const { DATE, DATE_RANGE } = require("../../constants/answerTypes");
 const { DATE: METADATA_DATE } = require("../../constants/metadataTypes");
 const { ROUTING_ANSWER_TYPES } = require("../../constants/routingAnswerTypes");
-const save = require("../../utils/saveQuestionnaire");
+const {
+  saveQuestionnaire,
+  deleteQuestionnaire,
+} = require("../../utils/datastore");
+
+const {
+  QuestionnanaireModel,
+  QuestionnanaireVersionsModel,
+} = require("../../db/models/DynamoDB");
 
 const {
   VALIDATION_TYPES,
@@ -154,20 +161,28 @@ const createQuestionnaire = input => ({
   ...input,
 });
 
-const getQuestionnaireList = () =>
-  JSON.parse(loadQuestionnaire("QuestionnaireList"));
-
-const getQuestionnaireById = questionnaireID =>
-  JSON.parse(loadQuestionnaire(questionnaireID));
-
-const saveQuestionnaireList = data => {
-  fs.writeFileSync(
-    `data/QuestionnaireList.json`,
-    stringify(data, { space: 4 })
-  );
-  return data;
+const getQuestionnaireList = () => {
+  return new Promise((resolve, _) => {
+    QuestionnanaireModel.scan()
+      .all()
+      .exec((err, questionnaires) => {
+        resolve(questionnaires);
+      });
+  });
 };
 
+const getQuestionnaireById = async questionnaireID => {
+  let questionnaire = await new Promise((resolve, _) => {
+    QuestionnanaireVersionsModel.get(
+      { id: questionnaireID },
+      (err, questionnaire) => {
+        resolve(questionnaire);
+      }
+    );
+  });
+
+  return questionnaire;
+};
 const Resolvers = {
   Query: {
     questionnaires: (root, args, ctx) => getQuestionnaireList(),
@@ -211,59 +226,62 @@ const Resolvers = {
         ...args.input,
         createdBy: ctx.auth.name,
       });
-      save(questionnaire);
-      const questionnaireList = getQuestionnaireList();
-      questionnaireList.push({
-        ...omit(questionnaire, "sections", "metadata"),
-        createdAt: questionnaire.createdAt.toString().split("T")[0],
-      });
-      saveQuestionnaireList(questionnaireList);
+
+      await saveQuestionnaire(
+        new QuestionnanaireModel({
+          ...omit(questionnaire, "sections", "metadata"),
+          createdAt: questionnaire.createdAt.toString().split("T")[0],
+        })
+      );
+      await saveQuestionnaire(
+        new QuestionnanaireVersionsModel({
+          ...questionnaire,
+          updatedAt: Date.now(),
+        })
+      );
 
       return questionnaire;
     },
     updateQuestionnaire: (_, { input }, ctx) => {
-      return save({
-        ...ctx.questionnaire,
-        ...input,
-      });
+      ctx.questionnaire = merge(ctx.questionnaire, input);
+      return saveQuestionnaire(ctx.questionnaire);
     },
     deleteQuestionnaire: (_, { input }, ctx) => {
-      const questionnaireList = getQuestionnaireList();
-      const deletedQuestionnaire = first(
-        remove(questionnaireList, { id: input.id })
-      );
-      saveQuestionnaireList(questionnaireList);
-      return deletedQuestionnaire;
+      deleteQuestionnaire(input.id);
+
+      return { id: input.id };
     },
     undeleteQuestionnaire: (_, args, ctx) =>
       ctx.repositories.Questionnaire.undelete(args.input.id),
 
-    duplicateQuestionnaire: (_, { input }, ctx) => {
-      const questionnaire = getQuestionnaireById(input.id);
+    duplicateQuestionnaire: async (_, { input }, ctx) => {
+      const questionnaire = await getQuestionnaireById(input.id);
       const newQuestionnaire = omit(cloneDeep(questionnaire), "id");
       set(newQuestionnaire, "title", addPrefix(newQuestionnaire.title));
       set(newQuestionnaire, "id", uuid.v4());
 
-      save(newQuestionnaire);
+      await saveQuestionnaire(
+        new QuestionnanaireModel({
+          ...omit(newQuestionnaire, "sections", "metadata"),
+          createdAt: newQuestionnaire.createdAt.split("T")[0],
+        })
+      );
+      await saveQuestionnaire(
+        new QuestionnanaireVersionsModel(newQuestionnaire)
+      );
 
-      const questionnaireList = getQuestionnaireList();
-      questionnaireList.push({
-        ...omit(newQuestionnaire, "sections", "metadata"),
-        createdAt: newQuestionnaire.createdAt.toString().split("T")[0],
-      });
-      saveQuestionnaireList(questionnaireList);
       return newQuestionnaire;
     },
     createSection: async (root, { input }, ctx) => {
       const section = createSection(input);
       ctx.questionnaire.sections.push(section);
-      save(ctx.questionnaire);
+      saveQuestionnaire(ctx.questionnaire);
       return section;
     },
     updateSection: (_, { input }, ctx) => {
       const section = find(ctx.questionnaire.sections, { id: input.id });
       merge(section, input);
-      save(ctx.questionnaire);
+      saveQuestionnaire(ctx.questionnaire);
       return section;
     },
     deleteSection: (root, { input }, ctx) => {
@@ -305,7 +323,7 @@ const Resolvers = {
         remove(ctx.questionnaire.sections, { id: input.id })
       );
       ctx.questionnaire.sections.splice(input.position, 0, removedSection);
-      save(ctx.questionnaire);
+      saveQuestionnaire(ctx.questionnaire);
       return removedSection;
     },
 
@@ -317,7 +335,7 @@ const Resolvers = {
       const duplicatedSection = createSection(newSection);
       duplicatedSection.pages.map(page => set(page, "id", uuid.v4()));
       ctx.questionnaire.sections.splice(input.position, 0, duplicatedSection);
-      save(ctx.questionnaire);
+      saveQuestionnaire(ctx.questionnaire);
       return duplicatedSection;
     },
 
@@ -325,20 +343,23 @@ const Resolvers = {
       const section = find(ctx.questionnaire.section, { id: input.sectionId });
       const page = createPage();
       section.pages.push(page);
-      save(ctx.questionnaire);
+      saveQuestionnaire(ctx.questionnaire);
       return page;
     },
 
     updatePage: (_, { input }, ctx) => {
-      const page = getPage(ctx, { id: input.id });
-      merge(page, input);
-      save(ctx.questionnaire);
+      let page = find(
+        flatMap(ctx.questionnaire.sections, section => section.pages),
+        { id: input.id }
+      );
+      page = merge(page, input);
+      saveQuestionnaire(ctx.questionnaire);
       return page;
     },
     deletePage: (_, { input }, ctx) => {
       const section = findSectionByPageId(ctx.questionnaire.sections, input.id);
       const removedPage = first(remove(section.pages, { id: input.id }));
-      save(ctx.questionnaire);
+      saveQuestionnaire(ctx.questionnaire);
       return removedPage;
     },
     undeletePage: (_, args, ctx) =>
@@ -355,7 +376,7 @@ const Resolvers = {
         });
         newsection.pages.splice(input.position, 0, removedPage);
       }
-      save(ctx.questionnaire);
+      saveQuestionnaire(ctx.questionnaire);
       return removedPage;
     },
 
@@ -367,7 +388,7 @@ const Resolvers = {
       set(newpage, "title", addPrefix(newpage.title));
       const duplicatedPage = createPage(newpage);
       section.pages.splice(input.position, 0, duplicatedPage);
-      save(ctx.questionnaire);
+      saveQuestionnaire(ctx.questionnaire);
       return duplicatedPage;
     },
 
@@ -375,20 +396,17 @@ const Resolvers = {
       const section = find(ctx.questionnaire.sections, { id: input.sectionId });
       const page = createPage();
       section.pages.push(page);
-      save(ctx.questionnaire);
+      saveQuestionnaire(ctx.questionnaire);
       return page;
     },
     updateQuestionPage: (_, { input }, ctx) => {
-      const page = getPage(ctx, { id: input.id });
-      merge(page, input);
-      save(ctx.questionnaire);
-      return page;
+      return Resolvers.Mutation.updatePage(_, { input }, ctx);
     },
     deleteQuestionPage: (_, { input }, ctx) => {
       const section = find(ctx.questionnaire.sections, { id: input.sectionId });
       const page = find(section.pages, { id: input.pageId });
       const removedPage = remove(section.pages, { id: page.pageId });
-      save(ctx.questionnaire);
+      saveQuestionnaire(ctx.questionnaire);
       return removedPage[0];
     },
     undeleteQuestionPage: (_, args, ctx) =>
@@ -398,7 +416,7 @@ const Resolvers = {
       const page = getPage(ctx)({ pageId: input.questionPageId });
       const answer = createAnswer(input);
       page.answers.push(answer);
-      save(ctx.questionnaire);
+      saveQuestionnaire(ctx.questionnaire);
       // await ctx.modifiers.BinaryExpression.onAnswerCreated(answer); // TODO
       return answer;
     },
@@ -415,7 +433,7 @@ const Resolvers = {
 
       const answer = find(concat(answers, additionalAnswers), { id: input.id });
       merge(answer, input);
-      save(ctx.questionnaire);
+      saveQuestionnaire(ctx.questionnaire);
 
       return answer;
     },
@@ -431,7 +449,7 @@ const Resolvers = {
       });
 
       const deletedAnswer = first(remove(page.answers, { id: input.id }));
-      save(ctx.questionnaire);
+      saveQuestionnaire(ctx.questionnaire);
       return deletedAnswer;
 
       // await ctx.modifiers.BinaryExpression.onAnswerDeleted(deletedAnswer); // TODO
@@ -450,7 +468,7 @@ const Resolvers = {
 
       parent.options.push(option);
 
-      save(ctx.questionnaire);
+      saveQuestionnaire(ctx.questionnaire);
 
       return option;
     },
@@ -474,7 +492,7 @@ const Resolvers = {
 
       answer.options.push(option);
 
-      save(ctx.questionnaire);
+      saveQuestionnaire(ctx.questionnaire);
 
       return option;
     },
@@ -489,7 +507,7 @@ const Resolvers = {
 
       merge(option, input);
 
-      save(ctx.questionnaire);
+      saveQuestionnaire(ctx.questionnaire);
 
       return option;
     },
@@ -508,7 +526,7 @@ const Resolvers = {
 
       const removedOption = first(remove(answer.options, { id: input.id }));
 
-      save(ctx.questionnaire);
+      saveQuestionnaire(ctx.questionnaire);
 
       return removedOption;
     },
@@ -537,7 +555,7 @@ const Resolvers = {
 
       set(page, "routingRuleSet", routingRuleSet);
 
-      save(ctx.questionnaire);
+      saveQuestionnaire(ctx.questionnaire);
 
       return routingRuleSet;
     },
@@ -572,7 +590,7 @@ const Resolvers = {
       const validation = getValidation(ctx)(args.input.id);
       validation.enabled = args.input.enabled;
       merge(validation, args.input);
-      save(ctx.questionnaire);
+      saveQuestionnaire(ctx.questionnaire);
 
       return validation;
     },
@@ -581,7 +599,7 @@ const Resolvers = {
       VALIDATION_INPUT_TYPES.map(type => {
         merge(validation, args.input[type]);
       });
-      save(ctx.questionnaire);
+      saveQuestionnaire(ctx.questionnaire);
 
       return validation;
     },
@@ -594,14 +612,14 @@ const Resolvers = {
         value: null,
       };
       ctx.questionnaire.metadata.push(newMetadata);
-      save(ctx.questionnaire);
+      saveQuestionnaire(ctx.questionnaire);
       return newMetadata;
     },
     updateMetadata: (_, { input }, ctx) => {
       const original = find(ctx.questionnaire.metadata, { id: input.id });
       const result = updateMetadata(original, input);
       merge(original, result);
-      save(ctx.questionnaire);
+      saveQuestionnaire(ctx.questionnaire);
       return result;
     },
     deleteMetadata: (_, { input }, ctx) => {
@@ -610,7 +628,7 @@ const Resolvers = {
           id: input.id,
         })
       );
-      save(ctx.questionnaire);
+      saveQuestionnaire(ctx.questionnaire);
       return deletedMetadata;
     },
     createQuestionConfirmation: (_, { input }, ctx) => {
@@ -626,7 +644,7 @@ const Resolvers = {
         negative: { label: null, description: null },
       };
       set(page, "confirmation", questionConfirmation);
-      save(ctx.questionnaire);
+      saveQuestionnaire(ctx.questionnaire);
       return {
         pageId: input.pageId,
         ...questionConfirmation,
@@ -660,7 +678,7 @@ const Resolvers = {
 
       merge(confirmationPage, newValues);
 
-      save(ctx.questionnaire);
+      saveQuestionnaire(ctx.questionnaire);
 
       return {
         pageId,
@@ -684,7 +702,7 @@ const Resolvers = {
       });
 
       delete pageContainingConfirmation.confirmation;
-      save(ctx.questionnaire);
+      saveQuestionnaire(ctx.questionnaire);
 
       return {
         pageId: pageContainingConfirmation.id,

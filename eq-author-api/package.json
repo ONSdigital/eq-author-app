@@ -17,6 +17,7 @@
     "cheerio": "latest",
     "cors": "latest",
     "dotenv": "latest",
+    "dynamoose": "latest",
     "express": "latest",
     "express-pino-logger": "latest",
     "graphql": "latest",
