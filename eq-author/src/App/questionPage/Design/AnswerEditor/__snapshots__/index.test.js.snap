@@ -311,6 +311,51 @@ exports[`Answer Editor should render Number 1`] = `
 </AnswerEditor__Answer>
 `;
 
+exports[`Answer Editor should render Percentage 1`] = `
+<AnswerEditor__Answer>
+  <AnswerEditor__AnswerType>
+    Percentage
+  </AnswerEditor__AnswerType>
+  <AnswerEditor__Padding>
+    <Connect(withEntityEditor(StatelessBasicAnswer))
+      answer={
+        Object {
+          "description": "",
+          "id": "1",
+          "title": "",
+          "type": "Percentage",
+        }
+      }
+      onAddExclusive={[MockFunction]}
+      onAddOption={[MockFunction]}
+      onChange={[MockFunction]}
+      onDeleteAnswer={[MockFunction]}
+      onDeleteOption={[MockFunction]}
+      onUpdate={[MockFunction]}
+      onUpdateOption={[MockFunction]}
+      showDescription={true}
+    />
+  </AnswerEditor__Padding>
+  <Tooltip
+    content="Delete answer"
+    offset={
+      Object {
+        "bottom": 10,
+        "top": 0,
+      }
+    }
+    place="top"
+  >
+    <AnswerEditor__AnswerDeleteButton
+      aria-label="Delete answer"
+      data-test="btn-delete-answer"
+      onClick={[Function]}
+      size="medium"
+    />
+  </Tooltip>
+</AnswerEditor__Answer>
+`;
+
 exports[`Answer Editor should render Radio 1`] = `
 <AnswerEditor__Answer>
   <AnswerEditor__AnswerType>

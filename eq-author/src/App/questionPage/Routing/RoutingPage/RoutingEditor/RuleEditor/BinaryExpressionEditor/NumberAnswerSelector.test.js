@@ -1,11 +1,13 @@
 import React from "react";
 import { shallow } from "enzyme";
+
+import { Number } from "components/Forms";
+
 import NumberAnswerSelector, {
-  RoutingNumberInput,
   ConditionSelector,
 } from "./NumberAnswerSelector";
 
-import { CURRENCY, NUMBER } from "constants/answer-types";
+import { CURRENCY, NUMBER, PERCENTAGE } from "constants/answer-types";
 
 describe("NumberAnswerSelector", () => {
   let defaultProps;
@@ -34,6 +36,12 @@ describe("NumberAnswerSelector", () => {
     expect(wrapper).toMatchSnapshot();
   });
 
+  it("should render a percentage", () => {
+    defaultProps.expression.left.type = PERCENTAGE;
+    const wrapper = shallow(<NumberAnswerSelector {...defaultProps} />);
+    expect(wrapper).toMatchSnapshot();
+  });
+
   it("should call the correct handlers when the condition is changed", () => {
     const wrapper = shallow(<NumberAnswerSelector {...defaultProps} />);
 
@@ -45,7 +53,7 @@ describe("NumberAnswerSelector", () => {
   it("should call the correct handler when value is changed", () => {
     const wrapper = shallow(<NumberAnswerSelector {...defaultProps} />);
 
-    wrapper.find(RoutingNumberInput).simulate("change", { value: 123 });
+    wrapper.find(Number).simulate("change", { value: 123 });
     expect(defaultProps.onRightChange).toHaveBeenCalledWith({
       customValue: { number: 123 },
     });

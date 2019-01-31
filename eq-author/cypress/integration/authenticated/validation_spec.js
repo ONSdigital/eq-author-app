@@ -4,6 +4,7 @@ import {
   DATE,
   DATE_RANGE,
   NUMBER,
+  PERCENTAGE,
 } from "../../../src/constants/answer-types";
 
 import {
@@ -77,166 +78,96 @@ describe("Answer Validation", () => {
     cy.login();
   });
 
-  describe("Number", () => {
-    beforeEach(() => {
-      addAnswerType(NUMBER);
-      cy.get(testId("txt-answer-label")).type("Validation Answer");
-    });
-
-    describe("Min Value", () => {
+  [NUMBER, CURRENCY, PERCENTAGE].forEach(type => {
+    describe(type, () => {
       beforeEach(() => {
-        cy.get(testId("sidebar-button-min-value")).as("minValue");
-        cy.get("@minValue").should("be.visible");
-        cy.get("@minValue").click();
-        cy.get(testId("sidebar-title")).contains("Number validation");
-        cy.get(testId("validation-view-toggle")).within(() => {
-          cy.get('[role="switch"]').as("minValueToggle");
+        addAnswerType(type);
+        cy.get(testId("txt-answer-label")).type("Validation Answer");
+      });
+
+      const numberInputId = testId("numeric-value-input");
+
+      describe("Min Value", () => {
+        beforeEach(() => {
+          cy.get(testId("sidebar-button-min-value")).as("minValue");
+          cy.get("@minValue").should("be.visible");
+          cy.get("@minValue").click();
+          cy.get(testId("sidebar-title")).contains(`${type} validation`);
+          cy.get(testId("validation-view-toggle")).within(() => {
+            cy.get('[role="switch"]').as("minValueToggle");
+          });
+        });
+        it("Can toggle on/off", () => {
+          toggleCheckboxOn("@minValueToggle");
+          toggleCheckboxOff("@minValueToggle");
+        });
+        it("Can set input value", () => {
+          cy.log(numberInputId);
+          toggleCheckboxOn("@minValueToggle");
+          cy.get(numberInputId)
+            .type("3")
+            .should("have.value", "3");
+        });
+        it("Can set previous answer", () => {
+          setPreviousAnswer("@minValue", type);
+        });
+        it("Can toggle include/exclude", () => {
+          toggleCheckboxOn("@minValueToggle");
+          toggleCheckboxOn(testId("inclusive"));
+        });
+        it("Can retain input value after on/off toggle", () => {
+          toggleCheckboxOn("@minValueToggle");
+          cy.get(numberInputId)
+            .type("3")
+            .blur();
+          toggleCheckboxOff("@minValueToggle");
+          toggleCheckboxOn("@minValueToggle");
+          cy.get(numberInputId).should("have.value", "3");
         });
       });
-      it("Can toggle on/off", () => {
-        toggleCheckboxOn("@minValueToggle");
-        toggleCheckboxOff("@minValueToggle");
-      });
-      it("Can set input value", () => {
-        toggleCheckboxOn("@minValueToggle");
-        cy.get(testId("numeric-value-input"))
-          .type("3")
-          .should("have.value", "3");
-      });
-      it("Can set previous answer", () => {
-        setPreviousAnswer("@minValue", NUMBER);
-      });
-      it("Can toggle include/exclude", () => {
-        toggleCheckboxOn("@minValueToggle");
-        toggleCheckboxOn(testId("inclusive"));
-      });
-      it("Can retain input value after on/off toggle", () => {
-        toggleCheckboxOn("@minValueToggle");
-        cy.get(testId("numeric-value-input")).type("3");
-        toggleCheckboxOff("@minValueToggle");
-        toggleCheckboxOn("@minValueToggle");
-        cy.get(testId("numeric-value-input")).should("have.value", "3");
-      });
-    });
 
-    describe("Max Value", () => {
-      beforeEach(() => {
-        cy.get(testId("sidebar-button-max-value")).as("maxValue");
-        cy.get("@maxValue").should("be.visible");
-        cy.get("@maxValue").click();
-        cy.get(testId("sidebar-title")).contains("Number validation");
-        cy.get(testId("validation-view-toggle")).within(() => {
-          cy.get('[role="switch"]').as("maxValueToggle");
+      describe("Max Value", () => {
+        beforeEach(() => {
+          cy.get(testId("sidebar-button-max-value")).as("maxValue");
+          cy.get("@maxValue").should("be.visible");
+          cy.get("@maxValue").click();
+          cy.get(testId("sidebar-title")).contains(`${type} validation`);
+          cy.get(testId("validation-view-toggle")).within(() => {
+            cy.get('[role="switch"]').as("maxValueToggle");
+          });
+        });
+
+        it("Can toggle on/off", () => {
+          toggleCheckboxOn("@maxValueToggle");
+          toggleCheckboxOff("@maxValueToggle");
+        });
+        it("Can set input value", () => {
+          toggleCheckboxOn("@maxValueToggle");
+          cy.get(numberInputId)
+            .type("3")
+            .should("have.value", "3");
+        });
+        it("Can set previous answer", () => {
+          setPreviousAnswer("@maxValue", type);
+        });
+        it("Can toggle include/exclude", () => {
+          toggleCheckboxOn("@maxValueToggle");
+          toggleCheckboxOn(testId("inclusive"));
+        });
+        it("Can retain input value after on/off toggle", () => {
+          toggleCheckboxOn("@maxValueToggle");
+          cy.get(numberInputId)
+            .type("3")
+            .blur();
+          toggleCheckboxOff("@maxValueToggle");
+          toggleCheckboxOn("@maxValueToggle");
+          cy.get(numberInputId).should("have.value", "3");
         });
       });
-      it("Can toggle on/off", () => {
-        toggleCheckboxOn("@maxValueToggle");
-        toggleCheckboxOff("@maxValueToggle");
-      });
-      it("Can set input value", () => {
-        toggleCheckboxOn("@maxValueToggle");
-        cy.get(testId("numeric-value-input"))
-          .type("3")
-          .should("have.value", "3");
-      });
-      it("Can set previous answer", () => {
-        setPreviousAnswer("@maxValue", NUMBER);
-      });
-      it("Can toggle include/exclude", () => {
-        toggleCheckboxOn("@maxValueToggle");
-        toggleCheckboxOn(testId("inclusive"));
-      });
-      it("Can retain input value after on/off toggle", () => {
-        toggleCheckboxOn("@maxValueToggle");
-        cy.get(testId("numeric-value-input")).type("3");
-        toggleCheckboxOff("@maxValueToggle");
-        toggleCheckboxOn("@maxValueToggle");
-        cy.get(testId("numeric-value-input")).should("have.value", "3");
-      });
-    });
 
-    afterEach(() => {
-      removeAnswer();
-    });
-  });
-
-  describe("Currency", () => {
-    beforeEach(() => {
-      addAnswerType(CURRENCY);
-      cy.get(testId("txt-answer-label")).type("Validation Answer");
-    });
-
-    describe("Min Value", () => {
-      beforeEach(() => {
-        cy.get(testId("sidebar-button-min-value")).as("minValue");
-        cy.get("@minValue").should("be.visible");
-        cy.get("@minValue").click();
-        cy.get(testId("sidebar-title")).contains("Currency validation");
-        cy.get(testId("validation-view-toggle")).within(() => {
-          cy.get('[role="switch"]').as("minValueToggle");
-        });
+      afterEach(() => {
+        removeAnswer();
       });
-      it("Can toggle on/off", () => {
-        toggleCheckboxOn("@minValueToggle");
-        toggleCheckboxOff("@minValueToggle");
-      });
-      it("Can set input value", () => {
-        toggleCheckboxOn("@minValueToggle");
-        cy.get(testId("numeric-value-input"))
-          .type("3")
-          .should("have.value", "3");
-      });
-      it("Can toggle include/exclude", () => {
-        toggleCheckboxOn("@minValueToggle");
-        toggleCheckboxOn(testId("inclusive"));
-      });
-      it("Can retain input value after on/off toggle", () => {
-        toggleCheckboxOn("@minValueToggle");
-        cy.get(testId("numeric-value-input")).type("3");
-        toggleCheckboxOff("@minValueToggle");
-        toggleCheckboxOn("@minValueToggle");
-        cy.get(testId("numeric-value-input")).should("have.value", "3");
-      });
-    });
-
-    describe("Max Value", () => {
-      beforeEach(() => {
-        cy.get(testId("sidebar-button-max-value")).as("maxValue");
-        cy.get("@maxValue").should("be.visible");
-        cy.get("@maxValue").click();
-        cy.get(testId("sidebar-title")).contains("Currency validation");
-        cy.get(testId("validation-view-toggle")).within(() => {
-          cy.get('[role="switch"]').as("maxValueToggle");
-        });
-      });
-      it("Can toggle on/off", () => {
-        toggleCheckboxOn("@maxValueToggle");
-        toggleCheckboxOff("@maxValueToggle");
-      });
-      it("Can set input value", () => {
-        toggleCheckboxOn("@maxValueToggle");
-        cy.get(testId("numeric-value-input"))
-          .type("3")
-          .should("have.value", "3");
-      });
-      it("Can set previous answer", () => {
-        setPreviousAnswer("@maxValue", CURRENCY);
-      });
-      it("Can toggle include/exclude", () => {
-        toggleCheckboxOn("@maxValueToggle");
-        toggleCheckboxOn(testId("inclusive"));
-      });
-      it("Can retain input value after on/off toggle", () => {
-        toggleCheckboxOn("@maxValueToggle");
-        cy.get(testId("numeric-value-input")).type("3");
-        toggleCheckboxOff("@maxValueToggle");
-        toggleCheckboxOn("@maxValueToggle");
-        cy.get(testId("numeric-value-input")).should("have.value", "3");
-      });
-    });
-
-    afterEach(() => {
-      removeAnswer();
     });
   });
 

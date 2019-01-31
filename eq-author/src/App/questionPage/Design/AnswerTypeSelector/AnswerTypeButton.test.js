@@ -1,6 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
-import AnswerTypeButton from "App/questionPage/Design/AnswerTypeSelector/AnswerTypeButton";
+import AnswerTypeButton from "./AnswerTypeButton";
 import { IconGridButton } from "components/IconGrid";
 
 let component, handleClick;

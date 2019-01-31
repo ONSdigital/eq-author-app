@@ -4,11 +4,11 @@ import styled from "styled-components";
 import { get, flowRight } from "lodash";
 
 import { Grid, Column } from "components/Grid";
+import { Number } from "components/Forms";
 
 import PreviousAnswerContentPicker from "./PreviousAnswerContentPicker";
 import { ValidationPills } from "./ValidationPills";
 import ValidationTitle from "./ValidationTitle";
-import ValidationInput from "./ValidationInput";
 import PathEnd from "./path-end.svg?inline";
 import withCustomNumberValueChange from "./withCustomNumberValueChange";
 import FieldWithInclude from "./FieldWithInclude";
@@ -49,10 +49,10 @@ export class UnwrappedNumericValidation extends React.Component {
       onChange={this.props.onChangeUpdate}
       checked={this.props.validation.inclusive}
     >
-      <ValidationInput
+      <Number
         data-test="numeric-value-input"
         value={this.props.validation.custom}
-        type="number"
+        type={this.props.answer.type}
         onChange={this.props.onCustomNumberValueChange}
         onBlur={this.props.onUpdate}
         max={this.props.limit}
@@ -88,7 +88,7 @@ export class UnwrappedNumericValidation extends React.Component {
 }
 
 UnwrappedNumericValidation.propTypes = {
-  limit: PropTypes.number,
+  limit: PropTypes.number.isRequired,
   validation: PropTypes.shape({
     id: PropTypes.string.isRequired,
     enabled: PropTypes.bool.isRequired,
@@ -100,10 +100,8 @@ UnwrappedNumericValidation.propTypes = {
     entityType: PropTypes.oneOf(Object.values(entityTypes)),
   }).isRequired,
   answer: PropTypes.shape({
-    id: PropTypes.string.required,
-    properties: PropTypes.shape({
-      format: PropTypes.string,
-    }).isRequired,
+    id: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
   }).isRequired,
   onCustomNumberValueChange: PropTypes.func.isRequired,
   onChangeUpdate: PropTypes.func.isRequired,

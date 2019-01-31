@@ -4,10 +4,11 @@ const {
   DATE_RANGE,
   CURRENCY,
   NUMBER,
+  PERCENTAGE,
 } = require("../constants/answerTypes");
 
 const answerTypeMap = {
-  number: [CURRENCY, NUMBER],
+  number: [CURRENCY, NUMBER, PERCENTAGE],
   date: [DATE],
   dateRange: [DATE_RANGE],
 };

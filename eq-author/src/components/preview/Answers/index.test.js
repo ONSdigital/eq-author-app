@@ -6,13 +6,9 @@ import * as AnswerTypes from "constants/answer-types";
 import { Answer } from "./";
 
 describe("Answers", () => {
-  it("should render a component for each answer type except time", () => {
+  it("should render a component for each answer type", () => {
     Object.values(AnswerTypes).forEach(type => {
-      if (
-        [AnswerTypes.DATE, AnswerTypes.DATE_RANGE, AnswerTypes.TIME].includes(
-          type
-        )
-      ) {
+      if ([AnswerTypes.DATE, AnswerTypes.DATE_RANGE].includes(type)) {
         return;
       }
 

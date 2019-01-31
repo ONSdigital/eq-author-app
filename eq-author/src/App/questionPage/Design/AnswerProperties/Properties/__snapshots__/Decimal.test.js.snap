@@ -1,14 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Decimal Property should render 1`] = `
-<Number
-  default={0}
+<Decimal__SmallerNumber
   id="1"
   max={6}
-  min={0}
   name="1"
   onChange={[MockFunction]}
-  step={1}
   value={2}
 />
 `;

@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 const { isNil } = require("lodash/fp");
 const { get, has, pick } = require("lodash");
+const { NUMBER, CURRENCY, PERCENTAGE, DATE } = require("../constants/answerTypes");
 
 class Answer {
   constructor(answer) {
@@ -11,11 +12,11 @@ class Answer {
     this.description = answer.description;
 
     if (!isNil(answer.validation)) {
-      if (["Number", "Currency"].includes(answer.type)) {
+      if ([NUMBER, CURRENCY, PERCENTAGE].includes(answer.type)) {
         const { minValue, maxValue } = answer.validation;
         this.buildNumberValidation(minValue, "min_value");
         this.buildNumberValidation(maxValue, "max_value");
-      } else if (answer.type === "Date") {
+      } else if (answer.type === DATE) {
         const { earliestDate, latestDate } = answer.validation;
         this.minimum = Answer.buildDateValidation(earliestDate);
         this.maximum = Answer.buildDateValidation(latestDate);
@@ -30,11 +31,11 @@ class Answer {
       this.parent_answer_id = `answer${answer.parentAnswerId}`;
     }
 
-    if (answer.type === "Currency") {
+    if (answer.type === CURRENCY) {
       this.currency = "GBP";
     }
 
-    if (answer.type === "Date") {
+    if (answer.type === DATE) {
       const format = get(answer, "properties.format");
 
       if (format === "yyyy") {

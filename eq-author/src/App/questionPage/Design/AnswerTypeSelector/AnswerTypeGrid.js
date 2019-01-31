@@ -6,7 +6,7 @@ import styled from "styled-components";
 
 import { radius } from "constants/theme";
 import { IconGrid } from "components/IconGrid";
-import AnswerTypeButton from "App/questionPage/Design/AnswerTypeSelector/AnswerTypeButton";
+import AnswerTypeButton from "./AnswerTypeButton";
 
 import {
   TEXTFIELD,
@@ -15,7 +15,7 @@ import {
   TEXTAREA,
   CHECKBOX,
   RADIO,
-  TIME,
+  PERCENTAGE,
   DATE_RANGE,
   DATE,
 } from "constants/answer-types";
@@ -55,7 +55,7 @@ const buttons = [
   { type: NUMBER, title: "Number" },
   { type: DATE, title: "Date" },
   { type: DATE_RANGE, title: "Date range" },
-  { type: TIME, title: "Time", disabled: true },
+  { type: PERCENTAGE, title: "Percentage" },
 ];
 
 class AnswerTypeGrid extends React.Component {

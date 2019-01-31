@@ -1,25 +1,20 @@
 import PropTypes from "prop-types";
 import React from "react";
-import styled from "styled-components";
 
-import { Field, Input, Label } from "./elements";
+import { Field, UnitInput, Label } from "./elements";
 
-const TextInput = styled(Input)`
-  width: 20em;
-`;
-
-const TextAnswer = ({ answer }) => (
+const PercentageAnswer = ({ answer }) => (
   <Field>
     <Label description={answer.description}>{answer.label}</Label>
-    <TextInput type="text" />
+    <UnitInput unit="%" trailing />
   </Field>
 );
 
-TextAnswer.propTypes = {
+PercentageAnswer.propTypes = {
   answer: PropTypes.shape({
     description: PropTypes.string,
     label: PropTypes.string,
   }).isRequired,
 };
 
-export default TextAnswer;
+export default PercentageAnswer;

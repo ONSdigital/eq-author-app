@@ -1,3 +1,3 @@
-const { RADIO, NUMBER, CURRENCY } = require("./answerTypes");
+const { RADIO, NUMBER, CURRENCY, PERCENTAGE } = require("./answerTypes");
 
-module.exports.ROUTING_ANSWER_TYPES = [RADIO, CURRENCY, NUMBER];
+module.exports.ROUTING_ANSWER_TYPES = [RADIO, CURRENCY, NUMBER, PERCENTAGE];

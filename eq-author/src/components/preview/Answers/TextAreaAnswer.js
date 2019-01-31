@@ -1,9 +1,12 @@
 import PropTypes from "prop-types";
 import React from "react";
+import styled from "styled-components";
 
 import { Field, Label, Input } from "./elements";
 
-const Textarea = Input.withComponent("textarea");
+const Textarea = styled(Input.withComponent("textarea"))`
+  width: 30em;
+`;
 
 const TextAreaAnswer = ({ answer }) => (
   <Field>

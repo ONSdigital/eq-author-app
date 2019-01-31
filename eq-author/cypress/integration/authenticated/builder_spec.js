@@ -1,6 +1,5 @@
 import {
   addQuestionnaire,
-  answerTypes,
   setQuestionnaireSettings,
   addAnswerType,
   assertHash,
@@ -13,6 +12,17 @@ import {
 } from "../../utils";
 import { times, includes } from "lodash";
 import { Routes } from "../../../src/utils/UrlUtils";
+import {
+  NUMBER,
+  RADIO,
+  PERCENTAGE,
+  CURRENCY,
+  CHECKBOX,
+  DATE,
+  DATE_RANGE,
+  TEXTAREA,
+  TEXTFIELD,
+} from "../../../src/constants/answer-types";
 
 const questionnaireTitle = "My Questionnaire Title";
 
@@ -348,7 +358,7 @@ describe("builder", () => {
   });
 
   it("Can create checkboxes", () => {
-    addAnswerType("Checkbox");
+    addAnswerType(CHECKBOX);
     cy.get(testId("btn-add-option")).click();
     cy.get(testId("option-label")).should("have.length", 2);
     cy.get(testId("option-label"))
@@ -360,7 +370,7 @@ describe("builder", () => {
   });
 
   it("Can delete checkboxes", () => {
-    addAnswerType("Checkbox");
+    addAnswerType(CHECKBOX);
     cy.get(testId("btn-add-option")).click();
     cy.get(testId("btn-delete-option"))
       .last()
@@ -371,7 +381,7 @@ describe("builder", () => {
   });
 
   it("Can create radio buttons", () => {
-    addAnswerType("Radio");
+    addAnswerType(RADIO);
     cy.get(testId("btn-add-option")).click();
     cy.get(testId("option-label")).should("have.length", 3);
     cy.get(testId("option-label"))
@@ -383,7 +393,7 @@ describe("builder", () => {
   });
 
   it("Can delete radio buttons", () => {
-    addAnswerType("Radio");
+    addAnswerType(RADIO);
     cy.get(testId("btn-add-option")).click();
     cy.get(testId("btn-delete-option"))
       .last()
@@ -394,10 +404,10 @@ describe("builder", () => {
   });
 
   it("Can create and delete the different types of textbox", () => {
-    answerTypes.forEach(answerType => {
+    [PERCENTAGE, TEXTAREA, TEXTFIELD, CURRENCY, NUMBER].forEach(answerType => {
       addAnswerType(answerType);
       cy.get(testId("txt-answer-label")).type(answerType + " label");
-      if (includes(["Currency", "Number"], answerType)) {
+      if (includes([CURRENCY, NUMBER, PERCENTAGE], answerType)) {
         cy.get(testId("txt-answer-description")).type(
           answerType + " description"
         );
@@ -408,14 +418,14 @@ describe("builder", () => {
   });
 
   it("Can create and delete dates", () => {
-    addAnswerType("Date");
+    addAnswerType(DATE);
     cy.get(testId("date-answer-label")).type("Date label");
     cy.get(testId("btn-delete-answer")).click();
     cy.get(testId("btn-delete-answer")).should("not.exist");
   });
 
   it("Can create and delete date ranges", () => {
-    addAnswerType("Daterange");
+    addAnswerType(DATE_RANGE);
 
     cy.get(testId("date-range-editor")).within(() => {
       cy.get(testId("date-answer-label"))
@@ -595,14 +605,14 @@ describe("builder", () => {
 
   describe("Checkbox with Exclusive option", () => {
     it("Can add a mutually exclusive checkbox", () => {
-      addAnswerType("Checkbox");
+      addAnswerType(CHECKBOX);
       cy.get(testId("btn-add-option-menu")).click();
       cy.get(testId("btn-add-mutually-exclusive-option")).click();
       cy.get(testId("option-label")).should("have.length", 2);
     });
 
     it("Can edit a mutually exclusive checkbox", () => {
-      addAnswerType("Checkbox");
+      addAnswerType(CHECKBOX);
       cy.get(testId("btn-add-option-menu")).click();
       cy.get(testId("btn-add-mutually-exclusive-option")).click();
 
@@ -615,7 +625,7 @@ describe("builder", () => {
     });
 
     it("Can't add a second mutually exclusive checkbox", () => {
-      addAnswerType("Checkbox");
+      addAnswerType(CHECKBOX);
       cy.get(testId("btn-add-option-menu")).click();
       cy.get(testId("btn-add-mutually-exclusive-option")).click();
       cy.get(testId("btn-add-option-menu")).click();
@@ -624,7 +634,7 @@ describe("builder", () => {
     });
 
     it("Always positions Exclusive checkboxes at the end", () => {
-      addAnswerType("Checkbox");
+      addAnswerType(CHECKBOX);
       cy.get(testId("btn-add-option-menu")).click();
       cy.get(testId("btn-add-mutually-exclusive-option")).click();
 
@@ -653,7 +663,7 @@ describe("builder", () => {
     });
 
     it("Can be deleted and re-enable the add button", () => {
-      addAnswerType("Checkbox");
+      addAnswerType(CHECKBOX);
       cy.get(testId("btn-add-option-menu")).click();
       cy.get(testId("btn-add-mutually-exclusive-option")).click();
 
@@ -674,7 +684,7 @@ describe("builder", () => {
   });
 
   describe("Checkbox/Radio with additionalValue option", () => {
-    const addMultipleChoiceAnswer = (type = "Checkbox", withOther = true) => {
+    const addMultipleChoiceAnswer = (type = CHECKBOX, withOther = true) => {
       addAnswerType(type);
       if (withOther) {
         cy.get(testId("btn-add-option-menu")).click();
@@ -705,7 +715,7 @@ describe("builder", () => {
     });
 
     it("should allow a mixture of additionalOptions and regular option answers", () => {
-      addMultipleChoiceAnswer("Checkbox", false);
+      addMultipleChoiceAnswer(CHECKBOX, false);
       cy.get(testId("btn-add-option-menu")).click();
       cy.get(testId("btn-add-option-other")).click();
 

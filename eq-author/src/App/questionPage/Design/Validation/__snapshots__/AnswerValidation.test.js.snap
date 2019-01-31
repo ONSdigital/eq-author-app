@@ -1,12 +1,40 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`AnswerValidation Number/Currency Validation preview max value should render custom values 1`] = `5`;
+exports[`AnswerValidation Numeric answer validation preview maxValue should not render when the custom value is null 1`] = `null`;
 
-exports[`AnswerValidation Number/Currency Validation preview max value should render custom values 2`] = `5`;
+exports[`AnswerValidation Numeric answer validation preview maxValue should not render when the custom value is null 2`] = `null`;
 
-exports[`AnswerValidation Number/Currency Validation preview max value should render previous answer 1`] = `"foobar"`;
+exports[`AnswerValidation Numeric answer validation preview maxValue should not render when the custom value is null 3`] = `null`;
 
-exports[`AnswerValidation Number/Currency Validation preview max value should render previous answer 2`] = `"foobar"`;
+exports[`AnswerValidation Numeric answer validation preview maxValue should render custom values 1`] = `"5%"`;
+
+exports[`AnswerValidation Numeric answer validation preview maxValue should render custom values 2`] = `5`;
+
+exports[`AnswerValidation Numeric answer validation preview maxValue should render custom values 3`] = `"£5"`;
+
+exports[`AnswerValidation Numeric answer validation preview maxValue should render previous answer 1`] = `"foobar"`;
+
+exports[`AnswerValidation Numeric answer validation preview maxValue should render previous answer 2`] = `"foobar"`;
+
+exports[`AnswerValidation Numeric answer validation preview maxValue should render previous answer 3`] = `"foobar"`;
+
+exports[`AnswerValidation Numeric answer validation preview minValue should not render when the custom value is null 1`] = `null`;
+
+exports[`AnswerValidation Numeric answer validation preview minValue should not render when the custom value is null 2`] = `null`;
+
+exports[`AnswerValidation Numeric answer validation preview minValue should not render when the custom value is null 3`] = `null`;
+
+exports[`AnswerValidation Numeric answer validation preview minValue should render custom values 1`] = `"5%"`;
+
+exports[`AnswerValidation Numeric answer validation preview minValue should render custom values 2`] = `5`;
+
+exports[`AnswerValidation Numeric answer validation preview minValue should render custom values 3`] = `"£5"`;
+
+exports[`AnswerValidation Numeric answer validation preview minValue should render previous answer 1`] = `"foobar"`;
+
+exports[`AnswerValidation Numeric answer validation preview minValue should render previous answer 2`] = `"foobar"`;
+
+exports[`AnswerValidation Numeric answer validation preview minValue should render previous answer 3`] = `"foobar"`;
 
 exports[`AnswerValidation should not render when there are no valid validation types 1`] = `""`;
 
@@ -61,6 +89,7 @@ exports[`AnswerValidation should render 1`] = `
             "types": Array [
               "Currency",
               "Number",
+              "Percentage",
             ],
           },
           Object {
@@ -71,6 +100,7 @@ exports[`AnswerValidation should render 1`] = `
             "types": Array [
               "Currency",
               "Number",
+              "Percentage",
             ],
           },
         ]

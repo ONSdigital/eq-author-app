@@ -1,10 +1,17 @@
+const {
+  DATE,
+  CURRENCY,
+  NUMBER,
+  PERCENTAGE,
+} = require("../constants/answerTypes");
+
 module.exports = type => {
   switch (type) {
-    case "Currency":
+    case CURRENCY:
+    case NUMBER:
+    case PERCENTAGE:
       return { required: false, decimals: 0 };
-    case "Number":
-      return { required: false, decimals: 0 };
-    case "Date":
+    case DATE:
       return { required: false, format: "dd/mm/yyyy" };
     default:
       return { required: false };

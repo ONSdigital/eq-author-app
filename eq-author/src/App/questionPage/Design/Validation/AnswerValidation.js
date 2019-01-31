@@ -25,7 +25,13 @@ import {
   MaxValue,
 } from "./";
 
-import { CURRENCY, DATE, DATE_RANGE, NUMBER } from "constants/answer-types";
+import {
+  CURRENCY,
+  DATE,
+  DATE_RANGE,
+  NUMBER,
+  PERCENTAGE,
+} from "constants/answer-types";
 import { colors } from "constants/theme";
 
 const Container = styled.div`
@@ -34,6 +40,19 @@ const Container = styled.div`
   padding: 1em 0;
 `;
 
+const formatValue = (value, { type }) => {
+  if (typeof value !== "number") {
+    return null;
+  }
+  if (type === PERCENTAGE) {
+    return `${value}%`;
+  }
+  if (type === CURRENCY) {
+    return `£${value}`;
+  }
+  return value;
+};
+
 export const validationTypes = [
   {
     id: "minValue",
@@ -41,9 +60,11 @@ export const validationTypes = [
     render: () => (
       <MinValue>{props => <NumericValidation {...props} />}</MinValue>
     ),
-    types: [CURRENCY, NUMBER],
-    preview: ({ custom, previousAnswer, entityType }) =>
-      entityType === "Custom" ? custom : get(previousAnswer, "displayName"),
+    types: [CURRENCY, NUMBER, PERCENTAGE],
+    preview: ({ custom, previousAnswer, entityType }, answer) =>
+      entityType === "Custom"
+        ? formatValue(custom, answer)
+        : get(previousAnswer, "displayName"),
   },
   {
     id: "maxValue",
@@ -51,9 +72,11 @@ export const validationTypes = [
     render: () => (
       <MaxValue>{props => <NumericValidation {...props} />}</MaxValue>
     ),
-    types: [CURRENCY, NUMBER],
-    preview: ({ custom, previousAnswer, entityType }) =>
-      entityType === "Custom" ? custom : get(previousAnswer, "displayName"),
+    types: [CURRENCY, NUMBER, PERCENTAGE],
+    preview: ({ custom, previousAnswer, entityType }, answer) =>
+      entityType === "Custom"
+        ? formatValue(custom, answer)
+        : get(previousAnswer, "displayName"),
   },
   {
     id: "earliestDate",
@@ -96,7 +119,7 @@ export const validationTypes = [
 const getValidationsForType = type =>
   validationTypes.filter(({ types }) => types.includes(type));
 
-const validations = [NUMBER, CURRENCY, DATE, DATE_RANGE].reduce(
+const validations = [NUMBER, CURRENCY, PERCENTAGE, DATE, DATE_RANGE].reduce(
   (hash, type) => ({
     ...hash,
     [type]: getValidationsForType(type),
@@ -148,7 +171,9 @@ export class UnconnectedAnswerValidation extends React.Component {
               {}
             );
             const { enabled, previousAnswer, metadata } = validation;
-            const value = enabled ? validationType.preview(validation) : "";
+            const value = enabled
+              ? validationType.preview(validation, answer)
+              : "";
 
             return this.renderButton({
               ...validationType,

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Currency Answer should render 1`] = `
+exports[`Percentage answer preview should render 1`] = `
 <Field>
   <Label
     description="Description"
@@ -8,7 +8,8 @@ exports[`Currency Answer should render 1`] = `
     Label
   </Label>
   <InputWithUnit
-    unit="£"
+    trailing={true}
+    unit="%"
   />
 </Field>
 `;

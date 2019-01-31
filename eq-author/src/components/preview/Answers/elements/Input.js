@@ -8,7 +8,7 @@ const Input = styled.input.attrs({ disabled: true })`
   border: 1px solid #999;
   border-radius: 3px;
   transition: border-color 0.2s ease-in;
-  width: 30em;
+  width: 100%;
 `;
 
 export default Input;

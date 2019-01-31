@@ -2,9 +2,7 @@ import React from "react";
 import { shallow } from "enzyme";
 import { map } from "lodash";
 import MultipleChoiceAnswer from "App/questionPage/Design/answers/MultipleChoiceAnswer";
-import AnswerEditor, {
-  AnswerDeleteButton,
-} from "App/questionPage/Design/AnswerEditor";
+import AnswerEditor, { AnswerDeleteButton } from "./";
 import Date from "App/questionPage/Design/answers/Date";
 import {
   TEXTFIELD,
@@ -13,9 +11,9 @@ import {
   TEXTAREA,
   CHECKBOX,
   RADIO,
-  TIME,
   DATE_RANGE,
   DATE,
+  PERCENTAGE,
 } from "constants/answer-types";
 
 describe("Answer Editor", () => {
@@ -82,6 +80,14 @@ describe("Answer Editor", () => {
     expect(wrapper).toMatchSnapshot();
   });
 
+  it("should render Percentage", () => {
+    const wrapper = createWrapper({
+      answer: { ...mockAnswer, type: PERCENTAGE },
+      ...mockMutations,
+    });
+    expect(wrapper).toMatchSnapshot();
+  });
+
   it("should render TextArea", () => {
     const wrapper = createWrapper({
       answer: { ...mockAnswer, type: TEXTAREA },
@@ -129,20 +135,6 @@ describe("Answer Editor", () => {
       ...mockMutations,
     });
     expect(wrapper).toMatchSnapshot();
-  });
-
-  it("should throw for unknown answer types", () => {
-    const unknownAnswer = {
-      ...mockAnswer,
-      type: TIME,
-    };
-
-    expect(() => {
-      createWrapper({
-        answer: unknownAnswer,
-        ...mockMutations,
-      });
-    }).toThrow(TypeError);
   });
 
   it("should call handler when answer deleted", () => {
