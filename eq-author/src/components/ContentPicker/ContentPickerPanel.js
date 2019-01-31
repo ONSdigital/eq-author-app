@@ -7,9 +7,9 @@ import { colors, radius } from "constants/theme";
 const StyledScrollPane = styled(ScrollPane)`
   padding: 0.25em 0;
   display: flex;
-  justify-content: center;
   align-items: center;
   flex-direction: column;
+  justify-content: flex-start;
 `;
 
 const PanelWrapper = styled.div`

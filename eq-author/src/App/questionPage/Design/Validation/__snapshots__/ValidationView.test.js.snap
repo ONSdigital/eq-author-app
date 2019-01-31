@@ -21,7 +21,7 @@ exports[`ValidationView should render children when enabled 1`] = `
   </ValidationView__InlineField>
   <TransitionGroup
     childFactory={[Function]}
-    component={[Function]}
+    component="div"
   >
     <FadeTransition
       enter={true}
@@ -61,7 +61,7 @@ exports[`ValidationView should render disabled messaged when disabled 1`] = `
   </ValidationView__InlineField>
   <TransitionGroup
     childFactory={[Function]}
-    component={[Function]}
+    component="div"
   >
     <FadeTransition
       enter={true}
