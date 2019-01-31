@@ -857,8 +857,6 @@ const Resolvers = {
     __resolveType: ({ type }) => {
       if (includes(["Checkbox", "Radio"], type)) {
         return "MultipleChoiceAnswer";
-      } else if (includes(["DateRange"], type)) {
-        return "CompositeAnswer";
       } else {
         return "BasicAnswer";
       }
@@ -879,20 +877,10 @@ const Resolvers = {
       return parentPage;
     },
     validation: answer =>
-      ["number", "date"].includes(getValidationEntity(answer.type))
+      ["number", "date", "dateRange"].includes(getValidationEntity(answer.type))
         ? answer
         : null,
     displayName: answer => getName(answer, "BasicAnswer"),
-  },
-
-  CompositeAnswer: {
-    childAnswers: (answer, args, ctx) =>
-      ctx.repositories.Answer.splitComposites(answer),
-    page: (answer, args, ctx) =>
-      ctx.repositories.QuestionPage.getById(answer.questionPageId),
-    validation: answer =>
-      ["dateRange"].includes(getValidationEntity(answer.type)) ? answer : null,
-    displayName: answer => getName(answer, "CompositeAnswer"),
   },
 
   MultipleChoiceAnswer: {

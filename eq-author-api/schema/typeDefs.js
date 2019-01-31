@@ -112,6 +112,7 @@ interface Answer {
   guidance: String
   qCode: String
   label: String
+  secondaryLabel: String
   type: AnswerType!
   page: QuestionPage
   properties: JSON
@@ -138,25 +139,12 @@ type MultipleChoiceAnswer implements Answer {
   guidance: String
   qCode: String
   label: String
+  secondaryLabel: String
   type: AnswerType!
   options: [Option]
   mutuallyExclusiveOption: Option
   page: QuestionPage
   properties: JSON
-}
-
-type CompositeAnswer implements Answer {
-  id: ID!
-  displayName: String!
-  description: String
-  guidance: String
-  qCode: String
-  label: String
-  type: AnswerType!
-  page: QuestionPage
-  childAnswers: [BasicAnswer]!
-  properties: JSON
-  validation: ValidationType
 }
 
 type Option {

@@ -1,4 +1,7 @@
 import { graphql } from "react-apollo";
+
+import { DATE_RANGE } from "constants/answer-types";
+
 import createAnswerMutation from "graphql/createAnswer.graphql";
 import fragment from "graphql/pageFragment.graphql";
 
@@ -28,6 +31,10 @@ export const mapMutateToProps = ({ mutate }) => ({
       qCode: "",
       label: "",
     };
+
+    if (type === DATE_RANGE) {
+      answer.secondaryLabel = "";
+    }
 
     const update = createUpdater(pageId);
 
