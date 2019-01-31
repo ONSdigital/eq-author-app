@@ -28,6 +28,7 @@ const {
 const fs = require("fs");
 const uuid = require("uuid");
 const stringify = require("json-stable-stringify");
+const deepMap = require("deep-map");
 
 const createAnswer = require("../../src/businessLogic/createAnswer");
 const updateMetadata = require("../../src/businessLogic/updateMetadata");
@@ -152,6 +153,24 @@ const createQuestionnaire = input => ({
   sections: [createSection()],
   ...input,
 });
+
+const remapAllNestedIds = entity => {
+  const transformationMatrix = {};
+  const remappedIdEntity = deepMap(entity, (value, key) => {
+    if (key === "id") {
+      const newEntityId = uuid.v4();
+      transformationMatrix[value] = newEntityId;
+      return newEntityId;
+    }
+    return value;
+  });
+  return deepMap(remappedIdEntity, value => {
+    if (Object.keys(transformationMatrix).includes(value)) {
+      return transformationMatrix[value];
+    }
+    return value;
+  });
+};
 
 const getQuestionnaireList = () =>
   JSON.parse(loadQuestionnaire("QuestionnaireList"));
@@ -313,10 +332,10 @@ const Resolvers = {
       set(newSection, "alias", addPrefix(newSection.alias));
       set(newSection, "title", addPrefix(newSection.title));
       const duplicatedSection = createSection(newSection);
-      duplicatedSection.pages.map(page => set(page, "id", uuid.v4()));
-      ctx.questionnaire.sections.splice(input.position, 0, duplicatedSection);
+      const remappedSection = remapAllNestedIds(duplicatedSection);
+      ctx.questionnaire.sections.splice(input.position, 0, remappedSection);
       save(ctx.questionnaire);
-      return duplicatedSection;
+      return remappedSection;
     },
 
     movePage: (_, { input }, ctx) => {
@@ -341,9 +360,10 @@ const Resolvers = {
       set(newpage, "alias", addPrefix(newpage.alias));
       set(newpage, "title", addPrefix(newpage.title));
       const duplicatedPage = createPage(newpage);
-      section.pages.splice(input.position, 0, duplicatedPage);
+      const remappedPage = remapAllNestedIds(duplicatedPage);
+      section.pages.splice(input.position, 0, remappedPage);
       save(ctx.questionnaire);
-      return duplicatedPage;
+      return remappedPage;
     },
 
     createQuestionPage: (root, { input }, ctx) => {
