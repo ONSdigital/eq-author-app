@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import CustomPropTypes from "custom-prop-types";
 import DummyDate from "App/questionPage/Design/answers/dummy/Date";
 
 import { Field, Label } from "components/Forms";
@@ -31,7 +30,8 @@ const Legend = VisuallyHidden.withComponent("legend");
 export const UnwrappedDate = ({
   label,
   name,
-  answer,
+  id,
+  value,
   onChange,
   onUpdate,
   placeholder,
@@ -42,14 +42,14 @@ export const UnwrappedDate = ({
   <Fieldset>
     <Legend>Date options</Legend>
     <Field>
-      <Label htmlFor={`${name}-${answer.id}`}>{label}</Label>
+      <Label htmlFor={`${name}-${id}`}>{label}</Label>
       <WrappingInput
-        id={`${name}-${answer.id}`}
+        id={`${name}-${id}`}
         name={name}
         size="medium"
         onChange={onChange}
         onBlur={onUpdate}
-        value={answer.label}
+        value={value}
         placeholder={placeholder}
         data-test="date-answer-label"
         data-autofocus
@@ -70,10 +70,11 @@ export const UnwrappedDate = ({
 );
 
 UnwrappedDate.propTypes = {
-  answer: CustomPropTypes.answer.isRequired,
+  id: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
   name: PropTypes.string,
+  value: PropTypes.string,
   label: PropTypes.string,
   placeholder: PropTypes.string,
   showDay: PropTypes.bool,
@@ -90,10 +91,9 @@ UnwrappedDate.fragments = {
   Date: gql`
     fragment Date on Answer {
       id
-      label
       properties
     }
   `,
 };
 
-export default withEntityEditor("answer", answerFragment)(UnwrappedDate);
+export default UnwrappedDate;
