@@ -65,7 +65,7 @@ const QuestionnanaireModel = dynamoose.model(
 );
 
 const QuestionnanaireVersionsModel = dynamoose.model(
-  "author--questionnaire-versions",
+  "author-questionnaire-versions",
   questionnaireVersionsSchema
 );
 

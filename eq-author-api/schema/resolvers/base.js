@@ -26,9 +26,7 @@ const formatRichText = require("../../utils/formatRichText");
 const {
   getValidationEntity,
 } = require("../../repositories/strategies/validationStrategy");
-const fs = require("fs");
 const uuid = require("uuid");
-const stringify = require("json-stable-stringify");
 
 const createAnswer = require("../../src/businessLogic/createAnswer");
 const updateMetadata = require("../../src/businessLogic/updateMetadata");
@@ -41,14 +39,12 @@ const { DATE, DATE_RANGE } = require("../../constants/answerTypes");
 const { DATE: METADATA_DATE } = require("../../constants/metadataTypes");
 const { ROUTING_ANSWER_TYPES } = require("../../constants/routingAnswerTypes");
 const {
+  createQuestionnaire,
   saveQuestionnaire,
   deleteQuestionnaire,
+  getQuestionnaire,
+  listQuestionnaires,
 } = require("../../utils/datastore");
-
-const {
-  QuestionnanaireModel,
-  QuestionnanaireVersionsModel,
-} = require("../../db/models/DynamoDB");
 
 const {
   VALIDATION_TYPES,
@@ -147,7 +143,7 @@ const createSection = (input = {}) => ({
   ...input,
 });
 
-const createQuestionnaire = input => ({
+const createNewQuestionnaire = input => ({
   id: uuid.v4(),
   title: null,
   description: null,
@@ -162,27 +158,9 @@ const createQuestionnaire = input => ({
 });
 
 const getQuestionnaireList = () => {
-  return new Promise((resolve, _) => {
-    QuestionnanaireModel.scan()
-      .all()
-      .exec((err, questionnaires) => {
-        resolve(questionnaires);
-      });
-  });
+  return listQuestionnaires();
 };
 
-const getQuestionnaireById = async questionnaireID => {
-  let questionnaire = await new Promise((resolve, _) => {
-    QuestionnanaireVersionsModel.get(
-      { id: questionnaireID },
-      (err, questionnaire) => {
-        resolve(questionnaire);
-      }
-    );
-  });
-
-  return questionnaire;
-};
 const Resolvers = {
   Query: {
     questionnaires: (root, args, ctx) => getQuestionnaireList(),
@@ -222,23 +200,12 @@ const Resolvers = {
 
   Mutation: {
     createQuestionnaire: async (root, args, ctx) => {
-      const questionnaire = createQuestionnaire({
+      const questionnaire = createNewQuestionnaire({
         ...args.input,
         createdBy: ctx.auth.name,
       });
 
-      await saveQuestionnaire(
-        new QuestionnanaireModel({
-          ...omit(questionnaire, "sections", "metadata"),
-          createdAt: questionnaire.createdAt.toString().split("T")[0],
-        })
-      );
-      await saveQuestionnaire(
-        new QuestionnanaireVersionsModel({
-          ...questionnaire,
-          updatedAt: Date.now(),
-        })
-      );
+      createQuestionnaire(questionnaire);
 
       return questionnaire;
     },
@@ -255,20 +222,14 @@ const Resolvers = {
       ctx.repositories.Questionnaire.undelete(args.input.id),
 
     duplicateQuestionnaire: async (_, { input }, ctx) => {
-      const questionnaire = await getQuestionnaireById(input.id);
-      const newQuestionnaire = omit(cloneDeep(questionnaire), "id");
-      set(newQuestionnaire, "title", addPrefix(newQuestionnaire.title));
-      set(newQuestionnaire, "id", uuid.v4());
+      const questionnaire = await getQuestionnaire(input.id);
+      const newQuestionnaire = {
+        ...questionnaire,
+        title: addPrefix(questionnaire.title),
+        id: uuid.v4(),
+      };
 
-      await saveQuestionnaire(
-        new QuestionnanaireModel({
-          ...omit(newQuestionnaire, "sections", "metadata"),
-          createdAt: newQuestionnaire.createdAt.split("T")[0],
-        })
-      );
-      await saveQuestionnaire(
-        new QuestionnanaireVersionsModel(newQuestionnaire)
-      );
+      createQuestionnaire(newQuestionnaire);
 
       return newQuestionnaire;
     },
