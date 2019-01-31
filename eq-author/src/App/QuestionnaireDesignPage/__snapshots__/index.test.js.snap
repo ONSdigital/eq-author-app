@@ -94,7 +94,7 @@ exports[`QuestionnaireDesignPage should render 1`] = `
         />
       </Column>
       <Column
-        cols={12}
+        cols={9}
       >
         <Switch>
           <Route
