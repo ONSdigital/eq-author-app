@@ -16,6 +16,7 @@
     "body-parser": "latest",
     "cheerio": "latest",
     "cors": "latest",
+    "deep-map": "^1.5",
     "dotenv": "latest",
     "express": "latest",
     "express-pino-logger": "latest",
