@@ -190,7 +190,7 @@ const saveQuestionnaireList = data => {
 
 const Resolvers = {
   Query: {
-    questionnaires: (root, args, ctx) => getQuestionnaireList(),
+    questionnaires: () => getQuestionnaireList(),
     questionnaire: (root, args, ctx) => ctx.questionnaire,
     section: (root, { input }, ctx) => getSection(ctx)(input),
     page: (root, { input }, ctx) => getPage(ctx)(input),
