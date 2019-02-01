@@ -74,41 +74,6 @@ Cypress.Commands.add("deleteQuestionnaire", title => {
   });
   cy.dismissAllToast();
 });
-
-Cypress.Commands.add("visitStubbed", function(url, operations = {}) {
-  cy.visit(url, {
-    onBeforeLoad: win => {
-      cy.stub(win, "fetch", serverStub).withArgs("/graphql");
-    },
-  });
-
-  function serverStub(_, req) {
-    const { operationName } = JSON.parse(req.body);
-
-    let resultStub = operations[operationName];
-    if (typeof resultStub === "function") {
-      resultStub = resultStub(req);
-    }
-    if (resultStub) {
-      return Promise.resolve(responseStub(resultStub));
-    }
-    // eslint-disable-next-line no-console
-    console.log(`${operationName} has not been stubbed`);
-    return Promise.reject(new Error(`${operationName} has not been stubbed`));
-  }
-});
-
-function responseStub(result) {
-  return {
-    json() {
-      return Promise.resolve(result);
-    },
-    text() {
-      return Promise.resolve(JSON.stringify(result));
-    },
-    ok: true,
-  };
-}
 //
 //
 // -- This is a child command --
