@@ -2,13 +2,12 @@ import { graphql } from "react-apollo";
 
 import updateSectionMutation from "graphql/updateSection.graphql";
 
-export const mapMutateToProps = ({ ownProps, mutate }) => {
+export const mapMutateToProps = ({ mutate }) => {
   return {
     onUpdateSection({ id, title, alias }) {
       return mutate({
         variables: {
           input: {
-            questionnaireId: ownProps.match.params.questionnaireId,
             id,
             title,
             alias,
