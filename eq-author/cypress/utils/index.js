@@ -4,6 +4,9 @@ import jwt from "jsonwebtoken";
 import uuid from "uuid";
 export const testId = (id, attr = "test") => `[data-${attr}="${id}"]`;
 
+export const questionPageRegex = /\/questionnaire\/[a-z0-9-]+\/[a-z0-9-]+\/[a-z0-9-]+\/design$/;
+export const sectionRegex = /\/questionnaire\/[a-z0-9-]+\/[a-z0-9-]+\/design$/;
+
 export const selectOptionByLabel = label => {
   cy.get("option")
     .contains(label)
