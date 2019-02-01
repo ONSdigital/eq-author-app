@@ -3,35 +3,12 @@ exports.getQuestionnaire = `
     id
     type
     label
+    secondaryLabel
     description
     guidance
     properties
     qCode
     ...BasicAnswer
-    ...CompositeAnswer
-  }
-
-  fragment CompositeAnswer on CompositeAnswer {
-    validation {
-      ... on DateRangeValidation {
-        earliestDate {
-          ...EarliestDateValidationRule
-        }
-        latestDate {
-          ...LatestDateValidationRule
-        }
-        minDuration {
-          ...MinDurationValidationRule
-        }
-        maxDuration {
-          ...MaxDurationValidationRule
-        }
-      }
-    }
-    childAnswers {
-      id
-      label
-    }
   }
 
   fragment BasicAnswer on BasicAnswer {
@@ -50,6 +27,20 @@ exports.getQuestionnaire = `
         }
         latestDate {
           ...LatestDateValidationRule
+        }
+      }
+      ... on DateRangeValidation {
+        earliestDate {
+          ...EarliestDateValidationRule
+        }
+        latestDate {
+          ...LatestDateValidationRule
+        }
+        minDuration {
+          ...MinDurationValidationRule
+        }
+        maxDuration {
+          ...MaxDurationValidationRule
         }
       }
     }
@@ -158,8 +149,8 @@ exports.getQuestionnaire = `
     type
   }
 
-  query GetQuestionnaire($questionnaireId: ID!) {
-    questionnaire(id: $questionnaireId) {
+  query GetQuestionnaire($input: QueryInput!) {
+    questionnaire(input: $input) {
       id
       title
       description
