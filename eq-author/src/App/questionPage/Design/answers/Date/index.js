@@ -1,15 +1,17 @@
 import React from "react";
 import PropTypes from "prop-types";
-import DummyDate from "App/questionPage/Design/answers/dummy/Date";
+import { propType } from "graphql-anywhere";
+import gql from "graphql-tag";
+import styled from "styled-components";
 
+import answerFragment from "graphql/fragments/answer.graphql";
 import { Field, Label } from "components/Forms";
 import WrappingInput from "components/Forms/WrappingInput";
 import withEntityEditor from "components/withEntityEditor";
-import answerFragment from "graphql/fragments/answer.graphql";
-import styled from "styled-components";
 import VisuallyHidden from "components/VisuallyHidden";
-import gql from "graphql-tag";
 import { colors } from "constants/theme";
+
+import DummyDate from "../dummy/Date";
 
 const Format = styled.div`
   padding: 1em;
@@ -30,8 +32,7 @@ const Legend = VisuallyHidden.withComponent("legend");
 export const UnwrappedDate = ({
   label,
   name,
-  id,
-  value,
+  answer,
   onChange,
   onUpdate,
   placeholder,
@@ -42,14 +43,14 @@ export const UnwrappedDate = ({
   <Fieldset>
     <Legend>Date options</Legend>
     <Field>
-      <Label htmlFor={`${name}-${id}`}>{label}</Label>
+      <Label htmlFor={`${name}-${answer.id}`}>{label}</Label>
       <WrappingInput
-        id={`${name}-${id}`}
+        id={`${name}-${answer.id}`}
         name={name}
         size="medium"
         onChange={onChange}
         onBlur={onUpdate}
-        value={value}
+        value={answer[name]}
         placeholder={placeholder}
         data-test="date-answer-label"
         data-autofocus
@@ -70,12 +71,11 @@ export const UnwrappedDate = ({
 );
 
 UnwrappedDate.propTypes = {
-  id: PropTypes.string.isRequired,
+  label: PropTypes.string,
+  name: PropTypes.string.isRequired,
+  answer: propType(answerFragment),
   onChange: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
-  name: PropTypes.string,
-  value: PropTypes.string,
-  label: PropTypes.string,
   placeholder: PropTypes.string,
   showDay: PropTypes.bool,
   showMonth: PropTypes.bool,
@@ -91,9 +91,10 @@ UnwrappedDate.fragments = {
   Date: gql`
     fragment Date on Answer {
       id
+      label
       properties
     }
   `,
 };
 
-export default UnwrappedDate;
+export default withEntityEditor("answer", answerFragment)(UnwrappedDate);
