@@ -150,7 +150,7 @@ const createQuestionnaire = input => ({
   legalBasis: "Voluntary",
   navigation: false,
   surveyId: "",
-  createdAt: "2019-01-01",
+  createdAt: new Date(),
   metadata: [],
   sections: [createSection()],
   ...input,
@@ -233,7 +233,6 @@ const Resolvers = {
       const questionnaireList = getQuestionnaireList();
       questionnaireList.push({
         ...omit(questionnaire, "sections", "metadata"),
-        createdAt: questionnaire.createdAt.toString().split("T")[0],
       });
       saveQuestionnaireList(questionnaireList);
 
@@ -267,7 +266,7 @@ const Resolvers = {
       const questionnaireList = getQuestionnaireList();
       questionnaireList.push({
         ...omit(newQuestionnaire, "sections", "metadata"),
-        createdAt: newQuestionnaire.createdAt.toString().split("T")[0],
+        createdAt: new Date(),
       });
       saveQuestionnaireList(questionnaireList);
       return newQuestionnaire;
@@ -662,6 +661,7 @@ const Resolvers = {
       id: questionnaire.createdBy, // Temporary until next PR introduces users table.
       name: questionnaire.createdBy,
     }),
+    createdAt: questionnaire => new Date(questionnaire.createdAt),
     questionnaireInfo: questionnaire => questionnaire,
     metadata: questionnaire => questionnaire.metadata,
   },
