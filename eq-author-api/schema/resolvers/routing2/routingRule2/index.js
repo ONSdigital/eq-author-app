@@ -143,16 +143,22 @@ Resolvers.Mutation = {
     return routingRule;
   },
   deleteRoutingRule2: (root, { input }, ctx) => {
-    const routing = find(routing => {
+    const pages = flatMap(section => section.pages, ctx.questionnaire.sections);
+    const page = find(page => {
+      const routing = page.routing || { rules: [] };
       if (some({ id: input.id }, routing.rules)) {
-        return routing;
+        return page;
       }
-    }, flatMap(page => page.routing, flatMap(section => section.pages, ctx.questionnaire.sections)));
+    }, pages);
 
+    const routing = page.routing;
     routing.rules = reject({ id: input.id }, routing.rules);
+    if (routing.rules.length === 0) {
+      page.routing = null;
+    }
 
     save(ctx.questionnaire);
-    return routing;
+    return page;
   },
 };
 
