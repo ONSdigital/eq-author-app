@@ -131,6 +131,7 @@ const createPage = (input = {}) => ({
   title: "",
   description: "",
   answers: [],
+  routing: null,
   ...input,
 });
 

@@ -38,7 +38,7 @@ Resolvers.RoutingRule2 = {
   expressionGroup: routingRule => routingRule.expressionGroup,
   routing: ({ id }, args, ctx) => {
     const pages = flatMap(section => section.pages, ctx.questionnaire.sections);
-    const allRouting = flatMap(page => page.routing, pages);
+    const allRouting = flatMap(page => page.routing, pages).filter(Boolean);
     const routing = find(routing => {
       if (some({ id }, routing.rules)) {
         return routing;
