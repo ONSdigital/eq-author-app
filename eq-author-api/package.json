@@ -36,6 +36,7 @@
     "node-jose": "latest",
     "pg": "latest",
     "pg-hstore": "latest",
+    "pino-noir": "^2.2.1",
     "uuid": "latest",
     "wait-for-postgres": "latest"
   },

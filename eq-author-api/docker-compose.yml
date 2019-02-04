@@ -5,6 +5,7 @@ services:
       context: .
     depends_on:
       - db
+      - dynamo
     links:
       - db
     volumes:
@@ -13,7 +14,13 @@ services:
       - 4000:4000
       - 5858:5858 # open port for debugging
     environment:
+      - AWS_REGION=eu-west-1
+      - AWS_ACCESS_KEY_ID=dummy
+      - AWS_SECRET_ACCESS_KEY=dummy
       - DB_CONNECTION_URI=postgres://postgres:mysecretpassword@db:5432/postgres
+      - DYNAMO_ENDPOINT=http://dynamo:8000
+      - DYNAMO_QUESTIONNAIRE_TABLE_NAME=dev-questionnaires
+      - DYNAMO_QUESTIONNAIRE_VERSION_TABLE_NAME=dev-questionnaire-versions
       - NODE_ENV=development
       - RUNNER_SESSION_URL=http://localhost:5000/session?token=
       - PUBLISHER_URL=http://localhost:9000/publish/
@@ -28,3 +35,7 @@ services:
       - POSTGRES_DB=postgres
     ports:
       - 5432:5432
+  dynamo:
+    image: amazon/dynamodb-local
+    ports:
+      - 8000

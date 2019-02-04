@@ -1,5 +1,23 @@
 const dynamoose = require("dynamoose");
 
+let throughput = "ON_DEMAND";
+let questionnanaireTableName = "questionnaires";
+let questionnanaireVersionsTableName = "questionnaire-versions";
+
+if (process.env.DYNAMO_ENDPOINT !== "") {
+  dynamoose.local(process.env.DYNAMO_ENDPOINT);
+  throughput = { read: 10, write: 10 }; // DynamoDB local doesn't yet support on-demand
+}
+
+if (process.env.DYNAMO_QUESTIONNAIRE_TABLE_NAME !== "") {
+  questionnanaireTableName = process.env.DYNAMO_QUESTIONNAIRE_TABLE_NAME;
+}
+
+if (process.env.DYNAMO_QUESTIONNAIRE_VERSION_TABLE_NAME !== "") {
+  questionnanaireVersionsTableName =
+    process.env.DYNAMO_QUESTIONNAIRE_VERSION_TABLE_NAME;
+}
+
 const Schema = dynamoose.Schema;
 
 const baseQuestionnaireSchema = {
@@ -35,7 +53,7 @@ const baseQuestionnaireSchema = {
 };
 
 const questionnanaireSchema = new Schema(baseQuestionnaireSchema, {
-  throughput: "ON_DEMAND",
+  throughput: throughput,
 });
 
 const questionnaireVersionsSchema = new Schema(
@@ -55,17 +73,17 @@ const questionnaireVersionsSchema = new Schema(
     },
   },
   {
-    throughput: "ON_DEMAND",
+    throughput: throughput,
   }
 );
 
 const QuestionnanaireModel = dynamoose.model(
-  "author-questionnaires",
+  questionnanaireTableName,
   questionnanaireSchema
 );
 
 const QuestionnanaireVersionsModel = dynamoose.model(
-  "author-questionnaire-versions",
+  questionnanaireVersionsTableName,
   questionnaireVersionsSchema
 );
 
