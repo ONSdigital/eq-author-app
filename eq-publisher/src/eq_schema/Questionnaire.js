@@ -2,7 +2,7 @@
 const Section = require("./Section");
 const Summary = require("./block-types/Summary");
 const Confirmation = require("./block-types/Confirmation");
-const { last, kebabCase } = require("lodash");
+const { last } = require("lodash");
 
 const DEFAULT_METADATA = [
   {
@@ -30,7 +30,8 @@ class Questionnaire {
     this.schema_version = "0.0.1";
     this.data_version = "0.0.2";
     this.survey_id =
-      questionnaireJson.surveyId || kebabCase(questionnaireJson.title);
+      questionnaireJson.surveyId ||
+      questionnaireJson.title.toLowerCase().replace(/[^a-z0-9]/g, "");
     this.title = questionnaireJson.title;
 
     const ctx = this.createContext(questionnaireJson);

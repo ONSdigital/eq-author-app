@@ -2,7 +2,7 @@
 const Questionnaire = require("./Questionnaire");
 const Summary = require("./block-types/Summary");
 const Section = require("./Section");
-const { last, kebabCase } = require("lodash");
+const { last } = require("lodash");
 
 describe("Questionnaire", () => {
   const createQuestionnaireJSON = questionnaire =>
@@ -139,11 +139,13 @@ describe("Questionnaire", () => {
     });
   });
 
-  it("should use the questionnaire title in the absence of surveyId", () => {
-    const questionnaireJson = createQuestionnaireJSON();
+  it("should convert questionnaire title to a valid survey id", () => {
+    const questionnaireJson = createQuestionnaireJSON({
+      title: 'Questionnaire-For-Test-With-!@£$%^&*()foo+"{}',
+    });
     delete questionnaireJson.surveyId;
     questionnaire = new Questionnaire(questionnaireJson);
-    expect(questionnaire.survey_id).toEqual(kebabCase(questionnaireJson.title));
+    expect(questionnaire.survey_id).toEqual("questionnairefortestwithfoo");
   });
 
   it("should add a summary page if toggled on", () => {
