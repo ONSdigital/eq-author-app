@@ -3,7 +3,7 @@
 exports[`PreviewSectionRoute should redirect to design if section introduction is not enabled 1`] = `
 <Redirect
   push={false}
-  to="/questionnaire/1/2/design"
+  to="/questionnaire/111111111111111111111111111111111111/222222222222222222222222222222222222/design"
 />
 `;
 
@@ -31,7 +31,7 @@ exports[`PreviewSectionRoute should show the section intro preview when it is fi
   <SectionIntroPreview
     introduction={
       Object {
-        "id": "1",
+        "id": "111111111111111111111111111111111111",
         "introductionContent": "",
         "introductionTitle": "",
       }

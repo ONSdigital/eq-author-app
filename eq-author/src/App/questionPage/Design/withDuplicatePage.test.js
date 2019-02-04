@@ -1,16 +1,23 @@
 import { mapMutateToProps, createUpdater } from "./withDuplicatePage";
 import { buildPagePath } from "utils/UrlUtils";
 import fragment from "graphql/sectionFragment.graphql";
-
-const nextId = previousId => `${parseInt(previousId, 10) + 1}`;
+import fakeId from "tests/utils/fakeId";
 
 describe("withDuplicatePage", () => {
-  let ownProps, history, match, props, mutate, args, result;
+  let ownProps,
+    history,
+    match,
+    props,
+    mutate,
+    args,
+    result,
+    dupePageId,
+    sectionId;
 
   beforeEach(() => {
     match = {
       params: {
-        questionnaireId: "1",
+        questionnaireId: fakeId("1"),
       },
     };
 
@@ -24,20 +31,23 @@ describe("withDuplicatePage", () => {
       match,
     };
 
+    sectionId = fakeId("2");
     args = {
-      sectionId: "1",
-      pageId: "1",
+      sectionId,
+      pageId: fakeId("3"),
       position: 0,
     };
+
+    dupePageId = fakeId("4");
 
     result = {
       data: {
         duplicatePage: {
-          id: nextId(args.pageId),
+          id: dupePageId,
           position: args.position,
           __typename: "QuestionPage",
           section: {
-            id: "1",
+            id: sectionId,
             __typename: "Section",
           },
         },
@@ -79,12 +89,10 @@ describe("withDuplicatePage", () => {
       });
 
       it("should redirect to new page on copy", () => {
-        const copiedPageId = nextId(args.pageId);
-
         const expected = buildPagePath({
           questionnaireId: match.params.questionnaireId,
           sectionId: args.sectionId,
-          pageId: copiedPageId,
+          pageId: dupePageId,
         });
 
         return props.onDuplicatePage(args).then(() => {
@@ -129,19 +137,23 @@ describe("withDuplicatePage", () => {
       });
 
       expect(fromSection.pages[args.position]).toMatchObject({
-        id: nextId(args.pageId),
+        id: dupePageId,
         position: args.position,
       });
     });
 
     it("should correctly update position values for all pages in a section", () => {
+      const cacheName = `Section${sectionId}`;
+      const pageAId = fakeId("a");
+      const pageBId = fakeId("b");
+      const pageCId = fakeId("c");
       const sections = {
-        Section1: {
+        [cacheName]: {
           id: args.sectionId,
           pages: [
-            { id: "A", position: 0 },
-            { id: "B", position: 1 },
-            { id: "C", position: 2 },
+            { id: pageAId, position: 0 },
+            { id: pageBId, position: 1 },
+            { id: pageCId, position: 2 },
           ],
         },
       };
@@ -156,25 +168,26 @@ describe("withDuplicatePage", () => {
       };
 
       let updater = createUpdater({
-        sectionId: "1",
+        sectionId,
         position: 2,
       });
 
+      const dupePageId = fakeId("d");
       // order: A, C, B
       updater(proxy, {
         data: {
           duplicatePage: {
-            id: "D",
+            id: dupePageId,
             position: 2,
           },
         },
       });
 
-      expect(sections.Section1.pages).toEqual([
-        { id: "A", position: 0 },
-        { id: "B", position: 1 },
-        { id: "D", position: 2 },
-        { id: "C", position: 3 },
+      expect(sections[cacheName].pages).toEqual([
+        { id: pageAId, position: 0 },
+        { id: pageBId, position: 1 },
+        { id: dupePageId, position: 2 },
+        { id: pageCId, position: 3 },
       ]);
     });
   });

@@ -1,37 +1,42 @@
 import { mapMutateToProps, createUpdater } from "./withDeletePage";
 import fragment from "graphql/sectionFragment.graphql";
+import fakeId from "tests/utils/fakeId";
 
 describe("withDeletePage", () => {
   let history, mutate, result, ownProps, onAddPage, raiseToast;
   let deletedPage,
     currentPage,
     sectionId,
+    questionnaireId,
     beforeDeleteSection,
     afterDeleteSection;
 
   beforeEach(() => {
-    sectionId = "10";
-
+    sectionId = fakeId("9");
+    questionnaireId = fakeId("1");
     deletedPage = {
-      id: "2",
+      id: fakeId("2"),
       sectionId,
       position: 1,
     };
 
     currentPage = {
-      id: "1",
+      id: fakeId("1"),
       sectionId,
       position: 0,
     };
 
     beforeDeleteSection = {
       id: sectionId,
-      pages: [currentPage, deletedPage, { id: "3", position: 2 }],
+      pages: [currentPage, deletedPage, { id: fakeId("3"), position: 2 }],
     };
 
     afterDeleteSection = {
       ...beforeDeleteSection,
-      pages: [{ ...currentPage, position: 0 }, { id: "3", position: 1 }],
+      pages: [
+        { ...currentPage, position: 0 },
+        { id: fakeId("3"), position: 1 },
+      ],
     };
 
     history = {
@@ -56,8 +61,8 @@ describe("withDeletePage", () => {
       },
       match: {
         params: {
-          questionnaireId: "1",
-          sectionId: sectionId,
+          questionnaireId,
+          sectionId,
           pageId: currentPage.id,
         },
       },
@@ -89,11 +94,11 @@ describe("withDeletePage", () => {
     it("should update position value of all pages", () => {
       const cache = {
         section: {
-          id: "1",
+          id: fakeId("1"),
           pages: [
-            { id: "1", position: 0 },
+            { id: fakeId("1"), position: 0 },
             deletedPage,
-            { id: "3", position: 2 },
+            { id: fakeId("3"), position: 2 },
           ],
         },
       };
@@ -107,8 +112,8 @@ describe("withDeletePage", () => {
       updater(proxy, result);
 
       expect(cache.section.pages).toEqual([
-        { id: "1", position: 0 },
-        { id: "3", position: 1 },
+        { id: fakeId("1"), position: 0 },
+        { id: fakeId("3"), position: 1 },
       ]);
     });
   });
@@ -172,7 +177,9 @@ describe("withDeletePage", () => {
           .onDeletePage(deletedPage.sectionId, deletedPage.id)
           .then(() => {
             expect(history.push).toHaveBeenCalledWith(
-              "/questionnaire/1/10/1/design"
+              `/questionnaire/${questionnaireId}/${sectionId}/${
+                currentPage.id
+              }/design`
             );
           });
       });

@@ -1,5 +1,6 @@
 import { mapMutateToProps, createUpdater } from "./withMovePage";
 import { buildPagePath } from "utils/UrlUtils";
+import fakeId from "tests/utils/fakeId";
 import fragment from "graphql/fragments/movePage.graphql";
 
 describe("withMovePage", () => {
@@ -8,7 +9,7 @@ describe("withMovePage", () => {
   beforeEach(() => {
     match = {
       params: {
-        questionnaireId: "1",
+        questionnaireId: fakeId("1"),
       },
     };
 
@@ -23,13 +24,13 @@ describe("withMovePage", () => {
 
     args = {
       from: {
-        id: "1",
-        sectionId: "1",
+        id: fakeId("1"),
+        sectionId: fakeId("1"),
         position: 0,
       },
       to: {
-        id: "1",
-        sectionId: "2",
+        id: fakeId("1"),
+        sectionId: fakeId("2"),
         position: 1,
       },
     };
@@ -100,12 +101,12 @@ describe("withMovePage", () => {
 
       fromSection = {
         id: args.from.sectionId,
-        pages: [page, { id: "2", position: 1 }],
+        pages: [page, { id: fakeId("2"), position: 1 }],
       };
 
       toSection = {
         id: args.to.sectionId,
-        pages: [{ id: "3", position: 0 }],
+        pages: [{ id: fakeId("3"), position: 0 }],
       };
 
       proxy = {
@@ -142,13 +143,17 @@ describe("withMovePage", () => {
     });
 
     it("should correctly update position values for all pages in a section", () => {
+      const pageAId = fakeId("a");
+      const pageBId = fakeId("b");
+      const pageCId = fakeId("c");
+      const cacheName = `Section${args.from.sectionId}`;
       const sections = {
-        Section1: {
+        [cacheName]: {
           id: args.from.sectionId,
           pages: [
-            { id: "A", position: 0 },
-            { id: "B", position: 1 },
-            { id: "C", position: 2 },
+            { id: pageAId, position: 0 },
+            { id: pageBId, position: 1 },
+            { id: pageCId, position: 2 },
           ],
         },
       };
@@ -164,13 +169,13 @@ describe("withMovePage", () => {
 
       let updater = createUpdater({
         from: {
-          id: "C",
-          sectionId: "1",
+          id: pageCId,
+          sectionId: args.from.sectionId,
           position: 2,
         },
         to: {
-          id: "C",
-          sectionId: "1",
+          id: pageCId,
+          sectionId: args.from.sectionId,
           position: 1,
         },
       });
@@ -179,11 +184,11 @@ describe("withMovePage", () => {
       updater(proxy, {
         data: {
           movePage: {
-            id: "C",
+            id: pageCId,
             position: 1,
             __typename: "QuestionPage",
             section: {
-              id: "1",
+              id: args.from.sectionId,
               __typename: "Section",
             },
           },
@@ -192,13 +197,13 @@ describe("withMovePage", () => {
 
       updater = createUpdater({
         from: {
-          id: "B",
-          sectionId: "1",
+          id: pageBId,
+          sectionId: args.from.sectionId,
           position: 2,
         },
         to: {
-          id: "B",
-          sectionId: "1",
+          id: pageBId,
+          sectionId: args.from.sectionId,
           position: 0,
         },
       });
@@ -207,21 +212,21 @@ describe("withMovePage", () => {
       updater(proxy, {
         data: {
           movePage: {
-            id: "B",
+            id: pageBId,
             position: 0,
             __typename: "QuestionPage",
             section: {
-              id: "1",
+              id: args.from.sectionId,
               __typename: "Section",
             },
           },
         },
       });
 
-      expect(sections.Section1.pages).toEqual([
-        { id: "B", position: 0 },
-        { id: "A", position: 1 },
-        { id: "C", position: 2 },
+      expect(sections[cacheName].pages).toEqual([
+        { id: pageBId, position: 0 },
+        { id: pageAId, position: 1 },
+        { id: pageCId, position: 2 },
       ]);
     });
   });

@@ -5,19 +5,20 @@ import {
 } from "./withCreatePage";
 import fragment from "graphql/sectionFragment.graphql";
 import { buildPagePath } from "utils/UrlUtils";
+import fakeId from "tests/utils/fakeId";
 
 describe("containers/QuestionnaireDesignPage/withCreatePage", () => {
   const page = {
-    id: "3",
+    id: fakeId("3"),
     title: "My Page",
   };
   const section = {
-    id: "2",
+    id: fakeId("2"),
     title: "My Section",
     pages: [page],
   };
   const questionnaire = {
-    id: "1",
+    id: fakeId("1"),
     title: "My Questionnaire",
     sections: [section],
   };
@@ -30,7 +31,7 @@ describe("containers/QuestionnaireDesignPage/withCreatePage", () => {
     };
 
     newPage = {
-      id: "22",
+      id: fakeId("8"),
       title: "New Page",
       position: 1,
       section: {
@@ -76,13 +77,17 @@ describe("containers/QuestionnaireDesignPage/withCreatePage", () => {
     });
 
     it("should update position value of all pages", () => {
+      const pageAId = fakeId("a");
+      const pageBId = fakeId("b");
+      const pageCId = fakeId("c");
+
       const cache = {
         section: {
-          id: "1",
+          id: section.id,
           pages: [
-            { id: "A", position: 0 },
-            { id: "B", position: 1 },
-            { id: "C", position: 2 },
+            { id: pageAId, position: 0 },
+            { id: pageBId, position: 1 },
+            { id: pageCId, position: 2 },
           ],
         },
       };
@@ -92,14 +97,14 @@ describe("containers/QuestionnaireDesignPage/withCreatePage", () => {
         readFragment: jest.fn(() => cache.section),
       };
 
-      const updater = createUpdater("1", newPage.position);
+      const updater = createUpdater(section.id, newPage.position);
       updater(proxy, result);
 
       expect(cache.section.pages).toEqual([
-        { id: "A", position: 0 },
+        { id: pageAId, position: 0 },
         newPage,
-        { id: "B", position: 2 },
-        { id: "C", position: 3 },
+        { id: pageBId, position: 2 },
+        { id: pageCId, position: 3 },
       ]);
     });
   });

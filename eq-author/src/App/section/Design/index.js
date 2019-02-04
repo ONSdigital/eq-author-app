@@ -253,6 +253,7 @@ const SectionRoute = props => (
 SectionRoute.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
+      questionnaireId: PropTypes.string.isRequired,
       sectionId: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
