@@ -100,7 +100,10 @@ Resolvers.Mutation = {
 
     const routing = find({ id: input.id }, allRouting);
 
-    routing.else = input.else;
+    routing.else = {
+      id: routing.else.id,
+      ...input.else,
+    };
     save(ctx.questionnaire);
     return routing;
   },
