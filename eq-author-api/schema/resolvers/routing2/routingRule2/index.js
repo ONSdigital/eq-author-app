@@ -1,5 +1,7 @@
 const isMutuallyExclusive = require("../../../../utils/isMutuallyExclusive");
 
+const conditions = require("../../../../constants/routingConditions");
+
 const {
   flatMap,
   find,
@@ -64,20 +66,19 @@ Resolvers.Mutation = {
       firstAnswer &&
       answerTypeToConditions.isAnswerTypeSupported(firstAnswer.type);
 
-    let condition;
+    let condition = conditions.EQUAL;
+    let leftHandSide = {
+      type: NULL,
+      nullReason: NO_ROUTABLE_ANSWER_ON_PAGE,
+    };
+
     if (hasRoutableFirstAnswer) {
       condition = answerTypeToConditions.getDefault(firstAnswer.type);
+      leftHandSide = {
+        answerId: firstAnswer.id,
+        type: "Answer",
+      };
     }
-
-    const leftHandSide = hasRoutableFirstAnswer
-      ? {
-          answerId: firstAnswer.id,
-          type: "Answer",
-        }
-      : {
-          type: NULL,
-          nullReason: NO_ROUTABLE_ANSWER_ON_PAGE,
-        };
 
     const routingRule = createRoutingRule({
       expressionGroup: createExpressionGroup({
