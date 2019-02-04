@@ -34,6 +34,7 @@
     "node-jose": "latest",
     "pg": "latest",
     "pg-hstore": "latest",
+    "pino-noir": "latest",
     "wait-for-postgres": "latest"
   },
   "engines": {
