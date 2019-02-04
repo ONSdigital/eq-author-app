@@ -4,13 +4,14 @@ const {
   getInnerHTMLWithPiping,
   unescapePiping,
 } = require("../utils/HTMLUtils");
-const { find, get, flow, isNil, assign, concat, last } = require("lodash/fp");
+const { find, get, flow, isNil, concat, last } = require("lodash/fp");
 const { set } = require("lodash");
 const convertPipes = require("../utils/convertPipes");
+const { DATE, DATE_RANGE } = require("../constants/answerTypes");
 
 const findDateRange = flow(
   get("answers"),
-  find({ type: "DateRange" })
+  find({ type: DATE_RANGE })
 );
 
 const findMutuallyExclusive = flow(
@@ -48,13 +49,10 @@ class Question {
     }
 
     const dateRange = findDateRange(question);
-
     const mutuallyExclusive = findMutuallyExclusive(question);
-
     if (dateRange) {
-      this.type = "DateRange";
+      this.type = DATE_RANGE;
       this.answers = this.buildDateRangeAnswers(dateRange);
-
       const {
         earliestDate,
         latestDate,
@@ -109,12 +107,20 @@ class Question {
   }
 
   buildDateRangeAnswers(answer) {
-    return answer.childAnswers.map(
-      childAnswer =>
-        new Answer(
-          assign(childAnswer, { type: "Date", properties: answer.properties })
-        )
-    );
+    return [
+      {
+        id: `${answer.id}from`,
+        label: answer.label,
+        type: DATE,
+        mandatory: get("properties.required", answer),
+      },
+      {
+        id: `${answer.id}to`,
+        label: answer.secondaryLabel,
+        type: DATE,
+        mandatory: get("properties.required", answer),
+      },
+    ];
   }
 
   buildMutuallyExclusiveAnswers(mutuallyExclusive) {

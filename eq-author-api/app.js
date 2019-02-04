@@ -72,7 +72,7 @@ db(process.env.DB_SECRET_ID)
 
     app.get("/status", status);
 
-    app.get("/launch/:questionnaireId", getLaunchUrl(context));
+    app.get("/launch/:questionnaireId", getLaunchUrl);
     if (process.env.NODE_ENV === "development") {
       const importAction = require("./middleware/import");
       app.post("/import", bodyParser.json({ limit: "50mb" }), importAction);
