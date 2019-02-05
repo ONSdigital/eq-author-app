@@ -181,12 +181,6 @@ module.exports = knex => {
 
   const remove = id => knex.transaction(trx => deleteAnswer(trx, id));
 
-  const undelete = id =>
-    Answer(knex)
-      .update(id, { isDeleted: false })
-      .then(head)
-      .then(fromDb);
-
   const splitComposites = answer => {
     const firstAnswer = omit("secondaryLabel", answer);
     const secondAnswer = omit("label", answer);
@@ -236,7 +230,6 @@ module.exports = knex => {
     insert,
     update,
     remove,
-    undelete,
     splitComposites,
     getAnswers,
     createAnswer,

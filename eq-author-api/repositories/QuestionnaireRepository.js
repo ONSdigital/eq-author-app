@@ -81,12 +81,6 @@ module.exports = knex => {
       .then(head);
   };
 
-  const undelete = function(id) {
-    return Questionnaire(knex)
-      .update(id, { isDeleted: false })
-      .then(head);
-  };
-
   const duplicate = (id, createdBy) => {
     return knex.transaction(async trx => {
       const questionnaire = await trx
@@ -107,7 +101,6 @@ module.exports = knex => {
     insert,
     update,
     remove,
-    undelete,
     duplicate,
   };
 };

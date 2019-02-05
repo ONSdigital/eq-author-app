@@ -18,7 +18,6 @@ const {
   some,
   concat,
   takeRightWhile,
-  get,
 } = require("lodash");
 const GraphQLJSON = require("graphql-type-json");
 const { getName } = require("../../utils/getName");
@@ -39,7 +38,6 @@ const getPreviousAnswersForSection = require("../../src/businessLogic/getPreviou
 const createOption = require("../../src/businessLogic/createOption");
 const addPrefix = require("../../utils/addPrefix");
 const loadQuestionnaire = require("../../utils/loadQuestionnaire");
-const getPreviousPagesForPage = require("../../src/businessLogic/getPreviousPagesForPage");
 const { DATE, DATE_RANGE } = require("../../constants/answerTypes");
 const { DATE: METADATA_DATE } = require("../../constants/metadataTypes");
 const { ROUTING_ANSWER_TYPES } = require("../../constants/routingAnswerTypes");
@@ -53,8 +51,6 @@ const {
 const getSection = ctx => input => {
   return find(ctx.questionnaire.sections, { id: input.sectionId });
 };
-
-const createRoutingRuleSet = require("../../src/businessLogic/createRoutingRuleSet");
 
 const getPage = ctx => input => {
   const pages = flatMap(ctx.questionnaire.sections, section => section.pages);
@@ -191,7 +187,7 @@ const saveQuestionnaireList = data => {
 
 const Resolvers = {
   Query: {
-    questionnaires: (root, args, ctx) => getQuestionnaireList(),
+    questionnaires: () => getQuestionnaireList(),
     questionnaire: (root, args, ctx) => ctx.questionnaire,
     section: (root, { input }, ctx) => getSection(ctx)(input),
     page: (root, { input }, ctx) => getPage(ctx)(input),
@@ -245,7 +241,7 @@ const Resolvers = {
         ...input,
       });
     },
-    deleteQuestionnaire: (_, { input }, ctx) => {
+    deleteQuestionnaire: (_, { input }) => {
       const questionnaireList = getQuestionnaireList();
       const deletedQuestionnaire = first(
         remove(questionnaireList, { id: input.id })
@@ -253,10 +249,8 @@ const Resolvers = {
       saveQuestionnaireList(questionnaireList);
       return deletedQuestionnaire;
     },
-    undeleteQuestionnaire: (_, args, ctx) =>
-      ctx.repositories.Questionnaire.undelete(args.input.id),
 
-    duplicateQuestionnaire: (_, { input }, ctx) => {
+    duplicateQuestionnaire: (_, { input }) => {
       const questionnaire = getQuestionnaireById(input.id);
       const newQuestionnaire = omit(cloneDeep(questionnaire), "id");
       set(newQuestionnaire, "title", addPrefix(newQuestionnaire.title));
@@ -290,8 +284,6 @@ const Resolvers = {
       save(ctx.questionnaire);
       return section;
     },
-    undeleteSection: (_, args, ctx) =>
-      ctx.repositories.Section.undelete(args.input.id),
     createSectionIntroduction: (_, { input }, ctx) => {
       const section = find(ctx.questionnaire.sections, { id: input.sectionId });
       merge(section, {
@@ -389,8 +381,6 @@ const Resolvers = {
       save(ctx.questionnaire);
       return removedPage[0];
     },
-    undeleteQuestionPage: (_, args, ctx) =>
-      ctx.repositories.QuestionPage.undelete(args.input.id),
 
     createAnswer: async (root, { input }, ctx) => {
       const page = getPage(ctx)({ pageId: input.questionPageId });
@@ -437,8 +427,6 @@ const Resolvers = {
       save(ctx.questionnaire);
       return deletedAnswer;
     },
-    undeleteAnswer: (_, args, ctx) =>
-      ctx.repositories.Answer.undelete(args.input.id),
 
     createOption: async (root, { input }, ctx) => {
       const pages = flatMap(
@@ -530,8 +518,6 @@ const Resolvers = {
 
       return removedOption;
     },
-    undeleteOption: (_, args, ctx) =>
-      ctx.repositories.Option.undelete(args.input.id),
     toggleValidationRule: (_, args, ctx) => {
       const validation = getValidation(ctx)(args.input.id);
       validation.enabled = args.input.enabled;
@@ -655,8 +641,6 @@ const Resolvers = {
         ...confirmationPage,
       };
     },
-    undeleteQuestionConfirmation: (_, { input }, ctx) =>
-      ctx.repositories.QuestionConfirmation.restore(input.id),
   },
 
   Questionnaire: {

@@ -121,6 +121,6 @@ export default flowRight(
   ),
   withCreateQuestionnaire,
   withDuplicateQuestionnaire,
-  withDeleteQuestionnaire, // relies on raiseToast to display undo
+  withDeleteQuestionnaire,
   withQuestionnaireList
 )(UnconnectedQuestionnairesPage);

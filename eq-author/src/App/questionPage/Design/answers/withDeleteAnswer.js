@@ -17,7 +17,7 @@ export const deleteUpdater = (pageId, answerId) => proxy => {
 };
 
 export const displayToast = (ownProps, pageId, answerId) => {
-  ownProps.raiseToast(`Answer${answerId}`, "Answer deleted", "undeleteAnswer", {
+  ownProps.raiseToast(`Answer${answerId}`, "Answer deleted", {
     pageId,
     answerId,
   });

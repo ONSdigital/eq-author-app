@@ -1,5 +1,0 @@
-mutation UndeleteSection($input: UndeleteSectionInput!) {
-  undeleteSection(input: $input) {
-    id
-  }
-}
