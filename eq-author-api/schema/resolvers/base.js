@@ -887,12 +887,12 @@ const Resolvers = {
     inclusive: ({ inclusive }) => inclusive,
     custom: ({ custom }) => custom,
     entityType: ({ entityType }) => entityType,
-    previousAnswer: ({ previousAnswerId }, args, ctx) =>
-      isNil(previousAnswerId)
+    previousAnswer: ({ previousAnswer }, args, ctx) =>
+      isNil(previousAnswer)
         ? null
-        : ctx.repositories.Answer.getById(previousAnswerId),
+        : getAnswer(ctx)({ answerId: previousAnswer }),
     availablePreviousAnswers: ({ id }, args, ctx) =>
-      ctx.repositories.Validation.getPreviousAnswersForValidation(id),
+      getAvailablePreviousAnswersForValidation(ctx)(id),
   },
 
   MaxValueValidationRule: {
