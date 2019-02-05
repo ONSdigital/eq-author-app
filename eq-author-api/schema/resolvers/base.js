@@ -131,6 +131,7 @@ const createPage = (input = {}) => ({
   title: "",
   description: "",
   answers: [],
+  routing: null,
   ...input,
 });
 
@@ -284,7 +285,10 @@ const Resolvers = {
       return section;
     },
     deleteSection: (root, { input }, ctx) => {
-      return remove(ctx.questionnaire.sections, { id: input.sectionId });
+      const section = find(ctx.questionnaire.sections, { id: input.id });
+      remove(ctx.questionnaire.sections, section);
+      save(ctx.questionnaire);
+      return section;
     },
     undeleteSection: (_, args, ctx) =>
       ctx.repositories.Section.undelete(args.input.id),
@@ -883,12 +887,12 @@ const Resolvers = {
     inclusive: ({ inclusive }) => inclusive,
     custom: ({ custom }) => custom,
     entityType: ({ entityType }) => entityType,
-    previousAnswer: ({ previousAnswerId }, args, ctx) =>
-      isNil(previousAnswerId)
+    previousAnswer: ({ previousAnswer }, args, ctx) =>
+      isNil(previousAnswer)
         ? null
-        : ctx.repositories.Answer.getById(previousAnswerId),
+        : getAnswer(ctx)({ answerId: previousAnswer }),
     availablePreviousAnswers: ({ id }, args, ctx) =>
-      ctx.repositories.Validation.getPreviousAnswersForValidation(id),
+      getAvailablePreviousAnswersForValidation(ctx)(id),
   },
 
   MaxValueValidationRule: {
@@ -896,10 +900,10 @@ const Resolvers = {
     inclusive: ({ inclusive }) => inclusive,
     custom: ({ custom }) => custom,
     entityType: ({ entityType }) => entityType,
-    previousAnswer: ({ previousAnswerId }, args, ctx) =>
-      isNil(previousAnswerId)
+    previousAnswer: ({ previousAnswer }, args, ctx) =>
+      isNil(previousAnswer)
         ? null
-        : ctx.repositories.Answer.getById(previousAnswerId),
+        : getAnswer(ctx)({ answerId: previousAnswer }),
     availablePreviousAnswers: ({ id }, args, ctx) =>
       getAvailablePreviousAnswersForValidation(ctx)(id),
   },

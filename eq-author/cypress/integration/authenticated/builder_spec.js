@@ -9,6 +9,8 @@ import {
   addQuestionPage,
   testId,
   navigateToFirstSection,
+  questionPageRegex,
+  sectionRegex,
 } from "../../utils";
 import { times, includes } from "lodash";
 import { Routes } from "../../../src/utils/UrlUtils";
@@ -25,9 +27,6 @@ import {
 } from "../../../src/constants/answer-types";
 
 const questionnaireTitle = "My Questionnaire Title";
-
-const questionPageRegex = /\/questionnaire\/\d+\/\d+\/\d+\/design$/;
-const sectionRegex = /\/questionnaire\/\d+\/\d+\/design$/;
 
 describe("builder", () => {
   const checkIsOnDesignPage = () => cy.hash().should("match", /\/design$/);
@@ -262,42 +261,6 @@ describe("builder", () => {
       cy.get(testId("btn-delete")).click();
     });
     cy.get(testId("btn-add-intro"));
-  });
-
-  it("can undelete a section introduction", () => {
-    checkIsOnDesignPage();
-
-    navigateToFirstSection();
-
-    cy.get(testId("btn-add-intro")).click();
-
-    typeIntoDraftEditor(
-      testId("txt-introduction-title", "testid"),
-      "Section Introduction Title"
-    );
-    typeIntoDraftEditor(
-      testId("txt-introduction-content", "testid"),
-      "Section Introduction Content"
-    );
-
-    cy.get(testId("section-intro-canvas")).within(() => {
-      cy.get(testId("btn-delete")).click();
-    });
-
-    cy.get(testId("btn-add-intro")).should("be.visible");
-    cy.get(testId("btn-undo")).should("be.visible");
-    cy.get(testId("btn-undo")).click();
-
-    cy.get(testId("section-intro-canvas")).within(() => {
-      cy.get(testId("txt-introduction-title", "testid")).should(
-        "contain",
-        "Section Introduction Title"
-      );
-      cy.get(testId("txt-introduction-content", "testid")).should(
-        "contain",
-        "Section Introduction Content"
-      );
-    });
   });
 
   it("can preview a section introducion", () => {

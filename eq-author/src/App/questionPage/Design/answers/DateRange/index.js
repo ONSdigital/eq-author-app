@@ -5,9 +5,7 @@ import gql from "graphql-tag";
 import styled from "styled-components";
 
 import Date from "App/questionPage/Design/answers/Date";
-import withEntityEditor from "components/withEntityEditor";
 
-import answerFragment from "graphql/fragments/answer.graphql";
 import EarliestDateValidationRule from "graphql/fragments/earliest-date-validation-rule.graphql";
 import LatestDateValidationRule from "graphql/fragments/latest-date-validation-rule.graphql";
 import MinDurationValidationRule from "graphql/fragments/min-duration-validation-rule.graphql";
@@ -21,9 +19,8 @@ const DateRange = ({ answer, ...otherProps }) => (
   <Wrapper data-test="date-range-editor">
     <Date
       key={`from-${answer.id}`}
-      id={answer.id}
-      value={answer.label}
       answer={answer}
+      name="label"
       showDay
       showMonth
       showYear
@@ -31,8 +28,7 @@ const DateRange = ({ answer, ...otherProps }) => (
     />
     <Date
       key={`to-${answer.id}`}
-      id={answer.id}
-      value={answer.secondaryLabel}
+      answer={answer}
       name="secondaryLabel"
       showDay
       showMonth
@@ -82,4 +78,4 @@ DateRange.fragments = {
   `,
 };
 
-export default withEntityEditor("answer", answerFragment)(DateRange);
+export default DateRange;

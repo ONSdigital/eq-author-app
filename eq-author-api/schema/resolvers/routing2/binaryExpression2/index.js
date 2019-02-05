@@ -216,7 +216,7 @@ Resolvers.Mutation = {
     );
 
     const expressionGroup = find(expressionGroup => {
-      if (some({ id: input.id }, expressionGroup.expressions)) {
+      if (some({ id: expressionId }, expressionGroup.expressions)) {
         return expressionGroup;
       }
     }, flatMap(rule => rule.expressionGroup, rules));

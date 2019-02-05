@@ -1,20 +1,11 @@
 import { testId, setQuestionnaireSettings } from "../../utils";
-import createQuestionnaire from "../../fixtures/createQuestionnaire";
-import GetQuestionPage from "../../fixtures/GetQuestionPage";
-import GetQuestionnaire from "../../fixtures/GetQuestionnaire";
-import GetQuestionnaireList from "../../fixtures/GetQuestionnaireList";
 
 describe("settings", () => {
   const settingsModal = testId("questionnaire-settings-modal");
   const questionnaireTitle = "Settings Spec Questionnaire";
 
   beforeEach(() => {
-    cy.visitStubbed("/", {
-      createQuestionnaire,
-      GetQuestionPage,
-      GetQuestionnaire,
-      GetQuestionnaireList,
-    });
+    cy.visit("/");
     cy.login();
     cy.get(testId("create-questionnaire")).click();
   });

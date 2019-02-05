@@ -1,5 +1,7 @@
 const isMutuallyExclusive = require("../../../../utils/isMutuallyExclusive");
 
+const conditions = require("../../../../constants/routingConditions");
+
 const {
   flatMap,
   find,
@@ -38,7 +40,7 @@ Resolvers.RoutingRule2 = {
   expressionGroup: routingRule => routingRule.expressionGroup,
   routing: ({ id }, args, ctx) => {
     const pages = flatMap(section => section.pages, ctx.questionnaire.sections);
-    const allRouting = flatMap(page => page.routing, pages);
+    const allRouting = flatMap(page => page.routing, pages).filter(Boolean);
     const routing = find(routing => {
       if (some({ id }, routing.rules)) {
         return routing;
@@ -64,20 +66,19 @@ Resolvers.Mutation = {
       firstAnswer &&
       answerTypeToConditions.isAnswerTypeSupported(firstAnswer.type);
 
-    let condition;
+    let condition = conditions.EQUAL;
+    let leftHandSide = {
+      type: NULL,
+      nullReason: NO_ROUTABLE_ANSWER_ON_PAGE,
+    };
+
     if (hasRoutableFirstAnswer) {
       condition = answerTypeToConditions.getDefault(firstAnswer.type);
+      leftHandSide = {
+        answerId: firstAnswer.id,
+        type: "Answer",
+      };
     }
-
-    const leftHandSide = hasRoutableFirstAnswer
-      ? {
-          answerId: firstAnswer.id,
-          type: "Answer",
-        }
-      : {
-          type: NULL,
-          nullReason: NO_ROUTABLE_ANSWER_ON_PAGE,
-        };
 
     const routingRule = createRoutingRule({
       expressionGroup: createExpressionGroup({
@@ -143,16 +144,22 @@ Resolvers.Mutation = {
     return routingRule;
   },
   deleteRoutingRule2: (root, { input }, ctx) => {
-    const routing = find(routing => {
+    const pages = flatMap(section => section.pages, ctx.questionnaire.sections);
+    const page = find(page => {
+      const routing = page.routing || { rules: [] };
       if (some({ id: input.id }, routing.rules)) {
-        return routing;
+        return page;
       }
-    }, flatMap(page => page.routing, flatMap(section => section.pages, ctx.questionnaire.sections)));
+    }, pages);
 
+    const routing = page.routing;
     routing.rules = reject({ id: input.id }, routing.rules);
+    if (routing.rules.length === 0) {
+      page.routing = null;
+    }
 
     save(ctx.questionnaire);
-    return routing;
+    return page;
   },
 };
 
