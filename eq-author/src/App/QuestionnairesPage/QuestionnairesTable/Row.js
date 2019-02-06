@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 
 import CustomPropTypes from "custom-prop-types";
-import { partial } from "lodash";
 
 import IconButtonDelete from "components/buttons/IconButtonDelete";
 import DuplicateButton from "components/buttons/DuplicateButton";
@@ -14,6 +13,9 @@ import { colors } from "constants/theme";
 import QuestionnaireLink from "App/QuestionnairesPage/QuestionnaireLink";
 import FormattedDate from "App/QuestionnairesPage/FormattedDate";
 import FadeTransition from "components/transitions/FadeTransition";
+
+import DeleteConfirmDialog from "components/DeleteConfirmDialog";
+import questionConfirmationIcon from "../../questionConfirmation/Design/question-confirmation-icon.svg";
 
 const TruncatedQuestionnaireLink = Truncated.withComponent(QuestionnaireLink);
 TruncatedQuestionnaireLink.displayName = "TruncatedQuestionnaireLink";
@@ -55,6 +57,23 @@ class Row extends React.Component {
     autoFocus: PropTypes.bool,
   };
 
+  state = {
+    showDeleteQuestionnaireDialog: false,
+  };
+
+  handleOpenDeleteQuestionnaireDialog = () =>
+    this.setState({ showDeleteQuestionnaireDialog: true });
+
+  handleCloseDeleteQuestionnaireDialog = () => {
+    this.setState({ showDeleteQuestionnaireDialog: false });
+  };
+
+  handleDeleteQuestionnaire = () => {
+    this.setState({ showDeleteQuestionnaireDialog: false }, () =>
+      this.props.onDeleteQuestionnaire(this.props.questionnaire.id)
+    );
+  };
+
   rowRef = React.createRef();
 
   handleDuplicateQuestionnaire = () => {
@@ -65,7 +84,10 @@ class Row extends React.Component {
     return this.props.questionnaire.id.startsWith("dupe");
   }
 
-  shouldComponentUpdate(nextProps) {
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.state !== nextState) {
+      return true;
+    }
     for (let key of Object.keys(Row.propTypes)) {
       if (this.props[key] !== nextProps[key]) {
         return true;
@@ -93,47 +115,60 @@ class Row extends React.Component {
   render() {
     const { questionnaire, onDeleteQuestionnaire, ...rest } = this.props;
     const isOptimisticDupe = this.isQuestionnaireADuplicate();
+    const { showDeleteQuestionnaireDialog } = this.state;
+    console.log(questionnaire.displayName, onDeleteQuestionnaire, rest);
 
     return (
-      <FadeTransition
-        {...rest}
-        enter={isOptimisticDupe}
-        exit={!isOptimisticDupe}
-      >
-        <TR innerRef={this.rowRef} disabled={isOptimisticDupe}>
-          <TD>
-            <TruncatedQuestionnaireLink
-              data-test="anchor-questionnaire-title"
-              questionnaire={questionnaire}
-              title={questionnaire.title}
-              disabled={isOptimisticDupe}
-            >
-              {questionnaire.title}
-            </TruncatedQuestionnaireLink>
-          </TD>
-          <TD>
-            <FormattedDate date={questionnaire.createdAt} />
-          </TD>
-          <TD>
-            <Truncated>{questionnaire.createdBy.name || "Unknown"}</Truncated>
-          </TD>
-          <TD textAlign="center">
-            <ButtonGroup>
-              <DuplicateButton
-                data-test="btn-duplicate-questionnaire"
-                onClick={this.handleDuplicateQuestionnaire}
+      <>
+        <DeleteConfirmDialog
+          isOpen={showDeleteQuestionnaireDialog}
+          onClose={this.handleCloseDeleteQuestionnaireDialog}
+          onDelete={this.handleDeleteQuestionnaire}
+          title={questionnaire.title}
+          alertText="Questionnaire will be deleted."
+          icon={questionConfirmationIcon}
+          data-test="delete-questionnaire"
+        />
+        <FadeTransition
+          {...rest}
+          enter={isOptimisticDupe}
+          exit={!isOptimisticDupe}
+        >
+          <TR innerRef={this.rowRef} disabled={isOptimisticDupe}>
+            <TD>
+              <TruncatedQuestionnaireLink
+                data-test="anchor-questionnaire-title"
+                questionnaire={questionnaire}
+                title={questionnaire.title}
                 disabled={isOptimisticDupe}
-              />
-              <IconButtonDelete
-                hideText
-                data-test="btn-delete-questionnaire"
-                onClick={partial(onDeleteQuestionnaire, questionnaire.id)}
-                disabled={isOptimisticDupe}
-              />
-            </ButtonGroup>
-          </TD>
-        </TR>
-      </FadeTransition>
+              >
+                {questionnaire.title}
+              </TruncatedQuestionnaireLink>
+            </TD>
+            <TD>
+              <FormattedDate date={questionnaire.createdAt} />
+            </TD>
+            <TD>
+              <Truncated>{questionnaire.createdBy.name || "Unknown"}</Truncated>
+            </TD>
+            <TD textAlign="center">
+              <ButtonGroup>
+                <DuplicateButton
+                  data-test="btn-duplicate-questionnaire"
+                  onClick={this.handleDuplicateQuestionnaire}
+                  disabled={isOptimisticDupe}
+                />
+                <IconButtonDelete
+                  hideText
+                  data-test="btn-delete-questionnaire"
+                  onClick={this.handleOpenDeleteQuestionnaireDialog}
+                  disabled={isOptimisticDupe}
+                />
+              </ButtonGroup>
+            </TD>
+          </TR>
+        </FadeTransition>
+      </>
     );
   }
 }
