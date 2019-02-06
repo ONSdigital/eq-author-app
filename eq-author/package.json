@@ -36,7 +36,6 @@
     "@storybook/addon-storyshots": "latest",
     "@storybook/react": "latest",
     "autoprefixer": "latest",
-    "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "latest",
     "babel-jest": "latest",
     "babel-loader": "latest",
@@ -171,7 +170,9 @@
       "<rootDir>/src/tests/setup/throwOnConsole.js",
       "<rootDir>/src/tests/setup/mockLocalStorage.js"
     ],
-    "setupTestFrameworkScriptFile": "<rootDir>/src/tests/setup/JestTestSetup.js",
+    "setupFilesAfterEnv": [
+      "<rootDir>/src/tests/setup/JestTestSetup.js"
+    ],
     "snapshotSerializers": [
       "<rootDir>/node_modules/enzyme-to-json/serializer"
     ],
