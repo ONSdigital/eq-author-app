@@ -7,7 +7,7 @@
     "start": "node app.js",
     "start:dev": "NODE_ENV=development nodemon --ignore 'data/' --inspect=0.0.0.0:5858",
     "lint": "eslint .",
-    "test": "./scripts/test.sh",
+    "test": "./scripts/test.sh schema/resolversTests",
     "test:breakingChanges": "node scripts/checkForBreakingChanges.js",
     "knex": "knex"
   },
