@@ -4,16 +4,11 @@ import deleteSectionIntroMutation from "./deleteSectionIntro.graphql";
 
 export const displayToast = (ownProps, sectionIntro) => {
   const { id, introductionTitle, introductionContent } = sectionIntro;
-  ownProps.raiseToast(
-    `Section${id}`,
-    "Section introduction deleted",
-    "undeleteSectionIntroduction",
-    {
-      id,
-      introductionTitle,
-      introductionContent,
-    }
-  );
+  ownProps.raiseToast(`Section${id}`, "Section introduction deleted", {
+    id,
+    introductionTitle,
+    introductionContent,
+  });
 };
 
 export const mapMutateToProps = ({ ownProps, mutate }) => ({

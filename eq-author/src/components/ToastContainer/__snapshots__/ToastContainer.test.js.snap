@@ -15,12 +15,6 @@ exports[`Toastcontainer should render 1`] = `
         >
           <ToastContainer__StyledDiv>
             Hello world
-            <ToastContainer__UndoButton
-              data-test="btn-undo"
-              onClick={[Function]}
-            >
-              Undo
-            </ToastContainer__UndoButton>
           </ToastContainer__StyledDiv>
         </Toast>
       </ToastContainer>

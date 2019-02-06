@@ -117,7 +117,6 @@ describe("PagesRepository", () => {
     );
 
     await PageRepository.remove(page.id);
-    await PageRepository.undelete(page.id);
 
     const result = await PageRepository.getById(page.id);
     expect(result).toMatchObject(page);
@@ -335,8 +334,6 @@ describe("PagesRepository", () => {
         sectionId: section.id,
         position: 2,
       });
-
-      await PageRepository.undelete(pages[3].id);
 
       const updatedResults = await PageRepository.findAll({
         sectionId: section.id,

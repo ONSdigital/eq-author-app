@@ -4,23 +4,13 @@ import Toast from "./";
 import ToastList from "./ToastList";
 import { action } from "@storybook/addon-actions";
 import styled from "styled-components";
-import { colors } from "constants/theme";
 import Transition from "./Transition";
 import { without } from "lodash";
 import PropTypes from "prop-types";
 
-const UndoButton = styled.button`
-  background: none;
-  border: none;
-  color: ${colors.lightBlue};
-  margin-left: 2em;
-  font-size: inherit;
-`;
-
-const DeletionInfo = ({ id, onClose }) => (
+const DeletionInfo = ({ id }) => (
   <div>
     <strong>Page {id}</strong> deleted{" "}
-    <UndoButton onClick={onClose}>Undo</UndoButton>
   </div>
 );
 DeletionInfo.propTypes = {

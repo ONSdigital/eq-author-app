@@ -69,7 +69,7 @@ describe("dashboard", () => {
 
       it("should display toast when questionnaire is deleted", () => {
         cy.get(testId("btn-delete-questionnaire")).click();
-        cy.get(testId("btn-undo")).should("be.visible");
+        cy.contains("Questionnaire deleted").should("be.visible");
       });
     });
   });
