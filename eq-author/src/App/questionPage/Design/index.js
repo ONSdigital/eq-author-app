@@ -136,11 +136,7 @@ export class UnwrappedQuestionPageRoute extends React.Component {
       return <Loading height="38rem">Page loading…</Loading>;
     }
 
-    if (error) {
-      return <Error>Something went wrong</Error>;
-    }
-
-    if (isEmpty(page)) {
+    if (error || isEmpty(page)) {
       return <Error>Something went wrong</Error>;
     }
 
@@ -274,6 +270,8 @@ const QuestionPageRoute = props => (
 QuestionPageRoute.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
+      questionnaireId: PropTypes.string.isRequired,
+      sectionId: PropTypes.string.isRequired,
       pageId: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,

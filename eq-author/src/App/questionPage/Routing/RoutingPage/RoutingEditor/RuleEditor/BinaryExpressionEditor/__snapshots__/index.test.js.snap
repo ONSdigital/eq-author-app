@@ -75,9 +75,9 @@ exports[`BinaryExpressionEditor should render consistently 1`] = `
             expression={
               Object {
                 "condition": "Equal",
-                "id": "1",
+                "id": "111111111111111111111111111111111111",
                 "left": Object {
-                  "id": "2",
+                  "id": "222222222222222222222222222222222222",
                   "type": "Radio",
                 },
                 "right": null,

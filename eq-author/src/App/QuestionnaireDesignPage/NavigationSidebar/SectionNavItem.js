@@ -6,7 +6,7 @@ import { withRouter } from "react-router-dom";
 import CustomPropTypes from "custom-prop-types";
 import PageNav from "./PageNav";
 import NavLink from "./NavLink";
-import { buildSectionPath } from "utils/UrlUtils";
+import { buildQuestionnairePath } from "utils/UrlUtils";
 import SectionIcon from "./icon-section.svg?inline";
 
 const StyledSectionNavItem = styled.li`
@@ -23,7 +23,7 @@ export class UnwrappedSectionNavItem extends React.Component {
   render() {
     const { questionnaire, section, match, ...otherProps } = this.props;
 
-    const url = buildSectionPath({
+    const url = buildQuestionnairePath({
       questionnaireId: questionnaire.id,
       sectionId: section.id,
       tab: match.params.tab,

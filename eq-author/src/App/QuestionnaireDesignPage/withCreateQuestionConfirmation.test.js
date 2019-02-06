@@ -1,15 +1,21 @@
+import fakeId from "tests/utils/fakeId";
 import { mapMutateToProps } from "./withCreateQuestionConfirmation";
 
 describe("withCreateQuestionConfirmation", () => {
-  let mutate, ownProps;
+  let mutate, ownProps, questionnaireId, sectionId, pageId, confirmationId;
 
   beforeEach(() => {
+    questionnaireId = fakeId("1");
+    sectionId = fakeId("2");
+    pageId = fakeId("3");
+    confirmationId = fakeId("4");
+
     mutate = jest.fn().mockResolvedValue({
       data: {
         createQuestionConfirmation: {
-          id: "4",
+          id: confirmationId,
           page: {
-            id: "3",
+            id: pageId,
           },
         },
       },
@@ -21,8 +27,8 @@ describe("withCreateQuestionConfirmation", () => {
       },
       match: {
         params: {
-          questionnaireId: "1",
-          sectionId: "2",
+          questionnaireId,
+          sectionId,
         },
       },
     };
@@ -35,7 +41,6 @@ describe("withCreateQuestionConfirmation", () => {
   });
 
   it("should run the create mutation passing the pageId", async () => {
-    const pageId = "3";
     await mapMutateToProps({ mutate, ownProps }).onCreateQuestionConfirmation(
       pageId
     );
@@ -49,7 +54,7 @@ describe("withCreateQuestionConfirmation", () => {
       "3"
     );
     expect(ownProps.history.push).toHaveBeenCalledWith(
-      "/questionnaire/1/2/3/4/design"
+      `/questionnaire/${questionnaireId}/${sectionId}/${pageId}/${confirmationId}/design`
     );
   });
 });

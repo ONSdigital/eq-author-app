@@ -1,17 +1,19 @@
 import { shallow } from "enzyme";
-import { UnwrappedSectionNavItem as SectionNavItem } from "./SectionNavItem";
 import React from "react";
+import fakeId from "tests/utils/fakeId";
+
+import { UnwrappedSectionNavItem as SectionNavItem } from "./SectionNavItem";
 
 describe("SectionNavItem", () => {
-  const page = { id: "2", title: "Page", displayName: "Page" };
+  const page = { id: fakeId("2"), title: "Page", displayName: "Page" };
   const section = {
-    id: "3",
+    id: fakeId("3"),
     title: "Section",
     displayName: "Section",
     pages: [page],
   };
   const questionnaire = {
-    id: "1",
+    id: fakeId("1"),
     title: "Questionnaire",
     displayName: "Questionnaire",
     sections: [section],
@@ -28,7 +30,7 @@ describe("SectionNavItem", () => {
         isActive={jest.fn()}
         match={{
           params: {
-            questionnaireId: "1",
+            questionnaireId: questionnaire.id,
             tab: "design",
           },
         }}

@@ -12,7 +12,7 @@ exports[`SectionNavItem should render 1`] = `
     exact={true}
     icon={[Function]}
     title="Section"
-    to="/questionnaire/1/3/design"
+    to="/questionnaire/111111111111111111111111111111111111/333333333333333333333333333333333333/design"
   >
     Section
   </NavLink>
@@ -20,15 +20,15 @@ exports[`SectionNavItem should render 1`] = `
     questionnaire={
       Object {
         "displayName": "Questionnaire",
-        "id": "1",
+        "id": "111111111111111111111111111111111111",
         "sections": Array [
           Object {
             "displayName": "Section",
-            "id": "3",
+            "id": "333333333333333333333333333333333333",
             "pages": Array [
               Object {
                 "displayName": "Page",
-                "id": "2",
+                "id": "222222222222222222222222222222222222",
                 "title": "Page",
               },
             ],
@@ -41,11 +41,11 @@ exports[`SectionNavItem should render 1`] = `
     section={
       Object {
         "displayName": "Section",
-        "id": "3",
+        "id": "333333333333333333333333333333333333",
         "pages": Array [
           Object {
             "displayName": "Page",
-            "id": "2",
+            "id": "222222222222222222222222222222222222",
             "title": "Page",
           },
         ],

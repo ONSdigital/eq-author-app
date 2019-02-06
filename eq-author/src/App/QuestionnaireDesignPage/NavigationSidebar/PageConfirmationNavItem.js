@@ -5,7 +5,7 @@ import { withRouter } from "react-router-dom";
 import CustomPropTypes from "custom-prop-types";
 import gql from "graphql-tag";
 
-import { buildConfirmationPath } from "utils/UrlUtils";
+import { buildQuestionnairePath } from "utils/UrlUtils";
 import NavLink from "./NavLink";
 import PlaybackIcon from "./icon-playback.svg?inline";
 
@@ -31,7 +31,7 @@ export const UnwrappedPageConfirmationNavItem = ({
   <>
     <StyledPageItem data-test="question-confirmation-item" {...otherProps}>
       <StyledNavLink
-        to={buildConfirmationPath({
+        to={buildQuestionnairePath({
           questionnaireId,
           sectionId,
           pageId: page.id,

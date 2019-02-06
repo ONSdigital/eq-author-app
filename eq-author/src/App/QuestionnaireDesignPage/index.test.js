@@ -1,5 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
+import fakeId from "tests/utils/fakeId";
 
 import { UnwrappedQuestionnaireDesignPage as QuestionnaireDesignPage } from ".";
 
@@ -9,13 +10,13 @@ describe("QuestionnaireDesignPage", () => {
   let match;
 
   const answer = {
-    id: "1",
+    id: fakeId("1"),
     label: "",
-    options: [{ id: "1" }],
+    options: [{ id: fakeId("1") }],
   };
 
   const page = {
-    id: "1",
+    id: fakeId("1"),
     description: "",
     guidance: "",
     title: "",
@@ -25,13 +26,13 @@ describe("QuestionnaireDesignPage", () => {
   };
 
   const section = {
-    id: "2",
+    id: fakeId("2"),
     title: "",
     pages: [page],
   };
 
   const questionnaire = {
-    id: "3",
+    id: fakeId("3"),
     title: "hello world",
     sections: [section],
   };
@@ -125,7 +126,7 @@ describe("QuestionnaireDesignPage", () => {
         .find(`[data-test="side-nav"]`)
         .simulate("addQuestionConfirmation");
       expect(mockHandlers.onCreateQuestionConfirmation).toHaveBeenCalledWith(
-        "1"
+        page.id
       );
     });
 

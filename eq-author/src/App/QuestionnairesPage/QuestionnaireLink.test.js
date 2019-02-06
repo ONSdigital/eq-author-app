@@ -1,15 +1,17 @@
 import React from "react";
 import { shallow } from "enzyme";
-import QuestionnaireLink from "App/QuestionnairesPage/QuestionnaireLink";
+import fakeId from "tests/utils/fakeId";
+
+import QuestionnaireLink from "./QuestionnaireLink";
 
 const questionnaire = {
-  id: "1",
+  id: fakeId("1"),
   title: "Foo",
   createdAt: "2017/01/02",
   sections: [
     {
-      id: "1",
-      pages: [{ id: "1" }],
+      id: fakeId("2"),
+      pages: [{ id: fakeId("3") }],
     },
   ],
   createdBy: {
