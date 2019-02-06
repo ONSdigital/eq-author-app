@@ -6,12 +6,27 @@ const createQuestionnaireMutation = `mutation CreateQuestionnaire($input: Create
       navigation
       legalBasis
       theme
+      metadata {
+        id
+      }
       sections {
         id
         pages {
           id
+          ... on QuestionPage {
+            answers {
+              id
+            }
+          }
         }
       }
+    }
+  }
+`;
+
+const deleteQuestionnaireMutation = `mutation DeleteQuestionnaire($input: DeleteQuestionnaireInput!) {
+    deleteQuestionnaire(input: $input) {
+      id
     }
   }
 `;
@@ -70,8 +85,8 @@ const createAnswerMutation = `
 `;
 
 const getAnswerQuery = `
-  query GetAnswer($id: ID!) {
-    answer(id: $id) {
+  query GetAnswer($input: QueryInput!) {
+    answer(input: $input) {
       id
       description
       guidance
@@ -79,12 +94,6 @@ const getAnswerQuery = `
       label
       type
       properties
-      ...on CompositeAnswer{
-            childAnswers{
-              id
-              label
-            }
-          }
       ... on MultipleChoiceAnswer {
         options {
           id
@@ -108,15 +117,8 @@ const getPipableAnswersQuery = `
       label
       type
       properties
-          ...on CompositeAnswer{
-            childAnswers{
-              id
-              label
-            }
-          }
-        }
-      }
-
+    }
+  }
 `;
 
 const getQuestionnaire = `
@@ -142,12 +144,7 @@ mutation UpdateAnswer($input: UpdateAnswerInput!) {
     qCode
     label
     type
-    ...on CompositeAnswer{
-      childAnswers{
-        id
-        label
-      }
-    }
+ 
   }
 }
 `;
@@ -162,34 +159,10 @@ mutation MoveSection($input: MoveSectionInput!) {
 }`;
 
 const getAnswerValidations = `
-  query QuestionPage($id: ID!) {
-  answer(id: $id) {
+query QuestionPage($input: QueryInput!) {
+  answer(input: $input) {
     id
-    ...CompositeAnswer
     ...BasicAnswer
-  }
-}
-
-fragment CompositeAnswer on CompositeAnswer {
-  validation {
-    ... on DateRangeValidation {
-      earliestDate {
-        ...EarliestDateValidationRule
-      }
-      latestDate {
-        ...LatestDateValidationRule
-      }
-      minDuration {
-        ...MinDurationValidationRule
-      }
-      maxDuration {
-        ...MaxDurationValidationRule
-      }
-    }
-  }
-  childAnswers {
-    id
-    label
   }
 }
 
@@ -209,6 +182,20 @@ fragment BasicAnswer on BasicAnswer {
       }
       latestDate {
         ...LatestDateValidationRule
+      }
+    }
+    ... on DateRangeValidation {
+      earliestDate {
+        ...EarliestDateValidationRule
+      }
+      latestDate {
+        ...LatestDateValidationRule
+      }
+      minDuration {
+        ...MinDurationValidationRule
+      }
+      maxDuration {
+        ...MaxDurationValidationRule
       }
     }
   }
@@ -360,6 +347,7 @@ module.exports = {
   getPipableAnswersQuery,
   createQuestionnaireMutation,
   createAnswerMutation,
+  deleteQuestionnaireMutation,
   getAnswerQuery,
   updateAnswerMutation,
   createSectionMutation,

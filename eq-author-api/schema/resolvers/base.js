@@ -42,6 +42,7 @@ const { DATE, DATE_RANGE } = require("../../constants/answerTypes");
 const { DATE: METADATA_DATE } = require("../../constants/metadataTypes");
 const { ROUTING_ANSWER_TYPES } = require("../../constants/routingAnswerTypes");
 const save = require("../../utils/saveQuestionnaire");
+const removeQuestionnaire = require("../../utils/removeQuestionnaire");
 
 const {
   VALIDATION_TYPES,
@@ -247,7 +248,7 @@ const Resolvers = {
         remove(questionnaireList, { id: input.id })
       );
       saveQuestionnaireList(questionnaireList);
-      return deletedQuestionnaire;
+      return removeQuestionnaire(deletedQuestionnaire);
     },
 
     duplicateQuestionnaire: (_, { input }) => {
@@ -363,7 +364,7 @@ const Resolvers = {
 
     createQuestionPage: (root, { input }, ctx) => {
       const section = find(ctx.questionnaire.sections, { id: input.sectionId });
-      const page = createPage();
+      const page = createPage(input);
       section.pages.push(page);
       save(ctx.questionnaire);
       return page;
@@ -375,9 +376,11 @@ const Resolvers = {
       return page;
     },
     deleteQuestionPage: (_, { input }, ctx) => {
-      const section = find(ctx.questionnaire.sections, { id: input.sectionId });
-      const page = find(section.pages, { id: input.pageId });
-      const removedPage = remove(section.pages, { id: page.pageId });
+      const pages = flatMap(
+        ctx.questionnaire.sections,
+        section => section.pages
+      );
+      const removedPage = remove(pages, { id: input.id });
       save(ctx.questionnaire);
       return removedPage[0];
     },
@@ -662,9 +665,8 @@ const Resolvers = {
     pages: section => section.pages,
     questionnaire: (section, args, ctx) => ctx.questionnaire,
     displayName: section => getName(section, "Section"),
-    position: ({ id }, args, ctx) => {
-      return findIndex(ctx.questionnaire.sections, { id });
-    },
+    position: ({ id }, args, ctx) =>
+      findIndex(ctx.questionnaire.sections, { id }),
     introduction: section => (section.introductionEnabled ? section : null),
     availablePipingAnswers: ({ id }, args, ctx) =>
       getPreviousAnswersForSection(ctx.questionnaire, id),
