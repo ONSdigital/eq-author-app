@@ -45,3 +45,4 @@ deploy:
 branches:
   only:
     - master
+    - 797-replace-relational-database-with-json-document
