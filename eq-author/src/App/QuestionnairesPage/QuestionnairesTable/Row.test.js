@@ -3,6 +3,7 @@ import { shallow } from "enzyme";
 
 import IconButtonDelete from "components/buttons/IconButtonDelete";
 import DuplicateButton from "components/buttons/DuplicateButton";
+import DeleteConfirmDialog from "components/DeleteConfirmDialog";
 
 import Row from "App/QuestionnairesPage/QuestionnairesTable/Row";
 
@@ -95,20 +96,6 @@ describe("Row", () => {
     expect(focus).toHaveBeenCalled();
   });
 
-  it("should allow deletion of Questionnaire", () => {
-    shallow(
-      <Row
-        questionnaire={questionnaire}
-        onDeleteQuestionnaire={handleDeleteQuestionnaire}
-        onDuplicateQuestionnaire={handleDuplicateQuestionnaire}
-      />
-    )
-      .find(IconButtonDelete)
-      .simulate("click");
-
-    expect(handleDeleteQuestionnaire).toHaveBeenCalledWith(questionnaire.id);
-  });
-
   it("should allow duplication of a Questionnaire", () => {
     const wrapper = shallow(
       <Row
@@ -139,5 +126,31 @@ describe("Row", () => {
         foo: "bar",
       })
     ).toBeFalsy();
+  });
+
+  it("should open delete confirm dialog when the delete button is clicked", () => {
+    const wrapper = render();
+    expect(wrapper.find(DeleteConfirmDialog).prop("isOpen")).toBeFalsy();
+    wrapper.find(IconButtonDelete).simulate("click");
+    expect(wrapper.find(DeleteConfirmDialog).prop("isOpen")).toBeTruthy();
+  });
+
+  it("should delete question confirmation when modal confirm clicked", () => {
+    const wrapper = render();
+    wrapper.find(DeleteConfirmDialog).simulate("delete");
+    expect(mockHandlers.onDeleteQuestionConfirmation).toHaveBeenCalledWith(
+      defaultProps.data.questionConfirmation
+    );
+  });
+
+  it("should close modal when modal cancel clicked", () => {
+    const wrapper = render();
+
+    expect(wrapper.find(DeleteConfirmDialog).prop("isOpen")).toBeFalsy();
+    wrapper.find(IconButtonDelete).simulate("click");
+    expect(wrapper.find(DeleteConfirmDialog).prop("isOpen")).toBeTruthy();
+
+    wrapper.find(DeleteConfirmDialog).simulate("close");
+    expect(wrapper.find(DeleteConfirmDialog).prop("isOpen")).toBeFalsy();
   });
 });

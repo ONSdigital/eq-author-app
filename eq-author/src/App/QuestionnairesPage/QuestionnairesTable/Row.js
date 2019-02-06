@@ -15,7 +15,7 @@ import FormattedDate from "App/QuestionnairesPage/FormattedDate";
 import FadeTransition from "components/transitions/FadeTransition";
 
 import DeleteConfirmDialog from "components/DeleteConfirmDialog";
-import questionConfirmationIcon from "../../questionConfirmation/Design/question-confirmation-icon.svg";
+import questionConfirmationIcon from "./icon-questionnaire.svg";
 
 const TruncatedQuestionnaireLink = Truncated.withComponent(QuestionnaireLink);
 TruncatedQuestionnaireLink.displayName = "TruncatedQuestionnaireLink";
