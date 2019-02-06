@@ -46,7 +46,7 @@ Resolvers.BinaryExpression2 = {
 
     return { sideType: left.type, reason: left.nullReason };
   },
-  right: async ({ right }, args, ctx) => {
+  right: async ({ right }) => {
     if (right && ["Custom", "SelectedOptions"].includes(right.type)) {
       return right;
     }
