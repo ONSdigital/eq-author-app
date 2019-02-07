@@ -56,16 +56,14 @@ app.use(
   })
 );
 
-if (process.env.NODE_ENV === "development") {
-  app.get(
-    "/graphql/:questionnaireId",
-    logger,
-    createAuthToken,
-    setAuthHeaders,
-    fetchData(api),
-    respondWithData
-  );
-}
+app.get(
+  "/graphql/:questionnaireId",
+  logger,
+  createAuthToken,
+  setAuthHeaders,
+  fetchData(api),
+  respondWithData
+);
 
 app.get(
   "/publish/:questionnaireId",
