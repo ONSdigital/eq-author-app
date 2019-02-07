@@ -122,62 +122,9 @@ exports[`components/RichTextEditor should allow multiline input 1`] = `
         selectionIsCollapsed={true}
         visible={false}
       />
-      <DraftEditor
+      <PluginEditor
         ariaLabel="I am a label"
         ariaLabelledBy="label-test"
-        blockRenderMap={
-          Immutable.Map {
-            "ordered-list-item": Object {
-              "element": "li",
-              "wrapper": <ol
-                className="public-DraftStyleDefault-ol"
-              />,
-            },
-            "header-six": Object {
-              "element": "h6",
-            },
-            "header-four": Object {
-              "element": "h4",
-            },
-            "header-one": Object {
-              "element": "h1",
-            },
-            "unordered-list-item": Object {
-              "element": "li",
-              "wrapper": <ul
-                className="public-DraftStyleDefault-ul"
-              />,
-            },
-            "atomic": Object {
-              "element": "figure",
-            },
-            "unstyled": Object {
-              "aliasedElements": Array [
-                "p",
-              ],
-              "element": "div",
-            },
-            "header-two": Object {
-              "element": "h2",
-            },
-            "code-block": Object {
-              "element": "pre",
-              "wrapper": <pre
-                className="public-DraftStyleDefault-pre"
-              />,
-            },
-            "blockquote": Object {
-              "element": "blockquote",
-            },
-            "header-five": Object {
-              "element": "h5",
-            },
-            "header-three": Object {
-              "element": "h3",
-            },
-          }
-        }
-        blockRendererFn={[Function]}
         blockStyleFn={[Function]}
         customStyleMap={
           Object {
@@ -186,6 +133,17 @@ exports[`components/RichTextEditor should allow multiline input 1`] = `
             },
           }
         }
+        decorators={
+          Array [
+            Object {
+              "component": [Function],
+              "strategy": [Function],
+            },
+          ]
+        }
+        defaultBlockRenderMap={true}
+        defaultKeyBindings={true}
+        defaultKeyCommands={true}
         editorState={
           EditorState {
             "_immutable": Immutable.Record {
@@ -276,12 +234,16 @@ exports[`components/RichTextEditor should allow multiline input 1`] = `
             },
           }
         }
-        keyBindingFn={[Function]}
         onChange={[Function]}
         placeholder=""
-        readOnly={false}
+        plugins={
+          Array [
+            Object {
+              "handleReturn": [Function],
+            },
+          ]
+        }
         spellCheck={true}
-        stripPastedStyles={false}
       />
     </RichTextEditor__Input>
   </Field>
@@ -410,62 +372,9 @@ exports[`components/RichTextEditor should render 1`] = `
         selectionIsCollapsed={true}
         visible={false}
       />
-      <DraftEditor
+      <PluginEditor
         ariaLabel="I am a label"
         ariaLabelledBy="label-test"
-        blockRenderMap={
-          Immutable.Map {
-            "ordered-list-item": Object {
-              "element": "li",
-              "wrapper": <ol
-                className="public-DraftStyleDefault-ol"
-              />,
-            },
-            "header-six": Object {
-              "element": "h6",
-            },
-            "header-four": Object {
-              "element": "h4",
-            },
-            "header-one": Object {
-              "element": "h1",
-            },
-            "unordered-list-item": Object {
-              "element": "li",
-              "wrapper": <ul
-                className="public-DraftStyleDefault-ul"
-              />,
-            },
-            "atomic": Object {
-              "element": "figure",
-            },
-            "unstyled": Object {
-              "aliasedElements": Array [
-                "p",
-              ],
-              "element": "div",
-            },
-            "header-two": Object {
-              "element": "h2",
-            },
-            "code-block": Object {
-              "element": "pre",
-              "wrapper": <pre
-                className="public-DraftStyleDefault-pre"
-              />,
-            },
-            "blockquote": Object {
-              "element": "blockquote",
-            },
-            "header-five": Object {
-              "element": "h5",
-            },
-            "header-three": Object {
-              "element": "h3",
-            },
-          }
-        }
-        blockRendererFn={[Function]}
         blockStyleFn={[Function]}
         customStyleMap={
           Object {
@@ -474,6 +383,17 @@ exports[`components/RichTextEditor should render 1`] = `
             },
           }
         }
+        decorators={
+          Array [
+            Object {
+              "component": [Function],
+              "strategy": [Function],
+            },
+          ]
+        }
+        defaultBlockRenderMap={true}
+        defaultKeyBindings={true}
+        defaultKeyCommands={true}
         editorState={
           EditorState {
             "_immutable": Immutable.Record {
@@ -566,12 +486,16 @@ exports[`components/RichTextEditor should render 1`] = `
         }
         handlePastedText={[Function]}
         handleReturn={[Function]}
-        keyBindingFn={[Function]}
         onChange={[Function]}
         placeholder=""
-        readOnly={false}
+        plugins={
+          Array [
+            Object {
+              "handleReturn": [Function],
+            },
+          ]
+        }
         spellCheck={true}
-        stripPastedStyles={false}
       />
     </RichTextEditor__Input>
   </Field>
@@ -757,62 +681,9 @@ exports[`components/RichTextEditor should render existing content 1`] = `
 "
         visible={false}
       />
-      <DraftEditor
+      <PluginEditor
         ariaLabel="I am a label"
         ariaLabelledBy="label-test"
-        blockRenderMap={
-          Immutable.Map {
-            "ordered-list-item": Object {
-              "element": "li",
-              "wrapper": <ol
-                className="public-DraftStyleDefault-ol"
-              />,
-            },
-            "header-six": Object {
-              "element": "h6",
-            },
-            "header-four": Object {
-              "element": "h4",
-            },
-            "header-one": Object {
-              "element": "h1",
-            },
-            "unordered-list-item": Object {
-              "element": "li",
-              "wrapper": <ul
-                className="public-DraftStyleDefault-ul"
-              />,
-            },
-            "atomic": Object {
-              "element": "figure",
-            },
-            "unstyled": Object {
-              "aliasedElements": Array [
-                "p",
-              ],
-              "element": "div",
-            },
-            "header-two": Object {
-              "element": "h2",
-            },
-            "code-block": Object {
-              "element": "pre",
-              "wrapper": <pre
-                className="public-DraftStyleDefault-pre"
-              />,
-            },
-            "blockquote": Object {
-              "element": "blockquote",
-            },
-            "header-five": Object {
-              "element": "h5",
-            },
-            "header-three": Object {
-              "element": "h3",
-            },
-          }
-        }
-        blockRendererFn={[Function]}
         blockStyleFn={[Function]}
         customStyleMap={
           Object {
@@ -821,6 +692,17 @@ exports[`components/RichTextEditor should render existing content 1`] = `
             },
           }
         }
+        decorators={
+          Array [
+            Object {
+              "component": [Function],
+              "strategy": [Function],
+            },
+          ]
+        }
+        defaultBlockRenderMap={true}
+        defaultKeyBindings={true}
+        defaultKeyCommands={true}
         editorState={
           EditorState {
             "_immutable": Immutable.Record {
@@ -962,12 +844,16 @@ exports[`components/RichTextEditor should render existing content 1`] = `
         }
         handlePastedText={[Function]}
         handleReturn={[Function]}
-        keyBindingFn={[Function]}
         onChange={[Function]}
         placeholder=""
-        readOnly={false}
+        plugins={
+          Array [
+            Object {
+              "handleReturn": [Function],
+            },
+          ]
+        }
         spellCheck={true}
-        stripPastedStyles={false}
       />
     </RichTextEditor__Input>
   </Field>

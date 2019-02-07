@@ -2,14 +2,11 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled, { css } from "styled-components";
 import * as convert from "draft-convert";
-import {
-  Editor,
-  EditorState,
-  RichUtils,
-  Modifier,
-  CompositeDecorator,
-} from "draft-js";
+import Editor from "draft-js-plugins-editor";
+import { EditorState, RichUtils, Modifier, CompositeDecorator } from "draft-js";
 import "draft-js/dist/Draft.css";
+import createBlockBreakoutPlugin from "draft-js-block-breakout-plugin";
+
 import { toHTML, fromHTML } from "./utils/convert";
 import Toolbar, { STYLE_BLOCK } from "./Toolbar";
 import PipedValueDecorator, {
@@ -172,8 +169,9 @@ class RichTextEditor extends React.Component {
 
   constructor(props) {
     super(props);
-
     const editorState = this.configureEditorState(props.value, props.controls);
+
+    this.plugins = [createBlockBreakoutPlugin()];
 
     this.state = { editorState };
   }
@@ -326,15 +324,23 @@ class RichTextEditor extends React.Component {
       editorState.getSelection()
     );
 
-    this.handleChange(
-      EditorState.push(editorState, newContent, "insert-characters"),
-      () => this.focus()
+    const insertedEditorState = EditorState.push(
+      editorState,
+      newContent,
+      "insert-characters"
     );
+
+    const selectedState = EditorState.forceSelection(
+      insertedEditorState,
+      newContent.getSelectionAfter()
+    );
+
+    this.handleChange(selectedState, () => this.focus());
   };
 
   focus() {
     if (this.editorInstance) {
-      this.editorInstance.focus();
+      this.editorInstance.getEditorRef().editor.focus();
     }
   }
 
@@ -354,14 +360,14 @@ class RichTextEditor extends React.Component {
 
   handleMouseDown = e => {
     // prevent blur when mousedown on non-editor elements
-    if (!this.editorInstance.editor.contains(e.target)) {
+    if (!this.editorInstance.getEditorRef().editor.contains(e.target)) {
       e.preventDefault();
     }
   };
 
-  handleChange = (editorState, callback) => {
+  handleChange = editorState => {
     editorState = this.stripFormatting(editorState);
-    return this.setState({ editorState }, callback);
+    return this.setState({ editorState });
   };
 
   handleToggle = ({ type, style }) => {
@@ -492,6 +498,8 @@ class RichTextEditor extends React.Component {
               spellCheck
               webDriverTestID={testSelector}
               placeholder={placeholder}
+              decorators={[PipedValueDecorator]}
+              plugins={this.plugins}
             />
           </Input>
         </Field>

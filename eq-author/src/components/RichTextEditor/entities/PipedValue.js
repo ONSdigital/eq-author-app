@@ -8,7 +8,7 @@ import replaceEntityText from "components/RichTextEditor/utils/replaceEntityText
 import { Modifier } from "draft-js";
 import { bindKey } from "lodash";
 
-export const ENTITY_TYPE = "PIPED-DATA";
+export const ENTITY_TYPE = "PIPEDDATA";
 
 export const filterConfig = {
   type: ENTITY_TYPE,
