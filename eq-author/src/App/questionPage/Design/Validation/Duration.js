@@ -1,10 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
+import styled from "styled-components";
 
 import { Number, Select } from "components/Forms";
 import { Grid, Column } from "components/Grid";
 
 import { DAYS, MONTHS, YEARS } from "constants/durations";
+
+export const DurationNumber = styled(Number)`
+  width: 100%;
+`;
 
 const UNITS = [DAYS, MONTHS, YEARS];
 
@@ -17,7 +22,7 @@ const Duration = ({
 }) => (
   <Grid>
     <Column cols={2}>
-      <Number
+      <DurationNumber
         id={`${name}-value`}
         name={`${name}.value`}
         value={value}

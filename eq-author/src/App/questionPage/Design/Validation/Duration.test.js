@@ -1,7 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
-import Duration from "./Duration";
-import { Number, Select } from "components/Forms";
+import Duration, { DurationNumber } from "./Duration";
+import { Select } from "components/Forms";
 
 import { DAYS, MONTHS, YEARS } from "constants/durations";
 const UNITS = [DAYS, MONTHS, YEARS];
@@ -31,7 +31,7 @@ describe("Duration", () => {
   });
 
   it("should correctly change and update duration value", () => {
-    const value = wrapper.find(Number);
+    const value = wrapper.find(DurationNumber);
     value.simulate("change", "event");
     expect(props.onChange).toHaveBeenCalledWith("event");
     value.simulate("blur", "event");
