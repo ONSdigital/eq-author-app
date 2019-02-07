@@ -72,6 +72,7 @@ Cypress.Commands.add("deleteQuestionnaire", title => {
         cy.get(testId("btn-delete-questionnaire")).click();
       });
   });
+  cy.get(testId("btn-delete-modal")).click();
   cy.dismissAllToast();
 });
 

@@ -3,6 +3,7 @@ import { shallow } from "enzyme";
 
 import IconButtonDelete from "components/buttons/IconButtonDelete";
 import DuplicateButton from "components/buttons/DuplicateButton";
+import DeleteConfirmDialog from "components/DeleteConfirmDialog";
 
 import Row from "App/QuestionnairesPage/QuestionnairesTable/Row";
 
@@ -95,20 +96,6 @@ describe("Row", () => {
     expect(focus).toHaveBeenCalled();
   });
 
-  it("should allow deletion of Questionnaire", () => {
-    shallow(
-      <Row
-        questionnaire={questionnaire}
-        onDeleteQuestionnaire={handleDeleteQuestionnaire}
-        onDuplicateQuestionnaire={handleDuplicateQuestionnaire}
-      />
-    )
-      .find(IconButtonDelete)
-      .simulate("click");
-
-    expect(handleDeleteQuestionnaire).toHaveBeenCalledWith(questionnaire.id);
-  });
-
   it("should allow duplication of a Questionnaire", () => {
     const wrapper = shallow(
       <Row
@@ -132,12 +119,78 @@ describe("Row", () => {
       />
     );
     expect(
-      wrapper.instance().shouldComponentUpdate({
-        questionnaire,
-        onDeleteQuestionnaire: handleDeleteQuestionnaire,
-        onDuplicateQuestionnaire: handleDuplicateQuestionnaire,
-        foo: "bar",
-      })
+      wrapper.instance().shouldComponentUpdate(
+        {
+          questionnaire,
+          onDeleteQuestionnaire: handleDeleteQuestionnaire,
+          onDuplicateQuestionnaire: handleDuplicateQuestionnaire,
+          foo: "bar",
+        },
+        { showDeleteQuestionnaireDialog: false }
+      )
     ).toBeFalsy();
+  });
+
+  it("should re-render if the state changes and the dialog is shown", () => {
+    const wrapper = shallow(
+      <Row
+        questionnaire={questionnaire}
+        onDeleteQuestionnaire={handleDeleteQuestionnaire}
+        onDuplicateQuestionnaire={handleDuplicateQuestionnaire}
+      />
+    );
+    expect(
+      wrapper.instance().shouldComponentUpdate(
+        {
+          questionnaire,
+          onDeleteQuestionnaire: handleDeleteQuestionnaire,
+          onDuplicateQuestionnaire: handleDuplicateQuestionnaire,
+          foo: "bar",
+        },
+        { showDeleteQuestionnaireDialog: true }
+      )
+    ).toBeTruthy();
+  });
+
+  it("should open delete confirm dialog when the delete button is clicked", () => {
+    const wrapper = shallow(
+      <Row
+        questionnaire={questionnaire}
+        onDeleteQuestionnaire={handleDeleteQuestionnaire}
+        onDuplicateQuestionnaire={handleDuplicateQuestionnaire}
+      />
+    );
+    expect(wrapper.find(DeleteConfirmDialog).prop("isOpen")).toBeFalsy();
+    wrapper.find(IconButtonDelete).simulate("click");
+    expect(wrapper.find(DeleteConfirmDialog).prop("isOpen")).toBeTruthy();
+  });
+
+  it("should delete question confirmation when modal confirm clicked", () => {
+    const wrapper = shallow(
+      <Row
+        questionnaire={questionnaire}
+        onDeleteQuestionnaire={handleDeleteQuestionnaire}
+        onDuplicateQuestionnaire={handleDuplicateQuestionnaire}
+      />
+    );
+    wrapper.find(DeleteConfirmDialog).simulate("delete");
+    expect(handleDeleteQuestionnaire).toHaveBeenCalledWith(questionnaire.id);
+  });
+
+  it("should close modal when modal cancel clicked", () => {
+    const wrapper = shallow(
+      <Row
+        questionnaire={questionnaire}
+        onDeleteQuestionnaire={handleDeleteQuestionnaire}
+        onDuplicateQuestionnaire={handleDuplicateQuestionnaire}
+      />
+    );
+
+    expect(wrapper.find(DeleteConfirmDialog).prop("isOpen")).toBeFalsy();
+    wrapper.find(IconButtonDelete).simulate("click");
+    expect(wrapper.find(DeleteConfirmDialog).prop("isOpen")).toBeTruthy();
+
+    wrapper.find(DeleteConfirmDialog).simulate("close");
+    expect(wrapper.find(DeleteConfirmDialog).prop("isOpen")).toBeFalsy();
   });
 });
