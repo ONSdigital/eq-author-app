@@ -23,6 +23,7 @@ exports[`Content Picker Single PickerWrapper should render with additional style
   -webkit-flex-grow: 1;
   -ms-flex-positive: 1;
   flex-grow: 1;
+  min-height: 0;
   margin-bottom: 3px;
 }
 

@@ -94,6 +94,7 @@ const ContentWrapper = styled.div`
   flex: 1 1 auto;
   flex-direction: column;
   justify-content: center;
+  min-height: 0;
 `;
 
 const ErrorText = styled.span`

@@ -10,6 +10,7 @@ const openStyle = css`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  min-height: 0;
 `;
 
 export const PickerWrapper = styled.div`

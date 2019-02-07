@@ -13,6 +13,7 @@ const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  min-height: 0;
 `;
 
 const ActionButtons = styled(ButtonGroup)`
