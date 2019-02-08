@@ -14,8 +14,12 @@ const repositories = require("./repositories");
 const modifiers = require("./modifiers");
 const schema = require("./schema");
 
+const noir = require("pino-noir");
+
 const app = express();
-const pino = pinoMiddleware();
+const pino = pinoMiddleware({
+  serializers: noir(["req.headers.authorization"], "[Redacted]"),
+});
 const logger = pino.logger;
 
 const db = require("./db");
