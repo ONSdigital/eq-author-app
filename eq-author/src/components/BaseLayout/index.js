@@ -26,7 +26,7 @@ const Main = styled.main`
   flex: 1 1 auto;
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 4em);
+  min-height: 0;
 `;
 
 const Title = styled.h1`
