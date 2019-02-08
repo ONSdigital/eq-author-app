@@ -259,6 +259,8 @@ Object {
   "onClose": [Function],
   "onSubmit": [Function],
   "questionData": undefined,
+  "selectedId": undefined,
+  "selectedObj": undefined,
 }
 `;
 
@@ -275,6 +277,8 @@ Object {
   "onClose": [Function],
   "onSubmit": [Function],
   "questionData": undefined,
+  "selectedId": undefined,
+  "selectedObj": undefined,
 }
 `;
 
@@ -291,6 +295,8 @@ Object {
   "onClose": [Function],
   "onSubmit": [Function],
   "questionData": undefined,
+  "selectedId": undefined,
+  "selectedObj": undefined,
 }
 `;
 

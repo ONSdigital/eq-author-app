@@ -55,6 +55,7 @@ exports[`Content Picker Single should render 1`] = `
     open={false}
   >
     <PickerOption
+      aria-pressed={true}
       data-test="picker-option"
       key="1"
       onClick={[Function]}
@@ -63,6 +64,7 @@ exports[`Content Picker Single should render 1`] = `
       Option 1
     </PickerOption>
     <PickerOption
+      aria-pressed={false}
       data-test="picker-option"
       key="2"
       onClick={[Function]}
@@ -71,6 +73,7 @@ exports[`Content Picker Single should render 1`] = `
       Option Label 2
     </PickerOption>
     <PickerOption
+      aria-pressed={false}
       data-test="picker-option"
       key="3"
       onClick={[Function]}

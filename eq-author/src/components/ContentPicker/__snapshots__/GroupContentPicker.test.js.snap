@@ -20,10 +20,10 @@ exports[`GroupContentPicker should render full content picker 1`] = `
           },
         ]
       }
-      data-test="pages-picker"
+      data-test="QuestionPage-picker"
       disabled={false}
       hidden={false}
-      key="pages"
+      key="QuestionPage"
       onOptionClick={[Function]}
       onTitleClick={[Function]}
       open={false}
@@ -47,10 +47,10 @@ exports[`GroupContentPicker should render full content picker 1`] = `
           },
         ]
       }
-      data-test="sections-picker"
+      data-test="Section-picker"
       disabled={false}
       hidden={false}
-      key="sections"
+      key="Section"
       onOptionClick={[Function]}
       onTitleClick={[Function]}
       open={false}

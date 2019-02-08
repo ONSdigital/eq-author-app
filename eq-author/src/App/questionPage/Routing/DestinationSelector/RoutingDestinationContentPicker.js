@@ -60,7 +60,6 @@ export const UnwrappedRoutingDestinationContentPicker = ({
     data,
     "questionPage.availableRoutingDestinations"
   );
-
   return (
     <ContentPickerSelect
       name="routingDestination"
@@ -71,6 +70,7 @@ export const UnwrappedRoutingDestinationContentPicker = ({
         loading,
         destinationData
       )}
+      selectedObj={selected || undefined}
       {...otherProps}
     />
   );

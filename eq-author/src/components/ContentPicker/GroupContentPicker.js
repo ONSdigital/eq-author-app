@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import { isNil } from "lodash";
+import { isNil, findIndex, forEach } from "lodash";
 
 import ButtonGroup from "components/buttons/ButtonGroup";
 import Button from "components/buttons/Button";
@@ -21,6 +21,33 @@ const ActionButtons = styled(ButtonGroup)`
   flex: 0 0 auto;
 `;
 
+const generateDefaultState = (selectedObj, config) => {
+  if (!selectedObj) {
+    return {
+      openLevel: null,
+      selectedItem: null,
+    };
+  }
+  let openLevel;
+  let selectedItem;
+  forEach(selectedObj, value => {
+    if (value === null) {
+      return;
+    }
+    if (typeof value !== "object") {
+      openLevel = null;
+    } else {
+      openLevel = findIndex(config, ({ id }) => id === value.__typename);
+    }
+    selectedItem = value;
+    return false;
+  });
+  return {
+    openLevel,
+    selectedItem,
+  };
+};
+
 export default class GroupContentPicker extends React.Component {
   static propTypes = {
     onSubmit: PropTypes.func,
@@ -34,12 +61,20 @@ export default class GroupContentPicker extends React.Component {
         groupKey: PropTypes.string,
       })
     ).isRequired,
+    selectedObj: PropTypes.shape({
+      section: PropTypes.shape({
+        id: PropTypes.string,
+        displayName: PropTypes.string,
+      }),
+      page: PropTypes.shape({
+        id: PropTypes.string,
+        displayName: PropTypes.string,
+      }),
+      logical: PropTypes.string,
+    }),
   };
 
-  state = {
-    openLevel: null,
-    selectedItem: null,
-  };
+  state = generateDefaultState(this.props.selectedObj, this.props.config);
 
   handleTitleClick = level => {
     this.setState(state => {

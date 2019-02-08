@@ -199,6 +199,7 @@ export class UnwrappedBinaryExpressionEditor extends React.Component {
                 this.props.expression
               )}
               onSubmit={this.handleLeftSideChange}
+              selectedId={get("left.id", this.props.expression)}
             />
           </Column>
           <Column gutters={false} cols={1}>

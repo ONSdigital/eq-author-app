@@ -92,9 +92,10 @@ export class UnwrappedContentPickerSelect extends Component {
       metadataData,
       destinationData,
       contentTypes,
+      selectedId,
+      selectedObj,
       ...otherProps
     } = this.props;
-
     const isDisabled = loading || !isNil(error) || disabled;
     return (
       <React.Fragment>
@@ -116,6 +117,8 @@ export class UnwrappedContentPickerSelect extends Component {
           questionData={questionData}
           destinationData={destinationData}
           contentTypes={contentTypes}
+          selectedId={selectedId}
+          selectedObj={selectedObj}
         />
       </React.Fragment>
     );
@@ -129,6 +132,18 @@ UnwrappedContentPickerSelect.propTypes = {
   data: PropTypes.shape({
     questionnaire: CustomPropTypes.questionnaire,
   }),
+  selectedObj: PropTypes.shape({
+    section: PropTypes.shape({
+      id: PropTypes.string,
+      displayName: PropTypes.string,
+    }),
+    page: PropTypes.shape({
+      id: PropTypes.string,
+      displayName: PropTypes.string,
+    }),
+    logical: PropTypes.string,
+  }),
+  selectedId: PropTypes.string,
   onSubmit: PropTypes.func.isRequired,
   selectedContentDisplayName: PropTypes.string,
   name: PropTypes.string.isRequired,

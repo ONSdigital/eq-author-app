@@ -35,6 +35,7 @@ export class UnwrappedNumericValidation extends React.Component {
           this.props.validation.previousAnswer,
           "displayName"
         )}
+        selectedId={get(this.props.validation.previousAnswer, "id")}
         path={`answer.validation.${
           this.props.readKey
         }.availablePreviousAnswers`}
