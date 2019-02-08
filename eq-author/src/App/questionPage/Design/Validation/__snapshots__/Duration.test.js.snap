@@ -8,16 +8,13 @@ exports[`Duration should render 1`] = `
   <Column
     cols={2}
   >
-    <Number
-      data-test="number-input"
-      default={0}
+    <Duration__DurationNumber
       id="foobar-value"
       max={99999}
       min={0}
       name="foobar.value"
       onBlur={[MockFunction]}
       onChange={[MockFunction]}
-      step={1}
       value={3}
     />
   </Column>
