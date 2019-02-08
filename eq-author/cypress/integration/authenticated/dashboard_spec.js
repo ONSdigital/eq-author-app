@@ -64,16 +64,17 @@ describe("dashboard", () => {
     describe("deleting a questionnaire", () => {
       it("should delete the questionnaire", () => {
         cy.get(testId("btn-delete-questionnaire")).click();
+        cy.get(testId("btn-delete-modal")).click();
         cy.contains("You have no questionnaires").should("be.visible");
       });
 
       it("should display toast when questionnaire is deleted", () => {
         cy.get(testId("btn-delete-questionnaire")).click();
+        cy.get(testId("btn-delete-modal")).click();
         cy.contains("Questionnaire deleted").should("be.visible");
       });
     });
   });
-
   describe("empty state", () => {
     beforeEach(() => {
       cy.visitStubbed("/", {
