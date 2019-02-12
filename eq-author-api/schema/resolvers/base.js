@@ -24,6 +24,7 @@ const Resolvers = {
     me: (root, args, ctx) => ({
       id: ctx.auth.sub,
       ...pick(ctx.auth, ["name", "email", "picture"]),
+      name: ctx.auth.name || ctx.auth.email,
     }),
   },
 
@@ -31,7 +32,7 @@ const Resolvers = {
     createQuestionnaire: async (root, args, ctx) => {
       const questionnaire = await ctx.repositories.Questionnaire.insert({
         ...args.input,
-        createdBy: ctx.auth.name,
+        createdBy: ctx.auth.name || ctx.auth.email,
       });
       const section = {
         title: "",

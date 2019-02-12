@@ -3,7 +3,7 @@ const { graphql } = require("graphql");
 const auth = require("./mockAuthPayload");
 
 function executeQuery(query, args = {}, ctx = {}) {
-  return graphql(schema, query, {}, { ...ctx, auth }, args);
+  return graphql(schema, query, {}, { auth, ...ctx }, args);
 }
 
 module.exports = executeQuery;

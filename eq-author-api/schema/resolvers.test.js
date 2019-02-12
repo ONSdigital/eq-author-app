@@ -584,5 +584,136 @@ describe("resolvers", () => {
         },
       });
     });
+
+    it("should be possible to query user details without user name", () => {
+      const getUserDetails = `
+      query GetCurrentUser {
+        me {
+          id
+          name
+          email
+          picture
+        }
+      }
+      `;
+
+      const authWithoutName = {
+        sub: "mock_user_id",
+        email: "eq-team@ons.gov.uk",
+        picture: "file:///path/to/some/picture.jpg",
+      };
+
+      expect(
+        executeQuery(getUserDetails, {}, { auth: authWithoutName })
+      ).resolves.toEqual({
+        data: {
+          me: {
+            email: "eq-team@ons.gov.uk",
+            id: "mock_user_id",
+            name: "eq-team@ons.gov.uk",
+            picture: "file:///path/to/some/picture.jpg",
+          },
+        },
+      });
+    });
+
+    it("should be possible to query user details when name is empty string", () => {
+      const getUserDetails = `
+      query GetCurrentUser {
+        me {
+          id
+          name
+          email
+          picture
+        }
+      }
+      `;
+
+      const authWithoutName = {
+        sub: "mock_user_id",
+        name: "",
+        email: "eq-team@ons.gov.uk",
+        picture: "file:///path/to/some/picture.jpg",
+      };
+
+      expect(
+        executeQuery(getUserDetails, {}, { auth: authWithoutName })
+      ).resolves.toEqual({
+        data: {
+          me: {
+            email: "eq-team@ons.gov.uk",
+            id: "mock_user_id",
+            name: "eq-team@ons.gov.uk",
+            picture: "file:///path/to/some/picture.jpg",
+          },
+        },
+      });
+    });
+
+    it("should be possible to create questionnaire without user name", async () => {
+      const input = {
+        title: "Test Questionnaire",
+        description: "Questionnaire created by integration test.",
+        theme: "default",
+        legalBasis: "Voluntary",
+        navigation: false,
+        surveyId: "001",
+        summary: true,
+      };
+
+      const authWithoutName = {
+        sub: "mock_user_id",
+        name: "",
+        email: "eq-team@ons.gov.uk",
+        picture: "file:///path/to/some/picture.jpg",
+      };
+
+      const result = await executeQuery(
+        createQuestionnaireMutation,
+        { input },
+        { ...ctx, auth: authWithoutName }
+      );
+
+      expect(result).toMatchObject({
+        data: {
+          createQuestionnaire: {
+            createdBy: { name: "eq-team@ons.gov.uk" },
+          },
+        },
+      });
+    });
+
+    it("should be possible to create questionnaire when name is empty string", async () => {
+      const input = {
+        title: "Test Questionnaire",
+        description: "Questionnaire created by integration test.",
+        theme: "default",
+        legalBasis: "Voluntary",
+        navigation: false,
+        surveyId: "001",
+        summary: true,
+      };
+
+      const authWithoutName = {
+        sub: "mock_user_id",
+        name: "",
+        email: "eq-team@ons.gov.uk",
+        picture: "file:///path/to/some/picture.jpg",
+      };
+
+      const result = await executeQuery(
+        createQuestionnaireMutation,
+        { input },
+        { ...ctx, auth: authWithoutName }
+      );
+
+      expect(result).toMatchObject({
+        data: {
+          createQuestionnaire: {
+            createdBy: { name: "eq-team@ons.gov.uk" },
+          },
+        },
+      });
+    });
   });
 });

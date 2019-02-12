@@ -6,6 +6,9 @@ const createQuestionnaireMutation = `mutation CreateQuestionnaire($input: Create
       navigation
       legalBasis
       theme
+      createdBy {
+        name
+      }
       sections {
         id
         pages {
