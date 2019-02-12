@@ -13,6 +13,16 @@ const {
   duplicateQuestionnaireMutation,
 } = require("./duplicateQuestionnaire");
 
+const {
+  updateQuestionnaire,
+  updateQuestionnaireMutation,
+} = require("./updateQuestionnaire");
+
+const {
+  queryQuestionnaire,
+  queryQuestionnaireMutation,
+} = require("./queryQuestionnaire");
+
 module.exports = {
   createQuestionnaire,
   createQuestionnaireMutation,
@@ -20,4 +30,8 @@ module.exports = {
   deleteQuestionnaireMutation,
   duplicateQuestionnaire,
   duplicateQuestionnaireMutation,
+  updateQuestionnaire,
+  updateQuestionnaireMutation,
+  queryQuestionnaire,
+  queryQuestionnaireMutation,
 };

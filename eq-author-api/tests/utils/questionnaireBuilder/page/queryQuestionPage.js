@@ -4,10 +4,44 @@ const getQuestionPageQuery = `
   query GetQuestionPage($input: QueryInput!) {
     page(input: $input) {
       id
-      title
-      position
-      pages {
-        id
+      ... on QuestionPage {
+        title
+        alias
+        displayName
+        description
+        guidance
+        pageType
+        answers {
+          id
+        }
+        section {
+          id
+        }
+        position
+        definitionLabel
+        definitionContent
+        additionalInfoLabel
+        additionalInfoContent
+        availablePipingAnswers {
+          id
+        }
+        availablePipingMetadata {
+          id
+        }
+        availableRoutingAnswers {
+          id
+        }
+        availableRoutingDestinations {
+          logicalDestinations {
+            id
+          }
+        }
+        confirmation {
+          id
+        }
+        routing {
+          id
+        }
       }
     }
   }
@@ -27,5 +61,5 @@ const queryQuestionPage = async (questionnaire, pageId) => {
 
 module.exports = {
   getQuestionPageQuery,
-  queryQuestionPage: queryQuestionPage,
+  queryQuestionPage,
 };

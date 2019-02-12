@@ -420,7 +420,7 @@ type BinaryExpression2 {
 
 type Query {
   questionnaires: [Questionnaire]
-  questionnaire(input: QueryInput!): Questionnaire
+  questionnaire: Questionnaire
   section(input: QueryInput!): Section
   page(input: QueryInput!): Page
   questionPage(input: QueryInput!): QuestionPage

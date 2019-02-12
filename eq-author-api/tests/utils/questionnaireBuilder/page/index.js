@@ -9,6 +9,11 @@ const {
 } = require("./createQuestionPage");
 
 const {
+  updateQuestionPage,
+  updateQuestionPageMutation,
+} = require("./updateQuestionPage");
+
+const {
   deleteQuestionPage,
   deleteQuestionPageMutation,
 } = require("./deleteQuestionPage");
@@ -20,6 +25,8 @@ module.exports = {
   queryQuestionPageMutation,
   createQuestionPage,
   createQuestionPageMutation,
+  updateQuestionPage,
+  updateQuestionPageMutation,
   deleteQuestionPage,
   deleteQuestionPageMutation,
   duplicatePage,

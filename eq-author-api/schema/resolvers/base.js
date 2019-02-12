@@ -18,6 +18,7 @@ const {
   some,
   concat,
   takeRightWhile,
+  kebabCase,
 } = require("lodash");
 const GraphQLJSON = require("graphql-type-json");
 const { getName } = require("../../utils/getName");
@@ -648,10 +649,12 @@ const Resolvers = {
 
   Questionnaire: {
     sections: questionnaire => questionnaire.sections,
-    createdBy: questionnaire => ({
-      id: questionnaire.createdBy, // Temporary until next PR introduces users table.
-      name: questionnaire.createdBy,
-    }),
+    createdBy: ({ createdBy }) => {
+      return {
+        id: kebabCase(createdBy), // Temporary until next PR introduces users table.
+        name: createdBy,
+      };
+    },
     createdAt: questionnaire => new Date(questionnaire.createdAt),
     questionnaireInfo: questionnaire => questionnaire,
     metadata: questionnaire => questionnaire.metadata,

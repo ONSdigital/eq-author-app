@@ -1,33 +1,39 @@
 const executeQuery = require("../../executeQuery");
+const { filter } = require("graphql-anywhere");
+const gql = require("graphql-tag");
 
 const createQuestionPageMutation = `
   mutation CreateQuestionPage($input: CreateQuestionPageInput!) {
     createQuestionPage(input: $input) {
       id
+      alias
       title
-      position
+      description
       guidance
-      answers {
-        id
-        label 
-      }
-      confirmation {
-        id
-        title
-      }
+      definitionLabel
+      definitionContent
+      additionalInfoLabel
+      additionalInfoContent
     }
   }
 `;
 
-const createQuestionPage = async (questionnaire, sectionId) => {
-  const input = {
-    title: "Test QuestionPage",
-    sectionId,
-  };
-
+const createQuestionPage = async (questionnaire, input) => {
   const result = await executeQuery(
     createQuestionPageMutation,
-    { input },
+    {
+      input: filter(
+        gql`
+          {
+            title
+            description
+            sectionId
+            position
+          }
+        `,
+        input
+      ),
+    },
     questionnaire
   );
   return result.data.createQuestionPage;

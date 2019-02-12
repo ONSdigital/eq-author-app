@@ -6,38 +6,32 @@ const createQuestionnaireMutation = `
       id
       title
       description
-      navigation
-      legalBasis
       theme
-      metadata {
+      legalBasis
+      navigation
+      surveyId
+      createdAt
+      createdBy {
         id
       }
       sections {
         id
         pages {
           id
-          ... on QuestionPage {
-            answers {
-              id
-            }
-          }
         }
+      }
+      summary
+      questionnaireInfo {
+        totalSectionCount
+      }
+      metadata {
+        id
       }
     }
   }
 `;
 
-const createQuestionnaire = async () => {
-  const input = {
-    title: "Test Questionnaire",
-    description: "Questionnaire created by integration test.",
-    theme: "default",
-    legalBasis: "Voluntary",
-    navigation: false,
-    surveyId: "001",
-    summary: true,
-  };
-
+const createQuestionnaire = async input => {
   const result = await executeQuery(createQuestionnaireMutation, { input }, {});
   return result.data.createQuestionnaire;
 };

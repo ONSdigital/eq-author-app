@@ -1,15 +1,17 @@
 const executeQuery = require("../../executeQuery");
 
-const getSectionQuery = `
-  query GetSection($input: QueryInput!) {
-    section(input: $input) {
-      id
+const updateSectionMutation = `
+  mutation UpdateSection($input: UpdateSectionInput!) {
+    updateSection(input: $input) {
+     id
       title
       alias
       displayName
       position
       pages {
-        id
+        ... on QuestionPage {
+          id
+        }
       }
       questionnaire {
         id
@@ -27,19 +29,16 @@ const getSectionQuery = `
   }
 `;
 
-const querySection = async (questionnaire, sectionId) => {
+const updateSection = async (questionnaire, input) => {
   const result = await executeQuery(
-    getSectionQuery,
-    {
-      input: { sectionId },
-    },
+    updateSectionMutation,
+    { input },
     questionnaire
   );
-
-  return result.data.section;
+  return result.data.updateSection;
 };
 
 module.exports = {
-  getSectionQuery,
-  querySection,
+  updateSectionMutation,
+  updateSection,
 };

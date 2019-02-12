@@ -8,11 +8,7 @@ const createMetadataMutation = `
   }
 `;
 
-const createMetadata = async questionnaire => {
-  const input = {
-    questionnaireId: questionnaire.id,
-  };
-
+const createMetadata = async (questionnaire, input) => {
   const result = await executeQuery(
     createMetadataMutation,
     { input },

@@ -17,7 +17,7 @@ const {
   duplicatePage,
 } = require("../../tests/utils/questionnaireBuilder/page");
 
-describe("Duplication", () => {
+describe("duplication", () => {
   let questionnaire;
 
   beforeEach(async () => {

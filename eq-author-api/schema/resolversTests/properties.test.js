@@ -11,7 +11,7 @@ const {
   updateAnswer,
 } = require("../../tests/utils/questionnaireBuilder/answer");
 
-describe("resolvers", () => {
+describe("properties", () => {
   let questionnaire;
   let sections;
   let pages;

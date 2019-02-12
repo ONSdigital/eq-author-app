@@ -2,6 +2,8 @@ const { querySection, querySectionMutation } = require("./querySection");
 
 const { createSection, createSectionMutation } = require("./createSection");
 
+const { updateSection, updateSectionMutation } = require("./updateSection");
+
 const { deleteSection, deleteSectionMutation } = require("./deleteSection");
 
 const {
@@ -14,6 +16,8 @@ module.exports = {
   querySectionMutation,
   createSection,
   createSectionMutation,
+  updateSection,
+  updateSectionMutation,
   deleteSection,
   deleteSectionMutation,
   duplicateSection,
