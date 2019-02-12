@@ -1,17 +1,13 @@
 #!/bin/bash
 set -e
 
-POSTGRES_USER=postgres
-POSTGRES_PASSWORD=mysecretpassword
-POSTGRES_DB=postgres
+echo "starting Dynamo docker..."
 
-echo "starting postgres docker..."
+CONTAINER_ID=$(docker run -tid -P amazon/dynamodb-local)
+DYNAMO_HOST=$(docker port $CONTAINER_ID 8000)
+DYNAMO_PORT=$(echo $DYNAMO_HOST | awk -F: '{print $NF}')
 
-CONTAINER_ID=$(docker run -tid -P -e POSTGRES_USER=$POSTGRES_USER -e POSTGRES_PASSWORD=$POSTGRES_PASSWORD -e POSTGRES_DB=$POSTGRES_DB postgres:9.4-alpine)
-POSTGRES_HOST=$(docker port $CONTAINER_ID 5432)
-POSTGRES_PORT=$(echo $POSTGRES_HOST | awk -F: '{print $NF}')
-
-echo "docker started at: $POSTGRES_HOST"
+echo "docker started at: $DYNAMO_HOST"
 
 function finish {
   echo "killing docker..."
@@ -19,11 +15,10 @@ function finish {
 }
 trap finish EXIT
 
-echo "waiting on postgres to start..."
+echo "waiting on Dynamo to start..."
 
-./node_modules/.bin/wait-for-postgres --quiet --port $POSTGRES_PORT --password $POSTGRES_PASSWORD
+./node_modules/.bin/wait-on http://$DYNAMO_HOST/shell
 
 echo "running tests..."
 
-# --runInBand is required to run the tests in parallel, as all tests use the same database
-DB_CONNECTION_URI="postgres://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST/postgres" SILENCE_LOGS=true yarn jest --runInBand --detectOpenHandles --forceExit "$@"
+SILENCE_LOGS=true yarn jest --runInBand --detectOpenHandles --forceExit "$@"

@@ -39,7 +39,7 @@
     "pg": "latest",
     "pg-hstore": "latest",
     "uuid": "latest",
-    "wait-for-postgres": "latest"
+    "wait-on": "latest"
   },
   "engines": {
     "node": ">=7.10.0"
