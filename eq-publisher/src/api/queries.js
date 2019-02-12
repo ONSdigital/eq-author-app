@@ -155,7 +155,12 @@ exports.getQuestionnaire = `
   fragment metadataFragment on Metadata {
     id
     key
+    alias
     type
+    dateValue
+    regionValue
+    languageValue
+    textValue
   }
 
   query GetQuestionnaire($questionnaireId: ID!) {
@@ -173,6 +178,7 @@ exports.getQuestionnaire = `
       }
       sections {
         id
+        alias
         title
         introduction {
           introductionTitle
@@ -181,6 +187,7 @@ exports.getQuestionnaire = `
         pages {
           ... on QuestionPage {
             id
+            alias
             title
             description
             guidance
@@ -190,11 +197,15 @@ exports.getQuestionnaire = `
             additionalInfoContent
             pageType
             routing {
+              id
               rules {
+                id
                 expressionGroup {
+                  id
                   operator
                   expressions {
                     ... on BinaryExpression2 {
+                      id
                       left {
                         ... on BasicAnswer {
                           id
