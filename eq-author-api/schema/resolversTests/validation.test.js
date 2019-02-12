@@ -21,7 +21,7 @@ const {
 
 const { DATE, DATE_RANGE } = require("../../constants/answerTypes");
 
-describe("resolvers", () => {
+describe("validation", () => {
   let questionnaire;
   let sections;
   let pages;

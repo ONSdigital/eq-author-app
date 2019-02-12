@@ -36,13 +36,12 @@ const deleteQuestionnaire = async id => {
     `data/QuestionnaireList.json`,
     stringify(reject(originalList, { id }))
   );
+
+  await fs.unlink(`data/${id}.json`);
 };
 
 const getQuestionnaire = async id => {
-  const questionnaire = JSON.parse(
-    await fs.readFile(`data/${id}.json`, "utf8")
-  );
-  return Promise.resolve(questionnaire);
+  return JSON.parse(await fs.readFile(`data/${id}.json`, "utf8"));
 };
 
 const listQuestionnaires = async () => {

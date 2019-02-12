@@ -1,10 +1,12 @@
 const { GraphQLDate } = require("graphql-iso-date");
 const {
+  compact,
   includes,
   isNil,
   pick,
   find,
   filter,
+  flatten,
   findIndex,
   map,
   merge,
@@ -18,6 +20,7 @@ const {
   some,
   concat,
   takeRightWhile,
+  kebabCase,
 } = require("lodash");
 const GraphQLJSON = require("graphql-type-json");
 const { getName } = require("../../utils/getName");
@@ -344,7 +347,8 @@ const Resolvers = {
 
     createQuestionPage: async (root, { input }, ctx) => {
       const section = find(ctx.questionnaire.sections, { id: input.sectionId });
-      const page = createPage();
+      const page = createPage(input);
+
       section.pages.push(page);
       await saveQuestionnaire(ctx.questionnaire);
       return page;
@@ -355,11 +359,13 @@ const Resolvers = {
       saveQuestionnaire(ctx.questionnaire);
       return page;
     },
-    deleteQuestionPage: async (_, { input }, ctx) => {
-      const section = find(ctx.questionnaire.sections, { id: input.sectionId });
-      const page = find(section.pages, { id: input.pageId });
-      const removedPage = remove(section.pages, { id: page.pageId });
-      await saveQuestionnaire(ctx.questionnaire);
+    deleteQuestionPage: (_, { input }, ctx) => {
+      const removedPage = flatten(
+        ctx.questionnaire.sections.map(section =>
+          remove(section.pages, { id: input.id })
+        )
+      );
+      saveQuestionnaire(ctx.questionnaire);
       return removedPage[0];
     },
 
@@ -378,11 +384,15 @@ const Resolvers = {
         ctx.questionnaire.sections,
         section => section.pages
       );
-      const answers = flatMap(pages, page => page.answers);
+      const answers = compact(
+        flatMap(pages, page => (page.answers ? page.answers : null))
+      );
 
-      const additionalAnswers = flatMap(answers, answer => {
-        return flatMap(answer.options, option => option.additionalAnswer);
-      });
+      const additionalAnswers = flatMap(answers, answer =>
+        answer.options
+          ? flatMap(answer.options, option => option.additionalAnswer)
+          : null
+      );
 
       const answer = find(concat(answers, additionalAnswers), { id: input.id });
       merge(answer, input);
@@ -453,7 +463,7 @@ const Resolvers = {
         ctx.questionnaire.sections,
         section => section.pages
       );
-      const answers = flatMap(pages, page => page.answers);
+      const answers = compact(flatMap(pages, page => page.answers));
       const options = flatMap(answers, answer => answer.options);
       const option = find(options, { id: input.id });
 
@@ -626,10 +636,12 @@ const Resolvers = {
 
   Questionnaire: {
     sections: questionnaire => questionnaire.sections,
-    createdBy: questionnaire => ({
-      id: questionnaire.createdBy, // Temporary until next PR introduces users table.
-      name: questionnaire.createdBy,
-    }),
+    createdBy: ({ createdBy }) => {
+      return {
+        id: kebabCase(createdBy), // Temporary until next PR introduces users table.
+        name: createdBy,
+      };
+    },
     createdAt: questionnaire => new Date(questionnaire.createdAt),
     questionnaireInfo: questionnaire => questionnaire,
     metadata: questionnaire => questionnaire.metadata,

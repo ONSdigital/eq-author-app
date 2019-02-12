@@ -23,7 +23,16 @@ echo "waiting on postgres to start..."
 
 ./node_modules/.bin/wait-for-postgres --quiet --port $POSTGRES_PORT --password $POSTGRES_PASSWORD
 
+if [ ! -f "data/QuestionnaireList.json" ]; then
+    if [ ! -d "data" ]; then
+        echo "creating file system folder..."
+        mkdir "data";
+    fi
+    echo "creating QuestionnaireList.json";
+    echo "[]" > "data/QuestionnaireList.json";
+fi
+
 echo "running tests..."
 
 # --runInBand is required to run the tests in parallel, as all tests use the same database
-DB_CONNECTION_URI="postgres://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST/postgres" SILENCE_LOGS=true yarn jest --runInBand --detectOpenHandles --forceExit "$@"
+DB_CONNECTION_URI="postgres://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST/postgres" SILENCE_LOGS=true DATASTORE=filesystem yarn jest --runInBand --detectOpenHandles --forceExit "$@"
