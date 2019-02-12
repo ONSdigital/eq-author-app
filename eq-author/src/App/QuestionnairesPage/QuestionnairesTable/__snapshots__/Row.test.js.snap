@@ -3,7 +3,7 @@
 exports[`Row should render 1`] = `
 <Fragment>
   <DeleteConfirmDialog
-    alertText="This questionnaire including all sections and questions be deleted."
+    alertText="This questionnaire including all sections and questions will be deleted."
     data-test="delete-questionnaire"
     icon="icon-questionnaire.svg"
     isOpen={false}
@@ -99,7 +99,7 @@ exports[`Row should render 1`] = `
 exports[`Row should render as disabled when the id is a duplicate 1`] = `
 <Fragment>
   <DeleteConfirmDialog
-    alertText="This questionnaire including all sections and questions be deleted."
+    alertText="This questionnaire including all sections and questions will be deleted."
     data-test="delete-questionnaire"
     icon="icon-questionnaire.svg"
     isOpen={false}
