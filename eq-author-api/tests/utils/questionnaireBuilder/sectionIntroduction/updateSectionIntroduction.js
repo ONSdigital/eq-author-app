@@ -2,9 +2,9 @@ const executeQuery = require("../../executeQuery");
 const { filter } = require("graphql-anywhere");
 const gql = require("graphql-tag");
 
-const createSectionIntroductionMutation = `
-  mutation CreateSectionIntroduction($input: CreateSectionIntroductionInput!) {
-    createSectionIntroduction(input: $input) {
+const updateSectionIntroductionMutation = `
+  mutation UpdateSectionIntroduction($input: UpdateSectionIntroductionInput!) {
+    updateSectionIntroduction(input: $input) {
       id
       introductionTitle
       introductionContent
@@ -12,9 +12,9 @@ const createSectionIntroductionMutation = `
   }
 `;
 
-const createSectionIntroduction = async (questionnaire, input) => {
+const updateSectionIntroduction = async (questionnaire, input) => {
   const result = await executeQuery(
-    createSectionIntroductionMutation,
+    updateSectionIntroductionMutation,
     {
       input: filter(
         gql`
@@ -29,10 +29,10 @@ const createSectionIntroduction = async (questionnaire, input) => {
     },
     questionnaire
   );
-  return result.data.createSectionIntroduction;
+  return result.data.updateSectionIntroduction;
 };
 
 module.exports = {
-  createSectionIntroductionMutation,
-  createSectionIntroduction,
+  updateSectionIntroductionMutation,
+  updateSectionIntroduction,
 };
