@@ -127,7 +127,7 @@ class Row extends React.Component {
           onClose={this.handleCloseDeleteQuestionnaireDialog}
           onDelete={this.handleDeleteQuestionnaire}
           title={questionnaire.title}
-          alertText="This questionnaire including all sections and questions be deleted."
+          alertText="This questionnaire including all sections and questions will be deleted."
           icon={questionConfirmationIcon}
           data-test="delete-questionnaire"
         />
