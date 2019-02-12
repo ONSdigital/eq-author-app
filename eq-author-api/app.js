@@ -1,5 +1,5 @@
 const express = require("express");
-const { graphqlExpress } = require("graphql-server-express");
+const { ApolloServer } = require("apollo-server-express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const pinoMiddleware = require("express-pino-logger");
@@ -9,9 +9,7 @@ const { PORT } = require("./settings");
 const status = require("./middleware/status");
 const { getLaunchUrl } = require("./middleware/launch");
 const createAuthMiddleware = require("./middleware/auth");
-const createLoadQuestionnaireMiddleware = require("./middleware/loadQuestionnaire");
-const repositories = require("./repositories");
-const modifiers = require("./modifiers");
+const loadQuestionnaire = require("./middleware/loadQuestionnaire");
 const schema = require("./schema");
 
 const noir = require("pino-noir");
@@ -30,16 +28,6 @@ db(process.env.DB_SECRET_ID)
     logger.info("Running Migrate");
     await knex.migrate.latest();
     logger.info("Ran Migrate");
-
-    const repos = repositories(knex);
-    const context = { repositories: repos, modifiers: modifiers(repos) };
-
-    const loadQuestionnaire = createLoadQuestionnaireMiddleware(
-      logger,
-      context
-    );
-
-    const authMiddleware = createAuthMiddleware(logger, context);
 
     app.use(
       "/graphql",
@@ -65,14 +53,17 @@ db(process.env.DB_SECRET_ID)
       }),
       pino,
       cors(),
-      authMiddleware,
-      loadQuestionnaire,
-      bodyParser.json(),
-      graphqlExpress({
-        schema,
-        context,
-      })
+      createAuthMiddleware(logger),
+      loadQuestionnaire
     );
+
+    const server = new ApolloServer({
+      ...schema,
+      context: ({ req }) => {
+        return { questionnaire: req.questionnaire, auth: req.auth };
+      },
+    });
+    server.applyMiddleware({ app });
 
     app.get("/status", status);
 
@@ -80,16 +71,6 @@ db(process.env.DB_SECRET_ID)
     if (process.env.NODE_ENV === "development") {
       const importAction = require("./middleware/import");
       app.post("/import", bodyParser.json({ limit: "50mb" }), importAction);
-    }
-
-    if (process.env.NODE_ENV === "development") {
-      const { graphiqlExpress } = require("graphql-server-express");
-      app.use(
-        "/graphiql",
-        pino,
-        cors(),
-        graphiqlExpress({ endpointURL: "/graphql" })
-      );
     }
 
     app.listen(PORT, "0.0.0.0", () => {
