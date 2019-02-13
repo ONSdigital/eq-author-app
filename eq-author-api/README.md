@@ -30,17 +30,18 @@ In most cases sensible defaults have been selected.
 
 ## Environment Variables
 
-| Name                    | Description                                                                        | Required |
-| ----------------------- | ---------------------------------------------------------------------------------- | -------- |
-| `RUNNER_SESSION_URL`    | Authentication URL for survey runner                                               | Yes      |
-| `PUBLISHER_URL`         | URL that produces valid survey runner JSON                                         | Yes      |
-| `DB_CONNECTION_URI`     | Connection string for database                                                     | Yes      |
-| `SECRETS_S3_BUCKET`     | Name of S3 bucket where secrets are stored                                         | No       |
-| `KEYS_FILE`             | Name of the keys file to use inside the bucket                                     | No       |
-| `AUTH_HEADER_KEY`       | Name of the header values that contains the Auth token                             | No       |
-| `EQ_AUTHOR_API_VERSION` | The current Author API version. This is what gets reported on the /status endpoint | No       |
-| `PORT`                  | The port which express listens on (defaults to `4000`)                             | No       |
-| `NODE_ENV`              | Sets the environment the code is running in                                        | No       |
+| Name                    | Description                                                                                                                                          | Required |
+| ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| `RUNNER_SESSION_URL`    | Authentication URL for survey runner                                                                                                                 | Yes      |
+| `PUBLISHER_URL`         | URL that produces valid survey runner JSON                                                                                                           | Yes      |
+| `DB_CONNECTION_URI`     | Connection string for database                                                                                                                       | Yes      |
+| `SECRETS_S3_BUCKET`     | Name of S3 bucket where secrets are stored                                                                                                           | No       |
+| `KEYS_FILE`             | Name of the keys file to use inside the bucket                                                                                                       | No       |
+| `AUTH_HEADER_KEY`       | Name of the header values that contains the Auth token                                                                                               | No       |
+| `EQ_AUTHOR_API_VERSION` | The current Author API version. This is what gets reported on the /status endpoint                                                                   | No       |
+| `PORT`                  | The port which express listens on (defaults to `4000`)                                                                                               | No       |
+| `NODE_ENV`              | Sets the environment the code is running in                                                                                                          | No       |
+| `DATASTORE`             | Sets place we store the data, allows us to have the data stored locally in JSON files which makes debugging easier (for this set it to `filesystem`) | No       |
 
 ## Run using Docker
 
