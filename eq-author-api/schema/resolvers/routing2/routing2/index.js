@@ -7,7 +7,7 @@ const isMutuallyExclusiveDestination = isMutuallyExclusive([
 ]);
 
 const { flatMap, find, first } = require("lodash/fp");
-const { save } = require("../../../../utils/datastore");
+const { saveQuestionnaire } = require("../../../../utils/datastore");
 const {
   createRouting,
   createDestination,
@@ -85,7 +85,7 @@ Resolvers.Mutation = {
         }),
       ],
     });
-    save(ctx.questionnaire);
+    await saveQuestionnaire(ctx.questionnaire);
     return page.routing;
   },
   updateRouting2: async (root, { input }, ctx) => {
@@ -104,7 +104,7 @@ Resolvers.Mutation = {
       id: routing.else.id,
       ...input.else,
     };
-    save(ctx.questionnaire);
+    await saveQuestionnaire(ctx.questionnaire);
     return routing;
   },
 };
