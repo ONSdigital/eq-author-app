@@ -6,7 +6,6 @@ fragment RoutingEditor on Routing2 {
     ...RuleEditor
   }
   else {
-    id
     logical
     page {
       id

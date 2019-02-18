@@ -193,6 +193,22 @@ describe("Content Picker", () => {
       wrapper.find(PAGE_PICKER_SELECTOR).simulate("titleClick");
       expect(wrapper.find(PAGE_PICKER_SELECTOR).prop("open")).toBe(true);
     });
+
+    it("should begin with a selected value if a selectedId is passed in", () => {
+      const wrapper = createWrapper({
+        data: generateMockPiping(),
+        selectedId: "Answer 96",
+      });
+      expect(wrapper.find(SECTION_PICKER_SELECTOR).prop("open")).toBe(false);
+      expect(wrapper.find(PAGE_PICKER_SELECTOR).prop("open")).toBe(false);
+      expect(wrapper.find(ANSWER_PICKER_SELECTOR).prop("open")).toBe(true);
+      expect(wrapper.state("selectedItems")).toContainEqual({
+        __typename: "BasicAnswer",
+        displayName: "Answer 96",
+        id: "Answer 96",
+        type: "Currency",
+      });
+    });
   });
 
   describe("contentPicker data management", () => {

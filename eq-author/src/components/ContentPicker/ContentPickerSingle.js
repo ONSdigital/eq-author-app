@@ -58,6 +58,7 @@ const ContentPickerSingle = ({
               onClick={() => onOptionClick(option)}
               disabled={childKey && (option[childKey] || []).length === 0}
               data-test="picker-option"
+              aria-pressed={selectedOption === option.id}
             >
               {option.displayName}
             </PickerOption>

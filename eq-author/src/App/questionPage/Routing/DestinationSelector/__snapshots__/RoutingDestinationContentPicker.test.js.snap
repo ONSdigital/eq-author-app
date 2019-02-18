@@ -17,6 +17,11 @@ exports[`RoutingDestinationContentPicker displayName should correctly render log
   name="routingDestination"
   onSubmit={[MockFunction]}
   selectedContentDisplayName="End of questionnaire"
+  selectedObj={
+    Object {
+      "logical": "EndOfQuestionnaire",
+    }
+  }
 />
 `;
 
@@ -37,6 +42,14 @@ exports[`RoutingDestinationContentPicker displayName should correctly render pag
   name="routingDestination"
   onSubmit={[MockFunction]}
   selectedContentDisplayName="page name"
+  selectedObj={
+    Object {
+      "page": Object {
+        "displayName": "page name",
+        "id": "1",
+      },
+    }
+  }
 />
 `;
 
@@ -57,6 +70,14 @@ exports[`RoutingDestinationContentPicker displayName should correctly render sec
   name="routingDestination"
   onSubmit={[MockFunction]}
   selectedContentDisplayName="section name"
+  selectedObj={
+    Object {
+      "section": Object {
+        "displayName": "section name",
+        "id": "1",
+      },
+    }
+  }
 />
 `;
 
@@ -82,6 +103,11 @@ exports[`RoutingDestinationContentPicker displayName should render first page di
   name="routingDestination"
   onSubmit={[MockFunction]}
   selectedContentDisplayName="page name"
+  selectedObj={
+    Object {
+      "logical": "NextPage",
+    }
+  }
 />
 `;
 
@@ -107,6 +133,11 @@ exports[`RoutingDestinationContentPicker displayName should render first page di
   name="routingDestination"
   onSubmit={[MockFunction]}
   selectedContentDisplayName="section name"
+  selectedObj={
+    Object {
+      "logical": "NextPage",
+    }
+  }
 />
 `;
 
@@ -127,6 +158,11 @@ exports[`RoutingDestinationContentPicker displayName should render with no displ
   name="routingDestination"
   onSubmit={[MockFunction]}
   selectedContentDisplayName=""
+  selectedObj={
+    Object {
+      "logical": "NextPage",
+    }
+  }
 />
 `;
 
@@ -147,5 +183,10 @@ exports[`RoutingDestinationContentPicker should render 1`] = `
   name="routingDestination"
   onSubmit={[MockFunction]}
   selectedContentDisplayName="End of questionnaire"
+  selectedObj={
+    Object {
+      "logical": "NextPage",
+    }
+  }
 />
 `;

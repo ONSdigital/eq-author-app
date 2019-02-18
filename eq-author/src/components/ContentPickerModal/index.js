@@ -134,6 +134,18 @@ class ContentPickerModal extends React.Component {
         id: PropTypes.string.isRequired,
       })
     ),
+    selectedObj: PropTypes.shape({
+      section: PropTypes.shape({
+        id: PropTypes.string,
+        displayName: PropTypes.string,
+      }),
+      page: PropTypes.shape({
+        id: PropTypes.string,
+        displayName: PropTypes.string,
+      }),
+      logical: PropTypes.string,
+    }),
+    selectedId: PropTypes.string,
     destinationData: PropTypes.shape({
       logicalDestinations: PropTypes.arrayOf(propType(LogicalDestination)),
       questionPages: PropTypes.arrayOf(propType(QuestionPageDestination)),
@@ -193,6 +205,7 @@ class ContentPickerModal extends React.Component {
             data={this.props.answerData}
             onSubmit={this.handleAnswerSubmit}
             onClose={this.props.onClose}
+            selectedId={this.props.selectedId}
           />
         </React.Fragment>
       );
@@ -264,6 +277,7 @@ class ContentPickerModal extends React.Component {
             data={this.props.destinationData}
             onSubmit={this.props.onSubmit}
             onClose={this.props.onClose}
+            selectedObj={this.props.selectedObj}
           />
         </React.Fragment>
       );

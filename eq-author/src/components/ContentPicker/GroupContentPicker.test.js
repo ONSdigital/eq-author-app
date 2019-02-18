@@ -4,8 +4,8 @@ import ContentPickerButton from "components/ContentPicker/ContentPickerButton";
 import GroupContentPicker from "components/ContentPicker/GroupContentPicker";
 import { byTestAttr } from "tests/utils/selectors";
 
-const PAGES_PICKER = byTestAttr("pages-picker");
-const SECTIONS_PICKER = byTestAttr("sections-picker");
+const QUESTIONPAGE_PICKER = byTestAttr("QuestionPage-picker");
+const SECTION_PICKER = byTestAttr("Section-picker");
 const END_OF_Q_PICKER = byTestAttr("endOfQuestionnaire-picker");
 
 const data = {
@@ -51,13 +51,13 @@ const data = {
 
 const config = [
   {
-    id: "pages",
+    id: "QuestionPage",
     title: "Other pages in this section",
     groupKey: "questionPages",
     expandable: true,
   },
   {
-    id: "sections",
+    id: "Section",
     title: "Other sections",
     groupKey: "sections",
     expandable: true,
@@ -104,22 +104,68 @@ describe("GroupContentPicker", () => {
       },
     });
 
-    expect(wrapper.find(PAGES_PICKER).prop("disabled")).toBe(true);
+    expect(wrapper.find(QUESTIONPAGE_PICKER).prop("disabled")).toBe(true);
     expect(wrapper.find(END_OF_Q_PICKER).prop("disabled")).toBe(true);
   });
 
   it("should hide pickers below open picker", () => {
     const wrapper = createWrapper();
 
-    wrapper.find(PAGES_PICKER).simulate("titleClick");
-    expect(wrapper.find(PAGES_PICKER).prop("hidden")).toBe(false);
-    expect(wrapper.find(SECTIONS_PICKER).prop("hidden")).toBe(true);
+    wrapper.find(QUESTIONPAGE_PICKER).simulate("titleClick");
+    expect(wrapper.find(QUESTIONPAGE_PICKER).prop("hidden")).toBe(false);
+    expect(wrapper.find(SECTION_PICKER).prop("hidden")).toBe(true);
     expect(wrapper.find(END_OF_Q_PICKER).prop("hidden")).toBe(true);
 
-    wrapper.find(SECTIONS_PICKER).simulate("titleClick");
-    expect(wrapper.find(PAGES_PICKER).prop("hidden")).toBe(false);
-    expect(wrapper.find(SECTIONS_PICKER).prop("hidden")).toBe(false);
+    wrapper.find(SECTION_PICKER).simulate("titleClick");
+    expect(wrapper.find(QUESTIONPAGE_PICKER).prop("hidden")).toBe(false);
+    expect(wrapper.find(SECTION_PICKER).prop("hidden")).toBe(false);
     expect(wrapper.find(END_OF_Q_PICKER).prop("hidden")).toBe(true);
+  });
+
+  it("should start open if section preselected", () => {
+    const wrapper = createWrapper({
+      selectedObj: {
+        page: null,
+        section: {
+          id: "1",
+          displayName: "Section 1",
+          __typename: "Section",
+        },
+        logical: null,
+      },
+    });
+
+    expect(wrapper.find(QUESTIONPAGE_PICKER).prop("hidden")).toBe(false);
+    expect(wrapper.find(SECTION_PICKER).prop("hidden")).toBe(false);
+    expect(wrapper.find(END_OF_Q_PICKER).prop("hidden")).toBe(true);
+
+    expect(wrapper.state("selectedItem")).toMatchObject({
+      displayName: "Section 1",
+      id: "1",
+    });
+  });
+
+  it("should start open if page preselected", () => {
+    const wrapper = createWrapper({
+      selectedObj: {
+        page: {
+          id: "1",
+          displayName: "Page 1",
+          __typename: "QuestionPage",
+        },
+        section: null,
+        logical: null,
+      },
+    });
+
+    expect(wrapper.find(QUESTIONPAGE_PICKER).prop("hidden")).toBe(false);
+    expect(wrapper.find(SECTION_PICKER).prop("hidden")).toBe(true);
+    expect(wrapper.find(END_OF_Q_PICKER).prop("hidden")).toBe(true);
+
+    expect(wrapper.state("selectedItem")).toMatchObject({
+      displayName: "Page 1",
+      id: "1",
+    });
   });
 
   describe("Buttons", () => {
@@ -147,14 +193,16 @@ describe("GroupContentPicker", () => {
 
     it("submit button should call onSubmit from ContentPickerSingle", () => {
       const wrapper = createWrapper();
-      wrapper.find(PAGES_PICKER).simulate("titleClick");
-      wrapper.find(PAGES_PICKER).simulate("optionClick", data.questionPages[0]);
+      wrapper.find(QUESTIONPAGE_PICKER).simulate("titleClick");
+      wrapper
+        .find(QUESTIONPAGE_PICKER)
+        .simulate("optionClick", data.questionPages[0]);
       wrapper.find(byTestAttr("submit-button")).simulate("click");
       expect(onSubmit).toHaveBeenCalledWith({
         id: "1",
         displayName: "Page 1",
         config: {
-          id: "pages",
+          id: "QuestionPage",
           title: "Other pages in this section",
           groupKey: "questionPages",
           expandable: true,

@@ -5,8 +5,9 @@ import { isNil } from "lodash";
 
 import ButtonGroup from "components/buttons/ButtonGroup";
 import Button from "components/buttons/Button";
-
 import ContentPickerSingle from "components/ContentPicker/ContentPickerSingle";
+
+import setSelectedElement from "./setSelectedElement";
 
 const ContentWrapper = styled.div`
   display: flex;
@@ -19,6 +20,7 @@ const ActionButtons = styled(ButtonGroup)`
   padding: 1em 0;
   flex: 0 0 auto;
 `;
+
 export default class ContentPicker extends React.Component {
   static propTypes = {
     onSubmit: PropTypes.func,
@@ -28,6 +30,7 @@ export default class ContentPicker extends React.Component {
         id: PropTypes.string.isRequired,
       })
     ).isRequired,
+    selectedId: PropTypes.string,
     config: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.string.isRequired,
@@ -38,7 +41,16 @@ export default class ContentPicker extends React.Component {
   };
 
   state = {
-    selectedItems: [],
+    selectedItems: this.props.selectedId
+      ? [
+          ...setSelectedElement(
+            this.props.config,
+            this.props.selectedId,
+            this.props.data
+          ),
+        ]
+      : [],
+    openLevel: this.props.selectedId ? this.props.config.length - 1 : null,
   };
 
   getDataAtLevel(level) {
@@ -83,7 +95,7 @@ export default class ContentPicker extends React.Component {
       const data = this.getDataAtLevel(level);
 
       const isDisabled = level > selectedItems.length || !data.length;
-      const isHidden = level > openLevel;
+      const isHidden = openLevel !== null && level > openLevel;
       const isOpen = level === openLevel || config.length === 1;
 
       const selectedItem = selectedItems[level];
@@ -118,6 +130,7 @@ export default class ContentPicker extends React.Component {
     const { config } = this.props;
     const { selectedItems } = this.state;
     const selectedItem = selectedItems[config.length - 1];
+
     return (
       <React.Fragment>
         <ContentWrapper>{this.renderPickers()}</ContentWrapper>
