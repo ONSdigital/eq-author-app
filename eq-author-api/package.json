@@ -12,6 +12,7 @@
     "knex": "knex"
   },
   "dependencies": {
+    "apollo-server-express": "latest",
     "aws-sdk": "latest",
     "body-parser": "latest",
     "cheerio": "latest",
@@ -23,7 +24,6 @@
     "express-pino-logger": "latest",
     "graphql": "latest",
     "graphql-iso-date": "latest",
-    "graphql-server-express": "latest",
     "graphql-tools": "latest",
     "graphql-type-json": "latest",
     "helmet": "latest",

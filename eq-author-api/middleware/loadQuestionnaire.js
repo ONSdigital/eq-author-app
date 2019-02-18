@@ -1,14 +1,14 @@
 const { getQuestionnaire } = require("../utils/datastore");
 
-module.exports = (logger, context) => async (req, res, next) => {
+module.exports = async (req, res, next) => {
   const questionnaireId = req.header("questionnaireId");
   if (questionnaireId) {
-    context.questionnaire = await getQuestionnaire(questionnaireId);
-    if (!context.questionnaire.metadata) {
-      context.questionnaire.metadata = [];
+    req.questionnaire = await getQuestionnaire(questionnaireId);
+    if (!req.questionnaire.metadata) {
+      req.questionnaire.metadata = [];
     }
-    if (!context.questionnaire.sections) {
-      context.questionnaire.sections = [];
+    if (!req.questionnaire.sections) {
+      req.questionnaire.sections = [];
     }
   }
   next();

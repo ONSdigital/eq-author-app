@@ -1,7 +1,7 @@
 const { isNil, isEmpty } = require("lodash/fp");
 const jwt = require("jsonwebtoken");
 
-module.exports = (logger, context) => (req, res, next) => {
+module.exports = logger => (req, res, next) => {
   const authHeader = req.header(process.env.AUTH_HEADER_KEY || "authorization");
   if (isNil(authHeader)) {
     logger.error("Request must contain a valid authorization header.");
@@ -23,7 +23,7 @@ module.exports = (logger, context) => (req, res, next) => {
     return;
   }
 
-  context.auth = jwtToken;
+  req.auth = jwtToken;
   next();
   return;
 };
