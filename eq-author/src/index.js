@@ -11,7 +11,7 @@ import { setContext } from "apollo-link-context";
 import config from "config";
 import getIdForObject from "utils/getIdForObject";
 import render from "utils/render";
-import appendAuthHeader from "utils/appendAuthHeader";
+import getHeaders from "middleware/headers";
 
 import App from "App";
 
@@ -43,11 +43,14 @@ const history = createHistory();
 
 const httpLink = createHttpLink(config.REACT_APP_API_URL);
 
-const authLink = setContext((_, { headers }) => appendAuthHeader(headers));
+const headersLink = setContext((_, { headers }) => ({
+  headers: getHeaders(headers),
+}));
 
 const link = ApolloLink.from([
   createErrorLink(getStore),
-  authLink.concat(httpLink),
+  headersLink,
+  httpLink,
 ]);
 
 const client = createApolloClient(link, cache);

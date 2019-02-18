@@ -106,19 +106,19 @@ Spins up the Storybook development server.
 
 ### Authentication
 
-| Name                                     | Description                                                                                       | Required                         |
-| ---------------------------------------- | ------------------------------------------------------------------------------------------------- | -------------------------------- |
-| `REACT_APP_FIREBASE_PROJECT_ID`          | Firebase is used for basic authentication this environment and the two below are needed for this. | Yes If authentication is enabled |
-|                                          | The project ID for your Firebase project. Can be obtained from your Firebase project              |                                  |
-| `REACT_APP_FIREBASE_API_KEY`             | The api key for your Firebase project. Can be obtained from your Firebase project                 | Yes If authentication is enabled |
+| Name                            | Description                                                                                       | Required                         |
+| ------------------------------- | ------------------------------------------------------------------------------------------------- | -------------------------------- |
+| `REACT_APP_FIREBASE_PROJECT_ID` | Firebase is used for basic authentication this environment and the two below are needed for this. | Yes If authentication is enabled |
+|                                 | The project ID for your Firebase project. Can be obtained from your Firebase project              |                                  |
+| `REACT_APP_FIREBASE_API_KEY`    | The api key for your Firebase project. Can be obtained from your Firebase project                 | Yes If authentication is enabled |
 
 ### Functional
 
-| Name                   | Description                                            | Required |
-| ---------------------- | ------------------------------------------------------ | -------- |
-| `REACT_APP_API_URL`    | Set Author API URL | Yes |
-| `REACT_APP_LAUNCH_URL` | Set the launch-a-survey target | No |
-| `PUBLIC_URL`           | The public URL inferred if not provided | No |
+| Name                   | Description                             | Required |
+| ---------------------- | --------------------------------------- | -------- |
+| `REACT_APP_API_URL`    | Set Author API URL                      | Yes      |
+| `REACT_APP_LAUNCH_URL` | Set the launch-a-survey target          | No       |
+| `PUBLIC_URL`           | The public URL inferred if not provided | No       |
 
 ### Testing
 
@@ -144,13 +144,13 @@ Spins up the Storybook development server.
 
 ### Build configuration
 
-| Name                | Description                                                                    | Required |
-| ------------------- | ------------------------------------------------------------------------------ | -------- |
-| `BABEL_ENV`         | Sets the environment the code is running in                                    | Yes      |
-| `NODE_ENV`          | Sets the environment the code is running in                                    | Yes      |
-| `NODE_PATH`         | Folder path for the code folder structure                                      | Yes      |
-| `CI`                | Switch that if is set to true will treat warnings as errors                    | No       |
-| `EQ_AUTHOR_VERSION` | The current Author version. This is what gets reported on the /status endpoint | No       |
+| Name                          | Description                                                                    | Required |
+| ----------------------------- | ------------------------------------------------------------------------------ | -------- |
+| `BABEL_ENV`                   | Sets the environment the code is running in                                    | Yes      |
+| `NODE_ENV`                    | Sets the environment the code is running in                                    | Yes      |
+| `NODE_PATH`                   | Folder path for the code folder structure                                      | Yes      |
+| `CI`                          | Switch that if is set to true will treat warnings as errors                    | No       |
+| `REACT_APP_EQ_AUTHOR_VERSION` | The current Author version. This is what gets reported on the /status endpoint | No       |
 
 ## Authentication
 

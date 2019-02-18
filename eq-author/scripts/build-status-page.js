@@ -6,7 +6,7 @@ const OUTPUT_PATH = "public/status.json";
 
 const status = {
   status: "OK",
-  version: process.env.EQ_AUTHOR_VERSION,
+  version: process.env.REACT_APP_EQ_AUTHOR_VERSION,
 };
 
 fs.writeFileSync(OUTPUT_PATH, JSON.stringify(status, null, "  "));
