@@ -5,11 +5,10 @@ import {
 } from "./withCreateSection";
 import fragment from "graphql/questionnaireFragment.graphql";
 import { buildSectionPath } from "utils/UrlUtils";
-import fakeId from "tests/utils/fakeId";
 
 describe("withCreateSection", () => {
   const questionnaire = {
-    id: fakeId("1"),
+    id: "1",
     title: "My Questionnaire",
     sections: [],
   };
@@ -22,11 +21,11 @@ describe("withCreateSection", () => {
     };
 
     newPage = {
-      id: fakeId("5"),
+      id: "5",
     };
 
     newSection = {
-      id: fakeId("4"),
+      id: "4",
       title: "New Section",
       pages: [newPage],
     };

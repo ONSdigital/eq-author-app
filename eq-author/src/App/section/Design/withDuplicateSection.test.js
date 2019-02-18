@@ -1,6 +1,5 @@
 import { mapMutateToProps } from "./withDuplicateSection";
 import { buildSectionPath } from "utils/UrlUtils";
-import fakeId from "tests/utils/fakeId";
 
 describe("withDuplicateSection", () => {
   let ownProps, history, match, props, mutate, args, result, dupeSectionId;
@@ -8,7 +7,7 @@ describe("withDuplicateSection", () => {
   beforeEach(() => {
     match = {
       params: {
-        questionnaireId: fakeId("1"),
+        questionnaireId: "1",
       },
     };
 
@@ -23,12 +22,12 @@ describe("withDuplicateSection", () => {
     };
 
     args = {
-      questionnaireId: fakeId("3"),
-      sectionId: fakeId("2"),
+      questionnaireId: "3",
+      sectionId: "2",
       position: 0,
     };
 
-    dupeSectionId = fakeId("4");
+    dupeSectionId = "4";
 
     result = {
       data: {

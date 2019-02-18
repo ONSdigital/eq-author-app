@@ -1,6 +1,5 @@
 import { mapMutateToProps, createUpdater } from "./withMovePage";
 import { buildPagePath } from "utils/UrlUtils";
-import fakeId from "tests/utils/fakeId";
 import fragment from "graphql/fragments/movePage.graphql";
 
 describe("withMovePage", () => {
@@ -9,7 +8,7 @@ describe("withMovePage", () => {
   beforeEach(() => {
     match = {
       params: {
-        questionnaireId: fakeId("1"),
+        questionnaireId: "1",
       },
     };
 
@@ -24,13 +23,13 @@ describe("withMovePage", () => {
 
     args = {
       from: {
-        id: fakeId("1"),
-        sectionId: fakeId("1"),
+        id: "1",
+        sectionId: "1",
         position: 0,
       },
       to: {
-        id: fakeId("1"),
-        sectionId: fakeId("2"),
+        id: "1",
+        sectionId: "2",
         position: 1,
       },
     };
@@ -101,12 +100,12 @@ describe("withMovePage", () => {
 
       fromSection = {
         id: args.from.sectionId,
-        pages: [page, { id: fakeId("2"), position: 1 }],
+        pages: [page, { id: "2", position: 1 }],
       };
 
       toSection = {
         id: args.to.sectionId,
-        pages: [{ id: fakeId("3"), position: 0 }],
+        pages: [{ id: "3", position: 0 }],
       };
 
       proxy = {
@@ -143,9 +142,9 @@ describe("withMovePage", () => {
     });
 
     it("should correctly update position values for all pages in a section", () => {
-      const pageAId = fakeId("a");
-      const pageBId = fakeId("b");
-      const pageCId = fakeId("c");
+      const pageAId = "a";
+      const pageBId = "b";
+      const pageCId = "c";
       const cacheName = `Section${args.from.sectionId}`;
       const sections = {
         [cacheName]: {

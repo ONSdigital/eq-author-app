@@ -1,6 +1,5 @@
 import { mapMutateToProps, createUpdater } from "./withDeletePage";
 import fragment from "graphql/sectionFragment.graphql";
-import fakeId from "tests/utils/fakeId";
 
 describe("withDeletePage", () => {
   let history, mutate, result, ownProps, onAddPage, raiseToast;
@@ -12,31 +11,28 @@ describe("withDeletePage", () => {
     afterDeleteSection;
 
   beforeEach(() => {
-    sectionId = fakeId("9");
-    questionnaireId = fakeId("1");
+    sectionId = "9";
+    questionnaireId = "1";
     deletedPage = {
-      id: fakeId("2"),
+      id: "2",
       sectionId,
       position: 1,
     };
 
     currentPage = {
-      id: fakeId("1"),
+      id: "1",
       sectionId,
       position: 0,
     };
 
     beforeDeleteSection = {
       id: sectionId,
-      pages: [currentPage, deletedPage, { id: fakeId("3"), position: 2 }],
+      pages: [currentPage, deletedPage, { id: "3", position: 2 }],
     };
 
     afterDeleteSection = {
       ...beforeDeleteSection,
-      pages: [
-        { ...currentPage, position: 0 },
-        { id: fakeId("3"), position: 1 },
-      ],
+      pages: [{ ...currentPage, position: 0 }, { id: "3", position: 1 }],
     };
 
     history = {
@@ -94,11 +90,11 @@ describe("withDeletePage", () => {
     it("should update position value of all pages", () => {
       const cache = {
         section: {
-          id: fakeId("1"),
+          id: "1",
           pages: [
-            { id: fakeId("1"), position: 0 },
+            { id: "1", position: 0 },
             deletedPage,
-            { id: fakeId("3"), position: 2 },
+            { id: "3", position: 2 },
           ],
         },
       };
@@ -112,8 +108,8 @@ describe("withDeletePage", () => {
       updater(proxy, result);
 
       expect(cache.section.pages).toEqual([
-        { id: fakeId("1"), position: 0 },
-        { id: fakeId("3"), position: 1 },
+        { id: "1", position: 0 },
+        { id: "3", position: 1 },
       ]);
     });
   });

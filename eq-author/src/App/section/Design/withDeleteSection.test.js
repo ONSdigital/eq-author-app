@@ -4,7 +4,6 @@ import {
   handleDeletion,
 } from "./withDeleteSection";
 import fragment from "graphql/questionnaireFragment.graphql";
-import fakeId from "tests/utils/fakeId";
 
 describe("withDeleteSection", () => {
   let history, mutate, result, ownProps, onAddSection, raiseToast;
@@ -12,22 +11,22 @@ describe("withDeleteSection", () => {
 
   beforeEach(() => {
     deletedPage = {
-      id: fakeId("2"),
-      sectionId: fakeId("2"),
+      id: "2",
+      sectionId: "2",
     };
 
     currentPage = {
-      id: fakeId("1"),
-      sectionId: fakeId("1"),
+      id: "1",
+      sectionId: "1",
     };
 
     currentSection = {
       id: currentPage.sectionId,
-      pages: [currentPage, { id: fakeId("3") }],
+      pages: [currentPage, { id: "3" }],
     };
 
     questionnaire = {
-      id: fakeId("1"),
+      id: "1",
       title: "My Questionnaire",
       sections: [
         currentSection,

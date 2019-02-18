@@ -7,7 +7,6 @@ import {
   SELECTED_ANSWER_DELETED,
 } from "constants/routing-left-side";
 import { byTestAttr } from "tests/utils/selectors";
-import fakeId from "tests/utils/fakeId";
 
 import RoutingAnswerContentPicker from "./RoutingAnswerContentPicker";
 import { UnwrappedBinaryExpressionEditor as BinaryExpressionEditor } from "./";
@@ -26,9 +25,9 @@ describe("BinaryExpressionEditor", () => {
       updateBinaryExpression: jest.fn(),
       isOnlyExpression: false,
       expression: {
-        id: fakeId("1"),
+        id: "1",
         left: {
-          id: fakeId("2"),
+          id: "2",
           type: RADIO,
         },
         condition: "Equal",
@@ -37,9 +36,9 @@ describe("BinaryExpressionEditor", () => {
       canAddAndCondition: true,
       match: {
         params: {
-          questionnaireId: fakeId("1"),
-          sectionId: fakeId("2"),
-          pageId: fakeId("3"),
+          questionnaireId: "1",
+          sectionId: "2",
+          pageId: "3",
         },
       },
     };

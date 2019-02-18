@@ -8,7 +8,7 @@ exports[`PageConfirmationNavItem should render design 1`] = `
     <PageConfirmationNavItem__StyledNavLink
       data-test="question-confirmation-link"
       icon={[Function]}
-      to="/questionnaire/111111111111111111111111111111111111/222222222222222222222222222222222222/333333333333333333333333333333333333/444444444444444444444444444444444444/design"
+      to="/questionnaire/1/2/3/4/design"
     >
       Confirmation display name
     </PageConfirmationNavItem__StyledNavLink>
@@ -24,7 +24,7 @@ exports[`PageConfirmationNavItem should render preview 1`] = `
     <PageConfirmationNavItem__StyledNavLink
       data-test="question-confirmation-link"
       icon={[Function]}
-      to="/questionnaire/111111111111111111111111111111111111/222222222222222222222222222222222222/333333333333333333333333333333333333/444444444444444444444444444444444444/preview"
+      to="/questionnaire/1/2/3/4/preview"
     >
       Confirmation display name
     </PageConfirmationNavItem__StyledNavLink>

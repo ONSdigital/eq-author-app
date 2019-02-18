@@ -10,8 +10,6 @@ import flushPromises from "tests/utils/flushPromises";
 import createRouterContext from "react-router-test-context";
 import PropTypes from "prop-types";
 
-import fakeId from "tests/utils/fakeId";
-
 import movePageQuery from "graphql/getQuestionnaire.graphql";
 
 describe("QuestionPageRoute", () => {
@@ -28,9 +26,9 @@ describe("QuestionPageRoute", () => {
   beforeEach(() => {
     childContextTypes = { router: PropTypes.object };
 
-    questionnaireId = fakeId("1");
-    sectionId = fakeId("2");
-    pageId = fakeId("3");
+    questionnaireId = "1";
+    sectionId = "2";
+    pageId = "3";
 
     movePageMock = {
       request: {
@@ -80,7 +78,7 @@ describe("QuestionPageRoute", () => {
                   },
                   {
                     __typename: "QuestionPage",
-                    id: fakeId("4"),
+                    id: "4",
                     title: "blah",
                     alias: "blah-alias",
                     displayName: "blah",
@@ -381,9 +379,7 @@ describe("QuestionPageRoute", () => {
     });
 
     it("should allow answers to be added", () => {
-      const onAddAnswer = jest.fn(() =>
-        Promise.resolve(() => ({ id: fakeId("1") }))
-      );
+      const onAddAnswer = jest.fn(() => Promise.resolve(() => ({ id: "1" })));
       const wrapper = render(
         {
           loading: false,

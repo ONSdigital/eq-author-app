@@ -1,19 +1,18 @@
 import { shallow } from "enzyme";
 import React from "react";
-import fakeId from "tests/utils/fakeId";
 
 import { UnwrappedSectionNavItem as SectionNavItem } from "./SectionNavItem";
 
 describe("SectionNavItem", () => {
-  const page = { id: fakeId("2"), title: "Page", displayName: "Page" };
+  const page = { id: "2", title: "Page", displayName: "Page" };
   const section = {
-    id: fakeId("3"),
+    id: "3",
     title: "Section",
     displayName: "Section",
     pages: [page],
   };
   const questionnaire = {
-    id: fakeId("1"),
+    id: "1",
     title: "Questionnaire",
     displayName: "Questionnaire",
     sections: [section],

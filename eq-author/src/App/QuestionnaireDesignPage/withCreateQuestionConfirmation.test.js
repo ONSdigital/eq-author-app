@@ -1,14 +1,13 @@
-import fakeId from "tests/utils/fakeId";
 import { mapMutateToProps } from "./withCreateQuestionConfirmation";
 
 describe("withCreateQuestionConfirmation", () => {
   let mutate, ownProps, questionnaireId, sectionId, pageId, confirmationId;
 
   beforeEach(() => {
-    questionnaireId = fakeId("1");
-    sectionId = fakeId("2");
-    pageId = fakeId("3");
-    confirmationId = fakeId("4");
+    questionnaireId = "1";
+    sectionId = "2";
+    pageId = "3";
+    confirmationId = "4";
 
     mutate = jest.fn().mockResolvedValue({
       data: {

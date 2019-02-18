@@ -8,26 +8,26 @@ exports[`QuestionnaireDesignPage should render 1`] = `
 <BaseLayout
   questionnaire={
     Object {
-      "id": "333333333333333333333333333333333333",
+      "id": "3",
       "sections": Array [
         Object {
-          "id": "222222222222222222222222222222222222",
+          "id": "2",
           "pages": Array [
             Object {
               "answers": Array [
                 Object {
-                  "id": "111111111111111111111111111111111111",
+                  "id": "1",
                   "label": "",
                   "options": Array [
                     Object {
-                      "id": "111111111111111111111111111111111111",
+                      "id": "1",
                     },
                   ],
                 },
               ],
               "description": "",
               "guidance": "",
-              "id": "111111111111111111111111111111111111",
+              "id": "1",
               "position": 0,
               "title": "",
               "type": "General",
@@ -60,26 +60,26 @@ exports[`QuestionnaireDesignPage should render 1`] = `
           onAddSection={[MockFunction]}
           questionnaire={
             Object {
-              "id": "333333333333333333333333333333333333",
+              "id": "3",
               "sections": Array [
                 Object {
-                  "id": "222222222222222222222222222222222222",
+                  "id": "2",
                   "pages": Array [
                     Object {
                       "answers": Array [
                         Object {
-                          "id": "111111111111111111111111111111111111",
+                          "id": "1",
                           "label": "",
                           "options": Array [
                             Object {
-                              "id": "111111111111111111111111111111111111",
+                              "id": "1",
                             },
                           ],
                         },
                       ],
                       "description": "",
                       "guidance": "",
-                      "id": "111111111111111111111111111111111111",
+                      "id": "1",
                       "position": 0,
                       "title": "",
                       "type": "General",
@@ -100,32 +100,32 @@ exports[`QuestionnaireDesignPage should render 1`] = `
           <Route
             component={[Function]}
             exact={true}
-            path="/questionnaire/:questionnaireId/:sectionId([a-f0-9-]{36})/design"
+            path="/questionnaire/:questionnaireId/:sectionId([a-f0-9-]+)/design"
           />
           <Route
             component={[Function]}
             exact={true}
-            path="/questionnaire/:questionnaireId/:sectionId([a-f0-9-]{36})/:pageId([a-f0-9-]{36})/design"
+            path="/questionnaire/:questionnaireId/:sectionId([a-f0-9-]+)/:pageId([a-f0-9-]+)/design"
           />
           <Route
             component={[Function]}
             exact={true}
-            path="/questionnaire/:questionnaireId/:sectionId([a-f0-9-]{36})/:pageId([a-f0-9-]{36})/routing"
+            path="/questionnaire/:questionnaireId/:sectionId([a-f0-9-]+)/:pageId([a-f0-9-]+)/routing"
           />
           <Route
             component={[Function]}
             exact={true}
-            path="/questionnaire/:questionnaireId/:sectionId([a-f0-9-]{36})/:pageId([a-f0-9-]{36})?/preview"
+            path="/questionnaire/:questionnaireId/:sectionId([a-f0-9-]+)/:pageId([a-f0-9-]+)?/preview"
           />
           <Route
             component={[Function]}
             exact={true}
-            path="/questionnaire/:questionnaireId/:sectionId([a-f0-9-]{36})/:pageId([a-f0-9-]{36})/:confirmationId([a-f0-9-]{36})/design"
+            path="/questionnaire/:questionnaireId/:sectionId([a-f0-9-]+)/:pageId([a-f0-9-]+)/:confirmationId([a-f0-9-]+)/design"
           />
           <Route
             component={[Function]}
             exact={true}
-            path="/questionnaire/:questionnaireId/:sectionId([a-f0-9-]{36})/:pageId([a-f0-9-]{36})/:confirmationId([a-f0-9-]{36})/preview"
+            path="/questionnaire/:questionnaireId/:sectionId([a-f0-9-]+)/:pageId([a-f0-9-]+)/:confirmationId([a-f0-9-]+)/preview"
           />
           <Route
             path="*"
@@ -141,7 +141,7 @@ exports[`QuestionnaireDesignPage should render 1`] = `
 exports[`QuestionnaireDesignPage should render redirect when finished loading 1`] = `
 <Redirect
   push={false}
-  to="/questionnaire/333333333333333333333333333333333333/222222222222222222222222222222222222/design"
+  to="/questionnaire/3/2/design"
 />
 `;
 
