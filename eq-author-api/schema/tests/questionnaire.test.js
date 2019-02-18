@@ -1,9 +1,10 @@
 const {
   buildQuestionnaire,
 } = require("../../tests/utils/questionnaireBuilder");
-
+const executeQuery = require("../../tests/utils/executeQuery");
 const {
   createQuestionnaire,
+  createQuestionnaireMutation,
   queryQuestionnaire,
   updateQuestionnaire,
   deleteQuestionnaire,
@@ -35,6 +36,12 @@ describe("questionnaire", () => {
     });
 
     it("should create a questionnaire with a section and page", async () => {
+      const result = await executeQuery(
+        createQuestionnaireMutation,
+        { input: config },
+        {}
+      );
+      const questionnaire = result.data.createQuestionnaire;
       expect(questionnaire).toEqual(
         expect.objectContaining(
           filter(
@@ -53,11 +60,8 @@ describe("questionnaire", () => {
           )
         )
       );
-    });
 
-    it("should create one section and one page", () => {
-      expect(questionnaire.sections).toHaveLength(1);
-      expect(questionnaire.sections[0].pages).toHaveLength(1);
+      expect(questionnaire.sections[0].pages[0]).not.toBeNull();
     });
   });
 
@@ -130,8 +134,8 @@ describe("questionnaire", () => {
     });
 
     it("should resolve section", () => {
-      expect(last(queriedQuestionnaire.sections).id).toEqual(
-        last(questionnaire.sections).id
+      expect(queriedQuestionnaire.sections.id).toEqual(
+        questionnaire.sections.id
       );
     });
 
