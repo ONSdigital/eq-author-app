@@ -4,15 +4,15 @@ const { getText } = require("../utils/HTMLUtils");
 class Section {
   constructor(section, ctx) {
     this.id = `section${section.id}`;
-    this.title = getText(section.title);
-    this.groups = this.buildGroups(section.id, this.title, section, ctx);
+    if (ctx.questionnaireJson.navigation) {
+      this.title = getText(section.title);
+    }
+    this.groups = this.buildGroups(section, ctx);
   }
 
-  buildGroups(id, title, section, ctx) {
-    const { pages, introduction } = section;
-
+  buildGroups(section, ctx) {
     // Sections always contain a single group currently
-    return [new Group(id, title, pages, introduction, ctx)];
+    return [new Group(getText(section.title), section, ctx)];
   }
 }
 

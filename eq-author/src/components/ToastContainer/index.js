@@ -4,7 +4,6 @@ import { map } from "lodash";
 import * as ToastActionCreators from "redux/toast/actions";
 import * as UndeleteQuestionnaireActions from "redux/undelete/undeleteQuestionnaire";
 import * as UndeleteSectionActions from "redux/undelete/undeleteSection";
-import * as UndeleteSectionIntroductionActions from "redux/undelete/undeleteSectionIntroduction";
 import * as UndeletePageActions from "redux/undelete/undeletePage";
 import * as UndeleteAnswerActions from "redux/undelete/undeleteAnswer";
 import * as UndeleteQuestionConfirmation from "redux/undelete/undeleteQuestionConfirmation";
@@ -106,7 +105,6 @@ export default connect(
     {},
     UndeleteQuestionnaireActions,
     UndeleteSectionActions,
-    UndeleteSectionIntroductionActions,
     UndeletePageActions,
     UndeleteAnswerActions,
     UndeleteQuestionConfirmation,

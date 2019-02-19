@@ -41,8 +41,6 @@ const canPipePreviousAnswer = ({ selector }) => {
   cy.get(testId(selector, "testid")).should("contain", `[${ANSWER}]`);
 };
 
-const addSectionIntro = () => cy.get(testId("btn-add-intro")).click();
-
 const clickLastSection = () =>
   cy
     .get(testId("nav-section-link"))
@@ -107,7 +105,6 @@ describe("Piping", () => {
     describe("Section Introduction", () => {
       beforeEach(() => {
         clickLastSection();
-        addSectionIntro();
       });
       it("Can pipe previous answer into section introduction title", () => {
         canPipePreviousAnswer({ selector: "txt-introduction-title" });
@@ -140,7 +137,6 @@ describe("Piping", () => {
     describe("Section Introduction", () => {
       beforeEach(() => {
         clickLastSection();
-        addSectionIntro();
       });
       it("Can pipe metadata into section introduction title", () => {
         canPipeMetadata({ selector: "txt-introduction-title" });

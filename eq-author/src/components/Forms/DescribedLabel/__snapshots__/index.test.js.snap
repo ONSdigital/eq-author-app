@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DescribedLabel should render as just a label if no description provided 1`] = `
+<Label
+  bold={true}
+>
+  Label things
+</Label>
+`;
+
+exports[`DescribedLabel should render with a label and description when description is provided 1`] = `
+<Label
+  bold={true}
+>
+  <DescribedLabel__MainLabel>
+    Label things
+  </DescribedLabel__MainLabel>
+  <DescribedLabel__SubLabel>
+    I describe it
+  </DescribedLabel__SubLabel>
+</Label>
+`;

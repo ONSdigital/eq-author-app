@@ -114,14 +114,9 @@ describe("Block", () => {
     });
 
     it("should handle piped values in title", () => {
-      // noinspection JSAnnotator
-      let introduction = {
-        introductionTitle: createPipeInText(),
-        introductionContent: "",
-      };
-
       const introBlock = Block.buildIntroBlock(
-        introduction,
+        createPipeInText(),
+        "",
         0,
         createContext()
       );
@@ -130,14 +125,9 @@ describe("Block", () => {
     });
 
     it("should handle piped values in title while stripping html", () => {
-      // noinspection JSAnnotator
-      let introduction = {
-        introductionTitle: createPipeInHtml(),
-        introductionContent: "",
-      };
-
       const introBlock = Block.buildIntroBlock(
-        introduction,
+        createPipeInHtml(),
+        "",
         0,
         createContext()
       );
@@ -146,14 +136,9 @@ describe("Block", () => {
     });
 
     it("should handle piped values in description", () => {
-      // noinspection JSAnnotator
-      let introduction = {
-        introductionTitle: "",
-        introductionContent: createPipeInHtml(),
-      };
-
       const introBlock = Block.buildIntroBlock(
-        introduction,
+        "",
+        createPipeInHtml(),
         0,
         createContext()
       );

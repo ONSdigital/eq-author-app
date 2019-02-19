@@ -139,12 +139,6 @@ describe("components/RichTextEditor", function() {
     expect(editorFocus).toHaveBeenCalled();
   });
 
-  it("should autoFocus", () => {
-    wrapper.instance().setEditorInstance(editorInstance);
-    wrapper.setProps({ autoFocus: true });
-    expect(editorFocus).toHaveBeenCalled();
-  });
-
   it("should autoFocus on mount if prop set", () => {
     wrapper = shallow(<RichTextEditor {...props} autoFocus />, {
       disableLifecycleMethods: true,

@@ -7,11 +7,25 @@ describe("SectionEditor", () => {
   const section1 = {
     id: "section-1",
     title: "Section 1",
+    alias: "alias",
+    introductionTitle: "Intro title",
+    introductionContent: "Intro content",
+    questionnaire: {
+      id: "2",
+      navigation: true,
+    },
   };
 
   const section2 = {
     id: "section-2",
     title: "Section 2",
+    alias: "alias",
+    introductionTitle: "Intro title",
+    introductionContent: "Intro content",
+    questionnaire: {
+      id: "2",
+      navigation: true,
+    },
   };
 
   const match = {
@@ -31,8 +45,6 @@ describe("SectionEditor", () => {
     onCloseMoveSectionDialog: jest.fn(),
   };
 
-  let wrapper;
-
   const render = ({ ...props }) =>
     shallow(
       <SectionEditor
@@ -45,17 +57,15 @@ describe("SectionEditor", () => {
       />
     );
 
-  beforeEach(() => {
-    wrapper = render();
-  });
-
   it("should render", () => {
+    const wrapper = render();
     expect(wrapper).toMatchSnapshot();
     wrapper.setProps({ section: section2 });
     expect(wrapper).toMatchSnapshot();
   });
 
   it("should invoke change and update callbacks onUpdate", () => {
+    const wrapper = render();
     const editors = wrapper.find(RichTextEditor);
     expect(editors.length).toBeGreaterThan(0);
 
@@ -70,8 +80,65 @@ describe("SectionEditor", () => {
     });
   });
 
+  it("should show the section title when navigation is enabled", () => {
+    const section = {
+      ...section1,
+      questionnaire: {
+        id: "2",
+        navigation: true,
+      },
+    };
+    const wrapper = render({ section });
+    expect(wrapper.find("[testSelector='txt-section-title']").length).toEqual(
+      1
+    );
+  });
+
+  it("should not show the section title when navigation is disabled", () => {
+    const section = {
+      ...section1,
+      questionnaire: {
+        id: "2",
+        navigation: false,
+      },
+    };
+    const wrapper = render({ section });
+    expect(wrapper.find("[testSelector='txt-section-title']").length).toEqual(
+      0
+    );
+  });
+
+  it("should not autofocus the section title when its empty and navigation has just been turned on", () => {
+    const wrapper = render({
+      section: {
+        ...section1,
+        title: "",
+        questionnaire: {
+          id: "2",
+          navigation: false,
+        },
+      },
+    });
+
+    wrapper.setProps({
+      section: {
+        ...section1,
+        title: "",
+        questionnaire: {
+          id: "2",
+          navigation: true,
+        },
+      },
+    });
+
+    expect(
+      wrapper.find("[testSelector='txt-section-title']").prop("autoFocus")
+    ).toBe(false);
+  });
+
   describe("DeleteConfirmDialog", () => {
     let deleteConfirmDialog;
+    let wrapper;
 
     beforeEach(() => {
       wrapper = render({ showDeleteConfirmDialog: true });

@@ -178,7 +178,9 @@ export class UnwrappedSectionRoute extends React.Component {
 
   render() {
     const { section = {} } = this.props;
-    const isPreviewEnabled = Boolean(section.introduction);
+    const hasIntroductionContent = Boolean(
+      section.introductionTitle || section.introductionContent
+    );
 
     return (
       <EditorLayout
@@ -186,7 +188,7 @@ export class UnwrappedSectionRoute extends React.Component {
         onUpdate={this.props.onUpdateSection}
         onAddPage={this.handleAddPage}
         data-test="section-route"
-        preview={isPreviewEnabled}
+        preview={hasIntroductionContent}
       >
         {this.renderContent()}
       </EditorLayout>

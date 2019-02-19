@@ -43,16 +43,10 @@ type Section {
   pages: [Page]
   questionnaire: Questionnaire
   position: Int!
-  introduction: SectionIntroduction
-  availablePipingAnswers: [Answer!]!
-  availablePipingMetadata: [Metadata!]!
-}
-
-type SectionIntroduction {
-  id: ID!
   introductionTitle: String
   introductionContent: String
-  section: Section!
+  availablePipingAnswers: [Answer!]!
+  availablePipingMetadata: [Metadata!]!
 }
 
 interface Page {
@@ -455,9 +449,6 @@ type Mutation {
   undeleteSection(input: UndeleteSectionInput!): Section
   moveSection(input: MoveSectionInput!): Section
   duplicateSection(input: DuplicateSectionInput!): Section
-  createSectionIntroduction(input: CreateSectionIntroductionInput!): SectionIntroduction!
-  updateSectionIntroduction(input: UpdateSectionIntroductionInput!): SectionIntroduction!
-  deleteSectionIntroduction(input: DeleteSectionIntroductionInput!): SectionIntroduction!
   createPage(input: CreatePageInput!): Page
   updatePage(input: UpdatePageInput!): Page
   deletePage(input: DeletePageInput!): Page
@@ -604,22 +595,8 @@ input UpdateSectionInput {
   id: ID!
   title: String
   alias: String
-}
-
-input CreateSectionIntroductionInput { 
-  sectionId: ID!
   introductionTitle: String
   introductionContent: String
-}
-
-input UpdateSectionIntroductionInput { 
-  sectionId: ID!
-  introductionTitle: String
-  introductionContent: String
-}
-
-input DeleteSectionIntroductionInput { 
-  sectionId: ID!
 }
 
 input DeleteSectionInput {
