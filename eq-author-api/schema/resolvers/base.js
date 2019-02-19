@@ -94,7 +94,7 @@ const getValidation = ctx => id => {
       if (validation[type]) {
         validation[type].answerId = validation.answerId;
       }
-      return validation[type];
+      return { ...validation[type], validationType: type };
     });
   });
 
