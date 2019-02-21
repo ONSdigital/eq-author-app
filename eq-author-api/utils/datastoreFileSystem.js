@@ -34,7 +34,7 @@ const deleteQuestionnaire = async id => {
   );
   await fs.writeFile(
     `data/QuestionnaireList.json`,
-    stringify(reject(originalList, { id }))
+    stringify(reject(originalList, { id }), { space: 4 })
   );
 
   await fs.unlink(`data/${id}.json`);
