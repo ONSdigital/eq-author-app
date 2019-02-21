@@ -12,7 +12,7 @@ const deleteAnswer = async (questionnaire, id) => {
   const result = await executeQuery(
     deleteAnswerMutation,
     { input: { id } },
-    questionnaire
+    { questionnaire }
   );
   return result.data.deleteAnswer;
 };

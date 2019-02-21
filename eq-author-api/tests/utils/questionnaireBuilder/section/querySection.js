@@ -33,7 +33,7 @@ const querySection = async (questionnaire, sectionId) => {
     {
       input: { sectionId },
     },
-    questionnaire
+    { questionnaire }
   );
 
   return result.data.section;

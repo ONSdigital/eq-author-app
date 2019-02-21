@@ -31,7 +31,7 @@ const duplicatePage = async (questionnaire, page) => {
   const result = await executeQuery(
     duplicatePageMutation,
     { input },
-    questionnaire
+    { questionnaire }
   );
 
   return result.data.duplicatePage;

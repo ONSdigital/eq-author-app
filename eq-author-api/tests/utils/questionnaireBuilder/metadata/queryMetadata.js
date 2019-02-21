@@ -22,7 +22,7 @@ const queryMetadata = async questionnaire => {
   const result = await executeQuery(
     getMetadataQuery,
     { input: {} },
-    questionnaire
+    { questionnaire }
   );
   return result.data.questionnaire.metadata;
 };

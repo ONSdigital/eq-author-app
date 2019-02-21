@@ -27,7 +27,7 @@ const updateSectionIntroduction = async (questionnaire, input) => {
         input
       ),
     },
-    questionnaire
+    { questionnaire }
   );
   return result.data.updateSectionIntroduction;
 };

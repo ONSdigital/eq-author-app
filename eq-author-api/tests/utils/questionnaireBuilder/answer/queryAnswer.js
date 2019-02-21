@@ -47,7 +47,7 @@ const queryAnswer = async (questionnaire, answerId) => {
     {
       input: { answerId },
     },
-    questionnaire
+    { questionnaire }
   );
 
   return result.data.answer;

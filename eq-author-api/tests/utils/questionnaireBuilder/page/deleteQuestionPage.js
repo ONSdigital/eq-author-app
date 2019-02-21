@@ -12,7 +12,7 @@ const deleteQuestionPage = async (questionnaire, id) => {
   const result = await executeQuery(
     deleteQuestionPageMutation,
     { input: { id } },
-    questionnaire
+    { questionnaire }
   );
   return result.data.deleteQuestionPage;
 };

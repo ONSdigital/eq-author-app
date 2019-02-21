@@ -20,7 +20,7 @@ const updateMetadata = async (questionnaire, input) => {
   const result = await executeQuery(
     updateMetadataMutation,
     { input },
-    questionnaire
+    { questionnaire }
   );
 
   return result.data.updateMetadata;

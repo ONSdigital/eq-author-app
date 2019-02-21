@@ -12,7 +12,7 @@ const deleteMetadata = async (questionnaire, id) => {
   const result = await executeQuery(
     deleteMetadataMutation,
     { input: { id } },
-    questionnaire
+    { questionnaire }
   );
 
   return result.data.deleteMetadata;

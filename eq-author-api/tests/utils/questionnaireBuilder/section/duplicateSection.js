@@ -27,7 +27,7 @@ const duplicateSection = async (questionnaire, section) => {
   const result = await executeQuery(
     duplicateSectionMutation,
     { input },
-    questionnaire
+    { questionnaire }
   );
 
   return result.data.duplicateSection;
