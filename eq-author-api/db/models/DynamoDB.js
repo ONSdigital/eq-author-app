@@ -4,7 +4,7 @@ let throughput = "ON_DEMAND";
 let questionnanaireTableName = "author-questionnaires";
 let questionnanaireVersionsTableName = "author-questionnaire-versions";
 
-if (process.env.DYNAMO_ENDPOINT_OVERRIDE !== "") {
+if (process.env.DYNAMO_ENDPOINT_OVERRIDE) {
   dynamoose.local(process.env.DYNAMO_ENDPOINT_OVERRIDE);
   throughput = { read: 10, write: 10 }; // DynamoDB local doesn't yet support on-demand
 }
@@ -25,9 +25,6 @@ const baseQuestionnaireSchema = {
     required: true,
   },
   title: {
-    type: String,
-  },
-  createdAt: {
     type: String,
   },
   createdBy: {
@@ -52,6 +49,7 @@ const baseQuestionnaireSchema = {
 
 const questionnanaireSchema = new dynamoose.Schema(baseQuestionnaireSchema, {
   throughput: throughput,
+  timestamps: true,
 });
 
 const questionnaireVersionsSchema = new dynamoose.Schema(
@@ -59,7 +57,6 @@ const questionnaireVersionsSchema = new dynamoose.Schema(
     ...baseQuestionnaireSchema,
     updatedAt: {
       type: String,
-      rangeKey: true,
       required: true,
     },
     sections: {
@@ -72,6 +69,7 @@ const questionnaireVersionsSchema = new dynamoose.Schema(
   },
   {
     throughput: throughput,
+    timestamps: true,
   }
 );
 

@@ -9,7 +9,8 @@
     "lint": "eslint .",
     "test": "./scripts/test.sh schema/tests",
     "test:breakingChanges": "node scripts/checkForBreakingChanges.js",
-    "knex": "knex"
+    "knex": "knex",
+    "dynamodb-admin": "AWS_ACCESS_KEY_ID=dummy AWS_SECRET_ACCESS_KEY=dummy DYNAMO_ENDPOINT=http://localhost:8050 dynamodb-admin"
   },
   "dependencies": {
     "apollo-server-express": "latest",
@@ -19,7 +20,8 @@
     "cors": "latest",
     "deep-map": "^1.5",
     "dotenv": "latest",
-    "dynamoose": "latest",
+    "dynamodb-admin": "latest",
+    "dynamoose": "git+https://git@github.com/onsdigital/dynamoose.git#condition-changing",
     "express": "latest",
     "express-pino-logger": "latest",
     "graphql": "latest",
@@ -31,6 +33,7 @@
     "js-yaml": "latest",
     "json-stable-stringify": "latest",
     "json-web-key": "latest",
+    "jsondiffpatch": "latest",
     "jsonwebtoken": "latest",
     "jsrsasign": "latest",
     "knex": "latest",
@@ -38,8 +41,8 @@
     "node-jose": "latest",
     "pg": "latest",
     "pg-hstore": "latest",
-    "uuid": "latest",
     "pino-noir": "latest",
+    "uuid": "latest",
     "wait-for-postgres": "latest"
   },
   "engines": {

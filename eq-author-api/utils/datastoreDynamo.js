@@ -1,12 +1,19 @@
+const jsondiffpatch = require("jsondiffpatch");
+const { omit, isEqual } = require("lodash");
+const logger = require("pino")();
+
 const {
   QuestionnaireModel,
   QuestionnaireVersionsModel,
 } = require("../db/models/DynamoDB");
-const { omit, isEqual } = require("lodash");
 
-const saveModel = model =>
+const diffPatcher = jsondiffpatch.create({
+  objecHash: obj => obj.id,
+});
+
+const saveModel = (model, options = {}) =>
   new Promise((resolve, reject) => {
-    model.save(err => {
+    model.save(options, err => {
       if (err) {
         reject(err);
       }
@@ -28,25 +35,57 @@ const createQuestionnaire = async questionnaire => {
   return questionnaire;
 };
 
-const saveQuestionnaire = async questionnaire => {
-  let equal = isEqual(
-    {
-      metadata: [],
-      sections: [],
-      ...questionnaire.originalItem(),
-    },
-    {
-      ...questionnaire,
-    }
-  );
+const getQuestionnaire = id => {
+  return new Promise((resolve, reject) => {
+    QuestionnaireVersionsModel.queryOne({ id: { eq: id } })
+      .descending()
+      .consistent()
+      .exec((err, questionnaire) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(questionnaire);
+      });
+  });
+};
+
+const MAX_UPDATE_TIMES = 2;
+const saveQuestionnaire = async (questionnaire, count = 0) => {
+  if (count === MAX_UPDATE_TIMES) {
+    throw new Error(`Failed after trying to update ${MAX_UPDATE_TIMES} times`);
+  }
+  const originalQuestionnaire = {
+    metadata: [],
+    sections: [],
+    ...questionnaire.originalItem(),
+  };
+  let equal = isEqual(originalQuestionnaire, questionnaire);
   if (equal) {
     return questionnaire;
   }
-  if (questionnaire.updatedAt) {
-    questionnaire.updatedAt = Date.now();
-  }
 
-  return saveModel(questionnaire);
+  const newUpdatedAt = new Date();
+  const oldUpdatedAt = new Date(originalQuestionnaire.updatedAt).getTime();
+  questionnaire.updatedAt = newUpdatedAt;
+  try {
+    await saveModel(questionnaire, {
+      updateTimestamps: false,
+      condition: "updatedAt = :updatedAt",
+      conditionValues: {
+        updatedAt: oldUpdatedAt,
+      },
+    });
+  } catch (e) {
+    if (!e.code || e.code !== "ConditionalCheckFailedException") {
+      throw e;
+    }
+
+    const patch = diffPatcher.diff(originalQuestionnaire, questionnaire);
+    logger.warn(`Dynamoose merging on save id: ${questionnaire.id}`, patch);
+    const dbQuestionnaire = await getQuestionnaire(questionnaire.id);
+    diffPatcher.patch(dbQuestionnaire, patch);
+    await saveQuestionnaire(dbQuestionnaire, ++count);
+  }
 };
 
 const deleteQuestionnaire = id => {
@@ -57,19 +96,6 @@ const deleteQuestionnaire = id => {
       }
       resolve();
     });
-  });
-};
-
-const getQuestionnaire = id => {
-  return new Promise((resolve, reject) => {
-    QuestionnaireVersionsModel.queryOne({ id: { eq: id } })
-      .descending()
-      .exec((err, questionnaire) => {
-        if (err) {
-          reject(err);
-        }
-        resolve(questionnaire);
-      });
   });
 };
 
