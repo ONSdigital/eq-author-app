@@ -34,7 +34,7 @@ describe("questionnaire", () => {
       questionnaire = await createQuestionnaire(config);
     });
 
-    it("should create a questionnaire with a setion and page", async () => {
+    it("should create a questionnaire with a section and page", async () => {
       expect(questionnaire).toEqual(
         expect.objectContaining(
           filter(

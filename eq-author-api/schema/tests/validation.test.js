@@ -1,16 +1,26 @@
-const { first } = require("lodash");
-const knex = require("knex")(require("../../knexfile"));
-const repositories = require("../../repositories")(knex);
-const modifiers = require("../../modifiers")(repositories);
-const executeQuery = require("../../tests/utils/executeQuery");
+const { last } = require("lodash");
+
 const {
-  createQuestionnaireMutation,
-  createAnswerMutation,
-  getAnswerValidations,
-  toggleAnswerValidation,
-  updateAnswerValidation,
-  createMetadataMutation,
-} = require("../../tests/utils/graphql");
+  buildQuestionnaire,
+} = require("../../tests/utils/questionnaireBuilder");
+
+const {
+  deleteQuestionnaire,
+} = require("../../tests/utils/questionnaireBuilder/questionnaire");
+
+const {
+  createAnswer,
+} = require("../../tests/utils/questionnaireBuilder/answer");
+
+const {
+  createMetadata,
+} = require("../../tests/utils/questionnaireBuilder/metadata");
+
+const {
+  queryValidation,
+  toggleValidation,
+  updateValidation,
+} = require("../../tests/utils/questionnaireBuilder/validation");
 
 const {
   CUSTOM,
@@ -19,145 +29,67 @@ const {
   NOW,
 } = require("../../constants/validationEntityTypes");
 
-const { DATE, DATE_RANGE } = require("../../constants/answerTypes");
+const {
+  CURRENCY,
+  NUMBER,
+  DATE,
+  DATE_RANGE,
+} = require("../../constants/answerTypes");
 
 describe("validation", () => {
-  let questionnaire;
-  let sections;
-  let pages;
-  let firstPage;
-
-  let createNewQuestionnaire;
-  let createNewAnswer;
-  let createMetadata;
-  let queryAnswerValidations;
-  let mutateValidationToggle;
-  let mutateValidationParameters;
+  let questionnaire, section, page;
+  let config = {
+    sections: [
+      {
+        pages: [{}],
+      },
+    ],
+  };
 
   beforeAll(async () => {
-    await knex.migrate.latest();
-
-    let ctx = { repositories, modifiers };
-
-    createNewQuestionnaire = async () => {
-      const input = {
-        title: "Test Questionnaire",
-        description: "Questionnaire created by integration test.",
-        theme: "default",
-        legalBasis: "Voluntary",
-        navigation: false,
-        surveyId: "001",
-        summary: true,
-      };
-
-      const result = await executeQuery(
-        createQuestionnaireMutation,
-        { input },
-        ctx
-      );
-      return result.data.createQuestionnaire;
-    };
-
-    createNewAnswer = async ({ id: pageId }, type) => {
-      const input = {
-        description: "",
-        guidance: "",
-        label: `${type} answer`,
-        qCode: null,
-        type: `${type}`,
-        questionPageId: pageId,
-      };
-
-      const result = await executeQuery(createAnswerMutation, { input }, ctx);
-      if (result.errors) {
-        throw new Error(result.errors[0]);
-      }
-      return result.data.createAnswer;
-    };
-
-    createMetadata = async questionnaireId => {
-      const input = {
-        questionnaireId,
-      };
-
-      const result = await executeQuery(createMetadataMutation, { input }, ctx);
-
-      if (result.errors) {
-        throw new Error(result.errors[0]);
-      }
-      return result.data.createMetadata;
-    };
-
-    queryAnswerValidations = async id => {
-      const result = await executeQuery(
-        getAnswerValidations,
-        {
-          id,
-        },
-        ctx
-      );
-      if (result.errors) {
-        throw new Error(result.errors[0]);
-      }
-      return result.data.answer.validation;
-    };
-
-    mutateValidationToggle = async input => {
-      const result = await executeQuery(
-        toggleAnswerValidation,
-        {
-          input,
-        },
-        ctx
-      );
-
-      return result.data.toggleValidationRule;
-    };
-
-    mutateValidationParameters = async input => {
-      const result = await executeQuery(
-        updateAnswerValidation,
-        {
-          input,
-        },
-        ctx
-      );
-      if (result.errors) {
-        throw new Error(result.errors[0]);
-      }
-      return result.data.updateValidationRule;
-    };
+    questionnaire = await buildQuestionnaire(config);
+    section = last(questionnaire.sections);
+    page = last(section.pages);
   });
-  afterEach(() => knex("Questionnaires").delete());
 
-  beforeEach(async () => {
-    questionnaire = await createNewQuestionnaire();
-    sections = questionnaire.sections;
-    pages = first(sections).pages;
-    firstPage = first(pages);
+  afterAll(async () => {
+    await deleteQuestionnaire(questionnaire.id);
   });
 
   describe("All", () => {
     it("can toggle any validation rule on and off without affecting another", async () => {
-      const currencyAnswer = await createNewAnswer(firstPage, "Currency");
-      let currencyValidation = await queryAnswerValidations(currencyAnswer.id);
+      const currencyAnswer = await createAnswer(questionnaire, {
+        questionPageId: page.id,
+        type: CURRENCY,
+      });
 
-      await mutateValidationToggle({
+      let currencyValidation = await queryValidation(
+        questionnaire,
+        currencyAnswer.id
+      );
+
+      await toggleValidation(questionnaire, {
         id: currencyValidation.minValue.id,
         enabled: true,
       });
 
-      currencyValidation = await queryAnswerValidations(currencyAnswer.id);
+      currencyValidation = await queryValidation(
+        questionnaire,
+        currencyAnswer.id
+      );
 
       expect(currencyValidation.minValue).toHaveProperty("enabled", true);
       expect(currencyValidation.maxValue).toHaveProperty("enabled", false);
 
-      await mutateValidationToggle({
+      await toggleValidation(questionnaire, {
         id: currencyValidation.minValue.id,
         enabled: false,
       });
 
-      currencyValidation = await queryAnswerValidations(currencyAnswer.id);
+      currencyValidation = await queryValidation(
+        questionnaire,
+        currencyAnswer.id
+      );
 
       expect(currencyValidation.minValue).toHaveProperty("enabled", false);
       expect(currencyValidation.maxValue).toHaveProperty("enabled", false);
@@ -165,14 +97,24 @@ describe("validation", () => {
   });
 
   describe("Number and Currency", () => {
-    it("should create min and max validation db entries for Currency and Number answers", async () => {
-      const currencyAnswer = await createNewAnswer(firstPage, "Currency");
-      const currencyValidation = await queryAnswerValidations(
+    it("should create min and max validation for Currency and Number answers", async () => {
+      const currencyAnswer = await createAnswer(questionnaire, {
+        questionPageId: page.id,
+        type: CURRENCY,
+      });
+      const currencyValidation = await queryValidation(
+        questionnaire,
         currencyAnswer.id
       );
 
-      const numberAnswer = await createNewAnswer(firstPage, "Number");
-      const numberValidation = await queryAnswerValidations(numberAnswer.id);
+      const numberAnswer = await createAnswer(questionnaire, {
+        questionPageId: page.id,
+        type: NUMBER,
+      });
+      const numberValidation = await queryValidation(
+        questionnaire,
+        numberAnswer.id
+      );
 
       const validationObject = (minValueId, maxValueId) => ({
         minValue: {
@@ -205,12 +147,16 @@ describe("validation", () => {
     });
 
     it("can update inclusive and custom min values", async () => {
-      const currencyAnswer = await createNewAnswer(firstPage, "Currency");
-      const currencyValidation = await queryAnswerValidations(
+      const currencyAnswer = await createAnswer(questionnaire, {
+        questionPageId: page.id,
+        type: CURRENCY,
+      });
+      const currencyValidation = await queryValidation(
+        questionnaire,
         currencyAnswer.id
       );
 
-      const result = await mutateValidationParameters({
+      const result = await updateValidation(questionnaire, {
         id: currencyValidation.minValue.id,
         minValueInput: {
           custom: 10,
@@ -225,12 +171,16 @@ describe("validation", () => {
     });
 
     it("can update inclusive and custom max values", async () => {
-      const currencyAnswer = await createNewAnswer(firstPage, "Currency");
-      const currencyValidation = await queryAnswerValidations(
+      const currencyAnswer = await createAnswer(questionnaire, {
+        questionPageId: page.id,
+        type: CURRENCY,
+      });
+      const currencyValidation = await queryValidation(
+        questionnaire,
         currencyAnswer.id
       );
 
-      const result = await mutateValidationParameters({
+      const result = await updateValidation(questionnaire, {
         id: currencyValidation.maxValue.id,
         maxValueInput: {
           custom: 10,
@@ -246,11 +196,20 @@ describe("validation", () => {
     });
 
     it("can update inclusive and previous answer min values", async () => {
-      const previousAnswer = await createNewAnswer(firstPage, "Number");
-      const numberAnswer = await createNewAnswer(firstPage, "Number");
-      const numberValidation = await queryAnswerValidations(numberAnswer.id);
+      const previousAnswer = await createAnswer(questionnaire, {
+        questionPageId: page.id,
+        type: NUMBER,
+      });
+      const numberAnswer = await createAnswer(questionnaire, {
+        questionPageId: page.id,
+        type: NUMBER,
+      });
+      const numberValidation = await queryValidation(
+        questionnaire,
+        numberAnswer.id
+      );
 
-      const result = await mutateValidationParameters({
+      const result = await updateValidation(questionnaire, {
         id: numberValidation.minValue.id,
         minValueInput: {
           previousAnswer: previousAnswer.id,
@@ -268,11 +227,20 @@ describe("validation", () => {
     });
 
     it("can update inclusive and previous answer max values", async () => {
-      const previousAnswer = await createNewAnswer(firstPage, "Number");
-      const numberAnswer = await createNewAnswer(firstPage, "Number");
-      const numberValidation = await queryAnswerValidations(numberAnswer.id);
+      const previousAnswer = await createAnswer(questionnaire, {
+        questionPageId: page.id,
+        type: NUMBER,
+      });
+      const numberAnswer = await createAnswer(questionnaire, {
+        questionPageId: page.id,
+        type: NUMBER,
+      });
+      const numberValidation = await queryValidation(
+        questionnaire,
+        numberAnswer.id
+      );
 
-      const result = await mutateValidationParameters({
+      const result = await updateValidation(questionnaire, {
         id: numberValidation.maxValue.id,
         maxValueInput: {
           previousAnswer: previousAnswer.id,
@@ -290,29 +258,46 @@ describe("validation", () => {
     });
 
     it("can update inclusive and entity type", async () => {
-      const currencyAnswer = await createNewAnswer(firstPage, "Currency");
-      const currencyValidation = await queryAnswerValidations(
+      const currencyAnswer = await createAnswer(questionnaire, {
+        questionPageId: page.id,
+        type: CURRENCY,
+      });
+      const currencyValidation = await queryValidation(
+        questionnaire,
         currencyAnswer.id
       );
 
       const entityTypes = [CUSTOM, PREVIOUS_ANSWER, METADATA];
 
-      const promises = entityTypes.map(async entityType => {
-        const result = await mutateValidationParameters({
+      for (let i = 0; i < entityTypes.length; i++) {
+        const result = await updateValidation(questionnaire, {
+          id: currencyValidation.minValue.id,
+          minValueInput: {
+            entityType: entityTypes[i],
+            inclusive: true,
+          },
+        });
+
+        expect(result).toMatchObject({
+          id: currencyValidation.minValue.id,
+          entityType: entityTypes[i],
+        });
+      }
+
+      for (let i = 0; i < entityTypes.length; i++) {
+        const result = await updateValidation(questionnaire, {
           id: currencyValidation.maxValue.id,
           maxValueInput: {
-            entityType,
+            entityType: entityTypes[i],
             inclusive: true,
           },
         });
 
         expect(result).toMatchObject({
           id: currencyValidation.maxValue.id,
-          entityType,
+          entityType: entityTypes[i],
         });
-      });
-
-      await Promise.all(promises);
+      }
     });
   });
 
@@ -331,15 +316,21 @@ describe("validation", () => {
     });
 
     it("should default earliest and latest date to NOW entityType", async () => {
-      const answer = await createNewAnswer(firstPage, DATE);
-      const validation = await queryAnswerValidations(answer.id);
+      const answer = await createAnswer(questionnaire, {
+        questionPageId: page.id,
+        type: DATE,
+      });
+      const validation = await queryValidation(questionnaire, answer.id);
       expect(validation.earliestDate.entityType).toEqual(NOW);
       expect(validation.latestDate.entityType).toEqual(NOW);
     });
 
-    it("should create earliest validation db entries for Date answers", async () => {
-      const answer = await createNewAnswer(firstPage, "Date");
-      const validation = await queryAnswerValidations(answer.id);
+    it("should create earliest validation for Date answers", async () => {
+      const answer = await createAnswer(questionnaire, {
+        questionPageId: page.id,
+        type: DATE,
+      });
+      const validation = await queryValidation(questionnaire, answer.id);
       const validationObject = (earliestId, latestId) => ({
         earliestDate: {
           id: earliestId,
@@ -369,9 +360,12 @@ describe("validation", () => {
 
     describe("Earliest", () => {
       it("should be able to update properties", async () => {
-        const answer = await createNewAnswer(firstPage, DATE);
-        const validation = await queryAnswerValidations(answer.id);
-        const result = await mutateValidationParameters({
+        const answer = await createAnswer(questionnaire, {
+          questionPageId: page.id,
+          type: DATE,
+        });
+        const validation = await queryValidation(questionnaire, answer.id);
+        const result = await updateValidation(questionnaire, {
           id: validation.earliestDate.id,
           earliestDateInput: {
             ...params,
@@ -389,11 +383,17 @@ describe("validation", () => {
       });
 
       it("can update previous answer", async () => {
-        const previousAnswer = await createNewAnswer(firstPage, DATE);
-        const answer = await createNewAnswer(firstPage, DATE);
-        const validation = await queryAnswerValidations(answer.id);
+        const previousAnswer = await createAnswer(questionnaire, {
+          questionPageId: page.id,
+          type: DATE,
+        });
+        const answer = await createAnswer(questionnaire, {
+          questionPageId: page.id,
+          type: DATE,
+        });
+        const validation = await queryValidation(questionnaire, answer.id);
 
-        const result = await mutateValidationParameters({
+        const result = await updateValidation(questionnaire, {
           id: validation.earliestDate.id,
           earliestDateInput: {
             ...params,
@@ -411,11 +411,16 @@ describe("validation", () => {
       });
 
       it("can update metadata", async () => {
-        const metadata = await createMetadata(questionnaire.id);
-        const answer = await createNewAnswer(firstPage, DATE);
-        const validation = await queryAnswerValidations(answer.id);
+        const metadata = await createMetadata(questionnaire, {
+          questionnaireId: questionnaire.id,
+        });
+        const answer = await createAnswer(questionnaire, {
+          questionPageId: page.id,
+          type: DATE,
+        });
+        const validation = await queryValidation(questionnaire, answer.id);
 
-        const result = await mutateValidationParameters({
+        const result = await updateValidation(questionnaire, {
           id: validation.earliestDate.id,
           earliestDateInput: {
             ...params,
@@ -433,35 +438,39 @@ describe("validation", () => {
       });
 
       it("can update entity type", async () => {
-        const answer = await createNewAnswer(firstPage, DATE);
-        const validation = await queryAnswerValidations(answer.id);
+        const answer = await createAnswer(questionnaire, {
+          questionPageId: page.id,
+          type: DATE,
+        });
+        const validation = await queryValidation(questionnaire, answer.id);
 
         const entityTypes = [CUSTOM, PREVIOUS_ANSWER, METADATA, NOW];
 
-        const promises = entityTypes.map(async entityType => {
-          const result = await mutateValidationParameters({
+        for (let i = 0; i < entityTypes.length; i++) {
+          const result = await updateValidation(questionnaire, {
             id: validation.earliestDate.id,
             earliestDateInput: {
               ...params,
-              entityType,
+              entityType: entityTypes[i],
             },
           });
 
           expect(result).toMatchObject({
             id: validation.earliestDate.id,
-            entityType,
+            entityType: entityTypes[i],
           });
-        });
-
-        await Promise.all(promises);
+        }
       });
     });
 
     describe("Latest", () => {
       it("should be able to update properties", async () => {
-        const answer = await createNewAnswer(firstPage, DATE);
-        const validation = await queryAnswerValidations(answer.id);
-        const result = await mutateValidationParameters({
+        const answer = await createAnswer(questionnaire, {
+          questionPageId: page.id,
+          type: DATE,
+        });
+        const validation = await queryValidation(questionnaire, answer.id);
+        const result = await updateValidation(questionnaire, {
           id: validation.latestDate.id,
           latestDateInput: {
             custom: "2017-01-01",
@@ -480,11 +489,17 @@ describe("validation", () => {
       });
 
       it("can update previous answer", async () => {
-        const previousAnswer = await createNewAnswer(firstPage, DATE);
-        const answer = await createNewAnswer(firstPage, DATE);
-        const validation = await queryAnswerValidations(answer.id);
+        const previousAnswer = await createAnswer(questionnaire, {
+          questionPageId: page.id,
+          type: DATE,
+        });
+        const answer = await createAnswer(questionnaire, {
+          questionPageId: page.id,
+          type: DATE,
+        });
+        const validation = await queryValidation(questionnaire, answer.id);
 
-        const result = await mutateValidationParameters({
+        const result = await updateValidation(questionnaire, {
           id: validation.latestDate.id,
           latestDateInput: {
             ...params,
@@ -502,11 +517,16 @@ describe("validation", () => {
       });
 
       it("can update metadata", async () => {
-        const metadata = await createMetadata(questionnaire.id);
-        const answer = await createNewAnswer(firstPage, DATE);
-        const validation = await queryAnswerValidations(answer.id);
+        const metadata = await createMetadata(questionnaire, {
+          questionnaireId: questionnaire.id,
+        });
+        const answer = await createAnswer(questionnaire, {
+          questionPageId: page.id,
+          type: DATE,
+        });
+        const validation = await queryValidation(questionnaire, answer.id);
 
-        const result = await mutateValidationParameters({
+        const result = await updateValidation(questionnaire, {
           id: validation.latestDate.id,
           latestDateInput: {
             ...params,
@@ -524,27 +544,28 @@ describe("validation", () => {
       });
 
       it("can update entity type", async () => {
-        const answer = await createNewAnswer(firstPage, DATE);
-        const validation = await queryAnswerValidations(answer.id);
+        const answer = await createAnswer(questionnaire, {
+          questionPageId: page.id,
+          type: DATE,
+        });
+        const validation = await queryValidation(questionnaire, answer.id);
 
         const entityTypes = [CUSTOM, PREVIOUS_ANSWER, METADATA, NOW];
 
-        const promises = entityTypes.map(async entityType => {
-          const result = await mutateValidationParameters({
+        for (let i = 0; i < entityTypes.length; i++) {
+          const result = await updateValidation(questionnaire, {
             id: validation.latestDate.id,
             latestDateInput: {
               ...params,
-              entityType,
+              entityType: entityTypes[i],
             },
           });
 
           expect(result).toMatchObject({
             id: validation.latestDate.id,
-            entityType,
+            entityType: entityTypes[i],
           });
-        });
-
-        await Promise.all(promises);
+        }
       });
     });
   });
@@ -564,16 +585,22 @@ describe("validation", () => {
     });
 
     it("should default earliest and latest date to CUSTOM entityType", async () => {
-      const answer = await createNewAnswer(firstPage, DATE_RANGE);
-      const validation = await queryAnswerValidations(answer.id);
+      const answer = await createAnswer(questionnaire, {
+        questionPageId: page.id,
+        type: DATE_RANGE,
+      });
+      const validation = await queryValidation(questionnaire, answer.id);
 
       expect(validation.earliestDate.entityType).toEqual(CUSTOM);
       expect(validation.latestDate.entityType).toEqual(CUSTOM);
     });
 
-    it("should create earliest validation db entries for DateRange answers", async () => {
-      const answer = await createNewAnswer(firstPage, DATE_RANGE);
-      const validation = await queryAnswerValidations(answer.id);
+    it("should create earliest validation for DateRange answers", async () => {
+      const answer = await createAnswer(questionnaire, {
+        questionPageId: page.id,
+        type: DATE_RANGE,
+      });
+      const validation = await queryValidation(questionnaire, answer.id);
       const validationObject = (earliestId, latestId) => ({
         earliestDate: {
           id: earliestId,
@@ -603,9 +630,12 @@ describe("validation", () => {
 
     describe("Earliest", () => {
       it("should be able to update properties", async () => {
-        const answer = await createNewAnswer(firstPage, DATE_RANGE);
-        const validation = await queryAnswerValidations(answer.id);
-        const result = await mutateValidationParameters({
+        const answer = await createAnswer(questionnaire, {
+          questionPageId: page.id,
+          type: DATE_RANGE,
+        });
+        const validation = await queryValidation(questionnaire, answer.id);
+        const result = await updateValidation(questionnaire, {
           id: validation.earliestDate.id,
           earliestDateInput: {
             ...params,
@@ -623,11 +653,16 @@ describe("validation", () => {
       });
 
       it("can update metadata", async () => {
-        const metadata = await createMetadata(questionnaire.id);
-        const answer = await createNewAnswer(firstPage, DATE_RANGE);
-        const validation = await queryAnswerValidations(answer.id);
+        const metadata = await createMetadata(questionnaire, {
+          questionnaireId: questionnaire.id,
+        });
+        const answer = await createAnswer(questionnaire, {
+          questionPageId: page.id,
+          type: DATE_RANGE,
+        });
+        const validation = await queryValidation(questionnaire, answer.id);
 
-        const result = await mutateValidationParameters({
+        const result = await updateValidation(questionnaire, {
           id: validation.earliestDate.id,
           earliestDateInput: {
             ...params,
@@ -645,35 +680,39 @@ describe("validation", () => {
       });
 
       it("can update entity type", async () => {
-        const answer = await createNewAnswer(firstPage, DATE_RANGE);
-        const validation = await queryAnswerValidations(answer.id);
+        const answer = await createAnswer(questionnaire, {
+          questionPageId: page.id,
+          type: DATE_RANGE,
+        });
+        const validation = await queryValidation(questionnaire, answer.id);
 
         const entityTypes = [CUSTOM, METADATA];
 
-        const promises = entityTypes.map(async entityType => {
-          const result = await mutateValidationParameters({
+        for (let i = 0; i < entityTypes.length; i++) {
+          const result = await updateValidation(questionnaire, {
             id: validation.earliestDate.id,
             earliestDateInput: {
               ...params,
-              entityType,
+              entityType: entityTypes[i],
             },
           });
 
           expect(result).toMatchObject({
             id: validation.earliestDate.id,
-            entityType,
+            entityType: entityTypes[i],
           });
-        });
-
-        await Promise.all(promises);
+        }
       });
     });
 
     describe("Latest", () => {
       it("should be able to update properties", async () => {
-        const answer = await createNewAnswer(firstPage, DATE_RANGE);
-        const validation = await queryAnswerValidations(answer.id);
-        const result = await mutateValidationParameters({
+        const answer = await createAnswer(questionnaire, {
+          questionPageId: page.id,
+          type: DATE_RANGE,
+        });
+        const validation = await queryValidation(questionnaire, answer.id);
+        const result = await updateValidation(questionnaire, {
           id: validation.latestDate.id,
           latestDateInput: {
             custom: "2017-01-01",
@@ -692,11 +731,16 @@ describe("validation", () => {
       });
 
       it("can update metadata", async () => {
-        const metadata = await createMetadata(questionnaire.id);
-        const answer = await createNewAnswer(firstPage, DATE_RANGE);
-        const validation = await queryAnswerValidations(answer.id);
+        const metadata = await createMetadata(questionnaire, {
+          questionnaireId: questionnaire.id,
+        });
+        const answer = await createAnswer(questionnaire, {
+          questionPageId: page.id,
+          type: DATE_RANGE,
+        });
+        const validation = await queryValidation(questionnaire, answer.id);
 
-        const result = await mutateValidationParameters({
+        const result = await updateValidation(questionnaire, {
           id: validation.latestDate.id,
           latestDateInput: {
             ...params,
@@ -714,41 +758,45 @@ describe("validation", () => {
       });
 
       it("can update entity type", async () => {
-        const answer = await createNewAnswer(firstPage, DATE_RANGE);
-        const validation = await queryAnswerValidations(answer.id);
+        const answer = await createAnswer(questionnaire, {
+          questionPageId: page.id,
+          type: DATE_RANGE,
+        });
+        const validation = await queryValidation(questionnaire, answer.id);
 
         const entityTypes = [CUSTOM, METADATA];
 
-        const promises = entityTypes.map(async entityType => {
-          const result = await mutateValidationParameters({
+        for (let i = 0; i < entityTypes.length; i++) {
+          const result = await updateValidation(questionnaire, {
             id: validation.latestDate.id,
             latestDateInput: {
               ...params,
-              entityType,
+              entityType: entityTypes[i],
             },
           });
 
           expect(result).toMatchObject({
             id: validation.latestDate.id,
-            entityType,
+            entityType: entityTypes[i],
           });
-        });
-
-        await Promise.all(promises);
+        }
       });
     });
 
     describe("MinDuration", () => {
       it("should be able to update properties", async () => {
-        const answer = await createNewAnswer(firstPage, DATE_RANGE);
-        const validation = await queryAnswerValidations(answer.id);
+        const answer = await createAnswer(questionnaire, {
+          questionPageId: page.id,
+          type: DATE_RANGE,
+        });
+        const validation = await queryValidation(questionnaire, answer.id);
         const input = {
           duration: {
             value: 8,
             unit: "Days",
           },
         };
-        const result = await mutateValidationParameters({
+        const result = await updateValidation(questionnaire, {
           id: validation.minDuration.id,
           minDurationInput: {
             ...input,
@@ -764,15 +812,18 @@ describe("validation", () => {
 
     describe("MaxDuration", () => {
       it("should be able to update properties", async () => {
-        const answer = await createNewAnswer(firstPage, DATE_RANGE);
-        const validation = await queryAnswerValidations(answer.id);
+        const answer = await createAnswer(questionnaire, {
+          questionPageId: page.id,
+          type: DATE_RANGE,
+        });
+        const validation = await queryValidation(questionnaire, answer.id);
         const input = {
           duration: {
             value: 8,
             unit: "Days",
           },
         };
-        const result = await mutateValidationParameters({
+        const result = await updateValidation(questionnaire, {
           id: validation.maxDuration.id,
           maxDurationInput: {
             ...input,

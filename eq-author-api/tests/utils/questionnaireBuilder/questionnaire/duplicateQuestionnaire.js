@@ -6,22 +6,20 @@ const duplicateQuestionnaireMutation = `
       id
       title
       description
-      navigation
-      legalBasis
       theme
-      metadata {
-        id
-      }
+      legalBasis
+      navigation
+      surveyId
+      createdAt
       sections {
         id
-        pages {
-          id
-          ... on QuestionPage {
-            answers {
-              id
-            }
-          }
-        }
+      }
+      summary
+      questionnaireInfo {
+        totalSectionCount
+      }
+      metadata {
+        id
       }
     }
   }
