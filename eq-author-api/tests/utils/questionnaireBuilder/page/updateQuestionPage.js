@@ -20,7 +20,7 @@ const updateQuestionPage = async (questionnaire, input) => {
   const result = await executeQuery(
     updateQuestionPageMutation,
     { input },
-    questionnaire
+    { questionnaire }
   );
   return result.data.updateQuestionPage;
 };

@@ -19,7 +19,7 @@ const updateQuestionnaire = async (questionnaire, input) => {
   const result = await executeQuery(
     updateQuestionnaireMutation,
     { input },
-    questionnaire
+    { questionnaire }
   );
   return result.data.updateQuestionnaire;
 };

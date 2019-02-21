@@ -33,7 +33,7 @@ const createOption = async (questionnaire, input) => {
         input
       ),
     },
-    questionnaire
+    { questionnaire }
   );
 
   return result.data.createOption;

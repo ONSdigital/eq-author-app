@@ -30,7 +30,7 @@ const queryQuestionConfirmation = async (questionnaire, id) => {
   const result = await executeQuery(
     getQuestionConfirmationQuery,
     { id },
-    questionnaire
+    { questionnaire }
   );
 
   return result.data.questionConfirmation;

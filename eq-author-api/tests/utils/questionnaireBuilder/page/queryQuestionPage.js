@@ -53,7 +53,7 @@ const queryQuestionPage = async (questionnaire, pageId) => {
     {
       input: { pageId },
     },
-    questionnaire
+    { questionnaire }
   );
 
   return result.data.page;

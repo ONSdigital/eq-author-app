@@ -21,7 +21,7 @@ const querySectionIntroduction = async (questionnaire, sectionId) => {
     {
       input: { sectionId },
     },
-    questionnaire
+    { questionnaire }
   );
 
   return result.data.section.introduction;

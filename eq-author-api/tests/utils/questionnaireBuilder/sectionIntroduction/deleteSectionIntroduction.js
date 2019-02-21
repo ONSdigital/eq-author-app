@@ -12,7 +12,7 @@ const deleteSectionIntroduction = async (questionnaire, sectionId) => {
   const result = await executeQuery(
     deleteSectionIntroductionMutation,
     { input: { sectionId } },
-    questionnaire
+    { questionnaire }
   );
   return result.data.deleteSectionIntroduction;
 };

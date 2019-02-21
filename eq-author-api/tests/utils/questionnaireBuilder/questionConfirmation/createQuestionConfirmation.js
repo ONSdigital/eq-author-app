@@ -23,7 +23,7 @@ const createQuestionConfirmation = async (questionnaire, input) => {
         input
       ),
     },
-    questionnaire
+    { questionnaire }
   );
   return result.data.createQuestionConfirmation;
 };

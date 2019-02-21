@@ -32,7 +32,7 @@ const queryQuestionnaire = async questionnaire => {
   const result = await executeQuery(
     getQuestionnaireQuery,
     { input: {} },
-    questionnaire
+    { questionnaire }
   );
   return result.data.questionnaire;
 };
