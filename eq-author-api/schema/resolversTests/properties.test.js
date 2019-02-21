@@ -10,7 +10,7 @@ const {
   updateAnswerMutation,
 } = require("../../tests/utils/graphql");
 
-describe("resolvers", () => {
+describe("properties", () => {
   let questionnaire;
   let sections;
   let pages;

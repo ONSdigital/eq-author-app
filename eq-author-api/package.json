@@ -7,7 +7,7 @@
     "start": "node app.js",
     "start:dev": "NODE_ENV=development nodemon --ignore 'data/' --inspect=0.0.0.0:5858",
     "lint": "eslint .",
-    "test": "./scripts/test.sh",
+    "test": "./scripts/test.sh schema/tests",
     "test:breakingChanges": "node scripts/checkForBreakingChanges.js",
     "knex": "knex"
   },
@@ -23,6 +23,7 @@
     "express": "latest",
     "express-pino-logger": "latest",
     "graphql": "latest",
+    "graphql-anywhere": "latest",
     "graphql-iso-date": "latest",
     "graphql-tools": "latest",
     "graphql-type-json": "latest",
@@ -57,7 +58,8 @@
       "!scripts/*",
       "!middleware/import.js",
       "!app.js"
-    ]
+    ],
+    "watchPathIgnorePatterns": ["data\/"]
   },
   "devDependencies": {
     "eslint": "latest",

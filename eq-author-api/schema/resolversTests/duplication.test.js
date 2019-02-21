@@ -1,6 +1,6 @@
 const executeQuery = require("../../tests/utils/executeQuery");
 
-describe("Duplication", () => {
+describe("duplication", () => {
   beforeEach(async () => {});
 
   it("should be able to duplicate a page", async () => {
