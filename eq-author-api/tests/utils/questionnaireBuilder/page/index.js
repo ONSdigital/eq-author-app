@@ -20,6 +20,11 @@ const {
 
 const { duplicatePage, duplicatePageMutation } = require("./duplicatePage");
 
+const {
+  moveQuestionPage,
+  moveQuestionPageMutation,
+} = require("./moveQuestionPage");
+
 module.exports = {
   queryQuestionPage,
   queryQuestionPageMutation,
@@ -31,4 +36,6 @@ module.exports = {
   deleteQuestionPageMutation,
   duplicatePage,
   duplicatePageMutation,
+  moveQuestionPage,
+  moveQuestionPageMutation,
 };
