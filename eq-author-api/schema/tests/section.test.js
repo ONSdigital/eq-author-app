@@ -8,11 +8,13 @@ const {
 
 const {
   deleteQuestionnaire,
+  queryQuestionnaire,
 } = require("../../tests/utils/questionnaireBuilder/questionnaire");
 const {
   updateSection,
   querySection,
   deleteSection,
+  moveSection,
 } = require("../../tests/utils/questionnaireBuilder/section");
 
 const { NUMBER } = require("../../constants/answerTypes");
@@ -42,17 +44,18 @@ describe("section", () => {
         alias: "alias-2",
         position: 1,
         introduction: {},
+        pages: [{}],
       },
     ],
   };
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     questionnaire = await buildQuestionnaire(config);
     section = last(questionnaire.sections);
     metadata = questionnaire.metadata;
   });
 
-  afterAll(async () => {
+  afterEach(async () => {
     await deleteQuestionnaire(questionnaire.id);
   });
 
@@ -80,19 +83,48 @@ describe("section", () => {
   });
 
   describe("mutate", () => {
-    let updatedSection;
-    let update;
-    beforeEach(async () => {
-      update = {
+    it("should mutate a section", async () => {
+      const update = {
         id: section.id,
         title: "Questionnaire-updated",
         alias: "Alias-updated",
       };
-      updatedSection = await updateSection(questionnaire, update);
+      const updatedSection = await updateSection(questionnaire, update);
+      expect(updatedSection).toEqual(expect.objectContaining(update));
+    });
+  });
+
+  describe("move", () => {
+    it("should be able to move a section later", async () => {
+      const sectionToMoveId = questionnaire.sections[0].id;
+      const secondSectionId = questionnaire.sections[1].id;
+
+      await moveSection(questionnaire, {
+        id: sectionToMoveId,
+        questionnaireId: questionnaire.id,
+        position: 1,
+      });
+      const { sections } = await queryQuestionnaire(questionnaire);
+      expect(sections.map(s => s.id)).toEqual([
+        secondSectionId,
+        sectionToMoveId,
+      ]);
     });
 
-    it("should mutate a section", () => {
-      expect(updatedSection).toEqual(expect.objectContaining(update));
+    it("should be able to move a section earlier", async () => {
+      const firstSectionId = questionnaire.sections[0].id;
+      const sectionToMoveId = questionnaire.sections[1].id;
+
+      await moveSection(questionnaire, {
+        id: sectionToMoveId,
+        questionnaireId: questionnaire.id,
+        position: 0,
+      });
+      const { sections } = await queryQuestionnaire(questionnaire);
+      expect(sections.map(s => s.id)).toEqual([
+        sectionToMoveId,
+        firstSectionId,
+      ]);
     });
   });
 
@@ -127,7 +159,7 @@ describe("section", () => {
 
     it("should resolve availablePipingAnswers", () => {
       expect(last(queriedSection.availablePipingAnswers).id).toEqual(
-        get(questionnaire, "sections[1].pages[1].answers[0].id")
+        get(questionnaire, "sections[0].pages[0].answers[0].id")
       );
     });
 

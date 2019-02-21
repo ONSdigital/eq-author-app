@@ -11,6 +11,8 @@ const {
   duplicateSectionMutation,
 } = require("./duplicateSection");
 
+const { moveSection, moveSectionMutation } = require("./moveSection");
+
 module.exports = {
   querySection,
   querySectionMutation,
@@ -22,4 +24,6 @@ module.exports = {
   deleteSectionMutation,
   duplicateSection,
   duplicateSectionMutation,
+  moveSection,
+  moveSectionMutation,
 };

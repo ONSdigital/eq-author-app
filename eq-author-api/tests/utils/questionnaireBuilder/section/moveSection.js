@@ -1,8 +1,8 @@
 const executeQuery = require("../../executeQuery");
 
-const updateSectionMutation = `
-  mutation UpdateSection($input: UpdateSectionInput!) {
-    updateSection(input: $input) {
+const moveSectionMutation = `
+  mutation MoveSection($input: MoveSectionInput!) {
+    moveSection(input: $input) {
       id
       title
       alias
@@ -29,16 +29,21 @@ const updateSectionMutation = `
   }
 `;
 
-const updateSection = async (questionnaire, input) => {
+const moveSection = async (questionnaire, input) => {
   const result = await executeQuery(
-    updateSectionMutation,
+    moveSectionMutation,
     { input },
     { questionnaire }
   );
-  return result.data.updateSection;
+
+  if (result.errors) {
+    throw new Error(result.errors[0].message);
+  }
+
+  return result.data.moveSection;
 };
 
 module.exports = {
-  updateSectionMutation,
-  updateSection,
+  moveSectionMutation,
+  moveSection,
 };
