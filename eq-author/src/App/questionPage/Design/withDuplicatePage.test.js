@@ -1,7 +1,6 @@
 import { mapMutateToProps, createUpdater } from "./withDuplicatePage";
 import { buildPagePath } from "utils/UrlUtils";
 import fragment from "graphql/sectionFragment.graphql";
-import fakeId from "tests/utils/fakeId";
 
 describe("withDuplicatePage", () => {
   let ownProps,
@@ -17,7 +16,7 @@ describe("withDuplicatePage", () => {
   beforeEach(() => {
     match = {
       params: {
-        questionnaireId: fakeId("1"),
+        questionnaireId: "1",
       },
     };
 
@@ -31,14 +30,14 @@ describe("withDuplicatePage", () => {
       match,
     };
 
-    sectionId = fakeId("2");
+    sectionId = "2";
     args = {
       sectionId,
-      pageId: fakeId("3"),
+      pageId: "3",
       position: 0,
     };
 
-    dupePageId = fakeId("4");
+    dupePageId = "4";
 
     result = {
       data: {
@@ -144,9 +143,9 @@ describe("withDuplicatePage", () => {
 
     it("should correctly update position values for all pages in a section", () => {
       const cacheName = `Section${sectionId}`;
-      const pageAId = fakeId("a");
-      const pageBId = fakeId("b");
-      const pageCId = fakeId("c");
+      const pageAId = "a";
+      const pageBId = "b";
+      const pageCId = "c";
       const sections = {
         [cacheName]: {
           id: args.sectionId,
@@ -172,7 +171,7 @@ describe("withDuplicatePage", () => {
         position: 2,
       });
 
-      const dupePageId = fakeId("d");
+      const dupePageId = "d";
       // order: A, C, B
       updater(proxy, {
         data: {

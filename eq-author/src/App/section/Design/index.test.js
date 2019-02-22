@@ -8,12 +8,11 @@ import flushPromises from "tests/utils/flushPromises";
 import createRouterContext from "react-router-test-context";
 import PropTypes from "prop-types";
 import { byTestAttr } from "tests/utils/selectors";
-import fakeId from "tests/utils/fakeId";
 
 import GET_QUESTIONNAIRE_QUERY from "graphql/getQuestionnaire.graphql";
 
-const questionnaireId = fakeId("1");
-const sectionId = fakeId("2");
+const questionnaireId = "1";
+const sectionId = "2";
 
 const moveSectionMock = {
   request: {
@@ -48,7 +47,7 @@ const moveSectionMock = {
             pages: [
               {
                 __typename: "QuestionPage",
-                id: fakeId("3"),
+                id: "3",
                 title: "bar",
                 alias: "bar alias",
                 displayName: "bar",
@@ -56,7 +55,7 @@ const moveSectionMock = {
               },
               {
                 __typename: "QuestionPage",
-                id: fakeId("4"),
+                id: "4",
                 title: "blah",
                 alias: "blah alias",
                 displayName: "blah",
@@ -74,7 +73,7 @@ const moveSectionMock = {
           },
           {
             __typename: "Section",
-            id: fakeId("3"),
+            id: "3",
             title: "foo",
             alias: "foo-alias",
             displayName: "foo",
@@ -85,7 +84,7 @@ const moveSectionMock = {
             pages: [
               {
                 __typename: "QuestionPage",
-                id: fakeId("5"),
+                id: "5",
                 title: "bar",
                 alias: "bar alias",
                 displayName: "bar",
@@ -93,7 +92,7 @@ const moveSectionMock = {
               },
               {
                 __typename: "QuestionPage",
-                id: fakeId("6"),
+                id: "6",
                 title: "blah",
                 alias: "blah alias",
                 displayName: "blah",

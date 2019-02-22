@@ -5,14 +5,13 @@ import {
 } from "App/QuestionnairesPage/withCreateQuestionnaire";
 import { buildPagePath } from "utils/UrlUtils";
 import getQuestionnaireList from "graphql/getQuestionnaireList.graphql";
-import fakeId from "tests/utils/fakeId";
 
 describe("withCreateQuestionnaire", () => {
   let history, mutate, results, user;
 
-  const page = { id: fakeId("3") };
-  const section = { id: fakeId("2"), pages: [page] };
-  const questionnaire = { id: fakeId("1"), sections: [section] };
+  const page = { id: "3" };
+  const section = { id: "2", pages: [page] };
+  const questionnaire = { id: "1", sections: [section] };
 
   beforeEach(() => {
     results = {
@@ -70,8 +69,8 @@ describe("withCreateQuestionnaire", () => {
     let proxy, readQuery, writeQuery, data, questionnaire1Id, questionnaire2Id;
 
     beforeEach(() => {
-      questionnaire1Id = fakeId("1");
-      questionnaire2Id = fakeId("2");
+      questionnaire1Id = "1";
+      questionnaire2Id = "2";
       data = {
         questionnaires: [{ id: questionnaire2Id }, { id: questionnaire1Id }],
       };
@@ -86,7 +85,7 @@ describe("withCreateQuestionnaire", () => {
     });
 
     it("should update the getQuestionnaireList query with new questionnaire.", () => {
-      const newQuestionnaire = { id: fakeId("3") };
+      const newQuestionnaire = { id: "3" };
 
       updateQuestionnaireList(proxy, {
         data: { createQuestionnaire: newQuestionnaire },

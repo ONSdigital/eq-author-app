@@ -10,12 +10,10 @@ import {
   isOnSection,
 } from "utils/UrlUtils";
 
-import fakeId from "tests/utils/fakeId";
-
-const questionnaireId = fakeId("1");
-const sectionId = fakeId("2");
-const pageId = fakeId("3");
-const confirmationId = fakeId("4");
+const questionnaireId = "1";
+const sectionId = "2";
+const pageId = "3";
+const confirmationId = "4";
 
 describe("buildQuestionnairePath", () => {
   it("builds a valid path", () => {

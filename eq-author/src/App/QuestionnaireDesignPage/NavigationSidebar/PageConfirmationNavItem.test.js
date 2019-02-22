@@ -1,8 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
 
-import fakeId from "tests/utils/fakeId";
-
 import { UnwrappedPageConfirmationNavItem as PageConfirmationNavItem } from "./PageConfirmationNavItem";
 
 describe("PageConfirmationNavItem", () => {
@@ -10,18 +8,18 @@ describe("PageConfirmationNavItem", () => {
 
   beforeEach(() => {
     props = {
-      questionnaireId: fakeId("1"),
-      sectionId: fakeId("2"),
+      questionnaireId: "1",
+      sectionId: "2",
       page: {
-        id: fakeId("3"),
+        id: "3",
         confirmation: {
-          id: fakeId("4"),
+          id: "4",
           displayName: "Confirmation display name",
         },
       },
       match: {
         params: {
-          questionnaireId: fakeId("1"),
+          questionnaireId: "1",
           tab: "design",
         },
       },

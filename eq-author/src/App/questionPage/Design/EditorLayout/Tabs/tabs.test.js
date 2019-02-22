@@ -1,6 +1,5 @@
 import React from "react";
 import { shallow } from "enzyme";
-import fakeId from "tests/utils/fakeId";
 import { UnwrappedTabs, Tab, activeClassName } from "./";
 
 describe("components/Tabs", () => {
@@ -10,9 +9,9 @@ describe("components/Tabs", () => {
     props = {
       match: {
         params: {
-          questionnaireId: fakeId("1"),
-          sectionId: fakeId("2"),
-          pageId: fakeId("3"),
+          questionnaireId: "1",
+          sectionId: "2",
+          pageId: "3",
         },
       },
       children: "Tab Content",
@@ -31,7 +30,7 @@ describe("components/Tabs", () => {
   });
 
   it("should render a confirmation link when provided", () => {
-    props.match.params.confirmationId = fakeId("4");
+    props.match.params.confirmationId = "4";
     const wrapper = shallow(<UnwrappedTabs {...props} />);
     expect(wrapper).toMatchSnapshot();
   });

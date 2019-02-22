@@ -9,7 +9,7 @@ exports[`PageNavItem should render 1`] = `
     data-test="nav-page-link"
     icon={[Function]}
     title="Page title"
-    to="/questionnaire/111111111111111111111111111111111111/222222222222222222222222222222222222/333333333333333333333333333333333333"
+    to="/questionnaire/1/2/3"
   >
     Page title
   </NavLink>

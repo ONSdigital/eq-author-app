@@ -5,20 +5,19 @@ import {
 } from "./withCreatePage";
 import fragment from "graphql/sectionFragment.graphql";
 import { buildPagePath } from "utils/UrlUtils";
-import fakeId from "tests/utils/fakeId";
 
 describe("containers/QuestionnaireDesignPage/withCreatePage", () => {
   const page = {
-    id: fakeId("3"),
+    id: "3",
     title: "My Page",
   };
   const section = {
-    id: fakeId("2"),
+    id: "2",
     title: "My Section",
     pages: [page],
   };
   const questionnaire = {
-    id: fakeId("1"),
+    id: "1",
     title: "My Questionnaire",
     sections: [section],
   };
@@ -31,7 +30,7 @@ describe("containers/QuestionnaireDesignPage/withCreatePage", () => {
     };
 
     newPage = {
-      id: fakeId("8"),
+      id: "8",
       title: "New Page",
       position: 1,
       section: {
@@ -77,9 +76,9 @@ describe("containers/QuestionnaireDesignPage/withCreatePage", () => {
     });
 
     it("should update position value of all pages", () => {
-      const pageAId = fakeId("a");
-      const pageBId = fakeId("b");
-      const pageCId = fakeId("c");
+      const pageAId = "a";
+      const pageBId = "b";
+      const pageCId = "c";
 
       const cache = {
         section: {

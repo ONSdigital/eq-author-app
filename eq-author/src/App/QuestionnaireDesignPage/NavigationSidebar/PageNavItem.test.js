@@ -1,10 +1,9 @@
 import React from "react";
 import { shallow } from "enzyme";
-import fakeId from "tests/utils/fakeId";
 import { UnwrappedPageNavItem } from "./PageNavItem";
 
 const page = {
-  id: fakeId("3"),
+  id: "3",
   displayName: "Page title",
 };
 
@@ -14,14 +13,14 @@ describe("PageNavItem", () => {
   beforeEach(() => {
     component = shallow(
       <UnwrappedPageNavItem
-        questionnaireId={fakeId("1")}
-        sectionId={fakeId("2")}
+        questionnaireId={"1"}
+        sectionId={"2"}
         title="Title"
         page={page}
         match={{
           params: {
-            questionnaireId: fakeId("1"),
-            sectionId: fakeId("2"),
+            questionnaireId: "1",
+            sectionId: "2",
             pageId: page.id,
           },
         }}

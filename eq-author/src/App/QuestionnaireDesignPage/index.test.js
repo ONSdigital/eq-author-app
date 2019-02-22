@@ -1,6 +1,5 @@
 import React from "react";
 import { shallow } from "enzyme";
-import fakeId from "tests/utils/fakeId";
 
 import { UnwrappedQuestionnaireDesignPage as QuestionnaireDesignPage } from ".";
 
@@ -10,13 +9,13 @@ describe("QuestionnaireDesignPage", () => {
   let match;
 
   const answer = {
-    id: fakeId("1"),
+    id: "1",
     label: "",
-    options: [{ id: fakeId("1") }],
+    options: [{ id: "1" }],
   };
 
   const page = {
-    id: fakeId("1"),
+    id: "1",
     description: "",
     guidance: "",
     title: "",
@@ -26,13 +25,13 @@ describe("QuestionnaireDesignPage", () => {
   };
 
   const section = {
-    id: fakeId("2"),
+    id: "2",
     title: "",
     pages: [page],
   };
 
   const questionnaire = {
-    id: fakeId("3"),
+    id: "3",
     title: "hello world",
     sections: [section],
   };
