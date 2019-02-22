@@ -685,7 +685,6 @@ input UpdateAnswerInput {
   label: String
   secondaryLabel: String
   qCode: String
-  type: AnswerType
   properties: JSON
 }
 

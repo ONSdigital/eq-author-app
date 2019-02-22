@@ -1,19 +1,27 @@
 const { get, isNull } = require("lodash");
 
 const { createQuestionnaireReturningPersisted } = require("./questionnaire");
-const { createMetadata } = require("./metadata");
+const { createMetadata, updateMetadata } = require("./metadata");
 const { createSection, deleteSection } = require("./section");
 const { createQuestionPage, deleteQuestionPage } = require("./page");
 const { createAnswer } = require("./answer");
-const { createOption } = require("./option");
+const {
+  createOption,
+  createMutuallyExclusiveOption,
+  deleteOption,
+} = require("./option");
 const { createSectionIntroduction } = require("./sectionIntroduction");
-const { createQuestionConfirmation } = require("./questionConfirmation");
 const {
   NEXT_PAGE,
   END_OF_QUESTIONNAIRE,
 } = require("../../../constants/logicalDestinations");
+const {
+  createQuestionConfirmation,
+  updateQuestionConfirmation,
+} = require("./questionConfirmation");
 
 const { getQuestionnaire } = require("../../../utils/datastoreFileSystem");
+const { RADIO } = require("../../../constants/answerTypes");
 
 const {
   createRouting,
@@ -175,10 +183,19 @@ const buildQuestionnaire = async questionnaireConfig => {
             ...page,
           });
           if (page.confirmation) {
-            await createQuestionConfirmation(questionnaire, {
-              pageId: createdPage.id,
-              ...page.confirmation,
-            });
+            const createdQuestionConfirmation = await createQuestionConfirmation(
+              questionnaire,
+              {
+                pageId: createdPage.id,
+                ...page.confirmation,
+              }
+            );
+            if (Object.keys(page.confirmation).length > 0) {
+              await updateQuestionConfirmation(questionnaire, {
+                ...page.confirmation,
+                id: createdQuestionConfirmation.id,
+              });
+            }
           }
 
           if (Array.isArray(page.answers)) {
@@ -189,12 +206,27 @@ const buildQuestionnaire = async questionnaireConfig => {
               });
 
               if (Array.isArray(answer.options)) {
+                const count = answer.type === RADIO ? 2 : 1;
+                for (let i = 0; i < count; ++i) {
+                  await deleteOption(questionnaire, {
+                    id: createdAnswer.options[i].id,
+                  });
+                }
+
                 for (let option of answer.options) {
                   await createOption(questionnaire, {
                     answerId: createdAnswer.id,
                     ...option,
+                    hasAdditionalAnswer: Boolean(option.additionalAnswer),
                   });
                 }
+              }
+
+              if (answer.mutuallyExclusiveOption) {
+                await createMutuallyExclusiveOption(questionnaire, {
+                  ...answer.mutuallyExclusiveOption,
+                  answerId: createdAnswer.id,
+                });
               }
             }
           }
@@ -205,10 +237,15 @@ const buildQuestionnaire = async questionnaireConfig => {
 
   if (Array.isArray(metadata)) {
     for (let meta of metadata) {
-      await createMetadata(questionnaire, {
+      const createdMetadata = await createMetadata(questionnaire, {
         questionnaireId: questionnaire.id,
-        ...meta,
       });
+      if (Object.keys(meta).length > 0) {
+        await updateMetadata(questionnaire, {
+          ...meta,
+          id: createdMetadata.id,
+        });
+      }
     }
   }
 

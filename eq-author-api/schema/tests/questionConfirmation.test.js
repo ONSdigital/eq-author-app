@@ -8,6 +8,7 @@ const {
   deleteQuestionnaire,
 } = require("../../tests/utils/questionnaireBuilder/questionnaire");
 const {
+  createQuestionConfirmation,
   updateQuestionConfirmation,
   queryQuestionConfirmation,
   deleteQuestionConfirmation,
@@ -16,40 +17,28 @@ const {
 const { NUMBER } = require("../../constants/answerTypes");
 
 describe("questionConfirmation", () => {
-  let questionnaire, section, page, questionConfirmation;
-  let config = {
-    metadata: [{}],
-    sections: [
-      {
-        pages: [
-          {
-            answers: [
-              {
-                type: NUMBER,
-              },
-            ],
-          },
-          {
-            confirmation: {},
-          },
-        ],
-      },
-    ],
-  };
+  let questionnaire;
 
-  beforeAll(async () => {
-    questionnaire = await buildQuestionnaire(config);
-    section = last(questionnaire.sections);
-    page = last(section.pages);
-    questionConfirmation = page.confirmation;
-  });
-
-  afterAll(async () => {
+  afterEach(async () => {
     await deleteQuestionnaire(questionnaire.id);
+    questionnaire = null;
   });
 
   describe("create", () => {
-    it("should create a question confirmation", () => {
+    it("should create a question confirmation", async () => {
+      questionnaire = await buildQuestionnaire({
+        sections: [
+          {
+            pages: [{}],
+          },
+        ],
+      });
+      const questionConfirmation = await createQuestionConfirmation(
+        questionnaire,
+        {
+          pageId: questionnaire.sections[0].pages[0].id,
+        }
+      );
       expect(questionConfirmation).toEqual(
         expect.objectContaining({
           title: "",
@@ -67,11 +56,20 @@ describe("questionConfirmation", () => {
   });
 
   describe("mutate", () => {
-    let updatedQuestionConfirmation;
-    let update;
-    beforeEach(async () => {
-      update = {
-        id: questionConfirmation.id,
+    it("should mutate a questionConfirmation", async () => {
+      questionnaire = await buildQuestionnaire({
+        sections: [
+          {
+            pages: [
+              {
+                confirmation: {},
+              },
+            ],
+          },
+        ],
+      });
+      const update = {
+        id: questionnaire.sections[0].pages[0].confirmation.id,
         title: "title-updated",
         negative: {
           label: "negative-label-updated",
@@ -82,16 +80,12 @@ describe("questionConfirmation", () => {
           description: "positive-description-updated",
         },
       };
-      updatedQuestionConfirmation = await updateQuestionConfirmation(
+      const updatedQuestionConfirmation = await updateQuestionConfirmation(
         questionnaire,
         update
       );
-    });
 
-    it("should mutate a questionConfirmation", () => {
-      expect(updatedQuestionConfirmation).toEqual(
-        expect.objectContaining(update)
-      );
+      expect(updatedQuestionConfirmation).toMatchObject(update);
     });
   });
 
@@ -99,9 +93,35 @@ describe("questionConfirmation", () => {
     let queriedQuestionConfirmation;
 
     beforeEach(async () => {
+      questionnaire = await buildQuestionnaire({
+        metadata: [{}],
+        sections: [
+          {
+            pages: [
+              {
+                answers: [
+                  {
+                    type: NUMBER,
+                  },
+                ],
+                confirmation: {
+                  positive: {
+                    label: "pos label",
+                    description: "pos desc",
+                  },
+                  negative: {
+                    label: "neg label",
+                    description: "neg desc",
+                  },
+                },
+              },
+            ],
+          },
+        ],
+      });
       queriedQuestionConfirmation = await queryQuestionConfirmation(
         questionnaire,
-        questionConfirmation.id
+        questionnaire.sections[0].pages[0].confirmation.id
       );
     });
 
@@ -118,20 +138,22 @@ describe("questionConfirmation", () => {
     });
 
     it("should resolve page", () => {
-      expect(queriedQuestionConfirmation.page.id).toEqual(page.id);
+      expect(queriedQuestionConfirmation.page.id).toEqual(
+        questionnaire.sections[0].pages[0].id
+      );
     });
 
     it("should resolve positive", () => {
       expect(queriedQuestionConfirmation.positive).toMatchObject({
-        label: "positive-label-updated",
-        description: "positive-description-updated",
+        label: "pos label",
+        description: "pos desc",
       });
     });
 
     it("should resolve negative", () => {
       expect(queriedQuestionConfirmation.negative).toMatchObject({
-        label: "negative-label-updated",
-        description: "negative-description-updated",
+        label: "neg label",
+        description: "neg desc",
       });
     });
 
@@ -150,10 +172,22 @@ describe("questionConfirmation", () => {
 
   describe("delete", () => {
     it("should delete a question confirmation", async () => {
-      await deleteQuestionConfirmation(questionnaire, questionConfirmation.id);
+      questionnaire = await buildQuestionnaire({
+        sections: [
+          {
+            pages: [
+              {
+                confirmation: {},
+              },
+            ],
+          },
+        ],
+      });
+      const confirmationId = questionnaire.sections[0].pages[0].confirmation.id;
+      await deleteQuestionConfirmation(questionnaire, confirmationId);
       const deletedQuestionConfirmation = await queryQuestionConfirmation(
         questionnaire,
-        questionConfirmation.id
+        confirmationId
       );
       expect(deletedQuestionConfirmation).toBeNull();
     });

@@ -1,5 +1,3 @@
-const { last } = require("lodash");
-
 const {
   buildQuestionnaire,
 } = require("../../tests/utils/questionnaireBuilder");
@@ -8,49 +6,36 @@ const {
   deleteQuestionnaire,
 } = require("../../tests/utils/questionnaireBuilder/questionnaire");
 const {
+  createAnswer,
   updateAnswer,
   queryAnswer,
   deleteAnswer,
 } = require("../../tests/utils/questionnaireBuilder/answer");
 
-const { NUMBER, TEXTFIELD } = require("../../constants/answerTypes");
+const { NUMBER } = require("../../constants/answerTypes");
 
 describe("basic answer", () => {
-  let questionnaire, section, page, answer;
-  let config = {
-    sections: [
-      {
-        pages: [
-          {
-            answers: [
-              {
-                description: "answer-description",
-                guidance: "answer-guidance",
-                label: "answer-label",
-                secondaryLabel: "answer-secondaryLabel",
-                qCode: "answer-qcode",
-                type: NUMBER,
-              },
-            ],
-          },
-        ],
-      },
-    ],
-  };
-
-  beforeEach(async () => {
-    questionnaire = await buildQuestionnaire(config);
-    section = last(questionnaire.sections);
-    page = last(section.pages);
-    answer = last(page.answers);
-  });
-
+  let questionnaire;
   afterEach(async () => {
     await deleteQuestionnaire(questionnaire.id);
   });
 
   describe("create", () => {
-    it("should create an answer", () => {
+    it("should create an answer", async () => {
+      questionnaire = await buildQuestionnaire({
+        sections: [{ pages: [{}] }],
+      });
+
+      const answer = await createAnswer(questionnaire, {
+        description: "answer-description",
+        guidance: "answer-guidance",
+        label: "answer-label",
+        secondaryLabel: "answer-secondaryLabel",
+        qCode: "answer-qcode",
+        type: NUMBER,
+        questionPageId: questionnaire.sections[0].pages[0].id,
+      });
+
       expect(answer).toEqual(
         expect.objectContaining({
           description: "answer-description",
@@ -64,41 +49,76 @@ describe("basic answer", () => {
   });
 
   describe("mutate", () => {
-    let updatedAnswer;
-    let update;
-    beforeEach(async () => {
-      update = {
+    it("should mutate an answer", async () => {
+      questionnaire = await buildQuestionnaire({
+        sections: [
+          {
+            pages: [
+              {
+                answers: [
+                  {
+                    description: "answer-description",
+                    guidance: "answer-guidance",
+                    label: "answer-label",
+                    secondaryLabel: "answer-secondaryLabel",
+                    qCode: "answer-qcode",
+                    type: NUMBER,
+                    properties: {
+                      decimals: 2,
+                      required: false,
+                    },
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      });
+      const answer = questionnaire.sections[0].pages[0].answers[0];
+      const update = {
         id: answer.id,
         description: "answer-description-update",
         guidance: "answer-guidance-update",
         label: "answer-label-update",
         qCode: "answer-qcode-update",
-        type: TEXTFIELD,
         properties: {
           decimals: 0,
           required: true,
         },
       };
-      updatedAnswer = await updateAnswer(questionnaire, update);
-    });
-
-    it("should mutate an answer", () => {
-      expect(updatedAnswer).toEqual(expect.objectContaining(update));
-    });
-
-    it("should mutate an options", () => {
-      expect(updatedAnswer).toEqual(expect.objectContaining(update));
-    });
-
-    it("should mutate an mutuallyExclusiveOption", () => {
-      expect(updatedAnswer).toEqual(expect.objectContaining(update));
+      const updatedAnswer = await updateAnswer(questionnaire, update);
+      expect(updatedAnswer).toMatchObject(update);
     });
   });
 
   describe("query", () => {
-    let queriedAnswer;
+    let answer, queriedAnswer;
 
     beforeEach(async () => {
+      questionnaire = await buildQuestionnaire({
+        sections: [
+          {
+            pages: [
+              {
+                answers: [
+                  {
+                    type: NUMBER,
+                    description: "",
+                    guidance: "",
+                    label: "",
+                    secondaryLabel: "",
+                    qCode: "",
+                    properties: {
+                      required: false,
+                    },
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      });
+      answer = questionnaire.sections[0].pages[0].answers[0];
       queriedAnswer = await queryAnswer(questionnaire, answer.id);
     });
 
@@ -123,7 +143,9 @@ describe("basic answer", () => {
     });
 
     it("should resolve page", () => {
-      expect(queriedAnswer.page.id).toEqual(page.id);
+      expect(queriedAnswer.page.id).toEqual(
+        questionnaire.sections[0].pages[0].id
+      );
     });
 
     it("should resolve properties", () => {
@@ -140,24 +162,26 @@ describe("basic answer", () => {
         minValue: expect.any(Object),
       });
     });
-
-    // it("should resolve options", () => {
-    //   expect(queriedAnswer.options).toMatchArray({
-    //     maxValue: expect.any(Object),
-    //     minValue: expect.any(Object),
-    //   });
-    // });
-
-    // it("should resolve mutuallyExclusiveOption", () => {
-    //   expect(queriedAnswer.options).toMatchArray({
-    //     maxValue: expect.any(Object),
-    //     minValue: expect.any(Object),
-    //   });
-    // });
   });
 
   describe("delete", () => {
     it("should delete an answer", async () => {
+      questionnaire = await buildQuestionnaire({
+        sections: [
+          {
+            pages: [
+              {
+                answers: [
+                  {
+                    type: NUMBER,
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      });
+      const answer = questionnaire.sections[0].pages[0].answers[0];
       await deleteAnswer(questionnaire, answer.id);
       const deletedAnswer = await queryAnswer(questionnaire, answer.id);
       expect(deletedAnswer).toBeNull();

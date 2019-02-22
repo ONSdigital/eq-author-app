@@ -6,6 +6,15 @@ const createQuestionConfirmationMutation = `
   mutation CreateQuestionConfirmation($input: CreateQuestionConfirmationInput!) {
     createQuestionConfirmation(input: $input) {
       id
+      title 
+      negative {
+        description
+        label
+      }
+      positive {
+        description
+        label
+      }
     }
   }
 `;

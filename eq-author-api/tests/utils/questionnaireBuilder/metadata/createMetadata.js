@@ -1,9 +1,20 @@
+const { filter } = require("graphql-anywhere");
+const gql = require("graphql-tag");
+
 const executeQuery = require("../../executeQuery");
 
 const createMetadataMutation = `
   mutation CreateMetadata($input: CreateMetadataInput!) {
     createMetadata(input: $input) {
       id
+      alias
+      key
+      type
+      dateValue
+      regionValue
+      languageValue
+      textValue
+      displayName
     }
   }
 `;
@@ -11,7 +22,16 @@ const createMetadataMutation = `
 const createMetadata = async (questionnaire, input) => {
   const result = await executeQuery(
     createMetadataMutation,
-    { input },
+    {
+      input: filter(
+        gql`
+          {
+            questionnaireId
+          }
+        `,
+        input
+      ),
+    },
     { questionnaire }
   );
 
