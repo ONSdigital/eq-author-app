@@ -138,7 +138,7 @@ describe("questionConfirmation", () => {
     it("should resolve availablePipingAnswers", () => {
       expect(
         last(queriedQuestionConfirmation.availablePipingAnswers).id
-      ).toEqual(get(questionnaire, "sections[1].pages[1].answers[0].id"));
+      ).toEqual(get(questionnaire, "sections[0].pages[0].answers[0].id"));
     });
 
     it("should resolve availablePipingMetadata", () => {

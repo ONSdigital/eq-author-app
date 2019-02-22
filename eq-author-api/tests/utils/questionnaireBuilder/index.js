@@ -1,7 +1,7 @@
-const { createQuestionnaire } = require("./questionnaire");
+const { createQuestionnaireReturningPersisted } = require("./questionnaire");
 const { createMetadata } = require("./metadata");
-const { createSection } = require("./section");
-const { createQuestionPage } = require("./page");
+const { createSection, deleteSection } = require("./section");
+const { createQuestionPage, deleteQuestionPage } = require("./page");
 const { createAnswer } = require("./answer");
 const { createOption } = require("./option");
 const { createSectionIntroduction } = require("./sectionIntroduction");
@@ -12,7 +12,7 @@ const { getQuestionnaire } = require("../../../utils/datastoreFileSystem");
 //@todo - Split into smaller functions to avoid deeply nested chaining
 const buildQuestionnaire = async questionnaireConfig => {
   const { sections, metadata, ...questionnaireProps } = questionnaireConfig;
-  const questionnaire = await createQuestionnaire({
+  const questionnaire = await createQuestionnaireReturningPersisted({
     title: "Questionnaire",
     surveyId: "1",
     theme: "default",
@@ -21,6 +21,8 @@ const buildQuestionnaire = async questionnaireConfig => {
     ...questionnaireProps,
   });
 
+  await deleteSection(questionnaire, questionnaire.sections[0].id);
+
   if (Array.isArray(sections)) {
     for (let section of sections) {
       const createdSection = await createSection(questionnaire, {
@@ -28,6 +30,9 @@ const buildQuestionnaire = async questionnaireConfig => {
         questionnaireId: questionnaire.id,
         ...section,
       });
+
+      await deleteQuestionPage(questionnaire, createdSection.pages[0].id);
+
       if (section.hasOwnProperty("introduction")) {
         await createSectionIntroduction(questionnaire, {
           sectionId: createdSection.id,

@@ -8,99 +8,139 @@ const {
 
 const {
   deleteQuestionnaire,
+  queryQuestionnaire,
 } = require("../../tests/utils/questionnaireBuilder/questionnaire");
 const {
+  createSection,
   updateSection,
   querySection,
   deleteSection,
+  moveSection,
 } = require("../../tests/utils/questionnaireBuilder/section");
 
 const { NUMBER } = require("../../constants/answerTypes");
 
 describe("section", () => {
-  let questionnaire, metadata, section;
-  let config = {
-    metadata: [{}],
-    sections: [
-      {
-        title: "title-1",
-        alias: "alias-1",
-        position: 0,
-        pages: [
-          {
-            title: "page-1",
-            answers: [
-              {
-                type: NUMBER,
-              },
-            ],
-          },
-        ],
-      },
-      {
-        title: "title-2",
-        alias: "alias-2",
-        position: 1,
-        introduction: {},
-      },
-    ],
-  };
+  let questionnaire;
 
-  beforeAll(async () => {
-    questionnaire = await buildQuestionnaire(config);
-    section = last(questionnaire.sections);
-    metadata = questionnaire.metadata;
-  });
-
-  afterAll(async () => {
+  afterEach(async () => {
     await deleteQuestionnaire(questionnaire.id);
   });
 
   describe("create", () => {
-    it("should create a section", () => {
-      expect(section).toEqual(
+    beforeAll(async () => {
+      questionnaire = await buildQuestionnaire({});
+    });
+
+    it("should create a section", async () => {
+      const createdSection = await createSection(questionnaire, {
+        title: "Title",
+        alias: "Alias",
+        questionnaireId: questionnaire.id,
+      });
+      expect(createdSection).toEqual(
         expect.objectContaining(
           filter(
             gql`
               {
                 title
                 alias
-                position
+                pages
               }
             `,
-            last(config.sections)
+            { title: "Title", alias: "Alias", pages: [expect.any(Object)] }
           )
         )
       );
     });
-
-    it("should create one page", () => {
-      expect(section.pages).toHaveLength(1);
-    });
   });
 
   describe("mutate", () => {
-    let updatedSection;
-    let update;
-    beforeEach(async () => {
-      update = {
+    beforeAll(async () => {
+      questionnaire = await buildQuestionnaire({
+        sections: [{}],
+      });
+    });
+
+    it("should mutate a section", async () => {
+      const section = questionnaire.sections[0];
+      const update = {
         id: section.id,
         title: "Questionnaire-updated",
         alias: "Alias-updated",
       };
-      updatedSection = await updateSection(questionnaire, update);
+      const updatedSection = await updateSection(questionnaire, update);
+      expect(updatedSection).toEqual(expect.objectContaining(update));
+    });
+  });
+
+  describe("move", () => {
+    beforeEach(async () => {
+      questionnaire = await buildQuestionnaire({
+        sections: [{}, {}],
+      });
     });
 
-    it("should mutate a section", () => {
-      expect(updatedSection).toEqual(expect.objectContaining(update));
+    it("should be able to move a section later", async () => {
+      const sectionToMoveId = questionnaire.sections[0].id;
+      const secondSectionId = questionnaire.sections[1].id;
+
+      await moveSection(questionnaire, {
+        id: sectionToMoveId,
+        questionnaireId: questionnaire.id,
+        position: 1,
+      });
+      const { sections } = await queryQuestionnaire(questionnaire);
+      expect(sections.map(s => s.id)).toEqual([
+        secondSectionId,
+        sectionToMoveId,
+      ]);
+    });
+
+    it("should be able to move a section earlier", async () => {
+      const firstSectionId = questionnaire.sections[0].id;
+      const sectionToMoveId = questionnaire.sections[1].id;
+
+      await moveSection(questionnaire, {
+        id: sectionToMoveId,
+        questionnaireId: questionnaire.id,
+        position: 0,
+      });
+      const { sections } = await queryQuestionnaire(questionnaire);
+      expect(sections.map(s => s.id)).toEqual([
+        sectionToMoveId,
+        firstSectionId,
+      ]);
     });
   });
 
   describe("query", () => {
     let queriedSection;
 
+    beforeAll(async () => {
+      questionnaire = await buildQuestionnaire({
+        metadata: [{}],
+        sections: [
+          {
+            pages: [
+              {
+                answers: [{ type: NUMBER }],
+              },
+            ],
+          },
+          {
+            alias: "Alias",
+            introduction: {},
+          },
+        ],
+      });
+    });
+
     beforeEach(async () => {
-      queriedSection = await querySection(questionnaire, section.id);
+      queriedSection = await querySection(
+        questionnaire,
+        questionnaire.sections[1].id
+      );
     });
 
     it("should resolve section fields", () => {
@@ -122,22 +162,28 @@ describe("section", () => {
     });
 
     it("should resolve introduction", () => {
-      expect(queriedSection.introduction.id).toEqual(section.id);
+      expect(queriedSection.introduction.id).toEqual(queriedSection.id);
     });
 
     it("should resolve availablePipingAnswers", () => {
       expect(last(queriedSection.availablePipingAnswers).id).toEqual(
-        get(questionnaire, "sections[1].pages[1].answers[0].id")
+        get(questionnaire, "sections[0].pages[0].answers[0].id")
       );
     });
 
     it("should resolve availablePipingMetadata", () => {
-      expect(queriedSection.availablePipingMetadata.id).toEqual(metadata.id);
+      expect(last(queriedSection.availablePipingMetadata).id).toEqual(
+        questionnaire.metadata[0].id
+      );
     });
   });
 
   describe("delete", () => {
     it("should delete a section", async () => {
+      questionnaire = await buildQuestionnaire({
+        sections: [{}],
+      });
+      const section = questionnaire.sections[0];
       await deleteSection(questionnaire, section.id);
       const deletedSection = await querySection(questionnaire, section.id);
       expect(deletedSection).toBeNull();

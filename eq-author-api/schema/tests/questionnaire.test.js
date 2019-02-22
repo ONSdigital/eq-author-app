@@ -3,6 +3,7 @@ const {
 } = require("../../tests/utils/questionnaireBuilder");
 
 const {
+  createQuestionnaire,
   queryQuestionnaire,
   updateQuestionnaire,
   deleteQuestionnaire,
@@ -13,27 +14,27 @@ const { last } = require("lodash");
 
 describe("questionnaire", () => {
   let questionnaire;
-  let config = {
-    title: "Questionnaire",
-    description: "Description",
-    surveyId: "1",
-    theme: "default",
-    legalBasis: "Voluntary",
-    navigation: false,
-    summary: false,
-    metadata: [{}],
-  };
 
-  beforeAll(async () => {
-    questionnaire = await buildQuestionnaire(config);
-  });
-
-  afterAll(async () => {
+  afterEach(async () => {
     await deleteQuestionnaire(questionnaire.id);
   });
 
   describe("create", () => {
-    it("should create a questionnaire", () => {
+    let config;
+    beforeEach(async () => {
+      config = {
+        title: "Questionnaire",
+        description: "Description",
+        surveyId: "1",
+        theme: "default",
+        legalBasis: "Voluntary",
+        navigation: false,
+        summary: false,
+      };
+      questionnaire = await createQuestionnaire(config);
+    });
+
+    it("should create a questionnaire with a setion and page", async () => {
       expect(questionnaire).toEqual(
         expect.objectContaining(
           filter(
@@ -61,10 +62,18 @@ describe("questionnaire", () => {
   });
 
   describe("mutate", () => {
-    let updatedQuestionnaire;
-    let update;
-    beforeEach(async () => {
-      update = {
+    it("should mutate a questionnaire", async () => {
+      const questionnaire = await buildQuestionnaire({
+        title: "Questionnaire",
+        description: "Description",
+        surveyId: "1",
+        theme: "default",
+        legalBasis: "Voluntary",
+        navigation: false,
+        summary: false,
+        metadata: [{}],
+      });
+      const update = {
         id: questionnaire.id,
         title: "Questionnaire-updated",
         description: "Description-updated",
@@ -74,10 +83,11 @@ describe("questionnaire", () => {
         surveyId: "2-updated",
         summary: true,
       };
-      updatedQuestionnaire = await updateQuestionnaire(questionnaire, update);
-    });
+      const updatedQuestionnaire = await updateQuestionnaire(
+        questionnaire,
+        update
+      );
 
-    it("should mutate a questionnaire", () => {
       expect(updatedQuestionnaire).toEqual(expect.objectContaining(update));
     });
   });
@@ -86,6 +96,12 @@ describe("questionnaire", () => {
     let queriedQuestionnaire;
 
     beforeEach(async () => {
+      questionnaire = await buildQuestionnaire({
+        summary: false,
+        description: "description",
+        sections: [{}],
+        metadata: [{}],
+      });
       queriedQuestionnaire = await queryQuestionnaire(questionnaire);
     });
 
@@ -108,7 +124,9 @@ describe("questionnaire", () => {
     });
 
     it("should resolve createdBy", () => {
-      //@todo - doesn't work as expect doesn't always resolve correctly
+      expect(queriedQuestionnaire.createdBy).toMatchObject({
+        id: "author-integration-test",
+      });
     });
 
     it("should resolve section", () => {
@@ -118,8 +136,8 @@ describe("questionnaire", () => {
     });
 
     it("should resolve questionnaireInfo", () => {
-      expect(queriedQuestionnaire.questionnaireInfo.id).toEqual(
-        questionnaire.questionnaireInfo.id
+      expect(queriedQuestionnaire.questionnaireInfo.totalSectionCount).toEqual(
+        1
       );
     });
 
@@ -132,7 +150,7 @@ describe("questionnaire", () => {
 
   describe("delete", () => {
     it("should delete a questionnaire", async () => {
-      const { id: questionnaireId } = await buildQuestionnaire(config);
+      const { id: questionnaireId } = await buildQuestionnaire({});
       await deleteQuestionnaire(questionnaireId);
       const deletedQuestionnaire = await queryQuestionnaire(questionnaireId);
       expect(deletedQuestionnaire).toBeNull();

@@ -14,6 +14,7 @@ const createQuestionPageMutation = `
       definitionContent
       additionalInfoLabel
       additionalInfoContent
+      position
     }
   }
 `;
@@ -26,9 +27,15 @@ const createQuestionPage = async (questionnaire, input) => {
         gql`
           {
             title
+            alias
             description
+            guidance
             sectionId
             position
+            definitionLabel
+            definitionContent
+            additionalInfoLabel
+            additionalInfoContent
           }
         `,
         input

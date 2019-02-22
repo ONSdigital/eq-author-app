@@ -47,6 +47,11 @@ const createSection = async (questionnaire, input) => {
     },
     { questionnaire }
   );
+
+  if (result.errors) {
+    throw new Error(result.errors[0].message);
+  }
+
   return result.data.createSection;
 };
 
