@@ -1642,9 +1642,10 @@ dynamodb-admin@latest:
     lodash "^4.17.11"
     opn "^5.4.0"
 
-"dynamoose@git+https://git@github.com/onsdigital/dynamoose.git#condition-changing":
-  version "1.6.3"
-  resolved "git+https://git@github.com/onsdigital/dynamoose.git#907b8a6286ef63eb9b7347b56742674652bbe50b"
+dynamoose@latest:
+  version "1.6.4"
+  resolved "https://registry.yarnpkg.com/dynamoose/-/dynamoose-1.6.4.tgz#0ed71eef7460d4fbdcb4bc7ee1af5612a7c4ae6e"
+  integrity sha512-wwpCQTmZMvVID68BYf3S6gaaG+4nphThLPYFK6NF9pycJpQnyNAH1nyTfzsvDau8JUrvaR0jGuRM9iaJFJBW5A==
   dependencies:
     aws-sdk "2.395.0"
     debug "4.1.1"

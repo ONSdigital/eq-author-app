@@ -21,7 +21,7 @@
     "deep-map": "^1.5",
     "dotenv": "latest",
     "dynamodb-admin": "latest",
-    "dynamoose": "git+https://git@github.com/onsdigital/dynamoose.git#condition-changing",
+    "dynamoose": "latest",
     "express": "latest",
     "express-pino-logger": "latest",
     "graphql": "latest",
