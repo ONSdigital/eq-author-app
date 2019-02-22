@@ -1,4 +1,4 @@
-const { createQuestionnaire } = require("./questionnaire");
+const { createQuestionnaireReturningPersisted } = require("./questionnaire");
 const { createMetadata } = require("./metadata");
 const { createSection, deleteSection } = require("./section");
 const { createQuestionPage, deleteQuestionPage } = require("./page");
@@ -12,7 +12,7 @@ const { getQuestionnaire } = require("../../../utils/datastoreFileSystem");
 //@todo - Split into smaller functions to avoid deeply nested chaining
 const buildQuestionnaire = async questionnaireConfig => {
   const { sections, metadata, ...questionnaireProps } = questionnaireConfig;
-  const questionnaire = await createQuestionnaire({
+  const questionnaire = await createQuestionnaireReturningPersisted({
     title: "Questionnaire",
     surveyId: "1",
     theme: "default",

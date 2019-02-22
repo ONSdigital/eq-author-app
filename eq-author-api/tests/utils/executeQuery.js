@@ -6,7 +6,8 @@ const graphqlTools = require("graphql-tools");
 const executableSchema = graphqlTools.makeExecutableSchema(schema);
 
 function executeQuery(query, args = {}, ctx = {}) {
-  return graphql(executableSchema, query, {}, { auth, ...ctx }, args);
+  ctx.auth = auth;
+  return graphql(executableSchema, query, {}, ctx, args);
 }
 
 module.exports = executeQuery;

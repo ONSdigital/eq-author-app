@@ -225,8 +225,9 @@ const Resolvers = {
         ...args.input,
         createdBy: ctx.auth.name || ctx.auth.email,
       });
-
-      return createQuestionnaire(questionnaire);
+      // Saving to ctx so it can be used by all other resolvers and read by tests
+      ctx.questionnaire = await createQuestionnaire(questionnaire);
+      return ctx.questionnaire;
     },
     updateQuestionnaire: async (_, { input }, ctx) => {
       ctx.questionnaire = merge(ctx.questionnaire, input);

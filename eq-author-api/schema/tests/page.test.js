@@ -1,5 +1,3 @@
-const { filter } = require("graphql-anywhere");
-const gql = require("graphql-tag");
 const { last, get } = require("lodash");
 
 const {
@@ -18,7 +16,7 @@ const {
   moveQuestionPage,
 } = require("../../tests/utils/questionnaireBuilder/page");
 
-const { NUMBER, DATE } = require("../../constants/answerTypes");
+const { DATE, NUMBER } = require("../../constants/answerTypes");
 const {
   NEXT_PAGE,
   END_OF_QUESTIONNAIRE,
@@ -28,42 +26,6 @@ const getFirstPage = questionnaire => questionnaire.sections[0].pages[0];
 
 describe("page", () => {
   let questionnaire;
-  let config = {
-    metadata: [{}],
-    sections: [
-      {
-        pages: [
-          {
-            title: "title-1",
-            alias: "alias-1",
-            description: "description-1",
-            guidance: "guidance-1",
-            position: 0,
-            definitionLabel: "definitionLabel-1",
-            definitionContent: "definitionContent-1",
-            additionalInfoLabel: "additionalInfoLabel-1",
-            additionalInfoContent: "additionalInfoContent-1",
-            answers: [
-              {
-                type: NUMBER,
-              },
-            ],
-          },
-          {
-            title: "title-2",
-            answers: [
-              {
-                type: DATE,
-              },
-            ],
-            confirmation: {
-              title: "question-confirmation-2",
-            },
-          },
-        ],
-      },
-    ],
-  };
 
   afterEach(async () => {
     await deleteQuestionnaire(questionnaire.id);
@@ -227,7 +189,7 @@ describe("page", () => {
                 additionalInfoLabel: "additionalInfoLabel-1",
                 additionalInfoContent: "additionalInfoContent-1",
                 confirmation: {},
-                answers: [{ type: NUMBER }],
+                answers: [{ type: DATE }],
               },
             ],
           },

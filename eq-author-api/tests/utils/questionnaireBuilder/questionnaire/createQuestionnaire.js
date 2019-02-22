@@ -31,8 +31,12 @@ const createQuestionnaireMutation = `
   }
 `;
 
-const createQuestionnaire = async input => {
-  const result = await executeQuery(createQuestionnaireMutation, { input }, {});
+const createQuestionnaire = async (input, ctx = {}) => {
+  const result = await executeQuery(
+    createQuestionnaireMutation,
+    { input },
+    ctx
+  );
 
   if (result.errors) {
     throw new Error(result.errors[0]);
@@ -41,7 +45,14 @@ const createQuestionnaire = async input => {
   return result.data.createQuestionnaire;
 };
 
+const createQuestionnaireReturningPersisted = async input => {
+  const ctx = {};
+  await createQuestionnaire(input, ctx);
+  return ctx.questionnaire;
+};
+
 module.exports = {
   createQuestionnaireMutation,
   createQuestionnaire,
+  createQuestionnaireReturningPersisted,
 };
