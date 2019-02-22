@@ -4,16 +4,6 @@ const duplicateSectionMutation = `
   mutation duplicateSection($input: DuplicateSectionInput!) {
     duplicateSection(input: $input) {
       id
-      title
-      position
-      pages {
-        id
-        ... on QuestionPage {
-          answers {
-            id
-          }
-        }
-      }
     }
   }
 `;
