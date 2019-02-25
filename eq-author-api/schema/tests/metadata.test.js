@@ -190,9 +190,20 @@ describe("metadata", () => {
     });
 
     it("should default metadata for known keys", async () => {
-      const promises = defaultValues.map(
-        async ({ key, alias, type, value }) => {
-          updatedMetadata = await updateMetadata(questionnaire, {
+      for (let defaultValue of defaultValues) {
+        const { key, alias, type, value } = defaultValue;
+        updatedMetadata = await updateMetadata(questionnaire, {
+          id: metadata.id,
+          key,
+          alias,
+          type,
+          dateValue: type === DATE ? value : null,
+          regionValue: type === REGION ? value : null,
+          languageValue: type === LANGUAGE ? value : null,
+          textValue: type === TEXT ? value : null,
+        });
+        expect(updatedMetadata).toEqual(
+          expect.objectContaining({
             id: metadata.id,
             key,
             alias,
@@ -201,23 +212,9 @@ describe("metadata", () => {
             regionValue: type === REGION ? value : null,
             languageValue: type === LANGUAGE ? value : null,
             textValue: type === TEXT ? value : null,
-          });
-          expect(updatedMetadata).toEqual(
-            expect.objectContaining({
-              id: metadata.id,
-              key,
-              alias,
-              type,
-              dateValue: type === DATE ? value : null,
-              regionValue: type === REGION ? value : null,
-              languageValue: type === LANGUAGE ? value : null,
-              textValue: type === TEXT ? value : null,
-            })
-          );
-        }
-      );
-
-      return Promise.all(promises);
+          })
+        );
+      }
     });
   });
 

@@ -8,7 +8,7 @@ Resolvers.ExpressionGroup2 = {
 };
 
 Resolvers.Mutation = {
-  updateExpressionGroup2: (root, { input: { id, operator } }, ctx) => {
+  updateExpressionGroup2: async (root, { input: { id, operator } }, ctx) => {
     const expressionGroup = find(
       { id },
       flatMap(
@@ -23,7 +23,10 @@ Resolvers.Mutation = {
       )
     );
     expressionGroup.operator = operator;
-    return saveQuestionnaire(ctx.questionnaire);
+
+    await saveQuestionnaire(ctx.questionnaire);
+
+    return expressionGroup;
   },
 };
 
