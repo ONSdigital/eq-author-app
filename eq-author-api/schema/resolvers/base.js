@@ -49,10 +49,7 @@ const {
   listQuestionnaires,
 } = require("../../utils/datastore");
 
-const {
-  VALIDATION_TYPES,
-  VALIDATION_INPUT_TYPES,
-} = require("../../constants/validationTypes");
+const { VALIDATION_TYPES } = require("../../constants/validationTypes");
 
 const getSection = ctx => input => {
   return find(ctx.questionnaire.sections, { id: input.sectionId });
@@ -94,7 +91,7 @@ const getValidation = ctx => id => {
       if (validation[type]) {
         validation[type].answerId = validation.answerId;
       }
-      return { ...validation[type], validationType: type };
+      return merge(validation[type], { validationType: type });
     });
   });
 
@@ -513,19 +510,26 @@ const Resolvers = {
     toggleValidationRule: async (_, args, ctx) => {
       const validation = getValidation(ctx)(args.input.id);
       validation.enabled = args.input.enabled;
-      merge(validation, args.input);
+
+      const newValidation = Object.assign({}, validation);
+      delete validation.validationType;
+
       await saveQuestionnaire(ctx.questionnaire);
 
-      return validation;
+      return newValidation;
     },
     updateValidationRule: async (_, args, ctx) => {
       const validation = getValidation(ctx)(args.input.id);
-      VALIDATION_INPUT_TYPES.map(type => {
-        merge(validation, args.input[type]);
-      });
+      const { validationType } = validation;
+
+      merge(validation, args.input[`${validationType}Input`]);
+
+      const newValidation = Object.assign({}, validation);
+      delete validation.validationType;
+
       await saveQuestionnaire(ctx.questionnaire);
 
-      return validation;
+      return newValidation;
     },
     createMetadata: async (root, args, ctx) => {
       const newMetadata = {
