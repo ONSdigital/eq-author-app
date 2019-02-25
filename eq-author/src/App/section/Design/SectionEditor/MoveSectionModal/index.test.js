@@ -2,7 +2,7 @@ import React from "react";
 import { shallow } from "enzyme";
 
 import PositionModal from "components/PositionModal";
-import MoveSectionModal from "App/section/Design/MoveSectionModal";
+import MoveSectionModal from "./";
 
 import { buildQuestionnaire } from "tests/utils/createMockQuestionnaire";
 

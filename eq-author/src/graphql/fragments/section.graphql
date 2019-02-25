@@ -2,9 +2,10 @@ fragment Section on Section {
   id
   title
   alias
-  introduction {
+  introductionTitle
+  introductionContent
+  questionnaire {
     id
-    introductionTitle
-    introductionContent
+    navigation
   }
 }

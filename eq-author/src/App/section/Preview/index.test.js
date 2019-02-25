@@ -36,10 +36,11 @@ describe("PreviewSectionRoute", () => {
             id: "1",
             alias: "",
             title: "",
-            introduction: {
-              id: "1",
-              introductionTitle: "",
-              introductionContent: "",
+            introductionTitle: "intro title",
+            introductionContent: "intro content",
+            questionnaire: {
+              id: "2",
+              navigation: true,
             },
           },
         }}
@@ -58,7 +59,12 @@ describe("PreviewSectionRoute", () => {
             id: "1",
             alias: "",
             title: "",
-            introduction: null,
+            introductionTitle: "",
+            introductionContent: "",
+            questionnaire: {
+              id: "2",
+              navigation: true,
+            },
           },
         }}
       />

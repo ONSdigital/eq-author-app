@@ -12,12 +12,11 @@ exports[`components/RichTextEditor should allow multiline input 1`] = `
     onFocus={[Function]}
     onMouseDown={[Function]}
   >
-    <Label
-      bold={true}
+    <DescribedLabel
       id="label-test"
     >
       I am a label
-    </Label>
+    </DescribedLabel>
     <RichTextEditor__Input
       placeholderStyle="unstyled"
     >
@@ -262,12 +261,11 @@ exports[`components/RichTextEditor should render 1`] = `
     onFocus={[Function]}
     onMouseDown={[Function]}
   >
-    <Label
-      bold={true}
+    <DescribedLabel
       id="label-test"
     >
       I am a label
-    </Label>
+    </DescribedLabel>
     <RichTextEditor__Input
       placeholderStyle="unstyled"
     >
@@ -514,12 +512,11 @@ exports[`components/RichTextEditor should render existing content 1`] = `
     onFocus={[Function]}
     onMouseDown={[Function]}
   >
-    <Label
-      bold={true}
+    <DescribedLabel
       id="label-test"
     >
       I am a label
-    </Label>
+    </DescribedLabel>
     <RichTextEditor__Input
       placeholderStyle="unordered-list-item"
     >

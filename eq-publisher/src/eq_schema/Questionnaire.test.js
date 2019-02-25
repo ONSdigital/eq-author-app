@@ -110,6 +110,7 @@ describe("Questionnaire", () => {
   it("should strip out HTML from navigation sections", () => {
     const questionnaire = new Questionnaire(
       createQuestionnaireJSON({
+        navigation: true,
         sections: [
           {
             id: "2",

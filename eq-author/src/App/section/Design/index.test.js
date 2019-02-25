@@ -36,7 +36,8 @@ const moveSectionMock = {
             id: "2",
             title: "foo",
             alias: "foo-alias",
-            introduction: null,
+            introductionTitle: "",
+            introductionContent: "",
             displayName: "foo",
             position: 0,
             pages: [
@@ -60,6 +61,7 @@ const moveSectionMock = {
             questionnaire: {
               __typename: "Questionnaire",
               id: "1",
+              navigation: true,
               questionnaireInfo: {
                 __typename: "QuestionnaireInfo",
                 totalSectionCount: 1,
@@ -72,9 +74,8 @@ const moveSectionMock = {
             title: "foo",
             alias: "foo-alias",
             displayName: "foo",
-            introductionTitle: null,
-            introductionContent: null,
-            introductionEnabled: false,
+            introductionTitle: "",
+            introductionContent: "",
             position: 1,
             pages: [
               {
@@ -97,6 +98,7 @@ const moveSectionMock = {
             questionnaire: {
               __typename: "Questionnaire",
               id: "1",
+              navigation: true,
               questionnaireInfo: {
                 __typename: "QuestionnaireInfo",
                 totalSectionCount: 1,
@@ -160,11 +162,13 @@ describe("SectionRoute", () => {
               alias: "foo-alias",
               displayName: "foo",
               description: "bar",
-              introduction: null,
+              introductionTitle: "",
+              introductionContent: "",
               position: 0,
               questionnaire: {
                 __typename: "Questionnaire",
                 id: "1",
+                navigation: true,
                 questionnaireInfo: {
                   __typename: "QuestionnaireInfo",
                   totalSectionCount: 1,
@@ -197,11 +201,13 @@ describe("SectionRoute", () => {
               alias: "foo-alias",
               displayName: "foo",
               description: "bar",
-              introduction: null,
+              introductionTitle: "",
+              introductionContent: "",
               position: 0,
               questionnaire: {
                 __typename: "Questionnaire",
                 id: "1",
+                navigation: true,
                 questionnaireInfo: {
                   __typename: "QuestionnaireInfo",
                   totalSectionCount: 1,
@@ -286,8 +292,11 @@ describe("SectionRoute", () => {
       description: "bar",
       introduction: null,
       position: 0,
+      introductionTitle: "",
+      introductionContent: "",
       questionnaire: {
         id: "1",
+        navigation: true,
         questionnaireInfo: {
           totalSectionCount: 1,
         },
@@ -361,6 +370,7 @@ describe("SectionRoute", () => {
     it("should enable move section button when multiple sections", () => {
       const questionnaire = {
         id: "1",
+        navigation: true,
         questionnaireInfo: {
           totalSectionCount: 2,
         },
@@ -381,6 +391,7 @@ describe("SectionRoute", () => {
     it("should call onDuplicateSection with the section id and position when the duplicate button is clicked", () => {
       const questionnaire = {
         id: "1",
+        navigation: true,
         questionnaireInfo: {
           totalSectionCount: 2,
         },
@@ -426,11 +437,8 @@ describe("SectionRoute", () => {
         match,
         section: {
           ...section,
-          introduction: {
-            id: "2",
-            introductionTitle: "",
-            introductionContent: "",
-          },
+          introductionTitle: "Title",
+          introductionContent: "Content",
         },
         ...mockHandlers,
       });

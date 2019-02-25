@@ -1,6 +1,5 @@
 const Block = require("./Block");
 const Section = require("./Section");
-const ctx = { routingGotos: [] };
 
 describe("Section", () => {
   const createSectionJSON = options =>
@@ -17,9 +16,14 @@ describe("Section", () => {
       },
       options
     );
+  const createCtx = (options = {}) => ({
+    routingGotos: [],
+    questionnaireJson: { navigation: true },
+    ...options,
+  });
 
   it("should build valid runner Section from Author section", () => {
-    const section = new Section(createSectionJSON(), ctx);
+    const section = new Section(createSectionJSON(), createCtx());
 
     expect(section).toMatchObject({
       id: "section1",
@@ -28,6 +32,24 @@ describe("Section", () => {
         {
           id: "group1",
           title: "Section 1",
+          blocks: [expect.any(Block)],
+        },
+      ],
+    });
+  });
+
+  it("should not output title when navigation is disabled", () => {
+    const section = new Section(
+      createSectionJSON(),
+      createCtx({ questionnaireJson: { navigation: false } })
+    );
+
+    expect(section).toMatchObject({
+      id: "section1",
+      groups: [
+        {
+          id: "group1",
+          title: "",
           blocks: [expect.any(Block)],
         },
       ],

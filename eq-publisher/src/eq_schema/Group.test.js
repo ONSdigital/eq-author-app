@@ -1,15 +1,22 @@
 /* eslint-disable camelcase */
 const Group = require("./Group");
 const Block = require("./Block");
-const ctx = {};
 
 describe("Group", () => {
+  const createCtx = (options = {}) => ({
+    questionnaireJson: {
+      navigation: true,
+    },
+    ...options,
+  });
+
   const createGroupJSON = options =>
     Object.assign(
       {
         id: "1",
         title: "Section 1",
-        introduction: null,
+        introductionTitle: "",
+        introductionContent: "",
         pages: [
           {
             id: "2",
@@ -22,13 +29,7 @@ describe("Group", () => {
 
   it("should build valid runner Group from Author section", () => {
     let groupJSON = createGroupJSON();
-    const group = new Group(
-      groupJSON.id,
-      groupJSON.title,
-      groupJSON.pages,
-      groupJSON.introduction,
-      ctx
-    );
+    const group = new Group(groupJSON.title, groupJSON, createCtx());
 
     expect(group).toMatchObject({
       id: "group1",
@@ -37,34 +38,25 @@ describe("Group", () => {
     });
   });
 
-  it("should handle HTML values", () => {
-    let groupJSON = createGroupJSON({ title: "<p>Section <em>1</em></p>" });
+  it("should output an empty title when the navigation is disabled", () => {
+    let groupJSON = createGroupJSON();
     const group = new Group(
-      groupJSON.id,
       groupJSON.title,
-      groupJSON.pages,
-      groupJSON.introduction,
-      ctx
+      groupJSON,
+      createCtx({ questionnaireJson: { navigation: false } })
     );
-
     expect(group).toMatchObject({
-      title: "Section <em>1</em>",
+      title: "",
     });
   });
 
   it("returns a schema with an introduction when there is one", () => {
-    const groupJSON = createGroupJSON();
+    const groupJSON = createGroupJSON({
+      introductionTitle: "Intro Title",
+      introductionContent: "Intro Content",
+    });
 
-    const runnerJSON = new Group(
-      groupJSON.id,
-      groupJSON.title,
-      groupJSON.pages,
-      {
-        introductionTitle: "Intro Title",
-        introductionContent: "Intro Content",
-      },
-      ctx
-    );
+    const runnerJSON = new Group(groupJSON.title, groupJSON, createCtx());
 
     expect(runnerJSON).toMatchObject({
       id: "group1",
@@ -81,45 +73,25 @@ describe("Group", () => {
     });
   });
 
-  it("returns a schema with an empty introduction when null title and content", () => {
-    const groupJSON = createGroupJSON();
+  it("returns no introduction when null title and content", () => {
+    const groupJSON = createGroupJSON({
+      introductionTitle: null,
+      introductionContent: null,
+    });
 
-    const runnerJSON = new Group(
-      groupJSON.id,
-      groupJSON.title,
-      groupJSON.pages,
-      {
-        introductionTitle: null,
-        introductionContent: null,
-      },
-      ctx
-    );
+    const runnerJSON = new Group(groupJSON.title, groupJSON, createCtx());
 
     expect(runnerJSON).toMatchObject({
       id: "group1",
       title: "Section 1",
-      blocks: [
-        {
-          id: "group1-introduction",
-          title: "",
-          description: "",
-          type: "Interstitial",
-        },
-        expect.any(Block),
-      ],
+      blocks: [expect.any(Block)],
     });
   });
 
   it("returns a schema without an introduction when it is disabled", () => {
     const groupJSON = createGroupJSON();
 
-    const runnerJSON = new Group(
-      groupJSON.id,
-      groupJSON.title,
-      groupJSON.pages,
-      groupJSON.introduction,
-      ctx
-    );
+    const runnerJSON = new Group(groupJSON.title, groupJSON, createCtx());
 
     expect(runnerJSON.blocks).toHaveLength(1);
   });
@@ -130,26 +102,29 @@ describe("Group", () => {
         id: 1,
         title: "Group 1",
         pages: [],
-        introduction: null,
+        introductionTitle: "",
+        introductionContent: "",
       },
       {
         id: 2,
         title: "Group 2",
         pages: [],
-        introduction: null,
+        introductionTitle: "",
+        introductionContent: "",
       },
       {
         id: 3,
         title: "Group 3",
         pages: [],
-        introduction: null,
+        introductionTitle: "",
+        introductionContent: "",
       },
     ];
 
     it("should add skip conditions to the required groups", () => {
       const groupsJson = createGroupsJSON();
 
-      const ctx = {
+      const ctx = createCtx({
         routingGotos: [
           {
             group: "confirmation-group",
@@ -161,11 +136,10 @@ describe("Group", () => {
             groupId: "group1",
           },
         ],
-      };
+      });
 
       const runnerJson = groupsJson.map(
-        group =>
-          new Group(group.id, group.title, group.pages, group.introduction, ctx)
+        group => new Group(group.title, group, ctx)
       );
 
       const expectedrunnerJson = [
@@ -196,7 +170,7 @@ describe("Group", () => {
     it("can handle multiple skip conditions for each group", () => {
       const groupsJson = createGroupsJSON();
 
-      const ctx = {
+      const ctx = createCtx({
         routingGotos: [
           {
             group: "confirmation-group",
@@ -217,11 +191,10 @@ describe("Group", () => {
             groupId: "group1",
           },
         ],
-      };
+      });
 
       const runnerJson = groupsJson.map(
-        group =>
-          new Group(group.id, group.title, group.pages, group.introduction, ctx)
+        group => new Group(group.title, group, ctx)
       );
 
       const expectedrunnerJson = [
@@ -311,10 +284,8 @@ describe("Group", () => {
     it("should build a confirmation page", () => {
       const ctx = ctxGenerator(null);
       const resultantJson = new Group(
-        ctx.questionnaireJson.sections[0].id,
-        ctx.questionnaireJson.sections[0].title,
-        ctx.questionnaireJson.sections[0].pages,
-        null,
+        "Section 1",
+        ctx.questionnaireJson.sections[0],
         ctx
       );
 
@@ -420,10 +391,8 @@ describe("Group", () => {
       const ctx = ctxGenerator(null, routing);
 
       const resultantJson = new Group(
-        ctx.questionnaireJson.sections[0].id,
-        ctx.questionnaireJson.sections[0].title,
-        ctx.questionnaireJson.sections[0].pages,
-        null,
+        "Group Title",
+        ctx.questionnaireJson.sections[0],
         ctx
       );
 
@@ -494,17 +463,12 @@ describe("Group", () => {
         },
       };
 
-      const resultantJson = new Group(
-        ctx.questionnaireJson.sections[0].id,
-        ctx.questionnaireJson.sections[0].title,
-        ctx.questionnaireJson.sections[0].pages,
-        null,
-        ctx
-      );
+      const section = ctx.questionnaireJson.sections[0];
+      const resultantJson = new Group(section.title, section, ctx);
 
       expect(resultantJson.blocks[1].questions[0].description).toEqual(
         `{{ answers['answer${
-          ctx.questionnaireJson.sections[0].pages[0].answers[0].id
+          section.pages[0].answers[0].id
         }']|format_unordered_list }}`
       );
     });

@@ -1,16 +1,15 @@
 /* eslint-disable camelcase */
 const Block = require("./Block");
-const { getInnerHTML } = require("../utils/HTMLUtils");
 const { isEmpty, reject, flatten } = require("lodash");
 const {
   buildAuthorConfirmationQuestion,
 } = require("./builders/confirmationPage/ConfirmationPage");
 
 class Group {
-  constructor(id, title, pages, introduction, ctx) {
-    this.id = `group${id}`;
-    this.title = getInnerHTML(title);
-    this.blocks = this.buildBlocks(pages, id, introduction, ctx);
+  constructor(title, section, ctx) {
+    this.id = `group${section.id}`;
+    this.title = ctx.questionnaireJson.navigation ? title : "";
+    this.blocks = this.buildBlocks(section, ctx);
 
     if (!isEmpty(ctx.routingGotos)) {
       this.filterContext(this.id, ctx);
@@ -37,16 +36,16 @@ class Group {
     );
   }
 
-  buildBlocks(pages, groupId, introduction, ctx) {
+  buildBlocks(section, ctx) {
     const blocks = flatten(
-      pages.map(page => {
-        const block = new Block(page, groupId, ctx);
+      section.pages.map(page => {
+        const block = new Block(page, section.id, ctx);
         if (page.confirmation) {
           return [
             block,
             buildAuthorConfirmationQuestion(
               page,
-              groupId,
+              section.id,
               page.routingRuleSet,
               page.routing,
               ctx
@@ -57,10 +56,18 @@ class Group {
       })
     );
 
-    if (!introduction) {
+    if (!section.introductionTitle || !section.introductionContent) {
       return blocks;
     }
-    return [Block.buildIntroBlock(introduction, groupId, ctx), ...blocks];
+    return [
+      Block.buildIntroBlock(
+        section.introductionTitle,
+        section.introductionContent,
+        section.id,
+        ctx
+      ),
+      ...blocks,
+    ];
   }
 }
 

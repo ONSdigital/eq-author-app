@@ -53,11 +53,7 @@ class Block {
     }
   }
 
-  static buildIntroBlock(
-    { introductionTitle, introductionContent },
-    groupId,
-    ctx
-  ) {
+  static buildIntroBlock(introductionTitle, introductionContent, groupId, ctx) {
     return {
       type: "Interstitial",
       id: `group${groupId}-introduction`,

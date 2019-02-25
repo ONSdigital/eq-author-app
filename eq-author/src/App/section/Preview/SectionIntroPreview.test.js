@@ -4,36 +4,36 @@ import { shallow } from "enzyme";
 import SectionIntroPreview from "./SectionIntroPreview";
 
 describe("SectionIntroPreview", () => {
-  let introduction;
+  let section;
 
   beforeEach(() => {
-    introduction = {
+    section = {
       id: "1",
+      title: "",
+      alias: "",
       introductionTitle: "<p>title</p>",
       introductionContent: "<h2>Content</h2>",
+      questionnaire: {
+        id: "1",
+        navigation: true,
+      },
     };
   });
 
   it("should render with all content", () => {
-    const wrapper = shallow(
-      <SectionIntroPreview introduction={introduction} />
-    );
+    const wrapper = shallow(<SectionIntroPreview section={section} />);
     expect(wrapper).toMatchSnapshot();
   });
 
   it("should render an error when the title is missing", () => {
-    introduction.introductionTitle = "";
-    const wrapper = shallow(
-      <SectionIntroPreview introduction={introduction} />
-    );
+    section.introductionTitle = "";
+    const wrapper = shallow(<SectionIntroPreview section={section} />);
     expect(wrapper).toMatchSnapshot();
   });
 
   it("should render an error when the content is missing", () => {
-    introduction.introductionContent = "";
-    const wrapper = shallow(
-      <SectionIntroPreview introduction={introduction} />
-    );
+    section.introductionContent = "";
+    const wrapper = shallow(<SectionIntroPreview section={section} />);
     expect(wrapper).toMatchSnapshot();
   });
 });

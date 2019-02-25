@@ -173,186 +173,129 @@ describe("builder", () => {
     changeQuestionnaireTitle(questionnaireTitle);
   });
 
-  it("Can create a new section", () => {
-    checkIsOnDesignPage();
+  describe("Section", () => {
+    it("Can create a new section", () => {
+      checkIsOnDesignPage();
 
-    let prevHash;
+      let prevHash;
 
-    cy.hash()
-      .then(hash => {
+      cy.hash()
+        .then(hash => {
+          prevHash = hash;
+          addSection();
+        })
+        .then(() => {
+          assertHash({
+            previousPath: Routes.PAGE,
+            previousHash: prevHash,
+            currentPath: Routes.SECTION,
+            equality: {
+              questionnaireId: true,
+              sectionId: false,
+            },
+          });
+        });
+    });
+
+    it("Can navigate to a section", () => {
+      checkIsOnDesignPage();
+
+      const initialHash = cy
+        .hash()
+        .should("match", questionPageRegex)
+        .then(hash => hash);
+
+      addSection();
+
+      cy.hash().should("not.eq", initialHash);
+      const resultingHash = cy
+        .hash()
+        .should("match", sectionRegex)
+        .then(hash => hash);
+
+      navigateToFirstSection();
+
+      cy.hash()
+        .should("match", sectionRegex)
+        .and("not.eq", resultingHash);
+    });
+
+    it("Can edit section alias, title and introduction details", () => {
+      checkIsOnDesignPage();
+
+      navigateToFirstSection();
+
+      cy.get(testId("alias")).type("section alias");
+
+      typeIntoDraftEditor(
+        testId("txt-section-title", "testid"),
+        "my new section"
+      );
+
+      typeIntoDraftEditor(
+        testId("txt-introduction-title", "testid"),
+        "Section Introduction Title"
+      );
+      typeIntoDraftEditor(
+        testId("txt-introduction-content", "testid"),
+        "Section Introduction Content"
+      );
+
+      cy.get(testId("nav-section-link")).should("contain", "section alias");
+    });
+
+    it("Can preview a section once it has introduction content", () => {
+      checkIsOnDesignPage();
+
+      navigateToFirstSection();
+
+      cy.get(testId("preview")).click();
+      cy.hash().should("match", /\/design$/);
+
+      typeIntoDraftEditor(
+        testId("txt-introduction-title", "testid"),
+        "Section Introduction Title"
+      );
+      typeIntoDraftEditor(
+        testId("txt-introduction-content", "testid"),
+        "Section Introduction Content"
+      );
+
+      cy.get(testId("preview")).click();
+      cy.hash().should("match", /\/preview$/);
+    });
+
+    it("Can delete a section", () => {
+      checkIsOnDesignPage();
+
+      addSection();
+
+      navigateToFirstSection();
+
+      let prevHash;
+
+      cy.hash().then(hash => {
         prevHash = hash;
-        addSection();
-      })
-      .then(() => {
+      });
+
+      cy.get(testId("btn-delete")).click();
+      cy.get(testId("delete-confirm-modal")).within(() => {
+        cy.get("button")
+          .contains("Delete")
+          .click();
+      });
+
+      cy.then(() => {
         assertHash({
-          previousPath: Routes.PAGE,
+          previousPath: Routes.SECTION,
           previousHash: prevHash,
-          currentPath: Routes.SECTION,
+          currentPath: Routes.PAGE,
           equality: {
             questionnaireId: true,
             sectionId: false,
+            pageId: false,
           },
         });
-      });
-  });
-
-  it("Can navigate to a section", () => {
-    checkIsOnDesignPage();
-
-    const initialHash = cy
-      .hash()
-      .should("match", questionPageRegex)
-      .then(hash => hash);
-
-    addSection();
-
-    cy.hash().should("not.eq", initialHash);
-    const resultingHash = cy
-      .hash()
-      .should("match", sectionRegex)
-      .then(hash => hash);
-
-    navigateToFirstSection();
-
-    cy.hash()
-      .should("match", sectionRegex)
-      .and("not.eq", resultingHash);
-  });
-
-  it("Can edit section alias and title", () => {
-    checkIsOnDesignPage();
-
-    navigateToFirstSection();
-
-    cy.get(testId("alias")).type("section alias");
-
-    typeIntoDraftEditor(
-      testId("txt-section-title", "testid"),
-      "my new section"
-    );
-
-    cy.get(testId("nav-section-link")).should("contain", "section alias");
-  });
-
-  it("can add and edit a section introduction", () => {
-    checkIsOnDesignPage();
-
-    navigateToFirstSection();
-
-    cy.get(testId("btn-add-intro")).click();
-
-    typeIntoDraftEditor(
-      testId("txt-introduction-title", "testid"),
-      "Section Introduction Title"
-    );
-    typeIntoDraftEditor(
-      testId("txt-introduction-content", "testid"),
-      "Section Introduction Content"
-    );
-  });
-
-  it("can delete a section introduction", () => {
-    checkIsOnDesignPage();
-
-    navigateToFirstSection();
-
-    cy.get(testId("btn-add-intro")).click();
-
-    cy.get(testId("section-intro-canvas")).within(() => {
-      cy.get(testId("btn-delete")).click();
-    });
-    cy.get(testId("btn-add-intro"));
-  });
-
-  it("can undelete a section introduction", () => {
-    checkIsOnDesignPage();
-
-    navigateToFirstSection();
-
-    cy.get(testId("btn-add-intro")).click();
-
-    typeIntoDraftEditor(
-      testId("txt-introduction-title", "testid"),
-      "Section Introduction Title"
-    );
-    typeIntoDraftEditor(
-      testId("txt-introduction-content", "testid"),
-      "Section Introduction Content"
-    );
-
-    cy.get(testId("section-intro-canvas")).within(() => {
-      cy.get(testId("btn-delete")).click();
-    });
-
-    cy.get(testId("btn-add-intro")).should("be.visible");
-    cy.get(testId("btn-undo")).should("be.visible");
-    cy.get(testId("btn-undo")).click();
-
-    cy.get(testId("section-intro-canvas")).within(() => {
-      cy.get(testId("txt-introduction-title", "testid")).should(
-        "contain",
-        "Section Introduction Title"
-      );
-      cy.get(testId("txt-introduction-content", "testid")).should(
-        "contain",
-        "Section Introduction Content"
-      );
-    });
-  });
-
-  it("can preview a section introducion", () => {
-    checkIsOnDesignPage();
-
-    navigateToFirstSection();
-
-    cy.get(testId("preview")).click();
-    cy.hash().should("match", /\/design$/);
-
-    cy.get(testId("btn-add-intro")).click();
-
-    typeIntoDraftEditor(
-      testId("txt-introduction-title", "testid"),
-      "Section Introduction Title"
-    );
-    typeIntoDraftEditor(
-      testId("txt-introduction-content", "testid"),
-      "Section Introduction Content"
-    );
-
-    cy.get(testId("preview")).click();
-    cy.hash().should("match", /\/preview$/);
-  });
-
-  it("Can delete a section", () => {
-    checkIsOnDesignPage();
-
-    addSection();
-
-    navigateToFirstSection();
-
-    let prevHash;
-
-    cy.hash().then(hash => {
-      prevHash = hash;
-    });
-
-    cy.get(testId("btn-delete")).click();
-    cy.get(testId("delete-confirm-modal")).within(() => {
-      cy.get("button")
-        .contains("Delete")
-        .click();
-    });
-
-    cy.then(() => {
-      assertHash({
-        previousPath: Routes.SECTION,
-        previousHash: prevHash,
-        currentPath: Routes.PAGE,
-        equality: {
-          questionnaireId: true,
-          sectionId: false,
-          pageId: false,
-        },
       });
     });
   });

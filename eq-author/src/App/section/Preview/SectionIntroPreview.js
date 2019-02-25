@@ -2,7 +2,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import fragment from "App/section/Design/SectionEditor/SectionIntroduction/SectionIntroductionFragment.graphql";
+import fragment from "graphql/fragments/section.graphql";
 
 import Error from "components/preview/Error";
 import { propType } from "graphql-anywhere";
@@ -42,7 +42,7 @@ const TitleBlock = styled.h1`
 `;
 
 const SectionIntroPreview = ({
-  introduction: { introductionTitle, introductionContent },
+  section: { introductionTitle, introductionContent },
 }) => (
   <Wrapper>
     <TitleBlock>
@@ -63,7 +63,7 @@ const SectionIntroPreview = ({
 );
 
 SectionIntroPreview.propTypes = {
-  introduction: propType(fragment).isRequired,
+  section: propType(fragment).isRequired,
 };
 
 export default SectionIntroPreview;
