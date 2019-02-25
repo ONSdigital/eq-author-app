@@ -1,8 +1,18 @@
+# Expires map
+map $sent_http_content_type $expires {
+  default                    off;
+  text/html                  epoch;
+  text/css                   max;
+  application/javascript     max;
+  ~image/                    max;
+}
+
 server {
   listen 3000;
   server_name eq-author;
   root /etc/nginx/html;
   index index.html;
+  expires $expires;
   
   location / {
     try_files $uri /index.html =404;

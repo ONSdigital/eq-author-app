@@ -1,4 +1,4 @@
-import appendAuthHeader from "utils/appendAuthHeader";
+import appendAuthHeader from "./authHeader";
 
 describe("appendAuthHeader", () => {
   let otherHeaders;
@@ -24,7 +24,7 @@ describe("appendAuthHeader", () => {
     });
 
     it("should just return default headers if no localStorage exists", () => {
-      expect(appendAuthHeader(otherHeaders).headers).toMatchObject({
+      expect(appendAuthHeader(otherHeaders)).toMatchObject({
         ContentType: "text/html",
       });
     });
@@ -33,15 +33,13 @@ describe("appendAuthHeader", () => {
   it("should append auth header if token exists", () => {
     localStorage.setItem("accessToken", "abc.def.ghi");
 
-    expect(appendAuthHeader(otherHeaders).headers).toMatchObject({
+    expect(appendAuthHeader(otherHeaders)).toMatchObject({
       ContentType: "text/html",
       authorization: "Bearer abc.def.ghi",
     });
   });
 
   it("should not append auth header if no access token exists", () => {
-    expect(appendAuthHeader(otherHeaders).headers).not.toHaveProperty(
-      "authorization"
-    );
+    expect(appendAuthHeader(otherHeaders)).not.toHaveProperty("authorization");
   });
 });

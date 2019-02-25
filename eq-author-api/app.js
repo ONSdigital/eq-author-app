@@ -9,6 +9,7 @@ const { PORT } = require("./settings");
 const status = require("./middleware/status");
 const { getLaunchUrl } = require("./middleware/launch");
 const createAuthMiddleware = require("./middleware/auth");
+const versionMiddleware = require("./middleware/version");
 const repositories = require("./repositories");
 const modifiers = require("./modifiers");
 const schema = require("./schema");
@@ -60,6 +61,7 @@ db(process.env.DB_SECRET_ID)
       pino,
       cors(),
       authMiddleware,
+      versionMiddleware,
       bodyParser.json(),
       graphqlExpress({
         schema,
