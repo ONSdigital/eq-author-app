@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const { ApolloServer } = require("apollo-server-express");
 const cors = require("cors");
@@ -5,7 +6,6 @@ const bodyParser = require("body-parser");
 const pinoMiddleware = require("express-pino-logger");
 const helmet = require("helmet");
 
-const { PORT } = require("./settings");
 const status = require("./middleware/status");
 const { getLaunchUrl } = require("./middleware/launch");
 const createAuthMiddleware = require("./middleware/auth");
@@ -14,6 +14,7 @@ const schema = require("./schema");
 
 const noir = require("pino-noir");
 
+const { PORT = 4000 } = process.env;
 const app = express();
 const pino = pinoMiddleware({
   serializers: noir(["req.headers.authorization"], "[Redacted]"),

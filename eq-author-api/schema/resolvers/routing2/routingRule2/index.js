@@ -21,7 +21,7 @@ const {
 } = require("../../../../src/businessLogic");
 const availableRoutingDestinations = require("../../../../src/businessLogic/availableRoutingDestinations");
 const validateRoutingDestinations = require("../../../../src/businessLogic/validateRoutingDestination");
-const answerTypeToConditions = require("../../../../modifiers/BinaryExpression/answerTypeToConditions");
+const answerTypeToConditions = require("../../../../src/businessLogic/answerTypeToConditions");
 const {
   NO_ROUTABLE_ANSWER_ON_PAGE,
   NULL,

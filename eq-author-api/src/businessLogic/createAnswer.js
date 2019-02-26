@@ -4,7 +4,7 @@ const getDefaultAnswerProperties = require("../../utils/defaultAnswerProperties"
 const { answerTypeMap } = require("../../utils/defaultAnswerValidations");
 const {
   createDefaultValidationsForAnswer,
-} = require("../../repositories/strategies/validationStrategy");
+} = require("../../src/businessLogic/createValidation");
 
 module.exports = answer => {
   const defaultProperties = getDefaultAnswerProperties(answer.type);

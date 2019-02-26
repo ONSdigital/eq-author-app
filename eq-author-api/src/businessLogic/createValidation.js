@@ -2,7 +2,7 @@ const {
   answerTypeMap,
   validationRuleMap,
   defaultValidationRuleConfigs,
-  defaultValidationEntityTypes
+  defaultValidationEntityTypes,
 } = require("../../utils/defaultAnswerValidations");
 
 const { findKey, includes } = require("lodash");
@@ -19,11 +19,11 @@ const createDefaultValidationsForAnswer = ({ type }) => {
     validationType,
     config: defaultValidationRuleConfigs[validationType],
     entityType: defaultValidationEntityTypes({ type })[validationType]
-      .entityType
+      .entityType,
   }));
 };
 
 Object.assign(module.exports, {
   createDefaultValidationsForAnswer,
-  getValidationEntity
+  getValidationEntity,
 });

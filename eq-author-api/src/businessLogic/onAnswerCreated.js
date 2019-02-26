@@ -1,4 +1,4 @@
-const answerTypeToConditions = require("../../modifiers/BinaryExpression/answerTypeToConditions");
+const answerTypeToConditions = require("./answerTypeToConditions");
 
 const { first, flatMap, filter, forEach } = require("lodash/fp");
 

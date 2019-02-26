@@ -17,7 +17,7 @@ const {
   createLeftSide,
 } = require("../../../../src/businessLogic");
 
-const answerTypeToConditions = require("../../../../modifiers/BinaryExpression/answerTypeToConditions");
+const answerTypeToConditions = require("../../../../src/businessLogic/answerTypeToConditions");
 const {
   NO_ROUTABLE_ANSWER_ON_PAGE,
   NULL,
