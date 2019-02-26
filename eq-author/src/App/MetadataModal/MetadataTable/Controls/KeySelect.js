@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 import React, { Component } from "react";
-import Downshift from "downshift";
 import { reject, includes, isUndefined } from "lodash";
 
 import Typeahead from "components/Forms/Typeahead";
@@ -33,45 +32,25 @@ class KeySelect extends Component {
     value: this.props.defaultValue || "",
   };
 
-  getChangeValue = changes => {
-    if (changes.hasOwnProperty("selectedItem")) {
-      return changes.selectedItem.value;
-    } else if (changes.hasOwnProperty("inputValue")) {
-      return changes.inputValue;
-    }
-  };
-
-  stateReducer = (state, changes) => {
+  handleBlur = () => {
     const { name, onChange, onUpdate } = this.props;
-
-    if (
-      changes.type === Downshift.stateChangeTypes.blurInput ||
-      changes.type === Downshift.stateChangeTypes.mouseUp
-    ) {
-      onUpdate();
-    } else if (
-      changes.type === Downshift.stateChangeTypes.clickItem ||
-      changes.type === Downshift.stateChangeTypes.keyDownEnter
-    ) {
-      let value = this.getChangeValue(changes);
-      onChange({ name, value }, () => onUpdate());
-    }
-
-    return changes;
+    const { value } = this.state;
+    onChange({ name, value }, () => onUpdate());
   };
 
   handleStateChange = changes => {
-    const { name, onChange } = this.props;
-    let value = this.getChangeValue(changes);
+    const { name, onChange, onUpdate } = this.props;
+    const { inputValue: value, selectedItem } = changes;
 
     if (isUndefined(value)) {
       return;
     }
-
-    this.setState(() => {
-      onChange({ name, value });
-      return { value };
-    });
+    if (selectedItem) {
+      onChange({ name, value: selectedItem.value }, () => onUpdate());
+    }
+    if (/^[a-z0-9-_]+$/i.test(value) || !value) {
+      this.setState(() => ({ value }));
+    }
   };
 
   render() {
@@ -80,7 +59,6 @@ class KeySelect extends Component {
 
     return (
       <Typeahead
-        stateReducer={this.stateReducer}
         onStateChange={this.handleStateChange}
         selectedItem={{ value }}
       >
@@ -88,7 +66,11 @@ class KeySelect extends Component {
           <div>
             <TableTypeaheadInput
               name={name}
-              {...getInputProps({ onFocus: openMenu })}
+              {...getInputProps({
+                onFocus: openMenu,
+                onBlur: this.handleBlur,
+                "data-test": "key-input",
+              })}
             />
             {isOpen && (
               <TableTypeaheadMenu
