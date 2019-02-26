@@ -18,8 +18,9 @@ export const add = config => {
   updateDetails(config);
   checkIsOnDesignPage();
   return cy.hash().then(hash => {
-    const pattern = new RegExp(`/questionnaire/${idRegex}/`);
-    const id = pattern.exec(hash)[1];
+    const pattern = new RegExp(`/questionnaire/(${idRegex})/`);
+    const result = pattern.exec(hash);
+    const id = result[1];
     return { id };
   });
 };

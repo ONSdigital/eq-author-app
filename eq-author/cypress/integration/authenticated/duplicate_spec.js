@@ -13,19 +13,20 @@ describe("Duplicate", () => {
     beforeEach(() => {
       cy.visit("/");
       cy.login();
-      addQuestionnaire("questionnaireTitle");
+      addQuestionnaire("page duplication");
 
       typeIntoDraftEditor(testId("txt-question-title", "testid"), "Question 1");
       cy.get(testId("side-nav")).should("contain", "Question 1");
       cy.get(testId("btn-duplicate-page")).click();
     });
 
-    it("should display copy of page in sidebar", () => {
+    it("should display copy of page in sidebar and navigate to it", () => {
       cy.get(testId("side-nav")).should("contain", "Copy of Question 1");
+      cy.hash().should("match", questionPageRegex);
     });
 
-    it("should navigate to new page after duplicating", () => {
-      cy.hash().should("match", questionPageRegex);
+    afterEach(() => {
+      cy.deleteQuestionnaire("page duplication");
     });
   });
 
@@ -33,18 +34,19 @@ describe("Duplicate", () => {
     beforeEach(() => {
       cy.visit("/");
       cy.login();
-      addQuestionnaire("questionnaireTitle");
+      addQuestionnaire("section duplication");
       navigateToFirstSection();
       typeIntoDraftEditor(testId("txt-section-title", "testid"), "Section 1");
       cy.get(testId("btn-duplicate-section")).click();
     });
 
-    it("should display the new section in the sidebar", () => {
+    it("should display the new section in the sidebar and navigate to it", () => {
       cy.get(testId("side-nav")).should("contain", "Copy of Section 1");
+      cy.hash().should("match", sectionRegex);
     });
 
-    it("should navigate to the new section after duplicating", () => {
-      cy.hash().should("match", sectionRegex);
+    afterEach(() => {
+      cy.deleteQuestionnaire("section duplication");
     });
   });
 

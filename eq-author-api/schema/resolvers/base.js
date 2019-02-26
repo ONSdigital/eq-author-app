@@ -318,9 +318,8 @@ const Resolvers = {
       const duplicatedSection = createSection(newSection);
       const remappedSection = remapAllNestedIds(duplicatedSection);
       ctx.questionnaire.sections.splice(input.position, 0, remappedSection);
-      ctx.questionnaire.sections.splice(input.position, 0, duplicatedSection);
       await saveQuestionnaire(ctx.questionnaire);
-      return duplicatedSection;
+      return remappedSection;
     },
 
     movePage: async (_, { input }, ctx) => {

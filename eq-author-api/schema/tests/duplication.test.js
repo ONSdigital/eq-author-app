@@ -105,8 +105,16 @@ describe("Duplication", () => {
             "title",
             "displayName",
             "position",
+            "pages",
           ])
         )
+      );
+    });
+
+    it("should copy the page but not id", () => {
+      expect(sectionCopy.pages[0].id).not.toEqual(queriedSection.pages[0].id);
+      expect(sectionCopy.pages[0]).toMatchObject(
+        omit(queriedSection.pages[0], "id")
       );
     });
 
