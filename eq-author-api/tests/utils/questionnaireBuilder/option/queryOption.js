@@ -1,8 +1,8 @@
 const executeQuery = require("../../executeQuery");
 
-const updateOptionMutation = `
-  mutation UpdateOption($input: UpdateOptionInput!) {
-    updateOption(input: $input) {
+const getOptionQuery = `
+  query GetOption($input: QueryInput!) {
+    option(input: $input) {
       id
       displayName
       label
@@ -17,17 +17,19 @@ const updateOptionMutation = `
   }
 `;
 
-const updateOption = async (questionnaire, input) => {
+const queryOption = async (questionnaire, id) => {
   const result = await executeQuery(
-    updateOptionMutation,
-    { input },
+    getOptionQuery,
+    {
+      input: { optionId: id },
+    },
     { questionnaire }
   );
 
-  return result.data.updateOption;
+  return result.data.option;
 };
 
 module.exports = {
-  updateOptionMutation,
-  updateOption,
+  getOptionQuery,
+  queryOption,
 };

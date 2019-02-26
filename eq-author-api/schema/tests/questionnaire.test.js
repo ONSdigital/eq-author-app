@@ -17,7 +17,11 @@ describe("questionnaire", () => {
   let questionnaire;
 
   afterEach(async () => {
+    if (!questionnaire) {
+      return;
+    }
     await deleteQuestionnaire(questionnaire.id);
+    questionnaire = null;
   });
 
   describe("create", () => {
@@ -67,7 +71,7 @@ describe("questionnaire", () => {
 
   describe("mutate", () => {
     it("should mutate a questionnaire", async () => {
-      const questionnaire = await buildQuestionnaire({
+      questionnaire = await buildQuestionnaire({
         title: "Questionnaire",
         description: "Description",
         surveyId: "1",
@@ -154,10 +158,13 @@ describe("questionnaire", () => {
 
   describe("delete", () => {
     it("should delete a questionnaire", async () => {
-      const { id: questionnaireId } = await buildQuestionnaire({});
-      await deleteQuestionnaire(questionnaireId);
-      const deletedQuestionnaire = await queryQuestionnaire(questionnaireId);
+      questionnaire = await buildQuestionnaire({});
+      // Calling this to prove it doesn't error but cannot actually rely on it
+      await deleteQuestionnaire(questionnaire.id);
+      // This is faking the context which relies on middleware and should be null when the questionnaire has been deleted
+      const deletedQuestionnaire = await queryQuestionnaire(null);
       expect(deletedQuestionnaire).toBeNull();
+      questionnaire = null;
     });
   });
 });

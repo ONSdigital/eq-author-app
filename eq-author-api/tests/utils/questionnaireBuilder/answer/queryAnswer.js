@@ -28,6 +28,9 @@ const getAnswerQuery = `
         }
       }
       ... on MultipleChoiceAnswer {
+        mutuallyExclusiveOption {
+          id
+        }
         options {
           id
           additionalAnswer{

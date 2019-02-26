@@ -25,41 +25,43 @@ const { GB_ENG } = require("../../constants/metadataRegions");
 const { defaultValues } = require("../../utils/defaultMetadata");
 
 describe("metadata", () => {
-  let questionnaire, metadata;
-  let config = {
-    metadata: [{}],
-  };
+  let questionnaire;
 
-  beforeAll(async () => {
-    questionnaire = await buildQuestionnaire(config);
-    metadata = last(questionnaire.metadata);
-  });
-
-  afterAll(async () => {
+  afterEach(async () => {
     await deleteQuestionnaire(questionnaire.id);
+    questionnaire = null;
   });
 
   describe("create", () => {
-    it("should create a metadata", () => {
-      expect(metadata).toMatchObject({
+    it("should create a metadata", async () => {
+      questionnaire = await buildQuestionnaire({});
+      const createdMetadata = await createMetadata(questionnaire, {
+        questionnaireId: questionnaire.id,
+      });
+      expect(createdMetadata).toMatchObject({
         id: expect.any(String),
         alias: null,
         key: null,
         type: TEXT,
-        value: null,
+        dateValue: null,
+        regionValue: null,
+        languageValue: null,
+        textValue: null,
+        displayName: "Untitled Metadata",
       });
     });
   });
 
   describe("mutate", () => {
-    let createdMetadata, updatedMetadata;
+    let metadata, updatedMetadata;
     let update;
     beforeEach(async () => {
-      createdMetadata = await createMetadata(questionnaire, {
-        questionnaireId: questionnaire.id,
+      questionnaire = await buildQuestionnaire({
+        metadata: [{}],
       });
+      metadata = questionnaire.metadata[0];
       update = {
-        id: createdMetadata.id,
+        id: metadata.id,
         key: "key-updated",
         alias: "alias-updated",
         type: TEXT,
@@ -70,15 +72,11 @@ describe("metadata", () => {
       };
     });
 
-    afterEach(async () => {
-      await deleteMetadata(questionnaire, createdMetadata.id);
-    });
-
     it("should mutate metadata key and alias", async () => {
       updatedMetadata = await updateMetadata(questionnaire, update);
       expect(updatedMetadata).toEqual(
         expect.objectContaining({
-          id: createdMetadata.id,
+          id: metadata.id,
           key: "key-updated",
           alias: "alias-updated",
         })
@@ -93,7 +91,7 @@ describe("metadata", () => {
       });
       expect(updatedMetadata).toEqual(
         expect.objectContaining({
-          id: createdMetadata.id,
+          id: metadata.id,
           type: REGION,
           dateValue: null,
           regionValue: GB_ENG,
@@ -111,7 +109,7 @@ describe("metadata", () => {
       });
       expect(updatedMetadata).toEqual(
         expect.objectContaining({
-          id: createdMetadata.id,
+          id: metadata.id,
           type: TEXT,
           dateValue: null,
           regionValue: null,
@@ -129,7 +127,7 @@ describe("metadata", () => {
       });
       expect(updatedMetadata).toEqual(
         expect.objectContaining({
-          id: createdMetadata.id,
+          id: metadata.id,
           type: LANGUAGE,
           dateValue: null,
           regionValue: null,
@@ -147,7 +145,7 @@ describe("metadata", () => {
       });
       expect(updatedMetadata).toEqual(
         expect.objectContaining({
-          id: createdMetadata.id,
+          id: metadata.id,
           type: DATE,
           dateValue: "2019-01-01",
           regionValue: null,
@@ -159,12 +157,12 @@ describe("metadata", () => {
 
     it("should default metadata regionValue when region type", async () => {
       updatedMetadata = await updateMetadata(questionnaire, {
-        id: createdMetadata.id,
+        id: metadata.id,
         type: REGION,
       });
       expect(updatedMetadata).toEqual(
         expect.objectContaining({
-          id: createdMetadata.id,
+          id: metadata.id,
           type: REGION,
           dateValue: null,
           regionValue: GB_ENG,
@@ -176,12 +174,12 @@ describe("metadata", () => {
 
     it("should default metadata languageValue when language type", async () => {
       updatedMetadata = await updateMetadata(questionnaire, {
-        id: createdMetadata.id,
+        id: metadata.id,
         type: LANGUAGE,
       });
       expect(updatedMetadata).toEqual(
         expect.objectContaining({
-          id: createdMetadata.id,
+          id: metadata.id,
           type: LANGUAGE,
           dateValue: null,
           regionValue: null,
@@ -195,7 +193,7 @@ describe("metadata", () => {
       const promises = defaultValues.map(
         async ({ key, alias, type, value }) => {
           updatedMetadata = await updateMetadata(questionnaire, {
-            id: createdMetadata.id,
+            id: metadata.id,
             key,
             alias,
             type,
@@ -206,7 +204,7 @@ describe("metadata", () => {
           });
           expect(updatedMetadata).toEqual(
             expect.objectContaining({
-              id: createdMetadata.id,
+              id: metadata.id,
               key,
               alias,
               type,
@@ -224,112 +222,93 @@ describe("metadata", () => {
   });
 
   describe("query", () => {
-    let update, createdMetadata;
-
-    beforeEach(async () => {
-      createdMetadata = await createMetadata(questionnaire, {
-        questionnaireId: questionnaire.id,
-      });
-
-      update = {
-        id: createdMetadata.id,
-        key: "key-updated",
-        alias: "alias-updated",
-      };
-    });
-
-    afterEach(async () => {
-      await deleteMetadata(questionnaire, createdMetadata.id);
-    });
-
     it("should resolve metadata fields for date", async () => {
-      await updateMetadata(questionnaire, {
-        ...update,
-        type: DATE,
-        dateValue: "2019-01-01",
+      questionnaire = await buildQuestionnaire({
+        metadata: [
+          {
+            type: DATE,
+            dateValue: "2019-01-01",
+          },
+        ],
       });
       const queriedMetadata = await queryMetadata(questionnaire);
 
-      expect(last(queriedMetadata)).toMatchObject({
-        id: expect.any(String),
-        key: expect.any(String),
-        alias: expect.any(String),
-        type: expect.any(String),
-        dateValue: expect.any(String),
+      expect(queriedMetadata[0]).toMatchObject({
+        type: DATE,
+        dateValue: "2019-01-01",
         regionValue: null,
         languageValue: null,
         textValue: null,
-        displayName: expect.any(String),
       });
     });
 
     it("should resolve metadata fields for region", async () => {
-      await updateMetadata(questionnaire, {
-        ...update,
-        type: REGION,
-        regionValue: GB_ENG,
+      questionnaire = await buildQuestionnaire({
+        metadata: [
+          {
+            type: REGION,
+            regionValue: GB_ENG,
+          },
+        ],
       });
       const queriedMetadata = await queryMetadata(questionnaire);
 
       expect(last(queriedMetadata)).toMatchObject({
-        id: expect.any(String),
-        key: expect.any(String),
-        alias: expect.any(String),
-        type: expect.any(String),
+        type: REGION,
+        regionValue: GB_ENG,
         dateValue: null,
-        regionValue: expect.any(String),
         languageValue: null,
         textValue: null,
-        displayName: expect.any(String),
       });
     });
 
     it("should resolve metadata fields for language", async () => {
-      await updateMetadata(questionnaire, {
-        ...update,
-        type: LANGUAGE,
-        languageValue: EN,
+      questionnaire = await buildQuestionnaire({
+        metadata: [
+          {
+            type: LANGUAGE,
+            languageValue: EN,
+          },
+        ],
       });
       const queriedMetadata = await queryMetadata(questionnaire);
 
       expect(last(queriedMetadata)).toMatchObject({
-        id: expect.any(String),
-        key: expect.any(String),
-        alias: expect.any(String),
-        type: expect.any(String),
+        type: LANGUAGE,
+        languageValue: EN,
         dateValue: null,
         regionValue: null,
-        languageValue: expect.any(String),
         textValue: null,
-        displayName: expect.any(String),
       });
     });
 
     it("should resolve metadata fields for text", async () => {
-      await updateMetadata(questionnaire, {
-        ...update,
-        type: TEXT,
-        textValue: "textValue",
+      questionnaire = await buildQuestionnaire({
+        metadata: [
+          {
+            type: TEXT,
+            textValue: "textValue",
+          },
+        ],
       });
       const queriedMetadata = await queryMetadata(questionnaire);
 
       expect(last(queriedMetadata)).toMatchObject({
-        id: expect.any(String),
-        key: expect.any(String),
-        alias: expect.any(String),
-        type: expect.any(String),
+        type: TEXT,
+        textValue: "textValue",
         dateValue: null,
         regionValue: null,
         languageValue: null,
-        textValue: expect.any(String),
-        displayName: expect.any(String),
       });
     });
   });
 
   describe("delete", () => {
     it("should delete a metadata", async () => {
-      await deleteMetadata(questionnaire, metadata.id);
+      questionnaire = await buildQuestionnaire({
+        metadata: [{}],
+      });
+      await deleteMetadata(questionnaire, questionnaire.metadata[0].id);
       const deletedMetadata = await queryMetadata(questionnaire);
       expect(deletedMetadata).toEqual([]);
     });

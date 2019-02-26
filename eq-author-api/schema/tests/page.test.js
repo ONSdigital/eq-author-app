@@ -29,6 +29,7 @@ describe("page", () => {
 
   afterEach(async () => {
     await deleteQuestionnaire(questionnaire.id);
+    questionnaire = null;
   });
 
   describe("create", () => {
@@ -170,7 +171,7 @@ describe("page", () => {
   describe("query", () => {
     let queriedPage, setupPage;
 
-    beforeAll(async () => {
+    beforeEach(async () => {
       questionnaire = await buildQuestionnaire({
         metadata: [{}],
         sections: [
@@ -195,9 +196,6 @@ describe("page", () => {
           },
         ],
       });
-    });
-
-    beforeEach(async () => {
       setupPage = questionnaire.sections[0].pages[1];
       queriedPage = await queryQuestionPage(questionnaire, setupPage.id);
     });

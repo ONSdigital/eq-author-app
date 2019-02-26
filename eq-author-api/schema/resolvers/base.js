@@ -207,6 +207,10 @@ const Resolvers = {
         }
       });
 
+      if (!confirmationPage) {
+        return null;
+      }
+
       return { pageId, ...confirmationPage };
     },
     me: (root, args, ctx) => ({
@@ -233,7 +237,6 @@ const Resolvers = {
     },
     deleteQuestionnaire: async (_, { input }) => {
       await deleteQuestionnaire(input.id);
-
       return { id: input.id };
     },
 

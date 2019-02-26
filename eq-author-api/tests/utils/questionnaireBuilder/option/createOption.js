@@ -11,6 +11,9 @@ const createOptionMutation = `
       description
       value
       qCode
+      additionalAnswer {
+        id
+      }
     }
   }
 `;
@@ -39,7 +42,45 @@ const createOption = async (questionnaire, input) => {
   return result.data.createOption;
 };
 
+const createMutuallyExclusiveOptionMutation = `
+  mutation CreateMutuallyExclusiveOption($input: CreateMutuallyExclusiveOptionInput!) {
+    createMutuallyExclusiveOption(input: $input) {
+      id
+      displayName
+      label
+      description
+      value
+      qCode
+    }
+  }
+`;
+
+const createMutuallyExclusiveOption = async (questionnaire, input) => {
+  const result = await executeQuery(
+    createMutuallyExclusiveOptionMutation,
+    {
+      input: filter(
+        gql`
+          {
+            label
+            description
+            value
+            qCode
+            answerId
+          }
+        `,
+        input
+      ),
+    },
+    { questionnaire }
+  );
+
+  return result.data.createMutuallyExclusiveOption;
+};
+
 module.exports = {
   createOptionMutation,
   createOption,
+  createMutuallyExclusiveOptionMutation,
+  createMutuallyExclusiveOption,
 };

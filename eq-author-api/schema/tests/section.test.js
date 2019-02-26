@@ -25,6 +25,7 @@ describe("section", () => {
 
   afterEach(async () => {
     await deleteQuestionnaire(questionnaire.id);
+    questionnaire = null;
   });
 
   describe("create", () => {
@@ -117,7 +118,7 @@ describe("section", () => {
   describe("query", () => {
     let queriedSection;
 
-    beforeAll(async () => {
+    beforeEach(async () => {
       questionnaire = await buildQuestionnaire({
         metadata: [{}],
         sections: [
@@ -134,9 +135,6 @@ describe("section", () => {
           },
         ],
       });
-    });
-
-    beforeEach(async () => {
       queriedSection = await querySection(
         questionnaire,
         questionnaire.sections[1].id
