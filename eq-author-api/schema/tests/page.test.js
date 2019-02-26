@@ -275,10 +275,6 @@ describe("page", () => {
     it("should resolve confirmation", () => {
       expect(queriedPage.confirmation.id).toEqual(setupPage.confirmation.id);
     });
-
-    it("should resolve routing", () => {
-      //@todo
-    });
   });
 
   describe("delete", () => {
