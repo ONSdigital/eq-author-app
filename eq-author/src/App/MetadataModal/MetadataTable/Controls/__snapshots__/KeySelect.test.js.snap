@@ -2,7 +2,6 @@
 
 exports[`KeySelect should render 1`] = `
 <Typeahead
-  inputValue=""
   onStateChange={[Function]}
   selectedItem={
     Object {
