@@ -4,10 +4,9 @@ services:
     build:
       context: .
     depends_on:
-      - db
       - dynamo
     links:
-      - db
+      - dynamo
     volumes:
       - .:/app
     ports:
@@ -17,7 +16,6 @@ services:
       - AWS_REGION=eu-west-1
       - AWS_ACCESS_KEY_ID=dummy
       - AWS_SECRET_ACCESS_KEY=dummy
-      - DB_CONNECTION_URI=postgres://postgres:mysecretpassword@db:5432/postgres
       - DYNAMO_ENDPOINT_OVERRIDE=http://dynamo:8000
       - DYNAMO_QUESTIONNAIRE_TABLE_NAME=dev-author-questionnaires
       - DYNAMO_QUESTIONNAIRE_VERSION_TABLE_NAME=dev-author-questionnaire-versions
@@ -27,14 +25,6 @@ services:
     entrypoint:
       - yarn
       - start:dev
-  db:
-    image: postgres:9.4-alpine
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=mysecretpassword
-      - POSTGRES_DB=postgres
-    ports:
-      - 5432:5432
   dynamo:
     image: amazon/dynamodb-local
     ports:

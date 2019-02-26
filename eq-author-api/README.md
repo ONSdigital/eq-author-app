@@ -22,11 +22,10 @@ In most cases sensible defaults have been selected.
 > **Tip**
 >
 > If you decide to run the Author API directly using `yarn` you will need to
-> ensure that a suitable database instance is running and configure the
-> associated database environment variables appropriately.
+> ensure that the environment variables listed below are configured appropriately.
 >
-> Running using `docker-compose` will ensure that a suitable postgres instance
-> is started. So there is no need to configure the environment variables.
+> The `docker-compose` configuration should ensure that all required environment variables are set up correctly so there
+> should be no need to manually configure the environment variables when [running with docker compose](#run-using-docker).
 
 ## Environment Variables
 
@@ -34,7 +33,6 @@ In most cases sensible defaults have been selected.
 | ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
 | `RUNNER_SESSION_URL`    | Authentication URL for survey runner                                                                                                                 | Yes      |
 | `PUBLISHER_URL`         | URL that produces valid survey runner JSON                                                                                                           | Yes      |
-| `DB_CONNECTION_URI`     | Connection string for database                                                                                                                       | Yes      |
 | `SECRETS_S3_BUCKET`     | Name of S3 bucket where secrets are stored                                                                                                           | No       |
 | `KEYS_FILE`             | Name of the keys file to use inside the bucket                                                                                                       | No       |
 | `AUTH_HEADER_KEY`       | Name of the header values that contains the Auth token                                                                                               | No       |
@@ -100,30 +98,6 @@ query {
 ### Testing through GraphiQL
 
 There are [queries](tests/fixtures/queries.gql) and [example data](tests/fixtures/data.json) in the [fixtures folder](tests/fixtures). These can be used with graphiql to manually build up a questionnaire.
-
-### DB migrations
-
-First start app using Docker.
-
-#### Create migration
-
-```
-yarn knex migrate:make name_of_migration
-```
-
-Where `name_of_migration` is the name you wish to use. e.g. `create_questionnaires_table`
-
-#### Apply migrations
-
-```
-docker-compose exec web yarn knex migrate:latest
-```
-
-#### Rollback migrations
-
-```
-docker-compose exec web yarn knex migrate:rollback
-```
 
 ## Tests
 
