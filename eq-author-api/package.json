@@ -43,7 +43,7 @@
     "pg-hstore": "latest",
     "pino-noir": "latest",
     "uuid": "latest",
-    "wait-for-postgres": "latest"
+    "wait-on": "latest"
   },
   "engines": {
     "node": ">=7.10.0"
@@ -62,7 +62,9 @@
       "!middleware/import.js",
       "!app.js"
     ],
-    "watchPathIgnorePatterns": ["data\/"]
+    "watchPathIgnorePatterns": [
+      "data/"
+    ]
   },
   "devDependencies": {
     "eslint": "latest",

@@ -122,7 +122,11 @@ const getAvailablePreviousAnswersForValidation = ctx => id => {
 };
 
 const findSectionByPageId = (sections, id) =>
-  find(sections, section => find(section.pages, { id }));
+  find(sections, section => {
+    if (section.pages && some(section.pages, { id })) {
+      return section;
+    }
+  });
 
 const createPage = (input = {}) => ({
   id: uuid.v4(),
@@ -140,7 +144,7 @@ const createSection = (input = {}) => ({
   title: "",
   introductionEnabled: false,
   pages: [createPage()],
-  alias: null,
+  alias: "",
   ...input,
 });
 
@@ -155,6 +159,7 @@ const createNewQuestionnaire = input => ({
   createdAt: new Date(),
   metadata: [],
   sections: [createSection()],
+  summary: false,
   ...input,
 });
 
@@ -354,19 +359,19 @@ const Resolvers = {
       await saveQuestionnaire(ctx.questionnaire);
       return page;
     },
-    updateQuestionPage: (_, { input }, ctx) => {
+    updateQuestionPage: async (_, { input }, ctx) => {
       const page = getPage(ctx)({ pageId: input.id });
       merge(page, input);
-      saveQuestionnaire(ctx.questionnaire);
+      await saveQuestionnaire(ctx.questionnaire);
       return page;
     },
-    deleteQuestionPage: (_, { input }, ctx) => {
+    deleteQuestionPage: async (_, { input }, ctx) => {
       const removedPage = flatten(
         ctx.questionnaire.sections.map(section =>
           remove(section.pages, { id: input.id })
         )
       );
-      saveQuestionnaire(ctx.questionnaire);
+      await saveQuestionnaire(ctx.questionnaire);
       return removedPage[0];
     },
 

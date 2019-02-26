@@ -17,7 +17,7 @@ const saveModel = (model, options = {}) =>
       if (err) {
         reject(err);
       }
-      resolve();
+      resolve(model);
     });
   });
 
@@ -25,14 +25,13 @@ const createQuestionnaire = async questionnaire => {
   await saveModel(
     new QuestionnaireModel(omit(questionnaire, "sections", "metadata"))
   );
-  await saveModel(
+  const result = await saveModel(
     new QuestionnaireVersionsModel({
       ...questionnaire,
       updatedAt: Date.now(),
     })
   );
-
-  return questionnaire;
+  return result;
 };
 
 const getQuestionnaire = id => {
@@ -44,13 +43,21 @@ const getQuestionnaire = id => {
         if (err) {
           reject(err);
         }
+
+        if (!questionnaire.sections) {
+          questionnaire.sections = [];
+        }
+
+        if (!questionnaire.metadata) {
+          questionnaire.metadata = [];
+        }
         resolve(questionnaire);
       });
   });
 };
 
 const MAX_UPDATE_TIMES = 2;
-const saveQuestionnaire = async (questionnaire, count = 0) => {
+const saveQuestionnaire = async (questionnaire, count = 0, patch) => {
   if (count === MAX_UPDATE_TIMES) {
     throw new Error(`Failed after trying to update ${MAX_UPDATE_TIMES} times`);
   }
@@ -80,11 +87,16 @@ const saveQuestionnaire = async (questionnaire, count = 0) => {
       throw e;
     }
 
-    const patch = diffPatcher.diff(originalQuestionnaire, questionnaire);
-    logger.warn(`Dynamoose merging on save id: ${questionnaire.id}`, patch);
+    const patchToApply =
+      patch || diffPatcher.diff(originalQuestionnaire, questionnaire);
+    logger.warn(
+      `Dynamoose merging on save id: ${questionnaire.id}`,
+      patchToApply
+    );
+
     const dbQuestionnaire = await getQuestionnaire(questionnaire.id);
-    diffPatcher.patch(dbQuestionnaire, patch);
-    await saveQuestionnaire(dbQuestionnaire, ++count);
+    diffPatcher.patch(dbQuestionnaire, patchToApply);
+    await saveQuestionnaire(dbQuestionnaire, ++count, patchToApply);
   }
 };
 

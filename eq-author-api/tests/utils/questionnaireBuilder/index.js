@@ -20,7 +20,7 @@ const {
   updateQuestionConfirmation,
 } = require("./questionConfirmation");
 
-const { getQuestionnaire } = require("../../../utils/datastoreFileSystem");
+const { getQuestionnaire } = require("../../../utils/datastore");
 const { RADIO } = require("../../../constants/answerTypes");
 
 const {

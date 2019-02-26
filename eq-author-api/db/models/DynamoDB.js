@@ -45,6 +45,9 @@ const baseQuestionnaireSchema = {
   theme: {
     type: String,
   },
+  summary: {
+    type: Boolean,
+  },
 };
 
 const questionnanaireSchema = new dynamoose.Schema(baseQuestionnaireSchema, {
@@ -60,11 +63,11 @@ const questionnaireVersionsSchema = new dynamoose.Schema(
       required: true,
     },
     sections: {
-      type: [Array],
+      type: Array,
       required: true,
     },
     metadata: {
-      type: [Array],
+      type: Array,
     },
   },
   {

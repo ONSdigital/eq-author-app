@@ -39,12 +39,12 @@ describe("Duplication", () => {
     ],
   };
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     questionnaire = await buildQuestionnaire(config);
     section = last(questionnaire.sections);
   });
 
-  afterAll(async () => {
+  afterEach(async () => {
     await deleteQuestionnaire(questionnaire.id);
   });
 
