@@ -9,7 +9,6 @@
     "lint": "eslint .",
     "test": "./scripts/test.sh schema/tests",
     "test:breakingChanges": "node scripts/checkForBreakingChanges.js",
-    "knex": "knex",
     "dynamodb-admin": "AWS_ACCESS_KEY_ID=dummy AWS_SECRET_ACCESS_KEY=dummy DYNAMO_ENDPOINT=http://localhost:8050 dynamodb-admin"
   },
   "dependencies": {
@@ -36,11 +35,8 @@
     "jsondiffpatch": "latest",
     "jsonwebtoken": "latest",
     "jsrsasign": "latest",
-    "knex": "latest",
     "lodash": "latest",
     "node-jose": "latest",
-    "pg": "latest",
-    "pg-hstore": "latest",
     "pino-noir": "latest",
     "uuid": "latest",
     "wait-on": "latest"
@@ -55,7 +51,6 @@
     "collectCoverageFrom": [
       "**/*.js",
       "!config/**/*",
-      "!migrations/*",
       "!coverage/**/*",
       "!tests/**/*",
       "!scripts/*",

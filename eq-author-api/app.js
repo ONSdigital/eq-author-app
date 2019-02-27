@@ -20,64 +20,50 @@ const pino = pinoMiddleware({
 });
 const logger = pino.logger;
 
-const db = require("./db");
-
-db(process.env.DB_SECRET_ID)
-  .then(async conf => {
-    let knex = require("knex")(conf);
-    logger.info("Running Migrate");
-    await knex.migrate.latest();
-    logger.info("Ran Migrate");
-
-    app.use(
-      "/graphql",
-      helmet({
-        referrerPolicy: {
-          policy: "no-referrer",
-        },
-        frameguard: {
-          action: "deny",
-        },
-        contentSecurityPolicy: {
-          directives: {
-            defaultSrc: ["'self'"],
-            objectSrc: ["'none'"],
-            baseUri: ["'none'"],
-            fontSrc: ["'self'", "'https://fonts.gstatic.com'"],
-            scriptSrc: [
-              "'self'",
-              "'https://www.googleapis.com/identitytoolkit/v3'",
-            ],
-          },
-        },
-      }),
-      pino,
-      cors(),
-      createAuthMiddleware(logger),
-      loadQuestionnaire
-    );
-
-    const server = new ApolloServer({
-      ...schema,
-      context: ({ req }) => {
-        return { questionnaire: req.questionnaire, auth: req.auth };
+app.use(
+  "/graphql",
+  helmet({
+    referrerPolicy: {
+      policy: "no-referrer",
+    },
+    frameguard: {
+      action: "deny",
+    },
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        objectSrc: ["'none'"],
+        baseUri: ["'none'"],
+        fontSrc: ["'self'", "'https://fonts.gstatic.com'"],
+        scriptSrc: [
+          "'self'",
+          "'https://www.googleapis.com/identitytoolkit/v3'",
+        ],
       },
-    });
-    server.applyMiddleware({ app });
+    },
+  }),
+  pino,
+  cors(),
+  createAuthMiddleware(logger),
+  loadQuestionnaire
+);
 
-    app.get("/status", status);
+const server = new ApolloServer({
+  ...schema,
+  context: ({ req }) => {
+    return { questionnaire: req.questionnaire, auth: req.auth };
+  },
+});
+server.applyMiddleware({ app });
 
-    app.get("/launch/:questionnaireId", getLaunchUrl);
-    if (process.env.NODE_ENV === "development") {
-      const importAction = require("./middleware/import");
-      app.post("/import", bodyParser.json({ limit: "50mb" }), importAction);
-    }
+app.get("/status", status);
 
-    app.listen(PORT, "0.0.0.0", () => {
-      logger.child({ port: PORT }).info("Listening on port");
-    });
-  })
-  .catch(error => {
-    logger.info(error);
-    process.exit(1);
-  });
+app.get("/launch/:questionnaireId", getLaunchUrl);
+if (process.env.NODE_ENV === "development") {
+  const importAction = require("./middleware/import");
+  app.post("/import", bodyParser.json({ limit: "50mb" }), importAction);
+}
+
+app.listen(PORT, "0.0.0.0", () => {
+  logger.child({ port: PORT }).info("Listening on port");
+});

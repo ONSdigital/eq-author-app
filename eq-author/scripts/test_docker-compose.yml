@@ -28,9 +28,6 @@ services:
     image: "onsdigital/eq-author-api:${TAG:-latest}"
     environment:
       DATASTORE: filesystem
-      DB_CONNECTION_URI: postgres://postgres:mysecretpassword@eq-author-db:5432/postgres
-    depends_on:
-      - eq-author-db
     restart: always
     networks:
       - eq-author
@@ -50,18 +47,6 @@ services:
       - eq-author
     ports:
       - 19000:9000
-
-  eq-author-db:
-    image: postgres:9.4-alpine
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: mysecretpassword
-      POSTGRES_DB: postgres
-    restart: always
-    networks:
-      - eq-author
-    ports:
-      - 5432
 
 networks:
   eq-author:
