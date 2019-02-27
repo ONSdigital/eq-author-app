@@ -2,7 +2,6 @@ require("dotenv").config();
 const express = require("express");
 const { ApolloServer } = require("apollo-server-express");
 const cors = require("cors");
-const bodyParser = require("body-parser");
 const pinoMiddleware = require("express-pino-logger");
 const helmet = require("helmet");
 
@@ -60,10 +59,6 @@ server.applyMiddleware({ app });
 app.get("/status", status);
 
 app.get("/launch/:questionnaireId", getLaunchUrl);
-if (process.env.NODE_ENV === "development") {
-  const importAction = require("./middleware/import");
-  app.post("/import", bodyParser.json({ limit: "50mb" }), importAction);
-}
 
 app.listen(PORT, "0.0.0.0", () => {
   logger.child({ port: PORT }).info("Listening on port");
