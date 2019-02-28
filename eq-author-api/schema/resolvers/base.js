@@ -394,6 +394,24 @@ const Resolvers = {
       await saveQuestionnaire(ctx.questionnaire);
       return deletedAnswer;
     },
+    moveAnswer: async (_, { input: { id, position } }, ctx) => {
+      const pages = flatMap(
+        ctx.questionnaire.sections,
+        section => section.pages
+      );
+      const page = find(pages, page => {
+        if (page.answers && some(page.answers, { id })) {
+          return page;
+        }
+      });
+
+      const answerMoving = first(remove(page.answers, { id }));
+      page.answers.splice(position, 0, answerMoving);
+
+      await saveQuestionnaire(ctx.questionnaire);
+
+      return answerMoving;
+    },
 
     createOption: async (root, { input }, ctx) => {
       const pages = flatMap(

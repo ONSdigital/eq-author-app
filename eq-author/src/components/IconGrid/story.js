@@ -2,15 +2,15 @@ import React from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import { IconGrid, IconGridButton } from ".";
-import checkboxIcon from "App/questionPage/Design/AnswerTypeSelector/icons/checkbox.svg";
-import currencyIcon from "App/questionPage/Design/AnswerTypeSelector/icons/currency.svg";
-import dateIcon from "App/questionPage/Design/AnswerTypeSelector/icons/date.svg";
-import dateRangeIcon from "App/questionPage/Design/AnswerTypeSelector/icons/date-range.svg";
-import numberIcon from "App/questionPage/Design/AnswerTypeSelector/icons/number.svg";
-import radioIcon from "App/questionPage/Design/AnswerTypeSelector/icons/radio.svg";
-import textareaIcon from "App/questionPage/Design/AnswerTypeSelector/icons/textarea.svg";
-import textfieldIcon from "App/questionPage/Design/AnswerTypeSelector/icons/textfield.svg";
-import percentageIcon from "App/questionPage/Design/AnswerTypeSelector/icons/percentage.svg";
+import checkboxIcon from "App/questionPage/Design/QuestionPageEditor/AnswerTypeSelector/icons/checkbox.svg";
+import currencyIcon from "App/questionPage/Design/QuestionPageEditor/AnswerTypeSelector/icons/currency.svg";
+import dateIcon from "App/questionPage/Design/QuestionPageEditor/AnswerTypeSelector/icons/date.svg";
+import dateRangeIcon from "App/questionPage/Design/QuestionPageEditor/AnswerTypeSelector/icons/date-range.svg";
+import numberIcon from "App/questionPage/Design/QuestionPageEditor/AnswerTypeSelector/icons/number.svg";
+import radioIcon from "App/questionPage/Design/QuestionPageEditor/AnswerTypeSelector/icons/radio.svg";
+import textareaIcon from "App/questionPage/Design/QuestionPageEditor/AnswerTypeSelector/icons/textarea.svg";
+import textfieldIcon from "App/questionPage/Design/QuestionPageEditor/AnswerTypeSelector/icons/textfield.svg";
+import percentageIcon from "App/questionPage/Design/QuestionPageEditor/AnswerTypeSelector/icons/percentage.svg";
 
 storiesOf("IconGrid", module).add("Default", () => (
   <IconGrid>

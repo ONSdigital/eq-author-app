@@ -98,6 +98,7 @@ exports[`ToolbarButton matches snapshot 1`] = `
       delayShow={200}
       effect="solid"
       id="tooltip-1"
+      innerRef={[Function]}
       offset={
         Object {
           "bottom": 8,
@@ -235,6 +236,7 @@ exports[`ToolbarButton should style appropriately when active 1`] = `
       delayShow={200}
       effect="solid"
       id="tooltip-2"
+      innerRef={[Function]}
       offset={
         Object {
           "bottom": 8,

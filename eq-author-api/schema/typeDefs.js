@@ -455,6 +455,7 @@ type Mutation {
   createAnswer(input: CreateAnswerInput!): Answer
   updateAnswer(input: UpdateAnswerInput!): Answer
   deleteAnswer(input: DeleteAnswerInput!): Answer
+  moveAnswer(input: MoveAnswerInput!): Answer!
   createOption(input: CreateOptionInput!): Option
   createMutuallyExclusiveOption(input: CreateMutuallyExclusiveOptionInput!): Option
   updateOption(input: UpdateOptionInput!): Option
@@ -667,6 +668,11 @@ input UpdateAnswerInput {
 
 input DeleteAnswerInput {
   id: ID!
+}
+
+input MoveAnswerInput {
+  id: ID!
+  position: Int!
 }
 
 input CreateOptionInput {
