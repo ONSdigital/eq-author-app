@@ -13,13 +13,11 @@
   },
   "dependencies": {
     "apollo-server-express": "latest",
-    "aws-sdk": "latest",
     "body-parser": "latest",
     "cheerio": "latest",
     "cors": "latest",
     "deep-map": "^1.5",
     "dotenv": "latest",
-    "dynamodb-admin": "latest",
     "dynamoose": "latest",
     "express": "latest",
     "express-pino-logger": "latest",
@@ -62,6 +60,7 @@
     ]
   },
   "devDependencies": {
+    "dynamodb-admin": "latest",
     "eslint": "latest",
     "eslint-config-eq-author": "latest",
     "jest": "latest",
