@@ -7,14 +7,13 @@
     "start": "node app.js",
     "start:dev": "NODE_ENV=development nodemon --ignore 'data/' --inspect=0.0.0.0:5858",
     "lint": "eslint .",
-    "test": "./scripts/test.sh schema/tests",
+    "test": "./scripts/test.sh",
     "test:breakingChanges": "node scripts/checkForBreakingChanges.js",
     "dynamodb-admin": "AWS_ACCESS_KEY_ID=dummy AWS_SECRET_ACCESS_KEY=dummy DYNAMO_ENDPOINT=http://localhost:8050 dynamodb-admin"
   },
   "dependencies": {
     "apollo-server-express": "latest",
     "aws-sdk": "latest",
-    "body-parser": "latest",
     "cheerio": "latest",
     "cors": "latest",
     "deep-map": "^1.5",
@@ -55,7 +54,8 @@
       "!tests/**/*",
       "!scripts/*",
       "!middleware/import.js",
-      "!app.js"
+      "!app.js",
+      "!utils/datastoreFileSystem.js"
     ],
     "watchPathIgnorePatterns": [
       "data/"

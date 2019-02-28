@@ -18,7 +18,7 @@ const {
 const { saveQuestionnaire } = require("../../../../utils/datastore");
 const Resolvers = {};
 
-const answerTypeToConditions = require("../../../../modifiers/BinaryExpression/answerTypeToConditions");
+const answerTypeToConditions = require("../../../../src/businessLogic/answerTypeToConditions");
 
 const isLeftSideAnswerTypeCompatible = (leftSideType, rightSideType) => {
   const AnswerTypesToRightTypes = {

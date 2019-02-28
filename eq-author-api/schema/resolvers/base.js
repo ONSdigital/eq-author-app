@@ -26,7 +26,7 @@ const GraphQLJSON = require("graphql-type-json");
 const { getName } = require("../../utils/getName");
 const {
   getValidationEntity,
-} = require("../../repositories/strategies/validationStrategy");
+} = require("../../src/businessLogic/createValidation");
 const uuid = require("uuid");
 const deepMap = require("deep-map");
 
