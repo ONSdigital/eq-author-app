@@ -8,7 +8,6 @@ exports[`KeySelect should render 1`] = `
       "value": "",
     }
   }
-  stateReducer={[Function]}
 >
   <Component />
 </Typeahead>
