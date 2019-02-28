@@ -83,7 +83,6 @@ class KeySelect extends Component {
         stateReducer={this.stateReducer}
         onStateChange={this.handleStateChange}
         selectedItem={{ value }}
-        inputValue={value}
       >
         {({ getInputProps, isOpen, openMenu, ...otherProps }) => (
           <div>
