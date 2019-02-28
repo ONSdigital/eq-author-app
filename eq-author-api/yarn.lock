@@ -687,7 +687,7 @@ atob@^2.1.1:
   resolved "https://registry.yarnpkg.com/atob/-/atob-2.1.2.tgz#6d9517eb9e030d2436666651e86bd9f6f13533c9"
   integrity sha512-Wm6ukoaOGJi/73p/cl2GvLjTI5JM1k/O14isD73YML8StrH/7/lRFgmg8nICZgD3bZZvjwCGxtMOD3wWNAu8cg==
 
-aws-sdk@2.395.0, aws-sdk@latest:
+aws-sdk@2.395.0:
   version "2.395.0"
   resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.395.0.tgz#637e5fa06d69bfb923b17bde24a8bd2a74dedab3"
   integrity sha512-ldTTjctniZT4E2lq2z3D8Y2u+vpkp+laoEnDkXgjKXTKbiJ0QEtfWsUdx/IQ7awCt8stoxyqZK47DJOxIbRNoA==
@@ -703,9 +703,9 @@ aws-sdk@2.395.0, aws-sdk@latest:
     xml2js "0.4.19"
 
 aws-sdk@^2.390.0:
-  version "2.401.0"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.401.0.tgz#867fd36fa4fc789da8b7c1c387f4ca41b757af75"
-  integrity sha512-mOI4gzKoP/g8Q0ToAaqTh7TijGG9PvGVVUkKmurXqBKy7GTPmy4JizfVkTrM+iBg7RAsx5H2lBxBFpdEFBa5fg==
+  version "2.411.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.411.0.tgz#1a6df6c4eed402b43a047c57eaef839279718b34"
+  integrity sha512-8SqJeIoXDfOu4dyiMfaw/outfkXiwDV8cZcGjFD7D+qyAipGuJc+rnzNwAzeKedAz+1KZpxOXrrovDJWKAik5g==
   dependencies:
     buffer "4.9.1"
     events "1.1.1"
@@ -1673,10 +1673,19 @@ es-to-primitive@^1.2.0:
     is-date-object "^1.0.1"
     is-symbol "^1.0.2"
 
-es5-ext@^0.10.14, es5-ext@^0.10.35, es5-ext@^0.10.45, es5-ext@^0.10.46, es5-ext@^0.10.9, es5-ext@~0.10.14, es5-ext@~0.10.2, es5-ext@~0.10.46:
+es5-ext@^0.10.14, es5-ext@^0.10.35, es5-ext@^0.10.9, es5-ext@~0.10.14:
   version "0.10.47"
   resolved "https://registry.yarnpkg.com/es5-ext/-/es5-ext-0.10.47.tgz#d24232e1380daad5449a817be19bde9729024a11"
   integrity sha512-/1TItLfj+TTfWoeRcDn/0FbGV6SNo4R+On2GGVucPU/j3BWnXE2Co8h8CTo4Tu34gFJtnmwS9xiScKs4EjZhdw==
+  dependencies:
+    es6-iterator "~2.0.3"
+    es6-symbol "~3.1.1"
+    next-tick "1"
+
+es5-ext@^0.10.45, es5-ext@^0.10.46, es5-ext@~0.10.2, es5-ext@~0.10.46:
+  version "0.10.48"
+  resolved "https://registry.yarnpkg.com/es5-ext/-/es5-ext-0.10.48.tgz#9a0b31eeded39e64453bcedf6f9d50bbbfb43850"
+  integrity sha512-CdRvPlX/24Mj5L4NVxTs4804sxiS2CjVprgCmrgoDkdmjdY4D+ySHa7K3jJf8R40dFg0tIm3z/dk326LrnuSGw==
   dependencies:
     es6-iterator "~2.0.3"
     es6-symbol "~3.1.1"
