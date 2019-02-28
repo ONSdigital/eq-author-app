@@ -2,10 +2,11 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { colors, radius } from "constants/theme";
+import gql from "graphql-tag";
+import fp from "lodash/fp";
 
 import CustomPropTypes from "custom-prop-types";
 import DeleteButton from "components/buttons/DeleteButton";
-import fp from "lodash/fp";
 
 import MultipleChoiceAnswer from "App/questionPage/Design/answers/MultipleChoiceAnswer";
 import DateRange from "App/questionPage/Design/answers/DateRange";
@@ -23,39 +24,55 @@ import {
 import CurrencyAnswer from "App/questionPage/Design/answers/CurrencyAnswer";
 import Tooltip from "components/Forms/Tooltip";
 import BasicAnswer from "App/questionPage/Design/answers/BasicAnswer";
-import gql from "graphql-tag";
+
+import MoveButton from "./MoveButton";
+import IconUp from "./icon-arrow-up.svg?inline";
+import IconDown from "./icon-arrow-down.svg?inline";
 
 const Answer = styled.div`
   border: 1px solid ${colors.bordersLight};
   position: relative;
   border-radius: ${radius};
-
+  background: ${colors.white};
   &:focus-within {
     border-color: ${colors.blue};
     box-shadow: 0 0 0 1px ${colors.blue};
   }
 `;
 
-const AnswerType = styled.div`
+const AnswerHeader = styled.div`
   background: ${colors.lightMediumGrey};
   border-bottom: 1px solid ${colors.bordersLight};
+  border-radius: ${radius} ${radius} 0 0;
+  display: flex;
+  align-items: center;
+  position: relative;
+  justify-content: flex-end;
+`;
+
+const AnswerType = styled.span`
   text-align: center;
-  padding: 0.5em 1em;
   font-size: 0.8em;
+  font-weight: bold;
+  color: ${colors.textLight};
   line-height: 1;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  border-radius: ${radius} ${radius} 0 0;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto;
+  z-index: 1;
 `;
 
 const Padding = styled.div`
-  padding: 2em 6em 1.5em 1.5em;
+  padding: 1em 6em 1em 1.5em;
 `;
 
-export const AnswerDeleteButton = styled(DeleteButton)`
-  position: absolute;
-  right: 0.2em;
-  top: 1em;
+const Buttons = styled.div`
+  display: flex;
+  z-index: 2;
+  position: relative;
 `;
 
 class AnswerEditor extends React.Component {
@@ -109,20 +126,54 @@ class AnswerEditor extends React.Component {
   render() {
     return (
       <Answer>
-        <AnswerType>{this.props.answer.type}</AnswerType>
+        <AnswerHeader>
+          <AnswerType data-test="answer-type">
+            {this.props.answer.type}
+          </AnswerType>
+
+          <Buttons>
+            <Tooltip
+              content="Move answer up"
+              place="top"
+              offset={{ top: 0, bottom: 10 }}
+            >
+              <MoveButton
+                disabled={!this.props.canMoveUp}
+                onClick={this.props.onMoveUp}
+                data-test="btn-move-answer-up"
+              >
+                <IconUp />
+              </MoveButton>
+            </Tooltip>
+            <Tooltip
+              content="Move answer down"
+              place="top"
+              offset={{ top: 0, bottom: 10 }}
+            >
+              <MoveButton
+                disabled={!this.props.canMoveDown}
+                onClick={this.props.onMoveDown}
+                data-test="btn-move-answer-down"
+              >
+                <IconDown />
+              </MoveButton>
+            </Tooltip>
+            <Tooltip
+              content="Delete answer"
+              place="top"
+              offset={{ top: 0, bottom: 10 }}
+            >
+              <DeleteButton
+                size="medium"
+                onClick={this.handleDeleteAnswer}
+                aria-label="Delete answer"
+                data-test="btn-delete-answer"
+              />
+            </Tooltip>
+          </Buttons>
+        </AnswerHeader>
+
         <Padding>{this.renderAnswer(this.props.answer)}</Padding>
-        <Tooltip
-          content="Delete answer"
-          place="top"
-          offset={{ top: 0, bottom: 10 }}
-        >
-          <AnswerDeleteButton
-            size="medium"
-            onClick={this.handleDeleteAnswer}
-            aria-label="Delete answer"
-            data-test="btn-delete-answer"
-          />
-        </Tooltip>
       </Answer>
     );
   }
@@ -136,6 +187,10 @@ AnswerEditor.propTypes = {
   onAddExclusive: PropTypes.func.isRequired,
   onUpdateOption: PropTypes.func.isRequired,
   onDeleteOption: PropTypes.func.isRequired,
+  canMoveDown: PropTypes.bool.isRequired,
+  canMoveUp: PropTypes.bool.isRequired,
+  onMoveUp: PropTypes.func.isRequired,
+  onMoveDown: PropTypes.func.isRequired,
 };
 
 AnswerEditor.fragments = {

@@ -1,8 +1,9 @@
 import React from "react";
 import { storiesOf } from "@storybook/react";
-import AnswerTypeSelector from "App/questionPage/Design/AnswerTypeSelector";
 import { action } from "@storybook/addon-actions";
 import styled from "styled-components";
+
+import AnswerTypeSelector from "./";
 
 const Wrapper = styled.div`
   display: flex;

@@ -99,7 +99,7 @@ describe("Question Page Editor", () => {
 
   it("should delete the correct answer", () => {
     wrapper
-      .find("[data-test='answer-editor']")
+      .find("[data-test='answers-editor']")
       .first()
       .simulate("deleteAnswer", page.answers[0].id);
 

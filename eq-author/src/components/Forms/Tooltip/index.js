@@ -16,6 +16,8 @@ const StyledTooltip = styled(ReactTooltip)`
 `;
 
 class Tooltip extends React.Component {
+  tooltip = React.createRef();
+
   getGeneratedId() {
     return this.id || (this.id = uniqueId("tooltip-"));
   }
@@ -25,17 +27,33 @@ class Tooltip extends React.Component {
     const child = React.Children.only(children);
     const id = child.props.id || this.getGeneratedId();
 
+    const modifiedChildProps = {
+      "data-tip": true,
+      "data-for": id,
+    };
+    if (child.props.onClick) {
+      modifiedChildProps.onClick = (...args) => {
+        ReactTooltip.hide();
+        // Hack to properly hide the tooltip
+        // https://github.com/wwayne/react-tooltip/issues/449
+        if (this.tooltip) {
+          this.tooltip.tooltipRef = null;
+        }
+        child.props.onClick(...args);
+      };
+    }
+
     return (
       <React.Fragment>
-        {React.cloneElement(child, {
-          "data-tip": true,
-          "data-for": id,
-        })}
+        {React.cloneElement(child, modifiedChildProps)}
         <StyledTooltip
           id={id}
           place="bottom"
           effect="solid"
           delayShow={200}
+          innerRef={node => {
+            this.tooltip = node;
+          }}
           {...otherProps}
         >
           {content}

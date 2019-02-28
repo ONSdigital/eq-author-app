@@ -1,36 +1,30 @@
 import React from "react";
 import styled from "styled-components";
-import { TransitionGroup } from "react-transition-group";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 import gql from "graphql-tag";
 
 import DeleteConfirmDialog from "components/DeleteConfirmDialog";
 
-import AnswerEditor from "App/questionPage/Design/AnswerEditor";
-import AnswerTypeSelector from "App/questionPage/Design/AnswerTypeSelector";
-import MovePageModal from "App/questionPage/Design/MovePageModal";
-import MovePageQuery from "App/questionPage/Design/MovePageModal/MovePageQuery";
-
-import AnswerTransition from "./AnswerTransition";
-import MetaEditor from "./MetaEditor";
-import AdditionalInfo from "./AdditionalInfo";
-import iconPage from "./icon-dialog-page.svg";
-
 import Page from "graphql/fragments/page.graphql";
 
 import getIdForObject from "utils/getIdForObject";
 
-const AddAnswerSegment = styled.div`
-  padding: 1em 2em 2em;
-`;
+import AnswersEditor from "./AnswersEditor";
+import AnswerTypeSelector from "./AnswerTypeSelector";
+import MovePageModal from "./MovePageModal";
+import MovePageQuery from "./MovePageModal/MovePageQuery";
+
+import MetaEditor from "./MetaEditor";
+import AdditionalInfo from "./AdditionalInfo";
+import iconPage from "./icon-dialog-page.svg";
 
 const QuestionSegment = styled.div`
   padding: 0 2em;
 `;
 
-const AnswerSegment = styled.div`
-  padding: 1em 2em;
+const AddAnswerSegment = styled.div`
+  padding: 1em 2em 2em;
 `;
 
 export default class QuestionPageEditor extends React.Component {
@@ -57,33 +51,6 @@ export default class QuestionPageEditor extends React.Component {
 
   handleDeleteAnswer = answerId => {
     this.props.onDeleteAnswer(this.props.page.id, answerId);
-  };
-
-  renderAnswerEditor = answer => {
-    const {
-      onUpdateAnswer,
-      onAddOption,
-      onUpdateOption,
-      onDeleteOption,
-      onAddExclusive,
-    } = this.props;
-
-    return (
-      <AnswerTransition key={getIdForObject(answer)}>
-        <AnswerSegment id={getIdForObject(answer)}>
-          <AnswerEditor
-            answer={answer}
-            onUpdate={onUpdateAnswer}
-            onAddOption={onAddOption}
-            onAddExclusive={onAddExclusive}
-            onUpdateOption={onUpdateOption}
-            onDeleteOption={onDeleteOption}
-            onDeleteAnswer={this.handleDeleteAnswer}
-            data-test="answer-editor"
-          />
-        </AnswerSegment>
-      </AnswerTransition>
-    );
   };
 
   renderMovePageModal = ({ loading, error, data }) => {
@@ -122,6 +89,11 @@ export default class QuestionPageEditor extends React.Component {
       page: { answers },
       onChange,
       onUpdate,
+      onUpdateAnswer,
+      onAddOption,
+      onUpdateOption,
+      onDeleteOption,
+      onAddExclusive,
     } = this.props;
 
     const id = getIdForObject(page);
@@ -144,9 +116,16 @@ export default class QuestionPageEditor extends React.Component {
               {this.renderMovePageModal}
             </MovePageQuery>
           </QuestionSegment>
-          <TransitionGroup>
-            {answers.map(this.renderAnswerEditor)}
-          </TransitionGroup>
+          <AnswersEditor
+            answers={answers}
+            onUpdate={onUpdateAnswer}
+            onAddOption={onAddOption}
+            onAddExclusive={onAddExclusive}
+            onUpdateOption={onUpdateOption}
+            onDeleteOption={onDeleteOption}
+            onDeleteAnswer={this.handleDeleteAnswer}
+            data-test="answers-editor"
+          />
         </div>
 
         <AddAnswerSegment>
@@ -185,6 +164,6 @@ QuestionPageEditor.fragments = {
       }
     }
     ${Page}
-    ${AnswerEditor.fragments.AnswerEditor}
+    ${AnswersEditor.fragments.AnswersEditor}
   `,
 };

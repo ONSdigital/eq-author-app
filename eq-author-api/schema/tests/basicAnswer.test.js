@@ -10,9 +10,10 @@ const {
   updateAnswer,
   queryAnswer,
   deleteAnswer,
+  moveAnswer,
 } = require("../../tests/utils/questionnaireBuilder/answer");
 
-const { NUMBER } = require("../../constants/answerTypes");
+const { NUMBER, CURRENCY, TEXTFIELD } = require("../../constants/answerTypes");
 
 describe("basic answer", () => {
   let questionnaire;
@@ -88,6 +89,72 @@ describe("basic answer", () => {
       };
       const updatedAnswer = await updateAnswer(questionnaire, update);
       expect(updatedAnswer).toMatchObject(update);
+    });
+  });
+
+  describe("moving", () => {
+    it("should be able to be moved forward", async () => {
+      questionnaire = await buildQuestionnaire({
+        sections: [
+          {
+            pages: [
+              {
+                answers: [
+                  { type: NUMBER },
+                  { type: CURRENCY },
+                  { type: TEXTFIELD },
+                ],
+              },
+            ],
+          },
+        ],
+      });
+
+      const answers = questionnaire.sections[0].pages[0].answers;
+      const currentAnswerOrder = answers.map(a => a.id);
+
+      const answerToMoveId = currentAnswerOrder[0];
+
+      const movedAnswer = await moveAnswer(questionnaire, {
+        id: answerToMoveId,
+        position: 1,
+      });
+      expect(movedAnswer.page.answers.map(a => a.id)).toEqual([
+        currentAnswerOrder[1],
+        currentAnswerOrder[0], // The moved answer
+        currentAnswerOrder[2],
+      ]);
+    });
+
+    it("should be able to be moved backward", async () => {
+      questionnaire = await buildQuestionnaire({
+        sections: [
+          {
+            pages: [
+              {
+                answers: [
+                  { type: NUMBER },
+                  { type: CURRENCY },
+                  { type: TEXTFIELD },
+                ],
+              },
+            ],
+          },
+        ],
+      });
+
+      const answers = questionnaire.sections[0].pages[0].answers;
+      const currentAnswerOrder = answers.map(a => a.id);
+
+      const movedAnswer = await moveAnswer(questionnaire, {
+        id: currentAnswerOrder[2],
+        position: 1,
+      });
+      expect(movedAnswer.page.answers.map(a => a.id)).toEqual([
+        currentAnswerOrder[0],
+        currentAnswerOrder[2],
+        currentAnswerOrder[1],
+      ]);
     });
   });
 
