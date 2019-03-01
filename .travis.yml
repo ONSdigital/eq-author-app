@@ -16,8 +16,11 @@ cache:
 
 before_script:
   - set -e
-  - export TAG=`if [ "$TRAVIS_PULL_REQUEST_BRANCH" == "" ]; then echo "latest"; else echo $TRAVIS_PULL_REQUEST_BRANCH; fi`
+  - export TAG=`if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_PULL_REQUEST_BRANCH; fi`
   - export TAG=${TAG//\//-}
+  - echo "TRAVIS_BRANCH=$TRAVIS_BRANCH"
+  - echo "TRAVIS_PULL_REQUEST_BRANCH=$TRAVIS_PULL_REQUEST_BRANCH"
+  - echo "TAG=$TAG"
 
 script:
   - pushd eq-author; ./scripts/ci.sh; popd;
