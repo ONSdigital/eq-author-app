@@ -9,7 +9,7 @@ if (!jsonPath) {
 }
 
 const importQuestionnaire = async contents => {
-  return createQuestionnaire({ ...contents, id: contents.id + "_copy" });
+  return createQuestionnaire({ ...contents, id: contents.id });
 };
 
 const loadQuestionnaireJSON = async path => {

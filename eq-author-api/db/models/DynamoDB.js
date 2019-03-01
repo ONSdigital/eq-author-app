@@ -9,11 +9,11 @@ if (process.env.DYNAMO_ENDPOINT_OVERRIDE) {
   throughput = { read: 10, write: 10 }; // DynamoDB local doesn't yet support on-demand
 }
 
-if (process.env.DYNAMO_QUESTIONNAIRE_TABLE_NAME !== "") {
+if (process.env.DYNAMO_QUESTIONNAIRE_TABLE_NAME) {
   questionnanaireTableName = process.env.DYNAMO_QUESTIONNAIRE_TABLE_NAME;
 }
 
-if (process.env.DYNAMO_QUESTIONNAIRE_VERSION_TABLE_NAME !== "") {
+if (process.env.DYNAMO_QUESTIONNAIRE_VERSION_TABLE_NAME) {
   questionnanaireVersionsTableName =
     process.env.DYNAMO_QUESTIONNAIRE_VERSION_TABLE_NAME;
 }
