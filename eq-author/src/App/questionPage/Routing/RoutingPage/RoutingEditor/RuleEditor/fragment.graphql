@@ -3,6 +3,7 @@
 fragment RuleEditor on RoutingRule2 {
   id
   destination {
+    id
     logical
     page {
       id
