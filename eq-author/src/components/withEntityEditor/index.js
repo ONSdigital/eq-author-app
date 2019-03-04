@@ -56,7 +56,7 @@ const withEntityEditor = (entityPropName, fragment) => WrappedComponent => {
     }
 
     handleChange = ({ name, value }, cb) => {
-      if (fp.get(name, value, this.entity) === value) {
+      if (fp.get(name, this.entity) === value) {
         return;
       }
 
