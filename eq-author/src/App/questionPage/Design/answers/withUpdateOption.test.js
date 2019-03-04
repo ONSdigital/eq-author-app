@@ -9,7 +9,11 @@ describe("enhancers > withUpdateOption", () => {
     beforeEach(() => {
       mutate = jest.fn();
       props = mapMutateToProps({ mutate });
-      option = jest.fn();
+      option = {
+        id: "1",
+        foo: "bar",
+        additionalAnswer: { id: "2", bar: "baz" },
+      };
     });
 
     it("should have an onUpdateOption prop", () => {
@@ -19,7 +23,7 @@ describe("enhancers > withUpdateOption", () => {
     it("should call mutate", () => {
       props.onUpdateOption(option);
       expect(mutate).toHaveBeenCalledWith({
-        variables: { input: option },
+        variables: { input: { id: "1", additionalAnswer: { id: "2" } } },
       });
     });
   });
