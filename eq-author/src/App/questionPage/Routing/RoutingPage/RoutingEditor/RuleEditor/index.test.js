@@ -28,6 +28,7 @@ describe("RuleEditor", () => {
           ],
         },
         destination: {
+          id: "1",
           page: {
             id: "pageId",
             displayName: "Page",

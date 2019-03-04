@@ -71,6 +71,7 @@ exports[`RuleEditor should render 1`] = `
       onChange={[Function]}
       value={
         Object {
+          "id": "1",
           "logical": null,
           "page": Object {
             "displayName": "Page",
