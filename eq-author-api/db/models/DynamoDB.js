@@ -30,24 +30,6 @@ const baseQuestionnaireSchema = {
   createdBy: {
     type: String,
   },
-  description: {
-    type: String,
-  },
-  legalBasis: {
-    type: String,
-  },
-  navigation: {
-    type: Boolean,
-  },
-  surveyId: {
-    type: String,
-  },
-  theme: {
-    type: String,
-  },
-  summary: {
-    type: Boolean,
-  },
 };
 
 const questionnanaireSchema = new dynamoose.Schema(baseQuestionnaireSchema, {
@@ -58,6 +40,24 @@ const questionnanaireSchema = new dynamoose.Schema(baseQuestionnaireSchema, {
 const questionnaireVersionsSchema = new dynamoose.Schema(
   {
     ...baseQuestionnaireSchema,
+    description: {
+      type: String,
+    },
+    legalBasis: {
+      type: String,
+    },
+    navigation: {
+      type: Boolean,
+    },
+    surveyId: {
+      type: String,
+    },
+    theme: {
+      type: String,
+    },
+    summary: {
+      type: Boolean,
+    },
     updatedAt: {
       type: String,
       required: true,
