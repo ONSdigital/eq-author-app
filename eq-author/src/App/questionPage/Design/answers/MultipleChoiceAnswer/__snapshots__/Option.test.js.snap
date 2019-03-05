@@ -584,6 +584,7 @@ exports[`Option should render a checkbox 1`] = `
                 delayShow={200}
                 effect="solid"
                 id="tooltip-1"
+                innerRef={[Function]}
                 offset={
                   Object {
                     "bottom": 10,

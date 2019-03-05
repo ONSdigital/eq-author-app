@@ -1,8 +1,10 @@
 import React from "react";
 import { shallow } from "enzyme";
-import AnswerTypeSelector from "App/questionPage/Design/AnswerTypeSelector";
-import AnswerTypeGrid from "App/questionPage/Design/AnswerTypeSelector/AnswerTypeGrid";
+
 import Popout from "components/Popout";
+
+import AnswerTypeGrid from "./AnswerTypeGrid";
+import AnswerTypeSelector from "./";
 
 let component, handleSelect;
 

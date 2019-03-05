@@ -3,12 +3,12 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 
 import Popout, { Container, Layer } from "components/Popout";
-
-import AnswerTypeGrid from "App/questionPage/Design/AnswerTypeSelector/AnswerTypeGrid";
-import AddIcon from "App/questionPage/Design/AnswerTypeSelector/icon-add.svg?inline";
 import IconText from "components/IconText";
 import Button from "components/buttons/Button";
-import PopupTransition from "App/questionPage/Design/AnswerTypeSelector/PopupTransition";
+
+import AddIcon from "./icon-add.svg?inline";
+import PopupTransition from "./PopupTransition";
+import AnswerTypeGrid from "./AnswerTypeGrid";
 
 const AddAnswerButton = styled(Button)`
   width: 100%;

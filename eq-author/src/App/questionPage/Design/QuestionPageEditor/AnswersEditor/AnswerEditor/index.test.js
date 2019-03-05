@@ -1,9 +1,8 @@
 import React from "react";
 import { shallow } from "enzyme";
 import { map } from "lodash";
-import MultipleChoiceAnswer from "App/questionPage/Design/answers/MultipleChoiceAnswer";
-import AnswerEditor, { AnswerDeleteButton } from "./";
-import Date from "App/questionPage/Design/answers/Date";
+
+import DeleteButton from "components/buttons/DeleteButton";
 import {
   TEXTFIELD,
   NUMBER,
@@ -15,6 +14,11 @@ import {
   DATE,
   PERCENTAGE,
 } from "constants/answer-types";
+
+import MultipleChoiceAnswer from "App/questionPage/Design/answers/MultipleChoiceAnswer";
+import Date from "App/questionPage/Design/answers/Date";
+
+import AnswerEditor from "./";
 
 describe("Answer Editor", () => {
   let mockMutations;
@@ -34,6 +38,10 @@ describe("Answer Editor", () => {
       onUpdateOption: jest.fn(),
       onDeleteOption: jest.fn(),
       onAddExclusive: jest.fn(),
+      onMoveDown: jest.fn(),
+      onMoveUp: jest.fn(),
+      canMoveUp: true,
+      canMoveDown: true,
     };
 
     mockAnswer = {
@@ -144,10 +152,30 @@ describe("Answer Editor", () => {
     });
 
     wrapper
-      .find(AnswerDeleteButton)
+      .find(DeleteButton)
       .first()
       .simulate("click");
     expect(mockMutations.onDeleteAnswer).toHaveBeenCalledWith(mockAnswer.id);
+  });
+
+  it("should call handler when answer moved down", () => {
+    const wrapper = createWrapper({
+      answer: mockAnswer,
+      ...mockMutations,
+    });
+
+    wrapper.find("[data-test='btn-move-answer-down']").simulate("click");
+    expect(mockMutations.onMoveDown).toHaveBeenCalled();
+  });
+
+  it("should call handler when answer moved up", () => {
+    const wrapper = createWrapper({
+      answer: mockAnswer,
+      ...mockMutations,
+    });
+
+    wrapper.find("[data-test='btn-move-answer-up']").simulate("click");
+    expect(mockMutations.onMoveUp).toHaveBeenCalled();
   });
 
   it("should add an option to answer via `id`", () => {
