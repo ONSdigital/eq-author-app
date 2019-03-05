@@ -309,4 +309,11 @@ describe("withEntityEditor", () => {
       instance.handleChange({ name: "title", value: "New title" });
     }).not.toThrow();
   });
+
+  it("should not call update if the change contained no change", () => {
+    wrapper.simulate("change", { name: "alias", value: entity.alias });
+    wrapper.simulate("update");
+
+    expect(handleUpdate).not.toHaveBeenCalled();
+  });
 });
