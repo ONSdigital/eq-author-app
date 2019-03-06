@@ -910,14 +910,16 @@ const Resolvers = {
   },
 
   Metadata: {
-    textValue: ({ type, value }) => (type === "Text" ? value : null),
-    languageValue: ({ type, value }) => (type === "Language" ? value : null),
-    regionValue: ({ type, value }) => (type === "Region" ? value : null),
-    dateValue: ({ type, value }) => {
-      if (type !== "Date" || !value) {
+    textValue: ({ type, textValue }) => (type === "Text" ? textValue : null),
+    languageValue: ({ type, languageValue }) =>
+      type === "Language" ? languageValue : null,
+    regionValue: ({ type, regionValue }) =>
+      type === "Region" ? regionValue : null,
+    dateValue: ({ type, dateValue }) => {
+      if (type !== "Date" || !dateValue) {
         return null;
       }
-      return new Date(value);
+      return new Date(dateValue);
     },
     displayName: metadata => getName(metadata, "Metadata"),
   },
