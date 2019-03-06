@@ -3,7 +3,6 @@ const {
   compact,
   includes,
   isNil,
-  pick,
   find,
   filter,
   findIndex,
@@ -19,7 +18,6 @@ const {
   some,
   concat,
   takeRightWhile,
-  kebabCase,
 } = require("lodash");
 const GraphQLJSON = require("graphql-type-json");
 const { getName } = require("../../utils/getName");
@@ -47,6 +45,7 @@ const {
   deleteQuestionnaire,
   getQuestionnaire,
   listQuestionnaires,
+  getUserById,
 } = require("../../utils/datastore");
 
 const { VALIDATION_TYPES } = require("../../constants/validationTypes");
@@ -219,18 +218,14 @@ const Resolvers = {
 
       return { pageId, ...confirmationPage };
     },
-    me: (root, args, ctx) => ({
-      id: ctx.auth.sub,
-      ...pick(ctx.auth, ["name", "email", "picture"]),
-      name: ctx.auth.name || ctx.auth.email,
-    }),
+    me: (root, args, ctx) => ctx.user,
   },
 
   Mutation: {
     createQuestionnaire: async (root, args, ctx) => {
       const questionnaire = createNewQuestionnaire({
         ...args.input,
-        createdBy: ctx.auth.name || ctx.auth.email,
+        createdBy: ctx.user.id,
       });
       // Saving to ctx so it can be used by all other resolvers and read by tests
       ctx.questionnaire = await createQuestionnaire(questionnaire);
@@ -246,14 +241,14 @@ const Resolvers = {
       return { id: input.id };
     },
 
-    duplicateQuestionnaire: async (_, { input }) => {
+    duplicateQuestionnaire: async (_, { input }, ctx) => {
       const questionnaire = await getQuestionnaire(input.id);
       const newQuestionnaire = {
         ...questionnaire,
         title: addPrefix(questionnaire.title),
+        createdBy: ctx.user.id,
         id: uuid.v4(),
       };
-
       return createQuestionnaire(newQuestionnaire);
     },
     createSection: async (root, { input }, ctx) => {
@@ -642,15 +637,14 @@ const Resolvers = {
 
   Questionnaire: {
     sections: questionnaire => questionnaire.sections,
-    createdBy: ({ createdBy }) => {
-      return {
-        id: kebabCase(createdBy), // Temporary until next PR introduces users table.
-        name: createdBy,
-      };
-    },
+    createdBy: ({ createdBy }) => getUserById(createdBy),
     createdAt: questionnaire => new Date(questionnaire.createdAt),
     questionnaireInfo: questionnaire => questionnaire,
     metadata: questionnaire => questionnaire.metadata,
+  },
+
+  User: {
+    displayName: user => user.name || user.email,
   },
 
   QuestionnaireInfo: {

@@ -131,9 +131,9 @@ describe("questionnaire", () => {
       });
     });
 
-    it("should resolve createdBy", () => {
+    it("should resolve createdBy to a displayName (displayName = name || email)", () => {
       expect(queriedQuestionnaire.createdBy).toMatchObject({
-        id: "author-integration-test",
+        displayName: "Author Integration Test",
       });
     });
 

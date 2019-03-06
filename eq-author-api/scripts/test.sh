@@ -6,6 +6,7 @@ AWS_ACCESS_KEY_ID=dummy
 AWS_SECRET_ACCESS_KEY=dummy
 DYNAMO_QUESTIONNAIRE_TABLE_NAME=test-author-questionnaires
 DYNAMO_QUESTIONNAIRE_VERSION_TABLE_NAME=test-author-questionnaire-versions
+DYNAMO_USER_TABLE_NAME=test-author-users
 
 echo "starting Dynamo docker..."
 
@@ -32,6 +33,17 @@ if [ ! -f "data/QuestionnaireList.json" ]; then
     echo "creating QuestionnaireList.json";
     echo "[]" > "data/QuestionnaireList.json";
 fi
+if [ ! -f "data/UserList.json" ]; then 
+    echo "creating UserList.json";
+    echo "[]" > "data/UserList.json";
+fi
+
+echo "creating test user..."
+AWS_REGION=${AWS_REGION} \
+AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \
+DYNAMO_ENDPOINT_OVERRIDE=http://${DYNAMO_HOST}  \
+DYNAMO_USER_TABLE_NAME=${DYNAMO_USER_TABLE_NAME} \
+node scripts/createTestUser.js
 
 echo "running tests..."
 
@@ -41,4 +53,5 @@ AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \
 DYNAMO_ENDPOINT_OVERRIDE=http://${DYNAMO_HOST} \
 DYNAMO_QUESTIONNAIRE_TABLE_NAME=${DYNAMO_QUESTIONNAIRE_TABLE_NAME} \
 DYNAMO_QUESTIONNAIRE_VERSION_TABLE_NAME=${DYNAMO_QUESTIONNAIRE_VERSION_TABLE_NAME} \
+DYNAMO_USER_TABLE_NAME=${DYNAMO_USER_TABLE_NAME} \
 yarn jest --runInBand --detectOpenHandles --forceExit "$@"

@@ -38,7 +38,6 @@ describe("page", () => {
         sections: [{}],
       });
       const section = questionnaire.sections[0];
-
       const createdPage = await createQuestionPage(questionnaire, {
         title: "Title",
         description: "Description",

@@ -1,12 +1,12 @@
 const schema = require("../../schema");
 const { graphql } = require("graphql");
-const auth = require("./mockAuthPayload");
+const user = require("./mockUserPayload");
 const graphqlTools = require("graphql-tools");
 
 const executableSchema = graphqlTools.makeExecutableSchema(schema);
 
 async function executeQuery(query, args = {}, ctx = {}) {
-  ctx.auth = auth;
+  ctx.user = user;
   const response = await graphql(executableSchema, query, {}, ctx, args);
   if (response.errors) {
     throw new Error(`

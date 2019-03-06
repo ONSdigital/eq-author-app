@@ -19,6 +19,7 @@ services:
       - DYNAMO_ENDPOINT_OVERRIDE=http://dynamo:8000
       - DYNAMO_QUESTIONNAIRE_TABLE_NAME=dev-author-questionnaires
       - DYNAMO_QUESTIONNAIRE_VERSION_TABLE_NAME=dev-author-questionnaire-versions
+      - DYNAMO_USER_TABLE_NAME=dev-author-users
       - NODE_ENV=development
       - RUNNER_SESSION_URL=http://localhost:5000/session?token=
       - PUBLISHER_URL=http://localhost:9000/publish/

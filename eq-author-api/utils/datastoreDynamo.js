@@ -1,11 +1,13 @@
 const jsondiffpatch = require("jsondiffpatch");
-const { omit, set } = require("lodash");
+const { omit, set, first } = require("lodash");
+const uuid = require("uuid");
 const logger = require("pino")();
 
 const {
   QuestionnaireModel,
   QuestionnaireVersionsModel,
   dynamoose,
+  UserModel,
 } = require("../db/models/DynamoDB");
 
 const omitTimestamps = questionnaire =>
@@ -22,6 +24,41 @@ const saveModel = (model, options = {}) =>
         reject(err);
       }
       resolve(model);
+    });
+  });
+
+const createUser = user => {
+  const { id, email, name, sub, picture } = user;
+  return saveModel(
+    new UserModel({
+      id: id || uuid.v4(),
+      email,
+      name,
+      sub,
+      picture,
+    })
+  );
+};
+
+const updateUser = user => saveModel(user);
+
+const getUserBySub = sub =>
+  new Promise((resolve, reject) => {
+    UserModel.scan({ sub: { eq: sub } }).exec((err, user) => {
+      if (err) {
+        reject(err);
+      }
+      resolve(first(user));
+    });
+  });
+
+const getUserById = id =>
+  new Promise((resolve, reject) => {
+    UserModel.queryOne({ id: { eq: id } }).exec((err, user) => {
+      if (err) {
+        reject(err);
+      }
+      resolve(user);
     });
   });
 
@@ -165,4 +202,9 @@ module.exports = {
   deleteQuestionnaire,
   getQuestionnaire,
   listQuestionnaires,
+  getUserById,
+  getUserBySub,
+  createUser,
+  updateUser,
+  saveModel,
 };

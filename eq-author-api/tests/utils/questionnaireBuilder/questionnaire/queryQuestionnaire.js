@@ -12,7 +12,7 @@ const getQuestionnaireQuery = `
       surveyId
       createdAt
       createdBy {
-        id
+        displayName
       }
       sections {
         id

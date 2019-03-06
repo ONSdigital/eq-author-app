@@ -133,32 +133,29 @@ describe("Duplication", () => {
 
   describe("duplicate a questionnaire", async () => {
     let queriedQuestionnaire;
-    let questionnaireCopy;
     let duplicatedQuestionnaire;
 
     beforeEach(async () => {
       queriedQuestionnaire = await queryQuestionnaire(questionnaire);
       duplicatedQuestionnaire = await duplicateQuestionnaire(questionnaire);
-      questionnaireCopy = await queryQuestionnaire(duplicatedQuestionnaire);
     });
 
     afterEach(async () => {
-      await deleteQuestionnaire(questionnaireCopy.id);
+      await deleteQuestionnaire(duplicatedQuestionnaire.id);
     });
 
     it("should copy questionnaire with sections and pages", () => {
-      //@todo - Some sort of issue with createdBy resolving correctly
-      expect(omit(questionnaireCopy, ["id", "title", "createdBy"])).toEqual(
-        omit(queriedQuestionnaire, ["id", "title", "createdBy"])
-      );
+      expect(
+        omit(duplicatedQuestionnaire, ["id", "title", "createdBy"])
+      ).toEqual(omit(queriedQuestionnaire, ["id", "title", "createdBy"]));
     });
 
     it("should have new id", () => {
-      expect(questionnaireCopy.id).not.toEqual(queriedQuestionnaire.id);
+      expect(duplicatedQuestionnaire.id).not.toEqual(queriedQuestionnaire.id);
     });
 
     it("should create new title", () => {
-      expect(questionnaireCopy.title).toEqual(
+      expect(duplicatedQuestionnaire.title).toEqual(
         `Copy of ${queriedQuestionnaire.title}`
       );
     });

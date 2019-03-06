@@ -10,9 +10,10 @@ directive @deprecated(
 
 type User {
   id: ID!
-  name: String!
+  name: String
   picture: String
   email: String
+  displayName: String!
 }
 
 type QuestionnaireInfo {

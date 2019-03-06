@@ -11,6 +11,9 @@ const duplicateQuestionnaireMutation = `
       navigation
       surveyId
       createdAt
+      createdBy {
+        id
+      }
       sections {
         id
       }
@@ -30,11 +33,7 @@ const duplicateQuestionnaire = async questionnaire => {
     id: questionnaire.id,
   };
 
-  const result = await executeQuery(
-    duplicateQuestionnaireMutation,
-    { input },
-    {}
-  );
+  const result = await executeQuery(duplicateQuestionnaireMutation, { input });
   return result.data.duplicateQuestionnaire;
 };
 

@@ -10,8 +10,25 @@ Cypress.Commands.add("login", options => {
     picture: "",
   };
 
-  const accessToken = createAccessToken(tokenPayload);
-  window.localStorage.setItem("accessToken", accessToken);
+  cy.window()
+    .its("__auth__")
+    .then(auth => {
+      return new Promise(res => {
+        // when firebase has triggered default logout
+        auth.onAuthStateChanged(() => {
+          setImmediate(() => {
+            const accessToken = createAccessToken(tokenPayload);
+            window.localStorage.setItem("accessToken", accessToken);
+            cy.request({
+              url: `${Cypress.env("API_URL") ||
+                "http://localhost:4000"}/signIn`,
+              headers: { authorization: accessToken },
+            });
+            res();
+          });
+        });
+      });
+    });
 
   const payload = Object.assign(
     {
@@ -23,6 +40,7 @@ Cypress.Commands.add("login", options => {
     },
     options
   );
+
   cy.window()
     .its("__store__")
     .then(store => {

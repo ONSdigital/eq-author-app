@@ -11,6 +11,10 @@ const {
   deleteQuestionnaire,
   getQuestionnaire,
   listQuestionnaires,
+  getUserById,
+  getUserBySub,
+  createUser,
+  updateUser,
 } = datastore;
 
 module.exports = {
@@ -19,4 +23,8 @@ module.exports = {
   deleteQuestionnaire,
   getQuestionnaire,
   listQuestionnaires,
+  getUserById,
+  getUserBySub,
+  createUser,
+  updateUser,
 };
