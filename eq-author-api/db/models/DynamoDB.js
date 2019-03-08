@@ -30,6 +30,9 @@ const baseQuestionnaireSchema = {
   createdBy: {
     type: String,
   },
+  version: {
+    type: Number,
+  },
 };
 
 const questionnanaireSchema = new dynamoose.Schema(baseQuestionnaireSchema, {

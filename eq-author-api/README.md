@@ -9,6 +9,7 @@ application.
 - [Environment Variables](#environment-variables)
 - [Run using Docker](#run-using-docker)
 - [Tests](#tests)
+- [Migrations](#migrations)
 - [Debugging (with VS Code)](#debugging-with-vs-code)
 - [Importing Questionnaires)](#importing-questionnaires)
 
@@ -104,6 +105,14 @@ There are [queries](tests/fixtures/queries.gql) and [example data](tests/fixture
 `yarn test` will start a single run of unit and integration tests.
 
 `yarn test --watch` will start unit and integration tests in watch mode.
+
+## Migrations
+
+`runQuestionnaireMigrations` middleware is responsible for updating the schema version and running any necessary migrations.
+
+-  `yarn create-migration [name]` will create a new migration in the `/migrations` directory.
+-  Add the created migration to the bottom of the `migrations/index.js` array.
+-  `runQuestionnaireMigrations` will execute necessary migrations on every request providing the schema has not already been migrated.
 
 ## Debugging (with VS Code)
 

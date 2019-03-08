@@ -1,5 +1,5 @@
 const jsondiffpatch = require("jsondiffpatch");
-const { omit, isEqual } = require("lodash");
+const { omit } = require("lodash");
 const logger = require("pino")();
 
 const {
@@ -56,7 +56,7 @@ const getQuestionnaire = id => {
   });
 };
 
-const MAX_UPDATE_TIMES = 2;
+const MAX_UPDATE_TIMES = 3;
 const saveQuestionnaire = async (questionnaire, count = 0, patch) => {
   if (count === MAX_UPDATE_TIMES) {
     throw new Error(`Failed after trying to update ${MAX_UPDATE_TIMES} times`);
@@ -66,8 +66,12 @@ const saveQuestionnaire = async (questionnaire, count = 0, patch) => {
     sections: [],
     ...questionnaire.originalItem(),
   };
-  let equal = isEqual(originalQuestionnaire, questionnaire);
-  if (equal) {
+
+  //Makes diff accurate
+  questionnaire.createdAt = questionnaire.createdAt.toISOString();
+  questionnaire.updatedAt = questionnaire.updatedAt.toISOString();
+
+  if (!diffPatcher.diff(originalQuestionnaire, questionnaire)) {
     return questionnaire;
   }
 

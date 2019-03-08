@@ -9,7 +9,9 @@ const status = require("./middleware/status");
 const { getLaunchUrl } = require("./middleware/launch");
 const createAuthMiddleware = require("./middleware/auth");
 const loadQuestionnaire = require("./middleware/loadQuestionnaire");
+const runQuestionnaireMigrations = require("./middleware/runQuestionnaireMigrations");
 const schema = require("./schema");
+const migrations = require("./migrations");
 
 const noir = require("pino-noir");
 
@@ -45,7 +47,8 @@ app.use(
   pino,
   cors(),
   createAuthMiddleware(logger),
-  loadQuestionnaire
+  loadQuestionnaire,
+  runQuestionnaireMigrations(logger)(migrations)
 );
 
 const server = new ApolloServer({
