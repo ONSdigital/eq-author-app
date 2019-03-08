@@ -41,15 +41,22 @@ const addPrefix = require("../../utils/addPrefix");
 const { DATE, DATE_RANGE } = require("../../constants/answerTypes");
 const { DATE: METADATA_DATE } = require("../../constants/metadataTypes");
 const { ROUTING_ANSWER_TYPES } = require("../../constants/routingAnswerTypes");
+const validateQuestionnaire = require("../../src/validation");
+
 const {
   createQuestionnaire,
-  saveQuestionnaire,
+  saveQuestionnaire: datastoreSaveQuestionnaire,
   deleteQuestionnaire,
   getQuestionnaire,
   listQuestionnaires,
 } = require("../../utils/datastore");
 
 const { VALIDATION_TYPES } = require("../../constants/validationTypes");
+
+const saveQuestionnaire = async ctx => {
+  await datastoreSaveQuestionnaire(ctx.questionnaire);
+  ctx.validationErrors = validateQuestionnaire(ctx.questionnaire);
+};
 
 const getSection = ctx => input => {
   return find(ctx.questionnaire.sections, { id: input.sectionId });
@@ -237,7 +244,7 @@ const Resolvers = {
     },
     updateQuestionnaire: async (_, { input }, ctx) => {
       ctx.questionnaire = merge(ctx.questionnaire, input);
-      await saveQuestionnaire(ctx.questionnaire);
+      await saveQuestionnaire(ctx);
       return ctx.questionnaire;
     },
     deleteQuestionnaire: async (_, { input }) => {
@@ -258,19 +265,19 @@ const Resolvers = {
     createSection: async (root, { input }, ctx) => {
       const section = createSection(input);
       ctx.questionnaire.sections.push(section);
-      await saveQuestionnaire(ctx.questionnaire);
+      await saveQuestionnaire(ctx);
       return section;
     },
     updateSection: async (_, { input }, ctx) => {
       const section = find(ctx.questionnaire.sections, { id: input.id });
       merge(section, input);
-      await saveQuestionnaire(ctx.questionnaire);
+      await saveQuestionnaire(ctx);
       return section;
     },
     deleteSection: async (root, { input }, ctx) => {
       const section = find(ctx.questionnaire.sections, { id: input.id });
       remove(ctx.questionnaire.sections, section);
-      await saveQuestionnaire(ctx.questionnaire);
+      await saveQuestionnaire(ctx);
       return section;
     },
     moveSection: async (_, { input }, ctx) => {
@@ -278,7 +285,7 @@ const Resolvers = {
         remove(ctx.questionnaire.sections, { id: input.id })
       );
       ctx.questionnaire.sections.splice(input.position, 0, removedSection);
-      await saveQuestionnaire(ctx.questionnaire);
+      await saveQuestionnaire(ctx);
       return removedSection;
     },
     duplicateSection: async (_, { input }, ctx) => {
@@ -289,7 +296,7 @@ const Resolvers = {
       const duplicatedSection = createSection(newSection);
       const remappedSection = remapAllNestedIds(duplicatedSection);
       ctx.questionnaire.sections.splice(input.position, 0, remappedSection);
-      await saveQuestionnaire(ctx.questionnaire);
+      await saveQuestionnaire(ctx);
       return remappedSection;
     },
 
@@ -304,7 +311,7 @@ const Resolvers = {
         });
         newsection.pages.splice(input.position, 0, removedPage);
       }
-      await saveQuestionnaire(ctx.questionnaire);
+      await saveQuestionnaire(ctx);
       return removedPage;
     },
 
@@ -317,7 +324,7 @@ const Resolvers = {
       const duplicatedPage = createPage(newpage);
       const remappedPage = remapAllNestedIds(duplicatedPage);
       section.pages.splice(input.position, 0, remappedPage);
-      await saveQuestionnaire(ctx.questionnaire);
+      await saveQuestionnaire(ctx);
       return remappedPage;
     },
 
@@ -326,13 +333,13 @@ const Resolvers = {
       const page = createPage(input);
 
       section.pages.push(page);
-      await saveQuestionnaire(ctx.questionnaire);
+      await saveQuestionnaire(ctx);
       return page;
     },
     updateQuestionPage: async (_, { input }, ctx) => {
       const page = getPage(ctx)({ pageId: input.id });
       merge(page, input);
-      await saveQuestionnaire(ctx.questionnaire);
+      await saveQuestionnaire(ctx);
       return page;
     },
     deleteQuestionPage: async (_, { input }, ctx) => {
@@ -341,7 +348,7 @@ const Resolvers = {
           remove(section.pages, { id: input.id })
         )
       );
-      await saveQuestionnaire(ctx.questionnaire);
+      await saveQuestionnaire(ctx);
       return removedPage[0];
     },
 
@@ -352,7 +359,7 @@ const Resolvers = {
 
       onAnswerCreated(ctx.questionnaire, page, answer);
 
-      await saveQuestionnaire(ctx.questionnaire);
+      await saveQuestionnaire(ctx);
       return answer;
     },
     updateAnswer: async (root, { input }, ctx) => {
@@ -372,7 +379,7 @@ const Resolvers = {
 
       const answer = find(concat(answers, additionalAnswers), { id: input.id });
       merge(answer, input);
-      await saveQuestionnaire(ctx.questionnaire);
+      await saveQuestionnaire(ctx);
 
       return answer;
     },
@@ -391,7 +398,7 @@ const Resolvers = {
 
       onAnswerDeleted(ctx.questionnaire, page, deletedAnswer);
 
-      await saveQuestionnaire(ctx.questionnaire);
+      await saveQuestionnaire(ctx);
       return deletedAnswer;
     },
     moveAnswer: async (_, { input: { id, position } }, ctx) => {
@@ -408,7 +415,7 @@ const Resolvers = {
       const answerMoving = first(remove(page.answers, { id }));
       page.answers.splice(position, 0, answerMoving);
 
-      await saveQuestionnaire(ctx.questionnaire);
+      await saveQuestionnaire(ctx);
 
       return answerMoving;
     },
@@ -424,7 +431,7 @@ const Resolvers = {
 
       parent.options.push(option);
 
-      await saveQuestionnaire(ctx.questionnaire);
+      await saveQuestionnaire(ctx);
 
       return option;
     },
@@ -448,7 +455,7 @@ const Resolvers = {
 
       answer.options.push(option);
 
-      await saveQuestionnaire(ctx.questionnaire);
+      await saveQuestionnaire(ctx);
 
       return option;
     },
@@ -463,7 +470,7 @@ const Resolvers = {
 
       merge(option, input);
 
-      await saveQuestionnaire(ctx.questionnaire);
+      await saveQuestionnaire(ctx);
 
       return option;
     },
@@ -499,7 +506,7 @@ const Resolvers = {
         });
       });
 
-      await saveQuestionnaire(ctx.questionnaire);
+      await saveQuestionnaire(ctx);
 
       return removedOption;
     },
@@ -510,7 +517,7 @@ const Resolvers = {
       const newValidation = Object.assign({}, validation);
       delete validation.validationType;
 
-      await saveQuestionnaire(ctx.questionnaire);
+      await saveQuestionnaire(ctx);
 
       return newValidation;
     },
@@ -523,7 +530,7 @@ const Resolvers = {
       const newValidation = Object.assign({}, validation);
       delete validation.validationType;
 
-      await saveQuestionnaire(ctx.questionnaire);
+      await saveQuestionnaire(ctx);
 
       return newValidation;
     },
@@ -536,14 +543,14 @@ const Resolvers = {
         value: null,
       };
       ctx.questionnaire.metadata.push(newMetadata);
-      await saveQuestionnaire(ctx.questionnaire);
+      await saveQuestionnaire(ctx);
       return newMetadata;
     },
     updateMetadata: async (_, { input }, ctx) => {
       const original = find(ctx.questionnaire.metadata, { id: input.id });
       const result = updateMetadata(original, input);
       merge(original, result);
-      await saveQuestionnaire(ctx.questionnaire);
+      await saveQuestionnaire(ctx);
       return result;
     },
     deleteMetadata: async (_, { input }, ctx) => {
@@ -552,7 +559,7 @@ const Resolvers = {
           id: input.id,
         })
       );
-      await saveQuestionnaire(ctx.questionnaire);
+      await saveQuestionnaire(ctx);
       return deletedMetadata;
     },
     createQuestionConfirmation: async (_, { input }, ctx) => {
@@ -568,7 +575,7 @@ const Resolvers = {
         negative: { label: null, description: null },
       };
       set(page, "confirmation", questionConfirmation);
-      await saveQuestionnaire(ctx.questionnaire);
+      await saveQuestionnaire(ctx);
       return {
         pageId: input.pageId,
         ...questionConfirmation,
@@ -602,7 +609,7 @@ const Resolvers = {
 
       merge(confirmationPage, newValues);
 
-      await saveQuestionnaire(ctx.questionnaire);
+      await saveQuestionnaire(ctx);
 
       return {
         pageId,
@@ -626,7 +633,7 @@ const Resolvers = {
       });
 
       delete pageContainingConfirmation.confirmation;
-      await saveQuestionnaire(ctx.questionnaire);
+      await saveQuestionnaire(ctx);
 
       return {
         pageId: pageContainingConfirmation.id,
@@ -724,6 +731,7 @@ const Resolvers = {
       };
     },
     routing: questionPage => questionPage.routing,
+    validations: (page, args, ctx) => ctx.validationErrors[page.id] || [],
   },
 
   LogicalDestination: {

@@ -49,6 +49,11 @@ type Section {
   availablePipingMetadata: [Metadata!]!
 }
 
+type Validation {
+  location: String!
+  errorCode: Int!
+}
+
 interface Page {
   id: ID!
   title: String!
@@ -81,6 +86,7 @@ type QuestionPage implements Page {
   availableRoutingDestinations: AvailableRoutingDestinations!
   confirmation: QuestionConfirmation
   routing: Routing2
+  validations: [Validation!]!
 }
 
 type ConfirmationOption {

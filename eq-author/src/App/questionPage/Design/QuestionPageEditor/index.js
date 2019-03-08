@@ -162,6 +162,10 @@ QuestionPageEditor.fragments = {
           }
         }
       }
+      validations {
+        location
+        errorCode
+      }
     }
     ${Page}
     ${AnswersEditor.fragments.AnswersEditor}

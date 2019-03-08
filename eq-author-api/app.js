@@ -9,6 +9,7 @@ const status = require("./middleware/status");
 const { getLaunchUrl } = require("./middleware/launch");
 const createAuthMiddleware = require("./middleware/auth");
 const loadQuestionnaire = require("./middleware/loadQuestionnaire");
+const validateQuestionnaire = require("./middleware/validateQuestionnaire");
 const schema = require("./schema");
 
 const noir = require("pino-noir");
@@ -45,13 +46,18 @@ app.use(
   pino,
   cors(),
   createAuthMiddleware(logger),
-  loadQuestionnaire
+  loadQuestionnaire,
+  validateQuestionnaire(logger)
 );
 
 const server = new ApolloServer({
   ...schema,
   context: ({ req }) => {
-    return { questionnaire: req.questionnaire, auth: req.auth };
+    return {
+      questionnaire: req.questionnaire,
+      auth: req.auth,
+      validationErrors: req.validationErrors,
+    };
   },
 });
 server.applyMiddleware({ app });
