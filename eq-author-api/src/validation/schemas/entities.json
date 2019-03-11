@@ -1,0 +1,62 @@
+{
+  "$id": "http://example.com/schemas/entities.json",
+  "definitions": {
+    "answer": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "label": {
+          "type": "string"
+        },
+        "validation": {
+          "type": "object",
+          "required": ["minValue"],
+          "properties": {
+            "minValue": {
+              "type": "object",
+              "properties": {
+                "previousAnswer": {
+                  "type": "string",
+                  "previous": "answer"
+                }
+              }
+            }
+          }
+        }
+      },
+      "required": ["id", "label", "validation"]
+    },
+    "page": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": {
+          "$ref": "definitions.json#/definitions/populatedString"
+        },
+        "answers": {
+          "type": "array",
+          "items": {
+            "$ref": "entities.json#/definitions/answer"
+          }
+        } 
+      },
+      "required": ["id", "title", "answers"]
+    },
+    "section": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": {
+          "type": "string"
+        },
+        "pages": {
+          "type": "array",
+          "items": {
+            "$ref": "entities.json#/definitions/page"
+          }
+        } 
+      },
+      "required": ["id", "title", "pages"]
+    }
+  }
+}

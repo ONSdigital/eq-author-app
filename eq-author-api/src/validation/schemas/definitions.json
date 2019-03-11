@@ -1,0 +1,12 @@
+{
+  "$id": "http://example.com/schemas/definitions.json",
+  "definitions": {
+    "populatedString": {
+      "type": "string",
+      "pattern": "\\w+",
+      "message": {
+        "pattern": "Must be populated"
+      }
+    }
+  }
+}

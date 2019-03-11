@@ -1,70 +1,80 @@
-const { flatMap, find } = require("lodash");
+const Ajv = require("ajv");
+const schemas = require("./schemas");
 
-const ERRORS = {
-  REQUIRED: 1,
-  LINKED_ENTITY_DELETED: 2,
-};
+const ajv = new Ajv();
 
-const getAnswers = questionnaire => {
-  return flatMap(questionnaire.sections, section =>
-    flatMap(section.pages, page => page.answers)
-  );
-};
+const getPreviousAnswers = (
+  sectionIndex,
+  pageIndex,
+  answerIndex,
+  questionnaire
+) => {
+  // Everything in all previous sections
+  const prevSections = questionnaire.sections.slice(0, sectionIndex);
+  const prevPages = prevSections.reduce((p, s) => [...p, ...s.pages], []);
+  const prevAnswers = prevPages.reduce((a, p) => [...a, ...p.answers], []);
 
-const getAnswer = questionnaire => answerId => {
-  const answers = getAnswers(questionnaire);
-  return find(answers, { id: answerId });
-};
+  const selectedSection = questionnaire.sections[sectionIndex];
 
-const validateAnswer = (answer, questionnaire) => {
-  const validations = [];
-  if (
-    answer.validation.minValue.previousAnswer &&
-    !getAnswer(questionnaire)(answer.validation.minValue.previousAnswer)
-  ) {
-    validations.push({
-      location: "minValue.previousAnswer",
-      errorCode: ERRORS.LINKED_ENTITY_DELETED,
-    });
-  }
-  return { [answer.id]: validations };
-};
-
-const validatePage = (page, questionnaire, section) => {
-  const pageValidations = [];
-  if (!page.title) {
-    pageValidations.push({ location: "title", errorCode: ERRORS.REQUIRED });
-  }
-
-  const answerValidations = page.answers.reduce(
-    (validations, answer) => ({
-      ...validations,
-      ...validateAnswer(answer, questionnaire, section, page),
-    }),
-    {}
+  // Answers in previous pages in section
+  const prevSectionPages = selectedSection.pages.slice(0, pageIndex);
+  const prevSectionPagesAnswers = prevSectionPages.reduce(
+    (a, p) => [...a, ...p.answers],
+    []
   );
 
-  return {
-    [page.id]: [...pageValidations, ...Object.values(answerValidations)],
-    ...answerValidations,
-  };
+  const selectedPage = selectedSection.pages[pageIndex];
+  // Previous answers on page
+  const prevAnswersOnPage = selectedPage.answers.slice(0, answerIndex);
+
+  return [...prevAnswers, ...prevSectionPagesAnswers, ...prevAnswersOnPage];
 };
 
-const validateSection = (section, questionnaire) => {
-  const sectionValidations = [];
-  if (questionnaire.navigation && !section.title) {
-    sectionValidations.push({ location: "title", errorCode: ERRORS.REQUIRED });
+const getIndex = text => {
+  const indexStr = /^\w+\[(\d+)\]$/.exec(text)[1];
+  if (!indexStr) {
+    return undefined;
   }
-
-  const pageValidations = section.pages.reduce((validations, page) => {
-    return { ...validations, ...validatePage(page) };
-  }, {});
-
-  return { [section.id]: sectionValidations, ...pageValidations };
+  return parseInt(indexStr, 10);
 };
+
+ajv.addKeyword("previous", {
+  type: "string",
+  validate: (
+    argument,
+    previousAnswerId,
+    closeSchema,
+    path,
+    entity,
+    fieldName,
+    questionnaire
+  ) => {
+    const [, sectionPath, pagePath, answerPath] = path.split(".");
+    const sectionIndex = getIndex(sectionPath);
+    const pageIndex = getIndex(pagePath);
+    const answerIndex = getIndex(answerPath);
+
+    const previousAnswers = getPreviousAnswers(
+      sectionIndex,
+      pageIndex,
+      answerIndex,
+      questionnaire
+    );
+    const prevAnswer = previousAnswers.find(a => a.id === previousAnswerId);
+    return Boolean(prevAnswer);
+  },
+});
+
+const validate = ajv.addSchema(schemas.slice(1)).compile(schemas[0]);
+
+if (validate.errors) {
+  throw new Error(validate.errors[0]);
+}
 
 module.exports = questionnaire => {
-  return questionnaire.sections.reduce((validations, section) => {
-    return { ...validations, ...validateSection(section, questionnaire) };
-  }, {});
+  validate(questionnaire);
+  if (validate.errors) {
+    console.log("errors", JSON.stringify(validate.errors));
+  }
+  return {};
 };

@@ -12,6 +12,7 @@
     "dynamodb-admin": "AWS_ACCESS_KEY_ID=dummy AWS_SECRET_ACCESS_KEY=dummy DYNAMO_ENDPOINT=http://localhost:8050 dynamodb-admin"
   },
   "dependencies": {
+    "ajv": "^6.10.0",
     "apollo-server-express": "latest",
     "cheerio": "latest",
     "cors": "latest",

@@ -9,7 +9,6 @@ module.exports = logger => (req, res, next) => {
   const before = performance.now();
   req.validationErrors = validateQuestionnaire(req.questionnaire);
   const after = performance.now();
-  console.log(JSON.stringify(req.validationErrors, null, 2));
   logger.info("Validation took %dms", after - before);
 
   return next();
