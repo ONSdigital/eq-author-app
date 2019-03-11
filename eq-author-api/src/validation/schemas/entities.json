@@ -9,22 +9,67 @@
           "type": "string"
         },
         "validation": {
-          "type": "object",
-          "required": ["minValue"],
+          "type": ["object", "null"],
           "properties": {
             "minValue": {
               "type": "object",
               "properties": {
+                "enabled": {
+                  "type": "boolean"
+                },
+                "entityType": {
+                  "enum": [
+                    "Custom",
+                    "PreviousAnswer",
+                    "Metadata",
+                    "Now"
+                  ]
+                },
                 "previousAnswer": {
-                  "type": "string",
-                  "previous": "answer"
+                  "type": ["string", "null"]
+                },
+                "custom": {
+                  "type": ["number", "null"]
                 }
-              }
+              },
+              "allOf": [
+                {
+                  "if": {
+                    "properties": {
+                      "enabled": { "const": true },
+                      "entityType": { "enum": ["Custom"] }
+                    }
+                  },
+                  "then": {
+                    "properties": {
+                      "custom": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "enabled": { "const": true },
+                      "entityType": { "enum": ["PreviousAnswer"] }
+                    }
+                  },
+                  "then": {
+                    "properties": {
+                      "previousAnswer": {
+                        "type": "string",
+                        "previous": "answer"
+                      }
+                    }
+                  }
+                }
+              ]
             }
           }
         }
       },
-      "required": ["id", "label", "validation"]
+      "required": ["id", "label"]
     },
     "page": {
       "type": "object",
