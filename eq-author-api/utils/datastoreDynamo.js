@@ -7,6 +7,9 @@ const {
   QuestionnaireVersionsModel,
 } = require("../db/models/DynamoDB");
 
+const omitTimestamps = questionnaire =>
+  omit({ ...questionnaire }, ["updatedAt", "createdAt"]);
+
 const diffPatcher = jsondiffpatch.create({
   objecHash: obj => obj.id,
 });
@@ -67,11 +70,12 @@ const saveQuestionnaire = async (questionnaire, count = 0, patch) => {
     ...questionnaire.originalItem(),
   };
 
-  //Makes diff accurate
-  questionnaire.createdAt = questionnaire.createdAt.toISOString();
-  questionnaire.updatedAt = questionnaire.updatedAt.toISOString();
+  const diff = diffPatcher.diff(
+    omitTimestamps(originalQuestionnaire),
+    omitTimestamps(questionnaire)
+  );
 
-  if (!diffPatcher.diff(originalQuestionnaire, questionnaire)) {
+  if (!diff) {
     return questionnaire;
   }
 
@@ -91,8 +95,7 @@ const saveQuestionnaire = async (questionnaire, count = 0, patch) => {
       throw e;
     }
 
-    const patchToApply =
-      patch || diffPatcher.diff(originalQuestionnaire, questionnaire);
+    const patchToApply = patch || diff;
     logger.warn(
       `Dynamoose merging on save id: ${questionnaire.id}`,
       patchToApply

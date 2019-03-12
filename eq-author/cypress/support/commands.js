@@ -69,6 +69,8 @@ Cypress.Commands.add("deleteQuestionnaire", title => {
     cy.contains(new RegExp(`^${title}`))
       .closest("tr")
       .within(() => {
+        cy.get(testId("btn-delete-questionnaire")).should("be.visible");
+        cy.get(testId("btn-delete-questionnaire")).should("be.enabled");
         cy.get(testId("btn-delete-questionnaire")).click();
       });
   });

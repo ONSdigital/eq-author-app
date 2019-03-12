@@ -1,12 +1,16 @@
 const { saveQuestionnaire } = require("../utils/datastore");
 
-module.exports = logger => migrations => async (req, res, next) => {
+module.exports = logger => ({ currentVersion, migrations }) => async (
+  req,
+  res,
+  next
+) => {
   if (!req.questionnaire) {
     next();
     return;
   }
 
-  if (req.questionnaire.version === migrations.length) {
+  if (req.questionnaire.version === currentVersion) {
     next();
     return;
   }
@@ -14,16 +18,20 @@ module.exports = logger => migrations => async (req, res, next) => {
   try {
     req.questionnaire = await migrations
       .slice(req.questionnaire.version)
-      .reduce((questionnaire, migration, index) => {
-        logger.info(`Running migration ${index} on ${questionnaire.id}`);
+      .reduce((questionnaire, migration) => {
+        logger.info(
+          `Running migration for version ${migration.name} on ${
+            questionnaire.id
+          }`
+        );
         return migration(questionnaire);
       }, req.questionnaire);
 
-    req.questionnaire.version = migrations.length;
+    req.questionnaire.version = currentVersion;
     await saveQuestionnaire(req.questionnaire);
     next();
   } catch (e) {
-    logger.info(`Running migration failed: `, e);
-    next();
+    logger.error(e);
+    next(e);
   }
 };
