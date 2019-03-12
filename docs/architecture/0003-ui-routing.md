@@ -70,11 +70,6 @@ that is can easily be changed for new entity types.
 Changing to use a [short id](https://github.com/dylang/shortid) instead of a UUID for the ids of all
 parts of a questionnaire.
 
-### 3. Push the route definition down to the entities
-Define a partial route at top level and allow each entity to define it's routes. So in
-`eq-author/src/App/questionPage/index.js` we would define all the routes for a page. This pattern
-would be followed for each entity.
-
 ## Consequences
 
 ### 1. New URL format
@@ -89,12 +84,3 @@ new format.
 - The IDs become much more readable
 - Existing surveys are unaffected as a UUID and imported ids are subsets of short ids.
 - Unlikely but possible collisions as they are not as well defined as UUIDs.
-
-### 3. Push the route definition down to the entities
-- This should make understanding an entities page much simpler.
-- We could hoist requesting the entity information to this new level so it can be easily shared
-between the tabs e.g. design and preview.
-- This could make defining the links for the left hand side more complex as you now have to know how
-to build it up from the relative routes. This could be mitigated by making available simple link
-components that would have this knowledge.
-- Linking between routing and design would possibly need to change.
