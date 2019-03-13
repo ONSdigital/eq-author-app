@@ -10,7 +10,7 @@ Accepted
 
 Currently users are provided with very little useful feedback as to any errors in the questionnaire
 they are building. This change aims to provide a way for the users to see feedback on the changes
-they are making but exposing the validation errors to them.
+they are making by exposing the validation errors to them.
 
 There are multiple types of validations:
 - Intra-entity. These are validations on fields within an entity itself e.g. a question page must
