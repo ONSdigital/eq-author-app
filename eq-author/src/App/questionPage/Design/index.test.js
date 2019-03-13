@@ -224,7 +224,6 @@ describe("QuestionPageRoute", () => {
           variables: {
             input: {
               questionnaireId,
-              sectionId,
               pageId,
             },
           },

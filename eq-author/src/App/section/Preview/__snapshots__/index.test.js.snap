@@ -3,7 +3,7 @@
 exports[`PreviewSectionRoute should redirect to design if section introduction is not enabled 1`] = `
 <Redirect
   push={false}
-  to="/questionnaire/1/2/design"
+  to="/q/1/section/2/design"
 />
 `;
 

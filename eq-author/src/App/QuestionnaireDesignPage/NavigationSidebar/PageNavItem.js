@@ -5,7 +5,7 @@ import { withRouter } from "react-router-dom";
 import CustomPropTypes from "custom-prop-types";
 import gql from "graphql-tag";
 
-import { buildQuestionnairePath } from "utils/UrlUtils";
+import { buildPagePath } from "utils/UrlUtils";
 import NavLink from "./NavLink";
 import PageIcon from "./icon-questionpage.svg?inline";
 
@@ -18,7 +18,6 @@ const StyledPageItem = styled.li`
 `;
 
 export const UnwrappedPageNavItem = ({
-  sectionId,
   questionnaireId,
   page,
   match,
@@ -26,9 +25,8 @@ export const UnwrappedPageNavItem = ({
 }) => (
   <StyledPageItem data-test="page-item" {...otherProps}>
     <NavLink
-      to={buildQuestionnairePath({
+      to={buildPagePath({
         questionnaireId,
-        sectionId,
         pageId: page.id,
         tab: match.params.tab,
       })}
@@ -56,7 +54,6 @@ UnwrappedPageNavItem.fragments = {
 };
 
 UnwrappedPageNavItem.propTypes = {
-  sectionId: PropTypes.string.isRequired,
   questionnaireId: PropTypes.string.isRequired,
   page: CustomPropTypes.page,
   match: CustomPropTypes.match,

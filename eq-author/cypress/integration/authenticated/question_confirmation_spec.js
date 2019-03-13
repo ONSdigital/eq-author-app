@@ -30,7 +30,7 @@ describe("Question Confirmation", () => {
   it("should navigate to when the question confirmation when created", () => {
     questionConfirmation.add();
     const pattern = new RegExp(
-      `/questionnaire/${idRegex}/${idRegex}/${idRegex}/${idRegex}/design`
+      `/q/${idRegex}/question-confirmation/${idRegex}/design`
     );
     cy.hash().should("match", pattern);
   });
@@ -64,9 +64,7 @@ describe("Question Confirmation", () => {
     cy.get(testId("question-confirmation-item")).should("have.length", 1);
     cy.get(testId("btn-delete")).click();
     cy.get(testId("btn-delete-modal")).click();
-    const pattern = new RegExp(
-      `/questionnaire/${idRegex}/${idRegex}/${idRegex}/design`
-    );
+    const pattern = new RegExp(`/q/${idRegex}/page/${idRegex}/design`);
     cy.hash().should("match", pattern);
     cy.get(testId("question-confirmation-item")).should("have.length", 0);
   });

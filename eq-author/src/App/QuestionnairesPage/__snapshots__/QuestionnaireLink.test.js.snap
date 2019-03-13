@@ -3,6 +3,6 @@
 exports[`QuestionnaireLink should render 1`] = `
 <QuestionnaireLink__StyledLink
   disabled={false}
-  to="/questionnaire/1/design"
+  to="/q/1"
 />
 `;

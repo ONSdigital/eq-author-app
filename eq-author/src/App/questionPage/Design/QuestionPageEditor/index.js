@@ -58,7 +58,6 @@ export default class QuestionPageEditor extends React.Component {
       onMovePage,
       showMovePageDialog,
       onCloseMovePageDialog,
-      match,
       page,
     } = this.props;
 
@@ -72,7 +71,7 @@ export default class QuestionPageEditor extends React.Component {
         isOpen={showMovePageDialog}
         onClose={onCloseMovePageDialog}
         onMovePage={onMovePage}
-        sectionId={match.params.sectionId}
+        sectionId={page.section.id}
         page={page}
       />
     );

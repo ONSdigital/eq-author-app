@@ -3,13 +3,14 @@
 exports[`PageNavItem should render 1`] = `
 <PageNavItem__StyledPageItem
   data-test="page-item"
+  sectionId="2"
   title="Title"
 >
   <NavLink
     data-test="nav-page-link"
     icon={[Function]}
     title="Page title"
-    to="/questionnaire/1/2/3"
+    to="/q/1/page/3/design"
   >
     Page title
   </NavLink>

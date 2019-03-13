@@ -11,22 +11,23 @@ import { find, flatMap, flowRight } from "lodash";
 
 import BaseLayout from "components/BaseLayout";
 import { Grid, Column } from "components/Grid";
-import NavigationSidebar from "./NavigationSidebar";
-import QuestionPageRoute from "App/questionPage/Design";
-import PreviewRoute from "components/PreviewRoute";
-import SectionRoute from "App/section/Design";
-import { Routes, buildSectionPath } from "utils/UrlUtils";
 import Loading from "components/Loading";
-import RoutingPageRoute from "App/questionPage/Routing";
-import QuestionConfirmationRoute from "App/questionConfirmation/Design";
+
+import { SECTION, PAGE, QUESTION_CONFIRMATION } from "constants/entities";
+
+import { buildSectionPath } from "utils/UrlUtils";
+
+import questionPageRoutes from "App/questionPage";
+import sectionRoutes from "App/section";
+import questionConfirmationRoutes from "App/questionConfirmation";
 
 import withCreatePage from "enhancers/withCreatePage";
 import withCreateSection from "enhancers/withCreateSection";
-import withCreateQuestionConfirmation from "./withCreateQuestionConfirmation";
 
 import { raiseToast } from "redux/toast/actions";
 
-const isAnId = possibleId => /\d+/.test(possibleId);
+import withCreateQuestionConfirmation from "./withCreateQuestionConfirmation";
+import NavigationSidebar from "./NavigationSidebar";
 
 export class UnwrappedQuestionnaireDesignPage extends Component {
   static propTypes = {
@@ -49,12 +50,34 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
       match,
       data: { questionnaire },
     } = this.props;
-    const { pageId, sectionId } = match.params;
+    const { entityName, entityId } = match.params;
 
-    const pages = flatMap(questionnaire.sections, "pages");
-    const page = find(pages, { id: pageId });
-
-    onAddPage(sectionId, page ? page.position + 1 : 0);
+    let sectionId, position;
+    if (entityName === SECTION) {
+      sectionId = entityId;
+      position = 0;
+    } else if (entityName === PAGE) {
+      for (let i = 0; i < questionnaire.sections.length; ++i) {
+        const section = questionnaire.sections[i];
+        const page = find(section.pages, { id: entityId });
+        if (page) {
+          sectionId = section.id;
+          position = section.pages.indexOf(page) + 1;
+          break;
+        }
+      }
+    } else if (entityName === QUESTION_CONFIRMATION) {
+      for (let i = 0; i < questionnaire.sections.length; ++i) {
+        const section = questionnaire.sections[i];
+        const page = find(section.pages, { confirmation: { id: entityId } });
+        if (page) {
+          sectionId = section.id;
+          position = section.pages.indexOf(page) + 1;
+          break;
+        }
+      }
+    }
+    onAddPage(sectionId, position);
   };
 
   getTitle = title => {
@@ -95,7 +118,7 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
     const {
       data: { questionnaire },
       match: {
-        params: { sectionId, pageId, confirmationId },
+        params: { entityName, entityId: pageId },
       },
       loading,
     } = this.props;
@@ -104,8 +127,7 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
       return false;
     }
 
-    const isOnPage = sectionId && isAnId(pageId) && !isAnId(confirmationId);
-    if (!isOnPage) {
+    if (entityName !== "page") {
       return false;
     }
 
@@ -120,7 +142,7 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
   handleAddQuestionConfirmation = () => {
     const {
       match: {
-        params: { pageId },
+        params: { entityId: pageId },
       },
     } = this.props;
     this.props.onCreateQuestionConfirmation(pageId);
@@ -150,28 +172,11 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
             </Column>
             <Column cols={9}>
               <Switch location={location}>
-                <Route path={Routes.SECTION} component={SectionRoute} exact />
-                <Route path={Routes.PAGE} component={QuestionPageRoute} exact />
-                <Route
-                  path={Routes.ROUTING}
-                  component={RoutingPageRoute}
-                  exact
-                />
-                <Route
-                  path={Routes.PAGE_PREVIEW}
-                  component={PreviewRoute}
-                  exact
-                />
-                <Route
-                  path={Routes.CONFIRMATION}
-                  component={QuestionConfirmationRoute}
-                  exact
-                />
-                <Route
-                  path={Routes.CONFIRMATION_PREVIEW}
-                  component={PreviewRoute}
-                  exact
-                />
+                {[
+                  ...questionPageRoutes,
+                  ...sectionRoutes,
+                  ...questionConfirmationRoutes,
+                ]}
                 <Route path="*" render={this.renderRedirect} />
               </Switch>
             </Column>

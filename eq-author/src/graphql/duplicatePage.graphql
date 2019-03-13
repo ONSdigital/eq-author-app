@@ -12,6 +12,9 @@ mutation duplicatePage($input: DuplicatePageInput!) {
       }
       section {
         id
+        pages {
+          id
+        }
       }
       confirmation {
         id

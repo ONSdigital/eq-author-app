@@ -34,7 +34,6 @@ const QuestionnaireLink = ({ questionnaire, disabled, ...otherProps }) => {
       disabled={disabled}
       to={buildQuestionnairePath({
         questionnaireId: questionnaire.id,
-        tab: "design",
       })}
     />
   );

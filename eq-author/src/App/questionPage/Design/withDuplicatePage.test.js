@@ -1,6 +1,5 @@
-import { mapMutateToProps, createUpdater } from "./withDuplicatePage";
+import { mapMutateToProps } from "./withDuplicatePage";
 import { buildPagePath } from "utils/UrlUtils";
-import fragment from "graphql/sectionFragment.graphql";
 
 describe("withDuplicatePage", () => {
   let ownProps,
@@ -73,7 +72,6 @@ describe("withDuplicatePage", () => {
 
         const expected = {
           variables: { input },
-          update: expect.any(Function),
         };
 
         return props.onDuplicatePage(args).then(() => {
@@ -90,7 +88,6 @@ describe("withDuplicatePage", () => {
       it("should redirect to new page on copy", () => {
         const expected = buildPagePath({
           questionnaireId: match.params.questionnaireId,
-          sectionId: args.sectionId,
           pageId: dupePageId,
         });
 
@@ -98,96 +95,6 @@ describe("withDuplicatePage", () => {
           expect(history.push).toHaveBeenCalledWith(expected);
         });
       });
-    });
-  });
-
-  describe("createUpdater", () => {
-    let proxy, fromSection, page;
-
-    beforeEach(() => {
-      page = { id: args.pageId, position: args.position };
-
-      fromSection = {
-        id: args.sectionId,
-        pages: [page, { id: "3", position: 1 }],
-      };
-
-      proxy = {
-        writeFragment: jest.fn(),
-        readFragment: jest.fn(),
-      };
-
-      proxy.readFragment.mockReturnValueOnce(fromSection);
-    });
-
-    it("should update the cache correctly", () => {
-      const updater = createUpdater(args);
-      updater(proxy, result);
-
-      expect(proxy.readFragment).toHaveBeenCalledWith({
-        id: `Section${args.sectionId}`,
-        fragment,
-      });
-
-      expect(proxy.writeFragment).toHaveBeenCalledWith({
-        id: `Section${args.sectionId}`,
-        fragment,
-        data: fromSection,
-      });
-
-      expect(fromSection.pages[args.position]).toMatchObject({
-        id: dupePageId,
-        position: args.position,
-      });
-    });
-
-    it("should correctly update position values for all pages in a section", () => {
-      const cacheName = `Section${sectionId}`;
-      const pageAId = "a";
-      const pageBId = "b";
-      const pageCId = "c";
-      const sections = {
-        [cacheName]: {
-          id: args.sectionId,
-          pages: [
-            { id: pageAId, position: 0 },
-            { id: pageBId, position: 1 },
-            { id: pageCId, position: 2 },
-          ],
-        },
-      };
-
-      proxy = {
-        writeFragment: jest.fn(({ id, data }) => {
-          sections[id] = data;
-        }),
-        readFragment: jest.fn(({ id }) => {
-          return sections[id];
-        }),
-      };
-
-      let updater = createUpdater({
-        sectionId,
-        position: 2,
-      });
-
-      const dupePageId = "d";
-      // order: A, C, B
-      updater(proxy, {
-        data: {
-          duplicatePage: {
-            id: dupePageId,
-            position: 2,
-          },
-        },
-      });
-
-      expect(sections[cacheName].pages).toEqual([
-        { id: pageAId, position: 0 },
-        { id: pageBId, position: 1 },
-        { id: dupePageId, position: 2 },
-        { id: pageCId, position: 3 },
-      ]);
     });
   });
 });

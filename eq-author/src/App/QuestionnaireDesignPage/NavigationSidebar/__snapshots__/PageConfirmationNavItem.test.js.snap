@@ -4,11 +4,13 @@ exports[`PageConfirmationNavItem should render design 1`] = `
 <Fragment>
   <PageConfirmationNavItem__StyledPageItem
     data-test="question-confirmation-item"
+    sectionId="2"
   >
     <PageConfirmationNavItem__StyledNavLink
       data-test="question-confirmation-link"
       icon={[Function]}
-      to="/questionnaire/1/2/3/4/design"
+      title="Confirmation display name"
+      to="/q/1/question-confirmation/4/design"
     >
       Confirmation display name
     </PageConfirmationNavItem__StyledNavLink>
@@ -20,11 +22,13 @@ exports[`PageConfirmationNavItem should render preview 1`] = `
 <Fragment>
   <PageConfirmationNavItem__StyledPageItem
     data-test="question-confirmation-item"
+    sectionId="2"
   >
     <PageConfirmationNavItem__StyledNavLink
       data-test="question-confirmation-link"
       icon={[Function]}
-      to="/questionnaire/1/2/3/4/preview"
+      title="Confirmation display name"
+      to="/q/1/question-confirmation/4/preview"
     >
       Confirmation display name
     </PageConfirmationNavItem__StyledNavLink>

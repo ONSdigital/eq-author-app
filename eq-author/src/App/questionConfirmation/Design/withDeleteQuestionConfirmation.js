@@ -17,23 +17,23 @@ const inputStructure = gql`
 `;
 const filterToInput = partial(filter, inputStructure);
 
-export const redirectToParentPage = ({ history, match: { params } }) => {
-  history.push(buildPagePath(params));
-};
-
-export const displayToast = (
-  { raiseToast, history, location },
+export const redirectToParentPage = (
+  { history, match: { params } },
   questionConfirmation
 ) => {
+  history.push(
+    buildPagePath({
+      questionnaireId: params.questionnaireId,
+      pageId: questionConfirmation.page.id,
+      tab: "design",
+    })
+  );
+};
+
+export const displayToast = ({ raiseToast }, questionConfirmation) => {
   raiseToast(
     `QuestionConfirmation${questionConfirmation.id}`,
-    "Confirmation deleted",
-    {
-      questionConfirmation,
-      goBack: () => {
-        history.push(location.pathname);
-      },
-    }
+    "Confirmation deleted"
   );
 };
 
@@ -44,7 +44,7 @@ export const mapMutateToProps = ({ ownProps, mutate }) => ({
         input: filterToInput(questionConfirmation),
       },
     })
-      .then(() => redirectToParentPage(ownProps))
+      .then(() => redirectToParentPage(ownProps, questionConfirmation))
       .then(() => displayToast(ownProps, questionConfirmation)),
 });
 

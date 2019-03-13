@@ -1,11 +1,10 @@
 import { mapMutateToProps } from "./withDeleteQuestionConfirmation";
 
 describe("withDeleteQuestionConfirmation", () => {
-  let mutate, ownProps, questionnaireId, sectionId, pageId, confirmationId;
+  let mutate, ownProps, questionnaireId, pageId, confirmationId;
 
   beforeEach(() => {
     questionnaireId = "1";
-    sectionId = "2";
     pageId = "3";
     confirmationId = "4";
 
@@ -20,14 +19,9 @@ describe("withDeleteQuestionConfirmation", () => {
       history: {
         push: jest.fn(),
       },
-      location: {
-        pathname: `/${questionnaireId}/${sectionId}/${pageId}/${confirmationId}/design`,
-      },
       match: {
         params: {
           questionnaireId,
-          sectionId,
-          pageId,
           confirmationId,
           tab: "design",
         },
@@ -69,34 +63,29 @@ describe("withDeleteQuestionConfirmation", () => {
   it("should navigate to the parent page", async () => {
     await mapMutateToProps({ mutate, ownProps }).onDeleteQuestionConfirmation({
       id: confirmationId,
+      page: {
+        id: pageId,
+      },
     });
     expect(ownProps.history.push).toHaveBeenCalledWith(
-      `/questionnaire/${questionnaireId}/${sectionId}/${pageId}/design`
+      `/q/${questionnaireId}/page/${pageId}/design`
     );
   });
 
-  it("should show the toast passing the confirmation to restore and message", async () => {
-    const questionConfirmation = { id: confirmationId };
+  it("should show the toast passing the message", async () => {
+    const questionConfirmation = {
+      id: confirmationId,
+      page: {
+        id: pageId,
+      },
+    };
     await mapMutateToProps({
       mutate,
       ownProps,
     }).onDeleteQuestionConfirmation(questionConfirmation);
     expect(ownProps.raiseToast).toHaveBeenCalledWith(
       `QuestionConfirmation${confirmationId}`,
-      "Confirmation deleted",
-      { questionConfirmation, goBack: expect.any(Function) }
-    );
-  });
-
-  it("should navigate back to the original url when goBack is called", async () => {
-    const questionConfirmation = { id: confirmationId };
-    await mapMutateToProps({
-      mutate,
-      ownProps,
-    }).onDeleteQuestionConfirmation(questionConfirmation);
-    ownProps.raiseToast.mock.calls[0][2].goBack();
-    expect(ownProps.history.push).toHaveBeenCalledWith(
-      `/${questionnaireId}/${sectionId}/${pageId}/${confirmationId}/design`
+      "Confirmation deleted"
     );
   });
 });
