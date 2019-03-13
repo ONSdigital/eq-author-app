@@ -446,12 +446,11 @@ type Mutation {
   duplicateSection(input: DuplicateSectionInput!): Section
   createPage(input: CreatePageInput!): Page
   updatePage(input: UpdatePageInput!): Page
-  deletePage(input: DeletePageInput!): Page
   movePage(input: MovePageInput!): Page
   duplicatePage(input: DuplicatePageInput!): Page
   createQuestionPage(input: CreateQuestionPageInput!): QuestionPage
   updateQuestionPage(input: UpdateQuestionPageInput!): QuestionPage
-  deleteQuestionPage(input: DeleteQuestionPageInput!): QuestionPage
+  deleteQuestionPage(input: DeleteQuestionPageInput!): Section!
   createAnswer(input: CreateAnswerInput!): Answer
   updateAnswer(input: UpdateAnswerInput!): Answer
   deleteAnswer(input: DeleteAnswerInput!): Answer

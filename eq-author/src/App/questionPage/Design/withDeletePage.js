@@ -1,6 +1,5 @@
 import { graphql } from "react-apollo";
 import deletePageMutation from "graphql/deletePage.graphql";
-import { remove } from "lodash";
 import fragment from "graphql/sectionFragment.graphql";
 import getNextPage from "utils/getNextOnDelete";
 import { buildPagePath } from "utils/UrlUtils";
@@ -12,62 +11,52 @@ const getCachedSection = (client, id) =>
   });
 
 const handleDeletion = (
-  { history, onAddPage, client, match: { params } },
+  {
+    history,
+    onAddPage,
+    match: {
+      params: { questionnaireId },
+    },
+  },
+  section,
   nextPage
 ) => {
-  const { sectionId, questionnaireId } = params;
-  const section = getCachedSection(client, sectionId);
-
   if (section.pages.length === 0) {
-    return onAddPage(params.sectionId);
+    return onAddPage(section.id);
   }
 
   history.push(
     buildPagePath({
       questionnaireId,
-      sectionId,
+      sectionId: section.id,
       pageId: nextPage.id,
     })
   );
 };
 
-const displayToast = (ownProps, sectionId, pageId) => {
-  ownProps.raiseToast(`Page${pageId}`, "Page deleted", {
-    sectionId,
-    pageId,
-  });
-};
-
-export const createUpdater = (sectionId, pageId) => client => {
-  const section = getCachedSection(client, sectionId);
-
-  remove(section.pages, { id: pageId });
-  section.pages.forEach((page, i) => (page.position = i));
-
-  client.writeFragment({
-    id: `Section${sectionId}`,
-    fragment,
-    data: section,
+const displayToast = (ownProps, page) => {
+  ownProps.raiseToast(`Page${page.id}`, "Page deleted", {
+    sectionId: page.section.id,
+    pageId: page.id,
   });
 };
 
 export const mapMutateToProps = ({ ownProps, mutate }) => ({
-  onDeletePage(sectionId, pageId) {
+  onDeletePage(page) {
     const { client } = ownProps;
-    const page = { id: pageId };
-    const update = createUpdater(sectionId, pageId);
 
-    const section = getCachedSection(client, sectionId);
-    const nextPage = getNextPage(section.pages, pageId);
+    const cachedSection = getCachedSection(client, page.section.id);
+    const nextPage = getNextPage(cachedSection.pages, page.id);
 
     const mutation = mutate({
-      variables: { input: page },
-      update,
+      variables: { input: { id: page.id } },
     });
 
     return mutation
-      .then(() => handleDeletion(ownProps, nextPage))
-      .then(() => displayToast(ownProps, sectionId, pageId));
+      .then(({ data: { deleteQuestionPage: section } }) =>
+        handleDeletion(ownProps, section, nextPage)
+      )
+      .then(() => displayToast(ownProps, page));
   },
 });
 
