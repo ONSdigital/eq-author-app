@@ -13,7 +13,7 @@ they are building. This change aims to provide a way for the users to see feedba
 they are making but exposing the validation errors to them.
 
 There are multiple types of validations:
-- Intra-entity. These are validations within a field itself e.g. a question page must
+- Intra-entity. These are validations on fields within an entity itself e.g. a question page must
 have a populated title.
 - Inter-entity validations. These are validations across entities. e.g. an answer validation that
 references an answer can only reference a previous answer.
