@@ -29,6 +29,7 @@ const {
 } = require("../../src/businessLogic/createValidation");
 const uuid = require("uuid");
 const deepMap = require("deep-map");
+const { currentVersion } = require("../../migrations");
 
 const createAnswer = require("../../src/businessLogic/createAnswer");
 const onAnswerCreated = require("../../src/businessLogic/onAnswerCreated");
@@ -160,6 +161,7 @@ const createNewQuestionnaire = input => ({
   metadata: [],
   sections: [createSection()],
   summary: false,
+  version: currentVersion,
   ...input,
 });
 

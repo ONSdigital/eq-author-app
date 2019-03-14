@@ -1,3 +1,10 @@
 const addVersion = require("./addVersion");
 
-module.exports = [addVersion];
+const migrations = [addVersion];
+
+const currentVersion = migrations.length;
+
+module.exports = {
+  migrations,
+  currentVersion,
+};

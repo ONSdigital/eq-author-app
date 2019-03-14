@@ -1,5 +1,6 @@
 const fs = require("fs").promises;
 const chalk = require("chalk");
+const { camelCase } = require("lodash");
 
 if (process.argv.length < 3) {
   /* eslint-disable-next-line no-console */
@@ -11,12 +12,29 @@ if (process.argv.length < 3) {
   process.exit(1);
 }
 
-const name = process.argv[2];
+const name = camelCase(process.argv[2]);
 const filename = `${name}.js`;
+const template = `//This is an auto-generated file.  Do NOT modify the method signature.
 
-fs.readFile("scripts/migration.template.js").then(data => {
-  fs.writeFile(`migrations/${filename}`, data);
+module.exports = function ${name}(questionnaire) {
+  /**
+    [Insert migration here]
+   **/
+  return questionnaire;
+};
+`;
+
+const testTemplate = `const ${name} = require("./${filename}");
+
+describe("${name}", () => {
+  it.todo("should...");
 });
+
+`;
+
+fs.writeFile(`migrations/${filename}`, template);
+
+fs.writeFile(`migrations/${name}.test.js`, testTemplate);
 
 /* eslint-disable-next-line no-console */
 console.info(

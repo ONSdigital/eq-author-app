@@ -15,6 +15,7 @@ describe("runQuestionnaireMigrations", () => {
     migrations = [];
     logger = {
       info: jest.fn(),
+      error: jest.fn(),
     };
   });
 
@@ -22,7 +23,12 @@ describe("runQuestionnaireMigrations", () => {
     req = {};
     let migrationOne = jest.fn(() => req.questionnaire);
     migrations = [migrationOne];
-    await runQuestionnaireMigrations(logger)(migrations)(req, res, next);
+
+    await runQuestionnaireMigrations(logger)({
+      migrations,
+      currentVersion: migrations.length,
+    })(req, res, next);
+
     expect(next).toHaveBeenCalled();
     expect(migrationOne).not.toHaveBeenCalled();
   });
@@ -32,7 +38,10 @@ describe("runQuestionnaireMigrations", () => {
     let migrationOne = jest.fn(() => req.questionnaire);
     migrations = [migrationOne];
 
-    await runQuestionnaireMigrations(logger)(migrations)(req, res, next);
+    await runQuestionnaireMigrations(logger)({
+      migrations,
+      currentVersion: migrations.length,
+    })(req, res, next);
 
     expect(next).toHaveBeenCalled();
     expect(migrationOne).toHaveBeenCalledWith(req.questionnaire);
@@ -48,27 +57,35 @@ describe("runQuestionnaireMigrations", () => {
     let migrationOne = jest.fn(() => req.questionnaire);
     let migrationTwo = jest.fn(() => req.questionnaire);
     migrations = [migrationOne, migrationTwo];
-    await runQuestionnaireMigrations(logger)(migrations)(req, res, next);
+    await runQuestionnaireMigrations(logger)({
+      migrations,
+      currentVersion: migrations.length,
+    })(req, res, next);
     expect(next).toHaveBeenCalled();
     expect(migrationOne).not.toHaveBeenCalled();
     expect(migrationTwo).not.toHaveBeenCalled();
   });
 
   it("should not update version if migration fails", async () => {
+    const err = new Error("foobar");
     req.questionnaire.version = 1;
     let migrationOne = jest.fn(() => req.questionnaire);
     let migrationTwo = jest.fn(() => req.questionnaire);
     let migrationThree = jest.fn(() => {
-      throw new Error("foobar");
+      throw err;
     });
     migrations = [migrationOne, migrationTwo, migrationThree];
 
-    await runQuestionnaireMigrations(logger)(migrations)(req, res, next);
-    expect(next).toHaveBeenCalled();
+    await runQuestionnaireMigrations(logger)({
+      migrations,
+      currentVersion: migrations.length,
+    })(req, res, next);
+    expect(next).toHaveBeenCalledWith(err);
     expect(migrationOne).not.toHaveBeenCalled();
     expect(migrationTwo).toHaveBeenCalled();
     expect(migrationThree).toThrowError();
-    expect(logger.info).toHaveBeenCalledTimes(3);
+    expect(logger.info).toHaveBeenCalledTimes(2);
+    expect(logger.error).toHaveBeenCalledTimes(1);
     expect(req.questionnaire.version).toEqual(1);
   });
 
@@ -87,7 +104,10 @@ describe("runQuestionnaireMigrations", () => {
 
     migrations = [migrationOne, migrationTwo, migrationThree];
 
-    await runQuestionnaireMigrations(logger)(migrations)(req, res, next);
+    await runQuestionnaireMigrations(logger)({
+      migrations,
+      currentVersion: migrations.length,
+    })(req, res, next);
     expect(next).toHaveBeenCalled();
     expect(migrationOne).not.toHaveBeenCalled();
     expect(migrationTwo).toHaveBeenCalledWith(req.questionnaire);

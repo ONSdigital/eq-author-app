@@ -11,8 +11,6 @@ const createAuthMiddleware = require("./middleware/auth");
 const loadQuestionnaire = require("./middleware/loadQuestionnaire");
 const runQuestionnaireMigrations = require("./middleware/runQuestionnaireMigrations");
 const schema = require("./schema");
-const migrations = require("./migrations");
-
 const noir = require("pino-noir");
 
 const { PORT = 4000 } = process.env;
@@ -48,7 +46,7 @@ app.use(
   cors(),
   createAuthMiddleware(logger),
   loadQuestionnaire,
-  runQuestionnaireMigrations(logger)(migrations)
+  runQuestionnaireMigrations(logger)(require("./migrations"))
 );
 
 const server = new ApolloServer({
