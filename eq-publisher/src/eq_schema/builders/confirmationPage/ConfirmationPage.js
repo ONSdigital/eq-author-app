@@ -97,6 +97,7 @@ const buildAuthorConfirmationQuestion = (
   const confirmationQuestionObject = {
     id: `confirmation-page-for-${page.id}`,
     title: page.confirmation.title,
+    descriptionEnabled: true,
     description:
       page.answers[0].type === CHECKBOX
         ? `{{ answers['answer${page.answers[0].id}']|format_unordered_list }}`

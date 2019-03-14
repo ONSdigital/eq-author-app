@@ -35,11 +35,21 @@ class Question {
   constructor(question, ctx) {
     this.id = `question${question.id}`;
     this.title = processPipedText(ctx)(question.title);
-    this.description = processPipedText(ctx)(question.description);
-    this.guidance = processContent(ctx)(question.guidance);
-    this.description = unescapePiping(convertPipes(ctx)(question.description));
+    if (question.descriptionEnabled && question.description) {
+      this.description = processPipedText(ctx)(question.description);
+      this.description = unescapePiping(
+        convertPipes(ctx)(question.description)
+      );
+    }
 
-    if (question.definitionLabel || question.definitionContent) {
+    if (question.guidanceEnabled && question.guidance) {
+      this.guidance = processContent(ctx)(question.guidance);
+    }
+
+    if (
+      question.definitionEnabled &&
+      (question.definitionLabel || question.definitionContent)
+    ) {
       this.definitions = [
         {
           title: question.definitionLabel,
@@ -91,7 +101,10 @@ class Question {
       this.answers = this.buildAnswers(question.answers);
     }
 
-    if (question.additionalInfoLabel || question.additionalInfoContent) {
+    if (
+      question.additionalInfoEnabled &&
+      (question.additionalInfoLabel || question.additionalInfoContent)
+    ) {
       last(this.answers).guidance = {
         /* eslint-disable-next-line camelcase */
         show_guidance: question.additionalInfoLabel,

@@ -5,6 +5,7 @@ exports[`PreviewPageRoute should render 1`] = `
   page={
     Object {
       "additionalInfoContent": "<p>Additional Info Content</p>",
+      "additionalInfoEnabled": true,
       "additionalInfoLabel": "<p>Additional Info Label</p>",
       "answers": Array [
         Object {
@@ -13,10 +14,13 @@ exports[`PreviewPageRoute should render 1`] = `
         },
       ],
       "definitionContent": "<p>Definition Content</p>",
+      "definitionEnabled": true,
       "definitionLabel": "<p>Definition Label</p>",
       "description": "<p>Description</p>",
+      "descriptionEnabled": true,
       "displayName": "Question",
       "guidance": "<p>Guidance</p>",
+      "guidanceEnabled": true,
       "id": "1",
       "position": 1,
       "section": Object {
@@ -36,14 +40,17 @@ exports[`PreviewPageRoute should render 1`] = `
     <PageTitle
       title="<p>Hello world</p>"
     />
-    <Preview__Description
-      dangerouslySetInnerHTML={
-        Object {
-          "__html": "<p>Description</p>",
-        }
-      }
+    <div
       data-test="description"
-    />
+    >
+      <Preview__Description
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "<p>Description</p>",
+          }
+        }
+      />
+    </div>
     <Preview__Details
       data-test="definition"
     >
@@ -60,17 +67,19 @@ exports[`PreviewPageRoute should render 1`] = `
         />
       </Preview__DetailsContent>
     </Preview__Details>
-    <Preview__Guidance
+    <div
       data-test="guidance"
     >
-      <Preview__Panel
-        dangerouslySetInnerHTML={
-          Object {
-            "__html": "<p>Guidance</p>",
+      <Preview__Guidance>
+        <Preview__Panel
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "<p>Guidance</p>",
+            }
           }
-        }
-      />
-    </Preview__Guidance>
+        />
+      </Preview__Guidance>
+    </div>
     <Preview__Answers>
       <Answer
         answer={
@@ -152,4 +161,22 @@ exports[`PreviewPageRoute should render definition label missing message 1`] = `
     Missing definition label
   </Error>
 </Preview__DetailsTitle>
+`;
+
+exports[`PreviewPageRoute should render description missing message 1`] = `
+<Error
+  large={true}
+  margin={true}
+>
+  Missing description
+</Error>
+`;
+
+exports[`PreviewPageRoute should render guidance missing message 1`] = `
+<Error
+  large={true}
+  margin={true}
+>
+  Missing guidance
+</Error>
 `;

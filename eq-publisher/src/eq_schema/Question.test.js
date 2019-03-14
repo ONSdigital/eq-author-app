@@ -47,15 +47,55 @@ describe("Question", () => {
     });
   });
 
+  describe("description", () => {
+    describe("when there is content and enabled", () => {
+      it("should be populated", () => {
+        const question = new Question(
+          createQuestionJSON({
+            description: "<h2>hello world</h2>",
+            descriptionEnabled: true,
+          })
+        );
+        expect(question.description).toBeDefined();
+      });
+    });
+
+    describe("when it is disabled", () => {
+      it("should be undefined", () => {
+        const question = new Question(
+          createQuestionJSON({ descriptionEnabled: false })
+        );
+        expect(question.description).toBeUndefined();
+      });
+    });
+
+    describe("when there is no content", () => {
+      it("should be undefined", () => {
+        const question = new Question(createQuestionJSON());
+        expect(question.description).toBeUndefined();
+      });
+    });
+  });
+
   describe("guidance", () => {
-    describe("when there is content", () => {
+    describe("when there is content and enabled", () => {
       it("should be populated", () => {
         const question = new Question(
           createQuestionJSON({
             guidance: "<h2>hello world</h2>",
+            guidanceEnabled: true,
           })
         );
         expect(question.guidance).toBeDefined();
+      });
+    });
+
+    describe("when it is disabled", () => {
+      it("should be undefined", () => {
+        const question = new Question(
+          createQuestionJSON({ guidanceEnabled: false })
+        );
+        expect(question.guidance).toBeUndefined();
       });
     });
 
@@ -68,12 +108,13 @@ describe("Question", () => {
   });
 
   describe("definitions", () => {
-    describe("when there is content", () => {
+    describe("when there is content and enabled", () => {
       it("should be populated when both label and content", () => {
         const question = new Question(
           createQuestionJSON({
             definitionLabel: "definition label",
             definitionContent: "<p>definition content</p>",
+            definitionEnabled: true,
           })
         );
         expect(question.definitions).toBeDefined();
@@ -83,6 +124,7 @@ describe("Question", () => {
           createQuestionJSON({
             definitionLabel: "definition label",
             definitionContent: "",
+            definitionEnabled: true,
           })
         );
         expect(question.definitions).toBeDefined();
@@ -92,9 +134,23 @@ describe("Question", () => {
           createQuestionJSON({
             definitionLabel: "",
             definitionContent: "<p>definition content</p>",
+            definitionEnabled: true,
           })
         );
         expect(question.definitions).toBeDefined();
+      });
+    });
+
+    describe("when it is disabled", () => {
+      it("should be undefined ", () => {
+        const question = new Question(
+          createQuestionJSON({
+            definitionLabel: "",
+            definitionContent: "",
+            definitionEnabled: false,
+          })
+        );
+        expect(question.definitions).toBeUndefined();
       });
     });
 
@@ -106,18 +162,19 @@ describe("Question", () => {
             definitionContent: "",
           })
         );
-        expect(question.guidance).toBeUndefined();
+        expect(question.definitions).toBeUndefined();
       });
     });
   });
 
   describe("additional information", () => {
-    describe("when there is content", () => {
+    describe("when there is content and enabled", () => {
       it("should be populated when both label and content", () => {
         const question = new Question(
           createQuestionJSON({
             additionalInfoLabel: "additionalInfo label",
             additionalInfoContent: "<p>additionalInfo content</p>",
+            additionalInfoEnabled: true,
           })
         );
         expect(last(question.answers).guidance).toBeDefined();
@@ -130,6 +187,7 @@ describe("Question", () => {
           createQuestionJSON({
             additionalInfoLabel: "additionalInfo label",
             additionalInfoContent: "",
+            additionalInfoEnabled: true,
           })
         );
         expect(last(question.answers).guidance).toBeDefined();
@@ -142,12 +200,26 @@ describe("Question", () => {
           createQuestionJSON({
             additionalInfoLabel: "",
             additionalInfoContent: "<p>additionalInfo content</p>",
+            additionalInfoEnabled: true,
           })
         );
         expect(last(question.answers).guidance).toBeDefined();
         expect(last(question.answers).guidance.show_guidance).toBeFalsy();
         expect(last(question.answers).guidance.hide_guidance).toBeFalsy();
         expect(last(question.answers).guidance.content).toBeDefined();
+      });
+    });
+
+    describe("when it is disabled", () => {
+      it("should be undefined", () => {
+        const question = new Question(
+          createQuestionJSON({
+            definitionLabel: "",
+            definitionContent: "",
+            additionalInfoEnabled: false,
+          })
+        );
+        expect(last(question.answers).guidance).toBeUndefined();
       });
     });
 
@@ -409,6 +481,7 @@ describe("Question", () => {
       const question = new Question(
         createQuestionJSON({
           guidance: `<h2>${createPipe({ pipeType: "metadata" })}</h2>`,
+          guidanceEnabled: true,
         }),
         createContext()
       );
@@ -418,10 +491,11 @@ describe("Question", () => {
       });
     });
 
-    it("should ensure discription text is not truncated if it includes multiple p tags", () => {
+    it("should ensure description text is not truncated if it includes multiple p tags", () => {
       const question = new Question(
         createQuestionJSON({
           description: `<p>foo</p><p>bar</p>`,
+          descriptionEnabled: true,
         }),
         createContext()
       );
@@ -433,6 +507,7 @@ describe("Question", () => {
       const question = new Question(
         createQuestionJSON({
           description: `<h2>${createPipe()}</h2>`,
+          descriptionEnabled: true,
         }),
         createContext()
       );

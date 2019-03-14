@@ -6,6 +6,8 @@ import {
   testId,
   selectFirstAnswerFromContentPicker,
   selectFirstMetadataContentPicker,
+  enableDescription,
+  enableGuidance,
 } from "../../utils";
 import { questionConfirmation } from "../../builders";
 
@@ -76,9 +78,15 @@ describe("Piping", () => {
         canPipePreviousAnswer({ selector: "txt-question-title" });
       });
       it("Can pipe previous answer into page description", () => {
+        enableDescription();
+        cy.get(testId("txt-question-description", "testid")).type(
+          "description"
+        );
         canPipePreviousAnswer({ selector: "txt-question-description" });
       });
       it("Can pipe previous answer into page guidance", () => {
+        enableGuidance();
+        cy.get(testId("txt-question-guidance", "testid")).type("guidance");
         canPipePreviousAnswer({ selector: "txt-question-guidance" });
       });
       it("Can pipe to the cursor location after making an edit", () => {
@@ -127,9 +135,15 @@ describe("Piping", () => {
         canPipeMetadata({ selector: "txt-question-title" });
       });
       it("Can pipe metadata into page description", () => {
+        enableDescription();
+        cy.get(testId("txt-question-description", "testid")).type(
+          "description"
+        );
         canPipeMetadata({ selector: "txt-question-description" });
       });
       it("Can pipe metadata into page guidance", () => {
+        enableGuidance();
+        cy.get(testId("txt-question-guidance", "testid")).type("guidance");
         canPipeMetadata({ selector: "txt-question-guidance" });
       });
     });

@@ -173,10 +173,13 @@ exports.getQuestionnaire = `
             title
             description
             guidance
+            guidanceEnabled
             definitionLabel
             definitionContent
+            definitionEnabled
             additionalInfoLabel
             additionalInfoContent
+            additionalInfoEnabled
             pageType
             routing {
               rules {

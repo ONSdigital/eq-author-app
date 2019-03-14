@@ -66,15 +66,19 @@ type QuestionPage implements Page {
   alias: String
   displayName: String!
   description: String!
+  descriptionEnabled: Boolean!
   guidance: String
+  guidanceEnabled: Boolean!
   pageType: PageType!
   answers: [Answer]
   section: Section
   position: Int!
   definitionLabel: String
   definitionContent: String
+  definitionEnabled: Boolean!
   additionalInfoLabel: String
   additionalInfoContent: String
+  additionalInfoEnabled: Boolean!
   availablePipingAnswers: [Answer!]!
   availablePipingMetadata: [Metadata!]!
   availableRoutingAnswers: [Answer!]!
@@ -620,13 +624,17 @@ input CreateQuestionPageInput {
   title: String!
   alias: String
   description: String
+  descriptionEnabled: Boolean
   guidance: String
+  guidanceEnabled: Boolean
   sectionId: ID!
   position: Int
   definitionLabel: String
   definitionContent: String
+  definitionEnabled: Boolean
   additionalInfoLabel: String
   additionalInfoContent: String
+  additionalInfoEnabled: Boolean
 }
 
 input UpdateQuestionPageInput {
@@ -634,11 +642,15 @@ input UpdateQuestionPageInput {
   alias: String
   title: String
   description: String
+  descriptionEnabled: Boolean
   guidance: String
+  guidanceEnabled: Boolean
   definitionLabel: String
   definitionContent: String
+  definitionEnabled: Boolean
   additionalInfoLabel: String
   additionalInfoContent: String
+  additionalInfoEnabled: Boolean
 }
 
 input DeleteQuestionPageInput {

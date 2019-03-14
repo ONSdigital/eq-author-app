@@ -240,7 +240,8 @@ describe("Group", () => {
               {
                 id: "1",
                 title: "<p>Test question</p>",
-                description: "",
+                description: "<p>Test description</p>",
+                descriptionEnabled: true,
                 guidance: null,
                 pageType: "QuestionPage",
                 routingRuleSet,
@@ -296,7 +297,6 @@ describe("Group", () => {
           {
             id: "questionconfirmation-page-for-1",
             title: "Are you sure?",
-            description: "",
             type: "General",
             answers: [
               {

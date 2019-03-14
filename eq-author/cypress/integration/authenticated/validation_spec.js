@@ -62,10 +62,13 @@ const setMetadata = (sidebar, METADATA_KEY) => {
   selectFirstMetadataContentPicker();
   cy.get("@metadata").contains(METADATA_KEY);
   cy.get(sidebar).contains(METADATA_KEY);
-  cy.get("button")
+};
+
+const closeValidationModal = () =>
+  cy
+    .get("button")
     .contains("Done")
     .click();
-};
 
 describe("Answer Validation", () => {
   before(() => {
@@ -100,6 +103,7 @@ describe("Answer Validation", () => {
         it("Can toggle on/off", () => {
           toggleCheckboxOn("@minValueToggle");
           toggleCheckboxOff("@minValueToggle");
+          closeValidationModal();
         });
         it("Can set input value", () => {
           cy.log(numberInputId);
@@ -107,6 +111,7 @@ describe("Answer Validation", () => {
           cy.get(numberInputId)
             .type("3")
             .should("have.value", "3");
+          closeValidationModal();
         });
         it("Can set previous answer", () => {
           setPreviousAnswer("@minValue", type);
@@ -114,6 +119,7 @@ describe("Answer Validation", () => {
         it("Can toggle include/exclude", () => {
           toggleCheckboxOn("@minValueToggle");
           toggleCheckboxOn(testId("inclusive"));
+          closeValidationModal();
         });
         it("Can retain input value after on/off toggle", () => {
           toggleCheckboxOn("@minValueToggle");
@@ -123,6 +129,7 @@ describe("Answer Validation", () => {
           toggleCheckboxOff("@minValueToggle");
           toggleCheckboxOn("@minValueToggle");
           cy.get(numberInputId).should("have.value", "3");
+          closeValidationModal();
         });
       });
 
@@ -140,12 +147,14 @@ describe("Answer Validation", () => {
         it("Can toggle on/off", () => {
           toggleCheckboxOn("@maxValueToggle");
           toggleCheckboxOff("@maxValueToggle");
+          closeValidationModal();
         });
         it("Can set input value", () => {
           toggleCheckboxOn("@maxValueToggle");
           cy.get(numberInputId)
             .type("3")
             .should("have.value", "3");
+          closeValidationModal();
         });
         it("Can set previous answer", () => {
           setPreviousAnswer("@maxValue", type);
@@ -153,6 +162,7 @@ describe("Answer Validation", () => {
         it("Can toggle include/exclude", () => {
           toggleCheckboxOn("@maxValueToggle");
           toggleCheckboxOn(testId("inclusive"));
+          closeValidationModal();
         });
         it("Can retain input value after on/off toggle", () => {
           toggleCheckboxOn("@maxValueToggle");
@@ -162,6 +172,7 @@ describe("Answer Validation", () => {
           toggleCheckboxOff("@maxValueToggle");
           toggleCheckboxOn("@maxValueToggle");
           cy.get(numberInputId).should("have.value", "3");
+          closeValidationModal();
         });
       });
 
@@ -194,10 +205,12 @@ describe("Answer Validation", () => {
 
       it("should exist in the side bar", () => {
         cy.get("@earliestDate").should("be.visible");
+        closeValidationModal();
       });
 
       it("should show the date validation modal", () => {
         cy.get(testId("sidebar-title")).contains("Date validation");
+        closeValidationModal();
       });
 
       it("can be toggled on", () => {
@@ -211,6 +224,7 @@ describe("Answer Validation", () => {
           "not.contain",
           "Earliest date is disabled"
         );
+        closeValidationModal();
       });
 
       it("should update the offset value", () => {
@@ -219,6 +233,7 @@ describe("Answer Validation", () => {
           .type("{backspace}5")
           .blur()
           .should("have.value", "5");
+        closeValidationModal();
       });
 
       it("should update the offset unit", () => {
@@ -228,6 +243,7 @@ describe("Answer Validation", () => {
           .select("Months")
           .blur()
           .should("have.value", "Months");
+        closeValidationModal();
       });
 
       it("should update the relativePosition", () => {
@@ -240,6 +256,7 @@ describe("Answer Validation", () => {
           "have.value",
           "After"
         );
+        closeValidationModal();
       });
 
       it("should default as start date and render correct text", () => {
@@ -249,6 +266,7 @@ describe("Answer Validation", () => {
           "contain",
           "The date the respondent begins the survey"
         );
+        closeValidationModal();
       });
 
       it("should update the custom value", () => {
@@ -260,6 +278,7 @@ describe("Answer Validation", () => {
           .type("1985-09-14")
           .blur()
           .should("have.value", "1985-09-14");
+        closeValidationModal();
       });
 
       it("should update previous answer", () => {
@@ -269,6 +288,7 @@ describe("Answer Validation", () => {
       it("should update metadata", () => {
         toggleCheckboxOn("@earliestDateToggle");
         setMetadata("@earliestDate", METADATA_KEY);
+        closeValidationModal();
       });
 
       afterEach(() => {
@@ -289,10 +309,12 @@ describe("Answer Validation", () => {
 
       it("should exist in the side bar", () => {
         cy.get(testId("sidebar-button-latest-date")).should("be.visible");
+        closeValidationModal();
       });
 
       it("should show the date validation modal", () => {
         cy.get(testId("sidebar-title")).contains("Date validation");
+        closeValidationModal();
       });
 
       it("can be toggled on", () => {
@@ -301,6 +323,7 @@ describe("Answer Validation", () => {
           "not.contain",
           "Latest date is disabled"
         );
+        closeValidationModal();
       });
 
       it("should update the offset value", () => {
@@ -309,6 +332,7 @@ describe("Answer Validation", () => {
           .type("{backspace}5")
           .blur()
           .should("have.value", "5");
+        closeValidationModal();
       });
 
       it("should update the offset unit", () => {
@@ -317,6 +341,7 @@ describe("Answer Validation", () => {
           .select("Months")
           .blur()
           .should("have.value", "Months");
+        closeValidationModal();
       });
 
       it("should update the relativePosition", () => {
@@ -328,6 +353,7 @@ describe("Answer Validation", () => {
           "have.value",
           "Before"
         );
+        closeValidationModal();
       });
 
       it("should default as start date and render correct text", () => {
@@ -337,6 +363,7 @@ describe("Answer Validation", () => {
           "contain",
           "The date the respondent begins the survey"
         );
+        closeValidationModal();
       });
 
       it("should update the custom value", () => {
@@ -346,6 +373,7 @@ describe("Answer Validation", () => {
           .type("1985-09-14")
           .blur()
           .should("have.value", "1985-09-14");
+        closeValidationModal();
       });
 
       it("should update previous answer", () => {
@@ -355,6 +383,7 @@ describe("Answer Validation", () => {
       it("should update metadata", () => {
         toggleCheckboxOn("@latestDateToggle");
         setMetadata("@latestDate", METADATA_KEY);
+        closeValidationModal();
       });
 
       afterEach(() => {
@@ -395,10 +424,12 @@ describe("Answer Validation", () => {
 
       it("should exist in the side bar", () => {
         cy.get("@earliestDate").should("be.visible");
+        closeValidationModal();
       });
 
       it("should show the date validation modal", () => {
         cy.get(testId("sidebar-title")).contains("Date Range validation");
+        closeValidationModal();
       });
 
       it("can be toggled on", () => {
@@ -412,6 +443,7 @@ describe("Answer Validation", () => {
           "not.contain",
           "Earliest date is disabled"
         );
+        closeValidationModal();
       });
 
       it("should update the offset value", () => {
@@ -420,6 +452,7 @@ describe("Answer Validation", () => {
           .type("{backspace}5")
           .blur()
           .should("have.value", "5");
+        closeValidationModal();
       });
 
       it("should update the offset unit", () => {
@@ -429,6 +462,7 @@ describe("Answer Validation", () => {
           .select("Months")
           .blur()
           .should("have.value", "Months");
+        closeValidationModal();
       });
 
       it("should update the custom value", () => {
@@ -438,11 +472,13 @@ describe("Answer Validation", () => {
           .type("1985-09-14")
           .blur()
           .should("have.value", "1985-09-14");
+        closeValidationModal();
       });
 
       it("should update metadata", () => {
         toggleCheckboxOn("@earliestDateToggle");
         setMetadata("@earliestDate", METADATA_KEY);
+        closeValidationModal();
       });
 
       afterEach(() => {
@@ -468,10 +504,12 @@ describe("Answer Validation", () => {
 
       it("should exist in the side bar", () => {
         cy.get(testId("sidebar-button-latest-date")).should("be.visible");
+        closeValidationModal();
       });
 
       it("should show the date validation modal", () => {
         cy.get(testId("sidebar-title")).contains("Date Range validation");
+        closeValidationModal();
       });
 
       it("can be toggled on", () => {
@@ -480,6 +518,7 @@ describe("Answer Validation", () => {
           "not.contain",
           "Latest date is disabled"
         );
+        closeValidationModal();
       });
 
       it("should update the offset value", () => {
@@ -488,6 +527,7 @@ describe("Answer Validation", () => {
           .type("{backspace}5")
           .blur()
           .should("have.value", "5");
+        closeValidationModal();
       });
 
       it("should update the offset unit", () => {
@@ -496,6 +536,7 @@ describe("Answer Validation", () => {
           .select("Months")
           .blur()
           .should("have.value", "Months");
+        closeValidationModal();
       });
 
       it("should update the custom value", () => {
@@ -504,11 +545,13 @@ describe("Answer Validation", () => {
           .type("1985-09-14")
           .blur()
           .should("have.value", "1985-09-14");
+        closeValidationModal();
       });
 
       it("should update metadata", () => {
         toggleCheckboxOn("@latestDateToggle");
         setMetadata("@latestDate", METADATA_KEY);
+        closeValidationModal();
       });
 
       afterEach(() => {
@@ -571,6 +614,7 @@ describe("Answer Validation", () => {
       });
 
       afterEach(() => {
+        closeValidationModal();
         removeAnswer();
       });
     });
@@ -630,6 +674,7 @@ describe("Answer Validation", () => {
       });
 
       afterEach(() => {
+        closeValidationModal();
         removeAnswer();
       });
     });

@@ -6,10 +6,11 @@ import ScrollPane from "components/ScrollPane";
 import { get, noop, filter, findIndex, flow, toUpper } from "lodash/fp";
 import getIdForObject from "utils/getIdForObject";
 import AnswerValidation from "App/questionPage/Design/Validation/AnswerValidation";
-import { flowRight } from "lodash";
+import { flowRight, isEmpty } from "lodash";
 
 import withUpdateAnswer from "App/questionPage/Design/answers/withUpdateAnswer";
 import AnswerProperties from "App/questionPage/Design/AnswerProperties";
+import QuestionProperties from "App/questionPage/Design/QuestionProperties";
 
 const Properties = flowRight(withUpdateAnswer)(AnswerProperties);
 
@@ -74,6 +75,11 @@ class PropertiesPanel extends React.Component {
       <PropertiesPane>
         <PropertiesPaneBody>
           <ScrollPane>
+            {!isEmpty(page) && (
+              <div>
+                <QuestionProperties page={page} />
+              </div>
+            )}
             {get("answers.length", page) > 0 && (
               <div>
                 {page.answers.map((answer, index) => (
