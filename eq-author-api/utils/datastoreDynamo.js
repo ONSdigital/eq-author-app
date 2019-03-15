@@ -1,5 +1,5 @@
 const jsondiffpatch = require("jsondiffpatch");
-const { omit } = require("lodash");
+const { omit, set } = require("lodash");
 const logger = require("pino")();
 
 const {
@@ -25,15 +25,22 @@ const saveModel = (model, options = {}) =>
   });
 
 const createQuestionnaire = async questionnaire => {
-  await saveModel(
-    new QuestionnaireModel(omit(questionnaire, "sections", "metadata"))
-  );
   const result = await saveModel(
     new QuestionnaireVersionsModel({
       ...questionnaire,
-      updatedAt: Date.now(),
     })
   );
+
+  await saveModel(
+    new QuestionnaireModel(
+      set(
+        omit(questionnaire, "sections", "metadata"),
+        "latestVersion",
+        result.updatedAt
+      )
+    )
+  );
+
   return result;
 };
 
@@ -59,47 +66,83 @@ const getQuestionnaire = id => {
   });
 };
 
+const getLatestVersion = id => {
+  return new Promise((resolve, reject) => {
+    QuestionnaireModel.queryOne({ id: { eq: id } })
+      .descending()
+      .consistent()
+      .exec((err, questionnaire) => {
+        if (err) {
+          reject(err);
+        }
+
+        resolve(questionnaire);
+      });
+  });
+};
+
 const MAX_UPDATE_TIMES = 3;
-const saveQuestionnaire = async (questionnaire, count = 0) => {
+const saveQuestionnaire = async (
+  questionnaireVersionModel,
+  count = 0,
+  patch
+) => {
   if (count === MAX_UPDATE_TIMES) {
     throw new Error(`Failed after trying to update ${MAX_UPDATE_TIMES} times`);
   }
-  const originalQuestionnaire = {
+  const originalQuestionnaireVersion = {
     metadata: [],
     sections: [],
-    ...questionnaire.originalItem(),
+    ...questionnaireVersionModel.originalItem(),
   };
 
-  const latestVersion = await getQuestionnaire(questionnaire.id);
-
-  const questionnaireToDiffAgainst =
-    latestVersion.updatedAt > questionnaire.originalItem().updatedAt
-      ? latestVersion
-      : originalQuestionnaire;
-
   const diff = diffPatcher.diff(
-    omitTimestamps(questionnaireToDiffAgainst),
-    omitTimestamps(questionnaire)
+    omitTimestamps(originalQuestionnaireVersion),
+    omitTimestamps(questionnaireVersionModel)
   );
 
   if (!diff) {
-    return questionnaire;
+    return questionnaireVersionModel;
   }
 
   try {
-    await saveModel(questionnaire, {
+    const questionnaireModel = await getLatestVersion(
+      questionnaireVersionModel.id
+    );
+
+    // Save new version
+    const result = await saveModel(questionnaireVersionModel, {
       updateTimestamps: true,
     });
+
+    // Update latestVersion
+    const originalLatestVersion = questionnaireModel.latestVersion;
+    await saveModel(
+      set(questionnaireModel, "latestVersion", result.updatedAt),
+      {
+        updateTimestamps: true,
+        condition: "latestVersion = :latestVersion",
+        conditionValues: {
+          latestVersion: originalLatestVersion,
+        },
+      }
+    );
   } catch (e) {
     if (!e.code || e.code !== "ConditionalCheckFailedException") {
       throw e;
     }
 
-    logger.warn(`Dynamoose merging on save id: ${questionnaire.id}`, diff);
+    const patchToApply = patch || diff;
+    logger.warn(
+      `Dynamoose merging on save id: ${questionnaireVersionModel.id}`,
+      patchToApply
+    );
 
-    const latestVersion = await getQuestionnaire(questionnaire.id);
-    diffPatcher.patch(latestVersion, diff);
-    await saveQuestionnaire(latestVersion, ++count);
+    const dbQuestionnaire = await getQuestionnaire(
+      questionnaireVersionModel.id
+    );
+    diffPatcher.patch(dbQuestionnaire, patchToApply);
+    await saveQuestionnaire(dbQuestionnaire, ++count, patchToApply);
   }
 };
 

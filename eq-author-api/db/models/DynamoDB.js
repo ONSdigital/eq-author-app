@@ -35,10 +35,19 @@ const baseQuestionnaireSchema = {
   },
 };
 
-const questionnanaireSchema = new dynamoose.Schema(baseQuestionnaireSchema, {
-  throughput: throughput,
-  timestamps: true,
-});
+const questionnanaireSchema = new dynamoose.Schema(
+  {
+    ...baseQuestionnaireSchema,
+    latestVersion: {
+      type: Date,
+      required: true,
+    },
+  },
+  {
+    throughput: throughput,
+    timestamps: true,
+  }
+);
 
 const questionnaireVersionsSchema = new dynamoose.Schema(
   {
