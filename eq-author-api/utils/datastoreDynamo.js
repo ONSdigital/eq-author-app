@@ -63,7 +63,7 @@ const MAX_UPDATE_TIMES = 2;
 const saveQuestionnaire = async (questionnaire, count = 0, patch) => {
   logger.info(
     // eslint-disable-next-line
-    `${__stack.map(s => s.getFunctionName() || "unknown").join("|")}`
+    `${count} = ${__stack.map(s => s.getFunctionName() || "unknown").join("|")}`
   );
   if (count === MAX_UPDATE_TIMES) {
     throw new Error(`Failed after trying to update ${MAX_UPDATE_TIMES} times`);
