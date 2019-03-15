@@ -10,7 +10,8 @@
 
 ### eq-author
 
-The following environment variables should be placed in a .env.[environment] file in the eq-author folder.
+The following environment variables should be placed in a .env.[environment] file in the eq-author folder.  
+
 | Name                   | Description                             | Required |
 | ---------------------- | --------------------------------------- | -------- |
 | `REACT_APP_API_URL`    | Set Author API URL                      | Yes      |

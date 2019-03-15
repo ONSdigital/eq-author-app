@@ -84,49 +84,6 @@ docker-compose exec web yarn knex migrate:rollback
 
 `yarn test --watch` will start unit and integration tests in watch mode.
 
-### Debugging (with VS Code)
-
-#### Debugging app
-
-Follow [this guide](https://github.com/docker/labs/blob/83514855aff21eaed3925d1fd28091b23de0e147/developer-tools/nodejs-debugging/VSCode-README.md) to enable debugging through VS Code.
-
-Use this config for VS Code, rather than what is detailed in the guide. This will attach _to the running docker container_:
-
-```json
-{
-  "version": "0.2.0",
-  "configurations": [
-    {
-      "name": "Attach to Container",
-      "type": "node",
-      "request": "attach",
-      "port": 5858,
-      "address": "localhost",
-      "restart": true,
-      "sourceMaps": false,
-      "localRoot": "${workspaceRoot}",
-      "remoteRoot": "/app",
-      "protocol": "inspector"
-    }
-  ]
-}
-```
-
-#### Debugging tests
-
-Add the following to your `launch.json` configuration:
-
-```json
-{
-  "name": "Attach by Process ID",
-  "type": "node",
-  "request": "attach",
-  "processId": "${command:PickProcess}"
-}
-```
-
-Then start your tests [as described above](#tests). You can now start a debugging session, and pick the jest process to attach to.
-
 ### Importing questionnaires
 
 There is a dev only endpoint exposed in the dev environment to be able to import questionnaires from other environments.
