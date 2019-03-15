@@ -11,7 +11,7 @@ const omitTimestamps = questionnaire =>
   omit({ ...questionnaire }, ["updatedAt", "createdAt"]);
 
 const diffPatcher = jsondiffpatch.create({
-  objecHash: obj => obj.id,
+  objectHash: obj => obj.id,
 });
 
 const saveModel = (model, options = {}) =>
@@ -60,7 +60,7 @@ const getQuestionnaire = id => {
 };
 
 const MAX_UPDATE_TIMES = 3;
-const saveQuestionnaire = async (questionnaire, count = 0, patch) => {
+const saveQuestionnaire = async (questionnaire, count = 0) => {
   if (count === MAX_UPDATE_TIMES) {
     throw new Error(`Failed after trying to update ${MAX_UPDATE_TIMES} times`);
   }
@@ -70,8 +70,15 @@ const saveQuestionnaire = async (questionnaire, count = 0, patch) => {
     ...questionnaire.originalItem(),
   };
 
+  const latestVersion = await getQuestionnaire(questionnaire.id);
+
+  const questionnaireToDiffAgainst =
+    latestVersion.updatedAt > questionnaire.originalItem().updatedAt
+      ? latestVersion
+      : originalQuestionnaire;
+
   const diff = diffPatcher.diff(
-    omitTimestamps(originalQuestionnaire),
+    omitTimestamps(questionnaireToDiffAgainst),
     omitTimestamps(questionnaire)
   );
 
@@ -79,31 +86,20 @@ const saveQuestionnaire = async (questionnaire, count = 0, patch) => {
     return questionnaire;
   }
 
-  const newUpdatedAt = new Date();
-  const oldUpdatedAt = new Date(originalQuestionnaire.updatedAt).getTime();
-  questionnaire.updatedAt = newUpdatedAt;
   try {
     await saveModel(questionnaire, {
-      updateTimestamps: false,
-      condition: "updatedAt = :updatedAt",
-      conditionValues: {
-        updatedAt: oldUpdatedAt,
-      },
+      updateTimestamps: true,
     });
   } catch (e) {
     if (!e.code || e.code !== "ConditionalCheckFailedException") {
       throw e;
     }
 
-    const patchToApply = patch || diff;
-    logger.warn(
-      `Dynamoose merging on save id: ${questionnaire.id}`,
-      patchToApply
-    );
+    logger.warn(`Dynamoose merging on save id: ${questionnaire.id}`, diff);
 
-    const dbQuestionnaire = await getQuestionnaire(questionnaire.id);
-    diffPatcher.patch(dbQuestionnaire, patchToApply);
-    await saveQuestionnaire(dbQuestionnaire, ++count, patchToApply);
+    const latestVersion = await getQuestionnaire(questionnaire.id);
+    diffPatcher.patch(latestVersion, diff);
+    await saveQuestionnaire(latestVersion, ++count);
   }
 };
 

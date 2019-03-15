@@ -62,8 +62,9 @@ const questionnaireVersionsSchema = new dynamoose.Schema(
       type: Boolean,
     },
     updatedAt: {
-      type: String,
+      type: Number,
       required: true,
+      rangeKey: true,
     },
     sections: {
       type: Array,
