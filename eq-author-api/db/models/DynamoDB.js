@@ -71,7 +71,7 @@ const questionnaireVersionsSchema = new dynamoose.Schema(
       type: Boolean,
     },
     updatedAt: {
-      type: Number,
+      type: Date,
       required: true,
       rangeKey: true,
     },
