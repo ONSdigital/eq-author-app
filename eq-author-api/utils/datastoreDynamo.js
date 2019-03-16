@@ -128,11 +128,7 @@ const saveQuestionnaire = async (versionModel, count = 0, patch) => {
         }
       ),
     ]);
-
-    console.log(result);
   } catch (e) {
-    console.error(e);
-
     if (!e.code || e.code !== "ConditionalCheckFailedException") {
       throw e;
     }
