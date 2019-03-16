@@ -109,7 +109,7 @@ const saveQuestionnaire = async (versionModel, count = 0, patch) => {
 
     const newVersion = new Date();
 
-    const result = await dynamoose.transaction([
+    await dynamoose.transaction([
       QuestionnaireVersionsModel.transaction.create({
         ...versionModel,
         updatedAt: newVersion,
