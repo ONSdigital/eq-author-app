@@ -5,6 +5,7 @@ const logger = require("pino")();
 const {
   QuestionnaireModel,
   QuestionnaireVersionsModel,
+  dynamoose,
 } = require("../db/models/DynamoDB");
 
 const omitTimestamps = questionnaire =>
@@ -28,6 +29,7 @@ const createQuestionnaire = async questionnaire => {
   const result = await saveModel(
     new QuestionnaireVersionsModel({
       ...questionnaire,
+      updatedAt: new Date(),
     })
   );
 
@@ -82,65 +84,66 @@ const getLatestVersion = id => {
 };
 
 const MAX_UPDATE_TIMES = 3;
-const saveQuestionnaire = async (
-  questionnaireVersionModel,
-  count = 0,
-  patch
-) => {
+const saveQuestionnaire = async (versionModel, count = 0, patch) => {
   if (count === MAX_UPDATE_TIMES) {
     throw new Error(`Failed after trying to update ${MAX_UPDATE_TIMES} times`);
   }
   const originalQuestionnaireVersion = {
     metadata: [],
     sections: [],
-    ...questionnaireVersionModel.originalItem(),
+    ...versionModel.originalItem(),
   };
 
   const diff = diffPatcher.diff(
     omitTimestamps(originalQuestionnaireVersion),
-    omitTimestamps(questionnaireVersionModel)
+    omitTimestamps(versionModel)
   );
 
   if (!diff) {
-    return questionnaireVersionModel;
+    return versionModel;
   }
 
   try {
-    const questionnaireModel = await getLatestVersion(
-      questionnaireVersionModel.id
-    );
-
-    // Save new version
-    const result = await saveModel(questionnaireVersionModel, {
-      updateTimestamps: true,
-    });
-
-    // Update latestVersion
+    const questionnaireModel = await getLatestVersion(versionModel.id);
     const originalLatestVersion = questionnaireModel.latestVersion;
-    await saveModel(
-      set(questionnaireModel, "latestVersion", result.updatedAt),
-      {
-        updateTimestamps: true,
-        condition: "latestVersion = :latestVersion",
-        conditionValues: {
-          latestVersion: originalLatestVersion,
+
+    const newVersion = new Date();
+
+    const result = await dynamoose.transaction([
+      QuestionnaireVersionsModel.transaction.create({
+        ...versionModel,
+        updatedAt: newVersion,
+      }),
+      QuestionnaireModel.transaction.update(
+        {
+          id: versionModel.id,
         },
-      }
-    );
+        { latestVersion: newVersion },
+        {
+          updateTimestamps: false,
+          condition: "latestVersion = :latestVersion",
+          conditionValues: {
+            latestVersion: originalLatestVersion,
+          },
+        }
+      ),
+    ]);
+
+    console.log(result);
   } catch (e) {
+    console.error(e);
+
     if (!e.code || e.code !== "ConditionalCheckFailedException") {
       throw e;
     }
 
     const patchToApply = patch || diff;
     logger.warn(
-      `Dynamoose merging on save id: ${questionnaireVersionModel.id}`,
+      `Dynamoose merging on save id: ${versionModel.id}`,
       patchToApply
     );
 
-    const dbQuestionnaire = await getQuestionnaire(
-      questionnaireVersionModel.id
-    );
+    const dbQuestionnaire = await getQuestionnaire(versionModel.id);
     diffPatcher.patch(dbQuestionnaire, patchToApply);
     await saveQuestionnaire(dbQuestionnaire, ++count, patchToApply);
   }

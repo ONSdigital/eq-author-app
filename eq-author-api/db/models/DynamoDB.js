@@ -85,7 +85,6 @@ const questionnaireVersionsSchema = new dynamoose.Schema(
   },
   {
     throughput: throughput,
-    timestamps: true,
   }
 );
 
@@ -102,4 +101,5 @@ const QuestionnaireVersionsModel = dynamoose.model(
 module.exports = {
   QuestionnaireModel,
   QuestionnaireVersionsModel,
+  dynamoose,
 };
