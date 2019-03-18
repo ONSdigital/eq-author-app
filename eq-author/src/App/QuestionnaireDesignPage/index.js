@@ -19,6 +19,7 @@ import { Routes, buildSectionPath } from "utils/UrlUtils";
 import Loading from "components/Loading";
 import RoutingPageRoute from "App/questionPage/Routing";
 import QuestionConfirmationRoute from "App/questionConfirmation/Design";
+import NotFoundPage from "App/NotFoundPage";
 
 import withCreatePage from "enhancers/withCreatePage";
 import withCreateSection from "enhancers/withCreateSection";
@@ -134,7 +135,7 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
     } = this.props;
 
     if (!loading && !questionnaire) {
-      return <Redirect to="/" />;
+      return <NotFoundPage />;
     }
 
     return (
