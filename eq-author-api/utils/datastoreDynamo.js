@@ -68,21 +68,6 @@ const getQuestionnaire = id => {
   });
 };
 
-const getLatestVersion = id => {
-  return new Promise((resolve, reject) => {
-    QuestionnaireModel.queryOne({ id: { eq: id } })
-      .descending()
-      .consistent()
-      .exec((err, questionnaire) => {
-        if (err) {
-          reject(err);
-        }
-
-        resolve(questionnaire);
-      });
-  });
-};
-
 const MAX_UPDATE_TIMES = 3;
 const saveQuestionnaire = async (versionModel, count = 0, patch) => {
   if (count === MAX_UPDATE_TIMES) {
@@ -104,8 +89,7 @@ const saveQuestionnaire = async (versionModel, count = 0, patch) => {
   }
 
   try {
-    const questionnaireModel = await getLatestVersion(versionModel.id);
-    const originalLatestVersion = questionnaireModel.latestVersion;
+    const originalLatestVersion = originalQuestionnaireVersion.updatedAt;
 
     const newVersion = new Date();
 
