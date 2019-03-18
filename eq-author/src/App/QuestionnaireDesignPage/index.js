@@ -133,6 +133,10 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
       location,
     } = this.props;
 
+    if (!loading && !questionnaire) {
+      return <Redirect to="/" />;
+    }
+
     return (
       <BaseLayout questionnaire={questionnaire}>
         <Titled title={this.getTitle}>

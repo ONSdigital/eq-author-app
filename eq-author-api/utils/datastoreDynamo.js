@@ -37,7 +37,21 @@ const createQuestionnaire = async questionnaire => {
   return result;
 };
 
-const getQuestionnaire = id => {
+const getQuestionnaireFromList = id => {
+  return new Promise((resolve, reject) => {
+    QuestionnaireModel.queryOne({ id: { eq: id } }).exec(
+      (err, questionnaire) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+        resolve(questionnaire);
+      }
+    );
+  });
+};
+
+const getLatestQuestionnaire = id => {
   return new Promise((resolve, reject) => {
     QuestionnaireVersionsModel.queryOne({ id: { eq: id } })
       .descending()
@@ -45,6 +59,12 @@ const getQuestionnaire = id => {
       .exec((err, questionnaire) => {
         if (err) {
           reject(err);
+          return;
+        }
+
+        if (!questionnaire) {
+          resolve(null);
+          return;
         }
 
         if (!questionnaire.sections) {
@@ -57,6 +77,14 @@ const getQuestionnaire = id => {
         resolve(questionnaire);
       });
   });
+};
+
+const getQuestionnaire = async id => {
+  const listVersion = await getQuestionnaireFromList(id);
+  if (!listVersion) {
+    return null;
+  }
+  return getLatestQuestionnaire(id);
 };
 
 const MAX_UPDATE_TIMES = 3;
@@ -112,8 +140,9 @@ const deleteQuestionnaire = id => {
     QuestionnaireModel.delete({ id: id }, function(err) {
       if (err) {
         reject(err);
+      } else {
+        resolve();
       }
-      resolve();
     });
   });
 };
@@ -125,8 +154,9 @@ const listQuestionnaires = () => {
       .exec((err, questionnaires) => {
         if (err) {
           reject(err);
+        } else {
+          resolve(questionnaires);
         }
-        resolve(questionnaires);
       });
   });
 };
