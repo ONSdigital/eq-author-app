@@ -113,7 +113,7 @@ const saveQuestionnaire = async (versionModel, count = 0, patch) => {
       ),
     ]);
   } catch (e) {
-    if (!e.code || e.code !== "ConditionalCheckFailedException") {
+    if (!e.code || e.code !== "TransactionCanceledException") {
       throw e;
     }
 
