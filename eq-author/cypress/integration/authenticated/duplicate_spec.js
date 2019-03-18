@@ -71,6 +71,9 @@ describe("Duplicate", () => {
         });
 
       cy.contains(duplicateTitle).should("be.visible");
+      cy.contains(duplicateTitle).should($title => {
+        expect($title.attr("disabled")).not.to.equal("disabled");
+      });
     });
 
     afterEach(() => {
