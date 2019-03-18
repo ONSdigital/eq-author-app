@@ -70,6 +70,9 @@ const questionnaireVersionsSchema = new dynamoose.Schema(
     summary: {
       type: Boolean,
     },
+    createdAt: {
+      type: Date,
+    },
     updatedAt: {
       type: Date,
       required: true,
