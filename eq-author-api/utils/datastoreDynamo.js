@@ -54,6 +54,12 @@ const getQuestionnaire = id => {
       .exec((err, questionnaire) => {
         if (err) {
           reject(err);
+          return;
+        }
+
+        if (!questionnaire) {
+          resolve(null);
+          return;
         }
 
         if (!questionnaire.sections) {
