@@ -50,6 +50,32 @@ describe("page", () => {
         position: 0,
       });
     });
+
+    it("should create at a given position", async () => {
+      questionnaire = await buildQuestionnaire({
+        sections: [
+          {
+            pages: [{}],
+          },
+        ],
+      });
+      const section = questionnaire.sections[0];
+
+      const createdPage = await createQuestionPage(questionnaire, {
+        title: "Title",
+        description: "Description",
+        sectionId: section.id,
+        position: 0,
+      });
+
+      const readPage = await queryQuestionPage(questionnaire, createdPage.id);
+
+      expect(readPage).toMatchObject({
+        title: "Title",
+        description: "Description",
+        position: 0,
+      });
+    });
   });
 
   describe("mutate", () => {

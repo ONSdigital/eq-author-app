@@ -323,11 +323,18 @@ const Resolvers = {
       return remappedPage;
     },
 
-    createQuestionPage: async (root, { input }, ctx) => {
-      const section = find(ctx.questionnaire.sections, { id: input.sectionId });
-      const page = createPage(input);
-
-      section.pages.push(page);
+    createQuestionPage: async (
+      root,
+      { input: { position, ...pageInput } },
+      ctx
+    ) => {
+      const section = find(ctx.questionnaire.sections, {
+        id: pageInput.sectionId,
+      });
+      const page = createPage(pageInput);
+      const insertionPosition =
+        typeof position === "number" ? position : section.pages.length;
+      section.pages.splice(insertionPosition, 0, page);
       await saveQuestionnaire(ctx.questionnaire);
       return page;
     },
