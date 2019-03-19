@@ -35,10 +35,19 @@ const baseQuestionnaireSchema = {
   },
 };
 
-const questionnanaireSchema = new dynamoose.Schema(baseQuestionnaireSchema, {
-  throughput: throughput,
-  timestamps: true,
-});
+const questionnanaireSchema = new dynamoose.Schema(
+  {
+    ...baseQuestionnaireSchema,
+    latestVersion: {
+      type: Date,
+      required: true,
+    },
+  },
+  {
+    throughput: throughput,
+    timestamps: true,
+  }
+);
 
 const questionnaireVersionsSchema = new dynamoose.Schema(
   {
@@ -61,9 +70,13 @@ const questionnaireVersionsSchema = new dynamoose.Schema(
     summary: {
       type: Boolean,
     },
+    createdAt: {
+      type: Date,
+    },
     updatedAt: {
-      type: String,
+      type: Date,
       required: true,
+      rangeKey: true,
     },
     sections: {
       type: Array,
@@ -75,7 +88,6 @@ const questionnaireVersionsSchema = new dynamoose.Schema(
   },
   {
     throughput: throughput,
-    timestamps: true,
   }
 );
 
@@ -92,4 +104,5 @@ const QuestionnaireVersionsModel = dynamoose.model(
 module.exports = {
   QuestionnaireModel,
   QuestionnaireVersionsModel,
+  dynamoose,
 };

@@ -206,20 +206,22 @@ class RichTextEditor extends React.Component {
     ) {
       const { editorState } = this.state;
       const anchorOffset = editorState.getSelection().get("anchorOffset");
-      const valueUpdatedES = EditorState.push(
+      let selectionUpdated = EditorState.push(
         editorState,
         convert.convertFromHTML({ htmlToEntity: htmlToPipedEntity })(
           this.props.value
         ),
         "insert-characters"
       );
-      const selectionUpdated = EditorState.forceSelection(
-        valueUpdatedES,
-        valueUpdatedES.getSelection().merge({
-          anchorOffset,
-          focusOffset: anchorOffset,
-        })
-      );
+      if (this.state.focused) {
+        selectionUpdated = EditorState.forceSelection(
+          selectionUpdated,
+          selectionUpdated.getSelection().merge({
+            anchorOffset,
+            focusOffset: anchorOffset,
+          })
+        );
+      }
 
       this.handleChange(selectionUpdated);
     }

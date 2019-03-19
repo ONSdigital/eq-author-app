@@ -1,17 +1,18 @@
 const jsondiffpatch = require("jsondiffpatch");
-const { omit } = require("lodash");
+const { omit, set } = require("lodash");
 const logger = require("pino")();
 
 const {
   QuestionnaireModel,
   QuestionnaireVersionsModel,
+  dynamoose,
 } = require("../db/models/DynamoDB");
 
 const omitTimestamps = questionnaire =>
   omit({ ...questionnaire }, ["updatedAt", "createdAt"]);
 
 const diffPatcher = jsondiffpatch.create({
-  objecHash: obj => obj.id,
+  objectHash: obj => obj.id,
 });
 
 const saveModel = (model, options = {}) =>
@@ -25,15 +26,23 @@ const saveModel = (model, options = {}) =>
   });
 
 const createQuestionnaire = async questionnaire => {
-  await saveModel(
-    new QuestionnaireModel(omit(questionnaire, "sections", "metadata"))
-  );
   const result = await saveModel(
     new QuestionnaireVersionsModel({
       ...questionnaire,
-      updatedAt: Date.now(),
+      updatedAt: new Date(),
     })
   );
+
+  await saveModel(
+    new QuestionnaireModel(
+      set(
+        omit(questionnaire, "sections", "metadata"),
+        "latestVersion",
+        result.updatedAt
+      )
+    )
+  );
+
   return result;
 };
 
@@ -60,48 +69,61 @@ const getQuestionnaire = id => {
 };
 
 const MAX_UPDATE_TIMES = 3;
-const saveQuestionnaire = async (questionnaire, count = 0, patch) => {
+const saveQuestionnaire = async (versionModel, count = 0, patch) => {
   if (count === MAX_UPDATE_TIMES) {
     throw new Error(`Failed after trying to update ${MAX_UPDATE_TIMES} times`);
   }
-  const originalQuestionnaire = {
+  const originalQuestionnaireVersion = {
     metadata: [],
     sections: [],
-    ...questionnaire.originalItem(),
+    ...versionModel.originalItem(),
   };
 
   const diff = diffPatcher.diff(
-    omitTimestamps(originalQuestionnaire),
-    omitTimestamps(questionnaire)
+    omitTimestamps(originalQuestionnaireVersion),
+    omitTimestamps(versionModel)
   );
 
   if (!diff) {
-    return questionnaire;
+    return versionModel;
   }
 
-  const newUpdatedAt = new Date();
-  const oldUpdatedAt = new Date(originalQuestionnaire.updatedAt).getTime();
-  questionnaire.updatedAt = newUpdatedAt;
   try {
-    await saveModel(questionnaire, {
-      updateTimestamps: false,
-      condition: "updatedAt = :updatedAt",
-      conditionValues: {
-        updatedAt: oldUpdatedAt,
-      },
-    });
+    const originalLatestVersion = originalQuestionnaireVersion.updatedAt;
+
+    const newVersion = new Date();
+
+    await dynamoose.transaction([
+      QuestionnaireVersionsModel.transaction.create({
+        ...versionModel,
+        updatedAt: newVersion,
+      }),
+      QuestionnaireModel.transaction.update(
+        {
+          id: versionModel.id,
+        },
+        { latestVersion: newVersion },
+        {
+          updateTimestamps: false,
+          condition: "latestVersion = :latestVersion",
+          conditionValues: {
+            latestVersion: originalLatestVersion,
+          },
+        }
+      ),
+    ]);
   } catch (e) {
-    if (!e.code || e.code !== "ConditionalCheckFailedException") {
+    if (!e.code || e.code !== "TransactionCanceledException") {
       throw e;
     }
 
     const patchToApply = patch || diff;
     logger.warn(
-      `Dynamoose merging on save id: ${questionnaire.id}`,
+      `Dynamoose merging on save id: ${versionModel.id}`,
       patchToApply
     );
 
-    const dbQuestionnaire = await getQuestionnaire(questionnaire.id);
+    const dbQuestionnaire = await getQuestionnaire(versionModel.id);
     diffPatcher.patch(dbQuestionnaire, patchToApply);
     await saveQuestionnaire(dbQuestionnaire, ++count, patchToApply);
   }
