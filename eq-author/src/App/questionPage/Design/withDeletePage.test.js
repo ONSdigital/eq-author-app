@@ -1,38 +1,29 @@
-import { mapMutateToProps, createUpdater } from "./withDeletePage";
-import fragment from "graphql/sectionFragment.graphql";
+import { mapMutateToProps } from "./withDeletePage";
 
 describe("withDeletePage", () => {
   let history, mutate, result, ownProps, onAddPage, raiseToast;
-  let deletedPage,
-    currentPage,
-    sectionId,
-    questionnaireId,
-    beforeDeleteSection,
-    afterDeleteSection;
+  let deletedPage, currentPage, sectionId, questionnaireId, beforeDeleteSection;
 
   beforeEach(() => {
     sectionId = "9";
     questionnaireId = "1";
-    deletedPage = {
-      id: "2",
-      sectionId,
-      position: 1,
-    };
-
     currentPage = {
       id: "1",
       sectionId,
       position: 0,
     };
 
+    deletedPage = {
+      id: "2",
+      section: {
+        id: sectionId,
+      },
+      position: 1,
+    };
+
     beforeDeleteSection = {
       id: sectionId,
       pages: [currentPage, deletedPage, { id: "3", position: 2 }],
-    };
-
-    afterDeleteSection = {
-      ...beforeDeleteSection,
-      pages: [{ ...currentPage, position: 0 }, { id: "3", position: 1 }],
     };
 
     history = {
@@ -41,7 +32,10 @@ describe("withDeletePage", () => {
 
     result = {
       data: {
-        deletePage: currentPage,
+        deleteQuestionPage: {
+          id: sectionId,
+          pages: [currentPage, { id: "3", position: 2 }],
+        },
       },
     };
 
@@ -50,10 +44,7 @@ describe("withDeletePage", () => {
 
     ownProps = {
       client: {
-        readFragment: jest
-          .fn()
-          .mockReturnValueOnce(beforeDeleteSection)
-          .mockReturnValueOnce(afterDeleteSection),
+        readFragment: jest.fn().mockReturnValueOnce(beforeDeleteSection),
       },
       match: {
         params: {
@@ -70,50 +61,6 @@ describe("withDeletePage", () => {
     mutate = jest.fn(() => Promise.resolve(result));
   });
 
-  describe("createUpdater", () => {
-    it("should remove the page from the cache", () => {
-      const id = `Section${beforeDeleteSection.id}`;
-      const readFragment = jest.fn().mockReturnValueOnce(beforeDeleteSection);
-      const writeFragment = jest.fn();
-
-      const updater = createUpdater(sectionId, deletedPage.id);
-      updater({ readFragment, writeFragment }, result);
-
-      expect(readFragment).toHaveBeenCalledWith({ id, fragment });
-      expect(writeFragment).toHaveBeenCalledWith({
-        id,
-        fragment,
-        data: afterDeleteSection,
-      });
-    });
-
-    it("should update position value of all pages", () => {
-      const cache = {
-        section: {
-          id: "1",
-          pages: [
-            { id: "1", position: 0 },
-            deletedPage,
-            { id: "3", position: 2 },
-          ],
-        },
-      };
-
-      const proxy = {
-        writeFragment: jest.fn(({ data }) => (cache.section = data)),
-        readFragment: jest.fn(() => cache.section),
-      };
-
-      const updater = createUpdater(cache.section.id, deletedPage.id);
-      updater(proxy, result);
-
-      expect(cache.section.pages).toEqual([
-        { id: "1", position: 0 },
-        { id: "3", position: 1 },
-      ]);
-    });
-  });
-
   describe("mapMutateToProps", () => {
     let props;
 
@@ -127,57 +74,50 @@ describe("withDeletePage", () => {
 
     describe("onDeletePage", () => {
       it("should call mutate", () => {
-        return props
-          .onDeletePage(deletedPage.sectionId, deletedPage.id)
-          .then(() => {
-            expect(mutate).toHaveBeenCalledWith(
-              expect.objectContaining({
-                variables: {
-                  input: { id: deletedPage.id },
-                },
-              })
-            );
-          });
+        return props.onDeletePage(deletedPage).then(() => {
+          expect(mutate).toHaveBeenCalledWith(
+            expect.objectContaining({
+              variables: {
+                input: { id: deletedPage.id },
+              },
+            })
+          );
+        });
       });
 
       it("should raise a toast message upon deletion of page", () => {
-        return props
-          .onDeletePage(deletedPage.sectionId, deletedPage.id)
-          .then(() => {
-            expect(raiseToast).toHaveBeenCalledWith(
-              `Page${deletedPage.id}`,
-              expect.stringContaining("Page"),
-              expect.objectContaining({
-                sectionId: deletedPage.sectionId,
-                pageId: deletedPage.id,
-              })
-            );
-          });
+        return props.onDeletePage(deletedPage).then(() => {
+          expect(raiseToast).toHaveBeenCalledWith(
+            `Page${deletedPage.id}`,
+            expect.stringContaining("Page"),
+            expect.objectContaining({
+              sectionId: deletedPage.section.id,
+              pageId: deletedPage.id,
+            })
+          );
+        });
       });
 
       it("should create a page if you delete the last page in a section", () => {
-        ownProps.client.readFragment = jest
-          .fn()
-          .mockReturnValueOnce({ ...beforeDeleteSection, pages: [deletedPage] })
-          .mockReturnValueOnce({ ...afterDeleteSection, pages: [] });
+        result.data.deleteQuestionPage.pages = [];
+        ownProps.client.readFragment = jest.fn().mockReturnValueOnce({
+          ...beforeDeleteSection,
+          pages: [deletedPage],
+        });
 
-        return props
-          .onDeletePage(deletedPage.sectionId, deletedPage.id)
-          .then(() => {
-            expect(onAddPage).toHaveBeenCalledWith(deletedPage.sectionId);
-          });
+        return props.onDeletePage(deletedPage).then(() => {
+          expect(onAddPage).toHaveBeenCalledWith(deletedPage.section.id);
+        });
       });
 
       it("should redirect to another page in the section", () => {
-        return props
-          .onDeletePage(deletedPage.sectionId, deletedPage.id)
-          .then(() => {
-            expect(history.push).toHaveBeenCalledWith(
-              `/questionnaire/${questionnaireId}/${sectionId}/${
-                currentPage.id
-              }/design`
-            );
-          });
+        return props.onDeletePage(deletedPage).then(() => {
+          expect(history.push).toHaveBeenCalledWith(
+            `/questionnaire/${questionnaireId}/${sectionId}/${
+              currentPage.id
+            }/design`
+          );
+        });
       });
     });
   });

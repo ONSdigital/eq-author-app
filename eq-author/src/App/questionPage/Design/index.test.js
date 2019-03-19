@@ -375,7 +375,7 @@ describe("QuestionPageRoute", () => {
         .first()
         .simulate("click");
 
-      expect(mockHandlers.onDeletePage).toHaveBeenCalledWith(sectionId, pageId);
+      expect(mockHandlers.onDeletePage).toHaveBeenCalledWith(page);
     });
 
     it("should allow answers to be added", () => {

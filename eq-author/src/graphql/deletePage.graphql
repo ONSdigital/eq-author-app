@@ -1,5 +1,8 @@
-mutation DeletePage($input: DeletePageInput!) {
-  deletePage(input: $input) {
+mutation DeleteQuestionPage($input: DeleteQuestionPageInput!) {
+  deleteQuestionPage(input: $input) {
     id
+    pages {
+      id
+    }
   }
 }

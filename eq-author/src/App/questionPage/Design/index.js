@@ -91,12 +91,8 @@ export class UnwrappedQuestionPageRoute extends React.Component {
     );
 
   handleDeletePageConfirm = () => {
-    const { onDeletePage, match } = this.props;
-    const {
-      params: { pageId, sectionId },
-    } = match;
-
-    this.handleCloseDeleteConfirmDialog(() => onDeletePage(sectionId, pageId));
+    const { onDeletePage, page } = this.props;
+    this.handleCloseDeleteConfirmDialog(() => onDeletePage(page));
   };
 
   handleAddPage = () => {

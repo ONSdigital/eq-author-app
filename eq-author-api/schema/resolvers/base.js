@@ -6,7 +6,6 @@ const {
   pick,
   find,
   filter,
-  flatten,
   findIndex,
   map,
   merge,
@@ -345,13 +344,10 @@ const Resolvers = {
       return page;
     },
     deleteQuestionPage: async (_, { input }, ctx) => {
-      const removedPage = flatten(
-        ctx.questionnaire.sections.map(section =>
-          remove(section.pages, { id: input.id })
-        )
-      );
+      const section = findSectionByPageId(ctx.questionnaire.sections, input.id);
+      remove(section.pages, { id: input.id });
       await saveQuestionnaire(ctx.questionnaire);
-      return removedPage[0];
+      return section;
     },
 
     createAnswer: async (root, { input }, ctx) => {
