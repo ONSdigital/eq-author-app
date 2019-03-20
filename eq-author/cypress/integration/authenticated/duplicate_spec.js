@@ -37,6 +37,7 @@ describe("Duplicate", () => {
       addQuestionnaire("section duplication");
       navigateToFirstSection();
       typeIntoDraftEditor(testId("txt-section-title", "testid"), "Section 1");
+      cy.get(testId("side-nav")).should("contain", "Section 1");
       cy.get(testId("btn-duplicate-section")).click();
     });
 
