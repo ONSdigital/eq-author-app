@@ -1,5 +1,5 @@
 const jsondiffpatch = require("jsondiffpatch");
-const { omit, set } = require("lodash");
+const { omit, pick, set } = require("lodash");
 const logger = require("pino")();
 
 const {
@@ -35,11 +35,7 @@ const createQuestionnaire = async questionnaire => {
 
   await saveModel(
     new QuestionnaireModel(
-      set(
-        omit(questionnaire, "sections", "metadata"),
-        "latestVersion",
-        result.updatedAt
-      )
+      set(pick(questionnaire, "id"), "latestVersion", result.updatedAt)
     )
   );
 
@@ -146,7 +142,7 @@ const deleteQuestionnaire = id => {
   });
 };
 
-const listQuestionnaires = () => {
+const listQuestionnaireInfo = () => {
   return new Promise((resolve, reject) => {
     QuestionnaireModel.scan()
       .all()
@@ -157,6 +153,29 @@ const listQuestionnaires = () => {
         resolve(questionnaires);
       });
   });
+};
+
+const getQuestionnaireByIdAndVersion = (id, version) =>
+  new Promise((res, rej) => {
+    QuestionnaireVersionsModel.queryOne({
+      id: { eq: id },
+      latestVersion: { eq: version },
+    }).exec((err, questionnaire) => {
+      if (err) {
+        rej(err);
+      } else {
+        res(questionnaire);
+      }
+    });
+  });
+
+const listQuestionnaires = async () => {
+  const questionnaireInfo = await listQuestionnaireInfo();
+  return Promise.all(
+    questionnaireInfo.map(({ id, latestVersion }) =>
+      getQuestionnaireByIdAndVersion(id, latestVersion)
+    )
+  );
 };
 
 module.exports = {

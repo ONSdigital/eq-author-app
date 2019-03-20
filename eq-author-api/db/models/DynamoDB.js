@@ -18,26 +18,13 @@ if (process.env.DYNAMO_QUESTIONNAIRE_VERSION_TABLE_NAME) {
     process.env.DYNAMO_QUESTIONNAIRE_VERSION_TABLE_NAME;
 }
 
-const baseQuestionnaireSchema = {
-  id: {
-    type: String,
-    hashKey: true,
-    required: true,
-  },
-  title: {
-    type: String,
-  },
-  createdBy: {
-    type: String,
-  },
-  version: {
-    type: Number,
-  },
-};
-
 const questionnanaireSchema = new dynamoose.Schema(
   {
-    ...baseQuestionnaireSchema,
+    id: {
+      type: String,
+      hashKey: true,
+      required: true,
+    },
     latestVersion: {
       type: Date,
       required: true,
@@ -51,7 +38,20 @@ const questionnanaireSchema = new dynamoose.Schema(
 
 const questionnaireVersionsSchema = new dynamoose.Schema(
   {
-    ...baseQuestionnaireSchema,
+    id: {
+      type: String,
+      hashKey: true,
+      required: true,
+    },
+    title: {
+      type: String,
+    },
+    createdBy: {
+      type: String,
+    },
+    version: {
+      type: Number,
+    },
     description: {
       type: String,
     },
