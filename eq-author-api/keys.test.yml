@@ -29,15 +29,33 @@ keys:
       LKpPms/WjRAUCxnsslcURTcTYehZAeOAic9ITWv1ppr6AN3AL71qdQ==
       -----END RSA PRIVATE KEY-----
     use: signing
-  publisherAuthPublicKey:
+  invalidPublisherAuthSigningKey:
     value: |
-      -----BEGIN PUBLIC KEY-----
-      MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApEJbinF5XUgXS9MTqwYy
-      DClmEYHQRW4T20ofE+9568GVAGwyn80T0F8sLM3bW9GNj3xxnd/4NKG/E8kD3pXN
-      q2IdBoCpr6OOJgs/JY+5aztOIQplcxzy0jH6BPAVBkmNwmx1ebsDRdZMjQwvOAFT
-      ce/8vhH+xRFFChX5cE3n3MZg+5FyDlXePbXNWwHEY0CWLD317FNKJt1IS5JanjY0
-      jHKX3/+wifKiZ3y03OwMLH9BEMTGdw5rQlKq48hW2ZYFrvqYN/jqVG5BSVjUu6uZ
-      oLu+Bjn93Yk9rCyIkDYSlp924aXCpWR/vDvfw8wW9OOqQlYmuoKjz3YQ5rNGLUfG
-      YQIDAQAB
-      -----END PUBLIC KEY-----
-    use: verifying
+      -----BEGIN RSA PRIVATE KEY-----
+      MIIEpAIBAAKCAQEAvRLvLCpQzpZXqEeZMcFqzlumtDoC5D6jAbBflHBKCpl9uIeG
+      0UwAyherdvv2782LvI4VYELgQ7+4QUIFBONBkt08Cosx1Fg3I426AbwvnXZeaNq2
+      mrV1J7111pURZ77oAIWTX5rwn0AUHLXK0KFy2PkdishJ8LPEi9ow/8NOmmjXrdvx
+      RUVTrddqqqxEJEoyG2dG9SFMYamx6f6sAI35Aocxr6X8jqeKqg85IOx/B/1RMxM8
+      9SvDyAP6gdSF4aL8nU4uOTX7gHlIjpHWE2C24DtOSJ0pywUOi3iMHwSqL/hBGSP2
+      fCRJWo1+Zk0OA/R9bI3InKXtqt3TpO/Zu1qtQQIDAQABAoIBAQCfIuibS6JnvrJY
+      uKp/7kNvHETbPFhiszWPnltUHI61DSt7vNYEIuwnLHTs2HWmsGIEebIUKzWG0D7M
+      7jw7OOtgKUT3uuBd0UHXctozy6hn59Def/dhj4jjwdsEmMLlhxDOH59CwK3124ES
+      CRCDON/pLwNmY92X8jZjX2oOWtw1qMVjdy7qwbOty/QByEKQMg2HOtD8GCnlM7U+
+      YmHQFmGacFJG6f2LS+5kXWvy8jCfY91IIoAATgPuTDDv1HQtOrX1GYGHHvOOE9w6
+      Mnu37uQ3ahR0TO+W4GzCUFuKSzfJjJtqGxgGlIH09eFC1izicrFAyoA5y9c7xYun
+      wxnM9GHhAoGBAOvCDsms7nZ02gsbj2zuFl0QaWJObQaTgxlyUcNBh/Ju8OkB93hi
+      ouQf7UY4tUTGNf3BUBUUfs9pz1PoCcWMdO1L1/QXabDB45S7YIy5ZY9YzabhDNZ7
+      bezAB8Qz/8RxlT1VBK0cUrNZoMTkiTKjeL35nqWm98W5tHhtcfupA/9PAoGBAM1O
+      w60GfwtWnrAG1PCkfUhbjwbjelydQ4tZ+XeHxpDDsks+bOPKQJrhQVIjvboeomYQ
+      cy5ALc6zJ59OD/ChAE2L1ICZRluKT45oml6T46IF+Dxx/Yn7t6O7MRQhV/slBrpL
+      iUc2jE1MqtR+8ihEThATWSugtjVF3cQBZsQxYuZvAoGBAIel5HRNt/cYTMzPUrrO
+      UrfBVaFmlnyOK4Rcroa2Ec5/3sVyiD0QI8E2TYN15XZoxW/35mf6nuwgaVZR0C2G
+      H1DZrquXPQyiwps1JNxTYAgWhF1cZ9KQujLaWp2dfbA92iyr2kDwZvUiwMoI5Jfq
+      TvKfyZRueWme7CPOdSLjoJUpAoGAHU89SBpBUNEQ3nhbNe+FoyrPBGC9OzOITQCP
+      SK0tf8UwUuWajfp1tqapuJw5nbR54rA+gT/QSk3xPiDazbNuY6Outp0rGi5opR/x
+      yca7HIpVoet0EprI4Kr8mq8X7Fag2z+lXXFAHljvml51G6KEsm7QsBXFbV2IB09b
+      6G5UfCkCgYAJGdl9OUsunIaSdX+KzkALWGvXRW7RDoC+X+sE6Quc08oSwE3Pl/8V
+      C68+m80hKfre9w9VbW9eZyTgn4LFu/FRQobyHAz5zQWxymOGdA+cSLf23Nwh30qj
+      0TSL0gPFNKKe2cPwWOHfUJezJJ4qWh2jBTTyOec0nzVD5ZyVMmgsTg==
+      -----END RSA PRIVATE KEY-----
+    use: signing

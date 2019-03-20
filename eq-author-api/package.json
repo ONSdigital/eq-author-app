@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "test": "./scripts/test.sh",
     "test:breakingChanges": "node scripts/checkForBreakingChanges.js",
-    "dynamodb-admin": "AWS_ACCESS_KEY_ID=dummy AWS_SECRET_ACCESS_KEY=dummy DYNAMO_ENDPOINT=http://localhost:8050 dynamodb-admin",
+    "dynamodb-admin": "AWS_ACCESS_KEY_ID=dummy AWS_SECRET_ACCESS_KEY=dummy DYNAMO_ENDPOINT=http://localhost:32773 dynamodb-admin",
     "create-migration": "node scripts/createMigration.js"
   },
   "dependencies": {
