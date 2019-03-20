@@ -89,7 +89,7 @@ checkBrowsers(paths.appPath, isInteractive)
       proxy => proxy.target === "http://localhost:4000"
     );
 
-    const whiteListedPaths = ["/status", "/launch", "/graphql"];
+    const whiteListedPaths = ["/status", "/launch", "/graphql", "/signIn"];
 
     apiProxy.context = pathName => {
       let shouldProxy = false;
