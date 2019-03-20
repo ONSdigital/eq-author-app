@@ -41,7 +41,7 @@ export class UnconnectedQuestionnairesTable extends React.PureComponent {
     QuestionnaireDetails: gql`
       fragment QuestionnaireDetails on Questionnaire {
         id
-        title
+        displayName
         createdAt
         createdBy {
           id

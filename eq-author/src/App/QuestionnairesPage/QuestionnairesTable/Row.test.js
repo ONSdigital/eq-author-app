@@ -13,7 +13,7 @@ describe("Row", () => {
   beforeEach(() => {
     questionnaire = {
       id: "1",
-      title: "Foo",
+      displayName: "Foo",
       createdAt: "2017/01/02",
       sections: [
         {

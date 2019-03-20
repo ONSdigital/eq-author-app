@@ -141,6 +141,7 @@ class NavigationHeader extends React.Component {
                   this.handleSettingsModalClose
                 )}
                 confirmText="Apply"
+                canEditType={false}
               />
             </IconListItem>
           </IconList>

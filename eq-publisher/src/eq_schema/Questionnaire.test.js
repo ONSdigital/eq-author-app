@@ -1,8 +1,11 @@
 /* eslint-disable camelcase */
+const { last } = require("lodash");
+
+const { BUSINESS, SOCIAL } = require("../constants/questionnaireTypes");
+
 const Questionnaire = require("./Questionnaire");
 const Summary = require("./block-types/Summary");
 const Section = require("./Section");
-const { last } = require("lodash");
 
 describe("Questionnaire", () => {
   const createQuestionnaireJSON = questionnaire =>
@@ -11,7 +14,7 @@ describe("Questionnaire", () => {
         id: "1",
         title: "Quarterly Business Survey",
         description: "Quarterly Business Survey",
-        theme: "default",
+        type: BUSINESS,
         legalBasis: "StatisticsOfTradeAct",
         navigation: false,
         surveyId: "0112",
@@ -46,6 +49,13 @@ describe("Questionnaire", () => {
       legal_basis: "StatisticsOfTradeAct",
       metadata: expect.arrayContaining(Questionnaire.DEFAULT_METADATA),
     });
+  });
+
+  it("should set the theme based on the type", () => {
+    questionnaire = new Questionnaire(
+      createQuestionnaireJSON({ type: SOCIAL })
+    );
+    expect(questionnaire.theme).toEqual("social");
   });
 
   it("should add a Summary to end of Questionnaire", () => {

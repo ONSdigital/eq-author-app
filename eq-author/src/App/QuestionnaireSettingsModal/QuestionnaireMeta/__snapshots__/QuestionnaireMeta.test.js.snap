@@ -5,6 +5,7 @@ exports[`QuestionnaireMeta should render 1`] = `
   onSubmit={[MockFunction]}
 >
   <Field
+    disabled={false}
     last={false}
   >
     <Label
@@ -22,10 +23,74 @@ exports[`QuestionnaireMeta should render 1`] = `
       required={true}
     />
   </Field>
+  <Grid
+    align="top"
+    fillHeight={true}
+  >
+    <Column
+      cols={6}
+    >
+      <Field
+        disabled={false}
+        last={false}
+      >
+        <Label
+          bold={true}
+          htmlFor="shortTitle"
+        >
+          Short title (optional)
+        </Label>
+        <withChangeHandler(UncontrolledInput)
+          data-test="txt-questionnaire-short-title"
+          defaultValue="I am the shortTitle"
+          id="shortTitle"
+          onChange={[MockFunction]}
+        />
+      </Field>
+    </Column>
+    <Column
+      cols={6}
+    >
+      <Field
+        disabled={false}
+        last={false}
+      >
+        <Label
+          bold={true}
+          htmlFor="type"
+        >
+          Questionnaire type
+        </Label>
+        <withChangeHandler(Select__SimpleSelect)
+          data-test="select-questionnaire-type"
+          defaultValue=""
+          disabled={false}
+          id="type"
+          onChange={[MockFunction]}
+        >
+          <option
+            disabled={true}
+            value=""
+          >
+            Please select...
+          </option>
+          <option
+            value="Business"
+          >
+            Business
+          </option>
+          <option
+            value="Social"
+          >
+            Social
+          </option>
+        </withChangeHandler(Select__SimpleSelect)>
+      </Field>
+    </Column>
+  </Grid>
   <QuestionnaireMeta__ToggleWrapper>
     <QuestionnaireMeta__InlineField>
-      <Label
-        bold={true}
+      <QuestionnaireMeta__FlexLabel
         htmlFor="navigation"
         inline={true}
       >
@@ -34,8 +99,12 @@ exports[`QuestionnaireMeta should render 1`] = `
           fade={true}
           src="icon-show-nav.svg"
         />
-        Show section navigation
-      </Label>
+        <DescribedText
+          description="Allows respondents to navigate between sections when they are completing the survey."
+        >
+          Show section navigation
+        </DescribedText>
+      </QuestionnaireMeta__FlexLabel>
       <ToggleSwitch
         checked={false}
         id="navigation"
@@ -44,8 +113,7 @@ exports[`QuestionnaireMeta should render 1`] = `
       />
     </QuestionnaireMeta__InlineField>
     <QuestionnaireMeta__InlineField>
-      <Label
-        bold={true}
+      <QuestionnaireMeta__FlexLabel
         htmlFor="summary"
         inline={true}
       >
@@ -54,8 +122,12 @@ exports[`QuestionnaireMeta should render 1`] = `
           fade={true}
           src="icon-show-confirmation.svg"
         />
-        Show summary on confirmation page
-      </Label>
+        <DescribedText
+          description="A summary of the all of the respondents answers will be on the confirmation page at the end of the survey."
+        >
+          Show summary on confirmation page
+        </DescribedText>
+      </QuestionnaireMeta__FlexLabel>
       <ToggleSwitch
         checked={false}
         id="summary"
@@ -75,6 +147,8 @@ exports[`QuestionnaireMeta should render 1`] = `
       Cancel
     </Button>
     <Button
+      data-test="questionnaire-submit-button"
+      disabled={true}
       type="submit"
       variant="primary"
     >

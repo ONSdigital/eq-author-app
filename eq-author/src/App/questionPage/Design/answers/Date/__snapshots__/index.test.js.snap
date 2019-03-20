@@ -6,6 +6,7 @@ exports[`Date should render 1`] = `
     Date options
   </VisuallyHidden>
   <Field
+    disabled={false}
     last={false}
   >
     <Label
@@ -27,6 +28,7 @@ exports[`Date should render 1`] = `
     />
   </Field>
   <Field
+    disabled={false}
     last={false}
   >
     <Label

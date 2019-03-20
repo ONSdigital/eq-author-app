@@ -1,5 +1,7 @@
 const { get, isNull } = require("lodash");
 
+const { SOCIAL } = require("../../../constants/questionnaireTypes");
+
 const { createQuestionnaireReturningPersisted } = require("./questionnaire");
 const { createMetadata, updateMetadata } = require("./metadata");
 const { createSection, deleteSection } = require("./section");
@@ -154,6 +156,7 @@ const buildQuestionnaire = async questionnaireConfig => {
     theme: "default",
     legalBasis: "Voluntary",
     navigation: false,
+    type: SOCIAL,
     ...questionnaireProps,
   });
   await deleteSection(questionnaire, questionnaire.sections[0].id);

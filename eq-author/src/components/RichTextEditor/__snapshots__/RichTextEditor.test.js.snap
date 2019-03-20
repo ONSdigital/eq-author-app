@@ -6,17 +6,19 @@ exports[`components/RichTextEditor should allow multiline input 1`] = `
 >
   <Field
     data-test="rte-field"
+    disabled={false}
     last={false}
     onBlur={[Function]}
     onClick={[Function]}
     onFocus={[Function]}
     onMouseDown={[Function]}
   >
-    <DescribedLabel
+    <Label
+      bold={true}
       id="label-test"
     >
       I am a label
-    </DescribedLabel>
+    </Label>
     <RichTextEditor__Input
       placeholderStyle="unstyled"
     >
@@ -255,17 +257,19 @@ exports[`components/RichTextEditor should render 1`] = `
 >
   <Field
     data-test="rte-field"
+    disabled={false}
     last={false}
     onBlur={[Function]}
     onClick={[Function]}
     onFocus={[Function]}
     onMouseDown={[Function]}
   >
-    <DescribedLabel
+    <Label
+      bold={true}
       id="label-test"
     >
       I am a label
-    </DescribedLabel>
+    </Label>
     <RichTextEditor__Input
       placeholderStyle="unstyled"
     >
@@ -506,17 +510,19 @@ exports[`components/RichTextEditor should render existing content 1`] = `
 >
   <Field
     data-test="rte-field"
+    disabled={false}
     last={false}
     onBlur={[Function]}
     onClick={[Function]}
     onFocus={[Function]}
     onMouseDown={[Function]}
   >
-    <DescribedLabel
+    <Label
+      bold={true}
       id="label-test"
     >
       I am a label
-    </DescribedLabel>
+    </Label>
     <RichTextEditor__Input
       placeholderStyle="unordered-list-item"
     >

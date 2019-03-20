@@ -11,6 +11,8 @@ const getQuestionnaireQuery = `
       navigation
       surveyId
       createdAt
+      shortTitle
+      displayName
       createdBy {
         id
       }

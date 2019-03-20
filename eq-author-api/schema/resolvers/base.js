@@ -165,6 +165,7 @@ const createNewQuestionnaire = input => ({
   sections: [createSection()],
   summary: false,
   version: currentVersion,
+  shortTitle: "",
   ...input,
 });
 
@@ -255,6 +256,7 @@ const Resolvers = {
       const newQuestionnaire = {
         ...questionnaire,
         title: addPrefix(questionnaire.title),
+        shortTitle: addPrefix(questionnaire.shortTitle),
         id: uuid.v4(),
       };
 
@@ -655,6 +657,8 @@ const Resolvers = {
     createdAt: questionnaire => new Date(questionnaire.createdAt),
     questionnaireInfo: questionnaire => questionnaire,
     metadata: questionnaire => questionnaire.metadata,
+    displayName: questionnaire =>
+      questionnaire.shortTitle || questionnaire.title,
   },
 
   QuestionnaireInfo: {

@@ -11,6 +11,8 @@ const updateQuestionnaireMutation = `
       navigation
       surveyId
       summary
+      shortTitle
+      displayName
     }
   }
 `;

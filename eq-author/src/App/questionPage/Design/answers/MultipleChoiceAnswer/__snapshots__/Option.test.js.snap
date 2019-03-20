@@ -311,14 +311,17 @@ exports[`Option should render a checkbox 1`] = `
             <Option__OptionField>
               <Field
                 className="c3"
+                disabled={false}
                 last={false}
               >
                 <Field__StyledField
                   className="c3"
+                  disabled={false}
                   last={false}
                 >
                   <div
                     className="c3 c4"
+                    disabled={false}
                   >
                     <Label
                       bold={true}
@@ -428,14 +431,17 @@ exports[`Option should render a checkbox 1`] = `
         <Option__OptionField>
           <Field
             className="c3"
+            disabled={false}
             last={false}
           >
             <Field__StyledField
               className="c3"
+              disabled={false}
               last={false}
             >
               <div
                 className="c3 c4"
+                disabled={false}
               >
                 <Label
                   bold={true}

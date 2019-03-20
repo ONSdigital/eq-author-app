@@ -29,7 +29,7 @@ import {
   TEXTFIELD,
 } from "../../../src/constants/answer-types";
 
-const questionnaireTitle = "My Questionnaire Title";
+let questionnaireTitle;
 
 describe("builder", () => {
   const checkIsOnDesignPage = () => cy.hash().should("match", /\/design$/);
@@ -37,6 +37,7 @@ describe("builder", () => {
   beforeEach(() => {
     cy.visit("/");
     cy.login();
+    questionnaireTitle = "My Questionnaire Title";
     addQuestionnaire(questionnaireTitle);
   });
 
@@ -215,15 +216,21 @@ describe("builder", () => {
     cy.get(testId("page-item")).should("have.length", 1);
   });
 
-  const changeQuestionnaireTitle = newTitle => {
-    cy.get(testId("settings-btn")).click();
-    setQuestionnaireSettings(newTitle);
-    cy.get(testId("questionnaire-title")).should("contain", newTitle);
-  };
+  it("Can change the questionnaire properties", () => {
+    cy.get(testId("questionnaire-title")).should("contain", questionnaireTitle);
 
-  it("Can change the questionnaire title", () => {
-    changeQuestionnaireTitle("Test Questionnaire");
-    changeQuestionnaireTitle(questionnaireTitle);
+    cy.get(testId("settings-btn")).click();
+    setQuestionnaireSettings({ title: "New title" });
+    cy.get(testId("questionnaire-title")).should("contain", "New title");
+
+    cy.get(testId("settings-btn")).click();
+    setQuestionnaireSettings({ shortTitle: "New short title" });
+    cy.get(testId("questionnaire-title")).should("contain", "New short title");
+
+    cy.get(testId("select-questionnaire-type")).should("be.disabled");
+
+    // For clean up
+    questionnaireTitle = "New short title";
   });
 
   describe("Section", () => {

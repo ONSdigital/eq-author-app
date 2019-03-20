@@ -31,9 +31,12 @@ const moveSectionMock = {
         description: "",
         surveyId: "1",
         theme: "foo",
+        type: "Social",
         legalBasis: "",
         navigation: true,
         summary: "",
+        displayName: "Display name",
+        shortTitle: "Short tile",
         __typename: "Questionnaire",
         sections: [
           {

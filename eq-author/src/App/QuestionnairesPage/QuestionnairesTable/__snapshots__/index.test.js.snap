@@ -40,6 +40,7 @@ exports[`QuestionnairesTable should render 1`] = `
             "id": "1",
             "name": "Alan",
           },
+          "displayName": "Foo",
           "id": "1",
           "sections": Array [
             Object {
@@ -51,7 +52,6 @@ exports[`QuestionnairesTable should render 1`] = `
               ],
             },
           ],
-          "title": "Foo",
         }
       }
     />
@@ -67,6 +67,7 @@ exports[`QuestionnairesTable should render 1`] = `
             "id": "2",
             "name": "Lynn",
           },
+          "displayName": "Bar",
           "id": "2",
           "sections": Array [
             Object {
@@ -78,7 +79,6 @@ exports[`QuestionnairesTable should render 1`] = `
               ],
             },
           ],
-          "title": "Bar",
         }
       }
     />

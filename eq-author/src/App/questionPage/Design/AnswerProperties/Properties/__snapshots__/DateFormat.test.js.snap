@@ -2,6 +2,7 @@
 
 exports[`DateFormat Property should render 1`] = `
 <Field
+  disabled={false}
   last={false}
 >
   <withChangeHandler(Select__SimpleSelect)

@@ -23,6 +23,7 @@ exports[`components/QuestionnairesPage should not render table whilst data is lo
           Create
         </Button>
         <QuestionnaireSettingsModal
+          canEditType={true}
           confirmText="Create"
           isOpen={false}
           onClose={[Function]}
@@ -110,7 +111,7 @@ exports[`components/QuestionnairesPage should not render table whilst data is lo
                         "kind": "Field",
                         "name": Object {
                           "kind": "Name",
-                          "value": "title",
+                          "value": "displayName",
                         },
                         "selectionSet": undefined,
                       },
@@ -175,7 +176,7 @@ exports[`components/QuestionnairesPage should not render table whilst data is lo
               ],
               "kind": "Document",
               "loc": Object {
-                "end": 265,
+                "end": 271,
                 "start": 0,
               },
             }
@@ -224,6 +225,7 @@ exports[`components/QuestionnairesPage should render table when there are questi
           Create
         </Button>
         <QuestionnaireSettingsModal
+          canEditType={true}
           confirmText="Create"
           isOpen={false}
           onClose={[Function]}
@@ -311,7 +313,7 @@ exports[`components/QuestionnairesPage should render table when there are questi
                         "kind": "Field",
                         "name": Object {
                           "kind": "Name",
-                          "value": "title",
+                          "value": "displayName",
                         },
                         "selectionSet": undefined,
                       },
@@ -376,7 +378,7 @@ exports[`components/QuestionnairesPage should render table when there are questi
               ],
               "kind": "Document",
               "loc": Object {
-                "end": 265,
+                "end": 271,
                 "start": 0,
               },
             }
@@ -401,6 +403,7 @@ exports[`components/QuestionnairesPage should render table when there are questi
         "createdBy": Object {
           "name": "Mike",
         },
+        "displayName": "Test questionnaire",
         "id": "1",
         "sections": Array [
           Object {
@@ -412,7 +415,6 @@ exports[`components/QuestionnairesPage should render table when there are questi
             ],
           },
         ],
-        "title": "Test questionnaire",
       },
     ]
   }
@@ -440,6 +442,7 @@ exports[`components/QuestionnairesPage should render when there are no questionn
           Create
         </Button>
         <QuestionnaireSettingsModal
+          canEditType={true}
           confirmText="Create"
           isOpen={false}
           onClose={[Function]}
@@ -527,7 +530,7 @@ exports[`components/QuestionnairesPage should render when there are no questionn
                         "kind": "Field",
                         "name": Object {
                           "kind": "Name",
-                          "value": "title",
+                          "value": "displayName",
                         },
                         "selectionSet": undefined,
                       },
@@ -592,7 +595,7 @@ exports[`components/QuestionnairesPage should render when there are no questionn
               ],
               "kind": "Document",
               "loc": Object {
-                "end": 265,
+                "end": 271,
                 "start": 0,
               },
             }

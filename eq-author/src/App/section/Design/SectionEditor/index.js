@@ -7,7 +7,8 @@ import { get, flip, partial } from "lodash";
 
 import DeleteConfirmDialog from "components/DeleteConfirmDialog";
 import RichTextEditor from "components/RichTextEditor";
-import { DescribedLabel } from "components/Forms";
+import DescribedText from "components/DescribedText";
+import { Label } from "components/Forms";
 
 import { colors, radius } from "constants/theme";
 
@@ -127,19 +128,24 @@ class SectionEditor extends React.Component {
             <RichTextEditor
               id="section-title"
               name="title"
-              label="Section title"
+              label={
+                <DescribedText description="Displayed in section navigation">
+                  Section title
+                </DescribedText>
+              }
               value={section.title}
               onUpdate={handleUpdate}
               controls={titleControls}
               size="large"
               testSelector="txt-section-title"
               autoFocus={autoFocusTitle}
-              description="Displayed in section navigation"
             />
           )}
-          <DescribedLabel description="If you do not want an introduction page, leave these blank">
-            Section introduction
-          </DescribedLabel>
+          <Label>
+            <DescribedText description="If you do not want an introduction page, leave these blank">
+              Section introduction
+            </DescribedText>
+          </Label>
           <IntroCanvas>
             <RichTextEditor
               id="introduction-title"

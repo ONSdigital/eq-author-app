@@ -46,7 +46,7 @@ describe("settings", () => {
   });
 
   it("should navigate to builder tab upon creating questionnaire", () => {
-    setQuestionnaireSettings(questionnaireTitle);
+    setQuestionnaireSettings({ title: questionnaireTitle, type: "Business" });
     cy.hash().should("to.match", /\/design$/);
   });
 });

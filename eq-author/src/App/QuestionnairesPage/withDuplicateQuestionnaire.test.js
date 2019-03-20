@@ -21,7 +21,7 @@ describe("withDuplicateQuestionnaire", () => {
 
     questionnaire = {
       id: "1",
-      title: "My questionnaire",
+      displayName: "My questionnaire",
       createdBy: {
         name: "Foo Person",
         __typename: "User",
@@ -72,7 +72,7 @@ describe("withDuplicateQuestionnaire", () => {
             duplicateQuestionnaire: {
               __typename: "Questionnaire",
               id: "dupe-1",
-              title: "Copy of My questionnaire",
+              displayName: "Copy of My questionnaire",
               createdAt: new Date(Date.now()).toISOString(),
               createdBy: {
                 name: "Foo Person",

@@ -1,3 +1,7 @@
+const { last } = require("lodash");
+
+const { SOCIAL } = require("../../constants/questionnaireTypes");
+
 const {
   buildQuestionnaire,
 } = require("../../tests/utils/questionnaireBuilder");
@@ -9,9 +13,6 @@ const {
   updateQuestionnaire,
   deleteQuestionnaire,
 } = require("../../tests/utils/questionnaireBuilder/questionnaire");
-const { filter } = require("graphql-anywhere");
-const gql = require("graphql-tag");
-const { last } = require("lodash");
 
 describe("questionnaire", () => {
   let questionnaire;
@@ -35,6 +36,8 @@ describe("questionnaire", () => {
         legalBasis: "Voluntary",
         navigation: false,
         summary: false,
+        type: SOCIAL,
+        shortTitle: "short title",
       };
       questionnaire = await createQuestionnaire(config);
     });
@@ -47,22 +50,7 @@ describe("questionnaire", () => {
       );
       const questionnaire = result.data.createQuestionnaire;
       expect(questionnaire).toEqual(
-        expect.objectContaining(
-          filter(
-            gql`
-              {
-                title
-                description
-                theme
-                legalBasis
-                navigation
-                surveyId
-                summary
-              }
-            `,
-            config
-          )
-        )
+        expect.objectContaining({ ...config, displayName: "short title" })
       );
 
       expect(questionnaire.sections[0].pages[0]).not.toBeNull();
@@ -80,6 +68,7 @@ describe("questionnaire", () => {
         navigation: false,
         summary: false,
         metadata: [{}],
+        shortTitle: "short title",
       });
       const update = {
         id: questionnaire.id,
@@ -90,6 +79,7 @@ describe("questionnaire", () => {
         navigation: true,
         surveyId: "2-updated",
         summary: true,
+        shortTitle: "short title updated",
       };
       const updatedQuestionnaire = await updateQuestionnaire(
         questionnaire,
@@ -97,6 +87,22 @@ describe("questionnaire", () => {
       );
 
       expect(updatedQuestionnaire).toEqual(expect.objectContaining(update));
+    });
+
+    it("should derive display name from short title and then title", async () => {
+      questionnaire = await buildQuestionnaire({
+        title: "title",
+      });
+      const queriedTitleQuestionnaire = await queryQuestionnaire(questionnaire);
+      expect(queriedTitleQuestionnaire.displayName).toEqual("title");
+      await updateQuestionnaire(questionnaire, {
+        id: questionnaire.id,
+        shortTitle: "short title",
+      });
+      const queriedShortTitleQuestionnaire = await queryQuestionnaire(
+        questionnaire
+      );
+      expect(queriedShortTitleQuestionnaire.displayName).toEqual("short title");
     });
   });
 
@@ -117,6 +123,7 @@ describe("questionnaire", () => {
       expect(queriedQuestionnaire).toMatchObject({
         id: expect.any(String),
         title: expect.any(String),
+        displayName: expect.any(String),
         description: expect.any(String),
         theme: expect.any(String),
         legalBasis: expect.any(String),

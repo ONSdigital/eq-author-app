@@ -13,6 +13,8 @@ const CustomPropTypes = {
     theme: PropTypes.string,
     title: PropTypes.string,
     navigation: PropTypes.bool,
+    shortTile: PropTypes.string,
+    displayName: PropTypes.string,
   }),
   metadata: PropTypes.shape({
     id: PropTypes.string.isRequired,
@@ -67,7 +69,7 @@ const CustomPropTypes = {
   questionnaireList: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,
-      title: PropTypes.string.isRequired,
+      displayName: PropTypes.string.isRequired,
       createdAt: PropTypes.string.isRequired,
       createdBy: PropTypes.shape({
         name: PropTypes.string,
