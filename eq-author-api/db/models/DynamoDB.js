@@ -93,7 +93,6 @@ const questionnaireVersionsSchema = new dynamoose.Schema(
   },
   {
     throughput,
-    timestamps: true,
   }
 );
 
