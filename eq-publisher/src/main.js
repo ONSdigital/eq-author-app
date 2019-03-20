@@ -1,5 +1,8 @@
 const express = require("express");
 const pino = require("express-pino-logger");
+const { isNil } = require("lodash");
+const helmet = require("helmet");
+
 const errorHandler = require("./middleware/errorHandler");
 const fetchData = require("./middleware/fetchData");
 const schemaConverter = require("./middleware/schemaConverter");
@@ -7,15 +10,11 @@ const respondWithData = require("./middleware/respondWithData");
 const status = require("./middleware/status");
 const noContent = require("./middleware/nocontent");
 const createAuthToken = require("./middleware/createAuthToken");
-const createAuthHeaderMiddleware = require("./middleware/createAuthHeaderMiddleware");
-const { isNil } = require("lodash");
-const helmet = require("helmet");
 
 const Convert = require("./process/Convert");
 const SchemaValidator = require("./validation/SchemaValidator");
 const ValidationApi = require("./validation/ValidationApi");
-const GraphQLApi = require("./api/GraphQLApi");
-const { createApolloFetch } = require("apollo-fetch");
+const getQuestionnaire = require("./getQuestionnaire");
 
 if (isNil(process.env.EQ_SCHEMA_VALIDATOR_URL)) {
   throw Error("EQ_SCHEMA_VALIDATOR_URL not specified");
@@ -25,18 +24,12 @@ if (isNil(process.env.EQ_AUTHOR_API_URL)) {
   throw Error("EQ_AUTHOR_API_URL not specified");
 }
 
-const uri = process.env.EQ_AUTHOR_API_URL;
-const apolloFetch = createApolloFetch({ uri });
-
-const api = new GraphQLApi(apolloFetch);
-
 const converter = new Convert(
   new SchemaValidator(new ValidationApi(process.env.EQ_SCHEMA_VALIDATOR_URL))
 );
 
 const logger = pino();
 const app = express();
-const setAuthHeaders = createAuthHeaderMiddleware(apolloFetch);
 
 app.use(
   helmet({
@@ -60,8 +53,7 @@ app.get(
   "/graphql/:questionnaireId",
   logger,
   createAuthToken,
-  setAuthHeaders,
-  fetchData(api),
+  fetchData(getQuestionnaire(process.env.EQ_AUTHOR_API_URL)),
   respondWithData
 );
 
@@ -69,8 +61,7 @@ app.get(
   "/publish/:questionnaireId",
   logger,
   createAuthToken,
-  setAuthHeaders,
-  fetchData(api),
+  fetchData(getQuestionnaire(process.env.EQ_AUTHOR_API_URL)),
   schemaConverter(converter),
   respondWithData
 );

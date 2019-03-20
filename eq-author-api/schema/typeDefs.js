@@ -106,6 +106,7 @@ interface Answer {
   guidance: String
   qCode: String
   label: String
+  secondaryLabel: String
   type: AnswerType!
   page: QuestionPage
   properties: JSON
@@ -132,25 +133,12 @@ type MultipleChoiceAnswer implements Answer {
   guidance: String
   qCode: String
   label: String
+  secondaryLabel: String
   type: AnswerType!
   options: [Option]
   mutuallyExclusiveOption: Option
   page: QuestionPage
   properties: JSON
-}
-
-type CompositeAnswer implements Answer {
-  id: ID!
-  displayName: String!
-  description: String
-  guidance: String
-  qCode: String
-  label: String
-  type: AnswerType!
-  page: QuestionPage
-  childAnswers: [BasicAnswer]!
-  properties: JSON
-  validation: ValidationType
 }
 
 type Option {
@@ -426,48 +414,51 @@ type BinaryExpression2 {
 
 type Query {
   questionnaires: [Questionnaire]
-  questionnaire(id: ID!): Questionnaire
-  section(id: ID!): Section
-  page(id: ID!): Page
-  questionPage(id: ID!): QuestionPage
-  answer(id: ID!): Answer
+  questionnaire(input: QueryInput!): Questionnaire
+  section(input: QueryInput!): Section
+  page(input: QueryInput!): Page
+  questionPage(input: QueryInput!): QuestionPage
+  answer(input: QueryInput!): Answer
   answers(ids: [ID]!): [Answer]
-  option(id: ID!): Option
+  option(input: QueryInput!): Option
+  pagesAffectedByDeletion(pageId: ID!): [Page]! @deprecated(reason: "Not implemented")
   questionConfirmation(id: ID!): QuestionConfirmation
   me: User!
+}
+
+input QueryInput {
+  questionnaireId: ID
+  sectionId: ID
+  pageId: ID
+  answerId: ID
+  optionId: ID
 }
 
 type Mutation {
   createQuestionnaire(input: CreateQuestionnaireInput!): Questionnaire
   updateQuestionnaire(input: UpdateQuestionnaireInput!): Questionnaire
   deleteQuestionnaire(input: DeleteQuestionnaireInput!): Questionnaire
-  undeleteQuestionnaire(input: UndeleteQuestionnaireInput!): Questionnaire
   duplicateQuestionnaire(input: DuplicateQuestionnaireInput!): Questionnaire
   createSection(input: CreateSectionInput!): Section
   updateSection(input: UpdateSectionInput!): Section
   deleteSection(input: DeleteSectionInput!): Section
-  undeleteSection(input: UndeleteSectionInput!): Section
   moveSection(input: MoveSectionInput!): Section
   duplicateSection(input: DuplicateSectionInput!): Section
   createPage(input: CreatePageInput!): Page
   updatePage(input: UpdatePageInput!): Page
-  deletePage(input: DeletePageInput!): Page
-  undeletePage(input: UndeletePageInput!): Page
   movePage(input: MovePageInput!): Page
   duplicatePage(input: DuplicatePageInput!): Page
   createQuestionPage(input: CreateQuestionPageInput!): QuestionPage
   updateQuestionPage(input: UpdateQuestionPageInput!): QuestionPage
-  deleteQuestionPage(input: DeleteQuestionPageInput!): QuestionPage
-  undeleteQuestionPage(input: UndeleteQuestionPageInput!): QuestionPage
+  deleteQuestionPage(input: DeleteQuestionPageInput!): Section!
   createAnswer(input: CreateAnswerInput!): Answer
   updateAnswer(input: UpdateAnswerInput!): Answer
   deleteAnswer(input: DeleteAnswerInput!): Answer
-  undeleteAnswer(input: UndeleteAnswerInput!): Answer
+  moveAnswer(input: MoveAnswerInput!): Answer!
   createOption(input: CreateOptionInput!): Option
   createMutuallyExclusiveOption(input: CreateMutuallyExclusiveOptionInput!): Option
   updateOption(input: UpdateOptionInput!): Option
   deleteOption(input: DeleteOptionInput!): Option
-  undeleteOption(input: UndeleteOptionInput!): Option
   toggleValidationRule(input: ToggleValidationRuleInput!): ValidationRule!
   updateValidationRule(input: UpdateValidationRuleInput!): ValidationRule!
   createMetadata(input: CreateMetadataInput!): Metadata!
@@ -476,18 +467,17 @@ type Mutation {
   createQuestionConfirmation(input: CreateQuestionConfirmationInput): QuestionConfirmation!
   updateQuestionConfirmation(input: UpdateQuestionConfirmationInput): QuestionConfirmation!
   deleteQuestionConfirmation(input: DeleteQuestionConfirmationInput): QuestionConfirmation!
-  undeleteQuestionConfirmation(input: UndeleteQuestionConfirmationInput): QuestionConfirmation!
   createRouting2(input: CreateRouting2Input!): Routing2!
   updateRouting2(input: UpdateRouting2Input!): Routing2!
   createRoutingRule2(input: CreateRoutingRule2Input!): RoutingRule2!
   updateRoutingRule2(input: UpdateRoutingRule2Input!): RoutingRule2!
-  deleteRoutingRule2(input: DeleteRoutingRule2Input!): Routing2!
+  deleteRoutingRule2(input: DeleteRoutingRule2Input!): QuestionPage!
   updateExpressionGroup2(input: UpdateExpressionGroup2Input!): ExpressionGroup2!
   createBinaryExpression2(input: CreateBinaryExpression2Input!): BinaryExpression2!
   updateBinaryExpression2(input: UpdateBinaryExpression2Input!): BinaryExpression2!
   updateLeftSide2(input: UpdateLeftSide2Input!): BinaryExpression2!
   updateRightSide2(input: UpdateRightSide2Input!): BinaryExpression2!
-  deleteBinaryExpression2(input: DeleteBinaryExpression2Input!): BinaryExpression2!
+  deleteBinaryExpression2(input: DeleteBinaryExpression2Input!): ExpressionGroup2!
 }
 
 input CreateRouting2Input {
@@ -576,10 +566,6 @@ input DeleteQuestionnaireInput {
   id: ID!
 }
 
-input UndeleteQuestionnaireInput {
-  id: ID!
-}
-
 input DuplicateQuestionnaireInput {
   id: ID!
 }
@@ -603,10 +589,6 @@ input DeleteSectionInput {
   id: ID!
 }
 
-input UndeleteSectionInput {
-  id: ID!
-}
-
 input DuplicateSectionInput {
   id: ID!
   position: Int!
@@ -626,10 +608,6 @@ input UpdatePageInput {
 }
 
 input DeletePageInput {
-  id: ID!
-}
-
-input UndeletePageInput {
   id: ID!
 }
 
@@ -667,10 +645,6 @@ input DeleteQuestionPageInput {
   id: ID!
 }
 
-input UndeleteQuestionPageInput {
-  id: ID!
-}
-
 input CreateAnswerInput {
   description: String
   guidance: String
@@ -688,7 +662,6 @@ input UpdateAnswerInput {
   label: String
   secondaryLabel: String
   qCode: String
-  type: AnswerType
   properties: JSON
 }
 
@@ -696,8 +669,9 @@ input DeleteAnswerInput {
   id: ID!
 }
 
-input UndeleteAnswerInput {
+input MoveAnswerInput {
   id: ID!
+  position: Int!
 }
 
 input CreateOptionInput {
@@ -727,10 +701,6 @@ input UpdateOptionInput {
 }
 
 input DeleteOptionInput {
-  id: ID!
-}
-
-input UndeleteOptionInput {
   id: ID!
 }
 
@@ -845,7 +815,4 @@ input DeleteQuestionConfirmationInput {
   id: ID!
 }
 
-input UndeleteQuestionConfirmationInput {
-  id: ID!
-}
 `;

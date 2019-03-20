@@ -38,7 +38,7 @@ describe("BinaryExpressionEditor", () => {
         params: {
           questionnaireId: "1",
           sectionId: "2",
-          pageId: "123",
+          pageId: "3",
         },
       },
     };

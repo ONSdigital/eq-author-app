@@ -30,7 +30,7 @@ describe("containers/QuestionnaireDesignPage/withCreatePage", () => {
     };
 
     newPage = {
-      id: "22",
+      id: "8",
       title: "New Page",
       position: 1,
       section: {
@@ -76,13 +76,17 @@ describe("containers/QuestionnaireDesignPage/withCreatePage", () => {
     });
 
     it("should update position value of all pages", () => {
+      const pageAId = "a";
+      const pageBId = "b";
+      const pageCId = "c";
+
       const cache = {
         section: {
-          id: "1",
+          id: section.id,
           pages: [
-            { id: "A", position: 0 },
-            { id: "B", position: 1 },
-            { id: "C", position: 2 },
+            { id: pageAId, position: 0 },
+            { id: pageBId, position: 1 },
+            { id: pageCId, position: 2 },
           ],
         },
       };
@@ -92,14 +96,14 @@ describe("containers/QuestionnaireDesignPage/withCreatePage", () => {
         readFragment: jest.fn(() => cache.section),
       };
 
-      const updater = createUpdater("1", newPage.position);
+      const updater = createUpdater(section.id, newPage.position);
       updater(proxy, result);
 
       expect(cache.section.pages).toEqual([
-        { id: "A", position: 0 },
+        { id: pageAId, position: 0 },
         newPage,
-        { id: "B", position: 2 },
-        { id: "C", position: 3 },
+        { id: pageBId, position: 2 },
+        { id: pageCId, position: 3 },
       ]);
     });
   });

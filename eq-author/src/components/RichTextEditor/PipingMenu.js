@@ -114,6 +114,7 @@ const calculateEntityName = ({ pageId, confirmationId }) => {
 
 export const UnwrappedPipingMenu = props => (
   <AvailablePipingContentQuery
+    questionnaireId={props.match.params.questionnaireId}
     pageId={props.match.params.pageId}
     sectionId={props.match.params.sectionId}
     confirmationId={props.match.params.confirmationId}

@@ -4,6 +4,9 @@ import jwt from "jsonwebtoken";
 import uuid from "uuid";
 export const testId = (id, attr = "test") => `[data-${attr}="${id}"]`;
 
+export const questionPageRegex = /\/questionnaire\/[a-z0-9-]+\/[a-z0-9-]+\/[a-z0-9-]+\/design$/;
+export const sectionRegex = /\/questionnaire\/[a-z0-9-]+\/[a-z0-9-]+\/design$/;
+
 export const selectOptionByLabel = label => {
   cy.get("option")
     .contains(label)
@@ -273,3 +276,6 @@ export const selectAnswerFromContentPicker = ({
 export const createAccessToken = (payload, signingKey = uuid.v4()) => {
   return jwt.sign(payload, signingKey);
 };
+
+export const idRegex =
+  "[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89aAbB][a-f0-9]{3}-[a-f0-9]{12}";

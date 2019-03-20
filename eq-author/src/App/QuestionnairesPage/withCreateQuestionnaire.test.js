@@ -66,11 +66,13 @@ describe("withCreateQuestionnaire", () => {
   });
 
   describe("updateQuestionnaireList", () => {
-    let proxy, readQuery, writeQuery, data;
+    let proxy, readQuery, writeQuery, data, questionnaire1Id, questionnaire2Id;
 
     beforeEach(() => {
+      questionnaire1Id = "1";
+      questionnaire2Id = "2";
       data = {
-        questionnaires: [{ id: "2" }, { id: "1" }],
+        questionnaires: [{ id: questionnaire2Id }, { id: questionnaire1Id }],
       };
 
       readQuery = jest.fn(() => data);
@@ -95,7 +97,11 @@ describe("withCreateQuestionnaire", () => {
       expect(writeQuery).toHaveBeenCalledWith({
         query: getQuestionnaireList,
         data: {
-          questionnaires: [newQuestionnaire, { id: "2" }, { id: "1" }],
+          questionnaires: [
+            newQuestionnaire,
+            { id: questionnaire2Id },
+            { id: questionnaire1Id },
+          ],
         },
       });
     });

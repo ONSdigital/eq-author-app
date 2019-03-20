@@ -53,8 +53,8 @@ export class UnwrappedQuestionRoutingRoute extends React.Component {
 }
 
 const query = gql`
-  query GetRouting($pageId: ID!) {
-    questionPage(id: $pageId) {
+  query GetRouting($input: QueryInput!) {
+    questionPage(input: $input) {
       ...RoutingPage
     }
   }
@@ -64,7 +64,7 @@ const ROUTING_QUERY = transformNestedFragments(query, RoutingPage.fragments);
 const QueryingRoute = props => (
   <Query
     query={ROUTING_QUERY}
-    variables={{ pageId: props.match.params.pageId }}
+    variables={{ input: props.match.params }}
     fetchPolicy="network-only"
   >
     {innerProps => <UnwrappedQuestionRoutingRoute {...innerProps} {...props} />}

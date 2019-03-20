@@ -91,12 +91,8 @@ export class UnwrappedQuestionPageRoute extends React.Component {
     );
 
   handleDeletePageConfirm = () => {
-    const { onDeletePage, match } = this.props;
-    const {
-      params: { pageId, sectionId },
-    } = match;
-
-    this.handleCloseDeleteConfirmDialog(() => onDeletePage(sectionId, pageId));
+    const { onDeletePage, page } = this.props;
+    this.handleCloseDeleteConfirmDialog(() => onDeletePage(page));
   };
 
   handleAddPage = () => {
@@ -136,11 +132,7 @@ export class UnwrappedQuestionPageRoute extends React.Component {
       return <Loading height="38rem">Page loading…</Loading>;
     }
 
-    if (error) {
-      return <Error>Something went wrong</Error>;
-    }
-
-    if (isEmpty(page)) {
+    if (error || isEmpty(page)) {
       return <Error>Something went wrong</Error>;
     }
 
@@ -236,8 +228,8 @@ const WrappedQuestionPageRoute = withQuestionPageEditing(
 );
 
 export const QUESTION_PAGE_QUERY = gql`
-  query GetQuestionPage($id: ID!) {
-    questionPage(id: $id) {
+  query GetQuestionPage($input: QueryInput!) {
+    questionPage(input: $input) {
       ...QuestionPage
     }
   }
@@ -249,7 +241,13 @@ const QuestionPageRoute = props => (
   <Query
     query={QUESTION_PAGE_QUERY}
     fetchPolicy="cache-and-network"
-    variables={{ id: props.match.params.pageId }}
+    variables={{
+      input: {
+        questionnaireId: props.match.params.questionnaireId,
+        sectionId: props.match.params.sectionId,
+        pageId: props.match.params.pageId,
+      },
+    }}
   >
     {innerProps => (
       <WrappedQuestionPageRoute
@@ -268,6 +266,8 @@ const QuestionPageRoute = props => (
 QuestionPageRoute.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
+      questionnaireId: PropTypes.string.isRequired,
+      sectionId: PropTypes.string.isRequired,
       pageId: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,

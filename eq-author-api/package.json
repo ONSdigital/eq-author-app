@@ -5,37 +5,40 @@
   "license": "MIT",
   "scripts": {
     "start": "node app.js",
-    "start:dev": "NODE_ENV=development nodemon --inspect=0.0.0.0:5858",
+    "start:dev": "NODE_ENV=development nodemon --ignore 'data/ migrations/' --inspect=0.0.0.0:5858",
     "lint": "eslint .",
     "test": "./scripts/test.sh",
     "test:breakingChanges": "node scripts/checkForBreakingChanges.js",
-    "knex": "knex"
+    "dynamodb-admin": "AWS_ACCESS_KEY_ID=dummy AWS_SECRET_ACCESS_KEY=dummy DYNAMO_ENDPOINT=http://localhost:8050 dynamodb-admin",
+    "create-migration": "node scripts/createMigration.js"
   },
   "dependencies": {
-    "aws-sdk": "latest",
-    "body-parser": "latest",
+    "apollo-server-express": "latest",
+    "chalk": "latest",
     "cheerio": "latest",
     "cors": "latest",
+    "deep-map": "^1.5",
     "dotenv": "latest",
+    "dynamoose": "latest",
     "express": "latest",
     "express-pino-logger": "latest",
     "graphql": "latest",
+    "graphql-anywhere": "latest",
     "graphql-iso-date": "latest",
-    "graphql-server-express": "latest",
     "graphql-tools": "latest",
     "graphql-type-json": "latest",
     "helmet": "latest",
     "js-yaml": "latest",
+    "json-stable-stringify": "latest",
     "json-web-key": "latest",
+    "jsondiffpatch": "latest",
     "jsonwebtoken": "latest",
     "jsrsasign": "latest",
-    "knex": "latest",
     "lodash": "latest",
     "node-jose": "latest",
-    "pg": "latest",
-    "pg-hstore": "latest",
     "pino-noir": "latest",
-    "wait-for-postgres": "latest"
+    "uuid": "latest",
+    "wait-on": "latest"
   },
   "engines": {
     "node": ">=7.10.0"
@@ -47,15 +50,19 @@
     "collectCoverageFrom": [
       "**/*.js",
       "!config/**/*",
-      "!migrations/*",
       "!coverage/**/*",
       "!tests/**/*",
       "!scripts/*",
       "!middleware/import.js",
-      "!app.js"
+      "!app.js",
+      "!utils/datastoreFileSystem.js"
+    ],
+    "watchPathIgnorePatterns": [
+      "data/"
     ]
   },
   "devDependencies": {
+    "dynamodb-admin": "latest",
     "eslint": "latest",
     "eslint-config-eq-author": "latest",
     "jest": "latest",

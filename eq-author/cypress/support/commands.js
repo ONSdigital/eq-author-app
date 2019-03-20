@@ -69,12 +69,26 @@ Cypress.Commands.add("deleteQuestionnaire", title => {
     cy.contains(new RegExp(`^${title}`))
       .closest("tr")
       .within(() => {
+        cy.get(testId("btn-delete-questionnaire")).should("be.visible");
+        cy.get(testId("btn-delete-questionnaire")).should("be.enabled");
         cy.get(testId("btn-delete-questionnaire")).click();
       });
   });
   cy.get(testId("btn-delete-modal")).click();
   cy.dismissAllToast();
 });
+
+function responseStub(result) {
+  return {
+    json() {
+      return Promise.resolve(result);
+    },
+    text() {
+      return Promise.resolve(JSON.stringify(result));
+    },
+    ok: true,
+  };
+}
 
 Cypress.Commands.add("visitStubbed", function(url, operations = {}) {
   cy.visit(url, {
@@ -99,17 +113,6 @@ Cypress.Commands.add("visitStubbed", function(url, operations = {}) {
   }
 });
 
-function responseStub(result) {
-  return {
-    json() {
-      return Promise.resolve(result);
-    },
-    text() {
-      return Promise.resolve(JSON.stringify(result));
-    },
-    ok: true,
-  };
-}
 //
 //
 // -- This is a child command --

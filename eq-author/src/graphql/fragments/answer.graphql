@@ -3,6 +3,7 @@ fragment Answer on Answer {
   description
   guidance
   label
+  secondaryLabel
   type
   properties
 }

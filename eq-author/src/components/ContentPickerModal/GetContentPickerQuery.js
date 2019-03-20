@@ -24,14 +24,6 @@ export const CONTENT_PICKER_QUERY = gql`
               label
               displayName
               type
-              ... on CompositeAnswer {
-                childAnswers {
-                  id
-                  label
-                  displayName
-                  type
-                }
-              }
             }
           }
         }

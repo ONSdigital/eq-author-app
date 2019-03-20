@@ -1,13 +1,18 @@
 import { mapMutateToProps } from "./withDeleteQuestionConfirmation";
 
 describe("withDeleteQuestionConfirmation", () => {
-  let mutate, ownProps;
+  let mutate, ownProps, questionnaireId, sectionId, pageId, confirmationId;
 
   beforeEach(() => {
+    questionnaireId = "1";
+    sectionId = "2";
+    pageId = "3";
+    confirmationId = "4";
+
     mutate = jest.fn().mockResolvedValue({
       data: {
         deleteQuestionConfirmation: {
-          id: "4",
+          id: confirmationId,
         },
       },
     });
@@ -16,14 +21,14 @@ describe("withDeleteQuestionConfirmation", () => {
         push: jest.fn(),
       },
       location: {
-        pathname: "/1/2/3/4/design",
+        pathname: `/${questionnaireId}/${sectionId}/${pageId}/${confirmationId}/design`,
       },
       match: {
         params: {
-          questionnaireId: "1",
-          sectionId: "2",
-          pageId: "3",
-          confirmationId: "4",
+          questionnaireId,
+          sectionId,
+          pageId,
+          confirmationId,
           tab: "design",
         },
       },
@@ -39,9 +44,9 @@ describe("withDeleteQuestionConfirmation", () => {
 
   it("should filter the values and run the delete", async () => {
     const confirmationToDelete = {
-      id: "4",
+      id: confirmationId,
       page: {
-        id: "5",
+        id: pageId,
       },
       positive: {
         label: "yes",
@@ -55,7 +60,7 @@ describe("withDeleteQuestionConfirmation", () => {
     expect(mutate).toHaveBeenCalledWith({
       variables: {
         input: {
-          id: "4",
+          id: confirmationId,
         },
       },
     });
@@ -63,34 +68,35 @@ describe("withDeleteQuestionConfirmation", () => {
 
   it("should navigate to the parent page", async () => {
     await mapMutateToProps({ mutate, ownProps }).onDeleteQuestionConfirmation({
-      id: "4",
+      id: confirmationId,
     });
     expect(ownProps.history.push).toHaveBeenCalledWith(
-      "/questionnaire/1/2/3/design"
+      `/questionnaire/${questionnaireId}/${sectionId}/${pageId}/design`
     );
   });
 
   it("should show the toast passing the confirmation to restore and message", async () => {
-    const questionConfirmation = { id: "4" };
+    const questionConfirmation = { id: confirmationId };
     await mapMutateToProps({
       mutate,
       ownProps,
     }).onDeleteQuestionConfirmation(questionConfirmation);
     expect(ownProps.raiseToast).toHaveBeenCalledWith(
-      "QuestionConfirmation4",
+      `QuestionConfirmation${confirmationId}`,
       "Confirmation deleted",
-      "undeleteQuestionConfirmation",
       { questionConfirmation, goBack: expect.any(Function) }
     );
   });
 
   it("should navigate back to the original url when goBack is called", async () => {
-    const questionConfirmation = { id: "4" };
+    const questionConfirmation = { id: confirmationId };
     await mapMutateToProps({
       mutate,
       ownProps,
     }).onDeleteQuestionConfirmation(questionConfirmation);
-    ownProps.raiseToast.mock.calls[0][3].goBack();
-    expect(ownProps.history.push).toHaveBeenCalledWith("/1/2/3/4/design");
+    ownProps.raiseToast.mock.calls[0][2].goBack();
+    expect(ownProps.history.push).toHaveBeenCalledWith(
+      `/${questionnaireId}/${sectionId}/${pageId}/${confirmationId}/design`
+    );
   });
 });

@@ -47,8 +47,8 @@ UnwrappedPreviewSectionRoute.propTypes = {
 };
 
 export const SECTION_QUERY = gql`
-  query GetSection($id: ID!) {
-    section(id: $id) {
+  query GetSection($input: QueryInput!) {
+    section(input: $input) {
       ...Section
     }
   }
@@ -57,7 +57,15 @@ export const SECTION_QUERY = gql`
 `;
 
 export default withApollo(props => (
-  <Query query={SECTION_QUERY} variables={{ id: props.match.params.sectionId }}>
+  <Query
+    query={SECTION_QUERY}
+    variables={{
+      input: {
+        sectionId: props.match.params.sectionId,
+        questionnaireId: props.match.params.questionnaireId,
+      },
+    }}
+  >
     {innerProps => <UnwrappedPreviewSectionRoute {...innerProps} {...props} />}
   </Query>
 ));

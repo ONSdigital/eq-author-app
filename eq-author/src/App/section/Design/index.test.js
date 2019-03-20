@@ -11,17 +11,22 @@ import { byTestAttr } from "tests/utils/selectors";
 
 import GET_QUESTIONNAIRE_QUERY from "graphql/getQuestionnaire.graphql";
 
+const questionnaireId = "1";
+const sectionId = "2";
+
 const moveSectionMock = {
   request: {
     query: GET_QUESTIONNAIRE_QUERY,
     variables: {
-      id: "1",
+      input: {
+        questionnaireId,
+      },
     },
   },
   result: {
     data: {
       questionnaire: {
-        id: "1",
+        id: questionnaireId,
         title: "",
         description: "",
         surveyId: "1",
@@ -33,7 +38,7 @@ const moveSectionMock = {
         sections: [
           {
             __typename: "Section",
-            id: "2",
+            id: sectionId,
             title: "foo",
             alias: "foo-alias",
             introductionTitle: "",
@@ -60,7 +65,7 @@ const moveSectionMock = {
             ],
             questionnaire: {
               __typename: "Questionnaire",
-              id: "1",
+              id: questionnaireId,
               navigation: true,
               questionnaireInfo: {
                 __typename: "QuestionnaireInfo",
@@ -97,7 +102,7 @@ const moveSectionMock = {
             ],
             questionnaire: {
               __typename: "Questionnaire",
-              id: "1",
+              id: questionnaireId,
               navigation: true,
               questionnaireInfo: {
                 __typename: "QuestionnaireInfo",
@@ -118,7 +123,7 @@ describe("SectionRoute", () => {
     childContextTypes = { router: PropTypes.object };
 
     match = {
-      params: { questionnaireId: "1", sectionId: "2" },
+      params: { questionnaireId: questionnaireId, sectionId },
     };
 
     store = {
@@ -149,15 +154,13 @@ describe("SectionRoute", () => {
       const mock = {
         request: {
           query: SECTION_QUERY,
-          variables: {
-            id: "2",
-          },
+          variables: { input: { questionnaireId, sectionId } },
         },
         result: {
           data: {
             section: {
               __typename: "Section",
-              id: "1",
+              id: sectionId,
               title: "foo",
               alias: "foo-alias",
               displayName: "foo",
@@ -167,7 +170,7 @@ describe("SectionRoute", () => {
               position: 0,
               questionnaire: {
                 __typename: "Questionnaire",
-                id: "1",
+                id: questionnaireId,
                 navigation: true,
                 questionnaireInfo: {
                   __typename: "QuestionnaireInfo",
@@ -178,25 +181,26 @@ describe("SectionRoute", () => {
           },
         },
       };
-
       const wrapper = render([mock, moveSectionMock]);
       expect(wrapper.find(`[data-test="loading"]`).exists()).toBe(true);
       expect(wrapper.find(`[data-test="section-editor"]`).exists()).toBe(false);
+
+      return flushPromises().then(() => {
+        wrapper.update();
+      });
     });
 
     it("should render the editor once loaded", () => {
       const mock = {
         request: {
           query: SECTION_QUERY,
-          variables: {
-            id: "2",
-          },
+          variables: { input: { questionnaireId, sectionId } },
         },
         result: {
           data: {
             section: {
               __typename: "Section",
-              id: "2",
+              id: sectionId,
               title: "foo",
               alias: "foo-alias",
               displayName: "foo",
@@ -233,31 +237,33 @@ describe("SectionRoute", () => {
       const mock = {
         request: {
           query: SECTION_QUERY,
+          variables: { input: { questionnaireId: "1", sectionId: "2" } },
         },
         error: new Error("something went wrong"),
       };
 
       const wrapper = render([mock]);
 
-      return flushPromises().then(() => {
-        wrapper.update();
-        expect(wrapper.find(`[data-test="loading"]`).exists()).toBe(false);
-        expect(wrapper.find(`[data-test="section-editor"]`).exists()).toBe(
-          false
-        );
-        expect(wrapper.find(`[data-test="error"]`).exists()).toBe(true);
-      });
+      return flushPromises()
+        .then(flushPromises)
+        .then(() => {
+          wrapper.update();
+          expect(wrapper.find(`[data-test="loading"]`).exists()).toBe(false);
+          expect(wrapper.find(`[data-test="section-editor"]`).exists()).toBe(
+            false
+          );
+          expect(wrapper.find(`[data-test="error"]`).exists()).toBe(true);
+        });
     });
 
     it("should render error if no section returned", () => {
       const mock = {
         request: {
           query: SECTION_QUERY,
+          variables: { input: { questionnaireId: "1", sectionId: "2" } },
         },
         result: {
-          data: {
-            section: null,
-          },
+          data: null,
         },
       };
 
@@ -332,7 +338,7 @@ describe("SectionRoute", () => {
         .first()
         .simulate("click");
 
-      expect(mockHandlers.onDeleteSection).toHaveBeenCalledWith("2");
+      expect(mockHandlers.onDeleteSection).toHaveBeenCalledWith(sectionId);
     });
 
     it("allows new pages to be added", () => {

@@ -1,10 +1,13 @@
 const { get } = require("lodash");
 
-const fetchData = API => async (req, res, next) => {
+const fetchData = getQuestionnaire => async (req, res, next) => {
   let result;
 
   try {
-    result = await API.getAuthorData(req.params.questionnaireId);
+    result = await getQuestionnaire(
+      req.params.questionnaireId,
+      res.locals.accessToken
+    );
   } catch (err) {
     return next(err);
   }
