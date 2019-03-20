@@ -29,3 +29,16 @@ keys:
       LKpPms/WjRAUCxnsslcURTcTYehZAeOAic9ITWv1ppr6AN3AL71qdQ==
       -----END RSA PRIVATE KEY-----
     use: signing
+
+  publisherAuthPublicKey:
+    value: |
+      -----BEGIN PUBLIC KEY-----
+      MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApEJbinF5XUgXS9MTqwYy
+      DClmEYHQRW4T20ofE+9568GVAGwyn80T0F8sLM3bW9GNj3xxnd/4NKG/E8kD3pXN
+      q2IdBoCpr6OOJgs/JY+5aztOIQplcxzy0jH6BPAVBkmNwmx1ebsDRdZMjQwvOAFT
+      ce/8vhH+xRFFChX5cE3n3MZg+5FyDlXePbXNWwHEY0CWLD317FNKJt1IS5JanjY0
+      jHKX3/+wifKiZ3y03OwMLH9BEMTGdw5rQlKq48hW2ZYFrvqYN/jqVG5BSVjUu6uZ
+      oLu+Bjn93Yk9rCyIkDYSlp924aXCpWR/vDvfw8wW9OOqQlYmuoKjz3YQ5rNGLUfG
+      YQIDAQAB
+      -----END PUBLIC KEY-----
+    use: verifying

@@ -1,5 +1,7 @@
 const createAuthToken = require("./createAuthToken");
 const jwt = require("jsonwebtoken");
+const yaml = require("js-yaml");
+const fs = require("fs");
 
 describe("createAuthToken", () => {
   let req;
@@ -31,6 +33,22 @@ describe("createAuthToken", () => {
     it("should create a valid token", () => {
       createAuthToken(req, res, next);
       expect(jwt.decode(res.locals.accessToken)).toMatchObject({
+        email: "eq.team@ons.gov.uk",
+        name: "Publisher",
+        picture: "",
+        /* eslint-disable-next-line camelcase */
+        user_id: "Publisher",
+      });
+    });
+
+    it("should be signed using a private key", () => {
+      createAuthToken(req, res, next);
+      const keysYaml = yaml.safeLoad(fs.readFileSync("./keys.yml", "utf8"));
+      const keysJson = JSON.parse(JSON.stringify(keysYaml));
+      const publicKey = keysJson.keys.publisherAuthPublicKey.value;
+      expect(
+        jwt.verify(res.locals.accessToken, publicKey, { algorithms: ["RS256"] })
+      ).toMatchObject({
         email: "eq.team@ons.gov.uk",
         name: "Publisher",
         picture: "",
