@@ -7,6 +7,31 @@ exports[`PropertiesPanel should render when there are answers 1`] = `
       permanentScrollBar={false}
     >
       <div>
+        <Apollo(UnwrappedQuestionProperties)
+          page={
+            Object {
+              "__typename": "Page",
+              "answers": Array [
+                Object {
+                  "__typename": "Answer",
+                  "id": "1",
+                  "index": 0,
+                  "type": "Number",
+                },
+                Object {
+                  "__typename": "Answer",
+                  "id": "2",
+                  "index": 1,
+                  "type": "TextField",
+                },
+              ],
+              "id": "1",
+              "type": "Questionnaire",
+            }
+          }
+        />
+      </div>
+      <div>
         <PropertiesPanel__AnswerPropertiesContainer
           data-test="properties-0"
           hasBorder={false}
@@ -84,7 +109,20 @@ exports[`PropertiesPanel should render when there are no answers 1`] = `
   <PropertiesPanel__PropertiesPaneBody>
     <ScrollPane
       permanentScrollBar={false}
-    />
+    >
+      <div>
+        <Apollo(UnwrappedQuestionProperties)
+          page={
+            Object {
+              "__typename": "Page",
+              "answers": Array [],
+              "id": "1",
+              "type": "Questionnaire",
+            }
+          }
+        />
+      </div>
+    </ScrollPane>
   </PropertiesPanel__PropertiesPaneBody>
 </PropertiesPanel__PropertiesPane>
 `;

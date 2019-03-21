@@ -11,6 +11,9 @@ import {
   navigateToFirstSection,
   questionPageRegex,
   sectionRegex,
+  enableDescription,
+  enableGuidance,
+  enableDefinition,
 } from "../../utils";
 import { times, includes } from "lodash";
 import { Routes } from "../../../src/utils/UrlUtils";
@@ -51,12 +54,22 @@ describe("builder", () => {
       "goodbye world"
     );
 
+    cy.get(testId("side-nav")).should("contain", "question alias");
+
+    enableDescription();
     typeIntoDraftEditor(
       testId("txt-question-description", "testid"),
       "my new question description"
     );
 
-    cy.get(testId("side-nav")).should("contain", "question alias");
+    //Should retain content
+    cy.get(testId("descriptionEnabled")).click();
+    cy.get(testId("txt-question-description", "testid")).should("not.exist");
+    cy.get(testId("descriptionEnabled")).click();
+    cy.get(testId("txt-question-description", "testid")).should(
+      "contain",
+      "my new question description"
+    );
   });
 
   it("Can create a new page", () => {
@@ -86,6 +99,7 @@ describe("builder", () => {
   });
 
   it("Can edit question guidance", () => {
+    enableGuidance();
     const guidance = "this is some guidance";
     typeIntoDraftEditor(testId("txt-question-guidance", "testid"), guidance);
 
@@ -101,9 +115,19 @@ describe("builder", () => {
       "contain",
       guidance
     );
+
+    //Should retain content
+    cy.get(testId("guidanceEnabled")).click();
+    cy.get(testId("txt-question-guidance", "testid")).should("not.exist");
+    cy.get(testId("guidanceEnabled")).click();
+    cy.get(testId("txt-question-guidance", "testid")).should(
+      "contain",
+      guidance
+    );
   });
 
   it("Can edit question definition", () => {
+    enableDefinition();
     const definitionLabel = "this is some definition label";
     cy.get(testId("txt-question-definition-label")).type(definitionLabel);
     cy.get(testId("txt-question-definition-label")).should(
@@ -120,9 +144,28 @@ describe("builder", () => {
       "contain",
       definitionContent
     );
+
+    //Should retain content
+    cy.get(testId("definitionEnabled")).click();
+    cy.get(testId("txt-question-definition-label")).should("not.exist");
+    cy.get(testId("txt-question-definition-content", "testid")).should(
+      "not.exist"
+    );
+    cy.get(testId("definitionEnabled")).click();
+    cy.get(testId("txt-question-definition-content", "testid")).should(
+      "contain",
+      definitionContent
+    );
   });
 
   it("Can edit question additional information", () => {
+    cy.get(testId("additionalInfoEnabled")).click();
+    cy.focused().should(
+      "have.attr",
+      "data-test",
+      "txt-question-additional-info-label"
+    );
+
     const additionalInfoLabel = "this is some additionalInfo label";
     cy.get(testId("txt-question-additional-info-label")).type(
       additionalInfoLabel
@@ -137,6 +180,18 @@ describe("builder", () => {
       testId("txt-question-additional-info-content", "testid"),
       additionalInfoContent
     );
+    cy.get(testId("txt-question-additional-info-content", "testid")).should(
+      "contain",
+      additionalInfoContent
+    );
+
+    //Should retain content
+    cy.get(testId("additionalInfoEnabled")).click();
+    cy.get(testId("txt-question-additional-info-label")).should("not.exist");
+    cy.get(testId("txt-question-additional-info-content", "testid")).should(
+      "not.exist"
+    );
+    cy.get(testId("additionalInfoEnabled")).click();
     cy.get(testId("txt-question-additional-info-content", "testid")).should(
       "contain",
       additionalInfoContent

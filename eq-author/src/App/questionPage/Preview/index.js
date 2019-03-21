@@ -5,7 +5,6 @@ import { withApollo, Query } from "react-apollo";
 import gql from "graphql-tag";
 import { propType } from "graphql-anywhere";
 import styled from "styled-components";
-import { isEmpty } from "lodash";
 
 import IconText from "components/IconText";
 import Loading from "components/Loading";
@@ -44,7 +43,7 @@ const Container = styled.div`
   }
 `;
 
-const Description = styled.div`
+export const Description = styled.div`
   margin-bottom: 1em;
 `;
 
@@ -96,11 +95,15 @@ export const UnwrappedPreviewPageRoute = ({ loading, data }) => {
   const {
     title,
     description,
+    descriptionEnabled,
     guidance,
+    guidanceEnabled,
     definitionLabel,
     definitionContent,
+    definitionEnabled,
     additionalInfoLabel,
     additionalInfoContent,
+    additionalInfoEnabled,
     answers,
   } = questionPage;
 
@@ -109,14 +112,17 @@ export const UnwrappedPreviewPageRoute = ({ loading, data }) => {
       <Container>
         <PageTitle title={title} />
 
-        {description && (
-          <Description
-            data-test="description"
-            dangerouslySetInnerHTML={{ __html: description }}
-          />
+        {descriptionEnabled && (
+          <div data-test="description">
+            {description ? (
+              <Description dangerouslySetInnerHTML={{ __html: description }} />
+            ) : (
+              <Error large>Missing description</Error>
+            )}
+          </div>
         )}
 
-        {(!isEmpty(definitionLabel) || !isEmpty(definitionContent)) && (
+        {definitionEnabled && (
           <Details data-test="definition">
             <DetailsTitle>
               {definitionLabel || <Error small>Missing definition label</Error>}
@@ -133,10 +139,16 @@ export const UnwrappedPreviewPageRoute = ({ loading, data }) => {
           </Details>
         )}
 
-        {guidance && (
-          <Guidance data-test="guidance">
-            <Panel dangerouslySetInnerHTML={{ __html: guidance }} />
-          </Guidance>
+        {guidanceEnabled && (
+          <div data-test="guidance">
+            {guidance ? (
+              <Guidance>
+                <Panel dangerouslySetInnerHTML={{ __html: guidance }} />
+              </Guidance>
+            ) : (
+              <Error large>Missing guidance</Error>
+            )}
+          </div>
         )}
 
         {answers.length ? (
@@ -153,7 +165,7 @@ export const UnwrappedPreviewPageRoute = ({ loading, data }) => {
           </Error>
         )}
 
-        {(!isEmpty(additionalInfoLabel) || !isEmpty(additionalInfoContent)) && (
+        {additionalInfoEnabled && (
           <Details data-test="additional-info">
             <DetailsTitle>
               {additionalInfoLabel || (

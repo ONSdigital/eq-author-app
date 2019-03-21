@@ -9,11 +9,15 @@ const createQuestionPageMutation = `
       alias
       title
       description
+      descriptionEnabled
       guidance
+      guidanceEnabled
       definitionLabel
       definitionContent
+      definitionEnabled
       additionalInfoLabel
       additionalInfoContent
+      additionalInfoEnabled
       position
     }
   }
@@ -29,13 +33,17 @@ const createQuestionPage = async (questionnaire, input) => {
             title
             alias
             description
+            descriptionEnabled
             guidance
+            guidanceEnabled
             sectionId
             position
             definitionLabel
             definitionContent
+            definitionEnabled
             additionalInfoLabel
             additionalInfoContent
+            additionalInfoEnabled
           }
         `,
         input

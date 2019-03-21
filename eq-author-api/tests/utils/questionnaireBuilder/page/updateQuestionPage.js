@@ -7,11 +7,15 @@ const updateQuestionPageMutation = `
       alias
       title
       description
+      descriptionEnabled
       guidance
+      guidanceEnabled
       definitionLabel
       definitionContent
+      definitionEnabled
       additionalInfoLabel
       additionalInfoContent
+      additionalInfoEnabled
     }
   }
 `;

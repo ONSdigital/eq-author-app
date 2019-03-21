@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`QuestionProperties should render 1`] = `
+<QuestionProperties__Properties>
+  <QuestionProperties__PropertiesPanelTitle>
+    Optional fields
+  </QuestionProperties__PropertiesPanelTitle>
+  <Property
+    data-test="descriptionEnabled"
+    id="descriptionEnabled"
+    onChange={[Function]}
+  >
+    Question description
+  </Property>
+  <QuestionProperties__PropertyDescription>
+    To provide added context to the question.
+  </QuestionProperties__PropertyDescription>
+  <Property
+    data-test="definitionEnabled"
+    id="definitionEnabled"
+    onChange={[Function]}
+  >
+    Question definition
+  </Property>
+  <QuestionProperties__PropertyDescription>
+    Only to be used to define word(s) or acronym(s) within the question.
+  </QuestionProperties__PropertyDescription>
+  <Property
+    data-test="guidanceEnabled"
+    id="guidanceEnabled"
+    onChange={[Function]}
+  >
+    Include/exclude
+  </Property>
+  <QuestionProperties__PropertyDescription>
+    Only to be used to state what should be included or excluded from the answer.
+  </QuestionProperties__PropertyDescription>
+  <Property
+    data-test="additionalInfoEnabled"
+    id="additionalInfoEnabled"
+    onChange={[Function]}
+  >
+    Additional information
+  </Property>
+  <QuestionProperties__PropertyDescription>
+    Information regarding why we are asking this question.
+  </QuestionProperties__PropertyDescription>
+</QuestionProperties__Properties>
+`;

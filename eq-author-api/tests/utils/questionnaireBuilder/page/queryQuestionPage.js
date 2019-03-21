@@ -19,7 +19,9 @@ const getQuestionPageQuery = `
         alias
         displayName
         description
+        descriptionEnabled
         guidance
+        guidanceEnabled
         pageType
         answers {
           ...on Answer {
@@ -32,8 +34,10 @@ const getQuestionPageQuery = `
         position
         definitionLabel
         definitionContent
+        definitionEnabled
         additionalInfoLabel
         additionalInfoContent
+        additionalInfoEnabled
         availablePipingAnswers {
           id
         }

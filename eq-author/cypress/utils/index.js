@@ -215,6 +215,10 @@ export const toggleCheckboxOff = selector => {
 export const selectFirstAnswerFromContentPicker = () => {
   cy.get("button")
     .contains("Answer")
+    .should("have.length", 1);
+
+  cy.get("button")
+    .contains("Answer")
     .click();
 
   cy.get(testId("picker-title"))
@@ -279,3 +283,22 @@ export const createAccessToken = (payload, signingKey = uuid.v4()) => {
 
 export const idRegex =
   "[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89aAbB][a-f0-9]{3}-[a-f0-9]{12}";
+
+export const enableDescription = () => {
+  cy.get(testId("descriptionEnabled")).click();
+  cy.focused().should("have.attr", "data-testid", "txt-question-description");
+};
+
+export const enableGuidance = () => {
+  cy.get(testId("guidanceEnabled")).click();
+  cy.focused().should("have.attr", "data-testid", "txt-question-guidance");
+};
+
+export const enableDefinition = () => {
+  cy.get(testId("definitionEnabled")).click();
+  cy.focused().should(
+    "have.attr",
+    "data-test",
+    "txt-question-definition-label"
+  );
+};

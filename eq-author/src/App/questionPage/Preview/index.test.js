@@ -4,6 +4,8 @@ import { shallow } from "enzyme";
 import { byTestAttr } from "tests/utils/selectors";
 import { TEXTFIELD } from "constants/answer-types";
 
+import Error from "components/preview/Error";
+
 import {
   DetailsContent,
   DetailsTitle,
@@ -18,12 +20,16 @@ describe("PreviewPageRoute", () => {
       displayName: "Question",
       position: 1,
       title: "<p>Hello world</p>",
-      guidance: "<p>Guidance</p>",
       description: "<p>Description</p>",
+      descriptionEnabled: true,
+      guidance: "<p>Guidance</p>",
+      guidanceEnabled: true,
       definitionLabel: "<p>Definition Label</p>",
       definitionContent: "<p>Definition Content</p>",
+      definitionEnabled: true,
       additionalInfoLabel: "<p>Additional Info Label</p>",
       additionalInfoContent: "<p>Additional Info Content</p>",
+      additionalInfoEnabled: true,
       answers: [{ id: "1", type: TEXTFIELD }],
       section: {
         id: "1",
@@ -55,25 +61,42 @@ describe("PreviewPageRoute", () => {
     expect(wrapper.find(byTestAttr("no-answers"))).toBeTruthy();
   });
 
-  it("should not render description when not populated", () => {
-    questionPage.description = null;
+  it("should not render description when disabled", () => {
+    questionPage.descriptionEnabled = false;
     const wrapper2 = shallow(
       <PreviewPageRoute loading={false} data={{ questionPage }} />
     );
     expect(wrapper2.exists(byTestAttr("description"))).toBeFalsy();
   });
 
-  it("should not render guidance, or description when they are not populated", () => {
-    questionPage.guidance = "";
+  it("should render description missing message", () => {
+    questionPage.description = "";
+    const wrapper2 = shallow(
+      <PreviewPageRoute loading={false} data={{ questionPage }} />
+    );
+    expect(
+      wrapper2.find(byTestAttr("description")).find(Error)
+    ).toMatchSnapshot();
+  });
+
+  it("should not render guidance when disabled", () => {
+    questionPage.guidanceEnabled = false;
     const wrapper = shallow(
       <PreviewPageRoute loading={false} data={{ questionPage }} />
     );
     expect(wrapper.exists(byTestAttr("guidance"))).toBeFalsy();
   });
 
-  it("should not render definition if definition label and content empty", () => {
-    questionPage.definitionLabel = "";
-    questionPage.definitionContent = "";
+  it("should render guidance missing message", () => {
+    questionPage.guidance = "";
+    const wrapper2 = shallow(
+      <PreviewPageRoute loading={false} data={{ questionPage }} />
+    );
+    expect(wrapper2.find(byTestAttr("guidance")).find(Error)).toMatchSnapshot();
+  });
+
+  it("should not render definition when disabled", () => {
+    questionPage.definitionEnabled = false;
     const wrapper = shallow(
       <PreviewPageRoute loading={false} data={{ questionPage }} />
     );
@@ -100,9 +123,8 @@ describe("PreviewPageRoute", () => {
     ).toMatchSnapshot();
   });
 
-  it("should not render additional information if additional information label and content empty", () => {
-    questionPage.additionalInfoLabel = "";
-    questionPage.additionalInfoContent = "";
+  it("should not render additional information when disabled", () => {
+    questionPage.additionalInfoEnabled = false;
     const wrapper = shallow(
       <PreviewPageRoute loading={false} data={{ questionPage }} />
     );
