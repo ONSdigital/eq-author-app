@@ -39,6 +39,7 @@ describe("components/RichTextEditor", function() {
       label: "I am a label",
       id: "test",
       name: "test-name",
+      testSelector: "test-selector-foo",
     };
     editorFocus = jest.fn();
     editorInstance = {

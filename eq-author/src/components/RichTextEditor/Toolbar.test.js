@@ -28,13 +28,7 @@ describe("components/RichTextEditor/Toolbar", () => {
     buttons = wrapper.find(ToolbarButton);
   });
 
-  it("should render as hidden by default", () => {
-    wrapper = shallow(<Toolbar {...props} />);
-    expect(wrapper).toMatchSnapshot();
-    expect(wrapper.find(ToolbarButton).length).toBe(0);
-  });
-
-  it("should render as visible", () => {
+  it("should render", () => {
     expect(buttons.length).toBeGreaterThan(0);
     expect(wrapper).toMatchSnapshot();
   });

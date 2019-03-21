@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import styled from "styled-components";
+import { isEmpty } from "lodash";
 
 import ContentPickerModal from "components/ContentPickerModal";
 import AvailablePipingContentQuery from "components/RichTextEditor/AvailablePipingContentQuery";
@@ -28,11 +29,16 @@ export const MenuButton = styled(PipingIconButton)`
   }
 `;
 
+const buttonProps = {
+  title: "Pipe value",
+};
+
 export class Menu extends React.Component {
   static propTypes = {
     onItemChosen: PropTypes.func.isRequired,
     match: CustomPropTypes.match,
     disabled: PropTypes.bool,
+    canFocus: PropTypes.bool,
     loading: PropTypes.bool,
     answerData: PropTypes.arrayOf(
       PropTypes.shape({
@@ -68,13 +74,16 @@ export class Menu extends React.Component {
   };
 
   render() {
-    const { answerData, metadataData, disabled, loading } = this.props;
+    const {
+      answerData,
+      metadataData,
+      disabled,
+      loading,
+      canFocus,
+    } = this.props;
 
-    const buttonProps = {
-      title: "Pipe value",
-    };
-
-    const isDisabled = loading || disabled || (!answerData && !metadataData);
+    const isDisabled =
+      loading || disabled || (isEmpty(answerData) && isEmpty(metadataData));
 
     if (isDisabled) {
       return <MenuButton {...buttonProps} disabled />;
@@ -86,6 +95,7 @@ export class Menu extends React.Component {
           {...buttonProps}
           disabled={isDisabled}
           onClick={this.handleButtonClick}
+          canFocus={canFocus}
           data-test="piping-button"
         />
         <ContentPickerModal
@@ -112,31 +122,37 @@ const calculateEntityName = ({ pageId, confirmationId }) => {
   return "section";
 };
 
-export const UnwrappedPipingMenu = props => (
-  <AvailablePipingContentQuery
-    questionnaireId={props.match.params.questionnaireId}
-    pageId={props.match.params.pageId}
-    sectionId={props.match.params.sectionId}
-    confirmationId={props.match.params.confirmationId}
-  >
-    {({ data = {}, ...innerProps }) => {
-      const entityName = calculateEntityName(props.match.params);
-      const entity = data[entityName] || {};
-      return (
-        <Menu
-          answerData={shapeTree(entity.availablePipingAnswers)}
-          metadataData={entity.availablePipingMetadata}
-          {...props}
-          {...innerProps}
-        />
-      );
-    }}
-  </AvailablePipingContentQuery>
-);
+export const UnwrappedPipingMenu = props => {
+  if (!props.canFocus) {
+    return <MenuButton {...buttonProps} disabled />;
+  }
+
+  return (
+    <AvailablePipingContentQuery
+      questionnaireId={props.match.params.questionnaireId}
+      pageId={props.match.params.pageId}
+      sectionId={props.match.params.sectionId}
+      confirmationId={props.match.params.confirmationId}
+    >
+      {({ data = {}, ...innerProps }) => {
+        const entityName = calculateEntityName(props.match.params);
+        const entity = data[entityName] || {};
+        return (
+          <Menu
+            answerData={shapeTree(entity.availablePipingAnswers)}
+            metadataData={entity.availablePipingMetadata}
+            {...props}
+            {...innerProps}
+          />
+        );
+      }}
+    </AvailablePipingContentQuery>
+  );
+};
 
 UnwrappedPipingMenu.propTypes = {
   match: CustomPropTypes.match,
-  disabled: PropTypes.bool,
+  canFocus: PropTypes.bool,
 };
 
 export default withRouter(UnwrappedPipingMenu);

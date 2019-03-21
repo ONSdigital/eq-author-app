@@ -10,9 +10,18 @@ describe("ToolbarButton", () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  it("should style appropriately when active", () => {
+  it("should style appropriately when active and canFocus", () => {
     const wrapper = mount(
-      <ToolbarButton title="button" active>
+      <ToolbarButton title="button" active canFocus>
+        Button
+      </ToolbarButton>
+    );
+    expect(wrapper).toMatchSnapshot();
+  });
+
+  it("should style appropriately when disabled and canFocus is false", () => {
+    const wrapper = mount(
+      <ToolbarButton title="button" disabled>
         Button
       </ToolbarButton>
     );
