@@ -45,5 +45,19 @@ exports[`QuestionProperties should render 1`] = `
   <QuestionProperties__PropertyDescription>
     Information regarding why we are asking this question.
   </QuestionProperties__PropertyDescription>
+  <QuestionProperties__HelpButton
+    onClick={[Function]}
+  >
+    <IconText
+      hideText={false}
+      icon={[Function]}
+    >
+      See how these fields are used
+    </IconText>
+  </QuestionProperties__HelpButton>
+  <HelpModal
+    isOpen={false}
+    onClose={[Function]}
+  />
 </QuestionProperties__Properties>
 `;
