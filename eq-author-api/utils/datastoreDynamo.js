@@ -42,32 +42,24 @@ const createQuestionnaire = async questionnaire => {
   return result;
 };
 
-const getQuestionnaire = id => {
-  return new Promise((resolve, reject) => {
-    QuestionnaireVersionsModel.queryOne({ id: { eq: id } })
-      .descending()
-      .consistent()
-      .exec((err, questionnaire) => {
-        if (err) {
-          reject(err);
-          return;
-        }
+const getQuestionnaireFromList = id => QuestionnaireModel.get({ id });
 
-        if (!questionnaire) {
-          resolve(null);
-          return;
-        }
-
-        if (!questionnaire.sections) {
-          questionnaire.sections = [];
-        }
-
-        if (!questionnaire.metadata) {
-          questionnaire.metadata = [];
-        }
-        resolve(questionnaire);
-      });
+const getQuestionnaireByIdAndVersion = (id, version) =>
+  QuestionnaireVersionsModel.get({
+    id,
+    updatedAt: version,
   });
+
+const getQuestionnaire = async id => {
+  const info = await getQuestionnaireFromList(id);
+  if (!info) {
+    return null;
+  }
+  const questionnaire = await getQuestionnaireByIdAndVersion(
+    info.id,
+    info.latestVersion
+  );
+  return questionnaire;
 };
 
 const MAX_UPDATE_TIMES = 3;
@@ -154,20 +146,6 @@ const listQuestionnaireInfo = () => {
       });
   });
 };
-
-const getQuestionnaireByIdAndVersion = (id, version) =>
-  new Promise((res, rej) => {
-    QuestionnaireVersionsModel.queryOne({
-      id: { eq: id },
-      latestVersion: { eq: version },
-    }).exec((err, questionnaire) => {
-      if (err) {
-        rej(err);
-      } else {
-        res(questionnaire);
-      }
-    });
-  });
 
 const listQuestionnaires = async () => {
   const questionnaireInfo = await listQuestionnaireInfo();
