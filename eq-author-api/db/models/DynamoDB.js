@@ -33,57 +33,58 @@ const baseQuestionnaireSchema = {
   version: {
     type: Number,
   },
+  description: {
+    type: String,
+  },
+  legalBasis: {
+    type: String,
+  },
+  navigation: {
+    type: Boolean,
+  },
+  surveyId: {
+    type: String,
+  },
+  theme: {
+    type: String,
+  },
+  summary: {
+    type: Boolean,
+  },
+  sections: {
+    type: Array,
+    required: true,
+  },
+  metadata: {
+    type: Array,
+    required: true,
+  },
+  createdAt: {
+    type: Date,
+    required: true,
+  },
 };
 
 const questionnanaireSchema = new dynamoose.Schema(
   {
     ...baseQuestionnaireSchema,
-    latestVersion: {
+    updatedAt: {
       type: Date,
       required: true,
     },
   },
   {
     throughput: throughput,
-    timestamps: true,
   }
 );
 
 const questionnaireVersionsSchema = new dynamoose.Schema(
   {
     ...baseQuestionnaireSchema,
-    description: {
-      type: String,
-    },
-    legalBasis: {
-      type: String,
-    },
-    navigation: {
-      type: Boolean,
-    },
-    surveyId: {
-      type: String,
-    },
-    theme: {
-      type: String,
-    },
-    summary: {
-      type: Boolean,
-    },
-    createdAt: {
-      type: Date,
-    },
     updatedAt: {
       type: Date,
       required: true,
       rangeKey: true,
-    },
-    sections: {
-      type: Array,
-      required: true,
-    },
-    metadata: {
-      type: Array,
     },
   },
   {

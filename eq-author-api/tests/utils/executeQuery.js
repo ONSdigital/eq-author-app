@@ -18,6 +18,18 @@ Resulted in:
 ${response.errors.map(e => e.message).join("\n----\n")}
     `);
   }
+  // Required because dynamoose transaction does not update the questionnaireModel's
+  // originalItem and so its out of sync which causes us to have to re-query the questionnaire
+  if (
+    ctx.questionnaire &&
+    ctx.questionnaire.originalItem &&
+    ctx.questionnaire.updateAt !== ctx.questionnaire.originalItem().updatedAt
+  ) {
+    ctx.questionnaire.$__.originalItem = JSON.parse(
+      JSON.stringify(ctx.questionnaire)
+    );
+  }
+
   return response;
 }
 

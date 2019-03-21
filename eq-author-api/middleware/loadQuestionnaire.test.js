@@ -33,6 +33,6 @@ describe("loadQuestionnaire", () => {
     await new Promise(resolve => {
       loadQuestionnaire(req, res, resolve);
     });
-    expect(req.questionnaire).toEqual(null);
+    expect(req.questionnaire).toEqual(undefined);
   });
 });
