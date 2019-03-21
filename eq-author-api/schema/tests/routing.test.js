@@ -23,7 +23,6 @@ const {
 
 describe("routing", () => {
   describe("A Routing", () => {
-    // Passes intermittently
     it("should create a full routing tree when creating a routing", async () => {
       let config = {
         metadata: [{}],
@@ -63,7 +62,6 @@ describe("routing", () => {
       ).toBeTruthy();
     });
 
-    // Passes intermittently
     it("should be able to update the else destination on a routing", async () => {
       let config = {
         metadata: [{}],
@@ -124,7 +122,6 @@ describe("routing", () => {
   });
 
   describe("Routing Rules", () => {
-    // Passes intermittently
     it("should create a routing rule", async () => {
       let config = {
         metadata: [{}],
@@ -162,7 +159,6 @@ describe("routing", () => {
       const result = await queryQuestionPage(questionnaire, page.id);
       expect(result.routing.rules[1]).toBeTruthy();
     });
-    // Passes intermittently
     it("should be able to update the destination on a routing rule", async () => {
       let config = {
         metadata: [{}],
@@ -222,7 +218,6 @@ describe("routing", () => {
       });
     });
 
-    // Passes intermittently
     it("should be able to delete the last routing rule and also delete the routing", async () => {
       let config = {
         metadata: [{}],

@@ -93,6 +93,10 @@ const getQuestionPageQuery = `
           else {
             ...destination2Fragment
           }
+          page {
+            id
+            title
+          }
         }
       }
     }
