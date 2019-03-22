@@ -4,7 +4,7 @@ const shapeTree = answers =>
   reduce(
     answers,
     (result, value) => {
-      const answer = pick(value, ["id", "displayName"]);
+      const answer = pick(value, ["id", "displayName", "type"]);
       const page = pick(value.page, ["id", "displayName"]);
       const section = pick(value.page.section, ["id", "displayName"]);
 
