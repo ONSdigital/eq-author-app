@@ -6,7 +6,7 @@ import { SynchronousPromise } from "synchronous-promise";
 describe("NavigationSidebar", () => {
   let wrapper,
     handleAddSection,
-    handleAddPage,
+    handleAddQuestionPage,
     handleUpdateQuestionnaire,
     handleAddQuestionConfirmation;
 
@@ -20,14 +20,16 @@ describe("NavigationSidebar", () => {
 
   beforeEach(() => {
     handleAddSection = jest.fn(() => SynchronousPromise.resolve(questionnaire));
-    handleAddPage = jest.fn(() => SynchronousPromise.resolve({ section }));
+    handleAddQuestionPage = jest.fn(() =>
+      SynchronousPromise.resolve({ section })
+    );
     handleUpdateQuestionnaire = jest.fn();
     handleAddQuestionConfirmation = jest.fn();
 
     wrapper = shallow(
       <NavigationSidebar
         questionnaire={questionnaire}
-        onAddPage={handleAddPage}
+        onAddQuestionPage={handleAddQuestionPage}
         onAddSection={handleAddSection}
         onUpdateQuestionnaire={handleUpdateQuestionnaire}
         onAddQuestionConfirmation={handleAddQuestionConfirmation}
@@ -52,8 +54,10 @@ describe("NavigationSidebar", () => {
   });
 
   it("should allow pages to be added", () => {
-    wrapper.find("[data-test='nav-section-header']").simulate("addPage");
+    wrapper
+      .find("[data-test='nav-section-header']")
+      .simulate("addQuestionPage");
 
-    expect(handleAddPage).toHaveBeenCalledWith();
+    expect(handleAddQuestionPage).toHaveBeenCalledWith();
   });
 });

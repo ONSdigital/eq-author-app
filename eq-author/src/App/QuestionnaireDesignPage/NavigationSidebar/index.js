@@ -32,7 +32,7 @@ const NavigationScrollPane = styled(ScrollPane)`
 export class UnwrappedNavigationSidebar extends Component {
   static propTypes = {
     questionnaire: CustomPropTypes.questionnaire,
-    onAddPage: PropTypes.func.isRequired,
+    onAddQuestionPage: PropTypes.func.isRequired,
     onAddSection: PropTypes.func.isRequired,
     onAddQuestionConfirmation: PropTypes.func.isRequired,
     onUpdateQuestionnaire: PropTypes.func.isRequired,
@@ -48,7 +48,7 @@ export class UnwrappedNavigationSidebar extends Component {
     const {
       questionnaire,
       onUpdateQuestionnaire,
-      onAddPage,
+      onAddQuestionPage,
       onAddQuestionConfirmation,
       canAddQuestionConfirmation,
       loading,
@@ -62,7 +62,7 @@ export class UnwrappedNavigationSidebar extends Component {
               questionnaire={questionnaire}
               onUpdateQuestionnaire={onUpdateQuestionnaire}
               onAddSection={this.handleAddSection}
-              onAddPage={onAddPage}
+              onAddQuestionPage={onAddQuestionPage}
               onAddQuestionConfirmation={onAddQuestionConfirmation}
               canAddQuestionConfirmation={canAddQuestionConfirmation}
               data-test="nav-section-header"

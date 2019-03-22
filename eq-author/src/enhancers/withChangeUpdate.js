@@ -7,6 +7,7 @@ const withChangeUpdate = WrappedComponent => {
       onChange: PropTypes.func.isRequired,
       onUpdate: PropTypes.func.isRequired,
     };
+    static fragments = WrappedComponent.fragments;
 
     handleUpdate = update => this.props.onChange(update, this.props.onUpdate);
 

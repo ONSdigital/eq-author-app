@@ -283,7 +283,6 @@ class ContentPickerModal extends React.Component {
       );
     },
   };
-
   tabConfig = [
     this.props.contentTypes.indexOf(ANSWER) !== -1 ? this.answerTab : null,
     this.props.contentTypes.indexOf(QUESTION) !== -1 ? this.questionTab : null,

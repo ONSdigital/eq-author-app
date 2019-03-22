@@ -102,7 +102,6 @@ class PositionModal extends React.Component {
 
   renderPositionSelect(data) {
     const { isOpen, selectedPosition } = this.state;
-
     return (
       <ItemSelectModal
         data-test={"position-select-modal"}

@@ -3,10 +3,11 @@
 mutation duplicatePage($input: DuplicatePageInput!) {
   duplicatePage(input: $input) {
     ...Page
+    id
+    displayName
+    position
+    pageType
     ... on QuestionPage {
-      displayName
-      position
-      pageType
       answers {
         id
       }

@@ -1,6 +1,139 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Accordion should render 1`] = `
+exports[`Accordion should render closed 1`] = `
+<Accordion__Container>
+  <Accordion__Header>
+    <Accordion__Title>
+      <Accordion__Button
+        aria-controls="accordion-foo"
+        aria-expanded={false}
+        data-test="accordion-foo-button"
+        onClick={[Function]}
+        open={false}
+      >
+        foo
+      </Accordion__Button>
+    </Accordion__Title>
+  </Accordion__Header>
+  <Accordion__Body
+    aria-hidden={true}
+    data-test="accordion-foo-body"
+    id="accordion-foo"
+    open={false}
+  >
+    <Accordion__DisplayContent
+      open={false}
+    >
+      Accordion panel
+    </Accordion__DisplayContent>
+  </Accordion__Body>
+</Accordion__Container>
+`;
+
+exports[`Accordion should render closed 2`] = `
+.c0 {
+  overflow: hidden;
+  -webkit-transition: opacity 100ms ease-in-out;
+  transition: opacity 100ms ease-in-out;
+  opacity: 0;
+  height: 0;
+}
+
+<div
+  aria-hidden={true}
+  className="c0"
+  data-test="accordion-foo-body"
+  id="accordion-foo"
+  open={false}
+>
+  <Accordion__DisplayContent
+    open={false}
+  >
+    Accordion panel
+  </Accordion__DisplayContent>
+</div>
+`;
+
+exports[`Accordion should render closed 3`] = `
+.c0 {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: none;
+  font-size: 1em;
+  width: 100%;
+  margin: 0;
+  padding: 0.5em 0.25em;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  text-transform: inherit;
+  color: inherit;
+  font-weight: inherit;
+  -webkit-letter-spacing: inherit;
+  -moz-letter-spacing: inherit;
+  -ms-letter-spacing: inherit;
+  letter-spacing: inherit;
+  position: relative;
+  background: transparent;
+  cursor: pointer;
+}
+
+.c0:focus {
+  outline: 2px solid #FDBD56;
+}
+
+.c0::after {
+  opacity: 0.5;
+  content: "";
+  background: url(icon-chevron.svg);
+  display: block;
+  position: absolute;
+  right: 0.25rem;
+  width: 1rem;
+  height: 1rem;
+  -webkit-transform-origin: 50% 50%;
+  -ms-transform-origin: 50% 50%;
+  transform-origin: 50% 50%;
+  -webkit-transition: -webkit-transform 200ms ease-out;
+  -webkit-transition: transform 200ms ease-out;
+  transition: transform 200ms ease-out;
+  -webkit-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  transform: rotate(-90deg);
+}
+
+<button
+  aria-controls="accordion-foo"
+  aria-expanded={false}
+  className="c0"
+  data-test="accordion-foo-button"
+  onClick={[Function]}
+  open={false}
+>
+  foo
+</button>
+`;
+
+exports[`Accordion should render closed 4`] = `
+.c0 {
+  display: none;
+}
+
+<div
+  className="c0"
+  open={false}
+>
+  Accordion panel
+</div>
+`;
+
+exports[`Accordion should render open 1`] = `
 <Accordion__Container>
   <Accordion__Header>
     <Accordion__Title>
@@ -28,4 +161,107 @@ exports[`Accordion should render 1`] = `
     </Accordion__DisplayContent>
   </Accordion__Body>
 </Accordion__Container>
+`;
+
+exports[`Accordion should render open 2`] = `
+.c0 {
+  overflow: hidden;
+  -webkit-transition: opacity 100ms ease-in-out;
+  transition: opacity 100ms ease-in-out;
+  opacity: 1;
+  height: auto;
+}
+
+<div
+  aria-hidden={false}
+  className="c0"
+  data-test="accordion-foo-body"
+  id="accordion-foo"
+  open={true}
+>
+  <Accordion__DisplayContent
+    open={true}
+  >
+    Accordion panel
+  </Accordion__DisplayContent>
+</div>
+`;
+
+exports[`Accordion should render open 3`] = `
+.c0 {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: none;
+  font-size: 1em;
+  width: 100%;
+  margin: 0;
+  padding: 0.5em 0.25em;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  text-transform: inherit;
+  color: inherit;
+  font-weight: inherit;
+  -webkit-letter-spacing: inherit;
+  -moz-letter-spacing: inherit;
+  -ms-letter-spacing: inherit;
+  letter-spacing: inherit;
+  position: relative;
+  background: transparent;
+  cursor: pointer;
+}
+
+.c0:focus {
+  outline: 2px solid #FDBD56;
+}
+
+.c0::after {
+  opacity: 0.5;
+  content: "";
+  background: url(icon-chevron.svg);
+  display: block;
+  position: absolute;
+  right: 0.25rem;
+  width: 1rem;
+  height: 1rem;
+  -webkit-transform-origin: 50% 50%;
+  -ms-transform-origin: 50% 50%;
+  transform-origin: 50% 50%;
+  -webkit-transition: -webkit-transform 200ms ease-out;
+  -webkit-transition: transform 200ms ease-out;
+  transition: transform 200ms ease-out;
+  -webkit-transform: rotate(0deg);
+  -ms-transform: rotate(0deg);
+  transform: rotate(0deg);
+}
+
+<button
+  aria-controls="accordion-foo"
+  aria-expanded={true}
+  className="c0"
+  data-test="accordion-foo-button"
+  onClick={[Function]}
+  open={true}
+>
+  foo
+</button>
+`;
+
+exports[`Accordion should render open 4`] = `
+.c0 {
+  display: block;
+}
+
+<div
+  className="c0"
+  open={true}
+>
+  Accordion panel
+</div>
 `;

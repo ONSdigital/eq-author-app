@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import IconCopy from "App/questionPage/Design/EditorToolbar/icon-copy.svg?inline";
+import IconCopy from "App/page/Design/EditorToolbar/icon-copy.svg?inline";
 import IconText from "components/IconText";
 import Button from "components/buttons/Button";
 import Tooltip from "components/Forms/Tooltip";

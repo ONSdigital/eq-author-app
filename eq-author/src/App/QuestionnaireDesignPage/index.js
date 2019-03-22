@@ -17,11 +17,11 @@ import { SECTION, PAGE, QUESTION_CONFIRMATION } from "constants/entities";
 
 import { buildSectionPath } from "utils/UrlUtils";
 
-import questionPageRoutes from "App/questionPage";
+import pageRoutes from "App/page";
 import sectionRoutes from "App/section";
 import questionConfirmationRoutes from "App/questionConfirmation";
 
-import withCreatePage from "enhancers/withCreatePage";
+import withCreateQuestionPage from "enhancers/withCreateQuestionPage";
 import withCreateSection from "enhancers/withCreateSection";
 
 import { raiseToast } from "redux/toast/actions";
@@ -31,7 +31,7 @@ import NavigationSidebar from "./NavigationSidebar";
 
 export class UnwrappedQuestionnaireDesignPage extends Component {
   static propTypes = {
-    onAddPage: PropTypes.func.isRequired,
+    onAddQuestionPage: PropTypes.func.isRequired,
     onCreateQuestionConfirmation: PropTypes.func.isRequired,
     onAddSection: PropTypes.func.isRequired,
     loading: PropTypes.bool.isRequired,
@@ -46,7 +46,7 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
 
   handleAddPage = () => {
     const {
-      onAddPage,
+      onAddQuestionPage,
       match,
       data: { questionnaire },
     } = this.props;
@@ -77,7 +77,7 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
         }
       }
     }
-    onAddPage(sectionId, position);
+    onAddQuestionPage(sectionId, position);
   };
 
   getTitle = title => {
@@ -164,7 +164,7 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
                 data-test="side-nav"
                 loading={loading}
                 onAddSection={this.props.onAddSection}
-                onAddPage={this.handleAddPage}
+                onAddQuestionPage={this.handleAddPage}
                 questionnaire={questionnaire}
                 canAddQuestionConfirmation={this.canAddQuestionConfirmation()}
                 onAddQuestionConfirmation={this.handleAddQuestionConfirmation}
@@ -173,7 +173,7 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
             <Column cols={9}>
               <Switch location={location}>
                 {[
-                  ...questionPageRoutes,
+                  ...pageRoutes,
                   ...sectionRoutes,
                   ...questionConfirmationRoutes,
                 ]}
@@ -193,7 +193,7 @@ const withMutations = flowRight(
     { raiseToast }
   ),
   withCreateSection,
-  withCreatePage,
+  withCreateQuestionPage,
   withCreateQuestionConfirmation
 );
 

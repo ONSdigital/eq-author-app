@@ -1,4 +1,6 @@
+/* eslint-disable camelcase */
 const Question = require("./Question");
+
 const translateAuthorRouting = require("./builders/routing2");
 const {
   getInnerHTMLWithPiping,
@@ -41,7 +43,7 @@ class Block {
   constructor(page, groupId, ctx) {
     this.id = `block${page.id}`;
     this.type = this.convertPageType(page.pageType);
-    this.questions = this.buildQuestions(page, ctx);
+    this.buildPages(page, ctx);
     if (page.routing && isNil(page.confirmation)) {
       // eslint-disable-next-line camelcase
       this.routing_rules = translateAuthorRouting(
@@ -62,8 +64,13 @@ class Block {
     };
   }
 
-  buildQuestions(page, ctx) {
-    return [new Question(page, ctx)];
+  buildPages(page, ctx) {
+    if (
+      page.pageType === "QuestionPage" ||
+      page.pageType === "ConfirmationQuestion"
+    ) {
+      this.questions = [new Question(page, ctx)];
+    }
   }
 
   convertPageType(type) {

@@ -67,7 +67,7 @@ const getPage = ctx => input => {
 
 const getAnswers = ctx => {
   return flatMap(ctx.questionnaire.sections, section =>
-    flatMap(section.pages, page => page.answers)
+    compact(flatMap(section.pages, page => page.answers))
   );
 };
 
@@ -359,7 +359,6 @@ const Resolvers = {
       await saveQuestionnaire(ctx.questionnaire);
       return page;
     },
-
     createAnswer: async (root, { input }, ctx) => {
       const page = getPage(ctx)({ pageId: input.questionPageId });
       const answer = createAnswer(input);

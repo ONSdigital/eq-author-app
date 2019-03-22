@@ -1,12 +1,12 @@
 import PropTypes from "prop-types";
 import React from "react";
 
-import DummyMultipleChoice from "App/questionPage/Design/answers/dummy/MultipleChoice";
+import DummyMultipleChoice from "App/page/Design/answers/dummy/MultipleChoice";
 import {
   StyledOption,
   Flex,
   OptionField,
-} from "App/questionPage/Design/answers/MultipleChoiceAnswer/Option";
+} from "App/page/Design/answers/MultipleChoiceAnswer/Option";
 import { Label } from "components/Forms";
 import WrappingInput from "components/Forms/WrappingInput";
 
