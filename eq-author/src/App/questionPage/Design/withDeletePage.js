@@ -28,7 +28,6 @@ const handleDeletion = (
   history.push(
     buildPagePath({
       questionnaireId,
-      sectionId: section.id,
       pageId: nextPage.id,
     })
   );

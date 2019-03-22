@@ -84,13 +84,12 @@ describe("builder", () => {
       })
       .then(() => {
         assertHash({
-          previousPath: Routes.PAGE,
+          previousPath: Routes.QUESTIONNAIRE,
           previousHash: prevHash,
-          currentPath: Routes.PAGE,
+          currentPath: Routes.QUESTIONNAIRE,
           equality: {
-            questionnaireId: true,
-            sectionId: true,
-            pageId: false,
+            entityName: true,
+            entityId: false,
           },
         });
       });
@@ -240,12 +239,14 @@ describe("builder", () => {
         })
         .then(() => {
           assertHash({
-            previousPath: Routes.PAGE,
+            previousPath: Routes.QUESTIONNAIRE,
             previousHash: prevHash,
-            currentPath: Routes.SECTION,
+            currentPath: Routes.QUESTIONNAIRE,
             equality: {
               questionnaireId: true,
-              sectionId: false,
+              // on page before adding a section
+              entityName: false,
+              entityId: false,
             },
           });
         });
@@ -341,13 +342,13 @@ describe("builder", () => {
 
       cy.then(() => {
         assertHash({
-          previousPath: Routes.SECTION,
+          previousPath: Routes.QUESTIONNAIRE,
           previousHash: prevHash,
-          currentPath: Routes.PAGE,
+          currentPath: Routes.QUESTIONNAIRE,
           equality: {
             questionnaireId: true,
-            sectionId: false,
-            pageId: false,
+            entityName: false,
+            entityId: false,
           },
         });
       });
@@ -458,13 +459,13 @@ describe("builder", () => {
 
     cy.then(() => {
       assertHash({
-        previousPath: Routes.PAGE,
+        previousPath: Routes.QUESTIONNAIRE,
         previousHash: prevHash,
-        currentPath: Routes.PAGE,
+        currentPath: Routes.QUESTIONNAIRE,
         equality: {
           questionnaireId: true,
-          sectionId: true,
-          pageId: false,
+          entityName: true,
+          entityId: false,
         },
       });
     });
@@ -490,12 +491,13 @@ describe("builder", () => {
 
     cy.then(() => {
       assertHash({
-        previousPath: Routes.SECTION,
+        previousPath: Routes.QUESTIONNAIRE,
         previousHash: prevHash,
-        currentPath: Routes.SECTION,
+        currentPath: Routes.QUESTIONNAIRE,
         equality: {
           questionnaireId: true,
-          sectionId: false,
+          entityName: true,
+          entityId: false,
         },
       });
     });
@@ -581,7 +583,15 @@ describe("builder", () => {
         cy.get(testId("btn-move")).should("not.be.disabled");
       });
 
+    cy.get(testId("nav-section-link"))
+      .first()
+      .click();
+
     typeIntoDraftEditor(testId("txt-section-title", "testid"), `Section 1`);
+
+    cy.get(testId("nav-section-link"))
+      .first()
+      .should("contain", "Section 1");
 
     cy.get(testId("btn-move")).click();
 
@@ -595,9 +605,11 @@ describe("builder", () => {
 
     cy.get(testId("item-select-modal-form")).submit();
 
-    cy.get(testId("section-item"))
-      .last()
-      .should("contain", "Section 1");
+    cy.get(testId("nav-section-link")).should($navLinks => {
+      expect($navLinks).to.have.length(3);
+      expect($navLinks.first()).to.not.contain("Section 1");
+      expect($navLinks.last()).to.contain("Section 1");
+    });
   });
 
   describe("Checkbox with Exclusive option", () => {

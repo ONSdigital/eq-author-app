@@ -99,33 +99,38 @@ exports[`QuestionnaireDesignPage should render 1`] = `
         <Switch>
           <Route
             component={[Function]}
-            exact={true}
-            path="/questionnaire/:questionnaireId/:sectionId([a-f0-9-]+)/design"
+            key="page-design"
+            path="/q/:questionnaireId/page/:pageId/design"
           />
           <Route
             component={[Function]}
-            exact={true}
-            path="/questionnaire/:questionnaireId/:sectionId([a-f0-9-]+)/:pageId([a-f0-9-]+)/design"
+            key="page-preview"
+            path="/q/:questionnaireId/page/:pageId/preview"
           />
           <Route
             component={[Function]}
-            exact={true}
-            path="/questionnaire/:questionnaireId/:sectionId([a-f0-9-]+)/:pageId([a-f0-9-]+)/routing"
+            key="page-routing"
+            path="/q/:questionnaireId/page/:pageId/routing"
           />
           <Route
             component={[Function]}
-            exact={true}
-            path="/questionnaire/:questionnaireId/:sectionId([a-f0-9-]+)/:pageId([a-f0-9-]+)?/preview"
+            key="section-design"
+            path="/q/:questionnaireId/section/:sectionId/design"
           />
           <Route
             component={[Function]}
-            exact={true}
-            path="/questionnaire/:questionnaireId/:sectionId([a-f0-9-]+)/:pageId([a-f0-9-]+)/:confirmationId([a-f0-9-]+)/design"
+            key="section-preview"
+            path="/q/:questionnaireId/section/:sectionId/preview"
           />
           <Route
             component={[Function]}
-            exact={true}
-            path="/questionnaire/:questionnaireId/:sectionId([a-f0-9-]+)/:pageId([a-f0-9-]+)/:confirmationId([a-f0-9-]+)/preview"
+            key="confirmation-design"
+            path="/q/:questionnaireId/question-confirmation/:confirmationId/design"
+          />
+          <Route
+            component={[Function]}
+            key="confirmation-preview"
+            path="/q/:questionnaireId/question-confirmation/:confirmationId/preview"
           />
           <Route
             path="*"
@@ -141,7 +146,7 @@ exports[`QuestionnaireDesignPage should render 1`] = `
 exports[`QuestionnaireDesignPage should render redirect when finished loading 1`] = `
 <Redirect
   push={false}
-  to="/questionnaire/3/2/design"
+  to="/q/3/section/2/design"
 />
 `;
 

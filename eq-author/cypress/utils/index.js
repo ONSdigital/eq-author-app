@@ -1,11 +1,13 @@
-import { matchPath } from "../../src/utils/UrlUtils";
-import { RADIO } from "../../src/constants/answer-types";
+import { matchPath } from "react-router";
 import jwt from "jsonwebtoken";
 import uuid from "uuid";
+
+import { RADIO } from "../../src/constants/answer-types";
+
 export const testId = (id, attr = "test") => `[data-${attr}="${id}"]`;
 
-export const questionPageRegex = /\/questionnaire\/[a-z0-9-]+\/[a-z0-9-]+\/[a-z0-9-]+\/design$/;
-export const sectionRegex = /\/questionnaire\/[a-z0-9-]+\/[a-z0-9-]+\/design$/;
+export const questionPageRegex = /\/q\/[a-z0-9-]+\/page\/[a-z0-9-_]+\/design$/i;
+export const sectionRegex = /\/q\/[a-z0-9-]+\/section\/[a-z0-9-_]+\/design$/i;
 
 export const selectOptionByLabel = label => {
   cy.get("option")
@@ -281,8 +283,7 @@ export const createAccessToken = (payload, signingKey = uuid.v4()) => {
   return jwt.sign(payload, signingKey);
 };
 
-export const idRegex =
-  "[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89aAbB][a-f0-9]{3}-[a-f0-9]{12}";
+export const idRegex = "[a-zA-Z0-9_-]+";
 
 export const enableDescription = () => {
   cy.get(testId("descriptionEnabled")).click();

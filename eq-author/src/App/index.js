@@ -31,11 +31,11 @@ export const Routes = ({ isSignedIn, ...otherProps }) => (
       />
       <RedirectRoute
         from="/questionnaire/:questionnaireId/design/:sectionId/:pageId"
-        to={RoutePaths.PAGE}
+        to={"/q/:questionnaireId/page/:pageId/design"}
       />
       <RedirectRoute
         from="/questionnaire/:questionnaireId/design/:sectionId"
-        to={RoutePaths.SECTION}
+        to={"/q/:questionnaireId/section/:sectionId/design"}
       />
       <PrivateRoute
         path={RoutePaths.QUESTIONNAIRE}

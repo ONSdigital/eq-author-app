@@ -113,9 +113,7 @@ describe("withDeletePage", () => {
       it("should redirect to another page in the section", () => {
         return props.onDeletePage(deletedPage).then(() => {
           expect(history.push).toHaveBeenCalledWith(
-            `/questionnaire/${questionnaireId}/${sectionId}/${
-              currentPage.id
-            }/design`
+            `/q/${questionnaireId}/page/${currentPage.id}/design`
           );
         });
       });

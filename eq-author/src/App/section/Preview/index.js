@@ -9,7 +9,7 @@ import EditorLayout from "App/questionPage/Design/EditorLayout";
 import Loading from "components/Loading";
 import SectionEditor from "App/section/Design/SectionEditor";
 
-import { buildDesignPath } from "utils/UrlUtils";
+import { buildSectionPath } from "utils/UrlUtils";
 
 import SectionIntroPreview from "./SectionIntroPreview";
 
@@ -24,7 +24,9 @@ export const UnwrappedPreviewSectionRoute = ({ match, data, loading }) => {
     section.introductionTitle || section.introductionContent;
 
   if (!hasIntroductionContent) {
-    return <Redirect to={buildDesignPath(match.params)} />;
+    return (
+      <Redirect to={buildSectionPath({ ...match.params, tab: "design" })} />
+    );
   }
 
   return (

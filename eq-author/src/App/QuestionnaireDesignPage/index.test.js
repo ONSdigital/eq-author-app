@@ -1,42 +1,52 @@
 import React from "react";
 import { shallow } from "enzyme";
 
+import { SECTION, PAGE, QUESTION_CONFIRMATION } from "constants/entities";
+
+import NavigationSidebar from "./NavigationSidebar";
+
 import { UnwrappedQuestionnaireDesignPage as QuestionnaireDesignPage } from ".";
 
 describe("QuestionnaireDesignPage", () => {
   let mockHandlers;
   let wrapper;
   let match;
-
-  const answer = {
-    id: "1",
-    label: "",
-    options: [{ id: "1" }],
-  };
-
-  const page = {
-    id: "1",
-    description: "",
-    guidance: "",
-    title: "",
-    type: "General",
-    position: 0,
-    answers: [answer],
-  };
-
-  const section = {
-    id: "2",
-    title: "",
-    pages: [page],
-  };
-
-  const questionnaire = {
-    id: "3",
-    title: "hello world",
-    sections: [section],
-  };
+  let answer, confirmation, page, section, questionnaire;
 
   beforeEach(() => {
+    answer = {
+      id: "1",
+      label: "",
+      options: [{ id: "1" }],
+    };
+
+    confirmation = {
+      id: "4",
+      title: "Confirmation",
+    };
+
+    page = {
+      id: "1",
+      description: "",
+      guidance: "",
+      title: "",
+      type: "General",
+      position: 0,
+      answers: [answer],
+    };
+
+    section = {
+      id: "2",
+      title: "",
+      pages: [page],
+    };
+
+    questionnaire = {
+      id: "3",
+      title: "hello world",
+      sections: [section],
+    };
+
     mockHandlers = {
       onUpdateSection: jest.fn(),
       onAddPage: jest.fn(),
@@ -50,8 +60,8 @@ describe("QuestionnaireDesignPage", () => {
     match = {
       params: {
         questionnaireId: questionnaire.id,
-        sectionId: section.id,
-        pageId: page.id,
+        entityName: PAGE,
+        entityId: page.id,
       },
     };
 
@@ -81,7 +91,7 @@ describe("QuestionnaireDesignPage", () => {
 
   describe("onAddPage", () => {
     it("should add new page below current page", () => {
-      wrapper.find(`[data-test="side-nav"]`).simulate("addPage");
+      wrapper.find(NavigationSidebar).simulate("addPage");
 
       expect(mockHandlers.onAddPage).toHaveBeenCalledWith(
         section.id,
@@ -102,9 +112,44 @@ describe("QuestionnaireDesignPage", () => {
         },
       });
 
-      wrapper.find(`[data-test="side-nav"]`).simulate("addPage");
+      wrapper.find(NavigationSidebar).simulate("addPage");
 
       expect(mockHandlers.onAddPage).toHaveBeenCalledWith(section.id, 1);
+    });
+
+    it("should be able to add a page at the start when on a section", () => {
+      wrapper.setProps({
+        match: {
+          params: {
+            questionnaireId: questionnaire.id,
+            entityName: SECTION,
+            entityId: section.id,
+          },
+        },
+      });
+
+      wrapper.find(NavigationSidebar).simulate("addPage");
+
+      expect(mockHandlers.onAddPage).toHaveBeenCalledWith(section.id, 0);
+    });
+
+    it("should be able to add a page after the confirmation when on a confirmation page", () => {
+      page.confirmation = confirmation;
+      wrapper.setProps({
+        match: {
+          params: {
+            questionnaireId: questionnaire.id,
+            entityName: QUESTION_CONFIRMATION,
+            entityId: confirmation.id,
+          },
+        },
+      });
+      wrapper.find(NavigationSidebar).simulate("addPage");
+
+      expect(mockHandlers.onAddPage).toHaveBeenCalledWith(
+        section.id,
+        page.position + 1
+      );
     });
   });
 
@@ -134,30 +179,30 @@ describe("QuestionnaireDesignPage", () => {
         id: 1,
       };
       wrapper.setProps({ data: { questionnaire } });
-      expect(wrapper.find(`[data-test="side-nav"]`).props()).toMatchObject({
+      expect(wrapper.find(NavigationSidebar).props()).toMatchObject({
         canAddQuestionConfirmation: false,
       });
     });
 
     it("should disable adding question confirmation when not on a question page", () => {
-      match.params.pageId = undefined;
+      match.params.entityName = "foo";
       wrapper.setProps({ match });
-      expect(wrapper.find(`[data-test="side-nav"]`).props()).toMatchObject({
+      expect(wrapper.find(NavigationSidebar).props()).toMatchObject({
         canAddQuestionConfirmation: false,
       });
     });
 
     it("should disable adding question confirmation when the page cannot be found", () => {
-      match.params.pageId = "hello";
+      match.params.entityId = "hello";
       wrapper.setProps({ match });
-      expect(wrapper.find(`[data-test="side-nav"]`).props()).toMatchObject({
+      expect(wrapper.find(NavigationSidebar).props()).toMatchObject({
         canAddQuestionConfirmation: false,
       });
     });
 
     it("should disable adding question confirmation whilst loading", () => {
       wrapper.setProps({ data: {} });
-      expect(wrapper.find(`[data-test="side-nav"]`).props()).toMatchObject({
+      expect(wrapper.find(NavigationSidebar).props()).toMatchObject({
         canAddQuestionConfirmation: false,
       });
     });

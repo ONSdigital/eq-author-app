@@ -7,7 +7,7 @@ import { generatePath } from "utils/UrlUtils";
 // at that point we can drop this component
 const RedirectRoute = ({ to, from }) => {
   const render = props => (
-    <Redirect to={generatePath(to, props.match.params)} />
+    <Redirect to={generatePath(to)(props.match.params)} />
   );
 
   return <Route exact path={from} render={render} />;

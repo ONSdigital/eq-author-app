@@ -53,7 +53,7 @@ describe("withCreateQuestionConfirmation", () => {
       "3"
     );
     expect(ownProps.history.push).toHaveBeenCalledWith(
-      `/questionnaire/${questionnaireId}/${sectionId}/${pageId}/${confirmationId}/design`
+      `/q/${questionnaireId}/question-confirmation/${confirmationId}/design`
     );
   });
 });

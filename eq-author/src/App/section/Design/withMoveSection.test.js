@@ -1,5 +1,4 @@
-import { mapMutateToProps, createUpdater } from "./withMoveSection";
-import fragment from "graphql/fragments/moveSection.graphql";
+import { mapMutateToProps } from "./withMoveSection";
 
 describe("withMoveSection", () => {
   let ownProps, history, match, props, mutate, args, result;
@@ -21,10 +20,6 @@ describe("withMoveSection", () => {
     };
 
     args = {
-      from: {
-        id: "1",
-        position: 0,
-      },
       to: {
         id: "1",
         position: 1,
@@ -68,7 +63,6 @@ describe("withMoveSection", () => {
               __typename: "Section",
             },
           },
-          update: expect.any(Function),
         };
 
         return props.onMoveSection(args).then(() => {
@@ -78,59 +72,6 @@ describe("withMoveSection", () => {
 
       it("should return promise that resolves to moveSection result", () => {
         return expect(props.onMoveSection(args)).resolves.toBe(result);
-      });
-    });
-  });
-
-  describe("createUpdater", () => {
-    let proxy, fromQuestionnaire, toQuestionnaire, section;
-    let questionnaireId = "1";
-
-    beforeEach(() => {
-      section = { id: "1", position: 0 };
-
-      fromQuestionnaire = {
-        id: questionnaireId,
-        sections: [section, { id: "2", position: 1 }],
-      };
-
-      toQuestionnaire = {
-        id: questionnaireId,
-        sections: [{ id: "2", position: 0 }, { id: "1", position: 1 }],
-      };
-
-      proxy = {
-        writeFragment: jest.fn(),
-        readFragment: jest.fn(),
-      };
-
-      proxy.readFragment
-        .mockReturnValueOnce(fromQuestionnaire)
-        .mockReturnValueOnce(toQuestionnaire);
-    });
-
-    it("should update the cache correctly", () => {
-      const updater = createUpdater({
-        ...args,
-        questionnaireId,
-      });
-
-      updater(proxy, result);
-
-      expect(proxy.readFragment).toHaveBeenCalledWith({
-        id: `Questionnaire${questionnaireId}`,
-        fragment,
-      });
-
-      expect(proxy.writeFragment).toHaveBeenCalledWith({
-        id: `Questionnaire${questionnaireId}`,
-        fragment,
-        data: toQuestionnaire,
-      });
-
-      expect(toQuestionnaire.sections[args.to.position]).toMatchObject({
-        id: section.id,
-        position: args.to.position,
       });
     });
   });

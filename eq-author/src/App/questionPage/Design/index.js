@@ -244,7 +244,6 @@ const QuestionPageRoute = props => (
     variables={{
       input: {
         questionnaireId: props.match.params.questionnaireId,
-        sectionId: props.match.params.sectionId,
         pageId: props.match.params.pageId,
       },
     }}
@@ -267,7 +266,6 @@ QuestionPageRoute.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
       questionnaireId: PropTypes.string.isRequired,
-      sectionId: PropTypes.string.isRequired,
       pageId: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,

@@ -5,7 +5,7 @@ import { withRouter } from "react-router-dom";
 import CustomPropTypes from "custom-prop-types";
 import gql from "graphql-tag";
 
-import { buildQuestionnairePath } from "utils/UrlUtils";
+import { buildConfirmationPath } from "utils/UrlUtils";
 import NavLink from "./NavLink";
 import PlaybackIcon from "./icon-playback.svg?inline";
 
@@ -22,7 +22,6 @@ const StyledNavLink = styled(NavLink)`
 `;
 
 export const UnwrappedPageConfirmationNavItem = ({
-  sectionId,
   questionnaireId,
   page,
   match,
@@ -31,14 +30,12 @@ export const UnwrappedPageConfirmationNavItem = ({
   <>
     <StyledPageItem data-test="question-confirmation-item" {...otherProps}>
       <StyledNavLink
-        to={buildQuestionnairePath({
+        to={buildConfirmationPath({
           questionnaireId,
-          sectionId,
-          pageId: page.id,
           confirmationId: page.confirmation.id,
           tab: match.params.tab,
         })}
-        title={page.displayName}
+        title={page.confirmation.displayName}
         icon={PlaybackIcon}
         data-test="question-confirmation-link"
       >
