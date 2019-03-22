@@ -48,7 +48,7 @@ PropertiesPanelWrapper.propTypes = {
 };
 
 const PropertiesPanel = ({ page }) => {
-  if (isEmpty(page)) {
+  if (isEmpty(page) || page.pageType !== "QuestionPage") {
     return <PropertiesPanelWrapper />;
   }
 

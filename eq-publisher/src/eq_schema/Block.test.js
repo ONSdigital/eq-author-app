@@ -147,5 +147,38 @@ describe("Block", () => {
         "<strong>{{ answers['answer123'] }}</strong><ul><li>Some Value</li></ul>"
       );
     });
+
+    it("should build a calculated summary page", () => {
+      const calculatedPageGraphql = {
+        id: "1",
+        title:
+          '<p>Hi is your total <span data-piped="variable"data-id="1">[Total]</span></p>',
+        pageType: "CalculatedSummaryPage",
+        totalTitle: "<p>Bye</p>",
+        summaryAnswers: [
+          {
+            id: "1",
+          },
+          {
+            id: "2",
+          },
+          {
+            id: "3",
+          },
+        ],
+      };
+      const block = new Block(calculatedPageGraphql, ctx);
+
+      expect(block).toMatchObject({
+        calculation: {
+          answers_to_calculate: ["answer1", "answer2", "answer3"],
+          calculation_type: "sum",
+          titles: [{ value: "Bye" }],
+        },
+        id: "block1",
+        titles: [{ value: "Hi is your total %(total)s" }],
+        type: "CalculatedSummary",
+      });
+    });
   });
 });

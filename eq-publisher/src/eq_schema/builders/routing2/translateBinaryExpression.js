@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 const { isEmpty } = require("lodash");
 
 const {

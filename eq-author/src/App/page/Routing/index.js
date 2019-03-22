@@ -1,6 +1,7 @@
 import React from "react";
 import gql from "graphql-tag";
 import { Query } from "react-apollo";
+import { Redirect } from "react-router";
 
 import { get } from "lodash";
 import PropTypes from "prop-types";
@@ -12,6 +13,9 @@ import Error from "components/Error";
 
 import RoutingPage from "./RoutingPage";
 import transformNestedFragments from "utils/transformNestedFragments";
+import { buildPagePath } from "utils/UrlUtils";
+
+const ROUTING_PAGE_TYPES = ["QuestionPage"];
 
 export class UnwrappedQuestionRoutingRoute extends React.Component {
   static propTypes = {
@@ -40,6 +44,17 @@ export class UnwrappedQuestionRoutingRoute extends React.Component {
       return <Error>Something went wrong</Error>;
     }
 
+    if (!ROUTING_PAGE_TYPES.includes(page.pageType)) {
+      return (
+        <Redirect
+          to={buildPagePath({
+            questionnaireId: page.section.questionnaire.id,
+            pageId: page.id,
+          })}
+        />
+      );
+    }
+
     return <RoutingPage page={page} />;
   }
 
@@ -55,7 +70,15 @@ export class UnwrappedQuestionRoutingRoute extends React.Component {
 const query = gql`
   query GetRouting($input: QueryInput!) {
     page(input: $input) {
+      id
+      pageType
       ...RoutingPage
+      section {
+        id
+        questionnaire {
+          id
+        }
+      }
     }
   }
 `;

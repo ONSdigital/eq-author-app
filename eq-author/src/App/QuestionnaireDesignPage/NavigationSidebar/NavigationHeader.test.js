@@ -9,6 +9,7 @@ describe("NavigationHeader", () => {
     onAddQuestionPage: jest.fn(),
     onAddSection: jest.fn(),
     onAddQuestionConfirmation: jest.fn(),
+    onAddCalculatedSummaryPage: jest.fn(),
   };
 
   const createWrapper = props =>
@@ -67,6 +68,12 @@ describe("NavigationHeader", () => {
     wrapper.find('[data-test="add-menu"]').simulate("addSection");
 
     expect(mockHandlers.onAddSection).toHaveBeenCalled();
+  });
+
+  it("should allow a calculated summary to be added", () => {
+    const wrapper = createWrapper();
+    wrapper.find('[data-test="add-menu"]').simulate("addCalculatedSummaryPage");
+    expect(mockHandlers.onAddCalculatedSummaryPage).toHaveBeenCalled();
   });
 
   it("should allow a question confirmation to be added", () => {

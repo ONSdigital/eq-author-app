@@ -53,6 +53,7 @@ const AddMenu = ({
   onAddMenuToggle,
   onAddQuestionPage,
   onAddSection,
+  onAddCalculatedSummaryPage,
   onAddQuestionConfirmation,
   canAddQuestionConfirmation,
   ...otherProps
@@ -92,6 +93,13 @@ const AddMenu = ({
           </AddMenuButton>
           <AddMenuButton
             primary
+            onClick={onAddCalculatedSummaryPage}
+            data-test="btn-add-calculated-summary"
+          >
+            Calculated summary
+          </AddMenuButton>
+          <AddMenuButton
+            primary
             onClick={onAddSection}
             data-test="btn-add-section"
           >
@@ -108,6 +116,7 @@ AddMenu.propTypes = {
   onAddQuestionPage: PropTypes.func.isRequired,
   onAddSection: PropTypes.func.isRequired,
   onAddQuestionConfirmation: PropTypes.func.isRequired,
+  onAddCalculatedSummaryPage: PropTypes.func.isRequired,
   canAddQuestionConfirmation: PropTypes.bool.isRequired,
   addMenuOpen: PropTypes.bool.isRequired,
 };

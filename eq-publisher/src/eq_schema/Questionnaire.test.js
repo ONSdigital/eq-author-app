@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 const { last } = require("lodash");
 
 const { BUSINESS, SOCIAL } = require("../constants/questionnaireTypes");

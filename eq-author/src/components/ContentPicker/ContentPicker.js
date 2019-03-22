@@ -90,7 +90,6 @@ export default class ContentPicker extends React.Component {
   renderPickers() {
     const { config } = this.props;
     const { selectedItems, openLevel } = this.state;
-
     return config.map(({ id, title: defaultTitle }, level) => {
       const data = this.getDataAtLevel(level);
 

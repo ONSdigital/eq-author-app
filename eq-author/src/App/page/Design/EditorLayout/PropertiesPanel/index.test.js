@@ -19,6 +19,7 @@ const page = {
   id: "1",
   __typename: "Page",
   type: "Questionnaire",
+  pageType: "QuestionPage",
   answers: [],
 };
 

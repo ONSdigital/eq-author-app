@@ -62,14 +62,18 @@ const navigateToPage = (sectionDisplayName, previousPageDisplayName) =>
 
 export const add = config => {
   navigateToPage(config.sectionDisplayName, config.previousPageDisplayName);
-  cy.get(testId("add-menu")).within(() => {
-    cy.get("button")
-      .contains("Add")
-      .click()
-      .get("button")
-      .contains("Question page")
-      .click();
+  let prevCount;
+  cy.get(testId("nav-page-link")).then(items => {
+    prevCount = items.length;
+    cy.get(testId("add-menu")).within(() => {
+      cy.get("button")
+        .contains("Add")
+        .click()
+        .get("button")
+        .contains("Question page")
+        .click();
+    });
+    cy.get(testId("nav-page-link")).should("have.length", prevCount + 1);
   });
-
   updateDetails(config);
 };

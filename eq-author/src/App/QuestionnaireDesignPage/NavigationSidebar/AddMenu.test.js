@@ -9,6 +9,7 @@ describe("AddMenu", () => {
     onAddQuestionPage: jest.fn(),
     onAddSection: jest.fn(),
     onAddQuestionConfirmation: jest.fn(),
+    onAddCalculatedSummaryPage: jest.fn(),
   };
 
   const createWrapper = props => {
@@ -41,6 +42,12 @@ describe("AddMenu", () => {
       .find('[data-test="btn-add-question-confirmation"]')
       .simulate("click");
     expect(mockHandlers.onAddQuestionConfirmation).toHaveBeenCalled();
+  });
+
+  it("should allow a calculated summary to be added", () => {
+    const wrapper = createWrapper();
+    wrapper.find('[data-test="btn-add-calculated-summary"]').simulate("click");
+    expect(mockHandlers.onAddCalculatedSummaryPage).toHaveBeenCalled();
   });
 
   it("should disable the question confirmation button when you cant add question confirmations", () => {

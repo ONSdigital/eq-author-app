@@ -58,6 +58,7 @@ const configure = (config, index) => {
         case "number":
         case "currency":
         case "textfield":
+        case "percentage":
           configueBasicAnswer(config);
           break;
         default:

@@ -20,18 +20,7 @@ const movePageMutation = `
       }
       availablePipingMetadata {
         id
-      }
-      availableRoutingAnswers {
-        id
-      }
-      availableRoutingDestinations {
-        logicalDestinations {
-          id
-        }
-      }        
-      routing {
-        id
-      }
+      }       
       ... on QuestionPage {
         description
         guidance
@@ -45,6 +34,17 @@ const movePageMutation = `
         confirmation {
           id
         }
+        routing {
+          id
+        }
+        availableRoutingAnswers {
+          id
+        }
+        availableRoutingDestinations {
+          logicalDestinations {
+            id
+          }
+        } 
       }
     }
   }

@@ -28,7 +28,6 @@ module.exports = (
     : pagesBeforeCurrent;
 
   const answers = compact(flatMap(page => page.answers, pagesToInclude));
-
   return filter(
     answer => some(type => type === answer.type, answerTypes),
     answers

@@ -92,7 +92,7 @@ export const UnwrappedTabs = props => {
                 Component: Tab,
                 otherProps: { to: url(match), activeClassName },
               }
-            : { Component: DisabledTab, otherProps: {} };
+            : { Component: DisabledTab, otherProps: { disabled: true } };
 
           return (
             <Component data-test={key} key={key} {...otherProps}>

@@ -11,6 +11,7 @@ import {
   QuestionContentPicker,
   MetadataContentPicker,
   RoutingDestinationContentPicker,
+  VariableContentPicker,
 } from "components/ContentPicker";
 
 import { colors } from "constants/theme";
@@ -19,6 +20,7 @@ import {
   QUESTION,
   METADATA,
   DESTINATION,
+  VARIABLES,
 } from "components/ContentPickerSelect/content-types";
 
 import LogicalDestination from "graphql/fragments/logical-destination.graphql";
@@ -155,10 +157,15 @@ class ContentPickerModal extends React.Component {
     isOpen: PropTypes.bool,
     onClose: PropTypes.func,
     contentTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
+    levels: PropTypes.number,
+    defaultTab: PropTypes.string,
   };
 
   getSelectedTab() {
-    const { answerData = [] } = this.props;
+    const { answerData = [], defaultTab } = this.props;
+    if (defaultTab) {
+      return defaultTab;
+    }
     return answerData.length > 0 ? "answers" : "metadata";
   }
 
@@ -183,6 +190,15 @@ class ContentPickerModal extends React.Component {
     });
   };
 
+  handleVariableSubmit = ({ id, displayName }) => {
+    this.props.onSubmit({
+      id,
+      displayName,
+      type: "sum",
+      pipingType: "variable",
+    });
+  };
+
   buttonRender = (props, tab) =>
     tab.showTabButton ? <TabButton {...props}>{tab.title}</TabButton> : null;
 
@@ -193,7 +209,9 @@ class ContentPickerModal extends React.Component {
     render: () => {
       if (!this.props.answerData || this.props.answerData.length === 0) {
         return (
-          <ErrorText>There are no previous answers to pick from</ErrorText>
+          <ErrorText data-test="no-previous-answers">
+            There are no previous answers to pick from
+          </ErrorText>
         );
       }
       return (
@@ -206,6 +224,7 @@ class ContentPickerModal extends React.Component {
             onSubmit={this.handleAnswerSubmit}
             onClose={this.props.onClose}
             selectedId={this.props.selectedId}
+            levels={this.props.levels}
           />
         </React.Fragment>
       );
@@ -260,6 +279,31 @@ class ContentPickerModal extends React.Component {
     },
   };
 
+  variableTab = {
+    id: "variables",
+    title: "Variables",
+    showTabButton: true,
+    render: () => (
+      <>
+        <HeaderSegment>
+          <Title>Select variable</Title>
+        </HeaderSegment>
+        <VariableContentPicker
+          data={[
+            {
+              id: "1",
+              displayName: "Total",
+              type: "Sum",
+              __typename: "Variable",
+            },
+          ]}
+          onSubmit={this.handleVariableSubmit}
+          onClose={this.props.onClose}
+        />
+      </>
+    ),
+  };
+
   destinationTab = {
     id: "destination",
     title: "Destination",
@@ -287,6 +331,7 @@ class ContentPickerModal extends React.Component {
     this.props.contentTypes.indexOf(ANSWER) !== -1 ? this.answerTab : null,
     this.props.contentTypes.indexOf(QUESTION) !== -1 ? this.questionTab : null,
     this.props.contentTypes.indexOf(METADATA) !== -1 ? this.metadataTab : null,
+    this.props.contentTypes.indexOf(VARIABLES) !== -1 ? this.variableTab : null,
     this.props.contentTypes.indexOf(DESTINATION) !== -1
       ? this.destinationTab
       : null,

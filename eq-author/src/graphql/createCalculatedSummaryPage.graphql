@@ -1,0 +1,22 @@
+mutation CreateCalculatedSummaryPage(
+  $input: CreateCalculatedSummaryPageInput!
+) {
+  createCalculatedSummaryPage(input: $input) {
+    id
+    title
+    alias
+    displayName
+    pageType
+    section {
+      id
+      pages {
+        id
+      }
+    }
+    position
+    summaryAnswers {
+      id
+    }
+    totalTitle
+  }
+}

@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 const Question = require("./Question");
 const Answer = require("./Answer");
 const { omit, set, last } = require("lodash/fp");
@@ -414,7 +413,7 @@ describe("Question", () => {
         expect.objectContaining({
           minimum: {
             value: "2017-02-17",
-            // eslint-disable-next-line camelcase
+
             offset_by: {
               days: -4,
             },
@@ -425,7 +424,7 @@ describe("Question", () => {
         expect.objectContaining({
           maximum: {
             value: "2018-02-17",
-            // eslint-disable-next-line camelcase
+
             offset_by: {
               years: 10,
             },

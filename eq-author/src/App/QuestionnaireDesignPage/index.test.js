@@ -56,6 +56,7 @@ describe("QuestionnaireDesignPage", () => {
       onDeletePage: jest.fn(),
       onDeleteSection: jest.fn(),
       onCreateQuestionConfirmation: jest.fn(),
+      onAddCalculatedSummaryPage: jest.fn(),
     };
 
     match = {
@@ -160,6 +161,36 @@ describe("QuestionnaireDesignPage", () => {
     });
   });
 
+  describe("onAddCalculatedSummaryPage", () => {
+    it("should add new page below current page", () => {
+      wrapper.find(NavigationSidebar).simulate("addCalculatedSummaryPage");
+
+      expect(mockHandlers.onAddCalculatedSummaryPage).toHaveBeenCalledWith(
+        section.id,
+        page.position + 1
+      );
+    });
+
+    it("should be able to add a page at the start when on a section", () => {
+      wrapper.setProps({
+        match: {
+          params: {
+            questionnaireId: questionnaire.id,
+            entityName: SECTION,
+            entityId: section.id,
+          },
+        },
+      });
+
+      wrapper.find(NavigationSidebar).simulate("addCalculatedSummaryPage");
+
+      expect(mockHandlers.onAddCalculatedSummaryPage).toHaveBeenCalledWith(
+        section.id,
+        0
+      );
+    });
+  });
+
   describe("getTitle", () => {
     it("should display existing title if loading", () => {
       wrapper.setProps({ loading: true });
@@ -210,7 +241,7 @@ describe("QuestionnaireDesignPage", () => {
     it("should disable adding question confirmation whilst loading", () => {
       wrapper.setProps({
         loading: true,
-        data: {} 
+        data: {},
       });
       expect(wrapper.find(NavigationSidebar).props()).toMatchObject({
         canAddQuestionConfirmation: false,
@@ -218,16 +249,14 @@ describe("QuestionnaireDesignPage", () => {
     });
 
     it("should trigger PAGE_NOT_FOUND error if no question data available after loading finished", () => {
-      
       const throwWrapper = () => {
         wrapper.setProps({
           loading: false,
-          data: {}
-        });  
-      }
+          data: {},
+        });
+      };
 
-      expect(throwWrapper).toThrow( new Error(ERR_PAGE_NOT_FOUND));
-
+      expect(throwWrapper).toThrow(new Error(ERR_PAGE_NOT_FOUND));
     });
   });
 });

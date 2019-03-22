@@ -1,12 +1,35 @@
 import { find, isArray, pick, reduce } from "lodash";
 
-const shapeTree = answers =>
+const pushEntity = (currentEntity, entityType, entityToPush) => {
+  if (!find(currentEntity[entityType], { id: entityToPush.id })) {
+    if (!isArray(currentEntity[entityType])) {
+      currentEntity[entityType] = [];
+    }
+    currentEntity[entityType].push(entityToPush);
+  }
+};
+
+const shapeTree = (answers, topLevel = "section") =>
   reduce(
     answers,
     (result, value) => {
-      const answer = pick(value, ["id", "displayName", "type"]);
-      const page = pick(value.page, ["id", "displayName"]);
-      const section = pick(value.page.section, ["id", "displayName"]);
+      const answer = pick(value, ["id", "displayName", "type", "__typename"]);
+      const page = pick(value.page, ["id", "displayName", "__typename"]);
+      const section = pick(value.page.section, [
+        "id",
+        "displayName",
+        "__typename",
+      ]);
+
+      if (topLevel === "page") {
+        if (!find(result, { id: page.id })) {
+          result.push(page);
+        }
+
+        const currentPage = find(result, { id: page.id });
+        pushEntity(currentPage, "answers", answer);
+        return result;
+      }
 
       if (!find(result, { id: section.id })) {
         result.push(section);
@@ -14,21 +37,11 @@ const shapeTree = answers =>
 
       const currentSection = find(result, { id: section.id });
 
-      if (!find(currentSection.pages, { id: page.id })) {
-        if (!isArray(currentSection.pages)) {
-          currentSection.pages = [];
-        }
-        currentSection.pages.push(page);
-      }
+      pushEntity(currentSection, "pages", page);
 
       const currentPage = find(currentSection.pages, { id: page.id });
 
-      if (!find(currentPage.answers, { id: answer.id })) {
-        if (!isArray(currentPage.answers)) {
-          currentPage.answers = [];
-        }
-        currentPage.answers.push(answer);
-      }
+      pushEntity(currentPage, "answers", answer);
 
       return result;
     },

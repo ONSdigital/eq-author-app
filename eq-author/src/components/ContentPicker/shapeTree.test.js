@@ -138,6 +138,106 @@ const expectedAnswerTree = [
   },
 ];
 
+const AnswerPageTree = [
+  {
+    id: "6",
+    displayName: "Date 1",
+    type: "Date",
+    page: {
+      id: "1",
+      displayName: "Page (1.1)",
+    },
+  },
+  {
+    id: "7",
+    displayName: "Date 2",
+    type: "Date",
+    page: {
+      id: "6",
+      displayName: "Page (1.2)",
+    },
+  },
+  {
+    id: "2",
+    displayName: "Date 3",
+    type: "Date",
+    page: {
+      id: "2",
+      displayName: "Page (2.1)",
+    },
+  },
+  {
+    id: "3",
+    displayName: "Date 4",
+    type: "Date",
+    page: {
+      id: "5",
+      displayName: "Page (3.1)",
+    },
+  },
+  {
+    id: "9",
+    displayName: "Date 5",
+    type: "Date",
+    page: {
+      id: "5",
+      displayName: "Page (3.1)",
+    },
+  },
+];
+
+const expectedAnswerPageTree = [
+  {
+    id: "1",
+    displayName: "Page (1.1)",
+    answers: [
+      {
+        id: "6",
+        displayName: "Date 1",
+        type: "Date",
+      },
+    ],
+  },
+  {
+    id: "6",
+    displayName: "Page (1.2)",
+    answers: [
+      {
+        id: "7",
+        displayName: "Date 2",
+        type: "Date",
+      },
+    ],
+  },
+  {
+    id: "2",
+    displayName: "Page (2.1)",
+    answers: [
+      {
+        id: "2",
+        displayName: "Date 3",
+        type: "Date",
+      },
+    ],
+  },
+  {
+    id: "5",
+    displayName: "Page (3.1)",
+    answers: [
+      {
+        id: "3",
+        displayName: "Date 4",
+        type: "Date",
+      },
+      {
+        id: "9",
+        displayName: "Date 5",
+        type: "Date",
+      },
+    ],
+  },
+];
+
 const questionTree = [
   {
     id: "1",
@@ -225,5 +325,8 @@ describe("shapeTree", () => {
 
   it("should correctly reverse page, section tree", () => {
     expect(shapePageTree(questionTree)).toEqual(expectedQuestionTree);
+  });
+  it("should correctly reverse answer, page tree", () => {
+    expect(shapeTree(AnswerPageTree, "page")).toEqual(expectedAnswerPageTree);
   });
 });

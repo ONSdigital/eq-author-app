@@ -46,6 +46,13 @@ exports[`AddMenu should render 1`] = `
         Confirmation question
       </AddMenu__AddMenuButton>
       <AddMenu__AddMenuButton
+        data-test="btn-add-calculated-summary"
+        onClick={[MockFunction]}
+        primary={true}
+      >
+        Calculated summary
+      </AddMenu__AddMenuButton>
+      <AddMenu__AddMenuButton
         data-test="btn-add-section"
         onClick={[MockFunction]}
         primary={true}

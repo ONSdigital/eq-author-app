@@ -90,6 +90,7 @@ export class PageHeader extends React.Component {
       match,
       isMoveDisabled,
       isDuplicateDisabled,
+      alertText,
     } = this.props;
     return (
       <React.Fragment>
@@ -132,7 +133,7 @@ export class PageHeader extends React.Component {
           onClose={this.handleCloseDeleteConfirmDialog}
           onDelete={this.handleDeletePageConfirm}
           title={page.displayName}
-          alertText="All edits, properties and routing settings will also be removed."
+          alertText={alertText}
           icon={iconPage}
           data-test="delete-page"
         />
@@ -173,6 +174,7 @@ PageHeader.propTypes = {
   onMovePage: PropTypes.func.isRequired,
   onDeletePage: PropTypes.func.isRequired,
   onDuplicatePage: PropTypes.func.isRequired,
+  alertText: PropTypes.string.isRequired,
 };
 
 export default flowRight(

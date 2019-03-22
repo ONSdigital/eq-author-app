@@ -52,6 +52,7 @@ exports[`components/Tabs should render a confirmation link when provided 1`] = `
     </Tabs__Tab>
     <Tabs__DisabledTab
       data-test="preview"
+      disabled={true}
       key="preview"
     >
       <IconText
@@ -63,6 +64,7 @@ exports[`components/Tabs should render a confirmation link when provided 1`] = `
     </Tabs__DisabledTab>
     <Tabs__DisabledTab
       data-test="routing"
+      disabled={true}
       key="routing"
     >
       <IconText
@@ -101,6 +103,7 @@ exports[`components/Tabs should render link to section if params are for a secti
     </Tabs__Tab>
     <Tabs__DisabledTab
       data-test="preview"
+      disabled={true}
       key="preview"
     >
       <IconText
@@ -112,6 +115,7 @@ exports[`components/Tabs should render link to section if params are for a secti
     </Tabs__DisabledTab>
     <Tabs__DisabledTab
       data-test="routing"
+      disabled={true}
       key="routing"
     >
       <IconText
@@ -150,6 +154,7 @@ exports[`components/Tabs should render with design tab enabled by default 1`] = 
     </Tabs__Tab>
     <Tabs__DisabledTab
       data-test="preview"
+      disabled={true}
       key="preview"
     >
       <IconText
@@ -161,6 +166,7 @@ exports[`components/Tabs should render with design tab enabled by default 1`] = 
     </Tabs__DisabledTab>
     <Tabs__DisabledTab
       data-test="routing"
+      disabled={true}
       key="routing"
     >
       <IconText

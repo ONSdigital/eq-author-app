@@ -1,27 +1,42 @@
 import React from "react";
+import PropTypes from "prop-types";
+
 import ContentPicker from "components/ContentPicker/ContentPicker";
 import GroupContentPicker from "components/ContentPicker/GroupContentPicker";
 
-const config = [
-  {
-    id: "section",
-    title: "Section",
-    childKey: "pages",
-  },
-  {
-    id: "page",
-    title: "Question",
-    childKey: "answers",
-  },
-  {
-    id: "answer",
-    title: "Answer",
-  },
-];
+const sectionConfig = {
+  id: "section",
+  title: "Section",
+  childKey: "pages",
+};
+const pageConfig = {
+  id: "page",
+  title: "Question",
+  childKey: "answers",
+};
+const answerConfig = {
+  id: "answer",
+  title: "Answer",
+};
 
-export const AnswerContentPicker = props => (
-  <ContentPicker {...props} config={config} />
-);
+export const AnswerContentPicker = props => {
+  const { levels } = props;
+  let config = [sectionConfig, pageConfig, answerConfig];
+  if (!levels) {
+    config = [sectionConfig, pageConfig, answerConfig];
+  }
+  if (levels === 2) {
+    config = [pageConfig, answerConfig];
+  }
+  if (levels === 1) {
+    config = [answerConfig];
+  }
+  return <ContentPicker {...props} config={config} />;
+};
+
+AnswerContentPicker.propTypes = {
+  levels: PropTypes.number,
+};
 
 const metadataConfig = [
   {
@@ -89,4 +104,15 @@ const routingDestinationConfig = [
 
 export const RoutingDestinationContentPicker = props => (
   <GroupContentPicker {...props} config={routingDestinationConfig} />
+);
+
+const variableConfig = [
+  {
+    id: "variables",
+    title: "Variables",
+  },
+];
+
+export const VariableContentPicker = props => (
+  <ContentPicker {...props} config={variableConfig} />
 );

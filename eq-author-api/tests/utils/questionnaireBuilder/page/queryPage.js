@@ -28,56 +28,14 @@ const getPageQuery = `
       availablePipingMetadata {
         id
       }
-      availableRoutingAnswers {
-        id
-      }
-      availableRoutingDestinations {
-        logicalDestinations {
+      ... on CalculatedSummaryPage {
+        availableSummaryAnswers {
           id
         }
-      }
-      routing {
-        rules {
-          expressionGroup {
-            operator
-            expressions {
-              ... on BinaryExpression2 {
-                left {
-                  ... on BasicAnswer {
-                    id
-                    type
-                    label
-                  }
-                  ... on MultipleChoiceAnswer {
-                    id
-                    type
-                    options {
-                      id
-                    }
-                  }
-                }
-                condition
-                right {
-                  ... on CustomValue2 {
-                    number
-                  }
-                  ... on SelectedOptions2 {
-                    options {
-                      id
-                      label
-                    }
-                  }
-                }
-              }
-            }
-          }
-          destination {
-            ...destination2Fragment
-          }
+        summaryAnswers {
+          id
         }
-        else {
-          ...destination2Fragment
-        }
+        totalTitle
       }
       ... on QuestionPage {
         description
@@ -97,6 +55,57 @@ const getPageQuery = `
         additionalInfoEnabled
         confirmation {
           id
+        }
+        availableRoutingAnswers {
+          id
+        }
+        availableRoutingDestinations {
+          logicalDestinations {
+            id
+          }
+        }
+        routing {
+          rules {
+            expressionGroup {
+              operator
+              expressions {
+                ... on BinaryExpression2 {
+                  left {
+                    ... on BasicAnswer {
+                      id
+                      type
+                      label
+                    }
+                    ... on MultipleChoiceAnswer {
+                      id
+                      type
+                      options {
+                        id
+                      }
+                    }
+                  }
+                  condition
+                  right {
+                    ... on CustomValue2 {
+                      number
+                    }
+                    ... on SelectedOptions2 {
+                      options {
+                        id
+                        label
+                      }
+                    }
+                  }
+                }
+              }
+            }
+            destination {
+              ...destination2Fragment
+            }
+          }
+          else {
+            ...destination2Fragment
+          }
         }
       }
     }

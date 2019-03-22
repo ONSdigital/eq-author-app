@@ -76,7 +76,6 @@ class Question {
       }
 
       if (minDuration.enabled || maxDuration.enabled) {
-        /* eslint-disable-next-line camelcase */
         if (minDuration.enabled) {
           set(
             this,
@@ -106,9 +105,8 @@ class Question {
       (question.additionalInfoLabel || question.additionalInfoContent)
     ) {
       last(this.answers).guidance = {
-        /* eslint-disable-next-line camelcase */
         show_guidance: question.additionalInfoLabel,
-        /* eslint-disable-next-line camelcase */
+
         hide_guidance: question.additionalInfoLabel,
         ...processContent(ctx)(question.additionalInfoContent),
       };

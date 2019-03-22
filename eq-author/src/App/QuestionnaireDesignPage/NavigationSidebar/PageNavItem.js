@@ -8,6 +8,7 @@ import gql from "graphql-tag";
 import { buildPagePath } from "utils/UrlUtils";
 import NavLink from "./NavLink";
 import PageIcon from "./icon-questionpage.svg?inline";
+import CalculatedIcon from "./icon-summarypage.svg?inline";
 
 const StyledPageItem = styled.li`
   padding: 0;
@@ -16,6 +17,13 @@ const StyledPageItem = styled.li`
   display: flex;
   align-items: center;
 `;
+
+const getIcon = pageType => {
+  if (pageType === "CalculatedSummaryPage") {
+    return CalculatedIcon;
+  }
+  return PageIcon;
+};
 
 export const UnwrappedPageNavItem = ({
   questionnaireId,
@@ -31,7 +39,7 @@ export const UnwrappedPageNavItem = ({
         tab: match.params.tab,
       })}
       title={page.displayName}
-      icon={PageIcon}
+      icon={getIcon(page.pageType)}
       data-test="nav-page-link"
     >
       {page.displayName}
@@ -46,6 +54,7 @@ UnwrappedPageNavItem.fragments = {
       title
       position
       displayName
+      pageType
       ... on QuestionPage {
         confirmation {
           id

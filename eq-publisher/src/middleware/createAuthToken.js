@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 const jwt = require("jsonwebtoken");
 const uuid = require("uuid");
 

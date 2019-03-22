@@ -83,6 +83,7 @@ export class UnwrappedQuestionPageEditor extends React.Component {
           {...this.props}
           onUpdate={onUpdate}
           onChange={this.props.onChange}
+          alertText="All edits, properties and routing settings will also be removed."
         />
         <div>
           <QuestionSegment id={id}>

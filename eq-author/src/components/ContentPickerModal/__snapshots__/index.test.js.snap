@@ -51,7 +51,9 @@ exports[`ContentPickerModal should render TabButton when showTabButton is true 1
 `;
 
 exports[`ContentPickerModal should show an error message when answerData property is not provided 1`] = `
-<ContentPickerModal__ErrorText>
+<ContentPickerModal__ErrorText
+  data-test="no-previous-answers"
+>
   There are no previous answers to pick from
 </ContentPickerModal__ErrorText>
 `;
@@ -75,7 +77,9 @@ exports[`ContentPickerModal should show an error message when questionData prope
 `;
 
 exports[`ContentPickerModal should show an error message when there are no answers to pick from 1`] = `
-<ContentPickerModal__ErrorText>
+<ContentPickerModal__ErrorText
+  data-test="no-previous-answers"
+>
   There are no previous answers to pick from
 </ContentPickerModal__ErrorText>
 `;
