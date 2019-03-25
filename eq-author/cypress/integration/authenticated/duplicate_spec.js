@@ -1,4 +1,6 @@
 /* eslint-disable camelcase */
+import omitDeep from "omit-deep-lodash";
+
 import {
   addQuestionnaire,
   testId,
@@ -6,7 +8,9 @@ import {
   navigateToFirstSection,
   questionPageRegex,
   sectionRegex,
+  idRegex,
 } from "../../utils";
+import { question, questionnaire, section } from "../../builders";
 
 describe("Duplicate", () => {
   describe("Page duplication", () => {
@@ -54,12 +58,32 @@ describe("Duplicate", () => {
   describe("Questionnaire duplication", () => {
     const title = "Duplicate Questionnaire";
     const duplicateTitle = `Copy of ${title}`;
+    let originalQuestionnaireId;
 
     it("can duplicate a questionnaire", () => {
       cy.visit("/");
       cy.login();
-      addQuestionnaire(title);
-      cy.hash().should("match", /\/design$/);
+      questionnaire.add({ title }).then(({ id }) => {
+        originalQuestionnaireId = id;
+      });
+      section.updateInitial({
+        title: "Section 1",
+      });
+      question.updateInitial({
+        sectionDisplayName: "Section 1",
+        alias: "1.1",
+        title: "Question 1",
+        answers: [
+          {
+            type: "Currency",
+            label: "Currency 1",
+          },
+          {
+            type: "Currency",
+            label: "Currency 2",
+          },
+        ],
+      });
 
       cy.get(testId("logo"))
         .should("be.visible")
@@ -75,6 +99,32 @@ describe("Duplicate", () => {
       cy.contains(duplicateTitle).should($title => {
         expect($title.attr("disabled")).not.to.equal("disabled");
       });
+      cy.contains(duplicateTitle).click();
+
+      cy.hash().should("match", /\/design$/);
+
+      cy.hash()
+        .then(hash => {
+          const pattern = new RegExp(`/q/(${idRegex})/`);
+          const result = pattern.exec(hash);
+          const id = result[1];
+          return cy.getPublisherOutput(id).then(dupe => {
+            return cy
+              .getPublisherOutput(originalQuestionnaireId)
+              .then(original => {
+                return [original.body, dupe.body];
+              });
+          });
+        })
+        .then(publishedResults => {
+          const [originalOutput, dupeOutput] = publishedResults;
+          // We don't care about ids changing or the questionnaire title
+          const fieldsToIgnore = ["id", "form_type", "eq_id", "survey_id"];
+          originalOutput.title = duplicateTitle;
+          expect(omitDeep(dupeOutput, ...fieldsToIgnore)).to.deep.equal(
+            omitDeep(originalOutput, ...fieldsToIgnore)
+          );
+        });
     });
 
     afterEach(() => {

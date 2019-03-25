@@ -5,6 +5,7 @@ import { act } from "react-dom/test-utils";
 import TestProvider from "tests/utils/TestProvider";
 
 import { UnwrappedAnswersEditor, AnswerSegment } from "./";
+
 import AnswerEditor from "./AnswerEditor";
 
 describe("Answers Editor", () => {

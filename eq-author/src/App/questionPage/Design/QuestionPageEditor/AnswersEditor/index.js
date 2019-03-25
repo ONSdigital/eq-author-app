@@ -144,7 +144,6 @@ export const UnwrappedAnswersEditor = ({
               onUpdateOption={onUpdateOption}
               onDeleteOption={onDeleteOption}
               onDeleteAnswer={onDeleteAnswer}
-              data-test="answer-editor"
             />
           </AnswerSegment>
         </AnswerTransition>

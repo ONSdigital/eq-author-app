@@ -17,6 +17,7 @@ const configureMultipleChoice = (
       .eq(index)
       .type(label)
       .blur();
+
     const nextIndex = index + 1;
     const shouldAddOne =
       initialCount <= nextIndex && options.length > nextIndex; // index + 1 === options.length;
@@ -29,7 +30,9 @@ const configureMultipleChoice = (
 
 const configueBasicAnswer = ({ label, description }) => {
   if (label) {
-    cy.get(testId("txt-answer-label")).type(label);
+    cy.get(testId("txt-answer-label"))
+      .type(label)
+      .blur();
   }
   if (description) {
     cy.get(testId("txt-answer-description")).then($el =>
@@ -40,26 +43,31 @@ const configueBasicAnswer = ({ label, description }) => {
   }
 };
 
-const configure = config => {
-  switch (config.type.toLowerCase()) {
-    case "checkbox":
-      configureMultipleChoice({ initialCount: 1 }, config);
-      break;
-    case "radio":
-      configureMultipleChoice({ initialCount: 2 }, config);
-      break;
-    case "number":
-    case "currency":
-    case "textfield":
-      configueBasicAnswer(config);
-      break;
-    default:
-      throw new Error(`Answer type not supported: ${config.type}`);
-  }
+const configure = (config, index) => {
+  cy.get(testId("answer-editor")).should("have.length", index + 1);
+  cy.get(testId("answer-editor"))
+    .eq(index)
+    .within(() => {
+      switch (config.type.toLowerCase()) {
+        case "checkbox":
+          configureMultipleChoice({ initialCount: 1 }, config);
+          break;
+        case "radio":
+          configureMultipleChoice({ initialCount: 2 }, config);
+          break;
+        case "number":
+        case "currency":
+        case "textfield":
+          configueBasicAnswer(config);
+          break;
+        default:
+          throw new Error(`Answer type not supported: ${config.type}`);
+      }
+    });
 };
 
-export const add = config => {
+export const add = (config, index = 0) => {
   cy.get(testId("btn-add-answer")).click();
   cy.get(testId(`btn-answer-type-${config.type.toLowerCase()}`)).click();
-  configure(config);
+  configure(config, index);
 };

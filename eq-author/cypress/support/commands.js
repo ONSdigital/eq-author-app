@@ -113,6 +113,12 @@ Cypress.Commands.add("visitStubbed", function(url, operations = {}) {
   }
 });
 
+Cypress.Commands.add("getPublisherOutput", function(questionnaireId) {
+  return cy.request(
+    `${Cypress.env("PUBLISHER_URL") ||
+      "http://localhost:9000"}/publish/${questionnaireId}`
+  );
+});
 //
 //
 // -- This is a child command --
