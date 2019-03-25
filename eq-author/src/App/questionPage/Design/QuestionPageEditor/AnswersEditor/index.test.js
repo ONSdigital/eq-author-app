@@ -1,7 +1,11 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { shallow, mount } from "enzyme";
+import { act } from "react-dom/test-utils";
+
+import TestProvider from "tests/utils/TestProvider";
 
 import { UnwrappedAnswersEditor, AnswerSegment } from "./";
+import AnswerEditor from "./AnswerEditor";
 
 describe("Answers Editor", () => {
   jest.useFakeTimers();
@@ -29,7 +33,7 @@ describe("Answers Editor", () => {
   it("should call moveAnswer with the new index when an answer is moved down", () => {
     const wrapper = shallow(<UnwrappedAnswersEditor {...props} />);
     wrapper
-      .find("[data-test='answer-editor']")
+      .find(AnswerEditor)
       .at(0)
       .simulate("moveDown");
     expect(props.moveAnswer).toHaveBeenCalledWith({
@@ -41,7 +45,7 @@ describe("Answers Editor", () => {
   it("should call moveAnswer with the new index when an answer is moved up", () => {
     const wrapper = shallow(<UnwrappedAnswersEditor {...props} />);
     wrapper
-      .find("[data-test='answer-editor']")
+      .find(AnswerEditor)
       .at(1)
       .simulate("moveUp");
     expect(props.moveAnswer).toHaveBeenCalledWith({
@@ -52,14 +56,14 @@ describe("Answers Editor", () => {
 
   it("should not be able to moved down if its the last in the list", () => {
     const wrapper = shallow(<UnwrappedAnswersEditor {...props} />);
-    const editor = wrapper.find("[data-test='answer-editor']").at(1);
+    const editor = wrapper.find(AnswerEditor).at(1);
     expect(editor.prop("canMoveDown")).toEqual(false);
     expect(editor.prop("canMoveUp")).toEqual(true);
   });
 
   it("should not be able to moved up if its the first in the list", () => {
     const wrapper = shallow(<UnwrappedAnswersEditor {...props} />);
-    const editor = wrapper.find("[data-test='answer-editor']").at(0);
+    const editor = wrapper.find(AnswerEditor).at(0);
     expect(editor.prop("canMoveDown")).toEqual(true);
     expect(editor.prop("canMoveUp")).toEqual(false);
   });
@@ -85,5 +89,51 @@ describe("Answers Editor", () => {
       .innerRef({ getBoundingClientRect });
 
     expect(getBoundingClientRect).toHaveBeenCalledWith();
+  });
+
+  it("should not blow up if we unmount after triggering a move", () => {
+    const store = {
+      subscribe: jest.fn(),
+      dispatch: jest.fn(),
+      getState: jest.fn(),
+    };
+    props.answers = [
+      {
+        id: "1",
+        description: "description",
+        guidance: "guidance",
+        label: "label",
+        type: "Currency",
+      },
+      {
+        id: "2",
+        description: "description",
+        guidance: "guidance",
+        label: "label",
+        type: "Currency",
+      },
+    ];
+
+    const wrapper = mount(
+      <TestProvider reduxProps={{ store }} apolloProps={{ mocks: [] }}>
+        <UnwrappedAnswersEditor {...props} />
+      </TestProvider>
+    );
+
+    act(() => {
+      wrapper
+        .find("[data-test='btn-move-answer-up']")
+        .at(1)
+        .simulate("click");
+    });
+
+    act(() => {
+      wrapper.unmount();
+    });
+
+    act(() => {
+      // This will throw an error if the timeout is not cleared
+      jest.runAllTimers();
+    });
   });
 });

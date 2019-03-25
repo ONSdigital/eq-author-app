@@ -1,9 +1,8 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import PropTypes from "prop-types";
 import { propType } from "graphql-anywhere";
 import styled, { keyframes, css } from "styled-components";
 import { TransitionGroup } from "react-transition-group";
-import { delay } from "lodash";
 
 import getIdForObject from "utils/getIdForObject";
 
@@ -59,6 +58,7 @@ export const UnwrappedAnswersEditor = ({
   const hasNewAnswers = useRef(false);
   const answerElements = useRef([]);
   const prevAnswers = useRef(answers);
+  const animationTimeout = useRef();
 
   if (prevAnswers.current !== answers) {
     prevAnswers.current = answers;
@@ -78,6 +78,18 @@ export const UnwrappedAnswersEditor = ({
 
     answerElements.current[index] = node.getBoundingClientRect().height;
   };
+
+  useEffect(
+    () => {
+      return () => {
+        if (animationTimeout.current) {
+          clearTimeout(animationTimeout.current);
+          animationTimeout.current = null;
+        }
+      };
+    },
+    [animationTimeout]
+  );
 
   const handleMove = (answer, index, direction) => {
     const isUp = direction === UP;
@@ -104,7 +116,7 @@ export const UnwrappedAnswersEditor = ({
     setIsTransitioning(true);
     setAnswerStyles(newAnswerStyles);
     moveAnswer({ id: answer.id, position: indexB });
-    delay(() => {
+    animationTimeout.current = setTimeout(() => {
       setIsTransitioning(false);
     }, MOVE_DURATION);
   };
