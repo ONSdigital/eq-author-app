@@ -8,7 +8,7 @@ import AvailableMetadata from "graphql/fragments/available-metadata.graphql";
 
 export const GET_PIPING_CONTENT_PAGE = gql`
   query GetAvailablePipingContent($input: QueryInput!) {
-    questionPage(input: $input) {
+    page(input: $input) {
       id
       displayName
       availablePipingAnswers {

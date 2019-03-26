@@ -21,8 +21,8 @@ const getLogicalDisplayName = (
     return "";
   }
 
-  if (availableRoutingDestinations.questionPages.length) {
-    return availableRoutingDestinations.questionPages[0].displayName;
+  if (availableRoutingDestinations.pages.length) {
+    return availableRoutingDestinations.pages[0].displayName;
   }
   if (availableRoutingDestinations.sections.length) {
     return availableRoutingDestinations.sections[0].displayName;
@@ -56,10 +56,7 @@ export const UnwrappedRoutingDestinationContentPicker = ({
   selected,
   ...otherProps
 }) => {
-  const destinationData = get(
-    data,
-    "questionPage.availableRoutingDestinations"
-  );
+  const destinationData = get(data, "page.availableRoutingDestinations");
   return (
     <ContentPickerSelect
       name="routingDestination"
@@ -79,7 +76,7 @@ export const UnwrappedRoutingDestinationContentPicker = ({
 UnwrappedRoutingDestinationContentPicker.propTypes = {
   loading: PropTypes.bool.isRequired,
   data: PropTypes.shape({
-    questionPage: PropTypes.shape({
+    page: PropTypes.shape({
       availableRoutingDestinations: PropTypes.shape({
         logicalDestinations: PropTypes.arrayOf(
           PropTypes.shape({

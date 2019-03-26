@@ -8,9 +8,10 @@ mutation duplicateSection($input: DuplicateSectionInput!) {
     pages {
       id
       title
-      description
+
       position
       ... on QuestionPage {
+        description
         displayName
         guidance
         pageType

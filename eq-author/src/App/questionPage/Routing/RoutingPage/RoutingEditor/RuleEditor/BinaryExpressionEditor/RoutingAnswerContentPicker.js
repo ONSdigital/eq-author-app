@@ -13,7 +13,7 @@ import shapeTree from "components/ContentPicker/shapeTree";
 
 const GET_AVAILABLE_ROUTING_ANSWERS = gql`
   query GetAvailableRoutingAnswers($input: QueryInput!) {
-    questionPage(input: $input) {
+    page(input: $input) {
       id
       displayName
       availableRoutingAnswers {

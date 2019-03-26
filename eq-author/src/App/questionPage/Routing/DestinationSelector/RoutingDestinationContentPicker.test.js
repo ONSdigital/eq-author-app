@@ -10,10 +10,10 @@ describe("RoutingDestinationContentPicker", () => {
   beforeEach(() => {
     props = {
       data: {
-        questionPage: {
+        page: {
           id: "5",
           availableRoutingDestinations: {
-            questionPages: [],
+            pages: [],
             sections: [],
             logicalDestinations: [],
           },
@@ -73,7 +73,7 @@ describe("RoutingDestinationContentPicker", () => {
       props.selected = {
         logical: "NextPage",
       };
-      props.data.questionPage.availableRoutingDestinations.questionPages = [
+      props.data.page.availableRoutingDestinations.pages = [
         { id: "1", displayName: "page name" },
       ];
       wrapper = render(props);
@@ -84,7 +84,7 @@ describe("RoutingDestinationContentPicker", () => {
       props.selected = {
         logical: "NextPage",
       };
-      props.data.questionPage.availableRoutingDestinations.sections = [
+      props.data.page.availableRoutingDestinations.sections = [
         { id: "1", displayName: "section name" },
       ];
       wrapper = render(props);

@@ -197,7 +197,6 @@ const Resolvers = {
     questionnaire: (root, args, ctx) => ctx.questionnaire,
     section: (root, { input }, ctx) => getSection(ctx)(input),
     page: (root, { input }, ctx) => getPage(ctx)(input),
-    questionPage: (root, { input }, ctx) => getPage(ctx)(input),
     answer: (root, { input }, ctx) => getAnswer(ctx)(input),
     answers: async (root, { ids }, ctx) =>
       getAnswers(ctx).filter(({ id }) => ids.includes(id)),
@@ -314,6 +313,12 @@ const Resolvers = {
       await saveQuestionnaire(ctx.questionnaire);
       return removedPage;
     },
+    deletePage: async (_, { input }, ctx) => {
+      const section = findSectionByPageId(ctx.questionnaire.sections, input.id);
+      remove(section.pages, { id: input.id });
+      await saveQuestionnaire(ctx.questionnaire);
+      return section;
+    },
 
     duplicatePage: async (_, { input }, ctx) => {
       const section = findSectionByPageId(ctx.questionnaire.sections, input.id);
@@ -348,12 +353,6 @@ const Resolvers = {
       merge(page, input);
       await saveQuestionnaire(ctx.questionnaire);
       return page;
-    },
-    deleteQuestionPage: async (_, { input }, ctx) => {
-      const section = findSectionByPageId(ctx.questionnaire.sections, input.id);
-      remove(section.pages, { id: input.id });
-      await saveQuestionnaire(ctx.questionnaire);
-      return section;
     },
 
     createAnswer: async (root, { input }, ctx) => {
@@ -712,10 +711,7 @@ const Resolvers = {
         }
       });
 
-      const questionPages = takeRightWhile(
-        section.pages,
-        page => page.id !== id
-      );
+      const pages = takeRightWhile(section.pages, page => page.id !== id);
       const sections = takeRightWhile(
         ctx.questionnaire.sections,
         futureSection => futureSection.id !== section.id
@@ -733,7 +729,7 @@ const Resolvers = {
       return {
         logicalDestinations,
         sections,
-        questionPages,
+        pages,
       };
     },
     routing: questionPage => questionPage.routing,

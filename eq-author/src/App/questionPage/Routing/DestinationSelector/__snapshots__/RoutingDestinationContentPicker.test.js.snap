@@ -10,7 +10,7 @@ exports[`RoutingDestinationContentPicker displayName should correctly render log
   destinationData={
     Object {
       "logicalDestinations": Array [],
-      "questionPages": Array [],
+      "pages": Array [],
       "sections": Array [],
     }
   }
@@ -35,7 +35,7 @@ exports[`RoutingDestinationContentPicker displayName should correctly render pag
   destinationData={
     Object {
       "logicalDestinations": Array [],
-      "questionPages": Array [],
+      "pages": Array [],
       "sections": Array [],
     }
   }
@@ -63,7 +63,7 @@ exports[`RoutingDestinationContentPicker displayName should correctly render sec
   destinationData={
     Object {
       "logicalDestinations": Array [],
-      "questionPages": Array [],
+      "pages": Array [],
       "sections": Array [],
     }
   }
@@ -91,7 +91,7 @@ exports[`RoutingDestinationContentPicker displayName should render first page di
   destinationData={
     Object {
       "logicalDestinations": Array [],
-      "questionPages": Array [
+      "pages": Array [
         Object {
           "displayName": "page name",
           "id": "1",
@@ -121,7 +121,7 @@ exports[`RoutingDestinationContentPicker displayName should render first page di
   destinationData={
     Object {
       "logicalDestinations": Array [],
-      "questionPages": Array [],
+      "pages": Array [],
       "sections": Array [
         Object {
           "displayName": "section name",
@@ -151,7 +151,7 @@ exports[`RoutingDestinationContentPicker displayName should render with no displ
   destinationData={
     Object {
       "logicalDestinations": Array [],
-      "questionPages": Array [],
+      "pages": Array [],
       "sections": Array [],
     }
   }
@@ -176,7 +176,7 @@ exports[`RoutingDestinationContentPicker should render 1`] = `
   destinationData={
     Object {
       "logicalDestinations": Array [],
-      "questionPages": Array [],
+      "pages": Array [],
       "sections": Array [],
     }
   }

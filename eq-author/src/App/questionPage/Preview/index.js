@@ -91,7 +91,7 @@ export const UnwrappedPreviewPageRoute = ({ loading, data }) => {
   if (loading) {
     return <Loading height="38rem">Preview loading…</Loading>;
   }
-  const { questionPage } = data;
+  const { page } = data;
   const {
     title,
     description,
@@ -105,10 +105,10 @@ export const UnwrappedPreviewPageRoute = ({ loading, data }) => {
     additionalInfoContent,
     additionalInfoEnabled,
     answers,
-  } = questionPage;
+  } = page;
 
   return (
-    <EditorLayout page={questionPage} preview routing>
+    <EditorLayout page={page} preview routing>
       <Container>
         <PageTitle title={title} />
 
@@ -199,7 +199,7 @@ UnwrappedPreviewPageRoute.propTypes = {
 
 export const QUESTION_PAGE_QUERY = gql`
   query GetQuestionPage($input: QueryInput!) {
-    questionPage(input: $input) {
+    page(input: $input) {
       ...QuestionPage
     }
   }

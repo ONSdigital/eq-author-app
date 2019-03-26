@@ -5,7 +5,7 @@ const { SOCIAL } = require("../../../constants/questionnaireTypes");
 const { createQuestionnaireReturningPersisted } = require("./questionnaire");
 const { createMetadata, updateMetadata } = require("./metadata");
 const { createSection, deleteSection } = require("./section");
-const { createQuestionPage, deleteQuestionPage } = require("./page");
+const { createQuestionPage, deletePage } = require("./page");
 const { createAnswer } = require("./answer");
 const {
   createOption,
@@ -169,7 +169,7 @@ const buildQuestionnaire = async questionnaireConfig => {
         ...section,
       });
 
-      await deleteQuestionPage(questionnaire, createdSection.pages[0].id);
+      await deletePage(questionnaire, createdSection.pages[0].id);
 
       if (Array.isArray(section.pages)) {
         for (let page of section.pages) {

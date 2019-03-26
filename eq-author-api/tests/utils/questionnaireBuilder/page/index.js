@@ -1,7 +1,4 @@
-const {
-  queryQuestionPage,
-  queryQuestionPageMutation,
-} = require("./queryQuestionPage");
+const { queryPage, queryPageMutation } = require("./queryPage");
 
 const {
   createQuestionPage,
@@ -13,29 +10,23 @@ const {
   updateQuestionPageMutation,
 } = require("./updateQuestionPage");
 
-const {
-  deleteQuestionPage,
-  deleteQuestionPageMutation,
-} = require("./deleteQuestionPage");
+const { deletePage, deletePageMutation } = require("./deletePage");
 
 const { duplicatePage, duplicatePageMutation } = require("./duplicatePage");
 
-const {
-  moveQuestionPage,
-  moveQuestionPageMutation,
-} = require("./moveQuestionPage");
+const { movePage, movePageMutation } = require("./movePage");
 
 module.exports = {
-  queryQuestionPage,
-  queryQuestionPageMutation,
+  queryPage,
+  queryPageMutation,
   createQuestionPage,
   createQuestionPageMutation,
   updateQuestionPage,
   updateQuestionPageMutation,
-  deleteQuestionPage,
-  deleteQuestionPageMutation,
+  deletePage,
+  deletePageMutation,
   duplicatePage,
   duplicatePageMutation,
-  moveQuestionPage,
-  moveQuestionPageMutation,
+  movePage,
+  movePageMutation,
 };

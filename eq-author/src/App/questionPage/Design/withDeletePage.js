@@ -52,7 +52,7 @@ export const mapMutateToProps = ({ ownProps, mutate }) => ({
     });
 
     return mutation
-      .then(({ data: { deleteQuestionPage: section } }) =>
+      .then(({ data: { deletePage: section } }) =>
         handleDeletion(ownProps, section, nextPage)
       )
       .then(() => displayToast(ownProps, page));

@@ -193,7 +193,7 @@ export class UnwrappedBinaryExpressionEditor extends React.Component {
           <Column gutters={false} cols={10}>
             <RoutingAnswerContentPicker
               id={this.id}
-              path="questionPage.availableRoutingAnswers"
+              path="page.availableRoutingAnswers"
               selectedContentDisplayName={get(
                 "left.displayName",
                 this.props.expression

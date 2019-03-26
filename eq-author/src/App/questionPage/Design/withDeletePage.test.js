@@ -32,7 +32,7 @@ describe("withDeletePage", () => {
 
     result = {
       data: {
-        deleteQuestionPage: {
+        deletePage: {
           id: sectionId,
           pages: [currentPage, { id: "3", position: 2 }],
         },
@@ -99,7 +99,7 @@ describe("withDeletePage", () => {
       });
 
       it("should create a page if you delete the last page in a section", () => {
-        result.data.deleteQuestionPage.pages = [];
+        result.data.deletePage.pages = [];
         ownProps.client.readFragment = jest.fn().mockReturnValueOnce({
           ...beforeDeleteSection,
           pages: [deletedPage],

@@ -17,8 +17,8 @@ const {
 } = require("../../tests/utils/questionnaireBuilder/section");
 
 const {
-  queryQuestionPage,
-  deleteQuestionPage,
+  queryPage,
+  deletePage,
   duplicatePage,
 } = require("../../tests/utils/questionnaireBuilder/page");
 
@@ -53,13 +53,13 @@ describe("Duplication", () => {
     let page, pageCopy;
 
     beforeEach(async () => {
-      page = await queryQuestionPage(questionnaire, last(section.pages).id);
+      page = await queryPage(questionnaire, last(section.pages).id);
       let { id } = await duplicatePage(questionnaire, page);
-      pageCopy = await queryQuestionPage(questionnaire, id);
+      pageCopy = await queryPage(questionnaire, id);
     });
 
     afterEach(async () => {
-      await deleteQuestionPage(questionnaire, pageCopy.id);
+      await deletePage(questionnaire, pageCopy.id);
     });
 
     it("should copy page with answers and question confirmation", () => {

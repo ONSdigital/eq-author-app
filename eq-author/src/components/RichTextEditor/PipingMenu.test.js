@@ -147,7 +147,7 @@ describe("PipingMenu", () => {
         },
       },
       {
-        name: "questionPage",
+        name: "page",
         params: {
           questionnaireId: "4",
           sectionId: "3",

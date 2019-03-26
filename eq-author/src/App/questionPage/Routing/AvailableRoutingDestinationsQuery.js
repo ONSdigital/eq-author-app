@@ -9,13 +9,13 @@ import SectionDestination from "graphql/fragments/section-destination.graphql";
 
 const GET_AVAILABLE_ROUTING_DESTINATIONS = gql`
   query GetAvailableRoutingDestinations($input: QueryInput!) {
-    questionPage(input: $input) {
+    page(input: $input) {
       id
       availableRoutingDestinations {
         logicalDestinations {
           ...LogicalDestination
         }
-        questionPages {
+        pages {
           ...QuestionPageDestination
         }
         sections {
