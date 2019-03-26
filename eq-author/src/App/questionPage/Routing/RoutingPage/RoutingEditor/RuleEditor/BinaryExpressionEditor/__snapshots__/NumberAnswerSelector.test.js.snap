@@ -67,6 +67,7 @@ exports[`NumberAnswerSelector should render 1`] = `
       placeholder="Value"
       step={1}
       type="Number"
+      value={null}
     />
   </NumberAnswerSelector__Value>
 </NumberAnswerSelector__NumberAnswerRoutingSelector>
@@ -139,6 +140,7 @@ exports[`NumberAnswerSelector should render a currency 1`] = `
       placeholder="Value"
       step={1}
       type="Currency"
+      value={null}
     />
   </NumberAnswerSelector__Value>
 </NumberAnswerSelector__NumberAnswerRoutingSelector>
@@ -211,6 +213,7 @@ exports[`NumberAnswerSelector should render a percentage 1`] = `
       placeholder="Value"
       step={1}
       type="Percentage"
+      value={null}
     />
   </NumberAnswerSelector__Value>
 </NumberAnswerSelector__NumberAnswerRoutingSelector>

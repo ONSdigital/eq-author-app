@@ -58,9 +58,13 @@ Cypress.Commands.add("dismissAllToast", () => {
 });
 
 Cypress.Commands.add("createQuestionnaire", title => {
-  cy.get(testId("logo")).click();
-  cy.get(testId("create-questionnaire")).click();
-  setQuestionnaireSettings({ title, type: "Business" });
+  cy.hash().then(hash => {
+    if (hash !== "#/") {
+      cy.get(testId("logo")).click();
+    }
+    cy.get(testId("create-questionnaire")).click();
+    setQuestionnaireSettings({ title, type: "Business" });
+  });
 });
 
 Cypress.Commands.add("deleteQuestionnaire", title => {

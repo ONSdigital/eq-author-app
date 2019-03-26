@@ -52,6 +52,7 @@
       "!config/**/*",
       "!coverage/**/*",
       "!tests/**/*",
+      "!**/tests/**/*",
       "!scripts/*",
       "!middleware/import.js",
       "!app.js",

@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import { get } from "lodash/fp";
+import { get } from "lodash";
 
 import { colors, radius } from "constants/theme";
 import { Number, Select, Label } from "components/Forms";
@@ -83,7 +83,7 @@ class NumberAnswerSelector extends React.Component {
             min={-99999999}
             max={999999999}
             placeholder="Value"
-            value={get("right.number", expression)}
+            value={get(expression, "right.number", null)}
             name={`expression-right-${expression.id}`}
             onChange={this.handleRightChange}
             data-test="number-value-input"
