@@ -5,10 +5,13 @@ const createQuestionnaireMutation = `
     createQuestionnaire(input: $input) {
       id
       title
+      shortTitle
+      displayName
       description
       theme
       legalBasis
       navigation
+      type
       surveyId
       createdAt
       createdBy {

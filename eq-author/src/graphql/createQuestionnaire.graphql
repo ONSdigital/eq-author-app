@@ -1,7 +1,7 @@
 mutation createQuestionnaire($input: CreateQuestionnaireInput!) {
   createQuestionnaire(input: $input) {
     id
-    title
+    displayName
     createdAt
     createdBy {
       id

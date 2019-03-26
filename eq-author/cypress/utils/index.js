@@ -20,11 +20,24 @@ export const selectOptionByLabel = label => {
     });
 };
 
-export function setQuestionnaireSettings(name) {
+export function setQuestionnaireSettings({ title, type, shortTitle }) {
   cy.get(testId("questionnaire-settings-modal")).within(() => {
-    cy.get(testId("txt-questionnaire-title"))
-      .clear()
-      .type(name);
+    if (title) {
+      cy.get(testId("txt-questionnaire-title"))
+        .clear()
+        .type(title);
+    }
+
+    if (type) {
+      cy.get(testId("select-questionnaire-type")).select(type);
+    }
+
+    if (shortTitle) {
+      cy.get(testId("txt-questionnaire-short-title"))
+        .clear()
+        .type(shortTitle);
+    }
+
     cy.get("label[for='navigation']").click();
 
     cy.get("form").submit();
@@ -33,7 +46,7 @@ export function setQuestionnaireSettings(name) {
 
 export const addQuestionnaire = title => {
   cy.get(testId("create-questionnaire")).click();
-  setQuestionnaireSettings(title);
+  setQuestionnaireSettings({ title, type: "Business" });
 };
 
 export const addSection = (initialNumberOfSections = 1) => {

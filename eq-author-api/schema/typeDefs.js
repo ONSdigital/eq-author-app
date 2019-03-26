@@ -19,6 +19,11 @@ type QuestionnaireInfo {
   totalSectionCount: Int!
 }
 
+enum QuestionnaireType {
+  Social
+  Business
+}
+
 type Questionnaire {
   id: ID!
   title: String
@@ -33,6 +38,9 @@ type Questionnaire {
   summary: Boolean
   questionnaireInfo: QuestionnaireInfo
   metadata: [Metadata!]!
+  type: QuestionnaireType!
+  shortTitle: String
+  displayName: String!
 }
 
 type Section {
@@ -553,6 +561,8 @@ input CreateQuestionnaireInput {
   navigation: Boolean
   surveyId: String!
   summary: Boolean
+  type: QuestionnaireType!
+  shortTitle: String
 }
 
 input UpdateQuestionnaireInput {
@@ -564,6 +574,7 @@ input UpdateQuestionnaireInput {
   navigation: Boolean
   surveyId: String
   summary: Boolean
+  shortTitle: String
 }
 
 input DeleteQuestionnaireInput {

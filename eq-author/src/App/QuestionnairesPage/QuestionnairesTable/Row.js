@@ -141,10 +141,10 @@ class Row extends React.Component {
               <TruncatedQuestionnaireLink
                 data-test="anchor-questionnaire-title"
                 questionnaire={questionnaire}
-                title={questionnaire.title}
+                title={questionnaire.displayName}
                 disabled={isOptimisticDupe}
               >
-                {questionnaire.title}
+                {questionnaire.displayName}
               </TruncatedQuestionnaireLink>
             </TD>
             <TD>

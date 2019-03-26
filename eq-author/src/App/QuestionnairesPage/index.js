@@ -20,7 +20,6 @@ import Error from "components/Error";
 import QuestionnaireSettingsModal from "App/QuestionnaireSettingsModal";
 
 import QuestionnairesTable from "./QuestionnairesTable";
-import withQuestionnaireList from "./withQuestionnaireList";
 import withDeleteQuestionnaire from "./withDeleteQuestionnaire";
 import withCreateQuestionnaire from "./withCreateQuestionnaire";
 import withDuplicateQuestionnaire from "./withDuplicateQuestionnaire";
@@ -121,6 +120,5 @@ export default flowRight(
   ),
   withCreateQuestionnaire,
   withDuplicateQuestionnaire,
-  withDeleteQuestionnaire,
-  withQuestionnaireList
+  withDeleteQuestionnaire
 )(UnconnectedQuestionnairesPage);

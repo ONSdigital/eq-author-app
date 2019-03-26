@@ -7,6 +7,7 @@ const StyledField = styled.div`
   width: 100%;
   margin-bottom: ${props => (props.last ? "0" : "1")}em;
   position: relative;
+  ${props => props.disabled && "opacity: 0.6;"}
 `;
 
 const Field = ({ children, last, ...otherProps }) => (
@@ -18,10 +19,12 @@ const Field = ({ children, last, ...otherProps }) => (
 Field.propTypes = {
   children: PropTypes.node.isRequired,
   last: PropTypes.bool,
+  disabled: PropTypes.bool,
 };
 
 Field.defaultProps = {
   last: false,
+  disabled: false,
 };
 
 export default Field;

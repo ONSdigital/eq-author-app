@@ -43,7 +43,7 @@ describe("components/Header", () => {
   });
 
   describe("when there is a questionnaire", () => {
-    const questionnaire = { id: "1", title: "Questionnaire" };
+    const questionnaire = { id: "1", displayName: "Questionnaire" };
     let wrapper;
 
     let tempExecCommand;

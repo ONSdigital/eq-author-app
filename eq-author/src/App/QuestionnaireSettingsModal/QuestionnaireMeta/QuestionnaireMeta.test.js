@@ -12,9 +12,9 @@ const handleBlur = jest.fn();
 const handleUpdate = jest.fn();
 
 const questionnaire = {
-  description: "I am the description",
+  shortTitle: "I am the shortTitle",
   legalBasis: "StatisticsOfTradeAct",
-  theme: "default",
+  type: "",
   title: "I am the title",
   id: "123",
 };
@@ -48,5 +48,37 @@ describe("QuestionnaireMeta", () => {
 
     expect(inputs.length).toBeGreaterThan(0);
     expect(handleChange).toHaveBeenCalledTimes(inputs.length);
+  });
+
+  it("should not enable the submit button until you have a type and a title", () => {
+    expect(
+      wrapper.find('[data-test="questionnaire-submit-button"]').prop("disabled")
+    ).toBe(true);
+
+    wrapper.setProps({
+      questionnaire: { ...questionnaire, title: "hello", type: "Business" },
+    });
+
+    expect(
+      wrapper.find('[data-test="questionnaire-submit-button"]').prop("disabled")
+    ).toBe(false);
+  });
+
+  it("should not able to change the type of the questionnaire when canEditType is false", () => {
+    wrapper = shallow(
+      <StatelessQuestionnaireMeta
+        questionnaire={questionnaire}
+        onChange={handleChange}
+        onUpdate={handleUpdate}
+        onSubmit={handleSubmit}
+        onBlur={handleBlur}
+        confirmText="Create"
+        canEditType={false}
+      />
+    );
+
+    expect(
+      wrapper.find('[data-test="select-questionnaire-type"]').prop("disabled")
+    ).toBe(true);
   });
 });

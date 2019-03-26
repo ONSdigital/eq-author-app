@@ -1,8 +1,10 @@
 /* eslint-disable camelcase */
+const { last } = require("lodash");
+
+const { SOCIAL } = require("../constants/questionnaireTypes");
 const Section = require("./Section");
 const Summary = require("./block-types/Summary");
 const Confirmation = require("./block-types/Confirmation");
-const { last } = require("lodash");
 
 const DEFAULT_METADATA = [
   {
@@ -18,6 +20,9 @@ const DEFAULT_METADATA = [
     validator: "string",
   },
 ];
+
+const SOCIAL_THEME = "social";
+const DEFAULT_THEME = "default";
 
 const DEFAULT_METADATA_NAMES = DEFAULT_METADATA.map(({ name }) => name);
 
@@ -36,7 +41,8 @@ class Questionnaire {
 
     const ctx = this.createContext(questionnaireJson);
     this.sections = this.buildSections(questionnaireJson.sections, ctx);
-    this.theme = questionnaireJson.theme;
+    this.theme =
+      questionnaireJson.type === SOCIAL ? SOCIAL_THEME : DEFAULT_THEME;
     this.legal_basis = questionnaireJson.legalBasis;
     this.navigation = {
       visible: questionnaireJson.navigation,

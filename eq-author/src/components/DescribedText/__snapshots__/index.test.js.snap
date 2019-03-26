@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DescribedText should render as just text if no description provided 1`] = `
+<span>
+  Label things
+</span>
+`;
+
+exports[`DescribedText should render with a text and description when description is provided 1`] = `
+<span>
+  Label things
+  <DescribedText__Description>
+    I describe it
+  </DescribedText__Description>
+</span>
+`;

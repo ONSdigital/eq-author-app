@@ -46,7 +46,7 @@ describe("components/QuestionnairesPage", () => {
     const questionnaires = [
       {
         id: "1",
-        title: "Test questionnaire",
+        displayName: "Test questionnaire",
         createdAt: "01/01/1970",
         createdBy: { name: "Mike" },
         sections: [

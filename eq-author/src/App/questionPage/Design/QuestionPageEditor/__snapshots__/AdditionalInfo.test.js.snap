@@ -15,6 +15,7 @@ exports[`AdditionalInfo should render 1`] = `
       label="Additional information"
     >
       <Field
+        disabled={false}
         last={false}
       >
         <Label

@@ -24,7 +24,9 @@ const CenteredHeading = styled(Heading)`
 `;
 
 const StyledModal = styled(Modal)`
-  width: 30em;
+  .Modal {
+    width: 37em;
+  }
 `;
 
 const QuestionnaireSettingsModal = ({
@@ -33,6 +35,7 @@ const QuestionnaireSettingsModal = ({
   onClose,
   onSubmit,
   confirmText,
+  canEditType,
 }) => (
   <StyledModal
     isOpen={isOpen}
@@ -50,6 +53,7 @@ const QuestionnaireSettingsModal = ({
       onSubmit={onSubmit}
       onUpdate={noop}
       confirmText={confirmText}
+      canEditType={canEditType}
     />
   </StyledModal>
 );
@@ -60,10 +64,12 @@ QuestionnaireSettingsModal.propTypes = {
   onClose: PropTypes.func,
   confirmText: PropTypes.string.isRequired,
   questionnaire: CustomPropTypes.questionnaire,
+  canEditType: PropTypes.bool,
 };
 
 QuestionnaireSettingsModal.defaultProps = {
   questionnaire: defaultQuestionnaire,
+  canEditType: true,
 };
 
 QuestionnaireSettingsModal.fragments = {

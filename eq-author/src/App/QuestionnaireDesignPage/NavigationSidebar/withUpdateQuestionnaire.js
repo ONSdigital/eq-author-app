@@ -1,10 +1,29 @@
-import updateQuestionnaire from "graphql/updateQuestionnaire.graphql";
+import gql from "graphql-tag";
+import { partial } from "lodash";
+import { filter } from "graphql-anywhere";
 import { graphql } from "react-apollo";
+
+import updateQuestionnaire from "graphql/updateQuestionnaire.graphql";
+
+const inputStructure = gql`
+  {
+    id
+    title
+    description
+    theme
+    legalBasis
+    navigation
+    surveyId
+    summary
+    shortTitle
+  }
+`;
+const filterToInput = partial(filter, inputStructure);
 
 export const mapMutateToProps = ({ mutate }) => ({
   onUpdateQuestionnaire: questionnaire =>
     mutate({
-      variables: { input: questionnaire },
+      variables: { input: filterToInput(questionnaire) },
     }),
 });
 

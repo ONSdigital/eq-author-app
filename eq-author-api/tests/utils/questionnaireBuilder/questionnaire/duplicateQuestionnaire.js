@@ -5,6 +5,8 @@ const duplicateQuestionnaireMutation = `
     duplicateQuestionnaire(input: $input) {
       id
       title
+      shortTitle
+      displayName
       description
       theme
       legalBasis

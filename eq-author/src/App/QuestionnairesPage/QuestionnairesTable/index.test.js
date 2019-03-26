@@ -10,7 +10,7 @@ describe("QuestionnairesTable", () => {
   const questionnaires = [
     {
       id: "1",
-      title: "Foo",
+      displayName: "Foo",
       createdAt: "2017/01/02",
       sections: [
         {
@@ -25,7 +25,7 @@ describe("QuestionnairesTable", () => {
     },
     {
       id: "2",
-      title: "Bar",
+      displayName: "Bar",
       createdAt: "2017/03/04",
       sections: [
         {
@@ -137,7 +137,7 @@ describe("QuestionnairesTable", () => {
       questionnaires: [
         {
           id: "3",
-          title: "My dupe",
+          displayName: "My dupe",
           createdAt: "12-09-2040",
           createdBy: {
             displayName: "Dave",

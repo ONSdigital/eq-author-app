@@ -63,6 +63,13 @@ const baseQuestionnaireSchema = {
     type: Date,
     required: true,
   },
+  type: {
+    type: String,
+    required: true,
+  },
+  shortTitle: {
+    type: String,
+  },
 };
 
 const questionnanaireSchema = new dynamoose.Schema(

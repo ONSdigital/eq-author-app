@@ -18,6 +18,7 @@ exports[`QuestionnaireSettingsModal should render 1`] = `
     </DialogMessage__Message>
   </DialogHeader___default>
   <Connect(withEntityEditor(StatelessQuestionnaireMeta))
+    canEditType={true}
     confirmText="Create"
     onCancel={[MockFunction]}
     onSubmit={[MockFunction]}

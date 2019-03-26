@@ -25,6 +25,7 @@ const {
 describe("Duplication", () => {
   let questionnaire, section;
   let config = {
+    shortTitle: "short title",
     sections: [
       {
         title: "section-title-1",
@@ -147,9 +148,15 @@ describe("Duplication", () => {
     });
 
     it("should copy questionnaire with sections and pages", () => {
-      //@todo - Some sort of issue with createdBy resolving correctly
-      expect(omit(questionnaireCopy, ["id", "title", "createdBy"])).toEqual(
-        omit(queriedQuestionnaire, ["id", "title", "createdBy"])
+      const ignoredFields = [
+        "id",
+        "title",
+        "shortTitle",
+        "displayName",
+        "createdBy",
+      ];
+      expect(omit(questionnaireCopy, ignoredFields)).toEqual(
+        omit(queriedQuestionnaire, ignoredFields)
       );
     });
 
@@ -157,9 +164,12 @@ describe("Duplication", () => {
       expect(questionnaireCopy.id).not.toEqual(queriedQuestionnaire.id);
     });
 
-    it("should create new title", () => {
+    it("should create new title and short title", () => {
       expect(questionnaireCopy.title).toEqual(
         `Copy of ${queriedQuestionnaire.title}`
+      );
+      expect(questionnaireCopy.shortTitle).toEqual(
+        `Copy of ${queriedQuestionnaire.shortTitle}`
       );
     });
   });

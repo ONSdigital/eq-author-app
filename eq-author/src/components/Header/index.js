@@ -130,7 +130,9 @@ export class UnconnectedHeader extends React.Component {
         </LogoContainer>
         <QuestionnaireTitle>
           {questionnaire && (
-            <Title data-test="questionnaire-title">{questionnaire.title}</Title>
+            <Title data-test="questionnaire-title">
+              {questionnaire.displayName}
+            </Title>
           )}
         </QuestionnaireTitle>
 

@@ -23,7 +23,7 @@ import cheerio from "cheerio";
 
 import { flow, uniq, map, keyBy, mapValues, isNull, trim } from "lodash/fp";
 import { sharedStyles } from "components/Forms/css";
-import { Field, DescribedLabel } from "components/Forms";
+import { Field, Label } from "components/Forms";
 
 const styleMap = {
   ITALIC: {
@@ -147,7 +147,7 @@ class RichTextEditor extends React.Component {
     value: PropTypes.string,
     placeholder: PropTypes.string,
     onUpdate: PropTypes.func.isRequired,
-    label: PropTypes.string.isRequired,
+    label: PropTypes.node.isRequired,
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     className: PropTypes.string,
@@ -165,7 +165,6 @@ class RichTextEditor extends React.Component {
         alias: PropTypes.string,
       })
     ),
-    description: PropTypes.string,
   };
 
   constructor(props) {
@@ -454,7 +453,6 @@ class RichTextEditor extends React.Component {
       testSelector,
       id,
       placeholder,
-      description,
       ...otherProps
     } = this.props;
 
@@ -467,9 +465,7 @@ class RichTextEditor extends React.Component {
           onFocus={this.handleFocus}
           data-test="rte-field"
         >
-          <DescribedLabel id={`label-${id}`} description={description}>
-            {label}
-          </DescribedLabel>
+          <Label id={`label-${id}`}>{label}</Label>
           <Input
             className={className}
             size={size}

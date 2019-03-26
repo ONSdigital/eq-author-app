@@ -3,6 +3,7 @@
 exports[`BasicAnswer should render with description 1`] = `
 <div>
   <Field
+    disabled={false}
     last={false}
   >
     <Label
@@ -23,6 +24,7 @@ exports[`BasicAnswer should render with description 1`] = `
     />
   </Field>
   <Field
+    disabled={false}
     last={false}
   >
     <Label
@@ -51,6 +53,7 @@ exports[`BasicAnswer should render with description 1`] = `
 exports[`BasicAnswer should render without description 1`] = `
 <div>
   <Field
+    disabled={false}
     last={false}
   >
     <Label

@@ -5,13 +5,13 @@ import duplicateQuestionnaireMutation from "graphql/duplicateQuestionnaire.graph
 import getQuestionnaireList from "graphql/getQuestionnaireList.graphql";
 
 export const mapMutateToProps = ({ mutate }) => ({
-  onDuplicateQuestionnaire({ id, title, createdBy }) {
+  onDuplicateQuestionnaire({ id, displayName, createdBy }) {
     return mutate({
       variables: { input: { id } },
       optimisticResponse: {
         duplicateQuestionnaire: {
           id: `dupe-${id}`,
-          title: `Copy of ${title}`,
+          displayName: `Copy of ${displayName}`,
           createdAt: new Date(Date.now()).toISOString(),
           createdBy,
           __typename: "Questionnaire",

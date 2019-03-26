@@ -26,9 +26,14 @@ exports[`SectionEditor should render 1`] = `
           "emphasis": true,
         }
       }
-      description="Displayed in section navigation"
       id="section-title"
-      label="Section title"
+      label={
+        <DescribedText
+          description="Displayed in section navigation"
+        >
+          Section title
+        </DescribedText>
+      }
       multiline={false}
       name="title"
       onUpdate={[Function]}
@@ -37,11 +42,15 @@ exports[`SectionEditor should render 1`] = `
       testSelector="txt-section-title"
       value="Section 1"
     />
-    <DescribedLabel
-      description="If you do not want an introduction page, leave these blank"
+    <Label
+      bold={true}
     >
-      Section introduction
-    </DescribedLabel>
+      <DescribedText
+        description="If you do not want an introduction page, leave these blank"
+      >
+        Section introduction
+      </DescribedText>
+    </Label>
     <SectionEditor__IntroCanvas>
       <RichTextEditor
         autoFocus={false}
@@ -111,9 +120,14 @@ exports[`SectionEditor should render 2`] = `
           "emphasis": true,
         }
       }
-      description="Displayed in section navigation"
       id="section-title"
-      label="Section title"
+      label={
+        <DescribedText
+          description="Displayed in section navigation"
+        >
+          Section title
+        </DescribedText>
+      }
       multiline={false}
       name="title"
       onUpdate={[Function]}
@@ -122,11 +136,15 @@ exports[`SectionEditor should render 2`] = `
       testSelector="txt-section-title"
       value="Section 2"
     />
-    <DescribedLabel
-      description="If you do not want an introduction page, leave these blank"
+    <Label
+      bold={true}
     >
-      Section introduction
-    </DescribedLabel>
+      <DescribedText
+        description="If you do not want an introduction page, leave these blank"
+      >
+        Section introduction
+      </DescribedText>
+    </Label>
     <SectionEditor__IntroCanvas>
       <RichTextEditor
         autoFocus={false}

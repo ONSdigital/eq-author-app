@@ -154,7 +154,7 @@ exports.getQuestionnaire = `
       id
       title
       description
-      theme
+      type
       legalBasis
       navigation
       surveyId

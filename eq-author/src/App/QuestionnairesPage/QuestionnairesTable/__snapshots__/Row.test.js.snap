@@ -9,7 +9,6 @@ exports[`Row should render 1`] = `
     isOpen={false}
     onClose={[Function]}
     onDelete={[Function]}
-    title="Foo"
   />
   <FadeTransition
     enter={false}
@@ -39,6 +38,7 @@ exports[`Row should render 1`] = `
               "createdBy": Object {
                 "name": "Alan",
               },
+              "displayName": "Foo",
               "id": "1",
               "sections": Array [
                 Object {
@@ -50,7 +50,6 @@ exports[`Row should render 1`] = `
                   ],
                 },
               ],
-              "title": "Foo",
             }
           }
           title="Foo"
@@ -105,7 +104,6 @@ exports[`Row should render as disabled when the id is a duplicate 1`] = `
     isOpen={false}
     onClose={[Function]}
     onDelete={[Function]}
-    title="Foo"
   />
   <FadeTransition
     enter={true}
@@ -135,6 +133,7 @@ exports[`Row should render as disabled when the id is a duplicate 1`] = `
               "createdBy": Object {
                 "name": "Alan",
               },
+              "displayName": "Foo",
               "id": "dupe-2",
               "sections": Array [
                 Object {
@@ -146,7 +145,6 @@ exports[`Row should render as disabled when the id is a duplicate 1`] = `
                   ],
                 },
               ],
-              "title": "Foo",
             }
           }
           title="Foo"
