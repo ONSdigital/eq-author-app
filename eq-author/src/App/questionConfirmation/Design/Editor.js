@@ -81,8 +81,6 @@ export class UnwrappedEditor extends React.Component {
   }
 }
 
-const withConfirmationEditing = flow(
-  withEntityEditor("confirmation", confirmationFragment)
-);
+const withConfirmationEditing = flow(withEntityEditor("confirmation"));
 
 export default withConfirmationEditing(UnwrappedEditor);

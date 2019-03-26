@@ -22,7 +22,6 @@ import withEntityEditor from "components/withEntityEditor";
 import EditorLayout from "App/questionPage/Design/EditorLayout";
 import withPropRenamed from "enhancers/withPropRenamed";
 
-import pageFragment from "graphql/fragments/page.graphql";
 import { propType } from "graphql-anywhere";
 
 import { Label } from "components/Forms";
@@ -220,7 +219,7 @@ const withQuestionPageEditing = flowRight(
   withUpdateOption,
   withDeleteOption,
   withPropRenamed("onUpdatePage", "onUpdate"),
-  withEntityEditor("page", pageFragment)
+  withEntityEditor("page")
 );
 
 const WrappedQuestionPageRoute = withQuestionPageEditing(

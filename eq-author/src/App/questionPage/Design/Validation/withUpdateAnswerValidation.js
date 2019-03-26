@@ -1,5 +1,7 @@
 import { graphql } from "react-apollo";
 import gql from "graphql-tag";
+import { filter } from "graphql-anywhere";
+
 import MinValueValidationRule from "graphql/fragments/min-value-validation-rule.graphql";
 import MaxValueValidationRule from "graphql/fragments/max-value-validation-rule.graphql";
 import EarliestDateValidationRule from "graphql/fragments/earliest-date-validation-rule.graphql";
@@ -27,10 +29,62 @@ export const UPDATE_VALIDATION_RULE = gql`
   ${MaxDurationValidationRule}
 `;
 
+const INPUT_FRAGMENT = gql`
+  {
+    id
+    minValueInput {
+      inclusive
+      custom
+      entityType
+      previousAnswer
+    }
+    maxValueInput {
+      inclusive
+      custom
+      entityType
+      previousAnswer
+    }
+    earliestDateInput {
+      offset {
+        value
+        unit
+      }
+      relativePosition
+      entityType
+      custom
+      previousAnswer
+      metadata
+    }
+    latestDateInput {
+      offset {
+        value
+        unit
+      }
+      relativePosition
+      entityType
+      custom
+      previousAnswer
+      metadata
+    }
+    minDurationInput {
+      duration {
+        value
+        unit
+      }
+    }
+    maxDurationInput {
+      duration {
+        value
+        unit
+      }
+    }
+  }
+`;
+
 export const mapMutateToProps = ({ mutate }) => ({
   onUpdateAnswerValidation: input =>
     mutate({
-      variables: { input },
+      variables: { input: filter(INPUT_FRAGMENT, input) },
     }),
 });
 

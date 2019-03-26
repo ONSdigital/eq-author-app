@@ -9,7 +9,10 @@ describe("withUpdateMetadata", () => {
     beforeEach(() => {
       mutate = jest.fn();
       props = mapMutateToProps({ mutate });
-      metadata = jest.fn();
+      metadata = {
+        id: "1",
+        __typename: "Metadata",
+      };
     });
 
     it("should have an onUpdateMetadata prop", () => {
@@ -20,7 +23,7 @@ describe("withUpdateMetadata", () => {
       it("should call mutate", () => {
         props.onUpdateMetadata(metadata);
         expect(mutate).toHaveBeenCalledWith({
-          variables: { input: metadata },
+          variables: { input: { id: metadata.id } },
         });
       });
     });

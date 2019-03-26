@@ -161,6 +161,4 @@ StatelessQuestionnaireMeta.fragments = {
   Questionnaire: questionnaireFragment,
 };
 
-export default withEntityEditor("questionnaire", questionnaireFragment)(
-  StatelessQuestionnaireMeta
-);
+export default withEntityEditor("questionnaire")(StatelessQuestionnaireMeta);

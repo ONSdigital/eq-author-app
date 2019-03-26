@@ -1,7 +1,21 @@
 import { graphql } from "react-apollo";
 import gql from "graphql-tag";
+import { filter } from "graphql-anywhere";
 
 import metadataFragment from "graphql/fragments/metadata.graphql";
+
+const fragment = gql`
+  {
+    id
+    key
+    alias
+    type
+    dateValue
+    regionValue
+    languageValue
+    textValue
+  }
+`;
 
 const updateMetadataMutation = gql`
   mutation UpdateMetadata($input: UpdateMetadataInput!) {
@@ -17,7 +31,9 @@ const updateMetadataMutation = gql`
 export const mapMutateToProps = ({ mutate }) => ({
   onUpdateMetadata: metadata =>
     mutate({
-      variables: { input: metadata },
+      variables: {
+        input: filter(fragment, metadata),
+      },
     }),
 });
 

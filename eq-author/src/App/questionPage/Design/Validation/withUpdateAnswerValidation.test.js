@@ -16,12 +16,20 @@ describe("withUpdateAnswerValidation", () => {
     const props = mapMutateToProps({ mutate });
     const answer = {
       id: "1",
-      minValueInput: { inclusive: true, custom: "201" },
+      minValueInput: { inclusive: true, custom: "201", __typename: "foo" },
     };
 
     props.onUpdateAnswerValidation(answer);
     expect(mutate).toHaveBeenCalledWith({
-      variables: { input: answer },
+      variables: {
+        input: {
+          id: answer.id,
+          minValueInput: {
+            inclusive: answer.minValueInput.inclusive,
+            custom: answer.minValueInput.custom,
+          },
+        },
+      },
     });
   });
 });
