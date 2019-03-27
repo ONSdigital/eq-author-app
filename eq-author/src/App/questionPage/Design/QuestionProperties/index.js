@@ -13,20 +13,6 @@ import InfoIcon from "./icon-info.svg?inline";
 
 import { colors } from "constants/theme";
 
-const PropertiesPanelTitle = styled.h2`
-  text-transform: uppercase;
-  font-size: 0.8em;
-  letter-spacing: 0.05em;
-  vertical-align: middle;
-  color: ${colors.darkGrey};
-  text-align: center;
-`;
-
-const Properties = styled.div`
-  padding: 0.5em 1em;
-  border-bottom: 8px solid ${colors.lighterGrey};
-`;
-
 const PropertyDescription = styled.p`
   display: none;
   font-weight: normal;
@@ -80,8 +66,7 @@ export class UnwrappedQuestionProperties extends React.Component {
     } = this.props;
 
     return (
-      <Properties>
-        <PropertiesPanelTitle>Optional fields</PropertiesPanelTitle>
+      <>
         <Property
           id="descriptionEnabled"
           data-test="descriptionEnabled"
@@ -143,7 +128,7 @@ export class UnwrappedQuestionProperties extends React.Component {
           isOpen={this.state.showModal}
           onClose={() => this.setState({ showModal: false })}
         />
-      </Properties>
+      </>
     );
   }
 }

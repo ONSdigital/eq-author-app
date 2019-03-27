@@ -2,10 +2,15 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 
-import { Number } from "components/Forms";
+import Number, { NumberInput } from "components/Forms/Number";
 
 const SmallerNumber = styled(Number)`
   width: 4em;
+
+  ${NumberInput} {
+    border-radius: 0;
+    padding: 0.25em 0.5em;
+  }
 `;
 
 const Decimal = ({ id, value, onChange }) => (

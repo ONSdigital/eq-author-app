@@ -21,7 +21,7 @@ exports[`Number min/max render with a unit type for percentage 1`] = `
 
 exports[`Number should render correctly 1`] = `
 <Number__StyledDiv>
-  <Number__StyledInput
+  <Number__NumberInput
     aria-labelledby="unit-number"
     aria-live="assertive"
     data-test="number-input"

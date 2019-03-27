@@ -2,7 +2,12 @@
 
 exports[`Answer Properties should render 1`] = `
 <Fragment>
-  <InlineField
+  <Styled(InlineField)
+    _css={
+      Object {
+        "marginBottom": "0.5em",
+      }
+    }
     id="answer-1-required"
     label="Required"
   >
@@ -12,7 +17,7 @@ exports[`Answer Properties should render 1`] = `
       onChange={[Function]}
       value={true}
     />
-  </InlineField>
+  </Styled(InlineField)>
   <InlineField
     id="answer-1-decimals"
     label="Decimals"

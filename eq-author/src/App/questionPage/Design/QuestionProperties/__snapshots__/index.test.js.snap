@@ -1,10 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`QuestionProperties should render 1`] = `
-<QuestionProperties__Properties>
-  <QuestionProperties__PropertiesPanelTitle>
-    Optional fields
-  </QuestionProperties__PropertiesPanelTitle>
+<Fragment>
   <Property
     data-test="descriptionEnabled"
     id="descriptionEnabled"
@@ -59,5 +56,5 @@ exports[`QuestionProperties should render 1`] = `
     isOpen={false}
     onClose={[Function]}
   />
-</QuestionProperties__Properties>
+</Fragment>
 `;

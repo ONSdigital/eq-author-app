@@ -39,77 +39,75 @@ exports[`AnswerValidation Numeric answer validation preview minValue should rend
 exports[`AnswerValidation should not render when there are no valid validation types 1`] = `""`;
 
 exports[`AnswerValidation should render 1`] = `
-<AnswerValidation__Container>
-  <ContextProvider
-    value={
-      Object {
-        "answer": Object {
-          "id": "1",
-          "type": "Number",
-          "validation": Object {
-            "maxValue": Object {
-              "enabled": false,
-            },
-            "minValue": Object {
-              "enabled": false,
-            },
+<ContextProvider
+  value={
+    Object {
+      "answer": Object {
+        "id": "1",
+        "type": "Number",
+        "validation": Object {
+          "maxValue": Object {
+            "enabled": false,
+          },
+          "minValue": Object {
+            "enabled": false,
           },
         },
-      }
+      },
     }
+  }
+>
+  <SidebarButton
+    data-test="sidebar-button-min-value"
+    key="minValue"
+    onClick={[Function]}
   >
-    <SidebarButton
-      data-test="sidebar-button-min-value"
-      key="minValue"
-      onClick={[Function]}
-    >
-      <SidebarButton__Title>
-        Min Value
-      </SidebarButton__Title>
-    </SidebarButton>
-    <SidebarButton
-      data-test="sidebar-button-max-value"
-      key="maxValue"
-      onClick={[Function]}
-    >
-      <SidebarButton__Title>
-        Max Value
-      </SidebarButton__Title>
-    </SidebarButton>
-    <Connect(UnconnectedModalWithNav)
-      id="modal-validation-1"
-      isOpen={false}
-      navItems={
-        Array [
-          Object {
-            "id": "minValue",
-            "preview": [Function],
-            "render": [Function],
-            "title": "Min Value",
-            "types": Array [
-              "Currency",
-              "Number",
-              "Percentage",
-            ],
-          },
-          Object {
-            "id": "maxValue",
-            "preview": [Function],
-            "render": [Function],
-            "title": "Max Value",
-            "types": Array [
-              "Currency",
-              "Number",
-              "Percentage",
-            ],
-          },
-        ]
-      }
-      onClose={[Function]}
-      title="Number validation"
-    />
-  </ContextProvider>
-</AnswerValidation__Container>
+    <SidebarButton__Title>
+      Min Value
+    </SidebarButton__Title>
+  </SidebarButton>
+  <SidebarButton
+    data-test="sidebar-button-max-value"
+    key="maxValue"
+    onClick={[Function]}
+  >
+    <SidebarButton__Title>
+      Max Value
+    </SidebarButton__Title>
+  </SidebarButton>
+  <Connect(UnconnectedModalWithNav)
+    id="modal-validation-1"
+    isOpen={false}
+    navItems={
+      Array [
+        Object {
+          "id": "minValue",
+          "preview": [Function],
+          "render": [Function],
+          "title": "Min Value",
+          "types": Array [
+            "Currency",
+            "Number",
+            "Percentage",
+          ],
+        },
+        Object {
+          "id": "maxValue",
+          "preview": [Function],
+          "render": [Function],
+          "title": "Max Value",
+          "types": Array [
+            "Currency",
+            "Number",
+            "Percentage",
+          ],
+        },
+      ]
+    }
+    onClose={[Function]}
+    title="Number validation"
+  />
+</ContextProvider>
 `;
 
 exports[`AnswerValidation validation object array should render the Earliest Date validation 1`] = `

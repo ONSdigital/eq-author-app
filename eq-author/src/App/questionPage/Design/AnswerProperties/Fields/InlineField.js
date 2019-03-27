@@ -9,11 +9,11 @@ const StyledInlineField = styled(Field)`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0;
+  margin-bottom: 1em;
 `;
 
-const InlineField = ({ id, label, children }) => (
-  <StyledInlineField key={id}>
+const InlineField = ({ id, label, children, ...otherProps }) => (
+  <StyledInlineField key={id} {...otherProps}>
     <Label bold={false} inline htmlFor={id}>
       {label}
     </Label>
