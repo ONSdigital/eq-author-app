@@ -3,6 +3,7 @@
 exports[`PipingMenu should render 1`] = `
 <Fragment>
   <PipingMenu__MenuButton
+    canFocus={true}
     data-test="piping-button"
     disabled={false}
     onClick={[Function]}

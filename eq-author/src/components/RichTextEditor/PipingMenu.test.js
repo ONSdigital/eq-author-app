@@ -19,6 +19,7 @@ describe("PipingMenu", () => {
         onItemChosen={handleItemChosen}
         answerData={answerData}
         metadataData={metadataData}
+        canFocus
         {...props}
       />
     );
@@ -108,6 +109,24 @@ describe("PipingMenu", () => {
     expect(wrapper.find(MenuButton).prop("disabled")).toBe(true);
   });
 
+  it("should render as disabled when it does not have focus", () => {
+    const wrapper = shallow(
+      <UnwrappedPipingMenu
+        match={{
+          params: {
+            questionnaireId: "4",
+            sectionId: "3",
+            pageId: "2",
+            confirmationId: "1",
+          },
+        }}
+        canFocus={false}
+      />
+    );
+
+    expect(wrapper.find(MenuButton).prop("disabled")).toBe(true);
+  });
+
   it("should open the picker when clicked", () => {
     const wrapper = render();
     wrapper.find("[data-test='piping-button']").simulate("click");
@@ -167,7 +186,7 @@ describe("PipingMenu", () => {
       const match = {
         params,
       };
-      const wrapper = shallow(<UnwrappedPipingMenu match={match} />);
+      const wrapper = shallow(<UnwrappedPipingMenu match={match} canFocus />);
       const data = {
         [name]: {
           availablePipingAnswers: [

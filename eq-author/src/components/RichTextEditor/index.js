@@ -481,6 +481,7 @@ class RichTextEditor extends React.Component {
               isActiveControl={this.isActiveControl}
               selectionIsCollapsed={selection.isCollapsed()}
               visible={focused}
+              testId={`${testSelector}-toolbar`}
               {...otherProps}
             />
 

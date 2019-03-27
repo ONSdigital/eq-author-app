@@ -121,6 +121,7 @@ exports[`components/RichTextEditor should allow multiline input 1`] = `
         onToggle={[Function]}
         onUpdate={[MockFunction]}
         selectionIsCollapsed={true}
+        testId="test-selector-foo-toolbar"
         visible={false}
       />
       <PluginEditor
@@ -245,6 +246,7 @@ exports[`components/RichTextEditor should allow multiline input 1`] = `
           ]
         }
         spellCheck={true}
+        webDriverTestID="test-selector-foo"
       />
     </RichTextEditor__Input>
   </Field>
@@ -372,6 +374,7 @@ exports[`components/RichTextEditor should render 1`] = `
         onToggle={[Function]}
         onUpdate={[MockFunction]}
         selectionIsCollapsed={true}
+        testId="test-selector-foo-toolbar"
         visible={false}
       />
       <PluginEditor
@@ -498,6 +501,7 @@ exports[`components/RichTextEditor should render 1`] = `
           ]
         }
         spellCheck={true}
+        webDriverTestID="test-selector-foo"
       />
     </RichTextEditor__Input>
   </Field>
@@ -674,6 +678,7 @@ exports[`components/RichTextEditor should render existing content 1`] = `
         onToggle={[Function]}
         onUpdate={[MockFunction]}
         selectionIsCollapsed={true}
+        testId="test-selector-foo-toolbar"
         value="
   <h2>List of styles:</h2>
   <ul>
@@ -857,6 +862,7 @@ exports[`components/RichTextEditor should render existing content 1`] = `
           ]
         }
         spellCheck={true}
+        webDriverTestID="test-selector-foo"
       />
     </RichTextEditor__Input>
   </Field>
