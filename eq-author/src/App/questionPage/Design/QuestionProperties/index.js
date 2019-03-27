@@ -41,7 +41,7 @@ export const HelpButton = styled.button`
   position: relative;
   left: -0.5em;
   padding: 0;
-  font-size: 1em;
+  font-size: 0.9em;
   font-weight: bold;
   border: none;
   cursor: pointer;
