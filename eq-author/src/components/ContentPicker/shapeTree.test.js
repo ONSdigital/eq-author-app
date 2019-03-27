@@ -4,6 +4,7 @@ const answerTree = [
   {
     id: "6",
     displayName: "Date 1",
+    type: "Date",
     page: {
       id: "1",
       displayName: "Page (1.1)",
@@ -16,6 +17,7 @@ const answerTree = [
   {
     id: "7",
     displayName: "Date 2",
+    type: "Date",
     page: {
       id: "6",
       displayName: "Page (1.2)",
@@ -28,6 +30,7 @@ const answerTree = [
   {
     id: "2",
     displayName: "Date 3",
+    type: "Date",
     page: {
       id: "2",
       displayName: "Page (2.1)",
@@ -40,6 +43,7 @@ const answerTree = [
   {
     id: "3",
     displayName: "Date 4",
+    type: "Date",
     page: {
       id: "5",
       displayName: "Page (3.1)",
@@ -52,6 +56,7 @@ const answerTree = [
   {
     id: "9",
     displayName: "Date 5",
+    type: "Date",
     page: {
       id: "5",
       displayName: "Page (3.1)",
@@ -75,6 +80,7 @@ const expectedAnswerTree = [
           {
             id: "6",
             displayName: "Date 1",
+            type: "Date",
           },
         ],
       },
@@ -85,6 +91,7 @@ const expectedAnswerTree = [
           {
             id: "7",
             displayName: "Date 2",
+            type: "Date",
           },
         ],
       },
@@ -101,6 +108,7 @@ const expectedAnswerTree = [
           {
             id: "2",
             displayName: "Date 3",
+            type: "Date",
           },
         ],
       },
@@ -117,10 +125,12 @@ const expectedAnswerTree = [
           {
             id: "3",
             displayName: "Date 4",
+            type: "Date",
           },
           {
             id: "9",
             displayName: "Date 5",
+            type: "Date",
           },
         ],
       },

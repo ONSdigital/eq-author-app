@@ -1,6 +1,7 @@
 fragment AvailableAnswers on Answer {
   id
   displayName
+  type
   page {
     id
     displayName
