@@ -91,7 +91,9 @@ exports[`Answer Editor should correctly calculates date format 3`] = `
 `;
 
 exports[`Answer Editor should render Checkbox 1`] = `
-<AnswerEditor__Answer>
+<AnswerEditor__Answer
+  data-test="answer-editor"
+>
   <AnswerEditor__AnswerHeader>
     <AnswerEditor__AnswerType
       data-test="answer-type"
@@ -191,7 +193,9 @@ exports[`Answer Editor should render Checkbox 1`] = `
 `;
 
 exports[`Answer Editor should render Currency 1`] = `
-<AnswerEditor__Answer>
+<AnswerEditor__Answer
+  data-test="answer-editor"
+>
   <AnswerEditor__AnswerHeader>
     <AnswerEditor__AnswerType
       data-test="answer-type"
@@ -282,7 +286,9 @@ exports[`Answer Editor should render Currency 1`] = `
 `;
 
 exports[`Answer Editor should render Date 1`] = `
-<AnswerEditor__Answer>
+<AnswerEditor__Answer
+  data-test="answer-editor"
+>
   <AnswerEditor__AnswerHeader>
     <AnswerEditor__AnswerType
       data-test="answer-type"
@@ -376,7 +382,9 @@ exports[`Answer Editor should render Date 1`] = `
 `;
 
 exports[`Answer Editor should render DateRange 1`] = `
-<AnswerEditor__Answer>
+<AnswerEditor__Answer
+  data-test="answer-editor"
+>
   <AnswerEditor__AnswerHeader>
     <AnswerEditor__AnswerType
       data-test="answer-type"
@@ -467,7 +475,9 @@ exports[`Answer Editor should render DateRange 1`] = `
 `;
 
 exports[`Answer Editor should render Number 1`] = `
-<AnswerEditor__Answer>
+<AnswerEditor__Answer
+  data-test="answer-editor"
+>
   <AnswerEditor__AnswerHeader>
     <AnswerEditor__AnswerType
       data-test="answer-type"
@@ -559,7 +569,9 @@ exports[`Answer Editor should render Number 1`] = `
 `;
 
 exports[`Answer Editor should render Percentage 1`] = `
-<AnswerEditor__Answer>
+<AnswerEditor__Answer
+  data-test="answer-editor"
+>
   <AnswerEditor__AnswerHeader>
     <AnswerEditor__AnswerType
       data-test="answer-type"
@@ -651,7 +663,9 @@ exports[`Answer Editor should render Percentage 1`] = `
 `;
 
 exports[`Answer Editor should render Radio 1`] = `
-<AnswerEditor__Answer>
+<AnswerEditor__Answer
+  data-test="answer-editor"
+>
   <AnswerEditor__AnswerHeader>
     <AnswerEditor__AnswerType
       data-test="answer-type"
@@ -751,7 +765,9 @@ exports[`Answer Editor should render Radio 1`] = `
 `;
 
 exports[`Answer Editor should render TextArea 1`] = `
-<AnswerEditor__Answer>
+<AnswerEditor__Answer
+  data-test="answer-editor"
+>
   <AnswerEditor__AnswerHeader>
     <AnswerEditor__AnswerType
       data-test="answer-type"
@@ -842,7 +858,9 @@ exports[`Answer Editor should render TextArea 1`] = `
 `;
 
 exports[`Answer Editor should render TextField 1`] = `
-<AnswerEditor__Answer>
+<AnswerEditor__Answer
+  data-test="answer-editor"
+>
   <AnswerEditor__AnswerHeader>
     <AnswerEditor__AnswerType
       data-test="answer-type"

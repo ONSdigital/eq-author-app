@@ -125,7 +125,7 @@ class AnswerEditor extends React.Component {
 
   render() {
     return (
-      <Answer>
+      <Answer data-test="answer-editor">
         <AnswerHeader>
           <AnswerType data-test="answer-type">
             {this.props.answer.type}

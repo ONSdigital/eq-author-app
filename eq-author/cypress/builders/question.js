@@ -5,6 +5,7 @@ const updateDetails = ({
   title,
   alias,
   answer: answerConfig,
+  answers,
   confirmation,
   routing,
 }) => {
@@ -17,6 +18,13 @@ const updateDetails = ({
   if (answerConfig) {
     answer.add(answerConfig);
   }
+
+  if (answers && answers.length > 0) {
+    answers.forEach((ans, index) => {
+      answer.add(ans, index);
+    });
+  }
+
   if (confirmation) {
     questionConfirmation.add(confirmation);
   }

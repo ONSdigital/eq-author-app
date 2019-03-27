@@ -26,7 +26,6 @@ exports[`Answers Editor should render 1`] = `
         }
         canMoveDown={true}
         canMoveUp={false}
-        data-test="answer-editor"
         onAddExclusive={[MockFunction]}
         onAddOption={[MockFunction]}
         onDeleteAnswer={[MockFunction]}
@@ -59,7 +58,6 @@ exports[`Answers Editor should render 1`] = `
         }
         canMoveDown={false}
         canMoveUp={true}
-        data-test="answer-editor"
         onAddExclusive={[MockFunction]}
         onAddOption={[MockFunction]}
         onDeleteAnswer={[MockFunction]}
