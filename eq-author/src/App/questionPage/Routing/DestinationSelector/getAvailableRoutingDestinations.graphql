@@ -1,12 +1,12 @@
 query GetAvailableRoutingDestinations($input: QueryInput!) {
-  questionPage(input: $input) {
+  page(input: $input) {
     id
     availableRoutingDestinations {
       logicalDestinations {
         id
         logicalDestination
       }
-      questionPages {
+      pages {
         id
         displayName
       }

@@ -180,7 +180,7 @@ describe("QuestionPageRoute", () => {
         },
         result: {
           data: {
-            questionPage: {
+            page: {
               __typename: "QuestionPage",
               id: pageId,
               title: "foo",
@@ -233,7 +233,7 @@ describe("QuestionPageRoute", () => {
         },
         result: {
           data: {
-            questionPage: {
+            page: {
               __typename: "QuestionPage",
               id: pageId,
               title: "foo",

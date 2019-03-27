@@ -229,7 +229,7 @@ const WrappedQuestionPageRoute = withQuestionPageEditing(
 
 export const QUESTION_PAGE_QUERY = gql`
   query GetQuestionPage($input: QueryInput!) {
-    questionPage(input: $input) {
+    page(input: $input) {
       ...QuestionPage
     }
   }
@@ -253,9 +253,7 @@ const QuestionPageRoute = props => (
         {...innerProps}
         {...props}
         page={
-          isEmpty(get(innerProps, "data.questionPage", {}))
-            ? {}
-            : innerProps.data.questionPage
+          isEmpty(get(innerProps, "data.page", {})) ? {} : innerProps.data.page
         }
       />
     )}

@@ -32,7 +32,7 @@ describe("Question Routing Route", () => {
   });
 
   it("should render the RoutingPage when data is loaded", () => {
-    const questionPage = {
+    const page = {
       id: "1",
       displayName: "Untitled Page",
       routing: null,
@@ -41,13 +41,13 @@ describe("Question Routing Route", () => {
       <UnwrappedQuestionRoutingRoute
         loading={false}
         data={{
-          questionPage,
+          page,
         }}
       />
     );
     expect(wrapper.find(RoutingPage).exists()).toBe(true);
     expect(wrapper.find(RoutingPage).props()).toMatchObject({
-      page: questionPage,
+      page: page,
     });
   });
 });

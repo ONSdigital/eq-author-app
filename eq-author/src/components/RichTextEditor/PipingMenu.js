@@ -107,7 +107,7 @@ const calculateEntityName = ({ pageId, confirmationId }) => {
     return "questionConfirmation";
   }
   if (pageId) {
-    return "questionPage";
+    return "page";
   }
   return "section";
 };

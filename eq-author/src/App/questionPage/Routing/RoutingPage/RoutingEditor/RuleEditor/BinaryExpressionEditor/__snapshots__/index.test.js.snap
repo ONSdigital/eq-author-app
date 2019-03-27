@@ -25,7 +25,7 @@ exports[`BinaryExpressionEditor should render consistently 1`] = `
       <withRouter(RoutingAnswerContentPicker)
         id="RoutingCondition1"
         onSubmit={[Function]}
-        path="questionPage.availableRoutingAnswers"
+        path="page.availableRoutingAnswers"
         selectedId="2"
       />
     </Column>

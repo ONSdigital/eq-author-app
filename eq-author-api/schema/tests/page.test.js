@@ -10,10 +10,10 @@ const {
 
 const {
   createQuestionPage,
-  queryQuestionPage,
+  queryPage,
   updateQuestionPage,
-  deleteQuestionPage,
-  moveQuestionPage,
+  deletePage,
+  movePage,
 } = require("../../tests/utils/questionnaireBuilder/page");
 
 const { DATE, NUMBER } = require("../../constants/answerTypes");
@@ -76,7 +76,7 @@ describe("page", () => {
         position: 0,
       });
 
-      const readPage = await queryQuestionPage(questionnaire, createdPage.id);
+      const readPage = await queryPage(questionnaire, createdPage.id);
 
       expect(readPage).toMatchObject({
         title: "Title",
@@ -150,7 +150,7 @@ describe("page", () => {
 
         const {
           section: { pages },
-        } = await moveQuestionPage(questionnaire, {
+        } = await movePage(questionnaire, {
           id: pageToMoveId,
           sectionId: section.id,
           position: 1,
@@ -165,7 +165,7 @@ describe("page", () => {
 
         const {
           section: { pages },
-        } = await moveQuestionPage(questionnaire, {
+        } = await movePage(questionnaire, {
           id: pageToMoveId,
           sectionId: section.id,
           position: 0,
@@ -194,7 +194,7 @@ describe("page", () => {
 
         const {
           section: { id, pages },
-        } = await moveQuestionPage(questionnaire, {
+        } = await movePage(questionnaire, {
           id: pageToMoveId,
           sectionId: newSection.id,
           position: 1,
@@ -239,7 +239,7 @@ describe("page", () => {
         ],
       });
       setupPage = questionnaire.sections[0].pages[1];
-      queriedPage = await queryQuestionPage(questionnaire, setupPage.id);
+      queriedPage = await queryPage(questionnaire, setupPage.id);
     });
 
     it("should resolve page fields", () => {
@@ -325,11 +325,8 @@ describe("page", () => {
     it("should delete a page", async () => {
       questionnaire = await buildQuestionnaire({ sections: [{ pages: [{}] }] });
       const page = questionnaire.sections[0].pages[0];
-      await deleteQuestionPage(questionnaire, page.id);
-      const deletedQuestionPage = await queryQuestionPage(
-        questionnaire,
-        page.id
-      );
+      await deletePage(questionnaire, page.id);
+      const deletedQuestionPage = await queryPage(questionnaire, page.id);
       expect(deletedQuestionPage).toBeNull();
     });
   });

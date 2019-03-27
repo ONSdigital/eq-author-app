@@ -52,14 +52,14 @@ export const QuestionContentPicker = props => (
 
 const routingDestinationConfig = [
   {
-    id: "QuestionPage",
+    id: "Page",
     title: "Other pages in this section",
-    groupKey: "questionPages",
+    groupKey: "pages",
     expandable: true,
     destination: {
       absoluteDestination: {
         destinationId: null,
-        destinationType: "QuestionPage",
+        destinationType: "Page",
       },
     },
   },

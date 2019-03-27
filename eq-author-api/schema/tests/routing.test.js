@@ -17,9 +17,7 @@ const {
   updateLeftSideMutation,
 } = require("../../tests/utils/questionnaireBuilder/routing");
 
-const {
-  queryQuestionPage,
-} = require("../../tests/utils/questionnaireBuilder/page");
+const { queryPage } = require("../../tests/utils/questionnaireBuilder/page");
 
 describe("routing", () => {
   describe("A Routing", () => {
@@ -57,7 +55,7 @@ describe("routing", () => {
         { questionnaire }
       );
 
-      const result = await queryQuestionPage(questionnaire, page.id);
+      const result = await queryPage(questionnaire, page.id);
       expect(
         result.routing.rules[0].expressionGroup.expressions[0].left.id
       ).toBeTruthy();
@@ -113,7 +111,7 @@ describe("routing", () => {
         { questionnaire }
       );
 
-      const result = await queryQuestionPage(questionnaire, firstPage.id);
+      const result = await queryPage(questionnaire, firstPage.id);
 
       expect(result.routing.else).toMatchObject({
         logical: null,
@@ -159,7 +157,7 @@ describe("routing", () => {
         { questionnaire }
       );
 
-      const result = await queryQuestionPage(questionnaire, page.id);
+      const result = await queryPage(questionnaire, page.id);
       expect(result.routing.rules[1]).toBeTruthy();
     });
     // Passes intermittently
@@ -213,7 +211,7 @@ describe("routing", () => {
         { questionnaire }
       );
 
-      const result = await queryQuestionPage(questionnaire, firstPage.id);
+      const result = await queryPage(questionnaire, firstPage.id);
 
       expect(result.routing.rules[0].destination).toMatchObject({
         logical: null,
@@ -260,7 +258,7 @@ describe("routing", () => {
         { questionnaire }
       );
 
-      const result = await queryQuestionPage(questionnaire, firstPage.id);
+      const result = await queryPage(questionnaire, firstPage.id);
 
       expect(result.routing).toBeNull();
     });
@@ -305,7 +303,7 @@ describe("routing", () => {
         { questionnaire }
       );
 
-      const result = await queryQuestionPage(questionnaire, firstPage.id);
+      const result = await queryPage(questionnaire, firstPage.id);
       expect(result.routing.rules[0].expressionGroup.operator).toEqual("Or");
     });
   });
@@ -347,7 +345,7 @@ describe("routing", () => {
         },
         { questionnaire }
       );
-      const result = await queryQuestionPage(questionnaire, firstPage.id);
+      const result = await queryPage(questionnaire, firstPage.id);
       expect(result.routing.rules[0].expressionGroup.expressions).toHaveLength(
         2
       );
@@ -403,7 +401,7 @@ describe("routing", () => {
         },
         { questionnaire }
       );
-      const result = await queryQuestionPage(questionnaire, firstPage.id);
+      const result = await queryPage(questionnaire, firstPage.id);
       expect(
         result.routing.rules[0].expressionGroup.expressions[0].condition
       ).toEqual("NotEqual");
@@ -449,7 +447,7 @@ describe("routing", () => {
         { questionnaire }
       );
 
-      const result = await queryQuestionPage(questionnaire, firstPage.id);
+      const result = await queryPage(questionnaire, firstPage.id);
       expect(
         result.routing.rules[0].expressionGroup.expressions[0]
       ).toBeUndefined();
@@ -508,7 +506,7 @@ describe("routing", () => {
         { questionnaire }
       );
 
-      const result = await queryQuestionPage(questionnaire, secondPage.id);
+      const result = await queryPage(questionnaire, secondPage.id);
       expect(
         result.routing.rules[0].expressionGroup.expressions[0].left.id
       ).toEqual(firstAnswer.id);
@@ -558,7 +556,7 @@ describe("routing", () => {
         { questionnaire }
       );
 
-      const result = await queryQuestionPage(questionnaire, firstPage.id);
+      const result = await queryPage(questionnaire, firstPage.id);
       expect(
         result.routing.rules[0].expressionGroup.expressions[0].right.number
       ).toEqual(5);
@@ -607,7 +605,7 @@ describe("routing", () => {
         { questionnaire }
       );
 
-      const result = await queryQuestionPage(questionnaire, firstPage.id);
+      const result = await queryPage(questionnaire, firstPage.id);
       expect(
         result.routing.rules[0].expressionGroup.expressions[0].right.options
       ).toMatchObject([{ id: options[0].id }, { id: options[2].id }]);

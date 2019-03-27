@@ -5,7 +5,7 @@ import gql from "graphql-tag";
 
 const GET_AVAILABLE_ROUTING_QUESTIONS = gql`
   query GetAvailableRoutingQuestions($input: QueryInput!) {
-    questionPage(input: $input) {
+    page(input: $input) {
       id
       displayName
       availableRoutingQuestions {

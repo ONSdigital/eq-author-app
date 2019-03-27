@@ -62,10 +62,14 @@ interface Page {
   title: String!
   alias: String
   displayName: String!
-  description: String
   pageType: PageType!
-  section: Section
+  section: Section!
   position: Int!
+  availablePipingAnswers: [Answer!]!
+  availablePipingMetadata: [Metadata!]!
+  availableRoutingAnswers: [Answer!]!
+  availableRoutingDestinations: AvailableRoutingDestinations!
+  routing: Routing2
 }
 
 type QuestionPage implements Page {
@@ -73,13 +77,13 @@ type QuestionPage implements Page {
   title: String!
   alias: String
   displayName: String!
-  description: String!
+  description: String
   descriptionEnabled: Boolean!
   guidance: String
   guidanceEnabled: Boolean!
   pageType: PageType!
   answers: [Answer]
-  section: Section
+  section: Section!
   position: Int!
   definitionLabel: String
   definitionContent: String
@@ -176,7 +180,7 @@ type LogicalDestination {
 
 type AvailableRoutingDestinations {
   logicalDestinations: [LogicalDestination]!
-  questionPages: [QuestionPage]!
+  pages: [Page]!
   sections: [Section]!
 }
 
@@ -429,7 +433,6 @@ type Query {
   questionnaire(input: QueryInput!): Questionnaire
   section(input: QueryInput!): Section
   page(input: QueryInput!): Page
-  questionPage(input: QueryInput!): QuestionPage
   answer(input: QueryInput!): Answer
   answers(ids: [ID]!): [Answer]
   option(input: QueryInput!): Option
@@ -456,13 +459,12 @@ type Mutation {
   deleteSection(input: DeleteSectionInput!): Section
   moveSection(input: MoveSectionInput!): Section
   duplicateSection(input: DuplicateSectionInput!): Section
-  createPage(input: CreatePageInput!): Page
   updatePage(input: UpdatePageInput!): Page
   movePage(input: MovePageInput!): Page
+  deletePage(input: DeletePageInput!): Section!
   duplicatePage(input: DuplicatePageInput!): Page
   createQuestionPage(input: CreateQuestionPageInput!): QuestionPage
   updateQuestionPage(input: UpdateQuestionPageInput!): QuestionPage
-  deleteQuestionPage(input: DeleteQuestionPageInput!): Section!
   createAnswer(input: CreateAnswerInput!): Answer
   updateAnswer(input: UpdateAnswerInput!): Answer
   deleteAnswer(input: DeleteAnswerInput!): Answer
@@ -609,13 +611,6 @@ input DuplicateSectionInput {
   position: Int!
 }
 
-input CreatePageInput {
-  title: String!
-  description: String
-  sectionId: ID!
-  position: Int
-}
-
 input UpdatePageInput {
   id: ID!
   title: String!
@@ -664,9 +659,6 @@ input UpdateQuestionPageInput {
   additionalInfoEnabled: Boolean
 }
 
-input DeleteQuestionPageInput {
-  id: ID!
-}
 
 input CreateAnswerInput {
   description: String

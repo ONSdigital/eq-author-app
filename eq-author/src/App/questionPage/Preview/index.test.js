@@ -13,9 +13,9 @@ import {
 } from "./";
 
 describe("PreviewPageRoute", () => {
-  let questionPage;
+  let page;
   beforeEach(() => {
-    questionPage = {
+    page = {
       id: "1",
       displayName: "Question",
       position: 1,
@@ -43,7 +43,7 @@ describe("PreviewPageRoute", () => {
 
   it("should render", () => {
     const wrapper = shallow(
-      <PreviewPageRoute loading={false} data={{ questionPage }} />
+      <PreviewPageRoute loading={false} data={{ page }} />
     );
     expect(wrapper).toMatchSnapshot();
   });
@@ -54,25 +54,25 @@ describe("PreviewPageRoute", () => {
   });
 
   it("should render warning when there are no answers", () => {
-    questionPage.answers = [];
+    page.answers = [];
     const wrapper = shallow(
-      <PreviewPageRoute loading={false} data={{ questionPage }} />
+      <PreviewPageRoute loading={false} data={{ page }} />
     );
     expect(wrapper.find(byTestAttr("no-answers"))).toBeTruthy();
   });
 
   it("should not render description when disabled", () => {
-    questionPage.descriptionEnabled = false;
+    page.descriptionEnabled = false;
     const wrapper2 = shallow(
-      <PreviewPageRoute loading={false} data={{ questionPage }} />
+      <PreviewPageRoute loading={false} data={{ page }} />
     );
     expect(wrapper2.exists(byTestAttr("description"))).toBeFalsy();
   });
 
   it("should render description missing message", () => {
-    questionPage.description = "";
+    page.description = "";
     const wrapper2 = shallow(
-      <PreviewPageRoute loading={false} data={{ questionPage }} />
+      <PreviewPageRoute loading={false} data={{ page }} />
     );
     expect(
       wrapper2.find(byTestAttr("description")).find(Error)
@@ -80,33 +80,33 @@ describe("PreviewPageRoute", () => {
   });
 
   it("should not render guidance when disabled", () => {
-    questionPage.guidanceEnabled = false;
+    page.guidanceEnabled = false;
     const wrapper = shallow(
-      <PreviewPageRoute loading={false} data={{ questionPage }} />
+      <PreviewPageRoute loading={false} data={{ page }} />
     );
     expect(wrapper.exists(byTestAttr("guidance"))).toBeFalsy();
   });
 
   it("should render guidance missing message", () => {
-    questionPage.guidance = "";
+    page.guidance = "";
     const wrapper2 = shallow(
-      <PreviewPageRoute loading={false} data={{ questionPage }} />
+      <PreviewPageRoute loading={false} data={{ page }} />
     );
     expect(wrapper2.find(byTestAttr("guidance")).find(Error)).toMatchSnapshot();
   });
 
   it("should not render definition when disabled", () => {
-    questionPage.definitionEnabled = false;
+    page.definitionEnabled = false;
     const wrapper = shallow(
-      <PreviewPageRoute loading={false} data={{ questionPage }} />
+      <PreviewPageRoute loading={false} data={{ page }} />
     );
     expect(wrapper.exists(byTestAttr("definition"))).toBeFalsy();
   });
 
   it("should render definition label missing message", () => {
-    questionPage.definitionLabel = "";
+    page.definitionLabel = "";
     const wrapper = shallow(
-      <PreviewPageRoute loading={false} data={{ questionPage }} />
+      <PreviewPageRoute loading={false} data={{ page }} />
     );
     expect(
       wrapper.find(byTestAttr("definition")).find(DetailsTitle)
@@ -114,9 +114,9 @@ describe("PreviewPageRoute", () => {
   });
 
   it("should render definition content missing message", () => {
-    questionPage.definitionContent = "";
+    page.definitionContent = "";
     const wrapper = shallow(
-      <PreviewPageRoute loading={false} data={{ questionPage }} />
+      <PreviewPageRoute loading={false} data={{ page }} />
     );
     expect(
       wrapper.find(byTestAttr("definition")).find(DetailsContent)
@@ -124,17 +124,17 @@ describe("PreviewPageRoute", () => {
   });
 
   it("should not render additional information when disabled", () => {
-    questionPage.additionalInfoEnabled = false;
+    page.additionalInfoEnabled = false;
     const wrapper = shallow(
-      <PreviewPageRoute loading={false} data={{ questionPage }} />
+      <PreviewPageRoute loading={false} data={{ page }} />
     );
     expect(wrapper.exists(byTestAttr("additional-info"))).toBeFalsy();
   });
 
   it("should render additional info label missing message", () => {
-    questionPage.additionalInfoLabel = "";
+    page.additionalInfoLabel = "";
     const wrapper = shallow(
-      <PreviewPageRoute loading={false} data={{ questionPage }} />
+      <PreviewPageRoute loading={false} data={{ page }} />
     );
     expect(
       wrapper.find(byTestAttr("additional-info")).find(DetailsTitle)
@@ -142,9 +142,9 @@ describe("PreviewPageRoute", () => {
   });
 
   it("should render additional info content missing message", () => {
-    questionPage.additionalInfoContent = "";
+    page.additionalInfoContent = "";
     const wrapper = shallow(
-      <PreviewPageRoute loading={false} data={{ questionPage }} />
+      <PreviewPageRoute loading={false} data={{ page }} />
     );
     expect(
       wrapper.find(byTestAttr("additional-info")).find(DetailsContent)

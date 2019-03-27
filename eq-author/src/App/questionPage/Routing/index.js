@@ -34,7 +34,7 @@ export class UnwrappedQuestionRoutingRoute extends React.Component {
       return <Loading height="20em">Loading routing</Loading>;
     }
 
-    const page = get(data, "questionPage");
+    const page = get(data, "page");
 
     if (error || !page) {
       return <Error>Something went wrong</Error>;
@@ -54,7 +54,7 @@ export class UnwrappedQuestionRoutingRoute extends React.Component {
 
 const query = gql`
   query GetRouting($input: QueryInput!) {
-    questionPage(input: $input) {
+    page(input: $input) {
       ...RoutingPage
     }
   }
