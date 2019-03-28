@@ -96,6 +96,10 @@ describe("builder", () => {
       });
 
     cy.get(testId("page-item")).should("have.length", 2);
+
+    // Add page via Add Question Page on question design
+    cy.get(testId("btn-add-page")).click();
+    cy.get(testId("page-item")).should("have.length", 3);
   });
 
   it("Can edit question guidance", () => {
