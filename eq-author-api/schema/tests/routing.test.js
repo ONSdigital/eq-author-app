@@ -21,7 +21,6 @@ const { queryPage } = require("../../tests/utils/questionnaireBuilder/page");
 
 describe("routing", () => {
   describe("A Routing", () => {
-    // Passes intermittently
     it("should create a full routing tree when creating a routing", async () => {
       let config = {
         metadata: [{}],
@@ -58,7 +57,10 @@ describe("routing", () => {
       const result = await queryPage(questionnaire, page.id);
       expect(
         result.routing.rules[0].expressionGroup.expressions[0].left.id
-      ).toBeTruthy();
+      ).toEqual(page.answers[0].id);
+      expect(
+        result.routing.rules[0].expressionGroup.expressions[0].right
+      ).toBeNull();
     });
 
     // Passes intermittently
@@ -531,7 +533,21 @@ describe("routing", () => {
                   },
                 ],
                 routing: {
-                  rules: [{ expressionGroup: { expressions: [{}] } }],
+                  rules: [
+                    {
+                      expressionGroup: {
+                        expressions: [
+                          {
+                            right: {
+                              customValue: {
+                                number: 2,
+                              },
+                            },
+                          },
+                        ],
+                      },
+                    },
+                  ],
                 },
               },
             ],

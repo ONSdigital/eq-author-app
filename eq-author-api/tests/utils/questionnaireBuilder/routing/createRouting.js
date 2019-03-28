@@ -1,31 +1,49 @@
 const executeQuery = require("../../executeQuery");
 
 const createRoutingMutation = `
-      mutation createRouting2($input: CreateRouting2Input!) {
-        createRouting2(input: $input) {          
-          id
-          rules{
+mutation createRouting2($input: CreateRouting2Input!) {
+  createRouting2(input: $input) {
+    id
+    rules {
+      id
+      expressionGroup {
+        id
+        expressions {
+          ...on BinaryExpression2 {
             id
-            expressionGroup {
-              id
-              expressions {
-                ...on BinaryExpression2 {
+            left {
+              ... on BasicAnswer {
                 id
-              }  
+              }
+              ... on MultipleChoiceAnswer {
+                id
               }
             }
-          }
-          else {
-            logical
-            page {
-              id
+            right {
+              ... on SelectedOptions2 {
+                options {
+                  id
+                }
+              }
+              ... on CustomValue2 {
+                number
+              }
             }
-            section {
-              id
-            }
-          }   
+          }  
         }
-      }`;
+      }
+    }
+    else {
+      logical
+      page {
+        id
+      }
+      section {
+        id
+      }
+    }   
+  }
+}`;
 
 const createRouting = async (questionnaire, page) => {
   const input = {
