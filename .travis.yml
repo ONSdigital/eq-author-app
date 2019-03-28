@@ -34,18 +34,6 @@ script:
   - docker push onsdigital/eq-author-api:$TAG
   - docker push onsdigital/eq-publisher:$TAG
 
-before_deploy:
-  - if [ "$TRAVIS_BRANCH" == "master" ]; then yarn storybook-build; fi
-
-deploy:
-  local_dir: eq-author/storybook-static
-  provider: pages
-  skip_cleanup: true
-  github_token: $GITHUB_TOKEN
-  on:
-    branch:
-      - master
-
 branches:
   only:
     - master

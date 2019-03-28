@@ -9,7 +9,6 @@
     "build:status": "node scripts/build-status-page.js",
     "build:fragmentTypes": "node scripts/buildFragmentTypes.js src/apollo/fragmentTypes.json",
     "test": "node scripts/test.js",
-    "test:storybook": "jest --testRegex ^.+\\.storytest\\.js$",
     "test:integration": "./scripts/run_tests.sh integration",
     "test:routing_e2e": "./scripts/run_tests.sh routing_e2e",
     "lint": "yarn lint:js && yarn lint:css",
@@ -17,9 +16,6 @@
     "lint:css": "stylelint './src/**/*.js'",
     "serve": "serve -l 3000 build/",
     "deploy": "npm run build && gh-pages -d build",
-    "storybook": "export NODE_PATH=src/ && start-storybook -p 9001",
-    "storybook-build": "export NODE_PATH=src/ && build-storybook -s public -o storybook-static",
-    "storybook-deploy": "yarn storybook-build && gh-pages -d .out",
     "coverage": "yarn test -- --coverage",
     "cypress:open": "CYPRESS_baseUrl=${CYPRESS_baseUrl:=http://localhost:3000/} cypress open",
     "cypress:open:routing": "CYPRESS_baseUrl=${CYPRESS_baseUrl:=http://localhost:3000/} CYPRESS_chromeWebSecurity='false' cypress open --config integrationFolder=cypress/routingTests"
@@ -30,11 +26,6 @@
     "@babel/plugin-proposal-object-rest-spread": "latest",
     "@babel/preset-env": "latest",
     "@babel/preset-react": "latest",
-    "@storybook/addon-actions": "latest",
-    "@storybook/addon-knobs": "latest",
-    "@storybook/addon-options": "latest",
-    "@storybook/addon-storyshots": "latest",
-    "@storybook/react": "latest",
     "autoprefixer": "latest",
     "babel-eslint": "latest",
     "babel-jest": "latest",
@@ -163,7 +154,6 @@
     "collectCoverage": false,
     "collectCoverageFrom": [
       "src/**/*.{js,jsx}",
-      "!src/**/*story.js",
       "!src/graphql/*.js",
       "!src/tests/**/*.js",
       "!src/index.js"

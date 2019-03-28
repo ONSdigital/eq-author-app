@@ -2,7 +2,6 @@
 Dockerfile
 
 .github
-.storybook
 tests
 cypress
 coverage
