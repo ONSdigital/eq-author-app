@@ -41,6 +41,7 @@ const addPrefix = require("../../utils/addPrefix");
 const { DATE, DATE_RANGE } = require("../../constants/answerTypes");
 const { DATE: METADATA_DATE } = require("../../constants/metadataTypes");
 const { ROUTING_ANSWER_TYPES } = require("../../constants/routingAnswerTypes");
+const { BUSINESS } = require("../../constants/questionnaireTypes");
 const {
   createQuestionnaire,
   saveQuestionnaire,
@@ -48,6 +49,10 @@ const {
   getQuestionnaire,
   listQuestionnaires,
 } = require("../../utils/datastore");
+
+const {
+  defaultBusinessSurveyMetadata,
+} = require("../../utils/defaultMetadata");
 
 const { VALIDATION_TYPES } = require("../../constants/validationTypes");
 
@@ -161,7 +166,7 @@ const createNewQuestionnaire = input => ({
   navigation: false,
   surveyId: "",
   createdAt: new Date(),
-  metadata: [],
+  metadata: input.type === BUSINESS ? defaultBusinessSurveyMetadata : [],
   sections: [createSection()],
   summary: false,
   version: currentVersion,

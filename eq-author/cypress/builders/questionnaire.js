@@ -8,7 +8,7 @@ const updateDetails = ({ title }) => {
       .clear()
       .type(title);
     cy.get("label[for='navigation']").click();
-    cy.get(testId("select-questionnaire-type")).select("Business");
+    cy.get(testId("select-questionnaire-type")).select("Social");
 
     cy.get("form").submit();
   });
