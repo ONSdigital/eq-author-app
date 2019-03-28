@@ -97,4 +97,4 @@ UnwrappedDate.fragments = {
   `,
 };
 
-export default withEntityEditor("answer", answerFragment)(UnwrappedDate);
+export default withEntityEditor("answer")(UnwrappedDate);

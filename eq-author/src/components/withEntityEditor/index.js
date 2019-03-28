@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { filter } from "graphql-anywhere";
 import { isEqual } from "lodash";
 import fp from "lodash/fp";
 import { startRequest, endRequest } from "redux/saving/actions";
@@ -11,7 +10,7 @@ const withSaveTracking = connect(
   { startRequest, endRequest }
 );
 
-const withEntityEditor = (entityPropName, fragment) => WrappedComponent => {
+const withEntityEditor = entityPropName => WrappedComponent => {
   class EntityEditor extends React.Component {
     static propTypes = {
       [entityPropName]: PropTypes.object.isRequired, // eslint-disable-line
@@ -51,10 +50,6 @@ const withEntityEditor = (entityPropName, fragment) => WrappedComponent => {
       return this.state[entityPropName];
     }
 
-    get filteredEntity() {
-      return filter(fragment, this.entity);
-    }
-
     handleChange = ({ name, value }, cb) => {
       if (fp.get(name, this.entity) === value) {
         return;
@@ -77,7 +72,7 @@ const withEntityEditor = (entityPropName, fragment) => WrappedComponent => {
       this.props.startRequest();
 
       this.props
-        .onUpdate(this.filteredEntity)
+        .onUpdate(this.entity)
         .then(() => {
           this.props.endRequest();
         })
@@ -94,7 +89,7 @@ const withEntityEditor = (entityPropName, fragment) => WrappedComponent => {
       e.preventDefault();
 
       this.dirtyField = null;
-      this.props.onSubmit(this.filteredEntity);
+      this.props.onSubmit(this.entity);
     };
 
     render() {

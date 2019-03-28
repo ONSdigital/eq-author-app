@@ -114,4 +114,4 @@ StatelessBasicAnswer.fragments = {
   `,
 };
 
-export default withEntityEditor("answer", answerFragment)(StatelessBasicAnswer);
+export default withEntityEditor("answer")(StatelessBasicAnswer);

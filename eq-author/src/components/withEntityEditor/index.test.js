@@ -1,20 +1,10 @@
 import React from "react";
 import withEntityEditor from ".";
 import { shallow } from "enzyme";
-import gql from "graphql-tag";
 import { SynchronousPromise } from "synchronous-promise";
-import { omit } from "lodash";
 import createMockStore from "tests/utils/createMockStore";
 
 const Component = props => <div {...props} />;
-
-const fragment = gql`
-  fragment Entity on Entity {
-    id
-    title
-    alias
-  }
-`;
 
 describe("withEntityEditor", () => {
   let wrapper,
@@ -23,7 +13,7 @@ describe("withEntityEditor", () => {
     handleSubmit,
     handleStartRequest,
     handleEndRequest;
-  const ComponentWithEntity = withEntityEditor("entity", fragment)(Component);
+  const ComponentWithEntity = withEntityEditor("entity")(Component);
   let store;
 
   const render = (props = {}) =>
@@ -71,7 +61,7 @@ describe("withEntityEditor", () => {
     wrapper.setProps({ entity });
     wrapper.simulate("update");
     expect(handleUpdate).toHaveBeenCalledWith({
-      ...omit(entity, "__typename"),
+      ...entity,
       title: "foo1",
     });
   });
@@ -128,7 +118,7 @@ describe("withEntityEditor", () => {
     wrapper.simulate("submit", { preventDefault });
 
     expect(preventDefault).toHaveBeenCalled();
-    expect(handleSubmit).toHaveBeenCalledWith(omit(entity, "__typename"));
+    expect(handleSubmit).toHaveBeenCalledWith(entity);
   });
 
   it("should update state when new entity passed via props", () => {
@@ -220,16 +210,7 @@ describe("withEntityEditor", () => {
   });
 
   it("should use the name to create deeply nested entities", () => {
-    const fragment = gql`
-      fragment Example on Example {
-        id
-        title
-        deep {
-          thing
-        }
-      }
-    `;
-    const ComponentWithEntity = withEntityEditor("entity", fragment)(Component);
+    const ComponentWithEntity = withEntityEditor("entity")(Component);
     const entity = {
       id: 1,
       title: "title",
@@ -255,6 +236,7 @@ describe("withEntityEditor", () => {
       deep: {
         thing: "updated",
       },
+      __typename: "Foo",
     });
   });
 
@@ -281,6 +263,7 @@ describe("withEntityEditor", () => {
       id: 1,
       title: "New title",
       alias: "updated",
+      __typename: "Example",
     });
   });
 

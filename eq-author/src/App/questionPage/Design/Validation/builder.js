@@ -10,14 +10,7 @@ import withProps from "enhancers/withProps";
 import withPropRenamed from "enhancers/withPropRenamed";
 import withPropRemapped from "enhancers/withPropRemapped";
 
-export default (
-  displayName,
-  testId,
-  readKey,
-  writeKey,
-  fragment,
-  readToWriteMapper
-) =>
+export default (displayName, testId, readKey, writeKey, readToWriteMapper) =>
   flowRight(
     withProps({ displayName, testId, readKey }),
     withAnswerValidation(readKey),
@@ -28,6 +21,6 @@ export default (
       "onUpdate",
       readToWriteMapper(writeKey)
     ),
-    withEntityEditor(readKey, fragment),
+    withEntityEditor(readKey),
     withPropRenamed(readKey, "validation")
   )(Validation);

@@ -10,8 +10,8 @@ export const mapMutateToProps = ({ mutate }) => ({
       variables: { input: data },
       optimisticResponse: {
         updateQuestionPage: {
+          ...page,
           ...data,
-          displayName: "",
           __typename: "QuestionPage",
         },
       },

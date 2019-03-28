@@ -159,4 +159,4 @@ StatelessOption.fragments = {
   Option: optionFragment,
 };
 
-export default withEntityEditor("option", optionFragment)(StatelessOption);
+export default withEntityEditor("option")(StatelessOption);

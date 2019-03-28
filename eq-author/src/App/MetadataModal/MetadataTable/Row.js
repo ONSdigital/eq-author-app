@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import CustomPropTypes from "custom-prop-types";
-import metadataFragment from "graphql/fragments/metadata.graphql";
 import PropTypes from "prop-types";
 
 import withEntityEditor from "components/withEntityEditor";
@@ -120,4 +119,4 @@ StatelessRow.propTypes = {
   usedKeys: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
-export default withEntityEditor("metadata", metadataFragment)(StatelessRow);
+export default withEntityEditor("metadata")(StatelessRow);
