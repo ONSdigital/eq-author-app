@@ -67,8 +67,9 @@ describe("Answer Properties", () => {
         addAnswerType(type);
         cy.get(`[data-test="properties-title-${index}"]`).contains(title);
       });
-
+      cy.get(testId("btn-delete-answer")).should("have.length", 5);
       removeAnswer({ multiple: true });
+      cy.get(testId("btn-delete-answer")).should("have.length", 0);
     });
   });
   describe("Answer Type", () => {
