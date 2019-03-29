@@ -46,7 +46,7 @@ export function setQuestionnaireSettings({ title, type, shortTitle }) {
 
 export const addQuestionnaire = title => {
   cy.get(testId("create-questionnaire")).click();
-  setQuestionnaireSettings({ title, type: "Business" });
+  setQuestionnaireSettings({ title, type: "Social" });
 };
 
 export const addSection = (initialNumberOfSections = 1) => {
