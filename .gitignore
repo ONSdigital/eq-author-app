@@ -9,7 +9,6 @@ coverage/
 
 # production
 build/
-build-storybook/
 build/Release/
 
 # misc
@@ -25,8 +24,6 @@ pids
 *.pid
 *.seed
 *.pid.lock
-
-storybook-static/
 
 # vscode-specific stuff
 .vscode/

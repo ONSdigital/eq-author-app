@@ -24,8 +24,6 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Folder Structure
 
-`/.storybook` Config for storybook.
-
 `/config` Webpack config.
 
 `/data` Example Runner JSON schemas.
@@ -97,10 +95,6 @@ See the section about [deployment](#deployment) for more information.
 ### `yarn deploy`
 
 Builds (via `yarn build`) and deploys the project to Github Pages.
-
-### `yarn storybook`
-
-Spins up the Storybook development server.
 
 ## Environment Variables
 

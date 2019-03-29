@@ -2,7 +2,6 @@
 
 ## Front End Folder Structure
 
-`/.storybook` Config for storybook.
 
 `/config` Webpack config.
 
