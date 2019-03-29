@@ -1,154 +1,124 @@
-import React from "react";
-import styled from "styled-components";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
-import PanelTitle from "components/Accordion/PanelTitle";
-import PanelBody from "components/Accordion/PanelBody";
-import chevronIcon from "components/Accordion/chevron.svg";
+import { kebabCase } from "lodash";
+import styled from "styled-components";
 import { colors } from "constants/theme";
+import chevron from "./icon-chevron.svg";
 
-export const KEY_CODE_ESCAPE = 27;
+const Container = styled.div`
+  /* fixes ghosting issue in Chrome */
+  backface-visibility: hidden;
+`;
 
-const AccordionTitle = styled(PanelTitle)`
-  cursor: pointer;
+const Header = styled.div`
+  background: #f8f8f8;
+  padding: 0 0.25em;
+  border-top: 1px solid ${colors.lightMediumGrey};
+  border-bottom: 1px solid ${colors.lightMediumGrey};
+  &:hover {
+    background: #f3f3f3;
+  }
+`;
+
+export const Title = styled.h2`
+  font-size: 0.75em;
+  letter-spacing: 0.05em;
+  vertical-align: middle;
+  color: #4a4a4a;
+  text-align: left;
+  text-transform: uppercase;
   margin: 0;
-  user-select: none;
+  padding: 0.5em 0;
   position: relative;
-  padding: 0.25em;
-
-  & button {
-    color: ${colors.text};
-    font-size: 0.7em;
-    font-weight: 900;
-    background: none;
-    border: none;
-    width: 100%;
-    height: 100%;
-    padding: 0.6em 1em;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    outline: none;
-
-    &:focus {
-      outline: -webkit-focus-ring-color auto 5px;
-    }
-
-    &::after {
-      content: url(${chevronIcon});
-      float: right;
-    }
-
-    &[aria-expanded="false"]::after {
-      transform: rotate(0deg);
-      transition: transform 150ms ease-out;
-    }
-
-    &[aria-expanded="true"]::after {
-      transform: rotate(-180deg);
-      transition: transform 150ms ease-in;
-    }
-  }
 `;
 
-const AccordionBody = styled(PanelBody)`
-  padding: 0.6em 1em;
-  position: relative;
+export const Body = styled.div`
+  overflow: hidden;
+  transition: opacity 100ms ease-in-out;
+  opacity: ${props => (props.open ? "1" : "0")};
+  height: ${props => (props.open ? "auto" : "0")};
+`;
 
-  &[aria-hidden="true"] {
-    display: none;
+export const Button = styled.button`
+  appearance: none;
+  border: none;
+  font-size: 1em;
+  width: 100%;
+  margin: 0;
+  padding: 0.5em 0.25em;
+  display: flex;
+  align-items: center;
+  text-transform: inherit;
+  color: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+  position: relative;
+  background: transparent;
+  cursor: pointer;
+
+  &:focus {
+    outline: 2px solid ${colors.orange};
   }
 
-  &[aria-hidden="false"] {
+  &::after {
+    opacity: 0.5;
+    content: "";
+    background: url(${chevron});
     display: block;
+    position: absolute;
+    right: 0.25rem;
+    width: 1rem;
+    height: 1rem;
+    transform-origin: 50% 50%;
+    transition: transform 200ms ease-out;
+    transform: rotate(${props => (props.open ? "0deg" : "-90deg")});
   }
 `;
 
-export const AccordionInner = styled.div`
-  border-bottom: 1px solid ${colors.borders};
+const DisplayContent = styled.div`
+  display: ${props => (props.open ? "block" : "none")};
 `;
 
-export class AccordionPanel extends React.Component {
-  static propTypes = {
-    id: PropTypes.string,
-    title: PropTypes.node.isRequired,
-    children: PropTypes.node.isRequired,
-    open: PropTypes.bool,
-  };
+class Accordion extends Component {
+  state = { open: true, height: "auto" };
 
-  static defaultProps = {
-    open: false,
-  };
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      open: props.open,
-    };
-  }
-
-  handleTitleClick = () => {
-    this.state.open ? this.close() : this.open();
-  };
-
-  open = () => {
-    this.setState({ open: true }, () => this.panel.scrollIntoView());
-  };
-
-  close = () => {
-    this.setState({ open: false });
-  };
-
-  handleKeyUp = e => {
-    if (e.keyCode === KEY_CODE_ESCAPE) {
-      this.close();
-    }
-  };
-
-  saveRef = panel => {
-    this.panel = panel;
-  };
+  handleToggle = () => this.setState({ open: !this.state.open });
 
   render() {
-    const { title, children } = this.props;
+    const { children, title } = this.props;
     const { open } = this.state;
-    const id = `accordion-panel-${this.props.id}`;
-
+    const kebabTitle = kebabCase(title);
     return (
-      <AccordionInner onKeyUp={this.handleKeyUp}>
-        <AccordionTitle
-          id={"panel-title-" + id}
-          controls={"panel-body-" + id}
-          open={this.state.open}
-          onClick={this.handleTitleClick}
-          innerRef={this.saveRef}
-        >
-          {title}
-        </AccordionTitle>
-        <AccordionBody
-          id={"panel-body-" + id}
-          labelledBy={"panel-title-" + id}
+      <Container>
+        <Header>
+          <Title>
+            <Button
+              open={open}
+              onClick={this.handleToggle}
+              aria-expanded={open}
+              aria-controls={`accordion-${kebabTitle}`}
+              data-test={`accordion-${kebabTitle}-button`}
+            >
+              {title}
+            </Button>
+          </Title>
+        </Header>
+        <Body
+          id={`accordion-${kebabTitle}`}
+          data-test={`accordion-${kebabTitle}-body`}
           open={open}
+          aria-hidden={!open}
         >
-          {children}
-        </AccordionBody>
-      </AccordionInner>
+          <DisplayContent open={open}>{children}</DisplayContent>
+        </Body>
+      </Container>
     );
   }
 }
 
-const StyledDiv = styled.div`
-  width: 100%;
-`;
-
-const StatelessAccordion = ({ children }) => (
-  <StyledDiv role="tablist" aria-multiselectable="true">
-    {children}
-  </StyledDiv>
-);
-
-StatelessAccordion.propTypes = {
-  children: PropTypes.node,
+Accordion.propTypes = {
+  title: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
 };
 
-export const Accordion = StatelessAccordion;
+export default Accordion;

@@ -1,6 +1,5 @@
 import React from "react";
 import { kebabCase, get, startCase } from "lodash";
-import styled from "styled-components";
 import CustomPropTypes from "custom-prop-types";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -32,13 +31,6 @@ import {
   NUMBER,
   PERCENTAGE,
 } from "constants/answer-types";
-import { colors } from "constants/theme";
-
-const Container = styled.div`
-  margin-top: 1em;
-  border-top: 1px solid ${colors.lightGrey};
-  padding: 1em 0;
-`;
 
 const formatValue = (value, { type }) => {
   if (typeof value !== "number") {
@@ -162,36 +154,30 @@ export class UnconnectedAnswerValidation extends React.Component {
     }
 
     return (
-      <Container>
-        <ValidationContext.Provider value={{ answer }}>
-          {validValidationTypes.map(validationType => {
-            const validation = get(
-              answer,
-              `validation.${validationType.id}`,
-              {}
-            );
-            const { enabled, previousAnswer, metadata } = validation;
-            const value = enabled
-              ? validationType.preview(validation, answer)
-              : "";
+      <ValidationContext.Provider value={{ answer }}>
+        {validValidationTypes.map(validationType => {
+          const validation = get(answer, `validation.${validationType.id}`, {});
+          const { enabled, previousAnswer, metadata } = validation;
+          const value = enabled
+            ? validationType.preview(validation, answer)
+            : "";
 
-            return this.renderButton({
-              ...validationType,
-              value,
-              enabled,
-              previousAnswer,
-              metadata,
-            });
-          })}
-          <ModalWithNav
-            id={this.modalId}
-            onClose={this.handleModalClose}
-            navItems={validValidationTypes}
-            title={`${startCase(answer.type)} validation`}
-            isOpen={this.state.modalIsOpen}
-          />
-        </ValidationContext.Provider>
-      </Container>
+          return this.renderButton({
+            ...validationType,
+            value,
+            enabled,
+            previousAnswer,
+            metadata,
+          });
+        })}
+        <ModalWithNav
+          id={this.modalId}
+          onClose={this.handleModalClose}
+          navItems={validValidationTypes}
+          title={`${startCase(answer.type)} validation`}
+          isOpen={this.state.modalIsOpen}
+        />
+      </ValidationContext.Provider>
     );
   }
 }

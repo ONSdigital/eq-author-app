@@ -11,8 +11,17 @@ import { flowRight, isEmpty } from "lodash";
 import withUpdateAnswer from "App/questionPage/Design/answers/withUpdateAnswer";
 import AnswerProperties from "App/questionPage/Design/AnswerProperties";
 import QuestionProperties from "App/questionPage/Design/QuestionProperties";
+import Accordion from "components/Accordion";
 
 const Properties = flowRight(withUpdateAnswer)(AnswerProperties);
+
+const Padding = styled.div`
+  padding: 0 0.5em;
+`;
+
+const AnswerPropertiesContainer = styled.div`
+  padding: 0.5em;
+`;
 
 const PropertiesPane = styled.div`
   background: ${colors.white};
@@ -26,14 +35,6 @@ const PropertiesPane = styled.div`
   font-size: 1em;
 `;
 
-const PropertiesPanelTitle = styled.h2`
-  font-size: 0.8em;
-  letter-spacing: 0.05em;
-  vertical-align: middle;
-  color: ${colors.darkGrey};
-  text-align: center;
-`;
-
 const PropertiesPaneBody = styled.div`
   background: ${colors.white};
   display: flex;
@@ -41,12 +42,6 @@ const PropertiesPaneBody = styled.div`
   height: 100%;
   padding: 0;
   margin: 0;
-`;
-
-const AnswerPropertiesContainer = styled.div`
-  padding: 1em;
-  border-top: ${props =>
-    props.hasBorder ? `8px solid ${colors.lighterGrey}` : "none"};
 `;
 
 const filterByType = type => filter({ type });
@@ -76,23 +71,19 @@ class PropertiesPanel extends React.Component {
         <PropertiesPaneBody>
           <ScrollPane>
             {!isEmpty(page) && (
-              <div>
-                <QuestionProperties page={page} />
-              </div>
+              <Accordion title="Optional fields">
+                <Padding>
+                  <QuestionProperties page={page} />
+                </Padding>
+              </Accordion>
             )}
-            {get("answers.length", page) > 0 && (
-              <div>
-                {page.answers.map((answer, index) => (
-                  <AnswerPropertiesContainer
-                    key={getIdForObject(answer)}
-                    data-test={`properties-${index}`}
-                    hasBorder={index > 0}
-                  >
-                    <PropertiesPanelTitle
-                      data-test={`properties-title-${index}`}
-                    >
-                      {getTitle({ answer })(page.answers)}
-                    </PropertiesPanelTitle>
+            {get("answers.length", page) > 0 &&
+              page.answers.map((answer, index) => (
+                <Accordion
+                  title={getTitle({ answer })(page.answers)}
+                  key={getIdForObject(answer)}
+                >
+                  <AnswerPropertiesContainer>
                     <Properties
                       id={getIdForObject(answer)}
                       answer={{ ...answer, index }}
@@ -100,9 +91,8 @@ class PropertiesPanel extends React.Component {
                     />
                     <AnswerValidation answer={answer} />
                   </AnswerPropertiesContainer>
-                ))}
-              </div>
-            )}
+                </Accordion>
+              ))}
           </ScrollPane>
         </PropertiesPaneBody>
       </PropertiesPane>

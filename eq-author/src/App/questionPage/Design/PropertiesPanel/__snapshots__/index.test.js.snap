@@ -6,42 +6,40 @@ exports[`PropertiesPanel should render when there are answers 1`] = `
     <ScrollPane
       permanentScrollBar={false}
     >
-      <div>
-        <Apollo(UnwrappedQuestionProperties)
-          page={
-            Object {
-              "__typename": "Page",
-              "answers": Array [
-                Object {
-                  "__typename": "Answer",
-                  "id": "1",
-                  "index": 0,
-                  "type": "Number",
-                },
-                Object {
-                  "__typename": "Answer",
-                  "id": "2",
-                  "index": 1,
-                  "type": "TextField",
-                },
-              ],
-              "id": "1",
-              "type": "Questionnaire",
+      <Accordion
+        title="Optional fields"
+      >
+        <PropertiesPanel__Padding>
+          <Apollo(UnwrappedQuestionProperties)
+            page={
+              Object {
+                "__typename": "Page",
+                "answers": Array [
+                  Object {
+                    "__typename": "Answer",
+                    "id": "1",
+                    "index": 0,
+                    "type": "Number",
+                  },
+                  Object {
+                    "__typename": "Answer",
+                    "id": "2",
+                    "index": 1,
+                    "type": "TextField",
+                  },
+                ],
+                "id": "1",
+                "type": "Questionnaire",
+              }
             }
-          }
-        />
-      </div>
-      <div>
-        <PropertiesPanel__AnswerPropertiesContainer
-          data-test="properties-0"
-          hasBorder={false}
-          key="Answer1"
-        >
-          <PropertiesPanel__PropertiesPanelTitle
-            data-test="properties-title-0"
-          >
-            NUMBER
-          </PropertiesPanel__PropertiesPanelTitle>
+          />
+        </PropertiesPanel__Padding>
+      </Accordion>
+      <Accordion
+        key="Answer1"
+        title="NUMBER"
+      >
+        <PropertiesPanel__AnswerPropertiesContainer>
           <Apollo(AnswerProperties)
             answer={
               Object {
@@ -65,16 +63,12 @@ exports[`PropertiesPanel should render when there are answers 1`] = `
             }
           />
         </PropertiesPanel__AnswerPropertiesContainer>
-        <PropertiesPanel__AnswerPropertiesContainer
-          data-test="properties-1"
-          hasBorder={true}
-          key="Answer2"
-        >
-          <PropertiesPanel__PropertiesPanelTitle
-            data-test="properties-title-1"
-          >
-            TEXTFIELD
-          </PropertiesPanel__PropertiesPanelTitle>
+      </Accordion>
+      <Accordion
+        key="Answer2"
+        title="TEXTFIELD"
+      >
+        <PropertiesPanel__AnswerPropertiesContainer>
           <Apollo(AnswerProperties)
             answer={
               Object {
@@ -98,7 +92,7 @@ exports[`PropertiesPanel should render when there are answers 1`] = `
             }
           />
         </PropertiesPanel__AnswerPropertiesContainer>
-      </div>
+      </Accordion>
     </ScrollPane>
   </PropertiesPanel__PropertiesPaneBody>
 </PropertiesPanel__PropertiesPane>
@@ -110,18 +104,22 @@ exports[`PropertiesPanel should render when there are no answers 1`] = `
     <ScrollPane
       permanentScrollBar={false}
     >
-      <div>
-        <Apollo(UnwrappedQuestionProperties)
-          page={
-            Object {
-              "__typename": "Page",
-              "answers": Array [],
-              "id": "1",
-              "type": "Questionnaire",
+      <Accordion
+        title="Optional fields"
+      >
+        <PropertiesPanel__Padding>
+          <Apollo(UnwrappedQuestionProperties)
+            page={
+              Object {
+                "__typename": "Page",
+                "answers": Array [],
+                "id": "1",
+                "type": "Questionnaire",
+              }
             }
-          }
-        />
-      </div>
+          />
+        </PropertiesPanel__Padding>
+      </Accordion>
     </ScrollPane>
   </PropertiesPanel__PropertiesPaneBody>
 </PropertiesPanel__PropertiesPane>

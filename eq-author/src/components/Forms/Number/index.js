@@ -15,9 +15,8 @@ const StyledDiv = styled.div`
   width: 8em;
 `;
 
-const StyledInput = styled(Input)`
+export const NumberInput = styled(Input)`
   width: 100%;
-
   border-radius: ${radius};
   outline: none;
 
@@ -90,7 +89,7 @@ class Number extends React.Component {
     const unitId = `unit-${this.props.id}`;
     return (
       <StyledDiv className={this.props.className}>
-        <StyledInput
+        <NumberInput
           id={this.props.id}
           data-test={this.props["data-test"]}
           value={this.state.value}
