@@ -1,4 +1,4 @@
-import { testId, typeIntoDraftEditor } from "../utils";
+import { testId, typeIntoDraftEditor, enableDescription } from "../utils";
 import { answer, questionConfirmation, routingBuilder } from "../builders";
 
 const updateDetails = ({
@@ -8,6 +8,7 @@ const updateDetails = ({
   answers,
   confirmation,
   routing,
+  description,
 }) => {
   if (alias) {
     cy.get(testId("alias")).type(alias);
@@ -30,6 +31,13 @@ const updateDetails = ({
   }
   if (routing) {
     routingBuilder.add(routing);
+  }
+  if (description) {
+    enableDescription();
+    typeIntoDraftEditor(
+      testId("txt-question-description", "testid"),
+      description
+    );
   }
 };
 

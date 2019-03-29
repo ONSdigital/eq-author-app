@@ -26,6 +26,7 @@
                 {
                   "id": "question1",
                   "title": "In which geographic markets did Enterprise Ltd offer goods and / or services?",
+                  "description": "<p>Here is the question description</p>",
                   "type": "General",
                   "answers": [
                     {
