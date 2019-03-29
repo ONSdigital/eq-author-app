@@ -2,6 +2,7 @@ import React from "react";
 import { shallow } from "enzyme";
 
 import { SECTION, PAGE, QUESTION_CONFIRMATION } from "constants/entities";
+import { ERR_PAGE_NOT_FOUND } from "constants/error-codes";
 
 import NavigationSidebar from "./NavigationSidebar";
 
@@ -207,10 +208,26 @@ describe("QuestionnaireDesignPage", () => {
     });
 
     it("should disable adding question confirmation whilst loading", () => {
-      wrapper.setProps({ data: {} });
+      wrapper.setProps({
+        loading: true,
+        data: {} 
+      });
       expect(wrapper.find(NavigationSidebar).props()).toMatchObject({
         canAddQuestionConfirmation: false,
       });
+    });
+
+    it("should trigger PAGE_NOT_FOUND error if no question data available after loading finished", () => {
+      
+      const throwWrapper = () => {
+        wrapper.setProps({
+          loading: false,
+          data: {}
+        });  
+      }
+
+      expect(throwWrapper).toThrow( new Error(ERR_PAGE_NOT_FOUND));
+
     });
   });
 });
