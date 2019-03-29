@@ -1,6 +1,6 @@
 const { last } = require("lodash");
 
-const { SOCIAL } = require("../../constants/questionnaireTypes");
+const { SOCIAL, BUSINESS } = require("../../constants/questionnaireTypes");
 
 const {
   buildQuestionnaire,
@@ -54,6 +54,26 @@ describe("questionnaire", () => {
       );
 
       expect(questionnaire.sections[0].pages[0]).not.toBeNull();
+    });
+
+    it("should create a questionnaire with no metadata when creating a social survey", async () => {
+      const result = await executeQuery(
+        createQuestionnaireMutation,
+        { input: config },
+        {}
+      );
+      const questionnaire = result.data.createQuestionnaire;
+      expect(questionnaire.metadata).toEqual([]);
+    });
+
+    it("should create a questionnaire with default business metadata when creating a business survey", async () => {
+      const result = await executeQuery(
+        createQuestionnaireMutation,
+        { input: { ...config, type: BUSINESS } },
+        {}
+      );
+      const questionnaire = result.data.createQuestionnaire;
+      expect(questionnaire.metadata).toHaveLength(6);
     });
   });
 
