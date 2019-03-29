@@ -95,12 +95,9 @@ export class UnwrappedQuestionPageRoute extends React.Component {
   };
 
   handleAddPage = () => {
-    const {
-      match: { params },
-      page,
-    } = this.props;
+    const { page } = this.props;
 
-    this.props.onAddPage(params.sectionId, page.position + 1);
+    this.props.onAddPage(page.section.id, page.position + 1);
   };
 
   handleAddAnswer = answerType => {
@@ -111,9 +108,8 @@ export class UnwrappedQuestionPageRoute extends React.Component {
 
   handleDuplicatePage = e => {
     e.preventDefault();
-    const { match, onDuplicatePage, page } = this.props;
+    const { onDuplicatePage, page } = this.props;
     onDuplicatePage({
-      sectionId: match.params.sectionId,
       pageId: page.id,
       position: page.position + 1,
     });

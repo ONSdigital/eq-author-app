@@ -11,6 +11,7 @@ import createRouterContext from "react-router-test-context";
 import PropTypes from "prop-types";
 
 import movePageQuery from "graphql/getQuestionnaire.graphql";
+import { byTestAttr } from "tests/utils/selectors";
 
 describe("QuestionPageRoute", () => {
   let store,
@@ -438,10 +439,31 @@ describe("QuestionPageRoute", () => {
         .simulate("click");
 
       expect(mockHandlers.onDuplicatePage).toHaveBeenCalledWith({
-        sectionId: match.params.sectionId,
         pageId: page.id,
         position: parseInt(page.position, 10) + 1,
       });
+    });
+
+    it("should add new answer page to correct section", () => {
+      const wrapper = render(
+        {
+          loading: false,
+          match,
+          page,
+          ...mockHandlers,
+        },
+        mount
+      );
+
+      wrapper
+        .find(byTestAttr("btn-add-page"))
+        .first()
+        .simulate("click");
+
+      expect(mockHandlers.onAddPage).toHaveBeenCalledWith(
+        page.section.id,
+        parseInt(page.position, 10) + 1
+      );
     });
   });
 });
