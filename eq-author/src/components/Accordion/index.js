@@ -5,11 +5,6 @@ import styled from "styled-components";
 import { colors } from "constants/theme";
 import chevron from "./icon-chevron.svg";
 
-const Container = styled.div`
-  /* fixes ghosting issue in Chrome */
-  backface-visibility: hidden;
-`;
-
 const Header = styled.div`
   background: #f8f8f8;
   padding: 0 0.25em;
@@ -37,6 +32,14 @@ export const Body = styled.div`
   transition: opacity 100ms ease-in-out;
   opacity: ${props => (props.open ? "1" : "0")};
   height: ${props => (props.open ? "auto" : "0")};
+`;
+
+const Container = styled.div`
+  /* fixes ghosting issue in Chrome */
+  backface-visibility: hidden;
+  &:last-of-type ${Body} {
+    border-bottom: 1px solid #e4e8eb;
+  }
 `;
 
 export const Button = styled.button`

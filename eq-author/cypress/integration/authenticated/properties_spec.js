@@ -1,18 +1,17 @@
-import { kebabCase } from "lodash";
-
 import {
   addAnswerType,
   addQuestionnaire,
-  findByLabel,
-  removeAnswer,
+  findInputByLabel,
+  removeAnswers,
   testId,
+  toggleCheckboxOn,
+  toggleCheckboxOff,
 } from "../../utils";
 
 import {
   TEXTFIELD,
   NUMBER,
   CURRENCY,
-  TEXTAREA,
   DATE,
   PERCENTAGE,
 } from "../../../src/constants/answer-types";
@@ -30,106 +29,117 @@ describe("Answer Properties", () => {
   });
 
   describe("Title", () => {
-    it("Should show answer type as uppercase text", () => {
-      [TEXTFIELD, NUMBER, CURRENCY, TEXTAREA].forEach(answerType => {
-        addAnswerType(answerType);
-        cy.get(testId(`accordion-${answerType.toLowerCase()}-button`)).contains(
-          answerType.toUpperCase()
-        );
-        removeAnswer({ multiple: false });
-      });
-    });
-    it("Should show numbered answer types", () => {
+    it("Should show answers grouped by type", () => {
       const answerTypeTitles = [
         {
           type: NUMBER,
-          title: "NUMBER",
+          label: "NUMBER",
         },
         {
           type: NUMBER,
-          title: "NUMBER 2",
+          label: "NUMBER 2",
         },
         {
           type: TEXTFIELD,
-          title: "TEXTFIELD",
+          label: "TEXTFIELD",
         },
         {
           type: NUMBER,
-          title: "NUMBER 3",
+          label: "NUMBER 3",
         },
         {
           type: TEXTFIELD,
-          title: "TEXTFIELD",
+          label: "TEXTFIELD",
         },
       ];
 
-      answerTypeTitles.forEach(({ title, type }) => {
+      for (let index = 0; index < answerTypeTitles.length; index += 1) {
+        const { type, label } = answerTypeTitles[index];
         addAnswerType(type);
-        cy.get(testId(`accordion-${kebabCase(title)}-button`)).contains(title);
-      });
+        cy.get(testId("txt-answer-label")).should("have.length", index + 1);
+        cy.get(testId("txt-answer-label"))
+          .eq(index)
+          .type(label)
+          .blur();
+        cy.get(testId(`accordion-${type.toLowerCase()}-properties-button`))
+          .should("have.length", 1)
+          .should("contain", `${type} properties`.toUpperCase());
+        cy.get(
+          testId(`accordion-${type.toLowerCase()}-properties-body`)
+        ).should("contain", label);
+      }
+
       cy.get(testId("btn-delete-answer")).should("have.length", 5);
-      removeAnswer({ multiple: true });
-      cy.get(testId("btn-delete-answer")).should("have.length", 0);
+      removeAnswers();
     });
   });
   describe("Answer Type", () => {
     describe("Text", () => {
       beforeEach(() => {
         addAnswerType(TEXTFIELD);
-        cy.get(testId("txt-answer-label")).type("Hello World");
+        cy.get(testId("btn-delete-answer")).should("have.length", 1);
       });
-      describe("Required", () => {
-        const labelText = "Required";
-        it("Should default to off", () => {
-          findByLabel(labelText).should("not.be.checked");
-        });
-        it("Can toggle 'Required' property on and off", () => {
-          findByLabel(labelText)
-            .click({ force: true })
-            .should("be.checked");
-          findByLabel(labelText)
-            .click({ force: true })
-            .should("not.be.checked");
-        });
+      it("Can toggle 'Required' property on and off", () => {
+        findInputByLabel("Required")
+          .parent()
+          .as("requiredInput");
+        toggleCheckboxOn("@requiredInput");
+        toggleCheckboxOff("@requiredInput");
       });
       afterEach(() => {
-        removeAnswer();
+        removeAnswers();
       });
     });
     [NUMBER, CURRENCY, PERCENTAGE].forEach(type => {
       describe(type, () => {
         beforeEach(() => {
           addAnswerType(type);
-          cy.get(testId("txt-answer-label")).type("Hello World");
+          cy.get(testId("btn-delete-answer")).should("have.length", 1);
+          cy.get(testId("txt-answer-label"))
+            .first()
+            .type(`${type} 1`)
+            .blur();
+
+          addAnswerType(type);
+          cy.get(testId("btn-delete-answer")).should("have.length", 2);
+          cy.get(testId("txt-answer-label"))
+            .last()
+            .type(`${type} 2`)
+            .blur();
         });
         describe("Required", () => {
-          const labelText = "Required";
-          it("Should default to off", () => {
-            findByLabel(labelText).should("not.be.checked");
-          });
           it("Can toggle 'Required' property on and off", () => {
-            findByLabel(labelText)
-              .click({ force: true })
-              .should("be.checked");
-            findByLabel(labelText)
-              .click({ force: true })
-              .should("not.be.checked");
+            findInputByLabel("Required")
+              .parent()
+              .as("requiredInput");
+            toggleCheckboxOn("@requiredInput");
+            toggleCheckboxOff("@requiredInput");
           });
         });
         describe("Decimals", () => {
           const labelText = "Decimals";
-          it("Should default to 0", () => {
-            findByLabel(labelText).should("have.value", "0");
-          });
-          it("Can change value", () => {
-            findByLabel(labelText)
+          it("Can be changed", () => {
+            findInputByLabel(labelText).should("have.value", "0");
+            findInputByLabel(labelText)
               .type("{backspace}3")
               .blur()
               .should("have.value", "3");
           });
+
+          it("removing an answer should not change its value", () => {
+            findInputByLabel(labelText)
+              .type("{backspace}3")
+              .blur()
+              .should("have.value", "3");
+            cy.get(testId("btn-delete-answer"))
+              .first()
+              .click();
+            cy.get(testId("btn-delete-answer")).should("have.length", 1);
+            findInputByLabel(labelText).should("have.value", "3");
+          });
         });
         afterEach(() => {
-          removeAnswer();
+          removeAnswers();
         });
       });
     });
@@ -137,31 +147,20 @@ describe("Answer Properties", () => {
     describe("Date", () => {
       beforeEach(() => {
         addAnswerType(DATE);
-        cy.get(testId("date-answer-label")).type("Hello World");
+        cy.get(testId("btn-delete-answer")).should("have.length", 1);
       });
       describe("Required", () => {
-        const labelText = "Required";
-        it("Should default to off", () => {
-          findByLabel(labelText).should("not.be.checked");
-        });
         it("Can toggle 'Required' property on and off", () => {
-          findByLabel(labelText)
-            .click({ force: true })
-            .should("be.checked");
-          findByLabel(labelText)
-            .click({ force: true })
-            .should("not.be.checked");
+          findInputByLabel("Required")
+            .parent()
+            .as("requiredInput");
+          toggleCheckboxOn("@requiredInput");
+          toggleCheckboxOff("@requiredInput");
         });
       });
       describe("Date format", () => {
-        const labelText = "Date type";
-        it("Should show 'Date type' label", () => {
-          findByLabel(labelText);
-        });
         it("Should default to dd/mm/yyyy", () => {
           cy.get("select").should("have.value", "dd/mm/yyyy");
-        });
-        it("Can change value", () => {
           cy.get("select")
             .select("yyyy")
             .should("have.value", "yyyy");
@@ -194,7 +193,7 @@ describe("Answer Properties", () => {
         });
       });
       afterEach(() => {
-        removeAnswer();
+        removeAnswers();
       });
     });
   });

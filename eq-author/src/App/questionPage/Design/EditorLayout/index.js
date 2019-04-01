@@ -7,11 +7,11 @@ import Button from "components/buttons/Button";
 import IconText from "components/IconText";
 import MainCanvas from "components/MainCanvas";
 import ScrollPane from "components/ScrollPane";
-import PropertiesPanel from "App/questionPage/Design/PropertiesPanel";
 import AddPage from "App/QuestionnaireDesignPage/icon-add-page.svg?inline";
 import SavingIndicator from "components/SavingIndicator";
 import { Grid, Column } from "components/Grid";
 
+import PropertiesPanel from "./PropertiesPanel";
 import Tabs from "./Tabs";
 
 const Centered = styled.div`

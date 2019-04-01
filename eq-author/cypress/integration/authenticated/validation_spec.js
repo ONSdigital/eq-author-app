@@ -11,7 +11,7 @@ import {
   addAnswerType,
   addQuestionPage,
   addQuestionnaire,
-  removeAnswer,
+  removeAnswers,
   testId,
   toggleCheckboxOn,
   toggleCheckboxOff,
@@ -177,7 +177,7 @@ describe("Answer Validation", () => {
       });
 
       afterEach(() => {
-        removeAnswer();
+        removeAnswers();
       });
     });
   });
@@ -292,7 +292,7 @@ describe("Answer Validation", () => {
       });
 
       afterEach(() => {
-        removeAnswer();
+        removeAnswers();
       });
     });
 
@@ -387,7 +387,7 @@ describe("Answer Validation", () => {
       });
 
       afterEach(() => {
-        removeAnswer();
+        removeAnswers();
       });
     });
 
@@ -482,7 +482,7 @@ describe("Answer Validation", () => {
       });
 
       afterEach(() => {
-        removeAnswer();
+        removeAnswers();
       });
     });
 
@@ -555,7 +555,7 @@ describe("Answer Validation", () => {
       });
 
       afterEach(() => {
-        removeAnswer();
+        removeAnswers();
       });
     });
 
@@ -615,7 +615,7 @@ describe("Answer Validation", () => {
 
       afterEach(() => {
         closeValidationModal();
-        removeAnswer();
+        removeAnswers();
       });
     });
 
@@ -675,7 +675,7 @@ describe("Answer Validation", () => {
 
       afterEach(() => {
         closeValidationModal();
-        removeAnswer();
+        removeAnswers();
       });
     });
 

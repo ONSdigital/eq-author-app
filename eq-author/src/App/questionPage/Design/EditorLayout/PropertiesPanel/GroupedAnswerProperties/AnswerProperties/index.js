@@ -3,12 +3,16 @@ import PropTypes from "prop-types";
 import { merge } from "lodash";
 import CustomPropTypes from "custom-prop-types";
 
-import { Required, Decimal, DateFormat } from "./Properties";
-import { InlineField, MultiLineField } from "./Fields";
+import { DATE } from "constants/answer-types";
 
-import { CURRENCY, DATE, NUMBER, PERCENTAGE } from "constants/answer-types";
+import withUpdateAnswer from "App/questionPage/Design/answers/withUpdateAnswer";
 
-class AnswerProperties extends React.Component {
+import InlineField from "../InlineField";
+
+import { Required, DateFormat } from "./Properties";
+import MultiLineField from "./MultiLineField";
+
+export class UnwrappedAnswerProperties extends React.Component {
   static propTypes = {
     answer: CustomPropTypes.answer.isRequired,
     onSubmit: PropTypes.func,
@@ -33,11 +37,7 @@ class AnswerProperties extends React.Component {
     const { answer } = this.props;
     return (
       <React.Fragment>
-        <InlineField
-          id={this.getId("required", answer)}
-          label={"Required"}
-          css={{ marginBottom: "0.5em" }}
-        >
+        <InlineField id={this.getId("required", answer)} label={"Required"}>
           <Required
             data-test="answer-properties-required-toggle"
             id={this.getId("required", answer)}
@@ -45,15 +45,6 @@ class AnswerProperties extends React.Component {
             value={answer.properties.required}
           />
         </InlineField>
-        {[NUMBER, PERCENTAGE, CURRENCY].includes(answer.type) && (
-          <InlineField id={this.getId("decimals", answer)} label={"Decimals"}>
-            <Decimal
-              id={this.getId("decimals", answer)}
-              onChange={this.handleChange("decimals")}
-              value={answer.properties.decimals}
-            />
-          </InlineField>
-        )}
         {answer.type === DATE && (
           <MultiLineField
             id={this.getId("date-format", answer)}
@@ -71,4 +62,4 @@ class AnswerProperties extends React.Component {
   }
 }
 
-export default AnswerProperties;
+export default withUpdateAnswer(UnwrappedAnswerProperties);

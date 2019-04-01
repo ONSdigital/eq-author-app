@@ -8,6 +8,7 @@ const {
 const {
   createAnswer,
   updateAnswer,
+  updateAnswersOfType,
   queryAnswer,
   deleteAnswer,
   moveAnswer,
@@ -89,6 +90,72 @@ describe("basic answer", () => {
       };
       const updatedAnswer = await updateAnswer(questionnaire, update);
       expect(updatedAnswer).toMatchObject(update);
+    });
+  });
+
+  describe("group update", () => {
+    it("should update the properties of a number of answers", async () => {
+      questionnaire = await buildQuestionnaire({
+        sections: [
+          {
+            pages: [
+              {
+                answers: [
+                  {
+                    type: NUMBER,
+                    properties: {
+                      decimals: 1,
+                    },
+                  },
+                  {
+                    type: NUMBER,
+                    properties: {
+                      decimals: 1,
+                    },
+                  },
+                  {
+                    type: CURRENCY,
+                    properties: {
+                      decimals: 0,
+                    },
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      });
+
+      const page = questionnaire.sections[0].pages[0];
+
+      const updatedAnswers = await updateAnswersOfType(questionnaire, {
+        questionPageId: page.id,
+        type: NUMBER,
+        properties: {
+          decimals: 5,
+        },
+      });
+
+      expect(updatedAnswers).toMatchObject([
+        {
+          id: page.answers[0].id,
+          properties: {
+            decimals: 5,
+          },
+        },
+        {
+          id: page.answers[1].id,
+          properties: {
+            decimals: 5,
+          },
+        },
+      ]);
+
+      const queriedAnswer = await queryAnswer(
+        questionnaire,
+        page.answers[2].id
+      );
+      expect(queriedAnswer.properties.decimals).toEqual(0);
     });
   });
 

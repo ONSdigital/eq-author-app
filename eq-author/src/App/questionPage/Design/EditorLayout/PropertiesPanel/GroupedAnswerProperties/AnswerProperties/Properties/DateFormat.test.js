@@ -1,8 +1,9 @@
 import React from "react";
-
-import DateFormat from "App/questionPage/Design/AnswerProperties/Properties/DateFormat";
 import { shallow, mount } from "enzyme";
+
 import { Select } from "components/Forms";
+
+import DateFormat from "./DateFormat";
 
 const createWrapper = (props = {}, render = shallow) => {
   return render(<DateFormat {...props} />);

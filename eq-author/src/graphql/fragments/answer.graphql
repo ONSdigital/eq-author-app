@@ -6,4 +6,5 @@ fragment Answer on Answer {
   secondaryLabel
   type
   properties
+  displayName
 }

@@ -16,6 +16,7 @@ describe("Date", () => {
           secondaryLabel: null,
           type: "Date",
           properties: {},
+          displayName: "Displayname",
         }}
       />
     );

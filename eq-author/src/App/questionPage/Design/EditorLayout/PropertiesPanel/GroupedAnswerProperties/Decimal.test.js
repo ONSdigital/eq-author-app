@@ -1,7 +1,7 @@
 import React from "react";
-
-import Decimal from "App/questionPage/Design/AnswerProperties/Properties/Decimal";
 import { shallow } from "enzyme";
+
+import Decimal from "./Decimal";
 
 const createWrapper = (props = {}, render = shallow) => {
   return render(<Decimal {...props} />);

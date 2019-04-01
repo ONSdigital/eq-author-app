@@ -4,7 +4,7 @@ import {
   addAnswerType,
   assertHash,
   typeIntoDraftEditor,
-  findByLabel,
+  findInputByLabel,
   addSection,
   addQuestionPage,
   testId,
@@ -526,9 +526,9 @@ describe("builder", () => {
 
     cy.get(testId("btn-move")).click();
 
-    findByLabel("Position").click();
+    findInputByLabel("Position").click();
     cy.get(testId("item-select-modal-form")).within(() => {
-      findByLabel("Page 0").click();
+      findInputByLabel("Page 0").click();
     });
 
     cy.get(testId("item-select-modal-form")).submit();
@@ -550,7 +550,7 @@ describe("builder", () => {
 
     cy.get(testId("btn-move")).click();
 
-    findByLabel("Section").click();
+    findInputByLabel("Section").click();
 
     cy.get(testId("item-select-modal-form")).within(() => {
       cy.get("label")
@@ -559,7 +559,7 @@ describe("builder", () => {
     });
     cy.get(testId("item-select-modal-form")).submit();
 
-    findByLabel("Position").click();
+    findInputByLabel("Position").click();
 
     cy.get(testId("item-select-modal-form")).within(() => {
       cy.get("label")
@@ -606,7 +606,7 @@ describe("builder", () => {
 
     cy.get(testId("btn-move")).click();
 
-    findByLabel("Position").click();
+    findInputByLabel("Position").click();
 
     cy.get(testId("item-select-modal-form")).within(() => {
       cy.get("label")

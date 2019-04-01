@@ -1,0 +1,6 @@
+mutation UpdateAnswersOfType($input: UpdateAnswersOfTypeInput!) {
+  updateAnswersOfType(input: $input) {
+    id
+    properties
+  }
+}
