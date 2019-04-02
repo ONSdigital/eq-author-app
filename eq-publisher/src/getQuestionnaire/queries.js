@@ -172,6 +172,7 @@ exports.getQuestionnaire = `
             id
             title
             description
+            descriptionEnabled
             guidance
             guidanceEnabled
             definitionLabel

@@ -40,6 +40,7 @@ describe("End to end", () => {
       alias: "1.1",
       title:
         "In which geographic markets did Enterprise Ltd offer goods and / or services?",
+      description: "Here is the question description",
       answer: {
         type: "Checkbox",
         options: [
