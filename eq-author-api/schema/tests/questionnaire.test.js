@@ -1,4 +1,4 @@
-const { last } = require("lodash");
+const { last, findIndex } = require("lodash");
 
 const { SOCIAL, BUSINESS } = require("../../constants/questionnaireTypes");
 
@@ -12,6 +12,7 @@ const {
   queryQuestionnaire,
   updateQuestionnaire,
   deleteQuestionnaire,
+  listQuestionnaires,
 } = require("../../tests/utils/questionnaireBuilder/questionnaire");
 
 describe("questionnaire", () => {
@@ -180,6 +181,24 @@ describe("questionnaire", () => {
       expect(last(queriedQuestionnaire.metadata).id).toEqual(
         last(questionnaire.metadata).id
       );
+    });
+  });
+
+  describe("list questionnaires", () => {
+    it("should order then newest to oldest", async () => {
+      const oldestQuestionnaire = await buildQuestionnaire({});
+      const newestQuestionnaire = await buildQuestionnaire({});
+
+      const questionnnaires = await listQuestionnaires();
+      const oldestIndex = findIndex(
+        questionnnaires,
+        q => q.id === oldestQuestionnaire.id
+      );
+      const newestIndex = findIndex(
+        questionnnaires,
+        q => q.id === newestQuestionnaire.id
+      );
+      expect(oldestIndex > newestIndex).toEqual(true);
     });
   });
 

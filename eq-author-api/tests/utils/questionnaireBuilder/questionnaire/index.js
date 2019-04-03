@@ -4,4 +4,5 @@ module.exports = {
   ...require("./duplicateQuestionnaire"),
   ...require("./updateQuestionnaire"),
   ...require("./queryQuestionnaire"),
+  ...require("./listQuestionnaires"),
 };
