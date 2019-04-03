@@ -121,14 +121,24 @@ export class Menu extends React.Component {
   }
 }
 
-const calculateEntityName = ({ pageId, confirmationId }) => {
+const calculateEntityName = ({
+  sectionId,
+  pageId,
+  confirmationId,
+  introductionId,
+}) => {
   if (confirmationId) {
     return "questionConfirmation";
   }
   if (pageId) {
     return "page";
   }
-  return "section";
+  if (sectionId) {
+    return "section";
+  }
+  if (introductionId) {
+    return "questionnaireIntroduction";
+  }
 };
 
 export const UnwrappedPipingMenu = props => {
@@ -142,6 +152,7 @@ export const UnwrappedPipingMenu = props => {
       pageId={props.match.params.pageId}
       sectionId={props.match.params.sectionId}
       confirmationId={props.match.params.confirmationId}
+      introductionId={props.match.params.introductionId}
     >
       {({ data = {}, ...innerProps }) => {
         const entityName = calculateEntityName(props.match.params);

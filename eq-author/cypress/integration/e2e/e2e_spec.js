@@ -29,7 +29,7 @@ describe("End to end", () => {
   it("Can create a questionnaire", () => {
     cy.visit("/");
     cy.login();
-    questionnaire.add({ title: "UKIS" }).then(({ id }) => {
+    questionnaire.add({ title: "UKIS", type: "Business" }).then(({ id }) => {
       questionnaireId = id;
     });
     section.updateInitial({

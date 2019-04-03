@@ -50,6 +50,7 @@ describe("Routing", () => {
     title = "Test no routing rules";
 
     cy.createQuestionnaire(title);
+    cy.contains("Untitled Page").click();
 
     typeIntoDraftEditor(testId("txt-question-title", "testid"), "Question 1");
     buildMultipleChoiceAnswer(["A", "B", "C"]);
@@ -67,6 +68,7 @@ describe("Routing", () => {
     title = "Test routing destination";
 
     cy.createQuestionnaire(title);
+    cy.contains("Untitled Page").click();
 
     typeIntoDraftEditor(testId("txt-question-title", "testid"), "Question 1");
     buildMultipleChoiceAnswer(["A", "B", "C"]);
@@ -99,6 +101,7 @@ describe("Routing", () => {
     it(`should be able to add a ${type} routing rule and edit the inputs`, () => {
       title = `Test add ${type}`;
       cy.createQuestionnaire(title);
+      cy.contains("Untitled Page").click();
       typeIntoDraftEditor(testId("txt-question-title", "testid"), "Question 1");
 
       addAnswerType(type);
@@ -116,6 +119,7 @@ describe("Routing", () => {
   it("follows the link to add an answer and routing updates with the new answer", () => {
     title = "Test no answer";
     cy.createQuestionnaire(title);
+    cy.contains("Untitled Page").click();
 
     typeIntoDraftEditor(testId("txt-question-title", "testid"), "Question 1");
 
@@ -150,9 +154,7 @@ describe("Routing", () => {
     title = "Test OR rules";
 
     cy.createQuestionnaire(title);
-    cy.get(testId("nav-section-link"))
-      .first()
-      .click();
+    cy.contains("Untitled Section").click();
     typeIntoDraftEditor(testId("txt-section-title", "testid"), "Section 1");
 
     cy.get(testId("nav-page-link"))
@@ -253,6 +255,7 @@ describe("Routing", () => {
     title = "Test future question";
 
     cy.createQuestionnaire(title);
+    cy.contains("Untitled Page").click();
 
     typeIntoDraftEditor(testId("txt-question-title", "testid"), "Question 1");
     buildMultipleChoiceAnswer(["A", "B", "C"]);

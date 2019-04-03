@@ -9,7 +9,6 @@ const CustomPropTypes = {
   questionnaire: PropTypes.shape({
     id: PropTypes.string,
     description: PropTypes.string,
-    legalBasis: PropTypes.string,
     theme: PropTypes.string,
     title: PropTypes.string,
     navigation: PropTypes.bool,

@@ -6,11 +6,7 @@ import gql from "graphql-tag";
 import fp from "lodash/fp";
 
 import CustomPropTypes from "custom-prop-types";
-import DeleteButton from "components/buttons/DeleteButton";
 
-import MultipleChoiceAnswer from "App/page/Design/answers/MultipleChoiceAnswer";
-import DateRange from "App/page/Design/answers/DateRange";
-import Date from "App/page/Design/answers/Date";
 import {
   TEXTFIELD,
   NUMBER,
@@ -21,13 +17,14 @@ import {
   RADIO,
   DATE_RANGE,
 } from "constants/answer-types";
-import CurrencyAnswer from "App/page/Design/answers/CurrencyAnswer";
 import Tooltip from "components/Forms/Tooltip";
-import BasicAnswer from "App/page/Design/answers/BasicAnswer";
+import DeleteButton from "components/buttons/DeleteButton";
+import MoveButton, { IconUp, IconDown } from "components/buttons/MoveButton";
 
-import MoveButton from "./MoveButton";
-import IconUp from "./icon-arrow-up.svg?inline";
-import IconDown from "./icon-arrow-down.svg?inline";
+import MultipleChoiceAnswer from "App/page/Design/answers/MultipleChoiceAnswer";
+import DateRange from "App/page/Design/answers/DateRange";
+import Date from "App/page/Design/answers/Date";
+import BasicAnswer from "App/page/Design/answers/BasicAnswer";
 
 const Answer = styled.div`
   border: 1px solid ${colors.bordersLight};
@@ -38,6 +35,7 @@ const Answer = styled.div`
     border-color: ${colors.blue};
     box-shadow: 0 0 0 1px ${colors.blue};
   }
+  margin: 1em 2em;
 `;
 
 const AnswerHeader = styled.div`
@@ -91,11 +89,8 @@ class AnswerEditor extends React.Component {
     if ([TEXTFIELD, TEXTAREA].includes(type)) {
       return <BasicAnswer {...this.props} />;
     }
-    if ([PERCENTAGE, NUMBER].includes(type)) {
+    if ([PERCENTAGE, NUMBER, CURRENCY].includes(type)) {
       return <BasicAnswer {...this.props} showDescription />;
-    }
-    if (type === CURRENCY) {
-      return <CurrencyAnswer {...this.props} />;
     }
     if (type === CHECKBOX) {
       return <MultipleChoiceAnswer type={answer.type} {...this.props} />;

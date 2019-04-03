@@ -1,7 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
 
-import MoveButton from "./MoveButton";
+import MoveButton from ".";
 
 describe("MoveButton", () => {
   it("should render", () => {

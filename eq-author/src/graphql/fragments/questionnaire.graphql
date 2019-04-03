@@ -4,7 +4,6 @@ fragment Questionnaire on Questionnaire {
   description
   surveyId
   theme
-  legalBasis
   navigation
   summary
   type

@@ -91,6 +91,20 @@ describe("QuestionnaireDesignPage", () => {
     expect(wrapper.instance().renderRedirect()).toMatchSnapshot();
   });
 
+  it("should redirect to the introduction if it has one", () => {
+    wrapper.setProps({
+      data: {
+        questionnaire: {
+          ...questionnaire,
+          introduction: {
+            id: "1",
+          },
+        },
+      },
+    });
+    expect(wrapper.instance().renderRedirect()).toMatchSnapshot();
+  });
+
   describe("onAddQuestionPage", () => {
     it("should add new page below current page", () => {
       wrapper.find(NavigationSidebar).simulate("addQuestionPage");

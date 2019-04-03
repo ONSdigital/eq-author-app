@@ -3,17 +3,17 @@ import {
   mapMutateToProps,
   updateQuestionnaireList,
 } from "App/QuestionnairesPage/withCreateQuestionnaire";
-import { buildPagePath } from "utils/UrlUtils";
+import { buildPagePath, buildIntroductionPath } from "utils/UrlUtils";
 import getQuestionnaireList from "graphql/getQuestionnaireList.graphql";
 
 describe("withCreateQuestionnaire", () => {
-  let history, mutate, results, user;
-
-  const page = { id: "3" };
-  const section = { id: "2", pages: [page] };
-  const questionnaire = { id: "1", sections: [section] };
+  let history, mutate, results, user, page, section, questionnaire;
 
   beforeEach(() => {
+    page = { id: "3" };
+    section = { id: "2", pages: [page] };
+    questionnaire = { id: "1", sections: [section] };
+
     results = {
       data: { createQuestionnaire: questionnaire },
     };
@@ -30,13 +30,26 @@ describe("withCreateQuestionnaire", () => {
   });
 
   describe("redirectToDesigner", () => {
+    it("should redirect to the introduction if it has one", () => {
+      results.data.createQuestionnaire.introduction = {
+        id: "4",
+      };
+      redirectToDesigner(history)(results);
+
+      expect(history.push).toHaveBeenCalledWith(
+        buildIntroductionPath({
+          questionnaireId: questionnaire.id,
+          introductionId: "4",
+        })
+      );
+    });
+
     it("should redirect to correct location", () => {
       redirectToDesigner(history)(results);
 
       expect(history.push).toHaveBeenCalledWith(
         buildPagePath({
           questionnaireId: questionnaire.id,
-          sectionId: section.id,
           pageId: page.id,
         })
       );

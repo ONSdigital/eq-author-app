@@ -1,17 +1,27 @@
 import { graphql } from "react-apollo";
 import createQuestionnaireQuery from "graphql/createQuestionnaire.graphql";
 import getQuestionnaireList from "graphql/getQuestionnaireList.graphql";
-import { buildPagePath } from "utils/UrlUtils";
+import { buildPagePath, buildIntroductionPath } from "utils/UrlUtils";
 
 export const redirectToDesigner = history => ({ data }) => {
   const questionnaire = data.createQuestionnaire;
+
+  if (questionnaire.introduction) {
+    history.push(
+      buildIntroductionPath({
+        questionnaireId: questionnaire.id,
+        introductionId: questionnaire.introduction.id,
+      })
+    );
+    return;
+  }
+
   const section = questionnaire.sections[0];
   const page = section.pages[0];
 
   history.push(
     buildPagePath({
       questionnaireId: questionnaire.id,
-      sectionId: section.id,
       pageId: page.id,
     })
   );

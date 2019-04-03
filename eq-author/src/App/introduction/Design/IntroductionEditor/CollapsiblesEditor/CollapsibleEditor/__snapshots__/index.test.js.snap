@@ -1,0 +1,70 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CollapsibleEditor should render 1`] = `
+<CollapsibleEditor__Detail
+  data-test="collapsible-editor"
+  id="1"
+>
+  <CollapsibleEditor__DetailHeader>
+    <MoveButton
+      data-test="move-up-btn"
+      disabled={true}
+      onClick={[MockFunction]}
+    >
+      <Component />
+    </MoveButton>
+    <MoveButton
+      data-test="move-down-btn"
+      disabled={true}
+      onClick={[MockFunction]}
+    >
+      <Component />
+    </MoveButton>
+    <CollapsibleEditor__DetailDeleteButton
+      data-test="delete-collapsible-btn"
+      disabled={false}
+      onClick={[Function]}
+    />
+  </CollapsibleEditor__DetailHeader>
+  <Field
+    disabled={false}
+    last={false}
+  >
+    <Label
+      bold={true}
+      htmlFor="details-title-1"
+    >
+      Title
+    </Label>
+    <withChangeHandler(WrappingInput)
+      bold={true}
+      data-test="txt-collapsible-title"
+      id="details-title-1"
+      name="title"
+      onBlur={[MockFunction]}
+      onChange={[MockFunction]}
+      value="title"
+    />
+  </Field>
+  <RichTextEditor
+    autoFocus={false}
+    controls={
+      Object {
+        "bold": true,
+        "emphasis": true,
+        "list": true,
+        "piping": true,
+      }
+    }
+    disabled={false}
+    id="details-description-1"
+    label="Description"
+    multiline={true}
+    name="description"
+    onUpdate={[MockFunction]}
+    placeholder=""
+    testSelector="txt-collapsible-description"
+    value="description"
+  />
+</CollapsibleEditor__Detail>
+`;

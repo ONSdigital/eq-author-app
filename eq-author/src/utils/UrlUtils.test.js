@@ -3,6 +3,7 @@ import {
   buildSectionPath,
   buildPagePath,
   buildConfirmationPath,
+  buildIntroductionPath,
   buildDesignPath,
   buildPreviewPath,
   buildRoutingPath,
@@ -12,6 +13,7 @@ const questionnaireId = "1";
 const sectionId = "2";
 const pageId = "3";
 const confirmationId = "4";
+const introductionId = "5";
 
 describe("buildQuestionnairePath", () => {
   it("builds a valid path", () => {
@@ -101,6 +103,36 @@ describe("buildConfirmationPath", () => {
   });
 });
 
+describe("buildIntroductionPath", () => {
+  it("builds a valid path", () => {
+    const path = buildIntroductionPath({
+      questionnaireId,
+      introductionId,
+      tab: "preview",
+    });
+    expect(path).toEqual(
+      `/q/${questionnaireId}/introduction/${introductionId}/preview`
+    );
+  });
+
+  it("throws if any param not supplied", () => {
+    expect(() => buildIntroductionPath({})).toThrow();
+    expect(() => buildIntroductionPath({ questionnaireId })).toThrow();
+    expect(() => buildIntroductionPath({ introductionId })).toThrow();
+  });
+
+  it("rejects invalid tabs", () => {
+    const path = buildIntroductionPath({
+      questionnaireId,
+      introductionId,
+      tab: "routing",
+    });
+    expect(path).toEqual(
+      `/q/${questionnaireId}/introduction/${introductionId}/design`
+    );
+  });
+});
+
 describe("buildDesignPath", () => {
   it("builds a page design path", () => {
     const path = buildDesignPath({
@@ -128,6 +160,17 @@ describe("buildDesignPath", () => {
     });
     expect(path).toEqual(
       `/q/${questionnaireId}/question-confirmation/${confirmationId}/design`
+    );
+  });
+
+  it("builds an introduction design path", () => {
+    const path = buildDesignPath({
+      questionnaireId,
+      introductionId,
+      tab: "preview",
+    });
+    expect(path).toEqual(
+      `/q/${questionnaireId}/introduction/${introductionId}/design`
     );
   });
 });
@@ -159,6 +202,17 @@ describe("buildPreviewPath", () => {
     });
     expect(path).toEqual(
       `/q/${questionnaireId}/question-confirmation/${confirmationId}/preview`
+    );
+  });
+
+  it("builds an introduction Preview path", () => {
+    const path = buildPreviewPath({
+      questionnaireId,
+      introductionId,
+      tab: "preview",
+    });
+    expect(path).toEqual(
+      `/q/${questionnaireId}/introduction/${introductionId}/preview`
     );
   });
 });

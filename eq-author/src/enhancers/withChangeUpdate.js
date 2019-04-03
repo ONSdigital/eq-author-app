@@ -9,6 +9,9 @@ const withChangeUpdate = WrappedComponent => {
     };
     static fragments = WrappedComponent.fragments;
 
+    static fragments = WrappedComponent.fragments;
+    static displayName = `withChangeUpdate(${WrappedComponent.displayName})`;
+
     handleUpdate = update => this.props.onChange(update, this.props.onUpdate);
 
     render() {

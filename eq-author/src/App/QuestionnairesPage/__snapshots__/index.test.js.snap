@@ -31,7 +31,6 @@ exports[`components/QuestionnairesPage should not render table whilst data is lo
           questionnaire={
             Object {
               "description": "",
-              "legalBasis": "StatisticsOfTradeAct",
               "navigation": false,
               "surveyId": "",
               "theme": "default",
@@ -233,7 +232,6 @@ exports[`components/QuestionnairesPage should render table when there are questi
           questionnaire={
             Object {
               "description": "",
-              "legalBasis": "StatisticsOfTradeAct",
               "navigation": false,
               "surveyId": "",
               "theme": "default",
@@ -450,7 +448,6 @@ exports[`components/QuestionnairesPage should render when there are no questionn
           questionnaire={
             Object {
               "description": "",
-              "legalBasis": "StatisticsOfTradeAct",
               "navigation": false,
               "surveyId": "",
               "theme": "default",

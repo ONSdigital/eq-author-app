@@ -413,7 +413,6 @@ describe("Question", () => {
         expect.objectContaining({
           minimum: {
             value: "2017-02-17",
-
             offset_by: {
               days: -4,
             },
@@ -424,7 +423,6 @@ describe("Question", () => {
         expect.objectContaining({
           maximum: {
             value: "2018-02-17",
-
             offset_by: {
               years: 10,
             },

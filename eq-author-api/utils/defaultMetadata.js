@@ -1,6 +1,5 @@
 const uuid = require("uuid");
-const { includes } = require("lodash");
-const { filter, flow, map } = require("lodash/fp");
+const { includes, filter } = require("lodash");
 
 const defaultTypeValueNames = {
   Date: "dateValue",
@@ -97,29 +96,29 @@ const defaultValues = [
   },
 ];
 
-const defaultBusinessSurveyMetadata = flow(
-  filter(({ key }) =>
-    includes(
-      [
-        "ru_name",
-        "trad_as",
-        "ref_p_start_date",
-        "ref_p_end_date",
-        "period_id",
-        "employmentDate",
-      ],
-      key
-    )
-  ),
-  map(metadata => ({
+const DEFAULT_BUSINESS_SURVEY_METADATA = filter(defaultValues, ({ key }) =>
+  includes(
+    [
+      "ru_name",
+      "trad_as",
+      "ref_p_start_date",
+      "ref_p_end_date",
+      "period_id",
+      "employmentDate",
+    ],
+    key
+  )
+);
+
+const createDefaultBusinessSurveyMetadata = () =>
+  DEFAULT_BUSINESS_SURVEY_METADATA.map(metadata => ({
     id: uuid.v4(),
     ...metadata,
-  }))
-)(defaultValues);
+  }));
 
 Object.assign(module.exports, {
   defaultTypeValueNames,
   defaultTypeValues,
   defaultValues,
-  defaultBusinessSurveyMetadata,
+  createDefaultBusinessSurveyMetadata,
 });

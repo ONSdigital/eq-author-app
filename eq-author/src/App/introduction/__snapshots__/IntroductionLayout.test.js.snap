@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`IntroductionLayout should render 1`] = `
+<GetContext
+  title={[Function]}
+>
+  <EditorLayout
+    preview={true}
+  >
+    <IntroductionLayout__Padding>
+      <div />
+    </IntroductionLayout__Padding>
+  </EditorLayout>
+</GetContext>
+`;

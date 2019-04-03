@@ -245,6 +245,7 @@ exports[`components/RichTextEditor should allow multiline input 1`] = `
             },
           ]
         }
+        readOnly={false}
         spellCheck={true}
         webDriverTestID="test-selector-foo"
       />
@@ -500,6 +501,7 @@ exports[`components/RichTextEditor should render 1`] = `
             },
           ]
         }
+        readOnly={false}
         spellCheck={true}
         webDriverTestID="test-selector-foo"
       />
@@ -861,6 +863,263 @@ exports[`components/RichTextEditor should render existing content 1`] = `
             },
           ]
         }
+        readOnly={false}
+        spellCheck={true}
+        webDriverTestID="test-selector-foo"
+      />
+    </RichTextEditor__Input>
+  </Field>
+</RichTextEditor__Wrapper>
+`;
+
+exports[`components/RichTextEditor should show as disabled and readonly when disabled 1`] = `
+<RichTextEditor__Wrapper
+  size="small"
+>
+  <Field
+    data-test="rte-field"
+    disabled={true}
+    last={false}
+    onBlur={[Function]}
+    onClick={[Function]}
+    onFocus={[Function]}
+    onMouseDown={[Function]}
+  >
+    <Label
+      bold={true}
+      id="label-test"
+    >
+      I am a label
+    </Label>
+    <RichTextEditor__Input
+      placeholderStyle="unstyled"
+    >
+      <ToolBar
+        autoFocus={false}
+        controls={Object {}}
+        editorState={
+          EditorState {
+            "_immutable": Immutable.Record {
+              "allowUndo": true,
+              "currentContent": Immutable.Record {
+                "entityMap": Object {
+                  "__add": [Function],
+                  "__create": [Function],
+                  "__get": [Function],
+                  "__getLastCreatedEntityKey": [Function],
+                  "__mergeData": [Function],
+                  "__replaceData": [Function],
+                  "add": [Function],
+                  "create": [Function],
+                  "get": [Function],
+                  "getLastCreatedEntityKey": [Function],
+                  "mergeData": [Function],
+                  "replaceData": [Function],
+                },
+                "blockMap": Immutable.OrderedMap {
+                  "123": Immutable.Record {
+                    "key": "123",
+                    "type": "unstyled",
+                    "text": "",
+                    "characterList": Immutable.List [],
+                    "depth": 0,
+                    "data": Immutable.Map {},
+                  },
+                },
+                "selectionBefore": Immutable.Record {
+                  "anchorKey": "123",
+                  "anchorOffset": 0,
+                  "focusKey": "123",
+                  "focusOffset": 0,
+                  "isBackward": false,
+                  "hasFocus": false,
+                },
+                "selectionAfter": Immutable.Record {
+                  "anchorKey": "123",
+                  "anchorOffset": 0,
+                  "focusKey": "123",
+                  "focusOffset": 0,
+                  "isBackward": false,
+                  "hasFocus": false,
+                },
+              },
+              "decorator": CompositeDraftDecorator {
+                "_decorators": Array [
+                  Object {
+                    "component": [Function],
+                    "strategy": [Function],
+                  },
+                ],
+              },
+              "directionMap": Immutable.OrderedMap {
+                "123": "LTR",
+              },
+              "forceSelection": false,
+              "inCompositionMode": false,
+              "inlineStyleOverride": null,
+              "lastChangeType": null,
+              "nativelyRenderedContent": null,
+              "redoStack": Immutable.Stack [],
+              "selection": Immutable.Record {
+                "anchorKey": "123",
+                "anchorOffset": 0,
+                "focusKey": "123",
+                "focusOffset": 0,
+                "isBackward": false,
+                "hasFocus": false,
+              },
+              "treeMap": Immutable.OrderedMap {
+                "123": Immutable.List [
+                  Immutable.Record {
+                    "start": 0,
+                    "end": 0,
+                    "decoratorKey": null,
+                    "leaves": Immutable.List [
+                      Immutable.Record {
+                        "start": 0,
+                        "end": 0,
+                      },
+                    ],
+                  },
+                ],
+              },
+              "undoStack": Immutable.Stack [],
+            },
+          }
+        }
+        isActiveControl={[Function]}
+        name="test-name"
+        onPiping={[Function]}
+        onToggle={[Function]}
+        onUpdate={[MockFunction]}
+        selectionIsCollapsed={true}
+        testId="test-selector-foo-toolbar"
+        visible={false}
+      />
+      <PluginEditor
+        ariaLabel="I am a label"
+        ariaLabelledBy="label-test"
+        blockStyleFn={[Function]}
+        customStyleMap={
+          Object {
+            "ITALIC": Object {
+              "backgroundColor": "#cbe2c8",
+            },
+          }
+        }
+        decorators={
+          Array [
+            Object {
+              "component": [Function],
+              "strategy": [Function],
+            },
+          ]
+        }
+        defaultBlockRenderMap={true}
+        defaultKeyBindings={true}
+        defaultKeyCommands={true}
+        editorState={
+          EditorState {
+            "_immutable": Immutable.Record {
+              "allowUndo": true,
+              "currentContent": Immutable.Record {
+                "entityMap": Object {
+                  "__add": [Function],
+                  "__create": [Function],
+                  "__get": [Function],
+                  "__getLastCreatedEntityKey": [Function],
+                  "__mergeData": [Function],
+                  "__replaceData": [Function],
+                  "add": [Function],
+                  "create": [Function],
+                  "get": [Function],
+                  "getLastCreatedEntityKey": [Function],
+                  "mergeData": [Function],
+                  "replaceData": [Function],
+                },
+                "blockMap": Immutable.OrderedMap {
+                  "123": Immutable.Record {
+                    "key": "123",
+                    "type": "unstyled",
+                    "text": "",
+                    "characterList": Immutable.List [],
+                    "depth": 0,
+                    "data": Immutable.Map {},
+                  },
+                },
+                "selectionBefore": Immutable.Record {
+                  "anchorKey": "123",
+                  "anchorOffset": 0,
+                  "focusKey": "123",
+                  "focusOffset": 0,
+                  "isBackward": false,
+                  "hasFocus": false,
+                },
+                "selectionAfter": Immutable.Record {
+                  "anchorKey": "123",
+                  "anchorOffset": 0,
+                  "focusKey": "123",
+                  "focusOffset": 0,
+                  "isBackward": false,
+                  "hasFocus": false,
+                },
+              },
+              "decorator": CompositeDraftDecorator {
+                "_decorators": Array [
+                  Object {
+                    "component": [Function],
+                    "strategy": [Function],
+                  },
+                ],
+              },
+              "directionMap": Immutable.OrderedMap {
+                "123": "LTR",
+              },
+              "forceSelection": false,
+              "inCompositionMode": false,
+              "inlineStyleOverride": null,
+              "lastChangeType": null,
+              "nativelyRenderedContent": null,
+              "redoStack": Immutable.Stack [],
+              "selection": Immutable.Record {
+                "anchorKey": "123",
+                "anchorOffset": 0,
+                "focusKey": "123",
+                "focusOffset": 0,
+                "isBackward": false,
+                "hasFocus": false,
+              },
+              "treeMap": Immutable.OrderedMap {
+                "123": Immutable.List [
+                  Immutable.Record {
+                    "start": 0,
+                    "end": 0,
+                    "decoratorKey": null,
+                    "leaves": Immutable.List [
+                      Immutable.Record {
+                        "start": 0,
+                        "end": 0,
+                      },
+                    ],
+                  },
+                ],
+              },
+              "undoStack": Immutable.Stack [],
+            },
+          }
+        }
+        handlePastedText={[Function]}
+        handleReturn={[Function]}
+        onChange={[Function]}
+        placeholder=""
+        plugins={
+          Array [
+            Object {
+              "handleReturn": [Function],
+            },
+          ]
+        }
+        readOnly={true}
         spellCheck={true}
         webDriverTestID="test-selector-foo"
       />

@@ -24,9 +24,16 @@ module.exports = function ${name}(questionnaire) {
 };
 `;
 
-const testTemplate = `const ${name} = require("./${filename}");
+const testTemplate = `const { cloneDeep } = require("lodash");
+const ${name} = require("./${filename}");
 
 describe("${name}", () => {
+  // This test must remain for your migration to always work
+  it("should be deterministic", () => {
+    const questionnaire = {}; // Fill in the structure of the questionnaire here
+    expect(${name}(cloneDeep(questionnaire))).toEqual(${name}(cloneDeep(questionnaire)));
+  });
+
   it.todo("should...");
 });
 

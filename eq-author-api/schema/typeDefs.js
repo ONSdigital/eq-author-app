@@ -29,7 +29,6 @@ type Questionnaire {
   title: String
   description: String
   theme: Theme
-  legalBasis: LegalBasis
   navigation: Boolean
   surveyId: String
   createdAt: Date
@@ -41,6 +40,7 @@ type Questionnaire {
   type: QuestionnaireType!
   shortTitle: String
   displayName: String!
+  introduction: QuestionnaireIntroduction
 }
 
 type Section {
@@ -321,11 +321,6 @@ enum AnswerType {
   Relationship
 }
 
-enum LegalBasis {
-  Voluntary
-  StatisticsOfTradeAct
-}
-
 enum Theme {
   default
   census
@@ -441,6 +436,33 @@ type BinaryExpression2 {
   expressionGroup: ExpressionGroup2!
 }
 
+enum LegalBasis {
+  NOTICE_1
+  NOTICE_2
+  VOLUNTARY
+}
+
+type Collapsible {
+  id: ID!
+  title: String!
+  description: String!
+  introduction: QuestionnaireIntroduction!
+}
+
+type QuestionnaireIntroduction {
+  id: ID!
+  title: String!
+  description: String!
+  legalBasis: LegalBasis!
+  secondaryTitle: String!
+  secondaryDescription: String!
+  collapsibles: [Collapsible!]!
+  tertiaryTitle: String!
+  tertiaryDescription: String!
+  availablePipingAnswers: [Answer!]!
+  availablePipingMetadata: [Metadata!]!
+}
+
 type Query {
   questionnaires: [Questionnaire]
   questionnaire(input: QueryInput!): Questionnaire
@@ -451,6 +473,7 @@ type Query {
   option(input: QueryInput!): Option
   pagesAffectedByDeletion(pageId: ID!): [Page]! @deprecated(reason: "Not implemented")
   questionConfirmation(id: ID!): QuestionConfirmation
+  questionnaireIntroduction(id: ID!): QuestionnaireIntroduction
   me: User!
 }
 
@@ -508,6 +531,11 @@ type Mutation {
   updateLeftSide2(input: UpdateLeftSide2Input!): BinaryExpression2!
   updateRightSide2(input: UpdateRightSide2Input!): BinaryExpression2!
   deleteBinaryExpression2(input: DeleteBinaryExpression2Input!): ExpressionGroup2!
+  updateQuestionnaireIntroduction(input: UpdateQuestionnaireIntroductionInput): QuestionnaireIntroduction!
+  createCollapsible(input: CreateCollapsibleInput!): Collapsible!
+  updateCollapsible(input: UpdateCollapsibleInput!): Collapsible!
+  moveCollapsible(input: MoveCollapsibleInput!): Collapsible!
+  deleteCollapsible(input: DeleteCollapsibleInput!): QuestionnaireIntroduction!
 }
 
 input CreateRouting2Input {
@@ -575,7 +603,6 @@ input CreateQuestionnaireInput {
   title: String!
   description: String
   theme: String!
-  legalBasis: LegalBasis!
   navigation: Boolean
   surveyId: String!
   summary: Boolean
@@ -864,4 +891,35 @@ input DeleteQuestionConfirmationInput {
   id: ID!
 }
 
+input UpdateQuestionnaireIntroductionInput {
+  id: ID!
+  title: String!
+  description: String!
+  legalBasis: LegalBasis!
+  secondaryTitle: String!
+  secondaryDescription: String!
+  tertiaryTitle: String!
+  tertiaryDescription: String!
+}
+
+input CreateCollapsibleInput {
+  introductionId: ID!
+  title: String
+  description: String
+}
+
+input UpdateCollapsibleInput {
+  id: ID!
+  title: String!
+  description: String!
+}
+
+input MoveCollapsibleInput {
+  id: ID!
+  position: Int!
+}
+
+input DeleteCollapsibleInput {
+  id: ID!
+}
 `;

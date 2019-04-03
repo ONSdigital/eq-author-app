@@ -14,7 +14,6 @@ const defaultQuestionnaire = {
   description: "",
   surveyId: "",
   theme: "default",
-  legalBasis: "StatisticsOfTradeAct",
   navigation: false,
 };
 

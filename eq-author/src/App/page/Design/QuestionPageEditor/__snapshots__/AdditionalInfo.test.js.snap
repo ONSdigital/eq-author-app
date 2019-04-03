@@ -43,6 +43,7 @@ exports[`AdditionalInfo should render 1`] = `
             "piping": true,
           }
         }
+        disabled={false}
         fetchAnswers={[MockFunction]}
         id="additional-info-content"
         label="Content"

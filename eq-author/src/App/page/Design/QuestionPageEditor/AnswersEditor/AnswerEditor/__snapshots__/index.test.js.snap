@@ -260,7 +260,7 @@ exports[`Answer Editor should render Currency 1`] = `
     </AnswerEditor__Buttons>
   </AnswerEditor__AnswerHeader>
   <AnswerEditor__Padding>
-    <CurrencyAnswer
+    <Connect(withEntityEditor(StatelessBasicAnswer))
       answer={
         Object {
           "description": "",
@@ -280,6 +280,7 @@ exports[`Answer Editor should render Currency 1`] = `
       onMoveUp={[MockFunction]}
       onUpdate={[MockFunction]}
       onUpdateOption={[MockFunction]}
+      showDescription={true}
     />
   </AnswerEditor__Padding>
 </AnswerEditor__Answer>

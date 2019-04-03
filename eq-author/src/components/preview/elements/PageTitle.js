@@ -9,7 +9,7 @@ const Title = styled.h1`
   margin: 0 0 1em;
 `;
 
-const PageTitle = ({ title }) => {
+const PageTitle = ({ title, missingText = "Missing Page Title" }) => {
   let pageTitle = title && title.replace(/(<p[^>]+?>|<p>|<\/p>)/gim, "");
   return (
     <Title data-test="page-title">
@@ -18,7 +18,7 @@ const PageTitle = ({ title }) => {
         <div dangerouslySetInnerHTML={{ __html: pageTitle }} />
       ) : (
         <Error data-test="no-title" large>
-          Missing Page Title
+          {missingText}
         </Error>
       )}
     </Title>
@@ -27,6 +27,7 @@ const PageTitle = ({ title }) => {
 
 PageTitle.propTypes = {
   title: PropTypes.string,
+  missingText: PropTypes.string,
 };
 
 export default PageTitle;

@@ -13,5 +13,8 @@ mutation createQuestionnaire($input: CreateQuestionnaireInput!) {
         id
       }
     }
+    introduction {
+      id
+    }
   }
 }

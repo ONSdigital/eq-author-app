@@ -32,7 +32,6 @@ const moveSectionMock = {
         surveyId: "1",
         theme: "foo",
         type: "Social",
-        legalBasis: "",
         navigation: true,
         summary: "",
         displayName: "Display name",

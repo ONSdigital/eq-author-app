@@ -9,7 +9,6 @@ const duplicateQuestionnaireMutation = `
       displayName
       description
       theme
-      legalBasis
       navigation
       surveyId
       createdAt

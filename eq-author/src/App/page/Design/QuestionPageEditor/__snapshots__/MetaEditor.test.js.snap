@@ -10,6 +10,7 @@ exports[`MetaEditor should render 1`] = `
         "piping": true,
       }
     }
+    disabled={false}
     fetchAnswers={[MockFunction]}
     id="question-title"
     label="Question"
@@ -40,6 +41,7 @@ exports[`MetaEditor should render 1`] = `
             "piping": true,
           }
         }
+        disabled={false}
         fetchAnswers={[MockFunction]}
         id="question-description"
         label="Question description"
@@ -93,6 +95,7 @@ exports[`MetaEditor should render 1`] = `
               "piping": true,
             }
           }
+          disabled={false}
           fetchAnswers={[MockFunction]}
           id="definition-content"
           label="Content"
@@ -121,6 +124,7 @@ exports[`MetaEditor should render 1`] = `
             "piping": true,
           }
         }
+        disabled={false}
         fetchAnswers={[MockFunction]}
         id="question-guidance"
         label="Include/exclude"

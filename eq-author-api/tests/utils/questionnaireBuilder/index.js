@@ -15,22 +15,29 @@ const {
   deleteOption,
 } = require("./option");
 const { createCalculatedSummaryPage } = require("./page/calculatedSummary");
-
 const {
   createQuestionConfirmation,
   updateQuestionConfirmation,
 } = require("./questionConfirmation");
+const {
+  updateQuestionnaireIntroduction,
+} = require("./questionnaireIntroduction");
+const { createCollapsible } = require("./collapsible");
 
 const buildRouting = require("./buildRouting");
 
 //@todo - Split into smaller functions to avoid deeply nested chaining
 const buildQuestionnaire = async questionnaireConfig => {
-  const { sections, metadata, ...questionnaireProps } = questionnaireConfig;
+  const {
+    sections,
+    metadata,
+    introduction,
+    ...questionnaireProps
+  } = questionnaireConfig;
   const questionnaire = await createQuestionnaireReturningPersisted({
     title: "Questionnaire",
     surveyId: "1",
     theme: "default",
-    legalBasis: "Voluntary",
     navigation: false,
     type: SOCIAL,
     ...questionnaireProps,
@@ -121,6 +128,24 @@ const buildQuestionnaire = async questionnaireConfig => {
         await updateMetadata(questionnaire, {
           ...meta,
           id: createdMetadata.id,
+        });
+      }
+    }
+  }
+
+  if (introduction) {
+    const { collapsibles, ...introductionProps } = introduction;
+    if (Object.keys(introductionProps).length > 0) {
+      await updateQuestionnaireIntroduction(questionnaire, {
+        id: questionnaire.introduction.id,
+        ...introductionProps,
+      });
+    }
+    if (Array.isArray(collapsibles)) {
+      for (let i = 0; i < collapsibles.length; ++i) {
+        await createCollapsible(questionnaire, {
+          introductionId: questionnaire.introduction.id,
+          ...collapsibles[i],
         });
       }
     }

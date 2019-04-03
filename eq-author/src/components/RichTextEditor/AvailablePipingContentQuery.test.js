@@ -6,6 +6,7 @@ import AvailablePipingContentQuery, {
   GET_PIPING_CONTENT_PAGE,
   GET_PIPING_CONTENT_SECTION,
   GET_PIPING_CONTENT_QUESTION_CONFIRMATION,
+  GET_PIPING_CONTENT_INTRODUCTION,
 } from "components/RichTextEditor/AvailablePipingContentQuery";
 
 describe("Available Piping Content Query", () => {
@@ -13,6 +14,7 @@ describe("Available Piping Content Query", () => {
   const pageId = "2";
   const confirmationId = "3";
   const questionnaireId = "4";
+  const introductionId = "5";
 
   it("should make a query for section data when on a section page", () => {
     const wrapper = shallow(
@@ -32,7 +34,6 @@ describe("Available Piping Content Query", () => {
   it("should make a query for page data when on a question page", () => {
     const wrapper = shallow(
       <AvailablePipingContentQuery
-        sectionId={sectionId}
         pageId={pageId}
         questionnaireId={questionnaireId}
       >
@@ -48,8 +49,6 @@ describe("Available Piping Content Query", () => {
   it("should make a query for confirmation data when on a question confirmation page", () => {
     const wrapper = shallow(
       <AvailablePipingContentQuery
-        sectionId={sectionId}
-        pageId={pageId}
         confirmationId={confirmationId}
         questionnaireId={questionnaireId}
       >
@@ -59,6 +58,21 @@ describe("Available Piping Content Query", () => {
     expect(wrapper.find(Query).props()).toMatchObject({
       variables: { id: confirmationId },
       query: GET_PIPING_CONTENT_QUESTION_CONFIRMATION,
+    });
+  });
+
+  it("should make a query for introduction data when on an introduction page", () => {
+    const wrapper = shallow(
+      <AvailablePipingContentQuery
+        introductionId={introductionId}
+        questionnaireId={questionnaireId}
+      >
+        {() => {}}
+      </AvailablePipingContentQuery>
+    );
+    expect(wrapper.find(Query).props()).toMatchObject({
+      variables: { id: introductionId },
+      query: GET_PIPING_CONTENT_INTRODUCTION,
     });
   });
 });

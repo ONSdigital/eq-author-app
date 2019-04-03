@@ -1,6 +1,9 @@
 const { last } = require("lodash");
 
 const { BUSINESS, SOCIAL } = require("../constants/questionnaireTypes");
+const {
+  types: { NOTICE_1, VOLUNTARY },
+} = require("../constants/legalBases");
 
 const Questionnaire = require("./Questionnaire");
 const Summary = require("./block-types/Summary");
@@ -14,7 +17,6 @@ describe("Questionnaire", () => {
         title: "Quarterly Business Survey",
         description: "Quarterly Business Survey",
         type: BUSINESS,
-        legalBasis: "StatisticsOfTradeAct",
         navigation: false,
         surveyId: "0112",
         summary: true,
@@ -26,6 +28,10 @@ describe("Questionnaire", () => {
           },
         ],
         metadata: [],
+        introduction: {
+          legalBasis: NOTICE_1,
+          collapsibles: [],
+        },
       },
       questionnaire
     );
@@ -45,9 +51,26 @@ describe("Questionnaire", () => {
       title: "Quarterly Business Survey",
       theme: "default",
       sections: [expect.any(Section)],
-      legal_basis: "StatisticsOfTradeAct",
+      legal_basis:
+        "Notice is given under section 1 of the Statistics of Trade Act 1947.",
       metadata: expect.arrayContaining(Questionnaire.DEFAULT_METADATA),
     });
+  });
+
+  it("should not set a legal basis when there is no introduction", () => {
+    questionnaire = new Questionnaire(
+      createQuestionnaireJSON({ introduction: null })
+    );
+    expect(questionnaire.legal_basis).toEqual(undefined);
+  });
+
+  it("should not set a legal basis when the legal basis is voluntary", () => {
+    questionnaire = new Questionnaire(
+      createQuestionnaireJSON({
+        introduction: { legalBasis: VOLUNTARY, collapsibles: [] },
+      })
+    );
+    expect(questionnaire.legal_basis).toEqual(undefined);
   });
 
   it("should set the theme based on the type", () => {

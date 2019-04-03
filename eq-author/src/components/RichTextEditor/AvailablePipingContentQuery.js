@@ -7,7 +7,7 @@ import AvailableAnswers from "graphql/fragments/available-answers.graphql";
 import AvailableMetadata from "graphql/fragments/available-metadata.graphql";
 
 export const GET_PIPING_CONTENT_PAGE = gql`
-  query GetAvailablePipingContent($input: QueryInput!) {
+  query GetAvailablePipingContentForPage($input: QueryInput!) {
     page(input: $input) {
       id
       displayName
@@ -25,7 +25,7 @@ export const GET_PIPING_CONTENT_PAGE = gql`
 `;
 
 export const GET_PIPING_CONTENT_SECTION = gql`
-  query GetAvailablePipingContent($input: QueryInput!) {
+  query GetAvailablePipingContentForSection($input: QueryInput!) {
     section(input: $input) {
       id
       displayName
@@ -42,10 +42,26 @@ export const GET_PIPING_CONTENT_SECTION = gql`
 `;
 
 export const GET_PIPING_CONTENT_QUESTION_CONFIRMATION = gql`
-  query GetAvailablePipingContent($id: ID!) {
+  query GetAvailablePipingContentForQuestionConfirmation($id: ID!) {
     questionConfirmation(id: $id) {
       id
       displayName
+      availablePipingAnswers {
+        ...AvailableAnswers
+      }
+      availablePipingMetadata {
+        ...AvailableMetadata
+      }
+    }
+  }
+  ${AvailableAnswers}
+  ${AvailableMetadata}
+`;
+
+export const GET_PIPING_CONTENT_INTRODUCTION = gql`
+  query GetAvailablePipingContentForQuestionIntroduction($id: ID!) {
+    questionnaireIntroduction(id: $id) {
+      id
       availablePipingAnswers {
         ...AvailableAnswers
       }
@@ -63,6 +79,7 @@ const determineQuery = ({
   confirmationId,
   pageId,
   sectionId,
+  introductionId,
 }) => {
   if (confirmationId) {
     return {
@@ -76,10 +93,18 @@ const determineQuery = ({
       query: GET_PIPING_CONTENT_PAGE,
     };
   }
-  return {
-    variables: { input: { questionnaireId, sectionId } },
-    query: GET_PIPING_CONTENT_SECTION,
-  };
+  if (sectionId) {
+    return {
+      variables: { input: { questionnaireId, sectionId } },
+      query: GET_PIPING_CONTENT_SECTION,
+    };
+  }
+  if (introductionId) {
+    return {
+      variables: { id: introductionId },
+      query: GET_PIPING_CONTENT_INTRODUCTION,
+    };
+  }
 };
 
 const AvailablePipingContentQuery = ({
@@ -87,6 +112,7 @@ const AvailablePipingContentQuery = ({
   pageId,
   sectionId,
   confirmationId,
+  introductionId,
   children,
 }) => {
   const { variables, query } = determineQuery({
@@ -94,9 +120,10 @@ const AvailablePipingContentQuery = ({
     pageId,
     sectionId,
     confirmationId,
+    introductionId,
   });
   return (
-    <Query query={query} variables={variables} fetchPolicy="cache-and-network">
+    <Query query={query} variables={variables} fetchPolicy="network-only">
       {children}
     </Query>
   );
@@ -107,6 +134,7 @@ AvailablePipingContentQuery.propTypes = {
   pageId: PropTypes.string,
   sectionId: PropTypes.string,
   confirmationId: PropTypes.string,
+  introductionId: PropTypes.string,
   children: PropTypes.func.isRequired,
 };
 

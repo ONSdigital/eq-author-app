@@ -11,7 +11,6 @@ const inputStructure = gql`
     title
     description
     theme
-    legalBasis
     navigation
     surveyId
     summary
