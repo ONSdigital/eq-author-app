@@ -131,6 +131,7 @@ const listQuestionnaires = () => {
         if (err) {
           reject(err);
         }
+        questionnaires.sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1));
         resolve(questionnaires);
       });
   });
