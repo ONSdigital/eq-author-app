@@ -2,7 +2,7 @@ import {
   navigateToPage,
   testId,
   selectAnswerFromContentPicker,
-  findByLabel,
+  findInputByLabel,
 } from "../utils";
 
 export const navigateToRoutingTab = () =>
@@ -36,7 +36,7 @@ export const add = (config, pageTitle) => {
       .eq(i)
       .as("currentRule");
     cy.get("@currentRule").within(() => {
-      findByLabel("IF").click();
+      findInputByLabel("IF").click();
     });
 
     selectAnswerFromContentPicker({
@@ -46,7 +46,7 @@ export const add = (config, pageTitle) => {
     });
 
     cy.get("@currentRule").within(() => {
-      findByLabel("THEN").click();
+      findInputByLabel("THEN").click();
     });
     if (rule.destination.logical === "End of questionnaire") {
       cy.contains("End of questionnaire").click();

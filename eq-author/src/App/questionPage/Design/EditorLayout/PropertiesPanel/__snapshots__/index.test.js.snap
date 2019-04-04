@@ -1,0 +1,89 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PropertiesPanel should render when there are answers 1`] = `
+<PropertiesPanelWrapper>
+  <Accordion
+    title="Optional fields"
+  >
+    <PropertiesPanel__Padding>
+      <Apollo(UnwrappedQuestionProperties)
+        page={
+          Object {
+            "__typename": "Page",
+            "answers": Array [
+              Object {
+                "__typename": "Answer",
+                "id": "1",
+                "index": 0,
+                "type": "Number",
+              },
+              Object {
+                "__typename": "Answer",
+                "id": "2",
+                "index": 1,
+                "type": "TextField",
+              },
+            ],
+            "id": "1",
+            "type": "Questionnaire",
+          }
+        }
+      />
+    </PropertiesPanel__Padding>
+  </Accordion>
+  <Apollo(UnwrappedGroupedAnswerProperties)
+    page={
+      Object {
+        "__typename": "Page",
+        "answers": Array [
+          Object {
+            "__typename": "Answer",
+            "id": "1",
+            "index": 0,
+            "type": "Number",
+          },
+          Object {
+            "__typename": "Answer",
+            "id": "2",
+            "index": 1,
+            "type": "TextField",
+          },
+        ],
+        "id": "1",
+        "type": "Questionnaire",
+      }
+    }
+  />
+</PropertiesPanelWrapper>
+`;
+
+exports[`PropertiesPanel should render when there are no answers 1`] = `
+<PropertiesPanelWrapper>
+  <Accordion
+    title="Optional fields"
+  >
+    <PropertiesPanel__Padding>
+      <Apollo(UnwrappedQuestionProperties)
+        page={
+          Object {
+            "__typename": "Page",
+            "answers": Array [],
+            "id": "1",
+            "type": "Questionnaire",
+          }
+        }
+      />
+    </PropertiesPanel__Padding>
+  </Accordion>
+  <Apollo(UnwrappedGroupedAnswerProperties)
+    page={
+      Object {
+        "__typename": "Page",
+        "answers": Array [],
+        "id": "1",
+        "type": "Questionnaire",
+      }
+    }
+  />
+</PropertiesPanelWrapper>
+`;

@@ -1,13 +1,13 @@
 import React from "react";
 import { shallow } from "enzyme";
 
-import InlineField from "App/questionPage/Design/AnswerProperties/Fields/InlineField";
+import MultiLineField from "./MultiLineField";
 
 const createWrapper = (props = {}, render = shallow) => {
-  return render(<InlineField {...props} />);
+  return render(<MultiLineField {...props} />);
 };
 
-describe("InlineLabel", () => {
+describe("MultiLineLabel", () => {
   let props;
   let wrapper;
 

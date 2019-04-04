@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Grouped Answer Properties should render the options for each answer 1`] = `
+<GroupedAnswerProperties__AnswerTitle
+  data-test="answer-title"
+>
+  Currency 1
+</GroupedAnswerProperties__AnswerTitle>
+`;
+
+exports[`Grouped Answer Properties should render the options for each answer 2`] = `
+<GroupedAnswerProperties__AnswerTitle
+  data-test="answer-title"
+>
+  Currency 2
+</GroupedAnswerProperties__AnswerTitle>
+`;
+
+exports[`Grouped Answer Properties should render the options for each answer 3`] = `
+<GroupedAnswerProperties__AnswerTitle
+  data-test="answer-title"
+>
+  Date 1
+</GroupedAnswerProperties__AnswerTitle>
+`;

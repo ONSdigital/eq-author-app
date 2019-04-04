@@ -1,7 +1,7 @@
 import React from "react";
-
-import Required from "App/questionPage/Design/AnswerProperties/Properties/Required";
 import { shallow } from "enzyme";
+
+import Required from "./Required";
 
 const createWrapper = (props = {}, render = shallow) => {
   return render(<Required {...props} />);

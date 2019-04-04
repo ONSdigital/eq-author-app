@@ -149,6 +149,7 @@ QuestionPageEditor.fragments = {
       displayName
       position
       answers {
+        displayName
         ...AnswerEditor
       }
       section {

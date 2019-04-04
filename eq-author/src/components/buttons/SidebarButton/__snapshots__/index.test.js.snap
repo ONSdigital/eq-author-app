@@ -4,30 +4,40 @@ exports[`SidebarButton should render 1`] = `
 .c0 {
   display: block;
   width: 100%;
-  padding: 0.75em;
+  padding: 0.5em;
   margin-bottom: 0.5em;
   color: #333333;
-  border: none;
   border-radius: 4px;
-  background-color: #E4E8EB;
+  border: 1px solid #c3c3c3;
   text-align: left;
   font-size: 1em;
   -webkit-transition: all 100ms ease-out;
   transition: all 100ms ease-out;
-}
-
-.c0:hover {
-  background-color: #3B7A9E;
+  position: relative;
   cursor: pointer;
 }
 
-.c0:hover > * {
-  color: white;
+.c0:hover {
+  border: 1px solid #999999;
+  background: #f5f5f5;
 }
 
 .c0:focus {
   box-shadow: 0 0 0 3px #FDBD56;
   outline: none;
+}
+
+.c0::after {
+  content: "";
+  display: block;
+  width: 1em;
+  height: 1em;
+  background: url(icon-chevron.svg) no-repeat center;
+  position: absolute;
+  right: 0.5em;
+  top: 0;
+  bottom: 0;
+  margin: auto;
 }
 
 <button

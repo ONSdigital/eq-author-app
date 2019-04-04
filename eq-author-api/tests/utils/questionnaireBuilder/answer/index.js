@@ -4,4 +4,5 @@ module.exports = {
   ...require("./queryAnswer"),
   ...require("./deleteAnswer"),
   ...require("./moveAnswer"),
+  ...require("./updateAnswersOfType"),
 };

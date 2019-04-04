@@ -1,6 +1,6 @@
 import {
   typeIntoDraftEditor,
-  findByLabel,
+  findInputByLabel,
   addSection,
   addQuestionPage,
   buildMultipleChoiceAnswer,
@@ -79,9 +79,9 @@ describe("Routing", () => {
 
     cy.get(testId("btn-add-routing")).click();
 
-    findByLabel("THEN").contains("Question 2");
+    findInputByLabel("THEN").contains("Question 2");
 
-    findByLabel("THEN").click();
+    findInputByLabel("THEN").click();
     cy.get(testId("picker-title"))
       .first()
       .click();
@@ -90,7 +90,7 @@ describe("Routing", () => {
       .click();
     cy.get(testId("submit-button")).click();
 
-    findByLabel("THEN").contains("Question 3");
+    findInputByLabel("THEN").contains("Question 3");
   });
 
   [CURRENCY, NUMBER, PERCENTAGE].forEach(type => {
@@ -132,14 +132,14 @@ describe("Routing", () => {
     navigateToRoutingTab();
 
     cy.get(testId("routing-rule")).within(() => {
-      findByLabel("IF")
+      findInputByLabel("IF")
         .first()
         .contains("Radio Answer");
     });
 
     cy.get(testId("options-selector")).within(() => {
       options.forEach(label => {
-        findByLabel(label).should("have.length", 1);
+        findInputByLabel(label).should("have.length", 1);
       });
     });
   });
@@ -183,7 +183,7 @@ describe("Routing", () => {
 
     cy.get(testId("routing-rule"))
       .last()
-      .within(() => findByLabel("IF").click());
+      .within(() => findInputByLabel("IF").click());
 
     selectAnswerFromContentPicker({
       sectionTitle: "Section 1",
@@ -198,7 +198,7 @@ describe("Routing", () => {
 
     cy.get(testId("routing-rule"))
       .last()
-      .within(() => findByLabel("IF").click());
+      .within(() => findInputByLabel("IF").click());
 
     selectAnswerFromContentPicker({
       sectionTitle: "Section 1",
@@ -213,7 +213,7 @@ describe("Routing", () => {
 
     cy.get(testId("routing-rule"))
       .last()
-      .within(() => findByLabel("IF").click());
+      .within(() => findInputByLabel("IF").click());
 
     selectAnswerFromContentPicker({
       sectionTitle: "Section 1",
@@ -267,7 +267,7 @@ describe("Routing", () => {
 
     cy.get(testId("btn-add-routing")).click();
 
-    findByLabel("IF").within(() => {
+    findInputByLabel("IF").within(() => {
       cy.contains("Question 3").should("not.exist");
     });
   });
@@ -298,7 +298,7 @@ describe("Routing", () => {
       .first()
       .contains("D");
 
-    findByLabel("IF").click();
+    findInputByLabel("IF").click();
     selectAnswerFromContentPicker({
       sectionTitle: "Section 1",
       questionTitle: "Question 1",
@@ -338,7 +338,7 @@ describe("Routing", () => {
 
     cy.get(testId("routing-rule"));
 
-    findByLabel("THEN").click();
+    findInputByLabel("THEN").click();
     cy.get(testId("picker-title"))
       .first()
       .click();
@@ -375,7 +375,7 @@ describe("Routing", () => {
 
     cy.get(testId("and-not-valid-msg"));
 
-    findByLabel("AND").click();
+    findInputByLabel("AND").click();
 
     selectAnswerFromContentPicker({
       sectionTitle: "Section 1",
@@ -383,7 +383,7 @@ describe("Routing", () => {
       answerTitle: "Answer 1",
     });
 
-    findByLabel("AND")
+    findInputByLabel("AND")
       .closest(testId("routing-binary-expression"))
       .within(() => {
         cy.get(testId("options-selector")).should("have.length", 1);
@@ -421,7 +421,7 @@ describe("Routing", () => {
 
     navigateToRoutingTab();
 
-    findByLabel("IF")
+    findInputByLabel("IF")
       .first()
       .contains("Answer 1")
       .should("not.exist");
@@ -450,9 +450,9 @@ describe("Routing", () => {
 
     cy.get(testId("btn-add-routing")).click();
 
-    findByLabel("ELSE").contains("Question 2");
+    findInputByLabel("ELSE").contains("Question 2");
 
-    findByLabel("ELSE")
+    findInputByLabel("ELSE")
       .parent()
       .within(() => {
         cy.get(testId("routing-destination-content-picker")).click();
@@ -460,6 +460,6 @@ describe("Routing", () => {
 
     cy.get(testId("EndOfQuestionnaire-picker")).click();
     cy.get(testId("submit-button")).click();
-    findByLabel("ELSE").contains("End of questionnaire");
+    findInputByLabel("ELSE").contains("End of questionnaire");
   });
 });

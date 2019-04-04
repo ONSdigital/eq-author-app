@@ -391,6 +391,24 @@ const Resolvers = {
 
       return answer;
     },
+    updateAnswersOfType: async (
+      root,
+      { input: { questionPageId, type, properties } },
+      ctx
+    ) => {
+      const page = getPage(ctx)({ pageId: questionPageId });
+      const answersOfType = page.answers.filter(a => a.type === type);
+      answersOfType.forEach(answer => {
+        answer.properties = {
+          ...answer.properties,
+          ...properties,
+        };
+      });
+
+      await saveQuestionnaire(ctx.questionnaire);
+
+      return answersOfType;
+    },
     deleteAnswer: async (_, { input }, ctx) => {
       const pages = flatMap(
         ctx.questionnaire.sections,

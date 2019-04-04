@@ -1,8 +1,10 @@
 import React from "react";
-import PropertiesPanel from "App/questionPage/Design/PropertiesPanel";
-import { NUMBER, TEXTFIELD } from "constants/answer-types";
 import { shallow } from "enzyme";
 import { merge } from "lodash";
+
+import { NUMBER, TEXTFIELD } from "constants/answer-types";
+
+import PropertiesPanel from "./";
 
 const createWrapper = (props, render = shallow) => {
   return render(<PropertiesPanel {...props} />);

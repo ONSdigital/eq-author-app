@@ -468,6 +468,7 @@ type Mutation {
   createAnswer(input: CreateAnswerInput!): Answer
   updateAnswer(input: UpdateAnswerInput!): Answer
   deleteAnswer(input: DeleteAnswerInput!): Answer
+  updateAnswersOfType(input: UpdateAnswersOfTypeInput!): [Answer!]!
   moveAnswer(input: MoveAnswerInput!): Answer!
   createOption(input: CreateOptionInput!): Option
   createMutuallyExclusiveOption(input: CreateMutuallyExclusiveOptionInput!): Option
@@ -678,6 +679,12 @@ input UpdateAnswerInput {
   secondaryLabel: String
   qCode: String
   properties: JSON
+}
+
+input UpdateAnswersOfTypeInput {
+  questionPageId: ID!
+  type: AnswerType!
+  properties: JSON!
 }
 
 input DeleteAnswerInput {
