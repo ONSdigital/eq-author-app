@@ -1,4 +1,5 @@
 const dynamoose = require("dynamoose");
+const { pick } = require("lodash/fp");
 
 let throughput = "ON_DEMAND";
 let questionnanaireTableName = "author-questionnaires";
@@ -30,35 +31,6 @@ const baseQuestionnaireSchema = {
   createdBy: {
     type: String,
   },
-  version: {
-    type: Number,
-  },
-  description: {
-    type: String,
-  },
-  legalBasis: {
-    type: String,
-  },
-  navigation: {
-    type: Boolean,
-  },
-  surveyId: {
-    type: String,
-  },
-  theme: {
-    type: String,
-  },
-  summary: {
-    type: Boolean,
-  },
-  sections: {
-    type: Array,
-    required: true,
-  },
-  metadata: {
-    type: Array,
-    required: true,
-  },
   createdAt: {
     type: Date,
     required: true,
@@ -85,9 +57,41 @@ const questionnanaireSchema = new dynamoose.Schema(
   }
 );
 
+const LIST_FIELDS = [...Object.keys(baseQuestionnaireSchema), "updatedAt"];
+const justListFields = pick(LIST_FIELDS);
+
 const questionnaireVersionsSchema = new dynamoose.Schema(
   {
     ...baseQuestionnaireSchema,
+    version: {
+      type: Number,
+    },
+    description: {
+      type: String,
+    },
+    legalBasis: {
+      type: String,
+    },
+    navigation: {
+      type: Boolean,
+    },
+    surveyId: {
+      type: String,
+    },
+    theme: {
+      type: String,
+    },
+    summary: {
+      type: Boolean,
+    },
+    sections: {
+      type: Array,
+      required: true,
+    },
+    metadata: {
+      type: Array,
+      required: true,
+    },
     updatedAt: {
       type: Date,
       required: true,
@@ -113,4 +117,5 @@ module.exports = {
   QuestionnaireModel,
   QuestionnaireVersionsModel,
   dynamoose,
+  justListFields,
 };

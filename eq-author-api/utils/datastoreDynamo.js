@@ -6,6 +6,7 @@ const {
   QuestionnaireModel,
   QuestionnaireVersionsModel,
   dynamoose,
+  justListFields,
 } = require("../db/models/DynamoDB");
 
 const omitTimestamps = questionnaire =>
@@ -28,24 +29,39 @@ const saveModel = (model, options = {}) =>
 const createQuestionnaire = async questionnaire => {
   const updatedAt = new Date();
   await saveModel(
+    new QuestionnaireModel({ ...justListFields(questionnaire), updatedAt })
+  );
+  return saveModel(
     new QuestionnaireVersionsModel({ ...questionnaire, updatedAt })
   );
-  return saveModel(new QuestionnaireModel({ ...questionnaire, updatedAt }));
 };
 
-const getQuestionnaire = async id => {
-  const questionnaire = await QuestionnaireModel.get({ id });
-  if (!questionnaire) {
-    return;
-  }
-  if (!questionnaire.metadata) {
-    questionnaire.metadata = [];
-  }
-  if (!questionnaire.sections) {
-    questionnaire.sections = [];
-  }
-  return questionnaire;
-};
+const getQuestionnaire = id =>
+  new Promise((resolve, reject) => {
+    QuestionnaireVersionsModel.queryOne({ id: { eq: id } })
+      .descending()
+      .consistent()
+      .exec((err, questionnaire) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+
+        if (!questionnaire) {
+          resolve(undefined);
+          return;
+        }
+
+        if (!questionnaire.sections) {
+          questionnaire.sections = [];
+        }
+
+        if (!questionnaire.metadata) {
+          questionnaire.metadata = [];
+        }
+        resolve(questionnaire);
+      });
+  });
 
 const MAX_UPDATE_TIMES = 3;
 const saveQuestionnaire = async (questionnaireModel, count = 0, patch) => {
@@ -81,7 +97,7 @@ const saveQuestionnaire = async (questionnaireModel, count = 0, patch) => {
         {
           id: questionnaireModel.id,
         },
-        questionnaireModel,
+        justListFields(questionnaireModel),
         {
           updateTimestamps: false,
           condition: "updatedAt = :updatedAt",
