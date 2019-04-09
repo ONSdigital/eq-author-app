@@ -171,9 +171,9 @@
         window.config.REACT_APP_GTM_ID &&
         window.config.REACT_APP_GTM_ENV_ID
       ) {
-        (function(w) {
-          a = o.getElementsByTagName("body")[0];
-          r = o.createElement("iframe");
+        (function(w, d) {
+          a = d.getElementsByTagName("body")[0];
+          r = d.createElement("iframe");
           r.src =
             "https://www.googletagmanager.com/ns.html?id=" +
             w.config.REACT_APP_GTM_ID +
@@ -184,7 +184,7 @@
           r.width = "0";
           r.style = "display:none;visibility:hidden";
           a.appendChild(r);
-        })(window);
+        })(window, document);
       }
     </script>
     <!-- End Google Tag Manager (noscript) -->
