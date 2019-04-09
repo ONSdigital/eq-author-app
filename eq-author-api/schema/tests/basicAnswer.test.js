@@ -265,6 +265,7 @@ describe("basic answer", () => {
         qCode: expect.any(String),
         label: expect.any(String),
         secondaryLabel: expect.any(String),
+        secondaryLabelDefault: expect.any(String),
         type: expect.any(String),
         page: expect.any(Object),
         properties: expect.any(Object),

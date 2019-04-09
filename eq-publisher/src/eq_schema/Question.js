@@ -117,18 +117,22 @@ class Question {
   }
 
   buildDateRangeAnswers(answer) {
+    const commonAnswerDef = {
+      id: `answer${answer.id}`,
+      type: DATE,
+      mandatory: get("properties.required", answer)
+    };
+  
     return [
       {
-        id: `${answer.id}from`,
-        label: answer.label,
-        type: DATE,
-        mandatory: get("properties.required", answer),
+        ...commonAnswerDef,
+        id: `${commonAnswerDef.id}from`,
+        label: answer.label
       },
       {
-        id: `${answer.id}to`,
-        label: answer.secondaryLabel,
-        type: DATE,
-        mandatory: get("properties.required", answer),
+        ...commonAnswerDef,
+        id: `${commonAnswerDef.id}to`,
+        label: answer.secondaryLabel
       },
     ];
   }

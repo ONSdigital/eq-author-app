@@ -1,6 +1,9 @@
 query GetAnswers($ids: [ID]!) {
   answers(ids: $ids) {
     displayName
+    secondaryLabel
+    secondaryLabelDefault
+    type
     id
   }
 }

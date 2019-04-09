@@ -617,6 +617,13 @@ const Resolvers = {
         ? answer
         : null,
     displayName: answer => getName(answer, "BasicAnswer"),
+
+    // secondaryLabel needed for some answer types e.g. DateRage: label->From field, secodaryLabel->To field.
+    // need to define a default for secondaryLabel for use in piping. If label exists then displayName doesn't contain default.
+    // If secondaryLabel is set to default, then the default is displayed in answer label instead of leaving it blank
+    // Have defined a secondaryLabelDefault field to fallback on if secondaryLabel is empty
+    secondaryLabelDefault: answer =>
+      getName({ label: answer.secondaryLabel }, "BasicAnswer"),
   },
 
   MultipleChoiceAnswer: {

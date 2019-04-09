@@ -258,4 +258,136 @@ describe("PipingMenu", () => {
       });
     });
   });
+
+  it("should display both from & to options for Date Range", () => {
+    const entities = [
+      {
+        name: "page",
+        params: {
+          questionnaireId: "4",
+          sectionId: "3",
+          pageId: "2",
+        },
+      }
+    ];
+
+    entities.forEach(({ name, params }) => {
+      const match = {
+        params,
+      };
+      const data = {
+        [name]: {
+          pageType: "QuestionPage",
+          availablePipingAnswers: [
+            {
+              id: "1",
+              displayName: "From label",
+              secondaryLabel: "To label",
+              type: "DateRange",
+              page: {
+                id: "1",
+                displayName: "Page 1",
+                section: {
+                  id: "1",
+                  displayName: "Section 1",
+                },
+              },
+            },
+          ],
+          availablePipingMetadata: [],
+        },
+      };
+
+      const wrapper = shallow(
+        <UnwrappedPipingMenu
+          match={match}
+          canFocus
+          entityName={name}
+          entity={data[name]}
+        />
+      );
+      const result = wrapper.find(AvailablePipingContentQuery).prop("children")(
+        {
+          data,
+          onItemChosen: jest.fn(),
+        }
+      );
+  
+      expect(result.props).toMatchObject({
+        answerData: [
+          {
+            id: "1",
+            displayName: "Section 1",
+            pages: [
+              {
+                id: "1",
+                displayName: "Page 1",
+                answers: [
+                  { id: "1from", displayName: "From label" },
+                  { id: "1to", displayName: "To label" }
+                ],
+              },
+            ],
+          }
+        ],
+        metadataData: [],
+      });
+    });
+  });
+
+  it("should be empty if no entities given", () => {
+
+    const name = "nonExistantEntity";
+    const match = {
+      params: {
+        questionnaireId: "4",
+        sectionId: "3",
+        pageId: "2",
+        confirmationId: "1",
+      }
+    };
+
+    const data = {
+      [name]: {
+        pageType: "QuestionPage",
+        availablePipingAnswers: [
+          {
+            id: "1",
+            displayName: "From label",
+            secondaryLabel: "To label",
+            type: "DateRange",
+            page: {
+              id: "1",
+              displayName: "Page 1",
+              section: {
+                id: "1",
+                displayName: "Section 1",
+              },
+            },
+          },
+        ],
+        availablePipingMetadata: [],
+      },
+    };
+
+    const wrapper = shallow(
+      <UnwrappedPipingMenu
+        match={match}
+        canFocus
+        entityName={name}
+        entity={data[name]}
+      />
+    );
+    const result = wrapper.find(AvailablePipingContentQuery).prop("children")(
+      {
+        data,
+        onItemChosen: jest.fn(),
+      }
+    );
+
+    expect(result.props).toMatchObject({
+      answerData: [],
+      metadataData: undefined,
+    });
+  });
 });

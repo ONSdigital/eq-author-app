@@ -141,6 +141,36 @@ const calculateEntityName = ({
   }
 };
 
+const postProcessPipingContent = entity => {
+  if (!entity) {
+    return false;
+  }
+
+  const processedAnswers = [];
+
+  entity.availablePipingAnswers.forEach(answer => {
+    if (answer.type === "DateRange") {
+      processedAnswers.push({
+        ...answer,
+        id: `${answer.id}from`,
+      });
+
+      processedAnswers.push({
+        ...answer,
+        id: `${answer.id}to`,
+        displayName: answer.secondaryLabel || answer.secondaryLabelDefault,
+      });
+    } else {
+      processedAnswers.push(answer);
+    }
+  });
+
+  return {
+    ...entity,
+    availablePipingAnswers: processedAnswers,
+  };
+};
+
 export const UnwrappedPipingMenu = props => {
   if (!props.canFocus) {
     return <MenuButton {...buttonProps} disabled />;
@@ -156,7 +186,8 @@ export const UnwrappedPipingMenu = props => {
     >
       {({ data = {}, ...innerProps }) => {
         const entityName = calculateEntityName(props.match.params);
-        const entity = data[entityName] || {};
+        const entity = postProcessPipingContent(data[entityName]) || {};
+
         return (
           <Menu
             answerData={shapeTree(entity.availablePipingAnswers)}
