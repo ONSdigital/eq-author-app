@@ -2,7 +2,7 @@
 
 ## Front End
 
-### Environment Variables
+### Environment Variables eq-author
 
 | Name                        | Description                | Required |
 | --------------------------- | -------------------------- | -------- |

@@ -3,16 +3,6 @@
 A GraphQL based API for the [eq-author](https://github.com/ONSdigital/eq-author)
 application.
 
-## Table of Contents
-
-- [Installation](#installation)
-- [Environment Variables](#environment-variables)
-- [Run using Docker](#run-using-docker)
-- [Tests](#tests)
-- [Migrations](#migrations)
-- [Debugging (with VS Code)](#debugging-with-vs-code)
-- [Importing Questionnaires)](#importing-questionnaires)
-
 ## Installation
 
 ### Configuration
@@ -57,102 +47,32 @@ docker-compose build
 docker-compose up
 ```
 
-Once the containers are running you should be able to navigate to http://localhost:4000/graphiql and begin exploring the eQ Author GraphQL API.
-
 Changes to the application should hot reload via `nodemon`.
-
-### Querying pages
-
-There is no concrete `Page` type in the GraphQL schema. Instead we use a `Page` interface, which other types implement e.g. `QuestionPage` and `InterstitialPage`.
-
-To query all pages, and request different fields depending on the type, use [inline fragments](http://graphql.org/learn/queries/#inline-fragments):
-
-```gql
-query {
-  getQuestionnaire(id: 1) {
-    questionnaire {
-      sections {
-        pages {
-          id
-
-          # inline fragment for `QuestionPage` type
-          ... on QuestionPage {
-            guidance
-            answers {
-              id
-              label
-            }
-          }
-
-          # For purposes of example only. `InterstitialPage` doesn't exist yet
-          ... on InterstitialPage {
-            # doesn't exist yet
-            someField
-          }
-        }
-      }
-    }
-  }
-}
-```
-
-### Testing through GraphiQL
-
-There are [queries](tests/fixtures/queries.gql) and [example data](tests/fixtures/data.json) in the [fixtures folder](tests/fixtures). These can be used with graphiql to manually build up a questionnaire.
-
-## Tests
-
-`yarn test` will start a single run of unit and integration tests.
-
-`yarn test --watch` will start unit and integration tests in watch mode.
 
 ## Migrations
 
 `runQuestionnaireMigrations` middleware is responsible for updating the schema version and running any necessary migrations.
 
--  `yarn create-migration [name]` will create a new migration in the `/migrations` directory.
--  Add the created migration to the bottom of the `migrations/index.js` array.
--  `runQuestionnaireMigrations` will execute necessary migrations on every request providing the schema has not already been migrated.
+- `yarn create-migration [name]` will create a new migration in the `/migrations` directory.
+- Add the created migration to the bottom of the `migrations/index.js` array.
+- `runQuestionnaireMigrations` will execute necessary migrations on every request providing the schema has not already been migrated.
 
-## Debugging (with VS Code)
+## DynamoDB
 
-### Debugging app
+### Running DynamoDB GUI locally
 
-Follow [this guide](https://github.com/docker/labs/blob/83514855aff21eaed3925d1fd28091b23de0e147/developer-tools/nodejs-debugging/VSCode-README.md) to enable debugging through VS Code.
+To run DynamoDB GUI locally, ensure that you are in the eq-author-api folder and then run:
 
-Use this config for VS Code, rather than what is detailed in the guide. This will attach _to the running docker container_:
-
-```json
-{
-  "version": "0.2.0",
-  "configurations": [
-    {
-      "name": "Attach to Container",
-      "type": "node",
-      "request": "attach",
-      "port": 5858,
-      "address": "localhost",
-      "restart": true,
-      "sourceMaps": false,
-      "localRoot": "${workspaceRoot}",
-      "remoteRoot": "/app",
-      "protocol": "inspector"
-    }
-  ]
-}
+```
+yarn dynamodb-admin
 ```
 
-### Debugging tests
+Then open <http://localhost:8001/> in the web browser to access the database GUI.
 
-Add the following to your `launch.json` configuration:
+### AWS CLI
 
-```json
-{
-  "name": "Attach by Process ID",
-  "type": "node",
-  "request": "attach",
-  "processId": "${command:PickProcess}"
-}
-```
+To set up AWS access you first need to install [AWS Command Line Interface](https://aws.amazon.com/cli/).
 
-Then start your tests [as described above](#tests). You can now start a debugging session, and pick the jest process to attach to.
+Then follow the [instructions for setting up the CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html).
+
+For available commands, see [reference for CLI](https://docs.aws.amazon.com/cli/latest/index.html).
