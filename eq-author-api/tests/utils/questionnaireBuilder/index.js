@@ -6,7 +6,8 @@ const { getQuestionnaire } = require("../../../utils/datastore");
 const { createQuestionnaireReturningPersisted } = require("./questionnaire");
 const { createMetadata, updateMetadata } = require("./metadata");
 const { createSection, deleteSection } = require("./section");
-const { createQuestionPage, deletePage } = require("./page");
+const { deletePage } = require("./page");
+const { createQuestionPage } = require("./page/questionPage");
 const { createAnswer } = require("./answer");
 const {
   createOption,
@@ -67,7 +68,6 @@ const buildQuestionnaire = async questionnaireConfig => {
               });
             }
           }
-
           if (Array.isArray(page.answers)) {
             for (let answer of page.answers) {
               const createdAnswer = await createAnswer(questionnaire, {

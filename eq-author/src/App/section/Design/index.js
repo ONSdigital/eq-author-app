@@ -10,14 +10,14 @@ import { Titled } from "react-titled";
 
 import SectionEditor from "App/section/Design/SectionEditor";
 import IconButtonDelete from "components/buttons/IconButtonDelete";
-import { Toolbar, Buttons } from "App/questionPage/Design/EditorToolbar";
-import IconMove from "App/questionPage/Design/EditorToolbar/icon-move.svg?inline";
+import { Toolbar, Buttons } from "App/page/Design/EditorToolbar";
+import IconMove from "App/page/Design/EditorToolbar/icon-move.svg?inline";
 import Button from "components/buttons/Button";
 import IconText from "components/IconText";
-import EditorLayout from "App/questionPage/Design/EditorLayout";
+import EditorLayout from "App/page/Design/EditorLayout";
 import DuplicateButton from "components/buttons/DuplicateButton";
 
-import withCreatePage from "enhancers/withCreatePage";
+import withCreateQuestionPage from "enhancers/withCreateQuestionPage";
 import withCreateSection from "enhancers/withCreateSection";
 
 import withDeleteSection from "./withDeleteSection";
@@ -43,7 +43,7 @@ export class UnwrappedSectionRoute extends React.Component {
     match: CustomPropTypes.match,
     onUpdateSection: PropTypes.func.isRequired,
     onDeleteSection: PropTypes.func.isRequired,
-    onAddPage: PropTypes.func.isRequired,
+    onAddQuestionPage: PropTypes.func.isRequired,
     onMoveSection: PropTypes.func.isRequired,
     onDuplicateSection: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
@@ -92,7 +92,7 @@ export class UnwrappedSectionRoute extends React.Component {
     const {
       params: { sectionId },
     } = this.props.match;
-    this.props.onAddPage(sectionId, 0);
+    this.props.onAddQuestionPage(sectionId, 0);
   };
 
   handleDuplicateSection = () => {
@@ -186,7 +186,7 @@ export class UnwrappedSectionRoute extends React.Component {
       <EditorLayout
         section={section}
         onUpdate={this.props.onUpdateSection}
-        onAddPage={this.handleAddPage}
+        onAddQuestionPage={this.handleAddPage}
         data-test="section-route"
         preview={hasIntroductionContent}
       >
@@ -206,7 +206,7 @@ const withSectionEditing = flowRight(
   withDuplicateSection,
   withUpdateSection,
   withDeleteSection,
-  withCreatePage,
+  withCreateQuestionPage,
   withMoveSection,
   withPropRenamed("onUpdateSection", "onUpdate"),
   withEntityEditor("section", sectionFragment)

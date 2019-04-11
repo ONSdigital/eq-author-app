@@ -166,11 +166,55 @@ exports.getQuestionnaire = `
         id
         title
         introductionTitle
-        introductionContent 
+        introductionContent
         pages {
+          id
+          title
+          pageType
+          routing {
+            rules {
+              expressionGroup {
+                operator
+                expressions {
+                  ... on BinaryExpression2 {
+                    left {
+                      ... on BasicAnswer {
+                        id
+                        type
+                        label
+                      }
+                      ... on MultipleChoiceAnswer {
+                        id
+                        type
+                        options {
+                          id
+                        }
+                      }
+                    }
+                    condition
+                    right {
+                      ... on CustomValue2 {
+                        number
+                      }
+                      ... on SelectedOptions2 {
+                        options {
+                          id
+                          label
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+              destination {
+                ...destination2Fragment
+              }
+            }
+            else {
+              ...destination2Fragment
+            }
+          }
           ... on QuestionPage {
-            id
-            title
             description
             descriptionEnabled
             guidance
@@ -181,50 +225,6 @@ exports.getQuestionnaire = `
             additionalInfoLabel
             additionalInfoContent
             additionalInfoEnabled
-            pageType
-            routing {
-              rules {
-                expressionGroup {
-                  operator
-                  expressions {
-                    ... on BinaryExpression2 {
-                      left {
-                        ... on BasicAnswer {
-                          id
-                          type
-                          label
-                        }
-                        ... on MultipleChoiceAnswer {
-                          id
-                          type
-                          options {
-                            id
-                          }
-                        }
-                      }
-                      condition
-                      right {
-                        ... on CustomValue2 {
-                          number
-                        }
-                        ... on SelectedOptions2 {
-                          options {
-                            id
-                            label
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-                destination {
-                  ...destination2Fragment
-                }
-              }
-              else {
-                ...destination2Fragment
-              }
-            }
             confirmation {
               id
               title

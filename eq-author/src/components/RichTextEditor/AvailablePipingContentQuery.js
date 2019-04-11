@@ -11,6 +11,7 @@ export const GET_PIPING_CONTENT_PAGE = gql`
     page(input: $input) {
       id
       displayName
+      pageType
       availablePipingAnswers {
         ...AvailableAnswers
       }

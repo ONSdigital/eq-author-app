@@ -51,7 +51,7 @@ const AddButton = styled(Button).attrs({
 const AddMenu = ({
   addMenuOpen,
   onAddMenuToggle,
-  onAddPage,
+  onAddQuestionPage,
   onAddSection,
   onAddQuestionConfirmation,
   canAddQuestionConfirmation,
@@ -77,7 +77,7 @@ const AddMenu = ({
         <AddMenuWindow data-test="addmenu-window">
           <AddMenuButton
             primary
-            onClick={onAddPage}
+            onClick={onAddQuestionPage}
             data-test="btn-add-question-page"
           >
             Question page
@@ -105,7 +105,7 @@ const AddMenu = ({
 
 AddMenu.propTypes = {
   onAddMenuToggle: PropTypes.func.isRequired,
-  onAddPage: PropTypes.func.isRequired,
+  onAddQuestionPage: PropTypes.func.isRequired,
   onAddSection: PropTypes.func.isRequired,
   onAddQuestionConfirmation: PropTypes.func.isRequired,
   canAddQuestionConfirmation: PropTypes.bool.isRequired,

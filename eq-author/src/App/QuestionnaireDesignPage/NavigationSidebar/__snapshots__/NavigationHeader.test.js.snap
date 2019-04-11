@@ -72,8 +72,8 @@ exports[`NavigationHeader should render 1`] = `
       canAddQuestionConfirmation={true}
       data-test="add-menu"
       onAddMenuToggle={[Function]}
-      onAddPage={[Function]}
       onAddQuestionConfirmation={[Function]}
+      onAddQuestionPage={[Function]}
       onAddSection={[Function]}
     />
   </NavigationHeader__NavigationHeaderRow>

@@ -8,7 +8,7 @@ describe("Block", () => {
     Object.assign(
       {
         id: 1,
-        pageType: "Question",
+        pageType: "QuestionPage",
         type: "General",
         answers: [],
       },

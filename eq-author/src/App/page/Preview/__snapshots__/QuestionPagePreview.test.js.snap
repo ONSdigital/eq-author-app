@@ -1,0 +1,176 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`QuestionPagePreview should render 1`] = `
+<EditorLayout
+  page={
+    Object {
+      "additionalInfoContent": "<p>Additional Info Content</p>",
+      "additionalInfoEnabled": true,
+      "additionalInfoLabel": "<p>Additional Info Label</p>",
+      "alias": "Who am I?",
+      "answers": Array [
+        Object {
+          "id": "1",
+          "type": "TextField",
+        },
+      ],
+      "definitionContent": "<p>Definition Content</p>",
+      "definitionEnabled": true,
+      "definitionLabel": "<p>Definition Label</p>",
+      "description": "<p>Description</p>",
+      "descriptionEnabled": true,
+      "displayName": "Question",
+      "guidance": "<p>Guidance</p>",
+      "guidanceEnabled": true,
+      "id": "1",
+      "pageType": "QuestionPage",
+      "position": 1,
+      "section": Object {
+        "id": "1",
+        "questionnaire": Object {
+          "id": "1",
+          "metadata": Array [],
+        },
+      },
+      "title": "<p>Hello world</p>",
+    }
+  }
+  preview={true}
+  routing={true}
+>
+  <QuestionPagePreview__Container>
+    <PageTitle
+      title="<p>Hello world</p>"
+    />
+    <div
+      data-test="description"
+    >
+      <QuestionPagePreview__Description
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "<p>Description</p>",
+          }
+        }
+      />
+    </div>
+    <QuestionPagePreview__Details
+      data-test="definition"
+    >
+      <QuestionPagePreview__DetailsTitle>
+        &lt;p&gt;Definition Label&lt;/p&gt;
+      </QuestionPagePreview__DetailsTitle>
+      <QuestionPagePreview__DetailsContent>
+        <span
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "<p>Definition Content</p>",
+            }
+          }
+        />
+      </QuestionPagePreview__DetailsContent>
+    </QuestionPagePreview__Details>
+    <div
+      data-test="guidance"
+    >
+      <QuestionPagePreview__Guidance>
+        <QuestionPagePreview__Panel
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "<p>Guidance</p>",
+            }
+          }
+        />
+      </QuestionPagePreview__Guidance>
+    </div>
+    <QuestionPagePreview__Answers>
+      <Answer
+        answer={
+          Object {
+            "id": "1",
+            "type": "TextField",
+          }
+        }
+        key="1"
+      />
+    </QuestionPagePreview__Answers>
+    <QuestionPagePreview__Details
+      data-test="additional-info"
+    >
+      <QuestionPagePreview__DetailsTitle>
+        &lt;p&gt;Additional Info Label&lt;/p&gt;
+      </QuestionPagePreview__DetailsTitle>
+      <QuestionPagePreview__DetailsContent>
+        <span
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "<p>Additional Info Content</p>",
+            }
+          }
+        />
+      </QuestionPagePreview__DetailsContent>
+    </QuestionPagePreview__Details>
+  </QuestionPagePreview__Container>
+</EditorLayout>
+`;
+
+exports[`QuestionPagePreview should render additional info content missing message 1`] = `
+<QuestionPagePreview__DetailsContent>
+  <Error
+    large={true}
+    margin={false}
+  >
+    Missing additional information content
+  </Error>
+</QuestionPagePreview__DetailsContent>
+`;
+
+exports[`QuestionPagePreview should render additional info label missing message 1`] = `
+<QuestionPagePreview__DetailsTitle>
+  <Error
+    margin={true}
+    small={true}
+  >
+    Missing additional information label
+  </Error>
+</QuestionPagePreview__DetailsTitle>
+`;
+
+exports[`QuestionPagePreview should render definition content missing message 1`] = `
+<QuestionPagePreview__DetailsContent>
+  <Error
+    large={true}
+    margin={false}
+  >
+    Missing definition content
+  </Error>
+</QuestionPagePreview__DetailsContent>
+`;
+
+exports[`QuestionPagePreview should render definition label missing message 1`] = `
+<QuestionPagePreview__DetailsTitle>
+  <Error
+    margin={true}
+    small={true}
+  >
+    Missing definition label
+  </Error>
+</QuestionPagePreview__DetailsTitle>
+`;
+
+exports[`QuestionPagePreview should render description missing message 1`] = `
+<Error
+  large={true}
+  margin={true}
+>
+  Missing description
+</Error>
+`;
+
+exports[`QuestionPagePreview should render guidance missing message 1`] = `
+<Error
+  large={true}
+  margin={true}
+>
+  Missing guidance
+</Error>
+`;
