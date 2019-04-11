@@ -8,7 +8,7 @@ import { propType } from "graphql-anywhere";
 
 import Loading from "components/Loading";
 
-import EditorLayout from "App/questionPage/Design/EditorLayout";
+import EditorLayout from "App/page/Design/EditorLayout";
 import Editor from "App/questionConfirmation/Design/Editor";
 
 import MultipleChoiceAnswer from "components/preview/Answers/MultipleChoiceAnswer";

@@ -20,6 +20,7 @@ describe("Group", () => {
         pages: [
           {
             id: "2",
+            pageType: "QuestionPage",
             answers: [],
           },
         ],

@@ -4,9 +4,9 @@ import { Query } from "react-apollo";
 import { propType } from "graphql-anywhere";
 import gql from "graphql-tag";
 import { flow } from "lodash/fp";
-import EditorLayout from "App/questionPage/Design/EditorLayout";
+import EditorLayout from "App/page/Design/EditorLayout";
 
-import { Toolbar, Buttons } from "App/questionPage/Design/EditorToolbar";
+import { Toolbar, Buttons } from "App/page/Design/EditorToolbar";
 import Error from "components/Error";
 import IconButtonDelete from "components/buttons/IconButtonDelete";
 import Loading from "components/Loading";

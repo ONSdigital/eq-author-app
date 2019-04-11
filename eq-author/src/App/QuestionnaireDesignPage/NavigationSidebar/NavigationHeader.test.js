@@ -6,7 +6,7 @@ import NavigationHeader from "./NavigationHeader";
 
 describe("NavigationHeader", () => {
   let mockHandlers = {
-    onAddPage: jest.fn(),
+    onAddQuestionPage: jest.fn(),
     onAddSection: jest.fn(),
     onAddQuestionConfirmation: jest.fn(),
   };
@@ -57,9 +57,9 @@ describe("NavigationHeader", () => {
 
   it("should allow a page to be added", () => {
     const wrapper = createWrapper();
-    wrapper.find('[data-test="add-menu"]').simulate("addPage");
+    wrapper.find('[data-test="add-menu"]').simulate("addQuestionPage");
 
-    expect(mockHandlers.onAddPage).toHaveBeenCalled();
+    expect(mockHandlers.onAddQuestionPage).toHaveBeenCalled();
   });
 
   it("should allow a section to be added", () => {

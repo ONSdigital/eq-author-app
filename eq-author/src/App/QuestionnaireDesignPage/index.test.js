@@ -49,7 +49,7 @@ describe("QuestionnaireDesignPage", () => {
 
     mockHandlers = {
       onUpdateSection: jest.fn(),
-      onAddPage: jest.fn(),
+      onAddQuestionPage: jest.fn(),
       onAddSection: jest.fn(),
       onUpdatePage: jest.fn(),
       onDeletePage: jest.fn(),
@@ -89,11 +89,11 @@ describe("QuestionnaireDesignPage", () => {
     expect(wrapper.instance().renderRedirect()).toMatchSnapshot();
   });
 
-  describe("onAddPage", () => {
+  describe("onAddQuestionPage", () => {
     it("should add new page below current page", () => {
-      wrapper.find(NavigationSidebar).simulate("addPage");
+      wrapper.find(NavigationSidebar).simulate("addQuestionPage");
 
-      expect(mockHandlers.onAddPage).toHaveBeenCalledWith(
+      expect(mockHandlers.onAddQuestionPage).toHaveBeenCalledWith(
         section.id,
         page.position + 1
       );
@@ -112,9 +112,12 @@ describe("QuestionnaireDesignPage", () => {
         },
       });
 
-      wrapper.find(NavigationSidebar).simulate("addPage");
+      wrapper.find(NavigationSidebar).simulate("addQuestionPage");
 
-      expect(mockHandlers.onAddPage).toHaveBeenCalledWith(section.id, 1);
+      expect(mockHandlers.onAddQuestionPage).toHaveBeenCalledWith(
+        section.id,
+        1
+      );
     });
 
     it("should be able to add a page at the start when on a section", () => {
@@ -128,9 +131,12 @@ describe("QuestionnaireDesignPage", () => {
         },
       });
 
-      wrapper.find(NavigationSidebar).simulate("addPage");
+      wrapper.find(NavigationSidebar).simulate("addQuestionPage");
 
-      expect(mockHandlers.onAddPage).toHaveBeenCalledWith(section.id, 0);
+      expect(mockHandlers.onAddQuestionPage).toHaveBeenCalledWith(
+        section.id,
+        0
+      );
     });
 
     it("should be able to add a page after the confirmation when on a confirmation page", () => {
@@ -144,9 +150,9 @@ describe("QuestionnaireDesignPage", () => {
           },
         },
       });
-      wrapper.find(NavigationSidebar).simulate("addPage");
+      wrapper.find(NavigationSidebar).simulate("addQuestionPage");
 
-      expect(mockHandlers.onAddPage).toHaveBeenCalledWith(
+      expect(mockHandlers.onAddQuestionPage).toHaveBeenCalledWith(
         section.id,
         page.position + 1
       );

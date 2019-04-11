@@ -288,7 +288,7 @@ describe("SectionRoute", () => {
       onUpdateSection: jest.fn(),
       onDeleteSection: jest.fn(),
       onDuplicateSection: jest.fn(),
-      onAddPage: jest.fn(),
+      onAddQuestionPage: jest.fn(),
       onMoveSection: jest.fn(),
       onUpdate: jest.fn(),
       onChange: jest.fn(),
@@ -357,7 +357,7 @@ describe("SectionRoute", () => {
         .first()
         .simulate("click");
 
-      expect(mockHandlers.onAddPage).toHaveBeenCalledWith(
+      expect(mockHandlers.onAddQuestionPage).toHaveBeenCalledWith(
         match.params.sectionId,
         0
       );

@@ -5,7 +5,7 @@ import React from "react";
 import { Redirect } from "react-router-dom";
 import { withApollo, Query } from "react-apollo";
 
-import EditorLayout from "App/questionPage/Design/EditorLayout";
+import EditorLayout from "App/page/Design/EditorLayout";
 import Loading from "components/Loading";
 import SectionEditor from "App/section/Design/SectionEditor";
 

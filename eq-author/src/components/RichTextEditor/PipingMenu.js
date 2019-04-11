@@ -40,6 +40,8 @@ export class Menu extends React.Component {
     disabled: PropTypes.bool,
     canFocus: PropTypes.bool,
     loading: PropTypes.bool,
+    entityName: PropTypes.string.isRequired,
+    entity: PropTypes.object, // eslint-disable-line
     answerData: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.string.isRequired,
@@ -89,6 +91,8 @@ export class Menu extends React.Component {
       return <MenuButton {...buttonProps} disabled />;
     }
 
+    const allowableContentTypes = [ANSWER, METADATA];
+
     return (
       <React.Fragment>
         <MenuButton
@@ -105,7 +109,7 @@ export class Menu extends React.Component {
           onClose={this.handlePickerClose}
           onSubmit={this.handlePickerSubmit}
           data-test="picker"
-          contentTypes={[ANSWER, METADATA]}
+          contentTypes={allowableContentTypes}
         />
       </React.Fragment>
     );
@@ -141,6 +145,8 @@ export const UnwrappedPipingMenu = props => {
           <Menu
             answerData={shapeTree(entity.availablePipingAnswers)}
             metadataData={entity.availablePipingMetadata}
+            entity={entity}
+            entityName={entityName}
             {...props}
             {...innerProps}
           />
