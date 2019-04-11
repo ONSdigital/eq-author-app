@@ -461,7 +461,6 @@ const Resolvers = {
         id: uuid.v4(),
         key: null,
         type: "Text",
-        value: null,
       };
       ctx.questionnaire.metadata.push(newMetadata);
       await saveQuestionnaire(ctx.questionnaire);
@@ -796,14 +795,11 @@ const Resolvers = {
   },
 
   Metadata: {
-    textValue: ({ type, value }) => (type === "Text" ? value : null),
-    languageValue: ({ type, value }) => (type === "Language" ? value : null),
-    regionValue: ({ type, value }) => (type === "Region" ? value : null),
-    dateValue: ({ type, value }) => {
-      if (type !== "Date" || !value) {
+    dateValue: ({ type, dateValue }) => {
+      if (type !== "Date" || !dateValue) {
         return null;
       }
-      return new Date(value);
+      return new Date(dateValue);
     },
     displayName: metadata => getName(metadata, "Metadata"),
   },
