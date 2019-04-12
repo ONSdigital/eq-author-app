@@ -18,33 +18,36 @@ import QuestionnairesPage from "./QuestionnairesPage";
 import SignInPage from "./SignInPage";
 import QuestionnaireDesignPage from "./QuestionnaireDesignPage";
 import NotFoundPage from "./NotFoundPage";
+import ErrorBoundary from "./ErrorBoundary";
 
 export const Routes = ({ isSignedIn, ...otherProps }) => (
   <Router {...otherProps}>
-    <Switch>
-      <Route path={RoutePaths.SIGN_IN} component={SignInPage} exact />
-      <PrivateRoute
-        path={RoutePaths.HOME}
-        component={QuestionnairesPage}
-        isSignedIn={isSignedIn}
-        exact
-      />
-      <RedirectRoute
-        from="/questionnaire/:questionnaireId/design/:sectionId/:pageId"
-        to={"/q/:questionnaireId/page/:pageId/design"}
-      />
-      <RedirectRoute
-        from="/questionnaire/:questionnaireId/design/:sectionId"
-        to={"/q/:questionnaireId/section/:sectionId/design"}
-      />
-      <PrivateRoute
-        path={RoutePaths.QUESTIONNAIRE}
-        exact={false}
-        component={QuestionnaireDesignPage}
-        isSignedIn={isSignedIn}
-      />
-      <Route path="*" component={NotFoundPage} exact />
-    </Switch>
+    <ErrorBoundary>
+      <Switch>
+        <Route path={RoutePaths.SIGN_IN} component={SignInPage} exact />
+        <PrivateRoute
+          path={RoutePaths.HOME}
+          component={QuestionnairesPage}
+          isSignedIn={isSignedIn}
+          exact
+        />
+        <RedirectRoute
+          from="/questionnaire/:questionnaireId/design/:sectionId/:pageId"
+          to={"/q/:questionnaireId/page/:pageId/design"}
+        />
+        <RedirectRoute
+          from="/questionnaire/:questionnaireId/design/:sectionId"
+          to={"/q/:questionnaireId/section/:sectionId/design"}
+        />
+        <PrivateRoute
+          path={RoutePaths.QUESTIONNAIRE}
+          exact={false}
+          component={QuestionnaireDesignPage}
+          isSignedIn={isSignedIn}
+        />
+        <Route path="*" component={NotFoundPage} exact />
+      </Switch>
+    </ErrorBoundary>
   </Router>
 );
 

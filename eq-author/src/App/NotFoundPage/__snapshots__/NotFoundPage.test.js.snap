@@ -15,7 +15,9 @@ exports[`NotFoundPage should render 1`] = `
       >
         <NotFoundPage__CenteredPane>
           <NotFoundPage__Pencil />
-          <NotFoundPage__Title>
+          <NotFoundPage__Title
+            data-test="not-found-page-title"
+          >
             404 – Sorry, the page you were looking for was not found.
           </NotFoundPage__Title>
           <Link__StyledLink

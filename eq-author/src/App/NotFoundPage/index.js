@@ -36,7 +36,7 @@ const NotFound = () => {
           <Column cols={6} offset={3}>
             <CenteredPane>
               <Pencil />
-              <Title>
+              <Title data-test="not-found-page-title">
                 404 – Sorry, the page you were looking for was not found.
               </Title>
               <Link href="/">Back to home</Link>
