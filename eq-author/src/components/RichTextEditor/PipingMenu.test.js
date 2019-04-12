@@ -19,6 +19,7 @@ describe("PipingMenu", () => {
         onItemChosen={handleItemChosen}
         answerData={answerData}
         metadataData={metadataData}
+        entityName={"section"}
         canFocus
         {...props}
       />
@@ -186,9 +187,9 @@ describe("PipingMenu", () => {
       const match = {
         params,
       };
-      const wrapper = shallow(<UnwrappedPipingMenu match={match} canFocus />);
       const data = {
         [name]: {
+          pageType: "QuestionPage",
           availablePipingAnswers: [
             {
               id: "1",
@@ -212,6 +213,14 @@ describe("PipingMenu", () => {
         },
       };
 
+      const wrapper = shallow(
+        <UnwrappedPipingMenu
+          match={match}
+          canFocus
+          entityName={name}
+          entity={data[name]}
+        />
+      );
       const result = wrapper.find(AvailablePipingContentQuery).prop("children")(
         {
           data,

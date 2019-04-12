@@ -41,13 +41,15 @@ export const UnwrappedPageNavItem = ({
 
 UnwrappedPageNavItem.fragments = {
   PageNavItem: gql`
-    fragment PageNavItem on QuestionPage {
+    fragment PageNavItem on Page {
       id
       title
       position
       displayName
-      confirmation {
-        id
+      ... on QuestionPage {
+        confirmation {
+          id
+        }
       }
     }
   `,

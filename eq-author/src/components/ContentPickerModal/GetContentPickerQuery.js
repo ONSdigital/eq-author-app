@@ -16,9 +16,9 @@ export const CONTENT_PICKER_QUERY = gql`
         id
         displayName
         pages {
+          id
+          displayName
           ... on QuestionPage {
-            id
-            displayName
             answers {
               id
               label

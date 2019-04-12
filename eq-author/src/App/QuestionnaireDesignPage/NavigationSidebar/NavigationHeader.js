@@ -51,7 +51,7 @@ const StyledAddMenu = styled(AddMenu)`
 class NavigationHeader extends React.Component {
   static propTypes = {
     onUpdateQuestionnaire: PropTypes.func.isRequired,
-    onAddPage: PropTypes.func.isRequired,
+    onAddQuestionPage: PropTypes.func.isRequired,
     onAddSection: PropTypes.func.isRequired,
     questionnaire: CustomPropTypes.questionnaire.isRequired,
     canAddQuestionConfirmation: PropTypes.bool.isRequired,
@@ -77,8 +77,8 @@ class NavigationHeader extends React.Component {
   handleAddMenuToggle = () =>
     this.setState({ addMenuOpen: !this.state.addMenuOpen });
 
-  handleAddPage = () => {
-    this.props.onAddPage();
+  handleAddQuestionPage = () => {
+    this.props.onAddQuestionPage();
     this.handleAddMenuToggle();
   };
 
@@ -150,7 +150,7 @@ class NavigationHeader extends React.Component {
           <StyledAddMenu
             addMenuOpen={this.state.addMenuOpen}
             onAddMenuToggle={this.handleAddMenuToggle}
-            onAddPage={this.handleAddPage}
+            onAddQuestionPage={this.handleAddQuestionPage}
             onAddSection={this.handleAddSection}
             onAddQuestionConfirmation={this.handleAddQuestionConfirmation}
             canAddQuestionConfirmation={this.props.canAddQuestionConfirmation}

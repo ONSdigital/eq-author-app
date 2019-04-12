@@ -1,6 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
-import Accordion, { Button, Body } from "./";
+import Accordion, { Button, Body, DisplayContent } from "./";
 
 describe("Accordion", () => {
   let wrapper;
@@ -9,8 +9,19 @@ describe("Accordion", () => {
     wrapper = shallow(<Accordion title="foo">Accordion panel</Accordion>);
   });
 
-  it("should render", () => {
+  it("should render open", () => {
     expect(wrapper).toMatchSnapshot();
+    expect(wrapper.find(Body).dive()).toMatchSnapshot();
+    expect(wrapper.find(Button).dive()).toMatchSnapshot();
+    expect(wrapper.find(DisplayContent).dive()).toMatchSnapshot();
+  });
+
+  it("should render closed", () => {
+    wrapper.setState({ open: false });
+    expect(wrapper).toMatchSnapshot();
+    expect(wrapper.find(Body).dive()).toMatchSnapshot();
+    expect(wrapper.find(Button).dive()).toMatchSnapshot();
+    expect(wrapper.find(DisplayContent).dive()).toMatchSnapshot();
   });
 
   it("should open and close accordion", () => {

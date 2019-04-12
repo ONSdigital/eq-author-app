@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Property should render 1`] = `
+<Property__InlineField>
+  <Property__PropertyLabel
+    htmlFor="1"
+    inline={true}
+  >
+    <div>
+      This is the child component
+    </div>
+  </Property__PropertyLabel>
+  <ToggleSwitch
+    checked={false}
+    id="1"
+    name="1"
+    onChange={[MockFunction]}
+  />
+</Property__InlineField>
+`;

@@ -6,7 +6,7 @@ describe("AddMenu", () => {
   let mockHandlers = {
     onAdd: jest.fn(),
     onAddMenuToggle: jest.fn(),
-    onAddPage: jest.fn(),
+    onAddQuestionPage: jest.fn(),
     onAddSection: jest.fn(),
     onAddQuestionConfirmation: jest.fn(),
   };
@@ -26,7 +26,7 @@ describe("AddMenu", () => {
   it("should allow a page to be added", () => {
     const wrapper = createWrapper();
     wrapper.find('[data-test="btn-add-question-page"]').simulate("click");
-    expect(mockHandlers.onAddPage).toHaveBeenCalled();
+    expect(mockHandlers.onAddQuestionPage).toHaveBeenCalled();
   });
 
   it("should allow a section to be added", () => {

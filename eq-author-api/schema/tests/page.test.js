@@ -9,12 +9,15 @@ const {
 } = require("../../tests/utils/questionnaireBuilder/questionnaire");
 
 const {
-  createQuestionPage,
   queryPage,
-  updateQuestionPage,
   deletePage,
   movePage,
 } = require("../../tests/utils/questionnaireBuilder/page");
+
+const {
+  createQuestionPage,
+  updateQuestionPage,
+} = require("../../tests/utils/questionnaireBuilder/page/questionPage");
 
 const { DATE, NUMBER } = require("../../constants/answerTypes");
 const {

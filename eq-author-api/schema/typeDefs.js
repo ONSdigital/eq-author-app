@@ -660,7 +660,6 @@ input UpdateQuestionPageInput {
   additionalInfoEnabled: Boolean
 }
 
-
 input CreateAnswerInput {
   description: String
   guidance: String

@@ -11,9 +11,7 @@ query GetQuestionnaire($input: QueryInput!) {
         id
         title
         position
-        ... on QuestionPage {
-          displayName
-        }
+        displayName
       }
       questionnaire {
         id

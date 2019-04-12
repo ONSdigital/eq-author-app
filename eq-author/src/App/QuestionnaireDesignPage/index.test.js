@@ -2,6 +2,7 @@ import React from "react";
 import { shallow } from "enzyme";
 
 import { SECTION, PAGE, QUESTION_CONFIRMATION } from "constants/entities";
+import { ERR_PAGE_NOT_FOUND } from "constants/error-codes";
 
 import NavigationSidebar from "./NavigationSidebar";
 
@@ -49,7 +50,7 @@ describe("QuestionnaireDesignPage", () => {
 
     mockHandlers = {
       onUpdateSection: jest.fn(),
-      onAddPage: jest.fn(),
+      onAddQuestionPage: jest.fn(),
       onAddSection: jest.fn(),
       onUpdatePage: jest.fn(),
       onDeletePage: jest.fn(),
@@ -89,11 +90,11 @@ describe("QuestionnaireDesignPage", () => {
     expect(wrapper.instance().renderRedirect()).toMatchSnapshot();
   });
 
-  describe("onAddPage", () => {
+  describe("onAddQuestionPage", () => {
     it("should add new page below current page", () => {
-      wrapper.find(NavigationSidebar).simulate("addPage");
+      wrapper.find(NavigationSidebar).simulate("addQuestionPage");
 
-      expect(mockHandlers.onAddPage).toHaveBeenCalledWith(
+      expect(mockHandlers.onAddQuestionPage).toHaveBeenCalledWith(
         section.id,
         page.position + 1
       );
@@ -112,9 +113,12 @@ describe("QuestionnaireDesignPage", () => {
         },
       });
 
-      wrapper.find(NavigationSidebar).simulate("addPage");
+      wrapper.find(NavigationSidebar).simulate("addQuestionPage");
 
-      expect(mockHandlers.onAddPage).toHaveBeenCalledWith(section.id, 1);
+      expect(mockHandlers.onAddQuestionPage).toHaveBeenCalledWith(
+        section.id,
+        1
+      );
     });
 
     it("should be able to add a page at the start when on a section", () => {
@@ -128,9 +132,12 @@ describe("QuestionnaireDesignPage", () => {
         },
       });
 
-      wrapper.find(NavigationSidebar).simulate("addPage");
+      wrapper.find(NavigationSidebar).simulate("addQuestionPage");
 
-      expect(mockHandlers.onAddPage).toHaveBeenCalledWith(section.id, 0);
+      expect(mockHandlers.onAddQuestionPage).toHaveBeenCalledWith(
+        section.id,
+        0
+      );
     });
 
     it("should be able to add a page after the confirmation when on a confirmation page", () => {
@@ -144,9 +151,9 @@ describe("QuestionnaireDesignPage", () => {
           },
         },
       });
-      wrapper.find(NavigationSidebar).simulate("addPage");
+      wrapper.find(NavigationSidebar).simulate("addQuestionPage");
 
-      expect(mockHandlers.onAddPage).toHaveBeenCalledWith(
+      expect(mockHandlers.onAddQuestionPage).toHaveBeenCalledWith(
         section.id,
         page.position + 1
       );
@@ -201,10 +208,26 @@ describe("QuestionnaireDesignPage", () => {
     });
 
     it("should disable adding question confirmation whilst loading", () => {
-      wrapper.setProps({ data: {} });
+      wrapper.setProps({
+        loading: true,
+        data: {} 
+      });
       expect(wrapper.find(NavigationSidebar).props()).toMatchObject({
         canAddQuestionConfirmation: false,
       });
+    });
+
+    it("should trigger PAGE_NOT_FOUND error if no question data available after loading finished", () => {
+      
+      const throwWrapper = () => {
+        wrapper.setProps({
+          loading: false,
+          data: {}
+        });  
+      }
+
+      expect(throwWrapper).toThrow( new Error(ERR_PAGE_NOT_FOUND));
+
     });
   });
 });

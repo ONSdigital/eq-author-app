@@ -78,7 +78,7 @@ export const Button = styled.button`
   }
 `;
 
-const DisplayContent = styled.div`
+export const DisplayContent = styled.div`
   display: ${props => (props.open ? "block" : "none")};
 `;
 
