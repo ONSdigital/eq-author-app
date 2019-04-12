@@ -36,7 +36,6 @@ describe("Answers", () => {
         <Answer
           answer={{
             properties: {},
-            childAnswers: [{ properties: {} }, { properties: {} }],
             type: AnswerTypes.DATE_RANGE,
           }}
         />
