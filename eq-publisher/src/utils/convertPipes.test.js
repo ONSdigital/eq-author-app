@@ -93,6 +93,21 @@ describe("convertPipes", () => {
           "{{ answers['answer123'] | format_number }}"
         );
       });
+
+      it("should format answer correctly when entity is missing dataType", () => {
+        const html = `<span data-piped="answers" data-id="123">Foo</span>`;
+        expect(
+          convertPipes({
+            questionnaireJson: {
+              sections: [
+                {
+                  pages: [{ answers: [{ id: "123", type: "Currency" }] }],
+                },
+              ],
+            },
+          })(html)
+        ).toEqual("{{ format_currency(answers['answer123'], 'GBP') }}");
+      });
     });
   });
 

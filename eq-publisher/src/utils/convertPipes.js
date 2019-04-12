@@ -1,8 +1,21 @@
 const cheerio = require("cheerio");
+const { flatMap, includes } = require("lodash");
 const { unescapePiping } = require("./HTMLUtils");
 
 const getMetadata = (ctx, metadataId) =>
   ctx.questionnaireJson.metadata.find(({ id }) => id === metadataId);
+
+const isPipeableType = answer => {
+  const notPipeableDataTypes = ["TextArea", "Radio", "CheckBox"];
+  return !includes(notPipeableDataTypes, answer.type);
+};
+
+const getAnswer = (ctx, answerId) =>
+  flatMap(ctx.questionnaireJson.sections, section =>
+    flatMap(section.pages, page =>
+      page.answers.filter(answer => isPipeableType(answer))
+    )
+  ).find(answer => answer.id === answerId);
 
 const FILTER_MAP = {
   Number: value => `${value} | format_number`,
@@ -36,7 +49,11 @@ const convertElementToPipe = ($elem, ctx) => {
     return "";
   }
   const output = pipeConfig.render(entity);
-  const dataType = pipeConfig.getType(entity);
+  let dataType = pipeConfig.getType(entity);
+
+  if (!dataType) {
+    dataType = getAnswer(ctx, entity.id.toString()).type;
+  }
 
   const filter = FILTER_MAP[dataType];
 
