@@ -8,7 +8,6 @@ exports[`PositionModal/PlainModal should render 1`] = `
 .c0 .Modal {
   width: 23em;
   padding: 0;
-  top: 8em;
 }
 
 <Modal

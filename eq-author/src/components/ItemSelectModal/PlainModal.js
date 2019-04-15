@@ -9,7 +9,6 @@ const PlainModal = styled(Modal).attrs({ hasCloseButton: false })`
   .Modal {
     width: 23em;
     padding: 0;
-    top: 8em;
   }
 `;
 
