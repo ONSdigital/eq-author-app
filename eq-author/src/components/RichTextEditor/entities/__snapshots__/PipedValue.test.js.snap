@@ -19,7 +19,6 @@ exports[`PipedValue entityToHTML should convert entity to HTML 1`] = `
 <span
   data-id="123"
   data-piped="SomeType"
-  data-type="TextField"
 >
   hello world
 </span>

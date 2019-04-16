@@ -276,19 +276,16 @@ describe("components/RichTextEditor", function() {
           id: "1",
           displayName: "answer 1",
           label: "answer 1",
-          type: "TextField",
         },
         {
           id: "2",
           displayName: "answer 2",
           label: "answer 2",
-          type: "TextField",
         },
         {
           id: "3",
           displayName: "answer 3",
           label: "answer 3",
-          type: "TextField",
         },
       ];
 
@@ -306,7 +303,7 @@ describe("components/RichTextEditor", function() {
       });
 
       it("should load labels for piped answers when mounted", () => {
-        const html = `<p><span data-piped="answers" data-id="1" data-type="TextField">[Piped Value]</span> <span data-piped="answers" data-id="2" data-type="TextField">[Piped Value]</span> <span data-piped="metadata" data-id="1">[Piped Value]</span></p>`;
+        const html = `<p><span data-piped="answers" data-id="1">[Piped Value]</span> <span data-piped="answers" data-id="2">[Piped Value]</span> <span data-piped="metadata" data-id="1">[Piped Value]</span></p>`;
 
         wrapper = shallow(
           <RichTextEditor
@@ -322,7 +319,6 @@ describe("components/RichTextEditor", function() {
           .addEntity(
             createPipedEntity(createEntity, {
               id: answers[0].id,
-              type: answers[0].type,
               pipingType: "answers",
             }),
             0,
@@ -331,7 +327,6 @@ describe("components/RichTextEditor", function() {
           .addEntity(
             createPipedEntity(createEntity, {
               id: answers[1].id,
-              type: answers[1].type,
               pipingType: "answers",
             }),
             11,
@@ -340,7 +335,6 @@ describe("components/RichTextEditor", function() {
           .addEntity(
             createPipedEntity(createEntity, {
               id: metadata[0].id,
-              type: null,
               pipingType: "metadata",
             }),
             22,
@@ -354,15 +348,13 @@ describe("components/RichTextEditor", function() {
       it("should handle piped values for answers that no longer exist", () => {
         const nonExistentAnswer = {
           id: "4",
-          type: "TextField",
           pipingType: "answers",
         };
         const nonExistentMetadata = {
           id: "2",
-          type: null,
           pipingType: "metadata",
         };
-        const html = `<p><span data-piped="answers" data-id="4" data-type="TextField">[Piped Value]</span> <span data-piped="answers" data-id="2" data-type="TextField">[Piped Value]</span> <span data-piped="metadata" data-id="2">[Piped Value]</span></p>`;
+        const html = `<p><span data-piped="answers" data-id="4">[Piped Value]</span> <span data-piped="answers" data-id="2">[Piped Value]</span> <span data-piped="metadata" data-id="2">[Piped Value]</span></p>`;
 
         wrapper = shallow(
           <RichTextEditor
@@ -379,7 +371,6 @@ describe("components/RichTextEditor", function() {
           .addEntity(
             createPipedEntity(createEntity, {
               id: answers[1].id,
-              type: answers[1].type,
               pipingType: "answers",
             }),
             17,
@@ -401,11 +392,10 @@ describe("components/RichTextEditor", function() {
       });
 
       it("should not update piped value text if answer or metadata doesn't have name to display", () => {
-        const html = `<p><span data-piped="answers" data-id="123" data-type="TextField">[Piped Value]</span> <span data-piped="metadata" data-id="456">[Piped Metadata]</span></p>`;
-        const answer = { id: "123", type: "TextField", pipingType: "answers" };
+        const html = `<p><span data-piped="answers" data-id="123">[Piped Value]</span> <span data-piped="metadata" data-id="456">[Piped Metadata]</span></p>`;
+        const answer = { id: "123", pipingType: "answers" };
         const metadataNoAlias = {
           id: "456",
-          type: null,
           pipingType: "metadata",
         };
         fetch = jest.fn(() => Promise.resolve([answer]));
@@ -434,7 +424,6 @@ describe("components/RichTextEditor", function() {
         const answer = {
           id: "123",
           displayName: "FooBar",
-          type: "TextField",
           pipingType: "answers",
         };
 
@@ -479,12 +468,11 @@ describe("components/RichTextEditor", function() {
           displayName: "FooBar",
           label: "from label",
           secondaryLabel: "to label",
-          type: "DateRange",
           pipingType: "answers",
         };
 
         const fetchDateRange = jest.fn(() => Promise.resolve([answer]));
-        const html = `<p><span data-piped="answers" data-id="123" data-type="DateRange">[FooBar]</span></p>`;
+        const html = `<p><span data-piped="answers" data-id="123">[FooBar]</span></p>`;
 
         wrapper = shallow(
           <RichTextEditor
@@ -498,25 +486,25 @@ describe("components/RichTextEditor", function() {
         const expected = new Raw()
           .addBlock("[FooBar]")
           .addEntity(
-            createPipedEntity(createEntity, omit(answer, ["displayName", "label", "secondaryLabel"])),
+            createPipedEntity(
+              createEntity,
+              omit(answer, ["displayName", "label", "secondaryLabel"])
+            ),
             0,
             8
           )
           .toRawContentState();
 
         expect(toRaw(wrapper)).toEqual(expected);
-    
       });
 
       it("should ignore answers if no answer pipes given", () => {
-
         const metadata = {
           id: "123",
-          type: null,
           displayName: "FooBar",
           pipingType: "metadata",
         };
-  
+
         const fetch = jest.fn(() => Promise.resolve([]));
         const html = `<p><span data-piped="metadata" data-id="123">[Piped Answer]</span></p>`;
 
@@ -539,7 +527,6 @@ describe("components/RichTextEditor", function() {
           .toRawContentState();
 
         expect(toRaw(wrapper)).toEqual(expected);
-    
       });
     });
   });
@@ -549,7 +536,6 @@ describe("components/RichTextEditor", function() {
       const answer = {
         id: "123",
         label: "pipe",
-        type: "TextField",
         displayName: "FooBar",
         pipingType: "answers",
       };
@@ -559,7 +545,7 @@ describe("components/RichTextEditor", function() {
 
       const { value } = props.onUpdate.mock.calls[0][0];
       expect(value).toEqual(
-        '<p><span data-piped="answers" data-id="123" data-type="TextField">[FooBar]</span></p>'
+        '<p><span data-piped="answers" data-id="123">[FooBar]</span></p>'
       );
     });
   });
