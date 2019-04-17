@@ -5,7 +5,7 @@ import { ERR_PAGE_NOT_FOUND } from "constants/error-codes";
 
 export default class ErrorBoundary extends React.Component {
   static propTypes = {
-    children: PropTypes.node.isRequired
+    children: PropTypes.node.isRequired,
   };
 
   state = { error: false };

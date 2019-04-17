@@ -9,7 +9,7 @@ describe("DateRangeAnswer", () => {
     secondaryLabel: "to",
     properties: {
       format: "dd/mm/yyyy",
-    }
+    },
   };
 
   it("should render", () => {

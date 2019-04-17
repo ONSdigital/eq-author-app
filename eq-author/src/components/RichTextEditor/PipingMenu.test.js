@@ -268,7 +268,7 @@ describe("PipingMenu", () => {
           sectionId: "3",
           pageId: "2",
         },
-      }
+      },
     ];
 
     entities.forEach(({ name, params }) => {
@@ -312,7 +312,7 @@ describe("PipingMenu", () => {
           onItemChosen: jest.fn(),
         }
       );
-  
+
       expect(result.props).toMatchObject({
         answerData: [
           {
@@ -324,11 +324,11 @@ describe("PipingMenu", () => {
                 displayName: "Page 1",
                 answers: [
                   { id: "1from", displayName: "From label" },
-                  { id: "1to", displayName: "To label" }
+                  { id: "1to", displayName: "To label" },
                 ],
               },
             ],
-          }
+          },
         ],
         metadataData: [],
       });
@@ -336,7 +336,6 @@ describe("PipingMenu", () => {
   });
 
   it("should be empty if no entities given", () => {
-
     const name = "nonExistantEntity";
     const match = {
       params: {
@@ -344,7 +343,7 @@ describe("PipingMenu", () => {
         sectionId: "3",
         pageId: "2",
         confirmationId: "1",
-      }
+      },
     };
 
     const data = {
@@ -378,12 +377,10 @@ describe("PipingMenu", () => {
         entity={data[name]}
       />
     );
-    const result = wrapper.find(AvailablePipingContentQuery).prop("children")(
-      {
-        data,
-        onItemChosen: jest.fn(),
-      }
-    );
+    const result = wrapper.find(AvailablePipingContentQuery).prop("children")({
+      data,
+      onItemChosen: jest.fn(),
+    });
 
     expect(result.props).toMatchObject({
       answerData: [],
