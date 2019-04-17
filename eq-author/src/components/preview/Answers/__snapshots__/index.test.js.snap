@@ -111,14 +111,6 @@ exports[`Answers should render date range answers 1`] = `
   <DateRangeAnswer
     answer={
       Object {
-        "childAnswers": Array [
-          Object {
-            "properties": Object {},
-          },
-          Object {
-            "properties": Object {},
-          },
-        ],
         "properties": Object {},
         "type": "DateRange",
       }

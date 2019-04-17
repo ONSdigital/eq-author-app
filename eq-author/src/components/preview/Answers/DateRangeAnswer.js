@@ -4,19 +4,22 @@ import PropTypes from "prop-types";
 import DateAnswer from "./DateAnswer";
 
 const DateRangeAnswer = ({ answer }) => {
-  const { childAnswers, properties } = answer;
-  const [from, to] = childAnswers;
+  const { secondaryLabel, ...dateAnswer } = answer;
 
   return (
     <div>
-      <DateAnswer answer={{ ...from, properties }} />
-      <DateAnswer answer={{ ...to, properties }} />
+      <DateAnswer answer={ dateAnswer } />
+      <DateAnswer answer={{
+        ...dateAnswer,
+        label: secondaryLabel
+      }} />
     </div>
   );
 };
 DateRangeAnswer.propTypes = {
   answer: PropTypes.shape({
-    childAnswers: PropTypes.arrayOf(DateAnswer.propTypes.answer).isRequired,
+    label: PropTypes.string,
+    secondaryLabel: PropTypes.string,
     properties: PropTypes.shape({
       format: PropTypes.string,
     }).isRequired,
