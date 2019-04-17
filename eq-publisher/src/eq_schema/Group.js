@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 const Block = require("./Block");
 const { isEmpty, reject, flatten } = require("lodash");
 const {

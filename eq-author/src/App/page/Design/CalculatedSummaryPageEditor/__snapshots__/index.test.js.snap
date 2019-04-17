@@ -1,0 +1,110 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CalculatedSummaryPageEditor should render 1`] = `
+<div
+  data-test="calculated-summary-page-editor"
+>
+  <Apollo(Apollo(Apollo(PageHeader)))
+    alertText="All changes to this page will be lost."
+    fetchAnswers={[MockFunction]}
+    isDuplicateDisabled={true}
+    isMoveDisabled={true}
+    onChange={[MockFunction]}
+    onChangeUpdate={[MockFunction]}
+    onUpdate={[MockFunction]}
+    onUpdateCalculatedSummaryPage={[MockFunction]}
+    page={
+      Object {
+        "alias": "",
+        "availableSummaryAnswers": Array [],
+        "displayName": "Foo",
+        "id": "1",
+        "pageType": "CalculatedSummaryPage",
+        "position": 1,
+        "section": Object {
+          "displayName": "This Section",
+          "id": "1",
+        },
+        "summaryAnswers": Array [],
+        "title": "",
+        "totalTitle": "",
+      }
+    }
+  />
+  <CalculatedSummaryPageEditor__PageSegment>
+    <RichTextEditor
+      allowableTypes={
+        Array [
+          "Custom",
+          "Metadata",
+          "Variables",
+        ]
+      }
+      autoFocus={false}
+      controls={
+        Object {
+          "emphasis": true,
+          "piping": true,
+        }
+      }
+      defaultTab="variables"
+      fetchAnswers={[MockFunction]}
+      id="summary-title"
+      label="Page title"
+      metadata={Array []}
+      multiline={false}
+      name="title"
+      onUpdate={[MockFunction]}
+      placeholder="e.g. We calculate the answer as [total], are you sure this is correct?"
+      size="large"
+      testSelector="txt-summary-title"
+      value=""
+    />
+    <div>
+      <CalculatedSummaryPageEditor__SelectorTitle>
+        Answers to calculate
+      </CalculatedSummaryPageEditor__SelectorTitle>
+      <AnswerSelector
+        onUpdateCalculatedSummaryPage={[MockFunction]}
+        page={
+          Object {
+            "alias": "",
+            "availableSummaryAnswers": Array [],
+            "displayName": "Foo",
+            "id": "1",
+            "pageType": "CalculatedSummaryPage",
+            "position": 1,
+            "section": Object {
+              "displayName": "This Section",
+              "id": "1",
+            },
+            "summaryAnswers": Array [],
+            "title": "",
+            "totalTitle": "",
+          }
+        }
+      />
+    </div>
+    <RichTextEditor
+      autoFocus={false}
+      controls={
+        Object {
+          "emphasis": true,
+          "piping": true,
+        }
+      }
+      fetchAnswers={[MockFunction]}
+      id="total-title"
+      label="Total title"
+      metadata={Array []}
+      multiline={false}
+      name="totalTitle"
+      onUpdate={[MockFunction]}
+      placeholder="e.g. Total value of answers"
+      size="large"
+      testSelector="txt-total-title"
+      value=""
+    />
+  </CalculatedSummaryPageEditor__PageSegment>
+</div>
+`;

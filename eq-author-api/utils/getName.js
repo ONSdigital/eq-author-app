@@ -4,6 +4,7 @@ const { stripTags } = require("./html");
 const defaultNames = {
   Section: "Untitled Section",
   QuestionPage: "Untitled Page",
+  CalculatedSummaryPage: "Untitled Summary Page",
   Option: "Untitled Label",
   BasicAnswer: "Untitled Answer",
   MultipleChoiceAnswer: "Untitled Answer",

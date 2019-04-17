@@ -8,8 +8,10 @@ import { propType } from "graphql-anywhere";
 import Loading from "components/Loading";
 
 import QuestionPageEditor from "App/page/Design/QuestionPageEditor";
+import CalculatedSummaryPageEditor from "App/page/Design/CalculatedSummaryPageEditor";
 
 import QuestionPagePreview from "./QuestionPagePreview";
+import CalculatedSummaryPreview from "./CalculatedSummaryPreview";
 
 export const UnwrappedPreviewPageRoute = props => {
   const { loading, data } = props;
@@ -20,6 +22,9 @@ export const UnwrappedPreviewPageRoute = props => {
   const { page } = data;
   if (page.pageType === "QuestionPage") {
     return <QuestionPagePreview page={page} />;
+  }
+  if (page.pageType === "CalculatedSummaryPage") {
+    return <CalculatedSummaryPreview page={page} />;
   }
 };
 
@@ -34,9 +39,11 @@ export const PAGE_QUERY = gql`
   query GetPage($input: QueryInput!) {
     page(input: $input) {
       ...QuestionPage
+      ...CalculatedSummaryPage
     }
   }
   ${QuestionPageEditor.fragments.QuestionPage}
+  ${CalculatedSummaryPageEditor.fragments.CalculatedSummaryPage}
 `;
 
 export default withApollo(props => (

@@ -22,11 +22,17 @@ const PIPE_TYPES = {
     render: ({ key }) => `metadata['${key}']`,
     getType: ({ type }) => type,
   },
+  variable: {
+    render: () => `%(total)s`,
+  },
 };
 
 const convertElementToPipe = ($elem, ctx) => {
   const { piped, ...elementData } = $elem.data();
   const pipeConfig = PIPE_TYPES[piped];
+  if (piped === "variable") {
+    return pipeConfig.render();
+  }
   if (!pipeConfig) {
     return "";
   }

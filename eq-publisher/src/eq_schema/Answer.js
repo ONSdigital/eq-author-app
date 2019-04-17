@@ -1,7 +1,11 @@
-/* eslint-disable camelcase */
 const { isNil } = require("lodash/fp");
 const { get, has, pick } = require("lodash");
-const { NUMBER, CURRENCY, PERCENTAGE, DATE } = require("../constants/answerTypes");
+const {
+  NUMBER,
+  CURRENCY,
+  PERCENTAGE,
+  DATE,
+} = require("../constants/answerTypes");
 
 class Answer {
   constructor(answer) {

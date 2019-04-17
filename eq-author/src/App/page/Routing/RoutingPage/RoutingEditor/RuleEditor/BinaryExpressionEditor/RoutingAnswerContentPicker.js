@@ -16,15 +16,17 @@ const GET_AVAILABLE_ROUTING_ANSWERS = gql`
     page(input: $input) {
       id
       displayName
-      availableRoutingAnswers {
-        id
-        displayName
-        page {
+      ... on QuestionPage {
+        availableRoutingAnswers {
           id
           displayName
-          section {
+          page {
             id
             displayName
+            section {
+              id
+              displayName
+            }
           }
         }
       }

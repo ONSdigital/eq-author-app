@@ -20,7 +20,6 @@ const navigateToRoutingTab = () =>
   cy
     .log("Navigating to routing tab")
     .get(testId("tabs-nav"))
-
     .within(() => {
       cy.get(`a${testId("routing")}`).click();
     })

@@ -33,7 +33,7 @@ export class UnwrappedDestinationSelector extends React.Component {
       destination = {
         sectionId: id,
       };
-    } else if (type === "QuestionPage") {
+    } else if (type === "QuestionPage" || type === "CalculatedSummaryPage") {
       destination = {
         pageId: id,
       };

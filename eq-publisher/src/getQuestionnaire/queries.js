@@ -10,7 +10,7 @@ exports.getQuestionnaire = `
     qCode
     ...BasicAnswer
   }
-
+  
   fragment BasicAnswer on BasicAnswer {
     validation {
       ... on NumberValidation {
@@ -45,7 +45,7 @@ exports.getQuestionnaire = `
       }
     }
   }
-
+  
   fragment MinValueValidationRule on MinValueValidationRule {
     id
     enabled
@@ -56,7 +56,7 @@ exports.getQuestionnaire = `
       id
     }
   }
-
+  
   fragment MaxValueValidationRule on MaxValueValidationRule {
     id
     enabled
@@ -67,7 +67,7 @@ exports.getQuestionnaire = `
       id
     }
   }
-
+  
   fragment EarliestDateValidationRule on EarliestDateValidationRule {
     id
     enabled
@@ -85,7 +85,7 @@ exports.getQuestionnaire = `
       key
     }
   }
-
+  
   fragment LatestDateValidationRule on LatestDateValidationRule {
     id
     enabled
@@ -103,7 +103,7 @@ exports.getQuestionnaire = `
       key
     }
   }
-
+  
   fragment MinDurationValidationRule on MinDurationValidationRule {
     id
     enabled
@@ -112,7 +112,7 @@ exports.getQuestionnaire = `
       unit
     }
   }
-
+  
   fragment MaxDurationValidationRule on MaxDurationValidationRule {
     id
     enabled
@@ -121,7 +121,7 @@ exports.getQuestionnaire = `
       unit
     }
   }
-
+  
   fragment optionFragment on Option {
     id
     label
@@ -132,7 +132,7 @@ exports.getQuestionnaire = `
       ...answerFragment
     }
   }
-
+  
   fragment destination2Fragment on Destination2 {
     section {
       id
@@ -142,13 +142,13 @@ exports.getQuestionnaire = `
     }
     logical
   }
-
+  
   fragment metadataFragment on Metadata {
     id
     key
     type
   }
-
+  
   query GetQuestionnaire($input: QueryInput!) {
     questionnaire(input: $input) {
       id
@@ -171,47 +171,13 @@ exports.getQuestionnaire = `
           id
           title
           pageType
-          routing {
-            rules {
-              expressionGroup {
-                operator
-                expressions {
-                  ... on BinaryExpression2 {
-                    left {
-                      ... on BasicAnswer {
-                        id
-                        type
-                        label
-                      }
-                      ... on MultipleChoiceAnswer {
-                        id
-                        type
-                        options {
-                          id
-                        }
-                      }
-                    }
-                    condition
-                    right {
-                      ... on CustomValue2 {
-                        number
-                      }
-                      ... on SelectedOptions2 {
-                        options {
-                          id
-                          label
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-              destination {
-                ...destination2Fragment
-              }
+          ... on CalculatedSummaryPage {
+            totalTitle
+            summaryAnswers {
+              id
             }
-            else {
-              ...destination2Fragment
+            availableSummaryAnswers {
+              id
             }
           }
           ... on QuestionPage {
@@ -246,6 +212,49 @@ exports.getQuestionnaire = `
                 mutuallyExclusiveOption {
                   ...optionFragment
                 }
+              }
+            }
+            routing {
+              rules {
+                expressionGroup {
+                  operator
+                  expressions {
+                    ... on BinaryExpression2 {
+                      left {
+                        ... on BasicAnswer {
+                          id
+                          type
+                          label
+                        }
+                        ... on MultipleChoiceAnswer {
+                          id
+                          type
+                          options {
+                            id
+                          }
+                        }
+                      }
+                      condition
+                      right {
+                        ... on CustomValue2 {
+                          number
+                        }
+                        ... on SelectedOptions2 {
+                          options {
+                            id
+                            label
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+                destination {
+                  ...destination2Fragment
+                }
+              }
+              else {
+                ...destination2Fragment
               }
             }
           }

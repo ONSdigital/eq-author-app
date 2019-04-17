@@ -12,7 +12,7 @@ const Title = styled.h1`
 const PageTitle = ({ title }) => {
   let pageTitle = title && title.replace(/(<p[^>]+?>|<p>|<\/p>)/gim, "");
   return (
-    <Title>
+    <Title data-test="page-title">
       {pageTitle ? (
         /*  eslint-disable-next-line react/no-danger */
         <div dangerouslySetInnerHTML={{ __html: pageTitle }} />

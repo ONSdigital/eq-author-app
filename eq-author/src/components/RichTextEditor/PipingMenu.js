@@ -40,8 +40,7 @@ export class Menu extends React.Component {
     disabled: PropTypes.bool,
     canFocus: PropTypes.bool,
     loading: PropTypes.bool,
-    entityName: PropTypes.string.isRequired,
-    entity: PropTypes.object, // eslint-disable-line
+    allowableTypes: PropTypes.arrayOf(PropTypes.string),
     answerData: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.string.isRequired,
@@ -52,6 +51,7 @@ export class Menu extends React.Component {
         id: PropTypes.string.isRequired,
       })
     ),
+    defaultTab: PropTypes.string,
   };
 
   state = {
@@ -82,6 +82,7 @@ export class Menu extends React.Component {
       disabled,
       loading,
       canFocus,
+      defaultTab,
     } = this.props;
 
     const isDisabled =
@@ -91,7 +92,10 @@ export class Menu extends React.Component {
       return <MenuButton {...buttonProps} disabled />;
     }
 
-    const allowableContentTypes = [ANSWER, METADATA];
+    const allowableContentTypes = this.props.allowableTypes || [
+      ANSWER,
+      METADATA,
+    ];
 
     return (
       <React.Fragment>
@@ -110,6 +114,7 @@ export class Menu extends React.Component {
           onSubmit={this.handlePickerSubmit}
           data-test="picker"
           contentTypes={allowableContentTypes}
+          defaultTab={defaultTab}
         />
       </React.Fragment>
     );

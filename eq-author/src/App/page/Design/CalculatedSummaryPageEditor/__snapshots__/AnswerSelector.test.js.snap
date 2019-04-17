@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AnswerSelector should render 1`] = `
+<div>
+  <AnswerSelector__Box>
+    <AnswerSelector__Answers>
+      <div>
+        <AnswerSelector__Empty>
+          <AnswerSelector__EmptyTitle>
+            No answers selected
+          </AnswerSelector__EmptyTitle>
+          <AnswerSelector__EmptyText>
+            Select an answer using the button below or use the shortcuts for common selections.
+          </AnswerSelector__EmptyText>
+          <AnswerSelector__EmptyButton
+            data-test="answer-selector-empty"
+            onClick={[Function]}
+            small={true}
+          >
+            Select an answer
+          </AnswerSelector__EmptyButton>
+        </AnswerSelector__Empty>
+      </div>
+      <AnswerSelector__Suggestions>
+        <AnswerSelector__SuggestionsHeader>
+          <AnswerSelector__SuggestionsTitle>
+            Shortcuts
+          </AnswerSelector__SuggestionsTitle>
+        </AnswerSelector__SuggestionsHeader>
+        <AnswerSelector__NoShortcuts>
+          No shortcuts available. Add numeric answers to be provided with suggested selections.
+        </AnswerSelector__NoShortcuts>
+      </AnswerSelector__Suggestions>
+      <ContentPickerModal
+        answerData={Array []}
+        contentTypes={
+          Array [
+            "Custom",
+          ]
+        }
+        isOpen={false}
+        levels={2}
+        onClose={[Function]}
+        onSubmit={[Function]}
+      />
+    </AnswerSelector__Answers>
+  </AnswerSelector__Box>
+</div>
+`;

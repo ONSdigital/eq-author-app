@@ -33,6 +33,7 @@ export class UnwrappedNavigationSidebar extends Component {
   static propTypes = {
     questionnaire: CustomPropTypes.questionnaire,
     onAddQuestionPage: PropTypes.func.isRequired,
+    onAddCalculatedSummaryPage: PropTypes.func.isRequired,
     onAddSection: PropTypes.func.isRequired,
     onAddQuestionConfirmation: PropTypes.func.isRequired,
     onUpdateQuestionnaire: PropTypes.func.isRequired,
@@ -49,6 +50,7 @@ export class UnwrappedNavigationSidebar extends Component {
       questionnaire,
       onUpdateQuestionnaire,
       onAddQuestionPage,
+      onAddCalculatedSummaryPage,
       onAddQuestionConfirmation,
       canAddQuestionConfirmation,
       loading,
@@ -62,6 +64,7 @@ export class UnwrappedNavigationSidebar extends Component {
               questionnaire={questionnaire}
               onUpdateQuestionnaire={onUpdateQuestionnaire}
               onAddSection={this.handleAddSection}
+              onAddCalculatedSummaryPage={onAddCalculatedSummaryPage}
               onAddQuestionPage={onAddQuestionPage}
               onAddQuestionConfirmation={onAddQuestionConfirmation}
               canAddQuestionConfirmation={canAddQuestionConfirmation}

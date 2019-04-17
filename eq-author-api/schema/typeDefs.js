@@ -67,9 +67,6 @@ interface Page {
   position: Int!
   availablePipingAnswers: [Answer!]!
   availablePipingMetadata: [Metadata!]!
-  availableRoutingAnswers: [Answer!]!
-  availableRoutingDestinations: AvailableRoutingDestinations!
-  routing: Routing2
 }
 
 type QuestionPage implements Page {
@@ -97,6 +94,21 @@ type QuestionPage implements Page {
   availableRoutingDestinations: AvailableRoutingDestinations!
   confirmation: QuestionConfirmation
   routing: Routing2
+}
+
+type CalculatedSummaryPage implements Page {
+  id: ID!
+  title: String!
+  alias: String
+  displayName: String!
+  pageType: PageType!
+  section: Section!
+  position: Int!
+  availableSummaryAnswers: [Answer!]!
+  summaryAnswers: [Answer!]!
+  availablePipingAnswers: [Answer!]!
+  availablePipingMetadata: [Metadata!]!
+  totalTitle: String
 }
 
 type ConfirmationOption {
@@ -292,6 +304,7 @@ enum RelativePosition {
 enum PageType {
   QuestionPage
   InterstitialPage
+  CalculatedSummaryPage
 }
 
 enum AnswerType {
@@ -465,6 +478,8 @@ type Mutation {
   duplicatePage(input: DuplicatePageInput!): Page
   createQuestionPage(input: CreateQuestionPageInput!): QuestionPage
   updateQuestionPage(input: UpdateQuestionPageInput!): QuestionPage
+  createCalculatedSummaryPage(input: CreateCalculatedSummaryPageInput!): CalculatedSummaryPage!
+  updateCalculatedSummaryPage(input: UpdateCalculatedSummaryPageInput!): CalculatedSummaryPage!
   createAnswer(input: CreateAnswerInput!): Answer
   updateAnswer(input: UpdateAnswerInput!): Answer
   deleteAnswer(input: DeleteAnswerInput!): Answer
@@ -658,6 +673,19 @@ input UpdateQuestionPageInput {
   additionalInfoLabel: String
   additionalInfoContent: String
   additionalInfoEnabled: Boolean
+}
+
+input CreateCalculatedSummaryPageInput {
+  sectionId: ID!
+  position: Int
+}
+
+input UpdateCalculatedSummaryPageInput {
+  id: ID!
+  alias: String
+  title: String
+  totalTitle: String
+  summaryAnswers: [ID!]
 }
 
 input CreateAnswerInput {

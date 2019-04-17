@@ -46,6 +46,10 @@ const sizes = {
     font-size: 1.3em;
     font-weight: 700;
     line-height: 1.3;
+
+    @media only screen and (max-width: 84em) {
+      font-size: 1em;
+    }
   `,
 
   medium: css`

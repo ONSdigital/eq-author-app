@@ -34,6 +34,7 @@ describe("Question Routing Route", () => {
   it("should render the RoutingPage when data is loaded", () => {
     const page = {
       id: "1",
+      pageType: "QuestionPage",
       displayName: "Untitled Page",
       routing: null,
     };
@@ -49,5 +50,29 @@ describe("Question Routing Route", () => {
     expect(wrapper.find(RoutingPage).props()).toMatchObject({
       page: page,
     });
+  });
+
+  it("should redirect if the pageType is not valid", () => {
+    const page = {
+      id: "1",
+      pageType: "NoRoutingHere",
+      displayName: "Untitled Page",
+      routing: null,
+      section: {
+        id: "1",
+        questionnaire: {
+          id: "1",
+        },
+      },
+    };
+    const wrapper = shallow(
+      <UnwrappedQuestionRoutingRoute
+        loading={false}
+        data={{
+          page,
+        }}
+      />
+    );
+    expect(wrapper).toMatchSnapshot();
   });
 });

@@ -55,6 +55,7 @@ exports[`QuestionnaireDesignPage should render 1`] = `
           canAddQuestionConfirmation={true}
           data-test="side-nav"
           loading={false}
+          onAddCalculatedSummaryPage={[Function]}
           onAddQuestionConfirmation={[Function]}
           onAddQuestionPage={[Function]}
           onAddSection={[MockFunction]}

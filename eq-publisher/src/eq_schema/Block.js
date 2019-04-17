@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 const Question = require("./Question");
 
 const translateAuthorRouting = require("./builders/routing2");
@@ -45,7 +44,6 @@ class Block {
     this.type = this.convertPageType(page.pageType);
     this.buildPages(page, ctx);
     if (page.routing && isNil(page.confirmation)) {
-      // eslint-disable-next-line camelcase
       this.routing_rules = translateAuthorRouting(
         page.routing,
         page.id,
@@ -70,6 +68,23 @@ class Block {
       page.pageType === "ConfirmationQuestion"
     ) {
       this.questions = [new Question(page, ctx)];
+    }
+    if (page.pageType === "CalculatedSummaryPage") {
+      this.titles = [
+        {
+          value: processPipedTitle(ctx)(page.title),
+        },
+      ];
+      this.type = "CalculatedSummary";
+      this.calculation = {
+        calculation_type: "sum",
+        answers_to_calculate: page.summaryAnswers.map(o => `answer${o.id}`),
+        titles: [
+          {
+            value: processPipedTitle(ctx)(page.totalTitle),
+          },
+        ],
+      };
     }
   }
 

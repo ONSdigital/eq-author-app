@@ -3,6 +3,7 @@ import { shallow } from "enzyme";
 import { UnwrappedPageRoute } from "./";
 import Loading from "components/Loading";
 import QuestionPageEditor from "./QuestionPageEditor";
+import CalculatedSummaryPageEditor from "./CalculatedSummaryPageEditor";
 
 describe("PageRoute", () => {
   let match, mockHandlers, questionnaireId, sectionId, pageId;
@@ -85,6 +86,32 @@ describe("PageRoute", () => {
 
       expect(wrapper.find(Loading).exists()).toBe(false);
       expect(wrapper.find(QuestionPageEditor).exists()).toBe(true);
+    });
+
+    it("should render a calculatedSummaryPage editor once loaded", () => {
+      const page = {
+        __typename: "CalculatedSummaryPage",
+        id: pageId,
+        title: "foo",
+        alias: "foo-alias",
+        pageType: "CalculatedSummaryPage",
+        displayName: "foo-alias",
+        position: 0,
+        section: {
+          __typename: "Section",
+          id: sectionId,
+          questionnaire: {
+            __typename: "Questionnaire",
+            id: questionnaireId,
+            metadata: [],
+          },
+        },
+      };
+
+      const wrapper = render({ loading: false, page });
+
+      expect(wrapper.find(Loading).exists()).toBe(false);
+      expect(wrapper.find(CalculatedSummaryPageEditor).exists()).toBe(true);
     });
 
     it("should render error if problem with request", () => {

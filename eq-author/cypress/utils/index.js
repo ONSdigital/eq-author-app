@@ -106,6 +106,26 @@ export const addQuestionPage = (title = "hello world") => {
   });
 };
 
+export const addCalculatedSummaryPage = () => {
+  let prevCount;
+
+  cy.get(testId("nav-page-link")).then(items => {
+    prevCount = items.length;
+
+    cy.get(testId("add-menu")).within(() => {
+      cy.get("button")
+        .contains("Add")
+        .click()
+        .get("button")
+        .contains("Calculated summary")
+        .click();
+    });
+
+    cy.get(testId("nav-page-link")).should("have.length", prevCount + 1);
+    cy.get(testId("nav-page-link")).should("contain", "Untitled Summary Page");
+  });
+};
+
 export const buildMultipleChoiceAnswer = (optionLabels, label = "") => {
   addAnswerType(RADIO);
 

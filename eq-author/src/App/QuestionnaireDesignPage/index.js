@@ -23,6 +23,7 @@ import questionConfirmationRoutes from "App/questionConfirmation";
 
 import withCreateQuestionPage from "enhancers/withCreateQuestionPage";
 import withCreateSection from "enhancers/withCreateSection";
+import withCreateCalculatedSummaryPage from "enhancers/withCreateCalculatedSummaryPage";
 
 import { raiseToast } from "redux/toast/actions";
 
@@ -34,6 +35,7 @@ import { ERR_PAGE_NOT_FOUND } from "constants/error-codes";
 export class UnwrappedQuestionnaireDesignPage extends Component {
   static propTypes = {
     onAddQuestionPage: PropTypes.func.isRequired,
+    onAddCalculatedSummaryPage: PropTypes.func.isRequired,
     onCreateQuestionConfirmation: PropTypes.func.isRequired,
     onAddSection: PropTypes.func.isRequired,
     loading: PropTypes.bool.isRequired,
@@ -46,9 +48,10 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
 
   state = { showDeleteConfirmDialog: false, showMovePageDialog: false };
 
-  handleAddPage = () => {
+  handleAddPage = pageType => () => {
     const {
       onAddQuestionPage,
+      onAddCalculatedSummaryPage,
       match,
       data: { questionnaire },
     } = this.props;
@@ -79,7 +82,11 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
         }
       }
     }
-    onAddQuestionPage(sectionId, position);
+    if (pageType === "QuestionPage") {
+      onAddQuestionPage(sectionId, position);
+    } else {
+      onAddCalculatedSummaryPage(sectionId, position);
+    }
   };
 
   getTitle = title => {
@@ -170,7 +177,10 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
                 data-test="side-nav"
                 loading={loading}
                 onAddSection={this.props.onAddSection}
-                onAddQuestionPage={this.handleAddPage}
+                onAddQuestionPage={this.handleAddPage("QuestionPage")}
+                onAddCalculatedSummaryPage={this.handleAddPage(
+                  "CalculatedSummaryPage"
+                )}
                 questionnaire={questionnaire}
                 canAddQuestionConfirmation={this.canAddQuestionConfirmation()}
                 onAddQuestionConfirmation={this.handleAddQuestionConfirmation}
@@ -200,7 +210,8 @@ const withMutations = flowRight(
   ),
   withCreateSection,
   withCreateQuestionPage,
-  withCreateQuestionConfirmation
+  withCreateQuestionConfirmation,
+  withCreateCalculatedSummaryPage
 );
 
 const QUESTIONNAIRE_QUERY = gql`

@@ -11,7 +11,7 @@ import { raiseToast } from "redux/toast/actions";
 import Loading from "components/Loading";
 import Error from "components/Error";
 
-import EditorLayout from "./EditorLayout";
+import EditorLayout from "App/page/Design/EditorLayout";
 
 import { propType } from "graphql-anywhere";
 
@@ -20,9 +20,11 @@ import withCreateQuestionPage from "enhancers/withCreateQuestionPage";
 import withFetchAnswers from "./withFetchAnswers";
 
 import QuestionPageEditor from "./QuestionPageEditor";
+import CalculatedSummaryPageEditor from "./CalculatedSummaryPageEditor";
 
 const availableTabMatrix = {
   QuestionPage: { design: true, preview: true, routing: true },
+  CalculatedSummaryPage: { design: true, preview: true },
 };
 
 const deriveAvailableTabs = (page, loading) =>
@@ -50,6 +52,14 @@ export class UnwrappedPageRoute extends React.Component {
     if (page.pageType === "QuestionPage") {
       return (
         <QuestionPageEditor
+          key={page.id} // this is needed to reset the state of the RichTextEditors when moving between pages
+          {...this.props}
+        />
+      );
+    }
+    if (page.pageType === "CalculatedSummaryPage") {
+      return (
+        <CalculatedSummaryPageEditor
           key={page.id} // this is needed to reset the state of the RichTextEditors when moving between pages
           {...this.props}
         />
@@ -112,8 +122,10 @@ export const PAGE_QUERY = gql`
   query GetPage($input: QueryInput!) {
     page(input: $input) {
       ...QuestionPage
+      ...CalculatedSummaryPage
     }
   }
+  ${CalculatedSummaryPageEditor.fragments.CalculatedSummaryPage}
   ${QuestionPageEditor.fragments.QuestionPage}
 `;
 

@@ -34,7 +34,7 @@ describe("createAuthToken", () => {
         email: "eq.team@ons.gov.uk",
         name: "Publisher",
         picture: "",
-        /* eslint-disable-next-line camelcase */
+
         user_id: "Publisher",
       });
     });

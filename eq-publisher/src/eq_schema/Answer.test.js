@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 const {
   NUMBER,
   DATE,

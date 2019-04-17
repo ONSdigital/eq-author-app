@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 const Group = require("./Group");
 const Block = require("./Block");
 

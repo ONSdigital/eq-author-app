@@ -1,0 +1,37 @@
+mutation UpdateCalculatedSummaryPage(
+  $input: UpdateCalculatedSummaryPageInput!
+) {
+  updateCalculatedSummaryPage(input: $input) {
+    id
+    title
+    totalTitle
+    displayName
+    alias
+    summaryAnswers {
+      id
+      displayName
+      type
+      page {
+        id
+        displayName
+        section {
+          id
+          displayName
+        }
+      }
+    }
+    availableSummaryAnswers {
+      id
+      displayName
+      type
+      page {
+        id
+        displayName
+        section {
+          id
+          displayName
+        }
+      }
+    }
+  }
+}

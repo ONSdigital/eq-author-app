@@ -28,6 +28,7 @@ describe("Question Page Editor", () => {
         showMovePageDialog={false}
         showDeleteConfirmDialog={false}
         match={match}
+        alertText="You sure about this?"
         {...props}
       />
     );

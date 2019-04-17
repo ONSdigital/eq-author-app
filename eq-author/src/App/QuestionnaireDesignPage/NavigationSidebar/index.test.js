@@ -8,6 +8,7 @@ describe("NavigationSidebar", () => {
     handleAddSection,
     handleAddQuestionPage,
     handleUpdateQuestionnaire,
+    handleAddCalculatedSummaryPage,
     handleAddQuestionConfirmation;
 
   const page = { id: "2", title: "Page", position: 0 };
@@ -25,6 +26,7 @@ describe("NavigationSidebar", () => {
     );
     handleUpdateQuestionnaire = jest.fn();
     handleAddQuestionConfirmation = jest.fn();
+    handleAddCalculatedSummaryPage = jest.fn();
 
     wrapper = shallow(
       <NavigationSidebar
@@ -33,6 +35,7 @@ describe("NavigationSidebar", () => {
         onAddSection={handleAddSection}
         onUpdateQuestionnaire={handleUpdateQuestionnaire}
         onAddQuestionConfirmation={handleAddQuestionConfirmation}
+        onAddCalculatedSummaryPage={handleAddCalculatedSummaryPage}
         loading={false}
         canAddQuestionConfirmation
       />

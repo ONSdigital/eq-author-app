@@ -5,21 +5,20 @@ const {
   isNil,
   pick,
   find,
-  filter,
   findIndex,
-  map,
   merge,
   remove,
   flatMap,
   omit,
   set,
-  slice,
   cloneDeep,
   first,
   some,
   concat,
-  takeRightWhile,
   kebabCase,
+  filter,
+  map,
+  slice,
 } = require("lodash");
 const GraphQLJSON = require("graphql-type-json");
 const { getName } = require("../../utils/getName");
@@ -27,8 +26,15 @@ const {
   getValidationEntity,
 } = require("../../src/businessLogic/createValidation");
 const uuid = require("uuid");
-const deepMap = require("deep-map");
 const { currentVersion } = require("../../migrations");
+
+const {
+  getPage,
+  getAnswers,
+  getAnswer,
+  findSectionByPageId,
+  remapAllNestedIds,
+} = require("./utils");
 
 const createAnswer = require("../../src/businessLogic/createAnswer");
 const onAnswerCreated = require("../../src/businessLogic/onAnswerCreated");
@@ -38,51 +44,28 @@ const getPreviousAnswersForPage = require("../../src/businessLogic/getPreviousAn
 const getPreviousAnswersForSection = require("../../src/businessLogic/getPreviousAnswersForSection");
 const createOption = require("../../src/businessLogic/createOption");
 const addPrefix = require("../../utils/addPrefix");
-const { DATE, DATE_RANGE } = require("../../constants/answerTypes");
-const { DATE: METADATA_DATE } = require("../../constants/metadataTypes");
-const { ROUTING_ANSWER_TYPES } = require("../../constants/routingAnswerTypes");
+const { createQuestionPage } = require("./pages/questionPage");
+
 const { BUSINESS } = require("../../constants/questionnaireTypes");
 const {
   createQuestionnaire,
   saveQuestionnaire,
   deleteQuestionnaire,
   getQuestionnaire,
-  listQuestionnaires,
 } = require("../../utils/datastore");
 
 const {
   defaultBusinessSurveyMetadata,
 } = require("../../utils/defaultMetadata");
 
+const { listQuestionnaires } = require("../../utils/datastore");
+
+const { DATE, DATE_RANGE } = require("../../constants/answerTypes");
+const { DATE: METADATA_DATE } = require("../../constants/metadataTypes");
 const { VALIDATION_TYPES } = require("../../constants/validationTypes");
 
-const getSection = ctx => input => {
-  return find(ctx.questionnaire.sections, { id: input.sectionId });
-};
-
-const getPage = ctx => input => {
-  const pages = flatMap(ctx.questionnaire.sections, section => section.pages);
-  return find(pages, { id: input.pageId });
-};
-
-const getAnswers = ctx => {
-  return flatMap(ctx.questionnaire.sections, section =>
-    compact(flatMap(section.pages, page => page.answers))
-  );
-};
-
-const getAnswer = ctx => input => {
-  const answers = getAnswers(ctx);
-  return find(answers, { id: input.answerId });
-};
-
-const getOption = ctx => input => {
-  const options = flatMap(ctx.questionnaire.sections, section =>
-    flatMap(section.pages, page =>
-      flatMap(page.answers, answer => answer.options)
-    )
-  );
-  return find(options, { id: input.optionId });
+const getQuestionnaireList = () => {
+  return listQuestionnaires();
 };
 
 const getValidation = ctx => id => {
@@ -103,16 +86,6 @@ const getValidation = ctx => id => {
   return find(validations, { id: id });
 };
 
-const getAvailableMetadataForValidation = ctx => id => {
-  const validation = getValidation(ctx)(id);
-  const answer = getAnswer(ctx)({ answerId: validation.answerId });
-  if (answer.type === DATE || answer.type === DATE_RANGE) {
-    return filter(ctx.questionnaire.metadata, { type: METADATA_DATE });
-  } else {
-    return []; //Currently do not support validation against any other types
-  }
-};
-
 const getAvailablePreviousAnswersForValidation = ctx => id => {
   const validation = getValidation(ctx)(id);
   const answer = getAnswer(ctx)({ answerId: validation.answerId });
@@ -126,33 +99,34 @@ const getAvailablePreviousAnswersForValidation = ctx => id => {
   return previousAnswersOfSameType;
 };
 
-const findSectionByPageId = (sections, id) =>
-  find(sections, section => {
-    if (section.pages && some(section.pages, { id })) {
-      return section;
-    }
-  });
+const getAvailableMetadataForValidation = ctx => id => {
+  const validation = getValidation(ctx)(id);
+  const answer = getAnswer(ctx)({ answerId: validation.answerId });
+  if (answer.type === DATE || answer.type === DATE_RANGE) {
+    return filter(ctx.questionnaire.metadata, { type: METADATA_DATE });
+  } else {
+    return []; //Currently do not support validation against any other types
+  }
+};
 
-const createPage = (input = {}) => ({
-  id: uuid.v4(),
-  pageType: "QuestionPage",
-  title: "",
-  description: "",
-  descriptionEnabled: false,
-  guidanceEnabled: false,
-  definitionEnabled: false,
-  additionalInfoEnabled: false,
-  answers: [],
-  routing: null,
-  alias: null,
-  ...input,
-});
+const getOption = ctx => input => {
+  const options = flatMap(ctx.questionnaire.sections, section =>
+    flatMap(section.pages, page =>
+      flatMap(page.answers, answer => answer.options)
+    )
+  );
+  return find(options, { id: input.optionId });
+};
+
+const getSection = ctx => input => {
+  return find(ctx.questionnaire.sections, { id: input.sectionId });
+};
 
 const createSection = (input = {}) => ({
   id: uuid.v4(),
   title: "",
   introductionEnabled: false,
-  pages: [createPage()],
+  pages: [createQuestionPage()],
   alias: "",
   ...input,
 });
@@ -173,28 +147,6 @@ const createNewQuestionnaire = input => ({
   shortTitle: "",
   ...input,
 });
-
-const remapAllNestedIds = entity => {
-  const transformationMatrix = {};
-  const remappedIdEntity = deepMap(entity, (value, key) => {
-    if (key === "id") {
-      const newEntityId = uuid.v4();
-      transformationMatrix[value] = newEntityId;
-      return newEntityId;
-    }
-    return value;
-  });
-  return deepMap(remappedIdEntity, value => {
-    if (Object.keys(transformationMatrix).includes(value)) {
-      return transformationMatrix[value];
-    }
-    return value;
-  });
-};
-
-const getQuestionnaireList = () => {
-  return listQuestionnaires();
-};
 
 const Resolvers = {
   Query: {
@@ -302,62 +254,6 @@ const Resolvers = {
       ctx.questionnaire.sections.splice(input.position, 0, remappedSection);
       await saveQuestionnaire(ctx.questionnaire);
       return remappedSection;
-    },
-
-    movePage: async (_, { input }, ctx) => {
-      const section = findSectionByPageId(ctx.questionnaire.sections, input.id);
-      const removedPage = first(remove(section.pages, { id: input.id }));
-      if (input.sectionId === section.id) {
-        section.pages.splice(input.position, 0, removedPage);
-      } else {
-        const newsection = find(ctx.questionnaire.sections, {
-          id: input.sectionId,
-        });
-        newsection.pages.splice(input.position, 0, removedPage);
-      }
-      await saveQuestionnaire(ctx.questionnaire);
-      return removedPage;
-    },
-    deletePage: async (_, { input }, ctx) => {
-      const section = findSectionByPageId(ctx.questionnaire.sections, input.id);
-      remove(section.pages, { id: input.id });
-      await saveQuestionnaire(ctx.questionnaire);
-      return section;
-    },
-
-    duplicatePage: async (_, { input }, ctx) => {
-      const section = findSectionByPageId(ctx.questionnaire.sections, input.id);
-      const page = find(section.pages, { id: input.id });
-      const newpage = omit(page, "id");
-      set(newpage, "alias", addPrefix(newpage.alias));
-      set(newpage, "title", addPrefix(newpage.title));
-      const duplicatedPage = createPage(newpage);
-      const remappedPage = remapAllNestedIds(duplicatedPage);
-      section.pages.splice(input.position, 0, remappedPage);
-      await saveQuestionnaire(ctx.questionnaire);
-      return remappedPage;
-    },
-
-    createQuestionPage: async (
-      root,
-      { input: { position, ...pageInput } },
-      ctx
-    ) => {
-      const section = find(ctx.questionnaire.sections, {
-        id: pageInput.sectionId,
-      });
-      const page = createPage(pageInput);
-      const insertionPosition =
-        typeof position === "number" ? position : section.pages.length;
-      section.pages.splice(insertionPosition, 0, page);
-      await saveQuestionnaire(ctx.questionnaire);
-      return page;
-    },
-    updateQuestionPage: async (_, { input }, ctx) => {
-      const page = getPage(ctx)({ pageId: input.id });
-      merge(page, input);
-      await saveQuestionnaire(ctx.questionnaire);
-      return page;
     },
     createAnswer: async (root, { input }, ctx) => {
       const page = getPage(ctx)({ pageId: input.questionPageId });
@@ -696,65 +592,6 @@ const Resolvers = {
     availablePipingAnswers: ({ id }, args, ctx) =>
       getPreviousAnswersForSection(ctx.questionnaire, id),
     availablePipingMetadata: (section, args, ctx) => ctx.questionnaire.metadata,
-  },
-
-  Page: {
-    __resolveType: ({ pageType }) => pageType,
-    position: ({ id }, args, ctx) => {
-      const section = findSectionByPageId(ctx.questionnaire.sections, id);
-      return findIndex(section.pages, { id });
-    },
-  },
-
-  QuestionPage: {
-    answers: page => page.answers,
-    section: ({ id }, input, ctx) =>
-      findSectionByPageId(ctx.questionnaire.sections, id),
-    position: ({ id }, args, ctx) => {
-      const section = findSectionByPageId(ctx.questionnaire.sections, id);
-      return findIndex(section.pages, { id });
-    },
-    displayName: page => getName(page, "QuestionPage"),
-    confirmation: page => page.confirmation,
-    availablePipingAnswers: ({ id }, args, ctx) =>
-      getPreviousAnswersForPage(ctx.questionnaire, id),
-    availablePipingMetadata: (page, args, ctx) => ctx.questionnaire.metadata,
-    availableRoutingAnswers: ({ id }, args, ctx) =>
-      getPreviousAnswersForPage(
-        ctx.questionnaire,
-        id,
-        true,
-        ROUTING_ANSWER_TYPES
-      ),
-    availableRoutingDestinations: ({ id }, args, ctx) => {
-      const section = find(ctx.questionnaire.sections, section => {
-        if (section.pages && some(section.pages, { id })) {
-          return section;
-        }
-      });
-
-      const pages = takeRightWhile(section.pages, page => page.id !== id);
-      const sections = takeRightWhile(
-        ctx.questionnaire.sections,
-        futureSection => futureSection.id !== section.id
-      );
-
-      const logicalDestinations = [
-        {
-          logicalDestination: "NextPage",
-        },
-        {
-          logicalDestination: "EndOfQuestionnaire",
-        },
-      ];
-
-      return {
-        logicalDestinations,
-        sections,
-        pages,
-      };
-    },
-    routing: questionPage => questionPage.routing,
   },
 
   LogicalDestination: {
