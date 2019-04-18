@@ -4,14 +4,17 @@ const { ApolloServer } = require("apollo-server-express");
 const cors = require("cors");
 const pinoMiddleware = require("express-pino-logger");
 const helmet = require("helmet");
+const noir = require("pino-noir");
+const bodyParser = require("body-parser");
 
 const status = require("./middleware/status");
 const { getLaunchUrl } = require("./middleware/launch");
 const createAuthMiddleware = require("./middleware/auth");
 const loadQuestionnaire = require("./middleware/loadQuestionnaire");
 const runQuestionnaireMigrations = require("./middleware/runQuestionnaireMigrations");
+const exportQuestionnaire = require("./middleware/export");
+const importQuestionnaire = require("./middleware/import");
 const schema = require("./schema");
-const noir = require("pino-noir");
 
 const { PORT = 4000 } = process.env;
 const app = express();
@@ -60,6 +63,9 @@ server.applyMiddleware({ app });
 app.get("/status", status);
 
 app.get("/launch/:questionnaireId", getLaunchUrl);
+
+app.get("/export/:questionnaireId", exportQuestionnaire);
+app.use(bodyParser.json()).post("/import", importQuestionnaire);
 
 app.listen(PORT, "0.0.0.0", () => {
   logger.child({ port: PORT }).info("Listening on port");
