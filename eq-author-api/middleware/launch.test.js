@@ -76,7 +76,9 @@ describe("launcher middleware", () => {
 
   it("should convert date values to ISO string dates when building claims", () => {
     expect(
-      buildClaims([{ id: 1, key: "hello", type: "Date", value: "01/01/2018" }])
+      buildClaims([
+        { id: 1, key: "hello", type: "Date", dateValue: "01/01/2018" },
+      ])
     ).toMatchObject({
       claims: {
         hello: "2018-01-01",
@@ -91,7 +93,7 @@ describe("launcher middleware", () => {
           id: 1,
           key: "hello",
           type: "Date",
-          value: "2018-01-01T00:00:00+00:00",
+          dateValue: "2018-01-01T00:00:00+00:00",
         },
       ])
     ).toMatchObject({

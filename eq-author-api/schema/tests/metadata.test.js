@@ -191,29 +191,29 @@ describe("metadata", () => {
 
     it("should default metadata for known keys", async () => {
       for (let defaultValue of defaultValues) {
-        const { key, alias, type, value } = defaultValue;
-        updatedMetadata = await updateMetadata(questionnaire, {
+        const {
+          key,
+          alias,
+          type,
+          dateValue,
+          regionValue,
+          languageValue,
+          textValue,
+        } = defaultValue;
+
+        const expected = {
           id: metadata.id,
           key,
           alias,
           type,
-          dateValue: type === DATE ? value : null,
-          regionValue: type === REGION ? value : null,
-          languageValue: type === LANGUAGE ? value : null,
-          textValue: type === TEXT ? value : null,
-        });
-        expect(updatedMetadata).toEqual(
-          expect.objectContaining({
-            id: metadata.id,
-            key,
-            alias,
-            type,
-            dateValue: type === DATE ? value : null,
-            regionValue: type === REGION ? value : null,
-            languageValue: type === LANGUAGE ? value : null,
-            textValue: type === TEXT ? value : null,
-          })
-        );
+          dateValue: type === DATE ? dateValue : null,
+          regionValue: type === REGION ? regionValue : null,
+          languageValue: type === LANGUAGE ? languageValue : null,
+          textValue: type === TEXT ? textValue : null,
+        };
+
+        updatedMetadata = await updateMetadata(questionnaire, expected);
+        expect(updatedMetadata).toMatchObject(expected);
       }
     });
   });

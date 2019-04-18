@@ -11,11 +11,18 @@ module.exports = (metadataToUpdate, { key, alias, type, ...values }) => {
     key,
     alias,
     type,
-    value: values[defaultTypeValueNames[type]],
+    textValue: null,
+    regionValue: null,
+    dateValue: null,
+    languageValue: null,
+    [defaultTypeValueNames[type]]: values[defaultTypeValueNames[type]],
   };
 
-  if (metadataToUpdate.type !== type && !newValues.value) {
-    newValues.value = defaultTypeValues[type];
+  if (
+    metadataToUpdate.type !== type &&
+    !newValues[defaultTypeValueNames[type]]
+  ) {
+    newValues[defaultTypeValueNames[type]] = defaultTypeValues[type];
   }
 
   if (metadataToUpdate.key !== key) {
