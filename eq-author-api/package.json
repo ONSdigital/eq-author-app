@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "apollo-server-express": "latest",
+    "body-parser": "^1.18.3",
     "chalk": "latest",
     "cheerio": "latest",
     "cors": "latest",
