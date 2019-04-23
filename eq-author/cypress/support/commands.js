@@ -138,7 +138,6 @@ Cypress.Commands.add("getPublisherOutput", function(questionnaireId) {
 
 Cypress.Commands.add("seedQuestionnaire", title => {
   cy.fixture(`seed/${kebabCase(title)}.json`).then(questionnaireJson => {
-    console.log("Questionnaire loaded", questionnaireJson);
     let questionnaireId;
     cy.request({
       method: "POST",
