@@ -307,7 +307,7 @@ describe("Routing", () => {
     cy.get(testId("routing-binary-expression")).should("have.length", 2);
   });
 
-  it.only("should change rule if the dependent question is removed", () => {
+  it("should change rule if the dependent question is removed", () => {
     title = "Test routing remove question";
 
     cy.seedQuestionnaire(title);
@@ -337,20 +337,8 @@ describe("Routing", () => {
   });
 
   it("can change the else destination", () => {
-    title = "Routing else destination";
-
-    cy.createQuestionnaire(title);
-    cy.get(testId("nav-section-link"))
-      .first()
-      .click();
-    typeIntoDraftEditor(testId("txt-section-title", "testid"), "Section 1");
-
-    cy.get(testId("nav-page-link"))
-      .first()
-      .click();
-    typeIntoDraftEditor(testId("txt-question-title", "testid"), "Question 1");
-
-    addQuestionPage("Question 2");
+    title = "Test routing else destination";
+    cy.seedQuestionnaire(title);
 
     cy.contains("Question 1").click();
     navigateToRoutingTab();
