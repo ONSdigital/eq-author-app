@@ -1,11 +1,8 @@
 import {
   typeIntoDraftEditor,
   findInputByLabel,
-  addSection,
-  addQuestionPage,
   buildMultipleChoiceAnswer,
   testId,
-  addAnswerType,
   selectAnswerFromContentPicker,
 } from "../../utils";
 import {
@@ -37,14 +34,9 @@ const clickOnRoutingRuleOption = ({ label }) => {
 };
 
 describe("Routing", () => {
-  beforeEach(() => {
-    cy.visit("/");
-    cy.login();
+  afterEach(() => {
+    title && cy.deleteQuestionnaire(title);
   });
-
-  // afterEach(() => {
-  //   title && cy.deleteQuestionnaire(title);
-  // });
 
   it("should see no routing rules exist and add one and then delete it", () => {
     title = "Test no routing rules";
@@ -107,6 +99,8 @@ describe("Routing", () => {
   });
 
   it("follows the link to add an answer and routing updates with the new answer", () => {
+    cy.visit("/");
+    cy.login();
     title = "Test routing no answer";
     cy.createQuestionnaire(title);
     cy.contains("Untitled Page").click();
