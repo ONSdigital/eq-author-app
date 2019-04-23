@@ -106,7 +106,6 @@ class Question {
     ) {
       last(this.answers).guidance = {
         show_guidance: question.additionalInfoLabel,
-
         hide_guidance: question.additionalInfoLabel,
         ...processContent(ctx)(question.additionalInfoContent),
       };

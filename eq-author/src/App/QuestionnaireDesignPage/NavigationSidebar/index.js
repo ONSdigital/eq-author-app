@@ -12,6 +12,7 @@ import withUpdateQuestionnaire from "./withUpdateQuestionnaire";
 
 import SectionNav from "./SectionNav";
 import NavigationHeader from "./NavigationHeader";
+import IntroductionNavItem from "./IntroductionNavItem";
 
 const Container = styled.div`
   background: ${colors.darkBlue};
@@ -27,6 +28,12 @@ const NavigationScrollPane = styled(ScrollPane)`
       background: ${colors.lightGrey};
     }
   }
+`;
+
+const NavList = styled.ol`
+  margin: 0;
+  padding: 0;
+  list-style: none;
 `;
 
 export class UnwrappedNavigationSidebar extends Component {
@@ -71,7 +78,17 @@ export class UnwrappedNavigationSidebar extends Component {
               data-test="nav-section-header"
             />
             <NavigationScrollPane>
-              <SectionNav questionnaire={questionnaire} />
+              <NavList>
+                {questionnaire.introduction && (
+                  <IntroductionNavItem
+                    questionnaire={questionnaire}
+                    data-test="nav-introduction"
+                  />
+                )}
+                <li>
+                  <SectionNav questionnaire={questionnaire} />
+                </li>
+              </NavList>
             </NavigationScrollPane>
           </React.Fragment>
         )}
@@ -86,10 +103,12 @@ UnwrappedNavigationSidebar.fragments = {
       id
       ...SectionNav
       ...NavigationHeader
+      ...IntroductionNavItem
     }
 
     ${NavigationHeader.fragments.NavigationHeader}
     ${SectionNav.fragments.SectionNav}
+    ${IntroductionNavItem.fragments.IntroductionNavItem}
   `,
 };
 

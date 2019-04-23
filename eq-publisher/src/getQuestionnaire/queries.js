@@ -155,7 +155,21 @@ exports.getQuestionnaire = `
       title
       description
       type
-      legalBasis
+      introduction {
+        id
+        title
+        description
+        legalBasis
+        secondaryTitle
+        secondaryDescription
+        collapsibles {
+          id
+          title
+          description
+        }
+        tertiaryTitle
+        tertiaryDescription
+      }
       navigation
       surveyId
       summary

@@ -15,11 +15,12 @@ import Loading from "components/Loading";
 
 import { SECTION, PAGE, QUESTION_CONFIRMATION } from "constants/entities";
 
-import { buildSectionPath } from "utils/UrlUtils";
+import { buildSectionPath, buildIntroductionPath } from "utils/UrlUtils";
 
 import pageRoutes from "App/page";
 import sectionRoutes from "App/section";
 import questionConfirmationRoutes from "App/questionConfirmation";
+import introductionRoutes from "App/introduction";
 
 import withCreateQuestionPage from "enhancers/withCreateQuestionPage";
 import withCreateSection from "enhancers/withCreateSection";
@@ -113,6 +114,17 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
       );
     }
 
+    if (questionnaire.introduction) {
+      return (
+        <Redirect
+          to={buildIntroductionPath({
+            questionnaireId: questionnaire.id,
+            introductionId: questionnaire.introduction.id,
+          })}
+        />
+      );
+    }
+
     return (
       <Redirect
         to={buildSectionPath({
@@ -192,6 +204,7 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
                   ...pageRoutes,
                   ...sectionRoutes,
                   ...questionConfirmationRoutes,
+                  ...introductionRoutes,
                 ]}
                 <Route path="*" render={this.renderRedirect} />
               </Switch>
@@ -217,6 +230,9 @@ const withMutations = flowRight(
 const QUESTIONNAIRE_QUERY = gql`
   query GetQuestionnaire($input: QueryInput!) {
     questionnaire(input: $input) {
+      introduction {
+        id
+      }
       ...NavigationSidebar
     }
   }

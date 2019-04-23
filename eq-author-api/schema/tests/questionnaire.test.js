@@ -5,10 +5,8 @@ const { SOCIAL, BUSINESS } = require("../../constants/questionnaireTypes");
 const {
   buildQuestionnaire,
 } = require("../../tests/utils/questionnaireBuilder");
-const executeQuery = require("../../tests/utils/executeQuery");
 const {
   createQuestionnaire,
-  createQuestionnaireMutation,
   queryQuestionnaire,
   updateQuestionnaire,
   deleteQuestionnaire,
@@ -34,22 +32,15 @@ describe("questionnaire", () => {
         description: "Description",
         surveyId: "1",
         theme: "default",
-        legalBasis: "Voluntary",
         navigation: false,
         summary: false,
         type: SOCIAL,
         shortTitle: "short title",
       };
-      questionnaire = await createQuestionnaire(config);
     });
 
     it("should create a questionnaire with a section and page", async () => {
-      const result = await executeQuery(
-        createQuestionnaireMutation,
-        { input: config },
-        {}
-      );
-      const questionnaire = result.data.createQuestionnaire;
+      const questionnaire = await createQuestionnaire(config);
       expect(questionnaire).toEqual(
         expect.objectContaining({ ...config, displayName: "short title" })
       );
@@ -58,23 +49,28 @@ describe("questionnaire", () => {
     });
 
     it("should create a questionnaire with no metadata when creating a social survey", async () => {
-      const result = await executeQuery(
-        createQuestionnaireMutation,
-        { input: config },
-        {}
-      );
-      const questionnaire = result.data.createQuestionnaire;
+      const questionnaire = await createQuestionnaire(config);
       expect(questionnaire.metadata).toEqual([]);
     });
 
     it("should create a questionnaire with default business metadata when creating a business survey", async () => {
-      const result = await executeQuery(
-        createQuestionnaireMutation,
-        { input: { ...config, type: BUSINESS } },
-        {}
-      );
-      const questionnaire = result.data.createQuestionnaire;
+      const questionnaire = await createQuestionnaire({
+        ...config,
+        type: BUSINESS,
+      });
       expect(questionnaire.metadata).toHaveLength(6);
+    });
+
+    it("should create a questionnaire introduction for business surveys", async () => {
+      const questionnaire = await createQuestionnaire({
+        ...config,
+        type: BUSINESS,
+      });
+      expect(questionnaire.introduction).toMatchObject({
+        id: expect.any(String),
+        title: expect.any(String),
+        collapsibles: [],
+      });
     });
   });
 
@@ -85,7 +81,6 @@ describe("questionnaire", () => {
         description: "Description",
         surveyId: "1",
         theme: "default",
-        legalBasis: "Voluntary",
         navigation: false,
         summary: false,
         metadata: [{}],
@@ -96,7 +91,6 @@ describe("questionnaire", () => {
         title: "Questionnaire-updated",
         description: "Description-updated",
         theme: "census",
-        legalBasis: "StatisticsOfTradeAct",
         navigation: true,
         surveyId: "2-updated",
         summary: true,
@@ -147,7 +141,6 @@ describe("questionnaire", () => {
         displayName: expect.any(String),
         description: expect.any(String),
         theme: expect.any(String),
-        legalBasis: expect.any(String),
         navigation: expect.any(Boolean),
         surveyId: expect.any(String),
         createdAt: expect.any(String),

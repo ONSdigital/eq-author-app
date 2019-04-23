@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CollapsiblesEditor should render 1`] = `
+<CollapsiblesEditor__DetailList>
+  <Reorder
+    Transition={[Function]}
+    data-test="collapsibles-list"
+    list={
+      Array [
+        Object {
+          "description": "description",
+          "id": "1",
+          "title": "title",
+        },
+      ]
+    }
+    onMove={[MockFunction]}
+  >
+    <Component />
+  </Reorder>
+  <CollapsiblesEditor__AddButton
+    data-test="add-collapsible-btn"
+    onClick={[Function]}
+    variant="secondary"
+  >
+    Add collapsible
+  </CollapsiblesEditor__AddButton>
+</CollapsiblesEditor__DetailList>
+`;

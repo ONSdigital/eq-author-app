@@ -9,6 +9,6 @@
     "sourceType": "script"
   },
   "rules": {
-    "camelcase": 0
+    "camelcase": "off"
   }
 }

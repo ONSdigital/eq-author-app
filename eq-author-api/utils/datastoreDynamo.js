@@ -123,6 +123,16 @@ const saveQuestionnaire = async (questionnaireModel, count = 0, patch) => {
     );
 
     const latestQuestionnaire = await getQuestionnaire(questionnaireModel.id);
+
+    // We are done if we match the latest questionnaire
+    const diffToLatest = diffPatcher.diff(
+      omitTimestamps(latestQuestionnaire),
+      omitTimestamps(questionnaireModel)
+    );
+    if (!diffToLatest) {
+      return;
+    }
+
     diffPatcher.patch(latestQuestionnaire, patchToApply);
     await saveQuestionnaire(latestQuestionnaire, ++count, patchToApply);
   }

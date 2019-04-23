@@ -55,7 +55,7 @@ const {
 } = require("../../utils/datastore");
 
 const {
-  defaultBusinessSurveyMetadata,
+  createDefaultBusinessSurveyMetadata,
 } = require("../../utils/defaultMetadata");
 
 const { listQuestionnaires } = require("../../utils/datastore");
@@ -63,6 +63,11 @@ const { listQuestionnaires } = require("../../utils/datastore");
 const { DATE, DATE_RANGE } = require("../../constants/answerTypes");
 const { DATE: METADATA_DATE } = require("../../constants/metadataTypes");
 const { VALIDATION_TYPES } = require("../../constants/validationTypes");
+
+const {
+  createQuestionnaireIntroduction,
+} = require("./questionnaireIntroduction");
+
 
 const getQuestionnaireList = () => {
   return listQuestionnaires();
@@ -131,22 +136,39 @@ const createSection = (input = {}) => ({
   ...input,
 });
 
-const createNewQuestionnaire = input => ({
-  id: uuid.v4(),
-  title: null,
-  description: null,
-  theme: "default",
-  legalBasis: "Voluntary",
-  navigation: false,
-  surveyId: "",
-  createdAt: new Date(),
-  metadata: input.type === BUSINESS ? defaultBusinessSurveyMetadata : [],
-  sections: [createSection()],
-  summary: false,
-  version: currentVersion,
-  shortTitle: "",
-  ...input,
-});
+const createNewQuestionnaire = input => {
+  const defaultQuestionnaire = {
+    id: uuid.v4(),
+    title: null,
+    description: null,
+    theme: "default",
+    legalBasis: "Voluntary",
+    navigation: false,
+    surveyId: "",
+    createdAt: new Date(),
+    metadata: [],
+    sections: [createSection()],
+    summary: false,
+    version: currentVersion,
+    shortTitle: "",
+    introduction: null,
+  };
+
+  let changes = {};
+  if (input.type === BUSINESS) {
+    const metadata = createDefaultBusinessSurveyMetadata();
+    changes = {
+      metadata,
+      introduction: createQuestionnaireIntroduction(metadata),
+    };
+  }
+
+  return {
+    ...defaultQuestionnaire,
+    ...changes,
+    ...input,
+  };
+};
 
 const Resolvers = {
   Query: {

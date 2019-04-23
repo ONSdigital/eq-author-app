@@ -83,6 +83,11 @@ describe("components/RichTextEditor", function() {
     expect(wrapper).toMatchSnapshot();
   });
 
+  it("should show as disabled and readonly when disabled", () => {
+    wrapper = shallow(<RichTextEditor {...props} disabled />);
+    expect(wrapper).toMatchSnapshot();
+  });
+
   it("should store a reference to the editor DOM node", () => {
     wrapper.instance().setEditorInstance(editorInstance);
     expect(wrapper.instance().editorInstance).toEqual(editorInstance);

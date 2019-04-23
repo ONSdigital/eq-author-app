@@ -7,7 +7,6 @@ const updateQuestionnaireMutation = `
       title
       description
       theme
-      legalBasis
       navigation
       surveyId
       summary

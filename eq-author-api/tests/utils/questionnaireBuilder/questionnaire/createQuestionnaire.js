@@ -9,7 +9,6 @@ const createQuestionnaireMutation = `
       displayName
       description
       theme
-      legalBasis
       navigation
       type
       surveyId
@@ -29,6 +28,13 @@ const createQuestionnaireMutation = `
       }
       metadata {
         id
+      }
+      introduction {
+        id
+        title
+        collapsibles {
+          id
+        }
       }
     }
   }

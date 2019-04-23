@@ -1,9 +1,15 @@
 const { last } = require("lodash");
 
 const { SOCIAL } = require("../constants/questionnaireTypes");
+const {
+  types: { VOLUNTARY },
+  contentMap,
+} = require("../constants/legalBases");
+
 const Section = require("./Section");
 const Summary = require("./block-types/Summary");
 const Confirmation = require("./block-types/Confirmation");
+const Introduction = require("./block-types/Introduction");
 
 const DEFAULT_METADATA = [
   {
@@ -40,9 +46,11 @@ class Questionnaire {
 
     const ctx = this.createContext(questionnaireJson);
     this.sections = this.buildSections(questionnaireJson.sections, ctx);
+    this.buildIntroduction(questionnaireJson.introduction, ctx);
+
     this.theme =
       questionnaireJson.type === SOCIAL ? SOCIAL_THEME : DEFAULT_THEME;
-    this.legal_basis = questionnaireJson.legalBasis;
+    this.legal_basis = this.buildLegalBasis(questionnaireJson.introduction);
     this.navigation = {
       visible: questionnaireJson.navigation,
     };
@@ -81,6 +89,24 @@ class Questionnaire {
       }));
 
     return [...DEFAULT_METADATA, ...userMetadata];
+  }
+
+  buildLegalBasis(introduction) {
+    if (!introduction || introduction.legalBasis === VOLUNTARY) {
+      return undefined;
+    }
+    return contentMap[introduction.legalBasis];
+  }
+
+  buildIntroduction(introduction, ctx) {
+    if (!introduction) {
+      return;
+    }
+    const groupToAddTo = this.sections[0].groups[0];
+    groupToAddTo.blocks = [
+      new Introduction(introduction, ctx),
+      ...groupToAddTo.blocks,
+    ];
   }
 }
 

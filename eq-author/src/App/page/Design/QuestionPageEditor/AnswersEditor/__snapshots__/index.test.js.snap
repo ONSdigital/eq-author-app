@@ -1,73 +1,20 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Answers Editor should render 1`] = `
-<TransitionGroup
-  childFactory={[Function]}
-  component="div"
+<Reorder
+  Transition={[Function]}
+  list={
+    Array [
+      Object {
+        "id": "1",
+      },
+      Object {
+        "id": "2",
+      },
+    ]
+  }
+  onMove={[MockFunction]}
 >
-  <AnswerTransition
-    key="null"
-    timeout={200}
-  >
-    <AnswersEditor__AnswerSegment
-      id={null}
-      innerRef={[Function]}
-      movement={
-        Object {
-          "transform": 0,
-        }
-      }
-    >
-      <AnswerEditor
-        answer={
-          Object {
-            "id": "1",
-          }
-        }
-        canMoveDown={true}
-        canMoveUp={false}
-        onAddExclusive={[MockFunction]}
-        onAddOption={[MockFunction]}
-        onDeleteAnswer={[MockFunction]}
-        onDeleteOption={[MockFunction]}
-        onMoveDown={[Function]}
-        onMoveUp={[Function]}
-        onUpdate={[MockFunction]}
-        onUpdateOption={[MockFunction]}
-      />
-    </AnswersEditor__AnswerSegment>
-  </AnswerTransition>
-  <AnswerTransition
-    key="null"
-    timeout={200}
-  >
-    <AnswersEditor__AnswerSegment
-      id={null}
-      innerRef={[Function]}
-      movement={
-        Object {
-          "transform": 0,
-        }
-      }
-    >
-      <AnswerEditor
-        answer={
-          Object {
-            "id": "2",
-          }
-        }
-        canMoveDown={false}
-        canMoveUp={true}
-        onAddExclusive={[MockFunction]}
-        onAddOption={[MockFunction]}
-        onDeleteAnswer={[MockFunction]}
-        onDeleteOption={[MockFunction]}
-        onMoveDown={[Function]}
-        onMoveUp={[Function]}
-        onUpdate={[MockFunction]}
-        onUpdateOption={[MockFunction]}
-      />
-    </AnswersEditor__AnswerSegment>
-  </AnswerTransition>
-</TransitionGroup>
+  <Component />
+</Reorder>
 `;

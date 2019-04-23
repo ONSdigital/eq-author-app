@@ -181,6 +181,13 @@ describe("PipingMenu", () => {
           sectionId: "3",
         },
       },
+      {
+        name: "questionnaireIntroduction",
+        params: {
+          questionnaireId: "4",
+          introductionId: "5",
+        },
+      },
     ];
 
     entities.forEach(({ name, params }) => {

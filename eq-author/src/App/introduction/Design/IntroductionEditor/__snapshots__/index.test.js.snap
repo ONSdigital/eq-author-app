@@ -1,0 +1,181 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`IntroductionEditor should render 1`] = `
+<Fragment>
+  <IntroductionEditor__Section>
+    <IntroductionEditor__Padding>
+      <IntroductionEditor__SectionTitle
+        style={
+          Object {
+            "marginBottom": "0",
+          }
+        }
+      >
+        Introduction content
+      </IntroductionEditor__SectionTitle>
+      <IntroductionEditor__SectionDescription>
+        This content is displayed above the “start survey” button. The title is not editable.
+      </IntroductionEditor__SectionDescription>
+      <RichTextEditor
+        autoFocus={false}
+        disabled={true}
+        id="intro-title"
+        label="Title"
+        multiline={false}
+        name="title"
+        onUpdate={[Function]}
+        placeholder=""
+        size="large"
+        testSelector="txt-intro-title"
+        value="title"
+      />
+      <RichTextEditor
+        autoFocus={false}
+        controls={
+          Object {
+            "bold": true,
+            "emphasis": true,
+            "list": true,
+            "piping": true,
+          }
+        }
+        disabled={false}
+        id="intro-description"
+        label="Description"
+        multiline={true}
+        name="description"
+        onUpdate={[MockFunction]}
+        placeholder=""
+        testSelector="txt-intro-description"
+        value="description"
+      />
+      <IntroductionEditor__SectionTitle>
+        Legal basis
+      </IntroductionEditor__SectionTitle>
+      <LegalBasisField
+        data-test="intro-legal-basis"
+        name="legalBasis"
+        onChange={[MockFunction]}
+        value="VOLUNTARY"
+      />
+    </IntroductionEditor__Padding>
+  </IntroductionEditor__Section>
+  <IntroductionEditor__Section>
+    <IntroductionEditor__Padding>
+      <IntroductionEditor__SectionTitle
+        style={
+          Object {
+            "marginBottom": "0",
+          }
+        }
+      >
+        Secondary content
+      </IntroductionEditor__SectionTitle>
+      <IntroductionEditor__SectionDescription>
+        This content is displayed below the “start survey” button.
+      </IntroductionEditor__SectionDescription>
+      <RichTextEditor
+        autoFocus={false}
+        controls={
+          Object {
+            "emphasis": true,
+            "piping": true,
+          }
+        }
+        disabled={false}
+        id="secondary-title"
+        label="Title"
+        multiline={false}
+        name="secondaryTitle"
+        onUpdate={[MockFunction]}
+        placeholder=""
+        size="large"
+        testSelector="txt-intro-secondary-title"
+        value="secondary title"
+      />
+      <RichTextEditor
+        autoFocus={false}
+        controls={
+          Object {
+            "bold": true,
+            "emphasis": true,
+            "list": true,
+            "piping": true,
+          }
+        }
+        disabled={false}
+        id="secondary-description"
+        label="Description"
+        multiline={true}
+        name="secondaryDescription"
+        onUpdate={[MockFunction]}
+        placeholder=""
+        testSelector="txt-intro-secondary-description"
+        value="secondary description"
+      />
+      <IntroductionEditor__SectionTitle
+        style={
+          Object {
+            "marginBottom": "0",
+          }
+        }
+      >
+        Collapsibles
+      </IntroductionEditor__SectionTitle>
+      <IntroductionEditor__SectionDescription>
+        Information which is displayed in a collapsible “twistie”.
+      </IntroductionEditor__SectionDescription>
+      <Apollo(Apollo(CollapsiblesEditor))
+        collapsibles={Array []}
+        introductionId="1"
+      />
+    </IntroductionEditor__Padding>
+  </IntroductionEditor__Section>
+  <IntroductionEditor__Section>
+    <IntroductionEditor__Padding>
+      <IntroductionEditor__SectionTitle>
+        Tertiary content
+      </IntroductionEditor__SectionTitle>
+      <RichTextEditor
+        autoFocus={false}
+        controls={
+          Object {
+            "emphasis": true,
+            "piping": true,
+          }
+        }
+        disabled={false}
+        id="tertiary-title"
+        label="Title"
+        multiline={false}
+        name="tertiaryTitle"
+        onUpdate={[MockFunction]}
+        placeholder=""
+        size="large"
+        testSelector="txt-intro-tertiary-title"
+        value="tertiary title"
+      />
+      <RichTextEditor
+        autoFocus={false}
+        controls={
+          Object {
+            "bold": true,
+            "emphasis": true,
+            "list": true,
+            "piping": true,
+          }
+        }
+        disabled={false}
+        id="tertiary-description"
+        label="Description"
+        multiline={true}
+        name="tertiaryDescription"
+        onUpdate={[MockFunction]}
+        placeholder=""
+        testSelector="txt-intro-tertiary-description"
+        value="tertiary description"
+      />
+    </IntroductionEditor__Padding>
+  </IntroductionEditor__Section>
+</Fragment>
+`;

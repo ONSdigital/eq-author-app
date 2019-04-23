@@ -13,7 +13,6 @@ const handleUpdate = jest.fn();
 
 const questionnaire = {
   shortTitle: "I am the shortTitle",
-  legalBasis: "StatisticsOfTradeAct",
   type: "",
   title: "I am the title",
   id: "123",

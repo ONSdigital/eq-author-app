@@ -5,7 +5,6 @@ import {
   addSection,
   testId,
   selectFirstAnswerFromContentPicker,
-  selectFirstMetadataContentPicker,
   enableDescription,
   enableGuidance,
 } from "../../utils";
@@ -61,13 +60,23 @@ const clickLastSection = () =>
     .last()
     .click({ force: true }); //Metadata modal transition is sometimes too slow
 
+const selectMetadata = () => {
+  cy.get(testId("picker-option"))
+    .contains(METADATA)
+    .click();
+
+  cy.get(testId("submit-button")).click();
+};
+
 const canPipeMetadata = ({ selector }) => {
   cy.get(testId(selector, "testid")).click();
   cy.focused()
     .should("have.attr", "data-testid")
     .and("eq", selector);
   clickPipingButton(selector);
-  selectFirstMetadataContentPicker();
+
+  selectMetadata();
+
   cy.get(testId(selector, "testid")).should("contain", `[${METADATA}]`);
 };
 
@@ -76,11 +85,12 @@ describe("Piping", () => {
   beforeEach(() => {
     cy.visit("/");
     cy.login();
-    addQuestionnaire(questionnaireTitle);
+    addQuestionnaire(questionnaireTitle, "Business");
   });
 
   describe("Answers", () => {
     beforeEach(() => {
+      clickFirstPage();
       addAnswerType("Number");
       cy.get(testId("txt-answer-label")).type(ANSWER);
       addSection();
@@ -155,9 +165,12 @@ describe("Piping", () => {
 
   describe("Metadata", () => {
     beforeEach(() => {
-      addMetadata(METADATA, "Text");
+      addMetadata(METADATA, "Text", 6);
     });
     describe("Page", () => {
+      beforeEach(() => {
+        clickFirstPage();
+      });
       it("Can pipe metadata into page title", () => {
         cy.get(testId("txt-question-title", "testid")).type("title");
         canPipeMetadata({ selector: "txt-question-title" });
@@ -200,6 +213,7 @@ describe("Piping", () => {
 
     describe("Question Confirmation", () => {
       beforeEach(() => {
+        clickFirstPage();
         questionConfirmation.add();
       });
 
@@ -208,6 +222,15 @@ describe("Piping", () => {
           "confirmation title"
         );
         canPipeMetadata({ selector: "txt-confirmation-title" });
+      });
+    });
+
+    describe("Questionnaire Introduction", () => {
+      it("Can pipe metadata into description", () => {
+        cy.get(testId("txt-intro-description", "testid"))
+          .clear()
+          .type("intro description");
+        canPipeMetadata({ selector: "txt-intro-description" });
       });
     });
   });

@@ -7,7 +7,6 @@ const getQuestionnaireQuery = `
       title
       description
       theme
-      legalBasis
       navigation
       surveyId
       createdAt

@@ -3,6 +3,12 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { colors } from "constants/theme";
 
+import IconArrowUp from "./icon-arrow-up.svg?inline";
+import IconArrowDown from "./icon-arrow-down.svg?inline";
+
+export const IconUp = IconArrowUp;
+export const IconDown = IconArrowDown;
+
 const Button = styled.button`
   display: block;
   color: ${colors.secondary};

@@ -42,6 +42,9 @@ const baseQuestionnaireSchema = {
   shortTitle: {
     type: String,
   },
+  introduction: {
+    type: Object,
+  },
 };
 
 const questionnanaireSchema = new dynamoose.Schema(

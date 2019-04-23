@@ -1,0 +1,70 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LegalBasisField LegalOption should render 1`] = `
+<LegalBasisField__LegalLabel
+  htmlFor="NOTICE_1"
+  selected={false}
+>
+  <LegalBasisField__LegalInput
+    id="NOTICE_1"
+    name="legalBasis"
+    onChange={[MockFunction]}
+    type="radio"
+    value="NOTICE_1"
+  />
+  hello world
+</LegalBasisField__LegalLabel>
+`;
+
+exports[`LegalBasisField should render 1`] = `
+<LegalBasisField__LegalField>
+  <LegalOption
+    key="NOTICE_1"
+    name="legalBasis"
+    onChange={[MockFunction]}
+    selected={true}
+    value="NOTICE_1"
+  >
+    <LegalBasisField__LegalTitle>
+      Notice 1
+    </LegalBasisField__LegalTitle>
+    <LegalBasisField__LegalNotice>
+      Your response is legally required.
+    </LegalBasisField__LegalNotice>
+    <LegalBasisField__LegalDescription>
+      Notice is given under section 1 of the Statistics of Trade Act 1947.
+    </LegalBasisField__LegalDescription>
+  </LegalOption>
+  <LegalOption
+    key="NOTICE_2"
+    name="legalBasis"
+    onChange={[MockFunction]}
+    selected={false}
+    value="NOTICE_2"
+  >
+    <LegalBasisField__LegalTitle>
+      Notice 2
+    </LegalBasisField__LegalTitle>
+    <LegalBasisField__LegalNotice>
+      Your response is legally required.
+    </LegalBasisField__LegalNotice>
+    <LegalBasisField__LegalDescription>
+      Notice is given under sections 3 and 4 of the Statistics of Trade Act 1947.
+    </LegalBasisField__LegalDescription>
+  </LegalOption>
+  <LegalOption
+    key="VOLUNTARY"
+    name="legalBasis"
+    onChange={[MockFunction]}
+    selected={false}
+    value="VOLUNTARY"
+  >
+    <LegalBasisField__LegalTitle>
+      Voluntary
+    </LegalBasisField__LegalTitle>
+    <LegalBasisField__LegalDescription>
+      No legal notice will be displayed.
+    </LegalBasisField__LegalDescription>
+  </LegalOption>
+</LegalBasisField__LegalField>
+`;

@@ -4,6 +4,13 @@ exports[`QuestionnaireDesignPage getTitle should display existing title if loadi
 
 exports[`QuestionnaireDesignPage getTitle should display questionnaire title if no longer loading 1`] = `"hello world - foo"`;
 
+exports[`QuestionnaireDesignPage should redirect to the introduction if it has one 1`] = `
+<Redirect
+  push={false}
+  to="/q/3/introduction/1/design"
+/>
+`;
+
 exports[`QuestionnaireDesignPage should render 1`] = `
 <BaseLayout
   questionnaire={
@@ -132,6 +139,16 @@ exports[`QuestionnaireDesignPage should render 1`] = `
             component={[Function]}
             key="confirmation-preview"
             path="/q/:questionnaireId/question-confirmation/:confirmationId/preview"
+          />
+          <Route
+            component={[Function]}
+            key="page-design"
+            path="/q/:questionnaireId/introduction/:introductionId/design"
+          />
+          <Route
+            component={[Function]}
+            key="page-design"
+            path="/q/:questionnaireId/introduction/:introductionId/preview"
           />
           <Route
             path="*"

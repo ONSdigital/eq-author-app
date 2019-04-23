@@ -141,6 +141,7 @@ class RichTextEditor extends React.Component {
     placeholder: "",
     multiline: false,
     autoFocus: false,
+    disabled: false,
   };
 
   state = {
@@ -169,6 +170,7 @@ class RichTextEditor extends React.Component {
         alias: PropTypes.string,
       })
     ),
+    disabled: PropTypes.bool,
   };
 
   constructor(props) {
@@ -457,6 +459,7 @@ class RichTextEditor extends React.Component {
       testSelector,
       id,
       placeholder,
+      disabled,
       ...otherProps
     } = this.props;
 
@@ -468,6 +471,7 @@ class RichTextEditor extends React.Component {
           onBlur={this.handleBlur}
           onFocus={this.handleFocus}
           data-test="rte-field"
+          disabled={disabled}
         >
           <Label id={`label-${id}`}>{label}</Label>
           <Input
@@ -504,6 +508,7 @@ class RichTextEditor extends React.Component {
               placeholder={placeholder}
               decorators={[PipedValueDecorator]}
               plugins={this.plugins}
+              readOnly={disabled}
             />
           </Input>
         </Field>
