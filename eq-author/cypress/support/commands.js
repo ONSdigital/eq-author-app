@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import { setQuestionnaireSettings, testId, createAccessToken } from "../utils";
-import { get } from "lodash/fp";
+import { get, kebabCase } from "lodash/fp";
 
 Cypress.Commands.add("login", options => {
   const tokenPayload = {
@@ -135,3 +135,26 @@ Cypress.Commands.add("getPublisherOutput", function(questionnaireId) {
 //
 // -- This is will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+
+Cypress.Commands.add("seedQuestionnaire", title => {
+  cy.fixture(`seed/${kebabCase(title)}.json`).then(questionnaireJson => {
+    console.log("Questionnaire loaded", questionnaireJson);
+    let questionnaireId;
+    cy.request({
+      method: "POST",
+      url: "http://localhost:4000/import",
+      body: questionnaireJson,
+    }).then(res => {
+      questionnaireId = res.body.id;
+    });
+
+    cy.visit("/");
+    cy.login();
+    cy.get("table").within(() => {
+      cy.contains(new RegExp(`^${title}`)).click();
+    });
+    cy.hash().then(() => {
+      cy.hash().should("match", new RegExp(`#/q/${questionnaireId}/`));
+    });
+  });
+});

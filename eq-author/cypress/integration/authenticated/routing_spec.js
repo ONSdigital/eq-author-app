@@ -48,12 +48,10 @@ describe("Routing", () => {
 
   it("should see no routing rules exist and add one and then delete it", () => {
     title = "Test no routing rules";
+    cy.seedQuestionnaire(title);
 
-    cy.createQuestionnaire(title);
+    cy.contains("Question 1").click();
     cy.contains("Untitled Page").click();
-
-    typeIntoDraftEditor(testId("txt-question-title", "testid"), "Question 1");
-    buildMultipleChoiceAnswer(["A", "B", "C"]);
 
     navigateToRoutingTab();
 
@@ -64,18 +62,10 @@ describe("Routing", () => {
     cy.get(testId("routing-rule-set-empty-msg"));
   });
 
-  it("can change the destination to another page", () => {
+  it.only("can change the destination to another page", () => {
     title = "Test routing destination";
-
-    cy.createQuestionnaire(title);
+    cy.seedQuestionnaire(title);
     cy.contains("Untitled Page").click();
-
-    typeIntoDraftEditor(testId("txt-question-title", "testid"), "Question 1");
-    buildMultipleChoiceAnswer(["A", "B", "C"]);
-
-    addQuestionPage("Question 2");
-
-    addQuestionPage("Question 3");
 
     cy.contains("Question 1").click();
 
@@ -97,22 +87,27 @@ describe("Routing", () => {
     findInputByLabel("THEN").contains("Question 3");
   });
 
-  [CURRENCY, NUMBER, PERCENTAGE].forEach(type => {
-    it(`should be able to add a ${type} routing rule and edit the inputs`, () => {
-      title = `Test add ${type}`;
-      cy.createQuestionnaire(title);
-      cy.contains("Untitled Page").click();
-      typeIntoDraftEditor(testId("txt-question-title", "testid"), "Question 1");
+  describe("something", () => {
+    [CURRENCY, NUMBER, PERCENTAGE].forEach(type => {
+      it(`should be able to add a ${type} routing rule and edit the inputs`, () => {
+        title = `Test add ${type}`;
+        cy.createQuestionnaire(title);
+        cy.contains("Untitled Page").click();
+        typeIntoDraftEditor(
+          testId("txt-question-title", "testid"),
+          "Question 1"
+        );
 
-      addAnswerType(type);
+        addAnswerType(type);
 
-      navigateToRoutingTab();
+        navigateToRoutingTab();
 
-      cy.get(testId("btn-add-routing")).click();
+        cy.get(testId("btn-add-routing")).click();
 
-      cy.get(testId("condition-selector")).select("LessThan");
+        cy.get(testId("condition-selector")).select("LessThan");
 
-      cy.get(testId("number-value-input")).type("123");
+        cy.get(testId("number-value-input")).type("123");
+      });
     });
   });
 

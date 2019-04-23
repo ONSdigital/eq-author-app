@@ -1,0 +1,157 @@
+{
+  "summary": false,
+  "metadata": [
+    {
+      "id": "2d00c9be-6fba-43cc-872b-dd93a5fd4ad7",
+      "key": "ru_name",
+      "alias": "Ru Name",
+      "type": "Text",
+      "textValue": "ESSENTIAL ENTERPRISE LTD."
+    },
+    {
+      "id": "025a8282-1f35-4348-bbc1-1404a9e12aa7",
+      "key": "trad_as",
+      "alias": "Trad As",
+      "type": "Text",
+      "textValue": "ESSENTIAL ENTERPRISE LTD."
+    },
+    {
+      "id": "5429b3ad-e309-44b2-bc42-f0a56d126545",
+      "key": "period_id",
+      "alias": "Period Id",
+      "type": "Text",
+      "textValue": "201605"
+    },
+    {
+      "id": "9f24e7c4-31aa-480c-85d3-2446907fa259",
+      "key": "ref_p_start_date",
+      "alias": "Start Date",
+      "type": "Date",
+      "dateValue": "2016-05-01"
+    },
+    {
+      "id": "784a19cb-2d39-4b99-bdbc-7d8b71a04324",
+      "key": "ref_p_end_date",
+      "alias": "End Date",
+      "type": "Date",
+      "dateValue": "2016-06-12"
+    },
+    {
+      "id": "f0212107-c828-4c44-a97c-9aecd9a8da83",
+      "key": "employmentDate",
+      "alias": "Employment Date",
+      "type": "Date",
+      "dateValue": "2016-06-10"
+    }
+  ],
+  "legalBasis": "StatisticsOfTradeAct",
+  "title": "Test routing destination",
+  "type": "Business",
+  "version": 4,
+  "sections": [
+    {
+      "id": "da73a0ae-8901-426a-8bac-53c0c5a4a4e4",
+      "title": "",
+      "introductionEnabled": false,
+      "pages": [
+        {
+          "id": "130cab47-2752-4f10-a83e-66cd98bc8e7f",
+          "pageType": "QuestionPage",
+          "title": "<p>Question 1</p>",
+          "description": "",
+          "descriptionEnabled": false,
+          "guidanceEnabled": false,
+          "definitionEnabled": false,
+          "additionalInfoEnabled": false,
+          "answers": [
+            {
+              "id": "10a6aa4e-9f45-4233-9d7d-3571e0f2268a",
+              "description": "",
+              "guidance": "",
+              "label": "",
+              "qCode": "",
+              "type": "Radio",
+              "questionPageId": "130cab47-2752-4f10-a83e-66cd98bc8e7f",
+              "properties": {
+                "required": false
+              },
+              "validation": {},
+              "options": [
+                {
+                  "id": "ff5706ac-4276-4bc4-bd62-faa05a2e896d",
+                  "label": "A",
+                  "description": null,
+                  "additionalAnswer": null
+                },
+                {
+                  "id": "77016d6f-4ce7-4c5a-936c-b5cece6efd5c",
+                  "label": "B",
+                  "description": null,
+                  "additionalAnswer": null
+                },
+                {
+                  "id": "ad2cb417-4684-4a4b-86c2-fe72ad8e54a8",
+                  "label": "C",
+                  "description": null,
+                  "additionalAnswer": null
+                }
+              ]
+            }
+          ],
+          "routing": null,
+          "alias": null,
+          "guidance": null,
+          "definitionLabel": null,
+          "definitionContent": null,
+          "additionalInfoLabel": null,
+          "additionalInfoContent": null
+        },
+        {
+          "id": "1052a031-7527-4a9f-a1af-d02c614acb8c",
+          "pageType": "QuestionPage",
+          "title": "<p>Question 2</p>",
+          "description": "",
+          "descriptionEnabled": false,
+          "guidanceEnabled": false,
+          "definitionEnabled": false,
+          "additionalInfoEnabled": false,
+          "answers": [],
+          "routing": null,
+          "alias": null,
+          "sectionId": "da73a0ae-8901-426a-8bac-53c0c5a4a4e4",
+          "guidance": null,
+          "definitionLabel": null,
+          "definitionContent": null,
+          "additionalInfoLabel": null,
+          "additionalInfoContent": null
+        },
+        {
+          "id": "fed892eb-8af5-4b63-a022-4a4cda79eb27",
+          "pageType": "QuestionPage",
+          "title": "<p>Question 3</p>",
+          "description": "",
+          "descriptionEnabled": false,
+          "guidanceEnabled": false,
+          "definitionEnabled": false,
+          "additionalInfoEnabled": false,
+          "answers": [],
+          "routing": null,
+          "alias": null,
+          "sectionId": "da73a0ae-8901-426a-8bac-53c0c5a4a4e4",
+          "guidance": null,
+          "definitionLabel": null,
+          "definitionContent": null,
+          "additionalInfoLabel": null,
+          "additionalInfoContent": null
+        }
+      ],
+      "alias": ""
+    }
+  ],
+  "createdAt": "2019-04-23T07:29:07.089Z",
+  "navigation": true,
+  "createdBy": "Cypress",
+  "theme": "default",
+  "id": "d17e35fb-11e9-4074-b075-7f994111d149",
+  "updatedAt": "2019-04-23T07:29:12.717Z"
+}
