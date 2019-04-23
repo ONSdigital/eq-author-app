@@ -1,0 +1,121 @@
+{
+  "summary": false,
+  "metadata": [
+    {
+      "id": "e7ff5c9b-b8da-435a-bc03-768a65a7b644",
+      "key": "ru_name",
+      "alias": "Ru Name",
+      "type": "Text",
+      "textValue": "ESSENTIAL ENTERPRISE LTD."
+    },
+    {
+      "id": "dd5fd4dd-bc9f-4d04-a639-2b0b90acf5d8",
+      "key": "trad_as",
+      "alias": "Trad As",
+      "type": "Text",
+      "textValue": "ESSENTIAL ENTERPRISE LTD."
+    },
+    {
+      "id": "f7ceb5e9-6e99-494e-a887-9592c834b219",
+      "key": "period_id",
+      "alias": "Period Id",
+      "type": "Text",
+      "textValue": "201605"
+    },
+    {
+      "id": "b86a5ad0-17c0-4722-9b0c-940d0f39f2cf",
+      "key": "ref_p_start_date",
+      "alias": "Start Date",
+      "type": "Date",
+      "dateValue": "2016-05-01"
+    },
+    {
+      "id": "b0d49080-dfee-43f1-99b7-3a9bd5eb0eb4",
+      "key": "ref_p_end_date",
+      "alias": "End Date",
+      "type": "Date",
+      "dateValue": "2016-06-12"
+    },
+    {
+      "id": "54015482-0f20-4176-ae63-6362b4c22efb",
+      "key": "employmentDate",
+      "alias": "Employment Date",
+      "type": "Date",
+      "dateValue": "2016-06-10"
+    }
+  ],
+  "legalBasis": "StatisticsOfTradeAct",
+  "title": "Test routing remove question",
+  "type": "Business",
+  "version": 4,
+  "sections": [
+    {
+      "id": "87d853e5-586a-4062-a787-e68a2825ae81",
+      "title": "<p>Section 1</p>",
+      "introductionEnabled": false,
+      "pages": [
+        {
+          "id": "ea2bc701-0916-4b69-b52e-129fbe0bea6d",
+          "pageType": "QuestionPage",
+          "title": "<p>Question 1</p>",
+          "description": "",
+          "descriptionEnabled": false,
+          "guidanceEnabled": false,
+          "definitionEnabled": false,
+          "additionalInfoEnabled": false,
+          "answers": [
+            {
+              "id": "461fe951-d555-4fe5-ae2d-c1ca1028db1b",
+              "description": "",
+              "guidance": "",
+              "label": "",
+              "qCode": "",
+              "type": "Radio",
+              "questionPageId": "ea2bc701-0916-4b69-b52e-129fbe0bea6d",
+              "properties": {
+                "required": false
+              },
+              "validation": {},
+              "options": [
+                {
+                  "id": "73d9397e-cb61-4216-a8d3-6006cfb486d7",
+                  "label": "A",
+                  "description": null,
+                  "additionalAnswer": null
+                },
+                {
+                  "id": "fcb43878-a0de-4689-95a3-2e73eba5f31c",
+                  "label": "B",
+                  "description": null,
+                  "additionalAnswer": null
+                },
+                {
+                  "id": "7c808726-be00-438d-87f8-82d74addff6e",
+                  "label": "C",
+                  "description": null,
+                  "additionalAnswer": null
+                }
+              ]
+            }
+          ],
+          "routing": null,
+          "alias": null,
+          "guidance": null,
+          "definitionLabel": null,
+          "definitionContent": null,
+          "additionalInfoLabel": null,
+          "additionalInfoContent": null
+        }
+      ],
+      "alias": "",
+      "introductionTitle": null,
+      "introductionContent": null
+    }
+  ],
+  "createdAt": "2019-04-23T11:40:04.409Z",
+  "navigation": true,
+  "createdBy": "Cypress",
+  "theme": "default",
+  "id": "50130741-08ae-4938-a237-d36ffb200fa4",
+  "updatedAt": "2019-04-23T11:40:08.082Z"
+}

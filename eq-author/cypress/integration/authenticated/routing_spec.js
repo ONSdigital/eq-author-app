@@ -255,7 +255,7 @@ describe("Routing", () => {
       .contains("A");
   });
 
-  it.only("can't route to a previous question", () => {
+  it("can't route to a previous question", () => {
     title = "Test routing previous question";
     cy.seedQuestionnaire(title);
 
@@ -278,24 +278,10 @@ describe("Routing", () => {
   });
 
   it("can build an AND rule", () => {
-    title = "Test AND";
+    title = "Test routing AND";
+    cy.seedQuestionnaire(title);
 
-    cy.createQuestionnaire(title);
-    cy.get(testId("nav-section-link"))
-      .first()
-      .click();
-    typeIntoDraftEditor(testId("txt-section-title", "testid"), "Section 1");
-
-    cy.get(testId("nav-page-link"))
-      .first()
-      .click();
-
-    typeIntoDraftEditor(testId("txt-question-title", "testid"), "Question 1");
-    buildMultipleChoiceAnswer(["A", "B", "C"], "Answer 1");
-
-    addQuestionPage("Question 2");
-    buildMultipleChoiceAnswer(["D", "E", "F"], "Answer 2");
-
+    cy.contains("Question 2").click();
     navigateToRoutingTab();
 
     cy.get(testId("btn-add-routing")).click();
@@ -321,20 +307,12 @@ describe("Routing", () => {
     cy.get(testId("routing-binary-expression")).should("have.length", 2);
   });
 
-  it("should change rule if the dependent question is removed", () => {
-    title = "Test remove question";
+  it.only("should change rule if the dependent question is removed", () => {
+    title = "Test routing remove question";
 
-    cy.createQuestionnaire(title);
-    cy.get(testId("nav-section-link"))
-      .first()
-      .click();
-    typeIntoDraftEditor(testId("txt-section-title", "testid"), "Section 1");
+    cy.seedQuestionnaire(title);
 
-    cy.get(testId("nav-page-link"))
-      .first()
-      .click();
-    typeIntoDraftEditor(testId("txt-question-title", "testid"), "Question 1");
-    buildMultipleChoiceAnswer(["A", "B", "C"]);
+    cy.contains("Question 1").click();
 
     navigateToRoutingTab();
 
