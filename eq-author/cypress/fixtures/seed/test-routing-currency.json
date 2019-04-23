@@ -1,0 +1,115 @@
+{
+  "summary": false,
+  "metadata": [
+    {
+      "id": "c5466bf1-1e9b-4b74-ba59-871a9aec4356",
+      "key": "ru_name",
+      "alias": "Ru Name",
+      "type": "Text",
+      "textValue": "ESSENTIAL ENTERPRISE LTD."
+    },
+    {
+      "id": "e7be93c1-e6ac-4442-b986-5100e9711996",
+      "key": "trad_as",
+      "alias": "Trad As",
+      "type": "Text",
+      "textValue": "ESSENTIAL ENTERPRISE LTD."
+    },
+    {
+      "id": "4aa140d4-0f8d-4e1a-bda2-2c8319b8aba0",
+      "key": "period_id",
+      "alias": "Period Id",
+      "type": "Text",
+      "textValue": "201605"
+    },
+    {
+      "id": "e93f82f7-76b4-406c-adf4-89baad8e09be",
+      "key": "ref_p_start_date",
+      "alias": "Start Date",
+      "type": "Date",
+      "dateValue": "2016-05-01"
+    },
+    {
+      "id": "ba10f58a-2730-40a1-8c43-c41da173b0ea",
+      "key": "ref_p_end_date",
+      "alias": "End Date",
+      "type": "Date",
+      "dateValue": "2016-06-12"
+    },
+    {
+      "id": "779d4901-8238-43af-b003-d7c4a1a5b290",
+      "key": "employmentDate",
+      "alias": "Employment Date",
+      "type": "Date",
+      "dateValue": "2016-06-10"
+    }
+  ],
+  "legalBasis": "StatisticsOfTradeAct",
+  "title": "Test routing Currency",
+  "type": "Business",
+  "version": 4,
+  "sections": [
+    {
+      "id": "b0f4db83-78b7-4569-ab2c-2aa6ed033b78",
+      "title": "",
+      "introductionEnabled": false,
+      "pages": [
+        {
+          "id": "35346ec0-99d8-4f46-ba64-2e58aa03dac3",
+          "pageType": "QuestionPage",
+          "title": "<p>Question 1</p>",
+          "description": "",
+          "descriptionEnabled": false,
+          "guidanceEnabled": false,
+          "definitionEnabled": false,
+          "additionalInfoEnabled": false,
+          "answers": [
+            {
+              "id": "5949b02e-4454-4b13-ae5a-571c59c8216f",
+              "description": "",
+              "guidance": "",
+              "label": "",
+              "qCode": "",
+              "type": "Currency",
+              "questionPageId": "35346ec0-99d8-4f46-ba64-2e58aa03dac3",
+              "properties": {
+                "required": false,
+                "decimals": 0
+              },
+              "validation": {
+                "minValue": {
+                  "id": "15393833-9eb6-4fae-92d9-5ff5dae36915",
+                  "enabled": false,
+                  "validationType": "minValue",
+                  "entityType": "Custom",
+                  "inclusive": false
+                },
+                "maxValue": {
+                  "id": "cd066990-a3a3-432d-b062-a571aea47df0",
+                  "enabled": false,
+                  "validationType": "maxValue",
+                  "entityType": "Custom",
+                  "inclusive": false
+                }
+              }
+            }
+          ],
+          "routing": null,
+          "alias": null,
+          "guidance": null,
+          "definitionLabel": null,
+          "definitionContent": null,
+          "additionalInfoLabel": null,
+          "additionalInfoContent": null
+        }
+      ],
+      "alias": ""
+    }
+  ],
+  "createdAt": "2019-04-23T08:40:16.237Z",
+  "navigation": true,
+  "createdBy": "Cypress",
+  "theme": "default",
+  "id": "5319be18-d33b-4e5a-af28-b9496814a332",
+  "updatedAt": "2019-04-23T08:40:18.172Z"
+}

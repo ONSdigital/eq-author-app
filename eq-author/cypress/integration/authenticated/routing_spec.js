@@ -42,9 +42,9 @@ describe("Routing", () => {
     cy.login();
   });
 
-  afterEach(() => {
-    title && cy.deleteQuestionnaire(title);
-  });
+  // afterEach(() => {
+  //   title && cy.deleteQuestionnaire(title);
+  // });
 
   it("should see no routing rules exist and add one and then delete it", () => {
     title = "Test no routing rules";
@@ -62,7 +62,7 @@ describe("Routing", () => {
     cy.get(testId("routing-rule-set-empty-msg"));
   });
 
-  it.only("can change the destination to another page", () => {
+  it("can change the destination to another page", () => {
     title = "Test routing destination";
     cy.seedQuestionnaire(title);
     cy.contains("Untitled Page").click();
@@ -87,31 +87,26 @@ describe("Routing", () => {
     findInputByLabel("THEN").contains("Question 3");
   });
 
-  describe("something", () => {
-    [CURRENCY, NUMBER, PERCENTAGE].forEach(type => {
-      it(`should be able to add a ${type} routing rule and edit the inputs`, () => {
-        title = `Test add ${type}`;
-        cy.createQuestionnaire(title);
-        cy.contains("Untitled Page").click();
-        typeIntoDraftEditor(
-          testId("txt-question-title", "testid"),
-          "Question 1"
-        );
+  [CURRENCY, NUMBER, PERCENTAGE].forEach(type => {
+    it(`should be able to add a ${type} routing rule and edit the inputs`, () => {
+      title = `Test routing ${type}`;
+      cy.seedQuestionnaire(title);
+      cy.contains("Question 1").click();
+      navigateToRoutingTab();
 
-        addAnswerType(type);
+      cy.get(testId("btn-add-routing")).click();
 
-        navigateToRoutingTab();
+      cy.get(testId("condition-selector")).select("LessThan");
 
-        cy.get(testId("btn-add-routing")).click();
+      cy.get(testId("number-value-input"))
+        .type("123")
+        .blur();
 
-        cy.get(testId("condition-selector")).select("LessThan");
-
-        cy.get(testId("number-value-input")).type("123");
-      });
+      cy.get(testId("number-value-input")).should("have.value", "123");
     });
   });
 
-  it("follows the link to add an answer and routing updates with the new answer", () => {
+  it.only("follows the link to add an answer and routing updates with the new answer", () => {
     title = "Test no answer";
     cy.createQuestionnaire(title);
     cy.contains("Untitled Page").click();
