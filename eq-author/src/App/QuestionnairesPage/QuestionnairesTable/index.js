@@ -7,6 +7,9 @@ import { isEmpty } from "lodash";
 import gql from "graphql-tag";
 import scrollIntoView from "utils/scrollIntoView";
 
+import DeleteConfirmDialog from "components/DeleteConfirmDialog";
+import questionConfirmationIcon from "./icon-questionnaire.svg";
+
 import Row from "App/QuestionnairesPage/QuestionnairesTable/Row";
 
 const Table = styled.table`
@@ -55,6 +58,21 @@ export class UnconnectedQuestionnairesTable extends React.PureComponent {
 
   state = {
     focusedId: null,
+    showDeleteQuestionnaireDialog: false,
+    deleteQuestionnaire: null,
+  };
+
+  handleOpenDeleteQuestionnaireDialog = deleteQuestionnaire =>
+    this.setState({
+      showDeleteQuestionnaireDialog: true,
+      deleteQuestionnaire,
+    });
+
+  handleCloseDeleteQuestionnaireDialog = () => {
+    this.setState({
+      showDeleteQuestionnaireDialog: false,
+      deleteQuestionnaire: null,
+    });
   };
 
   handleDuplicateQuestionnaire = questionnaire => {
@@ -66,11 +84,13 @@ export class UnconnectedQuestionnairesTable extends React.PureComponent {
       });
   };
 
-  handleDeleteQuestionnaire = questionnaireId => {
+  handleDeleteQuestionnaire = () => {
     const { questionnaires } = this.props;
+    const { deleteQuestionnaire } = this.state;
+
     const possibleNextIndex =
       questionnaires.indexOf(
-        questionnaires.find(q => q.id === questionnaireId)
+        questionnaires.find(q => q.id === deleteQuestionnaire.id)
       ) + 1;
 
     // If the last one is being removed then focus the one before that
@@ -83,40 +103,58 @@ export class UnconnectedQuestionnairesTable extends React.PureComponent {
     // questionnaires left
     this.setState({
       focusedId: (questionnaires[nextIndex] || {}).id,
+      showDeleteQuestionnaireDialog: false,
+      deleteQuestionnaire: null,
     });
-    this.props.onDeleteQuestionnaire(questionnaireId);
+
+    this.props.onDeleteQuestionnaire(deleteQuestionnaire.id);
   };
 
   render() {
     const { questionnaires } = this.props;
+    const { showDeleteQuestionnaireDialog, deleteQuestionnaire } = this.state;
+
     if (isEmpty(questionnaires)) {
       return <p>You have no questionnaires</p>;
     }
 
     return (
-      <Table>
-        <thead ref={this.headRef}>
-          <tr>
-            <TH colWidth="50%">Questionnaire name</TH>
-            <TH colWidth="15%">Date</TH>
-            <TH colWidth="22%">Created by</TH>
-            <TH colWidth="14%" />
-          </tr>
-        </thead>
-        <TransitionGroup component={TBody}>
-          {questionnaires.map(questionnaire => {
-            return (
-              <Row
-                key={questionnaire.id}
-                autoFocus={questionnaire.id === this.state.focusedId}
-                questionnaire={questionnaire}
-                onDeleteQuestionnaire={this.handleDeleteQuestionnaire}
-                onDuplicateQuestionnaire={this.handleDuplicateQuestionnaire}
-              />
-            );
-          })}
-        </TransitionGroup>
-      </Table>
+      <>
+        <Table>
+          <thead ref={this.headRef}>
+            <tr>
+              <TH colWidth="50%">Questionnaire name</TH>
+              <TH colWidth="15%">Date</TH>
+              <TH colWidth="22%">Created by</TH>
+              <TH colWidth="14%" />
+            </tr>
+          </thead>
+          <TransitionGroup component={TBody}>
+            {questionnaires.map(questionnaire => {
+              return (
+                <Row
+                  key={questionnaire.id}
+                  autoFocus={questionnaire.id === this.state.focusedId}
+                  questionnaire={questionnaire}
+                  onDeleteQuestionnaire={
+                    this.handleOpenDeleteQuestionnaireDialog
+                  }
+                  onDuplicateQuestionnaire={this.handleDuplicateQuestionnaire}
+                />
+              );
+            })}
+          </TransitionGroup>
+        </Table>
+        <DeleteConfirmDialog
+          isOpen={showDeleteQuestionnaireDialog}
+          onClose={this.handleCloseDeleteQuestionnaireDialog}
+          onDelete={this.handleDeleteQuestionnaire}
+          title={deleteQuestionnaire && deleteQuestionnaire.displayName}
+          alertText="This questionnaire including all sections and questions will be deleted."
+          icon={questionConfirmationIcon}
+          data-test="delete-questionnaire"
+        />
+      </>
     );
   }
 }
