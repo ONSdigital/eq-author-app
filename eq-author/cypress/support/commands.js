@@ -141,7 +141,7 @@ Cypress.Commands.add("seedQuestionnaire", title => {
     let questionnaireId;
     cy.request({
       method: "POST",
-      url: "http://localhost:4000/import",
+      url: `${Cypress.env("API_URL") || "http://localhost:4000"}/import`,
       body: questionnaireJson,
     }).then(res => {
       questionnaireId = res.body.id;
