@@ -43,7 +43,6 @@ describe("Routing", () => {
     cy.seedQuestionnaire(title);
 
     cy.contains("Question 1").click();
-    cy.contains("Untitled Page").click();
 
     navigateToRoutingTab();
 
@@ -57,7 +56,6 @@ describe("Routing", () => {
   it("can change the destination to another page", () => {
     title = "Test routing destination";
     cy.seedQuestionnaire(title);
-    cy.contains("Untitled Page").click();
 
     cy.contains("Question 1").click();
 
@@ -212,7 +210,6 @@ describe("Routing", () => {
   it("can't route based on a future question", () => {
     title = "Test routing future question";
     cy.seedQuestionnaire(title);
-    cy.contains("Untitled Page").click();
 
     cy.contains("Question 2").click();
 
