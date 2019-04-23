@@ -215,20 +215,10 @@ describe("Routing", () => {
       });
   });
 
-  it.only("can't route based on a future question", () => {
-    title = "Test future question";
-
-    cy.createQuestionnaire(title);
+  it("can't route based on a future question", () => {
+    title = "Test routing future question";
+    cy.seedQuestionnaire(title);
     cy.contains("Untitled Page").click();
-
-    typeIntoDraftEditor(testId("txt-question-title", "testid"), "Question 1");
-    buildMultipleChoiceAnswer(["A", "B", "C"]);
-
-    addQuestionPage("Question 2");
-    buildMultipleChoiceAnswer(["D", "E", "F"]);
-
-    addQuestionPage("Question 3");
-    buildMultipleChoiceAnswer(["G", "H", "I"]);
 
     cy.contains("Question 2").click();
 
@@ -241,7 +231,7 @@ describe("Routing", () => {
     });
   });
 
-  it("updates the options when a new question is selected", () => {
+  it.only("updates the options when a new question is selected", () => {
     title = "Test options";
 
     cy.createQuestionnaire(title);
