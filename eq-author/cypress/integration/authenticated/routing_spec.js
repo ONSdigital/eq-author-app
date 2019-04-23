@@ -106,8 +106,8 @@ describe("Routing", () => {
     });
   });
 
-  it.only("follows the link to add an answer and routing updates with the new answer", () => {
-    title = "Test no answer";
+  it("follows the link to add an answer and routing updates with the new answer", () => {
+    title = "Test routing no answer";
     cy.createQuestionnaire(title);
     cy.contains("Untitled Page").click();
 
@@ -142,33 +142,7 @@ describe("Routing", () => {
 
   it("builds a series of Or'd rules", () => {
     title = "Test OR rules";
-
-    cy.createQuestionnaire(title);
-    cy.contains("Untitled Section").click();
-    typeIntoDraftEditor(testId("txt-section-title", "testid"), "Section 1");
-
-    cy.get(testId("nav-page-link"))
-      .first()
-      .click();
-    typeIntoDraftEditor(testId("txt-question-title", "testid"), "Question 1");
-    cy.get(testId("nav-page-link")).should("contain", "Question 1");
-    buildMultipleChoiceAnswer(["A", "B", "C"], "Answer 1");
-
-    addQuestionPage("Question 2");
-    buildMultipleChoiceAnswer(["D", "E", "F"], "Answer 2");
-
-    addQuestionPage("Question 3");
-    buildMultipleChoiceAnswer(["G", "H", "I"], "Answer 3");
-
-    addSection();
-
-    cy.contains("Untitled Page")
-      .last()
-      .click();
-
-    typeIntoDraftEditor(testId("txt-question-title", "testid"), "Question 4");
-
-    addQuestionPage("Question 5");
+    cy.seedQuestionnaire(title);
 
     cy.contains("Question 4").click();
     navigateToRoutingTab();
@@ -241,7 +215,7 @@ describe("Routing", () => {
       });
   });
 
-  it("can't route based on a future question", () => {
+  it.only("can't route based on a future question", () => {
     title = "Test future question";
 
     cy.createQuestionnaire(title);
