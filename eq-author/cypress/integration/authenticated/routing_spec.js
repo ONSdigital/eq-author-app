@@ -231,24 +231,11 @@ describe("Routing", () => {
     });
   });
 
-  it.only("updates the options when a new question is selected", () => {
-    title = "Test options";
+  it("updates the options when a new question is selected", () => {
+    title = "Test routing updates options";
+    cy.seedQuestionnaire(title);
 
-    cy.createQuestionnaire(title);
-    cy.get(testId("nav-section-link"))
-      .first()
-      .click();
-    typeIntoDraftEditor(testId("txt-section-title", "testid"), "Section 1");
-
-    cy.get(testId("nav-page-link"))
-      .first()
-      .click();
-    typeIntoDraftEditor(testId("txt-question-title", "testid"), "Question 1");
-    buildMultipleChoiceAnswer(["A", "B", "C"], "Answer 1");
-
-    addQuestionPage("Question 2");
-    buildMultipleChoiceAnswer(["D", "E", "F"], "Answer 2");
-
+    cy.contains("Question 2").click();
     navigateToRoutingTab();
 
     cy.get(testId("btn-add-routing")).click();
@@ -268,7 +255,7 @@ describe("Routing", () => {
       .contains("A");
   });
 
-  it("can't route to a previous question", () => {
+  it.only("can't route to a previous question", () => {
     title = "Test options";
 
     cy.createQuestionnaire(title);
