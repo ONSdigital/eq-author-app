@@ -256,25 +256,8 @@ describe("Routing", () => {
   });
 
   it.only("can't route to a previous question", () => {
-    title = "Test options";
-
-    cy.createQuestionnaire(title);
-    cy.get(testId("nav-section-link"))
-      .first()
-      .click();
-    typeIntoDraftEditor(testId("txt-section-title", "testid"), "Section 1");
-
-    cy.get(testId("nav-page-link"))
-      .first()
-      .click();
-    typeIntoDraftEditor(testId("txt-question-title", "testid"), "Question 1");
-    buildMultipleChoiceAnswer(["A", "B", "C"]);
-
-    addQuestionPage("Question 2");
-    buildMultipleChoiceAnswer(["D", "E", "F"]);
-
-    addQuestionPage("Question 3");
-    buildMultipleChoiceAnswer(["G", "H", "I"]);
+    title = "Test routing previous question";
+    cy.seedQuestionnaire(title);
 
     cy.contains("Question 2").click();
 

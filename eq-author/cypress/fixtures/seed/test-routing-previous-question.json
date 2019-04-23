@@ -1,0 +1,227 @@
+{
+  "summary": false,
+  "metadata": [
+    {
+      "id": "e7ff5c9b-b8da-435a-bc03-768a65a7b644",
+      "key": "ru_name",
+      "alias": "Ru Name",
+      "type": "Text",
+      "textValue": "ESSENTIAL ENTERPRISE LTD."
+    },
+    {
+      "id": "dd5fd4dd-bc9f-4d04-a639-2b0b90acf5d8",
+      "key": "trad_as",
+      "alias": "Trad As",
+      "type": "Text",
+      "textValue": "ESSENTIAL ENTERPRISE LTD."
+    },
+    {
+      "id": "f7ceb5e9-6e99-494e-a887-9592c834b219",
+      "key": "period_id",
+      "alias": "Period Id",
+      "type": "Text",
+      "textValue": "201605"
+    },
+    {
+      "id": "b86a5ad0-17c0-4722-9b0c-940d0f39f2cf",
+      "key": "ref_p_start_date",
+      "alias": "Start Date",
+      "type": "Date",
+      "dateValue": "2016-05-01"
+    },
+    {
+      "id": "b0d49080-dfee-43f1-99b7-3a9bd5eb0eb4",
+      "key": "ref_p_end_date",
+      "alias": "End Date",
+      "type": "Date",
+      "dateValue": "2016-06-12"
+    },
+    {
+      "id": "54015482-0f20-4176-ae63-6362b4c22efb",
+      "key": "employmentDate",
+      "alias": "Employment Date",
+      "type": "Date",
+      "dateValue": "2016-06-10"
+    }
+  ],
+  "legalBasis": "StatisticsOfTradeAct",
+  "title": "Test routing previous question",
+  "type": "Business",
+  "version": 4,
+  "sections": [
+    {
+      "id": "f4594d35-3d1a-4699-8648-ba5b0f4cfec2",
+      "title": "<p>Section 1</p>",
+      "introductionEnabled": false,
+      "pages": [
+        {
+          "id": "4fcc74f9-8e80-45ce-b4f8-72dab71faf04",
+          "pageType": "QuestionPage",
+          "title": "<p>Question 1</p>",
+          "description": "",
+          "descriptionEnabled": false,
+          "guidanceEnabled": false,
+          "definitionEnabled": false,
+          "additionalInfoEnabled": false,
+          "answers": [
+            {
+              "id": "798ef123-3193-43b3-833b-e32ddd41d81a",
+              "description": "",
+              "guidance": "",
+              "label": "",
+              "qCode": "",
+              "type": "Radio",
+              "questionPageId": "4fcc74f9-8e80-45ce-b4f8-72dab71faf04",
+              "properties": {
+                "required": false
+              },
+              "validation": {},
+              "options": [
+                {
+                  "id": "91d0c9d1-3e8d-447b-8ae8-42349a35f6ab",
+                  "label": "A",
+                  "description": null,
+                  "additionalAnswer": null
+                },
+                {
+                  "id": "0aae0ad6-35dd-49b1-a57e-3e158fe14436",
+                  "label": "B",
+                  "description": null,
+                  "additionalAnswer": null
+                },
+                {
+                  "id": "4d2b8955-a1a3-4196-bd4b-f07d25456b09",
+                  "label": "C",
+                  "description": null,
+                  "additionalAnswer": null
+                }
+              ]
+            }
+          ],
+          "routing": null,
+          "alias": null,
+          "guidance": null,
+          "definitionLabel": null,
+          "definitionContent": null,
+          "additionalInfoLabel": null,
+          "additionalInfoContent": null
+        },
+        {
+          "id": "c56123e8-f345-4b08-873d-1d3a175fcff2",
+          "pageType": "QuestionPage",
+          "title": "<p>Question 2</p>",
+          "description": "",
+          "descriptionEnabled": false,
+          "guidanceEnabled": false,
+          "definitionEnabled": false,
+          "additionalInfoEnabled": false,
+          "answers": [
+            {
+              "id": "05f4447a-1a81-443e-bd6e-9255e7b421fc",
+              "description": "",
+              "guidance": "",
+              "label": "",
+              "qCode": "",
+              "type": "Radio",
+              "questionPageId": "c56123e8-f345-4b08-873d-1d3a175fcff2",
+              "properties": {
+                "required": false
+              },
+              "validation": {},
+              "options": [
+                {
+                  "id": "ea04e23e-1d61-407f-8188-a7bc51776c9b",
+                  "label": "D",
+                  "description": null,
+                  "additionalAnswer": null
+                },
+                {
+                  "id": "acdbb46a-f08c-4c97-b199-2e637355f0ca",
+                  "label": "E",
+                  "description": null,
+                  "additionalAnswer": null
+                },
+                {
+                  "id": "6d45597c-3c05-4f48-8392-0607c4f2dabe",
+                  "label": "F",
+                  "description": null,
+                  "additionalAnswer": null
+                }
+              ]
+            }
+          ],
+          "routing": null,
+          "alias": null,
+          "sectionId": "f4594d35-3d1a-4699-8648-ba5b0f4cfec2",
+          "guidance": null,
+          "definitionLabel": null,
+          "definitionContent": null,
+          "additionalInfoLabel": null,
+          "additionalInfoContent": null
+        },
+        {
+          "id": "5bea93a4-cd20-4166-89d6-7c8ea9e3d576",
+          "pageType": "QuestionPage",
+          "title": "<p>Question 3</p>",
+          "description": "",
+          "descriptionEnabled": false,
+          "guidanceEnabled": false,
+          "definitionEnabled": false,
+          "additionalInfoEnabled": false,
+          "answers": [
+            {
+              "id": "ef7b847c-4a58-4e7c-82a4-22eb8dec6192",
+              "description": "",
+              "guidance": "",
+              "label": "",
+              "qCode": "",
+              "type": "Radio",
+              "questionPageId": "5bea93a4-cd20-4166-89d6-7c8ea9e3d576",
+              "properties": {
+                "required": false
+              },
+              "validation": {},
+              "options": [
+                {
+                  "id": "7e26be56-8c51-4663-b194-6618249d3d3f",
+                  "label": "G",
+                  "description": null,
+                  "additionalAnswer": null
+                },
+                {
+                  "id": "875e790a-74ed-4bad-9ba0-25d2353739c4",
+                  "label": "H",
+                  "description": null,
+                  "additionalAnswer": null
+                },
+                {
+                  "id": "7ca26cba-4417-4ea0-9f6f-6967fa9700ca",
+                  "label": "I",
+                  "description": null,
+                  "additionalAnswer": null
+                }
+              ]
+            }
+          ],
+          "routing": null,
+          "alias": null,
+          "sectionId": "f4594d35-3d1a-4699-8648-ba5b0f4cfec2",
+          "guidance": null,
+          "definitionLabel": null,
+          "definitionContent": null,
+          "additionalInfoLabel": null,
+          "additionalInfoContent": null
+        }
+      ],
+      "alias": "",
+      "introductionTitle": null,
+      "introductionContent": null
+    }
+  ],
+  "createdAt": "2019-04-23T11:31:04.373Z",
+  "navigation": true,
+  "createdBy": "Cypress",
+  "theme": "default",
+  "id": "9181e6dc-708d-47a7-94a4-64d09c11a47e",
+  "updatedAt": "2019-04-23T11:31:13.373Z"
+}
