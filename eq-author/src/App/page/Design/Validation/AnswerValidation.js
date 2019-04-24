@@ -122,7 +122,6 @@ const validations = [NUMBER, CURRENCY, PERCENTAGE, DATE, DATE_RANGE].reduce(
 export class UnconnectedAnswerValidation extends React.Component {
   state = {
     modalIsOpen: false,
-    answerId: null,
   };
 
   constructor(props) {

@@ -40,6 +40,10 @@ exports[`SidebarButton should render 1`] = `
   margin: auto;
 }
 
+.c0:disabled {
+  background: #f5f5f5;
+}
+
 <button
   className="c0"
 >

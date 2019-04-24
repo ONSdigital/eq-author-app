@@ -1,6 +1,6 @@
-import { mapMutateToProps } from "./withToggleAnswerValidation";
+import { mapMutateToProps } from "./withToggleValidationRule";
 
-describe("withToggleAnswerValidation", () => {
+describe("withToggleValidationRule", () => {
   let mutate;
 
   beforeEach(() => {
@@ -17,14 +17,14 @@ describe("withToggleAnswerValidation", () => {
 
   it("should call mutate", () => {
     const props = mapMutateToProps({ mutate });
-    const answer = {
+    const validationRule = {
       id: "1",
-      minValueInput: { inclusive: true, custom: "201" },
+      enabled: true,
     };
 
-    props.onToggleValidationRule(answer);
+    props.onToggleValidationRule(validationRule);
     expect(mutate).toHaveBeenCalledWith({
-      variables: { input: answer },
+      variables: { input: validationRule },
     });
   });
 });

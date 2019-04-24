@@ -16,9 +16,6 @@ const {
   some,
   concat,
   kebabCase,
-  filter,
-  map,
-  slice,
 } = require("lodash");
 const GraphQLJSON = require("graphql-type-json");
 const { getName } = require("../../utils/getName");
@@ -34,10 +31,14 @@ const {
   getPages,
   getPageById,
   getPageByConfirmationId,
+  getPageByValidationId,
   getAnswers,
   getAnswerById,
   getOptionById,
   getConfirmationById,
+  getValidationById,
+  getAvailablePreviousAnswersForValidation,
+  getAvailableMetadataForValidation,
   remapAllNestedIds,
 } = require("./utils");
 
@@ -65,57 +66,12 @@ const {
 
 const { listQuestionnaires } = require("../../utils/datastore");
 
-const { DATE, DATE_RANGE } = require("../../constants/answerTypes");
-const { DATE: METADATA_DATE } = require("../../constants/metadataTypes");
-const { VALIDATION_TYPES } = require("../../constants/validationTypes");
-
 const {
   createQuestionnaireIntroduction,
 } = require("./questionnaireIntroduction");
 
 const getQuestionnaireList = () => {
   return listQuestionnaires();
-};
-
-const getValidation = ctx => id => {
-  const answers = getAnswers(ctx);
-  const answerValidations = map(answers, answer => ({
-    answerId: answer.id,
-    ...answer.validation,
-  }));
-  const validations = flatMap(answerValidations, validation => {
-    return VALIDATION_TYPES.map(type => {
-      if (validation[type]) {
-        validation[type].answerId = validation.answerId;
-      }
-      return merge(validation[type], { validationType: type });
-    });
-  });
-
-  return find(validations, { id: id });
-};
-
-const getAvailablePreviousAnswersForValidation = ctx => id => {
-  const validation = getValidation(ctx)(id);
-  const answer = getAnswerById(ctx, validation.answerId);
-  const pages = getPages(ctx);
-  const currentPageIndex = findIndex(pages, { id: answer.questionPageId });
-  const previousPages = slice(pages, 0, currentPageIndex);
-  const previousAnswers = flatMap(previousPages, page => page.answers);
-  const previousAnswersOfSameType = filter(previousAnswers, {
-    type: answer.type,
-  });
-  return previousAnswersOfSameType;
-};
-
-const getAvailableMetadataForValidation = ctx => id => {
-  const validation = getValidation(ctx)(id);
-  const answer = getAnswerById(ctx, validation.answerId);
-  if (answer.type === DATE || answer.type === DATE_RANGE) {
-    return filter(ctx.questionnaire.metadata, { type: METADATA_DATE });
-  } else {
-    return []; //Currently do not support validation against any other types
-  }
 };
 
 const createSection = (input = {}) => ({
@@ -261,7 +217,7 @@ const Resolvers = {
       const answer = createAnswer(input);
       page.answers.push(answer);
 
-      onAnswerCreated(ctx.questionnaire, page, answer);
+      onAnswerCreated(page, answer);
 
       await saveQuestionnaire(ctx.questionnaire);
       return answer;
@@ -300,10 +256,7 @@ const Resolvers = {
       return answersOfType;
     },
     deleteAnswer: async (_, { input }, ctx) => {
-      const pages = flatMap(
-        ctx.questionnaire.sections,
-        section => section.pages
-      );
+      const pages = getPages(ctx);
       const page = find(pages, page => {
         if (page.answers && some(page.answers, { id: input.id })) {
           return page;
@@ -312,16 +265,13 @@ const Resolvers = {
 
       const deletedAnswer = first(remove(page.answers, { id: input.id }));
 
-      onAnswerDeleted(ctx.questionnaire, page, deletedAnswer);
+      onAnswerDeleted(page, deletedAnswer);
 
       await saveQuestionnaire(ctx.questionnaire);
-      return deletedAnswer;
+      return page;
     },
     moveAnswer: async (_, { input: { id, position } }, ctx) => {
-      const pages = flatMap(
-        ctx.questionnaire.sections,
-        section => section.pages
-      );
+      const pages = getPages(ctx);
       const page = find(pages, page => {
         if (page.answers && some(page.answers, { id })) {
           return page;
@@ -337,10 +287,7 @@ const Resolvers = {
     },
 
     createOption: async (root, { input }, ctx) => {
-      const pages = flatMap(
-        ctx.questionnaire.sections,
-        section => section.pages
-      );
+      const pages = getPages(ctx);
       const answers = flatMap(pages, page => page.answers);
       const parent = find(answers, { id: input.answerId });
       const option = createOption(input);
@@ -353,10 +300,7 @@ const Resolvers = {
     },
 
     createMutuallyExclusiveOption: async (root, { input }, ctx) => {
-      const pages = flatMap(
-        ctx.questionnaire.sections,
-        section => section.pages
-      );
+      const pages = getPages(ctx);
       const answers = flatMap(pages, page => page.answers);
       const answer = find(answers, { id: input.answerId });
 
@@ -376,10 +320,7 @@ const Resolvers = {
       return option;
     },
     updateOption: async (_, { input }, ctx) => {
-      const pages = flatMap(
-        ctx.questionnaire.sections,
-        section => section.pages
-      );
+      const pages = getPages(ctx);
       const answers = compact(flatMap(pages, page => page.answers));
       const options = flatMap(answers, answer => answer.options);
       const option = find(options, { id: input.id });
@@ -391,10 +332,7 @@ const Resolvers = {
       return option;
     },
     deleteOption: async (_, { input }, ctx) => {
-      const pages = flatMap(
-        ctx.questionnaire.sections,
-        section => section.pages
-      );
+      const pages = getPages(ctx);
       const answers = flatMap(pages, page => page.answers);
 
       const answer = find(answers, answer => {
@@ -427,7 +365,7 @@ const Resolvers = {
       return removedOption;
     },
     toggleValidationRule: async (_, args, ctx) => {
-      const validation = getValidation(ctx)(args.input.id);
+      const validation = getValidationById(ctx, args.input.id);
       validation.enabled = args.input.enabled;
 
       const newValidation = Object.assign({}, validation);
@@ -438,7 +376,7 @@ const Resolvers = {
       return newValidation;
     },
     updateValidationRule: async (_, args, ctx) => {
-      const validation = getValidation(ctx)(args.input.id);
+      const validation = getValidationById(ctx, args.input.id);
       const { validationType } = validation;
 
       merge(validation, args.input[`${validationType}Input`]);
@@ -504,10 +442,7 @@ const Resolvers = {
         negative,
       };
 
-      const pages = flatMap(
-        ctx.questionnaire.sections,
-        section => section.pages
-      );
+      const pages = getPages(ctx);
 
       let confirmationPage;
       let pageId;
@@ -529,10 +464,7 @@ const Resolvers = {
       };
     },
     deleteQuestionConfirmation: async (_, { input }, ctx) => {
-      const pages = flatMap(
-        ctx.questionnaire.sections,
-        section => section.pages
-      );
+      const pages = getPages(ctx);
 
       let confirmationPage;
       let pageContainingConfirmation;
@@ -601,10 +533,7 @@ const Resolvers = {
 
   BasicAnswer: {
     page: ({ id }, args, ctx) => {
-      const pages = flatMap(
-        ctx.questionnaire.sections,
-        section => section.pages
-      );
+      const pages = getPages(ctx);
 
       const parentPage = find(pages, page =>
         some(page.answers, answer => answer.id === id)
@@ -628,10 +557,7 @@ const Resolvers = {
 
   MultipleChoiceAnswer: {
     page: (answer, args, ctx) => {
-      const pages = flatMap(
-        ctx.questionnaire.sections,
-        section => section.pages
-      );
+      const pages = getPages(ctx);
       return find(pages, page => {
         if (page.answers && some(page.answers, { id: answer.id })) {
           return page;
@@ -646,10 +572,7 @@ const Resolvers = {
 
   Option: {
     answer: (option, args, ctx) => {
-      const pages = flatMap(
-        ctx.questionnaire.sections,
-        section => section.pages
-      );
+      const pages = getPages(ctx);
       const answers = flatMap(pages, page => page.answers);
       return find(answers, answer => {
         if (answer.options && some(answer.options, { id: option.id })) {
@@ -696,9 +619,11 @@ const Resolvers = {
           return "MinDurationValidationRule";
         case "maxDuration":
           return "MaxDurationValidationRule";
+        case "total":
+          return "TotalValidationRule";
         default:
           throw new TypeError(
-            `Validation is not supported on '${validationType}' answers`
+            `ValidationRule of type '${validationType}' is not supported`
           );
       }
     },
@@ -729,7 +654,7 @@ const Resolvers = {
     previousAnswer: ({ previousAnswer }, args, ctx) =>
       isNil(previousAnswer) ? null : getAnswerById(ctx, previousAnswer),
     availablePreviousAnswers: ({ id }, args, ctx) =>
-      getAvailablePreviousAnswersForValidation(ctx)(id),
+      getAvailablePreviousAnswersForValidation(ctx, id),
   },
 
   MaxValueValidationRule: {
@@ -740,7 +665,7 @@ const Resolvers = {
     previousAnswer: ({ previousAnswer }, args, ctx) =>
       isNil(previousAnswer) ? null : getAnswerById(ctx, previousAnswer),
     availablePreviousAnswers: ({ id }, args, ctx) =>
-      getAvailablePreviousAnswersForValidation(ctx)(id),
+      getAvailablePreviousAnswersForValidation(ctx, id),
   },
 
   EarliestDateValidationRule: {
@@ -755,9 +680,9 @@ const Resolvers = {
         ? null
         : find(ctx.questionnaire.metadata, { id: metadata }),
     availablePreviousAnswers: ({ id }, args, ctx) =>
-      getAvailablePreviousAnswersForValidation(ctx)(id),
+      getAvailablePreviousAnswersForValidation(ctx, id),
     availableMetadata: ({ id }, args, ctx) =>
-      getAvailableMetadataForValidation(ctx)(id),
+      getAvailableMetadataForValidation(ctx, id),
   },
 
   LatestDateValidationRule: {
@@ -772,9 +697,9 @@ const Resolvers = {
         ? null
         : find(ctx.questionnaire.metadata, { id: metadata }),
     availablePreviousAnswers: ({ id }, args, ctx) =>
-      getAvailablePreviousAnswersForValidation(ctx)(id),
+      getAvailablePreviousAnswersForValidation(ctx, id),
     availableMetadata: ({ id }, args, ctx) =>
-      getAvailableMetadataForValidation(ctx)(id),
+      getAvailableMetadataForValidation(ctx, id),
   },
 
   MinDurationValidationRule: {
@@ -783,6 +708,18 @@ const Resolvers = {
 
   MaxDurationValidationRule: {
     duration: ({ duration }) => duration,
+  },
+
+  TotalValidationRule: {
+    previousAnswer: ({ previousAnswer }, args, ctx) =>
+      isNil(previousAnswer) ? null : getAnswerById(ctx, previousAnswer),
+    availablePreviousAnswers: ({ id }, args, ctx) => {
+      const page = getPageByValidationId(ctx, id);
+      const answerType = page.answers[0].type;
+      return getPreviousAnswersForPage(ctx.questionnaire, page.id, false, [
+        answerType,
+      ]);
+    },
   },
 
   Metadata: {

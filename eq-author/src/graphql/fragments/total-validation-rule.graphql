@@ -1,0 +1,11 @@
+fragment TotalValidationRule on TotalValidationRule {
+  id
+  enabled
+  entityType
+  custom
+  previousAnswer {
+    id
+    displayName
+  }
+  condition
+}

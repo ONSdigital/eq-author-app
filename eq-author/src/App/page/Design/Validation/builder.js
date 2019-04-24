@@ -1,7 +1,7 @@
 import { flowRight } from "lodash/fp";
 
-import withToggleAnswerValidation from "./withToggleAnswerValidation";
-import withUpdateAnswerValidation from "./withUpdateAnswerValidation";
+import withToggleValidationRule from "./withToggleValidationRule";
+import withUpdateValidationRule from "./withUpdateValidationRule";
 import withEntityEditor from "components/withEntityEditor";
 
 import withAnswerValidation from "./withAnswerValidation";
@@ -14,10 +14,10 @@ export default (displayName, testId, readKey, writeKey, readToWriteMapper) =>
   flowRight(
     withProps({ displayName, testId, readKey }),
     withAnswerValidation(readKey),
-    withUpdateAnswerValidation,
-    withToggleAnswerValidation,
+    withUpdateValidationRule,
+    withToggleValidationRule,
     withPropRemapped(
-      "onUpdateAnswerValidation",
+      "onUpdateValidationRule",
       "onUpdate",
       readToWriteMapper(writeKey)
     ),

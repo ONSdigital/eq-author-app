@@ -43,6 +43,7 @@ describe("page previews", () => {
           metadata: [],
         },
       },
+      totalValidation: null,
     };
 
     const wrapper = render({

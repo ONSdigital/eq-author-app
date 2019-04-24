@@ -39,6 +39,7 @@ describe("QuestionPagePreview", () => {
           metadata: [],
         },
       },
+      totalValidation: null,
     };
   });
 

@@ -33,6 +33,7 @@ exports[`QuestionPagePreview should render 1`] = `
         },
       },
       "title": "<p>Hello world</p>",
+      "totalValidation": null,
     }
   }
   preview={true}

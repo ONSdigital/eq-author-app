@@ -4,9 +4,11 @@ import { groupBy, kebabCase } from "lodash/fp";
 
 import Accordion from "components/Accordion";
 import { CURRENCY, NUMBER, PERCENTAGE } from "constants/answer-types";
+import { colors } from "constants/theme";
 import getIdForObject from "utils/getIdForObject";
 
 import AnswerValidation from "App/page/Design/Validation/AnswerValidation";
+import GroupValidations from "App/page/Design/Validation/GroupValidations";
 
 import AnswerProperties from "./AnswerProperties";
 import InlineField from "./InlineField";
@@ -14,7 +16,19 @@ import Decimal from "./Decimal";
 import withUpdateAnswersOfType from "./withUpdateAnswersOfType";
 
 const AnswerPropertiesContainer = styled.div`
-  padding: 0.5em;
+  border-bottom: 1px solid ${colors.lightMediumGrey};
+  margin-bottom: 0.5em;
+  padding-bottom: 0.5em;
+
+  &:last-of-type {
+    margin-bottom: 0;
+    border: 0;
+  }
+`;
+
+const Padding = styled.div`
+  padding: 0 0.5em;
+  min-height: 1em;
 `;
 
 const AnswerTitle = styled.h3`
@@ -26,7 +40,7 @@ const AnswerTitle = styled.h3`
 `;
 
 const GroupContainer = styled.div`
-  padding-bottom: 0.5em;
+  padding: 0.5em 0;
 `;
 
 const isNumeric = answerType =>
@@ -40,6 +54,7 @@ export const UnwrappedGroupedAnswerProperties = ({
 
   return Object.keys(answersByType).map(answerType => {
     let groupedFields = null;
+    let groupValidations = null;
     const answers = answersByType[answerType];
 
     if (isNumeric(answerType)) {
@@ -60,6 +75,17 @@ export const UnwrappedGroupedAnswerProperties = ({
           </InlineField>
         </GroupContainer>
       );
+
+      if (answers.length > 1) {
+        groupValidations = (
+          <Padding>
+            <GroupValidations
+              totalValidation={page.totalValidation}
+              type={answerType}
+            />
+          </Padding>
+        );
+      }
     }
 
     return (
@@ -67,18 +93,19 @@ export const UnwrappedGroupedAnswerProperties = ({
         title={`${answerType} Properties`.toUpperCase()}
         key={answerType}
       >
-        <AnswerPropertiesContainer>
-          {groupedFields}
-          {answers.map(answer => (
-            <React.Fragment key={getIdForObject(answer)}>
+        <Padding>{groupedFields}</Padding>
+        {answers.map(answer => (
+          <AnswerPropertiesContainer key={getIdForObject(answer)}>
+            <Padding>
               <AnswerTitle data-test="answer-title">
                 {answer.displayName}
               </AnswerTitle>
               <AnswerProperties answer={answer} />
               <AnswerValidation answer={answer} />
-            </React.Fragment>
-          ))}
-        </AnswerPropertiesContainer>
+            </Padding>
+          </AnswerPropertiesContainer>
+        ))}
+        {groupValidations}
       </Accordion>
     );
   });

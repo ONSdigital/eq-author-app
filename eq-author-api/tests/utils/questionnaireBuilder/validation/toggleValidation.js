@@ -4,6 +4,7 @@ const toggleValidationMutation = `
   mutation ToggleValidationRule($input: ToggleValidationRuleInput!) {
     toggleValidationRule(input: $input) {
       id
+      enabled
     }
   }
 `;

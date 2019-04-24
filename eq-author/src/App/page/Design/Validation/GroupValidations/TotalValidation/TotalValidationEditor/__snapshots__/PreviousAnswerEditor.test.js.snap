@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Custom Editor should render 1`] = `
+<Field
+  disabled={false}
+  last={false}
+>
+  <UnwrappedPreviousAnswerContentPicker
+    data={
+      Object {
+        "id": "1",
+        "previousAnswer": Object {
+          "displayName": "My answer",
+        },
+      }
+    }
+    data-test="content-picker-select"
+    onSubmit={[MockFunction]}
+    path="availablePreviousAnswers"
+    selectedContentDisplayName="My answer"
+  />
+</Field>
+`;

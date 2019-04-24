@@ -29,14 +29,12 @@ const createQuestionPage = (input = {}) => ({
 });
 
 Resolvers.QuestionPage = {
-  answers: page => page.answers,
   section: ({ id }, input, ctx) => getSectionByPageId(ctx, id),
   position: ({ id }, args, ctx) => {
     const section = getSectionByPageId(ctx, id);
     return findIndex(section.pages, { id });
   },
   displayName: page => getName(page, "QuestionPage"),
-  confirmation: page => page.confirmation,
   availablePipingAnswers: ({ id }, args, ctx) =>
     getPreviousAnswersForPage(ctx.questionnaire, id),
   availablePipingMetadata: (page, args, ctx) => ctx.questionnaire.metadata,
@@ -75,7 +73,6 @@ Resolvers.QuestionPage = {
       pages,
     };
   },
-  routing: questionPage => questionPage.routing,
 };
 
 Resolvers.Mutation = {

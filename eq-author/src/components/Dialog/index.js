@@ -5,6 +5,7 @@ const Dialog = styled.div`
   flex-direction: column;
   position: relative;
   min-width: 25em;
+  height: 100%;
 `;
 
 export default Dialog;

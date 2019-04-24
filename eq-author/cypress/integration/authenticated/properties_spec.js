@@ -2,7 +2,6 @@ import {
   addAnswerType,
   addQuestionnaire,
   findInputByLabel,
-  removeAnswers,
   testId,
   toggleCheckboxOn,
   toggleCheckboxOff,
@@ -18,14 +17,10 @@ import {
 
 const questionnaireTitle = "Answer Properties Question Test";
 describe("Answer Properties", () => {
-  before(() => {
+  beforeEach(() => {
     cy.visit("/");
     cy.login();
     addQuestionnaire(questionnaireTitle);
-  });
-
-  beforeEach(() => {
-    cy.login();
   });
 
   describe("Title", () => {
@@ -70,7 +65,6 @@ describe("Answer Properties", () => {
       }
 
       cy.get(testId("btn-delete-answer")).should("have.length", 5);
-      removeAnswers();
     });
   });
   describe("Answer Type", () => {
@@ -85,9 +79,6 @@ describe("Answer Properties", () => {
           .as("requiredInput");
         toggleCheckboxOn("@requiredInput");
         toggleCheckboxOff("@requiredInput");
-      });
-      afterEach(() => {
-        removeAnswers();
       });
     });
     [NUMBER, CURRENCY, PERCENTAGE].forEach(type => {
@@ -121,14 +112,14 @@ describe("Answer Properties", () => {
           it("Can be changed", () => {
             findInputByLabel(labelText).should("have.value", "0");
             findInputByLabel(labelText)
-              .type("{backspace}3")
+              .type("3")
               .blur()
               .should("have.value", "3");
           });
 
           it("removing an answer should not change its value", () => {
             findInputByLabel(labelText)
-              .type("{backspace}3")
+              .type("3")
               .blur()
               .should("have.value", "3");
             cy.get(testId("btn-delete-answer"))
@@ -137,9 +128,6 @@ describe("Answer Properties", () => {
             cy.get(testId("btn-delete-answer")).should("have.length", 1);
             findInputByLabel(labelText).should("have.value", "3");
           });
-        });
-        afterEach(() => {
-          removeAnswers();
         });
       });
     });
@@ -192,13 +180,10 @@ describe("Answer Properties", () => {
           });
         });
       });
-      afterEach(() => {
-        removeAnswers();
-      });
     });
   });
 
-  after(() => {
+  afterEach(() => {
     cy.deleteQuestionnaire(questionnaireTitle);
   });
 });

@@ -1,10 +1,13 @@
+const { flatMap, filter, forEach, uniq } = require("lodash/fp");
+
 const {
   SELECTED_ANSWER_DELETED,
 } = require("../../constants/routingNoLeftSide");
+const { NULL } = require("../../constants/routingNoLeftSide");
+const totalableAnswerTypes = require("../../constants/totalableAnswerTypes");
+const createGroupValidation = require("./createTotalValidation");
 
-const { flatMap, filter, forEach } = require("lodash/fp");
-
-module.exports = (questionnaire, page, answer) => {
+const removeAnswerFromExpressions = (page, answer) => {
   if (!page.routing) {
     return;
   }
@@ -16,7 +19,38 @@ module.exports = (questionnaire, page, answer) => {
 
   forEach(expression => {
     expression.left.answerId = undefined;
-    expression.left.type = "Null";
+    expression.left.type = NULL;
     expression.left.nullReason = SELECTED_ANSWER_DELETED;
   }, expressions);
+};
+
+const removeAnswerGroup = (page, removedAnswer) => {
+  const answerTypes = uniq(page.answers.map(a => a.type));
+  const firstAnswerType = answerTypes[0];
+  if (
+    answerTypes.length === 1 &&
+    page.answers.length > 1 &&
+    totalableAnswerTypes.includes(firstAnswerType)
+  ) {
+    page.totalValidation = createGroupValidation();
+    return;
+  }
+
+  if (!totalableAnswerTypes.includes(removedAnswer.type)) {
+    return;
+  }
+
+  const numberOfType = page.answers.filter(
+    answer => answer.type === removedAnswer.type
+  ).length;
+  if (numberOfType !== 1) {
+    return;
+  }
+
+  page.totalValidation = null;
+};
+
+module.exports = (page, answer) => {
+  removeAnswerFromExpressions(page, answer);
+  removeAnswerGroup(page, answer);
 };

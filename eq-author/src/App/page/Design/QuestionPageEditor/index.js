@@ -7,15 +7,13 @@ import { flowRight } from "lodash";
 
 import getIdForObject from "utils/getIdForObject";
 import withChangeUpdate from "enhancers/withChangeUpdate";
+import withPropRenamed from "enhancers/withPropRenamed";
 import withEntityEditor from "components/withEntityEditor";
 import focusOnEntity from "utils/focusOnEntity";
-import withPropRenamed from "enhancers/withPropRenamed";
+import TotalValidationRuleFragment from "graphql/fragments/total-validation-rule.graphql";
+import AvailableAnswersFragment from "graphql/fragments/available-answers.graphql";
+
 import PageHeader from "../PageHeader";
-
-import AnswersEditor from "./AnswersEditor";
-import AnswerTypeSelector from "./AnswerTypeSelector";
-import withUpdateQuestionPage from "./withUpdateQuestionPage";
-
 import withUpdateAnswer from "../answers/withUpdateAnswer";
 import withCreateAnswer from "../answers/withCreateAnswer";
 import withDeleteAnswer from "../answers/withDeleteAnswer";
@@ -23,6 +21,10 @@ import withCreateOption from "../answers/withCreateOption";
 import withUpdateOption from "../answers/withUpdateOption";
 import withDeleteOption from "../answers/withDeleteOption";
 import withCreateExclusive from "../answers/withCreateExclusive";
+
+import AnswersEditor from "./AnswersEditor";
+import AnswerTypeSelector from "./AnswerTypeSelector";
+import withUpdateQuestionPage from "./withUpdateQuestionPage";
 
 import MetaEditor from "./MetaEditor";
 import AdditionalInfo from "./AdditionalInfo";
@@ -158,7 +160,15 @@ UnwrappedQuestionPageEditor.fragments = {
           }
         }
       }
+      totalValidation {
+        ...TotalValidationRule
+        availablePreviousAnswers {
+          ...AvailableAnswers
+        }
+      }
     }
+    ${TotalValidationRuleFragment}
+    ${AvailableAnswersFragment}
     ${AnswersEditor.fragments.AnswersEditor}
   `,
 };

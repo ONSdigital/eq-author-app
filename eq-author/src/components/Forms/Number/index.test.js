@@ -7,9 +7,9 @@ import Number from "./";
 
 const defaultValue = 0;
 
-const afterImmediate = () => new Promise(resolve => setImmediate(resolve));
-
 describe("Number", () => {
+  jest.useFakeTimers();
+
   let number;
   let numberWithMinMax;
   let handleChange;
@@ -44,54 +44,47 @@ describe("Number", () => {
     expect(number).toMatchSnapshot();
   });
 
-  it("should update UI when changed", () => {
+  it("should call onChange when changed", () => {
     number.find("[data-test='number-input']").simulate("change", { value: 3 });
-    expect(number.find("[data-test='number-input']").prop("value")).toEqual(3);
-  });
-
-  it("should call onChange when blurred", () => {
-    number.find("[data-test='number-input']").simulate("change", { value: 3 });
-    number.find("[data-test='number-input']").simulate("blur");
     expect(handleChange).toHaveBeenCalledWith({
       name: "numberName",
       value: 3,
     });
   });
 
-  it("should trigger change and then blur when blurred", cb => {
+  it("should empty the field when no input provided but then change to default on blur", () => {
+    number.find("[data-test='number-input']").simulate("change", { value: "" });
+    expect(handleChange).toHaveBeenCalledWith({
+      name: "numberName",
+      value: null,
+    });
+    number.setProps({ value: null });
+    number.find("[data-test='number-input']").simulate("blur");
+    jest.runAllTimers();
+    expect(handleChange).toHaveBeenCalledWith({
+      name: "numberName",
+      value: 0,
+    });
+  });
+
+  it("should trigger change and then blur when blurred", () => {
     number.find("[data-test='number-input']").simulate("change", { value: 5 });
     number.find("[data-test='number-input']").simulate("blur");
     expect(handleChange).toBeCalled();
-    return afterImmediate()
-      .then(() => {
-        expect(handleBlur).toBeCalled();
-      })
-      .then(cb)
-      .catch(cb);
+    expect(handleBlur).not.toBeCalled();
+    jest.runAllTimers();
+    expect(handleBlur).toBeCalled();
   });
 
-  it("should not call blur if blur not provided", cb => {
+  it("should not call blur if blur not provided", () => {
     numberWithMinMax
       .find("[data-test='number-input']")
       .simulate("change", { value: 5 });
     numberWithMinMax.find("[data-test='number-input']").simulate("blur");
     expect(handleChange).toBeCalled();
-    return afterImmediate()
-      .then(() => {
-        expect(handleBlur).not.toBeCalled();
-      })
-      .then(cb)
-      .catch(cb);
-  });
-
-  it("should update the value if the prop changes", () => {
-    number.find("[data-test='number-input']").simulate("change", { value: 3 });
-    number.setProps({ min: 6 });
-    expect(number.find("[data-test='number-input']").prop("value")).toEqual(3);
-    number.setProps({ value: 100 });
-    expect(number.find("[data-test='number-input']").prop("value")).toEqual(
-      100
-    );
+    expect(() => {
+      jest.runAllTimers();
+    }).not.toThrow();
   });
 
   describe("min/max", () => {
@@ -104,9 +97,6 @@ describe("Number", () => {
         name: "number",
         value: 100,
       });
-      expect(
-        numberWithMinMax.find("[data-test='number-input']").prop("value")
-      ).toEqual(100);
     });
 
     it("should not go under the min when changed", () => {
@@ -118,9 +108,6 @@ describe("Number", () => {
         name: "number",
         value: 0,
       });
-      expect(
-        numberWithMinMax.find("[data-test='number-input']").prop("value")
-      ).toEqual(0);
     });
 
     it("should default to min when NaN", () => {
@@ -132,9 +119,6 @@ describe("Number", () => {
         name: "number",
         value: 0,
       });
-      expect(
-        numberWithMinMax.find("[data-test='number-input']").prop("value")
-      ).toEqual(0);
     });
 
     it("render with a unit type for currency", () => {

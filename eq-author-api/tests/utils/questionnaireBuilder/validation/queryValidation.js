@@ -55,6 +55,9 @@ const getValidationQuery = `
     custom
     inclusive
     entityType
+    availablePreviousAnswers {
+      id
+    }
   }
   
   fragment MaxValueValidationRule on MaxValueValidationRule {
@@ -63,6 +66,9 @@ const getValidationQuery = `
     custom
     inclusive
     entityType
+    availablePreviousAnswers {
+      id
+    }
   }
   
   fragment EarliestDateValidationRule on EarliestDateValidationRule {
@@ -75,6 +81,12 @@ const getValidationQuery = `
       unit
     }
     relativePosition
+    availablePreviousAnswers {
+      id
+    }
+    availableMetadata {
+      id
+    }
   }
   
   fragment LatestDateValidationRule on LatestDateValidationRule {
@@ -87,6 +99,12 @@ const getValidationQuery = `
       unit
     }
     relativePosition
+    availablePreviousAnswers {
+      id
+    }
+    availableMetadata {
+      id
+    }
   }
   
   fragment MinDurationValidationRule on MinDurationValidationRule {

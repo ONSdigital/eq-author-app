@@ -35,11 +35,20 @@ const {
   DATE,
   DATE_RANGE,
 } = require("../../constants/answerTypes");
+const METADATA_TYPES = require("../../constants/metadataTypes");
 
 describe("validation", () => {
   let questionnaire, section, page;
   let config = {
+    metadata: [{ type: METADATA_TYPES.DATE }, { type: METADATA_TYPES.REGION }],
     sections: [
+      {
+        pages: [
+          {
+            answers: [{ type: DATE }, { type: CURRENCY }],
+          },
+        ],
+      },
       {
         pages: [{}],
       },
@@ -94,6 +103,21 @@ describe("validation", () => {
       expect(currencyValidation.minValue).toHaveProperty("enabled", false);
       expect(currencyValidation.maxValue).toHaveProperty("enabled", false);
     });
+
+    it("provides a list of available previous answers", async () => {
+      const currencyAnswer = await createAnswer(questionnaire, {
+        questionPageId: page.id,
+        type: CURRENCY,
+      });
+      const currencyValidations = await queryValidation(
+        questionnaire,
+        currencyAnswer.id
+      );
+
+      expect(currencyValidations.minValue.availablePreviousAnswers).toEqual([
+        { id: questionnaire.sections[0].pages[0].answers[1].id },
+      ]);
+    });
   });
 
   describe("Number and Currency", () => {
@@ -123,6 +147,7 @@ describe("validation", () => {
           inclusive: false,
           custom: null,
           entityType: CUSTOM,
+          availablePreviousAnswers: expect.any(Array),
         },
         maxValue: {
           id: maxValueId,
@@ -130,6 +155,7 @@ describe("validation", () => {
           inclusive: false,
           custom: null,
           entityType: CUSTOM,
+          availablePreviousAnswers: expect.any(Array),
         },
       });
       expect(currencyValidation).toEqual(
@@ -356,6 +382,20 @@ describe("validation", () => {
       expect(validation).toMatchObject(
         validationObject(validation.earliestDate.id, validation.latestDate.id)
       );
+    });
+
+    it("should return a list of available metadata", async () => {
+      const answer = await createAnswer(questionnaire, {
+        questionPageId: page.id,
+        type: DATE,
+      });
+      const validation = await queryValidation(questionnaire, answer.id);
+      expect(validation.earliestDate.availableMetadata).toEqual([
+        { id: questionnaire.metadata[0].id },
+      ]);
+      expect(validation.latestDate.availableMetadata).toEqual([
+        { id: questionnaire.metadata[0].id },
+      ]);
     });
 
     describe("Earliest", () => {

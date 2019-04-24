@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Custom Editor should render 1`] = `
+<Field
+  disabled={false}
+  last={false}
+>
+  <CustomEditor__LargerNumber
+    data-test="total-validation-number-input"
+    id="total-validation-custom"
+    max={999999999}
+    min={-999999999}
+    name="custom"
+    onBlur={[MockFunction]}
+    onChange={[MockFunction]}
+    type="Currency"
+    value={5}
+  />
+</Field>
+`;

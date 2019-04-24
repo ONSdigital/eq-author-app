@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Total Validation should render 1`] = `
+<ValidationView
+  enabled={true}
+  onToggleChange={[Function]}
+>
+  <Apollo(Component)
+    data-test="validation-editor"
+    total={
+      Object {
+        "condition": "Equal",
+        "custom": 5,
+        "enabled": true,
+        "entityType": "Custom",
+        "id": "1",
+        "previousAnswer": null,
+      }
+    }
+    type="Percentage"
+  />
+</ValidationView>
+`;

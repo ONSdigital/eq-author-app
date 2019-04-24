@@ -6,6 +6,8 @@
 #import "./fragments/latest-date-validation-rule.graphql"
 #import "./fragments/min-duration-validation-rule.graphql"
 #import "./fragments/max-duration-validation-rule.graphql"
+#import "./fragments/total-validation-rule.graphql"
+#import "./fragments/available-answers.graphql"
 
 mutation createAnswer($input: CreateAnswerInput!) {
   createAnswer(input: $input) {
@@ -57,6 +59,18 @@ mutation createAnswer($input: CreateAnswerInput!) {
         ...Option
       }
       mutuallyExclusiveOption {
+        id
+      }
+    }
+    page {
+      id
+      totalValidation {
+        ...TotalValidationRule
+        availablePreviousAnswers {
+          ...AvailableAnswers
+        }
+      }
+      answers {
         id
       }
     }

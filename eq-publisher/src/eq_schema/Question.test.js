@@ -1,7 +1,7 @@
 const Question = require("./Question");
 const Answer = require("./Answer");
 const { omit, set, last } = require("lodash/fp");
-const { DATE, DATE_RANGE } = require("../constants/answerTypes");
+const { DATE, DATE_RANGE, NUMBER } = require("../constants/answerTypes");
 
 describe("Question", () => {
   const createQuestionJSON = options =>
@@ -661,6 +661,126 @@ describe("Question", () => {
           value: "Mutually exclusive",
         },
       ]);
+    });
+  });
+
+  describe("Calculated Answer Validations", () => {
+    let validation;
+    beforeEach(() => {
+      validation = {
+        enabled: true,
+        id: "foo",
+        entityType: "Custom",
+        condition: "Equal",
+        custom: 5,
+      };
+    });
+
+    it("should change the type to Calculated when there is a group validation", () => {
+      const question = new Question(
+        createQuestionJSON({
+          totalValidation: validation,
+        })
+      );
+
+      expect(question.type).toEqual("Calculated");
+      expect(question.calculations).toHaveLength(1);
+    });
+
+    it("should do nothing when the validation is disabled", () => {
+      validation.enabled = false;
+      const question = new Question(
+        createQuestionJSON({
+          totalValidation: validation,
+        })
+      );
+
+      expect(question.type).toEqual("General");
+      expect(question.calculations).not.toBeDefined();
+    });
+
+    it("should show all answers", () => {
+      const question = new Question(
+        createQuestionJSON({
+          totalValidation: validation,
+          answers: [
+            { id: "1", type: NUMBER, properties: {} },
+            { id: "2", type: NUMBER, properties: {} },
+          ],
+        })
+      );
+
+      expect(question.answers.map(a => a.id)).toEqual(["answer1", "answer2"]);
+    });
+
+    it("should always output the calculation type as sum", () => {
+      const question = new Question(
+        createQuestionJSON({
+          totalValidation: validation,
+        })
+      );
+      expect(question.calculations[0].calculation_type).toEqual("sum");
+    });
+
+    it("should set the list of answers to calculate as all of the correct type on the page", () => {
+      const question = new Question(
+        createQuestionJSON({
+          totalValidation: validation,
+          answers: [
+            { id: "1", type: NUMBER, properties: {} },
+            { id: "2", type: NUMBER, properties: {} },
+          ],
+        })
+      );
+
+      expect(question.calculations[0].answers_to_calculate).toEqual([
+        "answer1",
+        "answer2",
+      ]);
+    });
+
+    it("should map the condition the runner condition", () => {
+      [
+        { author: "GreaterThan", runner: ["greater than"] },
+        { author: "GreaterOrEqual", runner: ["greater than", "equals"] },
+        { author: "Equal", runner: ["equals"] },
+        { author: "LessOrEqual", runner: ["less than", "equals"] },
+        { author: "LessThan", runner: ["less than"] },
+      ].forEach(({ author, runner }) => {
+        validation.condition = author;
+        const question = new Question(
+          createQuestionJSON({
+            totalValidation: validation,
+          })
+        );
+        expect(question.calculations[0].conditions).toEqual(runner);
+      });
+    });
+
+    it("should set the custom value when the entiyType is Custom", () => {
+      validation.entityType = "Custom";
+      validation.custom = 10;
+      validation.previousAnswer = { id: 20 };
+      const question = new Question(
+        createQuestionJSON({
+          totalValidation: validation,
+        })
+      );
+      expect(question.calculations[0].value).toEqual(10);
+      expect(question.calculations[0].answer_id).not.toBeDefined();
+    });
+
+    it("should set the answer_id to the previous answer when entityType is PreviousAnswer", () => {
+      validation.entityType = "PreviousAnswer";
+      validation.custom = 10;
+      validation.previousAnswer = { id: 20 };
+      const question = new Question(
+        createQuestionJSON({
+          totalValidation: validation,
+        })
+      );
+      expect(question.calculations[0].value).not.toBeDefined();
+      expect(question.calculations[0].answer_id).toEqual("answer20");
     });
   });
 });

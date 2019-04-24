@@ -1,26 +1,16 @@
-import { mapMutateToProps, deleteUpdater } from "./withDeleteAnswer";
-import fragment from "graphql/pageFragment.graphql";
+import { mapMutateToProps } from "./withDeleteAnswer";
 
 describe("containers/QuestionnaireDesignPage/withDeleteAnswer", () => {
-  let mutate, result, raiseToast, ownProps;
+  let mutate, raiseToast, ownProps;
   let deletedAnswer, currentPage;
 
   beforeEach(() => {
     deletedAnswer = {
       id: "2",
-      sectionId: "2",
     };
 
     currentPage = {
       id: "1",
-      sectionId: "1",
-      answers: [deletedAnswer],
-    };
-
-    result = {
-      data: {
-        deleteAnswer: deletedAnswer,
-      },
     };
 
     raiseToast = jest.fn(() => Promise.resolve());
@@ -29,26 +19,7 @@ describe("containers/QuestionnaireDesignPage/withDeleteAnswer", () => {
       raiseToast,
     };
 
-    mutate = jest.fn(() => Promise.resolve(result));
-  });
-
-  describe("deleteUpdater", () => {
-    it("should remove the answer from the cache", () => {
-      const id = `QuestionPage${currentPage.id}`;
-      const writeFragment = jest.fn();
-      const readFragment = jest.fn(() => currentPage);
-
-      const updater = deleteUpdater(currentPage.id, deletedAnswer.id);
-      updater({ readFragment, writeFragment }, result);
-
-      expect(readFragment).toHaveBeenCalledWith({ id, fragment });
-      expect(writeFragment).toHaveBeenCalledWith({
-        id,
-        fragment,
-        data: currentPage,
-      });
-      expect(currentPage.answers).not.toContain(deletedAnswer);
-    });
+    mutate = jest.fn(() => Promise.resolve());
   });
 
   describe("mapMutateToProps", () => {
@@ -85,12 +56,6 @@ describe("containers/QuestionnaireDesignPage/withDeleteAnswer", () => {
           })
         );
       });
-    });
-
-    it("should return promise that resolves to deletePage result", () => {
-      return expect(props.onDeleteAnswer(deletedAnswer.id)).resolves.toBe(
-        result
-      );
     });
   });
 });
