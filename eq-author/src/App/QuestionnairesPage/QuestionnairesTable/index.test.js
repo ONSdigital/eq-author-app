@@ -3,6 +3,7 @@ import { shallow } from "enzyme";
 import { SynchronousPromise } from "synchronous-promise";
 
 import Row from "./Row";
+import DeleteConfirmDialog from "components/DeleteConfirmDialog";
 
 import { UnconnectedQuestionnairesTable } from ".";
 
@@ -157,6 +158,29 @@ describe("QuestionnairesTable", () => {
     ).toMatchObject({ autoFocus: true });
   });
 
+  it("should open and close delete confirm modal when required", () => {
+    const wrapper = shallow(
+      <UnconnectedQuestionnairesTable
+        questionnaires={questionnaires}
+        onDeleteQuestionnaire={handleDeleteQuestionnaire}
+        onDuplicateQuestionnaire={handleDuplicateQuestionnaire}
+        user={user}
+      />
+    );
+
+    expect(wrapper.find(DeleteConfirmDialog).prop("isOpen")).toBeFalsy();
+
+    wrapper
+      .find(Row)
+      .first()
+      .simulate("deleteQuestionnaire", { id: "1" });
+
+    expect(wrapper.find(DeleteConfirmDialog).prop("isOpen")).toBeTruthy();
+
+    wrapper.find(DeleteConfirmDialog).simulate("close");
+    expect(wrapper.find(DeleteConfirmDialog).prop("isOpen")).toBeFalsy();
+  });
+
   it("should autofocus the next row after when one is deleted", () => {
     const wrapper = shallow(
       <UnconnectedQuestionnairesTable
@@ -170,7 +194,9 @@ describe("QuestionnairesTable", () => {
     wrapper
       .find(Row)
       .first()
-      .simulate("deleteQuestionnaire", "1");
+      .simulate("deleteQuestionnaire", { id: "1" });
+
+    wrapper.find(DeleteConfirmDialog).simulate("delete");
 
     expect(
       wrapper
@@ -198,7 +224,9 @@ describe("QuestionnairesTable", () => {
     wrapper
       .find(Row)
       .first()
-      .simulate("deleteQuestionnaire", "2");
+      .simulate("deleteQuestionnaire", { id: "2" });
+
+    wrapper.find(DeleteConfirmDialog).simulate("delete");
 
     expect(
       wrapper
