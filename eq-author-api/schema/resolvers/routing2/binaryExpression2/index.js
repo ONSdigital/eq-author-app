@@ -16,6 +16,14 @@ const {
 } = require("../../../../src/businessLogic");
 
 const { saveQuestionnaire } = require("../../../../utils/datastore");
+
+const {
+  getPages,
+  getAnswers,
+  getAnswerById,
+  getOptions,
+} = require("../../utils");
+
 const Resolvers = {};
 
 const answerTypeToConditions = require("../../../../src/businessLogic/answerTypeToConditions");
@@ -33,14 +41,7 @@ const isLeftSideAnswerTypeCompatible = (leftSideType, rightSideType) => {
 Resolvers.BinaryExpression2 = {
   left: async ({ left }, args, ctx) => {
     if (left.type === "Answer") {
-      const answer = find(
-        { id: left.answerId },
-        flatMap(
-          page => page.answers,
-          flatMap(section => section.pages, ctx.questionnaire.sections)
-        )
-      );
-
+      const answer = getAnswerById(ctx, left.answerId);
       return { ...answer, sideType: left.type };
     }
 
@@ -54,7 +55,7 @@ Resolvers.BinaryExpression2 = {
     return null;
   },
   expressionGroup: async ({ id }, args, ctx) => {
-    const pages = flatMap(section => section.pages, ctx.questionnaire.sections);
+    const pages = getPages(ctx);
     return find(expressionGroup => {
       if (
         expressionGroup.expressions &&
@@ -97,17 +98,9 @@ Resolvers.CustomValue2 = {
 
 Resolvers.SelectedOptions2 = {
   options: async (right, args, ctx) => {
-    const options = flatMap(
-      answer => answer.options,
-      flatMap(
-        page => page.answers,
-        flatMap(section => section.pages, ctx.questionnaire.sections)
-      )
-    );
-
     return intersectionBy(
       "id",
-      options,
+      getOptions(ctx),
       map(optionId => ({ id: optionId }), right.optionIds)
     );
   },
@@ -170,7 +163,7 @@ Resolvers.Mutation = {
     return expression;
   },
   updateBinaryExpression2: async (root, { input: { id, condition } }, ctx) => {
-    const pages = flatMap(section => section.pages, ctx.questionnaire.sections);
+    const pages = getPages(ctx);
     const rules = flatMap(
       routing => getOr([], "rules", routing),
       flatMap(page => page.routing, pages)
@@ -190,7 +183,7 @@ Resolvers.Mutation = {
       throw new Error("Can't have a condition without a left side");
     }
 
-    const answers = flatMap(page => page.answers, pages);
+    const answers = getAnswers(ctx);
 
     const leftSideAnswer = find({ id: leftSide.answerId }, answers);
     if (!answerTypeToConditions.isValid(leftSideAnswer.type, condition)) {
@@ -246,7 +239,7 @@ Resolvers.Mutation = {
 
     const { expressionId, customValue, selectedOptions } = input;
 
-    const pages = flatMap(section => section.pages, ctx.questionnaire.sections);
+    const pages = getPages(ctx);
     const rules = flatMap(
       routing => getOr([], "rules", routing),
       flatMap(page => page.routing, pages)
@@ -279,9 +272,7 @@ Resolvers.Mutation = {
       throw new Error("Cannot have a right side without a left");
     }
 
-    const allAnswers = flatMap(page => page.answers, pages);
-
-    const leftSideAnswer = find({ id: leftSide.answerId }, allAnswers);
+    const leftSideAnswer = getAnswerById(ctx, leftSide.answerId);
 
     if (!isLeftSideAnswerTypeCompatible(leftSideAnswer.type, type)) {
       throw new Error("Left side is incompatible with Right side.");
@@ -300,7 +291,6 @@ Resolvers.Mutation = {
         ...newRightProperties,
       };
     }
-
     if (updatedRightSide.type === "SelectedOptions") {
       updatedRightSide.optionIds = selectedOptions;
     }
@@ -313,10 +303,7 @@ Resolvers.Mutation = {
   },
   deleteBinaryExpression2: async (root, { input }, ctx) => {
     {
-      const pages = flatMap(
-        section => section.pages,
-        ctx.questionnaire.sections
-      );
+      const pages = getPages(ctx);
       const rules = flatMap(
         routing => getOr([], "rules", routing),
         flatMap(page => page.routing, pages)

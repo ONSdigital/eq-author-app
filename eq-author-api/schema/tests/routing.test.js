@@ -600,16 +600,17 @@ describe("routing", () => {
                   rules: [{ expressionGroup: { expressions: [{}] } }],
                 },
               },
+              { pageType: "calculatedSummary" },
             ],
           },
         ],
       };
       const questionnaire = await buildQuestionnaire(config);
-      const firstPage = questionnaire.sections[0].pages[0];
+      const firstQuestionPage = questionnaire.sections[0].pages[0];
       const expression =
-        firstPage.routing.rules[0].expressionGroup.expressions[0];
+        firstQuestionPage.routing.rules[0].expressionGroup.expressions[0];
 
-      const options = firstPage.answers[0].options;
+      const options = firstQuestionPage.answers[0].options;
       await executeQuery(
         updateRightSideMutation,
         {
@@ -621,7 +622,7 @@ describe("routing", () => {
         { questionnaire }
       );
 
-      const result = await queryPage(questionnaire, firstPage.id);
+      const result = await queryPage(questionnaire, firstQuestionPage.id);
       expect(
         result.routing.rules[0].expressionGroup.expressions[0].right.options
       ).toMatchObject([{ id: options[0].id }, { id: options[2].id }]);

@@ -1,7 +1,3 @@
-const isMutuallyExclusive = require("../../../../utils/isMutuallyExclusive");
-
-const conditions = require("../../../../constants/routingConditions");
-
 const {
   flatMap,
   find,
@@ -11,6 +7,11 @@ const {
   pick,
   first,
 } = require("lodash/fp");
+
+const isMutuallyExclusive = require("../../../../utils/isMutuallyExclusive");
+
+const conditions = require("../../../../constants/routingConditions");
+
 const { saveQuestionnaire } = require("../../../../utils/datastore");
 const {
   createDestination,
@@ -27,6 +28,8 @@ const {
   NULL,
 } = require("../../../../constants/routingNoLeftSide");
 
+const { getPages } = require("../../utils");
+
 const isMutuallyExclusiveDestination = isMutuallyExclusive([
   "sectionId",
   "pageId",
@@ -39,7 +42,7 @@ Resolvers.RoutingRule2 = {
   destination: routingRule => routingRule.destination,
   expressionGroup: routingRule => routingRule.expressionGroup,
   routing: ({ id }, args, ctx) => {
-    const pages = flatMap(section => section.pages, ctx.questionnaire.sections);
+    const pages = getPages(ctx);
     const allRouting = flatMap(page => page.routing, pages).filter(Boolean);
     const routing = find(routing => {
       if (some({ id }, routing.rules)) {
@@ -52,7 +55,7 @@ Resolvers.RoutingRule2 = {
 
 Resolvers.Mutation = {
   createRoutingRule2: async (root, { input }, ctx) => {
-    const pages = flatMap(section => section.pages, ctx.questionnaire.sections);
+    const pages = getPages(ctx);
 
     const page = find(page => {
       if (page.routing && page.routing.id === input.routingId) {
@@ -102,10 +105,7 @@ Resolvers.Mutation = {
       throw new Error("Can only provide one destination.");
     }
 
-    const allPages = flatMap(
-      section => section.pages,
-      ctx.questionnaire.sections
-    );
+    const allPages = getPages(ctx);
 
     const routingRule = find(
       { id },
@@ -144,7 +144,7 @@ Resolvers.Mutation = {
     return routingRule;
   },
   deleteRoutingRule2: async (root, { input }, ctx) => {
-    const pages = flatMap(section => section.pages, ctx.questionnaire.sections);
+    const pages = getPages(ctx);
     const page = find(page => {
       const routing = page.routing || { rules: [] };
       if (some({ id: input.id }, routing.rules)) {
