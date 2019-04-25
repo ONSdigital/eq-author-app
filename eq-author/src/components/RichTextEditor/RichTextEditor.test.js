@@ -472,6 +472,75 @@ describe("components/RichTextEditor", function() {
 
         expect(toRaw(wrapper)).toEqual(expected);
       });
+
+      it("should process Date Range entity type so correct id is used", () => {
+        const answer = {
+          id: "123",
+          displayName: "FooBar",
+          label: "from label",
+          secondaryLabel: "to label",
+          type: "DateRange",
+          pipingType: "answers",
+        };
+
+        const fetchDateRange = jest.fn(() => Promise.resolve([answer]));
+        const html = `<p><span data-piped="answers" data-id="123" data-type="DateRange">[FooBar]</span></p>`;
+
+        wrapper = shallow(
+          <RichTextEditor
+            {...props}
+            fetchAnswers={fetchDateRange}
+            metadata={[]}
+            value={html}
+          />
+        );
+
+        const expected = new Raw()
+          .addBlock("[FooBar]")
+          .addEntity(
+            createPipedEntity(createEntity, omit(answer, ["displayName", "label", "secondaryLabel"])),
+            0,
+            8
+          )
+          .toRawContentState();
+
+        expect(toRaw(wrapper)).toEqual(expected);
+    
+      });
+
+      it("should ignore answers if no answer pipes given", () => {
+
+        const metadata = {
+          id: "123",
+          type: null,
+          displayName: "FooBar",
+          pipingType: "metadata",
+        };
+  
+        const fetch = jest.fn(() => Promise.resolve([]));
+        const html = `<p><span data-piped="metadata" data-id="123">[Piped Answer]</span></p>`;
+
+        wrapper = shallow(
+          <RichTextEditor
+            {...props}
+            fetchAnswers={fetch}
+            metadata={[metadata]}
+            value={html}
+          />
+        );
+
+        const expected = new Raw()
+          .addBlock("[FooBar]")
+          .addEntity(
+            createPipedEntity(createEntity, omit(metadata, ["displayName"])),
+            0,
+            8
+          )
+          .toRawContentState();
+
+        expect(toRaw(wrapper)).toEqual(expected);
+    
+      });
     });
   });
 

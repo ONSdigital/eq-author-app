@@ -10,6 +10,7 @@ const getAnswerQuery = `
       qCode
       label
       secondaryLabel
+      secondaryLabelDefault
       type
       page {
         id
