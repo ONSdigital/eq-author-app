@@ -2,7 +2,7 @@ const { find, findIndex, merge, some, takeRightWhile } = require("lodash");
 const { getName } = require("../../../utils/getName");
 const uuid = require("uuid");
 
-const { getPage, findSectionByPageId } = require("../utils");
+const { getPageById, getSectionByPageId } = require("../utils");
 
 const {
   ROUTING_ANSWER_TYPES,
@@ -30,10 +30,9 @@ const createQuestionPage = (input = {}) => ({
 
 Resolvers.QuestionPage = {
   answers: page => page.answers,
-  section: ({ id }, input, ctx) =>
-    findSectionByPageId(ctx.questionnaire.sections, id),
+  section: ({ id }, input, ctx) => getSectionByPageId(ctx, id),
   position: ({ id }, args, ctx) => {
-    const section = findSectionByPageId(ctx.questionnaire.sections, id);
+    const section = getSectionByPageId(ctx, id);
     return findIndex(section.pages, { id });
   },
   displayName: page => getName(page, "QuestionPage"),
@@ -96,7 +95,7 @@ Resolvers.Mutation = {
     return page;
   },
   updateQuestionPage: async (_, { input }, ctx) => {
-    const page = getPage(ctx)({ pageId: input.id });
+    const page = getPageById(ctx, input.id);
     merge(page, input);
     await saveQuestionnaire(ctx.questionnaire);
     return page;

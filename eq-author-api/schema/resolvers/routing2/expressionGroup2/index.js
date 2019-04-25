@@ -3,6 +3,8 @@ const Resolvers = {};
 const { find, flatMap, getOr } = require("lodash/fp");
 const { saveQuestionnaire } = require("../../../../utils/datastore");
 
+const { getPages } = require("../../utils");
+
 Resolvers.ExpressionGroup2 = {
   expressions: expressionGroup => expressionGroup.expressions,
 };
@@ -15,10 +17,7 @@ Resolvers.Mutation = {
         rule => rule.expressionGroup,
         flatMap(
           routing => routing.rules,
-          flatMap(
-            page => getOr([], "routing", page),
-            flatMap(section => section.pages, ctx.questionnaire.sections)
-          )
+          flatMap(page => getOr([], "routing", page), getPages(ctx))
         )
       )
     );
