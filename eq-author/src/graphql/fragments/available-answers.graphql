@@ -1,6 +1,8 @@
 fragment AvailableAnswers on Answer {
   id
   displayName
+  secondaryLabel
+  secondaryLabelDefault
   type
   page {
     id

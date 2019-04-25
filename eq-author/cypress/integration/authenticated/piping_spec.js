@@ -5,10 +5,13 @@ import {
   addSection,
   testId,
   selectFirstAnswerFromContentPicker,
+  selectFirstMetadataContentPicker,
+  selectAnswerFromContentPicker,
   enableDescription,
   enableGuidance,
 } from "../../utils";
 import { questionConfirmation } from "../../builders";
+import { NUMBER, DATE_RANGE } from "../../../src/constants/answer-types";
 
 const ANSWER = "Number Answer";
 const METADATA = "example_metadata";
@@ -60,23 +63,13 @@ const clickLastSection = () =>
     .last()
     .click({ force: true }); //Metadata modal transition is sometimes too slow
 
-const selectMetadata = () => {
-  cy.get(testId("picker-option"))
-    .contains(METADATA)
-    .click();
-
-  cy.get(testId("submit-button")).click();
-};
-
 const canPipeMetadata = ({ selector }) => {
   cy.get(testId(selector, "testid")).click();
   cy.focused()
     .should("have.attr", "data-testid")
     .and("eq", selector);
   clickPipingButton(selector);
-
-  selectMetadata();
-
+  selectFirstMetadataContentPicker();
   cy.get(testId(selector, "testid")).should("contain", `[${METADATA}]`);
 };
 
@@ -85,13 +78,12 @@ describe("Piping", () => {
   beforeEach(() => {
     cy.visit("/");
     cy.login();
-    addQuestionnaire(questionnaireTitle, "Business");
+    addQuestionnaire(questionnaireTitle);
   });
 
   describe("Answers", () => {
     beforeEach(() => {
-      clickFirstPage();
-      addAnswerType("Number");
+      addAnswerType(NUMBER);
       cy.get(testId("txt-answer-label")).type(ANSWER);
       addSection();
     });
@@ -124,6 +116,33 @@ describe("Piping", () => {
           "contain",
           `hello [${ANSWER}] world`
         );
+      });
+      it("Can display both From & To options on Date Range answer type", () => {
+        const testAttr = testId("date-answer-label");
+
+        clickFirstPage();
+        addAnswerType(DATE_RANGE);
+
+        cy.get(`${testAttr}[name="label"]`).type("From label");
+        cy.get(`${testAttr}[name="secondaryLabel"]`).type("To label");
+
+        clickLastPage();
+        cy.get(testId("txt-question-title", "testid")).type("hello ");
+        clickPipingButton("txt-question-title");
+
+        selectAnswerFromContentPicker({
+          sectionTitle: "Untitled Section",
+          questionTitle: "Untitled Page",
+          answerTitle: "From label",
+        });
+
+        clickPipingButton("txt-question-title");
+
+        selectAnswerFromContentPicker({
+          sectionTitle: "Untitled Section",
+          questionTitle: "Untitled Page",
+          answerTitle: "To label",
+        });
       });
     });
     describe("Question Confirmation", () => {
@@ -165,12 +184,9 @@ describe("Piping", () => {
 
   describe("Metadata", () => {
     beforeEach(() => {
-      addMetadata(METADATA, "Text", 6);
+      addMetadata(METADATA, "Text");
     });
     describe("Page", () => {
-      beforeEach(() => {
-        clickFirstPage();
-      });
       it("Can pipe metadata into page title", () => {
         cy.get(testId("txt-question-title", "testid")).type("title");
         canPipeMetadata({ selector: "txt-question-title" });
@@ -213,7 +229,6 @@ describe("Piping", () => {
 
     describe("Question Confirmation", () => {
       beforeEach(() => {
-        clickFirstPage();
         questionConfirmation.add();
       });
 
@@ -222,15 +237,6 @@ describe("Piping", () => {
           "confirmation title"
         );
         canPipeMetadata({ selector: "txt-confirmation-title" });
-      });
-    });
-
-    describe("Questionnaire Introduction", () => {
-      it("Can pipe metadata into description", () => {
-        cy.get(testId("txt-intro-description", "testid"))
-          .clear()
-          .type("intro description");
-        canPipeMetadata({ selector: "txt-intro-description" });
       });
     });
   });

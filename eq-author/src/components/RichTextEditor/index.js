@@ -21,7 +21,16 @@ import createFormatStripper from "./utils/createFormatStripper";
 
 import cheerio from "cheerio";
 
-import { flow, uniq, map, keyBy, mapValues, isNull, trim } from "lodash/fp";
+import {
+  flow,
+  uniq,
+  map,
+  keyBy,
+  mapValues,
+  isNull,
+  trim,
+  get,
+} from "lodash/fp";
 import { sharedStyles } from "components/Forms/css";
 import { Field, Label } from "components/Forms";
 
@@ -240,6 +249,7 @@ class RichTextEditor extends React.Component {
     const { editorState } = this.state;
     const contentState = editorState.getCurrentContent();
     const pipes = findPipedEntities(contentState);
+
     if (!pipes.length) {
       return;
     }
@@ -275,7 +285,25 @@ class RichTextEditor extends React.Component {
       return;
     }
 
+    const processAnswerType = answers => {
+      return answers.map(answer => {
+        if (get("entity.data.type", answer) === "DateRange") {
+          return {
+            ...answer,
+            entity: {
+              data: {
+                id: get("entity.data.id", answer).replace(/(to|from)$/, ""),
+              },
+            },
+          };
+        } else {
+          return answer;
+        }
+      });
+    };
+
     const fetchAnswersForPipes = flow(
+      processAnswerType,
       map("entity.data.id"),
       uniq,
       this.props.fetchAnswers
@@ -303,7 +331,33 @@ class RichTextEditor extends React.Component {
         contentState
       );
 
+    const createNewEntryForMultipleValueEntities = answers => {
+      const processedEntries = [];
+
+      answers.forEach(answer => {
+        if (answer.type === "DateRange") {
+          processedEntries.push(
+            {
+              ...answer,
+              id: `${answer.id}from`,
+            },
+            {
+              ...answer,
+              id: `${answer.id}to`,
+              displayName:
+                answer.secondaryLabel || answer.secondaryLabelDefault,
+            }
+          );
+        } else {
+          processedEntries.push(answer);
+        }
+      });
+
+      return processedEntries;
+    };
+
     const performUpdate = flow(
+      createNewEntryForMultipleValueEntities,
       createIdToDisplayNameMap,
       replacePipesWithLabels,
       contentState =>

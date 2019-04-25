@@ -135,6 +135,7 @@ interface Answer {
   qCode: String
   label: String
   secondaryLabel: String
+  secondaryLabelDefault: String
   type: AnswerType!
   page: QuestionPage
   properties: JSON
@@ -148,6 +149,7 @@ type BasicAnswer implements Answer {
   qCode: String
   label: String
   secondaryLabel: String
+  secondaryLabelDefault: String
   type: AnswerType!
   page: QuestionPage
   properties: JSON
@@ -162,6 +164,7 @@ type MultipleChoiceAnswer implements Answer {
   qCode: String
   label: String
   secondaryLabel: String
+  secondaryLabelDefault: String
   type: AnswerType!
   options: [Option]
   mutuallyExclusiveOption: Option

@@ -1,6 +1,6 @@
 const { find, findIndex, remove, omit, set, first } = require("lodash");
 
-const { findSectionByPageId, remapAllNestedIds } = require("../utils");
+const { getSectionByPageId, remapAllNestedIds } = require("../utils");
 
 const addPrefix = require("../../../utils/addPrefix");
 
@@ -12,14 +12,14 @@ const Resolvers = {};
 Resolvers.Page = {
   __resolveType: ({ pageType }) => pageType,
   position: ({ id }, args, ctx) => {
-    const section = findSectionByPageId(ctx.questionnaire.sections, id);
+    const section = getSectionByPageId(ctx, id);
     return findIndex(section.pages, { id });
   },
 };
 
 Resolvers.Mutation = {
   movePage: async (_, { input }, ctx) => {
-    const section = findSectionByPageId(ctx.questionnaire.sections, input.id);
+    const section = getSectionByPageId(ctx, input.id);
     const removedPage = first(remove(section.pages, { id: input.id }));
     if (input.sectionId === section.id) {
       section.pages.splice(input.position, 0, removedPage);
@@ -33,14 +33,14 @@ Resolvers.Mutation = {
     return removedPage;
   },
   deletePage: async (_, { input }, ctx) => {
-    const section = findSectionByPageId(ctx.questionnaire.sections, input.id);
+    const section = getSectionByPageId(ctx, input.id);
     remove(section.pages, { id: input.id });
     await saveQuestionnaire(ctx.questionnaire);
     return section;
   },
 
   duplicatePage: async (_, { input }, ctx) => {
-    const section = findSectionByPageId(ctx.questionnaire.sections, input.id);
+    const section = getSectionByPageId(ctx, input.id);
     const page = find(section.pages, { id: input.id });
     const newpage = omit(page, "id");
     set(newpage, "alias", addPrefix(newpage.alias));

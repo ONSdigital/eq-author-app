@@ -1,13 +1,7 @@
-const isMutuallyExclusive = require("../../../../utils/isMutuallyExclusive");
-
-const isMutuallyExclusiveDestination = isMutuallyExclusive([
-  "sectionId",
-  "pageId",
-  "logical",
-]);
-
 const { flatMap, find, first } = require("lodash/fp");
+
 const { saveQuestionnaire } = require("../../../../utils/datastore");
+const isMutuallyExclusive = require("../../../../utils/isMutuallyExclusive");
 const {
   createRouting,
   createDestination,
@@ -22,12 +16,21 @@ const {
   NO_ROUTABLE_ANSWER_ON_PAGE,
   NULL,
 } = require("../../../../constants/routingNoLeftSide");
+
+const { getPages, getPageById } = require("../../utils");
+
+const isMutuallyExclusiveDestination = isMutuallyExclusive([
+  "sectionId",
+  "pageId",
+  "logical",
+]);
+
 const Resolvers = {};
 
 Resolvers.Routing2 = {
   else: routing => routing.else,
   page: ({ id }, args, ctx) => {
-    const pages = flatMap(section => section.pages, ctx.questionnaire.sections);
+    const pages = getPages(ctx);
     return find(page => {
       if (page.routing && page.routing.id === id) {
         return page;
@@ -39,8 +42,7 @@ Resolvers.Routing2 = {
 
 Resolvers.Mutation = {
   createRouting2: async (root, { input }, ctx) => {
-    const pages = flatMap(section => section.pages, ctx.questionnaire.sections);
-    const page = find({ id: input.pageId }, pages);
+    const page = getPageById(ctx, input.pageId);
 
     if (page.routing) {
       throw new Error("Can only have one Routing per Page.");
@@ -93,10 +95,7 @@ Resolvers.Mutation = {
       throw new Error("Can only provide one destination.");
     }
 
-    const allRouting = flatMap(
-      page => page.routing,
-      flatMap(section => section.pages, ctx.questionnaire.sections)
-    );
+    const allRouting = flatMap(page => page.routing, getPages(ctx));
 
     const routing = find({ id: input.id }, allRouting);
 

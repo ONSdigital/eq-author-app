@@ -29,10 +29,15 @@ const uuid = require("uuid");
 const { currentVersion } = require("../../migrations");
 
 const {
-  getPage,
+  getSectionById,
+  getSectionByPageId,
+  getPages,
+  getPageById,
+  getPageByConfirmationId,
   getAnswers,
-  getAnswer,
-  findSectionByPageId,
+  getAnswerById,
+  getOptionById,
+  getConfirmationById,
   remapAllNestedIds,
 } = require("./utils");
 
@@ -68,7 +73,6 @@ const {
   createQuestionnaireIntroduction,
 } = require("./questionnaireIntroduction");
 
-
 const getQuestionnaireList = () => {
   return listQuestionnaires();
 };
@@ -93,8 +97,8 @@ const getValidation = ctx => id => {
 
 const getAvailablePreviousAnswersForValidation = ctx => id => {
   const validation = getValidation(ctx)(id);
-  const answer = getAnswer(ctx)({ answerId: validation.answerId });
-  const pages = flatMap(ctx.questionnaire.sections, section => section.pages);
+  const answer = getAnswerById(ctx, validation.answerId);
+  const pages = getPages(ctx);
   const currentPageIndex = findIndex(pages, { id: answer.questionPageId });
   const previousPages = slice(pages, 0, currentPageIndex);
   const previousAnswers = flatMap(previousPages, page => page.answers);
@@ -106,25 +110,12 @@ const getAvailablePreviousAnswersForValidation = ctx => id => {
 
 const getAvailableMetadataForValidation = ctx => id => {
   const validation = getValidation(ctx)(id);
-  const answer = getAnswer(ctx)({ answerId: validation.answerId });
+  const answer = getAnswerById(ctx, validation.answerId);
   if (answer.type === DATE || answer.type === DATE_RANGE) {
     return filter(ctx.questionnaire.metadata, { type: METADATA_DATE });
   } else {
     return []; //Currently do not support validation against any other types
   }
-};
-
-const getOption = ctx => input => {
-  const options = flatMap(ctx.questionnaire.sections, section =>
-    flatMap(section.pages, page =>
-      flatMap(page.answers, answer => answer.options)
-    )
-  );
-  return find(options, { id: input.optionId });
-};
-
-const getSection = ctx => input => {
-  return find(ctx.questionnaire.sections, { id: input.sectionId });
 };
 
 const createSection = (input = {}) => ({
@@ -174,33 +165,21 @@ const Resolvers = {
   Query: {
     questionnaires: () => getQuestionnaireList(),
     questionnaire: (root, args, ctx) => ctx.questionnaire,
-    section: (root, { input }, ctx) => getSection(ctx)(input),
-    page: (root, { input }, ctx) => getPage(ctx)(input),
-    answer: (root, { input }, ctx) => getAnswer(ctx)(input),
+    section: (root, { input }, ctx) => getSectionById(ctx, input.sectionId),
+    page: (root, { input }, ctx) => getPageById(ctx, input.pageId),
+    answer: (root, { input }, ctx) => getAnswerById(ctx, input.answerId),
     answers: async (root, { ids }, ctx) =>
       getAnswers(ctx).filter(({ id }) => ids.includes(id)),
-    option: (root, { input }, ctx) => getOption(ctx)(input),
+    option: (root, { input }, ctx) => getOptionById(ctx, input.optionId),
     questionConfirmation: (root, { id }, ctx) => {
-      const pages = flatMap(
-        ctx.questionnaire.sections,
-        section => section.pages
-      );
-
-      let confirmationPage;
-      let pageId;
-
-      pages.map(page => {
-        if (page.confirmation && page.confirmation.id === id) {
-          confirmationPage = page.confirmation;
-          pageId = page.id;
-        }
-      });
-
+      const confirmationPage = getConfirmationById(ctx, id);
       if (!confirmationPage) {
         return null;
       }
 
-      return { pageId, ...confirmationPage };
+      const page = getPageByConfirmationId(ctx, id);
+
+      return { pageId: page.id, ...confirmationPage };
     },
     me: (root, args, ctx) => ({
       id: ctx.auth.sub,
@@ -278,7 +257,7 @@ const Resolvers = {
       return remappedSection;
     },
     createAnswer: async (root, { input }, ctx) => {
-      const page = getPage(ctx)({ pageId: input.questionPageId });
+      const page = getPageById(ctx, input.questionPageId);
       const answer = createAnswer(input);
       page.answers.push(answer);
 
@@ -288,13 +267,7 @@ const Resolvers = {
       return answer;
     },
     updateAnswer: async (root, { input }, ctx) => {
-      const pages = flatMap(
-        ctx.questionnaire.sections,
-        section => section.pages
-      );
-      const answers = compact(
-        flatMap(pages, page => (page.answers ? page.answers : null))
-      );
+      const answers = getAnswers(ctx);
 
       const additionalAnswers = flatMap(answers, answer =>
         answer.options
@@ -313,7 +286,7 @@ const Resolvers = {
       { input: { questionPageId, type, properties } },
       ctx
     ) => {
-      const page = getPage(ctx)({ pageId: questionPageId });
+      const page = getPageById(ctx, questionPageId);
       const answersOfType = page.answers.filter(a => a.type === type);
       answersOfType.forEach(answer => {
         answer.properties = {
@@ -505,10 +478,7 @@ const Resolvers = {
       return deletedMetadata;
     },
     createQuestionConfirmation: async (_, { input }, ctx) => {
-      const section = findSectionByPageId(
-        ctx.questionnaire.sections,
-        input.pageId
-      );
+      const section = getSectionByPageId(ctx, input.pageId);
       const page = find(section.pages, { id: input.pageId });
       const questionConfirmation = {
         id: uuid.v4(),
@@ -647,6 +617,13 @@ const Resolvers = {
         ? answer
         : null,
     displayName: answer => getName(answer, "BasicAnswer"),
+
+    // secondaryLabel needed for some answer types e.g. DateRage: label->From field, secodaryLabel->To field.
+    // need to define a default for secondaryLabel for use in piping. If label exists then displayName doesn't contain default.
+    // If secondaryLabel is set to default, then the default is displayed in answer label instead of leaving it blank
+    // Have defined a secondaryLabelDefault field to fallback on if secondaryLabel is empty
+    secondaryLabelDefault: answer =>
+      getName({ label: answer.secondaryLabel }, "BasicAnswer"),
   },
 
   MultipleChoiceAnswer: {
@@ -750,9 +727,7 @@ const Resolvers = {
     custom: ({ custom }) => custom,
     entityType: ({ entityType }) => entityType,
     previousAnswer: ({ previousAnswer }, args, ctx) =>
-      isNil(previousAnswer)
-        ? null
-        : getAnswer(ctx)({ answerId: previousAnswer }),
+      isNil(previousAnswer) ? null : getAnswerById(ctx, previousAnswer),
     availablePreviousAnswers: ({ id }, args, ctx) =>
       getAvailablePreviousAnswersForValidation(ctx)(id),
   },
@@ -763,9 +738,7 @@ const Resolvers = {
     custom: ({ custom }) => custom,
     entityType: ({ entityType }) => entityType,
     previousAnswer: ({ previousAnswer }, args, ctx) =>
-      isNil(previousAnswer)
-        ? null
-        : getAnswer(ctx)({ answerId: previousAnswer }),
+      isNil(previousAnswer) ? null : getAnswerById(ctx, previousAnswer),
     availablePreviousAnswers: ({ id }, args, ctx) =>
       getAvailablePreviousAnswersForValidation(ctx)(id),
   },
@@ -776,9 +749,7 @@ const Resolvers = {
     relativePosition: ({ relativePosition }) => relativePosition,
     entityType: ({ entityType }) => entityType,
     previousAnswer: ({ previousAnswer }, args, ctx) =>
-      isNil(previousAnswer)
-        ? null
-        : getAnswer(ctx)({ answerId: previousAnswer }),
+      isNil(previousAnswer) ? null : getAnswerById(ctx, previousAnswer),
     metadata: ({ metadata }, args, ctx) =>
       isNil(metadata)
         ? null
@@ -795,9 +766,7 @@ const Resolvers = {
     relativePosition: ({ relativePosition }) => relativePosition,
     entityType: ({ entityType }) => entityType,
     previousAnswer: ({ previousAnswer }, args, ctx) =>
-      isNil(previousAnswer)
-        ? null
-        : getAnswer(ctx)({ answerId: previousAnswer }),
+      isNil(previousAnswer) ? null : getAnswerById(ctx, previousAnswer),
     metadata: ({ metadata }, args, ctx) =>
       isNil(metadata)
         ? null
@@ -828,14 +797,7 @@ const Resolvers = {
 
   QuestionConfirmation: {
     displayName: confirmation => getName(confirmation, "QuestionConfirmation"),
-    page: ({ pageId }, args, ctx) => {
-      const pages = flatMap(
-        ctx.questionnaire.sections,
-        section => section.pages
-      );
-
-      return find(pages, { id: pageId });
-    },
+    page: ({ pageId }, args, ctx) => getPageById(ctx, pageId),
     availablePipingAnswers: ({ id }, args, ctx) =>
       getPreviousAnswersForPage(ctx.questionnaire, id),
     availablePipingMetadata: (page, args, ctx) => ctx.questionnaire.metadata,

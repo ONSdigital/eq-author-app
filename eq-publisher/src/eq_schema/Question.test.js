@@ -297,13 +297,13 @@ describe("Question", () => {
           {
             label: "Period from",
             type: DATE,
-            id: "answer1from",
+            id: "answeranswer1from",
             mandatory: true,
           },
           {
             label: "Period to",
             type: DATE,
-            id: "answer1to",
+            id: "answeranswer1to",
             mandatory: true,
           },
         ],

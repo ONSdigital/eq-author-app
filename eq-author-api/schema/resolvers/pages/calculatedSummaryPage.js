@@ -18,7 +18,7 @@ const {
 } = require("../../../constants/answerTypes");
 const { saveQuestionnaire } = require("../../../utils/datastore");
 
-const { getPage, getAnswer, findSectionByPageId } = require("../utils");
+const { getPageById, getAnswerById, getSectionByPageId } = require("../utils");
 
 const createCalculatedSummary = (input = {}) => ({
   id: uuid.v4(),
@@ -31,14 +31,13 @@ const Resolvers = {};
 
 Resolvers.CalculatedSummaryPage = {
   displayName: page => getName(page, "CalculatedSummaryPage"),
-  section: ({ id }, input, ctx) =>
-    findSectionByPageId(ctx.questionnaire.sections, id),
+  section: ({ id }, input, ctx) => getSectionByPageId(ctx, id),
   position: ({ id }, args, ctx) => {
-    const section = findSectionByPageId(ctx.questionnaire.sections, id);
+    const section = getSectionByPageId(ctx, id);
     return findIndex(section.pages, { id });
   },
   summaryAnswers: ({ id, summaryAnswers }, args, ctx) => {
-    const section = findSectionByPageId(ctx.questionnaire.sections, id);
+    const section = getSectionByPageId(ctx, id);
     const previousAnswers = getPreviousAnswersForPage(
       { sections: [section] },
       id,
@@ -48,12 +47,12 @@ Resolvers.CalculatedSummaryPage = {
     const validSummaryAnswers = intersection(previousAnswers, summaryAnswers);
     return validSummaryAnswers
       ? validSummaryAnswers.map(validSummaryAnswer =>
-          getAnswer(ctx)({ answerId: validSummaryAnswer })
+          getAnswerById(ctx, validSummaryAnswer)
         )
       : [];
   },
   availableSummaryAnswers: ({ id, summaryAnswers }, args, ctx) => {
-    const section = findSectionByPageId(ctx.questionnaire.sections, id);
+    const section = getSectionByPageId(ctx, id);
     if (!summaryAnswers || summaryAnswers.length === 0) {
       return getPreviousAnswersForPage({ sections: [section] }, id, true, [
         NUMBER,
@@ -63,7 +62,7 @@ Resolvers.CalculatedSummaryPage = {
     }
 
     const answerTypes = summaryAnswers.map(selectedSummaryAnswer =>
-      get(getAnswer(ctx)({ answerId: selectedSummaryAnswer }), "type")
+      get(getAnswerById(ctx, selectedSummaryAnswer), "type")
     );
     const uniqueAnswerTypes = uniq(compact(answerTypes));
     if (uniqueAnswerTypes.length > 1) {
@@ -101,16 +100,16 @@ Resolvers.Mutation = {
     return page;
   },
   updateCalculatedSummaryPage: async (_, { input }, ctx) => {
-    const page = getPage(ctx)({ pageId: input.id });
+    const page = getPageById(ctx, input.id);
     let currentSelectedAnswerType;
     if (get(page, "summaryAnswers", []).length > 0) {
       currentSelectedAnswerType = page.summaryAnswers
-        ? getAnswer(ctx)({ answerId: page.summaryAnswers[0] }).type
+        ? getAnswerById(ctx, page.summaryAnswers[0]).type
         : null;
     }
     if (get(input, "summaryAnswers", []).length > 0) {
       input.summaryAnswers.forEach(summaryAnswerId => {
-        const answerType = getAnswer(ctx)({ answerId: summaryAnswerId }).type;
+        const answerType = getAnswerById(ctx, summaryAnswerId).type;
         if (![NUMBER, CURRENCY, PERCENTAGE].includes(answerType)) {
           throw new Error(
             `${answerType} answers are not suitable for a calculated summary page`
