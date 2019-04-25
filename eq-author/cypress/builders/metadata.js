@@ -24,6 +24,8 @@ export const addMetadata = (metadataKey, type, existingCount = 0) => {
   cy.get("button")
     .contains("Done")
     .click();
+
+  cy.focused().should("have.attr", "data-test", "metadata-btn");
 };
 
 export const deleteFirstMetadata = () => {
@@ -38,4 +40,6 @@ export const deleteFirstMetadata = () => {
   cy.get("button")
     .contains("Done")
     .click();
+
+  cy.focused().should("have.attr", "data-test", "metadata-btn");
 };
