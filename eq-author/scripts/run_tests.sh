@@ -47,5 +47,5 @@ cypress_config="watchForFileChanges=false,integrationFolder=$integration_folder"
 if [ -z "${CYPRESS_RECORD_KEY-}" ]; then
   CYPRESS_PUBLISHER_URL=http://localhost:19000 CYPRESS_API_URL=http://localhost:14000 yarn cypress run --browser chrome --config "$cypress_config"
 else
-  CYPRESS_PUBLISHER_URL=http://localhost:19000 CYPRESS_API_URL=http://localhost:14000  yarn cypress run --browser electron --config "$cypress_config"
+  CYPRESS_PUBLISHER_URL=http://localhost:19000 CYPRESS_API_URL=http://localhost:14000  yarn cypress run --browser electron --record --config "$cypress_config"
 fi
