@@ -59,7 +59,9 @@ exports[`QuestionnaireDesignPage should render 1`] = `
         gutters={false}
       >
         <withRouter(Apollo(UnwrappedNavigationSidebar))
+          canAddCalculatedSummaryPage={true}
           canAddQuestionConfirmation={true}
+          canAddQuestionPage={true}
           data-test="side-nav"
           loading={false}
           onAddCalculatedSummaryPage={[Function]}

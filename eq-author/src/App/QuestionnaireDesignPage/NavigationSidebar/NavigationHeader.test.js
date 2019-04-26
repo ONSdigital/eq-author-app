@@ -16,6 +16,8 @@ describe("NavigationHeader", () => {
     shallow(
       <NavigationHeader
         questionnaire={{}}
+        canAddQuestionPage
+        canAddCalculatedSummaryPage
         canAddQuestionConfirmation
         onUpdateQuestionnaire={jest.fn()}
         {...mockHandlers}

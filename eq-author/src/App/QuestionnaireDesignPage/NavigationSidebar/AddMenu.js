@@ -52,8 +52,10 @@ const AddMenu = ({
   addMenuOpen,
   onAddMenuToggle,
   onAddQuestionPage,
+  canAddQuestionPage,
   onAddSection,
   onAddCalculatedSummaryPage,
+  canAddCalculatedSummaryPage,
   onAddQuestionConfirmation,
   canAddQuestionConfirmation,
   ...otherProps
@@ -80,6 +82,7 @@ const AddMenu = ({
             primary
             onClick={onAddQuestionPage}
             data-test="btn-add-question-page"
+            disabled={!canAddQuestionPage}
           >
             Question page
           </AddMenuButton>
@@ -95,6 +98,7 @@ const AddMenu = ({
             primary
             onClick={onAddCalculatedSummaryPage}
             data-test="btn-add-calculated-summary"
+            disabled={!canAddCalculatedSummaryPage}
           >
             Calculated summary
           </AddMenuButton>
@@ -114,10 +118,12 @@ const AddMenu = ({
 AddMenu.propTypes = {
   onAddMenuToggle: PropTypes.func.isRequired,
   onAddQuestionPage: PropTypes.func.isRequired,
+  canAddQuestionPage: PropTypes.bool.isRequired,
   onAddSection: PropTypes.func.isRequired,
   onAddQuestionConfirmation: PropTypes.func.isRequired,
-  onAddCalculatedSummaryPage: PropTypes.func.isRequired,
   canAddQuestionConfirmation: PropTypes.bool.isRequired,
+  onAddCalculatedSummaryPage: PropTypes.func.isRequired,
+  canAddCalculatedSummaryPage: PropTypes.bool.isRequired,
   addMenuOpen: PropTypes.bool.isRequired,
 };
 
