@@ -16,6 +16,8 @@ describe("AddMenu", () => {
     const defaultProps = {
       addMenuOpen: true,
       canAddQuestionConfirmation: true,
+      canAddCalculatedSummaryPage: true,
+      canAddQuestionPage: true,
     };
     return shallow(<AddMenu {...defaultProps} {...mockHandlers} {...props} />);
   };
@@ -54,6 +56,24 @@ describe("AddMenu", () => {
     const wrapper = createWrapper({ canAddQuestionConfirmation: false });
     expect(
       wrapper.find('[data-test="btn-add-question-confirmation"]').props()
+    ).toMatchObject({
+      disabled: true,
+    });
+  });
+
+  it("should disable the Add Question Page button when you cant add question pages", () => {
+    const wrapper = createWrapper({ canAddQuestionPage: false });
+    expect(
+      wrapper.find('[data-test="btn-add-question-page"]').props()
+    ).toMatchObject({
+      disabled: true,
+    });
+  });
+
+  it("should disable the Add Calculated Summary button when you cant add question calculated summaries", () => {
+    const wrapper = createWrapper({ canAddCalculatedSummaryPage: false });
+    expect(
+      wrapper.find('[data-test="btn-add-calculated-summary"]').props()
     ).toMatchObject({
       disabled: true,
     });

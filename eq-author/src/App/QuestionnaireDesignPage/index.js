@@ -135,6 +135,17 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
     );
   };
 
+  canAddQuestionAndCalculatedSummmaryPages() {
+    const {
+      match: {
+        params: { entityName },
+      },
+      loading,
+    } = this.props;
+
+    return !loading && entityName !== "introduction";
+  }
+
   canAddQuestionConfirmation() {
     const {
       data: { questionnaire },
@@ -190,9 +201,11 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
                 loading={loading}
                 onAddSection={this.props.onAddSection}
                 onAddQuestionPage={this.handleAddPage("QuestionPage")}
+                canAddQuestionPage={this.canAddQuestionAndCalculatedSummmaryPages()}
                 onAddCalculatedSummaryPage={this.handleAddPage(
                   "CalculatedSummaryPage"
                 )}
+                canAddCalculatedSummaryPage={this.canAddQuestionAndCalculatedSummmaryPages()}
                 questionnaire={questionnaire}
                 canAddQuestionConfirmation={this.canAddQuestionConfirmation()}
                 onAddQuestionConfirmation={this.handleAddQuestionConfirmation}

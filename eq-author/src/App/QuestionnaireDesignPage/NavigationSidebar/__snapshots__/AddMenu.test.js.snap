@@ -32,6 +32,7 @@ exports[`AddMenu should render 1`] = `
     >
       <AddMenu__AddMenuButton
         data-test="btn-add-question-page"
+        disabled={false}
         onClick={[MockFunction]}
         primary={true}
       >
@@ -47,6 +48,7 @@ exports[`AddMenu should render 1`] = `
       </AddMenu__AddMenuButton>
       <AddMenu__AddMenuButton
         data-test="btn-add-calculated-summary"
+        disabled={false}
         onClick={[MockFunction]}
         primary={true}
       >

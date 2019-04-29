@@ -1,7 +1,12 @@
 import React from "react";
 import { shallow } from "enzyme";
 
-import { SECTION, PAGE, QUESTION_CONFIRMATION } from "constants/entities";
+import {
+  SECTION,
+  PAGE,
+  QUESTION_CONFIRMATION,
+  INTRODUCTION,
+} from "constants/entities";
 import { ERR_PAGE_NOT_FOUND } from "constants/error-codes";
 
 import NavigationSidebar from "./NavigationSidebar";
@@ -103,6 +108,45 @@ describe("QuestionnaireDesignPage", () => {
       },
     });
     expect(wrapper.instance().renderRedirect()).toMatchSnapshot();
+  });
+
+  describe("onIntroductionPage", () => {
+    beforeEach(() => {
+      wrapper.setProps({
+        data: {
+          questionnaire: {
+            ...questionnaire,
+            introduction: {
+              id: "1",
+            },
+          },
+        },
+        match: {
+          params: {
+            questionnaireId: questionnaire.id,
+            entityName: INTRODUCTION,
+          },
+        },
+      });
+    });
+
+    it("should disable adding question page when on introduction page", () => {
+      expect(
+        wrapper.find(NavigationSidebar).prop("canAddQuestionPage")
+      ).toEqual(false);
+    });
+
+    it("should disable adding confirmation queation when on introduction page", () => {
+      expect(
+        wrapper.find(NavigationSidebar).prop("canAddQuestionConfirmation")
+      ).toEqual(false);
+    });
+
+    it("should disable adding calculated summary when on introduction page", () => {
+      expect(
+        wrapper.find(NavigationSidebar).prop("canAddCalculatedSummaryPage")
+      ).toEqual(false);
+    });
   });
 
   describe("onAddQuestionPage", () => {
@@ -231,35 +275,43 @@ describe("QuestionnaireDesignPage", () => {
         id: 1,
       };
       wrapper.setProps({ data: { questionnaire } });
-      expect(wrapper.find(NavigationSidebar).props()).toMatchObject({
-        canAddQuestionConfirmation: false,
-      });
+      expect(
+        wrapper.find(NavigationSidebar).prop("canAddQuestionConfirmation")
+      ).toEqual(false);
     });
 
     it("should disable adding question confirmation when not on a question page", () => {
       match.params.entityName = "foo";
       wrapper.setProps({ match });
-      expect(wrapper.find(NavigationSidebar).props()).toMatchObject({
-        canAddQuestionConfirmation: false,
-      });
+      expect(
+        wrapper.find(NavigationSidebar).prop("canAddQuestionConfirmation")
+      ).toEqual(false);
     });
 
     it("should disable adding question confirmation when the page cannot be found", () => {
       match.params.entityId = "hello";
       wrapper.setProps({ match });
-      expect(wrapper.find(NavigationSidebar).props()).toMatchObject({
-        canAddQuestionConfirmation: false,
-      });
+      expect(
+        wrapper.find(NavigationSidebar).prop("canAddQuestionConfirmation")
+      ).toEqual(false);
     });
 
-    it("should disable adding question confirmation whilst loading", () => {
+    it("should disable adding question confirmation, question page & calculated summary whilst loading", () => {
       wrapper.setProps({
         loading: true,
         data: {},
       });
-      expect(wrapper.find(NavigationSidebar).props()).toMatchObject({
-        canAddQuestionConfirmation: false,
-      });
+      expect(
+        wrapper.find(NavigationSidebar).prop("canAddQuestionPage")
+      ).toEqual(false);
+
+      expect(
+        wrapper.find(NavigationSidebar).prop("canAddCalculatedSummaryPage")
+      ).toEqual(false);
+
+      expect(
+        wrapper.find(NavigationSidebar).prop("canAddQuestionConfirmation")
+      ).toEqual(false);
     });
 
     it("should trigger PAGE_NOT_FOUND error if no question data available after loading finished", () => {

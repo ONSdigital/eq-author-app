@@ -69,7 +69,9 @@ exports[`NavigationHeader should render 1`] = `
   <NavigationHeader__NavigationHeaderRow>
     <NavigationHeader__StyledAddMenu
       addMenuOpen={false}
+      canAddCalculatedSummaryPage={true}
       canAddQuestionConfirmation={true}
+      canAddQuestionPage={true}
       data-test="add-menu"
       onAddCalculatedSummaryPage={[Function]}
       onAddMenuToggle={[Function]}
