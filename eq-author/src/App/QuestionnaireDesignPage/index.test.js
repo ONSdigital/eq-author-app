@@ -36,7 +36,7 @@ describe("QuestionnaireDesignPage", () => {
       description: "",
       guidance: "",
       title: "",
-      type: "General",
+      pageType: "QuestionPage",
       position: 0,
       answers: [answer],
     };
@@ -280,12 +280,25 @@ describe("QuestionnaireDesignPage", () => {
       ).toEqual(false);
     });
 
-    it("should disable adding question confirmation when not on a question page", () => {
+    it("should disable adding question confirmation when not on a page", () => {
       match.params.entityName = "foo";
       wrapper.setProps({ match });
       expect(
         wrapper.find(NavigationSidebar).prop("canAddQuestionConfirmation")
       ).toEqual(false);
+    });
+
+    it("should disable adding question confirmation when not on a question page", () => {
+      questionnaire.sections[0].pages[0] = {
+        id: "1",
+        title: "",
+        pageType: "NotQuestionPage",
+        position: 0,
+      };
+      wrapper.setProps({ data: { questionnaire } });
+      expect(wrapper.find(NavigationSidebar).props()).toMatchObject({
+        canAddQuestionConfirmation: false,
+      });
     });
 
     it("should disable adding question confirmation when the page cannot be found", () => {

@@ -165,7 +165,7 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
 
     const pages = flatMap(questionnaire.sections, "pages");
     const page = find(pages, { id: pageId });
-    if (!page || page.confirmation) {
+    if (!page || page.confirmation || page.pageType !== "QuestionPage") {
       return false;
     }
     return true;
