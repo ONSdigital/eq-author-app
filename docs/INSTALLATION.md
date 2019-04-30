@@ -12,4 +12,6 @@ Follow this guide to set up [Authentication](AUTHENTICATION.md)
 
 ## Install Dependencies
 
-Follow this guide to install dependencies [Yarn Guide](https://yarnpkg.com/en/docs/installing-dependencies)
+Just run `yarn` to install all dependencies.
+
+Follow this guide for more information on installing dependencies [Yarn Guide](https://yarnpkg.com/en/docs/installing-dependencies)

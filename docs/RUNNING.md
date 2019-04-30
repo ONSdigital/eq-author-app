@@ -1,16 +1,10 @@
 # Running
 
-## Table of Contents
-
-- [Running components automatically](#running-components-automatically)
-- [Environment Variables](#environment-variables)
-- [Troubleshooting](#troubleshooting)
-
 ## Running Components Automatically
 
 ### eq-author
 
-The following environment variables should be placed in a .env.[environment] file in the eq-author folder.  
+The following environment variables should be placed in a .env.[environment] file in the eq-author folder.
 
 | Name                   | Description                             | Required |
 | ---------------------- | --------------------------------------- | -------- |
@@ -18,15 +12,15 @@ The following environment variables should be placed in a .env.[environment] fil
 | `REACT_APP_LAUNCH_URL` | Set the launch-a-survey target          | No       |
 | `PUBLIC_URL`           | The public URL inferred if not provided | No       |
 
-From a terminal open the `eq-author` folder and run  
+From a terminal open the `eq-author` folder and run
 
 ```bash
 yarn start
-```  
+```
 
 When the process completes a browser window will be opened pointing to [http://localhost:3000](http://localhost:3000)
 
-The page will reload if you make edits.  You will also see any lint errors in the console.
+The page will reload if you make edits. You will also see any lint errors in the console.
 
 ### eq-author-api
 
@@ -71,7 +65,7 @@ yarn start
 
 #### Environment Variables
 
-Note that some Environment Variables may be necessary to run the service in isolation.  The following environment variables can be configured.
+Note that some Environment Variables may be necessary to run the service in isolation. The following environment variables can be configured.
 
 | Name                      | Description                                                                                               | Required |
 | ------------------------- | --------------------------------------------------------------------------------------------------------- | -------- |
