@@ -1,8 +1,24 @@
 const cheerio = require("cheerio");
+const { flatMap, includes, compact } = require("lodash");
 const { unescapePiping } = require("./HTMLUtils");
 
 const getMetadata = (ctx, metadataId) =>
   ctx.questionnaireJson.metadata.find(({ id }) => id === metadataId);
+
+const isPipeableType = answer => {
+  const notPipeableDataTypes = ["TextArea", "Radio", "CheckBox"];
+  return !includes(notPipeableDataTypes, answer.type);
+};
+
+const getAllAnswers = questionnaire =>
+  flatMap(questionnaire.sections, section =>
+    compact(flatMap(section.pages, page => page.answers))
+  );
+
+const getAnswer = (ctx, answerId) =>
+  getAllAnswers(ctx.questionnaireJson)
+    .filter(answer => isPipeableType(answer))
+    .find(answer => answer.id === answerId);
 
 const FILTER_MAP = {
   Number: value => `${value} | format_number`,
@@ -13,7 +29,7 @@ const FILTER_MAP = {
 
 const PIPE_TYPES = {
   answers: {
-    retrieve: element => element,
+    retrieve: ({ id }, ctx) => getAnswer(ctx, id.toString()),
     render: ({ id }) => `answers['answer${id}']`,
     getType: ({ type }) => type,
   },
@@ -69,3 +85,4 @@ const convertPipes = ctx => html => {
 };
 
 module.exports = convertPipes;
+module.exports.getAllAnswers = getAllAnswers;

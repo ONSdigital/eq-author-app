@@ -22,15 +22,14 @@ const PipedValueDecorator = styled.span`
   white-space: pre;
 `;
 
-const PipedValueSerialized = ({ data: { id, type, text, pipingType } }) => (
-  <span data-piped={pipingType} data-id={id} data-type={type}>
+const PipedValueSerialized = ({ data: { id, text, pipingType } }) => (
+  <span data-piped={pipingType} data-id={id}>
     {text}
   </span>
 );
 
 PipedValueSerialized.propTypes = {
   data: PropTypes.shape({
-    type: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
     text: PropTypes.string.isRequired,
   }).isRequired,
@@ -46,9 +45,8 @@ export const createPipedEntity = (create, entity) => {
 export const htmlToEntity = (nodeName, node, createEntity) => {
   if (node.hasAttribute && node.hasAttribute("data-piped")) {
     const id = node.getAttribute("data-id");
-    const type = node.getAttribute("data-type");
     const pipingType = node.getAttribute("data-piped");
-    return createPipedEntity(createEntity, { id, type, pipingType });
+    return createPipedEntity(createEntity, { id, pipingType });
   }
 };
 

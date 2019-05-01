@@ -82,7 +82,6 @@ describe("PipedValue", () => {
   });
 
   describe("htmlToEntity", () => {
-    const type = "TextField";
     const id = "123";
     const text = "hello world";
     const pipingType = "SomeType";
@@ -94,7 +93,6 @@ describe("PipedValue", () => {
       elem.innerText = text;
       elem.setAttribute("data-piped", pipingType);
       elem.setAttribute("data-id", id);
-      elem.setAttribute("data-type", type);
 
       entity = {};
       createEntity = jest.fn(() => entity);
@@ -110,7 +108,6 @@ describe("PipedValue", () => {
 
       expect(createEntity).toHaveBeenCalledWith(ENTITY_TYPE, "IMMUTABLE", {
         pipingType,
-        type,
         id,
       });
     });
