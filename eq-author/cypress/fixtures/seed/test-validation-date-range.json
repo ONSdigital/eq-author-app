@@ -1,0 +1,241 @@
+{
+  "summary": false,
+  "metadata": [
+    {
+      "id": "f612fa72-c242-4295-972e-2bd39eed3461",
+      "key": "ru_name",
+      "alias": "Ru Name",
+      "type": "Text",
+      "textValue": "ESSENTIAL ENTERPRISE LTD."
+    },
+    {
+      "id": "3db3d94b-fc35-43a0-a18d-f3a2c22f4867",
+      "key": "trad_as",
+      "alias": "Trad As",
+      "type": "Text",
+      "textValue": "ESSENTIAL ENTERPRISE LTD."
+    },
+    {
+      "id": "a30966f1-7b07-4bd2-8fb8-f158b629488e",
+      "key": "period_id",
+      "alias": "Period Id",
+      "type": "Text",
+      "textValue": "201605"
+    },
+    {
+      "id": "43bdb893-7ef5-4620-bfad-3259fe7da330",
+      "key": "ref_p_start_date",
+      "alias": "Start Date",
+      "type": "Date",
+      "dateValue": "2016-05-01"
+    },
+    {
+      "id": "14e7e3f5-bf64-400d-8f5b-dfda40ef8bb5",
+      "key": "ref_p_end_date",
+      "alias": "End Date",
+      "type": "Date",
+      "dateValue": "2016-06-12"
+    },
+    {
+      "id": "1547a228-25fe-4221-8cfd-5bb2b6b185b6",
+      "key": "employmentDate",
+      "alias": "Employment Date",
+      "type": "Date",
+      "dateValue": "2016-06-10"
+    },
+    {
+      "alias": "ru_ref_custom",
+      "id": "43a34937-dfce-4a9b-b54b-9067a6ae281b",
+      "key": "ru_ref_custom",
+      "type": "Date",
+      "textValue": null,
+      "regionValue": null,
+      "dateValue": "1991-01-01T00:00:00.000Z",
+      "languageValue": null
+    }
+  ],
+  "legalBasis": "Voluntary",
+  "title": "Test Validation Date Range",
+  "type": "Business",
+  "version": 6,
+  "sections": [
+    {
+      "id": "516aaf0f-673d-444a-86a4-0f09d3165aea",
+      "title": "",
+      "introductionEnabled": false,
+      "pages": [
+        {
+          "id": "9c68db4e-00a2-4b26-9c6c-fb0af17b7627",
+          "pageType": "QuestionPage",
+          "title": "<p>Previous Page</p>",
+          "description": "",
+          "descriptionEnabled": false,
+          "guidanceEnabled": false,
+          "definitionEnabled": false,
+          "additionalInfoEnabled": false,
+          "answers": [
+            {
+              "id": "9f2ed213-9ee8-4c7c-b913-84315203b10c",
+              "description": "",
+              "guidance": "",
+              "label": "Previous Answer 1",
+              "secondaryLabel": "Previous Answer 2",
+              "qCode": "",
+              "type": "DateRange",
+              "questionPageId": "9c68db4e-00a2-4b26-9c6c-fb0af17b7627",
+              "properties": {
+                "required": false
+              },
+              "validation": {
+                "earliestDate": {
+                  "id": "86dbfd51-a750-43cd-b7ce-eee2c224a442",
+                  "enabled": false,
+                  "validationType": "earliestDate",
+                  "entityType": "Custom",
+                  "offset": {
+                    "value": 0,
+                    "unit": "Days"
+                  },
+                  "relativePosition": "Before"
+                },
+                "latestDate": {
+                  "id": "ad22f029-f1c8-4fa9-827f-c63da9677c51",
+                  "enabled": false,
+                  "validationType": "latestDate",
+                  "entityType": "Custom",
+                  "offset": {
+                    "value": 0,
+                    "unit": "Days"
+                  },
+                  "relativePosition": "After"
+                },
+                "minDuration": {
+                  "id": "4431f6ad-2e87-47f9-a3f0-468767af0768",
+                  "enabled": false,
+                  "validationType": "minDuration",
+                  "entityType": "Custom",
+                  "duration": {
+                    "value": 0,
+                    "unit": "Days"
+                  }
+                },
+                "maxDuration": {
+                  "id": "e7f8a992-6e7a-49c4-985b-64a9f75a4e5d",
+                  "enabled": false,
+                  "validationType": "maxDuration",
+                  "entityType": "Custom",
+                  "duration": {
+                    "value": 0,
+                    "unit": "Days"
+                  }
+                }
+              }
+            }
+          ],
+          "routing": null,
+          "alias": null,
+          "guidance": null,
+          "definitionLabel": null,
+          "definitionContent": null,
+          "additionalInfoLabel": null,
+          "additionalInfoContent": null
+        },
+        {
+          "id": "bae60576-36ec-4fb1-a56c-6a19f5c21609",
+          "pageType": "QuestionPage",
+          "title": "<p>Current Page</p>",
+          "description": "",
+          "descriptionEnabled": false,
+          "guidanceEnabled": false,
+          "definitionEnabled": false,
+          "additionalInfoEnabled": false,
+          "answers": [
+            {
+              "id": "c718a50b-0492-4119-a447-331ec0b14132",
+              "description": "",
+              "guidance": "",
+              "label": "Date Range Answer 1",
+              "secondaryLabel": "Date Range Answer 2",
+              "qCode": "",
+              "type": "DateRange",
+              "questionPageId": "bae60576-36ec-4fb1-a56c-6a19f5c21609",
+              "properties": {
+                "required": false
+              },
+              "validation": {
+                "earliestDate": {
+                  "id": "399fd5b7-04ca-424f-ac12-7c83ca8fa802",
+                  "enabled": false,
+                  "validationType": "earliestDate",
+                  "entityType": "Custom",
+                  "offset": {
+                    "value": 0,
+                    "unit": "Days"
+                  },
+                  "relativePosition": "Before"
+                },
+                "latestDate": {
+                  "id": "cd7ac0c0-d16a-4515-87aa-e09bd5c32927",
+                  "enabled": false,
+                  "validationType": "latestDate",
+                  "entityType": "Custom",
+                  "offset": {
+                    "value": 0,
+                    "unit": "Days"
+                  },
+                  "relativePosition": "After"
+                },
+                "minDuration": {
+                  "id": "bcfc901b-c41a-4a45-a7d3-ffef3a39a05b",
+                  "enabled": false,
+                  "validationType": "minDuration",
+                  "entityType": "Custom",
+                  "duration": {
+                    "value": 0,
+                    "unit": "Days"
+                  }
+                },
+                "maxDuration": {
+                  "id": "3f631205-c564-4ccc-88a6-c60ff5d77d3c",
+                  "enabled": false,
+                  "validationType": "maxDuration",
+                  "entityType": "Custom",
+                  "duration": {
+                    "value": 0,
+                    "unit": "Days"
+                  }
+                }
+              }
+            }
+          ],
+          "routing": null,
+          "alias": null,
+          "sectionId": "516aaf0f-673d-444a-86a4-0f09d3165aea",
+          "guidance": null,
+          "definitionLabel": null,
+          "definitionContent": null,
+          "additionalInfoLabel": null,
+          "additionalInfoContent": null
+        }
+      ],
+      "alias": ""
+    }
+  ],
+  "createdAt": "2019-05-01T11:15:52.073Z",
+  "navigation": false,
+  "createdBy": "Tom Andrews",
+  "theme": "default",
+  "id": "21ecd715-531d-499c-88df-2c8b94b54bf5",
+  "introduction": {
+    "id": "10dfe34b-ff73-45e4-aa37-150ab2a7a471",
+    "title": "<p>You are completing this for <span data-piped=\"metadata\" data-id=\"3db3d94b-fc35-43a0-a18d-f3a2c22f4867\">trad_as</span> (<span data-piped=\"metadata\" data-id=\"f612fa72-c242-4295-972e-2bd39eed3461\">ru_name</span>)</p>",
+    "description": "<ul><li>Data should relate to all sites in England, Scotland, Wales and Northern Ireland unless otherwise stated. </li><li>You can provide info estimates if actual figures aren’t available.</li><li>We will treat your data securely and confidentially.</li></ul>",
+    "legalBasis": "NOTICE_1",
+    "secondaryTitle": "<p>Information you need</p>",
+    "secondaryDescription": "<p>You can select the dates of the period you are reporting for, if the given dates are not appropriate.</p>",
+    "collapsibles": [],
+    "tertiaryTitle": "<p>How we use your data</p>",
+    "tertiaryDescription": "<ul><li>You cannot appeal your selection. Your business was selected to give us a comprehensive view of the UK economy.</li><li>The information you provide contributes to Gross Domestic Product (GDP).</li></ul>"
+  },
+  "updatedAt": "2019-05-01T11:23:22.480Z"
+}

@@ -1,0 +1,123 @@
+{
+  "summary": false,
+  "metadata": [],
+  "legalBasis": "Voluntary",
+  "title": "Test Validation Currency",
+  "type": "Social",
+  "version": 6,
+  "sections": [
+    {
+      "id": "7c422b15-25e7-4fbc-909a-1eda2d9b1932",
+      "title": "",
+      "introductionEnabled": false,
+      "pages": [
+        {
+          "id": "ef488996-8db7-4033-9bc8-a7d819b14a48",
+          "pageType": "QuestionPage",
+          "title": "<p>Previous Page</p>",
+          "description": "",
+          "descriptionEnabled": false,
+          "guidanceEnabled": false,
+          "definitionEnabled": false,
+          "additionalInfoEnabled": false,
+          "answers": [
+            {
+              "id": "ae1e6a94-ace8-4fa6-9ebd-ec30d368721d",
+              "description": "",
+              "guidance": "",
+              "label": "Previous Answer",
+              "qCode": "",
+              "type": "Currency",
+              "questionPageId": "ef488996-8db7-4033-9bc8-a7d819b14a48",
+              "properties": {
+                "required": false,
+                "decimals": 0
+              },
+              "validation": {
+                "minValue": {
+                  "id": "9cc86e3a-d3a5-4504-8f2e-804b03990a01",
+                  "enabled": false,
+                  "validationType": "minValue",
+                  "entityType": "Custom",
+                  "inclusive": false
+                },
+                "maxValue": {
+                  "id": "c4b377f2-1f9b-478b-b1c0-4465b488ccfc",
+                  "enabled": false,
+                  "validationType": "maxValue",
+                  "entityType": "Custom",
+                  "inclusive": false
+                }
+              },
+              "secondaryLabel": null
+            }
+          ],
+          "routing": null,
+          "alias": null,
+          "guidance": null,
+          "definitionLabel": null,
+          "definitionContent": null,
+          "additionalInfoLabel": null,
+          "additionalInfoContent": null
+        },
+        {
+          "id": "ed11455c-115e-4b12-bdb1-1089fc9bd33e",
+          "pageType": "QuestionPage",
+          "title": "<p>Current Page</p>",
+          "description": "",
+          "descriptionEnabled": false,
+          "guidanceEnabled": false,
+          "definitionEnabled": false,
+          "additionalInfoEnabled": false,
+          "answers": [
+            {
+              "id": "3f1901ac-2024-4f7a-909f-d4f086a87245",
+              "description": "",
+              "guidance": "",
+              "label": "Currency Answer",
+              "qCode": "",
+              "type": "Currency",
+              "questionPageId": "ed11455c-115e-4b12-bdb1-1089fc9bd33e",
+              "properties": {
+                "required": false,
+                "decimals": 0
+              },
+              "validation": {
+                "minValue": {
+                  "id": "b622322f-5e9f-42f4-b5f0-0c63f44d8a1d",
+                  "enabled": false,
+                  "validationType": "minValue",
+                  "entityType": "Custom",
+                  "inclusive": false
+                },
+                "maxValue": {
+                  "id": "f622fe88-4924-47cc-b0b4-bd58341bd147",
+                  "enabled": false,
+                  "validationType": "maxValue",
+                  "entityType": "Custom",
+                  "inclusive": false
+                }
+              },
+              "secondaryLabel": null
+            }
+          ],
+          "routing": null,
+          "alias": null,
+          "sectionId": "7c422b15-25e7-4fbc-909a-1eda2d9b1932",
+          "guidance": null,
+          "definitionLabel": null,
+          "definitionContent": null,
+          "additionalInfoLabel": null,
+          "additionalInfoContent": null
+        }
+      ],
+      "alias": ""
+    }
+  ],
+  "createdAt": "2019-05-01T10:37:28.087Z",
+  "navigation": false,
+  "createdBy": "Tom Andrews",
+  "theme": "default",
+  "id": "8e9fe3ba-8b26-4ff3-95f6-847d06902996",
+  "updatedAt": "2019-05-01T10:38:01.613Z"
+}

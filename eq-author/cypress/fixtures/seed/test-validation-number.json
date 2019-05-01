@@ -1,0 +1,177 @@
+{
+  "summary": false,
+  "metadata": [
+    {
+      "id": "5fe89036-9122-4f8f-b711-324c980d5ea9",
+      "key": "ru_name",
+      "alias": "Ru Name",
+      "type": "Text",
+      "textValue": "ESSENTIAL ENTERPRISE LTD."
+    },
+    {
+      "id": "b4af2d05-c6f2-4a96-874a-00ee860ba214",
+      "key": "trad_as",
+      "alias": "Trad As",
+      "type": "Text",
+      "textValue": "ESSENTIAL ENTERPRISE LTD."
+    },
+    {
+      "id": "5b0c027d-f5a2-4f29-af3a-d6c5965db23c",
+      "key": "period_id",
+      "alias": "Period Id",
+      "type": "Text",
+      "textValue": "201605"
+    },
+    {
+      "id": "1f9d6c03-1dbb-4a42-bc14-d903590485a3",
+      "key": "ref_p_start_date",
+      "alias": "Start Date",
+      "type": "Date",
+      "dateValue": "2016-05-01"
+    },
+    {
+      "id": "820f506d-7f22-485d-a55d-e6e3d58838ac",
+      "key": "ref_p_end_date",
+      "alias": "End Date",
+      "type": "Date",
+      "dateValue": "2016-06-12"
+    },
+    {
+      "id": "aff6fe54-b9b0-4a43-83a4-499780a2fbae",
+      "key": "employmentDate",
+      "alias": "Employment Date",
+      "type": "Date",
+      "dateValue": "2016-06-10"
+    }
+  ],
+  "legalBasis": "Voluntary",
+  "title": "Test Validation Number",
+  "type": "Business",
+  "version": 6,
+  "sections": [
+    {
+      "id": "66764cf5-b005-4839-8f27-0f86b7d6eb9a",
+      "title": "",
+      "introductionEnabled": false,
+      "pages": [
+        {
+          "id": "6ca3ceab-2108-4c20-b34d-75a3b13f5946",
+          "pageType": "QuestionPage",
+          "title": "<p>Previous Page</p>",
+          "description": "",
+          "descriptionEnabled": false,
+          "guidanceEnabled": false,
+          "definitionEnabled": false,
+          "additionalInfoEnabled": false,
+          "answers": [
+            {
+              "id": "754841ae-fe0f-4121-8b5e-414f115e8212",
+              "description": "",
+              "guidance": "",
+              "label": "Previous Answer",
+              "qCode": "",
+              "type": "Number",
+              "questionPageId": "6ca3ceab-2108-4c20-b34d-75a3b13f5946",
+              "properties": {
+                "required": false,
+                "decimals": 0
+              },
+              "validation": {
+                "minValue": {
+                  "id": "045891bd-9286-4358-99ee-0203a9f54390",
+                  "enabled": false,
+                  "validationType": "minValue",
+                  "entityType": "Custom",
+                  "inclusive": false
+                },
+                "maxValue": {
+                  "id": "b7249dd5-73c8-4beb-9939-5a80cf573e03",
+                  "enabled": false,
+                  "validationType": "maxValue",
+                  "entityType": "Custom",
+                  "inclusive": false
+                }
+              },
+              "secondaryLabel": null
+            }
+          ],
+          "routing": null,
+          "alias": null,
+          "guidance": null,
+          "definitionLabel": null,
+          "definitionContent": null,
+          "additionalInfoLabel": null,
+          "additionalInfoContent": null
+        },
+        {
+          "id": "dd91de51-0cce-4752-bcc6-e7dc7b4e31ef",
+          "pageType": "QuestionPage",
+          "title": "<p>Current Page</p>",
+          "description": "",
+          "descriptionEnabled": false,
+          "guidanceEnabled": false,
+          "definitionEnabled": false,
+          "additionalInfoEnabled": false,
+          "answers": [
+            {
+              "id": "4aae9425-ba4d-45c6-b368-931ba584eadd",
+              "description": "",
+              "guidance": "",
+              "label": "Number Answer",
+              "qCode": "",
+              "type": "Number",
+              "questionPageId": "dd91de51-0cce-4752-bcc6-e7dc7b4e31ef",
+              "properties": {
+                "required": false,
+                "decimals": 0
+              },
+              "validation": {
+                "minValue": {
+                  "id": "999fde5b-2ae4-4480-b15d-e3b3da291671",
+                  "enabled": false,
+                  "validationType": "minValue",
+                  "entityType": "Custom",
+                  "inclusive": false
+                },
+                "maxValue": {
+                  "id": "9b083133-f4aa-48a7-97b4-5178b2dc0038",
+                  "enabled": false,
+                  "validationType": "maxValue",
+                  "entityType": "Custom",
+                  "inclusive": false
+                }
+              },
+              "secondaryLabel": null
+            }
+          ],
+          "routing": null,
+          "alias": null,
+          "sectionId": "66764cf5-b005-4839-8f27-0f86b7d6eb9a",
+          "guidance": null,
+          "definitionLabel": null,
+          "definitionContent": null,
+          "additionalInfoLabel": null,
+          "additionalInfoContent": null
+        }
+      ],
+      "alias": ""
+    }
+  ],
+  "createdAt": "2019-05-01T10:25:26.011Z",
+  "navigation": false,
+  "createdBy": "Tom Andrews",
+  "theme": "default",
+  "id": "64759a2e-a518-49a6-8a72-76071f784a16",
+  "introduction": {
+    "id": "f34b30ff-c69e-4e87-982f-087fe8e296b1",
+    "title": "<p>You are completing this for <span data-piped=\"metadata\" data-id=\"b4af2d05-c6f2-4a96-874a-00ee860ba214\">trad_as</span> (<span data-piped=\"metadata\" data-id=\"5fe89036-9122-4f8f-b711-324c980d5ea9\">ru_name</span>)</p>",
+    "description": "<ul><li>Data should relate to all sites in England, Scotland, Wales and Northern Ireland unless otherwise stated. </li><li>You can provide info estimates if actual figures aren’t available.</li><li>We will treat your data securely and confidentially.</li></ul>",
+    "legalBasis": "NOTICE_1",
+    "secondaryTitle": "<p>Information you need</p>",
+    "secondaryDescription": "<p>You can select the dates of the period you are reporting for, if the given dates are not appropriate.</p>",
+    "collapsibles": [],
+    "tertiaryTitle": "<p>How we use your data</p>",
+    "tertiaryDescription": "<ul><li>You cannot appeal your selection. Your business was selected to give us a comprehensive view of the UK economy.</li><li>The information you provide contributes to Gross Domestic Product (GDP).</li></ul>"
+  },
+  "updatedAt": "2019-05-01T10:25:58.633Z"
+}

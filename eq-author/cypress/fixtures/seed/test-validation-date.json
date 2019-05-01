@@ -1,0 +1,150 @@
+{
+  "summary": false,
+  "metadata": [
+    {
+      "alias": "ru_ref_custom",
+      "id": "31e4fb15-5cf0-4e06-a852-ff0fff3badaf",
+      "key": "ru_ref_custom",
+      "type": "Date",
+      "textValue": null,
+      "regionValue": null,
+      "dateValue": "2001-01-01T00:00:00.000Z",
+      "languageValue": null
+    }
+  ],
+  "legalBasis": "Voluntary",
+  "title": "Test Validation Date",
+  "type": "Social",
+  "version": 6,
+  "sections": [
+    {
+      "id": "6f8ea9bc-5eb5-4d16-aedc-297de70cf307",
+      "title": "",
+      "introductionEnabled": false,
+      "pages": [
+        {
+          "id": "1cf64f3e-34ab-4a73-bf14-f08e1067c22d",
+          "pageType": "QuestionPage",
+          "title": "<p>Previous Page</p>",
+          "description": "",
+          "descriptionEnabled": false,
+          "guidanceEnabled": false,
+          "definitionEnabled": false,
+          "additionalInfoEnabled": false,
+          "answers": [
+            {
+              "id": "732bece4-c180-4e2c-b0d5-28530a32a581",
+              "description": "",
+              "guidance": "",
+              "label": "Previous Answer",
+              "qCode": "",
+              "type": "Date",
+              "questionPageId": "1cf64f3e-34ab-4a73-bf14-f08e1067c22d",
+              "properties": {
+                "required": false,
+                "format": "dd/mm/yyyy"
+              },
+              "validation": {
+                "earliestDate": {
+                  "id": "f8053e30-151c-40d3-a7f6-9bd130a998d2",
+                  "enabled": false,
+                  "validationType": "earliestDate",
+                  "entityType": "Now",
+                  "offset": {
+                    "value": 0,
+                    "unit": "Days"
+                  },
+                  "relativePosition": "Before"
+                },
+                "latestDate": {
+                  "id": "e1cd77a1-f084-4e77-a830-89a8fc9caba1",
+                  "enabled": false,
+                  "validationType": "latestDate",
+                  "entityType": "Now",
+                  "offset": {
+                    "value": 0,
+                    "unit": "Days"
+                  },
+                  "relativePosition": "After"
+                }
+              },
+              "secondaryLabel": null
+            }
+          ],
+          "routing": null,
+          "alias": null,
+          "guidance": null,
+          "definitionLabel": null,
+          "definitionContent": null,
+          "additionalInfoLabel": null,
+          "additionalInfoContent": null
+        },
+        {
+          "id": "9cec48f6-fd4e-4828-bfd5-4c0cac7c8439",
+          "pageType": "QuestionPage",
+          "title": "<p>Current Page</p>",
+          "description": "",
+          "descriptionEnabled": false,
+          "guidanceEnabled": false,
+          "definitionEnabled": false,
+          "additionalInfoEnabled": false,
+          "answers": [
+            {
+              "id": "3fbc6d80-d3c4-4012-826a-72d2abaa4244",
+              "description": "",
+              "guidance": "",
+              "label": "Date Answer",
+              "qCode": "",
+              "type": "Date",
+              "questionPageId": "9cec48f6-fd4e-4828-bfd5-4c0cac7c8439",
+              "properties": {
+                "required": false,
+                "format": "dd/mm/yyyy"
+              },
+              "validation": {
+                "earliestDate": {
+                  "id": "29dfe7da-16ef-4575-9bb3-f64ffa3c68a6",
+                  "enabled": false,
+                  "validationType": "earliestDate",
+                  "entityType": "Now",
+                  "offset": {
+                    "value": 0,
+                    "unit": "Days"
+                  },
+                  "relativePosition": "Before"
+                },
+                "latestDate": {
+                  "id": "23bfcba5-4bcc-4149-bdcc-bff1a3d7e53a",
+                  "enabled": false,
+                  "validationType": "latestDate",
+                  "entityType": "Now",
+                  "offset": {
+                    "value": 0,
+                    "unit": "Days"
+                  },
+                  "relativePosition": "After"
+                }
+              },
+              "secondaryLabel": null
+            }
+          ],
+          "routing": null,
+          "alias": null,
+          "sectionId": "6f8ea9bc-5eb5-4d16-aedc-297de70cf307",
+          "guidance": null,
+          "definitionLabel": null,
+          "definitionContent": null,
+          "additionalInfoLabel": null,
+          "additionalInfoContent": null
+        }
+      ],
+      "alias": ""
+    }
+  ],
+  "createdAt": "2019-05-01T11:02:14.320Z",
+  "navigation": false,
+  "createdBy": "Tom Andrews",
+  "theme": "default",
+  "id": "be2f1fc6-24e0-41e8-b433-9b197bce52b7",
+  "updatedAt": "2019-05-01T11:03:27.168Z"
+}
