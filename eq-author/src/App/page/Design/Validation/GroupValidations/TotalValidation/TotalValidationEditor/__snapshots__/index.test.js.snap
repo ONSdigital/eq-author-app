@@ -27,6 +27,7 @@ exports[`TotalValidationEditor should render 1`] = `
         <withChangeHandler(Select__SimpleSelect)
           aria-label="Total"
           data-test="total-condition-select"
+          defaultValue="LessThan"
           id="condition"
           onChange={[MockFunction]}
         >
@@ -74,7 +75,7 @@ exports[`TotalValidationEditor should render 1`] = `
       onUpdate={[MockFunction]}
       total={
         Object {
-          "condition": "Equal",
+          "condition": "LessThan",
           "custom": 5,
           "enabled": true,
           "entityType": "Custom",

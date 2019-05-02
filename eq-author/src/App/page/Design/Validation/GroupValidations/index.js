@@ -41,11 +41,11 @@ const Buttons = styled.div`
 `;
 
 const CONDITION = {
-  GreaterThan: "More than",
-  GreaterOrEqual: "More than or equal to",
-  Equal: "Equal to",
-  LessOrEqual: "Less than or equal to",
-  LessThan: "Less than",
+  GreaterThan: "more than",
+  GreaterOrEqual: "more than or equal to",
+  Equal: "equal to",
+  LessOrEqual: "less than or equal to",
+  LessThan: "less than",
 };
 
 class GroupValidations extends Component {
@@ -69,13 +69,17 @@ class GroupValidations extends Component {
     this.setState({ isModalOpen: false });
   };
 
-  renderPreview() {
+  renderContents() {
     const { totalValidation: total, type } = this.props;
+
+    if (!total || !total.enabled) {
+      return;
+    }
+
     const isCustomValue = total.entityType === "Custom";
-    const totalValue =
-      total.entityType === "Custom"
-        ? total.custom
-        : get(total, "previousAnswer.displayName");
+    const totalValue = isCustomValue
+      ? total.custom
+      : get(total, "previousAnswer.displayName");
 
     if (isNil(totalValue)) {
       return;
@@ -91,9 +95,10 @@ class GroupValidations extends Component {
     }
 
     return (
-      <Detail>
-        {CONDITION[total.condition]} {formattedValue}
-      </Detail>
+      <>
+        <Title>Total {CONDITION[total.condition]}</Title>
+        <Detail>{formattedValue}</Detail>
+      </>
     );
   }
 
@@ -107,10 +112,7 @@ class GroupValidations extends Component {
           disabled={!total}
         >
           <TotalIcon />
-          <Details>
-            <Title>Total</Title>
-            {total && total.enabled && this.renderPreview()}
-          </Details>
+          <Details>{this.renderContents() || <Title>Total</Title>}</Details>
         </TotalButton>
         <GroupValidationModal
           isOpen={this.state.isModalOpen}

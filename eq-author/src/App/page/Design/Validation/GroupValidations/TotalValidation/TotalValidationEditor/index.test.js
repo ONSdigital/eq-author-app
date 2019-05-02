@@ -13,7 +13,7 @@ describe("TotalValidationEditor", () => {
         entityType: "Custom",
         custom: 5,
         previousAnswer: null,
-        condition: "Equal",
+        condition: "LessThan",
       },
       type: "Number",
       onChange: jest.fn(),
@@ -30,10 +30,10 @@ describe("TotalValidationEditor", () => {
     const wrapper = shallow(<TotalValidationEditor {...props} />);
     wrapper
       .find("[data-test='total-condition-select']")
-      .simulate("change", { name: "condition", value: "LessThan" });
+      .simulate("change", { name: "condition", value: "MoreThan" });
     expect(props.onChangeUpdate).toHaveBeenCalledWith({
       name: "condition",
-      value: "LessThan",
+      value: "MoreThan",
     });
   });
 
