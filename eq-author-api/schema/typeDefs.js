@@ -94,6 +94,7 @@ type QuestionPage implements Page {
   availableRoutingDestinations: AvailableRoutingDestinations!
   confirmation: QuestionConfirmation
   routing: Routing2
+  totalValidation: TotalValidationRule
 }
 
 type CalculatedSummaryPage implements Page {
@@ -236,7 +237,7 @@ type MinValueValidationRule implements ValidationRule {
   inclusive: Boolean!
   custom: Int
   previousAnswer: BasicAnswer
-  entityType: ValidationRuleEntityType
+  entityType: ValidationRuleEntityType!
   availablePreviousAnswers: [Answer!]!
 }
 
@@ -246,7 +247,7 @@ type MaxValueValidationRule implements ValidationRule {
   inclusive: Boolean!
   custom: Int
   previousAnswer: BasicAnswer
-  entityType: ValidationRuleEntityType
+  entityType: ValidationRuleEntityType!
   availablePreviousAnswers: [Answer!]!
 }
 
@@ -258,7 +259,7 @@ type EarliestDateValidationRule implements ValidationRule {
   custom: Date
   previousAnswer: BasicAnswer
   metadata: Metadata
-  entityType: ValidationRuleEntityType
+  entityType: ValidationRuleEntityType!
   availablePreviousAnswers: [Answer!]!
   availableMetadata: [Metadata!]!
 }
@@ -271,7 +272,7 @@ type LatestDateValidationRule implements ValidationRule {
   custom: Date
   previousAnswer: BasicAnswer
   metadata: Metadata
-  entityType: ValidationRuleEntityType
+  entityType: ValidationRuleEntityType!
   availablePreviousAnswers: [Answer!]!
   availableMetadata: [Metadata!]!
 }
@@ -302,6 +303,24 @@ enum DurationUnit {
 enum RelativePosition {
   Before
   After
+}
+
+type TotalValidationRule implements ValidationRule {
+  id: ID!
+  enabled: Boolean!
+  entityType: ValidationRuleEntityType!
+  custom: Int
+  previousAnswer: Answer
+  condition: ValidationCondition!
+  availablePreviousAnswers: [Answer!]!
+}
+
+enum ValidationCondition {
+  GreaterThan
+  GreaterOrEqual
+  Equal
+  LessOrEqual
+  LessThan
 }
 
 enum PageType {
@@ -508,7 +527,7 @@ type Mutation {
   updateCalculatedSummaryPage(input: UpdateCalculatedSummaryPageInput!): CalculatedSummaryPage!
   createAnswer(input: CreateAnswerInput!): Answer
   updateAnswer(input: UpdateAnswerInput!): Answer
-  deleteAnswer(input: DeleteAnswerInput!): Answer
+  deleteAnswer(input: DeleteAnswerInput!): QuestionPage!
   updateAnswersOfType(input: UpdateAnswersOfTypeInput!): [Answer!]!
   moveAnswer(input: MoveAnswerInput!): Answer!
   createOption(input: CreateOptionInput!): Option
@@ -808,6 +827,7 @@ input UpdateValidationRuleInput {
   latestDateInput: UpdateLatestDateInput
   minDurationInput: UpdateMinDurationInput
   maxDurationInput: UpdateMaxDurationInput
+  totalInput: UpdateTotalValidationInput
 }
 
 input UpdateMinValueInput {
@@ -853,6 +873,13 @@ input UpdateMaxDurationInput {
 input DurationInput {
   value: Int
   unit: DurationUnit!
+}
+
+input UpdateTotalValidationInput {
+  entityType: ValidationRuleEntityType!
+  custom: Int
+  previousAnswer: ID
+  condition: ValidationCondition!
 }
 
 input CreateMetadataInput {

@@ -107,6 +107,19 @@ const getPageQuery = `
             ...destination2Fragment
           }
         }
+        totalValidation {
+          id
+          enabled
+          entityType
+          custom
+          previousAnswer {
+            id
+          }
+          condition
+          availablePreviousAnswers {
+            id
+          }
+        }
       }
     }
   }  

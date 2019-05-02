@@ -38,6 +38,10 @@ const SidebarButton = styled.button`
     bottom: 0;
     margin: auto;
   }
+
+  &:disabled {
+    background: ${colors.lighterGrey};
+  }
 `;
 
 export const Title = styled.span`

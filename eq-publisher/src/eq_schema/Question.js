@@ -8,7 +8,6 @@ const { find, get, flow, isNil, concat, last } = require("lodash/fp");
 const { set } = require("lodash");
 const convertPipes = require("../utils/convertPipes");
 const { DATE, DATE_RANGE } = require("../constants/answerTypes");
-
 const findDateRange = flow(
   get("answers"),
   find({ type: DATE_RANGE })
@@ -60,6 +59,7 @@ class Question {
 
     const dateRange = findDateRange(question);
     const mutuallyExclusive = findMutuallyExclusive(question);
+
     if (dateRange) {
       this.type = DATE_RANGE;
       this.answers = this.buildDateRangeAnswers(dateRange);
@@ -95,6 +95,12 @@ class Question {
       this.type = "MutuallyExclusive";
       this.mandatory = get("properties.required", mutuallyExclusive);
       this.answers = this.buildMutuallyExclusiveAnswers(mutuallyExclusive);
+    } else if (question.totalValidation && question.totalValidation.enabled) {
+      this.type = "Calculated";
+      this.answers = this.buildAnswers(question.answers);
+      this.calculations = [
+        this.buildCalculation(question.totalValidation, question.answers),
+      ];
     } else {
       this.type = "General";
       this.answers = this.buildAnswers(question.answers);
@@ -120,19 +126,19 @@ class Question {
     const commonAnswerDef = {
       id: `answer${answer.id}`,
       type: DATE,
-      mandatory: get("properties.required", answer)
+      mandatory: get("properties.required", answer),
     };
-  
+
     return [
       {
         ...commonAnswerDef,
         id: `${commonAnswerDef.id}from`,
-        label: answer.label
+        label: answer.label,
       },
       {
         ...commonAnswerDef,
         id: `${commonAnswerDef.id}to`,
-        label: answer.secondaryLabel
+        label: answer.secondaryLabel,
       },
     ];
   }
@@ -150,6 +156,32 @@ class Question {
       this.buildAnswers([mutuallyExclusive]),
       mutuallyExclusiveAnswer
     );
+  }
+
+  buildCalculation(totalValidation, answers) {
+    const GREATER_THAN = "greater than";
+    const LESS_THAN = "less than";
+    const EQUALS = "equals";
+
+    const AUTHOR_TO_RUNNER_CONDITIONS = {
+      GreaterThan: [GREATER_THAN],
+      GreaterOrEqual: [GREATER_THAN, EQUALS],
+      Equal: [EQUALS],
+      LessOrEqual: [LESS_THAN, EQUALS],
+      LessThan: [LESS_THAN],
+    };
+
+    const rightSide =
+      totalValidation.entityType === "Custom"
+        ? { value: totalValidation.custom }
+        : { answer_id: `answer${totalValidation.previousAnswer.id}` };
+
+    return {
+      calculation_type: "sum",
+      answers_to_calculate: answers.map(a => `answer${a.id}`),
+      conditions: AUTHOR_TO_RUNNER_CONDITIONS[totalValidation.condition],
+      ...rightSide,
+    };
   }
 }
 

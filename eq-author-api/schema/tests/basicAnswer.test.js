@@ -321,5 +321,26 @@ describe("basic answer", () => {
       const deletedAnswer = await queryAnswer(questionnaire, answer.id);
       expect(deletedAnswer).toBeNull();
     });
+
+    it("should return the page", async () => {
+      questionnaire = await buildQuestionnaire({
+        sections: [
+          {
+            pages: [
+              {
+                answers: [
+                  {
+                    type: NUMBER,
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      });
+      const answer = questionnaire.sections[0].pages[0].answers[0];
+      const page = await deleteAnswer(questionnaire, answer.id);
+      expect(page.id).toEqual(questionnaire.sections[0].pages[0].id);
+    });
   });
 });

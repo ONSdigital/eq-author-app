@@ -1,5 +1,17 @@
+#import "./fragments/total-validation-rule.graphql"
+#import "./fragments/available-answers.graphql"
+
 mutation DeleteAnswer($input: DeleteAnswerInput!) {
   deleteAnswer(input: $input) {
     id
+    totalValidation {
+      ...TotalValidationRule
+      availablePreviousAnswers {
+        ...AvailableAnswers
+      }
+    }
+    answers {
+      id
+    }
   }
 }

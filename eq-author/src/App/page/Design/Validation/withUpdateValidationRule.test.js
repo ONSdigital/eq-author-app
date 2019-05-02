@@ -1,15 +1,15 @@
-import { mapMutateToProps } from "./withUpdateAnswerValidation";
+import { mapMutateToProps } from "./withUpdateValidationRule";
 
-describe("withUpdateAnswerValidation", () => {
+describe("withUpdateValidationRule", () => {
   let mutate;
 
   beforeEach(() => {
     mutate = jest.fn();
   });
 
-  it("should add onUpdateAnswerValidation prop", () => {
+  it("should add onUpdateValidationRule prop", () => {
     const props = mapMutateToProps({ mutate });
-    expect(props.onUpdateAnswerValidation).toBeInstanceOf(Function);
+    expect(props.onUpdateValidationRule).toBeInstanceOf(Function);
   });
 
   it("should call mutate", () => {
@@ -19,7 +19,7 @@ describe("withUpdateAnswerValidation", () => {
       minValueInput: { inclusive: true, custom: "201", __typename: "foo" },
     };
 
-    props.onUpdateAnswerValidation(answer);
+    props.onUpdateValidationRule(answer);
     expect(mutate).toHaveBeenCalledWith({
       variables: {
         input: {

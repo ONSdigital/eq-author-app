@@ -1,6 +1,11 @@
-const { compact, find, flatMap, some } = require("lodash");
+const { compact, get, filter, find, flatMap, some } = require("lodash");
 const deepMap = require("deep-map");
 const uuid = require("uuid");
+
+const { DATE, DATE_RANGE } = require("../../constants/answerTypes");
+const { DATE: METADATA_DATE } = require("../../constants/metadataTypes");
+
+const getPreviousAnswersForPage = require("../../src/businessLogic/getPreviousAnswersForPage");
 
 const getSections = ctx => ctx.questionnaire.sections;
 
@@ -17,12 +22,24 @@ const getPages = ctx => flatMap(getSections(ctx), section => section.pages);
 
 const getPageById = (ctx, id) => find(getPages(ctx), { id });
 
+const getPageByAnswerId = (ctx, answerId) =>
+  find(
+    getPages(ctx),
+    page => page.answers && some(page.answers, { id: answerId })
+  );
+
 const getPageByConfirmationId = (ctx, confirmationId) =>
   find(getPages(ctx), page => {
-    if (page.confirmation && page.confirmation.id === confirmationId) {
+    if (get(page, "confirmation.id") === confirmationId) {
       return page;
     }
   });
+
+const getPageByValidationId = (ctx, validationId) =>
+  find(
+    getPages(ctx),
+    page => page.totalValidation && page.totalValidation.id === validationId
+  );
 
 const getConfirmations = ctx =>
   compact(flatMap(getPages(ctx), page => page.confirmation));
@@ -37,6 +54,48 @@ const getOptions = ctx =>
   compact(flatMap(getAnswers(ctx), answer => answer.options));
 
 const getOptionById = (ctx, id) => find(getOptions(ctx), { id });
+
+const getValidationById = (ctx, id) => {
+  const answers = getAnswers(ctx);
+  const answerValidations = flatMap(answers, answer =>
+    Object.keys(answer.validation).map(validationType => {
+      const validation = answer.validation[validationType];
+      validation.validationType = validationType;
+      return validation;
+    })
+  );
+  const pageValidations = compact(
+    flatMap(getPages(ctx), page => page.totalValidation)
+  );
+  pageValidations.forEach(validation => {
+    validation.validationType = "total";
+  });
+
+  return find([...answerValidations, ...pageValidations], { id: id });
+};
+
+const getAnswerByValidationId = (ctx, validationId) =>
+  getAnswers(ctx).find(answer =>
+    Object.values(answer.validation).find(
+      validation => validation.id === validationId
+    )
+  );
+const getAvailablePreviousAnswersForValidation = (ctx, validationId) => {
+  const answer = getAnswerByValidationId(ctx, validationId);
+  const currentPage = getPageByAnswerId(ctx, answer.id);
+  return getPreviousAnswersForPage(ctx.questionnaire, currentPage.id, false, [
+    answer.type,
+  ]);
+};
+
+const getAvailableMetadataForValidation = (ctx, validationId) => {
+  const answer = getAnswerByValidationId(ctx, validationId);
+  if (answer.type === DATE || answer.type === DATE_RANGE) {
+    return filter(ctx.questionnaire.metadata, { type: METADATA_DATE });
+  } else {
+    return []; //Currently do not support validation against any other types
+  }
+};
 
 const remapAllNestedIds = entity => {
   const transformationMatrix = {};
@@ -63,6 +122,7 @@ module.exports = {
   getPages,
   getPageById,
   getPageByConfirmationId,
+  getPageByValidationId,
 
   getAnswers,
   getAnswerById,
@@ -72,6 +132,11 @@ module.exports = {
 
   getConfirmations,
   getConfirmationById,
+
+  getValidationById,
+
+  getAvailablePreviousAnswersForValidation,
+  getAvailableMetadataForValidation,
 
   remapAllNestedIds,
 };

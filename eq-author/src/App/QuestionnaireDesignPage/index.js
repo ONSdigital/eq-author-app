@@ -45,6 +45,7 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
       questionnaire: CustomPropTypes.questionnaire,
     }),
     location: PropTypes.object, // eslint-disable-line
+    error: PropTypes.object, // eslint-disable-line
   };
 
   state = { showDeleteConfirmDialog: false, showMovePageDialog: false };
@@ -184,10 +185,11 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
     const {
       loading,
       data: { questionnaire },
+      error,
       location,
     } = this.props;
 
-    if (!loading && !questionnaire) {
+    if (!loading && !error && !questionnaire) {
       throw new Error(ERR_PAGE_NOT_FOUND);
     }
 

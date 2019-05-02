@@ -40,86 +40,77 @@ const UnitSymbol = styled.div`
   ${props => (props.trailing ? "right: 0.5em" : "left: 0.5em")}
 `;
 
-class Number extends React.Component {
-  state = {
-    value: this.props.value,
-  };
+const Number = props => {
+  const {
+    id,
+    onChange,
+    onBlur,
+    value,
+    className,
+    type,
+    name,
+    min,
+    max,
+    step,
+  } = props;
+  const unitId = `unit-${id}`;
 
-  componentDidUpdate(prevProps) {
-    if (this.props.value !== prevProps.value) {
-      /*eslint-disable-next-line  */
-      this.setState({
-        value: this.props.value,
-      });
+  const handleChange = ({ value }) => {
+    if (value.length === 0) {
+      onChange({ name, value: null });
+      return;
     }
-  }
 
-  handleChange = ({ value }) => {
-    this.setState({ value });
-  };
-
-  handleBlur = () => {
-    const name = this.props.name || this.props.id;
-    const { value } = this.state;
-    const enteredValue = clamp(
-      parseInt(value, 10),
-      this.props.min,
-      this.props.max
-    );
-
+    const enteredValue = clamp(parseInt(value, 10), min, max);
     const newValue =
       isNaN(enteredValue) || Object.is(enteredValue, -0)
-        ? this.props.default
+        ? props.default
         : enteredValue;
 
-    this.setState({ value: newValue });
+    onChange({ name: name || id, value: newValue });
+  };
 
-    this.props.onChange({
-      name,
-      value: newValue,
-    });
-    if (this.props.onBlur) {
-      setImmediate(() => {
-        this.props.onBlur();
-      });
+  const handleBlur = () => {
+    if (value === null) {
+      onChange({ name, value: props.default });
+    }
+    if (onBlur) {
+      setTimeout(onBlur);
     }
   };
 
-  render() {
-    const unitId = `unit-${this.props.id}`;
-    return (
-      <StyledDiv className={this.props.className}>
-        <NumberInput
-          id={this.props.id}
-          data-test={this.props["data-test"]}
-          value={this.state.value}
-          onChange={this.handleChange}
-          type="number"
-          onBlur={this.handleBlur}
-          aria-live="assertive"
-          role="alert"
-          valueType={this.props.type}
-          aria-labelledby={unitId}
-          min={this.props.min}
-          max={this.props.max}
-          default={this.props.default}
-          name={this.props.name}
-          step={this.props.step}
-        />
-        {this.props.type === CURRENCY && (
-          <UnitSymbol id={unitId} data-test="unit">
-            £
-          </UnitSymbol>
-        )}
-        {this.props.type === PERCENTAGE && (
-          <UnitSymbol id={unitId} data-test="unit" trailing>
-            %
-          </UnitSymbol>
-        )}
-      </StyledDiv>
-    );
-  }
-}
+  return (
+    <StyledDiv className={className}>
+      <NumberInput
+        id={id}
+        data-test={props["data-test"]}
+        value={value}
+        onChange={handleChange}
+        type="number"
+        onBlur={handleBlur}
+        aria-live="assertive"
+        role="alert"
+        valueType={type}
+        aria-labelledby={unitId}
+        min={min}
+        max={max}
+        default={props.default}
+        name={name}
+        step={step}
+      />
+      {type === CURRENCY && (
+        <UnitSymbol id={unitId} data-test="unit">
+          £
+        </UnitSymbol>
+      )}
+      {type === PERCENTAGE && (
+        <UnitSymbol id={unitId} data-test="unit" trailing>
+          %
+        </UnitSymbol>
+      )}
+    </StyledDiv>
+  );
+};
 
 Number.defaultProps = {
   min: 0,
