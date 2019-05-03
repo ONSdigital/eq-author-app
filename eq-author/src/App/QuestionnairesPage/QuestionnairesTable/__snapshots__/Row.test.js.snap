@@ -2,7 +2,6 @@
 
 exports[`Row should render 1`] = `
 <FadeTransition
-  enter={false}
   exit={true}
   in={false}
   onDeleteQuestionnaire={[MockFunction]}
@@ -10,7 +9,6 @@ exports[`Row should render 1`] = `
   timeout={250}
 >
   <Row__TR
-    disabled={false}
     innerRef={
       Object {
         "current": null,
@@ -22,7 +20,6 @@ exports[`Row should render 1`] = `
     >
       <TruncatedQuestionnaireLink
         data-test="anchor-questionnaire-title"
-        disabled={false}
         questionnaire={
           Object {
             "createdAt": "2017/01/02",
@@ -68,98 +65,11 @@ exports[`Row should render 1`] = `
       <Row__ButtonGroup>
         <DuplicateButton
           data-test="btn-duplicate-questionnaire"
-          disabled={false}
           hideText={false}
           onClick={[Function]}
         />
         <IconButtonDelete
           data-test="btn-delete-questionnaire"
-          disabled={false}
-          hideText={true}
-          iconText="Delete"
-          onClick={[Function]}
-        />
-      </Row__ButtonGroup>
-    </Row__TD>
-  </Row__TR>
-</FadeTransition>
-`;
-
-exports[`Row should render as disabled when the id is a duplicate 1`] = `
-<FadeTransition
-  enter={true}
-  exit={false}
-  in={false}
-  onDeleteQuestionnaire={[MockFunction]}
-  onDuplicateQuestionnaire={[MockFunction]}
-  timeout={250}
->
-  <Row__TR
-    disabled={true}
-    innerRef={
-      Object {
-        "current": null,
-      }
-    }
-  >
-    <Row__TD
-      textAlign="left"
-    >
-      <TruncatedQuestionnaireLink
-        data-test="anchor-questionnaire-title"
-        disabled={true}
-        questionnaire={
-          Object {
-            "createdAt": "2017/01/02",
-            "createdBy": Object {
-              "name": "Alan",
-            },
-            "displayName": "Foo",
-            "id": "dupe-2",
-            "sections": Array [
-              Object {
-                "id": "1",
-                "pages": Array [
-                  Object {
-                    "id": "1",
-                  },
-                ],
-              },
-            ],
-          }
-        }
-        title="Foo"
-      >
-        Foo
-      </TruncatedQuestionnaireLink>
-    </Row__TD>
-    <Row__TD
-      textAlign="left"
-    >
-      <FormattedDate
-        date="2017/01/02"
-      />
-    </Row__TD>
-    <Row__TD
-      textAlign="left"
-    >
-      <Truncated>
-        Alan
-      </Truncated>
-    </Row__TD>
-    <Row__TD
-      textAlign="center"
-    >
-      <Row__ButtonGroup>
-        <DuplicateButton
-          data-test="btn-duplicate-questionnaire"
-          disabled={true}
-          hideText={false}
-          onClick={[Function]}
-        />
-        <IconButtonDelete
-          data-test="btn-delete-questionnaire"
-          disabled={true}
           hideText={true}
           iconText="Delete"
           onClick={[Function]}

@@ -39,41 +39,6 @@ describe("Row", () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  it("should render as disabled when the id is a duplicate", () => {
-    questionnaire.id = "dupe-2";
-    const wrapper = shallow(
-      <Row
-        questionnaire={questionnaire}
-        onDuplicateQuestionnaire={handleDuplicateQuestionnaire}
-        onDeleteQuestionnaire={handleDeleteQuestionnaire}
-      />,
-      { disableLifecycleMethods: true }
-    );
-    expect(wrapper).toMatchSnapshot();
-  });
-
-  it("should auto focus when it id is a duplicate", () => {
-    const focus = jest.fn();
-    const getElementsByTagName = jest.fn(() => [{ focus }]);
-
-    questionnaire.id = "dupe-2";
-    const wrapper = shallow(
-      <Row
-        questionnaire={questionnaire}
-        onDuplicateQuestionnaire={handleDuplicateQuestionnaire}
-        onDeleteQuestionnaire={handleDeleteQuestionnaire}
-      />,
-      { disableLifecycleMethods: true }
-    );
-
-    const instance = wrapper.instance();
-    instance.rowRef = { current: { getElementsByTagName } };
-
-    instance.componentDidMount();
-    expect(getElementsByTagName).toHaveBeenCalledWith("a");
-    expect(focus).toHaveBeenCalled();
-  });
-
   it("should auto focus when it receives autofocus", () => {
     const wrapper = shallow(
       <Row

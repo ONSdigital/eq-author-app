@@ -2,7 +2,7 @@ import React from "react";
 import { shallow } from "enzyme";
 import QuestionnaireSettingsModal from "App/QuestionnaireSettingsModal";
 import MetadataModal from "App/MetadataModal";
-import NavigationHeader from "./NavigationHeader";
+import { NavigationHeader } from "./NavigationHeader";
 
 describe("NavigationHeader", () => {
   let mockHandlers = {
@@ -20,6 +20,7 @@ describe("NavigationHeader", () => {
         canAddCalculatedSummaryPage
         canAddQuestionConfirmation
         onUpdateQuestionnaire={jest.fn()}
+        match={{ params: {} }}
         {...mockHandlers}
         {...props}
       />
@@ -83,5 +84,12 @@ describe("NavigationHeader", () => {
     wrapper.find('[data-test="add-menu"]').simulate("addQuestionConfirmation");
 
     expect(mockHandlers.onAddQuestionConfirmation).toHaveBeenCalled();
+  });
+
+  it("should show the settings modal when initially rendered with settings in the params", () => {
+    const wrapper = createWrapper({
+      match: { params: { modifier: "settings" } },
+    });
+    expect(wrapper.find(QuestionnaireSettingsModal).prop("isOpen")).toBe(true);
   });
 });

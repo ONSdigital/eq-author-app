@@ -6,21 +6,24 @@ const nextId = previousId => `${parseInt(previousId, 10) + 1}`;
 describe("withDuplicateQuestionnaire", () => {
   let ownProps,
     history,
-    match,
     props,
     mutate,
     questionnaire,
     user,
-    expectedResult;
+    duplicationResult,
+    realNow;
 
   beforeEach(() => {
+    history = {
+      push: jest.fn(),
+    };
+
     ownProps = {
       history,
-      match,
     };
 
     questionnaire = {
-      id: "1",
+      id: "10",
       displayName: "My questionnaire",
       createdBy: {
         name: "Foo Person",
@@ -32,88 +35,90 @@ describe("withDuplicateQuestionnaire", () => {
       displayName: "Foo Person",
     };
 
-    expectedResult = {
+    duplicationResult = {
       data: {
         duplicateQuestionnaire: {
           id: nextId(questionnaire.id),
+          sections: [
+            {
+              id: "2",
+              pages: [
+                {
+                  id: "3",
+                },
+              ],
+            },
+          ],
         },
       },
     };
+
+    mutate = jest.fn(() => Promise.resolve(duplicationResult));
+    props = mapMutateToProps({ ownProps, mutate });
+    realNow = Date.now.bind(global.Date);
+    global.Date.now = jest.fn(() => 1530518207007);
   });
 
-  describe("mapMutateToProps", () => {
-    let realNow;
-    beforeEach(() => {
-      mutate = jest.fn(() => Promise.resolve(expectedResult));
-      props = mapMutateToProps({ ownProps, mutate });
-      realNow = Date.now.bind(global.Date);
-      global.Date.now = jest.fn(() => 1530518207007);
-    });
+  afterEach(() => {
+    global.Date.now = realNow;
+  });
 
-    afterEach(() => {
-      global.Date.now = realNow;
-    });
+  it("supplies an onDuplicateQuestionnaire prop", () => {
+    expect(props.onDuplicateQuestionnaire).toBeInstanceOf(Function);
+  });
 
-    it("supplies an onDuplicateQuestionnaire prop", () => {
-      expect(props.onDuplicateQuestionnaire).toBeInstanceOf(Function);
-    });
+  describe("onDuplicateQuestionnaire", () => {
+    it("provides the necessary arguments to mutate", async () => {
+      await props.onDuplicateQuestionnaire(questionnaire, user);
 
-    describe("onDuplicateQuestionnaire", () => {
-      it("provides the necessary arguments to mutate", async () => {
-        await props.onDuplicateQuestionnaire(questionnaire, user);
-
-        expect(mutate).toHaveBeenCalledWith({
-          variables: {
-            input: {
-              id: questionnaire.id,
-            },
+      expect(mutate).toHaveBeenCalledWith({
+        variables: {
+          input: {
+            id: questionnaire.id,
           },
-          optimisticResponse: {
-            duplicateQuestionnaire: {
-              __typename: "Questionnaire",
-              id: "dupe-1",
-              displayName: "Copy of My questionnaire",
-              createdAt: new Date(Date.now()).toISOString(),
-              createdBy: {
-                name: "Foo Person",
-                __typename: "User",
-              },
-            },
-          },
-        });
-      });
-
-      it("should return promise that resolves to duplicateSection result", async () => {
-        const result = await props.onDuplicateQuestionnaire(
-          questionnaire,
-          user
-        );
-        return expect(result).toBe(expectedResult.data.duplicateQuestionnaire);
+        },
       });
     });
 
-    describe("handleUpdate", () => {
-      it("should update the questionnaire list cache to start with the duplicate", () => {
-        const proxy = {
-          readQuery: jest.fn().mockReturnValue({
-            questionnaires: [{ id: 1 }, { id: 2 }],
-          }),
-          writeQuery: jest.fn(),
-        };
+    it("should redirect to first page of first section when no introduction", async () => {
+      await props.onDuplicateQuestionnaire(questionnaire, user);
+      expect(ownProps.history.push).toHaveBeenCalledWith(
+        "/q/11/page/3/design/settings"
+      );
+    });
 
-        handleUpdate(proxy, {
-          data: { duplicateQuestionnaire: { id: "dupe" } },
-        });
+    it("should redirect to the introduction page when there is one", async () => {
+      duplicationResult.data.duplicateQuestionnaire.introduction = {
+        id: "5",
+      };
+      await props.onDuplicateQuestionnaire(questionnaire, user);
+      expect(ownProps.history.push).toHaveBeenCalledWith(
+        "/q/11/introduction/5/design/settings"
+      );
+    });
+  });
 
-        expect(proxy.readQuery).toHaveBeenCalledWith({
-          query: getQuestionnaireList,
-        });
-        expect(proxy.writeQuery).toHaveBeenCalledWith({
-          query: getQuestionnaireList,
-          data: {
-            questionnaires: [{ id: "dupe" }, { id: 1 }, { id: 2 }],
-          },
-        });
+  describe("handleUpdate", () => {
+    it("should update the questionnaire list cache to start with the duplicate", () => {
+      const proxy = {
+        readQuery: jest.fn().mockReturnValue({
+          questionnaires: [{ id: 1 }, { id: 2 }],
+        }),
+        writeQuery: jest.fn(),
+      };
+
+      handleUpdate(proxy, {
+        data: { duplicateQuestionnaire: { id: "dupe" } },
+      });
+
+      expect(proxy.readQuery).toHaveBeenCalledWith({
+        query: getQuestionnaireList,
+      });
+      expect(proxy.writeQuery).toHaveBeenCalledWith({
+        query: getQuestionnaireList,
+        data: {
+          questionnaires: [{ id: "dupe" }, { id: 1 }, { id: 2 }],
+        },
       });
     });
   });

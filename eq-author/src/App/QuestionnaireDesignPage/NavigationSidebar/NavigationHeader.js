@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
+import { withRouter } from "react-router-dom";
 
 import CustomPropTypes from "custom-prop-types";
 import HomeIcon from "./icon-home.svg?inline";
@@ -48,7 +49,7 @@ const StyledAddMenu = styled(AddMenu)`
   margin-left: auto;
 `;
 
-class NavigationHeader extends React.Component {
+export class NavigationHeader extends React.Component {
   static propTypes = {
     onUpdateQuestionnaire: PropTypes.func.isRequired,
     canAddQuestionPage: PropTypes.bool.isRequired,
@@ -59,10 +60,15 @@ class NavigationHeader extends React.Component {
     onAddCalculatedSummaryPage: PropTypes.func.isRequired,
     canAddQuestionConfirmation: PropTypes.bool.isRequired,
     onAddQuestionConfirmation: PropTypes.func.isRequired,
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        modifier: PropTypes.string,
+      }).isRequired,
+    }).isRequired,
   };
 
   state = {
-    isSettingsModalOpen: false,
+    isSettingsModalOpen: this.props.match.params.modifier === "settings",
     isMetadataModalOpen: false,
     addMenuOpen: false,
   };
@@ -183,4 +189,4 @@ NavigationHeader.fragments = {
   `,
 };
 
-export default NavigationHeader;
+export default withRouter(NavigationHeader);

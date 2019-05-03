@@ -99,9 +99,14 @@ describe("Duplicate", () => {
       cy.contains(duplicateTitle).should($title => {
         expect($title.attr("disabled")).not.to.equal("disabled");
       });
-      cy.contains(duplicateTitle).click();
 
-      cy.hash().should("match", /\/design$/);
+      cy.hash().should("match", /\/design\/settings$/);
+
+      cy.get(testId("txt-questionnaire-title")).should("be.visible");
+      cy.get(testId("questionnaire-settings-modal")).within(() => {
+        cy.get("button[aria-label='Close']").click();
+      });
+      cy.get(testId("txt-questionnaire-title")).should("not.be.visible");
 
       cy.hash()
         .then(hash => {
@@ -129,7 +134,7 @@ describe("Duplicate", () => {
 
     afterEach(() => {
       cy.deleteQuestionnaire(duplicateTitle);
-      cy.deleteQuestionnaire(title);
+      cy.deleteQuestionnaire(title, true);
     });
   });
 });

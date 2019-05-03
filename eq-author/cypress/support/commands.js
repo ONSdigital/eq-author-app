@@ -67,8 +67,10 @@ Cypress.Commands.add("createQuestionnaire", title => {
   });
 });
 
-Cypress.Commands.add("deleteQuestionnaire", title => {
-  cy.get(testId("logo")).click();
+Cypress.Commands.add("deleteQuestionnaire", (title, onHomePage) => {
+  if (!onHomePage) {
+    cy.get(testId("logo")).click();
+  }
   cy.get("table").within(() => {
     cy.contains(new RegExp(`^${title}`))
       .closest("tr")

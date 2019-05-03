@@ -7,5 +7,14 @@ mutation duplicateQuestionnaire($input: DuplicateQuestionnaireInput!) {
       id
       name
     }
+    sections {
+      id
+      pages {
+        id
+      }
+    }
+    introduction {
+      id
+    }
   }
 }
