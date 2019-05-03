@@ -8,11 +8,14 @@ const bodyParser = require("body-parser");
 
 const status = require("./middleware/status");
 const { getLaunchUrl } = require("./middleware/launch");
-const createAuthMiddleware = require("./middleware/auth");
 const loadQuestionnaire = require("./middleware/loadQuestionnaire");
 const runQuestionnaireMigrations = require("./middleware/runQuestionnaireMigrations");
 const exportQuestionnaire = require("./middleware/export");
 const importQuestionnaire = require("./middleware/import");
+const identificationMiddleware = require("./middleware/identification");
+const upsertUser = require("./middleware/identification/upsertUser");
+const rejectUnidentifiedUsers = require("./middleware/identification/rejectUnidentifiedUsers");
+
 const schema = require("./schema");
 
 const createApp = () => {
@@ -59,7 +62,8 @@ const createApp = () => {
     }),
     pino,
     cors(),
-    createAuthMiddleware(logger),
+    identificationMiddleware(logger),
+    rejectUnidentifiedUsers,
     loadQuestionnaire,
     runQuestionnaireMigrations(logger)(require("./migrations"))
   );
@@ -67,7 +71,7 @@ const createApp = () => {
   const server = new ApolloServer({
     ...schema,
     context: ({ req }) => {
-      return { questionnaire: req.questionnaire, auth: req.auth };
+      return { questionnaire: req.questionnaire, user: req.user };
     },
     extensions,
   });
@@ -82,6 +86,8 @@ const createApp = () => {
   if (process.env.ENABLE_IMPORT === "true") {
     app.use(bodyParser.json()).post("/import", importQuestionnaire);
   }
+
+  app.get("/signIn", identificationMiddleware(logger), upsertUser);
 
   return app;
 };

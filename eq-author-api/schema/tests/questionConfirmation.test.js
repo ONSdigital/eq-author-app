@@ -1,44 +1,39 @@
 const { get, last } = require("lodash");
 
-const {
-  buildQuestionnaire,
-} = require("../../tests/utils/questionnaireBuilder");
+const { buildContext } = require("../../tests/utils/contextBuilder");
 
 const {
   deleteQuestionnaire,
-} = require("../../tests/utils/questionnaireBuilder/questionnaire");
+} = require("../../tests/utils/contextBuilder/questionnaire");
 const {
   createQuestionConfirmation,
   updateQuestionConfirmation,
   queryQuestionConfirmation,
   deleteQuestionConfirmation,
-} = require("../../tests/utils/questionnaireBuilder/questionConfirmation");
+} = require("../../tests/utils/contextBuilder/questionConfirmation");
 
 const { NUMBER } = require("../../constants/answerTypes");
 
 describe("questionConfirmation", () => {
-  let questionnaire;
+  let ctx, questionnaire;
 
   afterEach(async () => {
-    await deleteQuestionnaire(questionnaire.id);
-    questionnaire = null;
+    await deleteQuestionnaire(ctx, questionnaire.id);
   });
 
   describe("create", () => {
     it("should create a question confirmation", async () => {
-      questionnaire = await buildQuestionnaire({
+      ctx = await buildContext({
         sections: [
           {
             pages: [{}],
           },
         ],
       });
-      const questionConfirmation = await createQuestionConfirmation(
-        questionnaire,
-        {
-          pageId: questionnaire.sections[0].pages[0].id,
-        }
-      );
+      questionnaire = ctx.questionnaire;
+      const questionConfirmation = await createQuestionConfirmation(ctx, {
+        pageId: questionnaire.sections[0].pages[0].id,
+      });
       expect(questionConfirmation).toEqual(
         expect.objectContaining({
           title: "",
@@ -57,7 +52,7 @@ describe("questionConfirmation", () => {
 
   describe("mutate", () => {
     it("should mutate a questionConfirmation", async () => {
-      questionnaire = await buildQuestionnaire({
+      ctx = await buildContext({
         sections: [
           {
             pages: [
@@ -68,6 +63,7 @@ describe("questionConfirmation", () => {
           },
         ],
       });
+      questionnaire = ctx.questionnaire;
       const update = {
         id: questionnaire.sections[0].pages[0].confirmation.id,
         title: "title-updated",
@@ -81,7 +77,7 @@ describe("questionConfirmation", () => {
         },
       };
       const updatedQuestionConfirmation = await updateQuestionConfirmation(
-        questionnaire,
+        ctx,
         update
       );
 
@@ -93,7 +89,7 @@ describe("questionConfirmation", () => {
     let queriedQuestionConfirmation;
 
     beforeEach(async () => {
-      questionnaire = await buildQuestionnaire({
+      ctx = await buildContext({
         metadata: [{}],
         sections: [
           {
@@ -119,8 +115,10 @@ describe("questionConfirmation", () => {
           },
         ],
       });
+      questionnaire = ctx.questionnaire;
+
       queriedQuestionConfirmation = await queryQuestionConfirmation(
-        questionnaire,
+        ctx,
         questionnaire.sections[0].pages[0].confirmation.id
       );
     });
@@ -172,7 +170,7 @@ describe("questionConfirmation", () => {
 
   describe("delete", () => {
     it("should delete a question confirmation", async () => {
-      questionnaire = await buildQuestionnaire({
+      ctx = await buildContext({
         sections: [
           {
             pages: [
@@ -183,10 +181,12 @@ describe("questionConfirmation", () => {
           },
         ],
       });
+      questionnaire = ctx.questionnaire;
+
       const confirmationId = questionnaire.sections[0].pages[0].confirmation.id;
-      await deleteQuestionConfirmation(questionnaire, confirmationId);
+      await deleteQuestionConfirmation(ctx, confirmationId);
       const deletedQuestionConfirmation = await queryQuestionConfirmation(
-        questionnaire,
+        ctx,
         confirmationId
       );
       expect(deletedQuestionConfirmation).toBeNull();

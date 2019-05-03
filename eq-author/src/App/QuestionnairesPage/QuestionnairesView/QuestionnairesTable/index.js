@@ -75,6 +75,8 @@ QuestionnairesTable.fragments = {
       createdBy {
         id
         name
+        email
+        displayName
       }
     }
   `,

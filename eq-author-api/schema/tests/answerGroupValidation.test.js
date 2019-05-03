@@ -1,15 +1,13 @@
-const {
-  buildQuestionnaire,
-} = require("../../tests/utils/questionnaireBuilder");
-const { queryPage } = require("../../tests/utils/questionnaireBuilder/page");
+const { buildContext } = require("../../tests/utils/contextBuilder");
+const { queryPage } = require("../../tests/utils/contextBuilder/page");
 const {
   createAnswer,
   deleteAnswer,
-} = require("../../tests/utils/questionnaireBuilder/answer");
+} = require("../../tests/utils/contextBuilder/answer");
 const {
   toggleValidation,
   updateValidation,
-} = require("../../tests/utils/questionnaireBuilder/validation");
+} = require("../../tests/utils/contextBuilder/validation");
 
 const { NUMBER, CURRENCY, PERCENTAGE } = require("../../constants/answerTypes");
 const {
@@ -22,9 +20,10 @@ const {
 } = require("../../constants/validationConditions");
 
 describe("Answer group validation", () => {
+  let ctx, questionnaire;
   describe("creation", () => {
     it("should create a answer group validation for the second numeric answer", async () => {
-      const questionnaire = await buildQuestionnaire({
+      ctx = await buildContext({
         sections: [
           {
             pages: [
@@ -39,18 +38,18 @@ describe("Answer group validation", () => {
           },
         ],
       });
-
+      questionnaire = ctx.questionnaire;
       const pageId = questionnaire.sections[0].pages[0].id;
-      const page = await queryPage(questionnaire, pageId);
+      const page = await queryPage(ctx, pageId);
 
       expect(page.totalValidation).toBeNull();
 
-      await createAnswer(questionnaire, {
+      await createAnswer(ctx, {
         questionPageId: pageId,
         type: NUMBER,
       });
 
-      const updatePage = await queryPage(questionnaire, pageId);
+      const updatePage = await queryPage(ctx, pageId);
       expect(updatePage.totalValidation).toEqual({
         id: expect.any(String),
         entityType: CUSTOM,
@@ -63,7 +62,7 @@ describe("Answer group validation", () => {
     });
 
     it("should remove the validation group when another answer type is added", async () => {
-      const questionnaire = await buildQuestionnaire({
+      ctx = await buildContext({
         sections: [
           {
             pages: [
@@ -81,23 +80,23 @@ describe("Answer group validation", () => {
           },
         ],
       });
-
+      questionnaire = ctx.questionnaire;
       const pageId = questionnaire.sections[0].pages[0].id;
-      const page = await queryPage(questionnaire, pageId);
+      const page = await queryPage(ctx, pageId);
 
       expect(page.totalValidation).not.toBeNull();
 
-      await createAnswer(questionnaire, {
+      await createAnswer(ctx, {
         questionPageId: pageId,
         type: CURRENCY,
       });
 
-      const updatedPage = await queryPage(questionnaire, pageId);
+      const updatedPage = await queryPage(ctx, pageId);
       expect(updatedPage.totalValidation).toBeNull();
     });
 
     it("should not add it even when a second is added", async () => {
-      const questionnaire = await buildQuestionnaire({
+      ctx = await buildContext({
         sections: [
           {
             pages: [
@@ -118,25 +117,25 @@ describe("Answer group validation", () => {
           },
         ],
       });
-
+      questionnaire = ctx.questionnaire;
       const pageId = questionnaire.sections[0].pages[0].id;
-      const page = await queryPage(questionnaire, pageId);
+      const page = await queryPage(ctx, pageId);
 
       expect(page.totalValidation).toBeNull();
 
-      await createAnswer(questionnaire, {
+      await createAnswer(ctx, {
         questionPageId: pageId,
         type: CURRENCY,
       });
 
-      const updatedPage = await queryPage(questionnaire, pageId);
+      const updatedPage = await queryPage(ctx, pageId);
       expect(updatedPage.totalValidation).toBeNull();
     });
   });
 
   describe("deletion", () => {
     it("should remove the validation when the second answer is removed", async () => {
-      const questionnaire = await buildQuestionnaire({
+      ctx = await buildContext({
         sections: [
           {
             pages: [
@@ -154,20 +153,20 @@ describe("Answer group validation", () => {
           },
         ],
       });
-
+      questionnaire = ctx.questionnaire;
       const pageId = questionnaire.sections[0].pages[0].id;
-      const page = await queryPage(questionnaire, pageId);
+      const page = await queryPage(ctx, pageId);
 
       expect(page.totalValidation).not.toBeNull();
 
-      await deleteAnswer(questionnaire, page.answers[0].id);
+      await deleteAnswer(ctx, page.answers[0].id);
 
-      const updatedPage = await queryPage(questionnaire, pageId);
+      const updatedPage = await queryPage(ctx, pageId);
       expect(updatedPage.totalValidation).toBeNull();
     });
 
     it("should add the validation when the last blocking type is removed", async () => {
-      const questionnaire = await buildQuestionnaire({
+      ctx = await buildContext({
         sections: [
           {
             pages: [
@@ -188,22 +187,23 @@ describe("Answer group validation", () => {
           },
         ],
       });
+      questionnaire = ctx.questionnaire;
 
       const pageId = questionnaire.sections[0].pages[0].id;
-      const page = await queryPage(questionnaire, pageId);
+      const page = await queryPage(ctx, pageId);
 
       expect(page.totalValidation).toBeNull();
 
-      await deleteAnswer(questionnaire, page.answers[2].id);
+      await deleteAnswer(ctx, page.answers[2].id);
 
-      const updatedPage = await queryPage(questionnaire, pageId);
+      const updatedPage = await queryPage(ctx, pageId);
       expect(updatedPage.totalValidation).not.toBeNull();
     });
   });
 
   describe("mutation", () => {
     it("can be toggled on", async () => {
-      const questionnaire = await buildQuestionnaire({
+      ctx = await buildContext({
         sections: [
           {
             pages: [
@@ -221,24 +221,25 @@ describe("Answer group validation", () => {
           },
         ],
       });
+      questionnaire = ctx.questionnaire;
 
       const page = questionnaire.sections[0].pages[0];
       const totalValidation = page.totalValidation;
 
       expect(totalValidation.enabled).toBe(false);
 
-      await toggleValidation(questionnaire, {
+      await toggleValidation(ctx, {
         id: totalValidation.id,
         enabled: true,
       });
 
-      const updatedPage = await queryPage(questionnaire, page.id);
+      const updatedPage = await queryPage(ctx, page.id);
 
       expect(updatedPage.totalValidation.enabled).toBe(true);
     });
 
     it("can be changed to a custom value", async () => {
-      const questionnaire = await buildQuestionnaire({
+      ctx = await buildContext({
         sections: [
           {
             pages: [
@@ -256,6 +257,7 @@ describe("Answer group validation", () => {
           },
         ],
       });
+      questionnaire = ctx.questionnaire;
 
       const page = questionnaire.sections[0].pages[0];
       const totalValidation = page.totalValidation;
@@ -266,7 +268,7 @@ describe("Answer group validation", () => {
         entityType: CUSTOM,
       });
 
-      await updateValidation(questionnaire, {
+      await updateValidation(ctx, {
         id: totalValidation.id,
         totalInput: {
           custom: 5,
@@ -275,7 +277,7 @@ describe("Answer group validation", () => {
         },
       });
 
-      const updatedPage = await queryPage(questionnaire, page.id);
+      const updatedPage = await queryPage(ctx, page.id);
 
       expect(updatedPage.totalValidation).toMatchObject({
         custom: 5,
@@ -285,7 +287,7 @@ describe("Answer group validation", () => {
     });
 
     it("can be changed to a previous answer", async () => {
-      const questionnaire = await buildQuestionnaire({
+      ctx = await buildContext({
         sections: [
           {
             pages: [
@@ -306,6 +308,8 @@ describe("Answer group validation", () => {
           },
         ],
       });
+      questionnaire = ctx.questionnaire;
+
       const page = questionnaire.sections[0].pages[1];
       const totalValidation = page.totalValidation;
       const previousAnswerId = questionnaire.sections[0].pages[0].answers[0].id;
@@ -316,7 +320,7 @@ describe("Answer group validation", () => {
         entityType: CUSTOM,
       });
 
-      await updateValidation(questionnaire, {
+      await updateValidation(ctx, {
         id: totalValidation.id,
         totalInput: {
           previousAnswer: previousAnswerId,
@@ -325,7 +329,7 @@ describe("Answer group validation", () => {
         },
       });
 
-      const updatedPage = await queryPage(questionnaire, page.id);
+      const updatedPage = await queryPage(ctx, page.id);
 
       expect(updatedPage.totalValidation).toMatchObject({
         custom: null,

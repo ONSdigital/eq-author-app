@@ -1,18 +1,16 @@
 const { last } = require("lodash");
 
-const {
-  buildQuestionnaire,
-} = require("../../tests/utils/questionnaireBuilder");
+const { buildContext } = require("../../tests/utils/contextBuilder");
 
 const {
   deleteQuestionnaire,
-} = require("../../tests/utils/questionnaireBuilder/questionnaire");
+} = require("../../tests/utils/contextBuilder/questionnaire");
 const {
   createMetadata,
   updateMetadata,
   queryMetadata,
   deleteMetadata,
-} = require("../../tests/utils/questionnaireBuilder/metadata");
+} = require("../../tests/utils/contextBuilder/metadata");
 
 const {
   TEXT,
@@ -25,17 +23,18 @@ const { GB_ENG } = require("../../constants/metadataRegions");
 const { defaultValues } = require("../../utils/defaultMetadata");
 
 describe("metadata", () => {
-  let questionnaire;
+  let ctx, questionnaire;
 
   afterEach(async () => {
-    await deleteQuestionnaire(questionnaire.id);
+    await deleteQuestionnaire(ctx, questionnaire.id);
     questionnaire = null;
   });
 
   describe("create", () => {
     it("should create a metadata", async () => {
-      questionnaire = await buildQuestionnaire({});
-      const createdMetadata = await createMetadata(questionnaire, {
+      ctx = await buildContext({});
+      questionnaire = ctx.questionnaire;
+      const createdMetadata = await createMetadata(ctx, {
         questionnaireId: questionnaire.id,
       });
       expect(createdMetadata).toMatchObject({
@@ -56,9 +55,10 @@ describe("metadata", () => {
     let metadata, updatedMetadata;
     let update;
     beforeEach(async () => {
-      questionnaire = await buildQuestionnaire({
+      ctx = await buildContext({
         metadata: [{}],
       });
+      questionnaire = ctx.questionnaire;
       metadata = questionnaire.metadata[0];
       update = {
         id: metadata.id,
@@ -73,7 +73,7 @@ describe("metadata", () => {
     });
 
     it("should mutate metadata key and alias", async () => {
-      updatedMetadata = await updateMetadata(questionnaire, update);
+      updatedMetadata = await updateMetadata(ctx, update);
       expect(updatedMetadata).toEqual(
         expect.objectContaining({
           id: metadata.id,
@@ -84,7 +84,7 @@ describe("metadata", () => {
     });
 
     it("should mutate metadata for region type and null other values", async () => {
-      updatedMetadata = await updateMetadata(questionnaire, {
+      updatedMetadata = await updateMetadata(ctx, {
         ...update,
         type: REGION,
         regionValue: GB_ENG,
@@ -102,7 +102,7 @@ describe("metadata", () => {
     });
 
     it("should mutate metadata for text type and null other values", async () => {
-      updatedMetadata = await updateMetadata(questionnaire, {
+      updatedMetadata = await updateMetadata(ctx, {
         ...update,
         type: TEXT,
         textValue: "updated-value",
@@ -120,7 +120,7 @@ describe("metadata", () => {
     });
 
     it("should mutate metadata for language type and null other values", async () => {
-      updatedMetadata = await updateMetadata(questionnaire, {
+      updatedMetadata = await updateMetadata(ctx, {
         ...update,
         type: LANGUAGE,
         languageValue: CY,
@@ -138,7 +138,7 @@ describe("metadata", () => {
     });
 
     it("should mutate metadata for date type and null other values", async () => {
-      updatedMetadata = await updateMetadata(questionnaire, {
+      updatedMetadata = await updateMetadata(ctx, {
         ...update,
         type: DATE,
         dateValue: "2019-01-01",
@@ -156,7 +156,7 @@ describe("metadata", () => {
     });
 
     it("should default metadata regionValue when region type", async () => {
-      updatedMetadata = await updateMetadata(questionnaire, {
+      updatedMetadata = await updateMetadata(ctx, {
         id: metadata.id,
         type: REGION,
       });
@@ -173,7 +173,7 @@ describe("metadata", () => {
     });
 
     it("should default metadata languageValue when language type", async () => {
-      updatedMetadata = await updateMetadata(questionnaire, {
+      updatedMetadata = await updateMetadata(ctx, {
         id: metadata.id,
         type: LANGUAGE,
       });
@@ -212,7 +212,7 @@ describe("metadata", () => {
           textValue: type === TEXT ? textValue : null,
         };
 
-        updatedMetadata = await updateMetadata(questionnaire, expected);
+        updatedMetadata = await updateMetadata(ctx, expected);
         expect(updatedMetadata).toMatchObject(expected);
       }
     });
@@ -220,7 +220,7 @@ describe("metadata", () => {
 
   describe("query", () => {
     it("should resolve metadata fields for date", async () => {
-      questionnaire = await buildQuestionnaire({
+      ctx = await buildContext({
         metadata: [
           {
             type: DATE,
@@ -228,7 +228,9 @@ describe("metadata", () => {
           },
         ],
       });
-      const queriedMetadata = await queryMetadata(questionnaire);
+      questionnaire = ctx.questionnaire;
+
+      const queriedMetadata = await queryMetadata(ctx);
 
       expect(queriedMetadata[0]).toMatchObject({
         type: DATE,
@@ -240,7 +242,7 @@ describe("metadata", () => {
     });
 
     it("should resolve metadata fields for region", async () => {
-      questionnaire = await buildQuestionnaire({
+      ctx = await buildContext({
         metadata: [
           {
             type: REGION,
@@ -248,7 +250,9 @@ describe("metadata", () => {
           },
         ],
       });
-      const queriedMetadata = await queryMetadata(questionnaire);
+      questionnaire = ctx.questionnaire;
+
+      const queriedMetadata = await queryMetadata(ctx);
 
       expect(last(queriedMetadata)).toMatchObject({
         type: REGION,
@@ -260,7 +264,7 @@ describe("metadata", () => {
     });
 
     it("should resolve metadata fields for language", async () => {
-      questionnaire = await buildQuestionnaire({
+      ctx = await buildContext({
         metadata: [
           {
             type: LANGUAGE,
@@ -268,7 +272,9 @@ describe("metadata", () => {
           },
         ],
       });
-      const queriedMetadata = await queryMetadata(questionnaire);
+      questionnaire = ctx.questionnaire;
+
+      const queriedMetadata = await queryMetadata(ctx);
 
       expect(last(queriedMetadata)).toMatchObject({
         type: LANGUAGE,
@@ -280,7 +286,7 @@ describe("metadata", () => {
     });
 
     it("should resolve metadata fields for text", async () => {
-      questionnaire = await buildQuestionnaire({
+      ctx = await buildContext({
         metadata: [
           {
             type: TEXT,
@@ -288,7 +294,9 @@ describe("metadata", () => {
           },
         ],
       });
-      const queriedMetadata = await queryMetadata(questionnaire);
+      questionnaire = ctx.questionnaire;
+
+      const queriedMetadata = await queryMetadata(ctx);
 
       expect(last(queriedMetadata)).toMatchObject({
         type: TEXT,
@@ -302,11 +310,13 @@ describe("metadata", () => {
 
   describe("delete", () => {
     it("should delete a metadata", async () => {
-      questionnaire = await buildQuestionnaire({
+      ctx = await buildContext({
         metadata: [{}],
       });
-      await deleteMetadata(questionnaire, questionnaire.metadata[0].id);
-      const deletedMetadata = await queryMetadata(questionnaire);
+      questionnaire = ctx.questionnaire;
+
+      await deleteMetadata(ctx, questionnaire.metadata[0].id);
+      const deletedMetadata = await queryMetadata(ctx);
       expect(deletedMetadata).toEqual([]);
     });
   });

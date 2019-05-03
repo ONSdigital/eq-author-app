@@ -1,18 +1,16 @@
 const { get, flow, find } = require("lodash/fp");
 
-const {
-  buildQuestionnaire,
-} = require("../../tests/utils/questionnaireBuilder");
+const { buildContext } = require("../../tests/utils/contextBuilder");
 
 const {
   deleteQuestionnaire,
-} = require("../../tests/utils/questionnaireBuilder/questionnaire");
+} = require("../../tests/utils/contextBuilder/questionnaire");
 
 const {
   createAnswer,
   queryAnswer,
   deleteAnswer,
-} = require("../../tests/utils/questionnaireBuilder/answer");
+} = require("../../tests/utils/contextBuilder/answer");
 
 const {
   createOption,
@@ -20,7 +18,7 @@ const {
   queryOption,
   updateOption,
   deleteOption,
-} = require("../../tests/utils/questionnaireBuilder/option");
+} = require("../../tests/utils/contextBuilder/option");
 
 const { RADIO, CHECKBOX } = require("../../constants/answerTypes");
 
@@ -36,82 +34,85 @@ const getOption = flow(
 const getMutuallyExclusiveOption = find({ mutuallyExclusive: true });
 
 describe("multiple choice answer", () => {
-  let questionnaire;
+  let ctx, questionnaire;
 
   afterEach(async () => {
-    await deleteQuestionnaire(questionnaire.id);
-    questionnaire = null;
+    await deleteQuestionnaire(ctx, questionnaire.id);
   });
-
-  describe("multiple choice answer", () => {
-    describe("create", () => {
-      it("should create a radio answer with two options", async () => {
-        questionnaire = await buildQuestionnaire({
-          sections: [
-            {
-              pages: [
-                {
-                  answers: [],
-                },
-              ],
-            },
-          ],
-        });
-        const createdAnswer = await createAnswer(questionnaire, {
-          type: RADIO,
-          questionPageId: getPage(questionnaire).id,
-        });
-
-        expect(createdAnswer.options).toHaveLength(2);
-        expect(createdAnswer.mutuallyExclusiveOption).toBeNull();
-
-        expect(createdAnswer.options[0]).toMatchObject({
-          id: expect.any(String),
-          displayName: "Untitled Label",
-          label: null,
-          description: null,
-          value: null,
-          qCode: null,
-          answer: {
-            id: createdAnswer.id,
+  describe("create", () => {
+    it("should create a radio answer with two options", async () => {
+      ctx = await buildContext({
+        sections: [
+          {
+            pages: [
+              {
+                answers: [],
+              },
+            ],
           },
-          additionalAnswer: null,
-        });
+        ],
+      });
+      questionnaire = ctx.questionnaire;
+
+      const createdAnswer = await createAnswer(ctx, {
+        type: RADIO,
+        questionPageId: getPage(questionnaire).id,
       });
 
-      it("should create a checkbox answer with one option", async () => {
-        questionnaire = await buildQuestionnaire({
-          sections: [
-            {
-              pages: [{}],
-            },
-          ],
-        });
-        const createdAnswer = await createAnswer(questionnaire, {
-          type: CHECKBOX,
-          questionPageId: getPage(questionnaire).id,
-        });
+      expect(createdAnswer.options).toHaveLength(2);
+      expect(createdAnswer.mutuallyExclusiveOption).toBeNull();
 
-        expect(createdAnswer.options).toHaveLength(1);
-        expect(createdAnswer.mutuallyExclusiveOption).toBeNull();
-        expect(createdAnswer.options[0]).toMatchObject({
-          id: expect.any(String),
-          displayName: "Untitled Label",
-          label: null,
-          description: null,
-          value: null,
-          qCode: null,
-          answer: {
-            id: createdAnswer.id,
-          },
-          additionalAnswer: null,
-        });
+      expect(createdAnswer.options[0]).toMatchObject({
+        id: expect.any(String),
+        displayName: "Untitled Label",
+        label: null,
+        description: null,
+        value: null,
+        qCode: null,
+        answer: {
+          id: createdAnswer.id,
+        },
+        additionalAnswer: null,
       });
     });
 
-    describe("query", () => {
-      it("should resolve multiple choice fields", async () => {
-        questionnaire = await buildQuestionnaire({
+    it("should create a checkbox answer with one option", async () => {
+      ctx = await buildContext({
+        sections: [
+          {
+            pages: [{}],
+          },
+        ],
+      });
+      questionnaire = ctx.questionnaire;
+
+      const createdAnswer = await createAnswer(ctx, {
+        type: CHECKBOX,
+        questionPageId: getPage(questionnaire).id,
+      });
+
+      expect(createdAnswer.options).toHaveLength(1);
+      expect(createdAnswer.mutuallyExclusiveOption).toBeNull();
+      expect(createdAnswer.options[0]).toMatchObject({
+        id: expect.any(String),
+        displayName: "Untitled Label",
+        label: null,
+        description: null,
+        value: null,
+        qCode: null,
+        answer: {
+          id: createdAnswer.id,
+        },
+        additionalAnswer: null,
+      });
+    });
+  });
+
+  describe("query", () => {
+    it("should resolve multiple choice fields", async () => {
+      let ctx;
+      beforeEach(async () => {
+        ctx = await buildContext({
           sections: [
             {
               pages: [
@@ -126,10 +127,10 @@ describe("multiple choice answer", () => {
             },
           ],
         });
-        const answer = getAnswer(questionnaire);
+        const answer = getAnswer(ctx.questionnaire);
         const queriedAnswer = await queryAnswer(
-          questionnaire,
-          getAnswer(questionnaire).id
+          ctx,
+          getAnswer(ctx.questionnaire).id
         );
         expect(queriedAnswer).toMatchObject({
           properties: expect.any(Object),
@@ -139,69 +140,71 @@ describe("multiple choice answer", () => {
           answer.options.map(o => o.id)
         );
       });
-
-      it("should resolve mutuallyExclusiveOption", async () => {
-        questionnaire = await buildQuestionnaire({
-          sections: [
-            {
-              pages: [
-                {
-                  answers: [
-                    {
-                      type: RADIO,
-                      mutuallyExclusiveOption: {
-                        label: "Exclusive",
-                      },
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        });
-
-        const answer = getAnswer(questionnaire);
-        const queriedAnswer = await queryAnswer(
-          questionnaire,
-          getAnswer(questionnaire).id
-        );
-
-        expect(queriedAnswer.options).toHaveLength(2);
-        expect(queriedAnswer.mutuallyExclusiveOption.id).toEqual(
-          getMutuallyExclusiveOption(answer.options).id
-        );
-      });
     });
 
-    describe("delete", () => {
-      it("should delete an answer", async () => {
-        questionnaire = await buildQuestionnaire({
-          sections: [
-            {
-              pages: [
-                {
-                  answers: [
-                    {
-                      type: RADIO,
+    it("should resolve mutuallyExclusiveOption", async () => {
+      ctx = await buildContext({
+        sections: [
+          {
+            pages: [
+              {
+                answers: [
+                  {
+                    type: RADIO,
+                    mutuallyExclusiveOption: {
+                      label: "Exclusive",
                     },
-                  ],
-                },
-              ],
-            },
-          ],
-        });
-        const answer = getAnswer(questionnaire);
-        await deleteAnswer(questionnaire, answer.id);
-        const deletedAnswer = await queryAnswer(questionnaire, answer.id);
-        expect(deletedAnswer).toBeNull();
+                  },
+                ],
+              },
+            ],
+          },
+        ],
       });
+
+      const answer = getAnswer(ctx.questionnaire);
+      const queriedAnswer = await queryAnswer(
+        ctx,
+        getAnswer(ctx.questionnaire).id
+      );
+
+      expect(queriedAnswer.options).toHaveLength(2);
+      expect(queriedAnswer.mutuallyExclusiveOption.id).toEqual(
+        getMutuallyExclusiveOption(answer.options).id
+      );
+    });
+  });
+
+  describe("delete", () => {
+    it("should delete an answer", async () => {
+      ctx = await buildContext({
+        sections: [
+          {
+            pages: [
+              {
+                answers: [
+                  {
+                    type: RADIO,
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      });
+      questionnaire = ctx.questionnaire;
+
+      const answer = getAnswer(questionnaire);
+      await deleteAnswer(ctx, answer.id);
+      const deletedAnswer = await queryAnswer(ctx, answer.id);
+      expect(deletedAnswer).toBeNull();
     });
   });
 
   describe("option", () => {
     describe("create", () => {
       it("should create an option", async () => {
-        questionnaire = await buildQuestionnaire({
+        ctx = await buildContext({
           sections: [
             {
               pages: [
@@ -216,8 +219,10 @@ describe("multiple choice answer", () => {
             },
           ],
         });
+        questionnaire = ctx.questionnaire;
+
         const answer = getAnswer(questionnaire);
-        const createdOption = await createOption(questionnaire, {
+        const createdOption = await createOption(ctx, {
           answerId: answer.id,
           label: "My label",
           description: "Description",
@@ -234,7 +239,7 @@ describe("multiple choice answer", () => {
       });
 
       it("should create an option with an additional answer", async () => {
-        questionnaire = await buildQuestionnaire({
+        ctx = await buildContext({
           sections: [
             {
               pages: [
@@ -249,8 +254,10 @@ describe("multiple choice answer", () => {
             },
           ],
         });
+        questionnaire = ctx.questionnaire;
+
         const answer = getAnswer(questionnaire);
-        const createdOption = await createOption(questionnaire, {
+        const createdOption = await createOption(ctx, {
           answerId: answer.id,
           hasAdditionalAnswer: true,
         });
@@ -262,7 +269,7 @@ describe("multiple choice answer", () => {
       });
 
       it("should create a mutually exclusive option", async () => {
-        questionnaire = await buildQuestionnaire({
+        ctx = await buildContext({
           sections: [
             {
               pages: [
@@ -277,15 +284,13 @@ describe("multiple choice answer", () => {
             },
           ],
         });
+        questionnaire = ctx.questionnaire;
 
         const answer = getAnswer(questionnaire);
-        const createdOption = await createMutuallyExclusiveOption(
-          questionnaire,
-          {
-            answerId: answer.id,
-            label: "My exclusive option",
-          }
-        );
+        const createdOption = await createMutuallyExclusiveOption(ctx, {
+          answerId: answer.id,
+          label: "My exclusive option",
+        });
         expect(createdOption).toMatchObject({
           displayName: "My exclusive option",
         });
@@ -294,7 +299,7 @@ describe("multiple choice answer", () => {
 
     describe("mutate", () => {
       it("should mutate options", async () => {
-        questionnaire = await buildQuestionnaire({
+        ctx = await buildContext({
           sections: [
             {
               pages: [
@@ -314,6 +319,8 @@ describe("multiple choice answer", () => {
             },
           ],
         });
+        questionnaire = ctx.questionnaire;
+
         const option = getOption(questionnaire);
         const update = {
           id: option.id,
@@ -326,14 +333,14 @@ describe("multiple choice answer", () => {
             label: "additonal-answer-label",
           },
         };
-        const updatedOption = await updateOption(questionnaire, update);
+        const updatedOption = await updateOption(ctx, update);
         expect(updatedOption).toEqual(expect.objectContaining(update));
       });
     });
 
     describe("delete", () => {
       it("should delete options", async () => {
-        questionnaire = await buildQuestionnaire({
+        ctx = await buildContext({
           sections: [
             {
               pages: [
@@ -349,9 +356,11 @@ describe("multiple choice answer", () => {
             },
           ],
         });
+        questionnaire = ctx.questionnaire;
+
         const option = getOption(questionnaire);
-        await deleteOption(questionnaire, option);
-        const queriedOption = await queryOption(questionnaire, option.id);
+        await deleteOption(ctx, option);
+        const queriedOption = await queryOption(ctx, option.id);
         expect(queriedOption).toBeNull();
       });
     });

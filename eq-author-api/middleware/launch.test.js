@@ -1,23 +1,22 @@
 const { buildClaims, getLaunchUrl } = require("./launch");
 const { last } = require("lodash");
 
-const { buildQuestionnaire } = require("../tests/utils/questionnaireBuilder");
+const { buildContext } = require("../tests/utils/contextBuilder");
 const {
   deleteQuestionnaire,
-} = require("../tests/utils/questionnaireBuilder/questionnaire");
-const {
-  updateMetadata,
-} = require("../tests/utils/questionnaireBuilder/metadata");
+} = require("../tests/utils/contextBuilder/questionnaire");
+const { updateMetadata } = require("../tests/utils/contextBuilder/metadata");
 
 const { TEXT } = require("../constants/metadataTypes");
 
 describe("launcher middleware", () => {
-  let questionnaire, metadata, res, req, next;
+  let ctx, questionnaire, metadata, res, req, next;
 
   beforeEach(async () => {
-    questionnaire = await buildQuestionnaire({
+    ctx = await buildContext({
       metadata: [{}],
     });
+    questionnaire = ctx.questionnaire;
     metadata = last(questionnaire.metadata);
     req = { params: { questionnaireId: questionnaire.id } };
     res = {
@@ -27,11 +26,11 @@ describe("launcher middleware", () => {
   });
 
   afterEach(async () => {
-    await deleteQuestionnaire(questionnaire.id);
+    await deleteQuestionnaire(ctx, questionnaire.id);
   });
 
   it("should call a redirect with a jwt", async () => {
-    await updateMetadata(questionnaire, {
+    await updateMetadata(ctx, {
       id: metadata.id,
       key: "foobar",
       type: TEXT,
@@ -42,7 +41,7 @@ describe("launcher middleware", () => {
   });
 
   it("should call next with an error if metadata key is null", async () => {
-    await updateMetadata(questionnaire, {
+    await updateMetadata(ctx, {
       id: metadata.id,
       key: null,
       type: TEXT,
@@ -53,7 +52,7 @@ describe("launcher middleware", () => {
   });
 
   it("should call next with an error if metadata key is an empty string", async () => {
-    await updateMetadata(questionnaire, {
+    await updateMetadata(ctx, {
       id: metadata.id,
       key: "",
       type: TEXT,
@@ -64,7 +63,7 @@ describe("launcher middleware", () => {
   });
 
   it("should call next with an error if metadata key is a string of whitespaces", async () => {
-    await updateMetadata(questionnaire, {
+    await updateMetadata(ctx, {
       id: metadata.id,
       key: "      ",
       type: TEXT,

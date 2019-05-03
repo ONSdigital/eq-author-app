@@ -22,3 +22,26 @@ exports[`UserProfile should render 1`] = `
   </UserProfile__LogoutButton>
 </Tooltip>
 `;
+
+exports[`UserProfile should show email if name not avalible 1`] = `
+<Tooltip
+  content="Sign Out"
+>
+  <UserProfile__LogoutButton
+    onClick={[MockFunction]}
+    small={true}
+    variant="tertiary-light"
+  >
+    <UserProfile__UserAvatar
+      alt=""
+      role="presentation"
+      src="http://foo.b.ar/photo.jpg"
+    />
+    <UserProfile__UserName
+      data-test="username"
+    >
+      foo@b.ar
+    </UserProfile__UserName>
+  </UserProfile__LogoutButton>
+</Tooltip>
+`;

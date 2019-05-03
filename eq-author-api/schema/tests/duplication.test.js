@@ -1,29 +1,29 @@
 const { last, omit } = require("lodash");
 
-const {
-  buildQuestionnaire,
-} = require("../../tests/utils/questionnaireBuilder");
+const { buildContext } = require("../../tests/utils/contextBuilder");
 
 const {
   queryQuestionnaire,
   deleteQuestionnaire,
   duplicateQuestionnaire,
-} = require("../../tests/utils/questionnaireBuilder/questionnaire");
+} = require("../../tests/utils/contextBuilder/questionnaire");
 
 const {
   querySection,
   deleteSection,
   duplicateSection,
-} = require("../../tests/utils/questionnaireBuilder/section");
+} = require("../../tests/utils/contextBuilder/section");
 
 const {
   queryPage,
   deletePage,
   duplicatePage,
-} = require("../../tests/utils/questionnaireBuilder/page");
+} = require("../../tests/utils/contextBuilder/page");
+
+const { getQuestionnaire } = require("../../utils/datastore");
 
 describe("Duplication", () => {
-  let questionnaire, section;
+  let ctx, questionnaire, section;
   let config = {
     shortTitle: "short title",
     sections: [
@@ -41,25 +41,26 @@ describe("Duplication", () => {
   };
 
   beforeEach(async () => {
-    questionnaire = await buildQuestionnaire(config);
+    ctx = await buildContext(config);
+    questionnaire = ctx.questionnaire;
     section = last(questionnaire.sections);
   });
 
   afterEach(async () => {
-    await deleteQuestionnaire(questionnaire.id);
+    await deleteQuestionnaire(ctx, questionnaire.id);
   });
 
   describe("duplicate a page", async () => {
     let page, pageCopy;
 
     beforeEach(async () => {
-      page = await queryPage(questionnaire, last(section.pages).id);
-      let { id } = await duplicatePage(questionnaire, page);
-      pageCopy = await queryPage(questionnaire, id);
+      page = await queryPage(ctx, last(section.pages).id);
+      let { id } = await duplicatePage(ctx, page);
+      pageCopy = await queryPage(ctx, id);
     });
 
     afterEach(async () => {
-      await deletePage(questionnaire, pageCopy.id);
+      await deletePage(ctx, pageCopy.id);
     });
 
     it("should copy page with answers and question confirmation", () => {
@@ -88,13 +89,13 @@ describe("Duplication", () => {
     let sectionCopy;
 
     beforeEach(async () => {
-      queriedSection = await querySection(questionnaire, section.id);
-      let { id } = await duplicateSection(questionnaire, queriedSection);
-      sectionCopy = await querySection(questionnaire, id);
+      queriedSection = await querySection(ctx, section.id);
+      let { id } = await duplicateSection(ctx, queriedSection);
+      sectionCopy = await querySection(ctx, id);
     });
 
     afterEach(async () => {
-      await deleteSection(questionnaire, sectionCopy.id);
+      await deleteSection(ctx, sectionCopy.id);
     });
 
     it("should copy section with pages", () => {
@@ -136,15 +137,24 @@ describe("Duplication", () => {
     let queriedQuestionnaire;
     let questionnaireCopy;
     let duplicatedQuestionnaire;
+    let databaseCopy;
+    let duplicatedContext;
 
     beforeEach(async () => {
-      queriedQuestionnaire = await queryQuestionnaire(questionnaire);
-      duplicatedQuestionnaire = await duplicateQuestionnaire(questionnaire);
-      questionnaireCopy = await queryQuestionnaire(duplicatedQuestionnaire);
+      queriedQuestionnaire = await queryQuestionnaire(ctx);
+      duplicatedQuestionnaire = await duplicateQuestionnaire(ctx);
+      databaseCopy = await getQuestionnaire(duplicatedQuestionnaire.id);
+
+      duplicatedContext = {
+        questionnaire: databaseCopy,
+        user: ctx.user,
+      };
+
+      questionnaireCopy = await queryQuestionnaire(duplicatedContext);
     });
 
     afterEach(async () => {
-      await deleteQuestionnaire(questionnaireCopy.id);
+      await deleteQuestionnaire(duplicatedContext, questionnaireCopy.id);
     });
 
     it("should copy questionnaire with sections and pages", () => {

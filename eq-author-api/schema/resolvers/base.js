@@ -3,7 +3,6 @@ const {
   compact,
   includes,
   isNil,
-  pick,
   find,
   findIndex,
   merge,
@@ -15,7 +14,6 @@ const {
   first,
   some,
   concat,
-  kebabCase,
 } = require("lodash");
 const GraphQLJSON = require("graphql-type-json");
 const { getName } = require("../../utils/getName");
@@ -58,6 +56,7 @@ const {
   saveQuestionnaire,
   deleteQuestionnaire,
   getQuestionnaire,
+  getUserById,
 } = require("../../utils/datastore");
 
 const {
@@ -86,19 +85,14 @@ const createSection = (input = {}) => ({
 const createNewQuestionnaire = input => {
   const defaultQuestionnaire = {
     id: uuid.v4(),
-    title: null,
-    description: null,
     theme: "default",
     legalBasis: "Voluntary",
     navigation: false,
-    surveyId: "",
     createdAt: new Date(),
     metadata: [],
     sections: [createSection()],
     summary: false,
     version: currentVersion,
-    shortTitle: "",
-    introduction: null,
   };
 
   let changes = {};
@@ -137,18 +131,14 @@ const Resolvers = {
 
       return { pageId: page.id, ...confirmationPage };
     },
-    me: (root, args, ctx) => ({
-      id: ctx.auth.sub,
-      ...pick(ctx.auth, ["name", "email", "picture"]),
-      name: ctx.auth.name || ctx.auth.email,
-    }),
+    me: (root, args, ctx) => ctx.user,
   },
 
   Mutation: {
     createQuestionnaire: async (root, args, ctx) => {
       const questionnaire = createNewQuestionnaire({
         ...args.input,
-        createdBy: ctx.auth.name || ctx.auth.email,
+        createdBy: ctx.user.id,
       });
       // Saving to ctx so it can be used by all other resolvers and read by tests
       ctx.questionnaire = await createQuestionnaire(questionnaire);
@@ -159,20 +149,21 @@ const Resolvers = {
       await saveQuestionnaire(ctx.questionnaire);
       return ctx.questionnaire;
     },
-    deleteQuestionnaire: async (_, { input }) => {
+    deleteQuestionnaire: async (_, { input }, ctx) => {
       await deleteQuestionnaire(input.id);
+      ctx.questionnaire = null;
       return { id: input.id };
     },
 
-    duplicateQuestionnaire: async (_, { input }) => {
+    duplicateQuestionnaire: async (_, { input }, ctx) => {
       const questionnaire = await getQuestionnaire(input.id);
       const newQuestionnaire = {
         ...questionnaire,
         title: addPrefix(questionnaire.title),
         shortTitle: addPrefix(questionnaire.shortTitle),
         id: uuid.v4(),
+        createdBy: ctx.user.id,
       };
-
       return createQuestionnaire(newQuestionnaire);
     },
     createSection: async (root, { input }, ctx) => {
@@ -488,16 +479,15 @@ const Resolvers = {
 
   Questionnaire: {
     sections: questionnaire => questionnaire.sections,
-    createdBy: ({ createdBy }) => {
-      return {
-        id: kebabCase(createdBy), // Temporary until next PR introduces users table.
-        name: createdBy,
-      };
-    },
+    createdBy: questionnaire => getUserById(questionnaire.createdBy),
     questionnaireInfo: questionnaire => questionnaire,
     metadata: questionnaire => questionnaire.metadata,
     displayName: questionnaire =>
       questionnaire.shortTitle || questionnaire.title,
+  },
+
+  User: {
+    displayName: user => user.name || user.email,
   },
 
   QuestionnaireInfo: {

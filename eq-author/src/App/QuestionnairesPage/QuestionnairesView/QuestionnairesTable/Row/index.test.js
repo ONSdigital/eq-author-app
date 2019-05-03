@@ -38,6 +38,8 @@ describe("Row", () => {
         ],
         createdBy: {
           name: "Alan",
+          email: "Alan@Hello.com",
+          displayName: "Alan",
         },
       },
     };

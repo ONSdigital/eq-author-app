@@ -1,10 +1,8 @@
-const {
-  buildQuestionnaire,
-} = require("../../tests/utils/questionnaireBuilder");
+const { buildContext } = require("../../tests/utils/contextBuilder");
 
 const {
   deleteQuestionnaire,
-} = require("../../tests/utils/questionnaireBuilder/questionnaire");
+} = require("../../tests/utils/contextBuilder/questionnaire");
 const {
   createAnswer,
   updateAnswer,
@@ -12,23 +10,24 @@ const {
   queryAnswer,
   deleteAnswer,
   moveAnswer,
-} = require("../../tests/utils/questionnaireBuilder/answer");
+} = require("../../tests/utils/contextBuilder/answer");
 
 const { NUMBER, CURRENCY, TEXTFIELD } = require("../../constants/answerTypes");
 
 describe("basic answer", () => {
-  let questionnaire;
+  let ctx, questionnaire;
   afterEach(async () => {
-    await deleteQuestionnaire(questionnaire.id);
+    await deleteQuestionnaire(ctx, questionnaire.id);
   });
 
   describe("create", () => {
     it("should create an answer", async () => {
-      questionnaire = await buildQuestionnaire({
+      ctx = await buildContext({
         sections: [{ pages: [{}] }],
       });
+      questionnaire = ctx.questionnaire;
 
-      const answer = await createAnswer(questionnaire, {
+      const answer = await createAnswer(ctx, {
         description: "answer-description",
         guidance: "answer-guidance",
         label: "answer-label",
@@ -52,7 +51,7 @@ describe("basic answer", () => {
 
   describe("mutate", () => {
     it("should mutate an answer", async () => {
-      questionnaire = await buildQuestionnaire({
+      ctx = await buildContext({
         sections: [
           {
             pages: [
@@ -76,6 +75,8 @@ describe("basic answer", () => {
           },
         ],
       });
+      questionnaire = ctx.questionnaire;
+
       const answer = questionnaire.sections[0].pages[0].answers[0];
       const update = {
         id: answer.id,
@@ -88,14 +89,14 @@ describe("basic answer", () => {
           required: true,
         },
       };
-      const updatedAnswer = await updateAnswer(questionnaire, update);
+      const updatedAnswer = await updateAnswer(ctx, update);
       expect(updatedAnswer).toMatchObject(update);
     });
   });
 
   describe("group update", () => {
     it("should update the properties of a number of answers", async () => {
-      questionnaire = await buildQuestionnaire({
+      ctx = await buildContext({
         sections: [
           {
             pages: [
@@ -125,10 +126,10 @@ describe("basic answer", () => {
           },
         ],
       });
-
+      questionnaire = ctx.questionnaire;
       const page = questionnaire.sections[0].pages[0];
 
-      const updatedAnswers = await updateAnswersOfType(questionnaire, {
+      const updatedAnswers = await updateAnswersOfType(ctx, {
         questionPageId: page.id,
         type: NUMBER,
         properties: {
@@ -151,17 +152,14 @@ describe("basic answer", () => {
         },
       ]);
 
-      const queriedAnswer = await queryAnswer(
-        questionnaire,
-        page.answers[2].id
-      );
+      const queriedAnswer = await queryAnswer(ctx, page.answers[2].id);
       expect(queriedAnswer.properties.decimals).toEqual(0);
     });
   });
 
   describe("moving", () => {
     it("should be able to be moved forward", async () => {
-      questionnaire = await buildQuestionnaire({
+      ctx = await buildContext({
         sections: [
           {
             pages: [
@@ -176,13 +174,14 @@ describe("basic answer", () => {
           },
         ],
       });
+      questionnaire = ctx.questionnaire;
 
       const answers = questionnaire.sections[0].pages[0].answers;
       const currentAnswerOrder = answers.map(a => a.id);
 
       const answerToMoveId = currentAnswerOrder[0];
 
-      const movedAnswer = await moveAnswer(questionnaire, {
+      const movedAnswer = await moveAnswer(ctx, {
         id: answerToMoveId,
         position: 1,
       });
@@ -194,7 +193,7 @@ describe("basic answer", () => {
     });
 
     it("should be able to be moved backward", async () => {
-      questionnaire = await buildQuestionnaire({
+      ctx = await buildContext({
         sections: [
           {
             pages: [
@@ -209,11 +208,12 @@ describe("basic answer", () => {
           },
         ],
       });
+      questionnaire = ctx.questionnaire;
 
       const answers = questionnaire.sections[0].pages[0].answers;
       const currentAnswerOrder = answers.map(a => a.id);
 
-      const movedAnswer = await moveAnswer(questionnaire, {
+      const movedAnswer = await moveAnswer(ctx, {
         id: currentAnswerOrder[2],
         position: 1,
       });
@@ -229,7 +229,7 @@ describe("basic answer", () => {
     let answer, queriedAnswer;
 
     beforeEach(async () => {
-      questionnaire = await buildQuestionnaire({
+      ctx = await buildContext({
         sections: [
           {
             pages: [
@@ -252,8 +252,9 @@ describe("basic answer", () => {
           },
         ],
       });
+      questionnaire = ctx.questionnaire;
       answer = questionnaire.sections[0].pages[0].answers[0];
-      queriedAnswer = await queryAnswer(questionnaire, answer.id);
+      queriedAnswer = await queryAnswer(ctx, answer.id);
     });
 
     it("should resolve answer fields", () => {
@@ -301,7 +302,7 @@ describe("basic answer", () => {
 
   describe("delete", () => {
     it("should delete an answer", async () => {
-      questionnaire = await buildQuestionnaire({
+      ctx = await buildContext({
         sections: [
           {
             pages: [
@@ -316,14 +317,15 @@ describe("basic answer", () => {
           },
         ],
       });
+      questionnaire = ctx.questionnaire;
       const answer = questionnaire.sections[0].pages[0].answers[0];
-      await deleteAnswer(questionnaire, answer.id);
-      const deletedAnswer = await queryAnswer(questionnaire, answer.id);
+      await deleteAnswer(ctx, answer.id);
+      const deletedAnswer = await queryAnswer(ctx, answer.id);
       expect(deletedAnswer).toBeNull();
     });
 
     it("should return the page", async () => {
-      questionnaire = await buildQuestionnaire({
+      ctx = await buildContext({
         sections: [
           {
             pages: [
@@ -338,8 +340,9 @@ describe("basic answer", () => {
           },
         ],
       });
+      questionnaire = ctx.questionnaire;
       const answer = questionnaire.sections[0].pages[0].answers[0];
-      const page = await deleteAnswer(questionnaire, answer.id);
+      const page = await deleteAnswer(ctx, answer.id);
       expect(page.id).toEqual(questionnaire.sections[0].pages[0].id);
     });
   });

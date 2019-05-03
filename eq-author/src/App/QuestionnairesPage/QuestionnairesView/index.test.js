@@ -55,6 +55,8 @@ const buildQuestionnaire = (index, overrides) => ({
   createdBy: {
     id: `user${index}`,
     name: `User #${index}`,
+    email: `User mail${index}`,
+    displayName: `User #${index}`,
   },
   ...overrides,
 });

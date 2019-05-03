@@ -2,39 +2,37 @@ const { filter } = require("graphql-anywhere");
 const gql = require("graphql-tag");
 const { get, last } = require("lodash");
 
-const {
-  buildQuestionnaire,
-} = require("../../tests/utils/questionnaireBuilder");
+const { buildContext } = require("../../tests/utils/contextBuilder");
 
 const {
   deleteQuestionnaire,
   queryQuestionnaire,
-} = require("../../tests/utils/questionnaireBuilder/questionnaire");
+} = require("../../tests/utils/contextBuilder/questionnaire");
 const {
   createSection,
   updateSection,
   querySection,
   deleteSection,
   moveSection,
-} = require("../../tests/utils/questionnaireBuilder/section");
+} = require("../../tests/utils/contextBuilder/section");
 
 const { NUMBER } = require("../../constants/answerTypes");
 
 describe("section", () => {
-  let questionnaire;
+  let ctx, questionnaire;
 
   afterEach(async () => {
-    await deleteQuestionnaire(questionnaire.id);
-    questionnaire = null;
+    await deleteQuestionnaire(ctx, questionnaire.id);
   });
 
   describe("create", () => {
     beforeAll(async () => {
-      questionnaire = await buildQuestionnaire({});
+      ctx = await buildContext({});
+      questionnaire = ctx.questionnaire;
     });
 
     it("should create a section", async () => {
-      const createdSection = await createSection(questionnaire, {
+      const createdSection = await createSection(ctx, {
         title: "Title",
         alias: "Alias",
         questionnaireId: questionnaire.id,
@@ -64,9 +62,10 @@ describe("section", () => {
 
   describe("mutate", () => {
     beforeAll(async () => {
-      questionnaire = await buildQuestionnaire({
+      ctx = await buildContext({
         sections: [{}],
       });
+      questionnaire = ctx.questionnaire;
     });
 
     it("should mutate a section", async () => {
@@ -78,28 +77,29 @@ describe("section", () => {
         introductionTitle: "Questionnaire-updated-title",
         introductionContent: "Alias-updated-content",
       };
-      const updatedSection = await updateSection(questionnaire, update);
+      const updatedSection = await updateSection(ctx, update);
       expect(updatedSection).toEqual(expect.objectContaining(update));
     });
   });
 
   describe("move", () => {
     beforeEach(async () => {
-      questionnaire = await buildQuestionnaire({
+      ctx = await buildContext({
         sections: [{}, {}],
       });
+      questionnaire = ctx.questionnaire;
     });
 
     it("should be able to move a section later", async () => {
       const sectionToMoveId = questionnaire.sections[0].id;
       const secondSectionId = questionnaire.sections[1].id;
 
-      await moveSection(questionnaire, {
+      await moveSection(ctx, {
         id: sectionToMoveId,
         questionnaireId: questionnaire.id,
         position: 1,
       });
-      const { sections } = await queryQuestionnaire(questionnaire);
+      const { sections } = await queryQuestionnaire(ctx);
       expect(sections.map(s => s.id)).toEqual([
         secondSectionId,
         sectionToMoveId,
@@ -110,12 +110,12 @@ describe("section", () => {
       const firstSectionId = questionnaire.sections[0].id;
       const sectionToMoveId = questionnaire.sections[1].id;
 
-      await moveSection(questionnaire, {
+      await moveSection(ctx, {
         id: sectionToMoveId,
         questionnaireId: questionnaire.id,
         position: 0,
       });
-      const { sections } = await queryQuestionnaire(questionnaire);
+      const { sections } = await queryQuestionnaire(ctx);
       expect(sections.map(s => s.id)).toEqual([
         sectionToMoveId,
         firstSectionId,
@@ -127,7 +127,7 @@ describe("section", () => {
     let queriedSection;
 
     beforeEach(async () => {
-      questionnaire = await buildQuestionnaire({
+      ctx = await buildContext({
         metadata: [{}],
         sections: [
           {
@@ -143,10 +143,8 @@ describe("section", () => {
           },
         ],
       });
-      queriedSection = await querySection(
-        questionnaire,
-        questionnaire.sections[1].id
-      );
+      questionnaire = ctx.questionnaire;
+      queriedSection = await querySection(ctx, questionnaire.sections[1].id);
     });
 
     it("should resolve section fields", () => {
@@ -181,12 +179,13 @@ describe("section", () => {
 
   describe("delete", () => {
     it("should delete a section", async () => {
-      questionnaire = await buildQuestionnaire({
+      ctx = await buildContext({
         sections: [{}],
       });
+      questionnaire = ctx.questionnaire;
       const section = questionnaire.sections[0];
-      await deleteSection(questionnaire, section.id);
-      const deletedSection = await querySection(questionnaire, section.id);
+      await deleteSection(ctx, section.id);
+      const deletedSection = await querySection(ctx, section.id);
       expect(deletedSection).toBeNull();
     });
   });

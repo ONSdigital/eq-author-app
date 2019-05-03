@@ -11,9 +11,10 @@ directive @deprecated(
 
 type User {
   id: ID!
-  name: String!
+  name: String
   picture: String
   email: String
+  displayName: String!
 }
 
 type QuestionnaireInfo {
@@ -43,6 +44,10 @@ type Questionnaire {
   shortTitle: String
   displayName: String!
   introduction: QuestionnaireIntroduction
+}
+
+type DeletedQuestionnaire {
+  id: ID!
 }
 
 type Section {
@@ -513,7 +518,7 @@ input QueryInput {
 type Mutation {
   createQuestionnaire(input: CreateQuestionnaireInput!): Questionnaire
   updateQuestionnaire(input: UpdateQuestionnaireInput!): Questionnaire
-  deleteQuestionnaire(input: DeleteQuestionnaireInput!): Questionnaire
+  deleteQuestionnaire(input: DeleteQuestionnaireInput!): DeletedQuestionnaire
   duplicateQuestionnaire(input: DuplicateQuestionnaireInput!): Questionnaire
   createSection(input: CreateSectionInput!): Section
   updateSection(input: UpdateSectionInput!): Section

@@ -1,0 +1,43 @@
+keys:
+  publisherAuthSigningKey:
+    value: |
+      -----BEGIN RSA PRIVATE KEY-----
+      MIIEpAIBAAKCAQEApEJbinF5XUgXS9MTqwYyDClmEYHQRW4T20ofE+9568GVAGwy
+      n80T0F8sLM3bW9GNj3xxnd/4NKG/E8kD3pXNq2IdBoCpr6OOJgs/JY+5aztOIQpl
+      cxzy0jH6BPAVBkmNwmx1ebsDRdZMjQwvOAFTce/8vhH+xRFFChX5cE3n3MZg+5Fy
+      DlXePbXNWwHEY0CWLD317FNKJt1IS5JanjY0jHKX3/+wifKiZ3y03OwMLH9BEMTG
+      dw5rQlKq48hW2ZYFrvqYN/jqVG5BSVjUu6uZoLu+Bjn93Yk9rCyIkDYSlp924aXC
+      pWR/vDvfw8wW9OOqQlYmuoKjz3YQ5rNGLUfGYQIDAQABAoIBABtFjS9KMc1EB+Il
+      9HEDwVF1miWz+OFeKlvRTaGgtAxpgpSkYi9X/D8vXgU+VHpFK4y0K6T7p5kNdc0S
+      JdtR4ejfjFQlDodDz3kPivdwimd8XDduI3PeTY6Kj6k8NzFpCulJ2qNQYnW449LT
+      QA+7YKBdKQhhsnwDpwPKrDRyKtnjrdLJCbricWqRk1cCOQgeyY4is8NX3FETjLvF
+      VDX5/fhptiEvtW+41VEJUQjN7GsQ6lS8lRmWkFOlMMmX+YN9pe8GEaP4CRvjWVcq
+      bBzew+GP6BFcpMKUtootdc0WfhBgFABC0cPR9L2CFdrqwrCrwr6VPFjtG12KBvrw
+      K+WeHcUCgYEA1ovQAIEWFrv0V6CNz+07O4IjmHPNVwnReP+qWGrNthf6t/u9UWt/
+      PrlhI4L+SO2zbipVHwx9TnfbVfaiX1OzgAi7dsUMxrUXhgIDVQ1mVb5Wu/66jiYB
+      uAYzlxKx7JJ+ZLiVMokBc2/sw1oU88SBdp/J8isD6fNAiVCL1toOdM8CgYEAw/8u
+      Vs2Xk3DW/U1YBvIDhtOxb5v20WB6dn9DyfCiEP8lNejf2SsOFIOUPMSaMEtaFXGB
+      /ExvtK2J+oosvX5sQ526zDt576EFoLRLVBPvR2feoQUm4IBSxWjlTG8KQBBcKZvt
+      0AT12Eq8ny1mitcEOV4VdwVtKvbJIJvMCQ6ePc8CgYBpXbzHop3wiFpV9rnu1flz
+      HlTQ+H5uMpo3rIhCaCGjPl+Zn/64T+zsJyr3v8uWkXa/sfagCwg3U1HbBAd2far4
+      RFGc4OWHaUSmQbLVQIFztsjuBwoj6bKKaDFKDppnLwL4AFb1vKeDxAIpZsJHfch/
+      M7aAQnPnn9mgFni3CdxzrQKBgQCCRZJfT7d34ICFTGs98o41h29gZ6Hd+Ops6Jn+
+      F1shQPVSp75hciShrfNRkLuLbgoqRo/HSmbVCKO1SzIBoY4EQ0pthPq/M5+x+SQ4
+      dieMppVrISl9/s0FOXtvGj8N5dHcNjATG7jsUoCcrGiDz/aWytopignNjMqSSfuL
+      6ZN0MQKBgQCfJfk/SOl+niT7gdyN+Fc+TNwBoTIsrIm6VOOkDSCxKR5qY0cIAE1j
+      yZW1CKeZg5kcYP66JmGAFZq87ouHygCXFkZkcaboYjV6URL+4vRRiQYt4TUQGiJm
+      LKpPms/WjRAUCxnsslcURTcTYehZAeOAic9ITWv1ppr6AN3AL71qdQ==
+      -----END RSA PRIVATE KEY-----
+    use: signing
+  publisherAuthPublicKey:
+    value: |
+      -----BEGIN PUBLIC KEY-----
+      MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApEJbinF5XUgXS9MTqwYy
+      DClmEYHQRW4T20ofE+9568GVAGwyn80T0F8sLM3bW9GNj3xxnd/4NKG/E8kD3pXN
+      q2IdBoCpr6OOJgs/JY+5aztOIQplcxzy0jH6BPAVBkmNwmx1ebsDRdZMjQwvOAFT
+      ce/8vhH+xRFFChX5cE3n3MZg+5FyDlXePbXNWwHEY0CWLD317FNKJt1IS5JanjY0
+      jHKX3/+wifKiZ3y03OwMLH9BEMTGdw5rQlKq48hW2ZYFrvqYN/jqVG5BSVjUu6uZ
+      oLu+Bjn93Yk9rCyIkDYSlp924aXCpWR/vDvfw8wW9OOqQlYmuoKjz3YQ5rNGLUfG
+      YQIDAQAB
+      -----END PUBLIC KEY-----
+    use: verifying

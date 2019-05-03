@@ -172,7 +172,18 @@ export class Row extends React.Component {
   };
 
   render() {
-    const { questionnaire, ...rest } = this.props;
+    const {
+      questionnaire: {
+        id,
+        shortTitle,
+        createdBy,
+        title,
+        createdAt,
+        displayName,
+        updatedAt,
+      },
+      ...rest
+    } = this.props;
 
     return (
       <>
@@ -187,27 +198,27 @@ export class Row extends React.Component {
             <TD>
               <QuestionnaireLink
                 data-test="anchor-questionnaire-title"
-                title={questionnaire.displayName}
+                title={displayName}
                 onClick={this.handleLinkClick}
                 to={buildQuestionnairePath({
-                  questionnaireId: questionnaire.id,
+                  questionnaireId: id,
                 })}
               >
-                {questionnaire.shortTitle && (
+                {shortTitle && (
                   <ShortTitle>
-                    <Truncated>{questionnaire.shortTitle}</Truncated>
+                    <Truncated>{shortTitle}</Truncated>
                   </ShortTitle>
                 )}
-                <Truncated>{questionnaire.title}</Truncated>
+                <Truncated>{title}</Truncated>
               </QuestionnaireLink>
             </TD>
             <TD>
-              <FormattedDate date={questionnaire.createdAt} />
+              <FormattedDate date={createdAt} />
             </TD>
             <TD>
-              <FormattedDate date={questionnaire.updatedAt} />
+              <FormattedDate date={updatedAt} />
             </TD>
-            <TD>{questionnaire.createdBy.name}</TD>
+            <TD>{createdBy.displayName}</TD>
             <TD>
               <div
                 onFocus={this.handleButtonFocus}
@@ -232,7 +243,7 @@ export class Row extends React.Component {
           isOpen={this.state.showDeleteModal}
           onClose={this.handleModalClose}
           onDelete={this.handleModalConfirm}
-          title={questionnaire.displayName}
+          title={displayName}
           alertText="This questionnaire including all sections and questions will be deleted."
           icon={questionConfirmationIcon}
           data-test="delete-questionnaire"

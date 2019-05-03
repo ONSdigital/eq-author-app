@@ -5,6 +5,7 @@ const updateMetadataValue = require("./updateMetadataValue");
 const addBusinessQuestionnaireIntroduction = require("./addBusinessQuestionnaireIntroduction");
 const dropDatatypeFieldFromPipedValues = require("./dropDatatypeFieldFromPipedValues");
 const addTotalValidation = require("./addTotalValidation");
+const { updateCreatedByToUseUsers } = require("./updateCreatedByToUseUsers");
 
 const migrations = [
   addVersion,
@@ -14,6 +15,7 @@ const migrations = [
   addBusinessQuestionnaireIntroduction,
   dropDatatypeFieldFromPipedValues,
   addTotalValidation,
+  updateCreatedByToUseUsers,
 ];
 
 const currentVersion = migrations.length;

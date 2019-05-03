@@ -57,8 +57,7 @@
       "!**/tests/**/*",
       "!scripts/*",
       "!middleware/import.js",
-      "!app.js",
-      "!utils/datastoreFileSystem.js"
+      "!app.js"
     ],
     "watchPathIgnorePatterns": [
       "data/"
