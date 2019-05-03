@@ -79,6 +79,32 @@ describe("GroupValidations", () => {
     expect(wrapper.find(TotalButton).text()).toContain("Some answer");
   });
 
+  it("should show the condition", () => {
+    props.totalValidation = {
+      ...props.totalValidation,
+      enabled: true,
+      entityType: "Custom",
+      custom: 5,
+      condition: "GreaterThan",
+    };
+    props.type = PERCENTAGE;
+    const wrapper = mount(<GroupValidations {...props} />);
+    expect(wrapper.find(TotalButton).text()).toContain("more than");
+  });
+
+  it("should not show the condition when there is no value", () => {
+    props.totalValidation = {
+      ...props.totalValidation,
+      enabled: true,
+      entityType: "Custom",
+      custom: null,
+      condition: "GreaterThan",
+    };
+    props.type = PERCENTAGE;
+    const wrapper = mount(<GroupValidations {...props} />);
+    expect(wrapper.find(TotalButton).text()).not.toContain("more than");
+  });
+
   it("should show the modal when the button is clicked", () => {
     const wrapper = shallow(<GroupValidations {...props} />);
     wrapper.find(TotalButton).simulate("click");

@@ -59,6 +59,7 @@ export const TotalValidationEditor = ({
               aria-label="Total"
               id="condition"
               data-test="total-condition-select"
+              defaultValue={total.condition}
             >
               <option value="Equal">(=) Equal to</option>
               <option value="GreaterThan">(&gt;) More than</option>
