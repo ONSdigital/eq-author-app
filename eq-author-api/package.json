@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "apollo-server-express": "latest",
+    "body-parser": "latest",
     "chalk": "latest",
     "cheerio": "latest",
     "cors": "latest",
@@ -40,9 +41,6 @@
     "uuid": "latest",
     "wait-on": "latest"
   },
-  "engines": {
-    "node": ">=7.10.0"
-  },
   "jest": {
     "testEnvironment": "node",
     "coverageDirectory": "./coverage/",
@@ -67,6 +65,7 @@
     "eslint": "latest",
     "eslint-config-eq-author": "latest",
     "jest": "latest",
-    "nodemon": "latest"
+    "nodemon": "latest",
+    "supertest": "latest"
   }
 }
