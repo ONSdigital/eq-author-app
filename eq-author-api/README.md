@@ -31,6 +31,7 @@ In most cases sensible defaults have been selected.
 | `PORT`                  | The port which express listens on (defaults to `4000`)                                                                                               | No       |
 | `NODE_ENV`              | Sets the environment the code is running in                                                                                                          | No       |
 | `DATASTORE`             | Sets place we store the data, allows us to have the data stored locally in JSON files which makes debugging easier (for this set it to `filesystem`) | No       |
+| `ENABLE_IMPORT`         | When enabled it exposes a post endpoint for importing questionnaires                                                                                 | No       |
 
 ## Run using Docker
 
@@ -76,3 +77,10 @@ To set up AWS access you first need to install [AWS Command Line Interface](http
 Then follow the [instructions for setting up the CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html).
 
 For available commands, see [reference for CLI](https://docs.aws.amazon.com/cli/latest/index.html).
+
+## Import/Export
+
+It is possible to retrieve the full questionnaire data by making a `GET` request to `/export/:questionnaireId`
+
+When the environment variable `ENABLE_IMPORT` is set to `true` then it exposes `/import` which will take the
+`POST` body and save it to the database. It performs no validation as it does this.
