@@ -5,6 +5,8 @@ import PropTypes from "prop-types";
 import { colors } from "constants/theme";
 import DeleteButton from "components/buttons/DeleteButton";
 
+const ANIMATION_DURATION = 100;
+
 export const CloseButton = styled(DeleteButton).attrs({
   "aria-label": "Close",
   size: "medium",
@@ -51,7 +53,7 @@ const StyledModal = styled(ReactModalAdapter).attrs({
 
     transform: scale(0.8);
     transform-origin: center center;
-    transition: all 100ms ease-in 50ms;
+    transition: all ${ANIMATION_DURATION}ms ease-in 50ms;
     opacity: 0;
 
     &--after-open {
@@ -71,7 +73,7 @@ const StyledModal = styled(ReactModalAdapter).attrs({
     left: 0;
     right: 0;
     bottom: 0;
-    transition: opacity 100ms ease-out;
+    transition: opacity ${ANIMATION_DURATION}ms ease-out;
     display: flex;
     justify-content: center;
     z-index: 9999999;
@@ -100,25 +102,43 @@ class Modal extends React.Component {
     hasCloseButton: true,
   };
 
+  state = {
+    open: this.props.isOpen,
+  };
+
   componentDidMount() {
     document.addEventListener("hashchange", this.props.onClose);
   }
 
   componentWillUnmount() {
     document.removeEventListener("hashchange", this.props.onClose);
+    if (this.timeoutId) {
+      clearTimeout(this.timeoutId);
+      this.timeoutId = null;
+    }
+  }
+
+  componentWillUpdate(nextProps) {
+    const isClosing = this.props.isOpen && !nextProps.isOpen;
+    const isOpening = !this.props.isOpen && nextProps.isOpen;
+    if (isClosing) {
+      this.timeoutId = setTimeout(() => {
+        this.setState({ open: false });
+      }, ANIMATION_DURATION);
+    }
+    if (isOpening) {
+      this.setState({ open: true });
+    }
   }
 
   render() {
-    const {
-      children,
-      isOpen,
-      onClose,
-      hasCloseButton,
-      ...otherProps
-    } = this.props;
+    const { children, onClose, hasCloseButton, ...otherProps } = this.props;
+    if (!this.state.open) {
+      return null;
+    }
     return (
       <StyledModal
-        isOpen={isOpen}
+        isOpen={this.state.open}
         onRequestClose={onClose}
         shouldCloseOnOverlayClick
         closeTimeoutMS={300}
