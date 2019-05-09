@@ -20,7 +20,7 @@
     "cors": "latest",
     "deep-map": "^1.5",
     "dotenv": "latest",
-    "dynamoose": "latest",
+    "dynamoose": "onsdigital/dynamoose#bug-static-original-item",
     "express": "latest",
     "express-pino-logger": "latest",
     "graphql": "latest",
