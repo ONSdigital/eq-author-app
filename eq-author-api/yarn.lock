@@ -262,6 +262,11 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.12.20.tgz#f79f959acd3422d0889bd1ead1664bd2d17cd367"
   integrity sha512-9spv6SklidqxevvZyOUGjZVz4QRXGu2dNaLyXIFzFYZW0AGDykzPRIUFJXTlQXyfzAucddwTcGtJNim8zqSOPA==
 
+"@types/node@11.11.0":
+  version "11.11.0"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-11.11.0.tgz#070e9ce7c90e727aca0e0c14e470f9a93ffe9390"
+  integrity sha512-D5Rt+HXgEywr3RQJcGlZUCTCx1qVbCZpVk3/tOOA6spLNZdGm8BU+zRgdRYDoF1pO3RuXLxADzMrF903JlQXqg==
+
 "@types/node@^10.1.0":
   version "10.12.25"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.12.25.tgz#0d01a7dd6127de60d861ece4a650963042abb538"
@@ -1609,11 +1614,11 @@ dynamodb-admin@latest:
     lodash "^4.17.11"
     opn "^5.4.0"
 
-dynamoose@latest:
-  version "1.6.4"
-  resolved "https://registry.yarnpkg.com/dynamoose/-/dynamoose-1.6.4.tgz#0ed71eef7460d4fbdcb4bc7ee1af5612a7c4ae6e"
-  integrity sha512-wwpCQTmZMvVID68BYf3S6gaaG+4nphThLPYFK6NF9pycJpQnyNAH1nyTfzsvDau8JUrvaR0jGuRM9iaJFJBW5A==
+dynamoose@onsdigital/dynamoose#bug-static-original-item:
+  version "1.7.2"
+  resolved "https://codeload.github.com/onsdigital/dynamoose/tar.gz/e3a014a2cdb43f62dbf502bb7d5a059f642dd693"
   dependencies:
+    "@types/node" "11.11.0"
     aws-sdk "2.395.0"
     debug "4.1.1"
     deep-equal "1.0.1"
