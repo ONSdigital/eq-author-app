@@ -30,6 +30,7 @@ describe("components/Header", () => {
       <UnconnectedHeader
         raiseToast={raiseToast}
         signOutUser={handleSignOut}
+        title="test-title"
         {...props}
       />
     );
@@ -141,7 +142,9 @@ describe("withCurrentUser", () => {
     };
 
     expect(
-      shallow(<WrappedComponent {...defaultProps} match={match} />)
+      shallow(
+        <WrappedComponent {...defaultProps} match={match} title="test-title" />
+      )
     ).toMatchSnapshot();
   });
 
@@ -150,7 +153,9 @@ describe("withCurrentUser", () => {
       path: Routes.QUESTIONNAIRE,
     };
     expect(
-      shallow(<WrappedComponent {...defaultProps} match={match} />)
+      shallow(
+        <WrappedComponent {...defaultProps} match={match} title="test-title" />
+      )
     ).toMatchSnapshot();
   });
 });

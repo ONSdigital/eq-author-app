@@ -11,6 +11,8 @@ describe("QuestionnairesTable", () => {
     {
       id: "1",
       displayName: "Foo",
+      title: "Foo",
+      shortTitle: "",
       createdAt: "2017/01/02",
       sections: [
         {
@@ -26,6 +28,8 @@ describe("QuestionnairesTable", () => {
     {
       id: "2",
       displayName: "Bar",
+      title: "Bar",
+      shortTitle: "",
       createdAt: "2017/03/04",
       sections: [
         {

@@ -14,7 +14,13 @@ exports[`components/Header renders correctly  1`] = `
       />
     </Header__Logo>
   </Header__LogoContainer>
-  <Header__QuestionnaireTitle />
+  <Header__QuestionnaireTitle>
+    <Header__Title
+      data-test="questionnaire-title"
+    >
+      test-title
+    </Header__Title>
+  </Header__QuestionnaireTitle>
   <Header__UtilityBtns />
 </Header__StyledHeader>
 `;
@@ -80,6 +86,7 @@ exports[`withCurrentUser should not query for user info when on the sign-in page
   }
   raiseToast={[MockFunction]}
   signOutUser={[MockFunction]}
+  title="test-title"
 />
 `;
 

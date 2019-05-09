@@ -93,6 +93,7 @@ export class UnconnectedHeader extends React.Component {
     questionnaire: CustomPropTypes.questionnaire,
     signOutUser: PropTypes.func.isRequired,
     raiseToast: PropTypes.func.isRequired,
+    title: PropTypes.string.isRequired,
   };
 
   displayToast = () => {
@@ -118,7 +119,7 @@ export class UnconnectedHeader extends React.Component {
   };
 
   render() {
-    const { questionnaire } = this.props;
+    const { questionnaire, title } = this.props;
     const currentUser = get("data.me", this.props);
 
     return (
@@ -129,11 +130,9 @@ export class UnconnectedHeader extends React.Component {
           </Logo>
         </LogoContainer>
         <QuestionnaireTitle>
-          {questionnaire && (
-            <Title data-test="questionnaire-title">
-              {questionnaire.displayName}
-            </Title>
-          )}
+          <Title data-test="questionnaire-title">
+            {questionnaire ? questionnaire.displayName : title}
+          </Title>
         </QuestionnaireTitle>
 
         <UtilityBtns>

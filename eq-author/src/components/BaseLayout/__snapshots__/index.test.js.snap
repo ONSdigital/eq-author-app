@@ -41,17 +41,11 @@ exports[`components/BaseLayout should render a title 1`] = `
             "title": "Questionnaire",
           }
         }
+        title="Title"
       />
       <Connect(UnconnectedOfflineBanner) />
       <BaseLayout__Main>
-        <ScrollPane
-          permanentScrollBar={false}
-        >
-          <BaseLayout__Title>
-            Title
-          </BaseLayout__Title>
-          Children
-        </ScrollPane>
+        Children
       </BaseLayout__Main>
       <Portal
         containerInfo={<div />}
