@@ -2,6 +2,7 @@ const schema = require("../../schema");
 const { graphql } = require("graphql");
 const auth = require("./mockAuthPayload");
 const graphqlTools = require("graphql-tools");
+const { originalItemSymbol } = require("dynamoose/dist/Model");
 
 const executableSchema = graphqlTools.makeExecutableSchema(schema);
 
@@ -23,9 +24,9 @@ ${response.errors.map(e => e.message).join("\n----\n")}
   if (
     ctx.questionnaire &&
     ctx.questionnaire.originalItem &&
-    ctx.questionnaire.updateAt !== ctx.questionnaire.originalItem().updatedAt
+    ctx.questionnaire.updatedAt !== ctx.questionnaire.originalItem().updatedAt
   ) {
-    ctx.questionnaire.$__.originalItem = JSON.parse(
+    ctx.questionnaire[originalItemSymbol] = JSON.parse(
       JSON.stringify(ctx.questionnaire)
     );
   }
