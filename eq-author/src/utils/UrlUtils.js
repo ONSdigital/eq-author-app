@@ -11,7 +11,7 @@ import {
 export const Routes = {
   HOME: "/",
   SIGN_IN: "/sign-in",
-  QUESTIONNAIRE: `/q/:questionnaireId/:entityName?/:entityId?/:tab?`,
+  QUESTIONNAIRE: `/q/:questionnaireId/:entityName?/:entityId?/:tab?/:modifier?`,
 };
 
 export const generatePath = curry(rrGeneratePath, 2);

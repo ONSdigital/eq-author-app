@@ -1,23 +1,42 @@
 import { graphql } from "react-apollo";
-import { get } from "lodash/fp";
+import { get, flowRight } from "lodash/fp";
+import { withRouter } from "react-router-dom";
+
+import { buildPagePath, buildIntroductionPath } from "utils/UrlUtils";
 
 import duplicateQuestionnaireMutation from "graphql/duplicateQuestionnaire.graphql";
 import getQuestionnaireList from "graphql/getQuestionnaireList.graphql";
 
-export const mapMutateToProps = ({ mutate }) => ({
-  onDuplicateQuestionnaire({ id, displayName, createdBy }) {
+export const mapMutateToProps = ({ mutate, ownProps }) => ({
+  onDuplicateQuestionnaire({ id }) {
+    const modifier = "settings";
     return mutate({
       variables: { input: { id } },
-      optimisticResponse: {
-        duplicateQuestionnaire: {
-          id: `dupe-${id}`,
-          displayName: `Copy of ${displayName}`,
-          createdAt: new Date(Date.now()).toISOString(),
-          createdBy,
-          __typename: "Questionnaire",
-        },
-      },
-    }).then(get("data.duplicateQuestionnaire"));
+    })
+      .then(get("data.duplicateQuestionnaire"))
+      .then(questionnaire => {
+        if (questionnaire.introduction) {
+          ownProps.history.push(
+            buildIntroductionPath({
+              questionnaireId: questionnaire.id,
+              introductionId: questionnaire.introduction.id,
+              modifier,
+            })
+          );
+          return;
+        }
+
+        const section = questionnaire.sections[0];
+        const page = section.pages[0];
+
+        ownProps.history.push(
+          buildPagePath({
+            questionnaireId: questionnaire.id,
+            pageId: page.id,
+            modifier,
+          })
+        );
+      });
   },
 });
 
@@ -30,9 +49,13 @@ export const handleUpdate = (proxy, { data: { duplicateQuestionnaire } }) => {
   });
 };
 
-export default graphql(duplicateQuestionnaireMutation, {
+const withDuplicateQuestionnaire = graphql(duplicateQuestionnaireMutation, {
   props: mapMutateToProps,
   options: {
     update: handleUpdate,
   },
 });
+export default flowRight(
+  withRouter,
+  withDuplicateQuestionnaire
+);

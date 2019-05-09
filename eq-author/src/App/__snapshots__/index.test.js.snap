@@ -48,7 +48,7 @@ exports[`containers/AppContainer Routes should render  1`] = `
         component={[Function]}
         exact={false}
         isSignedIn={true}
-        path="/q/:questionnaireId/:entityName?/:entityId?/:tab?"
+        path="/q/:questionnaireId/:entityName?/:entityId?/:tab?/:modifier?"
       />
       <Route
         component={[Function]}

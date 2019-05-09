@@ -64,10 +64,6 @@ class Row extends React.Component {
     this.props.onDuplicateQuestionnaire(this.props.questionnaire);
   };
 
-  isQuestionnaireADuplicate() {
-    return this.props.questionnaire.id.startsWith("dupe");
-  }
-
   shouldComponentUpdate(nextProps) {
     for (let key of Object.keys(Row.propTypes)) {
       if (this.props[key] !== nextProps[key]) {
@@ -82,7 +78,7 @@ class Row extends React.Component {
   }
 
   componentDidMount() {
-    if (this.isQuestionnaireADuplicate() || this.props.autoFocus) {
+    if (this.props.autoFocus) {
       this.focusLink();
     }
   }
@@ -95,21 +91,14 @@ class Row extends React.Component {
 
   render() {
     const { questionnaire, ...rest } = this.props;
-    const isOptimisticDupe = this.isQuestionnaireADuplicate();
-
     return (
-      <FadeTransition
-        {...rest}
-        enter={isOptimisticDupe}
-        exit={!isOptimisticDupe}
-      >
-        <TR innerRef={this.rowRef} disabled={isOptimisticDupe}>
+      <FadeTransition {...rest} exit>
+        <TR innerRef={this.rowRef}>
           <TD>
             <TruncatedQuestionnaireLink
               data-test="anchor-questionnaire-title"
               questionnaire={questionnaire}
               title={questionnaire.displayName}
-              disabled={isOptimisticDupe}
             >
               {questionnaire.displayName}
             </TruncatedQuestionnaireLink>
@@ -125,13 +114,11 @@ class Row extends React.Component {
               <DuplicateButton
                 data-test="btn-duplicate-questionnaire"
                 onClick={this.handleDuplicateQuestionnaire}
-                disabled={isOptimisticDupe}
               />
               <IconButtonDelete
                 hideText
                 data-test="btn-delete-questionnaire"
                 onClick={this.handleOpenDeleteQuestionnaireDialog}
-                disabled={isOptimisticDupe}
               />
             </ButtonGroup>
           </TD>

@@ -5,7 +5,6 @@ import CustomPropTypes from "custom-prop-types";
 import { TransitionGroup } from "react-transition-group";
 import { isEmpty } from "lodash";
 import gql from "graphql-tag";
-import scrollIntoView from "utils/scrollIntoView";
 
 import DeleteConfirmDialog from "components/DeleteConfirmDialog";
 import questionConfirmationIcon from "./icon-questionnaire.svg";
@@ -54,8 +53,6 @@ export class UnconnectedQuestionnairesTable extends React.PureComponent {
     `,
   };
 
-  headRef = React.createRef();
-
   state = {
     focusedId: null,
     showDeleteQuestionnaireDialog: false,
@@ -73,15 +70,6 @@ export class UnconnectedQuestionnairesTable extends React.PureComponent {
       showDeleteQuestionnaireDialog: false,
       deleteQuestionnaire: null,
     });
-  };
-
-  handleDuplicateQuestionnaire = questionnaire => {
-    scrollIntoView(this.headRef.current);
-    this.props
-      .onDuplicateQuestionnaire(questionnaire)
-      .then(duplicateQuestionnaire => {
-        this.setState({ focusedId: duplicateQuestionnaire.id });
-      });
   };
 
   handleDeleteQuestionnaire = () => {
@@ -121,7 +109,7 @@ export class UnconnectedQuestionnairesTable extends React.PureComponent {
     return (
       <>
         <Table>
-          <thead ref={this.headRef}>
+          <thead>
             <tr>
               <TH colWidth="50%">Questionnaire name</TH>
               <TH colWidth="15%">Date</TH>
@@ -139,7 +127,7 @@ export class UnconnectedQuestionnairesTable extends React.PureComponent {
                   onDeleteQuestionnaire={
                     this.handleOpenDeleteQuestionnaireDialog
                   }
-                  onDuplicateQuestionnaire={this.handleDuplicateQuestionnaire}
+                  onDuplicateQuestionnaire={this.props.onDuplicateQuestionnaire}
                 />
               );
             })}

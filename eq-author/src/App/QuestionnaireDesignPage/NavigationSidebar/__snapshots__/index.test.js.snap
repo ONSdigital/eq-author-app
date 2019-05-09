@@ -10,7 +10,7 @@ exports[`NavigationSidebar should render 1`] = `
 <NavigationSidebar__Container
   data-test="side-nav"
 >
-  <NavigationHeader
+  <withRouter(NavigationHeader)
     canAddCalculatedSummaryPage={true}
     canAddQuestionConfirmation={true}
     canAddQuestionPage={true}

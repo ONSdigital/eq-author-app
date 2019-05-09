@@ -1,6 +1,5 @@
 import React from "react";
 import { shallow } from "enzyme";
-import { SynchronousPromise } from "synchronous-promise";
 
 import Row from "./Row";
 import DeleteConfirmDialog from "components/DeleteConfirmDialog";
@@ -48,16 +47,11 @@ describe("QuestionnairesTable", () => {
     displayName: "Foo",
   };
 
-  let handleDeleteQuestionnaire, handleDuplicateQuestionnaire, headRef;
+  let handleDeleteQuestionnaire, handleDuplicateQuestionnaire;
 
   beforeEach(() => {
     handleDeleteQuestionnaire = jest.fn();
     handleDuplicateQuestionnaire = jest.fn();
-    headRef = {
-      current: {
-        scrollIntoView: jest.fn(),
-      },
-    };
   });
 
   it("should render", () => {
@@ -82,80 +76,6 @@ describe("QuestionnairesTable", () => {
       />
     );
     expect(wrapper).toMatchSnapshot();
-  });
-
-  it("should scroll header into view on duplicate", () => {
-    const handleDuplicateQuestionnaire = jest
-      .fn()
-      .mockResolvedValue({ id: "3" });
-    const wrapper = shallow(
-      <UnconnectedQuestionnairesTable
-        questionnaires={questionnaires}
-        onDeleteQuestionnaire={handleDeleteQuestionnaire}
-        onDuplicateQuestionnaire={handleDuplicateQuestionnaire}
-        user={user}
-      />
-    );
-
-    const instance = wrapper.instance();
-    const headRef = {
-      current: {
-        scrollIntoView: jest.fn(),
-      },
-    };
-    instance.headRef = headRef;
-
-    wrapper
-      .find(Row)
-      .first()
-      .simulate("duplicateQuestionnaire");
-
-    expect(headRef.current.scrollIntoView).toHaveBeenCalled();
-  });
-
-  it("should auto focus the duplicated row", () => {
-    const handleDuplicateQuestionnaire = jest.fn(() =>
-      SynchronousPromise.resolve({ id: "3" })
-    );
-    const wrapper = shallow(
-      <UnconnectedQuestionnairesTable
-        questionnaires={questionnaires}
-        onDeleteQuestionnaire={handleDeleteQuestionnaire}
-        onDuplicateQuestionnaire={handleDuplicateQuestionnaire}
-        user={user}
-      />
-    );
-
-    const instance = wrapper.instance();
-    instance.headRef = headRef;
-
-    wrapper
-      .find(Row)
-      .first()
-      .simulate("duplicateQuestionnaire");
-
-    wrapper.setProps({
-      questionnaires: [
-        {
-          id: "3",
-          displayName: "My dupe",
-          createdAt: "12-09-2040",
-          createdBy: {
-            displayName: "Dave",
-          },
-        },
-        ...questionnaires,
-      ],
-    });
-
-    wrapper.update();
-
-    expect(
-      wrapper
-        .find(Row)
-        .first()
-        .props()
-    ).toMatchObject({ autoFocus: true });
   });
 
   it("should open and close delete confirm modal when required", () => {

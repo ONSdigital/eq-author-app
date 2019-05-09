@@ -33,7 +33,7 @@ exports[`QuestionnairesTable should render 1`] = `
         autoFocus={false}
         key="1"
         onDeleteQuestionnaire={[Function]}
-        onDuplicateQuestionnaire={[Function]}
+        onDuplicateQuestionnaire={[MockFunction]}
         questionnaire={
           Object {
             "createdAt": "2017/01/02",
@@ -60,7 +60,7 @@ exports[`QuestionnairesTable should render 1`] = `
         autoFocus={false}
         key="2"
         onDeleteQuestionnaire={[Function]}
-        onDuplicateQuestionnaire={[Function]}
+        onDuplicateQuestionnaire={[MockFunction]}
         questionnaire={
           Object {
             "createdAt": "2017/03/04",
