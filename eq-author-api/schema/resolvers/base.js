@@ -564,7 +564,7 @@ const Resolvers = {
         }
       });
     },
-    options: answer => answer.options,
+    options: answer => answer.options.filter(o => !o.mutuallyExclusive),
     mutuallyExclusiveOption: answer =>
       find(answer.options, { mutuallyExclusive: true }),
     displayName: answer => getName(answer, "MultipleChoiceAnswer"),

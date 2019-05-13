@@ -1,4 +1,4 @@
-const { last, get, flow, find } = require("lodash/fp");
+const { get, flow, find } = require("lodash/fp");
 
 const {
   buildQuestionnaire,
@@ -110,8 +110,37 @@ describe("multiple choice answer", () => {
     });
 
     describe("query", () => {
-      let answer, queriedAnswer;
-      beforeEach(async () => {
+      it("should resolve multiple choice fields", async () => {
+        questionnaire = await buildQuestionnaire({
+          sections: [
+            {
+              pages: [
+                {
+                  answers: [
+                    {
+                      type: RADIO,
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        });
+        const answer = getAnswer(questionnaire);
+        const queriedAnswer = await queryAnswer(
+          questionnaire,
+          getAnswer(questionnaire).id
+        );
+        expect(queriedAnswer).toMatchObject({
+          properties: expect.any(Object),
+        });
+        expect(queriedAnswer.options).toHaveLength(2);
+        expect(queriedAnswer.options.map(o => o.id)).toEqual(
+          answer.options.map(o => o.id)
+        );
+      });
+
+      it("should resolve mutuallyExclusiveOption", async () => {
         questionnaire = await buildQuestionnaire({
           sections: [
             {
@@ -130,25 +159,14 @@ describe("multiple choice answer", () => {
             },
           ],
         });
-        answer = getAnswer(questionnaire);
-        queriedAnswer = await queryAnswer(
+
+        const answer = getAnswer(questionnaire);
+        const queriedAnswer = await queryAnswer(
           questionnaire,
           getAnswer(questionnaire).id
         );
-      });
 
-      it("should resolve multiple choice fields", () => {
-        expect(queriedAnswer).toMatchObject({
-          mutuallyExclusiveOption: expect.any(Object),
-          properties: expect.any(Object),
-        });
-      });
-
-      it("should resolve options", () => {
-        expect(last(queriedAnswer.options).id).toEqual(last(answer.options).id);
-      });
-
-      it("should resolve mutuallyExclusiveOption", () => {
+        expect(queriedAnswer.options).toHaveLength(2);
         expect(queriedAnswer.mutuallyExclusiveOption.id).toEqual(
           getMutuallyExclusiveOption(answer.options).id
         );
