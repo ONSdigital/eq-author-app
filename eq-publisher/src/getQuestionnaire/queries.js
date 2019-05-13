@@ -155,6 +155,7 @@ exports.getQuestionnaire = `
       title
       description
       type
+      theme
       introduction {
         id
         title

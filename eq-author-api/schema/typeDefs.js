@@ -346,6 +346,7 @@ enum AnswerType {
 enum Theme {
   default
   census
+  northernireland
 }
 
 type Metadata {

@@ -301,4 +301,26 @@ describe("Questionnaire", () => {
       },
     ]);
   });
+
+  it("should allow setting northern ireland theme", () => {
+    const questionnaireJson = createQuestionnaireJSON({
+      theme: "northernireland",
+    });
+
+    expect(new Questionnaire(questionnaireJson)).toHaveProperty(
+      "theme",
+      "northernireland"
+    );
+  });
+
+  it("should allow setting default theme", () => {
+    const questionnaireJson = createQuestionnaireJSON({
+      theme: "default",
+    });
+
+    expect(new Questionnaire(questionnaireJson)).toHaveProperty(
+      "theme",
+      "default"
+    );
+  });
 });

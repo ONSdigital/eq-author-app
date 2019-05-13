@@ -28,6 +28,7 @@ const DEFAULT_METADATA = [
 
 const SOCIAL_THEME = "social";
 const DEFAULT_THEME = "default";
+const NI_THEME = "northernireland";
 
 const DEFAULT_METADATA_NAMES = DEFAULT_METADATA.map(({ name }) => name);
 
@@ -50,6 +51,9 @@ class Questionnaire {
 
     this.theme =
       questionnaireJson.type === SOCIAL ? SOCIAL_THEME : DEFAULT_THEME;
+
+    this.theme = questionnaireJson.theme === NI_THEME ? NI_THEME : this.theme;
+
     this.legal_basis = this.buildLegalBasis(questionnaireJson.introduction);
     this.navigation = {
       visible: questionnaireJson.navigation,
