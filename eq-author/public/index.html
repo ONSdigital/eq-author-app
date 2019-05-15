@@ -12,8 +12,8 @@
       var isChrome =
         !!window.chrome &&
         (!!window.chrome.webstore || !!window.chrome.runtime);
-      var isElectron = /(Electron)\//.test(window.navigator.userAgent);
-      if (!isChrome && !isElectron) {
+      var isCypress = !!window.Cypress;
+      if (!isChrome && !isCypress) {
         window.location.replace("/unsupported-browser.html");
       }
     </script>
