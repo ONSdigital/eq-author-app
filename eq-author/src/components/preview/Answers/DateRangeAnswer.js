@@ -8,11 +8,13 @@ const DateRangeAnswer = ({ answer }) => {
 
   return (
     <div>
-      <DateAnswer answer={ dateAnswer } />
-      <DateAnswer answer={{
-        ...dateAnswer,
-        label: secondaryLabel
-      }} />
+      <DateAnswer answer={dateAnswer} />
+      <DateAnswer
+        answer={{
+          ...dateAnswer,
+          label: secondaryLabel,
+        }}
+      />
     </div>
   );
 };

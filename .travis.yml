@@ -24,6 +24,8 @@ before_script:
   - echo "TAG=$TAG"
 
 script:
+  - yarn --frozen-lockfile
+  - node_modules/.bin/prettylint "**/*.js" --ignore-path .gitignore
   - pushd eq-author; ./scripts/ci.sh; popd;
   - pushd eq-author-api; ./scripts/ci.sh; popd;
   - pushd eq-publisher; ./scripts/ci.sh; popd;
