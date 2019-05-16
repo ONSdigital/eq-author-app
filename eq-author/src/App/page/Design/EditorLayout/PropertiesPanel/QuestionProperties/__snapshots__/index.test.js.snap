@@ -45,12 +45,11 @@ exports[`QuestionProperties should render 1`] = `
   <QuestionProperties__HelpButton
     onClick={[Function]}
   >
-    <IconText
-      hideText={false}
+    <QuestionProperties__FieldInfo
       icon={[Function]}
     >
       See how these fields are used
-    </IconText>
+    </QuestionProperties__FieldInfo>
   </QuestionProperties__HelpButton>
   <HelpModal
     isOpen={false}
