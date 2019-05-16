@@ -21,6 +21,10 @@ const PropertyDescription = styled.p`
   ${colors.darkGrey}
 `;
 
+const FieldInfo = styled(IconText)`
+  white-space: nowrap;
+`;
+
 export const HelpButton = styled.button`
   --color-text: ${colors.primary};
   margin: 0.5em 0;
@@ -121,7 +125,7 @@ export class UnwrappedQuestionProperties extends React.Component {
         </PropertyDescription>
 
         <HelpButton onClick={() => this.setState({ showModal: true })}>
-          <IconText icon={InfoIcon}>See how these fields are used</IconText>
+          <FieldInfo icon={InfoIcon}>See how these fields are used</FieldInfo>
         </HelpButton>
 
         <HelpModal
