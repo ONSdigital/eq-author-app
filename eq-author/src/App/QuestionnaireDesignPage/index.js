@@ -46,6 +46,7 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
     }),
     location: PropTypes.object, // eslint-disable-line
     error: PropTypes.object, // eslint-disable-line
+    client: PropTypes.object, // eslint-disable-line
   };
 
   state = { showDeleteConfirmDialog: false, showMovePageDialog: false };

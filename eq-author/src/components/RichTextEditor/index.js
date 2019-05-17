@@ -33,6 +33,7 @@ import {
 } from "lodash/fp";
 import { sharedStyles } from "components/Forms/css";
 import { Field, Label } from "components/Forms";
+import ErrorInline from "components/ErrorInline";
 
 const styleMap = {
   ITALIC: {
@@ -151,6 +152,7 @@ class RichTextEditor extends React.Component {
     multiline: false,
     autoFocus: false,
     disabled: false,
+    errorValidationInfo: {},
   };
 
   state = {
@@ -180,6 +182,10 @@ class RichTextEditor extends React.Component {
       })
     ),
     disabled: PropTypes.bool,
+    errorValidationInfo: PropTypes.shape({
+      errorCode: PropTypes.string,
+      errorMessage: PropTypes.string,
+    }),
   };
 
   constructor(props) {
@@ -514,6 +520,7 @@ class RichTextEditor extends React.Component {
       id,
       placeholder,
       disabled,
+      errorValidationInfo,
       ...otherProps
     } = this.props;
 
@@ -535,6 +542,7 @@ class RichTextEditor extends React.Component {
               .getBlockMap()
               .first()
               .getType()}
+            invalid={Boolean(errorValidationInfo.errorMessage)}
           >
             <Toolbar
               editorState={editorState}
@@ -566,6 +574,7 @@ class RichTextEditor extends React.Component {
             />
           </Input>
         </Field>
+        <ErrorInline>{errorValidationInfo.errorMessage}</ErrorInline>
       </Wrapper>
     );
   }

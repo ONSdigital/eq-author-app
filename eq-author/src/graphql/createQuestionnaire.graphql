@@ -16,5 +16,6 @@ mutation createQuestionnaire($input: CreateQuestionnaireInput!) {
     introduction {
       id
     }
+    isNew @client
   }
 }

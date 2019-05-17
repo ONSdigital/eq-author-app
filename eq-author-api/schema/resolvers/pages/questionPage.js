@@ -28,6 +28,24 @@ const createQuestionPage = (input = {}) => ({
   ...input,
 });
 
+const questionPageValidation = page => {
+  const errors = [];
+  const nonEmptyStr = RegExp(/\w/);
+
+  if (!nonEmptyStr.test(page.title)) {
+    errors.push({
+      field: "title",
+      erroCode: "",
+      errorMessage: "Question title is required",
+    });
+  }
+
+  return {
+    errors,
+    totalCount: errors.length,
+  };
+};
+
 Resolvers.QuestionPage = {
   section: ({ id }, input, ctx) => getSectionByPageId(ctx, id),
   position: ({ id }, args, ctx) => {
@@ -73,6 +91,7 @@ Resolvers.QuestionPage = {
       pages,
     };
   },
+  validationErrorInfo: page => questionPageValidation(page),
 };
 
 Resolvers.Mutation = {
@@ -89,12 +108,14 @@ Resolvers.Mutation = {
       typeof position === "number" ? position : section.pages.length;
     section.pages.splice(insertionPosition, 0, page);
     await saveQuestionnaire(ctx.questionnaire);
+    page.validationErrorInfo = questionPageValidation(page);
     return page;
   },
   updateQuestionPage: async (_, { input }, ctx) => {
     const page = getPageById(ctx, input.id);
     merge(page, input);
     await saveQuestionnaire(ctx.questionnaire);
+    page.validationErrorInfo = questionPageValidation(page);
     return page;
   },
 };

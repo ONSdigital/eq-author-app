@@ -42,7 +42,9 @@ export const UnwrappedPageNavItem = ({
       icon={getIcon(page.pageType)}
       data-test="nav-page-link"
     >
-      {page.displayName}
+      {page.validationErrorInfo && page.validationErrorInfo.totalCount
+        ? `${page.displayName} (${page.validationErrorInfo.totalCount})`
+        : page.displayName}
     </NavLink>
   </StyledPageItem>
 );
@@ -58,6 +60,9 @@ UnwrappedPageNavItem.fragments = {
       ... on QuestionPage {
         confirmation {
           id
+        }
+        validationErrorInfo {
+          totalCount
         }
       }
     }

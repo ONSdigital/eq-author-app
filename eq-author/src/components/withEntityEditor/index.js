@@ -4,6 +4,10 @@ import { isEqual } from "lodash";
 import fp from "lodash/fp";
 import { startRequest, endRequest } from "redux/saving/actions";
 import { connect } from "react-redux";
+import { propType } from "graphql-anywhere";
+
+import pageFragment from "graphql/fragments/page.graphql";
+import answerFragment from "graphql/fragments/answer.graphql";
 
 const withSaveTracking = connect(
   null,
@@ -18,10 +22,13 @@ const withEntityEditor = entityPropName => WrappedComponent => {
       onSubmit: PropTypes.func,
       startRequest: PropTypes.func,
       endRequest: PropTypes.func,
+      page: propType(pageFragment),
+      answer: propType(answerFragment),
     };
 
     state = {
       [entityPropName]: this.props[entityPropName],
+      lostFocus: false,
     };
 
     dirtyField = null;
@@ -81,6 +88,17 @@ const withEntityEditor = entityPropName => WrappedComponent => {
         });
     };
 
+    handleLoseFocus = () => {
+      // Don't need to track focus if field has been updated as update with rerender component
+      if (this.dirtyField) {
+        return;
+      }
+
+      this.setState({
+        lostFocus: true,
+      });
+    };
+
     componentWillUnmount() {
       this.unmounted = true;
     }
@@ -92,19 +110,30 @@ const withEntityEditor = entityPropName => WrappedComponent => {
       this.props.onSubmit(this.entity);
     };
 
+    enableValidationMessage = () => {
+      const { page, answer } = this.props;
+      const entity = page || answer;
+
+      const isNewEntity = !this.state.lostFocus && entity && entity.isNew;
+      return !isNewEntity;
+    };
+
     render() {
       const props = {
         [entityPropName]: this.entity,
       };
 
       return (
-        <WrappedComponent
-          {...this.props}
-          {...props}
-          onChange={this.handleChange}
-          onUpdate={this.handleUpdate}
-          onSubmit={this.handleSubmit}
-        />
+        <div onBlur={this.handleLoseFocus}>
+          <WrappedComponent
+            {...this.props}
+            {...props}
+            onChange={this.handleChange}
+            onUpdate={this.handleUpdate}
+            onSubmit={this.handleSubmit}
+            enableValidationMessage={this.enableValidationMessage()}
+          />
+        </div>
       );
     }
   }

@@ -95,6 +95,7 @@ type QuestionPage implements Page {
   confirmation: QuestionConfirmation
   routing: Routing2
   totalValidation: TotalValidationRule
+  validationErrorInfo: ValidationErrorInfo
 }
 
 type CalculatedSummaryPage implements Page {
@@ -199,6 +200,18 @@ type AvailableRoutingDestinations {
   pages: [Page]!
   sections: [Section]!
 }
+
+type ValidationError {
+  field: String
+  errorCode: Int
+  errorMessage: String
+}
+
+type ValidationErrorInfo {
+  errors: [ValidationError]
+  totalCount: Int!
+}
+
 
 union ValidationType = NumberValidation | DateValidation | DateRangeValidation
 

@@ -1,4 +1,5 @@
 #import "./fragments/page.graphql"
+#import "./fragments/validationErrorInfo.graphql"
 
 mutation createQuestionPage($input: CreateQuestionPageInput!) {
   createQuestionPage(input: $input) {
@@ -15,5 +16,9 @@ mutation createQuestionPage($input: CreateQuestionPageInput!) {
     confirmation {
       id
     }
+    validationErrorInfo {
+      ...ValidationErrorInfo
+    }
+    isNew @client
   }
 }
