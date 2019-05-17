@@ -1,0 +1,90 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Row should render 1`] = `
+<Fragment>
+  <FadeTransition
+    exit={false}
+    history={
+      Object {
+        "push": [MockFunction],
+      }
+    }
+    in={false}
+    onDeleteQuestionnaire={[MockFunction]}
+    onDuplicateQuestionnaire={[MockFunction]}
+    timeout={250}
+  >
+    <Row__TR
+      innerRef={
+        Object {
+          "current": null,
+        }
+      }
+      linkHasFocus={false}
+      onBlur={[Function]}
+      onClick={[Function]}
+      onFocus={[Function]}
+    >
+      <Row__TD>
+        <Row__QuestionnaireLink
+          data-test="anchor-questionnaire-title"
+          onClick={[Function]}
+          title="Foo"
+          to="/q/1"
+        >
+          <Row__ShortTitle>
+            <Truncated>
+              Test title
+            </Truncated>
+          </Row__ShortTitle>
+          <Truncated />
+        </Row__QuestionnaireLink>
+      </Row__TD>
+      <Row__TD>
+        <FormattedDate
+          date="2017/01/02"
+        />
+      </Row__TD>
+      <Row__TD>
+        Alan
+      </Row__TD>
+      <Row__TD>
+        <div
+          data-test="action-btn-group"
+          onFocus={[Function]}
+        >
+          <Row__ButtonGroup>
+            <Row__DuplicateQuestionnaireButton
+              data-test="btn-duplicate-questionnaire"
+              onClick={[Function]}
+            />
+            <IconButtonDelete
+              data-test="btn-delete-questionnaire"
+              hideText={true}
+              iconText="Delete"
+              onClick={[Function]}
+            />
+          </Row__ButtonGroup>
+        </div>
+      </Row__TD>
+    </Row__TR>
+  </FadeTransition>
+  <DeleteConfirmDialog
+    alertText="This questionnaire including all sections and questions will be deleted."
+    data-test="delete-questionnaire"
+    icon="icon-questionnaire.svg"
+    isOpen={false}
+    onClose={[Function]}
+    onDelete={[Function]}
+    title="Foo"
+  />
+</Fragment>
+`;
+
+exports[`Row should show the short title when it is provided 1`] = `
+<Row__ShortTitle>
+  <Truncated>
+    Test title
+  </Truncated>
+</Row__ShortTitle>
+`;

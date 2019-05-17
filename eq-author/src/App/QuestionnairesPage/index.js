@@ -14,8 +14,9 @@ import MainCanvas from "components/MainCanvas";
 import Loading from "components/Loading";
 import Error from "components/Error";
 
-import QuestionnairesTable from "./QuestionnairesTable";
+import QuestionnairesTable from "./QuestionnairesView/QuestionnairesTable";
 import QuestionnairesView from "./QuestionnairesView";
+
 import withDeleteQuestionnaire from "./withDeleteQuestionnaire";
 import withCreateQuestionnaire from "./withCreateQuestionnaire";
 import withDuplicateQuestionnaire from "./withDuplicateQuestionnaire";

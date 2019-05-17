@@ -2,6 +2,8 @@ import React from "react";
 import { shallow } from "enzyme";
 
 import IconButtonDelete from "components/buttons/IconButtonDelete";
+import DeleteConfirmDialog from "components/DeleteConfirmDialog";
+
 import { colors } from "constants/theme";
 
 import {
@@ -10,7 +12,7 @@ import {
   ShortTitle,
   DuplicateQuestionnaireButton,
   QuestionnaireLink,
-} from "App/QuestionnairesPage/QuestionnairesTable/Row";
+} from "./";
 
 describe("Row", () => {
   let props;
@@ -137,15 +139,41 @@ describe("Row", () => {
     expect(stopPropagation).toHaveBeenCalled();
   });
 
-  it("should call onDeleteQuestionnaire when the delete button is clicked", () => {
-    const wrapper = shallow(<Row {...props} />);
-    const stopPropagation = jest.fn();
-    wrapper.find(IconButtonDelete).simulate("click", { stopPropagation });
+  describe("deletion", () => {
+    it("should show the confirm delete dialog when the delete button is clicked", () => {
+      const wrapper = shallow(<Row {...props} />);
+      const stopPropagation = jest.fn();
+      wrapper.find(IconButtonDelete).simulate("click", { stopPropagation });
 
-    expect(props.onDeleteQuestionnaire).toHaveBeenCalledWith(
-      props.questionnaire
-    );
-    expect(stopPropagation).toHaveBeenCalled();
+      expect(wrapper.find(DeleteConfirmDialog).props()).toMatchObject({
+        isOpen: true,
+      });
+      expect(stopPropagation).toHaveBeenCalled();
+    });
+
+    it("should call onDelete when the dialog is confirmed", () => {
+      const wrapper = shallow(<Row {...props} />);
+      const stopPropagation = jest.fn();
+      wrapper.find(IconButtonDelete).simulate("click", { stopPropagation });
+      wrapper.find(DeleteConfirmDialog).simulate("delete");
+      expect(props.onDeleteQuestionnaire).toHaveBeenCalledWith(
+        props.questionnaire
+      );
+      expect(wrapper.find(DeleteConfirmDialog).props()).toMatchObject({
+        isOpen: false,
+      });
+    });
+
+    it("should hide the dialog and not call delete when the dialog is closed", () => {
+      const wrapper = shallow(<Row {...props} />);
+      const stopPropagation = jest.fn();
+      wrapper.find(IconButtonDelete).simulate("click", { stopPropagation });
+      wrapper.find(DeleteConfirmDialog).simulate("close");
+      expect(props.onDeleteQuestionnaire).not.toHaveBeenCalled();
+      expect(wrapper.find(DeleteConfirmDialog).props()).toMatchObject({
+        isOpen: false,
+      });
+    });
   });
 
   it("should show the short title when it is provided", () => {

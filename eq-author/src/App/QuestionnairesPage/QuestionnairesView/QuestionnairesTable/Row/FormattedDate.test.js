@@ -1,6 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
-import FormattedDate from "App/QuestionnairesPage/FormattedDate";
+import FormattedDate from "./FormattedDate";
 
 describe("FormattedDate", () => {
   const date = 1513175866395; // the time i wrote this test
