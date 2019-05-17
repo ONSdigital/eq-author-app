@@ -208,7 +208,17 @@ export const findInputByLabel = text =>
     .then($label => $label.prop("control"));
 
 export const removeAnswers = () => {
-  cy.get(testId("btn-delete-answer")).click({ multiple: true });
+  let count = 0;
+  cy.get(testId("btn-delete-answer")).each(() => {
+    count += 1;
+  });
+  cy.get(testId("btn-delete-answer")).each(($button, index) => {
+    cy.wrap($button).click();
+    cy.get(testId("btn-delete-answer")).should(
+      "have.length",
+      count - (index + 1)
+    );
+  });
   cy.get(testId("btn-delete-answer")).should("have.length", 0);
   cy.dismissAllToast();
   cy.get(testId("toast-item"), { timeout: 15000 }).should("have.length", 0);
