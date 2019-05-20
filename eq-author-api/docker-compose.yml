@@ -5,8 +5,10 @@ services:
       context: .
     depends_on:
       - dynamo
+      - jaeger
     links:
       - dynamo
+      - jaeger
     volumes:
       - .:/app
     ports:
@@ -23,6 +25,11 @@ services:
       - RUNNER_SESSION_URL=http://localhost:5000/session?token=
       - PUBLISHER_URL=http://localhost:9000/publish/
       - ENABLE_IMPORT=true
+      - JAEGER_SERVICE_NAME=eq_author_api
+      - JAEGER_ENDPOINT=http://jaeger:14268/api/traces
+      - JAEGER_SAMPLER_MANAGER_HOST_PORT=http://jaeger:5778/sampling
+      - JAEGER_SAMPLER_TYPE=probabilistic
+      - JAEGER_SAMPLER_PARAM=1
     entrypoint:
       - yarn
       - start:dev
@@ -30,3 +37,15 @@ services:
     image: amazon/dynamodb-local
     ports:
       - 8050:8000
+
+  jaeger:
+    image: jaegertracing/all-in-one:1.11
+    ports:
+      - 5775/udp
+      - 6831/udp
+      - 6832/udp
+      - 5778
+      - 14250
+      - 14268
+      - 16686:16686
+

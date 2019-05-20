@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "start": "node app.js",
-    "start:dev": "NODE_ENV=development nodemon --ignore 'data/ migrations/' --inspect=0.0.0.0:5858",
+    "start:dev": "ENABLE_OPENTRACING=true NODE_ENV=development nodemon --ignore 'data/ migrations/' --inspect=0.0.0.0:5858",
     "lint": "eslint .",
     "test": "./scripts/test.sh",
     "test:breakingChanges": "node scripts/checkForBreakingChanges.js",
@@ -13,6 +13,7 @@
     "create-migration": "node scripts/createMigration.js"
   },
   "dependencies": {
+    "apollo-opentracing": "^1.2.4",
     "apollo-server-express": "latest",
     "body-parser": "latest",
     "chalk": "latest",
@@ -30,6 +31,7 @@
     "graphql-tools": "latest",
     "graphql-type-json": "latest",
     "helmet": "latest",
+    "jaeger-client": "^3.15.0",
     "js-yaml": "latest",
     "json-stable-stringify": "latest",
     "json-web-key": "latest",
@@ -39,6 +41,7 @@
     "lodash": "latest",
     "node-jose": "latest",
     "pino-noir": "latest",
+    "prom-client": "^11.3.0",
     "uuid": "latest",
     "wait-on": "latest"
   },
