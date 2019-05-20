@@ -70,18 +70,6 @@ describe("QuestionnairesTable", () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  it("should render message when no questionnaires", () => {
-    const wrapper = shallow(
-      <UnconnectedQuestionnairesTable
-        questionnaires={[]}
-        onDeleteQuestionnaire={handleDeleteQuestionnaire}
-        onDuplicateQuestionnaire={handleDuplicateQuestionnaire}
-        user={user}
-      />
-    );
-    expect(wrapper).toMatchSnapshot();
-  });
-
   it("should open and close delete confirm modal when required", () => {
     const wrapper = shallow(
       <UnconnectedQuestionnairesTable

@@ -3,7 +3,6 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import { propType } from "graphql-anywhere";
 import { TransitionGroup } from "react-transition-group";
-import { isEmpty } from "lodash";
 import gql from "graphql-tag";
 import { colors } from "constants/theme";
 
@@ -125,10 +124,6 @@ export class UnconnectedQuestionnairesTable extends React.PureComponent {
   render() {
     const { questionnaires } = this.props;
     const { showDeleteQuestionnaireDialog, deleteQuestionnaire } = this.state;
-
-    if (isEmpty(questionnaires)) {
-      return <p>You have no questionnaires</p>;
-    }
 
     return (
       <Panel>

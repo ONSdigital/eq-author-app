@@ -1,7 +1,6 @@
 import React from "react";
 import { UnconnectedQuestionnairesPage } from "App/QuestionnairesPage";
 import { shallow } from "enzyme";
-import QuestionnaireSettingsModal from "App/QuestionnaireSettingsModal";
 
 describe("components/QuestionnairesPage", () => {
   const createWrapper = props =>
@@ -68,25 +67,6 @@ describe("components/QuestionnairesPage", () => {
 
     expect(wrapper).toMatchSnapshot();
     expect(renderResults).toMatchSnapshot();
-  });
-
-  it("allows Modals to be open and closed", () => {
-    const wrapper = createWrapper();
-
-    wrapper.find("[data-test='create-questionnaire']").simulate("click");
-    expect(wrapper.find(QuestionnaireSettingsModal).prop("isOpen")).toBe(true);
-
-    wrapper.find(QuestionnaireSettingsModal).simulate("close");
-    expect(wrapper.find(QuestionnaireSettingsModal).prop("isOpen")).toBe(false);
-  });
-
-  it("creates questionnaire after submission", () => {
-    const onCreateQuestionnaire = jest.fn();
-    const wrapper = createWrapper({ onCreateQuestionnaire });
-
-    wrapper.find(QuestionnaireSettingsModal).simulate("submit");
-
-    expect(onCreateQuestionnaire).toHaveBeenCalled();
   });
 
   it("should correctly render title", () => {
