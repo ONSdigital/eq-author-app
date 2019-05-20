@@ -1,35 +1,37 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`QuestionnairesTable should render 1`] = `
-<Fragment>
+<QuestionnairesTable__Panel>
   <QuestionnairesTable__Table>
     <thead>
       <tr>
         <QuestionnairesTable__TH
           colWidth="50%"
         >
-          Questionnaire name
+          Title
         </QuestionnairesTable__TH>
         <QuestionnairesTable__TH
           colWidth="15%"
         >
-          Date
+          Created
         </QuestionnairesTable__TH>
         <QuestionnairesTable__TH
-          colWidth="22%"
+          colWidth="20%"
         >
-          Created by
+          Owner
         </QuestionnairesTable__TH>
         <QuestionnairesTable__TH
-          colWidth="14%"
-        />
+          colWidth="15%"
+        >
+          Actions
+        </QuestionnairesTable__TH>
       </tr>
     </thead>
     <TransitionGroup
       childFactory={[Function]}
-      component={[Function]}
+      component="tbody"
     >
-      <Row
+      <withRouter(Row)
         autoFocus={false}
         key="1"
         onDeleteQuestionnaire={[Function]}
@@ -53,10 +55,12 @@ exports[`QuestionnairesTable should render 1`] = `
                 ],
               },
             ],
+            "shortTitle": "",
+            "title": "Foo",
           }
         }
       />
-      <Row
+      <withRouter(Row)
         autoFocus={false}
         key="2"
         onDeleteQuestionnaire={[Function]}
@@ -80,6 +84,8 @@ exports[`QuestionnairesTable should render 1`] = `
                 ],
               },
             ],
+            "shortTitle": "",
+            "title": "Bar",
           }
         }
       />
@@ -94,7 +100,7 @@ exports[`QuestionnairesTable should render 1`] = `
     onDelete={[Function]}
     title={null}
   />
-</Fragment>
+</QuestionnairesTable__Panel>
 `;
 
 exports[`QuestionnairesTable should render message when no questionnaires 1`] = `

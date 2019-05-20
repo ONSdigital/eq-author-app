@@ -13,7 +13,9 @@ exports[`Editor Layout should render 1`] = `
       permanentScrollBar={true}
     >
       <EditorLayout__Margin>
-        <MainCanvas>
+        <MainCanvas
+          width="55em"
+        >
           <Connect(UnconnectedSavingIndicator) />
           <withRouter(UnwrappedTabs)
             design={true}

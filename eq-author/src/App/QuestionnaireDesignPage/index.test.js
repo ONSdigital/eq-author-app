@@ -51,6 +51,7 @@ describe("QuestionnaireDesignPage", () => {
       id: "3",
       title: "hello world",
       sections: [section],
+      displayName: "my displayName",
     };
 
     mockHandlers = {

@@ -9,182 +9,210 @@ exports[`components/QuestionnairesPage should not render table whilst data is lo
   <BaseLayout
     title="Your Questionnaires"
   >
-    <MainCanvas>
-      <QuestionnairesPage__StyledButtonGroup
-        horizontal={true}
+    <ScrollPane
+      permanentScrollBar={true}
+    >
+      <MainCanvas
+        width="55em"
       >
-        <Button
-          data-test="create-questionnaire"
-          onClick={[Function]}
-          primary={true}
-          type="button"
-          variant="primary"
+        <QuestionnairesPage__StyledButtonGroup
+          horizontal={true}
         >
-          Create
-        </Button>
-        <QuestionnaireSettingsModal
-          canEditType={true}
-          confirmText="Create"
-          isOpen={false}
-          onClose={[Function]}
-          onSubmit={[MockFunction]}
-          questionnaire={
-            Object {
-              "description": "",
-              "navigation": false,
-              "surveyId": "",
-              "theme": "default",
-              "title": "",
+          <Button
+            data-test="create-questionnaire"
+            onClick={[Function]}
+            primary={true}
+            type="button"
+            variant="primary"
+          >
+            Create questionnaire
+          </Button>
+          <QuestionnaireSettingsModal
+            canEditType={true}
+            confirmText="Create"
+            isOpen={false}
+            onClose={[Function]}
+            onSubmit={[MockFunction]}
+            questionnaire={
+              Object {
+                "description": "",
+                "navigation": false,
+                "surveyId": "",
+                "theme": "default",
+                "title": "",
+              }
             }
-          }
-        />
-      </QuestionnairesPage__StyledButtonGroup>
-      <QuestionnairesPage__StyledCenteredPanel>
-        <Query
-          query={
-            Object {
-              "definitions": Array [
-                Object {
-                  "directives": Array [],
-                  "kind": "OperationDefinition",
-                  "name": Object {
-                    "kind": "Name",
-                    "value": "GetQuestionnaireList",
-                  },
-                  "operation": "query",
-                  "selectionSet": Object {
-                    "kind": "SelectionSet",
-                    "selections": Array [
-                      Object {
-                        "alias": undefined,
-                        "arguments": Array [],
-                        "directives": Array [],
-                        "kind": "Field",
-                        "name": Object {
-                          "kind": "Name",
-                          "value": "questionnaires",
-                        },
-                        "selectionSet": Object {
-                          "kind": "SelectionSet",
-                          "selections": Array [
-                            Object {
-                              "directives": Array [],
-                              "kind": "FragmentSpread",
-                              "name": Object {
-                                "kind": "Name",
-                                "value": "QuestionnaireDetails",
-                              },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                  "variableDefinitions": Array [],
-                },
-                Object {
-                  "directives": Array [],
-                  "kind": "FragmentDefinition",
-                  "name": Object {
-                    "kind": "Name",
-                    "value": "QuestionnaireDetails",
-                  },
-                  "selectionSet": Object {
-                    "kind": "SelectionSet",
-                    "selections": Array [
-                      Object {
-                        "alias": undefined,
-                        "arguments": Array [],
-                        "directives": Array [],
-                        "kind": "Field",
-                        "name": Object {
-                          "kind": "Name",
-                          "value": "id",
-                        },
-                        "selectionSet": undefined,
-                      },
-                      Object {
-                        "alias": undefined,
-                        "arguments": Array [],
-                        "directives": Array [],
-                        "kind": "Field",
-                        "name": Object {
-                          "kind": "Name",
-                          "value": "displayName",
-                        },
-                        "selectionSet": undefined,
-                      },
-                      Object {
-                        "alias": undefined,
-                        "arguments": Array [],
-                        "directives": Array [],
-                        "kind": "Field",
-                        "name": Object {
-                          "kind": "Name",
-                          "value": "createdAt",
-                        },
-                        "selectionSet": undefined,
-                      },
-                      Object {
-                        "alias": undefined,
-                        "arguments": Array [],
-                        "directives": Array [],
-                        "kind": "Field",
-                        "name": Object {
-                          "kind": "Name",
-                          "value": "createdBy",
-                        },
-                        "selectionSet": Object {
-                          "kind": "SelectionSet",
-                          "selections": Array [
-                            Object {
-                              "alias": undefined,
-                              "arguments": Array [],
-                              "directives": Array [],
-                              "kind": "Field",
-                              "name": Object {
-                                "kind": "Name",
-                                "value": "id",
-                              },
-                              "selectionSet": undefined,
-                            },
-                            Object {
-                              "alias": undefined,
-                              "arguments": Array [],
-                              "directives": Array [],
-                              "kind": "Field",
-                              "name": Object {
-                                "kind": "Name",
-                                "value": "name",
-                              },
-                              "selectionSet": undefined,
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                  "typeCondition": Object {
-                    "kind": "NamedType",
+          />
+        </QuestionnairesPage__StyledButtonGroup>
+        <QuestionnairesPage__StyledCenteredPanel>
+          <Query
+            query={
+              Object {
+                "definitions": Array [
+                  Object {
+                    "directives": Array [],
+                    "kind": "OperationDefinition",
                     "name": Object {
                       "kind": "Name",
-                      "value": "Questionnaire",
+                      "value": "GetQuestionnaireList",
+                    },
+                    "operation": "query",
+                    "selectionSet": Object {
+                      "kind": "SelectionSet",
+                      "selections": Array [
+                        Object {
+                          "alias": undefined,
+                          "arguments": Array [],
+                          "directives": Array [],
+                          "kind": "Field",
+                          "name": Object {
+                            "kind": "Name",
+                            "value": "questionnaires",
+                          },
+                          "selectionSet": Object {
+                            "kind": "SelectionSet",
+                            "selections": Array [
+                              Object {
+                                "directives": Array [],
+                                "kind": "FragmentSpread",
+                                "name": Object {
+                                  "kind": "Name",
+                                  "value": "QuestionnaireDetails",
+                                },
+                              },
+                            ],
+                          },
+                        },
+                      ],
+                    },
+                    "variableDefinitions": Array [],
+                  },
+                  Object {
+                    "directives": Array [],
+                    "kind": "FragmentDefinition",
+                    "name": Object {
+                      "kind": "Name",
+                      "value": "QuestionnaireDetails",
+                    },
+                    "selectionSet": Object {
+                      "kind": "SelectionSet",
+                      "selections": Array [
+                        Object {
+                          "alias": undefined,
+                          "arguments": Array [],
+                          "directives": Array [],
+                          "kind": "Field",
+                          "name": Object {
+                            "kind": "Name",
+                            "value": "id",
+                          },
+                          "selectionSet": undefined,
+                        },
+                        Object {
+                          "alias": undefined,
+                          "arguments": Array [],
+                          "directives": Array [],
+                          "kind": "Field",
+                          "name": Object {
+                            "kind": "Name",
+                            "value": "title",
+                          },
+                          "selectionSet": undefined,
+                        },
+                        Object {
+                          "alias": undefined,
+                          "arguments": Array [],
+                          "directives": Array [],
+                          "kind": "Field",
+                          "name": Object {
+                            "kind": "Name",
+                            "value": "shortTitle",
+                          },
+                          "selectionSet": undefined,
+                        },
+                        Object {
+                          "alias": undefined,
+                          "arguments": Array [],
+                          "directives": Array [],
+                          "kind": "Field",
+                          "name": Object {
+                            "kind": "Name",
+                            "value": "displayName",
+                          },
+                          "selectionSet": undefined,
+                        },
+                        Object {
+                          "alias": undefined,
+                          "arguments": Array [],
+                          "directives": Array [],
+                          "kind": "Field",
+                          "name": Object {
+                            "kind": "Name",
+                            "value": "createdAt",
+                          },
+                          "selectionSet": undefined,
+                        },
+                        Object {
+                          "alias": undefined,
+                          "arguments": Array [],
+                          "directives": Array [],
+                          "kind": "Field",
+                          "name": Object {
+                            "kind": "Name",
+                            "value": "createdBy",
+                          },
+                          "selectionSet": Object {
+                            "kind": "SelectionSet",
+                            "selections": Array [
+                              Object {
+                                "alias": undefined,
+                                "arguments": Array [],
+                                "directives": Array [],
+                                "kind": "Field",
+                                "name": Object {
+                                  "kind": "Name",
+                                  "value": "id",
+                                },
+                                "selectionSet": undefined,
+                              },
+                              Object {
+                                "alias": undefined,
+                                "arguments": Array [],
+                                "directives": Array [],
+                                "kind": "Field",
+                                "name": Object {
+                                  "kind": "Name",
+                                  "value": "name",
+                                },
+                                "selectionSet": undefined,
+                              },
+                            ],
+                          },
+                        },
+                      ],
+                    },
+                    "typeCondition": Object {
+                      "kind": "NamedType",
+                      "name": Object {
+                        "kind": "Name",
+                        "value": "Questionnaire",
+                      },
                     },
                   },
+                ],
+                "kind": "Document",
+                "loc": Object {
+                  "end": 304,
+                  "start": 0,
                 },
-              ],
-              "kind": "Document",
-              "loc": Object {
-                "end": 271,
-                "start": 0,
-              },
+              }
             }
-          }
-        >
-          <Component />
-        </Query>
-      </QuestionnairesPage__StyledCenteredPanel>
-    </MainCanvas>
+          >
+            <Component />
+          </Query>
+        </QuestionnairesPage__StyledCenteredPanel>
+      </MainCanvas>
+    </ScrollPane>
   </BaseLayout>
 </GetContext>
 `;
@@ -210,182 +238,210 @@ exports[`components/QuestionnairesPage should render table when there are questi
   <BaseLayout
     title="Your Questionnaires"
   >
-    <MainCanvas>
-      <QuestionnairesPage__StyledButtonGroup
-        horizontal={true}
+    <ScrollPane
+      permanentScrollBar={true}
+    >
+      <MainCanvas
+        width="55em"
       >
-        <Button
-          data-test="create-questionnaire"
-          onClick={[Function]}
-          primary={true}
-          type="button"
-          variant="primary"
+        <QuestionnairesPage__StyledButtonGroup
+          horizontal={true}
         >
-          Create
-        </Button>
-        <QuestionnaireSettingsModal
-          canEditType={true}
-          confirmText="Create"
-          isOpen={false}
-          onClose={[Function]}
-          onSubmit={[MockFunction]}
-          questionnaire={
-            Object {
-              "description": "",
-              "navigation": false,
-              "surveyId": "",
-              "theme": "default",
-              "title": "",
+          <Button
+            data-test="create-questionnaire"
+            onClick={[Function]}
+            primary={true}
+            type="button"
+            variant="primary"
+          >
+            Create questionnaire
+          </Button>
+          <QuestionnaireSettingsModal
+            canEditType={true}
+            confirmText="Create"
+            isOpen={false}
+            onClose={[Function]}
+            onSubmit={[MockFunction]}
+            questionnaire={
+              Object {
+                "description": "",
+                "navigation": false,
+                "surveyId": "",
+                "theme": "default",
+                "title": "",
+              }
             }
-          }
-        />
-      </QuestionnairesPage__StyledButtonGroup>
-      <QuestionnairesPage__StyledCenteredPanel>
-        <Query
-          query={
-            Object {
-              "definitions": Array [
-                Object {
-                  "directives": Array [],
-                  "kind": "OperationDefinition",
-                  "name": Object {
-                    "kind": "Name",
-                    "value": "GetQuestionnaireList",
-                  },
-                  "operation": "query",
-                  "selectionSet": Object {
-                    "kind": "SelectionSet",
-                    "selections": Array [
-                      Object {
-                        "alias": undefined,
-                        "arguments": Array [],
-                        "directives": Array [],
-                        "kind": "Field",
-                        "name": Object {
-                          "kind": "Name",
-                          "value": "questionnaires",
-                        },
-                        "selectionSet": Object {
-                          "kind": "SelectionSet",
-                          "selections": Array [
-                            Object {
-                              "directives": Array [],
-                              "kind": "FragmentSpread",
-                              "name": Object {
-                                "kind": "Name",
-                                "value": "QuestionnaireDetails",
-                              },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                  "variableDefinitions": Array [],
-                },
-                Object {
-                  "directives": Array [],
-                  "kind": "FragmentDefinition",
-                  "name": Object {
-                    "kind": "Name",
-                    "value": "QuestionnaireDetails",
-                  },
-                  "selectionSet": Object {
-                    "kind": "SelectionSet",
-                    "selections": Array [
-                      Object {
-                        "alias": undefined,
-                        "arguments": Array [],
-                        "directives": Array [],
-                        "kind": "Field",
-                        "name": Object {
-                          "kind": "Name",
-                          "value": "id",
-                        },
-                        "selectionSet": undefined,
-                      },
-                      Object {
-                        "alias": undefined,
-                        "arguments": Array [],
-                        "directives": Array [],
-                        "kind": "Field",
-                        "name": Object {
-                          "kind": "Name",
-                          "value": "displayName",
-                        },
-                        "selectionSet": undefined,
-                      },
-                      Object {
-                        "alias": undefined,
-                        "arguments": Array [],
-                        "directives": Array [],
-                        "kind": "Field",
-                        "name": Object {
-                          "kind": "Name",
-                          "value": "createdAt",
-                        },
-                        "selectionSet": undefined,
-                      },
-                      Object {
-                        "alias": undefined,
-                        "arguments": Array [],
-                        "directives": Array [],
-                        "kind": "Field",
-                        "name": Object {
-                          "kind": "Name",
-                          "value": "createdBy",
-                        },
-                        "selectionSet": Object {
-                          "kind": "SelectionSet",
-                          "selections": Array [
-                            Object {
-                              "alias": undefined,
-                              "arguments": Array [],
-                              "directives": Array [],
-                              "kind": "Field",
-                              "name": Object {
-                                "kind": "Name",
-                                "value": "id",
-                              },
-                              "selectionSet": undefined,
-                            },
-                            Object {
-                              "alias": undefined,
-                              "arguments": Array [],
-                              "directives": Array [],
-                              "kind": "Field",
-                              "name": Object {
-                                "kind": "Name",
-                                "value": "name",
-                              },
-                              "selectionSet": undefined,
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                  "typeCondition": Object {
-                    "kind": "NamedType",
+          />
+        </QuestionnairesPage__StyledButtonGroup>
+        <QuestionnairesPage__StyledCenteredPanel>
+          <Query
+            query={
+              Object {
+                "definitions": Array [
+                  Object {
+                    "directives": Array [],
+                    "kind": "OperationDefinition",
                     "name": Object {
                       "kind": "Name",
-                      "value": "Questionnaire",
+                      "value": "GetQuestionnaireList",
+                    },
+                    "operation": "query",
+                    "selectionSet": Object {
+                      "kind": "SelectionSet",
+                      "selections": Array [
+                        Object {
+                          "alias": undefined,
+                          "arguments": Array [],
+                          "directives": Array [],
+                          "kind": "Field",
+                          "name": Object {
+                            "kind": "Name",
+                            "value": "questionnaires",
+                          },
+                          "selectionSet": Object {
+                            "kind": "SelectionSet",
+                            "selections": Array [
+                              Object {
+                                "directives": Array [],
+                                "kind": "FragmentSpread",
+                                "name": Object {
+                                  "kind": "Name",
+                                  "value": "QuestionnaireDetails",
+                                },
+                              },
+                            ],
+                          },
+                        },
+                      ],
+                    },
+                    "variableDefinitions": Array [],
+                  },
+                  Object {
+                    "directives": Array [],
+                    "kind": "FragmentDefinition",
+                    "name": Object {
+                      "kind": "Name",
+                      "value": "QuestionnaireDetails",
+                    },
+                    "selectionSet": Object {
+                      "kind": "SelectionSet",
+                      "selections": Array [
+                        Object {
+                          "alias": undefined,
+                          "arguments": Array [],
+                          "directives": Array [],
+                          "kind": "Field",
+                          "name": Object {
+                            "kind": "Name",
+                            "value": "id",
+                          },
+                          "selectionSet": undefined,
+                        },
+                        Object {
+                          "alias": undefined,
+                          "arguments": Array [],
+                          "directives": Array [],
+                          "kind": "Field",
+                          "name": Object {
+                            "kind": "Name",
+                            "value": "title",
+                          },
+                          "selectionSet": undefined,
+                        },
+                        Object {
+                          "alias": undefined,
+                          "arguments": Array [],
+                          "directives": Array [],
+                          "kind": "Field",
+                          "name": Object {
+                            "kind": "Name",
+                            "value": "shortTitle",
+                          },
+                          "selectionSet": undefined,
+                        },
+                        Object {
+                          "alias": undefined,
+                          "arguments": Array [],
+                          "directives": Array [],
+                          "kind": "Field",
+                          "name": Object {
+                            "kind": "Name",
+                            "value": "displayName",
+                          },
+                          "selectionSet": undefined,
+                        },
+                        Object {
+                          "alias": undefined,
+                          "arguments": Array [],
+                          "directives": Array [],
+                          "kind": "Field",
+                          "name": Object {
+                            "kind": "Name",
+                            "value": "createdAt",
+                          },
+                          "selectionSet": undefined,
+                        },
+                        Object {
+                          "alias": undefined,
+                          "arguments": Array [],
+                          "directives": Array [],
+                          "kind": "Field",
+                          "name": Object {
+                            "kind": "Name",
+                            "value": "createdBy",
+                          },
+                          "selectionSet": Object {
+                            "kind": "SelectionSet",
+                            "selections": Array [
+                              Object {
+                                "alias": undefined,
+                                "arguments": Array [],
+                                "directives": Array [],
+                                "kind": "Field",
+                                "name": Object {
+                                  "kind": "Name",
+                                  "value": "id",
+                                },
+                                "selectionSet": undefined,
+                              },
+                              Object {
+                                "alias": undefined,
+                                "arguments": Array [],
+                                "directives": Array [],
+                                "kind": "Field",
+                                "name": Object {
+                                  "kind": "Name",
+                                  "value": "name",
+                                },
+                                "selectionSet": undefined,
+                              },
+                            ],
+                          },
+                        },
+                      ],
+                    },
+                    "typeCondition": Object {
+                      "kind": "NamedType",
+                      "name": Object {
+                        "kind": "Name",
+                        "value": "Questionnaire",
+                      },
                     },
                   },
+                ],
+                "kind": "Document",
+                "loc": Object {
+                  "end": 304,
+                  "start": 0,
                 },
-              ],
-              "kind": "Document",
-              "loc": Object {
-                "end": 271,
-                "start": 0,
-              },
+              }
             }
-          }
-        >
-          <Component />
-        </Query>
-      </QuestionnairesPage__StyledCenteredPanel>
-    </MainCanvas>
+          >
+            <Component />
+          </Query>
+        </QuestionnairesPage__StyledCenteredPanel>
+      </MainCanvas>
+    </ScrollPane>
   </BaseLayout>
 </GetContext>
 `;
@@ -399,6 +455,7 @@ exports[`components/QuestionnairesPage should render table when there are questi
       Object {
         "createdAt": "01/01/1970",
         "createdBy": Object {
+          "id": "1",
           "name": "Mike",
         },
         "displayName": "Test questionnaire",
@@ -413,6 +470,8 @@ exports[`components/QuestionnairesPage should render table when there are questi
             ],
           },
         ],
+        "shortTitle": "Short title",
+        "title": "Test questionnaire",
       },
     ]
   }
@@ -426,182 +485,210 @@ exports[`components/QuestionnairesPage should render when there are no questionn
   <BaseLayout
     title="Your Questionnaires"
   >
-    <MainCanvas>
-      <QuestionnairesPage__StyledButtonGroup
-        horizontal={true}
+    <ScrollPane
+      permanentScrollBar={true}
+    >
+      <MainCanvas
+        width="55em"
       >
-        <Button
-          data-test="create-questionnaire"
-          onClick={[Function]}
-          primary={true}
-          type="button"
-          variant="primary"
+        <QuestionnairesPage__StyledButtonGroup
+          horizontal={true}
         >
-          Create
-        </Button>
-        <QuestionnaireSettingsModal
-          canEditType={true}
-          confirmText="Create"
-          isOpen={false}
-          onClose={[Function]}
-          onSubmit={[MockFunction]}
-          questionnaire={
-            Object {
-              "description": "",
-              "navigation": false,
-              "surveyId": "",
-              "theme": "default",
-              "title": "",
+          <Button
+            data-test="create-questionnaire"
+            onClick={[Function]}
+            primary={true}
+            type="button"
+            variant="primary"
+          >
+            Create questionnaire
+          </Button>
+          <QuestionnaireSettingsModal
+            canEditType={true}
+            confirmText="Create"
+            isOpen={false}
+            onClose={[Function]}
+            onSubmit={[MockFunction]}
+            questionnaire={
+              Object {
+                "description": "",
+                "navigation": false,
+                "surveyId": "",
+                "theme": "default",
+                "title": "",
+              }
             }
-          }
-        />
-      </QuestionnairesPage__StyledButtonGroup>
-      <QuestionnairesPage__StyledCenteredPanel>
-        <Query
-          query={
-            Object {
-              "definitions": Array [
-                Object {
-                  "directives": Array [],
-                  "kind": "OperationDefinition",
-                  "name": Object {
-                    "kind": "Name",
-                    "value": "GetQuestionnaireList",
-                  },
-                  "operation": "query",
-                  "selectionSet": Object {
-                    "kind": "SelectionSet",
-                    "selections": Array [
-                      Object {
-                        "alias": undefined,
-                        "arguments": Array [],
-                        "directives": Array [],
-                        "kind": "Field",
-                        "name": Object {
-                          "kind": "Name",
-                          "value": "questionnaires",
-                        },
-                        "selectionSet": Object {
-                          "kind": "SelectionSet",
-                          "selections": Array [
-                            Object {
-                              "directives": Array [],
-                              "kind": "FragmentSpread",
-                              "name": Object {
-                                "kind": "Name",
-                                "value": "QuestionnaireDetails",
-                              },
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                  "variableDefinitions": Array [],
-                },
-                Object {
-                  "directives": Array [],
-                  "kind": "FragmentDefinition",
-                  "name": Object {
-                    "kind": "Name",
-                    "value": "QuestionnaireDetails",
-                  },
-                  "selectionSet": Object {
-                    "kind": "SelectionSet",
-                    "selections": Array [
-                      Object {
-                        "alias": undefined,
-                        "arguments": Array [],
-                        "directives": Array [],
-                        "kind": "Field",
-                        "name": Object {
-                          "kind": "Name",
-                          "value": "id",
-                        },
-                        "selectionSet": undefined,
-                      },
-                      Object {
-                        "alias": undefined,
-                        "arguments": Array [],
-                        "directives": Array [],
-                        "kind": "Field",
-                        "name": Object {
-                          "kind": "Name",
-                          "value": "displayName",
-                        },
-                        "selectionSet": undefined,
-                      },
-                      Object {
-                        "alias": undefined,
-                        "arguments": Array [],
-                        "directives": Array [],
-                        "kind": "Field",
-                        "name": Object {
-                          "kind": "Name",
-                          "value": "createdAt",
-                        },
-                        "selectionSet": undefined,
-                      },
-                      Object {
-                        "alias": undefined,
-                        "arguments": Array [],
-                        "directives": Array [],
-                        "kind": "Field",
-                        "name": Object {
-                          "kind": "Name",
-                          "value": "createdBy",
-                        },
-                        "selectionSet": Object {
-                          "kind": "SelectionSet",
-                          "selections": Array [
-                            Object {
-                              "alias": undefined,
-                              "arguments": Array [],
-                              "directives": Array [],
-                              "kind": "Field",
-                              "name": Object {
-                                "kind": "Name",
-                                "value": "id",
-                              },
-                              "selectionSet": undefined,
-                            },
-                            Object {
-                              "alias": undefined,
-                              "arguments": Array [],
-                              "directives": Array [],
-                              "kind": "Field",
-                              "name": Object {
-                                "kind": "Name",
-                                "value": "name",
-                              },
-                              "selectionSet": undefined,
-                            },
-                          ],
-                        },
-                      },
-                    ],
-                  },
-                  "typeCondition": Object {
-                    "kind": "NamedType",
+          />
+        </QuestionnairesPage__StyledButtonGroup>
+        <QuestionnairesPage__StyledCenteredPanel>
+          <Query
+            query={
+              Object {
+                "definitions": Array [
+                  Object {
+                    "directives": Array [],
+                    "kind": "OperationDefinition",
                     "name": Object {
                       "kind": "Name",
-                      "value": "Questionnaire",
+                      "value": "GetQuestionnaireList",
+                    },
+                    "operation": "query",
+                    "selectionSet": Object {
+                      "kind": "SelectionSet",
+                      "selections": Array [
+                        Object {
+                          "alias": undefined,
+                          "arguments": Array [],
+                          "directives": Array [],
+                          "kind": "Field",
+                          "name": Object {
+                            "kind": "Name",
+                            "value": "questionnaires",
+                          },
+                          "selectionSet": Object {
+                            "kind": "SelectionSet",
+                            "selections": Array [
+                              Object {
+                                "directives": Array [],
+                                "kind": "FragmentSpread",
+                                "name": Object {
+                                  "kind": "Name",
+                                  "value": "QuestionnaireDetails",
+                                },
+                              },
+                            ],
+                          },
+                        },
+                      ],
+                    },
+                    "variableDefinitions": Array [],
+                  },
+                  Object {
+                    "directives": Array [],
+                    "kind": "FragmentDefinition",
+                    "name": Object {
+                      "kind": "Name",
+                      "value": "QuestionnaireDetails",
+                    },
+                    "selectionSet": Object {
+                      "kind": "SelectionSet",
+                      "selections": Array [
+                        Object {
+                          "alias": undefined,
+                          "arguments": Array [],
+                          "directives": Array [],
+                          "kind": "Field",
+                          "name": Object {
+                            "kind": "Name",
+                            "value": "id",
+                          },
+                          "selectionSet": undefined,
+                        },
+                        Object {
+                          "alias": undefined,
+                          "arguments": Array [],
+                          "directives": Array [],
+                          "kind": "Field",
+                          "name": Object {
+                            "kind": "Name",
+                            "value": "title",
+                          },
+                          "selectionSet": undefined,
+                        },
+                        Object {
+                          "alias": undefined,
+                          "arguments": Array [],
+                          "directives": Array [],
+                          "kind": "Field",
+                          "name": Object {
+                            "kind": "Name",
+                            "value": "shortTitle",
+                          },
+                          "selectionSet": undefined,
+                        },
+                        Object {
+                          "alias": undefined,
+                          "arguments": Array [],
+                          "directives": Array [],
+                          "kind": "Field",
+                          "name": Object {
+                            "kind": "Name",
+                            "value": "displayName",
+                          },
+                          "selectionSet": undefined,
+                        },
+                        Object {
+                          "alias": undefined,
+                          "arguments": Array [],
+                          "directives": Array [],
+                          "kind": "Field",
+                          "name": Object {
+                            "kind": "Name",
+                            "value": "createdAt",
+                          },
+                          "selectionSet": undefined,
+                        },
+                        Object {
+                          "alias": undefined,
+                          "arguments": Array [],
+                          "directives": Array [],
+                          "kind": "Field",
+                          "name": Object {
+                            "kind": "Name",
+                            "value": "createdBy",
+                          },
+                          "selectionSet": Object {
+                            "kind": "SelectionSet",
+                            "selections": Array [
+                              Object {
+                                "alias": undefined,
+                                "arguments": Array [],
+                                "directives": Array [],
+                                "kind": "Field",
+                                "name": Object {
+                                  "kind": "Name",
+                                  "value": "id",
+                                },
+                                "selectionSet": undefined,
+                              },
+                              Object {
+                                "alias": undefined,
+                                "arguments": Array [],
+                                "directives": Array [],
+                                "kind": "Field",
+                                "name": Object {
+                                  "kind": "Name",
+                                  "value": "name",
+                                },
+                                "selectionSet": undefined,
+                              },
+                            ],
+                          },
+                        },
+                      ],
+                    },
+                    "typeCondition": Object {
+                      "kind": "NamedType",
+                      "name": Object {
+                        "kind": "Name",
+                        "value": "Questionnaire",
+                      },
                     },
                   },
+                ],
+                "kind": "Document",
+                "loc": Object {
+                  "end": 304,
+                  "start": 0,
                 },
-              ],
-              "kind": "Document",
-              "loc": Object {
-                "end": 271,
-                "start": 0,
-              },
+              }
             }
-          }
-        >
-          <Component />
-        </Query>
-      </QuestionnairesPage__StyledCenteredPanel>
-    </MainCanvas>
+          >
+            <Component />
+          </Query>
+        </QuestionnairesPage__StyledCenteredPanel>
+      </MainCanvas>
+    </ScrollPane>
   </BaseLayout>
 </GetContext>
 `;

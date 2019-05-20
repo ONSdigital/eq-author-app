@@ -2,51 +2,52 @@ import React from "react";
 import { shallow } from "enzyme";
 
 import IconButtonDelete from "components/buttons/IconButtonDelete";
-import DuplicateButton from "components/buttons/DuplicateButton";
+import { colors } from "constants/theme";
 
-import Row from "App/QuestionnairesPage/QuestionnairesTable/Row";
+import {
+  Row,
+  TR,
+  ShortTitle,
+  DuplicateQuestionnaireButton,
+  QuestionnaireLink,
+} from "App/QuestionnairesPage/QuestionnairesTable/Row";
 
 describe("Row", () => {
-  let questionnaire, handleDeleteQuestionnaire, handleDuplicateQuestionnaire;
+  let props;
 
   beforeEach(() => {
-    questionnaire = {
-      id: "1",
-      displayName: "Foo",
-      createdAt: "2017/01/02",
-      sections: [
-        {
-          id: "1",
-          pages: [{ id: "1" }],
+    props = {
+      onDeleteQuestionnaire: jest.fn(),
+      onDuplicateQuestionnaire: jest.fn(),
+      history: {
+        push: jest.fn(),
+      },
+      questionnaire: {
+        id: "1",
+        displayName: "Foo",
+        shortTitle: "Test title",
+        createdAt: "2017/01/02",
+        sections: [
+          {
+            id: "1",
+            pages: [{ id: "1" }],
+          },
+        ],
+        createdBy: {
+          name: "Alan",
         },
-      ],
-      createdBy: {
-        name: "Alan",
       },
     };
-    handleDeleteQuestionnaire = jest.fn();
-    handleDuplicateQuestionnaire = jest.fn();
   });
 
   it("should render", () => {
-    const wrapper = shallow(
-      <Row
-        questionnaire={questionnaire}
-        onDuplicateQuestionnaire={handleDuplicateQuestionnaire}
-        onDeleteQuestionnaire={handleDeleteQuestionnaire}
-      />
-    );
+    const wrapper = shallow(<Row {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
 
   it("should auto focus when it receives autofocus", () => {
-    const wrapper = shallow(
-      <Row
-        questionnaire={questionnaire}
-        onDuplicateQuestionnaire={handleDuplicateQuestionnaire}
-        onDeleteQuestionnaire={handleDeleteQuestionnaire}
-      />
-    );
+    const wrapper = shallow(<Row {...props} />);
+
     const focus = jest.fn();
     const getElementsByTagName = jest.fn(() => [{ focus }]);
     const instance = wrapper.instance();
@@ -60,51 +61,99 @@ describe("Row", () => {
     expect(focus).toHaveBeenCalled();
   });
 
+  it("should handle row focus state change correctly", () => {
+    const wrapper = shallow(<Row {...props} />);
+    wrapper.find(TR).simulate("focus");
+    expect(wrapper.find(TR)).toHaveStyleRule(
+      "border-color",
+      `${colors.tertiary}`
+    );
+    wrapper.find(TR).simulate("blur");
+    expect(wrapper.find(TR)).not.toHaveStyleRule(
+      "border-color",
+      `${colors.tertiary}`
+    );
+  });
+
+  it("should handle button focus state change correctly", () => {
+    const wrapper = shallow(<Row {...props} />);
+    const tableRow = wrapper.find(TR);
+    const actionButton = wrapper.find("[data-test='action-btn-group']");
+    const stopPropagation = jest.fn();
+
+    tableRow.simulate("focus");
+    expect(wrapper.state("linkHasFocus")).toBeTruthy();
+    actionButton.simulate("focus", {
+      stopPropagation,
+    });
+    expect(wrapper.state("linkHasFocus")).toBeFalsy();
+    expect(stopPropagation).toHaveBeenCalled();
+  });
+
+  it("should navigate to the questionnaire when the row is clicked", () => {
+    const wrapper = shallow(<Row {...props} />);
+    const tableRow = wrapper.find(TR);
+    tableRow.simulate("click");
+    expect(props.history.push).toHaveBeenCalled();
+  });
+
+  it("should only navigate to the questionnaire once when clicking the link", () => {
+    const wrapper = shallow(<Row {...props} />);
+    const tableLink = wrapper.find(QuestionnaireLink);
+    const stopPropagation = jest.fn();
+    tableLink.simulate("click", { stopPropagation });
+    expect(stopPropagation).toHaveBeenCalled();
+  });
+
+  it("should only grab focus once", () => {
+    const wrapper = shallow(<Row {...props} />);
+
+    const focus = jest.fn();
+    const getElementsByTagName = jest.fn(() => [{ focus }]);
+    const instance = wrapper.instance();
+    instance.rowRef = { current: { getElementsByTagName } };
+
+    wrapper.setProps({
+      autoFocus: true,
+    });
+
+    wrapper.setProps({
+      autoFocus: true,
+    });
+
+    expect(focus).toHaveBeenCalledTimes(1);
+  });
+
   it("should allow duplication of a Questionnaire", () => {
-    const wrapper = shallow(
-      <Row
-        questionnaire={questionnaire}
-        onDeleteQuestionnaire={handleDeleteQuestionnaire}
-        onDuplicateQuestionnaire={handleDuplicateQuestionnaire}
-      />
+    const wrapper = shallow(<Row {...props} />);
+    const stopPropagation = jest.fn();
+    wrapper
+      .find(DuplicateQuestionnaireButton)
+      .simulate("click", { stopPropagation });
+
+    expect(props.onDuplicateQuestionnaire).toHaveBeenCalledWith(
+      props.questionnaire
     );
-
-    wrapper.find(DuplicateButton).simulate("click");
-
-    expect(handleDuplicateQuestionnaire).toHaveBeenCalledWith(questionnaire);
+    expect(stopPropagation).toHaveBeenCalled();
   });
 
-  it("should not re-render if the props we care about dont change", () => {
-    const wrapper = shallow(
-      <Row
-        questionnaire={questionnaire}
-        onDeleteQuestionnaire={handleDeleteQuestionnaire}
-        onDuplicateQuestionnaire={handleDuplicateQuestionnaire}
-      />
+  it("should call onDeleteQuestionnaire when the delete button is clicked", () => {
+    const wrapper = shallow(<Row {...props} />);
+    const stopPropagation = jest.fn();
+    wrapper.find(IconButtonDelete).simulate("click", { stopPropagation });
+
+    expect(props.onDeleteQuestionnaire).toHaveBeenCalledWith(
+      props.questionnaire
     );
-    expect(
-      wrapper.instance().shouldComponentUpdate(
-        {
-          questionnaire,
-          onDeleteQuestionnaire: handleDeleteQuestionnaire,
-          onDuplicateQuestionnaire: handleDuplicateQuestionnaire,
-          foo: "bar",
-        },
-        { showDeleteQuestionnaireDialog: false }
-      )
-    ).toBeFalsy();
+    expect(stopPropagation).toHaveBeenCalled();
   });
 
-  it("should call delete confirm dialog when the delete button is clicked", () => {
-    const wrapper = shallow(
-      <Row
-        questionnaire={questionnaire}
-        onDeleteQuestionnaire={handleDeleteQuestionnaire}
-        onDuplicateQuestionnaire={handleDuplicateQuestionnaire}
-      />
-    );
-    wrapper.find(IconButtonDelete).simulate("click");
-
-    expect(handleDeleteQuestionnaire).toHaveBeenCalledWith(questionnaire);
+  it("should show the short title when it is provided", () => {
+    let wrapper = shallow(<Row {...props} />);
+    let shortTitle = wrapper.find(ShortTitle);
+    expect(shortTitle).toMatchSnapshot();
+    props.questionnaire.shortTitle = "";
+    wrapper = shallow(<Row {...props} />);
+    expect(wrapper.find(ShortTitle)).toHaveLength(0);
   });
 });

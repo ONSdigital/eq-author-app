@@ -8,6 +8,8 @@ const stubs = {
           createdAt: "2019-01-01",
           createdBy: { id: "1", name: "Test user", __typename: "User" },
           id: "893182fe-75ae-446c-b801-367dfdc2d728",
+          title: "Test Questionnaire",
+          shortTitle: "",
           displayName: "Test Questionnaire",
           __typename: "Questionnaire",
         },
@@ -52,7 +54,7 @@ describe("dashboard", () => {
     });
 
     describe("questionnaire info", () => {
-      it("should title of existing questionnaires", () => {
+      it("should display title of existing questionnaires", () => {
         cy.contains("Test Questionnaire").should("be.visible");
       });
 

@@ -194,7 +194,10 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
     }
 
     return (
-      <BaseLayout questionnaire={questionnaire}>
+      <BaseLayout
+        questionnaire={questionnaire}
+        title={loading ? "" : questionnaire.displayName}
+      >
         <Titled title={this.getTitle}>
           <Grid>
             <Column cols={3} gutters={false}>

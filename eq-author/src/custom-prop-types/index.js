@@ -65,16 +65,6 @@ const CustomPropTypes = {
       tab: PropTypes.string,
     }).isRequired,
   }).isRequired,
-  questionnaireList: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      displayName: PropTypes.string.isRequired,
-      createdAt: PropTypes.string.isRequired,
-      createdBy: PropTypes.shape({
-        name: PropTypes.string,
-      }).isRequired,
-    }).isRequired
-  ),
   apolloClient: PropTypes.shape({
     query: PropTypes.func.isRequired,
     readQuery: PropTypes.func.isRequired,
