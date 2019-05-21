@@ -102,9 +102,3 @@ exports[`QuestionnairesTable should render 1`] = `
   />
 </QuestionnairesTable__Panel>
 `;
-
-exports[`QuestionnairesTable should render message when no questionnaires 1`] = `
-<p>
-  You have no questionnaires
-</p>
-`;

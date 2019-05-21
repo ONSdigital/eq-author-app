@@ -67,7 +67,7 @@ describe("dashboard", () => {
       it("should delete the questionnaire", () => {
         cy.get(testId("btn-delete-questionnaire")).click();
         cy.get(testId("btn-delete-modal")).click();
-        cy.contains("You have no questionnaires").should("be.visible");
+        cy.contains("No questionnaires found").should("be.visible");
       });
 
       it("should display toast when questionnaire is deleted", () => {
@@ -92,7 +92,7 @@ describe("dashboard", () => {
     });
 
     it("should not display any results", () => {
-      cy.contains("You have no questionnaires").should("be.visible");
+      cy.contains("No questionnaires found").should("be.visible");
     });
   });
 });
