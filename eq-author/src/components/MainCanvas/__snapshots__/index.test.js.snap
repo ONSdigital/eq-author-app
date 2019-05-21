@@ -2,7 +2,7 @@
 
 exports[`MainCanvas should render 1`] = `
 .c0 {
-  width: 55em;
+  max-width: 55em;
   margin: 0 auto 1em;
   padding: 0 1em;
   position: relative;
@@ -10,7 +10,6 @@ exports[`MainCanvas should render 1`] = `
 
 <div
   className="c0"
-  width="55em"
 >
   Children
 </div>
