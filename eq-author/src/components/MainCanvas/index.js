@@ -1,14 +1,14 @@
 import styled from "styled-components";
 
 const MainCanvas = styled.div`
-  width: ${props => props.width};
+  max-width: ${props => props.maxWidth};
   margin: 0 auto 1em;
   padding: 0 1em;
   position: relative;
 `;
 
 MainCanvas.defaultProps = {
-  width: "55em",
+  maxWidth: "55em",
 };
 
 export default MainCanvas;

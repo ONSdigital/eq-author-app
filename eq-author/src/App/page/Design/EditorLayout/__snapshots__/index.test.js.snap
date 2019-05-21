@@ -14,7 +14,7 @@ exports[`Editor Layout should render 1`] = `
     >
       <EditorLayout__Margin>
         <MainCanvas
-          width="55em"
+          maxWidth="55em"
         >
           <Connect(UnconnectedSavingIndicator) />
           <withRouter(UnwrappedTabs)
