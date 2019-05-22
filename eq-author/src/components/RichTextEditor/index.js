@@ -183,7 +183,7 @@ class RichTextEditor extends React.Component {
     ),
     disabled: PropTypes.bool,
     errorValidationInfo: PropTypes.shape({
-      errorCode: PropTypes.string,
+      errorCode: PropTypes.number,
       errorMessage: PropTypes.string,
     }),
   };

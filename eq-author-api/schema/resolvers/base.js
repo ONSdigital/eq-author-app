@@ -521,6 +521,11 @@ const Resolvers = {
     id: destination => destination.logicalDestination,
   },
 
+  ValidationErrorInfo: {
+    errors: errorInfo => errorInfo,
+    totalCount: errorInfo => errorInfo.length,
+  },
+
   Answer: {
     __resolveType: ({ type }) => {
       if (includes(["Checkbox", "Radio"], type)) {

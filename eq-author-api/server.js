@@ -13,6 +13,8 @@ const loadQuestionnaire = require("./middleware/loadQuestionnaire");
 const runQuestionnaireMigrations = require("./middleware/runQuestionnaireMigrations");
 const exportQuestionnaire = require("./middleware/export");
 const importQuestionnaire = require("./middleware/import");
+const validateQuestionnaire = require("./middleware/validateQuestionnaire");
+
 const schema = require("./schema");
 
 const app = express();
@@ -47,13 +49,18 @@ app.use(
   cors(),
   createAuthMiddleware(logger),
   loadQuestionnaire,
-  runQuestionnaireMigrations(logger)(require("./migrations"))
+  runQuestionnaireMigrations(logger)(require("./migrations")),
+  validateQuestionnaire
 );
 
 const server = new ApolloServer({
   ...schema,
   context: ({ req }) => {
-    return { questionnaire: req.questionnaire, auth: req.auth };
+    return {
+      questionnaire: req.questionnaire,
+      auth: req.auth,
+      validationErrorInfo: req.validationErrorInfo,
+    };
   },
 });
 server.applyMiddleware({ app });
