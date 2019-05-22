@@ -200,7 +200,12 @@ describe("calculated summary", () => {
 
     typeIntoDraftEditor(testId("txt-total-title", "testid"), "General total");
 
+    cy.get(testId("saving-indicator")).should("have.length", 0);
+
     cy.get(testId(`${NUMBER}-suggestion`)).click();
+
+    cy.get(testId("remove-answer-button")).should("have.length", 3);
+
     cy.get(testId("preview")).click();
 
     cy.get(testId("page-title")).should("contain", "Hello there");
