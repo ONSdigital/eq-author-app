@@ -13,6 +13,8 @@ node_js:
 
 cache:
   yarn: true
+  directories:
+     - ~/.cache
 
 before_script:
   - set -e
