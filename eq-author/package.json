@@ -74,6 +74,7 @@
     "react-router-test-context": "latest",
     "react-svg-loader": "latest",
     "react-test-renderer": "latest",
+    "react-testing-library": "^7.0.1",
     "recursive-readdir": "latest",
     "redux-mock-store": "latest",
     "resolve": "latest",

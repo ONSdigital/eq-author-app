@@ -2,20 +2,23 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled, { css } from "styled-components";
 import { withRouter, NavLink } from "react-router-dom";
+import { rgba } from "polished";
 
 import CustomPropTypes from "custom-prop-types";
 
 import IconButtonDelete from "components/buttons/IconButtonDelete";
 import DuplicateButton from "components/buttons/DuplicateButton";
+import FadeTransition from "components/transitions/FadeTransition";
+import DeleteConfirmDialog from "components/DeleteConfirmDialog";
 import Truncated from "components/Truncated";
+
+import { buildQuestionnairePath } from "utils/UrlUtils";
 
 import { colors } from "constants/theme";
 
-import FormattedDate from "App/QuestionnairesPage/FormattedDate";
-import FadeTransition from "components/transitions/FadeTransition";
+import FormattedDate from "./FormattedDate";
 
-import { rgba } from "polished";
-import { buildQuestionnairePath } from "utils/UrlUtils";
+import questionConfirmationIcon from "./icon-questionnaire.svg";
 
 export const QuestionnaireLink = styled(NavLink)`
   text-decoration: none;
@@ -86,11 +89,14 @@ export class Row extends React.Component {
     exit: PropTypes.bool,
     enter: PropTypes.bool,
     autoFocus: PropTypes.bool,
+    isLastOnPage: PropTypes.bool,
   };
 
   state = {
     linkHasFocus: false,
     disabled: true,
+    showDeleteModal: false,
+    transitionOut: false,
   };
 
   rowRef = React.createRef();
@@ -101,6 +107,12 @@ export class Row extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (!prevProps.autoFocus && this.props.autoFocus) {
+      this.focusLink();
+    }
+  }
+
+  componentDidMount() {
+    if (this.props.autoFocus) {
       this.focusLink();
     }
   }
@@ -143,6 +155,18 @@ export class Row extends React.Component {
 
   handleDeleteQuestionnaire = e => {
     e.stopPropagation();
+    this.setState({
+      showDeleteModal: true,
+      transitionOut: !this.props.isLastOnPage,
+    });
+  };
+
+  handleModalClose = () => {
+    this.setState({ showDeleteModal: false, transitionOut: false });
+  };
+
+  handleModalConfirm = () => {
+    this.setState({ showDeleteModal: false });
     this.props.onDeleteQuestionnaire(this.props.questionnaire);
   };
 
@@ -150,52 +174,66 @@ export class Row extends React.Component {
     const { questionnaire, ...rest } = this.props;
 
     return (
-      <FadeTransition {...rest} exit>
-        <TR
-          innerRef={this.rowRef}
-          onFocus={this.handleFocus}
-          onBlur={this.handleBlur}
-          linkHasFocus={this.state.linkHasFocus}
-          onClick={this.handleClick}
-        >
-          <TD>
-            <QuestionnaireLink
-              data-test="anchor-questionnaire-title"
-              title={questionnaire.displayName}
-              onClick={this.handleLinkClick}
-              to={buildQuestionnairePath({
-                questionnaireId: questionnaire.id,
-              })}
-            >
-              {questionnaire.shortTitle && (
-                <ShortTitle>
-                  <Truncated>{questionnaire.shortTitle}</Truncated>
-                </ShortTitle>
-              )}
-              <Truncated>{questionnaire.title}</Truncated>
-            </QuestionnaireLink>
-          </TD>
-          <TD>
-            <FormattedDate date={questionnaire.createdAt} />
-          </TD>
-          <TD>{questionnaire.createdBy.name}</TD>
-          <TD>
-            <div onFocus={this.handleButtonFocus} data-test="action-btn-group">
-              <ButtonGroup>
-                <DuplicateQuestionnaireButton
-                  data-test="btn-duplicate-questionnaire"
-                  onClick={this.handleDuplicateQuestionnaire}
-                />
-                <IconButtonDelete
-                  hideText
-                  data-test="btn-delete-questionnaire"
-                  onClick={this.handleDeleteQuestionnaire}
-                />
-              </ButtonGroup>
-            </div>
-          </TD>
-        </TR>
-      </FadeTransition>
+      <>
+        <FadeTransition {...rest} exit={this.state.transitionOut}>
+          <TR
+            innerRef={this.rowRef}
+            onFocus={this.handleFocus}
+            onBlur={this.handleBlur}
+            linkHasFocus={this.state.linkHasFocus}
+            onClick={this.handleClick}
+          >
+            <TD>
+              <QuestionnaireLink
+                data-test="anchor-questionnaire-title"
+                title={questionnaire.displayName}
+                onClick={this.handleLinkClick}
+                to={buildQuestionnairePath({
+                  questionnaireId: questionnaire.id,
+                })}
+              >
+                {questionnaire.shortTitle && (
+                  <ShortTitle>
+                    <Truncated>{questionnaire.shortTitle}</Truncated>
+                  </ShortTitle>
+                )}
+                <Truncated>{questionnaire.title}</Truncated>
+              </QuestionnaireLink>
+            </TD>
+            <TD>
+              <FormattedDate date={questionnaire.createdAt} />
+            </TD>
+            <TD>{questionnaire.createdBy.name}</TD>
+            <TD>
+              <div
+                onFocus={this.handleButtonFocus}
+                data-test="action-btn-group"
+              >
+                <ButtonGroup>
+                  <DuplicateQuestionnaireButton
+                    data-test="btn-duplicate-questionnaire"
+                    onClick={this.handleDuplicateQuestionnaire}
+                  />
+                  <IconButtonDelete
+                    hideText
+                    data-test="btn-delete-questionnaire"
+                    onClick={this.handleDeleteQuestionnaire}
+                  />
+                </ButtonGroup>
+              </div>
+            </TD>
+          </TR>
+        </FadeTransition>
+        <DeleteConfirmDialog
+          isOpen={this.state.showDeleteModal}
+          onClose={this.handleModalClose}
+          onDelete={this.handleModalConfirm}
+          title={questionnaire.displayName}
+          alertText="This questionnaire including all sections and questions will be deleted."
+          icon={questionConfirmationIcon}
+          data-test="delete-questionnaire"
+        />
+      </>
     );
   }
 }

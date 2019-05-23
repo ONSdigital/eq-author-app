@@ -78,6 +78,37 @@ describe("dashboard", () => {
     });
   });
 
+  describe("pagination", () => {
+    beforeEach(() => {
+      const questionnaires = new Array(20).fill("").map((_, index) => {
+        const q = stubs.GetQuestionnaireList.data.questionnaires[0];
+        return { ...q, id: `q${index}`, title: `Questionnaire ${index} title` };
+      });
+      cy.visitStubbed("/", {
+        ...stubs,
+        GetQuestionnaireList: {
+          data: {
+            questionnaires,
+          },
+        },
+      });
+      cy.login();
+    });
+
+    it("can go to the second page", () => {
+      cy.contains("1 of 2").should("have.length", 1);
+      cy.get(testId("next-page-btn")).click();
+      cy.contains("2 of 2").should("have.length", 1);
+    });
+
+    it("can go to the back to the first page", () => {
+      cy.contains("1 of 2").should("have.length", 1);
+      cy.get(testId("next-page-btn")).click();
+      cy.get(testId("prev-page-btn")).click();
+      cy.contains("1 of 2").should("have.length", 1);
+    });
+  });
+
   describe("empty state", () => {
     beforeEach(() => {
       cy.visitStubbed("/", {
