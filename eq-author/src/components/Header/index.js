@@ -2,13 +2,16 @@ import React from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import { colors } from "constants/theme";
-import config from "config";
+import gql from "graphql-tag";
+import { Query } from "react-apollo";
+import { flowRight, get } from "lodash/fp";
+import { Link, withRouter } from "react-router-dom";
 
 import { raiseToast } from "redux/toast/actions";
 
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
-import { Link, withRouter } from "react-router-dom";
+import config from "config";
 
 import Button from "components/buttons/Button";
 import LinkButton from "components/buttons/Button/LinkButton";
@@ -20,13 +23,12 @@ import logo from "components/Header/logo.svg";
 
 import shareIcon from "components/Header/icon-share.svg?inline";
 import viewIcon from "components/Header/icon-view.svg?inline";
-
 import IconText from "components/IconText";
 import Truncated from "components/Truncated";
-import gql from "graphql-tag";
-import { Query } from "react-apollo";
-import { flowRight, get } from "lodash/fp";
+
 import { Routes } from "utils/UrlUtils";
+
+import ValidationContext from "App/ValidationContext";
 
 const StyledHeader = styled.header`
   display: flex;
@@ -155,15 +157,21 @@ export class UnconnectedHeader extends React.Component {
         <UtilityBtns>
           {questionnaire && (
             <React.Fragment>
-              <LinkButton
-                href={this.getPreviewUrl(this.props.questionnaire.id)}
-                variant="tertiary-light"
-                data-test="btn-preview"
-                small
-                disabled={!this.canLaunchSurvey()}
-              >
-                <IconText icon={viewIcon}>View survey</IconText>
-              </LinkButton>
+              <ValidationContext.Consumer>
+                {errorCount => (
+                  <LinkButton
+                    href={this.getPreviewUrl(this.props.questionnaire.id)}
+                    variant="tertiary-light"
+                    data-test="btn-preview"
+                    small
+                    disabled={errorCount % 2 === 0}
+                  >
+                    <IconText icon={viewIcon}>
+                      View survey ({errorCount})
+                    </IconText>
+                  </LinkButton>
+                )}
+              </ValidationContext.Consumer>
               <ShareButton
                 variant="tertiary-light"
                 onClick={this.handleShare}
