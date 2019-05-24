@@ -103,6 +103,8 @@
     "apollo-link-context": "latest",
     "apollo-link-error": "latest",
     "apollo-link-http": "latest",
+    "apollo-link-ws": "^1.0.17",
+    "apollo-utilities": "^1.3.0",
     "connected-react-router": "latest",
     "downshift": "latest",
     "draft-convert": "latest",
@@ -145,6 +147,7 @@
     "redux-devtools-extension": "latest",
     "redux-thunk": "latest",
     "styled-components": "^3.4.9",
+    "subscriptions-transport-ws": "^0.9.16",
     "synchronous-promise": "latest",
     "uncontrollable": "^4.1.0",
     "uuid": "latest"

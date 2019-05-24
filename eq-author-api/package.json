@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "ajv-errors": "^1.0.1",
+    "apollo-server": "^2.5.0",
     "apollo-server-express": "latest",
     "body-parser": "latest",
     "chalk": "latest",

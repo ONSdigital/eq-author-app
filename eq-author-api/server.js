@@ -5,6 +5,7 @@ const pinoMiddleware = require("express-pino-logger");
 const helmet = require("helmet");
 const noir = require("pino-noir");
 const bodyParser = require("body-parser");
+const http = require("http");
 
 const status = require("./middleware/status");
 const { getLaunchUrl } = require("./middleware/launch");
@@ -17,6 +18,8 @@ const validateQuestionnaire = require("./middleware/validateQuestionnaire");
 
 const schema = require("./schema");
 
+const { PORT = 4000 } = process.env;
+
 const app = express();
 const pino = pinoMiddleware({
   serializers: noir(["req.headers.authorization"], "[Redacted]"),
@@ -25,26 +28,26 @@ const logger = pino.logger;
 
 app.use(
   "/graphql",
-  helmet({
-    referrerPolicy: {
-      policy: "no-referrer",
-    },
-    frameguard: {
-      action: "deny",
-    },
-    contentSecurityPolicy: {
-      directives: {
-        defaultSrc: ["'self'"],
-        objectSrc: ["'none'"],
-        baseUri: ["'none'"],
-        fontSrc: ["'self'", "'https://fonts.gstatic.com'"],
-        scriptSrc: [
-          "'self'",
-          "'https://www.googleapis.com/identitytoolkit/v3'",
-        ],
-      },
-    },
-  }),
+  // helmet({
+  //   referrerPolicy: {
+  //     policy: "no-referrer",
+  //   },
+  //   frameguard: {
+  //     action: "deny",
+  //   },
+  //   contentSecurityPolicy: {
+  //     directives: {
+  //       defaultSrc: ["'self'"],
+  //       objectSrc: ["'none'"],
+  //       baseUri: ["'none'"],
+  //       fontSrc: ["'self'", "'https://fonts.gstatic.com'"],
+  //       scriptSrc: [
+  //         "'self'",
+  //         "'https://www.googleapis.com/identitytoolkit/v3'",
+  //       ],
+  //     },
+  //   },
+  // }),
   pino,
   cors(),
   createAuthMiddleware(logger),
@@ -55,13 +58,18 @@ app.use(
 
 const server = new ApolloServer({
   ...schema,
-  context: ({ req }) => {
+  context: ({ req, connection }) => {
+    if (connection) {
+      // check connection for metadata
+      return connection.context;
+    }
     return {
       questionnaire: req.questionnaire,
       auth: req.auth,
       validationErrorInfo: req.validationErrorInfo,
     };
   },
+  tracing: true,
 });
 server.applyMiddleware({ app });
 
@@ -74,4 +82,12 @@ if (process.env.ENABLE_IMPORT === "true") {
   app.use(bodyParser.json()).post("/import", importQuestionnaire);
 }
 
-module.exports = app;
+const httpServer = http.createServer(app);
+server.installSubscriptionHandlers(httpServer);
+
+console.log(`🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`);
+console.log(
+  `🚀 Subscriptions ready at ws://localhost:${PORT}${server.subscriptionsPath}`
+);
+
+module.exports = httpServer;

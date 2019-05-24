@@ -18,6 +18,8 @@ const {
   kebabCase,
 } = require("lodash");
 const GraphQLJSON = require("graphql-type-json");
+const { PubSub } = require("apollo-server");
+
 const { getName } = require("../../utils/getName");
 const {
   getValidationEntity,
@@ -70,7 +72,13 @@ const {
   createQuestionnaireIntroduction,
 } = require("./questionnaireIntroduction");
 
+let errorCount = 0;
+
 const getQuestionnaireList = () => {
+  global.pubsub.publish("THING", {
+    validationUpdated: { id: "1", errorCount },
+  });
+  errorCount++;
   return listQuestionnaires();
 };
 
@@ -117,6 +125,8 @@ const createNewQuestionnaire = input => {
   };
 };
 
+global.pubsub = new PubSub();
+
 const Resolvers = {
   Query: {
     questionnaires: () => getQuestionnaireList(),
@@ -142,6 +152,15 @@ const Resolvers = {
       ...pick(ctx.auth, ["name", "email", "picture"]),
       name: ctx.auth.name || ctx.auth.email,
     }),
+  },
+
+  Subscription: {
+    validationUpdated: {
+      subscribe: (...args) => {
+        console.log(...args);
+        return global.pubsub.asyncIterator(["THING"]);
+      },
+    },
   },
 
   Mutation: {

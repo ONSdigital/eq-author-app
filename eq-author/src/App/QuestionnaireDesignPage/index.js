@@ -1,8 +1,8 @@
-import React, { Component } from "react";
+import React, { Component, createContext } from "react";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 import gql from "graphql-tag";
-import { Query } from "react-apollo";
+import { Query, Subscription } from "react-apollo";
 import { connect } from "react-redux";
 import { Switch } from "react-router-dom";
 import { Titled } from "react-titled";
@@ -21,6 +21,7 @@ import pageRoutes from "App/page";
 import sectionRoutes from "App/section";
 import questionConfirmationRoutes from "App/questionConfirmation";
 import introductionRoutes from "App/introduction";
+import ValidationContext from "App/ValidationContext";
 
 import withCreateQuestionPage from "enhancers/withCreateQuestionPage";
 import withCreateSection from "enhancers/withCreateSection";
@@ -194,6 +195,8 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
       throw new Error(ERR_PAGE_NOT_FOUND);
     }
 
+    console.log(this.props.subscription);
+
     return (
       <BaseLayout
         questionnaire={questionnaire}
@@ -258,6 +261,15 @@ const QUESTIONNAIRE_QUERY = gql`
   ${NavigationSidebar.fragments.NavigationSidebar}
 `;
 
+const VALIDATION_QUERY = gql`
+  subscription Validation($id: ID!) {
+    validationUpdated(id: $id) {
+      id
+      errorCount
+    }
+  }
+`;
+
 export default withMutations(props => (
   <Query
     query={QUESTIONNAIRE_QUERY}
@@ -268,7 +280,27 @@ export default withMutations(props => (
     }}
   >
     {innerProps => (
-      <UnwrappedQuestionnaireDesignPage {...innerProps} {...props} />
+      <Subscription
+        subscription={VALIDATION_QUERY}
+        variables={{ id: props.match.params.questionnaireId }}
+      >
+        {subscriptionProps => (
+          <ValidationContext.Provider
+            value={
+              !subscriptionProps.loading &&
+              subscriptionProps.data &&
+              subscriptionProps.data.validationUpdated &&
+              subscriptionProps.data.validationUpdated.errorCount
+            }
+          >
+            <UnwrappedQuestionnaireDesignPage
+              {...innerProps}
+              {...props}
+              subscription={subscriptionProps}
+            />
+          </ValidationContext.Provider>
+        )}
+      </Subscription>
     )}
   </Query>
 ));

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { withRouter } from "react-router-dom";
@@ -6,6 +6,8 @@ import CustomPropTypes from "custom-prop-types";
 import gql from "graphql-tag";
 
 import { buildPagePath } from "utils/UrlUtils";
+import ValidationContext from "App/ValidationContext";
+
 import NavLink from "./NavLink";
 import PageIcon from "./icon-questionpage.svg?inline";
 import CalculatedIcon from "./icon-summarypage.svg?inline";
@@ -30,24 +32,25 @@ export const UnwrappedPageNavItem = ({
   page,
   match,
   ...otherProps
-}) => (
-  <StyledPageItem data-test="page-item" {...otherProps}>
-    <NavLink
-      to={buildPagePath({
-        questionnaireId,
-        pageId: page.id,
-        tab: match.params.tab,
-      })}
-      title={page.displayName}
-      icon={getIcon(page.pageType)}
-      data-test="nav-page-link"
-    >
-      {page.validationErrorInfo && page.validationErrorInfo.totalCount
-        ? `${page.displayName} (${page.validationErrorInfo.totalCount})`
-        : page.displayName}
-    </NavLink>
-  </StyledPageItem>
-);
+}) => {
+  const value = useContext(ValidationContext);
+  return (
+    <StyledPageItem data-test="page-item" {...otherProps}>
+      <NavLink
+        to={buildPagePath({
+          questionnaireId,
+          pageId: page.id,
+          tab: match.params.tab,
+        })}
+        title={page.displayName}
+        icon={getIcon(page.pageType)}
+        data-test="nav-page-link"
+      >
+        {page.displayName} {value && `(${value})`}
+      </NavLink>
+    </StyledPageItem>
+  );
+};
 
 UnwrappedPageNavItem.fragments = {
   PageNavItem: gql`

@@ -6,8 +6,11 @@ import createApolloClient from "apollo/createApolloClient";
 import createApolloCache from "apollo/createApolloCache";
 import createHttpLink from "apollo/createHttpLink";
 import createErrorLink from "apollo/createApolloErrorLink";
-import { ApolloLink } from "apollo-link";
+import { ApolloLink, split } from "apollo-link";
 import { setContext } from "apollo-link-context";
+import { getMainDefinition } from "apollo-utilities";
+import { WebSocketLink } from "apollo-link-ws";
+
 import config from "config";
 import getIdForObject from "utils/getIdForObject";
 import render from "utils/render";
@@ -42,6 +45,25 @@ const cache = createApolloCache({
 const history = createHistory();
 
 const httpLink = createHttpLink(config.REACT_APP_API_URL);
+const wsLink = new WebSocketLink({
+  uri: config.REACT_APP_API_URL.replace(/http[s]?:\/\//, "ws://"),
+  options: {
+    reconnect: true,
+  },
+});
+
+const networkLink = split(
+  // split based on operation type
+  ({ query }) => {
+    const definition = getMainDefinition(query);
+    return (
+      definition.kind === "OperationDefinition" &&
+      definition.operation === "subscription"
+    );
+  },
+  wsLink,
+  httpLink
+);
 
 const headersLink = setContext((_, { headers }) => ({
   headers: getHeaders(headers),
@@ -50,7 +72,7 @@ const headersLink = setContext((_, { headers }) => ({
 const link = ApolloLink.from([
   createErrorLink(getStore),
   headersLink,
-  httpLink,
+  networkLink,
 ]);
 
 const client = createApolloClient(link, cache);
