@@ -18,7 +18,7 @@ export default (
   }, [storageKey]);
   const [state, dispatch] = useReducer(
     reducer,
-    storedState || defaultState,
+    { ...defaultState, ...(storedState || {}) },
     initialStateBuilder
   );
   // Save if any of the stored values change

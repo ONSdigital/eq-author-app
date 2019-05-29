@@ -12,10 +12,16 @@ import QuestionnairesTable from "./QuestionnairesTable";
 import Footer from "./Footer";
 
 import reducer, { buildInitialState, ACTIONS } from "./reducer";
+import { SORT_ORDER } from "./constants";
 import usePersistedReducer from "./usePersistedReducer";
 
 export const STORAGE_KEY = "questionnaire-list-settings";
-const STORED_KEYS = ["currentPageIndex"];
+
+const STORED_KEYS = [
+  "currentPageIndex",
+  "currentSortColumn",
+  "currentSortOrder",
+];
 
 const Header = styled.div`
   margin: 1em 0;
@@ -42,7 +48,11 @@ const QuestionnairesView = ({
     STORAGE_KEY,
     STORED_KEYS,
     reducer,
-    { currentPageIndex: 0 },
+    {
+      currentPageIndex: 0,
+      currentSortColumn: "createdAt",
+      currentSortOrder: SORT_ORDER.DESCENDING,
+    },
     buildInitialState(questionnairesRef.current)
   );
 
@@ -62,6 +72,24 @@ const QuestionnairesView = ({
     onDeleteQuestionnaire(questionnaire.id);
   };
 
+  const handleSortQuestionnaires = sortColumn => {
+    dispatch({
+      type: ACTIONS.SORT_COLUMN,
+      payload: sortColumn,
+    });
+  };
+
+  const handleReverseSort = () => {
+    const inversion = {
+      ascending: SORT_ORDER.DESCENDING,
+      descending: SORT_ORDER.ASCENDING,
+    };
+    dispatch({
+      type: ACTIONS.REVERSE_SORT,
+      payload: inversion[state.currentSortOrder],
+    });
+  };
+
   if (isEmpty(state.questionnaires)) {
     return (
       <>
@@ -75,7 +103,6 @@ const QuestionnairesView = ({
       </>
     );
   }
-
   return (
     <>
       <Header>
@@ -91,6 +118,10 @@ const QuestionnairesView = ({
         questionnaires={state.currentPage}
         onDeleteQuestionnaire={handleDeleteQuestionnaire}
         onDuplicateQuestionnaire={onDuplicateQuestionnaire}
+        onSortQuestionnaires={handleSortQuestionnaires}
+        onReverseSort={handleReverseSort}
+        sortColumn={state.currentSortColumn}
+        sortOrder={state.currentSortOrder}
         autoFocusId={state.autoFocusId}
       />
       <Footer

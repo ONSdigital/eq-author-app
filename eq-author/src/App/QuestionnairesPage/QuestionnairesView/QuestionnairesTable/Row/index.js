@@ -62,6 +62,7 @@ export const TR = styled.tr`
     css`
       box-shadow: 0 0 0 3px ${colors.tertiary};
       border-color: ${colors.tertiary};
+      z-index: 1;
     `}
 
   &:hover {

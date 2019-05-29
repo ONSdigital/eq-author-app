@@ -1,4 +1,5 @@
-import { chunk, clamp } from "lodash";
+import { chunk, clamp, sortBy, reverse, get } from "lodash";
+import { SORT_ORDER } from "./constants";
 
 const PAGE_SIZE = 16;
 
@@ -19,22 +20,37 @@ const calculateAutoFocusId = (questionnaires, deletedQuestionnaire) => {
   return (questionnaires[nextIndex] || {}).id;
 };
 
-export const buildInitialState = questionnaires => state => {
-  const pages = chunk(questionnaires, PAGE_SIZE);
+export const sortQuestionnaires = state => {
+  const sortedQuestionnaires = sortBy(state.questionnaires, questionnaire =>
+    get(questionnaire, state.currentSortColumn).toUpperCase()
+  );
+  if (state.currentSortOrder === SORT_ORDER.ASCENDING) {
+    return sortedQuestionnaires;
+  }
+  return reverse(sortedQuestionnaires);
+};
+
+const buildState = state => {
+  const sortedQuestionnaires = sortQuestionnaires(state);
+  const pages = chunk(sortedQuestionnaires, PAGE_SIZE);
   const currentPageIndex = clamp(state.currentPageIndex, 0, pages.length - 1);
   return {
     ...state,
-    questionnaires,
     pages,
     currentPageIndex,
     currentPage: pages[currentPageIndex],
   };
 };
 
+export const buildInitialState = questionnaires => state =>
+  buildState({ ...state, questionnaires });
+
 export const ACTIONS = {
   CHANGE_PAGE: "CHANGE_PAGE",
   SET_QUESTIONNAIRES: "SET_QUESTIONNAIRES",
   DELETE_QUESTIONNAIRE: "DELETE_QUESTIONNAIRE",
+  SORT_COLUMN: "SORT_COLUMN",
+  REVERSE_SORT: "REVERSE_SORT",
 };
 
 const reducer = (state, action) => {
@@ -49,12 +65,31 @@ const reducer = (state, action) => {
       };
     }
     case ACTIONS.SET_QUESTIONNAIRES:
-      return buildInitialState(action.payload)(state);
+      return buildState({
+        ...state,
+        questionnaires: action.payload,
+      });
     case ACTIONS.DELETE_QUESTIONNAIRE:
       return {
         ...state,
-        autoFocusId: calculateAutoFocusId(state.questionnaires, action.payload),
+        autoFocusId: calculateAutoFocusId(
+          sortQuestionnaires(state),
+          action.payload
+        ),
       };
+    case ACTIONS.SORT_COLUMN:
+      return buildState({
+        ...state,
+        autoFocusId: null,
+        currentSortColumn: action.payload,
+        currentSortOrder: SORT_ORDER.ASCENDING,
+      });
+    case ACTIONS.REVERSE_SORT:
+      return buildState({
+        ...state,
+        autoFocusId: null,
+        currentSortOrder: action.payload,
+      });
     default:
       return state;
   }

@@ -5,9 +5,10 @@ import { propType } from "graphql-anywhere";
 import { TransitionGroup } from "react-transition-group";
 import gql from "graphql-tag";
 
-import { colors } from "constants/theme";
+import { SORT_ORDER } from "../constants";
 
 import Row from "./Row";
+import TableHead from "./TableHead";
 
 const Table = styled.table`
   width: 100%;
@@ -16,19 +17,6 @@ const Table = styled.table`
   table-layout: fixed;
   text-align: left;
 `;
-
-const TH = styled.th`
-  padding: 1em;
-  color: ${colors.darkGrey};
-  width: ${props => props.colWidth};
-  border-bottom: 1px solid #e2e2e2;
-  font-weight: normal;
-  font-size: 0.9em;
-`;
-
-TH.propTypes = {
-  colWidth: PropTypes.string.isRequired,
-};
 
 const Panel = styled.div`
   background: white;
@@ -40,21 +28,22 @@ const QuestionnairesTable = ({
   questionnaires,
   onDeleteQuestionnaire,
   onDuplicateQuestionnaire,
+  onSortQuestionnaires,
+  onReverseSort,
   autoFocusId,
+  sortColumn,
+  sortOrder,
 }) => {
   return (
     <Panel>
       <Table>
-        <thead>
-          <tr>
-            <TH colWidth="35%">Title</TH>
-            <TH colWidth="15%">Created</TH>
-            <TH colWidth="15%">Modified</TH>
-            <TH colWidth="20%">Owner</TH>
-            <TH colWidth="15%">Actions</TH>
-          </tr>
-        </thead>
-        <TransitionGroup component="tbody">
+        <TableHead
+          onSortClick={onSortQuestionnaires}
+          onReverseClick={onReverseSort}
+          sortOrder={sortOrder}
+          currentSortColumn={sortColumn}
+        />
+        <TransitionGroup component="tbody" enter={false}>
           {questionnaires.map((questionnaire, index) => {
             return (
               <Row
@@ -64,6 +53,7 @@ const QuestionnairesTable = ({
                 onDeleteQuestionnaire={onDeleteQuestionnaire}
                 onDuplicateQuestionnaire={onDuplicateQuestionnaire}
                 isLastOnPage={questionnaires.length === index + 1}
+                data-test="questionnaires-row"
               />
             );
           })}
@@ -72,6 +62,7 @@ const QuestionnairesTable = ({
     </Panel>
   );
 };
+
 QuestionnairesTable.fragments = {
   QuestionnaireDetails: gql`
     fragment QuestionnaireDetails on Questionnaire {
@@ -88,13 +79,18 @@ QuestionnairesTable.fragments = {
     }
   `,
 };
+
 QuestionnairesTable.propTypes = {
   questionnaires: PropTypes.arrayOf(
     propType(QuestionnairesTable.fragments.QuestionnaireDetails)
   ),
   onDeleteQuestionnaire: PropTypes.func.isRequired,
   onDuplicateQuestionnaire: PropTypes.func.isRequired,
+  onSortQuestionnaires: PropTypes.func.isRequired,
+  onReverseSort: PropTypes.func.isRequired,
   autoFocusId: PropTypes.string,
+  sortColumn: PropTypes.string.isRequired,
+  sortOrder: PropTypes.oneOf([SORT_ORDER.ASCENDING, SORT_ORDER.DESCENDING]),
 };
 
 export default QuestionnairesTable;

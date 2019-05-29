@@ -1,5 +1,5 @@
 import { testId } from "../../utils";
-
+import { sortBy } from "lodash";
 const stubs = {
   GetQuestionnaireList: {
     data: {
@@ -107,6 +107,64 @@ describe("dashboard", () => {
       cy.get(testId("next-page-btn")).click();
       cy.get(testId("prev-page-btn")).click();
       cy.contains("1 of 2").should("have.length", 1);
+    });
+  });
+
+  describe("sorting", () => {
+    let questionnaires;
+    beforeEach(() => {
+      questionnaires = new Array(16).fill("").map((_, index) => {
+        const q = stubs.GetQuestionnaireList.data.questionnaires[0];
+        return {
+          ...q,
+          id: `q${index}`,
+          title: `Questionnaire ${index} title`,
+          createdAt: `2019-05-${10 + index}`,
+        };
+      });
+      cy.visitStubbed("/", {
+        ...stubs,
+        GetQuestionnaireList: {
+          data: {
+            questionnaires,
+          },
+        },
+      });
+      cy.login();
+    });
+    it("should initially be sorting by created descending", () => {
+      const sortedQuestionnaires = sortBy(
+        questionnaires,
+        "createdAt"
+      ).reverse();
+      cy.get(testId("anchor-questionnaire-title")).each(($el, index) => {
+        cy.wrap($el).should(
+          "contain",
+          sortedQuestionnaires.map(q => q.title)[index]
+        );
+      });
+    });
+    it("can sort by table title ascending", () => {
+      const sortedQuestionnaires = sortBy(questionnaires, "title");
+      questionnaires.map(q => q.title).sort();
+      cy.get(testId("title-sort-button")).click();
+      cy.get(testId("anchor-questionnaire-title")).each(($el, index) => {
+        cy.wrap($el).should(
+          "contain",
+          sortedQuestionnaires.map(q => q.title)[index]
+        );
+      });
+    });
+    it("can sort by table title descending", () => {
+      const revSortedQuestionnaires = sortBy(questionnaires, "title").reverse();
+      cy.get(testId("title-sort-button")).click();
+      cy.get(testId("title-sort-button")).click();
+      cy.get(testId("anchor-questionnaire-title")).each(($el, index) => {
+        cy.wrap($el).should(
+          "contain",
+          revSortedQuestionnaires.map(q => q.title)[index]
+        );
+      });
     });
   });
 

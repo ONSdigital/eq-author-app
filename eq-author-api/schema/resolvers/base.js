@@ -1,4 +1,4 @@
-const { GraphQLDate } = require("graphql-iso-date");
+const { GraphQLDate, GraphQLDateTime } = require("graphql-iso-date");
 const {
   compact,
   includes,
@@ -740,6 +740,7 @@ const Resolvers = {
   },
 
   Date: GraphQLDate,
+  DateTime: GraphQLDateTime,
 
   JSON: GraphQLJSON,
 };
