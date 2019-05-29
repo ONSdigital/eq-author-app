@@ -16,6 +16,7 @@ exports[`components/QuestionnairesPage should not render table whilst data is lo
         maxWidth="55em"
       >
         <Query
+          fetchPolicy="cache-and-network"
           query={
             Object {
               "definitions": Array [
@@ -129,6 +130,17 @@ exports[`components/QuestionnairesPage should not render table whilst data is lo
                         "kind": "Field",
                         "name": Object {
                           "kind": "Name",
+                          "value": "updatedAt",
+                        },
+                        "selectionSet": undefined,
+                      },
+                      Object {
+                        "alias": undefined,
+                        "arguments": Array [],
+                        "directives": Array [],
+                        "kind": "Field",
+                        "name": Object {
+                          "kind": "Name",
                           "value": "createdBy",
                         },
                         "selectionSet": Object {
@@ -172,7 +184,7 @@ exports[`components/QuestionnairesPage should not render table whilst data is lo
               ],
               "kind": "Document",
               "loc": Object {
-                "end": 280,
+                "end": 296,
                 "start": 0,
               },
             }
@@ -214,6 +226,7 @@ exports[`components/QuestionnairesPage should render table when there are questi
         maxWidth="55em"
       >
         <Query
+          fetchPolicy="cache-and-network"
           query={
             Object {
               "definitions": Array [
@@ -327,6 +340,17 @@ exports[`components/QuestionnairesPage should render table when there are questi
                         "kind": "Field",
                         "name": Object {
                           "kind": "Name",
+                          "value": "updatedAt",
+                        },
+                        "selectionSet": undefined,
+                      },
+                      Object {
+                        "alias": undefined,
+                        "arguments": Array [],
+                        "directives": Array [],
+                        "kind": "Field",
+                        "name": Object {
+                          "kind": "Name",
                           "value": "createdBy",
                         },
                         "selectionSet": Object {
@@ -370,7 +394,7 @@ exports[`components/QuestionnairesPage should render table when there are questi
               ],
               "kind": "Document",
               "loc": Object {
-                "end": 280,
+                "end": 296,
                 "start": 0,
               },
             }
@@ -411,6 +435,7 @@ exports[`components/QuestionnairesPage should render table when there are questi
         ],
         "shortTitle": "Short title",
         "title": "Test questionnaire",
+        "updatedAt": "02/01/1970",
       },
     ]
   }
@@ -431,6 +456,7 @@ exports[`components/QuestionnairesPage should render when there are no questionn
         maxWidth="55em"
       >
         <Query
+          fetchPolicy="cache-and-network"
           query={
             Object {
               "definitions": Array [
@@ -544,6 +570,17 @@ exports[`components/QuestionnairesPage should render when there are no questionn
                         "kind": "Field",
                         "name": Object {
                           "kind": "Name",
+                          "value": "updatedAt",
+                        },
+                        "selectionSet": undefined,
+                      },
+                      Object {
+                        "alias": undefined,
+                        "arguments": Array [],
+                        "directives": Array [],
+                        "kind": "Field",
+                        "name": Object {
+                          "kind": "Name",
                           "value": "createdBy",
                         },
                         "selectionSet": Object {
@@ -587,7 +624,7 @@ exports[`components/QuestionnairesPage should render when there are no questionn
               ],
               "kind": "Document",
               "loc": Object {
-                "end": 280,
+                "end": 296,
                 "start": 0,
               },
             }

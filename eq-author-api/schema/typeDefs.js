@@ -32,6 +32,7 @@ type Questionnaire {
   navigation: Boolean
   surveyId: String
   createdAt: Date
+  updatedAt: Date
   createdBy: User!
   sections: [Section]
   summary: Boolean

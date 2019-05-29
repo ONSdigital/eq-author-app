@@ -47,8 +47,9 @@ const QuestionnairesTable = ({
       <Table>
         <thead>
           <tr>
-            <TH colWidth="50%">Title</TH>
+            <TH colWidth="35%">Title</TH>
             <TH colWidth="15%">Created</TH>
+            <TH colWidth="15%">Modified</TH>
             <TH colWidth="20%">Owner</TH>
             <TH colWidth="15%">Actions</TH>
           </tr>
@@ -79,6 +80,7 @@ QuestionnairesTable.fragments = {
       shortTitle
       displayName
       createdAt
+      updatedAt
       createdBy {
         id
         name

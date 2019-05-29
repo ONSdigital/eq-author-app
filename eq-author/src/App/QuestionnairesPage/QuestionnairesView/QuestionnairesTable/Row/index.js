@@ -203,6 +203,9 @@ export class Row extends React.Component {
             <TD>
               <FormattedDate date={questionnaire.createdAt} />
             </TD>
+            <TD>
+              <FormattedDate date={questionnaire.updatedAt} />
+            </TD>
             <TD>{questionnaire.createdBy.name}</TD>
             <TD>
               <div

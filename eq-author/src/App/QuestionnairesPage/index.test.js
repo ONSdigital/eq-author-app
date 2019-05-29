@@ -49,6 +49,7 @@ describe("components/QuestionnairesPage", () => {
         title: "Test questionnaire",
         shortTitle: "Short title",
         createdAt: "01/01/1970",
+        updatedAt: "02/01/1970",
         createdBy: { name: "Mike", id: "1" },
         sections: [
           {

@@ -62,7 +62,12 @@ export class UnconnectedQuestionnairesPage extends React.PureComponent {
         <BaseLayout title={"Your Questionnaires"}>
           <ScrollPane permanentScrollBar>
             <MainCanvas>
-              <Query query={QUESTIONNAIRES_QUERY}>{this.renderResults}</Query>
+              <Query
+                fetchPolicy="cache-and-network"
+                query={QUESTIONNAIRES_QUERY}
+              >
+                {this.renderResults}
+              </Query>
             </MainCanvas>
           </ScrollPane>
         </BaseLayout>

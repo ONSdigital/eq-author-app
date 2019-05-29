@@ -494,7 +494,6 @@ const Resolvers = {
         name: createdBy,
       };
     },
-    createdAt: questionnaire => new Date(questionnaire.createdAt),
     questionnaireInfo: questionnaire => questionnaire,
     metadata: questionnaire => questionnaire.metadata,
     displayName: questionnaire =>

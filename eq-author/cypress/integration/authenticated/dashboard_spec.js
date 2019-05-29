@@ -6,6 +6,7 @@ const stubs = {
       questionnaires: [
         {
           createdAt: "2019-01-01",
+          updatedAt: "2019-01-02",
           createdBy: { id: "1", name: "Test user", __typename: "User" },
           id: "893182fe-75ae-446c-b801-367dfdc2d728",
           title: "Test Questionnaire",
