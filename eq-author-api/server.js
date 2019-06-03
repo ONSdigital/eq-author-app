@@ -6,6 +6,7 @@ const pinoMiddleware = require("express-pino-logger");
 const noir = require("pino-noir");
 const bodyParser = require("body-parser");
 const http = require("http");
+const jwt = require("jsonwebtoken");
 
 const status = require("./middleware/status");
 const { getLaunchUrl } = require("./middleware/launch");
@@ -70,6 +71,17 @@ const server = new ApolloServer({
     };
   },
   tracing: true,
+  subscriptions: {
+    onConnect: async (params, socket, ctx) => {
+      if (!params.headers.authorization) {
+        return false;
+      }
+      ctx.auth = jwt.decode(
+        params.headers.authorization.replace("Bearer ", "")
+      );
+      return true;
+    },
+  },
 });
 server.applyMiddleware({ app });
 

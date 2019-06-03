@@ -18,7 +18,7 @@ const {
   kebabCase,
 } = require("lodash");
 const GraphQLJSON = require("graphql-type-json");
-const { PubSub } = require("apollo-server");
+const { PubSub, withFilter } = require("apollo-server");
 
 const { getName } = require("../../utils/getName");
 const {
@@ -157,11 +157,17 @@ const Resolvers = {
 
   Subscription: {
     validationUpdated: {
-      subscribe: (...args) => {
-        // eslint-disable-next-line
-        console.log(...args);
-        return global.pubsub.asyncIterator(["THING"]);
-      },
+      subscribe: withFilter(
+        (...args) => {
+          // eslint-disable-next-line
+          console.log("SUBSCRIBE", ...args);
+          return global.pubsub.asyncIterator(["THING"]);
+        },
+        (payload, variables) => {
+          console.log("Filter", { payload, variables });
+          return payload.validationUpdated.errorCount % 5 !== 0;
+        }
+      ),
     },
   },
 
