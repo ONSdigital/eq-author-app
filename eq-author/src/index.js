@@ -43,7 +43,7 @@ const cache = createApolloCache({
 });
 
 const history = createHistory();
-
+// eslint-disable-next-line
 console.log("CONFIG", config.REACT_APP_API_URL.startsWith("http"));
 const httpLink = createHttpLink(config.REACT_APP_API_URL);
 let wsUri;
@@ -54,6 +54,7 @@ if (config.REACT_APP_API_URL.startsWith("http")) {
   const protocol = loc.protocol === "https:" ? "wss" : "ws";
   wsUri = `${protocol}://${loc.host}${loc.pathname}graphql`;
 }
+// eslint-disable-next-line
 console.log(wsUri);
 
 const wsLink = new WebSocketLink({
