@@ -44,9 +44,20 @@ const cache = createApolloCache({
 
 const history = createHistory();
 
+console.log("CONFIG", config.REACT_APP_API_URL.startsWith("http"));
 const httpLink = createHttpLink(config.REACT_APP_API_URL);
+let wsUri;
+if (config.REACT_APP_API_URL.startsWith("http")) {
+  wsUri = config.REACT_APP_API_URL.replace(/http[s]?:\/\//, "ws://");
+} else {
+  const loc = window.location;
+  const protocol = loc.protocol === "https:" ? "wss" : "ws";
+  wsUri = `${protocol}://${loc.host}${loc.pathname}graphql`;
+}
+console.log(wsUri);
+
 const wsLink = new WebSocketLink({
-  uri: config.REACT_APP_API_URL.replace(/http[s]?:\/\//, "ws://"),
+  uri: wsUri,
   options: {
     reconnect: true,
   },

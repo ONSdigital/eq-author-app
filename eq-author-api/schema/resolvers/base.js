@@ -75,6 +75,7 @@ const {
 let errorCount = 0;
 
 const getQuestionnaireList = () => {
+  console.log("PUBLISHING");
   global.pubsub.publish("THING", {
     validationUpdated: { id: "1", errorCount },
   });
