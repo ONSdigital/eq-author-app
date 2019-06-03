@@ -46,6 +46,11 @@ exports[`Row should render 1`] = `
         />
       </Row__TD>
       <Row__TD>
+        <FormattedDate
+          date="2017/01/03"
+        />
+      </Row__TD>
+      <Row__TD>
         Alan
       </Row__TD>
       <Row__TD>

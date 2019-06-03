@@ -29,6 +29,7 @@ describe("Row", () => {
         displayName: "Foo",
         shortTitle: "Test title",
         createdAt: "2017/01/02",
+        updatedAt: "2017/01/03",
         sections: [
           {
             id: "1",

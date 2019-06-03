@@ -51,6 +51,7 @@ const buildQuestionnaire = index => ({
   title: `Questionnaire ${index} Title`,
   shortTitle: "",
   createdAt: "2017/01/02",
+  updatedAt: "2017/01/03",
   createdBy: {
     id: `user${index}`,
     name: `User #${index}`,
