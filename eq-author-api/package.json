@@ -13,6 +13,7 @@
     "create-migration": "node scripts/createMigration.js"
   },
   "dependencies": {
+    "ajv": "^6.10.0",
     "ajv-errors": "^1.0.1",
     "apollo-server": "^2.5.0",
     "apollo-server-express": "latest",

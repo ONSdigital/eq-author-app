@@ -61,6 +61,13 @@ const wsLink = new WebSocketLink({
   uri: wsUri,
   options: {
     reconnect: true,
+    connectionParams: () => {
+      // eslint-disable-next-line
+      console.log("connection params", getHeaders({}));
+      return {
+        headers: getHeaders({}),
+      };
+    },
   },
 });
 
