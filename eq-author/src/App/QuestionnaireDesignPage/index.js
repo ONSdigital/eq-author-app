@@ -1,4 +1,4 @@
-import React, { Component, createContext } from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 import gql from "graphql-tag";
@@ -195,6 +195,7 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
       throw new Error(ERR_PAGE_NOT_FOUND);
     }
 
+    // eslint-disable-next-line
     console.log(this.props.subscription);
 
     return (

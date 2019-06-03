@@ -157,6 +157,7 @@ const Resolvers = {
   Subscription: {
     validationUpdated: {
       subscribe: (...args) => {
+        // eslint-disable-next-line
         console.log(...args);
         return global.pubsub.asyncIterator(["THING"]);
       },

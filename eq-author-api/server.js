@@ -2,7 +2,7 @@ const express = require("express");
 const { ApolloServer } = require("apollo-server-express");
 const cors = require("cors");
 const pinoMiddleware = require("express-pino-logger");
-const helmet = require("helmet");
+// const helmet = require("helmet");
 const noir = require("pino-noir");
 const bodyParser = require("body-parser");
 const http = require("http");
@@ -84,8 +84,9 @@ if (process.env.ENABLE_IMPORT === "true") {
 
 const httpServer = http.createServer(app);
 server.installSubscriptionHandlers(httpServer);
-
+// eslint-disable-next-line
 console.log(`🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`);
+// eslint-disable-next-line
 console.log(
   `🚀 Subscriptions ready at ws://localhost:${PORT}${server.subscriptionsPath}`
 );
