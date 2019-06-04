@@ -18,7 +18,10 @@ const {
   kebabCase,
 } = require("lodash");
 const GraphQLJSON = require("graphql-type-json");
-const { PubSub, withFilter } = require("apollo-server");
+const { withFilter } = require("apollo-server");
+
+const { RedisPubSub } = require("graphql-redis-subscriptions");
+const Redis = require("ioredis");
 
 const { getName } = require("../../utils/getName");
 const {
@@ -126,7 +129,20 @@ const createNewQuestionnaire = input => {
   };
 };
 
-global.pubsub = new PubSub();
+const REDIS_OPTIONS = {
+  host: process.env.REDIS_DOMAIN_NAME,
+  port: process.env.REDIS_PORT,
+  // eslint-disable-next-line camelcase
+  retry_strategy: options => {
+    // reconnect after
+    return Math.max(options.attempt * 100, 3000);
+  },
+};
+
+global.pubsub = new RedisPubSub({
+  publisher: new Redis(REDIS_OPTIONS),
+  subscriber: new Redis(REDIS_OPTIONS),
+});
 
 const Resolvers = {
   Query: {

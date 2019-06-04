@@ -5,8 +5,10 @@ services:
       context: .
     depends_on:
       - dynamo
+      - redis
     links:
       - dynamo
+      - redis
     volumes:
       - .:/app
     ports:
@@ -23,6 +25,9 @@ services:
       - RUNNER_SESSION_URL=http://localhost:5000/session?token=
       - PUBLISHER_URL=http://localhost:9000/publish/
       - ENABLE_IMPORT=true
+      - REDIS_DOMAIN_NAME=redis
+      - REDIS_PORT=6379
+
     entrypoint:
       - yarn
       - start:dev
@@ -30,3 +35,7 @@ services:
     image: amazon/dynamodb-local
     ports:
       - 8050:8000
+  redis:
+    image: redis:5-alpine
+    ports:
+      - 6379:6379
