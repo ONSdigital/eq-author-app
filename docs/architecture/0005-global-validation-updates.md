@@ -83,15 +83,15 @@ validations have changed.
 Clients will need to be validated on connection so that users without a token cannot listen to a
 subscription.
 
+Subscriptions are stateful and maintain a connection to one of the api nodes. This means if
+a mutation happens on node `A` then all clients connected to node `B` will not be able to see this.
+To resolve this we will need to use an external [pubsub system which is supported by apollo](https://www.apollographql.com/docs/apollo-server/features/subscriptions/#pubsub-implementations). This will be implemented using redis (from elasticache) and use
+[graphql-redis-subscriptions](https://github.com/davidyaha/graphql-redis-subscriptions).
+
 ## Consequences
 
 After this change then it will be straight forward for new validations and features to maintain this
 validation state.
-
-However subscriptions are stateful and maintain a connection to one of the api nodes. This means if
-a mutation happens on node `A` then all clients connected to node `B` will not be able to see this.
-To resolve this we will need to use an external [pubsub system which is supported by apollo](https://www.apollographql.com/docs/apollo-server/features/subscriptions/#pubsub-implementations). This has not been investigated in the spike more than proving that the 
-issue is present.
 
 Permissions will need to be supported so that we do not provide validation information to users with
 valid tokens but do not have editing permissions. This can be done as part of the subscription
