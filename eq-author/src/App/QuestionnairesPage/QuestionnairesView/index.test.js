@@ -3,6 +3,7 @@ import { Router } from "react-router-dom";
 import { createMemoryHistory } from "history";
 import { Provider } from "react-redux";
 import { render as rtlRender, fireEvent } from "react-testing-library";
+import { sortBy } from "lodash";
 
 import { waitForElementToBeRemoved } from "dom-testing-library";
 
@@ -45,18 +46,21 @@ function render(
   };
 }
 
-const buildQuestionnaire = index => ({
-  id: `questionnaire${index}`,
-  displayName: `Questionnaire ${index}`,
-  title: `Questionnaire ${index} Title`,
-  shortTitle: "",
-  createdAt: "2017/01/02",
-  updatedAt: "2017/01/03",
-  createdBy: {
-    id: `user${index}`,
-    name: `User #${index}`,
-  },
-});
+const buildQuestionnaire = (index, date) => {
+  const dateString = date || `2019-05-${30 - index}`;
+  return {
+    id: `questionnaire${index}`,
+    displayName: `Questionnaire ${index}`,
+    title: `Questionnaire ${index} Title`,
+    shortTitle: "",
+    createdAt: `${dateString}T12:36:50.984Z`,
+    updatedAt: `${dateString}T12:36:50.984Z`,
+    createdBy: {
+      id: `user${index}`,
+      name: `User #${index}`,
+    },
+  };
+};
 
 describe("QuestionnairesView", () => {
   let props;
@@ -126,6 +130,12 @@ describe("QuestionnairesView", () => {
       expect(getByText("Questionnaire 1 Title")).toBeTruthy();
     });
 
+    it("should render the questionnaires when the storage is incorrect", () => {
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify({ foo: "bar" }));
+      const { getByText } = render(<QuestionnairesView {...props} />);
+      expect(getByText("Questionnaire 1 Title")).toBeTruthy();
+    });
+
     it("should allow you to create a questionnaire", () => {
       const { getByText, getByLabelText } = render(
         <QuestionnairesView {...props} />
@@ -150,7 +160,6 @@ describe("QuestionnairesView", () => {
         const { getAllByTitle, getByTestId } = render(
           <QuestionnairesView {...props} />
         );
-
         const deleteButton = getAllByTitle("Delete")[0];
         fireEvent.click(deleteButton);
         const confirmButton = getByTestId("btn-delete-modal");
@@ -252,6 +261,134 @@ describe("QuestionnairesView", () => {
 
         expect(getByText("Showing 16 of 16")).toBeTruthy();
         expect(getByTitle("Questionnaire 15")).toEqual(document.activeElement);
+      });
+
+      it("should not delete the questionnaire if the cancel button is clicked", async () => {
+        const { getAllByTitle, getByText, getByTestId } = render(
+          <QuestionnairesView {...props} />
+        );
+        const deleteButton = getAllByTitle("Delete")[0];
+        fireEvent.click(deleteButton);
+        const cancelButton = getByText("Cancel");
+        fireEvent.click(cancelButton);
+
+        await waitForElementToBeRemoved(() => getByTestId("btn-delete-modal"));
+
+        expect(props.onDeleteQuestionnaire).not.toHaveBeenCalled();
+      });
+
+      it("should not delete the questionnaire if the close button is clicked", async () => {
+        const { getAllByTitle, getByLabelText, getByTestId } = render(
+          <QuestionnairesView {...props} />
+        );
+        const deleteButton = getAllByTitle("Delete")[0];
+        fireEvent.click(deleteButton);
+        const closeButton = getByLabelText("Close");
+        fireEvent.click(closeButton);
+
+        await waitForElementToBeRemoved(() => getByTestId("btn-delete-modal"));
+
+        expect(props.onDeleteQuestionnaire).not.toHaveBeenCalled();
+      });
+
+      it("should focus the next questionnaire based on the current sorting", async () => {
+        const questionnaires = [
+          buildQuestionnaire(3, "2019-01-03"),
+          buildQuestionnaire(2, "2019-01-02"),
+          buildQuestionnaire(1, "2019-01-01"),
+        ];
+
+        const { getByText, getByTitle, getAllByTitle, getByTestId } = render(
+          <QuestionnairesView {...props} questionnaires={questionnaires} />
+        );
+
+        const sortTitleButton = getByText("Title");
+        fireEvent.click(sortTitleButton);
+
+        // Delete Questionnaire 2
+        const deleteButton = getAllByTitle("Delete")[1];
+        fireEvent.click(deleteButton);
+        const confirmButton = getByTestId("btn-delete-modal");
+        fireEvent.click(confirmButton);
+        await waitForElementToBeRemoved(() => getByTestId("btn-delete-modal"));
+
+        expect(getByTitle("Questionnaire 3")).toEqual(document.activeElement);
+      });
+
+      it("should not re-focus the row after switching page", async () => {
+        const questionnaires = new Array(18)
+          .fill(null)
+          .map((_, index) => buildQuestionnaire(index));
+
+        const { getByText, getAllByTitle, getByTestId, rerender } = render(
+          <QuestionnairesView {...props} questionnaires={questionnaires} />
+        );
+
+        // Move to page 2
+        const nextButton = getByText("Go to next page");
+        fireEvent.click(nextButton);
+        expect(getByText("Showing 2 of 18")).toBeTruthy();
+
+        // Delete the last one on the page - the other one is focused
+        const deleteButton = getAllByTitle("Delete")[1];
+        fireEvent.click(deleteButton);
+        const confirmButton = getByTestId("btn-delete-modal");
+        fireEvent.click(confirmButton);
+
+        rerender(
+          <QuestionnairesView
+            {...props}
+            questionnaires={questionnaires.slice(0, 17)}
+          />
+        );
+
+        expect(document.activeElement).not.toEqual(document.body);
+
+        const previousButton = getByText("Go to previous page");
+        fireEvent.click(previousButton);
+        expect(getByText("Showing 16 of 17")).toBeTruthy();
+
+        fireEvent.click(nextButton);
+        expect(getByText("Showing 1 of 17")).toBeTruthy();
+
+        expect(document.activeElement).toEqual(document.body);
+      });
+
+      it("should not re-focus the row after switching order", () => {
+        const questionnaires = new Array(18)
+          .fill(null)
+          .map((_, index) => buildQuestionnaire(index));
+
+        const { getByText, getAllByTitle, getByTestId, rerender } = render(
+          <QuestionnairesView {...props} questionnaires={questionnaires} />
+        );
+
+        // Move to page 2
+        const nextButton = getByText("Go to next page");
+        fireEvent.click(nextButton);
+        expect(getByText("Showing 2 of 18")).toBeTruthy();
+
+        // Delete the last one on the page - the other one is focused
+        const deleteButton = getAllByTitle("Delete")[1];
+        fireEvent.click(deleteButton);
+        const confirmButton = getByTestId("btn-delete-modal");
+        fireEvent.click(confirmButton);
+
+        rerender(
+          <QuestionnairesView
+            {...props}
+            questionnaires={questionnaires.slice(0, 17)}
+          />
+        );
+
+        expect(document.activeElement).not.toEqual(document.body);
+
+        const createdAtSortButton = getByText("Created");
+        fireEvent.click(createdAtSortButton);
+        expect(document.activeElement).toEqual(document.body);
+        fireEvent.click(createdAtSortButton);
+
+        expect(document.activeElement).toEqual(document.body);
       });
     });
 
@@ -372,6 +509,108 @@ describe("QuestionnairesView", () => {
         const { getByText } = render(<QuestionnairesView {...props} />);
 
         expect(getByText("2 of 2")).toBeTruthy();
+      });
+    });
+
+    describe("Sorting", () => {
+      const getRowTitleAtIndex = (getAllByTestId, index) =>
+        getAllByTestId("questionnaires-row")[index].children[0].textContent;
+
+      beforeEach(() => {
+        props.questionnaires = [
+          buildQuestionnaire(4, "2019-05-10"),
+          buildQuestionnaire(2, "2019-05-09"),
+          buildQuestionnaire(1, "2019-05-11"),
+          buildQuestionnaire(3, "2019-05-08"),
+          buildQuestionnaire(5, "2019-05-12"),
+        ];
+      });
+
+      it("should initially sort by created date with newest first", () => {
+        const { getAllByTestId } = render(<QuestionnairesView {...props} />);
+        const sortedQuestionnaires = sortBy(
+          props.questionnaires,
+          "createdAt"
+        ).reverse();
+
+        for (let index = 0; index < 5; index++) {
+          expect(getRowTitleAtIndex(getAllByTestId, index)).toEqual(
+            sortedQuestionnaires[index].title
+          );
+        }
+      });
+
+      it("should sort by title ascending when title header is clicked", () => {
+        const { getByTestId, getAllByTestId } = render(
+          <QuestionnairesView {...props} />
+        );
+
+        fireEvent.click(getByTestId("title-sort-button"));
+        for (let index = 0; index < 5; index++) {
+          expect(getRowTitleAtIndex(getAllByTestId, index)).toEqual(
+            `Questionnaire ${index + 1} Title`
+          );
+        }
+      });
+
+      it("should sort by title descending when title header is clicked twice", () => {
+        const { getByTestId, getAllByTestId } = render(
+          <QuestionnairesView {...props} />
+        );
+
+        const sortTitleButton = getByTestId("title-sort-button");
+        fireEvent.click(sortTitleButton);
+        fireEvent.click(sortTitleButton);
+
+        for (let index = 0, reverseNum = 5; index < 5; index++, reverseNum--) {
+          expect(getRowTitleAtIndex(getAllByTestId, index)).toEqual(
+            `Questionnaire ${reverseNum} Title`
+          );
+        }
+      });
+
+      it("should sort across multiple pages", () => {
+        const questionnaires = new Array(17)
+          .fill("")
+          .map((_, index) => buildQuestionnaire(index));
+
+        const { getByText, queryByText } = render(
+          <QuestionnairesView {...props} questionnaires={questionnaires} />
+        );
+
+        const sortTitleButton = getByText("Title");
+        fireEvent.click(sortTitleButton);
+        // 9 is on the second page as it is sorted alphabetically, so 1,10,...16,2,3
+        expect(queryByText("Questionnaire 9 Title")).toBeFalsy();
+
+        fireEvent.click(sortTitleButton);
+        expect(queryByText("Questionnaire 9 Title")).toBeTruthy();
+      });
+
+      it("should start with the sort order left last time", () => {
+        const { getByText, getAllByTestId, unmount } = render(
+          <QuestionnairesView {...props} />
+        );
+
+        const sortTitleButton = getByText("Title");
+        fireEvent.click(sortTitleButton);
+        expect(getRowTitleAtIndex(getAllByTestId, 0)).toEqual(
+          "Questionnaire 1 Title"
+        );
+        fireEvent.click(sortTitleButton);
+
+        expect(getRowTitleAtIndex(getAllByTestId, 0)).toEqual(
+          "Questionnaire 5 Title"
+        );
+
+        unmount();
+
+        const { getAllByTestId: getAllByTestIdNewRender } = render(
+          <QuestionnairesView {...props} />
+        );
+        expect(getRowTitleAtIndex(getAllByTestIdNewRender, 0)).toEqual(
+          "Questionnaire 5 Title"
+        );
       });
     });
   });

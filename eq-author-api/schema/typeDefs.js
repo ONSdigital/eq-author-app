@@ -1,6 +1,7 @@
 module.exports = `
 
 scalar Date
+scalar DateTime
 
 scalar JSON
 
@@ -31,8 +32,8 @@ type Questionnaire {
   theme: Theme
   navigation: Boolean
   surveyId: String
-  createdAt: Date
-  updatedAt: Date
+  createdAt: DateTime
+  updatedAt: DateTime
   createdBy: User!
   sections: [Section]
   summary: Boolean
