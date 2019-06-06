@@ -1,19 +1,17 @@
-import React, { useState, useRef } from "react";
+import React, { useRef } from "react";
 import PropTypes from "prop-types";
 import { propType } from "graphql-anywhere";
-import styled from "styled-components";
 import { isEmpty } from "lodash";
-
-import QuestionnaireSettingsModal from "App/QuestionnaireSettingsModal";
-import Button from "components/buttons/Button";
 
 import NoResults from "./NoResults";
 import QuestionnairesTable from "./QuestionnairesTable";
+import Header from "./Header";
 import Footer from "./Footer";
 
 import reducer, { buildInitialState, ACTIONS } from "./reducer";
 import { SORT_ORDER } from "./constants";
 import usePersistedReducer from "./usePersistedReducer";
+import NoResultsFiltered from "./NoResultsFiltered";
 
 export const STORAGE_KEY = "questionnaire-list-settings";
 
@@ -21,15 +19,8 @@ const STORED_KEYS = [
   "currentPageIndex",
   "currentSortColumn",
   "currentSortOrder",
+  "searchTerm",
 ];
-
-const Header = styled.div`
-  margin: 1em 0;
-  display: flex;
-  z-index: 1;
-  align-items: center;
-  justify-content: flex-end;
-`;
 
 const QuestionnairesView = ({
   questionnaires,
@@ -37,11 +28,6 @@ const QuestionnairesView = ({
   onDuplicateQuestionnaire,
   onCreateQuestionnaire,
 }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const handleModalOpen = () => setIsModalOpen(true);
-  const handleModalClose = () => setIsModalOpen(false);
-
   const questionnairesRef = useRef(questionnaires);
 
   const [state, dispatch] = usePersistedReducer(
@@ -52,6 +38,7 @@ const QuestionnairesView = ({
       currentPageIndex: 0,
       currentSortColumn: "createdAt",
       currentSortOrder: SORT_ORDER.DESCENDING,
+      searchTerm: "",
     },
     buildInitialState(questionnairesRef.current)
   );
@@ -90,54 +77,42 @@ const QuestionnairesView = ({
     });
   };
 
-  if (isEmpty(state.questionnaires)) {
-    return (
-      <>
-        <NoResults onCreateQuestionnaire={handleModalOpen} />
-        <QuestionnaireSettingsModal
-          isOpen={isModalOpen}
-          onClose={handleModalClose}
-          onSubmit={onCreateQuestionnaire}
-          confirmText="Create"
-        />
-      </>
-    );
+  if (isEmpty(state.apiQuestionnaires)) {
+    return <NoResults onCreateQuestionnaire={onCreateQuestionnaire} />;
   }
+
   return (
     <>
-      <Header>
-        <Button
-          onClick={handleModalOpen}
-          primary
-          data-test="create-questionnaire"
-        >
-          Create questionnaire
-        </Button>
-      </Header>
-      <QuestionnairesTable
-        questionnaires={state.currentPage}
-        onDeleteQuestionnaire={handleDeleteQuestionnaire}
-        onDuplicateQuestionnaire={onDuplicateQuestionnaire}
-        onSortQuestionnaires={handleSortQuestionnaires}
-        onReverseSort={handleReverseSort}
-        sortColumn={state.currentSortColumn}
-        sortOrder={state.currentSortOrder}
-        autoFocusId={state.autoFocusId}
+      <Header
+        onCreateQuestionnaire={onCreateQuestionnaire}
+        onSearchChange={searchTerm =>
+          dispatch({ type: ACTIONS.SEARCH, payload: searchTerm })
+        }
+        searchTerm={state.searchTerm}
       />
+      {isEmpty(state.questionnaires) ? (
+        <NoResultsFiltered searchTerm={state.searchTerm} />
+      ) : (
+        <QuestionnairesTable
+          questionnaires={state.currentPage}
+          onDeleteQuestionnaire={handleDeleteQuestionnaire}
+          onDuplicateQuestionnaire={onDuplicateQuestionnaire}
+          onSortQuestionnaires={handleSortQuestionnaires}
+          onReverseSort={handleReverseSort}
+          sortColumn={state.currentSortColumn}
+          sortOrder={state.currentSortOrder}
+          autoFocusId={state.autoFocusId}
+        />
+      )}
+
       <Footer
-        countOnPage={state.currentPage.length}
+        countOnPage={state.currentPage ? state.currentPage.length : 0}
         totalCount={state.questionnaires.length}
         pageCount={state.pages.length}
         currentPageIndex={state.currentPageIndex}
         onPageChange={newPage =>
           dispatch({ type: ACTIONS.CHANGE_PAGE, payload: newPage })
         }
-      />
-      <QuestionnaireSettingsModal
-        isOpen={isModalOpen}
-        onClose={handleModalClose}
-        onSubmit={onCreateQuestionnaire}
-        confirmText="Create"
       />
     </>
   );
