@@ -1,4 +1,4 @@
-import { chunk, clamp, sortBy, reverse, get } from "lodash";
+import { chunk, clamp, sortBy, reverse, get, flowRight } from "lodash";
 import { SORT_ORDER } from "./constants";
 
 const PAGE_SIZE = 16;
@@ -20,8 +20,8 @@ const calculateAutoFocusId = (questionnaires, deletedQuestionnaire) => {
   return (questionnaires[nextIndex] || {}).id;
 };
 
-export const sortQuestionnaires = state => {
-  const sortedQuestionnaires = sortBy(state.questionnaires, questionnaire =>
+const sortQuestionnaires = state => questionnaires => {
+  const sortedQuestionnaires = sortBy(questionnaires, questionnaire =>
     get(questionnaire, state.currentSortColumn).toUpperCase()
   );
   if (state.currentSortOrder === SORT_ORDER.ASCENDING) {
@@ -30,12 +30,26 @@ export const sortQuestionnaires = state => {
   return reverse(sortedQuestionnaires);
 };
 
+const filterQuestionnaires = state => questionnaires => {
+  const searchTerm = state.searchTerm.toLowerCase();
+  return questionnaires.filter(
+    q =>
+      q.title.toLowerCase().includes(searchTerm) ||
+      (q.shortTitle || "").toLowerCase().includes(searchTerm)
+  );
+};
+
 const buildState = state => {
-  const sortedQuestionnaires = sortQuestionnaires(state);
-  const pages = chunk(sortedQuestionnaires, PAGE_SIZE);
+  const questionnaires = flowRight([
+    filterQuestionnaires(state),
+    sortQuestionnaires(state),
+  ])(state.apiQuestionnaires);
+
+  const pages = chunk(questionnaires, PAGE_SIZE);
   const currentPageIndex = clamp(state.currentPageIndex, 0, pages.length - 1);
   return {
     ...state,
+    questionnaires,
     pages,
     currentPageIndex,
     currentPage: pages[currentPageIndex],
@@ -43,7 +57,7 @@ const buildState = state => {
 };
 
 export const buildInitialState = questionnaires => state =>
-  buildState({ ...state, questionnaires });
+  buildState({ ...state, apiQuestionnaires: questionnaires });
 
 export const ACTIONS = {
   CHANGE_PAGE: "CHANGE_PAGE",
@@ -51,6 +65,7 @@ export const ACTIONS = {
   DELETE_QUESTIONNAIRE: "DELETE_QUESTIONNAIRE",
   SORT_COLUMN: "SORT_COLUMN",
   REVERSE_SORT: "REVERSE_SORT",
+  SEARCH: "SEARCH",
 };
 
 const reducer = (state, action) => {
@@ -67,15 +82,12 @@ const reducer = (state, action) => {
     case ACTIONS.SET_QUESTIONNAIRES:
       return buildState({
         ...state,
-        questionnaires: action.payload,
+        apiQuestionnaires: action.payload,
       });
     case ACTIONS.DELETE_QUESTIONNAIRE:
       return {
         ...state,
-        autoFocusId: calculateAutoFocusId(
-          sortQuestionnaires(state),
-          action.payload
-        ),
+        autoFocusId: calculateAutoFocusId(state.questionnaires, action.payload),
       };
     case ACTIONS.SORT_COLUMN:
       return buildState({
@@ -89,6 +101,13 @@ const reducer = (state, action) => {
         ...state,
         autoFocusId: null,
         currentSortOrder: action.payload,
+      });
+    case ACTIONS.SEARCH:
+      return buildState({
+        ...state,
+        autoFocusId: null,
+        currentPageIndex: 0,
+        searchTerm: action.payload,
       });
     default:
       return state;

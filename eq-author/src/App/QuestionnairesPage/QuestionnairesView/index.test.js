@@ -2,10 +2,9 @@ import React from "react";
 import { Router } from "react-router-dom";
 import { createMemoryHistory } from "history";
 import { Provider } from "react-redux";
-import { render as rtlRender, fireEvent } from "react-testing-library";
 import { sortBy } from "lodash";
-
-import { waitForElementToBeRemoved } from "dom-testing-library";
+import { render as rtlRender, fireEvent, act } from "@testing-library/react";
+import { waitForElementToBeRemoved } from "@testing-library/dom";
 
 import QuestionnairesView, { STORAGE_KEY } from "./";
 
@@ -46,21 +45,19 @@ function render(
   };
 }
 
-const buildQuestionnaire = (index, date) => {
-  const dateString = date || `2019-05-${30 - index}`;
-  return {
-    id: `questionnaire${index}`,
-    displayName: `Questionnaire ${index}`,
-    title: `Questionnaire ${index} Title`,
-    shortTitle: "",
-    createdAt: `${dateString}T12:36:50.984Z`,
-    updatedAt: `${dateString}T12:36:50.984Z`,
-    createdBy: {
-      id: `user${index}`,
-      name: `User #${index}`,
-    },
-  };
-};
+const buildQuestionnaire = (index, overrides) => ({
+  id: `questionnaire${index}`,
+  displayName: `Questionnaire ${index}`,
+  title: `Questionnaire ${index} Title`,
+  shortTitle: "",
+  createdAt: `2019-05-${30 - index}T12:36:50.984Z`,
+  updatedAt: `2019-05-${30 - index}T12:36:50.984Z`,
+  createdBy: {
+    id: `user${index}`,
+    name: `User #${index}`,
+  },
+  ...overrides,
+});
 
 describe("QuestionnairesView", () => {
   let props;
@@ -114,6 +111,26 @@ describe("QuestionnairesView", () => {
 
       expect(props.onCreateQuestionnaire).toHaveBeenCalled();
     });
+
+    it("should be possible to cancel creating a questionnaire", async () => {
+      const { getByText, queryByLabelText } = render(
+        <QuestionnairesView {...props} />
+      );
+
+      const createButton = getByText("Create a questionnaire");
+      fireEvent.click(createButton);
+
+      expect(queryByLabelText("Questionnaire Title")).toBeTruthy();
+
+      const cancelButton = getByText("Cancel");
+      fireEvent.click(cancelButton);
+
+      await waitForElementToBeRemoved(() =>
+        queryByLabelText("Questionnaire Title")
+      );
+
+      expect(queryByLabelText("Questionnaire Title")).toBeFalsy();
+    });
   });
 
   describe("Non-empty state", () => {
@@ -153,6 +170,26 @@ describe("QuestionnairesView", () => {
       fireEvent.click(getByText("Create"));
 
       expect(props.onCreateQuestionnaire).toHaveBeenCalled();
+    });
+
+    it("should be possible to cancel creating a questionnaire", async () => {
+      const { getByText, queryByLabelText } = render(
+        <QuestionnairesView {...props} />
+      );
+
+      const createButton = getByText("Create questionnaire");
+      fireEvent.click(createButton);
+
+      expect(queryByLabelText("Questionnaire Title")).toBeTruthy();
+
+      const cancelButton = getByText("Cancel");
+      fireEvent.click(cancelButton);
+
+      await waitForElementToBeRemoved(() =>
+        queryByLabelText("Questionnaire Title")
+      );
+
+      expect(queryByLabelText("Questionnaire Title")).toBeFalsy();
     });
 
     describe("Deletion", () => {
@@ -293,9 +330,9 @@ describe("QuestionnairesView", () => {
 
       it("should focus the next questionnaire based on the current sorting", async () => {
         const questionnaires = [
-          buildQuestionnaire(3, "2019-01-03"),
-          buildQuestionnaire(2, "2019-01-02"),
-          buildQuestionnaire(1, "2019-01-01"),
+          buildQuestionnaire(3, { createdAt: "2019-01-03T12:36:50.984Z" }),
+          buildQuestionnaire(2, { createdAt: "2019-01-02T12:36:50.984Z" }),
+          buildQuestionnaire(1, { createdAt: "2019-01-01T12:36:50.984Z" }),
         ];
 
         const { getByText, getByTitle, getAllByTitle, getByTestId } = render(
@@ -387,6 +424,50 @@ describe("QuestionnairesView", () => {
         fireEvent.click(createdAtSortButton);
         expect(document.activeElement).toEqual(document.body);
         fireEvent.click(createdAtSortButton);
+
+        expect(document.activeElement).toEqual(document.body);
+      });
+
+      it("should not re-focus the row after applying search", () => {
+        jest.useFakeTimers();
+
+        const {
+          getAllByTitle,
+          getByTestId,
+          getByLabelText,
+          queryByText,
+          rerender,
+        } = render(<QuestionnairesView {...props} />);
+
+        // Delete the last one on the page - the other one is focused
+        const deleteButton = getAllByTitle("Delete")[0];
+        fireEvent.click(deleteButton);
+        const confirmButton = getByTestId("btn-delete-modal");
+        fireEvent.click(confirmButton);
+
+        rerender(
+          <QuestionnairesView
+            {...props}
+            questionnaires={props.questionnaires.slice(1)}
+          />
+        );
+
+        expect(document.activeElement).not.toEqual(document.body);
+
+        const search = getByLabelText("Search");
+        fireEvent.change(search, {
+          target: { value: "not in any questionnaire" },
+        });
+        act(() => {
+          jest.runAllTimers();
+        });
+        expect(queryByText("Questionnaire 2 Title")).toBeFalsy();
+
+        fireEvent.change(search, { target: { value: "" } });
+        act(() => {
+          jest.runAllTimers();
+        });
+        expect(queryByText("Questionnaire 2 Title")).toBeTruthy();
 
         expect(document.activeElement).toEqual(document.body);
       });
@@ -518,11 +599,11 @@ describe("QuestionnairesView", () => {
 
       beforeEach(() => {
         props.questionnaires = [
-          buildQuestionnaire(4, "2019-05-10"),
-          buildQuestionnaire(2, "2019-05-09"),
-          buildQuestionnaire(1, "2019-05-11"),
-          buildQuestionnaire(3, "2019-05-08"),
-          buildQuestionnaire(5, "2019-05-12"),
+          buildQuestionnaire(4, { createdAt: "2019-05-10T12:36:50.984Z" }),
+          buildQuestionnaire(2, { createdAt: "2019-05-09T12:36:50.984Z" }),
+          buildQuestionnaire(1, { createdAt: "2019-05-11T12:36:50.984Z" }),
+          buildQuestionnaire(3, { createdAt: "2019-05-08T12:36:50.984Z" }),
+          buildQuestionnaire(5, { createdAt: "2019-05-12T12:36:50.984Z" }),
         ];
       });
 
@@ -611,6 +692,117 @@ describe("QuestionnairesView", () => {
         expect(getRowTitleAtIndex(getAllByTestIdNewRender, 0)).toEqual(
           "Questionnaire 5 Title"
         );
+      });
+    });
+
+    describe("Searching", () => {
+      it("should search questionnaire by title", async () => {
+        jest.useFakeTimers();
+        const { getByLabelText, queryByText } = render(
+          <QuestionnairesView {...props} />
+        );
+
+        const search = getByLabelText("Search");
+        fireEvent.change(search, { target: { value: "questIonnaIre 1" } });
+        act(() => {
+          jest.runAllTimers();
+        });
+
+        expect(queryByText("Questionnaire 2 Title")).toBeFalsy();
+        expect(queryByText("Questionnaire 1 Title")).toBeTruthy();
+      });
+
+      it("should search questionnaire by short title", async () => {
+        jest.useFakeTimers();
+        const questionnaires = [
+          buildQuestionnaire(1, { shortTitle: "Short 1" }),
+          buildQuestionnaire(2, { shortTitle: "Short 2" }),
+        ];
+
+        const { getByLabelText, queryByText } = render(
+          <QuestionnairesView {...props} questionnaires={questionnaires} />
+        );
+
+        const search = getByLabelText("Search");
+        fireEvent.change(search, { target: { value: "shOrt 2" } });
+        act(() => {
+          jest.runAllTimers();
+        });
+
+        expect(queryByText("Short 1")).toBeFalsy();
+        expect(queryByText("Short 2")).toBeTruthy();
+      });
+
+      it("should save the search term", () => {
+        jest.useFakeTimers();
+        const { getByLabelText, queryByText, unmount } = render(
+          <QuestionnairesView {...props} />
+        );
+
+        expect(queryByText("Questionnaire 2 Title")).toBeTruthy();
+        expect(queryByText("Questionnaire 1 Title")).toBeTruthy();
+
+        const search = getByLabelText("Search");
+        fireEvent.change(search, { target: { value: "questionnaire 1" } });
+        act(() => {
+          jest.runAllTimers();
+        });
+
+        expect(queryByText("Questionnaire 2 Title")).toBeFalsy();
+        expect(queryByText("Questionnaire 1 Title")).toBeTruthy();
+
+        unmount();
+
+        const { queryByText: secondQueryByText } = render(
+          <QuestionnairesView {...props} />
+        );
+
+        expect(secondQueryByText("Questionnaire 2 Title")).toBeFalsy();
+        expect(secondQueryByText("Questionnaire 1 Title")).toBeTruthy();
+      });
+
+      it("should show a message when there are no results found", () => {
+        jest.useFakeTimers();
+        const { getByLabelText, queryByText } = render(
+          <QuestionnairesView {...props} />
+        );
+
+        const search = getByLabelText("Search");
+        fireEvent.change(search, {
+          target: { value: "not in any questionnaire" },
+        });
+        act(() => {
+          jest.runAllTimers();
+        });
+
+        expect(
+          queryByText("No results found for 'not in any questionnaire'")
+        ).toBeTruthy();
+      });
+
+      it("should navigate back to page one when you change the search term", () => {
+        jest.useFakeTimers();
+        const questionnaires = new Array(17)
+          .fill("")
+          .map((_, i) => buildQuestionnaire(i));
+        const { getByLabelText, getByText } = render(
+          <QuestionnairesView {...props} questionnaires={questionnaires} />
+        );
+
+        const nextButton = getByText("Go to next page");
+        fireEvent.click(nextButton);
+
+        expect(getByText("2 of 2")).toBeTruthy();
+
+        const search = getByLabelText("Search");
+        fireEvent.change(search, {
+          target: { value: "Questionnaire" },
+        });
+        act(() => {
+          jest.runAllTimers();
+        });
+
+        expect(getByText("1 of 2")).toBeTruthy();
       });
     });
   });
