@@ -59,8 +59,6 @@ module.exports.generateToken = function(payload) {
     })
     .then(
       result =>
-        `${result.protected}.${result.recipients[0].encrypted_key}.${
-          result.iv
-        }.${result.ciphertext}.${result.tag}`
+        `${result.protected}.${result.recipients[0].encrypted_key}.${result.iv}.${result.ciphertext}.${result.tag}`
     );
 };

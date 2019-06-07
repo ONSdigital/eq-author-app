@@ -20,9 +20,7 @@ module.exports = logger => ({ currentVersion, migrations }) => async (
       .slice(req.questionnaire.version)
       .reduce((questionnaire, migration) => {
         logger.info(
-          `Running migration for version ${migration.name} on ${
-            questionnaire.id
-          }`
+          `Running migration for version ${migration.name} on ${questionnaire.id}`
         );
         return migration(questionnaire);
       }, req.questionnaire);
