@@ -467,9 +467,7 @@ describe("Group", () => {
       const resultantJson = new Group(section.title, section, ctx);
 
       expect(resultantJson.blocks[1].questions[0].description).toEqual(
-        `{{ answers['answer${
-          section.pages[0].answers[0].id
-        }']|format_unordered_list }}`
+        `{{ answers['answer${section.pages[0].answers[0].id}']|format_unordered_list }}`
       );
     });
   });

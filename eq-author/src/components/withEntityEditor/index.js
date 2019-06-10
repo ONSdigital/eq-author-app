@@ -109,9 +109,7 @@ const withEntityEditor = entityPropName => WrappedComponent => {
     }
   }
 
-  EntityEditor.displayName = `withEntityEditor(${
-    WrappedComponent.displayName
-  })`;
+  EntityEditor.displayName = `withEntityEditor(${WrappedComponent.displayName})`;
 
   return withSaveTracking(EntityEditor);
 };
