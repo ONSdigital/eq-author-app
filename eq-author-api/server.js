@@ -15,6 +15,7 @@ const importQuestionnaire = require("./middleware/import");
 const identificationMiddleware = require("./middleware/identification");
 const upsertUser = require("./middleware/identification/upsertUser");
 const rejectUnidentifiedUsers = require("./middleware/identification/rejectUnidentifiedUsers");
+const validateQuestionnaire = require("./middleware/validateQuestionnaire");
 
 const schema = require("./schema");
 
@@ -65,13 +66,18 @@ const createApp = () => {
     identificationMiddleware(logger),
     rejectUnidentifiedUsers,
     loadQuestionnaire,
-    runQuestionnaireMigrations(logger)(require("./migrations"))
+    runQuestionnaireMigrations(logger)(require("./migrations")),
+    validateQuestionnaire
   );
 
   const server = new ApolloServer({
     ...schema,
     context: ({ req }) => {
-      return { questionnaire: req.questionnaire, user: req.user };
+      return {
+        questionnaire: req.questionnaire,
+        user: req.user,
+        validationErrorInfo: req.validationErrorInfo,
+      };
     },
     extensions,
   });

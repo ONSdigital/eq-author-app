@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ErrorInline should render 1`] = `
+<ErrorInline__Container
+  data-test="error"
+>
+  <ErrorInline__IconContainer>
+    <Component />
+    <span
+      role="alert"
+    >
+      Oops
+    </span>
+  </ErrorInline__IconContainer>
+</ErrorInline__Container>
+`;

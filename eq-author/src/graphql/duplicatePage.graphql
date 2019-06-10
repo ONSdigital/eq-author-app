@@ -1,4 +1,5 @@
 #import "./fragments/page.graphql"
+#import "./fragments/validationErrorInfo.graphql"
 
 mutation duplicatePage($input: DuplicatePageInput!) {
   duplicatePage(input: $input) {
@@ -21,6 +22,10 @@ mutation duplicatePage($input: DuplicatePageInput!) {
         id
         displayName
       }
+      validationErrorInfo {
+        ...ValidationErrorInfo
+      }
+      isNew @client
     }
   }
 }

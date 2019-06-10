@@ -14,6 +14,7 @@ describe("withEntityEditor", () => {
     handleStartRequest,
     handleEndRequest;
   const ComponentWithEntity = withEntityEditor("entity")(Component);
+
   let store;
 
   const render = (props = {}) =>
@@ -52,6 +53,7 @@ describe("withEntityEditor", () => {
       },
     };
     wrapper.setProps(newProps);
+
     expect(wrapper.state("entity")).toEqual(newProps.entity);
   });
 
@@ -293,10 +295,20 @@ describe("withEntityEditor", () => {
     }).not.toThrow();
   });
 
-  it("should not call update if the change contained no change", () => {
+  it("should not call update if the change contained no change and page is not new", () => {
     wrapper.simulate("change", { name: "alias", value: entity.alias });
     wrapper.simulate("update");
 
-    expect(handleUpdate).not.toHaveBeenCalled();
+    expect(handleUpdate).not.toHaveBeenCalledWith();
+  });
+
+  it("should call update if the change contained no change and page is new", () => {
+    entity.isNew = true;
+    wrapper = render();
+
+    wrapper.simulate("change", { name: "alias", value: entity.alias });
+    wrapper.simulate("update");
+
+    expect(handleUpdate).toHaveBeenCalledWith(entity);
   });
 });

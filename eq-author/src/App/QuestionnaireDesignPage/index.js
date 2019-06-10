@@ -48,7 +48,10 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
     error: PropTypes.object, // eslint-disable-line
   };
 
-  state = { showDeleteConfirmDialog: false, showMovePageDialog: false };
+  state = {
+    showDeleteConfirmDialog: false,
+    showMovePageDialog: false,
+  };
 
   handleAddPage = pageType => () => {
     const {

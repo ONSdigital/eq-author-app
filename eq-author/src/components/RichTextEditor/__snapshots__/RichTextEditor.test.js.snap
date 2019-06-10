@@ -20,6 +20,7 @@ exports[`components/RichTextEditor should allow multiline input 1`] = `
       I am a label
     </Label>
     <RichTextEditor__Input
+      invalid={false}
       placeholderStyle="unstyled"
     >
       <ToolBar
@@ -274,6 +275,7 @@ exports[`components/RichTextEditor should render 1`] = `
       I am a label
     </Label>
     <RichTextEditor__Input
+      invalid={false}
       placeholderStyle="unstyled"
     >
       <ToolBar
@@ -530,6 +532,7 @@ exports[`components/RichTextEditor should render existing content 1`] = `
       I am a label
     </Label>
     <RichTextEditor__Input
+      invalid={false}
       placeholderStyle="unordered-list-item"
     >
       <ToolBar
@@ -892,6 +895,7 @@ exports[`components/RichTextEditor should show as disabled and readonly when dis
       I am a label
     </Label>
     <RichTextEditor__Input
+      invalid={false}
       placeholderStyle="unstyled"
     >
       <ToolBar

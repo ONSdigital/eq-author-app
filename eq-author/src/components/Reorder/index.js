@@ -21,6 +21,10 @@ const move = ({ transform, scale }) => keyframes`
   }
 `;
 
+const Margin = styled.div`
+  margin-top: 3em;
+`;
+
 export const Segment = styled.div`
   z-index: ${props => props.movement.zIndex};
   transform-origin: 50% 50%;
@@ -36,7 +40,11 @@ export const Segment = styled.div`
 const startingStyles = items => items.map(() => ({ transform: 0 }));
 
 const Reorder = ({ list, onMove, children, Transition }) => {
-  const OuterWrapper = Transition ? TransitionGroup : React.Fragment;
+  const OuterWrapper = Transition
+    ? ({ children }) => (
+        <TransitionGroup component={Margin}>{children}</TransitionGroup>
+      )
+    : React.Fragment;
   const InnerWrapper = Transition || React.Fragment;
 
   const [renderedItems, setRenderedItems] = useState(list);

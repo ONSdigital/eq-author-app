@@ -549,4 +549,48 @@ describe("components/RichTextEditor", function() {
       );
     });
   });
+
+  describe("validation", () => {
+    it("should set input as valid if no validation message is passed as parameter", () => {
+      expect(wrapper.find("RichTextEditor__Input").prop("invalid")).toEqual(
+        false
+      );
+    });
+
+    it("should not display error message if no validation message passed as parameter", () => {
+      expect(wrapper.find("ErrorInline")).toHaveLength(0);
+    });
+
+    it("should set input as invalid if validation message is passed as parameter", () => {
+      const errorValidationMsg = "Validation Message";
+
+      const validationProps = {
+        ...props,
+        errorValidationMsg,
+      };
+
+      const validationWrapper = shallow(
+        <RichTextEditor {...validationProps} />
+      );
+
+      expect(
+        validationWrapper.find("RichTextEditor__Input").prop("invalid")
+      ).toEqual(true);
+    });
+
+    it("should display validation message is passed as parameter", () => {
+      const errorValidationMsg = "Validation Message";
+
+      const validationProps = {
+        ...props,
+        errorValidationMsg,
+      };
+
+      const validationWrapper = shallow(
+        <RichTextEditor {...validationProps} />
+      );
+
+      expect(validationWrapper.find("ErrorInline")).toHaveLength(1);
+    });
+  });
 });

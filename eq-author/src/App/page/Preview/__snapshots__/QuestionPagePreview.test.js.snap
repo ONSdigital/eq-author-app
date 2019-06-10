@@ -23,6 +23,7 @@ exports[`QuestionPagePreview should render 1`] = `
       "guidance": "<p>Guidance</p>",
       "guidanceEnabled": true,
       "id": "1",
+      "isNew": false,
       "pageType": "QuestionPage",
       "position": 1,
       "section": Object {
@@ -34,6 +35,7 @@ exports[`QuestionPagePreview should render 1`] = `
       },
       "title": "<p>Hello world</p>",
       "totalValidation": null,
+      "validationErrorInfo": Array [],
     }
   }
   preview={true}
