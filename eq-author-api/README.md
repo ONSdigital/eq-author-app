@@ -84,3 +84,23 @@ It is possible to retrieve the full questionnaire data by making a `GET` request
 
 When the environment variable `ENABLE_IMPORT` is set to `true` then it exposes `/import` which will take the
 `POST` body and save it to the database. It performs no validation as it does this.
+
+## Instrumentation and tracing
+
+Instrumenting the GraphQL API is useful for troubleshooting errors and to help identify the root cause of slow running queries and mutations.
+
+The Author GraphQL API can be instrumented using [opentracing](https://opentracing.io) via the [apollo-opentracing](https://www.npmjs.com/package/apollo-opentracing) package.
+
+To enable instrumentation and to allow request tracing set the environment variable `ENABLE_OPENTRACING=true`. For convenience the [docker-compose-with-tracing.yml](docker-compose.yml) configuration that has been pre-configured to instrument the API, produce tracing metrics using Prometheus and collect the tracing output using [Jaeger](https://www.npmjs.com/package/jaeger-client).
+
+This configuration is only intended for local development and should not be used for production.
+
+To run the author API with instrumentation and request tracing enabled, simply run:
+
+```
+docker-compose up
+```
+
+Once running, the trace metrics and spans can be viewed by browsing to the Jaeger UI which is exposed on port `16686`.
+
+[http://localhost:16686](http://0.0.0.0:16686)

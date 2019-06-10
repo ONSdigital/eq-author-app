@@ -4,14 +4,25 @@ const request = require("supertest");
 const { NUMBER } = require("./constants/answerTypes");
 const { buildQuestionnaire } = require("./tests/utils/questionnaireBuilder");
 
-const server = require("./server");
+const { createApp } = require("./server");
+const { introspectionQuery } = require("graphql");
+
+const jwt = require("jsonwebtoken");
+const uuid = require("uuid");
 
 describe("Server", () => {
   describe("export", () => {
+    let server;
+
+    beforeEach(() => {
+      server = createApp();
+    });
+
     it("should dump the questionnaire", async () => {
       const questionnaire = await buildQuestionnaire({
         sections: [{ pages: [{ answers: [{ type: NUMBER }] }] }],
       });
+
       const response = await request(server).get(`/export/${questionnaire.id}`);
 
       expect(response.headers["content-type"]).toMatch(/json/);
@@ -36,6 +47,9 @@ describe("Server", () => {
 
       const questionnaireJSON = JSON.parse(JSON.stringify(questionnaire));
 
+      process.env.ENABLE_IMPORT = "true";
+      const server = createApp();
+
       const response = await request(server)
         .post("/import")
         .send(questionnaireJSON);
@@ -53,6 +67,34 @@ describe("Server", () => {
       const overwrittenFields = ["id", "createdAt", "updatedAt"];
       expect(JSON.parse(dumpResponse.text)).toMatchObject(
         omit(questionnaireJSON, overwrittenFields)
+      );
+    });
+  });
+
+  describe("tracing", () => {
+    it("should construct a server with opentracing enabled", async () => {
+      process.env.ENABLE_OPENTRACING = "true";
+      process.env.JAEGER_SERVICE_NAME = "test_service_name";
+      const server = createApp();
+      const token = jwt.sign(
+        {
+          sub: "tracing_test",
+          name: "tracing_test",
+          email: "tracing_test",
+          picture: "",
+        },
+        uuid.v4()
+      );
+      const response = await request(server)
+        .post("/graphql")
+        .set("authorization", `Bearer ${token}`)
+        .send({ query: introspectionQuery });
+
+      expect(response.statusCode).toBe(200);
+      expect(JSON.parse(response.text)).toEqual(
+        expect.objectContaining({
+          data: expect.any(Object),
+        })
       );
     });
   });

@@ -15,56 +15,77 @@ const exportQuestionnaire = require("./middleware/export");
 const importQuestionnaire = require("./middleware/import");
 const schema = require("./schema");
 
-const app = express();
-const pino = pinoMiddleware({
-  serializers: noir(["req.headers.authorization"], "[Redacted]"),
-});
-const logger = pino.logger;
+const createApp = () => {
+  const app = express();
+  const pino = pinoMiddleware({
+    serializers: noir(["req.headers.authorization"], "[Redacted]"),
+  });
+  const logger = pino.logger;
 
-app.use(
-  "/graphql",
-  helmet({
-    referrerPolicy: {
-      policy: "no-referrer",
-    },
-    frameguard: {
-      action: "deny",
-    },
-    contentSecurityPolicy: {
-      directives: {
-        defaultSrc: ["'self'"],
-        objectSrc: ["'none'"],
-        baseUri: ["'none'"],
-        fontSrc: ["'self'", "'https://fonts.gstatic.com'"],
-        scriptSrc: [
-          "'self'",
-          "'https://www.googleapis.com/identitytoolkit/v3'",
-        ],
+  let extensions = [];
+  if (process.env.ENABLE_OPENTRACING === "true") {
+    const OpentracingExtension = require("apollo-opentracing").default;
+    const { localTracer, serverTracer } = require("./tracer")(logger);
+    extensions = [
+      () =>
+        new OpentracingExtension({
+          server: serverTracer,
+          local: localTracer,
+        }),
+    ];
+  }
+
+  app.use(
+    "/graphql",
+    helmet({
+      referrerPolicy: {
+        policy: "no-referrer",
       },
+      frameguard: {
+        action: "deny",
+      },
+      contentSecurityPolicy: {
+        directives: {
+          defaultSrc: ["'self'"],
+          objectSrc: ["'none'"],
+          baseUri: ["'none'"],
+          fontSrc: ["'self'", "'https://fonts.gstatic.com'"],
+          scriptSrc: [
+            "'self'",
+            "'https://www.googleapis.com/identitytoolkit/v3'",
+          ],
+        },
+      },
+    }),
+    pino,
+    cors(),
+    createAuthMiddleware(logger),
+    loadQuestionnaire,
+    runQuestionnaireMigrations(logger)(require("./migrations"))
+  );
+
+  const server = new ApolloServer({
+    ...schema,
+    context: ({ req }) => {
+      return { questionnaire: req.questionnaire, auth: req.auth };
     },
-  }),
-  pino,
-  cors(),
-  createAuthMiddleware(logger),
-  loadQuestionnaire,
-  runQuestionnaireMigrations(logger)(require("./migrations"))
-);
+    extensions,
+  });
 
-const server = new ApolloServer({
-  ...schema,
-  context: ({ req }) => {
-    return { questionnaire: req.questionnaire, auth: req.auth };
-  },
-});
-server.applyMiddleware({ app });
+  server.applyMiddleware({ app });
 
-app.get("/status", status);
+  app.get("/status", status);
 
-app.get("/launch/:questionnaireId", getLaunchUrl);
+  app.get("/launch/:questionnaireId", getLaunchUrl);
 
-app.get("/export/:questionnaireId", exportQuestionnaire);
-if (process.env.ENABLE_IMPORT === "true") {
-  app.use(bodyParser.json()).post("/import", importQuestionnaire);
-}
+  app.get("/export/:questionnaireId", exportQuestionnaire);
+  if (process.env.ENABLE_IMPORT === "true") {
+    app.use(bodyParser.json()).post("/import", importQuestionnaire);
+  }
 
-module.exports = app;
+  return app;
+};
+
+module.exports = {
+  createApp,
+};
