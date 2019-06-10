@@ -80,6 +80,7 @@
     "workbox-webpack-plugin": "latest"
   },
   "dependencies": {
+    "@sentry/browser": "latest",
     "apollo-cache-inmemory": "latest",
     "apollo-client": "latest",
     "apollo-link": "latest",
