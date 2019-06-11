@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { debounce } from "lodash";
@@ -59,6 +59,10 @@ const Header = ({ onCreateQuestionnaire, onSearchChange, searchTerm }) => {
   const handleModalOpen = () => setIsModalOpen(true);
   const handleModalClose = () => setIsModalOpen(false);
 
+  const onSearchChangeDebounced = useMemo(() => {
+    return debounce(({ value }) => onSearchChange(value), DEBOUNCE_TIMEOUT);
+  }, [onSearchChange]);
+
   return (
     <>
       <Wrapper>
@@ -69,9 +73,7 @@ const Header = ({ onCreateQuestionnaire, onSearchChange, searchTerm }) => {
           <SearchInput
             id="search"
             defaultValue={searchTerm}
-            onChange={({ value }) => {
-              debounce(onSearchChange, DEBOUNCE_TIMEOUT)(value);
-            }}
+            onChange={onSearchChangeDebounced}
           />
         </Search>
 
