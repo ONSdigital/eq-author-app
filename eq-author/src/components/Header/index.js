@@ -93,7 +93,7 @@ export class UnconnectedHeader extends React.Component {
     questionnaire: CustomPropTypes.questionnaire,
     signOutUser: PropTypes.func.isRequired,
     raiseToast: PropTypes.func.isRequired,
-    title: PropTypes.string.isRequired,
+    title: PropTypes.string,
   };
 
   displayToast = () => {

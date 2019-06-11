@@ -4,6 +4,7 @@ const { pick } = require("lodash/fp");
 let throughput = "ON_DEMAND";
 let questionnanaireTableName = "author-questionnaires";
 let questionnanaireVersionsTableName = "author-questionnaire-versions";
+let userTableName = "author-users";
 
 if (process.env.DYNAMO_ENDPOINT_OVERRIDE) {
   dynamoose.local(process.env.DYNAMO_ENDPOINT_OVERRIDE);
@@ -17,6 +18,10 @@ if (process.env.DYNAMO_QUESTIONNAIRE_TABLE_NAME) {
 if (process.env.DYNAMO_QUESTIONNAIRE_VERSION_TABLE_NAME) {
   questionnanaireVersionsTableName =
     process.env.DYNAMO_QUESTIONNAIRE_VERSION_TABLE_NAME;
+}
+
+if (process.env.DYNAMO_USER_TABLE_NAME) {
+  userTableName = process.env.DYNAMO_USER_TABLE_NAME;
 }
 
 const baseQuestionnaireSchema = {
@@ -106,6 +111,33 @@ const questionnaireVersionsSchema = new dynamoose.Schema(
   }
 );
 
+const userSchema = new dynamoose.Schema(
+  {
+    id: {
+      type: String,
+      hashKey: true,
+      required: true,
+    },
+    email: {
+      type: String,
+    },
+    name: {
+      type: String,
+    },
+    externalId: {
+      type: String,
+      required: true,
+    },
+    picture: {
+      type: String,
+    },
+  },
+  {
+    throughput,
+    timestamps: true,
+  }
+);
+
 const QuestionnaireModel = dynamoose.model(
   questionnanaireTableName,
   questionnanaireSchema
@@ -116,9 +148,12 @@ const QuestionnaireVersionsModel = dynamoose.model(
   questionnaireVersionsSchema
 );
 
+const UserModel = dynamoose.model(userTableName, userSchema);
+
 module.exports = {
   QuestionnaireModel,
   QuestionnaireVersionsModel,
   dynamoose,
   justListFields,
+  UserModel,
 };

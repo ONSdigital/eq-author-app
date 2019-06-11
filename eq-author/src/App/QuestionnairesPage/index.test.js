@@ -50,7 +50,12 @@ describe("components/QuestionnairesPage", () => {
         shortTitle: "Short title",
         createdAt: "01/01/1970",
         updatedAt: "02/01/1970",
-        createdBy: { name: "Mike", id: "1" },
+        createdBy: {
+          name: "Mike",
+          id: "1",
+          email: "mike@mail.com",
+          displayName: "Mike",
+        },
         sections: [
           {
             id: "5",

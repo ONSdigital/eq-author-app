@@ -30,7 +30,6 @@ In most cases sensible defaults have been selected.
 | `EQ_AUTHOR_API_VERSION` | The current Author API version. This is what gets reported on the /status endpoint                                                                   | No       |
 | `PORT`                  | The port which express listens on (defaults to `4000`)                                                                                               | No       |
 | `NODE_ENV`              | Sets the environment the code is running in                                                                                                          | No       |
-| `DATASTORE`             | Sets place we store the data, allows us to have the data stored locally in JSON files which makes debugging easier (for this set it to `filesystem`) | No       |
 | `ENABLE_IMPORT`         | When enabled it exposes a post endpoint for importing questionnaires                                                                                 | No       |
 
 ## Run using Docker

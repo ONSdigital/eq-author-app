@@ -1,33 +1,31 @@
-const {
-  buildQuestionnaire,
-} = require("../../tests/utils/questionnaireBuilder");
+const { buildContext } = require("../../tests/utils/contextBuilder");
 const {
   deleteQuestionnaire,
-} = require("../../tests/utils/questionnaireBuilder/questionnaire");
+} = require("../../tests/utils/contextBuilder/questionnaire");
 const {
   queryQuestionnaireIntroduction,
   updateQuestionnaireIntroduction,
-} = require("../../tests/utils/questionnaireBuilder/questionnaireIntroduction");
+} = require("../../tests/utils/contextBuilder/questionnaireIntroduction");
 
 const { BUSINESS } = require("../../constants/questionnaireTypes");
 const { NOTICE_2 } = require("../../constants/legalBases");
 
 describe("questionnaire", () => {
-  let questionnaire;
+  let ctx, questionnaire;
 
   beforeEach(async () => {
-    questionnaire = await buildQuestionnaire({ type: BUSINESS });
+    ctx = await buildContext({ type: BUSINESS });
+    questionnaire = ctx.questionnaire;
   });
 
   afterEach(async () => {
-    await deleteQuestionnaire(questionnaire.id);
-    questionnaire = null;
+    await deleteQuestionnaire(ctx, questionnaire.id);
   });
 
   describe("read", () => {
     it("should return the questionnaire introduction", async () => {
       const introduction = await queryQuestionnaireIntroduction(
-        questionnaire,
+        ctx,
         questionnaire.introduction.id
       );
       expect(introduction).toEqual({
@@ -47,7 +45,7 @@ describe("questionnaire", () => {
 
     it("should return the available piping metadata but no answers", async () => {
       const introduction = await queryQuestionnaireIntroduction(
-        questionnaire,
+        ctx,
         questionnaire.introduction.id
       );
 
@@ -71,13 +69,10 @@ describe("questionnaire", () => {
         tertiaryDescription: "new tertiaryDescription",
       };
 
-      const updatedIntroduction = await updateQuestionnaireIntroduction(
-        questionnaire,
-        {
-          id: questionnaire.introduction.id,
-          ...changes,
-        }
-      );
+      const updatedIntroduction = await updateQuestionnaireIntroduction(ctx, {
+        id: questionnaire.introduction.id,
+        ...changes,
+      });
 
       expect(updatedIntroduction).toEqual({
         id: questionnaire.introduction.id,

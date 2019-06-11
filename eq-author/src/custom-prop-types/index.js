@@ -80,7 +80,7 @@ const CustomPropTypes = {
   }),
   user: PropTypes.shape({
     id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
+    name: PropTypes.string,
     email: PropTypes.string.isRequired,
     picture: PropTypes.string,
   }),

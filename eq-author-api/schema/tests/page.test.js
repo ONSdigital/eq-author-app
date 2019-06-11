@@ -1,23 +1,21 @@
 const { last, get } = require("lodash");
 
-const {
-  buildQuestionnaire,
-} = require("../../tests/utils/questionnaireBuilder");
+const { buildContext } = require("../../tests/utils/contextBuilder");
 
 const {
   deleteQuestionnaire,
-} = require("../../tests/utils/questionnaireBuilder/questionnaire");
+} = require("../../tests/utils/contextBuilder/questionnaire");
 
 const {
   queryPage,
   deletePage,
   movePage,
-} = require("../../tests/utils/questionnaireBuilder/page");
+} = require("../../tests/utils/contextBuilder/page");
 
 const {
   createQuestionPage,
   updateQuestionPage,
-} = require("../../tests/utils/questionnaireBuilder/page/questionPage");
+} = require("../../tests/utils/contextBuilder/page/questionPage");
 
 const { DATE, NUMBER } = require("../../constants/answerTypes");
 const {
@@ -28,21 +26,21 @@ const {
 const getFirstPage = questionnaire => questionnaire.sections[0].pages[0];
 
 describe("page", () => {
-  let questionnaire;
+  let ctx, questionnaire;
 
   afterEach(async () => {
-    await deleteQuestionnaire(questionnaire.id);
-    questionnaire = null;
+    await deleteQuestionnaire(ctx, questionnaire.id);
   });
 
   describe("create", () => {
     it("should create a page", async () => {
-      questionnaire = await buildQuestionnaire({
+      ctx = await buildContext({
         sections: [{}],
       });
+      questionnaire = ctx.questionnaire;
       const section = questionnaire.sections[0];
 
-      const createdPage = await createQuestionPage(questionnaire, {
+      const createdPage = await createQuestionPage(ctx, {
         title: "Title",
         description: "Description",
         sectionId: section.id,
@@ -63,23 +61,24 @@ describe("page", () => {
     });
 
     it("should create at a given position", async () => {
-      questionnaire = await buildQuestionnaire({
+      ctx = await buildContext({
         sections: [
           {
             pages: [{}],
           },
         ],
       });
+      questionnaire = ctx.questionnaire;
       const section = questionnaire.sections[0];
 
-      const createdPage = await createQuestionPage(questionnaire, {
+      const createdPage = await createQuestionPage(ctx, {
         title: "Title",
         description: "Description",
         sectionId: section.id,
         position: 0,
       });
 
-      const readPage = await queryPage(questionnaire, createdPage.id);
+      const readPage = await queryPage(ctx, createdPage.id);
 
       expect(readPage).toMatchObject({
         title: "Title",
@@ -91,7 +90,7 @@ describe("page", () => {
 
   describe("mutate", () => {
     it("should mutate a section", async () => {
-      questionnaire = await buildQuestionnaire({
+      ctx = await buildContext({
         sections: [
           {
             pages: [
@@ -113,6 +112,7 @@ describe("page", () => {
           },
         ],
       });
+      questionnaire = ctx.questionnaire;
       const page = getFirstPage(questionnaire);
       const update = {
         id: page.id,
@@ -129,7 +129,7 @@ describe("page", () => {
         additionalInfoContent: "additionalInfoContent-updated",
         additionalInfoEnabled: false,
       };
-      const updatedPage = await updateQuestionPage(questionnaire, update);
+      const updatedPage = await updateQuestionPage(ctx, update);
       expect(updatedPage).toEqual(expect.objectContaining(update));
     });
   });
@@ -137,13 +137,14 @@ describe("page", () => {
   describe("move", () => {
     describe("within a section", () => {
       beforeEach(async () => {
-        questionnaire = await buildQuestionnaire({
+        ctx = await buildContext({
           sections: [
             {
               pages: [{}, {}],
             },
           ],
         });
+        questionnaire = ctx.questionnaire;
       });
 
       it("should be able to move a page later", async () => {
@@ -153,7 +154,7 @@ describe("page", () => {
 
         const {
           section: { pages },
-        } = await movePage(questionnaire, {
+        } = await movePage(ctx, {
           id: pageToMoveId,
           sectionId: section.id,
           position: 1,
@@ -168,7 +169,7 @@ describe("page", () => {
 
         const {
           section: { pages },
-        } = await movePage(questionnaire, {
+        } = await movePage(ctx, {
           id: pageToMoveId,
           sectionId: section.id,
           position: 0,
@@ -179,7 +180,7 @@ describe("page", () => {
 
     describe("between sections", () => {
       it("should be able to move sections to any position in another section", async () => {
-        questionnaire = await buildQuestionnaire({
+        ctx = await buildContext({
           sections: [
             {
               pages: [{}, {}],
@@ -189,7 +190,7 @@ describe("page", () => {
             },
           ],
         });
-
+        questionnaire = ctx.questionnaire;
         const newSection = questionnaire.sections[1];
         const originalPages = [...newSection.pages];
 
@@ -197,7 +198,7 @@ describe("page", () => {
 
         const {
           section: { id, pages },
-        } = await movePage(questionnaire, {
+        } = await movePage(ctx, {
           id: pageToMoveId,
           sectionId: newSection.id,
           position: 1,
@@ -217,7 +218,7 @@ describe("page", () => {
     let queriedPage, setupPage;
 
     beforeEach(async () => {
-      questionnaire = await buildQuestionnaire({
+      ctx = await buildContext({
         metadata: [{}],
         sections: [
           {
@@ -241,8 +242,9 @@ describe("page", () => {
           },
         ],
       });
+      questionnaire = ctx.questionnaire;
       setupPage = questionnaire.sections[0].pages[1];
-      queriedPage = await queryPage(questionnaire, setupPage.id);
+      queriedPage = await queryPage(ctx, setupPage.id);
     });
 
     it("should resolve page fields", () => {
@@ -326,10 +328,11 @@ describe("page", () => {
 
   describe("delete", () => {
     it("should delete a page", async () => {
-      questionnaire = await buildQuestionnaire({ sections: [{ pages: [{}] }] });
+      ctx = await buildContext({ sections: [{ pages: [{}] }] });
+      questionnaire = ctx.questionnaire;
       const page = questionnaire.sections[0].pages[0];
-      await deletePage(questionnaire, page.id);
-      const deletedQuestionPage = await queryPage(questionnaire, page.id);
+      await deletePage(ctx, page.id);
+      const deletedQuestionPage = await queryPage(ctx, page.id);
       expect(deletedQuestionPage).toBeNull();
     });
   });

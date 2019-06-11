@@ -2,19 +2,20 @@ const { last, findIndex } = require("lodash");
 
 const { SOCIAL, BUSINESS } = require("../../constants/questionnaireTypes");
 
-const {
-  buildQuestionnaire,
-} = require("../../tests/utils/questionnaireBuilder");
+const { buildContext } = require("../../tests/utils/contextBuilder");
 const {
   createQuestionnaire,
   queryQuestionnaire,
   updateQuestionnaire,
   deleteQuestionnaire,
   listQuestionnaires,
-} = require("../../tests/utils/questionnaireBuilder/questionnaire");
+} = require("../../tests/utils/contextBuilder/questionnaire");
+
+const defaultUser = require("../../tests/utils/mockUserPayload");
+const { createUser } = require("../../utils/datastore");
 
 describe("questionnaire", () => {
-  let questionnaire;
+  let ctx, questionnaire;
 
   afterEach(async () => {
     if (!questionnaire) {
@@ -27,6 +28,7 @@ describe("questionnaire", () => {
   describe("create", () => {
     let config;
     beforeEach(async () => {
+      ctx = buildContext(null);
       config = {
         title: "Questionnaire",
         description: "Description",
@@ -37,10 +39,12 @@ describe("questionnaire", () => {
         type: SOCIAL,
         shortTitle: "short title",
       };
+      ctx = { user: defaultUser() };
+      createUser(ctx.user);
     });
 
     it("should create a questionnaire with a section and page", async () => {
-      const questionnaire = await createQuestionnaire(config);
+      const questionnaire = await createQuestionnaire(ctx, config);
       expect(questionnaire).toEqual(
         expect.objectContaining({ ...config, displayName: "short title" })
       );
@@ -49,12 +53,12 @@ describe("questionnaire", () => {
     });
 
     it("should create a questionnaire with no metadata when creating a social survey", async () => {
-      const questionnaire = await createQuestionnaire(config);
+      const questionnaire = await createQuestionnaire(ctx, config);
       expect(questionnaire.metadata).toEqual([]);
     });
 
     it("should create a questionnaire with default business metadata when creating a business survey", async () => {
-      const questionnaire = await createQuestionnaire({
+      const questionnaire = await createQuestionnaire(ctx, {
         ...config,
         type: BUSINESS,
       });
@@ -62,7 +66,7 @@ describe("questionnaire", () => {
     });
 
     it("should create a questionnaire introduction for business surveys", async () => {
-      const questionnaire = await createQuestionnaire({
+      const questionnaire = await createQuestionnaire(ctx, {
         ...config,
         type: BUSINESS,
       });
@@ -76,7 +80,7 @@ describe("questionnaire", () => {
 
   describe("mutate", () => {
     it("should mutate a questionnaire", async () => {
-      questionnaire = await buildQuestionnaire({
+      ctx = await buildContext({
         title: "Questionnaire",
         description: "Description",
         surveyId: "1",
@@ -87,7 +91,7 @@ describe("questionnaire", () => {
         shortTitle: "short title",
       });
       const update = {
-        id: questionnaire.id,
+        id: ctx.questionnaire.id,
         title: "Questionnaire-updated",
         description: "Description-updated",
         theme: "census",
@@ -96,27 +100,22 @@ describe("questionnaire", () => {
         summary: true,
         shortTitle: "short title updated",
       };
-      const updatedQuestionnaire = await updateQuestionnaire(
-        questionnaire,
-        update
-      );
+      const updatedQuestionnaire = await updateQuestionnaire(ctx, update);
 
       expect(updatedQuestionnaire).toEqual(expect.objectContaining(update));
     });
 
     it("should derive display name from short title and then title", async () => {
-      questionnaire = await buildQuestionnaire({
+      ctx = await buildContext({
         title: "title",
       });
-      const queriedTitleQuestionnaire = await queryQuestionnaire(questionnaire);
+      const queriedTitleQuestionnaire = await queryQuestionnaire(ctx);
       expect(queriedTitleQuestionnaire.displayName).toEqual("title");
-      await updateQuestionnaire(questionnaire, {
-        id: questionnaire.id,
+      await updateQuestionnaire(ctx, {
+        id: ctx.questionnaire.id,
         shortTitle: "short title",
       });
-      const queriedShortTitleQuestionnaire = await queryQuestionnaire(
-        questionnaire
-      );
+      const queriedShortTitleQuestionnaire = await queryQuestionnaire(ctx);
       expect(queriedShortTitleQuestionnaire.displayName).toEqual("short title");
     });
   });
@@ -125,13 +124,13 @@ describe("questionnaire", () => {
     let queriedQuestionnaire;
 
     beforeEach(async () => {
-      questionnaire = await buildQuestionnaire({
+      ctx = await buildContext({
         summary: false,
         description: "description",
         sections: [{}],
         metadata: [{}],
       });
-      queriedQuestionnaire = await queryQuestionnaire(questionnaire);
+      queriedQuestionnaire = await queryQuestionnaire(ctx);
     });
 
     it("should resolve questionnaire fields", () => {
@@ -153,14 +152,12 @@ describe("questionnaire", () => {
     });
 
     it("should resolve createdBy", () => {
-      expect(queriedQuestionnaire.createdBy).toMatchObject({
-        id: "author-integration-test",
-      });
+      expect(queriedQuestionnaire.createdBy.displayName).toMatch(ctx.user.name);
     });
 
     it("should resolve section", () => {
       expect(queriedQuestionnaire.sections.id).toEqual(
-        questionnaire.sections.id
+        ctx.questionnaire.sections.id
       );
     });
 
@@ -172,15 +169,15 @@ describe("questionnaire", () => {
 
     it("should resolve metadata", () => {
       expect(last(queriedQuestionnaire.metadata).id).toEqual(
-        last(questionnaire.metadata).id
+        last(ctx.questionnaire.metadata).id
       );
     });
   });
 
   describe("list questionnaires", () => {
     it("should order then newest to oldest", async () => {
-      const oldestQuestionnaire = await buildQuestionnaire({});
-      const newestQuestionnaire = await buildQuestionnaire({});
+      const { questionnaire: oldestQuestionnaire } = await buildContext({});
+      const { questionnaire: newestQuestionnaire } = await buildContext({});
 
       const questionnnaires = await listQuestionnaires();
       const oldestIndex = findIndex(
@@ -197,11 +194,9 @@ describe("questionnaire", () => {
 
   describe("delete", () => {
     it("should delete a questionnaire", async () => {
-      questionnaire = await buildQuestionnaire({});
-      // Calling this to prove it doesn't error but cannot actually rely on it
-      await deleteQuestionnaire(questionnaire.id);
-      // This is faking the context which relies on middleware and should be null when the questionnaire has been deleted
-      const deletedQuestionnaire = await queryQuestionnaire(null);
+      ctx = await buildContext({});
+      await deleteQuestionnaire(ctx, ctx.questionnaire.id);
+      const deletedQuestionnaire = await queryQuestionnaire(ctx);
       expect(deletedQuestionnaire).toBeNull();
       questionnaire = null;
     });

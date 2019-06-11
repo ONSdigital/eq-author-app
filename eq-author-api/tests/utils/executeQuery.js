@@ -1,13 +1,13 @@
 const schema = require("../../schema");
 const { graphql } = require("graphql");
-const auth = require("./mockAuthPayload");
+
 const graphqlTools = require("graphql-tools");
-const { originalItemSymbol } = require("dynamoose/dist/Model");
+
+const { getQuestionnaire } = require("../../utils/datastore");
 
 const executableSchema = graphqlTools.makeExecutableSchema(schema);
 
 async function executeQuery(query, args = {}, ctx = {}) {
-  ctx.auth = auth;
   const response = await graphql(executableSchema, query, {}, ctx, args);
   if (response.errors) {
     throw new Error(`
@@ -19,16 +19,8 @@ Resulted in:
 ${response.errors.map(e => e.message).join("\n----\n")}
     `);
   }
-  // Required because dynamoose transaction does not update the questionnaireModel's
-  // originalItem and so its out of sync which causes us to have to re-query the questionnaire
-  if (
-    ctx.questionnaire &&
-    ctx.questionnaire.originalItem &&
-    ctx.questionnaire.updatedAt !== ctx.questionnaire.originalItem().updatedAt
-  ) {
-    ctx.questionnaire[originalItemSymbol] = JSON.parse(
-      JSON.stringify(ctx.questionnaire)
-    );
+  if (ctx.questionnaire) {
+    ctx.questionnaire = await getQuestionnaire(ctx.questionnaire.id);
   }
 
   return response;

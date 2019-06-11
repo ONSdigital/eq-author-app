@@ -1,30 +1,27 @@
-const {
-  buildQuestionnaire,
-} = require("../../tests/utils/questionnaireBuilder");
+const { buildContext } = require("../../tests/utils/contextBuilder");
 const {
   deleteQuestionnaire,
-} = require("../../tests/utils/questionnaireBuilder/questionnaire");
+} = require("../../tests/utils/contextBuilder/questionnaire");
 const {
   queryCollapsible,
   createCollapsible,
   updateCollapsible,
   moveCollapsible,
   deleteCollapsible,
-} = require("../../tests/utils/questionnaireBuilder/collapsible");
+} = require("../../tests/utils/contextBuilder/collapsible");
 
 const { BUSINESS } = require("../../constants/questionnaireTypes");
 
 describe("questionnaire", () => {
-  let questionnaire;
+  let ctx, questionnaire;
 
   afterEach(async () => {
-    await deleteQuestionnaire(questionnaire.id);
-    questionnaire = null;
+    await deleteQuestionnaire(ctx, questionnaire.id);
   });
 
   describe("read", () => {
     it("should return the collapsibles on the introduction", async () => {
-      questionnaire = await buildQuestionnaire({
+      ctx = await buildContext({
         type: BUSINESS,
         introduction: {
           collapsibles: [
@@ -35,9 +32,10 @@ describe("questionnaire", () => {
           ],
         },
       });
+      questionnaire = ctx.questionnaire;
 
       const collapsibles = await queryCollapsible(
-        questionnaire,
+        ctx,
         questionnaire.introduction.id
       );
       expect(collapsibles).toEqual([
@@ -55,8 +53,10 @@ describe("questionnaire", () => {
 
   describe("create", () => {
     it("should add a collapsible", async () => {
-      questionnaire = await buildQuestionnaire({ type: BUSINESS });
-      const collapsible = await createCollapsible(questionnaire, {
+      ctx = await buildContext({ type: BUSINESS });
+      questionnaire = ctx.questionnaire;
+
+      const collapsible = await createCollapsible(ctx, {
         introductionId: questionnaire.introduction.id,
         title: "Some title",
         description: "Some description",
@@ -74,7 +74,7 @@ describe("questionnaire", () => {
 
   describe("update", () => {
     it("should update the properties", async () => {
-      questionnaire = await buildQuestionnaire({
+      ctx = await buildContext({
         type: BUSINESS,
         introduction: {
           collapsibles: [
@@ -85,8 +85,9 @@ describe("questionnaire", () => {
           ],
         },
       });
+      questionnaire = ctx.questionnaire;
 
-      const collapsible = await updateCollapsible(questionnaire, {
+      const collapsible = await updateCollapsible(ctx, {
         id: questionnaire.introduction.collapsibles[0].id,
         title: "Some title",
         description: "Some description",
@@ -102,19 +103,20 @@ describe("questionnaire", () => {
 
   describe("move", () => {
     it("should move the collapsible forward", async () => {
-      questionnaire = await buildQuestionnaire({
+      ctx = await buildContext({
         type: BUSINESS,
         introduction: {
           collapsibles: [{}, {}],
         },
       });
+      questionnaire = ctx.questionnaire;
 
       const collapsibleIds = questionnaire.introduction.collapsibles.map(
         c => c.id
       );
       const [collapsible1Id, collapsible2Id] = collapsibleIds;
 
-      const result = await moveCollapsible(questionnaire, {
+      const result = await moveCollapsible(ctx, {
         id: collapsible2Id,
         position: 0,
       });
@@ -125,19 +127,20 @@ describe("questionnaire", () => {
     });
 
     it("should move the collapsible backward", async () => {
-      questionnaire = await buildQuestionnaire({
+      ctx = await buildContext({
         type: BUSINESS,
         introduction: {
           collapsibles: [{}, {}],
         },
       });
+      questionnaire = ctx.questionnaire;
 
       const collapsibleIds = questionnaire.introduction.collapsibles.map(
         c => c.id
       );
       const [collapsible1Id, collapsible2Id] = collapsibleIds;
 
-      const result = await moveCollapsible(questionnaire, {
+      const result = await moveCollapsible(ctx, {
         id: collapsible1Id,
         position: 1,
       });
@@ -150,19 +153,20 @@ describe("questionnaire", () => {
 
   describe("delete", () => {
     it("should remove the collapsible", async () => {
-      questionnaire = await buildQuestionnaire({
+      ctx = await buildContext({
         type: BUSINESS,
         introduction: {
           collapsibles: [{}, {}],
         },
       });
+      questionnaire = ctx.questionnaire;
 
       const collapsibleIds = questionnaire.introduction.collapsibles.map(
         c => c.id
       );
       const [collapsible1Id, collapsible2Id] = collapsibleIds;
 
-      const introduction = await deleteCollapsible(questionnaire, {
+      const introduction = await deleteCollapsible(ctx, {
         id: collapsible1Id,
       });
 

@@ -44,7 +44,18 @@ export const signOutUser = () => (dispatch, getState, { auth }) => {
 };
 
 export const verifyAuthStatus = () => (dispatch, getState, { auth }) => {
-  return auth.onAuthStateChanged(user =>
-    dispatch(user ? signInUser(user.toJSON()) : signOutUser())
-  );
+  return auth.onAuthStateChanged(authResult => {
+    if (!authResult) {
+      dispatch(signOutUser());
+      return;
+    }
+    window
+      .fetch("/signIn", {
+        headers: { authorization: `Bearer ${authResult.ra}` },
+      })
+      .then(() =>
+        dispatch(authResult ? signInUser(authResult.toJSON()) : signOutUser())
+      )
+      .catch(() => dispatch(signOutUser()));
+  });
 };

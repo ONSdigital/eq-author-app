@@ -2,10 +2,11 @@ const { omit } = require("lodash");
 const request = require("supertest");
 
 const { NUMBER } = require("./constants/answerTypes");
-const { buildQuestionnaire } = require("./tests/utils/questionnaireBuilder");
+const { buildContext } = require("./tests/utils/contextBuilder");
 
 const { createApp } = require("./server");
 const { introspectionQuery } = require("graphql");
+const { createUser } = require("./utils/datastore");
 
 const jwt = require("jsonwebtoken");
 const uuid = require("uuid");
@@ -19,10 +20,10 @@ describe("Server", () => {
     });
 
     it("should dump the questionnaire", async () => {
-      const questionnaire = await buildQuestionnaire({
+      const ctx = await buildContext({
         sections: [{ pages: [{ answers: [{ type: NUMBER }] }] }],
       });
-
+      const { questionnaire } = ctx;
       const response = await request(server).get(`/export/${questionnaire.id}`);
 
       expect(response.headers["content-type"]).toMatch(/json/);
@@ -41,10 +42,10 @@ describe("Server", () => {
 
   describe("import", () => {
     it("should save a questionnaire from the json", async () => {
-      const questionnaire = await buildQuestionnaire({
+      const ctx = await buildContext({
         sections: [{ pages: [{ answers: [{ type: NUMBER }] }] }],
       });
-
+      const { questionnaire } = ctx;
       const questionnaireJSON = JSON.parse(JSON.stringify(questionnaire));
 
       process.env.ENABLE_IMPORT = "true";
@@ -76,15 +77,13 @@ describe("Server", () => {
       process.env.ENABLE_OPENTRACING = "true";
       process.env.JAEGER_SERVICE_NAME = "test_service_name";
       const server = createApp();
-      const token = jwt.sign(
-        {
-          sub: "tracing_test",
-          name: "tracing_test",
-          email: "tracing_test",
-          picture: "",
-        },
-        uuid.v4()
-      );
+      const user = {
+        sub: "1234",
+        name: "tracing_test",
+        externalId: "1234",
+      };
+      await createUser(user);
+      const token = jwt.sign(user, uuid.v4());
       const response = await request(server)
         .post("/graphql")
         .set("authorization", `Bearer ${token}`)

@@ -1,6 +1,4 @@
-const {
-  buildQuestionnaire,
-} = require("../../tests/utils/questionnaireBuilder");
+const { buildContext } = require("../../tests/utils/contextBuilder");
 const { RADIO, NUMBER } = require("../../constants/answerTypes");
 const executeQuery = require("../../tests/utils/executeQuery");
 const {
@@ -15,9 +13,9 @@ const {
   deleteBinaryExpressionMutation,
   updateRightSideMutation,
   updateLeftSideMutation,
-} = require("../../tests/utils/questionnaireBuilder/routing");
+} = require("../../tests/utils/contextBuilder/routing");
 
-const { queryPage } = require("../../tests/utils/questionnaireBuilder/page");
+const { queryPage } = require("../../tests/utils/contextBuilder/page");
 
 describe("routing", () => {
   describe("A Routing", () => {
@@ -43,7 +41,8 @@ describe("routing", () => {
           },
         ],
       };
-      const questionnaire = await buildQuestionnaire(config);
+      const ctx = await buildContext(config);
+      const { questionnaire } = ctx;
       const page = questionnaire.sections[0].pages[0];
 
       await executeQuery(
@@ -51,10 +50,10 @@ describe("routing", () => {
         {
           input: { pageId: page.id },
         },
-        { questionnaire }
+        ctx
       );
 
-      const result = await queryPage(questionnaire, page.id);
+      const result = await queryPage(ctx, page.id);
       expect(
         result.routing.rules[0].expressionGroup.expressions[0].left.id
       ).toEqual(page.answers[0].id);
@@ -96,7 +95,8 @@ describe("routing", () => {
           },
         ],
       };
-      const questionnaire = await buildQuestionnaire(config);
+      const ctx = await buildContext(config);
+      const { questionnaire } = ctx;
       const firstPage = questionnaire.sections[0].pages[0];
       const secondPage = questionnaire.sections[0].pages[1];
 
@@ -110,10 +110,10 @@ describe("routing", () => {
             },
           },
         },
-        { questionnaire }
+        ctx
       );
 
-      const result = await queryPage(questionnaire, firstPage.id);
+      const result = await queryPage(ctx, firstPage.id);
 
       expect(result.routing.else).toMatchObject({
         logical: null,
@@ -148,7 +148,8 @@ describe("routing", () => {
           },
         ],
       };
-      const questionnaire = await buildQuestionnaire(config);
+      const ctx = await buildContext(config);
+      const { questionnaire } = ctx;
       const page = questionnaire.sections[0].pages[0];
 
       await executeQuery(
@@ -156,10 +157,10 @@ describe("routing", () => {
         {
           input: { routingId: page.routing.id },
         },
-        { questionnaire }
+        ctx
       );
 
-      const result = await queryPage(questionnaire, page.id);
+      const result = await queryPage(ctx, page.id);
       expect(result.routing.rules[1]).toBeTruthy();
     });
     // Passes intermittently
@@ -195,7 +196,8 @@ describe("routing", () => {
           },
         ],
       };
-      const questionnaire = await buildQuestionnaire(config);
+      const ctx = await buildContext(config);
+      const { questionnaire } = ctx;
       const firstPage = questionnaire.sections[0].pages[0];
       const rule = firstPage.routing.rules[0];
       const secondPage = questionnaire.sections[0].pages[1];
@@ -210,10 +212,10 @@ describe("routing", () => {
             },
           },
         },
-        { questionnaire }
+        ctx
       );
 
-      const result = await queryPage(questionnaire, firstPage.id);
+      const result = await queryPage(ctx, firstPage.id);
 
       expect(result.routing.rules[0].destination).toMatchObject({
         logical: null,
@@ -246,7 +248,8 @@ describe("routing", () => {
           },
         ],
       };
-      const questionnaire = await buildQuestionnaire(config);
+      const ctx = await buildContext(config);
+      const { questionnaire } = ctx;
       const firstPage = questionnaire.sections[0].pages[0];
       const rule = firstPage.routing.rules[0];
 
@@ -257,10 +260,10 @@ describe("routing", () => {
             id: rule.id,
           },
         },
-        { questionnaire }
+        ctx
       );
 
-      const result = await queryPage(questionnaire, firstPage.id);
+      const result = await queryPage(ctx, firstPage.id);
 
       expect(result.routing).toBeNull();
     });
@@ -290,7 +293,8 @@ describe("routing", () => {
           },
         ],
       };
-      const questionnaire = await buildQuestionnaire(config);
+      const ctx = await buildContext(config);
+      const { questionnaire } = ctx;
       const firstPage = questionnaire.sections[0].pages[0];
       const expressionGroup = firstPage.routing.rules[0].expressionGroup;
 
@@ -302,10 +306,10 @@ describe("routing", () => {
             operator: "Or",
           },
         },
-        { questionnaire }
+        ctx
       );
 
-      const result = await queryPage(questionnaire, firstPage.id);
+      const result = await queryPage(ctx, firstPage.id);
       expect(result.routing.rules[0].expressionGroup.operator).toEqual("Or");
     });
   });
@@ -334,7 +338,8 @@ describe("routing", () => {
           },
         ],
       };
-      const questionnaire = await buildQuestionnaire(config);
+      const ctx = await buildContext(config);
+      const { questionnaire } = ctx;
       const firstPage = questionnaire.sections[0].pages[0];
       const expressionGroup = firstPage.routing.rules[0].expressionGroup;
 
@@ -345,9 +350,9 @@ describe("routing", () => {
             expressionGroupId: expressionGroup.id,
           },
         },
-        { questionnaire }
+        ctx
       );
-      const result = await queryPage(questionnaire, firstPage.id);
+      const result = await queryPage(ctx, firstPage.id);
       expect(result.routing.rules[0].expressionGroup.expressions).toHaveLength(
         2
       );
@@ -388,7 +393,8 @@ describe("routing", () => {
           },
         ],
       };
-      const questionnaire = await buildQuestionnaire(config);
+      const ctx = await buildContext(config);
+      const { questionnaire } = ctx;
       const firstPage = questionnaire.sections[0].pages[0];
       const expression =
         firstPage.routing.rules[0].expressionGroup.expressions[0];
@@ -401,9 +407,9 @@ describe("routing", () => {
             condition: "NotEqual",
           },
         },
-        { questionnaire }
+        ctx
       );
-      const result = await queryPage(questionnaire, firstPage.id);
+      const result = await queryPage(ctx, firstPage.id);
       expect(
         result.routing.rules[0].expressionGroup.expressions[0].condition
       ).toEqual("NotEqual");
@@ -434,7 +440,8 @@ describe("routing", () => {
           },
         ],
       };
-      const questionnaire = await buildQuestionnaire(config);
+      const ctx = await buildContext(config);
+      const { questionnaire } = ctx;
       const firstPage = questionnaire.sections[0].pages[0];
       const expression =
         firstPage.routing.rules[0].expressionGroup.expressions[0];
@@ -446,10 +453,10 @@ describe("routing", () => {
             id: expression.id,
           },
         },
-        { questionnaire }
+        ctx
       );
 
-      const result = await queryPage(questionnaire, firstPage.id);
+      const result = await queryPage(ctx, firstPage.id);
       expect(
         result.routing.rules[0].expressionGroup.expressions[0]
       ).toBeUndefined();
@@ -491,7 +498,8 @@ describe("routing", () => {
           },
         ],
       };
-      const questionnaire = await buildQuestionnaire(config);
+      const ctx = await buildContext(config);
+      const { questionnaire } = ctx;
       const firstAnswer = questionnaire.sections[0].pages[0].answers[0];
       const secondPage = questionnaire.sections[0].pages[1];
       const expression =
@@ -505,10 +513,10 @@ describe("routing", () => {
             answerId: firstAnswer.id,
           },
         },
-        { questionnaire }
+        ctx
       );
 
-      const result = await queryPage(questionnaire, secondPage.id);
+      const result = await queryPage(ctx, secondPage.id);
       expect(
         result.routing.rules[0].expressionGroup.expressions[0].left.id
       ).toEqual(firstAnswer.id);
@@ -554,7 +562,8 @@ describe("routing", () => {
           },
         ],
       };
-      const questionnaire = await buildQuestionnaire(config);
+      const ctx = await buildContext(config);
+      const { questionnaire } = ctx;
       const firstPage = questionnaire.sections[0].pages[0];
       const expression =
         firstPage.routing.rules[0].expressionGroup.expressions[0];
@@ -569,10 +578,10 @@ describe("routing", () => {
             },
           },
         },
-        { questionnaire }
+        ctx
       );
 
-      const result = await queryPage(questionnaire, firstPage.id);
+      const result = await queryPage(ctx, firstPage.id);
       expect(
         result.routing.rules[0].expressionGroup.expressions[0].right.number
       ).toEqual(5);
@@ -605,7 +614,8 @@ describe("routing", () => {
           },
         ],
       };
-      const questionnaire = await buildQuestionnaire(config);
+      const ctx = await buildContext(config);
+      const { questionnaire } = ctx;
       const firstQuestionPage = questionnaire.sections[0].pages[0];
       const expression =
         firstQuestionPage.routing.rules[0].expressionGroup.expressions[0];
@@ -619,10 +629,10 @@ describe("routing", () => {
             selectedOptions: [options[0].id, options[2].id],
           },
         },
-        { questionnaire }
+        ctx
       );
 
-      const result = await queryPage(questionnaire, firstQuestionPage.id);
+      const result = await queryPage(ctx, firstQuestionPage.id);
       expect(
         result.routing.rules[0].expressionGroup.expressions[0].right.options
       ).toMatchObject([{ id: options[0].id }, { id: options[2].id }]);

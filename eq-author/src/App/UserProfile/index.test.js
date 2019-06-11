@@ -23,6 +23,11 @@ describe("UserProfile", () => {
     expect(render()).toMatchSnapshot();
   });
 
+  it("should show email if name not avalible", () => {
+    user.name = "";
+    expect(render()).toMatchSnapshot();
+  });
+
   it("should invoke onSignOut when button clicked", () => {
     const wrapper = render();
     wrapper.find(LogoutButton).simulate("click");

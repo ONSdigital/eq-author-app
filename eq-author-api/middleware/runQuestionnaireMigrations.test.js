@@ -1,12 +1,12 @@
 const runQuestionnaireMigrations = require("./runQuestionnaireMigrations");
-const { buildQuestionnaire } = require("../tests/utils/questionnaireBuilder");
+const { buildContext } = require("../tests/utils/contextBuilder");
 
 describe("runQuestionnaireMigrations", () => {
   let res, req, next, migrations, logger;
 
   beforeEach(async () => {
     req = {
-      questionnaire: await buildQuestionnaire({
+      questionnaire: await buildContext({
         metadata: [{}],
       }),
     };

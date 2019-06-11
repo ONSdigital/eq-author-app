@@ -10,12 +10,10 @@ describe("header", () => {
   });
 
   describe("after log in", () => {
-    const displayName = "Header Spec";
+    const displayName = "Cypress";
 
     beforeEach(() => {
-      cy.login({
-        displayName,
-      });
+      cy.login();
     });
 
     it("should display user name", () => {

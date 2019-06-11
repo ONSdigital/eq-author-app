@@ -6,6 +6,7 @@ AWS_ACCESS_KEY_ID=dummy
 AWS_SECRET_ACCESS_KEY=dummy
 DYNAMO_QUESTIONNAIRE_TABLE_NAME=test-author-questionnaires
 DYNAMO_QUESTIONNAIRE_VERSION_TABLE_NAME=test-author-questionnaire-versions
+DYNAMO_USER_TABLE_NAME=test-author-users
 
 echo "starting Dynamo docker..."
 
@@ -24,15 +25,6 @@ echo "waiting on Dynamo to start..."
 
 ./node_modules/.bin/wait-on http://$DYNAMO_HOST/shell
 
-if [ ! -f "data/QuestionnaireList.json" ]; then
-    if [ ! -d "data" ]; then
-        echo "creating file system folder..."
-        mkdir "data";
-    fi
-    echo "creating QuestionnaireList.json";
-    echo "[]" > "data/QuestionnaireList.json";
-fi
-
 echo "running tests..."
 
 AWS_REGION=${AWS_REGION} \
@@ -42,4 +34,5 @@ DYNAMO_ENDPOINT_OVERRIDE=http://${DYNAMO_HOST} \
 DYNAMO_QUESTIONNAIRE_TABLE_NAME=${DYNAMO_QUESTIONNAIRE_TABLE_NAME} \
 DYNAMO_QUESTIONNAIRE_VERSION_TABLE_NAME=${DYNAMO_QUESTIONNAIRE_VERSION_TABLE_NAME} \
 ENABLE_IMPORT=true \
+DYNAMO_USER_TABLE_NAME=${DYNAMO_USER_TABLE_NAME} \
 yarn jest --runInBand --detectOpenHandles --forceExit "$@"

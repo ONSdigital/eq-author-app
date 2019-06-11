@@ -69,9 +69,10 @@ describe("auth actions", () => {
   });
 
   describe("verifyAuthStatus", () => {
-    let changeHandler, signInUser, verifyAuthStatus, signedOutUser;
+    let changeHandler, signInUser, verifyAuthStatus, signOutUser, signedOutUser;
 
     beforeEach(() => {
+      window.fetch = jest.fn(() => SynchronousPromise.resolve());
       auth.onAuthStateChanged.mockImplementation(handler => {
         changeHandler = handler;
         return "FOOBAR";
@@ -81,6 +82,11 @@ describe("auth actions", () => {
       signInUser = actions.signInUser;
       verifyAuthStatus = actions.verifyAuthStatus;
       signedOutUser = actions.signedOutUser;
+      signOutUser = actions.signedOutUser;
+    });
+
+    afterEach(() => {
+      delete window.fetch;
     });
 
     it("should return result of onAuthStateChanged", () => {
@@ -104,6 +110,15 @@ describe("auth actions", () => {
       store.dispatch(verifyAuthStatus());
       changeHandler();
       expect(store.getActions()).toEqual([signedOutUser()]);
+    });
+
+    it("should sign the user out if the fetch doesn't resolve correctly", () => {
+      window.fetch = jest.fn(() => SynchronousPromise.reject());
+      store.dispatch(verifyAuthStatus());
+      const toJSON = jest.fn().mockReturnValue(user);
+      changeHandler({ toJSON });
+
+      expect(store.getActions()).toEqual([signOutUser()]);
     });
 
     describe("fullstory", () => {

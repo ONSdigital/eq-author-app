@@ -1,35 +1,30 @@
-const {
-  buildQuestionnaire,
-} = require("../../tests/utils/questionnaireBuilder");
+const { buildContext } = require("../../tests/utils/contextBuilder");
 
 const {
   updateCalculatedSummaryPage,
-} = require("../../tests/utils/questionnaireBuilder/page/calculatedSummary");
+} = require("../../tests/utils/contextBuilder/page/calculatedSummary");
 
 const {
   queryPage,
   deletePage,
   movePage,
-} = require("../../tests/utils/questionnaireBuilder/page");
+} = require("../../tests/utils/contextBuilder/page");
 
-const {
-  deleteAnswer,
-} = require("../../tests/utils/questionnaireBuilder/answer");
+const { deleteAnswer } = require("../../tests/utils/contextBuilder/answer");
 
 const {
   deleteSection,
   moveSection,
-} = require("../../tests/utils/questionnaireBuilder/section");
+} = require("../../tests/utils/contextBuilder/section");
 
-const {
-  querySection,
-} = require("../../tests/utils/questionnaireBuilder/section");
+const { querySection } = require("../../tests/utils/contextBuilder/section");
 
 const { NUMBER, CURRENCY } = require("../../constants/answerTypes");
 
 describe("calculated Summary", () => {
+  let ctx, questionnaire;
   it("should create a calculated summary", async () => {
-    const questionnaire = await buildQuestionnaire({
+    ctx = await buildContext({
       sections: [
         {
           pages: [
@@ -40,10 +35,10 @@ describe("calculated Summary", () => {
         },
       ],
     });
-
+    questionnaire = ctx.questionnaire;
     const page = questionnaire.sections[0].pages[0];
 
-    const calculatedSummaryPage = await queryPage(questionnaire, page.id);
+    const calculatedSummaryPage = await queryPage(ctx, page.id);
 
     expect(calculatedSummaryPage).toMatchObject({
       id: expect.any(String),
@@ -53,7 +48,7 @@ describe("calculated Summary", () => {
   });
 
   it("should be able to update the answers in the calculated summary", async () => {
-    const questionnaire = await buildQuestionnaire({
+    ctx = await buildContext({
       sections: [
         {
           pages: [
@@ -71,15 +66,16 @@ describe("calculated Summary", () => {
         },
       ],
     });
+    questionnaire = ctx.questionnaire;
 
     const page = questionnaire.sections[0].pages[1];
 
-    await updateCalculatedSummaryPage(questionnaire, {
+    await updateCalculatedSummaryPage(ctx, {
       id: questionnaire.sections[0].pages[1].id,
       summaryAnswers: [questionnaire.sections[0].pages[0].answers[0].id],
     });
 
-    const result = await queryPage(questionnaire, page.id);
+    const result = await queryPage(ctx, page.id);
 
     expect(result).toMatchObject({
       id: expect.any(String),
@@ -90,7 +86,7 @@ describe("calculated Summary", () => {
   });
 
   it("should be able to delete the answers in the calculated summary", async () => {
-    const questionnaire = await buildQuestionnaire({
+    ctx = await buildContext({
       sections: [
         {
           pages: [
@@ -111,10 +107,11 @@ describe("calculated Summary", () => {
         },
       ],
     });
+    questionnaire = ctx.questionnaire;
 
     const page = questionnaire.sections[0].pages[1];
 
-    await updateCalculatedSummaryPage(questionnaire, {
+    await updateCalculatedSummaryPage(ctx, {
       id: questionnaire.sections[0].pages[1].id,
       summaryAnswers: [
         questionnaire.sections[0].pages[0].answers[0].id,
@@ -122,12 +119,12 @@ describe("calculated Summary", () => {
       ],
     });
 
-    await updateCalculatedSummaryPage(questionnaire, {
+    await updateCalculatedSummaryPage(ctx, {
       id: questionnaire.sections[0].pages[1].id,
       summaryAnswers: [questionnaire.sections[0].pages[0].answers[0].id],
     });
 
-    const result = await queryPage(questionnaire, page.id);
+    const result = await queryPage(ctx, page.id);
 
     expect(result).toMatchObject({
       id: expect.any(String),
@@ -138,22 +135,23 @@ describe("calculated Summary", () => {
   });
 
   it("should delete a calculated summary", async () => {
-    const questionnaire = await buildQuestionnaire({
+    ctx = await buildContext({
       sections: [{ pages: [{ pageType: "calculatedSummary" }] }],
     });
+    questionnaire = ctx.questionnaire;
 
     const section = questionnaire.sections[0];
     const page = section.pages[0];
 
-    await deletePage(questionnaire, page.id);
+    await deletePage(ctx, page.id);
 
-    const result = await querySection(questionnaire, section.id);
+    const result = await querySection(ctx, section.id);
 
     expect(result.pages).toHaveLength(0);
   });
 
   it("should return a list of available summary answers when one has been selected", async () => {
-    const questionnaire = await buildQuestionnaire({
+    ctx = await buildContext({
       sections: [
         {
           pages: [
@@ -187,16 +185,18 @@ describe("calculated Summary", () => {
         },
       ],
     });
+    questionnaire = ctx.questionnaire;
+
     const answersPage = questionnaire.sections[0].pages[0];
     const calSumPage = questionnaire.sections[0].pages[1];
     const lastPageAnswer = questionnaire.sections[0].pages[2].answers[0].id;
 
-    await updateCalculatedSummaryPage(questionnaire, {
+    await updateCalculatedSummaryPage(ctx, {
       id: calSumPage.id,
       summaryAnswers: [answersPage.answers[0].id],
     });
 
-    const result = await queryPage(questionnaire, calSumPage.id);
+    const result = await queryPage(ctx, calSumPage.id);
 
     expect(result).toMatchObject({
       id: expect.any(String),
@@ -212,7 +212,7 @@ describe("calculated Summary", () => {
   });
 
   it("should return more than one type of summary answers no answers have been selected", async () => {
-    const questionnaire = await buildQuestionnaire({
+    ctx = await buildContext({
       sections: [
         {
           pages: [
@@ -246,11 +246,13 @@ describe("calculated Summary", () => {
         },
       ],
     });
+    questionnaire = ctx.questionnaire;
+
     const answersPage = questionnaire.sections[0].pages[0];
     const calSumPage = questionnaire.sections[0].pages[1];
     const lastPageAnswer = questionnaire.sections[0].pages[2].answers[0].id;
 
-    const result = await queryPage(questionnaire, calSumPage.id);
+    const result = await queryPage(ctx, calSumPage.id);
 
     expect(result).toMatchObject({
       id: expect.any(String),
@@ -268,7 +270,7 @@ describe("calculated Summary", () => {
   });
 
   it("should error if an answer is added thats is not a numeric type", async () => {
-    const questionnaire = await buildQuestionnaire({
+    ctx = await buildContext({
       sections: [
         {
           pages: [
@@ -286,10 +288,12 @@ describe("calculated Summary", () => {
         },
       ],
     });
+    questionnaire = ctx.questionnaire;
+
     const answersPage = questionnaire.sections[0].pages[0];
     const calSumPage = questionnaire.sections[0].pages[1];
     await expect(
-      updateCalculatedSummaryPage(questionnaire, {
+      updateCalculatedSummaryPage(ctx, {
         id: calSumPage.id,
         summaryAnswers: [answersPage.answers[0].id],
       })
@@ -299,7 +303,7 @@ describe("calculated Summary", () => {
   });
 
   it("should error if an answer is added that is a different type to the one that is already selected", async () => {
-    const questionnaire = await buildQuestionnaire({
+    ctx = await buildContext({
       sections: [
         {
           pages: [
@@ -320,16 +324,18 @@ describe("calculated Summary", () => {
         },
       ],
     });
+    questionnaire = ctx.questionnaire;
+
     const answersPage = questionnaire.sections[0].pages[0];
     const calSumPage = questionnaire.sections[0].pages[1];
 
-    await updateCalculatedSummaryPage(questionnaire, {
+    await updateCalculatedSummaryPage(ctx, {
       id: calSumPage.id,
       summaryAnswers: [answersPage.answers[0].id],
     });
 
     await expect(
-      updateCalculatedSummaryPage(questionnaire, {
+      updateCalculatedSummaryPage(ctx, {
         id: calSumPage.id,
         summaryAnswers: [answersPage.answers[1].id],
       })
@@ -339,7 +345,7 @@ describe("calculated Summary", () => {
   });
 
   it("should delete answer from list when answer deleted", async () => {
-    const questionnaire = await buildQuestionnaire({
+    ctx = await buildContext({
       sections: [
         {
           pages: [
@@ -357,23 +363,25 @@ describe("calculated Summary", () => {
         },
       ],
     });
+    questionnaire = ctx.questionnaire;
+
     const answersPage = questionnaire.sections[0].pages[0];
     const calSumPage = questionnaire.sections[0].pages[1];
 
-    await updateCalculatedSummaryPage(questionnaire, {
+    await updateCalculatedSummaryPage(ctx, {
       id: calSumPage.id,
       summaryAnswers: [answersPage.answers[0].id],
     });
 
-    await deleteAnswer(questionnaire, answersPage.answers[0].id);
+    await deleteAnswer(ctx, answersPage.answers[0].id);
 
-    const result = await queryPage(questionnaire, calSumPage.id);
+    const result = await queryPage(ctx, calSumPage.id);
 
     expect(result.summaryAnswers).toHaveLength(0);
   });
 
   it("should not resolve answer on list when page deleted", async () => {
-    const questionnaire = await buildQuestionnaire({
+    ctx = await buildContext({
       sections: [
         {
           pages: [
@@ -391,23 +399,25 @@ describe("calculated Summary", () => {
         },
       ],
     });
+    questionnaire = ctx.questionnaire;
+
     const answersPage = questionnaire.sections[0].pages[0];
     const calSumPage = questionnaire.sections[0].pages[1];
 
-    await updateCalculatedSummaryPage(questionnaire, {
+    await updateCalculatedSummaryPage(ctx, {
       id: calSumPage.id,
       summaryAnswers: [answersPage.answers[0].id],
     });
 
-    await deletePage(questionnaire, answersPage.id);
+    await deletePage(ctx, answersPage.id);
 
-    const result = await queryPage(questionnaire, calSumPage.id);
+    const result = await queryPage(ctx, calSumPage.id);
 
     expect(result.summaryAnswers).toHaveLength(0);
   });
 
   it("should delete answer from list when section deleted", async () => {
-    const questionnaire = await buildQuestionnaire({
+    ctx = await buildContext({
       sections: [
         {
           pages: [
@@ -429,24 +439,26 @@ describe("calculated Summary", () => {
         },
       ],
     });
+    questionnaire = ctx.questionnaire;
+
     const answersPage = questionnaire.sections[0].pages[0];
     const calSumPage = questionnaire.sections[1].pages[0];
     const section = questionnaire.sections[0];
 
-    await updateCalculatedSummaryPage(questionnaire, {
+    await updateCalculatedSummaryPage(ctx, {
       id: calSumPage.id,
       summaryAnswers: [answersPage.answers[0].id],
     });
 
-    await deleteSection(questionnaire, section.id);
+    await deleteSection(ctx, section.id);
 
-    const result = await queryPage(questionnaire, calSumPage.id);
+    const result = await queryPage(ctx, calSumPage.id);
 
     expect(result.summaryAnswers).toHaveLength(0);
   });
 
   it("should delete answer from list when page moved to after calsum page", async () => {
-    const questionnaire = await buildQuestionnaire({
+    ctx = await buildContext({
       sections: [
         {
           pages: [
@@ -464,28 +476,30 @@ describe("calculated Summary", () => {
         },
       ],
     });
+    questionnaire = ctx.questionnaire;
+
     const answersPage = questionnaire.sections[0].pages[0];
     const calSumPage = questionnaire.sections[0].pages[1];
     const section = questionnaire.sections[0];
 
-    await updateCalculatedSummaryPage(questionnaire, {
+    await updateCalculatedSummaryPage(ctx, {
       id: calSumPage.id,
       summaryAnswers: [answersPage.answers[0].id],
     });
 
-    await movePage(questionnaire, {
+    await movePage(ctx, {
       id: answersPage.id,
       position: 1,
       sectionId: section.id,
     });
 
-    const result = await queryPage(questionnaire, calSumPage.id);
+    const result = await queryPage(ctx, calSumPage.id);
 
     expect(result.summaryAnswers).toHaveLength(0);
   });
 
   it("should delete answer from list when section with answer moved to after calsum page's section", async () => {
-    const questionnaire = await buildQuestionnaire({
+    ctx = await buildContext({
       sections: [
         {
           pages: [
@@ -507,28 +521,30 @@ describe("calculated Summary", () => {
         },
       ],
     });
+    questionnaire = ctx.questionnaire;
+
     const answersPage = questionnaire.sections[0].pages[0];
     const calSumPage = questionnaire.sections[1].pages[0];
     const section = questionnaire.sections[0];
 
-    await updateCalculatedSummaryPage(questionnaire, {
+    await updateCalculatedSummaryPage(ctx, {
       id: calSumPage.id,
       summaryAnswers: [answersPage.answers[0].id],
     });
 
-    await moveSection(questionnaire, {
+    await moveSection(ctx, {
       id: section.id,
       position: 1,
       questionnaireId: questionnaire.id,
     });
 
-    const result = await queryPage(questionnaire, calSumPage.id);
+    const result = await queryPage(ctx, calSumPage.id);
 
     expect(result.summaryAnswers).toHaveLength(0);
   });
 
   it("should delete answer from list when calsum page moved to before question page", async () => {
-    const questionnaire = await buildQuestionnaire({
+    ctx = await buildContext({
       sections: [
         {
           pages: [
@@ -546,22 +562,24 @@ describe("calculated Summary", () => {
         },
       ],
     });
+    questionnaire = ctx.questionnaire;
+
     const answersPage = questionnaire.sections[0].pages[0];
     const calSumPage = questionnaire.sections[0].pages[1];
     const section = questionnaire.sections[0];
 
-    await updateCalculatedSummaryPage(questionnaire, {
+    await updateCalculatedSummaryPage(ctx, {
       id: calSumPage.id,
       summaryAnswers: [answersPage.answers[0].id],
     });
 
-    await movePage(questionnaire, {
+    await movePage(ctx, {
       id: calSumPage.id,
       position: 0,
       sectionId: section.id,
     });
 
-    const result = await queryPage(questionnaire, calSumPage.id);
+    const result = await queryPage(ctx, calSumPage.id);
 
     expect(result.summaryAnswers).toHaveLength(0);
   });

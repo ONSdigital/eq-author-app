@@ -1,9 +1,10 @@
 const loadQuestionnaire = require("./loadQuestionnaire");
-const { buildQuestionnaire } = require("../tests/utils/questionnaireBuilder");
+const { buildContext } = require("../tests/utils/contextBuilder");
 
 describe("loadQuestionnaire", () => {
   it("should add a found questionnaire to the middleware", async () => {
-    const questionnaire = await buildQuestionnaire({});
+    const ctx = await buildContext({});
+    const { questionnaire } = ctx;
     const req = {
       header: jest.fn().mockReturnValue(questionnaire.id),
     };

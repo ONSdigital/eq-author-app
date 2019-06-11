@@ -136,7 +136,7 @@ const TableHead = props => {
           Modified
         </SortableTH>
         <SortableTH
-          sortColumn="createdBy.name"
+          sortColumn="createdBy.displayName"
           colWidth="20%"
           dataTest="owner-sort-button"
           {...props}

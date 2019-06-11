@@ -7,7 +7,12 @@ const stubs = {
         {
           createdAt: "2019-01-01",
           updatedAt: "2019-01-02",
-          createdBy: { id: "1", name: "Test user", __typename: "User" },
+          createdBy: {
+            id: "1",
+            name: "Test user",
+            __typename: "User",
+            displayName: "Test user",
+          },
           id: "893182fe-75ae-446c-b801-367dfdc2d728",
           title: "Test Questionnaire",
           shortTitle: "",
@@ -24,6 +29,7 @@ const stubs = {
         name: "Test user",
         picture: "",
         email: "cypress@ons.gov.uk",
+        displayName: "Test user",
         __typename: "User",
       },
     },

@@ -1,15 +1,20 @@
 const jwt = require("jsonwebtoken");
-const uuid = require("uuid");
+const yaml = require("js-yaml");
+const fs = require("fs");
+
+const SIGNING_ALGORITHM = "RS256";
+const keysFile = process.env.KEYS_FILE || "./keys.yml";
+const keysYaml = yaml.safeLoad(fs.readFileSync(keysFile, "utf8"));
+const keysJson = JSON.parse(JSON.stringify(keysYaml));
+const signingKey = keysJson.keys.publisherAuthSigningKey.value;
 
 module.exports = (req, res, next) => {
   const token = jwt.sign(
     {
-      user_id: "Publisher",
-      name: "Publisher",
-      email: "eq.team@ons.gov.uk",
-      picture: "",
+      serviceName: "publisher",
     },
-    uuid.v4()
+    signingKey,
+    { algorithm: SIGNING_ALGORITHM }
   );
 
   res.locals.accessToken = token;
