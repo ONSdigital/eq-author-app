@@ -1,5 +1,5 @@
 const identificationMiddleware = require("./");
-const jwt = require("jsonwebtoken");
+const mockJwt = require("jsonwebtoken");
 const uuid = require("uuid");
 const yaml = require("js-yaml");
 const fs = require("fs");
@@ -10,7 +10,22 @@ const keysJson = JSON.parse(JSON.stringify(keysYaml));
 
 const { createUser } = require("../../utils/datastore");
 
-describe("auth middleware", () => {
+const invalidJwtToken = mockJwt.sign({ id: "invalid.token" }, uuid.v4());
+
+jest.mock("./verifyJwtToken", () => {
+  return {
+    verifyJwtToken: accessToken => {
+      const jwtToken = mockJwt.decode(accessToken);
+      return jwtToken.id === "invalid.token"
+        ? {
+            error: true,
+          }
+        : mockJwt.decode(accessToken);
+    },
+  };
+});
+
+describe("auth middleware", async () => {
   let logger;
 
   beforeEach(() => {
@@ -82,10 +97,19 @@ describe("auth middleware", () => {
         expect(res.send).toHaveBeenCalledWith(401);
       });
 
-      it("should send a 401 response if token is invalid", () => {
-        req.header.mockImplementation(() => "Bearer abc.def.ghi");
+      it("should send a 401 response if token is invalid", async () => {
+        req.header.mockImplementation(() => `Bearer invalid.access.token`);
 
-        middleware(req, res);
+        await middleware(req, res);
+
+        expect(logger.error).toHaveBeenCalled();
+        expect(res.send).toHaveBeenCalledWith(401);
+      });
+
+      it("should send a 401 response if token is valid jwt but fails verification", async () => {
+        req.header.mockImplementation(() => `Bearer ${invalidJwtToken}`);
+
+        await middleware(req, res);
 
         expect(logger.error).toHaveBeenCalled();
         expect(res.send).toHaveBeenCalledWith(401);
@@ -97,7 +121,7 @@ describe("auth middleware", () => {
         let sub = uuid.v4();
         let auth = { name: "foo", sub };
         await createUser({ name: "foo", externalId: sub });
-        const expected = jwt.sign(auth, uuid.v4());
+        const expected = mockJwt.sign(auth, uuid.v4());
         req.header.mockImplementation(() => `Bearer ${expected}`);
         await middleware(req, res, next);
         expect(req.user).toMatchObject({
@@ -113,7 +137,7 @@ describe("auth middleware", () => {
         let sub = uuid.v4();
         let auth = { name: "foo", sub };
 
-        const expected = jwt.sign(auth, uuid.v4());
+        const expected = mockJwt.sign(auth, uuid.v4());
         req.header.mockImplementation(() => `Bearer ${expected}`);
         await middleware(req, res, next);
         expect(req.user).toMatchObject({
@@ -121,14 +145,13 @@ describe("auth middleware", () => {
           name: "foo",
           isVerified: false,
         });
-        expect(next).toHaveBeenCalled();
       });
 
       it("if user is a service should add service to list", async () => {
         const oldKeysFile = process.env.KEYS_FILE;
         process.env.KEYS_FILE = "./keys.test.yml";
         let auth = { serviceName: "publisher" };
-        const expected = jwt.sign(auth, keysJson.keys.publisher.value, {
+        const expected = mockJwt.sign(auth, keysJson.keys.publisher.value, {
           algorithm: "RS256",
         });
         req.header.mockImplementation(() => `Bearer ${expected}`);

@@ -11,6 +11,15 @@ const { createUser } = require("./utils/datastore");
 const jwt = require("jsonwebtoken");
 const uuid = require("uuid");
 
+jest.mock("./middleware/identification/verifyJwtToken", () => {
+  return {
+    verifyJwtToken: accessToken => {
+      const mockJwt = require("jsonwebtoken");
+      return mockJwt.decode(accessToken);
+    },
+  };
+});
+
 describe("Server", () => {
   describe("export", () => {
     let server;

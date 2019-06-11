@@ -1,7 +1,8 @@
 const verifyServiceRequest = require("./verifyServiceRequest");
 const { isNil, isEmpty } = require("lodash/fp");
-const jwt = require("jsonwebtoken");
 const { getUserByExternalId } = require("../../utils/datastore");
+const jwt = require("jsonwebtoken");
+const { verifyJwtToken } = require("./verifyJwtToken");
 
 module.exports = logger => async (req, res, next) => {
   const authHeader = req.header(process.env.AUTH_HEADER_KEY || "authorization");
@@ -19,6 +20,7 @@ module.exports = logger => async (req, res, next) => {
   }
 
   const jwtToken = jwt.decode(accessToken);
+
   if (isNil(jwtToken)) {
     logger.error("Could not decode JWT token.");
     res.send(401);
@@ -36,12 +38,21 @@ module.exports = logger => async (req, res, next) => {
     return;
   }
 
+  const verifiedJwtToken = await verifyJwtToken(accessToken);
+
+  if (verifiedJwtToken.error) {
+    logger.error("Invalid JWT token.", jwtToken.error);
+    res.send(401);
+    return;
+  }
+
   let user = await getUserByExternalId(jwtToken.sub);
+
   if (!user) {
     req.user = {
-      name: jwtToken.name,
-      externalId: jwtToken.sub,
-      email: jwtToken.email,
+      name: verifiedJwtToken.name,
+      externalId: verifiedJwtToken.sub,
+      email: verifiedJwtToken.email,
       isVerified: false,
     };
     next();
@@ -50,9 +61,9 @@ module.exports = logger => async (req, res, next) => {
 
   req.user = {
     id: user.id,
-    name: jwtToken.name,
-    externalId: jwtToken.sub,
-    email: jwtToken.email,
+    name: verifiedJwtToken.name,
+    externalId: verifiedJwtToken.sub,
+    email: verifiedJwtToken.email,
     isVerified: true,
   };
 
