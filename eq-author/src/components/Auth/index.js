@@ -15,10 +15,6 @@ firebase.initializeApp({
 
 const auth = firebase.auth();
 
-if (window.Cypress && config.REACT_APP_FUNCTIONAL_TEST === "true") {
-  window.__auth__ = auth;
-}
-
 export default auth;
 export const providers = [
   {

@@ -1,7 +1,7 @@
 import React from "react";
 import { shallow, mount } from "enzyme";
 import { act } from "react-dom/test-utils";
-
+import styled from "styled-components";
 import TestProvider from "tests/utils/TestProvider";
 
 import Reorder, { Segment } from "./";
@@ -10,6 +10,10 @@ describe("Reorder", () => {
   jest.useFakeTimers();
 
   let props;
+
+  const MockTransition = styled.div`
+    position: relative;
+  `;
 
   beforeEach(() => {
     props = {
@@ -186,5 +190,26 @@ describe("Reorder", () => {
         .at(1)
         .text()
     ).toEqual("1");
+  });
+
+  it("should render as reactFragment if no transition passed", () => {
+    const wrapper = shallow(<Reorder {...props} />);
+    expect(wrapper.find("Fragment > Reorder__Segment")).toHaveLength(
+      props.list.length
+    );
+  });
+
+  it("should render with Transition is transition passed", () => {
+    const transitionProps = {
+      ...props,
+      Transition: MockTransition,
+    };
+    const wrapper = shallow(<Reorder {...transitionProps} />);
+
+    expect(wrapper.dive().find("Fragment > Reorder__Segment")).toHaveLength(0);
+
+    expect(
+      wrapper.dive().find("TransitionGroup > indextest__MockTransition")
+    ).toHaveLength(props.list.length);
   });
 });

@@ -172,6 +172,24 @@ describe("questionnaire", () => {
         last(ctx.questionnaire.metadata).id
       );
     });
+
+    it("should resolve ValidationErrorInfo", async () => {
+      const questionnaireValidationErrors = {
+        errors: ["error1"],
+      };
+
+      ctx = {
+        ...ctx,
+        questionnaireValidationErrors,
+      };
+
+      queriedQuestionnaire = await queryQuestionnaire(ctx);
+
+      expect(queriedQuestionnaire.validationErrorInfo).toMatchObject({
+        errors: questionnaireValidationErrors.errors,
+        totalCount: questionnaireValidationErrors.errors.length,
+      });
+    });
   });
 
   describe("list questionnaires", () => {

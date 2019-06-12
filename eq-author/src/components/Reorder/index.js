@@ -45,6 +45,7 @@ const Reorder = ({ list, onMove, children, Transition }) => {
         <TransitionGroup component={Margin}>{children}</TransitionGroup>
       )
     : React.Fragment;
+
   const InnerWrapper = Transition || React.Fragment;
 
   const [renderedItems, setRenderedItems] = useState(list);

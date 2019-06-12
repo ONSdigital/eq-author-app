@@ -4,8 +4,6 @@
 
 `/config` Webpack config.
 
-`/cypress` Automated UI testing framework
-
 `/data` Example Runner JSON schemas.
 
 `/public` Public static assets.

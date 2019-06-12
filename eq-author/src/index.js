@@ -57,10 +57,6 @@ const client = createApolloClient(link, cache);
 
 store = configureStore(history, client);
 
-if (window.Cypress && config.REACT_APP_FUNCTIONAL_TEST === "true") {
-  window.__store__ = store;
-}
-
 const renderApp = render(document.getElementById("root"), {
   store,
   client,
