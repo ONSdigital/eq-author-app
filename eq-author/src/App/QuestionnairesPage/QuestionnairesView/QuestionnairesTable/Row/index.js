@@ -75,6 +75,8 @@ const TD = styled.td`
   line-height: 1.3;
   padding: 0 1em;
   font-size: 0.9em;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 export const DuplicateQuestionnaireButton = styled(DuplicateButton)`
