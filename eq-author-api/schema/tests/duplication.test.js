@@ -50,7 +50,7 @@ describe("Duplication", () => {
     await deleteQuestionnaire(ctx, questionnaire.id);
   });
 
-  describe("duplicate a page", async () => {
+  describe("duplicate a page", () => {
     let page, pageCopy;
 
     beforeEach(async () => {
@@ -84,7 +84,7 @@ describe("Duplication", () => {
     });
   });
 
-  describe("duplicate a section", async () => {
+  describe("duplicate a section", () => {
     let queriedSection;
     let sectionCopy;
 
@@ -133,7 +133,7 @@ describe("Duplication", () => {
     });
   });
 
-  describe("duplicate a questionnaire", async () => {
+  describe("duplicate a questionnaire", () => {
     let queriedQuestionnaire;
     let questionnaireCopy;
     let duplicatedQuestionnaire;
