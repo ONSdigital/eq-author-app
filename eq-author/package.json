@@ -9,16 +9,12 @@
     "build:status": "node scripts/build-status-page.js",
     "build:fragmentTypes": "node scripts/buildFragmentTypes.js src/apollo/fragmentTypes.json",
     "test": "node scripts/test.js",
-    "test:integration": "./scripts/run_tests.sh integration",
-    "test:routing_e2e": "./scripts/run_tests.sh routing_e2e",
     "lint": "yarn lint:js && yarn lint:css",
-    "lint:js": "yarn build:fragmentTypes && eslint src cypress --ext .graphql --ext .js --max-warnings=0",
+    "lint:js": "yarn build:fragmentTypes && eslint src --ext .graphql --ext .js --max-warnings=0",
     "lint:css": "stylelint './src/**/*.js'",
     "serve": "serve -l 3000 build/",
     "deploy": "npm run build && gh-pages -d build",
-    "coverage": "yarn test -- --coverage",
-    "cypress:open": "CYPRESS_baseUrl=${CYPRESS_baseUrl:=http://localhost:3000/} cypress open",
-    "cypress:open:routing": "CYPRESS_baseUrl=${CYPRESS_baseUrl:=http://localhost:3000/} CYPRESS_chromeWebSecurity='false' cypress open --config integrationFolder=cypress/routingTests"
+    "coverage": "yarn test -- --coverage"
   },
   "devDependencies": {
     "@babel/core": "latest",
@@ -42,7 +38,6 @@
     "connect-history-api-fallback": "latest",
     "cross-spawn": "^5.1.0",
     "css-loader": "latest",
-    "cypress": "latest",
     "detect-port": "latest",
     "dotenv": "latest",
     "dotenv-expand": "latest",

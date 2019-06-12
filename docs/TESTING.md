@@ -6,7 +6,6 @@
 
 | Name                        | Description                | Required |
 | --------------------------- | -------------------------- | -------- |
-| `CYPRESS_baseUrl`           | Set Cypress URL            | Yes      |
 | `REACT_APP_FUNCTIONAL_TEST` | Run functional test switch | No       |
 
 In the project directory, you can run:
@@ -21,22 +20,6 @@ Launches the test runner in the interactive watch mode.
 See the section about [running tests](#running-tests) for more information.
 
 If you would like to collect code coverage run `yarn test -- --coverage`.
-
-### Integration tests
-
-Author's integration testing is run using the Cypress framework and can be run using the following commands:
-
-- `yarn test:integration`
-
-Launches Cypress on Chrome and automatically runs the default test suite.
-
-- `yarn cypress:open`
-
-Launches Cypress using the Electron framework and allows for choosing which test to run and a more interactive and detailed testing enviroment.
-
-By default the integration tests will be run against `http://localhost:13000` as configured in the [.env configuration](.env.test). It is possible to point Cypress at another environment by overriding the `CYPRESS_baseUrl` environment variable.
-
-e.g. `CYPRESS_baseUrl=http://some-other-environment yarn cypress:open`
 
 ### Filename Conventions
 
