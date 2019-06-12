@@ -3,7 +3,6 @@ Dockerfile
 
 .github
 tests
-cypress
 coverage
 
 node_modules
