@@ -58,8 +58,8 @@ const Header = ({
   onCreateQuestionnaire,
   onSearchChange,
   searchTerm,
-  onToggleHideUnowned,
-  hideUnowned,
+  onToggleFilter,
+  isFiltered,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -84,10 +84,7 @@ const Header = ({
           />
         </Search>
 
-        <AccessFilter
-          handleToggleHideUnowned={onToggleHideUnowned}
-          hideUnowned={hideUnowned}
-        />
+        <AccessFilter onToggleFilter={onToggleFilter} isFiltered={isFiltered} />
 
         <Button
           onClick={handleModalOpen}
@@ -111,8 +108,8 @@ Header.propTypes = {
   onCreateQuestionnaire: PropTypes.func.isRequired,
   onSearchChange: PropTypes.func.isRequired,
   searchTerm: PropTypes.string.isRequired,
-  onToggleHideUnowned: PropTypes.func.isRequired,
-  hideUnowned: PropTypes.bool.isRequired,
+  onToggleFilter: PropTypes.func.isRequired,
+  isFiltered: PropTypes.bool.isRequired,
 };
 
 export default Header;

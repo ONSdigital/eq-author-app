@@ -78,6 +78,7 @@ QuestionnairesTable.fragments = {
         email
         displayName
       }
+      permission
     }
   `,
 };

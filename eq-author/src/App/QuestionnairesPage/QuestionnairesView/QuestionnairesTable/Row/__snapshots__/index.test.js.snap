@@ -54,6 +54,18 @@ exports[`Row should render 1`] = `
         Alan
       </Row__TD>
       <Row__TD>
+        <Row__Permissions>
+          <Row__Permission>
+            VIEW
+          </Row__Permission>
+          <Row__Permission
+            disabled={true}
+          >
+            EDIT
+          </Row__Permission>
+        </Row__Permissions>
+      </Row__TD>
+      <Row__TD>
         <div
           data-test="action-btn-group"
           onFocus={[Function]}
@@ -65,6 +77,7 @@ exports[`Row should render 1`] = `
             />
             <IconButtonDelete
               data-test="btn-delete-questionnaire"
+              disabled={true}
               hideText={true}
               iconText="Delete"
               onClick={[Function]}

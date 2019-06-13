@@ -28,6 +28,11 @@ enum QuestionnaireType {
   Business
 }
 
+enum Permission {
+  Read
+  Write
+}
+
 type Questionnaire {
   id: ID!
   title: String
@@ -47,6 +52,8 @@ type Questionnaire {
   displayName: String!
   introduction: QuestionnaireIntroduction
   isNew: Boolean!
+  editors: [User!]!
+  permission: Permission!
 }
 
 type DeletedQuestionnaire {
@@ -526,6 +533,7 @@ type Query {
   questionConfirmation(id: ID!): QuestionConfirmation
   questionnaireIntroduction(id: ID!): QuestionnaireIntroduction
   me: User!
+  users: [User!]!
 }
 
 input QueryInput {
@@ -671,6 +679,7 @@ input UpdateQuestionnaireInput {
   surveyId: String
   summary: Boolean
   shortTitle: String
+  editors: [ID!]
 }
 
 input DeleteQuestionnaireInput {

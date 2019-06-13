@@ -2,6 +2,8 @@ import React from "react";
 import { UnconnectedQuestionnairesPage } from "App/QuestionnairesPage";
 import { shallow } from "enzyme";
 
+import { READ } from "constants/questionnaire-permissions";
+
 describe("components/QuestionnairesPage", () => {
   const createWrapper = props =>
     shallow(
@@ -62,6 +64,7 @@ describe("components/QuestionnairesPage", () => {
             pages: [{ id: "10" }],
           },
         ],
+        permission: READ,
       },
     ];
 

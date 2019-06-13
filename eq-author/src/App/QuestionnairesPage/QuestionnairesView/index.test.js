@@ -1,49 +1,17 @@
 import React from "react";
-import { Router } from "react-router-dom";
-import { createMemoryHistory } from "history";
-import { Provider } from "react-redux";
+
 import { sortBy } from "lodash";
-import { render as rtlRender, fireEvent, act } from "@testing-library/react";
-import { waitForElementToBeRemoved } from "@testing-library/dom";
+
+import {
+  render,
+  fireEvent,
+  act,
+  waitForElementToBeRemoved,
+} from "tests/utils/rtl";
+
+import { READ, WRITE } from "constants/questionnaire-permissions";
 
 import QuestionnairesView, { STORAGE_KEY } from "./";
-
-function render(
-  ui,
-  {
-    route = "/",
-    history = createMemoryHistory({ initialEntries: [route] }),
-    ...renderOptions
-  } = {}
-) {
-  const store = {
-    getState: jest.fn(() => ({
-      toasts: {},
-      saving: { apiDownError: false },
-    })),
-    subscribe: jest.fn(),
-    dispatch: jest.fn(),
-  };
-  const queries = rtlRender(
-    <Provider store={store}>
-      <Router history={history}>{ui}</Router>
-    </Provider>,
-    renderOptions
-  );
-  return {
-    ...queries,
-    rerender: ui =>
-      queries.rerender(
-        <Provider store={store}>
-          <Router history={history}>{ui}</Router>
-        </Provider>
-      ),
-    // adding `history` to the returned utilities to allow us
-    // to reference it in our tests (just try to avoid using
-    // this to test implementation details).
-    history,
-  };
-}
 
 jest.mock("lodash", () => ({
   ...require.requireActual("lodash"),
@@ -66,6 +34,7 @@ describe("QuestionnairesView", () => {
     createdAt: `2019-05-${30 - index}T12:36:50.984Z`,
     updatedAt: `2019-05-${30 - index}T12:36:50.984Z`,
     createdBy: user,
+    permission: WRITE,
     ...overrides,
   });
   let props;
@@ -74,7 +43,6 @@ describe("QuestionnairesView", () => {
 
     props = {
       questionnaires,
-      currentUser: user,
       onDeleteQuestionnaire: jest.fn(),
       onDuplicateQuestionnaire: jest.fn(),
       onCreateQuestionnaire: jest.fn(),
@@ -473,6 +441,26 @@ describe("QuestionnairesView", () => {
 
         expect(document.activeElement).toEqual(document.body);
       });
+
+      it("should not be able to delete a read only questionnaire", () => {
+        props.questionnaires = props.questionnaires.slice(0, 1).map(q => ({
+          ...q,
+          permission: READ,
+        }));
+        const { getByTitle, queryByTestId, getByLabelText, getByText } = render(
+          <QuestionnairesView {...props} />
+        );
+
+        fireEvent.click(getByLabelText("All"));
+        expect(getByText("Questionnaire 1 Title")).toBeTruthy();
+
+        const deleteButton = getByTitle("Delete");
+        fireEvent.click(deleteButton);
+        const confirmButton = queryByTestId("btn-delete-modal");
+
+        expect(confirmButton).toBeFalsy();
+        expect(props.onDeleteQuestionnaire).not.toHaveBeenCalled();
+      });
     });
 
     describe("Duplication", () => {
@@ -811,43 +799,25 @@ describe("QuestionnairesView", () => {
       });
     });
     describe("Filtering", () => {
-      it("starts with unowned filtered out and correctly toggles between all and unowned lists", () => {
-        props.questionnaires = [
+      it("starts with read only filtered out and correctly toggles between all and editable lists", () => {
+        const questionnaires = [
           buildQuestionnaire(1, {
-            createdBy: {
-              id: "3",
-              name: "test user",
-              email: "test@email.com",
-              displayName: "test user",
-            },
+            permission: WRITE,
           }),
           buildQuestionnaire(2, {
-            createdBy: {
-              id: "2",
-              name: "test user",
-              email: "test@email.com",
-              displayName: "test user",
-            },
+            permission: READ,
           }),
           buildQuestionnaire(3, {
-            createdBy: {
-              id: "1",
-              name: "test user",
-              email: "test@email.com",
-              displayName: "test user",
-            },
+            permission: READ,
           }),
         ];
 
         const { getByLabelText, queryByText } = render(
-          <QuestionnairesView
-            {...props}
-            questionnaires={props.questionnaires}
-          />
+          <QuestionnairesView {...props} questionnaires={questionnaires} />
         );
 
         const showAllButton = getByLabelText("All");
-        const hideUnownedButton = getByLabelText("Owner");
+        const showOnlyEditable = getByLabelText("Editor");
 
         expect(queryByText("Questionnaire 1 Title")).toBeTruthy();
         expect(queryByText("Questionnaire 2 Title")).toBeFalsy();
@@ -859,7 +829,7 @@ describe("QuestionnairesView", () => {
         expect(queryByText("Questionnaire 2 Title")).toBeTruthy();
         expect(queryByText("Questionnaire 3 Title")).toBeTruthy();
 
-        fireEvent.click(hideUnownedButton);
+        fireEvent.click(showOnlyEditable);
 
         expect(queryByText("Questionnaire 1 Title")).toBeTruthy();
         expect(queryByText("Questionnaire 2 Title")).toBeFalsy();
@@ -869,12 +839,7 @@ describe("QuestionnairesView", () => {
       it("should render correct error when no owned questionnaires", () => {
         props.questionnaires = [
           buildQuestionnaire(1, {
-            createdBy: {
-              id: "1",
-              name: "test user",
-              email: "test@email.com",
-              displayName: "test user",
-            },
+            permission: READ,
           }),
         ];
 
@@ -885,18 +850,15 @@ describe("QuestionnairesView", () => {
           />
         );
 
-        expect(queryByText("You do not own any questionnaires")).toBeTruthy();
+        expect(
+          queryByText("You do not have editor access to any questionnaires")
+        ).toBeTruthy();
       });
 
       it("should render correct error when no owned questionnaires match a search term", () => {
         props.questionnaires = [
           buildQuestionnaire(1, {
-            createdBy: {
-              id: "1",
-              name: "test user",
-              email: "test@email.com",
-              displayName: "test user",
-            },
+            permission: WRITE,
           }),
         ];
 
@@ -914,7 +876,7 @@ describe("QuestionnairesView", () => {
 
         expect(
           queryByText(
-            "You do not own any questionnaires matching this criteria"
+            "You do not have editor access to any questionnaires matching this criteria"
           )
         ).toBeTruthy();
       });

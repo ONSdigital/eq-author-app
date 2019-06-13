@@ -1,4 +1,9 @@
-const createTracer = require("./tracer");
+const { initTracerFromEnv } = require("jaeger-client");
+
+const createTracer = require("./tracer").tracer;
+
+jest.mock("jaeger-client");
+jest.mock("prom-client");
 
 describe("createTracer", () => {
   let logger;
@@ -24,31 +29,35 @@ describe("createTracer", () => {
   });
 
   it("should return a local tracer", () => {
-    expect(createTracer(logger).localTracer).toEqual(expect.any(Object));
+    initTracerFromEnv.mockReturnValue("tracer");
+    expect(createTracer(logger).localTracer).toEqual("tracer");
   });
 
   it("should return a server tracer", () => {
-    expect(createTracer(logger).serverTracer).toEqual(expect.any(Object));
+    initTracerFromEnv.mockReturnValue("tracer");
+    expect(createTracer(logger).serverTracer).toEqual("tracer");
   });
 
   it("should reuse the same tracer instance", () => {
-    expect(createTracer(logger).localTracer).toBe(
-      createTracer(logger).serverTracer
-    );
+    expect(initTracerFromEnv).toHaveBeenCalledTimes(1);
   });
 
   it("should set the tracer service name", () => {
-    expect(createTracer(logger).localTracer).toHaveProperty(
-      "_serviceName",
-      SERVICE_NAME
+    expect(initTracerFromEnv).toHaveBeenCalledWith(
+      expect.objectContaining({
+        serviceName: SERVICE_NAME,
+      }),
+      expect.any(Object)
     );
   });
 
   it("should tag the trace with API version number", () => {
-    expect(createTracer(logger).localTracer).toHaveProperty(
-      "_tags",
+    expect(initTracerFromEnv).toHaveBeenCalledWith(
+      expect.any(Object),
       expect.objectContaining({
-        "eq_author_api.version": API_VERSION,
+        tags: {
+          "eq_author_api.version": API_VERSION,
+        },
       })
     );
   });

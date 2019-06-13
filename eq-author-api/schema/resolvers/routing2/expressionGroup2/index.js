@@ -1,7 +1,7 @@
 const Resolvers = {};
 
 const { find, flatMap, getOr } = require("lodash/fp");
-const { saveQuestionnaire } = require("../../../../utils/datastore");
+const { withWritePermission } = require("../../withWritePermission");
 
 const { getPages } = require("../../utils");
 
@@ -10,23 +10,23 @@ Resolvers.ExpressionGroup2 = {
 };
 
 Resolvers.Mutation = {
-  updateExpressionGroup2: async (root, { input: { id, operator } }, ctx) => {
-    const expressionGroup = find(
-      { id },
-      flatMap(
-        rule => rule.expressionGroup,
+  updateExpressionGroup2: withWritePermission(
+    (root, { input: { id, operator } }, ctx) => {
+      const expressionGroup = find(
+        { id },
         flatMap(
-          routing => routing.rules,
-          flatMap(page => getOr([], "routing", page), getPages(ctx))
+          rule => rule.expressionGroup,
+          flatMap(
+            routing => routing.rules,
+            flatMap(page => getOr([], "routing", page), getPages(ctx))
+          )
         )
-      )
-    );
-    expressionGroup.operator = operator;
+      );
+      expressionGroup.operator = operator;
 
-    await saveQuestionnaire(ctx.questionnaire);
-
-    return expressionGroup;
-  },
+      return expressionGroup;
+    }
+  ),
 };
 
 module.exports = Resolvers;
