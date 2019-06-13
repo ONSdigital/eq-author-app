@@ -12,7 +12,8 @@
       var isChrome =
         !!window.chrome &&
         (!!window.chrome.webstore || !!window.chrome.runtime);
-      if (!isChrome) {
+      var isCypress = !!window.Cypress;
+      if (!isChrome && !isCypress) {
         window.location.replace("/unsupported-browser.html");
       }
     </script>
