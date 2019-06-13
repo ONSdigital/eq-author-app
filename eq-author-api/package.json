@@ -15,7 +15,7 @@
   "dependencies": {
     "ajv": "latest",
     "ajv-errors": "latest",
-    "apollo-opentracing": "^1.2.4",
+    "apollo-opentracing": "^1.4.0",
     "apollo-server-express": "latest",
     "body-parser": "latest",
     "chalk": "latest",

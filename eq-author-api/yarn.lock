@@ -2,6 +2,13 @@
 # yarn lockfile v1
 
 
+"@apollographql/apollo-tools@^0.3.6":
+  version "0.3.7"
+  resolved "https://registry.yarnpkg.com/@apollographql/apollo-tools/-/apollo-tools-0.3.7.tgz#3bc9c35b9fff65febd4ddc0c1fc04677693a3d40"
+  integrity sha512-+ertvzAwzkYmuUtT8zH3Zi6jPdyxZwOgnYaZHY7iLnMVJDhQKWlkyjLMF8wyzlPiEdDImVUMm5lOIBZo7LkGlg==
+  dependencies:
+    apollo-env "0.5.1"
+
 "@apollographql/apollo-tools@^0.3.6-alpha.1":
   version "0.3.6"
   resolved "https://registry.yarnpkg.com/@apollographql/apollo-tools/-/apollo-tools-0.3.6.tgz#ac10b170a4f42854d9d2ad14e0635897a6986681"
@@ -670,6 +677,15 @@ apollo-env@0.5.0:
     node-fetch "^2.2.0"
     sha.js "^2.4.11"
 
+apollo-env@0.5.1:
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/apollo-env/-/apollo-env-0.5.1.tgz#b9b0195c16feadf0fe9fd5563edb0b9b7d9e97d3"
+  integrity sha512-fndST2xojgSdH02k5hxk1cbqA9Ti8RX4YzzBoAB4oIe1Puhq7+YlhXGXfXB5Y4XN0al8dLg+5nAkyjNAR2qZTw==
+  dependencies:
+    core-js "^3.0.1"
+    node-fetch "^2.2.0"
+    sha.js "^2.4.11"
+
 apollo-graphql@^0.2.1-alpha.1:
   version "0.2.1-register.1"
   resolved "https://registry.yarnpkg.com/apollo-graphql/-/apollo-graphql-0.2.1-register.1.tgz#941dd165a9428c2ea3407ab410f842c4050cea28"
@@ -688,12 +704,12 @@ apollo-link@^1.2.3:
     tslib "^1.9.3"
     zen-observable-ts "^0.8.18"
 
-apollo-opentracing@^1.2.4:
-  version "1.2.4"
-  resolved "https://registry.yarnpkg.com/apollo-opentracing/-/apollo-opentracing-1.2.4.tgz#4deb1d7ff06e541b484f1c6231bd69336c9d79b0"
-  integrity sha512-jDVRLgCZAIf/GRIKT/ZJBcA2p07TJRy5q/QkfOyF/KH+OtvaiWS6Fo54FzBdLFV4DADnPCxmOLjtOIt8txo8HQ==
+apollo-opentracing@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/apollo-opentracing/-/apollo-opentracing-1.4.0.tgz#6215addd966491d9bee961646a60d22091ec8dbf"
+  integrity sha512-2MxXNnM0Bui2cOExUdeyjYNH/gMu8b3hQtKuepZhISA0vMyj4BSH3eX3vYFqIP4yS/cLFmYfr7HR7A0wypGz7w==
   dependencies:
-    graphql-extensions "^0.6.0"
+    graphql-extensions "^0.7.0"
 
 apollo-server-caching@0.4.0:
   version "0.4.0"
@@ -1576,6 +1592,11 @@ core-js@^2.5.7:
   version "2.6.3"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.3.tgz#4b70938bdffdaf64931e66e2db158f0892289c49"
   integrity sha512-l00tmFFZOBHtYhN4Cz7k32VM7vTn3rE2ANjQDxdEN6zmXZ/xq1jQuutnmHvMG1ZJ7xd72+TA5YpUK8wz3rWsfQ==
+
+core-js@^3.0.1:
+  version "3.1.3"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.1.3.tgz#95700bca5f248f5f78c0ec63e784eca663ec4138"
+  integrity sha512-PWZ+ZfuaKf178BIAg+CRsljwjIMRV8MY00CbZczkR6Zk5LfkSkjGoaab3+bqRQWVITNZxQB7TFYz+CFcyuamvA==
 
 core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
@@ -3007,12 +3028,19 @@ graphql-anywhere@latest:
     apollo-utilities "^1.1.2"
     tslib "^1.9.3"
 
-graphql-extensions@0.6.0, graphql-extensions@^0.6.0:
+graphql-extensions@0.6.0:
   version "0.6.0"
   resolved "https://registry.yarnpkg.com/graphql-extensions/-/graphql-extensions-0.6.0.tgz#3ee3aa57fe213f90aec5cd31275f6d04767c6a23"
   integrity sha512-SshzmbD68fHXRv2q3St29olMOxHDLQ5e9TOh+Tz2BYxinrfhjFaPNcEefiK/vF295wW827Y58bdO11Xmhf8J+Q==
   dependencies:
     "@apollographql/apollo-tools" "^0.3.6-alpha.1"
+
+graphql-extensions@^0.7.0:
+  version "0.7.2"
+  resolved "https://registry.yarnpkg.com/graphql-extensions/-/graphql-extensions-0.7.2.tgz#8711543f835661eaf24b48d6ac2aad44dbbd5506"
+  integrity sha512-TuVINuAOrEtzQAkAlCZMi9aP5rcZ+pVaqoBI5fD2k5O9fmb8OuXUQOW028MUhC66tg4E7h4YSF1uYUIimbu4SQ==
+  dependencies:
+    "@apollographql/apollo-tools" "^0.3.6"
 
 graphql-iso-date@latest:
   version "3.6.1"
