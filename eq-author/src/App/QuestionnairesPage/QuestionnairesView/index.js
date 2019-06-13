@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useCallback } from "react";
 import PropTypes from "prop-types";
 import { propType } from "graphql-anywhere";
 import { isEmpty } from "lodash";
@@ -81,13 +81,16 @@ const QuestionnairesView = ({
     return <NoResults onCreateQuestionnaire={onCreateQuestionnaire} />;
   }
 
+  const onSearchChange = useCallback(
+    searchTerm => dispatch({ type: ACTIONS.SEARCH, payload: searchTerm }),
+    [dispatch]
+  );
+
   return (
     <>
       <Header
         onCreateQuestionnaire={onCreateQuestionnaire}
-        onSearchChange={searchTerm =>
-          dispatch({ type: ACTIONS.SEARCH, payload: searchTerm })
-        }
+        onSearchChange={onSearchChange}
         searchTerm={state.searchTerm}
       />
       {isEmpty(state.questionnaires) ? (
