@@ -77,14 +77,14 @@ const QuestionnairesView = ({
     });
   };
 
-  if (isEmpty(state.apiQuestionnaires)) {
-    return <NoResults onCreateQuestionnaire={onCreateQuestionnaire} />;
-  }
-
   const onSearchChange = useCallback(
     searchTerm => dispatch({ type: ACTIONS.SEARCH, payload: searchTerm }),
     [dispatch]
   );
+
+  if (isEmpty(state.apiQuestionnaires)) {
+    return <NoResults onCreateQuestionnaire={onCreateQuestionnaire} />;
+  }
 
   return (
     <>
