@@ -1,4 +1,5 @@
 #import "./fragments/section.graphql"
+#import "./fragments/validationErrorInfo.graphql"
 
 mutation CreateSection($input: CreateSectionInput!) {
   createSection(input: $input) {
@@ -19,6 +20,10 @@ mutation CreateSection($input: CreateSectionInput!) {
         confirmation {
           id
         }
+        validationErrorInfo {
+          ...ValidationErrorInfo
+        }
+        isNew @client
       }
     }
     questionnaire {

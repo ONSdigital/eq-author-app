@@ -120,6 +120,13 @@ const getPageQuery = `
             id
           }
         }
+        validationErrorInfo {
+          errors {
+            field
+            errorCode
+          }
+          totalCount
+        }
       }
     }
   }  
@@ -133,6 +140,20 @@ const queryPage = async (ctx, pageId) => {
     },
     ctx
   );
+
+  const pageValidationErrors =
+    ctx.validationErrorInfo && ctx.validationErrorInfo[`page_${pageId}`];
+
+  if (pageValidationErrors) {
+    return {
+      ...result.data.page,
+      validationErrorInfo: {
+        errors: pageValidationErrors.errors,
+        totalCount: pageValidationErrors.errors.length,
+      },
+    };
+  }
+
   return result.data.page;
 };
 

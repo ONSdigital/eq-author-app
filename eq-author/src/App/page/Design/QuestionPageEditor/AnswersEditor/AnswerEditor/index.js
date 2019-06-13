@@ -35,7 +35,7 @@ const Answer = styled.div`
     border-color: ${colors.blue};
     box-shadow: 0 0 0 1px ${colors.blue};
   }
-  margin: 1em 2em;
+  margin: 0 2em 1em;
 `;
 
 const AnswerHeader = styled.div`

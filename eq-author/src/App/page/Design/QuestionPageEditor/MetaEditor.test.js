@@ -16,6 +16,7 @@ describe("MetaEditor", () => {
       onUpdate: jest.fn(),
       fetchAnswers: jest.fn(),
       onChangeUpdate: jest.fn(),
+      getValidationError: jest.fn(),
       page: {
         id: "1",
         alias: "foobar",

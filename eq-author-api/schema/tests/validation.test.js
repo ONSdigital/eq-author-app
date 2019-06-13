@@ -16,6 +16,8 @@ const {
   updateValidation,
 } = require("../../tests/utils/contextBuilder/validation");
 
+const { queryPage } = require("../../tests/utils/contextBuilder/page");
+
 const {
   CUSTOM,
   PREVIOUS_ANSWER,
@@ -58,6 +60,28 @@ describe("validation", () => {
 
   afterAll(async () => {
     await deleteQuestionnaire(ctx, questionnaire.id);
+  });
+
+  describe("Page validation", () => {
+    it("contains validation error info when querying page", async () => {
+      const validationErrorInfo = {
+        [`page_${page.id}`]: {
+          errors: [
+            {
+              field: "field",
+              errorCode: "ERR_CODE",
+            },
+          ],
+        },
+      };
+
+      const queriedPage = await queryPage(
+        { questionnaire, validationErrorInfo },
+        page.id
+      );
+
+      expect(queriedPage.validationErrorInfo).toHaveProperty("totalCount");
+    });
   });
 
   describe("All", () => {

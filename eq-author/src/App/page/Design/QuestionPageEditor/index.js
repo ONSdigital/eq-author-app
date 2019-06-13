@@ -12,6 +12,7 @@ import withEntityEditor from "components/withEntityEditor";
 import focusOnEntity from "utils/focusOnEntity";
 import TotalValidationRuleFragment from "graphql/fragments/total-validation-rule.graphql";
 import AvailableAnswersFragment from "graphql/fragments/available-answers.graphql";
+import ValidationErrorInfoFragment from "graphql/fragments/validationErrorInfo.graphql";
 
 import PageHeader from "../PageHeader";
 import withUpdateAnswer from "../answers/withUpdateAnswer";
@@ -51,6 +52,7 @@ export class UnwrappedQuestionPageEditor extends React.Component {
     onChange: PropTypes.func.isRequired,
     onUpdate: PropTypes.func.isRequired,
     fetchAnswers: PropTypes.func.isRequired,
+    enableValidationMessage: PropTypes.bool,
   };
 
   handleDeleteAnswer = answerId => {
@@ -75,6 +77,7 @@ export class UnwrappedQuestionPageEditor extends React.Component {
       onDeleteOption,
       onAddExclusive,
       fetchAnswers,
+      enableValidationMessage,
     } = this.props;
 
     const id = getIdForObject(page);
@@ -94,6 +97,7 @@ export class UnwrappedQuestionPageEditor extends React.Component {
               onUpdate={onUpdate}
               page={page}
               fetchAnswers={fetchAnswers}
+              enableValidationMessage={enableValidationMessage}
             />
           </QuestionSegment>
           <AnswersEditor
@@ -166,7 +170,12 @@ UnwrappedQuestionPageEditor.fragments = {
           ...AvailableAnswers
         }
       }
+      validationErrorInfo {
+        ...ValidationErrorInfo
+      }
+      isNew @client
     }
+    ${ValidationErrorInfoFragment}
     ${TotalValidationRuleFragment}
     ${AvailableAnswersFragment}
     ${AnswersEditor.fragments.AnswersEditor}

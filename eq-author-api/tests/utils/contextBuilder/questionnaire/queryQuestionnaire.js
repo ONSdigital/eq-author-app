@@ -31,6 +31,16 @@ const getQuestionnaireQuery = `
 
 const queryQuestionnaire = async ctx => {
   const result = await executeQuery(getQuestionnaireQuery, { input: {} }, ctx);
+  if (ctx.questionnaireValidationErrors) {
+    return {
+      ...result.data.questionnaire,
+      validationErrorInfo: {
+        errors: ctx.questionnaireValidationErrors.errors,
+        totalCount: ctx.questionnaireValidationErrors.errors.length,
+      },
+    };
+  }
+
   return result.data.questionnaire;
 };
 

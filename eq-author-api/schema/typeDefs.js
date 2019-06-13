@@ -9,6 +9,8 @@ directive @deprecated(
   reason: String
 ) on INPUT_FIELD_DEFINITION | ARGUMENT_DEFINITION | ENUM_VALUE | FIELD_DEFINITION | INPUT_OBJECT
 
+directive @client on FIELD
+
 type User {
   id: ID!
   name: String
@@ -44,10 +46,12 @@ type Questionnaire {
   shortTitle: String
   displayName: String!
   introduction: QuestionnaireIntroduction
+  isNew: Boolean!
 }
 
 type DeletedQuestionnaire {
   id: ID!
+  isNew: Boolean!
 }
 
 type Section {
@@ -102,6 +106,8 @@ type QuestionPage implements Page {
   confirmation: QuestionConfirmation
   routing: Routing2
   totalValidation: TotalValidationRule
+  validationErrorInfo: ValidationErrorInfo
+  isNew: Boolean!
 }
 
 type CalculatedSummaryPage implements Page {
@@ -206,6 +212,17 @@ type AvailableRoutingDestinations {
   pages: [Page]!
   sections: [Section]!
 }
+
+type ValidationError {
+  field: String!
+  errorCode: String!
+}
+
+type ValidationErrorInfo {
+  errors: [ValidationError!]!
+  totalCount: Int!
+}
+
 
 union ValidationType = NumberValidation | DateValidation | DateRangeValidation
 

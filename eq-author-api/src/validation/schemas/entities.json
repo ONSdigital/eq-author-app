@@ -1,0 +1,31 @@
+{
+  "$id": "http://example.com/schemas/entities.json",
+  "definitions": {
+    "page": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": {
+          "$ref": "definitions.json#/definitions/populatedString"
+        }
+      },
+      "required": ["id", "title"]
+    },
+    "section": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": {
+          "type": "string"
+        },
+        "pages": {
+          "type": "array",
+          "items": {
+            "$ref": "entities.json#/definitions/page"
+          }
+        }
+      },
+      "required": ["id", "title", "pages"]
+    }
+  }
+}
