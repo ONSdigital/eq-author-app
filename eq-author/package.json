@@ -23,7 +23,6 @@
     "@babel/preset-env": "latest",
     "@babel/preset-react": "latest",
     "@hot-loader/react-dom": "latest",
-    "@testing-library/dom": "latest",
     "@testing-library/react": "latest",
     "autoprefixer": "latest",
     "babel-eslint": "latest",
