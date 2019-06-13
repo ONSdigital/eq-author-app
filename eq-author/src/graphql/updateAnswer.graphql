@@ -1,8 +1,15 @@
 #import "./fragments/answer.graphql"
+#import "./fragments/validationErrorInfo.graphql"
 
 mutation UpdateAnswer($input: UpdateAnswerInput!) {
   updateAnswer(input: $input) {
     ...Answer
+    ... on BasicAnswer {
+      validationErrorInfo {
+        ...ValidationErrorInfo
+      }
+      isNew @client
+    }
     displayName
   }
 }

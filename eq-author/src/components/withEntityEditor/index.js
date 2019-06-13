@@ -64,7 +64,7 @@ const withEntityEditor = entityPropName => WrappedComponent => {
     };
 
     handleUpdate = () => {
-      if (!this.dirtyField) {
+      if (!this.dirtyField && !this.entity.isNew) {
         return;
       }
 

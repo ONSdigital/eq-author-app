@@ -11,20 +11,20 @@ describe("validateQuestionnaire middleware", () => {
     next = jest.fn();
   });
 
-  it("should not modify result obj if not questionnaire", async () => {
-    await validateQuestionnaire(req, res, next);
+  it("should not modify result obj if not questionnaire", () => {
+    validateQuestionnaire(req, res, next);
     expect(res).toMatchObject({ a: 1 });
     expect(next).toHaveBeenCalled();
   });
 
-  it("should add validationErrorInfo if questionnaire", async () => {
+  it("should add validationErrorInfo if questionnaire", () => {
     req = {
       questionnaire: {
         id: 1,
       },
     };
 
-    await validateQuestionnaire(req, res, next);
+    validateQuestionnaire(req, res, next);
     expect(req.validationErrorInfo).toMatchObject({});
     expect(next).toHaveBeenCalled();
   });

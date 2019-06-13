@@ -75,8 +75,13 @@ Resolvers.QuestionPage = {
     };
   },
   validationErrorInfo: ({ id }, args, ctx) => {
-    const errorKey = `pages_${id}`;
-    return ctx.validationErrorInfo[errorKey];
+    const pageValidationErrors =
+      ctx.validationErrorInfo &&
+      ctx.validationErrorInfo.filter(
+        errInfo => errInfo.id === id && errInfo.type === "pages"
+      );
+
+    return pageValidationErrors;
   },
 };
 
@@ -95,7 +100,7 @@ Resolvers.Mutation = {
     section.pages.splice(insertionPosition, 0, page);
     await saveQuestionnaire(ctx.questionnaire);
 
-    ctx.validationErrorInfo = await validateQuestionnaire(ctx.questionnaire);
+    ctx.validationErrorInfo = validateQuestionnaire(ctx.questionnaire);
     return page;
   },
   updateQuestionPage: async (_, { input }, ctx) => {
@@ -103,7 +108,7 @@ Resolvers.Mutation = {
     merge(page, input);
     await saveQuestionnaire(ctx.questionnaire);
 
-    ctx.validationErrorInfo = await validateQuestionnaire(ctx.questionnaire);
+    ctx.validationErrorInfo = validateQuestionnaire(ctx.questionnaire);
     return page;
   },
 };

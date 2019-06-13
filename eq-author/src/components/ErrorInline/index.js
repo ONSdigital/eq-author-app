@@ -10,6 +10,7 @@ const Container = styled.div`
   bottom: -2em;
   color: ${colors.red};
   fill: ${colors.red};
+  font-weight: normal;
 `;
 
 const IconContainer = styled.span`

@@ -1,11 +1,11 @@
 const validateQuestionnaire = require("../src/validation");
 
-module.exports = async (req, res, next) => {
+module.exports = (req, res, next) => {
   if (!req.questionnaire) {
     next();
     return;
   }
 
-  req.validationErrorInfo = await validateQuestionnaire(req.questionnaire);
+  req.validationErrorInfo = validateQuestionnaire(req.questionnaire);
   next();
 };

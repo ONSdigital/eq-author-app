@@ -271,6 +271,7 @@ describe("basic answer", () => {
         page: expect.any(Object),
         properties: expect.any(Object),
         validation: expect.any(Object),
+        validationErrorInfo: expect.any(Object),
       });
     });
 
@@ -296,6 +297,13 @@ describe("basic answer", () => {
       expect(queriedAnswer.validation).toMatchObject({
         maxValue: expect.any(Object),
         minValue: expect.any(Object),
+      });
+    });
+
+    it("should resolve validation errors", () => {
+      expect(queriedAnswer.validationErrorInfo).toMatchObject({
+        errors: expect.any(Array),
+        totalCount: expect.any(Number),
       });
     });
   });

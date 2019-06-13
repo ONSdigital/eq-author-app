@@ -1,16 +1,6 @@
 {
   "$id": "http://example.com/schemas/entities.json",
   "definitions": {
-    "page": {
-      "type": "object",
-      "properties": {
-        "id": { "type": "string" },
-        "title": {
-          "$ref": "definitions.json#/definitions/populatedString"
-        }
-      },
-      "required": ["id", "title"]
-    },
     "section": {
       "type": "object",
       "properties": {
@@ -26,6 +16,49 @@
         }
       },
       "required": ["id", "title", "pages"]
+    },
+    "page": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": {
+          "$ref": "definitions.json#/definitions/populatedString"
+        },
+        "answers": {
+          "type": "array",
+          "items": {
+            "$ref": "entities.json#/definitions/answer"
+          }
+        }
+      },
+      "required": ["id", "title"]
+    },
+    "answer": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" }
+      },
+      "if": {
+        "properties": {
+          "type": {
+            "enum": [
+              "TextField",
+              "TextArea",
+              "Number",
+              "Percentage",
+              "Currency"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "label": {
+            "$ref": "definitions.json#/definitions/populatedString"
+          }
+        }
+      },
+      "required": ["id", "label"]
     }
   }
 }

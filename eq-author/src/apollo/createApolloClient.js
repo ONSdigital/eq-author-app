@@ -11,7 +11,7 @@ export default (link, cache) => {
   });
 
   const data = {
-    newPagesList: [],
+    newEntityList: [],
   };
 
   cache.writeData({ data });

@@ -1,4 +1,5 @@
 const executeQuery = require("../../executeQuery");
+const { PAGES } = require("../../../../constants/validationErrorTypes");
 
 const getPageQuery = `
   fragment destination2Fragment on Destination2 {
@@ -122,6 +123,8 @@ const getPageQuery = `
         }
         validationErrorInfo {
           errors {
+            id
+            type
             field
             errorCode
           }
@@ -142,14 +145,17 @@ const queryPage = async (ctx, pageId) => {
   );
 
   const pageValidationErrors =
-    ctx.validationErrorInfo && ctx.validationErrorInfo[`page_${pageId}`];
+    ctx.validationErrorInfo &&
+    ctx.validationErrorInfo.filter(
+      errInfo => errInfo.id === pageId && errInfo.type === PAGES
+    );
 
-  if (pageValidationErrors) {
+  if (result.data.page && pageValidationErrors) {
     return {
       ...result.data.page,
       validationErrorInfo: {
-        errors: pageValidationErrors.errors,
-        totalCount: pageValidationErrors.errors.length,
+        errors: pageValidationErrors,
+        totalCount: pageValidationErrors.length,
       },
     };
   }

@@ -260,7 +260,7 @@ exports[`Answer Editor should render Currency 1`] = `
     </AnswerEditor__Buttons>
   </AnswerEditor__AnswerHeader>
   <AnswerEditor__Padding>
-    <Connect(withEntityEditor(StatelessBasicAnswer))
+    <withValidationError(Connect(withEntityEditor(StatelessBasicAnswer)))
       answer={
         Object {
           "description": "",
@@ -271,6 +271,7 @@ exports[`Answer Editor should render Currency 1`] = `
       }
       canMoveDown={true}
       canMoveUp={true}
+      enableValidationMessage={true}
       onAddExclusive={[MockFunction]}
       onAddOption={[MockFunction]}
       onChange={[MockFunction]}
@@ -543,7 +544,7 @@ exports[`Answer Editor should render Number 1`] = `
     </AnswerEditor__Buttons>
   </AnswerEditor__AnswerHeader>
   <AnswerEditor__Padding>
-    <Connect(withEntityEditor(StatelessBasicAnswer))
+    <withValidationError(Connect(withEntityEditor(StatelessBasicAnswer)))
       answer={
         Object {
           "description": "",
@@ -554,6 +555,7 @@ exports[`Answer Editor should render Number 1`] = `
       }
       canMoveDown={true}
       canMoveUp={true}
+      enableValidationMessage={true}
       onAddExclusive={[MockFunction]}
       onAddOption={[MockFunction]}
       onChange={[MockFunction]}
@@ -637,7 +639,7 @@ exports[`Answer Editor should render Percentage 1`] = `
     </AnswerEditor__Buttons>
   </AnswerEditor__AnswerHeader>
   <AnswerEditor__Padding>
-    <Connect(withEntityEditor(StatelessBasicAnswer))
+    <withValidationError(Connect(withEntityEditor(StatelessBasicAnswer)))
       answer={
         Object {
           "description": "",
@@ -648,6 +650,7 @@ exports[`Answer Editor should render Percentage 1`] = `
       }
       canMoveDown={true}
       canMoveUp={true}
+      enableValidationMessage={true}
       onAddExclusive={[MockFunction]}
       onAddOption={[MockFunction]}
       onChange={[MockFunction]}
@@ -833,7 +836,7 @@ exports[`Answer Editor should render TextArea 1`] = `
     </AnswerEditor__Buttons>
   </AnswerEditor__AnswerHeader>
   <AnswerEditor__Padding>
-    <Connect(withEntityEditor(StatelessBasicAnswer))
+    <withValidationError(Connect(withEntityEditor(StatelessBasicAnswer)))
       answer={
         Object {
           "description": "",
@@ -844,6 +847,7 @@ exports[`Answer Editor should render TextArea 1`] = `
       }
       canMoveDown={true}
       canMoveUp={true}
+      enableValidationMessage={true}
       onAddExclusive={[MockFunction]}
       onAddOption={[MockFunction]}
       onChange={[MockFunction]}
@@ -926,7 +930,7 @@ exports[`Answer Editor should render TextField 1`] = `
     </AnswerEditor__Buttons>
   </AnswerEditor__AnswerHeader>
   <AnswerEditor__Padding>
-    <Connect(withEntityEditor(StatelessBasicAnswer))
+    <withValidationError(Connect(withEntityEditor(StatelessBasicAnswer)))
       answer={
         Object {
           "description": "",
@@ -937,6 +941,7 @@ exports[`Answer Editor should render TextField 1`] = `
       }
       canMoveDown={true}
       canMoveUp={true}
+      enableValidationMessage={true}
       onAddExclusive={[MockFunction]}
       onAddOption={[MockFunction]}
       onChange={[MockFunction]}
