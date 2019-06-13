@@ -10,6 +10,8 @@
 - Add user
 - Select settings by Project Overview
 - Copy down Project ID AND API Key
+- Generate a private key file for firebase service account and save to eq-author-api/.firebase-admin-service-account.json
+  [https://firebase.google.com/docs/admin/setup/](https://firebase.google.com/docs/admin/setup/)
 
 The following environment variables are required for firebase:
 

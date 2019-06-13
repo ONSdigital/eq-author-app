@@ -72,3 +72,4 @@ typings/
 fragmentTypes.json
 
 data/
+eq-author-api/.firebase-admin-service-account.json

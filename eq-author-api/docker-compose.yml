@@ -31,6 +31,7 @@ services:
       - JAEGER_SAMPLER_MANAGER_HOST_PORT=http://jaeger:5778/sampling
       - JAEGER_SAMPLER_TYPE=probabilistic
       - JAEGER_SAMPLER_PARAM=1
+      - GOOGLE_APPLICATION_CREDENTIALS=/app/.firebase-admin-service-account.json
     entrypoint:
       - yarn
       - start:dev
@@ -49,4 +50,3 @@ services:
       - 14250
       - 14268
       - 16686:16686
-
