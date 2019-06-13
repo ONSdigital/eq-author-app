@@ -12,21 +12,21 @@
   "dependencies": {
     "apollo-fetch": "latest",
     "cheerio": "latest",
-    "eslint-config-eq-author": "latest",
-    "express": "latest",
+    "eslint-config-eq-author": "^2.0.2",
+    "express": "^4.17.1",
     "express-pino-logger": "latest",
-    "graphql": "latest",
-    "helmet": "latest",
-    "jsonwebtoken": "latest",
+    "graphql": "^14.3.1",
+    "helmet": "^3.18.0",
+    "jsonwebtoken": "^8.5.1",
     "lodash": "latest",
-    "nodemon": "latest",
+    "nodemon": "^1.19.1",
     "request": "latest",
-    "request-promise": "latest",
+    "request-promise": "^4.2.4",
     "uuid": "latest"
   },
   "devDependencies": {
-    "eslint": "latest",
-    "jest": "latest"
+    "eslint": "^5.16.0",
+    "jest": "^24.8.0"
   },
   "moduleRoots": [
     "src/"
