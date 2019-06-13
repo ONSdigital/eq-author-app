@@ -600,6 +600,7 @@ exports[`Option should render a checkbox 1`] = `
               >
                 <ReactTooltip
                   className="c12"
+                  clickable={false}
                   delayShow={200}
                   effect="solid"
                   id="tooltip-1"

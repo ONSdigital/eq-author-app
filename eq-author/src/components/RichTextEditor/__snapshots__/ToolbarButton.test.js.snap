@@ -110,6 +110,7 @@ exports[`ToolbarButton matches snapshot 1`] = `
     >
       <ReactTooltip
         className="c2"
+        clickable={false}
         delayShow={200}
         effect="solid"
         id="tooltip-1"
@@ -251,6 +252,7 @@ exports[`ToolbarButton should style appropriately when active and canFocus 1`] =
     >
       <ReactTooltip
         className="c2"
+        clickable={false}
         delayShow={200}
         effect="solid"
         id="tooltip-2"
@@ -388,6 +390,7 @@ exports[`ToolbarButton should style appropriately when disabled and canFocus is 
     >
       <ReactTooltip
         className="c2"
+        clickable={false}
         delayShow={200}
         effect="solid"
         id="tooltip-3"
