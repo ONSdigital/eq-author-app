@@ -46,7 +46,7 @@
     "eslint-plugin-graphql": "^1.5.0",
     "file-loader": "latest",
     "fs-extra": "latest",
-    "gh-pages": "^1.0.0",
+    "gh-pages": "^2.0.1",
     "html-webpack-plugin": "^4.0.0-alpha.2",
     "jest": "latest",
     "jest-styled-components": "latest",
