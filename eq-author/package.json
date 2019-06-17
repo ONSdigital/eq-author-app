@@ -22,7 +22,7 @@
     "@babel/plugin-proposal-object-rest-spread": "latest",
     "@babel/preset-env": "latest",
     "@babel/preset-react": "latest",
-    "@testing-library/dom": "latest",
+    "@hot-loader/react-dom": "latest",
     "@testing-library/react": "latest",
     "autoprefixer": "latest",
     "babel-eslint": "latest",

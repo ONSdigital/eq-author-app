@@ -61,6 +61,11 @@ const buildQuestionnaire = (index, overrides) => ({
   ...overrides,
 });
 
+jest.mock("lodash", () => ({
+  ...require.requireActual("lodash"),
+  debounce: jest.fn(fn => fn),
+}));
+
 describe("QuestionnairesView", () => {
   let props;
   beforeEach(() => {
@@ -698,8 +703,11 @@ describe("QuestionnairesView", () => {
     });
 
     describe("Searching", () => {
-      it("should search questionnaire by title", async () => {
+      beforeEach(() => {
         jest.useFakeTimers();
+      });
+
+      it("should search questionnaire by title", async () => {
         const { getByLabelText, queryByText } = render(
           <QuestionnairesView {...props} />
         );
@@ -715,7 +723,6 @@ describe("QuestionnairesView", () => {
       });
 
       it("should search questionnaire by short title", async () => {
-        jest.useFakeTimers();
         const questionnaires = [
           buildQuestionnaire(1, { shortTitle: "Short 1" }),
           buildQuestionnaire(2, { shortTitle: "Short 2" }),
@@ -736,7 +743,6 @@ describe("QuestionnairesView", () => {
       });
 
       it("should save the search term", () => {
-        jest.useFakeTimers();
         const { getByLabelText, queryByText, unmount } = render(
           <QuestionnairesView {...props} />
         );
@@ -764,7 +770,6 @@ describe("QuestionnairesView", () => {
       });
 
       it("should show a message when there are no results found", () => {
-        jest.useFakeTimers();
         const { getByLabelText, queryByText } = render(
           <QuestionnairesView {...props} />
         );
@@ -783,7 +788,6 @@ describe("QuestionnairesView", () => {
       });
 
       it("should navigate back to page one when you change the search term", () => {
-        jest.useFakeTimers();
         const questionnaires = new Array(17)
           .fill("")
           .map((_, i) => buildQuestionnaire(i));
