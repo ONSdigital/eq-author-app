@@ -21,7 +21,7 @@
     "chalk": "latest",
     "cheerio": "latest",
     "cors": "latest",
-    "deep-map": "^1.5",
+    "deep-map": "^2.0",
     "dotenv": "latest",
     "dynamoose": "onsdigital/dynamoose#bug-static-original-item",
     "express": "latest",
