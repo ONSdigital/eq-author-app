@@ -54,6 +54,65 @@ exports[`components/QuestionnairesPage should not render table whilst data is lo
                           ],
                         },
                       },
+                      Object {
+                        "alias": undefined,
+                        "arguments": Array [],
+                        "directives": Array [],
+                        "kind": "Field",
+                        "name": Object {
+                          "kind": "Name",
+                          "value": "me",
+                        },
+                        "selectionSet": Object {
+                          "kind": "SelectionSet",
+                          "selections": Array [
+                            Object {
+                              "alias": undefined,
+                              "arguments": Array [],
+                              "directives": Array [],
+                              "kind": "Field",
+                              "name": Object {
+                                "kind": "Name",
+                                "value": "id",
+                              },
+                              "selectionSet": undefined,
+                            },
+                            Object {
+                              "alias": undefined,
+                              "arguments": Array [],
+                              "directives": Array [],
+                              "kind": "Field",
+                              "name": Object {
+                                "kind": "Name",
+                                "value": "name",
+                              },
+                              "selectionSet": undefined,
+                            },
+                            Object {
+                              "alias": undefined,
+                              "arguments": Array [],
+                              "directives": Array [],
+                              "kind": "Field",
+                              "name": Object {
+                                "kind": "Name",
+                                "value": "email",
+                              },
+                              "selectionSet": undefined,
+                            },
+                            Object {
+                              "alias": undefined,
+                              "arguments": Array [],
+                              "directives": Array [],
+                              "kind": "Field",
+                              "name": Object {
+                                "kind": "Name",
+                                "value": "picture",
+                              },
+                              "selectionSet": undefined,
+                            },
+                          ],
+                        },
+                      },
                     ],
                   },
                   "variableDefinitions": Array [],
@@ -206,7 +265,7 @@ exports[`components/QuestionnairesPage should not render table whilst data is lo
               ],
               "kind": "Document",
               "loc": Object {
-                "end": 330,
+                "end": 391,
                 "start": 0,
               },
             }
@@ -286,6 +345,65 @@ exports[`components/QuestionnairesPage should render table when there are questi
                           ],
                         },
                       },
+                      Object {
+                        "alias": undefined,
+                        "arguments": Array [],
+                        "directives": Array [],
+                        "kind": "Field",
+                        "name": Object {
+                          "kind": "Name",
+                          "value": "me",
+                        },
+                        "selectionSet": Object {
+                          "kind": "SelectionSet",
+                          "selections": Array [
+                            Object {
+                              "alias": undefined,
+                              "arguments": Array [],
+                              "directives": Array [],
+                              "kind": "Field",
+                              "name": Object {
+                                "kind": "Name",
+                                "value": "id",
+                              },
+                              "selectionSet": undefined,
+                            },
+                            Object {
+                              "alias": undefined,
+                              "arguments": Array [],
+                              "directives": Array [],
+                              "kind": "Field",
+                              "name": Object {
+                                "kind": "Name",
+                                "value": "name",
+                              },
+                              "selectionSet": undefined,
+                            },
+                            Object {
+                              "alias": undefined,
+                              "arguments": Array [],
+                              "directives": Array [],
+                              "kind": "Field",
+                              "name": Object {
+                                "kind": "Name",
+                                "value": "email",
+                              },
+                              "selectionSet": undefined,
+                            },
+                            Object {
+                              "alias": undefined,
+                              "arguments": Array [],
+                              "directives": Array [],
+                              "kind": "Field",
+                              "name": Object {
+                                "kind": "Name",
+                                "value": "picture",
+                              },
+                              "selectionSet": undefined,
+                            },
+                          ],
+                        },
+                      },
                     ],
                   },
                   "variableDefinitions": Array [],
@@ -438,7 +556,7 @@ exports[`components/QuestionnairesPage should render table when there are questi
               ],
               "kind": "Document",
               "loc": Object {
-                "end": 330,
+                "end": 391,
                 "start": 0,
               },
             }
@@ -454,6 +572,14 @@ exports[`components/QuestionnairesPage should render table when there are questi
 
 exports[`components/QuestionnairesPage should render table when there are questionnaires 2`] = `
 <QuestionnairesView
+  currentUser={
+    Object {
+      "displayName": "test",
+      "email": "test@email.com",
+      "id": "1",
+      "name": "Test",
+    }
+  }
   onCreateQuestionnaire={[MockFunction]}
   onDeleteQuestionnaire={[MockFunction]}
   onDuplicateQuestionnaire={[MockFunction]}
@@ -540,6 +666,65 @@ exports[`components/QuestionnairesPage should render when there are no questionn
                           ],
                         },
                       },
+                      Object {
+                        "alias": undefined,
+                        "arguments": Array [],
+                        "directives": Array [],
+                        "kind": "Field",
+                        "name": Object {
+                          "kind": "Name",
+                          "value": "me",
+                        },
+                        "selectionSet": Object {
+                          "kind": "SelectionSet",
+                          "selections": Array [
+                            Object {
+                              "alias": undefined,
+                              "arguments": Array [],
+                              "directives": Array [],
+                              "kind": "Field",
+                              "name": Object {
+                                "kind": "Name",
+                                "value": "id",
+                              },
+                              "selectionSet": undefined,
+                            },
+                            Object {
+                              "alias": undefined,
+                              "arguments": Array [],
+                              "directives": Array [],
+                              "kind": "Field",
+                              "name": Object {
+                                "kind": "Name",
+                                "value": "name",
+                              },
+                              "selectionSet": undefined,
+                            },
+                            Object {
+                              "alias": undefined,
+                              "arguments": Array [],
+                              "directives": Array [],
+                              "kind": "Field",
+                              "name": Object {
+                                "kind": "Name",
+                                "value": "email",
+                              },
+                              "selectionSet": undefined,
+                            },
+                            Object {
+                              "alias": undefined,
+                              "arguments": Array [],
+                              "directives": Array [],
+                              "kind": "Field",
+                              "name": Object {
+                                "kind": "Name",
+                                "value": "picture",
+                              },
+                              "selectionSet": undefined,
+                            },
+                          ],
+                        },
+                      },
                     ],
                   },
                   "variableDefinitions": Array [],
@@ -692,7 +877,7 @@ exports[`components/QuestionnairesPage should render when there are no questionn
               ],
               "kind": "Document",
               "loc": Object {
-                "end": 330,
+                "end": 391,
                 "start": 0,
               },
             }

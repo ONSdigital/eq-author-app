@@ -6,6 +6,7 @@ import { debounce } from "lodash";
 import Button from "components/buttons/Button";
 import { Input } from "components/Forms";
 import VisuallyHidden from "components/VisuallyHidden";
+import AccessFilter from "./AccessFilter";
 
 import { colors } from "constants/theme";
 
@@ -53,7 +54,13 @@ const SearchInput = styled(Input).attrs({
   }
 `;
 
-const Header = ({ onCreateQuestionnaire, onSearchChange, searchTerm }) => {
+const Header = ({
+  onCreateQuestionnaire,
+  onSearchChange,
+  searchTerm,
+  onToggleHideUnowned,
+  hideUnowned,
+}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleModalOpen = () => setIsModalOpen(true);
@@ -77,6 +84,11 @@ const Header = ({ onCreateQuestionnaire, onSearchChange, searchTerm }) => {
           />
         </Search>
 
+        <AccessFilter
+          handleToggleHideUnowned={onToggleHideUnowned}
+          hideUnowned={hideUnowned}
+        />
+
         <Button
           onClick={handleModalOpen}
           primary
@@ -99,6 +111,8 @@ Header.propTypes = {
   onCreateQuestionnaire: PropTypes.func.isRequired,
   onSearchChange: PropTypes.func.isRequired,
   searchTerm: PropTypes.string.isRequired,
+  onToggleHideUnowned: PropTypes.func.isRequired,
+  hideUnowned: PropTypes.bool.isRequired,
 };
 
 export default Header;

@@ -40,15 +40,36 @@ const AlertText = styled.p`
   font-weight: normal;
 `;
 
-const NoResultsFiltered = ({ searchTerm }) => (
-  <Alert>
-    <AlertTitle>{`No results found for '${searchTerm}'`}</AlertTitle>
-    <AlertText>Please check the questionnaire exists</AlertText>
-  </Alert>
-);
+const NoResultsFiltered = ({ searchTerm, hideUnowned }) => {
+  if (!searchTerm) {
+    return (
+      <Alert>
+        <AlertTitle>You do not own any questionnaires</AlertTitle>
+        <AlertText>Create a questionnaire yourself</AlertText>
+      </Alert>
+    );
+  }
+  if (hideUnowned) {
+    return (
+      <Alert>
+        <AlertTitle>{`No results found for '${searchTerm}'`}</AlertTitle>
+        <AlertText>
+          You do not own any questionnaires matching this criteria
+        </AlertText>
+      </Alert>
+    );
+  }
+  return (
+    <Alert>
+      <AlertTitle>{`No results found for '${searchTerm}'`}</AlertTitle>
+      <AlertText>Please check the questionnaire exists</AlertText>
+    </Alert>
+  );
+};
 
 NoResultsFiltered.propTypes = {
   searchTerm: PropTypes.string.isRequired,
+  hideUnowned: PropTypes.bool.isRequired,
 };
 
 export default NoResultsFiltered;

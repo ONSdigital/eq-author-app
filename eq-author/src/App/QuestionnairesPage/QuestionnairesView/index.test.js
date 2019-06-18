@@ -45,41 +45,36 @@ function render(
   };
 }
 
-const buildQuestionnaire = (index, overrides) => ({
-  id: `questionnaire${index}`,
-  displayName: `Questionnaire ${index}`,
-  title: `Questionnaire ${index} Title`,
-  shortTitle: "",
-  createdAt: `2019-05-${30 - index}T12:36:50.984Z`,
-  updatedAt: `2019-05-${30 - index}T12:36:50.984Z`,
-  createdBy: {
-    id: `user${index}`,
-    name: `User #${index}`,
-    email: `User mail${index}`,
-    displayName: `User #${index}`,
-  },
-  ...overrides,
-});
-
 jest.mock("lodash", () => ({
   ...require.requireActual("lodash"),
   debounce: jest.fn(fn => fn),
 }));
 
 describe("QuestionnairesView", () => {
+  const user = {
+    id: "3",
+    name: "Foo",
+    email: "foo@bar.com",
+    displayName: "Foo",
+  };
+
+  const buildQuestionnaire = (index, overrides) => ({
+    id: `questionnaire${index}`,
+    displayName: `Questionnaire ${index}`,
+    title: `Questionnaire ${index} Title`,
+    shortTitle: "",
+    createdAt: `2019-05-${30 - index}T12:36:50.984Z`,
+    updatedAt: `2019-05-${30 - index}T12:36:50.984Z`,
+    createdBy: user,
+    ...overrides,
+  });
   let props;
   beforeEach(() => {
     const questionnaires = [buildQuestionnaire(1), buildQuestionnaire(2)];
-    const user = {
-      id: "3",
-      name: "Foo",
-      email: "foo@bar.com",
-      displayName: "Foo",
-    };
 
     props = {
       questionnaires,
-      user,
+      currentUser: user,
       onDeleteQuestionnaire: jest.fn(),
       onDuplicateQuestionnaire: jest.fn(),
       onCreateQuestionnaire: jest.fn(),
@@ -774,6 +769,10 @@ describe("QuestionnairesView", () => {
           <QuestionnairesView {...props} />
         );
 
+        const showAllButton = getByLabelText("All");
+
+        fireEvent.click(showAllButton);
+
         const search = getByLabelText("Search");
         fireEvent.change(search, {
           target: { value: "not in any questionnaire" },
@@ -809,6 +808,115 @@ describe("QuestionnairesView", () => {
         });
 
         expect(getByText("1 of 2")).toBeTruthy();
+      });
+    });
+    describe("Filtering", () => {
+      it("starts with unowned filtered out and correctly toggles between all and unowned lists", () => {
+        props.questionnaires = [
+          buildQuestionnaire(1, {
+            createdBy: {
+              id: "3",
+              name: "test user",
+              email: "test@email.com",
+              displayName: "test user",
+            },
+          }),
+          buildQuestionnaire(2, {
+            createdBy: {
+              id: "2",
+              name: "test user",
+              email: "test@email.com",
+              displayName: "test user",
+            },
+          }),
+          buildQuestionnaire(3, {
+            createdBy: {
+              id: "1",
+              name: "test user",
+              email: "test@email.com",
+              displayName: "test user",
+            },
+          }),
+        ];
+
+        const { getByLabelText, queryByText } = render(
+          <QuestionnairesView
+            {...props}
+            questionnaires={props.questionnaires}
+          />
+        );
+
+        const showAllButton = getByLabelText("All");
+        const hideUnownedButton = getByLabelText("Owner");
+
+        expect(queryByText("Questionnaire 1 Title")).toBeTruthy();
+        expect(queryByText("Questionnaire 2 Title")).toBeFalsy();
+        expect(queryByText("Questionnaire 3 Title")).toBeFalsy();
+
+        fireEvent.click(showAllButton);
+
+        expect(queryByText("Questionnaire 1 Title")).toBeTruthy();
+        expect(queryByText("Questionnaire 2 Title")).toBeTruthy();
+        expect(queryByText("Questionnaire 3 Title")).toBeTruthy();
+
+        fireEvent.click(hideUnownedButton);
+
+        expect(queryByText("Questionnaire 1 Title")).toBeTruthy();
+        expect(queryByText("Questionnaire 2 Title")).toBeFalsy();
+        expect(queryByText("Questionnaire 3 Title")).toBeFalsy();
+      });
+
+      it("should render correct error when no owned questionnaires", () => {
+        props.questionnaires = [
+          buildQuestionnaire(1, {
+            createdBy: {
+              id: "1",
+              name: "test user",
+              email: "test@email.com",
+              displayName: "test user",
+            },
+          }),
+        ];
+
+        const { queryByText } = render(
+          <QuestionnairesView
+            {...props}
+            questionnaires={props.questionnaires}
+          />
+        );
+
+        expect(queryByText("You do not own any questionnaires")).toBeTruthy();
+      });
+
+      it("should render correct error when no owned questionnaires match a search term", () => {
+        props.questionnaires = [
+          buildQuestionnaire(1, {
+            createdBy: {
+              id: "1",
+              name: "test user",
+              email: "test@email.com",
+              displayName: "test user",
+            },
+          }),
+        ];
+
+        const { queryByText, getByLabelText } = render(
+          <QuestionnairesView
+            {...props}
+            questionnaires={props.questionnaires}
+          />
+        );
+
+        const search = getByLabelText("Search");
+        fireEvent.change(search, {
+          target: { value: "not in any questionnaire" },
+        });
+
+        expect(
+          queryByText(
+            "You do not own any questionnaires matching this criteria"
+          )
+        ).toBeTruthy();
       });
     });
   });

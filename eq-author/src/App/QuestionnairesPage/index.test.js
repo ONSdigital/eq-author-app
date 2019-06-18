@@ -65,10 +65,17 @@ describe("components/QuestionnairesPage", () => {
       },
     ];
 
+    const me = {
+      id: "1",
+      name: "Test",
+      email: "test@email.com",
+      displayName: "test",
+    };
+
     const wrapper = createWrapper({ questionnaires });
     const instance = wrapper.instance();
     const renderResults = instance.renderResults({
-      data: { questionnaires },
+      data: { questionnaires, me },
     });
 
     expect(wrapper).toMatchSnapshot();

@@ -30,7 +30,7 @@ const sortQuestionnaires = state => questionnaires => {
   return reverse(sortedQuestionnaires);
 };
 
-const filterQuestionnaires = state => questionnaires => {
+const filterQuestionnairesBySearch = state => questionnaires => {
   const searchTerm = state.searchTerm.toLowerCase();
   return questionnaires.filter(
     q =>
@@ -39,9 +39,17 @@ const filterQuestionnaires = state => questionnaires => {
   );
 };
 
+const filterQuestionnairesByOwnership = state => questionnaires => {
+  if (!state.hideUnowned) {
+    return questionnaires;
+  }
+  return questionnaires.filter(q => q.createdBy.id === state.currentUser.id);
+};
+
 const buildState = state => {
   const questionnaires = flowRight([
-    filterQuestionnaires(state),
+    filterQuestionnairesBySearch(state),
+    filterQuestionnairesByOwnership(state),
     sortQuestionnaires(state),
   ])(state.apiQuestionnaires);
 
@@ -56,8 +64,8 @@ const buildState = state => {
   };
 };
 
-export const buildInitialState = questionnaires => state =>
-  buildState({ ...state, apiQuestionnaires: questionnaires });
+export const buildInitialState = (questionnaires, currentUser) => state =>
+  buildState({ ...state, apiQuestionnaires: questionnaires, currentUser });
 
 export const ACTIONS = {
   CHANGE_PAGE: "CHANGE_PAGE",
@@ -66,6 +74,7 @@ export const ACTIONS = {
   SORT_COLUMN: "SORT_COLUMN",
   REVERSE_SORT: "REVERSE_SORT",
   SEARCH: "SEARCH",
+  TOGGLE_HIDE_UNOWNED: "TOGGLE_HIDE_UNOWNED",
 };
 
 const reducer = (state, action) => {
@@ -108,6 +117,12 @@ const reducer = (state, action) => {
         autoFocusId: null,
         currentPageIndex: 0,
         searchTerm: action.payload,
+      });
+    case ACTIONS.TOGGLE_HIDE_UNOWNED:
+      return buildState({
+        ...state,
+        autoFocusId: null,
+        ...action.payload,
       });
     default:
       return state;
