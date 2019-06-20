@@ -10,6 +10,17 @@ const keysJson = JSON.parse(JSON.stringify(keysYaml));
 
 const { createUser } = require("../../utils/datastore");
 
+jest.mock("./verifyJwtToken", () => {
+  const jwt = require("jsonwebtoken");
+  return jest.fn(accessToken => {
+    const jwtToken = jwt.decode(accessToken);
+
+    return new Promise(async resolve => {
+      resolve(jwtToken.id !== "invalid.token");
+    });
+  });
+});
+
 describe("auth middleware", () => {
   let logger;
 
@@ -90,11 +101,22 @@ describe("auth middleware", () => {
         expect(res.send).toHaveBeenCalledWith(401);
       });
 
-      it("should send a 401 response if token is invalid", () => {
+      it("should send a 401 response if token is invalid", async () => {
         req.header.mockImplementation(() => "Bearer abc.def.ghi");
+        await middleware(req, res);
+        expect(logger.error).toHaveBeenCalled();
+        expect(res.send).toHaveBeenCalledWith(401);
+      });
 
-        middleware(req, res);
+      it("should send a 401 response if token is valid but unverified", async () => {
+        let sub = uuid.v4();
+        let auth = { id: "invalid.token", name: "foo", sub };
 
+        const expected = jwt.sign(auth, uuid.v4());
+
+        req.header.mockImplementation(() => `Bearer ${expected}`);
+
+        await middleware(req, res);
         expect(logger.error).toHaveBeenCalled();
         expect(res.send).toHaveBeenCalledWith(401);
       });

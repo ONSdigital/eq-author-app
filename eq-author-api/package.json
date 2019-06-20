@@ -41,6 +41,7 @@
     "jsonwebtoken": "latest",
     "jsrsasign": "latest",
     "lodash": "latest",
+    "node-fetch": "latest",
     "node-jose": "latest",
     "pino-noir": "latest",
     "prom-client": "^11.3.0",
