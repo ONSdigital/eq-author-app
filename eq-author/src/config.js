@@ -2,6 +2,8 @@ window.config = window.config || {};
 const config = {
   REACT_APP_API_URL:
     window.config.REACT_APP_API_URL || process.env.REACT_APP_API_URL,
+  REACT_APP_SENTRY_ENV:
+    window.config.REACT_APP_SENTRY_ENV || process.env.REACT_APP_SENTRY_ENV,
   REACT_APP_FIREBASE_API_KEY:
     window.config.REACT_APP_FIREBASE_API_KEY ||
     process.env.REACT_APP_FIREBASE_API_KEY,

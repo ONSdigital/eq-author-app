@@ -35,6 +35,7 @@ Builds (via `yarn build`) and deploys the project to Github Pages.
 | Name                      | Description                                     | Required |
 | ------------------------- | ----------------------------------------------- | -------- |
 | `REACT_APP_SENTRY_DSN`    | Use Sentry for error checking, by providing dsn | No       |
+| `REACT_APP_SENTRY_ENV`    | Use Sentry to sort errors by environment        | No       |
 | `REACT_APP_FULLSTORY_ORG` | Use fullstory, by providing org id              | No       |
 
 ### Runtime
