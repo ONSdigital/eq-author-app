@@ -21,5 +21,6 @@ fragment Questionnaire on Questionnaire {
     name
     email
   }
+  isPublic
   permission
 }

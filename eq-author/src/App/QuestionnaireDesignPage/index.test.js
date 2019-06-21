@@ -7,11 +7,17 @@ import {
   QUESTION_CONFIRMATION,
   INTRODUCTION,
 } from "constants/entities";
-import { ERR_PAGE_NOT_FOUND } from "constants/error-codes";
+import {
+  ERR_PAGE_NOT_FOUND,
+  ERR_UNAUTHORIZED_QUESTIONNAIRE,
+} from "constants/error-codes";
 
 import NavigationSidebar from "./NavigationSidebar";
 
-import { UnwrappedQuestionnaireDesignPage as QuestionnaireDesignPage } from ".";
+import {
+  UnwrappedQuestionnaireDesignPage as QuestionnaireDesignPage,
+  throwIfUnauthorized,
+} from "./";
 
 describe("QuestionnaireDesignPage", () => {
   let mockHandlers;
@@ -337,6 +343,33 @@ describe("QuestionnaireDesignPage", () => {
       };
 
       expect(throwWrapper).toThrow(new Error(ERR_PAGE_NOT_FOUND));
+    });
+
+    it("should throw ERR_UNAUTHORIZED_QUESTIONNAIRE if access denied", () => {
+      const innerProps = {
+        error: {
+          networkError: {
+            bodyText: ERR_UNAUTHORIZED_QUESTIONNAIRE,
+          },
+        },
+      };
+
+      expect(() => throwIfUnauthorized(innerProps)).toThrow(
+        new Error(ERR_UNAUTHORIZED_QUESTIONNAIRE)
+      );
+    });
+    it("should render questionnaire design page if access granted", () => {
+      const innerProps = {};
+      expect(
+        shallow(
+          throwIfUnauthorized(innerProps, {
+            ...mockHandlers,
+            match: match,
+            data: { questionnaire },
+            loading: false,
+          })
+        )
+      ).toMatchSnapshot();
     });
   });
 });

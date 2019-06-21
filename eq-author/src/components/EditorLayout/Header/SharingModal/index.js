@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import gql from "graphql-tag";
 import { flowRight } from "lodash";
 import { propType } from "graphql-anywhere";
+import { withRouter } from "react-router-dom";
 
 import { raiseToast } from "redux/toast/actions";
 
@@ -15,12 +16,14 @@ import { Label, Field } from "components/Forms";
 import ButtonGroup from "components/buttons/ButtonGroup";
 import Button from "components/buttons/Button";
 import Modal from "components/modals/Modal";
+import ToggleSwitch from "components/buttons/ToggleSwitch";
 
 import { colors } from "constants/theme";
 
 import UserList from "./UserList";
 import UserSearch from "./UserSearch";
 import withAddRemoveEditor from "./withAddRemoveEditor";
+import withTogglePublic from "./withTogglePublic";
 import iconShare from "./icon-share.svg";
 
 const LabelDescription = styled.span`
@@ -75,18 +78,37 @@ const ActionButtonGroup = styled(ButtonGroup)`
   position: relative;
 `;
 
+const confirmEditorRemoval = (removeEditor, currentUser, user, history) => {
+  if (currentUser.id !== user.id) {
+    removeEditor(user.id);
+    return;
+  }
+
+  const confirmed = window.confirm(
+    `You are about to remove yourself as editor.\nYou will no longer be able to edit this questionnaire and will be redirected to the homepage.`
+  );
+  if (confirmed) {
+    removeEditor(user.id).then(() => {
+      history.push("/");
+    });
+  }
+};
+
 const SharingModal = ({
   isOpen,
   onClose,
   addEditor,
   removeEditor,
+  togglePublic,
   questionnaire,
   previewUrl,
   raiseToast,
   loading,
   data,
+  currentUser,
+  history,
 }) => {
-  const { editors, createdBy: owner } = questionnaire;
+  const { editors, createdBy: owner, isPublic } = questionnaire;
   const handleShareClick = () => {
     const textField = document.createElement("textarea");
     textField.setAttribute("data-test", "share-link");
@@ -97,7 +119,6 @@ const SharingModal = ({
     textField.remove();
     raiseToast("ShareToast", "Link copied to clipboard");
   };
-
   const existingEditors = [owner, ...editors];
 
   return (
@@ -115,6 +136,23 @@ const SharingModal = ({
 
       <div>
         <InlineField>
+          <Label inline htmlFor="public">
+            Public
+            <br />
+            <LabelDescription>
+              When enabled, this questionnaire is publicly accessible to all
+              users in read-only mode. If turned off, then editors will still
+              have access.
+            </LabelDescription>
+          </Label>
+          <ToggleSwitch
+            id="public"
+            name="public"
+            onChange={togglePublic}
+            checked={isPublic}
+          />
+        </InlineField>
+        <InlineField>
           <Label inline>
             Editors
             <br />
@@ -129,7 +167,7 @@ const SharingModal = ({
           editors={editors}
           owner={owner}
           onRemove={user => {
-            removeEditor(user.id);
+            confirmEditorRemoval(removeEditor, currentUser, user, history);
           }}
         />
         {!loading && data && data.users && (
@@ -157,6 +195,7 @@ SharingModal.propTypes = {
   onClose: PropTypes.func.isRequired,
   addEditor: PropTypes.func.isRequired,
   removeEditor: PropTypes.func.isRequired,
+  togglePublic: PropTypes.func.isRequired,
   questionnaire: PropTypes.shape({
     createdBy: PropTypes.object.isRequired,
     editors: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
@@ -166,6 +205,12 @@ SharingModal.propTypes = {
   loading: PropTypes.bool,
   data: PropTypes.shape({
     users: PropTypes.arrayOf(propType(UserSearch.fragment)),
+  }),
+  currentUser: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+  }),
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
   }),
 };
 
@@ -200,8 +245,10 @@ const withAllUsers = Component => {
 };
 
 export default flowRight([
+  withRouter,
   withAllUsers,
   withAddRemoveEditor,
+  withTogglePublic,
   connect(
     null,
     { raiseToast }

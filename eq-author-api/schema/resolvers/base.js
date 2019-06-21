@@ -77,10 +77,6 @@ const {
   hasWritePermission,
 } = require("./withWritePermission");
 
-const getQuestionnaireList = () => {
-  return listQuestionnaires();
-};
-
 const createSection = (input = {}) => ({
   id: uuid.v4(),
   title: "",
@@ -102,6 +98,7 @@ const createNewQuestionnaire = input => {
     summary: false,
     version: currentVersion,
     editors: [],
+    isPublic: true,
   };
 
   let changes = {};
@@ -122,7 +119,18 @@ const createNewQuestionnaire = input => {
 
 const Resolvers = {
   Query: {
-    questionnaires: () => getQuestionnaireList(),
+    questionnaires: async (root, args, ctx) => {
+      const questionnaires = await listQuestionnaires();
+
+      return questionnaires.filter(questionnaire => {
+        if (questionnaire.isPublic) {
+          return true;
+        }
+        return [questionnaire.createdBy, ...questionnaire.editors].includes(
+          ctx.user.id
+        );
+      });
+    },
     questionnaire: (root, args, ctx) => ctx.questionnaire,
     section: (root, { input }, ctx) => getSectionById(ctx, input.sectionId),
     page: (root, { input }, ctx) => getPageById(ctx, input.pageId),

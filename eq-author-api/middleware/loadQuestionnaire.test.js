@@ -36,4 +36,25 @@ describe("loadQuestionnaire", () => {
     });
     expect(req.questionnaire).toEqual(undefined);
   });
+  it("should not load private questionnaire if user is not an editor", async () => {
+    const ctx = await buildContext({ isPublic: false });
+    const { questionnaire } = ctx;
+
+    const req = {
+      header: jest.fn().mockReturnValue(questionnaire.id),
+      user: { id: "unauthorizedId" },
+    };
+
+    const send = jest.fn();
+    const res = {
+      status: jest.fn(() => ({
+        send,
+      })),
+    };
+
+    await loadQuestionnaire(req, res);
+    expect(send).toHaveBeenCalledWith("Unauthorized questionnaire access");
+    expect(res.status).toHaveBeenCalledWith(403);
+    expect(req.questionnaire).toEqual(undefined);
+  });
 });

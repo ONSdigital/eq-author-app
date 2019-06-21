@@ -40,6 +40,7 @@ const moveSectionMock = {
         displayName: "Display name",
         shortTitle: "Short tile",
         permission: WRITE,
+        isPublic: true,
         createdBy: {
           id: "1",
           name: "Some user",

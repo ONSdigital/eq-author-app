@@ -1,11 +1,10 @@
 import React from "react";
 
 import { render, fireEvent } from "tests/utils/rtl";
-import flushPromises from "tests/utils/flushPromises";
 
 import { signOutUser } from "redux/auth/actions";
 
-import UserProfile, { CURRENT_USER_QUERY } from ".";
+import UserProfile from ".";
 
 jest.mock("redux/auth/actions");
 
@@ -21,33 +20,24 @@ describe("UserProfile", () => {
     };
   });
 
-  it("should show the logged in user's display name", async () => {
-    const { getByText, queryByText } = render(<UserProfile />, {
-      mocks: [
-        {
-          request: { query: CURRENT_USER_QUERY },
-          result: { data: { me: me } },
-        },
-      ],
-    });
-    expect(queryByText(me.displayName)).toBeFalsy();
-    await flushPromises();
+  it("should show the logged in user's display name", () => {
+    const { getByText } = render(
+      <UserProfile
+        data={{ me }}
+        loading={false}
+        client={{ resetStore: jest.fn() }}
+      />
+    );
     expect(getByText(me.displayName)).toBeTruthy();
   });
 
-  it("should trigger signOut and clear the apollo cache on sign out", async () => {
+  it("should trigger signOut and clear the apollo cache on sign out", () => {
     const fakeApolloClient = {
       resetStore: jest.fn(),
     };
-    const { getByText } = render(<UserProfile client={fakeApolloClient} />, {
-      mocks: [
-        {
-          request: { query: CURRENT_USER_QUERY },
-          result: { data: { me: me } },
-        },
-      ],
-    });
-    await flushPromises();
+    const { getByText } = render(
+      <UserProfile data={{ me }} loading={false} client={fakeApolloClient} />
+    );
 
     fireEvent.click(getByText(me.displayName));
 

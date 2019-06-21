@@ -3,6 +3,8 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import { flowRight } from "lodash";
 import { withRouter } from "react-router-dom";
+import gql from "graphql-tag";
+import { Query } from "react-apollo";
 
 import config from "config";
 import CustomPropTypes from "custom-prop-types";
@@ -74,6 +76,10 @@ export class UnconnectedHeader extends React.Component {
         modifier: PropTypes.string,
       }).isRequired,
     }).isRequired,
+    data: PropTypes.shape({
+      user: CustomPropTypes.user,
+    }),
+    loading: PropTypes.bool,
   };
 
   handleShare = () => {
@@ -85,8 +91,15 @@ export class UnconnectedHeader extends React.Component {
   };
 
   render() {
-    const { questionnaire, title, children } = this.props;
-
+    const {
+      questionnaire,
+      title,
+      children,
+      data,
+      loading,
+      client,
+    } = this.props;
+    const currentUser = (data || {}).me;
     const previewUrl = `${config.REACT_APP_LAUNCH_URL}/${
       (questionnaire || {}).id
     }`;
@@ -128,7 +141,13 @@ export class UnconnectedHeader extends React.Component {
                   >
                     <IconText icon={shareIcon}>Sharing</IconText>
                   </Button>
-                  <UserProfile />
+                  {currentUser && (
+                    <UserProfile
+                      loading={loading}
+                      client={client}
+                      data={data}
+                    />
+                  )}
                 </ButtonGroup>
               )}
             </UtilityBtns>
@@ -142,13 +161,16 @@ export class UnconnectedHeader extends React.Component {
         </StyledHeader>
         {questionnaire && (
           <>
-            <SharingModal
-              questionnaire={questionnaire}
-              previewUrl={previewUrl}
-              displayToast={this.displayToast}
-              isOpen={this.state.isSharingModalOpen}
-              onClose={() => this.setState({ isSharingModalOpen: false })}
-            />
+            {currentUser && (
+              <SharingModal
+                questionnaire={questionnaire}
+                previewUrl={previewUrl}
+                displayToast={this.displayToast}
+                isOpen={this.state.isSharingModalOpen}
+                onClose={() => this.setState({ isSharingModalOpen: false })}
+                currentUser={currentUser}
+              />
+            )}
             <UpdateQuestionnaireSettingsModal
               isOpen={this.state.isQuestionnaireSettingsModalOpen}
               onClose={() =>
@@ -163,7 +185,26 @@ export class UnconnectedHeader extends React.Component {
   }
 }
 
+export const CURRENT_USER_QUERY = gql`
+  query GetHeaderInformation {
+    me {
+      id
+      displayName
+      picture
+    }
+  }
+`;
+
+export const withCurrentUser = Component => props => (
+  <Query query={CURRENT_USER_QUERY}>
+    {innerProps => {
+      return <Component {...innerProps} {...props} />;
+    }}
+  </Query>
+);
+
 export default flowRight(
   withQuestionnaire,
-  withRouter
+  withRouter,
+  withCurrentUser
 )(UnconnectedHeader);

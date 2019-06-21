@@ -1,7 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 import NotFound from "App/NotFoundPage";
-import { ERR_PAGE_NOT_FOUND } from "constants/error-codes";
+import AccessDenied from "App/AccessDeniedPage";
+import {
+  ERR_PAGE_NOT_FOUND,
+  ERR_UNAUTHORIZED_QUESTIONNAIRE,
+} from "constants/error-codes";
 
 export default class ErrorBoundary extends React.Component {
   static propTypes = {
@@ -16,8 +20,10 @@ export default class ErrorBoundary extends React.Component {
 
   render() {
     if (this.state.error.message === ERR_PAGE_NOT_FOUND) {
-      // You can render any custom fallback UI
       return <NotFound />;
+    }
+    if (this.state.error.message === ERR_UNAUTHORIZED_QUESTIONNAIRE) {
+      return <AccessDenied />;
     }
 
     return this.props.children;
