@@ -49,6 +49,7 @@ const getPreviousAnswersForSection = require("../../src/businessLogic/getPreviou
 const createOption = require("../../src/businessLogic/createOption");
 const addPrefix = require("../../utils/addPrefix");
 const { createQuestionPage } = require("./pages/questionPage");
+const validateQuestionnaire = require("../../src/validation");
 
 const { BUSINESS } = require("../../constants/questionnaireTypes");
 const {
@@ -206,11 +207,15 @@ const Resolvers = {
     createAnswer: async (root, { input }, ctx) => {
       const page = getPageById(ctx, input.questionPageId);
       const answer = createAnswer(input);
+
       page.answers.push(answer);
 
       onAnswerCreated(page, answer);
 
       await saveQuestionnaire(ctx.questionnaire);
+
+      ctx.validationErrorInfo = validateQuestionnaire(ctx.questionnaire);
+
       return answer;
     },
     updateAnswer: async (root, { input }, ctx) => {
@@ -225,6 +230,8 @@ const Resolvers = {
       const answer = find(concat(answers, additionalAnswers), { id: input.id });
       merge(answer, input);
       await saveQuestionnaire(ctx.questionnaire);
+
+      ctx.validationErrorInfo = validateQuestionnaire(ctx.questionnaire);
 
       return answer;
     },
@@ -547,6 +554,12 @@ const Resolvers = {
     // Have defined a secondaryLabelDefault field to fallback on if secondaryLabel is empty
     secondaryLabelDefault: answer =>
       getName({ label: answer.secondaryLabel }, "BasicAnswer"),
+
+    validationErrorInfo: (answer, args, ctx) => {
+      return ctx.validationErrorInfo.filter(
+        errorInfo => errorInfo.id === answer.id
+      );
+    },
   },
 
   MultipleChoiceAnswer: {

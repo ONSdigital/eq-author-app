@@ -1,14 +1,18 @@
 import React from "react";
 import { Field, Label } from "components/Forms";
 import PropTypes from "prop-types";
+import { flowRight } from "lodash";
 import CustomPropTypes from "custom-prop-types";
 import WrappingInput from "components/Forms/WrappingInput";
 import withEntityEditor from "components/withEntityEditor";
+import withValidationError from "enhancers/withValidationError";
 import answerFragment from "graphql/fragments/answer.graphql";
 import MinValueValidationRule from "graphql/fragments/min-value-validation-rule.graphql";
 import MaxValueValidationRule from "graphql/fragments/max-value-validation-rule.graphql";
 import EarliestDateValidationRule from "graphql/fragments/earliest-date-validation-rule.graphql";
 import LatestDateValidationRule from "graphql/fragments/latest-date-validation-rule.graphql";
+import ValidationErrorInfoFragment from "graphql/fragments/validationErrorInfo.graphql";
+
 import gql from "graphql-tag";
 
 export const StatelessBasicAnswer = ({
@@ -22,6 +26,7 @@ export const StatelessBasicAnswer = ({
   descriptionPlaceholder,
   showDescription,
   autoFocus,
+  getValidationError,
 }) => (
   <div>
     <Field>
@@ -36,6 +41,10 @@ export const StatelessBasicAnswer = ({
         placeholder={labelPlaceholder}
         data-test="txt-answer-label"
         bold
+        errorValidationMsg={getValidationError({
+          field: "label",
+          label: "Answer label",
+        })}
       />
     </Field>
     {showDescription && (
@@ -71,6 +80,7 @@ StatelessBasicAnswer.propTypes = {
   descriptionPlaceholder: PropTypes.string,
   showDescription: PropTypes.bool,
   autoFocus: PropTypes.bool,
+  getValidationError: PropTypes.func,
 };
 
 StatelessBasicAnswer.defaultProps = {
@@ -78,6 +88,7 @@ StatelessBasicAnswer.defaultProps = {
   descriptionText: "Description (optional)",
   showDescription: false,
   autoFocus: true,
+  getValidationError: () => {},
 };
 
 StatelessBasicAnswer.fragments = {
@@ -106,12 +117,20 @@ StatelessBasicAnswer.fragments = {
           }
         }
       }
+      validationErrorInfo {
+        ...ValidationErrorInfo
+      }
+      isNew @client
     }
     ${MinValueValidationRule}
     ${MaxValueValidationRule}
     ${EarliestDateValidationRule}
     ${LatestDateValidationRule}
+    ${ValidationErrorInfoFragment}
   `,
 };
 
-export default withEntityEditor("answer")(StatelessBasicAnswer);
+export default flowRight(
+  withValidationError("answer"),
+  withEntityEditor("answer")
+)(StatelessBasicAnswer);

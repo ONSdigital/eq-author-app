@@ -12,7 +12,7 @@ if (validate.errors) {
 }
 
 module.exports = questionnaire => {
-  const validationErrors = {};
+  const validationErrors = [];
 
   validate(questionnaire);
 
@@ -26,12 +26,9 @@ module.exports = questionnaire => {
       const contextPath = dataPath.slice(1).join(".");
       const contextObj = get(questionnaire, contextPath);
 
-      const errorKey = `${objectType}_${contextObj.id}`;
-
-      if (!validationErrors[errorKey]) {
-        validationErrors[errorKey] = [];
-      }
-      validationErrors[errorKey].push({
+      validationErrors.push({
+        id: contextObj.id,
+        type: objectType,
         field: fieldname,
         errorCode: error.message,
       });

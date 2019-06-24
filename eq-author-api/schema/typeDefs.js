@@ -168,6 +168,8 @@ type BasicAnswer implements Answer {
   page: QuestionPage
   properties: JSON
   validation: ValidationType
+  validationErrorInfo: ValidationErrorInfo
+  isNew: Boolean!
 }
 
 type MultipleChoiceAnswer implements Answer {
@@ -214,6 +216,8 @@ type AvailableRoutingDestinations {
 }
 
 type ValidationError {
+  id: String!
+  type: String!
   field: String!
   errorCode: String!
 }

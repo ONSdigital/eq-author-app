@@ -1,73 +1,88 @@
 import gql from "graphql-tag";
+import { PAGES, ANSWERS } from "../../constants/validation-error-types";
 
 export const typeDefs = gql`
   extend type QuestionPage {
     isNew: Boolean!
   }
-`;
 
-const GET_NEW_PAGES_LIST = gql`
-  query newPagesList {
-    newPagesList @client
+  extend type BasicAnswer {
+    isNew: Boolean!
   }
 `;
 
-const initialiseMultiplePages = (pages, cache) => {
-  const { newPagesList } = cache.readQuery({
-    query: GET_NEW_PAGES_LIST,
-  });
+const GET_NEW_ENTITY_LIST = gql`
+  query newEntityList {
+    newEntityList @client
+  }
+`;
 
-  pages.forEach(questionPage => {
-    newPagesList.push(questionPage.id);
+const addNewEntity = (type, id, cache) => {
+  const { newEntityList } = cache.readQuery({
+    query: GET_NEW_ENTITY_LIST,
   });
-
-  cache.writeData({ data: { newPagesList } });
+  newEntityList.push(`${type}_${id}`);
+  cache.writeData({ data: { newEntityList } });
 };
 
-const isNewQuestionPage = (questionPage, args, { cache }) => {
-  const { newPagesList } = cache.readQuery({
-    query: GET_NEW_PAGES_LIST,
+const removeNewEntity = (type, id, cache) => {
+  const { newEntityList } = cache.readQuery({
+    query: GET_NEW_ENTITY_LIST,
   });
 
-  return newPagesList.indexOf(questionPage.id) > -1;
+  const updatedPageList = newEntityList.filter(p => p !== `${type}_${id}`);
+  cache.writeData({ data: { newEntityList: updatedPageList } });
+};
+
+const initialiseMultiplePages = (pages, cache) => {
+  pages.forEach(questionPage => {
+    addNewEntity(PAGES, questionPage.id, cache);
+  });
+};
+
+const isNewEntity = type => (entity, args, { cache }) => {
+  const { newEntityList } = cache.readQuery({
+    query: GET_NEW_ENTITY_LIST,
+  });
+
+  return newEntityList.indexOf(`${type}_${entity.id}`) > -1;
 };
 
 export const resolvers = {
   QuestionPage: {
-    isNew: isNewQuestionPage,
+    isNew: isNewEntity(PAGES),
+  },
+
+  BasicAnswer: {
+    isNew: isNewEntity(ANSWERS),
   },
 
   Mutation: {
     createQuestionnaire: (root, input, { cache }) => {
-      cache.writeData({ data: { newPagesList: [] } });
+      cache.writeData({ data: { newEntityList: [] } });
       root.createQuestionnaire.sections.forEach(section => {
         initialiseMultiplePages(section.pages, cache);
       });
     },
 
     createQuestionPage: (root, input, { cache }) => {
-      const { newPagesList } = cache.readQuery({
-        query: GET_NEW_PAGES_LIST,
-      });
-      newPagesList.push(root.createQuestionPage.id);
-
-      cache.writeData({ data: { newPagesList } });
+      addNewEntity(PAGES, root.createQuestionPage.id, cache);
     },
 
     updateQuestionPage: (root, input, { cache }) => {
-      const { newPagesList } = cache.readQuery({
-        query: GET_NEW_PAGES_LIST,
-      });
-
-      const updatedPageList = newPagesList.filter(
-        p => p !== root.updateQuestionPage.id
-      );
-
-      cache.writeData({ data: { newPagesList: updatedPageList } });
+      removeNewEntity(PAGES, root.updateQuestionPage.id, cache);
     },
 
     createSection: (root, input, { cache }) => {
       initialiseMultiplePages(root.createSection.pages, cache);
+    },
+
+    createAnswer: (root, input, { cache }) => {
+      addNewEntity(ANSWERS, root.createAnswer.id, cache);
+    },
+
+    updateAnswer: (root, input, { cache }) => {
+      removeNewEntity(ANSWERS, root.updateAnswer.id, cache);
     },
   },
 };

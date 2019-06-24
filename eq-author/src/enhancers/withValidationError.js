@@ -4,7 +4,7 @@ import React from "react";
 import VALIDATION_MESSAGES from "constants/validationMessages";
 
 const withValidationError = entityPropName => WrappedComponent => {
-  return class extends React.Component {
+  class ValidationError extends React.Component {
     static propTypes = {
       enableValidationMessage: PropTypes.bool,
       [entityPropName]: PropTypes.object.isRequired, // eslint-disable-line
@@ -14,6 +14,8 @@ const withValidationError = entityPropName => WrappedComponent => {
       enableValidationMessage: true,
     };
 
+    static fragments = WrappedComponent.fragments;
+
     getValidationError = ({ field, label }) => {
       const {
         [entityPropName]: { validationErrorInfo, isNew },
@@ -21,7 +23,7 @@ const withValidationError = entityPropName => WrappedComponent => {
 
       const messages = validationErrorInfo && validationErrorInfo.errors;
 
-      if (!messages || isNew) {
+      if (!messages || messages.length === 0 || isNew) {
         return null;
       }
 
@@ -44,7 +46,11 @@ const withValidationError = entityPropName => WrappedComponent => {
         />
       );
     }
-  };
+  }
+
+  ValidationError.displayName = `withValidationError(${WrappedComponent.displayName})`;
+
+  return ValidationError;
 };
 
 export default withValidationError;

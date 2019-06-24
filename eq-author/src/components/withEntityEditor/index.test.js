@@ -158,7 +158,7 @@ describe("withEntityEditor", () => {
     expect(wrapper.state("entity")).toEqual(newEntity);
   });
 
-  it("should only update when state is dirty", () => {
+  it("should only update existing entity when state is dirty", () => {
     const newValue = "foo1";
 
     wrapper.simulate("update");
@@ -166,6 +166,19 @@ describe("withEntityEditor", () => {
     expect(handleUpdate).not.toHaveBeenCalled();
 
     wrapper.simulate("change", { name: "title", value: newValue });
+    wrapper.simulate("update");
+
+    expect(handleUpdate).toHaveBeenCalled();
+  });
+
+  it("should allow update of new entity regardless of dirtiness of state", () => {
+    entity = {
+      ...entity,
+      isNew: true,
+    };
+
+    const wrapper = render();
+
     wrapper.simulate("update");
 
     expect(handleUpdate).toHaveBeenCalled();

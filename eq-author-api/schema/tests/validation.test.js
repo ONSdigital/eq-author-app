@@ -25,6 +25,8 @@ const {
   NOW,
 } = require("../../constants/validationEntityTypes");
 
+const { PAGES } = require("../../constants/validationErrorTypes");
+
 const {
   CURRENCY,
   NUMBER,
@@ -64,23 +66,21 @@ describe("validation", () => {
 
   describe("Page validation", () => {
     it("contains validation error info when querying page", async () => {
-      const validationErrorInfo = {
-        [`page_${page.id}`]: {
-          errors: [
-            {
-              field: "field",
-              errorCode: "ERR_CODE",
-            },
-          ],
+      const validationErrorInfo = [
+        {
+          id: page.id,
+          type: PAGES,
+          field: "field",
+          errorCode: "ERR_CODE",
         },
-      };
+      ];
 
       const queriedPage = await queryPage(
         { questionnaire, validationErrorInfo },
         page.id
       );
 
-      expect(queriedPage.validationErrorInfo).toHaveProperty("totalCount");
+      expect(queriedPage.validationErrorInfo.totalCount).toEqual(1);
     });
   });
 

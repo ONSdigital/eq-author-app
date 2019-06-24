@@ -8,6 +8,7 @@
 #import "./fragments/max-duration-validation-rule.graphql"
 #import "./fragments/total-validation-rule.graphql"
 #import "./fragments/available-answers.graphql"
+#import "./fragments/validationErrorInfo.graphql"
 
 mutation createAnswer($input: CreateAnswerInput!) {
   createAnswer(input: $input) {
@@ -53,6 +54,10 @@ mutation createAnswer($input: CreateAnswerInput!) {
           }
         }
       }
+      validationErrorInfo {
+        ...ValidationErrorInfo
+      }
+      isNew @client
     }
     ... on MultipleChoiceAnswer {
       options {

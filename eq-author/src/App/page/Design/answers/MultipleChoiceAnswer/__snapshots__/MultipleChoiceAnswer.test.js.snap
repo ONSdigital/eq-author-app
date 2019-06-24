@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`MultipleChoiceAnswer exclusive options should render exclusive 1`] = `
-<Connect(withEntityEditor(StatelessBasicAnswer))
+<withValidationError(Connect(withEntityEditor(StatelessBasicAnswer)))
   answer={
     Object {
       "id": "0",
@@ -22,6 +22,7 @@ exports[`MultipleChoiceAnswer exclusive options should render exclusive 1`] = `
     }
   }
   autoFocus={false}
+  enableValidationMessage={true}
   labelText="Label (optional)"
   onUpdate={[MockFunction]}
 >
@@ -127,11 +128,11 @@ exports[`MultipleChoiceAnswer exclusive options should render exclusive 1`] = `
       </SplitButton>
     </div>
   </MultipleChoiceAnswer__AnswerWrapper>
-</Connect(withEntityEditor(StatelessBasicAnswer))>
+</withValidationError(Connect(withEntityEditor(StatelessBasicAnswer)))>
 `;
 
 exports[`MultipleChoiceAnswer other option and answer should render other 1`] = `
-<Connect(withEntityEditor(StatelessBasicAnswer))
+<withValidationError(Connect(withEntityEditor(StatelessBasicAnswer)))
   answer={
     Object {
       "id": "0",
@@ -168,6 +169,7 @@ exports[`MultipleChoiceAnswer other option and answer should render other 1`] = 
     }
   }
   autoFocus={false}
+  enableValidationMessage={true}
   labelText="Label (optional)"
   onUpdate={[MockFunction]}
 >
@@ -255,11 +257,11 @@ exports[`MultipleChoiceAnswer other option and answer should render other 1`] = 
       </SplitButton>
     </div>
   </MultipleChoiceAnswer__AnswerWrapper>
-</Connect(withEntityEditor(StatelessBasicAnswer))>
+</withValidationError(Connect(withEntityEditor(StatelessBasicAnswer)))>
 `;
 
 exports[`MultipleChoiceAnswer should match snapshot 1`] = `
-<Connect(withEntityEditor(StatelessBasicAnswer))
+<withValidationError(Connect(withEntityEditor(StatelessBasicAnswer)))
   answer={
     Object {
       "id": "0",
@@ -274,6 +276,7 @@ exports[`MultipleChoiceAnswer should match snapshot 1`] = `
     }
   }
   autoFocus={false}
+  enableValidationMessage={true}
   labelText="Label (optional)"
   onUpdate={[MockFunction]}
 >
@@ -333,5 +336,5 @@ exports[`MultipleChoiceAnswer should match snapshot 1`] = `
       </SplitButton>
     </div>
   </MultipleChoiceAnswer__AnswerWrapper>
-</Connect(withEntityEditor(StatelessBasicAnswer))>
+</withValidationError(Connect(withEntityEditor(StatelessBasicAnswer)))>
 `;
