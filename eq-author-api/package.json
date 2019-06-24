@@ -23,7 +23,7 @@
     "cors": "latest",
     "deep-map": "^1.5",
     "dotenv": "latest",
-    "dynamoose": "onsdigital/dynamoose#bug-static-original-item",
+    "dynamoose": "latest",
     "express": "latest",
     "express-pino-logger": "latest",
     "firebase-admin": "latest",
