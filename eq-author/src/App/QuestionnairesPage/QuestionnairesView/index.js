@@ -2,6 +2,7 @@ import React, { useRef, useCallback } from "react";
 import PropTypes from "prop-types";
 import { propType } from "graphql-anywhere";
 import { isEmpty } from "lodash";
+import CustomPropTypes from "custom-prop-types";
 
 import NoResults from "./NoResults";
 import QuestionnairesTable from "./QuestionnairesTable";
@@ -20,6 +21,7 @@ const STORED_KEYS = [
   "currentSortColumn",
   "currentSortOrder",
   "searchTerm",
+  "hideUnowned",
 ];
 
 const QuestionnairesView = ({
@@ -27,6 +29,7 @@ const QuestionnairesView = ({
   onDeleteQuestionnaire,
   onDuplicateQuestionnaire,
   onCreateQuestionnaire,
+  currentUser,
 }) => {
   const questionnairesRef = useRef(questionnaires);
 
@@ -39,8 +42,9 @@ const QuestionnairesView = ({
       currentSortColumn: "createdAt",
       currentSortOrder: SORT_ORDER.DESCENDING,
       searchTerm: "",
+      hideUnowned: true,
     },
-    buildInitialState(questionnairesRef.current)
+    buildInitialState(questionnairesRef.current, currentUser)
   );
 
   if (questionnaires !== questionnairesRef.current) {
@@ -77,6 +81,16 @@ const QuestionnairesView = ({
     });
   };
 
+  const onToggleHideUnowned = currentUser => hideUnowned =>
+    dispatch({
+      type: ACTIONS.TOGGLE_HIDE_UNOWNED,
+      payload: { hideUnowned, currentUser },
+    });
+
+  if (isEmpty(state.apiQuestionnaires)) {
+    return <NoResults onCreateQuestionnaire={onCreateQuestionnaire} />;
+  }
+
   const onSearchChange = useCallback(
     searchTerm => dispatch({ type: ACTIONS.SEARCH, payload: searchTerm }),
     [dispatch]
@@ -92,9 +106,14 @@ const QuestionnairesView = ({
         onCreateQuestionnaire={onCreateQuestionnaire}
         onSearchChange={onSearchChange}
         searchTerm={state.searchTerm}
+        hideUnowned={state.hideUnowned}
+        onToggleHideUnowned={onToggleHideUnowned(currentUser)}
       />
       {isEmpty(state.questionnaires) ? (
-        <NoResultsFiltered searchTerm={state.searchTerm} />
+        <NoResultsFiltered
+          searchTerm={state.searchTerm}
+          hideUnowned={state.hideUnowned}
+        />
       ) : (
         <QuestionnairesTable
           questionnaires={state.currentPage}
@@ -128,6 +147,7 @@ QuestionnairesView.propTypes = {
   onCreateQuestionnaire: PropTypes.func.isRequired,
   onDeleteQuestionnaire: PropTypes.func.isRequired,
   onDuplicateQuestionnaire: PropTypes.func.isRequired,
+  currentUser: CustomPropTypes.user.isRequired,
 };
 
 export default QuestionnairesView;
