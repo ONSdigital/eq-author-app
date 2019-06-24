@@ -43,7 +43,7 @@
     "lodash": "latest",
     "node-jose": "latest",
     "pino-noir": "latest",
-    "prom-client": "^11.3.0",
+    "prom-client": "^11.5.2",
     "uuid": "latest",
     "wait-on": "latest"
   },
