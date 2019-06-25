@@ -39,7 +39,8 @@ exports[`MultipleChoiceAnswer exclusive options should render exclusive 1`] = `
         key="0"
         timeout={200}
       >
-        <Connect(withEntityEditor(StatelessOption))
+        <withValidationError(Connect(withEntityEditor(StatelessOption)))
+          enableValidationMessage={true}
           hasDeleteButton={false}
           onAddExclusive={[MockFunction]}
           onAddOption={[MockFunction]}
@@ -74,7 +75,8 @@ exports[`MultipleChoiceAnswer exclusive options should render exclusive 1`] = `
           <MultipleChoiceAnswer__ExclusiveOr>
             Or
           </MultipleChoiceAnswer__ExclusiveOr>
-          <Connect(withEntityEditor(StatelessOption))
+          <withValidationError(Connect(withEntityEditor(StatelessOption)))
+            enableValidationMessage={true}
             hasDeleteButton={true}
             onAddExclusive={[MockFunction]}
             onAddOption={[MockFunction]}
@@ -183,7 +185,8 @@ exports[`MultipleChoiceAnswer other option and answer should render other 1`] = 
         key="0"
         timeout={200}
       >
-        <Connect(withEntityEditor(StatelessOption))
+        <withValidationError(Connect(withEntityEditor(StatelessOption)))
+          enableValidationMessage={true}
           hasDeleteButton={true}
           onAddExclusive={[MockFunction]}
           onAddOption={[MockFunction]}
@@ -212,7 +215,8 @@ exports[`MultipleChoiceAnswer other option and answer should render other 1`] = 
         key="1"
         timeout={200}
       >
-        <Connect(withEntityEditor(StatelessOption))
+        <withValidationError(Connect(withEntityEditor(StatelessOption)))
+          enableValidationMessage={true}
           hasDeleteButton={true}
           onAddExclusive={[MockFunction]}
           onAddOption={[MockFunction]}
@@ -290,7 +294,8 @@ exports[`MultipleChoiceAnswer should match snapshot 1`] = `
         key="1"
         timeout={200}
       >
-        <Connect(withEntityEditor(StatelessOption))
+        <withValidationError(Connect(withEntityEditor(StatelessOption)))
+          enableValidationMessage={true}
           hasDeleteButton={false}
           onAddExclusive={[MockFunction]}
           onAddOption={[MockFunction]}

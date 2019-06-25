@@ -23,6 +23,7 @@ describe("enhancers > withUpdateOption", () => {
     it("should call mutate", () => {
       props.onUpdateOption(option);
       expect(mutate).toHaveBeenCalledWith({
+        refetchQueries: ["GetPage"],
         variables: { input: { id: "1", additionalAnswer: { id: "2" } } },
       });
     });

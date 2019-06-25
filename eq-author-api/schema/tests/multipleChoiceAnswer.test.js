@@ -66,7 +66,7 @@ describe("multiple choice answer", () => {
       expect(createdAnswer.options[0]).toMatchObject({
         id: expect.any(String),
         displayName: "Untitled Label",
-        label: null,
+        label: "",
         description: null,
         value: null,
         qCode: null,
@@ -97,7 +97,7 @@ describe("multiple choice answer", () => {
       expect(createdAnswer.options[0]).toMatchObject({
         id: expect.any(String),
         displayName: "Untitled Label",
-        label: null,
+        label: "",
         description: null,
         value: null,
         qCode: null,

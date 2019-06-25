@@ -2,8 +2,9 @@ const Ajv = require("ajv");
 const schemas = require("./schemas");
 const { get } = require("lodash");
 
-const ajv = new Ajv({ allErrors: true, jsonPointers: false });
+const ajv = new Ajv({ allErrors: true, jsonPointers: true, $data: true });
 require("ajv-errors")(ajv);
+require("./customKeywords/uniquePropertyValueInArrayOfObjects")(ajv);
 
 const validate = ajv.addSchema(schemas.slice(1)).compile(schemas[0]);
 
@@ -17,8 +18,13 @@ module.exports = questionnaire => {
   validate(questionnaire);
 
   if (validate.errors) {
-    validate.errors.forEach(error => {
+    const errorMessages = validate.errors.filter(
+      err => err.keyword === "errorMessage"
+    );
+
+    errorMessages.forEach(error => {
       const dataPath = error.dataPath.split("/");
+
       const fieldname = dataPath.pop();
 
       const objectType = dataPath[dataPath.length - 2];

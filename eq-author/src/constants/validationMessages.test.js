@@ -4,8 +4,9 @@ describe("constants/validationMessages", () => {
   let label = "Field Label";
 
   it("should return validation message with correct label", () => {
-    const validationMessage = VALIDATION_MESSAGES.ERR_VALID_REQUIRED({ label });
-
-    expect(validationMessage).toEqual(expect.stringMatching(label));
+    Object.values(VALIDATION_MESSAGES).forEach(messageTemplate => {
+      const validationMessage = messageTemplate({ label });
+      expect(validationMessage).toEqual(expect.stringMatching(label));
+    });
   });
 });

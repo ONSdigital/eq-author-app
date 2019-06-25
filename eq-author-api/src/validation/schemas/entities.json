@@ -34,10 +34,16 @@
       "required": ["id", "title"]
     },
     "answer": {
-      "type": "object",
-      "properties": {
-        "id": { "type": "string" }
-      },
+      "oneOf": [
+        {
+          "$ref": "entities.json#/definitions/basicAnswer"
+        },
+        {
+          "$ref": "entities.json#/definitions/multipleChoiceAnswer"
+        }
+      ]
+    },
+    "basicAnswer": {
       "if": {
         "properties": {
           "type": {
@@ -52,10 +58,53 @@
         }
       },
       "then": {
+        "type": "object",
         "properties": {
+          "id": { "type": "string" },
           "label": {
             "$ref": "definitions.json#/definitions/populatedString"
           }
+        },
+        "required": ["id", "label"]
+      },
+      "else": false
+    },
+    "multipleChoiceAnswer": {
+      "if": {
+        "properties": {
+          "type": {
+            "enum": ["Checkbox", "Radio"]
+          }
+        }
+      },
+      "then": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "options": {
+            "type": "array",
+            "items": {
+              "allOf": [
+                {
+                  "$ref": "entities.json#/definitions/option"
+                },
+                {
+                  "uniquePropertyValueInArrayOfObjects": "label"
+                }
+              ]
+            }
+          }
+        },
+        "required": ["id", "options"]
+      },
+      "else": false
+    },
+    "option": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "label": {
+          "$ref": "definitions.json#/definitions/populatedString"
         }
       },
       "required": ["id", "label"]
