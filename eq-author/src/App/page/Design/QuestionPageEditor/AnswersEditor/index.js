@@ -1,12 +1,17 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { propType } from "graphql-anywhere";
+import styled from "styled-components";
 
 import Reorder from "components/Reorder";
 
 import withMoveAnswer from "./withMoveAnswer";
 import AnswerTransition from "./AnswerTransition";
 import AnswerEditor from "./AnswerEditor";
+
+const Margin = styled.div`
+  margin-top: 3em;
+`;
 
 export const AnswersEditor = ({
   answers,
@@ -19,20 +24,22 @@ export const AnswersEditor = ({
   moveAnswer,
 }) => {
   return (
-    <Reorder list={answers} onMove={moveAnswer} Transition={AnswerTransition}>
-      {(props, answer) => (
-        <AnswerEditor
-          {...props}
-          answer={answer}
-          onUpdate={onUpdate}
-          onAddOption={onAddOption}
-          onAddExclusive={onAddExclusive}
-          onUpdateOption={onUpdateOption}
-          onDeleteOption={onDeleteOption}
-          onDeleteAnswer={onDeleteAnswer}
-        />
-      )}
-    </Reorder>
+    <Margin>
+      <Reorder list={answers} onMove={moveAnswer} Transition={AnswerTransition}>
+        {(props, answer) => (
+          <AnswerEditor
+            {...props}
+            answer={answer}
+            onUpdate={onUpdate}
+            onAddOption={onAddOption}
+            onAddExclusive={onAddExclusive}
+            onUpdateOption={onUpdateOption}
+            onDeleteOption={onDeleteOption}
+            onDeleteAnswer={onDeleteAnswer}
+          />
+        )}
+      </Reorder>
+    </Margin>
   );
 };
 
