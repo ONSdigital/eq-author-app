@@ -1,7 +1,9 @@
 import React from "react";
 import { shallow, mount } from "enzyme";
 import { act } from "react-dom/test-utils";
+import { TransitionGroup, CSSTransition } from "react-transition-group";
 import styled from "styled-components";
+
 import TestProvider from "tests/utils/TestProvider";
 
 import Reorder, { Segment } from "./";
@@ -11,9 +13,9 @@ describe("Reorder", () => {
 
   let props;
 
-  const MockTransition = styled.div`
-    position: relative;
-  `;
+  const MockTransition = styled(CSSTransition).attrs({
+    classNames: "mock",
+  });
 
   beforeEach(() => {
     props = {
@@ -194,22 +196,13 @@ describe("Reorder", () => {
 
   it("should render as reactFragment if no transition passed", () => {
     const wrapper = shallow(<Reorder {...props} />);
-    expect(wrapper.find("Fragment > Reorder__Segment")).toHaveLength(
-      props.list.length
-    );
+    expect(wrapper.find("Fragment")).toHaveLength(1);
+    expect(wrapper.find(TransitionGroup)).toHaveLength(0);
   });
 
-  it("should render with Transition is transition passed", () => {
-    const transitionProps = {
-      ...props,
-      Transition: MockTransition,
-    };
-    const wrapper = shallow(<Reorder {...transitionProps} />);
-
-    expect(wrapper.dive().find("Fragment > Reorder__Segment")).toHaveLength(0);
-
-    expect(
-      wrapper.dive().find("TransitionGroup > indextest__MockTransition")
-    ).toHaveLength(props.list.length);
+  it("should render with TransitionGroup when a transition passed", () => {
+    const wrapper = shallow(<Reorder Transition={MockTransition} {...props} />);
+    expect(wrapper.find("Fragment")).toHaveLength(0);
+    expect(wrapper.find(TransitionGroup)).toHaveLength(1);
   });
 });
