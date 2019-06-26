@@ -8,7 +8,13 @@ import { Answer } from "./";
 describe("Answers", () => {
   it("should render a component for each answer type", () => {
     Object.values(AnswerTypes).forEach(type => {
-      if ([AnswerTypes.DATE, AnswerTypes.DATE_RANGE].includes(type)) {
+      if (
+        [
+          AnswerTypes.DATE,
+          AnswerTypes.DATE_RANGE,
+          AnswerTypes.DURATION,
+        ].includes(type)
+      ) {
         return;
       }
 

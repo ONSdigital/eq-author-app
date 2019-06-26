@@ -94,7 +94,44 @@ describe("basic answer", () => {
     });
   });
 
-  describe("group update", () => {
+  describe("grouped answers", () => {
+    it("should be created with the same properties as other answers in the group", async () => {
+      const properties = {
+        decimals: 20,
+      };
+      ctx = await buildContext({
+        sections: [
+          {
+            pages: [
+              {
+                answers: [
+                  {
+                    type: NUMBER,
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      });
+      questionnaire = ctx.questionnaire;
+      const page = questionnaire.sections[0].pages[0];
+      await updateAnswersOfType(ctx, {
+        questionPageId: page.id,
+        type: NUMBER,
+        properties,
+      });
+
+      const answer = await createAnswer(ctx, {
+        type: NUMBER,
+        questionPageId: questionnaire.sections[0].pages[0].id,
+      });
+
+      const queriedAnswer = await queryAnswer(ctx, answer.id);
+
+      expect(queriedAnswer.properties).toMatchObject(properties);
+    });
+
     it("should update the properties of a number of answers", async () => {
       ctx = await buildContext({
         sections: [
