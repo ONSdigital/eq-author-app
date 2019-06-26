@@ -214,12 +214,14 @@ describe("Datastore dynamo", () => {
             prop1: "prop1",
             metadata: [],
             sections: [],
+            editors: [],
             updatedAt: new RealDate("2012-01-01T10:00:00Z"),
             [originalKey]: {
               updatedAt: new RealDate("2012-01-01T10:00:00Z"),
               id: "someId",
               metadata: [],
               sections: [],
+              editors: [],
             },
           },
           {
@@ -227,6 +229,7 @@ describe("Datastore dynamo", () => {
             prop2: "prop2",
             metadata: [],
             sections: [],
+            editors: [],
             updatedAt: new RealDate("2012-01-01T11:00:00Z"),
           }
         );
@@ -237,6 +240,7 @@ describe("Datastore dynamo", () => {
           prop2: "prop2",
           metadata: [],
           sections: [],
+          editors: [],
           updatedAt: new RealDate(dateString),
         });
       });

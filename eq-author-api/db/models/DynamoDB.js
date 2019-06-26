@@ -50,6 +50,9 @@ const baseQuestionnaireSchema = {
   introduction: {
     type: Object,
   },
+  editors: {
+    type: Array,
+  },
 };
 
 const questionnanaireSchema = new dynamoose.Schema(

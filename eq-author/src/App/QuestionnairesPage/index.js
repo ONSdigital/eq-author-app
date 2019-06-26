@@ -28,12 +28,6 @@ const QUESTIONNAIRES_QUERY = gql`
     questionnaires {
       ...QuestionnaireDetails
     }
-    me {
-      id
-      name
-      email
-      picture
-    }
   }
   ${QuestionnairesTable.fragments.QuestionnaireDetails}
 `;
@@ -53,7 +47,6 @@ export class UnconnectedQuestionnairesPage extends React.PureComponent {
     return (
       <QuestionnairesView
         questionnaires={data.questionnaires}
-        currentUser={data.me}
         onDeleteQuestionnaire={this.props.onDeleteQuestionnaire}
         onDuplicateQuestionnaire={this.props.onDuplicateQuestionnaire}
         onCreateQuestionnaire={this.props.onCreateQuestionnaire}
@@ -68,7 +61,7 @@ export class UnconnectedQuestionnairesPage extends React.PureComponent {
       <Titled title={this.renderTitle}>
         <BaseLayout title={"Your Questionnaires"}>
           <ScrollPane permanentScrollBar>
-            <MainCanvas>
+            <MainCanvas maxWidth="70em">
               <Query
                 fetchPolicy="cache-and-network"
                 query={QUESTIONNAIRES_QUERY}

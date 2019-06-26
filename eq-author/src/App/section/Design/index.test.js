@@ -1,15 +1,18 @@
 import React from "react";
 import { mount } from "enzyme";
-import SectionRoute, { UnwrappedSectionRoute, SECTION_QUERY } from "./";
+import PropTypes from "prop-types";
 
 import TestProvider from "tests/utils/TestProvider";
 import { buildSectionPath } from "utils/UrlUtils";
 import flushPromises from "tests/utils/flushPromises";
 import createRouterContext from "react-router-test-context";
-import PropTypes from "prop-types";
 import { byTestAttr } from "tests/utils/selectors";
 
 import GET_QUESTIONNAIRE_QUERY from "graphql/getQuestionnaire.graphql";
+
+import { WRITE } from "constants/questionnaire-permissions";
+
+import SectionRoute, { UnwrappedSectionRoute, SECTION_QUERY } from "./";
 
 const questionnaireId = "1";
 const sectionId = "2";
@@ -36,6 +39,15 @@ const moveSectionMock = {
         summary: "",
         displayName: "Display name",
         shortTitle: "Short tile",
+        permission: WRITE,
+        createdBy: {
+          id: "1",
+          name: "Some user",
+          email: "some@user.com",
+          picture: "some.jpg",
+          __typename: "User",
+        },
+        editors: [],
         __typename: "Questionnaire",
         sections: [
           {

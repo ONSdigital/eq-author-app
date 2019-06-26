@@ -61,29 +61,29 @@ const FilterButton = styled.label`
     `}
 `;
 
-const AccessFilter = ({ hideUnowned, handleToggleHideUnowned }) => {
+const AccessFilter = ({ isFiltered, onToggleFilter }) => {
   return (
     <Fieldset role="group">
       <Buttons>
-        <FilterButton checked={!hideUnowned}>
+        <FilterButton checked={!isFiltered}>
           All
           <VisuallyHidden>
             <input
               type="radio"
               name="filter"
-              onChange={() => handleToggleHideUnowned(false)}
-              checked={!hideUnowned}
+              onChange={() => onToggleFilter(false)}
+              checked={!isFiltered}
             />
           </VisuallyHidden>
         </FilterButton>
-        <FilterButton checked={hideUnowned}>
-          Owner
+        <FilterButton checked={isFiltered}>
+          Editor
           <VisuallyHidden>
             <input
               type="radio"
               name="filter"
-              onChange={() => handleToggleHideUnowned(true)}
-              checked={hideUnowned}
+              onChange={() => onToggleFilter(true)}
+              checked={isFiltered}
             />
           </VisuallyHidden>
         </FilterButton>
@@ -93,8 +93,8 @@ const AccessFilter = ({ hideUnowned, handleToggleHideUnowned }) => {
 };
 
 AccessFilter.propTypes = {
-  handleToggleHideUnowned: PropTypes.func.isRequired,
-  hideUnowned: PropTypes.bool.isRequired,
+  onToggleFilter: PropTypes.func.isRequired,
+  isFiltered: PropTypes.bool.isRequired,
 };
 
 export default AccessFilter;

@@ -29,7 +29,7 @@ const createApp = () => {
   let extensions = [];
   if (process.env.ENABLE_OPENTRACING === "true") {
     const OpentracingExtension = require("apollo-opentracing").default;
-    const { localTracer, serverTracer } = require("./tracer")(logger);
+    const { localTracer, serverTracer } = require("./tracer").tracer(logger);
     extensions = [
       () =>
         new OpentracingExtension({

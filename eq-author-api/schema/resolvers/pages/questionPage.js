@@ -3,14 +3,12 @@ const { getName } = require("../../../utils/getName");
 const uuid = require("uuid");
 
 const { getPageById, getSectionByPageId } = require("../utils");
+const { withWritePermission } = require("../withWritePermission");
 
 const {
   ROUTING_ANSWER_TYPES,
 } = require("../../../constants/routingAnswerTypes");
 const getPreviousAnswersForPage = require("../../../src/businessLogic/getPreviousAnswersForPage");
-
-const { saveQuestionnaire } = require("../../../utils/datastore");
-const validateQuestionnaire = require("../../../src/validation");
 
 const Resolvers = {};
 
@@ -86,31 +84,23 @@ Resolvers.QuestionPage = {
 };
 
 Resolvers.Mutation = {
-  createQuestionPage: async (
-    root,
-    { input: { position, ...pageInput } },
-    ctx
-  ) => {
-    const section = find(ctx.questionnaire.sections, {
-      id: pageInput.sectionId,
-    });
-    const page = createQuestionPage(pageInput);
-    const insertionPosition =
-      typeof position === "number" ? position : section.pages.length;
-    section.pages.splice(insertionPosition, 0, page);
-    await saveQuestionnaire(ctx.questionnaire);
-
-    ctx.validationErrorInfo = validateQuestionnaire(ctx.questionnaire);
-    return page;
-  },
-  updateQuestionPage: async (_, { input }, ctx) => {
+  createQuestionPage: withWritePermission(
+    (root, { input: { position, ...pageInput } }, ctx) => {
+      const section = find(ctx.questionnaire.sections, {
+        id: pageInput.sectionId,
+      });
+      const page = createQuestionPage(pageInput);
+      const insertionPosition =
+        typeof position === "number" ? position : section.pages.length;
+      section.pages.splice(insertionPosition, 0, page);
+      return page;
+    }
+  ),
+  updateQuestionPage: withWritePermission((_, { input }, ctx) => {
     const page = getPageById(ctx, input.id);
     merge(page, input);
-    await saveQuestionnaire(ctx.questionnaire);
-
-    ctx.validationErrorInfo = validateQuestionnaire(ctx.questionnaire);
     return page;
-  },
+  }),
 };
 
 module.exports = { Resolvers, createQuestionPage };
