@@ -137,7 +137,7 @@ describe("SectionRoute", () => {
     childContextTypes = { router: PropTypes.object };
 
     match = {
-      params: { questionnaireId: questionnaireId, sectionId },
+      params: { questionnaireId, sectionId },
     };
 
     store = {

@@ -57,7 +57,7 @@ exports[`components/Button renders according to variant 1`] = `
 
 .c0:hover {
   --color-text: #FFFFFF;
-  --color-bg: #5F7682;
+  --color-bg: #3B7A9E;
   border-color: var(--color-bg);
 }
 
@@ -125,7 +125,7 @@ exports[`components/Button renders according to variant 2`] = `
 
 .c0:hover {
   --color-text: #FFFFFF;
-  --color-bg: #5F7682;
+  --color-bg: #3B7A9E;
   border-color: var(--color-bg);
 }
 
@@ -334,7 +334,7 @@ exports[`components/Button renders as disabled 1`] = `
 
 .c0:hover {
   --color-text: #FFFFFF;
-  --color-bg: #5F7682;
+  --color-bg: #3B7A9E;
   border-color: var(--color-bg);
 }
 

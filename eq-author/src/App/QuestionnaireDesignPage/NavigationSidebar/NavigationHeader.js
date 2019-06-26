@@ -1,11 +1,9 @@
-import React, { Fragment } from "react";
+import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import { withRouter } from "react-router-dom";
 
 import CustomPropTypes from "custom-prop-types";
 import HomeIcon from "./icon-home.svg?inline";
-import SettingsIcon from "./icon-cog.svg?inline";
 import MetadataIcon from "./icon-metadata.svg?inline";
 
 import QuestionnaireSettingsModal from "App/QuestionnaireSettingsModal";
@@ -15,12 +13,10 @@ import RouteButton from "components/buttons/Button/RouteButton";
 import IconText from "components/IconText";
 import gql from "graphql-tag";
 
-import pipeP from "utils/pipeP";
 import AddMenu from "./AddMenu";
 
 const IconList = styled.ul`
   display: flex;
-  justify-content: space-between;
   align-items: center;
   padding: 0;
   margin: 0;
@@ -31,27 +27,39 @@ const IconList = styled.ul`
 const IconListItem = styled.li`
   display: flex;
   align-items: center;
+  margin-right: 1em;
 `;
 
 const HomeIconLink = styled(HomeIcon)`
   vertical-align: middle;
 `;
 
-const NavigationHeaderRow = styled.div`
-  border-bottom: 1px solid #c3c3c3;
+const StyledAddMenu = styled(AddMenu)`
+  margin-left: auto;
+`;
+
+const NavTitle = styled.div`
+  font-size: 0.8em;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-weight: bold;
+`;
+
+const QuestionnaireLinks = styled.div`
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
   padding: 0.5em;
+`;
+
+const QuestionnaireContent = styled.div`
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.5em 1em;
   display: flex;
   flex-direction: row;
   align-items: center;
 `;
 
-const StyledAddMenu = styled(AddMenu)`
-  margin-left: auto;
-`;
-
 export class NavigationHeader extends React.Component {
   static propTypes = {
-    onUpdateQuestionnaire: PropTypes.func.isRequired,
     canAddQuestionPage: PropTypes.bool.isRequired,
     onAddQuestionPage: PropTypes.func.isRequired,
     onAddSection: PropTypes.func.isRequired,
@@ -60,15 +68,9 @@ export class NavigationHeader extends React.Component {
     onAddCalculatedSummaryPage: PropTypes.func.isRequired,
     canAddQuestionConfirmation: PropTypes.bool.isRequired,
     onAddQuestionConfirmation: PropTypes.func.isRequired,
-    match: PropTypes.shape({
-      params: PropTypes.shape({
-        modifier: PropTypes.string,
-      }).isRequired,
-    }).isRequired,
   };
 
   state = {
-    isSettingsModalOpen: this.props.match.params.modifier === "settings",
     isMetadataModalOpen: false,
     addMenuOpen: false,
   };
@@ -107,17 +109,15 @@ export class NavigationHeader extends React.Component {
   };
 
   render() {
-    const { questionnaire, onUpdateQuestionnaire } = this.props;
+    const { questionnaire } = this.props;
 
     return (
-      <Fragment>
-        <NavigationHeaderRow>
+      <>
+        <QuestionnaireLinks>
           <IconList>
             <IconListItem>
               <RouteButton variant="tertiary-light" small to="/">
-                <IconText icon={HomeIconLink} hideText>
-                  Home
-                </IconText>
+                <IconText icon={HomeIconLink}>Home</IconText>
               </RouteButton>
             </IconListItem>
             <IconListItem>
@@ -131,36 +131,15 @@ export class NavigationHeader extends React.Component {
                 <IconText icon={MetadataIcon}>Metadata</IconText>
               </Button>
             </IconListItem>
-            <IconListItem>
-              <Button
-                data-test="settings-btn"
-                variant="tertiary-light"
-                small
-                onClick={this.handleSettingsModalOpen}
-                highlightOnHover={false}
-              >
-                <IconText icon={SettingsIcon}>Settings</IconText>
-              </Button>
-              <MetadataModal
-                isOpen={this.state.isMetadataModalOpen}
-                onClose={this.handleMetadataModalClose}
-                questionnaireId={questionnaire.id}
-              />
-              <QuestionnaireSettingsModal
-                isOpen={this.state.isSettingsModalOpen}
-                onClose={this.handleSettingsModalClose}
-                questionnaire={questionnaire}
-                onSubmit={pipeP(
-                  onUpdateQuestionnaire,
-                  this.handleSettingsModalClose
-                )}
-                confirmText="Apply"
-                canEditType={false}
-              />
-            </IconListItem>
           </IconList>
-        </NavigationHeaderRow>
-        <NavigationHeaderRow>
+          <MetadataModal
+            isOpen={this.state.isMetadataModalOpen}
+            onClose={this.handleMetadataModalClose}
+            questionnaireId={questionnaire.id}
+          />
+        </QuestionnaireLinks>
+        <QuestionnaireContent>
+          <NavTitle>Questionnaire content</NavTitle>
           <StyledAddMenu
             addMenuOpen={this.state.addMenuOpen}
             onAddMenuToggle={this.handleAddMenuToggle}
@@ -173,8 +152,8 @@ export class NavigationHeader extends React.Component {
             canAddQuestionConfirmation={this.props.canAddQuestionConfirmation}
             data-test="add-menu"
           />
-        </NavigationHeaderRow>
-      </Fragment>
+        </QuestionnaireContent>
+      </>
     );
   }
 }
@@ -189,4 +168,4 @@ NavigationHeader.fragments = {
   `,
 };
 
-export default withRouter(NavigationHeader);
+export default NavigationHeader;

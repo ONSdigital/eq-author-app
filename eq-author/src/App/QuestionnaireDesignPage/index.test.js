@@ -253,11 +253,11 @@ describe("QuestionnaireDesignPage", () => {
   describe("getTitle", () => {
     it("should display existing title if loading", () => {
       wrapper.setProps({ loading: true });
-      expect(wrapper.instance().getTitle("foo")).toMatchSnapshot();
+      expect(wrapper.instance().getTitle()).toEqual("");
     });
 
     it("should display questionnaire title if no longer loading", () => {
-      expect(wrapper.instance().getTitle("foo")).toMatchSnapshot();
+      expect(wrapper.instance().getTitle()).toEqual(questionnaire.title);
     });
   });
 

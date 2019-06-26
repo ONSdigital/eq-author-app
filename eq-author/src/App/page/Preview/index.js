@@ -6,6 +6,7 @@ import gql from "graphql-tag";
 import { propType } from "graphql-anywhere";
 
 import Loading from "components/Loading";
+import EditorLayout from "components/EditorLayout";
 
 import QuestionPageEditor from "App/page/Design/QuestionPageEditor";
 import CalculatedSummaryPageEditor from "App/page/Design/CalculatedSummaryPageEditor";
@@ -16,10 +17,15 @@ import CalculatedSummaryPreview from "./CalculatedSummaryPreview";
 export const UnwrappedPreviewPageRoute = props => {
   const { loading, data } = props;
   if (loading) {
-    return <Loading height="38rem">Preview loading…</Loading>;
+    return (
+      <EditorLayout>
+        <Loading height="38rem">Preview loading…</Loading>
+      </EditorLayout>
+    );
   }
 
   const { page } = data;
+
   if (page.pageType === "QuestionPage") {
     return <QuestionPagePreview page={page} />;
   }

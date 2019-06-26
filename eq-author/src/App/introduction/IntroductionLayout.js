@@ -1,9 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Titled } from "react-titled";
 import styled from "styled-components";
 
-import EditorLayout from "App/page/Design/EditorLayout";
+import EditorLayout from "components/EditorLayout";
 
 const Padding = styled.div`
   padding: 2em 0 0;
@@ -11,14 +10,10 @@ const Padding = styled.div`
   width: 100%;
 `;
 
-const setTitle = title => `Introduction — ${title}`;
-
 const IntroductionLayout = ({ children }) => (
-  <Titled title={setTitle}>
-    <EditorLayout preview>
-      <Padding>{children}</Padding>
-    </EditorLayout>
-  </Titled>
+  <EditorLayout preview title="Questionnaire Introduction">
+    <Padding>{children}</Padding>
+  </EditorLayout>
 );
 
 IntroductionLayout.propTypes = {

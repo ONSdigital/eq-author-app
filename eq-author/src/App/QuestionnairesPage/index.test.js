@@ -1,94 +1,82 @@
 import React from "react";
-import { UnconnectedQuestionnairesPage } from "App/QuestionnairesPage";
-import { shallow } from "enzyme";
 
-import { READ } from "constants/questionnaire-permissions";
+import { render, flushPromises } from "tests/utils/rtl";
+import { WRITE } from "constants/questionnaire-permissions";
 
-describe("components/QuestionnairesPage", () => {
-  const createWrapper = props =>
-    shallow(
-      <UnconnectedQuestionnairesPage
-        onDeleteQuestionnaire={jest.fn()}
-        onCreateQuestionnaire={jest.fn()}
-        onDuplicateQuestionnaire={jest.fn()}
-        {...props}
-      />
-    );
+import QuestionnairesPage, { QUESTIONNAIRES_QUERY } from "./";
+
+describe("QuestionnairesPage", () => {
+  afterEach(async () => {
+    // clear all running queries
+    await flushPromises();
+  });
 
   it("should not render table whilst data is loading", () => {
-    const wrapper = createWrapper({ loading: true });
-    expect(wrapper).toMatchSnapshot();
+    const { getByTestId } = render(<QuestionnairesPage />);
+    expect(getByTestId("loading")).toBeTruthy();
   });
 
-  it("should render loading message when loading", () => {
-    const instance = createWrapper().instance();
-    const renderResults = instance.renderResults({
-      loading: true,
-    });
-
-    expect(renderResults).toMatchSnapshot();
-  });
-
-  it("should render when there are no questionnaires", () => {
-    const wrapper = createWrapper({ questionnaires: [] });
-    expect(wrapper).toMatchSnapshot();
-  });
-
-  it("should render error message when there is an error", () => {
-    const instance = createWrapper().instance();
-    const renderResults = instance.renderResults({
-      error: true,
-    });
-
-    expect(renderResults).toMatchSnapshot();
-  });
-
-  it("should render table when there are questionnaires", () => {
-    const questionnaires = [
-      {
-        id: "1",
-        displayName: "Test questionnaire",
-        title: "Test questionnaire",
-        shortTitle: "Short title",
-        createdAt: "01/01/1970",
-        updatedAt: "02/01/1970",
-        createdBy: {
-          name: "Mike",
-          id: "1",
-          email: "mike@mail.com",
-          displayName: "Mike",
-        },
-        sections: [
-          {
-            id: "5",
-            pages: [{ id: "10" }],
+  it("should render error message when there is an error", async () => {
+    const { getByText } = render(<QuestionnairesPage />, {
+      mocks: [
+        {
+          request: {
+            query: QUESTIONNAIRES_QUERY,
           },
-        ],
-        permission: READ,
-      },
-    ];
-
-    const me = {
-      id: "1",
-      name: "Test",
-      email: "test@email.com",
-      displayName: "test",
-    };
-
-    const wrapper = createWrapper({ questionnaires });
-    const instance = wrapper.instance();
-    const renderResults = instance.renderResults({
-      data: { questionnaires, me },
+          result: {
+            error: {
+              message: "Something went wrong",
+            },
+          },
+        },
+      ],
     });
-
-    expect(wrapper).toMatchSnapshot();
-    expect(renderResults).toMatchSnapshot();
+    await flushPromises();
+    expect(getByText(/oops/i)).toBeTruthy();
   });
 
-  it("should correctly render title", () => {
-    const instance = createWrapper().instance();
-    const renderTitle = instance.renderTitle("FooBar");
+  it("should render the title", async () => {
+    const { getByText } = render(<QuestionnairesPage />);
+    expect(getByText(/your questionnaires/i)).toBeTruthy();
+    expect(document.title).toMatch(/your questionnaires/i);
+  });
 
-    expect(renderTitle).toMatchSnapshot();
+  it("should render the the questionnaires", async () => {
+    const { getByText } = render(<QuestionnairesPage />, {
+      mocks: [
+        {
+          request: {
+            query: QUESTIONNAIRES_QUERY,
+          },
+          result: {
+            data: {
+              questionnaires: [
+                {
+                  id: "123",
+                  title: "UKIS",
+                  shortTitle: null,
+                  updatedAt: Date.now().toString(),
+                  createdAt: Date.now().toString(),
+                  displayName: "UKIS",
+                  permission: WRITE,
+                  createdBy: {
+                    id: "1",
+                    name: "A Dude",
+                    email: "a.dude@gmail.com",
+                    displayName: "A Dude",
+                    __typename: "User",
+                  },
+                  __typename: "Questionnaire",
+                },
+              ],
+            },
+          },
+        },
+      ],
+    });
+
+    await flushPromises();
+
+    expect(getByText("UKIS")).toBeTruthy();
   });
 });

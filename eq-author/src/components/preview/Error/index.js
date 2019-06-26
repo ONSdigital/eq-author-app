@@ -15,9 +15,9 @@ const large = css`
 
 const Error = styled.div`
   padding: 0.5em;
-  border: 2px dashed #b5c4cb;
+  border: 2px dashed ${colors.previewError};
   text-align: left;
-  color: ${colors.secondary};
+  color: ${colors.previewError};
   font-size: 1em;
   font-weight: bold;
   margin-bottom: ${props => (props.margin ? "1em" : "0")};

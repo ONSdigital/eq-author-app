@@ -1,32 +1,24 @@
 import React from "react";
-import BaseLayout from "components/BaseLayout";
-import SignInForm from "App/SignInForm";
 import styled from "styled-components";
 import { get } from "lodash";
 import { connect } from "react-redux";
 import { Redirect } from "react-router";
 import PropTypes from "prop-types";
+
 import Panel from "components/Panel";
-import { Titled } from "react-titled";
+import Layout from "components/Layout";
 
 import { isSignedIn, verifiedAuthStatus } from "redux/auth/reducer";
 import { signInUser, verifyAuthStatus } from "redux/auth/actions";
 
-const Centered = styled.div`
-  margin: 0 auto;
-  text-align: center;
-`;
-
-const Title = styled.h1`
-  font-size: 1.5em;
-  margin: 2em 0 1.5em;
-`;
+import SignInForm from "./SignInForm";
 
 const Text = styled.p`
   margin-top: 0;
 `;
 
 const SignInPanel = styled(Panel)`
+  margin-top: 3em;
   padding: 2em 3em;
   display: flex;
   flex-direction: column;
@@ -81,17 +73,12 @@ export class UnconnectedSignInPage extends React.Component {
     }
 
     return (
-      <BaseLayout>
-        <Titled title={this.renderTitle}>
-          <Centered>
-            <Title>Sign in</Title>
-            <SignInPanel>
-              <Text>You must be signed in to access this service.</Text>
-              <SignInForm onSignIn={this.handleSignIn} />
-            </SignInPanel>
-          </Centered>
-        </Titled>
-      </BaseLayout>
+      <Layout title="Sign in">
+        <SignInPanel>
+          <Text>You must be signed in to access this service.</Text>
+          <SignInForm onSignIn={this.handleSignIn} />
+        </SignInPanel>
+      </Layout>
     );
   }
 }

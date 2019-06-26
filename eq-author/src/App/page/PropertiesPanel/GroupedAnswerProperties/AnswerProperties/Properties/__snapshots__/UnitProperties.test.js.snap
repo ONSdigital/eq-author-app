@@ -1,0 +1,131 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Required Property should render 1`] = `
+<withChangeHandler(Select__SimpleSelect)
+  data-test="unit-select"
+  onChange={[MockFunction]}
+  value="Centimeters"
+>
+  <optgroup
+    key="Length"
+    label="Length"
+  >
+    <option
+      key="Centimeters"
+      value="Centimeters"
+    >
+      (cm) Centimeters
+    </option>
+    <option
+      key="Meters"
+      value="Meters"
+    >
+      (m) Meters
+    </option>
+    <option
+      key="Kilometers"
+      value="Kilometers"
+    >
+      (km) Kilometers
+    </option>
+    <option
+      key="Miles"
+      value="Miles"
+    >
+      (mi) Miles
+    </option>
+  </optgroup>
+  <optgroup
+    key="Area"
+    label="Area"
+  >
+    <option
+      key="Square centimeters"
+      value="Square centimeters"
+    >
+      (cm²) Square centimeters
+    </option>
+    <option
+      key="Square meters"
+      value="Square meters"
+    >
+      (m²) Square meters
+    </option>
+    <option
+      key="Square kilometers"
+      value="Square kilometers"
+    >
+      (km²) Square kilometers
+    </option>
+    <option
+      key="Square miles"
+      value="Square miles"
+    >
+      (mi²) Square miles
+    </option>
+    <option
+      key="Acre"
+      value="Acre"
+    >
+      (ac) Acre
+    </option>
+    <option
+      key="Hectare"
+      value="Hectare"
+    >
+      (ha) Hectare
+    </option>
+  </optgroup>
+  <optgroup
+    key="Volume"
+    label="Volume"
+  >
+    <option
+      key="Cubic centimeters"
+      value="Cubic centimeters"
+    >
+      (cm³) Cubic centimeters
+    </option>
+    <option
+      key="Cubic meters"
+      value="Cubic meters"
+    >
+      (m³) Cubic meters
+    </option>
+    <option
+      key="Cubic kilometers"
+      value="Cubic kilometers"
+    >
+      (km³) Cubic kilometers
+    </option>
+  </optgroup>
+  <optgroup
+    key="Mass"
+    label="Mass"
+  >
+    <option
+      key="Tonnes"
+      value="Tonnes"
+    >
+      (t) Tonnes
+    </option>
+  </optgroup>
+  <optgroup
+    key="Energy"
+    label="Energy"
+  >
+    <option
+      key="Kilojoules"
+      value="Kilojoules"
+    >
+      (kJ) Kilojoules
+    </option>
+    <option
+      key="Kilowatt hour"
+      value="Kilowatt hour"
+    >
+      (kWh) Kilowatt hour
+    </option>
+  </optgroup>
+</withChangeHandler(Select__SimpleSelect)>
+`;

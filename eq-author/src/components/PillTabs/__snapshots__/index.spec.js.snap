@@ -60,7 +60,7 @@ exports[`PillTabs should render the button with title and applying the props 1`]
 }
 
 .c0:focus.c0:hover {
-  background: #5F7682;
+  background: #3B7A9E;
 }
 
 .c0[aria-selected="true"] {

@@ -6,7 +6,6 @@ import CustomPropTypes from "custom-prop-types";
 import PropTypes from "prop-types";
 import { get, flowRight, isFunction, isEmpty } from "lodash";
 import fp from "lodash/fp";
-import { Titled } from "react-titled";
 
 import SectionEditor from "App/section/Design/SectionEditor";
 import IconButtonDelete from "components/buttons/IconButtonDelete";
@@ -14,7 +13,7 @@ import { Toolbar, Buttons } from "App/page/Design/EditorToolbar";
 import IconMove from "App/page/Design/EditorToolbar/icon-move.svg?inline";
 import Button from "components/buttons/Button";
 import IconText from "components/IconText";
-import EditorLayout from "App/page/Design/EditorLayout";
+import EditorLayout from "components/EditorLayout";
 import DuplicateButton from "components/buttons/DuplicateButton";
 
 import withCreateQuestionPage from "enhancers/withCreateQuestionPage";
@@ -126,7 +125,7 @@ export class UnwrappedSectionRoute extends React.Component {
     }
 
     return (
-      <Titled title={this.getSectionTitle(section)}>
+      <>
         <Toolbar>
           <VisuallyHidden>
             <Label htmlFor="alias">Section short code (optional)</Label>
@@ -172,7 +171,7 @@ export class UnwrappedSectionRoute extends React.Component {
           {...this.props}
           section={section}
         />
-      </Titled>
+      </>
     );
   }
 
@@ -184,11 +183,10 @@ export class UnwrappedSectionRoute extends React.Component {
 
     return (
       <EditorLayout
-        section={section}
-        onUpdate={this.props.onUpdateSection}
         onAddQuestionPage={this.handleAddPage}
         data-test="section-route"
         preview={hasIntroductionContent}
+        title={section.displayName || ""}
       >
         {this.renderContent()}
       </EditorLayout>

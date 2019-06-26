@@ -14,7 +14,7 @@ const HorizontalGroup = css`
   flex-direction: row;
 
   > :not(:last-child) {
-    margin-right: 1em;
+    margin-right: ${props => (props.gutter ? props.gutter : "1em")};
   }
 `;
 

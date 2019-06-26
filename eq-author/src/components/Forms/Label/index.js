@@ -8,7 +8,7 @@ const StyledLabel = styled.label`
   margin-bottom: ${props => (props.inline ? "0" : "0.4em")};
   font-weight: ${props => (props.bold ? "bold" : "normal")};
   vertical-align: middle;
-  color: ${colors.darkGrey};
+  color: ${colors.text};
   line-height: 1.3;
 `;
 

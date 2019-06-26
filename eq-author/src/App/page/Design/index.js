@@ -3,22 +3,21 @@ import { withApollo, Query } from "react-apollo";
 import gql from "graphql-tag";
 import CustomPropTypes from "custom-prop-types";
 import PropTypes from "prop-types";
-import { get, flowRight } from "lodash";
-import { Titled } from "react-titled";
-
+import { get, flowRight, isEmpty } from "lodash";
+import { propType } from "graphql-anywhere";
 import { connect } from "react-redux";
+
 import { raiseToast } from "redux/toast/actions";
+
 import Loading from "components/Loading";
 import Error from "components/Error";
-
-import EditorLayout from "App/page/Design/EditorLayout";
-
-import { propType } from "graphql-anywhere";
+import EditorLayout from "components/EditorLayout";
 
 import withCreateQuestionPage from "enhancers/withCreateQuestionPage";
 
-import withFetchAnswers from "./withFetchAnswers";
+import PropertiesPanel from "../PropertiesPanel";
 
+import withFetchAnswers from "./withFetchAnswers";
 import QuestionPageEditor from "./QuestionPageEditor";
 import CalculatedSummaryPageEditor from "./CalculatedSummaryPageEditor";
 
@@ -27,8 +26,8 @@ const availableTabMatrix = {
   CalculatedSummaryPage: { design: true, preview: true },
 };
 
-const deriveAvailableTabs = (page, loading) =>
-  loading || !page ? {} : availableTabMatrix[page.pageType];
+const deriveAvailableTabs = page =>
+  isEmpty(page) ? {} : availableTabMatrix[page.pageType];
 
 export class UnwrappedPageRoute extends React.Component {
   static propTypes = {
@@ -73,34 +72,28 @@ export class UnwrappedPageRoute extends React.Component {
     this.props.onAddQuestionPage(page.section.id, page.position + 1);
   };
 
-  getPageTitle = page => title => {
-    const pageTitle = page.displayName;
-    return `${pageTitle} - ${title}`;
-  };
-
   renderContent = () => {
-    const { loading, error, page } = this.props;
+    const { loading, page } = this.props;
+
+    if (!isEmpty(page)) {
+      return this.renderPageType();
+    }
 
     if (loading) {
       return <Loading height="38rem">Page loading…</Loading>;
     }
 
-    if (error || !page) {
-      return <Error>Something went wrong</Error>;
-    }
-
-    return (
-      <Titled title={this.getPageTitle(page)}>{this.renderPageType()}</Titled>
-    );
+    return <Error>Something went wrong</Error>;
   };
 
   render() {
-    const { page, loading } = this.props;
+    const { page } = this.props;
     return (
       <EditorLayout
         onAddQuestionPage={this.handleAddPage}
-        page={page}
-        {...deriveAvailableTabs(page, loading)}
+        renderPanel={() => <PropertiesPanel page={page} />}
+        title={(page || {}).displayName || ""}
+        {...deriveAvailableTabs(page)}
       >
         {this.renderContent()}
       </EditorLayout>

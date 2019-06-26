@@ -1,6 +1,5 @@
 import React from "react";
 import { shallow } from "enzyme";
-import QuestionnaireSettingsModal from "App/QuestionnaireSettingsModal";
 import MetadataModal from "App/MetadataModal";
 import { NavigationHeader } from "./NavigationHeader";
 
@@ -30,16 +29,6 @@ describe("NavigationHeader", () => {
     expect(createWrapper()).toMatchSnapshot();
   });
 
-  it("allows settings Modals to be open and closed", () => {
-    const wrapper = createWrapper();
-
-    wrapper.find(`[data-test="settings-btn"]`).simulate("click");
-    expect(wrapper.find(QuestionnaireSettingsModal).prop("isOpen")).toBe(true);
-
-    wrapper.find(QuestionnaireSettingsModal).simulate("close");
-    expect(wrapper.find(QuestionnaireSettingsModal).prop("isOpen")).toBe(false);
-  });
-
   it("allows metadata Modals to be open and closed", () => {
     const wrapper = createWrapper();
 
@@ -48,15 +37,6 @@ describe("NavigationHeader", () => {
 
     wrapper.find(MetadataModal).simulate("close");
     expect(wrapper.find(MetadataModal).prop("isOpen")).toBe(false);
-  });
-
-  it("updates questionnaire after submission", () => {
-    const onUpdateQuestionnaire = jest.fn();
-    const wrapper = createWrapper({ onUpdateQuestionnaire });
-
-    wrapper.find(QuestionnaireSettingsModal).simulate("submit");
-
-    expect(onUpdateQuestionnaire).toHaveBeenCalled();
   });
 
   it("should allow a page to be added", () => {
@@ -84,12 +64,5 @@ describe("NavigationHeader", () => {
     wrapper.find('[data-test="add-menu"]').simulate("addQuestionConfirmation");
 
     expect(mockHandlers.onAddQuestionConfirmation).toHaveBeenCalled();
-  });
-
-  it("should show the settings modal when initially rendered with settings in the params", () => {
-    const wrapper = createWrapper({
-      match: { params: { modifier: "settings" } },
-    });
-    expect(wrapper.find(QuestionnaireSettingsModal).prop("isOpen")).toBe(true);
   });
 });

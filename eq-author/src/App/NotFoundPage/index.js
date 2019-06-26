@@ -1,11 +1,10 @@
 import React from "react";
-
-import BaseLayout from "components/BaseLayout";
-import { Grid, Column } from "components/Grid";
-import Link from "components/Link";
-import brokenPencil from "App/NotFoundPage/broken-pencil.min.svg";
 import styled from "styled-components";
-import { Titled } from "react-titled";
+
+import Link from "components/Link";
+import Layout from "components/Layout";
+
+import brokenPencil from "./broken-pencil.min.svg";
 
 const CenteredPane = styled.div`
   display: flex;
@@ -26,25 +25,17 @@ const Title = styled.h1`
   font-weight: 600;
 `;
 
-const getTitle = title => `Page not found - ${title}`;
-
 const NotFound = () => {
   return (
-    <BaseLayout>
-      <Titled title={getTitle}>
-        <Grid>
-          <Column cols={6} offset={3}>
-            <CenteredPane>
-              <Pencil />
-              <Title data-test="not-found-page-title">
-                404 – Sorry, the page you were looking for was not found.
-              </Title>
-              <Link href="/">Back to home</Link>
-            </CenteredPane>
-          </Column>
-        </Grid>
-      </Titled>
-    </BaseLayout>
+    <Layout title="Page not found">
+      <CenteredPane>
+        <Pencil />
+        <Title data-test="not-found-page-title">
+          404 – Sorry, the page you were looking for was not found.
+        </Title>
+        <Link href="/">Back to home</Link>
+      </CenteredPane>
+    </Layout>
   );
 };
 

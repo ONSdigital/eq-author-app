@@ -101,8 +101,8 @@ exports[`MultipleChoiceAnswer should render Input with radio and error 1`] = `
   left: 1em;
   border-radius: 100px;
   box-shadow: inset 0 0 0 3px #fff;
-  border-color: #b5c4cb !important;
-  background-color: #b5c4cb !important;
+  border-color: #999999 !important;
+  background-color: #999999 !important;
   box-shadow: none;
 }
 
@@ -143,8 +143,8 @@ exports[`MultipleChoiceAnswer should render OptionItem with error 1`] = `
   overflow: hidden;
   position: relative;
   margin-bottom: 0.25em;
-  border: 2px dashed #b5c4cb;
-  color: #5F7682;
+  border: 2px dashed #999999;
+  color: #3B7A9E;
   font-weight: bold;
 }
 

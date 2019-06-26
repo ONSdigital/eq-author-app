@@ -3,19 +3,19 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 import { colors } from "constants/theme";
-import ScrollPane from "components/ScrollPane";
 import { flowRight } from "lodash";
 import { withRouter } from "react-router";
 import gql from "graphql-tag";
 
-import withUpdateQuestionnaire from "./withUpdateQuestionnaire";
+import ScrollPane from "components/ScrollPane";
+import Logo from "components/Logo";
 
 import SectionNav from "./SectionNav";
 import NavigationHeader from "./NavigationHeader";
 import IntroductionNavItem from "./IntroductionNavItem";
 
 const Container = styled.div`
-  background: ${colors.darkBlue};
+  background: ${colors.black};
   color: ${colors.white};
   display: flex;
   flex-direction: column;
@@ -43,7 +43,6 @@ export class UnwrappedNavigationSidebar extends Component {
     onAddCalculatedSummaryPage: PropTypes.func.isRequired,
     onAddSection: PropTypes.func.isRequired,
     onAddQuestionConfirmation: PropTypes.func.isRequired,
-    onUpdateQuestionnaire: PropTypes.func.isRequired,
     loading: PropTypes.bool.isRequired,
     canAddQuestionConfirmation: PropTypes.bool.isRequired,
     canAddCalculatedSummaryPage: PropTypes.bool.isRequired,
@@ -57,7 +56,6 @@ export class UnwrappedNavigationSidebar extends Component {
   render() {
     const {
       questionnaire,
-      onUpdateQuestionnaire,
       onAddQuestionPage,
       onAddCalculatedSummaryPage,
       onAddQuestionConfirmation,
@@ -70,10 +68,10 @@ export class UnwrappedNavigationSidebar extends Component {
     return (
       <Container data-test="side-nav">
         {loading ? null : (
-          <React.Fragment>
+          <>
+            <Logo />
             <NavigationHeader
               questionnaire={questionnaire}
-              onUpdateQuestionnaire={onUpdateQuestionnaire}
               onAddSection={this.handleAddSection}
               onAddCalculatedSummaryPage={onAddCalculatedSummaryPage}
               canAddCalculatedSummaryPage={canAddCalculatedSummaryPage}
@@ -96,7 +94,7 @@ export class UnwrappedNavigationSidebar extends Component {
                 </li>
               </NavList>
             </NavigationScrollPane>
-          </React.Fragment>
+          </>
         )}
       </Container>
     );
@@ -118,7 +116,4 @@ UnwrappedNavigationSidebar.fragments = {
   `,
 };
 
-export default flowRight(
-  withRouter,
-  withUpdateQuestionnaire
-)(UnwrappedNavigationSidebar);
+export default flowRight(withRouter)(UnwrappedNavigationSidebar);

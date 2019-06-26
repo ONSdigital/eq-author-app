@@ -8,9 +8,9 @@ exports[`MainCanvas should render 1`] = `
   position: relative;
 }
 
-<div
+<main
   className="c0"
 >
   Children
-</div>
+</main>
 `;

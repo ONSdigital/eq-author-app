@@ -3,9 +3,9 @@
 exports[`Error should render 1`] = `
 .c0 {
   padding: 0.5em;
-  border: 2px dashed #b5c4cb;
+  border: 2px dashed #999999;
   text-align: left;
-  color: #5F7682;
+  color: #999999;
   font-size: 1em;
   font-weight: bold;
   margin-bottom: 1em;
@@ -19,9 +19,9 @@ exports[`Error should render 1`] = `
 exports[`Error should render as large 1`] = `
 .c0 {
   padding: 0.5em;
-  border: 2px dashed #b5c4cb;
+  border: 2px dashed #999999;
   text-align: left;
-  color: #5F7682;
+  color: #999999;
   font-size: 1em;
   font-weight: bold;
   margin-bottom: 1em;
@@ -36,9 +36,9 @@ exports[`Error should render as large 1`] = `
 exports[`Error should render as small 1`] = `
 .c0 {
   padding: 0.5em;
-  border: 2px dashed #b5c4cb;
+  border: 2px dashed #999999;
   text-align: left;
-  color: #5F7682;
+  color: #999999;
   font-size: 1em;
   font-weight: bold;
   margin-bottom: 1em;
@@ -55,9 +55,9 @@ exports[`Error should render as small 1`] = `
 exports[`Error should render with no margin 1`] = `
 .c0 {
   padding: 0.5em;
-  border: 2px dashed #b5c4cb;
+  border: 2px dashed #999999;
   text-align: left;
-  color: #5F7682;
+  color: #999999;
   font-size: 1em;
   font-weight: bold;
   margin-bottom: 0;
