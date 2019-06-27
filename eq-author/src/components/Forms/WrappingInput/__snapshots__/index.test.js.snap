@@ -82,12 +82,14 @@ exports[`WrappingInput should render 1`] = `
         onKeyDown={[Function]}
       >
         <WrappingInput__TextArea
+          aria-invalid="false"
           id="foo"
           onBlur={[MockFunction]}
           onChange={[Function]}
           value="123"
         >
           <TextareaAutosize
+            aria-invalid="false"
             className="c1"
             id="foo"
             inputRef={[Function]}
@@ -98,6 +100,7 @@ exports[`WrappingInput should render 1`] = `
             value="123"
           >
             <textarea
+              aria-invalid="false"
               className="c1"
               id="foo"
               onBlur={[MockFunction]}

@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import React from "react";
+import { isEmpty } from "lodash";
 
 import VALIDATION_MESSAGES from "constants/validationMessages";
 
@@ -23,7 +24,7 @@ const withValidationError = entityPropName => WrappedComponent => {
 
       const messages = validationErrorInfo && validationErrorInfo.errors;
 
-      if (!messages || messages.length === 0 || isNew) {
+      if (isEmpty(messages) || isNew) {
         return null;
       }
 

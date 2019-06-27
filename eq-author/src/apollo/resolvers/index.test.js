@@ -72,7 +72,7 @@ describe("resolvers", () => {
       expect(cacheData.newEntityList).toMatchObject(newUpdatePages);
     });
 
-    it("should initalise pages when creating a new section", () => {
+    it("should initialise pages when creating a new section", () => {
       const section = {
         createSection: {
           pages: [{ id: 7 }],

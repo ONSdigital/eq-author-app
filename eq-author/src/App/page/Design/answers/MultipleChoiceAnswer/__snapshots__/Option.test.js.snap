@@ -374,6 +374,7 @@ exports[`Option should render a checkbox 1`] = `
                             onKeyDown={[Function]}
                           >
                             <WrappingInput__TextArea
+                              aria-invalid="false"
                               data-autofocus={true}
                               data-test="option-label"
                               id="option-label-1"
@@ -385,6 +386,7 @@ exports[`Option should render a checkbox 1`] = `
                               value=""
                             >
                               <TextareaAutosize
+                                aria-invalid="false"
                                 className="c7"
                                 data-autofocus={true}
                                 data-test="option-label"
@@ -400,6 +402,7 @@ exports[`Option should render a checkbox 1`] = `
                                 value=""
                               >
                                 <textarea
+                                  aria-invalid="false"
                                   className="c7"
                                   data-autofocus={true}
                                   data-test="option-label"
@@ -489,6 +492,7 @@ exports[`Option should render a checkbox 1`] = `
                         onKeyDown={[Function]}
                       >
                         <WrappingInput__TextArea
+                          aria-invalid="false"
                           data-test="option-description"
                           id="option-description-1"
                           name="description"
@@ -498,6 +502,7 @@ exports[`Option should render a checkbox 1`] = `
                           value=""
                         >
                           <TextareaAutosize
+                            aria-invalid="false"
                             className="c7"
                             data-test="option-description"
                             id="option-description-1"
@@ -511,6 +516,7 @@ exports[`Option should render a checkbox 1`] = `
                             value=""
                           >
                             <textarea
+                              aria-invalid="false"
                               className="c7"
                               data-test="option-description"
                               id="option-description-1"

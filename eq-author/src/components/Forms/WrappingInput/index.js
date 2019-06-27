@@ -61,6 +61,7 @@ class WrappingInput extends React.Component {
           {...otherProps}
           placeholder={placeholder}
           invalid={errorValidationMsg}
+          aria-invalid={Boolean(errorValidationMsg).toString()}
         />
         {errorValidationMsg && <ErrorInline>{errorValidationMsg}</ErrorInline>}
       </StyleContext>
