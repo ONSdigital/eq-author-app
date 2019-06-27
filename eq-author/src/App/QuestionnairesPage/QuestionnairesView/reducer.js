@@ -1,4 +1,7 @@
 import { chunk, clamp, sortBy, reverse, get, flowRight } from "lodash";
+
+import { WRITE } from "constants/questionnaire-permissions";
+
 import { SORT_ORDER } from "./constants";
 
 const PAGE_SIZE = 16;
@@ -40,10 +43,10 @@ const filterQuestionnairesBySearch = state => questionnaires => {
 };
 
 const filterQuestionnairesByOwnership = state => questionnaires => {
-  if (!state.hideUnowned) {
+  if (!state.isFiltered) {
     return questionnaires;
   }
-  return questionnaires.filter(q => q.createdBy.id === state.currentUser.id);
+  return questionnaires.filter(q => q.permission === WRITE);
 };
 
 const buildState = state => {
@@ -64,8 +67,8 @@ const buildState = state => {
   };
 };
 
-export const buildInitialState = (questionnaires, currentUser) => state =>
-  buildState({ ...state, apiQuestionnaires: questionnaires, currentUser });
+export const buildInitialState = questionnaires => state =>
+  buildState({ ...state, apiQuestionnaires: questionnaires });
 
 export const ACTIONS = {
   CHANGE_PAGE: "CHANGE_PAGE",
@@ -74,7 +77,7 @@ export const ACTIONS = {
   SORT_COLUMN: "SORT_COLUMN",
   REVERSE_SORT: "REVERSE_SORT",
   SEARCH: "SEARCH",
-  TOGGLE_HIDE_UNOWNED: "TOGGLE_HIDE_UNOWNED",
+  TOGGLE_FILTER: "TOGGLE_FILTER",
 };
 
 const reducer = (state, action) => {
@@ -118,7 +121,7 @@ const reducer = (state, action) => {
         currentPageIndex: 0,
         searchTerm: action.payload,
       });
-    case ACTIONS.TOGGLE_HIDE_UNOWNED:
+    case ACTIONS.TOGGLE_FILTER:
       return buildState({
         ...state,
         autoFocusId: null,

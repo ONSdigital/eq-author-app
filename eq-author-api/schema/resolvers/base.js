@@ -49,15 +49,14 @@ const getPreviousAnswersForSection = require("../../src/businessLogic/getPreviou
 const createOption = require("../../src/businessLogic/createOption");
 const addPrefix = require("../../utils/addPrefix");
 const { createQuestionPage } = require("./pages/questionPage");
-const validateQuestionnaire = require("../../src/validation");
 
 const { BUSINESS } = require("../../constants/questionnaireTypes");
 const {
   createQuestionnaire,
-  saveQuestionnaire,
   deleteQuestionnaire,
   getQuestionnaire,
   getUserById,
+  listUsers,
 } = require("../../utils/datastore");
 
 const {
@@ -69,6 +68,12 @@ const { listQuestionnaires } = require("../../utils/datastore");
 const {
   createQuestionnaireIntroduction,
 } = require("./questionnaireIntroduction");
+
+const {
+  withWritePermission,
+  enforceHasWritePermission,
+  hasWritePermission,
+} = require("./withWritePermission");
 
 const getQuestionnaireList = () => {
   return listQuestionnaires();
@@ -94,6 +99,7 @@ const createNewQuestionnaire = input => {
     sections: [createSection()],
     summary: false,
     version: currentVersion,
+    editors: [],
   };
 
   let changes = {};
@@ -133,6 +139,7 @@ const Resolvers = {
       return { pageId: page.id, ...confirmationPage };
     },
     me: (root, args, ctx) => ctx.user,
+    users: () => listUsers(),
   },
 
   Mutation: {
@@ -145,12 +152,11 @@ const Resolvers = {
       ctx.questionnaire = await createQuestionnaire(questionnaire);
       return ctx.questionnaire;
     },
-    updateQuestionnaire: async (_, { input }, ctx) => {
-      ctx.questionnaire = merge(ctx.questionnaire, input);
-      await saveQuestionnaire(ctx.questionnaire);
-      return ctx.questionnaire;
-    },
+    updateQuestionnaire: withWritePermission((_, { input }, ctx) =>
+      Object.assign(ctx.questionnaire, input)
+    ),
     deleteQuestionnaire: async (_, { input }, ctx) => {
+      enforceHasWritePermission(ctx.questionnaire, ctx.user);
       await deleteQuestionnaire(input.id);
       ctx.questionnaire = null;
       return { id: input.id };
@@ -164,36 +170,33 @@ const Resolvers = {
         shortTitle: addPrefix(questionnaire.shortTitle),
         id: uuid.v4(),
         createdBy: ctx.user.id,
+        editors: [],
       };
       return createQuestionnaire(newQuestionnaire);
     },
-    createSection: async (root, { input }, ctx) => {
+    createSection: withWritePermission((root, { input }, ctx) => {
       const section = createSection(input);
       ctx.questionnaire.sections.push(section);
-      await saveQuestionnaire(ctx.questionnaire);
       return section;
-    },
-    updateSection: async (_, { input }, ctx) => {
+    }),
+    updateSection: withWritePermission((_, { input }, ctx) => {
       const section = find(ctx.questionnaire.sections, { id: input.id });
       merge(section, input);
-      await saveQuestionnaire(ctx.questionnaire);
       return section;
-    },
-    deleteSection: async (root, { input }, ctx) => {
+    }),
+    deleteSection: withWritePermission((root, { input }, ctx) => {
       const section = find(ctx.questionnaire.sections, { id: input.id });
       remove(ctx.questionnaire.sections, section);
-      await saveQuestionnaire(ctx.questionnaire);
       return section;
-    },
-    moveSection: async (_, { input }, ctx) => {
+    }),
+    moveSection: withWritePermission((_, { input }, ctx) => {
       const removedSection = first(
         remove(ctx.questionnaire.sections, { id: input.id })
       );
       ctx.questionnaire.sections.splice(input.position, 0, removedSection);
-      await saveQuestionnaire(ctx.questionnaire);
       return removedSection;
-    },
-    duplicateSection: async (_, { input }, ctx) => {
+    }),
+    duplicateSection: withWritePermission((_, { input }, ctx) => {
       const section = find(ctx.questionnaire.sections, { id: input.id });
       const newSection = omit(cloneDeep(section), "id");
       set(newSection, "alias", addPrefix(newSection.alias));
@@ -201,24 +204,19 @@ const Resolvers = {
       const duplicatedSection = createSection(newSection);
       const remappedSection = remapAllNestedIds(duplicatedSection);
       ctx.questionnaire.sections.splice(input.position, 0, remappedSection);
-      await saveQuestionnaire(ctx.questionnaire);
       return remappedSection;
-    },
-    createAnswer: async (root, { input }, ctx) => {
+    }),
+    createAnswer: withWritePermission((root, { input }, ctx) => {
       const page = getPageById(ctx, input.questionPageId);
-      const answer = createAnswer(input);
+      const answer = createAnswer(input, page);
 
       page.answers.push(answer);
 
       onAnswerCreated(page, answer);
 
-      await saveQuestionnaire(ctx.questionnaire);
-
-      ctx.validationErrorInfo = validateQuestionnaire(ctx.questionnaire);
-
       return answer;
-    },
-    updateAnswer: async (root, { input }, ctx) => {
+    }),
+    updateAnswer: withWritePermission((root, { input }, ctx) => {
       const answers = getAnswers(ctx);
 
       const additionalAnswers = flatMap(answers, answer =>
@@ -229,31 +227,24 @@ const Resolvers = {
 
       const answer = find(concat(answers, additionalAnswers), { id: input.id });
       merge(answer, input);
-      await saveQuestionnaire(ctx.questionnaire);
-
-      ctx.validationErrorInfo = validateQuestionnaire(ctx.questionnaire);
 
       return answer;
-    },
-    updateAnswersOfType: async (
-      root,
-      { input: { questionPageId, type, properties } },
-      ctx
-    ) => {
-      const page = getPageById(ctx, questionPageId);
-      const answersOfType = page.answers.filter(a => a.type === type);
-      answersOfType.forEach(answer => {
-        answer.properties = {
-          ...answer.properties,
-          ...properties,
-        };
-      });
+    }),
+    updateAnswersOfType: withWritePermission(
+      (root, { input: { questionPageId, type, properties } }, ctx) => {
+        const page = getPageById(ctx, questionPageId);
+        const answersOfType = page.answers.filter(a => a.type === type);
+        answersOfType.forEach(answer => {
+          answer.properties = {
+            ...answer.properties,
+            ...properties,
+          };
+        });
 
-      await saveQuestionnaire(ctx.questionnaire);
-
-      return answersOfType;
-    },
-    deleteAnswer: async (_, { input }, ctx) => {
+        return answersOfType;
+      }
+    ),
+    deleteAnswer: withWritePermission((_, { input }, ctx) => {
       const pages = getPages(ctx);
       const page = find(pages, page => {
         if (page.answers && some(page.answers, { id: input.id })) {
@@ -265,10 +256,9 @@ const Resolvers = {
 
       onAnswerDeleted(page, deletedAnswer);
 
-      await saveQuestionnaire(ctx.questionnaire);
       return page;
-    },
-    moveAnswer: async (_, { input: { id, position } }, ctx) => {
+    }),
+    moveAnswer: withWritePermission((_, { input: { id, position } }, ctx) => {
       const pages = getPages(ctx);
       const page = find(pages, page => {
         if (page.answers && some(page.answers, { id })) {
@@ -279,12 +269,10 @@ const Resolvers = {
       const answerMoving = first(remove(page.answers, { id }));
       page.answers.splice(position, 0, answerMoving);
 
-      await saveQuestionnaire(ctx.questionnaire);
-
       return answerMoving;
-    },
+    }),
 
-    createOption: async (root, { input }, ctx) => {
+    createOption: withWritePermission((root, { input }, ctx) => {
       const pages = getPages(ctx);
       const answers = flatMap(pages, page => page.answers);
       const parent = find(answers, { id: input.answerId });
@@ -292,32 +280,30 @@ const Resolvers = {
 
       parent.options.push(option);
 
-      await saveQuestionnaire(ctx.questionnaire);
-
       return option;
-    },
+    }),
 
-    createMutuallyExclusiveOption: async (root, { input }, ctx) => {
-      const pages = getPages(ctx);
-      const answers = flatMap(pages, page => page.answers);
-      const answer = find(answers, { id: input.answerId });
+    createMutuallyExclusiveOption: withWritePermission(
+      (root, { input }, ctx) => {
+        const pages = getPages(ctx);
+        const answers = flatMap(pages, page => page.answers);
+        const answer = find(answers, { id: input.answerId });
 
-      const existing = find(answer.options, { mutuallyExclusive: true });
-      if (!isNil(existing)) {
-        throw new Error(
-          "There is already an exclusive checkbox on this answer."
-        );
+        const existing = find(answer.options, { mutuallyExclusive: true });
+        if (!isNil(existing)) {
+          throw new Error(
+            "There is already an exclusive checkbox on this answer."
+          );
+        }
+
+        const option = createOption({ mutuallyExclusive: true, ...input });
+
+        answer.options.push(option);
+
+        return option;
       }
-
-      const option = createOption({ mutuallyExclusive: true, ...input });
-
-      answer.options.push(option);
-
-      await saveQuestionnaire(ctx.questionnaire);
-
-      return option;
-    },
-    updateOption: async (_, { input }, ctx) => {
+    ),
+    updateOption: withWritePermission((_, { input }, ctx) => {
       const pages = getPages(ctx);
       const answers = compact(flatMap(pages, page => page.answers));
       const options = flatMap(answers, answer => answer.options);
@@ -325,11 +311,9 @@ const Resolvers = {
 
       merge(option, input);
 
-      await saveQuestionnaire(ctx.questionnaire);
-
       return option;
-    },
-    deleteOption: async (_, { input }, ctx) => {
+    }),
+    deleteOption: withWritePermission((_, { input }, ctx) => {
       const pages = getPages(ctx);
       const answers = flatMap(pages, page => page.answers);
 
@@ -358,22 +342,18 @@ const Resolvers = {
         });
       });
 
-      await saveQuestionnaire(ctx.questionnaire);
-
       return removedOption;
-    },
-    toggleValidationRule: async (_, args, ctx) => {
+    }),
+    toggleValidationRule: withWritePermission((_, args, ctx) => {
       const validation = getValidationById(ctx, args.input.id);
       validation.enabled = args.input.enabled;
 
       const newValidation = Object.assign({}, validation);
       delete validation.validationType;
 
-      await saveQuestionnaire(ctx.questionnaire);
-
       return newValidation;
-    },
-    updateValidationRule: async (_, args, ctx) => {
+    }),
+    updateValidationRule: withWritePermission((_, args, ctx) => {
       const validation = getValidationById(ctx, args.input.id);
       const { validationType } = validation;
 
@@ -382,11 +362,9 @@ const Resolvers = {
       const newValidation = Object.assign({}, validation);
       delete validation.validationType;
 
-      await saveQuestionnaire(ctx.questionnaire);
-
       return newValidation;
-    },
-    createMetadata: async (root, args, ctx) => {
+    }),
+    createMetadata: withWritePermission((root, args, ctx) => {
       const newMetadata = {
         alias: null,
         id: uuid.v4(),
@@ -394,26 +372,23 @@ const Resolvers = {
         type: "Text",
       };
       ctx.questionnaire.metadata.push(newMetadata);
-      await saveQuestionnaire(ctx.questionnaire);
       return newMetadata;
-    },
-    updateMetadata: async (_, { input }, ctx) => {
+    }),
+    updateMetadata: withWritePermission((_, { input }, ctx) => {
       const original = find(ctx.questionnaire.metadata, { id: input.id });
       const result = updateMetadata(original, input);
       merge(original, result);
-      await saveQuestionnaire(ctx.questionnaire);
       return result;
-    },
-    deleteMetadata: async (_, { input }, ctx) => {
+    }),
+    deleteMetadata: withWritePermission((_, { input }, ctx) => {
       const deletedMetadata = first(
         remove(ctx.questionnaire.metadata, {
           id: input.id,
         })
       );
-      await saveQuestionnaire(ctx.questionnaire);
       return deletedMetadata;
-    },
-    createQuestionConfirmation: async (_, { input }, ctx) => {
+    }),
+    createQuestionConfirmation: withWritePermission((_, { input }, ctx) => {
       const section = getSectionByPageId(ctx, input.pageId);
       const page = find(section.pages, { id: input.pageId });
       const questionConfirmation = {
@@ -423,45 +398,40 @@ const Resolvers = {
         negative: { label: null, description: null },
       };
       set(page, "confirmation", questionConfirmation);
-      await saveQuestionnaire(ctx.questionnaire);
       return {
         pageId: input.pageId,
         ...questionConfirmation,
       };
-    },
-    updateQuestionConfirmation: async (
-      _,
-      { input: { positive, negative, id, title } },
-      ctx
-    ) => {
-      const newValues = {
-        title,
-        positive,
-        negative,
-      };
+    }),
+    updateQuestionConfirmation: withWritePermission(
+      (_, { input: { positive, negative, id, title } }, ctx) => {
+        const newValues = {
+          title,
+          positive,
+          negative,
+        };
 
-      const pages = getPages(ctx);
+        const pages = getPages(ctx);
 
-      let confirmationPage;
-      let pageId;
+        let confirmationPage;
+        let pageId;
 
-      pages.map(page => {
-        if (page.confirmation && page.confirmation.id === id) {
-          confirmationPage = page.confirmation;
-          pageId = page.id;
-        }
-      });
+        pages.map(page => {
+          if (page.confirmation && page.confirmation.id === id) {
+            confirmationPage = page.confirmation;
+            pageId = page.id;
+          }
+        });
 
-      merge(confirmationPage, newValues);
+        merge(confirmationPage, newValues);
 
-      await saveQuestionnaire(ctx.questionnaire);
-
-      return {
-        pageId,
-        ...confirmationPage,
-      };
-    },
-    deleteQuestionConfirmation: async (_, { input }, ctx) => {
+        return {
+          pageId,
+          ...confirmationPage,
+        };
+      }
+    ),
+    deleteQuestionConfirmation: withWritePermission((_, { input }, ctx) => {
       const pages = getPages(ctx);
 
       let confirmationPage;
@@ -475,13 +445,12 @@ const Resolvers = {
       });
 
       delete pageContainingConfirmation.confirmation;
-      await saveQuestionnaire(ctx.questionnaire);
 
       return {
         pageId: pageContainingConfirmation.id,
         ...confirmationPage,
       };
-    },
+    }),
   },
 
   Questionnaire: {
@@ -491,6 +460,16 @@ const Resolvers = {
     metadata: questionnaire => questionnaire.metadata,
     displayName: questionnaire =>
       questionnaire.shortTitle || questionnaire.title,
+    editors: questionnaire =>
+      Promise.all(
+        (questionnaire.editors || []).map(editorId => getUserById(editorId))
+      ),
+    permission: (questionnaire, args, ctx) => {
+      if (hasWritePermission(questionnaire, ctx.user)) {
+        return "Write";
+      }
+      return "Read";
+    },
   },
 
   User: {

@@ -3,9 +3,10 @@ import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 import styled from "styled-components";
 import Tooltip from "components/Forms/Tooltip";
-import guestAvatar from "App/UserProfile/icon-guest-avatar.svg";
 import { colors } from "constants/theme";
 import Button from "components/buttons/Button";
+
+import guestAvatar from "./icon-guest-avatar.svg";
 
 const UserAvatar = styled.img`
   border-radius: 50%;

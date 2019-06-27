@@ -29,7 +29,9 @@ const createTracer = logger => {
   return tracer;
 };
 
-module.exports = logger => ({
-  localTracer: createTracer(logger),
-  serverTracer: createTracer(logger),
-});
+module.exports = {
+  tracer: logger => ({
+    localTracer: createTracer(logger),
+    serverTracer: createTracer(logger),
+  }),
+};

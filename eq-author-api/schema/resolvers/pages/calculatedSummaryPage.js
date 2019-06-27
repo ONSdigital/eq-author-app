@@ -16,8 +16,8 @@ const {
   CURRENCY,
   PERCENTAGE,
 } = require("../../../constants/answerTypes");
-const { saveQuestionnaire } = require("../../../utils/datastore");
 
+const { withWritePermission } = require("../withWritePermission");
 const { getPageById, getAnswerById, getSectionByPageId } = require("../utils");
 
 const createCalculatedSummary = (input = {}) => ({
@@ -84,22 +84,19 @@ Resolvers.CalculatedSummaryPage = {
 };
 
 Resolvers.Mutation = {
-  createCalculatedSummaryPage: async (
-    root,
-    { input: { position, sectionId } },
-    ctx
-  ) => {
-    const section = find(ctx.questionnaire.sections, {
-      id: sectionId,
-    });
-    const page = createCalculatedSummary({ sectionId });
-    const insertionPosition =
-      typeof position === "number" ? position : section.pages.length;
-    section.pages.splice(insertionPosition, 0, page);
-    await saveQuestionnaire(ctx.questionnaire);
-    return page;
-  },
-  updateCalculatedSummaryPage: async (_, { input }, ctx) => {
+  createCalculatedSummaryPage: withWritePermission(
+    (root, { input: { position, sectionId } }, ctx) => {
+      const section = find(ctx.questionnaire.sections, {
+        id: sectionId,
+      });
+      const page = createCalculatedSummary({ sectionId });
+      const insertionPosition =
+        typeof position === "number" ? position : section.pages.length;
+      section.pages.splice(insertionPosition, 0, page);
+      return page;
+    }
+  ),
+  updateCalculatedSummaryPage: withWritePermission((_, { input }, ctx) => {
     const page = getPageById(ctx, input.id);
     let currentSelectedAnswerType;
     if (get(page, "summaryAnswers", []).length > 0) {
@@ -128,9 +125,8 @@ Resolvers.Mutation = {
 
     merge(page, input);
     page.summaryAnswers = input.summaryAnswers;
-    await saveQuestionnaire(ctx.questionnaire);
     return page;
-  },
+  }),
 };
 
 module.exports = Resolvers;

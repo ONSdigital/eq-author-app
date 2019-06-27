@@ -117,6 +117,7 @@
     "react-router": "latest",
     "react-router-dom": "latest",
     "react-router-redux": "latest",
+    "react-string-replace": "latest",
     "react-textarea-autosize": "latest",
     "react-titled": "latest",
     "react-tooltip": "latest",

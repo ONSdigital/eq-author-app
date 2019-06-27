@@ -1,8 +1,9 @@
 const { find, omit, first, remove } = require("lodash");
 const uuid = require("uuid").v4;
 
-const { saveQuestionnaire } = require("../../utils/datastore");
 const { NOTICE_1 } = require("../../constants/legalBases");
+
+const { withWritePermission } = require("./withWritePermission");
 
 const createCollapsible = options => ({
   id: uuid(),
@@ -17,39 +18,40 @@ Resolvers.Query = {
     ctx.questionnaire.introduction,
 };
 Resolvers.Mutation = {
-  updateQuestionnaireIntroduction: async (_, { input }, ctx) => {
+  updateQuestionnaireIntroduction: withWritePermission((_, { input }, ctx) => {
     const introduction = ctx.questionnaire.introduction;
     Object.assign(introduction, omit(input, "id"));
-    await saveQuestionnaire(ctx.questionnaire);
     return introduction;
-  },
-  createCollapsible: async (_, { input }, ctx) => {
+  }),
+  createCollapsible: withWritePermission((_, { input }, ctx) => {
     const collapsible = createCollapsible(omit(input, "introductionId"));
     ctx.questionnaire.introduction.collapsibles.push(collapsible);
-    await saveQuestionnaire(ctx.questionnaire);
     return collapsible;
-  },
-  updateCollapsible: async (_, { input: { id, ...rest } }, ctx) => {
-    const collapsible = ctx.questionnaire.introduction.collapsibles.find(
-      c => c.id === id
-    );
-    Object.assign(collapsible, rest);
-    await saveQuestionnaire(ctx.questionnaire);
-    return collapsible;
-  },
-  moveCollapsible: async (_, { input: { id, position } }, ctx) => {
-    const introduction = ctx.questionnaire.introduction;
-    const collapsibleMoving = first(remove(introduction.collapsibles, { id }));
-    introduction.collapsibles.splice(position, 0, collapsibleMoving);
-    await saveQuestionnaire(ctx.questionnaire);
-    return collapsibleMoving;
-  },
-  deleteCollapsible: async (_, { input: { id } }, ctx) => {
+  }),
+  updateCollapsible: withWritePermission(
+    (_, { input: { id, ...rest } }, ctx) => {
+      const collapsible = ctx.questionnaire.introduction.collapsibles.find(
+        c => c.id === id
+      );
+      Object.assign(collapsible, rest);
+      return collapsible;
+    }
+  ),
+  moveCollapsible: withWritePermission(
+    (_, { input: { id, position } }, ctx) => {
+      const introduction = ctx.questionnaire.introduction;
+      const collapsibleMoving = first(
+        remove(introduction.collapsibles, { id })
+      );
+      introduction.collapsibles.splice(position, 0, collapsibleMoving);
+      return collapsibleMoving;
+    }
+  ),
+  deleteCollapsible: withWritePermission((_, { input: { id } }, ctx) => {
     const introduction = ctx.questionnaire.introduction;
     remove(introduction.collapsibles, { id });
-    await saveQuestionnaire(ctx.questionnaire);
     return introduction;
-  },
+  }),
 };
 Resolvers.QuestionnaireIntroduction = {
   availablePipingMetadata: (root, args, ctx) => ctx.questionnaire.metadata,

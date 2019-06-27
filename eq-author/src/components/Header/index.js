@@ -1,32 +1,30 @@
 import React from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
-import { colors } from "constants/theme";
-import config from "config";
-
-import { raiseToast } from "redux/toast/actions";
-
-import PropTypes from "prop-types";
-import CustomPropTypes from "custom-prop-types";
-import { Link, withRouter } from "react-router-dom";
-
-import Button from "components/buttons/Button";
-import LinkButton from "components/buttons/Button/LinkButton";
-import UserProfile from "App/UserProfile";
-
-import { signOutUser } from "redux/auth/actions";
-
-import logo from "components/Header/logo.svg";
-
-import shareIcon from "components/Header/icon-share.svg?inline";
-import viewIcon from "components/Header/icon-view.svg?inline";
-
-import IconText from "components/IconText";
-import Truncated from "components/Truncated";
 import gql from "graphql-tag";
 import { Query } from "react-apollo";
 import { flowRight, get } from "lodash/fp";
+import PropTypes from "prop-types";
+import { Link, withRouter } from "react-router-dom";
+
+import config from "config";
+import CustomPropTypes from "custom-prop-types";
+import { colors } from "constants/theme";
+
+import { signOutUser } from "redux/auth/actions";
+
+import Button from "components/buttons/Button";
+import LinkButton from "components/buttons/Button/LinkButton";
+import IconText from "components/IconText";
+import Truncated from "components/Truncated";
+
 import { Routes } from "utils/UrlUtils";
+
+import logo from "./logo.svg";
+import shareIcon from "./icon-share.svg?inline";
+import viewIcon from "./icon-view.svg?inline";
+import UserProfile from "./UserProfile";
+import SharingModal from "./SharingModal";
 
 const StyledHeader = styled.header`
   display: flex;
@@ -89,38 +87,35 @@ export const UtilityBtns = styled.div`
 `;
 
 export class UnconnectedHeader extends React.Component {
+  state = {
+    isSharingModalOpen: false,
+  };
+
   static propTypes = {
     questionnaire: CustomPropTypes.questionnaire,
     signOutUser: PropTypes.func.isRequired,
-    raiseToast: PropTypes.func.isRequired,
     title: PropTypes.string,
-  };
-
-  displayToast = () => {
-    this.props.raiseToast("ShareToast", "Link copied to clipboard");
+    client: PropTypes.shape({
+      resetStore: PropTypes.func.isRequired,
+    }),
   };
 
   handleSignOut = () => {
     this.props.signOutUser();
+    this.props.client.resetStore();
   };
 
-  getPreviewUrl(questionnaireId) {
-    return `${config.REACT_APP_LAUNCH_URL}/${questionnaireId}`;
-  }
-
   handleShare = () => {
-    const textField = document.createElement("textarea");
-    textField.innerText = this.getPreviewUrl(this.props.questionnaire.id);
-    document.body.appendChild(textField);
-    textField.select();
-    document.execCommand("copy");
-    textField.remove();
-    this.displayToast();
+    this.setState({ isSharingModalOpen: true });
   };
 
   render() {
     const { questionnaire, title } = this.props;
     const currentUser = get("data.me", this.props);
+
+    const previewUrl = `${config.REACT_APP_LAUNCH_URL}/${
+      (questionnaire || {}).id
+    }`;
 
     return (
       <StyledHeader>
@@ -137,9 +132,9 @@ export class UnconnectedHeader extends React.Component {
 
         <UtilityBtns>
           {questionnaire && (
-            <React.Fragment>
+            <>
               <LinkButton
-                href={this.getPreviewUrl(this.props.questionnaire.id)}
+                href={previewUrl}
                 variant="tertiary-light"
                 data-test="btn-preview"
                 small
@@ -152,9 +147,16 @@ export class UnconnectedHeader extends React.Component {
                 data-test="btn-share"
                 small
               >
-                <IconText icon={shareIcon}>Share</IconText>
+                <IconText icon={shareIcon}>Sharing</IconText>
               </ShareButton>
-            </React.Fragment>
+              <SharingModal
+                questionnaire={questionnaire}
+                previewUrl={previewUrl}
+                displayToast={this.displayToast}
+                isOpen={this.state.isSharingModalOpen}
+                onClose={() => this.setState({ isSharingModalOpen: false })}
+              />
+            </>
           )}
           {currentUser && (
             <StyledUserProfile
@@ -168,7 +170,7 @@ export class UnconnectedHeader extends React.Component {
   }
 }
 
-const CURRENT_USER_QUERY = gql`
+export const CURRENT_USER_QUERY = gql`
   query GetCurrentUser {
     me {
       id
@@ -201,7 +203,7 @@ export const withCurrentUser = Component => {
 export default flowRight(
   connect(
     null,
-    { signOutUser, raiseToast }
+    { signOutUser }
   ),
   withRouter,
   withCurrentUser

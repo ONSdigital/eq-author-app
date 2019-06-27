@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`answer with a trailing unit preview should render a percentage answer 1`] = `
+<Field>
+  <Label
+    description="Description"
+  >
+    Label
+  </Label>
+  <InputWithUnit
+    trailing={true}
+    unit="%"
+  />
+</Field>
+`;
+
+exports[`answer with a trailing unit preview should render a unit answer 1`] = `
+<Field>
+  <Label
+    description="Description"
+  >
+    Label
+  </Label>
+  <InputWithUnit
+    trailing={true}
+    unit="cm"
+  />
+</Field>
+`;

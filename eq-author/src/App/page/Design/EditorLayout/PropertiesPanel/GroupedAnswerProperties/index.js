@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { groupBy, kebabCase } from "lodash/fp";
 
 import Accordion from "components/Accordion";
-import { CURRENCY, NUMBER, PERCENTAGE } from "constants/answer-types";
+import { CURRENCY, NUMBER, PERCENTAGE, UNIT } from "constants/answer-types";
 import { colors } from "constants/theme";
 import getIdForObject from "utils/getIdForObject";
 
@@ -12,6 +12,8 @@ import GroupValidations from "App/page/Design/Validation/GroupValidations";
 
 import AnswerProperties from "./AnswerProperties";
 import InlineField from "./InlineField";
+import MultiLineField from "./MultiLineField";
+import { UnitProperties } from "./AnswerProperties/Properties";
 import Decimal from "./Decimal";
 import withUpdateAnswersOfType from "./withUpdateAnswersOfType";
 
@@ -44,7 +46,7 @@ const GroupContainer = styled.div`
 `;
 
 const isNumeric = answerType =>
-  [NUMBER, PERCENTAGE, CURRENCY].includes(answerType);
+  [NUMBER, PERCENTAGE, CURRENCY, UNIT].includes(answerType);
 
 export const UnwrappedGroupedAnswerProperties = ({
   page,
@@ -73,10 +75,23 @@ export const UnwrappedGroupedAnswerProperties = ({
               value={answers[0].properties.decimals}
             />
           </InlineField>
+          {answerType === UNIT && (
+            <MultiLineField id="unit" label={"Type"}>
+              <UnitProperties
+                id="unit"
+                onChange={({ value: unit }) => {
+                  updateAnswersOfType(answerType, page.id, {
+                    unit,
+                  });
+                }}
+                unit={answers[0].properties.unit}
+              />
+            </MultiLineField>
+          )}
         </GroupContainer>
       );
 
-      if (answers.length > 1) {
+      if (answers.length > 1 && answers[0].type !== UNIT) {
         groupValidations = (
           <Padding>
             <GroupValidations

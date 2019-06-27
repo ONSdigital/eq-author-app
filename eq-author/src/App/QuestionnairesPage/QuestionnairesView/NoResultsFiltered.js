@@ -40,21 +40,26 @@ const AlertText = styled.p`
   font-weight: normal;
 `;
 
-const NoResultsFiltered = ({ searchTerm, hideUnowned }) => {
+const NoResultsFiltered = ({ searchTerm, isFiltered }) => {
   if (!searchTerm) {
     return (
       <Alert>
-        <AlertTitle>You do not own any questionnaires</AlertTitle>
-        <AlertText>Create a questionnaire yourself</AlertText>
+        <AlertTitle>
+          You do not have editor access to any questionnaires
+        </AlertTitle>
+        <AlertText>
+          Create a questionnaire yourself or request access to an existing one
+        </AlertText>
       </Alert>
     );
   }
-  if (hideUnowned) {
+  if (isFiltered) {
     return (
       <Alert>
         <AlertTitle>{`No results found for '${searchTerm}'`}</AlertTitle>
         <AlertText>
-          You do not own any questionnaires matching this criteria
+          You do not have editor access to any questionnaires matching this
+          criteria
         </AlertText>
       </Alert>
     );
@@ -69,7 +74,7 @@ const NoResultsFiltered = ({ searchTerm, hideUnowned }) => {
 
 NoResultsFiltered.propTypes = {
   searchTerm: PropTypes.string.isRequired,
-  hideUnowned: PropTypes.bool.isRequired,
+  isFiltered: PropTypes.bool.isRequired,
 };
 
 export default NoResultsFiltered;

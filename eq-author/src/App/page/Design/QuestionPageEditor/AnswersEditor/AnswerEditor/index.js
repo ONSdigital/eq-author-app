@@ -16,7 +16,9 @@ import {
   CHECKBOX,
   RADIO,
   DATE_RANGE,
+  UNIT,
 } from "constants/answer-types";
+import { unitConversion } from "constants/unit-types";
 import Tooltip from "components/Forms/Tooltip";
 import DeleteButton from "components/buttons/DeleteButton";
 import MoveButton, { IconUp, IconDown } from "components/buttons/MoveButton";
@@ -89,7 +91,7 @@ class AnswerEditor extends React.Component {
     if ([TEXTFIELD, TEXTAREA].includes(type)) {
       return <BasicAnswer {...this.props} />;
     }
-    if ([PERCENTAGE, NUMBER, CURRENCY].includes(type)) {
+    if ([PERCENTAGE, NUMBER, CURRENCY, UNIT].includes(type)) {
       return <BasicAnswer {...this.props} showDescription />;
     }
     if (type === CHECKBOX) {
@@ -118,12 +120,25 @@ class AnswerEditor extends React.Component {
     );
   }
 
+  getAnswerTypeText(answer) {
+    if (answer.type !== UNIT) {
+      return answer.type;
+    }
+    const unitConfig = unitConversion[answer.properties.unit];
+    return (
+      <>
+        {unitConfig.type}
+        {`(${unitConfig.abbreviation})`}
+      </>
+    );
+  }
+
   render() {
     return (
       <Answer data-test="answer-editor">
         <AnswerHeader>
           <AnswerType data-test="answer-type">
-            {this.props.answer.type}
+            {this.getAnswerTypeText(this.props.answer)}
           </AnswerType>
 
           <Buttons>

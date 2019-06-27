@@ -20,7 +20,7 @@ const PopoutContainer = styled(Container)`
 `;
 
 const PopoutLayer = styled(Layer)`
-  width: 22em;
+  width: 24em;
   right: 0;
   left: 0;
   bottom: 3.5em;

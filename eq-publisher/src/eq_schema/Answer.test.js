@@ -6,9 +6,12 @@ const {
   TEXTFIELD,
   CURRENCY,
   PERCENTAGE,
+  UNIT,
 } = require("../constants/answerTypes");
 const Answer = require("./Answer");
 const Question = require("./Question");
+
+const { CENTIMETER, unitConversion } = require("../constants/unit-types");
 
 describe("Answer", () => {
   const createAnswerJSON = answer =>
@@ -43,6 +46,13 @@ describe("Answer", () => {
   it("should set currency to GBP for currency types", () => {
     const answer = new Answer(createAnswerJSON({ type: CURRENCY }));
     expect(answer.currency).toBe("GBP");
+  });
+
+  it("should correctly define a unit answer", () => {
+    const authorAnswer = createAnswerJSON({ type: UNIT });
+    authorAnswer.properties.unit = CENTIMETER;
+    const answer = new Answer(createAnswerJSON({ type: UNIT }));
+    expect(answer.unit).toBe(unitConversion[CENTIMETER]);
   });
 
   it("should set correct to answer type for different date formats", () => {

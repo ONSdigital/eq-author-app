@@ -34,10 +34,11 @@ const getOption = flow(
 const getMutuallyExclusiveOption = find({ mutuallyExclusive: true });
 
 describe("multiple choice answer", () => {
-  let ctx, questionnaire;
+  let ctx;
 
   afterEach(async () => {
-    await deleteQuestionnaire(ctx, questionnaire.id);
+    await deleteQuestionnaire(ctx, ctx.questionnaire.id);
+    ctx = null;
   });
   describe("create", () => {
     it("should create a radio answer with two options", async () => {
@@ -52,7 +53,7 @@ describe("multiple choice answer", () => {
           },
         ],
       });
-      questionnaire = ctx.questionnaire;
+      const questionnaire = ctx.questionnaire;
 
       const createdAnswer = await createAnswer(ctx, {
         type: RADIO,
@@ -84,7 +85,7 @@ describe("multiple choice answer", () => {
           },
         ],
       });
-      questionnaire = ctx.questionnaire;
+      const questionnaire = ctx.questionnaire;
 
       const createdAnswer = await createAnswer(ctx, {
         type: CHECKBOX,
@@ -110,36 +111,33 @@ describe("multiple choice answer", () => {
 
   describe("query", () => {
     it("should resolve multiple choice fields", async () => {
-      let ctx;
-      beforeEach(async () => {
-        ctx = await buildContext({
-          sections: [
-            {
-              pages: [
-                {
-                  answers: [
-                    {
-                      type: RADIO,
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        });
-        const answer = getAnswer(ctx.questionnaire);
-        const queriedAnswer = await queryAnswer(
-          ctx,
-          getAnswer(ctx.questionnaire).id
-        );
-        expect(queriedAnswer).toMatchObject({
-          properties: expect.any(Object),
-        });
-        expect(queriedAnswer.options).toHaveLength(2);
-        expect(queriedAnswer.options.map(o => o.id)).toEqual(
-          answer.options.map(o => o.id)
-        );
+      ctx = await buildContext({
+        sections: [
+          {
+            pages: [
+              {
+                answers: [
+                  {
+                    type: RADIO,
+                  },
+                ],
+              },
+            ],
+          },
+        ],
       });
+      const answer = getAnswer(ctx.questionnaire);
+      const queriedAnswer = await queryAnswer(
+        ctx,
+        getAnswer(ctx.questionnaire).id
+      );
+      expect(queriedAnswer).toMatchObject({
+        properties: expect.any(Object),
+      });
+      expect(queriedAnswer.options).toHaveLength(2);
+      expect(queriedAnswer.options.map(o => o.id)).toEqual(
+        answer.options.map(o => o.id)
+      );
     });
 
     it("should resolve mutuallyExclusiveOption", async () => {
@@ -192,7 +190,7 @@ describe("multiple choice answer", () => {
           },
         ],
       });
-      questionnaire = ctx.questionnaire;
+      const questionnaire = ctx.questionnaire;
 
       const answer = getAnswer(questionnaire);
       await deleteAnswer(ctx, answer.id);
@@ -219,7 +217,7 @@ describe("multiple choice answer", () => {
             },
           ],
         });
-        questionnaire = ctx.questionnaire;
+        const questionnaire = ctx.questionnaire;
 
         const answer = getAnswer(questionnaire);
         const createdOption = await createOption(ctx, {
@@ -254,7 +252,7 @@ describe("multiple choice answer", () => {
             },
           ],
         });
-        questionnaire = ctx.questionnaire;
+        const questionnaire = ctx.questionnaire;
 
         const answer = getAnswer(questionnaire);
         const createdOption = await createOption(ctx, {
@@ -284,7 +282,7 @@ describe("multiple choice answer", () => {
             },
           ],
         });
-        questionnaire = ctx.questionnaire;
+        const questionnaire = ctx.questionnaire;
 
         const answer = getAnswer(questionnaire);
         const createdOption = await createMutuallyExclusiveOption(ctx, {
@@ -319,7 +317,7 @@ describe("multiple choice answer", () => {
             },
           ],
         });
-        questionnaire = ctx.questionnaire;
+        const questionnaire = ctx.questionnaire;
 
         const option = getOption(questionnaire);
         const update = {
@@ -356,7 +354,7 @@ describe("multiple choice answer", () => {
             },
           ],
         });
-        questionnaire = ctx.questionnaire;
+        const questionnaire = ctx.questionnaire;
 
         const option = getOption(questionnaire);
         await deleteOption(ctx, option);

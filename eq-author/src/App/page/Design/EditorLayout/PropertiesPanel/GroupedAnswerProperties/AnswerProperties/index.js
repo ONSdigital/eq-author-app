@@ -10,7 +10,7 @@ import withUpdateAnswer from "App/page/Design/answers/withUpdateAnswer";
 import InlineField from "../InlineField";
 
 import { Required, DateFormat } from "./Properties";
-import MultiLineField from "./MultiLineField";
+import MultiLineField from "../MultiLineField";
 
 export class UnwrappedAnswerProperties extends React.Component {
   static propTypes = {

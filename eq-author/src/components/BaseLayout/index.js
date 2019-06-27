@@ -2,16 +2,17 @@ import React from "react";
 import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import App from "./App";
-import Header from "components/Header";
 import { Titled } from "react-titled";
-
-import ConnectedOfflineBanner from "components/OfflineBanner";
 
 import CustomPropTypes from "custom-prop-types";
 import { colors } from "constants/theme";
 
+import OfflineBanner from "components/OfflineBanner";
 import ToastContainer from "components/ToastContainer";
+import Header from "components/Header";
+
+import PermissionsBanner from "./PermissionsBanner";
+import App from "./App";
 
 const Wrapper = styled.div`
   background-color: ${colors.lighterGrey};
@@ -33,7 +34,8 @@ const BaseLayout = ({ children, title, questionnaire }) => (
     <App>
       <Wrapper>
         <Header questionnaire={questionnaire} title={title} />
-        <ConnectedOfflineBanner />
+        <OfflineBanner />
+        <PermissionsBanner questionnaire={questionnaire} />
         <Main>{children}</Main>
         {ReactDOM.createPortal(
           <ToastContainer />,

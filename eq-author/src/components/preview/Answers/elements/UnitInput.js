@@ -40,7 +40,7 @@ const InputWithUnit = ({ unit, trailing }) => (
 );
 
 InputWithUnit.propTypes = {
-  unit: PropTypes.string.isRequired,
+  unit: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
   trailing: PropTypes.bool,
 };
 

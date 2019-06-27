@@ -1,19 +1,22 @@
+const { getOr } = require("lodash/fp");
+
 const {
   DATE,
   CURRENCY,
   NUMBER,
   PERCENTAGE,
+  UNIT,
 } = require("../constants/answerTypes");
 
-module.exports = type => {
-  switch (type) {
-    case CURRENCY:
-    case NUMBER:
-    case PERCENTAGE:
-      return { required: false, decimals: 0 };
-    case DATE:
-      return { required: false, format: "dd/mm/yyyy" };
-    default:
-      return { required: false };
-  }
+const { CENTIMETERS } = require("../constants/unitTypes");
+
+const defaultAnswerPropertiesMap = {
+  [CURRENCY]: { required: false, decimals: 0 },
+  [NUMBER]: { required: false, decimals: 0 },
+  [PERCENTAGE]: { required: false, decimals: 0 },
+  [DATE]: { required: false, format: "dd/mm/yyyy" },
+  [UNIT]: { required: false, decimals: 0, unit: CENTIMETERS },
 };
+
+module.exports = type =>
+  getOr({ required: false }, type, defaultAnswerPropertiesMap);

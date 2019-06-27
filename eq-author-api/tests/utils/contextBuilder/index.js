@@ -28,13 +28,14 @@ const buildRouting = require("./buildRouting");
 const defaultUser = require("../mockUserPayload");
 
 //@todo - Split into smaller functions to avoid deeply nested chaining
-const buildContext = async (
-  questionnaireConfig,
-  userConfig = defaultUser()
-) => {
-  await createUser(userConfig);
+const buildContext = async (questionnaireConfig, userConfig = {}) => {
+  const user = {
+    ...defaultUser(),
+    ...userConfig,
+  };
+  await createUser(user);
 
-  const ctx = { questionnaire: null, user: userConfig };
+  const ctx = { questionnaire: null, user };
 
   if (!questionnaireConfig) {
     return ctx;
