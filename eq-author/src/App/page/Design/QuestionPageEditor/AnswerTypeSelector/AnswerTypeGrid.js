@@ -18,6 +18,8 @@ import {
   PERCENTAGE,
   DATE_RANGE,
   DATE,
+  UNIT,
+  DURATION,
 } from "constants/answer-types";
 
 const Menu = styled.div`
@@ -56,6 +58,8 @@ const buttons = [
   { type: DATE, title: "Date" },
   { type: DATE_RANGE, title: "Date range" },
   { type: PERCENTAGE, title: "Percentage" },
+  { type: UNIT, title: "Unit" },
+  { type: DURATION, title: "Duration", disabled: true },
 ];
 
 class AnswerTypeGrid extends React.Component {

@@ -13,6 +13,8 @@ import radioIcon from "./icons/radio.svg";
 import percentageIcon from "./icons/percentage.svg";
 import textareaIcon from "./icons/textarea.svg";
 import textfieldIcon from "./icons/textfield.svg";
+import unitIcon from "./icons/unit.svg";
+import durationIcon from "./icons/duration.svg";
 
 export const icons = {
   [AnswerTypes.CHECKBOX]: checkboxIcon,
@@ -24,6 +26,8 @@ export const icons = {
   [AnswerTypes.PERCENTAGE]: percentageIcon,
   [AnswerTypes.TEXTAREA]: textareaIcon,
   [AnswerTypes.TEXTFIELD]: textfieldIcon,
+  [AnswerTypes.UNIT]: unitIcon,
+  [AnswerTypes.DURATION]: durationIcon,
 };
 
 export default class AnswerTypeButton extends React.Component {

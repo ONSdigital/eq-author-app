@@ -208,7 +208,7 @@ const Resolvers = {
     }),
     createAnswer: withWritePermission((root, { input }, ctx) => {
       const page = getPageById(ctx, input.questionPageId);
-      const answer = createAnswer(input);
+      const answer = createAnswer(input, page);
 
       page.answers.push(answer);
 

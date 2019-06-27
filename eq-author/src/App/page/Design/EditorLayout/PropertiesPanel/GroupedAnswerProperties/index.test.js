@@ -1,8 +1,10 @@
 import React from "react";
 import { shallow } from "enzyme";
 
-import { CURRENCY, DATE } from "constants/answer-types";
+import { CURRENCY, DATE, UNIT } from "constants/answer-types";
+import { KILOJOULES, CENTIMETERS } from "constants/unit-types";
 
+import UnitProperties from "./AnswerProperties/Properties/UnitProperties";
 import Accordion from "components/Accordion";
 import GroupValidations from "App/page/Design/Validation/GroupValidations";
 
@@ -103,6 +105,53 @@ describe("Grouped Answer Properties", () => {
     expect(wrapper.find(GroupValidations).props()).toMatchObject({
       type: CURRENCY,
       totalValidation: props.page.totalValidation,
+    });
+  });
+
+  describe("Unit answers", () => {
+    beforeEach(() => {
+      props = {
+        page: {
+          id: "pageId",
+          answers: [
+            {
+              id: "1",
+              type: UNIT,
+              displayName: "Currency 1",
+              properties: {
+                unit: KILOJOULES,
+                decimals: 2,
+              },
+            },
+            {
+              id: "2",
+              type: UNIT,
+              displayName: "Currency 2",
+              properties: {
+                unit: KILOJOULES,
+                decimals: 2,
+              },
+            },
+          ],
+        },
+        updateAnswersOfType: jest.fn(),
+      };
+    });
+
+    it("should show one copy of the shared unit properties", () => {
+      const wrapper = shallow(<UnwrappedGroupedAnswerProperties {...props} />);
+      expect(wrapper.find(UnitProperties)).toHaveLength(1);
+    });
+
+    it("should update all the unit answers when their unit is changed", () => {
+      const wrapper = shallow(<UnwrappedGroupedAnswerProperties {...props} />);
+      const unitPropertiesElement = wrapper.find(UnitProperties).dive();
+      unitPropertiesElement
+        .find("[data-test='unit-select']")
+        .simulate("change", { value: CENTIMETERS });
+      expect(props.updateAnswersOfType).toHaveBeenCalledWith(UNIT, "pageId", {
+        unit: CENTIMETERS,
+      });
     });
   });
 });

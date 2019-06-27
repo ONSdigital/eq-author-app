@@ -376,6 +376,7 @@ enum AnswerType {
   TextArea
   TextField
   Relationship
+  Unit
 }
 
 enum Theme {
