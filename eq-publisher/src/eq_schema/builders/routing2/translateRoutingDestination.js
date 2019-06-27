@@ -13,7 +13,7 @@ const getNextPageDestination = (pageId, ctx) => {
       return { id: page.id, sectionId: section.id };
     });
   });
-  const confirmationRegex = /confirmation-page-for-(\d+)/;
+  const confirmationRegex = /confirmation-page-for-(.+)/;
 
   if (confirmationRegex.test(pageId)) {
     pageId = pageId.match(confirmationRegex)[1];
