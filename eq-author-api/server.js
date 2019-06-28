@@ -90,7 +90,14 @@ const createApp = () => {
 
   app.get("/export/:questionnaireId", exportQuestionnaire);
   if (process.env.ENABLE_IMPORT === "true") {
-    app.use(bodyParser.json()).post("/import", importQuestionnaire);
+    app
+      .use(bodyParser.json())
+      .post(
+        "/import",
+        identificationMiddleware(logger),
+        rejectUnidentifiedUsers,
+        importQuestionnaire
+      );
   }
 
   app.get("/signIn", identificationMiddleware(logger), upsertUser);
