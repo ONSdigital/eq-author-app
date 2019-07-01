@@ -101,6 +101,11 @@ describe("withDeleteQuestionnaire", () => {
               variables: {
                 input: { id: questionnaireId },
               },
+              context: {
+                headers: {
+                  questionnaireId,
+                },
+              },
             })
           );
         });
