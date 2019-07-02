@@ -108,6 +108,9 @@
         "id": { "type": "string" },
         "label": {
           "$ref": "definitions.json#/definitions/populatedString"
+        },
+        "additionalAnswer": {
+          "$ref": "entities.json#/definitions/basicAnswer"
         }
       },
       "required": ["id", "label"]
