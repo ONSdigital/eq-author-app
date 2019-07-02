@@ -1,5 +1,14 @@
+#import "./fragments/option.graphql"
+#import "./fragments/validationErrorInfo.graphql"
+
 mutation DeleteOption($input: DeleteOptionInput!) {
   deleteOption(input: $input) {
     id
+    options {
+      ...Option
+      validationErrorInfo {
+        ...ValidationErrorInfo
+      }
+    }
   }
 }
