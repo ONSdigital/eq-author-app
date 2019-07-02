@@ -965,7 +965,7 @@ exports[`Answer Editor should render Unit 1`] = `
       data-test="answer-type"
     >
       Length
-      (cm)
+       (cm)
     </AnswerEditor__AnswerType>
     <AnswerEditor__Buttons>
       <Tooltip
@@ -1031,7 +1031,7 @@ exports[`Answer Editor should render Unit 1`] = `
           "description": "",
           "id": "1",
           "properties": Object {
-            "unit": "Centimeters",
+            "unit": "Centimetres",
           },
           "title": "",
           "type": "Unit",

@@ -2,7 +2,7 @@ import React from "react";
 import { shallow } from "enzyme";
 
 import { CURRENCY, DATE, UNIT } from "constants/answer-types";
-import { KILOJOULES, CENTIMETERS } from "constants/unit-types";
+import { KILOJOULES, CENTIMETRES } from "constants/unit-types";
 
 import UnitProperties from "./AnswerProperties/Properties/UnitProperties";
 import Accordion from "components/Accordion";
@@ -148,9 +148,9 @@ describe("Grouped Answer Properties", () => {
       const unitPropertiesElement = wrapper.find(UnitProperties).dive();
       unitPropertiesElement
         .find("[data-test='unit-select']")
-        .simulate("change", { value: CENTIMETERS });
+        .simulate("change", { value: CENTIMETRES });
       expect(props.updateAnswersOfType).toHaveBeenCalledWith(UNIT, "pageId", {
-        unit: CENTIMETERS,
+        unit: CENTIMETRES,
       });
     });
   });

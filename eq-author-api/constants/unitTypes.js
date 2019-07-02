@@ -1,5 +1,5 @@
-const CENTIMETERS = "Centimeters";
+const CENTIMETRES = "Centimetres";
 
 module.exports = {
-  CENTIMETERS,
+  CENTIMETRES,
 };

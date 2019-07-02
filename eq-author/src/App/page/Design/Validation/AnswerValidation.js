@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 
 import { gotoTab } from "redux/tabs/actions";
 import ModalWithNav from "components/modals/ModalWithNav";
+import { unitConversion } from "constants/unit-types";
 import SidebarButton, { Title, Detail } from "components/buttons/SidebarButton";
 
 import ValidationContext from "./ValidationContext";
@@ -30,9 +31,10 @@ import {
   DATE_RANGE,
   NUMBER,
   PERCENTAGE,
+  UNIT,
 } from "constants/answer-types";
 
-const formatValue = (value, { type }) => {
+const formatValue = (value, { type, properties }) => {
   if (typeof value !== "number") {
     return null;
   }
@@ -41,6 +43,9 @@ const formatValue = (value, { type }) => {
   }
   if (type === CURRENCY) {
     return `£${value}`;
+  }
+  if (type === UNIT) {
+    return `${value} ${unitConversion[properties.unit].abbreviation}`;
   }
   return value;
 };
@@ -52,7 +57,7 @@ export const validationTypes = [
     render: () => (
       <MinValue>{props => <NumericValidation {...props} />}</MinValue>
     ),
-    types: [CURRENCY, NUMBER, PERCENTAGE],
+    types: [CURRENCY, NUMBER, PERCENTAGE, UNIT],
     preview: ({ custom, previousAnswer, entityType }, answer) =>
       entityType === "Custom"
         ? formatValue(custom, answer)
@@ -64,7 +69,7 @@ export const validationTypes = [
     render: () => (
       <MaxValue>{props => <NumericValidation {...props} />}</MaxValue>
     ),
-    types: [CURRENCY, NUMBER, PERCENTAGE],
+    types: [CURRENCY, NUMBER, PERCENTAGE, UNIT],
     preview: ({ custom, previousAnswer, entityType }, answer) =>
       entityType === "Custom"
         ? formatValue(custom, answer)
@@ -111,7 +116,14 @@ export const validationTypes = [
 const getValidationsForType = type =>
   validationTypes.filter(({ types }) => types.includes(type));
 
-const validations = [NUMBER, CURRENCY, PERCENTAGE, DATE, DATE_RANGE].reduce(
+const validations = [
+  NUMBER,
+  CURRENCY,
+  PERCENTAGE,
+  DATE,
+  DATE_RANGE,
+  UNIT,
+].reduce(
   (hash, type) => ({
     ...hash,
     [type]: getValidationsForType(type),

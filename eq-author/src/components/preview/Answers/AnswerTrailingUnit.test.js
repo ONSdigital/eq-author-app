@@ -2,7 +2,7 @@ import React from "react";
 import { shallow } from "enzyme";
 
 import { PERCENTAGE, UNIT } from "constants/answer-types";
-import { CENTIMETERS } from "constants/unit-types";
+import { CENTIMETRES } from "constants/unit-types";
 
 import AnswerTrailingUnit from "./AnswerTrailingUnit";
 
@@ -28,7 +28,7 @@ describe("answer with a trailing unit preview", () => {
           description: "Description",
           type: UNIT,
           properties: {
-            unit: CENTIMETERS,
+            unit: CENTIMETRES,
           },
         }}
       />

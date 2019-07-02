@@ -6,7 +6,10 @@ const {
   deleteQuestionnaire,
 } = require("../../tests/utils/contextBuilder/questionnaire");
 
-const { createAnswer } = require("../../tests/utils/contextBuilder/answer");
+const {
+  createAnswer,
+  updateAnswer,
+} = require("../../tests/utils/contextBuilder/answer");
 
 const { createMetadata } = require("../../tests/utils/contextBuilder/metadata");
 
@@ -32,6 +35,7 @@ const {
   NUMBER,
   DATE,
   DATE_RANGE,
+  UNIT,
 } = require("../../constants/answerTypes");
 const METADATA_TYPES = require("../../constants/metadataTypes");
 
@@ -43,7 +47,7 @@ describe("validation", () => {
       {
         pages: [
           {
-            answers: [{ type: DATE }, { type: CURRENCY }],
+            answers: [{ type: DATE }, { type: CURRENCY }, { type: UNIT }],
           },
         ],
       },
@@ -310,6 +314,21 @@ describe("validation", () => {
           entityType: entityTypes[i],
         });
       }
+    });
+  });
+
+  describe("Unit", () => {
+    it("should not show units of different unit types when selecting previous answer validation", async () => {
+      const answer = await createAnswer(ctx, {
+        questionPageId: page.id,
+        type: UNIT,
+      });
+      answer.properties = { unit: "Miles" };
+
+      await updateAnswer(ctx, answer);
+
+      const validation = await queryValidation(ctx, answer.id);
+      expect(validation.minValue.availablePreviousAnswers).toHaveLength(0);
     });
   });
 
