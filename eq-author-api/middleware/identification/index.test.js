@@ -55,6 +55,14 @@ describe("auth middleware", () => {
     });
 
     describe("invalid token", () => {
+      it("should allow requests through when the methods is 'GET'", () => {
+        req.method = "GET";
+
+        middleware(req, res, next);
+
+        expect(next).toHaveBeenCalled();
+      });
+
       it("should send a 401 response when no auth header", () => {
         req.header.mockImplementation(() => null);
 

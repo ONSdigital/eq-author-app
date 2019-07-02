@@ -4,6 +4,11 @@ const jwt = require("jsonwebtoken");
 const { getUserByExternalId } = require("../../utils/datastore");
 
 module.exports = logger => async (req, res, next) => {
+  if (req.method === "GET") {
+    next();
+    return;
+  }
+
   const authHeader = req.header(process.env.AUTH_HEADER_KEY || "authorization");
   if (isNil(authHeader)) {
     logger.error("Request must contain a valid authorization header.");
