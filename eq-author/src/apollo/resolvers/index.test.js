@@ -1,5 +1,9 @@
 import { resolvers } from ".";
-import { PAGES, ANSWERS } from "../../constants/validation-error-types";
+import {
+  PAGES,
+  ANSWERS,
+  OPTIONS,
+} from "../../constants/validation-error-types";
 
 describe("resolvers", () => {
   let cacheData;
@@ -123,6 +127,40 @@ describe("resolvers", () => {
       const newUpdatePages = [`${ANSWERS}_1`];
 
       resolvers.Mutation.updateAnswer(updateAnswer, {}, { cache });
+
+      expect(cacheData.newEntityList).toMatchObject(newUpdatePages);
+    });
+
+    it("should initialise optiond of new multiple answer", () => {
+      const answer = {
+        createAnswer: { id: 3, options: [{ id: 4 }] },
+      };
+
+      const newPages = [`${ANSWERS}_1`, `${ANSWERS}_3`, `${OPTIONS}_4`];
+
+      resolvers.Mutation.createAnswer(answer, {}, { cache });
+
+      expect(cacheData.newEntityList).toMatchObject(newPages);
+    });
+
+    it("should initialise new option and remove on update", () => {
+      const option = {
+        createOption: { id: 2 },
+      };
+
+      const newPages = [`${ANSWERS}_1`, `${OPTIONS}_2`];
+
+      resolvers.Mutation.createOption(option, {}, { cache });
+
+      expect(cacheData.newEntityList).toMatchObject(newPages);
+
+      const updateOption = {
+        updateOption: { id: 2 },
+      };
+
+      const newUpdatePages = [`${ANSWERS}_1`];
+
+      resolvers.Mutation.updateOption(updateOption, {}, { cache });
 
       expect(cacheData.newEntityList).toMatchObject(newUpdatePages);
     });

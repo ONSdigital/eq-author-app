@@ -51,6 +51,8 @@ const addPrefix = require("../../utils/addPrefix");
 const { createQuestionPage } = require("./pages/questionPage");
 
 const { BUSINESS } = require("../../constants/questionnaireTypes");
+const { ANSWERS, OPTIONS } = require("../../constants/validationErrorTypes");
+
 const {
   createQuestionnaire,
   deleteQuestionnaire,
@@ -536,7 +538,7 @@ const Resolvers = {
 
     validationErrorInfo: (answer, args, ctx) => {
       return ctx.validationErrorInfo.filter(
-        errorInfo => errorInfo.id === answer.id
+        errorInfo => errorInfo.id === answer.id && errorInfo.type === ANSWERS
       );
     },
   },
@@ -568,6 +570,11 @@ const Resolvers = {
     },
     displayName: option => getName(option, "Option"),
     additionalAnswer: option => option.additionalAnswer,
+    validationErrorInfo: (option, args, ctx) => {
+      return ctx.validationErrorInfo.filter(
+        errorInfo => errorInfo.id === option.id && errorInfo.type === OPTIONS
+      );
+    },
   },
 
   ValidationType: {

@@ -4,6 +4,8 @@ import { colors, radius } from "constants/theme";
 import { Field, Label } from "components/Forms";
 import WrappingInput from "components/Forms/WrappingInput";
 import withEntityEditor from "components/withEntityEditor";
+import withValidationError from "enhancers/withValidationError";
+import { flowRight } from "lodash";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 import DeleteButton from "components/buttons/DeleteButton";
@@ -62,11 +64,13 @@ export class StatelessOption extends Component {
     descriptionPlaceholder: PropTypes.string,
     autoFocus: PropTypes.bool,
     label: PropTypes.string,
+    getValidationError: PropTypes.func,
   };
 
   static defaultProps = {
     labelPlaceholder: "Label",
     autoFocus: true,
+    getValidationError: () => {},
   };
 
   handleDeleteClick = () => {
@@ -106,6 +110,7 @@ export class StatelessOption extends Component {
       descriptionPlaceholder,
       autoFocus,
       label,
+      getValidationError,
       ...otherProps
     } = this.props;
 
@@ -129,6 +134,10 @@ export class StatelessOption extends Component {
                 data-test="option-label"
                 data-autofocus={autoFocus || null}
                 bold
+                errorValidationMsg={getValidationError({
+                  field: "label",
+                  label: "Option label",
+                })}
               />
             </OptionField>
           </Flex>
@@ -159,4 +168,7 @@ StatelessOption.fragments = {
   Option: optionFragment,
 };
 
-export default withEntityEditor("option")(StatelessOption);
+export default flowRight(
+  withValidationError("option"),
+  withEntityEditor("option")
+)(StatelessOption);

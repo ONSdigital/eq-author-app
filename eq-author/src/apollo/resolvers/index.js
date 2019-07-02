@@ -1,5 +1,9 @@
 import gql from "graphql-tag";
-import { PAGES, ANSWERS } from "../../constants/validation-error-types";
+import {
+  PAGES,
+  ANSWERS,
+  OPTIONS,
+} from "../../constants/validation-error-types";
 
 export const typeDefs = gql`
   extend type QuestionPage {
@@ -7,6 +11,14 @@ export const typeDefs = gql`
   }
 
   extend type BasicAnswer {
+    isNew: Boolean!
+  }
+
+  extend type MultipleChoiceAnswer {
+    isNew: Boolean!
+  }
+
+  extend type Option {
     isNew: Boolean!
   }
 `;
@@ -57,6 +69,14 @@ export const resolvers = {
     isNew: isNewEntity(ANSWERS),
   },
 
+  MultipleChoiceAnswer: {
+    isNew: isNewEntity(ANSWERS),
+  },
+
+  Option: {
+    isNew: isNewEntity(OPTIONS),
+  },
+
   Mutation: {
     createQuestionnaire: (root, input, { cache }) => {
       cache.writeData({ data: { newEntityList: [] } });
@@ -78,11 +98,26 @@ export const resolvers = {
     },
 
     createAnswer: (root, input, { cache }) => {
-      addNewEntity(ANSWERS, root.createAnswer.id, cache);
+      const answer = root.createAnswer;
+      addNewEntity(ANSWERS, answer.id, cache);
+
+      if (answer.options) {
+        answer.options.forEach(option => {
+          addNewEntity(OPTIONS, option.id, cache);
+        });
+      }
     },
 
     updateAnswer: (root, input, { cache }) => {
       removeNewEntity(ANSWERS, root.updateAnswer.id, cache);
+    },
+
+    createOption: (root, input, { cache }) => {
+      addNewEntity(OPTIONS, root.createOption.id, cache);
+    },
+
+    updateOption: (root, input, { cache }) => {
+      removeNewEntity(OPTIONS, root.updateOption.id, cache);
     },
   },
 };

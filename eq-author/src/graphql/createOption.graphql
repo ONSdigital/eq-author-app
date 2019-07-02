@@ -1,7 +1,12 @@
 #import "./fragments/option.graphql"
+#import "./fragments/validationErrorInfo.graphql"
 
 mutation createOption($input: CreateOptionInput!) {
   createOption(input: $input) {
     ...Option
+    validationErrorInfo {
+      ...ValidationErrorInfo
+    }
+    isNew @client
   }
 }

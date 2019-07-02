@@ -251,6 +251,7 @@ exports[`Option should render a checkbox 1`] = `
 
 <StatelessOption
   autoFocus={true}
+  getValidationError={[Function]}
   hasDeleteButton={true}
   labelPlaceholder="Label"
   onChange={[MockFunction]}

@@ -49,6 +49,24 @@ const getAnswerQuery = `
             type
             description
           }
+          validationErrorInfo {
+            errors {
+              id
+              type
+              field
+              errorCode
+            }
+            totalCount
+          }
+        }
+        validationErrorInfo {
+          errors {
+            id
+            type
+            field
+            errorCode
+          }
+          totalCount
         }
       }
     }
