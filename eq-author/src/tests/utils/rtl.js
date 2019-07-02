@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import { merge } from "lodash";
 
 import TestProvider from "./TestProvider";
+export { default as flushPromises } from "./flushPromises";
 
 const customRender = (
   ui,
@@ -17,6 +18,16 @@ const customRender = (
     ...renderOptions
   } = {}
 ) => {
+  const existingNode = document.getElementById("toast");
+  if (existingNode) {
+    document.body.removeChild(existingNode);
+  }
+
+  const toasts = document.createElement("div");
+  toasts.setAttribute("id", "toast");
+
+  document.body.appendChild(toasts);
+
   const store = {
     getState: jest.fn(() =>
       merge(

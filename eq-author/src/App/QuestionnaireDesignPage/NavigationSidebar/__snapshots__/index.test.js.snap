@@ -10,7 +10,8 @@ exports[`NavigationSidebar should render 1`] = `
 <NavigationSidebar__Container
   data-test="side-nav"
 >
-  <withRouter(NavigationHeader)
+  <_default />
+  <NavigationHeader
     canAddCalculatedSummaryPage={true}
     canAddQuestionConfirmation={true}
     canAddQuestionPage={true}
@@ -19,7 +20,6 @@ exports[`NavigationSidebar should render 1`] = `
     onAddQuestionConfirmation={[MockFunction]}
     onAddQuestionPage={[MockFunction]}
     onAddSection={[Function]}
-    onUpdateQuestionnaire={[MockFunction]}
     questionnaire={
       Object {
         "id": "1",

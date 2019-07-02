@@ -2,27 +2,8 @@
 
 exports[`QuestionConfirmationRoute should render 1`] = `
 <EditorLayout
-  page={
-    Object {
-      "displayName": "My first displayname",
-      "id": "1",
-      "negative": Object {
-        "description": "Negative description",
-        "label": "Negative label",
-      },
-      "page": Object {
-        "answers": Array [],
-        "displayName": "My question",
-        "id": "1",
-      },
-      "positive": Object {
-        "description": "Positive description",
-        "label": "Positive label",
-      },
-      "title": "My first confirmation",
-    }
-  }
   preview={true}
+  title="My first displayname"
 >
   <DeleteConfirmDialog
     alertText="All edits will be removed."
@@ -74,27 +55,8 @@ exports[`QuestionConfirmationRoute should render 1`] = `
 
 exports[`QuestionConfirmationRoute should show error info when there is an error 1`] = `
 <EditorLayout
-  page={
-    Object {
-      "displayName": "My first displayname",
-      "id": "1",
-      "negative": Object {
-        "description": "Negative description",
-        "label": "Negative label",
-      },
-      "page": Object {
-        "answers": Array [],
-        "displayName": "My question",
-        "id": "1",
-      },
-      "positive": Object {
-        "description": "Positive description",
-        "label": "Positive label",
-      },
-      "title": "My first confirmation",
-    }
-  }
   preview={true}
+  title="My first displayname"
 >
   <Error>
     Oh no! Something went wrong
@@ -104,27 +66,8 @@ exports[`QuestionConfirmationRoute should show error info when there is an error
 
 exports[`QuestionConfirmationRoute should show loading info when loading 1`] = `
 <EditorLayout
-  page={
-    Object {
-      "displayName": "My first displayname",
-      "id": "1",
-      "negative": Object {
-        "description": "Negative description",
-        "label": "Negative label",
-      },
-      "page": Object {
-        "answers": Array [],
-        "displayName": "My question",
-        "id": "1",
-      },
-      "positive": Object {
-        "description": "Positive description",
-        "label": "Positive label",
-      },
-      "title": "My first confirmation",
-    }
-  }
   preview={true}
+  title="My first displayname"
 >
   <Loading
     height="100%"

@@ -34,15 +34,6 @@ describe("base layout", () => {
     expect(getByText("Children")).toBeTruthy();
   });
 
-  it("should set the title", () => {
-    render(
-      <BaseLayout {...props} title="Some title">
-        Children
-      </BaseLayout>
-    );
-    expect(document.title).toEqual("Some title");
-  });
-
   describe("Warning message", () => {
     it("should show an error when the browser is not connected", () => {
       const { getByText } = render(

@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import { Query } from "react-apollo";
 import { propType } from "graphql-anywhere";
 import gql from "graphql-tag";
-import { flow } from "lodash/fp";
-import EditorLayout from "App/page/Design/EditorLayout";
+import { flow, getOr } from "lodash/fp";
+import EditorLayout from "components/EditorLayout";
 
 import { Toolbar, Buttons } from "App/page/Design/EditorToolbar";
 import Error from "components/Error";
@@ -89,8 +89,13 @@ export class UnwrappedQuestionConfirmationRoute extends React.Component {
   }
 
   render() {
+    const displayName = getOr(
+      "",
+      "questionConfirmation.displayName",
+      this.props.data
+    );
     return (
-      <EditorLayout page={this.props.data.questionConfirmation} preview>
+      <EditorLayout title={displayName} preview>
         {this.renderContent()}
       </EditorLayout>
     );

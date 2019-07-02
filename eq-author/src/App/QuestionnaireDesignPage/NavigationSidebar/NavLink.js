@@ -17,8 +17,9 @@ export const Link = styled(RouterNavLink)`
   display: flex;
   align-items: center;
   width: 100%;
-  padding: 0 0.5em 0 0;
+  padding: 0 0.5em;
   color: var(--color-text);
+  font-size: 0.9rem;
 
   &:hover {
     background: ${rgba(0, 0, 0, 0.2)};

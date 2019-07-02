@@ -5,6 +5,7 @@ exports[`Question Routing Route should redirect if the pageType is not valid 1`]
   design={true}
   preview={true}
   routing={true}
+  title="Untitled Page"
 >
   <Redirect
     push={false}

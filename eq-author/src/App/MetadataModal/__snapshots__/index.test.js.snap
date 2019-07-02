@@ -1,7 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`MetadataModal should render 1`] = `
-<ModalFullScreen
+<Modal
+  hasCloseButton={true}
   isOpen={true}
   onClose={[MockFunction]}
 >
@@ -10,7 +11,7 @@ exports[`MetadataModal should render 1`] = `
   >
     <Component />
   </GetMetadataQuery>
-</ModalFullScreen>
+</Modal>
 `;
 
 exports[`MetadataModal should render error state 1`] = `

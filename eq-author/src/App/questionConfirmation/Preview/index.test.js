@@ -4,7 +4,7 @@ import { shallow } from "enzyme";
 import MultipleChoiceAnswerOptionsReplay from "./MultipleChoiceAnswerOptionsReplay";
 import { UnwrappedPreviewConfirmationRoute as PreviewConfirmationRoute } from "./";
 
-describe("PageConfirmationNavItem", () => {
+describe("Question Confirmation Preview", () => {
   let questionConfirmation;
   beforeEach(() => {
     questionConfirmation = {

@@ -14,12 +14,13 @@ export const colors = {
 };
 
 colors.primary = colors.blue;
-colors.secondary = colors.darkBlue;
+colors.secondary = colors.blue;
 colors.tertiary = colors.orange;
 colors.text = colors.black;
 colors.textLight = colors.darkGrey;
 colors.borders = colors.grey;
 colors.bordersLight = colors.lightGrey;
+colors.previewError = colors.grey;
 
 export const radius = "4px";
 export const shadow = "0 2px 4px rgba(0,0,0,0.1)";

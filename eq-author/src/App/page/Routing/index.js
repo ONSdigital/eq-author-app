@@ -7,7 +7,7 @@ import { get } from "lodash";
 import PropTypes from "prop-types";
 import { propType } from "graphql-anywhere";
 
-import EditorLayout from "App/page/Design/EditorLayout";
+import EditorLayout from "components/EditorLayout";
 import Loading from "components/Loading";
 import Error from "components/Error";
 
@@ -29,10 +29,15 @@ export class UnwrappedQuestionRoutingRoute extends React.Component {
     }),
     loading: PropTypes.bool.isRequired,
     error: PropTypes.object, // eslint-disable-line
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        questionnaireId: PropTypes.string.isRequired,
+      }).isRequired,
+    }).isRequired,
   };
 
   renderContent() {
-    const { data, loading, error } = this.props;
+    const { data, loading, error, match } = this.props;
 
     if (loading) {
       return <Loading height="20em">Loading routing</Loading>;
@@ -48,7 +53,7 @@ export class UnwrappedQuestionRoutingRoute extends React.Component {
       return (
         <Redirect
           to={buildPagePath({
-            questionnaireId: page.section.questionnaire.id,
+            questionnaireId: match.params.questionnaireId,
             pageId: page.id,
           })}
         />
@@ -59,8 +64,9 @@ export class UnwrappedQuestionRoutingRoute extends React.Component {
   }
 
   render() {
+    const displayName = get(this.props.data, "page.displayName", "");
     return (
-      <EditorLayout design preview routing>
+      <EditorLayout design preview routing title={displayName}>
         {this.renderContent()}
       </EditorLayout>
     );
@@ -71,14 +77,9 @@ const query = gql`
   query GetRouting($input: QueryInput!) {
     page(input: $input) {
       id
+      displayName
       pageType
       ...RoutingPage
-      section {
-        id
-        questionnaire {
-          id
-        }
-      }
     }
   }
 `;
@@ -88,7 +89,7 @@ const QueryingRoute = props => (
   <Query
     query={ROUTING_QUERY}
     variables={{ input: props.match.params }}
-    fetchPolicy="network-only"
+    fetchPolicy="cache-and-network"
   >
     {innerProps => <UnwrappedQuestionRoutingRoute {...innerProps} {...props} />}
   </Query>

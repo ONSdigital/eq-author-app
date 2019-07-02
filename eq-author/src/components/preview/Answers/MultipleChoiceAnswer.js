@@ -17,8 +17,8 @@ const radioInput = css`
 `;
 
 const inputWithError = css`
-  border-color: #b5c4cb !important;
-  background-color: #b5c4cb !important;
+  border-color: ${colors.previewError} !important;
+  background-color: ${colors.previewError} !important;
   box-shadow: none;
 `;
 
@@ -56,7 +56,7 @@ const OptionDescription = styled.div`
 `;
 
 const optionItemError = css`
-  border: 2px dashed #b5c4cb;
+  border: 2px dashed ${colors.previewError};
   color: ${colors.secondary};
   font-weight: bold;
 `;

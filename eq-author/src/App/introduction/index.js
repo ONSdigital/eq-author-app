@@ -7,12 +7,12 @@ import Preview from "./Preview";
 
 export default [
   <Route
-    key="page-design"
-    path="/q/:questionnaireId/introduction/:introductionId/design"
+    key="introduction-design"
+    path="/q/:questionnaireId/introduction/:introductionId/design/:modifier?"
     component={Design}
   />,
   <Route
-    key="page-design"
+    key="introduction-preview"
     path="/q/:questionnaireId/introduction/:introductionId/preview"
     component={Preview}
   />,

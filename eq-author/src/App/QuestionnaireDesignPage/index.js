@@ -9,11 +9,13 @@ import { Titled } from "react-titled";
 import { Route, Redirect } from "react-router";
 import { find, flatMap, flowRight } from "lodash";
 
-import BaseLayout from "components/BaseLayout";
 import { Grid, Column } from "components/Grid";
 import Loading from "components/Loading";
+import BaseLayout from "components/BaseLayout";
+import QuestionnaireContext from "components/QuestionnaireContext";
 
 import { SECTION, PAGE, QUESTION_CONFIRMATION } from "constants/entities";
+import { ERR_PAGE_NOT_FOUND } from "constants/error-codes";
 
 import { buildSectionPath, buildIntroductionPath } from "utils/UrlUtils";
 
@@ -30,8 +32,6 @@ import { raiseToast } from "redux/toast/actions";
 
 import withCreateQuestionConfirmation from "./withCreateQuestionConfirmation";
 import NavigationSidebar from "./NavigationSidebar";
-
-import { ERR_PAGE_NOT_FOUND } from "constants/error-codes";
 
 export class UnwrappedQuestionnaireDesignPage extends Component {
   static propTypes = {
@@ -94,12 +94,12 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
     }
   };
 
-  getTitle = title => {
+  getTitle = () => {
     const {
       loading,
       data: { questionnaire },
     } = this.props;
-    return loading ? title : `${questionnaire.title} - ${title}`;
+    return loading ? "" : `${questionnaire.title}`;
   };
 
   renderRedirect = () => {
@@ -197,10 +197,7 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
     }
 
     return (
-      <BaseLayout
-        questionnaire={questionnaire}
-        title={loading ? "" : questionnaire.displayName}
-      >
+      <BaseLayout>
         <Titled title={this.getTitle}>
           <Grid>
             <Column cols={3} gutters={false}>
@@ -219,16 +216,18 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
                 onAddQuestionConfirmation={this.handleAddQuestionConfirmation}
               />
             </Column>
-            <Column cols={9}>
-              <Switch location={location}>
-                {[
-                  ...pageRoutes,
-                  ...sectionRoutes,
-                  ...questionConfirmationRoutes,
-                  ...introductionRoutes,
-                ]}
-                <Route path="*" render={this.renderRedirect} />
-              </Switch>
+            <Column cols={9} gutters={false}>
+              <QuestionnaireContext.Provider value={{ questionnaire }}>
+                <Switch location={location}>
+                  {[
+                    ...pageRoutes,
+                    ...sectionRoutes,
+                    ...questionConfirmationRoutes,
+                    ...introductionRoutes,
+                  ]}
+                  <Route path="*" render={this.renderRedirect} />
+                </Switch>
+              </QuestionnaireContext.Provider>
             </Column>
           </Grid>
         </Titled>

@@ -11,7 +11,7 @@ import PageIcon from "./icon-survey-intro.svg?inline";
 
 const StyledItem = styled.li`
   padding: 0;
-  margin: 0;
+  margin: 0 0 0.5em;
   position: relative;
   display: flex;
   align-items: center;

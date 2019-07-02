@@ -2,44 +2,10 @@
 
 exports[`QuestionPagePreview should render 1`] = `
 <EditorLayout
-  page={
-    Object {
-      "additionalInfoContent": "<p>Additional Info Content</p>",
-      "additionalInfoEnabled": true,
-      "additionalInfoLabel": "<p>Additional Info Label</p>",
-      "alias": "Who am I?",
-      "answers": Array [
-        Object {
-          "id": "1",
-          "type": "TextField",
-        },
-      ],
-      "definitionContent": "<p>Definition Content</p>",
-      "definitionEnabled": true,
-      "definitionLabel": "<p>Definition Label</p>",
-      "description": "<p>Description</p>",
-      "descriptionEnabled": true,
-      "displayName": "Question",
-      "guidance": "<p>Guidance</p>",
-      "guidanceEnabled": true,
-      "id": "1",
-      "isNew": false,
-      "pageType": "QuestionPage",
-      "position": 1,
-      "section": Object {
-        "id": "1",
-        "questionnaire": Object {
-          "id": "1",
-          "metadata": Array [],
-        },
-      },
-      "title": "<p>Hello world</p>",
-      "totalValidation": null,
-      "validationErrorInfo": Array [],
-    }
-  }
   preview={true}
+  renderPanel={[Function]}
   routing={true}
+  title="Question"
 >
   <QuestionPagePreview__Container>
     <PageTitle
