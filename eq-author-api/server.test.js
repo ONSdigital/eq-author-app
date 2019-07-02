@@ -52,12 +52,14 @@ describe("Server", () => {
       });
       const { questionnaire } = ctx;
       const questionnaireJSON = JSON.parse(JSON.stringify(questionnaire));
-
+      ctx.user.sub = ctx.user.externalId;
+      const token = jwt.sign(ctx.user, uuid.v4());
       process.env.ENABLE_IMPORT = "true";
       const server = createApp();
 
       const response = await request(server)
         .post("/import")
+        .set("authorization", `Bearer ${token}`)
         .send(questionnaireJSON);
 
       expect(response.headers["content-type"]).toMatch(/json/);

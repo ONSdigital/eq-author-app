@@ -110,7 +110,7 @@ const UserSearch = ({ users, onUserSelect }) => {
                       }
                       const value = inputValue.toLowerCase();
                       return (
-                        user.name.toLowerCase().includes(value) ||
+                        (user.name || "").toLowerCase().includes(value) ||
                         user.email.toLowerCase().includes(value)
                       );
                     })
@@ -146,7 +146,7 @@ UserSearch.propTypes = {
   users: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
+      name: PropTypes.string,
       email: PropTypes.string.isRequired,
     })
   ).isRequired,

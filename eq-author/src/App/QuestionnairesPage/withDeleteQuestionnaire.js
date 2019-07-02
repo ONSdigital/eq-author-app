@@ -15,6 +15,11 @@ export const mapMutateToProps = ({ ownProps, mutate }) => ({
           __typename: "Questionnaire",
         },
       },
+      context: {
+        headers: {
+          questionnaireId,
+        },
+      },
     });
 
     return mutation

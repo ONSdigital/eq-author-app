@@ -265,7 +265,7 @@ describe("Header", () => {
                     users: [
                       {
                         id: "10",
-                        name: "Clark Kent",
+                        name: null,
                         email: "clark@totallynotsuperman.com",
                       },
                       PETER_PARKER,
