@@ -52,6 +52,7 @@ export class UnwrappedNumericValidation extends React.Component {
         data-test="numeric-value-input"
         value={this.props.validation.custom}
         type={this.props.answer.type}
+        unit={this.props.answer.properties.unit}
         onChange={this.props.onCustomNumberValueChange}
         onBlur={this.props.onUpdate}
         max={this.props.limit}
@@ -101,6 +102,9 @@ UnwrappedNumericValidation.propTypes = {
   answer: PropTypes.shape({
     id: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
+    properties: PropTypes.shape({
+      unit: PropTypes.string,
+    }),
   }).isRequired,
   onCustomNumberValueChange: PropTypes.func.isRequired,
   onChangeUpdate: PropTypes.func.isRequired,

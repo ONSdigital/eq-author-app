@@ -4,29 +4,29 @@ exports[`Required Property should render 1`] = `
 <withChangeHandler(Select__SimpleSelect)
   data-test="unit-select"
   onChange={[MockFunction]}
-  value="Centimeters"
+  value="Centimetres"
 >
   <optgroup
     key="Length"
     label="Length"
   >
     <option
-      key="Centimeters"
-      value="Centimeters"
+      key="Centimetres"
+      value="Centimetres"
     >
-      (cm) Centimeters
+      (cm) Centimetres
     </option>
     <option
-      key="Meters"
-      value="Meters"
+      key="Metres"
+      value="Metres"
     >
-      (m) Meters
+      (m) Metres
     </option>
     <option
-      key="Kilometers"
-      value="Kilometers"
+      key="Kilometres"
+      value="Kilometres"
     >
-      (km) Kilometers
+      (km) Kilometres
     </option>
     <option
       key="Miles"
@@ -40,40 +40,40 @@ exports[`Required Property should render 1`] = `
     label="Area"
   >
     <option
-      key="Square centimeters"
-      value="Square centimeters"
+      key="Square centimetres"
+      value="Square centimetres"
     >
-      (cm²) Square centimeters
+      (cm²) Square centimetres
     </option>
     <option
-      key="Square meters"
-      value="Square meters"
+      key="Square metres"
+      value="Square metres"
     >
-      (m²) Square meters
+      (m²) Square metres
     </option>
     <option
-      key="Square kilometers"
-      value="Square kilometers"
+      key="Square kilometres"
+      value="Square kilometres"
     >
-      (km²) Square kilometers
+      (km²) Square kilometres
     </option>
     <option
       key="Square miles"
       value="Square miles"
     >
-      (mi²) Square miles
+      (sq mi) Square miles
     </option>
     <option
-      key="Acre"
-      value="Acre"
+      key="Acres"
+      value="Acres"
     >
-      (ac) Acre
+      (ac) Acres
     </option>
     <option
-      key="Hectare"
-      value="Hectare"
+      key="Hectares"
+      value="Hectares"
     >
-      (ha) Hectare
+      (ha) Hectares
     </option>
   </optgroup>
   <optgroup
@@ -81,22 +81,40 @@ exports[`Required Property should render 1`] = `
     label="Volume"
   >
     <option
-      key="Cubic centimeters"
-      value="Cubic centimeters"
+      key="Cubic centimetres"
+      value="Cubic centimetres"
     >
-      (cm³) Cubic centimeters
+      (cm³) Cubic centimetres
     </option>
     <option
-      key="Cubic meters"
-      value="Cubic meters"
+      key="Cubic metres"
+      value="Cubic metres"
     >
-      (m³) Cubic meters
+      (m³) Cubic metres
     </option>
     <option
-      key="Cubic kilometers"
-      value="Cubic kilometers"
+      key="Cubic kilometres"
+      value="Cubic kilometres"
     >
-      (km³) Cubic kilometers
+      (km³) Cubic kilometres
+    </option>
+    <option
+      key="Litres"
+      value="Litres"
+    >
+      (l) Litres
+    </option>
+    <option
+      key="Hectolitres"
+      value="Hectolitres"
+    >
+      (hl) Hectolitres
+    </option>
+    <option
+      key="Megalitres"
+      value="Megalitres"
+    >
+      (Ml) Megalitres
     </option>
   </optgroup>
   <optgroup
@@ -121,10 +139,10 @@ exports[`Required Property should render 1`] = `
       (kJ) Kilojoules
     </option>
     <option
-      key="Kilowatt hour"
-      value="Kilowatt hour"
+      key="Kilowatt hours"
+      value="Kilowatt hours"
     >
-      (kWh) Kilowatt hour
+      (kWh) Kilowatt hours
     </option>
   </optgroup>
 </withChangeHandler(Select__SimpleSelect)>

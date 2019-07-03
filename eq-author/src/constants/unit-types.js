@@ -1,63 +1,85 @@
-export const CENTIMETERS = "Centimeters";
-export const METERS = "Meters";
-export const KILOMETERS = "Kilometers";
+export const CENTIMETRES = "Centimetres";
+export const METRES = "Metres";
+export const KILOMETRES = "Kilometres";
 export const MILES = "Miles";
-export const SQUARE_CENTIMETERS = "Square centimeters";
-export const SQUARE_METERS = "Square meters";
-export const SQUARE_KILOMETERS = "Square kilometers";
+export const SQUARE_CENTIMETRES = "Square centimetres";
+export const SQUARE_METRES = "Square metres";
+export const SQUARE_KILOMETRES = "Square kilometres";
 export const SQUARE_MILES = "Square miles";
-export const ACRE = "Acre";
-export const HECTARE = "Hectare";
-export const CUBIC_CENTIMETERS = "Cubic centimeters";
-export const CUBIC_METERS = "Cubic meters";
-export const CUBIC_KILOMETERS = "Cubic kilometers";
+export const ACRES = "Acres";
+export const HECTARES = "Hectares";
+export const CUBIC_CENTIMETRES = "Cubic centimetres";
+export const CUBIC_METRES = "Cubic metres";
+export const CUBIC_KILOMETRES = "Cubic kilometres";
+export const LITRES = "Litres";
+export const HECTOLITRES = "Hectolitres";
+export const MEGALITRES = "Megalitres";
 export const TONNES = "Tonnes";
 export const KILOJOULES = "Kilojoules";
-export const KILOWATT_HOUR = "Kilowatt hour";
+export const KILOWATT_HOURS = "Kilowatt hours";
 
 export const unitConversion = {
-  [CENTIMETERS]: { unit: CENTIMETERS, type: "Length", abbreviation: "cm" },
-  [METERS]: { unit: METERS, type: "Length", abbreviation: "m" },
-  [KILOMETERS]: { unit: KILOMETERS, type: "Length", abbreviation: "km" },
+  [CENTIMETRES]: { unit: CENTIMETRES, type: "Length", abbreviation: "cm" },
+  [METRES]: { unit: METRES, type: "Length", abbreviation: "m" },
+  [KILOMETRES]: { unit: KILOMETRES, type: "Length", abbreviation: "km" },
   [MILES]: { unit: MILES, type: "Length", abbreviation: "mi" },
-  [SQUARE_CENTIMETERS]: {
-    unit: SQUARE_CENTIMETERS,
+  [SQUARE_CENTIMETRES]: {
+    unit: SQUARE_CENTIMETRES,
     type: "Area",
     abbreviation: `cm²`,
   },
-  [SQUARE_METERS]: {
-    unit: SQUARE_METERS,
+  [SQUARE_METRES]: {
+    unit: SQUARE_METRES,
     type: "Area",
     abbreviation: `m²`,
   },
-  [SQUARE_KILOMETERS]: {
-    unit: SQUARE_KILOMETERS,
+  [SQUARE_KILOMETRES]: {
+    unit: SQUARE_KILOMETRES,
     type: "Area",
     abbreviation: `km²`,
   },
   [SQUARE_MILES]: {
     unit: SQUARE_MILES,
     type: "Area",
-    abbreviation: `mi²`,
+    abbreviation: `sq mi`,
   },
-  [ACRE]: { unit: ACRE, type: "Area", abbreviation: "ac" },
-  [HECTARE]: { unit: HECTARE, type: "Area", abbreviation: "ha" },
-  [CUBIC_CENTIMETERS]: {
-    unit: CUBIC_CENTIMETERS,
+  [ACRES]: { unit: ACRES, type: "Area", abbreviation: "ac" },
+  [HECTARES]: { unit: HECTARES, type: "Area", abbreviation: "ha" },
+  [CUBIC_CENTIMETRES]: {
+    unit: CUBIC_CENTIMETRES,
     type: "Volume",
     abbreviation: `cm³`,
   },
-  [CUBIC_METERS]: {
-    unit: CUBIC_METERS,
+  [CUBIC_METRES]: {
+    unit: CUBIC_METRES,
     type: "Volume",
     abbreviation: `m³`,
   },
-  [CUBIC_KILOMETERS]: {
-    unit: CUBIC_KILOMETERS,
+  [CUBIC_KILOMETRES]: {
+    unit: CUBIC_KILOMETRES,
     type: "Volume",
     abbreviation: `km³`,
   },
+  [LITRES]: {
+    unit: LITRES,
+    type: "Volume",
+    abbreviation: `l`,
+  },
+  [HECTOLITRES]: {
+    unit: HECTOLITRES,
+    type: "Volume",
+    abbreviation: `hl`,
+  },
+  [MEGALITRES]: {
+    unit: MEGALITRES,
+    type: "Volume",
+    abbreviation: `Ml`,
+  },
   [TONNES]: { unit: TONNES, type: "Mass", abbreviation: "t" },
   [KILOJOULES]: { unit: KILOJOULES, type: "Energy", abbreviation: "kJ" },
-  [KILOWATT_HOUR]: { unit: KILOWATT_HOUR, type: "Energy", abbreviation: "kWh" },
+  [KILOWATT_HOURS]: {
+    unit: KILOWATT_HOURS,
+    type: "Energy",
+    abbreviation: "kWh",
+  },
 };

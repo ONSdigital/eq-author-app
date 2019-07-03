@@ -24,7 +24,7 @@ class Answer {
     }
 
     if (!isNil(answer.validation)) {
-      if ([NUMBER, CURRENCY, PERCENTAGE].includes(answer.type)) {
+      if ([NUMBER, CURRENCY, PERCENTAGE, UNIT].includes(answer.type)) {
         const { minValue, maxValue } = answer.validation;
         this.buildNumberValidation(minValue, "min_value");
         this.buildNumberValidation(maxValue, "max_value");

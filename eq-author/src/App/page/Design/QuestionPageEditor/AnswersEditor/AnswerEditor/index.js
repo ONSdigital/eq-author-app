@@ -128,7 +128,7 @@ class AnswerEditor extends React.Component {
     return (
       <>
         {unitConfig.type}
-        {`(${unitConfig.abbreviation})`}
+        {` (${unitConfig.abbreviation})`}
       </>
     );
   }

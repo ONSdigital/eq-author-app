@@ -34,6 +34,7 @@ describe("NumericValidation", () => {
       answer: {
         id: "1",
         type: NUMBER,
+        properties: {},
       },
       onCustomNumberValueChange: onCustomNumberValueChange,
       onChangeUpdate: onChangeUpdate,

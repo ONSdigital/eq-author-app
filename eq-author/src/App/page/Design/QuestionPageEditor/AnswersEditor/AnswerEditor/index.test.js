@@ -16,7 +16,7 @@ import {
   UNIT,
 } from "constants/answer-types";
 
-import { CENTIMETERS } from "constants/unit-types";
+import { CENTIMETRES } from "constants/unit-types";
 
 import MultipleChoiceAnswer from "App/page/Design/answers/MultipleChoiceAnswer";
 import Date from "App/page/Design/answers/Date";
@@ -154,7 +154,7 @@ describe("Answer Editor", () => {
         ...mockAnswer,
         type: UNIT,
         properties: {
-          unit: CENTIMETERS,
+          unit: CENTIMETRES,
         },
       },
       ...mockMutations,

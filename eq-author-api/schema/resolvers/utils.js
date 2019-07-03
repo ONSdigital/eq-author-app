@@ -2,7 +2,7 @@ const { compact, get, filter, find, flatMap, some } = require("lodash");
 const deepMap = require("deep-map");
 const uuid = require("uuid");
 
-const { DATE, DATE_RANGE } = require("../../constants/answerTypes");
+const { DATE, DATE_RANGE, UNIT } = require("../../constants/answerTypes");
 const { DATE: METADATA_DATE } = require("../../constants/metadataTypes");
 
 const getPreviousAnswersForPage = require("../../src/businessLogic/getPreviousAnswersForPage");
@@ -83,9 +83,21 @@ const getAnswerByValidationId = (ctx, validationId) =>
 const getAvailablePreviousAnswersForValidation = (ctx, validationId) => {
   const answer = getAnswerByValidationId(ctx, validationId);
   const currentPage = getPageByAnswerId(ctx, answer.id);
-  return getPreviousAnswersForPage(ctx.questionnaire, currentPage.id, false, [
-    answer.type,
-  ]);
+
+  const previousAnswers = getPreviousAnswersForPage(
+    ctx.questionnaire,
+    currentPage.id,
+    false,
+    [answer.type]
+  );
+
+  if (answer.type === UNIT) {
+    return previousAnswers.filter(
+      previousAnswer =>
+        previousAnswer.properties.unit === answer.properties.unit
+    );
+  }
+  return previousAnswers;
 };
 
 const getAvailableMetadataForValidation = (ctx, validationId) => {

@@ -1,7 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
 
-import { CENTIMETERS, KILOJOULES } from "constants/unit-types";
+import { CENTIMETRES, KILOJOULES } from "constants/unit-types";
 
 import UnitProperties from "./UnitProperties";
 
@@ -14,7 +14,7 @@ describe("Required Property", () => {
 
   beforeEach(() => {
     props = {
-      unit: CENTIMETERS,
+      unit: CENTIMETRES,
       onChange: jest.fn(),
     };
     wrapper = createWrapper(props, shallow);
