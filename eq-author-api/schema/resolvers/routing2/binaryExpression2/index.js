@@ -13,6 +13,7 @@ const {
 const {
   createExpression,
   createLeftSide,
+  createRightSide,
 } = require("../../../../src/businessLogic");
 
 const { withWritePermission } = require("../../withWritePermission");
@@ -155,6 +156,7 @@ Resolvers.Mutation = {
     const expression = createExpression({
       left,
       condition: condition || "Equal",
+      right: createRightSide(firstAnswer),
     });
 
     expressionGroup.expressions.push(expression);

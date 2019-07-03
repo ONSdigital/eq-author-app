@@ -13,12 +13,14 @@ const { withWritePermission } = require("../../withWritePermission");
 const isMutuallyExclusive = require("../../../../utils/isMutuallyExclusive");
 
 const conditions = require("../../../../constants/routingConditions");
+
 const {
   createDestination,
   createRoutingRule,
   createExpressionGroup,
   createExpression,
   createLeftSide,
+  createRightSide,
 } = require("../../../../src/businessLogic");
 const availableRoutingDestinations = require("../../../../src/businessLogic/availableRoutingDestinations");
 const validateRoutingDestinations = require("../../../../src/businessLogic/validateRoutingDestination");
@@ -89,6 +91,7 @@ Resolvers.Mutation = {
           createExpression({
             left: createLeftSide(leftHandSide),
             condition,
+            right: createRightSide(firstAnswer),
           }),
         ],
       }),

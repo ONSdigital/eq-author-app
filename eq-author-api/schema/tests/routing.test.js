@@ -59,7 +59,7 @@ describe("routing", () => {
       ).toEqual(page.answers[0].id);
       expect(
         result.routing.rules[0].expressionGroup.expressions[0].right
-      ).toBeNull();
+      ).toEqual({ options: [] });
     });
 
     // Passes intermittently
