@@ -10,6 +10,7 @@ const {
   createExpressionGroup,
   createExpression,
   createLeftSide,
+  createRightSide,
 } = require("../../../../src/businessLogic");
 
 const answerTypeToConditions = require("../../../../src/businessLogic/answerTypeToConditions");
@@ -81,6 +82,7 @@ Resolvers.Mutation = {
               createExpression({
                 left: createLeftSide(leftHandSide),
                 condition,
+                right: createRightSide(firstAnswer),
               }),
             ],
           }),
