@@ -74,28 +74,28 @@ describe("auth middleware", () => {
         expect(next).toHaveBeenCalled();
       });
 
-      it("should send a 401 response when no auth header", () => {
+      it("should send a 401 response when no auth header", async () => {
         req.header.mockImplementation(() => null);
 
-        middleware(req, res);
+        await middleware(req, res);
 
         expect(logger.error).toHaveBeenCalled();
         expect(res.send).toHaveBeenCalledWith(401);
       });
 
-      it("should send a 401 response when no token provided (empty)", () => {
+      it("should send a 401 response when no token provided (empty)", async () => {
         req.header.mockImplementation(() => "");
 
-        middleware(req, res);
+        await middleware(req, res);
 
         expect(logger.error).toHaveBeenCalled();
         expect(res.send).toHaveBeenCalledWith(401);
       });
 
-      it("should send a 401 response when no token provided (no token)", () => {
+      it("should send a 401 response when no token provided (no token)", async () => {
         req.header.mockImplementation(() => "Bearer ");
 
-        middleware(req, res);
+        await middleware(req, res);
 
         expect(logger.error).toHaveBeenCalled();
         expect(res.send).toHaveBeenCalledWith(401);

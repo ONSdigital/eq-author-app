@@ -11,14 +11,19 @@ FIREBASE_PROJECT_ID=test-firebase-id
 
 echo "starting Dynamo docker..."
 
-CONTAINER_ID=$(docker run -tid -P -e AWS_REGION=$AWS_REGION -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY amazon/dynamodb-local)
-DYNAMO_HOST=$(docker port $CONTAINER_ID 8000)
+DYNAMO_CONTAINER_ID=$(docker run -tid -P -e AWS_REGION=$AWS_REGION -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY amazon/dynamodb-local)
+DYNAMO_HOST=$(docker port $DYNAMO_CONTAINER_ID 8000)
 
-echo "docker started at: $DYNAMO_HOST"
+REDIS_CONTAINER_ID=$(docker run -tid -P redis:5-alpine)
+REDIS_PORT=$(docker port $REDIS_CONTAINER_ID 6379 | cut -d ':' -f 2)
+
+echo "dynamo started at: $DYNAMO_HOST"
+echo "redis start at: $REDIS_PORT"
 
 function finish {
   echo "killing docker..."
-  docker rm -vf $CONTAINER_ID
+  docker rm -vf $DYNAMO_CONTAINER_ID
+  docker rm -vf $REDIS_CONTAINER_ID
 }
 trap finish EXIT
 
@@ -38,4 +43,6 @@ ENABLE_IMPORT=true \
 DYNAMO_USER_TABLE_NAME=${DYNAMO_USER_TABLE_NAME} \
 ENABLE_OPENTRACING=false \
 FIREBASE_PROJECT_ID=${FIREBASE_PROJECT_ID} \
+REDIS_DOMAIN_NAME=0.0.0.0 \
+REDIS_PORT=${REDIS_PORT} \
 yarn jest --runInBand --detectOpenHandles --forceExit "$@"

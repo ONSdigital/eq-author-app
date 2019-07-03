@@ -11,7 +11,7 @@ exports[`PageNav should render 1`] = `
     onEntered={[Function]}
     timeout={300}
   >
-    <withRouter(UnwrappedPageNavItem)
+    <withRouter(WrappedComponent)
       page={
         Object {
           "id": "2",

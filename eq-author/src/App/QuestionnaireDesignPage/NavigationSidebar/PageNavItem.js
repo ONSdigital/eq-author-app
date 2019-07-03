@@ -4,8 +4,11 @@ import styled from "styled-components";
 import { withRouter } from "react-router-dom";
 import CustomPropTypes from "custom-prop-types";
 import gql from "graphql-tag";
+import { flowRight } from "lodash";
 
 import { buildPagePath } from "utils/UrlUtils";
+import { withValidations } from "components/ValidationsContext";
+
 import NavLink from "./NavLink";
 import PageIcon from "./icon-questionpage.svg?inline";
 import CalculatedIcon from "./icon-summarypage.svg?inline";
@@ -29,23 +32,34 @@ export const UnwrappedPageNavItem = ({
   questionnaireId,
   page,
   match,
+  validations,
   ...otherProps
-}) => (
-  <StyledPageItem data-test="page-item" {...otherProps}>
-    <NavLink
-      to={buildPagePath({
-        questionnaireId,
-        pageId: page.id,
-        tab: match.params.tab,
-      })}
-      title={page.displayName}
-      icon={getIcon(page.pageType)}
-      data-test="nav-page-link"
-    >
-      {page.displayName}
-    </NavLink>
-  </StyledPageItem>
-);
+}) => {
+  let errorCount = page.validationErrorInfo.totalCount;
+  if (validations) {
+    const pageErrors = validations.pages.find(
+      validations => validations.id === page.id
+    );
+    errorCount = pageErrors ? pageErrors.errorCount : 0;
+  }
+  return (
+    <StyledPageItem data-test="page-item" {...otherProps}>
+      <NavLink
+        to={buildPagePath({
+          questionnaireId,
+          pageId: page.id,
+          tab: match.params.tab,
+        })}
+        title={page.displayName}
+        icon={getIcon(page.pageType)}
+        data-test="nav-page-link"
+        errorCount={errorCount}
+      >
+        {page.displayName}
+      </NavLink>
+    </StyledPageItem>
+  );
+};
 
 UnwrappedPageNavItem.fragments = {
   PageNavItem: gql`
@@ -72,6 +86,17 @@ UnwrappedPageNavItem.propTypes = {
   questionnaireId: PropTypes.string.isRequired,
   page: CustomPropTypes.page,
   match: CustomPropTypes.match,
+  validations: PropTypes.shape({
+    pages: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        errorCount: PropTypes.number.isRequired,
+      }).isRequired
+    ).isRequired,
+  }),
 };
 
-export default withRouter(UnwrappedPageNavItem);
+export default flowRight(
+  withRouter,
+  withValidations
+)(UnwrappedPageNavItem);

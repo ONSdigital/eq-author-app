@@ -1,6 +1,7 @@
 const Ajv = require("ajv");
+const { get, uniqBy } = require("lodash");
+
 const schemas = require("./schemas");
-const { get } = require("lodash");
 const { ANSWERS } = require("../../constants/validationErrorTypes");
 
 const ajv = new Ajv({ allErrors: true, jsonPointers: true, $data: true });
@@ -18,16 +19,22 @@ const convertObjectType = objectType => {
 };
 
 module.exports = questionnaire => {
-  const validationErrors = [];
-
   validate(questionnaire);
 
-  if (validate.errors) {
-    const errorMessages = validate.errors.filter(
-      err => err.keyword === "errorMessage"
-    );
+  if (!validate.errors) {
+    return {
+      answers: {},
+      pages: {},
+      options: {},
+      totalCount: 0,
+    };
+  }
+  const errorMessages = validate.errors.filter(
+    err => err.keyword === "errorMessage"
+  );
 
-    errorMessages.forEach(error => {
+  const transformedMessages = uniqBy(errorMessages, "dataPath")
+    .map(error => {
       const dataPath = error.dataPath.split("/");
 
       const fieldname = dataPath.pop();
@@ -42,14 +49,54 @@ module.exports = questionnaire => {
       const contextPath = dataPath.slice(1).join(".");
 
       const contextObj = get(questionnaire, contextPath);
-      validationErrors.push({
+      return {
         id: contextObj.id,
         type: convertObjectType(objectType),
         field: fieldname,
         errorCode: error.message,
-      });
-    });
-  }
+        dataPath: dataPath.slice(1),
+      };
+    })
+    .reduce(
+      (structure, error) => {
+        const { id, type, dataPath } = error;
+        const errorInfo = structure[type][id] || {
+          totalCount: 0,
+          errors: [],
+        };
+        structure[type][id] = {
+          totalCount: errorInfo.totalCount + 1,
+          errors: [...errorInfo.errors, error],
+        };
 
-  return validationErrors;
+        const isChildOfPage =
+          dataPath[0] === "sections" &&
+          dataPath[2] === "pages" &&
+          dataPath.length > 5;
+
+        if (isChildOfPage) {
+          const sectionIndex = parseInt(dataPath[1], 10);
+          const pageIndex = parseInt(dataPath[3], 10);
+
+          const page = questionnaire.sections[sectionIndex].pages[pageIndex];
+          const errorInfo = structure.pages[page.id] || {
+            totalCount: 0,
+            errors: [],
+          };
+          structure.pages[page.id] = {
+            ...errorInfo,
+            totalCount: errorInfo.totalCount + 1,
+          };
+        }
+
+        return structure;
+      },
+      {
+        answers: {},
+        pages: {},
+        options: {},
+        totalCount: errorMessages.length,
+      }
+    );
+  return transformedMessages;
 };

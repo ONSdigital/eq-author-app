@@ -3,7 +3,7 @@ const uuid = require("uuid").v4;
 
 const { NOTICE_1 } = require("../../constants/legalBases");
 
-const { withWritePermission } = require("./withWritePermission");
+const { createMutation } = require("./createMutation");
 
 const createCollapsible = options => ({
   id: uuid(),
@@ -18,36 +18,30 @@ Resolvers.Query = {
     ctx.questionnaire.introduction,
 };
 Resolvers.Mutation = {
-  updateQuestionnaireIntroduction: withWritePermission((_, { input }, ctx) => {
+  updateQuestionnaireIntroduction: createMutation((_, { input }, ctx) => {
     const introduction = ctx.questionnaire.introduction;
     Object.assign(introduction, omit(input, "id"));
     return introduction;
   }),
-  createCollapsible: withWritePermission((_, { input }, ctx) => {
+  createCollapsible: createMutation((_, { input }, ctx) => {
     const collapsible = createCollapsible(omit(input, "introductionId"));
     ctx.questionnaire.introduction.collapsibles.push(collapsible);
     return collapsible;
   }),
-  updateCollapsible: withWritePermission(
-    (_, { input: { id, ...rest } }, ctx) => {
-      const collapsible = ctx.questionnaire.introduction.collapsibles.find(
-        c => c.id === id
-      );
-      Object.assign(collapsible, rest);
-      return collapsible;
-    }
-  ),
-  moveCollapsible: withWritePermission(
-    (_, { input: { id, position } }, ctx) => {
-      const introduction = ctx.questionnaire.introduction;
-      const collapsibleMoving = first(
-        remove(introduction.collapsibles, { id })
-      );
-      introduction.collapsibles.splice(position, 0, collapsibleMoving);
-      return collapsibleMoving;
-    }
-  ),
-  deleteCollapsible: withWritePermission((_, { input: { id } }, ctx) => {
+  updateCollapsible: createMutation((_, { input: { id, ...rest } }, ctx) => {
+    const collapsible = ctx.questionnaire.introduction.collapsibles.find(
+      c => c.id === id
+    );
+    Object.assign(collapsible, rest);
+    return collapsible;
+  }),
+  moveCollapsible: createMutation((_, { input: { id, position } }, ctx) => {
+    const introduction = ctx.questionnaire.introduction;
+    const collapsibleMoving = first(remove(introduction.collapsibles, { id }));
+    introduction.collapsibles.splice(position, 0, collapsibleMoving);
+    return collapsibleMoving;
+  }),
+  deleteCollapsible: createMutation((_, { input: { id } }, ctx) => {
     const introduction = ctx.questionnaire.introduction;
     remove(introduction.collapsibles, { id });
     return introduction;

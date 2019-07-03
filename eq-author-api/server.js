@@ -5,6 +5,7 @@ const pinoMiddleware = require("express-pino-logger");
 const helmet = require("helmet");
 const noir = require("pino-noir");
 const bodyParser = require("body-parser");
+const http = require("http");
 
 const status = require("./middleware/status");
 const { getLaunchUrl } = require("./middleware/launch");
@@ -13,6 +14,7 @@ const runQuestionnaireMigrations = require("./middleware/runQuestionnaireMigrati
 const exportQuestionnaire = require("./middleware/export");
 const importQuestionnaire = require("./middleware/import");
 const identificationMiddleware = require("./middleware/identification");
+const getUserFromHeaderBuilder = require("./middleware/identification/getUserFromHeader");
 const upsertUser = require("./middleware/identification/upsertUser");
 const rejectUnidentifiedUsers = require("./middleware/identification/rejectUnidentifiedUsers");
 const validateQuestionnaire = require("./middleware/validateQuestionnaire");
@@ -83,14 +85,29 @@ const createApp = () => {
     validateQuestionnaire
   );
 
+  const getUserFromHeader = getUserFromHeaderBuilder(logger);
   const server = new ApolloServer({
     ...schema,
-    context: ({ req }) => {
+    context: (...args) => {
+      const { req, connection } = args[0];
+      if (connection) {
+        // check connection for metadata
+        return connection.context;
+      }
       return {
         questionnaire: req.questionnaire,
         user: req.user,
         validationErrorInfo: req.validationErrorInfo,
       };
+    },
+    subscriptions: {
+      onConnect: async (params, _, ctx) => {
+        const user = await getUserFromHeader(params.authorization);
+        ctx.user = user;
+        return {
+          user,
+        };
+      },
     },
     extensions,
   });
@@ -115,7 +132,13 @@ const createApp = () => {
 
   app.post("/signIn", identificationMiddleware(logger), upsertUser);
 
-  return app;
+  const httpServer = http.createServer(app);
+  server.installSubscriptionHandlers(httpServer);
+
+  logger.info(`🚀 Server ready at ${server.graphqlPath}`);
+  logger.info(`🚀 Subscriptions ready at ${server.subscriptionsPath}`);
+
+  return httpServer;
 };
 
 module.exports = {

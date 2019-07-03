@@ -1,6 +1,6 @@
 const { flatMap, find, first } = require("lodash/fp");
 
-const { withWritePermission } = require("../../withWritePermission");
+const { createMutation } = require("../../createMutation");
 
 const isMutuallyExclusive = require("../../../../utils/isMutuallyExclusive");
 const {
@@ -43,7 +43,7 @@ Resolvers.Routing2 = {
 };
 
 Resolvers.Mutation = {
-  createRouting2: withWritePermission((root, { input }, ctx) => {
+  createRouting2: createMutation((root, { input }, ctx) => {
     const page = getPageById(ctx, input.pageId);
 
     if (page.routing) {
@@ -92,7 +92,7 @@ Resolvers.Mutation = {
     });
     return page.routing;
   }),
-  updateRouting2: withWritePermission((root, { input }, ctx) => {
+  updateRouting2: createMutation((root, { input }, ctx) => {
     if (!isMutuallyExclusiveDestination(input.else)) {
       throw new Error("Can only provide one destination.");
     }

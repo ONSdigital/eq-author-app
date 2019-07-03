@@ -1,5 +1,4 @@
 const executeQuery = require("../../executeQuery");
-const { ANSWERS } = require("../../../../constants/validationErrorTypes");
 
 const getAnswerQuery = `
   query GetAnswer($input: QueryInput!) {
@@ -81,22 +80,6 @@ const queryAnswer = async (ctx, answerId) => {
     },
     ctx
   );
-
-  const pageValidationErrors =
-    ctx.validationErrorInfo &&
-    ctx.validationErrorInfo.filter(
-      errInfo => errInfo.id === answerId && errInfo.type === ANSWERS
-    );
-
-  if (result.data.answer && pageValidationErrors) {
-    return {
-      ...result.data.answer,
-      validationErrorInfo: {
-        errors: pageValidationErrors,
-        totalCount: pageValidationErrors.length,
-      },
-    };
-  }
 
   return result.data.answer;
 };

@@ -3,7 +3,7 @@ const { getName } = require("../../../utils/getName");
 const uuid = require("uuid");
 
 const { getPageById, getSectionByPageId } = require("../utils");
-const { withWritePermission } = require("../withWritePermission");
+const { createMutation } = require("../createMutation");
 
 const {
   ROUTING_ANSWER_TYPES,
@@ -72,19 +72,12 @@ Resolvers.QuestionPage = {
       pages,
     };
   },
-  validationErrorInfo: ({ id }, args, ctx) => {
-    const pageValidationErrors =
-      ctx.validationErrorInfo &&
-      ctx.validationErrorInfo.filter(
-        errInfo => errInfo.id === id && errInfo.type === "pages"
-      );
-
-    return pageValidationErrors;
-  },
+  validationErrorInfo: ({ id }, args, ctx) =>
+    ctx.validationErrorInfo.pages[id] || { errors: [], totalCount: 0 },
 };
 
 Resolvers.Mutation = {
-  createQuestionPage: withWritePermission(
+  createQuestionPage: createMutation(
     (root, { input: { position, ...pageInput } }, ctx) => {
       const section = find(ctx.questionnaire.sections, {
         id: pageInput.sectionId,
@@ -96,7 +89,7 @@ Resolvers.Mutation = {
       return page;
     }
   ),
-  updateQuestionPage: withWritePermission((_, { input }, ctx) => {
+  updateQuestionPage: createMutation((_, { input }, ctx) => {
     const page = getPageById(ctx, input.id);
     merge(page, input);
     return page;

@@ -31,13 +31,21 @@ services:
       - JAEGER_SAMPLER_MANAGER_HOST_PORT=http://jaeger:5778/sampling
       - JAEGER_SAMPLER_TYPE=probabilistic
       - JAEGER_SAMPLER_PARAM=1
+      - REDIS_DOMAIN_NAME=redis
+      - REDIS_PORT=6379
     entrypoint:
       - yarn
       - start:dev
+
   dynamo:
     image: amazon/dynamodb-local
     ports:
       - 8050:8000
+
+  redis:
+    image: redis:5-alpine
+    ports:
+      - 6379:6379
 
   jaeger:
     image: jaegertracing/all-in-one:1.11

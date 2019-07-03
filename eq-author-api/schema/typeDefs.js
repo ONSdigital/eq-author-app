@@ -993,4 +993,25 @@ input MoveCollapsibleInput {
 input DeleteCollapsibleInput {
   id: ID!
 }
+
+type PageValidation {
+  id: ID!
+  errorCount: Int!
+}
+
+type SectionValidation {
+  id: ID!
+  errorCount: Int!
+}
+
+type QuestionnaireValidation {
+  id: ID!
+  errorCount: Int!
+  sections: [SectionValidation!]!
+  pages: [PageValidation!]!
+}
+
+type Subscription {
+  validationUpdated(id: ID!): QuestionnaireValidation!
+}
 `;
