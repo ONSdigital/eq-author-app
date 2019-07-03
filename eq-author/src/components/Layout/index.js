@@ -11,7 +11,9 @@ const Layout = ({ title, children }) => (
   <Titled title={() => title}>
     <BaseLayout>
       <Header title={title} />
-      <MainCanvas maxWidth="70em">{children}</MainCanvas>
+      <div>
+        <MainCanvas maxWidth="70em">{children}</MainCanvas>
+      </div>
     </BaseLayout>
   </Titled>
 );
