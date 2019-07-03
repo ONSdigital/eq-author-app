@@ -53,11 +53,24 @@ const createApp = () => {
           defaultSrc: ["'self'"],
           objectSrc: ["'none'"],
           baseUri: ["'none'"],
-          fontSrc: ["'self'", "'https://fonts.gstatic.com'"],
+          fontSrc: ["'self'", "https://fonts.gstatic.com"],
+          styleSrc: [
+            "'self'",
+            "http://cdn.jsdelivr.net/npm/@apollographql/",
+            "https://fonts.googleapis.com",
+            // These will change with graphql server versions
+            "'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU='",
+            "'sha256-iRiwFogHwyIOlQ0vgwGxLZXMnuPZa9eZnswp4v8s6fE='",
+            "'sha256-WYkrRZYpK8d/rqMjoMTIfcPzRxeojQUncPzhW9/2pg8='",
+            "'sha256-jQoC6QpIonlMBPFbUGlJFRJFFWbbijMl7Z8XqWrb46o='",
+          ],
           scriptSrc: [
             "'self'",
-            "'https://www.googleapis.com/identitytoolkit/v3'",
+            "https://www.googleapis.com/identitytoolkit/v3",
+            "http://cdn.jsdelivr.net/npm/@apollographql/",
+            "'sha256-qQ+vMtTOJ7ZAi9QUiV74BIEp2+xQJt7uiJ47QICu6xI='",
           ],
+          imgSrc: ["'self'", "http://cdn.jsdelivr.net/npm/@apollographql/"],
         },
       },
     }),
@@ -100,7 +113,7 @@ const createApp = () => {
       );
   }
 
-  app.get("/signIn", identificationMiddleware(logger), upsertUser);
+  app.post("/signIn", identificationMiddleware(logger), upsertUser);
 
   return app;
 };

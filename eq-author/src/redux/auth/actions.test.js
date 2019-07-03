@@ -99,6 +99,17 @@ describe("auth actions", () => {
       expect(auth.onAuthStateChanged).toHaveBeenCalledTimes(1);
     });
 
+    it("should update the server with the new user", () => {
+      store.dispatch(verifyAuthStatus());
+      changeHandler({});
+      expect(window.fetch).toHaveBeenCalledWith("/signIn", {
+        method: "POST",
+        headers: {
+          authorization: expect.stringMatching(/^Bearer .?/),
+        },
+      });
+    });
+
     it("should sign in user if determined to be authenticated", () => {
       store.dispatch(verifyAuthStatus());
       const toJSON = jest.fn().mockReturnValue(user);
