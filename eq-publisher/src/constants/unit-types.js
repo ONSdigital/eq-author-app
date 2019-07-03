@@ -6,8 +6,8 @@ const SQUARE_CENTIMETRES = "Square centimetres";
 const SQUARE_METRES = "Square metres";
 const SQUARE_KILOMETRES = "Square kilometres";
 const SQUARE_MILES = "Square miles";
-const ACRE = "Acre";
-const HECTARE = "Hectare";
+const ACRES = "Acres";
+const HECTARES = "Hectares";
 const CUBIC_CENTIMETRES = "Cubic centimetres";
 const CUBIC_METRES = "Cubic metres";
 const CUBIC_KILOMETRES = "Cubic kilometres";
@@ -27,8 +27,8 @@ const unitConversion = {
   [SQUARE_METRES]: "area-square-meter",
   [SQUARE_KILOMETRES]: "area-square-kilometer",
   [SQUARE_MILES]: "area-square-mile",
-  [ACRE]: "area-acre",
-  [HECTARE]: "area-hectare",
+  [ACRES]: "area-acre",
+  [HECTARES]: "area-hectare",
   [CUBIC_CENTIMETRES]: "volume-cubic-centimeter",
   [CUBIC_METRES]: "volume-cubic-meter",
   [CUBIC_KILOMETRES]: "volume-cubic-kilometer",
@@ -49,8 +49,8 @@ module.exports = {
   SQUARE_METRES,
   SQUARE_KILOMETRES,
   SQUARE_MILES,
-  ACRE,
-  HECTARE,
+  ACRES,
+  HECTARES,
   CUBIC_CENTIMETRES,
   CUBIC_METRES,
   CUBIC_KILOMETRES,
