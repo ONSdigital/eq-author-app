@@ -8,7 +8,42 @@ exports[`QuestionnaireDesignPage should redirect to the introduction if it has o
 `;
 
 exports[`QuestionnaireDesignPage should render 1`] = `
-<BaseLayout>
+<BaseLayout
+  questionnaire={
+    Object {
+      "displayName": "my displayName",
+      "id": "3",
+      "sections": Array [
+        Object {
+          "id": "2",
+          "pages": Array [
+            Object {
+              "answers": Array [
+                Object {
+                  "id": "1",
+                  "label": "",
+                  "options": Array [
+                    Object {
+                      "id": "1",
+                    },
+                  ],
+                },
+              ],
+              "description": "",
+              "guidance": "",
+              "id": "1",
+              "pageType": "QuestionPage",
+              "position": 0,
+              "title": "",
+            },
+          ],
+          "title": "",
+        },
+      ],
+      "title": "hello world",
+    }
+  }
+>
   <GetContext
     title={[Function]}
   >

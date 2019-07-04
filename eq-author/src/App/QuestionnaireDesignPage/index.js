@@ -197,7 +197,7 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
     }
 
     return (
-      <BaseLayout>
+      <BaseLayout questionnaire={questionnaire}>
         <Titled title={this.getTitle}>
           <Grid>
             <Column cols={3} gutters={false}>
