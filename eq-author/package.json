@@ -14,7 +14,9 @@
     "lint:css": "stylelint './src/**/*.js'",
     "serve": "serve -l 3000 build/",
     "deploy": "npm run build && gh-pages -d build",
-    "coverage": "yarn test -- --coverage"
+    "coverage": "yarn test -- --coverage",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "devDependencies": {
     "@babel/core": "latest",
@@ -128,7 +130,8 @@
     "styled-components": "^3.4.9",
     "synchronous-promise": "latest",
     "uncontrollable": "^4.1.0",
-    "uuid": "latest"
+    "uuid": "latest",
+    "snyk": "^1.189.0"
   },
   "jest": {
     "coverageDirectory": "./coverage/",
@@ -179,5 +182,6 @@
     "not ie <= 11",
     "not op_mini all"
   ],
-  "proxy": "http://localhost:4000"
+  "proxy": "http://localhost:4000",
+  "snyk": true
 }
