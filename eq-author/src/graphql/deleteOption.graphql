@@ -10,5 +10,11 @@ mutation DeleteOption($input: DeleteOptionInput!) {
         ...ValidationErrorInfo
       }
     }
+    mutuallyExclusiveOption {
+      ...Option
+      validationErrorInfo {
+        ...ValidationErrorInfo
+      }
+    }
   }
 }

@@ -1,9 +1,14 @@
 #import "./fragments/option.graphql"
+#import "./fragments/validationErrorInfo.graphql"
 
 mutation createMutuallyExclusiveOption(
   $input: CreateMutuallyExclusiveOptionInput!
 ) {
   createMutuallyExclusiveOption(input: $input) {
     ...Option
+    validationErrorInfo {
+      ...ValidationErrorInfo
+    }
+    isNew @client
   }
 }

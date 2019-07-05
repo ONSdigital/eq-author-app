@@ -119,5 +119,9 @@ export const resolvers = {
     updateOption: (root, input, { cache }) => {
       removeNewEntity(OPTIONS, root.updateOption.id, cache);
     },
+
+    createMutuallyExclusiveOption: (root, input, { cache }) => {
+      addNewEntity(OPTIONS, root.createMutuallyExclusiveOption.id, cache);
+    },
   },
 };
