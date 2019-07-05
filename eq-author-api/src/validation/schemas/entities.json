@@ -93,6 +93,9 @@
                 }
               ]
             }
+          },
+          "mutuallyExclusiveOption": {
+            "$ref": "entities.json#/definitions/option"
           }
         },
         "required": ["id", "options"]

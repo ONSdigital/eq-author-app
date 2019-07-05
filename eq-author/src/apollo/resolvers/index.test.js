@@ -131,7 +131,7 @@ describe("resolvers", () => {
       expect(cacheData.newEntityList).toMatchObject(newUpdatePages);
     });
 
-    it("should initialise optiond of new multiple answer", () => {
+    it("should initialise option of new multiple answer", () => {
       const answer = {
         createAnswer: { id: 3, options: [{ id: 4 }] },
       };
@@ -151,6 +151,28 @@ describe("resolvers", () => {
       const newPages = [`${ANSWERS}_1`, `${OPTIONS}_2`];
 
       resolvers.Mutation.createOption(option, {}, { cache });
+
+      expect(cacheData.newEntityList).toMatchObject(newPages);
+
+      const updateOption = {
+        updateOption: { id: 2 },
+      };
+
+      const newUpdatePages = [`${ANSWERS}_1`];
+
+      resolvers.Mutation.updateOption(updateOption, {}, { cache });
+
+      expect(cacheData.newEntityList).toMatchObject(newUpdatePages);
+    });
+
+    it("should initialise new mutually exclisive option and remove on update", () => {
+      const option = {
+        createMutuallyExclusiveOption: { id: 2 },
+      };
+
+      const newPages = [`${ANSWERS}_1`, `${OPTIONS}_2`];
+
+      resolvers.Mutation.createMutuallyExclusiveOption(option, {}, { cache });
 
       expect(cacheData.newEntityList).toMatchObject(newPages);
 

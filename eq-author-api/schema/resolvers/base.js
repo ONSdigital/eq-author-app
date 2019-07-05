@@ -344,7 +344,7 @@ const Resolvers = {
         });
       });
 
-      return removedOption;
+      return answer;
     }),
     toggleValidationRule: withWritePermission((_, args, ctx) => {
       const validation = getValidationById(ctx, args.input.id);

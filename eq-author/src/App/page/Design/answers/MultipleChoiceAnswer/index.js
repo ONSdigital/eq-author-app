@@ -228,6 +228,10 @@ MultipleChoiceAnswer.fragments = {
         }
         mutuallyExclusiveOption {
           ...Option
+          validationErrorInfo {
+            ...ValidationErrorInfo
+          }
+          isNew @client
         }
       }
     }

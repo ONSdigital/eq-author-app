@@ -7,6 +7,7 @@ const deleteOptionMutation = `
   mutation DeleteOption($input: DeleteOptionInput!) {
     deleteOption(input: $input) {
       id
+      __typename
     }
   }
 `;

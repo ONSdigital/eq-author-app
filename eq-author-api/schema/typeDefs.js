@@ -575,7 +575,7 @@ type Mutation {
   createOption(input: CreateOptionInput!): Option
   createMutuallyExclusiveOption(input: CreateMutuallyExclusiveOptionInput!): Option
   updateOption(input: UpdateOptionInput!): Option
-  deleteOption(input: DeleteOptionInput!): Option
+  deleteOption(input: DeleteOptionInput!): MultipleChoiceAnswer
   toggleValidationRule(input: ToggleValidationRuleInput!): ValidationRule!
   updateValidationRule(input: UpdateValidationRuleInput!): ValidationRule!
   createMetadata(input: CreateMetadataInput!): Metadata!

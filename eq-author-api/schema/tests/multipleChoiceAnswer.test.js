@@ -337,7 +337,7 @@ describe("multiple choice answer", () => {
     });
 
     describe("delete", () => {
-      it("should delete options", async () => {
+      it("should delete options and return answer object", async () => {
         ctx = await buildContext({
           sections: [
             {
@@ -357,7 +357,10 @@ describe("multiple choice answer", () => {
         const questionnaire = ctx.questionnaire;
 
         const option = getOption(questionnaire);
-        await deleteOption(ctx, option);
+
+        const deleteOptionsResult = await deleteOption(ctx, option);
+        expect(deleteOptionsResult.__typename).toEqual("MultipleChoiceAnswer");
+
         const queriedOption = await queryOption(ctx, option.id);
         expect(queriedOption).toBeNull();
       });
