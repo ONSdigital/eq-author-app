@@ -4,18 +4,10 @@ export const SIGN_IN_USER = "SIGN_IN_USER";
 export const SIGN_OUT_USER = "SIGN_OUT_USER";
 export const SIGN_IN_ERROR = "SIGN_IN_ERROR";
 
-export const signInUser = ({
-  displayName,
-  email,
-  photoURL,
-  stsTokenManager: { accessToken },
-  uid,
-}) => {
+export const signInUser = ({ displayName, email, photoURL, uid }) => {
   if (config.REACT_APP_FULLSTORY_ORG) {
     window.FS.identify(email, { displayName });
   }
-
-  localStorage.setItem("accessToken", accessToken);
 
   return {
     type: SIGN_IN_USER,
