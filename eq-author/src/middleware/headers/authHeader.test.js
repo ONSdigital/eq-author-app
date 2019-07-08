@@ -24,7 +24,7 @@ describe("appendAuthHeader", () => {
     window.fetch = originalFetch;
   });
 
-  it("should append auth header if token exists and has not expired", async () => {
+  it("should append auth header if token exists and has not expired", () => {
     const token = jwt.sign(
       {
         test: "I'm a jwt from the future",
@@ -34,7 +34,7 @@ describe("appendAuthHeader", () => {
     );
     localStorage.setItem("accessToken", token);
 
-    await expect(appendAuthHeader(otherHeaders)).resolves.toMatchObject({
+    expect(appendAuthHeader(otherHeaders)).toMatchObject({
       ContentType: "text/html",
       authorization: `Bearer ${token}`,
     });
