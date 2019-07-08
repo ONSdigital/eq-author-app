@@ -44,5 +44,5 @@ export default headers => {
 
   returnedHeaders.authorization = `Bearer ${accessToken}`;
 
-  return Promise.resolve(returnedHeaders);
+  return returnedHeaders;
 };
