@@ -1,3 +1,19 @@
+import jwt from "jsonwebtoken";
+import config from "config";
+
+const url = `https://securetoken.googleapis.com/v1/token?key=${config.REACT_APP_FIREBASE_API_KEY}`;
+
+const fetchNewToken = refreshToken =>
+  window
+    .fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: `grant_type=refresh_token&refresh_token=${refreshToken}`,
+    })
+    .then(response => response.json());
+
 const getQuestionnaireId = () => {
   const hash = window.location.hash;
   const matches = /#\/q\/([0-9a-zA-Z-_]+)\/?/.exec(hash);
@@ -7,12 +23,6 @@ const getQuestionnaireId = () => {
 };
 
 export default headers => {
-  if (!window.localStorage) {
-    return {
-      ...headers,
-    };
-  }
-
   const accessToken = localStorage.getItem("accessToken");
   const returnedHeaders = {
     ...headers,
@@ -23,11 +33,16 @@ export default headers => {
     returnedHeaders.questionnaireId = questionnaireId;
   }
 
-  if (accessToken) {
-    returnedHeaders.authorization = `Bearer ${accessToken}`;
+  const decodedToken = jwt.decode(accessToken);
+  if (decodedToken.exp < Math.floor(Date.now()) / 1000) {
+    const refreshToken = localStorage.getItem("refreshToken");
+    return fetchNewToken(refreshToken).then(res => {
+      returnedHeaders.authorization = `Bearer ${res.access_token}`;
+      return { ...returnedHeaders };
+    });
   }
 
-  return {
-    ...returnedHeaders,
-  };
+  returnedHeaders.authorization = `Bearer ${accessToken}`;
+
+  return Promise.resolve(returnedHeaders);
 };

@@ -13,6 +13,7 @@ import getIdForObject from "utils/getIdForObject";
 import render from "utils/render";
 import getHeaders from "middleware/headers";
 
+import auth from "components/Auth";
 import App from "App";
 
 if (config.REACT_APP_SENTRY_DSN) {
@@ -21,6 +22,16 @@ if (config.REACT_APP_SENTRY_DSN) {
     environment: config.REACT_APP_SENTRY_ENV,
   });
 }
+
+auth.onIdTokenChanged(user => {
+  if (user) {
+    localStorage.setItem("accessToken", user.ra);
+    localStorage.setItem("refreshToken", user.refreshToken);
+  } else {
+    localStorage.removeItem("accessToken", user.ra);
+    localStorage.removeItem("refreshToken", user.refreshToken);
+  }
+});
 
 let store;
 
@@ -46,9 +57,11 @@ const history = createHistory();
 
 const httpLink = createHttpLink(config.REACT_APP_API_URL);
 
-const headersLink = setContext((_, { headers }) => ({
-  headers: getHeaders(headers),
-}));
+const headersLink = setContext((_, { headers }) =>
+  getHeaders(headers).then(headers => ({
+    headers,
+  }))
+);
 
 const link = ApolloLink.from([
   createErrorLink(getStore),
