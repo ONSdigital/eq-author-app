@@ -10,6 +10,7 @@ import RichTextEditor from "components/RichTextEditor";
 import { Field, Label } from "components/Forms";
 
 import withChangeUpdate from "enhancers/withChangeUpdate";
+import withValidationError from "enhancers/withValidationError";
 
 import MultipleFieldEditor from "./MultipleFieldEditor";
 import AnswerTransition from "./AnswersEditor/AnswerTransition";
@@ -73,7 +74,12 @@ export class StatelessMetaEditor extends React.Component {
           metadata={get(page, "section.questionnaire.metadata", [])}
           testSelector="txt-question-title"
           autoFocus={!page.title}
+          errorValidationMsg={this.props.getValidationError({
+            field: "title",
+            label: "Question title",
+          })}
         />
+
         <TransitionGroup>
           {page.descriptionEnabled && (
             <AnswerTransition
@@ -165,10 +171,14 @@ StatelessMetaEditor.propTypes = {
   fetchAnswers: PropTypes.func.isRequired,
   page: propType(pageFragment).isRequired,
   onChangeUpdate: PropTypes.func.isRequired,
+  getValidationError: PropTypes.func.isRequired,
 };
 
 StatelessMetaEditor.fragments = {
   Page: pageFragment,
 };
 
-export default flowRight(withChangeUpdate)(StatelessMetaEditor);
+export default flowRight(
+  withValidationError("page"),
+  withChangeUpdate
+)(StatelessMetaEditor);

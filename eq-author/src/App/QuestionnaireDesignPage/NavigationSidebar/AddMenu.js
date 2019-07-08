@@ -45,7 +45,9 @@ const AddButton = styled(Button).attrs({
   variant: "tertiary-light",
   small: true,
 })`
+  border: 1px solid white;
   top: 1px; /* adjust for misalignment caused by PopoutContainer */
+  padding-right: 0.5em;
 `;
 
 const AddMenu = ({
@@ -73,8 +75,8 @@ const AddMenu = ({
         onToggleOpen={onAddMenuToggle}
         horizontalAlignment="left"
         verticalAlignment="top"
-        offsetX="4.9em"
-        offsetY="-2.8em"
+        offsetX="5.5em"
+        offsetY="-4em"
         transition={PopupTransition}
       >
         <AddMenuWindow data-test="addmenu-window">

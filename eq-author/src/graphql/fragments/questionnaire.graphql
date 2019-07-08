@@ -9,4 +9,17 @@ fragment Questionnaire on Questionnaire {
   type
   shortTitle
   displayName
+  createdBy {
+    id
+    picture
+    name
+    email
+  }
+  editors {
+    id
+    picture
+    name
+    email
+  }
+  permission
 }

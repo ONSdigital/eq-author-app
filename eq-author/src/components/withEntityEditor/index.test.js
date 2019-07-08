@@ -14,6 +14,7 @@ describe("withEntityEditor", () => {
     handleStartRequest,
     handleEndRequest;
   const ComponentWithEntity = withEntityEditor("entity")(Component);
+
   let store;
 
   const render = (props = {}) =>
@@ -52,6 +53,7 @@ describe("withEntityEditor", () => {
       },
     };
     wrapper.setProps(newProps);
+
     expect(wrapper.state("entity")).toEqual(newProps.entity);
   });
 
@@ -156,7 +158,7 @@ describe("withEntityEditor", () => {
     expect(wrapper.state("entity")).toEqual(newEntity);
   });
 
-  it("should only update when state is dirty", () => {
+  it("should only update existing entity when state is dirty", () => {
     const newValue = "foo1";
 
     wrapper.simulate("update");
@@ -164,6 +166,19 @@ describe("withEntityEditor", () => {
     expect(handleUpdate).not.toHaveBeenCalled();
 
     wrapper.simulate("change", { name: "title", value: newValue });
+    wrapper.simulate("update");
+
+    expect(handleUpdate).toHaveBeenCalled();
+  });
+
+  it("should allow update of new entity regardless of dirtiness of state", () => {
+    entity = {
+      ...entity,
+      isNew: true,
+    };
+
+    const wrapper = render();
+
     wrapper.simulate("update");
 
     expect(handleUpdate).toHaveBeenCalled();
@@ -293,10 +308,20 @@ describe("withEntityEditor", () => {
     }).not.toThrow();
   });
 
-  it("should not call update if the change contained no change", () => {
+  it("should not call update if the change contained no change and page is not new", () => {
     wrapper.simulate("change", { name: "alias", value: entity.alias });
     wrapper.simulate("update");
 
-    expect(handleUpdate).not.toHaveBeenCalled();
+    expect(handleUpdate).not.toHaveBeenCalledWith();
+  });
+
+  it("should call update if the change contained no change and page is new", () => {
+    entity.isNew = true;
+    wrapper = render();
+
+    wrapper.simulate("change", { name: "alias", value: entity.alias });
+    wrapper.simulate("update");
+
+    expect(handleUpdate).toHaveBeenCalledWith(entity);
   });
 });

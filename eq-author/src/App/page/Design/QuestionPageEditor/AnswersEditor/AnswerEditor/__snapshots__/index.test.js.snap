@@ -260,7 +260,7 @@ exports[`Answer Editor should render Currency 1`] = `
     </AnswerEditor__Buttons>
   </AnswerEditor__AnswerHeader>
   <AnswerEditor__Padding>
-    <Connect(withEntityEditor(StatelessBasicAnswer))
+    <withValidationError(Connect(withEntityEditor(StatelessBasicAnswer)))
       answer={
         Object {
           "description": "",
@@ -271,6 +271,7 @@ exports[`Answer Editor should render Currency 1`] = `
       }
       canMoveDown={true}
       canMoveUp={true}
+      enableValidationMessage={true}
       onAddExclusive={[MockFunction]}
       onAddOption={[MockFunction]}
       onChange={[MockFunction]}
@@ -543,7 +544,7 @@ exports[`Answer Editor should render Number 1`] = `
     </AnswerEditor__Buttons>
   </AnswerEditor__AnswerHeader>
   <AnswerEditor__Padding>
-    <Connect(withEntityEditor(StatelessBasicAnswer))
+    <withValidationError(Connect(withEntityEditor(StatelessBasicAnswer)))
       answer={
         Object {
           "description": "",
@@ -554,6 +555,7 @@ exports[`Answer Editor should render Number 1`] = `
       }
       canMoveDown={true}
       canMoveUp={true}
+      enableValidationMessage={true}
       onAddExclusive={[MockFunction]}
       onAddOption={[MockFunction]}
       onChange={[MockFunction]}
@@ -637,7 +639,7 @@ exports[`Answer Editor should render Percentage 1`] = `
     </AnswerEditor__Buttons>
   </AnswerEditor__AnswerHeader>
   <AnswerEditor__Padding>
-    <Connect(withEntityEditor(StatelessBasicAnswer))
+    <withValidationError(Connect(withEntityEditor(StatelessBasicAnswer)))
       answer={
         Object {
           "description": "",
@@ -648,6 +650,7 @@ exports[`Answer Editor should render Percentage 1`] = `
       }
       canMoveDown={true}
       canMoveUp={true}
+      enableValidationMessage={true}
       onAddExclusive={[MockFunction]}
       onAddOption={[MockFunction]}
       onChange={[MockFunction]}
@@ -833,7 +836,7 @@ exports[`Answer Editor should render TextArea 1`] = `
     </AnswerEditor__Buttons>
   </AnswerEditor__AnswerHeader>
   <AnswerEditor__Padding>
-    <Connect(withEntityEditor(StatelessBasicAnswer))
+    <withValidationError(Connect(withEntityEditor(StatelessBasicAnswer)))
       answer={
         Object {
           "description": "",
@@ -844,6 +847,7 @@ exports[`Answer Editor should render TextArea 1`] = `
       }
       canMoveDown={true}
       canMoveUp={true}
+      enableValidationMessage={true}
       onAddExclusive={[MockFunction]}
       onAddOption={[MockFunction]}
       onChange={[MockFunction]}
@@ -926,7 +930,7 @@ exports[`Answer Editor should render TextField 1`] = `
     </AnswerEditor__Buttons>
   </AnswerEditor__AnswerHeader>
   <AnswerEditor__Padding>
-    <Connect(withEntityEditor(StatelessBasicAnswer))
+    <withValidationError(Connect(withEntityEditor(StatelessBasicAnswer)))
       answer={
         Object {
           "description": "",
@@ -937,6 +941,7 @@ exports[`Answer Editor should render TextField 1`] = `
       }
       canMoveDown={true}
       canMoveUp={true}
+      enableValidationMessage={true}
       onAddExclusive={[MockFunction]}
       onAddOption={[MockFunction]}
       onChange={[MockFunction]}
@@ -946,6 +951,105 @@ exports[`Answer Editor should render TextField 1`] = `
       onMoveUp={[MockFunction]}
       onUpdate={[MockFunction]}
       onUpdateOption={[MockFunction]}
+    />
+  </AnswerEditor__Padding>
+</AnswerEditor__Answer>
+`;
+
+exports[`Answer Editor should render Unit 1`] = `
+<AnswerEditor__Answer
+  data-test="answer-editor"
+>
+  <AnswerEditor__AnswerHeader>
+    <AnswerEditor__AnswerType
+      data-test="answer-type"
+    >
+      Length
+       (cm)
+    </AnswerEditor__AnswerType>
+    <AnswerEditor__Buttons>
+      <Tooltip
+        content="Move answer up"
+        offset={
+          Object {
+            "bottom": 10,
+            "top": 0,
+          }
+        }
+        place="top"
+      >
+        <MoveButton
+          data-test="btn-move-answer-up"
+          disabled={false}
+          onClick={[MockFunction]}
+        >
+          <Component />
+        </MoveButton>
+      </Tooltip>
+      <Tooltip
+        content="Move answer down"
+        offset={
+          Object {
+            "bottom": 10,
+            "top": 0,
+          }
+        }
+        place="top"
+      >
+        <MoveButton
+          data-test="btn-move-answer-down"
+          disabled={false}
+          onClick={[MockFunction]}
+        >
+          <Component />
+        </MoveButton>
+      </Tooltip>
+      <Tooltip
+        content="Delete answer"
+        offset={
+          Object {
+            "bottom": 10,
+            "top": 0,
+          }
+        }
+        place="top"
+      >
+        <DeleteButton
+          aria-label="Delete answer"
+          data-test="btn-delete-answer"
+          onClick={[Function]}
+          size="medium"
+          type="button"
+        />
+      </Tooltip>
+    </AnswerEditor__Buttons>
+  </AnswerEditor__AnswerHeader>
+  <AnswerEditor__Padding>
+    <withValidationError(Connect(withEntityEditor(StatelessBasicAnswer)))
+      answer={
+        Object {
+          "description": "",
+          "id": "1",
+          "properties": Object {
+            "unit": "Centimetres",
+          },
+          "title": "",
+          "type": "Unit",
+        }
+      }
+      canMoveDown={true}
+      canMoveUp={true}
+      enableValidationMessage={true}
+      onAddExclusive={[MockFunction]}
+      onAddOption={[MockFunction]}
+      onChange={[MockFunction]}
+      onDeleteAnswer={[MockFunction]}
+      onDeleteOption={[MockFunction]}
+      onMoveDown={[MockFunction]}
+      onMoveUp={[MockFunction]}
+      onUpdate={[MockFunction]}
+      onUpdateOption={[MockFunction]}
+      showDescription={true}
     />
   </AnswerEditor__Padding>
 </AnswerEditor__Answer>

@@ -9,5 +9,6 @@ module.exports = async (req, res) => {
     return;
   }
 
+  questionnaire.editors = [];
   res.status(200).json(questionnaire);
 };

@@ -13,9 +13,10 @@ const {
 const {
   createExpression,
   createLeftSide,
+  createRightSide,
 } = require("../../../../src/businessLogic");
 
-const { saveQuestionnaire } = require("../../../../utils/datastore");
+const { withWritePermission } = require("../../withWritePermission");
 
 const {
   getPages,
@@ -107,7 +108,7 @@ Resolvers.SelectedOptions2 = {
 };
 
 Resolvers.Mutation = {
-  createBinaryExpression2: async (root, { input }, ctx) => {
+  createBinaryExpression2: withWritePermission((root, { input }, ctx) => {
     const pages = flatMap(section => section.pages, ctx.questionnaire.sections);
     const rules = flatMap(
       routing => getOr([], "rules", routing),
@@ -155,51 +156,51 @@ Resolvers.Mutation = {
     const expression = createExpression({
       left,
       condition: condition || "Equal",
+      right: createRightSide(firstAnswer),
     });
 
     expressionGroup.expressions.push(expression);
 
-    await saveQuestionnaire(ctx.questionnaire);
     return expression;
-  },
-  updateBinaryExpression2: async (root, { input: { id, condition } }, ctx) => {
-    const pages = getPages(ctx);
-    const rules = flatMap(
-      routing => getOr([], "rules", routing),
-      flatMap(page => page.routing, pages)
-    );
-
-    const expressionGroup = find(expressionGroup => {
-      if (some({ id }, expressionGroup.expressions)) {
-        return expressionGroup;
-      }
-    }, flatMap(rule => rule.expressionGroup, rules));
-
-    const expression = find({ id }, expressionGroup.expressions);
-
-    const leftSide = expression.left;
-
-    if (!leftSide) {
-      throw new Error("Can't have a condition without a left side");
-    }
-
-    const answers = getAnswers(ctx);
-
-    const leftSideAnswer = find({ id: leftSide.answerId }, answers);
-    if (!answerTypeToConditions.isValid(leftSideAnswer.type, condition)) {
-      throw new Error(
-        "This condition is not compatible with the existing left side"
+  }),
+  updateBinaryExpression2: withWritePermission(
+    (root, { input: { id, condition } }, ctx) => {
+      const pages = getPages(ctx);
+      const rules = flatMap(
+        routing => getOr([], "rules", routing),
+        flatMap(page => page.routing, pages)
       );
+
+      const expressionGroup = find(expressionGroup => {
+        if (some({ id }, expressionGroup.expressions)) {
+          return expressionGroup;
+        }
+      }, flatMap(rule => rule.expressionGroup, rules));
+
+      const expression = find({ id }, expressionGroup.expressions);
+
+      const leftSide = expression.left;
+
+      if (!leftSide) {
+        throw new Error("Can't have a condition without a left side");
+      }
+
+      const answers = getAnswers(ctx);
+
+      const leftSideAnswer = find({ id: leftSide.answerId }, answers);
+      if (!answerTypeToConditions.isValid(leftSideAnswer.type, condition)) {
+        throw new Error(
+          "This condition is not compatible with the existing left side"
+        );
+      }
+
+      expression.condition = condition;
+
+      return expression;
     }
+  ),
 
-    expression.condition = condition;
-
-    await saveQuestionnaire(ctx.questionnaire);
-
-    return expression;
-  },
-
-  updateLeftSide2: async (root, { input }, ctx) => {
+  updateLeftSide2: withWritePermission((root, { input }, ctx) => {
     const { expressionId, answerId } = input;
 
     const pages = flatMap(section => section.pages, ctx.questionnaire.sections);
@@ -228,11 +229,9 @@ Resolvers.Mutation = {
     expression.right = null;
     expression.condition = answerTypeToConditions.getDefault(answer.type);
 
-    await saveQuestionnaire(ctx.questionnaire);
-
     return expression;
-  },
-  updateRightSide2: async (root, { input }, ctx) => {
+  }),
+  updateRightSide2: withWritePermission((root, { input }, ctx) => {
     if (input.customValue && input.selectedOptions) {
       throw new Error("Too many right side inputs");
     }
@@ -297,11 +296,9 @@ Resolvers.Mutation = {
 
     expression.right = updatedRightSide;
 
-    await saveQuestionnaire(ctx.questionnaire);
-
     return expression;
-  },
-  deleteBinaryExpression2: async (root, { input }, ctx) => {
+  }),
+  deleteBinaryExpression2: withWritePermission((root, { input }, ctx) => {
     {
       const pages = getPages(ctx);
       const rules = flatMap(
@@ -320,11 +317,9 @@ Resolvers.Mutation = {
         expressionGroup.expressions
       );
 
-      await saveQuestionnaire(ctx.questionnaire);
-
       return expressionGroup;
     }
-  },
+  }),
 };
 
 module.exports = Resolvers;

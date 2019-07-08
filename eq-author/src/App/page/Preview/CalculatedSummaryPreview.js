@@ -7,7 +7,7 @@ import Error from "components/preview/Error";
 import PageTitle from "components/preview/elements/PageTitle";
 import Info from "components/preview/elements/Info";
 
-import EditorLayout from "App/page/Design/EditorLayout";
+import EditorLayout from "components/EditorLayout";
 
 import { Grid, Column } from "components/Grid";
 

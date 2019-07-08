@@ -61,7 +61,7 @@ exports[`containers/AppContainer Routes should render  1`] = `
 `;
 
 exports[`containers/AppContainer should render 1`] = `
-<t>
+<AppContainer>
   <ApolloProvider
     client={
       Object {
@@ -103,5 +103,5 @@ exports[`containers/AppContainer should render 1`] = `
       />
     </Provider>
   </ApolloProvider>
-</t>
+</AppContainer>
 `;

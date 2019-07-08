@@ -1,4 +1,5 @@
 #import "./fragments/section.graphql"
+#import "./fragments/validationErrorInfo.graphql"
 
 mutation duplicateSection($input: DuplicateSectionInput!) {
   duplicateSection(input: $input) {
@@ -21,6 +22,10 @@ mutation duplicateSection($input: DuplicateSectionInput!) {
           id
           displayName
         }
+        validationErrorInfo {
+          ...ValidationErrorInfo
+        }
+        isNew @client
       }
     }
     questionnaire {

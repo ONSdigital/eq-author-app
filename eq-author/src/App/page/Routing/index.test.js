@@ -9,24 +9,36 @@ import RoutingPage from "./RoutingPage";
 import { UnwrappedQuestionRoutingRoute } from "./";
 
 describe("Question Routing Route", () => {
+  let props;
+  beforeEach(() => {
+    props = {
+      loading: false,
+      data: undefined,
+      match: {
+        params: {
+          questionnaireId: "1",
+        },
+      },
+    };
+  });
+
   it("should render a loading icon when loading", () => {
-    const wrapper = shallow(<UnwrappedQuestionRoutingRoute loading />);
+    const wrapper = shallow(
+      <UnwrappedQuestionRoutingRoute {...props} loading />
+    );
     expect(wrapper.find(Loading).exists()).toBe(true);
   });
 
   it("should show an error when there is a server error", () => {
     const wrapper = shallow(
-      <UnwrappedQuestionRoutingRoute
-        loading={false}
-        error={{ message: "Oh no" }}
-      />
+      <UnwrappedQuestionRoutingRoute {...props} error={{ message: "Oh no" }} />
     );
     expect(wrapper.find(Error).exists()).toBe(true);
   });
 
   it("should render an error when there is no data", () => {
     const wrapper = shallow(
-      <UnwrappedQuestionRoutingRoute loading={false} data={undefined} />
+      <UnwrappedQuestionRoutingRoute {...props} data={undefined} />
     );
     expect(wrapper.find(Error).exists()).toBe(true);
   });
@@ -40,7 +52,7 @@ describe("Question Routing Route", () => {
     };
     const wrapper = shallow(
       <UnwrappedQuestionRoutingRoute
-        loading={false}
+        {...props}
         data={{
           page,
         }}
@@ -67,7 +79,7 @@ describe("Question Routing Route", () => {
     };
     const wrapper = shallow(
       <UnwrappedQuestionRoutingRoute
-        loading={false}
+        {...props}
         data={{
           page,
         }}

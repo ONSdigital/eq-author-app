@@ -1,6 +1,8 @@
 import React from "react";
 import { shallow, mount } from "enzyme";
 import { act } from "react-dom/test-utils";
+import { TransitionGroup, CSSTransition } from "react-transition-group";
+import styled from "styled-components";
 
 import TestProvider from "tests/utils/TestProvider";
 
@@ -10,6 +12,10 @@ describe("Reorder", () => {
   jest.useFakeTimers();
 
   let props;
+
+  const MockTransition = styled(CSSTransition).attrs({
+    classNames: "mock",
+  });
 
   beforeEach(() => {
     props = {
@@ -186,5 +192,17 @@ describe("Reorder", () => {
         .at(1)
         .text()
     ).toEqual("1");
+  });
+
+  it("should render as reactFragment if no transition passed", () => {
+    const wrapper = shallow(<Reorder {...props} />);
+    expect(wrapper.find("Fragment")).toHaveLength(1);
+    expect(wrapper.find(TransitionGroup)).toHaveLength(0);
+  });
+
+  it("should render with TransitionGroup when a transition passed", () => {
+    const wrapper = shallow(<Reorder Transition={MockTransition} {...props} />);
+    expect(wrapper.find("Fragment")).toHaveLength(0);
+    expect(wrapper.find(TransitionGroup)).toHaveLength(1);
   });
 });

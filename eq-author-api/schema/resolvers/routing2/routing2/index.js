@@ -1,6 +1,7 @@
 const { flatMap, find, first } = require("lodash/fp");
 
-const { saveQuestionnaire } = require("../../../../utils/datastore");
+const { withWritePermission } = require("../../withWritePermission");
+
 const isMutuallyExclusive = require("../../../../utils/isMutuallyExclusive");
 const {
   createRouting,
@@ -9,6 +10,7 @@ const {
   createExpressionGroup,
   createExpression,
   createLeftSide,
+  createRightSide,
 } = require("../../../../src/businessLogic");
 
 const answerTypeToConditions = require("../../../../src/businessLogic/answerTypeToConditions");
@@ -41,7 +43,7 @@ Resolvers.Routing2 = {
 };
 
 Resolvers.Mutation = {
-  createRouting2: async (root, { input }, ctx) => {
+  createRouting2: withWritePermission((root, { input }, ctx) => {
     const page = getPageById(ctx, input.pageId);
 
     if (page.routing) {
@@ -80,6 +82,7 @@ Resolvers.Mutation = {
               createExpression({
                 left: createLeftSide(leftHandSide),
                 condition,
+                right: createRightSide(firstAnswer),
               }),
             ],
           }),
@@ -87,10 +90,9 @@ Resolvers.Mutation = {
         }),
       ],
     });
-    await saveQuestionnaire(ctx.questionnaire);
     return page.routing;
-  },
-  updateRouting2: async (root, { input }, ctx) => {
+  }),
+  updateRouting2: withWritePermission((root, { input }, ctx) => {
     if (!isMutuallyExclusiveDestination(input.else)) {
       throw new Error("Can only provide one destination.");
     }
@@ -103,9 +105,8 @@ Resolvers.Mutation = {
       id: routing.else.id,
       ...input.else,
     };
-    await saveQuestionnaire(ctx.questionnaire);
     return routing;
-  },
+  }),
 };
 
 module.exports = Resolvers;

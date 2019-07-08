@@ -117,7 +117,7 @@ describe("PageRoute", () => {
     it("should render error if problem with request", () => {
       const wrapper = render({
         loading: false,
-        page: { stuff: "Uh oh" },
+        page: null,
         error: new Error("HELP"),
       });
       expect(wrapper.find("Error").exists()).toBe(true);
@@ -140,12 +140,12 @@ describe("PageRoute", () => {
         section: {
           id: 1,
         },
+        pageType: "QuestionPage",
       };
 
       const wrapper = render({
         loading: false,
         page,
-        error: new Error("HELP"),
       });
 
       wrapper.simulate("addQuestionPage");

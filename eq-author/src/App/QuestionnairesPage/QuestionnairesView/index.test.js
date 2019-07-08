@@ -1,80 +1,48 @@
 import React from "react";
-import { Router } from "react-router-dom";
-import { createMemoryHistory } from "history";
-import { Provider } from "react-redux";
+
 import { sortBy } from "lodash";
-import { render as rtlRender, fireEvent, act } from "@testing-library/react";
-import { waitForElementToBeRemoved } from "@testing-library/dom";
+
+import {
+  render,
+  fireEvent,
+  act,
+  waitForElementToBeRemoved,
+} from "tests/utils/rtl";
+
+import { READ, WRITE } from "constants/questionnaire-permissions";
 
 import QuestionnairesView, { STORAGE_KEY } from "./";
 
-function render(
-  ui,
-  {
-    route = "/",
-    history = createMemoryHistory({ initialEntries: [route] }),
-    ...renderOptions
-  } = {}
-) {
-  const store = {
-    getState: jest.fn(() => ({
-      toasts: {},
-      saving: { apiDownError: false },
-    })),
-    subscribe: jest.fn(),
-    dispatch: jest.fn(),
-  };
-  const queries = rtlRender(
-    <Provider store={store}>
-      <Router history={history}>{ui}</Router>
-    </Provider>,
-    renderOptions
-  );
-  return {
-    ...queries,
-    rerender: ui =>
-      queries.rerender(
-        <Provider store={store}>
-          <Router history={history}>{ui}</Router>
-        </Provider>
-      ),
-    // adding `history` to the returned utilities to allow us
-    // to reference it in our tests (just try to avoid using
-    // this to test implementation details).
-    history,
-  };
-}
-
-const buildQuestionnaire = (index, overrides) => ({
-  id: `questionnaire${index}`,
-  displayName: `Questionnaire ${index}`,
-  title: `Questionnaire ${index} Title`,
-  shortTitle: "",
-  createdAt: `2019-05-${30 - index}T12:36:50.984Z`,
-  updatedAt: `2019-05-${30 - index}T12:36:50.984Z`,
-  createdBy: {
-    id: `user${index}`,
-    name: `User #${index}`,
-    email: `User mail${index}`,
-    displayName: `User #${index}`,
-  },
-  ...overrides,
-});
+jest.mock("lodash", () => ({
+  ...require.requireActual("lodash"),
+  debounce: jest.fn(fn => fn),
+}));
 
 describe("QuestionnairesView", () => {
+  const user = {
+    id: "3",
+    name: "Foo",
+    email: "foo@bar.com",
+    displayName: "Foo",
+  };
+
+  const buildQuestionnaire = (index, overrides) => ({
+    id: `questionnaire${index}`,
+    displayName: `Questionnaire ${index}`,
+    title: `Questionnaire ${index} Title`,
+    shortTitle: "",
+    createdAt: `2019-05-${30 - index}T12:36:50.984Z`,
+    updatedAt: `2019-05-${30 - index}T12:36:50.984Z`,
+    createdBy: user,
+    permission: WRITE,
+    ...overrides,
+  });
   let props;
   beforeEach(() => {
     const questionnaires = [buildQuestionnaire(1), buildQuestionnaire(2)];
-    const user = {
-      id: "3",
-      name: "Foo",
-      email: "foo@bar.com",
-      displayName: "Foo",
-    };
 
     props = {
       questionnaires,
-      user,
       onDeleteQuestionnaire: jest.fn(),
       onDuplicateQuestionnaire: jest.fn(),
       onCreateQuestionnaire: jest.fn(),
@@ -473,6 +441,26 @@ describe("QuestionnairesView", () => {
 
         expect(document.activeElement).toEqual(document.body);
       });
+
+      it("should not be able to delete a read only questionnaire", () => {
+        props.questionnaires = props.questionnaires.slice(0, 1).map(q => ({
+          ...q,
+          permission: READ,
+        }));
+        const { getByTitle, queryByTestId, getByLabelText, getByText } = render(
+          <QuestionnairesView {...props} />
+        );
+
+        fireEvent.click(getByLabelText("All"));
+        expect(getByText("Questionnaire 1 Title")).toBeTruthy();
+
+        const deleteButton = getByTitle("Delete");
+        fireEvent.click(deleteButton);
+        const confirmButton = queryByTestId("btn-delete-modal");
+
+        expect(confirmButton).toBeFalsy();
+        expect(props.onDeleteQuestionnaire).not.toHaveBeenCalled();
+      });
     });
 
     describe("Duplication", () => {
@@ -698,8 +686,11 @@ describe("QuestionnairesView", () => {
     });
 
     describe("Searching", () => {
-      it("should search questionnaire by title", async () => {
+      beforeEach(() => {
         jest.useFakeTimers();
+      });
+
+      it("should search questionnaire by title", async () => {
         const { getByLabelText, queryByText } = render(
           <QuestionnairesView {...props} />
         );
@@ -715,7 +706,6 @@ describe("QuestionnairesView", () => {
       });
 
       it("should search questionnaire by short title", async () => {
-        jest.useFakeTimers();
         const questionnaires = [
           buildQuestionnaire(1, { shortTitle: "Short 1" }),
           buildQuestionnaire(2, { shortTitle: "Short 2" }),
@@ -736,7 +726,6 @@ describe("QuestionnairesView", () => {
       });
 
       it("should save the search term", () => {
-        jest.useFakeTimers();
         const { getByLabelText, queryByText, unmount } = render(
           <QuestionnairesView {...props} />
         );
@@ -764,10 +753,13 @@ describe("QuestionnairesView", () => {
       });
 
       it("should show a message when there are no results found", () => {
-        jest.useFakeTimers();
         const { getByLabelText, queryByText } = render(
           <QuestionnairesView {...props} />
         );
+
+        const showAllButton = getByLabelText("All");
+
+        fireEvent.click(showAllButton);
 
         const search = getByLabelText("Search");
         fireEvent.change(search, {
@@ -783,7 +775,6 @@ describe("QuestionnairesView", () => {
       });
 
       it("should navigate back to page one when you change the search term", () => {
-        jest.useFakeTimers();
         const questionnaires = new Array(17)
           .fill("")
           .map((_, i) => buildQuestionnaire(i));
@@ -805,6 +796,89 @@ describe("QuestionnairesView", () => {
         });
 
         expect(getByText("1 of 2")).toBeTruthy();
+      });
+    });
+    describe("Filtering", () => {
+      it("starts with read only filtered out and correctly toggles between all and editable lists", () => {
+        const questionnaires = [
+          buildQuestionnaire(1, {
+            permission: WRITE,
+          }),
+          buildQuestionnaire(2, {
+            permission: READ,
+          }),
+          buildQuestionnaire(3, {
+            permission: READ,
+          }),
+        ];
+
+        const { getByLabelText, queryByText } = render(
+          <QuestionnairesView {...props} questionnaires={questionnaires} />
+        );
+
+        const showAllButton = getByLabelText("All");
+        const showOnlyEditable = getByLabelText("Editor");
+
+        expect(queryByText("Questionnaire 1 Title")).toBeTruthy();
+        expect(queryByText("Questionnaire 2 Title")).toBeFalsy();
+        expect(queryByText("Questionnaire 3 Title")).toBeFalsy();
+
+        fireEvent.click(showAllButton);
+
+        expect(queryByText("Questionnaire 1 Title")).toBeTruthy();
+        expect(queryByText("Questionnaire 2 Title")).toBeTruthy();
+        expect(queryByText("Questionnaire 3 Title")).toBeTruthy();
+
+        fireEvent.click(showOnlyEditable);
+
+        expect(queryByText("Questionnaire 1 Title")).toBeTruthy();
+        expect(queryByText("Questionnaire 2 Title")).toBeFalsy();
+        expect(queryByText("Questionnaire 3 Title")).toBeFalsy();
+      });
+
+      it("should render correct error when no owned questionnaires", () => {
+        props.questionnaires = [
+          buildQuestionnaire(1, {
+            permission: READ,
+          }),
+        ];
+
+        const { queryByText } = render(
+          <QuestionnairesView
+            {...props}
+            questionnaires={props.questionnaires}
+          />
+        );
+
+        expect(
+          queryByText("You do not have editor access to any questionnaires")
+        ).toBeTruthy();
+      });
+
+      it("should render correct error when no owned questionnaires match a search term", () => {
+        props.questionnaires = [
+          buildQuestionnaire(1, {
+            permission: WRITE,
+          }),
+        ];
+
+        const { queryByText, getByLabelText } = render(
+          <QuestionnairesView
+            {...props}
+            questionnaires={props.questionnaires}
+          />
+        );
+
+        const search = getByLabelText("Search");
+        fireEvent.change(search, {
+          target: { value: "not in any questionnaire" },
+        });
+
+        expect(
+          queryByText(
+            "You do not have editor access to any questionnaires matching this criteria"
+          )
+        ).toBeTruthy();
       });
     });
   });

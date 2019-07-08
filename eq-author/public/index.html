@@ -12,7 +12,8 @@
       var isChrome =
         !!window.chrome &&
         (!!window.chrome.webstore || !!window.chrome.runtime);
-      if (!isChrome) {
+      var isCypress = !!window.Cypress;
+      if (!isChrome && !isCypress) {
         window.location.replace("/unsupported-browser.html");
       }
     </script>
@@ -56,6 +57,7 @@
     <title>Author</title>
     <script type="text/javascript">
       window.config = {};
+      window.config.REACT_APP_SENTRY_ENV = "";
       window.config.REACT_APP_API_URL = "";
       window.config.REACT_APP_FIREBASE_API_KEY = "";
       window.config.REACT_APP_FIREBASE_PROJECT_ID = "";
@@ -63,7 +65,6 @@
       window.config.REACT_APP_LAUNCH_URL = "";
       window.config.REACT_APP_FULLSTORY_ORG = "";
       window.config.REACT_APP_SENTRY_DSN = "";
-      window.config.REACT_APP_AUTH_TYPE = "";
       window.config.REACT_APP_HOT_JAR_ID = "";
       window.config.REACT_APP_GTM_ID = "";
       window.config.REACT_APP_GTM_ENV_ID = "";

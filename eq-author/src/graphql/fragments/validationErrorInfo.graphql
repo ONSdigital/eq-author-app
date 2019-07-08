@@ -1,0 +1,9 @@
+fragment ValidationErrorInfo on ValidationErrorInfo {
+  errors {
+    id
+    type
+    field
+    errorCode
+  }
+  totalCount
+}

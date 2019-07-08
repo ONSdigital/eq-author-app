@@ -7,7 +7,7 @@ import Error from "components/Error";
 import Loading from "components/Loading";
 import DialogHeader from "components/Dialog/DialogHeader";
 import { Heading, Message } from "components/Dialog/DialogMessage";
-import ModalFullScreen from "components/modals/ModalFullScreen";
+import Modal from "components/modals/Modal";
 import IconText from "components/IconText";
 import MetadataTable from "./MetadataTable";
 import DialogActionButtons from "components/Dialog/DialogButtons";
@@ -24,7 +24,7 @@ import { colors } from "constants/theme";
 const CenteredHeading = styled(Heading)`
   text-align: center;
   margin: 2em 0 5em;
-  color: ${colors.darkGrey};
+  color: ${colors.text};
 `;
 
 const Info = styled(IconText)`
@@ -39,6 +39,8 @@ const Scrollable = styled.div`
 
 const Content = styled.div`
   padding: 1em 0;
+  height: 30em;
+  overflow-y: scroll;
 `;
 
 export class UnwrappedMetadataModal extends Component {
@@ -90,11 +92,11 @@ export class UnwrappedMetadataModal extends Component {
     const { isOpen, onClose, questionnaireId } = this.props;
 
     return (
-      <ModalFullScreen isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={onClose}>
         <GetMetadataQuery questionnaireId={questionnaireId}>
           {this.renderContent}
         </GetMetadataQuery>
-      </ModalFullScreen>
+      </Modal>
     );
   }
 }

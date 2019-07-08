@@ -1,10 +1,9 @@
 const { find, findIndex, remove, omit, set, first } = require("lodash");
 
 const { getSectionByPageId, remapAllNestedIds } = require("../utils");
+const { withWritePermission } = require("../withWritePermission");
 
 const addPrefix = require("../../../utils/addPrefix");
-
-const { saveQuestionnaire } = require("../../../utils/datastore");
 const { createQuestionPage } = require("./questionPage");
 
 const Resolvers = {};
@@ -18,7 +17,7 @@ Resolvers.Page = {
 };
 
 Resolvers.Mutation = {
-  movePage: async (_, { input }, ctx) => {
+  movePage: withWritePermission((_, { input }, ctx) => {
     const section = getSectionByPageId(ctx, input.id);
     const removedPage = first(remove(section.pages, { id: input.id }));
     if (input.sectionId === section.id) {
@@ -29,17 +28,15 @@ Resolvers.Mutation = {
       });
       newsection.pages.splice(input.position, 0, removedPage);
     }
-    await saveQuestionnaire(ctx.questionnaire);
     return removedPage;
-  },
-  deletePage: async (_, { input }, ctx) => {
+  }),
+  deletePage: withWritePermission((_, { input }, ctx) => {
     const section = getSectionByPageId(ctx, input.id);
     remove(section.pages, { id: input.id });
-    await saveQuestionnaire(ctx.questionnaire);
     return section;
-  },
+  }),
 
-  duplicatePage: async (_, { input }, ctx) => {
+  duplicatePage: withWritePermission((_, { input }, ctx) => {
     const section = getSectionByPageId(ctx, input.id);
     const page = find(section.pages, { id: input.id });
     const newpage = omit(page, "id");
@@ -48,9 +45,8 @@ Resolvers.Mutation = {
     const duplicatedPage = createQuestionPage(newpage);
     const remappedPage = remapAllNestedIds(duplicatedPage);
     section.pages.splice(input.position, 0, remappedPage);
-    await saveQuestionnaire(ctx.questionnaire);
     return remappedPage;
-  },
+  }),
 };
 
 module.exports = [

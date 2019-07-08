@@ -19,6 +19,16 @@ exports[`Number min/max render with a unit type for percentage 1`] = `
 </Number__UnitSymbol>
 `;
 
+exports[`Number min/max render with a unit type for unit 1`] = `
+<Number__UnitSymbol
+  data-test="unit"
+  id="unit-number"
+  trailing={true}
+>
+  cm
+</Number__UnitSymbol>
+`;
+
 exports[`Number should render correctly 1`] = `
 <Number__StyledDiv>
   <Number__NumberInput

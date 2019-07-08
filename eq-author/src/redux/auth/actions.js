@@ -51,6 +51,7 @@ export const verifyAuthStatus = () => (dispatch, getState, { auth }) => {
     }
     window
       .fetch("/signIn", {
+        method: "POST",
         headers: { authorization: `Bearer ${authResult.ra}` },
       })
       .then(() =>

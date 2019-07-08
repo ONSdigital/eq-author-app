@@ -1,31 +1,74 @@
 import React from "react";
-import { shallow } from "enzyme";
+
+import { render } from "tests/utils/rtl";
+import { READ, WRITE } from "constants/questionnaire-permissions";
+
 import BaseLayout from "components/BaseLayout";
 
-let wrapper;
-
-const element = document.createElement("div");
-
-describe("components/BaseLayout", () => {
-  const questionnaire = { id: "1", title: "Questionnaire" };
+describe("base layout", () => {
+  let props;
 
   beforeEach(() => {
-    jest.spyOn(document, "getElementById").mockImplementation(() => element);
-    wrapper = shallow(
-      <BaseLayout questionnaire={questionnaire}>Children</BaseLayout>
-    );
+    const div = document.createElement("div");
+    div.setAttribute("id", "toast");
+    document.body.appendChild(div);
+
+    props = {
+      questionnaire: {
+        id: "1",
+        title: "Questionnaire",
+        permission: READ,
+        createdBy: {
+          id: "123",
+          name: "Foo",
+          email: "f@oo.com",
+          picture: "",
+        },
+        editors: [],
+      },
+    };
   });
 
-  it("should render", function() {
-    expect(wrapper).toMatchSnapshot();
+  it("should render the children", function() {
+    const { getByText } = render(<BaseLayout {...props}>Children</BaseLayout>);
+    expect(getByText("Children")).toBeTruthy();
   });
 
-  it("should render a title", function() {
-    wrapper.setProps({ title: "Title" });
-    expect(wrapper).toMatchSnapshot();
-  });
+  describe("Warning message", () => {
+    it("should show an error when the browser is not connected", () => {
+      const { getByText } = render(
+        <BaseLayout {...props}>Children</BaseLayout>,
+        {
+          storeState: { saving: { offline: true } },
+        }
+      );
+      expect(getByText(/You're currently offline/)).toBeTruthy();
+    });
 
-  afterEach(() => {
-    jest.restoreAllMocks();
+    it("should show a banner when you are read only", () => {
+      props.questionnaire.permission = READ;
+      const { getByText } = render(
+        <BaseLayout {...props}>Children</BaseLayout>
+      );
+      expect(getByText(/changes you make will not be saved/)).toBeTruthy();
+    });
+
+    it("should not show a banner when you can write", () => {
+      props.questionnaire.permission = WRITE;
+      const { queryByText } = render(
+        <BaseLayout {...props}>Children</BaseLayout>
+      );
+      expect(queryByText(/changes you make will not be saved/)).toBeFalsy();
+    });
+
+    it("should show an error when there is an api error", () => {
+      const { getByText } = render(
+        <BaseLayout {...props}>Children</BaseLayout>,
+        {
+          storeState: { saving: { apiDownError: true } },
+        }
+      );
+      expect(getByText(/unable to save your progress/)).toBeTruthy();
+    });
   });
 });

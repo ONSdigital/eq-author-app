@@ -13,6 +13,8 @@
     "create-migration": "node scripts/createMigration.js"
   },
   "dependencies": {
+    "ajv": "latest",
+    "ajv-errors": "latest",
     "apollo-opentracing": "^1.2.4",
     "apollo-server-express": "latest",
     "body-parser": "latest",
@@ -21,7 +23,7 @@
     "cors": "latest",
     "deep-map": "^1.5",
     "dotenv": "latest",
-    "dynamoose": "onsdigital/dynamoose#bug-static-original-item",
+    "dynamoose": "latest",
     "express": "latest",
     "express-pino-logger": "latest",
     "firebase-admin": "latest",

@@ -1,4 +1,3 @@
-import config from "config";
 import { get, isNil } from "lodash";
 import { SIGN_IN_USER, SIGN_OUT_USER } from "./actions";
 
@@ -28,9 +27,6 @@ export default (state = initialState, { type, payload }) => {
 
 export const getUser = state => get(state, "auth.user");
 export const isSignedIn = () => {
-  return (
-    config.REACT_APP_AUTH_TYPE === "external" ||
-    (localStorage && !isNil(localStorage.getItem("accessToken")))
-  );
+  return localStorage && !isNil(localStorage.getItem("accessToken"));
 };
 export const verifiedAuthStatus = state => get(state, "auth.verifiedStatus");

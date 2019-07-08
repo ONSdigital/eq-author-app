@@ -7,3 +7,5 @@ export const NUMBER = "Number";
 export const PERCENTAGE = "Percentage";
 export const DATE = "Date";
 export const DATE_RANGE = "DateRange";
+export const UNIT = "Unit";
+export const DURATION = "Duration";

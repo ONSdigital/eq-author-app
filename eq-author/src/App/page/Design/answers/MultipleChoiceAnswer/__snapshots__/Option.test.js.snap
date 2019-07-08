@@ -149,7 +149,7 @@ exports[`Option should render a checkbox 1`] = `
   margin-bottom: 0.4em;
   font-weight: bold;
   vertical-align: middle;
-  color: #666666;
+  color: #333333;
   line-height: 1.3;
 }
 
@@ -161,7 +161,7 @@ exports[`Option should render a checkbox 1`] = `
 }
 
 .c10 {
-  color: #5F7682;
+  color: #3B7A9E;
   border: none;
   background: transparent;
   cursor: pointer;
@@ -251,6 +251,7 @@ exports[`Option should render a checkbox 1`] = `
 
 <StatelessOption
   autoFocus={true}
+  getValidationError={[Function]}
   hasDeleteButton={true}
   labelPlaceholder="Label"
   onChange={[MockFunction]}
@@ -374,6 +375,7 @@ exports[`Option should render a checkbox 1`] = `
                             onKeyDown={[Function]}
                           >
                             <WrappingInput__TextArea
+                              aria-invalid="false"
                               data-autofocus={true}
                               data-test="option-label"
                               id="option-label-1"
@@ -385,6 +387,7 @@ exports[`Option should render a checkbox 1`] = `
                               value=""
                             >
                               <TextareaAutosize
+                                aria-invalid="false"
                                 className="c7"
                                 data-autofocus={true}
                                 data-test="option-label"
@@ -400,6 +403,7 @@ exports[`Option should render a checkbox 1`] = `
                                 value=""
                               >
                                 <textarea
+                                  aria-invalid="false"
                                   className="c7"
                                   data-autofocus={true}
                                   data-test="option-label"
@@ -489,6 +493,7 @@ exports[`Option should render a checkbox 1`] = `
                         onKeyDown={[Function]}
                       >
                         <WrappingInput__TextArea
+                          aria-invalid="false"
                           data-test="option-description"
                           id="option-description-1"
                           name="description"
@@ -498,6 +503,7 @@ exports[`Option should render a checkbox 1`] = `
                           value=""
                         >
                           <TextareaAutosize
+                            aria-invalid="false"
                             className="c7"
                             data-test="option-description"
                             id="option-description-1"
@@ -511,6 +517,7 @@ exports[`Option should render a checkbox 1`] = `
                             value=""
                           >
                             <textarea
+                              aria-invalid="false"
                               className="c7"
                               data-test="option-description"
                               id="option-description-1"
@@ -600,6 +607,7 @@ exports[`Option should render a checkbox 1`] = `
               >
                 <ReactTooltip
                   className="c12"
+                  clickable={false}
                   delayShow={200}
                   effect="solid"
                   id="tooltip-1"

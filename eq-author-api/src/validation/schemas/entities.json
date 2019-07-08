@@ -1,0 +1,116 @@
+{
+  "$id": "http://example.com/schemas/entities.json",
+  "definitions": {
+    "section": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": {
+          "type": "string"
+        },
+        "pages": {
+          "type": "array",
+          "items": {
+            "$ref": "entities.json#/definitions/page"
+          }
+        }
+      },
+      "required": ["id", "title", "pages"]
+    },
+    "page": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": {
+          "$ref": "definitions.json#/definitions/populatedString"
+        },
+        "answers": {
+          "type": "array",
+          "items": {
+            "$ref": "entities.json#/definitions/answer"
+          }
+        }
+      },
+      "required": ["id", "title"]
+    },
+    "answer": {
+      "oneOf": [
+        {
+          "$ref": "entities.json#/definitions/basicAnswer"
+        },
+        {
+          "$ref": "entities.json#/definitions/multipleChoiceAnswer"
+        }
+      ]
+    },
+    "basicAnswer": {
+      "if": {
+        "properties": {
+          "type": {
+            "enum": [
+              "TextField",
+              "TextArea",
+              "Number",
+              "Percentage",
+              "Currency"
+            ]
+          }
+        }
+      },
+      "then": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "label": {
+            "$ref": "definitions.json#/definitions/populatedString"
+          }
+        },
+        "required": ["id", "label"]
+      },
+      "else": false
+    },
+    "multipleChoiceAnswer": {
+      "if": {
+        "properties": {
+          "type": {
+            "enum": ["Checkbox", "Radio"]
+          }
+        }
+      },
+      "then": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "options": {
+            "type": "array",
+            "items": {
+              "allOf": [
+                {
+                  "$ref": "entities.json#/definitions/option"
+                },
+                {
+                  "uniquePropertyValueInArrayOfObjects": "label"
+                }
+              ]
+            }
+          },
+          "mutuallyExclusiveOption": {
+            "$ref": "entities.json#/definitions/option"
+          }
+        },
+        "required": ["id", "options"]
+      },
+      "else": false
+    },
+    "option": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "label": {
+          "$ref": "definitions.json#/definitions/populatedString"
+        }
+      },
+      "required": ["id", "label"]
+    }
+  }
+}

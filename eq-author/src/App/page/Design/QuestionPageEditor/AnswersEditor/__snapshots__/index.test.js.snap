@@ -1,20 +1,22 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Answers Editor should render 1`] = `
-<Reorder
-  Transition={[Function]}
-  list={
-    Array [
-      Object {
-        "id": "1",
-      },
-      Object {
-        "id": "2",
-      },
-    ]
-  }
-  onMove={[MockFunction]}
->
-  <Component />
-</Reorder>
+<AnswersEditor__Margin>
+  <Reorder
+    Transition={[Function]}
+    list={
+      Array [
+        Object {
+          "id": "1",
+        },
+        Object {
+          "id": "2",
+        },
+      ]
+    }
+    onMove={[MockFunction]}
+  >
+    <Component />
+  </Reorder>
+</AnswersEditor__Margin>
 `;

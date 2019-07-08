@@ -1,6 +1,6 @@
+import * as Sentry from "@sentry/browser";
 import createHistory from "history/createHashHistory";
 import configureStore from "redux/configureStore";
-import Raven from "raven-js";
 import fragmentMatcher from "apollo/fragmentMatcher";
 import createApolloClient from "apollo/createApolloClient";
 import createApolloCache from "apollo/createApolloCache";
@@ -15,8 +15,11 @@ import getHeaders from "middleware/headers";
 
 import App from "App";
 
-if (config.REACT_APP_SENTRY_DSN !== "") {
-  Raven.config(config.REACT_APP_SENTRY_DSN).install();
+if (config.REACT_APP_SENTRY_DSN) {
+  Sentry.init({
+    dsn: config.REACT_APP_SENTRY_DSN,
+    environment: config.REACT_APP_SENTRY_ENV,
+  });
 }
 
 let store;

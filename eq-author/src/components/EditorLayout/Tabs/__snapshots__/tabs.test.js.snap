@@ -1,0 +1,110 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Tabs should enable the Routing tab when prop is passed 1`] = `
+<Tabs__Tab
+  activeClassName="active"
+  data-test="routing"
+  key="routing"
+  to="/q/1/page/3/routing"
+>
+  Routing
+</Tabs__Tab>
+`;
+
+exports[`Tabs should enable the preview tab when prop is passed 1`] = `
+<Tabs__Tab
+  activeClassName="active"
+  data-test="preview"
+  key="preview"
+  to="/q/1/page/3/preview"
+>
+  Preview
+</Tabs__Tab>
+`;
+
+exports[`Tabs should render a confirmation link when provided 1`] = `
+<div>
+  <Tabs__TabsContainer
+    data-test="tabs-nav"
+  >
+    <Tabs__Tab
+      activeClassName="active"
+      data-test="design"
+      key="design"
+      to="/q/1/question-confirmation/4/design"
+    >
+      Design
+    </Tabs__Tab>
+    <Tabs__DisabledTab
+      data-test="preview"
+      key="preview"
+    >
+      Preview
+    </Tabs__DisabledTab>
+    <Tabs__DisabledTab
+      data-test="routing"
+      key="routing"
+    >
+      Routing
+    </Tabs__DisabledTab>
+  </Tabs__TabsContainer>
+</div>
+`;
+
+exports[`Tabs should render link to section if params are for a section 1`] = `
+<div>
+  <Tabs__TabsContainer
+    data-test="tabs-nav"
+  >
+    <Tabs__Tab
+      activeClassName="active"
+      data-test="design"
+      key="design"
+      to="/q/1/section/2/design"
+    >
+      Design
+    </Tabs__Tab>
+    <Tabs__DisabledTab
+      data-test="preview"
+      key="preview"
+    >
+      Preview
+    </Tabs__DisabledTab>
+    <Tabs__DisabledTab
+      data-test="routing"
+      key="routing"
+    >
+      Routing
+    </Tabs__DisabledTab>
+  </Tabs__TabsContainer>
+</div>
+`;
+
+exports[`Tabs should render with design tab enabled by default 1`] = `
+<div>
+  <Tabs__TabsContainer
+    data-test="tabs-nav"
+  >
+    <Tabs__Tab
+      activeClassName="active"
+      data-test="design"
+      key="design"
+      to="/q/1/page/3/design"
+    >
+      Design
+    </Tabs__Tab>
+    <Tabs__DisabledTab
+      data-test="preview"
+      key="preview"
+    >
+      Preview
+    </Tabs__DisabledTab>
+    <Tabs__DisabledTab
+      data-test="routing"
+      key="routing"
+    >
+      Routing
+    </Tabs__DisabledTab>
+  </Tabs__TabsContainer>
+</div>
+`;

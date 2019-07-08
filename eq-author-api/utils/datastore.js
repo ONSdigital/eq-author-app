@@ -63,6 +63,20 @@ const getUserById = id =>
     });
   });
 
+const listUsers = () =>
+  new Promise((resolve, reject) => {
+    UserModel.scan()
+      .all()
+      .exec((err, users) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+
+        resolve(users);
+      });
+  });
+
 const createQuestionnaire = async questionnaire => {
   const updatedAt = new Date();
   await saveModel(
@@ -96,6 +110,11 @@ const getQuestionnaire = id =>
         if (!questionnaire.metadata) {
           questionnaire.metadata = [];
         }
+
+        if (!questionnaire.editors) {
+          questionnaire.editors = [];
+        }
+
         resolve(questionnaire);
       });
   });
@@ -194,8 +213,10 @@ const listQuestionnaires = () => {
         if (err) {
           reject(err);
         }
-        questionnaires.sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1));
-        resolve(questionnaires);
+        const transformedQuestionnaires = questionnaires
+          .map(q => ({ ...q, editors: q.editors || [] }))
+          .sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1));
+        resolve(transformedQuestionnaires);
       });
   });
 };
@@ -211,4 +232,5 @@ module.exports = {
   createUser,
   updateUser,
   saveModel,
+  listUsers,
 };

@@ -1,0 +1,12 @@
+{
+  "$id": "http://example.com/schemas/definitions.json",
+  "definitions": {
+    "populatedString": {
+      "type": "string",
+      "pattern": "\\w+",
+      "errorMessage": {
+        "pattern": "ERR_VALID_REQUIRED"
+      }
+    }
+  }
+}

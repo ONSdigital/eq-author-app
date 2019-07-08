@@ -234,11 +234,11 @@ describe("Group", () => {
       questionnaireJson: {
         sections: [
           {
-            id: "4",
+            id: "uu1d-iuhiuwfew-fewfewfewdsf-dsf-4",
             title: "<p>Section 1</p>",
             pages: [
               {
-                id: "1",
+                id: "uu1d-iuhiuwfew-fewfewfewdsf-dsf-1",
                 title: "<p>Test question</p>",
                 description: "<p>Test description</p>",
                 descriptionEnabled: true,
@@ -247,10 +247,10 @@ describe("Group", () => {
                 routingRuleSet,
                 routing,
                 confirmation: {
-                  id: "2",
+                  id: "uu1d-iuhiuwfew-fewfewfewdsf-dsf-2",
                   title: "<p>Are you sure?</p>",
                   page: {
-                    id: "1",
+                    id: "uu1d-iuhiuwfew-fewfewfewdsf-dsf-1",
                   },
                   positive: {
                     label: "Oh yes.",
@@ -263,7 +263,7 @@ describe("Group", () => {
                 },
                 answers: [
                   {
-                    id: "6",
+                    id: "uu1d-iuhiuwfew-fewfewfewdsf-dsf-6",
                     type: "Currency",
                     label: "How much money do you want?",
                     description: "",
@@ -291,16 +291,18 @@ describe("Group", () => {
       );
 
       const expectedRunnerBlock = {
-        id: "blockconfirmation-page-for-1",
+        id: "blockconfirmation-page-for-uu1d-iuhiuwfew-fewfewfewdsf-dsf-1",
         type: "ConfirmationQuestion",
         questions: [
           {
-            id: "questionconfirmation-page-for-1",
+            id:
+              "questionconfirmation-page-for-uu1d-iuhiuwfew-fewfewfewdsf-dsf-1",
             title: "Are you sure?",
             type: "General",
             answers: [
               {
-                id: "answerconfirmation-answer-for-1",
+                id:
+                  "answerconfirmation-answer-for-uu1d-iuhiuwfew-fewfewfewdsf-dsf-1",
                 mandatory: true,
                 type: "Radio",
                 options: [
@@ -322,10 +324,11 @@ describe("Group", () => {
         routing_rules: [
           {
             goto: {
-              block: "block1",
+              block: "blockuu1d-iuhiuwfew-fewfewfewdsf-dsf-1",
               when: [
                 {
-                  id: "answerconfirmation-answer-for-1",
+                  id:
+                    "answerconfirmation-answer-for-uu1d-iuhiuwfew-fewfewfewdsf-dsf-1",
                   condition: "equals",
                   value: "Wait I can get more?",
                 },
@@ -399,10 +402,11 @@ describe("Group", () => {
       const expectedRunnerRouting = [
         {
           goto: {
-            block: "block1",
+            block: "blockuu1d-iuhiuwfew-fewfewfewdsf-dsf-1",
             when: [
               {
-                id: "answerconfirmation-answer-for-1",
+                id:
+                  "answerconfirmation-answer-for-uu1d-iuhiuwfew-fewfewfewdsf-dsf-1",
                 condition: "equals",
                 value: "Wait I can get more?",
               },

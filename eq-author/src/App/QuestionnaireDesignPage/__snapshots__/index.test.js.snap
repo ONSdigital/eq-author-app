@@ -1,9 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`QuestionnaireDesignPage getTitle should display existing title if loading 1`] = `"foo"`;
-
-exports[`QuestionnaireDesignPage getTitle should display questionnaire title if no longer loading 1`] = `"hello world - foo"`;
-
 exports[`QuestionnaireDesignPage should redirect to the introduction if it has one 1`] = `
 <Redirect
   push={false}
@@ -47,7 +43,6 @@ exports[`QuestionnaireDesignPage should render 1`] = `
       "title": "hello world",
     }
   }
-  title="my displayName"
 >
   <GetContext
     title={[Function]}
@@ -60,7 +55,7 @@ exports[`QuestionnaireDesignPage should render 1`] = `
         cols={3}
         gutters={false}
       >
-        <withRouter(Apollo(UnwrappedNavigationSidebar))
+        <withRouter(UnwrappedNavigationSidebar)
           canAddCalculatedSummaryPage={true}
           canAddQuestionConfirmation={true}
           canAddQuestionPage={true}
@@ -108,58 +103,98 @@ exports[`QuestionnaireDesignPage should render 1`] = `
       </Column>
       <Column
         cols={9}
+        gutters={false}
       >
-        <Switch>
-          <Route
-            component={[Function]}
-            key="page-design"
-            path="/q/:questionnaireId/page/:pageId/design"
-          />
-          <Route
-            component={[Function]}
-            key="page-preview"
-            path="/q/:questionnaireId/page/:pageId/preview"
-          />
-          <Route
-            component={[Function]}
-            key="page-routing"
-            path="/q/:questionnaireId/page/:pageId/routing"
-          />
-          <Route
-            component={[Function]}
-            key="section-design"
-            path="/q/:questionnaireId/section/:sectionId/design"
-          />
-          <Route
-            component={[Function]}
-            key="section-preview"
-            path="/q/:questionnaireId/section/:sectionId/preview"
-          />
-          <Route
-            component={[Function]}
-            key="confirmation-design"
-            path="/q/:questionnaireId/question-confirmation/:confirmationId/design"
-          />
-          <Route
-            component={[Function]}
-            key="confirmation-preview"
-            path="/q/:questionnaireId/question-confirmation/:confirmationId/preview"
-          />
-          <Route
-            component={[Function]}
-            key="page-design"
-            path="/q/:questionnaireId/introduction/:introductionId/design"
-          />
-          <Route
-            component={[Function]}
-            key="page-design"
-            path="/q/:questionnaireId/introduction/:introductionId/preview"
-          />
-          <Route
-            path="*"
-            render={[Function]}
-          />
-        </Switch>
+        <ContextProvider
+          value={
+            Object {
+              "questionnaire": Object {
+                "displayName": "my displayName",
+                "id": "3",
+                "sections": Array [
+                  Object {
+                    "id": "2",
+                    "pages": Array [
+                      Object {
+                        "answers": Array [
+                          Object {
+                            "id": "1",
+                            "label": "",
+                            "options": Array [
+                              Object {
+                                "id": "1",
+                              },
+                            ],
+                          },
+                        ],
+                        "description": "",
+                        "guidance": "",
+                        "id": "1",
+                        "pageType": "QuestionPage",
+                        "position": 0,
+                        "title": "",
+                      },
+                    ],
+                    "title": "",
+                  },
+                ],
+                "title": "hello world",
+              },
+            }
+          }
+        >
+          <Switch>
+            <Route
+              component={[Function]}
+              key="page-design"
+              path="/q/:questionnaireId/page/:pageId/design/:modifier?"
+            />
+            <Route
+              component={[Function]}
+              key="page-preview"
+              path="/q/:questionnaireId/page/:pageId/preview"
+            />
+            <Route
+              component={[Function]}
+              key="page-routing"
+              path="/q/:questionnaireId/page/:pageId/routing"
+            />
+            <Route
+              component={[Function]}
+              key="section-design"
+              path="/q/:questionnaireId/section/:sectionId/design"
+            />
+            <Route
+              component={[Function]}
+              key="section-preview"
+              path="/q/:questionnaireId/section/:sectionId/preview"
+            />
+            <Route
+              component={[Function]}
+              key="confirmation-design"
+              path="/q/:questionnaireId/question-confirmation/:confirmationId/design"
+            />
+            <Route
+              component={[Function]}
+              key="confirmation-preview"
+              path="/q/:questionnaireId/question-confirmation/:confirmationId/preview"
+            />
+            <Route
+              component={[Function]}
+              key="introduction-design"
+              path="/q/:questionnaireId/introduction/:introductionId/design/:modifier?"
+            />
+            <Route
+              component={[Function]}
+              key="introduction-preview"
+              path="/q/:questionnaireId/introduction/:introductionId/preview"
+            />
+            <Route
+              path="*"
+              render={[Function]}
+            />
+          </Switch>
+        </ContextProvider>
       </Column>
     </Grid>
   </GetContext>

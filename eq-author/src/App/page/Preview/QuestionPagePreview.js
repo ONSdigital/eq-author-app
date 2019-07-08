@@ -7,14 +7,15 @@ import IconText from "components/IconText";
 import Error from "components/preview/Error";
 import { Answer } from "components/preview/Answers";
 import PageTitle from "components/preview/elements/PageTitle";
+import EditorLayout from "components/EditorLayout";
 
-import EditorLayout from "App/page/Design/EditorLayout";
-import QuestionPageEditor from "App/page/Design/QuestionPageEditor";
+import { colors } from "constants/theme";
+
+import QuestionPageEditor from "../Design/QuestionPageEditor";
+import PropertiesPanel from "../PropertiesPanel";
 
 import IconInfo from "./icon-info.svg?inline";
 import IconChevron from "./icon-chevron.svg";
-
-import { colors } from "constants/theme";
 
 const Container = styled.div`
   padding: 2em;
@@ -100,7 +101,12 @@ const QuestionPagePreview = ({ page }) => {
   } = page;
 
   return (
-    <EditorLayout page={page} preview routing>
+    <EditorLayout
+      preview
+      routing
+      title={page.displayName}
+      renderPanel={() => <PropertiesPanel page={page} />}
+    >
       <Container>
         <PageTitle title={title} />
 

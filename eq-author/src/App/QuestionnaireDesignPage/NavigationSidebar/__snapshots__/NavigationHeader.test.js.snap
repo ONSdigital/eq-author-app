@@ -2,7 +2,7 @@
 
 exports[`NavigationHeader should render 1`] = `
 <Fragment>
-  <NavigationHeader__NavigationHeaderRow>
+  <NavigationHeader__QuestionnaireLinks>
     <NavigationHeader__IconList>
       <NavigationHeader__IconListItem>
         <RouteButton
@@ -11,7 +11,7 @@ exports[`NavigationHeader should render 1`] = `
           variant="tertiary-light"
         >
           <IconText
-            hideText={true}
+            hideText={false}
             icon={[Function]}
           >
             Home
@@ -35,38 +35,16 @@ exports[`NavigationHeader should render 1`] = `
           </IconText>
         </Button>
       </NavigationHeader__IconListItem>
-      <NavigationHeader__IconListItem>
-        <Button
-          data-test="settings-btn"
-          highlightOnHover={false}
-          onClick={[Function]}
-          small={true}
-          type="button"
-          variant="tertiary-light"
-        >
-          <IconText
-            hideText={false}
-            icon={[Function]}
-          >
-            Settings
-          </IconText>
-        </Button>
-        <Apollo(Apollo(Apollo(UnwrappedMetadataModal)))
-          isOpen={false}
-          onClose={[Function]}
-        />
-        <QuestionnaireSettingsModal
-          canEditType={false}
-          confirmText="Apply"
-          isOpen={false}
-          onClose={[Function]}
-          onSubmit={[Function]}
-          questionnaire={Object {}}
-        />
-      </NavigationHeader__IconListItem>
     </NavigationHeader__IconList>
-  </NavigationHeader__NavigationHeaderRow>
-  <NavigationHeader__NavigationHeaderRow>
+    <Apollo(Apollo(Apollo(UnwrappedMetadataModal)))
+      isOpen={false}
+      onClose={[Function]}
+    />
+  </NavigationHeader__QuestionnaireLinks>
+  <NavigationHeader__QuestionnaireContent>
+    <NavigationHeader__NavTitle>
+      Questionnaire content
+    </NavigationHeader__NavTitle>
     <NavigationHeader__StyledAddMenu
       addMenuOpen={false}
       canAddCalculatedSummaryPage={true}
@@ -79,6 +57,6 @@ exports[`NavigationHeader should render 1`] = `
       onAddQuestionPage={[Function]}
       onAddSection={[Function]}
     />
-  </NavigationHeader__NavigationHeaderRow>
+  </NavigationHeader__QuestionnaireContent>
 </Fragment>
 `;

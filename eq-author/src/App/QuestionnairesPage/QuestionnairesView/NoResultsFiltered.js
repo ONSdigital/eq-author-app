@@ -40,15 +40,41 @@ const AlertText = styled.p`
   font-weight: normal;
 `;
 
-const NoResultsFiltered = ({ searchTerm }) => (
-  <Alert>
-    <AlertTitle>{`No results found for '${searchTerm}'`}</AlertTitle>
-    <AlertText>Please check the questionnaire exists</AlertText>
-  </Alert>
-);
+const NoResultsFiltered = ({ searchTerm, isFiltered }) => {
+  if (!searchTerm) {
+    return (
+      <Alert>
+        <AlertTitle>
+          You do not have editor access to any questionnaires
+        </AlertTitle>
+        <AlertText>
+          Create a questionnaire yourself or request access to an existing one
+        </AlertText>
+      </Alert>
+    );
+  }
+  if (isFiltered) {
+    return (
+      <Alert>
+        <AlertTitle>{`No results found for '${searchTerm}'`}</AlertTitle>
+        <AlertText>
+          You do not have editor access to any questionnaires matching this
+          criteria
+        </AlertText>
+      </Alert>
+    );
+  }
+  return (
+    <Alert>
+      <AlertTitle>{`No results found for '${searchTerm}'`}</AlertTitle>
+      <AlertText>Please check the questionnaire exists</AlertText>
+    </Alert>
+  );
+};
 
 NoResultsFiltered.propTypes = {
   searchTerm: PropTypes.string.isRequired,
+  isFiltered: PropTypes.bool.isRequired,
 };
 
 export default NoResultsFiltered;

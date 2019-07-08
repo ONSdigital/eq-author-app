@@ -9,7 +9,7 @@ import Routing from "./Routing";
 export default [
   <Route
     key="page-design"
-    path="/q/:questionnaireId/page/:pageId/design"
+    path="/q/:questionnaireId/page/:pageId/design/:modifier?"
     component={Design}
   />,
   <Route

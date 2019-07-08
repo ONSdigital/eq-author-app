@@ -1,5 +1,7 @@
 const { omit } = require("lodash");
 const request = require("supertest");
+const jwt = require("jsonwebtoken");
+const uuid = require("uuid");
 
 const { NUMBER } = require("./constants/answerTypes");
 const { buildContext } = require("./tests/utils/contextBuilder");
@@ -8,8 +10,11 @@ const { createApp } = require("./server");
 const { introspectionQuery } = require("graphql");
 const { createUser } = require("./utils/datastore");
 
-const jwt = require("jsonwebtoken");
-const uuid = require("uuid");
+const tracer = require("./tracer");
+const apolloOpenTracing = require("apollo-opentracing");
+
+jest.mock("./tracer");
+jest.mock("apollo-opentracing");
 
 describe("Server", () => {
   describe("export", () => {
@@ -47,12 +52,14 @@ describe("Server", () => {
       });
       const { questionnaire } = ctx;
       const questionnaireJSON = JSON.parse(JSON.stringify(questionnaire));
-
+      ctx.user.sub = ctx.user.externalId;
+      const token = jwt.sign(ctx.user, uuid.v4());
       process.env.ENABLE_IMPORT = "true";
       const server = createApp();
 
       const response = await request(server)
         .post("/import")
+        .set("authorization", `Bearer ${token}`)
         .send(questionnaireJSON);
 
       expect(response.headers["content-type"]).toMatch(/json/);
@@ -73,9 +80,21 @@ describe("Server", () => {
   });
 
   describe("tracing", () => {
+    const originalOpenTracing = process.env.ENABLE_OPENTRACING;
+    afterEach(() => {
+      process.env.ENABLE_OPENTRACING = originalOpenTracing;
+    });
+
     it("should construct a server with opentracing enabled", async () => {
       process.env.ENABLE_OPENTRACING = "true";
       process.env.JAEGER_SERVICE_NAME = "test_service_name";
+
+      tracer.tracer = jest.fn().mockReturnValue({
+        localTracer: "localTracer",
+        serverTracer: "serverTracer",
+      });
+      apolloOpenTracing.default = jest.fn();
+
       const server = createApp();
       const user = {
         sub: "1234",
@@ -88,6 +107,11 @@ describe("Server", () => {
         .post("/graphql")
         .set("authorization", `Bearer ${token}`)
         .send({ query: introspectionQuery });
+
+      expect(apolloOpenTracing.default).toHaveBeenCalledWith({
+        local: "localTracer",
+        server: "serverTracer",
+      });
 
       expect(response.statusCode).toBe(200);
       expect(JSON.parse(response.text)).toEqual(

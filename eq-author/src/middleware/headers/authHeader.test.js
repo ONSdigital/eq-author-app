@@ -15,7 +15,6 @@ describe("appendAuthHeader", () => {
     let tempLocalStorage = {};
     beforeEach(() => {
       Object.assign(tempLocalStorage, localStorage);
-      delete window.localStorage;
     });
     afterEach(() => {
       Object.defineProperty(window, "localStorage", {

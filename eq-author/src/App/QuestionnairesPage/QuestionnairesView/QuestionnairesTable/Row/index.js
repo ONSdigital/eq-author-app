@@ -15,6 +15,7 @@ import Truncated from "components/Truncated";
 import { buildQuestionnairePath } from "utils/UrlUtils";
 
 import { colors } from "constants/theme";
+import { WRITE } from "constants/questionnaire-permissions";
 
 import FormattedDate from "./FormattedDate";
 
@@ -81,6 +82,33 @@ const TD = styled.td`
 
 export const DuplicateQuestionnaireButton = styled(DuplicateButton)`
   margin-right: 0.5em;
+`;
+
+const Permissions = styled.ul`
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+`;
+
+const Permission = styled.li`
+  background: ${colors.darkGrey};
+  font-weight: bold;
+  line-height: 1.2;
+  padding: 0.2em 0.7em;
+  border-radius: 1em;
+  color: white;
+  letter-spacing: 0.05em;
+  font-size: 0.7em;
+  text-transform: uppercase;
+  :not(:last-of-type) {
+    margin-right: 0.5em;
+  }
+  ${props =>
+    props.disabled &&
+    css`
+      background: ${colors.lightGrey};
+    `}
 `;
 
 export class Row extends React.Component {
@@ -183,9 +211,12 @@ export class Row extends React.Component {
         createdAt,
         displayName,
         updatedAt,
+        permission,
       },
       ...rest
     } = this.props;
+
+    const hasWritePermisson = permission === WRITE;
 
     return (
       <>
@@ -222,6 +253,12 @@ export class Row extends React.Component {
             </TD>
             <TD>{createdBy.displayName}</TD>
             <TD>
+              <Permissions>
+                <Permission>VIEW</Permission>
+                <Permission disabled={!hasWritePermisson}>EDIT</Permission>
+              </Permissions>
+            </TD>
+            <TD>
               <div
                 onFocus={this.handleButtonFocus}
                 data-test="action-btn-group"
@@ -235,6 +272,7 @@ export class Row extends React.Component {
                     hideText
                     data-test="btn-delete-questionnaire"
                     onClick={this.handleDeleteQuestionnaire}
+                    disabled={!hasWritePermisson}
                   />
                 </ButtonGroup>
               </div>

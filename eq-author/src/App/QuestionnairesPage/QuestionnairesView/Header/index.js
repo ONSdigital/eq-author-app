@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { debounce } from "lodash";
@@ -6,6 +6,7 @@ import { debounce } from "lodash";
 import Button from "components/buttons/Button";
 import { Input } from "components/Forms";
 import VisuallyHidden from "components/VisuallyHidden";
+import AccessFilter from "./AccessFilter";
 
 import { colors } from "constants/theme";
 
@@ -53,11 +54,21 @@ const SearchInput = styled(Input).attrs({
   }
 `;
 
-const Header = ({ onCreateQuestionnaire, onSearchChange, searchTerm }) => {
+const Header = ({
+  onCreateQuestionnaire,
+  onSearchChange,
+  searchTerm,
+  onToggleFilter,
+  isFiltered,
+}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleModalOpen = () => setIsModalOpen(true);
   const handleModalClose = () => setIsModalOpen(false);
+
+  const onSearchChangeDebounced = useMemo(() => {
+    return debounce(({ value }) => onSearchChange(value), DEBOUNCE_TIMEOUT);
+  }, [onSearchChange]);
 
   return (
     <>
@@ -69,11 +80,11 @@ const Header = ({ onCreateQuestionnaire, onSearchChange, searchTerm }) => {
           <SearchInput
             id="search"
             defaultValue={searchTerm}
-            onChange={({ value }) => {
-              debounce(onSearchChange, DEBOUNCE_TIMEOUT)(value);
-            }}
+            onChange={onSearchChangeDebounced}
           />
         </Search>
+
+        <AccessFilter onToggleFilter={onToggleFilter} isFiltered={isFiltered} />
 
         <Button
           onClick={handleModalOpen}
@@ -97,6 +108,8 @@ Header.propTypes = {
   onCreateQuestionnaire: PropTypes.func.isRequired,
   onSearchChange: PropTypes.func.isRequired,
   searchTerm: PropTypes.string.isRequired,
+  onToggleFilter: PropTypes.func.isRequired,
+  isFiltered: PropTypes.bool.isRequired,
 };
 
 export default Header;

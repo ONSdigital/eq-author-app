@@ -55,10 +55,15 @@ UnwrappedPageNavItem.fragments = {
       position
       displayName
       pageType
+
       ... on QuestionPage {
         confirmation {
           id
         }
+        validationErrorInfo {
+          totalCount
+        }
+        isNew @client
       }
     }
   `,

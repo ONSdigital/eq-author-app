@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useCallback } from "react";
 import PropTypes from "prop-types";
 import { propType } from "graphql-anywhere";
 import { isEmpty } from "lodash";
@@ -20,6 +20,7 @@ const STORED_KEYS = [
   "currentSortColumn",
   "currentSortOrder",
   "searchTerm",
+  "isFiltered",
 ];
 
 const QuestionnairesView = ({
@@ -39,6 +40,7 @@ const QuestionnairesView = ({
       currentSortColumn: "createdAt",
       currentSortOrder: SORT_ORDER.DESCENDING,
       searchTerm: "",
+      isFiltered: true,
     },
     buildInitialState(questionnairesRef.current)
   );
@@ -77,6 +79,17 @@ const QuestionnairesView = ({
     });
   };
 
+  const onToggleFilter = isFiltered =>
+    dispatch({
+      type: ACTIONS.TOGGLE_FILTER,
+      payload: { isFiltered },
+    });
+
+  const onSearchChange = useCallback(
+    searchTerm => dispatch({ type: ACTIONS.SEARCH, payload: searchTerm }),
+    [dispatch]
+  );
+
   if (isEmpty(state.apiQuestionnaires)) {
     return <NoResults onCreateQuestionnaire={onCreateQuestionnaire} />;
   }
@@ -85,13 +98,16 @@ const QuestionnairesView = ({
     <>
       <Header
         onCreateQuestionnaire={onCreateQuestionnaire}
-        onSearchChange={searchTerm =>
-          dispatch({ type: ACTIONS.SEARCH, payload: searchTerm })
-        }
+        onSearchChange={onSearchChange}
         searchTerm={state.searchTerm}
+        isFiltered={state.isFiltered}
+        onToggleFilter={onToggleFilter}
       />
       {isEmpty(state.questionnaires) ? (
-        <NoResultsFiltered searchTerm={state.searchTerm} />
+        <NoResultsFiltered
+          searchTerm={state.searchTerm}
+          isFiltered={state.isFiltered}
+        />
       ) : (
         <QuestionnairesTable
           questionnaires={state.currentPage}

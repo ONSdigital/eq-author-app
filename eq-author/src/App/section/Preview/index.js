@@ -4,8 +4,9 @@ import PropTypes from "prop-types";
 import React from "react";
 import { Redirect } from "react-router-dom";
 import { withApollo, Query } from "react-apollo";
+import { isEmpty, get } from "lodash";
 
-import EditorLayout from "App/page/Design/EditorLayout";
+import EditorLayout from "components/EditorLayout";
 import Loading from "components/Loading";
 import SectionEditor from "App/section/Design/SectionEditor";
 
@@ -14,24 +15,26 @@ import { buildSectionPath } from "utils/UrlUtils";
 import SectionIntroPreview from "./SectionIntroPreview";
 
 export const UnwrappedPreviewSectionRoute = ({ match, data, loading }) => {
-  if (loading || !data) {
-    return <Loading height="38rem">Preview loading…</Loading>;
-  }
+  const section = get(data, "section", {});
 
-  const { section } = data;
+  if (!isEmpty(section)) {
+    const hasIntroductionContent =
+      section.introductionTitle || section.introductionContent;
 
-  const hasIntroductionContent =
-    section.introductionTitle || section.introductionContent;
-
-  if (!hasIntroductionContent) {
-    return (
-      <Redirect to={buildSectionPath({ ...match.params, tab: "design" })} />
-    );
+    if (!hasIntroductionContent) {
+      return (
+        <Redirect to={buildSectionPath({ ...match.params, tab: "design" })} />
+      );
+    }
   }
 
   return (
-    <EditorLayout design preview>
-      <SectionIntroPreview section={section} />
+    <EditorLayout design preview title={section.displayName}>
+      {loading || !data ? (
+        <Loading height="38rem">Preview loading…</Loading>
+      ) : (
+        <SectionIntroPreview section={section} />
+      )}
     </EditorLayout>
   );
 };
@@ -51,6 +54,7 @@ UnwrappedPreviewSectionRoute.propTypes = {
 export const SECTION_QUERY = gql`
   query GetSection($input: QueryInput!) {
     section(input: $input) {
+      displayName
       ...Section
     }
   }

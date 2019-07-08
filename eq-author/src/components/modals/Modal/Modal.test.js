@@ -87,7 +87,8 @@ describe("components/Modal", () => {
       wrapper.setProps({ isOpen: false });
       expect(wrapper.text()).toContain("Modal content");
       jest.runAllTimers();
-      expect(wrapper.text()).toBe(null);
+      wrapper.update();
+      expect(wrapper.text()).toBe("");
     });
 
     it("should not error if it is unmounted whilst animating out", () => {

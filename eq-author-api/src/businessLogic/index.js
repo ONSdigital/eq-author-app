@@ -5,6 +5,7 @@ const createExpressionGroup = require("./createExpressionGroup");
 const createExpression = require("./createExpression");
 const createLeftSide = require("./createLeftSide");
 const getNextDestination = require("./getNextDestination");
+const createRightSide = require("./createRightSide");
 
 module.exports = {
   createRouting,
@@ -14,4 +15,5 @@ module.exports = {
   createExpression,
   createLeftSide,
   getNextDestination,
+  createRightSide,
 };

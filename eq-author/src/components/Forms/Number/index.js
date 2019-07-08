@@ -4,7 +4,8 @@ import PropTypes from "prop-types";
 import { clamp, isNaN } from "lodash";
 
 import Input from "components/Forms/Input";
-import { NUMBER, PERCENTAGE, CURRENCY } from "constants/answer-types";
+import { NUMBER, PERCENTAGE, CURRENCY, UNIT } from "constants/answer-types";
+import { unitConversion } from "constants/unit-types";
 import { radius } from "constants/theme";
 
 const StyledDiv = styled.div`
@@ -48,6 +49,7 @@ const Number = props => {
     value,
     className,
     type,
+    unit,
     name,
     min,
     max,
@@ -108,6 +110,11 @@ const Number = props => {
           %
         </UnitSymbol>
       )}
+      {type === UNIT && (
+        <UnitSymbol id={unitId} data-test="unit" trailing>
+          {unitConversion[unit].abbreviation}
+        </UnitSymbol>
+      )}
     </StyledDiv>
   );
 };
@@ -129,9 +136,10 @@ Number.propTypes = {
   min: PropTypes.number,
   max: PropTypes.number.isRequired,
   default: PropTypes.number,
-  type: PropTypes.oneOf([CURRENCY, PERCENTAGE, NUMBER]),
+  type: PropTypes.oneOf([CURRENCY, PERCENTAGE, NUMBER, UNIT]),
   "data-test": PropTypes.string,
   className: PropTypes.string,
+  unit: PropTypes.string,
 };
 
 export default Number;

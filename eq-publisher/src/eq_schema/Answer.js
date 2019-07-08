@@ -5,7 +5,10 @@ const {
   CURRENCY,
   PERCENTAGE,
   DATE,
+  UNIT,
 } = require("../constants/answerTypes");
+
+const { unitConversion } = require("../constants/unit-types");
 
 class Answer {
   constructor(answer) {
@@ -15,8 +18,13 @@ class Answer {
     this.label = answer.label;
     this.description = answer.description;
 
+    if (answer.type === UNIT) {
+      this.unit = unitConversion[answer.properties.unit];
+      this.unit_length = "short";
+    }
+
     if (!isNil(answer.validation)) {
-      if ([NUMBER, CURRENCY, PERCENTAGE].includes(answer.type)) {
+      if ([NUMBER, CURRENCY, PERCENTAGE, UNIT].includes(answer.type)) {
         const { minValue, maxValue } = answer.validation;
         this.buildNumberValidation(minValue, "min_value");
         this.buildNumberValidation(maxValue, "max_value");

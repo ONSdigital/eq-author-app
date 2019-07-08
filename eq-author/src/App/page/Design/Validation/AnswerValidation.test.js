@@ -1,7 +1,8 @@
 import React from "react";
 import { shallow } from "enzyme";
 
-import { NUMBER, CURRENCY, PERCENTAGE } from "constants/answer-types";
+import { NUMBER, CURRENCY, PERCENTAGE, UNIT } from "constants/answer-types";
+import { CENTIMETRES } from "constants/unit-types";
 
 import SidebarButton, {
   Detail as SidebarButtonDetail,
@@ -77,17 +78,22 @@ describe("AnswerValidation", () => {
   });
 
   describe("Numeric answer validation preview", () => {
-    const NUMBER_TYPES = [PERCENTAGE, NUMBER, CURRENCY];
+    const NUMBER_TYPES = [PERCENTAGE, NUMBER, CURRENCY, UNIT];
     const VALIDATIONS = ["maxValue", "minValue"];
     VALIDATIONS.forEach(validation => {
       describe(validation, () => {
         it("should render custom values", () => {
-          const wrapper = type =>
-            render({
+          const wrapper = type => {
+            const properties = {};
+            if (type === UNIT) {
+              properties.unit = CENTIMETRES;
+            }
+            return render({
               ...props,
               answer: {
                 id: "1",
                 type: type,
+                properties,
                 validation: {
                   [validation]: {
                     enabled: true,
@@ -97,6 +103,7 @@ describe("AnswerValidation", () => {
                 },
               },
             });
+          };
 
           NUMBER_TYPES.forEach(type => {
             expect(

@@ -8,7 +8,7 @@ import { propType } from "graphql-anywhere";
 
 import Loading from "components/Loading";
 
-import EditorLayout from "App/page/Design/EditorLayout";
+import EditorLayout from "components/EditorLayout";
 import Editor from "App/questionConfirmation/Design/Editor";
 
 import MultipleChoiceAnswer from "components/preview/Answers/MultipleChoiceAnswer";
@@ -59,9 +59,11 @@ export const UnwrappedPreviewConfirmationRoute = ({ loading, data }) => {
   }
 
   const {
-    questionConfirmation,
-    questionConfirmation: { title, negative, positive },
     questionConfirmation: {
+      title,
+      negative,
+      positive,
+      displayName,
       page: { answers },
     },
   } = data;
@@ -69,7 +71,7 @@ export const UnwrappedPreviewConfirmationRoute = ({ loading, data }) => {
   const pageTitle = title && title.replace(/[[\]]/g, "");
 
   return (
-    <EditorLayout page={questionConfirmation} preview>
+    <EditorLayout preview title={displayName}>
       <Container>
         <PageTitle title={pageTitle} />
         {answers.map(

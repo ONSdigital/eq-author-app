@@ -13,7 +13,10 @@ import {
   DATE_RANGE,
   DATE,
   PERCENTAGE,
+  UNIT,
 } from "constants/answer-types";
+
+import { CENTIMETRES } from "constants/unit-types";
 
 import MultipleChoiceAnswer from "App/page/Design/answers/MultipleChoiceAnswer";
 import Date from "App/page/Design/answers/Date";
@@ -139,6 +142,20 @@ describe("Answer Editor", () => {
       answer: {
         ...mockAnswer,
         type: DATE,
+      },
+      ...mockMutations,
+    });
+    expect(wrapper).toMatchSnapshot();
+  });
+
+  it("should render Unit", () => {
+    const wrapper = createWrapper({
+      answer: {
+        ...mockAnswer,
+        type: UNIT,
+        properties: {
+          unit: CENTIMETRES,
+        },
       },
       ...mockMutations,
     });

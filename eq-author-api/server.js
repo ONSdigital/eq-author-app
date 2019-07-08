@@ -15,6 +15,7 @@ const importQuestionnaire = require("./middleware/import");
 const identificationMiddleware = require("./middleware/identification");
 const upsertUser = require("./middleware/identification/upsertUser");
 const rejectUnidentifiedUsers = require("./middleware/identification/rejectUnidentifiedUsers");
+const validateQuestionnaire = require("./middleware/validateQuestionnaire");
 
 const schema = require("./schema");
 
@@ -28,7 +29,7 @@ const createApp = () => {
   let extensions = [];
   if (process.env.ENABLE_OPENTRACING === "true") {
     const OpentracingExtension = require("apollo-opentracing").default;
-    const { localTracer, serverTracer } = require("./tracer")(logger);
+    const { localTracer, serverTracer } = require("./tracer").tracer(logger);
     extensions = [
       () =>
         new OpentracingExtension({
@@ -52,11 +53,24 @@ const createApp = () => {
           defaultSrc: ["'self'"],
           objectSrc: ["'none'"],
           baseUri: ["'none'"],
-          fontSrc: ["'self'", "'https://fonts.gstatic.com'"],
+          fontSrc: ["'self'", "https://fonts.gstatic.com"],
+          styleSrc: [
+            "'self'",
+            "http://cdn.jsdelivr.net/npm/@apollographql/",
+            "https://fonts.googleapis.com",
+            // These will change with graphql server versions
+            "'sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU='",
+            "'sha256-iRiwFogHwyIOlQ0vgwGxLZXMnuPZa9eZnswp4v8s6fE='",
+            "'sha256-WYkrRZYpK8d/rqMjoMTIfcPzRxeojQUncPzhW9/2pg8='",
+            "'sha256-jQoC6QpIonlMBPFbUGlJFRJFFWbbijMl7Z8XqWrb46o='",
+          ],
           scriptSrc: [
             "'self'",
-            "'https://www.googleapis.com/identitytoolkit/v3'",
+            "https://www.googleapis.com/identitytoolkit/v3",
+            "http://cdn.jsdelivr.net/npm/@apollographql/",
+            "'sha256-qQ+vMtTOJ7ZAi9QUiV74BIEp2+xQJt7uiJ47QICu6xI='",
           ],
+          imgSrc: ["'self'", "http://cdn.jsdelivr.net/npm/@apollographql/"],
         },
       },
     }),
@@ -65,13 +79,18 @@ const createApp = () => {
     identificationMiddleware(logger),
     rejectUnidentifiedUsers,
     loadQuestionnaire,
-    runQuestionnaireMigrations(logger)(require("./migrations"))
+    runQuestionnaireMigrations(logger)(require("./migrations")),
+    validateQuestionnaire
   );
 
   const server = new ApolloServer({
     ...schema,
     context: ({ req }) => {
-      return { questionnaire: req.questionnaire, user: req.user };
+      return {
+        questionnaire: req.questionnaire,
+        user: req.user,
+        validationErrorInfo: req.validationErrorInfo,
+      };
     },
     extensions,
   });
@@ -84,10 +103,17 @@ const createApp = () => {
 
   app.get("/export/:questionnaireId", exportQuestionnaire);
   if (process.env.ENABLE_IMPORT === "true") {
-    app.use(bodyParser.json()).post("/import", importQuestionnaire);
+    app
+      .use(bodyParser.json())
+      .post(
+        "/import",
+        identificationMiddleware(logger),
+        rejectUnidentifiedUsers,
+        importQuestionnaire
+      );
   }
 
-  app.get("/signIn", identificationMiddleware(logger), upsertUser);
+  app.post("/signIn", identificationMiddleware(logger), upsertUser);
 
   return app;
 };

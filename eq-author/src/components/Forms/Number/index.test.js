@@ -1,7 +1,9 @@
 import React from "react";
 import { shallow } from "enzyme";
 
-import { PERCENTAGE, CURRENCY } from "constants/answer-types";
+import { PERCENTAGE, CURRENCY, UNIT } from "constants/answer-types";
+
+import { CENTIMETRES } from "constants/unit-types";
 
 import Number from "./";
 
@@ -144,6 +146,24 @@ describe("Number", () => {
           name="numberName"
           id="number"
           type={PERCENTAGE}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          value={defaultValue}
+          min={-10}
+          max={10}
+        />
+      );
+
+      expect(wrapper.find("[data-test='unit']")).toMatchSnapshot();
+    });
+
+    it("render with a unit type for unit", () => {
+      const wrapper = shallow(
+        <Number
+          name="numberName"
+          id="number"
+          type={UNIT}
+          unit={CENTIMETRES}
           onChange={handleChange}
           onBlur={handleBlur}
           value={defaultValue}

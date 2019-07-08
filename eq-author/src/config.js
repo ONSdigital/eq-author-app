@@ -2,6 +2,8 @@ window.config = window.config || {};
 const config = {
   REACT_APP_API_URL:
     window.config.REACT_APP_API_URL || process.env.REACT_APP_API_URL,
+  REACT_APP_SENTRY_ENV:
+    window.config.REACT_APP_SENTRY_ENV || process.env.REACT_APP_SENTRY_ENV,
   REACT_APP_FIREBASE_API_KEY:
     window.config.REACT_APP_FIREBASE_API_KEY ||
     process.env.REACT_APP_FIREBASE_API_KEY,
@@ -18,8 +20,6 @@ const config = {
     process.env.REACT_APP_FULLSTORY_ORG,
   REACT_APP_SENTRY_DSN:
     window.config.REACT_APP_SENTRY_DSN || process.env.REACT_APP_SENTRY_DSN,
-  REACT_APP_AUTH_TYPE:
-    window.config.REACT_APP_AUTH_TYPE || process.env.REACT_APP_AUTH_TYPE,
   REACT_APP_HOT_JAR_ID:
     window.config.REACT_APP_HOT_JAR_ID || process.env.REACT_APP_HOT_JAR_ID,
   REACT_APP_GTM_ID:

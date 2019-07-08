@@ -9,6 +9,8 @@ directive @deprecated(
   reason: String
 ) on INPUT_FIELD_DEFINITION | ARGUMENT_DEFINITION | ENUM_VALUE | FIELD_DEFINITION | INPUT_OBJECT
 
+directive @client on FIELD
+
 type User {
   id: ID!
   name: String
@@ -24,6 +26,11 @@ type QuestionnaireInfo {
 enum QuestionnaireType {
   Social
   Business
+}
+
+enum Permission {
+  Read
+  Write
 }
 
 type Questionnaire {
@@ -44,10 +51,14 @@ type Questionnaire {
   shortTitle: String
   displayName: String!
   introduction: QuestionnaireIntroduction
+  isNew: Boolean!
+  editors: [User!]!
+  permission: Permission!
 }
 
 type DeletedQuestionnaire {
   id: ID!
+  isNew: Boolean!
 }
 
 type Section {
@@ -102,6 +113,8 @@ type QuestionPage implements Page {
   confirmation: QuestionConfirmation
   routing: Routing2
   totalValidation: TotalValidationRule
+  validationErrorInfo: ValidationErrorInfo
+  isNew: Boolean!
 }
 
 type CalculatedSummaryPage implements Page {
@@ -162,6 +175,8 @@ type BasicAnswer implements Answer {
   page: QuestionPage
   properties: JSON
   validation: ValidationType
+  validationErrorInfo: ValidationErrorInfo
+  isNew: Boolean!
 }
 
 type MultipleChoiceAnswer implements Answer {
@@ -178,6 +193,8 @@ type MultipleChoiceAnswer implements Answer {
   mutuallyExclusiveOption: Option
   page: QuestionPage
   properties: JSON
+  validationErrorInfo: ValidationErrorInfo
+  isNew: Boolean!
 }
 
 type Option {
@@ -189,6 +206,8 @@ type Option {
   qCode: String
   answer: Answer
   additionalAnswer: BasicAnswer
+  validationErrorInfo: ValidationErrorInfo
+  isNew: Boolean!
 }
 
 enum LogicalDestinations {
@@ -206,6 +225,19 @@ type AvailableRoutingDestinations {
   pages: [Page]!
   sections: [Section]!
 }
+
+type ValidationError {
+  id: String!
+  type: String!
+  field: String!
+  errorCode: String!
+}
+
+type ValidationErrorInfo {
+  errors: [ValidationError!]!
+  totalCount: Int!
+}
+
 
 union ValidationType = NumberValidation | DateValidation | DateRangeValidation
 
@@ -348,6 +380,7 @@ enum AnswerType {
   TextArea
   TextField
   Relationship
+  Unit
 }
 
 enum Theme {
@@ -505,6 +538,7 @@ type Query {
   questionConfirmation(id: ID!): QuestionConfirmation
   questionnaireIntroduction(id: ID!): QuestionnaireIntroduction
   me: User!
+  users: [User!]!
 }
 
 input QueryInput {
@@ -541,7 +575,7 @@ type Mutation {
   createOption(input: CreateOptionInput!): Option
   createMutuallyExclusiveOption(input: CreateMutuallyExclusiveOptionInput!): Option
   updateOption(input: UpdateOptionInput!): Option
-  deleteOption(input: DeleteOptionInput!): Option
+  deleteOption(input: DeleteOptionInput!): MultipleChoiceAnswer
   toggleValidationRule(input: ToggleValidationRuleInput!): ValidationRule!
   updateValidationRule(input: UpdateValidationRuleInput!): ValidationRule!
   createMetadata(input: CreateMetadataInput!): Metadata!
@@ -650,6 +684,7 @@ input UpdateQuestionnaireInput {
   surveyId: String
   summary: Boolean
   shortTitle: String
+  editors: [ID!]
 }
 
 input DeleteQuestionnaireInput {

@@ -41,7 +41,7 @@ exports[`Answers should render a component for each answer type: Number 1`] = `
 
 exports[`Answers should render a component for each answer type: Percentage 1`] = `
 <Answers__AnswerWrapper>
-  <PercentageAnswer
+  <AnswerTrailingUnit
     answer={
       Object {
         "options": Array [],
@@ -85,6 +85,19 @@ exports[`Answers should render a component for each answer type: TextField 1`] =
       Object {
         "options": Array [],
         "type": "TextField",
+      }
+    }
+  />
+</Answers__AnswerWrapper>
+`;
+
+exports[`Answers should render a component for each answer type: Unit 1`] = `
+<Answers__AnswerWrapper>
+  <AnswerTrailingUnit
+    answer={
+      Object {
+        "options": Array [],
+        "type": "Unit",
       }
     }
   />
