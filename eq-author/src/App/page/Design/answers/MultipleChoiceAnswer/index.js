@@ -50,7 +50,7 @@ export const AddOtherLink = styled.button`
 
 const SpecialOptionWrapper = styled.div`
   padding-top: 0.25em;
-  margin-bottom: 1em;
+  margin-bottom: 2em;
 `;
 
 class MultipleChoiceAnswer extends Component {
@@ -156,6 +156,7 @@ class MultipleChoiceAnswer extends Component {
                         showDescription={false}
                         labelText="Other label"
                         labelPlaceholder="eg. Please specify"
+                        errorLabel="Other label"
                         bold={false}
                       />
                     </SpecialOptionWrapper>
