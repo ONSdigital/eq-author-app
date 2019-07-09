@@ -1,13 +1,12 @@
 import createApolloClient from "./createApolloClient";
 import { ApolloClient } from "apollo-client";
-import { InMemoryCache } from "apollo-cache-inmemory";
 
 describe("createClient", () => {
   let link, cache, client;
 
   beforeAll(() => {
     link = jest.fn();
-    cache = new InMemoryCache();
+    cache = jest.fn();
 
     client = createApolloClient(link, cache);
   });

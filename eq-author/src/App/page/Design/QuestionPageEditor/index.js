@@ -173,7 +173,6 @@ UnwrappedQuestionPageEditor.fragments = {
       validationErrorInfo {
         ...ValidationErrorInfo
       }
-      isNew @client
     }
     ${ValidationErrorInfoFragment}
     ${TotalValidationRuleFragment}

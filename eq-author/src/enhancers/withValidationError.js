@@ -19,12 +19,12 @@ const withValidationError = entityPropName => WrappedComponent => {
 
     getValidationError = ({ field, label }) => {
       const {
-        [entityPropName]: { validationErrorInfo, isNew },
+        [entityPropName]: { validationErrorInfo },
       } = this.props;
 
       const messages = validationErrorInfo && validationErrorInfo.errors;
 
-      if (isEmpty(messages) || isNew) {
+      if (isEmpty(messages)) {
         return null;
       }
 

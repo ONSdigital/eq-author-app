@@ -25,7 +25,6 @@ mutation duplicateSection($input: DuplicateSectionInput!) {
         validationErrorInfo {
           ...ValidationErrorInfo
         }
-        isNew @client
       }
     }
     questionnaire {
