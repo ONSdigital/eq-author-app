@@ -1,4 +1,5 @@
 #import "./answer.graphql"
+#import "./validationErrorInfo.graphql"
 
 fragment Option on Option {
   id
@@ -6,5 +7,10 @@ fragment Option on Option {
   label
   additionalAnswer {
     ...Answer
+    ... on BasicAnswer {
+      validationErrorInfo {
+        ...ValidationErrorInfo
+      }
+    }
   }
 }
