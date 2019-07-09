@@ -18,10 +18,6 @@ describe("createErrorLink", () => {
     dispatch,
   });
 
-  beforeAll(() => {
-    dispatch = jest.fn();
-  });
-
   beforeEach(() => {
     /* eslint-disable-next-line camelcase */
     const tokenData = { user_id: "Test User", email: "test.user@email.com" };
@@ -36,11 +32,13 @@ describe("createErrorLink", () => {
         fail: "Uh oh",
       },
     ];
+    dispatch = jest.fn();
   });
 
-  it("should dispatch a logout event when the server responds with a 401 error", () => {
+  it("should dispatch a logout event when the server responds with 401 status code", () => {
     errorHandler(createMockStore, {
-      networkError: { bodyText: "User does not exist" },
+      networkError: { statusCode: 401 },
+      graphQLErrors,
     });
     expect(dispatch).toHaveBeenCalledWith(expect.any(Function));
   });
@@ -80,5 +78,11 @@ describe("createErrorLink", () => {
     expect(setSentryUser).toHaveBeenCalledWith(
       localStorage.getItem("accessToken")
     );
+  });
+  it("should return when networkError gives unauthorized questionnaire access", () => {
+    errorHandler(createMockStore, {
+      networkError: { statusCode: 403 },
+    });
+    expect(dispatch).not.toHaveBeenCalled();
   });
 });

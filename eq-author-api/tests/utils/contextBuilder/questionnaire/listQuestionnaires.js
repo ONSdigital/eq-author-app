@@ -8,8 +8,8 @@ const listQuestionnairesQuery = `
   }
 `;
 
-const listQuestionnaires = async () => {
-  const result = await executeQuery(listQuestionnairesQuery);
+const listQuestionnaires = async user => {
+  const result = await executeQuery(listQuestionnairesQuery, {}, { user });
   return result.data.questionnaires;
 };
 

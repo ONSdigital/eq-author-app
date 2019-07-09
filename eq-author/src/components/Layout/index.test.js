@@ -2,7 +2,7 @@ import React from "react";
 
 import { render, flushPromises } from "tests/utils/rtl";
 
-import { CURRENT_USER_QUERY } from "components/UserProfile";
+import { CURRENT_USER_QUERY } from "components/EditorLayout/Header";
 
 import Layout from "./";
 

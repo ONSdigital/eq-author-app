@@ -54,6 +54,7 @@ type Questionnaire {
   isNew: Boolean!
   editors: [User!]!
   permission: Permission!
+  isPublic: Boolean!
 }
 
 type DeletedQuestionnaire {
@@ -672,6 +673,7 @@ input CreateQuestionnaireInput {
   summary: Boolean
   type: QuestionnaireType!
   shortTitle: String
+  isPublic: Boolean
 }
 
 input UpdateQuestionnaireInput {
@@ -684,8 +686,10 @@ input UpdateQuestionnaireInput {
   surveyId: String
   summary: Boolean
   shortTitle: String
-  editors: [ID!]
+  editors: [ID!] 
+  isPublic: Boolean
 }
+
 
 input DeleteQuestionnaireInput {
   id: ID!

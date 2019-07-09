@@ -30,6 +30,10 @@ const baseQuestionnaireSchema = {
     hashKey: true,
     required: true,
   },
+  isPublic: {
+    type: Boolean,
+    required: true,
+  },
   title: {
     type: String,
   },

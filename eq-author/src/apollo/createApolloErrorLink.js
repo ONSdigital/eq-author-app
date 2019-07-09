@@ -10,19 +10,30 @@ import { signOutUser } from "../redux/auth/actions";
 export const errorHandler = (getStore, error) => {
   const { networkError, graphQLErrors } = error;
   setSentryUser(window.localStorage.getItem("accessToken"));
+
   if (networkError) {
-    getStore().dispatch(apiDownError());
+    const httpStatusCode = networkError.statusCode;
     setSentryTag("networkError");
     sendSentryError(networkError);
-    if (networkError.bodyText === "User does not exist") {
-      getStore().dispatch(signOutUser());
+
+    switch (httpStatusCode) {
+      // 401 - User does not exist
+      case 401:
+        getStore().dispatch(signOutUser());
+        break;
+      // 403 - Unauthorized questionnaire access
+      case 403:
+        break;
+      default:
+        getStore().dispatch(apiDownError());
     }
-    return;
   }
-  graphQLErrors.forEach(error => {
-    setSentryTag("graphQLError");
-    sendSentryError(error);
-  });
+  if (graphQLErrors) {
+    graphQLErrors.forEach(error => {
+      setSentryTag("graphQLError");
+      sendSentryError(error);
+    });
+  }
 };
 
 export default getStore => onError(errors => errorHandler(getStore, errors));

@@ -4,8 +4,6 @@ import CustomPropTypes from "custom-prop-types";
 import styled from "styled-components";
 import { flowRight } from "lodash";
 import { connect } from "react-redux";
-import gql from "graphql-tag";
-import { Query } from "react-apollo";
 
 import { signOutUser } from "redux/auth/actions";
 
@@ -60,9 +58,7 @@ const UserProfile = ({
   if (loading || !data || error) {
     return null;
   }
-
   const user = data.me;
-
   return (
     <Tooltip content="Sign Out">
       <LogoutButton
@@ -97,28 +93,9 @@ UserProfile.propTypes = {
   error: PropTypes.object, // eslint-disable-line react/forbid-prop-types
 };
 
-export const CURRENT_USER_QUERY = gql`
-  query GetHeaderInformation {
-    me {
-      id
-      displayName
-      picture
-    }
-  }
-`;
-
-export const withCurrentUser = Component => props => (
-  <Query query={CURRENT_USER_QUERY}>
-    {innerProps => {
-      return <Component {...innerProps} {...props} />;
-    }}
-  </Query>
-);
-
 export default flowRight(
   connect(
     null,
     { signOutUser }
-  ),
-  withCurrentUser
+  )
 )(UserProfile);

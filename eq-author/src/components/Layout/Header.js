@@ -2,6 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import gql from "graphql-tag";
+import { Query } from "react-apollo";
 
 import { colors } from "constants/theme";
 
@@ -11,6 +13,24 @@ import UserProfile from "components/UserProfile";
 import Truncated from "components/Truncated";
 import Logo from "components/Logo";
 import { Grid, Column } from "components/Grid";
+
+export const CURRENT_USER_QUERY = gql`
+  query GetHeaderInformation {
+    me {
+      id
+      displayName
+      picture
+    }
+  }
+`;
+
+export const withCurrentUser = Component => props => (
+  <Query query={CURRENT_USER_QUERY}>
+    {innerProps => {
+      return <Component {...innerProps} {...props} />;
+    }}
+  </Query>
+);
 
 const StyledHeader = styled(Grid)`
   background-color: ${colors.black};
@@ -40,10 +60,11 @@ const Title = styled(TruncatedTitle)`
   line-height: 1.3;
 `;
 
-const StyledUserProfile = styled(UserProfile)`
+const StyledUserProfile = withCurrentUser(styled(UserProfile)`
   width: auto;
   margin-right: 0.5em;
-`;
+`);
+
 const UserProfileWrapper = styled("div")`
   height: 100%;
   display: flex;
