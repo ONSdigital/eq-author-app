@@ -1,10 +1,9 @@
 const { omit } = require("lodash");
 const request = require("supertest");
-const jwt = require("jsonwebtoken");
-const uuid = require("uuid");
 
 const { NUMBER } = require("./constants/answerTypes");
 const { buildContext } = require("./tests/utils/contextBuilder");
+const { createSignedToken } = require("./tests/utils/createSignedToken");
 
 const { createApp } = require("./server");
 const { introspectionQuery } = require("graphql");
@@ -13,8 +12,24 @@ const { createUser } = require("./utils/datastore");
 const tracer = require("./tracer");
 const apolloOpenTracing = require("apollo-opentracing");
 
+const mockUser = {
+  id: "mockId",
+  name: "name",
+  externalId: "externalId",
+  email: "mock@mock.com",
+  isVerified: true,
+};
+
 jest.mock("./tracer");
 jest.mock("apollo-opentracing");
+
+jest.mock("./middleware/identification", () => {
+  return jest.fn(() => (req, res, next) => {
+    req.user = mockUser;
+    next();
+    return;
+  });
+});
 
 describe("Server", () => {
   describe("export", () => {
@@ -51,9 +66,14 @@ describe("Server", () => {
         sections: [{ pages: [{ answers: [{ type: NUMBER }] }] }],
       });
       const { questionnaire } = ctx;
+      questionnaire.createdBy = mockUser.id;
+
       const questionnaireJSON = JSON.parse(JSON.stringify(questionnaire));
+
       ctx.user.sub = ctx.user.externalId;
-      const token = jwt.sign(ctx.user, uuid.v4());
+
+      const token = createSignedToken(ctx.user.id);
+
       process.env.ENABLE_IMPORT = "true";
       const server = createApp();
 
@@ -102,7 +122,9 @@ describe("Server", () => {
         externalId: "1234",
       };
       await createUser(user);
-      const token = jwt.sign(user, uuid.v4());
+
+      const token = createSignedToken(user.id);
+
       const response = await request(server)
         .post("/graphql")
         .set("authorization", `Bearer ${token}`)
