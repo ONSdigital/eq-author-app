@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import { Switch } from "react-router-dom";
 import { Titled } from "react-titled";
 import { Route, Redirect } from "react-router";
-import { find, flatMap, flowRight } from "lodash";
+import { find, flatMap, flowRight, get } from "lodash";
 
 import { Grid, Column } from "components/Grid";
 import Loading from "components/Loading";
@@ -15,7 +15,10 @@ import BaseLayout from "components/BaseLayout";
 import QuestionnaireContext from "components/QuestionnaireContext";
 
 import { SECTION, PAGE, QUESTION_CONFIRMATION } from "constants/entities";
-import { ERR_PAGE_NOT_FOUND } from "constants/error-codes";
+import {
+  ERR_PAGE_NOT_FOUND,
+  ERR_UNAUTHORIZED_QUESTIONNAIRE,
+} from "constants/error-codes";
 
 import { buildSectionPath, buildIntroductionPath } from "utils/UrlUtils";
 
@@ -259,6 +262,16 @@ const QUESTIONNAIRE_QUERY = gql`
   ${NavigationSidebar.fragments.NavigationSidebar}
 `;
 
+export const throwIfUnauthorized = (innerProps, props) => {
+  if (
+    get(innerProps, "error.networkError.bodyText") ===
+    ERR_UNAUTHORIZED_QUESTIONNAIRE
+  ) {
+    throw new Error(ERR_UNAUTHORIZED_QUESTIONNAIRE);
+  }
+  return <UnwrappedQuestionnaireDesignPage {...innerProps} {...props} />;
+};
+
 export default withMutations(props => (
   <Query
     query={QUESTIONNAIRE_QUERY}
@@ -267,9 +280,8 @@ export default withMutations(props => (
         questionnaireId: props.match.params.questionnaireId,
       },
     }}
+    errorPolicy="all"
   >
-    {innerProps => (
-      <UnwrappedQuestionnaireDesignPage {...innerProps} {...props} />
-    )}
+    {innerProps => throwIfUnauthorized(innerProps, props)}
   </Query>
 ));

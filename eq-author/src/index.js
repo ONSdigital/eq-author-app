@@ -28,8 +28,8 @@ auth.onIdTokenChanged(user => {
     localStorage.setItem("accessToken", user.ra);
     localStorage.setItem("refreshToken", user.refreshToken);
   } else {
-    localStorage.removeItem("accessToken", user.ra);
-    localStorage.removeItem("refreshToken", user.refreshToken);
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
   }
 });
 

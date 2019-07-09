@@ -1,4 +1,4 @@
-const { last, findIndex } = require("lodash");
+const { last, findIndex, find } = require("lodash");
 
 const { SOCIAL, BUSINESS } = require("../../constants/questionnaireTypes");
 
@@ -193,20 +193,49 @@ describe("questionnaire", () => {
   });
 
   describe("list questionnaires", () => {
-    it("should order then newest to oldest", async () => {
-      const { questionnaire: oldestQuestionnaire } = await buildContext({});
-      const { questionnaire: newestQuestionnaire } = await buildContext({});
-
-      const questionnnaires = await listQuestionnaires();
+    it("should order the newest to oldest", async () => {
+      const user = {
+        id: "123",
+      };
+      const { questionnaire: oldestQuestionnaire } = await buildContext(
+        {},
+        user
+      );
+      const { questionnaire: newestQuestionnaire } = await buildContext(
+        {},
+        user
+      );
+      const questionnaires = await listQuestionnaires(user);
       const oldestIndex = findIndex(
-        questionnnaires,
+        questionnaires,
         q => q.id === oldestQuestionnaire.id
       );
       const newestIndex = findIndex(
-        questionnnaires,
+        questionnaires,
         q => q.id === newestQuestionnaire.id
       );
       expect(oldestIndex > newestIndex).toEqual(true);
+    });
+    it("should not list unaccessible private questionnaires", async () => {
+      const user = {
+        id: "123",
+      };
+
+      const { questionnaire: publicQuestionnaire } = await buildContext(
+        {},
+        user
+      );
+      const { questionnaire: privateQuestionnaire } = await buildContext({
+        isPublic: false,
+      });
+      const questionnaires = await listQuestionnaires(user);
+
+      expect(
+        find(questionnaires, q => q.id === publicQuestionnaire.id)
+      ).toBeTruthy();
+      expect(
+        find(questionnaires, q => q.id === privateQuestionnaire.id)
+      ).toBeFalsy();
     });
   });
 
