@@ -4,5 +4,6 @@ const { TEXTFIELD } = require("../../constants/answerTypes");
 module.exports = () =>
   createAnswer({
     description: "",
+    label: "",
     type: TEXTFIELD,
   });
