@@ -2,22 +2,42 @@ import React from "react";
 
 import { render, flushPromises } from "tests/utils/rtl";
 import { WRITE } from "constants/questionnaire-permissions";
+import { MeContext } from "App/MeContext";
 
 import QuestionnairesPage, { QUESTIONNAIRES_QUERY } from "./";
 
 describe("QuestionnairesPage", () => {
+  let me, signOut;
+
+  beforeEach(() => {
+    me = {
+      id: "123",
+      name: "Dave the Rave",
+      email: "Dave@dj.com",
+    };
+    signOut = jest.fn();
+  });
+
   afterEach(async () => {
     // clear all running queries
     await flushPromises();
   });
 
+  const renderQuestionnairesPage = (mocks = {}) =>
+    render(
+      <MeContext.Provider value={{ me, signOut }}>
+        <QuestionnairesPage />
+      </MeContext.Provider>,
+      mocks
+    );
+
   it("should not render table whilst data is loading", () => {
-    const { getByTestId } = render(<QuestionnairesPage />);
+    const { getByTestId } = renderQuestionnairesPage();
     expect(getByTestId("loading")).toBeTruthy();
   });
 
   it("should render error message when there is an error", async () => {
-    const { getByText } = render(<QuestionnairesPage />, {
+    const { getByText } = renderQuestionnairesPage({
       mocks: [
         {
           request: {
@@ -36,13 +56,13 @@ describe("QuestionnairesPage", () => {
   });
 
   it("should render the title", async () => {
-    const { getByText } = render(<QuestionnairesPage />);
+    const { getByText } = renderQuestionnairesPage();
     expect(getByText(/your questionnaires/i)).toBeTruthy();
     expect(document.title).toMatch(/your questionnaires/i);
   });
 
   it("should render the the questionnaires", async () => {
-    const { getByText } = render(<QuestionnairesPage />, {
+    const { getByText } = renderQuestionnairesPage({
       mocks: [
         {
           request: {

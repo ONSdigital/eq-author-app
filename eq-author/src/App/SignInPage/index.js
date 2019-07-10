@@ -1,15 +1,12 @@
 import React from "react";
 import styled from "styled-components";
-import { get } from "lodash";
-import { connect } from "react-redux";
-import { Redirect } from "react-router";
 import PropTypes from "prop-types";
+import { providers, credentialHelper } from "components/Auth";
 
 import Panel from "components/Panel";
 import Layout from "components/Layout";
 
-import { isSignedIn, verifiedAuthStatus } from "redux/auth/reducer";
-import { signInUser, verifyAuthStatus } from "redux/auth/actions";
+import { withMe } from "App/MeContext";
 
 import SignInForm from "./SignInForm";
 
@@ -27,70 +24,43 @@ const SignInPanel = styled(Panel)`
   max-width: 25em;
 `;
 
-export class UnconnectedSignInPage extends React.Component {
-  static propTypes = {
-    returnURL: PropTypes.string,
-    isSignedIn: PropTypes.bool.isRequired,
-    verifiedAuthStatus: PropTypes.bool.isRequired,
-    verifyAuthStatus: PropTypes.func.isRequired,
-    signInUser: PropTypes.func.isRequired,
-  };
-
-  static defaultProps = {
-    returnURL: "/",
-  };
-
-  componentDidMount() {
-    const { isSignedIn, verifyAuthStatus } = this.props;
-
-    if (!isSignedIn) {
-      this.unsubscribe = verifyAuthStatus();
-    }
-  }
-
-  componentWillUnmount() {
-    if (this.unsubscribe) {
-      this.unsubscribe();
-    }
-  }
-
-  handleSignIn = user => {
-    this.props.signInUser(user);
-  };
-
+export class SignInPage extends React.Component {
   renderTitle(title) {
     return `Sign In - ${title}`;
   }
 
+  state = {
+    incompleteLoginAttempts: 0,
+  };
+
   render() {
-    const { verifiedAuthStatus, isSignedIn, returnURL } = this.props;
-
-    if (!verifiedAuthStatus) {
-      return null;
-    }
-
-    if (isSignedIn) {
-      return <Redirect to={returnURL} />;
-    }
-
+    const { incompleteLoginAttempts } = this.state;
+    const rerender = () =>
+      this.setState({ incompleteLoginAttempts: incompleteLoginAttempts + 1 });
+    const uiConfig = {
+      signInFlow: "popup",
+      signInOptions: providers,
+      credentialHelper,
+      callbacks: {
+        signInSuccessWithAuthResult: ({ user }) => {
+          this.props.signIn(user).catch(() => rerender());
+          return false;
+        },
+      },
+    };
     return (
       <Layout title="Sign in">
         <SignInPanel>
           <Text>You must be signed in to access this service.</Text>
-          <SignInForm onSignIn={this.handleSignIn} />
+          <SignInForm uiConfig={uiConfig} key={incompleteLoginAttempts} />
         </SignInPanel>
       </Layout>
     );
   }
 }
 
-export const mapStateToProps = (state, { location }) => ({
-  isSignedIn: isSignedIn(state),
-  verifiedAuthStatus: verifiedAuthStatus(state),
-  returnURL: get(location, "state.returnURL"),
-});
+SignInPage.propTypes = {
+  signIn: PropTypes.func.isRequired,
+};
 
-export default connect(
-  mapStateToProps,
-  { signInUser, verifyAuthStatus }
-)(UnconnectedSignInPage);
+export default withMe(SignInPage);

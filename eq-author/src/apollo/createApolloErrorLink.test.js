@@ -35,12 +35,13 @@ describe("createErrorLink", () => {
     dispatch = jest.fn();
   });
 
-  it("should dispatch a logout event when the server responds with 401 status code", () => {
+  it("should clear the local storage if the server responds with a 401", () => {
+    expect(localStorage.getItem("accessToken")).toBeTruthy();
     errorHandler(createMockStore, {
       networkError: { statusCode: 401 },
       graphQLErrors,
     });
-    expect(dispatch).toHaveBeenCalledWith(expect.any(Function));
+    expect(localStorage.getItem("accessToken")).toBeFalsy();
   });
 
   it("should dispatch a apiDownError when the server responds with a error", () => {

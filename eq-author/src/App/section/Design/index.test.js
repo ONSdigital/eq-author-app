@@ -7,6 +7,7 @@ import { buildSectionPath } from "utils/UrlUtils";
 import flushPromises from "tests/utils/flushPromises";
 import createRouterContext from "react-router-test-context";
 import { byTestAttr } from "tests/utils/selectors";
+import { MeContext } from "App/MeContext";
 
 import GET_QUESTIONNAIRE_QUERY from "graphql/getQuestionnaire.graphql";
 
@@ -142,13 +143,19 @@ const moveSectionMock = {
 };
 
 describe("SectionRoute", () => {
-  let store, match, context, childContextTypes;
+  let store, match, context, childContextTypes, user;
 
   beforeEach(() => {
     childContextTypes = { router: PropTypes.object };
     const toasts = document.createElement("div");
     toasts.setAttribute("id", "toast");
     document.body.appendChild(toasts);
+
+    user = {
+      id: "123",
+      name: "Test McTest",
+      email: "McTest@test.com",
+    };
 
     match = {
       params: { questionnaireId, sectionId },
@@ -172,9 +179,11 @@ describe("SectionRoute", () => {
   describe("data fetching", () => {
     const render = mocks =>
       mount(
-        <TestProvider reduxProps={{ store }} apolloProps={{ mocks }}>
-          <SectionRoute match={match} />
-        </TestProvider>,
+        <MeContext.Provider value={{ me: user }}>
+          <TestProvider reduxProps={{ store }} apolloProps={{ mocks }}>
+            <SectionRoute match={match} />
+          </TestProvider>
+        </MeContext.Provider>,
         { context, childContextTypes }
       );
 
@@ -354,12 +363,14 @@ describe("SectionRoute", () => {
 
     const render = (props = {}) =>
       mount(
-        <TestProvider
-          reduxProps={{ store }}
-          apolloProps={{ mocks: [moveSectionMock] }}
-        >
-          <UnwrappedSectionRoute {...props} />
-        </TestProvider>,
+        <MeContext.Provider value={{ me: user }}>
+          <TestProvider
+            reduxProps={{ store }}
+            apolloProps={{ mocks: [moveSectionMock] }}
+          >
+            <UnwrappedSectionRoute {...props} />
+          </TestProvider>
+        </MeContext.Provider>,
         { context, childContextTypes }
       );
 

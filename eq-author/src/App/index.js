@@ -1,15 +1,13 @@
 /* eslint-disable react/jsx-no-bind */
 
 import React from "react";
-import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 import { AppContainer } from "react-hot-loader";
 import { Switch } from "react-router-dom";
 import { Route, Router } from "react-router";
 import { ApolloProvider } from "react-apollo";
-import { Provider, connect } from "react-redux";
+import { Provider } from "react-redux";
 
-import { isSignedIn } from "redux/auth/reducer";
 import PrivateRoute from "components/PrivateRoute";
 import RedirectRoute from "components/RedirectRoute";
 import Toasts from "components/Toasts";
@@ -20,55 +18,53 @@ import SignInPage from "./SignInPage";
 import QuestionnaireDesignPage from "./QuestionnaireDesignPage";
 import NotFoundPage from "./NotFoundPage";
 import ErrorBoundary from "./ErrorBoundary";
+import { MeProvider } from "./MeContext";
 
-export const Routes = ({ isSignedIn, ...otherProps }) => (
-  <Router {...otherProps}>
-    <ErrorBoundary>
-      <Toasts>
-        <Switch>
-          <Route path={RoutePaths.SIGN_IN} component={SignInPage} exact />
-          <PrivateRoute
-            path={RoutePaths.HOME}
-            component={QuestionnairesPage}
-            isSignedIn={isSignedIn}
-            exact
-          />
-          <RedirectRoute
-            from="/questionnaire/:questionnaireId/design/:sectionId/:pageId"
-            to={"/q/:questionnaireId/page/:pageId/design"}
-          />
-          <RedirectRoute
-            from="/questionnaire/:questionnaireId/design/:sectionId"
-            to={"/q/:questionnaireId/section/:sectionId/design"}
-          />
-          <PrivateRoute
-            path={RoutePaths.QUESTIONNAIRE}
-            exact={false}
-            component={QuestionnaireDesignPage}
-            isSignedIn={isSignedIn}
-          />
-          <Route path="*" component={NotFoundPage} exact />
-        </Switch>
-      </Toasts>
-    </ErrorBoundary>
-  </Router>
-);
-
-Routes.propTypes = {
-  isSignedIn: PropTypes.bool.isRequired,
+export const Routes = ({ ...otherProps }) => {
+  return (
+    <Router {...otherProps}>
+      <ErrorBoundary>
+        <Toasts>
+          <MeProvider>
+            <Switch>
+              <Route path={RoutePaths.SIGN_IN} component={SignInPage} exact />
+              <PrivateRoute
+                path={RoutePaths.HOME}
+                component={QuestionnairesPage}
+                exact
+              />
+              <RedirectRoute
+                from="/questionnaire/:questionnaireId/design/:sectionId/:pageId"
+                to={"/q/:questionnaireId/page/:pageId/design"}
+              />
+              <RedirectRoute
+                from="/questionnaire/:questionnaireId/design/:sectionId"
+                to={"/q/:questionnaireId/section/:sectionId/design"}
+              />
+              <PrivateRoute
+                path={RoutePaths.QUESTIONNAIRE}
+                exact={false}
+                component={QuestionnaireDesignPage}
+              />
+              <Route path="*" component={NotFoundPage} exact />
+            </Switch>
+          </MeProvider>
+        </Toasts>
+      </ErrorBoundary>
+    </Router>
+  );
 };
 
-const mapStateToProps = state => ({
-  isSignedIn: isSignedIn(state),
-});
-const ConnectedRoutes = connect(mapStateToProps)(Routes);
+Routes.propTypes = {
+  data: CustomPropTypes.user,
+};
 
 const App = ({ store, client, history }) => {
   return (
     <AppContainer>
       <ApolloProvider client={client}>
         <Provider store={store}>
-          <ConnectedRoutes history={history} />
+          <Routes history={history} />
         </Provider>
       </ApolloProvider>
     </AppContainer>
