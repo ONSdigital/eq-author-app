@@ -1,5 +1,5 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { shallow, mount } from "enzyme";
 
 import AnswerTransition from "./AnswerTransition";
 
@@ -15,7 +15,7 @@ describe("components/QuestionPageEditor/AnswerTransition", () => {
   });
 
   it("should set the final height of the element to the height of the element at the end of transition", () => {
-    const wrapper = shallow(
+    const wrapper = mount(
       <AnswerTransition>
         <div>Content</div>
       </AnswerTransition>
@@ -26,7 +26,11 @@ describe("components/QuestionPageEditor/AnswerTransition", () => {
         height: null,
       },
     };
-    wrapper.props().onExit(node);
+
+    wrapper
+      .find("CSSTransition")
+      .props()
+      .onExit(node);
     expect(node.style.height).toEqual("10px");
   });
 });

@@ -1,3 +1,4 @@
+import React from "react";
 import { CSSTransition } from "react-transition-group";
 import PropTypes from "prop-types";
 import styled from "styled-components";
@@ -10,7 +11,7 @@ const handleExit = node => {
   node.style.height = `${height}px`;
 };
 
-const AnswerTransition = styled(CSSTransition).attrs({
+const AnswerTransitionWrapper = styled(CSSTransition).attrs({
   classNames: "answer",
   onExit: () => handleExit,
 })`
@@ -43,6 +44,14 @@ const AnswerTransition = styled(CSSTransition).attrs({
       transform ${halfTimeout}ms ease-in;
   }
 `;
+
+const AnswerTransition = ({ children, ...otherProps }) => {
+  return (
+    <AnswerTransitionWrapper {...otherProps}>
+      <div>{children}</div>
+    </AnswerTransitionWrapper>
+  );
+};
 
 AnswerTransition.propTypes = {
   timeout: PropTypes.number,
