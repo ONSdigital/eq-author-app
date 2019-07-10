@@ -34,6 +34,8 @@ const SignInForm = styled(FirebaseAuth)`
   .firebaseui-container {
     box-shadow: none;
   }
+
+  min-width: 100%;
 `;
 
 SignInForm.defaultProps = {
