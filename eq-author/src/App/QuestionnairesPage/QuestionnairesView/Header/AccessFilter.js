@@ -5,11 +5,14 @@ import { colors } from "constants/theme";
 import VisuallyHidden from "components/VisuallyHidden";
 
 const Fieldset = styled.div`
-  margin: 0;
-  padding: 0;
   display: flex;
   align-items: center;
   color: ${colors.textLight};
+  margin: auto;
+  position: absolute;
+  width: 7.8em;
+  left: 0;
+  right: 0;
 `;
 
 const Buttons = styled.div`
@@ -23,7 +26,6 @@ const FilterButton = styled.label`
   font-weight: bold;
   cursor: pointer;
   border: 1px solid ${colors.bordersLight};
-  flex: 0 0 50%;
   text-align: center;
   position: relative;
   white-space: nowrap;

@@ -8,6 +8,5 @@ mutation UpdateQuestionPage($input: UpdateQuestionPageInput!) {
     validationErrorInfo {
       ...ValidationErrorInfo
     }
-    isNew @client
   }
 }

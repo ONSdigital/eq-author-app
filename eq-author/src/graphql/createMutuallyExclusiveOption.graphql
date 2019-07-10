@@ -9,6 +9,5 @@ mutation createMutuallyExclusiveOption(
     validationErrorInfo {
       ...ValidationErrorInfo
     }
-    isNew @client
   }
 }

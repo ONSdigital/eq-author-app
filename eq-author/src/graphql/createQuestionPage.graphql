@@ -19,6 +19,5 @@ mutation createQuestionPage($input: CreateQuestionPageInput!) {
     validationErrorInfo {
       ...ValidationErrorInfo
     }
-    isNew @client
   }
 }

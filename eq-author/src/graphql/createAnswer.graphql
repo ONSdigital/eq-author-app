@@ -57,7 +57,6 @@ mutation createAnswer($input: CreateAnswerInput!) {
       validationErrorInfo {
         ...ValidationErrorInfo
       }
-      isNew @client
     }
     ... on MultipleChoiceAnswer {
       options {
@@ -65,7 +64,6 @@ mutation createAnswer($input: CreateAnswerInput!) {
         validationErrorInfo {
           ...ValidationErrorInfo
         }
-        isNew @client
       }
       mutuallyExclusiveOption {
         id

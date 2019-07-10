@@ -15,6 +15,7 @@ const SidebarButton = styled.button`
   transition: all 100ms ease-out;
   position: relative;
   cursor: pointer;
+  background: ${colors.white};
 
   &:hover {
     border: 1px solid ${colors.borders};

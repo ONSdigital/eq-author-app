@@ -32,7 +32,6 @@ describe("QuestionPagePreview", () => {
       additionalInfoContent: "<p>Additional Info Content</p>",
       additionalInfoEnabled: true,
       validationErrorInfo: [],
-      isNew: false,
       answers: [{ id: "1", type: TEXTFIELD }],
       section: {
         id: "1",

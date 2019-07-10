@@ -225,14 +225,12 @@ MultipleChoiceAnswer.fragments = {
           validationErrorInfo {
             ...ValidationErrorInfo
           }
-          isNew @client
         }
         mutuallyExclusiveOption {
           ...Option
           validationErrorInfo {
             ...ValidationErrorInfo
           }
-          isNew @client
         }
       }
     }

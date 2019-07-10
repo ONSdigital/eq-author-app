@@ -63,7 +63,6 @@ UnwrappedPageNavItem.fragments = {
         validationErrorInfo {
           totalCount
         }
-        isNew @client
       }
     }
   `,

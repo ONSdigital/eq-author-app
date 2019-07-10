@@ -51,24 +51,6 @@ describe("withValidationError", () => {
     expect(errorString).toBeNull();
   });
 
-  it("should not return any error if entity is new", () => {
-    const errorProps = createErrorProps({
-      errors: [{ field: "fieldName", errorCode: "ERRCODE" }],
-    });
-    errorProps.page.isNew = true;
-
-    const wrapper = createWrapper(errorProps);
-
-    const getValidationError = wrapper.prop("getValidationError");
-
-    const errorString = getValidationError({
-      field: "fieldName",
-      label: "field name label",
-    });
-
-    expect(errorString).toBeNull();
-  });
-
   it("should return the error code if no error template found", () => {
     const errorProps = createErrorProps({
       errors: [{ field: "fieldName", errorCode: "ERRCODE" }],

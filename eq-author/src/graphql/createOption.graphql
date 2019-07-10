@@ -7,6 +7,5 @@ mutation createOption($input: CreateOptionInput!) {
     validationErrorInfo {
       ...ValidationErrorInfo
     }
-    isNew @client
   }
 }
