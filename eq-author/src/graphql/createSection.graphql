@@ -23,7 +23,6 @@ mutation CreateSection($input: CreateSectionInput!) {
         validationErrorInfo {
           ...ValidationErrorInfo
         }
-        isNew @client
       }
     }
     questionnaire {

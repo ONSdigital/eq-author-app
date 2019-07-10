@@ -13,6 +13,5 @@ mutation UpdateOption($input: UpdateOptionInput!) {
     validationErrorInfo {
       ...ValidationErrorInfo
     }
-    isNew @client
   }
 }

@@ -25,7 +25,6 @@ mutation duplicatePage($input: DuplicatePageInput!) {
       validationErrorInfo {
         ...ValidationErrorInfo
       }
-      isNew @client
     }
   }
 }

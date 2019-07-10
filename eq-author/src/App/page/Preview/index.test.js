@@ -36,7 +36,6 @@ describe("page previews", () => {
       additionalInfoContent: "<p>Additional Info Content</p>",
       additionalInfoEnabled: true,
       validationErrorInfo: [],
-      isNew: false,
       answers: [],
       section: {
         id: "1",

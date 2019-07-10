@@ -123,7 +123,6 @@ StatelessBasicAnswer.fragments = {
       validationErrorInfo {
         ...ValidationErrorInfo
       }
-      isNew @client
     }
     ${MinValueValidationRule}
     ${MaxValueValidationRule}

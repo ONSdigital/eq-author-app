@@ -171,19 +171,6 @@ describe("withEntityEditor", () => {
     expect(handleUpdate).toHaveBeenCalled();
   });
 
-  it("should allow update of new entity regardless of dirtiness of state", () => {
-    entity = {
-      ...entity,
-      isNew: true,
-    };
-
-    const wrapper = render();
-
-    wrapper.simulate("update");
-
-    expect(handleUpdate).toHaveBeenCalled();
-  });
-
   it("should call startRequest on Update and stopRequest Completion", () => {
     const newValue = "foo1";
 
@@ -308,20 +295,10 @@ describe("withEntityEditor", () => {
     }).not.toThrow();
   });
 
-  it("should not call update if the change contained no change and page is not new", () => {
+  it("should not call update if the change contained no change", () => {
     wrapper.simulate("change", { name: "alias", value: entity.alias });
     wrapper.simulate("update");
 
     expect(handleUpdate).not.toHaveBeenCalledWith();
-  });
-
-  it("should call update if the change contained no change and page is new", () => {
-    entity.isNew = true;
-    wrapper = render();
-
-    wrapper.simulate("change", { name: "alias", value: entity.alias });
-    wrapper.simulate("update");
-
-    expect(handleUpdate).toHaveBeenCalledWith(entity);
   });
 });

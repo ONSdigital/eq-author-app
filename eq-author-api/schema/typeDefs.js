@@ -51,7 +51,6 @@ type Questionnaire {
   shortTitle: String
   displayName: String!
   introduction: QuestionnaireIntroduction
-  isNew: Boolean!
   editors: [User!]!
   permission: Permission!
   isPublic: Boolean!
@@ -59,7 +58,6 @@ type Questionnaire {
 
 type DeletedQuestionnaire {
   id: ID!
-  isNew: Boolean!
 }
 
 type Section {
@@ -115,7 +113,6 @@ type QuestionPage implements Page {
   routing: Routing2
   totalValidation: TotalValidationRule
   validationErrorInfo: ValidationErrorInfo
-  isNew: Boolean!
 }
 
 type CalculatedSummaryPage implements Page {
@@ -177,7 +174,6 @@ type BasicAnswer implements Answer {
   properties: JSON
   validation: ValidationType
   validationErrorInfo: ValidationErrorInfo
-  isNew: Boolean!
 }
 
 type MultipleChoiceAnswer implements Answer {
@@ -195,7 +191,6 @@ type MultipleChoiceAnswer implements Answer {
   page: QuestionPage
   properties: JSON
   validationErrorInfo: ValidationErrorInfo
-  isNew: Boolean!
 }
 
 type Option {
@@ -208,7 +203,6 @@ type Option {
   answer: Answer
   additionalAnswer: BasicAnswer
   validationErrorInfo: ValidationErrorInfo
-  isNew: Boolean!
 }
 
 enum LogicalDestinations {
