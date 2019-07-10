@@ -15,6 +15,7 @@ exports[`SidebarButton should render 1`] = `
   transition: all 100ms ease-out;
   position: relative;
   cursor: pointer;
+  background: #FFFFFF;
 }
 
 .c0:hover {

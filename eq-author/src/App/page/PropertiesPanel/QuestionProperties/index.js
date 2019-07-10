@@ -27,6 +27,7 @@ const FieldInfo = styled(IconText)`
 
 export const HelpButton = styled.button`
   --color-text: ${colors.primary};
+  background: ${colors.white};
   margin: 0.5em 0;
   position: relative;
   left: -0.5em;

@@ -22,6 +22,7 @@ export const StatelessBasicAnswer = ({
   children,
   labelPlaceholder,
   labelText,
+  errorLabel,
   descriptionText,
   descriptionPlaceholder,
   showDescription,
@@ -43,7 +44,7 @@ export const StatelessBasicAnswer = ({
         bold
         errorValidationMsg={getValidationError({
           field: "label",
-          label: "Answer label",
+          label: errorLabel,
         })}
       />
     </Field>
@@ -76,6 +77,7 @@ StatelessBasicAnswer.propTypes = {
   children: PropTypes.element,
   labelText: PropTypes.string,
   labelPlaceholder: PropTypes.string,
+  errorLabel: PropTypes.string,
   descriptionText: PropTypes.string,
   descriptionPlaceholder: PropTypes.string,
   showDescription: PropTypes.bool,
@@ -85,6 +87,7 @@ StatelessBasicAnswer.propTypes = {
 
 StatelessBasicAnswer.defaultProps = {
   labelText: "Label",
+  errorLabel: "Answer label",
   descriptionText: "Description (optional)",
   showDescription: false,
   autoFocus: true,

@@ -18,12 +18,13 @@ const Text = styled.p`
 `;
 
 const SignInPanel = styled(Panel)`
-  margin-top: 3em;
+  margin: 3em auto 0;
   padding: 2em 3em;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  max-width: 25em;
 `;
 
 export class UnconnectedSignInPage extends React.Component {
