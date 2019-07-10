@@ -13,7 +13,6 @@
     "lint:js": "yarn build:fragmentTypes && eslint src --ext .graphql --ext .js --max-warnings=0",
     "lint:css": "stylelint './src/**/*.js'",
     "serve": "serve -l 3000 build/",
-    "deploy": "npm run build && gh-pages -d build",
     "coverage": "yarn test -- --coverage"
   },
   "devDependencies": {
@@ -46,7 +45,6 @@
     "eslint-plugin-graphql": "^1.5.0",
     "file-loader": "latest",
     "fs-extra": "latest",
-    "gh-pages": "^1.0.0",
     "html-webpack-plugin": "^4.0.0-alpha.2",
     "jest": "latest",
     "jest-styled-components": "latest",
