@@ -13,7 +13,7 @@ const bulkMigrateDataStore = async () => {
   for (let q = 0; q < questionnaireList.length; q++) {
     let latestQuestionnaire = await getQuestionnaire(questionnaireList[q].id);
     if (latestQuestionnaire.version === currentVersion) {
-      return;
+      continue;
     }
 
     const bringQuestionnaireToLatest = async () => {
