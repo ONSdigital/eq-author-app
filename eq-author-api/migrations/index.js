@@ -6,6 +6,7 @@ const addBusinessQuestionnaireIntroduction = require("./addBusinessQuestionnaire
 const dropDatatypeFieldFromPipedValues = require("./dropDatatypeFieldFromPipedValues");
 const addTotalValidation = require("./addTotalValidation");
 const { updateCreatedByToUseUsers } = require("./updateCreatedByToUseUsers");
+const addIsPublicFlag = require("./addIsPublicFlag");
 
 const migrations = [
   addVersion,
@@ -16,6 +17,7 @@ const migrations = [
   dropDatatypeFieldFromPipedValues,
   addTotalValidation,
   updateCreatedByToUseUsers,
+  addIsPublicFlag,
 ];
 
 const currentVersion = migrations.length;
