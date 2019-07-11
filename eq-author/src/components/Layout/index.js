@@ -2,6 +2,7 @@ import React from "react";
 import { Titled } from "react-titled";
 import PropTypes from "prop-types";
 
+import ScrollPane from "components/ScrollPane";
 import BaseLayout from "components/BaseLayout";
 import MainCanvas from "components/MainCanvas";
 
@@ -11,7 +12,9 @@ const Layout = ({ title, children }) => (
   <Titled title={() => title}>
     <BaseLayout>
       <Header title={title} />
-      <MainCanvas maxWidth="70em">{children}</MainCanvas>
+      <ScrollPane>
+        <MainCanvas maxWidth="70em">{children}</MainCanvas>
+      </ScrollPane>
     </BaseLayout>
   </Titled>
 );
