@@ -1,7 +1,7 @@
 const { find, findIndex, remove, omit, set, first } = require("lodash");
 
 const { getSectionByPageId, remapAllNestedIds } = require("../utils");
-const { withWritePermission } = require("../withWritePermission");
+const { createMutation } = require("../createMutation");
 
 const addPrefix = require("../../../utils/addPrefix");
 const { createQuestionPage } = require("./questionPage");
@@ -17,7 +17,7 @@ Resolvers.Page = {
 };
 
 Resolvers.Mutation = {
-  movePage: withWritePermission((_, { input }, ctx) => {
+  movePage: createMutation((_, { input }, ctx) => {
     const section = getSectionByPageId(ctx, input.id);
     const removedPage = first(remove(section.pages, { id: input.id }));
     if (input.sectionId === section.id) {
@@ -30,13 +30,13 @@ Resolvers.Mutation = {
     }
     return removedPage;
   }),
-  deletePage: withWritePermission((_, { input }, ctx) => {
+  deletePage: createMutation((_, { input }, ctx) => {
     const section = getSectionByPageId(ctx, input.id);
     remove(section.pages, { id: input.id });
     return section;
   }),
 
-  duplicatePage: withWritePermission((_, { input }, ctx) => {
+  duplicatePage: createMutation((_, { input }, ctx) => {
     const section = getSectionByPageId(ctx, input.id);
     const page = find(section.pages, { id: input.id });
     const newpage = omit(page, "id");

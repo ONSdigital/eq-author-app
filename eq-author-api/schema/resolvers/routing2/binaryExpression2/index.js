@@ -16,7 +16,7 @@ const {
   createRightSide,
 } = require("../../../../src/businessLogic");
 
-const { withWritePermission } = require("../../withWritePermission");
+const { createMutation } = require("../../createMutation");
 
 const {
   getPages,
@@ -108,7 +108,7 @@ Resolvers.SelectedOptions2 = {
 };
 
 Resolvers.Mutation = {
-  createBinaryExpression2: withWritePermission((root, { input }, ctx) => {
+  createBinaryExpression2: createMutation((root, { input }, ctx) => {
     const pages = flatMap(section => section.pages, ctx.questionnaire.sections);
     const rules = flatMap(
       routing => getOr([], "rules", routing),
@@ -163,7 +163,7 @@ Resolvers.Mutation = {
 
     return expression;
   }),
-  updateBinaryExpression2: withWritePermission(
+  updateBinaryExpression2: createMutation(
     (root, { input: { id, condition } }, ctx) => {
       const pages = getPages(ctx);
       const rules = flatMap(
@@ -200,7 +200,7 @@ Resolvers.Mutation = {
     }
   ),
 
-  updateLeftSide2: withWritePermission((root, { input }, ctx) => {
+  updateLeftSide2: createMutation((root, { input }, ctx) => {
     const { expressionId, answerId } = input;
 
     const pages = flatMap(section => section.pages, ctx.questionnaire.sections);
@@ -231,7 +231,7 @@ Resolvers.Mutation = {
 
     return expression;
   }),
-  updateRightSide2: withWritePermission((root, { input }, ctx) => {
+  updateRightSide2: createMutation((root, { input }, ctx) => {
     if (input.customValue && input.selectedOptions) {
       throw new Error("Too many right side inputs");
     }
@@ -298,7 +298,7 @@ Resolvers.Mutation = {
 
     return expression;
   }),
-  deleteBinaryExpression2: withWritePermission((root, { input }, ctx) => {
+  deleteBinaryExpression2: createMutation((root, { input }, ctx) => {
     {
       const pages = getPages(ctx);
       const rules = flatMap(

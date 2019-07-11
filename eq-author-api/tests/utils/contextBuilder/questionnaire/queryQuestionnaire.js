@@ -25,6 +25,10 @@ const getQuestionnaireQuery = `
       metadata {
         id
       }
+      permission
+      editors {
+        id
+      }
     }
   }
 `;

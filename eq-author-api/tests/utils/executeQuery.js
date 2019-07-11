@@ -4,6 +4,7 @@ const { graphql } = require("graphql");
 const graphqlTools = require("graphql-tools");
 
 const { getQuestionnaire } = require("../../utils/datastore");
+const validate = require("../../src/validation");
 
 const executableSchema = graphqlTools.makeExecutableSchema(schema);
 
@@ -21,6 +22,7 @@ ${response.errors.map(e => e.message).join("\n----\n")}
   }
   if (ctx.questionnaire) {
     ctx.questionnaire = await getQuestionnaire(ctx.questionnaire.id);
+    ctx.validationErrorInfo = validate(ctx.questionnaire);
   }
 
   return response;

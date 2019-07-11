@@ -1,7 +1,7 @@
 const Resolvers = {};
 
 const { find, flatMap, getOr } = require("lodash/fp");
-const { withWritePermission } = require("../../withWritePermission");
+const { createMutation } = require("../../createMutation");
 
 const { getPages } = require("../../utils");
 
@@ -10,7 +10,7 @@ Resolvers.ExpressionGroup2 = {
 };
 
 Resolvers.Mutation = {
-  updateExpressionGroup2: withWritePermission(
+  updateExpressionGroup2: createMutation(
     (root, { input: { id, operator } }, ctx) => {
       const expressionGroup = find(
         { id },

@@ -1,6 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
-import NavLink, { activeClassName } from "./NavLink";
+import NavLink, { activeClassName, Badge } from "./NavLink";
 import mountWithRouter from "tests/utils/mountWithRouter";
 
 describe("NavLink", () => {
@@ -10,6 +10,7 @@ describe("NavLink", () => {
     to: "/page-1",
     title: "Page 1",
     icon: () => <svg />,
+    isActive: () => true,
   };
 
   beforeEach(() => {
@@ -38,5 +39,15 @@ describe("NavLink", () => {
     );
 
     expect(wrapper.find("a").hasClass(activeClassName)).toBeFalsy();
+  });
+
+  it("should show a badge when it has errors", () => {
+    wrapper = mountWithRouter(
+      <NavLink {...props} errorCount={2}>
+        Page 1
+      </NavLink>
+    );
+
+    expect(wrapper.find(Badge)).toMatchSnapshot();
   });
 });

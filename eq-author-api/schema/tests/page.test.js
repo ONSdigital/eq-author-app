@@ -17,7 +17,7 @@ const {
   updateQuestionPage,
 } = require("../../tests/utils/contextBuilder/page/questionPage");
 
-const { DATE, NUMBER } = require("../../constants/answerTypes");
+const { DATE, NUMBER, CHECKBOX } = require("../../constants/answerTypes");
 const {
   NEXT_PAGE,
   END_OF_QUESTIONNAIRE,
@@ -334,6 +334,71 @@ describe("page", () => {
       await deletePage(ctx, page.id);
       const deletedQuestionPage = await queryPage(ctx, page.id);
       expect(deletedQuestionPage).toBeNull();
+    });
+  });
+
+  describe("author validation", () => {
+    it("should validate the page", async () => {
+      ctx = await buildContext({
+        sections: [
+          {
+            pages: [
+              {
+                title: "",
+              },
+            ],
+          },
+        ],
+      });
+      questionnaire = ctx.questionnaire;
+      const page = ctx.questionnaire.sections[0].pages[0];
+
+      const readPage = await queryPage(ctx, page.id);
+
+      expect(readPage).toMatchObject({
+        validationErrorInfo: {
+          totalCount: 1,
+          errors: [
+            expect.objectContaining({ errorCode: "ERR_VALID_REQUIRED" }),
+          ],
+        },
+      });
+    });
+
+    it("should include the count of errors on children", async () => {
+      ctx = await buildContext({
+        sections: [
+          {
+            pages: [
+              {
+                answers: [
+                  {
+                    type: CHECKBOX,
+                    options: [
+                      {
+                        label: "",
+                      },
+                      { label: "" },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      });
+
+      questionnaire = ctx.questionnaire;
+      const page = ctx.questionnaire.sections[0].pages[0];
+
+      const readPage = await queryPage(ctx, page.id);
+
+      expect(readPage).toMatchObject({
+        validationErrorInfo: {
+          totalCount: 2,
+          errors: [],
+        },
+      });
     });
   });
 });

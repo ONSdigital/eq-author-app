@@ -1,5 +1,6 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { Query, Subscription } from "react-apollo";
+import { shallow, mount } from "enzyme";
 
 import {
   SECTION,
@@ -16,14 +17,16 @@ import NavigationSidebar from "./NavigationSidebar";
 
 import {
   UnwrappedQuestionnaireDesignPage as QuestionnaireDesignPage,
-  throwIfUnauthorized,
+  withAuthCheck,
+  withValidations,
+  withQuestionnaire,
 } from "./";
 
 describe("QuestionnaireDesignPage", () => {
   let mockHandlers;
   let wrapper;
   let match;
-  let answer, confirmation, page, section, questionnaire;
+  let answer, confirmation, page, section, questionnaire, validations;
 
   beforeEach(() => {
     answer = {
@@ -60,6 +63,12 @@ describe("QuestionnaireDesignPage", () => {
       displayName: "my displayName",
     };
 
+    validations = {
+      id: "3",
+      errorCount: 0,
+      pages: [],
+    };
+
     mockHandlers = {
       onUpdateSection: jest.fn(),
       onAddQuestionPage: jest.fn(),
@@ -83,7 +92,8 @@ describe("QuestionnaireDesignPage", () => {
       <QuestionnaireDesignPage
         {...mockHandlers}
         match={match}
-        data={{ questionnaire }}
+        questionnaire={questionnaire}
+        validations={validations}
         loading={false}
       />
     );
@@ -105,12 +115,10 @@ describe("QuestionnaireDesignPage", () => {
 
   it("should redirect to the introduction if it has one", () => {
     wrapper.setProps({
-      data: {
-        questionnaire: {
-          ...questionnaire,
-          introduction: {
-            id: "1",
-          },
+      questionnaire: {
+        ...questionnaire,
+        introduction: {
+          id: "1",
         },
       },
     });
@@ -120,12 +128,10 @@ describe("QuestionnaireDesignPage", () => {
   describe("onIntroductionPage", () => {
     beforeEach(() => {
       wrapper.setProps({
-        data: {
-          questionnaire: {
-            ...questionnaire,
-            introduction: {
-              id: "1",
-            },
+        questionnaire: {
+          ...questionnaire,
+          introduction: {
+            id: "1",
           },
         },
         match: {
@@ -163,27 +169,6 @@ describe("QuestionnaireDesignPage", () => {
       expect(mockHandlers.onAddQuestionPage).toHaveBeenCalledWith(
         section.id,
         page.position + 1
-      );
-    });
-
-    it("should add page at start of section if page not found", () => {
-      wrapper.setProps({
-        questionnaire: {
-          ...questionnaire,
-          sections: [
-            {
-              ...section,
-              pages: [],
-            },
-          ],
-        },
-      });
-
-      wrapper.find(NavigationSidebar).simulate("addQuestionPage");
-
-      expect(mockHandlers.onAddQuestionPage).toHaveBeenCalledWith(
-        section.id,
-        1
       );
     });
 
@@ -281,7 +266,7 @@ describe("QuestionnaireDesignPage", () => {
       questionnaire.sections[0].pages[0].confirmation = {
         id: 1,
       };
-      wrapper.setProps({ data: { questionnaire } });
+      wrapper.setProps({ questionnaire });
       expect(
         wrapper.find(NavigationSidebar).prop("canAddQuestionConfirmation")
       ).toEqual(false);
@@ -302,7 +287,7 @@ describe("QuestionnaireDesignPage", () => {
         pageType: "NotQuestionPage",
         position: 0,
       };
-      wrapper.setProps({ data: { questionnaire } });
+      wrapper.setProps({ questionnaire });
       expect(wrapper.find(NavigationSidebar).props()).toMatchObject({
         canAddQuestionConfirmation: false,
       });
@@ -319,7 +304,7 @@ describe("QuestionnaireDesignPage", () => {
     it("should disable adding question confirmation, question page & calculated summary whilst loading", () => {
       wrapper.setProps({
         loading: true,
-        data: {},
+        questionnaire: null,
       });
       expect(
         wrapper.find(NavigationSidebar).prop("canAddQuestionPage")
@@ -338,38 +323,88 @@ describe("QuestionnaireDesignPage", () => {
       const throwWrapper = () => {
         wrapper.setProps({
           loading: false,
-          data: {},
+          questionnaire: null,
         });
       };
 
       expect(throwWrapper).toThrow(new Error(ERR_PAGE_NOT_FOUND));
     });
 
-    it("should throw ERR_UNAUTHORIZED_QUESTIONNAIRE if access denied", () => {
-      const innerProps = {
-        error: {
-          networkError: {
-            bodyText: ERR_UNAUTHORIZED_QUESTIONNAIRE,
+    describe("withAuthCheck", () => {
+      it("should throw ERR_UNAUTHORIZED_QUESTIONNAIRE if access denied", () => {
+        const props = {
+          error: {
+            networkError: {
+              bodyText: ERR_UNAUTHORIZED_QUESTIONNAIRE,
+            },
           },
-        },
-      };
+        };
 
-      expect(() => throwIfUnauthorized(innerProps)).toThrow(
-        new Error(ERR_UNAUTHORIZED_QUESTIONNAIRE)
-      );
+        const Component = withAuthCheck(() => <h1>hello</h1>);
+
+        expect(() => shallow(<Component {...props} />)).toThrow(
+          new Error(ERR_UNAUTHORIZED_QUESTIONNAIRE)
+        );
+      });
+      it("should render questionnaire design page if access granted", () => {
+        const Component = withAuthCheck(() => <h1>hello</h1>);
+        const wrapper = mount(<Component />);
+        expect(wrapper.find("h1")).toHaveLength(1);
+      });
     });
-    it("should render questionnaire design page if access granted", () => {
-      const innerProps = {};
-      expect(
-        shallow(
-          throwIfUnauthorized(innerProps, {
-            ...mockHandlers,
-            match: match,
-            data: { questionnaire },
-            loading: false,
-          })
-        )
-      ).toMatchSnapshot();
+
+    describe("withValidations", () => {
+      let match;
+      beforeEach(() => {
+        match = {
+          params: {
+            questionnaireId: "qId",
+          },
+        };
+      });
+      it("should render the component with the validations from the subscription", () => {
+        const Component = withValidations(() => <hr />);
+        const renderFunc = shallow(<Component match={match} />)
+          .find(Subscription)
+          .renderProp("children");
+        const wrapper = renderFunc({
+          data: { validationUpdated: "validations" },
+        });
+        expect(wrapper).toMatchSnapshot();
+      });
+      it("should call the subscription with the questionnaire id", () => {
+        const Component = withValidations(() => <hr />);
+        const wrapper = shallow(<Component match={match} />);
+        expect(wrapper).toMatchSnapshot();
+      });
+    });
+
+    describe("withQuestionnaire", () => {
+      let match;
+      beforeEach(() => {
+        match = {
+          params: {
+            questionnaireId: "qId",
+          },
+        };
+      });
+      it("should render the component with the questionnaire", () => {
+        const Component = withQuestionnaire(() => <hr />);
+        const renderFunc = shallow(<Component match={match} />)
+          .find(Query)
+          .renderProp("children");
+        const wrapper = renderFunc({
+          loading: false,
+          error: null,
+          data: { questionnaire: "validations" },
+        });
+        expect(wrapper).toMatchSnapshot();
+      });
+      it("should call the query with the questionnaire id", () => {
+        const Component = withQuestionnaire(() => <hr />);
+        const wrapper = shallow(<Component match={match} />);
+        expect(wrapper).toMatchSnapshot();
+      });
     });
   });
 });

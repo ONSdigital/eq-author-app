@@ -40,16 +40,16 @@ describe("schema validation", () => {
 
   it("should not return errors on valid schema", () => {
     const validationErrors = validation(questionnaire);
-
-    expect(validationErrors).toHaveLength(0);
+    expect(validationErrors.totalCount).toEqual(0);
   });
 
   it("should return errors on invalid schema", () => {
-    questionnaire.sections[0].pages[0].title = "";
+    const page = questionnaire.sections[0].pages[0];
+    page.title = "";
 
     const validationErrors = validation(questionnaire);
 
-    expect(validationErrors[0]).toMatchObject({
+    expect(validationErrors.pages[page.id].errors[0]).toMatchObject({
       errorCode: "ERR_VALID_REQUIRED",
       field: "title",
       id: "page_1",
@@ -58,12 +58,13 @@ describe("schema validation", () => {
   });
 
   it("should return correct error type for additionalAnswer", () => {
-    questionnaire.sections[0].pages[0].answers[0].options[0].additionalAnswer.label =
-      "";
+    const answer =
+      questionnaire.sections[0].pages[0].answers[0].options[0].additionalAnswer;
+    answer.label = "";
 
     const validationErrors = validation(questionnaire);
 
-    expect(validationErrors[0]).toMatchObject({
+    expect(validationErrors.answers[answer.id].errors[0]).toMatchObject({
       errorCode: "ERR_VALID_REQUIRED",
       field: "label",
       id: "additionalAnswer_1",

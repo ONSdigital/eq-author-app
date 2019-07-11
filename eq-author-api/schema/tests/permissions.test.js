@@ -46,7 +46,7 @@ describe("Permissions", () => {
 
       it("should be possible to read a questionnaire", async () => {
         const result = await queryQuestionnaire(ctx);
-        expect(result).toMatchObject({ title: "Title" });
+        expect(result).toMatchObject({ title: "Title", permission: "Read" });
       });
 
       it("should fail to update the questionnaire", async () => {
@@ -71,6 +71,15 @@ describe("Permissions", () => {
         await updateQuestionnaire(ctx, {
           id: ctx.questionnaire.id,
           editors: [user.id],
+        });
+      });
+
+      it("should be possible to read a questionnaire", async () => {
+        const result = await queryQuestionnaire(ctx);
+        expect(result).toMatchObject({
+          title: "Title",
+          permission: "Write",
+          editors: [expect.objectContaining({ id: user.id })],
         });
       });
 

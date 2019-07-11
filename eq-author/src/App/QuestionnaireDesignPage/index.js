@@ -2,17 +2,18 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 import gql from "graphql-tag";
-import { Query } from "react-apollo";
+import { Query, Subscription } from "react-apollo";
 import { connect } from "react-redux";
 import { Switch } from "react-router-dom";
 import { Titled } from "react-titled";
 import { Route, Redirect } from "react-router";
-import { find, flatMap, flowRight, get } from "lodash";
+import { get, find, flatMap, flowRight } from "lodash";
 
 import { Grid, Column } from "components/Grid";
 import Loading from "components/Loading";
 import BaseLayout from "components/BaseLayout";
 import QuestionnaireContext from "components/QuestionnaireContext";
+import ValidationsContext from "components/ValidationsContext";
 
 import { SECTION, PAGE, QUESTION_CONFIRMATION } from "constants/entities";
 import {
@@ -44,11 +45,10 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
     onAddSection: PropTypes.func.isRequired,
     loading: PropTypes.bool.isRequired,
     match: CustomPropTypes.match,
-    data: PropTypes.shape({
-      questionnaire: CustomPropTypes.questionnaire,
-    }),
+    questionnaire: CustomPropTypes.questionnaire,
     location: PropTypes.object, // eslint-disable-line
     error: PropTypes.object, // eslint-disable-line
+    validations: PropTypes.object, // eslint-disable-line
   };
 
   state = {
@@ -61,7 +61,7 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
       onAddQuestionPage,
       onAddCalculatedSummaryPage,
       match,
-      data: { questionnaire },
+      questionnaire,
     } = this.props;
     const { entityName, entityId } = match.params;
 
@@ -98,18 +98,12 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
   };
 
   getTitle = () => {
-    const {
-      loading,
-      data: { questionnaire },
-    } = this.props;
+    const { loading, questionnaire } = this.props;
     return loading ? "" : `${questionnaire.title}`;
   };
 
   renderRedirect = () => {
-    const {
-      loading,
-      data: { questionnaire },
-    } = this.props;
+    const { loading, questionnaire } = this.props;
 
     if (loading) {
       return (
@@ -155,7 +149,7 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
 
   canAddQuestionConfirmation() {
     const {
-      data: { questionnaire },
+      questionnaire,
       match: {
         params: { entityName, entityId: pageId },
       },
@@ -188,53 +182,52 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
   };
 
   render() {
-    const {
-      loading,
-      data: { questionnaire },
-      error,
-      location,
-    } = this.props;
+    const { loading, questionnaire, validations, error, location } = this.props;
 
     if (!loading && !error && !questionnaire) {
       throw new Error(ERR_PAGE_NOT_FOUND);
     }
 
     return (
-      <BaseLayout questionnaire={questionnaire}>
-        <Titled title={this.getTitle}>
-          <Grid>
-            <Column cols={3} gutters={false}>
-              <NavigationSidebar
-                data-test="side-nav"
-                loading={loading}
-                onAddSection={this.props.onAddSection}
-                onAddQuestionPage={this.handleAddPage("QuestionPage")}
-                canAddQuestionPage={this.canAddQuestionAndCalculatedSummmaryPages()}
-                onAddCalculatedSummaryPage={this.handleAddPage(
-                  "CalculatedSummaryPage"
-                )}
-                canAddCalculatedSummaryPage={this.canAddQuestionAndCalculatedSummmaryPages()}
-                questionnaire={questionnaire}
-                canAddQuestionConfirmation={this.canAddQuestionConfirmation()}
-                onAddQuestionConfirmation={this.handleAddQuestionConfirmation}
-              />
-            </Column>
-            <Column cols={9} gutters={false}>
-              <QuestionnaireContext.Provider value={{ questionnaire }}>
-                <Switch location={location}>
-                  {[
-                    ...pageRoutes,
-                    ...sectionRoutes,
-                    ...questionConfirmationRoutes,
-                    ...introductionRoutes,
-                  ]}
-                  <Route path="*" render={this.renderRedirect} />
-                </Switch>
-              </QuestionnaireContext.Provider>
-            </Column>
-          </Grid>
-        </Titled>
-      </BaseLayout>
+      <QuestionnaireContext.Provider value={{ questionnaire }}>
+        <ValidationsContext.Provider value={{ validations }}>
+          <BaseLayout questionnaire={questionnaire}>
+            <Titled title={this.getTitle}>
+              <Grid>
+                <Column cols={3} gutters={false}>
+                  <NavigationSidebar
+                    data-test="side-nav"
+                    loading={loading}
+                    onAddSection={this.props.onAddSection}
+                    onAddQuestionPage={this.handleAddPage("QuestionPage")}
+                    canAddQuestionPage={this.canAddQuestionAndCalculatedSummmaryPages()}
+                    onAddCalculatedSummaryPage={this.handleAddPage(
+                      "CalculatedSummaryPage"
+                    )}
+                    canAddCalculatedSummaryPage={this.canAddQuestionAndCalculatedSummmaryPages()}
+                    questionnaire={questionnaire}
+                    canAddQuestionConfirmation={this.canAddQuestionConfirmation()}
+                    onAddQuestionConfirmation={
+                      this.handleAddQuestionConfirmation
+                    }
+                  />
+                </Column>
+                <Column cols={9} gutters={false}>
+                  <Switch location={location}>
+                    {[
+                      ...pageRoutes,
+                      ...sectionRoutes,
+                      ...questionConfirmationRoutes,
+                      ...introductionRoutes,
+                    ]}
+                    <Route path="*" render={this.renderRedirect} />
+                  </Switch>
+                </Column>
+              </Grid>
+            </Titled>
+          </BaseLayout>
+        </ValidationsContext.Provider>
+      </QuestionnaireContext.Provider>
     );
   }
 }
@@ -262,26 +255,94 @@ const QUESTIONNAIRE_QUERY = gql`
   ${NavigationSidebar.fragments.NavigationSidebar}
 `;
 
-export const throwIfUnauthorized = (innerProps, props) => {
-  if (
-    get(innerProps, "error.networkError.bodyText") ===
-    ERR_UNAUTHORIZED_QUESTIONNAIRE
-  ) {
-    throw new Error(ERR_UNAUTHORIZED_QUESTIONNAIRE);
-  }
-  return <UnwrappedQuestionnaireDesignPage {...innerProps} {...props} />;
+export const withQuestionnaire = Component => {
+  const WrappedComponent = props => (
+    <Query
+      query={QUESTIONNAIRE_QUERY}
+      variables={{
+        input: {
+          questionnaireId: props.match.params.questionnaireId,
+        },
+      }}
+      errorPolicy="all"
+    >
+      {innerProps => (
+        <Component
+          {...innerProps}
+          {...props}
+          questionnaire={get(innerProps, "data.questionnaire")}
+        />
+      )}
+    </Query>
+  );
+
+  WrappedComponent.displayName = `withQuestionnaire(${Component.displayName})`;
+  WrappedComponent.propTypes = {
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        questionnaireId: PropTypes.string.isRequired,
+      }).isRequired,
+    }).isRequired,
+  };
+
+  return WrappedComponent;
 };
 
-export default withMutations(props => (
-  <Query
-    query={QUESTIONNAIRE_QUERY}
-    variables={{
-      input: {
-        questionnaireId: props.match.params.questionnaireId,
-      },
-    }}
-    errorPolicy="all"
-  >
-    {innerProps => throwIfUnauthorized(innerProps, props)}
-  </Query>
-));
+export const withAuthCheck = Component => {
+  const WrappedComponent = props => {
+    if (
+      get(props, "error.networkError.bodyText") ===
+      ERR_UNAUTHORIZED_QUESTIONNAIRE
+    ) {
+      throw new Error(ERR_UNAUTHORIZED_QUESTIONNAIRE);
+    }
+    return <Component {...props} />;
+  };
+  WrappedComponent.displayName = `withAuthCheck(${Component.displayName})`;
+  return WrappedComponent;
+};
+
+const VALIDATION_QUERY = gql`
+  subscription Validation($id: ID!) {
+    validationUpdated(id: $id) {
+      id
+      errorCount
+      pages {
+        id
+        errorCount
+      }
+    }
+  }
+`;
+
+export const withValidations = Component => {
+  const WrappedComponent = props => (
+    <Subscription
+      subscription={VALIDATION_QUERY}
+      variables={{ id: props.match.params.questionnaireId }}
+    >
+      {subscriptionProps => (
+        <Component
+          {...props}
+          validations={get(subscriptionProps, "data.validationUpdated")}
+        />
+      )}
+    </Subscription>
+  );
+  WrappedComponent.displayName = `withValidations(${Component.displayName})`;
+  WrappedComponent.propTypes = {
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        questionnaireId: PropTypes.string.isRequired,
+      }).isRequired,
+    }).isRequired,
+  };
+  return WrappedComponent;
+};
+
+export default flowRight([
+  withQuestionnaire,
+  withAuthCheck,
+  withValidations,
+  withMutations,
+])(UnwrappedQuestionnaireDesignPage);

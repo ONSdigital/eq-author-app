@@ -51,11 +51,26 @@ const Title = styled(Truncated)`
   line-height: 1.3;
 `;
 
-const NavLink = ({ to, title, children, icon, ...otherProps }) => (
+export const Badge = styled.span`
+  border-radius: 0.7em;
+  background-color: ${colors.red};
+  color: white;
+  padding: 0.2em 0.5em;
+  font-weight: normal;
+  z-index: 2;
+  margin-left: auto;
+  line-height: 1;
+  font-size: 0.9rem;
+  pointer-events: none;
+`;
+
+const NavLink = ({ to, title, children, icon, errorCount, ...otherProps }) => (
   <Link to={to} title={title} activeClassName={activeClassName} {...otherProps}>
     <IconText icon={icon}>
       <Title>{children}</Title>
     </IconText>
+
+    {errorCount ? <Badge>{errorCount}</Badge> : null}
   </Link>
 );
 
@@ -64,6 +79,7 @@ NavLink.propTypes = {
   title: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
   icon: PropTypes.func.isRequired,
+  errorCount: PropTypes.number,
 };
 
 export default NavLink;

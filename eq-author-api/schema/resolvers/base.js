@@ -16,11 +16,14 @@ const {
   concat,
 } = require("lodash");
 const GraphQLJSON = require("graphql-type-json");
+const uuid = require("uuid");
+const { withFilter } = require("apollo-server-express");
+
+const pubsub = require("../../db/pubSub");
 const { getName } = require("../../utils/getName");
 const {
   getValidationEntity,
 } = require("../../src/businessLogic/createValidation");
-const uuid = require("uuid");
 const { currentVersion } = require("../../migrations");
 
 const {
@@ -72,10 +75,10 @@ const {
 } = require("./questionnaireIntroduction");
 
 const {
-  withWritePermission,
   enforceHasWritePermission,
   hasWritePermission,
 } = require("./withWritePermission");
+const { createMutation } = require("./createMutation");
 
 const createSection = (input = {}) => ({
   id: uuid.v4(),
@@ -152,6 +155,39 @@ const Resolvers = {
     users: () => listUsers(),
   },
 
+  Subscription: {
+    validationUpdated: {
+      resolve: ({ questionnaire, validationErrorInfo }) => {
+        const pages = Object.keys(validationErrorInfo.pages).map(id => ({
+          id,
+          errorCount: validationErrorInfo.pages[id].totalCount,
+        }));
+        return {
+          id: questionnaire.id,
+          errorCount: validationErrorInfo.totalCount,
+          pages,
+          sections: [],
+        };
+      },
+      subscribe: withFilter(
+        () => pubsub.asyncIterator(["validationUpdated"]),
+        (payload, variables, ctx) => {
+          const user = ctx.user;
+          const { questionnaire } = payload;
+          if (
+            questionnaire.isPublic ||
+            [questionnaire.createdBy, ...questionnaire.editors].includes(
+              user.id
+            )
+          ) {
+            return questionnaire.id === variables.id;
+          }
+          return false;
+        }
+      ),
+    },
+  },
+
   Mutation: {
     createQuestionnaire: async (root, args, ctx) => {
       const questionnaire = createNewQuestionnaire({
@@ -162,7 +198,7 @@ const Resolvers = {
       ctx.questionnaire = await createQuestionnaire(questionnaire);
       return ctx.questionnaire;
     },
-    updateQuestionnaire: withWritePermission((_, { input }, ctx) =>
+    updateQuestionnaire: createMutation((_, { input }, ctx) =>
       Object.assign(ctx.questionnaire, input)
     ),
     deleteQuestionnaire: async (_, { input }, ctx) => {
@@ -184,29 +220,29 @@ const Resolvers = {
       };
       return createQuestionnaire(newQuestionnaire);
     },
-    createSection: withWritePermission((root, { input }, ctx) => {
+    createSection: createMutation((root, { input }, ctx) => {
       const section = createSection(input);
       ctx.questionnaire.sections.push(section);
       return section;
     }),
-    updateSection: withWritePermission((_, { input }, ctx) => {
+    updateSection: createMutation((_, { input }, ctx) => {
       const section = find(ctx.questionnaire.sections, { id: input.id });
       merge(section, input);
       return section;
     }),
-    deleteSection: withWritePermission((root, { input }, ctx) => {
+    deleteSection: createMutation((root, { input }, ctx) => {
       const section = find(ctx.questionnaire.sections, { id: input.id });
       remove(ctx.questionnaire.sections, section);
       return section;
     }),
-    moveSection: withWritePermission((_, { input }, ctx) => {
+    moveSection: createMutation((_, { input }, ctx) => {
       const removedSection = first(
         remove(ctx.questionnaire.sections, { id: input.id })
       );
       ctx.questionnaire.sections.splice(input.position, 0, removedSection);
       return removedSection;
     }),
-    duplicateSection: withWritePermission((_, { input }, ctx) => {
+    duplicateSection: createMutation((_, { input }, ctx) => {
       const section = find(ctx.questionnaire.sections, { id: input.id });
       const newSection = omit(cloneDeep(section), "id");
       set(newSection, "alias", addPrefix(newSection.alias));
@@ -216,7 +252,7 @@ const Resolvers = {
       ctx.questionnaire.sections.splice(input.position, 0, remappedSection);
       return remappedSection;
     }),
-    createAnswer: withWritePermission((root, { input }, ctx) => {
+    createAnswer: createMutation((root, { input }, ctx) => {
       const page = getPageById(ctx, input.questionPageId);
       const answer = createAnswer(input, page);
 
@@ -226,7 +262,7 @@ const Resolvers = {
 
       return answer;
     }),
-    updateAnswer: withWritePermission((root, { input }, ctx) => {
+    updateAnswer: createMutation((root, { input }, ctx) => {
       const answers = getAnswers(ctx);
 
       const additionalAnswers = flatMap(answers, answer =>
@@ -240,7 +276,7 @@ const Resolvers = {
 
       return answer;
     }),
-    updateAnswersOfType: withWritePermission(
+    updateAnswersOfType: createMutation(
       (root, { input: { questionPageId, type, properties } }, ctx) => {
         const page = getPageById(ctx, questionPageId);
         const answersOfType = page.answers.filter(a => a.type === type);
@@ -254,7 +290,7 @@ const Resolvers = {
         return answersOfType;
       }
     ),
-    deleteAnswer: withWritePermission((_, { input }, ctx) => {
+    deleteAnswer: createMutation((_, { input }, ctx) => {
       const pages = getPages(ctx);
       const page = find(pages, page => {
         if (page.answers && some(page.answers, { id: input.id })) {
@@ -268,7 +304,7 @@ const Resolvers = {
 
       return page;
     }),
-    moveAnswer: withWritePermission((_, { input: { id, position } }, ctx) => {
+    moveAnswer: createMutation((_, { input: { id, position } }, ctx) => {
       const pages = getPages(ctx);
       const page = find(pages, page => {
         if (page.answers && some(page.answers, { id })) {
@@ -282,7 +318,7 @@ const Resolvers = {
       return answerMoving;
     }),
 
-    createOption: withWritePermission((root, { input }, ctx) => {
+    createOption: createMutation((root, { input }, ctx) => {
       const pages = getPages(ctx);
       const answers = flatMap(pages, page => page.answers);
       const parent = find(answers, { id: input.answerId });
@@ -293,27 +329,25 @@ const Resolvers = {
       return option;
     }),
 
-    createMutuallyExclusiveOption: withWritePermission(
-      (root, { input }, ctx) => {
-        const pages = getPages(ctx);
-        const answers = flatMap(pages, page => page.answers);
-        const answer = find(answers, { id: input.answerId });
+    createMutuallyExclusiveOption: createMutation((root, { input }, ctx) => {
+      const pages = getPages(ctx);
+      const answers = flatMap(pages, page => page.answers);
+      const answer = find(answers, { id: input.answerId });
 
-        const existing = find(answer.options, { mutuallyExclusive: true });
-        if (!isNil(existing)) {
-          throw new Error(
-            "There is already an exclusive checkbox on this answer."
-          );
-        }
-
-        const option = createOption({ mutuallyExclusive: true, ...input });
-
-        answer.options.push(option);
-
-        return option;
+      const existing = find(answer.options, { mutuallyExclusive: true });
+      if (!isNil(existing)) {
+        throw new Error(
+          "There is already an exclusive checkbox on this answer."
+        );
       }
-    ),
-    updateOption: withWritePermission((_, { input }, ctx) => {
+
+      const option = createOption({ mutuallyExclusive: true, ...input });
+
+      answer.options.push(option);
+
+      return option;
+    }),
+    updateOption: createMutation((_, { input }, ctx) => {
       const pages = getPages(ctx);
       const answers = compact(flatMap(pages, page => page.answers));
       const options = flatMap(answers, answer => answer.options);
@@ -323,7 +357,7 @@ const Resolvers = {
 
       return option;
     }),
-    deleteOption: withWritePermission((_, { input }, ctx) => {
+    deleteOption: createMutation((_, { input }, ctx) => {
       const pages = getPages(ctx);
       const answers = flatMap(pages, page => page.answers);
 
@@ -354,7 +388,7 @@ const Resolvers = {
 
       return answer;
     }),
-    toggleValidationRule: withWritePermission((_, args, ctx) => {
+    toggleValidationRule: createMutation((_, args, ctx) => {
       const validation = getValidationById(ctx, args.input.id);
       validation.enabled = args.input.enabled;
 
@@ -363,7 +397,7 @@ const Resolvers = {
 
       return newValidation;
     }),
-    updateValidationRule: withWritePermission((_, args, ctx) => {
+    updateValidationRule: createMutation((_, args, ctx) => {
       const validation = getValidationById(ctx, args.input.id);
       const { validationType } = validation;
 
@@ -374,7 +408,7 @@ const Resolvers = {
 
       return newValidation;
     }),
-    createMetadata: withWritePermission((root, args, ctx) => {
+    createMetadata: createMutation((root, args, ctx) => {
       const newMetadata = {
         alias: null,
         id: uuid.v4(),
@@ -384,13 +418,13 @@ const Resolvers = {
       ctx.questionnaire.metadata.push(newMetadata);
       return newMetadata;
     }),
-    updateMetadata: withWritePermission((_, { input }, ctx) => {
+    updateMetadata: createMutation((_, { input }, ctx) => {
       const original = find(ctx.questionnaire.metadata, { id: input.id });
       const result = updateMetadata(original, input);
       merge(original, result);
       return result;
     }),
-    deleteMetadata: withWritePermission((_, { input }, ctx) => {
+    deleteMetadata: createMutation((_, { input }, ctx) => {
       const deletedMetadata = first(
         remove(ctx.questionnaire.metadata, {
           id: input.id,
@@ -398,7 +432,7 @@ const Resolvers = {
       );
       return deletedMetadata;
     }),
-    createQuestionConfirmation: withWritePermission((_, { input }, ctx) => {
+    createQuestionConfirmation: createMutation((_, { input }, ctx) => {
       const section = getSectionByPageId(ctx, input.pageId);
       const page = find(section.pages, { id: input.pageId });
       const questionConfirmation = {
@@ -413,7 +447,7 @@ const Resolvers = {
         ...questionConfirmation,
       };
     }),
-    updateQuestionConfirmation: withWritePermission(
+    updateQuestionConfirmation: createMutation(
       (_, { input: { positive, negative, id, title } }, ctx) => {
         const newValues = {
           title,
@@ -441,7 +475,7 @@ const Resolvers = {
         };
       }
     ),
-    deleteQuestionConfirmation: withWritePermission((_, { input }, ctx) => {
+    deleteQuestionConfirmation: createMutation((_, { input }, ctx) => {
       const pages = getPages(ctx);
 
       let confirmationPage;
@@ -506,11 +540,6 @@ const Resolvers = {
     id: destination => destination.logicalDestination,
   },
 
-  ValidationErrorInfo: {
-    errors: errorInfo => errorInfo,
-    totalCount: errorInfo => errorInfo.length,
-  },
-
   Answer: {
     __resolveType: ({ type }) => {
       if (includes(["Checkbox", "Radio"], type)) {
@@ -544,11 +573,11 @@ const Resolvers = {
     secondaryLabelDefault: answer =>
       getName({ label: answer.secondaryLabel }, "BasicAnswer"),
 
-    validationErrorInfo: (answer, args, ctx) => {
-      return ctx.validationErrorInfo.filter(
-        errorInfo => errorInfo.id === answer.id && errorInfo.type === ANSWERS
-      );
-    },
+    validationErrorInfo: (answer, args, ctx) =>
+      ctx.validationErrorInfo[ANSWERS][answer.id] || {
+        errors: [],
+        totalCount: 0,
+      },
   },
 
   MultipleChoiceAnswer: {
@@ -578,11 +607,11 @@ const Resolvers = {
     },
     displayName: option => getName(option, "Option"),
     additionalAnswer: option => option.additionalAnswer,
-    validationErrorInfo: (option, args, ctx) => {
-      return ctx.validationErrorInfo.filter(
-        errorInfo => errorInfo.id === option.id && errorInfo.type === OPTIONS
-      );
-    },
+    validationErrorInfo: (option, args, ctx) =>
+      ctx.validationErrorInfo[OPTIONS][option.id] || {
+        errors: [],
+        totalCount: 0,
+      },
   },
 
   ValidationType: {

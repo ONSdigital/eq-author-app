@@ -17,7 +17,7 @@ const {
   PERCENTAGE,
 } = require("../../../constants/answerTypes");
 
-const { withWritePermission } = require("../withWritePermission");
+const { createMutation } = require("../createMutation");
 const { getPageById, getAnswerById, getSectionByPageId } = require("../utils");
 
 const createCalculatedSummary = (input = {}) => ({
@@ -84,7 +84,7 @@ Resolvers.CalculatedSummaryPage = {
 };
 
 Resolvers.Mutation = {
-  createCalculatedSummaryPage: withWritePermission(
+  createCalculatedSummaryPage: createMutation(
     (root, { input: { position, sectionId } }, ctx) => {
       const section = find(ctx.questionnaire.sections, {
         id: sectionId,
@@ -96,7 +96,7 @@ Resolvers.Mutation = {
       return page;
     }
   ),
-  updateCalculatedSummaryPage: withWritePermission((_, { input }, ctx) => {
+  updateCalculatedSummaryPage: createMutation((_, { input }, ctx) => {
     const page = getPageById(ctx, input.id);
     let currentSelectedAnswerType;
     if (get(page, "summaryAnswers", []).length > 0) {
