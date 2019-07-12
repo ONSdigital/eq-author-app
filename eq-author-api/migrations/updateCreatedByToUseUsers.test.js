@@ -1,11 +1,8 @@
 const { cloneDeep } = require("lodash");
 const uuid = require("uuid");
 
-const {
-  updateCreatedByToUseUsers,
-  getUserByName,
-  getUserByEmail,
-} = require("./updateCreatedByToUseUsers.js");
+const updateCreatedByToUseUsers = require("./updateCreatedByToUseUsers.js");
+const { getUserByName, getUserByEmail } = updateCreatedByToUseUsers;
 
 const { createUser } = require("../utils/datastore");
 const { AUTHOR_TEAM_NAME } = require("../constants/authorTeamUser");

@@ -1,51 +1,79 @@
+/* eslint-disable no-console */
+const { R_OK } = require("fs").constants;
 const fs = require("fs").promises;
 const chalk = require("chalk");
 const { camelCase } = require("lodash");
 
-if (process.argv.length < 3) {
-  /* eslint-disable-next-line no-console */
-  console.error(
-    chalk.red(
-      "Not enough arguments provided to createMigration. Maybe the migration name is missing? Please refer to README."
-    )
-  );
-  process.exit(1);
-}
+const MIGRATIONS_INDEX_PATH = "migrations/index.js";
 
-const name = camelCase(process.argv[2]);
-const filename = `${name}.js`;
-const template = `//This is an auto-generated file.  Do NOT modify the method signature.
+(async () => {
+  if (process.argv.length < 3) {
+    console.error(
+      chalk.red(
+        "Not enough arguments provided to createMigration. Maybe the migration name is missing? Please refer to README."
+      )
+    );
+    process.exit(1);
+  }
 
-module.exports = function ${name}(questionnaire) {
-  /**
-    [Insert migration here]
-   **/
-  return questionnaire;
-};
-`;
+  const name = camelCase(process.argv[2]);
+  const filename = `${name}.js`;
+  const filePath = `migrations/${filename}`;
 
-const testTemplate = `const { cloneDeep } = require("lodash");
-const ${name} = require("./${filename}");
+  let fileExists;
+  try {
+    await fs.access(filePath, R_OK);
+    fileExists = true;
+  } catch (e) {
+    fileExists = false;
+  }
 
-describe("${name}", () => {
-  // This test must remain for your migration to always work
-  it("should be deterministic", () => {
-    const questionnaire = {}; // Fill in the structure of the questionnaire here
-    expect(${name}(cloneDeep(questionnaire))).toEqual(${name}(cloneDeep(questionnaire)));
+  if (fileExists) {
+    console.error(
+      chalk.red(`A migration with the name "${name}" already exists.`)
+    );
+    process.exit(1);
+  }
+
+  const template = `//This is an auto-generated file.  Do NOT modify the method signature.
+  
+  module.exports = function ${name}(questionnaire) {
+    /**
+      [Insert migration here]
+     **/
+    return questionnaire;
+  };
+  `;
+
+  const testTemplate = `const { cloneDeep } = require("lodash");
+  const ${name} = require("./${filename}");
+  
+  describe("${name}", () => {
+    // This test must remain for your migration to always work
+    it("should be deterministic", () => {
+      const questionnaire = {}; // Fill in the structure of the questionnaire here
+      expect(${name}(cloneDeep(questionnaire))).toEqual(${name}(cloneDeep(questionnaire)));
+    });
+  
+    it.todo("should...");
   });
+  
+  `;
 
-  it.todo("should...");
+  await fs.writeFile(filePath, template);
+  await fs.writeFile(`migrations/${name}.test.js`, testTemplate);
+
+  const currentMigrationList = await fs.readFile(MIGRATIONS_INDEX_PATH, "utf8");
+  const updatedMigrationList = currentMigrationList.replace(
+    /];/,
+    `  require('./${name}'),
+];`
+  );
+
+  await fs.writeFile(MIGRATIONS_INDEX_PATH, updatedMigrationList);
+
+  console.info(chalk.green(`${name} migration successfully created`));
+})().catch(e => {
+  console.error(chalk.red(e));
+  process.exit(1);
 });
-
-`;
-
-fs.writeFile(`migrations/${filename}`, template);
-
-fs.writeFile(`migrations/${name}.test.js`, testTemplate);
-
-/* eslint-disable-next-line no-console */
-console.info(
-  chalk.green(
-    `${name} migration successfully created. Remember to add this to 'migrations/index.js'`
-  )
-);

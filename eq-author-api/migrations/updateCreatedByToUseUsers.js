@@ -47,4 +47,6 @@ const updateCreatedByToUseUsers = async questionnaire => {
   return questionnaire;
 };
 
-module.exports = { getUserByEmail, getUserByName, updateCreatedByToUseUsers };
+module.exports = updateCreatedByToUseUsers;
+module.exports.getUserByEmail = getUserByEmail;
+module.exports.getUserByName = getUserByName;
