@@ -4,6 +4,13 @@ const updateRoutingRuleMutation = `
       mutation updateRoutingRule2($input: UpdateRoutingRule2Input!) {
         updateRoutingRule2(input: $input) {
           id
+          destination {
+            id
+            page {
+              id
+            }
+            logical
+          }
           expressionGroup {
             id
             expressions {

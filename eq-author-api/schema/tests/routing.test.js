@@ -15,7 +15,10 @@ const {
   updateLeftSideMutation,
 } = require("../../tests/utils/contextBuilder/routing");
 
-const { queryPage } = require("../../tests/utils/contextBuilder/page");
+const {
+  queryPage,
+  deletePage,
+} = require("../../tests/utils/contextBuilder/page");
 
 describe("routing", () => {
   describe("A Routing", () => {
@@ -636,6 +639,84 @@ describe("routing", () => {
       expect(
         result.routing.rules[0].expressionGroup.expressions[0].right.options
       ).toMatchObject([{ id: options[0].id }, { id: options[2].id }]);
+    });
+  });
+
+  describe("on Page Deleted", () => {
+    const sections = [
+      {
+        id: "section1",
+        pages: [
+          {
+            title: "page1",
+            answers: [
+              {
+                type: RADIO,
+              },
+            ],
+            routing: {
+              rules: [
+                {
+                  destination: { section: 0, page: 1 },
+                  expressionGroup: { expressions: [{}] },
+                },
+                {
+                  destination: { section: 0, page: 2 },
+                  expressionGroup: { expressions: [{}] },
+                },
+              ],
+            },
+          },
+          {
+            title: "page2",
+            answers: [
+              {
+                type: RADIO,
+              },
+            ],
+          },
+          {
+            title: "page3",
+            answers: [
+              {
+                type: RADIO,
+              },
+            ],
+          },
+        ],
+      },
+    ];
+
+    it("should remove references to questionnaire if deleted page is a rule destination", async () => {
+      const ctx = await buildContext({ sections });
+
+      const { questionnaire } = ctx;
+      let firstPage = questionnaire.sections[0].pages[0];
+      const secondPage = questionnaire.sections[0].pages[1];
+      const thirdPage = questionnaire.sections[0].pages[2];
+
+      // Check both rules exist
+      expect(firstPage.routing.rules[0].destination.pageId).toEqual(
+        secondPage.id
+      );
+      expect(firstPage.routing.rules[1].destination.pageId).toEqual(
+        thirdPage.id
+      );
+
+      await deletePage(ctx, thirdPage.id);
+      firstPage = ctx.questionnaire.sections[0].pages[0];
+
+      // Only rule to exist after deletion of third page
+      expect(firstPage.routing.rules).toHaveLength(1);
+      expect(firstPage.routing.rules[0].destination.pageId).toEqual(
+        secondPage.id
+      );
+      firstPage = ctx.questionnaire.sections[0].pages[0];
+
+      await deletePage(ctx, secondPage.id);
+
+      // No routing after deletion of second page
+      expect(firstPage.routing).toBeNull();
     });
   });
 });

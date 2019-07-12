@@ -1,6 +1,9 @@
 const { find, findIndex, remove, omit, set, first } = require("lodash");
 
 const { getSectionByPageId, remapAllNestedIds } = require("../utils");
+
+const onPageDeleted = require("../../../src/businessLogic/onPageDeleted");
+
 const { createMutation } = require("../createMutation");
 
 const addPrefix = require("../../../utils/addPrefix");
@@ -33,6 +36,7 @@ Resolvers.Mutation = {
   deletePage: createMutation((_, { input }, ctx) => {
     const section = getSectionByPageId(ctx, input.id);
     remove(section.pages, { id: input.id });
+    onPageDeleted(ctx, input.id);
     return section;
   }),
 
