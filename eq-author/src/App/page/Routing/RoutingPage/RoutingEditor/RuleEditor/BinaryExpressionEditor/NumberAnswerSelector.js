@@ -43,8 +43,14 @@ class NumberAnswerSelector extends React.Component {
     onConditionChange: PropTypes.func.isRequired,
   };
 
-  handleRightChange = ({ value }) => {
-    this.props.onRightChange({ customValue: { number: value } });
+  state = {
+    number: get(this.props.expression, "right.number", null),
+  };
+
+  handleRightChange = ({ value }) => this.setState(() => ({ number: value }));
+
+  handleRightBlur = () => {
+    this.props.onRightChange({ customValue: { number: this.state.number } });
   };
 
   handleConditionChange = ({ value }) => {
@@ -83,9 +89,10 @@ class NumberAnswerSelector extends React.Component {
             min={-99999999}
             max={999999999}
             placeholder="Value"
-            value={get(expression, "right.number", null)}
+            value={this.state.number}
             name={`expression-right-${expression.id}`}
             onChange={this.handleRightChange}
+            onBlur={this.handleRightBlur}
             data-test="number-value-input"
             type={expression.left.type}
           />

@@ -54,6 +54,7 @@ describe("NumberAnswerSelector", () => {
     const wrapper = shallow(<NumberAnswerSelector {...defaultProps} />);
 
     wrapper.find(Number).simulate("change", { value: 123 });
+    wrapper.find(Number).simulate("blur");
     expect(defaultProps.onRightChange).toHaveBeenCalledWith({
       customValue: { number: 123 },
     });
