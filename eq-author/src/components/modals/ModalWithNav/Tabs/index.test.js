@@ -1,6 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
-import Tabs from "components/modals/ModalWithNav/Tabs";
+import Tabs from "./";
 
 describe("Modal Content", () => {
   describe("Tabs", () => {

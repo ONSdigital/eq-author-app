@@ -1,10 +1,7 @@
 import React from "react";
 import { kebabCase, get, startCase } from "lodash";
 import CustomPropTypes from "custom-prop-types";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
 
-import { gotoTab } from "redux/tabs/actions";
 import ModalWithNav from "components/modals/ModalWithNav";
 import { unitConversion } from "constants/unit-types";
 import SidebarButton, { Title, Detail } from "components/buttons/SidebarButton";
@@ -131,8 +128,9 @@ const validations = [
   {}
 );
 
-export class UnconnectedAnswerValidation extends React.Component {
+class AnswerValidation extends React.Component {
   state = {
+    startingTabId: null,
     modalIsOpen: false,
   };
 
@@ -148,8 +146,7 @@ export class UnconnectedAnswerValidation extends React.Component {
       key={id}
       data-test={`sidebar-button-${kebabCase(title)}`}
       onClick={() => {
-        this.props.gotoTab(this.modalId, id);
-        this.setState({ modalIsOpen: true });
+        this.setState({ modalIsOpen: true, startingTabId: id });
       }}
     >
       <Title>{title}</Title>
@@ -187,22 +184,15 @@ export class UnconnectedAnswerValidation extends React.Component {
           navItems={validValidationTypes}
           title={`${startCase(answer.type)} validation`}
           isOpen={this.state.modalIsOpen}
+          startingTabId={this.state.startingTabId}
         />
       </ValidationContext.Provider>
     );
   }
 }
 
-UnconnectedAnswerValidation.propTypes = {
+AnswerValidation.propTypes = {
   answer: CustomPropTypes.answer,
-  gotoTab: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = state => ({
-  tabsState: state.tabs,
-});
-
-export default connect(
-  mapStateToProps,
-  { gotoTab }
-)(UnconnectedAnswerValidation);
+export default AnswerValidation;

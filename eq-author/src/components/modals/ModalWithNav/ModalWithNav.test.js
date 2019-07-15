@@ -1,6 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
-import { UnconnectedModalWithNav } from "components/modals/ModalWithNav";
+import { UnconnectedModalWithNav } from "./";
 
 const NAV_ITEMS = [
   {
