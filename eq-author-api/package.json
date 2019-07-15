@@ -37,7 +37,6 @@
     "ioredis": "latest",
     "jaeger-client": "^3.15.0",
     "js-yaml": "latest",
-    "json-stable-stringify": "latest",
     "json-web-key": "latest",
     "jsondiffpatch": "latest",
     "jsonwebtoken": "latest",
