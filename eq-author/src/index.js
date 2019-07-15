@@ -60,7 +60,7 @@ const history = createHistory();
 const httpLink = createHttpLink(config.REACT_APP_API_URL);
 let wsUri;
 if (config.REACT_APP_API_URL.startsWith("http")) {
-  wsUri = config.REACT_APP_API_URL.replace(/http[s]?:\/\//, "ws://");
+  wsUri = config.REACT_APP_API_URL.replace(/http([s])?:\/\//, "ws$1://");
 } else {
   const loc = window.location;
   const protocol = loc.protocol === "https:" ? "wss" : "ws";
