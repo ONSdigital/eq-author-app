@@ -1,4 +1,4 @@
-# 1. Investigate TypeScript / Flow
+# 5. Investigate TypeScript / Flow
 
 Date: 20/09/2017
 
