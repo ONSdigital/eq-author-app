@@ -8,13 +8,10 @@ import SidebarButton, {
   Detail as SidebarButtonDetail,
 } from "components/buttons/SidebarButton";
 import ModalWithNav from "components/modals/ModalWithNav";
-import {
-  UnconnectedAnswerValidation,
-  validationTypes,
-} from "./AnswerValidation";
+import AnswerValidation, { validationTypes } from "./AnswerValidation";
 
 const render = (props, render = shallow) => {
-  return render(<UnconnectedAnswerValidation {...props} />);
+  return render(<AnswerValidation {...props} />);
 };
 
 describe("AnswerValidation", () => {
@@ -34,7 +31,6 @@ describe("AnswerValidation", () => {
           },
         },
       },
-      gotoTab: jest.fn(),
     };
   });
 
