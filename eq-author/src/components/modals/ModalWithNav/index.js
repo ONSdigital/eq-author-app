@@ -14,7 +14,7 @@ const Dialog = styled(Modal)`
   }
 `;
 
-export const ModalWithNav = ({
+const ModalWithNav = ({
   title,
   onClose,
   navItems,
