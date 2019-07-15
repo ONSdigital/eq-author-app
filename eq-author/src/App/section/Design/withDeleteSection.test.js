@@ -6,7 +6,7 @@ import {
 import fragment from "graphql/questionnaireFragment.graphql";
 
 describe("withDeleteSection", () => {
-  let history, mutate, result, ownProps, onAddSection, raiseToast;
+  let history, mutate, result, ownProps, onAddSection, showToast;
   let deletedPage, currentPage, currentSection, questionnaire;
 
   beforeEach(() => {
@@ -48,7 +48,7 @@ describe("withDeleteSection", () => {
     };
 
     onAddSection = jest.fn();
-    raiseToast = jest.fn(() => Promise.resolve());
+    showToast = jest.fn();
 
     ownProps = {
       questionnaire,
@@ -61,7 +61,7 @@ describe("withDeleteSection", () => {
       },
       history,
       onAddSection,
-      raiseToast,
+      showToast,
       client: {
         readFragment: jest.fn(() => questionnaire),
       },
@@ -113,15 +113,10 @@ describe("withDeleteSection", () => {
         });
       });
 
-      it("should raise a toast after invoking onDeleteSection", () => {
+      it("should show a toast after invoking onDeleteSection", () => {
         return props.onDeleteSection(currentSection.id).then(() => {
-          expect(raiseToast).toHaveBeenCalledWith(
-            `Section${currentSection.id}`,
-            expect.stringContaining("Section"),
-            expect.objectContaining({
-              questionnaireId: questionnaire.id,
-              sectionId: currentSection.id,
-            })
+          expect(showToast).toHaveBeenCalledWith(
+            expect.stringContaining("Section")
           );
         });
       });
@@ -131,13 +126,8 @@ describe("withDeleteSection", () => {
         currentSection.pages = [currentPage];
 
         return props.onDeleteSection(currentSection.id).then(() => {
-          expect(raiseToast).toHaveBeenCalledWith(
-            `Section${currentSection.id}`,
-            expect.stringContaining("1 page"),
-            expect.objectContaining({
-              questionnaireId: questionnaire.id,
-              sectionId: currentSection.id,
-            })
+          expect(showToast).toHaveBeenCalledWith(
+            expect.stringContaining("1 page")
           );
 
           currentSection.pages = pages;
@@ -146,13 +136,8 @@ describe("withDeleteSection", () => {
 
       it("should pluralize the number of deleted pages in toast", () => {
         return props.onDeleteSection(currentSection.id).then(() => {
-          expect(raiseToast).toHaveBeenCalledWith(
-            `Section${currentSection.id}`,
-            expect.stringContaining("2 pages"),
-            expect.objectContaining({
-              questionnaireId: questionnaire.id,
-              sectionId: currentSection.id,
-            })
+          expect(showToast).toHaveBeenCalledWith(
+            expect.stringContaining("2 pages")
           );
         });
       });

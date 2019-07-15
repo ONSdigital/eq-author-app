@@ -1,29 +1,26 @@
 import React from "react";
 import { shallow } from "enzyme";
-import { ToastArea } from "./";
+import ToastContainer from ".";
 
 describe("Toastcontainer", () => {
   let props;
 
   const createWrapper = (props, render = shallow) => {
-    return render(<ToastArea {...props} />);
+    return render(<ToastContainer {...props} />);
   };
 
   beforeEach(() => {
-    const dismissToast = jest.fn();
+    const onDismissToast = jest.fn();
 
     props = {
       id: "Toast_1",
-      toasts: {
-        toast1: {
+      toasts: [
+        {
+          id: 1,
           message: "Hello world",
-          context: {
-            sectionId: 1,
-            pageId: 1,
-          },
         },
-      },
-      dismissToast,
+      ],
+      onDismissToast,
     };
   });
 

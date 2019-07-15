@@ -4,7 +4,7 @@ exports[`CalculatedSummaryPageEditor should render 1`] = `
 <div
   data-test="calculated-summary-page-editor"
 >
-  <Apollo(Apollo(Apollo(PageHeader)))
+  <Apollo(withShowToast(Apollo(Apollo(PageHeader))))
     alertText="All changes to this page will be lost."
     fetchAnswers={[MockFunction]}
     isDuplicateDisabled={true}

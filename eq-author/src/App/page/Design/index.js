@@ -5,9 +5,6 @@ import CustomPropTypes from "custom-prop-types";
 import PropTypes from "prop-types";
 import { get, flowRight, isEmpty } from "lodash";
 import { propType } from "graphql-anywhere";
-import { connect } from "react-redux";
-
-import { raiseToast } from "redux/toast/actions";
 
 import Loading from "components/Loading";
 import Error from "components/Error";
@@ -102,10 +99,6 @@ export class UnwrappedPageRoute extends React.Component {
 }
 
 const WrappedPageRoute = flowRight(
-  connect(
-    null,
-    { raiseToast }
-  ),
   withApollo,
   withCreateQuestionPage,
   withFetchAnswers

@@ -1,9 +1,9 @@
 import React from "react";
 import { shallow } from "enzyme";
 
-import Transition from "components/Forms/Toast/Transition";
+import Transition from "./Transition";
 
-describe("components/Toast/Transition", () => {
+describe("Toast Transition", () => {
   it("should render", () => {
     expect(
       shallow(

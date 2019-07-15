@@ -12,6 +12,7 @@ import { Provider, connect } from "react-redux";
 import { isSignedIn } from "redux/auth/reducer";
 import PrivateRoute from "components/PrivateRoute";
 import RedirectRoute from "components/RedirectRoute";
+import Toasts from "components/Toasts";
 import { Routes as RoutePaths } from "utils/UrlUtils";
 
 import QuestionnairesPage from "./QuestionnairesPage";
@@ -23,30 +24,32 @@ import ErrorBoundary from "./ErrorBoundary";
 export const Routes = ({ isSignedIn, ...otherProps }) => (
   <Router {...otherProps}>
     <ErrorBoundary>
-      <Switch>
-        <Route path={RoutePaths.SIGN_IN} component={SignInPage} exact />
-        <PrivateRoute
-          path={RoutePaths.HOME}
-          component={QuestionnairesPage}
-          isSignedIn={isSignedIn}
-          exact
-        />
-        <RedirectRoute
-          from="/questionnaire/:questionnaireId/design/:sectionId/:pageId"
-          to={"/q/:questionnaireId/page/:pageId/design"}
-        />
-        <RedirectRoute
-          from="/questionnaire/:questionnaireId/design/:sectionId"
-          to={"/q/:questionnaireId/section/:sectionId/design"}
-        />
-        <PrivateRoute
-          path={RoutePaths.QUESTIONNAIRE}
-          exact={false}
-          component={QuestionnaireDesignPage}
-          isSignedIn={isSignedIn}
-        />
-        <Route path="*" component={NotFoundPage} exact />
-      </Switch>
+      <Toasts>
+        <Switch>
+          <Route path={RoutePaths.SIGN_IN} component={SignInPage} exact />
+          <PrivateRoute
+            path={RoutePaths.HOME}
+            component={QuestionnairesPage}
+            isSignedIn={isSignedIn}
+            exact
+          />
+          <RedirectRoute
+            from="/questionnaire/:questionnaireId/design/:sectionId/:pageId"
+            to={"/q/:questionnaireId/page/:pageId/design"}
+          />
+          <RedirectRoute
+            from="/questionnaire/:questionnaireId/design/:sectionId"
+            to={"/q/:questionnaireId/section/:sectionId/design"}
+          />
+          <PrivateRoute
+            path={RoutePaths.QUESTIONNAIRE}
+            exact={false}
+            component={QuestionnaireDesignPage}
+            isSignedIn={isSignedIn}
+          />
+          <Route path="*" component={NotFoundPage} exact />
+        </Switch>
+      </Toasts>
     </ErrorBoundary>
   </Router>
 );

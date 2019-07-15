@@ -1,8 +1,7 @@
 import { graphql } from "react-apollo";
 import { remove, flowRight } from "lodash";
-import { connect } from "react-redux";
 
-import { raiseToast } from "redux/toast/actions";
+import { withShowToast } from "components/Toasts";
 import deleteQuestionnaire from "graphql/deleteQuestionnaire.graphql";
 import getQuestionnaireList from "graphql/getQuestionnaireList.graphql";
 
@@ -26,18 +25,12 @@ export const mapMutateToProps = ({ ownProps, mutate }) => ({
     });
 
     return mutation
-      .then(() => displayToast(ownProps, questionnaireId))
+      .then(() => {
+        ownProps.showToast("Questionnaire deleted");
+      })
       .then(() => mutation);
   },
 });
-
-export const displayToast = (ownProps, questionnaireId) => {
-  ownProps.raiseToast(
-    `Questionnaire${questionnaireId}`,
-    "Questionnaire deleted",
-    { questionnaireId }
-  );
-};
 
 export const handleUpdate = (proxy, { data: { deleteQuestionnaire } }) => {
   const data = proxy.readQuery({ query: getQuestionnaireList });
@@ -46,10 +39,7 @@ export const handleUpdate = (proxy, { data: { deleteQuestionnaire } }) => {
 };
 
 export default flowRight(
-  connect(
-    null,
-    { raiseToast }
-  ),
+  withShowToast,
   graphql(deleteQuestionnaire, {
     props: mapMutateToProps,
     options: {

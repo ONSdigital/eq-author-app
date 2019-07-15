@@ -2,7 +2,7 @@ import { mapMutateToProps, handleUpdate } from "./withDeleteQuestionnaire";
 import getQuestionnaireList from "graphql/getQuestionnaireList.graphql";
 
 describe("withDeleteQuestionnaire", () => {
-  let mutate, result, ownProps, onAddPage, raiseToast;
+  let mutate, result, ownProps, onAddPage, showToast;
   let questionnaire;
 
   beforeEach(() => {
@@ -16,12 +16,12 @@ describe("withDeleteQuestionnaire", () => {
       },
     };
 
-    raiseToast = jest.fn(() => Promise.resolve());
+    showToast = jest.fn(() => Promise.resolve());
 
     ownProps = {
       questionnaireId: questionnaire.id,
       onAddPage,
-      raiseToast,
+      showToast,
     };
 
     mutate = jest.fn(() => Promise.resolve(result));
@@ -111,14 +111,10 @@ describe("withDeleteQuestionnaire", () => {
         });
       });
 
-      it("should raise a toast after invking onDeleteQuestionnaire", () => {
+      it("should show a toast after invking onDeleteQuestionnaire", () => {
         return props.onDeleteQuestionnaire(questionnaireId).then(() => {
-          expect(raiseToast).toHaveBeenCalledWith(
-            `Questionnaire${questionnaireId}`,
-            expect.stringContaining("Questionnaire"),
-            expect.objectContaining({
-              questionnaireId,
-            })
+          expect(showToast).toHaveBeenCalledWith(
+            expect.stringContaining("Questionnaire")
           );
         });
       });

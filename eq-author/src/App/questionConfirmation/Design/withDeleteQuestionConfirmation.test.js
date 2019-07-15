@@ -26,7 +26,7 @@ describe("withDeleteQuestionConfirmation", () => {
           tab: "design",
         },
       },
-      raiseToast: jest.fn(),
+      showToast: jest.fn(),
     };
   });
 
@@ -83,9 +83,6 @@ describe("withDeleteQuestionConfirmation", () => {
       mutate,
       ownProps,
     }).onDeleteQuestionConfirmation(questionConfirmation);
-    expect(ownProps.raiseToast).toHaveBeenCalledWith(
-      `QuestionConfirmation${confirmationId}`,
-      "Confirmation deleted"
-    );
+    expect(ownProps.showToast).toHaveBeenCalledWith("Confirmation deleted");
   });
 });

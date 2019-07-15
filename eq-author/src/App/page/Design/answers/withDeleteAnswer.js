@@ -1,12 +1,7 @@
 import { graphql } from "react-apollo";
+import { flowRight } from "lodash";
 import deleteAnswerMutation from "graphql/deleteAnswer.graphql";
-
-export const displayToast = (ownProps, pageId, answerId) => {
-  ownProps.raiseToast(`Answer${answerId}`, "Answer deleted", {
-    pageId,
-    answerId,
-  });
-};
+import { withShowToast } from "components/Toasts";
 
 export const mapMutateToProps = ({ ownProps, mutate }) => ({
   onDeleteAnswer(pageId, answerId) {
@@ -14,10 +9,13 @@ export const mapMutateToProps = ({ ownProps, mutate }) => ({
 
     return mutate({
       variables: { input: answer },
-    }).then(() => displayToast(ownProps, pageId, answerId));
+    }).then(() => ownProps.showToast("Answer deleted"));
   },
 });
 
-export default graphql(deleteAnswerMutation, {
-  props: mapMutateToProps,
-});
+export default flowRight(
+  withShowToast,
+  graphql(deleteAnswerMutation, {
+    props: mapMutateToProps,
+  })
+);

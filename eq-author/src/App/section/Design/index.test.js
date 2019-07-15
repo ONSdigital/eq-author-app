@@ -136,6 +136,9 @@ describe("SectionRoute", () => {
 
   beforeEach(() => {
     childContextTypes = { router: PropTypes.object };
+    const toasts = document.createElement("div");
+    toasts.setAttribute("id", "toast");
+    document.body.appendChild(toasts);
 
     match = {
       params: { questionnaireId, sectionId },

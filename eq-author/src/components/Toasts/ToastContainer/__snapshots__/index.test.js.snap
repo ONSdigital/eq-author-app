@@ -1,15 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Toastcontainer should render 1`] = `
-<ToastContainer__ToastWrapper>
-  <ToastContainer__ToastOuterContainer>
-    <ToastContainer__ToastInnerContainer>
+<ToastContainer__Wrapper>
+  <ToastContainer__OuterContainer>
+    <ToastContainer__InnerContainer>
       <ToastContainer
         transition={[Function]}
       >
         <Toast
-          id="toast1"
-          key="toast1"
+          id={1}
+          key="1"
           onClose={[MockFunction]}
           timeout={5000}
         >
@@ -18,7 +18,7 @@ exports[`Toastcontainer should render 1`] = `
           </ToastContainer__StyledDiv>
         </Toast>
       </ToastContainer>
-    </ToastContainer__ToastInnerContainer>
-  </ToastContainer__ToastOuterContainer>
-</ToastContainer__ToastWrapper>
+    </ToastContainer__InnerContainer>
+  </ToastContainer__OuterContainer>
+</ToastContainer__Wrapper>
 `;
