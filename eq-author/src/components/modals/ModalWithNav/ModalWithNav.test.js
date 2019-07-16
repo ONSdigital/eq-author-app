@@ -69,7 +69,7 @@ describe("ModalWithNav", () => {
 
   it("should not render anything when isOpen is false", () => {
     const { queryByText } = render(<ModalWithNav {...props} isOpen={false} />);
-    expect(queryByText("Tellus Dollor")).toBeFalsy();
+    expect(queryByText(props.navItems[0].title)).toBeFalsy();
   });
 
   it("should render a list of items", () => {
