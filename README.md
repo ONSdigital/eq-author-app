@@ -6,16 +6,16 @@
 
 [![Build Status](https://travis-ci.com/ONSdigital/eq-author-app.svg?branch=master)](https://travis-ci.com/ONSdigital/eq-author-app)
 [![codecov](https://codecov.io/gh/ONSdigital/eq-author-app/branch/master/graph/badge.svg)](https://codecov.io/gh/ONSdigital/eq-author-app)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/f9cbc9e5c531436ca73ee0769a766678)](https://www.codacy.com/app/ONSDigital/eq-author-app)
-![Snyk Vulnerabilities for GitHub Repo](https://img.shields.io/snyk/vulnerabilities/github/ONSDigital/eq-author-app.svg)
+[![Codacy](https://api.codacy.com/project/badge/Grade/f9cbc9e5c531436ca73ee0769a766678)](https://www.codacy.com/app/ONSDigital/eq-author-app)
+![Snyk](https://img.shields.io/snyk/vulnerabilities/github/ONSDigital/eq-author-app.svg)
 
-![GitHub](https://img.shields.io/github/license/ONSDigital/eq-author-app.svg)
+![MIT license](https://img.shields.io/github/license/ONSDigital/eq-author-app.svg)
 ![GitHub repo size](https://img.shields.io/github/repo-size/ONSDigital/eq-author-app.svg)
 ![GitHub release](https://img.shields.io/github/release/onsdigital/eq-author-app.svg)
 
-Author is an application for building questionnaires that run on the [Survey Runner](https://github.com/ONSDigital/eq-survey-runner) platform.
-
 </div>
+
+Author is an application for building questionnaires that run on the [Survey Runner](https://github.com/ONSDigital/eq-survey-runner) platform.
 
 The project is composed of three components:
 
