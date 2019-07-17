@@ -2,16 +2,16 @@
 
 ## Prerequisites
 
-- Install [Node](https://nodejs.org/en/) using `nvm install` in each component folder.
-- Install [Yarn](https://yarnpkg.com/en/)
-- Google Chrome
+- Install [Node.js](https://nodejs.org/en/) version 10 or later.
+- Install [Node Version Manager](https://github.com/nvm-sh/nvm/blob/master/README.md)
+- Install [Yarn Dependency Manager](https://yarnpkg.com/en/docs/install)
+- Install [Google Chrome](https://www.google.com/chrome/)
+- Install [Docker](https://docs.docker.com/install/) with [Docker Compose](https://docs.docker.com/compose/install/)
 
-## Authentication
+## Setting up Authentication
 
-Follow this guide to set up [Authentication](AUTHENTICATION.md)
+Follow [this guide](AUTHENTICATION.md) to set up authentication.
 
-## Install Dependencies
+## Installing Dependencies
 
-Just run `yarn` to install all dependencies.
-
-Follow this guide for more information on installing dependencies [Yarn Guide](https://yarnpkg.com/en/docs/installing-dependencies)
+Follow [this Yarn guide](https://yarnpkg.com/en/docs/installing-dependencies) for more information on installing dependencies.

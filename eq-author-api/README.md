@@ -3,20 +3,26 @@
 A GraphQL based API for the [eq-author](https://github.com/ONSdigital/eq-author)
 application.
 
-## Installation
+## Running
 
-### Configuration
+### Running with Docker Compose
 
-Environment variables can be used to configure various aspects of the API.
-In most cases sensible defaults have been selected.
+> The `docker-compose` configuration should ensure that all required environment variables are set up correctly so there should be no need to manually configure the environment variables when running with docker compose.
 
-> **Tip**
->
-> If you decide to run the Author API directly using `yarn` you will need to
-> ensure that the environment variables listed below are configured appropriately.
->
-> The `docker-compose` configuration should ensure that all required environment variables are set up correctly so there
-> should be no need to manually configure the environment variables when [running with docker compose](#run-using-docker).
+To build and run the Author GraphQL API inside a docker container, ensure that
+Docker is installed for your platform, navigate to the project directory, then run:
+
+```bash
+docker-compose up --build
+```
+
+The `--build` flag is only required on the first run.
+
+Changes to the application should hot reload via `nodemon`.
+
+### Running with Yarn
+
+> If you decide to run the Author API directly using `yarn` you will need to ensure that the environment variables listed below are configured appropriately.
 
 ## Environment Variables
 
@@ -24,7 +30,7 @@ In most cases sensible defaults have been selected.
 | ----------------------- | ---------------------------------------------------------------------------------- | -------- |
 | `RUNNER_SESSION_URL`    | Authentication URL for survey runner                                               | Yes      |
 | `PUBLISHER_URL`         | URL that produces valid survey runner JSON                                         | Yes      |
-| `FIREBASE_PROJECT_ID`   | Your Firebase App Id                                                               | Yes      |
+| `FIREBASE_PROJECT_ID`   | The project ID for your Firebase project.                                          | Yes      |
 | `SECRETS_S3_BUCKET`     | Name of S3 bucket where secrets are stored                                         | No       |
 | `KEYS_FILE`             | Name of the keys file to use inside the bucket                                     | No       |
 | `AUTH_HEADER_KEY`       | Name of the header values that contains the Auth token                             | No       |
@@ -33,52 +39,54 @@ In most cases sensible defaults have been selected.
 | `NODE_ENV`              | Sets the environment the code is running in                                        | No       |
 | `ENABLE_IMPORT`         | When enabled it exposes a post endpoint for importing questionnaires               | No       |
 
-## Run using Docker
+## Running tests
 
-To build and run the Author GraphQL API inside a docker container, ensure that
-Docker is installed for your platform, navigate to the project directory, then run:
+`yarn test` will start a single run of unit and integration tests.
 
-Build the docker image (1st time run):
+`yarn test --watch` will start unit and integration tests in watch mode.
 
+## Querying pages
+
+There is no concrete `Page` type in the GraphQL schema. Instead we use a `Page` interface, which other types implement e.g. `QuestionPage` and `InterstitialPage`.
+
+To query all pages, and request different fields depending on the type, use [inline fragments](https://graphql.org/learn/queries/#inline-fragments):
+
+```gql
+query {
+  getQuestionnaire(id: 1) {
+    questionnaire {
+      sections {
+        pages {
+          id
+
+          # inline fragment for `QuestionPage` type
+          ... on QuestionPage {
+            guidance
+            answers {
+              id
+              label
+            }
+          }
+
+          # For purposes of example only. `InterstitialPage` doesn't exist yet
+          ... on InterstitialPage {
+            # doesn't exist yet
+            someField
+          }
+        }
+      }
+    }
+  }
+}
 ```
-docker-compose build
-```
 
-```
-docker-compose up
-```
-
-Changes to the application should hot reload via `nodemon`.
-
-## Migrations
-
-`runQuestionnaireMigrations` middleware is responsible for updating the schema version and running any necessary migrations.
+## Creating a new migration
 
 - `yarn create-migration [name]` will create a new migration in the `/migrations` directory.
 - Add the created migration to the bottom of the `migrations/index.js` array.
 - `runQuestionnaireMigrations` will execute necessary migrations on every request providing the schema has not already been migrated.
 
-## DynamoDB
-
-### Running DynamoDB GUI locally
-
-To run DynamoDB GUI locally, ensure that you are in the eq-author-api folder and then run:
-
-```
-yarn dynamodb-admin
-```
-
-Then open <http://localhost:8001/> in the web browser to access the database GUI.
-
-### AWS CLI
-
-To set up AWS access you first need to install [AWS Command Line Interface](https://aws.amazon.com/cli/).
-
-Then follow the [instructions for setting up the CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html).
-
-For available commands, see [reference for CLI](https://docs.aws.amazon.com/cli/latest/index.html).
-
-## Import/Export
+## Import/Export Questionnaires
 
 It is possible to retrieve the full questionnaire data by making a `GET` request to `/export/:questionnaireId`
 
@@ -91,16 +99,16 @@ Instrumenting the GraphQL API is useful for troubleshooting errors and to help i
 
 The Author GraphQL API can be instrumented using [opentracing](https://opentracing.io) via the [apollo-opentracing](https://www.npmjs.com/package/apollo-opentracing) package.
 
-To enable instrumentation and to allow request tracing set the environment variable `ENABLE_OPENTRACING=true`. For convenience the [docker-compose-with-tracing.yml](docker-compose.yml) configuration that has been pre-configured to instrument the API, produce tracing metrics using Prometheus and collect the tracing output using [Jaeger](https://www.npmjs.com/package/jaeger-client).
+To enable instrumentation and to allow request tracing set the environment variable `ENABLE_OPENTRACING=true`. For convenience the [docker-compose.yml](docker-compose.yml) configuration that has been pre-configured to instrument the API, produce tracing metrics using [Prometheus](https://prometheus.io/) and collect the tracing output using [Jaeger](https://www.npmjs.com/package/jaeger-client).
 
 This configuration is only intended for local development and should not be used for production.
 
 To run the author API with instrumentation and request tracing enabled, simply run:
 
-```
+```bash
 docker-compose up
 ```
 
 Once running, the trace metrics and spans can be viewed by browsing to the Jaeger UI which is exposed on port `16686`.
 
-[http://localhost:16686](http://0.0.0.0:16686)
+<http://localhost:16686>
