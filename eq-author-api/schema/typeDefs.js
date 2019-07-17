@@ -54,6 +54,7 @@ type Questionnaire {
   editors: [User!]!
   permission: Permission!
   isPublic: Boolean!
+  totalErrorCount: Int!
 }
 
 type DeletedQuestionnaire {

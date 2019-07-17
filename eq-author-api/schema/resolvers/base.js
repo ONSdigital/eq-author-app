@@ -514,6 +514,8 @@ const Resolvers = {
       }
       return "Read";
     },
+    totalErrorCount: (questionnaire, args, ctx) =>
+      ctx.validationErrorInfo.totalCount,
   },
 
   User: {

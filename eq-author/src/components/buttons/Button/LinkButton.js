@@ -4,6 +4,7 @@ import Button from "./";
 import { propTypes } from "./propTypes";
 
 const StyledLink = Button.withComponent("a");
+const DisabledLink = Button.withComponent("div");
 
 class LinkButton extends React.Component {
   static propTypes = {
@@ -12,8 +13,12 @@ class LinkButton extends React.Component {
   };
 
   render() {
-    const { children, href, ...otherProps } = this.props;
-    return (
+    const { children, href, disabled, ...otherProps } = this.props;
+    return disabled ? (
+      <DisabledLink disabled {...otherProps}>
+        {children}
+      </DisabledLink>
+    ) : (
       <StyledLink
         {...otherProps}
         href={href}
