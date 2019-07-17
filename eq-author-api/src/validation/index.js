@@ -6,7 +6,7 @@ const { ANSWERS } = require("../../constants/validationErrorTypes");
 
 const ajv = new Ajv({ allErrors: true, jsonPointers: true, $data: true });
 require("ajv-errors")(ajv);
-require("./customKeywords/uniquePropertyValueInArrayOfObjects")(ajv);
+require("./customKeywords")(ajv);
 
 const validate = ajv.addSchema(schemas.slice(1)).compile(schemas[0]);
 
@@ -26,6 +26,7 @@ module.exports = questionnaire => {
       answers: {},
       pages: {},
       options: {},
+      sections: {},
       totalCount: 0,
     };
   }
@@ -95,6 +96,7 @@ module.exports = questionnaire => {
         answers: {},
         pages: {},
         options: {},
+        sections: {},
         totalCount: errorMessages.length,
       }
     );

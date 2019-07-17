@@ -71,4 +71,42 @@ describe("schema validation", () => {
       type: "answers",
     });
   });
+
+  describe("Section validation", () => {
+    it("should return an error when navigation is enabled but there is no section title", () => {
+      questionnaire.navigation = true;
+      const section = questionnaire.sections[0];
+      section.title = "";
+
+      const validationErrors = validation(questionnaire);
+      const sectionErrors = validationErrors.sections[section.id].errors;
+      expect(sectionErrors).toHaveLength(1);
+      expect(sectionErrors[0]).toMatchObject({
+        errorCode: "ERR_REQUIRED_WHEN_SETTING",
+        field: "title",
+        id: section.id,
+        type: "sections",
+      });
+    });
+
+    it("should NOT return an error when navigation is disabled but there is no section title", () => {
+      questionnaire.navigation = false;
+      const section = questionnaire.sections[0];
+      section.title = "";
+
+      const validationErrors = validation(questionnaire);
+      const sectionErrors = validationErrors.sections[section.id];
+      expect(sectionErrors).toBeUndefined();
+    });
+
+    it("should NOT return an error when navigation is enabled and there is a title", () => {
+      questionnaire.navigation = true;
+      const section = questionnaire.sections[0];
+      section.title = "Section title";
+
+      const validationErrors = validation(questionnaire);
+      const sectionErrors = validationErrors.sections[section.id];
+      expect(sectionErrors).toBeUndefined();
+    });
+  });
 });

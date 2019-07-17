@@ -189,4 +189,28 @@ describe("section", () => {
       expect(deletedSection).toBeNull();
     });
   });
+
+  describe("author validation", () => {
+    it("should validate the section and return the errors", async () => {
+      ctx = await buildContext({
+        sections: [
+          {
+            title: "",
+          },
+        ],
+        navigation: true,
+      });
+
+      questionnaire = ctx.questionnaire;
+      const section = questionnaire.sections[0];
+
+      const queriedSection = await querySection(ctx, section.id);
+
+      expect(queriedSection.validationErrorInfo).toMatchObject({
+        totalCount: 1,
+        errors: expect.any(Array),
+      });
+      expect(queriedSection.validationErrorInfo.errors).toHaveLength(1);
+    });
+  });
 });

@@ -73,6 +73,7 @@ type Section {
   introductionContent: String
   availablePipingAnswers: [Answer!]!
   availablePipingMetadata: [Metadata!]!
+  validationErrorInfo: ValidationErrorInfo
 }
 
 interface Page {

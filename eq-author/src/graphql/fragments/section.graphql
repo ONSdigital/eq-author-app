@@ -8,4 +8,13 @@ fragment Section on Section {
     id
     navigation
   }
+  validationErrorInfo {
+    errors {
+      id
+      type
+      field
+      errorCode
+    }
+    totalCount
+  }
 }

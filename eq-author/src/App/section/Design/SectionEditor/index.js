@@ -12,6 +12,8 @@ import { Label } from "components/Forms";
 
 import { colors, radius } from "constants/theme";
 
+import withValidationError from "enhancers/withValidationError";
+
 import sectionFragment from "graphql/fragments/section.graphql";
 
 import getIdForObject from "utils/getIdForObject";
@@ -41,7 +43,7 @@ const IntroCanvas = styled.div`
 
 const hasNavigation = section => get(section, ["questionnaire", "navigation"]);
 
-class SectionEditor extends React.Component {
+export class SectionEditor extends React.Component {
   static propTypes = {
     section: propType(sectionFragment),
     onChange: PropTypes.func.isRequired,
@@ -53,6 +55,7 @@ class SectionEditor extends React.Component {
     showMoveSectionDialog: PropTypes.bool.isRequired,
     onCloseMoveSectionDialog: PropTypes.func.isRequired,
     match: CustomPropTypes.match,
+    getValidationError: PropTypes.func.isRequired,
   };
 
   state = {
@@ -139,6 +142,11 @@ class SectionEditor extends React.Component {
               size="large"
               testSelector="txt-section-title"
               autoFocus={autoFocusTitle}
+              errorValidationMsg={this.props.getValidationError({
+                field: "title",
+                message:
+                  "Enter a section title. If section navigation is not required, disable in 'settings'.",
+              })}
             />
           )}
           <Label>
@@ -184,4 +192,4 @@ SectionEditor.fragments = {
   Section: sectionFragment,
 };
 
-export default SectionEditor;
+export default withValidationError("section")(SectionEditor);

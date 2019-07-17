@@ -1,3 +1,5 @@
+#import "./fragments/validationErrorInfo.graphql"
+
 mutation UpdateSection($input: UpdateSectionInput!) {
   updateSection(input: $input) {
     id
@@ -6,5 +8,8 @@ mutation UpdateSection($input: UpdateSectionInput!) {
     displayName
     introductionTitle
     introductionContent
+    validationErrorInfo {
+      ...ValidationErrorInfo
+    }
   }
 }
