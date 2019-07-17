@@ -1,14 +1,11 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { connect } from "react-redux";
-
-import { gotoTab } from "redux/tabs/actions";
 
 import Modal from "components/modals/Modal";
 import { Grid } from "components/Grid";
 
-import Tabs from "components/modals/ModalWithNav/Tabs";
+import Tabs from "./Tabs";
 
 const Dialog = styled(Modal)`
   .Modal {
@@ -17,36 +14,39 @@ const Dialog = styled(Modal)`
   }
 `;
 
-export const UnconnectedModalWithNav = ({
+const ModalWithNav = ({
   title,
   onClose,
   navItems,
-  activeTabId,
-  gotoTab,
   isOpen,
-  id,
+  startingTabId,
   ...otherProps
-}) => (
-  <Dialog onClose={onClose} isOpen={isOpen} {...otherProps}>
-    <Grid fillHeight>
-      <Tabs
-        activeTabId={activeTabId}
-        onChange={tabId => gotoTab(id, tabId)}
-        onClose={onClose}
-        navItems={navItems}
-        title={title}
-      />
-    </Grid>
-  </Dialog>
-);
+}) => {
+  const [activeTabId, setActiveTabId] = useState(startingTabId);
+  useEffect(() => {
+    setActiveTabId(startingTabId);
+  }, [startingTabId]);
 
-UnconnectedModalWithNav.propTypes = {
-  id: PropTypes.string.isRequired,
+  return (
+    <Dialog onClose={onClose} isOpen={isOpen} {...otherProps}>
+      <Grid fillHeight>
+        <Tabs
+          activeTabId={activeTabId}
+          onChange={setActiveTabId}
+          onClose={onClose}
+          navItems={navItems}
+          title={title}
+        />
+      </Grid>
+    </Dialog>
+  );
+};
+
+ModalWithNav.propTypes = {
+  startingTabId: PropTypes.string,
   title: PropTypes.string,
   isOpen: PropTypes.bool,
   onClose: PropTypes.func.isRequired,
-  gotoTab: PropTypes.func.isRequired,
-  activeTabId: PropTypes.string,
   navItems: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,
@@ -56,15 +56,8 @@ UnconnectedModalWithNav.propTypes = {
   ),
 };
 
-UnconnectedModalWithNav.defaultProps = {
+ModalWithNav.defaultProps = {
   isOpen: false,
 };
 
-const mapStateToProps = (state, ownProps) => ({
-  activeTabId: state.tabs[ownProps.id],
-});
-
-export default connect(
-  mapStateToProps,
-  { gotoTab }
-)(UnconnectedModalWithNav);
+export default ModalWithNav;

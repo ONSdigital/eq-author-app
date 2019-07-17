@@ -87,7 +87,7 @@ exports[`AnswerValidation should render 1`] = `
       Max Value
     </SidebarButton__Title>
   </SidebarButton>
-  <Connect(UnconnectedModalWithNav)
+  <ModalWithNav
     id="modal-validation-1"
     isOpen={false}
     navItems={
@@ -119,6 +119,7 @@ exports[`AnswerValidation should render 1`] = `
       ]
     }
     onClose={[Function]}
+    startingTabId={null}
     title="Number validation"
   />
 </ContextProvider>

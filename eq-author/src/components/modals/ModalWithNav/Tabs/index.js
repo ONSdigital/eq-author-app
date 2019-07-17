@@ -5,8 +5,8 @@ import PropTypes from "prop-types";
 import BaseTabs from "components/BaseTabs";
 import { colors } from "constants/theme";
 
-import ContentWrapper from "components/modals/ModalWithNav/Tabs/ContentWrapper";
-import TabList from "components/modals/ModalWithNav/Tabs/TabList";
+import ContentWrapper from "./ContentWrapper";
+import TabList from "./TabList";
 
 const TabsItem = styled.li`
   margin: 0;

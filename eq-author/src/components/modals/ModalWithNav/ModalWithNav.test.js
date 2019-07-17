@@ -1,6 +1,6 @@
 import React from "react";
-import { shallow } from "enzyme";
-import { UnconnectedModalWithNav } from "components/modals/ModalWithNav";
+import { render, fireEvent } from "tests/utils/rtl";
+import ModalWithNav from "./";
 
 const NAV_ITEMS = [
   {
@@ -55,37 +55,57 @@ const NAV_ITEMS = [
 ];
 
 describe("ModalWithNav", () => {
-  let wrapper, props;
+  let props;
 
   beforeEach(() => {
     props = {
-      id: "TEST_MODAL",
       title: "I am a title",
       onClose: jest.fn(),
-      gotoTab: jest.fn(),
+      startingTabId: "tab-1",
+      isOpen: true,
       navItems: NAV_ITEMS,
     };
   });
 
-  it("should render a list of items", () => {
-    wrapper = shallow(<UnconnectedModalWithNav {...props} />);
-    expect(wrapper).toMatchSnapshot();
+  it("should not render anything when isOpen is false", () => {
+    const { queryByText } = render(<ModalWithNav {...props} isOpen={false} />);
+    expect(queryByText(props.navItems[0].title)).toBeFalsy();
   });
 
-  it("should render an open Modals", () => {
-    wrapper = shallow(<UnconnectedModalWithNav {...props} isOpen />);
-    expect(wrapper).toMatchSnapshot();
+  it("should render a list of items", () => {
+    const { getAllByText } = render(<ModalWithNav {...props} />);
+
+    props.navItems.forEach(({ title }) => {
+      expect(getAllByText(title)).toBeTruthy();
+    });
+  });
+
+  it("should render the starting tab by default", () => {
+    const { getByText } = render(<ModalWithNav {...props} />);
+    expect(getByText(/Sed posuere/)).toBeTruthy();
+  });
+
+  it("should render the tab when the starting tab changes", () => {
+    const { rerender, getByText } = render(
+      <ModalWithNav {...props} startingTabId="tab-1" />
+    );
+    expect(getByText(/Sed posuere/)).toBeTruthy();
+
+    rerender(<ModalWithNav {...props} startingTabId="tab-2" />);
+    expect(getByText(/Praesent commodo/)).toBeTruthy();
+  });
+
+  it("should change the tab when the item is selected", () => {
+    const { getByText } = render(
+      <ModalWithNav {...props} startingTabId="tab-1" />
+    );
+    fireEvent.click(getByText("Euismod Ridiculus Parturient"));
+    expect(getByText(/Praesent commodo/)).toBeTruthy();
   });
 
   it("should close when close is pressed in tabs", () => {
-    wrapper = shallow(<UnconnectedModalWithNav {...props} />);
-    wrapper.find("Tabs").simulate("close");
+    const { getByLabelText } = render(<ModalWithNav {...props} />);
+    fireEvent.click(getByLabelText("Close"));
     expect(props.onClose).toHaveBeenCalled();
-  });
-
-  it("should call gotoTab with the id of the tab and the new id when changed", () => {
-    wrapper = shallow(<UnconnectedModalWithNav {...props} />);
-    wrapper.find("Tabs").simulate("change", 1);
-    expect(props.gotoTab).toHaveBeenCalledWith(props.id, 1);
   });
 });
