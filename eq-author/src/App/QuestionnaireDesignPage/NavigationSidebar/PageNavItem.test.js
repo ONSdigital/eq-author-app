@@ -73,4 +73,12 @@ describe("PageNavItem", () => {
       errorCount: 0,
     });
   });
+
+  it("should render no validations when the page has no validation info", () => {
+    props.page.validationErrorInfo = null;
+    const wrapper = shallow(<UnwrappedPageNavItem {...props} />);
+    expect(wrapper.find(NavLink).props()).toMatchObject({
+      errorCount: 0,
+    });
+  });
 });
