@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/Toast/Transition should render 1`] = `
+exports[`Toast Transition should render 1`] = `
 .c0 {
   -webkit-transition-property: -webkit-transform,opacity;
   -webkit-transition-property: transform,opacity;

@@ -2,13 +2,10 @@ import React from "react";
 import { omit } from "lodash";
 import { render, fireEvent } from "tests/utils/rtl";
 import flushPromises from "tests/utils/flushPromises";
-import { raiseToast } from "redux/toast/actions";
 
 import SharingModal, { ALL_USERS_QUERY } from "./";
 import { ADD_REMOVE_EDITOR_MUTATION } from "./withAddRemoveEditor";
 import { WRITE } from "constants/questionnaire-permissions";
-
-jest.mock("redux/toast/actions");
 
 describe("Sharing Modal", () => {
   let props;
@@ -82,10 +79,7 @@ describe("Sharing Modal", () => {
       new RegExp(`/launch/${props.questionnaire.id}$`)
     );
 
-    expect(raiseToast).toHaveBeenCalledWith(
-      expect.any(String),
-      "Link copied to clipboard"
-    );
+    expect(getByText("Link copied to clipboard")).toBeTruthy();
     document.execCommand = originalExecCommand;
   });
 

@@ -8,7 +8,6 @@ import flushPromises from "tests/utils/flushPromises";
 import QuestionnaireContext from "components/QuestionnaireContext";
 import Header, { CURRENT_USER_QUERY } from "./";
 
-jest.mock("redux/toast/actions");
 jest.mock("redux/auth/actions");
 
 describe("Header", () => {

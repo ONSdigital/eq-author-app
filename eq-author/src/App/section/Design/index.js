@@ -1,6 +1,5 @@
 import React from "react";
 import { withApollo, Query } from "react-apollo";
-import { connect } from "react-redux";
 import gql from "graphql-tag";
 import CustomPropTypes from "custom-prop-types";
 import PropTypes from "prop-types";
@@ -34,7 +33,6 @@ import withEntityEditor from "components/withEntityEditor";
 import withPropRenamed from "enhancers/withPropRenamed";
 import sectionFragment from "graphql/fragments/section.graphql";
 
-import { raiseToast } from "redux/toast/actions";
 import AliasEditor from "components/AliasEditor";
 
 export class UnwrappedSectionRoute extends React.Component {
@@ -195,10 +193,6 @@ export class UnwrappedSectionRoute extends React.Component {
 }
 
 const withSectionEditing = flowRight(
-  connect(
-    null,
-    { raiseToast }
-  ),
   withApollo,
   withCreateSection,
   withDuplicateSection,

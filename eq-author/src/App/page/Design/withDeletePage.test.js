@@ -1,7 +1,7 @@
 import { mapMutateToProps } from "./withDeletePage";
 
 describe("withDeletePage", () => {
-  let history, mutate, result, ownProps, onAddQuestionPage, raiseToast;
+  let history, mutate, result, ownProps, onAddQuestionPage, showToast;
   let deletedPage, currentPage, sectionId, questionnaireId, beforeDeleteSection;
 
   beforeEach(() => {
@@ -40,7 +40,7 @@ describe("withDeletePage", () => {
     };
 
     onAddQuestionPage = jest.fn(() => Promise.resolve());
-    raiseToast = jest.fn(() => Promise.resolve());
+    showToast = jest.fn();
 
     ownProps = {
       client: {
@@ -55,7 +55,7 @@ describe("withDeletePage", () => {
       },
       history,
       onAddQuestionPage,
-      raiseToast,
+      showToast,
     };
 
     mutate = jest.fn(() => Promise.resolve(result));
@@ -85,15 +85,10 @@ describe("withDeletePage", () => {
         });
       });
 
-      it("should raise a toast message upon deletion of page", () => {
+      it("should show a toast message upon deletion of page", () => {
         return props.onDeletePage(deletedPage).then(() => {
-          expect(raiseToast).toHaveBeenCalledWith(
-            `Page${deletedPage.id}`,
-            expect.stringContaining("Page"),
-            expect.objectContaining({
-              sectionId: deletedPage.section.id,
-              pageId: deletedPage.id,
-            })
+          expect(showToast).toHaveBeenCalledWith(
+            expect.stringContaining("Page")
           );
         });
       });

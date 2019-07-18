@@ -1,7 +1,7 @@
 import { mapMutateToProps } from "./withDeleteAnswer";
 
 describe("containers/QuestionnaireDesignPage/withDeleteAnswer", () => {
-  let mutate, raiseToast, ownProps;
+  let mutate, showToast, ownProps;
   let deletedAnswer, currentPage;
 
   beforeEach(() => {
@@ -13,10 +13,10 @@ describe("containers/QuestionnaireDesignPage/withDeleteAnswer", () => {
       id: "1",
     };
 
-    raiseToast = jest.fn(() => Promise.resolve());
+    showToast = jest.fn();
 
     ownProps = {
-      raiseToast,
+      showToast,
     };
 
     mutate = jest.fn(() => Promise.resolve());
@@ -45,17 +45,9 @@ describe("containers/QuestionnaireDesignPage/withDeleteAnswer", () => {
       });
     });
 
-    it("should raise a toast after onDeleteAnswer is invoked", () => {
-      return props.onDeleteAnswer(currentPage.id, deletedAnswer.id).then(() => {
-        expect(raiseToast).toHaveBeenCalledWith(
-          `Answer${deletedAnswer.id}`,
-          expect.stringContaining("Answer"),
-          expect.objectContaining({
-            pageId: currentPage.id,
-            answerId: deletedAnswer.id,
-          })
-        );
-      });
+    it("should show a toast after onDeleteAnswer is invoked", async () => {
+      await props.onDeleteAnswer(currentPage.id, deletedAnswer.id);
+      expect(showToast).toHaveBeenCalledWith(expect.stringContaining("Answer"));
     });
   });
 });

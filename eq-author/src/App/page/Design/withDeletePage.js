@@ -1,4 +1,7 @@
 import { graphql } from "react-apollo";
+import { flowRight } from "lodash";
+
+import { withShowToast } from "components/Toasts";
 import deletePageMutation from "graphql/deletePage.graphql";
 import fragment from "graphql/sectionFragment.graphql";
 import getNextPage from "utils/getNextOnDelete";
@@ -33,13 +36,6 @@ const handleDeletion = (
   );
 };
 
-const displayToast = (ownProps, page) => {
-  ownProps.raiseToast(`Page${page.id}`, "Page deleted", {
-    sectionId: page.section.id,
-    pageId: page.id,
-  });
-};
-
 export const mapMutateToProps = ({ ownProps, mutate }) => ({
   onDeletePage(page) {
     const { client } = ownProps;
@@ -55,10 +51,13 @@ export const mapMutateToProps = ({ ownProps, mutate }) => ({
       .then(({ data: { deletePage: section } }) =>
         handleDeletion(ownProps, section, nextPage)
       )
-      .then(() => displayToast(ownProps, page));
+      .then(() => ownProps.showToast("Page deleted"));
   },
 });
 
-export default graphql(deletePageMutation, {
-  props: mapMutateToProps,
-});
+export default flowRight(
+  withShowToast,
+  graphql(deletePageMutation, {
+    props: mapMutateToProps,
+  })
+);

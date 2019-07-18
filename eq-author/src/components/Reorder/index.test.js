@@ -18,6 +18,10 @@ describe("Reorder", () => {
   });
 
   beforeEach(() => {
+    const toasts = document.createElement("div");
+    toasts.setAttribute("id", "toast");
+    document.body.appendChild(toasts);
+
     props = {
       list: [{ id: "1" }, { id: "2" }],
       onMove: jest.fn(),

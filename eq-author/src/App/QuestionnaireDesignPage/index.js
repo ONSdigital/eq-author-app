@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 import gql from "graphql-tag";
 import { Query, Subscription } from "react-apollo";
-import { connect } from "react-redux";
 import { Switch } from "react-router-dom";
 import { Titled } from "react-titled";
 import { Route, Redirect } from "react-router";
@@ -31,8 +30,6 @@ import introductionRoutes from "App/introduction";
 import withCreateQuestionPage from "enhancers/withCreateQuestionPage";
 import withCreateSection from "enhancers/withCreateSection";
 import withCreateCalculatedSummaryPage from "enhancers/withCreateCalculatedSummaryPage";
-
-import { raiseToast } from "redux/toast/actions";
 
 import withCreateQuestionConfirmation from "./withCreateQuestionConfirmation";
 import NavigationSidebar from "./NavigationSidebar";
@@ -233,10 +230,6 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
 }
 
 const withMutations = flowRight(
-  connect(
-    null,
-    { raiseToast }
-  ),
   withCreateSection,
   withCreateQuestionPage,
   withCreateQuestionConfirmation,

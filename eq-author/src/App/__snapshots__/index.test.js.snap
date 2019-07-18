@@ -24,38 +24,40 @@ exports[`containers/AppContainer Routes should render  1`] = `
   }
 >
   <ErrorBoundary>
-    <Switch>
-      <Route
-        component={[Function]}
-        exact={true}
-        path="/sign-in"
-      />
-      <PrivateRoute
-        component={[Function]}
-        exact={true}
-        isSignedIn={true}
-        path="/"
-      />
-      <RedirectRoute
-        from="/questionnaire/:questionnaireId/design/:sectionId/:pageId"
-        to="/q/:questionnaireId/page/:pageId/design"
-      />
-      <RedirectRoute
-        from="/questionnaire/:questionnaireId/design/:sectionId"
-        to="/q/:questionnaireId/section/:sectionId/design"
-      />
-      <PrivateRoute
-        component={[Function]}
-        exact={false}
-        isSignedIn={true}
-        path="/q/:questionnaireId/:entityName?/:entityId?/:tab?/:modifier?"
-      />
-      <Route
-        component={[Function]}
-        exact={true}
-        path="*"
-      />
-    </Switch>
+    <Toasts>
+      <Switch>
+        <Route
+          component={[Function]}
+          exact={true}
+          path="/sign-in"
+        />
+        <PrivateRoute
+          component={[Function]}
+          exact={true}
+          isSignedIn={true}
+          path="/"
+        />
+        <RedirectRoute
+          from="/questionnaire/:questionnaireId/design/:sectionId/:pageId"
+          to="/q/:questionnaireId/page/:pageId/design"
+        />
+        <RedirectRoute
+          from="/questionnaire/:questionnaireId/design/:sectionId"
+          to="/q/:questionnaireId/section/:sectionId/design"
+        />
+        <PrivateRoute
+          component={[Function]}
+          exact={false}
+          isSignedIn={true}
+          path="/q/:questionnaireId/:entityName?/:entityId?/:tab?/:modifier?"
+        />
+        <Route
+          component={[Function]}
+          exact={true}
+          path="*"
+        />
+      </Switch>
+    </Toasts>
   </ErrorBoundary>
 </Router>
 `;

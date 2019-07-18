@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { connect } from "react-redux";
 import { Query } from "react-apollo";
 import PropTypes from "prop-types";
 import gql from "graphql-tag";
@@ -8,8 +7,7 @@ import { flowRight } from "lodash";
 import { propType } from "graphql-anywhere";
 import { withRouter } from "react-router-dom";
 
-import { raiseToast } from "redux/toast/actions";
-
+import { withShowToast } from "components/Toasts";
 import DialogHeader from "components/Dialog/DialogHeader";
 import { Message, Heading } from "components/Dialog/DialogMessage";
 import { Label, Field } from "components/Forms";
@@ -102,7 +100,7 @@ const SharingModal = ({
   togglePublic,
   questionnaire,
   previewUrl,
-  raiseToast,
+  showToast,
   loading,
   data,
   currentUser,
@@ -117,7 +115,7 @@ const SharingModal = ({
     textField.select();
     document.execCommand("copy");
     textField.remove();
-    raiseToast("ShareToast", "Link copied to clipboard");
+    showToast("Link copied to clipboard");
   };
   const existingEditors = [owner, ...editors];
 
@@ -201,7 +199,7 @@ SharingModal.propTypes = {
     editors: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
   }).isRequired,
   previewUrl: PropTypes.string.isRequired,
-  raiseToast: PropTypes.func.isRequired,
+  showToast: PropTypes.func.isRequired,
   loading: PropTypes.bool,
   data: PropTypes.shape({
     users: PropTypes.arrayOf(propType(UserSearch.fragment)),
@@ -249,8 +247,5 @@ export default flowRight([
   withAllUsers,
   withAddRemoveEditor,
   withTogglePublic,
-  connect(
-    null,
-    { raiseToast }
-  ),
+  withShowToast,
 ])(SharingModal);

@@ -3,9 +3,8 @@ import gql from "graphql-tag";
 import { flowRight, partial } from "lodash";
 import { graphql } from "react-apollo";
 import { withRouter } from "react-router-dom";
-import { connect } from "react-redux";
 
-import { raiseToast } from "redux/toast/actions";
+import { withShowToast } from "components/Toasts";
 import { buildPagePath } from "utils/UrlUtils";
 
 import updateMutation from "graphql/questionConfirmation/delete.graphql";
@@ -30,13 +29,6 @@ export const redirectToParentPage = (
   );
 };
 
-export const displayToast = ({ raiseToast }, questionConfirmation) => {
-  raiseToast(
-    `QuestionConfirmation${questionConfirmation.id}`,
-    "Confirmation deleted"
-  );
-};
-
 export const mapMutateToProps = ({ ownProps, mutate }) => ({
   onDeleteQuestionConfirmation: questionConfirmation =>
     mutate({
@@ -45,15 +37,12 @@ export const mapMutateToProps = ({ ownProps, mutate }) => ({
       },
     })
       .then(() => redirectToParentPage(ownProps, questionConfirmation))
-      .then(() => displayToast(ownProps, questionConfirmation)),
+      .then(() => ownProps.showToast("Confirmation deleted")),
 });
 
 export default flowRight(
   withRouter,
-  connect(
-    null,
-    { raiseToast }
-  ),
+  withShowToast,
   graphql(updateMutation, {
     props: mapMutateToProps,
   })

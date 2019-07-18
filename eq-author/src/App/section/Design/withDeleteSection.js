@@ -1,10 +1,14 @@
 import { graphql } from "react-apollo";
+import { remove, find, flowRight } from "lodash";
+import gql from "graphql-tag";
+
+import { withShowToast } from "components/Toasts";
+
 import deleteSectionMutation from "graphql/deleteSection.graphql";
-import { remove, find } from "lodash";
 import fragment from "graphql/questionnaireFragment.graphql";
+
 import getNextSection from "utils/getNextOnDelete";
 import { buildPagePath } from "utils/UrlUtils";
-import gql from "graphql-tag";
 
 const questionnaireFragment = gql`
   fragment DeleteSectionFragment on Questionnaire {
@@ -71,22 +75,15 @@ export const displayToast = (ownProps, questionnaire) => {
   const {
     match: { params },
   } = ownProps;
-  const { sectionId, questionnaireId } = params;
-
   const numberOfDeletedPages = find(questionnaire.sections, {
     id: params.sectionId,
   }).pages.length;
 
-  ownProps.raiseToast(
-    `Section${sectionId}`,
+  ownProps.showToast(
     `Section + ${numberOfDeletedPages} ${pluralize(
       numberOfDeletedPages,
       "page"
-    )} deleted`,
-    {
-      questionnaireId,
-      sectionId,
-    }
+    )} deleted`
   );
 };
 
@@ -116,6 +113,9 @@ export const mapMutateToProps = ({ ownProps, mutate }) => ({
   },
 });
 
-export default graphql(deleteSectionMutation, {
-  props: mapMutateToProps,
-});
+export default flowRight(
+  withShowToast,
+  graphql(deleteSectionMutation, {
+    props: mapMutateToProps,
+  })
+);

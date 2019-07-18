@@ -2,11 +2,12 @@ import React from "react";
 import PropTypes from "prop-types";
 import { MockedProvider } from "react-apollo/test-utils";
 import { Provider } from "react-redux";
+import Toasts from "components/Toasts";
 
 const TestProvider = ({ reduxProps, apolloProps, children }) => (
   <Provider store={reduxProps.store}>
     <MockedProvider mocks={apolloProps.mocks} addTypename>
-      {children}
+      <Toasts>{children}</Toasts>
     </MockedProvider>
   </Provider>
 );
