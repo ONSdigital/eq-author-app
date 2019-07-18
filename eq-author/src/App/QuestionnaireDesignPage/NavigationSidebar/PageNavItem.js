@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { withRouter } from "react-router-dom";
 import CustomPropTypes from "custom-prop-types";
 import gql from "graphql-tag";
-import { flowRight } from "lodash";
+import { flowRight, get } from "lodash";
 
 import { buildPagePath } from "utils/UrlUtils";
 import { withValidations } from "components/ValidationsContext";
@@ -35,7 +35,7 @@ export const UnwrappedPageNavItem = ({
   validations,
   ...otherProps
 }) => {
-  let errorCount = page.validationErrorInfo.totalCount;
+  let errorCount = get(page, "validationErrorInfo.totalCount", 0);
   if (validations) {
     const pageErrors = validations.pages.find(
       validations => validations.id === page.id
