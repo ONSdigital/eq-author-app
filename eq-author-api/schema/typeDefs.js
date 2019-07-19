@@ -1014,6 +1014,6 @@ type QuestionnaireValidation {
 }
 
 type Subscription {
-  validationUpdated(id: ID!): QuestionnaireValidation!
+  validationUpdated(id: ID!): Questionnaire!
 }
 `;

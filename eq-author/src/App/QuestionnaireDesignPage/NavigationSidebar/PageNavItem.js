@@ -36,12 +36,12 @@ export const UnwrappedPageNavItem = ({
   ...otherProps
 }) => {
   let errorCount = get(page, "validationErrorInfo.totalCount", 0);
-  if (validations) {
-    const pageErrors = validations.pages.find(
-      validations => validations.id === page.id
-    );
-    errorCount = pageErrors ? pageErrors.errorCount : 0;
-  }
+  // if (validations) {
+  //   const pageErrors = validations.pages.find(
+  //     validations => validations.id === page.id
+  //   );
+  //   errorCount = pageErrors ? pageErrors.errorCount : 0;
+  // }
   return (
     <StyledPageItem data-test="page-item" {...otherProps}>
       <NavLink
@@ -97,6 +97,6 @@ UnwrappedPageNavItem.propTypes = {
 };
 
 export default flowRight(
-  withRouter,
-  withValidations
+  withRouter
+  // withValidations
 )(UnwrappedPageNavItem);

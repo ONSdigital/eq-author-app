@@ -301,10 +301,16 @@ const VALIDATION_QUERY = gql`
   subscription Validation($id: ID!) {
     validationUpdated(id: $id) {
       id
-      errorCount
-      pages {
+      sections {
         id
-        errorCount
+        pages {
+          id
+          ... on QuestionPage {
+            validationErrorInfo {
+              totalCount
+            }
+          }
+        }
       }
     }
   }

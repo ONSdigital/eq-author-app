@@ -157,17 +157,10 @@ const Resolvers = {
 
   Subscription: {
     validationUpdated: {
-      resolve: ({ questionnaire, validationErrorInfo }) => {
-        const pages = Object.keys(validationErrorInfo.pages).map(id => ({
-          id,
-          errorCount: validationErrorInfo.pages[id].totalCount,
-        }));
-        return {
-          id: questionnaire.id,
-          errorCount: validationErrorInfo.totalCount,
-          pages,
-          sections: [],
-        };
+      resolve: ({ questionnaire, validationErrorInfo }, stuff, ctx) => {
+        ctx.questionnaire = questionnaire;
+        ctx.validationErrorInfo = validationErrorInfo;
+        return questionnaire;
       },
       subscribe: withFilter(
         () => pubsub.asyncIterator(["validationUpdated"]),
