@@ -15,7 +15,7 @@
   "dependencies": {
     "ajv": "latest",
     "ajv-errors": "latest",
-    "apollo-opentracing": "^1.2.4",
+    "apollo-opentracing": "latest",
     "apollo-server-express": "latest",
     "body-parser": "latest",
     "chalk": "latest",
@@ -35,7 +35,7 @@
     "graphql-type-json": "latest",
     "helmet": "latest",
     "ioredis": "latest",
-    "jaeger-client": "^3.15.0",
+    "jaeger-client": "latest",
     "js-yaml": "latest",
     "json-web-key": "latest",
     "jsondiffpatch": "latest",
@@ -45,7 +45,7 @@
     "node-fetch": "latest",
     "node-jose": "latest",
     "pino-noir": "latest",
-    "prom-client": "^11.3.0",
+    "prom-client": "latest",
     "uuid": "latest",
     "wait-on": "latest"
   },
