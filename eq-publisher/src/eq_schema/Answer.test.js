@@ -744,7 +744,7 @@ describe("Answer", () => {
       );
 
       answer.options.forEach(option => {
-        expect(option.hasOwnProperty("child_answer_id")).toBe(false);
+        expect(option).not.toHaveProperty("child_answer_id");
       });
     });
 
