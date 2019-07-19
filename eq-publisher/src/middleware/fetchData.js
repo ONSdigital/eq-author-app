@@ -1,8 +1,4 @@
-const { get } = require("lodash");
-
-const setQuestionnaire = async (res, questionnaire) => {
-  res.locals.questionnaire = questionnaire;
-};
+const { get, set } = require("lodash");
 
 const fetchData = getQuestionnaire => async (req, res, next) => {
   let result;
@@ -25,7 +21,7 @@ const fetchData = getQuestionnaire => async (req, res, next) => {
     });
   }
 
-  await setQuestionnaire(res, questionnaire);
+  set(res, "locals.questionnaire", questionnaire);
   return next();
 };
 
