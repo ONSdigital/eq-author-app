@@ -157,7 +157,7 @@ const Resolvers = {
 
   Subscription: {
     validationUpdated: {
-      resolve: ({ questionnaire, validationErrorInfo }, stuff, ctx) => {
+      resolve: ({ questionnaire, validationErrorInfo }, args, ctx) => {
         ctx.questionnaire = questionnaire;
         ctx.validationErrorInfo = validationErrorInfo;
         return questionnaire;
