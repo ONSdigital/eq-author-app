@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import { flowRight } from "lodash";
+import { flowRight, get } from "lodash";
 import { withRouter } from "react-router-dom";
 import gql from "graphql-tag";
 import { Query } from "react-apollo";
@@ -16,6 +16,7 @@ import LinkButton from "components/buttons/Button/LinkButton";
 import IconText from "components/IconText";
 import ButtonGroup from "components/buttons/ButtonGroup";
 import { withQuestionnaire } from "components/QuestionnaireContext";
+import { withValidations } from "components/ValidationsContext";
 import UserProfile from "components/UserProfile";
 
 import shareIcon from "./icon-share.svg?inline";
@@ -80,6 +81,9 @@ export class UnconnectedHeader extends React.Component {
       user: CustomPropTypes.user,
     }),
     loading: PropTypes.bool,
+    validations: PropTypes.shape({
+      errorCount: PropTypes.number.isRequired,
+    }),
   };
 
   handleShare = () => {
@@ -93,6 +97,7 @@ export class UnconnectedHeader extends React.Component {
   render() {
     const {
       questionnaire,
+      validations,
       title,
       children,
       data,
@@ -103,6 +108,11 @@ export class UnconnectedHeader extends React.Component {
     const previewUrl = `${config.REACT_APP_LAUNCH_URL}/${
       (questionnaire || {}).id
     }`;
+
+    const hasValidationError = () => {
+      const hasError = get(questionnaire, "totalErrorCount", true);
+      return validations ? validations.errorCount : hasError;
+    };
 
     return (
       <>
@@ -130,6 +140,7 @@ export class UnconnectedHeader extends React.Component {
                     variant="tertiary-light"
                     data-test="btn-preview"
                     small
+                    disabled={hasValidationError()}
                   >
                     <IconText icon={viewIcon}>View survey</IconText>
                   </LinkButton>
@@ -206,5 +217,6 @@ export const withCurrentUser = Component => props => (
 export default flowRight(
   withQuestionnaire,
   withRouter,
-  withCurrentUser
+  withCurrentUser,
+  withValidations
 )(UnconnectedHeader);

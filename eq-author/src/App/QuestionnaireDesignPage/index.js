@@ -242,6 +242,7 @@ const QUESTIONNAIRE_QUERY = gql`
       introduction {
         id
       }
+      totalErrorCount
       ...NavigationSidebar
     }
   }
@@ -257,6 +258,7 @@ export const withQuestionnaire = Component => {
           questionnaireId: props.match.params.questionnaireId,
         },
       }}
+      fetchPolicy="network-only"
       errorPolicy="all"
     >
       {innerProps => (

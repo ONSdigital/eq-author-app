@@ -1,6 +1,7 @@
 const { last, omit } = require("lodash");
 
 const { buildContext } = require("../../tests/utils/contextBuilder");
+const validateQuestionnaire = require("../../src/validation");
 
 const {
   queryQuestionnaire,
@@ -148,6 +149,7 @@ describe("Duplication", () => {
       duplicatedContext = {
         questionnaire: databaseCopy,
         user: ctx.user,
+        validationErrorInfo: validateQuestionnaire(ctx),
       };
 
       questionnaireCopy = await queryQuestionnaire(duplicatedContext);

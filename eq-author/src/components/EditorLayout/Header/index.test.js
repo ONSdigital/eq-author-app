@@ -16,6 +16,7 @@ describe("Header", () => {
     questionnaire = {
       id: "456",
       displayName: "Questionnaire of Awesomeness",
+      totalErrorCount: 0,
       createdBy: {
         id: "1",
         name: "Pinky Malinky",
@@ -92,14 +93,33 @@ describe("Header", () => {
     expect(getByText(questionnaire.displayName)).toBeTruthy();
   });
 
-  it("should show a link for previewing", () => {
-    const { getByText, getByTestId } = renderWithContext(<Header {...props} />);
+  describe("view survey button", () => {
+    it("should show a button for previewing questionnaire", () => {
+      const { getByText, getByTestId } = renderWithContext(
+        <Header {...props} />
+      );
 
-    const link = getByTestId("btn-preview");
-    expect(link.getAttribute("href")).toMatch(
-      new RegExp(`/launch/${questionnaire.id}$`)
-    );
-    expect(getByText("View survey")).toBeTruthy();
+      const viewSurveyButton = getByTestId("btn-preview");
+      expect(viewSurveyButton.getAttribute("href")).toMatch(
+        new RegExp(`/launch/${questionnaire.id}$`)
+      );
+      expect(getByText("View survey")).toBeTruthy();
+    });
+
+    it("should disable the view survey button when questionnaire is invalid", () => {
+      questionnaire.totalErrorCount = 1;
+      const { getByTestId } = renderWithContext(<Header {...props} />);
+
+      const viewSurveyButton = getByTestId("btn-preview");
+      expect(viewSurveyButton).toHaveAttribute("disabled");
+    });
+
+    it("should not disable the view survey button when questionnaire is valid", () => {
+      const { getByTestId } = renderWithContext(<Header {...props} />);
+
+      const viewSurveyButton = getByTestId("btn-preview");
+      expect(viewSurveyButton).not.toHaveAttribute("disabled");
+    });
   });
 
   describe("updating a questionnaire", () => {

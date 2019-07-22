@@ -29,6 +29,7 @@ const getQuestionnaireQuery = `
       editors {
         id
       }
+      totalErrorCount
     }
   }
 `;

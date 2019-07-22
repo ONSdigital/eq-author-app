@@ -148,6 +148,9 @@ describe("questionnaire", () => {
         summary: expect.any(Boolean),
         questionnaireInfo: expect.any(Object),
         metadata: expect.any(Array),
+        editors: expect.any(Array),
+        permission: expect.any(String),
+        totalErrorCount: expect.any(Number),
       });
     });
 

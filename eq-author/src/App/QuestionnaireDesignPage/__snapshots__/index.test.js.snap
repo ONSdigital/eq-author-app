@@ -3,6 +3,7 @@
 exports[`QuestionnaireDesignPage Adding question confirmation withQuestionnaire should call the query with the questionnaire id 1`] = `
 <Query
   errorPolicy="all"
+  fetchPolicy="network-only"
   query={
     Object {
       "definitions": Array [
@@ -69,6 +70,17 @@ exports[`QuestionnaireDesignPage Adding question confirmation withQuestionnaire 
                           },
                         ],
                       },
+                    },
+                    Object {
+                      "alias": undefined,
+                      "arguments": Array [],
+                      "directives": Array [],
+                      "kind": "Field",
+                      "name": Object {
+                        "kind": "Name",
+                        "value": "totalErrorCount",
+                      },
+                      "selectionSet": undefined,
                     },
                     Object {
                       "directives": Array [],
@@ -937,7 +949,7 @@ exports[`QuestionnaireDesignPage Adding question confirmation withQuestionnaire 
       ],
       "kind": "Document",
       "loc": Object {
-        "end": 1671,
+        "end": 1693,
         "start": 0,
       },
     }
