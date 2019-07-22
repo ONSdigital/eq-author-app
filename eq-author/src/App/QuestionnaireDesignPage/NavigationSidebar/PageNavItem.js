@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { withRouter } from "react-router-dom";
 import CustomPropTypes from "custom-prop-types";
 import gql from "graphql-tag";
-import { flowRight, get } from "lodash";
+import { get } from "lodash";
 
 import { buildPagePath } from "utils/UrlUtils";
 
@@ -88,4 +88,4 @@ UnwrappedPageNavItem.propTypes = {
   }),
 };
 
-export default flowRight(withRouter)(UnwrappedPageNavItem);
+export default withRouter(UnwrappedPageNavItem);
