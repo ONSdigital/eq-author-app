@@ -1,7 +1,14 @@
 #import "./fragments/questionnaire.graphql"
+#import "./fragments/validationErrorInfo.graphql"
 
 mutation UpdateQuestionnaire($input: UpdateQuestionnaireInput!) {
   updateQuestionnaire(input: $input) {
     ...Questionnaire
+    sections {
+      id
+      validationErrorInfo {
+        ...ValidationErrorInfo
+      }
+    }
   }
 }

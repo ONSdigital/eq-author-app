@@ -87,6 +87,11 @@ const moveSectionMock = {
                 totalSectionCount: 1,
               },
             },
+            validationErrorInfo: {
+              totalCount: 0,
+              errors: [],
+              __typename: "ValidationErrorInfo",
+            },
           },
           {
             __typename: "Section",
@@ -123,6 +128,11 @@ const moveSectionMock = {
                 __typename: "QuestionnaireInfo",
                 totalSectionCount: 1,
               },
+            },
+            validationErrorInfo: {
+              totalCount: 0,
+              errors: [],
+              __typename: "ValidationErrorInfo",
             },
           },
         ],
@@ -195,6 +205,11 @@ describe("SectionRoute", () => {
                   totalSectionCount: 1,
                 },
               },
+              validationErrorInfo: {
+                totalCount: 0,
+                errors: [],
+                __typename: "ValidationErrorInfo",
+              },
             },
           },
         },
@@ -234,6 +249,11 @@ describe("SectionRoute", () => {
                   __typename: "QuestionnaireInfo",
                   totalSectionCount: 1,
                 },
+              },
+              validationErrorInfo: {
+                totalCount: 0,
+                errors: [],
+                __typename: "ValidationErrorInfo",
               },
             },
           },
@@ -324,6 +344,11 @@ describe("SectionRoute", () => {
         questionnaireInfo: {
           totalSectionCount: 1,
         },
+      },
+      validationErrorInfo: {
+        totalCount: 0,
+        errors: [],
+        __typename: "ValidationErrorInfo",
       },
     };
 

@@ -48,6 +48,11 @@ describe("PreviewSectionRoute", () => {
               id: "2",
               navigation: true,
             },
+            validationErrorInfo: {
+              totalCount: 0,
+              errors: [],
+              __typename: "ValidationErrorInfo",
+            },
           },
         }}
       />
@@ -72,6 +77,11 @@ describe("PreviewSectionRoute", () => {
             questionnaire: {
               id: "2",
               navigation: true,
+            },
+            validationErrorInfo: {
+              totalCount: 0,
+              errors: [],
+              __typename: "ValidationErrorInfo",
             },
           },
         }}

@@ -20,6 +20,12 @@ const getSectionQuery = `
       availablePipingMetadata {
         id
       }
+      validationErrorInfo {
+        totalCount
+        errors {
+          id
+        }
+      }
     }
   }
 `;

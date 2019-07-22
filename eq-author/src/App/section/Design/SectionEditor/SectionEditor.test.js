@@ -1,6 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
-import SectionEditor from "App/section/Design/SectionEditor";
+
+import { SectionEditor } from "App/section/Design/SectionEditor";
 import RichTextEditor from "components/RichTextEditor";
 
 describe("SectionEditor", () => {
@@ -14,6 +15,10 @@ describe("SectionEditor", () => {
       id: "2",
       navigation: true,
     },
+    validationErrorInfo: {
+      totalCount: 0,
+      errors: [],
+    },
   };
 
   const section2 = {
@@ -25,6 +30,10 @@ describe("SectionEditor", () => {
     questionnaire: {
       id: "2",
       navigation: true,
+    },
+    validationErrorInfo: {
+      totalCount: 0,
+      errors: [],
     },
   };
 
@@ -43,6 +52,7 @@ describe("SectionEditor", () => {
     onCloseDeleteConfirmDialog: jest.fn(),
     onMoveSectionDialog: jest.fn(),
     onCloseMoveSectionDialog: jest.fn(),
+    getValidationError: jest.fn(),
   };
 
   const render = ({ ...props }) =>
@@ -134,6 +144,28 @@ describe("SectionEditor", () => {
     expect(
       wrapper.find("[testSelector='txt-section-title']").prop("autoFocus")
     ).toBe(false);
+  });
+
+  it("should show an error when there is a validation error", () => {
+    const getValidationError = jest.fn().mockReturnValue("Validation error");
+    const wrapper = render({
+      section: {
+        ...section1,
+        title: "",
+      },
+      getValidationError,
+    });
+    expect(
+      wrapper
+        .find("[testSelector='txt-section-title']")
+        .prop("errorValidationMsg")
+    ).toBe("Validation error");
+
+    expect(getValidationError).toHaveBeenCalledWith({
+      field: "title",
+      message:
+        "Enter a section title. If section navigation is not required, disable in 'settings'.",
+    });
   });
 
   describe("DeleteConfirmDialog", () => {

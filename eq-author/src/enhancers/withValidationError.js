@@ -17,7 +17,7 @@ const withValidationError = entityPropName => WrappedComponent => {
 
     static fragments = WrappedComponent.fragments;
 
-    getValidationError = ({ field, label }) => {
+    getValidationError = ({ field, ...options }) => {
       const {
         [entityPropName]: { validationErrorInfo },
       } = this.props;
@@ -33,7 +33,7 @@ const withValidationError = entityPropName => WrappedComponent => {
       const errorMessageTemplate = VALIDATION_MESSAGES[fieldMessage.errorCode];
 
       if (errorMessageTemplate) {
-        return errorMessageTemplate({ label });
+        return errorMessageTemplate(options);
       } else {
         return fieldMessage.errorCode;
       }

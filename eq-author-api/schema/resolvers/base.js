@@ -536,6 +536,8 @@ const Resolvers = {
     availablePipingAnswers: ({ id }, args, ctx) =>
       getPreviousAnswersForSection(ctx.questionnaire, id),
     availablePipingMetadata: (section, args, ctx) => ctx.questionnaire.metadata,
+    validationErrorInfo: ({ id }, args, ctx) =>
+      ctx.validationErrorInfo.sections[id] || { errors: [], totalCount: 0 },
   },
 
   LogicalDestination: {

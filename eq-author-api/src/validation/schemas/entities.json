@@ -6,7 +6,8 @@
       "properties": {
         "id": { "type": "string" },
         "title": {
-          "type": "string"
+          "type": "string",
+          "requiredWhenQuestionnaireSetting": "navigation"
         },
         "pages": {
           "type": "array",
@@ -15,7 +16,7 @@
           }
         }
       },
-      "required": ["id", "title", "pages"]
+      "required": ["id", "pages"]
     },
     "page": {
       "type": "object",

@@ -17,6 +17,11 @@ describe("SectionIntroPreview", () => {
         id: "1",
         navigation: true,
       },
+      validationErrorInfo: {
+        totalCount: 0,
+        errors: [],
+        __typename: "ValidationErrorInfo",
+      },
     };
   });
 
