@@ -296,6 +296,7 @@ const VALIDATION_QUERY = gql`
   subscription Validation($id: ID!) {
     validationUpdated(id: $id) {
       id
+      totalErrorCount
       sections {
         id
         pages {
