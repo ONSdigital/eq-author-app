@@ -299,6 +299,9 @@ const VALIDATION_QUERY = gql`
       totalErrorCount
       sections {
         id
+        validationErrorInfo {
+          totalCount
+        }
         pages {
           id
           ... on QuestionPage {
