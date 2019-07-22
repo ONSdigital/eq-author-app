@@ -72,11 +72,8 @@ Resolvers.QuestionPage = {
       pages,
     };
   },
-  validationErrorInfo: ({ id }, args, ctx) => {
-    console.log("PAGE VALIDATION");
-    console.log(ctx);
-    return ctx.validationErrorInfo.pages[id] || { errors: [], totalCount: 0 };
-  },
+  validationErrorInfo: ({ id }, args, ctx) =>
+    ctx.validationErrorInfo.pages[id] || { errors: [], totalCount: 0 },
 };
 
 Resolvers.Mutation = {
