@@ -12,7 +12,6 @@ import { Grid, Column } from "components/Grid";
 import Loading from "components/Loading";
 import BaseLayout from "components/BaseLayout";
 import QuestionnaireContext from "components/QuestionnaireContext";
-import ValidationsContext from "components/ValidationsContext";
 
 import { SECTION, PAGE, QUESTION_CONFIRMATION } from "constants/entities";
 import {
@@ -179,7 +178,7 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
   };
 
   render() {
-    const { loading, questionnaire, validations, error, location } = this.props;
+    const { loading, questionnaire, error, location } = this.props;
 
     if (!loading && !error && !questionnaire) {
       throw new Error(ERR_PAGE_NOT_FOUND);
@@ -187,43 +186,39 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
 
     return (
       <QuestionnaireContext.Provider value={{ questionnaire }}>
-        <ValidationsContext.Provider value={{ validations }}>
-          <BaseLayout questionnaire={questionnaire}>
-            <Titled title={this.getTitle}>
-              <Grid>
-                <Column cols={3} gutters={false}>
-                  <NavigationSidebar
-                    data-test="side-nav"
-                    loading={loading}
-                    onAddSection={this.props.onAddSection}
-                    onAddQuestionPage={this.handleAddPage("QuestionPage")}
-                    canAddQuestionPage={this.canAddQuestionAndCalculatedSummmaryPages()}
-                    onAddCalculatedSummaryPage={this.handleAddPage(
-                      "CalculatedSummaryPage"
-                    )}
-                    canAddCalculatedSummaryPage={this.canAddQuestionAndCalculatedSummmaryPages()}
-                    questionnaire={questionnaire}
-                    canAddQuestionConfirmation={this.canAddQuestionConfirmation()}
-                    onAddQuestionConfirmation={
-                      this.handleAddQuestionConfirmation
-                    }
-                  />
-                </Column>
-                <Column cols={9} gutters={false}>
-                  <Switch location={location}>
-                    {[
-                      ...pageRoutes,
-                      ...sectionRoutes,
-                      ...questionConfirmationRoutes,
-                      ...introductionRoutes,
-                    ]}
-                    <Route path="*" render={this.renderRedirect} />
-                  </Switch>
-                </Column>
-              </Grid>
-            </Titled>
-          </BaseLayout>
-        </ValidationsContext.Provider>
+        <BaseLayout questionnaire={questionnaire}>
+          <Titled title={this.getTitle}>
+            <Grid>
+              <Column cols={3} gutters={false}>
+                <NavigationSidebar
+                  data-test="side-nav"
+                  loading={loading}
+                  onAddSection={this.props.onAddSection}
+                  onAddQuestionPage={this.handleAddPage("QuestionPage")}
+                  canAddQuestionPage={this.canAddQuestionAndCalculatedSummmaryPages()}
+                  onAddCalculatedSummaryPage={this.handleAddPage(
+                    "CalculatedSummaryPage"
+                  )}
+                  canAddCalculatedSummaryPage={this.canAddQuestionAndCalculatedSummmaryPages()}
+                  questionnaire={questionnaire}
+                  canAddQuestionConfirmation={this.canAddQuestionConfirmation()}
+                  onAddQuestionConfirmation={this.handleAddQuestionConfirmation}
+                />
+              </Column>
+              <Column cols={9} gutters={false}>
+                <Switch location={location}>
+                  {[
+                    ...pageRoutes,
+                    ...sectionRoutes,
+                    ...questionConfirmationRoutes,
+                    ...introductionRoutes,
+                  ]}
+                  <Route path="*" render={this.renderRedirect} />
+                </Switch>
+              </Column>
+            </Grid>
+          </Titled>
+        </BaseLayout>
       </QuestionnaireContext.Provider>
     );
   }
