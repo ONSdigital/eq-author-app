@@ -1,3 +1,5 @@
+const { BASIC_ANSWERS } = require("../../constants/answerTypes");
+
 const validation = require(".");
 
 describe("schema validation", () => {
@@ -69,6 +71,48 @@ describe("schema validation", () => {
       field: "label",
       id: "additionalAnswer_1",
       type: "answers",
+    });
+  });
+
+  describe("Answer validation", () => {
+    describe("basic answer", () => {
+      it("should ensure that the label is populated", () => {
+        BASIC_ANSWERS.forEach(type => {
+          const answer = {
+            id: "a1",
+            type,
+            label: "",
+          };
+          const questionnaire = {
+            id: "q1",
+            sections: [
+              {
+                id: "s1",
+                pages: [
+                  {
+                    id: "p1",
+                    answers: [answer],
+                  },
+                ],
+              },
+            ],
+          };
+
+          const errors = validation(questionnaire);
+          expect(errors.answers[answer.id].errors).toHaveLength(1);
+          expect(errors.answers[answer.id].errors[0]).toMatchObject({
+            errorCode: "ERR_VALID_REQUIRED",
+            field: "label",
+            id: answer.id,
+            type: "answers",
+          });
+
+          answer.label = "some label";
+
+          const errors2 = validation(questionnaire);
+          expect(errors2.answers[answer.id]).toBeUndefined();
+        });
+      });
     });
   });
 
