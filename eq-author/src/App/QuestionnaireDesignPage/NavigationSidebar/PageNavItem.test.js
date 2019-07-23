@@ -37,7 +37,7 @@ describe("PageNavItem", () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  it("should show the original load errors when no validations from context", () => {
+  it("should show the original load errors", () => {
     props.page.validationErrorInfo = {
       totalCount: 2,
     };
@@ -45,32 +45,6 @@ describe("PageNavItem", () => {
     const wrapper = shallow(<UnwrappedPageNavItem {...props} />);
     expect(wrapper.find(NavLink).props()).toMatchObject({
       errorCount: 2,
-    });
-  });
-
-  it("should show the context validation errors it has a context", () => {
-    props.page.validationErrorInfo = {
-      totalCount: 2,
-    };
-    props.validations = {
-      pages: [{ id: props.page.id, errorCount: 1 }],
-    };
-    const wrapper = shallow(<UnwrappedPageNavItem {...props} />);
-    expect(wrapper.find(NavLink).props()).toMatchObject({
-      errorCount: 1,
-    });
-  });
-
-  it("should show no errors when the context has validations but not for this page", () => {
-    props.page.validationErrorInfo = {
-      totalCount: 2,
-    };
-    props.validations = {
-      pages: [],
-    };
-    const wrapper = shallow(<UnwrappedPageNavItem {...props} />);
-    expect(wrapper.find(NavLink).props()).toMatchObject({
-      errorCount: 0,
     });
   });
 

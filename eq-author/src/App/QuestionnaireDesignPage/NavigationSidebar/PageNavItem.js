@@ -4,10 +4,9 @@ import styled from "styled-components";
 import { withRouter } from "react-router-dom";
 import CustomPropTypes from "custom-prop-types";
 import gql from "graphql-tag";
-import { flowRight, get } from "lodash";
+import { get } from "lodash";
 
 import { buildPagePath } from "utils/UrlUtils";
-import { withValidations } from "components/ValidationsContext";
 
 import NavLink from "./NavLink";
 import PageIcon from "./icon-questionpage.svg?inline";
@@ -32,16 +31,9 @@ export const UnwrappedPageNavItem = ({
   questionnaireId,
   page,
   match,
-  validations,
   ...otherProps
 }) => {
-  let errorCount = get(page, "validationErrorInfo.totalCount", 0);
-  if (validations) {
-    const pageErrors = validations.pages.find(
-      validations => validations.id === page.id
-    );
-    errorCount = pageErrors ? pageErrors.errorCount : 0;
-  }
+  const errorCount = get(page, "validationErrorInfo.totalCount", 0);
   return (
     <StyledPageItem data-test="page-item" {...otherProps}>
       <NavLink
@@ -96,7 +88,4 @@ UnwrappedPageNavItem.propTypes = {
   }),
 };
 
-export default flowRight(
-  withRouter,
-  withValidations
-)(UnwrappedPageNavItem);
+export default withRouter(UnwrappedPageNavItem);

@@ -50,10 +50,16 @@ describe("subscriptions", () => {
         subscription Validation($id: ID!) {
           validationUpdated(id: $id) {
             id
-            errorCount
-            pages {
+            sections {
               id
-              errorCount
+              pages {
+                id
+                ... on QuestionPage {
+                  validationErrorInfo {
+                    totalCount
+                  }
+                }
+              }
             }
           }
         }
@@ -75,9 +81,13 @@ describe("subscriptions", () => {
       });
       const result = await iterator.next();
 
-      expect(result.value.data.validationUpdated).toMatchObject({
-        errorCount: 1,
-        pages: expect.arrayContaining([{ id: pageId, errorCount: 1 }]),
+      const pageData = result.value.data.validationUpdated.sections[0].pages[0];
+
+      expect(pageData).toMatchObject({
+        id: pageId,
+        validationErrorInfo: {
+          totalCount: 1,
+        },
       });
     });
 

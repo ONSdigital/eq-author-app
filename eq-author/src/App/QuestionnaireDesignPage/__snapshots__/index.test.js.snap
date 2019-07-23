@@ -1047,7 +1047,7 @@ exports[`QuestionnaireDesignPage Adding question confirmation withValidations sh
                       "kind": "Field",
                       "name": Object {
                         "kind": "Name",
-                        "value": "errorCount",
+                        "value": "totalErrorCount",
                       },
                       "selectionSet": undefined,
                     },
@@ -1058,7 +1058,7 @@ exports[`QuestionnaireDesignPage Adding question confirmation withValidations sh
                       "kind": "Field",
                       "name": Object {
                         "kind": "Name",
-                        "value": "pages",
+                        "value": "sections",
                       },
                       "selectionSet": Object {
                         "kind": "SelectionSet",
@@ -1081,9 +1081,66 @@ exports[`QuestionnaireDesignPage Adding question confirmation withValidations sh
                             "kind": "Field",
                             "name": Object {
                               "kind": "Name",
-                              "value": "errorCount",
+                              "value": "pages",
                             },
-                            "selectionSet": undefined,
+                            "selectionSet": Object {
+                              "kind": "SelectionSet",
+                              "selections": Array [
+                                Object {
+                                  "alias": undefined,
+                                  "arguments": Array [],
+                                  "directives": Array [],
+                                  "kind": "Field",
+                                  "name": Object {
+                                    "kind": "Name",
+                                    "value": "id",
+                                  },
+                                  "selectionSet": undefined,
+                                },
+                                Object {
+                                  "directives": Array [],
+                                  "kind": "InlineFragment",
+                                  "selectionSet": Object {
+                                    "kind": "SelectionSet",
+                                    "selections": Array [
+                                      Object {
+                                        "alias": undefined,
+                                        "arguments": Array [],
+                                        "directives": Array [],
+                                        "kind": "Field",
+                                        "name": Object {
+                                          "kind": "Name",
+                                          "value": "validationErrorInfo",
+                                        },
+                                        "selectionSet": Object {
+                                          "kind": "SelectionSet",
+                                          "selections": Array [
+                                            Object {
+                                              "alias": undefined,
+                                              "arguments": Array [],
+                                              "directives": Array [],
+                                              "kind": "Field",
+                                              "name": Object {
+                                                "kind": "Name",
+                                                "value": "totalCount",
+                                              },
+                                              "selectionSet": undefined,
+                                            },
+                                          ],
+                                        },
+                                      },
+                                    ],
+                                  },
+                                  "typeCondition": Object {
+                                    "kind": "NamedType",
+                                    "name": Object {
+                                      "kind": "Name",
+                                      "value": "QuestionPage",
+                                    },
+                                  },
+                                },
+                              ],
+                            },
                           },
                         ],
                       },
@@ -1121,7 +1178,7 @@ exports[`QuestionnaireDesignPage Adding question confirmation withValidations sh
       ],
       "kind": "Document",
       "loc": Object {
-        "end": 160,
+        "end": 305,
         "start": 0,
       },
     }
@@ -1195,170 +1252,158 @@ exports[`QuestionnaireDesignPage should render 1`] = `
     }
   }
 >
-  <ContextProvider
-    value={
+  <BaseLayout
+    questionnaire={
       Object {
-        "validations": Object {
-          "errorCount": 0,
-          "id": "3",
-          "pages": Array [],
-        },
+        "displayName": "my displayName",
+        "id": "3",
+        "sections": Array [
+          Object {
+            "id": "2",
+            "pages": Array [
+              Object {
+                "answers": Array [
+                  Object {
+                    "id": "1",
+                    "label": "",
+                    "options": Array [
+                      Object {
+                        "id": "1",
+                      },
+                    ],
+                  },
+                ],
+                "description": "",
+                "guidance": "",
+                "id": "1",
+                "pageType": "QuestionPage",
+                "position": 0,
+                "title": "",
+              },
+            ],
+            "title": "",
+          },
+        ],
+        "title": "hello world",
       }
     }
   >
-    <BaseLayout
-      questionnaire={
-        Object {
-          "displayName": "my displayName",
-          "id": "3",
-          "sections": Array [
-            Object {
-              "id": "2",
-              "pages": Array [
-                Object {
-                  "answers": Array [
-                    Object {
-                      "id": "1",
-                      "label": "",
-                      "options": Array [
-                        Object {
-                          "id": "1",
-                        },
-                      ],
-                    },
-                  ],
-                  "description": "",
-                  "guidance": "",
-                  "id": "1",
-                  "pageType": "QuestionPage",
-                  "position": 0,
-                  "title": "",
-                },
-              ],
-              "title": "",
-            },
-          ],
-          "title": "hello world",
-        }
-      }
+    <GetContext
+      title={[Function]}
     >
-      <GetContext
-        title={[Function]}
+      <Grid
+        align="top"
+        fillHeight={true}
       >
-        <Grid
-          align="top"
-          fillHeight={true}
+        <Column
+          cols={3}
+          gutters={false}
         >
-          <Column
-            cols={3}
-            gutters={false}
-          >
-            <withRouter(UnwrappedNavigationSidebar)
-              canAddCalculatedSummaryPage={true}
-              canAddQuestionConfirmation={true}
-              canAddQuestionPage={true}
-              data-test="side-nav"
-              loading={false}
-              onAddCalculatedSummaryPage={[Function]}
-              onAddQuestionConfirmation={[Function]}
-              onAddQuestionPage={[Function]}
-              onAddSection={[MockFunction]}
-              questionnaire={
-                Object {
-                  "displayName": "my displayName",
-                  "id": "3",
-                  "sections": Array [
-                    Object {
-                      "id": "2",
-                      "pages": Array [
-                        Object {
-                          "answers": Array [
-                            Object {
-                              "id": "1",
-                              "label": "",
-                              "options": Array [
-                                Object {
-                                  "id": "1",
-                                },
-                              ],
-                            },
-                          ],
-                          "description": "",
-                          "guidance": "",
-                          "id": "1",
-                          "pageType": "QuestionPage",
-                          "position": 0,
-                          "title": "",
-                        },
-                      ],
-                      "title": "",
-                    },
-                  ],
-                  "title": "hello world",
-                }
+          <withRouter(UnwrappedNavigationSidebar)
+            canAddCalculatedSummaryPage={true}
+            canAddQuestionConfirmation={true}
+            canAddQuestionPage={true}
+            data-test="side-nav"
+            loading={false}
+            onAddCalculatedSummaryPage={[Function]}
+            onAddQuestionConfirmation={[Function]}
+            onAddQuestionPage={[Function]}
+            onAddSection={[MockFunction]}
+            questionnaire={
+              Object {
+                "displayName": "my displayName",
+                "id": "3",
+                "sections": Array [
+                  Object {
+                    "id": "2",
+                    "pages": Array [
+                      Object {
+                        "answers": Array [
+                          Object {
+                            "id": "1",
+                            "label": "",
+                            "options": Array [
+                              Object {
+                                "id": "1",
+                              },
+                            ],
+                          },
+                        ],
+                        "description": "",
+                        "guidance": "",
+                        "id": "1",
+                        "pageType": "QuestionPage",
+                        "position": 0,
+                        "title": "",
+                      },
+                    ],
+                    "title": "",
+                  },
+                ],
+                "title": "hello world",
               }
+            }
+          />
+        </Column>
+        <Column
+          cols={9}
+          gutters={false}
+        >
+          <Switch>
+            <Route
+              component={[Function]}
+              key="page-design"
+              path="/q/:questionnaireId/page/:pageId/design/:modifier?"
             />
-          </Column>
-          <Column
-            cols={9}
-            gutters={false}
-          >
-            <Switch>
-              <Route
-                component={[Function]}
-                key="page-design"
-                path="/q/:questionnaireId/page/:pageId/design/:modifier?"
-              />
-              <Route
-                component={[Function]}
-                key="page-preview"
-                path="/q/:questionnaireId/page/:pageId/preview"
-              />
-              <Route
-                component={[Function]}
-                key="page-routing"
-                path="/q/:questionnaireId/page/:pageId/routing"
-              />
-              <Route
-                component={[Function]}
-                key="section-design"
-                path="/q/:questionnaireId/section/:sectionId/design"
-              />
-              <Route
-                component={[Function]}
-                key="section-preview"
-                path="/q/:questionnaireId/section/:sectionId/preview"
-              />
-              <Route
-                component={[Function]}
-                key="confirmation-design"
-                path="/q/:questionnaireId/question-confirmation/:confirmationId/design"
-              />
-              <Route
-                component={[Function]}
-                key="confirmation-preview"
-                path="/q/:questionnaireId/question-confirmation/:confirmationId/preview"
-              />
-              <Route
-                component={[Function]}
-                key="introduction-design"
-                path="/q/:questionnaireId/introduction/:introductionId/design/:modifier?"
-              />
-              <Route
-                component={[Function]}
-                key="introduction-preview"
-                path="/q/:questionnaireId/introduction/:introductionId/preview"
-              />
-              <Route
-                path="*"
-                render={[Function]}
-              />
-            </Switch>
-          </Column>
-        </Grid>
-      </GetContext>
-    </BaseLayout>
-  </ContextProvider>
+            <Route
+              component={[Function]}
+              key="page-preview"
+              path="/q/:questionnaireId/page/:pageId/preview"
+            />
+            <Route
+              component={[Function]}
+              key="page-routing"
+              path="/q/:questionnaireId/page/:pageId/routing"
+            />
+            <Route
+              component={[Function]}
+              key="section-design"
+              path="/q/:questionnaireId/section/:sectionId/design"
+            />
+            <Route
+              component={[Function]}
+              key="section-preview"
+              path="/q/:questionnaireId/section/:sectionId/preview"
+            />
+            <Route
+              component={[Function]}
+              key="confirmation-design"
+              path="/q/:questionnaireId/question-confirmation/:confirmationId/design"
+            />
+            <Route
+              component={[Function]}
+              key="confirmation-preview"
+              path="/q/:questionnaireId/question-confirmation/:confirmationId/preview"
+            />
+            <Route
+              component={[Function]}
+              key="introduction-design"
+              path="/q/:questionnaireId/introduction/:introductionId/design/:modifier?"
+            />
+            <Route
+              component={[Function]}
+              key="introduction-preview"
+              path="/q/:questionnaireId/introduction/:introductionId/preview"
+            />
+            <Route
+              path="*"
+              render={[Function]}
+            />
+          </Switch>
+        </Column>
+      </Grid>
+    </GetContext>
+  </BaseLayout>
 </ContextProvider>
 `;
 
