@@ -1,10 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 import Popout, { Container, Layer } from "components/Popout";
 import IconText from "components/IconText";
 import Button from "components/buttons/Button";
+import ErrorInline from "components/ErrorInline";
+
+import { colors } from "constants/theme";
+
+import withValidationError from "enhancers/withValidationError";
 
 import AddIcon from "./icon-add.svg?inline";
 import PopupTransition from "./PopupTransition";
@@ -28,10 +33,25 @@ const PopoutLayer = styled(Layer)`
   z-index: 10;
 `;
 
-export default class AnswerTypeSelector extends React.Component {
+const ErrorContext = styled.div`
+  position: relative;
+  margin-bottom: 1em;
+
+  ${props =>
+    props.isInvalid &&
+    css`
+      border: 1px solid ${colors.red};
+      padding: 1em;
+    `}
+`;
+
+class AnswerTypeSelector extends React.Component {
   static propTypes = {
     onSelect: PropTypes.func.isRequired,
-    answerCount: PropTypes.number.isRequired,
+    getValidationError: PropTypes.func.isRequired,
+    page: PropTypes.shape({
+      answers: PropTypes.array.isRequired,
+    }).isRequired,
   };
 
   state = {
@@ -55,26 +75,37 @@ export default class AnswerTypeSelector extends React.Component {
   };
 
   render() {
+    const errorValidationMsg = this.props.getValidationError({
+      field: "answers",
+      message: "Answer required",
+    });
+
+    const isInvalid = Boolean(errorValidationMsg);
     const trigger = (
       <AddAnswerButton variant="secondary" data-test="btn-add-answer">
         <IconText icon={AddIcon}>
-          Add {this.props.answerCount === 0 ? "an" : "another"} answer
+          Add {this.props.page.answers.length === 0 ? "an" : "another"} answer
         </IconText>
       </AddAnswerButton>
     );
 
     return (
-      <Popout
-        open={this.state.open}
-        transition={PopupTransition}
-        trigger={trigger}
-        container={PopoutContainer}
-        layer={PopoutLayer}
-        onToggleOpen={this.handleOpenToggle}
-        onEntered={this.handleEntered}
-      >
-        <AnswerTypeGrid onSelect={this.handleSelect} ref={this.saveGridRef} />
-      </Popout>
+      <ErrorContext isInvalid={isInvalid}>
+        <Popout
+          open={this.state.open}
+          transition={PopupTransition}
+          trigger={trigger}
+          container={PopoutContainer}
+          layer={PopoutLayer}
+          onToggleOpen={this.handleOpenToggle}
+          onEntered={this.handleEntered}
+        >
+          <AnswerTypeGrid onSelect={this.handleSelect} ref={this.saveGridRef} />
+        </Popout>
+        {isInvalid && <ErrorInline>{errorValidationMsg}</ErrorInline>}
+      </ErrorContext>
     );
   }
 }
+
+export default withValidationError("page")(AnswerTypeSelector);

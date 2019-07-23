@@ -1,4 +1,5 @@
 const { last, omit } = require("lodash");
+const deepMap = require("deep-map");
 
 const { buildContext } = require("../../tests/utils/contextBuilder");
 const validateQuestionnaire = require("../../src/validation");
@@ -35,6 +36,7 @@ describe("Duplication", () => {
           {
             title: "page-title-1",
             alias: "page-alias-alias-1",
+            answers: [],
           },
         ],
       },
@@ -65,11 +67,26 @@ describe("Duplication", () => {
     });
 
     it("should copy page with answers and question confirmation", () => {
-      expect(pageCopy).toEqual(
-        expect.objectContaining(
-          omit(page, ["id", "alias", "title", "displayName", "position"])
-        )
-      );
+      const cleanObject = obj => {
+        const objectWithUnchangedFields = omit(
+          JSON.parse(JSON.stringify(obj)),
+          [
+            "alias",
+            "title",
+            "displayName",
+            "position",
+            "availablePipingAnswers",
+            "availableRoutingAnswers",
+          ]
+        );
+        return deepMap(objectWithUnchangedFields, (value, key) => {
+          if (key === "id") {
+            return "someId";
+          }
+          return value;
+        });
+      };
+      expect(cleanObject(pageCopy)).toMatchObject(cleanObject(page));
     });
 
     it("should have new id", () => {
@@ -109,6 +126,7 @@ describe("Duplication", () => {
             "displayName",
             "position",
             "pages",
+            "availablePipingAnswers",
           ])
         )
       );
@@ -149,7 +167,7 @@ describe("Duplication", () => {
       duplicatedContext = {
         questionnaire: databaseCopy,
         user: ctx.user,
-        validationErrorInfo: validateQuestionnaire(ctx),
+        validationErrorInfo: validateQuestionnaire(ctx.questionnaire),
       };
 
       questionnaireCopy = await queryQuestionnaire(duplicatedContext);

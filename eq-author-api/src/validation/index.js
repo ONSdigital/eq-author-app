@@ -51,7 +51,8 @@ module.exports = questionnaire => {
 
       const contextObj = get(questionnaire, contextPath);
       return {
-        id: contextObj.id,
+        id: `${objectType}-${contextObj.id}-${fieldname}`,
+        entityId: contextObj.id,
         type: convertObjectType(objectType),
         field: fieldname,
         errorCode: error.message,
@@ -60,12 +61,12 @@ module.exports = questionnaire => {
     })
     .reduce(
       (structure, error) => {
-        const { id, type, dataPath } = error;
-        const errorInfo = structure[type][id] || {
+        const { entityId, type, dataPath } = error;
+        const errorInfo = structure[type][entityId] || {
           totalCount: 0,
           errors: [],
         };
-        structure[type][id] = {
+        structure[type][entityId] = {
           totalCount: errorInfo.totalCount + 1,
           errors: [...errorInfo.errors, error],
         };

@@ -24,11 +24,26 @@
         "id": { "type": "string" },
         "title": {
           "$ref": "definitions.json#/definitions/populatedString"
-        },
-        "answers": {
-          "type": "array",
-          "items": {
-            "$ref": "entities.json#/definitions/answer"
+        }
+      },
+      "if": {
+        "properties": {
+          "pageType": {
+            "enum": ["QuestionPage"]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "answers": {
+            "type": "array",
+            "items": {
+              "$ref": "entities.json#/definitions/answer"
+            },
+            "minItems": 1,
+            "errorMessage": {
+              "minItems": "ERR_NO_ANSWERS"
+            }
           }
         }
       },
