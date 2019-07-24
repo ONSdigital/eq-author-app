@@ -1,36 +1,16 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import gql from "graphql-tag";
-import { Query } from "react-apollo";
 
+import CustomPropTypes from "custom-prop-types";
 import { colors } from "constants/theme";
 
-import { isSignedIn } from "redux/auth/reducer";
+import { withMe } from "App/MeContext";
 
 import UserProfile from "components/UserProfile";
 import Truncated from "components/Truncated";
 import Logo from "components/Logo";
 import { Grid, Column } from "components/Grid";
-
-export const CURRENT_USER_QUERY = gql`
-  query GetHeaderInformation {
-    me {
-      id
-      displayName
-      picture
-    }
-  }
-`;
-
-export const withCurrentUser = Component => props => (
-  <Query query={CURRENT_USER_QUERY}>
-    {innerProps => {
-      return <Component {...innerProps} {...props} />;
-    }}
-  </Query>
-);
 
 const StyledHeader = styled(Grid)`
   background-color: ${colors.black};
@@ -60,10 +40,10 @@ const Title = styled(TruncatedTitle)`
   line-height: 1.3;
 `;
 
-const StyledUserProfile = withCurrentUser(styled(UserProfile)`
+const StyledUserProfile = styled(UserProfile)`
   width: auto;
   margin-right: 0.5em;
-`);
+`;
 
 const UserProfileWrapper = styled("div")`
   height: 100%;
@@ -72,7 +52,7 @@ const UserProfileWrapper = styled("div")`
   justify-content: flex-end;
 `;
 
-const Header = ({ title, isSignedIn }) => (
+const Header = ({ title, me }) => (
   <StyledHeader>
     <Column cols={3}>
       <Logo />
@@ -85,9 +65,9 @@ const Header = ({ title, isSignedIn }) => (
     </Column>
 
     <Column cols={3}>
-      {isSignedIn && (
+      {me && (
         <UserProfileWrapper>
-          <StyledUserProfile />
+          <StyledUserProfile currentUser={me} />
         </UserProfileWrapper>
       )}
     </Column>
@@ -96,7 +76,7 @@ const Header = ({ title, isSignedIn }) => (
 
 Header.propTypes = {
   title: PropTypes.string.isRequired,
-  isSignedIn: PropTypes.bool.isRequired,
+  me: CustomPropTypes.user,
 };
 
-export default connect(state => ({ isSignedIn: isSignedIn(state) }))(Header);
+export default withMe(Header);

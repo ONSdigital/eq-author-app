@@ -1,59 +1,51 @@
 import React from "react";
 
-import { render, flushPromises } from "tests/utils/rtl";
-
-import { CURRENT_USER_QUERY } from "components/EditorLayout/Header";
+import { render } from "tests/utils/rtl";
+import { MeContext } from "App/MeContext";
 
 import Layout from "./";
 
 describe("Layout", () => {
-  let props;
+  let props, me, signOut;
   beforeEach(() => {
     props = {
       title: "My title",
       children: <div>Contents</div>,
     };
+
+    me = {
+      id: "123",
+      displayName: "Teri Dactyl",
+      email: "not@Dinosaur.com",
+    };
+    signOut = jest.fn();
   });
 
   afterEach(() => {
     localStorage.removeItem("accessToken");
   });
 
+  const renderLayoutWithContext = props =>
+    render(
+      <MeContext.Provider value={{ me, signOut }}>
+        <Layout {...props} />
+      </MeContext.Provider>
+    );
+
   it("should show the title", () => {
-    const { getByText } = render(<Layout {...props} />);
+    const { getByText } = renderLayoutWithContext(props);
     expect(getByText("My title")).toBeTruthy();
     expect(document.title).toEqual("My title");
   });
 
   it("should show the contents", () => {
-    const { getByText } = render(<Layout {...props} />);
+    const { getByText } = renderLayoutWithContext(props);
     expect(getByText("Contents")).toBeTruthy();
   });
 
   it("should show the user profile when the user is logged in", async () => {
-    localStorage.setItem("accessToken", "some token");
-    const mocks = [
-      {
-        request: {
-          query: CURRENT_USER_QUERY,
-        },
-        result: {
-          data: {
-            me: {
-              id: "1",
-              displayName: "Rick Sanchez",
-              picture: null,
-              __typename: "User",
-            },
-          },
-        },
-      },
-    ];
-    const { queryByText, getByText } = render(<Layout {...props} />, { mocks });
-    expect(queryByText("Rick Sanchez")).toBeFalsy();
+    const { getByText } = renderLayoutWithContext(props);
 
-    await flushPromises();
-
-    expect(getByText("Rick Sanchez")).toBeTruthy();
+    expect(getByText("Teri Dactyl")).toBeTruthy();
   });
 });

@@ -15,7 +15,6 @@ import getIdForObject from "utils/getIdForObject";
 import render from "utils/render";
 import getHeaders from "middleware/headers";
 
-import auth from "components/Auth";
 import App from "App";
 
 if (config.REACT_APP_SENTRY_DSN) {
@@ -24,16 +23,6 @@ if (config.REACT_APP_SENTRY_DSN) {
     environment: config.REACT_APP_SENTRY_ENV,
   });
 }
-
-auth.onIdTokenChanged(user => {
-  if (user) {
-    localStorage.setItem("accessToken", user.ra);
-    localStorage.setItem("refreshToken", user.refreshToken);
-  } else {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
-  }
-});
 
 let store;
 
@@ -104,7 +93,7 @@ const link = ApolloLink.from([
 
 const client = createApolloClient(link, cache);
 
-store = configureStore(history, client);
+store = configureStore();
 
 const renderApp = render(document.getElementById("root"), {
   store,

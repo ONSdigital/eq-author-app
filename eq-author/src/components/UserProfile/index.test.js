@@ -2,46 +2,41 @@ import React from "react";
 
 import { render, fireEvent } from "tests/utils/rtl";
 
-import { signOutUser } from "redux/auth/actions";
-
+import { MeContext } from "App/MeContext";
 import UserProfile from ".";
 
-jest.mock("redux/auth/actions");
-
 describe("UserProfile", () => {
-  let me;
+  let me, signOut;
 
   beforeEach(() => {
     me = {
       id: "1",
       displayName: "Joe Bloggs",
+      email: "Bloggs@Joe.com",
       picture: "http://foo.b.ar/photo.jpg",
       __typename: "User",
     };
+
+    signOut = jest.fn();
   });
 
-  it("should show the logged in user's display name", () => {
-    const { getByText } = render(
-      <UserProfile
-        data={{ me }}
-        loading={false}
-        client={{ resetStore: jest.fn() }}
-      />
+  const renderWithContext = component =>
+    render(
+      <MeContext.Provider value={{ me, signOut }}>
+        {component}
+      </MeContext.Provider>
     );
+
+  it("should show the logged in user's display name", () => {
+    const { getByText } = renderWithContext(<UserProfile />);
     expect(getByText(me.displayName)).toBeTruthy();
   });
 
-  it("should trigger signOut and clear the apollo cache on sign out", () => {
-    const fakeApolloClient = {
-      resetStore: jest.fn(),
-    };
-    const { getByText } = render(
-      <UserProfile data={{ me }} loading={false} client={fakeApolloClient} />
-    );
+  it("should trigger signOut", () => {
+    const { getByText } = renderWithContext(<UserProfile />);
 
     fireEvent.click(getByText(me.displayName));
 
-    expect(signOutUser).toHaveBeenCalled();
-    expect(fakeApolloClient.resetStore).toHaveBeenCalled();
+    expect(signOut).toHaveBeenCalled();
   });
 });

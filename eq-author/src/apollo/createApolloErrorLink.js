@@ -5,7 +5,6 @@ import {
 } from "../apollo/sentryUtils";
 import { onError } from "apollo-link-error";
 import { apiDownError } from "redux/saving/actions";
-import { signOutUser } from "../redux/auth/actions";
 
 export const errorHandler = (getStore, error) => {
   const { networkError, graphQLErrors } = error;
@@ -19,7 +18,8 @@ export const errorHandler = (getStore, error) => {
     switch (httpStatusCode) {
       // 401 - User does not exist
       case 401:
-        getStore().dispatch(signOutUser());
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
         break;
       // 403 - Unauthorized questionnaire access
       case 403:

@@ -3,13 +3,13 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import { flowRight } from "lodash";
 import { withRouter } from "react-router-dom";
-import gql from "graphql-tag";
-import { Query } from "react-apollo";
 
 import config from "config";
 import CustomPropTypes from "custom-prop-types";
 
 import { colors } from "constants/theme";
+
+import { withMe } from "App/MeContext";
 
 import Button from "components/buttons/Button";
 import LinkButton from "components/buttons/Button/LinkButton";
@@ -76,9 +76,7 @@ export class UnconnectedHeader extends React.Component {
         modifier: PropTypes.string,
       }).isRequired,
     }).isRequired,
-    data: PropTypes.shape({
-      user: CustomPropTypes.user,
-    }),
+    me: CustomPropTypes.user,
     loading: PropTypes.bool,
     validations: PropTypes.shape({
       errorCount: PropTypes.number.isRequired,
@@ -94,15 +92,7 @@ export class UnconnectedHeader extends React.Component {
   };
 
   render() {
-    const {
-      questionnaire,
-      title,
-      children,
-      data,
-      loading,
-      client,
-    } = this.props;
-    const currentUser = (data || {}).me;
+    const { questionnaire, title, children, me, client } = this.props;
     const previewUrl = `${config.REACT_APP_LAUNCH_URL}/${
       (questionnaire || {}).id
     }`;
@@ -145,13 +135,7 @@ export class UnconnectedHeader extends React.Component {
                   >
                     <IconText icon={shareIcon}>Sharing</IconText>
                   </Button>
-                  {currentUser && (
-                    <UserProfile
-                      loading={loading}
-                      client={client}
-                      data={data}
-                    />
-                  )}
+                  {me && <UserProfile client={client} />}
                 </ButtonGroup>
               )}
             </UtilityBtns>
@@ -165,14 +149,14 @@ export class UnconnectedHeader extends React.Component {
         </StyledHeader>
         {questionnaire && (
           <>
-            {currentUser && (
+            {me && (
               <SharingModal
                 questionnaire={questionnaire}
                 previewUrl={previewUrl}
                 displayToast={this.displayToast}
                 isOpen={this.state.isSharingModalOpen}
                 onClose={() => this.setState({ isSharingModalOpen: false })}
-                currentUser={currentUser}
+                currentUser={me}
               />
             )}
             <UpdateQuestionnaireSettingsModal
@@ -189,26 +173,8 @@ export class UnconnectedHeader extends React.Component {
   }
 }
 
-export const CURRENT_USER_QUERY = gql`
-  query GetHeaderInformation {
-    me {
-      id
-      displayName
-      picture
-    }
-  }
-`;
-
-export const withCurrentUser = Component => props => (
-  <Query query={CURRENT_USER_QUERY}>
-    {innerProps => {
-      return <Component {...innerProps} {...props} />;
-    }}
-  </Query>
-);
-
 export default flowRight(
   withQuestionnaire,
   withRouter,
-  withCurrentUser
+  withMe
 )(UnconnectedHeader);

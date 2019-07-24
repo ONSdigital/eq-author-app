@@ -1,11 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { flowRight } from "lodash";
+import { withApollo } from "react-apollo";
+import { withRouter } from "react-router";
+
 import CustomPropTypes from "custom-prop-types";
 import styled from "styled-components";
-import { flowRight } from "lodash";
-import { connect } from "react-redux";
 
-import { signOutUser } from "redux/auth/actions";
+import { withMe } from "App/MeContext";
 
 import Tooltip from "components/Forms/Tooltip";
 import { colors } from "constants/theme";
@@ -47,55 +49,40 @@ export const LogoutButton = styled(Button)`
   }
 `;
 
-const UserProfile = ({
-  loading,
-  data,
-  error,
-  signOutUser,
-  client,
-  ...otherProps
-}) => {
-  if (loading || !data || error) {
+const UserProfile = ({ me, signOut }) => {
+  if (!me) {
     return null;
   }
-  const user = data.me;
   return (
     <Tooltip content="Sign Out">
       <LogoutButton
         onClick={() => {
-          signOutUser();
-          client.resetStore();
+          signOut();
         }}
         variant="tertiary-light"
         small
-        {...otherProps}
       >
         <UserAvatar
-          src={user.picture || guestAvatar}
+          src={me.picture || guestAvatar}
           alt=""
           role="presentation"
         />
-        <UserName data-test="username">{user.displayName}</UserName>
+        <UserName data-test="username">{me.displayName}</UserName>
       </LogoutButton>
     </Tooltip>
   );
 };
 
 UserProfile.propTypes = {
-  signOutUser: PropTypes.func.isRequired,
-  data: PropTypes.shape({
-    user: CustomPropTypes.user,
-  }),
   client: PropTypes.shape({
     resetStore: PropTypes.func.isRequired,
   }).isRequired,
-  loading: PropTypes.bool.isRequired,
-  error: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  me: CustomPropTypes.user,
+  signOut: PropTypes.func.isRequired,
 };
 
 export default flowRight(
-  connect(
-    null,
-    { signOutUser }
-  )
+  withApollo,
+  withMe,
+  withRouter
 )(UserProfile);

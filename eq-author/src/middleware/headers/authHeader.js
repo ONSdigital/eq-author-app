@@ -24,9 +24,14 @@ const getQuestionnaireId = () => {
 
 export default headers => {
   const accessToken = localStorage.getItem("accessToken");
+
   const returnedHeaders = {
     ...headers,
   };
+
+  if (!accessToken) {
+    return returnedHeaders;
+  }
 
   const questionnaireId = getQuestionnaireId();
   if (questionnaireId) {
@@ -34,7 +39,8 @@ export default headers => {
   }
 
   const decodedToken = jwt.decode(accessToken);
-  if (decodedToken.exp < Math.floor(Date.now()) / 1000) {
+
+  if (decodedToken.exp < Math.floor(Date.now()) / 1000 || !decodedToken.name) {
     const refreshToken = localStorage.getItem("refreshToken");
     return fetchNewToken(refreshToken).then(res => {
       returnedHeaders.authorization = `Bearer ${res.access_token}`;

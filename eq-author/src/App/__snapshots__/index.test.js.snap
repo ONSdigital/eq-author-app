@@ -22,41 +22,42 @@ exports[`containers/AppContainer Routes should render  1`] = `
       "replace": [Function],
     }
   }
+  isSignedIn={true}
 >
   <ErrorBoundary>
     <Toasts>
-      <Switch>
-        <Route
-          component={[Function]}
-          exact={true}
-          path="/sign-in"
-        />
-        <PrivateRoute
-          component={[Function]}
-          exact={true}
-          isSignedIn={true}
-          path="/"
-        />
-        <RedirectRoute
-          from="/questionnaire/:questionnaireId/design/:sectionId/:pageId"
-          to="/q/:questionnaireId/page/:pageId/design"
-        />
-        <RedirectRoute
-          from="/questionnaire/:questionnaireId/design/:sectionId"
-          to="/q/:questionnaireId/section/:sectionId/design"
-        />
-        <PrivateRoute
-          component={[Function]}
-          exact={false}
-          isSignedIn={true}
-          path="/q/:questionnaireId/:entityName?/:entityId?/:tab?/:modifier?"
-        />
-        <Route
-          component={[Function]}
-          exact={true}
-          path="*"
-        />
-      </Switch>
+      <withApollo(withRouter(ContextProvider))>
+        <Switch>
+          <Route
+            component={[Function]}
+            exact={true}
+            path="/sign-in"
+          />
+          <Component
+            component={[Function]}
+            exact={true}
+            path="/"
+          />
+          <RedirectRoute
+            from="/questionnaire/:questionnaireId/design/:sectionId/:pageId"
+            to="/q/:questionnaireId/page/:pageId/design"
+          />
+          <RedirectRoute
+            from="/questionnaire/:questionnaireId/design/:sectionId"
+            to="/q/:questionnaireId/section/:sectionId/design"
+          />
+          <Component
+            component={[Function]}
+            exact={false}
+            path="/q/:questionnaireId/:entityName?/:entityId?/:tab?/:modifier?"
+          />
+          <Route
+            component={[Function]}
+            exact={true}
+            path="*"
+          />
+        </Switch>
+      </withApollo(withRouter(ContextProvider))>
     </Toasts>
   </ErrorBoundary>
 </Router>
@@ -81,7 +82,7 @@ exports[`containers/AppContainer should render 1`] = `
         }
       }
     >
-      <Connect(Routes)
+      <Routes
         history={
           Object {
             "action": "POP",
