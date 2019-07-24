@@ -53,7 +53,8 @@
               "TextArea",
               "Number",
               "Percentage",
-              "Currency"
+              "Currency",
+              "Unit"
             ]
           }
         }
