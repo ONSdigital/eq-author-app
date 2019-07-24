@@ -207,6 +207,20 @@ describe("Question", () => {
         expect(last(question.answers).guidance.hide_guidance).toBeFalsy();
         expect(last(question.answers).guidance.content).toBeDefined();
       });
+
+      it("should throw an error when no answers on the page", () => {
+        expect(
+          () =>
+            new Question(
+              createQuestionJSON({
+                additionalInfoLabel: "Additional info",
+                additionalInfoContent: "<p>Additional info content</p>",
+                additionalInfoEnabled: true,
+                answers: [],
+              })
+            )
+        ).toThrow(/no answers/);
+      });
     });
 
     describe("when it is disabled", () => {
