@@ -24,9 +24,9 @@ exports[`containers/AppContainer Routes should render  1`] = `
   }
   isSignedIn={true}
 >
-  <ErrorBoundary>
-    <Toasts>
-      <withApollo(withRouter(ContextProvider))>
+  <withApollo(withRouter(ContextProvider))>
+    <ErrorBoundary>
+      <Toasts>
         <Switch>
           <Route
             component={[Function]}
@@ -57,9 +57,9 @@ exports[`containers/AppContainer Routes should render  1`] = `
             path="*"
           />
         </Switch>
-      </withApollo(withRouter(ContextProvider))>
-    </Toasts>
-  </ErrorBoundary>
+      </Toasts>
+    </ErrorBoundary>
+  </withApollo(withRouter(ContextProvider))>
 </Router>
 `;
 
