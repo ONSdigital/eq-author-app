@@ -55,6 +55,7 @@ UnwrappedSectionNavItem.fragments = {
       title
       displayName
       validationErrorInfo {
+        id
         totalCount
       }
       ...PageNav

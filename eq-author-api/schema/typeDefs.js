@@ -231,6 +231,7 @@ type ValidationError {
 }
 
 type ValidationErrorInfo {
+  id: ID!
   errors: [ValidationError!]!
   totalCount: Int!
 }

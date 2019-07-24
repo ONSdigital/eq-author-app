@@ -28,6 +28,7 @@ const getAnswerQuery = `
           }
         }
         validationErrorInfo {
+          id
           errors {
             id
             type
@@ -49,6 +50,7 @@ const getAnswerQuery = `
             description
           }
           validationErrorInfo {
+            id
             errors {
               id
               type

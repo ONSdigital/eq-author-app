@@ -16,6 +16,7 @@ describe("SectionEditor", () => {
       navigation: true,
     },
     validationErrorInfo: {
+      id: "3",
       totalCount: 0,
       errors: [],
     },
@@ -32,6 +33,7 @@ describe("SectionEditor", () => {
       navigation: true,
     },
     validationErrorInfo: {
+      id: "3",
       totalCount: 0,
       errors: [],
     },

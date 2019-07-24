@@ -530,7 +530,7 @@ const Resolvers = {
       getPreviousAnswersForSection(ctx.questionnaire, id),
     availablePipingMetadata: (section, args, ctx) => ctx.questionnaire.metadata,
     validationErrorInfo: ({ id }, args, ctx) =>
-      ctx.validationErrorInfo.sections[id] || { errors: [], totalCount: 0 },
+      ctx.validationErrorInfo.sections[id] || { id, errors: [], totalCount: 0 },
   },
 
   LogicalDestination: {
@@ -570,8 +570,9 @@ const Resolvers = {
     secondaryLabelDefault: answer =>
       getName({ label: answer.secondaryLabel }, "BasicAnswer"),
 
-    validationErrorInfo: (answer, args, ctx) =>
-      ctx.validationErrorInfo[ANSWERS][answer.id] || {
+    validationErrorInfo: ({ id }, args, ctx) =>
+      ctx.validationErrorInfo[ANSWERS][id] || {
+        id,
         errors: [],
         totalCount: 0,
       },
@@ -604,8 +605,9 @@ const Resolvers = {
     },
     displayName: option => getName(option, "Option"),
     additionalAnswer: option => option.additionalAnswer,
-    validationErrorInfo: (option, args, ctx) =>
-      ctx.validationErrorInfo[OPTIONS][option.id] || {
+    validationErrorInfo: ({ id }, args, ctx) =>
+      ctx.validationErrorInfo[OPTIONS][id] || {
+        id,
         errors: [],
         totalCount: 0,
       },

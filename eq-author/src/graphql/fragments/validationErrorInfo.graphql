@@ -1,4 +1,5 @@
 fragment ValidationErrorInfo on ValidationErrorInfo {
+  id
   errors {
     id
     type
