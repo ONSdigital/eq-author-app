@@ -10,6 +10,9 @@ describe("SectionNavItem", () => {
     title: "Section",
     displayName: "Section",
     pages: [page],
+    validationErrorInfo: {
+      totalCount: 2,
+    },
   };
   const questionnaire = {
     id: "1",

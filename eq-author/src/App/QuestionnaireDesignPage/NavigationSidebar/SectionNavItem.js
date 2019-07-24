@@ -37,6 +37,7 @@ export class UnwrappedSectionNavItem extends React.Component {
           data-test="nav-section-link"
           title={section.displayName}
           icon={SectionIcon}
+          errorCount={section.validationErrorInfo.totalCount}
         >
           {section.displayName}
         </NavLink>
@@ -53,6 +54,9 @@ UnwrappedSectionNavItem.fragments = {
       id
       title
       displayName
+      validationErrorInfo {
+        totalCount
+      }
       ...PageNav
     }
 
