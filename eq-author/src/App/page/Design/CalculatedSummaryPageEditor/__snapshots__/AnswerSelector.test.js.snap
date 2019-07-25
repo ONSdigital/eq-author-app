@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`AnswerSelector should render 1`] = `
+exports[`AnswerSelector should render when there are available summary answers 1`] = `
 <div>
   <AnswerSelector__Box>
     <AnswerSelector__Answers>
@@ -10,10 +10,11 @@ exports[`AnswerSelector should render 1`] = `
             No answers selected
           </AnswerSelector__EmptyTitle>
           <AnswerSelector__EmptyText>
-            Select an answer using the button below or use the shortcuts for common selections.
+            Select an answer using the button below.
           </AnswerSelector__EmptyText>
           <AnswerSelector__EmptyButton
             data-test="answer-selector-empty"
+            disabled={false}
             onClick={[Function]}
             small={true}
           >
@@ -21,27 +22,76 @@ exports[`AnswerSelector should render 1`] = `
           </AnswerSelector__EmptyButton>
         </AnswerSelector__Empty>
       </div>
-      <AnswerSelector__Suggestions>
-        <AnswerSelector__SuggestionsHeader>
-          <AnswerSelector__SuggestionsTitle>
-            Shortcuts
-          </AnswerSelector__SuggestionsTitle>
-        </AnswerSelector__SuggestionsHeader>
-        <AnswerSelector__NoShortcuts>
-          No shortcuts available. Add numeric answers to be provided with suggested selections.
-        </AnswerSelector__NoShortcuts>
-      </AnswerSelector__Suggestions>
-      <ContentPickerModal
-        answerData={Array []}
-        contentTypes={
+      <CalSumContentPicker
+        data={
           Array [
-            "Custom",
+            Object {
+              "displayName": "Section 1",
+              "id": 1,
+              "pages": Array [
+                Object {
+                  "answers": Array [
+                    Object {
+                      "displayName": "Answer 1",
+                      "id": 1,
+                      "type": "Number",
+                    },
+                    Object {
+                      "displayName": "Answer 2",
+                      "id": 2,
+                      "type": "Number",
+                    },
+                    Object {
+                      "displayName": "Answer 3",
+                      "id": 3,
+                      "type": "Number",
+                    },
+                  ],
+                  "displayName": "Foo",
+                  "id": "1",
+                },
+              ],
+            },
           ]
         }
         isOpen={false}
-        levels={2}
         onClose={[Function]}
         onSubmit={[Function]}
+        startingSelectedAnswers={Array []}
+      />
+    </AnswerSelector__Answers>
+  </AnswerSelector__Box>
+</div>
+`;
+
+exports[`AnswerSelector should render when there are no available summary answers 1`] = `
+<div>
+  <AnswerSelector__Box>
+    <AnswerSelector__Answers>
+      <div>
+        <AnswerSelector__Empty>
+          <AnswerSelector__EmptyTitle>
+            No answers available
+          </AnswerSelector__EmptyTitle>
+          <AnswerSelector__EmptyText>
+            There are no answers to provide a calculated summary.
+          </AnswerSelector__EmptyText>
+          <AnswerSelector__EmptyButton
+            data-test="answer-selector-empty"
+            disabled={true}
+            onClick={[Function]}
+            small={true}
+          >
+            Select an answer
+          </AnswerSelector__EmptyButton>
+        </AnswerSelector__Empty>
+      </div>
+      <CalSumContentPicker
+        data={Array []}
+        isOpen={false}
+        onClose={[Function]}
+        onSubmit={[Function]}
+        startingSelectedAnswers={Array []}
       />
     </AnswerSelector__Answers>
   </AnswerSelector__Box>

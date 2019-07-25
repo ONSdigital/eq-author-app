@@ -65,7 +65,6 @@ export class PageHeader extends React.Component {
 
   renderMovePageModal = ({ loading, error, data }) => {
     const { page } = this.props;
-
     if (loading || error) {
       return null;
     }
