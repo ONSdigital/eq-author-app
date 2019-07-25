@@ -84,6 +84,12 @@ const CustomPropTypes = {
     email: PropTypes.string.isRequired,
     picture: PropTypes.string,
   }),
+  me: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string,
+    email: PropTypes.string.isRequired,
+    picture: PropTypes.string,
+  }),
 };
 
 export default CustomPropTypes;
