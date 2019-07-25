@@ -52,6 +52,7 @@ module.exports = logger => async authHeader => {
     externalId: payload.sub,
     email: payload.email,
     isVerified: false,
+    admin: payload.admin || false,
   };
 
   const dbUser = await getUserByExternalId(payload.sub);
