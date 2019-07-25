@@ -23,9 +23,9 @@ import { MeProvider } from "./MeContext";
 export const Routes = ({ ...otherProps }) => {
   return (
     <Router {...otherProps}>
-      <ErrorBoundary>
-        <Toasts>
-          <MeProvider>
+      <MeProvider>
+        <ErrorBoundary>
+          <Toasts>
             <Switch>
               <Route path={RoutePaths.SIGN_IN} component={SignInPage} exact />
               <PrivateRoute
@@ -48,9 +48,9 @@ export const Routes = ({ ...otherProps }) => {
               />
               <Route path="*" component={NotFoundPage} exact />
             </Switch>
-          </MeProvider>
-        </Toasts>
-      </ErrorBoundary>
+          </Toasts>
+        </ErrorBoundary>
+      </MeProvider>
     </Router>
   );
 };
