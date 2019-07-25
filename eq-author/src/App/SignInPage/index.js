@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
+import { Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
+import CustomPropTypes from "custom-prop-types";
 import { providers, credentialHelper } from "components/Auth";
 
 import Panel from "components/Panel";
@@ -48,6 +50,9 @@ export class SignInPage extends React.Component {
         },
       },
     };
+    if (this.props.me) {
+      return <Redirect to="/" />;
+    }
     return (
       <Layout title="Sign in">
         <SignInPanel>
@@ -61,6 +66,7 @@ export class SignInPage extends React.Component {
 
 SignInPage.propTypes = {
   signIn: PropTypes.func.isRequired,
+  me: CustomPropTypes.me,
 };
 
 export default withMe(SignInPage);
