@@ -357,9 +357,10 @@ describe("page", () => {
 
       expect(readPage).toMatchObject({
         validationErrorInfo: {
-          totalCount: 1,
+          totalCount: 2,
           errors: [
             expect.objectContaining({ errorCode: "ERR_VALID_REQUIRED" }),
+            expect.objectContaining({ errorCode: "ERR_NO_ANSWERS" }),
           ],
         },
       });

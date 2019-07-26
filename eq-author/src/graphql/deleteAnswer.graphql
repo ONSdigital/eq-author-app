@@ -1,5 +1,6 @@
 #import "./fragments/total-validation-rule.graphql"
 #import "./fragments/available-answers.graphql"
+#import "./fragments/validationErrorInfo.graphql"
 
 mutation DeleteAnswer($input: DeleteAnswerInput!) {
   deleteAnswer(input: $input) {
@@ -12,6 +13,9 @@ mutation DeleteAnswer($input: DeleteAnswerInput!) {
     }
     answers {
       id
+    }
+    validationErrorInfo {
+      ...ValidationErrorInfo
     }
   }
 }

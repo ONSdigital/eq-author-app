@@ -30,6 +30,10 @@ const withValidationError = entityPropName => WrappedComponent => {
 
       const fieldMessage = messages.find(m => m.field === field);
 
+      if (!fieldMessage) {
+        return null;
+      }
+
       const errorMessageTemplate = VALIDATION_MESSAGES[fieldMessage.errorCode];
 
       if (errorMessageTemplate) {

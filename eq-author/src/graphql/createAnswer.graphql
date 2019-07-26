@@ -80,6 +80,9 @@ mutation createAnswer($input: CreateAnswerInput!) {
       answers {
         id
       }
+      validationErrorInfo {
+        ...ValidationErrorInfo
+      }
     }
   }
 }

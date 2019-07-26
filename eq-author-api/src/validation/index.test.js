@@ -1,4 +1,4 @@
-const { BASIC_ANSWERS } = require("../../constants/answerTypes");
+const { BASIC_ANSWERS, NUMBER } = require("../../constants/answerTypes");
 
 const validation = require(".");
 
@@ -19,18 +19,8 @@ describe("schema validation", () => {
               answers: [
                 {
                   id: "answer_1",
-                  type: "Checkbox",
-                  options: [
-                    {
-                      id: "option_1",
-                      label: "option label",
-                      additionalAnswer: {
-                        id: "additionalAnswer_1",
-                        type: "TextField",
-                        label: "additional answer label",
-                      },
-                    },
-                  ],
+                  type: NUMBER,
+                  label: "Number",
                 },
               ],
             },
@@ -45,72 +35,105 @@ describe("schema validation", () => {
     expect(validationErrors.totalCount).toEqual(0);
   });
 
-  it("should return errors on invalid schema", () => {
-    const page = questionnaire.sections[0].pages[0];
-    page.title = "";
+  describe("Question page validation", () => {
+    it("should validate that a title is required", () => {
+      const page = questionnaire.sections[0].pages[0];
+      page.title = "";
 
-    const validationErrors = validation(questionnaire);
+      const validationErrors = validation(questionnaire);
 
-    expect(validationErrors.pages[page.id].errors[0]).toMatchObject({
-      errorCode: "ERR_VALID_REQUIRED",
-      field: "title",
-      id: "page_1",
-      type: "pages",
+      expect(validationErrors.pages[page.id].errors[0]).toMatchObject({
+        errorCode: "ERR_VALID_REQUIRED",
+        field: "title",
+        id: "pages-page_1-title",
+        type: "pages",
+      });
+    });
+
+    it("should validate that it has at least one answer", () => {
+      const page = questionnaire.sections[0].pages[0];
+      page.answers = [];
+
+      const validationErrors = validation(questionnaire);
+
+      expect(validationErrors.pages[page.id].errors[0]).toMatchObject({
+        errorCode: "ERR_NO_ANSWERS",
+        field: "answers",
+        id: "pages-page_1-answers",
+        type: "pages",
+      });
     });
   });
 
-  it("should return correct error type for additionalAnswer", () => {
-    const answer =
-      questionnaire.sections[0].pages[0].answers[0].options[0].additionalAnswer;
-    answer.label = "";
+  describe("Option validation", () => {
+    it("should return correct error type for additionalAnswer", () => {
+      const additionalAnswer = {
+        id: "additionalAnswer_1",
+        type: "TextField",
+        label: "",
+      };
+      const answer = {
+        id: "answer_1",
+        type: "Checkbox",
+        options: [
+          {
+            id: "option_1",
+            label: "option label",
+            additionalAnswer,
+          },
+        ],
+      };
+      questionnaire.sections[0].pages[0].answers = [answer];
 
-    const validationErrors = validation(questionnaire);
-
-    expect(validationErrors.answers[answer.id].errors[0]).toMatchObject({
-      errorCode: "ERR_VALID_REQUIRED",
-      field: "label",
-      id: "additionalAnswer_1",
-      type: "answers",
+      const validationErrors = validation(questionnaire);
+      expect(
+        validationErrors.answers[additionalAnswer.id].errors[0]
+      ).toMatchObject({
+        errorCode: "ERR_VALID_REQUIRED",
+        field: "label",
+        id: "additionalAnswer-additionalAnswer_1-label",
+        type: "answers",
+      });
     });
-  });
 
-  describe("Answer validation", () => {
-    describe("basic answer", () => {
-      it("should ensure that the label is populated", () => {
-        BASIC_ANSWERS.forEach(type => {
-          const answer = {
-            id: "a1",
-            type,
-            label: "",
-          };
-          const questionnaire = {
-            id: "q1",
-            sections: [
-              {
-                id: "s1",
-                pages: [
-                  {
-                    id: "p1",
-                    answers: [answer],
-                  },
-                ],
-              },
-            ],
-          };
+    describe("Answer validation", () => {
+      describe("basic answer", () => {
+        it("should ensure that the label is populated", () => {
+          BASIC_ANSWERS.forEach(type => {
+            const answer = {
+              id: "a1",
+              type,
+              label: "",
+            };
+            const questionnaire = {
+              id: "q1",
+              sections: [
+                {
+                  id: "s1",
+                  pages: [
+                    {
+                      id: "p1",
+                      answers: [answer],
+                    },
+                  ],
+                },
+              ],
+            };
 
-          const errors = validation(questionnaire);
-          expect(errors.answers[answer.id].errors).toHaveLength(1);
-          expect(errors.answers[answer.id].errors[0]).toMatchObject({
-            errorCode: "ERR_VALID_REQUIRED",
-            field: "label",
-            id: answer.id,
-            type: "answers",
+            const errors = validation(questionnaire);
+            expect(errors.answers[answer.id].errors).toHaveLength(1);
+            expect(errors.answers[answer.id].errors[0]).toMatchObject({
+              errorCode: "ERR_VALID_REQUIRED",
+              field: "label",
+              id: `answers-${answer.id}-label`,
+              type: "answers",
+            });
+
+            answer.label = "some label";
+
+            const errors2 = validation(questionnaire);
+            expect(errors2.answers[answer.id]).toBeUndefined();
           });
-
-          answer.label = "some label";
-
-          const errors2 = validation(questionnaire);
-          expect(errors2.answers[answer.id]).toBeUndefined();
         });
       });
     });
@@ -128,7 +151,7 @@ describe("schema validation", () => {
       expect(sectionErrors[0]).toMatchObject({
         errorCode: "ERR_REQUIRED_WHEN_SETTING",
         field: "title",
-        id: section.id,
+        id: "sections-section_1-title",
         type: "sections",
       });
     });

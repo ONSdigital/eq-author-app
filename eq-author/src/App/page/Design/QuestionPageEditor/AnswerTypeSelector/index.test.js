@@ -1,51 +1,87 @@
 import React from "react";
-import { shallow } from "enzyme";
 
-import Popout from "components/Popout";
+import {
+  render,
+  fireEvent,
+  waitForElementToBeRemoved,
+  wait,
+} from "tests/utils/rtl";
 
-import AnswerTypeGrid from "./AnswerTypeGrid";
 import AnswerTypeSelector from "./";
 
-let component, handleSelect;
-
-describe("components/AnswerTypeSelector", () => {
+describe("Answer Type Selector", () => {
+  let props;
   beforeEach(() => {
-    handleSelect = jest.fn();
-    component = shallow(
-      <AnswerTypeSelector onSelect={handleSelect} answerCount={0} />
-    );
+    props = {
+      onSelect: jest.fn(),
+      page: {
+        answers: [],
+      },
+    };
   });
 
   it("shouldn't render content when closed", () => {
-    expect(component).toMatchSnapshot();
+    const { queryByText } = render(<AnswerTypeSelector {...props} />);
+    expect(queryByText("Number")).toBeFalsy();
   });
 
   it("should say to add 'another' answer if > 0 answers currently", () => {
-    component.setProps({ answerCount: 1 });
-    expect(component).toMatchSnapshot();
+    const { getByText } = render(
+      <AnswerTypeSelector {...props} page={{ answers: [{}] }} />
+    );
+    expect(getByText(/add another answer/i)).toBeTruthy();
+  });
+
+  it("should say to add 'an' answer if the page has no answers", () => {
+    const { getByText } = render(
+      <AnswerTypeSelector {...props} page={{ answers: [] }} />
+    );
+    expect(getByText(/add an answer/i)).toBeTruthy();
   });
 
   it("should render content when open", () => {
-    component.setState({ open: true });
-    expect(component).toMatchSnapshot();
+    const { getByText } = render(<AnswerTypeSelector {...props} />);
+    fireEvent.click(getByText(/add an answer/i));
+
+    expect(getByText("Number")).toBeTruthy();
   });
 
-  it("should invoke callback when element selected", () => {
-    component.find(AnswerTypeGrid).simulate("select", "foo");
-    expect(handleSelect).toHaveBeenCalledWith("foo");
+  it("select trigger onSelect and close the modal when an answer is selected", async () => {
+    const { getByText, queryByText } = render(
+      <AnswerTypeSelector {...props} />
+    );
+    fireEvent.click(getByText(/add an answer/i));
+    fireEvent.click(getByText("Number"));
+    expect(props.onSelect).toHaveBeenCalledWith("Number");
+    await waitForElementToBeRemoved(() => queryByText("Number"));
   });
 
-  it("should update state when Popout opened or closed", () => {
-    component.find(Popout).simulate("toggleOpen", true);
-    expect(component.state("open")).toBe(true);
+  it("should focus on menu once Popout has entered", async () => {
+    const { getByText } = render(<AnswerTypeSelector {...props} />);
+    fireEvent.click(getByText(/add an answer/i));
+    await wait(() => {
+      expect(document.activeElement.getAttribute("data-test")).toMatch(
+        /btn-answer-type/
+      );
+    });
   });
 
-  it("should focus on menu once Popout has entered", () => {
-    const focusMenuItem = jest.fn();
+  it("should show an error when the answers field has a validation error", () => {
+    props.page = {
+      ...props.page,
+      validationErrorInfo: {
+        errors: [
+          {
+            errorCode: "ERR_NO_ANSWERS",
+            field: "answers",
+            id: "pages-1468e75f-1c32-45a0-91f2-521c5ab86c76-answers",
+            type: "pages",
+          },
+        ],
+      },
+    };
+    const { getByText } = render(<AnswerTypeSelector {...props} />);
 
-    component.instance().saveGridRef({ focusMenuItem });
-    component.find(Popout).simulate("entered");
-
-    expect(focusMenuItem).toHaveBeenCalled();
+    expect(getByText("Answer required")).toBeTruthy();
   });
 });
