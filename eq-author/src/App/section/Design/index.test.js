@@ -89,6 +89,7 @@ const moveSectionMock = {
               },
             },
             validationErrorInfo: {
+              id: "1",
               totalCount: 0,
               errors: [],
               __typename: "ValidationErrorInfo",
@@ -131,6 +132,7 @@ const moveSectionMock = {
               },
             },
             validationErrorInfo: {
+              id: "1",
               totalCount: 0,
               errors: [],
               __typename: "ValidationErrorInfo",
@@ -215,6 +217,7 @@ describe("SectionRoute", () => {
                 },
               },
               validationErrorInfo: {
+                id: "1",
                 totalCount: 0,
                 errors: [],
                 __typename: "ValidationErrorInfo",
@@ -260,6 +263,7 @@ describe("SectionRoute", () => {
                 },
               },
               validationErrorInfo: {
+                id: "1",
                 totalCount: 0,
                 errors: [],
                 __typename: "ValidationErrorInfo",
@@ -355,6 +359,7 @@ describe("SectionRoute", () => {
         },
       },
       validationErrorInfo: {
+        id: "1",
         totalCount: 0,
         errors: [],
         __typename: "ValidationErrorInfo",

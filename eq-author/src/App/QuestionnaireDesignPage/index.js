@@ -306,6 +306,7 @@ const VALIDATION_QUERY = gql`
           id
           ... on QuestionPage {
             validationErrorInfo {
+              id
               totalCount
             }
           }

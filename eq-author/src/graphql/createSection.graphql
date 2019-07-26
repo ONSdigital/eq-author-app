@@ -25,6 +25,9 @@ mutation CreateSection($input: CreateSectionInput!) {
         }
       }
     }
+    validationErrorInfo {
+      ...ValidationErrorInfo
+    }
     questionnaire {
       id
       questionnaireInfo {

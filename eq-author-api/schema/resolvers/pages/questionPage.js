@@ -73,7 +73,7 @@ Resolvers.QuestionPage = {
     };
   },
   validationErrorInfo: ({ id }, args, ctx) =>
-    ctx.validationErrorInfo.pages[id] || { errors: [], totalCount: 0 },
+    ctx.validationErrorInfo.pages[id] || { id, errors: [], totalCount: 0 },
 };
 
 Resolvers.Mutation = {

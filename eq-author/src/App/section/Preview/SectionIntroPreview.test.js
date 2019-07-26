@@ -18,6 +18,7 @@ describe("SectionIntroPreview", () => {
         navigation: true,
       },
       validationErrorInfo: {
+        id: "vei1",
         totalCount: 0,
         errors: [],
         __typename: "ValidationErrorInfo",

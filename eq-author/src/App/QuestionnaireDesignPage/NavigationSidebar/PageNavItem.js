@@ -67,6 +67,7 @@ UnwrappedPageNavItem.fragments = {
           id
         }
         validationErrorInfo {
+          id
           totalCount
         }
       }

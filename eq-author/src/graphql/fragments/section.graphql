@@ -9,6 +9,7 @@ fragment Section on Section {
     navigation
   }
   validationErrorInfo {
+    id
     errors {
       id
       type
