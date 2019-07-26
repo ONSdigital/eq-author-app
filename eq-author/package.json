@@ -75,7 +75,8 @@
     "url-loader": "latest",
     "webpack": "latest",
     "webpack-dev-server": "latest",
-    "webpack-manifest-plugin": "latest"
+    "webpack-manifest-plugin": "latest",
+    "wait-for-expect": "latest"
   },
   "dependencies": {
     "@sentry/browser": "latest",

@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useEffect } from "react";
 import PropType from "prop-types";
 import { Query, withApollo } from "react-apollo";
 import { withRouter } from "react-router";
@@ -13,10 +13,9 @@ import {
   sendSentryError,
 } from "../apollo/sentryUtils";
 
-const createSignIn = (setHasAccessToken, history) => user => {
+const signIn = (setSignInSuccess, history, user) => {
   localStorage.setItem("accessToken", user.ra);
   localStorage.setItem("refreshToken", user.refreshToken);
-
   return window
     .fetch("/signIn", {
       method: "POST",
@@ -26,27 +25,22 @@ const createSignIn = (setHasAccessToken, history) => user => {
       if (!res.ok) {
         throw Error(`Server responded with a ${res.status} code.`);
       }
-      setHasAccessToken(true);
-      history.push(get(history, "location.state.returnURL") || "/");
+      history.push(get(history, "location.state.returnURL", "/"));
+      setSignInSuccess(true);
     })
     .catch(e => {
-      localStorage.removeItem("accessToken");
-      localStorage.removeItem("refreshToken");
-      auth.signOut();
       setSentryUser(user.ra);
       setSentryTag("Signing in error");
       sendSentryError(e);
-      throw e;
+      auth.signOut();
     });
 };
 
-const createSignOut = (setHasAccessToken, { history, client }) => () => {
+const signOut = (history, client) => {
   if (config.REACT_APP_FULLSTORY_ORG) {
     window.FS.identify(false);
   }
-  setHasAccessToken(false);
   client.clearStore();
-  auth.signOut();
   localStorage.removeItem("accessToken");
   localStorage.removeItem("refreshToken");
   history.push("/sign-in");
@@ -67,27 +61,52 @@ export const MeContext = createContext();
 
 const FragmentWithChildren = ({ children }) => children({});
 
-const ContextProvider = props => {
-  const accessToken = localStorage.getItem("accessToken");
-  const [hasAccessToken, setHasAccessToken] = useState(Boolean(accessToken));
-  const signIn = createSignIn(setHasAccessToken, props.history);
-  const signOut = createSignOut(setHasAccessToken, props);
-  const QueryOrFragment = hasAccessToken ? Query : FragmentWithChildren;
+const ContextProvider = ({ history, client, children }) => {
+  const [awaitingFirebase, setAwaitingFirebase] = useState(true);
+  const [firebaseUser, setFirebaseUser] = useState(null);
+  const [signInSuccess, setSignInSuccess] = useState(false);
+  const loggedInEverywhere = firebaseUser && signInSuccess;
+  const QueryOrFragment = loggedInEverywhere ? Query : FragmentWithChildren;
+
+  useEffect(() => {
+    auth.onAuthStateChanged(user => {
+      setFirebaseUser(user);
+      setAwaitingFirebase(false);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (awaitingFirebase) {
+      return;
+    }
+    if (firebaseUser) {
+      signIn(setSignInSuccess, history, firebaseUser);
+    } else {
+      signOut(history, client);
+      setSignInSuccess(false);
+    }
+  }, [firebaseUser, awaitingFirebase]);
   return (
     <QueryOrFragment query={CURRENT_USER_QUERY}>
       {innerProps => {
         const me = get(innerProps, "data.me");
+        const isSigningIn =
+          awaitingFirebase ||
+          (firebaseUser && !signInSuccess) || // firebase done but not us
+          (loggedInEverywhere && innerProps.loading); // we are done and awaiting apollo
+
         return (
           <MeContext.Provider
             value={{
               me,
-              signIn,
-              hasAccessToken,
-              signOut,
+              signOut: () => {
+                auth.signOut();
+              },
               awaitingUserQuery: innerProps.loading,
+              isSigningIn,
             }}
           >
-            {props.children}
+            {children}
           </MeContext.Provider>
         );
       }}
@@ -97,6 +116,7 @@ const ContextProvider = props => {
 
 ContextProvider.propTypes = {
   history: CustomPropTypes.history.isRequired,
+  client: CustomPropTypes.apolloClient.isRequired,
   children: PropType.node,
 };
 
@@ -107,14 +127,13 @@ export const MeProvider = flowRight(
 
 export const withMe = Component => props => (
   <MeContext.Consumer>
-    {({ me, signIn, hasAccessToken, awaitingUserQuery, signOut }) => (
+    {({ me, signIn, signOut, isSigningIn }) => (
       <Component
         {...props}
         me={me}
         signIn={signIn}
         signOut={signOut}
-        hasAccessToken={hasAccessToken}
-        awaitingUserQuery={awaitingUserQuery}
+        isSigningIn={isSigningIn}
       />
     )}
   </MeContext.Consumer>

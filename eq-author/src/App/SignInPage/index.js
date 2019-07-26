@@ -1,9 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 import { Redirect } from "react-router-dom";
-import PropTypes from "prop-types";
+import propTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 import { providers, credentialHelper } from "components/Auth";
+import Loading from "components/Loading";
 
 import Panel from "components/Panel";
 import Layout from "components/Layout";
@@ -27,37 +28,30 @@ const SignInPanel = styled(Panel)`
 `;
 
 export class SignInPage extends React.Component {
-  renderTitle(title) {
-    return `Sign In - ${title}`;
-  }
-
-  state = {
-    incompleteLoginAttempts: 0,
-  };
-
   render() {
-    const { incompleteLoginAttempts } = this.state;
-    const rerender = () =>
-      this.setState({ incompleteLoginAttempts: incompleteLoginAttempts + 1 });
     const uiConfig = {
       signInFlow: "popup",
       signInOptions: providers,
       credentialHelper,
       callbacks: {
-        signInSuccessWithAuthResult: ({ user }) => {
-          this.props.signIn(user).catch(() => rerender());
-          return false;
-        },
+        signInSuccessWithAuthResult: () => false,
       },
     };
     if (this.props.me) {
       return <Redirect to="/" />;
     }
+    if (this.props.isSigningIn) {
+      return (
+        <Layout title="Logging in...">
+          <Loading height="38rem">Logging you in...</Loading>
+        </Layout>
+      );
+    }
     return (
       <Layout title="Sign in">
         <SignInPanel>
           <Text>You must be signed in to access this service.</Text>
-          <SignInForm uiConfig={uiConfig} key={incompleteLoginAttempts} />
+          <SignInForm uiConfig={uiConfig} />
         </SignInPanel>
       </Layout>
     );
@@ -65,8 +59,8 @@ export class SignInPage extends React.Component {
 }
 
 SignInPage.propTypes = {
-  signIn: PropTypes.func.isRequired,
   me: CustomPropTypes.me,
+  isSigningIn: propTypes.bool,
 };
 
 export default withMe(SignInPage);
