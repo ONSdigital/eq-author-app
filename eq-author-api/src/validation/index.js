@@ -84,6 +84,7 @@ module.exports = questionnaire => {
 
           const page = questionnaire.sections[sectionIndex].pages[pageIndex];
           const errorInfo = structure.pages[page.id] || {
+            id,
             totalCount: 0,
             errors: [],
           };
