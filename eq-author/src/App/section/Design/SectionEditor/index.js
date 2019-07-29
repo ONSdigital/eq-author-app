@@ -164,6 +164,10 @@ export class SectionEditor extends React.Component {
               testSelector="txt-introduction-title"
               value={section.introductionTitle}
               controls={{ piping: true }}
+              errorValidationMsg={this.props.getValidationError({
+                field: "introductionTitle",
+                label: "Introduction Title",
+              })}
             />
             <RichTextEditor
               id="introduction-content"
@@ -180,6 +184,10 @@ export class SectionEditor extends React.Component {
                 piping: true,
                 emphasis: true,
               }}
+              errorValidationMsg={this.props.getValidationError({
+                field: "introductionContent",
+                label: "Introduction Content",
+              })}
             />
           </IntroCanvas>
         </Padding>

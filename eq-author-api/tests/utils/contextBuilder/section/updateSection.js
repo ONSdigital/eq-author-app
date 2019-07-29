@@ -24,6 +24,12 @@ const updateSectionMutation = `
       availablePipingMetadata {
         id
       }
+      validationErrorInfo {
+        totalCount
+        errors {
+          id
+        }
+      }
     }
   }
 `;
