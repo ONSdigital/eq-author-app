@@ -10,6 +10,13 @@ const PERCENTAGE = "Percentage";
 const UNIT = "Unit";
 
 const BASIC_ANSWERS = [TEXTFIELD, TEXTAREA, CURRENCY, NUMBER, UNIT];
+const NON_RADIO_ANSWERS = [
+  ...BASIC_ANSWERS,
+  CHECKBOX,
+  DATE,
+  DATE_RANGE,
+  PERCENTAGE,
+];
 
 module.exports = {
   CHECKBOX,
@@ -23,4 +30,5 @@ module.exports = {
   DATE_RANGE,
   UNIT,
   BASIC_ANSWERS,
+  NON_RADIO_ANSWERS,
 };
