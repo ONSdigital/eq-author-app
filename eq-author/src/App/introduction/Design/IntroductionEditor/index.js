@@ -23,12 +23,11 @@ import withUpdateQuestionnaireIntroduction from "./withUpdateQuestionnaireIntrod
 const Section = styled.section`
   &:not(:last-of-type) {
     border-bottom: 1px solid #e0e0e0;
-    margin-bottom: 2em;
   }
 `;
 
 const Padding = styled.div`
-  padding: 0 2em;
+  padding: 2em;
 `;
 
 const SectionTitle = styled.h2`

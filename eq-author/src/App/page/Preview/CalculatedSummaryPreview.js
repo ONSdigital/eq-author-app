@@ -8,7 +8,7 @@ import PageTitle from "components/preview/elements/PageTitle";
 import Info from "components/preview/elements/Info";
 
 import EditorLayout from "components/EditorLayout";
-
+import Panel from "components/Panel";
 import { Grid, Column } from "components/Grid";
 
 import { colors } from "constants/theme";
@@ -82,57 +82,59 @@ const SummaryTotalLabel = styled.div`
 const CalculatedSummaryPagePreview = ({ page }) => {
   return (
     <EditorLayout page={page} preview routing={false}>
-      <Container>
-        <PageTitle title={page.title} />
-        <Info>Please review your answers and confirm these are correct.</Info>
+      <Panel>
+        <Container>
+          <PageTitle title={page.title} />
+          <Info>Please review your answers and confirm these are correct.</Info>
 
-        {page.summaryAnswers.length > 0 ? (
-          <Summary>
-            {page.summaryAnswers.map(answer => (
-              <SummaryItem key={answer.id}>
-                <Grid>
-                  <Column cols={7}>
-                    <SummaryLabel data-test="answer-item">
-                      {answer.displayName}
-                    </SummaryLabel>
-                  </Column>
-                  <Column cols={3}>
-                    <SummaryValue>Value</SummaryValue>
-                  </Column>
-                  <Column cols={2}>
-                    <SummaryLink>Change</SummaryLink>
-                  </Column>
-                </Grid>
-              </SummaryItem>
-            ))}
+          {page.summaryAnswers.length > 0 ? (
+            <Summary>
+              {page.summaryAnswers.map(answer => (
+                <SummaryItem key={answer.id}>
+                  <Grid>
+                    <Column cols={7}>
+                      <SummaryLabel data-test="answer-item">
+                        {answer.displayName}
+                      </SummaryLabel>
+                    </Column>
+                    <Column cols={3}>
+                      <SummaryValue>Value</SummaryValue>
+                    </Column>
+                    <Column cols={2}>
+                      <SummaryLink>Change</SummaryLink>
+                    </Column>
+                  </Grid>
+                </SummaryItem>
+              ))}
 
-            {page.totalTitle ? (
-              <SummaryTotal>
-                <Grid>
-                  <Column cols={7}>
-                    <SummaryTotalLabel
-                      data-test="total-title"
-                      dangerouslySetInnerHTML={{ __html: page.totalTitle }}
-                    />
-                  </Column>
-                  <Column cols={3}>
-                    <SummaryValue>Value</SummaryValue>
-                  </Column>
-                  <Column cols={2} />
-                </Grid>
-              </SummaryTotal>
-            ) : (
-              <Error large data-test="no-total-title">
-                Missing total title
-              </Error>
-            )}
-          </Summary>
-        ) : (
-          <Error large data-test="no-answers-selected">
-            No answers selected
-          </Error>
-        )}
-      </Container>
+              {page.totalTitle ? (
+                <SummaryTotal>
+                  <Grid>
+                    <Column cols={7}>
+                      <SummaryTotalLabel
+                        data-test="total-title"
+                        dangerouslySetInnerHTML={{ __html: page.totalTitle }}
+                      />
+                    </Column>
+                    <Column cols={3}>
+                      <SummaryValue>Value</SummaryValue>
+                    </Column>
+                    <Column cols={2} />
+                  </Grid>
+                </SummaryTotal>
+              ) : (
+                <Error large data-test="no-total-title">
+                  Missing total title
+                </Error>
+              )}
+            </Summary>
+          ) : (
+            <Error large data-test="no-answers-selected">
+              No answers selected
+            </Error>
+          )}
+        </Container>
+      </Panel>
     </EditorLayout>
   );
 };

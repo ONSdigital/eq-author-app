@@ -1,13 +1,12 @@
 import React from "react";
 import { shallow } from "enzyme";
-import Button from "components/buttons/Button";
-import TextButton from "components/buttons/TextButton";
 import RoutingRuleDestinationSelector from "App/page/Routing/DestinationSelector";
 import { CURRENCY, RADIO } from "constants/answer-types";
 
 import BinaryExpressionEditor from "./BinaryExpressionEditor";
 
-import { UnwrappedRuleEditor as RuleEditor, Title } from "./";
+import { UnwrappedRuleEditor as RuleEditor } from "./";
+import { byTestAttr } from "tests/utils/selectors";
 
 describe("RuleEditor", () => {
   let defaultProps;
@@ -48,18 +47,6 @@ describe("RuleEditor", () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  it("should render a title when provided", () => {
-    defaultProps.title = "My title";
-    const wrapper = shallow(<RuleEditor {...defaultProps} />);
-    expect(wrapper.find(Title).exists()).toBe(true);
-  });
-
-  it("should allow deleting rule", () => {
-    const wrapper = shallow(<RuleEditor {...defaultProps} />);
-    wrapper.find(Button).simulate("click");
-    expect(defaultProps.deleteRule).toHaveBeenCalledWith(defaultProps.rule.id);
-  });
-
   it("should allow changing of the destination", () => {
     const wrapper = shallow(<RuleEditor {...defaultProps} />);
     const data = { logical: "EndOfQuestionnaire" };
@@ -70,12 +57,10 @@ describe("RuleEditor", () => {
     });
   });
 
-  it("allows adding of a new binary expression", () => {
+  it("should allow deleting rule", () => {
     const wrapper = shallow(<RuleEditor {...defaultProps} />);
-    wrapper.find(TextButton).simulate("click");
-    expect(defaultProps.createBinaryExpression).toHaveBeenCalledWith(
-      defaultProps.rule.expressionGroup.id
-    );
+    wrapper.find(byTestAttr("btn-remove-rule")).simulate("click");
+    expect(defaultProps.deleteRule).toHaveBeenCalledWith(defaultProps.rule.id);
   });
 
   it("should pass down the correct prop when a second 'And' condition is invalid", () => {

@@ -5,50 +5,52 @@ exports[`Question Confirmation Preview should correctly strip and render piped a
   preview={true}
   title="Hello world"
 >
-  <Preview__Container>
-    <PageTitle
-      title="<p>foo<span data-piped=\\"x\\" data-id=\\"1\\">bar</span></p>"
-    />
-    <Preview__Replay
-      key="1"
-    >
-      <MultipleChoiceAnswerOptionsReplay
-        options={
-          Array [
-            Object {
-              "id": "1",
-              "label": "label 1",
-            },
-            Object {
-              "id": "2",
-              "label": "label 2",
-            },
-            Object {
-              "id": "3",
-              "label": "label 3",
-            },
-          ]
+  <Panel>
+    <Preview__Container>
+      <PageTitle
+        title="<p>foo<span data-piped=\\"x\\" data-id=\\"1\\">bar</span></p>"
+      />
+      <Preview__Replay
+        key="1"
+      >
+        <MultipleChoiceAnswerOptionsReplay
+          options={
+            Array [
+              Object {
+                "id": "1",
+                "label": "label 1",
+              },
+              Object {
+                "id": "2",
+                "label": "label 2",
+              },
+              Object {
+                "id": "3",
+                "label": "label 3",
+              },
+            ]
+          }
+        />
+      </Preview__Replay>
+      <MultipleChoiceAnswer
+        answer={
+          Object {
+            "options": Array [
+              Object {
+                "description": "positive description",
+                "label": "positive label",
+              },
+              Object {
+                "description": "negative description",
+                "label": "negative label",
+              },
+            ],
+            "type": "Radio",
+          }
         }
       />
-    </Preview__Replay>
-    <MultipleChoiceAnswer
-      answer={
-        Object {
-          "options": Array [
-            Object {
-              "description": "positive description",
-              "label": "positive label",
-            },
-            Object {
-              "description": "negative description",
-              "label": "negative label",
-            },
-          ],
-          "type": "Radio",
-        }
-      }
-    />
-  </Preview__Container>
+    </Preview__Container>
+  </Panel>
 </EditorLayout>
 `;
 
@@ -57,28 +59,30 @@ exports[`Question Confirmation Preview should not render replay options when the
   preview={true}
   title="Hello world"
 >
-  <Preview__Container>
-    <PageTitle
-      title="<p>Hello world</p>"
-    />
-    <MultipleChoiceAnswer
-      answer={
-        Object {
-          "options": Array [
-            Object {
-              "description": "positive description",
-              "label": "positive label",
-            },
-            Object {
-              "description": "negative description",
-              "label": "negative label",
-            },
-          ],
-          "type": "Radio",
+  <Panel>
+    <Preview__Container>
+      <PageTitle
+        title="<p>Hello world</p>"
+      />
+      <MultipleChoiceAnswer
+        answer={
+          Object {
+            "options": Array [
+              Object {
+                "description": "positive description",
+                "label": "positive label",
+              },
+              Object {
+                "description": "negative description",
+                "label": "negative label",
+              },
+            ],
+            "type": "Radio",
+          }
         }
-      }
-    />
-  </Preview__Container>
+      />
+    </Preview__Container>
+  </Panel>
 </EditorLayout>
 `;
 
@@ -87,50 +91,52 @@ exports[`Question Confirmation Preview should render 1`] = `
   preview={true}
   title="Hello world"
 >
-  <Preview__Container>
-    <PageTitle
-      title="<p>Hello world</p>"
-    />
-    <Preview__Replay
-      key="1"
-    >
-      <MultipleChoiceAnswerOptionsReplay
-        options={
-          Array [
-            Object {
-              "id": "1",
-              "label": "label 1",
-            },
-            Object {
-              "id": "2",
-              "label": "label 2",
-            },
-            Object {
-              "id": "3",
-              "label": "label 3",
-            },
-          ]
+  <Panel>
+    <Preview__Container>
+      <PageTitle
+        title="<p>Hello world</p>"
+      />
+      <Preview__Replay
+        key="1"
+      >
+        <MultipleChoiceAnswerOptionsReplay
+          options={
+            Array [
+              Object {
+                "id": "1",
+                "label": "label 1",
+              },
+              Object {
+                "id": "2",
+                "label": "label 2",
+              },
+              Object {
+                "id": "3",
+                "label": "label 3",
+              },
+            ]
+          }
+        />
+      </Preview__Replay>
+      <MultipleChoiceAnswer
+        answer={
+          Object {
+            "options": Array [
+              Object {
+                "description": "positive description",
+                "label": "positive label",
+              },
+              Object {
+                "description": "negative description",
+                "label": "negative label",
+              },
+            ],
+            "type": "Radio",
+          }
         }
       />
-    </Preview__Replay>
-    <MultipleChoiceAnswer
-      answer={
-        Object {
-          "options": Array [
-            Object {
-              "description": "positive description",
-              "label": "positive label",
-            },
-            Object {
-              "description": "negative description",
-              "label": "negative label",
-            },
-          ],
-          "type": "Radio",
-        }
-      }
-    />
-  </Preview__Container>
+    </Preview__Container>
+  </Panel>
 </EditorLayout>
 `;
 

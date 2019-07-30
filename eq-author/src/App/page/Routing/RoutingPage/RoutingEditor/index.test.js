@@ -1,6 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
-import { UnwrappedRoutingEditor } from "./";
+import { UnwrappedRoutingEditor, LABEL_ELSE_IF, LABEL_IF } from "./";
 import RuleEditor from "./RuleEditor";
 
 describe("components/RoutingRuleSet", () => {
@@ -50,11 +50,13 @@ describe("components/RoutingRuleSet", () => {
     );
   });
 
-  it("should render all subsequent rule editor titles as 'Or'", () => {
+  it("should render all subsequent rule editor titles as ELSE IF", () => {
     defaultProps.routing.rules.push({ id: "5" }, { id: "6" });
     const wrapper = shallow(<UnwrappedRoutingEditor {...defaultProps} />);
     wrapper.find(RuleEditor).forEach((ruleEditor, index) => {
-      expect(ruleEditor.prop("title")).toEqual(index > 0 ? "Or" : null);
+      expect(ruleEditor.prop("ifLabel")).toEqual(
+        index > 0 ? LABEL_ELSE_IF : LABEL_IF
+      );
     });
   });
 });

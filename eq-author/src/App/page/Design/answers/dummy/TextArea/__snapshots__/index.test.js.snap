@@ -11,7 +11,7 @@ exports[`components/Answers/Dummy/TextArea shoulder render 1`] = `
   -webkit-transition: outline-color 100ms ease-in,border-color 100ms ease-in;
   transition: outline-color 100ms ease-in,border-color 100ms ease-in;
   outline: 1px solid transparent;
-  border-color: #c3c3c3;
+  border-color: #d6d8da;
   padding: 1.2em 1.2em 1.2em 2em;
   position: relative;
   background-color: transparent;

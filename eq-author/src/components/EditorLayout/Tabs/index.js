@@ -3,7 +3,7 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import { NavLink, withRouter } from "react-router-dom";
 
-import { colors, radius } from "constants/theme";
+import { colors } from "constants/theme";
 import CustomPropTypes from "custom-prop-types";
 import {
   buildRoutingPath,
@@ -37,12 +37,6 @@ export const Tab = styled(NavLink)`
   &:focus {
     outline: 3px solid ${colors.orange};
   }
-`;
-
-export const TabsBody = styled.div`
-  background: ${colors.white};
-  border: 1px solid ${colors.bordersLight};
-  border-radius: ${radius};
 `;
 
 const DisabledTab = styled(Tab.withComponent("span"))`

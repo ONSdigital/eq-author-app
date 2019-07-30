@@ -7,49 +7,61 @@ import { flow, get } from "lodash/fp";
 
 import Transition from "App/page/Routing/Transition";
 import Button from "components/buttons/Button";
-import IconText from "components/IconText";
-import { colors, radius } from "constants/theme";
-import IconRoute from "App/page/Routing/icon-route.svg?inline";
+
+import { colors } from "constants/theme";
+
 import DestinationSelector from "App/page/Routing/DestinationSelector";
-import TextButton from "components/buttons/TextButton";
-import { Grid, Column } from "components/Grid";
+
 import { RADIO } from "constants/answer-types";
 
 import BinaryExpressionEditor from "./BinaryExpressionEditor";
 import fragment from "./fragment.graphql";
 import withDeleteRule from "./withDeleteRule";
 import withUpdateRule from "./withUpdateRule";
-import withCreateBinaryExpression from "./withCreateBinaryExpression";
 
-const Box = styled.div`
-  border: 1px solid ${colors.bordersLight};
-  border-radius: ${radius};
-  margin-bottom: 2em;
-  position: relative;
+import { Select, Label } from "components/Forms";
+
+const Expressions = styled.div`
+  background: white;
+  padding-top: 1em;
+  border-left: 1px solid ${colors.lightMediumGrey};
+  border-right: 1px solid ${colors.lightMediumGrey};
 `;
 
-const Buttons = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  padding: 1em;
+const Rule = styled.div`
+  &:not(:first-of-type) {
+    margin-top: 2em;
+  }
 `;
 
 export const Title = styled.h2`
-  position: absolute;
-  margin: 0;
-  top: 1.5em;
-  left: 1.4em;
   letter-spacing: 0.05em;
   font-size: 0.9em;
   font-weight: bold;
   text-transform: uppercase;
 `;
 
-const CenteringColumn = styled(Column)`
+const Header = styled.div`
+  background: ${colors.lightMediumGrey};
+  padding: 0.5em 1em;
+  margin-top: -1px;
+  border-top: 3px solid ${colors.primary};
   display: flex;
-  justify-content: center;
-  padding: 0.25em 0;
-  margin-bottom: 0.5em;
+  align-items: center;
+`;
+
+const SmallSelect = styled(Select)`
+  display: inline-block;
+  width: auto;
+  margin: 0 0.5em;
+`;
+
+const RemoveRuleButton = styled(Button).attrs({
+  variant: "tertiary",
+  small: true,
+})`
+  margin-left: auto;
+  padding: 0.2em;
 `;
 
 export class UnwrappedRuleEditor extends React.Component {
@@ -57,10 +69,14 @@ export class UnwrappedRuleEditor extends React.Component {
 
   static propTypes = {
     rule: propType(fragment).isRequired,
-    title: PropTypes.string,
+    ifLabel: PropTypes.string,
     deleteRule: PropTypes.func.isRequired,
     updateRule: PropTypes.func.isRequired,
-    createBinaryExpression: PropTypes.func.isRequired,
+    className: PropTypes.string,
+  };
+
+  static defaultProps = {
+    ifLabel: "IF",
   };
 
   handleDeleteClick = () => {
@@ -74,13 +90,10 @@ export class UnwrappedRuleEditor extends React.Component {
     });
   };
 
-  handleCreateExpressionClick = () => {
-    this.props.createBinaryExpression(this.props.rule.expressionGroup.id);
-  };
-
   render() {
     const {
-      title,
+      className,
+      ifLabel,
       rule,
       rule: {
         destination,
@@ -91,68 +104,65 @@ export class UnwrappedRuleEditor extends React.Component {
     const existingRadioConditions = {};
 
     return (
-      <div data-test="routing-rule">
-        <Box>
-          {title && <Title>{title}</Title>}
-          <Buttons>
-            <Button
-              onClick={this.handleDeleteClick}
-              data-test="btn-delete"
-              variant="tertiary"
-              small
-            >
-              <IconText icon={IconRoute}>Remove rule</IconText>
-            </Button>
-          </Buttons>
-          <div>
-            <TransitionGroup>
-              {expressions.map((expression, index) => {
-                const component = (
-                  <Transition key={expression.id} exit={false}>
-                    <BinaryExpressionEditor
-                      expression={expression}
-                      label={index > 0 ? "AND" : "IF"}
-                      isOnlyExpression={expressions.length === 1}
-                      canAddAndCondition={
-                        !existingRadioConditions[get("left.id", expression)]
-                      }
-                    />
-                  </Transition>
-                );
-                if (get("left.type", expression) === RADIO) {
-                  existingRadioConditions[get("left.id", expression)] = true;
-                }
-                return component;
-              })}
-            </TransitionGroup>
-            <Grid align="center">
-              <CenteringColumn gutters={false} cols={1}>
-                <TextButton
-                  onClick={this.handleCreateExpressionClick}
-                  data-test="btn-and"
-                >
-                  AND
-                </TextButton>
-              </CenteringColumn>
-            </Grid>
-          </div>
-          <DestinationSelector
-            id={rule.id}
-            label="THEN"
-            onChange={this.handleDestinationChange}
-            value={destination}
-            data-test="select-then"
-          />
-        </Box>
-      </div>
+      <Rule data-test="routing-rule" className={className}>
+        <Header>
+          <Label inline>
+            Match
+            <SmallSelect name="match" id="match" disabled defaultValue="all">
+              <option value="all">All of</option>
+              <option value="any">Any of</option>
+            </SmallSelect>
+            the following rules
+          </Label>
+
+          <RemoveRuleButton
+            onClick={this.handleDeleteClick}
+            data-test="btn-remove-rule"
+          >
+            Remove rule
+          </RemoveRuleButton>
+        </Header>
+
+        <Expressions>
+          <TransitionGroup>
+            {expressions.map((expression, index) => {
+              const component = (
+                <Transition key={expression.id}>
+                  <BinaryExpressionEditor
+                    expression={expression}
+                    expressionGroupId={rule.expressionGroup.id}
+                    label={index > 0 ? "AND" : ifLabel}
+                    isOnlyExpression={expressions.length === 1}
+                    isLastExpression={index === expressions.length - 1}
+                    canAddAndCondition={
+                      !existingRadioConditions[get("left.id", expression)]
+                    }
+                  />
+                </Transition>
+              );
+              if (get("left.type", expression) === RADIO) {
+                existingRadioConditions[get("left.id", expression)] = true;
+              }
+              return component;
+            })}
+          </TransitionGroup>
+        </Expressions>
+
+        <DestinationSelector
+          id={rule.id}
+          label="THEN"
+          onChange={this.handleDestinationChange}
+          value={destination}
+          data-test="select-then"
+        />
+      </Rule>
     );
   }
 }
 
 const withMutations = flow(
   withDeleteRule,
-  withUpdateRule,
-  withCreateBinaryExpression
+  withUpdateRule
 );
 
 export default withMutations(UnwrappedRuleEditor);

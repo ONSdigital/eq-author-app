@@ -1,86 +1,85 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`RuleEditor should render 1`] = `
-<div
+<RuleEditor__Rule
   data-test="routing-rule"
 >
-  <RuleEditor__Box>
-    <RuleEditor__Buttons>
-      <Button
-        data-test="btn-delete"
-        onClick={[Function]}
-        small={true}
-        type="button"
-        variant="tertiary"
+  <RuleEditor__Header>
+    <Label
+      bold={true}
+      inline={true}
+    >
+      Match
+      <RuleEditor__SmallSelect
+        defaultValue="all"
+        disabled={true}
+        id="match"
+        name="match"
       >
-        <IconText
-          hideText={false}
-          icon={[Function]}
+        <option
+          value="all"
         >
-          Remove rule
-        </IconText>
-      </Button>
-    </RuleEditor__Buttons>
-    <div>
-      <TransitionGroup
-        childFactory={[Function]}
-        component="div"
+          All of
+        </option>
+        <option
+          value="any"
+        >
+          Any of
+        </option>
+      </RuleEditor__SmallSelect>
+      the following rules
+    </Label>
+    <RuleEditor__RemoveRuleButton
+      data-test="btn-remove-rule"
+      onClick={[Function]}
+    >
+      Remove rule
+    </RuleEditor__RemoveRuleButton>
+  </RuleEditor__Header>
+  <RuleEditor__Expressions>
+    <TransitionGroup
+      childFactory={[Function]}
+      component="div"
+    >
+      <Transition__RoutingComponentTransition
+        key="1"
+        timeout={200}
       >
-        <Transition__RoutingComponentTransition
-          exit={false}
-          key="1"
-          timeout={200}
-        >
-          <Apollo(Apollo(Apollo(Apollo(withRouter(UnwrappedBinaryExpressionEditor)))))
-            canAddAndCondition={true}
-            expression={
-              Object {
-                "id": "1",
-                "left": Object {
-                  "id": "binaryExpressionId",
-                  "type": "Currency",
-                },
-              }
+        <Apollo(Apollo(Apollo(Apollo(Apollo(withRouter(UnwrappedBinaryExpressionEditor))))))
+          canAddAndCondition={true}
+          expression={
+            Object {
+              "id": "1",
+              "left": Object {
+                "id": "binaryExpressionId",
+                "type": "Currency",
+              },
             }
-            isOnlyExpression={true}
-            label="IF"
-          />
-        </Transition__RoutingComponentTransition>
-      </TransitionGroup>
-      <Grid
-        align="center"
-        fillHeight={true}
-      >
-        <RuleEditor__CenteringColumn
-          cols={1}
-          gutters={false}
-        >
-          <TextButton
-            data-test="btn-and"
-            onClick={[Function]}
-          >
-            AND
-          </TextButton>
-        </RuleEditor__CenteringColumn>
-      </Grid>
-    </div>
-    <withRouter(UnwrappedDestinationSelector)
-      data-test="select-then"
-      id="ruleId"
-      label="THEN"
-      onChange={[Function]}
-      value={
-        Object {
-          "id": "1",
-          "logical": null,
-          "page": Object {
-            "displayName": "Page",
-            "id": "pageId",
-          },
-          "section": null,
-        }
+          }
+          expressionGroupId="expressionGroupId"
+          isLastExpression={true}
+          isOnlyExpression={true}
+          label="IF"
+        />
+      </Transition__RoutingComponentTransition>
+    </TransitionGroup>
+  </RuleEditor__Expressions>
+  <withRouter(UnwrappedDestinationSelector)
+    data-test="select-then"
+    id="ruleId"
+    label="THEN"
+    onChange={[Function]}
+    value={
+      Object {
+        "id": "1",
+        "logical": null,
+        "page": Object {
+          "displayName": "Page",
+          "id": "pageId",
+        },
+        "section": null,
       }
-    />
-  </RuleEditor__Box>
-</div>
+    }
+  />
+</RuleEditor__Rule>
 `;

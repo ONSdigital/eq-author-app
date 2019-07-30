@@ -9,42 +9,75 @@ exports[`BinaryExpressionEditor should render consistently 1`] = `
     fillHeight={true}
   >
     <Column
-      cols={1}
+      cols={1.5}
       gutters={false}
     >
       <BinaryExpressionEditor__Label
+        data-test="routing-binary-expression-if-label"
         htmlFor="RoutingCondition1"
       >
         IF
       </BinaryExpressionEditor__Label>
     </Column>
     <Column
-      cols={10}
+      cols={9}
       gutters={false}
     >
-      <withRouter(RoutingAnswerContentPicker)
-        id="RoutingCondition1"
-        onSubmit={[Function]}
-        path="page.availableRoutingAnswers"
-        selectedId="2"
-      />
+      <BinaryExpressionEditor__Flex>
+        <BinaryExpressionEditor__StyledSelect
+          defaultValue="answer"
+          disabled={true}
+        >
+          <option
+            onChange={[Function]}
+            value="answer"
+          >
+            Answer
+          </option>
+          <option
+            disabled={true}
+            value="metadata"
+          >
+            Metadata
+          </option>
+        </BinaryExpressionEditor__StyledSelect>
+        <BinaryExpressionEditor__ContentPicker
+          data-test="routing-answer-picker"
+          onSubmit={[Function]}
+          path="page.availableRoutingAnswers"
+          selectedId="2"
+        />
+      </BinaryExpressionEditor__Flex>
     </Column>
     <Column
-      cols={1}
+      cols={1.5}
       gutters={false}
     >
-      <BinaryExpressionEditor__RemoveButton
-        data-test="btn-remove"
-        disabled={false}
-        onClick={[Function]}
-      >
-        <IconText
-          hideText={true}
-          icon={[Function]}
+      <BinaryExpressionEditor__ActionButtons>
+        <BinaryExpressionEditor__RemoveButton
+          data-test="btn-remove"
+          disabled={false}
+          onClick={[Function]}
         >
-          Remove
-        </IconText>
-      </BinaryExpressionEditor__RemoveButton>
+          <IconText
+            hideText={true}
+            icon={[Function]}
+          >
+            Remove
+          </IconText>
+        </BinaryExpressionEditor__RemoveButton>
+        <BinaryExpressionEditor__AddButton
+          data-test="btn-add"
+          onClick={[Function]}
+        >
+          <IconText
+            hideText={true}
+            icon={[Function]}
+          >
+            Add
+          </IconText>
+        </BinaryExpressionEditor__AddButton>
+      </BinaryExpressionEditor__ActionButtons>
     </Column>
   </Grid>
   <Grid
@@ -52,7 +85,7 @@ exports[`BinaryExpressionEditor should render consistently 1`] = `
     fillHeight={true}
   >
     <Column
-      cols={1}
+      cols={1.5}
       gutters={false}
     >
       <BinaryExpressionEditor__ConnectedPath
@@ -60,7 +93,7 @@ exports[`BinaryExpressionEditor should render consistently 1`] = `
       />
     </Column>
     <Column
-      cols={10}
+      cols={9}
       gutters={false}
     >
       <TransitionGroup
@@ -68,7 +101,6 @@ exports[`BinaryExpressionEditor should render consistently 1`] = `
         component="div"
       >
         <Transition__RoutingComponentTransition
-          exit={false}
           key="answer"
           timeout={200}
         >
@@ -91,7 +123,7 @@ exports[`BinaryExpressionEditor should render consistently 1`] = `
       </TransitionGroup>
     </Column>
     <Column
-      cols={1}
+      cols={1.5}
     />
   </Grid>
 </div>

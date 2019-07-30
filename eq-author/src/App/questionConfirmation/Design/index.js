@@ -16,6 +16,7 @@ import withUpdateQuestionConfirmation from "./withUpdateQuestionConfirmation";
 import withDeleteQuestionConfirmation from "./withDeleteQuestionConfirmation";
 import questionConfirmationIcon from "./question-confirmation-icon.svg";
 import Editor from "./Editor";
+import Panel from "components/Panel";
 
 export class UnwrappedQuestionConfirmationRoute extends React.Component {
   static propTypes = {
@@ -96,7 +97,7 @@ export class UnwrappedQuestionConfirmationRoute extends React.Component {
     );
     return (
       <EditorLayout title={displayName} preview>
-        {this.renderContent()}
+        <Panel>{this.renderContent()}</Panel>
       </EditorLayout>
     );
   }

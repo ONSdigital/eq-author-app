@@ -12,10 +12,6 @@ import withCreateCollapsible from "./withCreateCollapsible";
 import CollapsibleEditor from "./CollapsibleEditor";
 import withMoveCollapsible from "./withMoveCollapsible";
 
-const DetailList = styled.div`
-  margin-bottom: 2em;
-`;
-
 const AddButton = styled(Button)`
   width: 100%;
 `;
@@ -26,7 +22,7 @@ export const CollapsiblesEditor = ({
   moveCollapsible,
   introductionId,
 }) => (
-  <DetailList>
+  <div>
     <Reorder
       list={collapsibles}
       onMove={moveCollapsible}
@@ -44,7 +40,7 @@ export const CollapsiblesEditor = ({
     >
       Add collapsible
     </AddButton>
-  </DetailList>
+  </div>
 );
 
 CollapsiblesEditor.fragments = [...CollapsibleEditor.fragments];

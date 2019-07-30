@@ -36,15 +36,15 @@ describe("CalculatedSummaryPreview", () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  it("should render empty box when no answers have been selected", () => {
-    page.electedSummaryAnswers = [];
-    const wrapper = shallow(<CalculatedSummaryPreview page={page} />);
-    expect(wrapper.find(byTestAttr("no-selected-answers"))).toBeTruthy();
-  });
-
   it("should render empty box when no total-title given", () => {
     page.totalTitle = "";
     const wrapper = shallow(<CalculatedSummaryPreview page={page} />);
     expect(wrapper.find(byTestAttr("no-total-title"))).toBeTruthy();
+  });
+
+  it("should render 'no answers selected' message", () => {
+    page.summaryAnswers = [];
+    const wrapper = shallow(<CalculatedSummaryPreview page={page} />);
+    expect(wrapper.find(byTestAttr("no-answers-selected"))).toBeTruthy();
   });
 });

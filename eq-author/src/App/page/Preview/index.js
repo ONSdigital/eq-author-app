@@ -13,13 +13,16 @@ import CalculatedSummaryPageEditor from "App/page/Design/CalculatedSummaryPageEd
 
 import QuestionPagePreview from "./QuestionPagePreview";
 import CalculatedSummaryPreview from "./CalculatedSummaryPreview";
+import Panel from "components/Panel";
 
 export const UnwrappedPreviewPageRoute = props => {
   const { loading, data } = props;
   if (loading) {
     return (
       <EditorLayout>
-        <Loading height="38rem">Preview loading…</Loading>
+        <Panel>
+          <Loading height="38rem">Preview loading…</Loading>
+        </Panel>
       </EditorLayout>
     );
   }
