@@ -61,9 +61,9 @@ module.exports = questionnaire => {
     })
     .reduce(
       (structure, error) => {
-        const { id, entityId, type, dataPath } = error;
+        const { entityId, type, dataPath } = error;
         const errorInfo = structure[type][entityId] || {
-          id,
+          id: entityId,
           totalCount: 0,
           errors: [],
         };
@@ -84,7 +84,7 @@ module.exports = questionnaire => {
 
           const page = questionnaire.sections[sectionIndex].pages[pageIndex];
           const errorInfo = structure.pages[page.id] || {
-            id,
+            id: page.id,
             totalCount: 0,
             errors: [],
           };

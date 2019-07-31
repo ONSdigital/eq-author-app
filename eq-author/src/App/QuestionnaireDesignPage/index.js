@@ -300,6 +300,7 @@ const VALIDATION_QUERY = gql`
       sections {
         id
         validationErrorInfo {
+          id
           totalCount
         }
         pages {

@@ -61,6 +61,7 @@ const getAnswerQuery = `
           }
         }
         validationErrorInfo {
+          id
           errors {
             id
             type
