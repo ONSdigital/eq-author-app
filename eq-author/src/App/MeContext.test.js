@@ -1,6 +1,8 @@
 import React from "react";
-import { render, fireEvent, flushPromises } from "tests/utils/rtl";
+import { render, flushPromises, fireEvent } from "tests/utils/rtl";
 import { MeProvider, CURRENT_USER_QUERY, withMe } from "./MeContext";
+import waitForExpect from "wait-for-expect";
+import auth from "components/Auth";
 import {
   sendSentryError,
   setSentryTag,
@@ -9,12 +11,32 @@ import {
 
 jest.mock("../apollo/sentryUtils");
 
+const testUser = process.env.REACT_APP_TEST_ACCOUNT;
+const testPass = process.env.REACT_APP_TEST_PASSWORD;
+
 describe("MeContext", () => {
   describe("Queries", () => {
-    let mocks;
-    let mutationWasCalled;
+    let mocks, consoleError, mutationWasCalled, originalFetch;
+
+    beforeAll(() => {
+      /* 
+      act is not currently dealing with async actions. This is resolved in React 16.9 which is currently in alpha.
+      */
+      /* eslint-disable no-console */
+      consoleError = console.error;
+      console.error = () => {};
+      /* eslint-enable no-console */
+    });
+    afterAll(() => {
+      //eslint-disable-next-line no-console
+      console.error = consoleError;
+    });
 
     beforeEach(() => {
+      originalFetch = window.fetch;
+
+      window.fetch = jest.fn(() => Promise.resolve({ ok: true }));
+
       mutationWasCalled = false;
       mocks = [
         {
@@ -41,37 +63,34 @@ describe("MeContext", () => {
 
     afterEach(() => {
       localStorage.clear();
+      auth.signOut();
+      window.fetch = originalFetch;
     });
 
-    it("should run the user query if the accessToken exists", async () => {
-      localStorage.setItem("accessToken", "foo");
+    it("should run the user query if logged in on firebase and author", async () => {
       render(<MeProvider />, {
         mocks,
       });
-      await flushPromises();
-      expect(mutationWasCalled).toEqual(true);
+
+      auth.signInWithEmailAndPassword(testUser, testPass);
+
+      await waitForExpect(() => expect(mutationWasCalled).toEqual(true));
     });
 
-    it("should not run the user query if the accessToken doesn't exist", async () => {
+    it("should not run the user query if not logged in on firebase and author", async () => {
       render(<MeProvider />, {
         mocks,
       });
+
       await flushPromises();
       expect(mutationWasCalled).toEqual(false);
     });
   });
 
   describe("sign in and out", () => {
-    let user,
-      Component,
-      originalFetch,
-      fetchData,
-      failFetch,
-      WrappedComponent,
-      consoleError,
-      signInError;
+    let user, originalFetch, fetchData, failFetch, consoleError;
 
-    beforeEach(() => {
+    beforeAll(() => {
       /* 
       act is not currently dealing with async actions. This is resolved in React 16.9 which is currently in alpha.
       */
@@ -79,107 +98,96 @@ describe("MeContext", () => {
       consoleError = console.error;
       console.error = () => {};
       /* eslint-enable no-console */
+    });
+    afterAll(() => {
+      //eslint-disable-next-line no-console
+      console.error = consoleError;
+    });
+
+    beforeEach(() => {
       fetchData = jest.fn(() => Promise.resolve({ ok: true }));
 
       failFetch = jest.fn(() => Promise.resolve({ ok: false, status: "500" }));
 
       originalFetch = window.fetch;
-
-      user = {
-        ra: "accessToken",
-        refreshToken: "refreshToken",
-      };
-
-      Component = props => (
-        <div>
-          {/* eslint-disable react/jsx-handler-names, react/prop-types*/}
-          <button
-            onClick={() =>
-              props.signIn(user).catch(e => {
-                signInError = e;
-              })
-            }
-          >
-            sign in
-          </button>
-          <button onClick={props.signOut}>sign out</button>
-          {/* eslint-enable react/jsx-handler-names, react/prop-types*/}
-        </div>
-      );
-
-      WrappedComponent = withMe(Component);
     });
 
     afterEach(() => {
       localStorage.clear();
       window.fetch = originalFetch;
-      //eslint-disable-next-line no-console
-      console.error = consoleError;
     });
 
-    const renderWithContext = () =>
-      render(
-        <MeProvider>
-          <WrappedComponent />
-        </MeProvider>,
-        {
-          route: "/some-route",
-        }
-      );
+    const renderWithContext = () => render(<MeProvider />);
 
-    it("Should sign the user in.", () => {
+    it("Should sign the user in when they sign in on firebase.", async () => {
       window.fetch = fetchData;
 
-      const { getByText, history } = renderWithContext();
+      renderWithContext();
 
-      fireEvent.click(getByText("sign in"));
+      await auth.signInWithEmailAndPassword(testUser, testPass);
+      user = auth.currentUser;
 
-      expect(window.fetch).toHaveBeenCalledWith("/signIn", {
-        method: "POST",
-        headers: { authorization: `Bearer ${user.ra}` },
+      await waitForExpect(() => {
+        expect(window.fetch).toHaveBeenCalledWith("/signIn", {
+          method: "POST",
+          headers: { authorization: expect.any(String) },
+        });
+
+        expect(localStorage.getItem("accessToken")).toEqual(user.ra);
+        expect(localStorage.getItem("refreshToken")).toEqual(user.refreshToken);
       });
-
-      expect(history.location.pathname).toMatch("/");
-
-      expect(localStorage.getItem("accessToken")).toEqual(user.ra);
-      expect(localStorage.getItem("refreshToken")).toEqual(user.refreshToken);
     });
 
     it("should report the error to sentry and remove the access token if the fetch fails", async () => {
       window.fetch = failFetch;
-      const { getByText } = renderWithContext();
+      renderWithContext();
 
-      fireEvent.click(getByText("sign in"));
+      await auth.signInWithEmailAndPassword(testUser, testPass);
+      user = auth.currentUser;
 
-      await flushPromises();
+      await waitForExpect(() => {
+        expect(window.fetch).toHaveBeenCalledWith("/signIn", {
+          method: "POST",
+          headers: { authorization: `Bearer ${user.ra}` },
+        });
 
-      expect(window.fetch).toHaveBeenCalledWith("/signIn", {
-        method: "POST",
-        headers: { authorization: `Bearer ${user.ra}` },
+        expect(setSentryUser).toHaveBeenCalledWith(user.ra);
+        expect(setSentryTag).toHaveBeenCalledWith("Signing in error");
+        expect(sendSentryError).toHaveBeenCalledWith(
+          new Error("Server responded with a 500 code.")
+        );
+
+        expect(localStorage.getItem("accessToken")).toEqual(null);
+        expect(localStorage.getItem("refreshToken")).toEqual(null);
       });
-
-      expect(setSentryUser).toHaveBeenCalledWith(user.ra);
-      expect(setSentryTag).toHaveBeenCalledWith("Signing in error");
-      expect(sendSentryError).toHaveBeenCalledWith(
-        new Error("Server responded with a 500 code.")
-      );
-
-      expect(signInError).toEqual(
-        new Error("Server responded with a 500 code.")
-      );
-
-      expect(localStorage.getItem("accessToken")).toEqual(null);
-      expect(localStorage.getItem("refreshToken")).toEqual(null);
     });
 
-    it("Should sign the user out.", () => {
-      const { getByText, history } = renderWithContext();
-      fireEvent.click(getByText("sign out"));
+    it("Should sign the user out.", async () => {
+      //eslint-disable-next-line react/prop-types
+      const button = ({ signOut }) => (
+        <button onClick={() => signOut()}>Sign out</button>
+      );
+      const Component = withMe(button);
+      const { getByText, history } = render(
+        <MeProvider>
+          <Component />
+        </MeProvider>
+      );
 
-      expect(history.location.pathname).toMatch("/sign-in");
+      await auth.signInWithEmailAndPassword(testUser, testPass);
 
-      expect(localStorage.getItem("accessToken")).toEqual(null);
-      expect(localStorage.getItem("refreshToken")).toEqual(null);
+      expect(auth.currentUser).toBeTruthy();
+      expect(localStorage.getItem("accessToken")).toBeTruthy();
+      expect(localStorage.getItem("refreshToken")).toBeTruthy();
+
+      fireEvent.click(getByText("Sign out"));
+
+      waitForExpect(() => {
+        expect(history.location.pathname).toMatch("/sign-in");
+
+        expect(localStorage.getItem("accessToken")).toEqual(null);
+        expect(localStorage.getItem("refreshToken")).toEqual(null);
+      });
     });
   });
 });

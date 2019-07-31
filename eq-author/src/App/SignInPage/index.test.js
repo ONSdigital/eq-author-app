@@ -2,21 +2,21 @@ import React from "react";
 import SignInPage from "App/SignInPage";
 import { MeContext } from "App/MeContext";
 import { shallow } from "enzyme";
-import SignInForm from "./SignInForm";
 import { render } from "tests/utils/rtl";
 
 describe("SignInPage", () => {
-  let signIn, signOut;
+  let signIn, signOut, isSigningIn;
 
   beforeEach(() => {
     signIn = jest.fn();
     signOut = jest.fn();
+    isSigningIn = false;
   });
 
   describe("signInPage", () => {
     it("should render", () => {
       const wrapper = shallow(
-        <MeContext.Provider value={{ signOut, signIn }}>
+        <MeContext.Provider value={{ signOut, signIn, isSigningIn }}>
           <SignInPage />
         </MeContext.Provider>
       );
@@ -29,28 +29,14 @@ describe("SignInPage", () => {
       ).toBeTruthy();
     });
 
-    it("should update incompleteLoginAttempts if signIn throws", async () => {
-      signIn = jest.fn(() => Promise.reject("500"));
-
-      const wrapper = shallow(
-        <MeContext.Provider value={{ signOut, signIn }}>
+    it("should load a loding page if currently signing in", () => {
+      const { getByText } = render(
+        <MeContext.Provider value={{ signOut, signIn, isSigningIn: true }}>
           <SignInPage />
-        </MeContext.Provider>
+        </MeContext.Provider>,
+        { route: "/sign-in" }
       );
-
-      const user = { ra: "foo", refreshToken: "bar" };
-
-      const signinComponent = wrapper
-        .dive()
-        .dive()
-        .dive();
-
-      const signinCallback = signinComponent.find(SignInForm).prop("uiConfig")
-        .callbacks.signInSuccessWithAuthResult;
-
-      await signinCallback(user);
-
-      expect(signinComponent.state("incompleteLoginAttempts")).toEqual(1);
+      expect(getByText("Logging in...")).toBeTruthy();
     });
 
     it("should redirect to frontpage if user is already signed in", () => {
@@ -60,7 +46,7 @@ describe("SignInPage", () => {
       };
 
       const { history } = render(
-        <MeContext.Provider value={{ signOut, signIn, me }}>
+        <MeContext.Provider value={{ signOut, signIn, me, isSigningIn }}>
           <SignInPage />
         </MeContext.Provider>,
         { route: "/sign-in" }

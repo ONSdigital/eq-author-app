@@ -16,15 +16,9 @@ const createRedirect = ({ location }) => ({
 });
 
 const PrivateRoute = React.memo(
-  ({
-    component: Component,
-    hasAccessToken,
-    awaitingUserQuery,
-    me,
-    ...rest
-  }) => {
+  ({ component: Component, isSigningIn, me, ...rest }) => {
     let render;
-    if (hasAccessToken && awaitingUserQuery) {
+    if (isSigningIn) {
       render = () => (
         <Layout title="Logging in...">
           <Loading height="38rem">Logging you in...</Loading>
@@ -42,8 +36,7 @@ const PrivateRoute = React.memo(
 
 PrivateRoute.propTypes = {
   component: PropTypes.func.isRequired,
-  hasAccessToken: PropTypes.bool.isRequired,
-  awaitingUserQuery: PropTypes.bool,
+  isSigningIn: PropTypes.bool,
   me: CustomPropTypes.user,
 };
 

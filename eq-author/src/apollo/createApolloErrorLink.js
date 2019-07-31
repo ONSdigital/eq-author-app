@@ -6,6 +6,8 @@ import {
 import { onError } from "apollo-link-error";
 import { apiDownError } from "redux/saving/actions";
 
+import auth from "components/Auth";
+
 export const errorHandler = (getStore, error) => {
   const { networkError, graphQLErrors } = error;
   setSentryUser(window.localStorage.getItem("accessToken"));
@@ -18,6 +20,7 @@ export const errorHandler = (getStore, error) => {
     switch (httpStatusCode) {
       // 401 - User does not exist
       case 401:
+        auth.signOut();
         localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");
         break;

@@ -25,26 +25,24 @@ describe("PrivateRoute", () => {
       </MeContext.Provider>
     );
 
-  it("should render a loading screen if waiting on a query", () => {
+  it("should render a loading screen if is currently signing in", () => {
     const { queryByTestId } = renderWithContext(
       <PrivateRoute component={Component} />,
       {
         me: null,
-        hasAccessToken: true,
-        awaitingUserQuery: true,
+        isSigningIn: true,
       }
     );
 
     expect(queryByTestId("loading")).toBeTruthy();
   });
 
-  it("should render the component if the query's loaded and there is a user", () => {
+  it("should render the component if the signIn is complete and there is a user", () => {
     const { queryByText } = renderWithContext(
       <PrivateRoute component={Component} />,
       {
         me,
-        hasAccessToken: true,
-        awaitingUserQuery: false,
+        isSigningIn: false,
       }
     );
 
@@ -56,7 +54,7 @@ describe("PrivateRoute", () => {
       <PrivateRoute component={Component} />,
       {
         me: null,
-        hasAccessToken: false,
+        isSigningIn: false,
       }
     );
 
