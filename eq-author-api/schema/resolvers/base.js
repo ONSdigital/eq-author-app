@@ -50,6 +50,7 @@ const updateMetadata = require("../../src/businessLogic/updateMetadata");
 const getPreviousAnswersForPage = require("../../src/businessLogic/getPreviousAnswersForPage");
 const getPreviousAnswersForSection = require("../../src/businessLogic/getPreviousAnswersForSection");
 const createOption = require("../../src/businessLogic/createOption");
+const onPageDeleted = require("../../src/businessLogic/onPageDeleted");
 const addPrefix = require("../../utils/addPrefix");
 const { createQuestionPage } = require("./pages/questionPage");
 
@@ -226,6 +227,7 @@ const Resolvers = {
     deleteSection: createMutation((root, { input }, ctx) => {
       const section = find(ctx.questionnaire.sections, { id: input.id });
       remove(ctx.questionnaire.sections, section);
+      onPageDeleted(ctx, input.id);
       return section;
     }),
     moveSection: createMutation((_, { input }, ctx) => {

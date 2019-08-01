@@ -1,5 +1,7 @@
 const { buildContext } = require("../../tests/utils/contextBuilder");
 const { RADIO, NUMBER } = require("../../constants/answerTypes");
+const { NEXT_PAGE } = require("../../constants/logicalDestinations");
+
 const executeQuery = require("../../tests/utils/executeQuery");
 const {
   createRoutingMutation,
@@ -19,6 +21,8 @@ const {
   queryPage,
   deletePage,
 } = require("../../tests/utils/contextBuilder/page");
+
+const { deleteSection } = require("../../tests/utils/contextBuilder/section");
 
 describe("routing", () => {
   describe("A Routing", () => {
@@ -642,6 +646,131 @@ describe("routing", () => {
     });
   });
 
+  describe("on Section Deleted", () => {
+    const sections = [
+      {
+        id: "section1",
+        pages: [
+          {
+            title: "page1",
+            answers: [
+              {
+                type: RADIO,
+              },
+            ],
+            routing: {
+              rules: [
+                {
+                  destination: { section: 1, page: null },
+                  expressionGroup: { expressions: [{}] },
+                },
+                {
+                  destination: { section: 2, page: null },
+                  expressionGroup: { expressions: [{}] },
+                },
+              ],
+              else: { section: 3, page: null },
+            },
+          },
+          {
+            title: "page2",
+            answers: [
+              {
+                type: RADIO,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        id: "section2",
+        pages: [
+          {
+            title: "page2a",
+            answers: [
+              {
+                type: RADIO,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        id: "section3",
+        pages: [
+          {
+            title: "page3a",
+            answers: [
+              {
+                type: RADIO,
+              },
+            ],
+          },
+        ],
+      },
+      {
+        id: "section4",
+        pages: [
+          {
+            title: "page4a",
+            answers: [
+              {
+                type: RADIO,
+              },
+            ],
+          },
+        ],
+      },
+    ];
+
+    it("should remove references to questionnaire if deleted section is a rule destination", async () => {
+      const ctx = await buildContext({ sections });
+
+      const { questionnaire } = ctx;
+      let firstPage = questionnaire.sections[0].pages[0];
+      const secondSection = questionnaire.sections[1];
+      const thirdSection = questionnaire.sections[2];
+
+      // Check both rules exist
+      expect(firstPage.routing.rules[0].destination.sectionId).toEqual(
+        secondSection.id
+      );
+      expect(firstPage.routing.rules[1].destination.sectionId).toEqual(
+        thirdSection.id
+      );
+
+      await deleteSection(ctx, thirdSection.id);
+      firstPage = ctx.questionnaire.sections[0].pages[0];
+
+      // Only rule to exist after deletion of third page
+      expect(firstPage.routing.rules).toHaveLength(1);
+      expect(firstPage.routing.rules[0].destination.sectionId).toEqual(
+        secondSection.id
+      );
+      firstPage = ctx.questionnaire.sections[0].pages[0];
+
+      await deleteSection(ctx, secondSection.id);
+
+      // No routing after deletion of second page
+      expect(firstPage.routing).toBeNull();
+    });
+
+    it("should change else destination if deleted section is the else destination", async () => {
+      const ctx = await buildContext({ sections });
+
+      const { questionnaire } = ctx;
+      let firstPage = questionnaire.sections[0].pages[0];
+      const fourthSection = questionnaire.sections[3];
+
+      await deleteSection(ctx, fourthSection.id);
+      firstPage = ctx.questionnaire.sections[0].pages[0];
+
+      // Only rule to exist after deletion of third page
+      expect(firstPage.routing.else.pageId).toBeNull();
+      expect(firstPage.routing.else.logical).toEqual(NEXT_PAGE);
+    });
+  });
+
   describe("on Page Deleted", () => {
     const sections = [
       {
@@ -665,6 +794,7 @@ describe("routing", () => {
                   expressionGroup: { expressions: [{}] },
                 },
               ],
+              else: { section: 0, page: 3 },
             },
           },
           {
@@ -677,6 +807,14 @@ describe("routing", () => {
           },
           {
             title: "page3",
+            answers: [
+              {
+                type: RADIO,
+              },
+            ],
+          },
+          {
+            title: "page4",
             answers: [
               {
                 type: RADIO,
@@ -717,6 +855,21 @@ describe("routing", () => {
 
       // No routing after deletion of second page
       expect(firstPage.routing).toBeNull();
+    });
+
+    it("should change else destination if deleted page is the else destination", async () => {
+      const ctx = await buildContext({ sections });
+
+      const { questionnaire } = ctx;
+      let firstPage = questionnaire.sections[0].pages[0];
+      const fourthPage = questionnaire.sections[0].pages[3];
+
+      await deletePage(ctx, fourthPage.id);
+      firstPage = ctx.questionnaire.sections[0].pages[0];
+
+      // Only rule to exist after deletion of third page
+      expect(firstPage.routing.else.pageId).toBeNull();
+      expect(firstPage.routing.else.logical).toEqual(NEXT_PAGE);
     });
   });
 });

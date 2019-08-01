@@ -27,7 +27,7 @@ const convertPathToDestination = (
     };
   } else if (!isNull(section)) {
     return {
-      pageId: get(questionnaire, `sections[${section}].id`),
+      sectionId: get(questionnaire, `sections[${section}].id`),
     };
   } else {
     throw new Error("Not a valid destination in the input config");
