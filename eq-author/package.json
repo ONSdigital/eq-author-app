@@ -73,10 +73,10 @@
     "svgo-loader": "latest",
     "terser-webpack-plugin": "latest",
     "url-loader": "latest",
+    "wait-for-expect": "latest",
     "webpack": "latest",
     "webpack-dev-server": "latest",
-    "webpack-manifest-plugin": "latest",
-    "wait-for-expect": "latest"
+    "webpack-manifest-plugin": "latest"
   },
   "dependencies": {
     "@sentry/browser": "latest",
@@ -104,7 +104,7 @@
     "lodash": "latest",
     "polished": "latest",
     "react": "latest",
-    "react-apollo": "latest",
+    "react-apollo": "^2.5.8",
     "react-dom": "latest",
     "react-firebaseui": "latest",
     "react-hot-loader": "latest",

@@ -1,11 +1,10 @@
 import { graphql } from "react-apollo";
-import { remove, find, flowRight } from "lodash";
+import { find, flowRight } from "lodash";
 import gql from "graphql-tag";
 
 import { withShowToast } from "components/Toasts";
 
 import deleteSectionMutation from "graphql/deleteSection.graphql";
-import fragment from "graphql/questionnaireFragment.graphql";
 
 import getNextSection from "utils/getNextOnDelete";
 import { buildPagePath } from "utils/UrlUtils";
@@ -27,15 +26,17 @@ const pluralize = (count, word, plural = word + "s") => {
 
 export const handleDeletion = (
   { history, onAddSection, match: { params } },
-  questionnaire
+  { data },
+  oldQuestionnaire
 ) => {
+  const questionnaire = data.deleteSection;
   const { sectionId, questionnaireId } = params;
 
-  if (questionnaire.sections.length === 1) {
+  if (questionnaire.sections.length === 0) {
     return onAddSection();
   }
 
-  const nextSection = getNextSection(questionnaire.sections, sectionId);
+  const nextSection = getNextSection(oldQuestionnaire.sections, sectionId);
   const nextPage = nextSection.pages[0];
 
   history.push(
@@ -45,30 +46,6 @@ export const handleDeletion = (
       pageId: nextPage.id,
     })
   );
-};
-
-export const deleteUpdater = (questionnaireId, sectionId) => (
-  proxy,
-  result
-) => {
-  const id = `Questionnaire${questionnaireId}`;
-  const questionnaire = proxy.readFragment({ id, fragment });
-
-  remove(questionnaire.sections, { id: sectionId });
-
-  const sections = questionnaire.sections.map(section => ({
-    ...section,
-    questionnaire: result.data.deleteSection.questionnaire,
-  }));
-
-  proxy.writeFragment({
-    id,
-    fragment,
-    data: {
-      ...questionnaire,
-      sections,
-    },
-  });
 };
 
 export const displayToast = (ownProps, questionnaire) => {
@@ -94,7 +71,6 @@ export const mapMutateToProps = ({ ownProps, mutate }) => ({
       client,
     } = ownProps;
     const section = { id: sectionId };
-    const update = deleteUpdater(params.questionnaireId, sectionId);
 
     const questionnaire = client.readFragment({
       id: `Questionnaire${params.questionnaireId}`,
@@ -103,11 +79,10 @@ export const mapMutateToProps = ({ ownProps, mutate }) => ({
 
     const mutation = mutate({
       variables: { input: section },
-      update,
     });
 
     return mutation
-      .then(() => handleDeletion(ownProps, questionnaire))
+      .then(data => handleDeletion(ownProps, data, questionnaire))
       .then(() => displayToast(ownProps, questionnaire))
       .then(() => mutation);
   },
