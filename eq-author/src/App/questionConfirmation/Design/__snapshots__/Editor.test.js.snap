@@ -24,8 +24,17 @@ exports[`Editor Editor Component should autoFocus the title when there is not on
     value={null}
   />
   <Editor__OptionsWrapper>
-    <ConfirmationOption
+    <withValidationError(UnwrappedConfirmationOption)
+      confirmationoption={
+        Object {
+          "description": "Positive description",
+          "id": "1",
+          "label": "Positive label",
+          "validationErrorInfo": Array [],
+        }
+      }
       data-test="positive-input"
+      enableValidationMessage={true}
       label="Positive confirmation text"
       name="positive"
       onChange={[MockFunction]}
@@ -33,11 +42,21 @@ exports[`Editor Editor Component should autoFocus the title when there is not on
       value={
         Object {
           "description": "Positive description",
+          "id": "1",
           "label": "Positive label",
+          "validationErrorInfo": Array [],
         }
       }
     />
     <Editor__MarginLessConfirmationOption
+      confirmationoption={
+        Object {
+          "description": "Negative description",
+          "id": "2",
+          "label": "Negative label",
+          "validationErrorInfo": Array [],
+        }
+      }
       data-test="negative-input"
       label="Negative confirmation text"
       name="negative"
@@ -46,7 +65,9 @@ exports[`Editor Editor Component should autoFocus the title when there is not on
       value={
         Object {
           "description": "Negative description",
+          "id": "2",
           "label": "Negative label",
+          "validationErrorInfo": Array [],
         }
       }
     />
@@ -78,8 +99,17 @@ exports[`Editor Editor Component should render 1`] = `
     value="My first confirmation"
   />
   <Editor__OptionsWrapper>
-    <ConfirmationOption
+    <withValidationError(UnwrappedConfirmationOption)
+      confirmationoption={
+        Object {
+          "description": "Positive description",
+          "id": "1",
+          "label": "Positive label",
+          "validationErrorInfo": Array [],
+        }
+      }
       data-test="positive-input"
+      enableValidationMessage={true}
       label="Positive confirmation text"
       name="positive"
       onChange={[MockFunction]}
@@ -87,11 +117,21 @@ exports[`Editor Editor Component should render 1`] = `
       value={
         Object {
           "description": "Positive description",
+          "id": "1",
           "label": "Positive label",
+          "validationErrorInfo": Array [],
         }
       }
     />
     <Editor__MarginLessConfirmationOption
+      confirmationoption={
+        Object {
+          "description": "Negative description",
+          "id": "2",
+          "label": "Negative label",
+          "validationErrorInfo": Array [],
+        }
+      }
       data-test="negative-input"
       label="Negative confirmation text"
       name="negative"
@@ -100,7 +140,9 @@ exports[`Editor Editor Component should render 1`] = `
       value={
         Object {
           "description": "Negative description",
+          "id": "2",
           "label": "Negative label",
+          "validationErrorInfo": Array [],
         }
       }
     />

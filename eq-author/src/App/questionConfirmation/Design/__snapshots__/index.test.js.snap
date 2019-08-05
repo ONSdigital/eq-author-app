@@ -27,14 +27,16 @@ exports[`QuestionConfirmationRoute should render 1`] = `
         </IconButtonDelete>
       </EditorToolbar__Buttons>
     </EditorToolbar__Toolbar>
-    <Connect(withEntityEditor(UnwrappedEditor))
+    <withValidationError(Connect(withEntityEditor(UnwrappedEditor)))
       confirmation={
         Object {
           "displayName": "My first displayname",
           "id": "1",
           "negative": Object {
             "description": "Negative description",
+            "id": "2",
             "label": "Negative label",
+            "validationErrorInfo": Array [],
           },
           "page": Object {
             "answers": Array [],
@@ -43,12 +45,15 @@ exports[`QuestionConfirmationRoute should render 1`] = `
           },
           "positive": Object {
             "description": "Positive description",
+            "id": "1",
             "label": "Positive label",
+            "validationErrorInfo": Array [],
           },
           "title": "My first confirmation",
         }
       }
       data-test="editor"
+      enableValidationMessage={true}
       onUpdate={[MockFunction]}
     />
   </Panel>

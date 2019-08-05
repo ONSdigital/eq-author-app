@@ -21,6 +21,9 @@ mutation duplicateSection($input: DuplicateSectionInput!) {
         confirmation {
           id
           displayName
+          validationErrorInfo {
+            ...ValidationErrorInfo
+          }
         }
         validationErrorInfo {
           ...ValidationErrorInfo

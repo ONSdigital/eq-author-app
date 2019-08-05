@@ -55,7 +55,13 @@ const addPrefix = require("../../utils/addPrefix");
 const { createQuestionPage } = require("./pages/questionPage");
 
 const { BUSINESS } = require("../../constants/questionnaireTypes");
-const { ANSWERS, OPTIONS } = require("../../constants/validationErrorTypes");
+const {
+  ANSWERS,
+  OPTIONS,
+  SECTIONS,
+  CONFIRMATION,
+  CONFIRMATION_OPTION,
+} = require("../../constants/validationErrorTypes");
 
 const {
   createQuestionnaire,
@@ -434,8 +440,8 @@ const Resolvers = {
       const questionConfirmation = {
         id: uuid.v4(),
         title: "",
-        positive: { label: null, description: null },
-        negative: { label: null, description: null },
+        positive: { id: uuid.v4(), label: "", description: "" },
+        negative: { id: uuid.v4(), label: "", description: "" },
       };
       set(page, "confirmation", questionConfirmation);
       return {
@@ -533,7 +539,11 @@ const Resolvers = {
       getPreviousAnswersForSection(ctx.questionnaire, id),
     availablePipingMetadata: (section, args, ctx) => ctx.questionnaire.metadata,
     validationErrorInfo: ({ id }, args, ctx) =>
-      ctx.validationErrorInfo.sections[id] || { id, errors: [], totalCount: 0 },
+      ctx.validationErrorInfo[SECTIONS][id] || {
+        id,
+        errors: [],
+        totalCount: 0,
+      },
   },
 
   LogicalDestination: {
@@ -770,6 +780,21 @@ const Resolvers = {
     availablePipingAnswers: ({ id }, args, ctx) =>
       getPreviousAnswersForPage(ctx.questionnaire, id),
     availablePipingMetadata: (page, args, ctx) => ctx.questionnaire.metadata,
+    validationErrorInfo: ({ id }, args, ctx) =>
+      ctx.validationErrorInfo[CONFIRMATION][id] || {
+        id,
+        errors: [],
+        totalCount: 0,
+      },
+  },
+
+  ConfirmationOption: {
+    validationErrorInfo: ({ id }, args, ctx) =>
+      ctx.validationErrorInfo[CONFIRMATION_OPTION][id] || {
+        id,
+        errors: [],
+        totalCount: 0,
+      },
   },
 
   Date: GraphQLDate,

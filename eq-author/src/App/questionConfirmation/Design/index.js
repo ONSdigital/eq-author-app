@@ -17,6 +17,7 @@ import withDeleteQuestionConfirmation from "./withDeleteQuestionConfirmation";
 import questionConfirmationIcon from "./question-confirmation-icon.svg";
 import Editor from "./Editor";
 import Panel from "components/Panel";
+import ValidationErrorInfoFragment from "graphql/fragments/validationErrorInfo.graphql";
 
 export class UnwrappedQuestionConfirmationRoute extends React.Component {
   static propTypes = {
@@ -112,10 +113,13 @@ const CONFIRMATION_QUERY = gql`
   query getQuestionConfirmation($id: ID!) {
     questionConfirmation(id: $id) {
       ...QuestionConfirmation
+      validationErrorInfo {
+        ...ValidationErrorInfo
+      }
     }
   }
-
   ${Editor.fragments.QuestionConfirmation}
+  ${ValidationErrorInfoFragment}
 `;
 
 export default withConfirmationEditing(props => (

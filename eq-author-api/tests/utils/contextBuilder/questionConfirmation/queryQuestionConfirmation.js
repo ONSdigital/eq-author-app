@@ -6,12 +6,32 @@ const getQuestionConfirmationQuery = `
       id
       title
       positive {
+        id
         label
         description
+        validationErrorInfo {
+          errors {
+            id
+            type
+            field
+            errorCode
+          }
+          totalCount
+        }
       }
       negative {
+        id
         label
         description
+        validationErrorInfo {
+          errors {
+            id
+            type
+            field
+            errorCode
+          }
+          totalCount
+        }
       }
       page {
         id
@@ -21,6 +41,15 @@ const getQuestionConfirmationQuery = `
       }
       availablePipingMetadata {
         id
+      }
+      validationErrorInfo {
+        errors {
+          id
+          type
+          field
+          errorCode
+        }
+        totalCount
       }
     }
   }

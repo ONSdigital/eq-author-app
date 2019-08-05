@@ -133,8 +133,10 @@ type CalculatedSummaryPage implements Page {
 }
 
 type ConfirmationOption {
+  id: ID!
   label: String
   description: String
+  validationErrorInfo: ValidationErrorInfo
 }
 
 type QuestionConfirmation {
@@ -146,6 +148,7 @@ type QuestionConfirmation {
   negative: ConfirmationOption!
   availablePipingAnswers: [Answer!]!
   availablePipingMetadata: [Metadata!]!
+  validationErrorInfo: ValidationErrorInfo
 }
 
 interface Answer {
