@@ -54,6 +54,9 @@ UnwrappedSectionNavItem.fragments = {
       id
       title
       displayName
+      questionnaire {
+        id
+      }
       validationErrorInfo {
         id
         totalCount
