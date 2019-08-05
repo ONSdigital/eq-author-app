@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 const MoveSectionQuery = ({ questionnaireId, children }) => (
   <Query
     query={query}
+    partialRefetch
     variables={{
       input: {
         questionnaireId,
