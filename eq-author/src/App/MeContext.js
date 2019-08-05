@@ -25,7 +25,13 @@ const signIn = (setSignInSuccess, history, user) => {
       if (!res.ok) {
         throw Error(`Server responded with a ${res.status} code.`);
       }
-      history.push(get(history, "location.state.returnURL", "/"));
+      history.push(
+        get(
+          history,
+          "location.state.returnURL",
+          get(history, "location.pathname", "/")
+        )
+      );
       setSignInSuccess(true);
     })
     .catch(e => {
