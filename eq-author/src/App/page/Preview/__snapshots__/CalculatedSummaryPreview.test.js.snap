@@ -37,140 +37,142 @@ exports[`CalculatedSummaryPreview should render 1`] = `
   preview={true}
   routing={false}
 >
-  <CalculatedSummaryPreview__Container>
-    <PageTitle
-      title="<p>Hello world</p>"
-    />
-    <Info>
-      Please review your answers and confirm these are correct.
-    </Info>
-    <CalculatedSummaryPreview__Summary>
-      <CalculatedSummaryPreview__SummaryItem
-        key="1"
-      >
-        <Grid
-          align="top"
-          fillHeight={true}
+  <Panel>
+    <CalculatedSummaryPreview__Container>
+      <PageTitle
+        title="<p>Hello world</p>"
+      />
+      <Info>
+        Please review your answers and confirm these are correct.
+      </Info>
+      <CalculatedSummaryPreview__Summary>
+        <CalculatedSummaryPreview__SummaryItem
+          key="1"
         >
-          <Column
-            cols={7}
+          <Grid
+            align="top"
+            fillHeight={true}
           >
-            <CalculatedSummaryPreview__SummaryLabel
-              data-test="answer-item"
+            <Column
+              cols={7}
             >
-              Answer 1
-            </CalculatedSummaryPreview__SummaryLabel>
-          </Column>
-          <Column
-            cols={3}
-          >
-            <CalculatedSummaryPreview__SummaryValue>
-              Value
-            </CalculatedSummaryPreview__SummaryValue>
-          </Column>
-          <Column
-            cols={2}
-          >
-            <CalculatedSummaryPreview__SummaryLink>
-              Change
-            </CalculatedSummaryPreview__SummaryLink>
-          </Column>
-        </Grid>
-      </CalculatedSummaryPreview__SummaryItem>
-      <CalculatedSummaryPreview__SummaryItem
-        key="2"
-      >
-        <Grid
-          align="top"
-          fillHeight={true}
-        >
-          <Column
-            cols={7}
-          >
-            <CalculatedSummaryPreview__SummaryLabel
-              data-test="answer-item"
+              <CalculatedSummaryPreview__SummaryLabel
+                data-test="answer-item"
+              >
+                Answer 1
+              </CalculatedSummaryPreview__SummaryLabel>
+            </Column>
+            <Column
+              cols={3}
             >
-              Answer 2
-            </CalculatedSummaryPreview__SummaryLabel>
-          </Column>
-          <Column
-            cols={3}
-          >
-            <CalculatedSummaryPreview__SummaryValue>
-              Value
-            </CalculatedSummaryPreview__SummaryValue>
-          </Column>
-          <Column
-            cols={2}
-          >
-            <CalculatedSummaryPreview__SummaryLink>
-              Change
-            </CalculatedSummaryPreview__SummaryLink>
-          </Column>
-        </Grid>
-      </CalculatedSummaryPreview__SummaryItem>
-      <CalculatedSummaryPreview__SummaryItem
-        key="3"
-      >
-        <Grid
-          align="top"
-          fillHeight={true}
-        >
-          <Column
-            cols={7}
-          >
-            <CalculatedSummaryPreview__SummaryLabel
-              data-test="answer-item"
+              <CalculatedSummaryPreview__SummaryValue>
+                Value
+              </CalculatedSummaryPreview__SummaryValue>
+            </Column>
+            <Column
+              cols={2}
             >
-              Answer 3
-            </CalculatedSummaryPreview__SummaryLabel>
-          </Column>
-          <Column
-            cols={3}
-          >
-            <CalculatedSummaryPreview__SummaryValue>
-              Value
-            </CalculatedSummaryPreview__SummaryValue>
-          </Column>
-          <Column
-            cols={2}
-          >
-            <CalculatedSummaryPreview__SummaryLink>
-              Change
-            </CalculatedSummaryPreview__SummaryLink>
-          </Column>
-        </Grid>
-      </CalculatedSummaryPreview__SummaryItem>
-      <CalculatedSummaryPreview__SummaryTotal>
-        <Grid
-          align="top"
-          fillHeight={true}
+              <CalculatedSummaryPreview__SummaryLink>
+                Change
+              </CalculatedSummaryPreview__SummaryLink>
+            </Column>
+          </Grid>
+        </CalculatedSummaryPreview__SummaryItem>
+        <CalculatedSummaryPreview__SummaryItem
+          key="2"
         >
-          <Column
-            cols={7}
+          <Grid
+            align="top"
+            fillHeight={true}
           >
-            <CalculatedSummaryPreview__SummaryTotalLabel
-              dangerouslySetInnerHTML={
-                Object {
-                  "__html": "<p>Total be:</p>",
+            <Column
+              cols={7}
+            >
+              <CalculatedSummaryPreview__SummaryLabel
+                data-test="answer-item"
+              >
+                Answer 2
+              </CalculatedSummaryPreview__SummaryLabel>
+            </Column>
+            <Column
+              cols={3}
+            >
+              <CalculatedSummaryPreview__SummaryValue>
+                Value
+              </CalculatedSummaryPreview__SummaryValue>
+            </Column>
+            <Column
+              cols={2}
+            >
+              <CalculatedSummaryPreview__SummaryLink>
+                Change
+              </CalculatedSummaryPreview__SummaryLink>
+            </Column>
+          </Grid>
+        </CalculatedSummaryPreview__SummaryItem>
+        <CalculatedSummaryPreview__SummaryItem
+          key="3"
+        >
+          <Grid
+            align="top"
+            fillHeight={true}
+          >
+            <Column
+              cols={7}
+            >
+              <CalculatedSummaryPreview__SummaryLabel
+                data-test="answer-item"
+              >
+                Answer 3
+              </CalculatedSummaryPreview__SummaryLabel>
+            </Column>
+            <Column
+              cols={3}
+            >
+              <CalculatedSummaryPreview__SummaryValue>
+                Value
+              </CalculatedSummaryPreview__SummaryValue>
+            </Column>
+            <Column
+              cols={2}
+            >
+              <CalculatedSummaryPreview__SummaryLink>
+                Change
+              </CalculatedSummaryPreview__SummaryLink>
+            </Column>
+          </Grid>
+        </CalculatedSummaryPreview__SummaryItem>
+        <CalculatedSummaryPreview__SummaryTotal>
+          <Grid
+            align="top"
+            fillHeight={true}
+          >
+            <Column
+              cols={7}
+            >
+              <CalculatedSummaryPreview__SummaryTotalLabel
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "<p>Total be:</p>",
+                  }
                 }
-              }
-              data-test="total-title"
+                data-test="total-title"
+              />
+            </Column>
+            <Column
+              cols={3}
+            >
+              <CalculatedSummaryPreview__SummaryValue>
+                Value
+              </CalculatedSummaryPreview__SummaryValue>
+            </Column>
+            <Column
+              cols={2}
             />
-          </Column>
-          <Column
-            cols={3}
-          >
-            <CalculatedSummaryPreview__SummaryValue>
-              Value
-            </CalculatedSummaryPreview__SummaryValue>
-          </Column>
-          <Column
-            cols={2}
-          />
-        </Grid>
-      </CalculatedSummaryPreview__SummaryTotal>
-    </CalculatedSummaryPreview__Summary>
-  </CalculatedSummaryPreview__Container>
+          </Grid>
+        </CalculatedSummaryPreview__SummaryTotal>
+      </CalculatedSummaryPreview__Summary>
+    </CalculatedSummaryPreview__Container>
+  </Panel>
 </EditorLayout>
 `;

@@ -14,7 +14,7 @@ import { Grid, Column } from "components/Grid";
 
 import AddPage from "App/QuestionnaireDesignPage/icon-add-page.svg?inline";
 
-import Tabs, { TabsBody } from "./Tabs";
+import Tabs from "./Tabs";
 import Header from "./Header";
 
 const Centered = styled.div`
@@ -67,9 +67,7 @@ const EditorLayout = ({
         <Column cols={9} gutters={false}>
           <ScrollPane permanentScrollBar>
             <Margin>
-              <StyledMainCanvas>
-                <TabsBody>{children}</TabsBody>
-              </StyledMainCanvas>
+              <StyledMainCanvas>{children}</StyledMainCanvas>
             </Margin>
             {onAddQuestionPage && (
               <Centered>

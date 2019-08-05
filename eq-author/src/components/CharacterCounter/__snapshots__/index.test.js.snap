@@ -37,7 +37,7 @@ exports[`CharacterCounter should render correct style when limit exceeded 1`] = 
 
 exports[`CharacterCounter should render correct style when limit not exceeded 1`] = `
 .c0 {
-  color: #c3c3c3;
+  color: #d6d8da;
   position: absolute;
   top: 1px;
   bottom: 1px;

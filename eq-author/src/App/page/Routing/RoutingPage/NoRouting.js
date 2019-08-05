@@ -13,8 +13,7 @@ const Container = styled.div`
   justify-content: center;
   text-align: center;
   flex-direction: column;
-  padding: 1em 0;
-  margin-bottom: 0;
+  padding: 3em 0 2em;
 `;
 
 const Icon = styled(IconRouting)`

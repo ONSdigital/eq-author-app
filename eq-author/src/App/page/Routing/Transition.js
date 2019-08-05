@@ -18,7 +18,7 @@ const RoutingComponentTransition = styled(CSSTransition).attrs({
 
   &.component-enter {
     opacity: 0;
-    transform: scale(0.9);
+    transform: scale(0.95);
     z-index: 200;
   }
 
@@ -37,7 +37,7 @@ const RoutingComponentTransition = styled(CSSTransition).attrs({
   &.component-exit-active {
     opacity: 0;
     height: 0 !important;
-    transform: scale(0.9);
+    transform: scale(0.95);
     transition: opacity ${halfTimeout}ms ease-out,
       height ${halfTimeout}ms ease-in ${halfTimeout}ms,
       transform ${halfTimeout}ms ease-in;

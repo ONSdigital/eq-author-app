@@ -7,18 +7,17 @@ exports[`components/RoutingRuleSet should render children 1`] = `
     component="div"
   >
     <Transition__RoutingComponentTransition
-      exit={false}
       key="2"
       timeout={200}
     >
-      <Apollo(Apollo(Apollo(UnwrappedRuleEditor)))
+      <Apollo(Apollo(UnwrappedRuleEditor))
+        ifLabel="IF"
         key="2"
         rule={
           Object {
             "id": "2",
           }
         }
-        title={null}
       />
     </Transition__RoutingComponentTransition>
   </TransitionGroup>
@@ -28,31 +27,24 @@ exports[`components/RoutingRuleSet should render children 1`] = `
     small={true}
     variant="secondary"
   >
-    <IconText
-      hideText={false}
-      icon={[Function]}
-    >
-      Add rule
-    </IconText>
+    Add rule
   </RoutingEditor__AddRuleButton>
-  <RoutingEditor__Box>
-    <withRouter(UnwrappedDestinationSelector)
-      data-test="select-else"
-      id="else"
-      label="ELSE"
-      onChange={[Function]}
-      value={
-        Object {
-          "id": "4",
-          "logical": null,
-          "page": Object {
-            "displayName": "page",
-            "id": "3",
-          },
-          "section": null,
-        }
+  <withRouter(UnwrappedDestinationSelector)
+    data-test="select-else"
+    id="else"
+    label="ELSE"
+    onChange={[Function]}
+    value={
+      Object {
+        "id": "4",
+        "logical": null,
+        "page": Object {
+          "displayName": "page",
+          "id": "3",
+        },
+        "section": null,
       }
-    />
-  </RoutingEditor__Box>
+    }
+  />
 </Fragment>
 `;

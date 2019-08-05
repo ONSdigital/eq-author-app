@@ -8,12 +8,13 @@ exports[`components/AppContainer should render 1`] = `
         "black": "#333333",
         "blue": "#3B7A9E",
         "borders": "#999999",
-        "bordersLight": "#c3c3c3",
+        "bordersLight": "#d6d8da",
         "darkBlue": "#5F7682",
         "darkGrey": "#666666",
+        "green": "#4E943D",
         "grey": "#999999",
         "lightBlue": "#61BDE0",
-        "lightGrey": "#c3c3c3",
+        "lightGrey": "#d6d8da",
         "lightMediumGrey": "#E4E8EB",
         "lighterGrey": "#f5f5f5",
         "orange": "#FDBD56",
@@ -27,7 +28,6 @@ exports[`components/AppContainer should render 1`] = `
         "white": "#FFFFFF",
       },
       "radius": "4px",
-      "shadow": "0 2px 4px rgba(0,0,0,0.1)",
     }
   }
 >

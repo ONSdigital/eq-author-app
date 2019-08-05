@@ -9,7 +9,6 @@ import iconCheck from "./icon-check.svg";
 
 const LegalField = styled.div`
   display: flex;
-  margin-bottom: 2em;
 `;
 
 const LegalInput = styled(Input)`

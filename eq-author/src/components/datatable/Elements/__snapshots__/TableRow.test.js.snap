@@ -6,7 +6,7 @@ exports[`TableRow should render 1`] = `
 }
 
 .c0:not(:last-of-type) {
-  border-bottom: 1px solid #c3c3c3;
+  border-bottom: 1px solid #d6d8da;
 }
 
 <tr

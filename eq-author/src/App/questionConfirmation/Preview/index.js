@@ -17,6 +17,7 @@ import MultipleChoiceAnswerOptionsReplay from "./MultipleChoiceAnswerOptionsRepl
 
 import { RADIO } from "constants/answer-types";
 import { colors } from "constants/theme";
+import Panel from "components/Panel";
 
 const Container = styled.div`
   padding: 2em;
@@ -72,24 +73,26 @@ export const UnwrappedPreviewConfirmationRoute = ({ loading, data }) => {
 
   return (
     <EditorLayout preview title={displayName}>
-      <Container>
-        <PageTitle title={pageTitle} />
-        {answers.map(
-          ({ id, options, mutuallyExclusiveOption }) =>
-            isArray(options) && (
-              <Replay key={id}>
-                <MultipleChoiceAnswerOptionsReplay
-                  options={compact([...options, mutuallyExclusiveOption])}
-                />
-              </Replay>
-            )
-        )}
-        {
-          <MultipleChoiceAnswer
-            answer={{ type: RADIO, options: [positive, negative] }}
-          />
-        }
-      </Container>
+      <Panel>
+        <Container>
+          <PageTitle title={pageTitle} />
+          {answers.map(
+            ({ id, options, mutuallyExclusiveOption }) =>
+              isArray(options) && (
+                <Replay key={id}>
+                  <MultipleChoiceAnswerOptionsReplay
+                    options={compact([...options, mutuallyExclusiveOption])}
+                  />
+                </Replay>
+              )
+          )}
+          {
+            <MultipleChoiceAnswer
+              answer={{ type: RADIO, options: [positive, negative] }}
+            />
+          }
+        </Container>
+      </Panel>
     </EditorLayout>
   );
 };

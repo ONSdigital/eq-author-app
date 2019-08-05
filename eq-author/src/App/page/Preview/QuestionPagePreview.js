@@ -16,6 +16,7 @@ import PropertiesPanel from "../PropertiesPanel";
 
 import IconInfo from "./icon-info.svg?inline";
 import IconChevron from "./icon-chevron.svg";
+import Panel from "components/Panel";
 
 const Container = styled.div`
   padding: 2em;
@@ -48,7 +49,7 @@ const Guidance = styled.div`
   margin-bottom: 2em;
 `;
 
-const Panel = styled.div`
+const Box = styled.div`
   border-left: 10px solid #033e58;
   background: #eff0f9;
   padding: 1em;
@@ -107,83 +108,91 @@ const QuestionPagePreview = ({ page }) => {
       title={page.displayName}
       renderPanel={() => <PropertiesPanel page={page} />}
     >
-      <Container>
-        <PageTitle title={title} />
+      <Panel>
+        <Container>
+          <PageTitle title={title} />
 
-        {descriptionEnabled && (
-          <div data-test="description">
-            {description ? (
-              <Description dangerouslySetInnerHTML={{ __html: description }} />
-            ) : (
-              <Error large>Missing description</Error>
-            )}
-          </div>
-        )}
-
-        {definitionEnabled && (
-          <Details data-test="definition">
-            <DetailsTitle>
-              {definitionLabel || <Error small>Missing definition label</Error>}
-            </DetailsTitle>
-            <DetailsContent>
-              {definitionContent ? (
-                <span dangerouslySetInnerHTML={{ __html: definitionContent }} />
-              ) : (
-                <Error large margin={false}>
-                  Missing definition content
-                </Error>
-              )}
-            </DetailsContent>
-          </Details>
-        )}
-
-        {guidanceEnabled && (
-          <div data-test="guidance">
-            {guidance ? (
-              <Guidance>
-                <Panel dangerouslySetInnerHTML={{ __html: guidance }} />
-              </Guidance>
-            ) : (
-              <Error large>Missing guidance</Error>
-            )}
-          </div>
-        )}
-
-        {answers.length ? (
-          <Answers>
-            {answers.map(answer => (
-              <Answer key={answer.id} answer={answer} />
-            ))}
-          </Answers>
-        ) : (
-          <Error data-test="no-answers" large>
-            <IconText icon={IconInfo}>
-              No answers have been added to this question.
-            </IconText>
-          </Error>
-        )}
-
-        {additionalInfoEnabled && (
-          <Details data-test="additional-info">
-            <DetailsTitle>
-              {additionalInfoLabel || (
-                <Error small>Missing additional information label</Error>
-              )}
-            </DetailsTitle>
-            <DetailsContent>
-              {additionalInfoContent ? (
-                <span
-                  dangerouslySetInnerHTML={{ __html: additionalInfoContent }}
+          {descriptionEnabled && (
+            <div data-test="description">
+              {description ? (
+                <Description
+                  dangerouslySetInnerHTML={{ __html: description }}
                 />
               ) : (
-                <Error large margin={false}>
-                  Missing additional information content
-                </Error>
+                <Error large>Missing description</Error>
               )}
-            </DetailsContent>
-          </Details>
-        )}
-      </Container>
+            </div>
+          )}
+
+          {definitionEnabled && (
+            <Details data-test="definition">
+              <DetailsTitle>
+                {definitionLabel || (
+                  <Error small>Missing definition label</Error>
+                )}
+              </DetailsTitle>
+              <DetailsContent>
+                {definitionContent ? (
+                  <span
+                    dangerouslySetInnerHTML={{ __html: definitionContent }}
+                  />
+                ) : (
+                  <Error large margin={false}>
+                    Missing definition content
+                  </Error>
+                )}
+              </DetailsContent>
+            </Details>
+          )}
+
+          {guidanceEnabled && (
+            <div data-test="guidance">
+              {guidance ? (
+                <Guidance>
+                  <Box dangerouslySetInnerHTML={{ __html: guidance }} />
+                </Guidance>
+              ) : (
+                <Error large>Missing guidance</Error>
+              )}
+            </div>
+          )}
+
+          {answers.length ? (
+            <Answers>
+              {answers.map(answer => (
+                <Answer key={answer.id} answer={answer} />
+              ))}
+            </Answers>
+          ) : (
+            <Error data-test="no-answers" large>
+              <IconText icon={IconInfo}>
+                No answers have been added to this question.
+              </IconText>
+            </Error>
+          )}
+
+          {additionalInfoEnabled && (
+            <Details data-test="additional-info">
+              <DetailsTitle>
+                {additionalInfoLabel || (
+                  <Error small>Missing additional information label</Error>
+                )}
+              </DetailsTitle>
+              <DetailsContent>
+                {additionalInfoContent ? (
+                  <span
+                    dangerouslySetInnerHTML={{ __html: additionalInfoContent }}
+                  />
+                ) : (
+                  <Error large margin={false}>
+                    Missing additional information content
+                  </Error>
+                )}
+              </DetailsContent>
+            </Details>
+          )}
+        </Container>
+      </Panel>
     </EditorLayout>
   );
 };

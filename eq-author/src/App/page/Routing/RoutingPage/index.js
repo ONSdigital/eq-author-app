@@ -1,6 +1,6 @@
 import React from "react";
 import { propType } from "graphql-anywhere";
-import styled from "styled-components";
+
 import { TransitionGroup } from "react-transition-group";
 import PropTypes from "prop-types";
 
@@ -11,10 +11,7 @@ import Transition from "../Transition";
 import withCreateRouting from "./withCreateRouting";
 import fragment from "./fragment.graphql";
 import transformNestedFragments from "utils/transformNestedFragments";
-
-const Padding = styled.div`
-  padding: 2em;
-`;
+import Panel from "components/Panel";
 
 export class UnwrappedRoutingPage extends React.Component {
   static propTypes = {
@@ -31,13 +28,15 @@ export class UnwrappedRoutingPage extends React.Component {
     if (!page.routing) {
       return (
         <Transition key="routing-rule-set-empty" exit={false}>
-          <NoRouting
-            title="No routing rules exist for this question"
-            onAddRouting={this.handleAddRouting}
-            data-test="routing-rule-set-empty-msg"
-          >
-            Users completing this question will be taken to the next page.
-          </NoRouting>
+          <Panel>
+            <NoRouting
+              title="No routing rules exist for this question"
+              onAddRouting={this.handleAddRouting}
+              data-test="routing-rule-set-empty-msg"
+            >
+              Users completing this question will be taken to the next page.
+            </NoRouting>
+          </Panel>
         </Transition>
       );
     }
@@ -53,9 +52,7 @@ export class UnwrappedRoutingPage extends React.Component {
     const { page } = this.props;
     return (
       <div data-test="routing-editor">
-        <Padding>
-          <TransitionGroup>{this.renderContent(page)}</TransitionGroup>
-        </Padding>
+        <TransitionGroup>{this.renderContent(page)}</TransitionGroup>
       </div>
     );
   }

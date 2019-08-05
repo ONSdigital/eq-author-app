@@ -8,7 +8,6 @@ import {
 } from "constants/routing-left-side";
 import { byTestAttr } from "tests/utils/selectors";
 
-import RoutingAnswerContentPicker from "./RoutingAnswerContentPicker";
 import { UnwrappedBinaryExpressionEditor as BinaryExpressionEditor } from "./";
 import MultipleChoiceAnswerOptionsSelector from "./MultipleChoiceAnswerOptionsSelector";
 import NumberAnswerSelector from "./NumberAnswerSelector";
@@ -23,7 +22,10 @@ describe("BinaryExpressionEditor", () => {
       updateLeftSide: jest.fn(),
       updateRightSide: jest.fn(),
       updateBinaryExpression: jest.fn(),
+      createBinaryExpression: jest.fn(),
       isOnlyExpression: false,
+      isLastExpression: false,
+      expressionGroupId: "1",
       expression: {
         id: "1",
         left: {
@@ -72,6 +74,14 @@ describe("BinaryExpressionEditor", () => {
     });
   });
 
+  it("should call createBinaryExpression when add button is clicked", () => {
+    const wrapper = shallow(<BinaryExpressionEditor {...defaultProps} />);
+    wrapper.find(byTestAttr("btn-add")).simulate("click");
+    expect(defaultProps.createBinaryExpression).toHaveBeenCalledWith(
+      defaultProps.expressionGroupId
+    );
+  });
+
   it("should call deleteBinaryExpression when remove button is clicked", () => {
     const wrapper = shallow(<BinaryExpressionEditor {...defaultProps} />);
     wrapper.find(byTestAttr("btn-remove")).simulate("click");
@@ -83,7 +93,7 @@ describe("BinaryExpressionEditor", () => {
   it("should correctly submit from RoutingAnswerContentPicker", () => {
     const wrapper = shallow(<BinaryExpressionEditor {...defaultProps} />);
 
-    wrapper.find(RoutingAnswerContentPicker).simulate("submit", {
+    wrapper.find(byTestAttr("routing-answer-picker")).simulate("submit", {
       value: {
         id: "999",
       },
