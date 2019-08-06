@@ -110,6 +110,12 @@ class Question {
       question.additionalInfoEnabled &&
       (question.additionalInfoLabel || question.additionalInfoContent)
     ) {
+      if (!this.answers.length) {
+        throw new Error(
+          `Cannot add additional information to question '${question.id}' because it has no answers.`
+        );
+      }
+
       last(this.answers).guidance = {
         show_guidance: question.additionalInfoLabel,
         hide_guidance: question.additionalInfoLabel,
