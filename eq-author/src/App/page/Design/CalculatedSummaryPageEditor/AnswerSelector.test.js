@@ -2,9 +2,8 @@ import React from "react";
 import { shallow } from "enzyme";
 
 import { NUMBER } from "constants/answer-types";
-import ContentPickerModal from "components/ContentPickerModal";
 
-import AnswerSelector, { SuggestionButton } from "./AnswerSelector";
+import AnswerSelector from "./AnswerSelector";
 import AnswerChip from "./AnswerChip";
 
 describe("AnswerSelector", () => {
@@ -63,7 +62,13 @@ describe("AnswerSelector", () => {
     ];
   });
 
-  it("should render", () => {
+  it("should render when there are no available summary answers", () => {
+    const wrapper = shallow(<AnswerSelector page={page} {...mockHandlers} />);
+    expect(wrapper).toMatchSnapshot();
+  });
+
+  it("should render when there are available summary answers", () => {
+    page.availableSummaryAnswers = answers;
     const wrapper = shallow(<AnswerSelector page={page} {...mockHandlers} />);
     expect(wrapper).toMatchSnapshot();
   });
@@ -72,16 +77,6 @@ describe("AnswerSelector", () => {
     page.summaryAnswers = answers;
     const wrapper = shallow(<AnswerSelector page={page} {...mockHandlers} />);
     expect(wrapper.find(AnswerChip)).toHaveLength(3);
-  });
-
-  it("can add a single answer", () => {
-    page.availableSummaryAnswers = answers;
-    const wrapper = shallow(<AnswerSelector page={page} {...mockHandlers} />);
-    wrapper.find(ContentPickerModal).simulate("submit", { value: { id: 1 } });
-    expect(mockHandlers.onUpdateCalculatedSummaryPage).toHaveBeenCalledWith({
-      id: "2",
-      summaryAnswers: [{ value: { id: 1 } }],
-    });
   });
 
   it("should remove single answers on remove click", () => {
@@ -106,33 +101,6 @@ describe("AnswerSelector", () => {
     expect(mockHandlers.onUpdateCalculatedSummaryPage).toHaveBeenCalledWith({
       id: "2",
       summaryAnswers: [],
-    });
-  });
-
-  it("should add many answers when a suggestion is selected", () => {
-    page.availableSummaryAnswers = answers;
-    const wrapper = shallow(<AnswerSelector page={page} {...mockHandlers} />);
-    expect(wrapper.find(SuggestionButton)).toHaveLength(1);
-    wrapper.find(SuggestionButton).simulate("click");
-    expect(mockHandlers.onUpdateCalculatedSummaryPage).toHaveBeenCalledWith({
-      id: "2",
-      summaryAnswers: [
-        expect.objectContaining({
-          displayName: "Answer 1",
-          id: 1,
-          type: NUMBER,
-        }),
-        expect.objectContaining({
-          displayName: "Answer 2",
-          id: 2,
-          type: NUMBER,
-        }),
-        expect.objectContaining({
-          displayName: "Answer 3",
-          id: 3,
-          type: NUMBER,
-        }),
-      ],
     });
   });
 });

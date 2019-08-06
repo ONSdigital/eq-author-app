@@ -2,16 +2,12 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { propType } from "graphql-anywhere";
-import { find, flatten } from "lodash";
-import { TransitionGroup } from "react-transition-group";
+import { find } from "lodash";
 import gql from "graphql-tag";
 
 import { colors } from "constants/theme";
-import { CURRENCY, NUMBER, PERCENTAGE } from "constants/answer-types";
-import FadeTransition from "components/transitions/FadeTransition";
-import ContentPickerModal from "components/ContentPickerModal";
+import CalSumContentPicker from "./CalSumContentPicker";
 import shapeTree from "components/ContentPicker/shapeTree";
-import { ANSWER } from "components/ContentPickerSelect/content-types";
 import Button from "components/buttons/Button";
 import TextButton from "components/buttons/TextButton";
 
@@ -23,82 +19,6 @@ const Box = styled.div`
   border-radius: 3px;
   margin-bottom: 2em;
   overflow: hidden;
-`;
-
-const Suggestions = styled.div`
-  background: #fff;
-  border: 1px solid ${colors.bordersLight};
-  border-radius: 3px;
-  margin-top: 1em;
-  padding-bottom: 0.5em;
-`;
-
-const SuggestionsHeader = styled.div`
-  padding: 0.5em 1em;
-`;
-
-const SuggestionsTitle = styled.h3`
-  font-size: 0.8em;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  margin: 0;
-  color: #7a7a7a;
-`;
-
-const SuggestionsList = styled.ul`
-  list-style: none;
-  margin: 0;
-  padding: 0;
-`;
-
-const SuggestionsListItem = styled.li`
-  margin: 0;
-  padding: 0;
-`;
-
-export const SuggestionButton = styled.button`
-  padding: 0.25em 1em;
-  background: transparent;
-  appearance: none;
-  font-size: 1em;
-  border: none;
-  text-align: left;
-  cursor: pointer;
-  width: 100%;
-  color: #4a4a4a;
-  display: flex;
-  align-items: center;
-
-  &:hover {
-    background: ${colors.lighterGrey};
-  }
-
-  &:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px ${colors.tertiary};
-  }
-`;
-
-const SuggestionText = styled.span`
-  flex: 1 1 auto;
-`;
-
-const SuggestionTitle = styled.div`
-  font-weight: bold;
-`;
-
-const SuggestionSubtitle = styled.div`
-  font-size: 0.9em;
-`;
-
-const SuggestionAnswers = styled.div`
-  font-size: 0.8em;
-  font-weight: bold;
-  color: #7a7a7a;
-  letter-spacing: 0.05em;
-  margin-left: auto;
-  flex: 0 0 auto;
-  text-transform: uppercase;
 `;
 
 const RemoveAllButton = styled(TextButton)`
@@ -178,25 +98,6 @@ const EmptyText = styled.div`
   margin-bottom: 1em;
 `;
 
-const NoShortcuts = styled.div`
-  padding: 0.5em 1em;
-  font-weight: normal;
-  font-size: 0.9em;
-`;
-
-const buildSuggestions = (section, answers) => {
-  const validTypes = [CURRENCY, NUMBER, PERCENTAGE];
-  const suggestions = validTypes
-    .map(type => ({
-      suggestionTitle: `${type} answers in this section`,
-      suggestionSubtitle: `in ${section.displayName}`,
-      answerType: type,
-      answers: answers.filter(answer => answer.type === type),
-    }))
-    .filter(o => o.answers.length > 0);
-  return flatten(suggestions);
-};
-
 export default class AnswerSelector extends Component {
   state = {
     showPicker: false,
@@ -226,30 +127,13 @@ export default class AnswerSelector extends Component {
     this.setState({ showPicker: false });
   };
 
-  handlePickerSubmit = answer => {
-    const {
-      onUpdateCalculatedSummaryPage,
-      page,
-      page: { summaryAnswers },
-    } = this.props;
+  handlePickerSubmit = answers => {
+    const { onUpdateCalculatedSummaryPage, page } = this.props;
 
     this.setState({ showPicker: false });
     onUpdateCalculatedSummaryPage({
       id: page.id,
-      summaryAnswers: [...summaryAnswers, answer],
-    });
-  };
-
-  handleSuggestionSelect = answerIds => {
-    const {
-      onUpdateCalculatedSummaryPage,
-      page,
-      page: { summaryAnswers },
-    } = this.props;
-
-    onUpdateCalculatedSummaryPage({
-      id: page.id,
-      summaryAnswers: [...summaryAnswers, ...answerIds],
+      summaryAnswers: answers,
     });
   };
 
@@ -272,19 +156,17 @@ export default class AnswerSelector extends Component {
                 Remove all
               </RemoveAllButton>
             </SectionHeader>
-            <TransitionGroup component={AnswerList}>
+            <AnswerList>
               {answers.map(answer => (
-                <FadeTransition key={answer.id}>
-                  <AnswerListItem>
-                    <AnswerChip
-                      onRemove={() => this.handleRemoveAnswers([answer])}
-                    >
-                      {answer.displayName}
-                    </AnswerChip>
-                  </AnswerListItem>
-                </FadeTransition>
+                <AnswerListItem key={answer.id}>
+                  <AnswerChip
+                    onRemove={() => this.handleRemoveAnswers([answer])}
+                  >
+                    {answer.displayName}
+                  </AnswerChip>
+                </AnswerListItem>
               ))}
-            </TransitionGroup>
+            </AnswerList>
           </SectionListItem>
         </SectionList>
         <SelectButton
@@ -298,84 +180,54 @@ export default class AnswerSelector extends Component {
     );
   }
 
+  renderEmptyState(availableSummaryAnswers) {
+    const isAvailableAnswers = availableSummaryAnswers.length > 0;
+    const title = isAvailableAnswers
+      ? "No answers selected"
+      : "No answers available";
+    const text = isAvailableAnswers
+      ? "Select an answer using the button below."
+      : "There are no answers to provide a calculated summary.";
+    return (
+      <div>
+        <Empty>
+          <EmptyTitle>{title}</EmptyTitle>
+          <EmptyText>{text}</EmptyText>
+          <EmptyButton
+            small
+            onClick={this.handlePickerOpen}
+            data-test="answer-selector-empty"
+            disabled={!isAvailableAnswers}
+          >
+            Select an answer
+          </EmptyButton>
+        </Empty>
+      </div>
+    );
+  }
+
   render() {
     const {
-      page: { summaryAnswers, availableSummaryAnswers, section },
+      page: { summaryAnswers, availableSummaryAnswers },
     } = this.props;
 
     let answerType;
     if (summaryAnswers.length > 0) {
       answerType = summaryAnswers[0].type;
     }
-    const suggestions = buildSuggestions(section, availableSummaryAnswers);
     return (
       <div>
         <Box>
           <Answers>
-            {summaryAnswers.length > 0 ? (
-              this.renderAnswers(summaryAnswers, answerType)
-            ) : (
-              <div>
-                <Empty>
-                  <EmptyTitle>No answers selected</EmptyTitle>
-                  <EmptyText>
-                    Select an answer using the button below or use the shortcuts
-                    for common selections.
-                  </EmptyText>
-                  <EmptyButton
-                    small
-                    onClick={this.handlePickerOpen}
-                    data-test="answer-selector-empty"
-                  >
-                    Select an answer
-                  </EmptyButton>
-                </Empty>
-              </div>
-            )}
-            <Suggestions>
-              <SuggestionsHeader>
-                <SuggestionsTitle>Shortcuts</SuggestionsTitle>
-              </SuggestionsHeader>
-              {suggestions.length > 0 ? (
-                <SuggestionsList>
-                  {suggestions.map((suggestion, index) => (
-                    <SuggestionsListItem suggestion={suggestion} key={index}>
-                      <SuggestionButton
-                        onClick={() => {
-                          this.handleSuggestionSelect(suggestion.answers);
-                        }}
-                        id={index}
-                        data-test={`${suggestion.answers[0].type}-suggestion`}
-                      >
-                        <SuggestionText>
-                          <SuggestionTitle>
-                            {suggestion.suggestionTitle}
-                          </SuggestionTitle>
-                          <SuggestionSubtitle>
-                            {suggestion.suggestionSubtitle}
-                          </SuggestionSubtitle>
-                        </SuggestionText>
-                        <SuggestionAnswers>
-                          {suggestion.answers.length} answers
-                        </SuggestionAnswers>
-                      </SuggestionButton>
-                    </SuggestionsListItem>
-                  ))}
-                </SuggestionsList>
-              ) : (
-                <NoShortcuts>
-                  No shortcuts available. Add numeric answers to be provided
-                  with suggested selections.
-                </NoShortcuts>
-              )}
-            </Suggestions>
-            <ContentPickerModal
+            {summaryAnswers.length > 0
+              ? this.renderAnswers(summaryAnswers, answerType)
+              : this.renderEmptyState(availableSummaryAnswers)}
+            <CalSumContentPicker
               isOpen={this.state.showPicker}
               onClose={this.handlePickerClose}
               onSubmit={this.handlePickerSubmit}
-              answerData={shapeTree(availableSummaryAnswers, "page")}
-              levels={2}
-              contentTypes={[ANSWER]}
+              startingSelectedAnswers={summaryAnswers}
+              data={shapeTree(availableSummaryAnswers)}
             />
           </Answers>
         </Box>
@@ -404,6 +256,10 @@ AnswerSelector.fragments = {
         page {
           id
           displayName
+          section {
+            id
+            displayName
+          }
         }
       }
     }

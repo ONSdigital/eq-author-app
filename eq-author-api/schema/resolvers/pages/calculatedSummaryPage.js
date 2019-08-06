@@ -1,12 +1,4 @@
-const {
-  compact,
-  find,
-  findIndex,
-  merge,
-  uniq,
-  get,
-  intersection,
-} = require("lodash");
+const { find, findIndex, merge, uniq, get, intersection } = require("lodash");
 const uuid = require("uuid");
 
 const { getName } = require("../../../utils/getName");
@@ -51,32 +43,15 @@ Resolvers.CalculatedSummaryPage = {
         )
       : [];
   },
-  availableSummaryAnswers: ({ id, summaryAnswers }, args, ctx) => {
-    const section = getSectionByPageId(ctx, id);
-    if (!summaryAnswers || summaryAnswers.length === 0) {
-      return getPreviousAnswersForPage({ sections: [section] }, id, true, [
-        NUMBER,
-        CURRENCY,
-        PERCENTAGE,
-      ]);
-    }
 
-    const answerTypes = summaryAnswers.map(selectedSummaryAnswer =>
-      get(getAnswerById(ctx, selectedSummaryAnswer), "type")
-    );
-    const uniqueAnswerTypes = uniq(compact(answerTypes));
-    if (uniqueAnswerTypes.length > 1) {
-      throw new Error(`All answer types must be consistent.`);
-    }
-    const previousAnswers = getPreviousAnswersForPage(
-      { sections: [section] },
-      id,
-      true,
-      [uniqueAnswerTypes[0]]
-    );
-    return previousAnswers.filter(
-      previousAnswer => !summaryAnswers.includes(previousAnswer.id)
-    );
+  availableSummaryAnswers: ({ id }, args, ctx) => {
+    const section = getSectionByPageId(ctx, id);
+
+    return getPreviousAnswersForPage({ sections: [section] }, id, true, [
+      NUMBER,
+      CURRENCY,
+      PERCENTAGE,
+    ]);
   },
   availablePipingAnswers: ({ id }, args, ctx) =>
     getPreviousAnswersForPage(ctx.questionnaire, id),
@@ -98,29 +73,21 @@ Resolvers.Mutation = {
   ),
   updateCalculatedSummaryPage: createMutation((_, { input }, ctx) => {
     const page = getPageById(ctx, input.id);
-    let currentSelectedAnswerType;
-    if (get(page, "summaryAnswers", []).length > 0) {
-      currentSelectedAnswerType = page.summaryAnswers
-        ? getAnswerById(ctx, page.summaryAnswers[0]).type
-        : null;
-    }
     if (get(input, "summaryAnswers", []).length > 0) {
-      input.summaryAnswers.forEach(summaryAnswerId => {
+      const answerTypes = input.summaryAnswers.map(summaryAnswerId => {
         const answerType = getAnswerById(ctx, summaryAnswerId).type;
         if (![NUMBER, CURRENCY, PERCENTAGE].includes(answerType)) {
           throw new Error(
             `${answerType} answers are not suitable for a calculated summary page`
           );
         }
-        if (
-          currentSelectedAnswerType &&
-          answerType !== currentSelectedAnswerType
-        ) {
-          throw new Error(
-            "Answer types must be consistent on a calculated summary"
-          );
-        }
+        return answerType;
       });
+      if (uniq(answerTypes).length > 1) {
+        throw new Error(
+          "Answer types must be consistent on a calculated summary"
+        );
+      }
     }
 
     merge(page, input);
