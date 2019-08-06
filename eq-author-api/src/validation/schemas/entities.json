@@ -3,11 +3,20 @@
   "definitions": {
     "section": {
       "type": "object",
+      "additionalProperties": true,
       "properties": {
         "id": { "type": "string" },
         "title": {
           "type": "string",
           "requiredWhenQuestionnaireSetting": "navigation"
+        },
+        "introductionTitle": {
+          "type": "string",
+          "requiredWhenOtherFieldsPopulated": ["introductionContent"]
+        },
+        "introductionContent": {
+          "type": "string",
+          "requiredWhenOtherFieldsPopulated": ["introductionTitle"]
         },
         "pages": {
           "type": "array",
