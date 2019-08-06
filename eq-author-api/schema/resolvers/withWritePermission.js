@@ -1,6 +1,7 @@
 const hasWritePermission = (questionnaire, user) =>
   questionnaire.createdBy === user.id ||
-  questionnaire.editors.indexOf(user.id) > -1;
+  questionnaire.editors.indexOf(user.id) > -1 ||
+  user.admin === true;
 
 const enforceHasWritePermission = (questionnaire, user) => {
   if (!hasWritePermission(questionnaire, user)) {

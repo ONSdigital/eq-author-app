@@ -1,4 +1,5 @@
 const { getQuestionnaire } = require("../utils/datastore");
+const { get } = require("lodash");
 
 module.exports = async (req, res, next) => {
   const questionnaireId = req.header("questionnaireId");
@@ -8,6 +9,13 @@ module.exports = async (req, res, next) => {
   }
 
   const questionnaire = await getQuestionnaire(questionnaireId);
+
+  const isAdmin = get(req, "user.admin", false);
+  if (isAdmin) {
+    req.questionnaire = questionnaire;
+    next();
+    return;
+  }
 
   if (questionnaire && questionnaire.isPublic === false) {
     const userId = req.user.id;

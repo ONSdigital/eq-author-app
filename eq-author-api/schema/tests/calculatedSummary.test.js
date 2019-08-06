@@ -150,7 +150,7 @@ describe("calculated Summary", () => {
     expect(result.pages).toHaveLength(0);
   });
 
-  it("should return a list of available summary answers when one has been selected", async () => {
+  it("should return a full list of all available summary answers", async () => {
     ctx = await buildContext({
       sections: [
         {
@@ -201,8 +201,10 @@ describe("calculated Summary", () => {
     expect(result).toMatchObject({
       id: expect.any(String),
       availableSummaryAnswers: [
+        { id: answersPage.answers[0].id },
         { id: answersPage.answers[1].id },
         { id: answersPage.answers[2].id },
+        { id: answersPage.answers[3].id },
       ],
     });
 
@@ -302,7 +304,7 @@ describe("calculated Summary", () => {
     );
   });
 
-  it("should error if an answer is added that is a different type to the one that is already selected", async () => {
+  it("should error if received answers are of inconsistent type", async () => {
     ctx = await buildContext({
       sections: [
         {
@@ -329,15 +331,10 @@ describe("calculated Summary", () => {
     const answersPage = questionnaire.sections[0].pages[0];
     const calSumPage = questionnaire.sections[0].pages[1];
 
-    await updateCalculatedSummaryPage(ctx, {
-      id: calSumPage.id,
-      summaryAnswers: [answersPage.answers[0].id],
-    });
-
     await expect(
       updateCalculatedSummaryPage(ctx, {
         id: calSumPage.id,
-        summaryAnswers: [answersPage.answers[1].id],
+        summaryAnswers: [answersPage.answers[0].id, answersPage.answers[1].id],
       })
     ).rejects.toThrowError(
       "Answer types must be consistent on a calculated summary"

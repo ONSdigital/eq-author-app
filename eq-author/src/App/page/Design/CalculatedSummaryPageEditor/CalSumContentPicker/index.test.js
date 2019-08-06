@@ -1,0 +1,147 @@
+import React from "react";
+import { render, fireEvent } from "tests/utils/rtl";
+
+import CalSumContentPicker from "./";
+
+describe("CalculatedSummary content picker", () => {
+  let data, onClose, onSubmit, startingSelectedAnswers, props;
+
+  beforeEach(() => {
+    onClose = jest.fn();
+    onSubmit = jest.fn();
+    startingSelectedAnswers = [];
+    data = [
+      {
+        id: "section 1",
+        displayName: "Untitled Section",
+        pages: [
+          {
+            id: "Page 1",
+            displayName: "Page 1",
+            answers: [
+              {
+                id: "Percentage 1",
+                displayName: "Percentage 1",
+                type: "Percentage",
+              },
+              {
+                id: "Number 1",
+                displayName: "Number 1",
+                type: "Number",
+              },
+              {
+                id: "Currency 1",
+                displayName: "Currency 1",
+                type: "Currency",
+              },
+            ],
+          },
+          {
+            id: "Page 2",
+            displayName: "Page 2",
+            answers: [
+              {
+                id: "Percentage 2",
+                displayName: "Percentage 2",
+                type: "Percentage",
+              },
+              {
+                id: "Currency 2",
+                displayName: "Currency 2",
+                type: "Currency",
+              },
+              {
+                id: "Number 2",
+                displayName: "Number 2",
+                type: "Number",
+              },
+            ],
+          },
+        ],
+      },
+    ];
+
+    props = { data, onClose, onSubmit, startingSelectedAnswers };
+  });
+
+  const renderContentPicker = () =>
+    render(<CalSumContentPicker {...props} isOpen />);
+
+  it("should allow multiselect and send all answers on submit", () => {
+    const { getByText } = renderContentPicker();
+
+    const percentageOne = getByText("Percentage 1").closest("li");
+    const percentageTwo = getByText("Percentage 2").closest("li");
+
+    fireEvent.click(percentageOne);
+    fireEvent.click(percentageTwo);
+
+    expect(percentageOne).toHaveAttribute("aria-selected", "true");
+    expect(percentageTwo).toHaveAttribute("aria-selected", "true");
+
+    fireEvent.click(getByText("Confirm"));
+
+    expect(onSubmit).toHaveBeenCalledWith([
+      { displayName: "Percentage 1", id: "Percentage 1", type: "Percentage" },
+      { displayName: "Percentage 2", id: "Percentage 2", type: "Percentage" },
+    ]);
+  });
+
+  it("should disable incompatible answer types", () => {
+    const { getByText } = renderContentPicker();
+
+    const percentageOne = getByText("Percentage 1").closest("li");
+    const numberOne = getByText("Number 1").closest("li");
+
+    fireEvent.click(percentageOne);
+
+    expect(percentageOne).toHaveAttribute("aria-selected", "true");
+    expect(numberOne).toHaveAttribute("disabled");
+  });
+
+  it("should deselecet and reselect on successive clicks", () => {
+    const { getByText } = renderContentPicker();
+
+    const percentageOne = getByText("Percentage 1").closest("li");
+
+    fireEvent.click(percentageOne);
+    expect(percentageOne).toHaveAttribute("aria-selected", "true");
+
+    fireEvent.click(percentageOne);
+    expect(percentageOne).toHaveAttribute("aria-selected", "false");
+
+    fireEvent.click(percentageOne);
+    expect(percentageOne).toHaveAttribute("aria-selected", "true");
+  });
+
+  it("should start with the correct elements selected", () => {
+    props.startingSelectedAnswers = [
+      {
+        id: "Percentage 1",
+        displayName: "Percentage 1",
+        type: "Percentage",
+      },
+    ];
+
+    const { getByText } = renderContentPicker();
+
+    const percentageOne = getByText("Percentage 1").closest("li");
+
+    expect(percentageOne).toHaveAttribute("aria-selected", "true");
+  });
+
+  it("should be keyboard accessible", () => {
+    const { getByText } = renderContentPicker();
+
+    const percentageOne = getByText("Percentage 1").closest("li");
+
+    fireEvent.keyUp(percentageOne, { key: "Enter", keyCode: 13 });
+    expect(percentageOne).toHaveAttribute("aria-selected", "true");
+
+    fireEvent.keyUp(percentageOne, { key: "Enter", keyCode: 13 });
+    expect(percentageOne).toHaveAttribute("aria-selected", "false");
+
+    fireEvent.keyUp(percentageOne, { key: "Enter", keyCode: 13 });
+    expect(percentageOne).toHaveAttribute("aria-selected", "true");
+  });
+});
