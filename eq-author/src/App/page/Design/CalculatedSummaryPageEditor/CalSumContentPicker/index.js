@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 import { CURRENCY, NUMBER, PERCENTAGE } from "constants/answer-types";
 
-import ContentSelector from "./ContentSelector";
+import { FlatSectionMenu } from "components/ContentPickerv2/Menu";
 import ScrollPane from "components/ScrollPane";
 import Modal from "components/modals/Modal";
 import Button from "components/buttons/Button";
@@ -101,6 +101,14 @@ const CalSumContentPicker = ({
     }
   };
 
+  const isSelected = answer =>
+    selectedAnswers.findIndex(
+      selectedAnswer => selectedAnswer.id === answer.id
+    ) !== -1;
+
+  const isDisabled = answer =>
+    selectedAnswers.length && answer.type !== selectedAnswers[0].type;
+
   return (
     <StyledModal isOpen={isOpen} onClose={closeModal} hasCloseButton>
       <Container>
@@ -118,10 +126,11 @@ const CalSumContentPicker = ({
           </ModalHeader>
           <MenuContainer>
             <ScrollPane>
-              <ContentSelector
-                updateSelectedAnswers={updateSelectedAnswers}
+              <FlatSectionMenu
+                onSelected={updateSelectedAnswers}
                 selectedAnswers={selectedAnswers}
-                selectedAnswerType={(selectedAnswers[0] || {}).type}
+                isDisabled={isDisabled}
+                isSelected={isSelected}
                 {...otherProps}
               />
             </ScrollPane>

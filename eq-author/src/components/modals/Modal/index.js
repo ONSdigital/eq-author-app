@@ -56,6 +56,10 @@ const StyledModal = styled(ReactModalAdapter).attrs({
     transition: all ${ANIMATION_DURATION}ms ease-in 50ms;
     opacity: 0;
 
+    &:focus {
+      outline: 3px solid ${colors.tertiary};
+    }
+
     &--after-open {
       transform: scale(1);
       opacity: 1;
