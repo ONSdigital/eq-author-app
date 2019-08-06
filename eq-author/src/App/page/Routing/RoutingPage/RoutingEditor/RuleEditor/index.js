@@ -18,6 +18,7 @@ import BinaryExpressionEditor from "./BinaryExpressionEditor";
 import fragment from "./fragment.graphql";
 import withDeleteRule from "./withDeleteRule";
 import withUpdateRule from "./withUpdateRule";
+import withUpdateExpressionGroup from "./withUpdateExpressionGroup";
 
 import { Select, Label } from "components/Forms";
 
@@ -72,6 +73,7 @@ export class UnwrappedRuleEditor extends React.Component {
     ifLabel: PropTypes.string,
     deleteRule: PropTypes.func.isRequired,
     updateRule: PropTypes.func.isRequired,
+    updateExpressionGroup: PropTypes.func.isRequired,
     className: PropTypes.string,
   };
 
@@ -108,9 +110,20 @@ export class UnwrappedRuleEditor extends React.Component {
         <Header>
           <Label inline>
             Match
-            <SmallSelect name="match" id="match" disabled defaultValue="all">
-              <option value="all">All of</option>
-              <option value="any">Any of</option>
+            <SmallSelect
+              name="match"
+              id="match"
+              data-test="match-select"
+              defaultValue={rule.expressionGroup.operator}
+              onChange={({ value }) => {
+                this.props.updateExpressionGroup({
+                  id: rule.expressionGroup.id,
+                  operator: value,
+                });
+              }}
+            >
+              <option value="And">All of</option>
+              <option value="Or">Any of</option>
             </SmallSelect>
             the following rules
           </Label>
@@ -122,19 +135,19 @@ export class UnwrappedRuleEditor extends React.Component {
             Remove rule
           </RemoveRuleButton>
         </Header>
-
         <Expressions>
           <TransitionGroup>
             {expressions.map((expression, index) => {
               const component = (
                 <Transition key={expression.id}>
                   <BinaryExpressionEditor
+                    operator={rule.expressionGroup.operator}
                     expression={expression}
                     expressionGroupId={rule.expressionGroup.id}
-                    label={index > 0 ? "AND" : ifLabel}
+                    label={index > 0 ? rule.expressionGroup.operator : ifLabel}
                     isOnlyExpression={expressions.length === 1}
                     isLastExpression={index === expressions.length - 1}
-                    canAddAndCondition={
+                    canAddCondition={
                       !existingRadioConditions[get("left.id", expression)]
                     }
                   />
@@ -162,7 +175,8 @@ export class UnwrappedRuleEditor extends React.Component {
 
 const withMutations = flow(
   withDeleteRule,
-  withUpdateRule
+  withUpdateRule,
+  withUpdateExpressionGroup
 );
 
 export default withMutations(UnwrappedRuleEditor);

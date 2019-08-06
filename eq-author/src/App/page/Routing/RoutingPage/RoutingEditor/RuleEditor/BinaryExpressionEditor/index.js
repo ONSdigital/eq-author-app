@@ -44,6 +44,7 @@ const Label = styled.label`
   font-weight: bold;
   text-align: center;
   align-self: center;
+  text-transform: uppercase;
 `;
 
 const ConnectedPath = styled.div`
@@ -134,7 +135,7 @@ const ERROR_SITUATIONS = [
     condition: props =>
       props.expression.left.reason === SELECTED_ANSWER_DELETED,
     message: () => (
-      <Alert data-test="deleted-answer-msg">
+      <Alert>
         <AlertTitle>
           The question this condition referred to has been deleted
         </AlertTitle>
@@ -148,7 +149,7 @@ const ERROR_SITUATIONS = [
     condition: props =>
       props.expression.left.reason === NO_ROUTABLE_ANSWER_ON_PAGE,
     message: props => (
-      <Alert data-test="no-answer-msg">
+      <Alert>
         <AlertTitle>
           No routable answers have been added to this question yet.
         </AlertTitle>
@@ -163,9 +164,20 @@ const ERROR_SITUATIONS = [
     ),
   },
   {
-    condition: props => !props.canAddAndCondition,
+    condition: props => !props.canAddCondition && props.operator === "Or",
     message: () => (
-      <Alert data-test="and-not-valid-msg">
+      <Alert>
+        <AlertTitle>
+          OR condition is not valid when creating multiple radio rules
+        </AlertTitle>
+        <AlertText>Select a different answer or delete the rule.</AlertText>
+      </Alert>
+    ),
+  },
+  {
+    condition: props => !props.canAddCondition,
+    message: () => (
+      <Alert>
         <AlertTitle>
           AND condition not valid with &lsquo;radio button&rsquo; answer
         </AlertTitle>
@@ -195,7 +207,7 @@ export class UnwrappedBinaryExpressionEditor extends React.Component {
     updateLeftSide: PropTypes.func.isRequired,
     deleteBinaryExpression: PropTypes.func.isRequired,
     createBinaryExpression: PropTypes.func.isRequired,
-    canAddAndCondition: PropTypes.bool.isRequired,
+    canAddCondition: PropTypes.bool.isRequired,
     updateRightSide: PropTypes.func.isRequired,
     updateBinaryExpression: PropTypes.func.isRequired,
     match: CustomPropTypes.match,

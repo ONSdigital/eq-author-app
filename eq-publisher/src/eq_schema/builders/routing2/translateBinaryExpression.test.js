@@ -60,13 +60,11 @@ describe("Should build a runner representation of a binary expression", () => {
 
       const runnerExpression = translateBinaryExpression(expression);
 
-      expect(runnerExpression).toMatchObject([
-        {
-          id: "answer1",
-          condition: "equals",
-          value: "no",
-        },
-      ]);
+      expect(runnerExpression).toMatchObject({
+        id: "answer1",
+        condition: "contains any",
+        values: ["no"],
+      });
     });
 
     it("With a radio answer and no selected options", () => {
@@ -74,9 +72,10 @@ describe("Should build a runner representation of a binary expression", () => {
 
       const runnerExpression = translateBinaryExpression(expression);
 
-      expect(runnerExpression).toMatchObject([
-        { condition: "not set", id: "answer1" },
-      ]);
+      expect(runnerExpression).toMatchObject({
+        condition: "not set",
+        id: "answer1",
+      });
     });
 
     it("With a radio answer and multiple selected options", () => {
@@ -86,19 +85,11 @@ describe("Should build a runner representation of a binary expression", () => {
       );
 
       const runnerExpression = translateBinaryExpression(expression);
-
-      expect(runnerExpression).toMatchObject([
-        {
-          id: "answer1",
-          condition: "equals",
-          value: "no",
-        },
-        {
-          id: "answer1",
-          condition: "equals",
-          value: "maybe",
-        },
-      ]);
+      expect(runnerExpression).toMatchObject({
+        id: "answer1",
+        condition: "contains any",
+        values: ["no", "maybe"],
+      });
     });
   });
 
@@ -117,13 +108,11 @@ describe("Should build a runner representation of a binary expression", () => {
           },
         };
         const runnerExpression = translateBinaryExpression(expression);
-        expect(runnerExpression).toMatchObject([
-          {
-            id: "answer1",
-            condition: "equals",
-            value: 5,
-          },
-        ]);
+        expect(runnerExpression).toMatchObject({
+          id: "answer1",
+          condition: "equals",
+          value: 5,
+        });
       });
     });
   });

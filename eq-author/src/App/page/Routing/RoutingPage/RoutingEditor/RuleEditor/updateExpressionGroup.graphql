@@ -1,0 +1,6 @@
+mutation updateExpressionGroup2($input: UpdateExpressionGroup2Input!) {
+  updateExpressionGroup2(input: $input) {
+    id
+    operator
+  }
+}
