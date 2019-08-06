@@ -282,6 +282,7 @@ exports[`Answer Editor should render Currency 1`] = `
       onUpdate={[MockFunction]}
       onUpdateOption={[MockFunction]}
       showDescription={true}
+      type="Currency"
     />
   </AnswerEditor__Padding>
 </AnswerEditor__Answer>
@@ -566,6 +567,7 @@ exports[`Answer Editor should render Number 1`] = `
       onUpdate={[MockFunction]}
       onUpdateOption={[MockFunction]}
       showDescription={true}
+      type="Number"
     />
   </AnswerEditor__Padding>
 </AnswerEditor__Answer>
@@ -661,6 +663,7 @@ exports[`Answer Editor should render Percentage 1`] = `
       onUpdate={[MockFunction]}
       onUpdateOption={[MockFunction]}
       showDescription={true}
+      type="Percentage"
     />
   </AnswerEditor__Padding>
 </AnswerEditor__Answer>
@@ -857,6 +860,7 @@ exports[`Answer Editor should render TextArea 1`] = `
       onMoveUp={[MockFunction]}
       onUpdate={[MockFunction]}
       onUpdateOption={[MockFunction]}
+      type="TextArea"
     />
   </AnswerEditor__Padding>
 </AnswerEditor__Answer>
@@ -951,6 +955,7 @@ exports[`Answer Editor should render TextField 1`] = `
       onMoveUp={[MockFunction]}
       onUpdate={[MockFunction]}
       onUpdateOption={[MockFunction]}
+      type="TextField"
     />
   </AnswerEditor__Padding>
 </AnswerEditor__Answer>
@@ -1050,6 +1055,7 @@ exports[`Answer Editor should render Unit 1`] = `
       onUpdate={[MockFunction]}
       onUpdateOption={[MockFunction]}
       showDescription={true}
+      type="Unit"
     />
   </AnswerEditor__Padding>
 </AnswerEditor__Answer>

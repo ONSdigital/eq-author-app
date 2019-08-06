@@ -1,7 +1,7 @@
 import React from "react";
 import { Field, Label } from "components/Forms";
 import PropTypes from "prop-types";
-import { flowRight } from "lodash";
+import { flowRight, lowerCase } from "lodash";
 import CustomPropTypes from "custom-prop-types";
 import WrappingInput from "components/Forms/WrappingInput";
 import withEntityEditor from "components/withEntityEditor";
@@ -14,6 +14,8 @@ import LatestDateValidationRule from "graphql/fragments/latest-date-validation-r
 import ValidationErrorInfoFragment from "graphql/fragments/validationErrorInfo.graphql";
 
 import gql from "graphql-tag";
+
+import { TEXTFIELD } from "constants/answer-types";
 
 export const StatelessBasicAnswer = ({
   answer,
@@ -28,6 +30,7 @@ export const StatelessBasicAnswer = ({
   showDescription,
   autoFocus,
   getValidationError,
+  type,
 }) => (
   <div>
     <Field>
@@ -45,6 +48,7 @@ export const StatelessBasicAnswer = ({
         errorValidationMsg={getValidationError({
           field: "label",
           label: errorLabel,
+          requiredMsg: `Enter a ${lowerCase(type)} label`,
         })}
       />
     </Field>
@@ -83,6 +87,7 @@ StatelessBasicAnswer.propTypes = {
   showDescription: PropTypes.bool,
   autoFocus: PropTypes.bool,
   getValidationError: PropTypes.func,
+  type: PropTypes.string,
 };
 
 StatelessBasicAnswer.defaultProps = {
@@ -92,6 +97,7 @@ StatelessBasicAnswer.defaultProps = {
   showDescription: false,
   autoFocus: true,
   getValidationError: () => {},
+  type: TEXTFIELD,
 };
 
 StatelessBasicAnswer.fragments = {

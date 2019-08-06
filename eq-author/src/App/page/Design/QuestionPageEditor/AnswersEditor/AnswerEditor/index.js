@@ -89,21 +89,17 @@ class AnswerEditor extends React.Component {
   renderAnswer(answer) {
     const { type } = answer;
     if ([TEXTFIELD, TEXTAREA].includes(type)) {
-      return <BasicAnswer {...this.props} />;
+      return <BasicAnswer type={type} {...this.props} />;
     }
     if ([PERCENTAGE, NUMBER, CURRENCY, UNIT].includes(type)) {
-      return <BasicAnswer {...this.props} showDescription />;
+      return <BasicAnswer type={type} {...this.props} showDescription />;
     }
     if (type === CHECKBOX) {
-      return <MultipleChoiceAnswer type={answer.type} {...this.props} />;
+      return <MultipleChoiceAnswer type={type} {...this.props} />;
     }
     if (type === RADIO) {
       return (
-        <MultipleChoiceAnswer
-          minOptions={2}
-          type={answer.type}
-          {...this.props}
-        />
+        <MultipleChoiceAnswer minOptions={2} type={type} {...this.props} />
       );
     }
     if (type === DATE_RANGE) {

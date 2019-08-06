@@ -5,7 +5,7 @@ import { Field, Label } from "components/Forms";
 import WrappingInput from "components/Forms/WrappingInput";
 import withEntityEditor from "components/withEntityEditor";
 import withValidationError from "enhancers/withValidationError";
-import { flowRight } from "lodash";
+import { flowRight, lowerCase } from "lodash";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 import DeleteButton from "components/buttons/DeleteButton";
@@ -137,6 +137,7 @@ export class StatelessOption extends Component {
                 errorValidationMsg={getValidationError({
                   field: "label",
                   label: "Option label",
+                  requiredMsg: `Enter a ${lowerCase(type)} label`,
                 })}
               />
             </OptionField>
