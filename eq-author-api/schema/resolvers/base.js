@@ -127,9 +127,10 @@ const Resolvers = {
       const questionnaires = await listQuestionnaires();
 
       return questionnaires.filter(questionnaire => {
-        if (questionnaire.isPublic) {
+        if (ctx.user.admin === true || questionnaire.isPublic) {
           return true;
         }
+
         return [questionnaire.createdBy, ...questionnaire.editors].includes(
           ctx.user.id
         );

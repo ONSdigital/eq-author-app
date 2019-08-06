@@ -57,4 +57,25 @@ describe("loadQuestionnaire", () => {
     expect(res.status).toHaveBeenCalledWith(403);
     expect(req.questionnaire).toEqual(undefined);
   });
+
+  it("should load private questionnaire if user is an admin", async () => {
+    const ctx = await buildContext({ isPublic: false });
+    const { questionnaire } = ctx;
+
+    const req = {
+      header: jest.fn().mockReturnValue(questionnaire.id),
+      user: { id: "unauthorizedId", admin: true },
+    };
+
+    const next = jest.fn();
+    const res = {
+      status: jest.fn(() => ({
+        send: jest.fn(),
+      })),
+    };
+
+    await loadQuestionnaire(req, res, next);
+    expect(req.questionnaire).toEqual(questionnaire);
+    expect(next).toHaveBeenCalled();
+  });
 });
