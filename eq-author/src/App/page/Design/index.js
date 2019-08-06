@@ -10,6 +10,8 @@ import Loading from "components/Loading";
 import Error from "components/Error";
 import EditorLayout from "components/EditorLayout";
 
+import Panel from "components/Panel";
+
 import withCreateQuestionPage from "enhancers/withCreateQuestionPage";
 
 import PropertiesPanel from "../PropertiesPanel";
@@ -92,7 +94,7 @@ export class UnwrappedPageRoute extends React.Component {
         title={(page || {}).displayName || ""}
         {...deriveAvailableTabs(page)}
       >
-        {this.renderContent()}
+        <Panel>{this.renderContent()}</Panel>
       </EditorLayout>
     );
   }

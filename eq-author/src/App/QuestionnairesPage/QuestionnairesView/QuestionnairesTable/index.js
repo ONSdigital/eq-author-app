@@ -9,6 +9,7 @@ import { SORT_ORDER } from "../constants";
 
 import Row from "./Row";
 import TableHead from "./TableHead";
+import Panel from "components/Panel";
 
 const Table = styled.table`
   width: 100%;
@@ -16,12 +17,6 @@ const Table = styled.table`
   border-collapse: collapse;
   table-layout: fixed;
   text-align: left;
-`;
-
-const Panel = styled.div`
-  background: white;
-  border-radius: 4px;
-  border: 1px solid #ccc;
 `;
 
 const QuestionnairesTable = ({

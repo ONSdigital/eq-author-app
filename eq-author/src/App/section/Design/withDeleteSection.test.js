@@ -1,9 +1,4 @@
-import {
-  mapMutateToProps,
-  deleteUpdater,
-  handleDeletion,
-} from "./withDeleteSection";
-import fragment from "graphql/questionnaireFragment.graphql";
+import { mapMutateToProps, handleDeletion } from "./withDeleteSection";
 
 describe("withDeleteSection", () => {
   let history, mutate, result, ownProps, onAddSection, showToast;
@@ -43,7 +38,10 @@ describe("withDeleteSection", () => {
 
     result = {
       data: {
-        deleteSection: deletedPage,
+        deleteSection: {
+          id: "questionnaire",
+          sections: [],
+        },
       },
     };
 
@@ -68,25 +66,6 @@ describe("withDeleteSection", () => {
     };
 
     mutate = jest.fn(() => Promise.resolve(result));
-  });
-
-  describe("deleteUpdater", () => {
-    it("should remove the section from the cache", () => {
-      const id = `Questionnaire${questionnaire.id}`;
-      const readFragment = jest.fn(() => questionnaire);
-      const writeFragment = jest.fn();
-
-      const updater = deleteUpdater(questionnaire.id, currentSection.id);
-      updater({ readFragment, writeFragment }, result);
-
-      expect(readFragment).toHaveBeenCalledWith({ id, fragment });
-      expect(writeFragment).toHaveBeenCalledWith({
-        id,
-        fragment,
-        data: questionnaire,
-      });
-      expect(questionnaire.sections).not.toContain(currentSection);
-    });
   });
 
   describe("mapMutateToProps", () => {
@@ -152,19 +131,18 @@ describe("withDeleteSection", () => {
 
   describe("handleDeletion", () => {
     describe("when only one section in questionnaire", () => {
-      beforeEach(() => {
-        questionnaire.sections = [currentSection];
-      });
-
       it("should add new section", () => {
-        handleDeletion(ownProps, questionnaire);
+        handleDeletion(ownProps, result, {});
         expect(onAddSection).toHaveBeenCalled();
       });
     });
 
     describe("when more than one section in questionnaire", () => {
       it("should redirect to another section", () => {
-        handleDeletion(ownProps, questionnaire);
+        result.data.deleteSection.sections = [
+          { id: "section 1", pages: [{ id: "page 1" }] },
+        ];
+        handleDeletion(ownProps, result, questionnaire);
         expect(history.push).toHaveBeenCalled();
       });
     });

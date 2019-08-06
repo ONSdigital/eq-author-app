@@ -6,13 +6,10 @@ import { TransitionGroup } from "react-transition-group";
 import { flow } from "lodash/fp";
 
 import Button from "components/buttons/Button";
-import IconText from "components/IconText";
 
 import Transition from "App/page/Routing/Transition";
 import DestinationSelector from "App/page/Routing/DestinationSelector";
-import IconAddRule from "App/page/Routing/icon-add-rule.svg?inline";
 
-import { colors, radius } from "constants/theme";
 import transformNestedFragments from "utils/transformNestedFragments";
 
 import fragment from "./fragment.graphql";
@@ -20,16 +17,15 @@ import withUpdateRouting from "./withUpdateRouting";
 import withCreateRule from "./withCreateRule";
 import RuleEditor from "./RuleEditor";
 
-const AddRuleButton = styled(Button)`
-  width: 100%;
-  margin-bottom: 2em;
-  padding: 0.5em;
-`;
+export const LABEL_IF = "IF";
+export const LABEL_ELSE_IF = "ELSE IF";
 
-const Box = styled.div`
-  border: 1px solid ${colors.bordersLight};
-  border-radius: ${radius};
-  opacity: 1;
+const AddRuleButton = styled(Button)`
+  display: block;
+  margin: 2em auto;
+  padding: 0.8em 2em;
+  border-radius: 2em;
+  border-width: 2px;
 `;
 
 export class UnwrappedRoutingEditor extends React.Component {
@@ -59,11 +55,11 @@ export class UnwrappedRoutingEditor extends React.Component {
       <>
         <TransitionGroup>
           {routing.rules.map((rule, index) => (
-            <Transition key={rule.id} exit={false}>
+            <Transition key={rule.id}>
               <RuleEditor
                 rule={rule}
-                title={index > 0 ? "Or" : null}
                 key={rule.id}
+                ifLabel={index > 0 ? LABEL_ELSE_IF : LABEL_IF}
               />
             </Transition>
           ))}
@@ -74,17 +70,16 @@ export class UnwrappedRoutingEditor extends React.Component {
           onClick={this.handleAddClick}
           data-test="btn-add-rule"
         >
-          <IconText icon={IconAddRule}>Add rule</IconText>
+          Add rule
         </AddRuleButton>
-        <Box>
-          <DestinationSelector
-            id="else"
-            label="ELSE"
-            value={routing.else}
-            onChange={this.handleElseChange}
-            data-test="select-else"
-          />
-        </Box>
+
+        <DestinationSelector
+          id="else"
+          label="ELSE"
+          value={routing.else}
+          onChange={this.handleElseChange}
+          data-test="select-else"
+        />
       </>
     );
   }

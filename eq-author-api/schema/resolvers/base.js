@@ -228,7 +228,7 @@ const Resolvers = {
       const section = find(ctx.questionnaire.sections, { id: input.id });
       remove(ctx.questionnaire.sections, section);
       onPageDeleted(ctx, input.id);
-      return section;
+      return ctx.questionnaire;
     }),
     moveSection: createMutation((_, { input }, ctx) => {
       const removedSection = first(

@@ -7,9 +7,9 @@ exports[`components/Routing/Transition should render 1`] = `
 
 .c0.component-enter {
   opacity: 0;
-  -webkit-transform: scale(0.9);
-  -ms-transform: scale(0.9);
-  transform: scale(0.9);
+  -webkit-transform: scale(0.95);
+  -ms-transform: scale(0.95);
+  transform: scale(0.95);
   z-index: 200;
 }
 
@@ -33,9 +33,9 @@ exports[`components/Routing/Transition should render 1`] = `
 .c0.component-exit-active {
   opacity: 0;
   height: 0 !important;
-  -webkit-transform: scale(0.9);
-  -ms-transform: scale(0.9);
-  transform: scale(0.9);
+  -webkit-transform: scale(0.95);
+  -ms-transform: scale(0.95);
+  transform: scale(0.95);
   -webkit-transition: opacity 100ms ease-out,height 100ms ease-in 100ms,-webkit-transform 100ms ease-in;
   -webkit-transition: opacity 100ms ease-out,height 100ms ease-in 100ms,transform 100ms ease-in;
   transition: opacity 100ms ease-out,height 100ms ease-in 100ms,transform 100ms ease-in;

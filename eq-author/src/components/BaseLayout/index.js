@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 
 import CustomPropTypes from "custom-prop-types";
-import { colors } from "constants/theme";
 
 import OfflineBanner from "components/OfflineBanner";
 
@@ -11,7 +10,7 @@ import PermissionsBanner from "./PermissionsBanner";
 import App from "./App";
 
 const Wrapper = styled.div`
-  background-color: ${colors.lighterGrey};
+  background-color: #fafbfc;
   height: 100vh;
   min-width: 75em;
   display: flex;

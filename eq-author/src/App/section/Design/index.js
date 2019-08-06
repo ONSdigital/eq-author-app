@@ -34,6 +34,7 @@ import withPropRenamed from "enhancers/withPropRenamed";
 import sectionFragment from "graphql/fragments/section.graphql";
 
 import AliasEditor from "components/AliasEditor";
+import Panel from "components/Panel";
 
 export class UnwrappedSectionRoute extends React.Component {
   static propTypes = {
@@ -186,7 +187,7 @@ export class UnwrappedSectionRoute extends React.Component {
         preview={hasIntroductionContent}
         title={section.displayName || ""}
       >
-        {this.renderContent()}
+        <Panel>{this.renderContent()}</Panel>
       </EditorLayout>
     );
   }

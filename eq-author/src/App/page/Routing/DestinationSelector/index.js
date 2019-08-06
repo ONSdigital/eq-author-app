@@ -6,9 +6,12 @@ import { Grid, Column } from "components/Grid";
 import PropTypes from "prop-types";
 
 import RoutingDestinationContentPicker from "./RoutingDestinationContentPicker";
+import { colors } from "constants/theme";
 
 const RoutingRuleResult = styled.div`
-  padding: 1em 1em 1em 0.7em;
+  padding: 0.5em 0.5em 0.5em 1.5em;
+  background: ${colors.lightMediumGrey};
+  border-left: 5px solid ${colors.primary};
 `;
 
 const Label = styled.label`

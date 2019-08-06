@@ -24,6 +24,7 @@ export const ContentSelectButton = styled(Button).attrs({
   font-weight: normal;
   padding: 0.5em 0.75em;
   border: 1px solid ${colors.borders};
+  background-color: ${colors.white};
   height: 2.5em;
   width: 100%;
   justify-content: space-between;
@@ -42,7 +43,7 @@ export const ContentSelectButton = styled(Button).attrs({
   &:hover {
     border-color: ${colors.blue};
     outline-color: ${colors.blue};
-    background: none;
+
     color: ${colors.blue};
     &::after {
       opacity: 1;

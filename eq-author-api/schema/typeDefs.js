@@ -554,7 +554,7 @@ type Mutation {
   duplicateQuestionnaire(input: DuplicateQuestionnaireInput!): Questionnaire
   createSection(input: CreateSectionInput!): Section
   updateSection(input: UpdateSectionInput!): Section
-  deleteSection(input: DeleteSectionInput!): Section
+  deleteSection(input: DeleteSectionInput!): Questionnaire
   moveSection(input: MoveSectionInput!): Section
   duplicateSection(input: DuplicateSectionInput!): Section
   updatePage(input: UpdatePageInput!): Page

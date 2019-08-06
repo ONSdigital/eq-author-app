@@ -5,8 +5,8 @@ exports[`IntroductionLayout should render 1`] = `
   preview={true}
   title="Questionnaire Introduction"
 >
-  <IntroductionLayout__Padding>
+  <Panel>
     <div />
-  </IntroductionLayout__Padding>
+  </Panel>
 </EditorLayout>
 `;
