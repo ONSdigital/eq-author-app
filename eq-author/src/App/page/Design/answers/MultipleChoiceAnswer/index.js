@@ -129,6 +129,7 @@ class MultipleChoiceAnswer extends Component {
         onUpdate={onUpdate}
         autoFocus={false}
         labelText="Label (optional)"
+        type={answer.type}
       >
         <AnswerWrapper>
           {answer.type === CHECKBOX && (
@@ -158,6 +159,7 @@ class MultipleChoiceAnswer extends Component {
                         labelPlaceholder="eg. Please specify"
                         errorLabel="Other label"
                         bold={false}
+                        type={answer.type}
                       />
                     </SpecialOptionWrapper>
                   )}

@@ -25,6 +25,7 @@ exports[`MultipleChoiceAnswer exclusive options should render exclusive 1`] = `
   enableValidationMessage={true}
   labelText="Label (optional)"
   onUpdate={[MockFunction]}
+  type="Checkbox"
 >
   <MultipleChoiceAnswer__AnswerWrapper>
     <MultipleChoiceAnswer__AnswerHelper>

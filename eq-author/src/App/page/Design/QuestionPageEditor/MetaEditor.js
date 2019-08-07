@@ -77,6 +77,7 @@ export class StatelessMetaEditor extends React.Component {
           errorValidationMsg={this.props.getValidationError({
             field: "title",
             label: "Question title",
+            requiredMsg: "Enter a question title",
           })}
         />
 

@@ -167,6 +167,7 @@ export class SectionEditor extends React.Component {
               errorValidationMsg={this.props.getValidationError({
                 field: "introductionTitle",
                 label: "Introduction Title",
+                requiredMsg: "Enter a section introduction title",
               })}
             />
             <RichTextEditor
@@ -187,6 +188,7 @@ export class SectionEditor extends React.Component {
               errorValidationMsg={this.props.getValidationError({
                 field: "introductionContent",
                 label: "Introduction Content",
+                requiredMsg: "Enter section introduction content",
               })}
             />
           </IntroCanvas>
