@@ -9532,6 +9532,11 @@ react-firebaseui@latest:
   dependencies:
     firebaseui "^3.2.0"
 
+react-gtm-module@latest:
+  version "2.0.7"
+  resolved "https://registry.yarnpkg.com/react-gtm-module/-/react-gtm-module-2.0.7.tgz#1d1d085eddac36d522b56d45308ff4472ace09d6"
+  integrity sha512-QYnzQdRpN9qZIc/HaWnpmXUZ31ZsJ4BICp8Gb9VOAh4v5wtytXIrSvQdB7/dS9RgI9cuYN6KCl7NuqiNCPS+DA==
+
 react-hot-loader@latest:
   version "4.11.1"
   resolved "https://registry.yarnpkg.com/react-hot-loader/-/react-hot-loader-4.11.1.tgz#2cabbd0f1c8a44c28837b86d6ce28521e6d9a8ac"
