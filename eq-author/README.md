@@ -81,10 +81,13 @@ The following environment variables should be placed in a `.env` file in the eq-
 ### Third party services
 
 | Name                      | Description                                     | Required |
-| ------------------------- | ----------------------------------------------- | -------- |
+|---------------------------|-------------------------------------------------|----------|
 | `REACT_APP_SENTRY_DSN`    | Use Sentry for error checking, by providing dsn | No       |
 | `REACT_APP_SENTRY_ENV`    | Use Sentry to sort errors by environment        | No       |
 | `REACT_APP_FULLSTORY_ORG` | Use fullstory, by providing org id              | No       |
+| `REACT_APP_GTM_ID`        | Google tag manager Id                           | No       |
+| `REACT_APP_GTM_AUTH`      | Google tag manager environment Id               | No       |
+| `REACT_APP_GTM_PREVIEW`   | Google tag manager preview Id                   | No       |
 
 ## Folder Structure
 
