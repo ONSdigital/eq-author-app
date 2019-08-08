@@ -2,7 +2,14 @@ const Ajv = require("ajv");
 const { get, uniqBy } = require("lodash");
 
 const schemas = require("./schemas");
-const { ANSWERS } = require("../../constants/validationErrorTypes");
+const {
+  PAGES,
+  OPTIONS,
+  ANSWERS,
+  SECTIONS,
+  CONFIRMATION,
+  CONFIRMATION_OPTION,
+} = require("../../constants/validationErrorTypes");
 
 const ajv = new Ajv({ allErrors: true, jsonPointers: true, $data: true });
 require("ajv-errors")(ajv);
@@ -11,11 +18,17 @@ require("./customKeywords")(ajv);
 const validate = ajv.addSchema(schemas.slice(1)).compile(schemas[0]);
 
 const convertObjectType = objectType => {
-  if (objectType === "additionalAnswer") {
-    return ANSWERS;
-  }
+  switch (objectType) {
+    case "additionalAnswer":
+      return ANSWERS;
 
-  return objectType;
+    case "positive":
+    case "negative":
+      return CONFIRMATION_OPTION;
+
+    default:
+      return objectType;
+  }
 };
 
 module.exports = questionnaire => {
@@ -23,13 +36,16 @@ module.exports = questionnaire => {
 
   if (!validate.errors) {
     return {
-      answers: {},
-      pages: {},
-      options: {},
-      sections: {},
+      [ANSWERS]: {},
+      [PAGES]: {},
+      [OPTIONS]: {},
+      [SECTIONS]: {},
+      [CONFIRMATION]: {},
+      [CONFIRMATION_OPTION]: {},
       totalCount: 0,
     };
   }
+
   const errorMessages = validate.errors.filter(
     err => err.keyword === "errorMessage"
   );
@@ -83,12 +99,27 @@ module.exports = questionnaire => {
           const pageIndex = parseInt(dataPath[3], 10);
 
           const page = questionnaire.sections[sectionIndex].pages[pageIndex];
-          const errorInfo = structure.pages[page.id] || {
+
+          let errorInfo = {
             id: page.id,
             totalCount: 0,
             errors: [],
           };
-          structure.pages[page.id] = {
+
+          let pageType = PAGES;
+          let pageId = page.id;
+
+          if (dataPath[4] === "confirmation") {
+            pageType = CONFIRMATION;
+            pageId = page.confirmation.id;
+            errorInfo.id = pageId;
+          }
+
+          if (structure[pageType][pageId]) {
+            errorInfo = structure[pageType][pageId];
+          }
+
+          structure[pageType][pageId] = {
             ...errorInfo,
             totalCount: errorInfo.totalCount + 1,
           };
@@ -97,10 +128,12 @@ module.exports = questionnaire => {
         return structure;
       },
       {
-        answers: {},
-        pages: {},
-        options: {},
-        sections: {},
+        [ANSWERS]: {},
+        [PAGES]: {},
+        [OPTIONS]: {},
+        [SECTIONS]: {},
+        [CONFIRMATION]: {},
+        [CONFIRMATION_OPTION]: {},
         totalCount: errorMessages.length,
       }
     );

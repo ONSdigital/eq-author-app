@@ -12,12 +12,16 @@ describe("Question Confirmation Preview", () => {
       displayName: "Hello world",
       title: "<p>Hello world</p>",
       positive: {
+        id: "1",
         label: "positive label",
         description: "positive description",
+        validationErrorInfo: [],
       },
       negative: {
+        id: "2",
         label: "negative label",
         description: "negative description",
+        validationErrorInfo: [],
       },
       page: {
         id: "1",

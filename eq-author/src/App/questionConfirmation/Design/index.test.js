@@ -21,12 +21,16 @@ describe("QuestionConfirmationRoute", () => {
           answers: [],
         },
         positive: {
+          id: "1",
           label: "Positive label",
           description: "Positive description",
+          validationErrorInfo: [],
         },
         negative: {
+          id: "2",
           label: "Negative label",
           description: "Negative description",
+          validationErrorInfo: [],
         },
       },
     },
@@ -46,6 +50,7 @@ describe("QuestionConfirmationRoute", () => {
     mockHandlers = {
       onUpdateQuestionConfirmation: jest.fn(),
       onDeleteQuestionConfirmation: jest.fn(),
+      getValidationError: jest.fn(),
     };
   });
 

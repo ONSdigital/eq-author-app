@@ -19,6 +19,8 @@ import { RADIO } from "constants/answer-types";
 import { colors } from "constants/theme";
 import Panel from "components/Panel";
 
+import ValidationErrorInfoFragment from "graphql/fragments/validationErrorInfo.graphql";
+
 const Container = styled.div`
   padding: 2em;
   max-width: 40em;
@@ -108,10 +110,14 @@ const CONFIRMATION_QUERY = gql`
   query getQuestionConfirmation($id: ID!) {
     questionConfirmation(id: $id) {
       ...QuestionConfirmation
+      validationErrorInfo {
+        ...ValidationErrorInfo
+      }
     }
   }
 
   ${Editor.fragments.QuestionConfirmation}
+  ${ValidationErrorInfoFragment}
 `;
 
 export default withApollo(props => (

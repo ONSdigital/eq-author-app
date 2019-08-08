@@ -38,11 +38,15 @@ exports[`Question Confirmation Preview should correctly strip and render piped a
             "options": Array [
               Object {
                 "description": "positive description",
+                "id": "1",
                 "label": "positive label",
+                "validationErrorInfo": Array [],
               },
               Object {
                 "description": "negative description",
+                "id": "2",
                 "label": "negative label",
+                "validationErrorInfo": Array [],
               },
             ],
             "type": "Radio",
@@ -70,11 +74,15 @@ exports[`Question Confirmation Preview should not render replay options when the
             "options": Array [
               Object {
                 "description": "positive description",
+                "id": "1",
                 "label": "positive label",
+                "validationErrorInfo": Array [],
               },
               Object {
                 "description": "negative description",
+                "id": "2",
                 "label": "negative label",
+                "validationErrorInfo": Array [],
               },
             ],
             "type": "Radio",
@@ -124,11 +132,15 @@ exports[`Question Confirmation Preview should render 1`] = `
             "options": Array [
               Object {
                 "description": "positive description",
+                "id": "1",
                 "label": "positive label",
+                "validationErrorInfo": Array [],
               },
               Object {
                 "description": "negative description",
+                "id": "2",
                 "label": "negative label",
+                "validationErrorInfo": Array [],
               },
             ],
             "type": "Radio",

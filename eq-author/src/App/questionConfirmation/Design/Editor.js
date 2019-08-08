@@ -2,9 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { propType } from "graphql-anywhere";
-import { flow } from "lodash/fp";
+import { flowRight } from "lodash/fp";
 
 import confirmationFragment from "graphql/fragments/question-confirmation.graphql";
+import withValidationError from "enhancers/withValidationError";
 
 import RichTextEditor from "components/RichTextEditor";
 import withEntityEditor from "components/withEntityEditor";
@@ -17,6 +18,7 @@ const Wrapper = styled.div`
 
 const OptionsWrapper = styled.div`
   width: calc(75% - 6em);
+  margin-top: 3em;
 `;
 
 const MarginLessConfirmationOption = styled(ConfirmationOption)`
@@ -28,6 +30,7 @@ export class UnwrappedEditor extends React.Component {
     onChange: PropTypes.func.isRequired,
     onUpdate: PropTypes.func.isRequired,
     confirmation: propType(confirmationFragment).isRequired,
+    getValidationError: PropTypes.func.isRequired,
   };
   static fragments = {
     QuestionConfirmation: confirmationFragment,
@@ -57,6 +60,10 @@ export class UnwrappedEditor extends React.Component {
           testSelector="txt-confirmation-title"
           data-test="title-input"
           autoFocus={!title}
+          errorValidationMsg={this.props.getValidationError({
+            field: "title",
+            label: "Confirmation Question title",
+          })}
         />
         <OptionsWrapper>
           <ConfirmationOption
@@ -66,6 +73,7 @@ export class UnwrappedEditor extends React.Component {
             onChange={onChange}
             onUpdate={onUpdate}
             data-test="positive-input"
+            confirmationoption={positive}
           />
           <MarginLessConfirmationOption
             label="Negative confirmation text"
@@ -74,6 +82,7 @@ export class UnwrappedEditor extends React.Component {
             onChange={onChange}
             onUpdate={onUpdate}
             data-test="negative-input"
+            confirmationoption={negative}
           />
         </OptionsWrapper>
       </Wrapper>
@@ -81,6 +90,7 @@ export class UnwrappedEditor extends React.Component {
   }
 }
 
-const withConfirmationEditing = flow(withEntityEditor("confirmation"));
-
-export default withConfirmationEditing(UnwrappedEditor);
+export default flowRight(
+  withValidationError("confirmation"),
+  withEntityEditor("confirmation")
+)(UnwrappedEditor);

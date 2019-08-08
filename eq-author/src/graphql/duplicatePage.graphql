@@ -21,6 +21,9 @@ mutation duplicatePage($input: DuplicatePageInput!) {
       confirmation {
         id
         displayName
+        validationErrorInfo {
+          ...ValidationErrorInfo
+        }
       }
       validationErrorInfo {
         ...ValidationErrorInfo

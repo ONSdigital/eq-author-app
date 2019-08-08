@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 import React from "react";
-
 import DummyMultipleChoice from "App/page/Design/answers/dummy/MultipleChoice";
 import {
   StyledOption,
@@ -11,8 +10,18 @@ import { Label } from "components/Forms";
 import WrappingInput from "components/Forms/WrappingInput";
 
 import { RADIO } from "constants/answer-types";
+import { CONFIRMATION_OPTION } from "constants/validation-error-types";
 
-const ConfirmationOption = ({ value, name, label, onChange, onUpdate }) => (
+import withValidationError from "enhancers/withValidationError";
+
+export const UnwrappedConfirmationOption = ({
+  value,
+  name,
+  label,
+  onChange,
+  onUpdate,
+  getValidationError,
+}) => (
   <StyledOption>
     <div>
       <Flex>
@@ -28,6 +37,10 @@ const ConfirmationOption = ({ value, name, label, onChange, onUpdate }) => (
             onBlur={onUpdate}
             data-test={`${name}-option-label`}
             bold
+            errorValidationMsg={getValidationError({
+              field: "label",
+              label: "Confirmation label",
+            })}
           />
         </OptionField>
       </Flex>
@@ -48,7 +61,7 @@ const ConfirmationOption = ({ value, name, label, onChange, onUpdate }) => (
   </StyledOption>
 );
 
-ConfirmationOption.propTypes = {
+UnwrappedConfirmationOption.propTypes = {
   value: PropTypes.shape({
     label: PropTypes.string,
     description: PropTypes.string,
@@ -57,6 +70,9 @@ ConfirmationOption.propTypes = {
   label: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
+  getValidationError: PropTypes.func.isRequired,
 };
 
-export default ConfirmationOption;
+export default withValidationError(CONFIRMATION_OPTION)(
+  UnwrappedConfirmationOption
+);

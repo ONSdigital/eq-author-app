@@ -38,12 +38,12 @@ describe("questionConfirmation", () => {
         expect.objectContaining({
           title: "",
           negative: {
-            description: null,
-            label: null,
+            description: "",
+            label: "",
           },
           positive: {
-            description: null,
-            label: null,
+            description: "",
+            label: "",
           },
         })
       );
@@ -190,6 +190,56 @@ describe("questionConfirmation", () => {
         confirmationId
       );
       expect(deletedQuestionConfirmation).toBeNull();
+    });
+  });
+
+  describe("validate", () => {
+    let queriedQuestionConfirmation;
+
+    beforeEach(async () => {
+      ctx = await buildContext({
+        metadata: [{}],
+        sections: [
+          {
+            pages: [
+              {
+                answers: [
+                  {
+                    type: NUMBER,
+                  },
+                ],
+                confirmation: {
+                  positive: {
+                    label: "pos label",
+                    description: "pos desc",
+                  },
+                  negative: {
+                    label: "neg label",
+                    description: "neg desc",
+                  },
+                },
+              },
+            ],
+          },
+        ],
+      });
+
+      questionnaire = ctx.questionnaire;
+
+      queriedQuestionConfirmation = await queryQuestionConfirmation(
+        ctx,
+        questionnaire.sections[0].pages[0].confirmation.id
+      );
+    });
+
+    it("should provide validation info", () => {
+      expect(queriedQuestionConfirmation).toHaveProperty("validationErrorInfo");
+      expect(queriedQuestionConfirmation.positive).toHaveProperty(
+        "validationErrorInfo"
+      );
+      expect(queriedQuestionConfirmation.negative).toHaveProperty(
+        "validationErrorInfo"
+      );
     });
   });
 });

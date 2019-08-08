@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { withRouter } from "react-router-dom";
 import CustomPropTypes from "custom-prop-types";
 import gql from "graphql-tag";
+import { get } from "lodash";
 
 import { buildConfirmationPath } from "utils/UrlUtils";
 import NavLink from "./NavLink";
@@ -26,8 +27,14 @@ export const UnwrappedPageConfirmationNavItem = ({
   page,
   match,
   ...otherProps
-}) => (
-  <>
+}) => {
+  const errorCount = get(
+    page.confirmation,
+    "validationErrorInfo.totalCount",
+    0
+  );
+
+  return (
     <StyledPageItem data-test="question-confirmation-item" {...otherProps}>
       <StyledNavLink
         to={buildConfirmationPath({
@@ -38,12 +45,13 @@ export const UnwrappedPageConfirmationNavItem = ({
         title={page.confirmation.displayName}
         icon={PlaybackIcon}
         data-test="question-confirmation-link"
+        errorCount={errorCount}
       >
         {page.confirmation.displayName}
       </StyledNavLink>
     </StyledPageItem>
-  </>
-);
+  );
+};
 
 UnwrappedPageConfirmationNavItem.fragments = {
   PageConfirmationNavItem: gql`
@@ -52,6 +60,10 @@ UnwrappedPageConfirmationNavItem.fragments = {
       confirmation {
         id
         displayName
+        validationErrorInfo {
+          id
+          totalCount
+        }
       }
     }
   `,

@@ -1,7 +1,11 @@
 #import "graphql/fragments/question-confirmation.graphql"
+#import "graphql/fragments/validationErrorInfo.graphql"
 
 mutation UpdateQuestionConfirmation($input: UpdateQuestionConfirmationInput!) {
   updateQuestionConfirmation(input: $input) {
     ...QuestionConfirmation
+    validationErrorInfo {
+      ...ValidationErrorInfo
+    }
   }
 }
