@@ -128,7 +128,7 @@ const validations = [
   {}
 );
 
-class AnswerValidation extends React.Component {
+class AnswerValidation extends React.PureComponent {
   state = {
     startingTabId: null,
     modalIsOpen: false,
