@@ -11,6 +11,7 @@ const IconWithText = styled.span`
   line-height: 1.3;
   color: var(--color-text);
   width: 100%;
+  min-width: 0;
 
   svg {
     pointer-events: none;
