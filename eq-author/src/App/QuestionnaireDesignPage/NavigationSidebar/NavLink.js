@@ -13,7 +13,6 @@ export const activeClassName = "active";
 export const Link = styled(RouterNavLink)`
   --color-text: rgb(255, 255, 255);
   text-decoration: none;
-  overflow: hidden;
   display: flex;
   align-items: center;
   width: 100%;
@@ -46,8 +45,6 @@ export const Link = styled(RouterNavLink)`
 `;
 
 const Title = styled(Truncated)`
-  display: inline-block;
-  vertical-align: middle;
   line-height: 1.3;
 `;
 
