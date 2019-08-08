@@ -16,7 +16,7 @@ const withCustomNumberValueChange = WrappedComponent => {
     handleCustomValueChange = ({ value }) => {
       // clamp value of input to +/- limit
       if (
-        value !== "" &&
+        value !== null &&
         !inRange(
           parseInt(value, 10),
           0 - this.props.limit,
