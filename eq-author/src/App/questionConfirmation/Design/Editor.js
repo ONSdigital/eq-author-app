@@ -63,6 +63,7 @@ export class UnwrappedEditor extends React.Component {
           errorValidationMsg={this.props.getValidationError({
             field: "title",
             label: "Confirmation Question title",
+            requiredMsg: "Enter a confirmation question title",
           })}
         />
         <OptionsWrapper>

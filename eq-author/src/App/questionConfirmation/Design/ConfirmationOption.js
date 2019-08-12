@@ -40,6 +40,7 @@ export const UnwrappedConfirmationOption = ({
             errorValidationMsg={getValidationError({
               field: "label",
               label: "Confirmation label",
+              requiredMsg: `Enter a ${label.toLowerCase()}`,
             })}
           />
         </OptionField>
