@@ -44,8 +44,8 @@ describe("withCustomValueChange", () => {
     expect(onChange).toHaveBeenCalledWith({ name: "custom", value: 1 });
   });
 
-  it("should correctly handle min value change with empty string", () => {
-    wrapper.simulate("customNumberValueChange", { value: "" });
+  it("should correctly handle value change with empty field", () => {
+    wrapper.simulate("customNumberValueChange", { value: null });
     expect(onChange).toHaveBeenCalledWith({ name: "custom", value: null });
   });
 

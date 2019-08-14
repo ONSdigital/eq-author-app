@@ -4,9 +4,7 @@ import { shallow } from "enzyme";
 import { NUMBER, CURRENCY, PERCENTAGE, UNIT } from "constants/answer-types";
 import { CENTIMETRES } from "constants/unit-types";
 
-import SidebarButton, {
-  Detail as SidebarButtonDetail,
-} from "components/buttons/SidebarButton";
+import SidebarButton, { Detail } from "components/buttons/SidebarButton";
 import ModalWithNav from "components/modals/ModalWithNav";
 import AnswerValidation, { validationTypes } from "./AnswerValidation";
 
@@ -104,9 +102,8 @@ describe("AnswerValidation", () => {
           NUMBER_TYPES.forEach(type => {
             expect(
               wrapper(type)
-                .find(SidebarButtonDetail)
-                .at(0)
-                .prop("children")
+                .find(SidebarButton)
+                .find(Detail)
             ).toMatchSnapshot();
           });
         });
@@ -129,7 +126,11 @@ describe("AnswerValidation", () => {
             });
 
           NUMBER_TYPES.forEach(type => {
-            expect(wrapper(type).find(SidebarButtonDetail)).toMatchSnapshot();
+            expect(
+              wrapper(type)
+                .find(SidebarButton)
+                .find(Detail)
+            ).toMatchSnapshot();
           });
         });
 
@@ -154,9 +155,8 @@ describe("AnswerValidation", () => {
           NUMBER_TYPES.forEach(type => {
             expect(
               wrapper(type)
-                .find(SidebarButtonDetail)
-                .at(0)
-                .prop("children")
+                .find(SidebarButton)
+                .find(Detail)
             ).toMatchSnapshot();
           });
         });

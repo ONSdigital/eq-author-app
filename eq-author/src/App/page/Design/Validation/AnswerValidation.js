@@ -1,5 +1,5 @@
 import React from "react";
-import { kebabCase, get, startCase } from "lodash";
+import { kebabCase, get, startCase, isNull } from "lodash";
 import CustomPropTypes from "custom-prop-types";
 
 import ModalWithNav from "components/modals/ModalWithNav";
@@ -150,7 +150,7 @@ class AnswerValidation extends React.PureComponent {
       }}
     >
       <Title>{title}</Title>
-      {enabled && value && <Detail>{value}</Detail>}
+      {enabled && !isNull(value) && <Detail>{value}</Detail>}
     </SidebarButton>
   );
 
