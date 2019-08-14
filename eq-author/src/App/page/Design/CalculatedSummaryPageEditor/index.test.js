@@ -12,6 +12,7 @@ describe("CalculatedSummaryPageEditor", () => {
       onUpdate: jest.fn(),
       onChangeUpdate: jest.fn(),
       onUpdateCalculatedSummaryPage: jest.fn(),
+      getValidationError: jest.fn(),
     };
     page = {
       id: "1",
@@ -24,6 +25,7 @@ describe("CalculatedSummaryPageEditor", () => {
       section: { id: "1", displayName: "This Section" },
       summaryAnswers: [],
       availableSummaryAnswers: [],
+      validationErrorInfo: [],
     };
   });
 

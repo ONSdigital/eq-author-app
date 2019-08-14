@@ -1,3 +1,5 @@
+#import "graphql/fragments/validationErrorInfo.graphql"
+
 mutation UpdateCalculatedSummaryPage(
   $input: UpdateCalculatedSummaryPageInput!
 ) {
@@ -32,6 +34,9 @@ mutation UpdateCalculatedSummaryPage(
           displayName
         }
       }
+    }
+    validationErrorInfo {
+      ...ValidationErrorInfo
     }
   }
 }

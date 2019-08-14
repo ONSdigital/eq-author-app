@@ -580,4 +580,39 @@ describe("calculated Summary", () => {
 
     expect(result.summaryAnswers).toHaveLength(0);
   });
+
+  it("should provide validation info", async () => {
+    ctx = await buildContext({
+      sections: [
+        {
+          pages: [
+            {
+              answers: [
+                {
+                  type: NUMBER,
+                },
+              ],
+            },
+            {
+              pageType: "calculatedSummary",
+            },
+          ],
+        },
+      ],
+    });
+    questionnaire = ctx.questionnaire;
+
+    const calSumPage = questionnaire.sections[0].pages[1];
+    const result = await queryPage(ctx, calSumPage.id);
+    expect(result.validationErrorInfo.totalCount).toEqual(2);
+
+    await updateCalculatedSummaryPage(ctx, {
+      id: calSumPage.id,
+      title: "calc sum title",
+    });
+
+    const validResult = await queryPage(ctx, calSumPage.id);
+
+    expect(validResult.validationErrorInfo.totalCount).toEqual(0);
+  });
 });

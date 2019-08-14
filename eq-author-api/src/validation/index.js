@@ -14,6 +14,7 @@ const {
 const ajv = new Ajv({ allErrors: true, jsonPointers: true, $data: true });
 require("ajv-errors")(ajv);
 require("./customKeywords")(ajv);
+require("ajv-keywords")(ajv, "select");
 
 const validate = ajv.addSchema(schemas.slice(1)).compile(schemas[0]);
 

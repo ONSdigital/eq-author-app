@@ -10,6 +10,8 @@ import CalSumContentPicker from "./CalSumContentPicker";
 import shapeTree from "components/ContentPicker/shapeTree";
 import Button from "components/buttons/Button";
 import TextButton from "components/buttons/TextButton";
+import withValidationError from "enhancers/withValidationError";
+import ErrorInline from "components/ErrorInline";
 
 import AnswerChip from "./AnswerChip";
 import iconInfo from "./icon-info.svg";
@@ -98,7 +100,13 @@ const EmptyText = styled.div`
   margin-bottom: 1em;
 `;
 
-export default class AnswerSelector extends Component {
+const ErrorContainer = styled.div`
+  border: 1px solid red;
+  padding: 10px;
+  position: relative;
+`;
+
+export class UnwrappedAnswerSelector extends Component {
   state = {
     showPicker: false,
   };
@@ -181,7 +189,14 @@ export default class AnswerSelector extends Component {
   }
 
   renderEmptyState(availableSummaryAnswers) {
+    const { getValidationError } = this.props;
     const isAvailableAnswers = availableSummaryAnswers.length > 0;
+
+    const errorValidationMsg = getValidationError({
+      field: "summaryAnswers",
+      message: "Answer required",
+    });
+
     const title = isAvailableAnswers
       ? "No answers selected"
       : "No answers available";
@@ -193,14 +208,17 @@ export default class AnswerSelector extends Component {
         <Empty>
           <EmptyTitle>{title}</EmptyTitle>
           <EmptyText>{text}</EmptyText>
-          <EmptyButton
-            small
-            onClick={this.handlePickerOpen}
-            data-test="answer-selector-empty"
-            disabled={!isAvailableAnswers}
-          >
-            Select an answer
-          </EmptyButton>
+          <ErrorContainer>
+            <EmptyButton
+              small
+              onClick={this.handlePickerOpen}
+              data-test="answer-selector-empty"
+              disabled={!isAvailableAnswers}
+            >
+              Select an answer
+            </EmptyButton>
+            <ErrorInline>{errorValidationMsg}</ErrorInline>
+          </ErrorContainer>
         </Empty>
       </div>
     );
@@ -215,6 +233,7 @@ export default class AnswerSelector extends Component {
     if (summaryAnswers.length > 0) {
       answerType = summaryAnswers[0].type;
     }
+
     return (
       <div>
         <Box>
@@ -236,7 +255,7 @@ export default class AnswerSelector extends Component {
   }
 }
 
-AnswerSelector.fragments = {
+UnwrappedAnswerSelector.fragments = {
   AnswerSelector: gql`
     fragment AnswerSelector on CalculatedSummaryPage {
       id
@@ -266,7 +285,10 @@ AnswerSelector.fragments = {
   `,
 };
 
-AnswerSelector.propTypes = {
+UnwrappedAnswerSelector.propTypes = {
   onUpdateCalculatedSummaryPage: PropTypes.func.isRequired,
-  page: propType(AnswerSelector.fragments.AnswerSelector),
+  page: propType(UnwrappedAnswerSelector.fragments.AnswerSelector),
+  getValidationError: PropTypes.func.isRequired,
 };
+
+export default withValidationError("page")(UnwrappedAnswerSelector);

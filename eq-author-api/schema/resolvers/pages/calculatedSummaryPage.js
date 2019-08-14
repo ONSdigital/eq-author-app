@@ -11,11 +11,13 @@ const {
 
 const { createMutation } = require("../createMutation");
 const { getPageById, getAnswerById, getSectionByPageId } = require("../utils");
+const { PAGES } = require("../../../constants/validationErrorTypes");
 
 const createCalculatedSummary = (input = {}) => ({
   id: uuid.v4(),
   title: "",
   pageType: "CalculatedSummaryPage",
+  summaryAnswers: [],
   ...input,
 });
 
@@ -56,6 +58,8 @@ Resolvers.CalculatedSummaryPage = {
   availablePipingAnswers: ({ id }, args, ctx) =>
     getPreviousAnswersForPage(ctx.questionnaire, id),
   availablePipingMetadata: (page, args, ctx) => ctx.questionnaire.metadata,
+  validationErrorInfo: ({ id }, args, ctx) =>
+    ctx.validationErrorInfo[PAGES][id] || { id, errors: [], totalCount: 0 },
 };
 
 Resolvers.Mutation = {

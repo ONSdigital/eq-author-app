@@ -28,6 +28,15 @@ const getPageQuery = `
       availablePipingMetadata {
         id
       }
+      validationErrorInfo {
+        errors {
+          id
+          type
+          field
+          errorCode
+        }
+        totalCount
+      }
       ... on CalculatedSummaryPage {
         availableSummaryAnswers {
           id
@@ -119,15 +128,6 @@ const getPageQuery = `
           availablePreviousAnswers {
             id
           }
-        }
-        validationErrorInfo {
-          errors {
-            id
-            type
-            field
-            errorCode
-          }
-          totalCount
         }
       }
     }

@@ -12,14 +12,17 @@ exports[`AnswerSelector should render when there are available summary answers 1
           <AnswerSelector__EmptyText>
             Select an answer using the button below.
           </AnswerSelector__EmptyText>
-          <AnswerSelector__EmptyButton
-            data-test="answer-selector-empty"
-            disabled={false}
-            onClick={[Function]}
-            small={true}
-          >
-            Select an answer
-          </AnswerSelector__EmptyButton>
+          <AnswerSelector__ErrorContainer>
+            <AnswerSelector__EmptyButton
+              data-test="answer-selector-empty"
+              disabled={false}
+              onClick={[Function]}
+              small={true}
+            >
+              Select an answer
+            </AnswerSelector__EmptyButton>
+            <ErrorInline />
+          </AnswerSelector__ErrorContainer>
         </AnswerSelector__Empty>
       </div>
       <CalSumContentPicker
@@ -76,14 +79,17 @@ exports[`AnswerSelector should render when there are no available summary answer
           <AnswerSelector__EmptyText>
             There are no answers to provide a calculated summary.
           </AnswerSelector__EmptyText>
-          <AnswerSelector__EmptyButton
-            data-test="answer-selector-empty"
-            disabled={true}
-            onClick={[Function]}
-            small={true}
-          >
-            Select an answer
-          </AnswerSelector__EmptyButton>
+          <AnswerSelector__ErrorContainer>
+            <AnswerSelector__EmptyButton
+              data-test="answer-selector-empty"
+              disabled={true}
+              onClick={[Function]}
+              small={true}
+            >
+              Select an answer
+            </AnswerSelector__EmptyButton>
+            <ErrorInline />
+          </AnswerSelector__ErrorContainer>
         </AnswerSelector__Empty>
       </div>
       <CalSumContentPicker
