@@ -107,6 +107,7 @@
     "react-apollo": "^2.5.8",
     "react-dom": "latest",
     "react-firebaseui": "latest",
+    "react-gtm-module": "latest",
     "react-hot-loader": "latest",
     "react-modal": "latest",
     "react-redux": "^5.0.7",

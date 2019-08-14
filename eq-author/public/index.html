@@ -66,39 +66,9 @@
       window.config.REACT_APP_SENTRY_DSN = "";
       window.config.REACT_APP_HOT_JAR_ID = "";
       window.config.REACT_APP_GTM_ID = "";
-      window.config.REACT_APP_GTM_ENV_ID = "";
+      window.config.REACT_APP_GTM_AUTH = "";
+      window.config.REACT_APP_GTM_PREVIEW = "";
     </script>
-    <!-- Google Tag Manager -->
-    <script>
-      if (
-        window.config.REACT_APP_GTM_ID &&
-        window.config.REACT_APP_GTM_ENV_ID
-      ) {
-        (function(w, d, s, l, i) {
-          w[l] = w[l] || [];
-          w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
-          var f = d.getElementsByTagName(s)[0],
-            j = d.createElement(s),
-            dl = l != "dataLayer" ? "&l=" + l : "";
-          j.async = true;
-          j.src =
-            "https://www.googletagmanager.com/gtm.js?id=" +
-            i +
-            dl +
-            "&gtm_auth=" +
-            window.config.REACT_APP_GTM_ENV_ID +
-            "&gtm_preview=env-8&gtm_cookies_win=x";
-          f.parentNode.insertBefore(j, f);
-        })(
-          window,
-          document,
-          "script",
-          "dataLayer",
-          window.config.REACT_APP_GTM_ID
-        );
-      }
-    </script>
-    <!-- End Google Tag Manager -->
     <script type="text/javascript">
       if (window.config.REACT_APP_HOT_JAR_ID) {
         (function(h, o, t, j, a, r) {
@@ -173,29 +143,6 @@
     </script>
   </head>
   <body>
-    <!-- Google Tag Manager (noscript) -->
-    <script>
-      if (
-        window.config.REACT_APP_GTM_ID &&
-        window.config.REACT_APP_GTM_ENV_ID
-      ) {
-        (function(w, d) {
-          a = d.getElementsByTagName("body")[0];
-          r = d.createElement("iframe");
-          r.src =
-            "https://www.googletagmanager.com/ns.html?id=" +
-            w.config.REACT_APP_GTM_ID +
-            "&gtm_auth=" +
-            w.config.REACT_APP_GTM_ENV_ID +
-            "&gtm_preview=env-8&gtm_cookies_win=x";
-          r.height = "0";
-          r.width = "0";
-          r.style = "display:none;visibility:hidden";
-          a.appendChild(r);
-        })(window, document);
-      }
-    </script>
-    <!-- End Google Tag Manager (noscript) -->
     <div id="root"></div>
     <div id="toast"></div>
   </body>

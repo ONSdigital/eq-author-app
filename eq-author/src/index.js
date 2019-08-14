@@ -10,12 +10,26 @@ import { ApolloLink, split } from "apollo-link";
 import { setContext } from "apollo-link-context";
 import { getMainDefinition } from "apollo-utilities";
 import { WebSocketLink } from "apollo-link-ws";
+import TagManager from "react-gtm-module";
 import config from "config";
 import getIdForObject from "utils/getIdForObject";
 import render from "utils/render";
 import getHeaders from "middleware/headers";
 
 import App from "App";
+
+if (
+  config.REACT_APP_GTM_ID &&
+  config.REACT_APP_GTM_AUTH &&
+  config.REACT_APP_GTM_PREVIEW
+) {
+  const tagManagerArgs = {
+    gtmId: config.REACT_APP_GTM_ID,
+    auth: config.REACT_APP_GTM_AUTH,
+    preview: config.REACT_APP_GTM_PREVIEW,
+  };
+  TagManager.initialize(tagManagerArgs);
+}
 
 if (config.REACT_APP_SENTRY_DSN) {
   Sentry.init({

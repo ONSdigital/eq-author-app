@@ -21,8 +21,10 @@ const config = {
     window.config.REACT_APP_HOT_JAR_ID || process.env.REACT_APP_HOT_JAR_ID,
   REACT_APP_GTM_ID:
     window.config.REACT_APP_GTM_ID || process.env.REACT_APP_GTM_ID,
-  REACT_APP_GTM_ENV_ID:
-    window.config.REACT_APP_GTM_ENV_ID || process.env.REACT_APP_GTM_ENV_ID,
+  REACT_APP_GTM_AUTH:
+    window.config.REACT_APP_GTM_AUTH || process.env.REACT_APP_GTM_AUTH,
+  REACT_APP_GTM_PREVIEW:
+    window.config.REACT_APP_GTM_PREVIEW || process.env.REACT_APP_GTM_PREVIEW,
 };
 
 export default config;
