@@ -17,6 +17,7 @@ type User {
   picture: String
   email: String
   displayName: String!
+  admin: Boolean!
 }
 
 type QuestionnaireInfo {
@@ -529,6 +530,11 @@ type QuestionnaireIntroduction {
   availablePipingMetadata: [Metadata!]!
 }
 
+type PublishRequest {
+  id: ID!
+  launchUrl: String!
+}
+
 type Query {
   questionnaires: [Questionnaire]
   questionnaire(input: QueryInput!): Questionnaire
@@ -540,6 +546,7 @@ type Query {
   pagesAffectedByDeletion(pageId: ID!): [Page]! @deprecated(reason: "Not implemented")
   questionConfirmation(id: ID!): QuestionConfirmation
   questionnaireIntroduction(id: ID!): QuestionnaireIntroduction
+  triggerPublish(questionnaireId: ID!): PublishRequest
   me: User!
   users: [User!]!
 }
