@@ -158,7 +158,7 @@ exports[`Answer Editor should render Checkbox 1`] = `
     </AnswerEditor__Buttons>
   </AnswerEditor__AnswerHeader>
   <AnswerEditor__Padding>
-    <MultipleChoiceAnswer
+    <Apollo(UnwrappedMultipleChoiceAnswer)
       answer={
         Object {
           "description": "",
@@ -176,7 +176,6 @@ exports[`Answer Editor should render Checkbox 1`] = `
       }
       canMoveDown={true}
       canMoveUp={true}
-      minOptions={1}
       onAddExclusive={[MockFunction]}
       onAddOption={[MockFunction]}
       onChange={[MockFunction]}
@@ -737,7 +736,7 @@ exports[`Answer Editor should render Radio 1`] = `
     </AnswerEditor__Buttons>
   </AnswerEditor__AnswerHeader>
   <AnswerEditor__Padding>
-    <MultipleChoiceAnswer
+    <Apollo(UnwrappedMultipleChoiceAnswer)
       answer={
         Object {
           "description": "",

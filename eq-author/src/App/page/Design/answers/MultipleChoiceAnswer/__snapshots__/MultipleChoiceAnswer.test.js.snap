@@ -36,36 +36,21 @@ exports[`MultipleChoiceAnswer exclusive options should render exclusive 1`] = `
       component={[Function]}
       data-test="multiple-choice-options"
     >
-      <OptionTransition
-        key="0"
-        timeout={200}
-      >
-        <withValidationError(Connect(withEntityEditor(StatelessOption)))
-          enableValidationMessage={true}
-          hasDeleteButton={false}
-          onAddExclusive={[MockFunction]}
-          onAddOption={[MockFunction]}
-          onChange={[MockFunction]}
-          onDelete={[Function]}
-          onDeleteOption={[MockFunction]}
-          onEnterKey={[Function]}
-          onUpdate={[MockFunction]}
-          option={
+      <Reorder
+        Transition={[Function]}
+        list={
+          Array [
             Object {
               "description": "",
               "id": 0,
               "label": "",
-            }
-          }
-          store={
-            Object {
-              "dispatch": [MockFunction],
-              "getState": [MockFunction],
-              "subscribe": [MockFunction],
-            }
-          }
-        />
-      </OptionTransition>
+            },
+          ]
+        }
+        onMove={[MockFunction]}
+      >
+        <Component />
+      </Reorder>
       <OptionTransition
         key="4"
         timeout={200}
@@ -79,6 +64,7 @@ exports[`MultipleChoiceAnswer exclusive options should render exclusive 1`] = `
           <withValidationError(Connect(withEntityEditor(StatelessOption)))
             enableValidationMessage={true}
             hasDeleteButton={true}
+            hideMoveButtons={true}
             onAddExclusive={[MockFunction]}
             onAddOption={[MockFunction]}
             onChange={[MockFunction]}
@@ -182,66 +168,26 @@ exports[`MultipleChoiceAnswer other option and answer should render other 1`] = 
       component={[Function]}
       data-test="multiple-choice-options"
     >
-      <OptionTransition
-        key="0"
-        timeout={200}
-      >
-        <withValidationError(Connect(withEntityEditor(StatelessOption)))
-          enableValidationMessage={true}
-          hasDeleteButton={true}
-          onAddExclusive={[MockFunction]}
-          onAddOption={[MockFunction]}
-          onChange={[MockFunction]}
-          onDelete={[Function]}
-          onDeleteOption={[MockFunction]}
-          onEnterKey={[Function]}
-          onUpdate={[MockFunction]}
-          option={
+      <Reorder
+        Transition={[Function]}
+        list={
+          Array [
             Object {
               "description": "",
               "id": 0,
               "label": "",
-            }
-          }
-          store={
-            Object {
-              "dispatch": [MockFunction],
-              "getState": [MockFunction],
-              "subscribe": [MockFunction],
-            }
-          }
-        />
-      </OptionTransition>
-      <OptionTransition
-        key="1"
-        timeout={200}
-      >
-        <withValidationError(Connect(withEntityEditor(StatelessOption)))
-          enableValidationMessage={true}
-          hasDeleteButton={true}
-          onAddExclusive={[MockFunction]}
-          onAddOption={[MockFunction]}
-          onChange={[MockFunction]}
-          onDelete={[Function]}
-          onDeleteOption={[MockFunction]}
-          onEnterKey={[Function]}
-          onUpdate={[MockFunction]}
-          option={
+            },
             Object {
               "description": "",
               "id": 1,
               "label": "",
-            }
-          }
-          store={
-            Object {
-              "dispatch": [MockFunction],
-              "getState": [MockFunction],
-              "subscribe": [MockFunction],
-            }
-          }
-        />
-      </OptionTransition>
+            },
+          ]
+        }
+        onMove={[MockFunction]}
+      >
+        <Component />
+      </Reorder>
     </TransitionGroup>
     <div>
       <SplitButton
@@ -291,37 +237,22 @@ exports[`MultipleChoiceAnswer should match snapshot 1`] = `
       component={[Function]}
       data-test="multiple-choice-options"
     >
-      <OptionTransition
-        key="1"
-        timeout={200}
-      >
-        <withValidationError(Connect(withEntityEditor(StatelessOption)))
-          enableValidationMessage={true}
-          hasDeleteButton={false}
-          onAddExclusive={[MockFunction]}
-          onAddOption={[MockFunction]}
-          onChange={[MockFunction]}
-          onDelete={[Function]}
-          onDeleteOption={[MockFunction]}
-          onEnterKey={[Function]}
-          onUpdate={[MockFunction]}
-          option={
+      <Reorder
+        Transition={[Function]}
+        list={
+          Array [
             Object {
               "__typename": "Option",
               "description": "",
               "id": "1",
               "label": "",
-            }
-          }
-          store={
-            Object {
-              "dispatch": [MockFunction],
-              "getState": [MockFunction],
-              "subscribe": [MockFunction],
-            }
-          }
-        />
-      </OptionTransition>
+            },
+          ]
+        }
+        onMove={[MockFunction]}
+      >
+        <Component />
+      </Reorder>
     </TransitionGroup>
     <div>
       <SplitButton

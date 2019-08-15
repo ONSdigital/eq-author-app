@@ -10,6 +10,7 @@ import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 import DeleteButton from "components/buttons/DeleteButton";
 import Tooltip from "components/Forms/Tooltip";
+import MoveButton, { IconUp, IconDown } from "components/buttons/MoveButton";
 import { CHECKBOX, RADIO } from "constants/answer-types";
 import DummyMultipleChoice from "../dummy/MultipleChoice";
 
@@ -18,10 +19,13 @@ import getIdForObject from "utils/getIdForObject";
 
 const ENTER_KEY = 13;
 
-export const DeleteContainer = styled.div`
+export const ButtonsContainer = styled.div`
   position: absolute;
-  top: 0;
   right: 0;
+  top: 0;
+  display: flex;
+  z-index: 2;
+  justify-content: flex-end;
 `;
 
 export const Flex = styled.div`
@@ -65,6 +69,11 @@ export class StatelessOption extends Component {
     autoFocus: PropTypes.bool,
     label: PropTypes.string,
     getValidationError: PropTypes.func,
+    canMoveUp: PropTypes.bool,
+    onMoveUp: PropTypes.func,
+    canMoveDown: PropTypes.bool,
+    onMoveDown: PropTypes.func,
+    hideMoveButtons: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -83,24 +92,65 @@ export class StatelessOption extends Component {
     }
   };
 
-  renderDeleteButton() {
+  renderToolbar() {
+    const {
+      hideMoveButtons,
+      hasDeleteButton,
+      canMoveUp,
+      onMoveUp,
+      canMoveDown,
+      onMoveDown,
+    } = this.props;
+
     return (
-      <DeleteContainer>
-        <Tooltip content="Delete option" place="top" offset={{ bottom: 10 }}>
-          <DeleteButton
-            size="medium"
-            aria-label="Delete option"
-            onClick={this.handleDeleteClick}
-            data-test="btn-delete-option"
-          />
-        </Tooltip>
-      </DeleteContainer>
+      <ButtonsContainer>
+        {!hideMoveButtons && (
+          <>
+            <Tooltip
+              content="Move answer up"
+              place="top"
+              offset={{ top: 0, bottom: 10 }}
+            >
+              <MoveButton
+                disabled={!canMoveUp}
+                onClick={onMoveUp}
+                data-test="btn-move-answer-up"
+              >
+                <IconUp />
+              </MoveButton>
+            </Tooltip>
+            <Tooltip
+              content="Move answer down"
+              place="top"
+              offset={{ top: 0, bottom: 10 }}
+            >
+              <MoveButton
+                disabled={!canMoveDown}
+                onClick={onMoveDown}
+                data-test="btn-move-answer-down"
+              >
+                <IconDown />
+              </MoveButton>
+            </Tooltip>
+          </>
+        )}
+        {(hasDeleteButton || !hideMoveButtons) && (
+          <Tooltip content="Delete option" place="top" offset={{ bottom: 10 }}>
+            <DeleteButton
+              size="medium"
+              aria-label="Delete option"
+              onClick={this.handleDeleteClick}
+              data-test="btn-delete-option"
+              disabled={!hasDeleteButton}
+            />
+          </Tooltip>
+        )}
+      </ButtonsContainer>
     );
   }
 
   render() {
     const {
-      hasDeleteButton,
       option,
       onChange,
       onUpdate,
@@ -158,7 +208,7 @@ export class StatelessOption extends Component {
             />
           </OptionField>
           {children}
-          {hasDeleteButton && this.renderDeleteButton()}
+          {this.renderToolbar()}
         </div>
       </StyledOption>
     );

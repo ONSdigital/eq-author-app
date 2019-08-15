@@ -349,6 +349,24 @@ const Resolvers = {
 
       return option;
     }),
+
+    moveOption: createMutation((_, { input: { id, position } }, ctx) => {
+      const pages = getPages(ctx);
+      const answers = compact(flatMap(pages, page => page.answers));
+      const answer = find(answers, answer => {
+        if (answer.options && some(answer.options, { id })) {
+          return answer;
+        }
+      });
+
+      const options = answer.options;
+
+      const optionMoving = first(remove(options, { id }));
+      options.splice(position, 0, optionMoving);
+
+      return answer;
+    }),
+
     updateOption: createMutation((_, { input }, ctx) => {
       const pages = getPages(ctx);
       const answers = compact(flatMap(pages, page => page.answers));
