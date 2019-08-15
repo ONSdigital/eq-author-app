@@ -5,7 +5,7 @@ services:
       context: .
     environment:
       - EQ_SCHEMA_VALIDATOR_URL=http://eq-schema-validator:5000/validate
-      - EQ_AUTHOR_API_URL=http://docker.for.mac.host.internal:4000/graphql
+      - EQ_AUTHOR_API_URL=http://host.docker.internal:4000/graphql
       - NODE_ENV=development
     ports:
       - "9000:9000"
