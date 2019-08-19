@@ -3,10 +3,10 @@ import React from "react";
 import App, { Routes } from "./";
 import { shallow } from "enzyme";
 
-import createHistory from "history/createHashHistory";
+import { createHashHistory } from "history";
 import createMockStore from "tests/utils/createMockStore";
 
-const history = createHistory();
+const history = createHashHistory();
 
 const store = createMockStore();
 

@@ -2,6 +2,8 @@ import React from "react";
 import { mount } from "enzyme";
 import PropTypes from "prop-types";
 
+import { Router, Route } from "react-router";
+import { createMemoryHistory } from "history";
 import TestProvider from "tests/utils/TestProvider";
 import { buildSectionPath } from "utils/UrlUtils";
 import flushPromises from "tests/utils/flushPromises";
@@ -145,7 +147,7 @@ const moveSectionMock = {
 };
 
 describe("SectionRoute", () => {
-  let store, match, context, childContextTypes, user;
+  let store, match, context, childContextTypes, user, history;
 
   beforeEach(() => {
     childContextTypes = { router: PropTypes.object };
@@ -160,7 +162,7 @@ describe("SectionRoute", () => {
     };
 
     match = {
-      params: { questionnaireId, sectionId },
+      params: { questionnaireId: "1", sectionId: "2" },
     };
 
     store = {
@@ -171,7 +173,7 @@ describe("SectionRoute", () => {
       subscribe: jest.fn(),
       dispatch: jest.fn(),
     };
-
+    history = createMemoryHistory({ initialEntries: ["/q/1/section/2"] });
     context = createRouterContext({
       location: { pathname: buildSectionPath(match.params) },
       match,
@@ -182,11 +184,15 @@ describe("SectionRoute", () => {
     const render = mocks =>
       mount(
         <MeContext.Provider value={{ me: user }}>
-          <TestProvider reduxProps={{ store }} apolloProps={{ mocks }}>
-            <SectionRoute match={match} />
-          </TestProvider>
-        </MeContext.Provider>,
-        { context, childContextTypes }
+          <Router history={history}>
+            <TestProvider reduxProps={{ store }} apolloProps={{ mocks }}>
+              <Route
+                path={"/q/:questionnaireId/section/:sectionId"}
+                component={SectionRoute}
+              />
+            </TestProvider>
+          </Router>
+        </MeContext.Provider>
       );
 
     it("should show loading spinner while request in flight", () => {
@@ -369,12 +375,18 @@ describe("SectionRoute", () => {
     const render = (props = {}) =>
       mount(
         <MeContext.Provider value={{ me: user }}>
-          <TestProvider
-            reduxProps={{ store }}
-            apolloProps={{ mocks: [moveSectionMock] }}
-          >
-            <UnwrappedSectionRoute {...props} />
-          </TestProvider>
+          <Router history={history}>
+            <TestProvider
+              reduxProps={{ store }}
+              apolloProps={{ mocks: [moveSectionMock] }}
+            >
+              <Route path={"/q/:questionnaireId/section/:sectionId"}>
+                {({ match }) => (
+                  <UnwrappedSectionRoute match={match} {...props} />
+                )}
+              </Route>
+            </TestProvider>
+          </Router>
         </MeContext.Provider>,
         { context, childContextTypes }
       );

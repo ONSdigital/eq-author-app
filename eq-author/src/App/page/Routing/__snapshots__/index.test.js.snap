@@ -8,7 +8,6 @@ exports[`Question Routing Route should redirect if the pageType is not valid 1`]
   title="Untitled Page"
 >
   <Redirect
-    push={false}
     to="/q/1/page/1/design"
   />
 </EditorLayout>
