@@ -1367,7 +1367,6 @@ exports[`QuestionnaireDesignPage Adding question confirmation withValidations sh
 
 exports[`QuestionnaireDesignPage should redirect to the introduction if it has one 1`] = `
 <Redirect
-  push={false}
   to="/q/3/introduction/1/design"
 />
 `;
@@ -1568,7 +1567,6 @@ exports[`QuestionnaireDesignPage should render 1`] = `
 
 exports[`QuestionnaireDesignPage should render redirect when finished loading 1`] = `
 <Redirect
-  push={false}
   to="/q/3/section/2/design"
 />
 `;
