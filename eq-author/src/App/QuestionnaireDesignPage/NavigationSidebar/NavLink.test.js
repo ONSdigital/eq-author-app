@@ -1,11 +1,8 @@
 import React from "react";
-import { shallow } from "enzyme";
-import NavLink, { activeClassName, Badge } from "./NavLink";
-import mountWithRouter from "tests/utils/mountWithRouter";
+import { render } from "tests/utils/rtl";
+import NavLink, { activeClassName } from "./NavLink";
 
 describe("NavLink", () => {
-  let wrapper;
-
   const props = {
     to: "/page-1",
     title: "Page 1",
@@ -13,41 +10,31 @@ describe("NavLink", () => {
     isActive: () => true,
   };
 
-  beforeEach(() => {
-    wrapper = shallow(<NavLink {...props}>Page 1</NavLink>);
-  });
-
-  it("should render", () => {
-    expect(wrapper).toMatchSnapshot();
-  });
-
   it("should have the active class name when on current page", () => {
-    wrapper = mountWithRouter(
+    const { getByTestId } = render(
       <NavLink {...props} isActive={() => true}>
         Page 1
       </NavLink>
     );
-
-    expect(wrapper.find("a").hasClass(activeClassName)).toBeTruthy();
+    expect(getByTestId("nav-link")).toHaveClass(activeClassName);
   });
 
   it("should not have the active class when not on the current page", () => {
-    wrapper = mountWithRouter(
+    const { getByTestId } = render(
       <NavLink {...props} isActive={() => false}>
         Page 1
       </NavLink>
     );
-
-    expect(wrapper.find("a").hasClass(activeClassName)).toBeFalsy();
+    expect(getByTestId("nav-link")).not.toHaveClass(activeClassName);
   });
 
   it("should show a badge when it has errors", () => {
-    wrapper = mountWithRouter(
-      <NavLink {...props} errorCount={2}>
+    const { getByTestId } = render(
+      <NavLink {...props} errorCount={9999}>
         Page 1
       </NavLink>
     );
 
-    expect(wrapper.find(Badge)).toMatchSnapshot();
+    expect(getByTestId("nav-link")).toHaveTextContent(9999);
   });
 });

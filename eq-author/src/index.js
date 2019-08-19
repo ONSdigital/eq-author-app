@@ -1,5 +1,5 @@
 import * as Sentry from "@sentry/browser";
-import createHistory from "history/createHashHistory";
+import { createHashHistory } from "history";
 import configureStore from "redux/configureStore";
 import fragmentMatcher from "apollo/fragmentMatcher";
 import createApolloClient from "apollo/createApolloClient";
@@ -58,7 +58,7 @@ const cache = createApolloCache({
   },
 });
 
-const history = createHistory();
+const history = createHashHistory();
 
 const httpLink = createHttpLink(config.REACT_APP_API_URL);
 let wsUri;

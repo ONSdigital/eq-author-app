@@ -62,7 +62,13 @@ export const Badge = styled.span`
 `;
 
 const NavLink = ({ to, title, children, icon, errorCount, ...otherProps }) => (
-  <Link to={to} title={title} activeClassName={activeClassName} {...otherProps}>
+  <Link
+    to={to}
+    title={title}
+    activeClassName={activeClassName}
+    {...otherProps}
+    data-test="nav-link"
+  >
     <IconText icon={icon}>
       <Title>{children}</Title>
     </IconText>
