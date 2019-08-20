@@ -1,6 +1,8 @@
 import React from "react";
-import MultipleChoiceAnswer from "./";
+import { UnwrappedMultipleChoiceAnswer as MultipleChoiceAnswer } from "./";
 import Option from "./Option";
+import Reorder from "components/Reorder";
+
 import { times } from "lodash";
 
 import { shallow } from "enzyme";
@@ -46,7 +48,7 @@ describe("MultipleChoiceAnswer", () => {
     __typename: "Option",
   };
 
-  let mockHandlers;
+  let mockHandlers = {};
 
   const createAnswer = numberOptions => ({
     ...answer,
@@ -70,19 +72,23 @@ describe("MultipleChoiceAnswer", () => {
   beforeEach(() => {
     store = createMockStore();
     mockHandlers = {
+      ...mockHandlers,
       onAddOption: jest.fn(() => Promise.resolve(option)),
       onUpdate: jest.fn(),
       onAddExclusive: jest.fn(() => Promise.resolve(option)),
       onUpdateOption: jest.fn(),
       onDeleteOption: jest.fn(),
       onChange: jest.fn(),
+      onMoveOption: jest.fn(),
     };
 
     wrapper = createWrapper({ answer });
   });
 
   it("should have one option by default", () => {
-    expect(wrapper.find(Option)).toHaveLength(1);
+    const ReorderComponent = wrapper.find(Reorder);
+
+    expect(ReorderComponent.prop("list")).toHaveLength(1);
   });
 
   it("should match snapshot", () => {
@@ -101,6 +107,44 @@ describe("MultipleChoiceAnswer", () => {
     expect(mockHandlers.onAddOption).toHaveBeenCalledWith(answer.id, {
       hasAdditionalAnswer: false,
     });
+  });
+
+  it("should render the Options", () => {
+    const extraProps = {
+      canMoveDown: false,
+      canMoveUp: false,
+      onMoveUp: jest.fn(),
+      onMoveDown: jest.fn(),
+    };
+
+    const Options = wrapper.find(Reorder).renderProp("children")(
+      extraProps,
+      option
+    );
+
+    expect(Options.find(Option)).toHaveLength(1);
+  });
+
+  it("should render the Options with additional answer", () => {
+    const extraProps = {
+      canMoveDown: false,
+      canMoveUp: false,
+      onMoveUp: jest.fn(),
+      onMoveDown: jest.fn(),
+    };
+
+    option.additionalAnswer = {
+      id: "add1",
+    };
+
+    const Options = wrapper.find(Reorder).renderProp("children")(
+      extraProps,
+      option
+    );
+
+    expect(
+      Options.find("MultipleChoiceAnswer__SpecialOptionWrapper")
+    ).toHaveLength(1);
   });
 
   describe("delete button", () => {
@@ -130,29 +174,12 @@ describe("MultipleChoiceAnswer", () => {
 
     it("should handle deleting an option", () => {
       const optionId = answer.options[0].id;
-      wrapper
-        .find(Option)
-        .first()
-        .simulate("delete", optionId);
+      wrapper.instance().handleOptionDelete(optionId);
 
       expect(mockHandlers.onDeleteOption).toHaveBeenCalledWith(
         optionId,
         answer.id
       );
-    });
-
-    it("should add a new option onEnterKey", () => {
-      const preventDefault = jest.fn();
-      const stopPropagation = jest.fn();
-
-      wrapper
-        .find(Option)
-        .first()
-        .simulate("enterKey", { preventDefault, stopPropagation });
-
-      expect(preventDefault).toHaveBeenCalled();
-      expect(stopPropagation).toHaveBeenCalled();
-      expect(mockHandlers.onAddOption).toHaveBeenCalledTimes(1);
     });
   });
 

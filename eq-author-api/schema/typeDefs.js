@@ -577,6 +577,7 @@ type Mutation {
   moveAnswer(input: MoveAnswerInput!): Answer!
   createOption(input: CreateOptionInput!): Option
   createMutuallyExclusiveOption(input: CreateMutuallyExclusiveOptionInput!): Option
+  moveOption(input: MoveOptionInput!): MultipleChoiceAnswer!
   updateOption(input: UpdateOptionInput!): Option
   deleteOption(input: DeleteOptionInput!): MultipleChoiceAnswer
   toggleValidationRule(input: ToggleValidationRuleInput!): ValidationRule!
@@ -836,6 +837,11 @@ input CreateMutuallyExclusiveOptionInput {
   value: String
   qCode: String
   answerId: ID!
+}
+
+input MoveOptionInput {
+  id: ID!
+  position: Int!
 }
 
 input UpdateOptionInput {

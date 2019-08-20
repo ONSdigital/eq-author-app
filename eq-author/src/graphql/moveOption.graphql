@@ -1,0 +1,10 @@
+#import "./fragments/option.graphql"
+
+mutation MoveOption($input: MoveOptionInput!) {
+  moveOption(input: $input) {
+    id
+    options {
+      ...Option
+    }
+  }
+}

@@ -18,6 +18,9 @@ import MenuItem from "components/buttons/SplitButton/MenuItem";
 
 import gql from "graphql-tag";
 
+import Reorder from "components/Reorder";
+import withMoveOption from "../withMoveOption";
+
 const AnswerWrapper = styled.div`
   margin: 2em 0 0;
   width: 75%;
@@ -53,7 +56,7 @@ const SpecialOptionWrapper = styled.div`
   margin-bottom: 2em;
 `;
 
-class MultipleChoiceAnswer extends Component {
+export class UnwrappedMultipleChoiceAnswer extends Component {
   static propTypes = {
     answer: CustomPropTypes.answer.isRequired,
     onUpdate: PropTypes.func.isRequired,
@@ -62,6 +65,7 @@ class MultipleChoiceAnswer extends Component {
     onDeleteOption: PropTypes.func.isRequired,
     minOptions: PropTypes.number.isRequired,
     onAddExclusive: PropTypes.func.isRequired,
+    onMoveOption: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
@@ -117,6 +121,7 @@ class MultipleChoiceAnswer extends Component {
       onUpdateOption,
       onUpdate,
       minOptions,
+      onMoveOption,
       ...otherProps
     } = this.props;
 
@@ -139,15 +144,21 @@ class MultipleChoiceAnswer extends Component {
             component={Options}
             data-test="multiple-choice-options"
           >
-            {answer.options.map(option => (
-              <OptionTransition key={option.id}>
+            <Reorder
+              list={answer.options}
+              onMove={onMoveOption}
+              Transition={OptionTransition}
+            >
+              {(props, option) => (
                 <Option
                   {...otherProps}
+                  {...props}
                   option={option}
                   onDelete={this.handleOptionDelete}
                   onUpdate={onUpdateOption}
                   onEnterKey={this.handleAddOption}
                   hasDeleteButton={showDeleteOption}
+                  hideMoveButtons={numberOfOptions === 1}
                 >
                   {option.additionalAnswer && (
                     <SpecialOptionWrapper data-test="other-answer">
@@ -164,8 +175,8 @@ class MultipleChoiceAnswer extends Component {
                     </SpecialOptionWrapper>
                   )}
                 </Option>
-              </OptionTransition>
-            ))}
+              )}
+            </Reorder>
             {answer.mutuallyExclusiveOption && (
               <OptionTransition key={answer.mutuallyExclusiveOption.id}>
                 <SpecialOptionWrapper data-test="exclusive-option">
@@ -177,11 +188,13 @@ class MultipleChoiceAnswer extends Component {
                     onUpdate={onUpdateOption}
                     onEnterKey={this.handleAddOption}
                     hasDeleteButton
+                    hideMoveButtons
                   />
                 </SpecialOptionWrapper>
               </OptionTransition>
             )}
           </TransitionGroup>
+
           <div>
             <SplitButton
               onPrimaryAction={this.handleAddOption}
@@ -217,7 +230,7 @@ class MultipleChoiceAnswer extends Component {
   }
 }
 
-MultipleChoiceAnswer.fragments = {
+UnwrappedMultipleChoiceAnswer.fragments = {
   MultipleChoice: gql`
     fragment MultipleChoice on Answer {
       ...Answer
@@ -241,4 +254,4 @@ MultipleChoiceAnswer.fragments = {
   `,
 };
 
-export default MultipleChoiceAnswer;
+export default withMoveOption(UnwrappedMultipleChoiceAnswer);

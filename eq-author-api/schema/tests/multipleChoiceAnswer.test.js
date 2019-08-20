@@ -18,6 +18,7 @@ const {
   queryOption,
   updateOption,
   deleteOption,
+  moveOption,
 } = require("../../tests/utils/contextBuilder/option");
 
 const { RADIO, CHECKBOX } = require("../../constants/answerTypes");
@@ -363,6 +364,45 @@ describe("multiple choice answer", () => {
 
         const queriedOption = await queryOption(ctx, option.id);
         expect(queriedOption).toBeNull();
+      });
+    });
+
+    describe("move", () => {
+      it("should reorder options", async () => {
+        ctx = await buildContext({
+          sections: [
+            {
+              pages: [
+                {
+                  answers: [
+                    {
+                      type: CHECKBOX,
+                      options: [{}, {}],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        });
+        const questionnaire = ctx.questionnaire;
+
+        let answer = getAnswer(questionnaire);
+
+        const option1 = answer.options[0];
+        const option2 = answer.options[1];
+
+        expect(answer.options).toMatchObject([
+          { id: option1.id },
+          { id: option2.id },
+        ]);
+
+        answer = await moveOption(ctx, { id: option2.id, position: 0 });
+
+        expect(answer.options).toMatchObject([
+          { id: option2.id },
+          { id: option1.id },
+        ]);
       });
     });
   });
