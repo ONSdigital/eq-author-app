@@ -32,6 +32,7 @@ exports[`CalculatedSummaryPreview should render 1`] = `
       ],
       "title": "<p>Hello world</p>",
       "totalTitle": "<p>Total be:</p>",
+      "validationErrorInfo": Array [],
     }
   }
   preview={true}

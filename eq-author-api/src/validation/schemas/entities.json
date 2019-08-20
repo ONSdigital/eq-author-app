@@ -59,6 +59,30 @@
           }
         }
       },
+      "else": {
+        "if": {
+          "properties": {
+            "pageType": {
+              "enum": ["CalculatedSummaryPage"]
+            }
+          }
+        },
+        "then": {
+          "properties": {
+            "summaryAnswers": {
+              "type": "array",
+              "items": {
+                "$ref": "entities.json#/definitions/answer"
+              },
+              "minItems": 1,
+              "errorMessage": {
+                "minItems": "ERR_NO_ANSWERS"
+              }
+            }
+          },
+          "required": ["summaryAnswers"]
+        }
+      },
       "required": ["id", "title"]
     },
     "confirmationPage": {

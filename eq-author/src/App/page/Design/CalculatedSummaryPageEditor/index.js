@@ -10,6 +10,7 @@ import RichTextEditor from "components/RichTextEditor";
 import withChangeUpdate from "enhancers/withChangeUpdate";
 import withUpdateCalculatedSummaryPage from "./withUpdateCalculatedSummaryPage";
 import withEntityEditor from "components/withEntityEditor";
+import withValidationError from "enhancers/withValidationError";
 import PageHeader from "../PageHeader";
 
 import withPropRenamed from "enhancers/withPropRenamed";
@@ -19,6 +20,7 @@ import {
   METADATA,
   VARIABLES,
 } from "components/ContentPickerSelect/content-types";
+import ValidationErrorInfoFragment from "graphql/fragments/validationErrorInfo.graphql";
 
 const titleControls = {
   emphasis: true,
@@ -43,6 +45,7 @@ export const CalculatedSummaryPageEditor = props => {
     onChange,
     onChangeUpdate,
     onUpdateCalculatedSummaryPage,
+    getValidationError,
   } = props;
   return (
     <div data-test="calculated-summary-page-editor">
@@ -69,6 +72,11 @@ export const CalculatedSummaryPageEditor = props => {
           testSelector="txt-summary-title"
           allowableTypes={[ANSWER, METADATA, VARIABLES]}
           defaultTab="variables"
+          errorValidationMsg={getValidationError({
+            field: "title",
+            label: "Page title",
+            requiredMsg: "Enter a page title",
+          })}
         />
         <div>
           <SelectorTitle>Answers to calculate</SelectorTitle>
@@ -106,8 +114,12 @@ CalculatedSummaryPageEditor.fragments = {
       position
       displayName
       ...AnswerSelector
+      validationErrorInfo {
+        ...ValidationErrorInfo
+      }
     }
     ${AnswerSelector.fragments.AnswerSelector}
+    ${ValidationErrorInfoFragment}
   `,
 };
 
@@ -119,11 +131,13 @@ CalculatedSummaryPageEditor.propTypes = {
   onUpdate: PropTypes.func.isRequired,
   onChangeUpdate: PropTypes.func.isRequired,
   onUpdateCalculatedSummaryPage: PropTypes.func.isRequired,
+  getValidationError: PropTypes.func.isRequired,
 };
 
 export default flowRight(
   withUpdateCalculatedSummaryPage,
   withPropRenamed("onUpdateCalculatedSummaryPage", "onUpdate"),
+  withValidationError("page"),
   withEntityEditor("page"),
   withChangeUpdate
 )(CalculatedSummaryPageEditor);

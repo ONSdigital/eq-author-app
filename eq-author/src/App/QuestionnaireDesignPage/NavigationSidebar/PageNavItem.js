@@ -61,14 +61,13 @@ UnwrappedPageNavItem.fragments = {
       position
       displayName
       pageType
-
+      validationErrorInfo {
+        id
+        totalCount
+      }
       ... on QuestionPage {
         confirmation {
           id
-        }
-        validationErrorInfo {
-          id
-          totalCount
         }
       }
     }

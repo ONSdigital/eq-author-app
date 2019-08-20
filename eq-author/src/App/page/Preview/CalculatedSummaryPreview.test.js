@@ -28,6 +28,7 @@ describe("CalculatedSummaryPreview", () => {
           metadata: [],
         },
       },
+      validationErrorInfo: [],
     };
   });
 

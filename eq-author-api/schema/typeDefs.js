@@ -86,6 +86,7 @@ interface Page {
   position: Int!
   availablePipingAnswers: [Answer!]!
   availablePipingMetadata: [Metadata!]!
+  validationErrorInfo: ValidationErrorInfo
 }
 
 type QuestionPage implements Page {
@@ -130,6 +131,7 @@ type CalculatedSummaryPage implements Page {
   availablePipingAnswers: [Answer!]!
   availablePipingMetadata: [Metadata!]!
   totalTitle: String
+  validationErrorInfo: ValidationErrorInfo
 }
 
 type ConfirmationOption {

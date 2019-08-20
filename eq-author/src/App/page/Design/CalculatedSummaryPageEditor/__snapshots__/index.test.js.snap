@@ -7,6 +7,25 @@ exports[`CalculatedSummaryPageEditor should render 1`] = `
   <Apollo(withShowToast(Apollo(Apollo(PageHeader))))
     alertText="All changes to this page will be lost."
     fetchAnswers={[MockFunction]}
+    getValidationError={
+      [MockFunction] {
+        "calls": Array [
+          Array [
+            Object {
+              "field": "title",
+              "label": "Page title",
+              "requiredMsg": "Enter a page title",
+            },
+          ],
+        ],
+        "results": Array [
+          Object {
+            "type": "return",
+            "value": undefined,
+          },
+        ],
+      }
+    }
     isDuplicateDisabled={true}
     isMoveDisabled={true}
     onChange={[MockFunction]}
@@ -28,6 +47,7 @@ exports[`CalculatedSummaryPageEditor should render 1`] = `
         "summaryAnswers": Array [],
         "title": "",
         "totalTitle": "",
+        "validationErrorInfo": Array [],
       }
     }
   />
@@ -65,7 +85,8 @@ exports[`CalculatedSummaryPageEditor should render 1`] = `
       <CalculatedSummaryPageEditor__SelectorTitle>
         Answers to calculate
       </CalculatedSummaryPageEditor__SelectorTitle>
-      <AnswerSelector
+      <withValidationError(UnwrappedAnswerSelector)
+        enableValidationMessage={true}
         onUpdateCalculatedSummaryPage={[MockFunction]}
         page={
           Object {
@@ -82,6 +103,7 @@ exports[`CalculatedSummaryPageEditor should render 1`] = `
             "summaryAnswers": Array [],
             "title": "",
             "totalTitle": "",
+            "validationErrorInfo": Array [],
           }
         }
       />

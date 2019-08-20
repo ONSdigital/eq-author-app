@@ -3,7 +3,7 @@ import { shallow } from "enzyme";
 
 import { NUMBER } from "constants/answer-types";
 
-import AnswerSelector from "./AnswerSelector";
+import { UnwrappedAnswerSelector as AnswerSelector } from "./AnswerSelector";
 import AnswerChip from "./AnswerChip";
 
 describe("AnswerSelector", () => {
@@ -15,6 +15,7 @@ describe("AnswerSelector", () => {
       onUpdate: jest.fn(),
       onChangeUpdate: jest.fn(),
       onUpdateCalculatedSummaryPage: jest.fn(),
+      getValidationError: jest.fn(),
     };
     page = {
       id: "2",
