@@ -1,21 +1,20 @@
 import { graphql } from "react-apollo";
 
-import updateRule from "./updateRule.graphql";
+import updateExpressionGroup from "./updateExpressionGroup.graphql";
 
 export const mapMutateToProps = ({ mutate }) => ({
-  updateRule(rule) {
+  updateExpressionGroup({ id, operator }) {
     return mutate({
       variables: {
         input: {
-          id: rule.id,
-          operator: rule.operator,
-          destination: rule.destination,
+          id,
+          operator,
         },
       },
     });
   },
 });
 
-export default graphql(updateRule, {
+export default graphql(updateExpressionGroup, {
   props: mapMutateToProps,
 });

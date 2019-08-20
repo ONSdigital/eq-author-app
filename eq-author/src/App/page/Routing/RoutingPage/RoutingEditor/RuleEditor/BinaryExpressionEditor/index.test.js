@@ -13,6 +13,7 @@ import MultipleChoiceAnswerOptionsSelector from "./MultipleChoiceAnswerOptionsSe
 import NumberAnswerSelector from "./NumberAnswerSelector";
 
 import { AlertTitle } from "./Alert";
+import { OR } from "constants/routingOperators";
 
 describe("BinaryExpressionEditor", () => {
   let defaultProps;
@@ -35,7 +36,7 @@ describe("BinaryExpressionEditor", () => {
         condition: "Equal",
         right: null,
       },
-      canAddAndCondition: true,
+      canAddCondition: true,
       match: {
         params: {
           questionnaireId: "1",
@@ -130,13 +131,30 @@ describe("BinaryExpressionEditor", () => {
 
   it("should display the correct error message when you can't add a second 'And' condition", () => {
     const wrapper = shallow(
-      <BinaryExpressionEditor {...defaultProps} canAddAndCondition={false} />
+      <BinaryExpressionEditor {...defaultProps} canAddCondition={false} />
     );
 
     expect(
       wrapper
         .find(AlertTitle)
         .contains("AND condition not valid with ‘radio button’ answer")
+    ).toBeTruthy();
+  });
+  it("should display the correct error message when you can't add a second 'Or' condition", () => {
+    const wrapper = shallow(
+      <BinaryExpressionEditor
+        {...defaultProps}
+        canAddCondition={false}
+        operator={OR}
+      />
+    );
+
+    expect(
+      wrapper
+        .find(AlertTitle)
+        .contains(
+          "OR condition is not valid when creating multiple radio rules"
+        )
     ).toBeTruthy();
   });
 

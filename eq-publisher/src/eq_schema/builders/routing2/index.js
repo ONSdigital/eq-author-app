@@ -1,5 +1,7 @@
 const translateBinaryExpression = require("./translateBinaryExpression");
 const translateRoutingDestination = require("./translateRoutingDestination");
+const { flatMap } = require("lodash");
+const { AND } = require("../../../constants/routingOperators");
 
 const addRuleToContext = (goto, groupId, ctx) => {
   const destinationType = Object.keys(goto);
@@ -10,20 +12,40 @@ const addRuleToContext = (goto, groupId, ctx) => {
 };
 
 module.exports = (routing, pageId, groupId, ctx) => {
-  const rules = routing.rules.map(rule => {
-    const when = rule.expressionGroup.expressions.reduce(
-      (arr, expression) => [...arr, ...translateBinaryExpression(expression)],
-      []
-    );
+  const rules = flatMap(routing.rules, rule => {
+    let runnerRules;
+
     const destination = translateRoutingDestination(
       rule.destination,
       pageId,
       ctx
     );
-    const goto = { ...destination, when };
-
-    addRuleToContext(goto, groupId, ctx);
-    return { goto };
+    if (rule.expressionGroup.operator === AND) {
+      const when = rule.expressionGroup.expressions.map(expression =>
+        translateBinaryExpression(expression)
+      );
+      runnerRules = [
+        {
+          goto: {
+            ...destination,
+            when,
+          },
+        },
+      ];
+    } else {
+      runnerRules = rule.expressionGroup.expressions.map(expression => {
+        return {
+          goto: {
+            ...destination,
+            when: [translateBinaryExpression(expression)],
+          },
+        };
+      });
+    }
+    runnerRules.map(expression => {
+      addRuleToContext(expression.goto, groupId, ctx);
+    });
+    return runnerRules;
   });
   const destination = translateRoutingDestination(routing.else, pageId, ctx);
   return [...rules, { goto: destination }];

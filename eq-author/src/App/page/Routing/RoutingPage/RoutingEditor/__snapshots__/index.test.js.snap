@@ -10,7 +10,7 @@ exports[`components/RoutingRuleSet should render children 1`] = `
       key="2"
       timeout={200}
     >
-      <Apollo(Apollo(UnwrappedRuleEditor))
+      <Apollo(Apollo(Apollo(UnwrappedRuleEditor)))
         ifLabel="IF"
         key="2"
         rule={

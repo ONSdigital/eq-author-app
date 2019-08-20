@@ -16,6 +16,7 @@ fragment RuleEditor on RoutingRule2 {
   }
   expressionGroup {
     id
+    operator
     expressions {
       ...BinaryExpressionEditor
     }

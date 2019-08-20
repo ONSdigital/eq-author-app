@@ -1,7 +1,10 @@
 import React from "react";
 import { shallow } from "enzyme";
+import { render, fireEvent } from "tests/utils/rtl";
+
 import RoutingRuleDestinationSelector from "App/page/Routing/DestinationSelector";
-import { CURRENCY, RADIO } from "constants/answer-types";
+import { RADIO } from "constants/answer-types";
+import { AND, OR } from "constants/routingOperators";
 
 import BinaryExpressionEditor from "./BinaryExpressionEditor";
 
@@ -14,18 +17,7 @@ describe("RuleEditor", () => {
     defaultProps = {
       rule: {
         id: "ruleId",
-        expressionGroup: {
-          id: "expressionGroupId",
-          expressions: [
-            {
-              id: "1",
-              left: {
-                id: "binaryExpressionId",
-                type: CURRENCY,
-              },
-            },
-          ],
-        },
+        expressionGroup: { id: "expGrpId", operator: AND, expressions: [] },
         destination: {
           id: "1",
           page: {
@@ -36,9 +28,9 @@ describe("RuleEditor", () => {
           section: null,
         },
       },
-      createBinaryExpression: jest.fn(),
       deleteRule: jest.fn(),
       updateRule: jest.fn(),
+      updateExpressionGroup: jest.fn(),
     };
   });
 
@@ -87,14 +79,28 @@ describe("RuleEditor", () => {
       wrapper
         .find(BinaryExpressionEditor)
         .first()
-        .prop("canAddAndCondition")
+        .prop("canAddCondition")
     ).toBe(true);
 
     expect(
       wrapper
         .find(BinaryExpressionEditor)
         .last()
-        .prop("canAddAndCondition")
+        .prop("canAddCondition")
     ).toBe(false);
+  });
+
+  it("should call updateExpressionGroup with 'Or' when Any of was selected", async () => {
+    const { getByTestId } = render(<RuleEditor {...defaultProps} />, {
+      route: "/q/1/page/2",
+      urlParamMatcher: "/q/:questionnaireId/page/:pageId",
+    });
+
+    fireEvent.change(getByTestId("match-select"), { target: { value: OR } });
+
+    expect(defaultProps.updateExpressionGroup).toHaveBeenCalledWith({
+      id: defaultProps.rule.expressionGroup.id,
+      operator: OR,
+    });
   });
 });
