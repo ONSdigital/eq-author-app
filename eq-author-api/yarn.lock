@@ -893,9 +893,9 @@ apollo-link@^1.2.3:
     zen-observable-ts "^0.8.19"
 
 apollo-opentracing@latest:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/apollo-opentracing/-/apollo-opentracing-1.4.0.tgz#6215addd966491d9bee961646a60d22091ec8dbf"
-  integrity sha512-2MxXNnM0Bui2cOExUdeyjYNH/gMu8b3hQtKuepZhISA0vMyj4BSH3eX3vYFqIP4yS/cLFmYfr7HR7A0wypGz7w==
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/apollo-opentracing/-/apollo-opentracing-1.4.1.tgz#878781ed8e8abf3b257122991fd55b5f1e219ea9"
+  integrity sha512-UrRvEnXQMoV8StdRyYiVEkJoOCviO6O9xCZGwPVRxLsj3VlwmFr3yeaf2M/PuJgwoEXq7h2SX0JmMLrm/EUdfA==
   dependencies:
     graphql-extensions "^0.7.0"
 
