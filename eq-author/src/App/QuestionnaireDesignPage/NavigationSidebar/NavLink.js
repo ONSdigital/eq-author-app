@@ -66,8 +66,8 @@ const NavLink = ({ to, title, children, icon, errorCount, ...otherProps }) => (
     to={to}
     title={title}
     activeClassName={activeClassName}
-    {...otherProps}
     data-test="nav-link"
+    {...otherProps}
   >
     <IconText icon={icon}>
       <Title>{children}</Title>
