@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { MockedProvider } from "react-apollo/test-utils";
+import { MockedProvider } from "@apollo/react-testing";
 import { Provider } from "react-redux";
 import Toasts from "components/Toasts";
 
