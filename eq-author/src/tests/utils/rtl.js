@@ -15,6 +15,7 @@ const customRender = (
     history = createMemoryHistory({ initialEntries: [route] }),
     mocks = [],
     storeState = {},
+    urlParamMatcher = "",
     ...renderOptions
   } = {}
 ) => {
@@ -46,7 +47,7 @@ const customRender = (
     <TestProvider reduxProps={{ store }} apolloProps={{ mocks }}>
       <Router history={history}>
         <Switch>
-          <Route path={route}>{children}</Route>
+          <Route path={urlParamMatcher || route}>{children}</Route>
         </Switch>
       </Router>
     </TestProvider>

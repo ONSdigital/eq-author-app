@@ -8,31 +8,26 @@ const {
 } = require("../../../constants/answerTypes");
 const conditionConverter = require("../../../utils/convertRoutingConditions");
 
-const buildMuiltpleChoiceAnswerBinaryExpression = binaryExpression => {
-  if (isEmpty(binaryExpression.right.options)) {
-    return [
-      {
-        id: `answer${binaryExpression.left.id}`,
-        condition: "not set",
-      },
-    ];
-  } else {
-    return binaryExpression.right.options.map(option => ({
-      id: `answer${binaryExpression.left.id}`,
-      condition: "equals",
-      value: option.label,
-    }));
+const buildMuiltpleChoiceAnswerBinaryExpression = ({ left, right }) => {
+  if (isEmpty(right.options)) {
+    return {
+      id: `answer${left.id}`,
+      condition: "not set",
+    };
   }
+  return {
+    id: `answer${left.id}`,
+    condition: "contains any",
+    values: right.options.map(op => op.label),
+  };
 };
 
 const buildBasicAnswerBinaryExpression = ({ left, condition, right }) => {
-  return [
-    {
-      id: `answer${left.id}`,
-      condition: conditionConverter(condition),
-      value: right.number,
-    },
-  ];
+  return {
+    id: `answer${left.id}`,
+    condition: conditionConverter(condition),
+    value: right.number,
+  };
 };
 
 const translateBinaryExpression = binaryExpression => {
