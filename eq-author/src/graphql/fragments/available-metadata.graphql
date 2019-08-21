@@ -1,4 +1,11 @@
 fragment AvailableMetadata on Metadata {
   id
   displayName
+  key
+  alias
+  type
+  dateValue
+  regionValue
+  languageValue
+  textValue
 }

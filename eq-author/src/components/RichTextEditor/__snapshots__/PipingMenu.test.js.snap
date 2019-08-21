@@ -8,9 +8,21 @@ exports[`PipingMenu should render 1`] = `
     disabled={false}
     onClick={[Function]}
     title="Pipe value"
-  />
-  <ContentPickerModal
-    answerData={
+  >
+    <Component />
+  </PipingMenu__MenuButton>
+  <PipingMenu__MenuButton
+    canFocus={true}
+    data-test="piping-button-metadata"
+    disabled={false}
+    onClick={[Function]}
+    title="Pipe metadata"
+  >
+    <Component />
+  </PipingMenu__MenuButton>
+  <ContentPicker
+    contentType=""
+    data={
       Array [
         Object {
           "displayName": "Answer 1",
@@ -50,24 +62,12 @@ exports[`PipingMenu should render 1`] = `
         },
       ]
     }
-    contentTypes={
-      Array [
-        "Custom",
-        "Metadata",
-      ]
-    }
     data-test="picker"
     isOpen={false}
-    metadataData={
-      Array [
-        Object {
-          "displayName": "Metadata",
-          "id": "1",
-        },
-      ]
-    }
     onClose={[Function]}
     onSubmit={[Function]}
+    singleItemSelect={true}
+    startingSelectedAnswers={Array []}
   />
 </Fragment>
 `;
