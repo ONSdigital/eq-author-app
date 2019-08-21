@@ -55,6 +55,7 @@ const SmallSelect = styled(Select)`
   display: inline-block;
   width: auto;
   margin: 0 0.5em;
+  line-height: 1.25;
 `;
 
 const RemoveRuleButton = styled(Button).attrs({
