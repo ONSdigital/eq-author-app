@@ -1,7 +1,6 @@
 import React from "react";
 import { omit } from "lodash";
-import { render, fireEvent } from "tests/utils/rtl";
-import flushPromises from "tests/utils/flushPromises";
+import { render, fireEvent, flushPromises } from "tests/utils/rtl";
 
 import SharingModal, { ALL_USERS_QUERY } from "./";
 import { ADD_REMOVE_EDITOR_MUTATION } from "./withAddRemoveEditor";

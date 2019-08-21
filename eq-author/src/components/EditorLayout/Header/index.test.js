@@ -1,14 +1,20 @@
 import React from "react";
 import { Route } from "react-router-dom";
 
-import { render, fireEvent, waitForElementToBeRemoved } from "tests/utils/rtl";
+import {
+  render,
+  fireEvent,
+  waitForElementToBeRemoved,
+  flushPromises,
+} from "tests/utils/rtl";
 
 import QuestionnaireContext from "components/QuestionnaireContext";
 import { MeContext } from "App/MeContext";
 import Header from "./";
+import { TRIGGER_PUBLISH_QUERY } from "./TriggerPublishQuery";
 
 describe("Header", () => {
-  let user, props, questionnaire, signOut;
+  let user, props, questionnaire, signOut, mocks, queryWasCalled;
   beforeEach(() => {
     questionnaire = {
       id: "456",
@@ -30,6 +36,7 @@ describe("Header", () => {
       displayName: "Rick Sanchez",
       email: "wubbalubba@dubdub.com",
       picture: "http://img.com/avatar.jpg",
+      admin: true,
     };
     props = {
       title: "Some title",
@@ -97,6 +104,71 @@ describe("Header", () => {
 
       const viewSurveyButton = getByTestId("btn-preview");
       expect(viewSurveyButton).not.toHaveAttribute("disabled");
+    });
+  });
+
+  describe("publish survey button", () => {
+    let originalAlert;
+    beforeEach(() => {
+      originalAlert = window.alert;
+      window.alert = jest.fn();
+    });
+    afterEach(async () => {
+      await flushPromises();
+      window.alert = originalAlert;
+    });
+    it("should fire a request to publish questionnaire", async () => {
+      queryWasCalled = false;
+      mocks = [
+        {
+          request: {
+            query: TRIGGER_PUBLISH_QUERY,
+            variables: {
+              input: questionnaire.id,
+            },
+          },
+          result() {
+            queryWasCalled = true;
+            return {
+              data: {
+                triggerPublish: {
+                  id: questionnaire.id,
+                  launchUrl: "https://best.url.com",
+                  __typename: "PublishRequest",
+                },
+              },
+            };
+          },
+        },
+      ];
+      const { getByText } = renderWithContext(<Header {...props} />, {
+        mocks,
+      });
+
+      const publishSurveyButton = getByText("Publish");
+      fireEvent.click(publishSurveyButton);
+
+      await flushPromises();
+
+      expect(queryWasCalled).toBeTruthy();
+      expect(window.alert).toHaveBeenCalledWith(
+        "Your survey has been published at: https://best.url.com"
+      );
+    });
+
+    it("should disable the publish survey button when questionnaire is invalid", () => {
+      questionnaire.totalErrorCount = 1;
+      const { getByTestId } = renderWithContext(<Header {...props} />);
+
+      const publishSurveyButton = getByTestId("btn-publish");
+      expect(publishSurveyButton).toHaveAttribute("disabled");
+    });
+
+    it("should not disable the publish survey button when questionnaire is valid", () => {
+      const { getByText } = renderWithContext(<Header {...props} />);
+
+      const publishSurveyButton = getByText("Publish");
+      expect(publishSurveyButton).not.toHaveAttribute("disabled");
     });
   });
 

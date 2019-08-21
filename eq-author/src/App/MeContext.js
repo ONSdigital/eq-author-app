@@ -59,6 +59,7 @@ export const CURRENT_USER_QUERY = gql`
       displayName
       picture
       email
+      admin
     }
   }
 `;

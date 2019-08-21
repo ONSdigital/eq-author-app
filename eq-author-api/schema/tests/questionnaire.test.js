@@ -1,5 +1,17 @@
 const { last, findIndex, find } = require("lodash");
 
+jest.mock("node-fetch");
+const fetch = require("node-fetch");
+
+fetch.mockImplementation(() =>
+  Promise.resolve({
+    json: () => ({
+      questionnaireId: "test",
+      publishedSurveyUrl: "https://best.url.ever.com",
+    }),
+  })
+);
+
 const { SOCIAL, BUSINESS } = require("../../constants/questionnaireTypes");
 
 const { buildContext } = require("../../tests/utils/contextBuilder");
@@ -9,6 +21,7 @@ const {
   updateQuestionnaire,
   deleteQuestionnaire,
   listQuestionnaires,
+  publishQuestionnaire,
 } = require("../../tests/utils/contextBuilder/questionnaire");
 
 const defaultUser = require("../../tests/utils/mockUserPayload");
@@ -191,6 +204,18 @@ describe("questionnaire", () => {
       expect(queriedQuestionnaire.validationErrorInfo).toMatchObject({
         errors: questionnaireValidationErrors.errors,
         totalCount: questionnaireValidationErrors.errors.length,
+      });
+    });
+
+    it("should publish a questionnaire", async () => {
+      const result = await publishQuestionnaire(ctx.questionnaire.id);
+      expect(fetch).toHaveBeenCalledWith(
+        `${process.env.SURVEY_REGISTER_URL}${ctx.questionnaire.id}`,
+        { method: "put" }
+      );
+      expect(result).toMatchObject({
+        id: ctx.questionnaire.id,
+        launchUrl: "https://best.url.ever.com",
       });
     });
   });
