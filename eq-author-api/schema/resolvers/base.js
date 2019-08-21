@@ -18,6 +18,7 @@ const {
 const GraphQLJSON = require("graphql-type-json");
 const uuid = require("uuid");
 const { withFilter } = require("apollo-server-express");
+const fetch = require("node-fetch");
 
 const pubsub = require("../../db/pubSub");
 const { getName } = require("../../utils/getName");
@@ -161,6 +162,17 @@ const Resolvers = {
     },
     me: (root, args, ctx) => ctx.user,
     users: () => listUsers(),
+    triggerPublish: async (root, { questionnaireId }) => {
+      const result = await fetch(
+        `${process.env.SURVEY_REGISTER_URL}${questionnaireId}`,
+        { method: "put" }
+      )
+        .then(res => res.json())
+        .catch(e => {
+          throw Error(e);
+        });
+      return { id: questionnaireId, launchUrl: result.publishedSurveyUrl };
+    },
   },
 
   Subscription: {
