@@ -11,6 +11,10 @@ fragment BinaryExpressionEditor on BinaryExpression2 {
       id
       displayName
       type
+      mutuallyExclusiveOption {
+        id
+        label
+      }
       options {
         id
         label

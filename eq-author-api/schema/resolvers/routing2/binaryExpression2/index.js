@@ -36,6 +36,7 @@ const isLeftSideAnswerTypeCompatible = (leftSideType, rightSideType) => {
     [answerTypes.PERCENTAGE]: "Custom",
     [answerTypes.UNIT]: "Custom",
     [answerTypes.RADIO]: "SelectedOptions",
+    [answerTypes.CHECKBOX]: "SelectedOptions",
   };
 
   return AnswerTypesToRightTypes[leftSideType] === rightSideType;

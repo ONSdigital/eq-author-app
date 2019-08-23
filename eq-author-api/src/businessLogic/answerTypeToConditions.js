@@ -16,6 +16,7 @@ const answerConditions = {
   [answerTypes.PERCENTAGE]: NUMERIC_COMPARISONS,
   [answerTypes.RADIO]: [conditions.ONE_OF],
   [answerTypes.UNIT]: NUMERIC_COMPARISONS,
+  [answerTypes.CHECKBOX]: [conditions.ALL_OF, conditions.ANY_OF],
 };
 
 const isAnswerTypeSupported = answerType =>

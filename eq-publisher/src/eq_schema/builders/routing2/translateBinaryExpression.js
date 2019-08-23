@@ -6,10 +6,11 @@ const {
   NUMBER,
   PERCENTAGE,
   UNIT,
+  CHECKBOX,
 } = require("../../../constants/answerTypes");
 const conditionConverter = require("../../../utils/convertRoutingConditions");
 
-const buildMuiltpleChoiceAnswerBinaryExpression = ({ left, right }) => {
+const buildRadioAnswerBinaryExpression = ({ left, right }) => {
   if (isEmpty(right.options)) {
     return {
       id: `answer${left.id}`,
@@ -19,6 +20,14 @@ const buildMuiltpleChoiceAnswerBinaryExpression = ({ left, right }) => {
   return {
     id: `answer${left.id}`,
     condition: "contains any",
+    values: right.options.map(op => op.label),
+  };
+};
+
+const buildCheckboxAnswerBinaryExpression = ({ left, right, condition }) => {
+  return {
+    id: `answer${left.id}`,
+    condition: conditionConverter(condition),
     values: right.options.map(op => op.label),
   };
 };
@@ -33,7 +42,9 @@ const buildBasicAnswerBinaryExpression = ({ left, condition, right }) => {
 
 const translateBinaryExpression = binaryExpression => {
   if (binaryExpression.left.type === RADIO) {
-    return buildMuiltpleChoiceAnswerBinaryExpression(binaryExpression);
+    return buildRadioAnswerBinaryExpression(binaryExpression);
+  } else if (binaryExpression.left.type === CHECKBOX) {
+    return buildCheckboxAnswerBinaryExpression(binaryExpression);
   } else if (
     [CURRENCY, NUMBER, PERCENTAGE, UNIT].includes(binaryExpression.left.type)
   ) {

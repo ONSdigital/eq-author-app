@@ -13,6 +13,7 @@ import {
   CURRENCY,
   PERCENTAGE,
   UNIT,
+  CHECKBOX,
 } from "constants/answer-types";
 import {
   NO_ROUTABLE_ANSWER_ON_PAGE,
@@ -196,6 +197,7 @@ const ERROR_SITUATIONS = [
 
 const ANSWER_TYPE_TO_RIGHT_EDITOR = {
   [RADIO]: MultipleChoiceAnswerOptionsSelector,
+  [CHECKBOX]: MultipleChoiceAnswerOptionsSelector,
   [NUMBER]: NumberAnswerSelector,
   [PERCENTAGE]: NumberAnswerSelector,
   [CURRENCY]: NumberAnswerSelector,
@@ -271,7 +273,6 @@ export class UnwrappedBinaryExpressionEditor extends React.Component {
 
   render() {
     const routingEditor = this.renderEditor();
-
     const {
       className,
       label,
