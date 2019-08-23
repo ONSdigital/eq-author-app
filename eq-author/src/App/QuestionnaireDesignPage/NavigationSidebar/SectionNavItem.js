@@ -17,7 +17,7 @@ export class UnwrappedSectionNavItem extends React.Component {
   static propTypes = {
     questionnaire: CustomPropTypes.questionnaire,
     section: CustomPropTypes.section.isRequired,
-    match: CustomPropTypes.match,
+    match: CustomPropTypes.match.isRequired,
   };
 
   render() {

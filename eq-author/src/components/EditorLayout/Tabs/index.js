@@ -96,7 +96,7 @@ UnwrappedTabs.propTypes = {
   preview: PropTypes.bool,
   routing: PropTypes.bool,
 
-  match: CustomPropTypes.match,
+  match: CustomPropTypes.match.isRequired,
 };
 
 export default withRouter(UnwrappedTabs);

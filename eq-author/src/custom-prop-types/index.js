@@ -64,7 +64,7 @@ const CustomPropTypes = {
       pageId: PropTypes.string,
       tab: PropTypes.string,
     }).isRequired,
-  }).isRequired,
+  }),
   apolloClient: PropTypes.shape({
     query: PropTypes.func.isRequired,
     readQuery: PropTypes.func.isRequired,

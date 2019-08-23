@@ -1554,6 +1554,11 @@ exports[`QuestionnaireDesignPage should render 1`] = `
               path="/q/:questionnaireId/introduction/:introductionId/preview"
             />
             <Route
+              component={[Function]}
+              key="metadata"
+              path="/q/:questionnaireId/metadata"
+            />
+            <Route
               path="*"
               render={[Function]}
             />

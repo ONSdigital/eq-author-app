@@ -47,7 +47,7 @@ export class UnwrappedQuestionPageEditor extends React.Component {
     onDeleteAnswer: PropTypes.func.isRequired,
     onUpdateOption: PropTypes.func.isRequired,
     onAddExclusive: PropTypes.func.isRequired,
-    match: CustomPropTypes.match,
+    match: CustomPropTypes.match.isRequired,
     page: CustomPropTypes.page.isRequired,
     onChange: PropTypes.func.isRequired,
     onUpdate: PropTypes.func.isRequired,

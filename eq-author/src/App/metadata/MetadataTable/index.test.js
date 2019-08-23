@@ -2,7 +2,6 @@ import React from "react";
 import { shallow } from "enzyme";
 
 import MetadataTable from "./";
-import { AddRowButton } from "components/datatable/Controls";
 
 import mock from "./mock";
 
@@ -28,10 +27,5 @@ describe("MetadataTable", () => {
 
   it("should render", () => {
     expect(wrapper).toMatchSnapshot();
-  });
-
-  it("should call onAdd event handler when adding a new row", () => {
-    wrapper.find(AddRowButton).simulate("click");
-    expect(props.onAdd).toHaveBeenCalledWith(questionnaireId);
   });
 });
