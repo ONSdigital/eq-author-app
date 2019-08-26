@@ -2120,9 +2120,9 @@ dynamodb-admin@latest:
     opn "^5.4.0"
 
 dynamoose@latest:
-  version "1.10.0"
-  resolved "https://registry.yarnpkg.com/dynamoose/-/dynamoose-1.10.0.tgz#ab725ef2e8a005e7145323b364c95b040e628989"
-  integrity sha512-5XyMjNr7F1GeZaWUXV2hn4U7vU16aRjuYY19gVKBRcePbEuervMpqsOyIt6UiEy1t3DMnGASmcmXPdZ+Df0gvQ==
+  version "1.11.0"
+  resolved "https://registry.yarnpkg.com/dynamoose/-/dynamoose-1.11.0.tgz#5c082f0a63412eec29ac7044750d2d67eb241c6b"
+  integrity sha512-75kQ5DmxH3XTTCOW2/XLF+G/VCZ+EnH3DaKDLYN77iXN/7tF+hLd/lxtoXD/QMmTB1NF3RRfXz5nqRorXHejoQ==
   dependencies:
     "@types/node" "11.11.0"
     aws-sdk "2.395.0"
