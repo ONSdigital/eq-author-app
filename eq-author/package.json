@@ -111,7 +111,7 @@
     "react-gtm-module": "latest",
     "react-hot-loader": "latest",
     "react-modal": "latest",
-    "react-redux": "^5.0.7",
+    "react-redux": "^7.1.1",
     "react-router": "latest",
     "react-router-dom": "latest",
     "react-router-redux": "latest",
