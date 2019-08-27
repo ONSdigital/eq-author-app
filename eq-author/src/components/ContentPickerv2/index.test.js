@@ -109,7 +109,10 @@ describe("Content picker", () => {
       fireEvent.click(answer1Item);
       fireEvent.click(confirmButton);
 
-      expect(onSubmit).toHaveBeenCalledWith(answer1);
+      expect(onSubmit).toHaveBeenCalledWith({
+        ...answer1,
+        pipingType: "answers",
+      });
     });
 
     it("should not call onSubmit if no answers selected", () => {
@@ -133,7 +136,10 @@ describe("Content picker", () => {
       fireEvent.keyUp(answer1Item, { keyCode: 13 });
       fireEvent.click(confirmButton);
 
-      expect(onSubmit).toHaveBeenCalledWith(answer1);
+      expect(onSubmit).toHaveBeenCalledWith({
+        ...answer1,
+        pipingType: "answers",
+      });
     });
 
     it("should not select item via any key other than enter", () => {
@@ -169,7 +175,10 @@ describe("Content picker", () => {
       expect(answer1Item).toHaveAttribute("aria-selected", "false");
       expect(answer2Item).toHaveAttribute("aria-selected", "true");
 
-      expect(onSubmit).toHaveBeenCalledWith(answer2);
+      expect(onSubmit).toHaveBeenCalledWith({
+        ...answer2,
+        pipingType: "answers",
+      });
     });
 
     it("should unselect selected item", () => {
@@ -210,7 +219,10 @@ describe("Content picker", () => {
       expect(answer1Item).toHaveAttribute("aria-selected", "true");
       expect(answer2Item).toHaveAttribute("aria-selected", "true");
 
-      expect(onSubmit).toHaveBeenCalledWith([answer1, answer2]);
+      expect(onSubmit).toHaveBeenCalledWith([
+        { ...answer1, pipingType: "answers" },
+        { ...answer2, pipingType: "answers" },
+      ]);
     });
 
     it("should unselect selected item when multiselect specified", () => {
@@ -241,7 +253,9 @@ describe("Content picker", () => {
       const confirmButton = getByText("Confirm");
       fireEvent.click(confirmButton);
 
-      expect(onSubmit).toHaveBeenCalledWith([answer2]);
+      expect(onSubmit).toHaveBeenCalledWith([
+        { ...answer2, pipingType: "answers" },
+      ]);
     });
   });
 
@@ -297,7 +311,10 @@ describe("Content picker", () => {
       fireEvent.click(meta1Item);
       fireEvent.click(confirmButton);
 
-      expect(onSubmit).toHaveBeenCalledWith(meta1);
+      expect(onSubmit).toHaveBeenCalledWith({
+        ...meta1,
+        pipingType: "metadata",
+      });
     });
 
     it("should select item via keyboard enter", () => {
@@ -310,7 +327,10 @@ describe("Content picker", () => {
       fireEvent.keyUp(meta1Item, { keyCode: 13 });
       fireEvent.click(confirmButton);
 
-      expect(onSubmit).toHaveBeenCalledWith(meta1);
+      expect(onSubmit).toHaveBeenCalledWith({
+        ...meta1,
+        pipingType: "metadata",
+      });
     });
 
     it("should not select item via any key other than enter", () => {
@@ -346,7 +366,10 @@ describe("Content picker", () => {
       expect(meta1Item).toHaveAttribute("aria-selected", "false");
       expect(meta2Item).toHaveAttribute("aria-selected", "true");
 
-      expect(onSubmit).toHaveBeenCalledWith(meta2);
+      expect(onSubmit).toHaveBeenCalledWith({
+        ...meta2,
+        pipingType: "metadata",
+      });
     });
 
     it("should unselect selected item", () => {
@@ -387,7 +410,10 @@ describe("Content picker", () => {
       expect(meta1Item).toHaveAttribute("aria-selected", "true");
       expect(meta2Item).toHaveAttribute("aria-selected", "true");
 
-      expect(onSubmit).toHaveBeenCalledWith([meta1, meta2]);
+      expect(onSubmit).toHaveBeenCalledWith([
+        { ...meta1, pipingType: "metadata" },
+        { ...meta2, pipingType: "metadata" },
+      ]);
     });
 
     it("should unselect selected item when multiselect specified", () => {
@@ -418,7 +444,9 @@ describe("Content picker", () => {
       const confirmButton = getByText("Confirm");
       fireEvent.click(confirmButton);
 
-      expect(onSubmit).toHaveBeenCalledWith([meta2]);
+      expect(onSubmit).toHaveBeenCalledWith([
+        { ...meta2, pipingType: "metadata" },
+      ]);
     });
   });
 });
