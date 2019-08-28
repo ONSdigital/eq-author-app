@@ -25,13 +25,14 @@ const signIn = (setSignInSuccess, history, user) => {
       if (!res.ok) {
         throw Error(`Server responded with a ${res.status} code.`);
       }
-      history.push(
-        get(
-          history,
-          "location.state.returnURL",
-          get(history, "location.pathname", "/")
-        )
+      const location = get(
+        history,
+        "location.state.returnURL",
+        get(history, "location.pathname", "/")
       );
+      if (location !== get(history, "location.pathname")) {
+        history.push(location);
+      }
       setSignInSuccess(true);
     })
     .catch(e => {
@@ -49,7 +50,9 @@ const signOut = (history, client) => {
   client.clearStore();
   localStorage.removeItem("accessToken");
   localStorage.removeItem("refreshToken");
-  history.push("/sign-in");
+  if (get(history, "location.pathname" !== "/sign-in")) {
+    history.push("/sign-in");
+  }
 };
 
 export const CURRENT_USER_QUERY = gql`
