@@ -19,8 +19,8 @@ export const Type = styled.div`
   border-left: 1px solid ${colors.grey};
   border-right: 1px solid ${colors.grey};
   border-radius: ${props => (props.trailing ? "0 3px 3px 0" : "3px 0 0 3px")};
-  padding: 0.6em 0;
-  width: 2.9em;
+  padding: 0.6em 1em;
+  min-width: 2.9em;
   font-weight: 600;
   font-size: 1em;
   text-align: center;

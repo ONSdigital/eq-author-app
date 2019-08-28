@@ -6,6 +6,7 @@ const {
   PERCENTAGE,
   DATE,
   UNIT,
+  DURATION,
 } = require("../constants/answerTypes");
 
 const { unitConversion } = require("../constants/unit-types");
@@ -21,6 +22,22 @@ class Answer {
     if (answer.type === UNIT) {
       this.unit = unitConversion[answer.properties.unit];
       this.unit_length = "short";
+    }
+
+    if (answer.type === DURATION) {
+      const durationUnit = get(answer, "properties.unit");
+      switch (durationUnit) {
+        case "YearsMonths":
+          this.units = ["years", "months"];
+          break;
+
+        case "Years":
+          this.units = ["years"];
+          break;
+
+        case "Months":
+          this.units = ["months"];
+      }
     }
 
     if (!isNil(answer.validation)) {

@@ -3,7 +3,13 @@ import styled from "styled-components";
 import { groupBy, kebabCase } from "lodash/fp";
 
 import Accordion from "components/Accordion";
-import { CURRENCY, NUMBER, PERCENTAGE, UNIT } from "constants/answer-types";
+import {
+  CURRENCY,
+  NUMBER,
+  PERCENTAGE,
+  UNIT,
+  DURATION,
+} from "constants/answer-types";
 import { colors } from "constants/theme";
 import getIdForObject from "utils/getIdForObject";
 
@@ -13,7 +19,10 @@ import GroupValidations from "App/page/Design/Validation/GroupValidations";
 import AnswerProperties from "./AnswerProperties";
 import InlineField from "./InlineField";
 import MultiLineField from "./MultiLineField";
-import { UnitProperties } from "./AnswerProperties/Properties";
+import {
+  UnitProperties,
+  DurationProperties,
+} from "./AnswerProperties/Properties";
 import Decimal from "./Decimal";
 import withUpdateAnswersOfType from "./withUpdateAnswersOfType";
 
@@ -101,6 +110,23 @@ export const UnwrappedGroupedAnswerProperties = ({
           </Padding>
         );
       }
+    }
+    if (answerType === DURATION) {
+      groupedFields = (
+        <GroupContainer>
+          <MultiLineField id="duration" label={"Fields"}>
+            <DurationProperties
+              id="duration"
+              onChange={({ value: unit }) => {
+                updateAnswersOfType(answerType, page.id, {
+                  unit,
+                });
+              }}
+              unit={answers[0].properties.unit}
+            />
+          </MultiLineField>
+        </GroupContainer>
+      );
     }
 
     return (

@@ -14,9 +14,11 @@ import {
   DATE,
   PERCENTAGE,
   UNIT,
+  DURATION,
 } from "constants/answer-types";
 
 import { CENTIMETRES } from "constants/unit-types";
+import { YEARSMONTHS } from "constants/duration-types";
 
 import MultipleChoiceAnswer from "App/page/Design/answers/MultipleChoiceAnswer";
 import Date from "App/page/Design/answers/Date";
@@ -155,6 +157,20 @@ describe("Answer Editor", () => {
         type: UNIT,
         properties: {
           unit: CENTIMETRES,
+        },
+      },
+      ...mockMutations,
+    });
+    expect(wrapper).toMatchSnapshot();
+  });
+
+  it("should render Duration", () => {
+    const wrapper = createWrapper({
+      answer: {
+        ...mockAnswer,
+        type: DURATION,
+        properties: {
+          unit: YEARSMONTHS,
         },
       },
       ...mockMutations,

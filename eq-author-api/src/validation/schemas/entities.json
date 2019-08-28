@@ -148,7 +148,8 @@
               "Number",
               "Percentage",
               "Currency",
-              "Unit"
+              "Unit",
+              "Duration"
             ]
           }
         }

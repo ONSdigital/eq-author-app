@@ -1,10 +1,13 @@
 import React from "react";
 import { shallow } from "enzyme";
 
-import { CURRENCY, DATE, UNIT } from "constants/answer-types";
+import { CURRENCY, DATE, UNIT, DURATION } from "constants/answer-types";
 import { KILOJOULES, CENTIMETRES } from "constants/unit-types";
+import { YEARSMONTHS, YEARS } from "constants/duration-types";
 
 import UnitProperties from "./AnswerProperties/Properties/UnitProperties";
+import DurationProperties from "./AnswerProperties/Properties/DurationProperties";
+
 import Accordion from "components/Accordion";
 import GroupValidations from "App/page/Design/Validation/GroupValidations";
 
@@ -152,6 +155,55 @@ describe("Grouped Answer Properties", () => {
       expect(props.updateAnswersOfType).toHaveBeenCalledWith(UNIT, "pageId", {
         unit: CENTIMETRES,
       });
+    });
+  });
+
+  describe("Duration answers", () => {
+    beforeEach(() => {
+      props = {
+        page: {
+          id: "pageId",
+          answers: [
+            {
+              id: "1",
+              type: DURATION,
+              displayName: "Duration 1",
+              properties: {
+                unit: YEARSMONTHS,
+              },
+            },
+            {
+              id: "2",
+              type: DURATION,
+              displayName: "Currency 2",
+              properties: {
+                unit: YEARSMONTHS,
+              },
+            },
+          ],
+        },
+        updateAnswersOfType: jest.fn(),
+      };
+    });
+
+    it("should show one copy of the shared duration properties", () => {
+      const wrapper = shallow(<UnwrappedGroupedAnswerProperties {...props} />);
+      expect(wrapper.find(DurationProperties)).toHaveLength(1);
+    });
+
+    it("should update all the duration answers when their unit is changed", () => {
+      const wrapper = shallow(<UnwrappedGroupedAnswerProperties {...props} />);
+      const durationPropertiesElement = wrapper.find(DurationProperties).dive();
+      durationPropertiesElement
+        .find("[data-test='duration-select']")
+        .simulate("change", { value: YEARS });
+      expect(props.updateAnswersOfType).toHaveBeenCalledWith(
+        DURATION,
+        "pageId",
+        {
+          unit: YEARS,
+        }
+      );
     });
   });
 });

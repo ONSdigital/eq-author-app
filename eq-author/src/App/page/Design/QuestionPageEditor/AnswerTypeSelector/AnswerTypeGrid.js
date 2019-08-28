@@ -59,7 +59,7 @@ const buttons = [
   { type: DATE_RANGE, title: "Date range" },
   { type: PERCENTAGE, title: "Percentage" },
   { type: UNIT, title: "Unit" },
-  { type: DURATION, title: "Duration", disabled: true },
+  { type: DURATION, title: "Duration" },
 ];
 
 class AnswerTypeGrid extends React.Component {

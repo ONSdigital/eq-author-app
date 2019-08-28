@@ -17,8 +17,10 @@ import {
   RADIO,
   DATE_RANGE,
   UNIT,
+  DURATION,
 } from "constants/answer-types";
 import { unitConversion } from "constants/unit-types";
+import { durationConversion } from "constants/duration-types";
 import Tooltip from "components/Forms/Tooltip";
 import DeleteButton from "components/buttons/DeleteButton";
 import MoveButton, { IconUp, IconDown } from "components/buttons/MoveButton";
@@ -91,7 +93,7 @@ class AnswerEditor extends React.Component {
     if ([TEXTFIELD, TEXTAREA].includes(type)) {
       return <BasicAnswer type={type} {...this.props} />;
     }
-    if ([PERCENTAGE, NUMBER, CURRENCY, UNIT].includes(type)) {
+    if ([PERCENTAGE, NUMBER, CURRENCY, UNIT, DURATION].includes(type)) {
       return <BasicAnswer type={type} {...this.props} showDescription />;
     }
     if (type === CHECKBOX) {
@@ -117,16 +119,25 @@ class AnswerEditor extends React.Component {
   }
 
   getAnswerTypeText(answer) {
-    if (answer.type !== UNIT) {
-      return answer.type;
+    if (answer.type === UNIT) {
+      const unitConfig = unitConversion[answer.properties.unit];
+      return (
+        <>
+          {unitConfig.unit}
+          {` (${unitConfig.abbreviation})`}
+        </>
+      );
     }
-    const unitConfig = unitConversion[answer.properties.unit];
-    return (
-      <>
-        {unitConfig.type}
-        {` (${unitConfig.abbreviation})`}
-      </>
-    );
+    if (answer.type === DURATION) {
+      const durationConfig = durationConversion[answer.properties.unit];
+      return (
+        <>
+          {DURATION}
+          {` (${durationConfig.abbreviation})`}
+        </>
+      );
+    }
+    return answer.type;
   }
 
   render() {
