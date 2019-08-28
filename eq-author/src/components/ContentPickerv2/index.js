@@ -88,7 +88,9 @@ const ContentPicker = ({
         return (
           <MetadataPicker
             onConfirm={handleConfirm}
-            onSelected={handleSelected}
+            onSelected={item =>
+              handleSelected({ ...item, pipingType: "metadata" })
+            }
             isSelected={isSelected}
             data={data}
           />
@@ -98,7 +100,9 @@ const ContentPicker = ({
         return (
           <AnswerPicker
             onConfirm={handleConfirm}
-            onSelected={handleSelected}
+            onSelected={item =>
+              handleSelected({ ...item, pipingType: "answers" })
+            }
             isSelected={isSelected}
             data={data}
             multiselect={multiselect}
