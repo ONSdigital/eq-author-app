@@ -12,6 +12,7 @@ const VALID_TYPES = [
   answerTypes.PERCENTAGE,
   answerTypes.CURRENCY,
   answerTypes.RADIO,
+  answerTypes.UNIT,
 ];
 
 describe("AnswerTypeToCondition", () => {

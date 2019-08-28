@@ -7,7 +7,13 @@ import { propType } from "graphql-anywhere";
 import { NavLink, withRouter } from "react-router-dom";
 
 import CustomPropTypes from "custom-prop-types";
-import { RADIO, NUMBER, CURRENCY, PERCENTAGE } from "constants/answer-types";
+import {
+  RADIO,
+  NUMBER,
+  CURRENCY,
+  PERCENTAGE,
+  UNIT,
+} from "constants/answer-types";
 import {
   NO_ROUTABLE_ANSWER_ON_PAGE,
   SELECTED_ANSWER_DELETED,
@@ -193,6 +199,7 @@ const ANSWER_TYPE_TO_RIGHT_EDITOR = {
   [NUMBER]: NumberAnswerSelector,
   [PERCENTAGE]: NumberAnswerSelector,
   [CURRENCY]: NumberAnswerSelector,
+  [UNIT]: NumberAnswerSelector,
 };
 
 export class UnwrappedBinaryExpressionEditor extends React.Component {

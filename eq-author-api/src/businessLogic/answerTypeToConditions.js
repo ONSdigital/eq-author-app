@@ -15,6 +15,7 @@ const answerConditions = {
   [answerTypes.CURRENCY]: NUMERIC_COMPARISONS,
   [answerTypes.PERCENTAGE]: NUMERIC_COMPARISONS,
   [answerTypes.RADIO]: [conditions.ONE_OF],
+  [answerTypes.UNIT]: NUMERIC_COMPARISONS,
 };
 
 const isAnswerTypeSupported = answerType =>
