@@ -11,6 +11,7 @@ const createMutation = mutation => async (root, args, ctx) => {
   pubsub.publish("validationUpdated", {
     questionnaire: ctx.questionnaire,
     validationErrorInfo: ctx.validationErrorInfo,
+    user: ctx.user,
   });
   return result;
 };

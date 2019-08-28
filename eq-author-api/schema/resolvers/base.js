@@ -177,15 +177,18 @@ const Resolvers = {
 
   Subscription: {
     validationUpdated: {
-      resolve: ({ questionnaire, validationErrorInfo }, args, ctx) => {
+      resolve: ({ questionnaire, validationErrorInfo, user }, args, ctx) => {
         ctx.questionnaire = questionnaire;
         ctx.validationErrorInfo = validationErrorInfo;
+        ctx.user = user;
         return questionnaire;
       },
       subscribe: withFilter(
         () => pubsub.asyncIterator(["validationUpdated"]),
         (payload, variables, ctx) => {
-          const user = ctx.user;
+          // user in payload not ctx on createQuestionnaire
+          // this covers scenario where changing to private is done immediately on createQuestionnaire
+          const user = ctx.user || payload.user;
           const { questionnaire } = payload;
           if (
             questionnaire.isPublic ||
