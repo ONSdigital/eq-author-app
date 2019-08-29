@@ -52,6 +52,7 @@ describe("MeContext", () => {
                   displayName: "Rob",
                   email: "Rob@Stark.com",
                   picture: "a//image_file.bmp",
+                  admin: true,
                   __typename: "User",
                 },
               },

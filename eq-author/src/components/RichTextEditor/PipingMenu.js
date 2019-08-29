@@ -4,34 +4,25 @@ import { withRouter } from "react-router-dom";
 import styled from "styled-components";
 import { isEmpty } from "lodash";
 
-import ContentPickerModal from "components/ContentPickerModal";
+import ContentPicker from "components/ContentPickerv2";
 import AvailablePipingContentQuery from "components/RichTextEditor/AvailablePipingContentQuery";
 import shapeTree from "components/ContentPicker/shapeTree";
 
 import CustomPropTypes from "custom-prop-types";
 
-import IconPiping from "components/RichTextEditor/icon-link.svg?inline";
+import IconPiping from "components/RichTextEditor/icon-piping.svg?inline";
+import IconPipingMetadata from "components/RichTextEditor/icon-piping-metadata.svg?inline";
 import ToolbarButton from "components/RichTextEditor/ToolbarButton";
 
 import { ANSWER, METADATA } from "components/ContentPickerSelect/content-types";
 
-const PipingIconButton = props => (
-  <ToolbarButton {...props}>
-    <IconPiping />
-  </ToolbarButton>
-);
-
-export const MenuButton = styled(PipingIconButton)`
+export const MenuButton = styled(ToolbarButton)`
   height: 100%;
   &:disabled {
     cursor: default;
     opacity: 0.2;
   }
 `;
-
-const buttonProps = {
-  title: "Pipe value",
-};
 
 export class Menu extends React.Component {
   static propTypes = {
@@ -51,22 +42,19 @@ export class Menu extends React.Component {
         id: PropTypes.string.isRequired,
       })
     ),
-    defaultTab: PropTypes.string,
   };
 
   state = {
-    isPickerOpen: false,
+    pickerContent: "",
   };
 
-  handleButtonClick = () => {
-    this.setState(state => ({
-      isPickerOpen: !state.isPickerOpen,
-    }));
+  handleButtonClick = pickerContent => {
+    this.setState({ pickerContent });
   };
 
   handlePickerClose = () => {
     this.setState({
-      isPickerOpen: false,
+      pickerContent: "",
     });
   };
 
@@ -82,39 +70,41 @@ export class Menu extends React.Component {
       disabled,
       loading,
       canFocus,
-      defaultTab,
     } = this.props;
 
-    const isDisabled =
-      loading || disabled || (isEmpty(answerData) && isEmpty(metadataData));
+    const { pickerContent } = this.state;
 
-    if (isDisabled) {
-      return <MenuButton {...buttonProps} disabled />;
-    }
-
-    const allowableContentTypes = this.props.allowableTypes || [
-      ANSWER,
-      METADATA,
-    ];
+    const data = pickerContent === METADATA ? metadataData : answerData;
 
     return (
       <React.Fragment>
         <MenuButton
-          {...buttonProps}
-          disabled={isDisabled}
-          onClick={this.handleButtonClick}
+          title="Pipe value"
+          disabled={loading || disabled || isEmpty(answerData)}
+          onClick={() => this.handleButtonClick(ANSWER)}
           canFocus={canFocus}
           data-test="piping-button"
-        />
-        <ContentPickerModal
-          isOpen={this.state.isPickerOpen}
-          answerData={answerData}
-          metadataData={metadataData}
+        >
+          <IconPiping />
+        </MenuButton>
+        <MenuButton
+          title="Pipe metadata"
+          disabled={loading || disabled || isEmpty(metadataData)}
+          onClick={() => this.handleButtonClick(METADATA)}
+          canFocus={canFocus}
+          data-test="piping-button-metadata"
+        >
+          <IconPipingMetadata />
+        </MenuButton>
+        <ContentPicker
+          isOpen={Boolean(this.state.pickerContent)}
+          data={data}
+          startingSelectedAnswers={[]}
           onClose={this.handlePickerClose}
           onSubmit={this.handlePickerSubmit}
           data-test="picker"
-          contentTypes={allowableContentTypes}
-          defaultTab={defaultTab}
+          singleItemSelect
+          contentType={pickerContent}
         />
       </React.Fragment>
     );
@@ -173,7 +163,20 @@ const postProcessPipingContent = entity => {
 
 export const UnwrappedPipingMenu = props => {
   if (!props.canFocus) {
-    return <MenuButton {...buttonProps} disabled />;
+    return (
+      <>
+        <MenuButton title="Pipe value" disabled data-test="piping-button">
+          <IconPiping />
+        </MenuButton>
+        <MenuButton
+          title="Pipe metadata"
+          disabled
+          data-test="piping-button-metadata"
+        >
+          <IconPipingMetadata />
+        </MenuButton>
+      </>
+    );
   }
 
   return (

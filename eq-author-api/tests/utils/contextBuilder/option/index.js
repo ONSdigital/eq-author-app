@@ -3,4 +3,5 @@ module.exports = {
   ...require("./queryOption"),
   ...require("./updateOption"),
   ...require("./deleteOption"),
+  ...require("./moveOption"),
 };

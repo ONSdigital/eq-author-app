@@ -50,7 +50,7 @@ export class UnwrappedDestinationSelector extends React.Component {
   };
 
   render() {
-    const { label, id, disabled, value } = this.props;
+    const { label, id, disabled, value, match } = this.props;
     return (
       <RoutingRuleResult key={id}>
         <Grid align="center">
@@ -62,7 +62,7 @@ export class UnwrappedDestinationSelector extends React.Component {
           <Column gutters={false} cols={7}>
             <RoutingDestinationContentPicker
               id={id}
-              pageId={this.props.match.params.pageId}
+              pageId={match.params.pageId}
               selected={value}
               onSubmit={this.handleChange}
               disabled={disabled}

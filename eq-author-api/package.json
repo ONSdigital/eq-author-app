@@ -15,7 +15,7 @@
   "dependencies": {
     "ajv": "latest",
     "ajv-errors": "latest",
-    "ajv-keywords": "^3.4.1",
+    "ajv-keywords": "latest",
     "apollo-opentracing": "latest",
     "apollo-server-express": "latest",
     "body-parser": "latest",

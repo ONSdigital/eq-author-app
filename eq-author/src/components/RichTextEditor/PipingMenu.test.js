@@ -1,13 +1,15 @@
 import React from "react";
 import { shallow } from "enzyme";
+import { byTestAttr } from "tests/utils/selectors";
 
 import AvailablePipingContentQuery from "components/RichTextEditor/AvailablePipingContentQuery";
 
 import {
   Menu,
-  MenuButton,
   UnwrappedPipingMenu,
 } from "components/RichTextEditor/PipingMenu";
+
+const PIPING_BUTTON_VALUE = byTestAttr("piping-button");
 
 describe("PipingMenu", () => {
   let handleItemChosen, answerData, metadataData;
@@ -92,14 +94,14 @@ describe("PipingMenu", () => {
     const wrapper = render({
       disabled: true,
     });
-    expect(wrapper.find(MenuButton).prop("disabled")).toBe(true);
+    expect(wrapper.find(PIPING_BUTTON_VALUE).prop("disabled")).toBe(true);
   });
 
   it("should render as disabled when loading", () => {
     const wrapper = render({
       loading: true,
     });
-    expect(wrapper.find(MenuButton).prop("disabled")).toBe(true);
+    expect(wrapper.find(PIPING_BUTTON_VALUE).prop("disabled")).toBe(true);
   });
 
   it("should render as disabled when there is no answerData and metadataData", () => {
@@ -107,7 +109,7 @@ describe("PipingMenu", () => {
       answerData: null,
       metadataData: null,
     });
-    expect(wrapper.find(MenuButton).prop("disabled")).toBe(true);
+    expect(wrapper.find(PIPING_BUTTON_VALUE).prop("disabled")).toBe(true);
   });
 
   it("should render as disabled when it does not have focus", () => {
@@ -119,18 +121,25 @@ describe("PipingMenu", () => {
             sectionId: "3",
             pageId: "2",
             confirmationId: "1",
+            introductionId: "5",
           },
         }}
         canFocus={false}
       />
     );
 
-    expect(wrapper.find(MenuButton).prop("disabled")).toBe(true);
+    expect(wrapper.find(PIPING_BUTTON_VALUE).prop("disabled")).toBe(true);
   });
 
   it("should open the picker when clicked", () => {
     const wrapper = render();
     wrapper.find("[data-test='piping-button']").simulate("click");
+    expect(wrapper.find("[data-test='picker']").prop("isOpen")).toBe(true);
+  });
+
+  it("should open the metadata picker when clicked", () => {
+    const wrapper = render();
+    wrapper.find("[data-test='piping-button-metadata']").simulate("click");
     expect(wrapper.find("[data-test='picker']").prop("isOpen")).toBe(true);
   });
 

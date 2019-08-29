@@ -17,6 +17,7 @@ type User {
   picture: String
   email: String
   displayName: String!
+  admin: Boolean!
 }
 
 type QuestionnaireInfo {
@@ -529,6 +530,11 @@ type QuestionnaireIntroduction {
   availablePipingMetadata: [Metadata!]!
 }
 
+type PublishRequest {
+  id: ID!
+  launchUrl: String!
+}
+
 type Query {
   questionnaires: [Questionnaire]
   questionnaire(input: QueryInput!): Questionnaire
@@ -540,6 +546,7 @@ type Query {
   pagesAffectedByDeletion(pageId: ID!): [Page]! @deprecated(reason: "Not implemented")
   questionConfirmation(id: ID!): QuestionConfirmation
   questionnaireIntroduction(id: ID!): QuestionnaireIntroduction
+  triggerPublish(questionnaireId: ID!): PublishRequest
   me: User!
   users: [User!]!
 }
@@ -577,6 +584,7 @@ type Mutation {
   moveAnswer(input: MoveAnswerInput!): Answer!
   createOption(input: CreateOptionInput!): Option
   createMutuallyExclusiveOption(input: CreateMutuallyExclusiveOptionInput!): Option
+  moveOption(input: MoveOptionInput!): MultipleChoiceAnswer!
   updateOption(input: UpdateOptionInput!): Option
   deleteOption(input: DeleteOptionInput!): MultipleChoiceAnswer
   toggleValidationRule(input: ToggleValidationRuleInput!): ValidationRule!
@@ -836,6 +844,11 @@ input CreateMutuallyExclusiveOptionInput {
   value: String
   qCode: String
   answerId: ID!
+}
+
+input MoveOptionInput {
+  id: ID!
+  position: Int!
 }
 
 input UpdateOptionInput {

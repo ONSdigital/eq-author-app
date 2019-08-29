@@ -8,6 +8,7 @@ const migrations = [
   require("./addTotalValidation"),
   require("./updateCreatedByToUseUsers"),
   require("./addIsPublicFlag"),
+  require("./addExpressionOperator"),
 ];
 
 const currentVersion = migrations.length;

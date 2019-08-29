@@ -8,6 +8,7 @@ export const mapMutateToProps = ({ mutate }) => ({
       variables: {
         input: {
           id: rule.id,
+          operator: rule.operator,
           destination: rule.destination,
         },
       },

@@ -18,9 +18,11 @@ import ButtonGroup from "components/buttons/ButtonGroup";
 import { withQuestionnaire } from "components/QuestionnaireContext";
 import UserProfile from "components/UserProfile";
 
+import TriggerPublishQuery from "./TriggerPublishQuery";
 import shareIcon from "./icon-share.svg?inline";
 import viewIcon from "./icon-view.svg?inline";
 import settingsIcon from "./icon-cog.svg?inline";
+import publishIcon from "./icon-publish.svg?inline";
 import SharingModal from "./SharingModal";
 import PageTitle from "./PageTitle";
 import UpdateQuestionnaireSettingsModal from "./UpdateQuestionnaireSettingsModal";
@@ -127,6 +129,28 @@ export class UnconnectedHeader extends React.Component {
                   >
                     <IconText icon={viewIcon}>View survey</IconText>
                   </LinkButton>
+                  {me.admin && (
+                    <TriggerPublishQuery>
+                      {({ triggerPublish }) => (
+                        <Button
+                          variant="tertiary-light"
+                          onClick={() => {
+                            triggerPublish(questionnaire.id).then(({ data }) =>
+                              window.alert(
+                                `Your survey has been published at: ${data.triggerPublish.launchUrl}`
+                              )
+                            );
+                          }}
+                          data-test="btn-publish"
+                          small
+                          disabled={questionnaire.totalErrorCount > 0}
+                        >
+                          <IconText icon={publishIcon}>Publish</IconText>
+                        </Button>
+                      )}
+                    </TriggerPublishQuery>
+                  )}
+
                   <Button
                     variant="tertiary-light"
                     onClick={this.handleShare}

@@ -11,18 +11,19 @@ exports[`RuleEditor should render 1`] = `
     >
       Match
       <RuleEditor__SmallSelect
-        defaultValue="all"
-        disabled={true}
+        data-test="match-select"
+        defaultValue="And"
         id="match"
         name="match"
+        onChange={[Function]}
       >
         <option
-          value="all"
+          value="And"
         >
           All of
         </option>
         <option
-          value="any"
+          value="Or"
         >
           Any of
         </option>
@@ -40,29 +41,7 @@ exports[`RuleEditor should render 1`] = `
     <TransitionGroup
       childFactory={[Function]}
       component="div"
-    >
-      <Transition__RoutingComponentTransition
-        key="1"
-        timeout={200}
-      >
-        <Apollo(Apollo(Apollo(Apollo(Apollo(withRouter(UnwrappedBinaryExpressionEditor))))))
-          canAddAndCondition={true}
-          expression={
-            Object {
-              "id": "1",
-              "left": Object {
-                "id": "binaryExpressionId",
-                "type": "Currency",
-              },
-            }
-          }
-          expressionGroupId="expressionGroupId"
-          isLastExpression={true}
-          isOnlyExpression={true}
-          label="IF"
-        />
-      </Transition__RoutingComponentTransition>
-    </TransitionGroup>
+    />
   </RuleEditor__Expressions>
   <withRouter(UnwrappedDestinationSelector)
     data-test="select-then"

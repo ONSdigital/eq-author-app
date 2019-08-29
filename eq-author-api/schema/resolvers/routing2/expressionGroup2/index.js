@@ -1,6 +1,6 @@
 const Resolvers = {};
 
-const { find, flatMap, getOr } = require("lodash/fp");
+const { find, flatMap, get } = require("lodash/fp");
 const { createMutation } = require("../../createMutation");
 
 const { getPages } = require("../../utils");
@@ -15,10 +15,10 @@ Resolvers.Mutation = {
       const expressionGroup = find(
         { id },
         flatMap(
-          rule => rule.expressionGroup,
+          rule => get("expressionGroup", rule),
           flatMap(
-            routing => routing.rules,
-            flatMap(page => getOr([], "routing", page), getPages(ctx))
+            routing => get("rules", routing),
+            flatMap(page => get("routing", page), getPages(ctx))
           )
         )
       );

@@ -18,6 +18,7 @@ const {
 const GraphQLJSON = require("graphql-type-json");
 const uuid = require("uuid");
 const { withFilter } = require("apollo-server-express");
+const fetch = require("node-fetch");
 
 const pubsub = require("../../db/pubSub");
 const { getName } = require("../../utils/getName");
@@ -161,19 +162,33 @@ const Resolvers = {
     },
     me: (root, args, ctx) => ctx.user,
     users: () => listUsers(),
+    triggerPublish: async (root, { questionnaireId }) => {
+      const result = await fetch(
+        `${process.env.SURVEY_REGISTER_URL}${questionnaireId}`,
+        { method: "put" }
+      )
+        .then(res => res.json())
+        .catch(e => {
+          throw Error(e);
+        });
+      return { id: questionnaireId, launchUrl: result.publishedSurveyUrl };
+    },
   },
 
   Subscription: {
     validationUpdated: {
-      resolve: ({ questionnaire, validationErrorInfo }, args, ctx) => {
+      resolve: ({ questionnaire, validationErrorInfo, user }, args, ctx) => {
         ctx.questionnaire = questionnaire;
         ctx.validationErrorInfo = validationErrorInfo;
+        ctx.user = user;
         return questionnaire;
       },
       subscribe: withFilter(
         () => pubsub.asyncIterator(["validationUpdated"]),
         (payload, variables, ctx) => {
-          const user = ctx.user;
+          // user in payload not ctx on createQuestionnaire
+          // this covers scenario where changing to private is done immediately on createQuestionnaire
+          const user = ctx.user || payload.user;
           const { questionnaire } = payload;
           if (
             questionnaire.isPublic ||
@@ -349,6 +364,24 @@ const Resolvers = {
 
       return option;
     }),
+
+    moveOption: createMutation((_, { input: { id, position } }, ctx) => {
+      const pages = getPages(ctx);
+      const answers = compact(flatMap(pages, page => page.answers));
+      const answer = find(answers, answer => {
+        if (answer.options && some(answer.options, { id })) {
+          return answer;
+        }
+      });
+
+      const options = answer.options;
+
+      const optionMoving = first(remove(options, { id }));
+      options.splice(position, 0, optionMoving);
+
+      return answer;
+    }),
+
     updateOption: createMutation((_, { input }, ctx) => {
       const pages = getPages(ctx);
       const answers = compact(flatMap(pages, page => page.answers));

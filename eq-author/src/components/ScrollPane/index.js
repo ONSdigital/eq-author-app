@@ -23,7 +23,7 @@ const ScrollPane = styled.div`
   ::-webkit-scrollbar-track {
     border-radius: 0;
     box-shadow: none;
-    display: none;
+    background: rgba(0, 0, 0, 0.1);
   }
 
   ::-webkit-scrollbar {

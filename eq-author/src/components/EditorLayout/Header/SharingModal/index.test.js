@@ -1,7 +1,6 @@
 import React from "react";
 import { omit } from "lodash";
-import { render, fireEvent } from "tests/utils/rtl";
-import flushPromises from "tests/utils/flushPromises";
+import { render, fireEvent, flushPromises } from "tests/utils/rtl";
 
 import SharingModal, { ALL_USERS_QUERY } from "./";
 import { ADD_REMOVE_EDITOR_MUTATION } from "./withAddRemoveEditor";
@@ -14,6 +13,26 @@ describe("Sharing Modal", () => {
     name: "Beth Smith",
     email: "beth@smith.com",
   };
+
+  // this is just a little hack to silence a warning that we'll get until we
+  // upgrade to 16.9: https://github.com/facebook/react/pull/14853
+  // https://github.com/testing-library/react-testing-library#suppressing-unnecessary-warnings-on-react-dom-168
+  /* eslint-disable no-console, import/unambiguous */
+  const originalError = console.error;
+  beforeAll(() => {
+    console.error = (...args) => {
+      if (/Warning.*not wrapped in act/.test(args[0])) {
+        return;
+      }
+      originalError.call(console, ...args);
+    };
+  });
+
+  afterAll(() => {
+    console.error = originalError;
+  });
+  // End hack to silence warning
+
   beforeEach(() => {
     props = {
       isOpen: true,
