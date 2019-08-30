@@ -1,10 +1,9 @@
 import React from "react";
 import { shallow } from "enzyme";
-import MetadataModal from "App/MetadataModal";
-import { NavigationHeader } from "./NavigationHeader";
+import { UnwrappedNavigationHeader as NavigationHeader } from "./NavigationHeader";
 
 describe("NavigationHeader", () => {
-  let mockHandlers = {
+  const mockHandlers = {
     onAddQuestionPage: jest.fn(),
     onAddSection: jest.fn(),
     onAddQuestionConfirmation: jest.fn(),
@@ -19,7 +18,7 @@ describe("NavigationHeader", () => {
         canAddCalculatedSummaryPage
         canAddQuestionConfirmation
         onUpdateQuestionnaire={jest.fn()}
-        match={{ params: {} }}
+        match={{ params: { questionnaireId: "1" } }}
         {...mockHandlers}
         {...props}
       />
@@ -27,16 +26,6 @@ describe("NavigationHeader", () => {
 
   it("should render", () => {
     expect(createWrapper()).toMatchSnapshot();
-  });
-
-  it("allows metadata Modals to be open and closed", () => {
-    const wrapper = createWrapper();
-
-    wrapper.find(`[data-test="metadata-btn"]`).simulate("click");
-    expect(wrapper.find(MetadataModal).prop("isOpen")).toBe(true);
-
-    wrapper.find(MetadataModal).simulate("close");
-    expect(wrapper.find(MetadataModal).prop("isOpen")).toBe(false);
   });
 
   it("should allow a page to be added", () => {

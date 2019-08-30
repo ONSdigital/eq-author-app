@@ -39,7 +39,7 @@ export class StatelessRow extends Component {
           <KeySelect
             onChange={onChange}
             onUpdate={onUpdate}
-            defaultValue={key || ""}
+            defaultValue={key}
             name="key"
             usedKeys={usedKeys}
           />
@@ -48,7 +48,7 @@ export class StatelessRow extends Component {
           <TableInput
             onChange={onChange}
             onBlur={onUpdate}
-            value={alias || ""}
+            value={alias}
             name="alias"
           />
         </TableColumn>
@@ -66,7 +66,7 @@ export class StatelessRow extends Component {
             <TableInput
               onChange={onChange}
               onBlur={onUpdate}
-              value={textValue || ""}
+              value={textValue}
               name="textValue"
             />
           )}

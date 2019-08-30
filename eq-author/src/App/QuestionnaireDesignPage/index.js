@@ -25,6 +25,7 @@ import pageRoutes from "App/page";
 import sectionRoutes from "App/section";
 import questionConfirmationRoutes from "App/questionConfirmation";
 import introductionRoutes from "App/introduction";
+import metadataRoutes from "App/metadata";
 
 import withCreateQuestionPage from "enhancers/withCreateQuestionPage";
 import withCreateSection from "enhancers/withCreateSection";
@@ -40,7 +41,7 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
     onCreateQuestionConfirmation: PropTypes.func.isRequired,
     onAddSection: PropTypes.func.isRequired,
     loading: PropTypes.bool.isRequired,
-    match: CustomPropTypes.match,
+    match: CustomPropTypes.match.isRequired,
     questionnaire: CustomPropTypes.questionnaire,
     location: PropTypes.object, // eslint-disable-line
     error: PropTypes.object, // eslint-disable-line
@@ -140,7 +141,7 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
       loading,
     } = this.props;
 
-    return !loading && entityName !== "introduction";
+    return !loading && ["page", "section"].includes(entityName);
   }
 
   canAddQuestionConfirmation() {
@@ -212,6 +213,7 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
                     ...sectionRoutes,
                     ...questionConfirmationRoutes,
                     ...introductionRoutes,
+                    ...metadataRoutes,
                   ]}
                   <Route path="*" render={this.renderRedirect} />
                 </Switch>

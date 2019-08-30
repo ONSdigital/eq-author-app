@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`MetadataTable should render 1`] = `
-<Table>
+<Table
+  data-test="metadata-table"
+>
   <TableHead>
     <TableRow>
       <TableHeadColumn
@@ -135,27 +137,5 @@ exports[`MetadataTable should render 1`] = `
       }
     />
   </TableBody>
-  <TableFoot>
-    <TableRow>
-      <TableColumn
-        colSpan="5"
-      >
-        <AddRowButton
-          data-test="metadata-add-row"
-          onClick={[Function]}
-          small={true}
-          variant="tertiary"
-        >
-          <IconText
-            dark={true}
-            hideText={false}
-            icon={[Function]}
-          >
-            Add metadata
-          </IconText>
-        </AddRowButton>
-      </TableColumn>
-    </TableRow>
-  </TableFoot>
 </Table>
 `;

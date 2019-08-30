@@ -38,7 +38,7 @@ import Panel from "components/Panel";
 
 export class UnwrappedSectionRoute extends React.Component {
   static propTypes = {
-    match: CustomPropTypes.match,
+    match: CustomPropTypes.match.isRequired,
     onUpdateSection: PropTypes.func.isRequired,
     onDeleteSection: PropTypes.func.isRequired,
     onAddQuestionPage: PropTypes.func.isRequired,

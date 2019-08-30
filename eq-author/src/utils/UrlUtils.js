@@ -6,6 +6,7 @@ import {
   PAGE,
   QUESTION_CONFIRMATION,
   INTRODUCTION,
+  METADATA,
 } from "../constants/entities";
 
 export const Routes = {
@@ -71,6 +72,12 @@ export const buildIntroductionPath = ({ introductionId, tab, ...rest }) => {
     tab: sanitiseTab(["design", "preview"])(tab),
     entityId: introductionId,
     entityName: INTRODUCTION,
+  });
+};
+export const buildMetadataPath = ({ questionnaireId }) => {
+  return generatePath(Routes.QUESTIONNAIRE)({
+    questionnaireId,
+    entityName: METADATA,
   });
 };
 

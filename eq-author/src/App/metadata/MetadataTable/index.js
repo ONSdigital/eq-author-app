@@ -8,14 +8,9 @@ import {
   Table,
   TableHead,
   TableBody,
-  TableFoot,
   TableRow,
-  TableColumn,
   TableHeadColumn,
 } from "components/datatable/Elements";
-import { AddRowButton } from "components/datatable/Controls";
-import IconText from "components/IconText";
-import Icon from "components/datatable/icon-plus.svg?inline";
 
 import Row from "./Row";
 
@@ -24,14 +19,8 @@ const getUsedKeys = fp.flow(
   fp.map("key")
 );
 
-const MetadataTable = ({
-  questionnaireId,
-  metadata,
-  onAdd,
-  onDelete,
-  onUpdate,
-}) => (
-  <Table>
+const MetadataTable = ({ questionnaireId, metadata, onDelete, onUpdate }) => (
+  <Table data-test="metadata-table">
     <TableHead>
       <TableRow>
         <TableHeadColumn width="20%">Key</TableHeadColumn>
@@ -55,22 +44,6 @@ const MetadataTable = ({
         ))}
       </React.Fragment>
     </TableBody>
-    <TableFoot>
-      <TableRow>
-        <TableColumn colSpan="5">
-          <AddRowButton
-            data-test="metadata-add-row"
-            onClick={() => onAdd(questionnaireId)}
-            variant="tertiary"
-            small
-          >
-            <IconText icon={Icon} dark>
-              Add metadata
-            </IconText>
-          </AddRowButton>
-        </TableColumn>
-      </TableRow>
-    </TableFoot>
   </Table>
 );
 
