@@ -27,7 +27,7 @@ export const MenuButton = styled(ToolbarButton)`
 export class Menu extends React.Component {
   static propTypes = {
     onItemChosen: PropTypes.func.isRequired,
-    match: CustomPropTypes.match,
+    match: CustomPropTypes.match.isRequired,
     disabled: PropTypes.bool,
     canFocus: PropTypes.bool,
     loading: PropTypes.bool,
@@ -207,7 +207,7 @@ export const UnwrappedPipingMenu = props => {
 };
 
 UnwrappedPipingMenu.propTypes = {
-  match: CustomPropTypes.match,
+  match: CustomPropTypes.match.isRequired,
   canFocus: PropTypes.bool,
 };
 

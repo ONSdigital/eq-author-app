@@ -19,12 +19,9 @@ exports[`NavigationHeader should render 1`] = `
         </RouteButton>
       </NavigationHeader__IconListItem>
       <NavigationHeader__IconListItem>
-        <Button
-          data-test="metadata-btn"
-          highlightOnHover={false}
-          onClick={[Function]}
+        <RouteButton
           small={true}
-          type="button"
+          to="/q/1/metadata"
           variant="tertiary-light"
         >
           <IconText
@@ -33,13 +30,9 @@ exports[`NavigationHeader should render 1`] = `
           >
             Metadata
           </IconText>
-        </Button>
+        </RouteButton>
       </NavigationHeader__IconListItem>
     </NavigationHeader__IconList>
-    <Apollo(Apollo(Apollo(UnwrappedMetadataModal)))
-      isOpen={false}
-      onClose={[Function]}
-    />
   </NavigationHeader__QuestionnaireLinks>
   <NavigationHeader__QuestionnaireContent>
     <NavigationHeader__NavTitle>

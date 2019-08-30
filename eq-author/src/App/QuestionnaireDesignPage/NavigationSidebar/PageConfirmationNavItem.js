@@ -73,7 +73,7 @@ UnwrappedPageConfirmationNavItem.propTypes = {
   sectionId: PropTypes.string.isRequired,
   questionnaireId: PropTypes.string.isRequired,
   page: CustomPropTypes.page,
-  match: CustomPropTypes.match,
+  match: CustomPropTypes.match.isRequired,
 };
 
 export default withRouter(UnwrappedPageConfirmationNavItem);

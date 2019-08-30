@@ -77,7 +77,7 @@ UnwrappedPageNavItem.fragments = {
 UnwrappedPageNavItem.propTypes = {
   questionnaireId: PropTypes.string.isRequired,
   page: CustomPropTypes.page,
-  match: CustomPropTypes.match,
+  match: CustomPropTypes.match.isRequired,
   validations: PropTypes.shape({
     pages: PropTypes.arrayOf(
       PropTypes.shape({

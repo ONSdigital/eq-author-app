@@ -72,7 +72,7 @@ export class UnconnectedHeader extends React.Component {
     client: PropTypes.shape({
       resetStore: PropTypes.func.isRequired,
     }),
-    children: PropTypes.node.isRequired,
+    children: PropTypes.node,
     match: PropTypes.shape({
       params: PropTypes.shape({
         modifier: PropTypes.string,

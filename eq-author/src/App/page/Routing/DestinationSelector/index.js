@@ -81,7 +81,7 @@ UnwrappedDestinationSelector.propTypes = {
   id: PropTypes.string.isRequired,
   value: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   disabled: PropTypes.bool.isRequired,
-  match: CustomPropTypes.match,
+  match: CustomPropTypes.match.isRequired,
 };
 
 UnwrappedDestinationSelector.defaultProps = {

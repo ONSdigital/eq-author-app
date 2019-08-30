@@ -65,7 +65,7 @@ const RoutingAnswerContentPicker = props => (
 );
 
 RoutingAnswerContentPicker.propTypes = {
-  match: CustomPropTypes.match,
+  match: CustomPropTypes.match.isRequired,
 };
 
 export default withRouter(RoutingAnswerContentPicker);

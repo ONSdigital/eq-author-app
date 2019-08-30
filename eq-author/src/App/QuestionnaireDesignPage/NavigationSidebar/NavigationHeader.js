@@ -1,18 +1,19 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
+import { withRouter } from "react-router";
+import gql from "graphql-tag";
 
 import CustomPropTypes from "custom-prop-types";
 import HomeIcon from "./icon-home.svg?inline";
 import MetadataIcon from "./icon-metadata.svg?inline";
 
 import QuestionnaireSettingsModal from "App/QuestionnaireSettingsModal";
-import MetadataModal from "App/MetadataModal";
-import Button from "components/buttons/Button";
+
 import RouteButton from "components/buttons/Button/RouteButton";
 import IconText from "components/IconText";
-import gql from "graphql-tag";
 
+import { buildMetadataPath } from "utils/UrlUtils";
 import AddMenu from "./AddMenu";
 
 const IconList = styled.ul`
@@ -58,32 +59,21 @@ const QuestionnaireContent = styled.div`
   align-items: center;
 `;
 
-export class NavigationHeader extends React.Component {
+export class UnwrappedNavigationHeader extends React.Component {
   static propTypes = {
     canAddQuestionPage: PropTypes.bool.isRequired,
     onAddQuestionPage: PropTypes.func.isRequired,
     onAddSection: PropTypes.func.isRequired,
-    questionnaire: CustomPropTypes.questionnaire.isRequired,
     canAddCalculatedSummaryPage: PropTypes.bool.isRequired,
     onAddCalculatedSummaryPage: PropTypes.func.isRequired,
     canAddQuestionConfirmation: PropTypes.bool.isRequired,
     onAddQuestionConfirmation: PropTypes.func.isRequired,
+    match: CustomPropTypes.match.isRequired,
   };
 
   state = {
-    isMetadataModalOpen: false,
     addMenuOpen: false,
   };
-
-  handleSettingsModalOpen = () => this.setState({ isSettingsModalOpen: true });
-
-  handleSettingsModalClose = () =>
-    this.setState({ isSettingsModalOpen: false });
-
-  handleMetadataModalOpen = () => this.setState({ isMetadataModalOpen: true });
-
-  handleMetadataModalClose = () =>
-    this.setState({ isMetadataModalOpen: false });
 
   handleAddMenuToggle = () =>
     this.setState({ addMenuOpen: !this.state.addMenuOpen });
@@ -109,7 +99,8 @@ export class NavigationHeader extends React.Component {
   };
 
   render() {
-    const { questionnaire } = this.props;
+    const { match } = this.props;
+    const metadataUrl = buildMetadataPath(match.params);
 
     return (
       <>
@@ -121,22 +112,11 @@ export class NavigationHeader extends React.Component {
               </RouteButton>
             </IconListItem>
             <IconListItem>
-              <Button
-                data-test="metadata-btn"
-                variant="tertiary-light"
-                small
-                onClick={this.handleMetadataModalOpen}
-                highlightOnHover={false}
-              >
+              <RouteButton variant="tertiary-light" small to={metadataUrl}>
                 <IconText icon={MetadataIcon}>Metadata</IconText>
-              </Button>
+              </RouteButton>
             </IconListItem>
           </IconList>
-          <MetadataModal
-            isOpen={this.state.isMetadataModalOpen}
-            onClose={this.handleMetadataModalClose}
-            questionnaireId={questionnaire.id}
-          />
         </QuestionnaireLinks>
         <QuestionnaireContent>
           <NavTitle>Questionnaire content</NavTitle>
@@ -158,7 +138,7 @@ export class NavigationHeader extends React.Component {
   }
 }
 
-NavigationHeader.fragments = {
+UnwrappedNavigationHeader.fragments = {
   NavigationHeader: gql`
     fragment NavigationHeader on Questionnaire {
       ...QuestionnaireSettingsModal
@@ -168,4 +148,4 @@ NavigationHeader.fragments = {
   `,
 };
 
-export default NavigationHeader;
+export default withRouter(UnwrappedNavigationHeader);

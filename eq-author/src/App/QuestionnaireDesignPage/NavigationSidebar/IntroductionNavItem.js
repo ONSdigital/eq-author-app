@@ -54,7 +54,7 @@ UnwrappedIntroductionNavItem.propTypes = {
   questionnaire: propType(
     UnwrappedIntroductionNavItem.fragments.IntroductionNavItem
   ),
-  match: CustomPropTypes.match,
+  match: CustomPropTypes.match.isRequired,
 };
 
 export default withRouter(UnwrappedIntroductionNavItem);

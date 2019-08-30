@@ -217,7 +217,7 @@ export class UnwrappedBinaryExpressionEditor extends React.Component {
     canAddCondition: PropTypes.bool.isRequired,
     updateRightSide: PropTypes.func.isRequired,
     updateBinaryExpression: PropTypes.func.isRequired,
-    match: CustomPropTypes.match,
+    match: CustomPropTypes.match.isRequired,
     className: PropTypes.string,
   };
 

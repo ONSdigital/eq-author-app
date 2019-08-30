@@ -30,7 +30,7 @@ const deriveAvailableTabs = page =>
 
 export class UnwrappedPageRoute extends React.Component {
   static propTypes = {
-    match: CustomPropTypes.match,
+    match: CustomPropTypes.match.isRequired,
     onAddQuestionPage: PropTypes.func.isRequired,
     error: PropTypes.object, // eslint-disable-line
     loading: PropTypes.bool.isRequired,
