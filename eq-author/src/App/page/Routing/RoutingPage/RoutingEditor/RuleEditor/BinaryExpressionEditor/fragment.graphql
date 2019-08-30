@@ -5,6 +5,7 @@ fragment BinaryExpressionEditor on BinaryExpression2 {
       id
       displayName
       type
+      properties
     }
     ... on MultipleChoiceAnswer {
       id

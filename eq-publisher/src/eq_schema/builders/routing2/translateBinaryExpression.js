@@ -5,6 +5,7 @@ const {
   CURRENCY,
   NUMBER,
   PERCENTAGE,
+  UNIT,
 } = require("../../../constants/answerTypes");
 const conditionConverter = require("../../../utils/convertRoutingConditions");
 
@@ -34,7 +35,7 @@ const translateBinaryExpression = binaryExpression => {
   if (binaryExpression.left.type === RADIO) {
     return buildMuiltpleChoiceAnswerBinaryExpression(binaryExpression);
   } else if (
-    [CURRENCY, NUMBER, PERCENTAGE].includes(binaryExpression.left.type)
+    [CURRENCY, NUMBER, PERCENTAGE, UNIT].includes(binaryExpression.left.type)
   ) {
     return buildBasicAnswerBinaryExpression(binaryExpression);
   } else {

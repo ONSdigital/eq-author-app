@@ -59,6 +59,7 @@ class NumberAnswerSelector extends React.Component {
 
   render() {
     const { expression } = this.props;
+
     return (
       <NumberAnswerRoutingSelector>
         <VisuallyHidden>
@@ -95,6 +96,7 @@ class NumberAnswerSelector extends React.Component {
             onBlur={this.handleRightBlur}
             data-test="number-value-input"
             type={expression.left.type}
+            unit={get(expression.left, "properties.unit", null)}
           />
         </Value>
       </NumberAnswerRoutingSelector>
