@@ -7,12 +7,13 @@ import CustomPropTypes from "custom-prop-types";
 
 import Error from "components/Error";
 import Loading from "components/Loading";
-import Button from "components/buttons/Button";
 
 import ScrollPane from "components/ScrollPane";
 import Header from "components/EditorLayout/Header";
 import { Grid } from "components/Grid";
 import MainCanvas from "components/MainCanvas";
+import InfoIcon from "./icon-info.svg?inline";
+import IconText from "components/IconText";
 
 import MetadataTable from "./MetadataTable";
 import NoMetadata from "./NoMetadata";
@@ -32,17 +33,13 @@ const StyledGrid = styled(Grid)`
   overflow: hidden;
 `;
 
-const StyledMainCanvas = styled(MainCanvas)`
-  padding: 0 0.5em 0 1em;
-  max-width: 80em;
+const Info = styled(IconText)`
+  margin: 2em 5.75em;
+  justify-content: left;
 `;
 
-const Toolbar = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  margin: 1em auto;
-  padding: 0 1em;
-  width: 100%;
+const StyledMainCanvas = styled(MainCanvas)`
+  padding: 0 0.5em 0 1em;
   max-width: 80em;
 `;
 
@@ -65,31 +62,32 @@ export const UnwrappedMetadataPageContent = ({
   if (!questionnaire) {
     return <Error>Oops! Questionnaire could not be found</Error>;
   }
+  const hasMetadata = questionnaire.metadata.length > 0;
 
   return (
     <Container>
       <Header title="Metadata" />
-      {questionnaire.metadata.length ? (
-        <>
-          <Toolbar>
-            <Button onClick={() => onAddMetadata(questionnaire.id)}>
-              Add metadata
-            </Button>
-          </Toolbar>
-          <StyledGrid>
-            <ScrollPane permanentScrollBar data-test="metadata-modal-content">
-              <StyledMainCanvas>
-                <MetadataTable
-                  metadata={questionnaire.metadata}
-                  questionnaireId={questionnaire.id}
-                  onAdd={onAddMetadata}
-                  onDelete={onDeleteMetadata}
-                  onUpdate={onUpdateMetadata}
-                />
-              </StyledMainCanvas>
-            </ScrollPane>
-          </StyledGrid>
-        </>
+      {hasMetadata && (
+        <Info icon={InfoIcon}>
+          Metadata can be piped into questions within your questionnaire. When a
+          survey is published, we connect the metadata to a sample file so
+          respondents see actual values.
+        </Info>
+      )}
+      {hasMetadata ? (
+        <StyledGrid>
+          <ScrollPane permanentScrollBar data-test="metadata-modal-content">
+            <StyledMainCanvas>
+              <MetadataTable
+                metadata={questionnaire.metadata}
+                questionnaireId={questionnaire.id}
+                onAdd={onAddMetadata}
+                onDelete={onDeleteMetadata}
+                onUpdate={onUpdateMetadata}
+              />
+            </StyledMainCanvas>
+          </ScrollPane>
+        </StyledGrid>
       ) : (
         <NoMetadata onAddMetadata={() => onAddMetadata(questionnaire.id)} />
       )}
