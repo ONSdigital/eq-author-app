@@ -3,6 +3,7 @@ const {
   CURRENCY,
   NUMBER,
   PERCENTAGE,
+  CHECKBOX,
 } = require("../../../constants/answerTypes");
 
 const translateBinaryExpression = require("./translateBinaryExpression");
@@ -89,6 +90,64 @@ describe("Should build a runner representation of a binary expression", () => {
         id: "answer1",
         condition: "contains any",
         values: ["no", "maybe"],
+      });
+    });
+  });
+
+  describe("With Checkbox answers", () => {
+    const buildBinaryExpression = (optionsArray, condition) => ({
+      left: {
+        id: "1",
+        type: CHECKBOX,
+        options: [
+          {
+            id: "1",
+            value: "yes",
+          },
+          {
+            id: "2",
+            value: "no",
+          },
+          {
+            id: "3",
+            value: "maybe",
+          },
+        ],
+      },
+      condition,
+      right: {
+        options: optionsArray,
+        __typeName: "SelectedOptions2",
+      },
+    });
+
+    it("With a checkbox answer and all of", () => {
+      const expression = buildBinaryExpression(
+        [{ id: "1", label: "yes" }, { id: "2", label: "no" }],
+        "AllOf"
+      );
+
+      const runnerExpression = translateBinaryExpression(expression);
+
+      expect(runnerExpression).toMatchObject({
+        id: "answer1",
+        condition: "contains all",
+        values: ["yes", "no"],
+      });
+    });
+
+    it("With a checkbox answer and any of", () => {
+      const expression = buildBinaryExpression(
+        [{ id: "1", label: "yes" }, { id: "2", label: "no" }],
+        "AnyOf"
+      );
+
+      const runnerExpression = translateBinaryExpression(expression);
+
+      expect(runnerExpression).toMatchObject({
+        id: "answer1",
+        condition: "contains any",
+        values: ["yes", "no"],
       });
     });
   });

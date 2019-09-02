@@ -10,6 +10,7 @@ describe("MultipleChoiceAnswerOptionsSelector", () => {
       expression: {
         left: {
           id: "1",
+          type: "Radio",
           options: [
             { label: "a", id: "1" },
             { label: "b", id: "2" },
@@ -19,6 +20,7 @@ describe("MultipleChoiceAnswerOptionsSelector", () => {
         right: null,
       },
       onRightChange: jest.fn(),
+      onConditionChange: jest.fn(),
     };
   });
 

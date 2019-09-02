@@ -494,6 +494,10 @@ enum RoutingCondition2 {
   GreaterOrEqual
   LessOrEqual
   OneOf
+  AllOf
+  AnyOf
+  NotAnyOf
+  NotAllOf
 }
 
 type BinaryExpression2 {

@@ -13,6 +13,7 @@ const VALID_TYPES = [
   answerTypes.CURRENCY,
   answerTypes.RADIO,
   answerTypes.UNIT,
+  answerTypes.CHECKBOX,
 ];
 
 describe("AnswerTypeToCondition", () => {
@@ -27,10 +28,16 @@ describe("AnswerTypeToCondition", () => {
 
   describe("getDefault()", () => {
     it("should return equal for all apart from radio", () => {
+      const expectedDefaults = {
+        [answerTypes.NUMBER]: conditions.EQUAL,
+        [answerTypes.PERCENTAGE]: conditions.EQUAL,
+        [answerTypes.CURRENCY]: conditions.EQUAL,
+        [answerTypes.RADIO]: conditions.ONE_OF,
+        [answerTypes.UNIT]: conditions.EQUAL,
+        [answerTypes.CHECKBOX]: conditions.ALL_OF,
+      };
       VALID_TYPES.forEach(type => {
-        const expectedDefaultCondition =
-          type === answerTypes.RADIO ? conditions.ONE_OF : conditions.EQUAL;
-        expect(getDefault(type)).toEqual(expectedDefaultCondition);
+        expect(getDefault(type)).toEqual(expectedDefaults[type]);
       });
     });
   });
@@ -39,6 +46,7 @@ describe("AnswerTypeToCondition", () => {
     it("should return true for valid answer type and condition combinations", () => {
       [
         { answerType: answerTypes.RADIO, condition: conditions.ONE_OF },
+        { answerType: answerTypes.CHECKBOX, condition: conditions.ALL_OF },
         {
           answerType: answerTypes.PERCENTAGE,
           condition: conditions.GREATER_THAN,
