@@ -24,7 +24,8 @@ const Title = styled.h2`
 `;
 
 const Text = styled.p`
-  margin: 0 0 1em;
+  max-width: 31em;
+  margin: 1em auto;
   color: ${colors.textLight};
 `;
 
@@ -32,7 +33,11 @@ const NoMetadata = ({ onAddMetadata }) => {
   return (
     <Wrapper>
       <Title>No metadata found</Title>
-      <Text>{"You don't have any metadata yet."}</Text>
+      <Text>
+        {
+          "Metadata can be piped into questions within your questionnaire. When a survey is published, we connect the metadata to a sample file so respondents see actual values."
+        }
+      </Text>
       <Button
         onClick={onAddMetadata}
         variant="primary"

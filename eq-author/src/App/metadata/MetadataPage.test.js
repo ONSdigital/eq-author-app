@@ -112,7 +112,7 @@ describe("Metadata page", () => {
     const { getByText } = renderWithContext(
       <UnwrappedMetadataPageContent {...props} />
     );
-    expect(getByText("You don't have any metadata yet.")).toBeTruthy();
+    expect(getByText("No metadata found")).toBeTruthy();
 
     getByText("Add metadata").click();
     expect(props.onAddMetadata).toHaveBeenCalledWith(questionnaireId);

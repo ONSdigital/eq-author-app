@@ -3,12 +3,17 @@ import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 import { map } from "lodash";
 import fp from "lodash/fp";
+import { AddRowButton } from "components/datatable/Controls";
+import IconText from "components/IconText";
+import Icon from "components/datatable/icon-plus.svg?inline";
 
 import {
   Table,
   TableHead,
   TableBody,
   TableRow,
+  TableFoot,
+  TableColumn,
   TableHeadColumn,
 } from "components/datatable/Elements";
 
@@ -19,7 +24,13 @@ const getUsedKeys = fp.flow(
   fp.map("key")
 );
 
-const MetadataTable = ({ questionnaireId, metadata, onDelete, onUpdate }) => (
+const MetadataTable = ({
+  questionnaireId,
+  metadata,
+  onDelete,
+  onUpdate,
+  onAdd,
+}) => (
   <Table data-test="metadata-table">
     <TableHead>
       <TableRow>
@@ -31,19 +42,33 @@ const MetadataTable = ({ questionnaireId, metadata, onDelete, onUpdate }) => (
       </TableRow>
     </TableHead>
     <TableBody>
-      <React.Fragment>
-        {map(metadata, row => (
-          <Row
-            key={row.id}
-            metadata={row}
-            onDelete={onDelete}
-            onUpdate={onUpdate}
-            questionnaireId={questionnaireId}
-            usedKeys={getUsedKeys(metadata)}
-          />
-        ))}
-      </React.Fragment>
+      {map(metadata, row => (
+        <Row
+          key={row.id}
+          metadata={row}
+          onDelete={onDelete}
+          onUpdate={onUpdate}
+          questionnaireId={questionnaireId}
+          usedKeys={getUsedKeys(metadata)}
+        />
+      ))}
     </TableBody>
+    <TableFoot>
+      <TableRow>
+        <TableColumn colSpan="5">
+          <AddRowButton
+            data-test="metadata-add-row"
+            onClick={() => onAdd(questionnaireId)}
+            variant="tertiary"
+            small
+          >
+            <IconText icon={Icon} dark>
+              Add metadata
+            </IconText>
+          </AddRowButton>
+        </TableColumn>
+      </TableRow>
+    </TableFoot>
   </Table>
 );
 
