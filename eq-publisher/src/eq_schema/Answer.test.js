@@ -7,6 +7,7 @@ const {
   CURRENCY,
   PERCENTAGE,
   UNIT,
+  DURATION,
 } = require("../constants/answerTypes");
 const Answer = require("./Answer");
 const Question = require("./Question");
@@ -53,6 +54,27 @@ describe("Answer", () => {
     authorAnswer.properties.unit = CENTIMETER;
     const answer = new Answer(createAnswerJSON({ type: UNIT }));
     expect(answer.unit).toBe(unitConversion[CENTIMETER]);
+  });
+
+  it("should correctly define a months years duration answer", () => {
+    const authorAnswer = createAnswerJSON({ type: DURATION });
+    authorAnswer.properties.unit = "YearsMonths";
+    const answer = new Answer(authorAnswer);
+    expect(answer.units).toEqual(["years", "months"]);
+  });
+
+  it("should correctly define a  years duration answer", () => {
+    const authorAnswer = createAnswerJSON({ type: DURATION });
+    authorAnswer.properties.unit = "Years";
+    const answer = new Answer(authorAnswer);
+    expect(answer.units).toEqual(["years"]);
+  });
+
+  it("should correctly define a months duration answer", () => {
+    const authorAnswer = createAnswerJSON({ type: DURATION });
+    authorAnswer.properties.unit = "Months";
+    const answer = new Answer(authorAnswer);
+    expect(answer.units).toEqual(["months"]);
   });
 
   it("should set correct to answer type for different date formats", () => {

@@ -80,7 +80,6 @@ exports[`components/AnswerTypeGrid should render 1`] = `
         type="Unit"
       />
       <AnswerTypeButton
-        disabled={true}
         key="Duration"
         onClick={[Function]}
         order={1}

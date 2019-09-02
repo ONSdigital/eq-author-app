@@ -13,6 +13,7 @@ import {
   NUMBER,
   PERCENTAGE,
   UNIT,
+  DURATION,
 } from "constants/answer-types";
 
 import DateAnswer from "./DateAnswer";
@@ -22,6 +23,7 @@ import CurrencyAnswer from "./CurrencyAnswer";
 import TextAnswer from "./TextAnswer";
 import TextAreaAnswer from "./TextAreaAnswer";
 import AnswerTrailingUnit from "./AnswerTrailingUnit";
+import DurationAnswer from "./DurationAnswer";
 
 export const answerComponents = {
   [CHECKBOX]: MultipleChoiceAnswer,
@@ -34,6 +36,7 @@ export const answerComponents = {
   [DATE_RANGE]: DateRangeAnswer,
   [PERCENTAGE]: AnswerTrailingUnit,
   [UNIT]: AnswerTrailingUnit,
+  [DURATION]: DurationAnswer,
 };
 
 const AnswerWrapper = styled.div`

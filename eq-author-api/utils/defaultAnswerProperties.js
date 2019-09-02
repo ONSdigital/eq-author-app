@@ -6,6 +6,7 @@ const {
   NUMBER,
   PERCENTAGE,
   UNIT,
+  DURATION,
 } = require("../constants/answerTypes");
 
 const { CENTIMETRES } = require("../constants/unitTypes");
@@ -16,6 +17,7 @@ const defaultAnswerPropertiesMap = {
   [PERCENTAGE]: { required: false, decimals: 0 },
   [DATE]: { required: false, format: "dd/mm/yyyy" },
   [UNIT]: { required: false, decimals: 0, unit: CENTIMETRES },
+  [DURATION]: { required: false, unit: "YearsMonths" },
 };
 
 module.exports = type =>

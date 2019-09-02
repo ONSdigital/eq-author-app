@@ -377,13 +377,14 @@ enum AnswerType {
   Currency
   Date
   DateRange
+  Duration
   MonthYearDate
   Number
   Percentage
   Radio
+  Relationship
   TextArea
   TextField
-  Relationship
   Unit
 }
 
