@@ -20,6 +20,7 @@ const contentControls = {
   bold: true,
   emphasis: true,
   piping: true,
+  list: true,
 };
 
 export const StatelessAdditionalInfo = ({
