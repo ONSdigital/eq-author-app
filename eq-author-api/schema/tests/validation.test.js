@@ -136,7 +136,7 @@ describe("validation", () => {
         minValue: {
           id: minValueId,
           enabled: false,
-          inclusive: false,
+          inclusive: true,
           custom: null,
           entityType: CUSTOM,
           availablePreviousAnswers: expect.any(Array),
@@ -144,7 +144,7 @@ describe("validation", () => {
         maxValue: {
           id: maxValueId,
           enabled: false,
-          inclusive: false,
+          inclusive: true,
           custom: null,
           entityType: CUSTOM,
           availablePreviousAnswers: expect.any(Array),
@@ -175,13 +175,13 @@ describe("validation", () => {
         id: currencyValidation.minValue.id,
         minValueInput: {
           custom: 10,
-          inclusive: true,
+          inclusive: false,
         },
       });
       expect(result).toMatchObject({
         id: currencyValidation.minValue.id,
         custom: 10,
-        inclusive: true,
+        inclusive: false,
       });
     });
 
@@ -196,14 +196,14 @@ describe("validation", () => {
         id: currencyValidation.maxValue.id,
         maxValueInput: {
           custom: 10,
-          inclusive: true,
+          inclusive: false,
         },
       });
 
       expect(result).toMatchObject({
         id: currencyValidation.maxValue.id,
         custom: 10,
-        inclusive: true,
+        inclusive: false,
       });
     });
 
@@ -222,7 +222,7 @@ describe("validation", () => {
         id: numberValidation.minValue.id,
         minValueInput: {
           previousAnswer: previousAnswer.id,
-          inclusive: true,
+          inclusive: false,
         },
       });
 
@@ -231,7 +231,7 @@ describe("validation", () => {
         previousAnswer: {
           id: previousAnswer.id,
         },
-        inclusive: true,
+        inclusive: false,
       });
     });
 
@@ -250,7 +250,7 @@ describe("validation", () => {
         id: numberValidation.maxValue.id,
         maxValueInput: {
           previousAnswer: previousAnswer.id,
-          inclusive: true,
+          inclusive: false,
         },
       });
 
@@ -259,7 +259,7 @@ describe("validation", () => {
         previousAnswer: {
           id: previousAnswer.id,
         },
-        inclusive: true,
+        inclusive: false,
       });
     });
 
@@ -277,7 +277,7 @@ describe("validation", () => {
           id: currencyValidation.minValue.id,
           minValueInput: {
             entityType: entityTypes[i],
-            inclusive: true,
+            inclusive: false,
           },
         });
 
@@ -292,7 +292,7 @@ describe("validation", () => {
           id: currencyValidation.maxValue.id,
           maxValueInput: {
             entityType: entityTypes[i],
-            inclusive: true,
+            inclusive: false,
           },
         });
 
