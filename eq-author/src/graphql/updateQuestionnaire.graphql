@@ -6,6 +6,8 @@ mutation UpdateQuestionnaire($input: UpdateQuestionnaireInput!) {
     ...Questionnaire
     sections {
       id
+      title
+      displayName
       validationErrorInfo {
         ...ValidationErrorInfo
       }
