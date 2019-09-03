@@ -27,7 +27,7 @@ describe("section", () => {
 
   describe("create", () => {
     beforeAll(async () => {
-      ctx = await buildContext({});
+      ctx = await buildContext({ navigation: true });
       questionnaire = ctx.questionnaire;
     });
 
@@ -63,6 +63,7 @@ describe("section", () => {
   describe("mutate", () => {
     beforeAll(async () => {
       ctx = await buildContext({
+        navigation: true,
         sections: [{}],
       });
       questionnaire = ctx.questionnaire;
@@ -128,6 +129,7 @@ describe("section", () => {
 
     beforeEach(async () => {
       ctx = await buildContext({
+        navigation: true,
         metadata: [{}],
         sections: [
           {
@@ -157,6 +159,21 @@ describe("section", () => {
         questionnaire: expect.any(Object),
         availablePipingAnswers: expect.any(Array),
         availablePipingMetadata: expect.any(Array),
+      });
+    });
+
+    it("should resolve title to empty string if navigation is off", async () => {
+      ctx.questionnaire.sections[1].title = "Test title";
+      queriedSection = await querySection(ctx, questionnaire.sections[1].id);
+      expect(queriedSection).toMatchObject({
+        title: "Test title",
+        displayName: "Alias",
+      });
+      ctx.questionnaire.navigation = false;
+      queriedSection = await querySection(ctx, questionnaire.sections[1].id);
+      expect(queriedSection).toMatchObject({
+        title: "",
+        displayName: "Alias",
       });
     });
 
