@@ -13,6 +13,7 @@ mutation UpdateCalculatedSummaryPage(
       id
       displayName
       type
+      properties
       page {
         id
         displayName
@@ -26,6 +27,7 @@ mutation UpdateCalculatedSummaryPage(
       id
       displayName
       type
+      properties
       page {
         id
         displayName

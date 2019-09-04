@@ -13,7 +13,13 @@ const shapeTree = (answers, topLevel = "section") =>
   reduce(
     answers,
     (result, value) => {
-      const answer = pick(value, ["id", "displayName", "type", "__typename"]);
+      const answer = pick(value, [
+        "id",
+        "displayName",
+        "type",
+        "properties",
+        "__typename",
+      ]);
       const page = pick(value.page, ["id", "displayName", "__typename"]);
       const section = pick(value.page.section, [
         "id",
