@@ -23,16 +23,25 @@ describe("CalculatedSummary content picker", () => {
                 id: "Percentage 1",
                 displayName: "Percentage 1",
                 type: "Percentage",
+                properties: {},
               },
               {
                 id: "Number 1",
                 displayName: "Number 1",
                 type: "Number",
+                properties: {},
               },
               {
                 id: "Currency 1",
                 displayName: "Currency 1",
                 type: "Currency",
+                properties: {},
+              },
+              {
+                id: "Unit 1",
+                displayName: "Unit 1",
+                type: "Unit",
+                properties: { unit: "meters" },
               },
             ],
           },
@@ -44,16 +53,31 @@ describe("CalculatedSummary content picker", () => {
                 id: "Percentage 2",
                 displayName: "Percentage 2",
                 type: "Percentage",
+                properties: {},
               },
               {
                 id: "Currency 2",
                 displayName: "Currency 2",
                 type: "Currency",
+                properties: {},
               },
               {
                 id: "Number 2",
                 displayName: "Number 2",
                 type: "Number",
+                properties: {},
+              },
+              {
+                id: "Unit 2",
+                displayName: "Unit 2",
+                type: "Unit",
+                properties: { unit: "centimeters" },
+              },
+              {
+                id: "Unit 3",
+                displayName: "Unit 3",
+                type: "Unit",
+                properties: { unit: "centimeters" },
               },
             ],
           },
@@ -82,8 +106,18 @@ describe("CalculatedSummary content picker", () => {
     fireEvent.click(getByText("Confirm"));
 
     expect(onSubmit).toHaveBeenCalledWith([
-      { displayName: "Percentage 1", id: "Percentage 1", type: "Percentage" },
-      { displayName: "Percentage 2", id: "Percentage 2", type: "Percentage" },
+      {
+        displayName: "Percentage 1",
+        id: "Percentage 1",
+        type: "Percentage",
+        properties: {},
+      },
+      {
+        displayName: "Percentage 2",
+        id: "Percentage 2",
+        type: "Percentage",
+        properties: {},
+      },
     ]);
   });
 
@@ -97,6 +131,31 @@ describe("CalculatedSummary content picker", () => {
 
     expect(percentageOne).toHaveAttribute("aria-selected", "true");
     expect(numberOne).toHaveAttribute("disabled");
+  });
+
+  it("should allow compatible unit types", () => {
+    const { getByText } = renderContentPicker();
+
+    const unitTwo = getByText("Unit 2").closest("li");
+    const unitThree = getByText("Unit 3").closest("li");
+
+    fireEvent.click(unitTwo);
+    fireEvent.click(unitThree);
+
+    expect(unitTwo).toHaveAttribute("aria-selected", "true");
+    expect(unitThree).toHaveAttribute("aria-selected", "true");
+  });
+
+  it("should disable incompatible unit types", () => {
+    const { getByText } = renderContentPicker();
+
+    const unitOne = getByText("Unit 1").closest("li");
+    const unitTwo = getByText("Unit 2").closest("li");
+
+    fireEvent.click(unitOne);
+
+    expect(unitOne).toHaveAttribute("aria-selected", "true");
+    expect(unitTwo).toHaveAttribute("disabled");
   });
 
   it("should deselecet and reselect on successive clicks", () => {

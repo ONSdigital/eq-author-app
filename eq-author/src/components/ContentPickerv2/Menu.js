@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 
 import styled from "styled-components";
+import { UNIT } from "constants/answer-types";
 import { colors } from "constants/theme";
 import iconChevron from "./icon-chevron-small.svg";
 import Truncated from "components/Truncated";
@@ -105,6 +106,7 @@ export const MenuItemSubtitle = styled.div`
 
 export const MenuItemType = styled.span`
   font-size: 10px;
+  margin: 0 0.25em;
   background: #e4e8eb;
   padding: 0.3em 0.7em;
   border-radius: 1em;
@@ -213,6 +215,9 @@ const SubMenu = ({
                 </MenuItemSubtitle>
               </MenuItemTitles>
               <MenuItemType>{item.type}</MenuItemType>
+              {item.type === UNIT && (
+                <MenuItemType>{item.properties.unit}</MenuItemType>
+              )}
             </SubMenuItem>
           );
         })
