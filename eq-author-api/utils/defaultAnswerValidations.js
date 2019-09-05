@@ -26,8 +26,8 @@ const duration = {
 };
 
 const defaultValidationRuleConfigs = {
-  minValue: { inclusive: false },
-  maxValue: { inclusive: false },
+  minValue: { inclusive: true },
+  maxValue: { inclusive: true },
   earliestDate: { offset: duration, relativePosition: "Before" },
   latestDate: { offset: duration, relativePosition: "After" },
   minDuration: { duration },
