@@ -22,7 +22,7 @@
     "@babel/preset-env": "latest",
     "@babel/preset-react": "latest",
     "@hot-loader/react-dom": "latest",
-    "@testing-library/jest-dom": "^4.0.0",
+    "@testing-library/jest-dom": "^4.1.0",
     "@testing-library/react": "latest",
     "autoprefixer": "latest",
     "babel-eslint": "latest",
