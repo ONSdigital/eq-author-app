@@ -98,6 +98,7 @@ describe("QuestionnairesPage", () => {
                   createdAt: Date.now().toString(),
                   displayName: "UKIS",
                   permission: WRITE,
+                  publishStatus: "Unpublished",
                   createdBy: {
                     id: "1",
                     name: "A Dude",

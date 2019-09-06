@@ -9,6 +9,7 @@ const migrations = [
   require("./updateCreatedByToUseUsers"),
   require("./addIsPublicFlag"),
   require("./addExpressionOperator"),
+  require("./addPublishStatusToQuestionnaire"),
 ];
 
 const currentVersion = migrations.length;

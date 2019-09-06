@@ -74,6 +74,7 @@ QuestionnairesTable.fragments = {
         displayName
       }
       permission
+      publishStatus
     }
   `,
 };
