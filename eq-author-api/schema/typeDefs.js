@@ -55,7 +55,13 @@ type Questionnaire {
   editors: [User!]!
   permission: Permission!
   isPublic: Boolean!
+  publishStatus: PublishStatus!
   totalErrorCount: Int!
+}
+
+enum PublishStatus {
+  Published
+  Unpublished
 }
 
 type DeletedQuestionnaire {
