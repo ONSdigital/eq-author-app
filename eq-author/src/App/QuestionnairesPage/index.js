@@ -31,7 +31,7 @@ const QuestionnairesPage = ({
   onCreateQuestionnaire,
 }) => (
   <Layout title="Your Questionnaires">
-    <Query fetchPolicy="cache-and-network" query={QUESTIONNAIRES_QUERY}>
+    <Query fetchPolicy="network-only" query={QUESTIONNAIRES_QUERY}>
       {response => {
         const { loading, error, data } = response;
 

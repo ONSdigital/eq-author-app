@@ -9,10 +9,14 @@ query triggerPublish($input: ID!) {
   }
 `;
 
-const publishQuestionnaire = async questionnaireId => {
-  const result = await executeQuery(publishQuestionnaireQuery, {
-    input: questionnaireId,
-  });
+const publishQuestionnaire = async (questionnaireId, ctx) => {
+  const result = await executeQuery(
+    publishQuestionnaireQuery,
+    {
+      input: questionnaireId,
+    },
+    ctx
+  );
 
   return result.data.triggerPublish;
 };

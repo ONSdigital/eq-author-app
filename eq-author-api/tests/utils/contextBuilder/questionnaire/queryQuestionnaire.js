@@ -30,6 +30,7 @@ const getQuestionnaireQuery = `
         id
       }
       totalErrorCount
+      publishStatus
     }
   }
 `;
