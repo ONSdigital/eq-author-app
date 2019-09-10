@@ -3,7 +3,10 @@ import { shallow } from "enzyme";
 
 import { NUMBER } from "constants/answer-types";
 
-import { UnwrappedAnswerSelector as AnswerSelector } from "./AnswerSelector";
+import {
+  UnwrappedAnswerSelector as AnswerSelector,
+  ErrorContext,
+} from "./AnswerSelector";
 import AnswerChip from "./AnswerChip";
 
 describe("AnswerSelector", () => {
@@ -34,6 +37,7 @@ describe("AnswerSelector", () => {
         id: 1,
         displayName: "Answer 1",
         type: NUMBER,
+        properties: {},
         page: {
           id: "1",
           displayName: "Foo",
@@ -44,6 +48,7 @@ describe("AnswerSelector", () => {
         id: 2,
         displayName: "Answer 2",
         type: NUMBER,
+        properties: {},
         page: {
           id: "1",
           displayName: "Foo",
@@ -54,6 +59,7 @@ describe("AnswerSelector", () => {
         id: 3,
         displayName: "Answer 3",
         type: NUMBER,
+        properties: {},
         page: {
           id: "1",
           displayName: "Foo",
@@ -78,6 +84,14 @@ describe("AnswerSelector", () => {
     page.summaryAnswers = answers;
     const wrapper = shallow(<AnswerSelector page={page} {...mockHandlers} />);
     expect(wrapper.find(AnswerChip)).toHaveLength(3);
+  });
+
+  it("should render an error when incompatible units selected", () => {
+    mockHandlers.getValidationError = jest.fn(
+      () => "Select answers that are the same unit type"
+    );
+    const wrapper = shallow(<AnswerSelector page={page} {...mockHandlers} />);
+    expect(wrapper.find(ErrorContext)).toBeTruthy();
   });
 
   it("should remove single answers on remove click", () => {

@@ -72,7 +72,14 @@
             "summaryAnswers": {
               "type": "array",
               "items": {
-                "$ref": "entities.json#/definitions/answer"
+                "allOf": [
+                  {
+                    "$ref": "entities.json#/definitions/answer"
+                  }
+                ]
+              },
+              "calculatedSummaryUnitConsistency": {
+                "$data": "/sections"
               },
               "minItems": 1,
               "errorMessage": {

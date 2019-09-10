@@ -19,7 +19,7 @@ const {
 
 const { querySection } = require("../../tests/utils/contextBuilder/section");
 
-const { NUMBER, CURRENCY } = require("../../constants/answerTypes");
+const { NUMBER, CURRENCY, UNIT } = require("../../constants/answerTypes");
 
 describe("calculated Summary", () => {
   let ctx, questionnaire;
@@ -169,6 +169,9 @@ describe("calculated Summary", () => {
                 {
                   type: CURRENCY,
                 },
+                {
+                  type: UNIT,
+                },
               ],
             },
             {
@@ -205,6 +208,7 @@ describe("calculated Summary", () => {
         { id: answersPage.answers[1].id },
         { id: answersPage.answers[2].id },
         { id: answersPage.answers[3].id },
+        { id: answersPage.answers[4].id },
       ],
     });
 
@@ -614,5 +618,57 @@ describe("calculated Summary", () => {
     const validResult = await queryPage(ctx, calSumPage.id);
 
     expect(validResult.validationErrorInfo.totalCount).toEqual(0);
+  });
+
+  it("should validate error if unit types are inconsistent", async () => {
+    ctx = await buildContext({
+      sections: [
+        {
+          pages: [
+            {
+              answers: [
+                {
+                  type: UNIT,
+                  properties: {
+                    unit: "meters",
+                  },
+                },
+                {
+                  type: UNIT,
+                  properties: {
+                    unit: "miles",
+                  },
+                },
+              ],
+            },
+            {
+              pageType: "calculatedSummary",
+            },
+          ],
+        },
+      ],
+    });
+    questionnaire = ctx.questionnaire;
+    const answers = questionnaire.sections[0].pages[0].answers;
+    const calSumPage = questionnaire.sections[0].pages[1];
+
+    await updateCalculatedSummaryPage(ctx, {
+      id: calSumPage.id,
+      title: "Goo",
+      summaryAnswers: [answers[0].id, answers[1].id],
+    });
+    const validResult = await queryPage(ctx, calSumPage.id);
+
+    expect(validResult.validationErrorInfo).toEqual({
+      errors: [
+        {
+          errorCode: "ERR_CALCULATED_UNIT_INCONSISTENCY",
+          field: "summaryAnswers",
+          id: `pages-${calSumPage.id}-summaryAnswers`,
+          type: "pages",
+        },
+      ],
+      totalCount: 1,
+    });
   });
 });

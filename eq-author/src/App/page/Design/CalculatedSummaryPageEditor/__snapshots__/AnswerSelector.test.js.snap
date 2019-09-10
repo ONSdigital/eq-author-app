@@ -37,16 +37,19 @@ exports[`AnswerSelector should render when there are available summary answers 1
                     Object {
                       "displayName": "Answer 1",
                       "id": 1,
+                      "properties": Object {},
                       "type": "Number",
                     },
                     Object {
                       "displayName": "Answer 2",
                       "id": 2,
+                      "properties": Object {},
                       "type": "Number",
                     },
                     Object {
                       "displayName": "Answer 3",
                       "id": 3,
+                      "properties": Object {},
                       "type": "Number",
                     },
                   ],

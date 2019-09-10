@@ -7,7 +7,7 @@ const { createMetadata, updateMetadata } = require("./metadata");
 const { createSection, deleteSection } = require("./section");
 const { deletePage } = require("./page");
 const { createQuestionPage } = require("./page/questionPage");
-const { createAnswer } = require("./answer");
+const { createAnswer, updateAnswer } = require("./answer");
 const {
   createOption,
   createMutuallyExclusiveOption,
@@ -104,7 +104,12 @@ const buildContext = async (questionnaireConfig, userConfig = {}) => {
                   questionPageId: createdPage.id,
                   ...answer,
                 });
-
+                if (answer.properties) {
+                  await updateAnswer(ctx, {
+                    id: createdAnswer.id,
+                    properties: answer.properties,
+                  });
+                }
                 if (Array.isArray(answer.options)) {
                   const count = answer.type === RADIO ? 2 : 1;
                   for (let i = 0; i < count; ++i) {

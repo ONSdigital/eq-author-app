@@ -7,6 +7,7 @@ const {
   NUMBER,
   CURRENCY,
   PERCENTAGE,
+  UNIT,
 } = require("../../../constants/answerTypes");
 
 const { createMutation } = require("../createMutation");
@@ -36,7 +37,7 @@ Resolvers.CalculatedSummaryPage = {
       { sections: [section] },
       id,
       true,
-      [NUMBER, CURRENCY, PERCENTAGE]
+      [NUMBER, CURRENCY, PERCENTAGE, UNIT]
     ).map(({ id }) => id);
     const validSummaryAnswers = intersection(previousAnswers, summaryAnswers);
     return validSummaryAnswers
@@ -53,6 +54,7 @@ Resolvers.CalculatedSummaryPage = {
       NUMBER,
       CURRENCY,
       PERCENTAGE,
+      UNIT,
     ]);
   },
   availablePipingAnswers: ({ id }, args, ctx) =>
@@ -80,7 +82,7 @@ Resolvers.Mutation = {
     if (get(input, "summaryAnswers", []).length > 0) {
       const answerTypes = input.summaryAnswers.map(summaryAnswerId => {
         const answerType = getAnswerById(ctx, summaryAnswerId).type;
-        if (![NUMBER, CURRENCY, PERCENTAGE].includes(answerType)) {
+        if (![NUMBER, CURRENCY, PERCENTAGE, UNIT].includes(answerType)) {
           throw new Error(
             `${answerType} answers are not suitable for a calculated summary page`
           );
