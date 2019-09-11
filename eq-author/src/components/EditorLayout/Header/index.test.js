@@ -1,20 +1,14 @@
 import React from "react";
 import { Route } from "react-router-dom";
 
-import {
-  render,
-  fireEvent,
-  waitForElementToBeRemoved,
-  flushPromises,
-} from "tests/utils/rtl";
+import { render, fireEvent, waitForElementToBeRemoved } from "tests/utils/rtl";
 
 import QuestionnaireContext from "components/QuestionnaireContext";
 import { MeContext } from "App/MeContext";
 import Header from "./";
-import { TRIGGER_PUBLISH_QUERY } from "./TriggerPublishQuery";
 
 describe("Header", () => {
-  let user, props, questionnaire, signOut, mocks, queryWasCalled;
+  let user, props, questionnaire, signOut;
   beforeEach(() => {
     questionnaire = {
       id: "456",
@@ -108,54 +102,6 @@ describe("Header", () => {
   });
 
   describe("publish survey button", () => {
-    let originalAlert;
-    beforeEach(() => {
-      originalAlert = window.alert;
-      window.alert = jest.fn();
-    });
-    afterEach(async () => {
-      await flushPromises();
-      window.alert = originalAlert;
-    });
-    it("should fire a request to publish questionnaire", async () => {
-      queryWasCalled = false;
-      mocks = [
-        {
-          request: {
-            query: TRIGGER_PUBLISH_QUERY,
-            variables: {
-              input: questionnaire.id,
-            },
-          },
-          result() {
-            queryWasCalled = true;
-            return {
-              data: {
-                triggerPublish: {
-                  id: questionnaire.id,
-                  launchUrl: "https://best.url.com",
-                  __typename: "PublishRequest",
-                },
-              },
-            };
-          },
-        },
-      ];
-      const { getByText } = renderWithContext(<Header {...props} />, {
-        mocks,
-      });
-
-      const publishSurveyButton = getByText("Publish");
-      fireEvent.click(publishSurveyButton);
-
-      await flushPromises();
-
-      expect(queryWasCalled).toBeTruthy();
-      expect(window.alert).toHaveBeenCalledWith(
-        "Your survey has been published at: https://best.url.com"
-      );
-    });
-
     it("should disable the publish survey button when questionnaire is invalid", () => {
       questionnaire.totalErrorCount = 1;
       const { getByTestId } = renderWithContext(<Header {...props} />);
@@ -200,7 +146,7 @@ describe("Header", () => {
       expect(queryByText("Questionnaire settings")).toBeFalsy();
     });
 
-    it("should start with the questionnaire settins open when the modifier is provided in the url", () => {
+    it("should start with the questionnaire settings open when the modifier is provided in the url", () => {
       const { getByText } = renderWithContext(
         <Route path="/page/:modifier">
           <Header {...props} />
@@ -227,5 +173,21 @@ describe("Header", () => {
     fireEvent.click(doneButton);
 
     expect(queryByText("Pinky Malinky")).toBeFalsy();
+  });
+
+  it("should be possible to open and close the publish modal", async () => {
+    const { getByText, queryByText } = renderWithContext(<Header {...props} />);
+
+    expect(queryByText("Publish questionnaire")).toBeFalsy();
+
+    fireEvent.click(getByText("Publish"));
+
+    expect(queryByText("Publish questionnaire")).toBeTruthy();
+
+    const cancelButton = getByText("Cancel");
+    fireEvent.click(cancelButton);
+    await waitForElementToBeRemoved(() => queryByText("Publish questionnaire"));
+
+    expect(queryByText("Publish questionnaire")).toBeFalsy();
   });
 });

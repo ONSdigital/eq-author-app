@@ -1,19 +1,22 @@
 const executeQuery = require("../../executeQuery");
 
 const publishQuestionnaireQuery = `
-query triggerPublish($input: ID!) {
-    triggerPublish(questionnaireId: $input) {
+query triggerPublish($input: PublishQuestionnaireInput!) {
+    triggerPublish(input: $input) {
       id
       launchUrl
     }
   }
 `;
 
-const publishQuestionnaire = async (questionnaireId, ctx) => {
+const publishQuestionnaire = async (
+  { questionnaireId, surveyId, formType },
+  ctx
+) => {
   const result = await executeQuery(
     publishQuestionnaireQuery,
     {
-      input: questionnaireId,
+      input: { questionnaireId, surveyId, formType },
     },
     ctx
   );

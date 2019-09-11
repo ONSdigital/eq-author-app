@@ -18,12 +18,12 @@ import ButtonGroup from "components/buttons/ButtonGroup";
 import { withQuestionnaire } from "components/QuestionnaireContext";
 import UserProfile from "components/UserProfile";
 
-import TriggerPublishQuery from "./TriggerPublishQuery";
 import shareIcon from "./icon-share.svg?inline";
 import viewIcon from "./icon-view.svg?inline";
 import settingsIcon from "./icon-cog.svg?inline";
 import publishIcon from "./icon-publish.svg?inline";
 import SharingModal from "./SharingModal";
+import PublishModal from "./PublishModal";
 import PageTitle from "./PageTitle";
 import UpdateQuestionnaireSettingsModal from "./UpdateQuestionnaireSettingsModal";
 import SavingIndicator from "./SavingIndicator";
@@ -62,6 +62,7 @@ const SavingContainer = styled.div`
 export class UnconnectedHeader extends React.Component {
   state = {
     isSharingModalOpen: false,
+    isPublishModalOpen: false,
     isQuestionnaireSettingsModalOpen:
       this.props.match.params.modifier === "settings",
   };
@@ -87,6 +88,10 @@ export class UnconnectedHeader extends React.Component {
 
   handleShare = () => {
     this.setState({ isSharingModalOpen: true });
+  };
+
+  handlePublish = () => {
+    this.setState({ isPublishModalOpen: true });
   };
 
   handleQuestionnaireSettings = () => {
@@ -130,25 +135,15 @@ export class UnconnectedHeader extends React.Component {
                     <IconText icon={viewIcon}>View survey</IconText>
                   </LinkButton>
                   {me.admin && (
-                    <TriggerPublishQuery>
-                      {({ triggerPublish }) => (
-                        <Button
-                          variant="tertiary-light"
-                          onClick={() => {
-                            triggerPublish(questionnaire.id).then(({ data }) =>
-                              window.alert(
-                                `Your survey has been published at: ${data.triggerPublish.launchUrl}`
-                              )
-                            );
-                          }}
-                          data-test="btn-publish"
-                          small
-                          disabled={questionnaire.totalErrorCount > 0}
-                        >
-                          <IconText icon={publishIcon}>Publish</IconText>
-                        </Button>
-                      )}
-                    </TriggerPublishQuery>
+                    <Button
+                      variant="tertiary-light"
+                      onClick={this.handlePublish}
+                      data-test="btn-publish"
+                      small
+                      disabled={questionnaire.totalErrorCount > 0}
+                    >
+                      <IconText icon={publishIcon}>Publish</IconText>
+                    </Button>
                   )}
 
                   <Button
@@ -183,6 +178,11 @@ export class UnconnectedHeader extends React.Component {
                 currentUser={me}
               />
             )}
+            <PublishModal
+              isOpen={this.state.isPublishModalOpen}
+              onClose={() => this.setState({ isPublishModalOpen: false })}
+              questionnaire={questionnaire}
+            />
             <UpdateQuestionnaireSettingsModal
               isOpen={this.state.isQuestionnaireSettingsModalOpen}
               onClose={() =>
