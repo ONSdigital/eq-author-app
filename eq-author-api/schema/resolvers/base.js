@@ -80,9 +80,7 @@ const {
 
 const { listQuestionnaires } = require("../../utils/datastore");
 
-const {
-  createQuestionnaireIntroduction,
-} = require("./questionnaireIntroduction");
+const createQuestionnaireIntroduction = require("../../utils/createQuestionnaireIntroduction");
 
 const {
   enforceHasWritePermission,
