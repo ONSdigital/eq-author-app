@@ -5,9 +5,7 @@ const { BUSINESS } = require("../constants/questionnaireTypes");
 const {
   createDefaultBusinessSurveyMetadata,
 } = require("../utils/defaultMetadata");
-const {
-  createQuestionnaireIntroduction,
-} = require("../schema/resolvers/questionnaireIntroduction");
+const createQuestionnaireIntroduction = require("../utils/createQuestionnaireIntroduction");
 
 module.exports = function addBusinessQuestionnaireIntroduction(questionnaire) {
   if (questionnaire.type !== BUSINESS) {
