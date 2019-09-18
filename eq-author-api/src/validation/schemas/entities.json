@@ -137,41 +137,34 @@
     },
     "answer": {
       "oneOf": [
-        {
-          "$ref": "entities.json#/definitions/basicAnswer"
-        },
-        {
-          "$ref": "entities.json#/definitions/multipleChoiceAnswer"
-        }
+        { "$ref": "entities.json#/definitions/basicAnswer" },
+        { "$ref": "entities.json#/definitions/multipleChoiceAnswer" }
       ]
     },
     "basicAnswer": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "label": {
+          "$ref": "definitions.json#/definitions/populatedString"
+        }
+      },
+      "required": ["id", "label"],
       "if": {
         "properties": {
           "type": {
-            "enum": [
-              "TextField",
-              "TextArea",
-              "Number",
-              "Percentage",
-              "Currency",
-              "Unit",
-              "Duration"
-            ]
+            "enum": ["Number", "Percentage", "Currency", "Unit"]
           }
         }
       },
       "then": {
         "type": "object",
         "properties": {
-          "id": { "type": "string" },
-          "label": {
-            "$ref": "definitions.json#/definitions/populatedString"
+          "properties": {
+            "$ref": "entities.json#/definitions/properties"
           }
-        },
-        "required": ["id", "label"]
-      },
-      "else": false
+        }
+      }
     },
     "multipleChoiceAnswer": {
       "if": {
@@ -205,6 +198,15 @@
         "required": ["id", "options"]
       },
       "else": false
+    },
+    "properties": {
+      "properties": {
+        "decimals": {
+          "linkedDecimalValidation": {
+            "$data": "/sections"
+          }
+        }
+      }
     },
     "option": {
       "type": "object",

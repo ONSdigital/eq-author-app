@@ -15,6 +15,12 @@ mutation UpdateAnswersOfType($input: UpdateAnswersOfTypeInput!) {
         }
       }
     }
+    ... on BasicAnswer {
+      validationErrorInfo {
+        ...ValidationErrorInfo
+      }
+    }
+
     properties
   }
 }

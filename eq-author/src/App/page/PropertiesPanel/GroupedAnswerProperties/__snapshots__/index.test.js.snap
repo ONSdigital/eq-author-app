@@ -23,3 +23,156 @@ exports[`Grouped Answer Properties should render the options for each answer 3`]
   Date 1
 </GroupedAnswerProperties__AnswerTitle>
 `;
+
+exports[`Grouped Answer Properties should show error if there is a mismatch in the decimals and previous answer validation 1`] = `
+Array [
+  <Accordion
+    key="undefined"
+    title="UNDEFINED PROPERTIES"
+  >
+    <GroupedAnswerProperties__Padding />
+    <GroupedAnswerProperties__AnswerPropertiesContainer
+      key="null"
+    >
+      <GroupedAnswerProperties__Padding>
+        <GroupedAnswerProperties__AnswerTitle
+          data-test="answer-title"
+        />
+        <Apollo(UnwrappedAnswerProperties)
+          answer={
+            Object {
+              "validationErrorInfo": Object {
+                "errors": Array [
+                  Object {
+                    "errorCode": "ERR_REFERENCED_ANSWER_DECIMAL_INCONSISTENCY",
+                  },
+                ],
+              },
+            }
+          }
+        />
+        <AnswerValidation
+          answer={
+            Object {
+              "validationErrorInfo": Object {
+                "errors": Array [
+                  Object {
+                    "errorCode": "ERR_REFERENCED_ANSWER_DECIMAL_INCONSISTENCY",
+                  },
+                ],
+              },
+            }
+          }
+        />
+      </GroupedAnswerProperties__Padding>
+    </GroupedAnswerProperties__AnswerPropertiesContainer>
+  </Accordion>,
+  <Accordion
+    key="Date"
+    title="DATE PROPERTIES"
+  >
+    <GroupedAnswerProperties__Padding />
+    <GroupedAnswerProperties__AnswerPropertiesContainer
+      key="BasicAnswer2"
+    >
+      <GroupedAnswerProperties__Padding>
+        <GroupedAnswerProperties__AnswerTitle
+          data-test="answer-title"
+        >
+          Date 1
+        </GroupedAnswerProperties__AnswerTitle>
+        <Apollo(UnwrappedAnswerProperties)
+          answer={
+            Object {
+              "__typename": "BasicAnswer",
+              "displayName": "Date 1",
+              "id": "2",
+              "properties": Object {
+                "decimals": 0,
+                "format": "dd/mm/yyyy",
+                "required": false,
+              },
+              "type": "Date",
+            }
+          }
+        />
+        <AnswerValidation
+          answer={
+            Object {
+              "__typename": "BasicAnswer",
+              "displayName": "Date 1",
+              "id": "2",
+              "properties": Object {
+                "decimals": 0,
+                "format": "dd/mm/yyyy",
+                "required": false,
+              },
+              "type": "Date",
+            }
+          }
+        />
+      </GroupedAnswerProperties__Padding>
+    </GroupedAnswerProperties__AnswerPropertiesContainer>
+  </Accordion>,
+  <Accordion
+    key="Currency"
+    title="CURRENCY PROPERTIES"
+  >
+    <GroupedAnswerProperties__Padding>
+      <GroupedAnswerProperties__GroupContainer>
+        <InlineField
+          id="page-id-currency-decimals"
+          label="Decimals"
+        >
+          <Decimal
+            data-test="decimals"
+            hasDecimalInconsistency={false}
+            id="page-id-currency-decimals"
+            onBlur={[Function]}
+            value={2}
+          />
+        </InlineField>
+      </GroupedAnswerProperties__GroupContainer>
+    </GroupedAnswerProperties__Padding>
+    <GroupedAnswerProperties__AnswerPropertiesContainer
+      key="BasicAnswer3"
+    >
+      <GroupedAnswerProperties__Padding>
+        <GroupedAnswerProperties__AnswerTitle
+          data-test="answer-title"
+        >
+          Currency 2
+        </GroupedAnswerProperties__AnswerTitle>
+        <Apollo(UnwrappedAnswerProperties)
+          answer={
+            Object {
+              "__typename": "BasicAnswer",
+              "displayName": "Currency 2",
+              "id": "3",
+              "properties": Object {
+                "decimals": 2,
+                "required": false,
+              },
+              "type": "Currency",
+            }
+          }
+        />
+        <AnswerValidation
+          answer={
+            Object {
+              "__typename": "BasicAnswer",
+              "displayName": "Currency 2",
+              "id": "3",
+              "properties": Object {
+                "decimals": 2,
+                "required": false,
+              },
+              "type": "Currency",
+            }
+          }
+        />
+      </GroupedAnswerProperties__Padding>
+    </GroupedAnswerProperties__AnswerPropertiesContainer>
+  </Accordion>,
+]
+`;

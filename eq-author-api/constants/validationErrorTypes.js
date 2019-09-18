@@ -4,6 +4,7 @@ const OPTIONS = "options";
 const SECTIONS = "sections";
 const CONFIRMATION = "confirmation";
 const CONFIRMATION_OPTION = "confirmationoption";
+const PROPERTIES = "properties";
 
 module.exports = {
   PAGES,
@@ -11,5 +12,6 @@ module.exports = {
   OPTIONS,
   SECTIONS,
   CONFIRMATION,
+  PROPERTIES,
   CONFIRMATION_OPTION,
 };

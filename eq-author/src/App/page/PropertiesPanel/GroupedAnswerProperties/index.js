@@ -1,8 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import { groupBy, kebabCase } from "lodash/fp";
+import { groupBy, kebabCase, getOr } from "lodash/fp";
 
 import Accordion from "components/Accordion";
+import IconText from "components/IconText";
 import {
   CURRENCY,
   NUMBER,
@@ -19,6 +20,7 @@ import GroupValidations from "App/page/Design/Validation/GroupValidations";
 import AnswerProperties from "./AnswerProperties";
 import InlineField from "./InlineField";
 import MultiLineField from "./MultiLineField";
+import ValidationErrorIcon from "./validation-warning-icon.svg?inline";
 import {
   UnitProperties,
   DurationProperties,
@@ -35,6 +37,11 @@ const AnswerPropertiesContainer = styled.div`
     margin-bottom: 0;
     border: 0;
   }
+`;
+
+const ValidationWarning = styled(IconText)`
+  color: ${colors.red};
+  margin-top: 0.5em;
 `;
 
 const Padding = styled.div`
@@ -54,6 +61,8 @@ const GroupContainer = styled.div`
   padding: 0.5em 0;
 `;
 
+const DECIMAL_INCONSISTENCY = "ERR_REFERENCED_ANSWER_DECIMAL_INCONSISTENCY";
+
 const isNumeric = answerType =>
   [NUMBER, PERCENTAGE, CURRENCY, UNIT].includes(answerType);
 
@@ -68,22 +77,36 @@ export const UnwrappedGroupedAnswerProperties = ({
     let groupValidations = null;
     const answers = answersByType[answerType];
 
+    const hasDecimalInconsistency = getOr(
+      [],
+      "validationErrorInfo.errors",
+      answers[0]
+    )
+      .map(({ errorCode }) => errorCode)
+      .includes(DECIMAL_INCONSISTENCY);
+
     if (isNumeric(answerType)) {
-      const id = kebabCase(`${answerType} decimals`);
+      const id = kebabCase(`${page.id} ${answerType} decimals`);
       groupedFields = (
         <GroupContainer>
           <InlineField id={id} label={"Decimals"}>
             <Decimal
               id={id}
               data-test="decimals"
-              onChange={({ value: decimals }) => {
+              onBlur={decimals => {
                 updateAnswersOfType(answerType, page.id, {
                   decimals,
                 });
               }}
               value={answers[0].properties.decimals}
+              hasDecimalInconsistency={hasDecimalInconsistency}
             />
           </InlineField>
+          {hasDecimalInconsistency && (
+            <ValidationWarning icon={ValidationErrorIcon}>
+              Decimal number does not match the linked page
+            </ValidationWarning>
+          )}
           {answerType === UNIT && (
             <MultiLineField id="unit" label={"Type"}>
               <UnitProperties
@@ -128,24 +151,25 @@ export const UnwrappedGroupedAnswerProperties = ({
         </GroupContainer>
       );
     }
-
     return (
       <Accordion
         title={`${answerType} Properties`.toUpperCase()}
         key={answerType}
       >
         <Padding>{groupedFields}</Padding>
-        {answers.map(answer => (
-          <AnswerPropertiesContainer key={getIdForObject(answer)}>
-            <Padding>
-              <AnswerTitle data-test="answer-title">
-                {answer.displayName}
-              </AnswerTitle>
-              <AnswerProperties answer={answer} />
-              <AnswerValidation answer={answer} />
-            </Padding>
-          </AnswerPropertiesContainer>
-        ))}
+        {answers.map(answer => {
+          return (
+            <AnswerPropertiesContainer key={getIdForObject(answer)}>
+              <Padding>
+                <AnswerTitle data-test="answer-title">
+                  {answer.displayName}
+                </AnswerTitle>
+                <AnswerProperties answer={answer} />
+                <AnswerValidation answer={answer} />
+              </Padding>
+            </AnswerPropertiesContainer>
+          );
+        })}
         {groupValidations}
       </Accordion>
     );

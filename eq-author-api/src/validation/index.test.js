@@ -135,6 +135,72 @@ describe("schema validation", () => {
             expect(errors2.answers[answer.id]).toBeUndefined();
           });
         });
+        it("should recognize mismatched decimals in validation references", () => {
+          questionnaire = {
+            id: "1",
+            sections: [
+              {
+                id: "section_1",
+                title: "section_1",
+                pages: [
+                  {
+                    id: "page_1",
+                    title: "page title",
+                    answers: [
+                      {
+                        id: "answer_1",
+                        type: NUMBER,
+                        label: "Number",
+                        properties: { decimals: 2 },
+                        validation: {
+                          minValue: {
+                            id: "minValue",
+                            enabled: true,
+                            entityType: "PreviousAnswer",
+                            previousAnswer: {
+                              id: "answer_1",
+                            },
+                          },
+                        },
+                      },
+                    ],
+                  },
+                  {
+                    id: "page_2",
+                    title: "page title",
+                    answers: [
+                      {
+                        id: "answer_2",
+                        type: NUMBER,
+                        label: "Number",
+                        properties: { decimals: 1 },
+                        validation: {
+                          minValue: {
+                            id: "minValue",
+                            enabled: true,
+                            entityType: "PreviousAnswer",
+                            previousAnswer: {
+                              id: "answer_1",
+                            },
+                          },
+                        },
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          };
+          const answer = questionnaire.sections[0].pages[1].answers[0];
+          const validationErrors = validation(questionnaire);
+          expect(validationErrors.answers[answer.id].errors).toHaveLength(1);
+          expect(validationErrors.answers[answer.id].errors[0]).toMatchObject({
+            errorCode: "ERR_REFERENCED_ANSWER_DECIMAL_INCONSISTENCY",
+            field: "properties",
+            id: "answers-answer_2-properties",
+            type: "answers",
+          });
+        });
       });
     });
   });
