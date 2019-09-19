@@ -557,7 +557,7 @@ type Query {
   pagesAffectedByDeletion(pageId: ID!): [Page]! @deprecated(reason: "Not implemented")
   questionConfirmation(id: ID!): QuestionConfirmation
   questionnaireIntroduction(id: ID!): QuestionnaireIntroduction
-  triggerPublish(questionnaireId: ID!): PublishRequest
+  triggerPublish(input: PublishQuestionnaireInput!): PublishRequest
   me: User!
   users: [User!]!
 }
@@ -1028,5 +1028,11 @@ input DeleteCollapsibleInput {
 
 type Subscription {
   validationUpdated(id: ID!): Questionnaire!
+}
+
+input PublishQuestionnaireInput {
+  questionnaireId: ID!
+  surveyId: String!
+  formType: String!
 }
 `;

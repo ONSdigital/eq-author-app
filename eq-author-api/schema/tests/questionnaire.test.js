@@ -30,6 +30,8 @@ const { createUser } = require("../../utils/datastore");
 
 describe("questionnaire", () => {
   let ctx, questionnaire;
+  const surveyId = "123";
+  const formType = "321";
 
   afterEach(async () => {
     if (!questionnaire) {
@@ -209,9 +211,16 @@ describe("questionnaire", () => {
     });
 
     it("should publish a questionnaire", async () => {
-      const result = await publishQuestionnaire(ctx.questionnaire.id, ctx);
+      const result = await publishQuestionnaire(
+        {
+          questionnaireId: ctx.questionnaire.id,
+          surveyId,
+          formType,
+        },
+        ctx
+      );
       expect(fetch).toHaveBeenCalledWith(
-        `${process.env.SURVEY_REGISTER_URL}${ctx.questionnaire.id}`,
+        `${process.env.SURVEY_REGISTER_URL}${ctx.questionnaire.id}/${surveyId}/${formType}`,
         { method: "put" }
       );
       expect(result).toMatchObject({
@@ -223,9 +232,16 @@ describe("questionnaire", () => {
     });
 
     it("should set publish status to unpublished after updating the questionnaire", async () => {
-      const result = await publishQuestionnaire(ctx.questionnaire.id, ctx);
+      const result = await publishQuestionnaire(
+        {
+          questionnaireId: ctx.questionnaire.id,
+          surveyId,
+          formType,
+        },
+        ctx
+      );
       expect(fetch).toHaveBeenCalledWith(
-        `${process.env.SURVEY_REGISTER_URL}${ctx.questionnaire.id}`,
+        `${process.env.SURVEY_REGISTER_URL}${ctx.questionnaire.id}/${surveyId}/${formType}`,
         { method: "put" }
       );
       expect(result).toMatchObject({

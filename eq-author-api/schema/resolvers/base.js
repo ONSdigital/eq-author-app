@@ -163,10 +163,11 @@ const Resolvers = {
     },
     me: (root, args, ctx) => ctx.user,
     users: () => listUsers(),
-    triggerPublish: async (root, { questionnaireId }, ctx) => {
+    triggerPublish: async (root, { input }, ctx) => {
+      const { questionnaireId, surveyId, formType } = input;
       enforceHasWritePermission(ctx.questionnaire, ctx.user);
       const result = await fetch(
-        `${process.env.SURVEY_REGISTER_URL}${questionnaireId}`,
+        `${process.env.SURVEY_REGISTER_URL}${questionnaireId}/${surveyId}/${formType}`,
         { method: "put" }
       )
         .then(async res => {
@@ -177,7 +178,10 @@ const Resolvers = {
         .catch(e => {
           throw Error(e);
         });
-      return { id: questionnaireId, launchUrl: result.publishedSurveyUrl };
+      return {
+        id: questionnaireId,
+        launchUrl: result.publishedSurveyUrl,
+      };
     },
   },
 
