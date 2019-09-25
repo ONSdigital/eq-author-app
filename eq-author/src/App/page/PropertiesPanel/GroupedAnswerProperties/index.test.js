@@ -4,6 +4,7 @@ import { shallow } from "enzyme";
 import { CURRENCY, DATE, UNIT, DURATION } from "constants/answer-types";
 import { KILOJOULES, CENTIMETRES } from "constants/unit-types";
 import { YEARSMONTHS, YEARS } from "constants/duration-types";
+import { flushPromises, render, fireEvent } from "tests/utils/rtl";
 
 import UnitProperties from "./AnswerProperties/Properties/UnitProperties";
 import DurationProperties from "./AnswerProperties/Properties/DurationProperties";
@@ -26,13 +27,16 @@ describe("Grouped Answer Properties", () => {
             displayName: "Currency 1",
             properties: {
               decimals: 5,
+              required: false,
             },
+            __typename: "BasicAnswer",
           },
           {
             id: "2",
             type: DATE,
             displayName: "Date 1",
-            properties: {},
+            properties: { decimals: 0, required: false, format: "dd/mm/yyyy" },
+            __typename: "BasicAnswer",
           },
           {
             id: "3",
@@ -40,7 +44,9 @@ describe("Grouped Answer Properties", () => {
             displayName: "Currency 2",
             properties: {
               decimals: 2,
+              required: false,
             },
+            __typename: "BasicAnswer",
           },
         ],
       },
@@ -82,17 +88,6 @@ describe("Grouped Answer Properties", () => {
     ).toMatchSnapshot();
   });
 
-  it("should update all the answers of the type when their decimals are changed", () => {
-    const wrapper = shallow(<UnwrappedGroupedAnswerProperties {...props} />);
-    wrapper
-      .find("[data-test='decimals']")
-      .dive() // Not sure why we need to do this
-      .simulate("change", { value: 5 });
-    expect(props.updateAnswersOfType).toHaveBeenCalledWith(CURRENCY, "pageId", {
-      decimals: 5,
-    });
-  });
-
   it("should render the group validations with type and validations", () => {
     props.page.totalValidation = {
       id: 1,
@@ -109,6 +104,30 @@ describe("Grouped Answer Properties", () => {
       type: CURRENCY,
       totalValidation: props.page.totalValidation,
     });
+  });
+
+  it("should update all the answers of the type when their decimals are changed", async () => {
+    const { getByTestId } = render(
+      <UnwrappedGroupedAnswerProperties {...props} />
+    );
+    fireEvent.change(getByTestId("number-input"), {
+      target: { value: "2" },
+    });
+    fireEvent.blur(getByTestId("number-input"));
+    await flushPromises();
+    expect(props.updateAnswersOfType).toHaveBeenCalledWith(CURRENCY, "pageId", {
+      decimals: 2,
+    });
+  });
+
+  it("should show error if there is a mismatch in the decimals and previous answer validation", () => {
+    props.page.answers[0] = {
+      validationErrorInfo: {
+        errors: [{ errorCode: "ERR_REFERENCED_ANSWER_DECIMAL_INCONSISTENCY" }],
+      },
+    };
+    const wrapper = shallow(<UnwrappedGroupedAnswerProperties {...props} />);
+    expect(wrapper).toMatchSnapshot();
   });
 
   describe("Unit answers", () => {

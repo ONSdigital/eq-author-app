@@ -21,6 +21,7 @@ const validate = ajv.addSchema(schemas.slice(1)).compile(schemas[0]);
 const convertObjectType = objectType => {
   switch (objectType) {
     case "additionalAnswer":
+    case "properties":
       return ANSWERS;
 
     case "positive":
