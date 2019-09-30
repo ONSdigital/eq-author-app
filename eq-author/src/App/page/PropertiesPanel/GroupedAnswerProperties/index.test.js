@@ -5,17 +5,20 @@ import { CURRENCY, DATE, UNIT, DURATION } from "constants/answer-types";
 import { KILOJOULES, CENTIMETRES } from "constants/unit-types";
 import { YEARSMONTHS, YEARS } from "constants/duration-types";
 import { flushPromises, render, fireEvent } from "tests/utils/rtl";
+import actSilenceWarning from "tests/utils/actSilenceWarning";
 
 import UnitProperties from "./AnswerProperties/Properties/UnitProperties";
 import DurationProperties from "./AnswerProperties/Properties/DurationProperties";
 
 import Accordion from "components/Accordion";
 import GroupValidations from "App/page/Design/Validation/GroupValidations";
+import { VALIDATION_QUERY } from "App/page/Design/Validation/AnswerValidation";
 
 import { UnwrappedGroupedAnswerProperties } from "./";
 
 describe("Grouped Answer Properties", () => {
   let props;
+  actSilenceWarning();
   beforeEach(() => {
     props = {
       page: {
@@ -107,8 +110,98 @@ describe("Grouped Answer Properties", () => {
   });
 
   it("should update all the answers of the type when their decimals are changed", async () => {
+    const mockedData = {
+      data: {
+        validationUpdated: {
+          id: "76d2d601-7f57-4f78-bb33-3bf70e8c1851",
+          totalErrorCount: 2,
+          sections: [
+            {
+              pages: [
+                {
+                  id: "233b525e-7ded-45af-882d-2cb4fd19cad8",
+                  validationErrorInfo: {
+                    id: "233b525e-7ded-45af-882d-2cb4fd19cad8",
+                    totalCount: 2,
+                    __typename: "ValidationErrorInfo",
+                  },
+                  answers: [
+                    {
+                      id: "53a6aa07-512a-4a6d-816d-dd6d99c79517",
+                      validation: {
+                        minValue: {
+                          id: "166c9cc5-0974-4e66-8e2f-45f767d79713",
+                          validationErrorInfo: {
+                            id: "166c9cc5-0974-4e66-8e2f-45f767d79713",
+                            errors: [],
+                            totalCount: 0,
+                            __typename: "ValidationErrorInfo",
+                          },
+                          __typename: "MinValueValidationRule",
+                        },
+                        maxValue: {
+                          id: "134fa28d-520b-4247-bda3-58c63260672f",
+                          validationErrorInfo: {
+                            id: "134fa28d-520b-4247-bda3-58c63260672f",
+                            errors: [],
+                            totalCount: 0,
+                            __typename: "ValidationErrorInfo",
+                          },
+                          __typename: "MaxValueValidationRule",
+                        },
+                        __typename: "NumberValidation",
+                      },
+                      __typename: "BasicAnswer",
+                    },
+                  ],
+                  __typename: "QuestionPage",
+                },
+              ],
+              __typename: "Section",
+            },
+          ],
+          __typename: "Questionnaire",
+        },
+      },
+      loading: false,
+      variables: { id: "76d2d601-7f57-4f78-bb33-3bf70e8c1851" },
+    };
+    const mocks = [
+      {
+        request: {
+          query: VALIDATION_QUERY,
+          variables: { id: "1" },
+        },
+        result() {
+          return mockedData;
+        },
+      },
+      {
+        request: {
+          query: VALIDATION_QUERY,
+          variables: { id: "1" },
+        },
+        result() {
+          return mockedData;
+        },
+      },
+      {
+        request: {
+          query: VALIDATION_QUERY,
+          variables: { id: "1" },
+        },
+        result() {
+          return mockedData;
+        },
+      },
+    ];
     const { getByTestId } = render(
-      <UnwrappedGroupedAnswerProperties {...props} />
+      <UnwrappedGroupedAnswerProperties {...props} />,
+      {
+        route: "/q/1/page/2",
+        urlParamMatcher: "/q/:questionnaireId/page/:pageId",
+        mocks,
+      }
     );
     fireEvent.change(getByTestId("number-input"), {
       target: { value: "2" },

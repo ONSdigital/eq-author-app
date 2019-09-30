@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { groupBy, kebabCase, getOr } from "lodash/fp";
 import gql from "graphql-tag";
-import { withRouter } from "react-router";
 
 import ValidationErrorInfo from "graphql/fragments/validationErrorInfo.graphql";
 import Accordion from "components/Accordion";
@@ -178,7 +177,7 @@ export const UnwrappedGroupedAnswerProperties = ({
   });
 };
 
-const VALIDATION_QUERY = gql`
+export const VALIDATION_QUERY = gql`
   subscription Validation($id: ID!) {
     validationUpdated(id: $id) {
       id
@@ -207,9 +206,7 @@ const VALIDATION_QUERY = gql`
   ${ValidationErrorInfo}
 `;
 
-export default withRouter(
-  withValidations(
-    withUpdateAnswersOfType(UnwrappedGroupedAnswerProperties),
-    VALIDATION_QUERY
-  )
+export default withValidations(
+  withUpdateAnswersOfType(UnwrappedGroupedAnswerProperties),
+  VALIDATION_QUERY
 );

@@ -124,9 +124,15 @@ exports[`AnswerValidation should render 1`] = `
         "validation": Object {
           "maxValue": Object {
             "enabled": false,
+            "validationErrorInfo": Object {
+              "errors": Array [],
+            },
           },
           "minValue": Object {
             "enabled": false,
+            "validationErrorInfo": Object {
+              "errors": Array [],
+            },
           },
         },
       },
@@ -135,6 +141,7 @@ exports[`AnswerValidation should render 1`] = `
 >
   <SidebarButton
     data-test="sidebar-button-min-value"
+    hasError={false}
     key="minValue"
     onClick={[Function]}
   >
@@ -144,6 +151,7 @@ exports[`AnswerValidation should render 1`] = `
   </SidebarButton>
   <SidebarButton
     data-test="sidebar-button-max-value"
+    hasError={false}
     key="maxValue"
     onClick={[Function]}
   >

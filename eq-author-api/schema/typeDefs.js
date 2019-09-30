@@ -288,6 +288,7 @@ type MinValueValidationRule implements ValidationRule {
   previousAnswer: BasicAnswer
   entityType: ValidationRuleEntityType!
   availablePreviousAnswers: [Answer!]!
+  validationErrorInfo: ValidationErrorInfo
 }
 
 type MaxValueValidationRule implements ValidationRule {
@@ -298,6 +299,7 @@ type MaxValueValidationRule implements ValidationRule {
   previousAnswer: BasicAnswer
   entityType: ValidationRuleEntityType!
   availablePreviousAnswers: [Answer!]!
+  validationErrorInfo: ValidationErrorInfo
 }
 
 type EarliestDateValidationRule implements ValidationRule {

@@ -160,6 +160,52 @@
       "then": {
         "type": "object",
         "properties": {
+          "validation": {
+            "if": {
+              "allOf": [
+                {
+                  "properties": {
+                    "minValue": {
+                      "properties": { "enabled": { "const": true } }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "maxValue": {
+                      "properties": { "enabled": { "const": true } }
+                    }
+                  }
+                }
+              ]
+            },
+            "then": {
+              "properties": {
+                "minValue": {
+                  "type": "object",
+                  "properties": {
+                    "custom": {
+                      "maximum": {
+                        "$data": "2/maxValue/custom"
+                      },
+                      "errorMessage": "ERR_MIN_LARGER_THAN_MAX"
+                    }
+                  }
+                },
+                "maxValue": {
+                  "type": "object",
+                  "properties": {
+                    "custom": {
+                      "minimum": {
+                        "$data": "2/minValue/custom"
+                      },
+                      "errorMessage": "ERR_MIN_LARGER_THAN_MAX"
+                    }
+                  }
+                }
+              }
+            }
+          },
           "properties": {
             "$ref": "entities.json#/definitions/properties"
           }

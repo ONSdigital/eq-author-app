@@ -51,7 +51,7 @@ Array [
             }
           }
         />
-        <AnswerValidation
+        <withRouter(withValidations(UnwrappedAnswerValidation))
           answer={
             Object {
               "validationErrorInfo": Object {
@@ -96,7 +96,7 @@ Array [
             }
           }
         />
-        <AnswerValidation
+        <withRouter(withValidations(UnwrappedAnswerValidation))
           answer={
             Object {
               "__typename": "BasicAnswer",
@@ -157,7 +157,7 @@ Array [
             }
           }
         />
-        <AnswerValidation
+        <withRouter(withValidations(UnwrappedAnswerValidation))
           answer={
             Object {
               "__typename": "BasicAnswer",
