@@ -21,7 +21,7 @@ exports[`PropertiesPanel should render when there are no answers 1`] = `
         />
       </PropertiesPanel__Padding>
     </Accordion>
-    <Apollo(UnwrappedGroupedAnswerProperties)
+    <withRouter(withValidations(Apollo(UnwrappedGroupedAnswerProperties)))
       page={
         Object {
           "__typename": "Page",

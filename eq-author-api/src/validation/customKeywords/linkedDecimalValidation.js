@@ -1,4 +1,4 @@
-const { get } = require("lodash");
+const { get, isNull } = require("lodash");
 const getEntityKeyValue = require("../../../utils/getEntityByKeyValue");
 
 module.exports = function(ajv) {
@@ -22,26 +22,39 @@ module.exports = function(ajv) {
           currentAnswerIndex
         ].validation;
 
-      if (currentAnswerValidation.minValue.entityType === "PreviousAnswer") {
-        const referencedAnswerId =
-          currentAnswerValidation.minValue.previousAnswer;
-        const referencedAnswer = getEntityKeyValue(
-          otherFields,
-          referencedAnswerId
-        )[0];
+      const minValidation = currentAnswerValidation.minValue;
+      const maxValidation = currentAnswerValidation.maxValue;
+      [minValidation, maxValidation].forEach(validation => {
         if (
-          parentData.decimals !== get(referencedAnswer, "properties.decimals")
+          validation &&
+          validation.enabled &&
+          validation.entityType === "PreviousAnswer"
         ) {
-          isValid.errors = [
-            {
-              keyword: "errorMessage",
-              dataPath: dataPathArr.slice(0, 8).join("/"),
-              message: "ERR_REFERENCED_ANSWER_DECIMAL_INCONSISTENCY",
-              params: { keyword: "inconsistent decimals" },
-            },
-          ];
+          const referencedAnswerId = validation.previousAnswer;
+          const referencedAnswer = getEntityKeyValue(
+            otherFields,
+            referencedAnswerId
+          )[0];
+          const referencedDecimals = get(
+            referencedAnswer,
+            "properties.decimals"
+          );
+          if (
+            !isNull(referencedDecimals) &&
+            !isNull(parentData.decimals) &&
+            parentData.decimals !== referencedDecimals
+          ) {
+            isValid.errors = [
+              {
+                keyword: "errorMessage",
+                dataPath: dataPathArr.slice(0, 8).join("/"),
+                message: "ERR_REFERENCED_ANSWER_DECIMAL_INCONSISTENCY",
+                params: { keyword: "inconsistent decimals" },
+              },
+            ];
+          }
         }
-      }
+      });
       return false;
     },
   });

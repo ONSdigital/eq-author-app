@@ -157,9 +157,7 @@ describe("schema validation", () => {
                             id: "minValue",
                             enabled: true,
                             entityType: "PreviousAnswer",
-                            previousAnswer: {
-                              id: "answer_1",
-                            },
+                            previousAnswer: "answer_1",
                           },
                         },
                       },
@@ -179,9 +177,7 @@ describe("schema validation", () => {
                             id: "minValue",
                             enabled: true,
                             entityType: "PreviousAnswer",
-                            previousAnswer: {
-                              id: "answer_1",
-                            },
+                            previousAnswer: "answer_1",
                           },
                         },
                       },
