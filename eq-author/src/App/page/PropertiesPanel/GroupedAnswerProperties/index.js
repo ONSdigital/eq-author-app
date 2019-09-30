@@ -1,7 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 import { groupBy, kebabCase, getOr } from "lodash/fp";
+import gql from "graphql-tag";
+import { withRouter } from "react-router";
 
+import ValidationErrorInfo from "graphql/fragments/validationErrorInfo.graphql";
 import Accordion from "components/Accordion";
 import IconText from "components/IconText";
 import {
@@ -27,6 +30,7 @@ import {
 } from "./AnswerProperties/Properties";
 import Decimal from "./Decimal";
 import withUpdateAnswersOfType from "./withUpdateAnswersOfType";
+import withValidations from "enhancers/withValidations";
 
 const AnswerPropertiesContainer = styled.div`
   border-bottom: 1px solid ${colors.lightMediumGrey};
@@ -71,7 +75,6 @@ export const UnwrappedGroupedAnswerProperties = ({
   updateAnswersOfType,
 }) => {
   const answersByType = groupBy("type", page.answers);
-
   return Object.keys(answersByType).map(answerType => {
     let groupedFields = null;
     let groupValidations = null;
@@ -84,7 +87,6 @@ export const UnwrappedGroupedAnswerProperties = ({
     )
       .map(({ errorCode }) => errorCode)
       .includes(DECIMAL_INCONSISTENCY);
-
     if (isNumeric(answerType)) {
       const id = kebabCase(`${page.id} ${answerType} decimals`);
       groupedFields = (
@@ -176,4 +178,38 @@ export const UnwrappedGroupedAnswerProperties = ({
   });
 };
 
-export default withUpdateAnswersOfType(UnwrappedGroupedAnswerProperties);
+const VALIDATION_QUERY = gql`
+  subscription Validation($id: ID!) {
+    validationUpdated(id: $id) {
+      id
+      totalErrorCount
+      sections {
+        pages {
+          ... on QuestionPage {
+            id
+            validationErrorInfo {
+              id
+              totalCount
+            }
+            answers {
+              ... on BasicAnswer {
+                id
+                validationErrorInfo {
+                  ...ValidationErrorInfo
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  ${ValidationErrorInfo}
+`;
+
+export default withRouter(
+  withValidations(
+    withUpdateAnswersOfType(UnwrappedGroupedAnswerProperties),
+    VALIDATION_QUERY
+  )
+);
