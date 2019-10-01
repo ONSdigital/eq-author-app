@@ -166,7 +166,7 @@ describe("AnswerValidation", () => {
       });
     });
 
-    it("should render an error message when min val < max Val", () => {
+    it("should render an error message when min val > max Val", () => {
       const error = [
         {
           errorCode: "ERR_MIN_LARGER_THAN_MAX",

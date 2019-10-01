@@ -88,6 +88,7 @@ module.exports = questionnaire => {
       [SECTIONS]: {},
       [CONFIRMATION]: {},
       [CONFIRMATION_OPTION]: {},
+      [VALIDATION]: {},
       totalCount: 0,
     };
   }
