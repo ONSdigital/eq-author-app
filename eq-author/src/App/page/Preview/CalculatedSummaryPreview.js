@@ -10,6 +10,7 @@ import Info from "components/preview/elements/Info";
 import EditorLayout from "components/EditorLayout";
 import Panel from "components/Panel";
 import { Grid, Column } from "components/Grid";
+import CommentsPanel from "components/CommentsPanel";
 
 import { colors } from "constants/theme";
 import CalculatedSummaryPageEditor from "../Design/CalculatedSummaryPageEditor";
@@ -81,8 +82,14 @@ const SummaryTotalLabel = styled.div`
 
 const CalculatedSummaryPagePreview = ({ page }) => {
   return (
-    <EditorLayout page={page} preview routing={false}>
-      <Panel>
+    <EditorLayout
+      page={page}
+      title={page.displayName}
+      preview
+      routing={false}
+      renderPanel={() => <CommentsPanel />}
+    >
+      <Panel data-test="calSum test page">
         <Container>
           <PageTitle title={page.title} />
           <Info>Please review your answers and confirm these are correct.</Info>

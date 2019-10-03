@@ -5,6 +5,7 @@ let throughput = "ON_DEMAND";
 let questionnanaireTableName = "author-questionnaires";
 let questionnanaireVersionsTableName = "author-questionnaire-versions";
 let userTableName = "author-users";
+let commentsTableName = "author-comments";
 
 if (process.env.DYNAMO_ENDPOINT_OVERRIDE) {
   dynamoose.local(process.env.DYNAMO_ENDPOINT_OVERRIDE);
@@ -22,6 +23,9 @@ if (process.env.DYNAMO_QUESTIONNAIRE_VERSION_TABLE_NAME) {
 
 if (process.env.DYNAMO_USER_TABLE_NAME) {
   userTableName = process.env.DYNAMO_USER_TABLE_NAME;
+}
+if (process.env.DYNAMO_COMMENTS_TABLE_NAME) {
+  commentsTableName = process.env.DYNAMO_COMMENTS_TABLE_NAME;
 }
 
 const baseQuestionnaireSchema = {
@@ -159,6 +163,13 @@ const userSchema = new dynamoose.Schema(
   }
 );
 
+const commentsSchema = new dynamoose.Schema({
+  questionnaireId: { type: String, hashKey: true, required: true },
+  comments: {
+    type: Object,
+  },
+});
+
 const QuestionnaireModel = dynamoose.model(
   questionnanaireTableName,
   questionnanaireSchema
@@ -171,10 +182,13 @@ const QuestionnaireVersionsModel = dynamoose.model(
 
 const UserModel = dynamoose.model(userTableName, userSchema);
 
+const CommentsModel = dynamoose.model(commentsTableName, commentsSchema);
+
 module.exports = {
   QuestionnaireModel,
   QuestionnaireVersionsModel,
   dynamoose,
   justListFields,
   UserModel,
+  CommentsModel,
 };

@@ -14,6 +14,10 @@ describe("components/Button", () => {
     expect(wrapper).toMatchSnapshot();
     wrapper = shallow(<Button variant="tertiary-light">Button</Button>);
     expect(wrapper).toMatchSnapshot();
+    wrapper = shallow(<Button medium>Button</Button>);
+    expect(wrapper).toMatchSnapshot();
+    wrapper = shallow(<Button small>Button</Button>);
+    expect(wrapper).toMatchSnapshot();
   });
 
   it("renders as disabled", () => {

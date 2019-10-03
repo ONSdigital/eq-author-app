@@ -3,6 +3,8 @@ const uuid = require("uuid");
 
 const { getName } = require("../../../utils/getName");
 const getPreviousAnswersForPage = require("../../../src/businessLogic/getPreviousAnswersForPage");
+const { getCommentsForQuestionnaire } = require("../../../utils/datastore");
+
 const {
   NUMBER,
   CURRENCY,
@@ -60,6 +62,13 @@ Resolvers.CalculatedSummaryPage = {
   availablePipingAnswers: ({ id }, args, ctx) =>
     getPreviousAnswersForPage(ctx.questionnaire, id),
   availablePipingMetadata: (page, args, ctx) => ctx.questionnaire.metadata,
+  comments: async ({ id }, args, ctx) => {
+    const questionnaireId = ctx.questionnaire.id;
+    const questionnareComments = await getCommentsForQuestionnaire(
+      questionnaireId
+    );
+    return questionnareComments.comments[id] || [];
+  },
   validationErrorInfo: ({ id }, args, ctx) =>
     ctx.validationErrorInfo[PAGES][id] || { id, errors: [], totalCount: 0 },
 };
@@ -102,4 +111,4 @@ Resolvers.Mutation = {
   }),
 };
 
-module.exports = Resolvers;
+module.exports = { Resolvers, createCalculatedSummary };

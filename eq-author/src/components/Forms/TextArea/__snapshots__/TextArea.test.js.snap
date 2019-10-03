@@ -52,35 +52,28 @@ exports[`components/Forms/TextArea should render correctly 1`] = `
   pointer-events: none;
 }
 
-<withChangeHandler(TextArea)
+<TextArea
   defaultValue="I am some text"
   id="text"
   name="text"
   onChange={[MockFunction]}
+  rows={10}
 >
-  <TextArea
+  <TextArea__StyledTextArea
     defaultValue="I am some text"
     id="text"
     name="text"
-    onChange={[Function]}
+    onChange={[MockFunction]}
     rows={10}
   >
-    <TextArea__StyledTextArea
+    <textarea
+      className="c0"
       defaultValue="I am some text"
       id="text"
       name="text"
-      onChange={[Function]}
+      onChange={[MockFunction]}
       rows={10}
-    >
-      <textarea
-        className="c0"
-        defaultValue="I am some text"
-        id="text"
-        name="text"
-        onChange={[Function]}
-        rows={10}
-      />
-    </TextArea__StyledTextArea>
-  </TextArea>
-</withChangeHandler(TextArea)>
+    />
+  </TextArea__StyledTextArea>
+</TextArea>
 `;

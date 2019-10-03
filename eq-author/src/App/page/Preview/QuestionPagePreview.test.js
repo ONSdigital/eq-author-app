@@ -1,6 +1,9 @@
 import React from "react";
 import { shallow } from "enzyme";
+import { render, flushPromises } from "tests/utils/rtl";
+import actSilenceWarning from "tests/utils/actSilenceWarning";
 
+import { MeContext } from "App/MeContext";
 import { byTestAttr } from "tests/utils/selectors";
 import { TEXTFIELD } from "constants/answer-types";
 
@@ -12,8 +15,19 @@ import QuestionPagePreview, {
 } from "./QuestionPagePreview";
 
 describe("QuestionPagePreview", () => {
-  let page;
+  let page, me;
+
+  actSilenceWarning();
+
   beforeEach(() => {
+    me = {
+      id: "123",
+      displayName: "Raymond Holt",
+      email: "RaymondHolt@TheNineNine.com",
+      picture: "http://img.com/avatar.jpg",
+      admin: true,
+    };
+
     page = {
       id: "1",
       displayName: "Question",
@@ -44,9 +58,18 @@ describe("QuestionPagePreview", () => {
     };
   });
 
-  it("should render", () => {
-    const wrapper = shallow(<QuestionPagePreview page={page} />);
-    expect(wrapper).toMatchSnapshot();
+  it("should render", async () => {
+    const { getByText } = render(
+      <MeContext.Provider value={me}>
+        <QuestionPagePreview page={page} />
+      </MeContext.Provider>,
+      {
+        route: "/q/1/page/2",
+        urlParamMatcher: "/q/:questionnaireId/page/:pageId",
+      }
+    );
+    await flushPromises();
+    expect(getByText("Additional Info Content")).toBeTruthy();
   });
 
   it("should render warning when there are no answers", () => {

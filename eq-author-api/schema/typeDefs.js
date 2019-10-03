@@ -104,11 +104,13 @@ interface Page {
   alias: String
   displayName: String!
   pageType: PageType!
+  comments: [Comment]!
   section: Section!
   position: Int!
   availablePipingAnswers: [Answer!]!
   availablePipingMetadata: [Metadata!]!
   validationErrorInfo: ValidationErrorInfo
+
 }
 
 type QuestionPage implements Page {
@@ -121,6 +123,7 @@ type QuestionPage implements Page {
   guidance: String
   guidanceEnabled: Boolean!
   pageType: PageType!
+  comments: [Comment]!
   answers: [Answer]
   section: Section!
   position: Int!
@@ -146,6 +149,7 @@ type CalculatedSummaryPage implements Page {
   alias: String
   displayName: String!
   pageType: PageType!
+  comments: [Comment]!
   section: Section!
   position: Int!
   availableSummaryAnswers: [Answer!]!
@@ -566,6 +570,22 @@ type PublishRequest {
   launchUrl: String!
 }
 
+type Reply {
+  id: ID!
+  commentText: String!
+  createdTime: DateTime!
+  user: User!
+}
+
+type Comment {
+  id: ID!
+  commentText: String!
+  createdTime: DateTime!
+  user: User!
+  replies: [Reply]!
+  page: Page!
+}
+
 type Query {
   questionnaires: [Questionnaire]
   questionnaire(input: QueryInput!): Questionnaire
@@ -606,6 +626,7 @@ type Mutation {
   movePage(input: MovePageInput!): Page
   deletePage(input: DeletePageInput!): Section!
   duplicatePage(input: DuplicatePageInput!): Page
+  createComment(input: CreateCommentInput!): Comment!
   createQuestionPage(input: CreateQuestionPageInput!): QuestionPage
   updateQuestionPage(input: UpdateQuestionPageInput!): QuestionPage
   createCalculatedSummaryPage(input: CreateCalculatedSummaryPageInput!): CalculatedSummaryPage!
@@ -784,6 +805,11 @@ input DeletePageInput {
 input DuplicatePageInput {
   id: ID!
   position: Int!
+}
+
+input CreateCommentInput {
+  pageId: ID!
+  commentText: String!
 }
 
 input CreateQuestionPageInput {
