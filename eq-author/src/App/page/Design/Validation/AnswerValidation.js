@@ -38,6 +38,9 @@ import {
   UNIT,
 } from "constants/answer-types";
 
+export const MIN_INCLUSIVE_TEXT = "must be more than";
+export const MAX_INCLUSIVE_TEXT = "must be less than";
+
 const formatValue = (value, { type, properties }) => {
   if (typeof value !== "number") {
     return null;
@@ -57,7 +60,7 @@ const formatValue = (value, { type, properties }) => {
 export const validationTypes = [
   {
     id: "minValue",
-    title: "Min Value",
+    title: "Min value",
     render: () => (
       <MinValue>{props => <NumericValidation {...props} />}</MinValue>
     ),
@@ -69,7 +72,7 @@ export const validationTypes = [
   },
   {
     id: "maxValue",
-    title: "Max Value",
+    title: "Max value",
     render: () => (
       <MaxValue>{props => <NumericValidation {...props} />}</MaxValue>
     ),
@@ -153,7 +156,7 @@ export class UnwrappedAnswerValidation extends React.PureComponent {
 
   handleModalClose = () => this.setState({ modalIsOpen: false });
 
-  renderButton = ({ id, title, value, enabled, hasError }) => (
+  renderButton = ({ id, title, value, enabled, hasError, inclusive }) => (
     <SidebarButton
       key={id}
       data-test={`sidebar-button-${kebabCase(title)}`}
@@ -162,7 +165,12 @@ export class UnwrappedAnswerValidation extends React.PureComponent {
       }}
       hasError={hasError}
     >
-      <Title>{title}</Title>
+      <Title>
+        {title}{" "}
+        {enabled &&
+          !inclusive &&
+          (id.includes("max") ? MAX_INCLUSIVE_TEXT : MIN_INCLUSIVE_TEXT)}
+      </Title>
       {enabled && !isNull(value) && <Detail>{value}</Detail>}
     </SidebarButton>
   );
@@ -182,7 +190,7 @@ export class UnwrappedAnswerValidation extends React.PureComponent {
           const validation = get(answer, `validation.${validationType.id}`, {});
           const errors = get(validation, `validationErrorInfo.errors`, []);
           validationErrors.push(...errors);
-          const { enabled, previousAnswer, metadata } = validation;
+          const { enabled, previousAnswer, metadata, inclusive } = validation;
           const value = enabled
             ? validationType.preview(validation, answer)
             : "";
@@ -194,6 +202,7 @@ export class UnwrappedAnswerValidation extends React.PureComponent {
             previousAnswer,
             metadata,
             hasError: errors.length > 0,
+            inclusive,
           });
         })}
 
