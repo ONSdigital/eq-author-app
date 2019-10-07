@@ -5,9 +5,14 @@ import { colors } from "constants/theme";
 import Modal, { CloseButton } from "components/modals/Modal";
 import Button from "components/buttons/Button";
 import ButtonGroup from "components/buttons/ButtonGroup";
-import { ANSWER, METADATA } from "components/ContentPickerSelect/content-types";
+import {
+  ANSWER,
+  METADATA,
+  VARIABLES,
+} from "components/ContentPickerSelect/content-types";
 import AnswerPicker from "./AnswerPicker";
 import MetadataPicker from "./MetadataPicker";
+import VariablePicker from "./VariablePicker";
 
 const ModalFooter = styled.div`
   padding: 1.5em;
@@ -107,6 +112,18 @@ const ContentPicker = ({
             data={data}
             multiselect={multiselect}
             firstSelectedItemId={getFirstSelectedItemId()}
+          />
+        );
+
+      case VARIABLES:
+        return (
+          <VariablePicker
+            onConfirm={handleConfirm}
+            onSelected={item =>
+              handleSelected({ ...item, pipingType: "variable" })
+            }
+            isSelected={isSelected}
+            data={data}
           />
         );
 
