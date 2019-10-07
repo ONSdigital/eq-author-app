@@ -198,11 +198,11 @@ export const VALIDATION_QUERY = gql`
                   ...ValidationErrorInfo
                 }
               }
-            }
-            ... on MultipleChoiceAnswer {
-              id
-              validationErrorInfo {
-                ...ValidationErrorInfo
+              ... on MultipleChoiceAnswer {
+                id
+                validationErrorInfo {
+                  ...ValidationErrorInfo
+                }
               }
             }
           }

@@ -151,4 +151,16 @@ describe("Checkbox routing", () => {
       "AnyOf"
     );
   });
+
+  it("does not render 'choose' button or selected options when match condition is unanswered", () => {
+    const { queryByText } = renderRouting();
+
+    expect(queryByText("CHOOSE")).toBeTruthy();
+
+    props.expression.condition = "Unanswered";
+
+    expect(queryByText("CHOOSE").updateBinaryExpression).toBeFalsy();
+    expect(queryByText("Option 1").updateBinaryExpression).toBeFalsy();
+    expect(queryByText("Option 2").updateBinaryExpression).toBeFalsy();
+  });
 });

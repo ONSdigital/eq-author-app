@@ -9,6 +9,7 @@ const ALL_OF = "AllOf";
 const ANY_OF = "AnyOf";
 const NOT_ALL_OF = "NotAllOf";
 const NOT_ANY_OF = "NotAnyOf";
+const UNANSWERED = "Unanswered";
 
 module.exports = {
   ONE_OF,
@@ -22,4 +23,5 @@ module.exports = {
   ANY_OF,
   NOT_ALL_OF,
   NOT_ANY_OF,
+  UNANSWERED,
 };
