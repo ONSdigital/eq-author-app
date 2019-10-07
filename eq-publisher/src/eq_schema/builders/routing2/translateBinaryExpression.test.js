@@ -4,6 +4,7 @@ const {
   NUMBER,
   PERCENTAGE,
   CHECKBOX,
+  UNIT,
 } = require("../../../constants/answerTypes");
 
 const translateBinaryExpression = require("./translateBinaryExpression");
@@ -171,6 +172,29 @@ describe("Should build a runner representation of a binary expression", () => {
           id: "answer1",
           condition: "equals",
           value: 5,
+        });
+      });
+    });
+
+    it("can translate unanswered question routing from Author to Runner for all numeric types", () => {
+      [NUMBER, CURRENCY, PERCENTAGE, UNIT].forEach(type => {
+        const expression = {
+          left: {
+            id: "1",
+            type,
+          },
+          condition: "Unanswered",
+          right: {
+            number: 5,
+            __typeName: "CustomValue2",
+          },
+        };
+
+        const runnerExpression = translateBinaryExpression(expression);
+
+        expect(runnerExpression).toMatchObject({
+          id: "answer1",
+          condition: "not set",
         });
       });
     });

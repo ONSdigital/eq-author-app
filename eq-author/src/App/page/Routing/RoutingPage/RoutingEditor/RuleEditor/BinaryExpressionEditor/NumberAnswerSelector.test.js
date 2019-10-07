@@ -7,7 +7,7 @@ import NumberAnswerSelector, {
   ConditionSelector,
 } from "./NumberAnswerSelector";
 
-import { CURRENCY, NUMBER, PERCENTAGE } from "constants/answer-types";
+import { CURRENCY, NUMBER, PERCENTAGE, UNIT } from "constants/answer-types";
 
 describe("NumberAnswerSelector", () => {
   let defaultProps;
@@ -57,6 +57,28 @@ describe("NumberAnswerSelector", () => {
     wrapper.find(Number).simulate("blur");
     expect(defaultProps.onRightChange).toHaveBeenCalledWith({
       customValue: { number: 123 },
+    });
+  });
+
+  it("should not show the number input field when unanswered is chosen on a numeric type", () => {
+    [NUMBER, UNIT, CURRENCY, PERCENTAGE].forEach(type => {
+      defaultProps.expression.left.type = type;
+
+      // Needs to be reset on each iteration to ensure the input field can be tested properly, otherwise first expect will fail on iterations > 1
+      defaultProps.expression.condition = null;
+
+      // Ensure the input field is shown
+      const wrapperWithShownInput = shallow(
+        <NumberAnswerSelector {...defaultProps} />
+      );
+      expect(wrapperWithShownInput.find(Number)).toHaveLength(1);
+
+      // Ensure that the input field is hidden after user chooses 'Unanswered'
+      defaultProps.expression.condition = "Unanswered";
+      const wrapperWithHiddenInput = shallow(
+        <NumberAnswerSelector {...defaultProps} />
+      );
+      expect(wrapperWithHiddenInput.find(Number)).toHaveLength(0);
     });
   });
 });
