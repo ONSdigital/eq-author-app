@@ -11,7 +11,7 @@ exports[`NavigationSidebar should render 1`] = `
   data-test="side-nav"
 >
   <_default />
-  <withRouter(UnwrappedNavigationHeader)
+  <InnerComponent
     canAddCalculatedSummaryPage={true}
     canAddQuestionConfirmation={true}
     canAddQuestionPage={true}

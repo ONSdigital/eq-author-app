@@ -32,6 +32,20 @@ exports[`NavigationHeader should render 1`] = `
           </IconText>
         </RouteButton>
       </NavigationHeader__IconListItem>
+      <NavigationHeader__IconListItem>
+        <RouteButton
+          small={true}
+          to="/q/1/history"
+          variant="tertiary-light"
+        >
+          <IconText
+            hideText={false}
+            icon={[Function]}
+          >
+            History
+          </IconText>
+        </RouteButton>
+      </NavigationHeader__IconListItem>
     </NavigationHeader__IconList>
   </NavigationHeader__QuestionnaireLinks>
   <NavigationHeader__QuestionnaireContent>
