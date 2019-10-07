@@ -2,6 +2,7 @@ import React from "react";
 import { getOr } from "lodash/fp";
 import { Subscription } from "react-apollo";
 import PropTypes from "prop-types";
+import { withRouter } from "react-router";
 
 export default (Component, VALIDATION_QUERY) => {
   const WrappedComponent = props => (
@@ -27,5 +28,5 @@ export default (Component, VALIDATION_QUERY) => {
       }).isRequired,
     }).isRequired,
   };
-  return WrappedComponent;
+  return withRouter(WrappedComponent);
 };

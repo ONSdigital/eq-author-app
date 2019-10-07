@@ -391,13 +391,28 @@ describe("page", () => {
 
       questionnaire = ctx.questionnaire;
       const page = ctx.questionnaire.sections[0].pages[0];
+      const optionOne = page.answers[0].options[0];
+      const optionTwo = page.answers[0].options[1];
 
       const readPage = await queryPage(ctx, page.id);
 
       expect(readPage).toMatchObject({
         validationErrorInfo: {
           totalCount: 2,
-          errors: [],
+          errors: [
+            {
+              errorCode: "ERR_VALID_REQUIRED",
+              field: "label",
+              id: `options-${optionOne.id}-label`,
+              type: "options",
+            },
+            {
+              errorCode: "ERR_VALID_REQUIRED",
+              field: "label",
+              id: `options-${optionTwo.id}-label`,
+              type: "options",
+            },
+          ],
         },
       });
     });
