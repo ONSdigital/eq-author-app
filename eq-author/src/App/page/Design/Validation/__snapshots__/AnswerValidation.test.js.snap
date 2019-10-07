@@ -146,7 +146,8 @@ exports[`AnswerValidation should render 1`] = `
     onClick={[Function]}
   >
     <SidebarButton__Title>
-      Min Value
+      Min value
+       
     </SidebarButton__Title>
   </SidebarButton>
   <SidebarButton
@@ -156,7 +157,8 @@ exports[`AnswerValidation should render 1`] = `
     onClick={[Function]}
   >
     <SidebarButton__Title>
-      Max Value
+      Max value
+       
     </SidebarButton__Title>
   </SidebarButton>
   <ModalWithNav
@@ -168,7 +170,7 @@ exports[`AnswerValidation should render 1`] = `
           "id": "minValue",
           "preview": [Function],
           "render": [Function],
-          "title": "Min Value",
+          "title": "Min value",
           "types": Array [
             "Currency",
             "Number",
@@ -180,7 +182,7 @@ exports[`AnswerValidation should render 1`] = `
           "id": "maxValue",
           "preview": [Function],
           "render": [Function],
-          "title": "Max Value",
+          "title": "Max value",
           "types": Array [
             "Currency",
             "Number",
@@ -227,7 +229,7 @@ exports[`AnswerValidation validation object array should render the Max Duration
 </Component>
 `;
 
-exports[`AnswerValidation validation object array should render the Max Value validation 1`] = `
+exports[`AnswerValidation validation object array should render the Max value validation 1`] = `
 <Component
   displayName="Max value"
   readKey="maxValue"
@@ -247,7 +249,7 @@ exports[`AnswerValidation validation object array should render the Min Duration
 </Component>
 `;
 
-exports[`AnswerValidation validation object array should render the Min Value validation 1`] = `
+exports[`AnswerValidation validation object array should render the Min value validation 1`] = `
 <Component
   displayName="Min value"
   readKey="minValue"

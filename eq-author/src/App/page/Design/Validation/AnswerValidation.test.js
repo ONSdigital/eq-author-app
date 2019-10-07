@@ -7,7 +7,12 @@ import { CENTIMETRES } from "constants/unit-types";
 
 import SidebarButton, { Detail } from "components/buttons/SidebarButton";
 import ModalWithNav from "components/modals/ModalWithNav";
-import { UnwrappedAnswerValidation, validationTypes } from "./AnswerValidation";
+import {
+  UnwrappedAnswerValidation,
+  validationTypes,
+  MIN_INCLUSIVE_TEXT,
+  MAX_INCLUSIVE_TEXT,
+} from "./AnswerValidation";
 
 const render = (props, render = shallow) => {
   return render(<UnwrappedAnswerValidation {...props} />);
@@ -161,6 +166,44 @@ describe("AnswerValidation", () => {
                 .find(SidebarButton)
                 .find(Detail)
             ).toMatchSnapshot();
+          });
+        });
+
+        it("should render with additional inclusive text when appropriate on all number types", () => {
+          props = {
+            ...props,
+            answer: {
+              id: "1",
+              validation: {
+                [validation]: {
+                  enabled: true,
+                  inclusive: false,
+                  previousAnswer: {
+                    displayName: "foobar",
+                  },
+                },
+              },
+            },
+          };
+
+          NUMBER_TYPES.forEach(type => {
+            props.answer.type = type;
+
+            const { getAllByText } = rtlRender(
+              <UnwrappedAnswerValidation {...props} />
+            );
+
+            if (validation === VALIDATIONS[0]) {
+              expect(
+                getAllByText(`Max value ${MAX_INCLUSIVE_TEXT}`)
+              ).toBeTruthy();
+            }
+
+            if (validation === VALIDATIONS[1]) {
+              expect(
+                getAllByText(`Min value ${MIN_INCLUSIVE_TEXT}`)
+              ).toBeTruthy();
+            }
           });
         });
       });
