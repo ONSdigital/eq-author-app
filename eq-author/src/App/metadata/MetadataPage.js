@@ -34,7 +34,7 @@ const StyledGrid = styled(Grid)`
 `;
 
 const Info = styled(IconText)`
-  margin: 2em 5.75em;
+  padding: 2em;
   justify-content: left;
 `;
 
