@@ -33,7 +33,7 @@ exports[`containers/AppContainer Routes should render  1`] = `
             exact={true}
             path="/sign-in"
           />
-          <Component
+          <InnerComponent
             component={[Function]}
             exact={true}
             path="/"
@@ -46,7 +46,7 @@ exports[`containers/AppContainer Routes should render  1`] = `
             from="/questionnaire/:questionnaireId/design/:sectionId"
             to="/q/:questionnaireId/section/:sectionId/design"
           />
-          <Component
+          <InnerComponent
             component={[Function]}
             exact={false}
             path="/q/:questionnaireId/:entityName?/:entityId?/:tab?/:modifier?"
