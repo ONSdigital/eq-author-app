@@ -184,18 +184,25 @@ export const VALIDATION_QUERY = gql`
       totalErrorCount
       sections {
         pages {
-          ... on QuestionPage {
+          id
+          displayName
+          validationErrorInfo {
             id
-            validationErrorInfo {
-              id
-              totalCount
-            }
+            totalCount
+          }
+          ... on QuestionPage {
             answers {
               ... on BasicAnswer {
                 id
                 validationErrorInfo {
                   ...ValidationErrorInfo
                 }
+              }
+            }
+            ... on MultipleChoiceAnswer {
+              id
+              validationErrorInfo {
+                ...ValidationErrorInfo
               }
             }
           }
