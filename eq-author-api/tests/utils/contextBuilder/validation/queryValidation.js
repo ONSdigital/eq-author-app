@@ -70,6 +70,17 @@ const getValidationQuery = `
       id
     }
   }
+
+  fragment ValidationErrorInfo on ValidationErrorInfo {
+    id
+    errors {
+      id
+      type
+      field
+      errorCode
+    }
+    totalCount
+  }
   
   fragment EarliestDateValidationRule on EarliestDateValidationRule {
     id
@@ -86,6 +97,9 @@ const getValidationQuery = `
     }
     availableMetadata {
       id
+    }
+    validationErrorInfo {
+      ...ValidationErrorInfo
     }
   }
   
@@ -104,6 +118,9 @@ const getValidationQuery = `
     }
     availableMetadata {
       id
+    }
+    validationErrorInfo {
+      ...ValidationErrorInfo
     }
   }
   

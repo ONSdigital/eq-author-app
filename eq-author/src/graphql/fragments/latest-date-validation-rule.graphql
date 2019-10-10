@@ -16,4 +16,14 @@ fragment LatestDateValidationRule on LatestDateValidationRule {
     id
     displayName
   }
+  validationErrorInfo {
+    id
+    errors {
+      id
+      type
+      field
+      errorCode
+    }
+    totalCount
+  }
 }

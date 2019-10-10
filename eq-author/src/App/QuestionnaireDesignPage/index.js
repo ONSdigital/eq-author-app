@@ -333,6 +333,20 @@ export const VALIDATION_QUERY = gql`
                       }
                     }
                   }
+                  ... on DateValidation {
+                    earliestDate {
+                      id
+                      validationErrorInfo {
+                        ...ValidationErrorInfo
+                      }
+                    }
+                    latestDate {
+                      id
+                      validationErrorInfo {
+                        ...ValidationErrorInfo
+                      }
+                    }
+                  }
                 }
               }
               ... on MultipleChoiceAnswer {

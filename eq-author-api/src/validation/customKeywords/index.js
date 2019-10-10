@@ -4,4 +4,5 @@ module.exports = ajv => {
   require("./requiredWhenOtherFieldsPopulated")(ajv);
   require("./calculatedSummaryUnitConsistency")(ajv);
   require("./linkedDecimalValidation")(ajv);
+  require("./validateLatestAfterEarliest")(ajv);
 };

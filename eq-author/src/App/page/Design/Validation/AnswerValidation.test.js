@@ -2,7 +2,13 @@ import React from "react";
 import { shallow } from "enzyme";
 import { render as rtlRender } from "tests/utils/rtl";
 
-import { NUMBER, CURRENCY, PERCENTAGE, UNIT } from "constants/answer-types";
+import {
+  NUMBER,
+  CURRENCY,
+  PERCENTAGE,
+  UNIT,
+  DATE,
+} from "constants/answer-types";
 import { CENTIMETRES } from "constants/unit-types";
 
 import SidebarButton, { Detail } from "components/buttons/SidebarButton";
@@ -223,6 +229,42 @@ describe("AnswerValidation", () => {
 
       expect(
         getByText("Enter a max value that is greater than min value")
+      ).toBeTruthy();
+    });
+
+    it("should render an error message when earliest date is after latest date", () => {
+      props = {
+        answer: {
+          id: "2",
+          type: DATE,
+          validation: {
+            earliestDate: {
+              enabled: false,
+              validationErrorInfo: { errors: [] },
+            },
+            latestDate: {
+              enabled: false,
+              validationErrorInfo: { errors: [] },
+            },
+          },
+        },
+      };
+      const error = [
+        {
+          errorCode: "ERR_EARLIEST_AFTER_LATEST",
+          field: "custom",
+          id: "latestDate-2-b79f-4766-ba7a-3c3718bb9f26-custom",
+          type: "validation",
+          __typename: "ValidationError",
+        },
+      ];
+      props.answer.validation.earliestDate.validationErrorInfo.errors = error;
+      props.answer.validation.latestDate.validationErrorInfo.errors = error;
+
+      const { getByText } = rtlRender(<AnswerValidation {...props} />);
+
+      expect(
+        getByText("Enter an earliest date that is before latest date")
       ).toBeTruthy();
     });
   });

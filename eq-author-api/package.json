@@ -43,6 +43,7 @@
     "jsonwebtoken": "latest",
     "jsrsasign": "latest",
     "lodash": "latest",
+    "moment": "latest",
     "node-fetch": "latest",
     "node-jose": "latest",
     "pino-noir": "latest",

@@ -12,8 +12,12 @@ const {
   VALIDATION,
   MIN_VALUE,
   MAX_VALUE,
+  START_DATE,
+  END_DATE,
 } = require("../../constants/validationErrorTypes");
-
+const {
+  ERR_EARLIEST_AFTER_LATEST,
+} = require("../../constants/validationErrorCodes");
 const ajv = new Ajv({ allErrors: true, jsonPointers: true, $data: true });
 require("ajv-errors")(ajv);
 require("./customKeywords")(ajv);
@@ -29,6 +33,8 @@ const convertObjectType = objectType => {
 
     case MIN_VALUE:
     case MAX_VALUE:
+    case START_DATE:
+    case END_DATE:
       return VALIDATION;
 
     case "positive":
@@ -44,6 +50,7 @@ module.exports = questionnaire => {
   //These are errors that are reported in two or more places however we only want to add to the total count once.
   const duplicatedErrorMessages = {
     ERR_MIN_LARGER_THAN_MAX: { occurrencesPerError: 2 },
+    [ERR_EARLIEST_AFTER_LATEST]: { occurrencesPerError: 2 },
   };
   const topLevelEntities = [PAGES, CONFIRMATION, SECTIONS];
 
