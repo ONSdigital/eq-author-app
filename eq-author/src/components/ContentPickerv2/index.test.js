@@ -1,6 +1,10 @@
 import React from "react";
 import { render, fireEvent } from "tests/utils/rtl";
-import { ANSWER, METADATA } from "components/ContentPickerSelect/content-types";
+import {
+  ANSWER,
+  METADATA,
+  VARIABLES,
+} from "components/ContentPickerSelect/content-types";
 
 import ContentPicker from "./";
 
@@ -447,6 +451,77 @@ describe("Content picker", () => {
       expect(onSubmit).toHaveBeenCalledWith([
         { ...meta2, pipingType: "metadata" },
       ]);
+    });
+  });
+  describe("variable content", () => {
+    beforeEach(() => {
+      props = {
+        ...props,
+        contentType: VARIABLES,
+      };
+    });
+
+    it("should render variable picker when specified", () => {
+      const { getByText } = renderContentPicker();
+
+      const modalHeader = getByText("Select a variable");
+      expect(modalHeader).toBeTruthy();
+    });
+
+    it("should call onSubmit with selected variable", () => {
+      const { getByText } = renderContentPicker();
+
+      const variableItem = getByText("Total");
+      const confirmButton = getByText("Confirm");
+
+      fireEvent.click(variableItem);
+      fireEvent.click(confirmButton);
+
+      expect(onSubmit).toHaveBeenCalledWith({
+        id: "total",
+        displayName: "total",
+        pipingType: "variable",
+      });
+    });
+
+    it("should select item via keyboard enter", () => {
+      const { getByText } = renderContentPicker();
+
+      const variableItem = getByText("Total");
+      const confirmButton = getByText("Confirm");
+
+      fireEvent.keyUp(variableItem, { keyCode: 13 });
+      fireEvent.click(confirmButton);
+
+      expect(onSubmit).toHaveBeenCalledWith({
+        id: "total",
+        displayName: "total",
+        pipingType: "variable",
+      });
+    });
+
+    it("should not select item via any key other than enter", () => {
+      const { getByText } = renderContentPicker();
+
+      const variableItem = getByText("Total");
+      const confirmButton = getByText("Confirm");
+
+      fireEvent.keyUp(variableItem, { keyCode: 32 });
+      fireEvent.click(confirmButton);
+
+      expect(onSubmit).not.toHaveBeenCalled();
+    });
+
+    it("should unselect selected item", () => {
+      const { getByText } = renderContentPicker();
+
+      const variableItem = getByText("Total").closest("li");
+
+      fireEvent.click(variableItem);
+      expect(variableItem).toHaveAttribute("aria-selected", "true");
+
+      fireEvent.click(variableItem);
+      expect(variableItem).toHaveAttribute("aria-selected", "false");
     });
   });
 });
