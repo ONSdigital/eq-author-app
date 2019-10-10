@@ -7,6 +7,7 @@ import {
   QUESTION_CONFIRMATION,
   INTRODUCTION,
   METADATA,
+  HISTORY,
 } from "../constants/entities";
 
 export const Routes = {
@@ -78,6 +79,13 @@ export const buildMetadataPath = ({ questionnaireId }) => {
   return generatePath(Routes.QUESTIONNAIRE)({
     questionnaireId,
     entityName: METADATA,
+  });
+};
+
+export const buildHistoryPath = ({ questionnaireId }) => {
+  return generatePath(Routes.QUESTIONNAIRE)({
+    questionnaireId,
+    entityName: HISTORY,
   });
 };
 
