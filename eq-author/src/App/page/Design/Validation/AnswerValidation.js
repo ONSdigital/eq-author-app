@@ -261,6 +261,9 @@ export const VALIDATION_QUERY = gql`
                   }
                 }
               }
+              ... on MultipleChoiceAnswer {
+                id
+              }
             }
           }
         }
