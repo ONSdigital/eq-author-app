@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect, useContext } from "react";
 import PropType from "prop-types";
 import { Query, withApollo } from "react-apollo";
 import { withRouter } from "react-router";
@@ -132,16 +132,24 @@ export const MeProvider = flowRight(
   withRouter
 )(ContextProvider);
 
-export const withMe = Component => props => (
-  <MeContext.Consumer>
-    {({ me, signIn, signOut, isSigningIn }) => (
-      <Component
-        {...props}
-        me={me}
-        signIn={signIn}
-        signOut={signOut}
-        isSigningIn={isSigningIn}
-      />
-    )}
-  </MeContext.Consumer>
-);
+export const withMe = Component => {
+  const InnerComponent = props => (
+    <MeContext.Consumer>
+      {({ me, signIn, signOut, isSigningIn }) => (
+        <Component
+          {...props}
+          me={me}
+          signIn={signIn}
+          signOut={signOut}
+          isSigningIn={isSigningIn}
+        />
+      )}
+    </MeContext.Consumer>
+  );
+  InnerComponent.fragments = Component.fragments;
+  return InnerComponent;
+};
+
+export const useMe = () => {
+  return useContext(MeContext);
+};

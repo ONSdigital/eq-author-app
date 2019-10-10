@@ -11,6 +11,15 @@ const createAnswerMutation = `
       label
       secondaryLabel
       qCode
+      ...on BasicAnswer{
+        validation {
+          ...on NumberValidation {
+            minValue {
+              id
+            }
+          }
+        }
+      }
       ... on MultipleChoiceAnswer {
         mutuallyExclusiveOption {
           id

@@ -7,13 +7,16 @@ import gql from "graphql-tag";
 import CustomPropTypes from "custom-prop-types";
 import HomeIcon from "./icon-home.svg?inline";
 import MetadataIcon from "./icon-metadata.svg?inline";
+import HistoryIcon from "./icon-history.svg?inline";
+
+import { withMe } from "App/MeContext";
 
 import QuestionnaireSettingsModal from "App/QuestionnaireSettingsModal";
 
 import RouteButton from "components/buttons/Button/RouteButton";
 import IconText from "components/IconText";
 
-import { buildMetadataPath } from "utils/UrlUtils";
+import { buildMetadataPath, buildHistoryPath } from "utils/UrlUtils";
 import AddMenu from "./AddMenu";
 
 const IconList = styled.ul`
@@ -69,6 +72,7 @@ export class UnwrappedNavigationHeader extends React.Component {
     canAddQuestionConfirmation: PropTypes.bool.isRequired,
     onAddQuestionConfirmation: PropTypes.func.isRequired,
     match: CustomPropTypes.match.isRequired,
+    me: CustomPropTypes.me.isRequired,
   };
 
   state = {
@@ -99,9 +103,9 @@ export class UnwrappedNavigationHeader extends React.Component {
   };
 
   render() {
-    const { match } = this.props;
+    const { match, me } = this.props;
     const metadataUrl = buildMetadataPath(match.params);
-
+    const historyUrl = buildHistoryPath(match.params);
     return (
       <>
         <QuestionnaireLinks>
@@ -116,6 +120,13 @@ export class UnwrappedNavigationHeader extends React.Component {
                 <IconText icon={MetadataIcon}>Metadata</IconText>
               </RouteButton>
             </IconListItem>
+            {me.admin && (
+              <IconListItem>
+                <RouteButton variant="tertiary-light" small to={historyUrl}>
+                  <IconText icon={HistoryIcon}>History</IconText>
+                </RouteButton>
+              </IconListItem>
+            )}
           </IconList>
         </QuestionnaireLinks>
         <QuestionnaireContent>
@@ -148,4 +159,4 @@ UnwrappedNavigationHeader.fragments = {
   `,
 };
 
-export default withRouter(UnwrappedNavigationHeader);
+export default withMe(withRouter(UnwrappedNavigationHeader));

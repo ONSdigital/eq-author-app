@@ -63,6 +63,7 @@ const {
   SECTIONS,
   CONFIRMATION,
   CONFIRMATION_OPTION,
+  VALIDATION,
 } = require("../../constants/validationErrorTypes");
 
 const {
@@ -436,8 +437,8 @@ const Resolvers = {
     toggleValidationRule: createMutation((_, args, ctx) => {
       const validation = getValidationById(ctx, args.input.id);
       validation.enabled = args.input.enabled;
-
       const newValidation = Object.assign({}, validation);
+
       delete validation.validationType;
 
       return newValidation;
@@ -745,6 +746,12 @@ const Resolvers = {
       isNil(previousAnswer) ? null : getAnswerById(ctx, previousAnswer),
     availablePreviousAnswers: ({ id }, args, ctx) =>
       getAvailablePreviousAnswersForValidation(ctx, id),
+    validationErrorInfo: ({ id }, args, ctx) =>
+      ctx.validationErrorInfo[VALIDATION][id] || {
+        id: id,
+        errors: [],
+        totalCount: 0,
+      },
   },
 
   MaxValueValidationRule: {
@@ -756,6 +763,12 @@ const Resolvers = {
       isNil(previousAnswer) ? null : getAnswerById(ctx, previousAnswer),
     availablePreviousAnswers: ({ id }, args, ctx) =>
       getAvailablePreviousAnswersForValidation(ctx, id),
+    validationErrorInfo: ({ id }, args, ctx) =>
+      ctx.validationErrorInfo[VALIDATION][id] || {
+        id: id,
+        errors: [],
+        totalCount: 0,
+      },
   },
 
   EarliestDateValidationRule: {

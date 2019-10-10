@@ -3,7 +3,7 @@ import { shallow } from "enzyme";
 
 import { Detail as SidebarButtonDetail } from "components/buttons/SidebarButton";
 
-import AnswerValidation from "./AnswerValidation";
+import { UnwrappedAnswerValidation } from "./AnswerValidation";
 
 import {
   CUSTOM,
@@ -12,7 +12,7 @@ import {
 } from "constants/validation-entity-types";
 
 const render = (props, render = shallow) => {
-  return render(<AnswerValidation {...props} />);
+  return render(<UnwrappedAnswerValidation {...props} />);
 };
 
 describe("Date Error", () => {
