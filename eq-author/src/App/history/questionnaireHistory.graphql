@@ -1,0 +1,11 @@
+query GetQuestionnaireHistory($input: QueryInput!) {
+    questionnaire(input: $input) {
+        id
+        createdBy {
+            id
+            displayName
+        }
+        createdAt
+        title
+    }
+}

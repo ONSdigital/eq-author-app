@@ -11,6 +11,7 @@ import DuplicateButton from "components/buttons/DuplicateButton";
 import FadeTransition from "components/transitions/FadeTransition";
 import DeleteConfirmDialog from "components/DeleteConfirmDialog";
 import Truncated from "components/Truncated";
+import IconText from "components/IconText";
 
 import { buildQuestionnairePath } from "utils/UrlUtils";
 
@@ -20,6 +21,11 @@ import { WRITE } from "constants/questionnaire-permissions";
 import FormattedDate from "./FormattedDate";
 
 import questionConfirmationIcon from "./icon-questionnaire.svg";
+
+const publishColors = {
+  Published: `#12C864`,
+  Unpublished: `#595959`,
+};
 
 export const QuestionnaireLink = styled(NavLink)`
   text-decoration: none;
@@ -45,6 +51,19 @@ export const ShortTitle = styled.span`
 
 const ButtonGroup = styled.div`
   display: flex;
+`;
+
+const TableIconText = styled(IconText)`
+  display: inline;
+`;
+
+const StatusDot = styled.div`
+  height: 0.75em;
+  width: 0.75em;
+  background-color: ${({ publishStatus }) => publishColors[publishStatus]};
+  border-radius: 50%;
+  display: inline-flex;
+  margin-right: 0.5em;
 `;
 
 export const TR = styled.tr`
@@ -212,11 +231,14 @@ export class Row extends React.Component {
         displayName,
         updatedAt,
         permission,
+        publishStatus,
       },
       ...rest
     } = this.props;
 
     const hasWritePermisson = permission === WRITE;
+
+    const ColoredStatusDot = () => <StatusDot publishStatus={publishStatus} />;
 
     return (
       <>
@@ -250,6 +272,11 @@ export class Row extends React.Component {
             </TD>
             <TD>
               <FormattedDate date={updatedAt} />
+            </TD>
+            <TD>
+              <TableIconText icon={ColoredStatusDot}>
+                {publishStatus}
+              </TableIconText>
             </TD>
             <TD>{createdBy.displayName}</TD>
             <TD>

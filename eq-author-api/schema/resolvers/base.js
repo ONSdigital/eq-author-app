@@ -20,6 +20,7 @@ const uuid = require("uuid");
 const { withFilter } = require("apollo-server-express");
 const fetch = require("node-fetch");
 
+const { UNPUBLISHED, PUBLISHED } = require("../../constants/publishStatus");
 const pubsub = require("../../db/pubSub");
 const { getName } = require("../../utils/getName");
 const {
@@ -62,10 +63,12 @@ const {
   SECTIONS,
   CONFIRMATION,
   CONFIRMATION_OPTION,
+  VALIDATION,
 } = require("../../constants/validationErrorTypes");
 
 const {
   createQuestionnaire,
+  saveQuestionnaire,
   deleteQuestionnaire,
   getQuestionnaire,
   getUserById,
@@ -78,9 +81,7 @@ const {
 
 const { listQuestionnaires } = require("../../utils/datastore");
 
-const {
-  createQuestionnaireIntroduction,
-} = require("./questionnaireIntroduction");
+const createQuestionnaireIntroduction = require("../../utils/createQuestionnaireIntroduction");
 
 const {
   enforceHasWritePermission,
@@ -110,6 +111,7 @@ const createNewQuestionnaire = input => {
     version: currentVersion,
     editors: [],
     isPublic: true,
+    publishStatus: UNPUBLISHED,
   };
 
   let changes = {};
@@ -162,16 +164,25 @@ const Resolvers = {
     },
     me: (root, args, ctx) => ctx.user,
     users: () => listUsers(),
-    triggerPublish: async (root, { questionnaireId }) => {
+    triggerPublish: async (root, { input }, ctx) => {
+      const { questionnaireId, surveyId, formType } = input;
+      enforceHasWritePermission(ctx.questionnaire, ctx.user);
       const result = await fetch(
-        `${process.env.SURVEY_REGISTER_URL}${questionnaireId}`,
+        `${process.env.SURVEY_REGISTER_URL}${questionnaireId}/${surveyId}/${formType}`,
         { method: "put" }
       )
-        .then(res => res.json())
+        .then(async res => {
+          ctx.questionnaire.publishStatus = PUBLISHED;
+          await saveQuestionnaire(ctx.questionnaire);
+          return res.json();
+        })
         .catch(e => {
           throw Error(e);
         });
-      return { id: questionnaireId, launchUrl: result.publishedSurveyUrl };
+      return {
+        id: questionnaireId,
+        launchUrl: result.publishedSurveyUrl,
+      };
     },
   },
 
@@ -426,8 +437,8 @@ const Resolvers = {
     toggleValidationRule: createMutation((_, args, ctx) => {
       const validation = getValidationById(ctx, args.input.id);
       validation.enabled = args.input.enabled;
-
       const newValidation = Object.assign({}, validation);
+
       delete validation.validationType;
 
       return newValidation;
@@ -564,7 +575,12 @@ const Resolvers = {
   Section: {
     pages: section => section.pages,
     questionnaire: (section, args, ctx) => ctx.questionnaire,
-    displayName: section => getName(section, "Section"),
+    title: (section, args, ctx) =>
+      ctx.questionnaire.navigation ? section.title : "",
+    displayName: (section, args, ctx) =>
+      ctx.questionnaire.navigation
+        ? getName(section, "Section")
+        : getName(omit(section, "title"), "Section"),
     position: ({ id }, args, ctx) => {
       return findIndex(ctx.questionnaire.sections, { id });
     },
@@ -730,6 +746,12 @@ const Resolvers = {
       isNil(previousAnswer) ? null : getAnswerById(ctx, previousAnswer),
     availablePreviousAnswers: ({ id }, args, ctx) =>
       getAvailablePreviousAnswersForValidation(ctx, id),
+    validationErrorInfo: ({ id }, args, ctx) =>
+      ctx.validationErrorInfo[VALIDATION][id] || {
+        id: id,
+        errors: [],
+        totalCount: 0,
+      },
   },
 
   MaxValueValidationRule: {
@@ -741,6 +763,12 @@ const Resolvers = {
       isNil(previousAnswer) ? null : getAnswerById(ctx, previousAnswer),
     availablePreviousAnswers: ({ id }, args, ctx) =>
       getAvailablePreviousAnswersForValidation(ctx, id),
+    validationErrorInfo: ({ id }, args, ctx) =>
+      ctx.validationErrorInfo[VALIDATION][id] || {
+        id: id,
+        errors: [],
+        totalCount: 0,
+      },
   },
 
   EarliestDateValidationRule: {

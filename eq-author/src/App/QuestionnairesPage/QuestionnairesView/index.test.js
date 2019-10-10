@@ -19,6 +19,8 @@ jest.mock("lodash", () => ({
 }));
 
 describe("QuestionnairesView", () => {
+  const PUBLISHED = "Published";
+  const UNPUBLISHED = "Unpublished";
   const user = {
     id: "3",
     name: "Foo",
@@ -35,6 +37,7 @@ describe("QuestionnairesView", () => {
     updatedAt: `2019-05-${30 - index}T12:36:50.984Z`,
     createdBy: user,
     permission: WRITE,
+    publishStatus: UNPUBLISHED,
     ...overrides,
   });
   let props;
@@ -109,6 +112,17 @@ describe("QuestionnairesView", () => {
 
       expect(getByText("Questionnaire 1 Title")).toBeTruthy();
       expect(getByText("Questionnaire 2 Title")).toBeTruthy();
+    });
+
+    it("should render a published questionnaire", () => {
+      let questionnaires = [
+        buildQuestionnaire(1, { publishStatus: PUBLISHED }),
+      ];
+      const { getByText } = render(
+        <QuestionnairesView {...props} questionnaires={questionnaires} />
+      );
+
+      expect(getByText("Published")).toBeTruthy();
     });
 
     it("should render the questionnaires when the storage is corrupted", () => {

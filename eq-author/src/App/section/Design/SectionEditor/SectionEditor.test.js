@@ -92,7 +92,7 @@ describe("SectionEditor", () => {
     });
   });
 
-  it("should show the section title when navigation is enabled", () => {
+  it("should enable the section title when navigation is enabled", () => {
     const section = {
       ...section1,
       questionnaire: {
@@ -101,12 +101,15 @@ describe("SectionEditor", () => {
       },
     };
     const wrapper = render({ section });
-    expect(wrapper.find("[testSelector='txt-section-title']").length).toEqual(
-      1
-    );
+    expect(
+      wrapper
+        .find(RichTextEditor)
+        .first()
+        .prop("disabled")
+    ).toEqual(false);
   });
 
-  it("should not show the section title when navigation is disabled", () => {
+  it("should disable the section title when navigation is disabled", () => {
     const section = {
       ...section1,
       questionnaire: {
@@ -115,9 +118,12 @@ describe("SectionEditor", () => {
       },
     };
     const wrapper = render({ section });
-    expect(wrapper.find("[testSelector='txt-section-title']").length).toEqual(
-      0
-    );
+    expect(
+      wrapper
+        .find(RichTextEditor)
+        .first()
+        .prop("disabled")
+    ).toEqual(true);
   });
 
   it("should not autofocus the section title when its empty and navigation has just been turned on", () => {
@@ -165,8 +171,7 @@ describe("SectionEditor", () => {
 
     expect(getValidationError).toHaveBeenCalledWith({
       field: "title",
-      message:
-        "Enter a section title. If section navigation is not required, disable in 'settings'.",
+      message: "Enter a section title",
     });
   });
 

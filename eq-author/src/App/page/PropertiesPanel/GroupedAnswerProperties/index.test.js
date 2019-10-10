@@ -4,17 +4,21 @@ import { shallow } from "enzyme";
 import { CURRENCY, DATE, UNIT, DURATION } from "constants/answer-types";
 import { KILOJOULES, CENTIMETRES } from "constants/unit-types";
 import { YEARSMONTHS, YEARS } from "constants/duration-types";
+import { flushPromises, render, fireEvent } from "tests/utils/rtl";
+import actSilenceWarning from "tests/utils/actSilenceWarning";
 
 import UnitProperties from "./AnswerProperties/Properties/UnitProperties";
 import DurationProperties from "./AnswerProperties/Properties/DurationProperties";
 
 import Accordion from "components/Accordion";
 import GroupValidations from "App/page/Design/Validation/GroupValidations";
+import { VALIDATION_QUERY } from "App/page/Design/Validation/AnswerValidation";
 
 import { UnwrappedGroupedAnswerProperties } from "./";
 
 describe("Grouped Answer Properties", () => {
   let props;
+  actSilenceWarning();
   beforeEach(() => {
     props = {
       page: {
@@ -26,13 +30,16 @@ describe("Grouped Answer Properties", () => {
             displayName: "Currency 1",
             properties: {
               decimals: 5,
+              required: false,
             },
+            __typename: "BasicAnswer",
           },
           {
             id: "2",
             type: DATE,
             displayName: "Date 1",
-            properties: {},
+            properties: { decimals: 0, required: false, format: "dd/mm/yyyy" },
+            __typename: "BasicAnswer",
           },
           {
             id: "3",
@@ -40,7 +47,9 @@ describe("Grouped Answer Properties", () => {
             displayName: "Currency 2",
             properties: {
               decimals: 2,
+              required: false,
             },
+            __typename: "BasicAnswer",
           },
         ],
       },
@@ -82,17 +91,6 @@ describe("Grouped Answer Properties", () => {
     ).toMatchSnapshot();
   });
 
-  it("should update all the answers of the type when their decimals are changed", () => {
-    const wrapper = shallow(<UnwrappedGroupedAnswerProperties {...props} />);
-    wrapper
-      .find("[data-test='decimals']")
-      .dive() // Not sure why we need to do this
-      .simulate("change", { value: 5 });
-    expect(props.updateAnswersOfType).toHaveBeenCalledWith(CURRENCY, "pageId", {
-      decimals: 5,
-    });
-  });
-
   it("should render the group validations with type and validations", () => {
     props.page.totalValidation = {
       id: 1,
@@ -109,6 +107,120 @@ describe("Grouped Answer Properties", () => {
       type: CURRENCY,
       totalValidation: props.page.totalValidation,
     });
+  });
+
+  it("should update all the answers of the type when their decimals are changed", async () => {
+    const mockedData = {
+      data: {
+        validationUpdated: {
+          id: "76d2d601-7f57-4f78-bb33-3bf70e8c1851",
+          totalErrorCount: 2,
+          sections: [
+            {
+              pages: [
+                {
+                  id: "233b525e-7ded-45af-882d-2cb4fd19cad8",
+                  validationErrorInfo: {
+                    id: "233b525e-7ded-45af-882d-2cb4fd19cad8",
+                    totalCount: 2,
+                    __typename: "ValidationErrorInfo",
+                  },
+                  answers: [
+                    {
+                      id: "53a6aa07-512a-4a6d-816d-dd6d99c79517",
+                      validation: {
+                        minValue: {
+                          id: "166c9cc5-0974-4e66-8e2f-45f767d79713",
+                          validationErrorInfo: {
+                            id: "166c9cc5-0974-4e66-8e2f-45f767d79713",
+                            errors: [],
+                            totalCount: 0,
+                            __typename: "ValidationErrorInfo",
+                          },
+                          __typename: "MinValueValidationRule",
+                        },
+                        maxValue: {
+                          id: "134fa28d-520b-4247-bda3-58c63260672f",
+                          validationErrorInfo: {
+                            id: "134fa28d-520b-4247-bda3-58c63260672f",
+                            errors: [],
+                            totalCount: 0,
+                            __typename: "ValidationErrorInfo",
+                          },
+                          __typename: "MaxValueValidationRule",
+                        },
+                        __typename: "NumberValidation",
+                      },
+                      __typename: "BasicAnswer",
+                    },
+                  ],
+                  __typename: "QuestionPage",
+                },
+              ],
+              __typename: "Section",
+            },
+          ],
+          __typename: "Questionnaire",
+        },
+      },
+      loading: false,
+      variables: { id: "76d2d601-7f57-4f78-bb33-3bf70e8c1851" },
+    };
+    const mocks = [
+      {
+        request: {
+          query: VALIDATION_QUERY,
+          variables: { id: "1" },
+        },
+        result() {
+          return mockedData;
+        },
+      },
+      {
+        request: {
+          query: VALIDATION_QUERY,
+          variables: { id: "1" },
+        },
+        result() {
+          return mockedData;
+        },
+      },
+      {
+        request: {
+          query: VALIDATION_QUERY,
+          variables: { id: "1" },
+        },
+        result() {
+          return mockedData;
+        },
+      },
+    ];
+    const { getByTestId } = render(
+      <UnwrappedGroupedAnswerProperties {...props} />,
+      {
+        route: "/q/1/page/2",
+        urlParamMatcher: "/q/:questionnaireId/page/:pageId",
+        mocks,
+      }
+    );
+    fireEvent.change(getByTestId("number-input"), {
+      target: { value: "2" },
+    });
+    fireEvent.blur(getByTestId("number-input"));
+    await flushPromises();
+    expect(props.updateAnswersOfType).toHaveBeenCalledWith(CURRENCY, "pageId", {
+      decimals: 2,
+    });
+  });
+
+  it("should show error if there is a mismatch in the decimals and previous answer validation", () => {
+    props.page.answers[0] = {
+      validationErrorInfo: {
+        errors: [{ errorCode: "ERR_REFERENCED_ANSWER_DECIMAL_INCONSISTENCY" }],
+      },
+    };
+    const wrapper = shallow(<UnwrappedGroupedAnswerProperties {...props} />);
+    expect(wrapper).toMatchSnapshot();
   });
 
   describe("Unit answers", () => {

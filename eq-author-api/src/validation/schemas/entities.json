@@ -72,7 +72,14 @@
             "summaryAnswers": {
               "type": "array",
               "items": {
-                "$ref": "entities.json#/definitions/answer"
+                "allOf": [
+                  {
+                    "$ref": "entities.json#/definitions/answer"
+                  }
+                ]
+              },
+              "calculatedSummaryUnitConsistency": {
+                "$data": "/sections"
               },
               "minItems": 1,
               "errorMessage": {
@@ -130,41 +137,80 @@
     },
     "answer": {
       "oneOf": [
-        {
-          "$ref": "entities.json#/definitions/basicAnswer"
-        },
-        {
-          "$ref": "entities.json#/definitions/multipleChoiceAnswer"
-        }
+        { "$ref": "entities.json#/definitions/basicAnswer" },
+        { "$ref": "entities.json#/definitions/multipleChoiceAnswer" }
       ]
     },
     "basicAnswer": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "label": {
+          "$ref": "definitions.json#/definitions/populatedString"
+        }
+      },
+      "required": ["id", "label"],
       "if": {
         "properties": {
           "type": {
-            "enum": [
-              "TextField",
-              "TextArea",
-              "Number",
-              "Percentage",
-              "Currency",
-              "Unit",
-              "Duration"
-            ]
+            "enum": ["Number", "Percentage", "Currency", "Unit"]
           }
         }
       },
       "then": {
         "type": "object",
         "properties": {
-          "id": { "type": "string" },
-          "label": {
-            "$ref": "definitions.json#/definitions/populatedString"
+          "validation": {
+            "if": {
+              "allOf": [
+                {
+                  "properties": {
+                    "minValue": {
+                      "properties": { "enabled": { "const": true } }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "maxValue": {
+                      "properties": { "enabled": { "const": true } }
+                    }
+                  }
+                }
+              ]
+            },
+            "then": {
+              "properties": {
+                "minValue": {
+                  "type": "object",
+                  "properties": {
+                    "custom": {
+                      "maximum": {
+                        "$data": "2/maxValue/custom"
+                      },
+                      "errorMessage": "ERR_MIN_LARGER_THAN_MAX"
+                    }
+                  }
+                },
+                "maxValue": {
+                  "type": "object",
+                  "properties": {
+                    "custom": {
+                      "minimum": {
+                        "$data": "2/minValue/custom"
+                      },
+                      "errorMessage": "ERR_MIN_LARGER_THAN_MAX"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "properties": {
+            "$ref": "entities.json#/definitions/properties"
           }
-        },
-        "required": ["id", "label"]
-      },
-      "else": false
+        }
+      }
     },
     "multipleChoiceAnswer": {
       "if": {
@@ -198,6 +244,15 @@
         "required": ["id", "options"]
       },
       "else": false
+    },
+    "properties": {
+      "properties": {
+        "decimals": {
+          "linkedDecimalValidation": {
+            "$data": "/sections"
+          }
+        }
+      }
     },
     "option": {
       "type": "object",

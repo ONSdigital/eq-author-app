@@ -1,8 +1,8 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { colors, radius } from "constants/theme";
 import chevron from "./icon-chevron.svg";
 
-const SidebarButton = styled.button`
+const SidebarButton = styled.button.attrs({ role: "button" })`
   display: block;
   width: 100%;
   padding: 0.5em;
@@ -43,6 +43,22 @@ const SidebarButton = styled.button`
   &:disabled {
     background: ${colors.lighterGrey};
   }
+
+  ${props =>
+    props.hasError &&
+    css`
+      border-color: ${colors.red};
+      &:focus,
+      &:focus-within {
+        border-color: ${colors.red};
+        outline-color: ${colors.red};
+        box-shadow: 0 0 0 2px ${colors.red};
+      }
+      &:hover {
+        border-color: ${colors.red};
+        outline-color: ${colors.red};
+      }
+    `}
 `;
 
 export const Title = styled.span`

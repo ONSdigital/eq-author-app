@@ -20,7 +20,9 @@ export const TOGGLE_VALIDATION_RULE = gql`
 
 export const mapMutateToProps = ({ mutate }) => ({
   onToggleValidationRule: input =>
-    mutate({ variables: { input: filter(inputFilter, input) } }),
+    mutate({
+      variables: { input: filter(inputFilter, input) },
+    }),
 });
 
 export default graphql(TOGGLE_VALIDATION_RULE, {

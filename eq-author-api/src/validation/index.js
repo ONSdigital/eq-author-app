@@ -1,5 +1,5 @@
 const Ajv = require("ajv");
-const { get, uniqBy } = require("lodash");
+const { get, uniqBy, map, groupBy, sum } = require("lodash");
 
 const schemas = require("./schemas");
 const {
@@ -9,6 +9,9 @@ const {
   SECTIONS,
   CONFIRMATION,
   CONFIRMATION_OPTION,
+  VALIDATION,
+  MIN_VALUE,
+  MAX_VALUE,
 } = require("../../constants/validationErrorTypes");
 
 const ajv = new Ajv({ allErrors: true, jsonPointers: true, $data: true });
@@ -21,7 +24,12 @@ const validate = ajv.addSchema(schemas.slice(1)).compile(schemas[0]);
 const convertObjectType = objectType => {
   switch (objectType) {
     case "additionalAnswer":
+    case "properties":
       return ANSWERS;
+
+    case MIN_VALUE:
+    case MAX_VALUE:
+      return VALIDATION;
 
     case "positive":
     case "negative":
@@ -33,6 +41,43 @@ const convertObjectType = objectType => {
 };
 
 module.exports = questionnaire => {
+  //These are errors that are reported in two or more places however we only want to add to the total count once.
+  const duplicatedErrorMessages = {
+    ERR_MIN_LARGER_THAN_MAX: { occurrencesPerError: 2 },
+  };
+  const topLevelEntities = [PAGES, CONFIRMATION, SECTIONS];
+
+  const entitiesWithChildren = [PAGES];
+  const removeDuplicateCounts = object => {
+    map(object, (entity, key) => {
+      if (entitiesWithChildren.includes(key)) {
+        map(entity, item => {
+          const groupedErrors = groupBy(item.errors, error => error.errorCode);
+          const totalErrors = sum(
+            map(groupedErrors, (errors, errorCode) => {
+              if (duplicatedErrorMessages[errorCode]) {
+                return (
+                  errors.length /
+                  duplicatedErrorMessages[errorCode].occurrencesPerError
+                );
+              }
+              return errors.length;
+            })
+          );
+          item.totalCount = totalErrors;
+        });
+      }
+    });
+    const totalErrors = sum(
+      map(topLevelEntities, entityKey =>
+        sum(map(object[entityKey], item => item.totalCount))
+      )
+    );
+    object.totalCount = totalErrors;
+
+    return object;
+  };
+
   validate(questionnaire);
 
   if (!validate.errors) {
@@ -43,6 +88,7 @@ module.exports = questionnaire => {
       [SECTIONS]: {},
       [CONFIRMATION]: {},
       [CONFIRMATION_OPTION]: {},
+      [VALIDATION]: {},
       totalCount: 0,
     };
   }
@@ -101,10 +147,16 @@ module.exports = questionnaire => {
 
           const page = questionnaire.sections[sectionIndex].pages[pageIndex];
 
+          const existingPageErrors = get(
+            structure,
+            `${PAGES}.${page.id}.errors`
+          );
+
           let errorInfo = {
             id: page.id,
-            totalCount: 0,
-            errors: [],
+            errors: existingPageErrors
+              ? [...structure[PAGES][page.id].errors, error]
+              : [error],
           };
 
           let pageType = PAGES;
@@ -116,16 +168,10 @@ module.exports = questionnaire => {
             errorInfo.id = pageId;
           }
 
-          if (structure[pageType][pageId]) {
-            errorInfo = structure[pageType][pageId];
-          }
-
           structure[pageType][pageId] = {
             ...errorInfo,
-            totalCount: errorInfo.totalCount + 1,
           };
         }
-
         return structure;
       },
       {
@@ -135,8 +181,9 @@ module.exports = questionnaire => {
         [SECTIONS]: {},
         [CONFIRMATION]: {},
         [CONFIRMATION_OPTION]: {},
+        [VALIDATION]: {},
         totalCount: errorMessages.length,
       }
     );
-  return transformedMessages;
+  return removeDuplicateCounts(transformedMessages);
 };

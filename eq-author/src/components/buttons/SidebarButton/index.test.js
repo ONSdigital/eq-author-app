@@ -1,16 +1,30 @@
 import React from "react";
 import SidebarButton, { Detail, Title } from ".";
-import { shallow } from "enzyme";
+import { colors } from "constants/theme";
+import { render } from "tests/utils/rtl";
 
-describe("SidebarButton", () => {
-  it("should render", () => {
-    const wrapper = shallow(
-      <SidebarButton>
-        <Title>Min value</Title>
-        <Detail>0</Detail>
-      </SidebarButton>
-    );
+describe("sidebarbutton", () => {
+  it("should render sidebutton", () => {
+    const { getByRole } = render(<SidebarButton />);
+    getByRole("button");
+  });
 
-    expect(wrapper).toMatchSnapshot();
+  it("should render sidebutton with error", () => {
+    const { getByRole } = render(<SidebarButton hasError />);
+    expect(getByRole("button")).toHaveStyle(`border-color: ${colors.red}`);
+  });
+});
+
+describe("Detail", () => {
+  it("should render Detail", () => {
+    const { getByText } = render(<Detail>Hello</Detail>);
+    expect(getByText("Hello")).toBeTruthy();
+  });
+});
+
+describe("Title", () => {
+  it("should render Title", () => {
+    const { getByText } = render(<Title>Hello</Title>);
+    expect(getByText("Hello")).toBeTruthy();
   });
 });

@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { propType } from "graphql-anywhere";
 import { find } from "lodash";
 import gql from "graphql-tag";
 
 import { colors } from "constants/theme";
+import { MenuItemType } from "components/ContentPickerv2/Menu";
 import CalSumContentPicker from "./CalSumContentPicker";
 import shapeTree from "components/ContentPicker/shapeTree";
 import Button from "components/buttons/Button";
@@ -106,6 +107,31 @@ const ErrorContainer = styled.div`
   position: relative;
 `;
 
+const TypeChip = styled(MenuItemType)`
+  color: ${colors.text};
+  float: right;
+`;
+
+const ChipText = styled.div`
+  max-width: 30em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  float: left;
+`;
+
+export const ErrorContext = styled.div`
+  position: relative;
+
+  ${props =>
+    props.isInvalid &&
+    css`
+      margin-bottom: 2em;
+      border: 1px solid ${colors.red};
+      padding: 1em;
+    `}
+`;
+
 export class UnwrappedAnswerSelector extends Component {
   state = {
     showPicker: false,
@@ -147,6 +173,12 @@ export class UnwrappedAnswerSelector extends Component {
 
   renderAnswers(answers, answerType) {
     const { section } = this.props.page;
+    const errorValidationMsg = this.props.getValidationError({
+      field: "summaryAnswers",
+      message: "Select answers that are the same unit type",
+    });
+
+    const isInvalid = Boolean(errorValidationMsg);
     return (
       <div>
         <SectionList>
@@ -164,17 +196,26 @@ export class UnwrappedAnswerSelector extends Component {
                 Remove all
               </RemoveAllButton>
             </SectionHeader>
-            <AnswerList>
-              {answers.map(answer => (
-                <AnswerListItem key={answer.id}>
-                  <AnswerChip
-                    onRemove={() => this.handleRemoveAnswers([answer])}
-                  >
-                    {answer.displayName}
-                  </AnswerChip>
-                </AnswerListItem>
-              ))}
-            </AnswerList>
+            <ErrorContext isInvalid={isInvalid}>
+              <AnswerList>
+                {answers.map(answer => (
+                  <AnswerListItem key={answer.id}>
+                    <AnswerChip
+                      onRemove={() => this.handleRemoveAnswers([answer])}
+                    >
+                      <ChipText>{answer.displayName}</ChipText>
+                      {answer.properties.unit && (
+                        <TypeChip key={answer.properties.unit}>
+                          {answer.properties.unit}
+                        </TypeChip>
+                      )}
+                      <TypeChip key={answer.type}>{answer.type}</TypeChip>
+                    </AnswerChip>
+                  </AnswerListItem>
+                ))}
+              </AnswerList>
+              {isInvalid && <ErrorInline>{errorValidationMsg}</ErrorInline>}
+            </ErrorContext>
           </SectionListItem>
         </SectionList>
         <SelectButton
@@ -267,11 +308,13 @@ UnwrappedAnswerSelector.fragments = {
         id
         displayName
         type
+        properties
       }
       availableSummaryAnswers {
         id
         displayName
         type
+        properties
         page {
           id
           displayName

@@ -1,6 +1,26 @@
+#import "../../../../graphql/fragments/validationErrorInfo.graphql"
+
 mutation UpdateAnswersOfType($input: UpdateAnswersOfTypeInput!) {
   updateAnswersOfType(input: $input) {
     id
+    page {
+      id
+      section {
+        id
+        pages {
+          id
+          validationErrorInfo {
+            ...ValidationErrorInfo
+          }
+        }
+      }
+    }
+    ... on BasicAnswer {
+      validationErrorInfo {
+        ...ValidationErrorInfo
+      }
+    }
+
     properties
   }
 }

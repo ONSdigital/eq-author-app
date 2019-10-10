@@ -12,9 +12,14 @@ import CustomPropTypes from "custom-prop-types";
 
 import IconPiping from "components/RichTextEditor/icon-piping.svg?inline";
 import IconPipingMetadata from "components/RichTextEditor/icon-piping-metadata.svg?inline";
+import IconPipingVariable from "components/RichTextEditor/icon-piping-variable.svg?inline";
 import ToolbarButton from "components/RichTextEditor/ToolbarButton";
 
-import { ANSWER, METADATA } from "components/ContentPickerSelect/content-types";
+import {
+  ANSWER,
+  METADATA,
+  VARIABLES,
+} from "components/ContentPickerSelect/content-types";
 
 export const MenuButton = styled(ToolbarButton)`
   height: 100%;
@@ -44,6 +49,10 @@ export class Menu extends React.Component {
     ),
   };
 
+  static defaultProps = {
+    allowableTypes: [ANSWER, METADATA],
+  };
+
   state = {
     pickerContent: "",
   };
@@ -70,6 +79,7 @@ export class Menu extends React.Component {
       disabled,
       loading,
       canFocus,
+      allowableTypes,
     } = this.props;
 
     const { pickerContent } = this.state;
@@ -78,24 +88,39 @@ export class Menu extends React.Component {
 
     return (
       <React.Fragment>
-        <MenuButton
-          title="Pipe value"
-          disabled={loading || disabled || isEmpty(answerData)}
-          onClick={() => this.handleButtonClick(ANSWER)}
-          canFocus={canFocus}
-          data-test="piping-button"
-        >
-          <IconPiping />
-        </MenuButton>
-        <MenuButton
-          title="Pipe metadata"
-          disabled={loading || disabled || isEmpty(metadataData)}
-          onClick={() => this.handleButtonClick(METADATA)}
-          canFocus={canFocus}
-          data-test="piping-button-metadata"
-        >
-          <IconPipingMetadata />
-        </MenuButton>
+        {allowableTypes.includes(ANSWER) && (
+          <MenuButton
+            title="Pipe value"
+            disabled={loading || disabled || isEmpty(answerData)}
+            onClick={() => this.handleButtonClick(ANSWER)}
+            canFocus={canFocus}
+            data-test="piping-button"
+          >
+            <IconPiping />
+          </MenuButton>
+        )}
+        {allowableTypes.includes(METADATA) && (
+          <MenuButton
+            title="Pipe metadata"
+            disabled={loading || disabled || isEmpty(metadataData)}
+            onClick={() => this.handleButtonClick(METADATA)}
+            canFocus={canFocus}
+            data-test="piping-button-metadata"
+          >
+            <IconPipingMetadata />
+          </MenuButton>
+        )}
+        {allowableTypes.includes(VARIABLES) && (
+          <MenuButton
+            title="Pipe variable"
+            disabled={loading || disabled}
+            onClick={() => this.handleButtonClick(VARIABLES)}
+            canFocus={canFocus}
+            data-test="piping-button-variable"
+          >
+            <IconPipingVariable />
+          </MenuButton>
+        )}
         <ContentPicker
           isOpen={Boolean(this.state.pickerContent)}
           data={data}
@@ -161,34 +186,52 @@ const postProcessPipingContent = entity => {
   };
 };
 
-export const UnwrappedPipingMenu = props => {
-  if (!props.canFocus) {
+export const UnwrappedPipingMenu = ({
+  canFocus,
+  allowableTypes,
+  match,
+  ...otherProps
+}) => {
+  if (!canFocus) {
     return (
       <>
-        <MenuButton title="Pipe value" disabled data-test="piping-button">
-          <IconPiping />
-        </MenuButton>
-        <MenuButton
-          title="Pipe metadata"
-          disabled
-          data-test="piping-button-metadata"
-        >
-          <IconPipingMetadata />
-        </MenuButton>
+        {allowableTypes.includes(ANSWER) && (
+          <MenuButton title="Pipe value" disabled data-test="piping-button">
+            <IconPiping />
+          </MenuButton>
+        )}
+        {allowableTypes.includes(METADATA) && (
+          <MenuButton
+            title="Pipe metadata"
+            disabled
+            data-test="piping-button-metadata"
+          >
+            <IconPipingMetadata />
+          </MenuButton>
+        )}
+        {allowableTypes.includes(VARIABLES) && (
+          <MenuButton
+            title="Pipe variable"
+            disabled
+            data-test="piping-button-variable"
+          >
+            <IconPipingVariable />
+          </MenuButton>
+        )}
       </>
     );
   }
 
   return (
     <AvailablePipingContentQuery
-      questionnaireId={props.match.params.questionnaireId}
-      pageId={props.match.params.pageId}
-      sectionId={props.match.params.sectionId}
-      confirmationId={props.match.params.confirmationId}
-      introductionId={props.match.params.introductionId}
+      questionnaireId={match.params.questionnaireId}
+      pageId={match.params.pageId}
+      sectionId={match.params.sectionId}
+      confirmationId={match.params.confirmationId}
+      introductionId={match.params.introductionId}
     >
       {({ data = {}, ...innerProps }) => {
-        const entityName = calculateEntityName(props.match.params);
+        const entityName = calculateEntityName(match.params);
         const entity = postProcessPipingContent(data[entityName]) || {};
 
         return (
@@ -197,7 +240,10 @@ export const UnwrappedPipingMenu = props => {
             metadataData={entity.availablePipingMetadata}
             entity={entity}
             entityName={entityName}
-            {...props}
+            allowableTypes={allowableTypes}
+            canFocus={canFocus}
+            match={match}
+            {...otherProps}
             {...innerProps}
           />
         );
@@ -209,6 +255,11 @@ export const UnwrappedPipingMenu = props => {
 UnwrappedPipingMenu.propTypes = {
   match: CustomPropTypes.match.isRequired,
   canFocus: PropTypes.bool,
+  allowableTypes: PropTypes.arrayOf(PropTypes.string),
+};
+
+UnwrappedPipingMenu.defaultProps = {
+  allowableTypes: [ANSWER, METADATA],
 };
 
 export default withRouter(UnwrappedPipingMenu);

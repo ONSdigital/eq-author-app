@@ -1,15 +1,21 @@
 import React from "react";
 import { shallow } from "enzyme";
+import { render as rtlRender } from "tests/utils/rtl";
 
 import { NUMBER, CURRENCY, PERCENTAGE, UNIT } from "constants/answer-types";
 import { CENTIMETRES } from "constants/unit-types";
 
 import SidebarButton, { Detail } from "components/buttons/SidebarButton";
 import ModalWithNav from "components/modals/ModalWithNav";
-import AnswerValidation, { validationTypes } from "./AnswerValidation";
+import {
+  UnwrappedAnswerValidation,
+  validationTypes,
+  MIN_INCLUSIVE_TEXT,
+  MAX_INCLUSIVE_TEXT,
+} from "./AnswerValidation";
 
 const render = (props, render = shallow) => {
-  return render(<AnswerValidation {...props} />);
+  return render(<UnwrappedAnswerValidation {...props} />);
 };
 
 describe("AnswerValidation", () => {
@@ -23,9 +29,11 @@ describe("AnswerValidation", () => {
         validation: {
           minValue: {
             enabled: false,
+            validationErrorInfo: { errors: [] },
           },
           maxValue: {
             enabled: false,
+            validationErrorInfo: { errors: [] },
           },
         },
       },
@@ -160,7 +168,65 @@ describe("AnswerValidation", () => {
             ).toMatchSnapshot();
           });
         });
+
+        it("should render with additional inclusive text when appropriate on all number types", () => {
+          props = {
+            ...props,
+            answer: {
+              id: "1",
+              validation: {
+                [validation]: {
+                  enabled: true,
+                  inclusive: false,
+                  previousAnswer: {
+                    displayName: "foobar",
+                  },
+                },
+              },
+            },
+          };
+
+          NUMBER_TYPES.forEach(type => {
+            props.answer.type = type;
+
+            const { getAllByText } = rtlRender(
+              <UnwrappedAnswerValidation {...props} />
+            );
+
+            if (validation === VALIDATIONS[0]) {
+              expect(
+                getAllByText(`Max value ${MAX_INCLUSIVE_TEXT}`)
+              ).toBeTruthy();
+            }
+
+            if (validation === VALIDATIONS[1]) {
+              expect(
+                getAllByText(`Min value ${MIN_INCLUSIVE_TEXT}`)
+              ).toBeTruthy();
+            }
+          });
+        });
       });
+    });
+
+    it("should render an error message when min val > max Val", () => {
+      const error = [
+        {
+          errorCode: "ERR_MIN_LARGER_THAN_MAX",
+          field: "custom",
+          id: "maxValue-0183a9c0-b79f-4766-ba7a-3c3718bb9f26-custom",
+          type: "validation",
+          __typename: "ValidationError",
+        },
+      ];
+      props.answer.validation.minValue.validationErrorInfo.errors = error;
+      props.answer.validation.maxValue.validationErrorInfo.errors = error;
+
+      const { getByText } = rtlRender(<UnwrappedAnswerValidation {...props} />);
+
+      expect(
+        getByText("Enter a max value that is greater than min value")
+      ).toBeTruthy();
     });
   });
 });

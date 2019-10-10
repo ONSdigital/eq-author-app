@@ -1,4 +1,10 @@
-const { BASIC_ANSWERS, NUMBER } = require("../../constants/answerTypes");
+const {
+  BASIC_ANSWERS,
+  CURRENCY,
+  NUMBER,
+  UNIT,
+  PERCENTAGE,
+} = require("../../constants/answerTypes");
 
 const validation = require(".");
 
@@ -135,6 +141,201 @@ describe("schema validation", () => {
             expect(errors2.answers[answer.id]).toBeUndefined();
           });
         });
+        it("should recognize mismatched decimals in validation references", () => {
+          questionnaire = {
+            id: "1",
+            sections: [
+              {
+                id: "section_1",
+                title: "section_1",
+                pages: [
+                  {
+                    id: "page_1",
+                    title: "page title",
+                    answers: [
+                      {
+                        id: "answer_1",
+                        type: NUMBER,
+                        label: "Number",
+                        properties: { decimals: 2 },
+                        validation: {
+                          minValue: {
+                            id: "minValue",
+                            enabled: true,
+                            entityType: "PreviousAnswer",
+                            previousAnswer: "answer_1",
+                          },
+                        },
+                      },
+                    ],
+                  },
+                  {
+                    id: "page_2",
+                    title: "page title",
+                    answers: [
+                      {
+                        id: "answer_2",
+                        type: NUMBER,
+                        label: "Number",
+                        properties: { decimals: 1 },
+                        validation: {
+                          minValue: {
+                            id: "minValue",
+                            enabled: true,
+                            entityType: "PreviousAnswer",
+                            previousAnswer: "answer_1",
+                          },
+                        },
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          };
+          const answer = questionnaire.sections[0].pages[1].answers[0];
+          const validationErrors = validation(questionnaire);
+          expect(validationErrors.answers[answer.id].errors).toHaveLength(1);
+          expect(validationErrors.answers[answer.id].errors[0]).toMatchObject({
+            errorCode: "ERR_REFERENCED_ANSWER_DECIMAL_INCONSISTENCY",
+            field: "properties",
+            id: "answers-answer_2-properties",
+            type: "answers",
+          });
+        });
+      });
+    });
+  });
+
+  describe("currency, number, percentage and unit answers", () => {
+    it("should ensure that max value is always larger than min value", () => {
+      [CURRENCY, NUMBER, UNIT, PERCENTAGE].forEach(type => {
+        const answer = {
+          id: "a1",
+          type,
+          label: "some answer",
+          validation: {
+            minValue: {
+              id: "123",
+              enabled: true,
+              custom: 50,
+              inclusive: true,
+              entityType: "Custom",
+              previousAnswer: null,
+            },
+            maxValue: {
+              id: "321",
+              enabled: true,
+              custom: 40,
+              inclusive: true,
+              entityType: "Custom",
+              previousAnswer: null,
+            },
+          },
+        };
+
+        const questionnaire = {
+          id: "q1",
+          sections: [
+            {
+              id: "s1",
+              pages: [
+                {
+                  id: "p1",
+                  answers: [answer],
+                },
+              ],
+            },
+          ],
+        };
+        const errors = validation(questionnaire);
+
+        expect(
+          errors.validation[answer.validation.minValue.id].errors
+        ).toHaveLength(1);
+        expect(errors.validation).toMatchObject({
+          "123": {
+            errors: [
+              {
+                entityId: "123",
+                errorCode: "ERR_MIN_LARGER_THAN_MAX",
+                field: "custom",
+                id: "minValue-123-custom",
+                type: "validation",
+              },
+            ],
+            id: "123",
+            totalCount: 1,
+          },
+          "321": {
+            errors: [
+              {
+                entityId: "321",
+                errorCode: "ERR_MIN_LARGER_THAN_MAX",
+                field: "custom",
+                id: "maxValue-321-custom",
+                type: "validation",
+              },
+            ],
+
+            id: "321",
+            totalCount: 1,
+          },
+        });
+        expect(errors.totalCount).toBe(1);
+        expect(errors.pages.p1.totalCount).toBe(1);
+
+        answer.validation.maxValue.custom = 80;
+
+        const errors2 = validation(questionnaire);
+        expect(errors2.validation).toMatchObject({});
+      });
+    });
+
+    it("should not validate if one of the two is disabled", () => {
+      ["minValue", "maxValue", "none"].forEach(entity => {
+        const answer = {
+          id: "a1",
+          type: NUMBER,
+          label: "some answer",
+          validation: {
+            minValue: {
+              id: "123",
+              enabled: entity === "minValue",
+              custom: 50,
+              inclusive: true,
+              entityType: "Custom",
+              previousAnswer: null,
+            },
+            maxValue: {
+              id: "321",
+              enabled: entity === "maxValue",
+              custom: 40,
+              inclusive: true,
+              entityType: "Custom",
+              previousAnswer: null,
+            },
+          },
+        };
+
+        const questionnaire = {
+          id: "q1",
+          sections: [
+            {
+              id: "s1",
+              pages: [
+                {
+                  id: "p1",
+                  answers: [answer],
+                },
+              ],
+            },
+          ],
+        };
+        const errors = validation(questionnaire);
+
+        expect(errors.validation).toMatchObject({});
+        expect(errors.totalCount).toBe(0);
       });
     });
   });

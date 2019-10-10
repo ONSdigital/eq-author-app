@@ -20,6 +20,14 @@ exports[`PipingMenu should render 1`] = `
   >
     <Component />
   </PipingMenu__MenuButton>
+  <PipingMenu__MenuButton
+    canFocus={true}
+    data-test="piping-button-variable"
+    onClick={[Function]}
+    title="Pipe variable"
+  >
+    <Component />
+  </PipingMenu__MenuButton>
   <ContentPicker
     contentType=""
     data={

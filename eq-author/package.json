@@ -103,6 +103,7 @@
     "graphql-tools": "latest",
     "jsonwebtoken": "latest",
     "lodash": "latest",
+    "moment": "latest",
     "polished": "latest",
     "react": "latest",
     "react-apollo": "latest",

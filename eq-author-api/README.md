@@ -86,6 +86,12 @@ query {
 - Add the created migration to the bottom of the `migrations/index.js` array.
 - `runQuestionnaireMigrations` will execute necessary migrations on every request providing the schema has not already been migrated.
 
+## Running bulk migration
+
+The following script is used for bulk migrations. Before running the command, replace `env` with your environment variables. Remember to have `aws configure` pointing at the right environment, and be on master branch with the latest changes before doing this.
+
+`DYNAMO_QUESTIONNAIRE_TABLE_NAME="env-author-questionnaires" AWS_REGION="eu-west-1" DYNAMO_QUESTIONNAIRE_VERSION_TABLE_NAME="env-author-questionnaire-versions" DYNAMO_USER_TABLE_NAME="env-author-users" node scripts/bulkMigrateDataStore.js`
+
 ## Import/Export Questionnaires
 
 It is possible to retrieve the full questionnaire data by making a `GET` request to `/export/:questionnaireId`

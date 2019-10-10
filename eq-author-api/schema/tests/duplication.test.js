@@ -28,6 +28,7 @@ describe("Duplication", () => {
   let ctx, questionnaire, section;
   let config = {
     shortTitle: "short title",
+    navigation: true,
     sections: [
       {
         title: "section-title-1",

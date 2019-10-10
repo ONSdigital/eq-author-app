@@ -13,6 +13,7 @@ fetch.mockImplementation(() =>
 );
 
 const { SOCIAL, BUSINESS } = require("../../constants/questionnaireTypes");
+const { PUBLISHED, UNPUBLISHED } = require("../../constants/publishStatus");
 
 const { buildContext } = require("../../tests/utils/contextBuilder");
 const {
@@ -29,6 +30,8 @@ const { createUser } = require("../../utils/datastore");
 
 describe("questionnaire", () => {
   let ctx, questionnaire;
+  const surveyId = "123";
+  const formType = "321";
 
   afterEach(async () => {
     if (!questionnaire) {
@@ -208,15 +211,58 @@ describe("questionnaire", () => {
     });
 
     it("should publish a questionnaire", async () => {
-      const result = await publishQuestionnaire(ctx.questionnaire.id);
+      const result = await publishQuestionnaire(
+        {
+          questionnaireId: ctx.questionnaire.id,
+          surveyId,
+          formType,
+        },
+        ctx
+      );
       expect(fetch).toHaveBeenCalledWith(
-        `${process.env.SURVEY_REGISTER_URL}${ctx.questionnaire.id}`,
+        `${process.env.SURVEY_REGISTER_URL}${ctx.questionnaire.id}/${surveyId}/${formType}`,
         { method: "put" }
       );
       expect(result).toMatchObject({
         id: ctx.questionnaire.id,
         launchUrl: "https://best.url.ever.com",
       });
+
+      expect(ctx.questionnaire.publishStatus).toEqual(PUBLISHED);
+    });
+
+    it("should set publish status to unpublished after updating the questionnaire", async () => {
+      const result = await publishQuestionnaire(
+        {
+          questionnaireId: ctx.questionnaire.id,
+          surveyId,
+          formType,
+        },
+        ctx
+      );
+      expect(fetch).toHaveBeenCalledWith(
+        `${process.env.SURVEY_REGISTER_URL}${ctx.questionnaire.id}/${surveyId}/${formType}`,
+        { method: "put" }
+      );
+      expect(result).toMatchObject({
+        id: ctx.questionnaire.id,
+        launchUrl: "https://best.url.ever.com",
+      });
+
+      expect(ctx.questionnaire.publishStatus).toEqual(PUBLISHED);
+
+      const update = {
+        id: ctx.questionnaire.id,
+        title: "Questionnaire-updated",
+        description: "Description-updated",
+        theme: "census",
+        navigation: true,
+        surveyId: "2-updated",
+        summary: true,
+        shortTitle: "short title updated",
+      };
+      await updateQuestionnaire(ctx, update);
+      expect(ctx.questionnaire.publishStatus).toEqual(UNPUBLISHED);
     });
   });
 

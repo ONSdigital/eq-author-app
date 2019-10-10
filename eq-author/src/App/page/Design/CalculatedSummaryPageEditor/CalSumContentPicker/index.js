@@ -3,7 +3,7 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 
 import CustomPropTypes from "custom-prop-types";
-import { CURRENCY, NUMBER, PERCENTAGE } from "constants/answer-types";
+import { CURRENCY, NUMBER, PERCENTAGE, UNIT } from "constants/answer-types";
 
 import { FlatSectionMenu } from "components/ContentPickerv2/Menu";
 import ScrollPane from "components/ScrollPane";
@@ -68,7 +68,7 @@ const Type = styled.span`
   margin-left: 0.5em;
 `;
 
-const validTypes = [CURRENCY, NUMBER, PERCENTAGE];
+const validTypes = [CURRENCY, NUMBER, PERCENTAGE, UNIT];
 
 const CalSumContentPicker = ({
   isOpen,
@@ -106,8 +106,19 @@ const CalSumContentPicker = ({
       selectedAnswer => selectedAnswer.id === answer.id
     ) !== -1;
 
-  const isDisabled = answer =>
-    selectedAnswers.length && answer.type !== selectedAnswers[0].type;
+  const isDisabled = answer => {
+    if (selectedAnswers.map(({ id }) => id).includes(answer.id)) {
+      return;
+    }
+    if (selectedAnswers.length > 0) {
+      const selectedType = selectedAnswers[0].type;
+      if (selectedType === UNIT) {
+        return answer.properties.unit !== selectedAnswers[0].properties.unit;
+      }
+      return answer.type !== selectedAnswers[0].type;
+    }
+    return false;
+  };
 
   return (
     <StyledModal isOpen={isOpen} onClose={closeModal} hasCloseButton>

@@ -112,6 +112,7 @@ export class SectionEditor extends React.Component {
 
     const autoFocusTitle = !navHasChanged && !hasTitle;
 
+    const hasNav = section.questionnaire.navigation;
     return (
       <SectionCanvas data-test="section-editor" id={getIdForObject(section)}>
         <DeleteConfirmDialog
@@ -127,31 +128,29 @@ export class SectionEditor extends React.Component {
           {this.renderMoveSectionModal}
         </MoveSectionQuery>
         <Padding>
-          {section.questionnaire.navigation && (
-            <RichTextEditor
-              id="section-title"
-              name="title"
-              label={
-                <DescribedText description="Displayed in section navigation">
-                  Section title
-                </DescribedText>
-              }
-              value={section.title}
-              onUpdate={handleUpdate}
-              controls={titleControls}
-              size="large"
-              testSelector="txt-section-title"
-              autoFocus={autoFocusTitle}
-              errorValidationMsg={this.props.getValidationError({
-                field: "title",
-                message:
-                  "Enter a section title. If section navigation is not required, disable in 'settings'.",
-              })}
-            />
-          )}
+          <RichTextEditor
+            id="section-title"
+            name="title"
+            label={
+              <DescribedText description="This is displayed in the section navigation. You can enable or disable it in 'settings'">
+                Section title
+              </DescribedText>
+            }
+            value={section.title}
+            disabled={!hasNav}
+            onUpdate={handleUpdate}
+            controls={titleControls}
+            size="large"
+            testSelector="txt-section-title"
+            autoFocus={autoFocusTitle}
+            errorValidationMsg={this.props.getValidationError({
+              field: "title",
+              message: "Enter a section title",
+            })}
+          />
           <Label>
             <DescribedText description="If you do not want an introduction page, leave these blank">
-              Section introduction
+              Section introduction page
             </DescribedText>
           </Label>
           <IntroCanvas>

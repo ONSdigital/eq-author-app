@@ -1,5 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
+import { render, fireEvent } from "tests/utils/rtl";
+
 import { UnwrappedNavigationHeader as NavigationHeader } from "./NavigationHeader";
 
 describe("NavigationHeader", () => {
@@ -9,20 +11,17 @@ describe("NavigationHeader", () => {
     onAddQuestionConfirmation: jest.fn(),
     onAddCalculatedSummaryPage: jest.fn(),
   };
-
-  const createWrapper = props =>
-    shallow(
-      <NavigationHeader
-        questionnaire={{}}
-        canAddQuestionPage
-        canAddCalculatedSummaryPage
-        canAddQuestionConfirmation
-        onUpdateQuestionnaire={jest.fn()}
-        match={{ params: { questionnaireId: "1" } }}
-        {...mockHandlers}
-        {...props}
-      />
-    );
+  const props = {
+    questionnaire: {},
+    canAddQuestionPage: true,
+    canAddCalculatedSummaryPage: true,
+    canAddQuestionConfirmation: true,
+    onUpdateQuestionnaire: jest.fn(),
+    match: { params: { questionnaireId: "1" } },
+    me: { id: "123", email: "j@h.com", admin: true },
+    ...mockHandlers,
+  };
+  const createWrapper = () => shallow(<NavigationHeader {...props} />);
 
   it("should render", () => {
     expect(createWrapper()).toMatchSnapshot();
@@ -53,5 +52,12 @@ describe("NavigationHeader", () => {
     wrapper.find('[data-test="add-menu"]').simulate("addQuestionConfirmation");
 
     expect(mockHandlers.onAddQuestionConfirmation).toHaveBeenCalled();
+  });
+
+  it("should be able to open history page", async () => {
+    const { getByText, history } = render(<NavigationHeader {...props} />);
+    const historyButton = getByText("History");
+    fireEvent.click(historyButton);
+    expect(history.location.pathname).toMatch("/q/1/history");
   });
 });

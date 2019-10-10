@@ -55,7 +55,13 @@ type Questionnaire {
   editors: [User!]!
   permission: Permission!
   isPublic: Boolean!
+  publishStatus: PublishStatus!
   totalErrorCount: Int!
+}
+
+enum PublishStatus {
+  Published
+  Unpublished
 }
 
 type DeletedQuestionnaire {
@@ -282,6 +288,7 @@ type MinValueValidationRule implements ValidationRule {
   previousAnswer: BasicAnswer
   entityType: ValidationRuleEntityType!
   availablePreviousAnswers: [Answer!]!
+  validationErrorInfo: ValidationErrorInfo
 }
 
 type MaxValueValidationRule implements ValidationRule {
@@ -292,6 +299,7 @@ type MaxValueValidationRule implements ValidationRule {
   previousAnswer: BasicAnswer
   entityType: ValidationRuleEntityType!
   availablePreviousAnswers: [Answer!]!
+  validationErrorInfo: ValidationErrorInfo
 }
 
 type EarliestDateValidationRule implements ValidationRule {
@@ -551,7 +559,7 @@ type Query {
   pagesAffectedByDeletion(pageId: ID!): [Page]! @deprecated(reason: "Not implemented")
   questionConfirmation(id: ID!): QuestionConfirmation
   questionnaireIntroduction(id: ID!): QuestionnaireIntroduction
-  triggerPublish(questionnaireId: ID!): PublishRequest
+  triggerPublish(input: PublishQuestionnaireInput!): PublishRequest
   me: User!
   users: [User!]!
 }
@@ -1022,5 +1030,11 @@ input DeleteCollapsibleInput {
 
 type Subscription {
   validationUpdated(id: ID!): Questionnaire!
+}
+
+input PublishQuestionnaireInput {
+  questionnaireId: ID!
+  surveyId: String!
+  formType: String!
 }
 `;

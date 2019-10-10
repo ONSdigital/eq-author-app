@@ -51,6 +51,9 @@ const baseQuestionnaireSchema = {
   shortTitle: {
     type: String,
   },
+  publishStatus: {
+    type: String,
+  },
   introduction: {
     type: Object,
   },

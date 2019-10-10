@@ -16,7 +16,6 @@ import CheckboxOptionPicker from "./CheckboxOptionPicker";
 import CheckboxChip from "./CheckboxChip";
 
 const MultipleChoiceAnswerOptions = styled.div`
-  display: flex;
   align-items: center;
   padding: 1em 0;
 `;

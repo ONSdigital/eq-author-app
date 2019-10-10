@@ -12,7 +12,12 @@ const {
   moveAnswer,
 } = require("../../tests/utils/contextBuilder/answer");
 
-const { NUMBER, CURRENCY, TEXTFIELD } = require("../../constants/answerTypes");
+const {
+  NUMBER,
+  CURRENCY,
+  TEXTFIELD,
+  DURATION,
+} = require("../../constants/answerTypes");
 
 describe("basic answer", () => {
   let ctx, questionnaire;
@@ -21,31 +26,33 @@ describe("basic answer", () => {
   });
 
   describe("create", () => {
-    it("should create an answer", async () => {
-      ctx = await buildContext({
-        sections: [{ pages: [{}] }],
-      });
-      questionnaire = ctx.questionnaire;
+    [NUMBER, CURRENCY, TEXTFIELD, DURATION].forEach(async type => {
+      it(`should create an ${type} answer`, async () => {
+        ctx = await buildContext({
+          sections: [{ pages: [{}] }],
+        });
+        questionnaire = ctx.questionnaire;
 
-      const answer = await createAnswer(ctx, {
-        description: "answer-description",
-        guidance: "answer-guidance",
-        label: "answer-label",
-        secondaryLabel: "answer-secondaryLabel",
-        qCode: "answer-qcode",
-        type: NUMBER,
-        questionPageId: questionnaire.sections[0].pages[0].id,
-      });
-
-      expect(answer).toEqual(
-        expect.objectContaining({
+        const answer = await createAnswer(ctx, {
           description: "answer-description",
           guidance: "answer-guidance",
           label: "answer-label",
           secondaryLabel: "answer-secondaryLabel",
           qCode: "answer-qcode",
-        })
-      );
+          type,
+          questionPageId: questionnaire.sections[0].pages[0].id,
+        });
+
+        expect(answer).toEqual(
+          expect.objectContaining({
+            description: "answer-description",
+            guidance: "answer-guidance",
+            label: "answer-label",
+            secondaryLabel: "answer-secondaryLabel",
+            qCode: "answer-qcode",
+          })
+        );
+      });
     });
   });
 

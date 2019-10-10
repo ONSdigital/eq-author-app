@@ -9,6 +9,12 @@ import {
   UnwrappedPipingMenu,
 } from "components/RichTextEditor/PipingMenu";
 
+import {
+  ANSWER,
+  METADATA,
+  VARIABLES,
+} from "components/ContentPickerSelect/content-types";
+
 const PIPING_BUTTON_VALUE = byTestAttr("piping-button");
 
 describe("PipingMenu", () => {
@@ -22,6 +28,7 @@ describe("PipingMenu", () => {
         answerData={answerData}
         metadataData={metadataData}
         entityName={"section"}
+        allowableTypes={[ANSWER, METADATA, VARIABLES]}
         canFocus
         {...props}
       />
@@ -125,6 +132,7 @@ describe("PipingMenu", () => {
           },
         }}
         canFocus={false}
+        allowableTypes={[ANSWER, METADATA, VARIABLES]}
       />
     );
 
@@ -140,6 +148,12 @@ describe("PipingMenu", () => {
   it("should open the metadata picker when clicked", () => {
     const wrapper = render();
     wrapper.find("[data-test='piping-button-metadata']").simulate("click");
+    expect(wrapper.find("[data-test='picker']").prop("isOpen")).toBe(true);
+  });
+
+  it("should open the variable picker when clicked", () => {
+    const wrapper = render();
+    wrapper.find("[data-test='piping-button-variable']").simulate("click");
     expect(wrapper.find("[data-test='picker']").prop("isOpen")).toBe(true);
   });
 
@@ -235,6 +249,7 @@ describe("PipingMenu", () => {
           canFocus
           entityName={name}
           entity={data[name]}
+          allowableTypes={[ANSWER, METADATA, VARIABLES]}
         />
       );
       const result = wrapper.find(AvailablePipingContentQuery).prop("children")(
@@ -313,6 +328,7 @@ describe("PipingMenu", () => {
           canFocus
           entityName={name}
           entity={data[name]}
+          allowableTypes={[ANSWER, METADATA, VARIABLES]}
         />
       );
       const result = wrapper.find(AvailablePipingContentQuery).prop("children")(
@@ -384,6 +400,7 @@ describe("PipingMenu", () => {
         canFocus
         entityName={name}
         entity={data[name]}
+        allowableTypes={[ANSWER, METADATA, VARIABLES]}
       />
     );
     const result = wrapper.find(AvailablePipingContentQuery).prop("children")({

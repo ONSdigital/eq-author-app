@@ -30,7 +30,7 @@ exports[`SectionEditor should render 1`] = `
       id="section-title"
       label={
         <DescribedText
-          description="Displayed in section navigation"
+          description="This is displayed in the section navigation. You can enable or disable it in 'settings'"
         >
           Section title
         </DescribedText>
@@ -49,7 +49,7 @@ exports[`SectionEditor should render 1`] = `
       <DescribedText
         description="If you do not want an introduction page, leave these blank"
       >
-        Section introduction
+        Section introduction page
       </DescribedText>
     </Label>
     <SectionEditor__IntroCanvas>
@@ -127,7 +127,7 @@ exports[`SectionEditor should render 2`] = `
       id="section-title"
       label={
         <DescribedText
-          description="Displayed in section navigation"
+          description="This is displayed in the section navigation. You can enable or disable it in 'settings'"
         >
           Section title
         </DescribedText>
@@ -146,7 +146,7 @@ exports[`SectionEditor should render 2`] = `
       <DescribedText
         description="If you do not want an introduction page, leave these blank"
       >
-        Section introduction
+        Section introduction page
       </DescribedText>
     </Label>
     <SectionEditor__IntroCanvas>
