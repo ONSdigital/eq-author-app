@@ -1977,6 +1977,11 @@ exports[`QuestionnaireDesignPage should render 1`] = `
               path="/q/:questionnaireId/history"
             />
             <Route
+              key="publish"
+              path="/q/:questionnaireId/publish"
+              render={[Function]}
+            />
+            <Route
               path="*"
               render={[Function]}
             />

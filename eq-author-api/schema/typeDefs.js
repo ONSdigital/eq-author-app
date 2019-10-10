@@ -24,6 +24,11 @@ type QuestionnaireInfo {
   totalSectionCount: Int!
 }
 
+type PublishDetails {
+  surveyId: String
+  formType: JSON
+}
+
 enum QuestionnaireType {
   Social
   Business
@@ -56,6 +61,7 @@ type Questionnaire {
   permission: Permission!
   isPublic: Boolean!
   publishStatus: PublishStatus!
+  publishDetails: PublishDetails
   totalErrorCount: Int!
 }
 

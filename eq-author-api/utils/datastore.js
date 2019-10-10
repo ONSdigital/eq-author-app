@@ -165,7 +165,6 @@ const saveQuestionnaire = async (questionnaireModel, count = 0, patch) => {
     sections: [],
     ...questionnaireModel.originalItem(),
   };
-
   const diff = diffPatcher.diff(
     omitTimestamps(originalQuesitonnaire),
     omitTimestamps(questionnaireModel)
@@ -173,13 +172,11 @@ const saveQuestionnaire = async (questionnaireModel, count = 0, patch) => {
   if (!diff) {
     return questionnaireModel;
   }
-
   try {
     const originalUpdatedAt = originalQuesitonnaire.updatedAt;
 
     const newUpdatedAt = new Date();
     questionnaireModel.updatedAt = newUpdatedAt;
-
     await dynamoose.transaction([
       QuestionnaireVersionsModel.transaction.create({
         ...questionnaireModel,

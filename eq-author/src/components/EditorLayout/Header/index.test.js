@@ -1,5 +1,4 @@
 import React from "react";
-import { Route } from "react-router-dom";
 
 import { render, fireEvent, waitForElementToBeRemoved } from "tests/utils/rtl";
 
@@ -40,14 +39,18 @@ describe("Header", () => {
     signOut = jest.fn();
   });
 
-  const renderWithContext = (component, ...rest) =>
+  const renderWithContext = (component, rest) =>
     render(
       <MeContext.Provider value={{ me: user, signOut }}>
         <QuestionnaireContext.Provider value={{ questionnaire }}>
           {component}
         </QuestionnaireContext.Provider>
       </MeContext.Provider>,
-      ...rest
+      {
+        route: "/q/1/page/2",
+        urlParamMatcher: "/q/:questionnaireId/page/:pageId",
+        ...rest,
+      }
     );
 
   it("should show the currently logged in user", () => {
@@ -116,6 +119,14 @@ describe("Header", () => {
       const publishSurveyButton = getByText("Publish");
       expect(publishSurveyButton).not.toHaveAttribute("disabled");
     });
+
+    it("should disable the publish survey button when the user is currently on the publish page", () => {
+      props.title = "Publish";
+      const { getByTestId } = renderWithContext(<Header {...props} />);
+
+      const publishSurveyButton = getByTestId("btn-publish");
+      expect(publishSurveyButton).toHaveAttribute("disabled");
+    });
   });
 
   describe("updating a questionnaire", () => {
@@ -147,14 +158,10 @@ describe("Header", () => {
     });
 
     it("should start with the questionnaire settings open when the modifier is provided in the url", () => {
-      const { getByText } = renderWithContext(
-        <Route path="/page/:modifier">
-          <Header {...props} />
-        </Route>,
-        {
-          route: "/page/settings",
-        }
-      );
+      const { getByText } = renderWithContext(<Header {...props} />, {
+        route: "/q/1/settings",
+        urlParamMatcher: "/q/:questionnaireId/:modifier",
+      });
 
       expect(getByText("Questionnaire settings")).toBeTruthy();
     });
@@ -173,21 +180,5 @@ describe("Header", () => {
     fireEvent.click(doneButton);
 
     expect(queryByText("Pinky Malinky")).toBeFalsy();
-  });
-
-  it("should be possible to open and close the publish modal", async () => {
-    const { getByText, queryByText } = renderWithContext(<Header {...props} />);
-
-    expect(queryByText("Publish questionnaire")).toBeFalsy();
-
-    fireEvent.click(getByText("Publish"));
-
-    expect(queryByText("Publish questionnaire")).toBeTruthy();
-
-    const cancelButton = getByText("Cancel");
-    fireEvent.click(cancelButton);
-    await waitForElementToBeRemoved(() => queryByText("Publish questionnaire"));
-
-    expect(queryByText("Publish questionnaire")).toBeFalsy();
   });
 });
