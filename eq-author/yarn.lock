@@ -3955,10 +3955,10 @@ draft-js@^0.10.5, draft-js@latest:
     immutable "~3.7.4"
     object-assign "^4.1.0"
 
-draftjs-filters@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/draftjs-filters/-/draftjs-filters-1.0.0.tgz#4dd8e2943f15edbdc28de961bf3445db0ea6631c"
-  integrity sha512-OUXPZs/tYqge4BzPjA2+kiB0xcqxh4afPXq7c23YfRNrZM/tzRf8Ft2CXxOxR4j17xdBadD0qO0DXii0xFm6Rg==
+draftjs-filters@^2.2.3:
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/draftjs-filters/-/draftjs-filters-2.2.3.tgz#52c864c1c9650b29b4a52d259d1dbec93c4b6145"
+  integrity sha512-xbpXgjTtFzaMp9P9xlaqmf3NpP4yYM3OT3HbodUQpI4t2kO9ltJTo0+3H+1PlsUPKoc7jPthiE0MYN/VMrsuNw==
 
 duplexer@^0.1.1:
   version "0.1.1"
