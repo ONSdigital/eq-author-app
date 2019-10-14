@@ -150,6 +150,17 @@ describe("Should build a runner representation of a binary expression", () => {
         values: ["yes", "no"],
       });
     });
+
+    it("can translate unanswered question routing from Author to Runner", () => {
+      const expression = buildBinaryExpression([], "Unanswered");
+
+      const runnerExpression = translateBinaryExpression(expression);
+
+      expect(runnerExpression).toMatchObject({
+        id: "answer1",
+        condition: "not set",
+      });
+    });
   });
 
   describe("With Number based answers", () => {
