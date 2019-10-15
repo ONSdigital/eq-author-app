@@ -59,6 +59,15 @@ type Questionnaire {
   totalErrorCount: Int!
 }
 
+type History {
+  id: ID!
+  publishStatus: String!
+  questionnaireTitle: String!
+  bodyText: String
+  user: User!
+  time: DateTime!
+}
+
 enum PublishStatus {
   Published
   Unpublished
@@ -554,6 +563,7 @@ type PublishRequest {
 type Query {
   questionnaires: [Questionnaire]
   questionnaire(input: QueryInput!): Questionnaire
+  history(input: QueryInput!): [History!]!
   section(input: QueryInput!): Section
   page(input: QueryInput!): Page
   answer(input: QueryInput!): Answer
@@ -580,6 +590,7 @@ type Mutation {
   updateQuestionnaire(input: UpdateQuestionnaireInput!): Questionnaire
   deleteQuestionnaire(input: DeleteQuestionnaireInput!): DeletedQuestionnaire
   duplicateQuestionnaire(input: DuplicateQuestionnaireInput!): Questionnaire
+  createHistoryNote(input: createHistoryNoteInput!): [History!]!
   createSection(input: CreateSectionInput!): Section
   updateSection(input: UpdateSectionInput!): Section
   deleteSection(input: DeleteSectionInput!): Questionnaire
@@ -723,6 +734,11 @@ input DeleteQuestionnaireInput {
 
 input DuplicateQuestionnaireInput {
   id: ID!
+}
+
+input createHistoryNoteInput {
+  id: ID!
+  bodyText: String!
 }
 
 input CreateSectionInput {

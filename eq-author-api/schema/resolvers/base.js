@@ -73,6 +73,8 @@ const {
   getQuestionnaire,
   getUserById,
   listUsers,
+  addEventToHistory,
+  getHistoryById,
 } = require("../../utils/datastore");
 
 const {
@@ -88,6 +90,8 @@ const {
   hasWritePermission,
 } = require("./withWritePermission");
 const { createMutation } = require("./createMutation");
+
+const { noteCreationEvent } = require("../../utils/questionnaireEvents");
 
 const createSection = (input = {}) => ({
   id: uuid.v4(),
@@ -146,6 +150,7 @@ const Resolvers = {
       });
     },
     questionnaire: (root, args, ctx) => ctx.questionnaire,
+    history: (root, { input }) => getHistoryById(input.questionnaireId),
     section: (root, { input }, ctx) => getSectionById(ctx, input.sectionId),
     page: (root, { input }, ctx) => getPageById(ctx, input.pageId),
     answer: (root, { input }, ctx) => getAnswerById(ctx, input.answerId),
@@ -222,7 +227,7 @@ const Resolvers = {
         createdBy: ctx.user.id,
       });
       // Saving to ctx so it can be used by all other resolvers and read by tests
-      ctx.questionnaire = await createQuestionnaire(questionnaire);
+      ctx.questionnaire = await createQuestionnaire(questionnaire, ctx);
       return ctx.questionnaire;
     },
     updateQuestionnaire: createMutation((_, { input }, ctx) =>
@@ -245,8 +250,10 @@ const Resolvers = {
         createdBy: ctx.user.id,
         editors: [],
       };
-      return createQuestionnaire(newQuestionnaire);
+      return createQuestionnaire(newQuestionnaire, ctx);
     },
+    createHistoryNote: (root, { input }, ctx) =>
+      addEventToHistory(input.id, noteCreationEvent(ctx, input.bodyText)),
     createSection: createMutation((root, { input }, ctx) => {
       const section = createSection(input);
       ctx.questionnaire.sections.push(section);
@@ -562,6 +569,10 @@ const Resolvers = {
     },
     totalErrorCount: (questionnaire, args, ctx) =>
       ctx.validationErrorInfo.totalCount,
+  },
+
+  History: {
+    user: ({ userId }) => getUserById(userId),
   },
 
   User: {

@@ -15,6 +15,7 @@ exports[`Editor Editor Component should autoFocus the title when there is not on
     disabled={false}
     id="confirmation-title"
     label="Confirmation question"
+    maxHeight={12}
     multiline={false}
     name="title"
     onUpdate={[Function]}
@@ -90,6 +91,7 @@ exports[`Editor Editor Component should render 1`] = `
     disabled={false}
     id="confirmation-title"
     label="Confirmation question"
+    maxHeight={12}
     multiline={false}
     name="title"
     onUpdate={[Function]}

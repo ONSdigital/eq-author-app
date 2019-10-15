@@ -7,6 +7,7 @@ describe("History page", () => {
     questionnaireTitle: "my wonderful thing",
     userName: "Me",
     createdAt: "2019-09-26T18:22:58.461",
+    publishStatus: "Questionnaire created",
   };
 
   it("should format date correctly", () => {

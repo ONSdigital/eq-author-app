@@ -7,7 +7,9 @@ module.exports = async (req, res) => {
   input.createdAt = new Date();
   input.createdBy = req.user.id;
   input.editors = [];
-  const savedQuestionnaire = await createQuestionnaire(input);
+  const savedQuestionnaire = await createQuestionnaire(input, {
+    user: req.user,
+  });
   res.json({
     id: savedQuestionnaire.id,
   });

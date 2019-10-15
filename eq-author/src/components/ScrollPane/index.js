@@ -1,14 +1,9 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import PropTypes from "prop-types";
 import { colors } from "constants/theme";
 import { darken } from "polished";
 
-const ScrollPane = styled.div`
-  width: 100%;
-  height: 100%;
-  overflow-y: ${props => (props.permanentScrollBar ? "scroll" : "auto")};
-  position: relative;
-
+export const ScrollPaneCSS = css`
   -webkit-background-clip: text;
   transition: background-color 0.2s;
   background-color: rgba(0, 0, 0, 0.18);
@@ -39,6 +34,15 @@ const ScrollPane = styled.div`
       background-color: ${darken(0.1, colors.lightGrey)};
     }
   }
+`;
+
+const ScrollPane = styled.div`
+  width: 100%;
+  height: 100%;
+  overflow-y: ${props => (props.permanentScrollBar ? "scroll" : "auto")};
+  position: relative;
+
+  ${ScrollPaneCSS}
 `;
 
 ScrollPane.propTypes = {

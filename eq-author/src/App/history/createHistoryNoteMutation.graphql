@@ -1,14 +1,14 @@
-query History($input: QueryInput!) {
-  history(input: $input) {
+mutation CreateHistoryNote($input: createHistoryNoteInput!) {
+  createHistoryNote(input: $input) {
     id
     publishStatus
     questionnaireTitle
     bodyText
     user {
       id
+      displayName
       email
       name
-      displayName
     }
     time
   }

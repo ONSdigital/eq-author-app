@@ -1,5 +1,5 @@
 import React from "react";
-import { render, flushPromises } from "tests/utils/rtl";
+import { render, flushPromises, fireEvent } from "tests/utils/rtl";
 import actSilenceWarning from "tests/utils/actSilenceWarning";
 
 import QuestionnaireContext from "components/QuestionnaireContext";
@@ -8,14 +8,26 @@ import { MeContext } from "App/MeContext";
 import UnwrappedHistoryPageContent from "./HistoryPage";
 
 import questionnaireHistoryQuery from "./questionnaireHistory.graphql";
+import createHistoryNoteMutation from "./createHistoryNoteMutation.graphql";
+
+//eslint-disable-next-line react/prop-types
+jest.mock("components/RichTextEditor", () => ({ onUpdate }) => {
+  const handleInputChange = event =>
+    onUpdate({
+      value: event.target.value,
+    });
+  return <input data-test="textbox" onChange={handleInputChange} />;
+});
 
 describe("History page", () => {
-  let props, questionnaireId, user, queryWasCalled, mocks;
+  let props, questionnaireId, user, queryWasCalled, mutationWasCalled, mocks;
 
   actSilenceWarning();
 
   beforeEach(() => {
     questionnaireId = "1";
+    queryWasCalled = false;
+    mutationWasCalled = false;
 
     props = {
       match: {
@@ -50,17 +62,103 @@ describe("History page", () => {
           queryWasCalled = true;
           return {
             data: {
-              questionnaire: {
-                id: "5d9d056a-bd15-4a7e-a673-eb414d9ed821",
-                createdBy: {
-                  id: "7e9a586e-2d7a-4170-ae9f-7111656999b1",
-                  displayName: "Jason Humphries",
-                  __typename: "User",
+              history: [
+                {
+                  id: "161deb98-fdbe-4906-aea5-39d3de2d78a2",
+                  publishStatus: "Questionnaire created",
+                  questionnaireTitle: "Test 2",
+                  bodyText: null,
+                  user: {
+                    id: "7c0abf65-9c8f-491c-bcd5-76f53f3983a9",
+                    email: "sam@hello.com",
+                    name: "sam",
+                    displayName: "sam",
+                    __typename: "User",
+                  },
+                  time: "2019-10-11T09:48:28.584Z",
+                  __typename: "History",
                 },
-                createdAt: "2019-09-26T10:22:58.461Z",
-                title: "This is a long title for testing stuff",
-                __typename: "Questionnaire",
-              },
+                {
+                  id: "aa94b4ef-e717-40b6-aba5-7c99557d283c",
+                  publishStatus: "Unpublished",
+                  questionnaireTitle: "Test 2",
+                  bodyText: "Hello Moto",
+                  user: {
+                    id: "7c0abf65-9c8f-491c-bcd5-76f53f3983a9",
+                    email: "sam@hello.com",
+                    name: "sam",
+                    displayName: "sam",
+                    __typename: "User",
+                  },
+                  time: "2019-10-11T09:49:16.636Z",
+                  __typename: "History",
+                },
+              ],
+            },
+          };
+        },
+      },
+      {
+        request: {
+          query: createHistoryNoteMutation,
+          variables: {
+            input: {
+              id: props.match.params.questionnaireId,
+              bodyText: "New note",
+            },
+          },
+        },
+        result: () => {
+          mutationWasCalled = true;
+          return {
+            data: {
+              createHistoryNote: [
+                {
+                  id: "161deb98-fdbe-4906-aea5-39d3de2d78a2",
+                  publishStatus: "Questionnaire created",
+                  questionnaireTitle: "Test 2",
+                  bodyText: null,
+                  user: {
+                    id: "7c0abf65-9c8f-491c-bcd5-76f53f3983a9",
+                    email: "sam@hello.com",
+                    name: "sam",
+                    displayName: "sam",
+                    __typename: "User",
+                  },
+                  time: "2019-10-11T09:48:28.584Z",
+                  __typename: "History",
+                },
+                {
+                  id: "aa94b4ef-e717-40b6-aba5-7c99557d283c",
+                  publishStatus: "Unpublished",
+                  questionnaireTitle: "Test 2",
+                  bodyText: "Hello Moto",
+                  user: {
+                    id: "7c0abf65-9c8f-491c-bcd5-76f53f3983a9",
+                    email: "sam@hello.com",
+                    name: "sam",
+                    displayName: "sam",
+                    __typename: "User",
+                  },
+                  time: "2019-10-11T09:49:16.636Z",
+                  __typename: "History",
+                },
+                {
+                  id: "48c2c4ca-9935-4ee4-98fd-7f2387fe8fea",
+                  publishStatus: "Unpublished",
+                  questionnaireTitle: "Test 2",
+                  bodyText: "New note",
+                  user: {
+                    id: "7c0abf65-9c8f-491c-bcd5-76f53f3983a9",
+                    email: "sam@hello.com",
+                    name: "sam",
+                    displayName: "sam",
+                    __typename: "User",
+                  },
+                  time: "2019-10-11T09:49:21.247Z",
+                  __typename: "History",
+                },
+              ],
             },
           };
         },
@@ -78,7 +176,7 @@ describe("History page", () => {
       ...rest
     );
 
-  it("renders History page", async () => {
+  it("renders History page with correct events", async () => {
     const { getByText } = renderWithContext(
       <UnwrappedHistoryPageContent {...props} />,
       {
@@ -87,7 +185,43 @@ describe("History page", () => {
     );
     await flushPromises();
     expect(getByText("History")).toBeTruthy();
+    expect(getByText("Questionnaire created")).toBeTruthy();
+    expect(getByText("Hello Moto")).toBeTruthy();
   });
+
+  it("can create a note", async () => {
+    const { getByText, getByTestId } = renderWithContext(
+      <UnwrappedHistoryPageContent {...props} />,
+      {
+        mocks,
+      }
+    );
+    await flushPromises();
+    fireEvent.change(getByTestId("textbox"), {
+      target: { value: "New note" },
+    });
+    fireEvent.click(getByTestId("add-note-btn"));
+
+    await flushPromises();
+
+    expect(getByText("Questionnaire created")).toBeTruthy();
+    expect(getByText("Hello Moto")).toBeTruthy();
+    expect(getByText("New note")).toBeTruthy();
+  });
+
+  it("wont create an empty note", async () => {
+    const { getByTestId } = renderWithContext(
+      <UnwrappedHistoryPageContent {...props} />,
+      {
+        mocks,
+      }
+    );
+    await flushPromises();
+    fireEvent.click(getByTestId("add-note-btn"));
+    await flushPromises();
+    expect(mutationWasCalled).toBeFalsy();
+  });
+
   it("should request questionnaire history", async () => {
     queryWasCalled = false;
     renderWithContext(<UnwrappedHistoryPageContent {...props} />, {

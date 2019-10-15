@@ -43,11 +43,6 @@ exports[`components/RichTextEditor/Toolbar should render 1`] = `
       <Component />
     </ToolbarButton>
     <Toolbar__Separator />
-    <withRouter(UnwrappedPipingMenu)
-      canFocus={true}
-      disabled={true}
-      onItemChosen={[MockFunction]}
-    />
   </Toolbar__ButtonGroup>
 </Toolbar__ToolbarPanel>
 `;

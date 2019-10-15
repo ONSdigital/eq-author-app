@@ -6,4 +6,6 @@ module.exports = {
   ...require("./queryQuestionnaire"),
   ...require("./listQuestionnaires"),
   ...require("./publishQuestionnaire"),
+  ...require("./queryHistory"),
+  ...require("./createHistoryNote"),
 };
