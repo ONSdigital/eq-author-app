@@ -7,15 +7,14 @@ import { CENTIMETRES } from "constants/unit-types";
 
 import SidebarButton, { Detail } from "components/buttons/SidebarButton";
 import ModalWithNav from "components/modals/ModalWithNav";
-import {
-  UnwrappedAnswerValidation,
+import AnswerValidation, {
   validationTypes,
   MIN_INCLUSIVE_TEXT,
   MAX_INCLUSIVE_TEXT,
 } from "./AnswerValidation";
 
 const render = (props, render = shallow) => {
-  return render(<UnwrappedAnswerValidation {...props} />);
+  return render(<AnswerValidation {...props} />);
 };
 
 describe("AnswerValidation", () => {
@@ -189,9 +188,7 @@ describe("AnswerValidation", () => {
           NUMBER_TYPES.forEach(type => {
             props.answer.type = type;
 
-            const { getAllByText } = rtlRender(
-              <UnwrappedAnswerValidation {...props} />
-            );
+            const { getAllByText } = rtlRender(<AnswerValidation {...props} />);
 
             if (validation === VALIDATIONS[0]) {
               expect(
@@ -222,7 +219,7 @@ describe("AnswerValidation", () => {
       props.answer.validation.minValue.validationErrorInfo.errors = error;
       props.answer.validation.maxValue.validationErrorInfo.errors = error;
 
-      const { getByText } = rtlRender(<UnwrappedAnswerValidation {...props} />);
+      const { getByText } = rtlRender(<AnswerValidation {...props} />);
 
       expect(
         getByText("Enter a max value that is greater than min value")

@@ -2,7 +2,6 @@ import React from "react";
 import { kebabCase, get, startCase, isNull } from "lodash";
 import CustomPropTypes from "custom-prop-types";
 import styled from "styled-components";
-import gql from "graphql-tag";
 
 import { colors } from "constants/theme";
 import ModalWithNav from "components/modals/ModalWithNav";
@@ -10,8 +9,6 @@ import { unitConversion } from "constants/unit-types";
 import SidebarButton, { Title, Detail } from "components/buttons/SidebarButton";
 import IconText from "components/IconText";
 import WarningIcon from "constants/icon-warning.svg?inline";
-import withValidations from "enhancers/withValidations";
-import ValidationErrorInfo from "graphql/fragments/validationErrorInfo.graphql";
 
 import ValidationContext from "./ValidationContext";
 import DurationValidation from "./DurationValidation";
@@ -143,7 +140,7 @@ const PropertiesError = styled(IconText)`
   justify-content: left;
 `;
 
-export class UnwrappedAnswerValidation extends React.PureComponent {
+class AnswerValidation extends React.PureComponent {
   state = {
     startingTabId: null,
     modalIsOpen: false,
@@ -224,53 +221,8 @@ export class UnwrappedAnswerValidation extends React.PureComponent {
   }
 }
 
-UnwrappedAnswerValidation.propTypes = {
+AnswerValidation.propTypes = {
   answer: CustomPropTypes.answer,
 };
 
-export const VALIDATION_QUERY = gql`
-  subscription Validation($id: ID!) {
-    validationUpdated(id: $id) {
-      id
-      totalErrorCount
-      sections {
-        pages {
-          ... on QuestionPage {
-            id
-            validationErrorInfo {
-              id
-              totalCount
-            }
-            answers {
-              ... on BasicAnswer {
-                id
-                validation {
-                  ... on NumberValidation {
-                    minValue {
-                      id
-                      validationErrorInfo {
-                        ...ValidationErrorInfo
-                      }
-                    }
-                    maxValue {
-                      id
-                      validationErrorInfo {
-                        ...ValidationErrorInfo
-                      }
-                    }
-                  }
-                }
-              }
-              ... on MultipleChoiceAnswer {
-                id
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-  ${ValidationErrorInfo}
-`;
-
-export default withValidations(UnwrappedAnswerValidation, VALIDATION_QUERY);
+export default AnswerValidation;

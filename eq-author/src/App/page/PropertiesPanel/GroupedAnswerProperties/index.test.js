@@ -12,7 +12,7 @@ import DurationProperties from "./AnswerProperties/Properties/DurationProperties
 
 import Accordion from "components/Accordion";
 import GroupValidations from "App/page/Design/Validation/GroupValidations";
-import { VALIDATION_QUERY } from "App/page/Design/Validation/AnswerValidation";
+import { VALIDATION_QUERY } from "App/QuestionnaireDesignPage";
 
 import { UnwrappedGroupedAnswerProperties } from "./";
 
@@ -167,24 +167,6 @@ describe("Grouped Answer Properties", () => {
       variables: { id: "76d2d601-7f57-4f78-bb33-3bf70e8c1851" },
     };
     const mocks = [
-      {
-        request: {
-          query: VALIDATION_QUERY,
-          variables: { id: "1" },
-        },
-        result() {
-          return mockedData;
-        },
-      },
-      {
-        request: {
-          query: VALIDATION_QUERY,
-          variables: { id: "1" },
-        },
-        result() {
-          return mockedData;
-        },
-      },
       {
         request: {
           query: VALIDATION_QUERY,

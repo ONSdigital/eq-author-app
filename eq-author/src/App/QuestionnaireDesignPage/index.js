@@ -31,6 +31,7 @@ import historyRoutes from "App/history";
 import withCreateQuestionPage from "enhancers/withCreateQuestionPage";
 import withCreateSection from "enhancers/withCreateSection";
 import withCreateCalculatedSummaryPage from "enhancers/withCreateCalculatedSummaryPage";
+import ValidationErrorInfo from "graphql/fragments/validationErrorInfo.graphql";
 
 import withCreateQuestionConfirmation from "./withCreateQuestionConfirmation";
 import NavigationSidebar from "./NavigationSidebar";
@@ -296,7 +297,7 @@ export const withAuthCheck = Component => {
   return WrappedComponent;
 };
 
-const VALIDATION_QUERY = gql`
+export const VALIDATION_QUERY = gql`
   subscription Validation($id: ID!) {
     validationUpdated(id: $id) {
       id
@@ -309,16 +310,41 @@ const VALIDATION_QUERY = gql`
         }
         pages {
           id
+          validationErrorInfo {
+            id
+            totalCount
+          }
           ... on QuestionPage {
-            validationErrorInfo {
-              id
-              totalCount
+            answers {
+              ... on BasicAnswer {
+                id
+                validation {
+                  ... on NumberValidation {
+                    minValue {
+                      id
+                      validationErrorInfo {
+                        ...ValidationErrorInfo
+                      }
+                    }
+                    maxValue {
+                      id
+                      validationErrorInfo {
+                        ...ValidationErrorInfo
+                      }
+                    }
+                  }
+                }
+              }
+              ... on MultipleChoiceAnswer {
+                id
+              }
             }
           }
         }
       }
     }
   }
+  ${ValidationErrorInfo}
 `;
 
 export const withValidations = Component => {
