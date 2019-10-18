@@ -29,11 +29,16 @@ const buildRadioAnswerBinaryExpression = ({ left, right }) => {
 };
 
 const buildCheckboxAnswerBinaryExpression = ({ left, right, condition }) => {
-  return {
+  const returnVal = {
     id: `answer${left.id}`,
     condition: conditionConverter(condition),
-    values: right.options.map(op => op.label),
   };
+
+  if (condition !== authorConditions.UNANSWERED) {
+    returnVal.values = right.options.map(op => op.label);
+  }
+
+  return returnVal;
 };
 
 const buildBasicAnswerBinaryExpression = ({ left, condition, right }) => {
