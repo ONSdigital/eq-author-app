@@ -7,6 +7,16 @@ import { colors, radius } from "constants/theme";
 import { Number, Select, Label } from "components/Forms";
 import VisuallyHidden from "components/VisuallyHidden";
 
+const conditions = {
+  EQUAL: "Equal",
+  NOT_EQUAL: "NotEqual",
+  GREATER_THAN: "GreaterThan",
+  LESS_THAN: "LessThan",
+  GREATER_OR_EQUAL: "GreaterOrEqual",
+  LESS_OR_EQUAL: "LessOrEqual",
+  UNANSWERED: "Unanswered",
+};
+
 export const ConditionSelector = styled(Select)`
   width: auto;
 `;
@@ -59,7 +69,6 @@ class NumberAnswerSelector extends React.Component {
 
   render() {
     const { expression } = this.props;
-
     return (
       <NumberAnswerRoutingSelector>
         <VisuallyHidden>
@@ -74,31 +83,42 @@ class NumberAnswerSelector extends React.Component {
           value={expression.condition}
           data-test="condition-selector"
         >
-          <option value="Equal">(=) Equal to</option>
-          <option value="NotEqual">(&ne;) Not equal to</option>
-          <option value="GreaterThan">(&gt;) More than</option>
-          <option value="LessThan">(&lt;) Less than</option>
-          <option value="GreaterOrEqual">(&ge;) More than or equal to</option>
-          <option value="LessOrEqual">(&le;) Less than or equal to</option>
+          <option value={conditions.EQUAL}>(=) Equal to</option>
+          <option value={conditions.NOT_EQUAL}>(&ne;) Not equal to</option>
+          <option value={conditions.GREATER_THAN}>(&gt;) More than</option>
+          <option value={conditions.LESS_THAN}>(&lt;) Less than</option>
+          <option value={conditions.GREATER_OR_EQUAL}>
+            (&ge;) More than or equal to
+          </option>
+          <option value={conditions.LESS_OR_EQUAL}>
+            (&le;) Less than or equal to
+          </option>
+          <option value={conditions.UNANSWERED}>Unanswered</option>
         </ConditionSelector>
-        <Value>
-          <VisuallyHidden>
-            <Label htmlFor={`expression-right-${expression.id}`}>Value</Label>
-          </VisuallyHidden>
-          <Number
-            id={`expression-right-${expression.id}`}
-            min={-99999999}
-            max={999999999}
-            placeholder="Value"
-            value={this.state.number}
-            name={`expression-right-${expression.id}`}
-            onChange={this.handleRightChange}
-            onBlur={this.handleRightBlur}
-            data-test="number-value-input"
-            type={expression.left.type}
-            unit={get(expression.left, "properties.unit", null)}
-          />
-        </Value>
+        {expression.condition !== conditions.UNANSWERED && (
+          <>
+            <Value>
+              <VisuallyHidden>
+                <Label htmlFor={`expression-right-${expression.id}`}>
+                  Value
+                </Label>
+              </VisuallyHidden>
+              <Number
+                id={`expression-right-${expression.id}`}
+                min={-99999999}
+                max={999999999}
+                placeholder="Value"
+                value={this.state.number}
+                name={`expression-right-${expression.id}`}
+                onChange={this.handleRightChange}
+                onBlur={this.handleRightBlur}
+                data-test="number-value-input"
+                type={expression.left.type}
+                unit={get(expression.left, "properties.unit", null)}
+              />
+            </Value>
+          </>
+        )}
       </NumberAnswerRoutingSelector>
     );
   }

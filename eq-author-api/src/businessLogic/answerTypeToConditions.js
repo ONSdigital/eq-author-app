@@ -8,6 +8,7 @@ const NUMERIC_COMPARISONS = [
   conditions.LESS_THAN,
   conditions.GREATER_OR_EQUAL,
   conditions.LESS_OR_EQUAL,
+  conditions.UNANSWERED,
 ];
 
 const answerConditions = {

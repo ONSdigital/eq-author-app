@@ -46,6 +46,11 @@ exports[`NumberAnswerSelector should render 1`] = `
     >
       (≤) Less than or equal to
     </option>
+    <option
+      value="Unanswered"
+    >
+      Unanswered
+    </option>
   </NumberAnswerSelector__ConditionSelector>
   <NumberAnswerSelector__Value>
     <VisuallyHidden>
@@ -121,6 +126,11 @@ exports[`NumberAnswerSelector should render a currency 1`] = `
     >
       (≤) Less than or equal to
     </option>
+    <option
+      value="Unanswered"
+    >
+      Unanswered
+    </option>
   </NumberAnswerSelector__ConditionSelector>
   <NumberAnswerSelector__Value>
     <VisuallyHidden>
@@ -195,6 +205,11 @@ exports[`NumberAnswerSelector should render a percentage 1`] = `
       value="LessOrEqual"
     >
       (≤) Less than or equal to
+    </option>
+    <option
+      value="Unanswered"
+    >
+      Unanswered
     </option>
   </NumberAnswerSelector__ConditionSelector>
   <NumberAnswerSelector__Value>

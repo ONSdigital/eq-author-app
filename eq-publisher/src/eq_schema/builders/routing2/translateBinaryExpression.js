@@ -42,11 +42,16 @@ const buildCheckboxAnswerBinaryExpression = ({ left, right, condition }) => {
 };
 
 const buildBasicAnswerBinaryExpression = ({ left, condition, right }) => {
-  return {
+  const returnVal = {
     id: `answer${left.id}`,
     condition: conditionConverter(condition),
-    value: right.number,
   };
+
+  if (condition !== authorConditions.UNANSWERED) {
+    returnVal.value = right.number;
+  }
+
+  return returnVal;
 };
 
 const translateBinaryExpression = binaryExpression => {
