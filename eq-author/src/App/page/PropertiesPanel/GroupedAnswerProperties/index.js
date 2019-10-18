@@ -1,9 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { groupBy, kebabCase, getOr } from "lodash/fp";
-import gql from "graphql-tag";
 
-import ValidationErrorInfo from "graphql/fragments/validationErrorInfo.graphql";
 import Accordion from "components/Accordion";
 import IconText from "components/IconText";
 import {
@@ -29,7 +27,6 @@ import {
 } from "./AnswerProperties/Properties";
 import Decimal from "./Decimal";
 import withUpdateAnswersOfType from "./withUpdateAnswersOfType";
-import withValidations from "enhancers/withValidations";
 
 const AnswerPropertiesContainer = styled.div`
   border-bottom: 1px solid ${colors.lightMediumGrey};
@@ -177,43 +174,4 @@ export const UnwrappedGroupedAnswerProperties = ({
   });
 };
 
-export const VALIDATION_QUERY = gql`
-  subscription Validation($id: ID!) {
-    validationUpdated(id: $id) {
-      id
-      totalErrorCount
-      sections {
-        pages {
-          id
-          displayName
-          validationErrorInfo {
-            id
-            totalCount
-          }
-          ... on QuestionPage {
-            answers {
-              ... on BasicAnswer {
-                id
-                validationErrorInfo {
-                  ...ValidationErrorInfo
-                }
-              }
-              ... on MultipleChoiceAnswer {
-                id
-                validationErrorInfo {
-                  ...ValidationErrorInfo
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-  ${ValidationErrorInfo}
-`;
-
-export default withValidations(
-  withUpdateAnswersOfType(UnwrappedGroupedAnswerProperties),
-  VALIDATION_QUERY
-);
+export default withUpdateAnswersOfType(UnwrappedGroupedAnswerProperties);
