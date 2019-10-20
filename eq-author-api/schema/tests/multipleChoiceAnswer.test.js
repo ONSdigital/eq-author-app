@@ -13,6 +13,10 @@ const {
 } = require("../../tests/utils/contextBuilder/answer");
 
 const {
+  queryQuestionnaire,
+} = require("../../tests/utils/contextBuilder/questionnaire");
+
+const {
   createOption,
   createMutuallyExclusiveOption,
   queryOption,
@@ -405,5 +409,92 @@ describe("multiple choice answer", () => {
         ]);
       });
     });
+  });
+
+  describe("validating multiple choice answer", () => {
+    it("should only validate label on options", async () => {
+      ctx = await buildContext({
+        sections: [
+          {
+            pages: [
+              {
+                answers: [
+                  {
+                    id: "84ab357d-f8a6-433e-8907-2d62980e6ce8",
+                    type: "Radio",
+                    label: "",
+                    secondaryLabel: null,
+                    description: "",
+                    guidance: "",
+                    properties: {
+                      required: false,
+                    },
+                    qCode: "",
+                    options: [
+                      {
+                        id: "c0aa1df9-5dfd-4e68-8a13-36c5af5dd7fa",
+                        label: "",
+                        description: null,
+                        value: null,
+                        qCode: null,
+                        additionalAnswer: null,
+                      },
+                      {
+                        id: "2e275ff8-1387-4d31-bd2c-4add13b9e89d",
+                        label: "c",
+                        description: null,
+                        value: null,
+                        qCode: null,
+                        additionalAnswer: null,
+                      },
+                    ],
+                    mutuallyExclusiveOption: null,
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      });
+      let questionnaire = await queryQuestionnaire(ctx);
+      expect(questionnaire.totalErrorCount).toBe(1);
+      // console.log(questionnaire);
+
+      // const answer = await updateAnswer(ctx, {
+      //   id: "84ab357d-f8a6-433e-8907-2d62980e6ce8",
+      //   label: "aa",
+      // });
+      // const answer = getAnswer(ctx.questionnaire);
+      // const queriedAnswer = await queryAnswer(
+      //   ctx,
+      //   getAnswer(ctx.questionnaire).id
+      // );
+      // console.log(queriedAnswer);
+      // questionnaire = await queryQuestionnaire(ctx);
+      // console.log(questionnaire);
+    });
+
+    // const questionnaire = ctx.questionnaire;
+    // const answers = questionnaire.sections[0].pages[0].answers;
+    // const calSumPage = questionnaire.sections[0].pages[1];
+
+    // await updateCalculatedSummaryPage(ctx, {
+    //   id: calSumPage.id,
+    //   title: "Goo",
+    //   summaryAnswers: [answers[0].id, answers[1].id],
+    // });
+    // const validResult = await queryPage(ctx, calSumPage.id);
+
+    // expect(validResult.validationErrorInfo).toEqual({
+    //   errors: [
+    //     {
+    //       errorCode: "ERR_CALCULATED_UNIT_INCONSISTENCY",
+    //       field: "summaryAnswers",
+    //       id: `pages-${calSumPage.id}-summaryAnswers`,
+    //       type: "pages",
+    //     },
+    //   ],
+    //   totalCount: 1,
+    // });
   });
 });
