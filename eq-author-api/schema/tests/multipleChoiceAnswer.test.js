@@ -457,13 +457,13 @@ describe("multiple choice answer", () => {
     };
     it("should only validate label on options", async () => {
       ctx = await buildContext(context);
-      let questionnaire = await queryQuestionnaire(ctx);
+      const questionnaire = await queryQuestionnaire(ctx);
       expect(questionnaire.totalErrorCount).toBe(1);
     });
     it("should return validation error on both option labels when labels are the same", async () => {
       context.sections[0].pages[0].answers[0].options[0].label = "c";
       ctx = await buildContext(context);
-      let questionnaire = await queryQuestionnaire(ctx);
+      const questionnaire = await queryQuestionnaire(ctx);
       expect(questionnaire.totalErrorCount).toBe(2);
     });
   });
