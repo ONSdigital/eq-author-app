@@ -422,25 +422,17 @@ describe("multiple choice answer", () => {
             {
               answers: [
                 {
-                  id: "84ab357d-f8a6-433e-8907-2d62980e6ce8",
+                  id: "84ab357d",
                   type: "Radio",
                   label: "",
                   options: [
                     {
-                      id: "c0aa1df9-5dfd-4e68-8a13-36c5af5dd7fa",
+                      id: "c0aa1df9",
                       label: "",
-                      description: null,
-                      value: null,
-                      qCode: null,
-                      additionalAnswer: null,
                     },
                     {
-                      id: "2e275ff8-1387-4d31-bd2c-4add13b9e89d",
+                      id: "2e275ff8",
                       label: "b",
-                      description: null,
-                      value: null,
-                      qCode: null,
-                      additionalAnswer: null,
                     },
                   ],
                 },
