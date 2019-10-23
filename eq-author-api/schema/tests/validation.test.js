@@ -815,57 +815,58 @@ describe("validation", () => {
       });
     });
 
-    describe("MinDuration", () => {
-      it("should be able to update properties", async () => {
-        const answer = await createAnswer(ctx, {
-          questionPageId: page.id,
-          type: DATE_RANGE,
-        });
-        const validation = await queryValidation(ctx, answer.id);
-        const input = {
-          duration: {
-            value: 8,
-            unit: "Days",
-          },
-        };
-        const result = await updateValidation(ctx, {
-          id: validation.minDuration.id,
-          minDurationInput: {
+    describe("Duration", () => {
+      describe("MinDuration", () => {
+        it("should be able to update properties", async () => {
+          const answer = await createAnswer(ctx, {
+            questionPageId: page.id,
+            type: DATE_RANGE,
+          });
+          const validation = await queryValidation(ctx, answer.id);
+          const input = {
+            duration: {
+              value: 8,
+              unit: "Days",
+            },
+          };
+          const result = await updateValidation(ctx, {
+            id: validation.minDuration.id,
+            minDurationInput: {
+              ...input,
+            },
+          });
+          const expected = {
+            id: validation.minDuration.id,
             ...input,
-          },
+          };
+          expect(result).toEqual(expected);
         });
-        const expected = {
-          id: validation.minDuration.id,
-          ...input,
-        };
-        expect(result).toEqual(expected);
       });
-    });
-
-    describe("MaxDuration", () => {
-      it("should be able to update properties", async () => {
-        const answer = await createAnswer(ctx, {
-          questionPageId: page.id,
-          type: DATE_RANGE,
-        });
-        const validation = await queryValidation(ctx, answer.id);
-        const input = {
-          duration: {
-            value: 8,
-            unit: "Days",
-          },
-        };
-        const result = await updateValidation(ctx, {
-          id: validation.maxDuration.id,
-          maxDurationInput: {
+      describe("MaxDuration", () => {
+        it("should be able to update properties", async () => {
+          const answer = await createAnswer(ctx, {
+            questionPageId: page.id,
+            type: DATE_RANGE,
+          });
+          const validation = await queryValidation(ctx, answer.id);
+          const input = {
+            duration: {
+              value: 8,
+              unit: "Days",
+            },
+          };
+          const result = await updateValidation(ctx, {
+            id: validation.maxDuration.id,
+            maxDurationInput: {
+              ...input,
+            },
+          });
+          const expected = {
+            id: validation.maxDuration.id,
             ...input,
-          },
+          };
+          expect(result).toEqual(expected);
         });
-        const expected = {
-          id: validation.maxDuration.id,
-          ...input,
-        };
-        expect(result).toEqual(expected);
       });
     });
   });

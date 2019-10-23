@@ -13,6 +13,10 @@ const {
 } = require("../../tests/utils/contextBuilder/answer");
 
 const {
+  queryQuestionnaire,
+} = require("../../tests/utils/contextBuilder/questionnaire");
+
+const {
   createOption,
   createMutuallyExclusiveOption,
   queryOption,
@@ -20,6 +24,8 @@ const {
   deleteOption,
   moveOption,
 } = require("../../tests/utils/contextBuilder/option");
+
+const { queryPage } = require("../../tests/utils/contextBuilder/page");
 
 const { RADIO, CHECKBOX } = require("../../constants/answerTypes");
 
@@ -404,6 +410,73 @@ describe("multiple choice answer", () => {
           { id: option1.id },
         ]);
       });
+    });
+  });
+
+  describe("schema validation", () => {
+    let questionnaire;
+    const context = {
+      sections: [
+        {
+          pages: [
+            {
+              answers: [
+                {
+                  id: "84ab357d",
+                  type: "Radio",
+                  label: "",
+                  options: [
+                    {
+                      id: "c0aa1df9",
+                      label: "",
+                    },
+                    {
+                      id: "2e275ff8",
+                      label: "b",
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    };
+    it("should only validate label on options", async () => {
+      ctx = await buildContext(context);
+      questionnaire = await queryQuestionnaire(ctx);
+
+      const page = ctx.questionnaire.sections[0].pages[0];
+      const readPage = await queryPage(ctx, page.id);
+
+      expect(readPage).toMatchObject({
+        validationErrorInfo: {
+          totalCount: 1,
+          errors: [
+            expect.objectContaining({ errorCode: "ERR_VALID_REQUIRED" }),
+          ],
+        },
+      });
+      expect(questionnaire.totalErrorCount).toBe(1);
+    });
+    it("should return validation error on both option labels when labels are the same", async () => {
+      context.sections[0].pages[0].answers[0].options[0].label = "b";
+      ctx = await buildContext(context);
+      questionnaire = await queryQuestionnaire(ctx);
+
+      const page = ctx.questionnaire.sections[0].pages[0];
+      const readPage = await queryPage(ctx, page.id);
+
+      expect(readPage).toMatchObject({
+        validationErrorInfo: {
+          totalCount: 2,
+          errors: [
+            expect.objectContaining({ errorCode: "ERR_UNIQUE_REQUIRED" }),
+            expect.objectContaining({ errorCode: "ERR_UNIQUE_REQUIRED" }),
+          ],
+        },
+      });
+      expect(questionnaire.totalErrorCount).toBe(2);
     });
   });
 });

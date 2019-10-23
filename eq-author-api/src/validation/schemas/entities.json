@@ -136,20 +136,35 @@
       "required": ["id", "title", "positive"]
     },
     "answer": {
-      "oneOf": [
+      "allOf": [
         { "$ref": "entities.json#/definitions/basicAnswer" },
-        { "$ref": "entities.json#/definitions/multipleChoiceAnswer" }
+        { "$ref": "entities.json#/definitions/multipleChoiceAnswer" },
+        { "$ref": "entities.json#/definitions/numericAnswer" }
       ]
     },
     "basicAnswer": {
       "type": "object",
-      "properties": {
-        "id": { "type": "string" },
-        "label": {
-          "$ref": "definitions.json#/definitions/populatedString"
+      "if": {
+        "properties": {
+          "type": {
+            "not": {
+              "enum": ["Checkbox", "Radio"]
+            }
+          }
         }
       },
-      "required": ["id", "label"],
+      "then": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "label": {
+            "$ref": "definitions.json#/definitions/populatedString"
+          }
+        },
+        "required": ["id", "label"]
+      }
+    },
+    "numericAnswer": {
       "if": {
         "properties": {
           "type": {
@@ -210,7 +225,8 @@
             "$ref": "entities.json#/definitions/properties"
           }
         }
-      }
+      },
+      "else": false
     },
     "multipleChoiceAnswer": {
       "if": {
