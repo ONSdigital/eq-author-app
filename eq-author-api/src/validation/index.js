@@ -47,7 +47,7 @@ module.exports = questionnaire => {
   };
   const topLevelEntities = [PAGES, CONFIRMATION, SECTIONS];
 
-  const entitiesWithChildren = [PAGES];
+  const entitiesWithChildren = [PAGES, CONFIRMATION];
   const removeDuplicateCounts = object => {
     map(object, (entity, key) => {
       if (entitiesWithChildren.includes(key)) {
@@ -147,26 +147,25 @@ module.exports = questionnaire => {
 
           const page = questionnaire.sections[sectionIndex].pages[pageIndex];
 
-          const existingPageErrors = get(
-            structure,
-            `${PAGES}.${page.id}.errors`
-          );
-
-          let errorInfo = {
-            id: page.id,
-            errors: existingPageErrors
-              ? [...structure[PAGES][page.id].errors, error]
-              : [error],
-          };
-
           let pageType = PAGES;
           let pageId = page.id;
 
           if (dataPath[4] === "confirmation") {
             pageType = CONFIRMATION;
             pageId = page.confirmation.id;
-            errorInfo.id = pageId;
           }
+
+          const existingPageErrors = get(
+            structure,
+            `${pageType}.${pageId}.errors`
+          );
+
+          const errorInfo = {
+            id: pageId,
+            errors: existingPageErrors
+              ? [...structure[pageType][pageId].errors, error]
+              : [error],
+          };
 
           structure[pageType][pageId] = {
             ...errorInfo,
