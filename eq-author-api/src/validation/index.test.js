@@ -71,6 +71,69 @@ describe("schema validation", () => {
     });
   });
 
+  describe("Confirmation Question validation", () => {
+    let confirmationId, confirmation;
+    beforeEach(() => {
+      confirmationId = "confirmationPage";
+      confirmation = {
+        id: confirmationId,
+        title: "Hello",
+        positive: {
+          id: "positive",
+          label: "Food",
+          description: "",
+        },
+        negative: {
+          id: "negative",
+          label: "No Food",
+          description: "",
+        },
+      };
+    });
+
+    it("should validate that a title is required", () => {
+      confirmation.title = "";
+      const page = questionnaire.sections[0].pages[0];
+      page.confirmation = confirmation;
+
+      const validationErrors = validation(questionnaire);
+
+      expect(
+        validationErrors.confirmation[confirmationId].errors[0]
+      ).toMatchObject({
+        errorCode: "ERR_VALID_REQUIRED",
+        field: "title",
+        id: "confirmation-confirmationPage-title",
+        type: "confirmation",
+      });
+    });
+
+    it("should validate the options and return them on the parent", () => {
+      confirmation.positive.label = "";
+      const page = questionnaire.sections[0].pages[0];
+      page.confirmation = confirmation;
+
+      const validationErrors = validation(questionnaire);
+
+      expect(
+        validationErrors.confirmation[confirmationId].errors[0]
+      ).toMatchObject({
+        errorCode: "ERR_VALID_REQUIRED",
+        field: "label",
+        id: "positive-positive-label",
+        type: "confirmationoption",
+      });
+      expect(
+        validationErrors.confirmationoption.positive.errors[0]
+      ).toMatchObject({
+        errorCode: "ERR_VALID_REQUIRED",
+        field: "label",
+        id: "positive-positive-label",
+        type: "confirmationoption",
+      });
+    });
+  });
+
   describe("Option validation", () => {
     it("should return correct error type for additionalAnswer", () => {
       const additionalAnswer = {
