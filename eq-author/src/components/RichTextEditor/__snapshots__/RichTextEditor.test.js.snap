@@ -21,6 +21,8 @@ exports[`components/RichTextEditor should allow multiline input 1`] = `
     </Label>
     <RichTextEditor__Input
       invalid={false}
+      maxHeight={12}
+      multiline={true}
       placeholderStyle="unstyled"
     >
       <ToolBar
@@ -276,6 +278,8 @@ exports[`components/RichTextEditor should render 1`] = `
     </Label>
     <RichTextEditor__Input
       invalid={false}
+      maxHeight={12}
+      multiline={false}
       placeholderStyle="unstyled"
     >
       <ToolBar
@@ -533,6 +537,8 @@ exports[`components/RichTextEditor should render existing content 1`] = `
     </Label>
     <RichTextEditor__Input
       invalid={false}
+      maxHeight={12}
+      multiline={false}
       placeholderStyle="unordered-list-item"
     >
       <ToolBar
@@ -896,6 +902,8 @@ exports[`components/RichTextEditor should show as disabled and readonly when dis
     </Label>
     <RichTextEditor__Input
       invalid={false}
+      maxHeight={12}
+      multiline={false}
       placeholderStyle="unstyled"
     >
       <ToolBar

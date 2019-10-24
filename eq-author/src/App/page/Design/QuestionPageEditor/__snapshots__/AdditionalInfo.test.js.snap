@@ -48,6 +48,7 @@ exports[`AdditionalInfo should render 1`] = `
         fetchAnswers={[MockFunction]}
         id="additional-info-content"
         label="Content"
+        maxHeight={12}
         metadata={Array []}
         multiline={true}
         name="additionalInfoContent"

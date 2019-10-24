@@ -34,6 +34,7 @@ import {
 import { sharedStyles } from "components/Forms/css";
 import { Field, Label } from "components/Forms";
 import ErrorInline from "components/ErrorInline";
+import { ScrollPaneCSS } from "components/ScrollPane";
 
 const styleMap = {
   ITALIC: {
@@ -82,6 +83,12 @@ Wrapper.defaultProps = {
   size: "small",
 };
 
+const MultiLineTextBoxCSS = css`
+  max-height: ${props => props.maxHeight}em;
+  overflow-y: scroll;
+  ${ScrollPaneCSS};
+`;
+
 const Input = styled.div`
   ${sharedStyles};
   padding: 0;
@@ -109,6 +116,11 @@ const Input = styled.div`
 
   .DraftEditor-root {
     padding: 1rem;
+    ${props => {
+      if (props.multiline) {
+        return MultiLineTextBoxCSS;
+      }
+    }};
   }
 
   .public-DraftEditorPlaceholder-root {
@@ -152,6 +164,7 @@ class RichTextEditor extends React.Component {
     multiline: false,
     autoFocus: false,
     disabled: false,
+    maxHeight: 12,
   };
 
   state = {
@@ -167,6 +180,7 @@ class RichTextEditor extends React.Component {
     name: PropTypes.string.isRequired,
     className: PropTypes.string,
     multiline: PropTypes.bool,
+    maxHeight: PropTypes.number,
     size: PropTypes.oneOf(Object.keys(sizes)),
     fetchAnswers: PropTypes.func,
     testSelector: PropTypes.string,
@@ -517,6 +531,7 @@ class RichTextEditor extends React.Component {
       placeholder,
       disabled,
       errorValidationMsg,
+      maxHeight,
       ...otherProps
     } = this.props;
 
@@ -534,6 +549,8 @@ class RichTextEditor extends React.Component {
           <Input
             className={className}
             size={size}
+            maxHeight={maxHeight}
+            multiline={multiline}
             placeholderStyle={contentState
               .getBlockMap()
               .first()

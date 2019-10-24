@@ -69,13 +69,21 @@ const questionnanaireSchema = new dynamoose.Schema(
       type: Date,
       required: true,
     },
+    history: {
+      type: Array,
+      required: true,
+    },
   },
   {
     throughput: throughput,
   }
 );
 
-const LIST_FIELDS = [...Object.keys(baseQuestionnaireSchema), "updatedAt"];
+const LIST_FIELDS = [
+  ...Object.keys(baseQuestionnaireSchema),
+  "updatedAt",
+  "history",
+];
 const justListFields = pick(LIST_FIELDS);
 
 const questionnaireVersionsSchema = new dynamoose.Schema(

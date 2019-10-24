@@ -11,6 +11,8 @@ const {
   UserModel,
 } = require("../db/models/DynamoDB");
 
+const { questionnaireCreationEvent } = require("./questionnaireEvents");
+
 const omitTimestamps = questionnaire =>
   omit({ ...questionnaire }, ["updatedAt", "createdAt"]);
 
@@ -77,15 +79,49 @@ const listUsers = () =>
       });
   });
 
-const createQuestionnaire = async questionnaire => {
+const createQuestionnaire = async (questionnaire, ctx) => {
   const updatedAt = new Date();
   await saveModel(
-    new QuestionnaireModel({ ...justListFields(questionnaire), updatedAt })
+    new QuestionnaireModel({
+      ...justListFields(questionnaire),
+      history: [questionnaireCreationEvent(questionnaire, ctx)],
+      updatedAt,
+    })
   );
   return saveModel(
-    new QuestionnaireVersionsModel({ ...questionnaire, updatedAt })
+    new QuestionnaireVersionsModel({
+      ...questionnaire,
+      updatedAt,
+    })
   );
 };
+
+const addEventToHistory = (questionnaireId, historyEvent) =>
+  new Promise((resolve, reject) => {
+    QuestionnaireModel.queryOne({ id: { eq: questionnaireId } }).exec(
+      async (err, questionnaire) => {
+        if (err) {
+          reject(err);
+        }
+        questionnaire.history.unshift(historyEvent);
+
+        await saveModel(new QuestionnaireModel(questionnaire));
+        resolve(questionnaire.history);
+      }
+    );
+  });
+
+const getHistoryById = id =>
+  new Promise((resolve, reject) => {
+    QuestionnaireModel.queryOne({ id: { eq: id } }).exec(
+      async (err, questionnaire) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(questionnaire.history);
+      }
+    );
+  });
 
 const getQuestionnaire = id =>
   new Promise((resolve, reject) => {
@@ -233,4 +269,6 @@ module.exports = {
   updateUser,
   saveModel,
   listUsers,
+  addEventToHistory,
+  getHistoryById,
 };

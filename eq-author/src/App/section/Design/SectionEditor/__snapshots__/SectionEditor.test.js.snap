@@ -35,6 +35,7 @@ exports[`SectionEditor should render 1`] = `
           Section title
         </DescribedText>
       }
+      maxHeight={12}
       multiline={false}
       name="title"
       onUpdate={[Function]}
@@ -63,6 +64,7 @@ exports[`SectionEditor should render 1`] = `
         disabled={false}
         id="introduction-title"
         label="Introduction title"
+        maxHeight={12}
         multiline={false}
         name="introductionTitle"
         onUpdate={[Function]}
@@ -85,6 +87,7 @@ exports[`SectionEditor should render 1`] = `
         disabled={false}
         id="introduction-content"
         label="Introduction content"
+        maxHeight={12}
         multiline={true}
         name="introductionContent"
         onUpdate={[Function]}
@@ -132,6 +135,7 @@ exports[`SectionEditor should render 2`] = `
           Section title
         </DescribedText>
       }
+      maxHeight={12}
       multiline={false}
       name="title"
       onUpdate={[Function]}
@@ -160,6 +164,7 @@ exports[`SectionEditor should render 2`] = `
         disabled={false}
         id="introduction-title"
         label="Introduction title"
+        maxHeight={12}
         multiline={false}
         name="introductionTitle"
         onUpdate={[Function]}
@@ -182,6 +187,7 @@ exports[`SectionEditor should render 2`] = `
         disabled={false}
         id="introduction-content"
         label="Introduction content"
+        maxHeight={12}
         multiline={true}
         name="introductionContent"
         onUpdate={[Function]}
