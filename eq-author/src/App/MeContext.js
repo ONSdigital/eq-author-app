@@ -150,6 +150,4 @@ export const withMe = Component => {
   return InnerComponent;
 };
 
-export const useMe = () => {
-  return useContext(MeContext);
-};
+export const useMe = () => useContext(MeContext);

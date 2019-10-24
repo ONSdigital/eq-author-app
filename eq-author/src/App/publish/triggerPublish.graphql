@@ -1,0 +1,6 @@
+mutation TriggerPublish($input: PublishQuestionnaireInput!) {
+  triggerPublish(input: $input) {
+    id
+    publishStatus
+  }
+}

@@ -6,6 +6,8 @@ import { MeContext } from "App/MeContext";
 
 import QuestionnairesPage, { QUESTIONNAIRES_QUERY } from "./";
 
+import { UNPUBLISHED } from "constants/publishStatus";
+
 describe("QuestionnairesPage", () => {
   let me, signOut;
 
@@ -98,7 +100,7 @@ describe("QuestionnairesPage", () => {
                   createdAt: Date.now().toString(),
                   displayName: "UKIS",
                   permission: WRITE,
-                  publishStatus: "Unpublished",
+                  publishStatus: UNPUBLISHED,
                   createdBy: {
                     id: "1",
                     name: "A Dude",

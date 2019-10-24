@@ -13,14 +13,14 @@ import { READ, WRITE } from "constants/questionnaire-permissions";
 
 import QuestionnairesView, { STORAGE_KEY } from "./";
 
+import { UNPUBLISHED, PUBLISHED } from "constants/publishStatus";
+
 jest.mock("lodash", () => ({
   ...require.requireActual("lodash"),
   debounce: jest.fn(fn => fn),
 }));
 
 describe("QuestionnairesView", () => {
-  const PUBLISHED = "Published";
-  const UNPUBLISHED = "Unpublished";
   const user = {
     id: "3",
     name: "Foo",
@@ -122,7 +122,7 @@ describe("QuestionnairesView", () => {
         <QuestionnairesView {...props} questionnaires={questionnaires} />
       );
 
-      expect(getByText("Published")).toBeTruthy();
+      expect(getByText(PUBLISHED)).toBeTruthy();
     });
 
     it("should render the questionnaires when the storage is corrupted", () => {

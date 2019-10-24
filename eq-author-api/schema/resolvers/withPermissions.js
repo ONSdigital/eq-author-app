@@ -11,7 +11,14 @@ const enforceHasWritePermission = (questionnaire, user) => {
   }
 };
 
+const enforceHasAdminPermission = user => {
+  if (!user.admin) {
+    throw new Error("User does not have admin permission");
+  }
+};
+
 module.exports = {
   hasWritePermission,
   enforceHasWritePermission,
+  enforceHasAdminPermission,
 };

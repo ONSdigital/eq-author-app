@@ -25,6 +25,7 @@ import questionConfirmationIcon from "./icon-questionnaire.svg";
 const publishColors = {
   Published: `#12C864`,
   Unpublished: `#595959`,
+  AwaitingApproval: colors.amber,
 };
 
 export const QuestionnaireLink = styled(NavLink)`
@@ -275,7 +276,7 @@ export class Row extends React.Component {
             </TD>
             <TD>
               <TableIconText icon={ColoredStatusDot}>
-                {publishStatus}
+                {publishStatus.replace(/([A-Z])/g, " $1").trim()}
               </TableIconText>
             </TD>
             <TD>{createdBy.displayName}</TD>

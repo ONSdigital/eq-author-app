@@ -1,0 +1,6 @@
+mutation ReviewQuestionnaire($input: ReviewQuestionnaireInput!) {
+  reviewQuestionnaire(input: $input) {
+    id
+    publishStatus
+  }
+}

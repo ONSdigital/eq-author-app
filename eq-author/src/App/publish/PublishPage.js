@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from "react";
-import { get } from "lodash/fp";
+import React, { useState } from "react";
 import styled from "styled-components";
-import { colors } from "constants/theme";
-import { withRouter } from "react-router";
+import { withRouter, Redirect } from "react-router";
 import CustomPropTypes from "custom-prop-types";
+import { useMutation } from "@apollo/react-hooks";
 
-import { useLazyQuery } from "@apollo/react-hooks";
+import { useMe } from "App/MeContext";
+import { useQuestionnaire } from "components/QuestionnaireContext";
+
+import { colors } from "constants/theme";
+import { UNPUBLISHED } from "constants/publishStatus";
 
 import { Field, Input, Label } from "components/Forms";
 import { Column } from "components/Grid";
@@ -14,7 +17,7 @@ import Panel from "components/Panel";
 import ScrollPane from "components/ScrollPane";
 import Header from "components/EditorLayout/Header";
 
-import TRIGGER_PUBLISH_QUERY from "./publishQuestionnaire.graphql";
+import triggerPublishMutation from "./triggerPublish.graphql";
 
 const Container = styled.div`
   display: flex;
@@ -61,30 +64,25 @@ const InformationPanel = styled(Panel)`
   max-width: 50%;
 `;
 
-const PublishPage = ({ match }) => {
+const PublishPage = ({ match, history }) => {
   const questionnaireId = match.params.questionnaireId;
   const originalInputs = { surveyId: "", formType: "" };
   const [inputs, setInputs] = useState(originalInputs);
+  const { me } = useMe();
+  const { questionnaire } = useQuestionnaire();
 
-  const [publishSurvey, { data: triggeredPublishData }] = useLazyQuery(
-    TRIGGER_PUBLISH_QUERY
-  );
+  const [triggerPublish] = useMutation(triggerPublishMutation);
 
-  useEffect(() => {
-    const launchUrl = get("triggerPublish.launchUrl", triggeredPublishData);
-
-    if (launchUrl) {
-      setInputs(originalInputs);
-      alert(`You survey is now published at: ${launchUrl}`);
-    }
-  }, [triggeredPublishData]);
-
-  const handleInputChange = event => {
+  const handleInputChange = event =>
     setInputs({
       ...inputs,
       [event.name]: event.value,
     });
-  };
+
+  const publishStatus = questionnaire && questionnaire.publishStatus;
+  if (!me.admin || publishStatus !== UNPUBLISHED) {
+    return <Redirect to={`/q/${match.params.questionnaireId}`} />;
+  }
 
   return (
     <Container>
@@ -131,18 +129,18 @@ const PublishPage = ({ match }) => {
             disabled={!(inputs.surveyId && inputs.formType)}
             data-test="publish-survey-button"
             onClick={() => {
-              publishSurvey({
+              triggerPublish({
                 variables: {
                   input: {
-                    questionnaireId: questionnaireId,
+                    questionnaireId,
                     surveyId: inputs.surveyId,
                     formType: inputs.formType,
                   },
                 },
-              });
+              }).then(() => history.push("/"));
             }}
           >
-            Publish
+            Submit for approval
           </Button>
         </StyledGrid>
       </ScrollPane>
@@ -151,7 +149,8 @@ const PublishPage = ({ match }) => {
 };
 
 PublishPage.propTypes = {
-  match: CustomPropTypes.match,
+  match: CustomPropTypes.match.isRequired,
+  history: CustomPropTypes.history.isRequired,
 };
 
 export default withRouter(PublishPage);

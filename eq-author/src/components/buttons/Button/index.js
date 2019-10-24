@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import styled, { css } from "styled-components";
+import { darken } from "polished";
 
 import { propTypes } from "./propTypes";
 
@@ -14,7 +15,7 @@ export const primaryButton = css`
 
   &:hover {
     --color-text: ${colors.white};
-    --color-bg: ${colors.secondary};
+    --color-bg: ${darken(0.1, colors.secondary)};
     border-color: var(--color-bg);
   }
 `;
@@ -50,6 +51,20 @@ export const tertiaryLightButton = css`
   &:hover {
     --color-text: ${colors.black};
     --color-bg: ${colors.white};
+  }
+`;
+
+export const positiveButton = css`
+  --color-text: ${colors.white};
+  --color-bg: ${colors.positive};
+
+  position: relative;
+  border: none;
+
+  &:hover {
+    --color-text: ${colors.white};
+    --color-bg: ${darken(0.1, colors.positive)};
+    border-color: var(--color-bg);
   }
 `;
 
@@ -101,6 +116,7 @@ const Button = styled.button`
   ${props => props.variant === "secondary" && secondaryButton};
   ${props => props.variant === "tertiary" && tertiaryButton};
   ${props => props.variant === "tertiary-light" && tertiaryLightButton};
+  ${props => props.variant === "positive" && positiveButton};
   ${props => props.medium && mediumButton};
   ${props => props.small && smallButton};
 `;

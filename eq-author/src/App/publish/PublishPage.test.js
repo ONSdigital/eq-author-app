@@ -3,15 +3,20 @@ import { render, fireEvent, flushPromises } from "tests/utils/rtl";
 import PublishPage from "./PublishPage";
 import { MeContext } from "App/MeContext";
 import actSilenceWarning from "tests/utils/actSilenceWarning";
-import TRIGGER_PUBLISH_QUERY from "./publishQuestionnaire.graphql";
+import triggerPublishMutation from "./triggerPublish.graphql";
+import { AWAITING_APPROVAL, UNPUBLISHED } from "constants/publishStatus";
+import QuestionnaireContext from "components/QuestionnaireContext";
 
 describe("Publish page", () => {
-  let user, questionnaireId, originalAlert;
+  let user, mocks, queryWasCalled, questionnaire;
   actSilenceWarning();
+
   const renderPublishPage = mocks =>
     render(
-      <MeContext.Provider value={{ me: user }}>
-        <PublishPage />
+      <MeContext.Provider value={{ me: user, signOut: jest.fn() }}>
+        <QuestionnaireContext.Provider value={{ questionnaire }}>
+          <PublishPage />
+        </QuestionnaireContext.Provider>
       </MeContext.Provider>,
       {
         route: "/q/Q1/page/2",
@@ -19,12 +24,20 @@ describe("Publish page", () => {
         mocks,
       }
     );
-  beforeAll(() => {
-    originalAlert = window.alert;
-    window.alert = jest.fn();
-  });
+
   beforeEach(() => {
-    questionnaireId = "Q1";
+    questionnaire = {
+      id: "Q1",
+      publishStatus: UNPUBLISHED,
+      displayName: "Test questionnaire",
+      totalErrorCount: 0,
+      createdBy: {
+        id: "1",
+        name: "Morty",
+        email: "what@ever.com",
+      },
+      editors: [],
+    };
     user = {
       id: "123",
       displayName: "Raymond Holt",
@@ -32,10 +45,35 @@ describe("Publish page", () => {
       picture: "http://img.com/avatar.jpg",
       admin: true,
     };
+    queryWasCalled = false;
+    mocks = [
+      {
+        request: {
+          query: triggerPublishMutation,
+          variables: {
+            input: {
+              questionnaireId: questionnaire.id,
+              surveyId: "123",
+              formType: "456",
+            },
+          },
+        },
+        result: () => {
+          queryWasCalled = true;
+          return {
+            data: {
+              triggerPublish: {
+                id: "987-546-232",
+                publishStatus: AWAITING_APPROVAL,
+                __typename: "Object",
+              },
+            },
+          };
+        },
+      },
+    ];
   });
-  afterAll(() => {
-    window.alert = originalAlert;
-  });
+
   it("should have the 'Publish' button disabled until all fields are populated", async () => {
     const { getByLabelText, getByTestId } = renderPublishPage();
 
@@ -53,36 +91,7 @@ describe("Publish page", () => {
     expect(getByTestId("publish-survey-button").disabled).toBeFalsy();
   });
 
-  it("should fire a query to publish the questionnaire when the 'Publish' button is pressed and clear the form", async () => {
-    let queryWasCalled = false;
-
-    const mocks = [
-      {
-        request: {
-          query: TRIGGER_PUBLISH_QUERY,
-          variables: {
-            input: {
-              questionnaireId: questionnaireId,
-              surveyId: "123",
-              formType: "456",
-            },
-          },
-        },
-        result: () => {
-          queryWasCalled = true;
-          return {
-            data: {
-              triggerPublish: {
-                id: "987-546-232",
-                launchUrl: "https://en.wikipedia.org/wiki/Spoon_theory",
-                __typename: "Object",
-              },
-            },
-          };
-        },
-      },
-    ];
-
+  it("should fire a mutation to publish the questionnaire when the 'Submit for approval' button is pressed", async () => {
     const { getByTestId, getByLabelText } = renderPublishPage(mocks);
 
     fireEvent.change(getByLabelText("Form type"), { target: { value: "456" } });
@@ -93,7 +102,22 @@ describe("Publish page", () => {
     await flushPromises();
 
     expect(queryWasCalled).toBeTruthy();
-    expect(getByLabelText("Form type").value).toBe("");
-    expect(getByLabelText("Survey ID").value).toBe("");
+  });
+  it("should redirect to homepage when 'Submit for approval' is clicked", async () => {
+    const { getByTestId, getByLabelText, history } = renderPublishPage(mocks);
+
+    fireEvent.change(getByLabelText("Form type"), { target: { value: "456" } });
+    fireEvent.change(getByLabelText("Survey ID"), { target: { value: "123" } });
+    fireEvent.click(getByTestId("publish-survey-button"));
+
+    await flushPromises();
+
+    expect(history.location.pathname).toBe("/");
+  });
+  it("should redirect to questionnaire when it is not Unpublished", async () => {
+    questionnaire.publishStatus = AWAITING_APPROVAL;
+    const { history } = renderPublishPage(mocks);
+    await flushPromises();
+    expect(history.location.pathname).toBe(`/q/${questionnaire.id}`);
   });
 });

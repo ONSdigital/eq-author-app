@@ -6,6 +6,8 @@ import QuestionnaireContext from "components/QuestionnaireContext";
 import { MeContext } from "App/MeContext";
 import Header from "./";
 
+import { UNPUBLISHED, AWAITING_APPROVAL } from "constants/publishStatus";
+
 describe("Header", () => {
   let user, props, questionnaire, signOut;
   beforeEach(() => {
@@ -126,6 +128,42 @@ describe("Header", () => {
 
       const publishSurveyButton = getByTestId("btn-publish");
       expect(publishSurveyButton).toHaveAttribute("disabled");
+    });
+  });
+
+  describe("review survey button", () => {
+    it("should display review button instead of publish when awaiting approval", () => {
+      questionnaire.publishStatus = AWAITING_APPROVAL;
+      const { queryByText } = renderWithContext(<Header {...props} />);
+
+      expect(queryByText("Publish")).toBeFalsy();
+      expect(queryByText("Review")).toBeTruthy();
+    });
+
+    it("should disable review button when on review page", () => {
+      questionnaire.publishStatus = AWAITING_APPROVAL;
+      props.title = "Review";
+      const { getByTestId } = renderWithContext(<Header {...props} />);
+      const reviewButton = getByTestId("btn-review");
+
+      expect(reviewButton).toHaveAttribute("disabled");
+    });
+
+    it("should hide review button when not awaiting approval", () => {
+      questionnaire.publishStatus = UNPUBLISHED;
+      const { queryByTestId } = renderWithContext(<Header {...props} />);
+
+      expect(queryByTestId("btn-publish")).toBeTruthy();
+      expect(queryByTestId("btn-review")).toBeFalsy();
+    });
+
+    it("should route to review page when clicked", () => {
+      questionnaire.publishStatus = AWAITING_APPROVAL;
+      const { getByTestId, history } = renderWithContext(<Header {...props} />);
+      const reviewButton = getByTestId("btn-review");
+
+      fireEvent.click(reviewButton);
+      expect(history.location.pathname).toMatch("/review");
     });
   });
 

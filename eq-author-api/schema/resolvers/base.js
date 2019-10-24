@@ -20,7 +20,11 @@ const uuid = require("uuid");
 const { withFilter } = require("apollo-server-express");
 const fetch = require("node-fetch");
 
-const { UNPUBLISHED, PUBLISHED } = require("../../constants/publishStatus");
+const {
+  UNPUBLISHED,
+  PUBLISHED,
+  AWAITING_APPROVAL,
+} = require("../../constants/publishStatus");
 const pubsub = require("../../db/pubSub");
 const { getName } = require("../../utils/getName");
 const {
@@ -89,7 +93,8 @@ const createQuestionnaireIntroduction = require("../../utils/createQuestionnaire
 const {
   enforceHasWritePermission,
   hasWritePermission,
-} = require("./withWritePermission");
+  enforceHasAdminPermission,
+} = require("./withPermissions");
 const { createMutation } = require("./createMutation");
 
 const { noteCreationEvent } = require("../../utils/questionnaireEvents");
@@ -170,26 +175,6 @@ const Resolvers = {
     },
     me: (root, args, ctx) => ctx.user,
     users: () => listUsers(),
-    triggerPublish: async (root, { input }, ctx) => {
-      const { questionnaireId, surveyId, formType } = input;
-      enforceHasWritePermission(ctx.questionnaire, ctx.user);
-      const result = await fetch(
-        `${process.env.SURVEY_REGISTER_URL}${questionnaireId}/${surveyId}/${formType}`,
-        { method: "put" }
-      )
-        .then(async res => {
-          ctx.questionnaire.publishStatus = PUBLISHED;
-          await saveQuestionnaire(ctx.questionnaire);
-          return res.json();
-        })
-        .catch(e => {
-          throw Error(e);
-        });
-      return {
-        id: questionnaireId,
-        launchUrl: result.publishedSurveyUrl,
-      };
-    },
   },
 
   Subscription: {
@@ -251,6 +236,7 @@ const Resolvers = {
         id: uuid.v4(),
         createdBy: ctx.user.id,
         editors: [],
+        publishStatus: UNPUBLISHED,
       };
       return createQuestionnaire(newQuestionnaire, ctx);
     },
@@ -550,6 +536,47 @@ const Resolvers = {
         ...confirmationPage,
       };
     }),
+    triggerPublish: createMutation(async (root, { input }, ctx) => {
+      const { surveyId, formType } = input;
+      if (ctx.questionnaire.publishStatus !== UNPUBLISHED) {
+        throw new Error("This questionnaire is not unpublished.");
+      }
+      ctx.questionnaire.publishStatus = AWAITING_APPROVAL;
+      ctx.questionnaire.publishDetails = {
+        surveyId,
+        formType: { ONS: formType },
+      };
+      return ctx.questionnaire;
+    }),
+    reviewQuestionnaire: async (root, { input }, ctx) => {
+      enforceHasAdminPermission(ctx.user);
+      if (ctx.questionnaire.publishStatus !== AWAITING_APPROVAL) {
+        throw new Error("This questionnaire is not awaiting approval.");
+      }
+
+      const { questionnaireId } = input;
+      const {
+        surveyId,
+        formType: { ONS: formType },
+      } = ctx.questionnaire.publishDetails;
+
+      // Puts questionnaire into survey register
+      await fetch(
+        `${process.env.SURVEY_REGISTER_URL}${questionnaireId}/${surveyId}/${formType}`,
+        { method: "put" }
+      )
+        .then(async res => {
+          ctx.questionnaire.publishStatus = PUBLISHED;
+          return res.json();
+        })
+        .catch(e => {
+          throw Error(e);
+        });
+
+      ctx.questionnaire.publishStatus = PUBLISHED;
+      await saveQuestionnaire(ctx.questionnaire);
+      return ctx.questionnaire;
+    },
   },
 
   Questionnaire: {

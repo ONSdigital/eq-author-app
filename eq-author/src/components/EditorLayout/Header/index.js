@@ -8,6 +8,7 @@ import config from "config";
 import CustomPropTypes from "custom-prop-types";
 
 import { colors } from "constants/theme";
+import { AWAITING_APPROVAL, PUBLISHED } from "constants/publishStatus";
 
 import { withMe } from "App/MeContext";
 
@@ -23,6 +24,7 @@ import shareIcon from "./icon-share.svg?inline";
 import viewIcon from "./icon-view.svg?inline";
 import settingsIcon from "./icon-cog.svg?inline";
 import publishIcon from "./icon-publish.svg?inline";
+import reviewIcon from "./icon-review.svg?inline";
 import SharingModal from "./SharingModal";
 import PageTitle from "./PageTitle";
 import UpdateQuestionnaireSettingsModal from "./UpdateQuestionnaireSettingsModal";
@@ -95,12 +97,48 @@ export class UnconnectedHeader extends React.Component {
     this.setState({ isQuestionnaireSettingsModalOpen: true });
   };
 
+  renderPublishReviewButton = () => {
+    const { questionnaire, title, match, me } = this.props;
+    const publishStatus = questionnaire && questionnaire.publishStatus;
+    if (publishStatus === AWAITING_APPROVAL && me.admin) {
+      const reviewUrl = "/q/" + match.params.questionnaireId + "/review";
+      return (
+        <RouteButton
+          variant="tertiary-light"
+          to={reviewUrl}
+          small
+          disabled={title === "Review"}
+          data-test="btn-review"
+        >
+          <IconText icon={reviewIcon}>Review</IconText>
+        </RouteButton>
+      );
+    }
+    if (publishStatus === AWAITING_APPROVAL && !me.admin) {
+      return null;
+    }
+    return (
+      <RouteButton
+        variant="tertiary-light"
+        to={buildPublishPath(match.params)}
+        small
+        disabled={
+          questionnaire.totalErrorCount > 0 ||
+          title === "Publish" ||
+          publishStatus === PUBLISHED
+        }
+        data-test="btn-publish"
+      >
+        <IconText icon={publishIcon}>Publish</IconText>
+      </RouteButton>
+    );
+  };
+
   render() {
     const { questionnaire, title, children, me, client } = this.props;
     const previewUrl = `${config.REACT_APP_LAUNCH_URL}/${
       (questionnaire || {}).id
     }`;
-
     return (
       <>
         <StyledHeader>
@@ -131,21 +169,7 @@ export class UnconnectedHeader extends React.Component {
                   >
                     <IconText icon={viewIcon}>View survey</IconText>
                   </LinkButton>
-                  {me.admin && (
-                    <RouteButton
-                      variant="tertiary-light"
-                      to={buildPublishPath(this.props.match.params)}
-                      small
-                      disabled={
-                        questionnaire.totalErrorCount > 0 ||
-                        this.props.title === "Publish"
-                      }
-                      data-test="btn-publish"
-                    >
-                      <IconText icon={publishIcon}>Publish</IconText>
-                    </RouteButton>
-                  )}
-
+                  {me.admin && this.renderPublishReviewButton()}
                   <Button
                     variant="tertiary-light"
                     onClick={this.handleShare}

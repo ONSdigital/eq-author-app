@@ -5,6 +5,7 @@ exports[`components/AppContainer should render 1`] = `
   theme={
     Object {
       "colors": Object {
+        "amber": "#fe781f",
         "black": "#333333",
         "blue": "#3B7A9E",
         "borders": "#999999",
@@ -12,7 +13,7 @@ exports[`components/AppContainer should render 1`] = `
         "darkBlue": "#5F7682",
         "darkGrey": "#666666",
         "darkerBlue": "#003c57",
-        "green": "#4E943D",
+        "green": "#0f8243",
         "grey": "#999999",
         "lightBlue": "#61BDE0",
         "lightGrey": "#d6d8da",
@@ -20,6 +21,7 @@ exports[`components/AppContainer should render 1`] = `
         "lighterGrey": "#f5f5f5",
         "orange": "#FDBD56",
         "paleBlue": "#f0f1f9",
+        "positive": "#0f8243",
         "previewError": "#999999",
         "primary": "#3B7A9E",
         "red": "#D0021B",
