@@ -8,6 +8,8 @@ const PROPERTIES = "properties";
 const VALIDATION = "validation";
 const MIN_VALUE = "minValue";
 const MAX_VALUE = "maxValue";
+const START_DATE = "earliestDate";
+const END_DATE = "latestDate";
 
 module.exports = {
   PAGES,
@@ -20,4 +22,6 @@ module.exports = {
   VALIDATION,
   MIN_VALUE,
   MAX_VALUE,
+  START_DATE,
+  END_DATE,
 };

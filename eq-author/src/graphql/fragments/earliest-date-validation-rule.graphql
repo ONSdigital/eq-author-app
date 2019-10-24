@@ -16,4 +16,14 @@ fragment EarliestDateValidationRule on EarliestDateValidationRule {
     id
     displayName
   }
+  validationErrorInfo {
+    id
+    errors {
+      id
+      type
+      field
+      errorCode
+    }
+    totalCount
+  }
 }

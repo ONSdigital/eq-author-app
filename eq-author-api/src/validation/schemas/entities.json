@@ -5,7 +5,9 @@
       "type": "object",
       "additionalProperties": true,
       "properties": {
-        "id": { "type": "string" },
+        "id": {
+          "type": "string"
+        },
         "title": {
           "type": "string",
           "requiredWhenQuestionnaireSetting": "navigation"
@@ -30,7 +32,9 @@
     "page": {
       "type": "object",
       "properties": {
-        "id": { "type": "string" },
+        "id": {
+          "type": "string"
+        },
         "title": {
           "$ref": "definitions.json#/definitions/populatedString"
         },
@@ -94,7 +98,9 @@
     },
     "confirmationPage": {
       "properties": {
-        "id": { "type": "string" },
+        "id": {
+          "type": "string"
+        },
         "title": {
           "$ref": "definitions.json#/definitions/populatedString"
         },
@@ -107,7 +113,11 @@
                   "$ref": "definitions.json#/definitions/populatedString"
                 },
                 {
-                  "not": { "const": { "$data": "2/negative/label" } },
+                  "not": {
+                    "const": {
+                      "$data": "2/negative/label"
+                    }
+                  },
                   "errorMessage": "ERR_UNIQUE_REQUIRED"
                 }
               ]
@@ -124,7 +134,11 @@
                   "$ref": "definitions.json#/definitions/populatedString"
                 },
                 {
-                  "not": { "const": { "$data": "2/positive/label" } },
+                  "not": {
+                    "const": {
+                      "$data": "2/positive/label"
+                    }
+                  },
                   "errorMessage": "ERR_UNIQUE_REQUIRED"
                 }
               ]
@@ -137,9 +151,18 @@
     },
     "answer": {
       "allOf": [
-        { "$ref": "entities.json#/definitions/basicAnswer" },
-        { "$ref": "entities.json#/definitions/multipleChoiceAnswer" },
-        { "$ref": "entities.json#/definitions/numericAnswer" }
+        {
+          "$ref": "entities.json#/definitions/basicAnswer"
+        },
+        {
+          "$ref": "entities.json#/definitions/multipleChoiceAnswer"
+        },
+        {
+          "$ref": "entities.json#/definitions/numericAnswer"
+        },
+        {
+          "$ref": "entities.json#/definitions/dateAnswer"
+        }
       ]
     },
     "basicAnswer": {
@@ -156,7 +179,9 @@
       "then": {
         "type": "object",
         "properties": {
-          "id": { "type": "string" },
+          "id": {
+            "type": "string"
+          },
           "label": {
             "$ref": "definitions.json#/definitions/populatedString"
           }
@@ -181,14 +206,22 @@
                 {
                   "properties": {
                     "minValue": {
-                      "properties": { "enabled": { "const": true } }
+                      "properties": {
+                        "enabled": {
+                          "const": true
+                        }
+                      }
                     }
                   }
                 },
                 {
                   "properties": {
                     "maxValue": {
-                      "properties": { "enabled": { "const": true } }
+                      "properties": {
+                        "enabled": {
+                          "const": true
+                        }
+                      }
                     }
                   }
                 }
@@ -239,7 +272,9 @@
       "then": {
         "type": "object",
         "properties": {
-          "id": { "type": "string" },
+          "id": {
+            "type": "string"
+          },
           "options": {
             "type": "array",
             "items": {
@@ -261,6 +296,73 @@
       },
       "else": false
     },
+    "dateAnswer": {
+      "if": {
+        "properties": {
+          "type": {
+            "enum": ["Date"]
+          }
+        }
+      },
+      "then": {
+        "type": "object",
+        "properties": {
+          "validation": {
+            "if": {
+              "allOf": [
+                {
+                  "properties": {
+                    "earliestDate": {
+                      "properties": {
+                        "enabled": { "const": true },
+                        "entityType": { "const": "Custom" }
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "latestDate": {
+                      "properties": {
+                        "enabled": { "const": true },
+                        "entityType": { "const": "Custom" }
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            "then": {
+              "properties": {
+                "earliestDate": {
+                  "type": "object",
+                  "properties": {
+                    "custom": {
+                      "validateLatestAfterEarliest": {
+                        "$data": "2/latestDate"
+                      }
+                    }
+                  }
+                },
+                "latestDate": {
+                  "type": "object",
+                  "properties": {
+                    "custom": {
+                      "validateLatestAfterEarliest": {
+                        "$data": "2/earliestDate"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "properties": {
+            "$ref": "entities.json#/definitions/properties"
+          }
+        }
+      }
+    },
     "properties": {
       "properties": {
         "decimals": {
@@ -273,7 +375,9 @@
     "option": {
       "type": "object",
       "properties": {
-        "id": { "type": "string" },
+        "id": {
+          "type": "string"
+        },
         "label": {
           "$ref": "definitions.json#/definitions/populatedString"
         },

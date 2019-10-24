@@ -313,6 +313,7 @@ type EarliestDateValidationRule implements ValidationRule {
   entityType: ValidationRuleEntityType!
   availablePreviousAnswers: [Answer!]!
   availableMetadata: [Metadata!]!
+  validationErrorInfo: ValidationErrorInfo
 }
 
 type LatestDateValidationRule implements ValidationRule {
@@ -326,6 +327,7 @@ type LatestDateValidationRule implements ValidationRule {
   entityType: ValidationRuleEntityType!
   availablePreviousAnswers: [Answer!]!
   availableMetadata: [Metadata!]!
+  validationErrorInfo: ValidationErrorInfo
 }
 
 type MinDurationValidationRule implements ValidationRule {

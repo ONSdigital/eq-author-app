@@ -4,6 +4,7 @@ const {
   NUMBER,
   UNIT,
   PERCENTAGE,
+  DATE,
 } = require("../../constants/answerTypes");
 
 const validation = require(".");
@@ -164,135 +165,142 @@ describe("schema validation", () => {
         type: "answers",
       });
     });
-
-    describe("Answer validation", () => {
-      describe("basic answer", () => {
-        it("should ensure that the label is populated", () => {
-          BASIC_ANSWERS.forEach(type => {
-            const answer = {
-              id: "a1",
-              type,
-              label: "",
-            };
-            const questionnaire = {
-              id: "q1",
-              sections: [
-                {
-                  id: "s1",
-                  pages: [
-                    {
-                      id: "p1",
-                      answers: [answer],
-                    },
-                  ],
-                },
-              ],
-            };
-
-            const errors = validation(questionnaire);
-            expect(errors.answers[answer.id].errors).toHaveLength(1);
-            expect(errors.answers[answer.id].errors[0]).toMatchObject({
-              errorCode: "ERR_VALID_REQUIRED",
-              field: "label",
-              id: `answers-${answer.id}-label`,
-              type: "answers",
-            });
-
-            answer.label = "some label";
-
-            const errors2 = validation(questionnaire);
-            expect(errors2.answers[answer.id]).toBeUndefined();
-          });
-        });
-        it("should recognize mismatched decimals in validation references", () => {
-          questionnaire = {
-            id: "1",
+  });
+  describe("Answer validation", () => {
+    describe("basic answer", () => {
+      it("should ensure that the label is populated", () => {
+        BASIC_ANSWERS.forEach(type => {
+          const answer = {
+            id: "a1",
+            type,
+            label: "",
+          };
+          const questionnaire = {
+            id: "q1",
             sections: [
               {
-                id: "section_1",
-                title: "section_1",
+                id: "s1",
                 pages: [
                   {
-                    id: "page_1",
-                    title: "page title",
-                    answers: [
-                      {
-                        id: "answer_1",
-                        type: NUMBER,
-                        label: "Number",
-                        properties: { decimals: 2 },
-                        validation: {
-                          minValue: {
-                            id: "minValue",
-                            enabled: true,
-                            entityType: "PreviousAnswer",
-                            previousAnswer: "answer_1",
-                          },
-                        },
-                      },
-                    ],
-                  },
-                  {
-                    id: "page_2",
-                    title: "page title",
-                    answers: [
-                      {
-                        id: "answer_2",
-                        type: NUMBER,
-                        label: "Number",
-                        properties: { decimals: 1 },
-                        validation: {
-                          minValue: {
-                            id: "minValue",
-                            enabled: true,
-                            entityType: "PreviousAnswer",
-                            previousAnswer: "answer_1",
-                          },
-                        },
-                      },
-                    ],
+                    id: "p1",
+                    answers: [answer],
                   },
                 ],
               },
             ],
           };
-          const answer = questionnaire.sections[0].pages[1].answers[0];
-          const validationErrors = validation(questionnaire);
-          expect(validationErrors.answers[answer.id].errors).toHaveLength(1);
-          expect(validationErrors.answers[answer.id].errors[0]).toMatchObject({
-            errorCode: "ERR_REFERENCED_ANSWER_DECIMAL_INCONSISTENCY",
-            field: "properties",
-            id: "answers-answer_2-properties",
+
+          const errors = validation(questionnaire);
+          expect(errors.answers[answer.id].errors).toHaveLength(1);
+          expect(errors.answers[answer.id].errors[0]).toMatchObject({
+            errorCode: "ERR_VALID_REQUIRED",
+            field: "label",
+            id: `answers-${answer.id}-label`,
             type: "answers",
           });
+
+          answer.label = "some label";
+
+          const errors2 = validation(questionnaire);
+          expect(errors2.answers[answer.id]).toBeUndefined();
+        });
+      });
+      it("should recognize mismatched decimals in validation references", () => {
+        questionnaire = {
+          id: "1",
+          sections: [
+            {
+              id: "section_1",
+              title: "section_1",
+              pages: [
+                {
+                  id: "page_1",
+                  title: "page title",
+                  answers: [
+                    {
+                      id: "answer_1",
+                      type: NUMBER,
+                      label: "Number",
+                      properties: { decimals: 2 },
+                      validation: {
+                        minValue: {
+                          id: "minValue",
+                          enabled: true,
+                          entityType: "PreviousAnswer",
+                          previousAnswer: "answer_1",
+                        },
+                      },
+                    },
+                  ],
+                },
+                {
+                  id: "page_2",
+                  title: "page title",
+                  answers: [
+                    {
+                      id: "answer_2",
+                      type: NUMBER,
+                      label: "Number",
+                      properties: { decimals: 1 },
+                      validation: {
+                        minValue: {
+                          id: "minValue",
+                          enabled: true,
+                          entityType: "PreviousAnswer",
+                          previousAnswer: "answer_1",
+                        },
+                      },
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        };
+        const answer = questionnaire.sections[0].pages[1].answers[0];
+        const validationErrors = validation(questionnaire);
+        expect(validationErrors.answers[answer.id].errors).toHaveLength(1);
+        expect(validationErrors.answers[answer.id].errors[0]).toMatchObject({
+          errorCode: "ERR_REFERENCED_ANSWER_DECIMAL_INCONSISTENCY",
+          field: "properties",
+          id: "answers-answer_2-properties",
+          type: "answers",
         });
       });
     });
-  });
 
-  describe("currency, number, percentage and unit answers", () => {
-    it("should ensure that max value is always larger than min value", () => {
-      [CURRENCY, NUMBER, UNIT, PERCENTAGE].forEach(type => {
+    describe("date answers", () => {
+      it("should validate that latest date is always after earlier date", () => {
         const answer = {
           id: "a1",
-          type,
+          type: "Date",
           label: "some answer",
           validation: {
-            minValue: {
+            earliestDate: {
               id: "123",
               enabled: true,
-              custom: 50,
+              custom: "2019-08-12",
               inclusive: true,
               entityType: "Custom",
               previousAnswer: null,
+              offset: {
+                value: 1,
+                unit: "Years",
+              },
+              relativePosition: "After",
             },
-            maxValue: {
+            latestDate: {
               id: "321",
               enabled: true,
-              custom: 40,
+              custom: "2019-08-11",
               inclusive: true,
               entityType: "Custom",
               previousAnswer: null,
+              offset: {
+                value: 3,
+                unit: "Days",
+              },
+              relativePosition: "Before",
             },
           },
         };
@@ -314,91 +322,189 @@ describe("schema validation", () => {
         const errors = validation(questionnaire);
 
         expect(
-          errors.validation[answer.validation.minValue.id].errors
+          errors.validation[answer.validation.earliestDate.id].errors
         ).toHaveLength(1);
-        expect(errors.validation).toMatchObject({
-          "123": {
-            errors: [
-              {
-                entityId: "123",
-                errorCode: "ERR_MIN_LARGER_THAN_MAX",
-                field: "custom",
-                id: "minValue-123-custom",
-                type: "validation",
-              },
-            ],
-            id: "123",
-            totalCount: 1,
-          },
-          "321": {
-            errors: [
-              {
-                entityId: "321",
-                errorCode: "ERR_MIN_LARGER_THAN_MAX",
-                field: "custom",
-                id: "maxValue-321-custom",
-                type: "validation",
-              },
-            ],
-
-            id: "321",
-            totalCount: 1,
-          },
-        });
         expect(errors.totalCount).toBe(1);
-        expect(errors.pages.p1.totalCount).toBe(1);
+      });
 
-        answer.validation.maxValue.custom = 80;
+      it("should not validate if one of the two is disabled", () => {
+        ["earliestDate", "latestDate", "none"].forEach(entity => {
+          const answer = {
+            id: "a1",
+            type: DATE,
+            label: "some answer",
+            validation: {
+              earliestDate: {
+                id: "123",
+                enabled: entity === "earliestDate",
+                custom: "2019-06-23",
+                inclusive: true,
+                entityType: "Custom",
+                previousAnswer: null,
+              },
+              latestDate: {
+                id: "321",
+                enabled: entity === "latestDate",
+                custom: "2019-06-23",
+                inclusive: true,
+                entityType: "Custom",
+                previousAnswer: null,
+              },
+            },
+          };
 
-        const errors2 = validation(questionnaire);
-        expect(errors2.validation).toMatchObject({});
+          const questionnaire = {
+            id: "q1",
+            sections: [
+              {
+                id: "s1",
+                pages: [
+                  {
+                    id: "p1",
+                    answers: [answer],
+                  },
+                ],
+              },
+            ],
+          };
+          const errors = validation(questionnaire);
+
+          expect(errors.validation).toMatchObject({});
+          expect(errors.totalCount).toBe(0);
+        });
       });
     });
 
-    it("should not validate if one of the two is disabled", () => {
-      ["minValue", "maxValue", "none"].forEach(entity => {
-        const answer = {
-          id: "a1",
-          type: NUMBER,
-          label: "some answer",
-          validation: {
-            minValue: {
-              id: "123",
-              enabled: entity === "minValue",
-              custom: 50,
-              inclusive: true,
-              entityType: "Custom",
-              previousAnswer: null,
+    describe("currency, number, percentage and unit answers", () => {
+      it("should ensure that max value is always larger than min value", () => {
+        [CURRENCY, NUMBER, UNIT, PERCENTAGE].forEach(type => {
+          const answer = {
+            id: "a1",
+            type,
+            label: "some answer",
+            validation: {
+              minValue: {
+                id: "123",
+                enabled: true,
+                custom: 50,
+                inclusive: true,
+                entityType: "Custom",
+                previousAnswer: null,
+              },
+              maxValue: {
+                id: "321",
+                enabled: true,
+                custom: 40,
+                inclusive: true,
+                entityType: "Custom",
+                previousAnswer: null,
+              },
             },
-            maxValue: {
-              id: "321",
-              enabled: entity === "maxValue",
-              custom: 40,
-              inclusive: true,
-              entityType: "Custom",
-              previousAnswer: null,
-            },
-          },
-        };
+          };
 
-        const questionnaire = {
-          id: "q1",
-          sections: [
-            {
-              id: "s1",
-              pages: [
+          const questionnaire = {
+            id: "q1",
+            sections: [
+              {
+                id: "s1",
+                pages: [
+                  {
+                    id: "p1",
+                    answers: [answer],
+                  },
+                ],
+              },
+            ],
+          };
+          const errors = validation(questionnaire);
+
+          expect(
+            errors.validation[answer.validation.minValue.id].errors
+          ).toHaveLength(1);
+          expect(errors.validation).toMatchObject({
+            "123": {
+              errors: [
                 {
-                  id: "p1",
-                  answers: [answer],
+                  entityId: "123",
+                  errorCode: "ERR_MIN_LARGER_THAN_MAX",
+                  field: "custom",
+                  id: "minValue-123-custom",
+                  type: "validation",
                 },
               ],
+              id: "123",
+              totalCount: 1,
             },
-          ],
-        };
-        const errors = validation(questionnaire);
+            "321": {
+              errors: [
+                {
+                  entityId: "321",
+                  errorCode: "ERR_MIN_LARGER_THAN_MAX",
+                  field: "custom",
+                  id: "maxValue-321-custom",
+                  type: "validation",
+                },
+              ],
 
-        expect(errors.validation).toMatchObject({});
-        expect(errors.totalCount).toBe(0);
+              id: "321",
+              totalCount: 1,
+            },
+          });
+          expect(errors.totalCount).toBe(1);
+          expect(errors.pages.p1.totalCount).toBe(1);
+
+          answer.validation.maxValue.custom = 80;
+
+          const errors2 = validation(questionnaire);
+          expect(errors2.validation).toMatchObject({});
+        });
+      });
+
+      it("should not validate if one of the two is disabled", () => {
+        ["minValue", "maxValue", "none"].forEach(entity => {
+          const answer = {
+            id: "a1",
+            type: NUMBER,
+            label: "some answer",
+            validation: {
+              minValue: {
+                id: "123",
+                enabled: entity === "minValue",
+                custom: 50,
+                inclusive: true,
+                entityType: "Custom",
+                previousAnswer: null,
+              },
+              maxValue: {
+                id: "321",
+                enabled: entity === "maxValue",
+                custom: 40,
+                inclusive: true,
+                entityType: "Custom",
+                previousAnswer: null,
+              },
+            },
+          };
+
+          const questionnaire = {
+            id: "q1",
+            sections: [
+              {
+                id: "s1",
+                pages: [
+                  {
+                    id: "p1",
+                    answers: [answer],
+                  },
+                ],
+              },
+            ],
+          };
+          const errors = validation(questionnaire);
+
+          expect(errors.validation).toMatchObject({});
+          expect(errors.totalCount).toBe(0);
+        });
       });
     });
   });
