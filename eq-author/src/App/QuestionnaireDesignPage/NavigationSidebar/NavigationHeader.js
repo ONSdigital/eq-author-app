@@ -9,8 +9,6 @@ import HomeIcon from "./icon-home.svg?inline";
 import MetadataIcon from "./icon-metadata.svg?inline";
 import HistoryIcon from "./icon-history.svg?inline";
 
-import { withMe } from "App/MeContext";
-
 import QuestionnaireSettingsModal from "App/QuestionnaireSettingsModal";
 
 import RouteButton from "components/buttons/Button/RouteButton";
@@ -21,6 +19,7 @@ import AddMenu from "./AddMenu";
 
 const IconList = styled.ul`
   display: flex;
+  flex-flow: row wrap;
   align-items: center;
   padding: 0;
   margin: 0;
@@ -72,7 +71,6 @@ export class UnwrappedNavigationHeader extends React.Component {
     canAddQuestionConfirmation: PropTypes.bool.isRequired,
     onAddQuestionConfirmation: PropTypes.func.isRequired,
     match: CustomPropTypes.match.isRequired,
-    me: CustomPropTypes.me.isRequired,
   };
 
   state = {
@@ -103,7 +101,7 @@ export class UnwrappedNavigationHeader extends React.Component {
   };
 
   render() {
-    const { match, me } = this.props;
+    const { match } = this.props;
     const metadataUrl = buildMetadataPath(match.params);
     const historyUrl = buildHistoryPath(match.params);
     return (
@@ -120,13 +118,11 @@ export class UnwrappedNavigationHeader extends React.Component {
                 <IconText icon={MetadataIcon}>Metadata</IconText>
               </RouteButton>
             </IconListItem>
-            {me.admin && (
-              <IconListItem>
-                <RouteButton variant="tertiary-light" small to={historyUrl}>
-                  <IconText icon={HistoryIcon}>History</IconText>
-                </RouteButton>
-              </IconListItem>
-            )}
+            <IconListItem>
+              <RouteButton variant="tertiary-light" small to={historyUrl}>
+                <IconText icon={HistoryIcon}>History</IconText>
+              </RouteButton>
+            </IconListItem>
           </IconList>
         </QuestionnaireLinks>
         <QuestionnaireContent>
@@ -159,4 +155,4 @@ UnwrappedNavigationHeader.fragments = {
   `,
 };
 
-export default withMe(withRouter(UnwrappedNavigationHeader));
+export default withRouter(UnwrappedNavigationHeader);
