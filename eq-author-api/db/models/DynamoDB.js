@@ -123,6 +123,9 @@ const questionnaireVersionsSchema = new dynamoose.Schema(
       required: true,
       rangeKey: true,
     },
+    publishDetails: {
+      type: Object,
+    },
   },
   {
     throughput: throughput,

@@ -5,7 +5,17 @@ import { Link } from "react-router-dom";
 import { pick } from "lodash/fp";
 import Button from "./";
 
-const propWhitelist = ["to", "title", "id", "className", "children"];
+const DisabledLink = Button.withComponent("div");
+
+const propWhitelist = [
+  "to",
+  "title",
+  "id",
+  "className",
+  "children",
+  "disabled",
+  "data-test",
+];
 const RouteLink = props => <Link {...pick(propWhitelist, props)} />;
 
 const StyledRouteLink = Button.withComponent(RouteLink);
@@ -16,7 +26,15 @@ class RouteButton extends React.Component {
     to: PropTypes.string.isRequired,
   };
   render() {
-    const { children, to, ...otherProps } = this.props;
+    const { children, to, disabled, ...otherProps } = this.props;
+
+    if (disabled) {
+      return (
+        <DisabledLink disabled {...otherProps}>
+          {children}
+        </DisabledLink>
+      );
+    }
     return (
       <StyledRouteLink {...otherProps} to={to}>
         {children}

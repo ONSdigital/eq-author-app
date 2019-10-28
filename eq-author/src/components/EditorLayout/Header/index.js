@@ -13,6 +13,7 @@ import { withMe } from "App/MeContext";
 
 import Button from "components/buttons/Button";
 import LinkButton from "components/buttons/Button/LinkButton";
+import RouteButton from "components/buttons/Button/RouteButton";
 import IconText from "components/IconText";
 import ButtonGroup from "components/buttons/ButtonGroup";
 import { withQuestionnaire } from "components/QuestionnaireContext";
@@ -23,10 +24,11 @@ import viewIcon from "./icon-view.svg?inline";
 import settingsIcon from "./icon-cog.svg?inline";
 import publishIcon from "./icon-publish.svg?inline";
 import SharingModal from "./SharingModal";
-import PublishModal from "./PublishModal";
 import PageTitle from "./PageTitle";
 import UpdateQuestionnaireSettingsModal from "./UpdateQuestionnaireSettingsModal";
 import SavingIndicator from "./SavingIndicator";
+
+import { buildPublishPath } from "utils/UrlUtils";
 
 const StyledHeader = styled.header`
   color: ${colors.white};
@@ -62,7 +64,6 @@ const SavingContainer = styled.div`
 export class UnconnectedHeader extends React.Component {
   state = {
     isSharingModalOpen: false,
-    isPublishModalOpen: false,
     isQuestionnaireSettingsModalOpen:
       this.props.match.params.modifier === "settings",
   };
@@ -88,10 +89,6 @@ export class UnconnectedHeader extends React.Component {
 
   handleShare = () => {
     this.setState({ isSharingModalOpen: true });
-  };
-
-  handlePublish = () => {
-    this.setState({ isPublishModalOpen: true });
   };
 
   handleQuestionnaireSettings = () => {
@@ -135,15 +132,18 @@ export class UnconnectedHeader extends React.Component {
                     <IconText icon={viewIcon}>View survey</IconText>
                   </LinkButton>
                   {me.admin && (
-                    <Button
+                    <RouteButton
                       variant="tertiary-light"
-                      onClick={this.handlePublish}
-                      data-test="btn-publish"
+                      to={buildPublishPath(this.props.match.params)}
                       small
-                      disabled={questionnaire.totalErrorCount > 0}
+                      disabled={
+                        questionnaire.totalErrorCount > 0 ||
+                        this.props.title === "Publish"
+                      }
+                      data-test="btn-publish"
                     >
                       <IconText icon={publishIcon}>Publish</IconText>
-                    </Button>
+                    </RouteButton>
                   )}
 
                   <Button
@@ -178,11 +178,6 @@ export class UnconnectedHeader extends React.Component {
                 currentUser={me}
               />
             )}
-            <PublishModal
-              isOpen={this.state.isPublishModalOpen}
-              onClose={() => this.setState({ isPublishModalOpen: false })}
-              questionnaire={questionnaire}
-            />
             <UpdateQuestionnaireSettingsModal
               isOpen={this.state.isQuestionnaireSettingsModalOpen}
               onClose={() =>
