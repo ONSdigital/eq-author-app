@@ -21,6 +21,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
+  overflow: hidden;
 `;
 
 const StyledGrid = styled.div`
@@ -38,13 +39,7 @@ const ItemGrid = styled(StyledGrid)`
 `;
 
 const RTEWrapper = styled.div`
-  > :first-of-type {
-    margin-bottom: 0.5em;
-  }
-`;
-
-const ScrollBarPadding = styled.div`
-  padding: 0 1em 0 0;
+  margin-bottom: 0.5em;
 `;
 
 const StyledScrollPane = styled(ScrollPane)`
@@ -95,46 +90,46 @@ export const HistoryPageContent = ({ match }) => {
   return (
     <Container>
       <Header title="History" />
-      <StyledGrid>
-        <RTEWrapper>
-          <RichTextEditor
-            id={`add-note-textbox`}
-            name="note"
-            label="Add note"
-            onUpdate={setNoteState}
-            value={noteState.value}
-            controls={{
-              emphasis: true,
-              list: true,
-              bold: true,
-            }}
-            multiline
-          />
-        </RTEWrapper>
-        <ActionButtons horizontal align="right">
-          <Button
-            data-test="add-note-btn"
-            onClick={() => {
-              if (!noteState.value) {
-                return;
-              }
-              setNoteState({ name: "note", value: "" });
-              addNote({
-                variables: {
-                  input: {
-                    id: match.params.questionnaireId,
-                    bodyText: noteState.value,
+      <StyledScrollPane>
+        <StyledGrid>
+          <RTEWrapper>
+            <RichTextEditor
+              id={`add-note-textbox`}
+              name="note"
+              label="Add note"
+              onUpdate={setNoteState}
+              value={noteState.value}
+              controls={{
+                emphasis: true,
+                list: true,
+                bold: true,
+              }}
+              multiline
+            />
+          </RTEWrapper>
+          <ActionButtons horizontal align="right">
+            <Button
+              data-test="add-note-btn"
+              onClick={() => {
+                if (!noteState.value) {
+                  return;
+                }
+                setNoteState({ name: "note", value: "" });
+                addNote({
+                  variables: {
+                    input: {
+                      id: match.params.questionnaireId,
+                      bodyText: noteState.value,
+                    },
                   },
-                },
-              });
-            }}
-          >
-            Add note
-          </Button>
-        </ActionButtons>
-      </StyledGrid>
-      <ItemGrid>
-        <StyledScrollPane>
+                });
+              }}
+            >
+              Add note
+            </Button>
+          </ActionButtons>
+        </StyledGrid>
+        <ItemGrid>
           {history.map(
             ({
               id,
@@ -144,20 +139,18 @@ export const HistoryPageContent = ({ match }) => {
               user,
               time,
             }) => (
-              <ScrollBarPadding key={id}>
-                <HistoryItem
-                  key={id}
-                  questionnaireTitle={questionnaireTitle}
-                  publishStatus={publishStatus}
-                  userName={user.displayName}
-                  bodyText={bodyText}
-                  createdAt={time}
-                />
-              </ScrollBarPadding>
+              <HistoryItem
+                key={id}
+                questionnaireTitle={questionnaireTitle}
+                publishStatus={publishStatus}
+                userName={user.displayName}
+                bodyText={bodyText}
+                createdAt={time}
+              />
             )
           )}
-        </StyledScrollPane>
-      </ItemGrid>
+        </ItemGrid>
+      </StyledScrollPane>
     </Container>
   );
 };
