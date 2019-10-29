@@ -20,6 +20,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
+  overflow: hidden;
 `;
 
 const StyledGrid = styled.div`
@@ -28,7 +29,6 @@ const StyledGrid = styled.div`
   border-radius: 0.25em;
   margin: 1em;
   background: ${colors.white};
-  overflow: hidden;
 `;
 
 const Shadow = styled.div`
@@ -61,10 +61,6 @@ const InformationPanel = styled(Panel)`
   max-width: 50%;
 `;
 
-const StyledScrollPane = styled(ScrollPane)`
-  padding: 5px;
-`;
-
 const PublishPage = ({ match }) => {
   const questionnaireId = match.params.questionnaireId;
   const originalInputs = { surveyId: "", formType: "" };
@@ -93,8 +89,8 @@ const PublishPage = ({ match }) => {
   return (
     <Container>
       <Header title="Publish" />
-      <StyledGrid>
-        <StyledScrollPane>
+      <ScrollPane>
+        <StyledGrid>
           <AlignedColumn cols={6}>
             <Field>
               <Label htmlFor="surveyId">Survey ID</Label>
@@ -148,8 +144,8 @@ const PublishPage = ({ match }) => {
           >
             Publish
           </Button>
-        </StyledScrollPane>
-      </StyledGrid>
+        </StyledGrid>
+      </ScrollPane>
     </Container>
   );
 };
