@@ -27,16 +27,18 @@ const titleControls = {
 };
 
 const descriptionControls = {
-  bold: true,
   emphasis: true,
   piping: true,
 };
+const definitionControls = {
+  list: true,
+  emphasis: true,
+  bold: true,
+};
 
 const guidanceControls = {
-  heading: true,
   bold: true,
   list: true,
-  piping: true,
 };
 
 const Paragraph = styled.p`
@@ -130,7 +132,7 @@ export class StatelessMetaEditor extends React.Component {
                   label="Content"
                   value={page.definitionContent}
                   onUpdate={onChangeUpdate}
-                  controls={descriptionControls}
+                  controls={definitionControls}
                   multiline
                   fetchAnswers={fetchAnswers}
                   metadata={page.section.questionnaire.metadata}

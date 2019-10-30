@@ -41,7 +41,6 @@ exports[`AdditionalInfo should render 1`] = `
             "bold": true,
             "emphasis": true,
             "list": true,
-            "piping": true,
           }
         }
         disabled={false}

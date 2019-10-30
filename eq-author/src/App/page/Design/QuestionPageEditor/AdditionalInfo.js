@@ -19,7 +19,6 @@ import pageFragment from "graphql/fragments/page.graphql";
 const contentControls = {
   bold: true,
   emphasis: true,
-  piping: true,
   list: true,
 };
 
