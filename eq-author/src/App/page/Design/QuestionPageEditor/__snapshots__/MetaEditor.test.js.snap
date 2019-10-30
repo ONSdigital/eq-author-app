@@ -37,7 +37,6 @@ exports[`MetaEditor should render 1`] = `
         autoFocus={false}
         controls={
           Object {
-            "bold": true,
             "emphasis": true,
             "piping": true,
           }
@@ -94,7 +93,7 @@ exports[`MetaEditor should render 1`] = `
             Object {
               "bold": true,
               "emphasis": true,
-              "piping": true,
+              "list": true,
             }
           }
           disabled={false}
@@ -122,9 +121,7 @@ exports[`MetaEditor should render 1`] = `
         controls={
           Object {
             "bold": true,
-            "heading": true,
             "list": true,
-            "piping": true,
           }
         }
         disabled={false}
