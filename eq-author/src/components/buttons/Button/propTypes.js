@@ -7,6 +7,7 @@ export const propTypes = {
     "tertiary-light",
   ]),
   small: PropTypes.bool,
+  medium: PropTypes.bool,
   children: PropTypes.node.isRequired,
 };
 

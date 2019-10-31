@@ -1,14 +1,14 @@
 const jsondiffpatch = require("jsondiffpatch");
-const { omit, first } = require("lodash");
+const { omit, first, isNil } = require("lodash");
 const logger = require("pino")();
 const uuid = require("uuid");
-
 const {
   QuestionnaireModel,
   QuestionnaireVersionsModel,
   dynamoose,
   justListFields,
   UserModel,
+  CommentsModel,
 } = require("../db/models/DynamoDB");
 
 const { questionnaireCreationEvent } = require("./questionnaireEvents");
@@ -42,6 +42,17 @@ const createUser = user => {
     })
   );
 };
+
+const createComments = questionnaireId => {
+  return saveModel(
+    new CommentsModel({
+      questionnaireId,
+      comments: {},
+    })
+  );
+};
+
+const saveComments = comments => saveModel(comments);
 
 const updateUser = user => saveModel(user);
 
@@ -77,6 +88,24 @@ const listUsers = () =>
 
         resolve(users);
       });
+  });
+
+const getCommentsForQuestionnaire = questionnaireId =>
+  new Promise((resolve, reject) => {
+    CommentsModel.scan({ questionnaireId: { eq: questionnaireId } }).exec(
+      (err, comments) => {
+        if (err) {
+          reject(err);
+        }
+
+        const comment = first(comments);
+        if (!isNil(comment)) {
+          resolve(comment);
+        } else {
+          resolve(createComments(questionnaireId));
+        }
+      }
+    );
   });
 
 const createQuestionnaire = async (questionnaire, ctx) => {
@@ -268,4 +297,7 @@ module.exports = {
   listUsers,
   addEventToHistory,
   getHistoryById,
+  getCommentsForQuestionnaire,
+  saveComments,
+  createComments,
 };

@@ -12,7 +12,7 @@ import EditorLayout from "components/EditorLayout";
 import { colors } from "constants/theme";
 
 import QuestionPageEditor from "../Design/QuestionPageEditor";
-import PropertiesPanel from "../PropertiesPanel";
+import CommentsPanel from "components/CommentsPanel";
 
 import IconInfo from "./icon-info.svg?inline";
 import IconChevron from "./icon-chevron.svg";
@@ -103,10 +103,11 @@ const QuestionPagePreview = ({ page }) => {
 
   return (
     <EditorLayout
+      page={page}
       preview
       routing
       title={page.displayName}
-      renderPanel={() => <PropertiesPanel page={page} />}
+      renderPanel={() => <CommentsPanel />}
     >
       <Panel>
         <Container>

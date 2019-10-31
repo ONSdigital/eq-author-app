@@ -68,6 +68,7 @@ describe("page", () => {
           },
         ],
       });
+
       questionnaire = ctx.questionnaire;
       const section = questionnaire.sections[0];
 
@@ -79,7 +80,6 @@ describe("page", () => {
       });
 
       const readPage = await queryPage(ctx, createdPage.id);
-
       expect(readPage).toMatchObject({
         title: "Title",
         description: "Description",

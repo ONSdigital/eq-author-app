@@ -23,6 +23,7 @@ const { NUMBER, CURRENCY, UNIT } = require("../../constants/answerTypes");
 
 describe("calculated Summary", () => {
   let ctx, questionnaire;
+
   it("should create a calculated summary", async () => {
     ctx = await buildContext({
       sections: [

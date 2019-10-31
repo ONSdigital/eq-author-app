@@ -53,6 +53,10 @@ export const tertiaryLightButton = css`
   }
 `;
 
+export const mediumButton = css`
+  padding: 0.4em 0.8em;
+`;
+
 export const smallButton = css`
   padding: 0;
 `;
@@ -97,6 +101,7 @@ const Button = styled.button`
   ${props => props.variant === "secondary" && secondaryButton};
   ${props => props.variant === "tertiary" && tertiaryButton};
   ${props => props.variant === "tertiary-light" && tertiaryLightButton};
+  ${props => props.medium && mediumButton};
   ${props => props.small && smallButton};
 `;
 

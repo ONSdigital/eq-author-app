@@ -11,7 +11,7 @@ const {
 const { PAGES } = require("../../../constants/validationErrorTypes");
 
 const getPreviousAnswersForPage = require("../../../src/businessLogic/getPreviousAnswersForPage");
-
+const { getCommentsForQuestionnaire } = require("../../../utils/datastore");
 const Resolvers = {};
 
 const createQuestionPage = (input = {}) => ({
@@ -46,6 +46,13 @@ Resolvers.QuestionPage = {
       true,
       ROUTING_ANSWER_TYPES
     ),
+  comments: async ({ id }, args, ctx) => {
+    const questionnaireId = ctx.questionnaire.id;
+    const questionnareComments = await getCommentsForQuestionnaire(
+      questionnaireId
+    );
+    return questionnareComments.comments[id] || [];
+  },
   availableRoutingDestinations: ({ id }, args, ctx) => {
     const section = find(ctx.questionnaire.sections, section => {
       if (section.pages && some(section.pages, { id })) {

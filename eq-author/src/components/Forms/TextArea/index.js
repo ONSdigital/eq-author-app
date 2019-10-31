@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { sharedStyles } from "components/Forms/css";
-import withChangeHandler from "components/Forms/withChangeHandler";
 
 const StyledTextArea = styled.textarea`
   ${sharedStyles};
@@ -29,4 +28,4 @@ TextArea.defaultProps = {
   rows: 10,
 };
 
-export default withChangeHandler(TextArea);
+export default TextArea;
