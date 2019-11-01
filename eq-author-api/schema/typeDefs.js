@@ -25,8 +25,8 @@ type QuestionnaireInfo {
 }
 
 type PublishDetails {
-  surveyId: String
-  formType: String
+  surveyId: String!
+  formType: String!
 }
 
 enum QuestionnaireType {

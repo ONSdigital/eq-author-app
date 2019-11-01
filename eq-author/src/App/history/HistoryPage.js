@@ -60,6 +60,7 @@ const ActionButtons = styled(ButtonGroup)`
 export const HistoryPageContent = ({ match }) => {
   const { loading, error, data } = useQuery(questionnaireHistoryQuery, {
     variables: { input: { questionnaireId: match.params.questionnaireId } },
+    fetchPolicy: "network-only",
   });
   const [addNote] = useMutation(CREATE_NOTE, {
     update(
@@ -87,6 +88,7 @@ export const HistoryPageContent = ({ match }) => {
     return <Error>Oops! Something went wrong</Error>;
   }
   const { history } = data;
+
   return (
     <Container>
       <Header title="History" />
