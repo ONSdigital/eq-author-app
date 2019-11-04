@@ -3,6 +3,7 @@ mutation createComment($input: CreateCommentInput!) {
     id
     commentText
     createdTime
+    editedTime
     page {
       id
       comments {

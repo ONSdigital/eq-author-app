@@ -8,6 +8,8 @@ const {
 const {
   queryComments,
   createComment,
+  deleteComment,
+  updateComment,
 } = require("../../tests/utils/contextBuilder/comments");
 
 describe("comments", () => {
@@ -88,6 +90,87 @@ describe("comments", () => {
           commentText: "a new comment is created",
         },
       ],
+    });
+  });
+
+  it("should edit a comment on question page and then query that comment", async () => {
+    const newComment = await createComment(ctx, {
+      pageId: createdQuestionPage.id,
+      commentText: "a new comment is created",
+    });
+    const commentId = newComment.id;
+
+    const queryEditedComment = await updateComment(ctx, {
+      pageId: createdQuestionPage.id,
+      commentId: commentId,
+      commentText: "an edited comment",
+    });
+
+    expect(queryEditedComment).toMatchObject({
+      id: commentId,
+      commentText: "an edited comment",
+      editedTime: expect.any(String),
+    });
+  });
+
+  it("should delete a comment on question page", async () => {
+    const newComment = await createComment(ctx, {
+      pageId: createdQuestionPage.id,
+      commentText: "a new comment is created",
+    });
+
+    const commentId = newComment.id;
+
+    const queryComment = await deleteComment(ctx, {
+      pageId: createdQuestionPage.id,
+      commentId: commentId,
+    });
+
+    expect(queryComment.comments).toHaveLength(0);
+    expect(queryComment).toMatchObject({
+      id: createdQuestionPage.id,
+      comments: [],
+    });
+  });
+
+  it("should edit a comment on calsum page and then query that comment", async () => {
+    const newComment = await createComment(ctx, {
+      pageId: createdCalSumPage.id,
+      commentText: "a new comment is created",
+    });
+
+    const commentId = newComment.id;
+
+    const queryEditedComment = await updateComment(ctx, {
+      pageId: createdCalSumPage.id,
+      commentId: commentId,
+      commentText: "an edited comment",
+    });
+
+    expect(queryEditedComment).toMatchObject({
+      id: commentId,
+      commentText: "an edited comment",
+      editedTime: expect.any(String),
+    });
+  });
+
+  it("should delete a comment on calsum page", async () => {
+    const newComment = await createComment(ctx, {
+      pageId: createdCalSumPage.id,
+      commentText: "a new comment is created",
+    });
+
+    const commentId = newComment.id;
+
+    const queryComment = await deleteComment(ctx, {
+      pageId: createdCalSumPage.id,
+      commentId: commentId,
+    });
+
+    expect(queryComment.comments).toHaveLength(0);
+    expect(queryComment).toMatchObject({
+      id: createdCalSumPage.id,
+      comments: [],
     });
   });
 

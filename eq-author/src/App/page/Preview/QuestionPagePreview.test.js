@@ -79,7 +79,7 @@ describe("QuestionPagePreview", () => {
 
   it("should render", async () => {
     const { getByText } = render(
-      <MeContext.Provider value={me}>
+      <MeContext.Provider value={{ me }}>
         <QuestionPagePreview page={page} />
       </MeContext.Provider>,
       {

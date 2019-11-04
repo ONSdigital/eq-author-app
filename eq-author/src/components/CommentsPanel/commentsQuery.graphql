@@ -12,6 +12,7 @@ query Page($input: QueryInput!) {
         displayName
       }
       createdTime
+      editedTime
     }
   }
 }

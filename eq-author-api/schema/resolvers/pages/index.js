@@ -53,6 +53,38 @@ Resolvers.Mutation = {
     return section;
   }),
 
+  updateComment: async (_, { input }, ctx) => {
+    const questionnaireComments = await getCommentsForQuestionnaire(
+      ctx.questionnaire.id
+    );
+    const pageComments = questionnaireComments.comments[input.pageId];
+    let commentToEdit;
+
+    if (pageComments) {
+      commentToEdit = pageComments.find(({ id }) => id === input.commentId);
+      commentToEdit.commentText = input.commentText;
+      commentToEdit.editedTime = new Date();
+      await saveComments(questionnaireComments);
+    }
+
+    return commentToEdit;
+  },
+
+  deleteComment: async (_, { input }, ctx) => {
+    const questionnaireComments = await getCommentsForQuestionnaire(
+      ctx.questionnaire.id
+    );
+
+    const pageComments = questionnaireComments.comments[input.pageId];
+
+    if (pageComments) {
+      remove(pageComments, ({ id }) => id === input.commentId);
+      await saveComments(questionnaireComments);
+    }
+    const page = getPageById(ctx, input.pageId);
+    return page;
+  },
+
   createComment: async (_, { input }, ctx) => {
     const questionnaireComments = await getCommentsForQuestionnaire(
       ctx.questionnaire.id
@@ -67,7 +99,7 @@ Resolvers.Mutation = {
     };
 
     if (questionnaireComments.comments[input.pageId]) {
-      questionnaireComments.comments[input.pageId].unshift(newComment);
+      questionnaireComments.comments[input.pageId].push(newComment);
     } else {
       questionnaireComments.comments[input.pageId] = [newComment];
     }

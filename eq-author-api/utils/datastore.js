@@ -53,7 +53,6 @@ const createComments = questionnaireId => {
 };
 
 const saveComments = comments => saveModel(comments);
-
 const updateUser = user => saveModel(user);
 
 const getUserByExternalId = externalId =>
