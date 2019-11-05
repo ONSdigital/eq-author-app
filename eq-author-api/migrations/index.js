@@ -11,6 +11,7 @@ const migrations = [
   require("./addExpressionOperator"),
   require("./addPublishStatusToQuestionnaire"),
   require("./addHistoryToQuestionnaire"),
+  require("./addTypeToHistoryEvent"),
 ];
 
 const currentVersion = migrations.length;

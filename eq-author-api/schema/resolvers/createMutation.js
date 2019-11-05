@@ -3,7 +3,7 @@ const validateQuestionnaire = require("../../src/validation");
 const { enforceHasWritePermission } = require("./withPermissions");
 
 const { saveQuestionnaire } = require("../../utils/datastore");
-const { addEventToHistory } = require("../../utils/datastore");
+const { createHistoryEvent } = require("../../utils/datastore");
 const { publishStatusEvent } = require("../../utils/questionnaireEvents");
 
 const {
@@ -25,7 +25,7 @@ const createMutation = mutation => async (root, args, ctx) => {
     ctx.questionnaire.publishStatus = UNPUBLISHED;
     ctx.questionnaire.surveyVersion++;
     hasBeenUnpublished = true;
-    await addEventToHistory(ctx.questionnaire.id, publishStatusEvent(ctx));
+    await createHistoryEvent(ctx.questionnaire.id, publishStatusEvent(ctx));
   }
   await saveQuestionnaire(ctx.questionnaire);
   ctx.validationErrorInfo = validateQuestionnaire(ctx.questionnaire);

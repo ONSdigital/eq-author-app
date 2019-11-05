@@ -1,0 +1,14 @@
+fragment HistoryNoteInfo on History {
+  id
+  publishStatus
+  questionnaireTitle
+  bodyText
+  type
+  user {
+    id
+    displayName
+    email
+    name
+  }
+  time
+}

@@ -79,10 +79,13 @@ const {
   getQuestionnaire,
   getUserById,
   listUsers,
-  addEventToHistory,
-  getHistoryById,
+  createHistoryEvent,
+  getQuestionnaireMetaById,
   createComments,
+  saveModel,
 } = require("../../utils/datastore");
+
+const { QuestionnaireModel } = require("../../db/models/DynamoDB");
 
 const {
   createDefaultBusinessSurveyMetadata,
@@ -162,7 +165,10 @@ const Resolvers = {
       });
     },
     questionnaire: (root, args, ctx) => ctx.questionnaire,
-    history: (root, { input }) => getHistoryById(input.questionnaireId),
+    history: async (root, { input }) =>
+      getQuestionnaireMetaById(input.questionnaireId).then(
+        ({ history }) => history
+      ),
     section: (root, { input }, ctx) => getSectionById(ctx, input.sectionId),
     page: (root, { input }, ctx) => getPageById(ctx, input.pageId),
     answer: (root, { input }, ctx) => getAnswerById(ctx, input.answerId),
@@ -254,7 +260,46 @@ const Resolvers = {
       return createQuestionnaire(newQuestionnaire, ctx);
     },
     createHistoryNote: (root, { input }, ctx) =>
-      addEventToHistory(input.id, noteCreationEvent(ctx, input.bodyText)),
+      createHistoryEvent(input.id, noteCreationEvent(ctx, input.bodyText)),
+
+    updateHistoryNote: async (root, { input }, ctx) => {
+      const user = ctx.user;
+      const metadata = await getQuestionnaireMetaById(input.questionnaireId);
+
+      const noteToUpdate = metadata.history.find(({ id }) => id === input.id);
+
+      if (!user.admin && user.id !== noteToUpdate.userId) {
+        throw new Error("User doesnt have access");
+      }
+      if (noteToUpdate.type === "system") {
+        throw new Error("Cannot update system event message");
+      }
+
+      noteToUpdate.bodyText = input.bodyText;
+
+      await saveModel(new QuestionnaireModel(metadata));
+      return metadata.history;
+    },
+
+    deleteHistoryNote: async (root, { input }, ctx) => {
+      const user = ctx.user;
+      const metadata = await getQuestionnaireMetaById(input.questionnaireId);
+      const history = metadata.history;
+      const noteToDelete = history.find(item => item.id === input.id);
+
+      if (!user.admin && user.id !== noteToDelete.userId) {
+        throw new Error("User doesnt have access");
+      }
+      if (noteToDelete.type === "system") {
+        throw new Error("Cannot delete system event message");
+      }
+
+      remove(metadata.history, item => item.id === noteToDelete.id);
+
+      await saveModel(new QuestionnaireModel(metadata));
+      return metadata.history;
+    },
+
     createSection: createMutation((root, { input }, ctx) => {
       const section = createSection(input);
       ctx.questionnaire.sections.push(section);
@@ -598,7 +643,7 @@ const Resolvers = {
             throw Error(e);
           });
 
-        await addEventToHistory(ctx.questionnaire.id, publishStatusEvent(ctx));
+        await createHistoryEvent(ctx.questionnaire.id, publishStatusEvent(ctx));
 
         ctx.questionnaire.publishStatus = PUBLISHED;
       }
@@ -610,7 +655,7 @@ const Resolvers = {
 
         ctx.questionnaire.publishStatus = UPDATES_REQUIRED;
 
-        await addEventToHistory(
+        await createHistoryEvent(
           ctx.questionnaire.id,
           publishStatusEvent(ctx, input.reviewComment)
         );

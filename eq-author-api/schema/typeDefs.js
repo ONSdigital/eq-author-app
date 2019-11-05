@@ -64,12 +64,17 @@ type Questionnaire {
   publishDetails: PublishDetails
   totalErrorCount: Int!
 }
+enum HistoryEventTypes {
+  system
+  note
+}
 
 type History {
   id: ID!
   publishStatus: String!
   questionnaireTitle: String!
   bodyText: String
+  type: HistoryEventTypes!
   user: User!
   time: DateTime!
 }
@@ -614,6 +619,8 @@ type Mutation {
   deleteQuestionnaire(input: DeleteQuestionnaireInput!): DeletedQuestionnaire
   duplicateQuestionnaire(input: DuplicateQuestionnaireInput!): Questionnaire
   createHistoryNote(input: createHistoryNoteInput!): [History!]!
+  updateHistoryNote(input: updateHistoryNoteInput!): [History!]!
+  deleteHistoryNote(input: deleteHistoryNoteInput!): [History!]!
   createSection(input: CreateSectionInput!): Section
   updateSection(input: UpdateSectionInput!): Section
   deleteSection(input: DeleteSectionInput!): Questionnaire
@@ -1111,5 +1118,16 @@ input ReviewQuestionnaireInput {
   questionnaireId: ID!
   reviewAction: ReviewAction!
   reviewComment: String
+}
+
+input updateHistoryNoteInput {
+  questionnaireId: ID!
+  bodyText: String!
+  id: ID!
+}
+
+input deleteHistoryNoteInput {
+  questionnaireId: ID!
+  id: ID!
 }
 `;
