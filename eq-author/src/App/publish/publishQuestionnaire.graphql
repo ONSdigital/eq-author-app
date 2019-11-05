@@ -1,6 +1,0 @@
-query triggerPublish($input: PublishQuestionnaireInput!) {
-  triggerPublish(input: $input) {
-    id
-    launchUrl
-  }
-}

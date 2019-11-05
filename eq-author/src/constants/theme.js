@@ -11,7 +11,8 @@ export const colors = {
   lighterGrey: "#f5f5f5",
   red: "#D0021B",
   orange: "#FDBD56",
-  green: "#4E943D",
+  amber: "#fe781f",
+  green: "#0f8243",
   black: "#333333",
   white: "#FFFFFF",
 };
@@ -19,6 +20,7 @@ export const colors = {
 colors.primary = colors.blue;
 colors.secondary = colors.blue;
 colors.tertiary = colors.orange;
+colors.positive = colors.green;
 colors.text = colors.black;
 colors.textLight = colors.darkGrey;
 colors.borders = colors.grey;

@@ -10,6 +10,8 @@ import UnwrappedHistoryPageContent from "./HistoryPage";
 import questionnaireHistoryQuery from "./questionnaireHistory.graphql";
 import createHistoryNoteMutation from "./createHistoryNoteMutation.graphql";
 
+import { UNPUBLISHED } from "constants/publishStatus";
+
 //eslint-disable-next-line react/prop-types
 jest.mock("components/RichTextEditor", () => ({ onUpdate }) => {
   const handleInputChange = event =>
@@ -80,7 +82,7 @@ describe("History page", () => {
                 },
                 {
                   id: "aa94b4ef-e717-40b6-aba5-7c99557d283c",
-                  publishStatus: "Unpublished",
+                  publishStatus: UNPUBLISHED,
                   questionnaireTitle: "Test 2",
                   bodyText: "Hello Moto",
                   user: {
@@ -130,7 +132,7 @@ describe("History page", () => {
                 },
                 {
                   id: "aa94b4ef-e717-40b6-aba5-7c99557d283c",
-                  publishStatus: "Unpublished",
+                  publishStatus: UNPUBLISHED,
                   questionnaireTitle: "Test 2",
                   bodyText: "Hello Moto",
                   user: {
@@ -145,7 +147,7 @@ describe("History page", () => {
                 },
                 {
                   id: "48c2c4ca-9935-4ee4-98fd-7f2387fe8fea",
-                  publishStatus: "Unpublished",
+                  publishStatus: UNPUBLISHED,
                   questionnaireTitle: "Test 2",
                   bodyText: "New note",
                   user: {

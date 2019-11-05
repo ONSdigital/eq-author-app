@@ -1,10 +1,10 @@
 const executeQuery = require("../../executeQuery");
 
-const publishQuestionnaireQuery = `
-query triggerPublish($input: PublishQuestionnaireInput!) {
+const publishQuestionnaireMutation = `
+mutation triggerPublish($input: PublishQuestionnaireInput!) {
     triggerPublish(input: $input) {
       id
-      launchUrl
+      publishStatus
     }
   }
 `;
@@ -14,7 +14,7 @@ const publishQuestionnaire = async (
   ctx
 ) => {
   const result = await executeQuery(
-    publishQuestionnaireQuery,
+    publishQuestionnaireMutation,
     {
       input: { questionnaireId, surveyId, formType },
     },
@@ -25,6 +25,6 @@ const publishQuestionnaire = async (
 };
 
 module.exports = {
-  publishQuestionnaireQuery,
+  publishQuestionnaireMutation,
   publishQuestionnaire,
 };

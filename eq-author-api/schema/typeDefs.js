@@ -26,7 +26,7 @@ type QuestionnaireInfo {
 
 type PublishDetails {
   surveyId: String
-  formType: JSON
+  formType: String
 }
 
 enum QuestionnaireType {
@@ -77,6 +77,7 @@ type History {
 enum PublishStatus {
   Published
   Unpublished
+  AwaitingApproval
 }
 
 type DeletedQuestionnaire {
@@ -565,11 +566,6 @@ type QuestionnaireIntroduction {
   availablePipingMetadata: [Metadata!]!
 }
 
-type PublishRequest {
-  id: ID!
-  launchUrl: String!
-}
-
 type Reply {
   id: ID!
   commentText: String!
@@ -598,7 +594,6 @@ type Query {
   pagesAffectedByDeletion(pageId: ID!): [Page]! @deprecated(reason: "Not implemented")
   questionConfirmation(id: ID!): QuestionConfirmation
   questionnaireIntroduction(id: ID!): QuestionnaireIntroduction
-  triggerPublish(input: PublishQuestionnaireInput!): PublishRequest
   me: User!
   users: [User!]!
 }
@@ -665,6 +660,8 @@ type Mutation {
   updateCollapsible(input: UpdateCollapsibleInput!): Collapsible!
   moveCollapsible(input: MoveCollapsibleInput!): Collapsible!
   deleteCollapsible(input: DeleteCollapsibleInput!): QuestionnaireIntroduction!
+  triggerPublish(input: PublishQuestionnaireInput!): Questionnaire!
+  reviewQuestionnaire(input: ReviewQuestionnaireInput!): Questionnaire!
 }
 
 input CreateRouting2Input {
@@ -1087,5 +1084,14 @@ input PublishQuestionnaireInput {
   questionnaireId: ID!
   surveyId: String!
   formType: String!
+}
+
+enum ReviewAction {
+  Approved
+}
+
+input ReviewQuestionnaireInput {
+  questionnaireId: ID!
+  reviewAction: ReviewAction!
 }
 `;

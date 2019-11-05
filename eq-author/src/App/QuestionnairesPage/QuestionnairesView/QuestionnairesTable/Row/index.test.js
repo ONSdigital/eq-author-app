@@ -5,6 +5,7 @@ import IconButtonDelete from "components/buttons/IconButtonDelete";
 import DeleteConfirmDialog from "components/DeleteConfirmDialog";
 
 import { colors } from "constants/theme";
+import { UNPUBLISHED } from "constants/publishStatus";
 
 import {
   Row,
@@ -30,6 +31,7 @@ describe("Row", () => {
         shortTitle: "Test title",
         createdAt: "2017/01/02",
         updatedAt: "2017/01/03",
+        publishStatus: UNPUBLISHED,
         sections: [
           {
             id: "1",

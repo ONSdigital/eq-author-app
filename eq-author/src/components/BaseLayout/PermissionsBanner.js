@@ -5,9 +5,11 @@ import PropTypes from "prop-types";
 
 import IconText from "components/IconText";
 import ExpansionTransition from "components/transitions/ExpansionTransition";
+import WarningIcon from "components/OfflineBanner/icon-warning.svg?inline";
+
 import { colors } from "constants/theme";
 import { READ, WRITE } from "constants/questionnaire-permissions";
-import WarningIcon from "components/OfflineBanner/icon-warning.svg?inline";
+import { AWAITING_APPROVAL } from "constants/publishStatus";
 
 const Banner = styled.div`
   background-color: ${colors.red};
@@ -42,26 +44,38 @@ const WarningMessage = styled(IconText)`
   padding: 1em;
 `;
 
+const warningMessages = {
+  editorAccess:
+    "You do not have editor access to this questionnaire, any changes you make will not be saved",
+  awaitingApproval:
+    "This questionnaire is currently being reviewed. Any changes made will not be saved.",
+};
+
 export const PermissionsBanner = ({ questionnaire }) => {
   if (!questionnaire) {
     return null;
   }
-  const userCanEdit = questionnaire.permission === WRITE;
-  if (userCanEdit) {
-    return null;
-  }
-  return (
+
+  const renderWarningBox = message => (
     <TransitionGroup>
       <StyledExpansionTransition finalHeight="3.5em">
         <Banner>
-          <WarningMessage icon={WarningIcon}>
-            You do not have editor access to this questionnaire, any changes you
-            make will not be saved
-          </WarningMessage>
+          <WarningMessage icon={WarningIcon}>{message}</WarningMessage>
         </Banner>
       </StyledExpansionTransition>
     </TransitionGroup>
   );
+
+  const userCanEdit = questionnaire.permission === WRITE;
+  if (!userCanEdit) {
+    return renderWarningBox(warningMessages.editorAccess);
+  }
+
+  if (questionnaire.publishStatus === AWAITING_APPROVAL) {
+    return renderWarningBox(warningMessages.awaitingApproval);
+  }
+
+  return null;
 };
 
 PermissionsBanner.propTypes = {

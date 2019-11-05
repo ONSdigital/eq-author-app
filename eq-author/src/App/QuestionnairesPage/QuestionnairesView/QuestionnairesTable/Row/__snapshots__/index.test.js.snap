@@ -53,7 +53,9 @@ exports[`Row should render 1`] = `
       <Row__TD>
         <Row__TableIconText
           icon={[Function]}
-        />
+        >
+          Unpublished
+        </Row__TableIconText>
       </Row__TD>
       <Row__TD>
         Alan

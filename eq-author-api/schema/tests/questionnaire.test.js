@@ -13,7 +13,11 @@ fetch.mockImplementation(() =>
 );
 
 const { SOCIAL, BUSINESS } = require("../../constants/questionnaireTypes");
-const { PUBLISHED, UNPUBLISHED } = require("../../constants/publishStatus");
+const {
+  PUBLISHED,
+  UNPUBLISHED,
+  AWAITING_APPROVAL,
+} = require("../../constants/publishStatus");
 
 const { buildContext } = require("../../tests/utils/contextBuilder");
 const {
@@ -23,6 +27,7 @@ const {
   deleteQuestionnaire,
   listQuestionnaires,
   publishQuestionnaire,
+  reviewQuestionnaire,
   queryHistory,
   createHistoryNote,
 } = require("../../tests/utils/contextBuilder/questionnaire");
@@ -97,6 +102,14 @@ describe("questionnaire", () => {
   });
 
   describe("mutate", () => {
+    beforeEach(async () => {
+      ctx = await buildContext({
+        summary: false,
+        description: "description",
+        sections: [{}],
+        metadata: [{}],
+      });
+    });
     it("should mutate a questionnaire", async () => {
       ctx = await buildContext({
         title: "Questionnaire",
@@ -135,6 +148,107 @@ describe("questionnaire", () => {
       });
       const queriedShortTitleQuestionnaire = await queryQuestionnaire(ctx);
       expect(queriedShortTitleQuestionnaire.displayName).toEqual("short title");
+    });
+
+    describe("publishing and reviewing questionnaire", () => {
+      beforeEach(() => {
+        ctx.questionnaire.publishDetails = {
+          surveyId,
+          formType: { ONS: formType },
+        };
+        ctx.user.admin = true;
+      });
+
+      it("should be able to submit a questionnaire for approval", async () => {
+        expect(ctx.questionnaire.publishStatus).toEqual(UNPUBLISHED);
+        await publishQuestionnaire(
+          {
+            questionnaireId: ctx.questionnaire.id,
+            surveyId,
+            formType,
+          },
+          ctx
+        );
+        expect(ctx.questionnaire.publishStatus).toEqual(AWAITING_APPROVAL);
+      });
+
+      it("should be able to approve a questionnaire awaiting approval", async () => {
+        ctx.questionnaire.publishStatus = AWAITING_APPROVAL;
+        const result = await reviewQuestionnaire(
+          {
+            questionnaireId: ctx.questionnaire.id,
+            reviewAction: "Approved",
+          },
+          ctx
+        );
+
+        expect(ctx.questionnaire.publishStatus).toEqual(PUBLISHED);
+        expect(fetch).toHaveBeenCalledWith(
+          `${process.env.SURVEY_REGISTER_URL}${ctx.questionnaire.id}/${surveyId}/${formType}`,
+          { method: "put" }
+        );
+        expect(result).toMatchObject({
+          id: ctx.questionnaire.id,
+          publishStatus: "Published",
+        });
+      });
+
+      it("should not be able to edit questionnaire while awaiting approval", async () => {
+        ctx.questionnaire.publishStatus = AWAITING_APPROVAL;
+        const update = {
+          id: ctx.questionnaire.id,
+          title: "Questionnaire-updated",
+        };
+        await expect(updateQuestionnaire(ctx, update)).rejects.toBeTruthy();
+        expect(ctx.questionnaire.title).toEqual("Questionnaire");
+      });
+
+      it("should only be possible to review questionnaire while awaiting approval", async () => {
+        ctx.questionnaire.publishStatus = UNPUBLISHED;
+        await expect(
+          reviewQuestionnaire(
+            {
+              questionnaireId: ctx.questionnaire.id,
+              reviewAction: "Approved",
+            },
+            ctx
+          )
+        ).rejects.toBeTruthy();
+        expect(ctx.questionnaire.publishStatus).toEqual(UNPUBLISHED);
+      });
+
+      it("should only allow users with admin access to review a questionnaire", async () => {
+        ctx.questionnaire.publishStatus = AWAITING_APPROVAL;
+        ctx.user.admin = false;
+
+        await expect(
+          reviewQuestionnaire(
+            {
+              questionnaireId: ctx.questionnaire.id,
+              reviewAction: "Approved",
+            },
+            ctx
+          )
+        ).rejects.toBeTruthy();
+        expect(ctx.questionnaire.publishStatus).toEqual(AWAITING_APPROVAL);
+      });
+
+      it("should throw error if adding questionnaire to register fails", async () => {
+        ctx.questionnaire.publishStatus = AWAITING_APPROVAL;
+        fetch.mockImplementation(() => Promise.reject());
+
+        await expect(
+          reviewQuestionnaire(
+            {
+              questionnaireId: ctx.questionnaire.id,
+              reviewAction: "Approved",
+            },
+            ctx
+          )
+        ).rejects.toBeTruthy();
+
+        expect(ctx.questionnaire.publishStatus).toEqual(AWAITING_APPROVAL);
+      });
     });
   });
 
@@ -210,61 +324,6 @@ describe("questionnaire", () => {
         errors: questionnaireValidationErrors.errors,
         totalCount: questionnaireValidationErrors.errors.length,
       });
-    });
-
-    it("should publish a questionnaire", async () => {
-      const result = await publishQuestionnaire(
-        {
-          questionnaireId: ctx.questionnaire.id,
-          surveyId,
-          formType,
-        },
-        ctx
-      );
-      expect(fetch).toHaveBeenCalledWith(
-        `${process.env.SURVEY_REGISTER_URL}${ctx.questionnaire.id}/${surveyId}/${formType}`,
-        { method: "put" }
-      );
-      expect(result).toMatchObject({
-        id: ctx.questionnaire.id,
-        launchUrl: "https://best.url.ever.com",
-      });
-
-      expect(ctx.questionnaire.publishStatus).toEqual(PUBLISHED);
-    });
-
-    it("should set publish status to unpublished after updating the questionnaire", async () => {
-      const result = await publishQuestionnaire(
-        {
-          questionnaireId: ctx.questionnaire.id,
-          surveyId,
-          formType,
-        },
-        ctx
-      );
-      expect(fetch).toHaveBeenCalledWith(
-        `${process.env.SURVEY_REGISTER_URL}${ctx.questionnaire.id}/${surveyId}/${formType}`,
-        { method: "put" }
-      );
-      expect(result).toMatchObject({
-        id: ctx.questionnaire.id,
-        launchUrl: "https://best.url.ever.com",
-      });
-
-      expect(ctx.questionnaire.publishStatus).toEqual(PUBLISHED);
-
-      const update = {
-        id: ctx.questionnaire.id,
-        title: "Questionnaire-updated",
-        description: "Description-updated",
-        theme: "census",
-        navigation: true,
-        surveyId: "2-updated",
-        summary: true,
-        shortTitle: "short title updated",
-      };
-      await updateQuestionnaire(ctx, update);
-      expect(ctx.questionnaire.publishStatus).toEqual(UNPUBLISHED);
     });
   });
 

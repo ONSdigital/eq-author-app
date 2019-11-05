@@ -28,6 +28,7 @@ import introductionRoutes from "App/introduction";
 import metadataRoutes from "App/metadata";
 import historyRoutes from "App/history";
 import publishRoutes from "App/publish";
+import reviewRoutes from "App/review";
 
 import withCreateQuestionPage from "enhancers/withCreateQuestionPage";
 import withCreateSection from "enhancers/withCreateSection";
@@ -219,6 +220,7 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
                     ...metadataRoutes,
                     ...historyRoutes,
                     ...publishRoutes,
+                    ...reviewRoutes,
                   ]}
                   <Route path="*" render={this.renderRedirect} />
                 </Switch>
@@ -244,6 +246,7 @@ const QUESTIONNAIRE_QUERY = gql`
       introduction {
         id
       }
+      publishStatus
       totalErrorCount
       ...NavigationSidebar
     }
