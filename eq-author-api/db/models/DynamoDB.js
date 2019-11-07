@@ -130,6 +130,9 @@ const questionnaireVersionsSchema = new dynamoose.Schema(
     publishDetails: {
       type: Object,
     },
+    surveyVersion: {
+      type: String,
+    },
   },
   {
     throughput: throughput,

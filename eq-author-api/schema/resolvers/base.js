@@ -97,7 +97,10 @@ const {
 } = require("./withPermissions");
 const { createMutation } = require("./createMutation");
 
-const { noteCreationEvent } = require("../../utils/questionnaireEvents");
+const {
+  noteCreationEvent,
+  changedPublishStatusEvent,
+} = require("../../utils/questionnaireEvents");
 
 const createSection = (input = {}) => ({
   id: uuid.v4(),
@@ -119,6 +122,7 @@ const createNewQuestionnaire = input => {
     sections: [createSection()],
     summary: false,
     version: currentVersion,
+    surveyVersion: 1,
     editors: [],
     isPublic: true,
     publishStatus: UNPUBLISHED,
@@ -559,10 +563,10 @@ const Resolvers = {
         surveyId,
         formType: { ONS: formType },
       } = ctx.questionnaire.publishDetails;
-
+      const surveyVersion = ctx.questionnaire.surveyVersion;
       // Puts questionnaire into survey register
       await fetch(
-        `${process.env.SURVEY_REGISTER_URL}${questionnaireId}/${surveyId}/${formType}`,
+        `${process.env.SURVEY_REGISTER_URL}${questionnaireId}/${surveyId}/${formType}/${surveyVersion}`,
         { method: "put" }
       )
         .then(async res => {
@@ -572,6 +576,11 @@ const Resolvers = {
         .catch(e => {
           throw Error(e);
         });
+
+      await addEventToHistory(
+        ctx.questionnaire.id,
+        changedPublishStatusEvent(ctx, ctx.questionnaire.surveyVersion)
+      );
 
       ctx.questionnaire.publishStatus = PUBLISHED;
       await saveQuestionnaire(ctx.questionnaire);

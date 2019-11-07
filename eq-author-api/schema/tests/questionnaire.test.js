@@ -32,6 +32,12 @@ const {
   createHistoryNote,
 } = require("../../tests/utils/contextBuilder/questionnaire");
 
+const {
+  createAnswer,
+  updateAnswer,
+} = require("../../tests/utils/contextBuilder/answer");
+const { NUMBER } = require("../../constants/answerTypes");
+
 const defaultUser = require("../../tests/utils/mockUserPayload");
 const { createUser } = require("../../utils/datastore");
 
@@ -39,11 +45,13 @@ describe("questionnaire", () => {
   let ctx, questionnaire;
   const surveyId = "123";
   const formType = "321";
+  const surveyVersion = "1";
 
   afterEach(async () => {
     if (!questionnaire) {
       return;
     }
+
     await deleteQuestionnaire(questionnaire.id);
     questionnaire = null;
   });
@@ -184,7 +192,7 @@ describe("questionnaire", () => {
 
         expect(ctx.questionnaire.publishStatus).toEqual(PUBLISHED);
         expect(fetch).toHaveBeenCalledWith(
-          `${process.env.SURVEY_REGISTER_URL}${ctx.questionnaire.id}/${surveyId}/${formType}`,
+          `${process.env.SURVEY_REGISTER_URL}${ctx.questionnaire.id}/${surveyId}/${formType}/${surveyVersion}`,
           { method: "put" }
         );
         expect(result).toMatchObject({
@@ -392,7 +400,7 @@ describe("questionnaire", () => {
         {
           bodyText: null,
           publishStatus: "Questionnaire created",
-          questionnaireTitle: "Questionnaire",
+          questionnaireTitle: "Questionnaire (Version 1)",
           user: {
             email: "eq-team@ons.gov.uk",
           },
@@ -410,7 +418,7 @@ describe("questionnaire", () => {
         {
           bodyText: "I am note",
           publishStatus: "Unpublished",
-          questionnaireTitle: "Questionnaire",
+          questionnaireTitle: "Questionnaire (Version 1)",
           user: {
             email: "eq-team@ons.gov.uk",
           },
@@ -418,12 +426,65 @@ describe("questionnaire", () => {
         {
           bodyText: null,
           publishStatus: "Questionnaire created",
-          questionnaireTitle: "Questionnaire",
+          questionnaireTitle: "Questionnaire (Version 1)",
           user: {
             email: "eq-team@ons.gov.uk",
           },
         },
       ]);
+    });
+  });
+
+  describe("versioning", () => {
+    let questionnaireConfig;
+    beforeEach(async () => {
+      ctx = buildContext();
+      ctx = { user: defaultUser() };
+      createUser(ctx.user);
+
+      questionnaireConfig = {
+        title: "Which Game of Thrones house are you?",
+        description: "Description",
+        surveyId: "1",
+        theme: "default",
+        navigation: false,
+        summary: false,
+        type: SOCIAL,
+        shortTitle: "short title",
+      };
+
+      await createQuestionnaire(ctx, questionnaireConfig);
+
+      await createAnswer(ctx, {
+        questionPageId: ctx.questionnaire.sections[0].pages[0].id,
+        type: NUMBER,
+      });
+    });
+
+    it("should initialise new questionnaires at version 1", () => {
+      expect(ctx.questionnaire.surveyVersion).toEqual("1");
+    });
+
+    it("should increment the version number by 1 when a change is made", async () => {
+      expect(ctx.questionnaire.surveyVersion).toEqual("1");
+
+      ctx.questionnaire.publishStatus = "Published";
+
+      const answer = ctx.questionnaire.sections[0].pages[0].answers[0];
+      const update = {
+        id: answer.id,
+        description: "answer-description-update",
+        guidance: "answer-guidance-update",
+        label: "answer-label-update",
+        qCode: "answer-qcode-update",
+        properties: {
+          decimals: 0,
+          required: true,
+        },
+      };
+
+      await updateAnswer(ctx, update);
+      expect(ctx.questionnaire.surveyVersion).toEqual("2");
     });
   });
 });
