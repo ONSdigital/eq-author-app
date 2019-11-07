@@ -5,10 +5,11 @@ import actSilenceWarning from "tests/utils/actSilenceWarning";
 import QuestionnaireContext from "components/QuestionnaireContext";
 import { MeContext } from "App/MeContext";
 
-import UnwrappedHistoryPageContent from "./HistoryPage";
+import HistoryPageContent from "./HistoryPage";
 
 import questionnaireHistoryQuery from "./questionnaireHistory.graphql";
 import createHistoryNoteMutation from "./createHistoryNoteMutation.graphql";
+import { publishStatusSubscription } from "components/EditorLayout/Header";
 
 import { UNPUBLISHED } from "constants/publishStatus";
 
@@ -34,7 +35,7 @@ describe("History page", () => {
     props = {
       match: {
         params: {
-          questionnaireId: questionnaireId,
+          questionnaireId,
         },
       },
       data: {
@@ -56,9 +57,7 @@ describe("History page", () => {
       {
         request: {
           query: questionnaireHistoryQuery,
-          variables: {
-            input: { questionnaireId: props.match.params.questionnaireId },
-          },
+          variables: { input: { questionnaireId } },
         },
         result: () => {
           queryWasCalled = true;
@@ -165,26 +164,42 @@ describe("History page", () => {
           };
         },
       },
+      {
+        request: {
+          query: publishStatusSubscription,
+          variables: {
+            id: questionnaireId,
+          },
+        },
+        result: () => ({
+          data: {
+            publishStatusUpdated: {
+              id: questionnaireId,
+              publishStatus: "Unpublished",
+              __typename: "Questionnaire",
+            },
+          },
+        }),
+      },
     ];
   });
 
-  const renderWithContext = (component, ...rest) =>
+  const renderWithContext = component =>
     render(
       <MeContext.Provider value={{ me: user }}>
         <QuestionnaireContext.Provider value={props.data.questionnaire}>
           {component}
         </QuestionnaireContext.Provider>
       </MeContext.Provider>,
-      ...rest
-    );
-
-  it("renders History page with correct events", async () => {
-    const { getByText } = renderWithContext(
-      <UnwrappedHistoryPageContent {...props} />,
       {
+        route: `/q/${questionnaireId}/page/2`,
+        urlParamMatcher: "/q/:questionnaireId",
         mocks,
       }
     );
+
+  it("renders History page with correct events", async () => {
+    const { getByText } = renderWithContext(<HistoryPageContent {...props} />);
     await flushPromises();
     expect(getByText("History")).toBeTruthy();
     expect(getByText("Questionnaire created")).toBeTruthy();
@@ -193,10 +208,7 @@ describe("History page", () => {
 
   it("can create a note", async () => {
     const { getByText, getByTestId } = renderWithContext(
-      <UnwrappedHistoryPageContent {...props} />,
-      {
-        mocks,
-      }
+      <HistoryPageContent {...props} />
     );
     await flushPromises();
     fireEvent.change(getByTestId("textbox"), {
@@ -213,10 +225,7 @@ describe("History page", () => {
 
   it("wont create an empty note", async () => {
     const { getByTestId } = renderWithContext(
-      <UnwrappedHistoryPageContent {...props} />,
-      {
-        mocks,
-      }
+      <HistoryPageContent {...props} />
     );
     await flushPromises();
     fireEvent.click(getByTestId("add-note-btn"));
@@ -226,35 +235,28 @@ describe("History page", () => {
 
   it("should request questionnaire history", async () => {
     queryWasCalled = false;
-    renderWithContext(<UnwrappedHistoryPageContent {...props} />, {
-      mocks,
-    });
+    renderWithContext(<HistoryPageContent {...props} />);
     await flushPromises();
     expect(queryWasCalled).toBeTruthy();
   });
 
   it("should render loading state", () => {
-    props = {
-      ...props,
-      loading: true,
-    };
-
     const { getByTestId } = renderWithContext(
-      <UnwrappedHistoryPageContent {...props} />
+      <HistoryPageContent {...props} />
     );
-
     expect(getByTestId("loading")).toBeTruthy();
   });
 
   it("should render error state", async () => {
-    props = {
-      ...props,
-      error: {},
+    mocks[0] = {
+      request: {
+        query: questionnaireHistoryQuery,
+        variables: { input: { questionnaireId } },
+      },
+      result: () => ({ error: {} }),
     };
 
-    const { getByText } = renderWithContext(
-      <UnwrappedHistoryPageContent {...props} />
-    );
+    const { getByText } = renderWithContext(<HistoryPageContent {...props} />);
     await flushPromises();
     expect(getByText("Oops! Something went wrong")).toBeTruthy();
   });

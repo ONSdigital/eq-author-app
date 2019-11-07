@@ -1,15 +1,26 @@
 import React from "react";
 
-import { render, fireEvent, waitForElementToBeRemoved } from "tests/utils/rtl";
+import {
+  render,
+  fireEvent,
+  flushPromises,
+  waitForElementToBeRemoved,
+} from "tests/utils/rtl";
+import actSilenceWarning from "tests/utils/actSilenceWarning";
 
 import QuestionnaireContext from "components/QuestionnaireContext";
 import { MeContext } from "App/MeContext";
-import Header from "./";
+import Header, { publishStatusSubscription } from "./";
 
-import { UNPUBLISHED, AWAITING_APPROVAL } from "constants/publishStatus";
+import {
+  PUBLISHED,
+  UNPUBLISHED,
+  AWAITING_APPROVAL,
+} from "constants/publishStatus";
 
 describe("Header", () => {
-  let user, props, questionnaire, signOut;
+  let user, props, questionnaire, signOut, mocks;
+  actSilenceWarning();
   beforeEach(() => {
     questionnaire = {
       id: "456",
@@ -25,7 +36,6 @@ describe("Header", () => {
         { id: "3", name: "Jay", email: "j@ay.com", picture: "jay.jpg" },
       ],
     };
-
     user = {
       id: "123",
       displayName: "Rick Sanchez",
@@ -37,8 +47,24 @@ describe("Header", () => {
       title: "Some title",
       children: "Some content",
     };
-
     signOut = jest.fn();
+    mocks = [
+      {
+        request: {
+          query: publishStatusSubscription,
+          variables: { id: questionnaire.id },
+        },
+        result: () => ({
+          data: {
+            publishStatusUpdated: {
+              id: questionnaire.id,
+              publishStatus: UNPUBLISHED,
+              __typename: "Questionnaire",
+            },
+          },
+        }),
+      },
+    ];
   });
 
   const renderWithContext = (component, rest) =>
@@ -49,8 +75,9 @@ describe("Header", () => {
         </QuestionnaireContext.Provider>
       </MeContext.Provider>,
       {
-        route: "/q/1/page/2",
-        urlParamMatcher: "/q/:questionnaireId/page/:pageId",
+        route: `/q/${questionnaire.id}/page/2`,
+        urlParamMatcher: "/q/:questionnaireId/:modifier",
+        mocks,
         ...rest,
       }
     );
@@ -129,6 +156,43 @@ describe("Header", () => {
       const publishSurveyButton = getByTestId("btn-publish");
       expect(publishSurveyButton).toHaveAttribute("disabled");
     });
+
+    it("should disable the publish button when status is Published", () => {
+      questionnaire.publishStatus = PUBLISHED;
+      const { getByTestId } = renderWithContext(<Header {...props} />);
+
+      const publishSurveyButton = getByTestId("btn-publish");
+      expect(publishSurveyButton).toHaveAttribute("disabled");
+    });
+
+    it("should enable the button when publish subscription returns Unpublished", async () => {
+      let queryWasCalled = false;
+      renderWithContext(<Header {...props} />, {
+        mocks: [
+          {
+            request: {
+              query: publishStatusSubscription,
+              variables: { id: questionnaire.id },
+            },
+            result: () => {
+              queryWasCalled = true;
+              return {
+                data: {
+                  publishStatusUpdated: {
+                    id: questionnaire.id,
+                    publishStatus: UNPUBLISHED,
+                    __typename: "Questionnaire",
+                  },
+                },
+              };
+            },
+          },
+        ],
+      });
+
+      await flushPromises();
+      expect(queryWasCalled).toBeTruthy();
+    });
   });
 
   describe("review survey button", () => {
@@ -197,8 +261,7 @@ describe("Header", () => {
 
     it("should start with the questionnaire settings open when the modifier is provided in the url", () => {
       const { getByText } = renderWithContext(<Header {...props} />, {
-        route: "/q/1/settings",
-        urlParamMatcher: "/q/:questionnaireId/:modifier",
+        route: `/q/${questionnaire.id}/settings`,
       });
 
       expect(getByText("Questionnaire settings")).toBeTruthy();
@@ -207,16 +270,12 @@ describe("Header", () => {
 
   it("should be possible to open and close the sharing modal", () => {
     const { getByText, queryByText } = renderWithContext(<Header {...props} />);
-
     expect(queryByText("Pinky Malinky")).toBeFalsy();
 
     fireEvent.click(getByText("Sharing"));
-
     expect(getByText("Pinky Malinky")).toBeTruthy();
 
-    const doneButton = getByText("Done");
-    fireEvent.click(doneButton);
-
+    fireEvent.click(getByText("Done"));
     expect(queryByText("Pinky Malinky")).toBeFalsy();
   });
 });

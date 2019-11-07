@@ -1,11 +1,12 @@
 import React from "react";
 import { shallow } from "enzyme";
+import { render } from "tests/utils/rtl";
 
 import IconButtonDelete from "components/buttons/IconButtonDelete";
 import DeleteConfirmDialog from "components/DeleteConfirmDialog";
 
 import { colors } from "constants/theme";
-import { UNPUBLISHED } from "constants/publishStatus";
+import { UNPUBLISHED, AWAITING_APPROVAL } from "constants/publishStatus";
 
 import {
   Row,
@@ -144,6 +145,27 @@ describe("Row", () => {
     expect(stopPropagation).toHaveBeenCalled();
   });
 
+  it("should show the short title when it is provided", () => {
+    let wrapper = shallow(<Row {...props} />);
+    const shortTitle = wrapper.find(ShortTitle);
+    expect(shortTitle).toMatchSnapshot();
+    props.questionnaire.shortTitle = "";
+    wrapper = shallow(<Row {...props} />);
+    expect(wrapper.find(ShortTitle)).toHaveLength(0);
+  });
+
+  it("should display AwaitingApproval as 'Awaiting approval'", () => {
+    props.questionnaire.publishStatus = AWAITING_APPROVAL;
+    const { getByText } = render(
+      <table>
+        <tbody>
+          <Row {...props} />
+        </tbody>
+      </table>
+    );
+    expect(getByText("Awaiting approval")).toBeTruthy();
+  });
+
   describe("deletion", () => {
     it("should show the confirm delete dialog when the delete button is clicked", () => {
       const wrapper = shallow(<Row {...props} />);
@@ -179,14 +201,5 @@ describe("Row", () => {
         isOpen: false,
       });
     });
-  });
-
-  it("should show the short title when it is provided", () => {
-    let wrapper = shallow(<Row {...props} />);
-    let shortTitle = wrapper.find(ShortTitle);
-    expect(shortTitle).toMatchSnapshot();
-    props.questionnaire.shortTitle = "";
-    wrapper = shallow(<Row {...props} />);
-    expect(wrapper.find(ShortTitle)).toHaveLength(0);
   });
 });

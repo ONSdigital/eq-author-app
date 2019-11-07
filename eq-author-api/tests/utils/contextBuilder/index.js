@@ -1,8 +1,13 @@
 const { SOCIAL } = require("../../../constants/questionnaireTypes");
 const { RADIO } = require("../../../constants/answerTypes");
 
+const { PUBLISHED, UNPUBLISHED } = require("../../../constants/publishStatus");
 const { createUser } = require("../../../utils/datastore");
-const { createQuestionnaire } = require("./questionnaire");
+const {
+  createQuestionnaire,
+  publishQuestionnaire,
+  reviewQuestionnaire,
+} = require("./questionnaire");
 const { createMetadata, updateMetadata } = require("./metadata");
 const { createSection, deleteSection } = require("./section");
 const { deletePage } = require("./page");
@@ -174,6 +179,29 @@ const buildContext = async (questionnaireConfig, userConfig = {}) => {
   }
 
   await buildRouting(ctx, questionnaireConfig);
+
+  if (questionnaireProps.publishStatus === UNPUBLISHED) {
+    return ctx;
+  }
+  if (questionnaireProps.publishStatus) {
+    await publishQuestionnaire(
+      {
+        questionnaireId: questionnaire.id,
+        surveyId: "123",
+        formType: "456",
+      },
+      ctx
+    );
+    if (questionnaireProps.publishStatus === PUBLISHED) {
+      await reviewQuestionnaire(
+        {
+          questionnaireId: questionnaire.id,
+          reviewAction: "Approved",
+        },
+        ctx
+      );
+    }
+  }
 
   return ctx;
 };

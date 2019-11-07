@@ -17,6 +17,7 @@ import { buildQuestionnairePath } from "utils/UrlUtils";
 
 import { colors } from "constants/theme";
 import { WRITE } from "constants/questionnaire-permissions";
+import { AWAITING_APPROVAL } from "constants/publishStatus";
 
 import FormattedDate from "./FormattedDate";
 
@@ -276,7 +277,9 @@ export class Row extends React.Component {
             </TD>
             <TD>
               <TableIconText icon={ColoredStatusDot}>
-                {publishStatus.replace(/([A-Z])/g, " $1").trim()}
+                {publishStatus === AWAITING_APPROVAL
+                  ? "Awaiting approval"
+                  : publishStatus}
               </TableIconText>
             </TD>
             <TD>{createdBy.displayName}</TD>

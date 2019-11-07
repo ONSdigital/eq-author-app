@@ -7,13 +7,15 @@ import { MeContext } from "App/MeContext";
 import { byTestAttr } from "tests/utils/selectors";
 
 import CalculatedSummaryPreview from "./CalculatedSummaryPreview";
+import { publishStatusSubscription } from "components/EditorLayout/Header";
 
 describe("CalculatedSummaryPreview", () => {
-  let page, me;
+  let page, me, mocks, questionnaireId;
 
   actSilenceWarning();
 
   beforeEach(() => {
+    questionnaireId = "111";
     me = {
       id: "123",
       displayName: "Raymond Holt",
@@ -44,6 +46,24 @@ describe("CalculatedSummaryPreview", () => {
       },
       validationErrorInfo: [],
     };
+
+    mocks = [
+      {
+        request: {
+          query: publishStatusSubscription,
+          variables: { id: questionnaireId },
+        },
+        result: () => ({
+          data: {
+            publishStatusUpdated: {
+              id: questionnaireId,
+              publishStatus: "Unpublished",
+              __typename: "Questionnaire",
+            },
+          },
+        }),
+      },
+    ];
   });
 
   it("should render", async () => {
@@ -52,8 +72,9 @@ describe("CalculatedSummaryPreview", () => {
         <CalculatedSummaryPreview page={page} />
       </MeContext.Provider>,
       {
-        route: "/q/1/page/2/preview",
+        route: `/q/${questionnaireId}/page/2/preview`,
         urlParamMatcher: "/q/:questionnaireId/page/:pageId",
+        mocks,
       }
     );
     await flushPromises();

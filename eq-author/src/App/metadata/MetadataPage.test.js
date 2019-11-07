@@ -5,9 +5,10 @@ import QuestionnaireContext from "components/QuestionnaireContext";
 import { MeContext } from "App/MeContext";
 
 import { UnwrappedMetadataPageContent } from "./MetadataPage";
+import { publishStatusSubscription } from "components/EditorLayout/Header";
 
 describe("Metadata page", () => {
-  let props, questionnaireId, user, signOut;
+  let props, questionnaireId, user, signOut, mocks;
 
   beforeEach(() => {
     questionnaireId = "1";
@@ -38,16 +39,39 @@ describe("Metadata page", () => {
     };
 
     signOut = jest.fn();
+
+    mocks = [
+      {
+        request: {
+          query: publishStatusSubscription,
+          variables: { id: questionnaireId },
+        },
+        result: () => ({
+          data: {
+            publishStatusUpdated: {
+              id: questionnaireId,
+              publishStatus: "Unpublished",
+              __typename: "Questionnaire",
+            },
+          },
+        }),
+      },
+    ];
   });
 
-  const renderWithContext = (component, ...rest) =>
+  const renderWithContext = (component, rest) =>
     render(
       <MeContext.Provider value={{ me: user, signOut }}>
         <QuestionnaireContext.Provider value={props.data.questionnaire}>
           {component}
         </QuestionnaireContext.Provider>
       </MeContext.Provider>,
-      ...rest
+      {
+        route: `/q/${questionnaireId}`,
+        urlParamMatcher: "/q/:questionnaireId",
+        mocks,
+        ...rest,
+      }
     );
 
   it("should render loading state", () => {

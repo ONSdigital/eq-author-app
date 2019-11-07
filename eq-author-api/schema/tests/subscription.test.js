@@ -1,11 +1,17 @@
 const gql = require("graphql-tag");
 
 const { NUMBER } = require("../../constants/answerTypes");
+const {
+  PUBLISHED,
+  UNPUBLISHED,
+  AWAITING_APPROVAL,
+} = require("../../constants/publishStatus");
 
 const { buildContext } = require("../../tests/utils/contextBuilder");
 const executeSubscription = require("../../tests/utils/executeSubscription");
 
 const {
+  updateQuestionnaire,
   deleteQuestionnaire,
 } = require("../../tests/utils/contextBuilder/questionnaire");
 const {
@@ -14,6 +20,18 @@ const {
 
 const wait = timeout =>
   new Promise(resolve => setTimeout(() => resolve("timeout"), timeout));
+
+jest.mock("node-fetch");
+const fetch = require("node-fetch");
+
+fetch.mockImplementation(() =>
+  Promise.resolve({
+    json: () => ({
+      questionnaireId: "test",
+      publishedSurveyUrl: "https://best.url.com",
+    }),
+  })
+);
 
 describe("subscriptions", () => {
   let ctx, questionnaire, iterator;
@@ -120,8 +138,8 @@ describe("subscriptions", () => {
         id: pageId,
         title: "",
       });
-      const p = iterator.next();
-      const result = await Promise.race([p, wait(50)]);
+      const promise = iterator.next();
+      const result = await Promise.race([promise, wait(50)]);
       expect(result).toBe("timeout");
     });
 
@@ -157,8 +175,68 @@ describe("subscriptions", () => {
         title: "",
       });
 
-      const p = iterator.next();
-      const result = await Promise.race([p, wait(50)]);
+      const promise = iterator.next();
+      const result = await Promise.race([promise, wait(50)]);
+      expect(result).toBe("timeout");
+    });
+  });
+
+  describe("publishStatusUpdated", () => {
+    const publishStatusSubscription = gql`
+      subscription PublishStatus($id: ID!) {
+        publishStatusUpdated(id: $id) {
+          id
+          publishStatus
+        }
+      }
+    `;
+
+    it("should send event when publish status goes from published to unpublished", async () => {
+      ctx = await buildContext(
+        {
+          publishStatus: PUBLISHED,
+          sections: [
+            {
+              pages: [
+                {
+                  title: "some value",
+                },
+              ],
+            },
+          ],
+        },
+        { admin: true }
+      );
+      questionnaire = ctx.questionnaire;
+      iterator = await executeSubscription(publishStatusSubscription, {
+        id: questionnaire.id,
+      });
+      const pageId = questionnaire.sections[0].pages[0].id;
+      await updateQuestionPage(ctx, {
+        id: pageId,
+        title: "asd",
+      });
+      const result = await iterator.next();
+      expect(result.value.data.publishStatusUpdated.publishStatus).toBe(
+        UNPUBLISHED
+      );
+    });
+
+    it("should not send updates unless status goes from published to unpublished", async () => {
+      ctx = await buildContext({ publishStatus: UNPUBLISHED });
+      questionnaire = ctx.questionnaire;
+
+      iterator = await executeSubscription(publishStatusSubscription, {
+        id: questionnaire.id,
+      });
+
+      await updateQuestionnaire(ctx, {
+        id: questionnaire.id,
+        publishStatus: AWAITING_APPROVAL,
+      });
+
+      const promise = iterator.next();
+      const result = await Promise.race([promise, wait(50)]);
       expect(result).toBe("timeout");
     });
   });

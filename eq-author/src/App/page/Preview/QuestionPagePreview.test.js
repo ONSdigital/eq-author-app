@@ -8,6 +8,7 @@ import { byTestAttr } from "tests/utils/selectors";
 import { TEXTFIELD } from "constants/answer-types";
 
 import Error from "components/preview/Error";
+import { publishStatusSubscription } from "components/EditorLayout/Header";
 
 import QuestionPagePreview, {
   DetailsContent,
@@ -15,7 +16,7 @@ import QuestionPagePreview, {
 } from "./QuestionPagePreview";
 
 describe("QuestionPagePreview", () => {
-  let page, me;
+  let page, me, mocks, questionnaireId;
 
   actSilenceWarning();
 
@@ -56,6 +57,24 @@ describe("QuestionPagePreview", () => {
       },
       totalValidation: null,
     };
+    questionnaireId = "q123";
+    mocks = [
+      {
+        request: {
+          query: publishStatusSubscription,
+          variables: { id: questionnaireId },
+        },
+        result: () => ({
+          data: {
+            publishStatusUpdated: {
+              id: questionnaireId,
+              publishStatus: "Unpublished",
+              __typename: "Questionnaire",
+            },
+          },
+        }),
+      },
+    ];
   });
 
   it("should render", async () => {
@@ -64,8 +83,9 @@ describe("QuestionPagePreview", () => {
         <QuestionPagePreview page={page} />
       </MeContext.Provider>,
       {
-        route: "/q/1/page/2",
+        route: `/q/${questionnaireId}/page/2`,
         urlParamMatcher: "/q/:questionnaireId/page/:pageId",
+        mocks,
       }
     );
     await flushPromises();

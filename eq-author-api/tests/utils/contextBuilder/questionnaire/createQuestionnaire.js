@@ -1,3 +1,6 @@
+const { filter } = require("graphql-anywhere");
+const gql = require("graphql-tag");
+
 const executeQuery = require("../../executeQuery");
 
 const createQuestionnaireMutation = `
@@ -43,7 +46,24 @@ const createQuestionnaireMutation = `
 const createQuestionnaire = async (ctx, input) => {
   const result = await executeQuery(
     createQuestionnaireMutation,
-    { input },
+    {
+      input: filter(
+        gql`
+          {
+            title
+            description
+            theme
+            navigation
+            surveyId
+            summary
+            type
+            shortTitle
+            isPublic
+          }
+        `,
+        input
+      ),
+    },
     ctx
   );
 
