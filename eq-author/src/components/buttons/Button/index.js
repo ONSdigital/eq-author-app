@@ -68,6 +68,20 @@ export const positiveButton = css`
   }
 `;
 
+export const negativeButton = css`
+  --color-text: ${colors.white};
+  --color-bg: ${colors.negative};
+
+  position: relative;
+  border: none;
+
+  &:hover {
+    --color-text: ${colors.white};
+    --color-bg: ${darken(0.1, colors.negative)};
+    border-color: var(--color-bg);
+  }
+`;
+
 export const mediumButton = css`
   padding: 0.4em 0.8em;
 `;
@@ -117,6 +131,7 @@ const Button = styled.button`
   ${props => props.variant === "tertiary" && tertiaryButton};
   ${props => props.variant === "tertiary-light" && tertiaryLightButton};
   ${props => props.variant === "positive" && positiveButton};
+  ${props => props.variant === "negative" && negativeButton};
   ${props => props.medium && mediumButton};
   ${props => props.small && smallButton};
 `;

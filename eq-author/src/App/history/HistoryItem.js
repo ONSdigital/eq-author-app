@@ -37,6 +37,14 @@ const EventText = styled.div`
   }
 `;
 
+const translations = {
+  Published: "Published",
+  Unpublished: "Unpublished",
+  AwaitingApproval: "Awaiting approval",
+  UpdatesRequired: "Updates required",
+  "Questionnaire created": "Questionnaire created",
+};
+
 const formatDate = unformattedDate =>
   moment(unformattedDate).format("DD/MM/YYYY [at] HH:mm");
 
@@ -50,7 +58,8 @@ const HistoryItem = ({
   return (
     <StyledItem>
       <QuestionnaireTitle>
-        {questionnaireTitle} - <strong>{publishStatus}</strong>
+        {questionnaireTitle} -{" "}
+        <strong>{translations[publishStatus] || publishStatus}</strong>
       </QuestionnaireTitle>
       <QuestionnaireUserName>
         {userName} - {formatDate(createdAt)}

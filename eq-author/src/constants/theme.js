@@ -21,6 +21,7 @@ colors.primary = colors.blue;
 colors.secondary = colors.blue;
 colors.tertiary = colors.orange;
 colors.positive = colors.green;
+colors.negative = colors.red;
 colors.text = colors.black;
 colors.textLight = colors.darkGrey;
 colors.borders = colors.grey;

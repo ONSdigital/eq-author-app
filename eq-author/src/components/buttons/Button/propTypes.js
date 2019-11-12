@@ -6,6 +6,7 @@ export const propTypes = {
     "tertiary",
     "tertiary-light",
     "positive",
+    "negative",
   ]),
   small: PropTypes.bool,
   medium: PropTypes.bool,
