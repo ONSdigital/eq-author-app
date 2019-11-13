@@ -361,6 +361,7 @@ const Resolvers = {
       );
 
       const answer = find(concat(answers, additionalAnswers), { id: input.id });
+
       merge(answer, input);
 
       return answer;
@@ -768,12 +769,15 @@ const Resolvers = {
     secondaryLabelDefault: answer =>
       getName({ label: answer.secondaryLabel }, "BasicAnswer"),
 
-    validationErrorInfo: ({ id }, args, ctx) =>
-      ctx.validationErrorInfo[ANSWERS][id] || {
-        id,
-        errors: [],
-        totalCount: 0,
-      },
+    validationErrorInfo: ({ id }, args, ctx) => {
+      return (
+        ctx.validationErrorInfo[ANSWERS][id] || {
+          id,
+          errors: [],
+          totalCount: 0,
+        }
+      );
+    },
   },
 
   MultipleChoiceAnswer: {

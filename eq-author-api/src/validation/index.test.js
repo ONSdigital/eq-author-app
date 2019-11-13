@@ -7,6 +7,11 @@ const {
   DATE,
 } = require("../../constants/answerTypes");
 
+const {
+  ERR_MAX_LENGTH_TOO_LARGE,
+  ERR_MAX_LENGTH_TOO_SMALL,
+} = require("../../constants/validationErrorCodes");
+
 const validation = require(".");
 
 describe("schema validation", () => {
@@ -37,9 +42,9 @@ describe("schema validation", () => {
     };
   });
 
-  it("should not return errors on valid schema", () => {
-    const validationErrors = validation(questionnaire);
-    expect(validationErrors.totalCount).toEqual(0);
+  it("should not return pageErrors on valid schema", () => {
+    const validationPageErrors = validation(questionnaire);
+    expect(validationPageErrors.totalCount).toEqual(0);
   });
 
   describe("Question page validation", () => {
@@ -47,9 +52,9 @@ describe("schema validation", () => {
       const page = questionnaire.sections[0].pages[0];
       page.title = "";
 
-      const validationErrors = validation(questionnaire);
+      const validationPageErrors = validation(questionnaire);
 
-      expect(validationErrors.pages[page.id].errors[0]).toMatchObject({
+      expect(validationPageErrors.pages[page.id].errors[0]).toMatchObject({
         errorCode: "ERR_VALID_REQUIRED",
         field: "title",
         id: "pages-page_1-title",
@@ -61,9 +66,9 @@ describe("schema validation", () => {
       const page = questionnaire.sections[0].pages[0];
       page.answers = [];
 
-      const validationErrors = validation(questionnaire);
+      const validationPageErrors = validation(questionnaire);
 
-      expect(validationErrors.pages[page.id].errors[0]).toMatchObject({
+      expect(validationPageErrors.pages[page.id].errors[0]).toMatchObject({
         errorCode: "ERR_NO_ANSWERS",
         field: "answers",
         id: "pages-page_1-answers",
@@ -97,10 +102,10 @@ describe("schema validation", () => {
       const page = questionnaire.sections[0].pages[0];
       page.confirmation = confirmation;
 
-      const validationErrors = validation(questionnaire);
+      const validationPageErrors = validation(questionnaire);
 
       expect(
-        validationErrors.confirmation[confirmationId].errors[0]
+        validationPageErrors.confirmation[confirmationId].errors[0]
       ).toMatchObject({
         errorCode: "ERR_VALID_REQUIRED",
         field: "title",
@@ -114,10 +119,10 @@ describe("schema validation", () => {
       const page = questionnaire.sections[0].pages[0];
       page.confirmation = confirmation;
 
-      const validationErrors = validation(questionnaire);
+      const validationPageErrors = validation(questionnaire);
 
       expect(
-        validationErrors.confirmation[confirmationId].errors[0]
+        validationPageErrors.confirmation[confirmationId].errors[0]
       ).toMatchObject({
         errorCode: "ERR_VALID_REQUIRED",
         field: "label",
@@ -125,7 +130,7 @@ describe("schema validation", () => {
         type: "confirmationoption",
       });
       expect(
-        validationErrors.confirmationoption.positive.errors[0]
+        validationPageErrors.confirmationoption.positive.errors[0]
       ).toMatchObject({
         errorCode: "ERR_VALID_REQUIRED",
         field: "label",
@@ -155,9 +160,9 @@ describe("schema validation", () => {
       };
       questionnaire.sections[0].pages[0].answers = [answer];
 
-      const validationErrors = validation(questionnaire);
+      const validationPageErrors = validation(questionnaire);
       expect(
-        validationErrors.answers[additionalAnswer.id].errors[0]
+        validationPageErrors.answers[additionalAnswer.id].errors[0]
       ).toMatchObject({
         errorCode: "ERR_VALID_REQUIRED",
         field: "label",
@@ -190,9 +195,9 @@ describe("schema validation", () => {
             ],
           };
 
-          const errors = validation(questionnaire);
-          expect(errors.answers[answer.id].errors).toHaveLength(1);
-          expect(errors.answers[answer.id].errors[0]).toMatchObject({
+          const pageErrors = validation(questionnaire);
+          expect(pageErrors.answers[answer.id].errors).toHaveLength(1);
+          expect(pageErrors.answers[answer.id].errors[0]).toMatchObject({
             errorCode: "ERR_VALID_REQUIRED",
             field: "label",
             id: `answers-${answer.id}-label`,
@@ -201,8 +206,8 @@ describe("schema validation", () => {
 
           answer.label = "some label";
 
-          const errors2 = validation(questionnaire);
-          expect(errors2.answers[answer.id]).toBeUndefined();
+          const pageErrors2 = validation(questionnaire);
+          expect(pageErrors2.answers[answer.id]).toBeUndefined();
         });
       });
       it("should recognize mismatched decimals in validation references", () => {
@@ -258,13 +263,81 @@ describe("schema validation", () => {
           ],
         };
         const answer = questionnaire.sections[0].pages[1].answers[0];
-        const validationErrors = validation(questionnaire);
-        expect(validationErrors.answers[answer.id].errors).toHaveLength(1);
-        expect(validationErrors.answers[answer.id].errors[0]).toMatchObject({
-          errorCode: "ERR_REFERENCED_ANSWER_DECIMAL_INCONSISTENCY",
-          field: "properties",
-          id: "answers-answer_2-properties",
-          type: "answers",
+        const validationPageErrors = validation(questionnaire);
+        expect(validationPageErrors.answers[answer.id].errors).toHaveLength(1);
+        expect(validationPageErrors.answers[answer.id].errors[0]).toMatchObject(
+          {
+            errorCode: "ERR_REFERENCED_ANSWER_DECIMAL_INCONSISTENCY",
+            field: "properties",
+            id: "answers-answer_2-properties",
+            type: "answers",
+          }
+        );
+      });
+    });
+
+    describe("textarea answers", () => {
+      describe("should validate values are between 10 and 2000 inclusive", () => {
+        beforeEach(() => {
+          questionnaire = {
+            id: "1",
+            sections: [
+              {
+                id: "section_1",
+                title: "section_1",
+                pages: [
+                  {
+                    id: "page_1",
+                    title: "page title",
+                    answers: [
+                      {
+                        id: "answer_1",
+                        label: "Desc",
+                        properties: { maxLength: "50" },
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          };
+        });
+        it(`and return an error for values less than 10 in textarea answer`, () => {
+          questionnaire.sections[0].pages[0].answers[0].properties.maxLength =
+            "9";
+          const validationPageErrors = validation(questionnaire);
+          const pagepageErrors = validationPageErrors.pages.page_1.errors;
+
+          expect(pagepageErrors[0]).toMatchObject({
+            errorCode: ERR_MAX_LENGTH_TOO_SMALL,
+            field: "properties",
+            id: "answers-answer_1-properties",
+            type: "answers",
+          });
+        });
+
+        it(`and allow for values of 10 or more in textarea answer`, () => {
+          const validationPageErrors = validation(questionnaire);
+          expect(validationPageErrors.totalCount).toBe(0);
+        });
+
+        it(`and allow for values of 2000 or less in textarea answer`, () => {
+          const validationPageErrors = validation(questionnaire);
+          expect(validationPageErrors.totalCount).toBe(0);
+        });
+
+        it(`and return and error for values greater than 2000 in textarea answer`, () => {
+          questionnaire.sections[0].pages[0].answers[0].properties.maxLength =
+            "2001";
+          const validationPageErrors = validation(questionnaire);
+          const pageErrors = validationPageErrors.pages.page_1.errors;
+
+          expect(pageErrors[0]).toMatchObject({
+            errorCode: ERR_MAX_LENGTH_TOO_LARGE,
+            field: "properties",
+            id: "answers-answer_1-properties",
+            type: "answers",
+          });
         });
       });
     });
@@ -319,12 +392,12 @@ describe("schema validation", () => {
             },
           ],
         };
-        const errors = validation(questionnaire);
+        const pageErrors = validation(questionnaire);
 
         expect(
-          errors.validation[answer.validation.earliestDate.id].errors
+          pageErrors.validation[answer.validation.earliestDate.id].errors
         ).toHaveLength(1);
-        expect(errors.totalCount).toBe(1);
+        expect(pageErrors.totalCount).toBe(1);
       });
 
       it("should not validate if one of the two is disabled", () => {
@@ -367,10 +440,10 @@ describe("schema validation", () => {
               },
             ],
           };
-          const errors = validation(questionnaire);
+          const pageErrors = validation(questionnaire);
 
-          expect(errors.validation).toMatchObject({});
-          expect(errors.totalCount).toBe(0);
+          expect(pageErrors.validation).toMatchObject({});
+          expect(pageErrors.totalCount).toBe(0);
         });
       });
     });
@@ -500,10 +573,10 @@ describe("schema validation", () => {
               },
             ],
           };
-          const errors = validation(questionnaire);
+          const pageErrors = validation(questionnaire);
 
-          expect(errors.validation).toMatchObject({});
-          expect(errors.totalCount).toBe(0);
+          expect(pageErrors.validation).toMatchObject({});
+          expect(pageErrors.totalCount).toBe(0);
         });
       });
     });
@@ -515,10 +588,11 @@ describe("schema validation", () => {
       const section = questionnaire.sections[0];
       section.title = "";
 
-      const validationErrors = validation(questionnaire);
-      const sectionErrors = validationErrors.sections[section.id].errors;
-      expect(sectionErrors).toHaveLength(1);
-      expect(sectionErrors[0]).toMatchObject({
+      const validationPageErrors = validation(questionnaire);
+      const sectionPageErrors =
+        validationPageErrors.sections[section.id].errors;
+      expect(sectionPageErrors).toHaveLength(1);
+      expect(sectionPageErrors[0]).toMatchObject({
         errorCode: "ERR_REQUIRED_WHEN_SETTING",
         field: "title",
         id: "sections-section_1-title",
@@ -531,9 +605,9 @@ describe("schema validation", () => {
       const section = questionnaire.sections[0];
       section.title = "";
 
-      const validationErrors = validation(questionnaire);
-      const sectionErrors = validationErrors.sections[section.id];
-      expect(sectionErrors).toBeUndefined();
+      const validationPageErrors = validation(questionnaire);
+      const sectionpageErrors = validationPageErrors.sections[section.id];
+      expect(sectionpageErrors).toBeUndefined();
     });
 
     it("should NOT return an error when navigation is enabled and there is a title", () => {
@@ -541,9 +615,9 @@ describe("schema validation", () => {
       const section = questionnaire.sections[0];
       section.title = "Section title";
 
-      const validationErrors = validation(questionnaire);
-      const sectionErrors = validationErrors.sections[section.id];
-      expect(sectionErrors).toBeUndefined();
+      const validationPageErrors = validation(questionnaire);
+      const sectionpageErrors = validationPageErrors.sections[section.id];
+      expect(sectionpageErrors).toBeUndefined();
     });
   });
 });
