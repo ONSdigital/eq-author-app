@@ -6,12 +6,13 @@ import actSilenceWarning from "tests/utils/actSilenceWarning";
 import reviewQuestionnaireMutation from "./reviewQuestionnaire.graphql";
 import { AWAITING_APPROVAL, PUBLISHED } from "constants/publishStatus";
 import QuestionnaireContext from "components/QuestionnaireContext";
+import { publishStatusSubscription } from "components/EditorLayout/Header";
 
 describe("Publish page", () => {
   let user, mocks, queryWasCalled, questionnaire;
   actSilenceWarning();
 
-  const renderReviewPage = mocks =>
+  const renderReviewPage = () =>
     render(
       <MeContext.Provider value={{ me: user, signOut: jest.fn() }}>
         <QuestionnaireContext.Provider value={{ questionnaire }}>
@@ -19,7 +20,7 @@ describe("Publish page", () => {
         </QuestionnaireContext.Provider>
       </MeContext.Provider>,
       {
-        route: "/q/Q1/page/2",
+        route: `/q/${questionnaire.id}/page/2`,
         urlParamMatcher: "/q/:questionnaireId/page/:pageId",
         mocks,
       }
@@ -70,24 +71,39 @@ describe("Publish page", () => {
           };
         },
       },
+      {
+        request: {
+          query: publishStatusSubscription,
+          variables: { id: questionnaire.id },
+        },
+        result: () => ({
+          data: {
+            publishStatusUpdated: {
+              id: questionnaire.id,
+              publishStatus: "Unpublished",
+              __typename: "Questionnaire",
+            },
+          },
+        }),
+      },
     ];
   });
 
   it("should fire a mutation to review the questionnaire when the 'Approve' button is pressed", async () => {
-    const { getByTestId } = renderReviewPage(mocks);
+    const { getByTestId } = renderReviewPage();
     fireEvent.click(getByTestId("approve-review-btn"));
     await flushPromises();
     expect(queryWasCalled).toBeTruthy();
   });
   it("should redirect to homepage when questionnaire is approved", async () => {
-    const { getByTestId, history } = renderReviewPage(mocks);
+    const { getByTestId, history } = renderReviewPage();
     fireEvent.click(getByTestId("approve-review-btn"));
     await flushPromises();
     expect(history.location.pathname).toBe(`/`);
   });
   it("should redirect to questionnaire when it is not awaiting approval", async () => {
     questionnaire.publishStatus = "Unpublished";
-    const { history } = renderReviewPage(mocks);
+    const { history } = renderReviewPage();
     await flushPromises();
     expect(history.location.pathname).toBe(`/q/${questionnaire.id}`);
   });

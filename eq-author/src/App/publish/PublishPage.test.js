@@ -6,12 +6,13 @@ import actSilenceWarning from "tests/utils/actSilenceWarning";
 import triggerPublishMutation from "./triggerPublish.graphql";
 import { AWAITING_APPROVAL, UNPUBLISHED } from "constants/publishStatus";
 import QuestionnaireContext from "components/QuestionnaireContext";
+import { publishStatusSubscription } from "components/EditorLayout/Header";
 
 describe("Publish page", () => {
   let user, mocks, queryWasCalled, questionnaire;
   actSilenceWarning();
 
-  const renderPublishPage = mocks =>
+  const renderPublishPage = () =>
     render(
       <MeContext.Provider value={{ me: user, signOut: jest.fn() }}>
         <QuestionnaireContext.Provider value={{ questionnaire }}>
@@ -19,7 +20,7 @@ describe("Publish page", () => {
         </QuestionnaireContext.Provider>
       </MeContext.Provider>,
       {
-        route: "/q/Q1/page/2",
+        route: `/q/${questionnaire.id}/page/2`,
         urlParamMatcher: "/q/:questionnaireId/page/:pageId",
         mocks,
       }
@@ -63,13 +64,28 @@ describe("Publish page", () => {
           return {
             data: {
               triggerPublish: {
-                id: "987-546-232",
+                id: questionnaire.id,
                 publishStatus: AWAITING_APPROVAL,
                 __typename: "Object",
               },
             },
           };
         },
+      },
+      {
+        request: {
+          query: publishStatusSubscription,
+          variables: { id: questionnaire.id },
+        },
+        result: () => ({
+          data: {
+            publishStatusUpdated: {
+              id: questionnaire.id,
+              publishStatus: "Unpublished",
+              __typename: "Questionnaire",
+            },
+          },
+        }),
       },
     ];
   });
@@ -92,7 +108,7 @@ describe("Publish page", () => {
   });
 
   it("should fire a mutation to publish the questionnaire when the 'Submit for approval' button is pressed", async () => {
-    const { getByTestId, getByLabelText } = renderPublishPage(mocks);
+    const { getByTestId, getByLabelText } = renderPublishPage();
 
     fireEvent.change(getByLabelText("Form type"), { target: { value: "456" } });
     fireEvent.change(getByLabelText("Survey ID"), { target: { value: "123" } });
@@ -104,7 +120,7 @@ describe("Publish page", () => {
     expect(queryWasCalled).toBeTruthy();
   });
   it("should redirect to homepage when 'Submit for approval' is clicked", async () => {
-    const { getByTestId, getByLabelText, history } = renderPublishPage(mocks);
+    const { getByTestId, getByLabelText, history } = renderPublishPage();
 
     fireEvent.change(getByLabelText("Form type"), { target: { value: "456" } });
     fireEvent.change(getByLabelText("Survey ID"), { target: { value: "123" } });
@@ -116,7 +132,7 @@ describe("Publish page", () => {
   });
   it("should redirect to questionnaire when it is not Unpublished", async () => {
     questionnaire.publishStatus = AWAITING_APPROVAL;
-    const { history } = renderPublishPage(mocks);
+    const { history } = renderPublishPage();
     await flushPromises();
     expect(history.location.pathname).toBe(`/q/${questionnaire.id}`);
   });

@@ -57,9 +57,10 @@ const ActionButtons = styled(ButtonGroup)`
   flex: 0 0 auto;
 `;
 
-export const HistoryPageContent = ({ match }) => {
+const HistoryPageContent = ({ match }) => {
+  const { questionnaireId } = match.params;
   const { loading, error, data } = useQuery(questionnaireHistoryQuery, {
-    variables: { input: { questionnaireId: match.params.questionnaireId } },
+    variables: { input: { questionnaireId } },
     fetchPolicy: "network-only",
   });
   const [addNote] = useMutation(CREATE_NOTE, {
@@ -71,9 +72,7 @@ export const HistoryPageContent = ({ match }) => {
     ) {
       cache.writeQuery({
         query: questionnaireHistoryQuery,
-        variables: {
-          input: { questionnaireId: match.params.questionnaireId },
-        },
+        variables: { input: { questionnaireId } },
         data: { history: createHistoryNote },
       });
     },
@@ -120,7 +119,7 @@ export const HistoryPageContent = ({ match }) => {
                 addNote({
                   variables: {
                     input: {
-                      id: match.params.questionnaireId,
+                      id: questionnaireId,
                       bodyText: noteState.value,
                     },
                   },

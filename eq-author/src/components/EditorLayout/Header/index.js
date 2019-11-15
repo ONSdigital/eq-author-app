@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import { flowRight } from "lodash";
+import { flowRight, get } from "lodash";
 import { withRouter } from "react-router-dom";
+import gql from "graphql-tag";
+import { useSubscription } from "react-apollo";
 
 import config from "config";
 import CustomPropTypes from "custom-prop-types";
@@ -10,7 +12,7 @@ import CustomPropTypes from "custom-prop-types";
 import { colors } from "constants/theme";
 import { AWAITING_APPROVAL, PUBLISHED } from "constants/publishStatus";
 
-import { withMe } from "App/MeContext";
+import { useMe } from "App/MeContext";
 
 import Button from "components/buttons/Button";
 import LinkButton from "components/buttons/Button/LinkButton";
@@ -63,43 +65,24 @@ const SavingContainer = styled.div`
   bottom: 0.5em;
 `;
 
-export class UnconnectedHeader extends React.Component {
-  state = {
-    isSharingModalOpen: false,
-    isQuestionnaireSettingsModalOpen:
-      this.props.match.params.modifier === "settings",
-  };
+export const UnconnectedHeader = props => {
+  const { questionnaire, title, children, client, match } = props;
+  const { me } = useMe();
+  const [isSharingModalOpen, setSharingModalOpen] = useState(false);
+  const [isSettingsModalOpen, setSettingsModalOpen] = useState(
+    match.params.modifier === "settings"
+  );
 
-  static propTypes = {
-    questionnaire: CustomPropTypes.questionnaire,
-    title: PropTypes.string,
-    client: PropTypes.shape({
-      resetStore: PropTypes.func.isRequired,
-    }),
-    children: PropTypes.node,
-    match: PropTypes.shape({
-      params: PropTypes.shape({
-        modifier: PropTypes.string,
-      }).isRequired,
-    }).isRequired,
-    me: CustomPropTypes.user,
-    loading: PropTypes.bool,
-    validations: PropTypes.shape({
-      errorCount: PropTypes.number.isRequired,
-    }),
-  };
+  useSubscription(publishStatusSubscription, {
+    variables: { id: match.params.questionnaireId },
+  });
+  const publishStatus = get(questionnaire, "publishStatus");
 
-  handleShare = () => {
-    this.setState({ isSharingModalOpen: true });
-  };
+  const previewUrl = `${config.REACT_APP_LAUNCH_URL}/${
+    (questionnaire || {}).id
+  }`;
 
-  handleQuestionnaireSettings = () => {
-    this.setState({ isQuestionnaireSettingsModalOpen: true });
-  };
-
-  renderPublishReviewButton = () => {
-    const { questionnaire, title, match, me } = this.props;
-    const publishStatus = questionnaire && questionnaire.publishStatus;
+  const renderPublishReviewButton = () => {
     if (publishStatus === AWAITING_APPROVAL && me.admin) {
       const reviewUrl = "/q/" + match.params.questionnaireId + "/review";
       return (
@@ -134,90 +117,102 @@ export class UnconnectedHeader extends React.Component {
     );
   };
 
-  render() {
-    const { questionnaire, title, children, me, client } = this.props;
-    const previewUrl = `${config.REACT_APP_LAUNCH_URL}/${
-      (questionnaire || {}).id
-    }`;
-    return (
-      <>
-        <StyledHeader>
-          <Flex>
-            <Subtitle>{questionnaire && questionnaire.displayName}</Subtitle>
-            <UtilityBtns>
-              {questionnaire && (
-                <ButtonGroup
-                  horizontal
-                  align="right"
-                  margin="0.5em"
-                  gutter="0.5em"
+  return (
+    <>
+      <StyledHeader>
+        <Flex>
+          <Subtitle>{questionnaire && questionnaire.displayName}</Subtitle>
+          <UtilityBtns>
+            {questionnaire && (
+              <ButtonGroup
+                horizontal
+                align="right"
+                margin="0.5em"
+                gutter="0.5em"
+              >
+                <Button
+                  data-test="settings-btn"
+                  variant="tertiary-light"
+                  onClick={() => setSettingsModalOpen(true)}
+                  small
                 >
-                  <Button
-                    data-test="settings-btn"
-                    variant="tertiary-light"
-                    onClick={this.handleQuestionnaireSettings}
-                    small
-                  >
-                    <IconText icon={settingsIcon}>Settings</IconText>
-                  </Button>
-                  <LinkButton
-                    href={previewUrl}
-                    variant="tertiary-light"
-                    data-test="btn-preview"
-                    small
-                    disabled={questionnaire.totalErrorCount > 0}
-                  >
-                    <IconText icon={viewIcon}>View survey</IconText>
-                  </LinkButton>
-                  {me.admin && this.renderPublishReviewButton()}
-                  <Button
-                    variant="tertiary-light"
-                    onClick={this.handleShare}
-                    data-test="btn-share"
-                    small
-                  >
-                    <IconText icon={shareIcon}>Sharing</IconText>
-                  </Button>
-                  {me && <UserProfile client={client} />}
-                </ButtonGroup>
-              )}
-            </UtilityBtns>
-          </Flex>
-
-          <PageTitle>{title}</PageTitle>
-          {children}
-          <SavingContainer>
-            <SavingIndicator />
-          </SavingContainer>
-        </StyledHeader>
-        {questionnaire && (
-          <>
-            {me && (
-              <SharingModal
-                questionnaire={questionnaire}
-                previewUrl={previewUrl}
-                displayToast={this.displayToast}
-                isOpen={this.state.isSharingModalOpen}
-                onClose={() => this.setState({ isSharingModalOpen: false })}
-                currentUser={me}
-              />
+                  <IconText icon={settingsIcon}>Settings</IconText>
+                </Button>
+                <LinkButton
+                  href={previewUrl}
+                  variant="tertiary-light"
+                  data-test="btn-preview"
+                  small
+                  disabled={questionnaire.totalErrorCount > 0}
+                >
+                  <IconText icon={viewIcon}>View survey</IconText>
+                </LinkButton>
+                {me.admin && renderPublishReviewButton()}
+                <Button
+                  variant="tertiary-light"
+                  onClick={() => setSharingModalOpen(true)}
+                  data-test="btn-share"
+                  small
+                >
+                  <IconText icon={shareIcon}>Sharing</IconText>
+                </Button>
+                {me && <UserProfile client={client} />}
+              </ButtonGroup>
             )}
-            <UpdateQuestionnaireSettingsModal
-              isOpen={this.state.isQuestionnaireSettingsModalOpen}
-              onClose={() =>
-                this.setState({ isQuestionnaireSettingsModalOpen: false })
-              }
+          </UtilityBtns>
+        </Flex>
+        <PageTitle>{title}</PageTitle>
+        {children}
+        <SavingContainer>
+          <SavingIndicator />
+        </SavingContainer>
+      </StyledHeader>
+      {questionnaire && (
+        <>
+          {me && (
+            <SharingModal
               questionnaire={questionnaire}
+              previewUrl={previewUrl}
+              isOpen={isSharingModalOpen}
+              onClose={() => setSharingModalOpen(false)}
+              currentUser={me}
             />
-          </>
-        )}
-      </>
-    );
+          )}
+          <UpdateQuestionnaireSettingsModal
+            isOpen={isSettingsModalOpen}
+            onClose={() => setSettingsModalOpen(false)}
+            questionnaire={questionnaire}
+          />
+        </>
+      )}
+    </>
+  );
+};
+
+export const publishStatusSubscription = gql`
+  subscription PublishStatus($id: ID!) {
+    publishStatusUpdated(id: $id) {
+      id
+      publishStatus
+    }
   }
-}
+`;
+
+UnconnectedHeader.propTypes = {
+  questionnaire: CustomPropTypes.questionnaire,
+  title: PropTypes.string,
+  client: PropTypes.shape({
+    resetStore: PropTypes.func.isRequired,
+  }),
+  children: PropTypes.node,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      modifier: PropTypes.string,
+    }).isRequired,
+  }).isRequired,
+};
 
 export default flowRight(
   withQuestionnaire,
-  withRouter,
-  withMe
+  withRouter
 )(UnconnectedHeader);

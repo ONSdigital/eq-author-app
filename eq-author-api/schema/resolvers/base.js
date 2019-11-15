@@ -208,6 +208,13 @@ const Resolvers = {
         }
       ),
     },
+    publishStatusUpdated: {
+      resolve: ({ questionnaire }, args, ctx) => {
+        ctx.questionnaire = questionnaire;
+        return questionnaire;
+      },
+      subscribe: () => pubsub.asyncIterator(["publishStatusUpdated"]),
+    },
   },
 
   Mutation: {

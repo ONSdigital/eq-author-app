@@ -12,6 +12,7 @@ import { byTestAttr } from "tests/utils/selectors";
 import { MeContext } from "App/MeContext";
 
 import GET_QUESTIONNAIRE_QUERY from "graphql/getQuestionnaire.graphql";
+import { publishStatusSubscription } from "components/EditorLayout/Header";
 
 import { WRITE } from "constants/questionnaire-permissions";
 
@@ -147,7 +148,14 @@ const moveSectionMock = {
 };
 
 describe("SectionRoute", () => {
-  let store, match, context, childContextTypes, user, history;
+  let store,
+    match,
+    context,
+    childContextTypes,
+    user,
+    history,
+    publishStatusMock,
+    questionnaireId;
 
   // this is just a little hack to silence a warning that we'll get until we
   // upgrade to 16.9: https://github.com/facebook/react/pull/14853
@@ -180,8 +188,9 @@ describe("SectionRoute", () => {
       email: "McTest@test.com",
     };
 
+    questionnaireId = "1";
     match = {
-      params: { questionnaireId: "1", sectionId: "2" },
+      params: { questionnaireId, sectionId: "2" },
     };
 
     store = {
@@ -197,6 +206,21 @@ describe("SectionRoute", () => {
       location: { pathname: buildSectionPath(match.params) },
       match,
     });
+    publishStatusMock = {
+      request: {
+        query: publishStatusSubscription,
+        variables: { id: questionnaireId },
+      },
+      result: () => ({
+        data: {
+          publishStatusUpdated: {
+            id: questionnaireId,
+            publishStatus: "Unpublished",
+            __typename: "Questionnaire",
+          },
+        },
+      }),
+    };
   });
 
   describe("data fetching", () => {
@@ -251,7 +275,7 @@ describe("SectionRoute", () => {
           },
         },
       };
-      const wrapper = render([mock, moveSectionMock]);
+      const wrapper = render([mock, moveSectionMock, publishStatusMock]);
       expect(wrapper.find(`[data-test="loading"]`).exists()).toBe(true);
       expect(wrapper.find(`[data-test="section-editor"]`).exists()).toBe(false);
 
@@ -298,7 +322,13 @@ describe("SectionRoute", () => {
         },
       };
 
-      const wrapper = render([mock, mock, moveSectionMock, moveSectionMock]);
+      const wrapper = render([
+        mock,
+        mock,
+        moveSectionMock,
+        moveSectionMock,
+        publishStatusMock,
+      ]);
 
       return flushPromises().then(() => {
         wrapper.update();
@@ -318,7 +348,7 @@ describe("SectionRoute", () => {
         error: new Error("something went wrong"),
       };
 
-      const wrapper = render([mock]);
+      const wrapper = render([mock, publishStatusMock]);
 
       return flushPromises()
         .then(flushPromises)
@@ -343,7 +373,7 @@ describe("SectionRoute", () => {
         },
       };
 
-      const wrapper = render([mock]);
+      const wrapper = render([mock, publishStatusMock]);
 
       return flushPromises().then(() => {
         wrapper.update();
@@ -397,7 +427,7 @@ describe("SectionRoute", () => {
           <Router history={history}>
             <TestProvider
               reduxProps={{ store }}
-              apolloProps={{ mocks: [moveSectionMock] }}
+              apolloProps={{ mocks: [moveSectionMock, publishStatusMock] }}
             >
               <Route path={"/q/:questionnaireId/section/:sectionId"}>
                 {({ match }) => (
