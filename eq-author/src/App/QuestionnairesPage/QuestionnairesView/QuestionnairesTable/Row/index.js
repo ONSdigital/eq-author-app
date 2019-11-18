@@ -24,9 +24,10 @@ import FormattedDate from "./FormattedDate";
 import questionConfirmationIcon from "./icon-questionnaire.svg";
 
 const publishColors = {
-  Published: `#12C864`,
-  Unpublished: `#595959`,
+  Published: "#12C864",
+  Unpublished: "#595959",
   AwaitingApproval: colors.amber,
+  UpdatesRequired: colors.negative,
 };
 
 export const QuestionnaireLink = styled(NavLink)`

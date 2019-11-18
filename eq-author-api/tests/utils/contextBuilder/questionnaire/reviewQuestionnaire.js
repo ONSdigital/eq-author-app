@@ -9,11 +9,14 @@ mutation reviewQuestionnaire($input: ReviewQuestionnaireInput!) {
   }
 `;
 
-const reviewQuestionnaire = async ({ questionnaireId, reviewAction }, ctx) => {
+const reviewQuestionnaire = async (
+  { questionnaireId, reviewAction, reviewComment },
+  ctx
+) => {
   const result = await executeQuery(
     reviewQuestionnaireMutation,
     {
-      input: { questionnaireId, reviewAction },
+      input: { questionnaireId, reviewAction, reviewComment },
     },
     ctx
   );

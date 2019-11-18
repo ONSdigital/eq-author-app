@@ -17,10 +17,12 @@ const noteCreationEvent = (ctx, bodyText) => ({
   time: new Date(),
 });
 
-const changedPublishStatusEvent = (ctx, questionnaireVersion) => ({
+const publishStatusEvent = (ctx, bodyText) => ({
   id: uuid.v4(),
   publishStatus: ctx.questionnaire.publishStatus,
-  questionnaireTitle: `${ctx.questionnaire.title} (Version ${questionnaireVersion})`,
+  questionnaireTitle: `${ctx.questionnaire.title} (Version ${ctx.questionnaire.surveyVersion})`,
+  bodyText,
+  type: "system",
   userId: ctx.user.id,
   time: new Date(),
 });
@@ -28,5 +30,5 @@ const changedPublishStatusEvent = (ctx, questionnaireVersion) => ({
 module.exports = {
   questionnaireCreationEvent,
   noteCreationEvent,
-  changedPublishStatusEvent,
+  publishStatusEvent,
 };

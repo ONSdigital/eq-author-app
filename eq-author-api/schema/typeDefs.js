@@ -78,6 +78,7 @@ enum PublishStatus {
   Published
   Unpublished
   AwaitingApproval
+  UpdatesRequired
 }
 
 type DeletedQuestionnaire {
@@ -1089,10 +1090,12 @@ input PublishQuestionnaireInput {
 
 enum ReviewAction {
   Approved
+  Rejected
 }
 
 input ReviewQuestionnaireInput {
   questionnaireId: ID!
   reviewAction: ReviewAction!
+  reviewComment: String
 }
 `;

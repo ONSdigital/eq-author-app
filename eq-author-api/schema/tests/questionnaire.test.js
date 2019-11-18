@@ -17,6 +17,7 @@ const {
   PUBLISHED,
   UNPUBLISHED,
   AWAITING_APPROVAL,
+  UPDATES_REQUIRED,
 } = require("../../constants/publishStatus");
 
 const { buildContext } = require("../../tests/utils/contextBuilder");
@@ -239,6 +240,34 @@ describe("questionnaire", () => {
           )
         ).rejects.toBeTruthy();
         expect(ctx.questionnaire.publishStatus).toEqual(AWAITING_APPROVAL);
+      });
+
+      it("should be able to reject a questionnaire awaiting approval", async () => {
+        ctx.questionnaire.publishStatus = AWAITING_APPROVAL;
+        await reviewQuestionnaire(
+          {
+            questionnaireId: ctx.questionnaire.id,
+            reviewAction: "Rejected",
+            reviewComment: "Ooga booga OOK OOK!",
+          },
+          ctx
+        );
+
+        expect(ctx.questionnaire.publishStatus).toEqual(UPDATES_REQUIRED);
+      });
+
+      it("should throw an error if a reject comment has not been given when rejecting", async () => {
+        ctx.questionnaire.publishStatus = AWAITING_APPROVAL;
+
+        await expect(
+          reviewQuestionnaire(
+            {
+              questionnaireId: ctx.questionnaire.id,
+              reviewAction: "Rejected",
+            },
+            ctx
+          )
+        ).rejects.toBeTruthy();
       });
 
       it("should throw error if adding questionnaire to register fails", async () => {

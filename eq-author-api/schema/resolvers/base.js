@@ -24,6 +24,7 @@ const {
   UNPUBLISHED,
   PUBLISHED,
   AWAITING_APPROVAL,
+  UPDATES_REQUIRED,
 } = require("../../constants/publishStatus");
 const pubsub = require("../../db/pubSub");
 const { getName } = require("../../utils/getName");
@@ -99,7 +100,7 @@ const { createMutation } = require("./createMutation");
 
 const {
   noteCreationEvent,
-  changedPublishStatusEvent,
+  publishStatusEvent,
 } = require("../../utils/questionnaireEvents");
 
 const createSection = (input = {}) => ({
@@ -549,7 +550,10 @@ const Resolvers = {
     }),
     triggerPublish: createMutation(async (root, { input }, ctx) => {
       const { surveyId, formType } = input;
-      if (ctx.questionnaire.publishStatus !== UNPUBLISHED) {
+      if (
+        ctx.questionnaire.publishStatus !== UNPUBLISHED &&
+        ctx.questionnaire.publishStatus !== UPDATES_REQUIRED
+      ) {
         throw new Error("This questionnaire is not unpublished.");
       }
       ctx.questionnaire.publishStatus = AWAITING_APPROVAL;
@@ -561,35 +565,49 @@ const Resolvers = {
     }),
     reviewQuestionnaire: async (root, { input }, ctx) => {
       enforceHasAdminPermission(ctx.user);
+
       if (ctx.questionnaire.publishStatus !== AWAITING_APPROVAL) {
         throw new Error("This questionnaire is not awaiting approval.");
       }
 
-      const { questionnaireId } = input;
-      const {
-        surveyId,
-        formType: { ONS: formType },
-      } = ctx.questionnaire.publishDetails;
-      const surveyVersion = ctx.questionnaire.surveyVersion;
-      // Puts questionnaire into survey register
-      await fetch(
-        `${process.env.SURVEY_REGISTER_URL}${questionnaireId}/${surveyId}/${formType}/${surveyVersion}`,
-        { method: "put" }
-      )
-        .then(async res => {
-          ctx.questionnaire.publishStatus = PUBLISHED;
-          return res.json();
-        })
-        .catch(e => {
-          throw Error(e);
-        });
+      if (input.reviewAction === "Approved") {
+        const { questionnaireId } = input;
+        const {
+          surveyId,
+          formType: { ONS: formType },
+        } = ctx.questionnaire.publishDetails;
+        const surveyVersion = ctx.questionnaire.surveyVersion;
+        // Puts questionnaire into survey register
+        await fetch(
+          `${process.env.SURVEY_REGISTER_URL}${questionnaireId}/${surveyId}/${formType}/${surveyVersion}`,
+          { method: "put" }
+        )
+          .then(async res => {
+            ctx.questionnaire.publishStatus = PUBLISHED;
+            return res.json();
+          })
+          .catch(e => {
+            throw Error(e);
+          });
 
-      await addEventToHistory(
-        ctx.questionnaire.id,
-        changedPublishStatusEvent(ctx, ctx.questionnaire.surveyVersion)
-      );
+        await addEventToHistory(ctx.questionnaire.id, publishStatusEvent(ctx));
 
-      ctx.questionnaire.publishStatus = PUBLISHED;
+        ctx.questionnaire.publishStatus = PUBLISHED;
+      }
+
+      if (input.reviewAction === "Rejected") {
+        if (!input.reviewComment) {
+          throw new Error("A comment must be provided to reject a survey.");
+        }
+
+        ctx.questionnaire.publishStatus = UPDATES_REQUIRED;
+
+        await addEventToHistory(
+          ctx.questionnaire.id,
+          publishStatusEvent(ctx, input.reviewComment)
+        );
+      }
+
       await saveQuestionnaire(ctx.questionnaire);
       return ctx.questionnaire;
     },

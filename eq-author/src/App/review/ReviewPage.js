@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { withRouter, Redirect } from "react-router";
 import { useMutation } from "@apollo/react-hooks";
@@ -11,9 +11,11 @@ import { colors } from "constants/theme";
 import { AWAITING_APPROVAL } from "constants/publishStatus";
 
 import Header from "components/EditorLayout/Header";
-import Panel from "components/Panel";
+import { InformationPanel, Panel } from "components/Panel";
 import { Label } from "components/Forms";
 import Button from "components/buttons/Button";
+import RichTextEditor from "components/RichTextEditor";
+import ButtonGroup from "components/buttons/ButtonGroup";
 
 import reviewQuestionnaireMutation from "./reviewQuestionnaire.graphql";
 
@@ -46,12 +48,13 @@ const ReviewPage = ({ match, history }) => {
   const { me } = useMe();
   const { questionnaire } = useQuestionnaire();
 
-  const sendReview = reviewAction =>
+  const sendReview = review =>
     reviewQuestionnaire({
       variables: {
         input: {
           questionnaireId,
-          reviewAction,
+          reviewAction: review.action,
+          reviewComment: review.comment,
         },
       },
     });
@@ -61,23 +64,59 @@ const ReviewPage = ({ match, history }) => {
     return <Redirect to={`/q/${match.params.questionnaireId}`} />;
   }
 
+  const [comment, setComment] = useState({ value: "" });
+
   return (
     <Container>
       <Header title="Review" />
       <ContentContainer>
         <Label>Questionnaire review</Label>
-        <Caption>
-          This questionnaire is awaiting review, please approve or reject below
-        </Caption>
+        <Caption>This questionnaire is awaiting review.</Caption>
         <Separator />
-        <Button
-          type="submit"
-          variant="positive"
-          data-test="approve-review-btn"
-          onClick={() => sendReview("Approved").then(() => history.push("/"))}
-        >
-          Approve
-        </Button>
+        <InformationPanel>
+          Provide a comment if you are rejecting. Your comment will be displayed
+          to the questionnaire editors in the History page.
+        </InformationPanel>
+        <RichTextEditor
+          id={`reject-reason-textarea`}
+          name="rejectReason"
+          label="Reason for rejecting"
+          controls={{
+            emphasis: true,
+            list: true,
+            bold: true,
+            heading: true,
+          }}
+          multiline
+          onUpdate={setComment}
+          value={comment.value}
+        />
+        <ButtonGroup horizontal>
+          <Button
+            type="submit"
+            variant="positive"
+            data-test="approve-review-btn"
+            onClick={() =>
+              sendReview({ action: "Approved" }).then(() => history.push("/"))
+            }
+          >
+            Approve
+          </Button>
+          <Button
+            type="submit"
+            variant="negative"
+            data-test="reject-review-btn"
+            disabled={!comment.value}
+            onClick={() =>
+              sendReview({
+                action: "Rejected",
+                comment: comment.value,
+              }).then(() => history.push("/"))
+            }
+          >
+            Reject
+          </Button>
+        </ButtonGroup>
       </ContentContainer>
     </Container>
   );

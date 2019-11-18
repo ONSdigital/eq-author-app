@@ -4,9 +4,7 @@ const { enforceHasWritePermission } = require("./withPermissions");
 
 const { saveQuestionnaire } = require("../../utils/datastore");
 const { addEventToHistory } = require("../../utils/datastore");
-const {
-  changedPublishStatusEvent,
-} = require("../../utils/questionnaireEvents");
+const { publishStatusEvent } = require("../../utils/questionnaireEvents");
 
 const {
   AWAITING_APPROVAL,
@@ -27,10 +25,7 @@ const createMutation = mutation => async (root, args, ctx) => {
     ctx.questionnaire.publishStatus = UNPUBLISHED;
     ctx.questionnaire.surveyVersion++;
     hasBeenUnpublished = true;
-    await addEventToHistory(
-      ctx.questionnaire.id,
-      changedPublishStatusEvent(ctx, ctx.questionnaire.surveyVersion)
-    );
+    await addEventToHistory(ctx.questionnaire.id, publishStatusEvent(ctx));
   }
   await saveQuestionnaire(ctx.questionnaire);
   ctx.validationErrorInfo = validateQuestionnaire(ctx.questionnaire);

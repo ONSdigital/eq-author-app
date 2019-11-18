@@ -8,12 +8,12 @@ import { useMe } from "App/MeContext";
 import { useQuestionnaire } from "components/QuestionnaireContext";
 
 import { colors } from "constants/theme";
-import { UNPUBLISHED } from "constants/publishStatus";
+import { AWAITING_APPROVAL, PUBLISHED } from "constants/publishStatus";
 
 import { Field, Input, Label } from "components/Forms";
 import { Column } from "components/Grid";
 import Button from "components/buttons/Button";
-import Panel from "components/Panel";
+import { InformationPanel } from "components/Panel";
 import ScrollPane from "components/ScrollPane";
 import Header from "components/EditorLayout/Header";
 
@@ -54,16 +54,6 @@ const Caption = styled.p`
   margin-bottom: 0.6em;
 `;
 
-const InformationPanel = styled(Panel)`
-  background-color: ${colors.paleBlue};
-  border: 0;
-  border-radius: 0;
-  border-left: 0.5em solid ${colors.darkerBlue};
-  padding: 1em;
-  margin: 1em 0;
-  max-width: 50%;
-`;
-
 const PublishPage = ({ match, history }) => {
   const questionnaireId = match.params.questionnaireId;
   const originalInputs = { surveyId: "", formType: "" };
@@ -80,7 +70,11 @@ const PublishPage = ({ match, history }) => {
     });
 
   const publishStatus = questionnaire && questionnaire.publishStatus;
-  if (!me.admin || publishStatus !== UNPUBLISHED) {
+  if (
+    !me.admin ||
+    publishStatus === AWAITING_APPROVAL ||
+    publishStatus === PUBLISHED
+  ) {
     return <Redirect to={`/q/${match.params.questionnaireId}`} />;
   }
 
@@ -118,7 +112,7 @@ const PublishPage = ({ match, history }) => {
           </AlignedColumn>
           <Separator />
           <AlignedColumn>
-            <InformationPanel>
+            <InformationPanel maxWidth="50%">
               No further changes can be made to the questionnaire after it has
               been submitted for approval
             </InformationPanel>

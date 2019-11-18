@@ -6,19 +6,22 @@ const Panel = styled.div`
   border-radius: ${radius};
   background-color: ${colors.white};
   border: 1px solid ${colors.bordersLight};
+  max-width: ${props => props.maxWidth};
+`;
+
+const InformationPanel = styled(Panel)`
+  background-color: ${colors.paleBlue};
+  border: 0;
+  border-radius: 0;
+  border-left: 0.5em solid ${colors.darkerBlue};
+  padding: 1em;
+  margin: 1em 0;
 `;
 
 Panel.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-export const CenteredPanel = styled(Panel)`
-  padding: 2em 2.5em;
-  display: flex;
-  flex: 1 1 100%;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
+export { Panel, InformationPanel };
 
 export default Panel;
