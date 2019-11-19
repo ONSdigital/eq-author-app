@@ -16,7 +16,7 @@ const maxListHeight = 6;
 const Container = styled.div`
   margin: 0 0 2em;
   background: #ebeef0;
-  padding: 1em 1em 0;
+  padding: 1em 1em 0.3em;
   height: 100%;
 `;
 
