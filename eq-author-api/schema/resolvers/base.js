@@ -14,6 +14,7 @@ const {
   first,
   some,
   concat,
+  isEmpty,
 } = require("lodash");
 const GraphQLJSON = require("graphql-type-json");
 const uuid = require("uuid");
@@ -549,17 +550,20 @@ const Resolvers = {
       };
     }),
     triggerPublish: createMutation(async (root, { input }, ctx) => {
-      const { surveyId, formType } = input;
+      const { surveyId, formTypes } = input;
       if (
         ctx.questionnaire.publishStatus !== UNPUBLISHED &&
         ctx.questionnaire.publishStatus !== UPDATES_REQUIRED
       ) {
         throw new Error("This questionnaire is not unpublished.");
       }
+      if (!surveyId || some(formTypes, isEmpty)) {
+        throw new Error("Survey Id or a form type is missing");
+      }
       ctx.questionnaire.publishStatus = AWAITING_APPROVAL;
       ctx.questionnaire.publishDetails = {
         surveyId,
-        formType: { ONS: formType },
+        formTypes,
       };
       return ctx.questionnaire;
     }),
@@ -569,19 +573,23 @@ const Resolvers = {
       if (ctx.questionnaire.publishStatus !== AWAITING_APPROVAL) {
         throw new Error("This questionnaire is not awaiting approval.");
       }
-
       if (input.reviewAction === "Approved") {
         const { questionnaireId } = input;
-        const {
-          surveyId,
-          formType: { ONS: formType },
-        } = ctx.questionnaire.publishDetails;
+        const { surveyId, formTypes } = ctx.questionnaire.publishDetails;
         const surveyVersion = ctx.questionnaire.surveyVersion;
+
+        const requestBody = {
+          surveyId,
+          questionnaireId,
+          surveyVersion,
+          formTypes,
+        };
         // Puts questionnaire into survey register
-        await fetch(
-          `${process.env.SURVEY_REGISTER_URL}${questionnaireId}/${surveyId}/${formType}/${surveyVersion}`,
-          { method: "put" }
-        )
+        await fetch(`${process.env.SURVEY_REGISTER_URL}`, {
+          method: "put",
+          body: JSON.stringify(requestBody),
+          headers: { "Content-Type": "application/json" },
+        })
           .then(async res => {
             ctx.questionnaire.publishStatus = PUBLISHED;
             return res.json();

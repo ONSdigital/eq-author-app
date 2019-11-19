@@ -1099,7 +1099,7 @@ type Subscription {
 input PublishQuestionnaireInput {
   questionnaireId: ID!
   surveyId: String!
-  formType: String!
+  formTypes: JSON!
 }
 
 enum ReviewAction {
