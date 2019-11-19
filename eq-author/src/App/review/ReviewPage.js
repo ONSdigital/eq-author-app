@@ -75,7 +75,7 @@ const ReviewPage = ({ match, history }) => {
         <Separator />
         <InformationPanel>
           Provide a comment if you are rejecting. Your comment will be displayed
-          to the questionnaire editors in the History page.
+          on the History page.
         </InformationPanel>
         <RichTextEditor
           id={`reject-reason-textarea`}

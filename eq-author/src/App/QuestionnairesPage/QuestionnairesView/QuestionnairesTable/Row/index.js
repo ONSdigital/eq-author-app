@@ -17,7 +17,6 @@ import { buildQuestionnairePath } from "utils/UrlUtils";
 
 import { colors } from "constants/theme";
 import { WRITE } from "constants/questionnaire-permissions";
-import { AWAITING_APPROVAL } from "constants/publishStatus";
 
 import FormattedDate from "./FormattedDate";
 
@@ -243,6 +242,13 @@ export class Row extends React.Component {
 
     const ColoredStatusDot = () => <StatusDot publishStatus={publishStatus} />;
 
+    const translations = {
+      Published: "Published",
+      Unpublished: "Unpublished",
+      AwaitingApproval: "Awaiting approval",
+      UpdatesRequired: "Updates required",
+    };
+
     return (
       <>
         <FadeTransition {...rest} exit={this.state.transitionOut}>
@@ -278,9 +284,7 @@ export class Row extends React.Component {
             </TD>
             <TD>
               <TableIconText icon={ColoredStatusDot}>
-                {publishStatus === AWAITING_APPROVAL
-                  ? "Awaiting approval"
-                  : publishStatus}
+                {translations[publishStatus] || publishStatus}
               </TableIconText>
             </TD>
             <TD>{createdBy.displayName}</TD>
