@@ -6,7 +6,6 @@ import { darken } from "polished";
 export const ScrollPaneCSS = css`
   -webkit-background-clip: text;
   transition: background-color 0.2s;
-  background-color: rgba(0, 0, 0, 0.18);
 
   ::-webkit-scrollbar-thumb {
     border-radius: 0;
