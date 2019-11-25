@@ -581,6 +581,7 @@ type Comment {
   user: User!
   replies: [Reply]!
   page: Page!
+  editedTime: DateTime
 }
 
 type Query {
@@ -623,6 +624,8 @@ type Mutation {
   deletePage(input: DeletePageInput!): Section!
   duplicatePage(input: DuplicatePageInput!): Page
   createComment(input: CreateCommentInput!): Comment!
+  deleteComment(input: DeleteCommentInput!): Page!
+  updateComment(input: UpdateCommentInput!): Comment!
   createQuestionPage(input: CreateQuestionPageInput!): QuestionPage
   updateQuestionPage(input: UpdateQuestionPageInput!): QuestionPage
   createCalculatedSummaryPage(input: CreateCalculatedSummaryPageInput!): CalculatedSummaryPage!
@@ -807,6 +810,17 @@ input DuplicatePageInput {
 
 input CreateCommentInput {
   pageId: ID!
+  commentText: String!
+}
+
+input DeleteCommentInput {
+  pageId: ID!
+  commentId: ID!
+}
+
+input UpdateCommentInput {
+  pageId: ID!
+  commentId: ID!
   commentText: String!
 }
 

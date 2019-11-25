@@ -68,7 +68,7 @@ describe("CalculatedSummaryPreview", () => {
 
   it("should render", async () => {
     const { getByTestId, getByText } = render(
-      <MeContext.Provider value={me}>
+      <MeContext.Provider value={{ me }}>
         <CalculatedSummaryPreview page={page} />
       </MeContext.Provider>,
       {
