@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { withRouter } from "react-router";
 import { useSubscription } from "react-apollo";
+import gql from "graphql-tag";
 import { get } from "lodash";
 import moment from "moment";
 import { useQuery, useMutation } from "@apollo/react-hooks";
@@ -230,6 +231,36 @@ const CommentsPanel = ({
   const [createComment] = useMutation(COMMENT_ADD);
   const [deleteComment] = useMutation(COMMENT_DELETE);
   const [updateComment] = useMutation(COMMENT_UPDATE);
+  // const [commentsSubscription] = useSubscription(COMMENT_SUBSCRIPTION);
+
+  const commentsSubscription = gql`
+    subscription CommentsUpdated($pageId: ID!) {
+      commentsUpdated(pageId: $pageId) {
+        id
+        comments {
+          id
+          commentText
+          user {
+            id
+            name
+            picture
+            email
+            displayName
+          }
+          createdTime
+          editedTime
+        }
+      }
+    }
+  `;
+
+  // commentsSubscription({ variables: { id: questionnaireId } });
+
+  useSubscription(commentsSubscription, {
+    variables: {
+      pageId,
+    },
+  });
 
   useSubscription(COMMENT_SUBSCRIPTION, {
     variables: {

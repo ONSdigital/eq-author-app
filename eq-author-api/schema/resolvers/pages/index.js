@@ -71,7 +71,7 @@ Resolvers.Mutation = {
     const pageComments = questionnaireComments.comments[pageId];
 
     if (!pageComments) {
-      throw new Error("No comments found!");
+      throw new Error("No comments found");
     }
 
     const commentToEdit = pageComments.find(({ id }) => id === input.commentId);
