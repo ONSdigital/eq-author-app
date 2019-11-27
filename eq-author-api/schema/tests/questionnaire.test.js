@@ -29,8 +29,6 @@ const {
   listQuestionnaires,
   publishQuestionnaire,
   reviewQuestionnaire,
-  queryHistory,
-  createHistoryNote,
 } = require("../../tests/utils/contextBuilder/questionnaire");
 
 const {
@@ -443,49 +441,6 @@ describe("questionnaire", () => {
       const deletedQuestionnaire = await queryQuestionnaire(ctx);
       expect(deletedQuestionnaire).toBeNull();
       questionnaire = null;
-    });
-  });
-
-  describe("history", () => {
-    it("should create a history event on questionnaire creation", async () => {
-      ctx = await buildContext({});
-      const history = await queryHistory(ctx);
-      expect(history).toMatchObject([
-        {
-          bodyText: null,
-          publishStatus: "Questionnaire created",
-          questionnaireTitle: "Questionnaire (Version 1)",
-          user: {
-            email: "eq-team@ons.gov.uk",
-          },
-        },
-      ]);
-    });
-    it("should be able to add a note", async () => {
-      ctx = await buildContext({});
-      await createHistoryNote(ctx, {
-        id: ctx.questionnaire.id,
-        bodyText: "I am note",
-      });
-      const history = await queryHistory(ctx);
-      expect(history).toMatchObject([
-        {
-          bodyText: "I am note",
-          publishStatus: "Unpublished",
-          questionnaireTitle: "Questionnaire (Version 1)",
-          user: {
-            email: "eq-team@ons.gov.uk",
-          },
-        },
-        {
-          bodyText: null,
-          publishStatus: "Questionnaire created",
-          questionnaireTitle: "Questionnaire (Version 1)",
-          user: {
-            email: "eq-team@ons.gov.uk",
-          },
-        },
-      ]);
     });
   });
 

@@ -14,6 +14,7 @@ mutation CreateHistoryNote($input: createHistoryNoteInput!) {
         displayName
       }
       time
+      type
     }
   }
 `;

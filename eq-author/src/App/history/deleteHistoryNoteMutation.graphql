@@ -1,0 +1,7 @@
+#import "./historyNoteFragment.graphql"
+
+mutation DeleteHistoryNote($input: deleteHistoryNoteInput!) {
+  deleteHistoryNote(input: $input) {
+    ...HistoryNoteInfo
+  }
+}

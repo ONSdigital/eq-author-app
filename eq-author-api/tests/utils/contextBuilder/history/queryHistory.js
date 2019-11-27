@@ -14,6 +14,7 @@ query History($input: QueryInput!) {
         displayName
       }
       time
+      type
     }
   }
 `;

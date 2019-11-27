@@ -104,6 +104,7 @@ export class UnwrappedNavigationHeader extends React.Component {
     const { match } = this.props;
     const metadataUrl = buildMetadataPath(match.params);
     const historyUrl = buildHistoryPath(match.params);
+
     return (
       <>
         <QuestionnaireLinks>

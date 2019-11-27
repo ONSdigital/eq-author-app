@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useQuery, useMutation } from "@apollo/react-hooks";
-
+import { useMe } from "App/MeContext";
 import CustomPropTypes from "custom-prop-types";
 
 import { colors } from "constants/theme";
@@ -14,8 +14,10 @@ import Button from "components/buttons/Button";
 import RichTextEditor from "components/RichTextEditor";
 import ScrollPane from "components/ScrollPane";
 
-import CREATE_NOTE from "./createHistoryNoteMutation.graphql";
 import questionnaireHistoryQuery from "./questionnaireHistory.graphql";
+import createNoteMutation from "./createHistoryNoteMutation.graphql";
+import updateNoteMutation from "./updateHistoryNoteMutation.graphql";
+import deleteNoteMutation from "./deleteHistoryNoteMutation.graphql";
 
 const Container = styled.div`
   display: flex;
@@ -63,7 +65,8 @@ const HistoryPageContent = ({ match }) => {
     variables: { input: { questionnaireId } },
     fetchPolicy: "network-only",
   });
-  const [addNote] = useMutation(CREATE_NOTE, {
+  const { me } = useMe();
+  const [addNote] = useMutation(createNoteMutation, {
     update(
       cache,
       {
@@ -77,6 +80,23 @@ const HistoryPageContent = ({ match }) => {
       });
     },
   });
+  const [updateNote] = useMutation(updateNoteMutation);
+  const [deleteNote] = useMutation(deleteNoteMutation, {
+    update(
+      cache,
+      {
+        data: { deleteHistoryNote },
+      }
+    ) {
+      cache.writeQuery({
+        query: questionnaireHistoryQuery,
+        variables: {
+          input: { questionnaireId },
+        },
+        data: { history: deleteHistoryNote },
+      });
+    },
+  });
 
   const [noteState, setNoteState] = useState({ name: "note", value: "" });
   if (loading) {
@@ -87,7 +107,6 @@ const HistoryPageContent = ({ match }) => {
     return <Error>Oops! Something went wrong</Error>;
   }
   const { history } = data;
-
   return (
     <Container>
       <Header title="History" />
@@ -101,6 +120,7 @@ const HistoryPageContent = ({ match }) => {
               onUpdate={setNoteState}
               value={noteState.value}
               controls={{
+                heading: true,
                 emphasis: true,
                 list: true,
                 bold: true,
@@ -137,15 +157,41 @@ const HistoryPageContent = ({ match }) => {
               publishStatus,
               questionnaireTitle,
               bodyText,
+              type,
               user,
               time,
             }) => (
               <HistoryItem
                 key={id}
+                itemId={id}
+                handleUpdateNote={(itemId, bodyText) =>
+                  updateNote({
+                    variables: {
+                      input: {
+                        id: itemId,
+                        questionnaireId,
+                        bodyText,
+                      },
+                    },
+                  })
+                }
+                handleDeleteNote={itemId =>
+                  deleteNote({
+                    variables: {
+                      input: {
+                        id: itemId,
+                        questionnaireId,
+                      },
+                    },
+                  })
+                }
                 questionnaireTitle={questionnaireTitle}
                 publishStatus={publishStatus}
+                currentUser={me}
                 userName={user.displayName}
+                userId={user.id}
                 bodyText={bodyText}
+                type={type}
                 createdAt={time}
               />
             )

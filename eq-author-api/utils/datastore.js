@@ -124,7 +124,7 @@ const createQuestionnaire = async (questionnaire, ctx) => {
   );
 };
 
-const addEventToHistory = (questionnaireId, historyEvent) =>
+const createHistoryEvent = (questionnaireId, historyEvent) =>
   new Promise((resolve, reject) => {
     QuestionnaireModel.queryOne({ id: { eq: questionnaireId } }).exec(
       async (err, questionnaire) => {
@@ -139,14 +139,14 @@ const addEventToHistory = (questionnaireId, historyEvent) =>
     );
   });
 
-const getHistoryById = id =>
+const getQuestionnaireMetaById = id =>
   new Promise((resolve, reject) => {
     QuestionnaireModel.queryOne({ id: { eq: id } }).exec(
       async (err, questionnaire) => {
         if (err) {
           reject(err);
         }
-        resolve(questionnaire.history);
+        resolve(questionnaire);
       }
     );
   });
@@ -294,8 +294,8 @@ module.exports = {
   updateUser,
   saveModel,
   listUsers,
-  addEventToHistory,
-  getHistoryById,
+  createHistoryEvent,
+  getQuestionnaireMetaById,
   getCommentsForQuestionnaire,
   saveComments,
   createComments,
