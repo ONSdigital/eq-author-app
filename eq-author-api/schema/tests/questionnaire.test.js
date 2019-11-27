@@ -163,7 +163,7 @@ describe("questionnaire", () => {
       beforeEach(() => {
         ctx.questionnaire.publishDetails = {
           surveyId,
-          formType: { ONS: formType },
+          formTypes: { ONS: formType },
         };
         ctx.user.admin = true;
       });
@@ -174,11 +174,25 @@ describe("questionnaire", () => {
           {
             questionnaireId: ctx.questionnaire.id,
             surveyId,
-            formType,
+            formTypes: { ONS: "456" },
           },
           ctx
         );
         expect(ctx.questionnaire.publishStatus).toEqual(AWAITING_APPROVAL);
+      });
+
+      it("should reject if a form type is omitted", async () => {
+        expect(ctx.questionnaire.publishStatus).toEqual(UNPUBLISHED);
+        await expect(
+          publishQuestionnaire(
+            {
+              questionnaireId: ctx.questionnaire.id,
+              surveyId,
+              formTypes: { ONS: "" },
+            },
+            ctx
+          )
+        ).rejects.toBeTruthy();
       });
 
       it("should be able to approve a questionnaire awaiting approval", async () => {
@@ -193,8 +207,19 @@ describe("questionnaire", () => {
 
         expect(ctx.questionnaire.publishStatus).toEqual(PUBLISHED);
         expect(fetch).toHaveBeenCalledWith(
-          `${process.env.SURVEY_REGISTER_URL}${ctx.questionnaire.id}/${surveyId}/${formType}/${surveyVersion}`,
-          { method: "put" }
+          `${process.env.SURVEY_REGISTER_URL}`,
+          {
+            method: "put",
+            body: JSON.stringify({
+              surveyId,
+              questionnaireId: ctx.questionnaire.id,
+              surveyVersion,
+              formTypes: { ONS: "321" },
+            }),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
         );
         expect(result).toMatchObject({
           id: ctx.questionnaire.id,

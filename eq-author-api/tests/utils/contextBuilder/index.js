@@ -188,7 +188,7 @@ const buildContext = async (questionnaireConfig, userConfig = {}) => {
       {
         questionnaireId: questionnaire.id,
         surveyId: "123",
-        formType: "456",
+        formTypes: { ONS: "456" },
       },
       ctx
     );

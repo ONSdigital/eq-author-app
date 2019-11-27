@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 import { withRouter, Redirect } from "react-router";
 import CustomPropTypes from "custom-prop-types";
 import { useMutation } from "@apollo/react-hooks";
+import { map, isEmpty, some } from "lodash";
 
 import { useMe } from "App/MeContext";
 import { useQuestionnaire } from "components/QuestionnaireContext";
@@ -11,13 +13,20 @@ import { colors } from "constants/theme";
 import { AWAITING_APPROVAL, PUBLISHED } from "constants/publishStatus";
 
 import { Field, Input, Label } from "components/Forms";
-import { Column } from "components/Grid";
 import Button from "components/buttons/Button";
-import { InformationPanel } from "components/Panel";
+import Panel, { InformationPanel } from "components/Panel";
 import ScrollPane from "components/ScrollPane";
 import Header from "components/EditorLayout/Header";
 
 import triggerPublishMutation from "./triggerPublish.graphql";
+
+export const themes = [
+  "ONS",
+  "Northern Ireland",
+  "UKIS ONS",
+  "UKIS Northern Ireland",
+  "Social",
+];
 
 const Container = styled.div`
   display: flex;
@@ -26,26 +35,23 @@ const Container = styled.div`
   overflow: hidden;
 `;
 
-const StyledGrid = styled.div`
-  padding: 1em 1em 2em;
-  border: 1px solid ${colors.lightGrey};
-  border-radius: 0.25em;
-  margin: 1em;
-  background: ${colors.white};
-`;
-
 const Shadow = styled.div`
   background: ${colors.lightMediumGrey};
   padding: 1.25em;
-`;
-
-const AlignedColumn = styled(Column)`
-  padding: 0;
+  max-width: 45%;
+  margin: 0 0.5em 0.5em 0;
+  flex: 0 0 45%;
 `;
 
 const Separator = styled.hr`
   border: 0;
   border-top: 0.0625em solid ${colors.lightMediumGrey};
+`;
+
+const StyledPanel = styled(Panel)`
+  max-width: 97.5%;
+  margin: 1.5em auto;
+  padding: 1.5em;
 `;
 
 const Caption = styled.p`
@@ -54,20 +60,57 @@ const Caption = styled.p`
   margin-bottom: 0.6em;
 `;
 
+const ThemeSelector = styled.div`
+  display: flex;
+  margin: 1.25em 2em 0 0;
+`;
+
+const ThemeContainer = styled.div`
+  display: inline-flex;
+`;
+
+const ThemeInputs = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+`;
+
+const LabeledCheckbox = ({ label, handleChange }) => (
+  <ThemeSelector>
+    <Input
+      id={`${label}-input`}
+      type="checkbox"
+      onChange={e => handleChange(e, label)}
+    />
+    <Label htmlFor={`${label}-input`}>{label}</Label>
+  </ThemeSelector>
+);
+
+LabeledCheckbox.propTypes = {
+  label: PropTypes.string.isRequired,
+  handleChange: PropTypes.func.isRequired,
+};
+
 const PublishPage = ({ match, history }) => {
   const questionnaireId = match.params.questionnaireId;
-  const originalInputs = { surveyId: "", formType: "" };
-  const [inputs, setInputs] = useState(originalInputs);
+  const [surveyId, setSurveyId] = useState("");
+  const [formTypes, setFormTypes] = useState({});
   const { me } = useMe();
   const { questionnaire } = useQuestionnaire();
 
   const [triggerPublish] = useMutation(triggerPublishMutation);
 
-  const handleInputChange = event =>
-    setInputs({
-      ...inputs,
+  const handleThemeSelect = (event, label) => {
+    const themeObject = { ...formTypes };
+    event.value ? (themeObject[label] = "") : delete themeObject[label];
+    setFormTypes(themeObject);
+  };
+
+  const handleInputChange = event => {
+    setFormTypes({
+      ...formTypes,
       [event.name]: event.value,
     });
+  };
 
   const publishStatus = questionnaire && questionnaire.publishStatus;
   if (
@@ -82,53 +125,74 @@ const PublishPage = ({ match, history }) => {
     <Container>
       <Header title="Publish" />
       <ScrollPane>
-        <StyledGrid>
-          <AlignedColumn cols={6}>
-            <Field>
-              <Label htmlFor="surveyId">Survey ID</Label>
-              <Caption>Enter survey ID</Caption>
-              <Shadow>
-                <Input
-                  id="surveyId"
-                  onChange={handleInputChange}
-                  value={inputs.surveyId}
+        <StyledPanel>
+          <Field>
+            <Label>Themes</Label>
+            <Caption>Select themes to be used for this survey</Caption>
+            <ThemeContainer>
+              {themes.map(theme => (
+                <LabeledCheckbox
+                  id={`${theme}-selector`}
+                  key={`${theme}-selector`}
+                  handleChange={handleThemeSelect}
+                  label={theme}
                 />
-              </Shadow>
-            </Field>
-          </AlignedColumn>
+              ))}
+            </ThemeContainer>
+          </Field>
           <Separator />
-          <AlignedColumn cols={6}>
-            <Field>
-              <Label htmlFor="formType">Form type</Label>
-              <Caption>Enter form type</Caption>
-              <Shadow>
-                <Input
-                  id="formType"
-                  onChange={handleInputChange}
-                  value={inputs.formType}
-                />
-              </Shadow>
-            </Field>
-          </AlignedColumn>
+          <Field>
+            <Label htmlFor="surveyId">Survey ID</Label>
+            <Caption>Enter survey ID</Caption>
+            <Shadow>
+              <Input
+                id="surveyId"
+                onChange={e => setSurveyId(e.value)}
+                value={surveyId}
+              />
+            </Shadow>
+          </Field>
           <Separator />
-          <AlignedColumn>
-            <InformationPanel maxWidth="50%">
-              No further changes can be made to the questionnaire after it has
-              been submitted for approval
-            </InformationPanel>
-          </AlignedColumn>
+          {!isEmpty(formTypes) && (
+            <>
+              <Field>
+                <Label>Form type</Label>
+                <Caption>Enter relevant form types for selected themes</Caption>
+                <ThemeInputs>
+                  {map(formTypes, (value, key) => (
+                    <Shadow key={`${key}-entry`}>
+                      <Label htmlFor={key}>{key}</Label>
+                      <Input
+                        id={`${key}`}
+                        onChange={handleInputChange}
+                        value={value}
+                        data-test={`${key}-input`}
+                      />
+                    </Shadow>
+                  ))}
+                </ThemeInputs>
+              </Field>
+              <Separator />
+            </>
+          )}
+          <InformationPanel>
+            No further changes can be made to the questionnaire after it has
+            been submitted for approval
+          </InformationPanel>
           <Button
             type="submit"
             variant="primary"
-            disabled={!(inputs.surveyId && inputs.formType)}
+            disabled={
+              !surveyId || isEmpty(formTypes) || some(formTypes, isEmpty)
+            }
             data-test="publish-survey-button"
             onClick={() => {
               triggerPublish({
                 variables: {
                   input: {
                     questionnaireId,
-                    surveyId: inputs.surveyId,
-                    formType: inputs.formType,
+                    surveyId,
+                    formTypes,
                   },
                 },
               }).then(() => history.push("/"));
@@ -136,7 +200,7 @@ const PublishPage = ({ match, history }) => {
           >
             Submit for approval
           </Button>
-        </StyledGrid>
+        </StyledPanel>
       </ScrollPane>
     </Container>
   );
