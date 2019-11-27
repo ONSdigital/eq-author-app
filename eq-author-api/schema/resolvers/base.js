@@ -217,9 +217,14 @@ const Resolvers = {
       subscribe: () => pubsub.asyncIterator(["publishStatusUpdated"]),
     },
     commentsUpdated: {
-      resolve: ({ questionnaire }, args, ctx) => {
+      resolve: async ({ pageId, questionnaire }, args, ctx) => {
         ctx.questionnaire = questionnaire;
-        return questionnaire;
+        console.log("\n\n----CTX BEFORE--------", ctx);
+
+        const page = await getPageById(ctx, pageId);
+
+        console.log("\n\n-------PAGE AFTER-----", page);
+        return page;
       },
       subscribe: () => pubsub.asyncIterator(["commentsUpdated"]),
     },
