@@ -216,6 +216,13 @@ const Resolvers = {
       },
       subscribe: () => pubsub.asyncIterator(["publishStatusUpdated"]),
     },
+    commentsUpdated: {
+      resolve: ({ questionnaire }, args, ctx) => {
+        ctx.questionnaire = questionnaire;
+        return questionnaire;
+      },
+      subscribe: () => pubsub.asyncIterator(["commentsUpdated"]),
+    },
   },
 
   Mutation: {

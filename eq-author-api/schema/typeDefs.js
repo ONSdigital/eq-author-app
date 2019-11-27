@@ -1091,9 +1091,12 @@ input DeleteCollapsibleInput {
   id: ID!
 }
 
+union CommentsPage = QuestionPage | CalculatedSummaryPage
+
 type Subscription {
   validationUpdated(id: ID!): Questionnaire!
   publishStatusUpdated(id: ID!): Questionnaire!
+  commentsUpdated(id: ID! pageId: ID!): CommentsPage!
 }
 
 input PublishQuestionnaireInput {
