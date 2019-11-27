@@ -1,3 +1,4 @@
+const pubsub = require("../../../db/pubSub");
 const { find, findIndex, remove, omit, set, first } = require("lodash");
 const uuid = require("uuid");
 
@@ -17,6 +18,14 @@ const {
   saveComments,
   getUserById,
 } = require("../../../utils/datastore");
+
+const publishCommentUpdates = (questionnaire, pageId) => {
+  pubsub.publish("commentsUpdated", {
+    questionnaire,
+    pageId,
+  });
+};
+
 const Resolvers = {};
 
 Resolvers.Page = {
@@ -54,56 +63,70 @@ Resolvers.Mutation = {
   }),
 
   updateComment: async (_, { input }, ctx) => {
+    const { pageId } = input;
+    const questionnaire = ctx.questionnaire;
     const questionnaireComments = await getCommentsForQuestionnaire(
-      ctx.questionnaire.id
+      questionnaire.id
     );
-    const pageComments = questionnaireComments.comments[input.pageId];
-    let commentToEdit;
+    const pageComments = questionnaireComments.comments[pageId];
 
-    if (pageComments) {
-      commentToEdit = pageComments.find(({ id }) => id === input.commentId);
-      commentToEdit.commentText = input.commentText;
-      commentToEdit.editedTime = new Date();
-      await saveComments(questionnaireComments);
+    if (!pageComments) {
+      throw new Error("No comments found");
     }
+
+    const commentToEdit = pageComments.find(({ id }) => id === input.commentId);
+    commentToEdit.commentText = input.commentText;
+    commentToEdit.editedTime = new Date();
+    await saveComments(questionnaireComments);
+
+    publishCommentUpdates(questionnaire, pageId);
 
     return commentToEdit;
   },
 
   deleteComment: async (_, { input }, ctx) => {
+    const { pageId } = input;
+    const questionnaire = ctx.questionnaire;
     const questionnaireComments = await getCommentsForQuestionnaire(
-      ctx.questionnaire.id
+      questionnaire.id
     );
 
-    const pageComments = questionnaireComments.comments[input.pageId];
+    const pageComments = questionnaireComments.comments[pageId];
 
     if (pageComments) {
       remove(pageComments, ({ id }) => id === input.commentId);
       await saveComments(questionnaireComments);
     }
-    const page = getPageById(ctx, input.pageId);
+    publishCommentUpdates(questionnaire, pageId);
+
+    const page = getPageById(ctx, pageId);
     return page;
   },
 
   createComment: async (_, { input }, ctx) => {
+    const { pageId } = input;
+    const questionnaire = ctx.questionnaire;
     const questionnaireComments = await getCommentsForQuestionnaire(
-      ctx.questionnaire.id
+      questionnaire.id
     );
     const newComment = {
       id: uuid.v4(),
       commentText: input.commentText,
       userId: ctx.user.id,
       createdTime: new Date(),
-      pageId: input.pageId,
+      pageId: pageId,
       replies: [],
     };
 
-    if (questionnaireComments.comments[input.pageId]) {
-      questionnaireComments.comments[input.pageId].push(newComment);
+    if (questionnaireComments.comments[pageId]) {
+      questionnaireComments.comments[pageId].push(newComment);
     } else {
-      questionnaireComments.comments[input.pageId] = [newComment];
+      questionnaireComments.comments[pageId] = [newComment];
     }
     await saveComments(questionnaireComments);
+
+    publishCommentUpdates(questionnaire, pageId);
+
     return newComment;
   },
 
