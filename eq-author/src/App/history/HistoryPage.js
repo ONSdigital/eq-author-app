@@ -67,12 +67,7 @@ const HistoryPageContent = ({ match }) => {
   });
   const { me } = useMe();
   const [addNote] = useMutation(createNoteMutation, {
-    update(
-      cache,
-      {
-        data: { createHistoryNote },
-      }
-    ) {
+    update(cache, { data: { createHistoryNote } }) {
       cache.writeQuery({
         query: questionnaireHistoryQuery,
         variables: { input: { questionnaireId } },
@@ -82,12 +77,7 @@ const HistoryPageContent = ({ match }) => {
   });
   const [updateNote] = useMutation(updateNoteMutation);
   const [deleteNote] = useMutation(deleteNoteMutation, {
-    update(
-      cache,
-      {
-        data: { deleteHistoryNote },
-      }
-    ) {
+    update(cache, { data: { deleteHistoryNote } }) {
       cache.writeQuery({
         query: questionnaireHistoryQuery,
         variables: {

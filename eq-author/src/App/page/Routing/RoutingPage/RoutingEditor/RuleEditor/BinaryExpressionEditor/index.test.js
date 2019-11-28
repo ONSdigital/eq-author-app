@@ -176,7 +176,9 @@ describe("BinaryExpressionEditor", () => {
       .simulate("rightChange", { customValue: { number: 123 } });
     expect(defaultProps.updateRightSide).toHaveBeenCalledWith(
       defaultProps.expression,
-      { customValue: { number: 123 } }
+      {
+        customValue: { number: 123 },
+      }
     );
   });
 });

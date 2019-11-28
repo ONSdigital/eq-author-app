@@ -60,14 +60,23 @@ Resolvers.BinaryExpression2 = {
   },
   expressionGroup: async ({ id }, args, ctx) => {
     const pages = getPages(ctx);
-    return find(expressionGroup => {
-      if (
-        expressionGroup.expressions &&
-        some({ id }, expressionGroup.expressions)
-      ) {
-        return expressionGroup;
-      }
-    }, flatMap(rule => rule.expressionGroup, flatMap(routing => getOr([], "rules", routing), flatMap(page => page.routing, pages))));
+    return find(
+      expressionGroup => {
+        if (
+          expressionGroup.expressions &&
+          some({ id }, expressionGroup.expressions)
+        ) {
+          return expressionGroup;
+        }
+      },
+      flatMap(
+        rule => rule.expressionGroup,
+        flatMap(
+          routing => getOr([], "rules", routing),
+          flatMap(page => page.routing, pages)
+        )
+      )
+    );
   },
 };
 
@@ -174,11 +183,14 @@ Resolvers.Mutation = {
         flatMap(page => page.routing, pages)
       );
 
-      const expressionGroup = find(expressionGroup => {
-        if (some({ id }, expressionGroup.expressions)) {
-          return expressionGroup;
-        }
-      }, flatMap(rule => rule.expressionGroup, rules));
+      const expressionGroup = find(
+        expressionGroup => {
+          if (some({ id }, expressionGroup.expressions)) {
+            return expressionGroup;
+          }
+        },
+        flatMap(rule => rule.expressionGroup, rules)
+      );
 
       const expression = find({ id }, expressionGroup.expressions);
 
@@ -212,15 +224,21 @@ Resolvers.Mutation = {
       flatMap(page => page.routing, pages)
     );
 
-    const expressionGroup = find(expressionGroup => {
-      if (some({ id: expressionId }, expressionGroup.expressions)) {
-        return expressionGroup;
-      }
-    }, flatMap(rule => rule.expressionGroup, rules));
+    const expressionGroup = find(
+      expressionGroup => {
+        if (some({ id: expressionId }, expressionGroup.expressions)) {
+          return expressionGroup;
+        }
+      },
+      flatMap(rule => rule.expressionGroup, rules)
+    );
 
     const expression = find({ id: expressionId }, expressionGroup.expressions);
 
-    const answer = find({ id: answerId }, flatMap(page => page.answers, pages));
+    const answer = find(
+      { id: answerId },
+      flatMap(page => page.answers, pages)
+    );
 
     const updatedLeftSide = {
       ...expression.left,
@@ -247,11 +265,14 @@ Resolvers.Mutation = {
       flatMap(page => page.routing, pages)
     );
 
-    const expressionGroup = find(expressionGroup => {
-      if (some({ id: input.expressionId }, expressionGroup.expressions)) {
-        return expressionGroup;
-      }
-    }, flatMap(rule => rule.expressionGroup, rules));
+    const expressionGroup = find(
+      expressionGroup => {
+        if (some({ id: input.expressionId }, expressionGroup.expressions)) {
+          return expressionGroup;
+        }
+      },
+      flatMap(rule => rule.expressionGroup, rules)
+    );
 
     const expression = find({ id: expressionId }, expressionGroup.expressions);
 
@@ -309,11 +330,14 @@ Resolvers.Mutation = {
         flatMap(page => page.routing, pages)
       );
 
-      const expressionGroup = find(expressionGroup => {
-        if (some({ id: input.id }, expressionGroup.expressions)) {
-          return expressionGroup;
-        }
-      }, flatMap(rule => rule.expressionGroup, rules));
+      const expressionGroup = find(
+        expressionGroup => {
+          if (some({ id: input.id }, expressionGroup.expressions)) {
+            return expressionGroup;
+          }
+        },
+        flatMap(rule => rule.expressionGroup, rules)
+      );
 
       expressionGroup.expressions = reject(
         { id: input.id },

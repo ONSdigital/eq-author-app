@@ -329,10 +329,11 @@ describe("History page", () => {
         ];
       });
       it("should be able to update your own note", async () => {
-        const { getByTestId, getAllByTestId, getByText } = renderWithContext(
-          <HistoryPageContent {...props} />,
-          { mocks }
-        );
+        const {
+          getByTestId,
+          getAllByTestId,
+          getByText,
+        } = renderWithContext(<HistoryPageContent {...props} />, { mocks });
 
         await flushPromises();
         expect(getByText("Hello Moto")).toBeTruthy();
@@ -425,10 +426,10 @@ describe("History page", () => {
       });
 
       it("should be able to delete your own note", async () => {
-        const { getByTestId, queryByText } = renderWithContext(
-          <HistoryPageContent {...props} />,
-          { mocks }
-        );
+        const {
+          getByTestId,
+          queryByText,
+        } = renderWithContext(<HistoryPageContent {...props} />, { mocks });
 
         await flushPromises();
         expect(queryByText("Hello Moto")).toBeTruthy();

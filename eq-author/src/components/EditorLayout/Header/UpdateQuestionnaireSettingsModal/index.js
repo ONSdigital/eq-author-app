@@ -12,10 +12,7 @@ const UpdateQuestionnaireSettingsModal = ({
   ...otherProps
 }) => (
   <QuestionnaireSettingsModal
-    onSubmit={pipeP(
-      onUpdateQuestionnaire,
-      onClose
-    )}
+    onSubmit={pipeP(onUpdateQuestionnaire, onClose)}
     confirmText="Apply"
     canEditType={false}
     onClose={onClose}

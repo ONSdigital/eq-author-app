@@ -85,9 +85,6 @@ export class UnwrappedRoutingEditor extends React.Component {
   }
 }
 
-const withMutations = flow(
-  withUpdateRouting,
-  withCreateRule
-);
+const withMutations = flow(withUpdateRouting, withCreateRule);
 
 export default withMutations(UnwrappedRoutingEditor);

@@ -82,7 +82,10 @@ describe("Should build a runner representation of a binary expression", () => {
 
     it("With a radio answer and multiple selected options", () => {
       const expression = buildBinaryExpression(
-        [{ id: "2", label: "no" }, { id: "3", label: "maybe" }],
+        [
+          { id: "2", label: "no" },
+          { id: "3", label: "maybe" },
+        ],
         "OneOf"
       );
 
@@ -124,7 +127,10 @@ describe("Should build a runner representation of a binary expression", () => {
 
     it("With a checkbox answer and all of", () => {
       const expression = buildBinaryExpression(
-        [{ id: "1", label: "yes" }, { id: "2", label: "no" }],
+        [
+          { id: "1", label: "yes" },
+          { id: "2", label: "no" },
+        ],
         "AllOf"
       );
 
@@ -139,7 +145,10 @@ describe("Should build a runner representation of a binary expression", () => {
 
     it("With a checkbox answer and any of", () => {
       const expression = buildBinaryExpression(
-        [{ id: "1", label: "yes" }, { id: "2", label: "no" }],
+        [
+          { id: "1", label: "yes" },
+          { id: "2", label: "no" },
+        ],
         "AnyOf"
       );
 

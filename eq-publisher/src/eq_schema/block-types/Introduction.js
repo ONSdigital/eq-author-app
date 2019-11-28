@@ -5,17 +5,10 @@ const {
   getInnerHTMLWithPiping,
 } = require("../../utils/HTMLUtils");
 
-const processContent = ctx =>
-  flow(
-    convertPipes(ctx),
-    parseContent
-  );
+const processContent = ctx => flow(convertPipes(ctx), parseContent);
 
 const getSimpleText = (content, ctx) =>
-  flow(
-    convertPipes(ctx),
-    getInnerHTMLWithPiping
-  )(content);
+  flow(convertPipes(ctx), getInnerHTMLWithPiping)(content);
 
 const getComplexText = (content, ctx) => {
   const result = processContent(ctx)(content);
