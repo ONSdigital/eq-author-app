@@ -127,10 +127,7 @@ ContextProvider.propTypes = {
   children: PropType.node,
 };
 
-export const MeProvider = flowRight(
-  withApollo,
-  withRouter
-)(ContextProvider);
+export const MeProvider = flowRight(withApollo, withRouter)(ContextProvider);
 
 export const withMe = Component => {
   const InnerComponent = props => (

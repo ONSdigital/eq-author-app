@@ -4,10 +4,7 @@ const getAllOptions = condition => {
   return condition.answer.options;
 };
 
-const keyOptionsById = flow(
-  flatMap(getAllOptions),
-  keyBy("id")
-);
+const keyOptionsById = flow(flatMap(getAllOptions), keyBy("id"));
 
 class RadioRoutingCondition {
   constructor(condition, conditions) {

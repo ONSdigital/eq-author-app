@@ -81,8 +81,4 @@ UserProfile.propTypes = {
   signOut: PropTypes.func.isRequired,
 };
 
-export default flowRight(
-  withApollo,
-  withMe,
-  withRouter
-)(UserProfile);
+export default flowRight(withApollo, withMe, withRouter)(UserProfile);

@@ -55,7 +55,4 @@ const withDuplicateQuestionnaire = graphql(duplicateQuestionnaireMutation, {
     update: handleUpdate,
   },
 });
-export default flowRight(
-  withRouter,
-  withDuplicateQuestionnaire
-);
+export default flowRight(withRouter, withDuplicateQuestionnaire);

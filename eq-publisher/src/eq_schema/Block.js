@@ -14,29 +14,15 @@ const pageTypeMappings = {
   InterstitialPage: "Interstitial",
 };
 
-const getLastPage = flow(
-  getOr([], "pages"),
-  last
-);
+const getLastPage = flow(getOr([], "pages"), last);
 
 const processPipedTitle = ctx =>
-  flow(
-    convertPipes(ctx),
-    getInnerHTMLWithPiping
-  );
+  flow(convertPipes(ctx), getInnerHTMLWithPiping);
 
-const processPipedText = ctx =>
-  flow(
-    convertPipes(ctx),
-    unescapePiping
-  );
+const processPipedText = ctx => flow(convertPipes(ctx), unescapePiping);
 
 const isLastPageInSection = (page, ctx) =>
-  flow(
-    getOr([], "sections"),
-    map(getLastPage),
-    some({ id: page.id })
-  )(ctx);
+  flow(getOr([], "sections"), map(getLastPage), some({ id: page.id }))(ctx);
 
 class Block {
   constructor(page, groupId, ctx) {

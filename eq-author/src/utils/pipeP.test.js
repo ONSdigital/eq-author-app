@@ -15,19 +15,12 @@ describe("pipeP", () => {
   });
 
   it("works with with multiple functions", () => {
-    const multi = pipeP(
-      addUnicorn,
-      addRainbow
-    );
+    const multi = pipeP(addUnicorn, addRainbow);
     expect(multi("❤️")).resolves.toBe("❤️ Unicorn Rainbow");
   });
 
   it("works with a mix of promise and non-promise functions", () => {
-    const mixed = pipeP(
-      addNonPromise,
-      addUnicorn,
-      addRainbow
-    );
+    const mixed = pipeP(addNonPromise, addUnicorn, addRainbow);
     return expect(mixed("❤️")).resolves.toBe("❤️ Foo Unicorn Rainbow");
   });
 });

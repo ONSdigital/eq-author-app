@@ -25,7 +25,4 @@ export const UnwrappedWithFetchAnswers = WrappedComponent => {
   };
 };
 
-export default flowRight(
-  withApollo,
-  UnwrappedWithFetchAnswers
-);
+export default flowRight(withApollo, UnwrappedWithFetchAnswers);

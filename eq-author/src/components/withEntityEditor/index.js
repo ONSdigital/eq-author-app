@@ -5,10 +5,7 @@ import fp from "lodash/fp";
 import { startRequest, endRequest } from "redux/saving/actions";
 import { connect } from "react-redux";
 
-const withSaveTracking = connect(
-  null,
-  { startRequest, endRequest }
-);
+const withSaveTracking = connect(null, { startRequest, endRequest });
 
 const withEntityEditor = entityPropName => WrappedComponent => {
   class EntityEditor extends React.Component {

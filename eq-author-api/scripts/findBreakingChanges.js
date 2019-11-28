@@ -19,15 +19,8 @@ const parseEnumBreakage = data => {
   return [words[0], words[words.length - 1]];
 };
 
-const isIntrospectionType = flow(
-  get("name"),
-  startsWith("__")
-);
-const parseBreakage = flow(
-  get("description"),
-  re(/^(.*?)\.(.*?) /),
-  tail
-);
+const isIntrospectionType = flow(get("name"), startsWith("__"));
+const parseBreakage = flow(get("description"), re(/^(.*?)\.(.*?) /), tail);
 
 const findDeprecatedDirective = directives => {
   if (directives.length === 0) {
