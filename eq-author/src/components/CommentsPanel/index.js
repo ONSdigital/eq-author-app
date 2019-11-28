@@ -254,8 +254,6 @@ const CommentsPanel = ({
     }
   `;
 
-  // commentsSubscription({ variables: { id: questionnaireId } });
-
   useSubscription(commentsSubscription, {
     variables: {
       pageId,
