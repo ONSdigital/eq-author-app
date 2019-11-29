@@ -1,32 +1,32 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { render } from "tests/utils/rtl";
 import ContentPickerButton from "components/ContentPicker/ContentPickerButton";
 
-const render = props => shallow(<ContentPickerButton {...props} />);
+const renderButton = props => render(<ContentPickerButton {...props} />);
 
 describe("ContentPickerButton", () => {
-  let wrapper, props;
+  let props;
   beforeEach(() => {
     props = {
       hidden: false,
       selected: false,
       label: "foobar",
     };
-
-    wrapper = render(props);
   });
 
   it("should render without selected icon", () => {
-    expect(wrapper).toMatchSnapshot();
+    expect(renderButton().asFragment()).toMatchSnapshot();
   });
 
   it("should render with selected icon", () => {
-    wrapper = render({ ...props, selected: true });
-    expect(wrapper).toMatchSnapshot();
+    expect(
+      renderButton({ ...props, selected: true }).asFragment()
+    ).toMatchSnapshot();
   });
 
   it("should not render when hidden prop is true", () => {
-    wrapper = render({ ...props, hidden: true });
-    expect(wrapper).toMatchSnapshot();
+    expect(
+      renderButton({ ...props, hidden: true }).asFragment()
+    ).toMatchSnapshot();
   });
 });

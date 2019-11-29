@@ -1,14 +1,14 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { render } from "tests/utils/rtl";
 import Dialog from "./";
 
 describe("components/Dialog", () => {
   it("should render a dialog", () => {
-    const wrapper = shallow(
+    const { getByText } = render(
       <Dialog>
         <div>Dialog content</div>
       </Dialog>
     );
-    expect(wrapper).toMatchSnapshot();
+    expect(getByText("Dialog content")).toBeTruthy();
   });
 });

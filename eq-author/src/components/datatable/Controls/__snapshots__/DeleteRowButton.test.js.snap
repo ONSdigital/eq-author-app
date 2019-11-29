@@ -1,16 +1,46 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`DeleteRowButton should render 1`] = `
-.c0 {
+<DocumentFragment>
+  .c0 {
+  color: #3B7A9E;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  -webkit-transition: color 200ms ease-in,opacity 300ms ease-in;
+  transition: color 200ms ease-in,opacity 300ms ease-in;
+  width: 1em;
+  height: 1em;
+  padding: 0;
+  font-size: 2em;
+}
+
+.c0:hover {
+  color: #333333;
+}
+
+.c0:focus {
+  outline: 3px solid #FDBD56;
+}
+
+.c0[disabled] {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.c1 {
   vertical-align: middle;
   margin-left: 1px;
   height: 1.02em;
 }
 
-<DeleteButton
-  aria-label="Delete"
-  className="c0"
-  size="medium"
-  type="button"
-/>
+<button
+    aria-label="Delete"
+    class="c0 c1"
+    role="button"
+    type="button"
+  >
+    <svg />
+  </button>
+</DocumentFragment>
 `;

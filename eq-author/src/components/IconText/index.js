@@ -29,8 +29,14 @@ const IconText = ({ icon: Icon, hideText, children, ...otherProps }) => (
   </IconWithText>
 );
 
+const component = PropTypes.oneOfType([
+  PropTypes.node,
+  PropTypes.func,
+  PropTypes.elementType,
+]);
+
 IconText.propTypes = {
-  icon: PropTypes.func.isRequired,
+  icon: component.isRequired,
   children: PropTypes.node.isRequired,
   hideText: PropTypes.bool,
 };

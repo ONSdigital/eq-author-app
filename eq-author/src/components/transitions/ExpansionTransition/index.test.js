@@ -1,16 +1,14 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { render } from "tests/utils/rtl";
+import ExpansionTransition from "components/MainCanvas";
 
-import ExpansionTransition from "./";
-
-describe("components/ExpansionTransition", () => {
+describe("ExpansionTransition", () => {
   it("should render", () => {
-    expect(
-      shallow(
-        <ExpansionTransition>
-          <div>Content</div>
-        </ExpansionTransition>
-      )
-    ).toMatchSnapshot();
+    const { asFragment } = render(
+      <ExpansionTransition>
+        <div>Content</div>
+      </ExpansionTransition>
+    );
+    expect(asFragment()).toMatchSnapshot();
   });
 });

@@ -13,7 +13,7 @@ const InputType = styled.div`
   width: 10em;
 `;
 
-export const Type = styled.div`
+export const Type = styled.div.attrs(() => ({ "data-test": "unit-type" }))`
   display: inline-block;
   background-color: ${colors.lighterGrey};
   border-left: 1px solid ${colors.grey};

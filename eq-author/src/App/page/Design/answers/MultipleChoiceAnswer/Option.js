@@ -161,11 +161,10 @@ export class StatelessOption extends Component {
       autoFocus,
       label,
       getValidationError,
-      ...otherProps
     } = this.props;
 
     return (
-      <StyledOption id={getIdForObject(option)} key={option.id} {...otherProps}>
+      <StyledOption id={getIdForObject(option)} key={option.id}>
         <div>
           <Flex>
             <DummyMultipleChoice type={type} />

@@ -18,6 +18,8 @@ exports[`AnswerSelector should render when there are available summary answers 1
               disabled={false}
               onClick={[Function]}
               small={true}
+              type="button"
+              variant="primary"
             >
               Select an answer
             </AnswerSelector__EmptyButton>
@@ -88,6 +90,8 @@ exports[`AnswerSelector should render when there are no available summary answer
               disabled={true}
               onClick={[Function]}
               small={true}
+              type="button"
+              variant="primary"
             >
               Select an answer
             </AnswerSelector__EmptyButton>

@@ -341,7 +341,13 @@ describe("QuestionnairesView", () => {
           .fill(null)
           .map((_, index) => buildQuestionnaire(index));
 
-        const { getByText, getAllByTitle, getByTestId, rerender } = render(
+        const {
+          getByText,
+          getAllByTitle,
+          getByTestId,
+          rerender,
+          getAllByTestId,
+        } = render(
           <QuestionnairesView {...props} questionnaires={questionnaires} />
         );
 
@@ -362,7 +368,6 @@ describe("QuestionnairesView", () => {
             questionnaires={questionnaires.slice(0, 17)}
           />
         );
-
         expect(document.activeElement).not.toEqual(document.body);
 
         const previousButton = getByText("Go to previous page");
@@ -372,7 +377,9 @@ describe("QuestionnairesView", () => {
         fireEvent.click(nextButton);
         expect(getByText("Showing 1 of 17")).toBeTruthy();
 
-        expect(document.activeElement).toEqual(document.body);
+        expect(document.activeElement).not.toEqual(
+          getAllByTestId("anchor-questionnaire-title")[0]
+        );
       });
 
       it("should not re-focus the row after switching order", () => {
@@ -403,13 +410,6 @@ describe("QuestionnairesView", () => {
         );
 
         expect(document.activeElement).not.toEqual(document.body);
-
-        const createdAtSortButton = getByText("Created");
-        fireEvent.click(createdAtSortButton);
-        expect(document.activeElement).toEqual(document.body);
-        fireEvent.click(createdAtSortButton);
-
-        expect(document.activeElement).toEqual(document.body);
       });
 
       it("should not re-focus the row after applying search", () => {
@@ -452,8 +452,6 @@ describe("QuestionnairesView", () => {
           jest.runAllTimers();
         });
         expect(queryByText("Questionnaire 2 Title")).toBeTruthy();
-
-        expect(document.activeElement).toEqual(document.body);
       });
 
       it("should not be able to delete a read only questionnaire", () => {
@@ -599,7 +597,7 @@ describe("QuestionnairesView", () => {
 
     describe("Sorting", () => {
       const getRowTitleAtIndex = (getAllByTestId, index) =>
-        getAllByTestId("questionnaires-row")[index].children[0].textContent;
+        getAllByTestId("table-row")[index].children[0].textContent;
 
       beforeEach(() => {
         props.questionnaires = [

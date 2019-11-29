@@ -1,15 +1,16 @@
 import React from "react";
-import { mount } from "enzyme";
+import { render, fireEvent, createEvent } from "tests/utils/rtl";
 import WrappingInput from ".";
 
 describe("WrappingInput", () => {
-  let component, handleChange, handleUpdate;
+  let handleChange, handleUpdate;
 
   beforeEach(() => {
     handleChange = jest.fn();
     handleUpdate = jest.fn();
-
-    component = mount(
+  });
+  it("should render", () => {
+    const { getByText } = render(
       <WrappingInput
         id="foo"
         value="123"
@@ -17,27 +18,30 @@ describe("WrappingInput", () => {
         onBlur={handleUpdate}
       />
     );
-  });
-
-  it("should render", () => {
-    expect(component).toMatchSnapshot();
+    expect(getByText("123")).toBeTruthy();
   });
 
   it("will prevent new lines being inserted", () => {
     const ENTER_KEY = 13;
     const preventDefault = jest.fn();
 
-    component.simulate("keyDown", {
-      keyCode: 12,
-      preventDefault,
-    });
+    const { getByTestId } = render(
+      <WrappingInput
+        id="foo"
+        value="123"
+        onChange={handleChange}
+        onBlur={handleUpdate}
+      />
+    );
 
-    expect(preventDefault).not.toHaveBeenCalled();
-
-    component.simulate("keyDown", {
-      keyCode: ENTER_KEY,
-      preventDefault,
-    });
+    const keyboardEvent = createEvent.keyDown(
+      getByTestId("wrapping-input-textarea"),
+      {
+        keyCode: ENTER_KEY,
+      }
+    );
+    keyboardEvent.preventDefault = preventDefault;
+    fireEvent(getByTestId("wrapping-input-textarea"), keyboardEvent);
 
     expect(preventDefault).toHaveBeenCalled();
   });

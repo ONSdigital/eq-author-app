@@ -1,7 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TableHeadColumn should render 1`] = `
-.c0 {
+exports[`TableHead should render 1`] = `
+<DocumentFragment>
+  .c0 {
   padding: 0.75em 1em;
 }
 
@@ -9,7 +10,14 @@ exports[`TableHeadColumn should render 1`] = `
   border-right: 1px solid #d6d8da;
 }
 
-<th
-  className="c0"
-/>
+<table>
+    <tbody>
+      <tr>
+        <th
+          class="c0"
+        />
+      </tr>
+    </tbody>
+  </table>
+</DocumentFragment>
 `;

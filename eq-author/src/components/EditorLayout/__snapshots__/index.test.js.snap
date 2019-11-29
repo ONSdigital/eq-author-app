@@ -13,6 +13,8 @@ exports[`Editor Layout should render 1`] = `
       />
     </Component>
     <EditorLayout__StyledGrid
+      align="top"
+      fillHeight={true}
       page={
         Object {
           "answers": Array [],
@@ -29,7 +31,9 @@ exports[`Editor Layout should render 1`] = `
           permanentScrollBar={true}
         >
           <EditorLayout__Margin>
-            <EditorLayout__StyledMainCanvas>
+            <EditorLayout__StyledMainCanvas
+              maxWidth="55em"
+            >
               Content
             </EditorLayout__StyledMainCanvas>
           </EditorLayout__Margin>

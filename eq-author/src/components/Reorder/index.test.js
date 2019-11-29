@@ -23,7 +23,10 @@ describe("Reorder", () => {
     document.body.appendChild(toasts);
 
     props = {
-      list: [{ id: "1" }, { id: "2" }],
+      list: [
+        { id: "1", __typename: "item" },
+        { id: "2", __typename: "item" },
+      ],
       onMove: jest.fn(),
       children: jest.fn(),
     };
@@ -67,8 +70,9 @@ describe("Reorder", () => {
       wrapper
         .find(Segment)
         .at(0)
+        .dive()
         .props()
-        .innerRef(null)
+        .forwardedRef(null)
     ).not.toThrow();
   });
 
@@ -78,8 +82,9 @@ describe("Reorder", () => {
     wrapper
       .find(Segment)
       .at(0)
+      .dive()
       .props()
-      .innerRef({ getBoundingClientRect });
+      .forwardedRef({ getBoundingClientRect });
 
     expect(getBoundingClientRect).toHaveBeenCalledWith();
   });

@@ -77,7 +77,27 @@ exports[`components/RichTextEditor should allow multiline input 1`] = `
               "decorator": CompositeDraftDecorator {
                 "_decorators": Array [
                   Object {
-                    "component": [Function],
+                    "component": Object {
+                      "$$typeof": Symbol(react.forward_ref),
+                      "attrs": Array [],
+                      "componentStyle": ComponentStyle {
+                        "componentId": "PipedValue__PipedValueDecorator-es54sy-0",
+                        "isStatic": false,
+                        "rules": Array [
+                          "background-color:#e0e0e0;padding:0 0.125em;border-radius:",
+                          "4px",
+                          ";white-space:pre;",
+                        ],
+                      },
+                      "displayName": "PipedValue__PipedValueDecorator",
+                      "foldedComponentIds": Array [],
+                      "render": [Function],
+                      "styledComponentId": "PipedValue__PipedValueDecorator-es54sy-0",
+                      "target": "span",
+                      "toString": [Function],
+                      "warnTooManyClasses": [Function],
+                      "withComponent": [Function],
+                    },
                     "strategy": [Function],
                   },
                 ],
@@ -141,7 +161,27 @@ exports[`components/RichTextEditor should allow multiline input 1`] = `
         decorators={
           Array [
             Object {
-              "component": [Function],
+              "component": Object {
+                "$$typeof": Symbol(react.forward_ref),
+                "attrs": Array [],
+                "componentStyle": ComponentStyle {
+                  "componentId": "PipedValue__PipedValueDecorator-es54sy-0",
+                  "isStatic": false,
+                  "rules": Array [
+                    "background-color:#e0e0e0;padding:0 0.125em;border-radius:",
+                    "4px",
+                    ";white-space:pre;",
+                  ],
+                },
+                "displayName": "PipedValue__PipedValueDecorator",
+                "foldedComponentIds": Array [],
+                "render": [Function],
+                "styledComponentId": "PipedValue__PipedValueDecorator-es54sy-0",
+                "target": "span",
+                "toString": [Function],
+                "warnTooManyClasses": [Function],
+                "withComponent": [Function],
+              },
               "strategy": [Function],
             },
           ]
@@ -198,7 +238,27 @@ exports[`components/RichTextEditor should allow multiline input 1`] = `
               "decorator": CompositeDraftDecorator {
                 "_decorators": Array [
                   Object {
-                    "component": [Function],
+                    "component": Object {
+                      "$$typeof": Symbol(react.forward_ref),
+                      "attrs": Array [],
+                      "componentStyle": ComponentStyle {
+                        "componentId": "PipedValue__PipedValueDecorator-es54sy-0",
+                        "isStatic": false,
+                        "rules": Array [
+                          "background-color:#e0e0e0;padding:0 0.125em;border-radius:",
+                          "4px",
+                          ";white-space:pre;",
+                        ],
+                      },
+                      "displayName": "PipedValue__PipedValueDecorator",
+                      "foldedComponentIds": Array [],
+                      "render": [Function],
+                      "styledComponentId": "PipedValue__PipedValueDecorator-es54sy-0",
+                      "target": "span",
+                      "toString": [Function],
+                      "warnTooManyClasses": [Function],
+                      "withComponent": [Function],
+                    },
                     "strategy": [Function],
                   },
                 ],
@@ -334,7 +394,27 @@ exports[`components/RichTextEditor should render 1`] = `
               "decorator": CompositeDraftDecorator {
                 "_decorators": Array [
                   Object {
-                    "component": [Function],
+                    "component": Object {
+                      "$$typeof": Symbol(react.forward_ref),
+                      "attrs": Array [],
+                      "componentStyle": ComponentStyle {
+                        "componentId": "PipedValue__PipedValueDecorator-es54sy-0",
+                        "isStatic": false,
+                        "rules": Array [
+                          "background-color:#e0e0e0;padding:0 0.125em;border-radius:",
+                          "4px",
+                          ";white-space:pre;",
+                        ],
+                      },
+                      "displayName": "PipedValue__PipedValueDecorator",
+                      "foldedComponentIds": Array [],
+                      "render": [Function],
+                      "styledComponentId": "PipedValue__PipedValueDecorator-es54sy-0",
+                      "target": "span",
+                      "toString": [Function],
+                      "warnTooManyClasses": [Function],
+                      "withComponent": [Function],
+                    },
                     "strategy": [Function],
                   },
                 ],
@@ -398,7 +478,27 @@ exports[`components/RichTextEditor should render 1`] = `
         decorators={
           Array [
             Object {
-              "component": [Function],
+              "component": Object {
+                "$$typeof": Symbol(react.forward_ref),
+                "attrs": Array [],
+                "componentStyle": ComponentStyle {
+                  "componentId": "PipedValue__PipedValueDecorator-es54sy-0",
+                  "isStatic": false,
+                  "rules": Array [
+                    "background-color:#e0e0e0;padding:0 0.125em;border-radius:",
+                    "4px",
+                    ";white-space:pre;",
+                  ],
+                },
+                "displayName": "PipedValue__PipedValueDecorator",
+                "foldedComponentIds": Array [],
+                "render": [Function],
+                "styledComponentId": "PipedValue__PipedValueDecorator-es54sy-0",
+                "target": "span",
+                "toString": [Function],
+                "warnTooManyClasses": [Function],
+                "withComponent": [Function],
+              },
               "strategy": [Function],
             },
           ]
@@ -455,7 +555,27 @@ exports[`components/RichTextEditor should render 1`] = `
               "decorator": CompositeDraftDecorator {
                 "_decorators": Array [
                   Object {
-                    "component": [Function],
+                    "component": Object {
+                      "$$typeof": Symbol(react.forward_ref),
+                      "attrs": Array [],
+                      "componentStyle": ComponentStyle {
+                        "componentId": "PipedValue__PipedValueDecorator-es54sy-0",
+                        "isStatic": false,
+                        "rules": Array [
+                          "background-color:#e0e0e0;padding:0 0.125em;border-radius:",
+                          "4px",
+                          ";white-space:pre;",
+                        ],
+                      },
+                      "displayName": "PipedValue__PipedValueDecorator",
+                      "foldedComponentIds": Array [],
+                      "render": [Function],
+                      "styledComponentId": "PipedValue__PipedValueDecorator-es54sy-0",
+                      "target": "span",
+                      "toString": [Function],
+                      "warnTooManyClasses": [Function],
+                      "withComponent": [Function],
+                    },
                     "strategy": [Function],
                   },
                 ],
@@ -642,7 +762,27 @@ exports[`components/RichTextEditor should render existing content 1`] = `
               "decorator": CompositeDraftDecorator {
                 "_decorators": Array [
                   Object {
-                    "component": [Function],
+                    "component": Object {
+                      "$$typeof": Symbol(react.forward_ref),
+                      "attrs": Array [],
+                      "componentStyle": ComponentStyle {
+                        "componentId": "PipedValue__PipedValueDecorator-es54sy-0",
+                        "isStatic": false,
+                        "rules": Array [
+                          "background-color:#e0e0e0;padding:0 0.125em;border-radius:",
+                          "4px",
+                          ";white-space:pre;",
+                        ],
+                      },
+                      "displayName": "PipedValue__PipedValueDecorator",
+                      "foldedComponentIds": Array [],
+                      "render": [Function],
+                      "styledComponentId": "PipedValue__PipedValueDecorator-es54sy-0",
+                      "target": "span",
+                      "toString": [Function],
+                      "warnTooManyClasses": [Function],
+                      "withComponent": [Function],
+                    },
                     "strategy": [Function],
                   },
                 ],
@@ -714,7 +854,27 @@ exports[`components/RichTextEditor should render existing content 1`] = `
         decorators={
           Array [
             Object {
-              "component": [Function],
+              "component": Object {
+                "$$typeof": Symbol(react.forward_ref),
+                "attrs": Array [],
+                "componentStyle": ComponentStyle {
+                  "componentId": "PipedValue__PipedValueDecorator-es54sy-0",
+                  "isStatic": false,
+                  "rules": Array [
+                    "background-color:#e0e0e0;padding:0 0.125em;border-radius:",
+                    "4px",
+                    ";white-space:pre;",
+                  ],
+                },
+                "displayName": "PipedValue__PipedValueDecorator",
+                "foldedComponentIds": Array [],
+                "render": [Function],
+                "styledComponentId": "PipedValue__PipedValueDecorator-es54sy-0",
+                "target": "span",
+                "toString": [Function],
+                "warnTooManyClasses": [Function],
+                "withComponent": [Function],
+              },
               "strategy": [Function],
             },
           ]
@@ -820,7 +980,27 @@ exports[`components/RichTextEditor should render existing content 1`] = `
               "decorator": CompositeDraftDecorator {
                 "_decorators": Array [
                   Object {
-                    "component": [Function],
+                    "component": Object {
+                      "$$typeof": Symbol(react.forward_ref),
+                      "attrs": Array [],
+                      "componentStyle": ComponentStyle {
+                        "componentId": "PipedValue__PipedValueDecorator-es54sy-0",
+                        "isStatic": false,
+                        "rules": Array [
+                          "background-color:#e0e0e0;padding:0 0.125em;border-radius:",
+                          "4px",
+                          ";white-space:pre;",
+                        ],
+                      },
+                      "displayName": "PipedValue__PipedValueDecorator",
+                      "foldedComponentIds": Array [],
+                      "render": [Function],
+                      "styledComponentId": "PipedValue__PipedValueDecorator-es54sy-0",
+                      "target": "span",
+                      "toString": [Function],
+                      "warnTooManyClasses": [Function],
+                      "withComponent": [Function],
+                    },
                     "strategy": [Function],
                   },
                 ],
@@ -958,7 +1138,27 @@ exports[`components/RichTextEditor should show as disabled and readonly when dis
               "decorator": CompositeDraftDecorator {
                 "_decorators": Array [
                   Object {
-                    "component": [Function],
+                    "component": Object {
+                      "$$typeof": Symbol(react.forward_ref),
+                      "attrs": Array [],
+                      "componentStyle": ComponentStyle {
+                        "componentId": "PipedValue__PipedValueDecorator-es54sy-0",
+                        "isStatic": false,
+                        "rules": Array [
+                          "background-color:#e0e0e0;padding:0 0.125em;border-radius:",
+                          "4px",
+                          ";white-space:pre;",
+                        ],
+                      },
+                      "displayName": "PipedValue__PipedValueDecorator",
+                      "foldedComponentIds": Array [],
+                      "render": [Function],
+                      "styledComponentId": "PipedValue__PipedValueDecorator-es54sy-0",
+                      "target": "span",
+                      "toString": [Function],
+                      "warnTooManyClasses": [Function],
+                      "withComponent": [Function],
+                    },
                     "strategy": [Function],
                   },
                 ],
@@ -1022,7 +1222,27 @@ exports[`components/RichTextEditor should show as disabled and readonly when dis
         decorators={
           Array [
             Object {
-              "component": [Function],
+              "component": Object {
+                "$$typeof": Symbol(react.forward_ref),
+                "attrs": Array [],
+                "componentStyle": ComponentStyle {
+                  "componentId": "PipedValue__PipedValueDecorator-es54sy-0",
+                  "isStatic": false,
+                  "rules": Array [
+                    "background-color:#e0e0e0;padding:0 0.125em;border-radius:",
+                    "4px",
+                    ";white-space:pre;",
+                  ],
+                },
+                "displayName": "PipedValue__PipedValueDecorator",
+                "foldedComponentIds": Array [],
+                "render": [Function],
+                "styledComponentId": "PipedValue__PipedValueDecorator-es54sy-0",
+                "target": "span",
+                "toString": [Function],
+                "warnTooManyClasses": [Function],
+                "withComponent": [Function],
+              },
               "strategy": [Function],
             },
           ]
@@ -1079,7 +1299,27 @@ exports[`components/RichTextEditor should show as disabled and readonly when dis
               "decorator": CompositeDraftDecorator {
                 "_decorators": Array [
                   Object {
-                    "component": [Function],
+                    "component": Object {
+                      "$$typeof": Symbol(react.forward_ref),
+                      "attrs": Array [],
+                      "componentStyle": ComponentStyle {
+                        "componentId": "PipedValue__PipedValueDecorator-es54sy-0",
+                        "isStatic": false,
+                        "rules": Array [
+                          "background-color:#e0e0e0;padding:0 0.125em;border-radius:",
+                          "4px",
+                          ";white-space:pre;",
+                        ],
+                      },
+                      "displayName": "PipedValue__PipedValueDecorator",
+                      "foldedComponentIds": Array [],
+                      "render": [Function],
+                      "styledComponentId": "PipedValue__PipedValueDecorator-es54sy-0",
+                      "target": "span",
+                      "toString": [Function],
+                      "warnTooManyClasses": [Function],
+                      "withComponent": [Function],
+                    },
                     "strategy": [Function],
                   },
                 ],

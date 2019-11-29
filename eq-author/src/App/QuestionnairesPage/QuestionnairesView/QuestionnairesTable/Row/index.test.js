@@ -1,6 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
-import { render } from "tests/utils/rtl";
+import { render, fireEvent } from "tests/utils/rtl";
 
 import IconButtonDelete from "components/buttons/IconButtonDelete";
 import DeleteConfirmDialog from "components/DeleteConfirmDialog";
@@ -18,6 +18,15 @@ import {
 
 describe("Row", () => {
   let props;
+
+  const renderRow = props =>
+    render(
+      <table>
+        <tbody>
+          <Row {...props} />
+        </tbody>
+      </table>
+    );
 
   beforeEach(() => {
     props = {
@@ -49,8 +58,8 @@ describe("Row", () => {
   });
 
   it("should render", () => {
-    const wrapper = shallow(<Row {...props} />);
-    expect(wrapper).toMatchSnapshot();
+    const { getByText } = renderRow(props);
+    expect(getByText("Test title")).toBeTruthy();
   });
 
   it("should auto focus when it receives autofocus", () => {
@@ -70,17 +79,12 @@ describe("Row", () => {
   });
 
   it("should handle row focus state change correctly", () => {
-    const wrapper = shallow(<Row {...props} />);
-    wrapper.find(TR).simulate("focus");
-    expect(wrapper.find(TR)).toHaveStyleRule(
-      "border-color",
-      `${colors.tertiary}`
-    );
-    wrapper.find(TR).simulate("blur");
-    expect(wrapper.find(TR)).not.toHaveStyleRule(
-      "border-color",
-      `${colors.tertiary}`
-    );
+    const { getByTestId } = renderRow(props);
+    const row = getByTestId("table-row");
+    fireEvent.focus(row);
+    expect(row).toHaveStyleRule("border-color", `${colors.tertiary}`);
+    fireEvent.blur(row);
+    expect(row).not.toHaveStyleRule("border-color", `${colors.tertiary}`);
   });
 
   it("should handle button focus state change correctly", () => {

@@ -1,23 +1,10 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { render } from "tests/utils/rtl";
 
 import { DeleteRowButton } from "./";
 
-const createWrapper = (props = {}, render = shallow) => {
-  return render(<DeleteRowButton {...props} />);
-};
-
 describe("DeleteRowButton", () => {
-  let props;
-  let wrapper;
-
-  beforeEach(() => {
-    props = {};
-
-    wrapper = createWrapper(props, shallow);
-  });
-
   it("should render", () => {
-    expect(wrapper).toMatchSnapshot();
+    expect(render(<DeleteRowButton />).asFragment()).toMatchSnapshot();
   });
 });

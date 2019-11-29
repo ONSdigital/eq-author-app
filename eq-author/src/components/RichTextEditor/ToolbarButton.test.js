@@ -1,30 +1,32 @@
 import React from "react";
+import { render } from "tests/utils/rtl";
 
 import ToolbarButton from "components/RichTextEditor/ToolbarButton";
-
-import { mount } from "enzyme";
+import { colors } from "constants/theme";
 
 describe("ToolbarButton", () => {
-  it("matches snapshot", () => {
-    const wrapper = mount(<ToolbarButton title="button">Button</ToolbarButton>);
-    expect(wrapper).toMatchSnapshot();
+  it("renders", () => {
+    const { getByText } = render(
+      <ToolbarButton title="button">Button</ToolbarButton>
+    );
+    expect(getByText("Button")).toBeTruthy();
   });
 
   it("should style appropriately when active and canFocus", () => {
-    const wrapper = mount(
+    const { getByText } = render(
       <ToolbarButton title="button" active canFocus>
         Button
       </ToolbarButton>
     );
-    expect(wrapper).toMatchSnapshot();
+    expect(getByText("Button")).toHaveStyleRule("color", colors.black);
   });
 
   it("should style appropriately when disabled and canFocus is false", () => {
-    const wrapper = mount(
+    const { getByText } = render(
       <ToolbarButton title="button" disabled>
         Button
       </ToolbarButton>
     );
-    expect(wrapper).toMatchSnapshot();
+    expect(getByText("Button")).toHaveAttribute("disabled");
   });
 });

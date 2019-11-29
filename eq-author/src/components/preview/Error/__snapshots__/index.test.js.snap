@@ -1,7 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Error should render 1`] = `
-.c0 {
+<DocumentFragment>
+  .c0 {
   padding: 0.5em;
   border: 2px dashed #999999;
   text-align: left;
@@ -12,12 +13,14 @@ exports[`Error should render 1`] = `
 }
 
 <div
-  className="c0"
-/>
+    class="c0"
+  />
+</DocumentFragment>
 `;
 
 exports[`Error should render as large 1`] = `
-.c0 {
+<DocumentFragment>
+  .c0 {
   padding: 0.5em;
   border: 2px dashed #999999;
   text-align: left;
@@ -29,12 +32,14 @@ exports[`Error should render as large 1`] = `
 }
 
 <div
-  className="c0"
-/>
+    class="c0"
+  />
+</DocumentFragment>
 `;
 
 exports[`Error should render as small 1`] = `
-.c0 {
+<DocumentFragment>
+  .c0 {
   padding: 0.5em;
   border: 2px dashed #999999;
   text-align: left;
@@ -48,12 +53,14 @@ exports[`Error should render as small 1`] = `
 }
 
 <div
-  className="c0"
-/>
+    class="c0"
+  />
+</DocumentFragment>
 `;
 
 exports[`Error should render with no margin 1`] = `
-.c0 {
+<DocumentFragment>
+  .c0 {
   padding: 0.5em;
   border: 2px dashed #999999;
   text-align: left;
@@ -64,6 +71,7 @@ exports[`Error should render with no margin 1`] = `
 }
 
 <div
-  className="c0"
-/>
+    class="c0"
+  />
+</DocumentFragment>
 `;

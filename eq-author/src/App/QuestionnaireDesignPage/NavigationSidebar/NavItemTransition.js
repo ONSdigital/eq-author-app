@@ -10,10 +10,10 @@ const onExit = node => {
   node.style.height = `${height}px`;
 };
 
-const NavItemTransition = styled(CSSTransition).attrs({
+const NavItemTransition = styled(CSSTransition).attrs(() => ({
   classNames: "nav-item",
   onExit: () => onExit,
-})`
+}))`
   &.nav-item-enter {
     opacity: 0;
     transform: translateX(-20px);

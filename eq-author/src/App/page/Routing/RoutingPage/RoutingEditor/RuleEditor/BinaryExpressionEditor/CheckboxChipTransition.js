@@ -11,10 +11,10 @@ const handleExit = node => {
   node.style.width = `${width}px`;
 };
 
-const RoutingComponentTransition = styled(CSSTransition).attrs({
+const RoutingComponentTransition = styled(CSSTransition).attrs(() => ({
   classNames: "component",
   onExit: () => handleExit,
-})`
+}))`
   position: relative;
 
   &.component-enter {

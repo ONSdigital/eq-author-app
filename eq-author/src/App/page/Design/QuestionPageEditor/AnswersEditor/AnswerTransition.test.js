@@ -27,10 +27,8 @@ describe("components/QuestionPageEditor/AnswerTransition", () => {
       },
     };
 
-    wrapper
-      .find("CSSTransition")
-      .props()
-      .onExit(node);
+    wrapper.find("CSSTransition").prop("onExit")()(node);
+    expect(node.getBoundingClientRect).toHaveBeenCalled();
     expect(node.style.height).toEqual("10px");
   });
 });

@@ -30,7 +30,6 @@ const BaseTabs = ({
 }) => {
   const activeTab = tabs.find(({ id }) => id === activeId) || tabs[0];
   const { render: renderTab, id: activeTabId } = activeTab;
-
   return (
     <React.Fragment>
       <TabList>
@@ -49,7 +48,11 @@ const StringOrNumber = PropTypes.oneOfType([
   PropTypes.string,
   PropTypes.number,
 ]);
-const Component = PropTypes.oneOfType([PropTypes.node, PropTypes.func]);
+const Component = PropTypes.oneOfType([
+  PropTypes.node,
+  PropTypes.func,
+  PropTypes.elementType,
+]);
 
 BaseTabs.propTypes = {
   TabList: Component,

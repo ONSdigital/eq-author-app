@@ -1,22 +1,15 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { render } from "tests/utils/rtl";
 
 import { TableHead } from "./";
 
-const createWrapper = (props = {}, render = shallow) => {
-  return render(<TableHead {...props} />);
-};
-
 describe("TableHead", () => {
-  let props;
-  let wrapper;
-
-  beforeEach(() => {
-    props = {};
-    wrapper = createWrapper(props, shallow);
-  });
-
   it("should render", () => {
-    expect(wrapper).toMatchSnapshot();
+    const { asFragment } = render(
+      <table>
+        <TableHead />
+      </table>
+    );
+    expect(asFragment()).toMatchSnapshot();
   });
 });

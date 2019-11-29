@@ -1,16 +1,16 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { render } from "tests/utils/rtl";
 
 import NavItemTransition from "./NavItemTransition";
 
 describe("NavItemTransition", () => {
   it("should render", () => {
     expect(
-      shallow(
+      render(
         <NavItemTransition>
           <div>Content</div>
         </NavItemTransition>
-      )
-    ).toMatchSnapshot();
+      ).getByText("Content")
+    ).toBeTruthy();
   });
 });

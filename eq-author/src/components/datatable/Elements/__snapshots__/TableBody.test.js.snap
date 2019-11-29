@@ -1,11 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TableBody should render 1`] = `
-.c0 {
+<DocumentFragment>
+  .c0 {
   color: #333333;
 }
 
-<tbody
-  className="c0"
-/>
+<table>
+    <tbody
+      class="c0"
+    />
+  </table>
+</DocumentFragment>
 `;

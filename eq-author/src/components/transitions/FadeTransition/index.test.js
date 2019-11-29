@@ -1,16 +1,16 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { render } from "tests/utils/rtl";
 
 import FadeTransition from "./";
 
 describe("components/FadeTransition", () => {
   it("should render", () => {
     expect(
-      shallow(
+      render(
         <FadeTransition>
           <div>Content</div>
         </FadeTransition>
-      )
+      ).asFragment()
     ).toMatchSnapshot();
   });
 });

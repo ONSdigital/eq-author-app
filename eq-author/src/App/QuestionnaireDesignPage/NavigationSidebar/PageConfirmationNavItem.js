@@ -33,7 +33,6 @@ export const UnwrappedPageConfirmationNavItem = ({
     "validationErrorInfo.totalCount",
     0
   );
-
   return (
     <StyledPageItem data-test="question-confirmation-item" {...otherProps}>
       <StyledNavLink

@@ -1,25 +1,24 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { render, fireEvent } from "tests/utils/rtl";
 import DialogButtons from "./";
 
-const createWrapper = (props, render = shallow) => {
+const renderButtons = props => {
   return render(<DialogButtons {...props} />);
 };
 
 describe("Dialog Buttons", () => {
-  let wrapper;
   let props;
 
   beforeEach(() => {
     props = {
       primaryAction: jest.fn(),
-      primaryActionText: "Primary action",
+      primaryActionText: "Primary Action",
     };
-    wrapper = createWrapper(props);
   });
 
   it("should render the dialog Buttons", () => {
-    expect(wrapper).toMatchSnapshot();
+    const { getByText } = renderButtons(props);
+    expect(getByText("Primary Action")).toBeTruthy();
   });
 
   describe("Invoking dialog button actions", () => {
@@ -32,32 +31,33 @@ describe("Dialog Buttons", () => {
         tertiaryAction: jest.fn(),
         tertiaryActionText: "Tertiary Action",
       };
-
-      wrapper = createWrapper({ ...props, ...actions }, shallow);
     });
 
     it("should render multiple actions", () => {
-      expect(wrapper).toMatchSnapshot();
+      const { getByText } = renderButtons({ ...props, ...actions });
+      expect(getByText("Primary Action")).toBeTruthy();
+      expect(getByText("Secondary Action")).toBeTruthy();
+      expect(getByText("Tertiary Action")).toBeTruthy();
     });
 
     it("should execute primary action", () => {
-      wrapper
-        .find("DialogButtons__ActionButton[primary=true]")
-        .simulate("click");
+      const { getByText } = renderButtons({ ...props, ...actions });
+
+      fireEvent.click(getByText("Primary Action"));
       expect(props.primaryAction).toHaveBeenCalled();
     });
 
     it("should execute secondary action", () => {
-      wrapper
-        .find("DialogButtons__ActionButton[secondary=true]")
-        .simulate("click");
+      const { getByText } = renderButtons({ ...props, ...actions });
+
+      fireEvent.click(getByText("Secondary Action"));
       expect(actions.secondaryAction).toHaveBeenCalled();
     });
 
     it("should execute tertiary action", () => {
-      wrapper
-        .find("DialogButtons__ActionButton[tertiary=true]")
-        .simulate("click");
+      const { getByText } = renderButtons({ ...props, ...actions });
+
+      fireEvent.click(getByText("Tertiary Action"));
       expect(actions.tertiaryAction).toHaveBeenCalled();
     });
   });

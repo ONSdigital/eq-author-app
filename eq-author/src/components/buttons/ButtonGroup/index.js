@@ -31,7 +31,9 @@ const StyledButtonGroup = styled.div`
 `;
 
 const ButtonGroup = ({ children, ...otherProps }) => (
-  <StyledButtonGroup {...otherProps}>{children}</StyledButtonGroup>
+  <StyledButtonGroup data-test="button-group" {...otherProps}>
+    {children}
+  </StyledButtonGroup>
 );
 
 ButtonGroup.propTypes = {
