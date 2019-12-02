@@ -30,14 +30,8 @@ const { queryPage } = require("../../tests/utils/contextBuilder/page");
 const { RADIO, CHECKBOX } = require("../../constants/answerTypes");
 
 const getPage = get("sections[0].pages[0]");
-const getAnswer = flow(
-  getPage,
-  get("answers[0]")
-);
-const getOption = flow(
-  getAnswer,
-  get("options[0]")
-);
+const getAnswer = flow(getPage, get("answers[0]"));
+const getOption = flow(getAnswer, get("options[0]"));
 const getMutuallyExclusiveOption = find({ mutuallyExclusive: true });
 
 describe("multiple choice answer", () => {

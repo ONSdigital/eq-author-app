@@ -19,10 +19,7 @@ import {
 
 import Row from "./Row";
 
-const getUsedKeys = fp.flow(
-  fp.filter("key"),
-  fp.map("key")
-);
+const getUsedKeys = fp.flow(fp.filter("key"), fp.map("key"));
 
 const MetadataTable = ({
   questionnaireId,

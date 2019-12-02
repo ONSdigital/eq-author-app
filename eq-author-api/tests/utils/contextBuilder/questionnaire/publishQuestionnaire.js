@@ -10,13 +10,13 @@ mutation triggerPublish($input: PublishQuestionnaireInput!) {
 `;
 
 const publishQuestionnaire = async (
-  { questionnaireId, surveyId, formType },
+  { questionnaireId, surveyId, formTypes },
   ctx
 ) => {
   const result = await executeQuery(
     publishQuestionnaireMutation,
     {
-      input: { questionnaireId, surveyId, formType },
+      input: { questionnaireId, surveyId, formTypes },
     },
     ctx
   );

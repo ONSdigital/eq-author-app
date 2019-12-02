@@ -73,10 +73,7 @@ export class UnconnectedApp extends React.Component {
   }
 }
 
-export default connect(
-  null,
-  {
-    lostConnection,
-    gainConnection,
-  }
-)(UnconnectedApp);
+export default connect(null, {
+  lostConnection,
+  gainConnection,
+})(UnconnectedApp);

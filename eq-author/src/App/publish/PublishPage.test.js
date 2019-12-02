@@ -1,12 +1,14 @@
 import React from "react";
 import { render, fireEvent, flushPromises } from "tests/utils/rtl";
-import PublishPage from "./PublishPage";
-import { MeContext } from "App/MeContext";
 import actSilenceWarning from "tests/utils/actSilenceWarning";
-import triggerPublishMutation from "./triggerPublish.graphql";
-import { AWAITING_APPROVAL, UNPUBLISHED } from "constants/publishStatus";
+
+import { MeContext } from "App/MeContext";
 import QuestionnaireContext from "components/QuestionnaireContext";
 import { publishStatusSubscription } from "components/EditorLayout/Header";
+import { AWAITING_APPROVAL, UNPUBLISHED } from "constants/publishStatus";
+
+import PublishPage, { themes } from "./PublishPage";
+import triggerPublishMutation from "./triggerPublish.graphql";
 
 describe("Publish page", () => {
   let user, mocks, queryWasCalled, questionnaire;
@@ -55,7 +57,7 @@ describe("Publish page", () => {
             input: {
               questionnaireId: questionnaire.id,
               surveyId: "123",
-              formType: "456",
+              formTypes: { ONS: "456" },
             },
           },
         },
@@ -90,46 +92,40 @@ describe("Publish page", () => {
     ];
   });
 
-  it("should have the 'Publish' button disabled until all fields are populated", async () => {
+  it("should have the 'Publish' button disabled until themes are selected and all fields are populated", async () => {
     const { getByLabelText, getByTestId } = renderPublishPage();
 
-    expect(getByLabelText("Form type").value).toBe("");
-    expect(getByLabelText("Survey ID").value).toBe("");
     expect(getByTestId("publish-survey-button").disabled).toBeTruthy();
-  });
 
-  it("should enable the 'Publish' button when all fields are populated", async () => {
-    const { getByTestId, getByLabelText } = renderPublishPage();
+    fireEvent.change(getByLabelText("Survey ID"), { target: { value: "123" } });
+    expect(getByTestId("publish-survey-button").disabled).toBeTruthy();
 
-    fireEvent.change(getByLabelText("Form type"), { target: { value: "123" } });
-    fireEvent.change(getByLabelText("Survey ID"), { target: { value: "456" } });
+    fireEvent.click(getByLabelText(themes[0]));
+    expect(getByTestId("publish-survey-button").disabled).toBeTruthy();
 
+    fireEvent.change(getByTestId(`${themes[0]}-input`), {
+      target: { value: "456" },
+    });
     expect(getByTestId("publish-survey-button").disabled).toBeFalsy();
   });
 
-  it("should fire a mutation to publish the questionnaire when the 'Submit for approval' button is pressed", async () => {
-    const { getByTestId, getByLabelText } = renderPublishPage();
+  it("should fire a mutation to publish the questionnaire and redirect to homepage when the 'Submit for approval' button is pressed", async () => {
+    const { getByLabelText, getByTestId, history } = renderPublishPage(mocks);
 
-    fireEvent.change(getByLabelText("Form type"), { target: { value: "456" } });
     fireEvent.change(getByLabelText("Survey ID"), { target: { value: "123" } });
+    fireEvent.click(getByLabelText(themes[0]));
+    fireEvent.change(getByTestId(`${themes[0]}-input`), {
+      target: { value: "456" },
+    });
 
     fireEvent.click(getByTestId("publish-survey-button"));
 
     await flushPromises();
 
     expect(queryWasCalled).toBeTruthy();
-  });
-  it("should redirect to homepage when 'Submit for approval' is clicked", async () => {
-    const { getByTestId, getByLabelText, history } = renderPublishPage();
-
-    fireEvent.change(getByLabelText("Form type"), { target: { value: "456" } });
-    fireEvent.change(getByLabelText("Survey ID"), { target: { value: "123" } });
-    fireEvent.click(getByTestId("publish-survey-button"));
-
-    await flushPromises();
-
     expect(history.location.pathname).toBe("/");
   });
+
   it("should redirect to questionnaire when it is not Unpublished", async () => {
     questionnaire.publishStatus = AWAITING_APPROVAL;
     const { history } = renderPublishPage();

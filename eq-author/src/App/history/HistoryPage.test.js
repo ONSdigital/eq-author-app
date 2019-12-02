@@ -8,7 +8,9 @@ import { MeContext } from "App/MeContext";
 import HistoryPageContent from "./HistoryPage";
 
 import questionnaireHistoryQuery from "./questionnaireHistory.graphql";
-import createHistoryNoteMutation from "./createHistoryNoteMutation.graphql";
+import createNoteMutation from "./createHistoryNoteMutation.graphql";
+import updateNoteMutation from "./updateHistoryNoteMutation.graphql";
+import deleteNoteMutation from "./deleteHistoryNoteMutation.graphql";
 import { publishStatusSubscription } from "components/EditorLayout/Header";
 
 import { UNPUBLISHED } from "constants/publishStatus";
@@ -19,12 +21,11 @@ jest.mock("components/RichTextEditor", () => ({ onUpdate }) => {
     onUpdate({
       value: event.target.value,
     });
-  return <input data-test="textbox" onChange={handleInputChange} />;
+  return <input data-test="rtl-textbox" onChange={handleInputChange} />;
 });
 
 describe("History page", () => {
   let props, questionnaireId, user, queryWasCalled, mutationWasCalled, mocks;
-
   actSilenceWarning();
 
   beforeEach(() => {
@@ -69,8 +70,9 @@ describe("History page", () => {
                   publishStatus: "Questionnaire created",
                   questionnaireTitle: "Test 2",
                   bodyText: null,
+                  type: "system",
                   user: {
-                    id: "7c0abf65-9c8f-491c-bcd5-76f53f3983a9",
+                    id: "123",
                     email: "sam@hello.com",
                     name: "sam",
                     displayName: "sam",
@@ -80,12 +82,13 @@ describe("History page", () => {
                   __typename: "History",
                 },
                 {
-                  id: "aa94b4ef-e717-40b6-aba5-7c99557d283c",
+                  id: "item-id-123",
                   publishStatus: UNPUBLISHED,
                   questionnaireTitle: "Test 2",
                   bodyText: "Hello Moto",
+                  type: "note",
                   user: {
-                    id: "7c0abf65-9c8f-491c-bcd5-76f53f3983a9",
+                    id: "123",
                     email: "sam@hello.com",
                     name: "sam",
                     displayName: "sam",
@@ -101,7 +104,7 @@ describe("History page", () => {
       },
       {
         request: {
-          query: createHistoryNoteMutation,
+          query: createNoteMutation,
           variables: {
             input: {
               id: props.match.params.questionnaireId,
@@ -119,8 +122,9 @@ describe("History page", () => {
                   publishStatus: "Questionnaire created",
                   questionnaireTitle: "Test 2",
                   bodyText: null,
+                  type: "system",
                   user: {
-                    id: "7c0abf65-9c8f-491c-bcd5-76f53f3983a9",
+                    id: "123",
                     email: "sam@hello.com",
                     name: "sam",
                     displayName: "sam",
@@ -134,8 +138,9 @@ describe("History page", () => {
                   publishStatus: UNPUBLISHED,
                   questionnaireTitle: "Test 2",
                   bodyText: "Hello Moto",
+                  type: "note",
                   user: {
-                    id: "7c0abf65-9c8f-491c-bcd5-76f53f3983a9",
+                    id: "123",
                     email: "sam@hello.com",
                     name: "sam",
                     displayName: "sam",
@@ -149,8 +154,9 @@ describe("History page", () => {
                   publishStatus: UNPUBLISHED,
                   questionnaireTitle: "Test 2",
                   bodyText: "New note",
+                  type: "note",
                   user: {
-                    id: "7c0abf65-9c8f-491c-bcd5-76f53f3983a9",
+                    id: "123",
                     email: "sam@hello.com",
                     name: "sam",
                     displayName: "sam",
@@ -167,9 +173,7 @@ describe("History page", () => {
       {
         request: {
           query: publishStatusSubscription,
-          variables: {
-            id: questionnaireId,
-          },
+          variables: { id: questionnaireId },
         },
         result: () => ({
           data: {
@@ -192,50 +196,27 @@ describe("History page", () => {
         </QuestionnaireContext.Provider>
       </MeContext.Provider>,
       {
-        route: `/q/${questionnaireId}/page/2`,
+        route: `/q/${questionnaireId}`,
         urlParamMatcher: "/q/:questionnaireId",
         mocks,
       }
     );
 
   it("renders History page with correct events", async () => {
-    const { getByText } = renderWithContext(<HistoryPageContent {...props} />);
+    const { getByText } = renderWithContext(<HistoryPageContent {...props} />, {
+      mocks,
+    });
     await flushPromises();
     expect(getByText("History")).toBeTruthy();
     expect(getByText("Questionnaire created")).toBeTruthy();
     expect(getByText("Hello Moto")).toBeTruthy();
   });
 
-  it("can create a note", async () => {
-    const { getByText, getByTestId } = renderWithContext(
-      <HistoryPageContent {...props} />
-    );
-    await flushPromises();
-    fireEvent.change(getByTestId("textbox"), {
-      target: { value: "New note" },
-    });
-    fireEvent.click(getByTestId("add-note-btn"));
-
-    await flushPromises();
-
-    expect(getByText("Questionnaire created")).toBeTruthy();
-    expect(getByText("Hello Moto")).toBeTruthy();
-    expect(getByText("New note")).toBeTruthy();
-  });
-
-  it("wont create an empty note", async () => {
-    const { getByTestId } = renderWithContext(
-      <HistoryPageContent {...props} />
-    );
-    await flushPromises();
-    fireEvent.click(getByTestId("add-note-btn"));
-    await flushPromises();
-    expect(mutationWasCalled).toBeFalsy();
-  });
-
   it("should request questionnaire history", async () => {
     queryWasCalled = false;
-    renderWithContext(<HistoryPageContent {...props} />);
+    renderWithContext(<HistoryPageContent {...props} />, {
+      mocks,
+    });
     await flushPromises();
     expect(queryWasCalled).toBeTruthy();
   });
@@ -259,5 +240,289 @@ describe("History page", () => {
     const { getByText } = renderWithContext(<HistoryPageContent {...props} />);
     await flushPromises();
     expect(getByText("Oops! Something went wrong")).toBeTruthy();
+  });
+
+  describe("user notes", () => {
+    beforeEach(() => {
+      user.admin = false;
+    });
+
+    describe("creating notes", () => {
+      it("can create a note", async () => {
+        const { getByText, getByTestId } = renderWithContext(
+          <HistoryPageContent {...props} />,
+          {
+            mocks,
+          }
+        );
+        await flushPromises();
+        fireEvent.change(getByTestId("rtl-textbox"), {
+          target: { value: "New note" },
+        });
+        fireEvent.click(getByTestId("add-note-btn"));
+
+        await flushPromises();
+        expect(getByText("Questionnaire created")).toBeTruthy();
+        expect(getByText("Hello Moto")).toBeTruthy();
+        expect(getByText("New note")).toBeTruthy();
+      });
+
+      it("wont create an empty note", async () => {
+        const { getByTestId } = renderWithContext(
+          <HistoryPageContent {...props} />,
+          {
+            mocks,
+          }
+        );
+
+        await flushPromises();
+        fireEvent.click(getByTestId("add-note-btn"));
+
+        await flushPromises();
+        expect(mutationWasCalled).toBeFalsy();
+      });
+    });
+
+    describe("update notes", () => {
+      beforeEach(() => {
+        mocks = [
+          ...mocks,
+          {
+            request: {
+              query: updateNoteMutation,
+              variables: {
+                input: {
+                  id: "item-id-123",
+                  questionnaireId,
+                  bodyText: "this is an edited message",
+                },
+              },
+            },
+            result: () => {
+              mutationWasCalled = true;
+              return {
+                data: {
+                  updateHistoryNote: [
+                    {
+                      id: "item-id-123",
+                      publishStatus: "Questionnaire created",
+                      questionnaireTitle: "my wonderful thing",
+                      bodyText: "this is an edited message",
+                      type: "note",
+                      user: {
+                        id: "123",
+                        name: "Rick Sanchez",
+                        displayName: "Rick Sanchez",
+                        email: "wubbalubba@dubdub.com",
+                        picture: "http://img.com/avatar.jpg",
+                        admin: true,
+                        __typename: "User",
+                      },
+                      time: "2019-10-11T09:48:28.584Z",
+                      __typename: "History",
+                    },
+                  ],
+                },
+              };
+            },
+          },
+        ];
+      });
+      it("should be able to update your own note", async () => {
+        const {
+          getByTestId,
+          getAllByTestId,
+          getByText,
+        } = renderWithContext(<HistoryPageContent {...props} />, { mocks });
+
+        await flushPromises();
+        expect(getByText("Hello Moto")).toBeTruthy();
+
+        const editButton = getByTestId("edit-note-btn");
+        fireEvent.click(editButton);
+
+        const textEditor = getAllByTestId("rtl-textbox")[1];
+        fireEvent.change(textEditor, {
+          target: { value: "this is an edited message" },
+        });
+
+        const saveButton = getByTestId("save-note-btn");
+        fireEvent.click(saveButton);
+
+        await flushPromises();
+        expect(mutationWasCalled).toBeTruthy();
+        expect(getByText("this is an edited message")).toBeTruthy();
+      });
+
+      it("should allow admins to update any notes", async () => {
+        user.id = "uauthorized-uid-123";
+        user.admin = true;
+        const { getByTestId, getAllByTestId, getByText } = renderWithContext(
+          <HistoryPageContent {...props} />,
+          {
+            mocks,
+          }
+        );
+        await flushPromises();
+
+        const editButton = getByTestId("edit-note-btn");
+        fireEvent.click(editButton);
+
+        const textEditor = getAllByTestId("rtl-textbox")[1];
+
+        fireEvent.change(textEditor, {
+          target: { value: "this is an edited message" },
+        });
+        const saveButton = getByTestId("save-note-btn");
+        fireEvent.click(saveButton);
+
+        await flushPromises();
+        expect(mutationWasCalled).toBeTruthy();
+        expect(getByText("this is an edited message")).toBeTruthy();
+      });
+    });
+
+    describe("deleting notes", () => {
+      beforeEach(() => {
+        mocks = [
+          ...mocks,
+          {
+            request: {
+              query: deleteNoteMutation,
+              variables: {
+                input: {
+                  id: "item-id-123",
+                  questionnaireId,
+                },
+              },
+            },
+            result: () => {
+              mutationWasCalled = true;
+              return {
+                data: {
+                  deleteHistoryNote: [
+                    {
+                      id: "161deb98-fdbe-4906-aea5-39d3de2d78a2",
+                      publishStatus: "Questionnaire created",
+                      questionnaireTitle: "Test 2",
+                      bodyText: null,
+                      type: "system",
+                      user: {
+                        id: "123",
+                        email: "sam@hello.com",
+                        name: "sam",
+                        displayName: "sam",
+                        __typename: "User",
+                      },
+                      time: "2019-10-11T09:48:28.584Z",
+                      __typename: "History",
+                    },
+                  ],
+                },
+              };
+            },
+          },
+        ];
+      });
+
+      it("should be able to delete your own note", async () => {
+        const {
+          getByTestId,
+          queryByText,
+        } = renderWithContext(<HistoryPageContent {...props} />, { mocks });
+
+        await flushPromises();
+        expect(queryByText("Hello Moto")).toBeTruthy();
+
+        const deleteButton = getByTestId("delete-note-btn");
+        fireEvent.click(deleteButton);
+
+        await flushPromises();
+        expect(mutationWasCalled).toBeTruthy();
+        expect(queryByText("Hello Moto")).toBeFalsy();
+      });
+
+      it("should allow admins to delete any notes", async () => {
+        user.id = "uauthorized-uid-123";
+        user.admin = true;
+        const { getByTestId, queryByText, getByText } = renderWithContext(
+          <HistoryPageContent {...props} />,
+          {
+            mocks,
+          }
+        );
+
+        await flushPromises();
+        expect(getByText("Hello Moto")).toBeTruthy();
+
+        const deleteButton = getByTestId("delete-note-btn");
+        fireEvent.click(deleteButton);
+
+        await flushPromises();
+        expect(mutationWasCalled).toBeTruthy();
+        expect(queryByText("Hello Moto")).toBeFalsy();
+      });
+    });
+
+    describe("update and delete notes", () => {
+      it("should not be able to update or delete another users note", async () => {
+        user.id = "uauthorized-uid-123";
+        const { queryByTestId } = renderWithContext(
+          <HistoryPageContent {...props} />,
+          { mocks }
+        );
+
+        await flushPromises();
+        expect(queryByTestId("edit-note-btn")).toBeFalsy();
+        expect(queryByTestId("delete-note-btn")).toBeFalsy();
+      });
+
+      it("should not be able to update or delete system events", async () => {
+        user.admin = true;
+        mocks[0] = {
+          request: {
+            query: questionnaireHistoryQuery,
+            variables: {
+              input: { questionnaireId: props.match.params.questionnaireId },
+            },
+          },
+          result: () => {
+            queryWasCalled = true;
+            return {
+              data: {
+                history: [
+                  {
+                    id: "161deb98-fdbe-4906-aea5-39d3de2d78a2",
+                    publishStatus: "Questionnaire created",
+                    questionnaireTitle: "Test 2",
+                    bodyText: null,
+                    type: "system",
+                    user: {
+                      id: "123",
+                      email: "sam@hello.com",
+                      name: "sam",
+                      displayName: "sam",
+                      __typename: "User",
+                    },
+                    time: "2019-10-11T09:48:28.584Z",
+                    __typename: "History",
+                  },
+                ],
+              },
+            };
+          },
+        };
+        const { queryByTestId } = renderWithContext(
+          <HistoryPageContent {...props} />,
+          {
+            mocks,
+          }
+        );
+
+        await flushPromises();
+        expect(queryByTestId("edit-note-btn")).toBeFalsy();
+        expect(queryByTestId("delete-note-btn")).toBeFalsy();
+      });
+    });
   });
 });

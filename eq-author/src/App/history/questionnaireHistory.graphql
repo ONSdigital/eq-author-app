@@ -1,15 +1,7 @@
+#import "./historyNoteFragment.graphql"
+
 query History($input: QueryInput!) {
   history(input: $input) {
-    id
-    publishStatus
-    questionnaireTitle
-    bodyText
-    user {
-      id
-      email
-      name
-      displayName
-    }
-    time
+    ...HistoryNoteInfo
   }
 }

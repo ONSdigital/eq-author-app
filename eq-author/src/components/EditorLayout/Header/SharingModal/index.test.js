@@ -139,10 +139,12 @@ describe("Sharing Modal", () => {
     });
 
     it("should be possible to remove editors", async () => {
-      const { getByText, queryByText, getAllByLabelText, rerender } = render(
-        <SharingModal {...props} />,
-        { mocks }
-      );
+      const {
+        getByText,
+        queryByText,
+        getAllByLabelText,
+        rerender,
+      } = render(<SharingModal {...props} />, { mocks });
 
       const row = getByText("Babs").parentElement;
       const removeButton = getAllByLabelText("Remove editor").find(
@@ -247,10 +249,12 @@ describe("Sharing Modal", () => {
     });
 
     it("should be possible to search for a user by name and add them as an editor", async () => {
-      const { getByText, getAllByLabelText, queryByText, rerender } = render(
-        <SharingModal {...props} />,
-        { mocks }
-      );
+      const {
+        getByText,
+        getAllByLabelText,
+        queryByText,
+        rerender,
+      } = render(<SharingModal {...props} />, { mocks });
 
       // load the users
       await flushPromises();

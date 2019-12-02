@@ -29,8 +29,6 @@ const {
   listQuestionnaires,
   publishQuestionnaire,
   reviewQuestionnaire,
-  queryHistory,
-  createHistoryNote,
 } = require("../../tests/utils/contextBuilder/questionnaire");
 
 const {
@@ -163,7 +161,7 @@ describe("questionnaire", () => {
       beforeEach(() => {
         ctx.questionnaire.publishDetails = {
           surveyId,
-          formType: { ONS: formType },
+          formTypes: { ONS: formType },
         };
         ctx.user.admin = true;
       });
@@ -174,11 +172,25 @@ describe("questionnaire", () => {
           {
             questionnaireId: ctx.questionnaire.id,
             surveyId,
-            formType,
+            formTypes: { ONS: "456" },
           },
           ctx
         );
         expect(ctx.questionnaire.publishStatus).toEqual(AWAITING_APPROVAL);
+      });
+
+      it("should reject if a form type is omitted", async () => {
+        expect(ctx.questionnaire.publishStatus).toEqual(UNPUBLISHED);
+        await expect(
+          publishQuestionnaire(
+            {
+              questionnaireId: ctx.questionnaire.id,
+              surveyId,
+              formTypes: { ONS: "" },
+            },
+            ctx
+          )
+        ).rejects.toBeTruthy();
       });
 
       it("should be able to approve a questionnaire awaiting approval", async () => {
@@ -193,8 +205,19 @@ describe("questionnaire", () => {
 
         expect(ctx.questionnaire.publishStatus).toEqual(PUBLISHED);
         expect(fetch).toHaveBeenCalledWith(
-          `${process.env.SURVEY_REGISTER_URL}${ctx.questionnaire.id}/${surveyId}/${formType}/${surveyVersion}`,
-          { method: "put" }
+          `${process.env.SURVEY_REGISTER_URL}`,
+          {
+            method: "put",
+            body: JSON.stringify({
+              surveyId,
+              questionnaireId: ctx.questionnaire.id,
+              surveyVersion,
+              formTypes: { ONS: "321" },
+            }),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
         );
         expect(result).toMatchObject({
           id: ctx.questionnaire.id,
@@ -418,49 +441,6 @@ describe("questionnaire", () => {
       const deletedQuestionnaire = await queryQuestionnaire(ctx);
       expect(deletedQuestionnaire).toBeNull();
       questionnaire = null;
-    });
-  });
-
-  describe("history", () => {
-    it("should create a history event on questionnaire creation", async () => {
-      ctx = await buildContext({});
-      const history = await queryHistory(ctx);
-      expect(history).toMatchObject([
-        {
-          bodyText: null,
-          publishStatus: "Questionnaire created",
-          questionnaireTitle: "Questionnaire (Version 1)",
-          user: {
-            email: "eq-team@ons.gov.uk",
-          },
-        },
-      ]);
-    });
-    it("should be able to add a note", async () => {
-      ctx = await buildContext({});
-      await createHistoryNote(ctx, {
-        id: ctx.questionnaire.id,
-        bodyText: "I am note",
-      });
-      const history = await queryHistory(ctx);
-      expect(history).toMatchObject([
-        {
-          bodyText: "I am note",
-          publishStatus: "Unpublished",
-          questionnaireTitle: "Questionnaire (Version 1)",
-          user: {
-            email: "eq-team@ons.gov.uk",
-          },
-        },
-        {
-          bodyText: null,
-          publishStatus: "Questionnaire created",
-          questionnaireTitle: "Questionnaire (Version 1)",
-          user: {
-            email: "eq-team@ons.gov.uk",
-          },
-        },
-      ]);
     });
   });
 

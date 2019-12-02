@@ -8,27 +8,16 @@ const { find, get, flow, isNil, concat, last } = require("lodash/fp");
 const { set } = require("lodash");
 const convertPipes = require("../utils/convertPipes");
 const { DATE, DATE_RANGE } = require("../constants/answerTypes");
-const findDateRange = flow(
-  get("answers"),
-  find({ type: DATE_RANGE })
-);
+const findDateRange = flow(get("answers"), find({ type: DATE_RANGE }));
 
 const findMutuallyExclusive = flow(
   get("answers"),
   find(answer => !isNil(get("mutuallyExclusiveOption", answer)))
 );
 
-const processPipedText = ctx =>
-  flow(
-    convertPipes(ctx),
-    getInnerHTMLWithPiping
-  );
+const processPipedText = ctx => flow(convertPipes(ctx), getInnerHTMLWithPiping);
 
-const processContent = ctx =>
-  flow(
-    convertPipes(ctx),
-    parseContent
-  );
+const processContent = ctx => flow(convertPipes(ctx), parseContent);
 
 class Question {
   constructor(question, ctx) {
