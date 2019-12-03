@@ -231,7 +231,6 @@ const CommentsPanel = ({
   const [createComment] = useMutation(COMMENT_ADD);
   const [deleteComment] = useMutation(COMMENT_DELETE);
   const [updateComment] = useMutation(COMMENT_UPDATE);
-  // const [commentsSubscription] = useSubscription(COMMENT_SUBSCRIPTION);
 
   const commentsSubscription = gql`
     subscription CommentsUpdated($pageId: ID!) {
@@ -415,7 +414,7 @@ const CommentsPanel = ({
                 onClick={() => handleSaveEdit(item)}
                 data-test={`btn-save-editedComment-${index}`}
               >
-                save
+                Save
               </SaveButton>
             )}
           </ButtonGroupStyled>
