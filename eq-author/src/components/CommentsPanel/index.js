@@ -14,7 +14,6 @@ import COMMENT_QUERY from "./commentsQuery.graphql";
 import COMMENT_ADD from "./createNewComment.graphql";
 import COMMENT_DELETE from "./deleteComment.graphql";
 import COMMENT_UPDATE from "./updateComment.graphql";
-// import COMMENT_SUBSCRIPTION from "./commentsSubscription.graphql";
 
 import { colors, radius } from "constants/theme";
 
