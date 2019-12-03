@@ -386,8 +386,7 @@ describe("Comments Pane", () => {
     await flushPromises();
 
     expect(deleteWasCalled).toBeTruthy();
-    // expect(newCommentSubscriptionWasCalled).toBeTruthy();
-
+    expect(newCommentSubscriptionWasCalled).toBeTruthy();
     expect(comment).toBeTruthy();
   });
 
@@ -445,6 +444,7 @@ describe("Comments Pane", () => {
     await flushPromises();
 
     expect(updateWasCalled).toBeTruthy();
+    expect(newCommentSubscriptionWasCalled).toBeTruthy();
     expect(getByText("This is an edited comment")).toBeTruthy();
   });
 });
