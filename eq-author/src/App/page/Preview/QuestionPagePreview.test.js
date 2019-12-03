@@ -2,6 +2,7 @@ import React from "react";
 import { shallow } from "enzyme";
 import { render, flushPromises } from "tests/utils/rtl";
 import actSilenceWarning from "tests/utils/actSilenceWarning";
+import gql from "graphql-tag";
 
 import { MeContext } from "App/MeContext";
 import { byTestAttr } from "tests/utils/selectors";
@@ -19,6 +20,27 @@ describe("QuestionPagePreview", () => {
   let page, me, mocks, questionnaireId;
 
   actSilenceWarning();
+
+  const commentsSubscription = gql`
+    subscription CommentsUpdated($pageId: ID!) {
+      commentsUpdated(pageId: $pageId) {
+        id
+        comments {
+          id
+          commentText
+          user {
+            id
+            name
+            picture
+            email
+            displayName
+          }
+          createdTime
+          editedTime
+        }
+      }
+    }
+  `;
 
   beforeEach(() => {
     me = {
@@ -73,6 +95,15 @@ describe("QuestionPagePreview", () => {
             },
           },
         }),
+      },
+      {
+        request: {
+          query: commentsSubscription,
+          variables: { pageId: "2" },
+        },
+        result: () => {
+          return {};
+        },
       },
     ];
   });

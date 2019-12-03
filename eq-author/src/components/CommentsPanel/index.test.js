@@ -2,6 +2,7 @@ import React from "react";
 import { render, flushPromises, fireEvent } from "tests/utils/rtl";
 import { MeContext } from "App/MeContext";
 import actSilenceWarning from "tests/utils/actSilenceWarning";
+import gql from "graphql-tag";
 
 import CommentsPanel from "./";
 import COMMENT_QUERY from "./commentsQuery.graphql";
@@ -14,6 +15,7 @@ describe("Comments Pane", () => {
     createWasCalled,
     deleteWasCalled,
     updateWasCalled,
+    newCommentSubscriptionWasCalled,
     mocks,
     user,
     props;
@@ -25,6 +27,27 @@ describe("Comments Pane", () => {
 
   const origWindow = window.HTMLElement.prototype.scrollIntoView;
 
+  const commentsSubscription = gql`
+    subscription CommentsUpdated($pageId: ID!) {
+      commentsUpdated(pageId: $pageId) {
+        id
+        comments {
+          id
+          commentText
+          user {
+            id
+            name
+            picture
+            email
+            displayName
+          }
+          createdTime
+          editedTime
+        }
+      }
+    }
+  `;
+
   beforeAll(() => {
     window.HTMLElement.prototype.scrollIntoView = jest.fn();
   });
@@ -35,6 +58,7 @@ describe("Comments Pane", () => {
 
   beforeEach(() => {
     queryWasCalled = false;
+    newCommentSubscriptionWasCalled = false;
 
     user = {
       id: "me123",
@@ -145,21 +169,6 @@ describe("Comments Pane", () => {
       },
       {
         request: {
-          query: COMMENT_QUERY,
-          variables: {
-            input: { pageId: "P2" },
-          },
-        },
-        result: () => {
-          queryWasCalled = true;
-          return {
-            data: {},
-            errors: ["Oops! Something went wrong"],
-          };
-        },
-      },
-      {
-        request: {
           query: COMMENT_DELETE,
           variables: {
             input: { pageId: "P1", commentId: "C2" },
@@ -206,6 +215,16 @@ describe("Comments Pane", () => {
               },
             },
           };
+        },
+      },
+      {
+        request: {
+          query: commentsSubscription,
+          variables: { pageId: "P1" },
+        },
+        result: () => {
+          newCommentSubscriptionWasCalled = true;
+          return {};
         },
       },
     ];
@@ -281,6 +300,7 @@ describe("Comments Pane", () => {
     await flushPromises();
 
     expect(createWasCalled).toBeTruthy();
+    expect(newCommentSubscriptionWasCalled).toBeTruthy();
     expect(getByText("This is a test ADD comment")).toBeTruthy();
   });
 
@@ -290,10 +310,41 @@ describe("Comments Pane", () => {
   });
 
   it("should render error state on failed query", async () => {
-    const { getByText } = renderWithContext(<CommentsPanel />, {
+    const mocks = [
+      {
+        request: {
+          query: COMMENT_QUERY,
+          variables: {
+            input: { pageId: "P2" },
+          },
+        },
+        result: () => {
+          queryWasCalled = true;
+          return {
+            data: {},
+            errors: ["Oops! Something went wrong"],
+          };
+        },
+      },
+      {
+        request: {
+          query: commentsSubscription,
+          variables: { pageId: "P2" },
+        },
+        result: () => {
+          newCommentSubscriptionWasCalled = true;
+          return {};
+        },
+      },
+    ];
+
+    props = {
       route: "/q/Q2/page/P2",
       urlParamMatcher: "/q/:questionnaireId/page/:pageId",
       mocks,
+    };
+    const { getByText } = renderWithContext(<CommentsPanel />, {
+      ...props,
     });
     await flushPromises();
 
@@ -335,6 +386,8 @@ describe("Comments Pane", () => {
     await flushPromises();
 
     expect(deleteWasCalled).toBeTruthy();
+    // expect(newCommentSubscriptionWasCalled).toBeTruthy();
+
     expect(comment).toBeTruthy();
   });
 
