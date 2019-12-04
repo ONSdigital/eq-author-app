@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Route, Redirect } from "react-router";
+import { Route, Redirect } from "react-router-dom";
 import { generatePath } from "utils/UrlUtils";
 
 // react-router will eventually support something akin to this.

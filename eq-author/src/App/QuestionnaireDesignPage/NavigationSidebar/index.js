@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 import { colors } from "constants/theme";
 import { flowRight } from "lodash";
-import { withRouter } from "react-router";
+import { withRouter } from "react-router-dom";
 import gql from "graphql-tag";
 
 import ScrollPane from "components/ScrollPane";
