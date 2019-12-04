@@ -2,13 +2,13 @@ import React from "react";
 import { render, flushPromises, fireEvent } from "tests/utils/rtl";
 import { MeContext } from "App/MeContext";
 import actSilenceWarning from "tests/utils/actSilenceWarning";
-import gql from "graphql-tag";
 
 import CommentsPanel from "./";
 import COMMENT_QUERY from "./commentsQuery.graphql";
 import COMMENT_ADD from "./createNewComment.graphql";
 import COMMENT_DELETE from "./deleteComment.graphql";
 import COMMENT_UPDATE from "./updateComment.graphql";
+import COMMENT_SUBSCRIPTION from "./commentSubscription.graphql";
 
 describe("Comments Pane", () => {
   let queryWasCalled,
@@ -26,27 +26,6 @@ describe("Comments Pane", () => {
   actSilenceWarning();
 
   const origWindow = window.HTMLElement.prototype.scrollIntoView;
-
-  const commentsSubscription = gql`
-    subscription CommentsUpdated($pageId: ID!) {
-      commentsUpdated(pageId: $pageId) {
-        id
-        comments {
-          id
-          commentText
-          user {
-            id
-            name
-            picture
-            email
-            displayName
-          }
-          createdTime
-          editedTime
-        }
-      }
-    }
-  `;
 
   beforeAll(() => {
     window.HTMLElement.prototype.scrollIntoView = jest.fn();
@@ -219,7 +198,7 @@ describe("Comments Pane", () => {
       },
       {
         request: {
-          query: commentsSubscription,
+          query: COMMENT_SUBSCRIPTION,
           variables: { pageId: "P1" },
         },
         result: () => {
@@ -328,7 +307,7 @@ describe("Comments Pane", () => {
       },
       {
         request: {
-          query: commentsSubscription,
+          query: COMMENT_SUBSCRIPTION,
           variables: { pageId: "P2" },
         },
         result: () => {

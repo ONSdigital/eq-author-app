@@ -297,8 +297,6 @@ describe("subscriptions", () => {
       });
     });
 
-    //////////
-
     it("CalcSum page - should send event when new comment is created", async () => {
       iterator = await executeSubscription(commentsSubscription, {
         pageId: CalSumPageId,
