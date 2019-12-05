@@ -3,7 +3,7 @@ const getUserFromHeaderBuilder = require("./getUserFromHeader");
 module.exports = logger => {
   const getUserFromHeader = getUserFromHeaderBuilder(logger);
   return async (req, res, next) => {
-    if (req.method === "GET") {
+    if (req.method === "GET" && process.env.GRAPHQL_USER_BYPASS === "true") {
       next();
       return;
     }
