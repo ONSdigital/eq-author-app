@@ -3,7 +3,7 @@ module.exports = async (req, res, next) => {
     next();
     return;
   }
-  
+
   if (!req.user || !req.user.isVerified) {
     res.status(401).send("Unauthorised user");
     return;
