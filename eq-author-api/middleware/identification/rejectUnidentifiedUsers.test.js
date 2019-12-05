@@ -18,9 +18,4 @@ describe("rejectUnidentifiedUsers", () => {
     rejectUnidentifiedUsers(req, res, next);
     expect(next).toHaveBeenCalled();
   });
-  it("should allow GET calls through", () => {
-    req.method = "GET";
-    rejectUnidentifiedUsers(req, res, next);
-    expect(next).toHaveBeenCalled();
-  });
 });
