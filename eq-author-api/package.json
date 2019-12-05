@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "start": "node app.js",
-    "start:dev": "ENABLE_OPENTRACING=true NODE_ENV=development nodemon --ignore 'data/ migrations/' --inspect=0.0.0.0:5858",
+    "start:dev": "ENABLE_OPENTRACING=true nodemon --ignore 'data/ migrations/' --inspect=0.0.0.0:5858",
     "lint": "eslint .",
     "test": "./scripts/test.sh",
     "test:breakingChanges": "node scripts/checkForBreakingChanges.js",
