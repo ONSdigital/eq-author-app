@@ -3,9 +3,8 @@ import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 import gql from "graphql-tag";
 import { Query, Subscription } from "react-apollo";
-import { Switch } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import { Titled } from "react-titled";
-import { Route, Redirect } from "react-router";
 import { get, find, flatMap, flowRight } from "lodash";
 
 import { Grid, Column } from "components/Grid";
