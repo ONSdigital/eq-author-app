@@ -35,7 +35,6 @@ services:
       - JAEGER_SAMPLER_PARAM=1
       - REDIS_DOMAIN_NAME=redis
       - REDIS_PORT=6379
-      - GRAPHQL_USER_BYPASS=false
     entrypoint:
       - yarn
       - start:dev

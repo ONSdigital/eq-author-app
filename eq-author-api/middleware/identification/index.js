@@ -3,11 +3,6 @@ const getUserFromHeaderBuilder = require("./getUserFromHeader");
 module.exports = logger => {
   const getUserFromHeader = getUserFromHeaderBuilder(logger);
   return async (req, res, next) => {
-    if (req.method === "GET") {
-      next();
-      return;
-    }
-
     const authHeader = req.header(
       process.env.AUTH_HEADER_KEY || "authorization"
     );
