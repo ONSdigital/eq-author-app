@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
-import { Route, Redirect } from "react-router";
+import { Route, Redirect } from "react-router-dom";
 
 import Loading from "components/Loading";
 import Layout from "components/Layout";

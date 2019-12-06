@@ -1,7 +1,7 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
 import PropType from "prop-types";
 import { Query, withApollo } from "react-apollo";
-import { withRouter } from "react-router";
+import { withRouter } from "react-router-dom";
 import gql from "graphql-tag";
 import { get, flowRight } from "lodash";
 import auth from "components/Auth";

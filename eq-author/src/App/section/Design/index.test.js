@@ -2,7 +2,7 @@ import React from "react";
 import { mount } from "enzyme";
 import PropTypes from "prop-types";
 
-import { Router, Route } from "react-router";
+import { Router, Route } from "react-router-dom";
 import { createMemoryHistory } from "history";
 import TestProvider from "tests/utils/TestProvider";
 import { buildSectionPath } from "utils/UrlUtils";

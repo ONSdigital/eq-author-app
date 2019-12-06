@@ -3,8 +3,7 @@
 import React from "react";
 import CustomPropTypes from "custom-prop-types";
 import { AppContainer } from "react-hot-loader";
-import { Switch } from "react-router-dom";
-import { Route, Router } from "react-router";
+import { Switch, Route, Router } from "react-router-dom";
 import { ApolloProvider } from "react-apollo";
 import { Provider } from "react-redux";
 

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { withRouter, Redirect } from "react-router";
+import { withRouter, Redirect } from "react-router-dom";
 import { useMutation } from "@apollo/react-hooks";
 import CustomPropTypes from "custom-prop-types";
 
