@@ -18,7 +18,6 @@ const {
   updateQuestionPage,
 } = require("../../tests/utils/contextBuilder/page/questionPage");
 const {
-  // queryComments,
   createComment,
   deleteComment,
   updateComment,
