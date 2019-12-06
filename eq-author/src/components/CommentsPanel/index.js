@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { withRouter } from "react-router";
+import { withRouter } from "react-router-dom";
 import { useSubscription } from "react-apollo";
 import { get } from "lodash";
 import moment from "moment";
