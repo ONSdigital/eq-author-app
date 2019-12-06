@@ -185,9 +185,11 @@ const FlexLabel = styled.div`
   overflow: hidden;
   white-space: nowrap;
   width: 180px;
+
   @media (max-width: 1700px) {
     width: 155px;
   }
+
   @media (max-width: 1500px) {
     width: 120px;
   }
