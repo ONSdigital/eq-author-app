@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import { withRouter } from "react-router";
+import { withRouter } from "react-router-dom";
 import gql from "graphql-tag";
 
 import CustomPropTypes from "custom-prop-types";

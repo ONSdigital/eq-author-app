@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { flowRight } from "lodash";
 import { withApollo } from "react-apollo";
-import { withRouter } from "react-router";
+import { withRouter } from "react-router-dom";
 
 import CustomPropTypes from "custom-prop-types";
 import styled from "styled-components";

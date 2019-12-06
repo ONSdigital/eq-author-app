@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { withRouter } from "react-router";
+import { withRouter } from "react-router-dom";
 import { get } from "lodash";
 import moment from "moment";
 import { useQuery, useMutation } from "@apollo/react-hooks";

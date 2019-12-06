@@ -1,7 +1,7 @@
 import React from "react";
 import gql from "graphql-tag";
 import { Query } from "react-apollo";
-import { Redirect } from "react-router";
+import { Redirect } from "react-router-dom";
 
 import { get } from "lodash";
 import PropTypes from "prop-types";
