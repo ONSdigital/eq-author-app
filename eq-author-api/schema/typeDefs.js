@@ -574,9 +574,12 @@ type QuestionnaireIntroduction {
 
 type Reply {
   id: ID!
+  parentComment: Comment!
   commentText: String!
   createdTime: DateTime!
   user: User!
+  page: Page!
+  editedTime:  DateTime
 }
 
 type Comment {
@@ -633,6 +636,7 @@ type Mutation {
   createComment(input: CreateCommentInput!): Comment!
   deleteComment(input: DeleteCommentInput!): Page!
   updateComment(input: UpdateCommentInput!): Comment!
+  createReply(input: CreateReplyInput!): Reply!
   createQuestionPage(input: CreateQuestionPageInput!): QuestionPage
   updateQuestionPage(input: UpdateQuestionPageInput!): QuestionPage
   createCalculatedSummaryPage(input: CreateCalculatedSummaryPageInput!): CalculatedSummaryPage!
@@ -830,6 +834,12 @@ input UpdateCommentInput {
   commentId: ID!
   commentText: String!
 }
+
+input CreateReplyInput {
+    pageId: ID!
+    commentId: ID!
+    commentText: String!
+  }
 
 input CreateQuestionPageInput {
   title: String!

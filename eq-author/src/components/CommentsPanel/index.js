@@ -14,6 +14,7 @@ import COMMENT_ADD from "./createNewComment.graphql";
 import COMMENT_DELETE from "./deleteComment.graphql";
 import COMMENT_UPDATE from "./updateComment.graphql";
 import COMMENT_SUBSCRIPTION from "./commentSubscription.graphql";
+import REPLY_ADD from "./createNewReply.graphql";
 
 import { colors, radius } from "constants/theme";
 
@@ -56,6 +57,11 @@ const SaveButton = styled(Button)`
   padding: 0.3em 0.8em 0.4em;
 `;
 
+const ReplyButton = styled(Button)`
+  padding: 0.3em 0.8em 0.4em;
+  display: ${props => (props.hideReplyBtn ? "none" : "block")};
+`;
+
 const CommentsDiv = styled.div`
   align-items: left;
   padding: 0.5em 1em;
@@ -92,7 +98,9 @@ const CommentHeaderContainer = styled(Field)`
 
 const CommentFooterContainer = styled(Field)`
   display: flex;
-  margin-bottom: 0;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-bottom: 5px;
 `;
 
 const AvatarWrapper = styled.div`
@@ -214,6 +222,7 @@ const CommentsPanel = ({
   const [ref, setRef] = useState();
   const [scrollRef, setScrollRef] = useState();
   const firstRender = useRef(true);
+  const [activeReply, setActiveReply] = useState("");
 
   const { loading, error, data } = useQuery(COMMENT_QUERY, {
     variables: {
@@ -225,6 +234,7 @@ const CommentsPanel = ({
   const [createComment] = useMutation(COMMENT_ADD);
   const [deleteComment] = useMutation(COMMENT_DELETE);
   const [updateComment] = useMutation(COMMENT_UPDATE);
+  const [createReply] = useMutation(REPLY_ADD);
 
   useSubscription(COMMENT_SUBSCRIPTION, {
     variables: {
@@ -300,6 +310,10 @@ const CommentsPanel = ({
     }
   };
 
+  const handleReply = event => {
+    alert(event.target);
+  };
+
   const getInitials = name => {
     if (name !== null) {
       const initials = name.replace(/[^a-zA-Z- ]/g, "").match(/\b\w/g);
@@ -317,7 +331,10 @@ const CommentsPanel = ({
     return <Error>Oops! Something went wrong</Error>;
   }
 
+  console.log(commentsArray);
   const displayComments = commentsArray.map((item, index) => {
+    const repliesArray = commentsArray.replies;
+    console.log(repliesArray);
     const editCommentId = `name-${index}`;
     const setScroll = tag => {
       if (index === commentsArray.length - 1) {
@@ -345,7 +362,7 @@ const CommentsPanel = ({
             hideEditBtn={item.user.id !== myId}
             onClick={() => handleEdit(item.id, item.commentText)}
             data-test={`btn-edit-comment-${index}`}
-            disabled={activeComment === item.id}
+            // disabled={activeComment === item.id}
           />
           <DeleteComment
             hideDeleteBtn={item.user.id !== myId}
@@ -361,7 +378,7 @@ const CommentsPanel = ({
             inputRef={tag => {
               setRef(tag);
             }}
-            disabled={activeComment !== item.id}
+            // disabled={activeComment !== item.id}
             value={editComment}
             name={editCommentId}
             type="text"
@@ -379,19 +396,44 @@ const CommentsPanel = ({
           ) : (
             ""
           )}
-          <ButtonGroupStyled horizontal align="right">
-            {activeComment === item.id && (
-              <SaveButton
-                id={index}
-                medium
-                onClick={() => handleSaveEdit(item)}
-                data-test={`btn-save-editedComment-${index}`}
-              >
-                Save
-              </SaveButton>
-            )}
-          </ButtonGroupStyled>
+          <ReplyButton
+            id={`replyBtn-${index}`}
+            hideReplyBtn={activeComment === item.id}
+            variant="greyed"
+            medium
+            onclick={() => setActiveReply(item.id)}
+            // onClick={() => handleReply(item)}
+            data-test={`btn-reply-comment-${index}`}
+          >
+            reply
+          </ReplyButton>
+          {activeComment === item.id && (
+            <SaveButton
+              id={index}
+              medium
+              onClick={() => handleSaveEdit(item)}
+              data-test={`btn-save-editedComment-${index}`}
+            >
+              Save
+            </SaveButton>
+          )}
         </CommentFooterContainer>
+        {activeReply !== item.id ? (
+          <CommentsDiv>{item.id}</CommentsDiv>
+        ) : (
+          <StyledTextArea
+            // id={`reply-${item.replies[replyIndex].id}`}
+            inputRef={tag => {
+              setRef(tag);
+            }}
+            // disabled={activeComment !== item.id}
+            value={editComment}
+            name={editCommentId}
+            type="text"
+            // onChange={({ target }) => setReply(target.value)}
+            data-test={`reply-txtArea-${index}`}
+          />
+        )}
       </CommentSection>
     );
   });

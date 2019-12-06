@@ -41,6 +41,17 @@ Resolvers.Comment = {
   page: ({ pageId }, args, ctx) => getPageById(ctx, pageId),
 };
 
+Resolvers.Reply = {
+  user: ({ userId }) => getUserById(userId),
+  page: ({ pageId }, args, ctx) => getPageById(ctx, pageId),
+  parentComment: ({ parentCommentId, pageId }, args, ctx) => {
+    const thisPage = getPageById(ctx, pageId);
+    const thisComment = thisPage.comments[pageId].parentCommentId;
+    return thisComment;
+  },
+  // parentComment: ({ comment }) => comment,
+};
+
 Resolvers.Mutation = {
   movePage: createMutation((_, { input }, ctx) => {
     const section = getSectionByPageId(ctx, input.id);
@@ -61,6 +72,41 @@ Resolvers.Mutation = {
     onPageDeleted(ctx, input.id);
     return section;
   }),
+
+  createReply: async (_, { input }, ctx) => {
+    console.log("=======================", input, ctx);
+
+    const { pageId } = input;
+    const questionnaire = ctx.questionnaire;
+    const questionnaireComments = await getCommentsForQuestionnaire(
+      questionnaire.id
+    );
+
+    const newReply = {
+      id: uuid.v4(),
+      parentCommentId: input.commentId,
+      commentText: input.commentText,
+      userId: ctx.user.id,
+      createdTime: new Date(),
+      pageId: pageId,
+    };
+
+    let thisComment = questionnaireComments.comments[pageId].filter(
+      ({ id }) => id === input.commentId
+    )[0];
+    console.log("----------------", thisComment);
+    if (thisComment) {
+      thisComment.replies.push(newReply);
+    } else {
+      thisComment = [newReply];
+    }
+
+    await saveComments(questionnaireComments);
+
+    publishCommentUpdates(questionnaire, pageId);
+    // newReply.comment = thisComment;
+    return newReply;
+  },
 
   updateComment: async (_, { input }, ctx) => {
     const { pageId } = input;
@@ -104,6 +150,7 @@ Resolvers.Mutation = {
   },
 
   createComment: async (_, { input }, ctx) => {
+    console.log("-------------------------", input, ctx);
     const { pageId } = input;
     const questionnaire = ctx.questionnaire;
     const questionnaireComments = await getCommentsForQuestionnaire(
