@@ -331,10 +331,51 @@ const CommentsPanel = ({
     return <Error>Oops! Something went wrong</Error>;
   }
 
-  console.log(commentsArray);
   const displayComments = commentsArray.map((item, index) => {
-    const repliesArray = commentsArray.replies;
-    console.log(repliesArray);
+    const repliesArray = commentsArray[index].replies;
+    const displayReplies = repliesArray.map((repliesItem, repliesIndex) => {
+      // const replyCommentId = `name-${repliesIndex}`;
+      return (
+        <CommentsDiv key={repliesItem.id}>
+          {repliesItem.commentText}
+        </CommentsDiv>
+
+        //   {activeComment !== item.id ? (
+        //     <CommentsDiv>{item.commentText}</CommentsDiv>
+        //   ) : (
+        //     <StyledTextArea
+        //       id={item.id}
+        //       inputRef={tag => {
+        //         setRef(tag);
+        //       }}
+        //       // disabled={activeComment !== item.id}
+        //       value={editComment}
+        //       name={editCommentId}
+        //       type="text"
+        //       onChange={({ target }) => setEditComment(target.value)}
+        //       data-test={`edit-comment-txtArea-${index}`}
+        //     />
+        //   )}
+
+        // {activeReply !== item.id ? (
+        //     <CommentsDiv key={repliesItem.id}>{item.commentText}</CommentsDiv>;
+        //   ) : (
+        //     <StyledTextArea
+        //       // id={`reply-${repliesItem.id}`}
+        //       inputRef={tag => {
+        //         setRef(tag);
+        //       }}
+        //       // value={replyComment}
+        //       // name={replyCommentId}
+        //       type="text"
+        //       // onChange={({ target }) => setReply(target.value)}
+        //       // data-test={`reply-txtArea-${repliesIndex}`}
+        //     />
+        //   );
+        // }
+      );
+    });
+
     const editCommentId = `name-${index}`;
     const setScroll = tag => {
       if (index === commentsArray.length - 1) {
@@ -418,22 +459,7 @@ const CommentsPanel = ({
             </SaveButton>
           )}
         </CommentFooterContainer>
-        {activeReply !== item.id ? (
-          <CommentsDiv>{item.id}</CommentsDiv>
-        ) : (
-          <StyledTextArea
-            // id={`reply-${item.replies[replyIndex].id}`}
-            inputRef={tag => {
-              setRef(tag);
-            }}
-            // disabled={activeComment !== item.id}
-            value={editComment}
-            name={editCommentId}
-            type="text"
-            // onChange={({ target }) => setReply(target.value)}
-            data-test={`reply-txtArea-${index}`}
-          />
-        )}
+        {displayReplies}
       </CommentSection>
     );
   });

@@ -43,11 +43,20 @@ Resolvers.Comment = {
 
 Resolvers.Reply = {
   user: ({ userId }) => getUserById(userId),
-  page: ({ pageId }, args, ctx) => getPageById(ctx, pageId),
-  parentComment: ({ parentCommentId, pageId }, args, ctx) => {
-    const thisPage = getPageById(ctx, pageId);
-    const thisComment = thisPage.comments[pageId].parentCommentId;
-    return thisComment;
+  page: async ({ pageId }, args, ctx) => {
+    await getPageById(ctx, pageId);
+  },
+  parentComment: async ({ parentCommentId, pageId }, args, ctx) => {
+    const questionnaire = ctx.questionnaire;
+    const questionnaireComments = await getCommentsForQuestionnaire(
+      questionnaire.id
+    );
+
+    let parentComment = questionnaireComments.comments[pageId].filter(
+      ({ id }) => id === parentCommentId
+    )[0];
+
+    return parentComment;
   },
   // parentComment: ({ comment }) => comment,
 };
@@ -74,8 +83,6 @@ Resolvers.Mutation = {
   }),
 
   createReply: async (_, { input }, ctx) => {
-    console.log("=======================", input, ctx);
-
     const { pageId } = input;
     const questionnaire = ctx.questionnaire;
     const questionnaireComments = await getCommentsForQuestionnaire(
@@ -94,7 +101,7 @@ Resolvers.Mutation = {
     let thisComment = questionnaireComments.comments[pageId].filter(
       ({ id }) => id === input.commentId
     )[0];
-    console.log("----------------", thisComment);
+    // console.log("----------------", thisComment);
     if (thisComment) {
       thisComment.replies.push(newReply);
     } else {
@@ -150,7 +157,6 @@ Resolvers.Mutation = {
   },
 
   createComment: async (_, { input }, ctx) => {
-    console.log("-------------------------", input, ctx);
     const { pageId } = input;
     const questionnaire = ctx.questionnaire;
     const questionnaireComments = await getCommentsForQuestionnaire(
