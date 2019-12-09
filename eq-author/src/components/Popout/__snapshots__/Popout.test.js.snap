@@ -11,7 +11,43 @@ exports[`components/Popout should render content when open 1`] = `
   </button>
   <TransitionGroup
     childFactory={[Function]}
-    component={[Function]}
+    component={
+      Object {
+        "$$typeof": Symbol(react.forward_ref),
+        "_foldedDefaultProps": Object {
+          "horizontalAlignment": "left",
+          "offsetX": "0",
+          "offsetY": "0",
+          "verticalAlignment": "bottom",
+        },
+        "attrs": Array [],
+        "componentStyle": ComponentStyle {
+          "componentId": "Popout__Layer-sc-1vqdjha-1",
+          "isStatic": false,
+          "rules": Array [
+            "position:absolute;",
+            [Function],
+            ";",
+            [Function],
+            ";z-index:10;",
+          ],
+        },
+        "displayName": "Popout__Layer",
+        "foldedComponentIds": Array [],
+        "propTypes": Object {
+          "horizontalAlignment": [Function],
+          "offsetX": [Function],
+          "offsetY": [Function],
+          "verticalAlignment": [Function],
+        },
+        "render": [Function],
+        "styledComponentId": "Popout__Layer-sc-1vqdjha-1",
+        "target": "div",
+        "toString": [Function],
+        "warnTooManyClasses": [Function],
+        "withComponent": [Function],
+      }
+    }
   >
     <DefaultTransition>
       <Content
@@ -33,7 +69,43 @@ exports[`components/Popout shouldn't render content when closed 1`] = `
   </button>
   <TransitionGroup
     childFactory={[Function]}
-    component={[Function]}
+    component={
+      Object {
+        "$$typeof": Symbol(react.forward_ref),
+        "_foldedDefaultProps": Object {
+          "horizontalAlignment": "left",
+          "offsetX": "0",
+          "offsetY": "0",
+          "verticalAlignment": "bottom",
+        },
+        "attrs": Array [],
+        "componentStyle": ComponentStyle {
+          "componentId": "Popout__Layer-sc-1vqdjha-1",
+          "isStatic": false,
+          "rules": Array [
+            "position:absolute;",
+            [Function],
+            ";",
+            [Function],
+            ";z-index:10;",
+          ],
+        },
+        "displayName": "Popout__Layer",
+        "foldedComponentIds": Array [],
+        "propTypes": Object {
+          "horizontalAlignment": [Function],
+          "offsetX": [Function],
+          "offsetY": [Function],
+          "verticalAlignment": [Function],
+        },
+        "render": [Function],
+        "styledComponentId": "Popout__Layer-sc-1vqdjha-1",
+        "target": "div",
+        "toString": [Function],
+        "warnTooManyClasses": [Function],
+        "withComponent": [Function],
+      }
+    }
   />
 </Popout__Container>
 `;

@@ -1,24 +1,137 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Toastcontainer should render 1`] = `
-<ToastContainer__Wrapper>
-  <ToastContainer__OuterContainer>
-    <ToastContainer__InnerContainer>
-      <ToastContainer
-        transition={[Function]}
+<DocumentFragment>
+  .c6 {
+  background-color: rgba(51,51,51,0.9);
+  padding: 1em;
+  color: #FFFFFF;
+  font-size: 0.875rem;
+  width: auto;
+}
+
+.c5 {
+  -webkit-transition-property: -webkit-transform,opacity;
+  -webkit-transition-property: transform,opacity;
+  transition-property: transform,opacity;
+  -webkit-transition-duration: 330ms;
+  transition-duration: 330ms;
+}
+
+.c5.toast-enter {
+  opacity: 0;
+  -webkit-transform: translateY(50%);
+  -ms-transform: translateY(50%);
+  transform: translateY(50%);
+  -webkit-transition-timing-function: cubic-bezier(0.73,0.02,0.32,1.49);
+  transition-timing-function: cubic-bezier(0.73,0.02,0.32,1.49);
+  -webkit-transition-delay: 165ms;
+  transition-delay: 165ms;
+}
+
+.c5.toast-enter.toast-enter-active {
+  opacity: 1;
+  -webkit-transform: translateY(0);
+  -ms-transform: translateY(0);
+  transform: translateY(0);
+}
+
+.c5.toast-exit {
+  opacity: 1;
+  -webkit-transform: translateY(0);
+  -ms-transform: translateY(0);
+  transform: translateY(0);
+  -webkit-transition-timing-function: cubic-bezier(0.75,-0.44,0.24,1);
+  transition-timing-function: cubic-bezier(0.75,-0.44,0.24,1);
+}
+
+.c5.toast-exit.toast-exit-active {
+  opacity: 0;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.c3 {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.c4 {
+  padding: 0;
+  padding-bottom: 0.5em;
+  margin: 0;
+  min-width: 10em;
+}
+
+.c7 {
+  text-align: center;
+}
+
+.c1 {
+  position: absolute;
+  bottom: 0;
+  text-align: center;
+  min-width: 10em;
+  margin-bottom: 0;
+  z-index: 99999999;
+}
+
+.c2 {
+  display: inline-block;
+  text-align: initial;
+}
+
+.c0 {
+  width: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+
+<div
+    class="c0"
+  >
+    <div
+      class="c1"
+    >
+      <div
+        class="c2"
       >
-        <Toast
-          id={1}
-          key="1"
-          onClose={[MockFunction]}
-          timeout={5000}
+        <ol
+          aria-live="assertive"
+          aria-relevant="additions removals"
+          class="c3"
+          role="alert"
         >
-          <ToastContainer__StyledDiv>
-            Hello world
-          </ToastContainer__StyledDiv>
-        </Toast>
-      </ToastContainer>
-    </ToastContainer__InnerContainer>
-  </ToastContainer__OuterContainer>
-</ToastContainer__Wrapper>
+          <li
+            class="c4 c5"
+            data-test="toast-item"
+          >
+            <div
+              class="c6"
+              data-test="toast"
+              id="1"
+            >
+              <div
+                class="c7"
+              >
+                Hello world
+              </div>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
 `;

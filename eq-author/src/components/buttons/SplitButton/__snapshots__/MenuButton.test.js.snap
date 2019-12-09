@@ -1,7 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`SplitButton/MenuButton should render 1`] = `
-<MenuButton__StyledButton>
+<MenuButton__StyledButton
+  type="button"
+  variant="primary"
+>
   <IconText
     hideText={true}
     icon={[Function]}

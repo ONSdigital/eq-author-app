@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 const numCols = 12;
 const colWidth = num => `${(num / numCols) * 100}%`;
 
-const Column = styled.div`
+const Column = styled.div.attrs(() => ({ "data-test": "column" }))`
   flex: 1 1 auto;
   padding: ${({ gutters }) => (gutters !== false ? "0 0.5em" : "0")};
   max-width: ${({ cols }) => colWidth(cols)};

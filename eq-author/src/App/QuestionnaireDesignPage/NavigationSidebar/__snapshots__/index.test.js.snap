@@ -40,7 +40,9 @@ exports[`NavigationSidebar should render 1`] = `
       }
     }
   />
-  <NavigationSidebar__NavigationScrollPane>
+  <NavigationSidebar__NavigationScrollPane
+    permanentScrollBar={false}
+  >
     <NavigationSidebar__NavList>
       <li>
         <SectionNav

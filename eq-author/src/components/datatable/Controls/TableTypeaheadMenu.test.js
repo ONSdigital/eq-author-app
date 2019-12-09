@@ -1,26 +1,22 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { render } from "tests/utils/rtl";
 
 import { TableTypeaheadMenu } from "./";
 
-const createWrapper = (props = {}, render = shallow) => {
-  return render(<TableTypeaheadMenu {...props} />);
-};
-
 describe("TableTypeaheadMenu", () => {
   let props;
-  let wrapper;
 
   beforeEach(() => {
     props = {
       getMenuProps: jest.fn(),
       getItemProps: jest.fn(),
+      items: [{ value: "Hello" }, { value: "world" }],
     };
-
-    wrapper = createWrapper(props, shallow);
   });
 
   it("should render", () => {
-    expect(wrapper).toMatchSnapshot();
+    const { getByText } = render(<TableTypeaheadMenu {...props} />);
+    expect(getByText("Hello")).toBeTruthy();
+    expect(getByText("world")).toBeTruthy();
   });
 });

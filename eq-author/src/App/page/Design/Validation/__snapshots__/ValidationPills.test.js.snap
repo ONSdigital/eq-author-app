@@ -32,17 +32,32 @@ exports[`ValidationPills should render 1`] = `
 `;
 
 exports[`ValidationPills should render custom 1`] = `
-.c0 {
-  margin-top: 3em;
-  margin-bottom: 0;
-  width: 100%;
-}
-
-<div
-  className="c0"
+<StyledComponent
+  forwardedComponent={
+    Object {
+      "$$typeof": Symbol(react.forward_ref),
+      "attrs": Array [],
+      "componentStyle": ComponentStyle {
+        "componentId": "ValidationPills__PillTabContent-sc-1biktv0-1",
+        "isStatic": false,
+        "rules": Array [
+          "margin-top:3em;margin-bottom:0;width:100%;",
+        ],
+      },
+      "displayName": "ValidationPills__PillTabContent",
+      "foldedComponentIds": Array [],
+      "render": [Function],
+      "styledComponentId": "ValidationPills__PillTabContent-sc-1biktv0-1",
+      "target": "div",
+      "toString": [Function],
+      "warnTooManyClasses": [Function],
+      "withComponent": [Function],
+    }
+  }
+  forwardedRef={null}
 >
   <Custom />
-</div>
+</StyledComponent>
 `;
 
 exports[`ValidationPills should render if missing an option component 1`] = `
@@ -72,43 +87,88 @@ exports[`ValidationPills should render if missing an option component 1`] = `
 `;
 
 exports[`ValidationPills should render metadata 1`] = `
-.c0 {
-  margin-top: 3em;
-  margin-bottom: 0;
-  width: 100%;
-}
-
-<div
-  className="c0"
+<StyledComponent
+  forwardedComponent={
+    Object {
+      "$$typeof": Symbol(react.forward_ref),
+      "attrs": Array [],
+      "componentStyle": ComponentStyle {
+        "componentId": "ValidationPills__PillTabContent-sc-1biktv0-1",
+        "isStatic": false,
+        "rules": Array [
+          "margin-top:3em;margin-bottom:0;width:100%;",
+        ],
+      },
+      "displayName": "ValidationPills__PillTabContent",
+      "foldedComponentIds": Array [],
+      "render": [Function],
+      "styledComponentId": "ValidationPills__PillTabContent-sc-1biktv0-1",
+      "target": "div",
+      "toString": [Function],
+      "warnTooManyClasses": [Function],
+      "withComponent": [Function],
+    }
+  }
+  forwardedRef={null}
 >
   <Metadata />
-</div>
+</StyledComponent>
 `;
 
 exports[`ValidationPills should render previous answer 1`] = `
-.c0 {
-  margin-top: 3em;
-  margin-bottom: 0;
-  width: 100%;
-}
-
-<div
-  className="c0"
+<StyledComponent
+  forwardedComponent={
+    Object {
+      "$$typeof": Symbol(react.forward_ref),
+      "attrs": Array [],
+      "componentStyle": ComponentStyle {
+        "componentId": "ValidationPills__PillTabContent-sc-1biktv0-1",
+        "isStatic": false,
+        "rules": Array [
+          "margin-top:3em;margin-bottom:0;width:100%;",
+        ],
+      },
+      "displayName": "ValidationPills__PillTabContent",
+      "foldedComponentIds": Array [],
+      "render": [Function],
+      "styledComponentId": "ValidationPills__PillTabContent-sc-1biktv0-1",
+      "target": "div",
+      "toString": [Function],
+      "warnTooManyClasses": [Function],
+      "withComponent": [Function],
+    }
+  }
+  forwardedRef={null}
 >
   <PreviousAnswer />
-</div>
+</StyledComponent>
 `;
 
 exports[`ValidationPills should render startDate 1`] = `
-.c0 {
-  margin-top: 3em;
-  margin-bottom: 0;
-  width: 100%;
-}
-
-<div
-  className="c0"
+<StyledComponent
+  forwardedComponent={
+    Object {
+      "$$typeof": Symbol(react.forward_ref),
+      "attrs": Array [],
+      "componentStyle": ComponentStyle {
+        "componentId": "ValidationPills__PillTabContent-sc-1biktv0-1",
+        "isStatic": false,
+        "rules": Array [
+          "margin-top:3em;margin-bottom:0;width:100%;",
+        ],
+      },
+      "displayName": "ValidationPills__PillTabContent",
+      "foldedComponentIds": Array [],
+      "render": [Function],
+      "styledComponentId": "ValidationPills__PillTabContent-sc-1biktv0-1",
+      "target": "div",
+      "toString": [Function],
+      "warnTooManyClasses": [Function],
+      "withComponent": [Function],
+    }
+  }
+  forwardedRef={null}
 >
   <Now />
-</div>
+</StyledComponent>
 `;

@@ -1,23 +1,10 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { render } from "tests/utils/rtl";
 
 import { TableInputDate } from "./";
 
-const createWrapper = (props = {}, render = shallow) => {
-  return render(<TableInputDate {...props} />);
-};
-
 describe("TableInputDate", () => {
-  let props;
-  let wrapper;
-
-  beforeEach(() => {
-    props = {};
-
-    wrapper = createWrapper(props, shallow);
-  });
-
   it("should render", () => {
-    expect(wrapper).toMatchSnapshot();
+    expect(render(<TableInputDate />).asFragment()).toMatchSnapshot();
   });
 });

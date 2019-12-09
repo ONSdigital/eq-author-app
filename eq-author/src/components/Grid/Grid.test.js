@@ -1,81 +1,81 @@
 import React from "react";
-import { mount } from "enzyme";
+import { render } from "tests/utils/rtl";
 import { Grid, Column } from "./";
-
-let wrapper;
 
 describe("components/Grid", () => {
   it("should render a basic two column grid", () => {
-    wrapper = mount(
+    const { getByText } = render(
       <Grid>
         <Column>Column 1</Column>
         <Column>Column 2</Column>
       </Grid>
     );
-    expect(wrapper).toMatchSnapshot();
+    expect(getByText("Column 1")).toBeTruthy();
+    expect(getByText("Column 2")).toBeTruthy();
   });
 
   it("should be optionally aligned center", () => {
-    wrapper = mount(
+    const { getByTestId } = render(
       <Grid align={"center"}>
         <Column>Column 1</Column>
         <Column>Column 2</Column>
       </Grid>
     );
-    expect(wrapper).toMatchSnapshot();
+    expect(getByTestId("grid")).toHaveStyleRule("align-items", "center");
   });
 
   it("should be optionally aligned bottom", () => {
-    wrapper = mount(
+    const { getByTestId } = render(
       <Grid align={"bottom"}>
         <Column>Column 1</Column>
         <Column>Column 2</Column>
       </Grid>
     );
-    expect(wrapper).toMatchSnapshot();
+    expect(getByTestId("grid")).toHaveStyleRule("align-items", "flex-end");
   });
 
   it("should not fill height of container, if specified", () => {
-    wrapper = mount(
+    const { getByTestId } = render(
       <Grid fillHeight={false}>
         <Column>Column 1</Column>
         <Column>Column 2</Column>
       </Grid>
     );
-    expect(wrapper).toMatchSnapshot();
+    expect(getByTestId("grid")).toHaveStyleRule("flex", "0 1 auto");
   });
 
   describe("Columns", () => {
     it("should render an asymmetrical two column grid ", () => {
-      wrapper = mount(
+      const { asFragment } = render(
         <Grid>
           <Column>Column 1</Column>
           <Column cols={4}>Column 2</Column>
         </Grid>
       );
-      expect(wrapper).toMatchSnapshot();
+      expect(asFragment()).toMatchSnapshot();
     });
 
     it("should render a gutterless grid", () => {
-      wrapper = mount(
+      const { getByTestId } = render(
         <Grid>
           <Column gutters={false}>Column 1</Column>
-          <Column gutters={false}>Column 2</Column>
         </Grid>
       );
-      expect(wrapper).toMatchSnapshot();
+      expect(getByTestId("column")).toHaveStyleRule("padding", "0");
     });
 
     it("should render a column with an offset", () => {
-      wrapper = mount(
+      const { getByTestId } = render(
         <Grid>
           <Column cols={2} offset={2}>
             Column 1
           </Column>
-          <Column cols={8}>Column 2</Column>
         </Grid>
       );
-      expect(wrapper).toMatchSnapshot();
+      expect(getByTestId("column")).toHaveStyleRule(
+        "margin-left",
+        "16.666666666666664%"
+      );
     });
   });
 });

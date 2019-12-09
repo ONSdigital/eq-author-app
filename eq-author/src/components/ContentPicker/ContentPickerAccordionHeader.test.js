@@ -1,40 +1,39 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { render } from "tests/utils/rtl";
 
 import ContentPickerAccordionHeader from "components/ContentPicker/ContentPickerAccordionHeader";
 
 import { colors } from "constants/theme";
 
-const render = props =>
-  shallow(
+const renderComponent = props =>
+  render(
     <ContentPickerAccordionHeader {...props}>
       FooBar
     </ContentPickerAccordionHeader>
   );
 
 describe("ContentPickerAccordionHeader", () => {
-  let wrapper, props;
+  let props;
 
   beforeEach(() => {
     props = {
       selected: false,
       disabled: false,
     };
-    wrapper = render(props);
   });
 
   it("should render", () => {
-    expect(wrapper).toMatchSnapshot();
+    expect(renderComponent(props).asFragment()).toMatchSnapshot();
   });
 
   it("should render with disabled styles", () => {
-    wrapper = render({ disabled: true });
-    expect(wrapper).toHaveStyleRule("pointer-events", "none");
-    expect(wrapper).toHaveStyleRule("background", colors.grey);
+    const { getByText } = renderComponent({ disabled: true });
+    expect(getByText("FooBar")).toHaveStyleRule("pointer-events", "none");
+    expect(getByText("FooBar")).toHaveStyleRule("background", colors.grey);
   });
 
   it("should render with selected styles", () => {
-    wrapper = render({ selected: true });
-    expect(wrapper).toHaveStyleRule("background", colors.blue);
+    const { getByText } = renderComponent({ selected: true });
+    expect(getByText("FooBar")).toHaveStyleRule("background", colors.blue);
   });
 });

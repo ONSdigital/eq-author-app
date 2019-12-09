@@ -1,7 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ScrollPane should render 1`] = `
-.c0 {
+<DocumentFragment>
+  .c0 {
   width: 100%;
   height: 100%;
   overflow-y: auto;
@@ -39,8 +40,9 @@ exports[`ScrollPane should render 1`] = `
 }
 
 <div
-  className="c0"
->
-  Children
-</div>
+    class="c0"
+  >
+    Children
+  </div>
+</DocumentFragment>
 `;

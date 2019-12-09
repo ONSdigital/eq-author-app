@@ -1,40 +1,21 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/ExpansionTransition should render 1`] = `
-.c0 {
-  -webkit-transition-property: height;
-  transition-property: height;
-  -webkit-transition-duration: 250ms;
-  transition-duration: 250ms;
-  -webkit-transition-timing-function: ease-in-out;
-  transition-timing-function: ease-in-out;
+exports[`ExpansionTransition should render 1`] = `
+<DocumentFragment>
+  .c0 {
+  max-width: 55em;
+  margin: 0 auto 1em;
+  padding: 0 1em;
+  position: relative;
+  width: 100%;
 }
 
-.c0.expansion-enter {
-  height: 0;
-}
-
-.c0.expansion-enter.expansion-enter-active {
-  height: 1em;
-}
-
-.c0.expansion-exit {
-  height: 1em;
-}
-
-.c0.expansion-exit.expansion-exit-active {
-  height: 0;
-}
-
-<CSSTransition
-  className="c0"
-  classNames="expansion"
-  finalHeight="1em"
-  in={false}
-  timeout={250}
->
-  <div>
-    Content
-  </div>
-</CSSTransition>
+<main
+    class="c0"
+  >
+    <div>
+      Content
+    </div>
+  </main>
+</DocumentFragment>
 `;

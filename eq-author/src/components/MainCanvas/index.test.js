@@ -1,15 +1,10 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { render } from "tests/utils/rtl";
 import MainCanvas from "components/MainCanvas";
 
 describe("MainCanvas", () => {
-  let component;
-
-  beforeEach(() => {
-    component = shallow(<MainCanvas>Children</MainCanvas>);
-  });
-
   it("should render", () => {
-    expect(component).toMatchSnapshot();
+    const { asFragment } = render(<MainCanvas>Children</MainCanvas>);
+    expect(asFragment()).toMatchSnapshot();
   });
 });

@@ -5,17 +5,115 @@ exports[`AddMenu should render 1`] = `
   onAdd={[MockFunction]}
 >
   <Popout
-    container={[Function]}
+    container={
+      Object {
+        "$$typeof": Symbol(react.forward_ref),
+        "attrs": Array [],
+        "componentStyle": ComponentStyle {
+          "componentId": "Popout__Container-sc-1vqdjha-0",
+          "isStatic": false,
+          "rules": Array [
+            "position:relative;display:inline-block;",
+          ],
+        },
+        "displayName": "Popout__Container",
+        "foldedComponentIds": Array [],
+        "render": [Function],
+        "styledComponentId": "Popout__Container-sc-1vqdjha-0",
+        "target": "div",
+        "toString": [Function],
+        "warnTooManyClasses": [Function],
+        "withComponent": [Function],
+      }
+    }
     horizontalAlignment="left"
-    layer={[Function]}
+    layer={
+      Object {
+        "$$typeof": Symbol(react.forward_ref),
+        "_foldedDefaultProps": Object {
+          "horizontalAlignment": "left",
+          "offsetX": "0",
+          "offsetY": "0",
+          "verticalAlignment": "bottom",
+        },
+        "attrs": Array [],
+        "componentStyle": ComponentStyle {
+          "componentId": "Popout__Layer-sc-1vqdjha-1",
+          "isStatic": false,
+          "rules": Array [
+            "position:absolute;",
+            [Function],
+            ";",
+            [Function],
+            ";z-index:10;",
+          ],
+        },
+        "displayName": "Popout__Layer",
+        "foldedComponentIds": Array [],
+        "propTypes": Object {
+          "horizontalAlignment": [Function],
+          "offsetX": [Function],
+          "offsetY": [Function],
+          "verticalAlignment": [Function],
+        },
+        "render": [Function],
+        "styledComponentId": "Popout__Layer-sc-1vqdjha-1",
+        "target": "div",
+        "toString": [Function],
+        "warnTooManyClasses": [Function],
+        "withComponent": [Function],
+      }
+    }
     offsetX="5.5em"
     offsetY="-4em"
     onToggleOpen={[MockFunction]}
     open={false}
-    transition={[Function]}
+    transition={
+      Object {
+        "$$typeof": Symbol(react.forward_ref),
+        "_foldedDefaultProps": Object {
+          "in": false,
+          "timeout": 200,
+        },
+        "attrs": Array [
+          Object {
+            "classNames": "popup",
+          },
+        ],
+        "componentStyle": ComponentStyle {
+          "componentId": "PopupTransition-sc-1jce989-0",
+          "isStatic": false,
+          "rules": Array [
+            "transform-origin:left center;transition:opacity ",
+            [Function],
+            "ms ease-in,transform ",
+            [Function],
+            "ms cubic-bezier(0.175,0.885,0.32,1.4);transform:scale(1);&.popup-enter{opacity:0.01;transform:scale(0.6);}&.popup-enter-active{opacity:1;transform:scale(1);}&.popup-exit{opacity:1;transform:scale(1);transition:opacity ",
+            [Function],
+            "ms ease-in,transform ",
+            [Function],
+            "ms ease-in;}&.popup-exit-active{opacity:0.01;transform:scale(0.6);}",
+          ],
+        },
+        "displayName": "PopupTransition",
+        "foldedComponentIds": Array [],
+        "propTypes": Object {
+          "children": [Function],
+          "timeout": [Function],
+        },
+        "render": [Function],
+        "styledComponentId": "PopupTransition-sc-1jce989-0",
+        "target": [Function],
+        "toString": [Function],
+        "warnTooManyClasses": [Function],
+        "withComponent": [Function],
+      }
+    }
     trigger={
-      <AddMenu__AddButton
+      <ForwardRef(AddMenu__AddButton)
         data-test="btn-add"
+        type="button"
+        variant="primary"
       >
         <IconText
           hideText={false}
@@ -23,7 +121,7 @@ exports[`AddMenu should render 1`] = `
         >
           Add
         </IconText>
-      </AddMenu__AddButton>
+      </ForwardRef(AddMenu__AddButton)>
     }
     verticalAlignment="top"
   >
@@ -35,6 +133,8 @@ exports[`AddMenu should render 1`] = `
         disabled={false}
         onClick={[MockFunction]}
         primary={true}
+        type="button"
+        variant="primary"
       >
         Question page
       </AddMenu__AddMenuButton>
@@ -43,6 +143,8 @@ exports[`AddMenu should render 1`] = `
         disabled={false}
         onClick={[MockFunction]}
         primary={true}
+        type="button"
+        variant="primary"
       >
         Confirmation question
       </AddMenu__AddMenuButton>
@@ -51,6 +153,8 @@ exports[`AddMenu should render 1`] = `
         disabled={false}
         onClick={[MockFunction]}
         primary={true}
+        type="button"
+        variant="primary"
       >
         Calculated summary
       </AddMenu__AddMenuButton>
@@ -58,6 +162,8 @@ exports[`AddMenu should render 1`] = `
         data-test="btn-add-section"
         onClick={[MockFunction]}
         primary={true}
+        type="button"
+        variant="primary"
       >
         Section
       </AddMenu__AddMenuButton>

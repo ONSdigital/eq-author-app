@@ -1,15 +1,9 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { render } from "tests/utils/rtl";
 import TextArea from "./";
 
-let wrapper;
-
 describe("components/Answers/Dummy/TextArea", () => {
-  beforeEach(() => {
-    wrapper = shallow(<TextArea />);
-  });
-
   it("shoulder render", function() {
-    expect(wrapper).toMatchSnapshot();
+    expect(render(<TextArea />).asFragment()).toMatchSnapshot();
   });
 });

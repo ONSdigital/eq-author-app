@@ -8,7 +8,6 @@ import CustomPropTypes from "custom-prop-types";
 
 import IconButtonDelete from "components/buttons/IconButtonDelete";
 import DuplicateButton from "components/buttons/DuplicateButton";
-import FadeTransition from "components/transitions/FadeTransition";
 import DeleteConfirmDialog from "components/DeleteConfirmDialog";
 import Truncated from "components/Truncated";
 import IconText from "components/IconText";
@@ -235,8 +234,16 @@ export class Row extends React.Component {
         permission,
         publishStatus,
       },
+    } = this.props;
+
+    /* eslint-disable no-unused-vars */
+    //doing this as an easy way to extract non-dom props so styled-components will stop complaining https://github.com/styled-components/styled-components/issues/2218
+    const {
+      onDeleteQuestionnaire,
+      onDuplicateQuestionnaire,
       ...rest
     } = this.props;
+    /* eslint-enable no-unused-vars */
 
     const hasWritePermisson = permission === WRITE;
 
@@ -251,70 +258,66 @@ export class Row extends React.Component {
 
     return (
       <>
-        <FadeTransition {...rest} exit={this.state.transitionOut}>
-          <TR
-            innerRef={this.rowRef}
-            onFocus={this.handleFocus}
-            onBlur={this.handleBlur}
-            linkHasFocus={this.state.linkHasFocus}
-            onClick={this.handleClick}
-          >
-            <TD>
-              <QuestionnaireLink
-                data-test="anchor-questionnaire-title"
-                title={displayName}
-                onClick={this.handleLinkClick}
-                to={buildQuestionnairePath({
-                  questionnaireId: id,
-                })}
-              >
-                {shortTitle && (
-                  <ShortTitle>
-                    <Truncated>{shortTitle}</Truncated>
-                  </ShortTitle>
-                )}
-                <Truncated>{title}</Truncated>
-              </QuestionnaireLink>
-            </TD>
-            <TD>
-              <FormattedDate date={createdAt} />
-            </TD>
-            <TD>
-              <FormattedDate date={updatedAt} />
-            </TD>
-            <TD>
-              <TableIconText icon={ColoredStatusDot}>
-                {translations[publishStatus] || publishStatus}
-              </TableIconText>
-            </TD>
-            <TD>{createdBy.displayName}</TD>
-            <TD>
-              <Permissions>
-                <Permission>VIEW</Permission>
-                <Permission disabled={!hasWritePermisson}>EDIT</Permission>
-              </Permissions>
-            </TD>
-            <TD>
-              <div
-                onFocus={this.handleButtonFocus}
-                data-test="action-btn-group"
-              >
-                <ButtonGroup>
-                  <DuplicateQuestionnaireButton
-                    data-test="btn-duplicate-questionnaire"
-                    onClick={this.handleDuplicateQuestionnaire}
-                  />
-                  <IconButtonDelete
-                    hideText
-                    data-test="btn-delete-questionnaire"
-                    onClick={this.handleDeleteQuestionnaire}
-                    disabled={!hasWritePermisson}
-                  />
-                </ButtonGroup>
-              </div>
-            </TD>
-          </TR>
-        </FadeTransition>
+        <TR
+          ref={this.rowRef}
+          onFocus={this.handleFocus}
+          onBlur={this.handleBlur}
+          linkHasFocus={this.state.linkHasFocus}
+          onClick={this.handleClick}
+          data-test="table-row"
+        >
+          <TD>
+            <QuestionnaireLink
+              data-test="anchor-questionnaire-title"
+              title={displayName}
+              onClick={this.handleLinkClick}
+              to={buildQuestionnairePath({
+                questionnaireId: id,
+              })}
+            >
+              {shortTitle && (
+                <ShortTitle>
+                  <Truncated>{shortTitle}</Truncated>
+                </ShortTitle>
+              )}
+              <Truncated>{title}</Truncated>
+            </QuestionnaireLink>
+          </TD>
+          <TD>
+            <FormattedDate date={createdAt} />
+          </TD>
+          <TD>
+            <FormattedDate date={updatedAt} />
+          </TD>
+          <TD>
+            <TableIconText icon={ColoredStatusDot}>
+              {translations[publishStatus] || publishStatus}
+            </TableIconText>
+          </TD>
+          <TD>{createdBy.displayName}</TD>
+          <TD>
+            <Permissions>
+              <Permission>VIEW</Permission>
+              <Permission disabled={!hasWritePermisson}>EDIT</Permission>
+            </Permissions>
+          </TD>
+          <TD>
+            <div onFocus={this.handleButtonFocus} data-test="action-btn-group">
+              <ButtonGroup>
+                <DuplicateQuestionnaireButton
+                  data-test="btn-duplicate-questionnaire"
+                  onClick={this.handleDuplicateQuestionnaire}
+                />
+                <IconButtonDelete
+                  hideText
+                  data-test="btn-delete-questionnaire"
+                  onClick={this.handleDeleteQuestionnaire}
+                  disabled={!hasWritePermisson}
+                />
+              </ButtonGroup>
+            </div>
+          </TD>
+        </TR>
         <DeleteConfirmDialog
           isOpen={this.state.showDeleteModal}
           onClose={this.handleModalClose}

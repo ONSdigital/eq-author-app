@@ -62,6 +62,7 @@ class WrappingInput extends React.Component {
           placeholder={placeholder}
           invalid={errorValidationMsg}
           aria-invalid={Boolean(errorValidationMsg).toString()}
+          data-test="wrapping-input-textarea"
         />
         {errorValidationMsg && <ErrorInline>{errorValidationMsg}</ErrorInline>}
       </StyleContext>

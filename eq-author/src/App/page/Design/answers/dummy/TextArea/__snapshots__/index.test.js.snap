@@ -1,7 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/Answers/Dummy/TextArea shoulder render 1`] = `
-.c0 {
+<DocumentFragment>
+  .c0 {
   font-size: 1em;
   border: 1px solid #999999;
   padding: 0.5em;
@@ -59,6 +60,7 @@ exports[`components/Answers/Dummy/TextArea shoulder render 1`] = `
 }
 
 <div
-  className="c0"
-/>
+    class="c0"
+  />
+</DocumentFragment>
 `;

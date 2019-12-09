@@ -1,12 +1,20 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { render } from "tests/utils/rtl";
+import { withRouter } from "react-router-dom";
+
 import SectionNav from "./SectionNav";
 
 describe("SectionNav", () => {
-  let wrapper;
+  let Component;
 
-  const page = { id: "2", title: "Page" };
-  const section = { id: "3", title: "Section", pages: [page] };
+  const page = { id: "2", title: "Page", displayName: "Page" };
+  const section = {
+    id: "3",
+    title: "Section",
+    pages: [page],
+    displayName: "Section",
+    validationErrorInfo: { totalCount: 0 },
+  };
   const questionnaire = {
     id: "1",
     title: "Questionnaire",
@@ -14,16 +22,22 @@ describe("SectionNav", () => {
   };
 
   beforeEach(() => {
-    wrapper = shallow(
-      <SectionNav
-        questionnaire={questionnaire}
-        currentSectionId={section.id}
-        currentPageId={page.id}
-      />
-    );
+    Component = withRouter(SectionNav);
   });
 
   it("should render", () => {
-    expect(wrapper).toMatchSnapshot();
+    const { getByText } = render(
+      <Component
+        questionnaire={questionnaire}
+        currentSectionId={section.id}
+        currentPageId={page.id}
+      />,
+      {
+        route: `/q/${questionnaire.id}`,
+        urlParamMatcher: "/q/:questionnaireId",
+      }
+    );
+    expect(getByText("Section")).toBeTruthy();
+    expect(getByText("Page")).toBeTruthy();
   });
 });

@@ -1,5 +1,5 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { render } from "tests/utils/rtl";
 
 import { colors } from "constants/theme";
 
@@ -11,16 +11,17 @@ describe("PickerOption", () => {
     selected: false,
   };
   it("should render", () => {
-    const wrapper = shallow(<PickerOption {...props}>Option</PickerOption>);
-    expect(wrapper).toMatchSnapshot();
+    expect(
+      render(<PickerOption {...props}>Option</PickerOption>).asFragment()
+    ).toMatchSnapshot();
   });
 
   it("should render as selected when selected", () => {
-    const wrapper = shallow(
+    const { getByText } = render(
       <PickerOption {...props} selected>
         Option
       </PickerOption>
     );
-    expect(wrapper).toHaveStyleRule("background", colors.primary);
+    expect(getByText("Option")).toHaveStyleRule("background", colors.primary);
   });
 });

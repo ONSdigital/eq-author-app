@@ -12,10 +12,10 @@ const handleExit = node => {
 
 const classNames = "transition";
 
-const Transition = styled(CSSTransition).attrs({
+const Transition = styled(CSSTransition).attrs(() => ({
   classNames,
   onExit: () => handleExit,
-})`
+}))`
   position: relative;
 
   &.${classNames}-enter {

@@ -1,15 +1,18 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { render, fireEvent } from "tests/utils/rtl";
 import SplitButton from "components/buttons/SplitButton";
-import MenuButton from "components/buttons/SplitButton/MenuButton";
-import Popout from "components/Popout";
 import Button from "components/buttons/Button";
 import ButtonGroup from "components/buttons/ButtonGroup";
 
-const createWrapper = (
-  { primaryAction, primaryText, onToggleOpen, open, children },
-  render = shallow
-) =>
+const ref = React.createRef();
+
+const renderSplitButton = ({
+  primaryAction,
+  primaryText,
+  onToggleOpen,
+  open,
+  children,
+}) =>
   render(
     <SplitButton
       onPrimaryAction={primaryAction}
@@ -17,13 +20,13 @@ const createWrapper = (
       onToggleOpen={onToggleOpen}
       open={open}
       dataTest="splitbutton"
+      ref={ref}
     >
       {children}
     </SplitButton>
   );
 
 describe("SplitButton", () => {
-  let wrapper;
   let props;
 
   beforeEach(() => {
@@ -42,24 +45,19 @@ describe("SplitButton", () => {
       open: false,
       children,
     };
-    wrapper = createWrapper(props);
   });
 
   it("should render when closed", () => {
-    expect(wrapper).toMatchSnapshot();
-  });
-
-  it("should render when open", () => {
-    wrapper = createWrapper(Object.assign({}, props, { open: true }));
-    expect(wrapper).toMatchSnapshot();
+    const { getByTestId } = renderSplitButton(props);
+    expect(getByTestId("splitbutton-menu")).toHaveAttribute(
+      "aria-expanded",
+      "false"
+    );
   });
 
   it("should call onToggleOpen when menu button clicked", () => {
-    wrapper
-      .find(Popout)
-      .dive()
-      .find(MenuButton)
-      .simulate("click");
+    const { getByText } = renderSplitButton(props);
+    fireEvent.click(getByText("Show additional options"));
     expect(props.onToggleOpen).toHaveBeenCalledWith(true);
   });
 });

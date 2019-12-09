@@ -1,38 +1,35 @@
 import React from "react";
 import ItemSelectModal from "components/ItemSelectModal";
-import { shallow } from "enzyme";
+import { render, fireEvent } from "tests/utils/rtl";
 
 describe("ItemSelectModal", () => {
-  const createWrapper = (props = {}, render = shallow) =>
+  let props;
+
+  beforeEach(() => {
+    props = { isOpen: true, onClose: jest.fn(), onConfirm: jest.fn() };
+  });
+
+  const renderComponent = (props = {}) =>
     render(
-      <ItemSelectModal
-        isOpen
-        onClose={jest.fn()}
-        onConfirm={jest.fn()}
-        title="Test title"
-        {...props}
-      >
+      <ItemSelectModal title="Test title" {...props}>
         <input />
       </ItemSelectModal>
     );
 
   it("should render", () => {
-    expect(createWrapper()).toMatchSnapshot();
+    expect(renderComponent(props).getByText("Test title")).toBeTruthy();
   });
 
   it("should call onConfirm when submit button is clicked", () => {
-    const onConfirm = jest.fn();
-    const wrapper = createWrapper({ onConfirm });
-
-    wrapper.find(`form`).simulate("submit");
-    expect(onConfirm).toHaveBeenCalled();
+    const { getByText } = renderComponent(props);
+    fireEvent.submit(getByText("Select"));
+    expect(props.onConfirm).toHaveBeenCalled();
   });
 
   it("should close the Modals when cancel button is clicked", () => {
-    const onClose = jest.fn();
-    const wrapper = createWrapper({ onClose });
+    const { getByText } = renderComponent(props);
 
-    wrapper.find(`[variant="secondary"]`).simulate("click");
-    expect(onClose).toHaveBeenCalled();
+    fireEvent.click(getByText("Cancel"));
+    expect(props.onClose).toHaveBeenCalled();
   });
 });

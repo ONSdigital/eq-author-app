@@ -1,7 +1,43 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/TextButton renders 1`] = `
-.c0 {
+<DocumentFragment>
+  .c0 {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  padding: 0.75em 2em;
+  border-radius: 4px;
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  line-height: 1;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  -webkit-transition: all 100ms ease-out;
+  transition: all 100ms ease-out;
+  -webkit-letter-spacing: 0;
+  -moz-letter-spacing: 0;
+  -ms-letter-spacing: 0;
+  letter-spacing: 0;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--color-bg);
+  --color-text: #3B7A9E;
+  --color-bg: transparent;
+  border: 1px solid transparent;
   padding: 0.25em 0.5em;
   -webkit-letter-spacing: 0.05em;
   -moz-letter-spacing: 0.05em;
@@ -11,11 +47,31 @@ exports[`components/TextButton renders 1`] = `
   font-weight: bold;
 }
 
-<Button
-  className="c0"
-  type="button"
-  variant="tertiary"
->
-  TextButton
-</Button>
+.c0:focus,
+.c0:active {
+  outline-width: 0;
+}
+
+.c0:focus {
+  box-shadow: 0 0 0 3px #FDBD56;
+  outline: none;
+}
+
+.c0[disabled] {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.c0:hover {
+  --color-text: #FFFFFF;
+  --color-bg: #3B7A9E;
+}
+
+<button
+    class="c0"
+    type="button"
+  >
+    TextButton
+  </button>
+</DocumentFragment>
 `;

@@ -11,10 +11,10 @@ const handleExit = node => {
   node.style.height = `${height}px`;
 };
 
-const AnswerTransitionWrapper = styled(CSSTransition).attrs({
+const AnswerTransitionWrapper = styled(CSSTransition).attrs(() => ({
   classNames: "answer",
   onExit: () => handleExit,
-})`
+}))`
   position: relative;
 
   &.answer-enter {

@@ -326,7 +326,7 @@ const CommentsPanel = ({
     };
     return (
       <CommentSection
-        innerRef={tag => {
+        ref={tag => {
           setScroll(tag);
         }}
         key={item.id}

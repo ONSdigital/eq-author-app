@@ -51,7 +51,7 @@ class Tooltip extends React.Component {
           place="bottom"
           effect="solid"
           delayShow={200}
-          innerRef={node => {
+          ref={node => {
             this.tooltip = node;
           }}
           {...otherProps}

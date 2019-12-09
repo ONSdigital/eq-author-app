@@ -3,8 +3,6 @@
 exports[`components/Button/RouteButton should render 1`] = `
 <Button
   to="destination"
-  type="button"
-  variant="primary"
 >
   <div>
     Content

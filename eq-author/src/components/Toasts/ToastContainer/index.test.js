@@ -1,13 +1,9 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { render } from "tests/utils/rtl";
 import ToastContainer from ".";
 
 describe("Toastcontainer", () => {
   let props;
-
-  const createWrapper = (props, render = shallow) => {
-    return render(<ToastContainer {...props} />);
-  };
 
   beforeEach(() => {
     const onDismissToast = jest.fn();
@@ -25,7 +21,8 @@ describe("Toastcontainer", () => {
   });
 
   it("should render", () => {
-    const wrapper = createWrapper({ ...props }, shallow);
-    expect(wrapper).toMatchSnapshot();
+    expect(
+      render(<ToastContainer {...props} />).asFragment()
+    ).toMatchSnapshot();
   });
 });

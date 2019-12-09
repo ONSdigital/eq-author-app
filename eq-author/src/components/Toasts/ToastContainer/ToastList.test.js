@@ -1,11 +1,11 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { render } from "tests/utils/rtl";
 import ToastList from "./ToastList";
 import Transition from "./Transition";
 
 describe("ToastList", () => {
-  const render = (props = {}) =>
-    shallow(
+  const renderToast = (props = {}) =>
+    render(
       <ToastList {...props}>
         <p>hello</p>
         <p>world</p>
@@ -13,12 +13,13 @@ describe("ToastList", () => {
     );
 
   it("should render", () => {
-    const wrapper = render();
-    expect(wrapper).toMatchSnapshot();
+    const { getByText } = renderToast();
+    expect(getByText("hello")).toBeTruthy();
+    expect(getByText("world")).toBeTruthy();
   });
 
   it("should allow configurable Transitions", () => {
-    const wrapper = render({ transition: Transition });
-    expect(wrapper).toMatchSnapshot();
+    const { getAllByTestId } = renderToast({ transition: Transition });
+    expect(getAllByTestId("toast-item")).toMatchSnapshot();
   });
 });

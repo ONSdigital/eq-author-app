@@ -1,23 +1,10 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { render } from "tests/utils/rtl";
 
 import { TableSelect } from "./";
 
-const createWrapper = (props = {}, render = shallow) => {
-  return render(<TableSelect {...props} />);
-};
-
 describe("TableSelect", () => {
-  let props;
-  let wrapper;
-
-  beforeEach(() => {
-    props = {};
-
-    wrapper = createWrapper(props, shallow);
-  });
-
   it("should render", () => {
-    expect(wrapper).toMatchSnapshot();
+    expect(render(<TableSelect />).asFragment()).toMatchSnapshot();
   });
 });

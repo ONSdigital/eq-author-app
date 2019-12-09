@@ -1,16 +1,31 @@
 import React from "react";
-import { mount } from "enzyme";
+import { render } from "tests/utils/rtl";
 import TextArea from "./";
 
 const defaultValue = "I am some text";
 
 describe("components/Forms/TextArea", () => {
-  let wrapper;
   let changeHandler;
 
   beforeEach(() => {
     changeHandler = jest.fn();
-    wrapper = mount(
+  });
+
+  it("should render correctly", function() {
+    expect(
+      render(
+        <TextArea
+          id="text"
+          name="text"
+          defaultValue={defaultValue}
+          onChange={changeHandler}
+        />
+      ).asFragment()
+    ).toMatchSnapshot();
+  });
+
+  it("should pass `defaultValue` prop to component when type=text", () => {
+    const { getByText } = render(
       <TextArea
         id="text"
         name="text"
@@ -18,13 +33,6 @@ describe("components/Forms/TextArea", () => {
         onChange={changeHandler}
       />
     );
-  });
-
-  it("should render correctly", function() {
-    expect(wrapper).toMatchSnapshot();
-  });
-
-  it("should pass `defaultValue` prop to component when type=text", () => {
-    expect(wrapper.props().defaultValue).toEqual(defaultValue);
+    expect(getByText(defaultValue)).toBeTruthy();
   });
 });

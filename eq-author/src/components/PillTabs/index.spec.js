@@ -1,5 +1,5 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { render, fireEvent } from "tests/utils/rtl";
 
 import PillTabs from "./";
 
@@ -7,25 +7,12 @@ const OPTIONS = [
   {
     id: "completion-date",
     title: "Completion date",
-    render: () => (
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum
-        dolorum unde, quisquam eum doloribus blanditiis error dolore nisi
-        aspernatur sed beatae adipisci? Ullam, consequatur nemo saepe voluptates
-        minus, sunt dolore.
-      </p>
-    ),
+    render: () => <p>I am the completion date</p>,
   },
   {
     id: "previous-answer",
     title: "Previous answer",
-    render: () => (
-      <p>
-        Pharetra convallis posuere morbi leo urna molestie at elementum eu
-        facilisis sed odio morbi quis commodo odio aenean sed adipiscing diam
-        donec adipiscing tristique risus nec feugiat in fermentum posuere
-      </p>
-    ),
+    render: () => <p>I am a previous answer</p>,
   },
   {
     id: "survey-data",
@@ -52,24 +39,20 @@ const OPTIONS = [
 ];
 
 describe("PillTabs", () => {
-  const props = {
-    value: "1",
-    options: OPTIONS,
-    onChange: () => {},
-  };
-
   it("should render base tabs configured as per design", () => {
-    const wrapper = shallow(
+    const { queryByText } = render(
       <PillTabs value="1" options={OPTIONS} onChange={() => {}} />
     );
-    expect(wrapper).toMatchSnapshot();
+    expect(queryByText("I am the completion date")).toBeTruthy();
+    expect(queryByText("I am a previous answer")).toBeFalsy();
   });
 
-  it("should render the button with title and applying the props", () => {
-    const wrapper = shallow(<PillTabs {...props} />);
-    const { buttonRender } = wrapper.find("BaseTabs").props();
-    expect(
-      shallow(buttonRender({ "aria-selected": true }, { title: "Custom" }))
-    ).toMatchSnapshot();
+  it("should switch the tabs", async () => {
+    const onChange = jest.fn();
+    const { getByText } = render(
+      <PillTabs value="1" options={OPTIONS} onChange={onChange} />
+    );
+    fireEvent.click(getByText("Previous answer"));
+    expect(onChange).toHaveBeenCalledWith("previous-answer");
   });
 });

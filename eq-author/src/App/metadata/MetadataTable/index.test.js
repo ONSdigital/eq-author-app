@@ -1,14 +1,12 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { render } from "tests/utils/rtl";
 
 import MetadataTable from "./";
 
 import mock from "./mock";
 
-const render = (props = {}) => shallow(<MetadataTable {...props} />);
-
 describe("MetadataTable", () => {
-  let props, metadata, questionnaireId, wrapper;
+  let props, metadata, questionnaireId;
   beforeEach(() => {
     questionnaireId = "1";
 
@@ -21,11 +19,14 @@ describe("MetadataTable", () => {
       onDelete: jest.fn(),
       onUpdate: jest.fn(),
     };
-
-    wrapper = render(props);
   });
 
   it("should render", () => {
-    expect(wrapper).toMatchSnapshot();
+    const { getByText } = render(<MetadataTable {...props} />);
+
+    expect(getByText("Key")).toBeTruthy();
+    expect(getByText("Alias")).toBeTruthy();
+    expect(getByText("Type")).toBeTruthy();
+    expect(getByText("Value")).toBeTruthy();
   });
 });

@@ -12,7 +12,27 @@ exports[`NavigationHeader should render 1`] = `
         >
           <IconText
             hideText={false}
-            icon={[Function]}
+            icon={
+              Object {
+                "$$typeof": Symbol(react.forward_ref),
+                "attrs": Array [],
+                "componentStyle": ComponentStyle {
+                  "componentId": "NavigationHeader__HomeIconLink-sc-1uume3-2",
+                  "isStatic": false,
+                  "rules": Array [
+                    "vertical-align:middle;",
+                  ],
+                },
+                "displayName": "NavigationHeader__HomeIconLink",
+                "foldedComponentIds": Array [],
+                "render": [Function],
+                "styledComponentId": "NavigationHeader__HomeIconLink-sc-1uume3-2",
+                "target": [Function],
+                "toString": [Function],
+                "warnTooManyClasses": [Function],
+                "withComponent": [Function],
+              }
+            }
           >
             Home
           </IconText>

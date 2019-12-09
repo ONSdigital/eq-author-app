@@ -1,66 +1,67 @@
-import { colors } from "constants/theme";
 import React from "react";
-import { shallow } from "enzyme";
-import CharacterCounter, { Counter } from "./";
+import { render } from "tests/utils/rtl";
 
-const createWrapper = (props = {}, render = shallow) => {
+import { colors } from "constants/theme";
+
+import CharacterCounter from "./";
+
+const createCharacterCounter = (props = {}) => {
   return render(<CharacterCounter {...props} />);
 };
 
 describe("CharacterCounter", () => {
   let props;
-  let wrapper;
 
   beforeEach(() => {
     props = {
       value: "FooBar",
       limit: 25,
     };
-
-    wrapper = createWrapper(props);
   });
 
   it("should render", () => {
-    expect(wrapper).toMatchSnapshot();
+    expect(createCharacterCounter(props).asFragment()).toMatchSnapshot();
   });
 
   it("should update counter based on length of value", () => {
-    wrapper = createWrapper({
+    const { getByText } = createCharacterCounter({
       ...props,
       value: "FooBarFooBarFooBar",
     });
-    expect(wrapper.find(Counter)).toMatchSnapshot();
+    expect(getByText("7")).toBeTruthy();
   });
 
   it("should update counter with negative count when limit exceeded", () => {
-    wrapper = createWrapper({
+    const { getByText } = createCharacterCounter({
       ...props,
       value: "FooBarFooBarFooBarFooBarFooBarFooBar",
     });
-    expect(wrapper).toMatchSnapshot();
+    expect(getByText("-11")).toBeTruthy();
   });
 
   it("should handle null value", () => {
-    wrapper = createWrapper({
+    const { asFragment } = createCharacterCounter({
       ...props,
       value: null,
     });
-    expect(wrapper).toMatchSnapshot();
+    expect(asFragment()).toMatchSnapshot();
   });
 
   it("should render correct style when limit exceeded", () => {
-    wrapper = shallow(
-      <Counter limit={10} value={"FooBarFooBarFooBarFooBarFooBarFooBar"} />
-    );
-    expect(wrapper).toMatchSnapshot();
-    expect(wrapper).toHaveStyleRule("color", colors.red);
-    expect(wrapper).not.toHaveStyleRule("color", colors.lightGrey);
+    const { getByText } = createCharacterCounter({
+      limit: 10,
+      value: "FooBarFooBarFooBarFooBarFooBarFooBar",
+    });
+    expect(getByText("-26")).toHaveStyleRule("color", colors.red);
+    expect(getByText("-26")).not.toHaveStyleRule("color", colors.lightGrey);
   });
 
   it("should render correct style when limit not exceeded", () => {
-    wrapper = shallow(<Counter {...props} />);
-    expect(wrapper).toMatchSnapshot();
-    expect(wrapper).toHaveStyleRule("color", colors.lightGrey);
-    expect(wrapper).not.toHaveStyleRule("color", colors.red);
+    const { getByText } = createCharacterCounter({
+      ...props,
+      value: "",
+    });
+    expect(getByText("25")).toHaveStyleRule("color", colors.lightGrey);
+    expect(getByText("25")).not.toHaveStyleRule("color", colors.red);
   });
 });

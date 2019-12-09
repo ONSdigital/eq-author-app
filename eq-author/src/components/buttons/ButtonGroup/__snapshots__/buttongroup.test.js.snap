@@ -1,7 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`button group component snapshot Should not have changed inadvertently 1`] = `
-.c0 {
+<DocumentFragment>
+  .c0 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -11,11 +12,9 @@ exports[`button group component snapshot Should not have changed inadvertently 1
   flex-direction: column;
 }
 
-<ButtonGroup>
-  <ButtonGroup__StyledButtonGroup>
-    <div
-      className="c0"
-    />
-  </ButtonGroup__StyledButtonGroup>
-</ButtonGroup>
+<div
+    class="c0"
+    data-test="button-group"
+  />
+</DocumentFragment>
 `;

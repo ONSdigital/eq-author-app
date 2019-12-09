@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { propType } from "graphql-anywhere";
-import { TransitionGroup } from "react-transition-group";
 import gql from "graphql-tag";
 
 import { SORT_ORDER } from "../constants";
@@ -28,35 +27,33 @@ const QuestionnairesTable = ({
   autoFocusId,
   sortColumn,
   sortOrder,
-}) => {
-  return (
-    <Panel>
-      <Table>
-        <TableHead
-          onSortClick={onSortQuestionnaires}
-          onReverseClick={onReverseSort}
-          sortOrder={sortOrder}
-          currentSortColumn={sortColumn}
-        />
-        <TransitionGroup component="tbody" enter={false}>
-          {questionnaires.map((questionnaire, index) => {
-            return (
-              <Row
-                key={questionnaire.id}
-                autoFocus={questionnaire.id === autoFocusId}
-                questionnaire={questionnaire}
-                onDeleteQuestionnaire={onDeleteQuestionnaire}
-                onDuplicateQuestionnaire={onDuplicateQuestionnaire}
-                isLastOnPage={questionnaires.length === index + 1}
-                data-test="questionnaires-row"
-              />
-            );
-          })}
-        </TransitionGroup>
-      </Table>
-    </Panel>
-  );
-};
+}) => (
+  <Panel>
+    <Table>
+      <TableHead
+        onSortClick={onSortQuestionnaires}
+        onReverseClick={onReverseSort}
+        sortOrder={sortOrder}
+        currentSortColumn={sortColumn}
+      />
+      <tbody>
+        {questionnaires.map((questionnaire, index) => {
+          return (
+            <Row
+              key={questionnaire.id}
+              autoFocus={questionnaire.id === autoFocusId}
+              questionnaire={questionnaire}
+              onDeleteQuestionnaire={onDeleteQuestionnaire}
+              onDuplicateQuestionnaire={onDuplicateQuestionnaire}
+              isLastOnPage={questionnaires.length === index + 1}
+              data-test="questionnaires-row"
+            />
+          );
+        })}
+      </tbody>
+    </Table>
+  </Panel>
+);
 
 QuestionnairesTable.fragments = {
   QuestionnaireDetails: gql`
