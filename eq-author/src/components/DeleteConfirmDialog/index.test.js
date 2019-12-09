@@ -1,11 +1,9 @@
+import React from "react";
+import { render, fireEvent } from "tests/utils/rtl";
+
 import DeleteConfirmDialog from "components/DeleteConfirmDialog";
 
-import React from "react";
-import { shallow } from "enzyme";
-
 describe("DeleteConfirmDialog", () => {
-  let wrapper;
-
   let mockMutations;
   let page;
 
@@ -22,30 +20,48 @@ describe("DeleteConfirmDialog", () => {
       description: "",
       guidance: "",
     };
+  });
 
-    wrapper = shallow(
+  it("should render", () => {
+    const { getByText } = render(
       <DeleteConfirmDialog
         {...mockMutations}
         page={page}
+        isOpen
         alertText="I am an alert"
         icon={"icon.svg"}
       />
     );
-  });
-
-  it("should render", () => {
-    expect(wrapper).toMatchSnapshot();
+    expect(getByText("I am an alert")).toBeTruthy();
   });
 
   it("should call deletePage handler when delete button is clicked", () => {
-    const deleteBtn = wrapper.find("[data-test='btn-delete-modal']");
-    deleteBtn.simulate("click");
+    const { getByTestId } = render(
+      <DeleteConfirmDialog
+        {...mockMutations}
+        page={page}
+        isOpen
+        alertText="I am an alert"
+        icon={"icon.svg"}
+      />
+    );
+    const deleteBtn = getByTestId("btn-delete-modal");
+    fireEvent.click(deleteBtn);
     expect(mockMutations.onDelete).toHaveBeenCalled();
   });
 
   it("should call close handler when cancel button is clicked", () => {
-    const cancelBtn = wrapper.find("[data-test='btn-cancel-modal']");
-    cancelBtn.simulate("click");
+    const { getByTestId } = render(
+      <DeleteConfirmDialog
+        {...mockMutations}
+        page={page}
+        isOpen
+        alertText="I am an alert"
+        icon={"icon.svg"}
+      />
+    );
+    const deleteBtn = getByTestId("btn-cancel-modal");
+    fireEvent.click(deleteBtn);
     expect(mockMutations.onClose).toHaveBeenCalled();
   });
 });

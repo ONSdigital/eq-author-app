@@ -1,20 +1,29 @@
 import React from "react";
 
-import { mount } from "enzyme";
+import { render, fireEvent } from "tests/utils/rtl";
 import DeleteButton from "./";
 
 describe("DeleteButton", () => {
+  const renderButton = ({ size }) =>
+    render(<DeleteButton size={size} />).asFragment();
+
   it("should render", () => {
-    expect(mount(<DeleteButton size="small" />)).toMatchSnapshot("small");
-    expect(mount(<DeleteButton size="medium" />)).toMatchSnapshot("medium");
-    expect(mount(<DeleteButton size="large" />)).toMatchSnapshot("large");
+    expect(renderButton(<DeleteButton size="small" />)).toMatchSnapshot(
+      "small"
+    );
+    expect(renderButton(<DeleteButton size="medium" />)).toMatchSnapshot(
+      "medium"
+    );
+    expect(renderButton(<DeleteButton size="large" />)).toMatchSnapshot(
+      "large"
+    );
   });
 
   it("should invoke callback when clicked", () => {
     const onClickCallback = jest.fn();
-    const wrapper = mount(<DeleteButton onClick={onClickCallback} />);
+    const { getByRole } = render(<DeleteButton onClick={onClickCallback} />);
 
-    wrapper.simulate("click");
+    fireEvent.click(getByRole("button"));
 
     expect(onClickCallback).toHaveBeenCalled();
   });

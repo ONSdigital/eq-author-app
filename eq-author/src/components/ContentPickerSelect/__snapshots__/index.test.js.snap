@@ -30,6 +30,8 @@ exports[`ContentPickerSelect content types should render answer  1`] = `
     onClick={[Function]}
     onSubmit={[MockFunction]}
     selectedContentDisplayName="foobar"
+    type="button"
+    variant="primary"
   >
     <ContentPickerSelect__ContentSelected>
       foobar
@@ -79,6 +81,8 @@ exports[`ContentPickerSelect content types should render answer and metadata 1`]
     onClick={[Function]}
     onSubmit={[MockFunction]}
     selectedContentDisplayName="foobar"
+    type="button"
+    variant="primary"
   >
     <ContentPickerSelect__ContentSelected>
       foobar
@@ -129,6 +133,8 @@ exports[`ContentPickerSelect content types should render destination 1`] = `
     onClick={[Function]}
     onSubmit={[MockFunction]}
     selectedContentDisplayName="foobar"
+    type="button"
+    variant="primary"
   >
     <ContentPickerSelect__ContentSelected>
       foobar
@@ -178,6 +184,8 @@ exports[`ContentPickerSelect content types should render metadata 1`] = `
     onClick={[Function]}
     onSubmit={[MockFunction]}
     selectedContentDisplayName="foobar"
+    type="button"
+    variant="primary"
   >
     <ContentPickerSelect__ContentSelected>
       foobar
@@ -227,6 +235,8 @@ exports[`ContentPickerSelect content types should render question 1`] = `
     onClick={[Function]}
     onSubmit={[MockFunction]}
     selectedContentDisplayName="foobar"
+    type="button"
+    variant="primary"
   >
     <ContentPickerSelect__ContentSelected>
       foobar
@@ -330,6 +340,8 @@ exports[`ContentPickerSelect should correctly handle picker close 1`] = `
     onClick={[Function]}
     onSubmit={[MockFunction]}
     selectedContentDisplayName="foobar"
+    type="button"
+    variant="primary"
   >
     <ContentPickerSelect__ContentSelected>
       foobar
@@ -379,6 +391,8 @@ exports[`ContentPickerSelect should correctly handle picker open 1`] = `
     onClick={[Function]}
     onSubmit={[MockFunction]}
     selectedContentDisplayName="foobar"
+    type="button"
+    variant="primary"
   >
     <ContentPickerSelect__ContentSelected>
       foobar
@@ -429,6 +443,8 @@ exports[`ContentPickerSelect should disable select button correctly 1`] = `
     onClick={[Function]}
     onSubmit={[MockFunction]}
     selectedContentDisplayName="foobar"
+    type="button"
+    variant="primary"
   >
     <ContentPickerSelect__ContentSelected>
       foobar
@@ -479,6 +495,8 @@ exports[`ContentPickerSelect should disable select button correctly 2`] = `
     onClick={[Function]}
     onSubmit={[MockFunction]}
     selectedContentDisplayName="foobar"
+    type="button"
+    variant="primary"
   >
     <ContentPickerSelect__ContentSelected>
       foobar
@@ -528,6 +546,8 @@ exports[`ContentPickerSelect should render 1`] = `
     onClick={[Function]}
     onSubmit={[MockFunction]}
     selectedContentDisplayName="foobar"
+    type="button"
+    variant="primary"
   >
     <ContentPickerSelect__ContentSelected>
       foobar

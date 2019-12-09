@@ -101,6 +101,7 @@ const Reorder = ({ list, onMove, children, Transition }) => {
 
     setIsTransitioning(true);
     setItemStyles(newitemStyles);
+
     onMove({ id: item.id, position: indexB });
     animationTimeout.current = setTimeout(() => {
       setIsTransitioning(false);
@@ -121,7 +122,7 @@ const Reorder = ({ list, onMove, children, Transition }) => {
           <InnerWrapper key={getIdForObject(item)}>
             <Segment
               id={getIdForObject(item)}
-              innerRef={node => handleRef(node, index)}
+              ref={node => handleRef(node, index)}
               movement={itemStyles[index]}
             >
               {children(itemProps, item)}
@@ -133,11 +134,13 @@ const Reorder = ({ list, onMove, children, Transition }) => {
   );
 };
 
+const Component = PropTypes.oneOfType([PropTypes.func, PropTypes.elementType]);
+
 Reorder.propTypes = {
   list: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
   onMove: PropTypes.func.isRequired,
   children: PropTypes.func.isRequired,
-  Transition: PropTypes.func,
+  Transition: Component,
 };
 
 export default Reorder;

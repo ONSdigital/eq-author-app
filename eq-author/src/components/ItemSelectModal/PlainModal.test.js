@@ -1,10 +1,10 @@
 import React from "react";
 import PlainModal from "components/ItemSelectModal/PlainModal";
-import { shallow } from "enzyme";
+import { render } from "tests/utils/rtl";
 
 describe("PositionModal/PlainModal", () => {
   it("should render", () => {
-    const wrapper = shallow(
+    const { asFragment } = render(
       <PlainModal isOpen onClose={jest.fn()}>
         <p>
           Lorem ipsum dolor sit, amet consectetur adipisicing elit. Reiciendis
@@ -14,6 +14,6 @@ describe("PositionModal/PlainModal", () => {
         </p>
       </PlainModal>
     );
-    expect(wrapper).toMatchSnapshot();
+    expect(asFragment()).toMatchSnapshot();
   });
 });

@@ -39,5 +39,7 @@ exports[`components/AppContainer should render 1`] = `
   <div>
     Content
   </div>
+   
+  <GlobalStyleComponent />
 </ThemeProvider>
 `;

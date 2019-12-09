@@ -1,7 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`VisuallyHidden should render 1`] = `
-.c0 {
+<DocumentFragment>
+  .c0 {
   position: absolute;
   overflow: hidden;
   -webkit-clip: rect(0 0 0 0);
@@ -14,8 +15,9 @@ exports[`VisuallyHidden should render 1`] = `
 }
 
 <span
-  className="c0"
->
-  I am some hidden text
-</span>
+    class="c0"
+  >
+    I am some hidden text
+  </span>
+</DocumentFragment>
 `;

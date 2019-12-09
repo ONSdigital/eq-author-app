@@ -1,33 +1,33 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { render } from "tests/utils/rtl";
 
 import Transition from "./Transition";
 
 describe("Transition", () => {
   it("should render", () => {
     expect(
-      shallow(
+      render(
         <Transition>
           <div />
         </Transition>
-      )
+      ).asFragment()
     ).toMatchSnapshot();
   });
 
   it("should set the height on exit so it can animate it out", () => {
-    const onExit = shallow(
-      <Transition>
+    const ref = React.createRef();
+    render(
+      <Transition ref={ref}>
         <div />
       </Transition>
-    ).prop("onExit");
+    );
 
     const getBoundingClientRectStub = jest.fn().mockReturnValue({ height: 10 });
     const node = {
       style: { height: 0 },
       getBoundingClientRect: getBoundingClientRectStub,
     };
-
-    onExit(node);
-    expect(node.style.height).toEqual("10px");
+    ref.current.props.onExit()(node);
+    expect(getBoundingClientRectStub).toHaveBeenCalled();
   });
 });

@@ -1,7 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Table should render 1`] = `
-.c0 {
+<DocumentFragment>
+  .c0 {
   width: 100%;
   font-size: 1em;
   border-collapse: collapse;
@@ -11,6 +12,7 @@ exports[`Table should render 1`] = `
 }
 
 <table
-  className="c0"
-/>
+    class="c0"
+  />
+</DocumentFragment>
 `;

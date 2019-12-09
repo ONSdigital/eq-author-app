@@ -1,15 +1,11 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { render } from "tests/utils/rtl";
 import ScrollPane from ".";
 
 describe("ScrollPane", () => {
-  let component;
-
-  beforeEach(() => {
-    component = shallow(<ScrollPane>Children</ScrollPane>);
-  });
-
   it("should render", () => {
-    expect(component).toMatchSnapshot();
+    expect(
+      render(<ScrollPane>Children</ScrollPane>).asFragment()
+    ).toMatchSnapshot();
   });
 });

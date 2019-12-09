@@ -9,6 +9,8 @@ exports[`Content Picker Title should render 1`] = `
   onClick={[MockFunction]}
   role="tab"
   selected={true}
+  type="button"
+  variant="primary"
 >
   Hello
 </ContentPickerTitle__TitleButton>

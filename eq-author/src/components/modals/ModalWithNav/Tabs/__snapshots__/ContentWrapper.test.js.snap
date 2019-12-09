@@ -10,7 +10,27 @@ exports[`Content Wrapper should wrap the tab content with a column, transition a
       <ContentWrapper__TabPanel>
         <TransitionGroup
           childFactory={[Function]}
-          component={[Function]}
+          component={
+            Object {
+              "$$typeof": Symbol(react.forward_ref),
+              "attrs": Array [],
+              "componentStyle": ComponentStyle {
+                "componentId": "ContentWrapper__Content-sc-1lrx4ed-1",
+                "isStatic": false,
+                "rules": Array [
+                  "flex:1 1 auto;display:flex;",
+                ],
+              },
+              "displayName": "ContentWrapper__Content",
+              "foldedComponentIds": Array [],
+              "render": [Function],
+              "styledComponentId": "ContentWrapper__Content-sc-1lrx4ed-1",
+              "target": "div",
+              "toString": [Function],
+              "warnTooManyClasses": [Function],
+              "withComponent": [Function],
+            }
+          }
         >
           <FadeTransition
             appear={true}

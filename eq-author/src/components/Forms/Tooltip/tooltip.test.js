@@ -1,16 +1,16 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { render, fireEvent } from "tests/utils/rtl";
 import Tooltip from ".";
 
 describe("Tooltip", () => {
   it("should render", () => {
-    const component = shallow(
+    const { asFragment } = render(
       <Tooltip content="This is a button">
-        <button id="buttonTooltip">Click me</button>
+        <button>Click me</button>
       </Tooltip>
     );
 
-    expect(component).toMatchSnapshot();
+    expect(asFragment()).toMatchSnapshot();
   });
 
   it("should render arbitrary content", () => {
@@ -21,42 +21,27 @@ describe("Tooltip", () => {
       </ul>
     );
 
-    const component = shallow(
+    const { getByText } = render(
       <Tooltip content={content}>
         <button id="buttonTooltip">Click me</button>
       </Tooltip>
     );
 
-    expect(component).toMatchSnapshot();
-  });
-
-  it("should use auto-generated id if one is not supplied", () => {
-    const component = shallow(
-      <Tooltip content="This is a tooltip">
-        <button>Click me</button>
-      </Tooltip>
-    );
-
-    expect(component).toMatchSnapshot();
+    expect(getByText("foo")).toBeTruthy();
   });
 
   it("should hide onClick", () => {
     jest.useFakeTimers();
 
     const originalOnClick = jest.fn();
-    const wrapper = shallow(
-      <Tooltip content="Special button">
+    const ref = React.createRef();
+    const { getByText } = render(
+      <Tooltip content="Special button" ref={ref}>
         <button onClick={originalOnClick}>Click me</button>
       </Tooltip>
     );
-    // Fake setting the ref
-    wrapper.instance().tooltip = {
-      tooltipRef: "ref",
-    };
-    wrapper.find("button").simulate("click");
-    expect(wrapper.instance().tooltip).toMatchObject({
-      tooltipRef: null,
-    });
-    expect(originalOnClick).toHaveBeenCalled();
+    ref.current.tooltip.hideTooltip = jest.fn();
+    fireEvent.click(getByText("Click me"));
+    expect(ref.current.tooltip.hideTooltip).toHaveBeenCalled();
   });
 });

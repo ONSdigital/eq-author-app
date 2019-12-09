@@ -2016,11 +2016,11 @@ exports[`QuestionnaireDesignPage should render redirect when finished loading 1`
 `;
 
 exports[`QuestionnaireDesignPage should render spinner while loading 1`] = `
-<Grid
+<ForwardRef(Grid)
   align="top"
   fillHeight={true}
 >
-  <Column
+  <ForwardRef(Column)
     cols={10}
   >
     <Loading
@@ -2028,6 +2028,6 @@ exports[`QuestionnaireDesignPage should render spinner while loading 1`] = `
     >
       Loading questionnaire…
     </Loading>
-  </Column>
-</Grid>
+  </ForwardRef(Column)>
+</ForwardRef(Grid)>
 `;

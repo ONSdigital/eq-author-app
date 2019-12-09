@@ -1,5 +1,7 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { render } from "tests/utils/rtl";
+
+import { colors } from "constants/theme";
 import Tabs from "./";
 
 describe("Modal Content", () => {
@@ -16,20 +18,13 @@ describe("Modal Content", () => {
     };
 
     it("should render", () => {
-      const wrapper = shallow(<Tabs {...props} />);
-      expect(wrapper).toMatchSnapshot();
+      const { getByText } = render(<Tabs {...props} />);
+      expect(getByText("Example title")).toBeTruthy();
     });
 
     it("should render items with a title and showing whether it is selected", () => {
-      const wrapper = shallow(<Tabs {...props} />);
-      const { buttonRender } = wrapper.find("BaseTabs").props();
-      const result = shallow(
-        buttonRender(
-          { "aria-selected": true },
-          { title: "foo", isSelected: true }
-        )
-      );
-      expect(result).toMatchSnapshot();
+      const { getByText } = render(<Tabs {...props} />);
+      expect(getByText("hello")).toHaveStyleRule("background", colors.orange);
     });
   });
 });

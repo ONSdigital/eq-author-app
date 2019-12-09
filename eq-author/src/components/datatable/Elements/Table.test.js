@@ -1,23 +1,10 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { render } from "tests/utils/rtl";
 
 import { Table } from "./";
 
-const createWrapper = (props = {}, render = shallow) => {
-  return render(<Table {...props} />);
-};
-
 describe("Table", () => {
-  let props;
-  let wrapper;
-
-  beforeEach(() => {
-    props = {};
-
-    wrapper = createWrapper(props, shallow);
-  });
-
   it("should render", () => {
-    expect(wrapper).toMatchSnapshot();
+    expect(render(<Table />).asFragment()).toMatchSnapshot();
   });
 });

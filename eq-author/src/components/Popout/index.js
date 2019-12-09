@@ -39,22 +39,6 @@ const DefaultTransition = props => (
 );
 
 class Popout extends React.Component {
-  static propTypes = {
-    trigger: PropTypes.element.isRequired,
-    container: PropTypes.func.isRequired,
-    layer: PropTypes.func.isRequired,
-    children: PropTypes.element.isRequired,
-    open: PropTypes.bool,
-    onToggleOpen: PropTypes.func.isRequired,
-    onEntered: PropTypes.func,
-    onExited: PropTypes.func,
-    transition: PropTypes.any, // eslint-disable-line react/forbid-prop-types
-    horizontalAlignment: Layer.propTypes.horizontalAlignment,
-    verticalAlignment: Layer.propTypes.verticalAlignment,
-    offsetX: Layer.propTypes.offsetX,
-    offsetY: Layer.propTypes.offsetY,
-  };
-
   static defaultProps = {
     open: false,
     transition: DefaultTransition,
@@ -159,6 +143,24 @@ class Popout extends React.Component {
     );
   }
 }
+
+const component = PropTypes.oneOfType([PropTypes.func, PropTypes.elementType]);
+
+Popout.propTypes = {
+  trigger: PropTypes.element.isRequired,
+  container: component.isRequired,
+  layer: component.isRequired,
+  children: PropTypes.element.isRequired,
+  open: PropTypes.bool,
+  onToggleOpen: PropTypes.func.isRequired,
+  onEntered: PropTypes.func,
+  onExited: PropTypes.func,
+  transition: PropTypes.any, // eslint-disable-line react/forbid-prop-types
+  horizontalAlignment: Layer.propTypes.horizontalAlignment,
+  verticalAlignment: Layer.propTypes.verticalAlignment,
+  offsetX: Layer.propTypes.offsetX,
+  offsetY: Layer.propTypes.offsetY,
+};
 
 export default Popout;
 export const UncontrolledPopout = uncontrollable(Popout, {

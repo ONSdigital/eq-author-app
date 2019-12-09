@@ -57,7 +57,7 @@ const CloseIcon = styled(Icon)`
 `;
 
 const DeleteButton = props => (
-  <StyledDeleteButton {...props}>
+  <StyledDeleteButton role="button" {...props}>
     <CloseIcon />
   </StyledDeleteButton>
 );

@@ -1,7 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/Forms/Input Text should render correctly 1`] = `undefined`;
-
 exports[`components/Forms/Input Text should render correctly 1`] = `
 .c0 {
   font-size: 1em;
@@ -71,14 +69,70 @@ exports[`components/Forms/Input Text should render correctly 1`] = `
       onChange={[Function]}
       type="text"
     >
-      <input
-        className="c0"
+      <StyledComponent
         defaultValue="I am some text"
+        forwardedComponent={
+          Object {
+            "$$typeof": Symbol(react.forward_ref),
+            "attrs": Array [],
+            "componentStyle": ComponentStyle {
+              "componentId": "Input__StyledInput-sc-1frtas6-0",
+              "isStatic": false,
+              "lastClassName": "c0",
+              "rules": Array [
+                "font-size:1em;border:1px solid ",
+                "#999999",
+                ";padding:0.5em;color:",
+                "#333333",
+                ";display:block;width:100%;transition:outline-color 100ms ease-in,border-color 100ms ease-in;outline:1px solid transparent;&:hover{border-color:",
+                "#3B7A9E",
+                ";outline-color:",
+                "#3B7A9E",
+                ";}&:focus,&:focus-within{",
+                "border-color:",
+                "#3B7A9E",
+                ";outline-color:",
+                "#3B7A9E",
+                ";box-shadow:0 0 0 3px ",
+                "#FDBD56",
+                ";",
+                ";}&::placeholder{color:#a3a3a3;}&:focus{outline:none;border:1px solid ",
+                "#3B7A9E",
+                ";}&[disabled]{opacity:0.8;pointer-events:none;}",
+                [Function],
+                ";",
+                ";",
+                [Function],
+                ";",
+                [Function],
+                ";",
+              ],
+            },
+            "displayName": "Input__StyledInput",
+            "foldedComponentIds": Array [],
+            "render": [Function],
+            "styledComponentId": "Input__StyledInput-sc-1frtas6-0",
+            "target": "input",
+            "toString": [Function],
+            "warnTooManyClasses": [Function],
+            "withComponent": [Function],
+          }
+        }
+        forwardedRef={null}
         id="text"
         name="text"
         onChange={[Function]}
         type="text"
-      />
+      >
+        <input
+          className="c0"
+          defaultValue="I am some text"
+          id="text"
+          name="text"
+          onChange={[Function]}
+          type="text"
+        />
+      </StyledComponent>
     </Input__StyledInput>
   </UncontrolledInput>
 </withChangeHandler(UncontrolledInput)>

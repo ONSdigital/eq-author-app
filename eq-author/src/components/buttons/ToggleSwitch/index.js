@@ -127,6 +127,8 @@ class ToggleSwitch extends React.Component {
         <HiddenInput
           id={this.id}
           type="checkbox"
+          role="checkbox"
+          aria-checked={checked}
           onChange={onChange}
           checked={checked}
           ref={this.inputRef}

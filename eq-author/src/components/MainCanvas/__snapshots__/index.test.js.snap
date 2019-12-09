@@ -1,7 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`MainCanvas should render 1`] = `
-.c0 {
+<DocumentFragment>
+  .c0 {
   max-width: 55em;
   margin: 0 auto 1em;
   padding: 0 1em;
@@ -10,8 +11,9 @@ exports[`MainCanvas should render 1`] = `
 }
 
 <main
-  className="c0"
->
-  Children
-</main>
+    class="c0"
+  >
+    Children
+  </main>
+</DocumentFragment>
 `;

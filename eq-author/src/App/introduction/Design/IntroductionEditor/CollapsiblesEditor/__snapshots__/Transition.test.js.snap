@@ -1,7 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Transition should render 1`] = `
-.c0 {
+<DocumentFragment>
+  .c0 {
   position: relative;
 }
 
@@ -41,12 +42,8 @@ exports[`Transition should render 1`] = `
   transition: opacity 100ms ease-out,height 100ms ease-in 100ms,transform 100ms ease-in;
 }
 
-<CSSTransition
-  className="c0"
-  classNames="transition"
-  onExit={[Function]}
-  timeout={200}
->
-  <div />
-</CSSTransition>
+<div
+    class="c0"
+  />
+</DocumentFragment>
 `;

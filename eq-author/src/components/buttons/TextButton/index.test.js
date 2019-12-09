@@ -1,12 +1,11 @@
 import React from "react";
 import TextButton from "./";
-import { shallow } from "enzyme";
+import { render } from "tests/utils/rtl";
 
 describe("components/TextButton", () => {
-  let wrapper;
-
   it("renders", () => {
-    wrapper = shallow(<TextButton>TextButton</TextButton>);
-    expect(wrapper).toMatchSnapshot();
+    expect(
+      render(<TextButton>TextButton</TextButton>).asFragment()
+    ).toMatchSnapshot();
   });
 });

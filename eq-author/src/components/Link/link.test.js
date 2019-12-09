@@ -1,15 +1,9 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { render } from "tests/utils/rtl";
 import Link from "./";
 
 describe("Link", () => {
-  let wrapper;
-
-  beforeEach(() => {
-    wrapper = shallow(<Link href={"#"} />);
-  });
-
   it("should render", () => {
-    expect(wrapper).toMatchSnapshot();
+    expect(render(<Link href={"#"} />).asFragment()).toMatchSnapshot();
   });
 });

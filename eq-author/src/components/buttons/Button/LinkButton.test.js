@@ -1,16 +1,16 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { render } from "tests/utils/rtl";
 
 import LinkButton from "components/buttons/Button/LinkButton";
 
 describe("components/Button/LinkButton", () => {
   it("should render", () => {
     expect(
-      shallow(
+      render(
         <LinkButton href="/test">
           <div>Content</div>
         </LinkButton>
-      )
+      ).asFragment()
     ).toMatchSnapshot();
   });
 });

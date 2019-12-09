@@ -1,23 +1,28 @@
 import React from "react";
 import ButtonGroup from ".";
-import { mount } from "enzyme";
+import { render } from "tests/utils/rtl";
 
 describe("button group component", () => {
   describe("snapshot", () => {
     it("Should not have changed inadvertently", () => {
-      const wrapper = mount(<ButtonGroup />);
-      expect(wrapper).toMatchSnapshot();
+      expect(render(<ButtonGroup />).asFragment()).toMatchSnapshot();
     });
   });
 
   describe("orientation", () => {
     it("is vertical by default", () => {
-      const wrapper = mount(<ButtonGroup vertical />);
-      expect(wrapper.props().vertical).toBe(true);
+      const { getByTestId } = render(<ButtonGroup />);
+      expect(getByTestId("button-group")).toHaveStyleRule(
+        "flex-direction",
+        "column"
+      );
     });
     it("can be horizontal", () => {
-      const wrapper = mount(<ButtonGroup horizontal />);
-      expect(wrapper.props().horizontal).toBe(true);
+      const { getByTestId } = render(<ButtonGroup horizontal />);
+      expect(getByTestId("button-group")).toHaveStyleRule(
+        "flex-direction",
+        "row"
+      );
     });
   });
 });

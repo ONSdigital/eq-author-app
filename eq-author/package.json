@@ -124,7 +124,7 @@
     "redux": "^3.7.2",
     "redux-devtools-extension": "latest",
     "redux-thunk": "latest",
-    "styled-components": "^3.4.9",
+    "styled-components": "latest",
     "subscriptions-transport-ws": "latest",
     "synchronous-promise": "latest",
     "uncontrollable": "^4.1.0",

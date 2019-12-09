@@ -1,16 +1,16 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { render } from "tests/utils/rtl";
 
 import PopupTransition from "./PopupTransition";
 
 describe("components/PopupTransition", () => {
   it("should render", () => {
     expect(
-      shallow(
+      render(
         <PopupTransition>
           <div>Content</div>
         </PopupTransition>
-      )
+      ).asFragment()
     ).toMatchSnapshot();
   });
 });

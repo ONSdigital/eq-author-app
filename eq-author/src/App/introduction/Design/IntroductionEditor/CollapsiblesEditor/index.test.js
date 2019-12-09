@@ -1,17 +1,23 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { render, fireEvent } from "tests/utils/rtl";
+import { withRouter } from "react-router-dom";
 
 import { CollapsiblesEditor } from "./";
 
 describe("CollapsiblesEditor", () => {
-  let props;
+  let props, Component;
   beforeEach(() => {
     props = {
       collapsibles: [
         {
           id: "1",
-          title: "title",
-          description: "description",
+          title: "collapsible title",
+          description: "collapsible description",
+        },
+        {
+          id: "2",
+          title: "collapsible2 title",
+          description: "collapsible2 description",
         },
       ],
       createCollapsible: jest.fn(),
@@ -20,27 +26,22 @@ describe("CollapsiblesEditor", () => {
     };
   });
 
+  Component = withRouter(CollapsiblesEditor);
+
   it("should render", () => {
-    const wrapper = shallow(<CollapsiblesEditor {...props} />);
-    expect(wrapper).toMatchSnapshot();
-  });
-
-  it("should render the collapsible editor and additional props for the collapsible given", () => {
-    const wrapper = shallow(<CollapsiblesEditor {...props} />)
-      .find("[data-test='collapsibles-list']")
-      .renderProp("children")({ prop1: "1", prop2: 2 }, props.collapsibles[0]);
-
-    expect(wrapper.props()).toMatchObject({
-      collapsible: props.collapsibles[0],
-      prop1: "1",
-      prop2: 2,
+    const { getByText } = render(<Component {...props} />, {
+      route: `/q/2`,
+      urlParamMatcher: "/q/:questionnaireId",
     });
+    expect(getByText("collapsible2 title")).toBeTruthy();
   });
 
   it("should create the collapsible when the add button is clicked", () => {
-    shallow(<CollapsiblesEditor {...props} />)
-      .find("[data-test='add-collapsible-btn']")
-      .simulate("click");
+    const { getByTestId } = render(<Component {...props} />, {
+      route: `/q/2`,
+      urlParamMatcher: "/q/:questionnaireId",
+    });
+    fireEvent.click(getByTestId("add-collapsible-btn"));
 
     expect(props.createCollapsible).toHaveBeenCalledWith({
       introductionId: "introId",
@@ -48,13 +49,15 @@ describe("CollapsiblesEditor", () => {
   });
 
   it("should move the collapsible when move is triggered", () => {
-    shallow(<CollapsiblesEditor {...props} />)
-      .find("[data-test='collapsibles-list']")
-      .simulate("move", { id: "1", position: 2 });
+    const { getByTestId } = render(<Component {...props} />, {
+      route: `/q/2`,
+      urlParamMatcher: "/q/:questionnaireId",
+    });
+    fireEvent.click(getByTestId("move-up-btn"));
 
     expect(props.moveCollapsible).toHaveBeenCalledWith({
-      id: "1",
-      position: 2,
+      id: "2",
+      position: 0,
     });
   });
 });

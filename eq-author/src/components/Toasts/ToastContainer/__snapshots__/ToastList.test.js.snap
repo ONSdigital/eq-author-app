@@ -1,69 +1,120 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ToastList should allow configurable Transitions 1`] = `
-<TransitionGroup
-  childFactory={[Function]}
-  component={[Function]}
->
-  <Transition__ToastTransition
-    in={false}
-    key=".0"
-    timeout={500}
-  >
-    <ToastList__ToastItem
-      data-test="toast-item"
-    >
-      <p>
-        hello
-      </p>
-    </ToastList__ToastItem>
-  </Transition__ToastTransition>
-  <Transition__ToastTransition
-    in={false}
-    key=".1"
-    timeout={500}
-  >
-    <ToastList__ToastItem
-      data-test="toast-item"
-    >
-      <p>
-        world
-      </p>
-    </ToastList__ToastItem>
-  </Transition__ToastTransition>
-</TransitionGroup>
-`;
+Array [
+  .c1 {
+  -webkit-transition-property: -webkit-transform,opacity;
+  -webkit-transition-property: transform,opacity;
+  transition-property: transform,opacity;
+  -webkit-transition-duration: 330ms;
+  transition-duration: 330ms;
+}
 
-exports[`ToastList should render 1`] = `
-<TransitionGroup
-  childFactory={[Function]}
-  component={[Function]}
->
-  <Transition__ToastTransition
-    in={false}
-    key=".0"
-    timeout={500}
+.c1.toast-enter {
+  opacity: 0;
+  -webkit-transform: translateY(50%);
+  -ms-transform: translateY(50%);
+  transform: translateY(50%);
+  -webkit-transition-timing-function: cubic-bezier(0.73,0.02,0.32,1.49);
+  transition-timing-function: cubic-bezier(0.73,0.02,0.32,1.49);
+  -webkit-transition-delay: 165ms;
+  transition-delay: 165ms;
+}
+
+.c1.toast-enter.toast-enter-active {
+  opacity: 1;
+  -webkit-transform: translateY(0);
+  -ms-transform: translateY(0);
+  transform: translateY(0);
+}
+
+.c1.toast-exit {
+  opacity: 1;
+  -webkit-transform: translateY(0);
+  -ms-transform: translateY(0);
+  transform: translateY(0);
+  -webkit-transition-timing-function: cubic-bezier(0.75,-0.44,0.24,1);
+  transition-timing-function: cubic-bezier(0.75,-0.44,0.24,1);
+}
+
+.c1.toast-exit.toast-exit-active {
+  opacity: 0;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.c0 {
+  padding: 0;
+  padding-bottom: 0.5em;
+  margin: 0;
+  min-width: 10em;
+}
+
+<li
+    class="c0 c1"
+    data-test="toast-item"
   >
-    <ToastList__ToastItem
-      data-test="toast-item"
-    >
-      <p>
-        hello
-      </p>
-    </ToastList__ToastItem>
-  </Transition__ToastTransition>
-  <Transition__ToastTransition
-    in={false}
-    key=".1"
-    timeout={500}
+    <p>
+      hello
+    </p>
+  </li>,
+  .c1 {
+  -webkit-transition-property: -webkit-transform,opacity;
+  -webkit-transition-property: transform,opacity;
+  transition-property: transform,opacity;
+  -webkit-transition-duration: 330ms;
+  transition-duration: 330ms;
+}
+
+.c1.toast-enter {
+  opacity: 0;
+  -webkit-transform: translateY(50%);
+  -ms-transform: translateY(50%);
+  transform: translateY(50%);
+  -webkit-transition-timing-function: cubic-bezier(0.73,0.02,0.32,1.49);
+  transition-timing-function: cubic-bezier(0.73,0.02,0.32,1.49);
+  -webkit-transition-delay: 165ms;
+  transition-delay: 165ms;
+}
+
+.c1.toast-enter.toast-enter-active {
+  opacity: 1;
+  -webkit-transform: translateY(0);
+  -ms-transform: translateY(0);
+  transform: translateY(0);
+}
+
+.c1.toast-exit {
+  opacity: 1;
+  -webkit-transform: translateY(0);
+  -ms-transform: translateY(0);
+  transform: translateY(0);
+  -webkit-transition-timing-function: cubic-bezier(0.75,-0.44,0.24,1);
+  transition-timing-function: cubic-bezier(0.75,-0.44,0.24,1);
+}
+
+.c1.toast-exit.toast-exit-active {
+  opacity: 0;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.c0 {
+  padding: 0;
+  padding-bottom: 0.5em;
+  margin: 0;
+  min-width: 10em;
+}
+
+<li
+    class="c0 c1"
+    data-test="toast-item"
   >
-    <ToastList__ToastItem
-      data-test="toast-item"
-    >
-      <p>
-        world
-      </p>
-    </ToastList__ToastItem>
-  </Transition__ToastTransition>
-</TransitionGroup>
+    <p>
+      world
+    </p>
+  </li>,
+]
 `;

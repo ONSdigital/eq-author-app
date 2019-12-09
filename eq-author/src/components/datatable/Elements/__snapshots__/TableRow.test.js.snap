@@ -1,7 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TableRow should render 1`] = `
-.c0 {
+<DocumentFragment>
+  .c0 {
   height: 2.4em;
 }
 
@@ -9,7 +10,12 @@ exports[`TableRow should render 1`] = `
   border-bottom: 1px solid #d6d8da;
 }
 
-<tr
-  className="c0"
-/>
+<table>
+    <tbody>
+      <tr
+        class="c0"
+      />
+    </tbody>
+  </table>
+</DocumentFragment>
 `;

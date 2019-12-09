@@ -1,23 +1,12 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { render } from "tests/utils/rtl";
 
 import { AddRowButton } from "./";
 
-const createWrapper = (props = {}, render = shallow) => {
-  return render(<AddRowButton {...props}>Button</AddRowButton>);
-};
-
 describe("AddRowButton", () => {
-  let props;
-  let wrapper;
-
-  beforeEach(() => {
-    props = {};
-
-    wrapper = createWrapper(props, shallow);
-  });
-
   it("should render", () => {
-    expect(wrapper).toMatchSnapshot();
+    expect(
+      render(<AddRowButton>Button</AddRowButton>).asFragment()
+    ).toMatchSnapshot();
   });
 });

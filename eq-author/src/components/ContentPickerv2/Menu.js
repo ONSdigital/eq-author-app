@@ -174,13 +174,7 @@ Menu.propTypes = {
   isSelected: PropTypes.func.isRequired,
 };
 
-const SubMenu = ({
-  data,
-  onSelected,
-  isSelected,
-  isDisabled,
-  ...otherProps
-}) => {
+const SubMenu = ({ data, onSelected, isSelected, isDisabled }) => {
   const onEnterUp = (event, item) => {
     if (event.keyCode === 13) {
       //13 is the enter keycode
@@ -205,7 +199,7 @@ const SubMenu = ({
                 };
 
           return (
-            <SubMenuItem key={item.id} {...enabledProps} {...otherProps}>
+            <SubMenuItem key={item.id} {...enabledProps}>
               <MenuItemTitles>
                 <MenuItemTitle>
                   <Truncated>{item.displayName}</Truncated>
