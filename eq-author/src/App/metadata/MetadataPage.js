@@ -46,7 +46,7 @@ const StyledMainCanvas = styled(MainCanvas)`
 export const UnwrappedMetadataPageContent = ({
   loading,
   error,
-  data: { questionnaire },
+  data,
   onAddMetadata,
   onDeleteMetadata,
   onUpdateMetadata,
@@ -59,9 +59,11 @@ export const UnwrappedMetadataPageContent = ({
     return <Error>Oops! Something went wrong</Error>;
   }
 
+  const { questionnaire } = data;
   if (!questionnaire) {
     return <Error>Oops! Questionnaire could not be found</Error>;
   }
+
   const hasMetadata = questionnaire.metadata.length > 0;
 
   return (
