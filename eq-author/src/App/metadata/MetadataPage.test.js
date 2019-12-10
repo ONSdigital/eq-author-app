@@ -1,5 +1,5 @@
 import React from "react";
-import { render } from "tests/utils/rtl";
+import { render, fireEvent, act } from "tests/utils/rtl";
 
 import QuestionnaireContext from "components/QuestionnaireContext";
 import { MeContext } from "App/MeContext";
@@ -112,17 +112,19 @@ describe("Metadata page", () => {
     expect(getByText("Oops! Questionnaire could not be found")).toBeTruthy();
   });
 
-  it("should render metadata content", () => {
+  it("should render metadata content", async () => {
     const { getByTestId, getByText } = renderWithContext(
       <UnwrappedMetadataPageContent {...props} />
     );
     expect(getByTestId("metadata-table")).toBeTruthy();
 
-    getByText("Add metadata").click();
+    await act(async () => {
+      await fireEvent.click(getByText("Add metadata"));
+    });
     expect(props.onAddMetadata).toHaveBeenCalledWith(questionnaireId);
   });
 
-  it("should render no metadata message when no metadata", () => {
+  it("should render no metadata message when no metadata", async () => {
     props = {
       ...props,
       data: {
@@ -138,7 +140,9 @@ describe("Metadata page", () => {
     );
     expect(getByText("No metadata found")).toBeTruthy();
 
-    getByText("Add metadata").click();
+    await act(async () => {
+      await fireEvent.click(getByText("Add metadata"));
+    });
     expect(props.onAddMetadata).toHaveBeenCalledWith(questionnaireId);
   });
 });
