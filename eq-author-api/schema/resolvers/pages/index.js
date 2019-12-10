@@ -101,7 +101,6 @@ Resolvers.Mutation = {
     let thisComment = questionnaireComments.comments[pageId].filter(
       ({ id }) => id === input.commentId
     )[0];
-    // console.log("----------------", thisComment);
     if (thisComment) {
       thisComment.replies.push(newReply);
     } else {
@@ -111,8 +110,29 @@ Resolvers.Mutation = {
     await saveComments(questionnaireComments);
 
     publishCommentUpdates(questionnaire, pageId);
-    // newReply.comment = thisComment;
     return newReply;
+  },
+
+  deleteReply: async (_, { input }, ctx) => {
+    const { pageId } = input;
+    const questionnaire = ctx.questionnaire;
+    const questionnaireComments = await getCommentsForQuestionnaire(
+      questionnaire.id
+    );
+
+    const thisComment = questionnaireComments.comments[pageId].filter(
+      ({ id }) => id === input.commentId
+    )[0].replies;
+    const thisReply = thisComment.replies;
+    console.log("----------------", thisComment);
+    if (thisComment) {
+      remove(thisComment, ({ id }) => id === input.replyId);
+      await saveComments(questionnaireComments);
+    }
+    publishCommentUpdates(questionnaire, pageId);
+
+    const page = getPageById(ctx, pageId);
+    return page;
   },
 
   updateComment: async (_, { input }, ctx) => {

@@ -17,18 +17,30 @@ mutation createReply($input: CreateReplyInput!) {
       email
       displayName
     }
-    replies {
+    parentComment {
       id
-      commentText
-      createdTime
-      editedTime
-      user {
+      page {
         id
-        name
-        picture
-        email
-        displayName
+        comments {
+          id
+          replies {
+            id
+          }
+        }
       }
     }
+    # replies {
+    #   id
+    #   commentText
+    #   createdTime
+    #   editedTime
+    #   user {
+    #     id
+    #     name
+    #     picture
+    #     email
+    #     displayName
+    #   }
+    # }
   }
 }

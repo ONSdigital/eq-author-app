@@ -635,6 +635,7 @@ type Mutation {
   duplicatePage(input: DuplicatePageInput!): Page
   createComment(input: CreateCommentInput!): Comment!
   deleteComment(input: DeleteCommentInput!): Page!
+  deleteReply(input: DeleteReplyInput!): Comment!
   updateComment(input: UpdateCommentInput!): Comment!
   createReply(input: CreateReplyInput!): Reply!
   createQuestionPage(input: CreateQuestionPageInput!): QuestionPage
@@ -827,6 +828,12 @@ input CreateCommentInput {
 input DeleteCommentInput {
   pageId: ID!
   commentId: ID!
+}
+
+input DeleteReplyInput {
+  pageId: ID!
+  commentId: ID!
+  replyId: ID!
 }
 
 input UpdateCommentInput {
