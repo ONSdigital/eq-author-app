@@ -2,6 +2,7 @@ import React from "react";
 import { shallow } from "enzyme";
 import { render, flushPromises } from "tests/utils/rtl";
 import actSilenceWarning from "tests/utils/actSilenceWarning";
+import commentsSubscription from "components/CommentsPanel/commentSubscription.graphql";
 
 import { MeContext } from "App/MeContext";
 import { byTestAttr } from "tests/utils/selectors";
@@ -73,6 +74,15 @@ describe("QuestionPagePreview", () => {
             },
           },
         }),
+      },
+      {
+        request: {
+          query: commentsSubscription,
+          variables: { pageId: "2" },
+        },
+        result: () => {
+          return {};
+        },
       },
     ];
   });

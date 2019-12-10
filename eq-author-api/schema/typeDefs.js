@@ -1101,6 +1101,7 @@ input DeleteCollapsibleInput {
 type Subscription {
   validationUpdated(id: ID!): Questionnaire!
   publishStatusUpdated(id: ID!): Questionnaire!
+  commentsUpdated(pageId: ID!): Page!
 }
 
 input PublishQuestionnaireInput {

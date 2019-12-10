@@ -223,6 +223,14 @@ const Resolvers = {
       },
       subscribe: () => pubsub.asyncIterator(["publishStatusUpdated"]),
     },
+    commentsUpdated: {
+      resolve: async ({ pageId, questionnaire }, args, ctx) => {
+        ctx.questionnaire = questionnaire;
+        const page = await getPageById(ctx, pageId);
+        return page;
+      },
+      subscribe: () => pubsub.asyncIterator(["commentsUpdated"]),
+    },
   },
 
   Mutation: {

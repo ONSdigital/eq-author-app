@@ -59,15 +59,43 @@ describe("comments", () => {
       commentText: "a new comment is created",
     });
 
-    const queryNewComment = await queryComments(ctx, {
+    const queryNewComments = await queryComments(ctx, {
       pageId: createdQuestionPage.id,
     });
 
-    expect(queryNewComment).toMatchObject({
+    expect(queryNewComments).toMatchObject({
       id: createdQuestionPage.id,
       comments: [
         {
           commentText: "a new comment is created",
+        },
+      ],
+    });
+  });
+
+  it("should add multiple comments on question page and then query those comments", async () => {
+    await createComment(ctx, {
+      pageId: createdQuestionPage.id,
+      commentText: "a new comment is created",
+    });
+
+    await createComment(ctx, {
+      pageId: createdQuestionPage.id,
+      commentText: "a 2nd comment is created",
+    });
+
+    const queryNewComments = await queryComments(ctx, {
+      pageId: createdQuestionPage.id,
+    });
+
+    expect(queryNewComments).toMatchObject({
+      id: createdQuestionPage.id,
+      comments: [
+        {
+          commentText: "a new comment is created",
+        },
+        {
+          commentText: "a 2nd comment is created",
         },
       ],
     });
@@ -79,11 +107,11 @@ describe("comments", () => {
       commentText: "a new comment is created",
     });
 
-    const queryNewComment = await queryComments(ctx, {
+    const queryNewComments = await queryComments(ctx, {
       pageId: createdCalSumPage.id,
     });
 
-    expect(queryNewComment).toMatchObject({
+    expect(queryNewComments).toMatchObject({
       id: createdCalSumPage.id,
       comments: [
         {

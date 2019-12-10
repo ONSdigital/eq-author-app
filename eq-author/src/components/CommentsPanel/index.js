@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { withRouter } from "react-router-dom";
+import { useSubscription } from "react-apollo";
 import { get } from "lodash";
 import moment from "moment";
 import { useQuery, useMutation } from "@apollo/react-hooks";
@@ -12,6 +13,7 @@ import COMMENT_QUERY from "./commentsQuery.graphql";
 import COMMENT_ADD from "./createNewComment.graphql";
 import COMMENT_DELETE from "./deleteComment.graphql";
 import COMMENT_UPDATE from "./updateComment.graphql";
+import COMMENT_SUBSCRIPTION from "./commentSubscription.graphql";
 
 import { colors, radius } from "constants/theme";
 
@@ -69,7 +71,6 @@ const StyledTextArea = styled(TextArea)`
   ${sharedStyles};
   resize: none;
   margin-bottom: 0.7em;
-
   &[disabled] {
     pointer-events: none;
     padding: 0.5em 1em;
@@ -163,18 +164,14 @@ const EditButtonIcon = styled.button`
   background: url(${IconEdit}) no-repeat center center;
   height: 25px;
   width: 25px;
-
   display: ${props => (props.hideEditBtn ? "none" : "block")};
-
   &:hover {
     filter: invert(100%) brightness(0.6);
   }
-
   &:focus,
   &:active {
     outline-width: 0;
   }
-
   &[disabled] {
     pointer-events: none;
     opacity: 0.6;
@@ -228,6 +225,12 @@ const CommentsPanel = ({
   const [createComment] = useMutation(COMMENT_ADD);
   const [deleteComment] = useMutation(COMMENT_DELETE);
   const [updateComment] = useMutation(COMMENT_UPDATE);
+
+  useSubscription(COMMENT_SUBSCRIPTION, {
+    variables: {
+      pageId,
+    },
+  });
 
   useEffect(() => {
     if (firstRender.current) {
@@ -384,7 +387,7 @@ const CommentsPanel = ({
                 onClick={() => handleSaveEdit(item)}
                 data-test={`btn-save-editedComment-${index}`}
               >
-                save
+                Save
               </SaveButton>
             )}
           </ButtonGroupStyled>
