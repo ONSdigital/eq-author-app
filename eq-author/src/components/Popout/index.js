@@ -3,7 +3,7 @@ import React from "react";
 import { findDOMNode } from "react-dom";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import uncontrollable from "uncontrollable";
+import { uncontrollable } from "uncontrollable";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 const ESC_KEY_CODE = 27;
