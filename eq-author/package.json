@@ -127,7 +127,7 @@
     "styled-components": "latest",
     "subscriptions-transport-ws": "latest",
     "synchronous-promise": "latest",
-    "uncontrollable": "^4.1.0",
+    "uncontrollable": "latest",
     "uuid": "latest"
   },
   "jest": {
