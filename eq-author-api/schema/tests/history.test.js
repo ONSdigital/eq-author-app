@@ -6,6 +6,28 @@ const {
   updateHistoryNote,
 } = require("../../tests/utils/contextBuilder/history");
 
+const {
+  publishQuestionnaire,
+  reviewQuestionnaire,
+} = require("../../tests/utils/contextBuilder/questionnaire");
+
+const {
+  PUBLISHED,
+  AWAITING_APPROVAL,
+  UPDATES_REQUIRED,
+} = require("../../constants/publishStatus");
+
+jest.mock("node-fetch");
+const fetch = require("node-fetch");
+fetch.mockImplementation(() =>
+  Promise.resolve({
+    json: () => ({
+      questionnaireId: "test",
+      publishedSurveyUrl: "https://best.url.com",
+    }),
+  })
+);
+
 describe("history", () => {
   let ctx, user, notes;
 
@@ -17,21 +39,6 @@ describe("history", () => {
       name: "Jester Tester",
       displayName: "Jester Tester",
     };
-  });
-
-  it("should create a history event on questionnaire creation", async () => {
-    ctx = await buildContext({});
-    const history = await queryHistory(ctx);
-    expect(history).toMatchObject([
-      {
-        bodyText: null,
-        publishStatus: "Questionnaire created",
-        questionnaireTitle: "Questionnaire (Version 1)",
-        user: {
-          email: "eq-team@ons.gov.uk",
-        },
-      },
-    ]);
   });
 
   it("should be able to add a note", async () => {
@@ -145,6 +152,85 @@ describe("history", () => {
       expect(notes[0]).not.toMatchObject({ bodyText: "I am note" });
     });
   });
+  describe("questionnaire events", () => {
+    it("should create a history event on questionnaire creation", async () => {
+      ctx = await buildContext({});
+      const history = await queryHistory(ctx);
+      expect(history).toMatchObject([
+        {
+          bodyText: null,
+          publishStatus: "Questionnaire created",
+          questionnaireTitle: "Questionnaire (Version 1)",
+          user: {
+            email: "eq-team@ons.gov.uk",
+          },
+        },
+      ]);
+    });
+
+    it("should create a history event when publish status becomes Awaiting Approval", async () => {
+      ctx = await buildContext({}, user);
+
+      await publishQuestionnaire(
+        {
+          questionnaireId: ctx.questionnaire.id,
+          surveyId: "123",
+          formTypes: { ONS: "456" },
+        },
+        ctx
+      );
+
+      const history = await queryHistory(ctx);
+
+      expect(history[0]).toMatchObject({
+        publishStatus: AWAITING_APPROVAL,
+      });
+    });
+  });
+
+  it("should create a history event when publish status becomes Updates Required", async () => {
+    ctx = await buildContext(
+      { publishStatus: AWAITING_APPROVAL },
+      { ...user, admin: true }
+    );
+
+    await reviewQuestionnaire(
+      {
+        questionnaireId: ctx.questionnaire.id,
+        reviewAction: "Rejected",
+        reviewComment: "Ooga booga OOK OOK!",
+      },
+      ctx
+    );
+
+    const history = await queryHistory(ctx);
+
+    expect(history[0]).toMatchObject({
+      publishStatus: UPDATES_REQUIRED,
+    });
+  });
+
+  it("should create a history event when publish status becomes Published", async () => {
+    ctx = await buildContext(
+      { publishStatus: AWAITING_APPROVAL },
+      { ...user, admin: true }
+    );
+
+    await reviewQuestionnaire(
+      {
+        questionnaireId: ctx.questionnaire.id,
+        reviewAction: "Approved",
+      },
+      ctx
+    );
+
+    const history = await queryHistory(ctx);
+
+    expect(history[0]).toMatchObject({
+      publishStatus: PUBLISHED,
+    });
+  });
+
   describe("updating notes", () => {
     it("should be able to update your own note", async () => {
       ctx = await buildContext({}, user);
