@@ -8,6 +8,9 @@ mutation createReply($input: CreateReplyInput!) {
       id
       comments {
         id
+        replies {
+          id
+        }
       }
     }
     user {
@@ -17,29 +20,16 @@ mutation createReply($input: CreateReplyInput!) {
       email
       displayName
     }
-    parentComment {
-      id
-      page {
-        id
-        comments {
-          id
-          replies {
-            id
-          }
-        }
-      }
-    }
-    # replies {
+    # parentComment {
     #   id
-    #   commentText
-    #   createdTime
-    #   editedTime
-    #   user {
+    #   page {
     #     id
-    #     name
-    #     picture
-    #     email
-    #     displayName
+    #     comments {
+    #       id
+    #       replies {
+    #         id
+    #       }
+    #     }
     #   }
     # }
   }

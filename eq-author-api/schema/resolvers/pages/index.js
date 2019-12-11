@@ -58,7 +58,6 @@ Resolvers.Reply = {
 
     return parentComment;
   },
-  // parentComment: ({ comment }) => comment,
 };
 
 Resolvers.Mutation = {
@@ -110,7 +109,31 @@ Resolvers.Mutation = {
     await saveComments(questionnaireComments);
 
     publishCommentUpdates(questionnaire, pageId);
+
     return newReply;
+  },
+
+  updateReply: async (_, { input }, ctx) => {
+    const { pageId } = input;
+    const questionnaire = ctx.questionnaire;
+    const questionnaireComments = await getCommentsForQuestionnaire(
+      questionnaire.id
+    );
+    const replies = questionnaireComments.comments[pageId].filter(
+      ({ id }) => id === input.commentId
+    )[0].replies;
+
+    if (!replies) {
+      throw new Error("No replies found!");
+    }
+
+    const replyToEdit = replies.find(({ id }) => id === input.replyId);
+    replyToEdit.commentText = input.commentText;
+    replyToEdit.editedTime = new Date();
+    await saveComments(questionnaireComments);
+
+    publishCommentUpdates(questionnaire, pageId);
+    return replyToEdit;
   },
 
   deleteReply: async (_, { input }, ctx) => {
@@ -120,13 +143,11 @@ Resolvers.Mutation = {
       questionnaire.id
     );
 
-    const thisComment = questionnaireComments.comments[pageId].filter(
+    const replies = questionnaireComments.comments[pageId].filter(
       ({ id }) => id === input.commentId
     )[0].replies;
-    const thisReply = thisComment.replies;
-    console.log("----------------", thisComment);
-    if (thisComment) {
-      remove(thisComment, ({ id }) => id === input.replyId);
+    if (replies) {
+      remove(replies, ({ id }) => id === input.replyId);
       await saveComments(questionnaireComments);
     }
     publishCommentUpdates(questionnaire, pageId);
@@ -198,6 +219,7 @@ Resolvers.Mutation = {
     } else {
       questionnaireComments.comments[pageId] = [newComment];
     }
+
     await saveComments(questionnaireComments);
 
     publishCommentUpdates(questionnaire, pageId);
