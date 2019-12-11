@@ -2,7 +2,7 @@
 # yarn lockfile v1
 
 
-"@apollo/react-common@^3.0.1", "@apollo/react-common@^3.1.3":
+"@apollo/react-common@^3.1.3":
   version "3.1.3"
   resolved "https://registry.yarnpkg.com/@apollo/react-common/-/react-common-3.1.3.tgz#ddc34f6403f55d47c0da147fd4756dfd7c73dac5"
   integrity sha512-Q7ZjDOeqjJf/AOGxUMdGxKF+JVClRXrYBGVq+SuVFqANRpd68MxtVV2OjCWavsFAN0eqYnRqRUrl7vtUCiJqeg==
@@ -52,11 +52,11 @@
     tslib "^1.10.0"
 
 "@apollo/react-testing@latest":
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/@apollo/react-testing/-/react-testing-3.0.1.tgz#c0952edfc3a25d711fa1026ea1dce63111c1e6de"
-  integrity sha512-omcKnWCOpyTcg92GO4q2pb5t/a0RKP3iHe6mZ8fwkT/n3vAJ/wGuOz+MAOCQlZWvDYC4zKFHu1Se6X8ZaV8jjg==
+  version "3.1.3"
+  resolved "https://registry.yarnpkg.com/@apollo/react-testing/-/react-testing-3.1.3.tgz#d8dd318f58fb6a404976bfa3f8a79e976a5c6562"
+  integrity sha512-58R7gROl4TZMHm5kS76Nof9FfZhD703AU3SmJTA2f7naiMqC9Qd8pZ4oNCBafcab0SYN//UtWvLcluK5O7V/9g==
   dependencies:
-    "@apollo/react-common" "^3.0.1"
+    "@apollo/react-common" "^3.1.3"
     fast-json-stable-stringify "^2.0.0"
     tslib "^1.10.0"
 
