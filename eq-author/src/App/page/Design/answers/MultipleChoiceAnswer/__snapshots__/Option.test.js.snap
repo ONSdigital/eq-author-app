@@ -656,7 +656,7 @@ exports[`Option should render a checkbox 1`] = `
                                       <WrappingInput__TextArea
                                         aria-invalid="false"
                                         data-autofocus={true}
-                                        data-test="wrapping-input-textarea"
+                                        data-test="option-label"
                                         id="option-label-1"
                                         name="label"
                                         onBlur={[MockFunction]}
@@ -668,7 +668,7 @@ exports[`Option should render a checkbox 1`] = `
                                         <StyledComponent
                                           aria-invalid="false"
                                           data-autofocus={true}
-                                          data-test="wrapping-input-textarea"
+                                          data-test="option-label"
                                           forwardedComponent={
                                             Object {
                                               "$$typeof": Symbol(react.forward_ref),
@@ -725,7 +725,7 @@ exports[`Option should render a checkbox 1`] = `
                                             aria-invalid="false"
                                             className="c7"
                                             data-autofocus={true}
-                                            data-test="wrapping-input-textarea"
+                                            data-test="option-label"
                                             id="option-label-1"
                                             inputRef={[Function]}
                                             name="label"
@@ -741,7 +741,7 @@ exports[`Option should render a checkbox 1`] = `
                                               aria-invalid="false"
                                               className="c7"
                                               data-autofocus={true}
-                                              data-test="wrapping-input-textarea"
+                                              data-test="option-label"
                                               id="option-label-1"
                                               name="label"
                                               onBlur={[MockFunction]}
@@ -956,7 +956,7 @@ exports[`Option should render a checkbox 1`] = `
                               >
                                 <WrappingInput__TextArea
                                   aria-invalid="false"
-                                  data-test="wrapping-input-textarea"
+                                  data-test="option-description"
                                   id="option-description-1"
                                   name="description"
                                   onBlur={[MockFunction]}
@@ -966,7 +966,7 @@ exports[`Option should render a checkbox 1`] = `
                                 >
                                   <StyledComponent
                                     aria-invalid="false"
-                                    data-test="wrapping-input-textarea"
+                                    data-test="option-description"
                                     forwardedComponent={
                                       Object {
                                         "$$typeof": Symbol(react.forward_ref),
@@ -1021,7 +1021,7 @@ exports[`Option should render a checkbox 1`] = `
                                     <TextareaAutosize
                                       aria-invalid="false"
                                       className="c7"
-                                      data-test="wrapping-input-textarea"
+                                      data-test="option-description"
                                       id="option-description-1"
                                       inputRef={[Function]}
                                       name="description"
@@ -1035,7 +1035,7 @@ exports[`Option should render a checkbox 1`] = `
                                       <textarea
                                         aria-invalid="false"
                                         className="c7"
-                                        data-test="wrapping-input-textarea"
+                                        data-test="option-description"
                                         id="option-description-1"
                                         name="description"
                                         onBlur={[MockFunction]}
