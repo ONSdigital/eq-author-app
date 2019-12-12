@@ -21,7 +21,6 @@ import REPLY_UPDATE from "./updateReply.graphql";
 import { colors, radius } from "constants/theme";
 
 import ScrollPane from "components/ScrollPane";
-import Accordion from "components/Accordion";
 import Error from "components/Error";
 import Loading from "components/Loading";
 import DeleteButton from "components/buttons/DeleteButton";
@@ -59,13 +58,6 @@ const Reply = styled.div`
 
 const StyledScrollPane = styled(ScrollPane)`
   height: auto;
-`;
-
-const StyledAccordion = styled(Accordion)`
-  #header {
-    background: red;
-    color: red;
-  }
 `;
 
 const StyledLabel = styled(Label)`
@@ -577,7 +569,8 @@ const CommentsPanel = ({
         </CommentFooterContainer>
 
         {/* ////////////////////////////////////////////R E P L I E S//////////////////////////////////// */}
-        <StyledAccordion title="View Replies">{displayReplies}</StyledAccordion>
+
+        {displayReplies}
 
         {activeReply === item.id && (
           <Reply indent={repliesArray.length}>
