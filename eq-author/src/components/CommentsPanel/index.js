@@ -21,6 +21,7 @@ import REPLY_UPDATE from "./updateReply.graphql";
 import { colors, radius } from "constants/theme";
 
 import ScrollPane from "components/ScrollPane";
+import Accordion from "components/Accordion";
 import Error from "components/Error";
 import Loading from "components/Loading";
 import DeleteButton from "components/buttons/DeleteButton";
@@ -58,6 +59,13 @@ const Reply = styled.div`
 
 const StyledScrollPane = styled(ScrollPane)`
   height: auto;
+`;
+
+const StyledAccordion = styled(Accordion)`
+  #header {
+    background: red;
+    color: red;
+  }
 `;
 
 const StyledLabel = styled(Label)`
@@ -359,7 +367,7 @@ const CommentsPanel = ({
   const handleDeleteReply = (event, repliesItem) => {
     const commentId = event.id;
     const replyId = repliesItem.id;
-    if (commentId && myId === event.user.id) {
+    if (commentId && myId === repliesItem.user.id) {
       deleteReply({
         variables: {
           input: {
@@ -383,7 +391,7 @@ const CommentsPanel = ({
   const handleSaveEditReply = (event, repliesItem) => {
     const replyId = repliesItem.id;
     const commentId = event.id;
-    if (editReply) {
+    if (editReply && myId === repliesItem.user.id) {
       updateReply({
         variables: {
           input: {
@@ -569,8 +577,8 @@ const CommentsPanel = ({
         </CommentFooterContainer>
 
         {/* ////////////////////////////////////////////R E P L I E S//////////////////////////////////// */}
+        <StyledAccordion title="View Replies">{displayReplies}</StyledAccordion>
 
-        {displayReplies}
         {activeReply === item.id && (
           <Reply indent={repliesArray.length}>
             <StyledTextArea

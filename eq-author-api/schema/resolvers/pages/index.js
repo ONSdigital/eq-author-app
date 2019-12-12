@@ -146,6 +146,7 @@ Resolvers.Mutation = {
     const replies = questionnaireComments.comments[pageId].filter(
       ({ id }) => id === input.commentId
     )[0].replies;
+
     if (replies) {
       remove(replies, ({ id }) => id === input.replyId);
       await saveComments(questionnaireComments);
