@@ -618,6 +618,7 @@ const Resolvers = {
         surveyId,
         formTypes,
       };
+      await createHistoryEvent(ctx.questionnaire.id, publishStatusEvent(ctx));
       return ctx.questionnaire;
     }),
     reviewQuestionnaire: async (root, { input }, ctx) => {
