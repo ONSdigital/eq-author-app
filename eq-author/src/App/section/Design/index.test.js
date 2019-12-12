@@ -1,6 +1,7 @@
 import React from "react";
 import { mount } from "enzyme";
 import PropTypes from "prop-types";
+import { act } from "react-dom/test-utils";
 
 import { Router, Route } from "react-router-dom";
 import { createMemoryHistory } from "history";
@@ -157,25 +158,6 @@ describe("SectionRoute", () => {
     publishStatusMock,
     questionnaireId;
 
-  // this is just a little hack to silence a warning that we'll get until we
-  // upgrade to 16.9: https://github.com/facebook/react/pull/14853
-  // https://github.com/testing-library/react-testing-library#suppressing-unnecessary-warnings-on-react-dom-168
-  /* eslint-disable no-console, import/unambiguous */
-  const originalError = console.error;
-  beforeAll(() => {
-    console.error = (...args) => {
-      if (/Warning.*not wrapped in act/.test(args[0])) {
-        return;
-      }
-      originalError.call(console, ...args);
-    };
-  });
-
-  afterAll(() => {
-    console.error = originalError;
-  });
-  // End hack to silence warning
-
   beforeEach(() => {
     childContextTypes = { router: PropTypes.object };
     const toasts = document.createElement("div");
@@ -238,7 +220,7 @@ describe("SectionRoute", () => {
         </MeContext.Provider>
       );
 
-    it("should show loading spinner while request in flight", () => {
+    it("should show loading spinner while request in flight", async () => {
       const mock = {
         request: {
           query: SECTION_QUERY,
@@ -278,13 +260,12 @@ describe("SectionRoute", () => {
       const wrapper = render([mock, moveSectionMock, publishStatusMock]);
       expect(wrapper.find(`[data-test="loading"]`).exists()).toBe(true);
       expect(wrapper.find(`[data-test="section-editor"]`).exists()).toBe(false);
-
-      return flushPromises().then(() => {
-        wrapper.update();
+      await act(async () => {
+        await flushPromises();
       });
     });
 
-    it("should render the editor once loaded", () => {
+    it("should render the editor once loaded", async () => {
       const mock = {
         request: {
           query: SECTION_QUERY,
@@ -330,16 +311,15 @@ describe("SectionRoute", () => {
         publishStatusMock,
       ]);
 
-      return flushPromises().then(() => {
-        wrapper.update();
-        expect(wrapper.find(`[data-test="loading"]`).exists()).toBe(false);
-        expect(wrapper.find(`[data-test="section-editor"]`).exists()).toBe(
-          true
-        );
+      await act(async () => {
+        await flushPromises();
       });
+      wrapper.update();
+      expect(wrapper.find(`[data-test="loading"]`).exists()).toBe(false);
+      expect(wrapper.find(`[data-test="section-editor"]`).exists()).toBe(true);
     });
 
-    it("should render error if problem with request", () => {
+    it("should render error if problem with request", async () => {
       const mock = {
         request: {
           query: SECTION_QUERY,
@@ -350,19 +330,16 @@ describe("SectionRoute", () => {
 
       const wrapper = render([mock, publishStatusMock]);
 
-      return flushPromises()
-        .then(flushPromises)
-        .then(() => {
-          wrapper.update();
-          expect(wrapper.find(`[data-test="loading"]`).exists()).toBe(false);
-          expect(wrapper.find(`[data-test="section-editor"]`).exists()).toBe(
-            false
-          );
-          expect(wrapper.find(`[data-test="error"]`).exists()).toBe(true);
-        });
+      await act(async () => {
+        await flushPromises();
+      });
+      wrapper.update();
+      expect(wrapper.find(`[data-test="loading"]`).exists()).toBe(false);
+      expect(wrapper.find(`[data-test="section-editor"]`).exists()).toBe(false);
+      expect(wrapper.find(`[data-test="error"]`).exists()).toBe(true);
     });
 
-    it("should render error if no section returned", () => {
+    it("should render error if no section returned", async () => {
       const mock = {
         request: {
           query: SECTION_QUERY,
@@ -374,15 +351,13 @@ describe("SectionRoute", () => {
       };
 
       const wrapper = render([mock, publishStatusMock]);
-
-      return flushPromises().then(() => {
-        wrapper.update();
-        expect(wrapper.find(`[data-test="loading"]`).exists()).toBe(false);
-        expect(wrapper.find(`[data-test="section-editor"]`).exists()).toBe(
-          false
-        );
-        expect(wrapper.find(`[data-test="error"]`).exists()).toBe(true);
+      await act(async () => {
+        await flushPromises();
       });
+      wrapper.update();
+      expect(wrapper.find(`[data-test="loading"]`).exists()).toBe(false);
+      expect(wrapper.find(`[data-test="section-editor"]`).exists()).toBe(false);
+      expect(wrapper.find(`[data-test="error"]`).exists()).toBe(true);
     });
   });
 

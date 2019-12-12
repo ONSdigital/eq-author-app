@@ -1,8 +1,7 @@
 import React from "react";
-import { render, fireEvent, flushPromises } from "tests/utils/rtl";
+import { render, fireEvent, flushPromises, act } from "tests/utils/rtl";
 import ReviewPage from "./ReviewPage";
 import { MeContext } from "App/MeContext";
-import actSilenceWarning from "tests/utils/actSilenceWarning";
 import reviewQuestionnaireMutation from "./reviewQuestionnaire.graphql";
 import {
   AWAITING_APPROVAL,
@@ -25,7 +24,6 @@ jest.mock("components/RichTextEditor", () => ({ onUpdate }) => {
 
 describe("Review page", () => {
   let user, mocks, queryWasCalled, questionnaire;
-  actSilenceWarning();
 
   const renderReviewPage = () =>
     render(
@@ -40,6 +38,11 @@ describe("Review page", () => {
         mocks,
       }
     );
+  afterEach(async () => {
+    await act(async () => {
+      await flushPromises();
+    });
+  });
 
   describe("Approve", () => {
     beforeEach(() => {
@@ -108,13 +111,17 @@ describe("Review page", () => {
     it("should fire a mutation to review the questionnaire when the 'Approve' button is pressed", async () => {
       const { getByTestId } = renderReviewPage();
       fireEvent.click(getByTestId("approve-review-btn"));
-      await flushPromises();
+      await act(async () => {
+        await flushPromises();
+      });
       expect(queryWasCalled).toBeTruthy();
     });
     it("should redirect to homepage when questionnaire is approved", async () => {
       const { getByTestId, history } = renderReviewPage();
-      fireEvent.click(getByTestId("approve-review-btn"));
-      await flushPromises();
+      await act(async () => {
+        await fireEvent.click(getByTestId("approve-review-btn"));
+        await flushPromises();
+      });
       expect(history.location.pathname).toBe(`/`);
     });
     it("should redirect to questionnaire when it is not awaiting approval", async () => {
@@ -210,9 +217,12 @@ describe("Review page", () => {
       fireEvent.change(input, {
         target: { value: "You need to add a question about lip-syncing" },
       });
+
       const btn = getByTestId("reject-review-btn");
-      fireEvent.click(btn);
-      await flushPromises();
+      await act(async () => {
+        await fireEvent.click(btn);
+        await flushPromises();
+      });
       expect(queryWasCalled).toBeTruthy();
     });
   });

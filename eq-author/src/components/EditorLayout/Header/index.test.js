@@ -5,8 +5,8 @@ import {
   fireEvent,
   flushPromises,
   waitForElementToBeRemoved,
+  act,
 } from "tests/utils/rtl";
-import actSilenceWarning from "tests/utils/actSilenceWarning";
 
 import QuestionnaireContext from "components/QuestionnaireContext";
 import { MeContext } from "App/MeContext";
@@ -20,7 +20,7 @@ import {
 
 describe("Header", () => {
   let user, props, questionnaire, signOut, mocks;
-  actSilenceWarning();
+
   beforeEach(() => {
     questionnaire = {
       id: "456",
@@ -65,6 +65,12 @@ describe("Header", () => {
         }),
       },
     ];
+  });
+
+  afterEach(async () => {
+    await act(async () => {
+      await flushPromises();
+    });
   });
 
   const renderWithContext = (component, rest) =>
@@ -190,7 +196,9 @@ describe("Header", () => {
         ],
       });
 
-      await flushPromises();
+      await act(async () => {
+        await flushPromises();
+      });
       expect(queryWasCalled).toBeTruthy();
     });
   });
