@@ -1,6 +1,5 @@
 import React from "react";
-import { render, flushPromises, fireEvent } from "tests/utils/rtl";
-import actSilenceWarning from "tests/utils/actSilenceWarning";
+import { render, flushPromises, fireEvent, act } from "tests/utils/rtl";
 
 import QuestionnaireContext from "components/QuestionnaireContext";
 import { MeContext } from "App/MeContext";
@@ -26,7 +25,6 @@ jest.mock("components/RichTextEditor", () => ({ onUpdate }) => {
 
 describe("History page", () => {
   let props, questionnaireId, user, queryWasCalled, mutationWasCalled, mocks;
-  actSilenceWarning();
 
   beforeEach(() => {
     questionnaireId = "1";
@@ -188,6 +186,12 @@ describe("History page", () => {
     ];
   });
 
+  afterEach(() =>
+    act(async () => {
+      await flushPromises();
+    })
+  );
+
   const renderWithContext = component =>
     render(
       <MeContext.Provider value={{ me: user }}>
@@ -206,7 +210,10 @@ describe("History page", () => {
     const { getByText } = renderWithContext(<HistoryPageContent {...props} />, {
       mocks,
     });
-    await flushPromises();
+    await act(async () => {
+      await flushPromises();
+    });
+
     expect(getByText("History")).toBeTruthy();
     expect(getByText("Questionnaire created")).toBeTruthy();
     expect(getByText("Hello Moto")).toBeTruthy();
@@ -217,7 +224,9 @@ describe("History page", () => {
     renderWithContext(<HistoryPageContent {...props} />, {
       mocks,
     });
-    await flushPromises();
+    await act(async () => {
+      await flushPromises();
+    });
     expect(queryWasCalled).toBeTruthy();
   });
 
@@ -238,7 +247,9 @@ describe("History page", () => {
     };
 
     const { getByText } = renderWithContext(<HistoryPageContent {...props} />);
-    await flushPromises();
+    await act(async () => {
+      await flushPromises();
+    });
     expect(getByText("Oops! Something went wrong")).toBeTruthy();
   });
 
@@ -255,13 +266,18 @@ describe("History page", () => {
             mocks,
           }
         );
-        await flushPromises();
-        fireEvent.change(getByTestId("rtl-textbox"), {
-          target: { value: "New note" },
-        });
-        fireEvent.click(getByTestId("add-note-btn"));
 
-        await flushPromises();
+        await act(async () => {
+          await flushPromises();
+        });
+
+        await act(async () => {
+          await fireEvent.change(getByTestId("rtl-textbox"), {
+            target: { value: "New note" },
+          });
+          await fireEvent.click(getByTestId("add-note-btn"));
+        });
+
         expect(getByText("Questionnaire created")).toBeTruthy();
         expect(getByText("Hello Moto")).toBeTruthy();
         expect(getByText("New note")).toBeTruthy();
@@ -275,10 +291,13 @@ describe("History page", () => {
           }
         );
 
-        await flushPromises();
-        fireEvent.click(getByTestId("add-note-btn"));
+        await act(async () => {
+          await flushPromises();
+        });
+        await act(async () => {
+          await fireEvent.click(getByTestId("add-note-btn"));
+        });
 
-        await flushPromises();
         expect(mutationWasCalled).toBeFalsy();
       });
     });
@@ -335,11 +354,15 @@ describe("History page", () => {
           getByText,
         } = renderWithContext(<HistoryPageContent {...props} />, { mocks });
 
-        await flushPromises();
+        await act(async () => {
+          await flushPromises();
+        });
         expect(getByText("Hello Moto")).toBeTruthy();
 
         const editButton = getByTestId("edit-note-btn");
-        fireEvent.click(editButton);
+        await act(async () => {
+          await fireEvent.click(editButton);
+        });
 
         const textEditor = getAllByTestId("rtl-textbox")[1];
         fireEvent.change(textEditor, {
@@ -347,9 +370,10 @@ describe("History page", () => {
         });
 
         const saveButton = getByTestId("save-note-btn");
-        fireEvent.click(saveButton);
+        await act(async () => {
+          await fireEvent.click(saveButton);
+        });
 
-        await flushPromises();
         expect(mutationWasCalled).toBeTruthy();
         expect(getByText("this is an edited message")).toBeTruthy();
       });
@@ -363,10 +387,14 @@ describe("History page", () => {
             mocks,
           }
         );
-        await flushPromises();
+        await act(async () => {
+          await flushPromises();
+        });
 
         const editButton = getByTestId("edit-note-btn");
-        fireEvent.click(editButton);
+        await act(async () => {
+          await fireEvent.click(editButton);
+        });
 
         const textEditor = getAllByTestId("rtl-textbox")[1];
 
@@ -374,9 +402,11 @@ describe("History page", () => {
           target: { value: "this is an edited message" },
         });
         const saveButton = getByTestId("save-note-btn");
-        fireEvent.click(saveButton);
 
-        await flushPromises();
+        await act(async () => {
+          await fireEvent.click(saveButton);
+        });
+
         expect(mutationWasCalled).toBeTruthy();
         expect(getByText("this is an edited message")).toBeTruthy();
       });
@@ -431,13 +461,16 @@ describe("History page", () => {
           queryByText,
         } = renderWithContext(<HistoryPageContent {...props} />, { mocks });
 
-        await flushPromises();
+        await act(async () => {
+          await flushPromises();
+        });
         expect(queryByText("Hello Moto")).toBeTruthy();
 
         const deleteButton = getByTestId("delete-note-btn");
-        fireEvent.click(deleteButton);
+        await act(async () => {
+          await fireEvent.click(deleteButton);
+        });
 
-        await flushPromises();
         expect(mutationWasCalled).toBeTruthy();
         expect(queryByText("Hello Moto")).toBeFalsy();
       });
@@ -452,13 +485,16 @@ describe("History page", () => {
           }
         );
 
-        await flushPromises();
+        await act(async () => {
+          await flushPromises();
+        });
         expect(getByText("Hello Moto")).toBeTruthy();
 
         const deleteButton = getByTestId("delete-note-btn");
-        fireEvent.click(deleteButton);
 
-        await flushPromises();
+        await act(async () => {
+          await fireEvent.click(deleteButton);
+        });
         expect(mutationWasCalled).toBeTruthy();
         expect(queryByText("Hello Moto")).toBeFalsy();
       });
@@ -472,7 +508,9 @@ describe("History page", () => {
           { mocks }
         );
 
-        await flushPromises();
+        await act(async () => {
+          await flushPromises();
+        });
         expect(queryByTestId("edit-note-btn")).toBeFalsy();
         expect(queryByTestId("delete-note-btn")).toBeFalsy();
       });
@@ -519,7 +557,9 @@ describe("History page", () => {
           }
         );
 
-        await flushPromises();
+        await act(async () => {
+          await flushPromises();
+        });
         expect(queryByTestId("edit-note-btn")).toBeFalsy();
         expect(queryByTestId("delete-note-btn")).toBeFalsy();
       });

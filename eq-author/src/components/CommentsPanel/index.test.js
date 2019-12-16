@@ -1,7 +1,6 @@
 import React from "react";
-import { render, flushPromises, fireEvent } from "tests/utils/rtl";
+import { render, flushPromises, fireEvent, act } from "tests/utils/rtl";
 import { MeContext } from "App/MeContext";
-import actSilenceWarning from "tests/utils/actSilenceWarning";
 
 import CommentsPanel from "./";
 import COMMENT_QUERY from "./commentsQuery.graphql";
@@ -20,12 +19,13 @@ describe("Comments Pane", () => {
     user,
     props;
 
-  // this is just a little hack to silence a warning that we'll get until we
-  // upgrade to 16.9: https://github.com/facebook/react/pull/14853
-  // https://github.com/testing-library/react-testing-library#suppressing-unnecessary-warnings-on-react-dom-168
-  actSilenceWarning();
-
   const origWindow = window.HTMLElement.prototype.scrollIntoView;
+
+  afterEach(async () => {
+    await act(async () => {
+      await flushPromises();
+    });
+  });
 
   beforeAll(() => {
     window.HTMLElement.prototype.scrollIntoView = jest.fn();
@@ -225,7 +225,9 @@ describe("Comments Pane", () => {
       ...props,
     });
 
-    await flushPromises();
+    await act(async () => {
+      await flushPromises();
+    });
     expect(queryWasCalled).toBeTruthy();
     expect(getByTestId("comment-txt-area")).toBeTruthy();
   });
@@ -233,7 +235,9 @@ describe("Comments Pane", () => {
   it("should disable add button when comment txt area is empty", async () => {
     const { getByText } = renderWithContext(<CommentsPanel />, { ...props });
 
-    await flushPromises();
+    await act(async () => {
+      await flushPromises();
+    });
     const addCommentButton = getByText("Add");
 
     expect(addCommentButton).toHaveAttribute("disabled");
@@ -244,7 +248,9 @@ describe("Comments Pane", () => {
       ...props,
     });
 
-    await flushPromises();
+    await act(async () => {
+      await flushPromises();
+    });
     const addCommentButton = getByText("Add");
 
     fireEvent.change(getByTestId("comment-txt-area"), {
@@ -259,7 +265,9 @@ describe("Comments Pane", () => {
       ...props,
     });
 
-    await flushPromises();
+    await act(async () => {
+      await flushPromises();
+    });
     expect(queryWasCalled).toBeTruthy();
     expect(getByText("Query comment body")).toBeTruthy();
   });
@@ -269,14 +277,16 @@ describe("Comments Pane", () => {
       ...props,
     });
 
-    await flushPromises();
+    await act(async () => {
+      await flushPromises();
+    });
 
     fireEvent.change(getByTestId("comment-txt-area"), {
       target: { value: "This is a test ADD comment" },
     });
-    fireEvent.click(getByTestId("btn-add-comment"));
-
-    await flushPromises();
+    await act(async () => {
+      await fireEvent.click(getByTestId("btn-add-comment"));
+    });
 
     expect(createWasCalled).toBeTruthy();
     expect(newCommentSubscriptionWasCalled).toBeTruthy();
@@ -325,7 +335,9 @@ describe("Comments Pane", () => {
     const { getByText } = renderWithContext(<CommentsPanel />, {
       ...props,
     });
-    await flushPromises();
+    await act(async () => {
+      await flushPromises();
+    });
 
     expect(queryWasCalled).toBeTruthy();
     expect(getByText("Oops! Something went wrong")).toBeTruthy();
@@ -336,7 +348,9 @@ describe("Comments Pane", () => {
       ...props,
     });
 
-    await flushPromises();
+    await act(async () => {
+      await flushPromises();
+    });
     const deleteCommentButton = getByTestId("btn-delete-comment-0");
 
     expect(deleteCommentButton).toHaveStyleRule("display: none;");
@@ -345,7 +359,9 @@ describe("Comments Pane", () => {
   it("should render enabled delete button if comments exist && user === me", async () => {
     const { getByTestId } = renderWithContext(<CommentsPanel />, { ...props });
 
-    await flushPromises();
+    await act(async () => {
+      await flushPromises();
+    });
     const deleteCommentButton = getByTestId("btn-delete-comment-1");
 
     expect(deleteCommentButton).toHaveStyleRule("display: block");
@@ -356,13 +372,16 @@ describe("Comments Pane", () => {
       ...props,
     });
 
-    await flushPromises();
+    await act(async () => {
+      await flushPromises();
+    });
 
     const comment = getByText("Query comment2 body");
     expect(comment).toBeTruthy();
 
-    fireEvent.click(getByTestId("btn-delete-comment-1"));
-    await flushPromises();
+    await act(async () => {
+      await fireEvent.click(getByTestId("btn-delete-comment-1"));
+    });
 
     expect(deleteWasCalled).toBeTruthy();
     expect(newCommentSubscriptionWasCalled).toBeTruthy();
@@ -372,7 +391,9 @@ describe("Comments Pane", () => {
   it("should hide Edit button if comments exist && comment user !== me", async () => {
     const { getByTestId } = renderWithContext(<CommentsPanel />, { ...props });
 
-    await flushPromises();
+    await act(async () => {
+      await flushPromises();
+    });
     const editCommentButton = getByTestId("btn-edit-comment-0");
 
     expect(editCommentButton).toHaveStyleRule("display: none;");
@@ -381,7 +402,9 @@ describe("Comments Pane", () => {
   it("should render enabled Edit button if comments exist && user === me", async () => {
     const { getByTestId } = renderWithContext(<CommentsPanel />, { ...props });
 
-    await flushPromises();
+    await act(async () => {
+      await flushPromises();
+    });
     const editCommentButton = getByTestId("btn-edit-comment-1");
 
     expect(editCommentButton).toHaveStyleRule("display: block");
@@ -392,7 +415,9 @@ describe("Comments Pane", () => {
       ...props,
     });
 
-    await flushPromises();
+    await act(async () => {
+      await flushPromises();
+    });
     fireEvent.click(getByTestId("btn-edit-comment-1"));
 
     const editSaveBtn = getByTestId("btn-save-editedComment-1");
@@ -406,7 +431,9 @@ describe("Comments Pane", () => {
       ...props,
     });
 
-    await flushPromises();
+    await act(async () => {
+      await flushPromises();
+    });
     const editBtn = getByTestId("btn-edit-comment-1");
     fireEvent.click(editBtn);
 
@@ -417,10 +444,9 @@ describe("Comments Pane", () => {
     });
     const editSaveBtn = getByTestId("btn-save-editedComment-1");
     expect(editSaveBtn).toHaveStyle("display: inline-flex");
-
-    fireEvent.click(editSaveBtn);
-
-    await flushPromises();
+    await act(async () => {
+      await fireEvent.click(editSaveBtn);
+    });
 
     expect(updateWasCalled).toBeTruthy();
     expect(newCommentSubscriptionWasCalled).toBeTruthy();

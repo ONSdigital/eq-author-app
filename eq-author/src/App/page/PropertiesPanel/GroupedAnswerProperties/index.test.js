@@ -4,8 +4,7 @@ import { shallow } from "enzyme";
 import { CURRENCY, DATE, UNIT, DURATION } from "constants/answer-types";
 import { KILOJOULES, CENTIMETRES } from "constants/unit-types";
 import { YEARSMONTHS, YEARS } from "constants/duration-types";
-import { flushPromises, render, fireEvent } from "tests/utils/rtl";
-import actSilenceWarning from "tests/utils/actSilenceWarning";
+import { flushPromises, render, fireEvent, act } from "tests/utils/rtl";
 
 import UnitProperties from "./AnswerProperties/Properties/UnitProperties";
 import DurationProperties from "./AnswerProperties/Properties/DurationProperties";
@@ -18,7 +17,6 @@ import { UnwrappedGroupedAnswerProperties } from "./";
 
 describe("Grouped Answer Properties", () => {
   let props;
-  actSilenceWarning();
   beforeEach(() => {
     props = {
       page: {
@@ -188,8 +186,11 @@ describe("Grouped Answer Properties", () => {
     fireEvent.change(getByTestId("number-input"), {
       target: { value: "2" },
     });
+
     fireEvent.blur(getByTestId("number-input"));
-    await flushPromises();
+    await act(async () => {
+      await flushPromises();
+    });
     expect(props.updateAnswersOfType).toHaveBeenCalledWith(CURRENCY, "pageId", {
       decimals: 2,
     });

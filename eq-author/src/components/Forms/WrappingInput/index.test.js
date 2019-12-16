@@ -16,6 +16,7 @@ describe("WrappingInput", () => {
         value="123"
         onChange={handleChange}
         onBlur={handleUpdate}
+        data-test="wrapping-input-textarea"
       />
     );
     expect(getByText("123")).toBeTruthy();
@@ -31,6 +32,7 @@ describe("WrappingInput", () => {
         value="123"
         onChange={handleChange}
         onBlur={handleUpdate}
+        data-test="wrapping-input-textarea"
       />
     );
 

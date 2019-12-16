@@ -1,26 +1,8 @@
 import React from "react";
-import { render, fireEvent } from "tests/utils/rtl";
+import { render, fireEvent, act, flushPromises } from "tests/utils/rtl";
 import { UnwrappedBinaryExpressionEditor } from "./";
 
 describe("Checkbox routing", () => {
-  // this is just a little hack to silence a warning that we'll get until we
-  // upgrade to 16.9: https://github.com/facebook/react/pull/14853
-  // https://github.com/testing-library/react-testing-library#suppressing-unnecessary-warnings-on-react-dom-168
-  /* eslint-disable no-console, import/unambiguous */
-  const originalError = console.error;
-  beforeAll(() => {
-    console.error = (...args) => {
-      if (/Warning.*not wrapped in act/.test(args[0])) {
-        return;
-      }
-      originalError.call(console, ...args);
-    };
-  });
-
-  afterAll(() => {
-    console.error = originalError;
-  });
-  // End hack to silence warning
   let props, mockHandlers, options, expression, match;
 
   mockHandlers = {
@@ -109,15 +91,20 @@ describe("Checkbox routing", () => {
       }
     );
 
-  it("should display the list of selected options", () => {
+  it("should display the list of selected options", async () => {
     const { getByText } = renderRouting();
-
+    await act(async () => {
+      await flushPromises();
+    });
     expect(getByText("Option 1")).toBeTruthy();
     expect(getByText("Option 2")).toBeTruthy();
   });
 
-  it("should add to the list of selected options", () => {
+  it("should add to the list of selected options", async () => {
     const { getByText, getByLabelText } = renderRouting();
+    await act(async () => {
+      await flushPromises();
+    });
 
     fireEvent.click(getByText("CHOOSE"));
     fireEvent.click(getByLabelText("Option 3"));
@@ -129,8 +116,11 @@ describe("Checkbox routing", () => {
     });
   });
 
-  it("should remove from to the list of selected options", () => {
+  it("should remove from to the list of selected options", async () => {
     const { getAllByTestId } = renderRouting();
+    await act(async () => {
+      await flushPromises();
+    });
 
     fireEvent.click(getAllByTestId("remove-chip")[0]);
 
@@ -139,9 +129,11 @@ describe("Checkbox routing", () => {
     });
   });
 
-  it("can change the match condition", () => {
+  it("can change the match condition", async () => {
     const { getByTestId } = renderRouting();
-
+    await act(async () => {
+      await flushPromises();
+    });
     fireEvent.change(getByTestId("condition-dropdown"), {
       target: { value: "AnyOf" },
     });
@@ -152,9 +144,11 @@ describe("Checkbox routing", () => {
     );
   });
 
-  it("does not render 'choose' button or selected options when match condition is unanswered", () => {
+  it("does not render 'choose' button or selected options when match condition is unanswered", async () => {
     const { queryByText } = renderRouting();
-
+    await act(async () => {
+      await flushPromises();
+    });
     expect(queryByText("CHOOSE")).toBeTruthy();
 
     props.expression.condition = "Unanswered";
