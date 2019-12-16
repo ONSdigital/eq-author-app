@@ -14,7 +14,10 @@ describe("appendAuthHeader", () => {
     window.fetch = jest.fn(() =>
       SynchronousPromise.resolve({
         //eslint-disable-next-line
-        json: jest.fn(() => ({ access_token: "I'm a access token, honest!" })),
+        json: jest.fn(() => ({
+          access_token: "I'm a access token, honest!",
+          refresh_token: "I'm a refresh token",
+        })),
       })
     );
 
