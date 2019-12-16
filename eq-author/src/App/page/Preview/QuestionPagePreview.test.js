@@ -1,9 +1,8 @@
 import React from "react";
 import { shallow } from "enzyme";
-import { render, flushPromises } from "tests/utils/rtl";
-import actSilenceWarning from "tests/utils/actSilenceWarning";
-import commentsSubscription from "components/CommentsPanel/commentSubscription.graphql";
+import { render, flushPromises, act } from "tests/utils/rtl";
 
+import commentsSubscription from "components/CommentsPanel/commentSubscription.graphql";
 import { MeContext } from "App/MeContext";
 import { byTestAttr } from "tests/utils/selectors";
 import { TEXTFIELD } from "constants/answer-types";
@@ -18,8 +17,6 @@ import QuestionPagePreview, {
 
 describe("QuestionPagePreview", () => {
   let page, me, mocks, questionnaireId;
-
-  actSilenceWarning();
 
   beforeEach(() => {
     me = {
@@ -98,7 +95,9 @@ describe("QuestionPagePreview", () => {
         mocks,
       }
     );
-    await flushPromises();
+    await act(async () => {
+      await flushPromises();
+    });
     expect(getByText("Additional Info Content")).toBeTruthy();
   });
 

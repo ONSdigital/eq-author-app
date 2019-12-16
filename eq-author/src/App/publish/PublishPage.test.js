@@ -1,6 +1,5 @@
 import React from "react";
-import { render, fireEvent, flushPromises } from "tests/utils/rtl";
-import actSilenceWarning from "tests/utils/actSilenceWarning";
+import { render, fireEvent, flushPromises, act } from "tests/utils/rtl";
 
 import { MeContext } from "App/MeContext";
 import QuestionnaireContext from "components/QuestionnaireContext";
@@ -12,7 +11,6 @@ import triggerPublishMutation from "./triggerPublish.graphql";
 
 describe("Publish page", () => {
   let user, mocks, queryWasCalled, questionnaire;
-  actSilenceWarning();
 
   const renderPublishPage = () =>
     render(
@@ -27,6 +25,12 @@ describe("Publish page", () => {
         mocks,
       }
     );
+
+  afterEach(async () => {
+    await act(async () => {
+      flushPromises();
+    });
+  });
 
   beforeEach(() => {
     questionnaire = {
@@ -94,7 +98,9 @@ describe("Publish page", () => {
 
   it("should have the 'Publish' button disabled until themes are selected and all fields are populated", async () => {
     const { getByLabelText, getByTestId } = renderPublishPage();
-
+    await act(async () => {
+      flushPromises();
+    });
     expect(getByTestId("publish-survey-button").disabled).toBeTruthy();
 
     fireEvent.change(getByLabelText("Survey ID"), { target: { value: "123" } });
@@ -112,15 +118,16 @@ describe("Publish page", () => {
   it("should fire a mutation to publish the questionnaire and redirect to homepage when the 'Submit for approval' button is pressed", async () => {
     const { getByLabelText, getByTestId, history } = renderPublishPage(mocks);
 
-    fireEvent.change(getByLabelText("Survey ID"), { target: { value: "123" } });
-    fireEvent.click(getByLabelText(themes[0]));
-    fireEvent.change(getByTestId(`${themes[0]}-input`), {
-      target: { value: "456" },
+    await act(async () => {
+      await fireEvent.change(getByLabelText("Survey ID"), {
+        target: { value: "123" },
+      });
+      await fireEvent.click(getByLabelText(themes[0]));
+      await fireEvent.change(getByTestId(`${themes[0]}-input`), {
+        target: { value: "456" },
+      });
+      await fireEvent.click(getByTestId("publish-survey-button"));
     });
-
-    fireEvent.click(getByTestId("publish-survey-button"));
-
-    await flushPromises();
 
     expect(queryWasCalled).toBeTruthy();
     expect(history.location.pathname).toBe("/");

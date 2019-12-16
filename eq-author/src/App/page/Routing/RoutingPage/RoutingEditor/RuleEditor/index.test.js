@@ -1,6 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
-import { render, fireEvent } from "tests/utils/rtl";
+import { render, fireEvent, act } from "tests/utils/rtl";
 
 import RoutingRuleDestinationSelector from "App/page/Routing/DestinationSelector";
 import { RADIO } from "constants/answer-types";
@@ -10,14 +10,9 @@ import BinaryExpressionEditor from "./BinaryExpressionEditor";
 
 import { UnwrappedRuleEditor as RuleEditor } from "./";
 import { byTestAttr } from "tests/utils/selectors";
-import actSilenceWarning from "tests/utils/actSilenceWarning";
 
 describe("RuleEditor", () => {
   let defaultProps;
-
-  // this is just a little hack to silence a warning that we'll get until we
-  // upgrade to 16.9: https://github.com/facebook/react/pull/14853
-  actSilenceWarning();
 
   beforeEach(() => {
     defaultProps = {
@@ -101,8 +96,11 @@ describe("RuleEditor", () => {
       route: "/q/1/page/2",
       urlParamMatcher: "/q/:questionnaireId/page/:pageId",
     });
-
-    fireEvent.change(getByTestId("match-select"), { target: { value: OR } });
+    await act(async () => {
+      await fireEvent.change(getByTestId("match-select"), {
+        target: { value: OR },
+      });
+    });
 
     expect(defaultProps.updateExpressionGroup).toHaveBeenCalledWith({
       id: defaultProps.rule.expressionGroup.id,

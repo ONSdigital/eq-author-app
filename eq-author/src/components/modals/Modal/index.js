@@ -122,9 +122,10 @@ class Modal extends React.Component {
     }
   }
 
-  componentWillUpdate(nextProps) {
-    const isClosing = this.props.isOpen && !nextProps.isOpen;
-    const isOpening = !this.props.isOpen && nextProps.isOpen;
+  componentDidUpdate(prevProps) {
+    const isClosing = prevProps.isOpen && !this.props.isOpen;
+    const isOpening = !prevProps.isOpen && this.props.isOpen;
+    /*eslint-disable react/no-did-update-set-state */
     if (isClosing) {
       this.timeoutId = setTimeout(() => {
         this.setState({ open: false });
@@ -133,6 +134,7 @@ class Modal extends React.Component {
     if (isOpening) {
       this.setState({ open: true });
     }
+    /*eslint-enable react/no-did-update-set-state */
   }
 
   render() {

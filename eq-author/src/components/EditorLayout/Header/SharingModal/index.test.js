@@ -1,6 +1,6 @@
 import React from "react";
 import { omit } from "lodash";
-import { render, fireEvent, flushPromises } from "tests/utils/rtl";
+import { render, fireEvent, flushPromises, act } from "tests/utils/rtl";
 
 import SharingModal, { ALL_USERS_QUERY } from "./";
 import { ADD_REMOVE_EDITOR_MUTATION } from "./withAddRemoveEditor";
@@ -13,25 +13,6 @@ describe("Sharing Modal", () => {
     name: "Beth Smith",
     email: "beth@smith.com",
   };
-
-  // this is just a little hack to silence a warning that we'll get until we
-  // upgrade to 16.9: https://github.com/facebook/react/pull/14853
-  // https://github.com/testing-library/react-testing-library#suppressing-unnecessary-warnings-on-react-dom-168
-  /* eslint-disable no-console, import/unambiguous */
-  const originalError = console.error;
-  beforeAll(() => {
-    console.error = (...args) => {
-      if (/Warning.*not wrapped in act/.test(args[0])) {
-        return;
-      }
-      originalError.call(console, ...args);
-    };
-  });
-
-  afterAll(() => {
-    console.error = originalError;
-  });
-  // End hack to silence warning
 
   beforeEach(() => {
     props = {
@@ -67,11 +48,17 @@ describe("Sharing Modal", () => {
     };
   });
   afterEach(async () => {
-    await flushPromises();
+    await act(async () => {
+      await flushPromises();
+    });
   });
 
   it("should list the owner and editors", async () => {
     const { getByText } = render(<SharingModal {...props} />);
+
+    await act(async () => {
+      await flushPromises();
+    });
 
     expect(getByText("Jerry Smith")).toBeTruthy();
     expect(getByText("Babs")).toBeTruthy();
@@ -89,6 +76,9 @@ describe("Sharing Modal", () => {
       }
     };
     const { getByText } = render(<SharingModal {...props} />);
+    await act(async () => {
+      await flushPromises();
+    });
 
     const linkButton = getByText("Get shareable link");
 
@@ -146,6 +136,10 @@ describe("Sharing Modal", () => {
         rerender,
       } = render(<SharingModal {...props} />, { mocks });
 
+      await act(async () => {
+        await flushPromises();
+      });
+
       const row = getByText("Babs").parentElement;
       const removeButton = getAllByLabelText("Remove editor").find(
         btn => btn.parentElement === row
@@ -176,6 +170,9 @@ describe("Sharing Modal", () => {
         <SharingModal {...props} />,
         { mocks }
       );
+      await act(async () => {
+        await flushPromises();
+      });
       history.location = {};
       const row = getByText("Babs").parentElement;
       const removeButton = getAllByLabelText("Remove editor").find(
@@ -257,7 +254,9 @@ describe("Sharing Modal", () => {
       } = render(<SharingModal {...props} />, { mocks });
 
       // load the users
-      await flushPromises();
+      await act(async () => {
+        await flushPromises();
+      });
 
       expect(queryByText("Beth Smith")).toBeFalsy();
 
@@ -286,7 +285,9 @@ describe("Sharing Modal", () => {
       );
 
       // load the users
-      await flushPromises();
+      await act(async () => {
+        await flushPromises();
+      });
 
       expect(queryByText("Beth Smith")).toBeFalsy();
 
@@ -302,7 +303,9 @@ describe("Sharing Modal", () => {
       );
 
       // load the users
-      await flushPromises();
+      await act(async () => {
+        await flushPromises();
+      });
 
       expect(queryByText("Beth Smith")).toBeFalsy();
 
@@ -319,7 +322,9 @@ describe("Sharing Modal", () => {
       );
 
       // load the users
-      await flushPromises();
+      await act(async () => {
+        await flushPromises();
+      });
 
       const input = getAllByLabelText("Add editors")[0];
       fireEvent.change(input, { target: { value: "babs" } });
@@ -334,7 +339,9 @@ describe("Sharing Modal", () => {
       );
 
       // load the users
-      await flushPromises();
+      await act(async () => {
+        await flushPromises();
+      });
 
       const input = getAllByLabelText("Add editors")[0];
       fireEvent.change(input, { target: { value: "jerry" } });

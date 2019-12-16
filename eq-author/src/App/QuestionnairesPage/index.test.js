@@ -1,6 +1,6 @@
 import React from "react";
 
-import { render, flushPromises } from "tests/utils/rtl";
+import { render, flushPromises, act } from "tests/utils/rtl";
 import { WRITE } from "constants/questionnaire-permissions";
 import { MeContext } from "App/MeContext";
 
@@ -10,25 +10,6 @@ import { UNPUBLISHED } from "constants/publishStatus";
 
 describe("QuestionnairesPage", () => {
   let me, signOut;
-
-  // this is just a little hack to silence a warning that we'll get until we
-  // upgrade to 16.9: https://github.com/facebook/react/pull/14853
-  // https://github.com/testing-library/react-testing-library#suppressing-unnecessary-warnings-on-react-dom-168
-  /* eslint-disable no-console, import/unambiguous */
-  const originalError = console.error;
-  beforeAll(() => {
-    console.error = (...args) => {
-      if (/Warning.*not wrapped in act/.test(args[0])) {
-        return;
-      }
-      originalError.call(console, ...args);
-    };
-  });
-
-  afterAll(() => {
-    console.error = originalError;
-  });
-  // End hack to silence warning
 
   beforeEach(() => {
     me = {
@@ -41,7 +22,9 @@ describe("QuestionnairesPage", () => {
 
   afterEach(async () => {
     // clear all running queries
-    await flushPromises();
+    await act(async () => {
+      await flushPromises();
+    });
   });
 
   const renderQuestionnairesPage = (mocks = {}) =>
@@ -52,9 +35,12 @@ describe("QuestionnairesPage", () => {
       mocks
     );
 
-  it("should not render table whilst data is loading", () => {
+  it("should not render table whilst data is loading", async () => {
     const { getByTestId } = renderQuestionnairesPage();
     expect(getByTestId("loading")).toBeTruthy();
+    await act(async () => {
+      await flushPromises();
+    });
   });
 
   it("should render error message when there is an error", async () => {
@@ -72,12 +58,17 @@ describe("QuestionnairesPage", () => {
         },
       ],
     });
-    await flushPromises();
+    await act(async () => {
+      await flushPromises();
+    });
     expect(getByText(/oops/i)).toBeTruthy();
   });
 
   it("should render the title", async () => {
     const { getByText } = renderQuestionnairesPage();
+    await act(async () => {
+      await flushPromises();
+    });
     expect(getByText(/your questionnaires/i)).toBeTruthy();
     expect(document.title).toMatch(/your questionnaires/i);
   });
@@ -117,7 +108,9 @@ describe("QuestionnairesPage", () => {
       ],
     });
 
-    await flushPromises();
+    await act(async () => {
+      await flushPromises();
+    });
 
     expect(getByText("UKIS")).toBeTruthy();
   });
