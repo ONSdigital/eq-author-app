@@ -43,6 +43,8 @@ export default headers => {
   if (decodedToken.exp < Math.floor(Date.now()) / 1000 || !decodedToken.name) {
     const refreshToken = localStorage.getItem("refreshToken");
     return fetchNewToken(refreshToken).then(res => {
+      localStorage.setItem("refreshToken", res.refresh_token);
+      localStorage.setItem("accessToken", res.access_token);
       returnedHeaders.authorization = `Bearer ${res.access_token}`;
       return { ...returnedHeaders };
     });

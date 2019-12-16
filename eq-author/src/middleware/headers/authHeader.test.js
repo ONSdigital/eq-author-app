@@ -13,8 +13,12 @@ describe("appendAuthHeader", () => {
     originalHash = window.location.hash;
     window.fetch = jest.fn(() =>
       SynchronousPromise.resolve({
-        //eslint-disable-next-line
-        json: jest.fn(() => ({ access_token: "I'm a access token, honest!" })),
+        /*eslint-disable camelcase*/
+        json: jest.fn(() => ({
+          access_token: "I'm a access token, honest!",
+          refresh_token: "I'm a refresh token",
+        })),
+        /*eslint-enable camelcase*/
       })
     );
 
