@@ -20,6 +20,7 @@ import REPLY_UPDATE from "./updateReply.graphql";
 
 import { colors, radius } from "constants/theme";
 
+import Accordion from "components/Accordion";
 import ScrollPane from "components/ScrollPane";
 import Error from "components/Error";
 import Loading from "components/Loading";
@@ -216,6 +217,10 @@ const DateField = styled("span")`
   font-weight: normal;
   font-size: 0.8em;
   color: ${colors.grey};
+`;
+
+const StyledAccordion = styled(Accordion)`
+  background-color: blue;
 `;
 
 const CommentsPanel = ({
@@ -568,9 +573,10 @@ const CommentsPanel = ({
           )}
         </CommentFooterContainer>
 
+        <StyledAccordion open="false" title="2 Replys">
+          {displayReplies}
+        </StyledAccordion>
         {/* ////////////////////////////////////////////R E P L I E S//////////////////////////////////// */}
-
-        {displayReplies}
 
         {activeReply === item.id && (
           <Reply indent={repliesArray.length}>
