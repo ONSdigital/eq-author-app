@@ -1,4 +1,8 @@
-const { saveQuestionnaire } = require("../utils/datastore");
+const {
+  saveQuestionnaire,
+  getQuestionnaireMetaById,
+} = require("../utils/datastore");
+const { merge } = require("lodash");
 
 module.exports = logger => ({ currentVersion, migrations }) => async (
   req,
@@ -16,6 +20,11 @@ module.exports = logger => ({ currentVersion, migrations }) => async (
   }
 
   try {
+    const questionnaireMeta = await getQuestionnaireMetaById(
+      req.questionnaire.id
+    );
+    merge(questionnaireMeta, { ...req.questionnaire });
+    req.questionnaire = questionnaireMeta;
     req.questionnaire = await migrations
       .slice(req.questionnaire.version)
       .reduce((questionnaire, migration) => {
