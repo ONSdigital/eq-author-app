@@ -98,15 +98,19 @@ export const UnconnectedHeader = props => {
         </RouteButton>
       );
     }
+
     if (publishStatus === AWAITING_APPROVAL && !me.admin) {
       return null;
     }
+
+    const canPublish = questionnaire.permission === "Write";
     return (
       <RouteButton
         variant="tertiary-light"
         to={buildPublishPath(match.params)}
         small
         disabled={
+          !canPublish ||
           questionnaire.totalErrorCount > 0 ||
           title === "Publish" ||
           publishStatus === PUBLISHED
@@ -148,7 +152,7 @@ export const UnconnectedHeader = props => {
                 >
                   <IconText icon={viewIcon}>View survey</IconText>
                 </LinkButton>
-                {me.admin && renderPublishReviewButton()}
+                {renderPublishReviewButton()}
                 <Button
                   variant="tertiary-light"
                   onClick={() => setSharingModalOpen(true)}
