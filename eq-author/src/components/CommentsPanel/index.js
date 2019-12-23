@@ -573,9 +573,7 @@ const CommentsPanel = ({
           )}
         </CommentFooterContainer>
 
-        <StyledAccordion open="false" title="2 Replys">
-          {displayReplies}
-        </StyledAccordion>
+        <StyledAccordion title="2 Replys">{displayReplies}</StyledAccordion>
         {/* ////////////////////////////////////////////R E P L I E S//////////////////////////////////// */}
 
         {activeReply === item.id && (
