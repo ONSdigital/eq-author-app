@@ -31,6 +31,7 @@ export class UnconnectedSavingIndicator extends React.Component {
   static propTypes = {
     isSaving: PropTypes.bool.isRequired,
     hasError: PropTypes.bool.isRequired,
+    isUnauthorized: PropTypes.bool,
     minDisplayTime: PropTypes.number,
   };
 
@@ -80,8 +81,9 @@ export class UnconnectedSavingIndicator extends React.Component {
 
   render() {
     const isVisible =
-      !this.props.hasError && (this.props.isSaving || this.state.timerRunning);
-
+      !this.props.hasError &&
+      !this.props.isUnauthorized &&
+      (this.props.isSaving || this.state.timerRunning);
     return (
       <TransitionGroup>
         {isVisible ? this.renderIndicator() : null}
