@@ -530,6 +530,7 @@ describe("Question", () => {
         {
           type: "Checkbox",
           id: "1",
+          label: "test",
           properties: { required: true },
           options: [
             {
@@ -600,6 +601,11 @@ describe("Question", () => {
     it("should have a mandatory property", () => {
       const question = new Question(createQuestionJSON({ answers }));
       expect(question).toHaveProperty("mandatory");
+    });
+
+    it("should not inherit the label property", () => {
+      const question = new Question(createQuestionJSON({ answers }));
+      expect(question).not.toHaveProperty("label");
     });
 
     it("should set mandatory on exclusive child answers to false", () => {

@@ -140,6 +140,7 @@ class Question {
 
   buildMutuallyExclusiveAnswers(mutuallyExclusive) {
     Object.assign(mutuallyExclusive.properties, { required: false });
+    delete mutuallyExclusive.label;
     const mutuallyExclusiveAnswer = new Answer({
       ...mutuallyExclusive,
       id: `${mutuallyExclusive.id}-exclusive`,
