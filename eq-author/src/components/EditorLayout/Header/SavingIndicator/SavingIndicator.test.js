@@ -69,4 +69,17 @@ describe("SavingIndicator", () => {
     wrapper.setProps({ isSaving: true });
     expect(findIndicator(wrapper).exists()).toBe(false);
   });
+
+  it("should not show if user doesn't have permission", () => {
+    const wrapper = shallow(
+      <UnconnectedSavingIndicator
+        isSaving={false}
+        hasError={false}
+        isUnauthorized
+      />
+    );
+
+    wrapper.setProps({ isSaving: true });
+    expect(findIndicator(wrapper).exists()).toBe(false);
+  });
 });
