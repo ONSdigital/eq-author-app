@@ -20,7 +20,7 @@ import REPLY_UPDATE from "./updateReply.graphql";
 
 import { colors, radius } from "constants/theme";
 
-import Accordion from "components/Accordion";
+import CommentAccordion from "components/CommentAccordion";
 import ScrollPane from "components/ScrollPane";
 import Error from "components/Error";
 import Loading from "components/Loading";
@@ -219,7 +219,7 @@ const DateField = styled("span")`
   color: ${colors.grey};
 `;
 
-const StyledAccordion = styled(Accordion)`
+const StyledAccordion = styled(CommentAccordion)`
   background-color: blue;
 `;
 
@@ -361,6 +361,8 @@ const CommentsPanel = ({
     setActiveReply("");
   };
 
+  let numberOfReplies = "";
+
   const handleDeleteReply = (event, repliesItem) => {
     const commentId = event.id;
     const replyId = repliesItem.id;
@@ -490,6 +492,9 @@ const CommentsPanel = ({
         </Reply>
       );
     });
+    numberOfReplies = displayReplies.length;
+
+    console.log(displayReplies);
 
     const editCommentName = `edit-comment-${index}`;
     const replyComment = `reply-comment-${index}`;
@@ -572,8 +577,11 @@ const CommentsPanel = ({
             </SaveButton>
           )}
         </CommentFooterContainer>
-
-        <StyledAccordion title="2 Replys">{displayReplies}</StyledAccordion>
+        {displayReplies.length > 0 && (
+          <StyledAccordion title={numberOfReplies}>
+            {displayReplies}
+          </StyledAccordion>
+        )}
         {/* ////////////////////////////////////////////R E P L I E S//////////////////////////////////// */}
 
         {activeReply === item.id && (
