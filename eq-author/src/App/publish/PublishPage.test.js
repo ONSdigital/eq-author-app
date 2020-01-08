@@ -20,8 +20,8 @@ describe("Publish page", () => {
         </QuestionnaireContext.Provider>
       </MeContext.Provider>,
       {
-        route: `/q/${questionnaire.id}/page/2`,
-        urlParamMatcher: "/q/:questionnaireId/page/:pageId",
+        route: `/q/${questionnaire.id}/publish`,
+        urlParamMatcher: "/q/:questionnaireId",
         mocks,
       }
     );
@@ -43,7 +43,8 @@ describe("Publish page", () => {
         name: "Morty",
         email: "what@ever.com",
       },
-      editors: [],
+      editors: [{ id: "2", name: "Rick", email: "rick@mail.com" }],
+      permission: "Write",
     };
     user = {
       id: "123",
@@ -133,10 +134,23 @@ describe("Publish page", () => {
     expect(history.location.pathname).toBe("/");
   });
 
-  it("should redirect to questionnaire when it is not Unpublished", async () => {
+  it("should redirect to questionnaire when it is not Unpublished", () => {
     questionnaire.publishStatus = AWAITING_APPROVAL;
     const { history } = renderPublishPage();
-    await flushPromises();
     expect(history.location.pathname).toBe(`/q/${questionnaire.id}`);
+  });
+
+  it("should not redirect to questionnaire when user is owner", () => {
+    questionnaire.publishStatus = UNPUBLISHED;
+    user = { ...user, id: "1", admin: false };
+    const { history } = renderPublishPage();
+    expect(history.location.pathname).toBe(`/q/${questionnaire.id}/publish`);
+  });
+
+  it("should not redirect to questionnaire when user is editor", () => {
+    questionnaire.publishStatus = UNPUBLISHED;
+    user = { ...user, id: "2", admin: false };
+    const { history } = renderPublishPage();
+    expect(history.location.pathname).toBe(`/q/${questionnaire.id}/publish`);
   });
 });
