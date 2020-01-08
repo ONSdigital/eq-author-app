@@ -204,7 +204,7 @@ const FlexLabel = styled.div`
   width: 180px;
 
   @media (max-width: 1700px) {
-    width: 155px;
+    width: 138px;
   }
 
   @media (max-width: 1500px) {

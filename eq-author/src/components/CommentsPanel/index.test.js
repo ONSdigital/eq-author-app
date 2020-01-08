@@ -8,6 +8,9 @@ import COMMENT_ADD from "./createNewComment.graphql";
 import COMMENT_DELETE from "./deleteComment.graphql";
 import COMMENT_UPDATE from "./updateComment.graphql";
 import COMMENT_SUBSCRIPTION from "./commentSubscription.graphql";
+import REPLY_ADD from "./createNewReply.graphql";
+import REPLY_DELETE from "./deleteReply.graphql";
+import REPLY_UPDATE from "./updateReply.graphql";
 
 describe("Comments Pane", () => {
   let queryWasCalled,

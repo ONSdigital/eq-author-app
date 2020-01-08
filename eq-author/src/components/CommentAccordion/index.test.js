@@ -7,7 +7,7 @@ describe("CommentAccordion", () => {
     const { getByTestId } = render(
       <CommentAccordion title="foo">Comment Accordion panel</CommentAccordion>
     );
-    expect(getByTestId("accordion-foo-body")).toBeVisible();
+    expect(getByTestId("accordion-foo-body")).not.toBeVisible();
     expect(getByTestId("accordion-foo-button")).toBeVisible();
   });
 
@@ -15,12 +15,12 @@ describe("CommentAccordion", () => {
     const { getByTestId } = render(
       <CommentAccordion title="foo">Comment Accordion panel</CommentAccordion>
     );
-    expect(getByTestId("accordion-foo-body")).toBeVisible(); //open
-
-    fireEvent.click(getByTestId("accordion-foo-button"));
     expect(getByTestId("accordion-foo-body")).not.toBeVisible(); //close
 
     fireEvent.click(getByTestId("accordion-foo-button"));
     expect(getByTestId("accordion-foo-body")).toBeVisible(); //open
+
+    fireEvent.click(getByTestId("accordion-foo-button"));
+    expect(getByTestId("accordion-foo-body")).not.toBeVisible(); //close
   });
 });
