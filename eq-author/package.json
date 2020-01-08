@@ -81,7 +81,7 @@
   "dependencies": {
     "@apollo/react-testing": "latest",
     "@sentry/browser": "latest",
-    "apollo-cache-inmemory": "latest",
+    "apollo-cache-inmemory": "1.6.2",
     "apollo-client": "latest",
     "apollo-link": "latest",
     "apollo-link-context": "latest",
