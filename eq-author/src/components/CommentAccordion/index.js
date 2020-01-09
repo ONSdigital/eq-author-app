@@ -38,7 +38,7 @@ const Container = styled.div`
   /* fixes ghosting issue in Chrome */
   backface-visibility: hidden;
   &:last-of-type ${Body} {
-    border-bottom: 1px solid #e4e8eb;
+    border-bottom: 1px solid ${colors.lightMediumGrey};
   }
 `;
 

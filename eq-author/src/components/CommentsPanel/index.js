@@ -494,8 +494,6 @@ const CommentsPanel = ({
     });
     numberOfReplies = displayReplies.length;
 
-    console.log(displayReplies);
-
     const editCommentName = `edit-comment-${index}`;
     const replyComment = `reply-comment-${index}`;
     const setScroll = tag => {
