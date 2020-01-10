@@ -23,13 +23,13 @@ const invalidStyle = css`
 
 export const sharedStyles = css`
   font-size: 1em;
-  border: 1px solid ${colors.borders};
+  border: thin solid ${colors.borders};
   padding: 0.5em;
   color: ${colors.black};
   display: block;
   width: 100%;
   transition: outline-color 100ms ease-in, border-color 100ms ease-in;
-  outline: 1px solid transparent;
+  outline: thin solid transparent;
 
   &:hover {
     border-color: ${colors.blue};
