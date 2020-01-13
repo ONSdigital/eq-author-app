@@ -3,7 +3,7 @@ import { withApollo, Query } from "react-apollo";
 import gql from "graphql-tag";
 import CustomPropTypes from "custom-prop-types";
 import PropTypes from "prop-types";
-import { get, flowRight, isFunction, isEmpty } from "lodash";
+import { get, flowRight, isFunction } from "lodash";
 import fp from "lodash/fp";
 
 import SectionEditor from "App/section/Design/SectionEditor";
@@ -112,17 +112,7 @@ export class UnwrappedSectionRoute extends React.Component {
   );
 
   renderContent() {
-    const { loading, error, section, onUpdate, onChange } = this.props;
-    if (loading) {
-      return <Loading height="24.25rem">Section loading…</Loading>;
-    }
-    if (error) {
-      return <Error>Something went wrong</Error>;
-    }
-    if (isEmpty(section)) {
-      return <Error>Oops! Section could not be found</Error>;
-    }
-
+    const { section, onUpdate, onChange } = this.props;
     return (
       <>
         <Toolbar>
@@ -228,6 +218,7 @@ export const SECTION_QUERY = gql`
 const SectionRoute = props => (
   <Query
     query={SECTION_QUERY}
+    fetchPolicy="cache-and-network"
     variables={{
       input: {
         questionnaireId: props.match.params.questionnaireId,
@@ -235,13 +226,42 @@ const SectionRoute = props => (
       },
     }}
   >
-    {innerProps => (
-      <WrappedSectionRoute
-        section={get(innerProps, "data.section", {})}
-        {...innerProps}
-        {...props}
-      />
-    )}
+    {innerProps => {
+      if (innerProps.loading) {
+        return (
+          <EditorLayout title={get(innerProps, "data.section.displayName", "")}>
+            <Panel>
+              <Loading height="24.25rem">Section loading…</Loading>
+            </Panel>
+          </EditorLayout>
+        );
+      }
+      if (innerProps.error) {
+        return (
+          <EditorLayout title={""}>
+            <Panel>
+              <Error>Something went wrong</Error>
+            </Panel>
+          </EditorLayout>
+        );
+      }
+      if (!innerProps.data.section) {
+        return (
+          <EditorLayout title={""}>
+            <Panel>
+              <Error>Oops! Section could not be found</Error>
+            </Panel>
+          </EditorLayout>
+        );
+      }
+      return (
+        <WrappedSectionRoute
+          section={get(innerProps, "data.section", {})}
+          {...innerProps}
+          {...props}
+        />
+      );
+    }}
   </Query>
 );
 

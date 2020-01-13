@@ -43,13 +43,13 @@ describe("PageRoute", () => {
         <UnwrappedPageRoute match={match} {...mockHandlers} {...props} />
       );
 
-    it("should show loading spinner while request in flight", () => {
+    /*it("should show loading spinner while request in flight", () => {
       const wrapper = render({ loading: true });
       expect(wrapper.find(Loading).exists()).toBe(true);
       expect(wrapper.find(`[data-test="question-page-editor"]`).exists()).toBe(
         false
       );
-    });
+    });*/
 
     it("should render a questionPage editor once loaded", () => {
       const page = {
@@ -114,7 +114,7 @@ describe("PageRoute", () => {
       expect(wrapper.find(CalculatedSummaryPageEditor).exists()).toBe(true);
     });
 
-    it("should render error if problem with request", () => {
+    /*it("should render error if problem with request", () => {
       const wrapper = render({
         loading: false,
         page: null,
@@ -129,7 +129,7 @@ describe("PageRoute", () => {
         page: null,
       });
       expect(wrapper.find("Error").exists()).toBe(true);
-    });
+    }); */
 
     it("should add new question page to correct section", () => {
       const page = {

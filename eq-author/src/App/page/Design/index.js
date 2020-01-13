@@ -71,20 +71,6 @@ export class UnwrappedPageRoute extends React.Component {
     this.props.onAddQuestionPage(page.section.id, page.position + 1);
   };
 
-  renderContent = () => {
-    const { loading, page } = this.props;
-
-    if (!isEmpty(page)) {
-      return this.renderPageType();
-    }
-
-    if (loading) {
-      return <Loading height="38rem">Page loading…</Loading>;
-    }
-
-    return <Error>Something went wrong</Error>;
-  };
-
   render() {
     const { page } = this.props;
     return (
@@ -94,7 +80,7 @@ export class UnwrappedPageRoute extends React.Component {
         title={(page || {}).displayName || ""}
         {...deriveAvailableTabs(page)}
       >
-        <Panel>{this.renderContent()}</Panel>
+        <Panel>{this.renderPageType()}</Panel>
       </EditorLayout>
     );
   }
@@ -130,6 +116,33 @@ const PageRoute = props => {
       }}
     >
       {innerProps => {
+        if (innerProps.loading) {
+          return (
+            <EditorLayout title={get(innerProps, "data.page.displayName", "")}>
+              <Panel>
+                <Loading height="24.25rem">Page loading…</Loading>
+              </Panel>
+            </EditorLayout>
+          );
+        }
+        if (innerProps.error) {
+          return (
+            <EditorLayout title={""}>
+              <Panel>
+                <Error>Something went wrong</Error>
+              </Panel>
+            </EditorLayout>
+          );
+        }
+        if (!innerProps.data.page) {
+          return (
+            <EditorLayout title={""}>
+              <Panel>
+                <Error>Oops! Page could not be found</Error>
+              </Panel>
+            </EditorLayout>
+          );
+        }
         return (
           <WrappedPageRoute
             {...innerProps}

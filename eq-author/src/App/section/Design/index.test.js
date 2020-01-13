@@ -257,7 +257,12 @@ describe("SectionRoute", () => {
           },
         },
       };
-      const wrapper = render([mock, moveSectionMock, publishStatusMock]);
+      const wrapper = render([
+        mock,
+        moveSectionMock,
+        publishStatusMock,
+        publishStatusMock,
+      ]);
       expect(wrapper.find(`[data-test="loading"]`).exists()).toBe(true);
       expect(wrapper.find(`[data-test="section-editor"]`).exists()).toBe(false);
       await act(async () => {
@@ -308,6 +313,7 @@ describe("SectionRoute", () => {
         mock,
         moveSectionMock,
         moveSectionMock,
+        publishStatusMock,
         publishStatusMock,
       ]);
 
