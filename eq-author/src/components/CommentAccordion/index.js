@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { kebabCase } from "lodash";
+// import { kebabCase } from "lodash";
 import styled from "styled-components";
 import { colors } from "constants/theme";
 import chevron from "./icon-chevron.svg";
@@ -89,7 +89,7 @@ class CommentAccordion extends Component {
   render() {
     const { children, title } = this.props;
     const { open } = this.state;
-    const kebabTitle = kebabCase(title);
+    // const kebabTitle = kebabCase(title);
     return (
       <Container>
         <Header>
@@ -98,8 +98,8 @@ class CommentAccordion extends Component {
               open={open}
               onClick={this.handleToggle}
               aria-expanded={open}
-              aria-controls={`accordion-${kebabTitle}`}
-              data-test={`accordion-${kebabTitle}-button`}
+              aria-controls={`accordion-${title}`}
+              data-test={`accordion-${title}-button`}
             >
               {title} Replies - {!open && "Show"}
               {open && "Hide"}
@@ -107,8 +107,8 @@ class CommentAccordion extends Component {
           </Title>
         </Header>
         <Body
-          id={`accordion-${kebabTitle}`}
-          data-test={`accordion-${kebabTitle}-body`}
+          id={`accordion-${title}`}
+          data-test={`accordion-${title}-body`}
           open={open}
           aria-hidden={!open}
         >

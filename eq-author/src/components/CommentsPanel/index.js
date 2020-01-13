@@ -245,7 +245,6 @@ const CommentsPanel = ({
       input: { pageId },
     },
   });
-  const commentsArray = get(data, "page.comments", []);
 
   const [createComment] = useMutation(COMMENT_ADD);
   const [deleteComment] = useMutation(COMMENT_DELETE);
@@ -307,6 +306,7 @@ const CommentsPanel = ({
     });
     setComment("");
     setActiveComment("");
+    setActiveReply("");
   };
 
   const handleDelete = event => {
@@ -362,6 +362,7 @@ const CommentsPanel = ({
   };
 
   let numberOfReplies = "";
+  let arrayLength;
 
   const handleDeleteReply = (event, repliesItem) => {
     const commentId = event.id;
@@ -423,10 +424,12 @@ const CommentsPanel = ({
     return <Error>Oops! Something went wrong</Error>;
   }
 
+  const commentsArray = get(data, "page.comments", []);
+
   const displayComments = commentsArray.map((item, index) => {
     const repliesArray = commentsArray[index].replies;
     const displayReplies = repliesArray.map((repliesItem, repliesIndex) => {
-      const editReplyName = `edit-reply-${repliesIndex}`;
+      const editReplyName = `edit-reply-${index}-${repliesIndex}`;
       return (
         <Reply key={repliesItem.id} indent>
           <CommentHeaderContainer>
@@ -444,12 +447,12 @@ const CommentsPanel = ({
             <EditButtonIcon
               hideEditBtn={repliesItem.user.id !== myId}
               onClick={() => handleEditReply(repliesItem)}
-              data-test={`btn-edit-reply-${repliesIndex}`}
+              data-test={`btn-edit-reply-${index}-${repliesIndex}`}
             />
             <DeleteComment
               hideDeleteBtn={repliesItem.user.id !== myId}
               onClick={() => handleDeleteReply(item, repliesItem)}
-              data-test={`btn-delete-reply-${repliesIndex}`}
+              data-test={`btn-delete-reply-${index}-${repliesIndex}`}
             />
           </CommentHeaderContainer>
           {activeReply !== repliesItem.id ? (
@@ -475,14 +478,14 @@ const CommentsPanel = ({
                 name={editReplyName}
                 type="text"
                 onChange={({ target }) => setEditReply(target.value)}
-                data-test={`reply-txtArea-${index}`}
+                data-test={`reply-txtArea-${index}-${repliesIndex}`}
               />
               <CommentFooterContainer>
                 <SaveButton
                   id={repliesIndex}
                   medium
                   onClick={() => handleSaveEditReply(item, repliesItem)}
-                  data-test={`btn-save-editedReply-${repliesIndex}`}
+                  data-test={`btn-save-editedReply-${index}-${repliesIndex}`}
                 >
                   Save
                 </SaveButton>
@@ -492,7 +495,8 @@ const CommentsPanel = ({
         </Reply>
       );
     });
-    numberOfReplies = displayReplies.length;
+    arrayLength = displayReplies.length;
+    numberOfReplies = arrayLength.toString();
 
     const editCommentName = `edit-comment-${index}`;
     const replyComment = `reply-comment-${index}`;
@@ -580,6 +584,7 @@ const CommentsPanel = ({
             {displayReplies}
           </StyledAccordion>
         )}
+
         {/* ////////////////////////////////////////////R E P L I E S//////////////////////////////////// */}
 
         {activeReply === item.id && (
@@ -628,6 +633,7 @@ const CommentsPanel = ({
             minRows={4}
             maxRows={4}
             onChange={({ target }) => setComment(target.value)}
+            onClick={() => setActiveReply("")}
             data-test="comment-txt-area"
           />
         </Field>

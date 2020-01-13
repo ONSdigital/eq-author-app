@@ -1,26 +1,30 @@
 import React from "react";
-import { render, fireEvent } from "tests/utils/rtl";
+import { render, fireEvent, act } from "tests/utils/rtl";
 import CommentAccordion from "./";
 
 describe("CommentAccordion", () => {
   it("should render open", () => {
     const { getByTestId } = render(
-      <CommentAccordion title="foo">Comment Accordion panel</CommentAccordion>
+      <CommentAccordion title="1">Comment Accordion panel</CommentAccordion>
     );
-    expect(getByTestId("accordion-foo-body")).not.toBeVisible();
-    expect(getByTestId("accordion-foo-button")).toBeVisible();
+    expect(getByTestId("accordion-1-body")).not.toBeVisible();
+    expect(getByTestId("accordion-1-button")).toBeVisible();
   });
 
-  it("should open and close accordion", () => {
+  it("should open and close accordion", async () => {
     const { getByTestId } = render(
-      <CommentAccordion title="foo">Comment Accordion panel</CommentAccordion>
+      <CommentAccordion title="1">Comment Accordion panel</CommentAccordion>
     );
-    expect(getByTestId("accordion-foo-body")).not.toBeVisible(); //close
+    expect(getByTestId("accordion-1-body")).not.toBeVisible(); //close
 
-    fireEvent.click(getByTestId("accordion-foo-button"));
-    expect(getByTestId("accordion-foo-body")).toBeVisible(); //open
+    await act(async () => {
+      await fireEvent.click(getByTestId("accordion-1-button"));
+    });
+    expect(getByTestId("accordion-1-body")).toBeVisible(); //open
 
-    fireEvent.click(getByTestId("accordion-foo-button"));
-    expect(getByTestId("accordion-foo-body")).not.toBeVisible(); //close
+    await act(async () => {
+      await fireEvent.click(getByTestId("accordion-1-button"));
+    });
+    expect(getByTestId("accordion-1-body")).not.toBeVisible(); //close
   });
 });
