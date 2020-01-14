@@ -15,6 +15,20 @@ query Page($input: QueryInput!) {
                 displayName
             }
             createdTime
+            editedTime
+            replies {
+              id
+              commentText
+              createdTime
+              editedTime
+              user {
+                id
+                name
+                picture
+                email
+                displayName
+              }
+            }
         }
     }
 }`;
