@@ -1,0 +1,8 @@
+mutation UpdateCalculatedSummaryPage(
+  $input: UpdateCalculatedSummaryPageInput!
+) {
+  updateCalculatedSummaryPage(input: $input) {
+    id
+    qCode
+  }
+}

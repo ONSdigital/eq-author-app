@@ -108,6 +108,10 @@ const buildAuthorConfirmationQuestion = (
     answers: [confirmationAnswerObject],
   };
 
+  if (page.confirmation.qCode) {
+    confirmationAnswerObject.qCode = page.confirmation.qCode;
+  }
+
   return new Block(confirmationQuestionObject, groupId, ctx);
 };
 

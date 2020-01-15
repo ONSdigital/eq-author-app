@@ -1,0 +1,61 @@
+query GetAnswers($input: QueryInput!) {
+  questionnaire(input: $input) {
+    sections {
+      pages {
+        ... on QuestionPage {
+          id
+          title
+          alias
+          confirmation {
+            id
+            displayName
+            title
+            qCode
+          }
+          answers {
+            id
+            label
+            secondaryLabel
+            type
+            qCode
+            ... on BasicAnswer {
+              secondaryQCode
+            }
+            ... on MultipleChoiceAnswer {
+              options {
+                id
+                label
+                qCode
+              }
+              mutuallyExclusiveOption {
+                id
+                label
+                qCode
+              }
+            }
+          }
+        }
+        ... on CalculatedSummaryPage {
+          id
+          title
+          alias
+          totalTitle
+          displayName
+          pageType
+          qCode
+          summaryAnswers {
+            id
+            displayName
+            label
+            qCode
+          }
+          section {
+            id
+            id
+            title
+          }
+        }
+      }
+    }
+  }
+}
