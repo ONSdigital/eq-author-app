@@ -39,6 +39,14 @@ describe("Upsert User", () => {
     expect(res.json).toHaveBeenCalledWith({ status: "OK" });
   });
 
+  it("should allow a user to be created when the allowed list is empty", async () => {
+    process.env.ALLOWED_EMAIL_LIST = "";
+    await upsertUser(req, res, next);
+    const user = await getUserByExternalId(req.user.externalId);
+    expect(user).toMatchObject(req.user);
+    expect(res.json).toHaveBeenCalledWith({ status: "OK" });
+  });
+
   it("should stop unallowed emails from being saved", async () => {
     process.env.ALLOWED_EMAIL_LIST = "@a.fake.com";
     await upsertUser(req, res, next);

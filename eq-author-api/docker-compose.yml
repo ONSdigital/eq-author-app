@@ -35,7 +35,7 @@ services:
       - JAEGER_SAMPLER_PARAM=1
       - REDIS_DOMAIN_NAME=redis
       - REDIS_PORT=6379
-      - ALLOWED_EMAIL_LIST="@ons.gov.uk, @ons.ext.gov.uk"
+      - ALLOWED_EMAIL_LIST=""
     entrypoint:
       - yarn
       - start:dev
