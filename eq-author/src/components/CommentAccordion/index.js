@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-// import { kebabCase } from "lodash";
 import styled from "styled-components";
 import { colors } from "constants/theme";
 import chevron from "./icon-chevron.svg";
@@ -10,7 +9,6 @@ const Header = styled.div`
   color: ${colors.blue};
   text-decoration: underline;
   &:hover {
-    /* background: #f3f3f3; */
     color: ${colors.grey};
   }
 `;
@@ -32,14 +30,6 @@ export const Body = styled.div`
   transition: opacity 100ms ease-in-out;
   opacity: ${props => (props.open ? "1" : "0")};
   height: ${props => (props.open ? "auto" : "0")};
-`;
-
-const Container = styled.div`
-  /* fixes ghosting issue in Chrome */
-  backface-visibility: hidden;
-  &:last-of-type ${Body} {
-    border-bottom: 1px solid ${colors.lightMediumGrey};
-  }
 `;
 
 export const Button = styled.button`
@@ -89,9 +79,14 @@ class CommentAccordion extends Component {
   render() {
     const { children, title } = this.props;
     const { open } = this.state;
-    // const kebabTitle = kebabCase(title);
+    let replyTitle;
+    if (title > 1) {
+      replyTitle = " Replies";
+    } else {
+      replyTitle = " Reply";
+    }
     return (
-      <Container>
+      <>
         <Header>
           <Title>
             <Button
@@ -101,8 +96,10 @@ class CommentAccordion extends Component {
               aria-controls={`accordion-${title}`}
               data-test={`accordion-${title}-button`}
             >
-              {title} Replies - {!open && "Show"}
-              {open && "Hide"}
+              {!open && "Show "}
+              {open && "Hide "}
+              {title}
+              {replyTitle}
             </Button>
           </Title>
         </Header>
@@ -114,7 +111,7 @@ class CommentAccordion extends Component {
         >
           <DisplayContent open={open}>{children}</DisplayContent>
         </Body>
-      </Container>
+      </>
     );
   }
 }

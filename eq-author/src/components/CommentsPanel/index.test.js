@@ -1,7 +1,6 @@
 import React from "react";
 import { render, flushPromises, fireEvent, act } from "tests/utils/rtl";
 import { MeContext } from "App/MeContext";
-// import { async } from "rxjs/internal/scheduler/async";
 
 import CommentsPanel from "./";
 import COMMENT_QUERY from "./commentsQuery.graphql";
@@ -613,151 +612,158 @@ describe("Comments Pane", () => {
     expect(getByText("This is an edited comment")).toBeTruthy();
   });
 
-  ///////////////////////////////////////////Replies////////////////////////////////
-
-  it("should render a previous reply", async () => {
-    const { getByText } = renderWithContext(<CommentsPanel />, {
-      ...props,
-    });
-
-    await act(async () => {
-      await flushPromises();
-    });
-
-    expect(queryWasCalled).toBeTruthy();
-    expect(getByText("Query reply body")).toBeTruthy();
-  });
-
-  it("should create a new reply", async () => {
-    const { getByText, getByTestId } = renderWithContext(<CommentsPanel />, {
-      ...props,
-    });
-    await act(async () => {
-      await flushPromises();
-      await fireEvent.click(getByTestId("btn-reply-comment-0"));
-    });
-
-    const replyTxtArea = getByTestId("reply-txtArea-0");
-    expect(replyTxtArea).toHaveStyle("display: block");
-
-    await act(async () => {
-      await fireEvent.change(replyTxtArea, {
-        target: { name: "reply-comment-0", value: "This is a test ADD reply" },
+  describe("Replies", () => {
+    it("should render a previous reply", async () => {
+      const { getByText } = renderWithContext(<CommentsPanel />, {
+        ...props,
       });
-      await flushPromises();
-      await fireEvent.click(getByTestId("btn-save-reply-0"));
-    });
 
-    expect(createReplyWasCalled).toBeTruthy();
-    expect(newCommentSubscriptionWasCalled).toBeTruthy();
-    expect(getByText("This is a test ADD reply")).toBeTruthy();
-  });
-
-  it("should hide reply delete button if reply exist && comment user !== me", async () => {
-    const { getByTestId } = renderWithContext(<CommentsPanel />, {
-      ...props,
-    });
-
-    await act(async () => {
-      await flushPromises();
-    });
-    const deleteCommentButton = getByTestId("btn-delete-reply-0-0");
-
-    expect(deleteCommentButton).toHaveStyleRule("display: none;");
-  });
-
-  it("should render enabled delete button if reply exist && user === me", async () => {
-    const { getByTestId } = renderWithContext(<CommentsPanel />, { ...props });
-
-    await act(async () => {
-      await flushPromises();
-    });
-    const deleteCommentButton = getByTestId("btn-delete-reply-0-1");
-
-    expect(deleteCommentButton).toHaveStyleRule("display: block");
-  });
-
-  it("should be able to delete an existing reply", async () => {
-    const { getByText, getByTestId } = renderWithContext(<CommentsPanel />, {
-      ...props,
-    });
-
-    await act(async () => {
-      await flushPromises();
-    });
-
-    const reply = getByText("Query reply body2");
-    expect(reply).toBeTruthy();
-
-    await act(async () => {
-      await fireEvent.click(getByTestId("btn-delete-reply-0-1"));
-    });
-
-    expect(deleteReplyWasCalled).toBeTruthy();
-    expect(newCommentSubscriptionWasCalled).toBeTruthy();
-    expect(reply).toBeTruthy();
-  });
-
-  it("should hide reply edit button if reply exist && comment user !== me", async () => {
-    const { getByTestId } = renderWithContext(<CommentsPanel />, {
-      ...props,
-    });
-
-    await act(async () => {
-      await flushPromises();
-    });
-    const editReplyButton = getByTestId("btn-edit-reply-0-0");
-
-    expect(editReplyButton).toHaveStyleRule("display: none;");
-  });
-
-  it("should render enabled edit reply button if reply exist && user === me", async () => {
-    const { getByTestId } = renderWithContext(<CommentsPanel />, { ...props });
-
-    await act(async () => {
-      await flushPromises();
-    });
-    const editReplyButton = getByTestId("btn-delete-reply-0-1");
-
-    expect(editReplyButton).toHaveStyleRule("display: block");
-  });
-
-  it("should update a reply", async () => {
-    const { getByText, getByTestId } = renderWithContext(<CommentsPanel />, {
-      ...props,
-    });
-
-    await act(async () => {
-      await flushPromises();
-      const accordion = getByTestId("accordion-2-button");
-      fireEvent.click(accordion);
-    });
-
-    await act(async () => {
-      await flushPromises();
-      const editReplyBtn = getByTestId("btn-edit-reply-0-1");
-      fireEvent.click(editReplyBtn);
-    });
-
-    const editReplyTxtArea = getByTestId("reply-txtArea-0-1");
-
-    await act(async () => {
-      fireEvent.change(editReplyTxtArea, {
-        target: {
-          name: "edit-reply-0-1",
-          value: "This is an edited reply",
-        },
+      await act(async () => {
+        await flushPromises();
       });
+
+      expect(queryWasCalled).toBeTruthy();
+      expect(getByText("Query reply body")).toBeTruthy();
     });
 
-    const editReplySaveBtn = getByTestId("btn-save-editedReply-0-1");
-    expect(editReplySaveBtn).toHaveStyle("display: inline-flex");
-    await act(async () => {
-      await fireEvent.click(editReplySaveBtn);
+    it("should create a new reply", async () => {
+      const { getByText, getByTestId } = renderWithContext(<CommentsPanel />, {
+        ...props,
+      });
+      await act(async () => {
+        await flushPromises();
+        await fireEvent.click(getByTestId("btn-reply-comment-0"));
+      });
+
+      const replyTxtArea = getByTestId("reply-txtArea-0");
+      expect(replyTxtArea).toHaveStyle("display: block");
+
+      await act(async () => {
+        await fireEvent.change(replyTxtArea, {
+          target: {
+            name: "reply-comment-0",
+            value: "This is a test ADD reply",
+          },
+        });
+        await flushPromises();
+        await fireEvent.click(getByTestId("btn-save-reply-0"));
+      });
+
+      expect(createReplyWasCalled).toBeTruthy();
+      expect(newCommentSubscriptionWasCalled).toBeTruthy();
+      expect(getByText("This is a test ADD reply")).toBeTruthy();
     });
 
-    expect(updateReplyWasCalled).toBeTruthy();
-    expect(newCommentSubscriptionWasCalled).toBeTruthy();
-    expect(getByText("This is an edited reply")).toBeTruthy();
+    it("should hide reply delete button if reply exist && comment user !== me", async () => {
+      const { getByTestId } = renderWithContext(<CommentsPanel />, {
+        ...props,
+      });
+
+      await act(async () => {
+        await flushPromises();
+      });
+      const deleteCommentButton = getByTestId("btn-delete-reply-0-0");
+
+      expect(deleteCommentButton).toHaveStyleRule("display: none;");
+    });
+
+    it("should render enabled delete button if reply exist && user === me", async () => {
+      const { getByTestId } = renderWithContext(<CommentsPanel />, {
+        ...props,
+      });
+
+      await act(async () => {
+        await flushPromises();
+      });
+      const deleteCommentButton = getByTestId("btn-delete-reply-0-1");
+
+      expect(deleteCommentButton).toHaveStyleRule("display: block");
+    });
+
+    it("should be able to delete an existing reply", async () => {
+      const { getByText, getByTestId } = renderWithContext(<CommentsPanel />, {
+        ...props,
+      });
+
+      await act(async () => {
+        await flushPromises();
+      });
+
+      const reply = getByText("Query reply body2");
+      expect(reply).toBeTruthy();
+
+      await act(async () => {
+        await fireEvent.click(getByTestId("btn-delete-reply-0-1"));
+      });
+
+      expect(deleteReplyWasCalled).toBeTruthy();
+      expect(newCommentSubscriptionWasCalled).toBeTruthy();
+      expect(reply).toBeTruthy();
+    });
+
+    it("should hide reply edit button if reply exist && comment user !== me", async () => {
+      const { getByTestId } = renderWithContext(<CommentsPanel />, {
+        ...props,
+      });
+
+      await act(async () => {
+        await flushPromises();
+      });
+      const editReplyButton = getByTestId("btn-edit-reply-0-0");
+
+      expect(editReplyButton).toHaveStyleRule("display: none;");
+    });
+
+    it("should render enabled edit reply button if reply exist && user === me", async () => {
+      const { getByTestId } = renderWithContext(<CommentsPanel />, {
+        ...props,
+      });
+
+      await act(async () => {
+        await flushPromises();
+      });
+      const editReplyButton = getByTestId("btn-delete-reply-0-1");
+
+      expect(editReplyButton).toHaveStyleRule("display: block");
+    });
+
+    it("should update a reply", async () => {
+      const { getByText, getByTestId } = renderWithContext(<CommentsPanel />, {
+        ...props,
+      });
+
+      await act(async () => {
+        await flushPromises();
+        const accordion = getByTestId("accordion-2-button");
+        fireEvent.click(accordion);
+      });
+
+      await act(async () => {
+        await flushPromises();
+        const editReplyBtn = getByTestId("btn-edit-reply-0-1");
+        fireEvent.click(editReplyBtn);
+      });
+
+      const editReplyTxtArea = getByTestId("reply-txtArea-0-1");
+
+      await act(async () => {
+        fireEvent.change(editReplyTxtArea, {
+          target: {
+            name: "edit-reply-0-1",
+            value: "This is an edited reply",
+          },
+        });
+      });
+
+      const editReplySaveBtn = getByTestId("btn-save-editedReply-0-1");
+      expect(editReplySaveBtn).toHaveStyle("display: inline-flex");
+      await act(async () => {
+        await fireEvent.click(editReplySaveBtn);
+      });
+
+      expect(updateReplyWasCalled).toBeTruthy();
+      expect(newCommentSubscriptionWasCalled).toBeTruthy();
+      expect(getByText("This is an edited reply")).toBeTruthy();
+    });
   });
 });

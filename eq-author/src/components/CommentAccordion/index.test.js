@@ -15,16 +15,16 @@ describe("CommentAccordion", () => {
     const { getByTestId } = render(
       <CommentAccordion title="1">Comment Accordion panel</CommentAccordion>
     );
-    expect(getByTestId("accordion-1-body")).not.toBeVisible(); //close
+    expect(getByTestId("accordion-1-body")).not.toBeVisible();
 
     await act(async () => {
       await fireEvent.click(getByTestId("accordion-1-button"));
     });
-    expect(getByTestId("accordion-1-body")).toBeVisible(); //open
+    expect(getByTestId("accordion-1-body")).toBeVisible();
 
     await act(async () => {
       await fireEvent.click(getByTestId("accordion-1-button"));
     });
-    expect(getByTestId("accordion-1-body")).not.toBeVisible(); //close
+    expect(getByTestId("accordion-1-body")).not.toBeVisible();
   });
 });
