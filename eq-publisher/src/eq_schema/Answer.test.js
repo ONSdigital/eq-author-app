@@ -8,6 +8,7 @@ const {
   PERCENTAGE,
   UNIT,
   DURATION,
+  TEXTAREA,
 } = require("../constants/answerTypes");
 const Answer = require("./Answer");
 const Question = require("./Question");
@@ -108,6 +109,20 @@ describe("Answer", () => {
     );
     expect(yearDate.type).toBe("YearDate");
   });
+
+  it("should set maxLength property for textarea types", () => {
+    const answer = new Answer(
+      createAnswerJSON({
+        type: TEXTAREA,
+        properties: {
+          maxLength: "64",
+        },
+      })
+    );
+
+    expect(answer.max_length).toBe(64);
+  });
+
   describe("validation", () => {
     it("should not add validation if undefined", () => {
       const answer = new Answer(

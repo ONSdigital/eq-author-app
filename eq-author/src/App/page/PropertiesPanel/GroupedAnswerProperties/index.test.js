@@ -1,7 +1,13 @@
 import React from "react";
 import { shallow } from "enzyme";
 
-import { CURRENCY, DATE, UNIT, DURATION } from "constants/answer-types";
+import {
+  CURRENCY,
+  DATE,
+  UNIT,
+  DURATION,
+  TEXTAREA,
+} from "constants/answer-types";
 import { KILOJOULES, CENTIMETRES } from "constants/unit-types";
 import { YEARSMONTHS, YEARS } from "constants/duration-types";
 import { flushPromises, render, fireEvent, act } from "tests/utils/rtl";
@@ -298,6 +304,106 @@ describe("Grouped Answer Properties", () => {
         {
           unit: YEARS,
         }
+      );
+    });
+  });
+
+  describe("Text answers", () => {
+    const ERR_MAX_LENGTH_TOO_LARGE = "ERR_MAX_LENGTH_TOO_LARGE";
+    const ERR_MAX_LENGTH_TOO_SMALL = "ERR_MAX_LENGTH_TOO_SMALL";
+
+    it(`Should render 'Enter a character less than x' error on textarea answers`, () => {
+      const newProps = {
+        page: {
+          id: "pageId",
+          answers: [
+            {
+              id: "1",
+              type: TEXTAREA,
+              displayName: "qq",
+              properties: {
+                maxLength: 8,
+                required: false,
+              },
+              validationErrorInfo: {
+                id: "1",
+                errors: [
+                  {
+                    errorCode: ERR_MAX_LENGTH_TOO_SMALL,
+                    field: "properties",
+                    id:
+                      "answers-50903a1b-a33b-44c1-b135-3bb8626f81b3-properties",
+                    type: "answers",
+                    __typename: "ValidationError",
+                  },
+                ],
+                totalCount: 1,
+              },
+              __typename: "BasicAnswer",
+            },
+          ],
+        },
+        updateAnswersOfType: jest.fn(),
+      };
+      const { getByTestId } = render(
+        <UnwrappedGroupedAnswerProperties {...newProps} />,
+        {
+          route: "/q/1/page/2",
+          urlParamMatcher: "/q/:questionnaireId/page/:pageId",
+        }
+      );
+
+      const errMsg = getByTestId("MaxCharacterTooSmall");
+      expect(errMsg).toBeTruthy();
+      expect(errMsg.textContent).toBe(
+        "Enter a character limit greater than or equal to 10"
+      );
+    });
+    it(`Should render 'Enter a character more than x' error on textarea answers`, () => {
+      const newProps = {
+        page: {
+          id: "pageId",
+          answers: [
+            {
+              id: "1",
+              type: TEXTAREA,
+              displayName: "qq",
+              properties: {
+                maxLength: 2001,
+                required: false,
+              },
+              validationErrorInfo: {
+                id: "1",
+                errors: [
+                  {
+                    errorCode: ERR_MAX_LENGTH_TOO_LARGE,
+                    field: "properties",
+                    id:
+                      "answers-50903a1b-a33b-44c1-b135-3bb8626f81b3-properties",
+                    type: "answers",
+                    __typename: "ValidationError",
+                  },
+                ],
+                totalCount: 1,
+              },
+              __typename: "BasicAnswer",
+            },
+          ],
+        },
+        updateAnswersOfType: jest.fn(),
+      };
+      const { getByTestId } = render(
+        <UnwrappedGroupedAnswerProperties {...newProps} />,
+        {
+          route: "/q/1/page/2",
+          urlParamMatcher: "/q/:questionnaireId/page/:pageId",
+        }
+      );
+
+      const errMsg = getByTestId("MaxCharacterTooBig");
+      expect(errMsg).toBeTruthy();
+      expect(errMsg.textContent).toBe(
+        "Enter a character limit less than or equal to 2000"
       );
     });
   });

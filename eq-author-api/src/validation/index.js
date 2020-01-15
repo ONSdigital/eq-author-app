@@ -109,7 +109,6 @@ module.exports = questionnaire => {
       const dataPath = error.dataPath.split("/");
 
       const fieldname = dataPath.pop();
-
       let objectType = dataPath[dataPath.length - 1];
       if (!isNaN(objectType)) {
         // Must be in array of object type so get object type

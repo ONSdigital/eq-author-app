@@ -7,6 +7,7 @@ const {
   DATE,
   UNIT,
   DURATION,
+  TEXTAREA,
 } = require("../constants/answerTypes");
 
 const { unitConversion } = require("../constants/unit-types");
@@ -38,6 +39,10 @@ class Answer {
         case "Months":
           this.units = ["months"];
       }
+    }
+
+    if (answer.type === TEXTAREA) {
+      this.max_length = parseInt(answer.properties.maxLength);
     }
 
     if (!isNil(answer.validation)) {

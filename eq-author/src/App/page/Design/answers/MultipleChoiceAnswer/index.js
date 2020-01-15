@@ -23,7 +23,7 @@ import withMoveOption from "../withMoveOption";
 
 const AnswerWrapper = styled.div`
   margin: 2em 0 0;
-  width: 75%;
+  width: 85%;
 `;
 
 const AnswerHelper = styled.div`

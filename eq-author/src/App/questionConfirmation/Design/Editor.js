@@ -17,7 +17,7 @@ const Wrapper = styled.div`
 `;
 
 const OptionsWrapper = styled.div`
-  width: calc(75% - 6em);
+  width: calc(85% - 1em);
   margin-top: 3em;
 `;
 
