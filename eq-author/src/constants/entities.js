@@ -5,3 +5,4 @@ export const INTRODUCTION = "introduction";
 export const METADATA = "metadata";
 export const HISTORY = "history";
 export const PUBLISH = "publish";
+export const QCODES = "qcodes";

@@ -1,0 +1,25 @@
+query GetAnswers($input: QueryInput!) {
+  questionnaire(input: $input) {
+    sections {
+      pages {
+        ... on QuestionPage {
+          id
+          title
+          alias
+          answers {
+            label
+            type
+            qCode
+            ... on MultipleChoiceAnswer {
+              options {
+                id
+                label
+                qCode
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
