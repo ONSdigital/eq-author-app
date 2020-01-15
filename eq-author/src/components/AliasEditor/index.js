@@ -1,31 +1,38 @@
 import React from "react";
 import styled from "styled-components";
 import CharacterCounter from "components/CharacterCounter";
-import WrappingInput from "components/Forms/WrappingInput";
 import PropTypes from "prop-types";
 
+import { sharedStyles } from "components/Forms/css";
+import { colors } from "constants/theme";
+
 export const Wrapper = styled.div`
-  position: relative;
+  ${sharedStyles};
+  height: 2.3em;
+  display: flex;
   max-width: 22em;
-  flex: 1 1 auto;
 `;
 
-const StyledWrappingInput = styled(WrappingInput)`
-  white-space: nowrap;
+const InputBox = styled.input`
+  width: 100%;
+  outline: none;
+  border: none;
+  font-size: 1em;
+  color: ${colors.black};
 `;
 
 const AliasEditor = ({ onChange, onUpdate, alias }) => (
   <Wrapper>
-    <StyledWrappingInput
+    <InputBox
       id="alias"
+      type="text"
       data-test="alias"
+      autoComplete="off"
       name="alias"
       placeholder="Shortcode"
-      onChange={onChange}
-      onBlur={onUpdate}
-      value={alias}
-      maxLength={255}
-      maxRows={1}
+      onChange={e => onChange(e.target)}
+      onBlur={e => onUpdate(e.target)}
+      value={alias || ""}
     />
     <CharacterCounter value={alias} limit={24} />
   </Wrapper>
