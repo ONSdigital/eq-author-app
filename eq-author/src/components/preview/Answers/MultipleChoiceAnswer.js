@@ -144,7 +144,7 @@ const MultipleChoiceAnswer = ({ answer }) => {
   return (
     <Field>
       <Legend>{answer.label}</Legend>
-      {answer.type === CHECKBOX && (
+      {answer.type === CHECKBOX && !answer.label && (
         <SelectAll>Select all that apply:</SelectAll>
       )}
       {answer.options.map((option, index) => (
