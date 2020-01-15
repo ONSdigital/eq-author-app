@@ -32,7 +32,7 @@ import PageTitle from "./PageTitle";
 import UpdateQuestionnaireSettingsModal from "./UpdateQuestionnaireSettingsModal";
 import SavingIndicator from "./SavingIndicator";
 
-import { buildPublishPath } from "utils/UrlUtils";
+import { buildPublishPath, buildQcodesPath } from "utils/UrlUtils";
 
 const StyledHeader = styled.header`
   color: ${colors.white};
@@ -143,6 +143,17 @@ export const UnconnectedHeader = props => {
                 >
                   <IconText icon={settingsIcon}>Settings</IconText>
                 </Button>
+                {me.admin && (
+                  <RouteButton
+                    variant="tertiary-light"
+                    to={buildQcodesPath(match.params)}
+                    small
+                    disabled={title === "QCodes"}
+                    data-test="btn-review"
+                  >
+                    <IconText icon={settingsIcon}>QCodes</IconText>
+                  </RouteButton>
+                )}
                 <LinkButton
                   href={previewUrl}
                   variant="tertiary-light"
