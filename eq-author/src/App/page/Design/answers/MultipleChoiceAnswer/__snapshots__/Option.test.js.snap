@@ -310,7 +310,7 @@ exports[`Option should render a checkbox 1`] = `
 }
 
 .c3 {
-  margin-bottom: 1em;
+  margin-bottom: 1.5em;
 }
 
 .c0 {
@@ -477,7 +477,7 @@ exports[`Option should render a checkbox 1`] = `
                           "isStatic": false,
                           "lastClassName": "c3",
                           "rules": Array [
-                            "margin-bottom:1em;",
+                            "margin-bottom:1.5em;",
                           ],
                         },
                         "displayName": "Option__OptionField",
@@ -783,7 +783,7 @@ exports[`Option should render a checkbox 1`] = `
                     "isStatic": false,
                     "lastClassName": "c3",
                     "rules": Array [
-                      "margin-bottom:1em;",
+                      "margin-bottom:1.5em;",
                     ],
                   },
                   "displayName": "Option__OptionField",
