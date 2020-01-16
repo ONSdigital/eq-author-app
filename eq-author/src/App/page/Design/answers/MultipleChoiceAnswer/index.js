@@ -26,13 +26,6 @@ const AnswerWrapper = styled.div`
   width: 85%;
 `;
 
-const AnswerHelper = styled.div`
-  margin-bottom: 0.5em;
-  font-size: 0.9em;
-  font-weight: 600;
-  color: ${colors.text};
-`;
-
 const ExclusiveOr = styled.div`
   padding-bottom: 1em;
   font-size: 1em;
@@ -137,9 +130,6 @@ export class UnwrappedMultipleChoiceAnswer extends Component {
         type={answer.type}
       >
         <AnswerWrapper>
-          {answer.type === CHECKBOX && (
-            <AnswerHelper>Select all that apply</AnswerHelper>
-          )}
           <TransitionGroup
             component={Options}
             data-test="multiple-choice-options"
