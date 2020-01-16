@@ -605,6 +605,8 @@ const CommentsPanel = ({
             <CommentFooterContainer>
               <SaveButton
                 id={index}
+                disabled={!reply}
+                btn-save-reply
                 medium
                 onClick={() => handleSaveReply(item)}
                 data-test={`btn-save-reply-${index}`}

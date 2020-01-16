@@ -227,6 +227,7 @@ const Resolvers = {
       resolve: async ({ pageId, questionnaire }, args, ctx) => {
         ctx.questionnaire = questionnaire;
         const page = await getPageById(ctx, pageId);
+        console.log("-------------------", page);
         return page;
       },
       subscribe: () => pubsub.asyncIterator(["commentsUpdated"]),
