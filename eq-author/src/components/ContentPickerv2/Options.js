@@ -128,7 +128,7 @@ Option.propTypes = {
   onChange: PropTypes.func.isRequired,
 };
 
-const Options = ({ option, onChange }) => {
+const Options = ({ option, onChange, rightLabel }) => {
   return (
     <OptionsContainer>
       <OptionsLabel>Browse by</OptionsLabel>
@@ -146,14 +146,20 @@ const Options = ({ option, onChange }) => {
         icon={IconAnswers}
         onChange={onChange}
       >
-        Answers
+        {rightLabel}
       </Option>
     </OptionsContainer>
   );
 };
+
 Options.propTypes = {
   option: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
+  rightLabel: PropTypes.string,
+};
+
+Options.defaultProps = {
+  rightLabel: "Answers",
 };
 
 export default Options;

@@ -29,8 +29,10 @@ const Goto = styled.span`
   margin-right: 1em;
 `;
 
-export class UnwrappedDestinationSelector extends React.Component {
-  handleChange = ({ value: { __typename: type, id } }) => {
+export const UnwrappedDestinationSelector = props => {
+  const { label, id, disabled, value, match } = props;
+
+  const handleChange = ({ value: { __typename: type, id } }) => {
     let destination;
     if (type === "Section") {
       destination = {
@@ -46,34 +48,31 @@ export class UnwrappedDestinationSelector extends React.Component {
       };
     }
 
-    this.props.onChange(destination);
+    props.onChange(destination);
   };
 
-  render() {
-    const { label, id, disabled, value, match } = this.props;
-    return (
-      <RoutingRuleResult key={id}>
-        <Grid align="center">
-          <Column gutters={false} cols={5}>
-            <Label htmlFor={id} disabled={disabled}>
-              {label} <Goto>Go to: </Goto>
-            </Label>
-          </Column>
-          <Column gutters={false} cols={7}>
-            <RoutingDestinationContentPicker
-              id={id}
-              pageId={match.params.pageId}
-              selected={value}
-              onSubmit={this.handleChange}
-              disabled={disabled}
-              data-test="routing-destination-content-picker"
-            />
-          </Column>
-        </Grid>
-      </RoutingRuleResult>
-    );
-  }
-}
+  return (
+    <RoutingRuleResult key={id}>
+      <Grid align="center">
+        <Column gutters={false} cols={5}>
+          <Label htmlFor={id} disabled={disabled}>
+            {label} <Goto>Go to: </Goto>
+          </Label>
+        </Column>
+        <Column gutters={false} cols={7}>
+          <RoutingDestinationContentPicker
+            id={id}
+            pageId={match.params.pageId}
+            selected={value}
+            onSubmit={handleChange}
+            disabled={disabled}
+            data-test="routing-destination-content-picker"
+          />
+        </Column>
+      </Grid>
+    </RoutingRuleResult>
+  );
+};
 
 UnwrappedDestinationSelector.propTypes = {
   onChange: PropTypes.func.isRequired,

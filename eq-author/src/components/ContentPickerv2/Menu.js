@@ -25,8 +25,8 @@ export const MenuItem = styled.li`
   background-color: white;
   position: relative;
   cursor: pointer;
-  border-top: 1px solid #d8d8d8;
-  border-bottom: 1px solid #d8d8d8;
+  border-top: 1px solid ${colors.lightGrey};
+  border-bottom: 1px solid ${colors.lightGrey};
   margin: -1px 0;
   width: 100%;
   overflow: hidden;
@@ -117,7 +117,7 @@ export const MenuItemType = styled.span`
   justify-self: flex-end;
 `;
 
-const SectionTitle = styled.div`
+export const SectionTitle = styled.div`
   background: #f4f5f6;
   font-size: 11px;
   padding: 0.3rem 1rem;

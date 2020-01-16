@@ -4,6 +4,7 @@ import {
   ANSWER,
   METADATA,
   VARIABLES,
+  DESTINATION,
 } from "components/ContentPickerSelect/content-types";
 
 import ContentPicker from "./";
@@ -453,6 +454,7 @@ describe("Content picker", () => {
       ]);
     });
   });
+
   describe("variable content", () => {
     beforeEach(() => {
       props = {
@@ -522,6 +524,45 @@ describe("Content picker", () => {
 
       fireEvent.click(variableItem);
       expect(variableItem).toHaveAttribute("aria-selected", "false");
+    });
+  });
+  describe("destination content", () => {
+    beforeEach(() => {
+      props = {
+        ...props,
+        contentType: DESTINATION,
+      };
+    });
+
+    it("should render destination picker when specified", () => {
+      const { getByText } = renderContentPicker();
+
+      const modalHeader = getByText("Select a question");
+      expect(modalHeader).toBeTruthy();
+    });
+
+    it("should call onSubmit with selected question", () => {
+      const { getByText } = renderContentPicker();
+
+      const destinationItem = getByText("Page 1");
+      const confirmButton = getByText("Confirm");
+
+      fireEvent.click(destinationItem);
+      fireEvent.click(confirmButton);
+
+      expect(onSubmit).toHaveBeenCalledWith({
+        id: "Page 1",
+        displayName: "Page 1",
+        answers: [
+          {
+            id: "Percentage 1",
+            displayName: "Percentage 1",
+            type: "Percentage",
+          },
+          { id: "Number 1", displayName: "Number 1", type: "Number" },
+          { id: "Currency 1", displayName: "Currency 1", type: "Currency" },
+        ],
+      });
     });
   });
 });
