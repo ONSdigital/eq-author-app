@@ -84,6 +84,7 @@ class Question {
       this.type = "MutuallyExclusive";
       this.mandatory = get("properties.required", mutuallyExclusive);
       this.answers = this.buildMutuallyExclusiveAnswers(mutuallyExclusive);
+      delete this.answers[1].label;
     } else if (question.totalValidation && question.totalValidation.enabled) {
       this.type = "Calculated";
       this.answers = this.buildAnswers(question.answers);
@@ -140,7 +141,6 @@ class Question {
 
   buildMutuallyExclusiveAnswers(mutuallyExclusive) {
     Object.assign(mutuallyExclusive.properties, { required: false });
-    delete mutuallyExclusive.label;
     const mutuallyExclusiveAnswer = new Answer({
       ...mutuallyExclusive,
       id: `${mutuallyExclusive.id}-exclusive`,
