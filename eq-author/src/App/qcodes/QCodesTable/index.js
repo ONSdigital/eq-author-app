@@ -1,4 +1,5 @@
 import React from "react";
+import styled from "styled-components";
 import { useQuery } from "@apollo/react-hooks";
 
 import GET_ALL_ANSWERS from "./GetAllAnswers.graphql";
@@ -12,43 +13,113 @@ import {
   TableHeadColumn,
 } from "components/datatable/Elements";
 
-const renderDataRows = sections => {
-  const tableRows = [];
+const SpacedTableColumn = styled(TableColumn)`
+  padding: 0.5em;
+`;
+
+const buildOptionRow = (option, questionType) => {
+  const { id, label, qCode } = option;
+  return (
+    <Row
+      collapsed
+      id={id}
+      type={`${questionType} option`}
+      label={label}
+      qCode={qCode}
+    />
+  );
+};
+
+const buildQuestionRows = page => {
+  const rowBuilder = [];
+  const { id, alias, title, answers } = page;
+  const { type, label, qCode, options } = answers[0];
+  rowBuilder.push(
+    <Row
+      id={id}
+      alias={alias}
+      title={title}
+      type={type}
+      label={label}
+      qCode={qCode}
+    />
+  );
+
+  if (options) {
+    for (const option of options) {
+      const optionRow = buildOptionRow(option, type);
+      rowBuilder.push(optionRow);
+    }
+  }
+
+  return rowBuilder;
+};
+
+const buildContent = sections => {
+  const content = [];
 
   for (const section of sections) {
     const pages = section.pages;
+
     const rows = pages.map(page => {
-      if (page.answers.length == 1) {
-        const rowBuilder = [];
-        rowBuilder.push(
-          <TableRow key={page.id}>
-            <TableColumn>{page.alias}</TableColumn>
-            <TableColumn>{page.title}</TableColumn>
-            <TableColumn>{page.answers[0].type}</TableColumn>
-            <TableColumn>{page.answers[0].label}</TableColumn>
-            <TableColumn>{page.answers[0].qCode}</TableColumn>
-          </TableRow>
-        );
-        if (page.answers[0].options) {
-          for (const option of page.answers[0].options) {
-            rowBuilder.push(
-              <TableRow key={option.id}>
-                <TableColumn />
-                <TableColumn />
-                <TableColumn>{`${page.answers[0].type} option`}</TableColumn>
-                <TableColumn>{option.label}</TableColumn>
-                <TableColumn>{option.qCode}</TableColumn>
-              </TableRow>
-            );
+      const rowBuilder = [];
+      const numOfAnswersOnPage = page.answers.length;
+
+      rowBuilder.push(buildQuestionRows(page));
+
+      if (numOfAnswersOnPage > 1) {
+        for (let i = 1; i < numOfAnswersOnPage; i++) {
+          const { id, answers } = page;
+          const { type, label, qCode, options } = answers[i];
+          rowBuilder.push(
+            <Row collapsed id={id} type={type} label={label} qCode={qCode} />
+          );
+
+          if (options) {
+            for (const option of options) {
+              const optionRow = buildOptionRow(option, type);
+              rowBuilder.push(optionRow);
+            }
           }
         }
-        return rowBuilder;
       }
+
+      return rowBuilder;
     });
-    tableRows.push(rows);
+
+    content.push(rows);
   }
 
-  return tableRows;
+  return content;
+};
+
+const Row = ({ id, alias, title, type, label, qCode, collapsed }) => {
+  const renderGlobalColumns = () => (
+    <>
+      <SpacedTableColumn>{type}</SpacedTableColumn>
+      <SpacedTableColumn>{label}</SpacedTableColumn>
+      <SpacedTableColumn>{qCode}</SpacedTableColumn>
+    </>
+  );
+
+  if (collapsed) {
+    return (
+      <TableRow key={id}>
+        <SpacedTableColumn colSpan={2} />
+        {renderGlobalColumns()}
+      </TableRow>
+    );
+  }
+
+  return (
+    <TableRow key={id}>
+      <SpacedTableColumn>{alias}</SpacedTableColumn>
+      <SpacedTableColumn>
+        {title.replace(/(<([^>]+)>)/gi, "")}
+      </SpacedTableColumn>
+      {renderGlobalColumns()}
+    </TableRow>
+  );
 };
 
 const QCodesTable = ({ questionnaireId }) => {
@@ -64,6 +135,12 @@ const QCodesTable = ({ questionnaireId }) => {
     return <p>Loading ...</p>;
   }
 
+  if (error) {
+    return <p>Error</p>;
+  }
+
+  const { sections } = data.questionnaire;
+
   return (
     <Table data-test="qcodes-table">
       <TableHead>
@@ -75,7 +152,7 @@ const QCodesTable = ({ questionnaireId }) => {
           <TableHeadColumn width="20%">Qcode</TableHeadColumn>
         </TableRow>
       </TableHead>
-      <TableBody>{renderDataRows(data.questionnaire.sections)}</TableBody>
+      <TableBody>{buildContent(sections)}</TableBody>
     </Table>
   );
 };
