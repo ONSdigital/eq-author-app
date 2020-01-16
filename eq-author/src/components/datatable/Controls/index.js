@@ -5,3 +5,4 @@ export { default as TableInputDate } from "./TableInputDate";
 export { default as TableSelect } from "./TableSelect";
 export { default as TableTypeaheadMenu } from "./TableTypeaheadMenu";
 export { default as TableTypeaheadInput } from "./TableTypeaheadInput";
+export { default as TableTextArea } from "./TableTextArea";
