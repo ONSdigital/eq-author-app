@@ -25,6 +25,7 @@ import UserProfile from "components/UserProfile";
 import shareIcon from "./icon-share.svg?inline";
 import viewIcon from "./icon-view.svg?inline";
 import settingsIcon from "./icon-cog.svg?inline";
+import qcodeIcon from "./icon-qcode.svg?inline";
 import publishIcon from "./icon-publish.svg?inline";
 import reviewIcon from "./icon-review.svg?inline";
 import SharingModal from "./SharingModal";
@@ -151,7 +152,7 @@ export const UnconnectedHeader = props => {
                     disabled={title === "QCodes"}
                     data-test="btn-review"
                   >
-                    <IconText icon={settingsIcon}>QCodes</IconText>
+                    <IconText icon={qcodeIcon}>QCodes</IconText>
                   </RouteButton>
                 )}
                 <LinkButton
