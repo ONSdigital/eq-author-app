@@ -79,12 +79,8 @@ class CommentAccordion extends Component {
   render() {
     const { children, title } = this.props;
     const { open } = this.state;
-    let replyTitle;
-    if (title > 1) {
-      replyTitle = " Replies";
-    } else {
-      replyTitle = " Reply";
-    }
+    const replyTitle = title > 1 ? " Replies" : " Reply";
+
     return (
       <>
         <Header>

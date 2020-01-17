@@ -152,13 +152,13 @@ describe("comments", () => {
 
     const commentId = newComment.id;
 
-    const queryComment = await deleteComment(ctx, {
+    const queriedComment = await deleteComment(ctx, {
       pageId: createdQuestionPage.id,
       commentId: commentId,
     });
 
-    expect(queryComment.comments).toHaveLength(0);
-    expect(queryComment).toMatchObject({
+    expect(queriedComment.comments).toHaveLength(0);
+    expect(queriedComment).toMatchObject({
       id: createdQuestionPage.id,
       comments: [],
     });
@@ -193,13 +193,13 @@ describe("comments", () => {
 
     const commentId = newComment.id;
 
-    const queryComment = await deleteComment(ctx, {
+    const queriedComment = await deleteComment(ctx, {
       pageId: createdCalSumPage.id,
       commentId: commentId,
     });
 
-    expect(queryComment.comments).toHaveLength(0);
-    expect(queryComment).toMatchObject({
+    expect(queriedComment.comments).toHaveLength(0);
+    expect(queriedComment).toMatchObject({
       id: createdCalSumPage.id,
       comments: [],
     });
@@ -220,13 +220,13 @@ describe("comments", () => {
   });
 
   describe("replies", () => {
-    it("should add a reply on question page and then query that reply", async () => {
-      const newComment = await createComment(ctx, {
+    it("should add a reply to a comment - on question page", async () => {
+      const comment = await createComment(ctx, {
         pageId: createdQuestionPage.id,
         commentText: "a new comment is created",
       });
 
-      const commentId = newComment.id;
+      const commentId = comment.id;
 
       await createReply(ctx, {
         pageId: createdQuestionPage.id,
@@ -234,22 +234,16 @@ describe("comments", () => {
         commentText: "a new reply is created",
       });
 
-      const queryComment = await queryComments(ctx, {
+      const queriedComment = await queryComments(ctx, {
         pageId: createdQuestionPage.id,
       });
 
-      expect(queryComment).toMatchObject({
-        id: createdQuestionPage.id,
-        comments: [
-          {
-            commentText: "a new comment is created",
-            replies: [{ commentText: "a new reply is created" }],
-          },
-        ],
-      });
+      expect(queriedComment.comments[0].replies).toMatchObject([
+        { commentText: "a new reply is created" },
+      ]);
     });
 
-    it("should add a reply on calsum page and then reply that comment", async () => {
+    it("should add a comment on calsum page and then reply to that comment", async () => {
       const newComment = await createComment(ctx, {
         pageId: createdCalSumPage.id,
         commentText: "a new comment is created",
@@ -263,22 +257,16 @@ describe("comments", () => {
         commentText: "a new reply is created",
       });
 
-      const queryComment = await queryComments(ctx, {
+      const queriedComment = await queryComments(ctx, {
         pageId: createdCalSumPage.id,
       });
 
-      expect(queryComment).toMatchObject({
-        id: createdCalSumPage.id,
-        comments: [
-          {
-            commentText: "a new comment is created",
-            replies: [{ commentText: "a new reply is created" }],
-          },
-        ],
-      });
+      expect(queriedComment.comments[0].replies).toMatchObject([
+        { commentText: "a new reply is created" },
+      ]);
     });
 
-    it("should edit a reply on question page and then query that reply", async () => {
+    it("should edit a reply on question page", async () => {
       const newComment = await createComment(ctx, {
         pageId: createdQuestionPage.id,
         commentText: "a new comment is created",
@@ -291,23 +279,23 @@ describe("comments", () => {
         commentText: "a new reply is created",
       });
 
-      const replyID = reply.id;
+      const replyId = reply.id;
 
-      const queryEditedReply = await updateReply(ctx, {
+      const editedReply = await updateReply(ctx, {
         pageId: createdQuestionPage.id,
         commentId: commentId,
-        replyId: replyID,
+        replyId: replyId,
         commentText: "an edited comment",
       });
 
-      expect(queryEditedReply).toMatchObject({
-        id: replyID,
+      expect(editedReply).toMatchObject({
+        id: replyId,
         commentText: "an edited comment",
         editedTime: expect.any(String),
       });
     });
 
-    it("should edit a reply on calcSum page and then query that reply", async () => {
+    it("should edit a reply on calcsum page", async () => {
       const newComment = await createComment(ctx, {
         pageId: createdCalSumPage.id,
         commentText: "a new comment is created",
@@ -320,17 +308,17 @@ describe("comments", () => {
         commentText: "a new reply is created",
       });
 
-      const replyID = reply.id;
+      const replyId = reply.id;
 
-      const queryEditedReply = await updateReply(ctx, {
+      const editedReply = await updateReply(ctx, {
         pageId: createdCalSumPage.id,
         commentId: commentId,
-        replyId: replyID,
+        replyId: replyId,
         commentText: "an edited comment",
       });
 
-      expect(queryEditedReply).toMatchObject({
-        id: replyID,
+      expect(editedReply).toMatchObject({
+        id: replyId,
         commentText: "an edited comment",
         editedTime: expect.any(String),
       });
@@ -350,30 +338,22 @@ describe("comments", () => {
         commentText: "a new reply is created",
       });
 
-      const replyID = reply.id;
+      const replyId = reply.id;
 
       await deleteReply(ctx, {
         pageId: createdQuestionPage.id,
         commentId: commentId,
-        replyId: replyID,
+        replyId: replyId,
       });
 
-      const queryComment = await queryComments(ctx, {
+      const queriedComment = await queryComments(ctx, {
         pageId: createdQuestionPage.id,
       });
 
-      expect(queryComment).toMatchObject({
-        id: createdQuestionPage.id,
-        comments: [
-          {
-            commentText: "a new comment is created",
-            replies: [],
-          },
-        ],
-      });
+      expect(queriedComment.comments[0].replies).toHaveLength(0);
     });
 
-    it("should delete a reply on calcSum page", async () => {
+    it("should delete a reply on calcsum page", async () => {
       const newComment = await createComment(ctx, {
         pageId: createdCalSumPage.id,
         commentText: "a new comment is created",
@@ -387,27 +367,19 @@ describe("comments", () => {
         commentText: "a new reply is created",
       });
 
-      const replyID = reply.id;
+      const replyId = reply.id;
 
       await deleteReply(ctx, {
         pageId: createdCalSumPage.id,
         commentId: commentId,
-        replyId: replyID,
+        replyId: replyId,
       });
 
-      const queryComment = await queryComments(ctx, {
+      const queriedComment = await queryComments(ctx, {
         pageId: createdCalSumPage.id,
       });
 
-      expect(queryComment).toMatchObject({
-        id: createdCalSumPage.id,
-        comments: [
-          {
-            commentText: "a new comment is created",
-            replies: [],
-          },
-        ],
-      });
+      expect(queriedComment.comments[0].replies).toHaveLength(0);
     });
   });
 });

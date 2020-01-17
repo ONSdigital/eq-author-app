@@ -52,9 +52,9 @@ Resolvers.Reply = {
       questionnaire.id
     );
 
-    let parentComment = questionnaireComments.comments[pageId].filter(
+    const parentComment = questionnaireComments.comments[pageId].find(
       ({ id }) => id === parentCommentId
-    )[0];
+    );
 
     return parentComment;
   },
@@ -97,13 +97,14 @@ Resolvers.Mutation = {
       pageId: pageId,
     };
 
-    let thisComment = questionnaireComments.comments[pageId].filter(
+    let parentComment = questionnaireComments.comments[pageId].find(
       ({ id }) => id === input.commentId
-    )[0];
-    if (thisComment) {
-      thisComment.replies.push(newReply);
+    );
+
+    if (parentComment) {
+      parentComment.replies.push(newReply);
     } else {
-      thisComment = [newReply];
+      parentComment = [newReply];
     }
 
     await saveComments(questionnaireComments);
@@ -119,9 +120,9 @@ Resolvers.Mutation = {
     const questionnaireComments = await getCommentsForQuestionnaire(
       questionnaire.id
     );
-    const replies = questionnaireComments.comments[pageId].filter(
+    const replies = questionnaireComments.comments[pageId].find(
       ({ id }) => id === input.commentId
-    )[0].replies;
+    ).replies;
 
     if (!replies) {
       throw new Error("No replies found!");
@@ -143,9 +144,9 @@ Resolvers.Mutation = {
       questionnaire.id
     );
 
-    const replies = questionnaireComments.comments[pageId].filter(
+    const replies = questionnaireComments.comments[pageId].find(
       ({ id }) => id === input.commentId
-    )[0].replies;
+    ).replies;
 
     if (replies) {
       remove(replies, ({ id }) => id === input.replyId);
