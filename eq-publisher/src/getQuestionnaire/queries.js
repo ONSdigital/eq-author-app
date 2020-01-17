@@ -12,6 +12,7 @@ exports.getQuestionnaire = `
   }
   
   fragment BasicAnswer on BasicAnswer {
+    secondaryQCode
     validation {
       ... on NumberValidation {
         minValue {

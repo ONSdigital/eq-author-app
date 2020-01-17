@@ -119,6 +119,7 @@ class Question {
   }
 
   buildDateRangeAnswers(answer) {
+    console.log(answer);
     const commonAnswerDef = {
       id: `answer${answer.id}`,
       type: DATE,
@@ -130,11 +131,13 @@ class Question {
         ...commonAnswerDef,
         id: `${commonAnswerDef.id}from`,
         label: answer.label,
+        q_code: answer.qCode,
       },
       {
         ...commonAnswerDef,
         id: `${commonAnswerDef.id}to`,
         label: answer.secondaryLabel,
+        q_code: answer.secondaryQCode,
       },
     ];
   }
