@@ -14,13 +14,15 @@ const { unitConversion } = require("../constants/unit-types");
 
 class Answer {
   constructor(answer) {
-    console.log(answer);
     this.id = `answer${answer.id}`;
     this.mandatory = answer.properties.required;
     this.type = answer.type;
     this.label = answer.label;
     this.description = answer.description;
-    this.q_code = answer.qCode;
+
+    if (answer.qCode) {
+      this.q_code = answer.qCode;
+    }
 
     if (answer.type === UNIT) {
       this.unit = unitConversion[answer.properties.unit];
@@ -186,8 +188,11 @@ class Answer {
     const option = {
       label,
       value: label,
-      q_code,
     };
+
+    if (q_code) {
+      option.q_code = q_code;
+    }
 
     if (description) {
       option.description = description;
