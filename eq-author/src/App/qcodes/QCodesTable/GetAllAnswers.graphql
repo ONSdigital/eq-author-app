@@ -21,6 +21,11 @@ query GetAnswers($input: QueryInput!) {
                 label
                 qCode
               }
+              mutuallyExclusiveOption {
+                id
+                label
+                qCode
+              }
             }
           }
         }

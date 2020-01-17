@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { withApollo, Query, useMutation } from "react-apollo";
 
+import { DATE_RANGE, RADIO } from "constants/answer-types";
 import GET_ALL_ANSWERS from "./GetAllAnswers.graphql";
 import UPDATE_ANSWER_QCODE from "./UpdateAnswerMutation.graphql";
 import UPDATE_OPTION_QCODE from "./UpdateOptionMutation.graphql";
@@ -18,6 +19,7 @@ import {
 } from "components/datatable/Elements";
 import { TableInput } from "components/datatable/Controls";
 import Loading from "components/Loading";
+import Error from "components/Error";
 
 const SpacedTableColumn = styled(TableColumn)`
   padding: 0.5em;
@@ -31,6 +33,7 @@ const StyledTableBody = styled(TableBody)`
 
 const buildOptionRow = (option, questionType) => {
   const { id, label, qCode } = option;
+
   return (
     <Row
       collapsed
@@ -44,6 +47,7 @@ const buildOptionRow = (option, questionType) => {
 };
 
 const buildQuestionRows = page => {
+  console.log(page);
   const rowBuilder = [];
   const { id: key, alias, title, answers } = page;
   const {
@@ -54,6 +58,7 @@ const buildQuestionRows = page => {
     qCode,
     secondaryQCode,
     options,
+    mutuallyExclusiveOption,
   } = answers[0];
   rowBuilder.push(
     <Row
@@ -67,20 +72,28 @@ const buildQuestionRows = page => {
     />
   );
 
-  if (options) {
+  if (options && type != RADIO) {
     for (const option of options) {
       const optionRow = buildOptionRow(option, type);
       rowBuilder.push(optionRow);
     }
   }
 
-  if (type === "DateRange") {
+  if (mutuallyExclusiveOption) {
+    const optionRow = buildOptionRow(
+      mutuallyExclusiveOption,
+      `Mutually exclusive ${type.toLowerCase()}`
+    );
+    rowBuilder.push(optionRow);
+  }
+
+  if (type === DATE_RANGE) {
     rowBuilder.push(
       <Row
         collapsed
         key={`${key}-secondary`}
         id={id}
-        type={type}
+        type={`${type}`}
         label={secondaryLabel}
         qCode={secondaryQCode}
       />
@@ -159,10 +172,16 @@ const Row = ({
             onBlur={() => {
               if (type.includes("option")) {
                 updateOption({ variables: { input: { id, qCode } } });
-              } else if (type.includes("DateRange")) {
-                updateAnswer({
-                  variables: { input: { id, secondaryQCode: qCode } },
-                });
+              } else if (type.includes(DATE_RANGE)) {
+                if (collapsed) {
+                  updateAnswer({
+                    variables: { input: { id, secondaryQCode: qCode } },
+                  });
+                } else {
+                  updateAnswer({
+                    variables: { input: { id, qCode } },
+                  });
+                }
               } else {
                 updateAnswer({ variables: { input: { id, qCode } } });
               }
@@ -194,13 +213,7 @@ const Row = ({
   );
 };
 
-const UnwrappedQCodeTable = ({ data }) => {
-  if (!data) {
-    return <Loading height="38rem">Page loading…</Loading>;
-  }
-
-  const questionnaire = data.questionnaire;
-
+const UnwrappedQCodeTable = ({ questionnaire }) => {
   const { sections } = questionnaire;
 
   return (
@@ -227,7 +240,18 @@ export default withApollo(props => (
         questionnaireId: props.questionnaireId,
       },
     }}
+    fetchPolicy="no-cache"
   >
-    {innerProps => <UnwrappedQCodeTable {...innerProps} {...props} />}
+    {({ loading, error, data }) => {
+      if (loading) {
+        return <Loading height="38rem">Page loading…</Loading>;
+      }
+
+      if (error) {
+        return <Error>Something went wrong</Error>;
+      }
+
+      return <UnwrappedQCodeTable {...data} />;
+    }}
   </Query>
 ));

@@ -6,6 +6,8 @@ import ScrollPane from "components/ScrollPane";
 import { Grid } from "components/Grid";
 import MainCanvas from "components/MainCanvas";
 import QcodesTable from "./QCodesTable";
+import InfoIcon from "./icon-info.svg?inline";
+import IconText from "components/IconText";
 
 const Container = styled.div`
   display: flex;
@@ -16,7 +18,6 @@ const Container = styled.div`
 
 const StyledGrid = styled(Grid)`
   overflow: hidden;
-  padding-top: 64px;
 `;
 
 const StyledMainCanvas = styled(MainCanvas)`
@@ -24,11 +25,21 @@ const StyledMainCanvas = styled(MainCanvas)`
   max-width: 80em;
 `;
 
+const Info = styled(IconText)`
+  padding: 2em;
+  justify-content: left;
+`;
+
 const QcodesPage = ({ match }) => {
   const questionnaireId = match.params.questionnaireId;
   return (
     <Container>
       <Header title="QCodes" />
+      <Info icon={InfoIcon}>
+        Qcodes are used to help send the information respondents enter into our
+        questionnaires to downstream systems; please make sure these are all
+        filled in before publishing.
+      </Info>
       <StyledGrid>
         <ScrollPane permanentScrollBar data-test="metadata-modal-content">
           <StyledMainCanvas>
