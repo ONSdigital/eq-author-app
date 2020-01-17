@@ -7,9 +7,14 @@ query GetAnswers($input: QueryInput!) {
           title
           alias
           answers {
+            id
             label
+            secondaryLabel
             type
             qCode
+            ... on BasicAnswer {
+              secondaryQCode
+            }
             ... on MultipleChoiceAnswer {
               options {
                 id

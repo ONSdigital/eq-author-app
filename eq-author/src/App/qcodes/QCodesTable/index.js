@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import { useQuery } from "@apollo/react-hooks";
+import { withApollo, Query, useMutation } from "react-apollo";
 
 import GET_ALL_ANSWERS from "./GetAllAnswers.graphql";
+import UPDATE_ANSWER_QCODE from "./UpdateAnswerMutation.graphql";
+import UPDATE_OPTION_QCODE from "./UpdateOptionMutation.graphql";
+
+import { colors } from "constants/theme";
 
 import {
   Table,
@@ -12,9 +16,17 @@ import {
   TableColumn,
   TableHeadColumn,
 } from "components/datatable/Elements";
+import { TableInput } from "components/datatable/Controls";
+import Loading from "components/Loading";
 
 const SpacedTableColumn = styled(TableColumn)`
   padding: 0.5em;
+  color: ${colors.darkGrey};
+  word-break: break-word;
+`;
+
+const StyledTableBody = styled(TableBody)`
+  background-color: white;
 `;
 
 const buildOptionRow = (option, questionType) => {
@@ -22,6 +34,7 @@ const buildOptionRow = (option, questionType) => {
   return (
     <Row
       collapsed
+      key={id}
       id={id}
       type={`${questionType} option`}
       label={label}
@@ -32,10 +45,19 @@ const buildOptionRow = (option, questionType) => {
 
 const buildQuestionRows = page => {
   const rowBuilder = [];
-  const { id, alias, title, answers } = page;
-  const { type, label, qCode, options } = answers[0];
+  const { id: key, alias, title, answers } = page;
+  const {
+    id,
+    type,
+    label,
+    secondaryLabel,
+    qCode,
+    secondaryQCode,
+    options,
+  } = answers[0];
   rowBuilder.push(
     <Row
+      key={key}
       id={id}
       alias={alias}
       title={title}
@@ -50,6 +72,19 @@ const buildQuestionRows = page => {
       const optionRow = buildOptionRow(option, type);
       rowBuilder.push(optionRow);
     }
+  }
+
+  if (type === "DateRange") {
+    rowBuilder.push(
+      <Row
+        collapsed
+        key={`${key}-secondary`}
+        id={id}
+        type={type}
+        label={secondaryLabel}
+        qCode={secondaryQCode}
+      />
+    );
   }
 
   return rowBuilder;
@@ -72,7 +107,14 @@ const buildContent = sections => {
           const { id, answers } = page;
           const { type, label, qCode, options } = answers[i];
           rowBuilder.push(
-            <Row collapsed id={id} type={type} label={label} qCode={qCode} />
+            <Row
+              collapsed
+              key={id}
+              id={id}
+              type={type}
+              label={label}
+              qCode={qCode}
+            />
           );
 
           if (options) {
@@ -93,18 +135,48 @@ const buildContent = sections => {
   return content;
 };
 
-const Row = ({ id, alias, title, type, label, qCode, collapsed }) => {
-  const renderGlobalColumns = () => (
-    <>
-      <SpacedTableColumn>{type}</SpacedTableColumn>
-      <SpacedTableColumn>{label}</SpacedTableColumn>
-      <SpacedTableColumn>{qCode}</SpacedTableColumn>
-    </>
-  );
+const Row = ({
+  id,
+  alias,
+  title,
+  type,
+  label,
+  qCode: initialQcode,
+  collapsed,
+}) => {
+  const renderGlobalColumns = () => {
+    const [qCode, setQcode] = useState(initialQcode);
+    const [updateOption] = useMutation(UPDATE_OPTION_QCODE);
+    const [updateAnswer] = useMutation(UPDATE_ANSWER_QCODE);
+    return (
+      <>
+        <SpacedTableColumn>{type}</SpacedTableColumn>
+        <SpacedTableColumn>{label}</SpacedTableColumn>
+        <SpacedTableColumn>
+          <TableInput
+            value={qCode}
+            onChange={e => setQcode(e.value)}
+            onBlur={() => {
+              if (type.includes("option")) {
+                updateOption({ variables: { input: { id, qCode } } });
+              } else if (type.includes("DateRange")) {
+                updateAnswer({
+                  variables: { input: { id, secondaryQCode: qCode } },
+                });
+              } else {
+                updateAnswer({ variables: { input: { id, qCode } } });
+              }
+            }}
+            name={`${id}-qcode-entry`}
+          />
+        </SpacedTableColumn>
+      </>
+    );
+  };
 
   if (collapsed) {
     return (
-      <TableRow key={id}>
+      <TableRow>
         <SpacedTableColumn colSpan={2} />
         {renderGlobalColumns()}
       </TableRow>
@@ -112,7 +184,7 @@ const Row = ({ id, alias, title, type, label, qCode, collapsed }) => {
   }
 
   return (
-    <TableRow key={id}>
+    <TableRow>
       <SpacedTableColumn>{alias}</SpacedTableColumn>
       <SpacedTableColumn>
         {title.replace(/(<([^>]+)>)/gi, "")}
@@ -122,24 +194,14 @@ const Row = ({ id, alias, title, type, label, qCode, collapsed }) => {
   );
 };
 
-const QCodesTable = ({ questionnaireId }) => {
-  const { loading, error, data } = useQuery(GET_ALL_ANSWERS, {
-    variables: {
-      input: {
-        questionnaireId,
-      },
-    },
-  });
-
-  if (loading) {
-    return <p>Loading ...</p>;
+const UnwrappedQCodeTable = ({ data }) => {
+  if (!data) {
+    return <Loading height="38rem">Page loading…</Loading>;
   }
 
-  if (error) {
-    return <p>Error</p>;
-  }
+  const questionnaire = data.questionnaire;
 
-  const { sections } = data.questionnaire;
+  const { sections } = questionnaire;
 
   return (
     <Table data-test="qcodes-table">
@@ -152,9 +214,20 @@ const QCodesTable = ({ questionnaireId }) => {
           <TableHeadColumn width="20%">Qcode</TableHeadColumn>
         </TableRow>
       </TableHead>
-      <TableBody>{buildContent(sections)}</TableBody>
+      <StyledTableBody>{buildContent(sections)}</StyledTableBody>
     </Table>
   );
 };
 
-export default QCodesTable;
+export default withApollo(props => (
+  <Query
+    query={GET_ALL_ANSWERS}
+    variables={{
+      input: {
+        questionnaireId: props.questionnaireId,
+      },
+    }}
+  >
+    {innerProps => <UnwrappedQCodeTable {...innerProps} {...props} />}
+  </Query>
+));
