@@ -1,4 +1,4 @@
-mutation deleteReply($input: DeleteReplyInput!) {
+mutation DeleteReply($input: DeleteReplyInput!) {
   deleteReply(input: $input) {
     id
     comments {

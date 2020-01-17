@@ -1,4 +1,4 @@
-mutation createReply($input: CreateReplyInput!) {
+mutation CreateReply($input: CreateReplyInput!) {
   createReply(input: $input) {
     id
     commentText
