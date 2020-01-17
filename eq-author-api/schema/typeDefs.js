@@ -206,6 +206,7 @@ type BasicAnswer implements Answer {
   description: String
   guidance: String
   qCode: String
+  secondaryQCode: String
   label: String
   secondaryLabel: String
   secondaryLabelDefault: String
@@ -894,6 +895,7 @@ input UpdateAnswerInput {
   label: String
   secondaryLabel: String
   qCode: String
+  secondaryQCode: String
   properties: JSON
 }
 
