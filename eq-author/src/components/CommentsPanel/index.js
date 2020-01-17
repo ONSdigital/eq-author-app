@@ -361,9 +361,6 @@ const CommentsPanel = ({
     setActiveReply("");
   };
 
-  let numberOfReplies = "";
-  let arrayLength;
-
   const handleDeleteReply = (event, repliesItem) => {
     const commentId = event.id;
     const replyId = repliesItem.id;
@@ -495,9 +492,8 @@ const CommentsPanel = ({
         </Reply>
       );
     });
-    arrayLength = displayReplies.length;
-    numberOfReplies = arrayLength.toString();
 
+    const repliesCount = displayReplies.length.toString();
     const editCommentName = `edit-comment-${index}`;
     const replyComment = `reply-comment-${index}`;
     const setScroll = tag => {
@@ -580,7 +576,7 @@ const CommentsPanel = ({
           )}
         </CommentFooterContainer>
         {displayReplies.length > 0 && (
-          <StyledAccordion title={numberOfReplies}>
+          <StyledAccordion title={repliesCount}>
             {displayReplies}
           </StyledAccordion>
         )}
