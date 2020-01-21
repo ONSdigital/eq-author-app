@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import { useSubscription } from "react-apollo";
 import { get } from "lodash";
-import moment from "moment";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import styled from "styled-components";
 import CustomPropTypes from "custom-prop-types";
@@ -20,7 +19,6 @@ import REPLY_UPDATE from "./updateReply.graphql";
 
 import { colors, radius } from "constants/theme";
 
-import CommentAccordion from "components/CommentAccordion";
 import ScrollPane from "components/ScrollPane";
 import Error from "components/Error";
 import Loading from "components/Loading";
@@ -29,6 +27,7 @@ import { sharedStyles } from "components/Forms/css";
 import { Field, Label } from "components/Forms";
 import Button from "components/buttons/Button";
 import ButtonGroup from "components/buttons/ButtonGroup";
+import Replies from "./Replies";
 
 import IconEdit from "./icon-edit.svg";
 
@@ -52,7 +51,7 @@ const CommentSection = styled.div`
   border-bottom: 1px solid ${colors.lightMediumGrey};
 `;
 
-const Reply = styled.div`
+export const Reply = styled.div`
   padding-top: 0.5em;
   padding-left: ${props => (props.indent ? "1em" : "0")};
 `;
@@ -65,16 +64,11 @@ const StyledLabel = styled(Label)`
   margin-bottom: 0;
 `;
 
-const SaveButton = styled(Button)`
+export const SaveButton = styled(Button)`
   padding: 0.3em 0.8em 0.4em;
 `;
 
-const ReplyButton = styled(Button)`
-  padding: 0.3em 0.8em 0.4em;
-  display: ${props => (props.hideReplyBtn ? "none" : "block")};
-`;
-
-const CommentsDiv = styled.div`
+export const CommentsDiv = styled.div`
   align-items: left;
   padding: 0.5em 1em;
   margin-bottom: 5px;
@@ -85,7 +79,7 @@ const CommentsDiv = styled.div`
   overflow-wrap: break-word;
 `;
 
-const StyledTextArea = styled(TextArea)`
+export const StyledTextArea = styled(TextArea)`
   ${sharedStyles};
   resize: none;
   margin-bottom: 0.7em;
@@ -99,7 +93,7 @@ const StyledTextArea = styled(TextArea)`
   }
 `;
 
-const CommentHeaderContainer = styled(Field)`
+export const CommentHeaderContainer = styled(Field)`
   display: flex;
   justify-content: flex-start;
   -webkit-align-items: start;
@@ -108,19 +102,22 @@ const CommentHeaderContainer = styled(Field)`
   margin-bottom: 8px;
 `;
 
-const CommentFooterContainer = styled(Field)`
+export const CommentFooterContainer = styled(Field)`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
   margin-bottom: 5px;
 `;
 
-const AvatarWrapper = styled.div`
+export const AvatarWrapper = styled.div`
   flex-grow: 0;
   margin-right: 8px;
+  @media (max-width: 1400px) {
+    display: none;
+  }
 `;
 
-const AvatarOuter = styled.div`
+export const AvatarOuter = styled.div`
   width: 36px;
   height: 36px;
   border-radius: 50%;
@@ -129,7 +126,7 @@ const AvatarOuter = styled.div`
   text-align: center;
 `;
 
-const AvatarInner = styled.div`
+export const AvatarInner = styled.div`
   color: ${colors.white};
   position: relative;
   display: inline-block;
@@ -138,7 +135,7 @@ const AvatarInner = styled.div`
   padding: 22% 0;
 `;
 
-const NameWrapper = styled.div`
+export const NameWrapper = styled.div`
   display: flex;
   flex-direction: column;
   -webkit-flex-direction: column;
@@ -147,20 +144,20 @@ const NameWrapper = styled.div`
   flex-grow: 2;
 `;
 
-const DateWrapper = styled.div`
+export const DateWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: start;
   flex-grow: 2;
 `;
 
-const DeleteComment = styled(DeleteButton)`
+export const DeleteComment = styled(DeleteButton)`
   color: ${colors.grey};
   font-size: 2.2em;
   display: ${props => (props.hideDeleteBtn ? "none" : "block")};
 `;
 
-const EditButtonIcon = styled.button`
+export const EditButton = styled.button`
   flex: 0 0 auto;
   color: ${colors.grey};
   padding: 1em;
@@ -195,7 +192,7 @@ const EditButtonIcon = styled.button`
   }
 `;
 
-const FlexLabel = styled.div`
+export const FlexLabel = styled.div`
   font-size: 1em;
   align-items: center;
   height: 20px;
@@ -209,18 +206,15 @@ const FlexLabel = styled.div`
 
   @media (max-width: 1500px) {
     width: 120px;
+    font-size: 0.9em;
   }
   text-overflow: ellipsis;
 `;
 
-const DateField = styled("span")`
+export const DateField = styled("span")`
   font-weight: normal;
   font-size: 0.8em;
   color: ${colors.grey};
-`;
-
-const StyledAccordion = styled(CommentAccordion)`
-  background-color: blue;
 `;
 
 const CommentsPanel = ({
@@ -231,14 +225,15 @@ const CommentsPanel = ({
 }) => {
   const [comment, setComment] = useState("");
   const [editComment, setEditComment] = useState("");
-  const [activeComment, setActiveComment] = useState("");
-  const [ref, setRef] = useState();
-  const [scrollRef, setScrollRef] = useState();
+  const [activeCommentId, setActiveCommentId] = useState("");
+  const [commentRef, setCommentRef] = useState();
   const firstRender = useRef(true);
-  const [activeReply, setActiveReply] = useState("");
+
   const [reply, setReply] = useState("");
   const [editReply, setEditReply] = useState("");
+  const [activeReplyId, setActiveReplyId] = useState("");
   const [replyRef, setReplyRef] = useState();
+  const [scrollRef, setScrollRef] = useState();
 
   const { loading, error, data } = useQuery(COMMENT_QUERY, {
     variables: {
@@ -264,18 +259,18 @@ const CommentsPanel = ({
       firstRender.current = false;
       return;
     }
-    if (!activeComment) {
+    if (!activeCommentId) {
       return;
     }
-    ref.focus();
-  }, [ref]);
+    commentRef.focus();
+  }, [commentRef]);
 
   useEffect(() => {
     if (firstRender.current) {
       firstRender.current = false;
       return;
     }
-    if (!activeReply) {
+    if (!activeReplyId) {
       return;
     }
     replyRef.focus();
@@ -289,9 +284,9 @@ const CommentsPanel = ({
   }, [scrollRef]);
 
   const handleEdit = (id, commentText) => {
-    setActiveComment(id);
+    setActiveCommentId(id);
     setEditComment(commentText);
-    setActiveReply("");
+    setActiveReplyId("");
   };
 
   const handleSubmit = event => {
@@ -305,8 +300,8 @@ const CommentsPanel = ({
       },
     });
     setComment("");
-    setActiveComment("");
-    setActiveReply("");
+    setActiveCommentId("");
+    setActiveReplyId("");
   };
 
   const handleDelete = event => {
@@ -321,8 +316,8 @@ const CommentsPanel = ({
         },
       });
     }
-    setActiveComment("");
-    setActiveReply("");
+    setActiveCommentId("");
+    setActiveReplyId("");
   };
 
   const handleSaveEdit = event => {
@@ -337,13 +332,13 @@ const CommentsPanel = ({
           },
         },
       });
-      setActiveComment("");
-      setActiveReply("");
+      setActiveCommentId("");
+      setActiveReplyId("");
     }
   };
 
   const handleReply = id => {
-    setActiveReply(id);
+    setActiveReplyId(id);
   };
 
   const handleSaveReply = event => {
@@ -358,7 +353,7 @@ const CommentsPanel = ({
       },
     });
     setReply("");
-    setActiveReply("");
+    setActiveReplyId("");
   };
 
   const handleDeleteReply = (event, repliesItem) => {
@@ -375,14 +370,14 @@ const CommentsPanel = ({
         },
       });
     }
-    setActiveComment("");
-    setActiveReply("");
+    setActiveCommentId("");
+    setActiveReplyId("");
   };
 
   const handleEditReply = repliesItem => {
-    setActiveReply(repliesItem.id);
+    setActiveReplyId(repliesItem.id);
     setEditReply(repliesItem.commentText);
-    setActiveComment("");
+    setActiveCommentId("");
   };
 
   const handleSaveEditReply = (event, repliesItem) => {
@@ -400,7 +395,7 @@ const CommentsPanel = ({
         },
       });
       setReply("");
-      setActiveReply("");
+      setActiveReplyId("");
     }
   };
 
@@ -421,83 +416,37 @@ const CommentsPanel = ({
     return <Error>Oops! Something went wrong</Error>;
   }
 
-  const commentsArray = get(data, "page.comments", []);
+  const comments = get(data, "page.comments", []);
 
-  const displayComments = commentsArray.map((item, index) => {
-    const repliesArray = commentsArray[index].replies;
-    const displayReplies = repliesArray.map((repliesItem, repliesIndex) => {
+  const displayComments = comments.map((item, index) => {
+    const replies = comments[index].replies;
+    const displayReplies = replies.map((repliesItem, repliesIndex) => {
       const editReplyName = `edit-reply-${index}-${repliesIndex}`;
       return (
-        <Reply key={repliesItem.id} indent>
-          <CommentHeaderContainer>
-            <AvatarWrapper>
-              <AvatarOuter avatarColor={repliesItem.user.id === myId}>
-                <AvatarInner>{getInitials(repliesItem.user.name)}</AvatarInner>
-              </AvatarOuter>
-            </AvatarWrapper>
-            <NameWrapper>
-              <FlexLabel>{repliesItem.user.displayName}</FlexLabel>
-              <DateField>
-                {moment(repliesItem.createdTime).calendar()}
-              </DateField>
-            </NameWrapper>
-            <EditButtonIcon
-              hideEditBtn={repliesItem.user.id !== myId}
-              onClick={() => handleEditReply(repliesItem)}
-              data-test={`btn-edit-reply-${index}-${repliesIndex}`}
-            />
-            <DeleteComment
-              hideDeleteBtn={repliesItem.user.id !== myId}
-              onClick={() => handleDeleteReply(item, repliesItem)}
-              data-test={`btn-delete-reply-${index}-${repliesIndex}`}
-            />
-          </CommentHeaderContainer>
-          {activeReply !== repliesItem.id ? (
-            <>
-              <CommentsDiv>{repliesItem.commentText}</CommentsDiv>
-              {repliesItem.editedTime && (
-                <DateWrapper>
-                  <DateField>
-                    Edited: {moment(repliesItem.editedTime).calendar()}
-                  </DateField>
-                </DateWrapper>
-              )}
-            </>
-          ) : (
-            <>
-              <StyledTextArea
-                id={`editReply-${repliesItem.id}`}
-                inputRef={tag => {
-                  setReplyRef(tag);
-                }}
-                value={editReply}
-                maxRows={4}
-                name={editReplyName}
-                type="text"
-                onChange={({ target }) => setEditReply(target.value)}
-                data-test={`reply-txtArea-${index}-${repliesIndex}`}
-              />
-              <CommentFooterContainer>
-                <SaveButton
-                  id={repliesIndex}
-                  medium
-                  onClick={() => handleSaveEditReply(item, repliesItem)}
-                  data-test={`btn-save-editedReply-${index}-${repliesIndex}`}
-                >
-                  Save
-                </SaveButton>
-              </CommentFooterContainer>
-            </>
-          )}
-        </Reply>
+        <Replies
+          key={repliesItem.id}
+          repliesItem={repliesItem}
+          myId={myId}
+          getInitials={getInitials}
+          handleEditReply={handleEditReply}
+          index={index}
+          repliesIndex={repliesIndex}
+          handleDeleteReply={handleDeleteReply}
+          item={item}
+          activeReplyId={activeReplyId}
+          setReplyRef={setReplyRef}
+          setEditReply={setEditReply}
+          editReply={editReply}
+          editReplyName={editReplyName}
+          handleSaveEditReply={handleSaveEditReply}
+        />
       );
     });
 
     const repliesCount = displayReplies.length.toString();
-    const editCommentName = `edit-comment-${index}`;
     const replyComment = `reply-comment-${index}`;
     const setScroll = tag => {
-      if (index === commentsArray.length - 1) {
+      if (index === comments.length - 1) {
         setScrollRef(tag);
       }
     };
@@ -507,112 +456,28 @@ const CommentsPanel = ({
           setScroll(tag);
         }}
         key={item.id}
-      >
-        <CommentHeaderContainer>
-          <AvatarWrapper>
-            <AvatarOuter avatarColor={item.user.id === myId}>
-              <AvatarInner>{getInitials(item.user.name)}</AvatarInner>
-            </AvatarOuter>
-          </AvatarWrapper>
-          <NameWrapper>
-            <FlexLabel>{item.user.displayName}</FlexLabel>
-            <DateField>{moment(item.createdTime).calendar()}</DateField>
-          </NameWrapper>
-          <EditButtonIcon
-            hideEditBtn={item.user.id !== myId}
-            onClick={() => handleEdit(item.id, item.commentText)}
-            data-test={`btn-edit-comment-${index}`}
-          />
-          <DeleteComment
-            hideDeleteBtn={item.user.id !== myId}
-            onClick={() => handleDelete(item)}
-            data-test={`btn-delete-comment-${index}`}
-          />
-        </CommentHeaderContainer>
-        {activeComment !== item.id ? (
-          <CommentsDiv>{item.commentText}</CommentsDiv>
-        ) : (
-          <StyledTextArea
-            id={item.id}
-            inputRef={tag => {
-              setRef(tag);
-            }}
-            value={editComment}
-            name={editCommentName}
-            type="text"
-            onChange={({ target }) => setEditComment(target.value)}
-            data-test={`edit-comment-txtArea-${index}`}
-          />
-        )}
-        <CommentFooterContainer>
-          {item.editedTime && (
-            <DateWrapper>
-              <DateField>
-                Edited: {moment(item.editedTime).calendar()}
-              </DateField>
-            </DateWrapper>
-          )}
-          {activeReply !== item.id && (
-            <ReplyButton
-              id={`replyBtn-${item.id}`}
-              hideReplyBtn={activeComment === item.id}
-              variant="greyed"
-              medium
-              onClick={() => handleReply(item.id)}
-              data-test={`btn-reply-comment-${index}`}
-            >
-              reply
-            </ReplyButton>
-          )}
-          {activeComment === item.id && (
-            <SaveButton
-              id={index}
-              medium
-              onClick={() => handleSaveEdit(item)}
-              data-test={`btn-save-editedComment-${index}`}
-            >
-              Save
-            </SaveButton>
-          )}
-        </CommentFooterContainer>
-        {displayReplies.length > 0 && (
-          <StyledAccordion title={repliesCount}>
-            {displayReplies}
-          </StyledAccordion>
-        )}
-
-        {/* ////////////////////////////////////////////R E P L I E S//////////////////////////////////// */}
-
-        {activeReply === item.id && (
-          <Reply indent={repliesArray.length}>
-            <StyledTextArea
-              id={`reply-${item.id}`}
-              inputRef={tag => {
-                setReplyRef(tag);
-              }}
-              value={reply}
-              minRows={4}
-              maxRows={4}
-              name={replyComment}
-              type="text"
-              onChange={({ target }) => setReply(target.value)}
-              data-test={`reply-txtArea-${index}`}
-            />
-            <CommentFooterContainer>
-              <SaveButton
-                id={index}
-                disabled={!reply}
-                btn-save-reply
-                medium
-                onClick={() => handleSaveReply(item)}
-                data-test={`btn-save-reply-${index}`}
-              >
-                Save
-              </SaveButton>
-            </CommentFooterContainer>
-          </Reply>
-        )}
-      </CommentSection>
+        myId={myId}
+        getInitials={getInitials}
+        index={index}
+        item={item}
+        activeCommentId={activeCommentId}
+        setCommentRef={setCommentRef}
+        editComment={editComment}
+        setEditComment={setEditComment}
+        displayReplies={displayReplies}
+        repliesCount={repliesCount}
+        replies={replies}
+        setReply={setReply}
+        setReplyRef={setReplyRef}
+        reply={reply}
+        replyComment={replyComment}
+        activeReplyId={activeReplyId}
+        handleSaveReply={handleSaveReply}
+        handleReply={handleReply}
+        handleSaveEdit={handleSaveEdit}
+        handleEdit={handleEdit}
+        handleDelete={handleDelete}
+      />
     );
   });
 
@@ -631,7 +496,7 @@ const CommentsPanel = ({
             minRows={4}
             maxRows={4}
             onChange={({ target }) => setComment(target.value)}
-            onClick={() => setActiveReply("")}
+            onClick={() => setActiveReplyId("")}
             data-test="comment-txt-area"
           />
         </Field>
