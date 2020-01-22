@@ -185,6 +185,7 @@ describe("Comments Pane", () => {
     });
 
     expect(queryWasCalled).toBeTruthy();
+    expect(newCommentSubscriptionWasCalled).toBeTruthy();
     expect(getByText("Oops! Something went wrong")).toBeTruthy();
   });
 

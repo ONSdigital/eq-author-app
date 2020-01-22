@@ -77,6 +77,7 @@ export const UnconnectedHeader = props => {
     variables: { id: match.params.questionnaireId },
   });
   const publishStatus = get(questionnaire, "publishStatus");
+  const permission = get(questionnaire, "permission");
 
   const previewUrl = `${config.REACT_APP_LAUNCH_URL}/${
     (questionnaire || {}).id
@@ -97,15 +98,19 @@ export const UnconnectedHeader = props => {
         </RouteButton>
       );
     }
+
     if (publishStatus === AWAITING_APPROVAL && !me.admin) {
       return null;
     }
+
+    const canPublish = questionnaire.permission === "Write";
     return (
       <RouteButton
         variant="tertiary-light"
         to={buildPublishPath(match.params)}
         small
         disabled={
+          !canPublish ||
           questionnaire.totalErrorCount > 0 ||
           title === "Publish" ||
           publishStatus === PUBLISHED
@@ -147,7 +152,7 @@ export const UnconnectedHeader = props => {
                 >
                   <IconText icon={viewIcon}>View survey</IconText>
                 </LinkButton>
-                {me.admin && renderPublishReviewButton()}
+                {renderPublishReviewButton()}
                 <Button
                   variant="tertiary-light"
                   onClick={() => setSharingModalOpen(true)}
@@ -164,7 +169,7 @@ export const UnconnectedHeader = props => {
         <PageTitle>{title}</PageTitle>
         {children}
         <SavingContainer>
-          <SavingIndicator />
+          <SavingIndicator isUnauthorized={permission !== "Write"} />
         </SavingContainer>
       </StyledHeader>
       {questionnaire && (
