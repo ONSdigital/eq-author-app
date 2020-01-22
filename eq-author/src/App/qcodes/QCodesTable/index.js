@@ -47,7 +47,6 @@ const buildOptionRow = (option, questionType) => {
 };
 
 const buildQuestionRows = page => {
-  console.log(page);
   const rowBuilder = [];
   const { id: key, alias, title, answers } = page;
   const {
@@ -72,7 +71,7 @@ const buildQuestionRows = page => {
     />
   );
 
-  if (options && type != RADIO) {
+  if (options && type !== RADIO) {
     for (const option of options) {
       const optionRow = buildOptionRow(option, type);
       rowBuilder.push(optionRow);
@@ -187,6 +186,7 @@ const Row = ({
               }
             }}
             name={`${id}-qcode-entry`}
+            data-test={`${id}-test-input`}
           />
         </SpacedTableColumn>
       </>
@@ -213,23 +213,32 @@ const Row = ({
   );
 };
 
-const UnwrappedQCodeTable = ({ questionnaire }) => {
-  const { sections } = questionnaire;
+export const UnwrappedQCodeTable = ({ loading, error, data }) => {
+  if (loading) {
+    return <Loading height="38rem">Page loading…</Loading>;
+  }
 
-  return (
-    <Table data-test="qcodes-table">
-      <TableHead>
-        <TableRow>
-          <TableHeadColumn width="20%">Short code</TableHeadColumn>
-          <TableHeadColumn width="20%">Question</TableHeadColumn>
-          <TableHeadColumn width="20%">Type</TableHeadColumn>
-          <TableHeadColumn width="20%">Answer label</TableHeadColumn>
-          <TableHeadColumn width="20%">Qcode</TableHeadColumn>
-        </TableRow>
-      </TableHead>
-      <StyledTableBody>{buildContent(sections)}</StyledTableBody>
-    </Table>
-  );
+  if (error) {
+    return <Error>Oops! Something went wrong</Error>;
+  }
+
+  if (data) {
+    const { sections } = data.questionnaire;
+    return (
+      <Table data-test="qcodes-table">
+        <TableHead>
+          <TableRow>
+            <TableHeadColumn width="20%">Short code</TableHeadColumn>
+            <TableHeadColumn width="20%">Question</TableHeadColumn>
+            <TableHeadColumn width="20%">Type</TableHeadColumn>
+            <TableHeadColumn width="20%">Answer label</TableHeadColumn>
+            <TableHeadColumn width="20%">Qcode</TableHeadColumn>
+          </TableRow>
+        </TableHead>
+        <StyledTableBody>{buildContent(sections)}</StyledTableBody>
+      </Table>
+    );
+  }
 };
 
 export default withApollo(props => (
@@ -242,16 +251,6 @@ export default withApollo(props => (
     }}
     fetchPolicy="no-cache"
   >
-    {({ loading, error, data }) => {
-      if (loading) {
-        return <Loading height="38rem">Page loading…</Loading>;
-      }
-
-      if (error) {
-        return <Error>Something went wrong</Error>;
-      }
-
-      return <UnwrappedQCodeTable {...data} />;
-    }}
+    {innerprops => <UnwrappedQCodeTable {...innerprops} {...props} />}
   </Query>
 ));
