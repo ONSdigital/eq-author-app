@@ -9,7 +9,6 @@ const EditReply = props => {
     setReplyRef,
     setReply,
     reply,
-    replyComment,
     index,
     handleSaveReply,
   } = props;
@@ -23,7 +22,6 @@ const EditReply = props => {
         value={reply}
         minRows={4}
         maxRows={4}
-        name={replyComment}
         type="text"
         onChange={({ target }) => setReply(target.value)}
         data-test={`reply-txtArea-${index}`}
@@ -50,7 +48,6 @@ EditReply.propTypes = {
   setReplyRef: PropTypes.func.isRequired,
   setReply: PropTypes.func.isRequired,
   reply: PropTypes.string.isRequired,
-  replyComment: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
   handleSaveReply: PropTypes.func.isRequired,
 };

@@ -19,49 +19,20 @@ import REPLY_UPDATE from "./updateReply.graphql";
 
 import { colors, radius } from "constants/theme";
 
-import ScrollPane from "components/ScrollPane";
 import Error from "components/Error";
 import Loading from "components/Loading";
 import DeleteButton from "components/buttons/DeleteButton";
 import { sharedStyles } from "components/Forms/css";
-import { Field, Label } from "components/Forms";
+import { Field } from "components/Forms";
 import Button from "components/buttons/Button";
-import ButtonGroup from "components/buttons/ButtonGroup";
 import Replies from "./Replies";
-
+import CommentSection from "./CommentSection";
+import EditComment from "./EditComment";
 import IconEdit from "./icon-edit.svg";
-
-const CommentsPane = styled.div`
-  background: ${colors.white};
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  margin: 0;
-  font-size: 1em;
-`;
-const CommentAddSection = styled.div`
-  padding: 1em;
-  border-top: 1px solid ${colors.lightMediumGrey};
-`;
-
-const CommentSection = styled.div`
-  padding: 1em;
-  border-bottom: 1px solid ${colors.lightMediumGrey};
-`;
 
 export const Reply = styled.div`
   padding-top: 0.5em;
   padding-left: ${props => (props.indent ? "1em" : "0")};
-`;
-
-const StyledScrollPane = styled(ScrollPane)`
-  height: auto;
-`;
-
-const StyledLabel = styled(Label)`
-  margin-bottom: 0;
 `;
 
 export const SaveButton = styled(Button)`
@@ -155,6 +126,11 @@ export const DeleteComment = styled(DeleteButton)`
   color: ${colors.grey};
   font-size: 2.2em;
   display: ${props => (props.hideDeleteBtn ? "none" : "block")};
+`;
+
+export const CommentAddSection = styled.div`
+  padding: 1em;
+  border-top: 1px solid ${colors.lightMediumGrey};
 `;
 
 export const EditButton = styled.button`
@@ -444,7 +420,6 @@ const CommentsPanel = ({
     });
 
     const repliesCount = displayReplies.length.toString();
-    const replyComment = `reply-comment-${index}`;
     const setScroll = tag => {
       if (index === comments.length - 1) {
         setScrollRef(tag);
@@ -452,9 +427,7 @@ const CommentsPanel = ({
     };
     return (
       <CommentSection
-        ref={tag => {
-          setScroll(tag);
-        }}
+        setScroll={setScroll}
         key={item.id}
         myId={myId}
         getInitials={getInitials}
@@ -470,7 +443,6 @@ const CommentsPanel = ({
         setReply={setReply}
         setReplyRef={setReplyRef}
         reply={reply}
-        replyComment={replyComment}
         activeReplyId={activeReplyId}
         handleSaveReply={handleSaveReply}
         handleReply={handleReply}
@@ -482,36 +454,13 @@ const CommentsPanel = ({
   });
 
   return (
-    <CommentsPane>
-      <CommentSection>
-        <StyledLabel>{"Comments"}</StyledLabel>
-      </CommentSection>
-      <StyledScrollPane>{displayComments}</StyledScrollPane>
-      <CommentAddSection>
-        <Field>
-          <StyledTextArea
-            id="comments-txt-area"
-            name="comment"
-            value={comment}
-            minRows={4}
-            maxRows={4}
-            onChange={({ target }) => setComment(target.value)}
-            onClick={() => setActiveReplyId("")}
-            data-test="comment-txt-area"
-          />
-        </Field>
-        <ButtonGroup horizontal align="right">
-          <Button
-            disabled={!comment}
-            variant="primary"
-            onClick={handleSubmit}
-            data-test="btn-add-comment"
-          >
-            Add
-          </Button>
-        </ButtonGroup>
-      </CommentAddSection>
-    </CommentsPane>
+    <EditComment
+      displayComments={displayComments}
+      comment={comment}
+      setComment={setComment}
+      setActiveReplyId={setActiveReplyId}
+      handleSubmit={handleSubmit}
+    />
   );
 };
 

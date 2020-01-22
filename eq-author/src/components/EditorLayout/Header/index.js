@@ -212,4 +212,7 @@ UnconnectedHeader.propTypes = {
   }).isRequired,
 };
 
-export default flowRight(withQuestionnaire, withRouter)(UnconnectedHeader);
+export default flowRight(
+  withQuestionnaire,
+  withRouter
+)(UnconnectedHeader);

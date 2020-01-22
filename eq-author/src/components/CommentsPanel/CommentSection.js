@@ -8,6 +8,7 @@ import CommentAccordion from "components/CommentAccordion";
 import EditReply from "./EditReply";
 
 import {
+  CommentAddSection,
   CommentHeaderContainer,
   AvatarWrapper,
   AvatarOuter,
@@ -35,6 +36,7 @@ const StyledAccordion = styled(CommentAccordion)`
 
 const CommentSection = props => {
   const {
+    setScroll,
     myId,
     getInitials,
     index,
@@ -49,7 +51,6 @@ const CommentSection = props => {
     setReply,
     setReplyRef,
     reply,
-    replyComment,
     activeReplyId,
     handleSaveReply,
     handleReply,
@@ -57,13 +58,14 @@ const CommentSection = props => {
     handleEdit,
     handleDelete,
   } = props;
+
   const editCommentName = `edit-comment-${index}`;
+
   return (
-    <CommentSection
-    //   ref={tag => {
-    //     setScroll(tag);
-    //   }}
-    //   key={item.id}
+    <CommentAddSection
+      ref={tag => {
+        setScroll(tag);
+      }}
     >
       <CommentHeaderContainer>
         <AvatarWrapper>
@@ -141,33 +143,31 @@ const CommentSection = props => {
           setReplyRef={setReplyRef}
           setReply={setReply}
           reply={reply}
-          replyComment={replyComment}
           index={index}
           handleSaveReply={handleSaveReply}
         />
       )}
-    </CommentSection>
+    </CommentAddSection>
   );
 };
 
 CommentSection.propTypes = {
+  setScroll: PropTypes.func.isRequired,
   myId: PropTypes.string.isRequired,
   getInitials: PropTypes.func.isRequired,
   index: PropTypes.number.isRequired,
   item: PropTypes.instanceOf(Object).isRequired,
   setReplyRef: PropTypes.func.isRequired,
   activeReplyId: PropTypes.string.isRequired,
-
   activeCommentId: PropTypes.string.isRequired,
   setCommentRef: PropTypes.func.isRequired,
   editComment: PropTypes.string.isRequired,
-  setEditComment: PropTypes.string.isRequired,
-  displayReplies: PropTypes.string.isRequired,
+  setEditComment: PropTypes.func.isRequired,
+  displayReplies: PropTypes.instanceOf(Array).isRequired,
   repliesCount: PropTypes.string.isRequired,
-  replies: PropTypes.string.isRequired,
-  setReply: PropTypes.string.isRequired,
+  replies: PropTypes.instanceOf(Array).isRequired,
+  setReply: PropTypes.func.isRequired,
   reply: PropTypes.string.isRequired,
-  replyComment: PropTypes.string.isRequired,
   handleSaveReply: PropTypes.func.isRequired,
   handleReply: PropTypes.func.isRequired,
   handleSaveEdit: PropTypes.func.isRequired,
