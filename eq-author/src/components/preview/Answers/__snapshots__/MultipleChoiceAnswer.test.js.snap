@@ -194,9 +194,6 @@ exports[`MultipleChoiceAnswer should render checkboxes 1`] = `
   <MultipleChoiceAnswer__Legend>
     Foo
   </MultipleChoiceAnswer__Legend>
-  <MultipleChoiceAnswer__SelectAll>
-    Select all that apply:
-  </MultipleChoiceAnswer__SelectAll>
   <Option
     key="1"
     option={
@@ -214,9 +211,6 @@ exports[`MultipleChoiceAnswer should render mutually exclusive when it has one 1
   <MultipleChoiceAnswer__Legend>
     Foo
   </MultipleChoiceAnswer__Legend>
-  <MultipleChoiceAnswer__SelectAll>
-    Select all that apply:
-  </MultipleChoiceAnswer__SelectAll>
   <Option
     key="1"
     option={
