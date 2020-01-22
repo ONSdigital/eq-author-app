@@ -83,6 +83,7 @@ export const CommentFooterContainer = styled(Field)`
 export const AvatarWrapper = styled.div`
   flex-grow: 0;
   margin-right: 8px;
+
   @media (max-width: 1400px) {
     display: none;
   }
