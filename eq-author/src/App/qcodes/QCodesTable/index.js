@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { withApollo, Query, useMutation } from "react-apollo";
-
+import PropTypes from "prop-types";
 import { DATE_RANGE, RADIO } from "constants/answer-types";
 import GET_ALL_ANSWERS from "./GetAllAnswers.graphql";
 import UPDATE_ANSWER_QCODE from "./UpdateAnswerMutation.graphql";
@@ -211,6 +211,16 @@ const Row = ({
       {renderGlobalColumns()}
     </TableRow>
   );
+};
+
+Row.propTypes = {
+  id: PropTypes.string.isRequired,
+  alias: PropTypes.string,
+  title: PropTypes.string,
+  type: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  qCode: PropTypes.string.isRequired,
+  collapsed: PropTypes.bool,
 };
 
 export const UnwrappedQCodeTable = ({ loading, error, data }) => {
