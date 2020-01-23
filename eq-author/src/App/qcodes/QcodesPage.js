@@ -18,6 +18,7 @@ const Container = styled.div`
 
 const StyledGrid = styled(Grid)`
   overflow: hidden;
+  padding-top: 2em;
 `;
 
 const StyledMainCanvas = styled(MainCanvas)`
@@ -35,11 +36,11 @@ const QcodesPage = ({ match }) => {
   return (
     <Container>
       <Header title="QCodes" />
-      <Info icon={InfoIcon}>
+      {/* <Info icon={InfoIcon}>
         Qcodes are used to help send the information respondents enter into our
         questionnaires to downstream systems; please make sure these are all
         filled in before publishing.
-      </Info>
+      </Info> */}
       <StyledGrid>
         <ScrollPane permanentScrollBar data-test="metadata-modal-content">
           <StyledMainCanvas>
