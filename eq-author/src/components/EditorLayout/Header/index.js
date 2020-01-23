@@ -144,17 +144,17 @@ export const UnconnectedHeader = props => {
                 >
                   <IconText icon={settingsIcon}>Settings</IconText>
                 </Button>
-                {me.admin && (
-                  <RouteButton
-                    variant="tertiary-light"
-                    to={buildQcodesPath(match.params)}
-                    small
-                    disabled={title === "QCodes"}
-                    data-test="btn-review"
-                  >
-                    <IconText icon={qcodeIcon}>QCodes</IconText>
-                  </RouteButton>
-                )}
+                <RouteButton
+                  variant="tertiary-light"
+                  to={buildQcodesPath(match.params)}
+                  small
+                  disabled={
+                    title === "QCodes" || questionnaire.totalErrorCount > 0
+                  }
+                  data-test="btn-review"
+                >
+                  <IconText icon={qcodeIcon}>QCodes</IconText>
+                </RouteButton>
                 <LinkButton
                   href={previewUrl}
                   variant="tertiary-light"
