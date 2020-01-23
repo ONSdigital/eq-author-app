@@ -6,6 +6,21 @@ query GetAnswers($input: QueryInput!) {
           id
           title
           alias
+          confirmation {
+            id
+            displayName
+            title
+            positive {
+              id
+              label
+              description
+            }
+            negative {
+              id
+              label
+              description
+            }
+          }
           answers {
             id
             label
@@ -27,6 +42,21 @@ query GetAnswers($input: QueryInput!) {
                 qCode
               }
             }
+          }
+        }
+        ... on CalculatedSummaryPage {
+          id
+          title
+          displayName
+          summaryAnswers {
+            id
+            displayName
+            qCode
+            type
+          }
+          section {
+            id
+            title
           }
         }
       }
