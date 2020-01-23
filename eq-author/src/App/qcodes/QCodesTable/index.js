@@ -27,6 +27,10 @@ const SpacedTableColumn = styled(TableColumn)`
   word-break: break-word;
 `;
 
+const EmptyTableColumn = styled(TableColumn)`
+  background-color: ${colors.black};
+`;
+
 const StyledTableBody = styled(TableBody)`
   background-color: white;
 `;
@@ -192,7 +196,7 @@ const Row = ({
   if (collapsed) {
     return (
       <TableRow>
-        <SpacedTableColumn colSpan={2} />
+        <EmptyTableColumn colSpan={2} />
         {renderGlobalColumns()}
       </TableRow>
     );
