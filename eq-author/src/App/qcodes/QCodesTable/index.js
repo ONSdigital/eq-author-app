@@ -110,28 +110,48 @@ const buildContent = sections => {
 
   for (const section of sections) {
     const pages = section.pages;
-
+    // console.log(pages);
     const rows = pages.map(page => {
       const rowBuilder = [];
-      const { answers } = page;
-      const numberOfAnswers = answers.length;
+      const { answers, confirmation, summaryAnswers } = page;
+      // could make summaryAnswers = answers here
+      // However, doesn't have display name
+      if (answers) {
+        const numberOfAnswers = answers.length;
+        if (numberOfAnswers) {
+          rowBuilder.push(buildQuestionRows(page));
 
-      if (numberOfAnswers) {
-        rowBuilder.push(buildQuestionRows(page));
+          if (numberOfAnswers > 1) {
+            for (let i = 1; i < numberOfAnswers; i++) {
+              const { type, options } = answers[i];
+              const extraAnswerRow = buildOptionRow(answers[i], type);
+              rowBuilder.push(extraAnswerRow);
 
-        if (numberOfAnswers > 1) {
-          for (let i = 1; i < numberOfAnswers; i++) {
-            const { type, options } = answers[i];
-            const extraAnswerRow = buildOptionRow(answers[i], type);
-            rowBuilder.push(extraAnswerRow);
-
-            if (options) {
-              for (const option of options) {
-                const optionRow = buildOptionRow(option, `${type} option`);
-                rowBuilder.push(optionRow);
+              if (options) {
+                for (const option of options) {
+                  const optionRow = buildOptionRow(option, `${type} option`);
+                  rowBuilder.push(optionRow);
+                }
               }
             }
           }
+        }
+      } else if (summaryAnswers) {
+        const numberOfAnswers = summaryAnswers.length;
+        if (numberOfAnswers) {
+          const { id, displayName, qCode, type } = summaryAnswers[0];
+          const summaryAnswerOptions = {
+            id,
+            label: displayName,
+            qCode,
+          };
+          const summaryAnswerRow = buildOptionRow(summaryAnswerOptions, type);
+          rowBuilder.push(summaryAnswerRow);
+          /*
+
+            Loop needs to go here to build per answer
+
+          */
         }
       }
 
