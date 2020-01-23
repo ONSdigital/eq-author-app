@@ -27,7 +27,7 @@ import {
 
 const ReplyButton = styled(Button)`
   padding: 0.3em 0.8em 0.4em;
-  display: ${props => (props.hideReplyBtn ? "none" : "block")};
+  display: ${props => (props.isHidden ? "none" : "block")};
 `;
 
 const StyledAccordion = styled(CommentAccordion)`
@@ -78,12 +78,12 @@ const CommentSection = props => {
           <DateField>{moment(item.createdTime).calendar()}</DateField>
         </NameWrapper>
         <EditButton
-          hideEditBtn={item.user.id !== myId}
+          isHidden={item.user.id !== myId}
           onClick={() => handleEdit(item.id, item.commentText)}
           data-test={`btn-edit-comment-${index}`}
         />
         <DeleteComment
-          hideDeleteBtn={item.user.id !== myId}
+          isHidden={item.user.id !== myId}
           onClick={() => handleDelete(item)}
           data-test={`btn-delete-comment-${index}`}
         />
@@ -112,7 +112,7 @@ const CommentSection = props => {
         {activeReplyId !== item.id && (
           <ReplyButton
             id={`replyBtn-${item.id}`}
-            hideReplyBtn={activeCommentId === item.id}
+            isHidden={activeCommentId === item.id}
             variant="greyed"
             medium
             onClick={() => handleReply(item.id)}

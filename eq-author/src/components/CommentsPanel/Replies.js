@@ -58,7 +58,6 @@ const Replies = props => {
     setReplyRef,
     setEditReply,
     editReply,
-    editReplyName,
     handleSaveEditReply,
   } = props;
   return (
@@ -74,12 +73,12 @@ const Replies = props => {
           <DateField>{moment(repliesItem.createdTime).calendar()}</DateField>
         </NameWrapper>
         <EditButton
-          hideEditBtn={repliesItem.user.id !== myId}
+          isHidden={repliesItem.user.id !== myId}
           onClick={() => handleEditReply(repliesItem)}
           data-test={`btn-edit-reply-${index}-${repliesIndex}`}
         />
         <DeleteComment
-          hideDeleteBtn={repliesItem.user.id !== myId}
+          isHidden={repliesItem.user.id !== myId}
           onClick={() => handleDeleteReply(item, repliesItem)}
           data-test={`btn-delete-reply-${index}-${repliesIndex}`}
         />
@@ -104,7 +103,6 @@ const Replies = props => {
             }}
             value={editReply}
             maxRows={4}
-            name={editReplyName}
             type="text"
             onChange={({ target }) => setEditReply(target.value)}
             data-test={`reply-txtArea-${index}-${repliesIndex}`}
@@ -138,7 +136,6 @@ Replies.propTypes = {
   setReplyRef: PropTypes.func.isRequired,
   setEditReply: PropTypes.func.isRequired,
   editReply: PropTypes.string.isRequired,
-  editReplyName: PropTypes.string.isRequired,
   handleSaveEditReply: PropTypes.func.isRequired,
 };
 

@@ -28,8 +28,8 @@ export const Title = styled.h2`
 export const Body = styled.div`
   overflow: hidden;
   transition: opacity 100ms ease-in-out;
-  opacity: ${props => (props.open ? "1" : "0")};
-  height: ${props => (props.open ? "auto" : "0")};
+  opacity: ${props => (props.isOpen ? "1" : "0")};
+  height: ${props => (props.isOpen ? "auto" : "0")};
 `;
 
 export const Button = styled.button`
@@ -63,22 +63,22 @@ export const Button = styled.button`
     height: 1rem;
     transform-origin: 50% 50%;
     transition: transform 200ms ease-out;
-    transform: rotate(${props => (props.open ? "0deg" : "-90deg")});
+    transform: rotate(${props => (props.isOpen ? "0deg" : "-90deg")});
   }
 `;
 
 export const DisplayContent = styled.div`
-  display: ${props => (props.open ? "block" : "none")};
+  display: ${props => (props.isOpen ? "block" : "none")};
 `;
 
 class CommentAccordion extends Component {
-  state = { open: false, height: "auto" };
+  state = { isOpen: false, height: "auto" };
 
-  handleToggle = () => this.setState({ open: !this.state.open });
+  handleToggle = () => this.setState({ isOpen: !this.state.isOpen });
 
   render() {
     const { children, title } = this.props;
-    const { open } = this.state;
+    const { isOpen } = this.state;
     const replyTitle = title > 1 ? " replies" : " reply";
 
     return (
@@ -86,14 +86,14 @@ class CommentAccordion extends Component {
         <Header>
           <Title>
             <Button
-              open={open}
+              isOpen={isOpen}
               onClick={this.handleToggle}
-              aria-expanded={open}
+              aria-expanded={isOpen}
               aria-controls={`accordion-${title}`}
               data-test={`accordion-${title}-button`}
             >
-              {!open && "Show "}
-              {open && "Hide "}
+              {!isOpen && "Show "}
+              {isOpen && "Hide "}
               {title}
               {replyTitle}
             </Button>
@@ -102,10 +102,10 @@ class CommentAccordion extends Component {
         <Body
           id={`accordion-${title}`}
           data-test={`accordion-${title}-body`}
-          open={open}
-          aria-hidden={!open}
+          isOpen={isOpen}
+          aria-hidden={!isOpen}
         >
-          <DisplayContent open={open}>{children}</DisplayContent>
+          <DisplayContent isOpen={isOpen}>{children}</DisplayContent>
         </Body>
       </>
     );

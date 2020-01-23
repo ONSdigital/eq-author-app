@@ -4,21 +4,12 @@ import { MeContext } from "App/MeContext";
 import COMMENT_QUERY from "./commentsQuery.graphql";
 import COMMENT_SUBSCRIPTION from "./commentSubscription.graphql";
 
-import {
-  mocks,
-  queryWasCalled,
-  createWasCalled,
-  deleteWasCalled,
-  updateWasCalled,
-  newCommentSubscriptionWasCalled,
-  createReplyWasCalled,
-  deleteReplyWasCalled,
-  updateReplyWasCalled,
-} from "./setupTests";
+import mocks from "./setupTests";
 import CommentsPanel from "./";
 
 describe("Comments Pane", () => {
   let user, props;
+  const vars = {};
 
   const origWindow = window.HTMLElement.prototype.scrollIntoView;
 
@@ -37,8 +28,14 @@ describe("Comments Pane", () => {
   });
 
   beforeEach(() => {
-    // queryWasCalled = false;
-    // newCommentSubscriptionWasCalled = false;
+    vars.queryWasCalled = false;
+    vars.createWasCalled = false;
+    vars.deleteWasCalled = false;
+    vars.updateWasCalled = false;
+    vars.newCommentSubscriptionWasCalled = false;
+    vars.createReplyWasCalled = false;
+    vars.deleteReplyWasCalled = false;
+    vars.updateReplyWasCalled = false;
 
     user = {
       id: "me123",
@@ -51,7 +48,7 @@ describe("Comments Pane", () => {
     props = {
       route: "/q/Q1/page/P1",
       urlParamMatcher: "/q/:questionnaireId/page/:pageId",
-      mocks,
+      mocks: mocks(vars),
     };
   });
 
@@ -70,7 +67,7 @@ describe("Comments Pane", () => {
       await flushPromises();
     });
 
-    expect(queryWasCalled).toBeTruthy();
+    expect(vars.queryWasCalled).toBeTruthy();
     expect(getByTestId("comment-txt-area")).toBeTruthy();
   });
 
@@ -111,7 +108,7 @@ describe("Comments Pane", () => {
     await act(async () => {
       await flushPromises();
     });
-    expect(queryWasCalled).toBeTruthy();
+    expect(vars.queryWasCalled).toBeTruthy();
     expect(getByText("Query comment body")).toBeTruthy();
   });
 
@@ -131,8 +128,8 @@ describe("Comments Pane", () => {
       await fireEvent.click(getByTestId("btn-add-comment"));
     });
 
-    expect(createWasCalled).toBeTruthy();
-    expect(newCommentSubscriptionWasCalled).toBeTruthy();
+    expect(vars.createWasCalled).toBeTruthy();
+    expect(vars.newCommentSubscriptionWasCalled).toBeTruthy();
     expect(getByText("This is a test ADD comment")).toBeTruthy();
   });
 
@@ -142,8 +139,6 @@ describe("Comments Pane", () => {
   });
 
   it("should render error state on failed query", async () => {
-    let queryWasCalled = false;
-    let newCommentSubscriptionWasCalled = false;
     const mocks = [
       {
         request: {
@@ -153,7 +148,7 @@ describe("Comments Pane", () => {
           },
         },
         result: () => {
-          queryWasCalled = true;
+          vars.queryWasCalled = true;
           return {
             data: {},
             errors: ["Oops! Something went wrong"],
@@ -166,7 +161,7 @@ describe("Comments Pane", () => {
           variables: { pageId: "P2" },
         },
         result: () => {
-          newCommentSubscriptionWasCalled = true;
+          vars.newCommentSubscriptionWasCalled = true;
           return {};
         },
       },
@@ -184,8 +179,8 @@ describe("Comments Pane", () => {
       await flushPromises();
     });
 
-    expect(queryWasCalled).toBeTruthy();
-    expect(newCommentSubscriptionWasCalled).toBeTruthy();
+    expect(vars.queryWasCalled).toBeTruthy();
+    expect(vars.newCommentSubscriptionWasCalled).toBeTruthy();
     expect(getByText("Oops! Something went wrong")).toBeTruthy();
   });
 
@@ -229,8 +224,8 @@ describe("Comments Pane", () => {
       await fireEvent.click(getByTestId("btn-delete-comment-1"));
     });
 
-    expect(deleteWasCalled).toBeTruthy();
-    expect(newCommentSubscriptionWasCalled).toBeTruthy();
+    expect(vars.deleteWasCalled).toBeTruthy();
+    expect(vars.newCommentSubscriptionWasCalled).toBeTruthy();
     expect(comment).toBeTruthy();
   });
 
@@ -294,8 +289,8 @@ describe("Comments Pane", () => {
       await fireEvent.click(editSaveBtn);
     });
 
-    expect(updateWasCalled).toBeTruthy();
-    expect(newCommentSubscriptionWasCalled).toBeTruthy();
+    expect(vars.updateWasCalled).toBeTruthy();
+    expect(vars.newCommentSubscriptionWasCalled).toBeTruthy();
     expect(getByText("This is an edited comment")).toBeTruthy();
   });
 
@@ -309,7 +304,7 @@ describe("Comments Pane", () => {
         await flushPromises();
       });
 
-      expect(queryWasCalled).toBeTruthy();
+      expect(vars.queryWasCalled).toBeTruthy();
       expect(getByText("Query reply body")).toBeTruthy();
     });
 
@@ -336,8 +331,8 @@ describe("Comments Pane", () => {
         await fireEvent.click(getByTestId("btn-save-reply-0"));
       });
 
-      expect(createReplyWasCalled).toBeTruthy();
-      expect(newCommentSubscriptionWasCalled).toBeTruthy();
+      expect(vars.createReplyWasCalled).toBeTruthy();
+      expect(vars.newCommentSubscriptionWasCalled).toBeTruthy();
       expect(getByText("This is a test ADD reply")).toBeTruthy();
     });
 
@@ -383,8 +378,8 @@ describe("Comments Pane", () => {
         await fireEvent.click(getByTestId("btn-delete-reply-0-1"));
       });
 
-      expect(deleteReplyWasCalled).toBeTruthy();
-      expect(newCommentSubscriptionWasCalled).toBeTruthy();
+      expect(vars.deleteReplyWasCalled).toBeTruthy();
+      expect(vars.newCommentSubscriptionWasCalled).toBeTruthy();
       expect(reply).toBeTruthy();
     });
 
@@ -436,7 +431,6 @@ describe("Comments Pane", () => {
       await act(async () => {
         fireEvent.change(editReplyTxtArea, {
           target: {
-            name: "edit-reply-0-1",
             value: "This is an edited reply",
           },
         });
@@ -448,8 +442,8 @@ describe("Comments Pane", () => {
         await fireEvent.click(editReplySaveBtn);
       });
 
-      expect(updateReplyWasCalled).toBeTruthy();
-      expect(newCommentSubscriptionWasCalled).toBeTruthy();
+      expect(vars.updateReplyWasCalled).toBeTruthy();
+      expect(vars.newCommentSubscriptionWasCalled).toBeTruthy();
       expect(getByText("This is an edited reply")).toBeTruthy();
     });
   });

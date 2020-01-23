@@ -7,16 +7,7 @@ import REPLY_ADD from "./createNewReply.graphql";
 import REPLY_DELETE from "./deleteReply.graphql";
 import REPLY_UPDATE from "./updateReply.graphql";
 
-let queryWasCalled,
-  createWasCalled,
-  deleteWasCalled,
-  updateWasCalled,
-  newCommentSubscriptionWasCalled,
-  createReplyWasCalled,
-  deleteReplyWasCalled,
-  updateReplyWasCalled;
-
-const mocks = [
+const mocks = vars => [
   {
     request: {
       query: COMMENT_QUERY,
@@ -25,7 +16,7 @@ const mocks = [
       },
     },
     result: () => {
-      queryWasCalled = true;
+      vars.queryWasCalled = true;
       return {
         data: {
           page: {
@@ -113,7 +104,7 @@ const mocks = [
       },
     },
     result: () => {
-      createWasCalled = true;
+      vars.createWasCalled = true;
       return {
         data: {
           createComment: {
@@ -154,7 +145,7 @@ const mocks = [
       },
     },
     result: () => {
-      deleteWasCalled = true;
+      vars.deleteWasCalled = true;
       return {
         data: {
           deleteComment: {
@@ -183,7 +174,7 @@ const mocks = [
       },
     },
     result: () => {
-      updateWasCalled = true;
+      vars.updateWasCalled = true;
       return {
         data: {
           updateComment: {
@@ -202,7 +193,7 @@ const mocks = [
       variables: { pageId: "P1" },
     },
     result: () => {
-      newCommentSubscriptionWasCalled = true;
+      vars.newCommentSubscriptionWasCalled = true;
       return {};
     },
   },
@@ -218,7 +209,7 @@ const mocks = [
       },
     },
     result: () => {
-      createReplyWasCalled = true;
+      vars.createReplyWasCalled = true;
       return {
         data: {
           createReply: {
@@ -277,7 +268,7 @@ const mocks = [
       },
     },
     result: () => {
-      deleteReplyWasCalled = true;
+      vars.deleteReplyWasCalled = true;
       return {
         data: {
           deleteReply: {
@@ -313,7 +304,7 @@ const mocks = [
       },
     },
     result: () => {
-      updateReplyWasCalled = true;
+      vars.updateReplyWasCalled = true;
       return {
         data: {
           updateReply: {
@@ -328,14 +319,4 @@ const mocks = [
   },
 ];
 
-export {
-  mocks,
-  queryWasCalled,
-  createWasCalled,
-  deleteWasCalled,
-  updateWasCalled,
-  newCommentSubscriptionWasCalled,
-  createReplyWasCalled,
-  deleteReplyWasCalled,
-  updateReplyWasCalled,
-};
+export default mocks;

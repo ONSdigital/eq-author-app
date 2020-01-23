@@ -126,7 +126,7 @@ export const DateWrapper = styled.div`
 export const DeleteComment = styled(DeleteButton)`
   color: ${colors.grey};
   font-size: 2.2em;
-  display: ${props => (props.hideDeleteBtn ? "none" : "block")};
+  display: ${props => (props.isHidden ? "none" : "block")};
 `;
 
 export const CommentAddSection = styled.div`
@@ -155,7 +155,7 @@ export const EditButton = styled.button`
   background: url(${IconEdit}) no-repeat center center;
   height: 25px;
   width: 25px;
-  display: ${props => (props.hideEditBtn ? "none" : "block")};
+  display: ${props => (props.isHidden ? "none" : "block")};
   &:hover {
     filter: invert(100%) brightness(0.6);
   }
@@ -360,7 +360,7 @@ const CommentsPanel = ({
   const handleSaveEditReply = (event, repliesItem) => {
     const replyId = repliesItem.id;
     const commentId = event.id;
-    if (editReply && myId === repliesItem.user.id) {
+    if (myId === repliesItem.user.id) {
       updateReply({
         variables: {
           input: {
@@ -398,7 +398,6 @@ const CommentsPanel = ({
   const displayComments = comments.map((item, index) => {
     const replies = comments[index].replies;
     const displayReplies = replies.map((repliesItem, repliesIndex) => {
-      const editReplyName = `edit-reply-${index}-${repliesIndex}`;
       return (
         <Replies
           key={repliesItem.id}
@@ -414,7 +413,6 @@ const CommentsPanel = ({
           setReplyRef={setReplyRef}
           setEditReply={setEditReply}
           editReply={editReply}
-          editReplyName={editReplyName}
           handleSaveEditReply={handleSaveEditReply}
         />
       );
