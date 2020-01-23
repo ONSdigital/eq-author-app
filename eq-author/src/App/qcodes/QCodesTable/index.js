@@ -162,7 +162,23 @@ const Row = ({
     const [updateOption] = useMutation(UPDATE_OPTION_QCODE);
     const [updateAnswer] = useMutation(UPDATE_ANSWER_QCODE);
 
-    const handleBlur = () => {};
+    const handleBlur = (type, id, qCode) => {
+      if (type.includes("option")) {
+        updateOption({ variables: { input: { id, qCode } } });
+      } else if (type.includes(DATE_RANGE)) {
+        if (collapsed) {
+          updateAnswer({
+            variables: { input: { id, secondaryQCode: qCode } },
+          });
+        } else {
+          updateAnswer({
+            variables: { input: { id, qCode } },
+          });
+        }
+      } else {
+        updateAnswer({ variables: { input: { id, qCode } } });
+      }
+    };
     return (
       <>
         <SpacedTableColumn>{type}</SpacedTableColumn>
@@ -171,25 +187,7 @@ const Row = ({
           <TableInput
             value={qCode}
             onChange={e => setQcode(e.value)}
-            onBlur={() => {
-              if (type.includes("option")) {
-                console.log(qCode);
-                updateOption({ variables: { input: { id, qCode } } });
-              } else if (type.includes(DATE_RANGE)) {
-                if (collapsed) {
-                  updateAnswer({
-                    variables: { input: { id, secondaryQCode: qCode } },
-                  });
-                } else {
-                  updateAnswer({
-                    variables: { input: { id, qCode } },
-                  });
-                }
-              } else {
-                console.log(qCode, id);
-                updateAnswer({ variables: { input: { id, qCode } } });
-              }
-            }}
+            onBlur={() => handleBlur(type, id, qCode)}
             name={`${id}-qcode-entry`}
             data-test={`${id}-test-input`}
           />
