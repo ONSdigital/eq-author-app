@@ -33,7 +33,6 @@ const StyledTableBody = styled(TableBody)`
 
 const buildOptionRow = (option, questionType) => {
   const { id, label, qCode } = option;
-
   return (
     <Row
       collapsed
@@ -110,30 +109,23 @@ const buildContent = sections => {
 
     const rows = pages.map(page => {
       const rowBuilder = [];
-      const numOfAnswersOnPage = page.answers.length;
+      const { answers } = page;
+      const numberOfAnswers = answers.length;
 
-      rowBuilder.push(buildQuestionRows(page));
+      if (numberOfAnswers) {
+        rowBuilder.push(buildQuestionRows(page));
 
-      if (numOfAnswersOnPage > 1) {
-        for (let i = 1; i < numOfAnswersOnPage; i++) {
-          const { answers } = page;
-          const { id, type, label, qCode, options } = answers[i];
+        if (numberOfAnswers > 1) {
+          for (let i = 1; i < numberOfAnswers; i++) {
+            const { type, options } = answers[i];
+            const extraAnswerRow = buildOptionRow(answers[i], type);
+            rowBuilder.push(extraAnswerRow);
 
-          rowBuilder.push(
-            <Row
-              collapsed
-              key={id}
-              id={id}
-              type={type}
-              label={label}
-              qCode={qCode}
-            />
-          );
-
-          if (options) {
-            for (const option of options) {
-              const optionRow = buildOptionRow(option, `${type} option`);
-              rowBuilder.push(optionRow);
+            if (options) {
+              for (const option of options) {
+                const optionRow = buildOptionRow(option, `${type} option`);
+                rowBuilder.push(optionRow);
+              }
             }
           }
         }
@@ -179,6 +171,7 @@ const Row = ({
         updateAnswer({ variables: { input: { id, qCode } } });
       }
     };
+
     return (
       <>
         <SpacedTableColumn>{type}</SpacedTableColumn>
