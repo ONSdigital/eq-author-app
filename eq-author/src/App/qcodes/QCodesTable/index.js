@@ -204,13 +204,11 @@ const Row = ({
       </TableRow>
     );
   }
-
+  const removeHtml = title.replace(/(<([^>]+)>)/gi, "");
   return (
     <TableRow>
       <SpacedTableColumn>{alias}</SpacedTableColumn>
-      <SpacedTableColumn>
-        {title.replace(/(<([^>]+)>)/gi, "")}
-      </SpacedTableColumn>
+      <SpacedTableColumn>{removeHtml}</SpacedTableColumn>
       {renderGlobalColumns()}
     </TableRow>
   );
