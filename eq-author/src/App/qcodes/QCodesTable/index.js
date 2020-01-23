@@ -39,7 +39,7 @@ const buildOptionRow = (option, questionType) => {
       collapsed
       key={id}
       id={id}
-      type={`${questionType} option`}
+      type={questionType}
       label={label}
       qCode={qCode}
     />
@@ -73,7 +73,7 @@ const buildQuestionRows = page => {
 
   if (options && type !== RADIO) {
     for (const option of options) {
-      const optionRow = buildOptionRow(option, type);
+      const optionRow = buildOptionRow(option, `${type} option`);
       rowBuilder.push(optionRow);
     }
   }
@@ -116,8 +116,9 @@ const buildContent = sections => {
 
       if (numOfAnswersOnPage > 1) {
         for (let i = 1; i < numOfAnswersOnPage; i++) {
-          const { id, answers } = page;
-          const { type, label, qCode, options } = answers[i];
+          const { answers } = page;
+          const { id, type, label, qCode, options } = answers[i];
+
           rowBuilder.push(
             <Row
               collapsed
@@ -131,7 +132,7 @@ const buildContent = sections => {
 
           if (options) {
             for (const option of options) {
-              const optionRow = buildOptionRow(option, type);
+              const optionRow = buildOptionRow(option, `${type} option`);
               rowBuilder.push(optionRow);
             }
           }
@@ -160,6 +161,8 @@ const Row = ({
     const [qCode, setQcode] = useState(initialQcode);
     const [updateOption] = useMutation(UPDATE_OPTION_QCODE);
     const [updateAnswer] = useMutation(UPDATE_ANSWER_QCODE);
+
+    const handleBlur = () => {};
     return (
       <>
         <SpacedTableColumn>{type}</SpacedTableColumn>
@@ -170,6 +173,7 @@ const Row = ({
             onChange={e => setQcode(e.value)}
             onBlur={() => {
               if (type.includes("option")) {
+                console.log(qCode);
                 updateOption({ variables: { input: { id, qCode } } });
               } else if (type.includes(DATE_RANGE)) {
                 if (collapsed) {
@@ -182,6 +186,7 @@ const Row = ({
                   });
                 }
               } else {
+                console.log(qCode, id);
                 updateAnswer({ variables: { input: { id, qCode } } });
               }
             }}
@@ -219,7 +224,7 @@ Row.propTypes = {
   title: PropTypes.string,
   type: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
-  qCode: PropTypes.string.isRequired,
+  qCode: PropTypes.string,
   collapsed: PropTypes.bool,
 };
 
