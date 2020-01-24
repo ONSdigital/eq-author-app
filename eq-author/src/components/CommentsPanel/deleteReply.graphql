@@ -1,0 +1,11 @@
+mutation DeleteReply($input: DeleteReplyInput!) {
+  deleteReply(input: $input) {
+    id
+    comments {
+      id
+      replies {
+        id
+      }
+    }
+  }
+}

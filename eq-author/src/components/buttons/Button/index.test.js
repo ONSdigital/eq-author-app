@@ -18,6 +18,7 @@ describe("components/Button", () => {
     ).getByText("tertiary-light Button");
     render(<Button medium>medium Button</Button>).getByText("medium Button");
     render(<Button small>small Button</Button>).getByText("small Button");
+    render(<Button variant="greyed">Button</Button>).getByText("Button");
   });
 
   it("renders as disabled", () => {

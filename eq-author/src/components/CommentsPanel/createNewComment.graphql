@@ -17,5 +17,18 @@ mutation createComment($input: CreateCommentInput!) {
       email
       displayName
     }
+    replies {
+      id
+      commentText
+      createdTime
+      editedTime
+      user {
+        id
+        name
+        picture
+        email
+        displayName
+      }
+    }
   }
 }

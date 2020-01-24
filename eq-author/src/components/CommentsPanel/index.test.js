@@ -1,23 +1,15 @@
 import React from "react";
 import { render, flushPromises, fireEvent, act } from "tests/utils/rtl";
 import { MeContext } from "App/MeContext";
-
-import CommentsPanel from "./";
 import COMMENT_QUERY from "./commentsQuery.graphql";
-import COMMENT_ADD from "./createNewComment.graphql";
-import COMMENT_DELETE from "./deleteComment.graphql";
-import COMMENT_UPDATE from "./updateComment.graphql";
 import COMMENT_SUBSCRIPTION from "./commentSubscription.graphql";
 
+import mocks from "./setupTests";
+import CommentsPanel from "./";
+
 describe("Comments Pane", () => {
-  let queryWasCalled,
-    createWasCalled,
-    deleteWasCalled,
-    updateWasCalled,
-    newCommentSubscriptionWasCalled,
-    mocks,
-    user,
-    props;
+  let user, props;
+  const vars = {};
 
   const origWindow = window.HTMLElement.prototype.scrollIntoView;
 
@@ -36,8 +28,14 @@ describe("Comments Pane", () => {
   });
 
   beforeEach(() => {
-    queryWasCalled = false;
-    newCommentSubscriptionWasCalled = false;
+    vars.queryWasCalled = false;
+    vars.createWasCalled = false;
+    vars.deleteWasCalled = false;
+    vars.updateWasCalled = false;
+    vars.newCommentSubscriptionWasCalled = false;
+    vars.createReplyWasCalled = false;
+    vars.deleteReplyWasCalled = false;
+    vars.updateReplyWasCalled = false;
 
     user = {
       id: "me123",
@@ -47,170 +45,10 @@ describe("Comments Pane", () => {
       admin: true,
     };
 
-    mocks = [
-      {
-        request: {
-          query: COMMENT_QUERY,
-          variables: {
-            input: { pageId: "P1" },
-          },
-        },
-        result: () => {
-          queryWasCalled = true;
-          return {
-            data: {
-              page: {
-                id: "P1",
-                comments: [
-                  {
-                    commentText: "Query comment body",
-                    createdTime: "2019-10-16T07:39:46.984Z",
-                    editedTime: null,
-                    id: "C1",
-                    replies: [],
-                    user: {
-                      displayName: "My Name is Query",
-                      email: "test@tester.com",
-                      id: "U1",
-                      name: "My Name is Query",
-                      picture: null,
-                      __typename: "User",
-                    },
-                    __typename: "Comment",
-                  },
-                  {
-                    commentText: "Query comment2 body",
-                    createdTime: "2019-10-17T07:39:46.984Z",
-                    editedTime: null,
-                    id: "C2",
-                    replies: [],
-                    user: {
-                      displayName: "Fred Bundy",
-                      email: "idibidiemama@a.com",
-                      id: "me123",
-                      name: "Fred Bundy",
-                      picture: null,
-                      __typename: "User",
-                    },
-                    __typename: "Comment",
-                  },
-                ],
-                __typename: "QuestionPage",
-              },
-            },
-          };
-        },
-      },
-
-      {
-        request: {
-          query: COMMENT_ADD,
-          variables: {
-            input: {
-              pageId: "P1",
-              commentText: "This is a test ADD comment",
-            },
-          },
-        },
-        result: () => {
-          createWasCalled = true;
-          return {
-            data: {
-              createComment: {
-                id: "C1",
-                commentText: "This is a test ADD comment",
-                createdTime: "2019-10-17T07:15:19.229Z",
-                editedTime: null,
-                page: {
-                  id: "P1",
-                  comments: [
-                    {
-                      id: "C1",
-                      __typename: "Comment",
-                    },
-                  ],
-                  __typename: "QuestionPage",
-                },
-                user: {
-                  id: "U1",
-                  name: "Fred Jones",
-                  picture: null,
-                  email: "test@tester.com",
-                  displayName: "Fred Jones",
-                  __typename: "User",
-                },
-                replies: [],
-                __typename: "Comment",
-              },
-            },
-          };
-        },
-      },
-      {
-        request: {
-          query: COMMENT_DELETE,
-          variables: {
-            input: { pageId: "P1", commentId: "C2" },
-          },
-        },
-        result: () => {
-          deleteWasCalled = true;
-          return {
-            data: {
-              deleteComment: {
-                id: "P1",
-                comments: [
-                  {
-                    id: "C2",
-                    __typename: "Comment",
-                  },
-                ],
-                __typename: "QuestionPage",
-              },
-            },
-          };
-        },
-      },
-      {
-        request: {
-          query: COMMENT_UPDATE,
-          variables: {
-            input: {
-              pageId: "P1",
-              commentId: "C2",
-              commentText: "This is an edited comment",
-            },
-          },
-        },
-        result: () => {
-          updateWasCalled = true;
-          return {
-            data: {
-              updateComment: {
-                id: "C2",
-                commentText: "This is an edited comment",
-                editedTime: "2019-10-27T07:15:19.229Z",
-                __typename: "Comment",
-              },
-            },
-          };
-        },
-      },
-      {
-        request: {
-          query: COMMENT_SUBSCRIPTION,
-          variables: { pageId: "P1" },
-        },
-        result: () => {
-          newCommentSubscriptionWasCalled = true;
-          return {};
-        },
-      },
-    ];
     props = {
       route: "/q/Q1/page/P1",
       urlParamMatcher: "/q/:questionnaireId/page/:pageId",
-      mocks,
+      mocks: mocks(vars),
     };
   });
 
@@ -228,7 +66,8 @@ describe("Comments Pane", () => {
     await act(async () => {
       await flushPromises();
     });
-    expect(queryWasCalled).toBeTruthy();
+
+    expect(vars.queryWasCalled).toBeTruthy();
     expect(getByTestId("comment-txt-area")).toBeTruthy();
   });
 
@@ -238,6 +77,7 @@ describe("Comments Pane", () => {
     await act(async () => {
       await flushPromises();
     });
+
     const addCommentButton = getByText("Add");
 
     expect(addCommentButton).toHaveAttribute("disabled");
@@ -268,7 +108,7 @@ describe("Comments Pane", () => {
     await act(async () => {
       await flushPromises();
     });
-    expect(queryWasCalled).toBeTruthy();
+    expect(vars.queryWasCalled).toBeTruthy();
     expect(getByText("Query comment body")).toBeTruthy();
   });
 
@@ -288,8 +128,8 @@ describe("Comments Pane", () => {
       await fireEvent.click(getByTestId("btn-add-comment"));
     });
 
-    expect(createWasCalled).toBeTruthy();
-    expect(newCommentSubscriptionWasCalled).toBeTruthy();
+    expect(vars.createWasCalled).toBeTruthy();
+    expect(vars.newCommentSubscriptionWasCalled).toBeTruthy();
     expect(getByText("This is a test ADD comment")).toBeTruthy();
   });
 
@@ -308,7 +148,7 @@ describe("Comments Pane", () => {
           },
         },
         result: () => {
-          queryWasCalled = true;
+          vars.queryWasCalled = true;
           return {
             data: {},
             errors: ["Oops! Something went wrong"],
@@ -321,7 +161,7 @@ describe("Comments Pane", () => {
           variables: { pageId: "P2" },
         },
         result: () => {
-          newCommentSubscriptionWasCalled = true;
+          vars.newCommentSubscriptionWasCalled = true;
           return {};
         },
       },
@@ -339,7 +179,8 @@ describe("Comments Pane", () => {
       await flushPromises();
     });
 
-    expect(queryWasCalled).toBeTruthy();
+    expect(vars.queryWasCalled).toBeTruthy();
+    expect(vars.newCommentSubscriptionWasCalled).toBeTruthy();
     expect(getByText("Oops! Something went wrong")).toBeTruthy();
   });
 
@@ -383,8 +224,8 @@ describe("Comments Pane", () => {
       await fireEvent.click(getByTestId("btn-delete-comment-1"));
     });
 
-    expect(deleteWasCalled).toBeTruthy();
-    expect(newCommentSubscriptionWasCalled).toBeTruthy();
+    expect(vars.deleteWasCalled).toBeTruthy();
+    expect(vars.newCommentSubscriptionWasCalled).toBeTruthy();
     expect(comment).toBeTruthy();
   });
 
@@ -448,8 +289,162 @@ describe("Comments Pane", () => {
       await fireEvent.click(editSaveBtn);
     });
 
-    expect(updateWasCalled).toBeTruthy();
-    expect(newCommentSubscriptionWasCalled).toBeTruthy();
+    expect(vars.updateWasCalled).toBeTruthy();
+    expect(vars.newCommentSubscriptionWasCalled).toBeTruthy();
     expect(getByText("This is an edited comment")).toBeTruthy();
+  });
+
+  describe("Replies", () => {
+    it("should render a previous reply", async () => {
+      const { getByText } = renderWithContext(<CommentsPanel />, {
+        ...props,
+      });
+
+      await act(async () => {
+        await flushPromises();
+      });
+
+      expect(vars.queryWasCalled).toBeTruthy();
+      expect(getByText("Query reply body")).toBeTruthy();
+    });
+
+    it("should create a new reply", async () => {
+      const { getByText, getByTestId } = renderWithContext(<CommentsPanel />, {
+        ...props,
+      });
+      await act(async () => {
+        await flushPromises();
+        await fireEvent.click(getByTestId("btn-reply-comment-0"));
+      });
+
+      const replyTxtArea = getByTestId("reply-txtArea-0");
+      expect(replyTxtArea).toHaveStyle("display: block");
+
+      await act(async () => {
+        await fireEvent.change(replyTxtArea, {
+          target: {
+            name: "reply-comment-0",
+            value: "This is a test ADD reply",
+          },
+        });
+        await flushPromises();
+        await fireEvent.click(getByTestId("btn-save-reply-0"));
+      });
+
+      expect(vars.createReplyWasCalled).toBeTruthy();
+      expect(vars.newCommentSubscriptionWasCalled).toBeTruthy();
+      expect(getByText("This is a test ADD reply")).toBeTruthy();
+    });
+
+    it("should hide reply delete button if reply exist && comment user !== me", async () => {
+      const { getByTestId } = renderWithContext(<CommentsPanel />, {
+        ...props,
+      });
+
+      await act(async () => {
+        await flushPromises();
+      });
+      const deleteCommentButton = getByTestId("btn-delete-reply-0-0");
+
+      expect(deleteCommentButton).toHaveStyleRule("display: none;");
+    });
+
+    it("should render enabled delete button if reply exist && user === me", async () => {
+      const { getByTestId } = renderWithContext(<CommentsPanel />, {
+        ...props,
+      });
+
+      await act(async () => {
+        await flushPromises();
+      });
+      const deleteCommentButton = getByTestId("btn-delete-reply-0-1");
+
+      expect(deleteCommentButton).toHaveStyleRule("display: block");
+    });
+
+    it("should be able to delete an existing reply", async () => {
+      const { getByText, getByTestId } = renderWithContext(<CommentsPanel />, {
+        ...props,
+      });
+
+      await act(async () => {
+        await flushPromises();
+      });
+
+      const reply = getByText("Query reply body2");
+      expect(reply).toBeTruthy();
+
+      await act(async () => {
+        await fireEvent.click(getByTestId("btn-delete-reply-0-1"));
+      });
+
+      expect(vars.deleteReplyWasCalled).toBeTruthy();
+      expect(vars.newCommentSubscriptionWasCalled).toBeTruthy();
+      expect(reply).toBeTruthy();
+    });
+
+    it("should hide reply edit button if reply exist && comment user !== me", async () => {
+      const { getByTestId } = renderWithContext(<CommentsPanel />, {
+        ...props,
+      });
+
+      await act(async () => {
+        await flushPromises();
+      });
+      const editReplyButton = getByTestId("btn-edit-reply-0-0");
+
+      expect(editReplyButton).toHaveStyleRule("display: none;");
+    });
+
+    it("should render enabled edit reply button if reply exist && user === me", async () => {
+      const { getByTestId } = renderWithContext(<CommentsPanel />, {
+        ...props,
+      });
+
+      await act(async () => {
+        await flushPromises();
+      });
+      const editReplyButton = getByTestId("btn-delete-reply-0-1");
+
+      expect(editReplyButton).toHaveStyleRule("display: block");
+    });
+
+    it("should update a reply", async () => {
+      const { getByText, getByTestId } = renderWithContext(<CommentsPanel />, {
+        ...props,
+      });
+
+      await act(async () => {
+        await flushPromises();
+        const accordion = getByTestId("accordion-2-button");
+        fireEvent.click(accordion);
+      });
+
+      await act(async () => {
+        await flushPromises();
+        const editReplyBtn = getByTestId("btn-edit-reply-0-1");
+        fireEvent.click(editReplyBtn);
+      });
+
+      const editReplyTxtArea = getByTestId("reply-txtArea-0-1");
+
+      await act(async () => {
+        fireEvent.change(editReplyTxtArea, {
+          target: {
+            value: "This is an edited reply",
+          },
+        });
+      });
+
+      const editReplySaveBtn = getByTestId("btn-save-editedReply-0-1");
+      expect(editReplySaveBtn).toHaveStyle("display: inline-block");
+      await act(async () => {
+        await fireEvent.click(editReplySaveBtn);
+      });
+
+      expect(vars.updateReplyWasCalled).toBeTruthy();
+      expect(vars.newCommentSubscriptionWasCalled).toBeTruthy();
+      expect(getByText("This is an edited reply")).toBeTruthy();
+    });
   });
 });

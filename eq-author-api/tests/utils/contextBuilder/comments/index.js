@@ -3,4 +3,7 @@ module.exports = {
   ...require("./queryComment"),
   ...require("./deleteComment"),
   ...require("./updateComment"),
+  ...require("./createReply"),
+  ...require("./updateReply"),
+  ...require("./deleteReply"),
 };
