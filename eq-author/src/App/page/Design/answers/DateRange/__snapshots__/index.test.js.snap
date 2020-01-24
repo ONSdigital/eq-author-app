@@ -4,7 +4,7 @@ exports[`DateRange should render 1`] = `
 <DateRange__Wrapper
   data-test="date-range-editor"
 >
-  <Connect(withEntityEditor(UnwrappedDate))
+  <Connect(withEntityEditor(withValidationError(UnwrappedDate)))
     answer={
       Object {
         "childAnswers": Array [
@@ -36,7 +36,7 @@ exports[`DateRange should render 1`] = `
       }
     }
   />
-  <Connect(withEntityEditor(UnwrappedDate))
+  <Connect(withEntityEditor(withValidationError(UnwrappedDate)))
     answer={
       Object {
         "childAnswers": Array [
