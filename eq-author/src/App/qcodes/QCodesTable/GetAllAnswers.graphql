@@ -47,14 +47,18 @@ query GetAnswers($input: QueryInput!) {
         ... on CalculatedSummaryPage {
           id
           title
+          alias
+          totalTitle
           displayName
+          pageType
           summaryAnswers {
             id
             displayName
+            label
             qCode
-            type
           }
           section {
+            id
             id
             title
           }
