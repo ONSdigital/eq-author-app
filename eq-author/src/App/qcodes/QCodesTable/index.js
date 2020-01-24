@@ -36,7 +36,11 @@ const StyledTableBody = styled(TableBody)`
 `;
 
 const buildOptionRow = (option, questionType) => {
-  const { id, label, qCode } = option;
+  let { id, label, qCode } = option;
+  if (questionType === DATE_RANGE) {
+    id = `${id}-secondary`;
+  }
+
   return (
     <Row
       collapsed
@@ -77,9 +81,9 @@ const buildQuestionRows = page => {
   );
   rowBuilder.push(initalRow);
 
-  const optionBuilder = (options, type, array) => {
+  const optionBuilder = (options, questionType, array) => {
     for (const option of options) {
-      const optionRow = buildOptionRow(option, `${type} option`);
+      const optionRow = buildOptionRow(option, `${questionType} option`);
       array.push(optionRow);
     }
   };
@@ -91,10 +95,6 @@ const buildQuestionRows = page => {
 
       if (options) {
         optionBuilder(options, type, rowBuilder);
-        // for (const option of options) {
-        //   const optionRow = buildOptionRow(option, `${type} option`);
-        //   rowBuilder.push(optionRow);
-        // }
       }
     }
   }
@@ -112,16 +112,14 @@ const buildQuestionRows = page => {
   }
 
   if (type === DATE_RANGE) {
-    rowBuilder.push(
-      <Row
-        collapsed
-        key={`${key}-secondary`}
-        id={id}
-        type={`${type}`}
-        label={secondaryLabel}
-        qCode={secondaryQCode}
-      />
-    );
+    const dateRangeOption = {
+      key,
+      id,
+      label: secondaryLabel,
+      qCode: secondaryQCode,
+    };
+    const dateRangeRow = buildOptionRow(dateRangeOption, type);
+    rowBuilder.push(dateRangeRow);
   }
 
   return rowBuilder;
