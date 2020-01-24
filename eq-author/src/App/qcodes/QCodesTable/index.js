@@ -49,6 +49,7 @@ const buildOptionRow = (option, questionType) => {
   );
 };
 
+const removeHtml = html => html.replace(/(<([^>]+)>)/gi, "");
 const buildQuestionRows = page => {
   const rowBuilder = [];
   const { id: key, alias, title, answers } = page;
@@ -62,7 +63,8 @@ const buildQuestionRows = page => {
     options,
     mutuallyExclusiveOption,
   } = answers[0];
-  rowBuilder.push(
+
+  const initalRow = (
     <Row
       key={key}
       id={id}
@@ -73,12 +75,32 @@ const buildQuestionRows = page => {
       qCode={qCode}
     />
   );
+  rowBuilder.push(initalRow);
 
-  if (options && type !== RADIO) {
+  const optionBuilder = (options, type, array) => {
     for (const option of options) {
       const optionRow = buildOptionRow(option, `${type} option`);
-      rowBuilder.push(optionRow);
+      array.push(optionRow);
     }
+  };
+  if (answers.length > 1) {
+    for (let i = 1; i < answers.length; i++) {
+      const { type, options } = answers[i];
+      const extraAnswerRow = buildOptionRow(answers[i], type);
+      rowBuilder.push(extraAnswerRow);
+
+      if (options) {
+        optionBuilder(options, type, rowBuilder);
+        // for (const option of options) {
+        //   const optionRow = buildOptionRow(option, `${type} option`);
+        //   rowBuilder.push(optionRow);
+        // }
+      }
+    }
+  }
+
+  if (options && type !== RADIO) {
+    optionBuilder(options, type, rowBuilder);
   }
 
   if (mutuallyExclusiveOption) {
@@ -110,48 +132,42 @@ const buildContent = sections => {
 
   for (const section of sections) {
     const pages = section.pages;
-    // console.log(pages);
+
     const rows = pages.map(page => {
       const rowBuilder = [];
       const { answers, confirmation, summaryAnswers } = page;
-      // could make summaryAnswers = answers here
-      // However, doesn't have display name
+
       if (answers) {
         const numberOfAnswers = answers.length;
         if (numberOfAnswers) {
-          rowBuilder.push(buildQuestionRows(page));
-
-          if (numberOfAnswers > 1) {
-            for (let i = 1; i < numberOfAnswers; i++) {
-              const { type, options } = answers[i];
-              const extraAnswerRow = buildOptionRow(answers[i], type);
-              rowBuilder.push(extraAnswerRow);
-
-              if (options) {
-                for (const option of options) {
-                  const optionRow = buildOptionRow(option, `${type} option`);
-                  rowBuilder.push(optionRow);
-                }
-              }
-            }
-          }
+          const questionRow = buildQuestionRows(page);
+          rowBuilder.push(questionRow);
         }
       } else if (summaryAnswers) {
         const numberOfAnswers = summaryAnswers.length;
         if (numberOfAnswers) {
-          const { id, displayName, qCode, type } = summaryAnswers[0];
-          const summaryAnswerOptions = {
+          const {
             id,
-            label: displayName,
+            alias,
+            title,
+            pageType: type,
+            totalTitle: label,
             qCode,
-          };
-          const summaryAnswerRow = buildOptionRow(summaryAnswerOptions, type);
-          rowBuilder.push(summaryAnswerRow);
-          /*
+          } = page;
+          const stripLabel = removeHtml(label);
+          const calculatedSummary = (
+            <Row
+              key={id}
+              id={id}
+              alias={alias}
+              title={title}
+              type={type}
+              label={stripLabel}
+              qCode={qCode}
+            />
+          );
 
-            Loop needs to go here to build per answer
-
-          */
+          rowBuilder.push(calculatedSummary);
         }
       }
 
@@ -221,11 +237,11 @@ const Row = ({
       </TableRow>
     );
   }
-  const removeHtml = title.replace(/(<([^>]+)>)/gi, "");
+  const stripTitle = removeHtml(title);
   return (
     <TableRow>
       <SpacedTableColumn>{alias}</SpacedTableColumn>
-      <SpacedTableColumn>{removeHtml}</SpacedTableColumn>
+      <SpacedTableColumn>{stripTitle}</SpacedTableColumn>
       {renderGlobalColumns()}
     </TableRow>
   );
