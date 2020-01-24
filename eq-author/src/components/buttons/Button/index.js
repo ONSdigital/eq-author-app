@@ -82,6 +82,20 @@ export const negativeButton = css`
   }
 `;
 
+export const greyedButton = css`
+  --color-text: ${colors.white};
+  --color-bg: ${colors.grey};
+
+  position: relative;
+  border: none;
+
+  &:hover {
+    --color-text: ${colors.white};
+    --color-bg: ${darken(0.1, colors.grey)};
+    border-color: var(--color-bg);
+  }
+`;
+
 export const mediumButton = css`
   padding: 0.4em 0.8em;
 `;
@@ -132,6 +146,7 @@ const Button = styled.button`
   ${props => props.variant === "tertiary-light" && tertiaryLightButton};
   ${props => props.variant === "positive" && positiveButton};
   ${props => props.variant === "negative" && negativeButton};
+  ${props => props.variant === "greyed" && greyedButton};
   ${props => props.medium && mediumButton};
   ${props => props.small && smallButton};
 `;

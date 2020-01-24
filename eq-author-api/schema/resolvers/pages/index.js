@@ -41,6 +41,25 @@ Resolvers.Comment = {
   page: ({ pageId }, args, ctx) => getPageById(ctx, pageId),
 };
 
+Resolvers.Reply = {
+  user: ({ userId }) => getUserById(userId),
+  page: async ({ pageId }, args, ctx) => {
+    await getPageById(ctx, pageId);
+  },
+  parentComment: async ({ parentCommentId, pageId }, args, ctx) => {
+    const questionnaire = ctx.questionnaire;
+    const questionnaireComments = await getCommentsForQuestionnaire(
+      questionnaire.id
+    );
+
+    const parentComment = questionnaireComments.comments[pageId].find(
+      ({ id }) => id === parentCommentId
+    );
+
+    return parentComment;
+  },
+};
+
 Resolvers.Mutation = {
   movePage: createMutation((_, { input }, ctx) => {
     const section = getSectionByPageId(ctx, input.id);
@@ -61,6 +80,83 @@ Resolvers.Mutation = {
     onPageDeleted(ctx, input.id);
     return section;
   }),
+
+  createReply: async (_, { input }, ctx) => {
+    const { pageId } = input;
+    const questionnaire = ctx.questionnaire;
+    const questionnaireComments = await getCommentsForQuestionnaire(
+      questionnaire.id
+    );
+
+    const newReply = {
+      id: uuid.v4(),
+      parentCommentId: input.commentId,
+      commentText: input.commentText,
+      userId: ctx.user.id,
+      createdTime: new Date(),
+      pageId: pageId,
+    };
+
+    let parentComment = questionnaireComments.comments[pageId].find(
+      ({ id }) => id === input.commentId
+    );
+
+    if (parentComment) {
+      parentComment.replies.push(newReply);
+    } else {
+      parentComment = [newReply];
+    }
+
+    await saveComments(questionnaireComments);
+
+    publishCommentUpdates(questionnaire, pageId);
+
+    return newReply;
+  },
+
+  updateReply: async (_, { input }, ctx) => {
+    const { pageId } = input;
+    const questionnaire = ctx.questionnaire;
+    const questionnaireComments = await getCommentsForQuestionnaire(
+      questionnaire.id
+    );
+    const replies = questionnaireComments.comments[pageId].find(
+      ({ id }) => id === input.commentId
+    ).replies;
+
+    if (!replies) {
+      throw new Error("No replies found!");
+    }
+
+    const replyToEdit = replies.find(({ id }) => id === input.replyId);
+    replyToEdit.commentText = input.commentText;
+    replyToEdit.editedTime = new Date();
+    await saveComments(questionnaireComments);
+
+    publishCommentUpdates(questionnaire, pageId);
+    return replyToEdit;
+  },
+
+  deleteReply: async (_, { input }, ctx) => {
+    const { pageId } = input;
+    const questionnaire = ctx.questionnaire;
+    const questionnaireComments = await getCommentsForQuestionnaire(
+      questionnaire.id
+    );
+
+    const replies = questionnaireComments.comments[pageId].find(
+      ({ id }) => id === input.commentId
+    ).replies;
+
+    if (replies) {
+      remove(replies, ({ id }) => id === input.replyId);
+      await saveComments(questionnaireComments);
+    }
+    publishCommentUpdates(questionnaire, pageId);
+
+    const page = getPageById(ctx, pageId);
+    return page;
+  },
 
   updateComment: async (_, { input }, ctx) => {
     const { pageId } = input;
@@ -125,6 +221,7 @@ Resolvers.Mutation = {
     } else {
       questionnaireComments.comments[pageId] = [newComment];
     }
+
     await saveComments(questionnaireComments);
 
     publishCommentUpdates(questionnaire, pageId);

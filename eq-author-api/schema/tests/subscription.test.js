@@ -229,6 +229,19 @@ describe("subscriptions", () => {
             }
             createdTime
             editedTime
+            replies {
+              id
+              commentText
+              createdTime
+              editedTime
+              user {
+                id
+                name
+                picture
+                email
+                displayName
+              }
+            }
           }
         }
       }
