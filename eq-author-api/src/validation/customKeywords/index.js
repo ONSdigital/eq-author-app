@@ -5,4 +5,5 @@ module.exports = ajv => {
   require("./calculatedSummaryUnitConsistency")(ajv);
   require("./linkedDecimalValidation")(ajv);
   require("./validateLatestAfterEarliest")(ajv);
+  require("./textLengthInRange")(ajv);
 };

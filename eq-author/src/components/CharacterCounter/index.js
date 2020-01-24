@@ -8,12 +8,8 @@ const getLength = value => (value ? value.length : 0);
 export const Counter = styled.span`
   color: ${props =>
     props.limit - getLength(props.value) < 0 ? colors.red : colors.lightGrey};
-  position: absolute;
-  top: 1px;
-  bottom: 1px;
-  right: 1px;
-  padding: 0.5em;
-  background: white;
+  padding: 0 0.3em;
+  background: none;
 `;
 
 const CharacterCounter = ({ value, limit }) => {

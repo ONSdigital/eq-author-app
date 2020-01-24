@@ -6,7 +6,6 @@ import CustomPropTypes from "custom-prop-types";
 import { useMutation } from "@apollo/react-hooks";
 import { map, isEmpty, some } from "lodash";
 
-import { useMe } from "App/MeContext";
 import { useQuestionnaire } from "components/QuestionnaireContext";
 
 import { colors } from "constants/theme";
@@ -94,7 +93,6 @@ const PublishPage = ({ match, history }) => {
   const questionnaireId = match.params.questionnaireId;
   const [surveyId, setSurveyId] = useState("");
   const [formTypes, setFormTypes] = useState({});
-  const { me } = useMe();
   const { questionnaire } = useQuestionnaire();
 
   const [triggerPublish] = useMutation(triggerPublishMutation);
@@ -113,10 +111,17 @@ const PublishPage = ({ match, history }) => {
   };
 
   const publishStatus = questionnaire && questionnaire.publishStatus;
+
+  const canPublish = () => {
+    if (!questionnaire) {
+      return true;
+    }
+    return questionnaire.permission === "Write";
+  };
   if (
-    !me.admin ||
     publishStatus === AWAITING_APPROVAL ||
-    publishStatus === PUBLISHED
+    publishStatus === PUBLISHED ||
+    !canPublish()
   ) {
     return <Redirect to={`/q/${match.params.questionnaireId}`} />;
   }

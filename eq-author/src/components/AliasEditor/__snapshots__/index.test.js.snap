@@ -2,15 +2,15 @@
 
 exports[`AliasEditor should render 1`] = `
 <AliasEditor__Wrapper>
-  <AliasEditor__StyledWrappingInput
+  <AliasEditor__InputBox
+    autoComplete="off"
     data-test="alias"
     id="alias"
-    maxLength={255}
-    maxRows={1}
     name="alias"
-    onBlur={[MockFunction]}
-    onChange={[MockFunction]}
+    onBlur={[Function]}
+    onChange={[Function]}
     placeholder="Shortcode"
+    type="text"
     value="FooBar"
   />
   <CharacterCounter

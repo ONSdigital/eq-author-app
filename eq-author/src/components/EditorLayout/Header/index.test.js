@@ -201,6 +201,33 @@ describe("Header", () => {
       });
       expect(queryWasCalled).toBeTruthy();
     });
+
+    it("should enable publish button for owner of questionnaire", () => {
+      questionnaire.publishStatus = UNPUBLISHED;
+      user = { ...user, id: "1", admin: false };
+      const { getByTestId } = renderWithContext(<Header {...props} />);
+
+      const publishSurveyButton = getByTestId("btn-publish");
+      expect(publishSurveyButton).toBeTruthy();
+    });
+
+    it("should enable publish button for editor of questionnaire", () => {
+      questionnaire.publishStatus = UNPUBLISHED;
+      user = { ...user, id: "2", admin: false };
+      const { getByTestId } = renderWithContext(<Header {...props} />);
+
+      const publishSurveyButton = getByTestId("btn-publish");
+      expect(publishSurveyButton).toBeTruthy();
+    });
+
+    it("should not display publish button when awaiting approval", () => {
+      questionnaire.publishStatus = AWAITING_APPROVAL;
+      user = { ...user, id: "1", admin: false };
+      const { queryByTestId } = renderWithContext(<Header {...props} />);
+
+      const publishSurveyButton = queryByTestId("btn-publish");
+      expect(publishSurveyButton).toBeFalsy();
+    });
   });
 
   describe("review survey button", () => {
@@ -236,6 +263,14 @@ describe("Header", () => {
 
       fireEvent.click(reviewButton);
       expect(history.location.pathname).toMatch("/review");
+    });
+
+    it("should not show review button for non admins", () => {
+      questionnaire.publishStatus = AWAITING_APPROVAL;
+      user.admin = false;
+      const { queryByTestId } = renderWithContext(<Header {...props} />);
+      const reviewButton = queryByTestId("btn-review");
+      expect(reviewButton).toBeFalsy();
     });
   });
 
