@@ -37,6 +37,7 @@ const StyledTableBody = styled(TableBody)`
 
 const buildOptionRow = (option, questionType) => {
   let { id, label, qCode } = option;
+
   if (questionType === DATE_RANGE) {
     id = `${id}-secondary`;
   }
@@ -56,7 +57,7 @@ const buildOptionRow = (option, questionType) => {
 const removeHtml = html => html.replace(/(<([^>]+)>)/gi, "");
 const buildQuestionRows = page => {
   const rowBuilder = [];
-  const { id: key, alias, title, answers } = page;
+  const { id: key, alias, title, answers, confirmation } = page;
   const {
     id,
     type,
@@ -98,15 +99,32 @@ const buildQuestionRows = page => {
       }
     }
   }
+  if (confirmation) {
+    const { id, displayName: title, qCode, __typename: type } = confirmation;
+    const label = "";
+    const confirmationRow = (
+      <Row
+        key={id}
+        id={id}
+        alias={alias}
+        title={title}
+        type={type}
+        label={label}
+        qCode={qCode}
+      />
+    );
+    rowBuilder.push(confirmationRow);
+  }
 
   if (options && type !== RADIO) {
     optionBuilder(options, type, rowBuilder);
   }
 
   if (mutuallyExclusiveOption) {
+    const mutuallyExclusiveType = `Mutually exclusive ${type.toLowerCase()}`;
     const optionRow = buildOptionRow(
       mutuallyExclusiveOption,
-      `Mutually exclusive ${type.toLowerCase()}`
+      mutuallyExclusiveType
     );
     rowBuilder.push(optionRow);
   }
@@ -133,7 +151,7 @@ const buildContent = sections => {
 
     const rows = pages.map(page => {
       const rowBuilder = [];
-      const { answers, confirmation, summaryAnswers } = page;
+      const { answers, summaryAnswers } = page;
 
       if (answers) {
         const numberOfAnswers = answers.length;
