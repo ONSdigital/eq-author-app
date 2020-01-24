@@ -25,7 +25,7 @@ services:
       - DYNAMO_COMMENTS_TABLE_NAME=dev-author-comments
       - NODE_ENV=development
       - RUNNER_SESSION_URL=http://localhost:5000/session?token=
-      - PUBLISHER_URL=http://localhost:9000/publish/
+      - PUBLISHER_URL=http://host.docker.internal:9000/publish/
       - SURVEY_REGISTER_URL=http://host.docker.internal:8080/submit
       - ENABLE_IMPORT=true
       - JAEGER_SERVICE_NAME=eq_author_api
@@ -35,6 +35,7 @@ services:
       - JAEGER_SAMPLER_PARAM=1
       - REDIS_DOMAIN_NAME=redis
       - REDIS_PORT=6379
+      - ALLOWED_EMAIL_LIST=""
     entrypoint:
       - yarn
       - start:dev
