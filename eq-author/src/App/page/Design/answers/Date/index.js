@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { propType } from "graphql-anywhere";
 import gql from "graphql-tag";
 import styled from "styled-components";
+import { flowRight } from "lodash";
 
 import answerFragment from "graphql/fragments/answer.graphql";
 import { Field, Label } from "components/Forms";
@@ -12,6 +13,7 @@ import VisuallyHidden from "components/VisuallyHidden";
 import { colors } from "constants/theme";
 
 import DummyDate from "../dummy/Date";
+import withValidationError from "enhancers/withValidationError";
 
 const Format = styled.div`
   padding: 1em;
@@ -39,6 +41,8 @@ export const UnwrappedDate = ({
   showDay,
   showMonth,
   showYear,
+  errorLabel,
+  getValidationError,
 }) => (
   <Fieldset>
     <Legend>Date options</Legend>
@@ -55,6 +59,12 @@ export const UnwrappedDate = ({
         data-test="date-answer-label"
         data-autofocus
         bold
+        errorValidationMsg={getValidationError({
+          field: "label",
+          label: errorLabel,
+          requiredMsg: `Enter a 
+          date label`,
+        })}
       />
     </Field>
     <Field>
@@ -77,9 +87,11 @@ UnwrappedDate.propTypes = {
   onChange: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
   placeholder: PropTypes.string,
+  errorLabel: PropTypes.string,
   showDay: PropTypes.bool,
   showMonth: PropTypes.bool,
   showYear: PropTypes.bool,
+  getValidationError: PropTypes.func,
 };
 
 UnwrappedDate.defaultProps = {
@@ -97,4 +109,7 @@ UnwrappedDate.fragments = {
   `,
 };
 
-export default withEntityEditor("answer")(UnwrappedDate);
+export default flowRight(
+  withEntityEditor("answer"),
+  withValidationError("answer")
+)(UnwrappedDate);
