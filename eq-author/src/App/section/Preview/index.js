@@ -9,6 +9,7 @@ import { isEmpty, get } from "lodash";
 import EditorLayout from "components/EditorLayout";
 import Loading from "components/Loading";
 import SectionEditor from "App/section/Design/SectionEditor";
+import CommentsPanel from "components/CommentsPanel";
 
 import { buildSectionPath } from "utils/UrlUtils";
 
@@ -16,6 +17,8 @@ import SectionIntroPreview from "./SectionIntroPreview";
 
 export const UnwrappedPreviewSectionRoute = ({ match, data, loading }) => {
   const section = get(data, "section", {});
+
+  const sectionId = match.params.sectionId;
 
   if (!isEmpty(section)) {
     const hasIntroductionContent =
@@ -29,7 +32,13 @@ export const UnwrappedPreviewSectionRoute = ({ match, data, loading }) => {
   }
 
   return (
-    <EditorLayout design preview title={section.displayName}>
+    <EditorLayout
+      page={section}
+      design
+      preview
+      title={section.displayName}
+      renderPanel={() => <CommentsPanel sectionId={sectionId} />}
+    >
       {loading || !data ? (
         <Loading height="38rem">Preview loading…</Loading>
       ) : (
@@ -47,6 +56,7 @@ UnwrappedPreviewSectionRoute.propTypes = {
     params: PropTypes.shape({
       questionnaireId: PropTypes.string.isRequired,
       sectionId: PropTypes.string.isRequired,
+      // pageId: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
 };

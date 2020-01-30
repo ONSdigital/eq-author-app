@@ -194,12 +194,7 @@ export const DateField = styled("span")`
   color: ${colors.grey};
 `;
 
-const CommentsPanel = ({
-  match: {
-    params: { pageId },
-  },
-  me: { id: myId },
-}) => {
+const CommentsPanel = props => {
   const [comment, setComment] = useState("");
   const [editComment, setEditComment] = useState("");
   const [activeCommentId, setActiveCommentId] = useState("");
@@ -211,12 +206,32 @@ const CommentsPanel = ({
   const [activeReplyId, setActiveReplyId] = useState("");
   const [replyRef, setReplyRef] = useState();
   const [scrollRef, setScrollRef] = useState();
+  const {
+    match: {
+      params: { pageId: pId },
+    },
+    me: { id: myId },
+  } = props;
 
+  const pageId = pId || props.sectionId;
+  const input = {};
+
+  console.log("pageId-------", pageId);
+
+  if (pId) {
+    input.pageId = pId;
+  } else {
+    input.sectionId = props.sectionId;
+    // input.pageId = props.sectionId;
+  }
+  // console.log("input :", input);
   const { loading, error, data } = useQuery(COMMENT_QUERY, {
     variables: {
-      input: { pageId },
+      input,
     },
   });
+  console.log("Comments Panel - data --------", data);
+  // console.log("err", error);
 
   const [createComment] = useMutation(COMMENT_ADD);
   const [deleteComment] = useMutation(COMMENT_DELETE);
@@ -227,7 +242,7 @@ const CommentsPanel = ({
 
   useSubscription(COMMENT_SUBSCRIPTION, {
     variables: {
-      pageId,
+      input,
     },
   });
 
@@ -272,6 +287,7 @@ const CommentsPanel = ({
       variables: {
         input: {
           pageId,
+          // sectionId: props.sectionId,
           commentText: comment,
         },
       },
@@ -283,6 +299,7 @@ const CommentsPanel = ({
 
   const handleDelete = event => {
     const commentId = event.id;
+    console.log("grgfgfgdg", pageId);
     if (commentId && myId === event.user.id) {
       deleteComment({
         variables: {
@@ -393,7 +410,7 @@ const CommentsPanel = ({
     return <Error>Oops! Something went wrong</Error>;
   }
 
-  const comments = get(data, "page.comments", []);
+  const comments = get(data, "section.comments", []);
 
   const displayComments = comments.map((item, index) => {
     const replies = comments[index].replies;
