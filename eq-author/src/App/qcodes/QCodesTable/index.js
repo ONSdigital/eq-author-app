@@ -106,8 +106,7 @@ const buildQuestionRows = page => {
   if (confirmation) {
     const { id, displayName: title, qCode, __typename: type } = confirmation;
     const label = "";
-    console.log(qCode, "hello from here");
-    console.log(confirmation, "hello from here");
+
     const confirmationRow = (
       <Row
         key={id}
