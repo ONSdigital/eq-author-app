@@ -23,6 +23,9 @@ class Question {
   constructor(question, ctx) {
     this.id = `question${question.id}`;
     this.title = processPipedText(ctx)(question.title);
+    if (question.qCode) {
+      this.q_code = question.qCode;
+    }
     if (question.descriptionEnabled && question.description) {
       this.description = processPipedText(ctx)(question.description);
       this.description = unescapePiping(
