@@ -556,11 +556,12 @@ const Resolvers = {
       };
     }),
     updateQuestionConfirmation: createMutation(
-      (_, { input: { positive, negative, id, title } }, ctx) => {
+      (_, { input: { positive, negative, id, title, qCode } }, ctx) => {
         const newValues = {
           title,
           positive,
           negative,
+          qCode,
         };
 
         const pages = getPages(ctx);
