@@ -110,6 +110,7 @@ type Section {
   availablePipingAnswers: [Answer!]!
   availablePipingMetadata: [Metadata!]!
   validationErrorInfo: ValidationErrorInfo
+  comments: [Comment]!
 }
 
 interface Page {
@@ -592,13 +593,14 @@ type Reply {
   editedTime:  DateTime
 }
 
+
 type Comment {
   id: ID!
   commentText: String!
   createdTime: DateTime!
   user: User!
   replies: [Reply]!
-  page: Page!
+  # page: Page!
   editedTime: DateTime
 }
 
@@ -626,6 +628,8 @@ input QueryInput {
   optionId: ID
 }
 
+union CommentsPage = QuestionPage | Section
+
 type Mutation {
   createQuestionnaire(input: CreateQuestionnaireInput!): Questionnaire
   updateQuestionnaire(input: UpdateQuestionnaireInput!): Questionnaire
@@ -644,7 +648,7 @@ type Mutation {
   deletePage(input: DeletePageInput!): Section!
   duplicatePage(input: DuplicatePageInput!): Page
   createComment(input: CreateCommentInput!): Comment!
-  deleteComment(input: DeleteCommentInput!): Page!
+  deleteComment(input: DeleteCommentInput!): CommentsPage!
   updateComment(input: UpdateCommentInput!): Comment!
   createReply(input: CreateReplyInput!): Reply!
   deleteReply(input: DeleteReplyInput!): Page!
@@ -832,7 +836,8 @@ input DuplicatePageInput {
 }
 
 input CreateCommentInput {
-  pageId: ID!
+  pageId: ID
+  sectionId: ID
   commentText: String!
 }
 

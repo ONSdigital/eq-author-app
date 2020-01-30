@@ -1,30 +1,11 @@
-const pubsub = require("../../../db/pubSub");
 const { find, findIndex, remove, omit, set, first } = require("lodash");
-const uuid = require("uuid");
 
-const {
-  getSectionByPageId,
-  remapAllNestedIds,
-  getPageById,
-} = require("../utils");
+const { getSectionByPageId, remapAllNestedIds } = require("../utils");
 
 const onPageDeleted = require("../../../src/businessLogic/onPageDeleted");
 const { createMutation } = require("../createMutation");
 const addPrefix = require("../../../utils/addPrefix");
 const { createQuestionPage } = require("./questionPage");
-
-const {
-  getCommentsForQuestionnaire,
-  saveComments,
-  getUserById,
-} = require("../../../utils/datastore");
-
-const publishCommentUpdates = (questionnaire, pageId) => {
-  pubsub.publish("commentsUpdated", {
-    questionnaire,
-    pageId,
-  });
-};
 
 const Resolvers = {};
 
@@ -33,30 +14,6 @@ Resolvers.Page = {
   position: ({ id }, args, ctx) => {
     const section = getSectionByPageId(ctx, id);
     return findIndex(section.pages, { id });
-  },
-};
-
-Resolvers.Comment = {
-  user: ({ userId }) => getUserById(userId),
-  page: ({ pageId }, args, ctx) => getPageById(ctx, pageId),
-};
-
-Resolvers.Reply = {
-  user: ({ userId }) => getUserById(userId),
-  page: async ({ pageId }, args, ctx) => {
-    await getPageById(ctx, pageId);
-  },
-  parentComment: async ({ parentCommentId, pageId }, args, ctx) => {
-    const questionnaire = ctx.questionnaire;
-    const questionnaireComments = await getCommentsForQuestionnaire(
-      questionnaire.id
-    );
-
-    const parentComment = questionnaireComments.comments[pageId].find(
-      ({ id }) => id === parentCommentId
-    );
-
-    return parentComment;
   },
 };
 
@@ -80,154 +37,6 @@ Resolvers.Mutation = {
     onPageDeleted(ctx, input.id);
     return section;
   }),
-
-  createReply: async (_, { input }, ctx) => {
-    const { pageId } = input;
-    const questionnaire = ctx.questionnaire;
-    const questionnaireComments = await getCommentsForQuestionnaire(
-      questionnaire.id
-    );
-
-    const newReply = {
-      id: uuid.v4(),
-      parentCommentId: input.commentId,
-      commentText: input.commentText,
-      userId: ctx.user.id,
-      createdTime: new Date(),
-      pageId: pageId,
-    };
-
-    let parentComment = questionnaireComments.comments[pageId].find(
-      ({ id }) => id === input.commentId
-    );
-
-    if (parentComment) {
-      parentComment.replies.push(newReply);
-    } else {
-      parentComment = [newReply];
-    }
-
-    await saveComments(questionnaireComments);
-
-    publishCommentUpdates(questionnaire, pageId);
-
-    return newReply;
-  },
-
-  updateReply: async (_, { input }, ctx) => {
-    const { pageId } = input;
-    const questionnaire = ctx.questionnaire;
-    const questionnaireComments = await getCommentsForQuestionnaire(
-      questionnaire.id
-    );
-    const replies = questionnaireComments.comments[pageId].find(
-      ({ id }) => id === input.commentId
-    ).replies;
-
-    if (!replies) {
-      throw new Error("No replies found!");
-    }
-
-    const replyToEdit = replies.find(({ id }) => id === input.replyId);
-    replyToEdit.commentText = input.commentText;
-    replyToEdit.editedTime = new Date();
-    await saveComments(questionnaireComments);
-
-    publishCommentUpdates(questionnaire, pageId);
-    return replyToEdit;
-  },
-
-  deleteReply: async (_, { input }, ctx) => {
-    const { pageId } = input;
-    const questionnaire = ctx.questionnaire;
-    const questionnaireComments = await getCommentsForQuestionnaire(
-      questionnaire.id
-    );
-
-    const replies = questionnaireComments.comments[pageId].find(
-      ({ id }) => id === input.commentId
-    ).replies;
-
-    if (replies) {
-      remove(replies, ({ id }) => id === input.replyId);
-      await saveComments(questionnaireComments);
-    }
-    publishCommentUpdates(questionnaire, pageId);
-
-    const page = getPageById(ctx, pageId);
-    return page;
-  },
-
-  updateComment: async (_, { input }, ctx) => {
-    const { pageId } = input;
-    const questionnaire = ctx.questionnaire;
-    const questionnaireComments = await getCommentsForQuestionnaire(
-      questionnaire.id
-    );
-    const pageComments = questionnaireComments.comments[pageId];
-
-    if (!pageComments) {
-      throw new Error("No comments found");
-    }
-
-    const commentToEdit = pageComments.find(({ id }) => id === input.commentId);
-    commentToEdit.commentText = input.commentText;
-    commentToEdit.editedTime = new Date();
-    await saveComments(questionnaireComments);
-
-    publishCommentUpdates(questionnaire, pageId);
-
-    return commentToEdit;
-  },
-
-  deleteComment: async (_, { input }, ctx) => {
-    const { pageId } = input;
-    const questionnaire = ctx.questionnaire;
-    const questionnaireComments = await getCommentsForQuestionnaire(
-      questionnaire.id
-    );
-
-    const pageComments = questionnaireComments.comments[pageId];
-
-    if (pageComments) {
-      remove(pageComments, ({ id }) => id === input.commentId);
-      await saveComments(questionnaireComments);
-    }
-    publishCommentUpdates(questionnaire, pageId);
-
-    const page = getPageById(ctx, pageId);
-    return page;
-  },
-
-  createComment: async (_, { input }, ctx) => {
-    const { pageId } = input;
-    const questionnaire = ctx.questionnaire;
-    const questionnaireComments = await getCommentsForQuestionnaire(
-      questionnaire.id
-    );
-    const newComment = {
-      id: uuid.v4(),
-      commentText: input.commentText,
-      userId: ctx.user.id,
-      createdTime: new Date(),
-      pageId: pageId,
-      replies: [],
-    };
-
-    const pageComments = questionnaireComments.comments[pageId];
-
-    if (pageComments) {
-      questionnaireComments.comments[pageId].push(newComment);
-    } else {
-      questionnaireComments.comments[pageId] = [newComment];
-    }
-
-    await saveComments(questionnaireComments);
-
-    publishCommentUpdates(questionnaire, pageId);
-
-    return newComment;
-  },
 
   duplicatePage: createMutation((_, { input }, ctx) => {
     const section = getSectionByPageId(ctx, input.id);

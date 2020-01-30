@@ -19,7 +19,7 @@ const GraphQLJSON = require("graphql-type-json");
 const uuid = require("uuid");
 const { withFilter } = require("apollo-server-express");
 const fetch = require("node-fetch");
-
+const { getCommentsForQuestionnaire } = require("../../utils/datastore");
 const {
   UNPUBLISHED,
   PUBLISHED,
@@ -701,6 +701,16 @@ const Resolvers = {
       await saveQuestionnaire(ctx.questionnaire);
       return ctx.questionnaire;
     },
+    // createComment: createMutation(async (root, { input }, ctx) => {
+    //   const { pageId, sectionId } = input;
+
+    //   return ctx.questionnaire;
+    // }),
+    // createReply: createMutation(async (root, { input }, ctx) => {
+    //   const { pageId, sectionId } = input;
+
+    //   return ctx.questionnaire;
+    // }),
   },
 
   Questionnaire: {
@@ -746,6 +756,7 @@ const Resolvers = {
         ? getName(section, "Section")
         : getName(omit(section, "title"), "Section"),
     position: ({ id }, args, ctx) => {
+      console.log("\n\nSection position --- id", id);
       return findIndex(ctx.questionnaire.sections, { id });
     },
     availablePipingAnswers: ({ id }, args, ctx) =>
@@ -757,6 +768,21 @@ const Resolvers = {
         errors: [],
         totalCount: 0,
       },
+    comments: async ({ id }, args, ctx) => {
+      console.log("\n\nSection Resolver for comments - id :", id);
+
+      const questionnaireComments = await getCommentsForQuestionnaire(
+        ctx.questionnaire.id
+      );
+
+      console.log("\n\nLoad SECTION Page - all----- :", questionnaireComments);
+      console.log(
+        "\n\nLoad Question Page comments - questionnareComments :",
+        questionnaireComments.comments[id]
+      );
+
+      return questionnaireComments.comments[id] || [];
+    },
   },
 
   LogicalDestination: {

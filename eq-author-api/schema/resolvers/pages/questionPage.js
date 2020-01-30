@@ -47,9 +47,16 @@ Resolvers.QuestionPage = {
       ROUTING_ANSWER_TYPES
     ),
   comments: async ({ id }, args, ctx) => {
+    console.log("\n\nQuestion page Resolver for comments - id :", id);
+
     const questionnaireId = ctx.questionnaire.id;
     const questionnareComments = await getCommentsForQuestionnaire(
       questionnaireId
+    );
+    console.log("\n\nLoad Question Page - all----- :", questionnareComments);
+    console.log(
+      "\n\n Load Question Page comments - questionnareComments :",
+      questionnareComments.comments[id]
     );
     return questionnareComments.comments[id] || [];
   },
