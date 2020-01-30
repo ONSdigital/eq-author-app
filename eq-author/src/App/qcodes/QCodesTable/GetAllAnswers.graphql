@@ -10,16 +10,7 @@ query GetAnswers($input: QueryInput!) {
             id
             displayName
             title
-            positive {
-              id
-              label
-              description
-            }
-            negative {
-              id
-              label
-              description
-            }
+            qCode
           }
           answers {
             id
