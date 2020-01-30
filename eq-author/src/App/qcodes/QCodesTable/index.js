@@ -39,15 +39,15 @@ const StyledTableBody = styled(TableBody)`
 
 const buildOptionRow = (option, questionType) => {
   let { id, label, qCode } = option;
+  let key = id;
 
   if (questionType === DATE_RANGE) {
-    id = `${id}-secondary`;
+    key = `${id}-secondary`;
   }
-
   return (
     <Row
       collapsed
-      key={id}
+      key={key}
       id={id}
       type={questionType}
       label={label}
@@ -115,7 +115,7 @@ const buildQuestionRows = page => {
         title={title}
         type={type}
         label={label}
-        qCode={qCode || ""}
+        qCode={qCode}
       />
     );
     rowBuilder.push(confirmationRow);
