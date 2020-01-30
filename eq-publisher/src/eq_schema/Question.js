@@ -119,7 +119,6 @@ class Question {
   }
 
   buildDateRangeAnswers(answer) {
-    console.log(answer);
     const commonAnswerDef = {
       id: `answer${answer.id}`,
       type: DATE,
