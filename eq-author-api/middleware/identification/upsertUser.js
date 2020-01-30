@@ -14,7 +14,10 @@ const checkForUpdates = (user, existingUser) => {
 module.exports = async (req, res, next) => {
   const { user } = req;
   if (!user.isVerified) {
-    if (process.env.ALLOWED_EMAIL_LIST) {
+    if (
+      process.env.ALLOWED_EMAIL_LIST &&
+      process.env.ALLOWED_EMAIL_LIST !== ""
+    ) {
       const validEmails = process.env.ALLOWED_EMAIL_LIST.split(",");
       const checkEmail = domain => user.email.includes(domain);
       if (!validEmails.some(checkEmail, user.email)) {
