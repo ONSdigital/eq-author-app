@@ -174,7 +174,7 @@ const buildContent = sections => {
             totalTitle: label,
             qCode,
           } = page;
-          const stripLabel = removeHtml(label);
+          const stripLabel = removeHtml(label) || "";
           const calculatedSummary = (
             <Row
               key={id}
