@@ -3,9 +3,11 @@ import styled from "styled-components";
 import { withApollo, Query, useMutation } from "react-apollo";
 import PropTypes from "prop-types";
 import { DATE_RANGE, RADIO } from "constants/answer-types";
+import { QUESTION_CONFIRMATION } from "constants/entities";
 import GET_ALL_ANSWERS from "./GetAllAnswers.graphql";
 import UPDATE_ANSWER_QCODE from "./UpdateAnswerMutation.graphql";
 import UPDATE_OPTION_QCODE from "./UpdateOptionMutation.graphql";
+import UPDATE_CONFIRMATION_QCODE from "./UpdateConfirmationQCode.graphql";
 
 import { colors } from "constants/theme";
 
@@ -55,6 +57,7 @@ const buildOptionRow = (option, questionType) => {
 };
 
 const removeHtml = html => html.replace(/(<([^>]+)>)/gi, "");
+
 const buildQuestionRows = page => {
   const rowBuilder = [];
   const { id: key, alias, title, answers, confirmation } = page;
@@ -69,6 +72,13 @@ const buildQuestionRows = page => {
     mutuallyExclusiveOption,
   } = answers[0];
 
+  const optionBuilder = (options, questionType, array) => {
+    for (const option of options) {
+      const optionRow = buildOptionRow(option, `${questionType} option`);
+      array.push(optionRow);
+    }
+  };
+
   const initalRow = (
     <Row
       key={key}
@@ -82,12 +92,6 @@ const buildQuestionRows = page => {
   );
   rowBuilder.push(initalRow);
 
-  const optionBuilder = (options, questionType, array) => {
-    for (const option of options) {
-      const optionRow = buildOptionRow(option, `${questionType} option`);
-      array.push(optionRow);
-    }
-  };
   if (answers.length > 1) {
     for (let i = 1; i < answers.length; i++) {
       const { type, options } = answers[i];
@@ -102,6 +106,8 @@ const buildQuestionRows = page => {
   if (confirmation) {
     const { id, displayName: title, qCode, __typename: type } = confirmation;
     const label = "";
+    console.log(qCode, "hello from here");
+    console.log(confirmation, "hello from here");
     const confirmationRow = (
       <Row
         key={id}
@@ -110,7 +116,7 @@ const buildQuestionRows = page => {
         title={title}
         type={type}
         label={label}
-        qCode={qCode}
+        qCode={qCode || ""}
       />
     );
     rowBuilder.push(confirmationRow);
@@ -182,11 +188,9 @@ const buildContent = sections => {
               qCode={qCode}
             />
           );
-
           rowBuilder.push(calculatedSummary);
         }
       }
-
       return rowBuilder;
     });
 
@@ -209,9 +213,14 @@ const Row = ({
     const [qCode, setQcode] = useState(initialQcode);
     const [updateOption] = useMutation(UPDATE_OPTION_QCODE);
     const [updateAnswer] = useMutation(UPDATE_ANSWER_QCODE);
+    const [updateConfirmation] = useMutation(UPDATE_CONFIRMATION_QCODE);
 
     const handleBlur = (type, id, qCode) => {
-      if (type.includes("option")) {
+      if (type === "QuestionConfirmation") {
+        updateConfirmation({
+          variables: { input: { id, qCode } },
+        });
+      } else if (type.includes("option")) {
         updateOption({ variables: { input: { id, qCode } } });
       } else if (type.includes(DATE_RANGE)) {
         if (collapsed) {
@@ -253,6 +262,7 @@ const Row = ({
       </TableRow>
     );
   }
+
   const stripTitle = removeHtml(title);
   return (
     <TableRow>
