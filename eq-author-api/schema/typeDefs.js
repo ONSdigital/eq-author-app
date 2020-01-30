@@ -179,6 +179,7 @@ type QuestionConfirmation {
   displayName: String!
   title: String
   page: QuestionPage!
+  qCode: String
   positive: ConfirmationOption!
   negative: ConfirmationOption!
   availablePipingAnswers: [Answer!]!
@@ -1056,8 +1057,9 @@ input ConfirmationOptionInput {
 input UpdateQuestionConfirmationInput {
   id: ID!
   title: String
-  positive: ConfirmationOptionInput!
-  negative: ConfirmationOptionInput!
+  positive: ConfirmationOptionInput
+  negative: ConfirmationOptionInput
+  qCode: String
 }
 
 input CreateQuestionConfirmationInput {
