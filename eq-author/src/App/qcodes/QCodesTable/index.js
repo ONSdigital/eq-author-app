@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { withApollo, Query, useMutation } from "react-apollo";
 import PropTypes from "prop-types";
 import { DATE_RANGE, RADIO } from "constants/answer-types";
-import { QUESTION_CONFIRMATION } from "constants/entities";
 import GET_ALL_ANSWERS from "./GetAllAnswers.graphql";
 import UPDATE_ANSWER_QCODE from "./UpdateAnswerMutation.graphql";
 import UPDATE_OPTION_QCODE from "./UpdateOptionMutation.graphql";
@@ -30,7 +29,7 @@ const SpacedTableColumn = styled(TableColumn)`
 `;
 
 const EmptyTableColumn = styled(TableColumn)`
-  background-color: ${colors.black};
+  background-color: ${colors.lightMediumGrey};
 `;
 
 const StyledTableBody = styled(TableBody)`
@@ -256,7 +255,8 @@ const Row = ({
   if (collapsed) {
     return (
       <TableRow>
-        <EmptyTableColumn colSpan={2} />
+        <EmptyTableColumn />
+        <EmptyTableColumn />
         {renderGlobalColumns()}
       </TableRow>
     );
