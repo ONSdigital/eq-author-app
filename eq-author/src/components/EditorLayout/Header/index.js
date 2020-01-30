@@ -151,7 +151,7 @@ export const UnconnectedHeader = props => {
                   disabled={
                     title === "QCodes" || questionnaire.totalErrorCount > 0
                   }
-                  data-test="btn-review"
+                  data-test="btn-qcodes"
                 >
                   <IconText icon={qcodeIcon}>QCodes</IconText>
                 </RouteButton>
