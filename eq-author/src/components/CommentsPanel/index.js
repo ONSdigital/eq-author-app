@@ -194,6 +194,7 @@ export const DateField = styled("span")`
   color: ${colors.grey};
 `;
 
+// const CommentsPanel = (key, value, props) => {
 const CommentsPanel = props => {
   const [comment, setComment] = useState("");
   const [editComment, setEditComment] = useState("");
@@ -213,25 +214,33 @@ const CommentsPanel = props => {
     me: { id: myId },
   } = props;
 
+  const parentId = pId || props.sectionId;
+
   const pageId = pId || props.sectionId;
   const input = {};
 
+  let key;
   console.log("pageId-------", pageId);
 
   if (pId) {
-    input.pageId = pId;
-  } else {
-    input.sectionId = props.sectionId;
-    // input.pageId = props.sectionId;
+    key = "pageId";
+    // input.pageId = pId;
+  } else if (props.sectionId) {
+    key = "sectionId";
+    // input.sectionId = props.sectionId;
   }
-  // console.log("input :", input);
+  console.log("key---------", key);
+  console.log("parentId-----", parentId);
+
   const { loading, error, data } = useQuery(COMMENT_QUERY, {
     variables: {
-      input,
+      input: {
+        [key]: parentId,
+      },
+      // input,
     },
   });
   console.log("Comments Panel - data --------", data);
-  // console.log("err", error);
 
   const [createComment] = useMutation(COMMENT_ADD);
   const [deleteComment] = useMutation(COMMENT_DELETE);
@@ -286,8 +295,9 @@ const CommentsPanel = props => {
     createComment({
       variables: {
         input: {
-          pageId,
-          // sectionId: props.sectionId,
+          // input,
+          // pageId,
+          [key]: parentId,
           commentText: comment,
         },
       },
@@ -299,12 +309,13 @@ const CommentsPanel = props => {
 
   const handleDelete = event => {
     const commentId = event.id;
-    console.log("grgfgfgdg", pageId);
+    console.log("Delete - pageId", pageId);
     if (commentId && myId === event.user.id) {
       deleteComment({
         variables: {
           input: {
-            pageId,
+            [key]: parentId,
+            // pageId,
             commentId,
           },
         },
@@ -410,8 +421,22 @@ const CommentsPanel = props => {
     return <Error>Oops! Something went wrong</Error>;
   }
 
-  const comments = get(data, "section.comments", []);
-
+  let comments;
+  // if (input.sectionId) {
+  //   comments = get(data, "section.comments", []);
+  // } else if (input.pageId) {
+  //   comments = get(data, "page.comments", []);
+  // }
+  switch (key) {
+    case "pageId":
+      comments = get(data, "page.comments", []);
+      break;
+    case "sectionId":
+      comments = get(data, "section.comments", []);
+      break;
+    default:
+      break;
+  }
   const displayComments = comments.map((item, index) => {
     const replies = comments[index].replies;
     const displayReplies = replies.map((repliesItem, repliesIndex) => {

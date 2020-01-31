@@ -53,7 +53,6 @@ Resolvers.QuestionPage = {
     const questionnareComments = await getCommentsForQuestionnaire(
       questionnaireId
     );
-    console.log("\n\nLoad Question Page - all----- :", questionnareComments);
     console.log(
       "\n\n Load Question Page comments - questionnareComments :",
       questionnareComments.comments[id]
