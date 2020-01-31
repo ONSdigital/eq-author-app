@@ -225,6 +225,8 @@ const Resolvers = {
     },
     commentsUpdated: {
       resolve: async ({ pageId, questionnaire }, args, ctx) => {
+        console.log("\n\nCommentsUpdated---------", pageId);
+
         ctx.questionnaire = questionnaire;
         const page = await getPageById(ctx, pageId);
         return page;
@@ -748,10 +750,6 @@ const Resolvers = {
       );
 
       console.log("\n\nLoad SECTION Page - all----- :", questionnaireComments);
-      console.log(
-        "\n\nLoad Question Page comments - questionnareComments :",
-        questionnaireComments.comments[id]
-      );
 
       return questionnaireComments.comments[id] || [];
     },

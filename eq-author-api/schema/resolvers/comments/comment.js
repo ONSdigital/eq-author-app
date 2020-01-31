@@ -1,7 +1,7 @@
 const uuid = require("uuid");
 const { remove } = require("lodash");
 
-const { getPageById } = require("../utils");
+const { getPageById, getSectionById } = require("../utils");
 
 const {
   getCommentsForQuestionnaire,
@@ -10,6 +10,7 @@ const {
 
 const pubsub = require("../../../db/pubSub");
 const publishCommentUpdates = (questionnaire, pageId) => {
+  console.log("\n\npublishCommentUpdates-------", pageId);
   pubsub.publish("commentsUpdated", {
     questionnaire,
     pageId,
@@ -42,42 +43,42 @@ Resolvers.Mutation = {
   },
 
   deleteComment: async (_, { input }, ctx) => {
-    const { pageId, sectionId } = input;
-
-    console.log("\n\ninput--------------", input);
-
-    console.log("\n\npageId--------------", pageId);
-    console.log("\n\nsectionId--------------", sectionId);
+    const parentId = input.pageId ? input.pageId : input.sectionId;
+    console.log("\nparentId", parentId);
+    console.log("\nDelete input--------------", input);
 
     const questionnaire = ctx.questionnaire;
     const questionnaireComments = await getCommentsForQuestionnaire(
       questionnaire.id
     );
-    console.log("questionnaireComments---------", questionnaireComments);
-    const pageComments = questionnaireComments.comments[pageId];
+    const pageComments = questionnaireComments.comments[parentId];
 
-    console.log("pageComments-----------", pageComments);
+    console.log("\nDelete pageComments-----------", pageComments);
 
     if (pageComments) {
       remove(pageComments, ({ id }) => id === input.commentId);
       await saveComments(questionnaireComments);
     }
-    publishCommentUpdates(questionnaire, pageId);
-    let page, section;
-    // if (pageId) {
-    //   page = getPageById(ctx, pageId);
-    // } else if (sectionId) {
-    //   page = getSectionById(ctx, sectionId);
-    // }
+    publishCommentUpdates(questionnaire, parentId);
 
-    section = getPageById(ctx, pageId);
+    let page;
+    if (input.pageId) {
+      page = getPageById(ctx, parentId);
+    } else if (input.sectionId) {
+      page = getSectionById(ctx, parentId);
+    }
 
-    console.log("page----------", page);
-    return section;
+    console.log("\n\nDeleteComments - page return----------", page);
+
+    return page;
   },
 
   createComment: async (_, { input }, ctx) => {
     const { pageId, sectionId } = input;
+
+    console.log("\ncreateComment - input", input);
+    console.log("\npageId", pageId);
+    console.log("\nsectionId", sectionId);
     const questionnaire = ctx.questionnaire;
     const questionnaireComments = await getCommentsForQuestionnaire(
       questionnaire.id
@@ -88,8 +89,8 @@ Resolvers.Mutation = {
       commentText: input.commentText,
       userId: ctx.user.id,
       createdTime: new Date(),
-      pageId,
-      //   sectionId: "test",
+      pageId: pageId,
+      sectionId: sectionId,
       replies: [],
     };
 

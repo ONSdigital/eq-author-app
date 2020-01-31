@@ -1,8 +1,16 @@
 mutation deleteComment($input: DeleteCommentInput!) {
   deleteComment(input: $input) {
-    id
-    comments {
+    ... on Page {
       id
+      comments {
+        id
+      }
+    }
+    ... on Section {
+      id
+      comments {
+        id
+      }
     }
   }
 }

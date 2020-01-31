@@ -583,16 +583,46 @@ type Reply {
   editedTime:  DateTime
 }
 
-
 type Comment {
   id: ID!
   commentText: String!
   createdTime: DateTime!
   user: User!
   replies: [Reply]!
-  # page: Page!
+  page: Page
+  section: Section
   editedTime: DateTime
 }
+
+# interface Comment {
+#   id: ID!
+#   commentText: String!
+#   createdTime: DateTime!
+#   user: User!
+#   replies: [Reply]!
+#   # page: Page!
+#   editedTime: DateTime
+# }
+
+# type PageComment implements Comment {
+#   id: ID!
+#   commentText: String!
+#   createdTime: DateTime!
+#   user: User!
+#   replies: [Reply]!
+#   page: Page!
+#   editedTime: DateTime
+# }
+
+# type SectionComment implements Comment {
+#   id: ID!
+#   commentText: String!
+#   createdTime: DateTime!
+#   user: User!
+#   replies: [Reply]!
+#   section: Section!
+#   editedTime: DateTime
+# }
 
 type Query {
   questionnaires: [Questionnaire]
@@ -618,7 +648,7 @@ input QueryInput {
   optionId: ID
 }
 
-union CommentsPage = QuestionPage | Section
+union CommentPage = QuestionPage | Section
 
 type Mutation {
   createQuestionnaire(input: CreateQuestionnaireInput!): Questionnaire
@@ -638,7 +668,7 @@ type Mutation {
   deletePage(input: DeletePageInput!): Section!
   duplicatePage(input: DuplicatePageInput!): Page
   createComment(input: CreateCommentInput!): Comment!
-  deleteComment(input: DeleteCommentInput!): CommentsPage!
+  deleteComment(input: DeleteCommentInput!): CommentPage!
   updateComment(input: UpdateCommentInput!): Comment!
   createReply(input: CreateReplyInput!): Reply!
   deleteReply(input: DeleteReplyInput!): Page!
@@ -832,7 +862,8 @@ input CreateCommentInput {
 }
 
 input DeleteCommentInput {
-  pageId: ID!
+  pageId: ID
+  sectionId: ID
   commentId: ID!
 }
 

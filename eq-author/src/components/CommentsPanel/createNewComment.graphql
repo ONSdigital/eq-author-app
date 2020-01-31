@@ -1,15 +1,24 @@
+#import "./NewCommentFragmentSection.graphql"
+#import "./NewCommentFragmentPage.graphql"
+
 mutation createComment($input: CreateCommentInput!) {
   createComment(input: $input) {
     id
     commentText
     createdTime
     editedTime
-    page {
-      id
-      comments {
-        id
-      }
+    section {
+      ...NewCommentFragmentSection
     }
+    page {
+      ...NewCommentFragmentPage
+    }
+    # page {
+    #   id
+    #   comments {
+    #     id
+    #   }
+    # }
     user {
       id
       name
