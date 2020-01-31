@@ -21,6 +21,7 @@ jest.mock("node-fetch");
 const fetch = require("node-fetch");
 fetch.mockImplementation(() =>
   Promise.resolve({
+    status: 200,
     json: () => ({
       questionnaireId: "test",
       publishedSurveyUrl: "https://best.url.com",
@@ -175,7 +176,7 @@ describe("history", () => {
         {
           questionnaireId: ctx.questionnaire.id,
           surveyId: "123",
-          formTypes: { ONS: "456" },
+          variants: [{ formType: "456", theme: "ONS" }],
         },
         ctx
       );
