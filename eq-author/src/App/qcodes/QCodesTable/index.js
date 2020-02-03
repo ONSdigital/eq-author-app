@@ -223,7 +223,6 @@ const Row = ({
           variables: { input: { id, qCode } },
         });
       } else if (type === "CalculatedSummaryPage") {
-        console.log(summaryAnswers);
         updateCalculatedSummaryPage({
           variables: { input: { id, qCode, summaryAnswers } },
         });
