@@ -156,6 +156,7 @@ type CalculatedSummaryPage implements Page {
   alias: String
   displayName: String!
   pageType: PageType!
+  qCode: String
   comments: [Comment]!
   section: Section!
   position: Int!
@@ -901,6 +902,7 @@ input UpdateCalculatedSummaryPageInput {
   alias: String
   title: String
   totalTitle: String
+  qCode: String
   summaryAnswers: [ID!]
 }
 
