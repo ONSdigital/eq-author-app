@@ -42,6 +42,7 @@ query GetAnswers($input: QueryInput!) {
           totalTitle
           displayName
           pageType
+          qCode
           summaryAnswers {
             id
             displayName
