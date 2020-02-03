@@ -7,6 +7,7 @@ import GET_ALL_ANSWERS from "./GetAllAnswers.graphql";
 import UPDATE_ANSWER_QCODE from "./UpdateAnswerMutation.graphql";
 import UPDATE_OPTION_QCODE from "./UpdateOptionMutation.graphql";
 import UPDATE_CONFIRMATION_QCODE from "./UpdateConfirmationQCode.graphql";
+import UPDATE_CALCSUM_QCODE from "./UpdateCalculatedSummary.graphql";
 
 import { colors } from "constants/theme";
 
@@ -156,7 +157,6 @@ const buildContent = sections => {
     const rows = pages.map(page => {
       const rowBuilder = [];
       const { answers, summaryAnswers } = page;
-
       if (answers) {
         const numberOfAnswers = answers.length;
         if (numberOfAnswers) {
@@ -174,6 +174,7 @@ const buildContent = sections => {
             totalTitle: label,
             qCode,
           } = page;
+          const summaryIDs = summaryAnswers.map(answer => answer.id);
           const stripLabel = removeHtml(label) || "";
           const calculatedSummary = (
             <Row
@@ -183,7 +184,8 @@ const buildContent = sections => {
               title={title}
               type={type}
               label={stripLabel}
-              qCode={qCode}
+              qCode={qCode || ""}
+              summaryIDs={summaryIDs}
             />
           );
           rowBuilder.push(calculatedSummary);
@@ -206,17 +208,23 @@ const Row = ({
   label,
   qCode: initialQcode,
   collapsed,
+  summaryAnswers = null,
 }) => {
   const renderGlobalColumns = () => {
     const [qCode, setQcode] = useState(initialQcode);
     const [updateOption] = useMutation(UPDATE_OPTION_QCODE);
     const [updateAnswer] = useMutation(UPDATE_ANSWER_QCODE);
     const [updateConfirmation] = useMutation(UPDATE_CONFIRMATION_QCODE);
+    const [updateCalculatedSummaryPage] = useMutation(UPDATE_CALCSUM_QCODE);
 
     const handleBlur = (type, id, qCode) => {
       if (type === "QuestionConfirmation") {
         updateConfirmation({
           variables: { input: { id, qCode } },
+        });
+      } else if (type === "CalculatedSummaryPage") {
+        updateCalculatedSummaryPage({
+          variables: { input: { id, qCode, summaryAnswers } },
         });
       } else if (type.includes("option")) {
         updateOption({ variables: { input: { id, qCode } } });
@@ -280,6 +288,7 @@ Row.propTypes = {
   label: PropTypes.string.isRequired,
   qCode: PropTypes.string,
   collapsed: PropTypes.bool,
+  summaryAnswers: PropTypes.arrayOf(PropTypes.string),
 };
 
 export const UnwrappedQCodeTable = ({ loading, error, data }) => {
