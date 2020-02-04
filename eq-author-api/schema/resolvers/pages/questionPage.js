@@ -54,7 +54,7 @@ Resolvers.QuestionPage = {
       questionnaireId
     );
     console.log(
-      "\n\n Load Question Page comments - questionnareComments :",
+      "\n\n QuestionPage/Resolvers.QuestionPage.comments - questionnareComments :",
       questionnareComments.comments[id]
     );
     return questionnareComments.comments[id] || [];

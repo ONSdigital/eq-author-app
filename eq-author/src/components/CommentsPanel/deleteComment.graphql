@@ -1,16 +1,27 @@
+#import "./NewCommentFragmentSection.graphql"
+#import "./NewCommentFragmentPage.graphql"
+
 mutation deleteComment($input: DeleteCommentInput!) {
   deleteComment(input: $input) {
-    ... on Page {
-      id
-      comments {
-        id
-      }
+    section {
+      ...NewCommentFragmentSection
     }
-    ... on Section {
-      id
-      comments {
-        id
-      }
+    page {
+      ...NewCommentFragmentPage
     }
+
+    # __typename
+    # ... on QuestionPage {
+    #   id
+    #   comments {
+    #     id
+    #   }
+    # }
+    # ... on Section {
+    #   id
+    #   comments {
+    #     id
+    #   }
+    # }
   }
 }

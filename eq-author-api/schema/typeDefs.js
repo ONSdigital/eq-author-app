@@ -583,27 +583,6 @@ type QuestionnaireIntroduction {
   availablePipingMetadata: [Metadata!]!
 }
 
-type Reply {
-  id: ID!
-  parentComment: Comment!
-  commentText: String!
-  createdTime: DateTime!
-  user: User!
-  page: Page!
-  editedTime:  DateTime
-}
-
-type Comment {
-  id: ID!
-  commentText: String!
-  createdTime: DateTime!
-  user: User!
-  replies: [Reply]!
-  page: Page
-  section: Section
-  editedTime: DateTime
-}
-
 # interface Comment {
 #   id: ID!
 #   commentText: String!
@@ -634,6 +613,27 @@ type Comment {
 #   editedTime: DateTime
 # }
 
+type Reply {
+  id: ID!
+  parentComment: Comment!
+  commentText: String!
+  createdTime: DateTime!
+  user: User!
+  page: Page!
+  editedTime:  DateTime
+}
+
+type Comment {
+  id: ID!
+  commentText: String!
+  createdTime: DateTime!
+  user: User!
+  replies: [Reply]!
+  page: Page
+  section: Section
+  editedTime: DateTime
+}
+
 type Query {
   questionnaires: [Questionnaire]
   questionnaire(input: QueryInput!): Questionnaire
@@ -658,7 +658,12 @@ input QueryInput {
   optionId: ID
 }
 
-union CommentPage = QuestionPage | Section
+# union CommentPage = QuestionPage | Section
+
+type DeletedComment {
+  page: Page
+  section: Section 
+}
 
 type Mutation {
   createQuestionnaire(input: CreateQuestionnaireInput!): Questionnaire
@@ -678,7 +683,7 @@ type Mutation {
   deletePage(input: DeletePageInput!): Section!
   duplicatePage(input: DuplicatePageInput!): Page
   createComment(input: CreateCommentInput!): Comment!
-  deleteComment(input: DeleteCommentInput!): CommentPage!
+  deleteComment(input: DeleteCommentInput!): DeletedComment!
   updateComment(input: UpdateCommentInput!): Comment!
   createReply(input: CreateReplyInput!): Reply!
   deleteReply(input: DeleteReplyInput!): Page!

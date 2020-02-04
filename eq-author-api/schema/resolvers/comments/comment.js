@@ -44,6 +44,7 @@ Resolvers.Mutation = {
 
   deleteComment: async (_, { input }, ctx) => {
     const parentId = input.pageId ? input.pageId : input.sectionId;
+
     console.log("\nparentId", parentId);
     console.log("\nDelete input--------------", input);
 
@@ -61,16 +62,27 @@ Resolvers.Mutation = {
     }
     publishCommentUpdates(questionnaire, parentId);
 
-    let page;
-    if (input.pageId) {
-      page = getPageById(ctx, parentId);
-    } else if (input.sectionId) {
-      page = getSectionById(ctx, parentId);
-    }
+    const { pageId, sectionId } = input;
 
-    console.log("\n\nDeleteComments - page return----------", page);
+    const deletedCommentReturn = {
+      pageId: pageId,
+      sectionId: sectionId,
+    };
 
-    return page;
+    return deletedCommentReturn;
+    // let page, id;
+    // if (input.pageId) {
+    //   page = getPageById(ctx, parentId);
+    //   console.log("\n\nDeleteComments - page return----------", page);
+    //   return page;
+    // } else if (input.sectionId) {
+    //   id = {
+    //     id: parentId,
+    //   };
+    //   //   section = getSectionById(ctx, parentId);
+    //   console.log("\n\nDeleteComments - section return----------", parentId);
+    //   return id;
+    // }
   },
 
   createComment: async (_, { input }, ctx) => {

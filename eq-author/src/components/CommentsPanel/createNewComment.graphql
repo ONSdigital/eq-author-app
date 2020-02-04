@@ -13,12 +13,6 @@ mutation createComment($input: CreateCommentInput!) {
     page {
       ...NewCommentFragmentPage
     }
-    # page {
-    #   id
-    #   comments {
-    #     id
-    #   }
-    # }
     user {
       id
       name
