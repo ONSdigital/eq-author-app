@@ -165,23 +165,25 @@ describe("RoutingDestinationContentPicker", () => {
   });
 
   describe("displaying destinations", () => {
-    it("should only display questions after the current question in the section", () => {
-      const { getByTestId, getAllByText, queryByText } = render(
+    let openButton, destinationPicker;
+    beforeEach(() => {
+      destinationPicker = render(
         <UnwrappedRoutingDestinationContentPicker {...props} />
       );
-      const openButton = getByTestId("content-picker-select");
-      fireEvent.click(openButton);
-      expect(queryByText("s1q1")).toBeFalsy();
+      openButton = destinationPicker.getByTestId("content-picker-select");
+    });
 
-      getAllByText("s1q3");
-      getAllByText("s1q4");
+    it("should only display questions after the current question in the section", () => {
+      const openButton = destinationPicker.getByTestId("content-picker-select");
+      fireEvent.click(openButton);
+      expect(destinationPicker.queryByText("s1q1")).toBeFalsy();
+
+      destinationPicker.getAllByText("s1q3");
+      destinationPicker.getAllByText("s1q4");
     });
 
     it("should only display first question in other sections", () => {
-      const { getByTestId, getAllByText, queryByText, getByText } = render(
-        <UnwrappedRoutingDestinationContentPicker {...props} />
-      );
-      const openButton = getByTestId("content-picker-select");
+      const { getAllByText, queryByText, getByText } = destinationPicker;
       fireEvent.click(openButton);
 
       const section2Button = getByText("section2");
@@ -197,11 +199,7 @@ describe("RoutingDestinationContentPicker", () => {
 
     it("should not display any questions from same section when on last question", () => {
       props.data.page.availableRoutingDestinations.pages = [];
-      const { getByTestId, getAllByText, queryByText } = render(
-        <UnwrappedRoutingDestinationContentPicker {...props} />
-      );
-
-      const openButton = getByTestId("content-picker-select");
+      const { getAllByText, queryByText } = destinationPicker;
       fireEvent.click(openButton);
 
       expect(queryByText(/s1/)).toBeFalsy();
