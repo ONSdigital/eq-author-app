@@ -1,11 +1,12 @@
 import React, { useState } from "react";
+import { get } from "lodash";
+import styled from "styled-components";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 
-import { find } from "lodash";
-import { Menu, SubMenu } from "./Menu";
-import styled from "styled-components";
 import ScrollPane from "components/ScrollPane";
+import Menu from "./Menu";
+import SubMenu from "./SubMenu";
 
 const ColumnContainer = styled.div`
   display: flex;
@@ -13,55 +14,48 @@ const ColumnContainer = styled.div`
 `;
 
 const Column = styled.div`
-  width: 50%;
+  width: ${props => props.width}%;
 `;
 
-const SectionMenu = ({
-  data,
-  onSelected,
-  isSelected,
-  firstSelectedItemId,
-  multiselect,
-  ...otherProps
-}) => {
-  const defaultSelectedSection = firstSelectedItemId
-    ? find(data, {
-        pages: [{ answers: [{ id: firstSelectedItemId }] }],
-      })
-    : data[0];
+const SectionMenu = ({ data, onSelected, isSelected, ...otherProps }) => {
+  const [selectedSection, setSelectedSection] = useState(data[0]);
 
-  const [selectedSection, setSelectedSection] = useState(
-    defaultSelectedSection
-  );
+  const sectionData = [
+    ...data,
+    {
+      id: "EndOfQuestionnaire",
+      displayName: "End of Questionnaire",
+      pages: [
+        { id: "EndOfQuestionnaire", displayName: "End of questionnaire" },
+      ],
+    },
+  ];
 
   const showNewSection = section => {
-    if (!multiselect) {
-      onSelected();
-    }
-
+    onSelected();
     setSelectedSection(section);
   };
 
-  if (!selectedSection) {
-    return;
-  }
+  const selectedPages = get(selectedSection, "pages", []);
 
   return (
     <ColumnContainer>
-      <Column>
+      <Column width={44}>
         <ScrollPane background permanentScrollBar>
           <Menu
-            data={data}
+            data={sectionData}
             {...otherProps}
             onSelected={showNewSection}
-            isSelected={item => selectedSection.id === item.id}
+            isSelected={item =>
+              selectedSection && selectedSection.id === item.id
+            }
           />
         </ScrollPane>
       </Column>
-      <Column>
-        <ScrollPane background permanentScrollBar>
+      <Column width={56}>
+        <ScrollPane background>
           <SubMenu
-            data={selectedSection.pages}
+            pages={selectedPages}
             onSelected={onSelected}
             isSelected={isSelected}
             {...otherProps}
@@ -76,8 +70,6 @@ SectionMenu.propTypes = {
   data: PropTypes.arrayOf(CustomPropTypes.section),
   onSelected: PropTypes.func.isRequired,
   isSelected: PropTypes.func.isRequired,
-  firstSelectedItemId: PropTypes.string,
-  multiselect: PropTypes.bool,
 };
 
 export default SectionMenu;

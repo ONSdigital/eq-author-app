@@ -10,10 +10,18 @@ query GetAvailableRoutingDestinations($input: QueryInput!) {
         pages {
           id
           displayName
+          section {
+            id
+            displayName
+          }
         }
         sections {
           id
           displayName
+          pages {
+            id
+            displayName
+          }
         }
       }
     }

@@ -9,10 +9,12 @@ import {
   ANSWER,
   METADATA,
   VARIABLES,
+  DESTINATION,
 } from "components/ContentPickerSelect/content-types";
 import AnswerPicker from "./AnswerPicker";
 import MetadataPicker from "./MetadataPicker";
 import VariablePicker from "./VariablePicker";
+import DestinationPicker from "./DestinationPicker";
 
 const ModalFooter = styled.div`
   padding: 1.5em;
@@ -49,7 +51,9 @@ const ContentPicker = ({
   multiselect,
   onSubmit,
 }) => {
-  const [selectedItems, setSelectedItems] = useState(startingSelectedAnswers);
+  const [selectedItems, setSelectedItems] = useState(
+    startingSelectedAnswers || []
+  );
 
   const isSelected = item =>
     selectedItems.findIndex(selectedItem => selectedItem.id === item.id) !== -1;
@@ -127,6 +131,18 @@ const ContentPicker = ({
           />
         );
 
+      case DESTINATION:
+        return (
+          <DestinationPicker
+            onConfirm={handleConfirm}
+            onSelected={item => {
+              handleSelected(item);
+            }}
+            isSelected={isSelected}
+            data={data}
+          />
+        );
+
       default:
         return <div data-test="content-picker-empty" />;
     }
@@ -175,9 +191,6 @@ ContentPicker.propTypes = {
   onOpen: PropTypes.func,
   onClose: PropTypes.func,
   onSubmit: PropTypes.func,
-};
-
-ContentPicker.propTypes = {
   contentType: PropTypes.string,
   multiselect: PropTypes.bool,
 };

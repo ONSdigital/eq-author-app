@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import ContentPicker from "components/ContentPicker/ContentPicker";
-import GroupContentPicker from "components/ContentPicker/GroupContentPicker";
 
 const sectionConfig = {
   id: "section",
@@ -63,56 +62,4 @@ const questionConfig = [
 
 export const QuestionContentPicker = props => (
   <ContentPicker {...props} config={questionConfig} />
-);
-
-const routingDestinationConfig = [
-  {
-    id: "Page",
-    title: "Other pages in this section",
-    groupKey: "pages",
-    expandable: true,
-    destination: {
-      absoluteDestination: {
-        destinationId: null,
-        destinationType: "Page",
-      },
-    },
-  },
-  {
-    id: "Section",
-    title: "Other sections",
-    groupKey: "sections",
-    expandable: true,
-    destination: {
-      absoluteDestination: {
-        destinationId: null,
-        destinationType: "Section",
-      },
-    },
-  },
-  {
-    id: "EndOfQuestionnaire",
-    title: "End of questionnaire",
-    groupKey: "logicalDestinations",
-    expandable: false,
-    type: "RoutingLogicalDestination",
-    destination: {
-      logical: "EndOfQuestionnaire",
-    },
-  },
-];
-
-export const RoutingDestinationContentPicker = props => (
-  <GroupContentPicker {...props} config={routingDestinationConfig} />
-);
-
-const variableConfig = [
-  {
-    id: "variables",
-    title: "Variables",
-  },
-];
-
-export const VariableContentPicker = props => (
-  <ContentPicker {...props} config={variableConfig} />
 );

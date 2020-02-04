@@ -26,10 +26,8 @@ exports[`ContentPickerSelect content types should render answer  1`] = `
         },
       }
     }
-    name="contentPicker"
     onClick={[Function]}
     onSubmit={[MockFunction]}
-    selectedContentDisplayName="foobar"
     type="button"
     variant="primary"
   >
@@ -43,7 +41,6 @@ exports[`ContentPickerSelect content types should render answer  1`] = `
         "Custom",
       ]
     }
-    data-test="picker"
     isOpen={false}
     onClose={[Function]}
     onSubmit={[Function]}
@@ -77,10 +74,8 @@ exports[`ContentPickerSelect content types should render answer and metadata 1`]
         },
       }
     }
-    name="contentPicker"
     onClick={[Function]}
     onSubmit={[MockFunction]}
-    selectedContentDisplayName="foobar"
     type="button"
     variant="primary"
   >
@@ -95,7 +90,6 @@ exports[`ContentPickerSelect content types should render answer and metadata 1`]
         "Metadata",
       ]
     }
-    data-test="picker"
     isOpen={false}
     onClose={[Function]}
     onSubmit={[Function]}
@@ -129,10 +123,8 @@ exports[`ContentPickerSelect content types should render destination 1`] = `
         },
       }
     }
-    name="contentPicker"
     onClick={[Function]}
     onSubmit={[MockFunction]}
-    selectedContentDisplayName="foobar"
     type="button"
     variant="primary"
   >
@@ -146,7 +138,6 @@ exports[`ContentPickerSelect content types should render destination 1`] = `
         "Destination",
       ]
     }
-    data-test="picker"
     isOpen={false}
     onClose={[Function]}
     onSubmit={[Function]}
@@ -180,10 +171,8 @@ exports[`ContentPickerSelect content types should render metadata 1`] = `
         },
       }
     }
-    name="contentPicker"
     onClick={[Function]}
     onSubmit={[MockFunction]}
-    selectedContentDisplayName="foobar"
     type="button"
     variant="primary"
   >
@@ -197,7 +186,6 @@ exports[`ContentPickerSelect content types should render metadata 1`] = `
         "Metadata",
       ]
     }
-    data-test="picker"
     isOpen={false}
     onClose={[Function]}
     onSubmit={[Function]}
@@ -231,10 +219,8 @@ exports[`ContentPickerSelect content types should render question 1`] = `
         },
       }
     }
-    name="contentPicker"
     onClick={[Function]}
     onSubmit={[MockFunction]}
-    selectedContentDisplayName="foobar"
     type="button"
     variant="primary"
   >
@@ -248,7 +234,6 @@ exports[`ContentPickerSelect content types should render question 1`] = `
         "Question",
       ]
     }
-    data-test="picker"
     isOpen={false}
     onClose={[Function]}
     onSubmit={[Function]}
@@ -262,13 +247,10 @@ Object {
   "contentTypes": Array [
     "Metadata",
   ],
-  "data-test": "picker",
-  "destinationData": undefined,
   "isOpen": false,
   "metadataData": undefined,
   "onClose": [Function],
   "onSubmit": [Function],
-  "questionData": undefined,
   "selectedId": undefined,
   "selectedObj": undefined,
 }
@@ -280,13 +262,10 @@ Object {
   "contentTypes": Array [
     "Metadata",
   ],
-  "data-test": "picker",
-  "destinationData": undefined,
   "isOpen": false,
   "metadataData": undefined,
   "onClose": [Function],
   "onSubmit": [Function],
-  "questionData": undefined,
   "selectedId": undefined,
   "selectedObj": undefined,
 }
@@ -298,118 +277,13 @@ Object {
   "contentTypes": Array [
     "Metadata",
   ],
-  "data-test": "picker",
-  "destinationData": undefined,
   "isOpen": false,
   "metadataData": undefined,
   "onClose": [Function],
   "onSubmit": [Function],
-  "questionData": undefined,
   "selectedId": undefined,
   "selectedObj": undefined,
 }
-`;
-
-exports[`ContentPickerSelect should correctly handle picker close 1`] = `
-<Fragment>
-  <ContentPickerSelect__ContentSelectButton
-    answerTypes={
-      Array [
-        "Number",
-        "Currency",
-      ]
-    }
-    data={
-      Object {
-        "questionnaire": Object {
-          "id": "1",
-          "metadata": Array [],
-          "sections": Array [],
-        },
-      }
-    }
-    data-test="content-picker-select"
-    match={
-      Object {
-        "params": Object {
-          "questionnaireId": "1",
-        },
-      }
-    }
-    name="contentPicker"
-    onClick={[Function]}
-    onSubmit={[MockFunction]}
-    selectedContentDisplayName="foobar"
-    type="button"
-    variant="primary"
-  >
-    <ContentPickerSelect__ContentSelected>
-      foobar
-    </ContentPickerSelect__ContentSelected>
-  </ContentPickerSelect__ContentSelectButton>
-  <ContentPickerModal
-    contentTypes={
-      Array [
-        "Custom",
-      ]
-    }
-    data-test="picker"
-    isOpen={false}
-    onClose={[Function]}
-    onSubmit={[Function]}
-  />
-</Fragment>
-`;
-
-exports[`ContentPickerSelect should correctly handle picker open 1`] = `
-<Fragment>
-  <ContentPickerSelect__ContentSelectButton
-    answerTypes={
-      Array [
-        "Number",
-        "Currency",
-      ]
-    }
-    data={
-      Object {
-        "questionnaire": Object {
-          "id": "1",
-          "metadata": Array [],
-          "sections": Array [],
-        },
-      }
-    }
-    data-test="content-picker-select"
-    match={
-      Object {
-        "params": Object {
-          "questionnaireId": "1",
-        },
-      }
-    }
-    name="contentPicker"
-    onClick={[Function]}
-    onSubmit={[MockFunction]}
-    selectedContentDisplayName="foobar"
-    type="button"
-    variant="primary"
-  >
-    <ContentPickerSelect__ContentSelected>
-      foobar
-    </ContentPickerSelect__ContentSelected>
-  </ContentPickerSelect__ContentSelectButton>
-  <ContentPickerModal
-    contentTypes={
-      Array [
-        "Custom",
-      ]
-    }
-    data-test="picker"
-    isOpen={true}
-    onClose={[Function]}
-    onSubmit={[Function]}
-  />
-</Fragment>
 `;
 
 exports[`ContentPickerSelect should disable select button correctly 1`] = `
@@ -439,10 +313,8 @@ exports[`ContentPickerSelect should disable select button correctly 1`] = `
         },
       }
     }
-    name="contentPicker"
     onClick={[Function]}
     onSubmit={[MockFunction]}
-    selectedContentDisplayName="foobar"
     type="button"
     variant="primary"
   >
@@ -456,7 +328,6 @@ exports[`ContentPickerSelect should disable select button correctly 1`] = `
         "Custom",
       ]
     }
-    data-test="picker"
     isOpen={false}
     onClose={[Function]}
     onSubmit={[Function]}
@@ -491,10 +362,8 @@ exports[`ContentPickerSelect should disable select button correctly 2`] = `
         },
       }
     }
-    name="contentPicker"
     onClick={[Function]}
     onSubmit={[MockFunction]}
-    selectedContentDisplayName="foobar"
     type="button"
     variant="primary"
   >
@@ -508,7 +377,6 @@ exports[`ContentPickerSelect should disable select button correctly 2`] = `
         "Custom",
       ]
     }
-    data-test="picker"
     isOpen={false}
     onClose={[Function]}
     onSubmit={[Function]}
@@ -542,10 +410,8 @@ exports[`ContentPickerSelect should render 1`] = `
         },
       }
     }
-    name="contentPicker"
     onClick={[Function]}
     onSubmit={[MockFunction]}
-    selectedContentDisplayName="foobar"
     type="button"
     variant="primary"
   >
@@ -559,7 +425,6 @@ exports[`ContentPickerSelect should render 1`] = `
         "Custom",
       ]
     }
-    data-test="picker"
     isOpen={false}
     onClose={[Function]}
     onSubmit={[Function]}
