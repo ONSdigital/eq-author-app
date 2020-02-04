@@ -1,7 +1,7 @@
 const uuid = require("uuid");
 const { remove } = require("lodash");
 
-const { getPageById, getSectionById } = require("../utils");
+// const { getPageById, getSectionById } = require("../utils");
 
 const {
   getCommentsForQuestionnaire,
