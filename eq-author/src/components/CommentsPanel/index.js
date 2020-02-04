@@ -295,8 +295,6 @@ const CommentsPanel = props => {
     createComment({
       variables: {
         input: {
-          // input,
-          // pageId,
           [key]: parentId,
           commentText: comment,
         },
@@ -309,13 +307,11 @@ const CommentsPanel = props => {
 
   const handleDelete = event => {
     const commentId = event.id;
-    console.log("Delete - pageId", pageId);
     if (commentId && myId === event.user.id) {
       deleteComment({
         variables: {
           input: {
             [key]: parentId,
-            // pageId,
             commentId,
           },
         },
@@ -435,6 +431,7 @@ const CommentsPanel = props => {
       comments = get(data, "section.comments", []);
       break;
     default:
+      comments = [];
       break;
   }
   const displayComments = comments.map((item, index) => {

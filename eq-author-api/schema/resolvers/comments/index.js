@@ -14,38 +14,62 @@ const publishCommentUpdates = (questionnaire, pageId) => {
   });
 };
 
-Resolvers.Comment = {
-  user: ({ userId }) => getUserById(userId),
-  __resolveType(commentPage) {
-    if (commentPage.page) {
-      console.log("commentPage--------PAGE", commentPage);
-    }
+Resolvers.DeletedComment = {
+  page: ({ pageId }, args, ctx) => {
+    console.log("\nPage - Resolvers.comment - pageId -----=------:", pageId);
 
-    if (commentPage.section) {
-      console.log("commentPage--------SECTION", commentPage);
-    }
-  },
-  page: ({ pageId, sectionId }, args, ctx) => {
-    console.log("\nComments RESOLVER - pageId -----=------:", pageId);
-    console.log("\nComments RESOLVER - sectionId -----=------:", sectionId);
-
-    if (sectionId) {
-      const temp = getSectionById(ctx, sectionId);
-      console.log("\n----Comments RESOLVER getSectionById-------", temp);
-      return temp;
-    }
     if (pageId) {
       const temp = getPageById(ctx, pageId);
-      console.log("\n----Comments RESOLVER getPageById-------", temp);
-      return temp;
+      console.log(
+        "\npage return - Resolvers.DeletedComment getPageById-------",
+        temp
+      );
+      return getPageById(ctx, pageId);
     }
-    // return getPageById(ctx, pageId);
   },
-  section: ({ pageId }, args, ctx) => {
-    const temp = getSectionById(ctx, pageId);
+  section: ({ sectionId }, args, ctx) => {
+    if (sectionId) {
+      const temp = getSectionById(ctx, sectionId);
 
-    console.log("\n\nSECTION_____________", pageId);
-    return temp;
+      console.log(
+        "\n\nsection return - Resolvers.DeletedComment get sectionById------",
+        temp
+      );
+      return getSectionById(ctx, sectionId);
+    }
+  },
+};
+
+Resolvers.Comment = {
+  user: ({ userId }) => getUserById(userId),
+  //   __resolveType(commentPage) {
+  //     if (commentPage.page) {
+  //       console.log("commentPage--------PAGE", commentPage);
+  //     }
+
+  //     if (commentPage.section) {
+  //       console.log("commentPage--------SECTION", commentPage);
+  //     }
+  //   },
+  page: ({ pageId }, args, ctx) => {
+    console.log("\nPage - Resolvers.comment - pageId -----=------:", pageId);
+
+    if (pageId) {
+      const temp = getPageById(ctx, pageId);
+      console.log("\npage return - Resolvers.comment getPageById-------", temp);
+      return getPageById(ctx, pageId);
+    }
+  },
+  section: ({ sectionId }, args, ctx) => {
+    if (sectionId) {
+      const temp = getSectionById(ctx, sectionId);
+
+      console.log(
+        "\n\nsection return - Resolvers.Comment get sectionById------",
+        temp
+      );
+      return getSectionById(ctx, sectionId);
+    }
   },
 };
 

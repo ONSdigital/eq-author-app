@@ -743,7 +743,7 @@ const Resolvers = {
         totalCount: 0,
       },
     comments: async ({ id }, args, ctx) => {
-      console.log("\n\nSection Resolver for comments - id :", id);
+      console.log("\n\nSection.commentS - id :", id);
 
       const questionnaireComments = await getCommentsForQuestionnaire(
         ctx.questionnaire.id
