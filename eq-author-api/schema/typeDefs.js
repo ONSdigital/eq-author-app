@@ -25,8 +25,15 @@ type QuestionnaireInfo {
 }
 
 type PublishDetails {
-  surveyId: String!
-  formType: String!
+  surveyId: String
+  formType: String
+  variants: [PublishDetailVariant]
+}
+
+type PublishDetailVariant {
+  language: String
+  theme: String
+  authorId: ID
 }
 
 enum QuestionnaireType {
@@ -61,7 +68,7 @@ type Questionnaire {
   permission: Permission!
   isPublic: Boolean!
   publishStatus: PublishStatus!
-  publishDetails: PublishDetails
+  publishDetails: [PublishDetails]
   totalErrorCount: Int!
 }
 enum HistoryEventTypes {
@@ -1132,7 +1139,12 @@ type Subscription {
 input PublishQuestionnaireInput {
   questionnaireId: ID!
   surveyId: String!
-  formTypes: JSON!
+  variants: [PublishDetailsInput]!
+}
+
+input PublishDetailsInput {
+  theme: String
+  formType: String
 }
 
 enum ReviewAction {

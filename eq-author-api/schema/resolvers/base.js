@@ -14,7 +14,6 @@ const {
   first,
   some,
   concat,
-  isEmpty,
 } = require("lodash");
 const GraphQLJSON = require("graphql-type-json");
 const uuid = require("uuid");
@@ -604,22 +603,48 @@ const Resolvers = {
       };
     }),
     triggerPublish: createMutation(async (root, { input }, ctx) => {
-      const { surveyId, formTypes } = input;
+      const themeLookup = {
+        "Northern Ireland": "northernireland",
+        ONS: "default",
+        Social: "social",
+        "UKIS Northern Ireland": "ukis_ni",
+        "UKIS ONS": "ukis",
+      };
+
+      const { questionnaireId, surveyId, variants } = input;
       if (
         ctx.questionnaire.publishStatus !== UNPUBLISHED &&
         ctx.questionnaire.publishStatus !== UPDATES_REQUIRED
       ) {
         throw new Error("This questionnaire is not unpublished.");
       }
-      if (!surveyId || some(formTypes, isEmpty)) {
+      if (!surveyId || some(variants, ["formType", null])) {
         throw new Error("Survey Id or a form type is missing");
       }
+
+      const publishDetails = [];
+
+      for (const variant of variants) {
+        publishDetails.push({
+          surveyId,
+          formType: variant.formType,
+          variants: [
+            {
+              language: "en",
+              theme: themeLookup[variant.theme],
+              // eslint-disable-next-line camelcase
+              author_id: questionnaireId,
+            },
+          ],
+        });
+      }
+
+      ctx.questionnaire.publishDetails = publishDetails;
+
       ctx.questionnaire.publishStatus = AWAITING_APPROVAL;
-      ctx.questionnaire.publishDetails = {
-        surveyId,
-        formTypes,
-      };
+
       await createHistoryEvent(ctx.questionnaire.id, publishStatusEvent(ctx));
+
       return ctx.questionnaire;
     }),
     reviewQuestionnaire: async (root, { input }, ctx) => {
@@ -630,14 +655,13 @@ const Resolvers = {
       }
       if (input.reviewAction === "Approved") {
         const { questionnaireId } = input;
-        const { surveyId, formTypes } = ctx.questionnaire.publishDetails;
+        const publishDetails = ctx.questionnaire.publishDetails;
         const surveyVersion = ctx.questionnaire.surveyVersion;
 
         const requestBody = {
-          surveyId,
           questionnaireId,
           surveyVersion,
-          formTypes,
+          publishDetails,
         };
         // Puts questionnaire into survey register
         await fetch(`${process.env.SURVEY_REGISTER_URL}`, {
@@ -646,16 +670,18 @@ const Resolvers = {
           headers: { "Content-Type": "application/json" },
         })
           .then(async res => {
-            ctx.questionnaire.publishStatus = PUBLISHED;
+            if (res.status === 200) {
+              ctx.questionnaire.publishStatus = PUBLISHED;
+              await createHistoryEvent(
+                ctx.questionnaire.id,
+                publishStatusEvent(ctx)
+              );
+            }
             return res.json();
           })
           .catch(e => {
             throw Error(e);
           });
-
-        await createHistoryEvent(ctx.questionnaire.id, publishStatusEvent(ctx));
-
-        ctx.questionnaire.publishStatus = PUBLISHED;
       }
 
       if (input.reviewAction === "Rejected") {

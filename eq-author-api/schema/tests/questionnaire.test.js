@@ -5,6 +5,7 @@ const fetch = require("node-fetch");
 
 fetch.mockImplementation(() =>
   Promise.resolve({
+    status: 200,
     json: () => ({
       questionnaireId: "test",
       publishedSurveyUrl: "https://best.url.ever.com",
@@ -43,7 +44,6 @@ const { createUser } = require("../../utils/datastore");
 describe("questionnaire", () => {
   let ctx, questionnaire;
   const surveyId = "123";
-  const formType = "321";
   const surveyVersion = "1";
 
   afterEach(async () => {
@@ -159,10 +159,19 @@ describe("questionnaire", () => {
 
     describe("publishing and reviewing questionnaire", () => {
       beforeEach(() => {
-        ctx.questionnaire.publishDetails = {
-          surveyId,
-          formTypes: { ONS: formType },
-        };
+        ctx.questionnaire.publishDetails = [
+          {
+            surveyId,
+
+            formType: "321",
+            variants: [
+              {
+                language: "en",
+                theme: "default",
+              },
+            ],
+          },
+        ];
         ctx.user.admin = true;
       });
 
@@ -172,7 +181,7 @@ describe("questionnaire", () => {
           {
             questionnaireId: ctx.questionnaire.id,
             surveyId,
-            formTypes: { ONS: "456" },
+            variants: [{ theme: "ONS", formType: "456" }],
           },
           ctx
         );
@@ -186,7 +195,7 @@ describe("questionnaire", () => {
             {
               questionnaireId: ctx.questionnaire.id,
               surveyId,
-              formTypes: { ONS: "" },
+              variants: [{ theme: "ONS", formType: null }],
             },
             ctx
           )
@@ -209,10 +218,15 @@ describe("questionnaire", () => {
           {
             method: "put",
             body: JSON.stringify({
-              surveyId,
               questionnaireId: ctx.questionnaire.id,
               surveyVersion,
-              formTypes: { ONS: "321" },
+              publishDetails: [
+                {
+                  surveyId,
+                  formType: "321",
+                  variants: [{ language: "en", theme: "default" }],
+                },
+              ],
             }),
             headers: {
               "Content-Type": "application/json",
