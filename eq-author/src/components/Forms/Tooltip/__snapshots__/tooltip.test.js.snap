@@ -10,7 +10,7 @@ exports[`Tooltip should render 1`] = `
     Click me
   </button>
   <div
-    class="__react_component_tooltip place-bottom type-dark "
+    class="__react_component_tooltip place-bottom type-dark"
     data-id="tooltip"
     id="tooltip-1"
   >
