@@ -2,6 +2,7 @@ const { omit, first, remove } = require("lodash");
 const uuid = require("uuid").v4;
 
 const { createMutation } = require("./createMutation");
+const { getCommentsForQuestionnaire } = require("../../utils/datastore");
 
 const createCollapsible = options => ({
   id: uuid(),
@@ -48,6 +49,22 @@ Resolvers.Mutation = {
 Resolvers.QuestionnaireIntroduction = {
   availablePipingMetadata: (root, args, ctx) => ctx.questionnaire.metadata,
   availablePipingAnswers: () => [],
+  comments: async ({ id }, args, ctx) => {
+    console.log(
+      "\nQuestionnaireIntroduction.js/.Resolvers.QuestionnaireIntroduction.comments ***** - id :",
+      id
+    );
+
+    const questionnaireId = ctx.questionnaire.id;
+    const questionnareComments = await getCommentsForQuestionnaire(
+      questionnaireId
+    );
+    console.log(
+      "\n questionnaireIntroduction.js/Resolvers.questionnaireIntroduction.comments - return :",
+      questionnareComments.comments[id]
+    );
+    return questionnareComments.comments[id] || [];
+  },
 };
 
 Resolvers.Collapsible = {

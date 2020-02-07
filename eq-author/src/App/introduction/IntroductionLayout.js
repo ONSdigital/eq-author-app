@@ -6,15 +6,17 @@ import CommentsPanel from "components/CommentsPanel";
 
 import Panel from "components/Panel";
 
-const IntroductionLayout = ({ children }) => (
-  <EditorLayout
-    preview
-    title="Questionnaire Introduction"
-    renderPanel={() => <CommentsPanel />}
-  >
-    <Panel>{children}</Panel>
-  </EditorLayout>
-);
+const IntroductionLayout = ({ children }) => {
+  return (
+    <EditorLayout
+      preview
+      title="Questionnaire Introduction"
+      renderPanel={() => <CommentsPanel />}
+    >
+      <Panel>{children}</Panel>
+    </EditorLayout>
+  );
+};
 
 IntroductionLayout.propTypes = {
   children: PropTypes.node.isRequired,

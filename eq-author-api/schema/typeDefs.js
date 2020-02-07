@@ -185,6 +185,7 @@ type QuestionConfirmation {
   availablePipingAnswers: [Answer!]!
   availablePipingMetadata: [Metadata!]!
   validationErrorInfo: ValidationErrorInfo
+  comments: [Comment]!
 }
 
 interface Answer {
@@ -571,37 +572,8 @@ type QuestionnaireIntroduction {
   tertiaryDescription: String!
   availablePipingAnswers: [Answer!]!
   availablePipingMetadata: [Metadata!]!
+  comments: [Comment]!
 }
-
-# interface Comment {
-#   id: ID!
-#   commentText: String!
-#   createdTime: DateTime!
-#   user: User!
-#   replies: [Reply]!
-#   # page: Page!
-#   editedTime: DateTime
-# }
-
-# type PageComment implements Comment {
-#   id: ID!
-#   commentText: String!
-#   createdTime: DateTime!
-#   user: User!
-#   replies: [Reply]!
-#   page: Page!
-#   editedTime: DateTime
-# }
-
-# type SectionComment implements Comment {
-#   id: ID!
-#   commentText: String!
-#   createdTime: DateTime!
-#   user: User!
-#   replies: [Reply]!
-#   section: Section!
-#   editedTime: DateTime
-# }
 
 type Reply {
   id: ID!
@@ -609,8 +581,12 @@ type Reply {
   commentText: String!
   createdTime: DateTime!
   user: User!
-  page: Page!
+  page: Page
+  section: Section
+  questionnaireIntroduction: QuestionnaireIntroduction
+  confirmationPage: QuestionConfirmation
   editedTime:  DateTime
+  parentPageId: ID!
 }
 
 type Comment {
@@ -621,6 +597,8 @@ type Comment {
   replies: [Reply]!
   page: Page
   section: Section
+  questionnaireIntroduction: QuestionnaireIntroduction
+  confirmationPage: QuestionConfirmation
   editedTime: DateTime
 }
 
@@ -628,31 +606,34 @@ type Query {
   questionnaires: [Questionnaire]
   questionnaire(input: QueryInput!): Questionnaire
   history(input: QueryInput!): [History!]!
-  section(input: QueryInput!): Section
-  page(input: QueryInput!): Page
+  section(input: QueryInput): Section
+  page(input: QueryInput): Page
   answer(input: QueryInput!): Answer
   answers(ids: [ID]!): [Answer]
   option(input: QueryInput!): Option
   pagesAffectedByDeletion(pageId: ID!): [Page]! @deprecated(reason: "Not implemented")
   questionConfirmation(id: ID!): QuestionConfirmation
-  questionnaireIntroduction(id: ID!): QuestionnaireIntroduction
+  confirmationPage(input: QueryInput): QuestionConfirmation
+  questionnaireIntroduction(id: ID): QuestionnaireIntroduction
   me: User!
   users: [User!]!
 }
 
 input QueryInput {
   questionnaireId: ID
+  introductionId: ID
   sectionId: ID
   pageId: ID
+  confirmationId: ID
   answerId: ID
   optionId: ID
 }
 
-# union CommentPage = QuestionPage | Section
-
-type DeletedComment {
+type DeleteResponse {
   page: Page
   section: Section 
+  questionnaireIntroduction: QuestionnaireIntroduction
+  confirmationPage: QuestionConfirmation
 }
 
 type Mutation {
@@ -673,7 +654,7 @@ type Mutation {
   deletePage(input: DeletePageInput!): Section!
   duplicatePage(input: DuplicatePageInput!): Page
   createComment(input: CreateCommentInput!): Comment!
-  deleteComment(input: DeleteCommentInput!): DeletedComment!
+  deleteComment(input: DeleteCommentInput!): DeleteResponse!
   updateComment(input: UpdateCommentInput!): Comment!
   createReply(input: CreateReplyInput!): Reply!
   deleteReply(input: DeleteReplyInput!): Page!
@@ -863,25 +844,35 @@ input DuplicatePageInput {
 input CreateCommentInput {
   pageId: ID
   sectionId: ID
+  introductionId: ID
   commentText: String!
+  confirmationId: ID
 }
 
 input DeleteCommentInput {
   pageId: ID
   sectionId: ID
+  introductionId: ID
+  confirmationId: ID
   commentId: ID!
 }
 
 input UpdateCommentInput {
-  pageId: ID!
+  pageId: ID
+  sectionId: ID
+  introductionId: ID
+  confirmationId: ID
   commentId: ID!
   commentText: String!
 }
 
 input CreateReplyInput {
-    pageId: ID!
-    commentId: ID!
-    commentText: String!
+  pageId: ID
+  sectionId: ID
+  introductionId: ID
+  confirmationId: ID
+  commentId: ID!
+  commentText: String!
   }
 
 input DeleteReplyInput {
@@ -1167,7 +1158,12 @@ input DeleteCollapsibleInput {
 type Subscription {
   validationUpdated(id: ID!): Questionnaire!
   publishStatusUpdated(id: ID!): Questionnaire!
-  commentsUpdated(pageId: ID!): Page!
+  commentsUpdated(input: CommentPageInput!): DeleteResponse!
+}
+
+input CommentPageInput {
+  pageId: ID
+  sectionId: ID
 }
 
 input PublishQuestionnaireInput {

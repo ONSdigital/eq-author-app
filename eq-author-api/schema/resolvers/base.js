@@ -185,6 +185,22 @@ const Resolvers = {
 
       return { pageId: page.id, ...confirmationPage };
     },
+    confirmationPage: (root, { input }, ctx) => {
+      console.log(
+        "\nResolvers.QUERY.confirmationPage - Id",
+        input.confirmationId,
+        "\n"
+      );
+
+      const confirmationPage = getConfirmationById(ctx, input.confirmationId);
+      if (!confirmationPage) {
+        return null;
+      }
+
+      const page = getPageByConfirmationId(ctx, input.confirmationId);
+
+      return { pageId: page.id, ...confirmationPage };
+    },
     me: (root, args, ctx) => ctx.user,
     users: () => listUsers(),
   },
@@ -730,7 +746,6 @@ const Resolvers = {
         ? getName(section, "Section")
         : getName(omit(section, "title"), "Section"),
     position: ({ id }, args, ctx) => {
-      console.log("\n\nSection position --- id", id);
       return findIndex(ctx.questionnaire.sections, { id });
     },
     availablePipingAnswers: ({ id }, args, ctx) =>
@@ -743,13 +758,16 @@ const Resolvers = {
         totalCount: 0,
       },
     comments: async ({ id }, args, ctx) => {
-      console.log("\n\nSection.commentS - id :", id);
+      console.log("\nBase.js/Section.commentS - id :", id);
 
       const questionnaireComments = await getCommentsForQuestionnaire(
         ctx.questionnaire.id
       );
 
-      console.log("\n\nLoad SECTION Page - all----- :", questionnaireComments);
+      console.log(
+        "\nBase.js/Section.commentS - questionnaireComments----- :",
+        questionnaireComments
+      );
 
       return questionnaireComments.comments[id] || [];
     },
@@ -1019,6 +1037,20 @@ const Resolvers = {
         errors: [],
         totalCount: 0,
       },
+    comments: async ({ id }, args, ctx) => {
+      console.log("\nBase.js/QuestionConfirmation.commentS - id :", id);
+
+      const questionnaireComments = await getCommentsForQuestionnaire(
+        ctx.questionnaire.id
+      );
+
+      console.log(
+        "\nBase.js/QuestionConfirmation.commentS - questionnaireComments----- :",
+        questionnaireComments.comments[id]
+      );
+
+      return questionnaireComments.comments[id] || [];
+    },
   },
 
   ConfirmationOption: {

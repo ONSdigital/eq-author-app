@@ -1,4 +1,9 @@
-const { getPageById, getSectionById } = require("../utils");
+const {
+  getPageById,
+  getSectionById,
+  getIntroductionById,
+  getConfirmationById,
+} = require("../utils");
 const pubsub = require("../../../db/pubSub");
 
 const { getUserById } = require("../../../utils/datastore");
@@ -14,14 +19,17 @@ const publishCommentUpdates = (questionnaire, pageId) => {
   });
 };
 
-Resolvers.DeletedComment = {
+Resolvers.DeleteResponse = {
   page: ({ pageId }, args, ctx) => {
-    console.log("\nPage - Resolvers.comment - pageId -----=------:", pageId);
+    console.log(
+      "\nPage - Resolvers.Deletedcomment - pageId -----=------:",
+      pageId
+    );
 
     if (pageId) {
       const temp = getPageById(ctx, pageId);
       console.log(
-        "\npage return - Resolvers.DeletedComment getPageById-------",
+        "\npage return - Resolvers.DeleteResponse getPageById-------",
         temp
       );
       return getPageById(ctx, pageId);
@@ -32,43 +40,90 @@ Resolvers.DeletedComment = {
       const temp = getSectionById(ctx, sectionId);
 
       console.log(
-        "\n\nsection return - Resolvers.DeletedComment get sectionById------",
+        "\n\nsection - Resolvers.DeleteResponse getSectionById------",
         temp
       );
       return getSectionById(ctx, sectionId);
+    }
+  },
+  questionnaireIntroduction: ({ introductionId }, args, ctx) => {
+    if (introductionId) {
+      const temp = getIntroductionById(ctx, introductionId);
+      console.log("introductionId", introductionId);
+      console.log(
+        "\n\nIntroduction - Resolvers.DeleteResponse getIntroductionById------",
+        temp
+      );
+      return getIntroductionById(ctx, introductionId);
+    }
+  },
+  confirmationPage: ({ confirmationId }, args, ctx) => {
+    if (confirmationId) {
+      const temp = getConfirmationById(ctx, confirmationId);
+
+      console.log(
+        "\n\nsection - Resolvers.DeleteResponse getSectionById------",
+        temp
+      );
+      return getConfirmationById(ctx, confirmationId);
     }
   },
 };
 
 Resolvers.Comment = {
   user: ({ userId }) => getUserById(userId),
-  //   __resolveType(commentPage) {
-  //     if (commentPage.page) {
-  //       console.log("commentPage--------PAGE", commentPage);
-  //     }
-
-  //     if (commentPage.section) {
-  //       console.log("commentPage--------SECTION", commentPage);
-  //     }
-  //   },
   page: ({ pageId }, args, ctx) => {
-    console.log("\nPage - Resolvers.comment - pageId -----=------:", pageId);
+    console.log(
+      "\nindex.js/Resolvers.Comment - page - pageId -----=------:",
+      pageId
+    );
 
     if (pageId) {
-      const temp = getPageById(ctx, pageId);
-      console.log("\npage return - Resolvers.comment getPageById-------", temp);
+      console.log(
+        "\nindex.js/Resolvers.Comment - page return (getPageById)-------",
+        getPageById(ctx, pageId)
+      );
       return getPageById(ctx, pageId);
     }
   },
   section: ({ sectionId }, args, ctx) => {
-    if (sectionId) {
-      const temp = getSectionById(ctx, sectionId);
+    console.log(
+      "\nindex.js/Resolvers.Comment - section - sectionId -----=------:",
+      sectionId
+    );
 
+    if (sectionId) {
       console.log(
         "\n\nsection return - Resolvers.Comment get sectionById------",
-        temp
+        getSectionById(ctx, sectionId)
       );
       return getSectionById(ctx, sectionId);
+    }
+  },
+  questionnaireIntroduction: ({ introductionId }, args, ctx) => {
+    console.log(
+      "\nindex.js/Resolvers.Comment - Introduction - introductionId -----=------:",
+      introductionId
+    );
+    if (introductionId) {
+      console.log(
+        "\n\nindex.js/Resolvers.Comment-Introduction return ------",
+        getIntroductionById(ctx, introductionId)
+      );
+      return getIntroductionById(ctx, introductionId);
+    }
+  },
+  confirmationPage: ({ confirmationId }, args, ctx) => {
+    console.log(
+      "\nindex.js/Resolvers.Comment - confirmationPage - confirmationId -----=------:",
+      confirmationId
+    );
+    if (confirmationId) {
+      console.log(
+        "\n\nindex.js/Resolvers.Comment-confirmationPage return ------",
+        getConfirmationById(ctx, confirmationId)
+      );
+      return getConfirmationById(ctx, confirmationId);
     }
   },
 };
@@ -76,16 +131,25 @@ Resolvers.Comment = {
 Resolvers.Reply = {
   user: ({ userId }) => getUserById(userId),
   page: async ({ pageId }, args, ctx) => {
+    console.log(
+      "index.js/Resolvers.Reply - getPageById(ctx, pageId)",
+      getPageById(ctx, pageId)
+    );
     await getPageById(ctx, pageId);
   },
-  parentComment: async ({ parentCommentId, pageId }, args, ctx) => {
+  parentComment: async ({ parentCommentId, parentPageId }, args, ctx) => {
     const questionnaire = ctx.questionnaire;
     const questionnaireComments = await getCommentsForQuestionnaire(
       questionnaire.id
     );
 
-    const parentComment = questionnaireComments.comments[pageId].find(
+    const parentComment = questionnaireComments.comments[parentPageId].find(
       ({ id }) => id === parentCommentId
+    );
+
+    console.log(
+      "\n\nindex.js/Resolvers.Reply - **** - parentComment return",
+      parentComment
     );
 
     return parentComment;

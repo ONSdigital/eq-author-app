@@ -7,8 +7,9 @@ const { DATE: METADATA_DATE } = require("../../constants/metadataTypes");
 
 const getPreviousAnswersForPage = require("../../src/businessLogic/getPreviousAnswersForPage");
 
-const getSections = ctx => ctx.questionnaire.sections;
+const getIntroductionById = ctx => ctx.questionnaire.introduction;
 
+const getSections = ctx => ctx.questionnaire.sections;
 const getSectionById = (ctx, id) => find(getSections(ctx), { id });
 
 const getSectionByPageId = (ctx, pageId) =>
@@ -19,7 +20,6 @@ const getSectionByPageId = (ctx, pageId) =>
   });
 
 const getPages = ctx => flatMap(getSections(ctx), section => section.pages);
-
 const getPageById = (ctx, id) => find(getPages(ctx), { id });
 
 const getPageByAnswerId = (ctx, answerId) =>
@@ -27,6 +27,9 @@ const getPageByAnswerId = (ctx, answerId) =>
     getPages(ctx),
     page => page.answers && some(page.answers, { id: answerId })
   );
+
+// const
+// const getConfirmationPageById = (ctx, id) => find(getConfirmationPages(ctx), {id})
 
 const getPageByConfirmationId = (ctx, confirmationId) =>
   find(getPages(ctx), page => {
@@ -128,6 +131,10 @@ const remapAllNestedIds = entity => {
 };
 
 module.exports = {
+  getIntroductionById,
+
+  // getConfirmationPageById,
+
   getSectionById,
   getSectionByPageId,
 
