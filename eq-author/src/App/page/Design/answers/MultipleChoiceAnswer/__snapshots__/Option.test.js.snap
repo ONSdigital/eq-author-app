@@ -1236,7 +1236,7 @@ exports[`Option should render a checkbox 1`] = `
                         wrapper="div"
                       >
                         <div
-                          className="__react_component_tooltip place-top type-dark "
+                          className="__react_component_tooltip place-top type-dark"
                           data-id="tooltip"
                           id="tooltip-1"
                         >
@@ -1391,7 +1391,7 @@ exports[`Option should render a checkbox 1`] = `
                         wrapper="div"
                       >
                         <div
-                          className="__react_component_tooltip place-top type-dark "
+                          className="__react_component_tooltip place-top type-dark"
                           data-id="tooltip"
                           id="tooltip-2"
                         >
@@ -1593,7 +1593,7 @@ exports[`Option should render a checkbox 1`] = `
                         wrapper="div"
                       >
                         <div
-                          className="__react_component_tooltip place-top type-dark "
+                          className="__react_component_tooltip place-top type-dark"
                           data-id="tooltip"
                           id="tooltip-3"
                         >
