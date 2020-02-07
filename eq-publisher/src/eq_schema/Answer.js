@@ -20,6 +20,10 @@ class Answer {
     this.label = answer.label;
     this.description = answer.description;
 
+    if (answer.qCode) {
+      this.q_code = answer.qCode;
+    }
+
     if (answer.type === UNIT) {
       this.unit = unitConversion[answer.properties.unit];
       this.unit_length = "short";
@@ -177,11 +181,18 @@ class Answer {
     };
   }
 
-  static buildOption({ label, description, additionalAnswer }, { properties }) {
+  static buildOption(
+    { label, description, additionalAnswer, qCode: q_code },
+    { properties }
+  ) {
     const option = {
       label,
       value: label,
     };
+
+    if (q_code) {
+      option.q_code = q_code;
+    }
 
     if (description) {
       option.description = description;
