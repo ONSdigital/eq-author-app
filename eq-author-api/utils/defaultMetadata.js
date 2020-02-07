@@ -71,7 +71,7 @@ const defaultValues = [
     dateValue: "2016-06-12",
   },
   {
-    key: "employmentDate",
+    key: "employment_date",
     alias: "Employment Date",
     type: "Date",
     dateValue: "2016-06-10",
@@ -104,7 +104,7 @@ const DEFAULT_BUSINESS_SURVEY_METADATA = filter(defaultValues, ({ key }) =>
       "ref_p_start_date",
       "ref_p_end_date",
       "period_id",
-      "employmentDate",
+      "employment_date",
     ],
     key
   )
