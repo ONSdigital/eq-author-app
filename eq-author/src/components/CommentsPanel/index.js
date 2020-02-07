@@ -194,7 +194,6 @@ export const DateField = styled("span")`
   color: ${colors.grey};
 `;
 
-// const CommentsPanel = (key, value, props) => {
 const CommentsPanel = props => {
   const [comment, setComment] = useState("");
   const [editComment, setEditComment] = useState("");
@@ -209,35 +208,37 @@ const CommentsPanel = props => {
   const [scrollRef, setScrollRef] = useState();
   const {
     match: {
-      params: { pageId: pId },
+      params: { pageId, introductionId, sectionId, confirmationId },
     },
     me: { id: myId },
   } = props;
 
-  const parentId = pId || props.sectionId;
-
-  const pageId = pId || props.sectionId;
+  const parentId = pageId || sectionId || confirmationId || introductionId;
+  const id = introductionId;
   const input = {};
 
   let key;
-  console.log("pageId-------", pageId);
 
-  if (pId) {
+  if (pageId) {
     key = "pageId";
-    // input.pageId = pId;
-  } else if (props.sectionId) {
+  } else if (sectionId) {
     key = "sectionId";
-    // input.sectionId = props.sectionId;
+  } else if (confirmationId) {
+    key = "confirmationId";
+  } else if (introductionId) {
+    key = "introductionId";
   }
+
   console.log("key---------", key);
   console.log("parentId-----", parentId);
+  console.log("confirmationId", confirmationId);
 
   const { loading, error, data } = useQuery(COMMENT_QUERY, {
     variables: {
       input: {
         [key]: parentId,
       },
-      // input,
+      id,
     },
   });
   console.log("Comments Panel - data --------", data);
@@ -327,7 +328,7 @@ const CommentsPanel = props => {
       updateComment({
         variables: {
           input: {
-            pageId,
+            [key]: parentId,
             commentId,
             commentText: editComment,
           },
@@ -347,7 +348,7 @@ const CommentsPanel = props => {
     createReply({
       variables: {
         input: {
-          pageId,
+          [key]: parentId,
           commentId: commentId,
           commentText: reply,
         },
@@ -364,7 +365,7 @@ const CommentsPanel = props => {
       deleteReply({
         variables: {
           input: {
-            pageId,
+            [key]: parentId,
             commentId,
             replyId,
           },
@@ -388,7 +389,7 @@ const CommentsPanel = props => {
       updateReply({
         variables: {
           input: {
-            pageId,
+            [key]: parentId,
             commentId,
             replyId,
             commentText: editReply,
@@ -429,6 +430,12 @@ const CommentsPanel = props => {
       break;
     case "sectionId":
       comments = get(data, "section.comments", []);
+      break;
+    case "confirmationId":
+      comments = get(data, "confirmationPage.comments", []);
+      break;
+    case "introductionId":
+      comments = get(data, "questionnaireIntroduction.comments", []);
       break;
     default:
       comments = [];

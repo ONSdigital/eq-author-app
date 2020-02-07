@@ -1,6 +1,0 @@
-fragment NewCommentFragmentSection on Section {
-  id
-  comments {
-    id
-  }
-}

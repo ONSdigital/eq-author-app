@@ -1,6 +1,6 @@
 #import "./commentFragment.graphql"
 
-query CommentsQuery($input: QueryInput!) {
+query CommentsQuery($input: QueryInput, $id: ID) {
   section(input: $input) {
     id
     comments {
@@ -8,6 +8,19 @@ query CommentsQuery($input: QueryInput!) {
     }
   }
   page(input: $input) {
+    id
+    comments {
+      ...CommentFragment
+    }
+  }
+  questionnaireIntroduction(id: $id) {
+    # intro(input: $input) {
+    id
+    comments {
+      ...CommentFragment
+    }
+  }
+  confirmationPage(input: $input) {
     id
     comments {
       ...CommentFragment

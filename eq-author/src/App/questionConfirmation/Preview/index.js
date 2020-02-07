@@ -18,6 +18,7 @@ import MultipleChoiceAnswerOptionsReplay from "./MultipleChoiceAnswerOptionsRepl
 import { RADIO } from "constants/answer-types";
 import { colors } from "constants/theme";
 import Panel from "components/Panel";
+import CommentsPanel from "components/CommentsPanel";
 
 import ValidationErrorInfoFragment from "graphql/fragments/validationErrorInfo.graphql";
 
@@ -74,7 +75,11 @@ export const UnwrappedPreviewConfirmationRoute = ({ loading, data }) => {
   const pageTitle = title && title.replace(/[[\]]/g, "");
 
   return (
-    <EditorLayout preview title={displayName}>
+    <EditorLayout
+      preview
+      title={displayName}
+      renderPanel={() => <CommentsPanel />}
+    >
       <Panel>
         <Container>
           <PageTitle title={pageTitle} />

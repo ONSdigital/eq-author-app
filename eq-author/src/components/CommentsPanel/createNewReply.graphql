@@ -22,6 +22,33 @@ mutation CreateReply($input: CreateReplyInput!) {
           }
         }
       }
+      section {
+        id
+        comments {
+          id
+          replies {
+            id
+          }
+        }
+      }
+      questionnaireIntroduction {
+        id
+        comments {
+          id
+          replies {
+            id
+          }
+        }
+      }
+      confirmationPage {
+        id
+        comments {
+          id
+          replies {
+            id
+          }
+        }
+      }
     }
   }
 }

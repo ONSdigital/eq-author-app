@@ -18,8 +18,6 @@ import SectionIntroPreview from "./SectionIntroPreview";
 export const UnwrappedPreviewSectionRoute = ({ match, data, loading }) => {
   const section = get(data, "section", {});
 
-  const sectionId = match.params.sectionId;
-
   if (!isEmpty(section)) {
     const hasIntroductionContent =
       section.introductionTitle || section.introductionContent;
@@ -37,7 +35,7 @@ export const UnwrappedPreviewSectionRoute = ({ match, data, loading }) => {
       design
       preview
       title={section.displayName}
-      renderPanel={() => <CommentsPanel sectionId={sectionId} />}
+      renderPanel={() => <CommentsPanel />}
     >
       {loading || !data ? (
         <Loading height="38rem">Preview loading…</Loading>
@@ -55,8 +53,6 @@ UnwrappedPreviewSectionRoute.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
       questionnaireId: PropTypes.string.isRequired,
-      sectionId: PropTypes.string.isRequired,
-      // pageId: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
 };

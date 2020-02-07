@@ -1,5 +1,6 @@
-#import "./NewCommentFragmentSection.graphql"
-#import "./NewCommentFragmentPage.graphql"
+# import "./FragmentCommentSection.graphql"
+# import "./FragmentCommentPage.graphql"
+# import "./FragmentCommentIntro.graphql"
 
 mutation createComment($input: CreateCommentInput!) {
   createComment(input: $input) {
@@ -8,10 +9,31 @@ mutation createComment($input: CreateCommentInput!) {
     createdTime
     editedTime
     section {
-      ...NewCommentFragmentSection
+      # ...FragmentCommentSection
+      id
+      comments {
+        id
+      }
     }
     page {
-      ...NewCommentFragmentPage
+      # ...FragmentCommentPage
+      id
+      comments {
+        id
+      }
+    }
+    questionnaireIntroduction {
+      # ...FragmentCommentIntro
+      id
+      comments {
+        id
+      }
+    }
+    confirmationPage {
+      id
+      comments {
+        id
+      }
     }
     user {
       id
