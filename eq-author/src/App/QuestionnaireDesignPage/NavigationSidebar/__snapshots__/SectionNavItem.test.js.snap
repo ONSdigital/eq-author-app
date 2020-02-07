@@ -7,16 +7,25 @@ exports[`SectionNavItem should render 1`] = `
   isActive={[MockFunction]}
   onAddPage={[MockFunction]}
 >
+  <SectionNavItem__StyledSectionUpper>
+    <div />
+  </SectionNavItem__StyledSectionUpper>
   <NavLink
     data-test="nav-section-link"
     errorCount={2}
     exact={true}
     icon={[Function]}
+    id="sectionName"
     title="Section"
     to="/q/1/section/3/design"
   >
-    Section
+    <SectionNavItem__SectionNameOuter>
+      Section
+    </SectionNavItem__SectionNameOuter>
   </NavLink>
+  <SectionNavItem__StyledSectionLower>
+    <div />
+  </SectionNavItem__StyledSectionLower>
   <PageNav
     questionnaire={
       Object {

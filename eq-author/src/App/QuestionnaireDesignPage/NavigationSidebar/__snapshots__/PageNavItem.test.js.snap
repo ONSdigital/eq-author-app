@@ -6,14 +6,16 @@ exports[`PageNavItem should render 1`] = `
   sectionId="2"
   title="Title"
 >
-  <NavLink
-    data-test="nav-page-link"
-    errorCount={0}
-    icon={[Function]}
-    title="Page title"
-    to="/q/1/page/3/design"
-  >
-    Page title
-  </NavLink>
+  <PageNavItem__StyledNavLink>
+    <NavLink
+      data-test="nav-page-link"
+      errorCount={0}
+      icon={[Function]}
+      title="Page title"
+      to="/q/1/page/3/design"
+    >
+      Page title
+    </NavLink>
+  </PageNavItem__StyledNavLink>
 </PageNavItem__StyledPageItem>
 `;

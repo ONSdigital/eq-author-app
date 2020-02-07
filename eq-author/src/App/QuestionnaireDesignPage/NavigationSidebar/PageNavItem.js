@@ -20,6 +20,14 @@ const StyledPageItem = styled.li`
   align-items: center;
 `;
 
+const StyledNavLink = styled.div`
+  width: 100%;
+  a svg {
+    margin-left: 0.5em;
+    margin-right: 0.25em;
+  }
+`;
+
 const getIcon = pageType => {
   if (pageType === "CalculatedSummaryPage") {
     return CalculatedIcon;
@@ -36,19 +44,21 @@ export const UnwrappedPageNavItem = ({
   const errorCount = get(page, "validationErrorInfo.totalCount", 0);
   return (
     <StyledPageItem data-test="page-item" {...otherProps}>
-      <NavLink
-        to={buildPagePath({
-          questionnaireId,
-          pageId: page.id,
-          tab: match.params.tab,
-        })}
-        title={page.displayName}
-        icon={getIcon(page.pageType)}
-        data-test="nav-page-link"
-        errorCount={errorCount}
-      >
-        {page.displayName}
-      </NavLink>
+      <StyledNavLink>
+        <NavLink
+          to={buildPagePath({
+            questionnaireId,
+            pageId: page.id,
+            tab: match.params.tab,
+          })}
+          title={page.displayName}
+          icon={getIcon(page.pageType)}
+          data-test="nav-page-link"
+          errorCount={errorCount}
+        >
+          {page.displayName}
+        </NavLink>
+      </StyledNavLink>
     </StyledPageItem>
   );
 };
