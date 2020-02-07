@@ -48,7 +48,7 @@ const MenuBackground = styled.div`
   border-radius: ${radius};
 `;
 
-const buttons = [
+export const buttons = [
   { type: CHECKBOX, title: "Checkbox" },
   { type: RADIO, title: "Radio" },
   { type: TEXTFIELD, title: "Text" },
