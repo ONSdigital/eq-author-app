@@ -240,12 +240,25 @@ const Resolvers = {
       subscribe: () => pubsub.asyncIterator(["publishStatusUpdated"]),
     },
     commentsUpdated: {
-      resolve: async ({ pageId, questionnaire }, args, ctx) => {
-        console.log("\n\nCommentsUpdated---------", pageId);
+      resolve: async ({ input, questionnaire }, args, ctx) => {
+        console.log(
+          "\n\n\n\n\n\n\nbase.js/CommentsUpdated---000000------",
+          input
+        );
+        // const { pageId, sectionId, confirmationId, introductionId } = input;
+        const { pageId } = input;
 
         ctx.questionnaire = questionnaire;
-        const page = await getPageById(ctx, pageId);
-        return page;
+        if (pageId) {
+          console.log(
+            "\nBASE.js/Resolvers.Subscription - commentsdUpdated - page return (getPageById)-------",
+            getPageById(ctx, pageId)
+          );
+          return getPageById(ctx, pageId);
+        }
+
+        // const page = await getPageById(ctx, pageId);
+        // return page;
       },
       subscribe: () => pubsub.asyncIterator(["commentsUpdated"]),
     },

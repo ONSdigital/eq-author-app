@@ -1,9 +1,11 @@
-# import "./FragmentCommentSection.graphql"
-# import "./FragmentCommentPage.graphql"
-# import "./FragmentCommentIntro.graphql"
-
 mutation deleteComment($input: DeleteCommentInput!) {
   deleteComment(input: $input) {
+    questionnaireIntroduction {
+      id
+      comments {
+        id
+      }
+    }
     section {
       id
       comments {
@@ -11,12 +13,6 @@ mutation deleteComment($input: DeleteCommentInput!) {
       }
     }
     page {
-      id
-      comments {
-        id
-      }
-    }
-    questionnaireIntroduction {
       id
       comments {
         id

@@ -1,29 +1,118 @@
-subscription CommentsUpdated($pageId: ID!) {
-  commentsUpdated(pageId: $pageId) {
-    id
-    comments {
+subscription CommentsUpdated($input: CommentSubscriptionInput!) {
+  commentsUpdated(input: $input) {
+    questionnaireIntroduction {
       id
-      commentText
-      user {
-        id
-        name
-        picture
-        email
-        displayName
-      }
-      createdTime
-      editedTime
-      replies {
+      comments {
         id
         commentText
-        createdTime
-        editedTime
         user {
           id
           name
           picture
           email
           displayName
+        }
+        createdTime
+        editedTime
+        replies {
+          id
+          commentText
+          createdTime
+          editedTime
+          user {
+            id
+            name
+            picture
+            email
+            displayName
+          }
+        }
+      }
+    }
+    section {
+      id
+      comments {
+        id
+        commentText
+        user {
+          id
+          name
+          picture
+          email
+          displayName
+        }
+        createdTime
+        editedTime
+        replies {
+          id
+          commentText
+          createdTime
+          editedTime
+          user {
+            id
+            name
+            picture
+            email
+            displayName
+          }
+        }
+      }
+    }
+    page {
+      id
+      comments {
+        id
+        commentText
+        user {
+          id
+          name
+          picture
+          email
+          displayName
+        }
+        createdTime
+        editedTime
+        replies {
+          id
+          commentText
+          createdTime
+          editedTime
+          user {
+            id
+            name
+            picture
+            email
+            displayName
+          }
+        }
+      }
+    }
+    confirmationPage {
+      id
+      comments {
+        id
+        commentText
+        user {
+          id
+          name
+          picture
+          email
+          displayName
+        }
+        createdTime
+        editedTime
+        replies {
+          id
+          commentText
+          createdTime
+          editedTime
+          user {
+            id
+            name
+            picture
+            email
+            displayName
+          }
         }
       }
     }

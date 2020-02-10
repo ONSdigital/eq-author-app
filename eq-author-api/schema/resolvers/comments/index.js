@@ -13,6 +13,8 @@ const Resolvers = {};
 const { getCommentsForQuestionnaire } = require("../../../utils/datastore");
 
 const publishCommentUpdates = (questionnaire, pageId) => {
+  console.log("\n\n\n\n\nINDEX.JS/publishCommentUpdates ---- pageId", pageId);
+
   pubsub.publish("commentsUpdated", {
     questionnaire,
     pageId,
@@ -21,11 +23,6 @@ const publishCommentUpdates = (questionnaire, pageId) => {
 
 Resolvers.DeleteResponse = {
   page: ({ pageId }, args, ctx) => {
-    console.log(
-      "\nPage - Resolvers.Deletedcomment - pageId -----=------:",
-      pageId
-    );
-
     if (pageId) {
       const temp = getPageById(ctx, pageId);
       console.log(
@@ -49,7 +46,6 @@ Resolvers.DeleteResponse = {
   questionnaireIntroduction: ({ introductionId }, args, ctx) => {
     if (introductionId) {
       const temp = getIntroductionById(ctx, introductionId);
-      console.log("introductionId", introductionId);
       console.log(
         "\n\nIntroduction - Resolvers.DeleteResponse getIntroductionById------",
         temp
@@ -73,11 +69,6 @@ Resolvers.DeleteResponse = {
 Resolvers.Comment = {
   user: ({ userId }) => getUserById(userId),
   page: ({ pageId }, args, ctx) => {
-    console.log(
-      "\nindex.js/Resolvers.Comment - page - pageId -----=------:",
-      pageId
-    );
-
     if (pageId) {
       console.log(
         "\nindex.js/Resolvers.Comment - page return (getPageById)-------",
@@ -87,11 +78,6 @@ Resolvers.Comment = {
     }
   },
   section: ({ sectionId }, args, ctx) => {
-    console.log(
-      "\nindex.js/Resolvers.Comment - section - sectionId -----=------:",
-      sectionId
-    );
-
     if (sectionId) {
       console.log(
         "\n\nsection return - Resolvers.Comment get sectionById------",
@@ -101,10 +87,6 @@ Resolvers.Comment = {
     }
   },
   questionnaireIntroduction: ({ introductionId }, args, ctx) => {
-    console.log(
-      "\nindex.js/Resolvers.Comment - Introduction - introductionId -----=------:",
-      introductionId
-    );
     if (introductionId) {
       console.log(
         "\n\nindex.js/Resolvers.Comment-Introduction return ------",
@@ -114,10 +96,6 @@ Resolvers.Comment = {
     }
   },
   confirmationPage: ({ confirmationId }, args, ctx) => {
-    console.log(
-      "\nindex.js/Resolvers.Comment - confirmationPage - confirmationId -----=------:",
-      confirmationId
-    );
     if (confirmationId) {
       console.log(
         "\n\nindex.js/Resolvers.Comment-confirmationPage return ------",
@@ -130,13 +108,13 @@ Resolvers.Comment = {
 
 Resolvers.Reply = {
   user: ({ userId }) => getUserById(userId),
-  page: async ({ pageId }, args, ctx) => {
-    console.log(
-      "index.js/Resolvers.Reply - getPageById(ctx, pageId)",
-      getPageById(ctx, pageId)
-    );
-    await getPageById(ctx, pageId);
-  },
+  //   page: async ({ pageId }, args, ctx) => {
+  //     console.log(
+  //       "\n\nindex.js/Resolvers.Reply - getPageById(ctx, pageId)",
+  //       getPageById(ctx, pageId)
+  //     );
+  //     await getPageById(ctx, pageId);
+  //   },
   parentComment: async ({ parentCommentId, parentPageId }, args, ctx) => {
     const questionnaire = ctx.questionnaire;
     const questionnaireComments = await getCommentsForQuestionnaire(
@@ -148,7 +126,7 @@ Resolvers.Reply = {
     );
 
     console.log(
-      "\n\nindex.js/Resolvers.Reply - **** - parentComment return",
+      "\n\nindex.js/Resolvers.Reply.parentComment - **** - parentComment return",
       parentComment
     );
 

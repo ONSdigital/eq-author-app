@@ -13,7 +13,7 @@ mutation CreateReply($input: CreateReplyInput!) {
     }
     parentComment {
       id
-      page {
+      questionnaireIntroduction {
         id
         comments {
           id
@@ -31,7 +31,7 @@ mutation CreateReply($input: CreateReplyInput!) {
           }
         }
       }
-      questionnaireIntroduction {
+      page {
         id
         comments {
           id

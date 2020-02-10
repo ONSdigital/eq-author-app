@@ -7,26 +7,39 @@ const {
 } = require("../../../utils/datastore");
 
 const pubsub = require("../../../db/pubSub");
+
+// const publishCommentUpdates = (questionnaire, input) => {
+//   console.log("\n\ncomments.js/publishCommentUpdates - input -------", input);
+//   //   const getMapKeyValueByIndex = (obj, idx) => {
+//   //     const key = Object.keys(obj)[idx];
+//   //     const val = obj[key];
+//   //     console.log("key", key);
+//   //     const temp = { key: val };
+//   //     return temp;
+//   //   };
+//   //   const temp3 = getMapKeyValueByIndex(input, 0);
+
+//   const temp3 = {
+//     pageId: "1a5e9673-aeb2-4946-a520-8aff4ca5166c",
+//   };
+
+//   console.log("temp3", temp3);
+
+//   pubsub.publish("commentsUpdated", {
+//     questionnaire,
+//     temp3,
+//   });
+// };
+
 const publishCommentUpdates = (questionnaire, input) => {
-  console.log("\n\npublishCommentUpdates - input -------", input);
-  //   const getMapKeyValueByIndex = (obj, idx) => {
-  //     const key = Object.keys(obj)[idx];
-  //     const val = obj[key];
-  //     console.log("key", key);
-  //     const temp = { key: val };
-  //     return temp;
-  //   };
-  //   const temp3 = getMapKeyValueByIndex(input, 0);
-
-  const temp3 = {
-    pageId: "1a5e9673-aeb2-4946-a520-8aff4ca5166c",
-  };
-
-  console.log("temp3", temp3);
+  console.log(
+    "\n\n\n\n\ncomments.js/publishCommentUpdates - input ZZZ-------",
+    input
+  );
 
   pubsub.publish("commentsUpdated", {
     questionnaire,
-    temp3,
+    input,
   });
 };
 
@@ -83,7 +96,7 @@ Resolvers.Mutation = {
       introductionId: introductionId,
       confirmationId: confirmationId,
     };
-    console.log("Comment.js/deleteComment - return", deletedCommentReturn);
+    console.log("\nComment.js/deleteComment - return", deletedCommentReturn);
     return deletedCommentReturn;
   },
 
