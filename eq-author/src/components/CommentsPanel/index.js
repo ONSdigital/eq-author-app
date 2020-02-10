@@ -252,7 +252,7 @@ const CommentsPanel = props => {
 
   useSubscription(COMMENT_SUBSCRIPTION, {
     variables: {
-      input,
+      parentId,
     },
   });
 

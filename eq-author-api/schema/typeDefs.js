@@ -591,10 +591,6 @@ type Reply {
   commentText: String!
   createdTime: DateTime!
   user: User!
-  page: Page
-  section: Section
-  questionnaireIntroduction: QuestionnaireIntroduction
-  confirmationPage: QuestionConfirmation
   editedTime:  DateTime
   parentPageId: ID!
 }
@@ -667,7 +663,7 @@ type Mutation {
   deleteComment(input: DeleteCommentInput!): DeleteResponse!
   updateComment(input: UpdateCommentInput!): Comment!
   createReply(input: CreateReplyInput!): Reply!
-  deleteReply(input: DeleteReplyInput!): Page!
+  deleteReply(input: DeleteReplyInput!): DeleteResponse!
   updateReply(input: UpdateReplyInput!): Reply!
   createQuestionPage(input: CreateQuestionPageInput!): QuestionPage
   updateQuestionPage(input: UpdateQuestionPageInput!): QuestionPage
@@ -852,47 +848,53 @@ input DuplicatePageInput {
 }
 
 input CreateCommentInput {
-  pageId: ID
-  sectionId: ID
   introductionId: ID
-  commentText: String!
+  sectionId: ID
+  pageId: ID
   confirmationId: ID
+  commentText: String!
 }
 
 input DeleteCommentInput {
-  pageId: ID
-  sectionId: ID
   introductionId: ID
+  sectionId: ID
+  pageId: ID
   confirmationId: ID
   commentId: ID!
 }
 
 input UpdateCommentInput {
-  pageId: ID
-  sectionId: ID
   introductionId: ID
+  sectionId: ID
+  pageId: ID
   confirmationId: ID
   commentId: ID!
   commentText: String!
 }
 
 input CreateReplyInput {
-  pageId: ID
-  sectionId: ID
   introductionId: ID
+  sectionId: ID
+  pageId: ID
   confirmationId: ID
   commentId: ID!
   commentText: String!
   }
 
 input DeleteReplyInput {
-  pageId: ID!
+  introductionId: ID
+  sectionId: ID
+  pageId: ID
+  confirmationId: ID
   commentId: ID!
   replyId: ID!
 }
 
 input UpdateReplyInput {
-  pageId: ID!
+  introductionId: ID
+  sectionId: ID
+  pageId: ID
+  confirmationId: ID
   commentId: ID!
   replyId: ID!
   commentText: String!
@@ -1171,12 +1173,15 @@ input DeleteCollapsibleInput {
 type Subscription {
   validationUpdated(id: ID!): Questionnaire!
   publishStatusUpdated(id: ID!): Questionnaire!
-  commentsUpdated(input: CommentPageInput!): DeleteResponse!
+  commentsUpdated(input: CommentSubscriptionInput!): DeleteResponse!
 }
 
-input CommentPageInput {
-  pageId: ID
+input CommentSubscriptionInput {
+  questionnaireId: ID
+  introductionId: ID
   sectionId: ID
+  pageId: ID
+  confirmationId: ID
 }
 
 input PublishQuestionnaireInput {

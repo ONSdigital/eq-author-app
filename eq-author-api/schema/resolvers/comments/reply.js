@@ -1,14 +1,13 @@
 const uuid = require("uuid");
 const { remove } = require("lodash");
 
-const { getPageById } = require("../utils");
-
 const {
   getCommentsForQuestionnaire,
   saveComments,
 } = require("../../../utils/datastore");
 
 const pubsub = require("../../../db/pubSub");
+
 const publishCommentUpdates = (questionnaire, pageId) => {
   pubsub.publish("commentsUpdated", {
     questionnaire,
@@ -42,10 +41,6 @@ Resolvers.Mutation = {
       commentText: input.commentText,
       userId: ctx.user.id,
       createdTime: new Date(),
-      // pageId: pageId,
-      // sectionId: sectionId,
-      // introductionId: introductionId,
-      // confirmationId: confirmationId,
       parentPageId: parentPageId,
     };
 
@@ -76,12 +71,14 @@ Resolvers.Mutation = {
   },
 
   updateReply: async (_, { input }, ctx) => {
-    const { pageId } = input;
+    const { pageId, sectionId, confirmationId, introductionId } = input;
+    const parentId = pageId || sectionId || confirmationId || introductionId;
+
     const questionnaire = ctx.questionnaire;
     const questionnaireComments = await getCommentsForQuestionnaire(
       questionnaire.id
     );
-    const replies = questionnaireComments.comments[pageId].find(
+    const replies = questionnaireComments.comments[parentId].find(
       ({ id }) => id === input.commentId
     ).replies;
 
@@ -101,13 +98,17 @@ Resolvers.Mutation = {
   deleteReply: async (_, { input }, ctx) => {
     console.log("\nreply.js/deleteReply - input", input);
 
-    const { pageId } = input;
+    const { pageId, sectionId, confirmationId, introductionId } = input;
+    const parentId = pageId || sectionId || confirmationId || introductionId;
+
+    console.log("\nreply.js/deleteReply - parentId", parentId);
+
     const questionnaire = ctx.questionnaire;
     const questionnaireComments = await getCommentsForQuestionnaire(
       questionnaire.id
     );
 
-    const replies = questionnaireComments.comments[pageId].find(
+    const replies = questionnaireComments.comments[parentId].find(
       ({ id }) => id === input.commentId
     ).replies;
     console.log("\nreply.js/deleteReply - replies", replies);
@@ -116,13 +117,21 @@ Resolvers.Mutation = {
       remove(replies, ({ id }) => id === input.replyId);
       await saveComments(questionnaireComments);
     }
-    publishCommentUpdates(questionnaire, pageId);
+    publishCommentUpdates(questionnaire, parentId);
 
-    const page = getPageById(ctx, pageId);
+    const deletedReplyReturn = {
+      pageId: pageId,
+      sectionId: sectionId,
+      introductionId: introductionId,
+      confirmationId: confirmationId,
+    };
 
-    console.log("\nreply.js/deleteReply - page", page);
+    console.log(
+      "\nreply.js/deleteReply - return deletedCommentReturn",
+      deletedReplyReturn
+    );
 
-    return page;
+    return deletedReplyReturn;
   },
 };
 
