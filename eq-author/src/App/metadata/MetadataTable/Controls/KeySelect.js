@@ -18,7 +18,7 @@ export const suggestedKeys = [
   { value: "ref_p_start_date" },
   { value: "ref_p_end_date" },
   { value: "return_by" },
-  { value: "employmentDate" },
+  { value: "employment_date" },
   { value: "region_code" },
   { value: "display_address" },
   { value: "country" },
@@ -55,6 +55,7 @@ class KeySelect extends Component {
 
   render() {
     const { name, usedKeys } = this.props;
+    console.log(usedKeys);
     const { value } = this.state;
 
     return (
