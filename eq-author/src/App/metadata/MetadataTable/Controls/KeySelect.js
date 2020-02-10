@@ -55,7 +55,6 @@ class KeySelect extends Component {
 
   render() {
     const { name, usedKeys } = this.props;
-    console.log(usedKeys);
     const { value } = this.state;
 
     return (
