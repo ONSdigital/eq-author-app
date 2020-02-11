@@ -10,8 +10,6 @@ import gql from "graphql-tag";
 
 const NavList = styled.ol`
   margin: 0 0 1em;
-  border-top: 1px solid grey;
-  border-bottom: 1px solid grey;
   padding: 0;
   list-style: none;
   font-weight: bold;

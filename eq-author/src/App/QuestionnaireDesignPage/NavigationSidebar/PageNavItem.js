@@ -20,6 +20,12 @@ const StyledPageItem = styled.li`
   align-items: center;
 `;
 
+const StyledNavLink = styled(NavLink)`
+  span {
+    padding-left: 0.5em;
+  }
+`;
+
 const getIcon = pageType => {
   if (pageType === "CalculatedSummaryPage") {
     return CalculatedIcon;
@@ -36,7 +42,7 @@ export const UnwrappedPageNavItem = ({
   const errorCount = get(page, "validationErrorInfo.totalCount", 0);
   return (
     <StyledPageItem data-test="page-item" {...otherProps}>
-      <NavLink
+      <StyledNavLink
         to={buildPagePath({
           questionnaireId,
           pageId: page.id,
@@ -48,7 +54,7 @@ export const UnwrappedPageNavItem = ({
         errorCount={errorCount}
       >
         {page.displayName}
-      </NavLink>
+      </StyledNavLink>
     </StyledPageItem>
   );
 };

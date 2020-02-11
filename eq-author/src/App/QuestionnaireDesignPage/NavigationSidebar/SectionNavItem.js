@@ -13,6 +13,18 @@ const StyledSectionNavItem = styled.li`
   display: block;
 `;
 
+const SectionNameOuter = styled.span`
+  padding-left: 0.5em;
+`;
+
+const StyledSectionOuter = styled.div`
+  display: block;
+  padding-top: 1px;
+  padding-bottom: 1px;
+  border-top: 1px solid grey;
+  border-bottom: 1px solid grey;
+`;
+
 export class UnwrappedSectionNavItem extends React.Component {
   static propTypes = {
     questionnaire: CustomPropTypes.questionnaire,
@@ -31,16 +43,19 @@ export class UnwrappedSectionNavItem extends React.Component {
 
     return (
       <StyledSectionNavItem data-test="section-item" {...otherProps}>
-        <NavLink
-          exact
-          to={url}
-          data-test="nav-section-link"
-          title={section.displayName}
-          icon={SectionIcon}
-          errorCount={section.validationErrorInfo.totalCount}
-        >
-          {section.displayName}
-        </NavLink>
+        <StyledSectionOuter>
+          <NavLink
+            exact
+            to={url}
+            data-test="nav-section-link"
+            title={section.displayName}
+            icon={SectionIcon}
+            id="sectionName"
+            errorCount={section.validationErrorInfo.totalCount}
+          >
+            <SectionNameOuter>{section.displayName}</SectionNameOuter>
+          </NavLink>
+        </StyledSectionOuter>
 
         <PageNav section={section} questionnaire={questionnaire} />
       </StyledSectionNavItem>
