@@ -27,6 +27,7 @@ const StyledSectionUpper = styled.div`
 const StyledSectionLower = styled.div`
   display: block;
   padding-bottom: 1px;
+  margin-bottom: 1px;
   margin-left: 0.75em;
   border-bottom: 1px solid grey;
 `;
