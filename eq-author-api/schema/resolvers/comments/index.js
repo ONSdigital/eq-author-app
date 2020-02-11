@@ -12,14 +12,14 @@ const Resolvers = {};
 
 const { getCommentsForQuestionnaire } = require("../../../utils/datastore");
 
-const publishCommentUpdates = (questionnaire, pageId) => {
-  console.log("\n\n\n\n\nINDEX.JS/publishCommentUpdates ---- pageId", pageId);
+// const publishCommentUpdates = (questionnaire, pageId) => {
+//   console.log("\n\n\n\n\nINDEX.JS/publishCommentUpdates ---- pageId", pageId);
 
-  pubsub.publish("commentsUpdated", {
-    questionnaire,
-    pageId,
-  });
-};
+//   pubsub.publish("commentsUpdated", {
+//     questionnaire,
+//     pageId,
+//   });
+// };
 
 Resolvers.DeleteResponse = {
   page: ({ pageId }, args, ctx) => {
@@ -136,7 +136,7 @@ Resolvers.Reply = {
 
 module.exports = [
   Resolvers,
-  publishCommentUpdates,
+  //   publishCommentUpdates,
   require("./comment").Resolvers,
   require("./reply").Resolvers,
 ];

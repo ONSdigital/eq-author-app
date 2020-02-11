@@ -242,19 +242,25 @@ const Resolvers = {
     commentsUpdated: {
       resolve: async ({ input, questionnaire }, args, ctx) => {
         console.log(
-          "\n\n\n\n\n\n\nbase.js/CommentsUpdated---000000------",
-          input
+          "\n\n\n\n\n\nBASE.JS/CommentsUpdated---000000------",
+          input.pageId,
+          "\n\n\n"
         );
         // const { pageId, sectionId, confirmationId, introductionId } = input;
-        const { pageId } = input;
-
+        const pageId = input.pageId;
+        console.log(
+          "\n\nBASE.JS/Resolvers.Subscribe/commentsUpdated - pageId",
+          pageId
+        );
         ctx.questionnaire = questionnaire;
         if (pageId) {
+          const page = await getPageById(ctx, pageId);
           console.log(
-            "\nBASE.js/Resolvers.Subscription - commentsdUpdated - page return (getPageById)-------",
-            getPageById(ctx, pageId)
+            "\n\n\nBASE.js/Resolvers.Subscription - commentsdUpdated - page return (getPageById)-------",
+            page,
+            "\n\n\n"
           );
-          return getPageById(ctx, pageId);
+          return page;
         }
 
         // const page = await getPageById(ctx, pageId);

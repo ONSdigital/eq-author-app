@@ -19,12 +19,6 @@ const pubsub = require("../../../db/pubSub");
 //   //   };
 //   //   const temp3 = getMapKeyValueByIndex(input, 0);
 
-//   const temp3 = {
-//     pageId: "1a5e9673-aeb2-4946-a520-8aff4ca5166c",
-//   };
-
-//   console.log("temp3", temp3);
-
 //   pubsub.publish("commentsUpdated", {
 //     questionnaire,
 //     temp3,
@@ -32,11 +26,12 @@ const pubsub = require("../../../db/pubSub");
 // };
 
 const publishCommentUpdates = (questionnaire, input) => {
+  const pageId = input.pageId;
   console.log(
     "\n\n\n\n\ncomments.js/publishCommentUpdates - input ZZZ-------",
-    input
+    input,
+    "\n\n"
   );
-
   pubsub.publish("commentsUpdated", {
     questionnaire,
     input,
@@ -69,7 +64,7 @@ Resolvers.Mutation = {
 
     await saveComments(questionnaireComments);
 
-    publishCommentUpdates(questionnaire, pageId);
+    publishCommentUpdates(questionnaire, input);
     return commentToEdit;
   },
 
@@ -102,7 +97,7 @@ Resolvers.Mutation = {
 
   createComment: async (_, { input }, ctx) => {
     const { pageId, sectionId, confirmationId, introductionId } = input;
-    const id = pageId || sectionId || confirmationId || introductionId;
+    const parentId = pageId || sectionId || confirmationId || introductionId;
 
     console.log("\ncomment.js/createComment - input", input);
 
@@ -110,8 +105,6 @@ Resolvers.Mutation = {
     const questionnaireComments = await getCommentsForQuestionnaire(
       questionnaire.id
     );
-
-    console.log("\nquestionnaireComments", questionnaireComments);
 
     const newComment = {
       id: uuid.v4(),
@@ -125,12 +118,12 @@ Resolvers.Mutation = {
       replies: [],
     };
 
-    const pageComments = questionnaireComments.comments[id];
+    const pageComments = questionnaireComments.comments[parentId];
 
     if (pageComments) {
-      questionnaireComments.comments[id].push(newComment);
+      questionnaireComments.comments[parentId].push(newComment);
     } else {
-      questionnaireComments.comments[id] = [newComment];
+      questionnaireComments.comments[parentId] = [newComment];
     }
 
     await saveComments(questionnaireComments);
@@ -145,4 +138,4 @@ Resolvers.Mutation = {
   },
 };
 
-module.exports = { Resolvers };
+module.exports = { Resolvers, publishCommentUpdates };

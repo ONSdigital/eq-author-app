@@ -215,7 +215,6 @@ const CommentsPanel = props => {
 
   const parentId = pageId || sectionId || confirmationId || introductionId;
   const id = introductionId;
-  const input = {};
 
   let key;
 
@@ -252,7 +251,9 @@ const CommentsPanel = props => {
 
   useSubscription(COMMENT_SUBSCRIPTION, {
     variables: {
-      parentId,
+      input: {
+        [key]: parentId,
+      },
     },
   });
 
