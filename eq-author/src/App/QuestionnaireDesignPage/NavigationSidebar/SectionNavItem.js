@@ -17,11 +17,17 @@ const SectionNameOuter = styled.span`
   padding-left: 0.5em;
 `;
 
-const StyledSectionOuter = styled.div`
+const StyledSectionUpper = styled.div`
   display: block;
   padding-top: 1px;
-  padding-bottom: 1px;
+  margin-left: 0.75em;
   border-top: 1px solid grey;
+`;
+
+const StyledSectionLower = styled.div`
+  display: block;
+  padding-bottom: 1px;
+  margin-left: 0.75em;
   border-bottom: 1px solid grey;
 `;
 
@@ -43,19 +49,23 @@ export class UnwrappedSectionNavItem extends React.Component {
 
     return (
       <StyledSectionNavItem data-test="section-item" {...otherProps}>
-        <StyledSectionOuter>
-          <NavLink
-            exact
-            to={url}
-            data-test="nav-section-link"
-            title={section.displayName}
-            icon={SectionIcon}
-            id="sectionName"
-            errorCount={section.validationErrorInfo.totalCount}
-          >
-            <SectionNameOuter>{section.displayName}</SectionNameOuter>
-          </NavLink>
-        </StyledSectionOuter>
+        <StyledSectionUpper>
+          <div />
+        </StyledSectionUpper>
+        <NavLink
+          exact
+          to={url}
+          data-test="nav-section-link"
+          title={section.displayName}
+          icon={SectionIcon}
+          id="sectionName"
+          errorCount={section.validationErrorInfo.totalCount}
+        >
+          <SectionNameOuter>{section.displayName}</SectionNameOuter>
+        </NavLink>
+        <StyledSectionLower>
+          <div />
+        </StyledSectionLower>
 
         <PageNav section={section} questionnaire={questionnaire} />
       </StyledSectionNavItem>
