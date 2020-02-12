@@ -1,119 +1,29 @@
+#import "./commentFragment.graphql"
+
 subscription CommentsUpdated($input: CommentSubscriptionInput!) {
   commentsUpdated(input: $input) {
     questionnaireIntroduction {
       id
       comments {
-        id
-        commentText
-        user {
-          id
-          name
-          picture
-          email
-          displayName
-        }
-        createdTime
-        editedTime
-        replies {
-          id
-          commentText
-          createdTime
-          editedTime
-          user {
-            id
-            name
-            picture
-            email
-            displayName
-          }
-        }
+        ...CommentFragment
       }
     }
     section {
       id
       comments {
-        id
-        commentText
-        user {
-          id
-          name
-          picture
-          email
-          displayName
-        }
-        createdTime
-        editedTime
-        replies {
-          id
-          commentText
-          createdTime
-          editedTime
-          user {
-            id
-            name
-            picture
-            email
-            displayName
-          }
-        }
+        ...CommentFragment
       }
     }
     page {
       id
       comments {
-        id
-        commentText
-        user {
-          id
-          name
-          picture
-          email
-          displayName
-        }
-        createdTime
-        editedTime
-        replies {
-          id
-          commentText
-          createdTime
-          editedTime
-          user {
-            id
-            name
-            picture
-            email
-            displayName
-          }
-        }
+        ...CommentFragment
       }
     }
     confirmationPage {
       id
       comments {
-        id
-        commentText
-        user {
-          id
-          name
-          picture
-          email
-          displayName
-        }
-        createdTime
-        editedTime
-        replies {
-          id
-          commentText
-          createdTime
-          editedTime
-          user {
-            id
-            name
-            picture
-            email
-            displayName
-          }
-        }
+        ...CommentFragment
       }
     }
   }

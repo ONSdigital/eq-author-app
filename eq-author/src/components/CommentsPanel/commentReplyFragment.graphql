@@ -1,0 +1,6 @@
+fragment CommentReplyFragment on Comment {
+  id
+  replies {
+    id
+  }
+}

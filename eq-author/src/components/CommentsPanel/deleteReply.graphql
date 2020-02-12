@@ -1,39 +1,29 @@
+#import "./commentReplyFragment.graphql"
+
 mutation DeleteReply($input: DeleteReplyInput!) {
   deleteReply(input: $input) {
     questionnaireIntroduction {
       id
       comments {
-        id
-        replies {
-          id
-        }
+        ...CommentReplyFragment
       }
     }
     section {
       id
       comments {
-        id
-        replies {
-          id
-        }
+        ...CommentReplyFragment
       }
     }
     page {
       id
       comments {
-        id
-        replies {
-          id
-        }
+        ...CommentReplyFragment
       }
     }
     confirmationPage {
       id
       comments {
-        id
-        replies {
-          id
-        }
+        ...CommentReplyFragment
       }
     }
   }

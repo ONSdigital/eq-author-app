@@ -1,3 +1,5 @@
+#import "./commentReplyFragment.graphql"
+
 mutation CreateReply($input: CreateReplyInput!) {
   createReply(input: $input) {
     id
@@ -16,37 +18,25 @@ mutation CreateReply($input: CreateReplyInput!) {
       questionnaireIntroduction {
         id
         comments {
-          id
-          replies {
-            id
-          }
+          ...CommentReplyFragment
         }
       }
       section {
         id
         comments {
-          id
-          replies {
-            id
-          }
+          ...CommentReplyFragment
         }
       }
       page {
         id
         comments {
-          id
-          replies {
-            id
-          }
+          ...CommentReplyFragment
         }
       }
       confirmationPage {
         id
         comments {
-          id
-          replies {
-            id
-          }
+          ...CommentReplyFragment
         }
       }
     }
