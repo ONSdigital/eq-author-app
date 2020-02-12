@@ -2,9 +2,9 @@ import gql from "graphql-tag";
 import React from "react";
 import styled from "styled-components";
 import { withRouter } from "react-router-dom";
-import { colors } from "constants/theme";
 
 import CustomPropTypes from "custom-prop-types";
+import { colors } from "constants/theme";
 import PageNav from "./PageNav";
 import NavLink from "./NavLink";
 import { buildSectionPath } from "utils/UrlUtils";
