@@ -636,9 +636,9 @@ input QueryInput {
 }
 
 type DeleteResponse {
-  page: Page
-  section: Section 
   questionnaireIntroduction: QuestionnaireIntroduction
+  section: Section 
+  page: Page
   confirmationPage: QuestionConfirmation
 }
 
