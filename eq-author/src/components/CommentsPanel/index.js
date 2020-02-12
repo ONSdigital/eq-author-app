@@ -228,10 +228,6 @@ const CommentsPanel = props => {
     key = "introductionId";
   }
 
-  console.log("key---------", key);
-  console.log("parentId-----", parentId);
-  console.log("confirmationId", confirmationId);
-
   const { loading, error, data } = useQuery(COMMENT_QUERY, {
     variables: {
       input: {
@@ -240,7 +236,6 @@ const CommentsPanel = props => {
       id,
     },
   });
-  console.log("Comments Panel - data --------", data);
 
   const [createComment] = useMutation(COMMENT_ADD);
   const [deleteComment] = useMutation(COMMENT_DELETE);
@@ -254,6 +249,7 @@ const CommentsPanel = props => {
       input: {
         [key]: parentId,
       },
+      // parentId,
     },
   });
 

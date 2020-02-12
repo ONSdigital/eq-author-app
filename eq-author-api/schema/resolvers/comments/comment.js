@@ -8,30 +8,7 @@ const {
 
 const pubsub = require("../../../db/pubSub");
 
-// const publishCommentUpdates = (questionnaire, input) => {
-//   console.log("\n\ncomments.js/publishCommentUpdates - input -------", input);
-//   //   const getMapKeyValueByIndex = (obj, idx) => {
-//   //     const key = Object.keys(obj)[idx];
-//   //     const val = obj[key];
-//   //     console.log("key", key);
-//   //     const temp = { key: val };
-//   //     return temp;
-//   //   };
-//   //   const temp3 = getMapKeyValueByIndex(input, 0);
-
-//   pubsub.publish("commentsUpdated", {
-//     questionnaire,
-//     temp3,
-//   });
-// };
-
 const publishCommentUpdates = (questionnaire, input) => {
-  const pageId = input.pageId;
-  console.log(
-    "\n\n\n\n\ncomments.js/publishCommentUpdates - input ZZZ-------",
-    input,
-    "\n\n"
-  );
   pubsub.publish("commentsUpdated", {
     questionnaire,
     input,
@@ -44,7 +21,6 @@ Resolvers.Mutation = {
   updateComment: async (_, { input }, ctx) => {
     const { pageId, sectionId, confirmationId, introductionId } = input;
     const parentId = pageId || sectionId || confirmationId || introductionId;
-    console.log("\nComment.js/updateCommentComment - input", input);
 
     const questionnaire = ctx.questionnaire;
     const questionnaireComments = await getCommentsForQuestionnaire(
@@ -60,8 +36,6 @@ Resolvers.Mutation = {
     commentToEdit.commentText = input.commentText;
     commentToEdit.editedTime = new Date();
 
-    console.log("commentToEdit - - - -  - - ", commentToEdit);
-
     await saveComments(questionnaireComments);
 
     publishCommentUpdates(questionnaire, input);
@@ -71,7 +45,6 @@ Resolvers.Mutation = {
   deleteComment: async (_, { input }, ctx) => {
     const { pageId, sectionId, confirmationId, introductionId } = input;
     const parentId = pageId || sectionId || confirmationId || introductionId;
-    console.log("\nComment.js/deleteComment - input", input);
 
     const questionnaire = ctx.questionnaire;
     const questionnaireComments = await getCommentsForQuestionnaire(
@@ -91,15 +64,12 @@ Resolvers.Mutation = {
       introductionId: introductionId,
       confirmationId: confirmationId,
     };
-    console.log("\nComment.js/deleteComment - return", deletedCommentReturn);
     return deletedCommentReturn;
   },
 
   createComment: async (_, { input }, ctx) => {
     const { pageId, sectionId, confirmationId, introductionId } = input;
     const parentId = pageId || sectionId || confirmationId || introductionId;
-
-    console.log("\ncomment.js/createComment - input", input);
 
     const questionnaire = ctx.questionnaire;
     const questionnaireComments = await getCommentsForQuestionnaire(
@@ -130,12 +100,8 @@ Resolvers.Mutation = {
 
     publishCommentUpdates(questionnaire, input);
 
-    console.log(
-      "\n\n comment.js/createComment - newComment return :",
-      newComment
-    );
     return newComment;
   },
 };
 
-module.exports = { Resolvers, publishCommentUpdates };
+module.exports = { Resolvers };

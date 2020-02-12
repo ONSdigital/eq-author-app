@@ -186,12 +186,6 @@ const Resolvers = {
       return { pageId: page.id, ...confirmationPage };
     },
     confirmationPage: (root, { input }, ctx) => {
-      console.log(
-        "\nResolvers.QUERY.confirmationPage - Id",
-        input.confirmationId,
-        "\n"
-      );
-
       const confirmationPage = getConfirmationById(ctx, input.confirmationId);
       if (!confirmationPage) {
         return null;
@@ -241,30 +235,16 @@ const Resolvers = {
     },
     commentsUpdated: {
       resolve: async ({ input, questionnaire }, args, ctx) => {
-        console.log(
-          "\n\n\n\n\n\nBASE.JS/CommentsUpdated---000000------",
-          input.pageId,
-          "\n\n\n"
-        );
-        // const { pageId, sectionId, confirmationId, introductionId } = input;
-        const pageId = input.pageId;
-        console.log(
-          "\n\nBASE.JS/Resolvers.Subscribe/commentsUpdated - pageId",
-          pageId
-        );
         ctx.questionnaire = questionnaire;
-        if (pageId) {
-          const page = await getPageById(ctx, pageId);
-          console.log(
-            "\n\n\nBASE.js/Resolvers.Subscription - commentsdUpdated - page return (getPageById)-------",
-            page,
-            "\n\n\n"
-          );
-          return page;
-        }
 
-        // const page = await getPageById(ctx, pageId);
-        // return page;
+        const commentSubscriptionReturn = {
+          pageId: input.pageId,
+          sectionId: input.sectionId,
+          introductionId: input.introductionId,
+          confirmationId: input.confirmationId,
+        };
+
+        return commentSubscriptionReturn;
       },
       subscribe: () => pubsub.asyncIterator(["commentsUpdated"]),
     },
@@ -777,15 +757,8 @@ const Resolvers = {
         totalCount: 0,
       },
     comments: async ({ id }, args, ctx) => {
-      console.log("\nBase.js/Section.commentS - id :", id);
-
       const questionnaireComments = await getCommentsForQuestionnaire(
         ctx.questionnaire.id
-      );
-
-      console.log(
-        "\nBase.js/Section.commentS - questionnaireComments----- :",
-        questionnaireComments
       );
 
       return questionnaireComments.comments[id] || [];
@@ -1057,15 +1030,8 @@ const Resolvers = {
         totalCount: 0,
       },
     comments: async ({ id }, args, ctx) => {
-      console.log("\nBase.js/QuestionConfirmation.commentS - id :", id);
-
       const questionnaireComments = await getCommentsForQuestionnaire(
         ctx.questionnaire.id
-      );
-
-      console.log(
-        "\nBase.js/QuestionConfirmation.commentS - questionnaireComments----- :",
-        questionnaireComments.comments[id]
       );
 
       return questionnaireComments.comments[id] || [];
