@@ -25,8 +25,15 @@ type QuestionnaireInfo {
 }
 
 type PublishDetails {
-  surveyId: String!
-  formType: String!
+  surveyId: String
+  formType: String
+  variants: [PublishDetailVariant]
+}
+
+type PublishDetailVariant {
+  language: String
+  theme: String
+  authorId: ID
 }
 
 enum QuestionnaireType {
@@ -61,7 +68,7 @@ type Questionnaire {
   permission: Permission!
   isPublic: Boolean!
   publishStatus: PublishStatus!
-  publishDetails: PublishDetails
+  publishDetails: [PublishDetails]
   totalErrorCount: Int!
 }
 enum HistoryEventTypes {
@@ -156,6 +163,7 @@ type CalculatedSummaryPage implements Page {
   alias: String
   displayName: String!
   pageType: PageType!
+  qCode: String
   comments: [Comment]!
   section: Section!
   position: Int!
@@ -179,6 +187,7 @@ type QuestionConfirmation {
   displayName: String!
   title: String
   page: QuestionPage!
+  qCode: String
   positive: ConfirmationOption!
   negative: ConfirmationOption!
   availablePipingAnswers: [Answer!]!
@@ -206,6 +215,7 @@ type BasicAnswer implements Answer {
   description: String
   guidance: String
   qCode: String
+  secondaryQCode: String
   label: String
   secondaryLabel: String
   secondaryLabelDefault: String
@@ -899,6 +909,7 @@ input UpdateCalculatedSummaryPageInput {
   alias: String
   title: String
   totalTitle: String
+  qCode: String
   summaryAnswers: [ID!]
 }
 
@@ -919,6 +930,7 @@ input UpdateAnswerInput {
   label: String
   secondaryLabel: String
   qCode: String
+  secondaryQCode: String
   properties: JSON
 }
 
@@ -1079,8 +1091,9 @@ input ConfirmationOptionInput {
 input UpdateQuestionConfirmationInput {
   id: ID!
   title: String
-  positive: ConfirmationOptionInput!
-  negative: ConfirmationOptionInput!
+  positive: ConfirmationOptionInput
+  negative: ConfirmationOptionInput
+  qCode: String
 }
 
 input CreateQuestionConfirmationInput {
@@ -1132,7 +1145,12 @@ type Subscription {
 input PublishQuestionnaireInput {
   questionnaireId: ID!
   surveyId: String!
-  formTypes: JSON!
+  variants: [PublishDetailsInput]!
+}
+
+input PublishDetailsInput {
+  theme: String
+  formType: String
 }
 
 enum ReviewAction {

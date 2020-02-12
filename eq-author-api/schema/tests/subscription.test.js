@@ -31,6 +31,7 @@ const fetch = require("node-fetch");
 
 fetch.mockImplementation(() =>
   Promise.resolve({
+    status: 200,
     json: () => ({
       questionnaireId: "test",
       publishedSurveyUrl: "https://best.url.com",

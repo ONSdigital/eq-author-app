@@ -1,0 +1,6 @@
+mutation UpdateOptionQCode($input: UpdateOptionInput!) {
+  updateOption(input: $input) {
+    id
+    qCode
+  }
+}

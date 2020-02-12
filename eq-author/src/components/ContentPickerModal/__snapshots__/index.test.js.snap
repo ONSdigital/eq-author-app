@@ -53,9 +53,9 @@ exports[`ContentPickerModal should render 1`] = `
 `;
 
 exports[`ContentPickerModal should render TabButton when showTabButton is true 1`] = `
-<ForwardRef(ContentPickerModal__TabButton)>
+<ContentPickerModal__TabButton>
   hello world
-</ForwardRef(ContentPickerModal__TabButton)>
+</ContentPickerModal__TabButton>
 `;
 
 exports[`ContentPickerModal should show an error message when answerData property is not provided 1`] = `
