@@ -1,6 +1,0 @@
-fragment FragmentCommentIntro on QuestionnaireIntroduction {
-  id
-  comments {
-    id
-  }
-}

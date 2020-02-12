@@ -1,6 +1,0 @@
-fragment FragmentCommentPage on Page {
-  id
-  comments {
-    id
-  }
-}
