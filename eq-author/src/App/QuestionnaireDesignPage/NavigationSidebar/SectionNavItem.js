@@ -2,6 +2,7 @@ import gql from "graphql-tag";
 import React from "react";
 import styled from "styled-components";
 import { withRouter } from "react-router-dom";
+import { colors } from "constants/theme";
 
 import CustomPropTypes from "custom-prop-types";
 import PageNav from "./PageNav";
@@ -21,7 +22,7 @@ const StyledSectionUpper = styled.div`
   display: block;
   padding-top: 1px;
   margin-left: 0.75em;
-  border-top: 1px solid grey;
+  border-top: 1px solid ${colors.grey};
 `;
 
 const StyledSectionLower = styled.div`
@@ -29,7 +30,7 @@ const StyledSectionLower = styled.div`
   padding-bottom: 1px;
   margin-bottom: 1px;
   margin-left: 0.75em;
-  border-bottom: 1px solid grey;
+  border-bottom: 1px solid ${colors.grey};
 `;
 
 export class UnwrappedSectionNavItem extends React.Component {
