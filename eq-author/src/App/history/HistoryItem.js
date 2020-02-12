@@ -66,6 +66,17 @@ const EventText = styled.div`
     margin: 0 0 1em;
     word-break: break-all;
   }
+  ul {
+    margin-top: 0;
+    padding-left: 0;
+    li {
+      list-style: none;
+      margin-left: 0;
+      span {
+        font-weight: bold;
+      }
+    }
+  }
 `;
 
 const translations = {
