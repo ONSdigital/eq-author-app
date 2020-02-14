@@ -601,9 +601,9 @@ type Comment {
   createdTime: DateTime!
   user: User!
   replies: [Reply]!
-  page: Page
-  section: Section
   questionnaireIntroduction: QuestionnaireIntroduction
+  section: Section
+  page: Page
   confirmationPage: QuestionConfirmation
   editedTime: DateTime
 }

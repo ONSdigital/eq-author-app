@@ -1,11 +1,31 @@
 const executeQuery = require("../../executeQuery");
 
 const deleteCommentMutation = `
-  mutation deleteComment($input: DeleteCommentInput!) {
+ mutation deleteComment($input: DeleteCommentInput!) {
   deleteComment(input: $input) {
-    id
-    comments {
+    questionnaireIntroduction {
       id
+      comments {
+        id
+      }
+    }
+    section {
+      id
+      comments {
+        id
+      }
+    }
+    page {
+      id
+      comments {
+        id
+      }
+    }
+    confirmationPage {
+      id
+      comments {
+        id
+      }
     }
   }
 }

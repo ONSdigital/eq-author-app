@@ -88,6 +88,21 @@ const mocks = vars => [
             ],
             __typename: "QuestionPage",
           },
+          section: {
+            id: "S1",
+            comments: [],
+            __typename: "Section",
+          },
+          questionnaireIntroduction: {
+            id: "I1",
+            comments: [],
+            __typename: "Introduction",
+          },
+          confirmationPage: {
+            id: "C1",
+            comments: [],
+            __typename: "Confirmation",
+          },
         },
       };
     },
@@ -122,6 +137,21 @@ const mocks = vars => [
               ],
               __typename: "QuestionPage",
             },
+            section: {
+              id: "S1",
+              comments: [],
+              __typename: "Section",
+            },
+            questionnaireIntroduction: {
+              id: "I1",
+              comments: [],
+              __typename: "Introduction",
+            },
+            confirmationPage: {
+              id: "C1",
+              comments: [],
+              __typename: "Confirmation",
+            },
             user: {
               id: "U1",
               name: "Fred Jones",
@@ -149,14 +179,19 @@ const mocks = vars => [
       return {
         data: {
           deleteComment: {
-            id: "P1",
-            comments: [
-              {
-                id: "C2",
-                __typename: "Comment",
-              },
-            ],
-            __typename: "QuestionPage",
+            page: {
+              id: "P1",
+              comments: [
+                {
+                  id: "C2",
+                  __typename: "Comment",
+                },
+              ],
+              __typename: "QuestionPage",
+            },
+            questionnaireIntroduction: null,
+            section: null,
+            confirmationPage: null,
           },
         },
       };
@@ -190,7 +225,9 @@ const mocks = vars => [
   {
     request: {
       query: COMMENT_SUBSCRIPTION,
-      variables: { pageId: "P1" },
+      variables: {
+        input: { pageId: "P1" },
+      },
     },
     result: () => {
       vars.newCommentSubscriptionWasCalled = true;

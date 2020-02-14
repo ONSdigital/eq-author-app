@@ -158,7 +158,7 @@ describe("Comments Pane", () => {
       {
         request: {
           query: COMMENT_SUBSCRIPTION,
-          variables: { pageId: "P2" },
+          variables: { input: { pageId: "P2" } },
         },
         result: () => {
           vars.newCommentSubscriptionWasCalled = true;

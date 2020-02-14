@@ -17,6 +17,8 @@ const {
 const {
   updateQuestionPage,
 } = require("../../tests/utils/contextBuilder/page/questionPage");
+const { BUSINESS } = require("../../constants/questionnaireTypes");
+
 const {
   createComment,
   deleteComment,
@@ -188,10 +190,140 @@ describe("subscriptions", () => {
   });
 
   describe("commentsUpdated", () => {
-    let createdQuestionPage, questionPageId, createdCalSumPage, CalSumPageId;
+    let createdQuestionPage,
+      questionPageId,
+      createdCalSumPage,
+      CalSumPageId,
+      introductionId,
+      sectionId,
+      confirmationId;
+
+    const commentsSubscription = gql`
+      subscription CommentsUpdated($input: CommentSubscriptionInput!) {
+        commentsUpdated(input: $input) {
+          questionnaireIntroduction {
+            id
+            comments {
+              id
+              commentText
+              user {
+                id
+                name
+                picture
+                email
+                displayName
+              }
+              createdTime
+              editedTime
+              replies {
+                id
+                commentText
+                createdTime
+                editedTime
+                user {
+                  id
+                  name
+                  picture
+                  email
+                  displayName
+                }
+              }
+            }
+          }
+          section {
+            id
+            comments {
+              id
+              commentText
+              user {
+                id
+                name
+                picture
+                email
+                displayName
+              }
+              createdTime
+              editedTime
+              replies {
+                id
+                commentText
+                createdTime
+                editedTime
+                user {
+                  id
+                  name
+                  picture
+                  email
+                  displayName
+                }
+              }
+            }
+          }
+          page {
+            id
+            comments {
+              id
+              commentText
+              user {
+                id
+                name
+                picture
+                email
+                displayName
+              }
+              createdTime
+              editedTime
+              replies {
+                id
+                commentText
+                createdTime
+                editedTime
+                user {
+                  id
+                  name
+                  picture
+                  email
+                  displayName
+                }
+              }
+            }
+          }
+          confirmationPage {
+            id
+            comments {
+              id
+              commentText
+              user {
+                id
+                name
+                picture
+                email
+                displayName
+              }
+              createdTime
+              editedTime
+              replies {
+                id
+                commentText
+                createdTime
+                editedTime
+                user {
+                  id
+                  name
+                  picture
+                  email
+                  displayName
+                }
+              }
+            }
+          }
+        }
+      }
+    `;
 
     beforeEach(async () => {
       ctx = await buildContext({
+        type: BUSINESS,
         sections: [
           {
             pages: [
@@ -203,6 +335,9 @@ describe("subscriptions", () => {
                 pageType: "calculatedSummary",
                 title: "calcSum page",
               },
+              {
+                confirmation: {},
+              },
             ],
           },
         ],
@@ -212,163 +347,366 @@ describe("subscriptions", () => {
       questionPageId = createdQuestionPage.id;
       createdCalSumPage = questionnaire.sections[0].pages[1];
       CalSumPageId = createdCalSumPage.id;
+      introductionId = questionnaire.introduction.id;
+      sectionId = questionnaire.sections[0].id;
+      confirmationId = questionnaire.sections[0].pages[2].confirmation.id;
     });
 
-    const commentsSubscription = gql`
-      subscription CommentsUpdated($pageId: ID!) {
-        commentsUpdated(pageId: $pageId) {
-          id
-          comments {
-            id
-            commentText
-            user {
-              id
-              name
-              picture
-              email
-              displayName
-            }
-            createdTime
-            editedTime
-            replies {
-              id
-              commentText
-              createdTime
-              editedTime
-              user {
-                id
-                name
-                picture
-                email
-                displayName
-              }
-            }
-          }
-        }
-      }
-    `;
+    describe("Question page comment - subscriptions", () => {
+      it("Question page - should send event when new comment is created", async () => {
+        iterator = await executeSubscription(commentsSubscription, {
+          input: {
+            pageId: questionPageId,
+          },
+        });
 
-    it("Question page - should send event when new comment is created", async () => {
-      iterator = await executeSubscription(commentsSubscription, {
-        pageId: questionPageId,
+        await createComment(ctx, {
+          pageId: questionPageId,
+          commentText: "a new comment is created",
+        });
+
+        const result = await iterator.next();
+
+        expect(
+          result.value.data.commentsUpdated.page.comments[0].commentText
+        ).toBe("a new comment is created");
       });
 
-      await createComment(ctx, {
-        pageId: questionPageId,
-        commentText: "a new comment is created",
+      it("Question page - should send event when comment has been updated", async () => {
+        iterator = await executeSubscription(commentsSubscription, {
+          input: {
+            pageId: questionPageId,
+          },
+        });
+
+        const newComment = await createComment(ctx, {
+          pageId: questionPageId,
+          commentText: "a new comment is created",
+        });
+        const commentId = newComment.id;
+
+        await updateComment(ctx, {
+          pageId: questionPageId,
+          commentId: commentId,
+          commentText: "an edited comment",
+        });
+        const result = await iterator.next();
+        expect(
+          result.value.data.commentsUpdated.page.comments[0].commentText
+        ).toBe("an edited comment");
       });
 
-      const result = await iterator.next();
+      it("Question page - should send event when comment has been deleted", async () => {
+        iterator = await executeSubscription(commentsSubscription, {
+          input: {
+            pageId: questionPageId,
+          },
+        });
 
-      expect(result.value.data.commentsUpdated.comments[0].commentText).toBe(
-        "a new comment is created"
-      );
-    });
+        const newComment = await createComment(ctx, {
+          pageId: questionPageId,
+          commentText: "a new comment is created",
+        });
 
-    it("Question page - should send event when comment has been updated", async () => {
-      iterator = await executeSubscription(commentsSubscription, {
-        pageId: questionPageId,
-      });
+        const commentId = newComment.id;
 
-      const newComment = await createComment(ctx, {
-        pageId: questionPageId,
-        commentText: "a new comment is created",
-      });
-      const commentId = newComment.id;
-
-      await updateComment(ctx, {
-        pageId: questionPageId,
-        commentId: commentId,
-        commentText: "an edited comment",
-      });
-      const result = await iterator.next();
-      expect(result.value.data.commentsUpdated.comments[0].commentText).toBe(
-        "an edited comment"
-      );
-    });
-
-    it("Question page - should send event when comment has been deleted", async () => {
-      iterator = await executeSubscription(commentsSubscription, {
-        pageId: questionPageId,
-      });
-
-      const newComment = await createComment(ctx, {
-        pageId: questionPageId,
-        commentText: "a new comment is created",
-      });
-
-      const commentId = newComment.id;
-
-      await deleteComment(ctx, {
-        pageId: questionPageId,
-        commentId: commentId,
-      });
-      const result = await iterator.next();
-      expect(result.value.data.commentsUpdated).toMatchObject({
-        id: questionPageId,
-        comments: [],
+        await deleteComment(ctx, {
+          pageId: questionPageId,
+          commentId: commentId,
+        });
+        const result = await iterator.next();
+        expect(result.value.data.commentsUpdated.page).toMatchObject({
+          id: questionPageId,
+          comments: [],
+        });
       });
     });
 
-    it("CalcSum page - should send event when new comment is created", async () => {
-      iterator = await executeSubscription(commentsSubscription, {
-        pageId: CalSumPageId,
+    describe("CalcSum page comment - subscriptions", () => {
+      it("CalcSum page - should send event when new comment is created", async () => {
+        iterator = await executeSubscription(commentsSubscription, {
+          input: {
+            pageId: CalSumPageId,
+          },
+        });
+
+        await createComment(ctx, {
+          pageId: CalSumPageId,
+          commentText: "a new comment is created",
+        });
+
+        const result = await iterator.next();
+
+        expect(
+          result.value.data.commentsUpdated.page.comments[0].commentText
+        ).toBe("a new comment is created");
       });
 
-      await createComment(ctx, {
-        pageId: CalSumPageId,
-        commentText: "a new comment is created",
+      it("CalcSum page - should send event when comment has been updated", async () => {
+        iterator = await executeSubscription(commentsSubscription, {
+          input: {
+            pageId: CalSumPageId,
+          },
+        });
+
+        const newComment = await createComment(ctx, {
+          pageId: CalSumPageId,
+          commentText: "a new comment is created",
+        });
+        const commentId = newComment.id;
+
+        await updateComment(ctx, {
+          pageId: CalSumPageId,
+          commentId: commentId,
+          commentText: "an edited comment",
+        });
+        const result = await iterator.next();
+        expect(
+          result.value.data.commentsUpdated.page.comments[0].commentText
+        ).toBe("an edited comment");
       });
 
-      const result = await iterator.next();
+      it("CalcSum page - should send event when comment has been deleted", async () => {
+        iterator = await executeSubscription(commentsSubscription, {
+          input: {
+            pageId: CalSumPageId,
+          },
+        });
 
-      expect(result.value.data.commentsUpdated.comments[0].commentText).toBe(
-        "a new comment is created"
-      );
+        const newComment = await createComment(ctx, {
+          pageId: CalSumPageId,
+          commentText: "a new comment is created",
+        });
+
+        const commentId = newComment.id;
+
+        await deleteComment(ctx, {
+          pageId: CalSumPageId,
+          commentId: commentId,
+        });
+        const result = await iterator.next();
+        expect(result.value.data.commentsUpdated.page).toMatchObject({
+          id: CalSumPageId,
+          comments: [],
+        });
+      });
     });
 
-    it("CalcSum page - should send event when comment has been updated", async () => {
-      iterator = await executeSubscription(commentsSubscription, {
-        pageId: CalSumPageId,
+    describe("Introduction page - comment subscriptions", () => {
+      it("Introduction page - should send event when new comment is created", async () => {
+        iterator = await executeSubscription(commentsSubscription, {
+          input: {
+            introductionId: introductionId,
+          },
+        });
+
+        await createComment(ctx, {
+          introductionId: introductionId,
+          commentText: "a new comment is created",
+        });
+
+        const result = await iterator.next();
+
+        expect(
+          result.value.data.commentsUpdated.questionnaireIntroduction
+            .comments[0].commentText
+        ).toBe("a new comment is created");
       });
 
-      const newComment = await createComment(ctx, {
-        pageId: CalSumPageId,
-        commentText: "a new comment is created",
-      });
-      const commentId = newComment.id;
+      it("Introduction page - should send event when comment has been updated", async () => {
+        iterator = await executeSubscription(commentsSubscription, {
+          input: {
+            introductionId: introductionId,
+          },
+        });
 
-      await updateComment(ctx, {
-        pageId: CalSumPageId,
-        commentId: commentId,
-        commentText: "an edited comment",
+        const newComment = await createComment(ctx, {
+          introductionId: introductionId,
+          commentText: "a new comment is created",
+        });
+        const commentId = newComment.id;
+
+        await updateComment(ctx, {
+          introductionId: introductionId,
+          commentId: commentId,
+          commentText: "an edited comment",
+        });
+        const result = await iterator.next();
+        expect(
+          result.value.data.commentsUpdated.questionnaireIntroduction
+            .comments[0].commentText
+        ).toBe("an edited comment");
       });
-      const result = await iterator.next();
-      expect(result.value.data.commentsUpdated.comments[0].commentText).toBe(
-        "an edited comment"
-      );
+
+      it("Introduction page - should send event when comment has been deleted", async () => {
+        iterator = await executeSubscription(commentsSubscription, {
+          input: {
+            introductionId: introductionId,
+          },
+        });
+
+        const newComment = await createComment(ctx, {
+          introductionId: introductionId,
+          commentText: "a new comment is created",
+        });
+
+        const commentId = newComment.id;
+
+        await deleteComment(ctx, {
+          introductionId: introductionId,
+          commentId: commentId,
+        });
+        const result = await iterator.next();
+        expect(
+          result.value.data.commentsUpdated.questionnaireIntroduction
+        ).toMatchObject({
+          id: introductionId,
+          comments: [],
+        });
+      });
     });
 
-    it("CalcSum page - should send event when comment has been deleted", async () => {
-      iterator = await executeSubscription(commentsSubscription, {
-        pageId: CalSumPageId,
+    describe("section page - comment subscriptions", () => {
+      it("section page - should send event when new comment is created", async () => {
+        iterator = await executeSubscription(commentsSubscription, {
+          input: {
+            sectionId: sectionId,
+          },
+        });
+
+        await createComment(ctx, {
+          sectionId: sectionId,
+          commentText: "a new comment is created",
+        });
+
+        const result = await iterator.next();
+
+        expect(
+          result.value.data.commentsUpdated.section.comments[0].commentText
+        ).toBe("a new comment is created");
       });
 
-      const newComment = await createComment(ctx, {
-        pageId: CalSumPageId,
-        commentText: "a new comment is created",
+      it("section page - should send event when comment has been updated", async () => {
+        iterator = await executeSubscription(commentsSubscription, {
+          input: {
+            sectionId: sectionId,
+          },
+        });
+
+        const newComment = await createComment(ctx, {
+          sectionId: sectionId,
+          commentText: "a new comment is created",
+        });
+        const commentId = newComment.id;
+
+        await updateComment(ctx, {
+          sectionId: sectionId,
+          commentId: commentId,
+          commentText: "an edited comment",
+        });
+        const result = await iterator.next();
+        expect(
+          result.value.data.commentsUpdated.section.comments[0].commentText
+        ).toBe("an edited comment");
       });
 
-      const commentId = newComment.id;
+      it("section page - should send event when comment has been deleted", async () => {
+        iterator = await executeSubscription(commentsSubscription, {
+          input: {
+            sectionId: sectionId,
+          },
+        });
 
-      await deleteComment(ctx, {
-        pageId: CalSumPageId,
-        commentId: commentId,
+        const newComment = await createComment(ctx, {
+          sectionId: sectionId,
+          commentText: "a new comment is created",
+        });
+
+        const commentId = newComment.id;
+
+        await deleteComment(ctx, {
+          sectionId: sectionId,
+          commentId: commentId,
+        });
+        const result = await iterator.next();
+        expect(result.value.data.commentsUpdated.section).toMatchObject({
+          id: sectionId,
+          comments: [],
+        });
       });
-      const result = await iterator.next();
-      expect(result.value.data.commentsUpdated).toMatchObject({
-        id: CalSumPageId,
-        comments: [],
+    });
+
+    describe("confirmation page - comment subscriptions", () => {
+      it("confirmation page - should send event when new comment is created", async () => {
+        iterator = await executeSubscription(commentsSubscription, {
+          input: {
+            confirmationId: confirmationId,
+          },
+        });
+
+        await createComment(ctx, {
+          confirmationId: confirmationId,
+          commentText: "a new comment is created",
+        });
+
+        const result = await iterator.next();
+
+        expect(
+          result.value.data.commentsUpdated.confirmationPage.comments[0]
+            .commentText
+        ).toBe("a new comment is created");
+      });
+
+      it("confirmation page - should send event when comment has been updated", async () => {
+        iterator = await executeSubscription(commentsSubscription, {
+          input: {
+            confirmationId: confirmationId,
+          },
+        });
+
+        const newComment = await createComment(ctx, {
+          confirmationId: confirmationId,
+          commentText: "a new comment is created",
+        });
+        const commentId = newComment.id;
+
+        await updateComment(ctx, {
+          confirmationId: confirmationId,
+          commentId: commentId,
+          commentText: "an edited comment",
+        });
+        const result = await iterator.next();
+        expect(
+          result.value.data.commentsUpdated.confirmationPage.comments[0]
+            .commentText
+        ).toBe("an edited comment");
+      });
+
+      it("confirmation page - should send event when comment has been deleted", async () => {
+        iterator = await executeSubscription(commentsSubscription, {
+          input: {
+            confirmationId: confirmationId,
+          },
+        });
+
+        const newComment = await createComment(ctx, {
+          confirmationId: confirmationId,
+          commentText: "a new comment is created",
+        });
+
+        const commentId = newComment.id;
+
+        await deleteComment(ctx, {
+          confirmationId: confirmationId,
+          commentId: commentId,
+        });
+        const result = await iterator.next();
+        expect(
+          result.value.data.commentsUpdated.confirmationPage
+        ).toMatchObject({
+          id: confirmationId,
+          comments: [],
+        });
       });
     });
   });
