@@ -47,16 +47,11 @@ Resolvers.QuestionPage = {
       ROUTING_ANSWER_TYPES
     ),
   comments: async ({ id }, args, ctx) => {
-    console.log("\nQuestionPage/Resolvers.QuestionPage.comments - id :", id);
-
     const questionnaireId = ctx.questionnaire.id;
     const questionnareComments = await getCommentsForQuestionnaire(
       questionnaireId
     );
-    console.log(
-      "\n QuestionPage/Resolvers.QuestionPage.comments - questionnaireComments :",
-      questionnareComments.comments[id]
-    );
+
     return questionnareComments.comments[id] || [];
   },
   availableRoutingDestinations: ({ id }, args, ctx) => {
