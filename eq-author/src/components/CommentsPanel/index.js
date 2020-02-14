@@ -249,7 +249,6 @@ const CommentsPanel = props => {
       input: {
         [key]: parentId,
       },
-      // parentId,
     },
   });
 
@@ -416,11 +415,7 @@ const CommentsPanel = props => {
   }
 
   let comments;
-  // if (input.sectionId) {
-  //   comments = get(data, "section.comments", []);
-  // } else if (input.pageId) {
-  //   comments = get(data, "page.comments", []);
-  // }
+
   switch (key) {
     case "pageId":
       comments = get(data, "page.comments", []);

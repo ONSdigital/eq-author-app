@@ -16,7 +16,7 @@ const {
 } = require("../../tests/utils/contextBuilder/comments");
 
 describe("comments", () => {
-  let ctx, questionnaire, createdQuestionPage, createdCalSumPage, pageId;
+  let ctx, questionnaire, createdCalSumPage, pageId;
 
   afterEach(async () => {
     if (!questionnaire) {
@@ -38,12 +38,12 @@ describe("comments", () => {
             },
           ],
         },
+        {},
       ],
     });
     questionnaire = ctx.questionnaire;
-    createdQuestionPage = questionnaire.sections[0].pages[0];
-    pageId = createdQuestionPage.id;
     createdCalSumPage = questionnaire.sections[0].pages[1];
+    pageId = questionnaire.sections[0].pages[0].id;
   });
 
   it("An empty comment array is created on new questionnare", async () => {
@@ -51,7 +51,7 @@ describe("comments", () => {
       pageId: pageId,
     });
 
-    expect(comment).toMatchObject({
+    expect(comment.page).toMatchObject({
       id: expect.any(String),
       comments: expect.any(Array),
     });
@@ -67,7 +67,7 @@ describe("comments", () => {
       pageId: pageId,
     });
 
-    expect(queryNewComments).toMatchObject({
+    expect(queryNewComments.page).toMatchObject({
       id: pageId,
       comments: [
         {
@@ -92,7 +92,7 @@ describe("comments", () => {
       pageId: pageId,
     });
 
-    expect(queryNewComments).toMatchObject({
+    expect(queryNewComments.page).toMatchObject({
       id: pageId,
       comments: [
         {
@@ -115,7 +115,7 @@ describe("comments", () => {
       pageId: createdCalSumPage.id,
     });
 
-    expect(queryNewComments).toMatchObject({
+    expect(queryNewComments.page).toMatchObject({
       id: createdCalSumPage.id,
       comments: [
         {
@@ -156,10 +156,12 @@ describe("comments", () => {
       commentId: newComment.id,
     });
 
-    expect(queriedComment.comments).toHaveLength(0);
+    expect(queriedComment.page.comments).toHaveLength(0);
     expect(queriedComment).toMatchObject({
-      id: pageId,
-      comments: [],
+      page: {
+        id: pageId,
+        comments: [],
+      },
     });
   });
 
@@ -195,10 +197,12 @@ describe("comments", () => {
       commentId: newComment.id,
     });
 
-    expect(queriedComment.comments).toHaveLength(0);
+    expect(queriedComment.page.comments).toHaveLength(0);
     expect(queriedComment).toMatchObject({
-      id: createdCalSumPage.id,
-      comments: [],
+      page: {
+        id: createdCalSumPage.id,
+        comments: [],
+      },
     });
   });
 
@@ -210,7 +214,7 @@ describe("comments", () => {
       pageId: questionnaire.sections[0].pages[0].id,
     });
 
-    expect(comment).toMatchObject({
+    expect(comment.page).toMatchObject({
       id: expect.any(String),
       comments: expect.any(Array),
     });
@@ -233,7 +237,7 @@ describe("comments", () => {
         pageId: pageId,
       });
 
-      expect(queriedComment.comments[0].replies).toMatchObject([
+      expect(queriedComment.page.comments[0].replies).toMatchObject([
         { commentText: "a new reply is created" },
       ]);
     });
@@ -254,7 +258,7 @@ describe("comments", () => {
         pageId: createdCalSumPage.id,
       });
 
-      expect(queriedComment.comments[0].replies).toMatchObject([
+      expect(queriedComment.page.comments[0].replies).toMatchObject([
         { commentText: "a new reply is created" },
       ]);
     });
@@ -342,8 +346,7 @@ describe("comments", () => {
       const queriedComment = await queryComments(ctx, {
         pageId: pageId,
       });
-
-      expect(queriedComment.comments[0].replies).toHaveLength(0);
+      expect(queriedComment.page.comments[0].replies).toHaveLength(0);
     });
 
     it("should delete a reply on calcsum page", async () => {
@@ -372,7 +375,7 @@ describe("comments", () => {
         pageId: createdCalSumPage.id,
       });
 
-      expect(queriedComment.comments[0].replies).toHaveLength(0);
+      expect(queriedComment.page.comments[0].replies).toHaveLength(0);
     });
   });
 });

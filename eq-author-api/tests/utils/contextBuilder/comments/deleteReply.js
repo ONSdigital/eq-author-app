@@ -1,13 +1,42 @@
 const executeQuery = require("../../executeQuery");
 
 const deleteReplyMutation = `
-  mutation deleteReply($input: DeleteReplyInput!) {
+mutation DeleteReply($input: DeleteReplyInput!) {
   deleteReply(input: $input) {
-    id
-    comments {
+    questionnaireIntroduction {
       id
-      replies {
+      comments {
         id
+        replies {
+          id
+        }
+      }
+    }
+    section {
+      id
+      comments {
+        id
+        replies {
+          id
+        } 
+      } 
+    }
+    page {
+      id
+      comments {
+        id
+        replies {
+          id
+        }
+      }
+    }
+    confirmationPage {
+      id
+      comments {
+        id
+        replies {
+          id
+        }
       }
     }
   }

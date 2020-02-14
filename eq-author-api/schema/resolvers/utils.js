@@ -28,9 +28,6 @@ const getPageByAnswerId = (ctx, answerId) =>
     page => page.answers && some(page.answers, { id: answerId })
   );
 
-// const
-// const getConfirmationPageById = (ctx, id) => find(getConfirmationPages(ctx), {id})
-
 const getPageByConfirmationId = (ctx, confirmationId) =>
   find(getPages(ctx), page => {
     if (get(page, "confirmation.id") === confirmationId) {

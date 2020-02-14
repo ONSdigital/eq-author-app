@@ -2,24 +2,56 @@ const executeQuery = require("../../executeQuery");
 
 const createCommentMutation = `
 mutation createComment($input: CreateCommentInput!) {
-    createComment(input: $input) {
+  createComment(input: $input) {
+    id
+    commentText
+    createdTime
+    editedTime
+    questionnaireIntroduction {
+      id
+      comments {
         id
-        commentText
-        createdTime
-        page {
-            id
-            comments {
-                id
-            }
-        }
-        user {
-            id
-            name
-            picture
-            email
-            displayName
-        }
+      }
     }
+    section {
+      id
+      comments {
+        id
+      }
+    }
+    page {
+      id
+      comments {
+        id
+      }
+    }
+    confirmationPage {
+      id
+      comments {
+        id
+      }
+    }
+    user {
+      id
+      name
+      picture
+      email
+      displayName
+    }
+    replies {
+      id
+      commentText
+      createdTime
+      editedTime
+      user {
+        id
+        name
+        picture
+        email
+        displayName
+      }
+    }
+  }
 }`;
 
 const createComment = async (ctx, input) => {
