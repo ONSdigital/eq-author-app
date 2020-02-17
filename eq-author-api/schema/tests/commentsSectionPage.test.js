@@ -142,7 +142,6 @@ describe("comments", () => {
   });
 
   it("should create a comment object if Questionnaire doesn't have one", async () => {
-    //creating a questionnaire outside resolvers to ensure no existing comment object...
     const questionnaire = await createQuestionnaire(ctx.questionnaire, ctx);
 
     const comment = await queryComments(ctx, {

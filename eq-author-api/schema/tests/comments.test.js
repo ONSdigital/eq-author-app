@@ -207,7 +207,6 @@ describe("comments", () => {
   });
 
   it("should create a comment object if Questionnaire doesn't have one", async () => {
-    //creating a questionnaire outside resolvers to ensure no existing comment object...
     const questionnaire = await createQuestionnaire(ctx.questionnaire, ctx);
 
     const comment = await queryComments(ctx, {
@@ -221,7 +220,7 @@ describe("comments", () => {
   });
 
   describe("replies", () => {
-    it("should add a reply to a comment - on question page", async () => {
+    it("should add a comment on question page and then reply to that comment", async () => {
       const comment = await createComment(ctx, {
         pageId: pageId,
         commentText: "a new comment is created",
@@ -363,12 +362,20 @@ describe("comments", () => {
         commentText: "a new reply is created",
       });
 
+      const queryNewComments = await queryComments(ctx, {
+        pageId: createdCalSumPage.id,
+      });
+
+      expect(queryNewComments.page.comments[0].replies[0]).toMatchObject({
+        commentText: "a new reply is created",
+      });
+
       const replyId = reply.id;
 
       await deleteReply(ctx, {
         pageId: createdCalSumPage.id,
         commentId: commentId,
-        replyId: replyId,
+        replyId,
       });
 
       const queriedComment = await queryComments(ctx, {

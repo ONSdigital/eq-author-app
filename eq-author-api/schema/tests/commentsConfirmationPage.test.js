@@ -45,9 +45,9 @@ describe("comments", () => {
     confirmationId = questionnaire.sections[0].pages[0].confirmation.id;
   });
 
-  it("An empty comment array is created on new questionnare", async () => {
+  it("should create an empty comment array on new questionnaires", async () => {
     const comment = await queryComments(ctx, {
-      confirmationId: confirmationId,
+      confirmationId,
     });
 
     expect(comment.confirmationPage).toMatchObject({
@@ -58,12 +58,12 @@ describe("comments", () => {
 
   it("should add a comment on confirmationPage and then query that comment", async () => {
     await createComment(ctx, {
-      confirmationId: confirmationId,
+      confirmationId,
       commentText: "a new comment is created",
     });
 
     const queryNewComments = await queryComments(ctx, {
-      confirmationId: confirmationId,
+      confirmationId,
     });
 
     expect(queryNewComments.confirmationPage).toMatchObject({
@@ -78,17 +78,17 @@ describe("comments", () => {
 
   it("should add multiple comments on confirmationPage and then query those comments", async () => {
     await createComment(ctx, {
-      confirmationId: confirmationId,
+      confirmationId,
       commentText: "a new comment is created",
     });
 
     await createComment(ctx, {
-      confirmationId: confirmationId,
+      confirmationId,
       commentText: "a 2nd comment is created",
     });
 
     const queryNewComments = await queryComments(ctx, {
-      confirmationId: confirmationId,
+      confirmationId,
     });
 
     expect(queryNewComments.confirmationPage).toMatchObject({
@@ -106,14 +106,14 @@ describe("comments", () => {
 
   it("should edit a comment on confirmationPage and then query that comment", async () => {
     const newComment = await createComment(ctx, {
-      confirmationId: confirmationId,
+      confirmationId,
       commentText: "a new comment is created",
     });
     const commentId = newComment.id;
 
     const queryEditedComment = await updateComment(ctx, {
-      confirmationId: confirmationId,
-      commentId: commentId,
+      confirmationId,
+      commentId,
       commentText: "an edited comment",
     });
 
@@ -126,12 +126,12 @@ describe("comments", () => {
 
   it("should delete a comment on confirmationPage", async () => {
     const newComment = await createComment(ctx, {
-      confirmationId: confirmationId,
+      confirmationId,
       commentText: "a new comment is created",
     });
 
     const queriedComment = await deleteComment(ctx, {
-      confirmationId: confirmationId,
+      confirmationId,
       commentId: newComment.id,
     });
 
@@ -145,7 +145,6 @@ describe("comments", () => {
   });
 
   it("should create a comment object if Questionnaire doesn't have one", async () => {
-    //creating a questionnaire outside resolvers to ensure no existing comment object...
     const questionnaire = await createQuestionnaire(ctx.questionnaire, ctx);
 
     const comment = await queryComments(ctx, {
@@ -161,18 +160,18 @@ describe("comments", () => {
   describe("replies", () => {
     it("should add a reply to a comment - on confirmationPage", async () => {
       const comment = await createComment(ctx, {
-        confirmationId: confirmationId,
+        confirmationId,
         commentText: "a new comment is created",
       });
 
       await createReply(ctx, {
-        confirmationId: confirmationId,
+        confirmationId,
         commentId: comment.id,
         commentText: "a new reply is created",
       });
 
       const queriedComment = await queryComments(ctx, {
-        confirmationId: confirmationId,
+        confirmationId,
       });
 
       expect(
@@ -182,23 +181,23 @@ describe("comments", () => {
 
     it("should edit a reply on confirmationPage", async () => {
       const newComment = await createComment(ctx, {
-        confirmationId: confirmationId,
+        confirmationId,
         commentText: "a new comment is created",
       });
       const commentId = newComment.id;
 
       const reply = await createReply(ctx, {
-        confirmationId: confirmationId,
-        commentId: commentId,
+        confirmationId,
+        commentId,
         commentText: "a new reply is created",
       });
 
       const replyId = reply.id;
 
       const editedReply = await updateReply(ctx, {
-        confirmationId: confirmationId,
-        commentId: commentId,
-        replyId: replyId,
+        confirmationId,
+        commentId,
+        replyId,
         commentText: "an edited comment",
       });
 
@@ -211,28 +210,28 @@ describe("comments", () => {
 
     it("should delete a reply on confirmationPage", async () => {
       const newComment = await createComment(ctx, {
-        confirmationId: confirmationId,
+        confirmationId,
         commentText: "a new comment is created",
       });
 
       const commentId = newComment.id;
 
       const reply = await createReply(ctx, {
-        confirmationId: confirmationId,
-        commentId: commentId,
+        confirmationId,
+        commentId,
         commentText: "a new reply is created",
       });
 
       const replyId = reply.id;
 
       await deleteReply(ctx, {
-        confirmationId: confirmationId,
-        commentId: commentId,
-        replyId: replyId,
+        confirmationId,
+        commentId,
+        replyId,
       });
 
       const queriedComment = await queryComments(ctx, {
-        confirmationId: confirmationId,
+        confirmationId,
       });
       expect(queriedComment.confirmationPage.comments[0].replies).toHaveLength(
         0

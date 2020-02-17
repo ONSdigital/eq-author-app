@@ -46,7 +46,7 @@ describe("comments", () => {
 
   it("An empty comment array is created on new questionnare", async () => {
     const comment = await queryComments(ctx, {
-      introductionId: introductionId,
+      introductionId,
     });
 
     expect(comment.questionnaireIntroduction).toMatchObject({
@@ -57,12 +57,12 @@ describe("comments", () => {
 
   it("should add a comment on questionnaireIntroduction page and then query that comment", async () => {
     await createComment(ctx, {
-      introductionId: introductionId,
+      introductionId,
       commentText: "a new comment is created",
     });
 
     const queryNewComments = await queryComments(ctx, {
-      introductionId: introductionId,
+      introductionId,
     });
 
     expect(queryNewComments.questionnaireIntroduction).toMatchObject({
@@ -77,17 +77,17 @@ describe("comments", () => {
 
   it("should add multiple comments on questionnaireIntroduction page and then query those comments", async () => {
     await createComment(ctx, {
-      introductionId: introductionId,
+      introductionId,
       commentText: "a new comment is created",
     });
 
     await createComment(ctx, {
-      introductionId: introductionId,
+      introductionId,
       commentText: "a 2nd comment is created",
     });
 
     const queryNewComments = await queryComments(ctx, {
-      introductionId: introductionId,
+      introductionId,
     });
 
     expect(queryNewComments.questionnaireIntroduction).toMatchObject({
@@ -105,13 +105,13 @@ describe("comments", () => {
 
   it("should edit a comment on questionnaireIntroduction page and then query that comment", async () => {
     const newComment = await createComment(ctx, {
-      introductionId: introductionId,
+      introductionId,
       commentText: "a new comment is created",
     });
     const commentId = newComment.id;
 
     const queryEditedComment = await updateComment(ctx, {
-      introductionId: introductionId,
+      introductionId,
       commentId: commentId,
       commentText: "an edited comment",
     });
@@ -125,12 +125,12 @@ describe("comments", () => {
 
   it("should delete a comment on questionnaireIntroduction page", async () => {
     const newComment = await createComment(ctx, {
-      introductionId: introductionId,
+      introductionId,
       commentText: "a new comment is created",
     });
 
     const queriedComment = await deleteComment(ctx, {
-      introductionId: introductionId,
+      introductionId,
       commentId: newComment.id,
     });
 
@@ -144,7 +144,6 @@ describe("comments", () => {
   });
 
   it("should create a comment object if Questionnaire doesn't have one", async () => {
-    //creating a questionnaire outside resolvers to ensure no existing comment object...
     const questionnaire = await createQuestionnaire(ctx.questionnaire, ctx);
 
     const comment = await queryComments(ctx, {
@@ -160,18 +159,18 @@ describe("comments", () => {
   describe("replies", () => {
     it("should add a reply to a comment - on questionnaireIntroduction page", async () => {
       const comment = await createComment(ctx, {
-        introductionId: introductionId,
+        introductionId,
         commentText: "a new comment is created",
       });
 
       await createReply(ctx, {
-        introductionId: introductionId,
+        introductionId,
         commentId: comment.id,
         commentText: "a new reply is created",
       });
 
       const queriedComment = await queryComments(ctx, {
-        introductionId: introductionId,
+        introductionId,
       });
 
       expect(
@@ -181,13 +180,13 @@ describe("comments", () => {
 
     it("should edit a reply on questionnaireIntroduction page", async () => {
       const newComment = await createComment(ctx, {
-        introductionId: introductionId,
+        introductionId,
         commentText: "a new comment is created",
       });
       const commentId = newComment.id;
 
       const reply = await createReply(ctx, {
-        introductionId: introductionId,
+        introductionId,
         commentId: commentId,
         commentText: "a new reply is created",
       });
@@ -195,7 +194,7 @@ describe("comments", () => {
       const replyId = reply.id;
 
       const editedReply = await updateReply(ctx, {
-        introductionId: introductionId,
+        introductionId,
         commentId: commentId,
         replyId: replyId,
         commentText: "an edited comment",
@@ -210,14 +209,14 @@ describe("comments", () => {
 
     it("should delete a reply on questionnaireIntroduction page", async () => {
       const newComment = await createComment(ctx, {
-        introductionId: introductionId,
+        introductionId,
         commentText: "a new comment is created",
       });
 
       const commentId = newComment.id;
 
       const reply = await createReply(ctx, {
-        introductionId: introductionId,
+        introductionId,
         commentId: commentId,
         commentText: "a new reply is created",
       });
@@ -225,13 +224,13 @@ describe("comments", () => {
       const replyId = reply.id;
 
       await deleteReply(ctx, {
-        introductionId: introductionId,
+        introductionId,
         commentId: commentId,
         replyId: replyId,
       });
 
       const queriedComment = await queryComments(ctx, {
-        introductionId: introductionId,
+        introductionId,
       });
       expect(
         queriedComment.questionnaireIntroduction.comments[0].replies

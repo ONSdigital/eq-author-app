@@ -130,8 +130,6 @@ const remapAllNestedIds = entity => {
 module.exports = {
   getIntroductionById,
 
-  // getConfirmationPageById,
-
   getSectionById,
   getSectionByPageId,
 
