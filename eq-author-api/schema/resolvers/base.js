@@ -690,16 +690,6 @@ const Resolvers = {
       await saveQuestionnaire(ctx.questionnaire);
       return ctx.questionnaire;
     },
-    // createComment: createMutation(async (root, { input }, ctx) => {
-    //   const { pageId, sectionId } = input;
-
-    //   return ctx.questionnaire;
-    // }),
-    // createReply: createMutation(async (root, { input }, ctx) => {
-    //   const { pageId, sectionId } = input;
-
-    //   return ctx.questionnaire;
-    // }),
   },
 
   Questionnaire: {
