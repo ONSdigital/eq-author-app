@@ -216,17 +216,14 @@ const CommentsPanel = props => {
   const parentId = pageId || sectionId || confirmationId || introductionId;
   const id = introductionId;
 
-  let key;
+  const parameters = Object.keys(props.match.params).reduce((object, key) => {
+    if (key !== "questionnaireId") {
+      object[key] = props.match.params[key];
+    }
+    return object;
+  }, {});
 
-  if (pageId) {
-    key = "pageId";
-  } else if (sectionId) {
-    key = "sectionId";
-  } else if (confirmationId) {
-    key = "confirmationId";
-  } else if (introductionId) {
-    key = "introductionId";
-  }
+  const key = Object.keys(parameters).find(key => parameters[key]);
 
   const { loading, error, data } = useQuery(COMMENT_QUERY, {
     variables: {
