@@ -10200,9 +10200,9 @@ react-firebaseui@latest:
     firebaseui "^3.2.0"
 
 react-gtm-module@latest:
-  version "2.0.7"
-  resolved "https://registry.yarnpkg.com/react-gtm-module/-/react-gtm-module-2.0.7.tgz#1d1d085eddac36d522b56d45308ff4472ace09d6"
-  integrity sha512-QYnzQdRpN9qZIc/HaWnpmXUZ31ZsJ4BICp8Gb9VOAh4v5wtytXIrSvQdB7/dS9RgI9cuYN6KCl7NuqiNCPS+DA==
+  version "2.0.8"
+  resolved "https://registry.yarnpkg.com/react-gtm-module/-/react-gtm-module-2.0.8.tgz#0d37c4f2a4e3a8efa40c76c8b2aa1b7cacc16c6f"
+  integrity sha512-OU5FwAHC3gWnnxJ+MLwBMLZO1Pmn1DiVCGHqptwDnNojE3QRrNxjqozkW5cNS4Zp+C6HZ8a4ZIt0QPNlpzua4Q==
 
 react-hot-loader@latest:
   version "4.12.16"
