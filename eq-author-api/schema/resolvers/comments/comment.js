@@ -68,7 +68,13 @@ Resolvers.Mutation = {
   },
 
   createComment: async (_, { input }, ctx) => {
-    const { pageId, sectionId, confirmationId, introductionId } = input;
+    const {
+      pageId,
+      sectionId,
+      confirmationId,
+      introductionId,
+      commentText,
+    } = input;
     const parentId = pageId || sectionId || confirmationId || introductionId;
 
     const questionnaire = ctx.questionnaire;
@@ -78,13 +84,13 @@ Resolvers.Mutation = {
 
     const newComment = {
       id: uuid.v4(),
-      commentText: input.commentText,
+      commentText,
       userId: ctx.user.id,
       createdTime: new Date(),
-      pageId: pageId,
-      sectionId: sectionId,
-      introductionId: introductionId,
-      confirmationId: confirmationId,
+      pageId,
+      sectionId,
+      introductionId,
+      confirmationId,
       replies: [],
     };
 
