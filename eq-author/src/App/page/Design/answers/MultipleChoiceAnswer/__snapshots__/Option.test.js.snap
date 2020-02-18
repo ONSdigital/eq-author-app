@@ -118,14 +118,14 @@ exports[`Option should render a checkbox 1`] = `
 
 .c7 {
   font-size: 1em;
-  border: 1px solid #999999;
+  border: thin solid #999999;
   padding: 0.5em;
   color: #333333;
   display: block;
   width: 100%;
   -webkit-transition: outline-color 100ms ease-in,border-color 100ms ease-in;
   transition: outline-color 100ms ease-in,border-color 100ms ease-in;
-  outline: 1px solid transparent;
+  outline: thin solid transparent;
   font-weight: inherit;
   resize: none;
   overflow: hidden;
@@ -310,7 +310,7 @@ exports[`Option should render a checkbox 1`] = `
 }
 
 .c3 {
-  margin-bottom: 1em;
+  margin-bottom: 1.5em;
 }
 
 .c0 {
@@ -477,7 +477,7 @@ exports[`Option should render a checkbox 1`] = `
                           "isStatic": false,
                           "lastClassName": "c3",
                           "rules": Array [
-                            "margin-bottom:1em;",
+                            "margin-bottom:1.5em;",
                           ],
                         },
                         "displayName": "Option__OptionField",
@@ -678,11 +678,11 @@ exports[`Option should render a checkbox 1`] = `
                                                 "isStatic": false,
                                                 "lastClassName": "c7",
                                                 "rules": Array [
-                                                  "font-size:1em;border:1px solid ",
+                                                  "font-size:1em;border:thin solid ",
                                                   "#999999",
                                                   ";padding:0.5em;color:",
                                                   "#333333",
-                                                  ";display:block;width:100%;transition:outline-color 100ms ease-in,border-color 100ms ease-in;outline:1px solid transparent;&:hover{border-color:",
+                                                  ";display:block;width:100%;transition:outline-color 100ms ease-in,border-color 100ms ease-in;outline:thin solid transparent;&:hover{border-color:",
                                                   "#3B7A9E",
                                                   ";outline-color:",
                                                   "#3B7A9E",
@@ -783,7 +783,7 @@ exports[`Option should render a checkbox 1`] = `
                     "isStatic": false,
                     "lastClassName": "c3",
                     "rules": Array [
-                      "margin-bottom:1em;",
+                      "margin-bottom:1.5em;",
                     ],
                   },
                   "displayName": "Option__OptionField",
@@ -976,11 +976,11 @@ exports[`Option should render a checkbox 1`] = `
                                           "isStatic": false,
                                           "lastClassName": "c7",
                                           "rules": Array [
-                                            "font-size:1em;border:1px solid ",
+                                            "font-size:1em;border:thin solid ",
                                             "#999999",
                                             ";padding:0.5em;color:",
                                             "#333333",
-                                            ";display:block;width:100%;transition:outline-color 100ms ease-in,border-color 100ms ease-in;outline:1px solid transparent;&:hover{border-color:",
+                                            ";display:block;width:100%;transition:outline-color 100ms ease-in,border-color 100ms ease-in;outline:thin solid transparent;&:hover{border-color:",
                                             "#3B7A9E",
                                             ";outline-color:",
                                             "#3B7A9E",
@@ -1236,7 +1236,7 @@ exports[`Option should render a checkbox 1`] = `
                         wrapper="div"
                       >
                         <div
-                          className="__react_component_tooltip place-top type-dark "
+                          className="__react_component_tooltip place-top type-dark"
                           data-id="tooltip"
                           id="tooltip-1"
                         >
@@ -1391,7 +1391,7 @@ exports[`Option should render a checkbox 1`] = `
                         wrapper="div"
                       >
                         <div
-                          className="__react_component_tooltip place-top type-dark "
+                          className="__react_component_tooltip place-top type-dark"
                           data-id="tooltip"
                           id="tooltip-2"
                         >
@@ -1593,7 +1593,7 @@ exports[`Option should render a checkbox 1`] = `
                         wrapper="div"
                       >
                         <div
-                          className="__react_component_tooltip place-top type-dark "
+                          className="__react_component_tooltip place-top type-dark"
                           data-id="tooltip"
                           id="tooltip-3"
                         >

@@ -14,6 +14,17 @@ const checkForUpdates = (user, existingUser) => {
 module.exports = async (req, res, next) => {
   const { user } = req;
   if (!user.isVerified) {
+    if (
+      process.env.ALLOWED_EMAIL_LIST &&
+      process.env.ALLOWED_EMAIL_LIST !== ""
+    ) {
+      const validEmails = process.env.ALLOWED_EMAIL_LIST.split(",");
+      const checkEmail = domain => user.email.includes(domain);
+      if (!validEmails.some(checkEmail, user.email)) {
+        res.status(401).json({ status: "Email not in allowed email list" });
+        return;
+      }
+    }
     await createUser(req.user);
 
     res.json({ status: "OK" });

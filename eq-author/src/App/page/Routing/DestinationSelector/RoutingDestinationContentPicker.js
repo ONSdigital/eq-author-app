@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { get } from "lodash";
 import { Query } from "react-apollo";
 
-import ContentPickerSelect from "components/ContentPickerSelect";
-import { DESTINATION } from "components/ContentPickerSelect/content-types";
+import {
+  ContentSelectButton,
+  ContentSelected,
+} from "components/ContentPickerSelect";
+import ContentPicker from "components/ContentPickerv2";
 
 import getAvailableRoutingDestinations from "./getAvailableRoutingDestinations.graphql";
 
@@ -54,22 +57,71 @@ export const UnwrappedRoutingDestinationContentPicker = ({
   data,
   loading,
   selected,
+  onSubmit,
   ...otherProps
 }) => {
+  const [isPickerOpen, setPickerOpen] = useState(false);
   const destinationData = get(data, "page.availableRoutingDestinations");
+  const selectedDisplayName = getSelectedDisplayName(
+    selected,
+    loading,
+    destinationData
+  );
+
+  const handlePickerSubmit = selected => {
+    setPickerOpen(false);
+    onSubmit({ name: "routingDestination", value: selected });
+  };
+
+  const contentPickerData = () => {
+    if (!destinationData) {
+      return [];
+    }
+    const sections = [];
+
+    const pageData = destinationData.pages[0];
+    if (pageData) {
+      const currentSectionDetails = destinationData.pages[0].section;
+      const currentSection = {
+        id: currentSectionDetails.id,
+        displayName: currentSectionDetails.displayName,
+        pages: [...destinationData.pages],
+      };
+      sections.push(currentSection);
+    }
+
+    const routingSections = destinationData.sections;
+    routingSections.forEach((section, index) => {
+      section.pages[0].id = section.id;
+      section.pages[0].__typename = "Section";
+      routingSections[index].pages = [section.pages[0]];
+    });
+
+    sections.push(...routingSections);
+
+    return sections;
+  };
+
   return (
-    <ContentPickerSelect
-      name="routingDestination"
-      contentTypes={[DESTINATION]}
-      destinationData={destinationData}
-      selectedContentDisplayName={getSelectedDisplayName(
-        selected,
-        loading,
-        destinationData
-      )}
-      selectedObj={selected || undefined}
-      {...otherProps}
-    />
+    <>
+      <ContentSelectButton
+        data-test="content-picker-select"
+        onClick={() => setPickerOpen(true)}
+        disabled={loading}
+        {...otherProps}
+      >
+        <ContentSelected>{selectedDisplayName}</ContentSelected>
+      </ContentSelectButton>
+      <ContentPicker
+        isOpen={isPickerOpen}
+        data={contentPickerData()}
+        onClose={() => setPickerOpen(false)}
+        onSubmit={handlePickerSubmit}
+        data-test="picker"
+        singleItemSelect
+        contentType={"Destination"}
+      />
+    </>
   );
 };
 
@@ -100,6 +152,7 @@ UnwrappedRoutingDestinationContentPicker.propTypes = {
     }),
   }),
   selected: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  onSubmit: PropTypes.func,
 };
 
 const RoutingDestinationContentPicker = props => (

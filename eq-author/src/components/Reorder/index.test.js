@@ -128,9 +128,7 @@ describe("Reorder", () => {
       wrapper.unmount();
     });
 
-    act(() => {
-      expect(() => jest.runAllTimers()).not.toThrow();
-    });
+    expect(() => jest.runAllTimers()).not.toThrow();
   });
 
   it("should not re-render until transitioning has finished", () => {

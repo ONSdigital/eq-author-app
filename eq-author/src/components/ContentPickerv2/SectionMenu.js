@@ -42,6 +42,10 @@ const SectionMenu = ({
     setSelectedSection(section);
   };
 
+  if (!selectedSection) {
+    return;
+  }
+
   return (
     <ColumnContainer>
       <Column>
@@ -50,9 +54,7 @@ const SectionMenu = ({
             data={data}
             {...otherProps}
             onSelected={showNewSection}
-            isSelected={item =>
-              selectedSection && selectedSection.id === item.id
-            }
+            isSelected={item => selectedSection.id === item.id}
           />
         </ScrollPane>
       </Column>

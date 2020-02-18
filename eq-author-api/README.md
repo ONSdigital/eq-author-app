@@ -38,6 +38,7 @@ Changes to the application should hot reload via `nodemon`.
 | `PORT`                  | The port which express listens on (defaults to `4000`)                             | No       |
 | `NODE_ENV`              | Sets the environment the code is running in                                        | No       |
 | `ENABLE_IMPORT`         | When enabled it exposes a post endpoint for importing questionnaires               | No       |
+| `ALLOWED_EMAIL_LIST`    | Comma separated string defining allowed email domains in format "@domain.uk"       | No       |
 
 ## Running tests
 

@@ -25,6 +25,7 @@ import UserProfile from "components/UserProfile";
 import shareIcon from "./icon-share.svg?inline";
 import viewIcon from "./icon-view.svg?inline";
 import settingsIcon from "./icon-cog.svg?inline";
+import qcodeIcon from "./icon-qcode.svg?inline";
 import publishIcon from "./icon-publish.svg?inline";
 import reviewIcon from "./icon-review.svg?inline";
 import SharingModal from "./SharingModal";
@@ -32,7 +33,7 @@ import PageTitle from "./PageTitle";
 import UpdateQuestionnaireSettingsModal from "./UpdateQuestionnaireSettingsModal";
 import SavingIndicator from "./SavingIndicator";
 
-import { buildPublishPath } from "utils/UrlUtils";
+import { buildPublishPath, buildQcodesPath } from "utils/UrlUtils";
 
 const StyledHeader = styled.header`
   color: ${colors.white};
@@ -143,6 +144,16 @@ export const UnconnectedHeader = props => {
                 >
                   <IconText icon={settingsIcon}>Settings</IconText>
                 </Button>
+                <RouteButton
+                  variant="tertiary-light"
+                  to={buildQcodesPath(match.params)}
+                  small
+                  disabled={
+                    title === "QCodes" || questionnaire.totalErrorCount > 0
+                  }
+                >
+                  <IconText icon={qcodeIcon}>QCodes</IconText>
+                </RouteButton>
                 <LinkButton
                   href={previewUrl}
                   variant="tertiary-light"

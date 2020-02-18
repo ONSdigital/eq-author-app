@@ -23,6 +23,9 @@ class Question {
   constructor(question, ctx) {
     this.id = `question${question.id}`;
     this.title = processPipedText(ctx)(question.title);
+    if (question.qCode) {
+      this.q_code = question.qCode;
+    }
     if (question.descriptionEnabled && question.description) {
       this.description = processPipedText(ctx)(question.description);
       this.description = unescapePiping(
@@ -84,6 +87,7 @@ class Question {
       this.type = "MutuallyExclusive";
       this.mandatory = get("properties.required", mutuallyExclusive);
       this.answers = this.buildMutuallyExclusiveAnswers(mutuallyExclusive);
+      delete this.answers[1].label;
     } else if (question.totalValidation && question.totalValidation.enabled) {
       this.type = "Calculated";
       this.answers = this.buildAnswers(question.answers);
@@ -129,11 +133,13 @@ class Question {
         ...commonAnswerDef,
         id: `${commonAnswerDef.id}from`,
         label: answer.label,
+        q_code: answer.qCode,
       },
       {
         ...commonAnswerDef,
         id: `${commonAnswerDef.id}to`,
         label: answer.secondaryLabel,
+        q_code: answer.secondaryQCode,
       },
     ];
   }

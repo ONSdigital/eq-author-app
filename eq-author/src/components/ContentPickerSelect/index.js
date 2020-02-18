@@ -1,8 +1,7 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import CustomPropTypes from "custom-prop-types";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { propType } from "graphql-anywhere";
 import { isNil } from "lodash";
 
 import ContentPickerModal from "components/ContentPickerModal";
@@ -10,10 +9,6 @@ import Button from "components/buttons/Button";
 import Truncated from "components/Truncated";
 
 import { colors } from "constants/theme";
-
-import LogicalDestination from "graphql/fragments/logical-destination.graphql";
-import QuestionPageDestination from "graphql/fragments/question-page-destination.graphql";
-import SectionDestination from "graphql/fragments/section-destination.graphql";
 
 import iconChevron from "components/ContentPickerSelect/icon-chevron.svg";
 
@@ -51,7 +46,7 @@ export const ContentSelectButton = styled(Button).attrs({
   }
 `;
 
-const ContentSelected = styled(Truncated)`
+export const ContentSelected = styled(Truncated)`
   color: ${colors.text};
   max-width: 18em;
   padding-right: 1em;
@@ -59,74 +54,53 @@ const ContentSelected = styled(Truncated)`
   line-height: 1.3;
 `;
 
-export class UnwrappedContentPickerSelect extends Component {
-  state = {
-    isPickerOpen: false,
+const ContentPickerSelect = props => {
+  const [isPickerOpen, setPickerOpen] = useState(false);
+  const {
+    loading,
+    error,
+    disabled,
+    answerData,
+    metadataData,
+    contentTypes,
+    selectedId,
+    selectedObj,
+    name,
+    selectedContentDisplayName,
+    ...otherProps
+  } = props;
+  const isDisabled = loading || !isNil(error) || disabled;
+
+  const handlePickerSubmit = selected => {
+    setPickerOpen(false);
+    props.onSubmit({ name, value: selected });
   };
 
-  handlePickerOpen = () => {
-    this.setState({
-      isPickerOpen: true,
-    });
-  };
+  return (
+    <>
+      <ContentSelectButton
+        data-test="content-picker-select"
+        onClick={() => setPickerOpen(true)}
+        disabled={isDisabled}
+        {...otherProps}
+      >
+        <ContentSelected>{selectedContentDisplayName}</ContentSelected>
+      </ContentSelectButton>
+      <ContentPickerModal
+        isOpen={isPickerOpen}
+        onClose={() => setPickerOpen(false)}
+        onSubmit={handlePickerSubmit}
+        answerData={answerData}
+        metadataData={metadataData}
+        contentTypes={contentTypes}
+        selectedId={selectedId}
+        selectedObj={selectedObj}
+      />
+    </>
+  );
+};
 
-  handlePickerClose = () => {
-    this.setState({
-      isPickerOpen: false,
-    });
-  };
-
-  handlePickerSubmit = selected => {
-    this.handlePickerClose();
-    this.props.onSubmit({ name: this.props.name, value: selected });
-  };
-
-  render() {
-    const { isPickerOpen } = this.state;
-    const { selectedContentDisplayName } = this.props;
-    const {
-      loading,
-      error,
-      disabled,
-      answerData,
-      questionData,
-      metadataData,
-      destinationData,
-      contentTypes,
-      selectedId,
-      selectedObj,
-      ...otherProps
-    } = this.props;
-    const isDisabled = loading || !isNil(error) || disabled;
-    return (
-      <React.Fragment>
-        <ContentSelectButton
-          data-test="content-picker-select"
-          onClick={this.handlePickerOpen}
-          disabled={isDisabled}
-          {...otherProps}
-        >
-          <ContentSelected>{selectedContentDisplayName}</ContentSelected>
-        </ContentSelectButton>
-        <ContentPickerModal
-          isOpen={isPickerOpen}
-          onClose={this.handlePickerClose}
-          onSubmit={this.handlePickerSubmit}
-          data-test="picker"
-          answerData={answerData}
-          metadataData={metadataData}
-          questionData={questionData}
-          destinationData={destinationData}
-          contentTypes={contentTypes}
-          selectedId={selectedId}
-          selectedObj={selectedObj}
-        />
-      </React.Fragment>
-    );
-  }
-}
-
-UnwrappedContentPickerSelect.propTypes = {
+ContentPickerSelect.propTypes = {
   loading: PropTypes.bool,
   error: PropTypes.object, // eslint-disable-line
   disabled: PropTypes.bool,
@@ -149,14 +123,7 @@ UnwrappedContentPickerSelect.propTypes = {
   selectedContentDisplayName: PropTypes.string,
   name: PropTypes.string.isRequired,
   contentTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
-  answerId: PropTypes.string,
   answerData: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      displayName: PropTypes.string.isRequired,
-    })
-  ),
-  questionData: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,
       displayName: PropTypes.string.isRequired,
@@ -168,15 +135,10 @@ UnwrappedContentPickerSelect.propTypes = {
       displayName: PropTypes.string.isRequired,
     })
   ),
-  destinationData: PropTypes.shape({
-    logicalDestinations: PropTypes.arrayOf(propType(LogicalDestination)),
-    questionPages: PropTypes.arrayOf(propType(QuestionPageDestination)),
-    sections: PropTypes.arrayOf(propType(SectionDestination)),
-  }),
 };
 
-UnwrappedContentPickerSelect.defaultProps = {
+ContentPickerSelect.defaultProps = {
   selectedContentDisplayName: "Please select...",
 };
 
-export default UnwrappedContentPickerSelect;
+export default ContentPickerSelect;

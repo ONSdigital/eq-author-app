@@ -6,7 +6,6 @@ import CustomPropTypes from "custom-prop-types";
 import { useMutation } from "@apollo/react-hooks";
 import { map, isEmpty, some } from "lodash";
 
-import { useMe } from "App/MeContext";
 import { useQuestionnaire } from "components/QuestionnaireContext";
 
 import { colors } from "constants/theme";
@@ -93,30 +92,48 @@ LabeledCheckbox.propTypes = {
 const PublishPage = ({ match, history }) => {
   const questionnaireId = match.params.questionnaireId;
   const [surveyId, setSurveyId] = useState("");
-  const [formTypes, setFormTypes] = useState({});
-  const { me } = useMe();
+  const [variants, setVariants] = useState([]);
   const { questionnaire } = useQuestionnaire();
 
   const [triggerPublish] = useMutation(triggerPublishMutation);
 
-  const handleThemeSelect = (event, label) => {
-    const themeObject = { ...formTypes };
-    event.value ? (themeObject[label] = "") : delete themeObject[label];
-    setFormTypes(themeObject);
+  const handleThemeSelect = (themeCheckbox, label) => {
+    const isSelected = themeCheckbox.value;
+
+    if (isSelected) {
+      setVariants([...variants, { theme: label, formType: null }]);
+    } else {
+      setVariants(variants.filter(variant => variant.theme !== label));
+    }
   };
 
   const handleInputChange = event => {
-    setFormTypes({
-      ...formTypes,
-      [event.name]: event.value,
-    });
+    const theme = event.name;
+    const formType = event.value;
+    const variantsArray = [];
+
+    for (const variant of variants) {
+      if (variant.theme === theme) {
+        variant.formType = formType;
+      }
+
+      variantsArray.push(variant);
+    }
+    setVariants(variantsArray);
   };
 
   const publishStatus = questionnaire && questionnaire.publishStatus;
+
+  const canPublish = () => {
+    if (!questionnaire) {
+      return true;
+    }
+    return questionnaire.permission === "Write";
+  };
   if (
-    !me.admin ||
     publishStatus === AWAITING_APPROVAL ||
-    publishStatus === PUBLISHED
+    publishStatus === PUBLISHED ||
+    !canPublish()
   ) {
     return <Redirect to={`/q/${match.params.questionnaireId}`} />;
   }
@@ -153,20 +170,20 @@ const PublishPage = ({ match, history }) => {
             </Shadow>
           </Field>
           <Separator />
-          {!isEmpty(formTypes) && (
+          {variants.length > 0 && (
             <>
               <Field>
                 <Label>Form type</Label>
                 <Caption>Enter relevant form types for selected themes</Caption>
                 <ThemeInputs>
-                  {map(formTypes, (value, key) => (
-                    <Shadow key={`${key}-entry`}>
-                      <Label htmlFor={key}>{key}</Label>
+                  {map(variants, variant => (
+                    <Shadow key={`${variant.theme}-entry`}>
+                      <Label htmlFor={variant.theme}>{variant.theme}</Label>
                       <Input
-                        id={`${key}`}
+                        id={`${variant.theme}`}
                         onChange={handleInputChange}
-                        value={value}
-                        data-test={`${key}-input`}
+                        value={variant.formType}
+                        data-test={`${variant.theme}-input`}
                       />
                     </Shadow>
                   ))}
@@ -183,7 +200,9 @@ const PublishPage = ({ match, history }) => {
             type="submit"
             variant="primary"
             disabled={
-              !surveyId || isEmpty(formTypes) || some(formTypes, isEmpty)
+              !surveyId ||
+              isEmpty(variants) ||
+              some(variants, ["formType", null])
             }
             data-test="publish-survey-button"
             onClick={() => {
@@ -192,7 +211,7 @@ const PublishPage = ({ match, history }) => {
                   input: {
                     questionnaireId,
                     surveyId,
-                    formTypes,
+                    variants,
                   },
                 },
               }).then(() => history.push("/"));

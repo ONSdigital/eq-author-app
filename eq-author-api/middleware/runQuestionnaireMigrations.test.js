@@ -1,5 +1,22 @@
 const runQuestionnaireMigrations = require("./runQuestionnaireMigrations");
 const { buildContext } = require("../tests/utils/contextBuilder");
+require("../utils/datastore");
+
+jest.mock("../utils/datastore", () => ({
+  ...require.requireActual("../utils/datastore"),
+  getQuestionnaireMetaById: jest.fn(() => ({
+    createdAt: 1576579844508,
+    createdBy: "a5570fd6-af3a-4192-8286-f66ac304ba39",
+    isPublic: true,
+    history:
+      '[{"id":"creationEvent","publishStatus":"Questionnaire created","questionnaireTitle":"Helo","userId":"a5570fd6-af3a-4192-8286-f66ac304ba39","time":"2019-12-17T10:50:44.508Z","type":"system"}]',
+    id: "f8b144f5-a723-4c4c-acac-1c23f9b9dddf",
+    title: "Helo",
+    type: "Social",
+    publishStatus: "Unpublished",
+    updatedAt: 1576590370548,
+  })),
+}));
 
 describe("runQuestionnaireMigrations", () => {
   let res, req, next, migrations, logger;
@@ -23,7 +40,6 @@ describe("runQuestionnaireMigrations", () => {
     req = {};
     let migrationOne = jest.fn(() => req.questionnaire);
     migrations = [migrationOne];
-
     await runQuestionnaireMigrations(logger)({
       migrations,
       currentVersion: migrations.length,
@@ -87,6 +103,22 @@ describe("runQuestionnaireMigrations", () => {
     expect(logger.info).toHaveBeenCalledTimes(2);
     expect(logger.error).toHaveBeenCalledTimes(1);
     expect(req.questionnaire.version).toEqual(1);
+  });
+
+  it("Should merge the meta and questionnaire objects", async () => {
+    req.questionnaire.version = 0;
+    let migrationOne = jest.fn(() => req.questionnaire);
+    migrations = [migrationOne];
+    await runQuestionnaireMigrations(logger)({
+      migrations,
+      currentVersion: migrations.length,
+    })(req, res, next);
+
+    expect(next).toHaveBeenCalled();
+    expect(migrationOne).not.toHaveBeenCalledWith({
+      publishStatus: "Unpublished",
+      sections: expect.any(Array),
+    });
   });
 
   it("should migrate data and set version correctly", async () => {

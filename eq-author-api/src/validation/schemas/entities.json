@@ -184,6 +184,9 @@
           },
           "label": {
             "$ref": "definitions.json#/definitions/populatedString"
+          },
+          "properties": {
+            "$ref": "entities.json#/definitions/properties"
           }
         },
         "required": ["id", "label"]
@@ -364,11 +367,16 @@
       }
     },
     "properties": {
+      "type": "object",
       "properties": {
         "decimals": {
           "linkedDecimalValidation": {
             "$data": "/sections"
           }
+        },
+        "maxLength": {
+          "type": "string",
+          "textLengthInRange": "maxLength"
         }
       }
     },

@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Answer Editor should correctly calculates date format 1`] = `
-<Connect(withEntityEditor(UnwrappedDate))
+<Connect(withEntityEditor(withValidationError(UnwrappedDate)))
   answer={
     Object {
       "description": "",
@@ -31,7 +31,7 @@ exports[`Answer Editor should correctly calculates date format 1`] = `
 `;
 
 exports[`Answer Editor should correctly calculates date format 2`] = `
-<Connect(withEntityEditor(UnwrappedDate))
+<Connect(withEntityEditor(withValidationError(UnwrappedDate)))
   answer={
     Object {
       "description": "",
@@ -61,7 +61,7 @@ exports[`Answer Editor should correctly calculates date format 2`] = `
 `;
 
 exports[`Answer Editor should correctly calculates date format 3`] = `
-<Connect(withEntityEditor(UnwrappedDate))
+<Connect(withEntityEditor(withValidationError(UnwrappedDate)))
   answer={
     Object {
       "description": "",
@@ -355,7 +355,7 @@ exports[`Answer Editor should render Date 1`] = `
     </AnswerEditor__Buttons>
   </AnswerEditor__AnswerHeader>
   <AnswerEditor__Padding>
-    <Connect(withEntityEditor(UnwrappedDate))
+    <Connect(withEntityEditor(withValidationError(UnwrappedDate)))
       answer={
         Object {
           "description": "",

@@ -1,0 +1,9 @@
+mutation UpdateAnswerQCode($input: UpdateAnswerInput!) {
+  updateAnswer(input: $input) {
+    id
+    qCode
+    ... on BasicAnswer {
+      secondaryQCode
+    }
+  }
+}

@@ -12,6 +12,7 @@ exports.getQuestionnaire = `
   }
   
   fragment BasicAnswer on BasicAnswer {
+    secondaryQCode
     validation {
       ... on NumberValidation {
         minValue {
@@ -209,6 +210,7 @@ exports.getQuestionnaire = `
             confirmation {
               id
               title
+              qCode
               positive {
                 label
                 description

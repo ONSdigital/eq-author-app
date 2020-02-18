@@ -34,7 +34,7 @@ export const Flex = styled.div`
 `;
 
 export const OptionField = styled(Field)`
-  margin-bottom: 1em;
+  margin-bottom: 1.5em;
 `;
 
 export const StyledOption = styled.div`

@@ -18,6 +18,7 @@ describe("Date", () => {
           properties: {},
           displayName: "Displayname",
         }}
+        getValidationError={jest.fn()}
       />
     );
     expect(wrapper).toMatchSnapshot();

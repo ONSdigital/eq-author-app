@@ -2,13 +2,18 @@ const upsertUser = require("./upsertUser");
 const { getUserByExternalId, createUser } = require("../../utils/datastore");
 const defaultUser = require("../../tests/utils/mockUserPayload");
 
+const mockResponse = () => {
+  const res = {};
+  res.status = jest.fn().mockReturnValue(res);
+  res.json = jest.fn().mockReturnValue(res);
+  return res;
+};
+
 describe("Upsert User", () => {
   let req, res, next;
   beforeEach(() => {
     req = { params: { questionnaireId: 1 }, user: defaultUser() };
-    res = {
-      json: jest.fn(),
-    };
+    res = mockResponse();
     next = jest.fn();
   });
 
@@ -31,6 +36,33 @@ describe("Upsert User", () => {
       id,
       name: expect.stringMatching("my_name"),
     });
+    expect(res.json).toHaveBeenCalledWith({ status: "OK" });
+  });
+
+  it("should allow a user to be created when the allowed list is empty", async () => {
+    process.env.ALLOWED_EMAIL_LIST = "";
+    await upsertUser(req, res, next);
+    const user = await getUserByExternalId(req.user.externalId);
+    expect(user).toMatchObject(req.user);
+    expect(res.json).toHaveBeenCalledWith({ status: "OK" });
+  });
+
+  it("should stop unallowed emails from being saved", async () => {
+    process.env.ALLOWED_EMAIL_LIST = "@a.fake.com";
+    await upsertUser(req, res, next);
+    const user = await getUserByExternalId(req.user.externalId);
+    expect(user).toBeUndefined();
+    expect(res.json).toHaveBeenCalledWith({
+      status: "Email not in allowed email list",
+    });
+    expect(res.status).toHaveBeenCalledWith(401);
+  });
+
+  it("should allowed user with valid email to save", async () => {
+    process.env.ALLOWED_EMAIL_LIST = "@ons.gov.uk";
+    await upsertUser(req, res, next);
+    const user = await getUserByExternalId(req.user.externalId);
+    expect(user).toMatchObject(req.user);
     expect(res.json).toHaveBeenCalledWith({ status: "OK" });
   });
 });

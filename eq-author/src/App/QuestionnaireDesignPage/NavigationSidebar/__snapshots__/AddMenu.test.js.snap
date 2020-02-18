@@ -110,7 +110,7 @@ exports[`AddMenu should render 1`] = `
       }
     }
     trigger={
-      <ForwardRef(AddMenu__AddButton)
+      <AddMenu__AddButton
         data-test="btn-add"
         type="button"
         variant="primary"
@@ -121,7 +121,7 @@ exports[`AddMenu should render 1`] = `
         >
           Add
         </IconText>
-      </ForwardRef(AddMenu__AddButton)>
+      </AddMenu__AddButton>
     }
     verticalAlignment="top"
   >

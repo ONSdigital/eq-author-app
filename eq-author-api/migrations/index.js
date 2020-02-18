@@ -12,6 +12,7 @@ const migrations = [
   require("./addPublishStatusToQuestionnaire"),
   require("./addHistoryToQuestionnaire"),
   require("./addTypeToHistoryEvent"),
+  require("./updateDefaultTextAreaLength"),
 ];
 
 const currentVersion = migrations.length;

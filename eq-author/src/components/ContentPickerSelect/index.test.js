@@ -1,9 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
-import {
-  UnwrappedContentPickerSelect,
-  ContentSelectButton,
-} from "components/ContentPickerSelect";
+import { render as rtlRender, fireEvent } from "tests/utils/rtl";
+import ContentPickerSelect from "components/ContentPickerSelect";
 import ContentPickerModal from "components/ContentPickerModal";
 
 import {
@@ -16,7 +14,7 @@ import { CURRENCY, NUMBER } from "constants/answer-types";
 import { DATE, LANGUAGE, REGION, TEXT } from "constants/metadata-types";
 
 const render = (props, render = shallow) => {
-  return render(<UnwrappedContentPickerSelect {...props} />);
+  return render(<ContentPickerSelect {...props} />);
 };
 
 describe("ContentPickerSelect", () => {
@@ -69,15 +67,14 @@ describe("ContentPickerSelect", () => {
     });
   });
 
-  it("should correctly handle picker close", () => {
-    wrapper.setState({ isPickerOpen: true });
-    wrapper.find(ContentPickerModal).simulate("close");
-    expect(wrapper).toMatchSnapshot();
-  });
-
   it("should correctly handle picker open", () => {
-    wrapper.find(ContentSelectButton).simulate("click");
-    expect(wrapper).toMatchSnapshot();
+    const { getByTestId, queryByTestId } = rtlRender(
+      <ContentPickerSelect {...props} />
+    );
+    expect(queryByTestId("no-previous-answers")).toBeFalsy();
+    const openButton = getByTestId("content-picker-select");
+    fireEvent.click(openButton);
+    getByTestId("no-previous-answers");
   });
 
   describe("metadata types", () => {

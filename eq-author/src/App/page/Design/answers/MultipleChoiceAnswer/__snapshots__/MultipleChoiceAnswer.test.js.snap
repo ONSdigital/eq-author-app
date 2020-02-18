@@ -28,9 +28,6 @@ exports[`MultipleChoiceAnswer exclusive options should render exclusive 1`] = `
   type="Checkbox"
 >
   <MultipleChoiceAnswer__AnswerWrapper>
-    <MultipleChoiceAnswer__AnswerHelper>
-      Select all that apply
-    </MultipleChoiceAnswer__AnswerHelper>
     <TransitionGroup
       childFactory={[Function]}
       component={
@@ -38,7 +35,7 @@ exports[`MultipleChoiceAnswer exclusive options should render exclusive 1`] = `
           "$$typeof": Symbol(react.forward_ref),
           "attrs": Array [],
           "componentStyle": ComponentStyle {
-            "componentId": "MultipleChoiceAnswer__Options-sc-199jynm-3",
+            "componentId": "MultipleChoiceAnswer__Options-sc-199jynm-2",
             "isStatic": false,
             "rules": Array [
               "margin:0 0 1em;",
@@ -47,7 +44,7 @@ exports[`MultipleChoiceAnswer exclusive options should render exclusive 1`] = `
           "displayName": "MultipleChoiceAnswer__Options",
           "foldedComponentIds": Array [],
           "render": [Function],
-          "styledComponentId": "MultipleChoiceAnswer__Options-sc-199jynm-3",
+          "styledComponentId": "MultipleChoiceAnswer__Options-sc-199jynm-2",
           "target": "div",
           "toString": [Function],
           "warnTooManyClasses": [Function],
@@ -231,7 +228,7 @@ exports[`MultipleChoiceAnswer other option and answer should render other 1`] = 
           "$$typeof": Symbol(react.forward_ref),
           "attrs": Array [],
           "componentStyle": ComponentStyle {
-            "componentId": "MultipleChoiceAnswer__Options-sc-199jynm-3",
+            "componentId": "MultipleChoiceAnswer__Options-sc-199jynm-2",
             "isStatic": false,
             "rules": Array [
               "margin:0 0 1em;",
@@ -240,7 +237,7 @@ exports[`MultipleChoiceAnswer other option and answer should render other 1`] = 
           "displayName": "MultipleChoiceAnswer__Options",
           "foldedComponentIds": Array [],
           "render": [Function],
-          "styledComponentId": "MultipleChoiceAnswer__Options-sc-199jynm-3",
+          "styledComponentId": "MultipleChoiceAnswer__Options-sc-199jynm-2",
           "target": "div",
           "toString": [Function],
           "warnTooManyClasses": [Function],
@@ -361,7 +358,7 @@ exports[`MultipleChoiceAnswer should match snapshot 1`] = `
           "$$typeof": Symbol(react.forward_ref),
           "attrs": Array [],
           "componentStyle": ComponentStyle {
-            "componentId": "MultipleChoiceAnswer__Options-sc-199jynm-3",
+            "componentId": "MultipleChoiceAnswer__Options-sc-199jynm-2",
             "isStatic": false,
             "rules": Array [
               "margin:0 0 1em;",
@@ -370,7 +367,7 @@ exports[`MultipleChoiceAnswer should match snapshot 1`] = `
           "displayName": "MultipleChoiceAnswer__Options",
           "foldedComponentIds": Array [],
           "render": [Function],
-          "styledComponentId": "MultipleChoiceAnswer__Options-sc-199jynm-3",
+          "styledComponentId": "MultipleChoiceAnswer__Options-sc-199jynm-2",
           "target": "div",
           "toString": [Function],
           "warnTooManyClasses": [Function],

@@ -7,6 +7,7 @@ const {
   DATE,
   UNIT,
   DURATION,
+  TEXTAREA,
 } = require("../constants/answerTypes");
 
 const { unitConversion } = require("../constants/unit-types");
@@ -18,6 +19,10 @@ class Answer {
     this.type = answer.type;
     this.label = answer.label;
     this.description = answer.description;
+
+    if (answer.qCode) {
+      this.q_code = answer.qCode;
+    }
 
     if (answer.type === UNIT) {
       this.unit = unitConversion[answer.properties.unit];
@@ -38,6 +43,10 @@ class Answer {
         case "Months":
           this.units = ["months"];
       }
+    }
+
+    if (answer.type === TEXTAREA) {
+      this.max_length = parseInt(answer.properties.maxLength);
     }
 
     if (!isNil(answer.validation)) {
@@ -172,11 +181,18 @@ class Answer {
     };
   }
 
-  static buildOption({ label, description, additionalAnswer }, { properties }) {
+  static buildOption(
+    { label, description, additionalAnswer, qCode: q_code },
+    { properties }
+  ) {
     const option = {
       label,
       value: label,
     };
+
+    if (q_code) {
+      option.q_code = q_code;
+    }
 
     if (description) {
       option.description = description;

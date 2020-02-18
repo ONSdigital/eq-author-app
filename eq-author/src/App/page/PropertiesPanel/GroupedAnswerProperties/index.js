@@ -10,6 +10,7 @@ import {
   PERCENTAGE,
   UNIT,
   DURATION,
+  TEXTAREA,
 } from "constants/answer-types";
 import { colors } from "constants/theme";
 import getIdForObject from "utils/getIdForObject";
@@ -24,6 +25,7 @@ import ValidationErrorIcon from "./validation-warning-icon.svg?inline";
 import {
   UnitProperties,
   DurationProperties,
+  TextProperties,
 } from "./AnswerProperties/Properties";
 import Decimal from "./Decimal";
 import withUpdateAnswersOfType from "./withUpdateAnswersOfType";
@@ -42,6 +44,7 @@ const AnswerPropertiesContainer = styled.div`
 const ValidationWarning = styled(IconText)`
   color: ${colors.red};
   margin-top: 0.5em;
+  justify-content: normal;
 `;
 
 const Padding = styled.div`
@@ -62,9 +65,35 @@ const GroupContainer = styled.div`
 `;
 
 const DECIMAL_INCONSISTENCY = "ERR_REFERENCED_ANSWER_DECIMAL_INCONSISTENCY";
+const ERR_MAX_LENGTH_TOO_LARGE = "ERR_MAX_LENGTH_TOO_LARGE";
+const ERR_MAX_LENGTH_TOO_SMALL = "ERR_MAX_LENGTH_TOO_SMALL";
 
 const isNumeric = answerType =>
   [NUMBER, PERCENTAGE, CURRENCY, UNIT].includes(answerType);
+
+const showMaxLengthValError = (isMaxLengthTooLarge, isMaxLengthTooSmall) => {
+  if (isMaxLengthTooLarge) {
+    return (
+      <ValidationWarning
+        icon={ValidationErrorIcon}
+        data-test="MaxCharacterTooBig"
+      >
+        Enter a character limit less than or equal to 2000
+      </ValidationWarning>
+    );
+  }
+
+  if (isMaxLengthTooSmall) {
+    return (
+      <ValidationWarning
+        icon={ValidationErrorIcon}
+        data-test="MaxCharacterTooSmall"
+      >
+        Enter a character limit greater than or equal to 10
+      </ValidationWarning>
+    );
+  }
+};
 
 export const UnwrappedGroupedAnswerProperties = ({
   page,
@@ -146,6 +175,39 @@ export const UnwrappedGroupedAnswerProperties = ({
               unit={answers[0].properties.unit}
             />
           </MultiLineField>
+        </GroupContainer>
+      );
+    }
+
+    if (answerType === TEXTAREA) {
+      const isMaxLengthTooLarge = getOr(
+        [],
+        "validationErrorInfo.errors",
+        answers[0]
+      )
+        .map(({ errorCode }) => errorCode)
+        .includes(ERR_MAX_LENGTH_TOO_LARGE);
+
+      const isMaxLengthTooSmall = getOr(
+        [],
+        "validationErrorInfo.errors",
+        answers[0]
+      )
+        .map(({ errorCode }) => errorCode)
+        .includes(ERR_MAX_LENGTH_TOO_SMALL);
+
+      groupedFields = (
+        <GroupContainer>
+          <InlineField id="maxCharactersField" label={"Max characters"}>
+            <TextProperties
+              id="maxCharactersInput"
+              key={`${answers[0].id}-max-length-input`}
+              maxLength={parseInt(answers[0].properties.maxLength, 10)}
+              pageId={page.id}
+              invalid={isMaxLengthTooLarge || isMaxLengthTooSmall}
+            />
+          </InlineField>
+          {showMaxLengthValError(isMaxLengthTooLarge, isMaxLengthTooSmall)}
         </GroupContainer>
       );
     }

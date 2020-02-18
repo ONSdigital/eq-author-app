@@ -1,31 +1,17 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { propType } from "graphql-anywhere";
 import styled from "styled-components";
-import { compact, find, isEmpty } from "lodash";
+import { compact, find } from "lodash";
 
 import BaseTabs from "components/BaseTabs";
 import Modal, { CloseButton } from "components/modals/Modal";
 import {
   AnswerContentPicker,
-  QuestionContentPicker,
   MetadataContentPicker,
-  RoutingDestinationContentPicker,
-  VariableContentPicker,
 } from "components/ContentPicker";
 
 import { colors } from "constants/theme";
-import {
-  ANSWER,
-  QUESTION,
-  METADATA,
-  DESTINATION,
-  VARIABLES,
-} from "components/ContentPickerSelect/content-types";
-
-import LogicalDestination from "graphql/fragments/logical-destination.graphql";
-import QuestionPageDestination from "graphql/fragments/question-page-destination.graphql";
-import SectionDestination from "graphql/fragments/section-destination.graphql";
+import { ANSWER, METADATA } from "components/ContentPickerSelect/content-types";
 
 const HeaderSegment = styled.div`
   margin: 0;
@@ -120,47 +106,6 @@ class ContentPickerModal extends React.Component {
     selectedTab: this.getSelectedTab(),
   };
 
-  static propTypes = {
-    answerData: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.string.isRequired,
-      })
-    ),
-    metadataData: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.string.isRequired,
-      })
-    ),
-    questionData: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.string.isRequired,
-      })
-    ),
-    selectedObj: PropTypes.shape({
-      section: PropTypes.shape({
-        id: PropTypes.string,
-        displayName: PropTypes.string,
-      }),
-      page: PropTypes.shape({
-        id: PropTypes.string,
-        displayName: PropTypes.string,
-      }),
-      logical: PropTypes.string,
-    }),
-    selectedId: PropTypes.string,
-    destinationData: PropTypes.shape({
-      logicalDestinations: PropTypes.arrayOf(propType(LogicalDestination)),
-      questionPages: PropTypes.arrayOf(propType(QuestionPageDestination)),
-      sections: PropTypes.arrayOf(propType(SectionDestination)),
-    }),
-    onSubmit: PropTypes.func,
-    isOpen: PropTypes.bool,
-    onClose: PropTypes.func,
-    contentTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
-    levels: PropTypes.number,
-    defaultTab: PropTypes.string,
-  };
-
   getSelectedTab() {
     const { answerData = [], defaultTab } = this.props;
     if (defaultTab) {
@@ -169,9 +114,7 @@ class ContentPickerModal extends React.Component {
     return answerData.length > 0 ? "answers" : "metadata";
   }
 
-  handleTabChange = selectedTab => {
-    this.setState({ selectedTab });
-  };
+  handleTabChange = selectedTab => this.setState({ selectedTab });
 
   handleAnswerSubmit = ({ id, displayName, type }) => {
     this.props.onSubmit({
@@ -187,15 +130,6 @@ class ContentPickerModal extends React.Component {
       id,
       displayName,
       pipingType: "metadata",
-    });
-  };
-
-  handleVariableSubmit = ({ id, displayName }) => {
-    this.props.onSubmit({
-      id,
-      displayName,
-      type: "sum",
-      pipingType: "variable",
     });
   };
 
@@ -231,29 +165,6 @@ class ContentPickerModal extends React.Component {
     },
   };
 
-  questionTab = {
-    id: "question",
-    title: "Question",
-    showTabButton: true,
-    render: () => {
-      if (!this.props.questionData || this.props.questionData.length === 0) {
-        return <ErrorText>There are no questions to pick from</ErrorText>;
-      }
-      return (
-        <React.Fragment>
-          <HeaderSegment>
-            <Title>Select a previous question</Title>
-          </HeaderSegment>
-          <QuestionContentPicker
-            data={this.props.questionData}
-            onSubmit={this.props.onSubmit}
-            onClose={this.props.onClose}
-          />
-        </React.Fragment>
-      );
-    },
-  };
-
   metadataTab = {
     id: "metadata",
     title: "Metadata",
@@ -278,63 +189,9 @@ class ContentPickerModal extends React.Component {
       );
     },
   };
-
-  variableTab = {
-    id: "variables",
-    title: "Variables",
-    showTabButton: true,
-    render: () => (
-      <>
-        <HeaderSegment>
-          <Title>Select variable</Title>
-        </HeaderSegment>
-        <VariableContentPicker
-          data={[
-            {
-              id: "1",
-              displayName: "Total",
-              type: "Sum",
-              __typename: "Variable",
-            },
-          ]}
-          onSubmit={this.handleVariableSubmit}
-          onClose={this.props.onClose}
-        />
-      </>
-    ),
-  };
-
-  destinationTab = {
-    id: "destination",
-    title: "Destination",
-    showTabButton: false,
-    render: () => {
-      if (!this.props.destinationData || isEmpty(this.props.destinationData)) {
-        return <ErrorText>There are no destinations to pick from</ErrorText>;
-      }
-      return (
-        <React.Fragment>
-          <HeaderSegment>
-            <Title>Select a destination</Title>
-          </HeaderSegment>
-          <RoutingDestinationContentPicker
-            data={this.props.destinationData}
-            onSubmit={this.props.onSubmit}
-            onClose={this.props.onClose}
-            selectedObj={this.props.selectedObj}
-          />
-        </React.Fragment>
-      );
-    },
-  };
   tabConfig = [
     this.props.contentTypes.indexOf(ANSWER) !== -1 ? this.answerTab : null,
-    this.props.contentTypes.indexOf(QUESTION) !== -1 ? this.questionTab : null,
     this.props.contentTypes.indexOf(METADATA) !== -1 ? this.metadataTab : null,
-    this.props.contentTypes.indexOf(VARIABLES) !== -1 ? this.variableTab : null,
-    this.props.contentTypes.indexOf(DESTINATION) !== -1
-      ? this.destinationTab
-      : null,
   ];
 
   tabList = ({ children }) => (
@@ -342,6 +199,7 @@ class ContentPickerModal extends React.Component {
       <StyledCloseButton
         onClick={this.props.onClose}
         hasTabs={find(this.tabConfig, "showTabButton")}
+        data-test={"button-close-modal"}
       >
         &times;
       </StyledCloseButton>
@@ -366,5 +224,25 @@ class ContentPickerModal extends React.Component {
     );
   }
 }
+
+ContentPickerModal.propTypes = {
+  answerData: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+    })
+  ),
+  metadataData: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+    })
+  ),
+  selectedId: PropTypes.string,
+  onSubmit: PropTypes.func,
+  isOpen: PropTypes.bool,
+  onClose: PropTypes.func,
+  contentTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
+  levels: PropTypes.number,
+  defaultTab: PropTypes.string,
+};
 
 export default ContentPickerModal;
