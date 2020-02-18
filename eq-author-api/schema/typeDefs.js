@@ -118,7 +118,6 @@ interface Page {
   alias: String
   displayName: String!
   pageType: PageType!
-  comments: [Comment]!
   section: Section!
   position: Int!
   availablePipingAnswers: [Answer!]!
@@ -137,7 +136,6 @@ type QuestionPage implements Page {
   guidance: String
   guidanceEnabled: Boolean!
   pageType: PageType!
-  comments: [Comment]!
   answers: [Answer]
   section: Section!
   position: Int!
@@ -164,7 +162,6 @@ type CalculatedSummaryPage implements Page {
   displayName: String!
   pageType: PageType!
   qCode: String
-  comments: [Comment]!
   section: Section!
   position: Int!
   availableSummaryAnswers: [Answer!]!
@@ -598,7 +595,6 @@ type Comment {
   createdTime: DateTime!
   user: User!
   replies: [Reply]!
-  page: Page!
   editedTime: DateTime
 }
 
@@ -616,6 +612,7 @@ type Query {
   questionnaireIntroduction(id: ID!): QuestionnaireIntroduction
   me: User!
   users: [User!]!
+  comments(id: ID!): [Comment!]!
 }
 
 input QueryInput {
@@ -644,10 +641,10 @@ type Mutation {
   deletePage(input: DeletePageInput!): Section!
   duplicatePage(input: DuplicatePageInput!): Page
   createComment(input: CreateCommentInput!): Comment!
-  deleteComment(input: DeleteCommentInput!): Page!
+  deleteComment(input: DeleteCommentInput!): [Comment!]!
   updateComment(input: UpdateCommentInput!): Comment!
   createReply(input: CreateReplyInput!): Reply!
-  deleteReply(input: DeleteReplyInput!): Page!
+  deleteReply(input: DeleteReplyInput!): [Reply!]!
   updateReply(input: UpdateReplyInput!): Reply!
   createQuestionPage(input: CreateQuestionPageInput!): QuestionPage
   updateQuestionPage(input: UpdateQuestionPageInput!): QuestionPage
@@ -832,35 +829,35 @@ input DuplicatePageInput {
 }
 
 input CreateCommentInput {
-  pageId: ID!
+  componentId: ID!
   commentText: String!
 }
 
 input DeleteCommentInput {
-  pageId: ID!
+  componentId: ID!
   commentId: ID!
 }
 
 input UpdateCommentInput {
-  pageId: ID!
+  componentId: ID!
   commentId: ID!
   commentText: String!
 }
 
 input CreateReplyInput {
-    pageId: ID!
+    componentId: ID!
     commentId: ID!
     commentText: String!
   }
 
 input DeleteReplyInput {
-  pageId: ID!
+  componentId: ID!
   commentId: ID!
   replyId: ID!
 }
 
 input UpdateReplyInput {
-  pageId: ID!
+  componentId: ID!
   commentId: ID!
   replyId: ID!
   commentText: String!
@@ -1139,7 +1136,7 @@ input DeleteCollapsibleInput {
 type Subscription {
   validationUpdated(id: ID!): Questionnaire!
   publishStatusUpdated(id: ID!): Questionnaire!
-  commentsUpdated(pageId: ID!): Page!
+  commentsUpdated(id: ID!): [Comment!]!
 }
 
 input PublishQuestionnaireInput {

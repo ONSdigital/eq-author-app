@@ -5,6 +5,7 @@ import { get } from "lodash";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import styled from "styled-components";
 import CustomPropTypes from "custom-prop-types";
+import PropTypes from "prop-types";
 import { withMe } from "App/MeContext";
 import TextArea from "react-textarea-autosize";
 
@@ -194,12 +195,7 @@ export const DateField = styled("span")`
   color: ${colors.grey};
 `;
 
-const CommentsPanel = ({
-  match: {
-    params: { pageId },
-  },
-  me: { id: myId },
-}) => {
+const CommentsPanel = ({ componentId, me: { id: myId } }) => {
   const [comment, setComment] = useState("");
   const [editComment, setEditComment] = useState("");
   const [activeCommentId, setActiveCommentId] = useState("");
@@ -212,22 +208,26 @@ const CommentsPanel = ({
   const [replyRef, setReplyRef] = useState();
   const [scrollRef, setScrollRef] = useState();
 
-  const { loading, error, data } = useQuery(COMMENT_QUERY, {
+  const { loading, error, data, refetch } = useQuery(COMMENT_QUERY, {
     variables: {
-      input: { pageId },
+      componentId,
     },
   });
 
-  const [createComment] = useMutation(COMMENT_ADD);
-  const [deleteComment] = useMutation(COMMENT_DELETE);
-  const [updateComment] = useMutation(COMMENT_UPDATE);
-  const [createReply] = useMutation(REPLY_ADD);
-  const [deleteReply] = useMutation(REPLY_DELETE);
-  const [updateReply] = useMutation(REPLY_UPDATE);
+  const [createComment] = useMutation(COMMENT_ADD, { onCompleted: refetch() });
+  const [deleteComment] = useMutation(COMMENT_DELETE, {
+    onCompleted: refetch(),
+  });
+  const [updateComment] = useMutation(COMMENT_UPDATE, {
+    onCompleted: refetch(),
+  });
+  const [createReply] = useMutation(REPLY_ADD, { onCompleted: refetch() });
+  const [deleteReply] = useMutation(REPLY_DELETE, { onCompleted: refetch() });
+  const [updateReply] = useMutation(REPLY_UPDATE, { onCompleted: refetch() });
 
   useSubscription(COMMENT_SUBSCRIPTION, {
     variables: {
-      pageId,
+      componentId,
     },
   });
 
@@ -271,7 +271,7 @@ const CommentsPanel = ({
     createComment({
       variables: {
         input: {
-          pageId,
+          componentId,
           commentText: comment,
         },
       },
@@ -287,7 +287,7 @@ const CommentsPanel = ({
       deleteComment({
         variables: {
           input: {
-            pageId,
+            componentId,
             commentId,
           },
         },
@@ -303,7 +303,7 @@ const CommentsPanel = ({
       updateComment({
         variables: {
           input: {
-            pageId,
+            componentId,
             commentId,
             commentText: editComment,
           },
@@ -323,8 +323,8 @@ const CommentsPanel = ({
     createReply({
       variables: {
         input: {
-          pageId,
-          commentId: commentId,
+          componentId,
+          commentId,
           commentText: reply,
         },
       },
@@ -340,7 +340,7 @@ const CommentsPanel = ({
       deleteReply({
         variables: {
           input: {
-            pageId,
+            componentId,
             commentId,
             replyId,
           },
@@ -364,7 +364,7 @@ const CommentsPanel = ({
       updateReply({
         variables: {
           input: {
-            pageId,
+            componentId,
             commentId,
             replyId,
             commentText: editReply,
@@ -393,7 +393,7 @@ const CommentsPanel = ({
     return <Error>Oops! Something went wrong</Error>;
   }
 
-  const comments = get(data, "page.comments", []);
+  const comments = get(data, "comments", []);
 
   const displayComments = comments.map((item, index) => {
     const replies = comments[index].replies;
@@ -464,7 +464,7 @@ const CommentsPanel = ({
 };
 
 CommentsPanel.propTypes = {
-  match: CustomPropTypes.match.isRequired,
+  componentId: PropTypes.string.isRequired,
   me: CustomPropTypes.me.isRequired,
 };
 

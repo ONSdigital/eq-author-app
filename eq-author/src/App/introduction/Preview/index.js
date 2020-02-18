@@ -9,7 +9,7 @@ import PropTypes from "prop-types";
 import Loading from "components/Loading";
 import { colors } from "constants/theme";
 import PageTitle from "components/preview/elements/PageTitle";
-
+import CommentsPanel from "components/CommentsPanel";
 import IntroductionLayout from "../IntroductionLayout";
 
 import iconChevron from "./icon-chevron.svg";
@@ -101,6 +101,7 @@ export const IntroductionPreview = ({ loading, data }) => {
 
   const {
     questionnaireIntroduction: {
+      id,
       title,
       description,
       legalBasis,
@@ -113,57 +114,67 @@ export const IntroductionPreview = ({ loading, data }) => {
   } = data;
 
   return (
-    <Container>
-      <PageTitle missingText="Missing introduction title" title={title} />
-      <p>
-        If the company details or structure have changed contact us on{" "}
-        <Link>0300 1234 931</Link> or email <Link>surveys@ons.gov.uk</Link>
-      </p>
-      <Description
-        data-test="description"
-        dangerouslySetInnerHTML={{ __html: description }}
-      />
-      {legalBasis === "NOTICE_1" && (
-        <Description data-test="legalBasis">
-          <H2>Your response is legally required</H2>
-          <p>
-            Notice is given under section 1 of the Statistics of Trade Act 1947.
-          </p>
-        </Description>
-      )}
-      {legalBasis === "NOTICE_2" && (
-        <Description data-test="legalBasis">
-          <H2>Your response is legally required</H2>
-          <p>
-            Notice is given under section 3 and 4 of the Statistics of Trade Act
-            1947.
-          </p>
-        </Description>
-      )}
-      <Button>Start survey</Button>
-      <PageTitle missingText="Missing secondary title" title={secondaryTitle} />
-      <Description dangerouslySetInnerHTML={{ __html: secondaryDescription }} />
-      {collapsibles
-        .filter(collapsible => collapsible.title && collapsible.description)
-        .map((collapsible, index) => (
-          <Collapsibles key={index}>
-            <CollapsiblesTitle
-              dangerouslySetInnerHTML={{
-                __html: collapsible.title,
-              }}
-            />
-            <CollapsiblesContent>
-              <span
+    <IntroductionLayout renderPanel={() => <CommentsPanel componentId={id} />}>
+      <Container>
+        <PageTitle missingText="Missing introduction title" title={title} />
+        <p>
+          If the company details or structure have changed contact us on{" "}
+          <Link>0300 1234 931</Link> or email <Link>surveys@ons.gov.uk</Link>
+        </p>
+        <Description
+          data-test="description"
+          dangerouslySetInnerHTML={{ __html: description }}
+        />
+        {legalBasis === "NOTICE_1" && (
+          <Description data-test="legalBasis">
+            <H2>Your response is legally required</H2>
+            <p>
+              Notice is given under section 1 of the Statistics of Trade Act
+              1947.
+            </p>
+          </Description>
+        )}
+        {legalBasis === "NOTICE_2" && (
+          <Description data-test="legalBasis">
+            <H2>Your response is legally required</H2>
+            <p>
+              Notice is given under section 3 and 4 of the Statistics of Trade
+              Act 1947.
+            </p>
+          </Description>
+        )}
+        <Button>Start survey</Button>
+        <PageTitle
+          missingText="Missing secondary title"
+          title={secondaryTitle}
+        />
+        <Description
+          dangerouslySetInnerHTML={{ __html: secondaryDescription }}
+        />
+        {collapsibles
+          .filter(collapsible => collapsible.title && collapsible.description)
+          .map((collapsible, index) => (
+            <Collapsibles key={index}>
+              <CollapsiblesTitle
                 dangerouslySetInnerHTML={{
-                  __html: collapsible.description,
+                  __html: collapsible.title,
                 }}
               />
-            </CollapsiblesContent>
-          </Collapsibles>
-        ))}
-      <PageTitle missingText="Missing tertiary title" title={tertiaryTitle} />
-      <Description dangerouslySetInnerHTML={{ __html: tertiaryDescription }} />
-    </Container>
+              <CollapsiblesContent>
+                <span
+                  dangerouslySetInnerHTML={{
+                    __html: collapsible.description,
+                  }}
+                />
+              </CollapsiblesContent>
+            </Collapsibles>
+          ))}
+        <PageTitle missingText="Missing tertiary title" title={tertiaryTitle} />
+        <Description
+          dangerouslySetInnerHTML={{ __html: tertiaryDescription }}
+        />
+      </Container>
+    </IntroductionLayout>
   );
 };
 
@@ -202,14 +213,12 @@ export const QUESTIONNAIRE_QUERY = gql`
 `;
 
 const IntroductionPreviewWithData = props => (
-  <IntroductionLayout>
-    <Query
-      query={QUESTIONNAIRE_QUERY}
-      variables={{ id: props.match.params.introductionId }}
-    >
-      {innerProps => <IntroductionPreview {...innerProps} {...props} />}
-    </Query>
-  </IntroductionLayout>
+  <Query
+    query={QUESTIONNAIRE_QUERY}
+    variables={{ id: props.match.params.introductionId }}
+  >
+    {innerProps => <IntroductionPreview {...innerProps} {...props} />}
+  </Query>
 );
 IntroductionPreviewWithData.propTypes = {
   match: PropTypes.shape({

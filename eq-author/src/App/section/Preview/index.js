@@ -9,6 +9,7 @@ import { isEmpty, get } from "lodash";
 import EditorLayout from "components/EditorLayout";
 import Loading from "components/Loading";
 import SectionEditor from "App/section/Design/SectionEditor";
+import CommentsPanel from "components/CommentsPanel";
 
 import { buildSectionPath } from "utils/UrlUtils";
 
@@ -29,7 +30,12 @@ export const UnwrappedPreviewSectionRoute = ({ match, data, loading }) => {
   }
 
   return (
-    <EditorLayout design preview title={section.displayName}>
+    <EditorLayout
+      design
+      preview
+      title={section.displayName}
+      renderPanel={() => <CommentsPanel componentId={section.id} />}
+    >
       {loading || !data ? (
         <Loading height="38rem">Preview loading…</Loading>
       ) : (

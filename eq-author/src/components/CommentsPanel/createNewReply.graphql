@@ -13,15 +13,6 @@ mutation CreateReply($input: CreateReplyInput!) {
     }
     parentComment {
       id
-      page {
-        id
-        comments {
-          id
-          replies {
-            id
-          }
-        }
-      }
     }
   }
 }
