@@ -246,7 +246,12 @@ const Resolvers = {
         );
         return questionnareComments.comments[componentId] || [];
       },
-      subscribe: () => pubsub.asyncIterator(["commentsUpdated"]),
+      subscribe: withFilter(
+        () => pubsub.asyncIterator(["commentsUpdated"]),
+        (payload, variables) => {
+          return payload.commentsUpdated.componentId === variables.componentId;
+        }
+      ),
     },
   },
 
