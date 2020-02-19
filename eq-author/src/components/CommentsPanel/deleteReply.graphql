@@ -11,8 +11,6 @@ mutation DeleteReply($input: DeleteReplyInput!) {
       email
       displayName
     }
-    parentComment {
-      id
-    }
+    parentCommentId
   }
 }

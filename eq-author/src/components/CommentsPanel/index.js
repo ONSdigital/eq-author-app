@@ -209,7 +209,6 @@ const CommentsPanel = ({ componentId, me: { id: myId } }) => {
   const [scrollRef, setScrollRef] = useState();
 
   const { loading, error, data, refetch } = useQuery(COMMENT_QUERY, {
-    fetchPolicy: "network-only",
     variables: {
       componentId,
     },

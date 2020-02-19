@@ -239,7 +239,7 @@ const Resolvers = {
       subscribe: () => pubsub.asyncIterator(["publishStatusUpdated"]),
     },
     commentsUpdated: {
-      resolve: async ({ componentId, questionnaire }, args, ctx) => {
+      resolve: async ({ componentId, questionnaire }) => {
         // ctx.questionnaire = questionnaire;
         const questionnareComments = await getCommentsForQuestionnaire(
           questionnaire.id
@@ -896,16 +896,16 @@ const Resolvers = {
 
   Reply: {
     user: ({ userId }) => getUserById(userId),
-    parentComment: async ({ parentCommentId, componentId }, args, ctx) => {
-      const questionnaire = ctx.questionnaire;
-      const questionnaireComments = await getCommentsForQuestionnaire(
-        questionnaire.id
-      );
-      const parentComment = questionnaireComments.comments[componentId].find(
-        ({ id }) => id === parentCommentId
-      );
-      return parentComment;
-    },
+    // parentComment: async ({ parentCommentId, componentId }, args, ctx) => {
+    //   const questionnaire = ctx.questionnaire;
+    //   const questionnaireComments = await getCommentsForQuestionnaire(
+    //     questionnaire.id
+    //   );
+    //   const parentComment = questionnaireComments.comments[componentId].find(
+    //     ({ id }) => id === parentCommentId
+    //   );
+    //   return parentComment;
+    // },
   },
 
   QuestionnaireInfo: {

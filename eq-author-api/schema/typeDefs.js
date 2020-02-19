@@ -581,7 +581,7 @@ type QuestionnaireIntroduction {
 
 type Reply {
   id: ID!
-  parentComment: Comment!
+  parentCommentId: ID!
   commentText: String!
   createdTime: DateTime!
   user: User!
