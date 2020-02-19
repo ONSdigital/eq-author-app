@@ -243,7 +243,12 @@ const Resolvers = {
         ctx.questionnaire = questionnaire;
         return questionnaire;
       },
-      subscribe: () => pubsub.asyncIterator(["commentsUpdated"]),
+      subscribe: withFilter(
+        () => pubsub.asyncIterator(["commentsUpdated"]),
+        (payload, variables) => {
+          return payload.componentId === variables.id;
+        }
+      ),
     },
   },
 
