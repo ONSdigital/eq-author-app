@@ -896,16 +896,6 @@ const Resolvers = {
 
   Reply: {
     user: ({ userId }) => getUserById(userId),
-    // parentComment: async ({ parentCommentId, componentId }, args, ctx) => {
-    //   const questionnaire = ctx.questionnaire;
-    //   const questionnaireComments = await getCommentsForQuestionnaire(
-    //     questionnaire.id
-    //   );
-    //   const parentComment = questionnaireComments.comments[componentId].find(
-    //     ({ id }) => id === parentCommentId
-    //   );
-    //   return parentComment;
-    // },
   },
 
   QuestionnaireInfo: {
