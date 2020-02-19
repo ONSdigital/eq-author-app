@@ -245,11 +245,14 @@ const CommentsPanel = ({ componentId, me: { id: myId } }) => {
     },
   });
 
-  // useSubscription(COMMENT_SUBSCRIPTION, {
-  //   variables: {
-  //     componentId,
-  //   },
-  // });
+  useSubscription(COMMENT_SUBSCRIPTION, {
+    variables: {
+      id: componentId,
+    },
+    onSubscriptionData: () => {
+      refetch();
+    },
+  });
 
   useEffect(() => {
     if (firstRender.current) {

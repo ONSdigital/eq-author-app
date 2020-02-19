@@ -1,28 +1,5 @@
-subscription CommentsUpdated($componentId: ID!) {
-  commentsUpdated(id: $componentId) {
+subscription CommentsUpdated($id: ID!) {
+  commentsUpdated(id: $id) {
     id
-    commentText
-    user {
-      id
-      name
-      picture
-      email
-      displayName
-    }
-    createdTime
-    editedTime
-    replies {
-      id
-      commentText
-      createdTime
-      editedTime
-      user {
-        id
-        name
-        picture
-        email
-        displayName
-      }
-    }
   }
 }

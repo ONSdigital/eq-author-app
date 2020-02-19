@@ -239,19 +239,11 @@ const Resolvers = {
       subscribe: () => pubsub.asyncIterator(["publishStatusUpdated"]),
     },
     commentsUpdated: {
-      resolve: async ({ componentId, questionnaire }) => {
-        // ctx.questionnaire = questionnaire;
-        const questionnareComments = await getCommentsForQuestionnaire(
-          questionnaire.id
-        );
-        return questionnareComments.comments[componentId] || [];
+      resolve: ({ questionnaire }, args, ctx) => {
+        ctx.questionnaire = questionnaire;
+        return questionnaire;
       },
-      subscribe: withFilter(
-        () => pubsub.asyncIterator(["commentsUpdated"]),
-        (payload, variables) => {
-          return payload.commentsUpdated.componentId === variables.componentId;
-        }
-      ),
+      subscribe: () => pubsub.asyncIterator(["commentsUpdated"]),
     },
   },
 
