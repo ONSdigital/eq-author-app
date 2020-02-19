@@ -1,31 +1,21 @@
 const executeQuery = require("../../executeQuery");
 
 const createReplyMutation = `
-mutation createReply($input: CreateReplyInput!) {
-    createReply(input: $input) {
-        id
-        commentText
-        createdTime
-        user {
-            id
-            name
-            picture
-            email
-            displayName
-        }
-        parentComment {
-          id
-          page {
-            id
-            comments {
-             id
-             replies {
-                id
-              }
-            }
-          }
-      }
+mutation CreateReply($input: CreateReplyInput!) {
+  createReply(input: $input) {
+    id
+    commentText
+    createdTime
+    editedTime
+    user {
+      id
+      name
+      picture
+      email
+      displayName
     }
+    parentCommentId
+  }
 }`;
 
 const createReply = async (ctx, input) => {

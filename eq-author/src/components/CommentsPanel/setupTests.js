@@ -12,82 +12,80 @@ const mocks = vars => [
     request: {
       query: COMMENT_QUERY,
       variables: {
-        input: { pageId: "P1" },
+        componentId: "P1",
       },
     },
     result: () => {
       vars.queryWasCalled = true;
       return {
         data: {
-          page: {
-            id: "P1",
-            comments: [
-              {
-                commentText: "Query comment body",
-                createdTime: "2019-10-16T07:39:46.984Z",
-                editedTime: null,
-                id: "C1",
-                replies: [
-                  {
-                    id: "R1",
-                    commentText: "Query reply body",
-                    createdTime: "2020-01-09T09:23:21.431Z",
-                    editedTime: null,
-                    user: {
-                      displayName: "My Name is Reply Query",
-                      email: "test2@tester.com",
-                      id: "U2",
-                      name: "My Name is Reply Query",
-                      picture: null,
-                      __typename: "User",
-                    },
-                    __typename: "Reply",
+          // id: "P1",
+          comments: [
+            {
+              commentText: "Query comment body",
+              createdTime: "2019-10-16T07:39:46.984Z",
+              editedTime: null,
+              id: "C1",
+              replies: [
+                {
+                  id: "R1",
+                  commentText: "Query reply body",
+                  createdTime: "2020-01-09T09:23:21.431Z",
+                  editedTime: null,
+                  user: {
+                    displayName: "My Name is Reply Query",
+                    email: "test2@tester.com",
+                    id: "U2",
+                    name: "My Name is Reply Query",
+                    picture: null,
+                    __typename: "User",
                   },
-                  {
-                    id: "R2",
-                    commentText: "Query reply body2",
-                    createdTime: "2020-01-09T09:23:21.431Z",
-                    editedTime: null,
-                    user: {
-                      displayName: "Fred Bundy",
-                      email: "idibidiemama@a.com",
-                      id: "me123",
-                      name: "Fred Bundy",
-                      picture: null,
-                      __typename: "User",
-                    },
-                    __typename: "Reply",
+                  __typename: "Reply",
+                },
+                {
+                  id: "R2",
+                  commentText: "Query reply body2",
+                  createdTime: "2020-01-09T09:23:21.431Z",
+                  editedTime: null,
+                  user: {
+                    displayName: "Fred Bundy",
+                    email: "idibidiemama@a.com",
+                    id: "me123",
+                    name: "Fred Bundy",
+                    picture: null,
+                    __typename: "User",
                   },
-                ],
-                user: {
-                  displayName: "My Name is Query",
-                  email: "test@tester.com",
-                  id: "U1",
-                  name: "My Name is Query",
-                  picture: null,
-                  __typename: "User",
+                  __typename: "Reply",
                 },
-                __typename: "Comment",
+              ],
+              user: {
+                displayName: "My Name is Query",
+                email: "test@tester.com",
+                id: "U1",
+                name: "My Name is Query",
+                picture: null,
+                __typename: "User",
               },
-              {
-                commentText: "Query comment2 body",
-                createdTime: "2019-10-17T07:39:46.984Z",
-                editedTime: null,
-                id: "C2",
-                replies: [],
-                user: {
-                  displayName: "Fred Bundy",
-                  email: "idibidiemama@a.com",
-                  id: "me123",
-                  name: "Fred Bundy",
-                  picture: null,
-                  __typename: "User",
-                },
-                __typename: "Comment",
+              __typename: "Comment",
+            },
+            {
+              commentText: "Query comment2 body",
+              createdTime: "2019-10-17T07:39:46.984Z",
+              editedTime: null,
+              id: "C2",
+              replies: [],
+              user: {
+                displayName: "Fred Bundy",
+                email: "idibidiemama@a.com",
+                id: "me123",
+                name: "Fred Bundy",
+                picture: null,
+                __typename: "User",
               },
-            ],
-            __typename: "QuestionPage",
-          },
+              __typename: "Comment",
+            },
+          ],
+          __typename: "QuestionPage",
         },
       };
     },
@@ -98,7 +96,7 @@ const mocks = vars => [
       query: COMMENT_ADD,
       variables: {
         input: {
-          pageId: "P1",
+          componentId: "P1",
           commentText: "This is a test ADD comment",
         },
       },
@@ -141,7 +139,7 @@ const mocks = vars => [
     request: {
       query: COMMENT_DELETE,
       variables: {
-        input: { pageId: "P1", commentId: "C2" },
+        input: { componentId: "P1", commentId: "C2" },
       },
     },
     result: () => {
@@ -167,7 +165,7 @@ const mocks = vars => [
       query: COMMENT_UPDATE,
       variables: {
         input: {
-          pageId: "P1",
+          componentId: "P1",
           commentId: "C2",
           commentText: "This is an edited comment",
         },
@@ -190,7 +188,7 @@ const mocks = vars => [
   {
     request: {
       query: COMMENT_SUBSCRIPTION,
-      variables: { pageId: "P1" },
+      variables: { id: "P1" },
     },
     result: () => {
       vars.newCommentSubscriptionWasCalled = true;
@@ -202,7 +200,7 @@ const mocks = vars => [
       query: REPLY_ADD,
       variables: {
         input: {
-          pageId: "P1",
+          componentId: "P1",
           commentId: "C1",
           commentText: "This is a test ADD reply",
         },
@@ -264,7 +262,7 @@ const mocks = vars => [
     request: {
       query: REPLY_DELETE,
       variables: {
-        input: { pageId: "P1", commentId: "C1", replyId: "R2" },
+        input: { componentId: "P1", commentId: "C1", replyId: "R2" },
       },
     },
     result: () => {
@@ -296,7 +294,7 @@ const mocks = vars => [
       query: REPLY_UPDATE,
       variables: {
         input: {
-          pageId: "P1",
+          componentId: "P1",
           commentId: "C1",
           replyId: "R2",
           commentText: "This is an edited reply",

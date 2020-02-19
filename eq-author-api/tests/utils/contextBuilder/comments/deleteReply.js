@@ -1,15 +1,20 @@
 const executeQuery = require("../../executeQuery");
 
 const deleteReplyMutation = `
-  mutation deleteReply($input: DeleteReplyInput!) {
+  mutation DeleteReply($input: DeleteReplyInput!) {
   deleteReply(input: $input) {
     id
-    comments {
+    commentText
+    createdTime
+    editedTime
+    user {
       id
-      replies {
-        id
-      }
+      name
+      picture
+      email
+      displayName
     }
+    parentCommentId
   }
 }
 `;

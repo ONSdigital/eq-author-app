@@ -1,66 +1,70 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Introduction Preview should render 1`] = `
-<Preview__Container>
-  <PageTitle
-    missingText="Missing introduction title"
-    title="foo"
-  />
-  <p>
-    If the company details or structure have changed contact us on
-     
-    <Preview__Link>
-      0300 1234 931
-    </Preview__Link>
-     or email 
-    <Preview__Link>
-      surveys@ons.gov.uk
-    </Preview__Link>
-  </p>
-  <Preview__Description
-    dangerouslySetInnerHTML={
-      Object {
-        "__html": "<p>bar</p>",
-      }
-    }
-    data-test="description"
-  />
-  <Preview__Description
-    data-test="legalBasis"
-  >
-    <Preview__H2>
-      Your response is legally required
-    </Preview__H2>
+<IntroductionLayout
+  renderPanel={[Function]}
+>
+  <Preview__Container>
+    <PageTitle
+      missingText="Missing introduction title"
+      title="foo"
+    />
     <p>
-      Notice is given under section 1 of the Statistics of Trade Act 1947.
+      If the company details or structure have changed contact us on
+       
+      <Preview__Link>
+        0300 1234 931
+      </Preview__Link>
+       or email 
+      <Preview__Link>
+        surveys@ons.gov.uk
+      </Preview__Link>
     </p>
-  </Preview__Description>
-  <Preview__Button>
-    Start survey
-  </Preview__Button>
-  <PageTitle
-    missingText="Missing secondary title"
-    title="secondaryTitle"
-  />
-  <Preview__Description
-    dangerouslySetInnerHTML={
-      Object {
-        "__html": "<p>secondaryDescription</p>",
+    <Preview__Description
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "<p>bar</p>",
+        }
       }
-    }
-  />
-  <PageTitle
-    missingText="Missing tertiary title"
-    title="tertiaryTitle"
-  />
-  <Preview__Description
-    dangerouslySetInnerHTML={
-      Object {
-        "__html": "tertiaryDescription",
+      data-test="description"
+    />
+    <Preview__Description
+      data-test="legalBasis"
+    >
+      <Preview__H2>
+        Your response is legally required
+      </Preview__H2>
+      <p>
+        Notice is given under section 1 of the Statistics of Trade Act 1947.
+      </p>
+    </Preview__Description>
+    <Preview__Button>
+      Start survey
+    </Preview__Button>
+    <PageTitle
+      missingText="Missing secondary title"
+      title="secondaryTitle"
+    />
+    <Preview__Description
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "<p>secondaryDescription</p>",
+        }
       }
-    }
-  />
-</Preview__Container>
+    />
+    <PageTitle
+      missingText="Missing tertiary title"
+      title="tertiaryTitle"
+    />
+    <Preview__Description
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "tertiaryDescription",
+        }
+      }
+    />
+  </Preview__Container>
+</IntroductionLayout>
 `;
 
 exports[`Introduction Preview should show section 1 legal basis when it is notice 1 1`] = `

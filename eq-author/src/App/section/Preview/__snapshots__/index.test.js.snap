@@ -7,10 +7,7 @@ exports[`PreviewSectionRoute should redirect to design if section introduction i
 `;
 
 exports[`PreviewSectionRoute should render as loading when loading 1`] = `
-<EditorLayout
-  design={true}
-  preview={true}
->
+<EditorLayout>
   <Loading
     height="38rem"
   >
@@ -36,6 +33,7 @@ exports[`PreviewSectionRoute should show the section intro preview when it is fi
 <EditorLayout
   design={true}
   preview={true}
+  renderPanel={[Function]}
 >
   <SectionIntroPreview
     section={

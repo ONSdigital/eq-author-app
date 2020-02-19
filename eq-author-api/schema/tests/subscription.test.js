@@ -188,7 +188,11 @@ describe("subscriptions", () => {
   });
 
   describe("commentsUpdated", () => {
-    let createdQuestionPage, questionPageId, createdCalSumPage, CalSumPageId;
+    let createdQuestionPage,
+      componentId,
+      questionPageId,
+      createdCalSumPage,
+      CalSumPageId;
 
     beforeEach(async () => {
       ctx = await buildContext({
@@ -209,75 +213,47 @@ describe("subscriptions", () => {
       });
       questionnaire = ctx.questionnaire;
       createdQuestionPage = questionnaire.sections[0].pages[0];
-      questionPageId = createdQuestionPage.id;
+      componentId = createdQuestionPage.id;
       createdCalSumPage = questionnaire.sections[0].pages[1];
       CalSumPageId = createdCalSumPage.id;
     });
 
     const commentsSubscription = gql`
-      subscription CommentsUpdated($pageId: ID!) {
-        commentsUpdated(pageId: $pageId) {
+      subscription CommentsUpdated($id: ID!) {
+        commentsUpdated(id: $id) {
           id
-          comments {
-            id
-            commentText
-            user {
-              id
-              name
-              picture
-              email
-              displayName
-            }
-            createdTime
-            editedTime
-            replies {
-              id
-              commentText
-              createdTime
-              editedTime
-              user {
-                id
-                name
-                picture
-                email
-                displayName
-              }
-            }
-          }
         }
       }
     `;
 
     it("Question page - should send event when new comment is created", async () => {
       iterator = await executeSubscription(commentsSubscription, {
-        pageId: questionPageId,
+        id: componentId,
       });
 
       await createComment(ctx, {
-        pageId: questionPageId,
+        componentId,
         commentText: "a new comment is created",
       });
 
       const result = await iterator.next();
 
-      expect(result.value.data.commentsUpdated.comments[0].commentText).toBe(
-        "a new comment is created"
-      );
+      expect(result.value.data.commentsUpdated.id).toBe(componentId);
     });
 
     it("Question page - should send event when comment has been updated", async () => {
       iterator = await executeSubscription(commentsSubscription, {
-        pageId: questionPageId,
+        id: componentId,
       });
 
       const newComment = await createComment(ctx, {
-        pageId: questionPageId,
+        componentId,
         commentText: "a new comment is created",
       });
       const commentId = newComment.id;
 
       await updateComment(ctx, {
-        pageId: questionPageId,
+        componentId,
         commentId: commentId,
         commentText: "an edited comment",
       });

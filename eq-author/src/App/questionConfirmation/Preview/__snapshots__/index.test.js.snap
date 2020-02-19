@@ -3,6 +3,7 @@
 exports[`Question Confirmation Preview should correctly strip and render piped answers 1`] = `
 <EditorLayout
   preview={true}
+  renderPanel={[Function]}
   title="Hello world"
 >
   <Panel>
@@ -61,6 +62,7 @@ exports[`Question Confirmation Preview should correctly strip and render piped a
 exports[`Question Confirmation Preview should not render replay options when there are no answer options 1`] = `
 <EditorLayout
   preview={true}
+  renderPanel={[Function]}
   title="Hello world"
 >
   <Panel>
@@ -97,6 +99,7 @@ exports[`Question Confirmation Preview should not render replay options when the
 exports[`Question Confirmation Preview should render 1`] = `
 <EditorLayout
   preview={true}
+  renderPanel={[Function]}
   title="Hello world"
 >
   <Panel>

@@ -59,9 +59,12 @@ describe("Comments Pane", () => {
     );
 
   it("should render comments txt area", async () => {
-    const { getByTestId } = renderWithContext(<CommentsPanel />, {
-      ...props,
-    });
+    const { getByTestId } = renderWithContext(
+      <CommentsPanel componentId={"P1"} />,
+      {
+        ...props,
+      }
+    );
 
     await act(async () => {
       await flushPromises();
@@ -72,7 +75,10 @@ describe("Comments Pane", () => {
   });
 
   it("should disable add button when comment txt area is empty", async () => {
-    const { getByText } = renderWithContext(<CommentsPanel />, { ...props });
+    const { getByText } = renderWithContext(
+      <CommentsPanel componentId={"P1"} />,
+      { ...props }
+    );
 
     await act(async () => {
       await flushPromises();
@@ -84,9 +90,12 @@ describe("Comments Pane", () => {
   });
 
   it("should enable add button when comment txt area has content", async () => {
-    const { getByText, getByTestId } = renderWithContext(<CommentsPanel />, {
-      ...props,
-    });
+    const { getByText, getByTestId } = renderWithContext(
+      <CommentsPanel componentId={"P1"} />,
+      {
+        ...props,
+      }
+    );
 
     await act(async () => {
       await flushPromises();
@@ -101,9 +110,12 @@ describe("Comments Pane", () => {
   });
 
   it("should render a previous comment", async () => {
-    const { getByText } = renderWithContext(<CommentsPanel />, {
-      ...props,
-    });
+    const { getByText } = renderWithContext(
+      <CommentsPanel componentId={"P1"} />,
+      {
+        ...props,
+      }
+    );
 
     await act(async () => {
       await flushPromises();
@@ -113,9 +125,12 @@ describe("Comments Pane", () => {
   });
 
   it("should create a new comment", async () => {
-    const { getByText, getByTestId } = renderWithContext(<CommentsPanel />, {
-      ...props,
-    });
+    const { getByText, getByTestId } = renderWithContext(
+      <CommentsPanel componentId={"P1"} />,
+      {
+        ...props,
+      }
+    );
 
     await act(async () => {
       await flushPromises();
@@ -134,7 +149,10 @@ describe("Comments Pane", () => {
   });
 
   it("should render loading state", () => {
-    const { getByTestId } = renderWithContext(<CommentsPanel />, { ...props });
+    const { getByTestId } = renderWithContext(
+      <CommentsPanel componentId={"P1"} />,
+      { ...props }
+    );
     expect(getByTestId("loading")).toBeTruthy();
   });
 
@@ -144,7 +162,7 @@ describe("Comments Pane", () => {
         request: {
           query: COMMENT_QUERY,
           variables: {
-            input: { pageId: "P2" },
+            componentId: "P2",
           },
         },
         result: () => {
@@ -158,7 +176,7 @@ describe("Comments Pane", () => {
       {
         request: {
           query: COMMENT_SUBSCRIPTION,
-          variables: { pageId: "P2" },
+          variables: { componentId: "P2" },
         },
         result: () => {
           vars.newCommentSubscriptionWasCalled = true;
@@ -172,9 +190,12 @@ describe("Comments Pane", () => {
       urlParamMatcher: "/q/:questionnaireId/page/:pageId",
       mocks,
     };
-    const { getByText } = renderWithContext(<CommentsPanel />, {
-      ...props,
-    });
+    const { getByText } = renderWithContext(
+      <CommentsPanel componentId={"P1"} />,
+      {
+        ...props,
+      }
+    );
     await act(async () => {
       await flushPromises();
     });
@@ -185,9 +206,12 @@ describe("Comments Pane", () => {
   });
 
   it("should hide delete button if comments exist && comment user !== me", async () => {
-    const { getByTestId } = renderWithContext(<CommentsPanel />, {
-      ...props,
-    });
+    const { getByTestId } = renderWithContext(
+      <CommentsPanel componentId={"P1"} />,
+      {
+        ...props,
+      }
+    );
 
     await act(async () => {
       await flushPromises();
@@ -198,7 +222,10 @@ describe("Comments Pane", () => {
   });
 
   it("should render enabled delete button if comments exist && user === me", async () => {
-    const { getByTestId } = renderWithContext(<CommentsPanel />, { ...props });
+    const { getByTestId } = renderWithContext(
+      <CommentsPanel componentId={"P1"} />,
+      { ...props }
+    );
 
     await act(async () => {
       await flushPromises();
@@ -209,9 +236,12 @@ describe("Comments Pane", () => {
   });
 
   it("should be able to delete an existing comment", async () => {
-    const { getByText, getByTestId } = renderWithContext(<CommentsPanel />, {
-      ...props,
-    });
+    const { getByText, getByTestId } = renderWithContext(
+      <CommentsPanel componentId={"P1"} />,
+      {
+        ...props,
+      }
+    );
 
     await act(async () => {
       await flushPromises();
@@ -230,7 +260,10 @@ describe("Comments Pane", () => {
   });
 
   it("should hide Edit button if comments exist && comment user !== me", async () => {
-    const { getByTestId } = renderWithContext(<CommentsPanel />, { ...props });
+    const { getByTestId } = renderWithContext(
+      <CommentsPanel componentId={"P1"} />,
+      { ...props }
+    );
 
     await act(async () => {
       await flushPromises();
@@ -241,7 +274,10 @@ describe("Comments Pane", () => {
   });
 
   it("should render enabled Edit button if comments exist && user === me", async () => {
-    const { getByTestId } = renderWithContext(<CommentsPanel />, { ...props });
+    const { getByTestId } = renderWithContext(
+      <CommentsPanel componentId={"P1"} />,
+      { ...props }
+    );
 
     await act(async () => {
       await flushPromises();
@@ -252,9 +288,12 @@ describe("Comments Pane", () => {
   });
 
   it("should show a save button for an edit comment area when edit button is clicked", async () => {
-    const { getByTestId } = renderWithContext(<CommentsPanel />, {
-      ...props,
-    });
+    const { getByTestId } = renderWithContext(
+      <CommentsPanel componentId={"P1"} />,
+      {
+        ...props,
+      }
+    );
 
     await act(async () => {
       await flushPromises();
@@ -268,9 +307,12 @@ describe("Comments Pane", () => {
   });
 
   it("should update a comment", async () => {
-    const { getByText, getByTestId } = renderWithContext(<CommentsPanel />, {
-      ...props,
-    });
+    const { getByText, getByTestId } = renderWithContext(
+      <CommentsPanel componentId={"P1"} />,
+      {
+        ...props,
+      }
+    );
 
     await act(async () => {
       await flushPromises();
@@ -296,9 +338,12 @@ describe("Comments Pane", () => {
 
   describe("Replies", () => {
     it("should render a previous reply", async () => {
-      const { getByText } = renderWithContext(<CommentsPanel />, {
-        ...props,
-      });
+      const { getByText } = renderWithContext(
+        <CommentsPanel componentId={"P1"} />,
+        {
+          ...props,
+        }
+      );
 
       await act(async () => {
         await flushPromises();
@@ -309,9 +354,12 @@ describe("Comments Pane", () => {
     });
 
     it("should create a new reply", async () => {
-      const { getByText, getByTestId } = renderWithContext(<CommentsPanel />, {
-        ...props,
-      });
+      const { getByText, getByTestId } = renderWithContext(
+        <CommentsPanel componentId={"P1"} />,
+        {
+          ...props,
+        }
+      );
       await act(async () => {
         await flushPromises();
         await fireEvent.click(getByTestId("btn-reply-comment-0"));
@@ -337,9 +385,12 @@ describe("Comments Pane", () => {
     });
 
     it("should hide reply delete button if reply exist && comment user !== me", async () => {
-      const { getByTestId } = renderWithContext(<CommentsPanel />, {
-        ...props,
-      });
+      const { getByTestId } = renderWithContext(
+        <CommentsPanel componentId={"P1"} />,
+        {
+          ...props,
+        }
+      );
 
       await act(async () => {
         await flushPromises();
@@ -350,9 +401,12 @@ describe("Comments Pane", () => {
     });
 
     it("should render enabled delete button if reply exist && user === me", async () => {
-      const { getByTestId } = renderWithContext(<CommentsPanel />, {
-        ...props,
-      });
+      const { getByTestId } = renderWithContext(
+        <CommentsPanel componentId={"P1"} />,
+        {
+          ...props,
+        }
+      );
 
       await act(async () => {
         await flushPromises();
@@ -363,9 +417,12 @@ describe("Comments Pane", () => {
     });
 
     it("should be able to delete an existing reply", async () => {
-      const { getByText, getByTestId } = renderWithContext(<CommentsPanel />, {
-        ...props,
-      });
+      const { getByText, getByTestId } = renderWithContext(
+        <CommentsPanel componentId={"P1"} />,
+        {
+          ...props,
+        }
+      );
 
       await act(async () => {
         await flushPromises();
@@ -384,9 +441,12 @@ describe("Comments Pane", () => {
     });
 
     it("should hide reply edit button if reply exist && comment user !== me", async () => {
-      const { getByTestId } = renderWithContext(<CommentsPanel />, {
-        ...props,
-      });
+      const { getByTestId } = renderWithContext(
+        <CommentsPanel componentId={"P1"} />,
+        {
+          ...props,
+        }
+      );
 
       await act(async () => {
         await flushPromises();
@@ -397,9 +457,12 @@ describe("Comments Pane", () => {
     });
 
     it("should render enabled edit reply button if reply exist && user === me", async () => {
-      const { getByTestId } = renderWithContext(<CommentsPanel />, {
-        ...props,
-      });
+      const { getByTestId } = renderWithContext(
+        <CommentsPanel componentId={"P1"} />,
+        {
+          ...props,
+        }
+      );
 
       await act(async () => {
         await flushPromises();
@@ -410,9 +473,12 @@ describe("Comments Pane", () => {
     });
 
     it("should update a reply", async () => {
-      const { getByText, getByTestId } = renderWithContext(<CommentsPanel />, {
-        ...props,
-      });
+      const { getByText, getByTestId } = renderWithContext(
+        <CommentsPanel componentId={"P1"} />,
+        {
+          ...props,
+        }
+      );
 
       await act(async () => {
         await flushPromises();
