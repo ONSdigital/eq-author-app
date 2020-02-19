@@ -585,7 +585,6 @@ type Reply {
   commentText: String!
   createdTime: DateTime!
   user: User!
-  page: Page!
   editedTime:  DateTime
 }
 

@@ -28,7 +28,13 @@ export const UnwrappedPreviewSectionRoute = ({ match, data, loading }) => {
       );
     }
   }
-
+  if (loading) {
+    return (
+      <EditorLayout>
+        <Loading height="38rem">Preview loading…</Loading>
+      </EditorLayout>
+    );
+  }
   return (
     <EditorLayout
       design
@@ -36,11 +42,7 @@ export const UnwrappedPreviewSectionRoute = ({ match, data, loading }) => {
       title={section.displayName}
       renderPanel={() => <CommentsPanel componentId={section.id} />}
     >
-      {loading || !data ? (
-        <Loading height="38rem">Preview loading…</Loading>
-      ) : (
-        <SectionIntroPreview section={section} />
-      )}
+      <SectionIntroPreview section={section} />
     </EditorLayout>
   );
 };

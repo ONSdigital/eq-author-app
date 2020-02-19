@@ -209,27 +209,48 @@ const CommentsPanel = ({ componentId, me: { id: myId } }) => {
   const [scrollRef, setScrollRef] = useState();
 
   const { loading, error, data, refetch } = useQuery(COMMENT_QUERY, {
+    fetchPolicy: "network-only",
     variables: {
       componentId,
     },
   });
 
-  const [createComment] = useMutation(COMMENT_ADD, { onCompleted: refetch() });
+  const [createComment] = useMutation(COMMENT_ADD, {
+    onCompleted: () => {
+      refetch();
+    },
+  });
   const [deleteComment] = useMutation(COMMENT_DELETE, {
-    onCompleted: refetch(),
+    onCompleted: () => {
+      refetch();
+    },
   });
   const [updateComment] = useMutation(COMMENT_UPDATE, {
-    onCompleted: refetch(),
-  });
-  const [createReply] = useMutation(REPLY_ADD, { onCompleted: refetch() });
-  const [deleteReply] = useMutation(REPLY_DELETE, { onCompleted: refetch() });
-  const [updateReply] = useMutation(REPLY_UPDATE, { onCompleted: refetch() });
-
-  useSubscription(COMMENT_SUBSCRIPTION, {
-    variables: {
-      componentId,
+    onCompleted: () => {
+      refetch();
     },
   });
+  const [createReply] = useMutation(REPLY_ADD, {
+    onCompleted: () => {
+      refetch();
+    },
+  });
+  const [deleteReply] = useMutation(REPLY_DELETE, {
+    onCompleted: () => {
+      refetch();
+    },
+  });
+  const [updateReply] = useMutation(REPLY_UPDATE, {
+    onCompleted: () => {
+      refetch();
+    },
+  });
+
+  // useSubscription(COMMENT_SUBSCRIPTION, {
+  //   variables: {
+  //     componentId,
+  //   },
+  // });
 
   useEffect(() => {
     if (firstRender.current) {

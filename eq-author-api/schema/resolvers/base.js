@@ -240,9 +240,9 @@ const Resolvers = {
     },
     commentsUpdated: {
       resolve: async ({ componentId, questionnaire }, args, ctx) => {
-        ctx.questionnaire = questionnaire;
+        // ctx.questionnaire = questionnaire;
         const questionnareComments = await getCommentsForQuestionnaire(
-          ctx.questionnaire.id
+          questionnaire.id
         );
         return questionnareComments.comments[componentId] || [];
       },
@@ -803,11 +803,9 @@ const Resolvers = {
         userId: ctx.user.id,
         createdTime: new Date(),
       };
-
       let parentComment = questionnaireComments.comments[componentId].find(
         ({ id }) => id === input.commentId
       );
-
       if (parentComment) {
         parentComment.replies.push(newReply);
       } else {
@@ -898,12 +896,12 @@ const Resolvers = {
 
   Reply: {
     user: ({ userId }) => getUserById(userId),
-    parentComment: async ({ parentCommentId, pageId }, args, ctx) => {
+    parentComment: async ({ parentCommentId, componentId }, args, ctx) => {
       const questionnaire = ctx.questionnaire;
       const questionnaireComments = await getCommentsForQuestionnaire(
         questionnaire.id
       );
-      const parentComment = questionnaireComments.comments[pageId].find(
+      const parentComment = questionnaireComments.comments[componentId].find(
         ({ id }) => id === parentCommentId
       );
       return parentComment;
