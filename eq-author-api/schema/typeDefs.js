@@ -1132,10 +1132,14 @@ input DeleteCollapsibleInput {
   id: ID!
 }
 
+type commentSub {
+  id: ID!
+}
+
 type Subscription {
   validationUpdated(id: ID!): Questionnaire!
   publishStatusUpdated(id: ID!): Questionnaire!
-  commentsUpdated(id: ID!): Questionnaire!
+  commentsUpdated(id: ID!): commentSub!
 }
 
 input PublishQuestionnaireInput {
