@@ -188,11 +188,7 @@ describe("subscriptions", () => {
   });
 
   describe("commentsUpdated", () => {
-    let createdQuestionPage,
-      componentId,
-      questionPageId,
-      createdCalSumPage,
-      CalSumPageId;
+    let createdQuestionPage, componentId;
 
     beforeEach(async () => {
       ctx = await buildContext({
@@ -214,8 +210,8 @@ describe("subscriptions", () => {
       questionnaire = ctx.questionnaire;
       createdQuestionPage = questionnaire.sections[0].pages[0];
       componentId = createdQuestionPage.id;
-      createdCalSumPage = questionnaire.sections[0].pages[1];
-      CalSumPageId = createdCalSumPage.id;
+      // createdCalSumPage = questionnaire.sections[0].pages[1];
+      // CalSumPageId = createdCalSumPage.id;
     });
 
     const commentsSubscription = gql`
