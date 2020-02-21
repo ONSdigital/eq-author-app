@@ -17,12 +17,12 @@ describe("PreviewSectionRoute", () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  it("should render as loading when no data", () => {
+  it.only("should render as loading when no data", () => {
     const wrapper = shallow(
       <PreviewSectionRoute
         loading={false}
         match={{
-          params: { questionnaireId: "1", sectionId: "2" },
+          params: { questionnaireId: "1", sectionId: "2", id: "2" },
         }}
         data={null}
       />
