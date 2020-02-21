@@ -214,36 +214,12 @@ const CommentsPanel = ({ componentId, me: { id: myId } }) => {
     },
   });
 
-  const [createComment] = useMutation(COMMENT_ADD, {
-    onCompleted: () => {
-      refetch();
-    },
-  });
-  const [deleteComment] = useMutation(COMMENT_DELETE, {
-    onCompleted: () => {
-      refetch();
-    },
-  });
-  const [updateComment] = useMutation(COMMENT_UPDATE, {
-    onCompleted: () => {
-      refetch();
-    },
-  });
-  const [createReply] = useMutation(REPLY_ADD, {
-    onCompleted: () => {
-      refetch();
-    },
-  });
-  const [deleteReply] = useMutation(REPLY_DELETE, {
-    onCompleted: () => {
-      refetch();
-    },
-  });
-  const [updateReply] = useMutation(REPLY_UPDATE, {
-    onCompleted: () => {
-      refetch();
-    },
-  });
+  const [createComment] = useMutation(COMMENT_ADD, {});
+  const [deleteComment] = useMutation(COMMENT_DELETE, {});
+  const [updateComment] = useMutation(COMMENT_UPDATE, {});
+  const [createReply] = useMutation(REPLY_ADD, {});
+  const [deleteReply] = useMutation(REPLY_DELETE, {});
+  const [updateReply] = useMutation(REPLY_UPDATE, {});
 
   useSubscription(COMMENT_SUBSCRIPTION, {
     variables: {

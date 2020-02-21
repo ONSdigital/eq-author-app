@@ -19,7 +19,6 @@ const mocks = vars => [
       vars.queryWasCalled = true;
       return {
         data: {
-          // id: "P1",
           comments: [
             {
               commentText: "Query comment body",
@@ -110,16 +109,6 @@ const mocks = vars => [
             commentText: "This is a test ADD comment",
             createdTime: "2019-10-17T07:15:19.229Z",
             editedTime: null,
-            page: {
-              id: "P1",
-              comments: [
-                {
-                  id: "C1",
-                  __typename: "Comment",
-                },
-              ],
-              __typename: "QuestionPage",
-            },
             user: {
               id: "U1",
               name: "Fred Jones",
@@ -139,23 +128,34 @@ const mocks = vars => [
     request: {
       query: COMMENT_DELETE,
       variables: {
-        input: { componentId: "P1", commentId: "C2" },
+        input: {
+          componentId: "P1",
+          commentId: "C2",
+        },
       },
     },
     result: () => {
       vars.deleteWasCalled = true;
       return {
         data: {
-          deleteComment: {
-            id: "P1",
-            comments: [
-              {
-                id: "C2",
-                __typename: "Comment",
+          deleteComment: [
+            {
+              id: "C2",
+              commentText: "Query comment2 body",
+              user: {
+                displayName: "Fred Bundy",
+                email: "idibidiemama@a.com",
+                id: "me123",
+                name: "Fred Bundy",
+                picture: null,
+                __typename: "User",
               },
-            ],
-            __typename: "QuestionPage",
-          },
+              createdTime: "2019-10-17T07:39:46.984Z",
+              editedTime: null,
+              replies: [],
+              __typename: "Comment",
+            },
+          ],
         },
       };
     },
@@ -192,7 +192,11 @@ const mocks = vars => [
     },
     result: () => {
       vars.newCommentSubscriptionWasCalled = true;
-      return {};
+      return {
+        commentsUpdated: {
+          id: "P1",
+        },
+      };
     },
   },
   {
@@ -223,35 +227,7 @@ const mocks = vars => [
               displayName: "Fred Bundy",
               __typename: "User",
             },
-            parentComment: {
-              id: "C1",
-              page: {
-                id: "P1",
-                comments: [
-                  {
-                    id: "C1",
-                    replies: [
-                      {
-                        id: "R1",
-                        __typename: "Reply",
-                      },
-                      {
-                        id: "R2",
-                        __typename: "Reply",
-                      },
-                      {
-                        id: "R3",
-                        __typename: "Reply",
-                      },
-                    ],
-                    __typename: "Comment",
-                  },
-                  { id: "C2", replies: [], __typename: "Comment" },
-                ],
-                __typename: "QuestionPage",
-              },
-              __typename: "Comment",
-            },
+            parentCommentId: "C1",
             __typename: "Reply",
           },
         },
@@ -269,22 +245,24 @@ const mocks = vars => [
       vars.deleteReplyWasCalled = true;
       return {
         data: {
-          deleteReply: {
-            id: "R2",
-            comments: [
-              {
-                id: "C1",
-                replies: [
-                  {
-                    id: "R2",
-                    __typename: "Reply",
-                  },
-                ],
-                __typename: "Comment",
+          deleteReply: [
+            {
+              id: "R2",
+              commentText: "Query reply body2",
+              createdTime: "2020-01-09T09:23:21.431Z",
+              editedTime: null,
+              user: {
+                displayName: "Fred Bundy",
+                email: "idibidiemama@a.com",
+                id: "me123",
+                name: "Fred Bundy",
+                picture: null,
+                __typename: "User",
               },
-            ],
-            __typename: "QuestionPage",
-          },
+              parentCommentId: "C1",
+              __typename: "Reply",
+            },
+          ],
         },
       };
     },
