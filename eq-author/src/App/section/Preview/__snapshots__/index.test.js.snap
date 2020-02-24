@@ -16,16 +16,6 @@ exports[`PreviewSectionRoute should render as loading when loading 1`] = `
 </EditorLayout>
 `;
 
-exports[`PreviewSectionRoute should render as loading when no data 1`] = `
-<EditorLayout>
-  <Loading
-    height="38rem"
-  >
-    Preview loading…
-  </Loading>
-</EditorLayout>
-`;
-
 exports[`PreviewSectionRoute should show the section intro preview when it is finished loading and has a section 1`] = `
 <EditorLayout
   design={true}
