@@ -205,7 +205,7 @@ const mocks = vars => [
       variables: {
         input: {
           componentId: "P1",
-          commentId: "C1",
+          commentId: "C2",
           commentText: "This is a test ADD reply",
         },
       },
@@ -227,7 +227,7 @@ const mocks = vars => [
               displayName: "Fred Bundy",
               __typename: "User",
             },
-            parentCommentId: "C1",
+            parentCommentId: "C2",
             __typename: "Reply",
           },
         },

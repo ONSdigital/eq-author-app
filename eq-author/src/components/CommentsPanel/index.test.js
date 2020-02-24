@@ -362,42 +362,35 @@ describe("Comments Pane", () => {
       expect(getByText("Query reply body")).toBeTruthy();
     });
 
-    // it.only("should create a new reply", async () => {
-    //   const { getByText, getByTestId, debug } = renderWithContext(
-    //     <CommentsPanel componentId={"P1"} />,
-    //     {
-    //       ...props,
-    //     }
-    //   );
-    //   await act(async () => {
-    //     await flushPromises();
-    //   });
+    it("should create a new reply", async () => {
+      const { getByTestId } = renderWithContext(
+        <CommentsPanel componentId={"P1"} />,
+        {
+          ...props,
+        }
+      );
 
-    //   fireEvent.click(getByTestId("btn-reply-comment-1"));
+      await act(async () => {
+        await flushPromises();
+        await fireEvent.click(getByTestId("btn-reply-comment-1"));
+      });
 
-    //   fireEvent.change(getByTestId("reply-txtArea-1"), {
-    //     target: {
-    //       value: "This is a test ADD reply",
-    //     },
-    //   });
+      await act(async () => {
+        await flushPromises();
+        fireEvent.change(getByTestId("reply-txtArea-1"), {
+          target: {
+            value: "This is a test ADD reply",
+          },
+        });
+      });
 
-    //   await act(async () => {
-    //     await flushPromises();
-    //   });
+      await act(async () => {
+        await fireEvent.click(getByTestId("btn-save-reply-1"));
+      });
 
-    //   debug();
-
-    //   await act(async () => {
-    //     await fireEvent.click(getByTestId("btn-save-reply-1"));
-    //   });
-
-    //   await act(async () => {
-    //     await expect(vars.createReplyWasCalled).toBeTruthy();
-    //   });
-
-    //   // expect(vars.newCommentSubscriptionWasCalled).toBeTruthy();
-    //   // expect(getByText("This is a test ADD reply")).toBeTruthy();
-    // });
+      expect(vars.createReplyWasCalled).toBeTruthy();
+      expect(vars.newCommentSubscriptionWasCalled).toBeTruthy();
+    });
 
     it("should hide reply delete button if reply exist && comment user !== me", async () => {
       const { getByTestId } = renderWithContext(
