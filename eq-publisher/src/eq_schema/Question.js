@@ -127,21 +127,23 @@ class Question {
       type: DATE,
       mandatory: get("properties.required", answer),
     };
-
-    return [
-      {
-        ...commonAnswerDef,
-        id: `${commonAnswerDef.id}from`,
-        label: answer.label,
-        q_code: answer.qCode,
-      },
-      {
-        ...commonAnswerDef,
-        id: `${commonAnswerDef.id}to`,
-        label: answer.secondaryLabel,
-        q_code: answer.secondaryQCode,
-      },
-    ];
+    const dateFrom = {
+      ...commonAnswerDef,
+      id: `${commonAnswerDef.id}from`,
+      label: answer.label,
+    };
+    if (answer.qCode) {
+      dateFrom.q_code = answer.qCode;
+    }
+    const dateTo = {
+      ...commonAnswerDef,
+      id: `${commonAnswerDef.id}to`,
+      label: answer.secondaryLabel,
+    };
+    if (answer.secondaryQCode) {
+      dateTo.q_code = answer.secondaryQCode;
+    }
+    return [dateFrom, dateTo];
   }
 
   buildMutuallyExclusiveAnswers(mutuallyExclusive) {
