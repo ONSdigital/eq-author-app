@@ -75,7 +75,7 @@ describe("QuestionPagePreview", () => {
       {
         request: {
           query: commentsSubscription,
-          variables: { pageId: "2" },
+          variables: { id: "1" },
         },
         result: () => {
           return {};

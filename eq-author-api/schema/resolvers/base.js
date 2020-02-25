@@ -82,6 +82,8 @@ const {
   getQuestionnaireMetaById,
   createComments,
   saveModel,
+  saveComments,
+  getCommentsForQuestionnaire,
 } = require("../../utils/datastore");
 
 const { QuestionnaireModel } = require("../../db/models/DynamoDB");
@@ -148,6 +150,12 @@ const createNewQuestionnaire = input => {
   };
 };
 
+const publishCommentUpdates = componentId => {
+  pubsub.publish("commentsUpdated", {
+    componentId,
+  });
+};
+
 const Resolvers = {
   Query: {
     questionnaires: async (root, args, ctx) => {
@@ -186,6 +194,13 @@ const Resolvers = {
     },
     me: (root, args, ctx) => ctx.user,
     users: () => listUsers(),
+    comments: async (root, { id }, ctx) => {
+      const questionnaireId = ctx.questionnaire.id;
+      const questionnareComments = await getCommentsForQuestionnaire(
+        questionnaireId
+      );
+      return questionnareComments.comments[id] || [];
+    },
   },
 
   Subscription: {
@@ -223,12 +238,15 @@ const Resolvers = {
       subscribe: () => pubsub.asyncIterator(["publishStatusUpdated"]),
     },
     commentsUpdated: {
-      resolve: async ({ pageId, questionnaire }, args, ctx) => {
-        ctx.questionnaire = questionnaire;
-        const page = await getPageById(ctx, pageId);
-        return page;
+      resolve: ({ componentId }) => {
+        return { id: componentId };
       },
-      subscribe: () => pubsub.asyncIterator(["commentsUpdated"]),
+      subscribe: withFilter(
+        () => pubsub.asyncIterator(["commentsUpdated"]),
+        (payload, variables) => {
+          return payload.componentId === variables.id;
+        }
+      ),
     },
   },
 
@@ -701,6 +719,139 @@ const Resolvers = {
       await saveQuestionnaire(ctx.questionnaire);
       return ctx.questionnaire;
     },
+    createComment: async (_, { input }, ctx) => {
+      const { componentId, commentText } = input;
+      const questionnaire = ctx.questionnaire;
+      const questionnaireComments = await getCommentsForQuestionnaire(
+        questionnaire.id
+      );
+      const newComment = {
+        id: uuid.v4(),
+        commentText: commentText,
+        userId: ctx.user.id,
+        createdTime: new Date(),
+        replies: [],
+      };
+
+      const componentComments = questionnaireComments.comments[componentId];
+
+      if (componentComments) {
+        questionnaireComments.comments[componentId].push(newComment);
+      } else {
+        questionnaireComments.comments[componentId] = [newComment];
+      }
+
+      await saveComments(questionnaireComments);
+      publishCommentUpdates(componentId);
+
+      return newComment;
+    },
+    deleteComment: async (_, { input }, ctx) => {
+      const { componentId, commentId } = input;
+      const questionnaire = ctx.questionnaire;
+      const questionnaireComments = await getCommentsForQuestionnaire(
+        questionnaire.id
+      );
+
+      const componentComments = questionnaireComments.comments[componentId];
+      if (componentComments) {
+        remove(componentComments, ({ id }) => id === commentId);
+        await saveComments(questionnaireComments);
+      }
+      publishCommentUpdates(componentId);
+      return componentComments;
+    },
+    updateComment: async (_, { input }, ctx) => {
+      const { componentId, commentId, commentText } = input;
+      const questionnaire = ctx.questionnaire;
+      const questionnaireComments = await getCommentsForQuestionnaire(
+        questionnaire.id
+      );
+      const pageComments = questionnaireComments.comments[componentId];
+
+      if (!pageComments) {
+        throw new Error("No comments found");
+      }
+
+      const commentToEdit = pageComments.find(({ id }) => id === commentId);
+      commentToEdit.commentText = commentText;
+      commentToEdit.editedTime = new Date();
+      await saveComments(questionnaireComments);
+
+      publishCommentUpdates(componentId);
+
+      return commentToEdit;
+    },
+    createReply: async (_, { input }, ctx) => {
+      const { componentId, commentText, commentId } = input;
+      const questionnaire = ctx.questionnaire;
+      const questionnaireComments = await getCommentsForQuestionnaire(
+        questionnaire.id
+      );
+
+      const newReply = {
+        id: uuid.v4(),
+        parentCommentId: commentId,
+        commentText,
+        userId: ctx.user.id,
+        createdTime: new Date(),
+      };
+      let parentComment = questionnaireComments.comments[componentId].find(
+        ({ id }) => id === commentId
+      );
+      if (parentComment) {
+        parentComment.replies.push(newReply);
+      } else {
+        parentComment = [newReply];
+      }
+
+      await saveComments(questionnaireComments);
+
+      publishCommentUpdates(componentId);
+
+      return newReply;
+    },
+    updateReply: async (_, { input }, ctx) => {
+      const { componentId, commentId, replyId, commentText } = input;
+      const questionnaire = ctx.questionnaire;
+      const questionnaireComments = await getCommentsForQuestionnaire(
+        questionnaire.id
+      );
+      const replies = questionnaireComments.comments[componentId].find(
+        ({ id }) => id === commentId
+      ).replies;
+
+      if (!replies) {
+        throw new Error("No replies found!");
+      }
+
+      const replyToEdit = replies.find(({ id }) => id === replyId);
+      replyToEdit.commentText = commentText;
+      replyToEdit.editedTime = new Date();
+      await saveComments(questionnaireComments);
+
+      publishCommentUpdates(componentId);
+      return replyToEdit;
+    },
+    deleteReply: async (_, { input }, ctx) => {
+      const { componentId, commentId, replyId } = input;
+      const questionnaire = ctx.questionnaire;
+      const questionnaireComments = await getCommentsForQuestionnaire(
+        questionnaire.id
+      );
+
+      const replies = questionnaireComments.comments[componentId].find(
+        ({ id }) => id === commentId
+      ).replies;
+
+      if (replies) {
+        remove(replies, ({ id }) => id === replyId);
+        await saveComments(questionnaireComments);
+      }
+      publishCommentUpdates(componentId);
+
+      return replies;
+    },
   },
 
   Questionnaire: {
@@ -730,6 +881,14 @@ const Resolvers = {
 
   User: {
     displayName: user => user.name || user.email,
+  },
+
+  Comment: {
+    user: ({ userId }) => getUserById(userId),
+  },
+
+  Reply: {
+    user: ({ userId }) => getUserById(userId),
   },
 
   QuestionnaireInfo: {

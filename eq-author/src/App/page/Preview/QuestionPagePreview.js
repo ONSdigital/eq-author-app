@@ -107,7 +107,7 @@ const QuestionPagePreview = ({ page }) => {
       preview
       routing
       title={page.displayName}
-      renderPanel={() => <CommentsPanel />}
+      renderPanel={() => <CommentsPanel componentId={page.id} />}
     >
       <Panel>
         <Container>

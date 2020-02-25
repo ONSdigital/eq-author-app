@@ -1,31 +1,5 @@
-subscription CommentsUpdated($pageId: ID!) {
-  commentsUpdated(pageId: $pageId) {
+subscription CommentsUpdated($id: ID!) {
+  commentsUpdated(id: $id) {
     id
-    comments {
-      id
-      commentText
-      user {
-        id
-        name
-        picture
-        email
-        displayName
-      }
-      createdTime
-      editedTime
-      replies {
-        id
-        commentText
-        createdTime
-        editedTime
-        user {
-          id
-          name
-          picture
-          email
-          displayName
-        }
-      }
-    }
   }
 }

@@ -28,7 +28,7 @@ const EditReply = props => {
       />
       <CommentFooterContainer>
         <SaveButton
-          id={index}
+          id={`btn-save-reply-${index}`}
           disabled={!reply}
           btn-save-reply
           medium

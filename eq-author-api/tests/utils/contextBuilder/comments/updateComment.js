@@ -2,12 +2,12 @@ const executeQuery = require("../../executeQuery");
 
 const updateCommentMutation = `
   mutation updateComment($input: UpdateCommentInput!) {
-    updateComment(input: $input) {
-      id
-      commentText
-      editedTime
-    }
+  updateComment(input: $input) {
+    id
+    commentText
+    editedTime
   }
+}
 `;
 
 const updateComment = async (ctx, input) => {

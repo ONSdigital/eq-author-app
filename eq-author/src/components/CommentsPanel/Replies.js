@@ -109,7 +109,7 @@ const Replies = props => {
           />
           <CommentFooterContainer>
             <SaveButton
-              id={repliesIndex}
+              id={`btn-save-editedReply-${index}-${repliesIndex}`}
               medium
               onClick={() => handleSaveEditReply(item, repliesItem)}
               data-test={`btn-save-editedReply-${index}-${repliesIndex}`}

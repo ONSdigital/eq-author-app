@@ -4,12 +4,6 @@ mutation createComment($input: CreateCommentInput!) {
     commentText
     createdTime
     editedTime
-    page {
-      id
-      comments {
-        id
-      }
-    }
     user {
       id
       name

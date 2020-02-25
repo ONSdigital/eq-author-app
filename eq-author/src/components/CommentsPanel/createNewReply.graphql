@@ -11,17 +11,6 @@ mutation CreateReply($input: CreateReplyInput!) {
       email
       displayName
     }
-    parentComment {
-      id
-      page {
-        id
-        comments {
-          id
-          replies {
-            id
-          }
-        }
-      }
-    }
+    parentCommentId
   }
 }
