@@ -121,7 +121,7 @@ const createApp = () => {
   app.get("/export/:questionnaireId", exportQuestionnaire);
   if (process.env.ENABLE_IMPORT === "true") {
     app
-      .use(bodyParser.json())
+      .use(bodyParser.json({ limit: "10mb", extended: true }))
       .post(
         "/import",
         identificationMiddleware(logger),
