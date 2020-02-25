@@ -160,9 +160,11 @@ export const EditButton = styled.button`
   &:hover {
     filter: invert(100%) brightness(0.6);
   }
-  &:focus,
+  &:focus {
+    outline: 3px solid ${colors.orange};
+  }
   &:active {
-    outline-width: 0;
+    outline: 3px solid ${colors.orange};
   }
   &[disabled] {
     pointer-events: none;

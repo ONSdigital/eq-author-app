@@ -720,14 +720,14 @@ const Resolvers = {
       return ctx.questionnaire;
     },
     createComment: async (_, { input }, ctx) => {
-      const { componentId } = input;
+      const { componentId, commentText } = input;
       const questionnaire = ctx.questionnaire;
       const questionnaireComments = await getCommentsForQuestionnaire(
         questionnaire.id
       );
       const newComment = {
         id: uuid.v4(),
-        commentText: input.commentText,
+        commentText: commentText,
         userId: ctx.user.id,
         createdTime: new Date(),
         replies: [],
@@ -747,7 +747,7 @@ const Resolvers = {
       return newComment;
     },
     deleteComment: async (_, { input }, ctx) => {
-      const { componentId } = input;
+      const { componentId, commentId } = input;
       const questionnaire = ctx.questionnaire;
       const questionnaireComments = await getCommentsForQuestionnaire(
         questionnaire.id
@@ -755,14 +755,14 @@ const Resolvers = {
 
       const componentComments = questionnaireComments.comments[componentId];
       if (componentComments) {
-        remove(componentComments, ({ id }) => id === input.commentId);
+        remove(componentComments, ({ id }) => id === commentId);
         await saveComments(questionnaireComments);
       }
       publishCommentUpdates(componentId);
       return componentComments;
     },
     updateComment: async (_, { input }, ctx) => {
-      const { componentId } = input;
+      const { componentId, commentId, commentText } = input;
       const questionnaire = ctx.questionnaire;
       const questionnaireComments = await getCommentsForQuestionnaire(
         questionnaire.id
@@ -773,10 +773,8 @@ const Resolvers = {
         throw new Error("No comments found");
       }
 
-      const commentToEdit = pageComments.find(
-        ({ id }) => id === input.commentId
-      );
-      commentToEdit.commentText = input.commentText;
+      const commentToEdit = pageComments.find(({ id }) => id === commentId);
+      commentToEdit.commentText = commentText;
       commentToEdit.editedTime = new Date();
       await saveComments(questionnaireComments);
 
@@ -785,7 +783,7 @@ const Resolvers = {
       return commentToEdit;
     },
     createReply: async (_, { input }, ctx) => {
-      const { componentId } = input;
+      const { componentId, commentText, commentId } = input;
       const questionnaire = ctx.questionnaire;
       const questionnaireComments = await getCommentsForQuestionnaire(
         questionnaire.id
@@ -793,13 +791,13 @@ const Resolvers = {
 
       const newReply = {
         id: uuid.v4(),
-        parentCommentId: input.commentId,
-        commentText: input.commentText,
+        parentCommentId: commentId,
+        commentText,
         userId: ctx.user.id,
         createdTime: new Date(),
       };
       let parentComment = questionnaireComments.comments[componentId].find(
-        ({ id }) => id === input.commentId
+        ({ id }) => id === commentId
       );
       if (parentComment) {
         parentComment.replies.push(newReply);
@@ -814,21 +812,21 @@ const Resolvers = {
       return newReply;
     },
     updateReply: async (_, { input }, ctx) => {
-      const { componentId } = input;
+      const { componentId, commentId, replyId, commentText } = input;
       const questionnaire = ctx.questionnaire;
       const questionnaireComments = await getCommentsForQuestionnaire(
         questionnaire.id
       );
       const replies = questionnaireComments.comments[componentId].find(
-        ({ id }) => id === input.commentId
+        ({ id }) => id === commentId
       ).replies;
 
       if (!replies) {
         throw new Error("No replies found!");
       }
 
-      const replyToEdit = replies.find(({ id }) => id === input.replyId);
-      replyToEdit.commentText = input.commentText;
+      const replyToEdit = replies.find(({ id }) => id === replyId);
+      replyToEdit.commentText = commentText;
       replyToEdit.editedTime = new Date();
       await saveComments(questionnaireComments);
 
@@ -836,18 +834,18 @@ const Resolvers = {
       return replyToEdit;
     },
     deleteReply: async (_, { input }, ctx) => {
-      const { componentId } = input;
+      const { componentId, commentId, replyId } = input;
       const questionnaire = ctx.questionnaire;
       const questionnaireComments = await getCommentsForQuestionnaire(
         questionnaire.id
       );
 
       const replies = questionnaireComments.comments[componentId].find(
-        ({ id }) => id === input.commentId
+        ({ id }) => id === commentId
       ).replies;
 
       if (replies) {
-        remove(replies, ({ id }) => id === input.replyId);
+        remove(replies, ({ id }) => id === replyId);
         await saveComments(questionnaireComments);
       }
       publishCommentUpdates(componentId);

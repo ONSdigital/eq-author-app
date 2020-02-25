@@ -6,7 +6,6 @@ import COMMENT_SUBSCRIPTION from "./commentSubscription.graphql";
 
 import mocks from "./setupTests";
 import CommentsPanel from "./";
-// import { async } from "rxjs/internal/scheduler/async";
 
 describe("Comments Pane", () => {
   let user, props;

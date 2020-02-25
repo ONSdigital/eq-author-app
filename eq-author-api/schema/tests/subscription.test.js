@@ -210,8 +210,6 @@ describe("subscriptions", () => {
       questionnaire = ctx.questionnaire;
       createdQuestionPage = questionnaire.sections[0].pages[0];
       componentId = createdQuestionPage.id;
-      // createdCalSumPage = questionnaire.sections[0].pages[1];
-      // CalSumPageId = createdCalSumPage.id;
     });
 
     const commentsSubscription = gql`
@@ -276,68 +274,6 @@ describe("subscriptions", () => {
       const result = await iterator.next();
       expect(result.value.data.commentsUpdated.id).toBe(componentId);
     });
-
-    // it("CalcSum page - should send event when new comment is created", async () => {
-    //   iterator = await executeSubscription(commentsSubscription, {
-    //     pageId: CalSumPageId,
-    //   });
-
-    //   await createComment(ctx, {
-    //     pageId: CalSumPageId,
-    //     commentText: "a new comment is created",
-    //   });
-
-    //   const result = await iterator.next();
-
-    //   expect(result.value.data.commentsUpdated.comments[0].commentText).toBe(
-    //     "a new comment is created"
-    //   );
-    // });
-
-    // it("CalcSum page - should send event when comment has been updated", async () => {
-    //   iterator = await executeSubscription(commentsSubscription, {
-    //     pageId: CalSumPageId,
-    //   });
-
-    //   const newComment = await createComment(ctx, {
-    //     pageId: CalSumPageId,
-    //     commentText: "a new comment is created",
-    //   });
-    //   const commentId = newComment.id;
-
-    //   await updateComment(ctx, {
-    //     pageId: CalSumPageId,
-    //     commentId: commentId,
-    //     commentText: "an edited comment",
-    //   });
-    //   const result = await iterator.next();
-    //   expect(result.value.data.commentsUpdated.comments[0].commentText).toBe(
-    //     "an edited comment"
-    //   );
-    // });
-
-    // it("CalcSum page - should send event when comment has been deleted", async () => {
-    //   iterator = await executeSubscription(commentsSubscription, {
-    //     pageId: CalSumPageId,
-    //   });
-
-    //   const newComment = await createComment(ctx, {
-    //     pageId: CalSumPageId,
-    //     commentText: "a new comment is created",
-    //   });
-
-    //   const commentId = newComment.id;
-
-    //   await deleteComment(ctx, {
-    //     pageId: CalSumPageId,
-    //     commentId: commentId,
-    //   });
-    //   const result = await iterator.next();
-    //   expect(result.value.data.commentsUpdated).toMatchObject({
-    //     id: CalSumPageId,
-    //     comments: [],
-    //   });
-    // });
   });
 
   describe("publishStatusUpdated", () => {
