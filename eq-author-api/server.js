@@ -137,7 +137,6 @@ const createApp = () => {
 
   logger.info(`🚀 Server ready at ${server.graphqlPath}`);
   logger.info(`🚀 Subscriptions ready at ${server.subscriptionsPath}`);
-
   return httpServer;
 };
 

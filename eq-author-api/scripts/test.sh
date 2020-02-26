@@ -48,4 +48,5 @@ FIREBASE_PROJECT_ID=${FIREBASE_PROJECT_ID} \
 REDIS_DOMAIN_NAME=0.0.0.0 \
 REDIS_PORT=${REDIS_PORT} \
 SURVEY_REGISTER_URL=http://host.docker.internal:8080/submit/ \
+DATABASE=dynamodb \
 yarn jest --runInBand --detectOpenHandles --forceExit "$@"

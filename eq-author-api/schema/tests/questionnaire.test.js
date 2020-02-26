@@ -39,7 +39,7 @@ const {
 const { NUMBER } = require("../../constants/answerTypes");
 
 const defaultUser = require("../../tests/utils/mockUserPayload");
-const { createUser } = require("../../utils/datastore");
+const { createUser } = require("../../db/datastore");
 
 describe("questionnaire", () => {
   let ctx, questionnaire;

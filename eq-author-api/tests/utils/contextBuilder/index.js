@@ -2,7 +2,7 @@ const { SOCIAL } = require("../../../constants/questionnaireTypes");
 const { RADIO } = require("../../../constants/answerTypes");
 
 const { PUBLISHED, UNPUBLISHED } = require("../../../constants/publishStatus");
-const { createUser } = require("../../../utils/datastore");
+const { createUser } = require("../../../db/datastore");
 const {
   createQuestionnaire,
   publishQuestionnaire,

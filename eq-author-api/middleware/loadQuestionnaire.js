@@ -1,4 +1,4 @@
-const { getQuestionnaire } = require("../utils/datastore");
+const { getQuestionnaire } = require("../db/datastore");
 const { get } = require("lodash");
 
 module.exports = async (req, res, next) => {

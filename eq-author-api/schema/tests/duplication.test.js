@@ -22,7 +22,7 @@ const {
   duplicatePage,
 } = require("../../tests/utils/contextBuilder/page");
 
-const { getQuestionnaire } = require("../../utils/datastore");
+const { getQuestionnaire } = require("../../db/datastore");
 
 describe("Duplication", () => {
   let ctx, questionnaire, section;

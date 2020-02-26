@@ -1,7 +1,7 @@
 const {
   saveQuestionnaire,
   getQuestionnaireMetaById,
-} = require("../utils/datastore");
+} = require("../db/datastore");
 const { merge } = require("lodash");
 
 module.exports = logger => ({ currentVersion, migrations }) => async (
