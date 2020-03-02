@@ -7,7 +7,7 @@ const { createSignedToken } = require("./tests/utils/createSignedToken");
 
 const { createApp } = require("./server");
 const { introspectionQuery } = require("graphql");
-const { createUser } = require("./utils/datastore");
+const { createUser } = require("./db/datastore");
 
 const tracer = require("./tracer");
 const apolloOpenTracing = require("apollo-opentracing");

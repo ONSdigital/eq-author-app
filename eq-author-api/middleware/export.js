@@ -1,4 +1,4 @@
-const { getQuestionnaire } = require("../utils/datastore");
+const { getQuestionnaire } = require("../db/datastore");
 
 module.exports = async (req, res) => {
   const questionnaireId = req.params.questionnaireId;

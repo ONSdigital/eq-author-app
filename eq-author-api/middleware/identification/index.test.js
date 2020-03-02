@@ -8,7 +8,7 @@ const keysFile = "./keys.test.yml";
 const keysYaml = yaml.safeLoad(fs.readFileSync(keysFile, "utf8"));
 const keysJson = JSON.parse(JSON.stringify(keysYaml));
 
-const { createUser } = require("../../utils/datastore");
+const { createUser } = require("../../db/datastore");
 
 jest.mock("./verifyJwtToken", () => {
   const jwt = require("jsonwebtoken");

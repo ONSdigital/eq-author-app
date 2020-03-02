@@ -81,18 +81,16 @@ const {
   createHistoryEvent,
   getQuestionnaireMetaById,
   createComments,
-  saveModel,
+  saveMetadata,
   saveComments,
   getCommentsForQuestionnaire,
-} = require("../../utils/datastore");
-
-const { QuestionnaireModel } = require("../../db/models/DynamoDB");
+} = require("../../db/datastore");
 
 const {
   createDefaultBusinessSurveyMetadata,
 } = require("../../utils/defaultMetadata");
 
-const { listQuestionnaires } = require("../../utils/datastore");
+const { listQuestionnaires } = require("../../db/datastore");
 
 const createQuestionnaireIntroduction = require("../../utils/createQuestionnaireIntroduction");
 
@@ -302,7 +300,7 @@ const Resolvers = {
 
       noteToUpdate.bodyText = input.bodyText;
 
-      await saveModel(new QuestionnaireModel(metadata));
+      await saveMetadata(metadata);
       return metadata.history;
     },
 
@@ -321,7 +319,7 @@ const Resolvers = {
 
       remove(metadata.history, item => item.id === noteToDelete.id);
 
-      await saveModel(new QuestionnaireModel(metadata));
+      await saveMetadata(metadata);
       return metadata.history;
     },
 

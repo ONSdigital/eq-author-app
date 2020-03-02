@@ -4,7 +4,7 @@ const {
   createUser,
   updateUser,
   getUserByExternalId,
-} = require("../../utils/datastore");
+} = require("../../db/datastore");
 
 const checkForUpdates = (user, existingUser) => {
   const pickRequiredFields = pick(["email", "name", "externalId", "picture"]);

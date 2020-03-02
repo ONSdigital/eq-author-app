@@ -2,8 +2,8 @@ const pubsub = require("../../db/pubSub");
 const validateQuestionnaire = require("../../src/validation");
 const { enforceHasWritePermission } = require("./withPermissions");
 
-const { saveQuestionnaire } = require("../../utils/datastore");
-const { createHistoryEvent } = require("../../utils/datastore");
+const { saveQuestionnaire } = require("../../db/datastore");
+const { createHistoryEvent } = require("../../db/datastore");
 const { publishStatusEvent } = require("../../utils/questionnaireEvents");
 
 const {

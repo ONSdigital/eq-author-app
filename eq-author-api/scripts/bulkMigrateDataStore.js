@@ -5,7 +5,7 @@ const {
   getQuestionnaire,
   listQuestionnaires,
   saveQuestionnaire,
-} = require("../utils/datastore");
+} = require("../db/datastore");
 const { currentVersion, migrations } = require("../migrations");
 
 const bulkMigrateDataStore = async () => {

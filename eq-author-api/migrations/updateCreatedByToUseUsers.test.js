@@ -4,7 +4,7 @@ const uuid = require("uuid");
 const updateCreatedByToUseUsers = require("./updateCreatedByToUseUsers.js");
 const { getUserByName, getUserByEmail } = updateCreatedByToUseUsers;
 
-const { createUser } = require("../utils/datastore");
+const { createUser } = require("../db/datastore");
 const { AUTHOR_TEAM_NAME } = require("../constants/authorTeamUser");
 
 describe("updateCreatedByToUseUsers", () => {

@@ -9,9 +9,11 @@ const {
   justListFields,
   UserModel,
   CommentsModel,
-} = require("../db/models/DynamoDB");
+} = require("../models/DynamoDB");
 
-const { questionnaireCreationEvent } = require("./questionnaireEvents");
+const {
+  questionnaireCreationEvent,
+} = require("../../utils/questionnaireEvents");
 
 const omitTimestamps = questionnaire =>
   omit({ ...questionnaire }, ["updatedAt", "createdAt"]);
@@ -29,6 +31,10 @@ const saveModel = (model, options = {}) =>
       resolve(model);
     });
   });
+
+const saveMetadata = metadata => {
+  return saveModel(new QuestionnaireModel(metadata));
+};
 
 const createUser = user => {
   const { id, email, name, externalId, picture } = user;
@@ -299,4 +305,5 @@ module.exports = {
   getCommentsForQuestionnaire,
   saveComments,
   createComments,
+  saveMetadata,
 };

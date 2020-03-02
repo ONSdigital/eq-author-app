@@ -1,6 +1,6 @@
 const { buildContext } = require("../../tests/utils/contextBuilder");
 
-const { createQuestionnaire } = require("../../utils/datastore");
+const { createQuestionnaire } = require("../../db/datastore");
 
 const {
   deleteQuestionnaire,

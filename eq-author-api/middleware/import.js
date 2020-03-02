@@ -1,5 +1,5 @@
 const uuid = require("uuid");
-const { createQuestionnaire } = require("../utils/datastore");
+const { createQuestionnaire } = require("../db/datastore");
 
 module.exports = async (req, res) => {
   const input = req.body;
