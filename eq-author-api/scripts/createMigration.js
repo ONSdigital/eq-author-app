@@ -1,6 +1,5 @@
 const { R_OK } = require("fs").constants;
 const fs = require("fs").promises;
-const chalk = require("chalk");
 const { camelCase } = require("lodash");
 const { logger } = require("../utils/logger");
 
