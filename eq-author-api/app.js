@@ -1,6 +1,6 @@
 require("dotenv").config();
 
-const logger = require("pino")();
+const { logger } = require("./utils/logger");
 
 const { createApp } = require("./server");
 

@@ -3,10 +3,8 @@ const { ApolloServer } = require("apollo-server-express");
 const cors = require("cors");
 const pinoMiddleware = require("express-pino-logger");
 const helmet = require("helmet");
-const noir = require("pino-noir");
 const bodyParser = require("body-parser");
 const http = require("http");
-
 const status = require("./middleware/status");
 const { getLaunchUrl } = require("./middleware/launch");
 const loadQuestionnaire = require("./middleware/loadQuestionnaire");
@@ -18,15 +16,14 @@ const getUserFromHeaderBuilder = require("./middleware/identification/getUserFro
 const upsertUser = require("./middleware/identification/upsertUser");
 const rejectUnidentifiedUsers = require("./middleware/identification/rejectUnidentifiedUsers");
 const validateQuestionnaire = require("./middleware/validateQuestionnaire");
+const { expressLogger } = require("./utils/logger");
 
 const schema = require("./schema");
 
 const createApp = () => {
   const app = express();
-  const pino = pinoMiddleware({
-    serializers: noir(["req.headers.authorization"], "[Redacted]"),
-  });
-  const logger = pino.logger;
+
+  const logger = expressLogger.logger;
 
   let extensions = [];
   if (process.env.ENABLE_OPENTRACING === "true") {
@@ -76,7 +73,7 @@ const createApp = () => {
         },
       },
     }),
-    pino,
+    expressLogger,
     cors(),
     identificationMiddleware(logger),
     rejectUnidentifiedUsers,

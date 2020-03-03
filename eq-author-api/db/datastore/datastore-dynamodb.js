@@ -1,6 +1,6 @@
 const jsondiffpatch = require("jsondiffpatch");
 const { omit, first, isNil } = require("lodash");
-const logger = require("pino")();
+const logger = require("../../utils/logger");
 const uuid = require("uuid");
 const {
   QuestionnaireModel,
