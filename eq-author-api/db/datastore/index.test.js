@@ -6,20 +6,11 @@ describe("Choosing which datastore to use", () => {
     process.env = { ...OLD_ENV };
   });
 
-  it("should error if the DATABASE env var is unset", () => {
+  it("should default to a datastore if the DATABASE env var is unset", () => {
     delete process.env.DATABASE;
 
-    expect(process.env.DATABASE).toBeFalsy();
-    expect(() => require("./index")).toThrow();
-  });
-
-  it("should error if the value of env var DATABASE is not recognised", () => {
-    process.env.DATABASE = "this is not the env var you are looking for";
-    expect(process.env.DATABASE).toBeTruthy();
-    expect(process.env.DATABASE).toBe(
-      "this is not the env var you are looking for"
-    );
-    expect(() => require("./index")).toThrow();
+    expect(() => require("./index")).not.toThrow();
+    expect(typeof require("./index")).toBe("object");
   });
 
   it("should not error otherwise", () => {
