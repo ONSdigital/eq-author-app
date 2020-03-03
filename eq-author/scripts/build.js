@@ -27,6 +27,7 @@ const formatWebpackMessages = require("react-dev-utils/formatWebpackMessages");
 const printHostingInstructions = require("react-dev-utils/printHostingInstructions");
 const FileSizeReporter = require("react-dev-utils/FileSizeReporter");
 const printBuildError = require("react-dev-utils/printBuildError");
+const { logger } = require("../src/utils/logger");
 
 const measureFileSizesBeforeBuild =
   FileSizeReporter.measureFileSizesBeforeBuild;
@@ -69,23 +70,19 @@ checkBrowsers(paths.appPath, isInteractive)
   .then(
     ({ stats, previousFileSizes, warnings }) => {
       if (warnings.length) {
-        console.log(chalk.yellow("Compiled with warnings.\n"));
-        console.log(warnings.join("\n\n"));
-        console.log(
-          "\nSearch for the " +
-            chalk.underline(chalk.yellow("keywords")) +
-            " to learn more about each warning."
+        logger.warn(chalk.yellow("Compiled with warnings.\n"));
+        logger.warn(warnings.join("\n\n"));
+        logger.info(
+          "\nSearch for the keywords to learn more about each warning."
         );
-        console.log(
-          "To ignore, add " +
-            chalk.cyan("// eslint-disable-next-line") +
-            " to the line before.\n"
+        logger.info(
+          "To ignore, add // eslint-disable-next-line to the line before.\n"
         );
       } else {
-        console.log(chalk.green("Compiled successfully.\n"));
+        logger.info("Compiled successfully.\n");
       }
 
-      console.log("File sizes after gzip:\n");
+      logger.info("File sizes after gzip:\n");
       printFileSizesAfterBuild(
         stats,
         previousFileSizes,
@@ -93,7 +90,6 @@ checkBrowsers(paths.appPath, isInteractive)
         WARN_AFTER_BUNDLE_GZIP_SIZE,
         WARN_AFTER_CHUNK_GZIP_SIZE
       );
-      console.log();
 
       const appPackage = require(paths.appPackageJson);
       const publicUrl = paths.publicUrl;
@@ -108,21 +104,21 @@ checkBrowsers(paths.appPath, isInteractive)
       );
     },
     err => {
-      console.log(chalk.red("Failed to compile.\n"));
+      logger.fatal("Failed to compile.\n");
       printBuildError(err);
       process.exit(1);
     }
   )
   .catch(err => {
     if (err && err.message) {
-      console.log(err.message);
+      logger.fatal(err.message);
     }
     process.exit(1);
   });
 
 // Create the production build and print the deployment instructions.
 function build(previousFileSizes) {
-  console.log("Creating an optimized production build...");
+  logger.info("Creating an optimized production build...");
 
   let compiler = webpack(config);
   return new Promise((resolve, reject) => {
@@ -155,11 +151,9 @@ function build(previousFileSizes) {
           process.env.CI.toLowerCase() !== "false") &&
         messages.warnings.length
       ) {
-        console.log(
-          chalk.yellow(
-            "\nTreating warnings as errors because process.env.CI = true.\n" +
-              "Most CI servers set it automatically.\n"
-          )
+        logger.warn(
+          "\nTreating warnings as errors because process.env.CI = true.\n" +
+            "Most CI servers set it automatically.\n"
         );
         return reject(new Error(messages.warnings.join("\n\n")));
       }

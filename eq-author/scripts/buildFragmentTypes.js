@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/* eslint-disable import/unambiguous,no-console */
+/* eslint-disable import/unambiguous, */
 const { makeExecutableSchema } = require("graphql-tools");
 const { graphql } = require("graphql");
 const chalk = require("chalk");
@@ -61,8 +61,8 @@ const generateIntrospectionFragmentMatcher = (schema, outPath) => {
 
 generateIntrospectionFragmentMatcher(schema, pathToSave)
   .then(res => {
-    console.log(chalk.green("Fragment types file built at " + pathToSave));
+    logger.info("Fragment types file built at " + pathToSave);
   })
   .catch(e => {
-    console.error(chalk.red("Fragment types file build failed: "), e);
+    logger.error("Fragment types file build failed: ", e);
   });
