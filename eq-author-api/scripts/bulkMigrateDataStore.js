@@ -1,6 +1,4 @@
 #!/usr/bin/env node
-/* eslint-disable import/unambiguous,no-console */
-
 const {
   getQuestionnaire,
   listQuestionnaires,
@@ -18,7 +16,7 @@ const bulkMigrateDataStore = async () => {
 
     const bringQuestionnaireToLatest = async () => {
       for (let i = latestQuestionnaire.version; i < migrations.length; i++) {
-        console.log(
+        logger.info(
           `Running migration for version ${migrations[i].name} on ${latestQuestionnaire.id}`
         );
         const migrationFunction = migrations[i];
@@ -32,7 +30,7 @@ const bulkMigrateDataStore = async () => {
       await bringQuestionnaireToLatest();
       await saveQuestionnaire(latestQuestionnaire);
     } catch (e) {
-      console.log(e);
+      logger.error(e);
     }
   }
 };

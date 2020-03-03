@@ -132,8 +132,8 @@ const createApp = () => {
   const httpServer = http.createServer(app);
   server.installSubscriptionHandlers(httpServer);
 
-  logger.info(`🚀 Server ready at ${server.graphqlPath}`);
-  logger.info(`🚀 Subscriptions ready at ${server.subscriptionsPath}`);
+  logger.info(`🚀  Server ready at ${server.graphqlPath}`);
+  logger.info(`🚀  Subscriptions ready at ${server.subscriptionsPath}`);
   return httpServer;
 };
 

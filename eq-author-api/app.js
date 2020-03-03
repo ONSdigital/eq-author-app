@@ -8,5 +8,5 @@ const { PORT = 4000 } = process.env;
 const server = createApp();
 
 server.listen(PORT, "0.0.0.0", () => {
-  logger.child({ port: PORT }).info("Listening on port");
+  logger.info(`🚢  Listening on port ${PORT}`);
 });
