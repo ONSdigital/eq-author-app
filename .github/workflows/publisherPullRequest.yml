@@ -1,0 +1,45 @@
+name: Publisher Pull Request
+
+on: [pull_request]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [10.x]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: Install dependencies
+      run: yarn --frozen-lockfile; pushd eq-publisher; yarn --frozen-lockfile; popd
+    - name: Run linter
+      run: pushd eq-publisher; yarn lint; popd
+    - name: Run unit tests and generate coverage file
+      run: pushd eq-publisher; yarn test --coverage; popd
+      env:
+        BABEL_ENV: "test"
+        NODE_ENV: "test"
+        PUBLIC_URL: "test"
+        CI: true
+    - name: Upload coverage file to Codecov  
+      uses: codecov/codecov-action@v1
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        file: ./eq-publisher/coverage/coverage-final.json
+        yml: ./codecov.yml
+        fail_ci_if_error: true
+    - name: Build new docker image
+      run: pushd eq-publisher; docker build -t onsdigital/eq-publisher:$TAG --build-arg APPLICATION_VERSION=$(git rev-parse HEAD) -f Dockerfile .; popd
+      env: 
+        TAG: ${{github.HEAD_REF}}
+    - name: Push new docker image
+      run: pushd eq-publisher; docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}; docker push onsdigital/eq-publisher:$TAG; popd
+      env:
+        TAG: ${{github.HEAD_REF}}

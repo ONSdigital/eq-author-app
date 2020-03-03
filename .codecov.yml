@@ -2,21 +2,13 @@ coverage:
   status:
     project:
       author:
-        flags: author
+        paths:
+          - eq-author/
       api:
-        flags: api
+        paths:
+          - eq-author-api/
       publisher:
-        flags: publisher
+        paths:
+          - eq-publisher/
 
-flags:
-  author:
-    paths:
-      - eq-author/
-  api:
-    paths:
-      - eq-author-api/
-  publisher:
-    paths:
-      - eq-publisher/
-
-comment: off
+comment: on

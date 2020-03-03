@@ -1,0 +1,48 @@
+name: API Pull Request
+
+on: [pull_request]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [10.x]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: Install top-level dependencies
+      run: yarn --frozen-lockfile
+    - name: Install front end dependencies
+      run: pushd eq-author-api; yarn --frozen-lockfile; popd
+    - name: Linter
+      run: pushd eq-author-api; yarn lint; popd
+    - name: Unit tests
+      run: pushd eq-author-api; yarn test --coverage; popd
+      env:
+        BABEL_ENV: "test"
+        NODE_ENV: "test"
+        PUBLIC_URL: "test"
+        CI: true
+    - name: Upload coverage to Codecov  
+      uses: codecov/codecov-action@v1
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        file: ./eq-author-api/coverage/coverage-final.json
+        yml: ./codecov.yml
+        fail_ci_if_error: true
+    - name: Build new docker image
+      run: pushd eq-author-api; docker build -t onsdigital/eq-author-api:$TAG --build-arg APPLICATION_VERSION=$(git rev-parse HEAD) -f Dockerfile .; popd
+      env: 
+        TAG: ${{github.HEAD_REF}}
+    - name: Push new docker image
+      run: pushd eq-author-api; docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}; docker push onsdigital/eq-author-api:$TAG; popd
+      env:
+        TAG: ${{github.HEAD_REF}}
+
