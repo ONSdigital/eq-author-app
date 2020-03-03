@@ -2,6 +2,7 @@
 const admin = require("firebase-admin");
 const program = require("commander");
 const fs = require("fs").promises;
+const { logger } = require("../utils/logger");
 
 program
   .description("A utility that applies the admin role to a firebase user.")

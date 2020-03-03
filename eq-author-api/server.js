@@ -1,7 +1,6 @@
 const express = require("express");
 const { ApolloServer } = require("apollo-server-express");
 const cors = require("cors");
-const pinoMiddleware = require("express-pino-logger");
 const helmet = require("helmet");
 const bodyParser = require("body-parser");
 const http = require("http");

@@ -1,10 +1,12 @@
 #!/usr/bin/env node
+//eslint-disable no-loop-func
 const {
   getQuestionnaire,
   listQuestionnaires,
   saveQuestionnaire,
 } = require("../db/datastore");
 const { currentVersion, migrations } = require("../migrations");
+const { logger } = require("../utils/logger");
 
 const bulkMigrateDataStore = async () => {
   const questionnaireList = await listQuestionnaires();
