@@ -1,19 +1,12 @@
+const logger = require("pino")();
+
 const DYNAMODB = "dynamodb";
 
+const databaseName = process.env.DATABASE || 'dynamodb';
+const datastore = require(`./datastore-${databaseName}`)
+
 if (!process.env.DATABASE) {
-  throw new Error("Unset env var 'DATABASE'");
-}
-
-const databaseName = process.env.DATABASE;
-
-let datastore;
-
-if (databaseName === DYNAMODB) {
-  datastore = require("./datastore-dynamodb");
-}
-
-if (!datastore) {
-  throw new Error(`Unknown DATABASE env value: ${databaseName}`);
+  logger.info("Env var DATABASE not set; using default value: dynamodb")
 }
 
 module.exports = datastore;
