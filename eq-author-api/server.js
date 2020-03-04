@@ -1,9 +1,12 @@
 const express = require("express");
 const { ApolloServer } = require("apollo-server-express");
 const cors = require("cors");
+const pinoMiddleware = require("express-pino-logger");
 const helmet = require("helmet");
+const noir = require("pino-noir");
 const bodyParser = require("body-parser");
 const http = require("http");
+
 const status = require("./middleware/status");
 const { getLaunchUrl } = require("./middleware/launch");
 const loadQuestionnaire = require("./middleware/loadQuestionnaire");
@@ -15,14 +18,15 @@ const getUserFromHeaderBuilder = require("./middleware/identification/getUserFro
 const upsertUser = require("./middleware/identification/upsertUser");
 const rejectUnidentifiedUsers = require("./middleware/identification/rejectUnidentifiedUsers");
 const validateQuestionnaire = require("./middleware/validateQuestionnaire");
-const { expressLogger } = require("./utils/logger");
 
 const schema = require("./schema");
 
 const createApp = () => {
   const app = express();
-
-  const logger = expressLogger.logger;
+  const pino = pinoMiddleware({
+    serializers: noir(["req.headers.authorization"], "[Redacted]"),
+  });
+  const logger = pino.logger;
 
   let extensions = [];
   if (process.env.ENABLE_OPENTRACING === "true") {
@@ -72,7 +76,7 @@ const createApp = () => {
         },
       },
     }),
-    expressLogger,
+    pino,
     cors(),
     identificationMiddleware(logger),
     rejectUnidentifiedUsers,
@@ -131,8 +135,8 @@ const createApp = () => {
   const httpServer = http.createServer(app);
   server.installSubscriptionHandlers(httpServer);
 
-  logger.info(`🚀  Server ready at ${server.graphqlPath}`);
-  logger.info(`🚀  Subscriptions ready at ${server.subscriptionsPath}`);
+  logger.info(`🚀 Server ready at ${server.graphqlPath}`);
+  logger.info(`🚀 Subscriptions ready at ${server.subscriptionsPath}`);
   return httpServer;
 };
 
