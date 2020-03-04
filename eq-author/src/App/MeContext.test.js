@@ -22,13 +22,13 @@ describe("MeContext", () => {
       /* 
       act is not currently dealing with async actions. This is resolved in React 16.9 which is currently in alpha.
       */
-      /* eslint-disable no-console */
+      /* eslint-disable  */
       consoleError = console.error;
       console.error = () => {};
-      /* eslint-enable no-console */
+      /* eslint-enable  */
     });
     afterAll(() => {
-      //eslint-disable-next-line no-console
+      //eslint-disable-next-line
       console.error = consoleError;
     });
 
@@ -95,13 +95,13 @@ describe("MeContext", () => {
       /* 
       act is not currently dealing with async actions. This is resolved in React 16.9 which is currently in alpha.
       */
-      /* eslint-disable no-console */
+      /* eslint-disable  */
       consoleError = console.error;
       console.error = () => {};
-      /* eslint-enable no-console */
+      /* eslint-enable  */
     });
     afterAll(() => {
-      //eslint-disable-next-line no-console
+      //eslint-disable-next-line
       console.error = consoleError;
     });
 

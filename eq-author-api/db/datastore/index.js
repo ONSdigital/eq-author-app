@@ -1,4 +1,4 @@
-const logger = require("pino")();
+const { logger } = require("../../utils/logger");
 
 const DEFAULT_DATABASE = "dynamodb";
 
