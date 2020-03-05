@@ -1,26 +1,38 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { merge } from "lodash";
+import { flowRight, merge } from "lodash";
 import CustomPropTypes from "custom-prop-types";
 
 import { DATE } from "constants/answer-types";
 
 import withUpdateAnswer from "App/page/Design/answers/withUpdateAnswer";
-
+import withUpdateValidationRule from "App/page/Design/Validation/withUpdateValidationRule";
 import InlineField from "../InlineField";
 
 import { Required, DateFormat } from "./Properties";
 import MultiLineField from "../MultiLineField";
+
+const durations = {
+  "dd/mm/yyyy": "Days",
+  "mm/yyyy": "Months",
+  yyyy: "Years",
+};
 
 export class UnwrappedAnswerProperties extends React.Component {
   static propTypes = {
     answer: CustomPropTypes.answer.isRequired,
     onSubmit: PropTypes.func,
     onUpdateAnswer: PropTypes.func.isRequired,
+    onUpdateValidationRule: PropTypes.func.isRequired,
   };
 
   handleChange = propName => ({ value }) => {
-    const { id, properties: currentProperties } = this.props.answer;
+    const {
+      id,
+      properties: currentProperties,
+      validation,
+      type,
+    } = this.props.answer;
     const properties = merge({}, currentProperties, {
       [propName]: value,
     });
@@ -29,6 +41,21 @@ export class UnwrappedAnswerProperties extends React.Component {
       id,
       properties,
     });
+
+    if (type === "Date" && propName === "format") {
+      const earliestDateInput = validation.earliestDate;
+      earliestDateInput.offset.unit = durations[value];
+      this.props.onUpdateValidationRule({
+        id,
+        earliestDateInput,
+      });
+      const latestDateInput = validation.latestDate;
+      latestDateInput.offset.unit = durations[value];
+      this.props.onUpdateValidationRule({
+        id,
+        latestDateInput,
+      });
+    }
   };
 
   getId = (name, { id }) => `answer-${id}-${name}`;
@@ -62,4 +89,7 @@ export class UnwrappedAnswerProperties extends React.Component {
   }
 }
 
-export default withUpdateAnswer(UnwrappedAnswerProperties);
+export default flowRight(
+  withUpdateValidationRule,
+  withUpdateAnswer
+)(UnwrappedAnswerProperties);
