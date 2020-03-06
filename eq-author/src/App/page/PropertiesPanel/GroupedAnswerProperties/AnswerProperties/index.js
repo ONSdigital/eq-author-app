@@ -33,7 +33,6 @@ export class UnwrappedAnswerProperties extends React.Component {
       validation,
       type,
     } = this.props.answer;
-
     const properties = merge({}, currentProperties, {
       [propName]: value,
     });
@@ -46,19 +45,17 @@ export class UnwrappedAnswerProperties extends React.Component {
     if (type === "Date" && propName === "format") {
       const earliestDateInput = validation.earliestDate;
       earliestDateInput.offset.unit = durations[value];
-
-      console.log("durations value---------", durations[value]);
-
-      const latestDateInput = validation.latestDate;
-      latestDateInput.offset.unit = durations[value];
-
       this.props.onUpdateValidationRule({
         id,
         earliestDateInput,
+      });
+      const latestDateInput = validation.latestDate;
+      latestDateInput.offset.unit = durations[value];
+      this.props.onUpdateValidationRule({
+        id,
         latestDateInput,
       });
     }
-    console.log("answer - - - ", this.props.answer);
   };
 
   getId = (name, { id }) => `answer-${id}-${name}`;
