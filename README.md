@@ -4,6 +4,7 @@
 
 <img width="180" height="180" src="eq-author/public/android-chrome-256x256.png" alt="eq-author logo">
 
+
 ![Publisher](https://github.com/ONSdigital/eq-author-app/workflows/Publisher%20Pull%20Request/badge.svg)
 ![API](https://github.com/ONSdigital/eq-author-app/workflows/API%20Pull%20Request/badge.svg)
 ![Author](https://github.com/ONSdigital/eq-author-app/workflows/Author%20Pull%20Request/badge.svg)
