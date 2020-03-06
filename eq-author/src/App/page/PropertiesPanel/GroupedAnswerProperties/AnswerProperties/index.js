@@ -46,13 +46,13 @@ export class UnwrappedAnswerProperties extends React.Component {
       const earliestDateInput = validation.earliestDate;
       earliestDateInput.offset.unit = durations[value];
       this.props.onUpdateValidationRule({
-        id,
+        id: earliestDateInput.id,
         earliestDateInput,
       });
       const latestDateInput = validation.latestDate;
       latestDateInput.offset.unit = durations[value];
       this.props.onUpdateValidationRule({
-        id,
+        id: latestDateInput.id,
         latestDateInput,
       });
     }
