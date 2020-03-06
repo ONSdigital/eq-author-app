@@ -124,10 +124,6 @@ export class UnwrappedDateValidation extends React.Component {
 
     const availableUnits = getUnits({ format, type });
 
-    console.log("this.props validation", this.props.answer.validation);
-    console.log("offset.unit", offset.unit);
-    console.log("type", type);
-
     const validationPills = {
       Metadata: this.Metadata,
       Custom: this.Custom,
