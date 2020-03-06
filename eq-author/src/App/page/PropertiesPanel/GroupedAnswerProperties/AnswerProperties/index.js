@@ -4,6 +4,7 @@ import { flowRight, merge } from "lodash";
 import CustomPropTypes from "custom-prop-types";
 
 import { DATE } from "constants/answer-types";
+import { DAYS, MONTHS, YEARS } from "constants/durations";
 
 import withUpdateAnswer from "App/page/Design/answers/withUpdateAnswer";
 import withUpdateValidationRule from "App/page/Design/Validation/withUpdateValidationRule";
@@ -12,10 +13,10 @@ import InlineField from "../InlineField";
 import { Required, DateFormat } from "./Properties";
 import MultiLineField from "../MultiLineField";
 
-const durations = {
-  "dd/mm/yyyy": "Days",
-  "mm/yyyy": "Months",
-  yyyy: "Years",
+const durationsMap = {
+  "dd/mm/yyyy": DAYS,
+  "mm/yyyy": MONTHS,
+  yyyy: YEARS,
 };
 
 export class UnwrappedAnswerProperties extends React.Component {
@@ -42,15 +43,15 @@ export class UnwrappedAnswerProperties extends React.Component {
       properties,
     });
 
-    if (type === "Date" && propName === "format") {
+    if (type === DATE && propName === "format") {
       const earliestDateInput = validation.earliestDate;
-      earliestDateInput.offset.unit = durations[value];
+      earliestDateInput.offset.unit = durationsMap[value];
       this.props.onUpdateValidationRule({
         id: earliestDateInput.id,
         earliestDateInput,
       });
       const latestDateInput = validation.latestDate;
-      latestDateInput.offset.unit = durations[value];
+      latestDateInput.offset.unit = durationsMap[value];
       this.props.onUpdateValidationRule({
         id: latestDateInput.id,
         latestDateInput,
