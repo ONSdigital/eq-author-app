@@ -20,6 +20,7 @@ describe("Answer Properties", () => {
       },
       loading: false,
       onUpdateAnswer: jest.fn(),
+      onUpdateValidationRule: jest.fn(),
     };
   });
 
@@ -47,6 +48,30 @@ describe("Answer Properties", () => {
         properties: {
           required: true,
           format: "dd/mm/yyyy",
+        },
+        validation: {
+          earliestDate: {
+            id: "123",
+            enabled: false,
+            validationType: "earliestDate",
+            entityType: "Now",
+            offset: {
+              value: 0,
+              unit: "Days",
+            },
+            relativePosition: "Before",
+          },
+          latestDate: {
+            id: "456",
+            enabled: false,
+            validationType: "latestDate",
+            entityType: "Now",
+            offset: {
+              value: 0,
+              unit: "Days",
+            },
+            relativePosition: "After",
+          },
         },
       };
       const wrapper = shallow(<AnswerProperties {...props} />);
