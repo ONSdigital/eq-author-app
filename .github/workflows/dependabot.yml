@@ -6,6 +6,9 @@ on:
 jobs:
   review-individual-upgrade:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [10.x]
     steps:
       - name: Install dependencies
         run: |
