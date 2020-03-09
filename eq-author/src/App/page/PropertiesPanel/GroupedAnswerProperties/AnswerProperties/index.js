@@ -1,26 +1,39 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { merge } from "lodash";
+import { flowRight, merge } from "lodash";
 import CustomPropTypes from "custom-prop-types";
 
 import { DATE } from "constants/answer-types";
+import { DAYS, MONTHS, YEARS } from "constants/durations";
 
 import withUpdateAnswer from "App/page/Design/answers/withUpdateAnswer";
-
+import withUpdateValidationRule from "App/page/Design/Validation/withUpdateValidationRule";
 import InlineField from "../InlineField";
 
 import { Required, DateFormat } from "./Properties";
 import MultiLineField from "../MultiLineField";
+
+const durationsMap = {
+  "dd/mm/yyyy": DAYS,
+  "mm/yyyy": MONTHS,
+  yyyy: YEARS,
+};
 
 export class UnwrappedAnswerProperties extends React.Component {
   static propTypes = {
     answer: CustomPropTypes.answer.isRequired,
     onSubmit: PropTypes.func,
     onUpdateAnswer: PropTypes.func.isRequired,
+    onUpdateValidationRule: PropTypes.func.isRequired,
   };
 
   handleChange = propName => ({ value }) => {
-    const { id, properties: currentProperties } = this.props.answer;
+    const {
+      id,
+      properties: currentProperties,
+      validation,
+      type,
+    } = this.props.answer;
     const properties = merge({}, currentProperties, {
       [propName]: value,
     });
@@ -29,6 +42,21 @@ export class UnwrappedAnswerProperties extends React.Component {
       id,
       properties,
     });
+
+    if (type === DATE && propName === "format") {
+      const earliestDateInput = validation.earliestDate;
+      earliestDateInput.offset.unit = durationsMap[value];
+      this.props.onUpdateValidationRule({
+        id: earliestDateInput.id,
+        earliestDateInput,
+      });
+      const latestDateInput = validation.latestDate;
+      latestDateInput.offset.unit = durationsMap[value];
+      this.props.onUpdateValidationRule({
+        id: latestDateInput.id,
+        latestDateInput,
+      });
+    }
   };
 
   getId = (name, { id }) => `answer-${id}-${name}`;
@@ -62,4 +90,7 @@ export class UnwrappedAnswerProperties extends React.Component {
   }
 }
 
-export default withUpdateAnswer(UnwrappedAnswerProperties);
+export default flowRight(
+  withUpdateValidationRule,
+  withUpdateAnswer
+)(UnwrappedAnswerProperties);

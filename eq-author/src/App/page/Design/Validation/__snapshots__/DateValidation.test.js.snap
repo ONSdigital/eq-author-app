@@ -59,6 +59,7 @@ exports[`Date Validation should render 1`] = `
             "Years",
           ]
         }
+        value="Months"
       />
     </Column>
   </Grid>

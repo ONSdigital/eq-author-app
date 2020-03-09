@@ -38,7 +38,7 @@ Array [
         <GroupedAnswerProperties__AnswerTitle
           data-test="answer-title"
         />
-        <Apollo(UnwrappedAnswerProperties)
+        <Apollo(Apollo(UnwrappedAnswerProperties))
           answer={
             Object {
               "validationErrorInfo": Object {
@@ -81,7 +81,7 @@ Array [
         >
           Date 1
         </GroupedAnswerProperties__AnswerTitle>
-        <Apollo(UnwrappedAnswerProperties)
+        <Apollo(Apollo(UnwrappedAnswerProperties))
           answer={
             Object {
               "__typename": "BasicAnswer",
@@ -143,7 +143,7 @@ Array [
         >
           Currency 2
         </GroupedAnswerProperties__AnswerTitle>
-        <Apollo(UnwrappedAnswerProperties)
+        <Apollo(Apollo(UnwrappedAnswerProperties))
           answer={
             Object {
               "__typename": "BasicAnswer",
