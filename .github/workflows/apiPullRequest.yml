@@ -9,7 +9,7 @@ jobs:
     strategy:
       matrix:
         node-version: [10.x]
-
+    if: github.actor != 'dependabot[bot]'
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
