@@ -20,5 +20,10 @@ jobs:
           pushd eq-author; yarn; popd
           pushd eq-author-api; yarn; popd
           pushd eq-publisher; yarn; popd
+      - name: Unit tests
+        run: |
+          pushd eq-author; yarn test; popd
+          pushd eq-author-api; yarn test; popd
+          pushd eq-publisher; yarn test; popd
   # add-to-collated-upgrades:
   #     needs: review-individual-upgrade
