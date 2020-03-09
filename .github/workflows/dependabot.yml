@@ -9,8 +9,8 @@ jobs:
         steps:
             - name: Install dependencies
                 run: |
-                pushd eq-author; yarn; popd
-                pushd eq-author-api; yarn; popd
-                pushd eq-publisher; yarn; popd
+                    pushd eq-author; yarn; popd
+                    pushd eq-author-api; yarn; popd
+                    pushd eq-publisher; yarn; popd
     # add-to-collated-upgrades:
     #     needs: review-individual-upgrade
