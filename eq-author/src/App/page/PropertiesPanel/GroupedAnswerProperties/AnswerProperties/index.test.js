@@ -72,6 +72,7 @@ describe("Answer Properties", () => {
             },
             relativePosition: "After",
           },
+          __typename: "",
         },
       };
       const wrapper = shallow(<AnswerProperties {...props} />);
