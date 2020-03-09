@@ -1,16 +1,16 @@
 name: Review Dependabot
 on:
-    pull_request:
-        tags:
-            - dependencies
+  pull_request:
+    labels:
+      - dependencies
 jobs:
-    review-individual-upgrade:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Install dependencies
-              run: | 
-                  pushd eq-author; yarn; popd
-                  pushd eq-author-api; yarn; popd
-                  pushd eq-publisher; yarn; popd
-    # add-to-collated-upgrades:
-    #     needs: review-individual-upgrade
+  review-individual-upgrade:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install dependencies
+        run: |
+          pushd eq-author; yarn; popd
+          pushd eq-author-api; yarn; popd
+          pushd eq-publisher; yarn; popd
+  # add-to-collated-upgrades:
+  #     needs: review-individual-upgrade
