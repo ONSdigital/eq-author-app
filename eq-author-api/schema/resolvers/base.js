@@ -26,6 +26,11 @@ const {
   AWAITING_APPROVAL,
   UPDATES_REQUIRED,
 } = require("../../constants/publishStatus");
+
+const { DURATION_LOOKUP } = require("../../constants/durationTypes");
+
+const { DATE } = require("../../constants/answerTypes");
+
 const pubsub = require("../../db/pubSub");
 const { getName } = require("../../utils/getName");
 const {
@@ -378,6 +383,13 @@ const Resolvers = {
       const answer = find(concat(answers, additionalAnswers), { id: input.id });
 
       merge(answer, input);
+
+      if (answer.type === DATE && !input.label && input.properties.format) {
+        answer.validation.earliestDate.offset.unit =
+          DURATION_LOOKUP[input.properties.format];
+        answer.validation.latestDate.offset.unit =
+          DURATION_LOOKUP[input.properties.format];
+      }
 
       return answer;
     }),
