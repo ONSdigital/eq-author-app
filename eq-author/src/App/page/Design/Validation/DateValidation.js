@@ -144,6 +144,7 @@ export class UnwrappedDateValidation extends React.Component {
             <Duration
               name="offset"
               duration={offset}
+              value={offset.unit}
               units={availableUnits}
               onChange={onChange}
               onUpdate={onUpdate}
