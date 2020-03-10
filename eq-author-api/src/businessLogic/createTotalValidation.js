@@ -1,10 +1,10 @@
-const uuid = require("uuid").v4;
+const { v4: uuidv4 } = require("uuid");
 
 const { CUSTOM } = require("../../constants/validationEntityTypes");
 const { EQUAL } = require("../../constants/validationConditions");
 
 module.exports = (overrides = {}) => ({
-  id: uuid(),
+  id: uuidv4(),
   enabled: false,
   entityType: CUSTOM,
   condition: EQUAL,

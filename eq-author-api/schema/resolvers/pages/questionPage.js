@@ -1,6 +1,6 @@
 const { find, findIndex, merge, some, takeRightWhile } = require("lodash");
 const { getName } = require("../../../utils/getName");
-const uuid = require("uuid");
+const { v4: uuidv4 } = require("uuid");
 
 const { getPageById, getSectionByPageId } = require("../utils");
 const { createMutation } = require("../createMutation");
@@ -14,7 +14,7 @@ const getPreviousAnswersForPage = require("../../../src/businessLogic/getPreviou
 const Resolvers = {};
 
 const createQuestionPage = (input = {}) => ({
-  id: uuid.v4(),
+  id: uuidv4(),
   pageType: "QuestionPage",
   title: "",
   description: "",

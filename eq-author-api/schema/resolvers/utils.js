@@ -1,6 +1,6 @@
 const { compact, get, filter, find, flatMap, some } = require("lodash");
 const deepMap = require("deep-map");
-const uuid = require("uuid");
+const { v4: uuidv4 } = require("uuid");
 
 const { DATE, DATE_RANGE, UNIT } = require("../../constants/answerTypes");
 const { DATE: METADATA_DATE } = require("../../constants/metadataTypes");
@@ -113,7 +113,7 @@ const remapAllNestedIds = entity => {
   const transformationMatrix = {};
   const remappedIdEntity = deepMap(entity, (value, key) => {
     if (key === "id") {
-      const newEntityId = uuid.v4();
+      const newEntityId = uuidv4();
       transformationMatrix[value] = newEntityId;
       return newEntityId;
     }

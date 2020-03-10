@@ -1,11 +1,11 @@
 const { find } = require("lodash");
-const uuid = require("uuid").v4;
+const { v4: uuidv4 } = require("uuid");
 
 const { NOTICE_1 } = require("../constants/legalBases");
 
 module.exports = metadata => {
   return {
-    id: uuid.v4(),
+    id: uuidv4(),
     title: `<p>You are completing this for <span data-piped="metadata" data-id="${
       find(metadata, { key: "trad_as" }).id
     }">trad_as</span> (<span data-piped="metadata" data-id="${

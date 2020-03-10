@@ -1,6 +1,8 @@
 /* eslint-disable camelcase*/
 const { sanitiseMetadata } = require("./sanitiseMetadata");
-jest.mock("uuid/v1", () => () => 123);
+jest.mock("uuid", () => ({
+  v1: () => 123,
+}));
 describe("sanitise Metadata", () => {
   let defaultMetadata;
 

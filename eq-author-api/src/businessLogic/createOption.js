@@ -1,4 +1,4 @@
-const uuid = require("uuid");
+const { v4: uuidv4 } = require("uuid");
 const { omit } = require("lodash/fp");
 const createAdditionalAnswer = require("./createAdditionalAnswer");
 
@@ -9,7 +9,7 @@ module.exports = (input = {}) => {
   }
 
   return {
-    id: uuid.v4(),
+    id: uuidv4(),
     label: "",
     ...omit(["answerId", "hasAdditionalAnswer"], input),
     additionalAnswer,

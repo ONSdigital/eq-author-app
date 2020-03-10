@@ -1,4 +1,4 @@
-const uuid = require("uuid");
+const { v4: uuidv4 } = require("uuid");
 const { includes, filter } = require("lodash");
 
 const defaultTypeValueNames = {
@@ -112,7 +112,7 @@ const DEFAULT_BUSINESS_SURVEY_METADATA = filter(defaultValues, ({ key }) =>
 
 const createDefaultBusinessSurveyMetadata = () =>
   DEFAULT_BUSINESS_SURVEY_METADATA.map(metadata => ({
-    id: uuid.v4(),
+    id: uuidv4(),
     ...metadata,
   }));
 

@@ -1,5 +1,5 @@
 const { find, findIndex, merge, uniq, get, intersection } = require("lodash");
-const uuid = require("uuid");
+const { v4: uuidv4 } = require("uuid");
 
 const { getName } = require("../../../utils/getName");
 const getPreviousAnswersForPage = require("../../../src/businessLogic/getPreviousAnswersForPage");
@@ -16,7 +16,7 @@ const { getPageById, getAnswerById, getSectionByPageId } = require("../utils");
 const { PAGES } = require("../../../constants/validationErrorTypes");
 
 const createCalculatedSummary = (input = {}) => ({
-  id: uuid.v4(),
+  id: uuidv4(),
   title: "",
   pageType: "CalculatedSummaryPage",
   summaryAnswers: [],

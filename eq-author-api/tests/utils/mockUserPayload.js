@@ -1,10 +1,10 @@
 /* eslint-disable camelcase */
-const uuid = require("uuid");
+const { v4: uuidv4 } = require("uuid");
 
 module.exports = () => ({
-  id: uuid.v4(),
-  externalId: uuid.v4(),
-  name: uuid.v4(),
+  id: uuidv4(),
+  externalId: uuidv4(),
+  name: uuidv4(),
   email: "eq-team@ons.gov.uk",
   picture: "file:///path/to/some/picture.jpg",
 });

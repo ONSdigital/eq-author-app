@@ -1,7 +1,7 @@
 const jsondiffpatch = require("jsondiffpatch");
 const { omit, first, isNil } = require("lodash");
 const { logger } = require("../../utils/logger");
-const uuid = require("uuid");
+const { v4: uuidv4 } = require("uuid");
 const {
   QuestionnaireModel,
   QuestionnaireVersionsModel,
@@ -40,7 +40,7 @@ const createUser = user => {
   const { id, email, name, externalId, picture } = user;
   return saveModel(
     new UserModel({
-      id: id || uuid.v4(),
+      id: id || uuidv4(),
       email,
       name,
       externalId,

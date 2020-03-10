@@ -16,7 +16,7 @@ const {
   concat,
 } = require("lodash");
 const GraphQLJSON = require("graphql-type-json");
-const uuid = require("uuid");
+const { v4: uuidv4 } = require("uuid");
 const { withFilter } = require("apollo-server-express");
 const fetch = require("node-fetch");
 
@@ -112,7 +112,7 @@ const {
 } = require("../../utils/questionnaireEvents");
 
 const createSection = (input = {}) => ({
-  id: uuid.v4(),
+  id: uuidv4(),
   title: "",
   introductionEnabled: false,
   pages: [createQuestionPage()],
@@ -122,7 +122,7 @@ const createSection = (input = {}) => ({
 
 const createNewQuestionnaire = input => {
   const defaultQuestionnaire = {
-    id: uuid.v4(),
+    id: uuidv4(),
     theme: "default",
     legalBasis: "Voluntary",
     navigation: false,
@@ -280,7 +280,7 @@ const Resolvers = {
         ...questionnaire,
         title: addPrefix(questionnaire.title),
         shortTitle: addPrefix(questionnaire.shortTitle),
-        id: uuid.v4(),
+        id: uuidv4(),
         createdBy: ctx.user.id,
         editors: [],
         publishStatus: UNPUBLISHED,
@@ -546,7 +546,7 @@ const Resolvers = {
     createMetadata: createMutation((root, args, ctx) => {
       const newMetadata = {
         alias: null,
-        id: uuid.v4(),
+        id: uuidv4(),
         key: null,
         type: "Text",
       };
@@ -571,10 +571,10 @@ const Resolvers = {
       const section = getSectionByPageId(ctx, input.pageId);
       const page = find(section.pages, { id: input.pageId });
       const questionConfirmation = {
-        id: uuid.v4(),
+        id: uuidv4(),
         title: "",
-        positive: { id: uuid.v4(), label: "", description: "" },
-        negative: { id: uuid.v4(), label: "", description: "" },
+        positive: { id: uuidv4(), label: "", description: "" },
+        negative: { id: uuidv4(), label: "", description: "" },
       };
       set(page, "confirmation", questionConfirmation);
       return {
@@ -736,7 +736,7 @@ const Resolvers = {
         questionnaire.id
       );
       const newComment = {
-        id: uuid.v4(),
+        id: uuidv4(),
         commentText: commentText,
         userId: ctx.user.id,
         createdTime: new Date(),
@@ -800,7 +800,7 @@ const Resolvers = {
       );
 
       const newReply = {
-        id: uuid.v4(),
+        id: uuidv4(),
         parentCommentId: commentId,
         commentText,
         userId: ctx.user.id,

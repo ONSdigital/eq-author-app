@@ -1,9 +1,9 @@
-const uuid = require("uuid");
+const { v4: uuidv4 } = require("uuid");
 const createDestination = require("./createDestination");
 const createRoutingRule = require("./createRoutingRule");
 
 module.exports = input => ({
-  id: uuid.v4(),
+  id: uuidv4(),
   else: createDestination(),
   rules: [createRoutingRule()],
   ...input,
