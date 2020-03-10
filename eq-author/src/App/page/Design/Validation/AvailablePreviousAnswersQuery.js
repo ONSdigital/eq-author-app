@@ -29,12 +29,20 @@ const GET_AVAILABLE_PREVIOUS_ANSWERS = gql`
           ... on DateValidation {
             earliestDate {
               id
+              offset {
+                value
+                unit
+              }
               availablePreviousAnswers {
                 ...AvailableAnswers
               }
             }
             latestDate {
               id
+              offset {
+                value
+                unit
+              }
               availablePreviousAnswers {
                 ...AvailableAnswers
               }
