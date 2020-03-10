@@ -44,21 +44,8 @@ export class UnwrappedAnswerProperties extends React.Component {
     });
 
     if (type === DATE && propName === "format") {
-      Object.keys(validation).forEach(key => {
-        if (key !== "__typename") {
-          const rule = validation[key];
-          const ruleInput = {
-            id: rule.id,
-            [key + "Input"]: {
-              offset: {
-                unit: durationsMap[value],
-              },
-              relativePosition: rule.relativePosition,
-            },
-          };
-          this.props.onUpdateValidationRule(ruleInput);
-        }
-      });
+      validation.earliestDate.offset.unit = durationsMap[value];
+      validation.latestDate.offset.unit = durationsMap[value];
     }
   };
 
