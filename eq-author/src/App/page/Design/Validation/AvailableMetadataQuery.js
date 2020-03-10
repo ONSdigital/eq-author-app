@@ -15,12 +15,20 @@ const GET_AVAILABLE_METADATA = gql`
           ... on DateValidation {
             earliestDate {
               id
+              offset {
+                value
+                unit
+              }
               availableMetadata {
                 ...AvailableMetadata
               }
             }
             latestDate {
               id
+              offset {
+                value
+                unit
+              }
               availableMetadata {
                 ...AvailableMetadata
               }
