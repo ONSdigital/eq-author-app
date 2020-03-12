@@ -10,10 +10,12 @@ if (process.env.GOOGLE_AUTH_PROJECT_ID) {
 }
 
 const createQuestionnaire = async (questionnaire, ctx) => {
-  console.log(questionnaire);
   return questionnaire;
 };
 
+const createComments = async questionnaireId => [];
+
 module.exports = {
   createQuestionnaire,
+  createComments,
 };
