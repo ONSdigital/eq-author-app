@@ -8,3 +8,11 @@ if (process.env.GOOGLE_AUTH_PROJECT_ID) {
 } else {
   db = new Firestore();
 }
+
+const createQuestionnaire = async (questionnaire, ctx) => {
+  return questionnaire;
+};
+
+module.exports = {
+  createQuestionnaire,
+};
