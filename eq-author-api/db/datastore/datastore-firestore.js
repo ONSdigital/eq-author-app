@@ -10,6 +10,7 @@ if (process.env.GOOGLE_AUTH_PROJECT_ID) {
 }
 
 const createQuestionnaire = async (questionnaire, ctx) => {
+  console.log(questionnaire);
   return questionnaire;
 };
 
