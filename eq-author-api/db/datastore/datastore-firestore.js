@@ -132,12 +132,11 @@ const getQuestionnaire = async id => {
       );
     });
 
-  console.log(questionnaire);
   return questionnaire;
 };
 
 const deleteQuestionnaire = async id => {
-  return await db
+  return db
     .collection("questionnaires")
     .doc(id)
     .collection("versions")
