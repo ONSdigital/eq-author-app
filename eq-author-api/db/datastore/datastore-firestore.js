@@ -36,10 +36,6 @@ const createQuestionnaire = async (questionnaire, ctx) => {
     surveyVersion,
   } = questionnaire;
 
-  if (!id) {
-    id = uuidv4();
-  }
-
   const baseSchema = {
     id,
     isPublic,
