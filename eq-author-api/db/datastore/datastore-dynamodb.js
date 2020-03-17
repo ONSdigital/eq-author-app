@@ -279,7 +279,7 @@ const listQuestionnaires = () => {
         if (err) {
           reject(err);
         }
-        console.log(questionnaires);
+
         const transformedQuestionnaires = questionnaires
           .map(q => ({ ...q, editors: q.editors || [] }))
           .sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1));
