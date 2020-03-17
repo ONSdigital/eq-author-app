@@ -25,6 +25,7 @@ module.exports = async (req, res, next) => {
         return;
       }
     }
+
     await createUser(req.user);
 
     res.json({ status: "OK" });

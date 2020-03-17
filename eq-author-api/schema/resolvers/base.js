@@ -257,7 +257,7 @@ const Resolvers = {
     createQuestionnaire: async (root, args, ctx) => {
       const questionnaire = createNewQuestionnaire({
         ...args.input,
-        createdBy: "hello", //ctx.user.id,
+        createdBy: ctx.user.id,
       });
       await createComments(questionnaire.id);
       // Saving to ctx so it can be used by all other resolvers and read by tests

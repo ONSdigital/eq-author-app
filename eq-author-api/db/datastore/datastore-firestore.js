@@ -1,11 +1,11 @@
 const { Firestore } = require("@google-cloud/firestore");
 const { v4: uuidv4 } = require("uuid");
 const { logger } = require("../../utils/logger");
+const { pick } = require("lodash/fp");
+const { baseQuestionnaireFields } = require("../baseQuestionnaireSchema");
 const {
   questionnaireCreationEvent,
 } = require("../../utils/questionnaireEvents");
-
-const FieldValue = require("firebase-admin").firestore.FieldValue;
 
 let db;
 if (process.env.GOOGLE_AUTH_PROJECT_ID) {
@@ -16,58 +16,26 @@ if (process.env.GOOGLE_AUTH_PROJECT_ID) {
   db = new Firestore();
 }
 
+const BASE_FIELDS = [
+  ...Object.keys(baseQuestionnaireFields),
+  "updatedAt",
+  "history",
+];
+
+const justListFields = pick(BASE_FIELDS);
+
 const createQuestionnaire = async (questionnaire, ctx) => {
-  const {
-    id,
-    isPublic,
-    title,
-    createdBy,
-    type,
-    publishStatus,
-    editors,
-    version,
-    legalBasis,
-    navigation,
-    surveyId,
-    theme,
-    summary,
-    sections,
-    metadata,
-    surveyVersion,
-  } = questionnaire;
-
-  const baseSchema = {
-    id,
-    isPublic,
-    title,
-    createdBy,
-    type,
-    publishStatus,
-    editors,
-    history: [questionnaireCreationEvent(questionnaire, ctx)],
-  };
-
-  const versionsSchema = {
-    ...baseSchema,
-    title,
-    legalBasis,
-    surveyId,
-    navigation,
-    metadata,
-    summary,
-    theme,
-    sections,
-    surveyVersion,
-    version,
-  };
+  const updatedAt = new Date();
+  const { id } = questionnaire;
 
   try {
     await db
       .collection("questionnaires")
       .doc(id)
       .set({
-        ...baseSchema,
-        created: FieldValue.serverTimestamp(),
+        ...justListFields(questionnaire),
+        history: [questionnaireCreationEvent(questionnaire, ctx)],
+        updatedAt,
       });
 
     await db
@@ -76,8 +44,8 @@ const createQuestionnaire = async (questionnaire, ctx) => {
       .collection("versions")
       .doc(uuidv4())
       .set({
-        ...versionsSchema,
-        created: FieldValue.serverTimestamp(),
+        ...questionnaire,
+        updatedAt,
       });
   } catch (error) {
     logger.error(error);
@@ -85,7 +53,10 @@ const createQuestionnaire = async (questionnaire, ctx) => {
 
   logger.info(`Created questionnaire with ID: ${id}`);
 
-  return { ...baseSchema, ...versionsSchema };
+  return {
+    ...questionnaire,
+    updatedAt,
+  };
 };
 
 const listQuestionnaires = async () => {
@@ -99,41 +70,50 @@ const listQuestionnaires = async () => {
       }
 
       return snapshot.docs
-        .map(doc => ({ ...doc.data(), editors: doc.data().editors || [] }))
+        .map(doc => ({
+          ...doc.data(),
+          editors: doc.data().editors || [],
+          createdAt: doc.data().createdAt.toDate(),
+          updatedAt: doc.data().updatedAt.toDate(),
+        }))
         .sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1));
     })
     .catch(err => {
       logger.err("Error getting documents", err);
     });
 
+  console.log(questionnaires);
+
   return questionnaires || [];
 };
 
-const getQuestionnaire = async id => {
-  const questionnaire = await db
-    .collection("questionnaires")
-    .doc(id)
-    .collection("versions")
-    .orderBy("created", "desc")
-    .limit(1)
-    .get()
-    .then(snapshot => {
-      if (snapshot.empty) {
-        logger.info("No questionnaires found");
-        return;
-      }
+const getQuestionnaire = id =>
+  new Promise(async (resolve, reject) => {
+    const questionnaire = await db
+      .collection("questionnaires")
+      .doc(id)
+      .collection("versions")
+      .orderBy("createdAt", "desc")
+      .limit(1)
+      .get()
+      .then(snapshot => {
+        if (snapshot.empty) {
+          logger.info("No questionnaires found");
+          return;
+        }
 
-      return snapshot.docs[0].data();
-    })
-    .catch(err => {
-      logger.error(
-        `Unable to get latest version of questionnaire with ID: ${id}`,
-        err
-      );
-    });
+        return snapshot.docs[0].data();
+      })
+      .catch(err => {
+        logger.error(
+          `Unable to get latest version of questionnaire with ID: ${id}`,
+          err
+        );
 
-  return questionnaire;
-};
+        reject(err);
+      });
+    resolve(questionnaire);
+  });
 
 const deleteQuestionnaire = async id => {
   return db
@@ -148,45 +128,54 @@ const deleteQuestionnaire = async id => {
 
 const createComments = async () => [];
 
-const createUser = async user => {
-  let { id, email, name, externalId } = user;
+const createUser = user =>
+  new Promise(async (resolve, reject) => {
+    let { id, name } = user;
 
-  if (!id) {
-    id = uuidv4();
-  }
+    if (!id) {
+      id = uuidv4();
+    }
 
-  try {
-    await db
-      .collection("users")
-      .doc(id)
-      .set({ email, name, externalId });
-  } catch (error) {
-    logger.error(error);
-  }
-};
+    if (!name) {
+      name = user.email;
+    }
 
-const getUserByExternalId = async externalId => {
-  const docRef = db.collection("users");
-  const user = await docRef
-    .where("externalId", "==", externalId)
-    .limit(1)
-    .get()
-    .then(snapshot => {
-      if (snapshot.empty) {
-        logger.info("No users found");
-        return;
-      }
+    try {
+      await db
+        .collection("users")
+        .doc(id)
+        .set({ ...user, id, name });
+    } catch (error) {
+      logger.error(`Error creating user with ID: ${id}: `, error);
+      reject(error);
+    }
 
-      const doc = snapshot.docs[0];
+    resolve();
+  });
 
-      return { ...doc.data(), id: doc.id };
-    })
-    .catch(err => {
-      logger.error("Error getting documents", err);
-    });
+const getUserByExternalId = externalId =>
+  new Promise(async (resolve, reject) => {
+    const docRef = db.collection("users");
+    const user = await docRef
+      .where("externalId", "==", externalId)
+      .limit(1)
+      .get()
+      .then(snapshot => {
+        if (snapshot.empty) {
+          logger.info("No users found");
+          return;
+        }
 
-  return user;
-};
+        const doc = snapshot.docs[0];
+
+        resolve({ ...doc.data(), id: doc.id });
+      })
+      .catch(err => {
+        logger.error("Error getting documents", err);
+        reject(err);
+      });
+    resolve(user);
+  });
 
 const getUserById = async id => {
   const user = await db

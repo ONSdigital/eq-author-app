@@ -78,8 +78,8 @@ const createApp = () => {
     }),
     pino,
     cors(),
-    // identificationMiddleware(logger),
-    // rejectUnidentifiedUsers,
+    identificationMiddleware(logger),
+    rejectUnidentifiedUsers,
     loadQuestionnaire,
     runQuestionnaireMigrations(logger)(require("./migrations")),
     validateQuestionnaire
