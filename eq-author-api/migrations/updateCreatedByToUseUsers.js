@@ -2,7 +2,7 @@
 
 const { first } = require("lodash");
 
-const { UserModel } = require("../db/models/DynamoDB");
+const { UserModel } = require("../db/datastore");
 
 const { AUTHOR_TEAM_NAME } = require("../constants/authorTeamUser");
 

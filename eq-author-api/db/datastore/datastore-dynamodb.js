@@ -306,4 +306,5 @@ module.exports = {
   saveComments,
   createComments,
   saveMetadata,
+  UserModel,
 };
