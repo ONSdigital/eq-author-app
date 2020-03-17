@@ -7,6 +7,8 @@ const {
   questionnaireCreationEvent,
 } = require("../../utils/questionnaireEvents");
 
+const MAX_UPDATE_TIMES = 3;
+
 let db;
 if (process.env.GOOGLE_AUTH_PROJECT_ID) {
   db = new Firestore({
@@ -59,6 +61,48 @@ const createQuestionnaire = async (questionnaire, ctx) => {
   };
 };
 
+const saveQuestionnaire = async (
+  changedQuestionnaire,
+  numOfUpdates = 0,
+  patch
+) => {
+  if (numOfUpdates === MAX_UPDATE_TIMES) {
+    throw new Error(`Failed after trying to update ${MAX_UPDATE_TIMES} times`);
+  }
+
+  const { id } = changedQuestionnaire;
+
+  const createdAt = new Date();
+  const updatedAt = createdAt;
+
+  const originalQuestionnaire = await getQuestionnaire(id);
+
+  const updatedQuestionnaire = {
+    ...originalQuestionnaire,
+    ...changedQuestionnaire,
+  };
+  try {
+    await db
+      .collection("questionnaires")
+      .doc(id)
+      .update({ updatedAt });
+
+    await db
+      .collection("questionnaires")
+      .doc(id)
+      .collection("versions")
+      .doc(uuidv4())
+      .set({
+        ...updatedQuestionnaire,
+        updatedAt,
+        createdAt,
+      });
+  } catch (error) {
+    logger.error(error);
+    throw new Error(`Error updating questionnaire with ID ${id}`, error);
+  }
+};
+
 const listQuestionnaires = async () => {
   const docRef = db.collection("questionnaires");
   const questionnaires = await docRef
@@ -82,8 +126,6 @@ const listQuestionnaires = async () => {
       logger.err("Error getting documents", err);
     });
 
-  console.log(questionnaires);
-
   return questionnaires || [];
 };
 
@@ -102,7 +144,14 @@ const getQuestionnaire = id =>
           return;
         }
 
-        return snapshot.docs[0].data();
+        const transformedQuestionnaires = snapshot.docs.map(doc => ({
+          ...doc.data(),
+          editors: doc.data().editors || [],
+          createdAt: doc.data().createdAt.toDate(),
+          updatedAt: doc.data().updatedAt.toDate(),
+        }));
+
+        return transformedQuestionnaires[0];
       })
       .catch(err => {
         logger.error(
@@ -213,6 +262,7 @@ const listUsers = async () => {
 
 module.exports = {
   createQuestionnaire,
+  saveQuestionnaire,
   deleteQuestionnaire,
   listQuestionnaires,
   getQuestionnaire,
