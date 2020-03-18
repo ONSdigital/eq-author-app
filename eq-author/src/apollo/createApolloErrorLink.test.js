@@ -1,7 +1,8 @@
-import uuid from "uuid";
 import jwt from "jsonwebtoken";
 import { errorHandler } from "./createApolloErrorLink";
 import { sendSentryError, setSentryTag, setSentryUser } from "./sentryUtils";
+
+const { v4: uuidv4 } = require("uuid");
 
 jest.mock("./sentryUtils");
 
@@ -10,7 +11,7 @@ describe("createErrorLink", () => {
   let networkError;
   let graphQLErrors;
 
-  const createAccessToken = (token, signingKey = uuid.v4()) => {
+  const createAccessToken = (token, signingKey = uuidv4()) => {
     return jwt.sign(token, signingKey);
   };
 

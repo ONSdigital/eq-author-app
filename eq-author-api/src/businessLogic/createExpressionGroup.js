@@ -1,8 +1,8 @@
-const uuid = require("uuid");
+const { v4: uuidv4 } = require("uuid");
 const createExpression = require("./createExpression");
 
 module.exports = input => ({
-  id: uuid.v4(),
+  id: uuidv4(),
   operator: "And",
   expressions: [createExpression()],
   ...input,

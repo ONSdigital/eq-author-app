@@ -1,4 +1,4 @@
-const uuid = require("uuid");
+const { v4: uuidv4 } = require("uuid");
 
 const surveyDetails = (details, bodyText) => {
   const wrapper = (element, body) => `<${element}>${body}</${element}>`;
@@ -25,7 +25,7 @@ const surveyDetails = (details, bodyText) => {
 };
 
 const questionnaireCreationEvent = (questionnaire, ctx) => ({
-  id: uuid.v4(),
+  id: uuidv4(),
   publishStatus: "Questionnaire created",
   questionnaireTitle: `${questionnaire.title} (Version ${questionnaire.surveyVersion})`,
   userId: ctx.user.id,
@@ -34,7 +34,7 @@ const questionnaireCreationEvent = (questionnaire, ctx) => ({
 });
 
 const noteCreationEvent = (ctx, bodyText) => ({
-  id: uuid.v4(),
+  id: uuidv4(),
   publishStatus: ctx.questionnaire.publishStatus,
   questionnaireTitle: `${ctx.questionnaire.title} (Version ${ctx.questionnaire.surveyVersion})`,
   bodyText,
@@ -46,7 +46,7 @@ const noteCreationEvent = (ctx, bodyText) => ({
 const publishStatusEvent = (ctx, bodyText) => {
   const publishDetails = ctx.questionnaire.publishDetails;
   const publishStatus = {
-    id: uuid.v4(),
+    id: uuidv4(),
     publishStatus: ctx.questionnaire.publishStatus,
     questionnaireTitle: `${ctx.questionnaire.title} (Version ${ctx.questionnaire.surveyVersion})`,
     type: "system",

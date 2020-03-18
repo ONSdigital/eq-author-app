@@ -1,10 +1,10 @@
 const { omit, first, remove } = require("lodash");
-const uuid = require("uuid").v4;
+const { v4: uuidv4 } = require("uuid");
 
 const { createMutation } = require("./createMutation");
 
 const createCollapsible = options => ({
-  id: uuid(),
+  id: uuidv4(),
   title: "",
   description: "",
   ...options,
