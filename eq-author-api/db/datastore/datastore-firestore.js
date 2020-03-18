@@ -100,6 +100,30 @@ const getQuestionnaire = id =>
     resolve(questionnaire);
   });
 
+const getQuestionnaireMetaById = id =>
+  new Promise(async (resolve, reject) => {
+    try {
+      const questionnaire = await db
+        .collection("questionnaires")
+        .doc(id)
+        .get()
+        .then(snapshot => ({
+          ...snapshot.data(),
+          history: snapshot.data().history.map(historyItem => ({
+            ...historyItem,
+            time: historyItem.time.toDate(),
+          })),
+          updatedAt: snapshot.data().updatedAt.toDate(),
+          createdAt: snapshot.data().createdAt.toDate(),
+        }));
+      resolve(questionnaire);
+    } catch (error) {
+      logger.error(`Error getting base questionnaire with ID ${id}`);
+      logger.error(error);
+      reject(error);
+    }
+  });
+
 const saveQuestionnaire = async changedQuestionnaire => {
   const { id } = changedQuestionnaire;
 
@@ -261,15 +285,56 @@ const listUsers = async () => {
   return users;
 };
 
+const createHistoryEvent = (qid, event) =>
+  new Promise(async (resolve, reject) => {
+    try {
+      const questionnaire = await getQuestionnaireMetaById(qid);
+      questionnaire.history.unshift(event);
+
+      await db
+        .collection("questionnaires")
+        .doc(qid)
+        .update({ history: questionnaire.history });
+
+      resolve(questionnaire.history);
+    } catch (error) {
+      logger.error(
+        `Error creating history event in questionnaire with ID ${qid}`
+      );
+      logger.error(error);
+      reject(error);
+    }
+  });
+
+const saveMetadata = metadata =>
+  new Promise(async (resolve, reject) => {
+    const { id } = metadata;
+
+    try {
+      const updateMetadata = await db
+        .collection("questionnaires")
+        .doc(id)
+        .update({ ...metadata });
+      resolve(updateMetadata);
+    } catch (error) {
+      logger.error(`Cannot update base questionnaire with ID ${id}`);
+      logger.error(error);
+      reject(error);
+    }
+  });
+
 module.exports = {
   createQuestionnaire,
   saveQuestionnaire,
   deleteQuestionnaire,
   listQuestionnaires,
   getQuestionnaire,
+  getQuestionnaireMetaById,
   createComments,
   createUser,
   getUserByExternalId,
   getUserById,
   listUsers,
+  createHistoryEvent,
+  saveMetadata,
 };
