@@ -349,7 +349,46 @@ const getCommentsForQuestionnaire = questionnaireId =>
         .collection("comments")
         .doc(questionnaireId)
         .get()
-        .then(doc => doc.data());
+        .then(doc => {
+          const data = doc.data();
+          const listOfComponents = Object.keys(data.comments);
+          listOfComponents.forEach(component => {
+            const componentComments = data.comments[component];
+            data.comments[component] = componentComments.map(comment => {
+              let editedTime;
+              if (comment.editedTime) {
+                editedTime = comment.editedTime.toDate();
+              } else {
+                editedTime = null;
+              }
+
+              const replies = comment.replies.map(reply => {
+                let editedTime;
+                if (reply.editedTime) {
+                  editedTime = reply.editedTime.toDate();
+                } else {
+                  editedTime = null;
+                }
+
+                return {
+                  ...reply,
+                  editedTime,
+                  createdTime: reply.createdTime.toDate(),
+                };
+              });
+
+              return {
+                ...comment,
+                replies,
+                editedTime,
+                createdTime: comment.createdTime.toDate(),
+              };
+            });
+          });
+          return data;
+        });
+
+      console.log(JSON.stringify(questionnaireComments, null, 3));
 
       resolve(questionnaireComments);
     } catch (error) {
@@ -361,19 +400,43 @@ const getCommentsForQuestionnaire = questionnaireId =>
     }
   });
 
-const saveComments = newComments =>
+const saveComments = updatedCommentsObject =>
   new Promise(async (resolve, reject) => {
-    const { questionnaireId, comments } = newComments;
+    const {
+      questionnaireId,
+      comments: updatedComments,
+    } = updatedCommentsObject;
     try {
       await db
         .collection("comments")
         .doc(questionnaireId)
-        .update({ ...comments });
-      resolve(newComments);
+        .update({ comments: { ...updatedComments } });
+      resolve(updatedComments);
     } catch (error) {
       logger.error(
         `Unable to save comments for questionnaire with ID ${questionnaireId}`
       );
+      logger.error(error);
+      reject(error);
+    }
+  });
+
+const updateUser = changedUser =>
+  new Promise(async (resolve, reject) => {
+    const { id } = changedUser;
+    try {
+      const existingUser = await db
+        .collection("users")
+        .doc(id)
+        .get();
+      const user = Object.assign(changedUser, existingUser);
+      await db
+        .collection("users")
+        .doc(id)
+        .update({ ...user });
+      resolve();
+    } catch (error) {
+      logger.error(`Unable update user with ID ${id}`);
       logger.error(error);
       reject(error);
     }
@@ -395,4 +458,5 @@ module.exports = {
   saveMetadata,
   getCommentsForQuestionnaire,
   saveComments,
+  updateUser,
 };

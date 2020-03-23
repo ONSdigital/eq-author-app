@@ -299,7 +299,6 @@ module.exports = {
   getUserByExternalId,
   createUser,
   updateUser,
-  saveModel,
   listUsers,
   createHistoryEvent,
   getQuestionnaireMetaById,
