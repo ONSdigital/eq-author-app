@@ -335,7 +335,7 @@ const createComments = async questionnaireId =>
       resolve(defaultComments);
     } catch (error) {
       logger.error(
-        `Unable to create comment structure for questionnaire with ID ${id}`
+        `Unable to create comment structure for questionnaire with ID ${questionnaireId}`
       );
       logger.error(error);
       reject(error);
@@ -351,11 +351,11 @@ const getCommentsForQuestionnaire = questionnaireId =>
         .get()
         .then(doc => doc.data());
 
-      console.log(questionnaireComments);
-
       resolve(questionnaireComments);
     } catch (error) {
-      logger.error(`Unable to get comments for questionnaire with ID ${id}`);
+      logger.error(
+        `Unable to get comments for questionnaire with ID ${questionnaireId}`
+      );
       logger.error(error);
       reject(error);
     }

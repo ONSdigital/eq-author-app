@@ -152,8 +152,7 @@ const getQuestionnaireMetaById = id =>
         if (err) {
           reject(err);
         }
-        console.log(id);
-        console.log(questionnaire);
+
         resolve(questionnaire);
       }
     );
