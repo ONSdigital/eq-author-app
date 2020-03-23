@@ -141,7 +141,7 @@ const saveQuestionnaire = async changedQuestionnaire => {
     await db
       .collection("questionnaires")
       .doc(id)
-      .update({ updatedAt });
+      .update({ ...justListFields(updatedQuestionnaire), updatedAt });
 
     await db
       .collection("questionnaires")
@@ -185,19 +185,20 @@ const listQuestionnaires = async () => {
   return questionnaires || [];
 };
 
-const deleteQuestionnaire = async id => {
-  return db
-    .collection("questionnaires")
-    .doc(id)
-    .collection("versions")
-    .delete()
-    .catch(err => {
+const deleteQuestionnaire = id =>
+  new Promise(async (resolve, reject) => {
+    try {
+      await db
+        .collection("questionnaires")
+        .doc(id)
+        .delete();
+      resolve();
+    } catch (error) {
       logger.error(`Unable to delete questionnaire with ID: ${id}`);
-      logger.error(err);
-    });
-};
-
-const createComments = async () => [];
+      logger.error(error);
+      reject(error);
+    }
+  });
 
 const createUser = user =>
   new Promise(async (resolve, reject) => {
@@ -323,6 +324,61 @@ const saveMetadata = metadata =>
     }
   });
 
+const createComments = async questionnaireId =>
+  new Promise(async (resolve, reject) => {
+    const defaultComments = { questionnaireId, comments: {} };
+    try {
+      await db
+        .collection("comments")
+        .doc(questionnaireId)
+        .set(defaultComments);
+      resolve(defaultComments);
+    } catch (error) {
+      logger.error(
+        `Unable to create comment structure for questionnaire with ID ${id}`
+      );
+      logger.error(error);
+      reject(error);
+    }
+  });
+
+const getCommentsForQuestionnaire = questionnaireId =>
+  new Promise(async (resolve, reject) => {
+    try {
+      const questionnaireComments = await db
+        .collection("comments")
+        .doc(questionnaireId)
+        .get()
+        .then(doc => doc.data());
+
+      console.log(questionnaireComments);
+
+      resolve(questionnaireComments);
+    } catch (error) {
+      logger.error(`Unable to get comments for questionnaire with ID ${id}`);
+      logger.error(error);
+      reject(error);
+    }
+  });
+
+const saveComments = newComments =>
+  new Promise(async (resolve, reject) => {
+    const { questionnaireId, comments } = newComments;
+    try {
+      await db
+        .collection("comments")
+        .doc(questionnaireId)
+        .update({ ...comments });
+      resolve(newComments);
+    } catch (error) {
+      logger.error(
+        `Unable to save comments for questionnaire with ID ${questionnaireId}`
+      );
+      logger.error(error);
+      reject(error);
+    }
+  });
+
 module.exports = {
   createQuestionnaire,
   saveQuestionnaire,
@@ -337,4 +393,6 @@ module.exports = {
   listUsers,
   createHistoryEvent,
   saveMetadata,
+  getCommentsForQuestionnaire,
+  saveComments,
 };
