@@ -388,8 +388,6 @@ const getCommentsForQuestionnaire = questionnaireId =>
           return data;
         });
 
-      console.log(JSON.stringify(questionnaireComments, null, 3));
-
       resolve(questionnaireComments);
     } catch (error) {
       logger.error(
