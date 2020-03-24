@@ -1,6 +1,7 @@
 const { defineFeature, loadFeature } = require("jest-cucumber");
 const { createQuestionnaire } = require("./datastore-firestore");
 const { v4: uuidv4 } = require("uuid");
+const { Firestore } = require("@google-cloud/firestore");
 
 const creatingAQuestionnaire = loadFeature(
   "./features/createQuestionnaire.feature"
@@ -24,50 +25,64 @@ jest.mock("@google-cloud/firestore", () => {
 });
 
 defineFeature(creatingAQuestionnaire, test => {
-  beforeEach(() => {});
+  let questionnaire, ctx;
+
+  beforeEach(() => {
+    questionnaire = {
+      title: "Working from home",
+      theme: "default",
+      legalBasis: "Voluntary",
+      navigation: false,
+      createdAt: new Date(),
+      metadata: [],
+      sections: [
+        {
+          id: uuidv4(),
+          title: "",
+          introductionEnabled: false,
+          pages: [
+            {
+              id: uuidv4(),
+              pageType: "QuestionPage",
+              title: "",
+              description: "",
+              descriptionEnabled: false,
+              guidanceEnabled: false,
+              definitionEnabled: false,
+              additionalInfoEnabled: false,
+              answers: [],
+              routing: null,
+              alias: null,
+            },
+          ],
+          alias: "",
+        },
+      ],
+      summary: false,
+      version: 13,
+      surveyVersion: 1,
+      editors: [],
+      isPublic: true,
+      publishStatus: "Unpublished",
+    };
+
+    ctx = {
+      user: {
+        id: 123,
+      },
+    };
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
 
   test("Questionnaire without an ID", ({ given, when, then, and }) => {
-    let questionnaire, questionnaireFromDb;
+    let questionnaireFromDb;
     given(
       "I am a developer attempting to programatically create a new questionnaire within the database",
       () => {
-        questionnaire = {
-          title: "Working from home",
-          theme: "default",
-          legalBasis: "Voluntary",
-          navigation: false,
-          createdAt: new Date(),
-          metadata: [],
-          sections: [
-            {
-              id: uuidv4(),
-              title: "",
-              introductionEnabled: false,
-              pages: [
-                {
-                  id: uuidv4(),
-                  pageType: "QuestionPage",
-                  title: "",
-                  description: "",
-                  descriptionEnabled: false,
-                  guidanceEnabled: false,
-                  definitionEnabled: false,
-                  additionalInfoEnabled: false,
-                  answers: [],
-                  routing: null,
-                  alias: null,
-                },
-              ],
-              alias: "",
-            },
-          ],
-          summary: false,
-          version: 13,
-          surveyVersion: 1,
-          editors: [],
-          isPublic: true,
-          publishStatus: "Unpublished",
-        };
+        expect(questionnaire).toBeTruthy();
       }
     );
     and("I have not assigned an ID to the questionnaire", () => {
@@ -76,11 +91,7 @@ defineFeature(creatingAQuestionnaire, test => {
     when(
       "I use the createQuestionnaire method from the Firestore datastore",
       async () => {
-        questionnaireFromDb = await createQuestionnaire(questionnaire, {
-          user: {
-            id: 123,
-          },
-        });
+        questionnaireFromDb = await createQuestionnaire(questionnaire, ctx);
       }
     );
     then("The method should give my questionnaire a new ID", () => {
@@ -90,6 +101,8 @@ defineFeature(creatingAQuestionnaire, test => {
       const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
       expect(questionnaireFromDb.id).toMatch(uuidRegex);
     });
-    and("the questionnaire should save within the database", () => {});
+    and("the questionnaire should save within the database", () => {
+      expect(Firestore.prototype.set).toHaveBeenCalled();
+    });
   });
 });
