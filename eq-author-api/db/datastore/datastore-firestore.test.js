@@ -1,11 +1,6 @@
 const { defineFeature, loadFeature } = require("jest-cucumber");
 const { createQuestionnaire } = require("./datastore-firestore");
 const { v4: uuidv4 } = require("uuid");
-const { Firestore } = require("@google-cloud/firestore");
-
-const creatingAQuestionnaire = loadFeature(
-  "./features/createQuestionnaire.feature"
-);
 
 jest.mock("@google-cloud/firestore", () => {
   class Firestore {
@@ -24,9 +19,7 @@ jest.mock("@google-cloud/firestore", () => {
   };
 });
 
-defineFeature(creatingAQuestionnaire, test => {
-  let questionnaire, ctx;
-
+describe("Firestore Datastore", () => {
   beforeEach(() => {
     questionnaire = {
       title: "Working from home",
@@ -73,36 +66,21 @@ defineFeature(creatingAQuestionnaire, test => {
     };
   });
 
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
-
-  test("Questionnaire without an ID", ({ given, when, then, and }) => {
-    let questionnaireFromDb;
-    given(
-      "I am a developer attempting to programatically create a new questionnaire within the database",
-      () => {
-        expect(questionnaire).toBeTruthy();
-      }
-    );
-    and("I have not assigned an ID to the questionnaire", () => {
-      expect(questionnaire.id).toBeFalsy();
-    });
-    when(
-      "I use the createQuestionnaire method from the Firestore datastore",
-      async () => {
-        questionnaireFromDb = await createQuestionnaire(questionnaire, ctx);
-      }
-    );
-    then("The method should give my questionnaire a new ID", () => {
-      expect(questionnaireFromDb.id).toBeTruthy();
-    });
-    and("the ID should be a UUID", () => {
+  describe("Creating a questionnaire", () => {
+    it("Should give the questionnaire an ID if one is not given", async () => {
       const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+      expect(questionnaire.id).toBeFalsy();
+      const questionnaireFromDb = await createQuestionnaire(questionnaire, ctx);
+      expect(questionnaire.id).toBeTruthy();
       expect(questionnaireFromDb.id).toMatch(uuidRegex);
     });
-    and("the questionnaire should save within the database", () => {
-      expect(Firestore.prototype.set).toHaveBeenCalled();
+
+    it("Should leave the questionnaire ID as is if one is given", async () => {
+      expect(questionnaire.id).toBeFalsy();
+      questionnaire.id = "123";
+      expect(questionnaire.id).toBeTruthy();
+      const questionnaireFromDb = await createQuestionnaire(questionnaire, ctx);
+      expect(questionnaireFromDb.id).toMatch("123");
     });
   });
 });
