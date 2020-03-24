@@ -27,7 +27,12 @@ const justListFields = pick(BASE_FIELDS);
 
 const createQuestionnaire = async (questionnaire, ctx) => {
   const updatedAt = new Date();
-  const { id } = questionnaire;
+
+  if (!questionnaire.id) {
+    questionnaire.id = uuidv4();
+  }
+
+  let { id } = questionnaire;
 
   const baseQuestionnaire = removeEmpty({
     ...justListFields(questionnaire),

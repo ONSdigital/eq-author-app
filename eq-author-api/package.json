@@ -37,6 +37,7 @@
     "helmet": "latest",
     "ioredis": "latest",
     "jaeger-client": "latest",
+    "jest-cucumber": "^2.0.11",
     "js-yaml": "latest",
     "json-web-key": "latest",
     "jsondiffpatch": "latest",
