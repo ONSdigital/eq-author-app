@@ -44,7 +44,6 @@ describe("Firestore Datastore", () => {
       theme: "default",
       legalBasis: "Voluntary",
       navigation: false,
-      createdAt: new Date(),
       metadata: [],
       sections: [
         {
