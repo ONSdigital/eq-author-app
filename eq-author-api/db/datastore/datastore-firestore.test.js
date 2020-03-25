@@ -1,4 +1,10 @@
-const { createQuestionnaire } = require("./datastore-firestore");
+const { Firestore } = require("@google-cloud/firestore");
+const {
+  createQuestionnaire,
+  getQuestionnaire,
+  getQuestionnaireMetaById,
+  saveQuestionnaire,
+} = require("./datastore-firestore");
 const { v4: uuidv4 } = require("uuid");
 
 jest.mock("@google-cloud/firestore", () => {
@@ -10,8 +16,20 @@ jest.mock("@google-cloud/firestore", () => {
 
   Firestore.prototype = {};
   Firestore.prototype.collection = jest.fn(() => new Firestore());
-  Firestore.prototype.doc = jest.fn(() => new Firestore());
+  Firestore.prototype.doc = id => {
+    if (!id) {
+      throw new Error("ID not provided");
+    }
+    return new Firestore();
+  };
   Firestore.prototype.set = jest.fn(() => new Firestore());
+  Firestore.prototype.update = jest.fn(() => new Firestore());
+  Firestore.prototype.orderBy = jest.fn(() => new Firestore());
+  Firestore.prototype.limit = jest.fn(() => new Firestore());
+  Firestore.prototype.get = jest.fn(() => ({
+    empty: true,
+    docs: [],
+  }));
 
   return {
     Firestore,
@@ -19,7 +37,7 @@ jest.mock("@google-cloud/firestore", () => {
 });
 
 describe("Firestore Datastore", () => {
-  let questionnaire, ctx;
+  let questionnaire, baseQuestionnaire, ctx;
   beforeEach(() => {
     questionnaire = {
       title: "Working from home",
@@ -57,6 +75,36 @@ describe("Firestore Datastore", () => {
       editors: [],
       isPublic: true,
       publishStatus: "Unpublished",
+      createdAt: {
+        toDate: () => new Date(),
+      },
+      updatedAt: {
+        toDate: () => new Date(),
+      },
+    };
+
+    baseQuestionnaire = {
+      isPublic: true,
+      title: "Working from home",
+      createdBy: "123",
+      createdAt: {
+        toDate: () => new Date(),
+      },
+      updatedAt: {
+        toDate: () => new Date(),
+      },
+      history: [
+        {
+          time: {
+            toDate: () => new Date(),
+          },
+        },
+      ],
+      type: "Social",
+      shortTitle: "",
+      publishStatus: "Unpublished",
+      introduction: {},
+      editors: [],
     };
 
     ctx = {
@@ -64,6 +112,13 @@ describe("Firestore Datastore", () => {
         id: 123,
       },
     };
+  });
+
+  afterEach(() => {
+    Firestore.prototype.get.mockImplementation(() => ({
+      empty: true,
+      docs: [],
+    }));
   });
 
   describe("Creating a questionnaire", () => {
@@ -81,6 +136,71 @@ describe("Firestore Datastore", () => {
       expect(questionnaire.id).toBeTruthy();
       const questionnaireFromDb = await createQuestionnaire(questionnaire, ctx);
       expect(questionnaireFromDb.id).toMatch("123");
+    });
+  });
+
+  describe("Getting the latest questionnaire version", () => {
+    it("Should should handle when an ID is not provided", () => {
+      expect(getQuestionnaire()).rejects.toBeTruthy();
+    });
+
+    it("Should return null when it cannot find the questionnaire", async () => {
+      const questionnaire = await getQuestionnaire("123");
+      expect(questionnaire).toBeNull();
+      expect(getQuestionnaire("123")).resolves.toBeNull();
+    });
+
+    it("Should transform Firestore Timestamps into JS Date objects", async () => {
+      Firestore.prototype.get.mockImplementation(() => ({
+        empty: false,
+        docs: [{ data: () => questionnaire }],
+      }));
+      const questionnaireFromDb = await getQuestionnaire("123");
+
+      expect(questionnaireFromDb.createdAt instanceof Date).toBeTruthy();
+      expect(questionnaireFromDb.updatedAt instanceof Date).toBeTruthy();
+    });
+  });
+
+  describe("Getting the base questionnaire", () => {
+    it("Should handle when an ID is not provided", () => {
+      expect(getQuestionnaireMetaById()).rejects.toBeTruthy();
+    });
+
+    it("Should return null when it cannot find the questionnaire", async () => {
+      const baseQuestionnaireFromDb = await getQuestionnaireMetaById("123");
+      expect(baseQuestionnaireFromDb).toBeNull();
+      expect(getQuestionnaire("123")).resolves.toBeNull();
+    });
+
+    it("Should transform Firestore Timestamps into JS Data objects", async () => {
+      Firestore.prototype.get.mockImplementation(() => ({
+        empty: false,
+        data: () => baseQuestionnaire,
+      }));
+      const baseQuestionnaireFromDb = await getQuestionnaireMetaById("123");
+
+      expect(baseQuestionnaireFromDb.createdAt instanceof Date).toBeTruthy();
+      expect(baseQuestionnaireFromDb.updatedAt instanceof Date).toBeTruthy();
+      expect(
+        baseQuestionnaireFromDb.history[0].time instanceof Date
+      ).toBeTruthy();
+    });
+  });
+
+  describe("Saving a questionnaire", () => {
+    it("Should handel when an ID cannot be found within the given questionnaire", () => {
+      expect(saveQuestionnaire(questionnaire)).rejects.toBeTruthy();
+    });
+
+    it("Should update the 'updatedAt' property", async () => {
+      const updatedAt = new Date();
+      const savedQuestionnaire = await saveQuestionnaire({
+        id: "123",
+        updatedAt,
+        ...questionnaire,
+      });
+      expect(updatedAt !== savedQuestionnaire.updatedAt).toBeTruthy();
     });
   });
 });
