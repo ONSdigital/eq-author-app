@@ -70,155 +70,147 @@ const createQuestionnaire = async (questionnaire, ctx) => {
   };
 };
 
-const getQuestionnaire = id =>
-  new Promise(async (resolve, reject) => {
-    try {
-      const questionnaireSnapshot = await db
-        .collection("questionnaires")
-        .doc(id)
-        .collection("versions")
-        .orderBy("createdAt", "desc")
-        .limit(1)
-        .get();
+const getQuestionnaire = async id => {
+  try {
+    const questionnaireSnapshot = await db
+      .collection("questionnaires")
+      .doc(id)
+      .collection("versions")
+      .orderBy("createdAt", "desc")
+      .limit(1)
+      .get();
+    if (questionnaireSnapshot.empty) {
+      logger.info("No questionnaires found");
+      return null;
+    }
+    const transformedQuestionnaires = questionnaireSnapshot.docs.map(doc => ({
+      ...doc.data(),
+      editors: doc.data().editors || [],
+      createdAt: doc.data().createdAt.toDate(),
+      updatedAt: doc.data().updatedAt.toDate(),
+    }));
+    return transformedQuestionnaires[0];
+  } catch (err) {
+    logger.error(
+      `Unable to get latest version of questionnaire with ID: ${id}`
+    );
+    logger.error(err);
+    return err;
+  }
+};
 
-      if (questionnaireSnapshot.empty) {
-        logger.info("No questionnaires found");
-        resolve(null);
-      }
+const getQuestionnaireMetaById = async id => {
+  try {
+    const questionnaireSnapshot = await db
+      .collection("questionnaires")
+      .doc(id)
+      .get();
 
-      const transformedQuestionnaires = questionnaireSnapshot.docs.map(doc => ({
+    if (questionnaireSnapshot.empty) {
+      logger.info("No base questionnaire found");
+      return null;
+    }
+
+    const questionnaire = {
+      ...questionnaireSnapshot.data(),
+      history: questionnaireSnapshot.data().history.map(historyItem => ({
+        ...historyItem,
+        time: historyItem.time.toDate(),
+      })),
+      updatedAt: questionnaireSnapshot.data().updatedAt.toDate(),
+      createdAt: questionnaireSnapshot.data().createdAt.toDate(),
+    };
+    return questionnaire;
+  } catch (error) {
+    logger.error(`Error getting base questionnaire with ID ${id}`);
+    logger.error(error);
+    return error;
+  }
+};
+
+const saveQuestionnaire = async changedQuestionnaire => {
+  const { id } = changedQuestionnaire;
+
+  try {
+    if (!id) {
+      throw new Error(
+        "Unable to save questionnaire; cannot find required field: ID"
+      );
+    }
+
+    const createdAt = new Date();
+    const updatedAt = createdAt;
+
+    const originalQuestionnaire = await getQuestionnaire(id);
+
+    const updatedQuestionnaire = removeEmpty({
+      ...originalQuestionnaire,
+      ...changedQuestionnaire,
+    });
+
+    await db
+      .collection("questionnaires")
+      .doc(id)
+      .update({ ...justListFields(updatedQuestionnaire), updatedAt });
+
+    await db
+      .collection("questionnaires")
+      .doc(id)
+      .collection("versions")
+      .doc(uuidv4())
+      .set({
+        ...updatedQuestionnaire,
+        updatedAt,
+        createdAt,
+      });
+
+    return { ...updatedQuestionnaire, updatedAt };
+  } catch (error) {
+    logger.error(`Error updating questionnaire with ID ${id}`);
+    logger.error(error);
+    return error;
+  }
+};
+
+const listQuestionnaires = async () => {
+  try {
+    const questionnairesSnapshot = await db.collection("questionnaires").get();
+
+    if (questionnairesSnapshot.empty) {
+      logger.info("No questionnaires found");
+      return [];
+    }
+
+    const questionnaires = questionnairesSnapshot.docs
+      .map(doc => ({
         ...doc.data(),
         editors: doc.data().editors || [],
         createdAt: doc.data().createdAt.toDate(),
         updatedAt: doc.data().updatedAt.toDate(),
-      }));
+      }))
+      .sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1));
 
-      resolve(transformedQuestionnaires[0]);
-    } catch (err) {
-      logger.error(
-        `Unable to get latest version of questionnaire with ID: ${id}`
-      );
-      logger.error(err);
-
-      reject(err);
-    }
-  });
-
-const getQuestionnaireMetaById = id =>
-  new Promise(async (resolve, reject) => {
-    try {
-      const questionnaireSnapshot = await db
-        .collection("questionnaires")
-        .doc(id)
-        .get();
-
-      if (questionnaireSnapshot.empty) {
-        logger.info("No base questionnaire found");
-        resolve(null);
-      }
-
-      const questionnaire = {
-        ...questionnaireSnapshot.data(),
-        history: questionnaireSnapshot.data().history.map(historyItem => ({
-          ...historyItem,
-          time: historyItem.time.toDate(),
-        })),
-        updatedAt: questionnaireSnapshot.data().updatedAt.toDate(),
-        createdAt: questionnaireSnapshot.data().createdAt.toDate(),
-      };
-      resolve(questionnaire);
-    } catch (error) {
-      logger.error(`Error getting base questionnaire with ID ${id}`);
-      logger.error(error);
-      reject(error);
-    }
-  });
-
-const saveQuestionnaire = changedQuestionnaire =>
-  new Promise(async (resolve, reject) => {
-    const { id } = changedQuestionnaire;
-
-    try {
-      if (!id) {
-        throw new Error(
-          "Unable to save questionnaire; cannot find required field: ID"
-        );
-      }
-
-      const createdAt = new Date();
-      const updatedAt = createdAt;
-
-      const originalQuestionnaire = await getQuestionnaire(id);
-
-      const updatedQuestionnaire = removeEmpty({
-        ...originalQuestionnaire,
-        ...changedQuestionnaire,
-      });
-
-      await db
-        .collection("questionnaires")
-        .doc(id)
-        .update({ ...justListFields(updatedQuestionnaire), updatedAt });
-
-      await db
-        .collection("questionnaires")
-        .doc(id)
-        .collection("versions")
-        .doc(uuidv4())
-        .set({
-          ...updatedQuestionnaire,
-          updatedAt,
-          createdAt,
-        });
-
-      resolve({ ...updatedQuestionnaire, updatedAt });
-    } catch (error) {
-      logger.error(`Error updating questionnaire with ID ${id}`);
-      logger.error(error);
-      reject(error);
-    }
-  });
-
-const listQuestionnaires = async () => {
-  const docRef = db.collection("questionnaires");
-  const questionnaires = await docRef
-    .get()
-    .then(snapshot => {
-      if (snapshot.empty) {
-        logger.info("No questionnaires found");
-        return;
-      }
-
-      return snapshot.docs
-        .map(doc => ({
-          ...doc.data(),
-          editors: doc.data().editors || [],
-          createdAt: doc.data().createdAt.toDate(),
-          updatedAt: doc.data().updatedAt.toDate(),
-        }))
-        .sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1));
-    })
-    .catch(err => {
-      logger.err("Error getting documents", err);
-    });
-
-  return questionnaires || [];
+    return questionnaires || [];
+  } catch (error) {
+    logger.error("Unable to retrieve questionnaires");
+    logger.error(error);
+    return error;
+  }
 };
 
-const deleteQuestionnaire = id =>
-  new Promise(async (resolve, reject) => {
-    try {
-      await db
-        .collection("questionnaires")
-        .doc(id)
-        .delete();
-      resolve();
-    } catch (error) {
-      logger.error(`Unable to delete questionnaire with ID: ${id}`);
-      logger.error(error);
-      reject(error);
-    }
-  });
+const deleteQuestionnaire = async id => {
+  try {
+    await db
+      .collection("questionnaires")
+      .doc(id)
+      .delete();
+    return;
+  } catch (error) {
+    logger.error(`Unable to delete questionnaire with ID: ${id}`);
+    logger.error(error);
+    return error;
+  }
+};
 
 const createUser = user =>
   new Promise(async (resolve, reject) => {

@@ -4,6 +4,8 @@ const {
   getQuestionnaire,
   getQuestionnaireMetaById,
   saveQuestionnaire,
+  listQuestionnaires,
+  deleteQuestionnaire,
 } = require("./datastore-firestore");
 const { v4: uuidv4 } = require("uuid");
 
@@ -38,6 +40,7 @@ jest.mock("@google-cloud/firestore", () => {
 
 describe("Firestore Datastore", () => {
   let questionnaire, baseQuestionnaire, ctx;
+
   beforeEach(() => {
     questionnaire = {
       title: "Working from home",
@@ -140,7 +143,7 @@ describe("Firestore Datastore", () => {
 
   describe("Getting the latest questionnaire version", () => {
     it("Should should handle when an ID is not provided", () => {
-      expect(getQuestionnaire()).rejects.toBeTruthy();
+      expect(() => getQuestionnaire()).not.toThrow();
     });
 
     it("Should return null when it cannot find the questionnaire", async () => {
@@ -163,7 +166,7 @@ describe("Firestore Datastore", () => {
 
   describe("Getting the base questionnaire", () => {
     it("Should handle when an ID is not provided", () => {
-      expect(getQuestionnaireMetaById()).rejects.toBeTruthy();
+      expect(() => getQuestionnaireMetaById()).not.toThrow();
     });
 
     it("Should return null when it cannot find the questionnaire", async () => {
@@ -188,8 +191,8 @@ describe("Firestore Datastore", () => {
   });
 
   describe("Saving a questionnaire", () => {
-    it("Should handel when an ID cannot be found within the given questionnaire", () => {
-      expect(saveQuestionnaire(questionnaire)).rejects.toBeTruthy();
+    it("Should handle when an ID cannot be found within the given questionnaire", () => {
+      expect(() => saveQuestionnaire(questionnaire)).not.toThrow();
     });
 
     it("Should update the 'updatedAt' property", async () => {
@@ -200,6 +203,35 @@ describe("Firestore Datastore", () => {
         ...questionnaire,
       });
       expect(updatedAt !== savedQuestionnaire.updatedAt).toBeTruthy();
+    });
+  });
+
+  describe("Getting a list of questionnaires", () => {
+    it("Should return an empty array if no questionnaires are found", async () => {
+      const listOfQuestionnaires = await listQuestionnaires();
+      expect(listOfQuestionnaires.length).toBe(0);
+      expect(Array.isArray(listOfQuestionnaires)).toBeTruthy();
+    });
+
+    it("Should transform Firestore Timestamps into JS Date objects", async () => {
+      Firestore.prototype.get.mockImplementation(() => ({
+        docs: [
+          {
+            data: () => ({ id: "123", ...baseQuestionnaire }),
+          },
+        ],
+      }));
+
+      const listOfQuestionnaires = await listQuestionnaires();
+
+      expect(listOfQuestionnaires[0].updatedAt instanceof Date).toBeTruthy();
+      expect(listOfQuestionnaires[0].createdAt instanceof Date).toBeTruthy();
+    });
+  });
+
+  describe("Deleting a questionnaire", () => {
+    it("Should handle when an ID has not been given", () => {
+      expect(() => deleteQuestionnaire()).not.toThrow();
     });
   });
 });
