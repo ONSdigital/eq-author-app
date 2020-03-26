@@ -274,7 +274,7 @@ describe("Firestore Datastore", () => {
 
   describe("Getting a user by their external ID", () => {
     it("Should handle when an ID is not provided", () => {
-      expect(async () => await getUserByExternalId()).not.toThrow();
+      expect(() => getUserByExternalId()).not.toThrow();
     });
 
     it("Should return nothing if the user cannot be found", async () => {
@@ -302,7 +302,7 @@ describe("Firestore Datastore", () => {
 
   describe("Getting a user by their Firestore ID", () => {
     it("Should handle when an ID is not provided", () => {
-      expect(async () => await getUserById()).not.toThrow();
+      expect(() => getUserById()).not.toThrow();
     });
     it("Should return nothing if the user cannot be found", async () => {
       const user = await getUserById("123");
@@ -377,7 +377,7 @@ describe("Firestore Datastore", () => {
         mockHistoryEvent
       );
 
-      expect(questionnaireHistory[0] == mockHistoryEvent).toBeTruthy();
+      expect(questionnaireHistory[0] === mockHistoryEvent).toBeTruthy();
     });
   });
 
