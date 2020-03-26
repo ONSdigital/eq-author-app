@@ -6,8 +6,16 @@ const {
   saveQuestionnaire,
   listQuestionnaires,
   deleteQuestionnaire,
+  createUser,
+  getUserByExternalId,
+  getUserById,
+  listUsers,
+  createHistoryEvent,
+  saveMetadata,
 } = require("./datastore-firestore");
 const { v4: uuidv4 } = require("uuid");
+
+const { noteCreationEvent } = require("../../utils/questionnaireEvents");
 
 jest.mock("@google-cloud/firestore", () => {
   class Firestore {
@@ -27,6 +35,7 @@ jest.mock("@google-cloud/firestore", () => {
   Firestore.prototype.set = jest.fn(() => new Firestore());
   Firestore.prototype.update = jest.fn(() => new Firestore());
   Firestore.prototype.orderBy = jest.fn(() => new Firestore());
+  Firestore.prototype.where = jest.fn(() => new Firestore());
   Firestore.prototype.limit = jest.fn(() => new Firestore());
   Firestore.prototype.get = jest.fn(() => ({
     empty: true,
@@ -39,7 +48,7 @@ jest.mock("@google-cloud/firestore", () => {
 });
 
 describe("Firestore Datastore", () => {
-  let questionnaire, baseQuestionnaire, ctx;
+  let questionnaire, baseQuestionnaire, user, ctx;
 
   beforeEach(() => {
     questionnaire = {
@@ -109,6 +118,13 @@ describe("Firestore Datastore", () => {
       editors: [],
     };
 
+    user = {
+      email: "harrypotter@hogwarts.ac.uk",
+      name: "Harry Potter",
+      externalId: "TheBoyWhoLived",
+      picture: "",
+    };
+
     ctx = {
       user: {
         id: 123,
@@ -147,8 +163,8 @@ describe("Firestore Datastore", () => {
     });
 
     it("Should return null when it cannot find the questionnaire", async () => {
-      const questionnaire = await getQuestionnaire("123");
-      expect(questionnaire).toBeNull();
+      const questionnaireFromDb = await getQuestionnaire("123");
+      expect(questionnaireFromDb).toBeNull();
       expect(getQuestionnaire("123")).resolves.toBeNull();
     });
 
@@ -232,6 +248,154 @@ describe("Firestore Datastore", () => {
   describe("Deleting a questionnaire", () => {
     it("Should handle when an ID has not been given", () => {
       expect(() => deleteQuestionnaire()).not.toThrow();
+    });
+  });
+
+  describe("Creating a user", () => {
+    it("Should give the user an ID if one is not given", async () => {
+      const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+      const userFromDb = await createUser(user);
+      expect(userFromDb.id).toBeTruthy();
+      expect(userFromDb.id).toMatch(uuidRegex);
+    });
+
+    it("Should use the email as the users name if one is not given", async () => {
+      delete user.name;
+      const userFromDb = await createUser(user);
+      expect(userFromDb.name).toBeTruthy();
+      expect(userFromDb.name).toMatch(userFromDb.email);
+    });
+
+    it("Should handle any errors that may occur", () => {
+      delete user.email;
+      expect(() => createUser(user)).not.toThrow();
+    });
+  });
+
+  describe("Getting a user by their external ID", () => {
+    it("Should handle when an ID is not provided", () => {
+      expect(async () => await getUserByExternalId()).not.toThrow();
+    });
+
+    it("Should return nothing if the user cannot be found", async () => {
+      const user = await getUserByExternalId("123");
+      expect(user).toBeUndefined();
+    });
+
+    it("Should return the Firestore document ID as the ID for the user", async () => {
+      Firestore.prototype.get.mockImplementation(() => ({
+        empty: false,
+        docs: [
+          {
+            id: "123",
+            data: () => ({
+              ...user,
+            }),
+          },
+        ],
+      }));
+      const userFromDb = await getUserByExternalId("123");
+
+      expect(userFromDb.id).toBe("123");
+    });
+  });
+
+  describe("Getting a user by their Firestore ID", () => {
+    it("Should handle when an ID is not provided", () => {
+      expect(async () => await getUserById()).not.toThrow();
+    });
+    it("Should return nothing if the user cannot be found", async () => {
+      const user = await getUserById("123");
+      expect(user).toBeUndefined();
+    });
+    it("Should return the Firestore document ID as the ID for the user", async () => {
+      Firestore.prototype.get.mockImplementation(() => ({
+        empty: false,
+        id: "123",
+        data: () => ({
+          ...user,
+        }),
+      }));
+      const userFromDb = await getUserById("123");
+
+      expect(userFromDb.id).toBe("123");
+    });
+  });
+
+  describe("Getting a list of users", () => {
+    it("Should return an empty array if no users are found", async () => {
+      const listOfUsers = await listUsers();
+      expect(listOfUsers.length).toBe(0);
+      expect(Array.isArray(listOfUsers)).toBeTruthy();
+    });
+
+    it("Should use the Firestore document ID as the ID for each user", async () => {
+      Firestore.prototype.get.mockImplementation(() => ({
+        empty: false,
+        id: "123",
+        docs: [
+          {
+            id: "123",
+            data: () => ({
+              ...user,
+            }),
+          },
+        ],
+      }));
+
+      const usersFromDb = await listUsers();
+      expect(usersFromDb[0].id).toBe("123");
+    });
+  });
+
+  describe("Creating a history event", () => {
+    let mockHistoryEvent;
+    beforeEach(() => {
+      mockHistoryEvent = noteCreationEvent(
+        {
+          ...ctx,
+          questionnaire,
+          user: { ...user, id: "123" },
+        },
+        "He defeated the dark lord!"
+      );
+    });
+    it("Should handle when a qid has not been given", () => {
+      expect(() => createHistoryEvent(null, mockHistoryEvent)).not.toThrow();
+    });
+    it("Should handle when an event has not been given", () => {
+      expect(() => createHistoryEvent("123", null)).not.toThrow();
+    });
+    it("Should put the new history event at the front of the list", async () => {
+      Firestore.prototype.get.mockImplementation(() => ({
+        empty: false,
+        data: () => baseQuestionnaire,
+      }));
+
+      const questionnaireHistory = await createHistoryEvent(
+        "123",
+        mockHistoryEvent
+      );
+
+      expect(questionnaireHistory[0] == mockHistoryEvent).toBeTruthy();
+    });
+  });
+
+  describe("Saving a base questionnaire", () => {
+    it("Should handel when an ID cannot be found within the given base questionnaire", () => {
+      expect(() => {
+        saveMetadata({});
+      }).not.toThrow();
+    });
+    it("Should update the 'updatedAt' property", async () => {
+      const updatedAt = new Date();
+      const updatedBaseQuestionnaire = await saveMetadata({
+        ...baseQuestionnaire,
+        updatedAt,
+        id: "123",
+      });
+
+      expect(updatedBaseQuestionnaire.updatedAt !== updatedAt).toBeTruthy();
     });
   });
 });

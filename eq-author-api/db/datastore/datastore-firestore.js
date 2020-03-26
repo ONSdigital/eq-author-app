@@ -124,7 +124,7 @@ const getQuestionnaireMetaById = async id => {
   } catch (error) {
     logger.error(`Error getting base questionnaire with ID ${id}`);
     logger.error(error);
-    return error;
+    return;
   }
 };
 
@@ -168,7 +168,7 @@ const saveQuestionnaire = async changedQuestionnaire => {
   } catch (error) {
     logger.error(`Error updating questionnaire with ID ${id}`);
     logger.error(error);
-    return error;
+    return;
   }
 };
 
@@ -194,7 +194,7 @@ const listQuestionnaires = async () => {
   } catch (error) {
     logger.error("Unable to retrieve questionnaires");
     logger.error(error);
-    return error;
+    return;
   }
 };
 
@@ -208,133 +208,155 @@ const deleteQuestionnaire = async id => {
   } catch (error) {
     logger.error(`Unable to delete questionnaire with ID: ${id}`);
     logger.error(error);
-    return error;
+    return;
   }
 };
 
-const createUser = user =>
-  new Promise(async (resolve, reject) => {
-    let { id, name } = user;
+const createUser = async user => {
+  let { id, name, email } = user;
+
+  try {
+    if (!email) {
+      throw new Error("Cannot create new user without required field: email");
+    }
 
     if (!id) {
       id = uuidv4();
     }
 
     if (!name) {
-      name = user.email;
+      name = email;
     }
 
-    try {
-      await db
-        .collection("users")
-        .doc(id)
-        .set({ ...user, id, name });
-    } catch (error) {
-      logger.error(`Error creating user with ID: ${id}: `);
-      logger.error(error);
-      reject(error);
-    }
+    await db
+      .collection("users")
+      .doc(id)
+      .set({ ...user, id, name, email });
+  } catch (error) {
+    logger.error(`Error creating user with ID: ${id}: `);
+    logger.error(error);
+    return;
+  }
 
-    resolve();
-  });
-
-const getUserByExternalId = externalId =>
-  new Promise(async (resolve, reject) => {
-    const docRef = db.collection("users");
-    const user = await docRef
-      .where("externalId", "==", externalId)
-      .limit(1)
-      .get()
-      .then(snapshot => {
-        if (snapshot.empty) {
-          logger.info("No users found");
-          return;
-        }
-
-        const doc = snapshot.docs[0];
-
-        resolve({ ...doc.data(), id: doc.id });
-      })
-      .catch(err => {
-        logger.error("Error getting documents");
-        logger.error(err);
-        reject(err);
-      });
-    resolve(user);
-  });
-
-const getUserById = async id => {
-  const user = await db
-    .collection("users")
-    .doc(id)
-    .get()
-    .then(doc => {
-      if (doc.empty) {
-        logger.info("No users found");
-        return;
-      }
-
-      return { ...doc.data(), id: doc.id };
-    })
-    .catch(err => {
-      logger.error(`Error getting user with ID: ${id}`);
-      logger.error(err);
-    });
-
-  return user;
+  return { ...user, id, name };
 };
 
-const listUsers = async () => {
-  const docRef = db.collection("users");
-  const users = await docRef.get().then(snapshot => {
-    if (snapshot.empty) {
+const getUserByExternalId = async externalId => {
+  try {
+    if (!externalId) {
+      throw new Error("Cannot find user without required field 'externalId'");
+    }
+
+    const userSnapshot = await db
+      .collection("users")
+      .where("externalId", "==", externalId)
+      .limit(1)
+      .get();
+    if (userSnapshot.empty) {
+      logger.info(`User with external ID ${externalId} not found`);
+      return;
+    }
+
+    const doc = userSnapshot.docs[0];
+
+    return { ...doc.data(), id: doc.id };
+  } catch (error) {
+    logger.error(`Unable to find user with external ID ${externalId}`);
+    logger.error(error);
+    return;
+  }
+};
+
+const getUserById = async id => {
+  try {
+    const userSnapshot = await db
+      .collection("users")
+      .doc(id)
+      .get();
+
+    if (userSnapshot.empty) {
       logger.info("No users found");
       return;
     }
 
-    return snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
-  });
-
-  return users;
+    return { ...userSnapshot.data(), id: userSnapshot.id };
+  } catch (error) {
+    logger.error(`Error getting user with ID: ${id}`);
+    logger.error(error);
+    return error;
+  }
 };
 
-const createHistoryEvent = (qid, event) =>
-  new Promise(async (resolve, reject) => {
-    try {
-      const questionnaire = await getQuestionnaireMetaById(qid);
-      questionnaire.history.unshift(event);
+const listUsers = async () => {
+  try {
+    const usersSnapshot = await db.collection("users").get();
 
-      await db
-        .collection("questionnaires")
-        .doc(qid)
-        .update({ history: questionnaire.history });
+    if (usersSnapshot.empty) {
+      logger.info("No users found");
+      return [];
+    }
 
-      resolve(questionnaire.history);
-    } catch (error) {
-      logger.error(
-        `Error creating history event in questionnaire with ID ${qid}`
+    return usersSnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+  } catch (error) {
+    logger.error(`Unable to get a list of all users`);
+    logger.error(error);
+    return error;
+  }
+};
+
+const createHistoryEvent = async (qid, event) => {
+  try {
+    if (!qid) {
+      throw new Error(
+        "Unable to create a history event without first parameter: qid"
       );
-      logger.error(error);
-      reject(error);
     }
-  });
 
-const saveMetadata = metadata =>
-  new Promise(async (resolve, reject) => {
-    const { id } = metadata;
-
-    try {
-      const updateMetadata = await db
-        .collection("questionnaires")
-        .doc(id)
-        .update({ ...metadata });
-      resolve(updateMetadata);
-    } catch (error) {
-      logger.error(`Cannot update base questionnaire with ID ${id}`);
-      logger.error(error);
-      reject(error);
+    if (!event) {
+      throw new Error(
+        "Unable to create history event without second paramater: event"
+      );
     }
-  });
+    const questionnaire = await getQuestionnaireMetaById(qid);
+    questionnaire.history.unshift(event);
+
+    await db
+      .collection("questionnaires")
+      .doc(qid)
+      .update({ history: questionnaire.history });
+
+    return questionnaire.history;
+  } catch (error) {
+    logger.error(
+      `Error creating history event in questionnaire with ID ${qid}`
+    );
+    logger.error(error);
+    return error;
+  }
+};
+
+const saveMetadata = async metadata => {
+  const { id } = metadata;
+
+  if (!id) {
+    throw new Error(
+      "Cannot find required field ID within the given base questionnaire"
+    );
+  }
+
+  try {
+    const updatedMetadata = { ...metadata, updatedAt: new Date() };
+    await db
+      .collection("questionnaires")
+      .doc(id)
+      .update({ ...updatedMetadata });
+    return updatedMetadata;
+  } catch (error) {
+    logger.error(`Cannot update base questionnaire with ID ${id}`);
+    logger.error(error);
+    return error;
+  }
+};
 
 const createComments = async questionnaireId =>
   new Promise(async (resolve, reject) => {
