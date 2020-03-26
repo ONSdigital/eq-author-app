@@ -12,6 +12,10 @@ const {
   listUsers,
   createHistoryEvent,
   saveMetadata,
+  createComments,
+  getCommentsForQuestionnaire,
+  saveComments,
+  updateUser,
 } = require("./datastore-firestore");
 const { v4: uuidv4 } = require("uuid");
 
@@ -396,6 +400,130 @@ describe("Firestore Datastore", () => {
       });
 
       expect(updatedBaseQuestionnaire.updatedAt !== updatedAt).toBeTruthy();
+    });
+  });
+
+  describe("Creating default comments", () => {
+    it("Should handle when a questionnaireId has not been given", () => {
+      expect(() => createComments()).not.toThrow();
+    });
+    it("Should return a default comments object", async () => {
+      const commentsFromDb = await createComments("123");
+      expect(commentsFromDb).toMatchObject({
+        comments: {},
+        questionnaireId: "123",
+      });
+    });
+  });
+
+  describe("Getting the comments for a questionnaire", () => {
+    let mockComment;
+    beforeEach(() => {
+      mockComment = {
+        id: uuidv4(),
+        commentText: "Oh I do like to be beside the seaside",
+        userId: "123",
+        createdTime: {
+          toDate: () => new Date(),
+        },
+        editedTime: {
+          toDate: () => new Date(),
+        },
+        replies: [
+          {
+            createdTime: {
+              toDate: () => new Date(),
+            },
+            editedTime: {
+              toDate: () => new Date(),
+            },
+          },
+        ],
+      };
+    });
+    it("Should handle when a questionnareId has not been given", () => {
+      expect(() => getCommentsForQuestionnaire()).not.toThrow();
+    });
+    it("Should transform Firestore Timestamps into JS Date objects", async () => {
+      Firestore.prototype.get.mockImplementation(() => ({
+        data: () => ({
+          comments: {
+            "123-456-789": [mockComment],
+          },
+        }),
+      }));
+
+      const listOfComments = await getCommentsForQuestionnaire("123");
+
+      expect(
+        listOfComments.comments["123-456-789"][0].createdTime instanceof Date
+      ).toBeTruthy();
+      expect(
+        listOfComments.comments["123-456-789"][0].replies[0]
+          .createdTime instanceof Date
+      ).toBeTruthy();
+      expect(
+        listOfComments.comments["123-456-789"][0].editedTime instanceof Date
+      ).toBeTruthy();
+      expect(
+        listOfComments.comments["123-456-789"][0].replies[0]
+          .editedTime instanceof Date
+      ).toBeTruthy();
+    });
+  });
+
+  describe("Saving a comment", () => {
+    let mockComment, mockCommentsObject;
+    beforeEach(() => {
+      mockComment = {
+        id: uuidv4(),
+        commentText: "Oh I do like to be beside the seaside",
+        userId: "123",
+        createdTime: {
+          toDate: () => new Date(),
+        },
+        editedTime: {
+          toDate: () => new Date(),
+        },
+        replies: [
+          {
+            createdTime: {
+              toDate: () => new Date(),
+            },
+            editedTime: {
+              toDate: () => new Date(),
+            },
+          },
+        ],
+      };
+      mockCommentsObject = {
+        comments: {
+          "123-456-789": [mockComment],
+        },
+      };
+    });
+    it("Should handle a questionnaireId not being found within the given comments object", () => {
+      expect(() => saveComments(mockCommentsObject)).not.toThrow();
+    });
+    it("Should return the questionnaire comments object", async () => {
+      const commentsFromDb = await saveComments({
+        ...mockCommentsObject,
+        questionnaireId: "123",
+      });
+
+      expect(commentsFromDb).toMatchObject(mockCommentsObject.comments);
+    });
+  });
+
+  describe("Updating a user", () => {
+    it("Should handle not finding an ID within the given user object", () => {
+      expect(() => updateUser(user)).not.toThrow();
+    });
+    it("Should return the updated user object", async () => {
+      const changedUser = { ...user, name: "Harry James Potter", id: "123" };
+      const userFromDb = await updateUser(changedUser);
+
+      expect(userFromDb).toMatchObject(changedUser);
     });
   });
 });

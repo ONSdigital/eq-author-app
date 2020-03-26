@@ -358,121 +358,125 @@ const saveMetadata = async metadata => {
   }
 };
 
-const createComments = async questionnaireId =>
-  new Promise(async (resolve, reject) => {
-    const defaultComments = { questionnaireId, comments: {} };
-    try {
-      await db
-        .collection("comments")
-        .doc(questionnaireId)
-        .set(defaultComments);
-      resolve(defaultComments);
-    } catch (error) {
-      logger.error(
-        `Unable to create comment structure for questionnaire with ID ${questionnaireId}`
+const createComments = async questionnaireId => {
+  try {
+    if (!questionnaireId) {
+      throw new Error(
+        "Cannot create default comments without required paramater: questionnaireId"
       );
-      logger.error(error);
-      reject(error);
     }
-  });
+    const defaultComments = { questionnaireId, comments: {} };
+    await db
+      .collection("comments")
+      .doc(questionnaireId)
+      .set(defaultComments);
+    return defaultComments;
+  } catch (error) {
+    logger.error(
+      `Unable to create comment structure for questionnaire with ID ${questionnaireId}`
+    );
+    logger.error(error);
+    return error;
+  }
+};
 
-const getCommentsForQuestionnaire = questionnaireId =>
-  new Promise(async (resolve, reject) => {
-    try {
-      const questionnaireComments = await db
-        .collection("comments")
-        .doc(questionnaireId)
-        .get()
-        .then(doc => {
-          const data = doc.data();
-          const listOfComponents = Object.keys(data.comments);
-          listOfComponents.forEach(component => {
-            const componentComments = data.comments[component];
-            data.comments[component] = componentComments.map(comment => {
-              let editedTime;
-              if (comment.editedTime) {
-                editedTime = comment.editedTime.toDate();
-              } else {
-                editedTime = null;
-              }
+const getCommentsForQuestionnaire = async questionnaireId => {
+  try {
+    const commentsSnapshot = await db
+      .collection("comments")
+      .doc(questionnaireId)
+      .get();
 
-              const replies = comment.replies.map(reply => {
-                let editedTime;
-                if (reply.editedTime) {
-                  editedTime = reply.editedTime.toDate();
-                } else {
-                  editedTime = null;
-                }
+    const data = commentsSnapshot.data();
 
-                return {
-                  ...reply,
-                  editedTime,
-                  createdTime: reply.createdTime.toDate(),
-                };
-              });
+    const listOfComponents = Object.keys(data.comments);
+    listOfComponents.forEach(component => {
+      const componentComments = data.comments[component];
+      data.comments[component] = componentComments.map(comment => {
+        let editedTime;
+        if (comment.editedTime) {
+          editedTime = comment.editedTime.toDate();
+        } else {
+          editedTime = null;
+        }
 
-              return {
-                ...comment,
-                replies,
-                editedTime,
-                createdTime: comment.createdTime.toDate(),
-              };
-            });
-          });
-          return data;
+        const replies = comment.replies.map(reply => {
+          let editedTime;
+          if (reply.editedTime) {
+            editedTime = reply.editedTime.toDate();
+          } else {
+            editedTime = null;
+          }
+
+          return {
+            ...reply,
+            editedTime,
+            createdTime: reply.createdTime.toDate(),
+          };
         });
 
-      resolve(questionnaireComments);
-    } catch (error) {
-      logger.error(
-        `Unable to get comments for questionnaire with ID ${questionnaireId}`
-      );
-      logger.error(error);
-      reject(error);
-    }
-  });
+        return {
+          ...comment,
+          replies,
+          editedTime,
+          createdTime: comment.createdTime.toDate(),
+        };
+      });
+    });
+    return data;
+  } catch (error) {
+    logger.error(
+      `Unable to get comments for questionnaire with ID ${questionnaireId}`
+    );
+    logger.error(error);
+    return error;
+  }
+};
 
-const saveComments = updatedCommentsObject =>
-  new Promise(async (resolve, reject) => {
-    const {
-      questionnaireId,
-      comments: updatedComments,
-    } = updatedCommentsObject;
-    try {
-      await db
-        .collection("comments")
-        .doc(questionnaireId)
-        .update({ comments: { ...updatedComments } });
-      resolve(updatedComments);
-    } catch (error) {
-      logger.error(
-        `Unable to save comments for questionnaire with ID ${questionnaireId}`
+const saveComments = async updatedCommentsObject => {
+  const { questionnaireId, comments: updatedComments } = updatedCommentsObject;
+  try {
+    if (!questionnaireId) {
+      throw new Error(
+        "Unable to save comments without required field: questionnaireId"
       );
-      logger.error(error);
-      reject(error);
     }
-  });
+    await db
+      .collection("comments")
+      .doc(questionnaireId)
+      .update({ comments: { ...updatedComments } });
+    return updatedComments;
+  } catch (error) {
+    logger.error(
+      `Unable to save comments for questionnaire with ID ${questionnaireId}`
+    );
+    logger.error(error);
+    return error;
+  }
+};
 
-const updateUser = changedUser =>
-  new Promise(async (resolve, reject) => {
-    const { id } = changedUser;
-    try {
-      const existingUser = await db
-        .collection("users")
-        .doc(id)
-        .get();
-      const user = Object.assign(changedUser, existingUser);
-      await db
-        .collection("users")
-        .doc(id)
-        .update({ ...user });
-      resolve();
-    } catch (error) {
-      logger.error(`Unable update user with ID ${id}`);
-      logger.error(error);
-      reject(error);
+const updateUser = async changedUser => {
+  const { id } = changedUser;
+  try {
+    if (!id) {
+      throw new Error("Cannot update user without required field: id");
     }
-  });
+    const existingUser = await db
+      .collection("users")
+      .doc(id)
+      .get();
+    const user = Object.assign(changedUser, existingUser);
+    await db
+      .collection("users")
+      .doc(id)
+      .update({ ...user });
+    return user;
+  } catch (error) {
+    logger.error(`Unable update user with ID ${id}`);
+    logger.error(error);
+    return error;
+  }
+};
 
 module.exports = {
   createQuestionnaire,
