@@ -152,6 +152,7 @@ const getQuestionnaireMetaById = id =>
         if (err) {
           reject(err);
         }
+
         resolve(questionnaire);
       }
     );
@@ -184,7 +185,6 @@ const getQuestionnaire = id =>
         if (!questionnaire.editors) {
           questionnaire.editors = [];
         }
-
         resolve(questionnaire);
       });
   });
@@ -280,6 +280,7 @@ const listQuestionnaires = () => {
         if (err) {
           reject(err);
         }
+
         const transformedQuestionnaires = questionnaires
           .map(q => ({ ...q, editors: q.editors || [] }))
           .sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1));
@@ -298,7 +299,6 @@ module.exports = {
   getUserByExternalId,
   createUser,
   updateUser,
-  saveModel,
   listUsers,
   createHistoryEvent,
   getQuestionnaireMetaById,
