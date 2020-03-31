@@ -7,4 +7,5 @@ module.exports.PIPING_ANSWER_TYPES = [
   type.PERCENTAGE,
   type.DATE,
   type.DATE_RANGE,
+  type.UNIT,
 ];
