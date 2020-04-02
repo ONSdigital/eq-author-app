@@ -708,7 +708,7 @@ describe("validation", () => {
       expect(validation.latestDate.entityType).toEqual(CUSTOM);
     });
 
-    it.only("should create earliest validation for DateRange answers", async () => {
+    it("should create earliest validation for DateRange answers", async () => {
       const answer = await createAnswer(ctx, {
         questionPageId: page.id,
         type: DATE_RANGE,

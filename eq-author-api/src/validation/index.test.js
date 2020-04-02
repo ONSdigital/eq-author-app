@@ -5,7 +5,7 @@ const {
   UNIT,
   PERCENTAGE,
   DATE,
-  DATE_RANGE,
+  // DATE_RANGE,
 } = require("../../constants/answerTypes");
 
 const {
