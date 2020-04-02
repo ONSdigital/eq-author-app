@@ -57,7 +57,6 @@ const SearchInput = styled(Input).attrs({
 const Header = ({
   onCreateQuestionnaire,
   onSearchChange,
-  searchTerm,
   onToggleFilter,
   isFiltered,
 }) => {
@@ -79,7 +78,7 @@ const Header = ({
           </VisuallyHidden>
           <SearchInput
             id="search"
-            defaultValue={searchTerm}
+            defaultValue={""}
             onChange={onSearchChangeDebounced}
           />
         </Search>
