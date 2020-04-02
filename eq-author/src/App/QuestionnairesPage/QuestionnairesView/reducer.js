@@ -68,7 +68,7 @@ const buildState = state => {
 };
 
 export const buildInitialState = questionnaires => state =>
-  buildState({ ...state, apiQuestionnaires: questionnaires });
+  buildState({ ...state, searchTerm: "", apiQuestionnaires: questionnaires });
 
 export const ACTIONS = {
   CHANGE_PAGE: "CHANGE_PAGE",
