@@ -5,6 +5,7 @@ const {
   CURRENCY,
   PERCENTAGE,
   DATE,
+  DATE_RANGE,
   UNIT,
   DURATION,
   TEXTAREA,
@@ -55,6 +56,10 @@ class Answer {
         this.buildNumberValidation(minValue, "min_value");
         this.buildNumberValidation(maxValue, "max_value");
       } else if (answer.type === DATE) {
+        const { earliestDate, latestDate } = answer.validation;
+        this.minimum = Answer.buildDateValidation(earliestDate);
+        this.maximum = Answer.buildDateValidation(latestDate);
+      } else if (answer.type === DATE_RANGE) {
         const { earliestDate, latestDate } = answer.validation;
         this.minimum = Answer.buildDateValidation(earliestDate);
         this.maximum = Answer.buildDateValidation(latestDate);

@@ -4,4 +4,14 @@ fragment MinDurationValidationRule on MinDurationValidationRule {
     value
     unit
   }
+  # validationErrorInfo {
+  #   id
+  #   errors {
+  #     id
+  #     type
+  #     field
+  #     errorCode
+  #   }
+  #   totalCount
+  # }
 }

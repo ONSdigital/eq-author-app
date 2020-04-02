@@ -337,13 +337,50 @@ describe("validation", () => {
     });
 
     describe("schema validation", () => {
-      it("should return validation error when latest date is before earliest date", async () => {
+      it("Date - should return validation error when latest date is before earliest date", async () => {
         const answer = await createAnswer(ctx, {
           questionPageId: page.id,
           type: DATE,
         });
         const validation = await queryValidation(ctx, answer.id);
+        await toggleValidation(ctx, {
+          id: validation.earliestDate.id,
+          enabled: true,
+        });
+        await toggleValidation(ctx, {
+          id: validation.latestDate.id,
+          enabled: true,
+        });
+        await updateValidation(ctx, {
+          id: validation.earliestDate.id,
+          earliestDateInput: {
+            ...params,
+            custom: "2017-01-06",
+          },
+        });
+        await updateValidation(ctx, {
+          id: validation.latestDate.id,
+          latestDateInput: {
+            ...params,
+            custom: "2017-01-05",
+          },
+        });
+        const result = await queryValidation(ctx, answer.id);
 
+        expect(result.earliestDate.validationErrorInfo.errors).toMatchObject([
+          { errorCode: ERR_EARLIEST_AFTER_LATEST },
+        ]);
+        expect(result.latestDate.validationErrorInfo.errors).toMatchObject([
+          { errorCode: ERR_EARLIEST_AFTER_LATEST },
+        ]);
+      });
+
+      it("Date Range - should return validation error when latest date is before earliest date", async () => {
+        const answer = await createAnswer(ctx, {
+          questionPageId: page.id,
+          type: DATE_RANGE,
+        });
+        const validation = await queryValidation(ctx, answer.id);
         await toggleValidation(ctx, {
           id: validation.earliestDate.id,
           enabled: true,
@@ -671,7 +708,7 @@ describe("validation", () => {
       expect(validation.latestDate.entityType).toEqual(CUSTOM);
     });
 
-    it("should create earliest validation for DateRange answers", async () => {
+    it.only("should create earliest validation for DateRange answers", async () => {
       const answer = await createAnswer(ctx, {
         questionPageId: page.id,
         type: DATE_RANGE,

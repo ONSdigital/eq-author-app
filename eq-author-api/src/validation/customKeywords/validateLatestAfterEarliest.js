@@ -28,10 +28,17 @@ module.exports = function(ajv) {
 
       const a = translationMatrix[otherFields.relativePosition](otherFields);
       const b = translationMatrix[parentData.relativePosition](parentData);
+      // console.log("\n\na = = = = ", a);
+      // console.log("\n\nb = = = = ", b);
 
       const isLatest = dataPath.split("/").includes("latestDate");
 
+      // console.log("\n\ndataPath - - - ", dataPath);
+      // console.log("\n\nisLatest - - - ", isLatest);
+
       const valid = isLatest ? a < b : a > b;
+
+      // console.log("\n\nvalid ? = = = = ", valid);
 
       if (!valid) {
         isValid.errors = [

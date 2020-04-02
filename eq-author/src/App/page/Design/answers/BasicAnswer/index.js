@@ -12,6 +12,8 @@ import MaxValueValidationRule from "graphql/fragments/max-value-validation-rule.
 import EarliestDateValidationRule from "graphql/fragments/earliest-date-validation-rule.graphql";
 import LatestDateValidationRule from "graphql/fragments/latest-date-validation-rule.graphql";
 import ValidationErrorInfoFragment from "graphql/fragments/validationErrorInfo.graphql";
+import MinDurationValidationRule from "graphql/fragments/min-duration-validation-rule.graphql";
+import MaxDurationValidationRule from "graphql/fragments/max-duration-validation-rule.graphql";
 
 import gql from "graphql-tag";
 
@@ -124,6 +126,24 @@ StatelessBasicAnswer.fragments = {
             enabled
             ...LatestDateValidationRule
           }
+        }
+        ... on DateRangeValidation {
+          earliestDate {
+            enabled
+            ...EarliestDateValidationRule
+          }
+          latestDate {
+            enabled
+            ...LatestDateValidationRule
+          }
+          # minDuration {
+          #   enabled
+          #   ...MinDurationValidationRule
+          # }
+          # maxDuration {
+          #   enabled
+          #   ...MaxDurationValidationRule
+          # }
         }
       }
       validationErrorInfo {

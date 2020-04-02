@@ -121,7 +121,7 @@ export class UnwrappedDateValidation extends React.Component {
       onUpdate,
       onChangeUpdate,
     } = this.props;
-
+    console.log("this.props", this.props);
     const availableUnits = getUnits({ format, type });
 
     const validationPills = {

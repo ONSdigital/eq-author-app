@@ -29,7 +29,7 @@ const {
 
 const { DURATION_LOOKUP } = require("../../constants/durationTypes");
 
-const { DATE } = require("../../constants/answerTypes");
+const { DATE, DATE_RANGE } = require("../../constants/answerTypes");
 
 const pubsub = require("../../db/pubSub");
 const { getName } = require("../../utils/getName");
@@ -373,7 +373,7 @@ const Resolvers = {
     }),
     updateAnswer: createMutation((root, { input }, ctx) => {
       const answers = getAnswers(ctx);
-
+      console.log("\n\nanswers - - - -", answers);
       const additionalAnswers = flatMap(answers, answer =>
         answer.options
           ? flatMap(answer.options, option => option.additionalAnswer)
@@ -383,8 +383,18 @@ const Resolvers = {
       const answer = find(concat(answers, additionalAnswers), { id: input.id });
 
       merge(answer, input);
-
+      console.log("\n\nBASE.js answer in mutation - - - - - - ", answer);
       if (answer.type === DATE && !input.label && input.properties.format) {
+        answer.validation.earliestDate.offset.unit =
+          DURATION_LOOKUP[input.properties.format];
+        answer.validation.latestDate.offset.unit =
+          DURATION_LOOKUP[input.properties.format];
+      }
+      if (
+        answer.type === DATE_RANGE &&
+        !input.label &&
+        input.properties.format
+      ) {
         answer.validation.earliestDate.offset.unit =
           DURATION_LOOKUP[input.properties.format];
         answer.validation.latestDate.offset.unit =
@@ -525,6 +535,8 @@ const Resolvers = {
     }),
     toggleValidationRule: createMutation((_, args, ctx) => {
       const validation = getValidationById(ctx, args.input.id);
+      console.log("\n\n Base.js - toggleValidationRule", validation);
+
       validation.enabled = args.input.enabled;
       const newValidation = Object.assign({}, validation);
 
@@ -534,11 +546,15 @@ const Resolvers = {
     }),
     updateValidationRule: createMutation((_, args, ctx) => {
       const validation = getValidationById(ctx, args.input.id);
-      const { validationType } = validation;
+      // console.log("\n\nctx = = = = ", ctx);
+      // console.log("\n\nargs.input", args.input);
+      console.log("\n\n Base.js - updateValidationRule", validation);
 
+      const { validationType } = validation;
       merge(validation, args.input[`${validationType}Input`]);
 
       const newValidation = Object.assign({}, validation);
+
       delete validation.validationType;
 
       return newValidation;
@@ -1014,7 +1030,7 @@ const Resolvers = {
   ValidationType: {
     __resolveType: answer => {
       const validationEntity = getValidationEntity(answer.type);
-
+      // console.log("validationEntity - - -= ", validationEntity);
       switch (validationEntity) {
         case "number":
           return "NumberValidation";
@@ -1022,6 +1038,7 @@ const Resolvers = {
           return "DateValidation";
         case "dateRange":
           return "DateRangeValidation";
+        // return "DateValidation";
 
         default:
           throw new TypeError(
@@ -1062,12 +1079,25 @@ const Resolvers = {
   },
 
   DateValidation: {
-    earliestDate: answer => answer.validation.earliestDate,
+    earliestDate: answer => {
+      console.log(
+        "\n\nBASE.js - DateValidation - answer.validation.earliestDate",
+        answer.validation.earliestDate
+      );
+      return answer.validation.earliestDate;
+    },
+    // earliestDate: answer => answer.validation.earliestDate,
     latestDate: answer => answer.validation.latestDate,
   },
 
   DateRangeValidation: {
-    earliestDate: answer => answer.validation.earliestDate,
+    earliestDate: answer => {
+      console.log(
+        "\n\nBASE.js - DateRangeValidation - answer.validation.earliestDate",
+        answer.validation.earliestDate
+      );
+      return answer.validation.earliestDate;
+    },
     latestDate: answer => answer.validation.latestDate,
     minDuration: answer => answer.validation.minDuration,
     maxDuration: answer => answer.validation.maxDuration,
@@ -1122,12 +1152,20 @@ const Resolvers = {
       getAvailablePreviousAnswersForValidation(ctx, id),
     availableMetadata: ({ id }, args, ctx) =>
       getAvailableMetadataForValidation(ctx, id),
-    validationErrorInfo: ({ id }, args, ctx) =>
-      ctx.validationErrorInfo[VALIDATION][id] || {
-        id: id,
-        errors: [],
-        totalCount: 0,
-      },
+    validationErrorInfo: ({ id }, args, ctx) => {
+      console.log(
+        "\n\nEarliestDateValidationRule - ctx.validationErrorInfo[VALIDATION]",
+        ctx.validationErrorInfo[VALIDATION][id]
+      );
+
+      return (
+        ctx.validationErrorInfo[VALIDATION][id] || {
+          id: id,
+          errors: [],
+          totalCount: 0,
+        }
+      );
+    },
   },
 
   LatestDateValidationRule: {
@@ -1145,12 +1183,20 @@ const Resolvers = {
       getAvailablePreviousAnswersForValidation(ctx, id),
     availableMetadata: ({ id }, args, ctx) =>
       getAvailableMetadataForValidation(ctx, id),
-    validationErrorInfo: ({ id }, args, ctx) =>
-      ctx.validationErrorInfo[VALIDATION][id] || {
-        id: id,
-        errors: [],
-        totalCount: 0,
-      },
+    validationErrorInfo: ({ id }, args, ctx) => {
+      console.log(
+        "\n\nLatestDateValidationRule - ctx.validationErrorInfo[VALIDATION]",
+        ctx.validationErrorInfo[VALIDATION][id]
+      );
+
+      return (
+        ctx.validationErrorInfo[VALIDATION][id] || {
+          id: id,
+          errors: [],
+          totalCount: 0,
+        }
+      );
+    },
   },
 
   MinDurationValidationRule: {

@@ -303,7 +303,7 @@
       "if": {
         "properties": {
           "type": {
-            "enum": ["Date"]
+            "enum": ["Date", "DateRange"]
           }
         }
       },

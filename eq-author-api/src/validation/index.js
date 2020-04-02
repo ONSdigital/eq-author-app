@@ -25,6 +25,10 @@ require("ajv-keywords")(ajv, "select");
 
 const validate = ajv.addSchema(schemas.slice(1)).compile(schemas[0]);
 
+// console.log("\n\najv - - - - - - - - - - - - - ", ajv);
+// console.log("\n\nvalidate = = = ", validate);
+// console.log("\n\nschemas - - - ", schemas[1].definitions);
+
 const convertObjectType = objectType => {
   switch (objectType) {
     case "additionalAnswer":
@@ -82,6 +86,8 @@ module.exports = questionnaire => {
     );
     object.totalCount = totalErrors;
 
+    // console.log("\n\nobject------------", object);
+
     return object;
   };
 
@@ -103,6 +109,8 @@ module.exports = questionnaire => {
   const errorMessages = validate.errors.filter(
     err => err.keyword === "errorMessage"
   );
+  // console.log("\n\nvalidate.errors - - ", validate.errors);
+  // console.log("\n\nerrorMessages", errorMessages);
 
   const transformedMessages = uniqBy(errorMessages, "dataPath")
     .map(error => {
@@ -177,6 +185,8 @@ module.exports = questionnaire => {
             ...errorInfo,
           };
         }
+        // console.log("\n\nstructure - - - - ", structure);
+
         return structure;
       },
       {
@@ -190,5 +200,6 @@ module.exports = questionnaire => {
         totalCount: errorMessages.length,
       }
     );
+
   return removeDuplicateCounts(transformedMessages);
 };

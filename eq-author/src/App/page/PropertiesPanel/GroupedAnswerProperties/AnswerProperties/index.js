@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { flowRight, merge } from "lodash";
 import CustomPropTypes from "custom-prop-types";
 
-import { DATE } from "constants/answer-types";
+import { DATE, DATE_RANGE } from "constants/answer-types";
 import { DAYS, MONTHS, YEARS } from "constants/durations";
 
 import withUpdateAnswer from "App/page/Design/answers/withUpdateAnswer";
@@ -34,6 +34,7 @@ export class UnwrappedAnswerProperties extends React.Component {
       validation,
       type,
     } = this.props.answer;
+
     const properties = merge({}, currentProperties, {
       [propName]: value,
     });
@@ -44,6 +45,11 @@ export class UnwrappedAnswerProperties extends React.Component {
     });
 
     if (type === DATE && propName === "format") {
+      validation.earliestDate.offset.unit = durationsMap[value];
+      validation.latestDate.offset.unit = durationsMap[value];
+    }
+
+    if (type === DATE_RANGE && propName === "format") {
       validation.earliestDate.offset.unit = durationsMap[value];
       validation.latestDate.offset.unit = durationsMap[value];
     }
