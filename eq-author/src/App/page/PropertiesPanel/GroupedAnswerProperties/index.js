@@ -131,7 +131,7 @@ export const UnwrappedGroupedAnswerProperties = ({
           </InlineField>
           {hasDecimalInconsistency && (
             <ValidationWarning icon={ValidationErrorIcon}>
-              Decimal number does not match the linked page
+              Enter a decimal that is the same as the associated question page.
             </ValidationWarning>
           )}
           {answerType === UNIT && (
