@@ -8,6 +8,7 @@ module.exports = logger => {
     );
 
     const user = await getUserFromHeader(authHeader);
+
     if (!user) {
       res.send(401);
       return;

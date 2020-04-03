@@ -143,4 +143,24 @@ describe("Server", () => {
       );
     });
   });
+
+  describe("Cors", () => {
+    it("Should not throw if the CORS_WHITELIST is not set", async () => {
+      delete process.env.CORS_WHITELIST;
+
+      expect(process.env.CORS_WHITELIST).toBeFalsy();
+
+      const server = createApp();
+
+      const ctx = await buildContext({
+        sections: [{ pages: [{ answers: [{ type: NUMBER }] }] }],
+      });
+
+      const { questionnaire } = ctx;
+
+      expect(() =>
+        request(server).get(`/export/${questionnaire.id}`)
+      ).not.toThrow();
+    });
+  });
 });
