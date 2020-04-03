@@ -39,6 +39,11 @@ spec:
               secretKeyRef:
                 name: api-secrets
                 key: ALLOWED_EMAIL_LIST
+          - name: CORS_WHITELIST
+            valueFrom:
+              secretKeyRef:
+                name: api-secrets
+                key: CORS_WHITELIST
           - name: ENABLE_IMPORT
             valueFrom:
               secretKeyRef:
