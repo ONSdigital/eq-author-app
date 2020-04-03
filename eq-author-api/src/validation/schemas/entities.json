@@ -332,6 +332,28 @@
                       }
                     }
                   }
+                },
+                {
+                  "properties": {
+                    "minDuration": {
+                      "properties": {
+                        "enabled": {
+                          "const": true
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "maxDuration": {
+                      "properties": {
+                        "enabled": {
+                          "const": true
+                        }
+                      }
+                    }
+                  }
                 }
               ]
             },
@@ -356,6 +378,26 @@
                       }
                     }
                   }
+                },
+                "minDuration": {
+                  "type": "object",
+                  "properties": {
+                    "custom": {
+                      "validateDuration": {
+                        "$data": "2/maxDuration"
+                      }
+                    }
+                  }
+                },
+                "maxDuration": {
+                  "type": "object",
+                  "properties": {
+                    "custom": {
+                      "validateDuration": {
+                        "$data": "2/minDuration"
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -366,6 +408,73 @@
         }
       }
     },
+
+    "dateAnswerWithDuration": {
+      "if": {
+        "properties": {
+          "type": {
+            "enum": ["DateRange"]
+          }
+        }
+      },
+      "then": {
+        "type": "object",
+        "properties": {
+          "validation": {
+            "if": {
+              "allOf": [
+                {
+                  "properties": {
+                    "minDuration": {
+                      "properties": {
+                        "enabled": {
+                          "const": true
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "maxDuration": {
+                      "properties": {
+                        "enabled": {
+                          "const": true
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            "then": {
+              "properties": {
+                "minDuration": {
+                  "type": "object",
+                  "properties": {
+                    "validateDuration": {
+                      "$data": "2/maxDuration"
+                    }
+                  }
+                },
+                "maxDuration": {
+                  "type": "object",
+                  "properties": {
+                    "validateDuration": {
+                      "$data": "2/minDuration"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "properties": {
+            "$ref": "entities.json#/definitions/properties"
+          }
+        }
+      }
+    },
+
     "properties": {
       "type": "object",
       "properties": {

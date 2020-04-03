@@ -366,6 +366,18 @@ export const VALIDATION_QUERY = gql`
                         ...ValidationErrorInfo
                       }
                     }
+                    # minDuration {
+                    #   id
+                    #   validationErrorInfo {
+                    #     ...ValidationErrorInfo
+                    #   }
+                    # }
+                    # maxDuration {
+                    #   id
+                    #   validationErrorInfo {
+                    #     ...ValidationErrorInfo
+                    #   }
+                    # }
                   }
                 }
               }

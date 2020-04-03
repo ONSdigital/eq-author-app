@@ -1038,8 +1038,6 @@ const Resolvers = {
           return "DateValidation";
         case "dateRange":
           return "DateRangeValidation";
-        // return "DateValidation";
-
         default:
           throw new TypeError(
             `Validation is not supported on '${answer.type}' answers`
@@ -1201,10 +1199,38 @@ const Resolvers = {
 
   MinDurationValidationRule: {
     duration: ({ duration }) => duration,
+    validationErrorInfo: ({ id }, args, ctx) => {
+      console.log(
+        "\nMinDurationValidationRule - ctx.validationErrorInfo[VALIDATION][id]",
+        ctx.validationErrorInfo[VALIDATION][id]
+      );
+
+      return (
+        ctx.validationErrorInfo[VALIDATION][id] || {
+          id: id,
+          errors: [],
+          totalCount: 0,
+        }
+      );
+    },
   },
 
   MaxDurationValidationRule: {
     duration: ({ duration }) => duration,
+    validationErrorInfo: ({ id }, args, ctx) => {
+      console.log(
+        "\n\nMaxDurationValidationRule - ctx.validationErrorInfo[VALIDATION][id]",
+        ctx.validationErrorInfo[VALIDATION][id]
+      );
+
+      return (
+        ctx.validationErrorInfo[VALIDATION][id] || {
+          id: id,
+          errors: [],
+          totalCount: 0,
+        }
+      );
+    },
   },
 
   TotalValidationRule: {

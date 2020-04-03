@@ -374,6 +374,7 @@ type MaxDurationValidationRule implements ValidationRule {
   id: ID!
   enabled: Boolean!
   duration: Duration!
+  validationErrorInfo: ValidationErrorInfo
 }
 
 type Duration {

@@ -44,12 +44,7 @@ export class UnwrappedAnswerProperties extends React.Component {
       properties,
     });
 
-    if (type === DATE && propName === "format") {
-      validation.earliestDate.offset.unit = durationsMap[value];
-      validation.latestDate.offset.unit = durationsMap[value];
-    }
-
-    if (type === DATE_RANGE && propName === "format") {
+    if ((type === DATE || type === DATE_RANGE) && propName === "format") {
       validation.earliestDate.offset.unit = durationsMap[value];
       validation.latestDate.offset.unit = durationsMap[value];
     }

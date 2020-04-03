@@ -59,11 +59,12 @@ class Answer {
         const { earliestDate, latestDate } = answer.validation;
         this.minimum = Answer.buildDateValidation(earliestDate);
         this.maximum = Answer.buildDateValidation(latestDate);
-      } else if (answer.type === DATE_RANGE) {
-        const { earliestDate, latestDate } = answer.validation;
-        this.minimum = Answer.buildDateValidation(earliestDate);
-        this.maximum = Answer.buildDateValidation(latestDate);
       }
+      // else if (answer.type === DATE_RANGE) {
+      //   const { earliestDate, latestDate } = answer.validation;
+      //   this.minimum = Answer.buildDateValidation(earliestDate);
+      //   this.maximum = Answer.buildDateValidation(latestDate);
+      // }
     }
 
     if (has(answer, "properties.decimals")) {

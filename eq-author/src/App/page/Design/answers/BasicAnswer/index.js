@@ -136,14 +136,14 @@ StatelessBasicAnswer.fragments = {
             enabled
             ...LatestDateValidationRule
           }
-          # minDuration {
-          #   enabled
-          #   ...MinDurationValidationRule
-          # }
-          # maxDuration {
-          #   enabled
-          #   ...MaxDurationValidationRule
-          # }
+          minDuration {
+            enabled
+            ...MinDurationValidationRule
+          }
+          maxDuration {
+            enabled
+            ...MaxDurationValidationRule
+          }
         }
       }
       validationErrorInfo {
@@ -155,6 +155,8 @@ StatelessBasicAnswer.fragments = {
     ${EarliestDateValidationRule}
     ${LatestDateValidationRule}
     ${ValidationErrorInfoFragment}
+    ${MinDurationValidationRule}
+    ${MaxDurationValidationRule}
   `,
 };
 
