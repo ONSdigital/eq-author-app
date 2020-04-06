@@ -1,4 +1,4 @@
-const { get, isNull } = require("lodash");
+const { get } = require("lodash");
 const getEntityKeyValue = require("../../../utils/getEntityByKeyValue");
 
 module.exports = function(ajv) {
@@ -39,9 +39,10 @@ module.exports = function(ajv) {
             referencedAnswer,
             "properties.decimals"
           );
+
           if (
-            !isNull(referencedDecimals) &&
-            !isNull(parentData.decimals) &&
+            referencedDecimals !== (null || undefined) &&
+            parentData.decimals !== (null || undefined) &&
             parentData.decimals !== referencedDecimals
           ) {
             isValid.errors = [
