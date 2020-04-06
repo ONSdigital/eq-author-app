@@ -42,10 +42,10 @@ const defaultValidationEntityTypes = ({ type }) => ({
     entityType: CUSTOM,
   },
   earliestDate: {
-    entityType: type === DATE || type === DATE_RANGE ? NOW : CUSTOM,
+    entityType: type === DATE ? NOW : CUSTOM,
   },
   latestDate: {
-    entityType: type === DATE || type === DATE_RANGE ? NOW : CUSTOM,
+    entityType: type === DATE ? NOW : CUSTOM,
   },
   minDuration: {
     entityType: CUSTOM,

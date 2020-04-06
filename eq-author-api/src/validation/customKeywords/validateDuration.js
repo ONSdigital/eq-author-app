@@ -1,4 +1,3 @@
-// const moment = require("moment");
 const {
   ERR_EARLIEST_AFTER_LATEST,
 } = require("../../../constants/validationErrorCodes");

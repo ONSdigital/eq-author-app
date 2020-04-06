@@ -374,44 +374,6 @@ describe("validation", () => {
           { errorCode: ERR_EARLIEST_AFTER_LATEST },
         ]);
       });
-
-      it("Date Range - should return validation error when latest date is before earliest date", async () => {
-        const answer = await createAnswer(ctx, {
-          questionPageId: page.id,
-          type: DATE_RANGE,
-        });
-        const validation = await queryValidation(ctx, answer.id);
-        await toggleValidation(ctx, {
-          id: validation.earliestDate.id,
-          enabled: true,
-        });
-        await toggleValidation(ctx, {
-          id: validation.latestDate.id,
-          enabled: true,
-        });
-        await updateValidation(ctx, {
-          id: validation.earliestDate.id,
-          earliestDateInput: {
-            ...params,
-            custom: "2017-01-06",
-          },
-        });
-        await updateValidation(ctx, {
-          id: validation.latestDate.id,
-          latestDateInput: {
-            ...params,
-            custom: "2017-01-05",
-          },
-        });
-        const result = await queryValidation(ctx, answer.id);
-
-        expect(result.earliestDate.validationErrorInfo.errors).toMatchObject([
-          { errorCode: ERR_EARLIEST_AFTER_LATEST },
-        ]);
-        expect(result.latestDate.validationErrorInfo.errors).toMatchObject([
-          { errorCode: ERR_EARLIEST_AFTER_LATEST },
-        ]);
-      });
     });
 
     it("should default earliest and latest date to NOW entityType", async () => {
@@ -690,10 +652,10 @@ describe("validation", () => {
       params = {
         entityType: CUSTOM,
         offset: {
-          value: 8,
-          unit: "Months",
+          value: 0,
+          unit: "Days",
         },
-        relativePosition: "After",
+        relativePosition: "Before",
       };
     });
 
@@ -707,6 +669,44 @@ describe("validation", () => {
       expect(validation.earliestDate.entityType).toEqual(CUSTOM);
       expect(validation.latestDate.entityType).toEqual(CUSTOM);
     });
+
+    // it("should return validation error when latest date is before earliest date", async () => {
+    //   const answer = await createAnswer(ctx, {
+    //     questionPageId: page.id,
+    //     type: DATE_RANGE,
+    //   });
+    //   const validation = await queryValidation(ctx, answer.id);
+    //   await toggleValidation(ctx, {
+    //     id: validation.earliestDate.id,
+    //     enabled: true,
+    //   });
+    //   await toggleValidation(ctx, {
+    //     id: validation.latestDate.id,
+    //     enabled: true,
+    //   });
+    //   await updateValidation(ctx, {
+    //     id: validation.earliestDate.id,
+    //     earliestDateInput: {
+    //       ...params,
+    //       custom: "2017-01-06",
+    //     },
+    //   });
+    //   await updateValidation(ctx, {
+    //     id: validation.latestDate.id,
+    //     latestDateInput: {
+    //       ...params,
+    //       custom: "2017-01-05",
+    //     },
+    //   });
+    //   const result = await queryValidation(ctx, answer.id);
+
+    //   expect(result.earliestDate.validationErrorInfo.errors).toMatchObject([
+    //     { errorCode: ERR_EARLIEST_AFTER_LATEST },
+    //   ]);
+    //   expect(result.latestDate.validationErrorInfo.errors).toMatchObject([
+    //     { errorCode: ERR_EARLIEST_AFTER_LATEST },
+    //   ]);
+    // });
 
     it("should create earliest validation for DateRange answers", async () => {
       const answer = await createAnswer(ctx, {
