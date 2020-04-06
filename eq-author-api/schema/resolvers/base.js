@@ -1014,7 +1014,6 @@ const Resolvers = {
   ValidationType: {
     __resolveType: answer => {
       const validationEntity = getValidationEntity(answer.type);
-      // console.log("validationEntity - - -= ", validationEntity);
       switch (validationEntity) {
         case "number":
           return "NumberValidation";

@@ -173,7 +173,6 @@ class AnswerValidation extends React.PureComponent {
   );
 
   render() {
-    // ------ Here, we know answer (this.props) already has NO validation Errors for DATE_RANGE - when it should ---------
     const { answer } = this.props;
     const validValidationTypes = validations[answer.type] || [];
     if (validValidationTypes.length === 0) {
@@ -181,10 +180,6 @@ class AnswerValidation extends React.PureComponent {
     }
 
     const validationErrors = [];
-
-    console.log("answer = = = = = ", answer);
-    // console.log("validations = = = ", validations);
-    // console.log("validValidationTypes - - - - ", validValidationTypes);
 
     return (
       <ValidationContext.Provider value={{ answer }}>
@@ -208,15 +203,11 @@ class AnswerValidation extends React.PureComponent {
           });
         })}
 
-        {console.log("validationErrors", validationErrors)}
-
         {validationErrors.length > 0 && (
           <PropertiesError icon={WarningIcon}>
-            {/* //------------------------needs looking at---------------- */}
             {answer.type === "Date" || answer.type === "DateRange"
               ? "Enter an earliest date that is before latest date"
               : "Enter a max value that is greater than min value"}
-            {/* //-------------------------------------------------------- */}
           </PropertiesError>
         )}
         <ModalWithNav
