@@ -99,7 +99,6 @@ const QuestionnairesView = ({
       <Header
         onCreateQuestionnaire={onCreateQuestionnaire}
         onSearchChange={onSearchChange}
-        searchTerm={state.searchTerm}
         isFiltered={state.isFiltered}
         onToggleFilter={onToggleFilter}
       />
