@@ -6,38 +6,11 @@ const {
 module.exports = function(ajv) {
   ajv.addKeyword("validateDuration", {
     $data: true,
-    validate: function isValid(
-      otherFields,
-      entityData,
-      fieldValue,
-      dataPath
-      // parentData
-    ) {
+    validate: function isValid(otherFields, entityData, fieldValue, dataPath) {
       isValid.errors = [];
 
-      // const translationMatrix = {
-      //   Before: data =>
-      //     moment(data.custom)
-      //       .subtract(data.offset.value, data.offset.unit)
-      //       .unix(),
-      //   After: data =>
-      //     moment(data.custom)
-      //       .add(data.offset.value, data.offset.unit)
-      //       .unix(),
-      // };
+      const valid = true;
 
-      // const a = translationMatrix[otherFields.relativePosition](otherFields);
-      // const b = translationMatrix[parentData.relativePosition](parentData);
-      // console.log("\n\na = = = = ", a);
-      // console.log("\n\nb = = = = ", b);
-
-      const isLatest = dataPath.split("/").includes("maxDuration");
-      // console.log('\n\ndataPath.split("/")', dataPath.split("/"));
-      // console.log("\n\ndataPath - - - ", dataPath);
-      console.log("\n\nisLatest - - - ", isLatest);
-      console.log("WERE HERHEJERJEJREJE KER EKR ERKEREKR EKR Ekkkkk!!!!!!");
-      // const valid = isLatest ? a < b : a > b;
-      const valid = false;
       if (!valid) {
         isValid.errors = [
           {

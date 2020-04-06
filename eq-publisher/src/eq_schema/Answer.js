@@ -64,6 +64,11 @@ class Answer {
       //   const { earliestDate, latestDate } = answer.validation;
       //   this.minimum = Answer.buildDateValidation(earliestDate);
       //   this.maximum = Answer.buildDateValidation(latestDate);
+      //   console.log(
+      //     "this.minimum, this.maximum-----",
+      //     this.minimum,
+      //     this.maximum
+      //   );
       // }
     }
 

@@ -47,12 +47,12 @@ const defaultValidationEntityTypes = ({ type }) => ({
   latestDate: {
     entityType: type === DATE || type === DATE_RANGE ? NOW : CUSTOM,
   },
-  // minDuration: {
-  //   entityType: CUSTOM,
-  // },
-  // maxDuration: {
-  //   entityType: CUSTOM,
-  // },
+  minDuration: {
+    entityType: CUSTOM,
+  },
+  maxDuration: {
+    entityType: CUSTOM,
+  },
 });
 
 Object.assign(module.exports, {
