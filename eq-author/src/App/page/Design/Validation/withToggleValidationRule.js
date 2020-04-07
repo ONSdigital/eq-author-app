@@ -22,6 +22,7 @@ export const mapMutateToProps = ({ mutate }) => ({
   onToggleValidationRule: input =>
     mutate({
       variables: { input: filter(inputFilter, input) },
+      refetchQueries: ["GetPage"],
     }),
 });
 
