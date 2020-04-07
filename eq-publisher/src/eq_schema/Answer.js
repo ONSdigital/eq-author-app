@@ -54,7 +54,7 @@ class Answer {
         const { minValue, maxValue } = answer.validation;
         this.buildNumberValidation(minValue, "min_value");
         this.buildNumberValidation(maxValue, "max_value");
-      } else if (answer.type === DATE) {
+      } else if (answer.type === DATE || answer.type === DATE_RANGE) {
         const { earliestDate, latestDate } = answer.validation;
         this.minimum = Answer.buildDateValidation(earliestDate);
         this.maximum = Answer.buildDateValidation(latestDate);
@@ -73,7 +73,7 @@ class Answer {
       this.currency = "GBP";
     }
 
-    if (answer.type === DATE) {
+    if (answer.type === DATE || answer.type === DATE_RANGE) {
       const format = get(answer, "properties.format");
 
       if (format === "yyyy") {
