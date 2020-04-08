@@ -1,12 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 
 import { colors } from "constants/theme";
 
 import logo from "./logo.svg";
 
-export const Logo = styled(Link)`
+export const Logo = styled.a`
   width: 6.5em;
   display: flex;
   align-items: center;
@@ -24,7 +23,7 @@ const LogoImg = styled.img`
 `;
 
 export default () => (
-  <Logo to="/" data-test="logo">
+  <Logo href="/" data-test="logo">
     <LogoImg src={logo} alt="Author" width={20} />
   </Logo>
 );

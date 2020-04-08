@@ -25,6 +25,7 @@ describe("withToggleValidationRule", () => {
     props.onToggleValidationRule(validationRule);
     expect(mutate).toHaveBeenCalledWith({
       variables: { input: validationRule },
+      refetchQueries: ["GetPage"],
     });
   });
 });
