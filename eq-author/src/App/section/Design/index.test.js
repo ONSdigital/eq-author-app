@@ -360,7 +360,23 @@ describe("SectionRoute", () => {
       expect(wrapper.find(`[data-test="error"]`).exists()).toBe(true);
     });
   });
+  // Changes to the modal have caused these tests to print out huge blocks of red error logs
+  // Below is the error log
+  // Uncommenting lines 194 - 222 makes this error not appear
+  // But it causes the modals to close as soon as they lose focus
+  // Which is what this branch is trying to solve
 
+  /*
+     Warning: An update to Query inside a test was not wrapped in act(...).
+      
+      When testing, code that causes React state updates should be wrapped into act(...):
+      
+      act(() => {
+          // fire events that update state 
+      });
+      // assert on the output 
+  */
+  // ---------------------------------------------------------------------------------------------
   describe("behaviour", () => {
     const mockHandlers = {
       onUpdateSection: jest.fn(),
@@ -415,7 +431,7 @@ describe("SectionRoute", () => {
         { context, childContextTypes }
       );
 
-    it("ensures confirmation before delete", () => {
+    it("ensures confirmation before delete", async () => {
       const wrapper = render({
         loading: false,
         match,
@@ -434,6 +450,9 @@ describe("SectionRoute", () => {
         .simulate("click");
 
       expect(mockHandlers.onDeleteSection).toHaveBeenCalledWith(sectionId);
+      await act(async () => {
+        await flushPromises();
+      });
     });
 
     it("allows new pages to be added", () => {
@@ -553,4 +572,6 @@ describe("SectionRoute", () => {
       });
     });
   });
+
+  // ---------------------------------------------------------------------------------------------
 });
