@@ -82,7 +82,6 @@ export class Menu extends React.Component {
       canFocus,
       allowableTypes,
     } = this.props;
-
     const { pickerContent } = this.state;
     const data = pickerContent === METADATA ? metadataData : answerData;
 
@@ -192,35 +191,6 @@ export const UnwrappedPipingMenu = ({
   match,
   ...otherProps
 }) => {
-  // if (!canFocus) {
-  //   return (
-  //     <>
-  //       {allowableTypes.includes(ANSWER) && (
-  //         <MenuButton title="Pipe value" disabled data-test="piping-button">
-  //           <IconPiping />
-  //         </MenuButton>
-  //       )}
-  //       {allowableTypes.includes(METADATA) && (
-  //         <MenuButton
-  //           title="Pipe metadata"
-  //           disabled
-  //           data-test="piping-button-metadata"
-  //         >
-  //           <IconPipingMetadata />
-  //         </MenuButton>
-  //       )}
-  //       {allowableTypes.includes(VARIABLES) && (
-  //         <MenuButton
-  //           title="Pipe variable"
-  //           disabled
-  //           data-test="piping-button-variable"
-  //         >
-  //           <IconPipingVariable />
-  //         </MenuButton>
-  //       )}
-  //     </>
-  //   );
-  // }
   return (
     <AvailablePipingContentQuery
       questionnaireId={match.params.questionnaireId}
