@@ -5,6 +5,7 @@ const {
   CURRENCY,
   PERCENTAGE,
   DATE,
+  DATE_RANGE,
   UNIT,
   DURATION,
   TEXTAREA,
