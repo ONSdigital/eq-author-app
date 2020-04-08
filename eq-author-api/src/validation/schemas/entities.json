@@ -306,7 +306,7 @@
       "if": {
         "properties": {
           "type": {
-            "enum": ["Date", "DateRange"]
+            "enum": ["Date"]
           }
         }
       },
@@ -373,7 +373,7 @@
       "if": {
         "properties": {
           "type": {
-            "enum": ["Date", "DateRange"]
+            "enum": ["DateRange"]
           }
         }
       },
