@@ -115,18 +115,23 @@ const AvailablePipingContentQuery = ({
   introductionId,
   children,
 }) => {
-  const { variables, query } = determineQuery({
-    questionnaireId,
-    pageId,
-    sectionId,
-    confirmationId,
-    introductionId,
-  });
-  return (
-    <Query query={query} variables={variables} fetchPolicy="network-only">
-      {children}
-    </Query>
-  );
+  if (pageId || sectionId || confirmationId || introductionId) {
+    const { variables, query } = determineQuery({
+      questionnaireId,
+      pageId,
+      sectionId,
+      confirmationId,
+      introductionId,
+    });
+    // console.log(variables, query, "please");
+    return (
+      <Query query={query} variables={variables} fetchPolicy="network-only">
+        {children}
+      </Query>
+    );
+  } else {
+    return null;
+  }
 };
 
 AvailablePipingContentQuery.propTypes = {
