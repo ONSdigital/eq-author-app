@@ -1,7 +1,17 @@
 fragment MaxDurationValidationRule on MaxDurationValidationRule {
+  id
+  duration {
+    value
+    unit
+  }
+  validationErrorInfo {
     id
-    duration {
-        value
-        unit
+    errors {
+      id
+      type
+      field
+      errorCode
     }
+    totalCount
+  }
 }
