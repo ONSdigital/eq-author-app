@@ -64,6 +64,7 @@ const getValidationById = (ctx, id) => {
       return validation;
     })
   );
+
   const pageValidations = compact(
     flatMap(getPages(ctx), page => page.totalValidation)
   );

@@ -48,7 +48,12 @@ describe("validation", () => {
       {
         pages: [
           {
-            answers: [{ type: DATE }, { type: CURRENCY }, { type: UNIT }],
+            answers: [
+              { type: DATE },
+              { type: CURRENCY },
+              { type: UNIT },
+              { type: DATE_RANGE },
+            ],
           },
         ],
       },
@@ -343,7 +348,6 @@ describe("validation", () => {
           type: DATE,
         });
         const validation = await queryValidation(ctx, answer.id);
-
         await toggleValidation(ctx, {
           id: validation.earliestDate.id,
           enabled: true,
@@ -653,8 +657,8 @@ describe("validation", () => {
       params = {
         entityType: CUSTOM,
         offset: {
-          value: 8,
-          unit: "Months",
+          value: 0,
+          unit: "Days",
         },
         relativePosition: "After",
       };

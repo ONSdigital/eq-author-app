@@ -374,7 +374,6 @@ const Resolvers = {
     }),
     updateAnswer: createMutation((root, { input }, ctx) => {
       const answers = getAnswers(ctx);
-
       const additionalAnswers = flatMap(answers, answer =>
         answer.options
           ? flatMap(answer.options, option => option.additionalAnswer)
@@ -391,7 +390,6 @@ const Resolvers = {
         answer.validation.latestDate.offset.unit =
           DURATION_LOOKUP[input.properties.format];
       }
-
       return answer;
     }),
     updateAnswersOfType: createMutation(
@@ -526,6 +524,7 @@ const Resolvers = {
     }),
     toggleValidationRule: createMutation((_, args, ctx) => {
       const validation = getValidationById(ctx, args.input.id);
+
       validation.enabled = args.input.enabled;
       const newValidation = Object.assign({}, validation);
 
@@ -535,11 +534,12 @@ const Resolvers = {
     }),
     updateValidationRule: createMutation((_, args, ctx) => {
       const validation = getValidationById(ctx, args.input.id);
-      const { validationType } = validation;
 
+      const { validationType } = validation;
       merge(validation, args.input[`${validationType}Input`]);
 
       const newValidation = Object.assign({}, validation);
+
       delete validation.validationType;
 
       return newValidation;
@@ -1015,7 +1015,6 @@ const Resolvers = {
   ValidationType: {
     __resolveType: answer => {
       const validationEntity = getValidationEntity(answer.type);
-
       switch (validationEntity) {
         case "number":
           return "NumberValidation";
@@ -1023,7 +1022,6 @@ const Resolvers = {
           return "DateValidation";
         case "dateRange":
           return "DateRangeValidation";
-
         default:
           throw new TypeError(
             `Validation is not supported on '${answer.type}' answers`

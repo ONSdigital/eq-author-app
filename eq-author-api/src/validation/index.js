@@ -177,6 +177,7 @@ module.exports = questionnaire => {
             ...errorInfo,
           };
         }
+
         return structure;
       },
       {
@@ -190,5 +191,6 @@ module.exports = questionnaire => {
         totalCount: errorMessages.length,
       }
     );
+
   return removeDuplicateCounts(transformedMessages);
 };
