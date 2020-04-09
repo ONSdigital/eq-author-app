@@ -402,26 +402,6 @@
                       }
                     }
                   }
-                },
-                {
-                  "properties": {
-                    "minDuration": {
-                      "properties": {
-                        "enabled": { "const": true },
-                        "entityType": { "const": "Custom" }
-                      }
-                    }
-                  }
-                },
-                {
-                  "properties": {
-                    "maxDuration": {
-                      "properties": {
-                        "enabled": { "const": true },
-                        "entityType": { "const": "Custom" }
-                      }
-                    }
-                  }
                 }
               ]
             },
@@ -443,26 +423,6 @@
                     "custom": {
                       "validateLatestAfterEarliest": {
                         "$data": "2/earliestDate"
-                      }
-                    }
-                  }
-                },
-                "minDuration": {
-                  "type": "object",
-                  "properties": {
-                    "custom": {
-                      "validateDuration": {
-                        "$data": "2/maxDuration"
-                      }
-                    }
-                  }
-                },
-                "maxDuration": {
-                  "type": "object",
-                  "properties": {
-                    "custom": {
-                      "validateDuration": {
-                        "$data": "2/minDuration"
                       }
                     }
                   }
