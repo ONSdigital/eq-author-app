@@ -360,23 +360,7 @@ describe("SectionRoute", () => {
       expect(wrapper.find(`[data-test="error"]`).exists()).toBe(true);
     });
   });
-  // Changes to the modal have caused these tests to print out huge blocks of red error logs
-  // Below is the error log
-  // Uncommenting lines 194 - 222 makes this error not appear
-  // But it causes the modals to close as soon as they lose focus
-  // Which is what this branch is trying to solve
 
-  /*
-     Warning: An update to Query inside a test was not wrapped in act(...).
-      
-      When testing, code that causes React state updates should be wrapped into act(...):
-      
-      act(() => {
-          // fire events that update state 
-      });
-      // assert on the output 
-  */
-  // ---------------------------------------------------------------------------------------------
   describe("behaviour", () => {
     const mockHandlers = {
       onUpdateSection: jest.fn(),
@@ -455,7 +439,7 @@ describe("SectionRoute", () => {
       });
     });
 
-    it("allows new pages to be added", () => {
+    it("allows new pages to be added", async () => {
       const wrapper = render({
         loading: false,
         match,
@@ -472,9 +456,12 @@ describe("SectionRoute", () => {
         match.params.sectionId,
         0
       );
+      await act(async () => {
+        await flushPromises();
+      });
     });
 
-    it("should disable move section button when one section", () => {
+    it("should disable move section button when one section", async () => {
       const wrapper = render({
         loading: false,
         match,
@@ -485,9 +472,12 @@ describe("SectionRoute", () => {
       expect(
         wrapper.find(`Button${byTestAttr("btn-move")}`).prop("disabled")
       ).toBe(true);
+      await act(async () => {
+        await flushPromises();
+      });
     });
 
-    it("should enable move section button when multiple sections", () => {
+    it("should enable move section button when multiple sections", async () => {
       const questionnaire = {
         id: "1",
         navigation: true,
@@ -506,9 +496,12 @@ describe("SectionRoute", () => {
       expect(
         wrapper.find(`Button${byTestAttr("btn-move")}`).prop("disabled")
       ).toBe(false);
+      await act(async () => {
+        await flushPromises();
+      });
     });
 
-    it("should call onDuplicateSection with the section id and position when the duplicate button is clicked", () => {
+    it("should call onDuplicateSection with the section id and position when the duplicate button is clicked", async () => {
       const questionnaire = {
         id: "1",
         navigation: true,
@@ -532,9 +525,12 @@ describe("SectionRoute", () => {
         sectionId: section.id,
         position: section.position + 1,
       });
+      await act(async () => {
+        await flushPromises();
+      });
     });
 
-    it("should disable the preview tab when the introduction is disabled", () => {
+    it("should disable the preview tab when the introduction is disabled", async () => {
       const wrapper = render({
         loading: false,
         match,
@@ -549,9 +545,12 @@ describe("SectionRoute", () => {
       expect(editorLayout.props()).toMatchObject({
         preview: false,
       });
+      await act(async () => {
+        await flushPromises();
+      });
     });
 
-    it("should enable the preview tab when the introduction is enabled", () => {
+    it("should enable the preview tab when the introduction is enabled", async () => {
       const wrapper = render({
         loading: false,
         match,
@@ -570,8 +569,9 @@ describe("SectionRoute", () => {
       expect(editorLayout.props()).toMatchObject({
         preview: true,
       });
+      await act(async () => {
+        await flushPromises();
+      });
     });
   });
-
-  // ---------------------------------------------------------------------------------------------
 });
