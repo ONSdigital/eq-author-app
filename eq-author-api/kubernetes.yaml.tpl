@@ -59,6 +59,11 @@ spec:
               secretKeyRef:
                 name: api-secrets
                 key: PUBLISHER_URL
+          - name: CONVERSION_URL
+            valueFrom:
+              secretKeyRef:
+                name: api-secrets
+                key: CONVERSION_URL
           - name: RUNNER_SESSION_URL
             valueFrom:
               secretKeyRef:

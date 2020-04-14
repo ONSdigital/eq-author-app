@@ -28,6 +28,10 @@ const defaultMetadata = (questionnaireId, tokenIssueTime, surveyUrl) => ({
   period_id: "201605",
   form_type: questionnaireId,
   survey_url: `${surveyUrl}${questionnaireId}?r${tokenIssueTime}`,
+  questionnaire_id: uuidv1(),
+  response_id: uuidv1(),
+  schema_name: "test",
+  language_code: "en",
 });
 
 module.exports.sanitiseMetadata = (metadata, questionnaireId) => {
