@@ -5,6 +5,7 @@ const {
   UNIT,
   PERCENTAGE,
   DATE,
+  DATE_RANGE,
 } = require("../../constants/answerTypes");
 
 const {
@@ -342,9 +343,10 @@ describe("schema validation", () => {
       });
     });
 
-    describe("date answers", () => {
-      it("should validate that latest date is always after earlier date", () => {
-        const answer = {
+    describe("all date answers", () => {
+      let answer;
+      beforeEach(() => {
+        answer = {
           id: "a1",
           type: "Date",
           label: "some answer",
@@ -378,7 +380,7 @@ describe("schema validation", () => {
           },
         };
 
-        const questionnaire = {
+        questionnaire = {
           id: "q1",
           sections: [
             {
@@ -392,58 +394,106 @@ describe("schema validation", () => {
             },
           ],
         };
-        const pageErrors = validation(questionnaire);
-
-        expect(
-          pageErrors.validation[answer.validation.earliestDate.id].errors
-        ).toHaveLength(1);
-        expect(pageErrors.totalCount).toBe(1);
       });
-
-      it("should not validate if one of the two is disabled", () => {
-        ["earliestDate", "latestDate", "none"].forEach(entity => {
-          const answer = {
-            id: "a1",
-            type: DATE,
-            label: "some answer",
-            validation: {
-              earliestDate: {
-                id: "123",
-                enabled: entity === "earliestDate",
-                custom: "2019-06-23",
-                inclusive: true,
-                entityType: "Custom",
-                previousAnswer: null,
-              },
-              latestDate: {
-                id: "321",
-                enabled: entity === "latestDate",
-                custom: "2019-06-23",
-                inclusive: true,
-                entityType: "Custom",
-                previousAnswer: null,
-              },
-            },
-          };
-
-          const questionnaire = {
-            id: "q1",
-            sections: [
-              {
-                id: "s1",
-                pages: [
-                  {
-                    id: "p1",
-                    answers: [answer],
-                  },
-                ],
-              },
-            ],
-          };
+      describe("date only answers", () => {
+        it("should validate that latest date is always after earlier date", () => {
           const pageErrors = validation(questionnaire);
 
-          expect(pageErrors.validation).toMatchObject({});
-          expect(pageErrors.totalCount).toBe(0);
+          expect(
+            pageErrors.validation[answer.validation.earliestDate.id].errors
+          ).toHaveLength(1);
+          expect(
+            pageErrors.validation[answer.validation.earliestDate.id].errors[0]
+              .errorCode
+          ).toEqual("ERR_EARLIEST_AFTER_LATEST");
+          expect(pageErrors.totalCount).toBe(1);
+        });
+
+        it("should not validate if one of the two is disabled", () => {
+          ["earliestDate", "latestDate", "none"].forEach(entity => {
+            const answer = {
+              id: "a1",
+              type: DATE,
+              label: "some answer",
+              validation: {
+                earliestDate: {
+                  id: "123",
+                  enabled: entity === "earliestDate",
+                  custom: "2019-06-23",
+                  inclusive: true,
+                  entityType: "Custom",
+                  previousAnswer: null,
+                },
+                latestDate: {
+                  id: "321",
+                  enabled: entity === "latestDate",
+                  custom: "2019-06-23",
+                  inclusive: true,
+                  entityType: "Custom",
+                  previousAnswer: null,
+                },
+              },
+            };
+
+            questionnaire.sections[0].pages[0].answers = [answer];
+
+            const pageErrors = validation(questionnaire);
+
+            expect(pageErrors.validation).toMatchObject({});
+            expect(pageErrors.totalCount).toBe(0);
+          });
+        });
+      });
+
+      describe("date range answers", () => {
+        it("Date Range - should validate that latest date is always after earlier date", () => {
+          questionnaire.sections[0].pages[0].answers = [answer];
+
+          const pageErrors = validation(questionnaire);
+
+          expect(
+            pageErrors.validation[answer.validation.earliestDate.id].errors
+          ).toHaveLength(1);
+          expect(
+            pageErrors.validation[answer.validation.earliestDate.id].errors[0]
+              .errorCode
+          ).toEqual("ERR_EARLIEST_AFTER_LATEST");
+          expect(pageErrors.totalCount).toBe(1);
+        });
+
+        it("Date Range - should not validate if one of the two is disabled", () => {
+          ["earliestDate", "latestDate", "none"].forEach(entity => {
+            const answer = {
+              id: "a1",
+              type: DATE_RANGE,
+              label: "some answer",
+              validation: {
+                earliestDate: {
+                  id: "123",
+                  enabled: entity === "earliestDate",
+                  custom: "2019-06-23",
+                  inclusive: true,
+                  entityType: "Custom",
+                  previousAnswer: null,
+                },
+                latestDate: {
+                  id: "321",
+                  enabled: entity === "latestDate",
+                  custom: "2019-06-23",
+                  inclusive: true,
+                  entityType: "Custom",
+                  previousAnswer: null,
+                },
+              },
+            };
+
+            questionnaire.sections[0].pages[0].answers = [answer];
+
+            const pageErrors = validation(questionnaire);
+
+            expect(pageErrors.validation).toMatchObject({});
+            expect(pageErrors.totalCount).toBe(0);
+          });
         });
       });
     });

@@ -16,8 +16,11 @@ import {
 const signIn = (setSignInSuccess, history, user) => {
   localStorage.setItem("accessToken", user.ra);
   localStorage.setItem("refreshToken", user.refreshToken);
+
+  const signInUrl = config.REACT_APP_SIGN_IN_URL;
+
   return window
-    .fetch("/signIn", {
+    .fetch(signInUrl, {
       method: "POST",
       headers: { authorization: `Bearer ${user.ra}` },
     })

@@ -737,7 +737,7 @@ describe("QuestionnairesView", () => {
         expect(queryByText("Short 2")).toBeTruthy();
       });
 
-      it("should save the search term", () => {
+      it("should not save the search term", () => {
         const { getByLabelText, queryByText, unmount } = render(
           <QuestionnairesView {...props} />
         );
@@ -760,7 +760,7 @@ describe("QuestionnairesView", () => {
           <QuestionnairesView {...props} />
         );
 
-        expect(secondQueryByText("Questionnaire 2 Title")).toBeFalsy();
+        expect(secondQueryByText("Questionnaire 2 Title")).toBeTruthy();
         expect(secondQueryByText("Questionnaire 1 Title")).toBeTruthy();
       });
 

@@ -205,7 +205,7 @@ class AnswerValidation extends React.PureComponent {
 
         {validationErrors.length > 0 && (
           <PropertiesError icon={WarningIcon}>
-            {answer.type === "Date"
+            {answer.type === "Date" || answer.type === "DateRange"
               ? "Enter an earliest date that is before latest date"
               : "Enter a max value that is greater than min value"}
           </PropertiesError>
