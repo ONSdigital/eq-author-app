@@ -25,6 +25,7 @@ const FILTER_MAP = {
   Currency: (value, unit = "GBP") => `format_currency(${value}, '${unit}')`,
   Date: value => `${value} | format_date`,
   DateRange: value => `${value} | format_date`,
+  Unit: (value, unit = "cm") => `format_unit(${value}, '${unit}')`,
 };
 
 const PIPE_TYPES = {

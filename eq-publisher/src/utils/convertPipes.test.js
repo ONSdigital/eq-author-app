@@ -17,6 +17,7 @@ const createContext = (metadata = []) => ({
               { id: `3`, type: "DateRange" },
               { id: `4`, type: "Date" },
               { id: `5`, type: "Number" },
+              { id: `6`, type: "Unit", unit: "cm" },
             ],
           },
           {},
@@ -56,6 +57,7 @@ describe("convertPipes", () => {
       convertPipes(createContext())(createPipe({ pipeType: "Foo" }))
     ).toEqual("");
   });
+
   it("should handle empty answer in page", () => {
     expect(convertPipes(createContext())("<p></p>")).toEqual("<p></p>");
   });
@@ -114,6 +116,13 @@ describe("convertPipes", () => {
         const html = createPipe({ id: "5" });
         expect(convertPipes(createContext())(html)).toEqual(
           "{{ answers['answer5'] | format_number }}"
+        );
+      });
+
+      it("should format Units answers with `format_unit`", () => {
+        const html = createPipe({ id: "6" });
+        expect(convertPipes(createContext())(html)).toEqual(
+          "{{ format_unit(answers['answer6'], 'cm') }}"
         );
       });
     });
