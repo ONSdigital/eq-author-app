@@ -284,6 +284,7 @@ const Resolvers = {
         createdBy: ctx.user.id,
         editors: [],
         publishStatus: UNPUBLISHED,
+        surveyVersion: 1,
       };
       return createQuestionnaire(newQuestionnaire, ctx);
     },
