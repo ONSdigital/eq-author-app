@@ -7,10 +7,14 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import { Titled } from "react-titled";
 import { get, find, flatMap, flowRight } from "lodash";
 
+import styled from "styled-components";
+
 import { Grid, Column } from "components/Grid";
 import Loading from "components/Loading";
 import BaseLayout from "components/BaseLayout";
 import QuestionnaireContext from "components/QuestionnaireContext";
+
+import MainNavigation from "./MainNavigation";
 
 import { SECTION, PAGE, QUESTION_CONFIRMATION } from "constants/entities";
 import {
@@ -19,6 +23,13 @@ import {
 } from "constants/error-codes";
 
 import { buildSectionPath, buildIntroductionPath } from "utils/UrlUtils";
+
+import Button from "components/buttons/Button";
+import LinkButton from "components/buttons/Button/LinkButton";
+import RouteButton from "components/buttons/Button/RouteButton";
+import IconText from "components/IconText";
+import ButtonGroup from "components/buttons/ButtonGroup";
+import reviewIcon from "./NavigationSidebar/author-logo.svg?inline";
 
 import pageRoutes from "App/page";
 import sectionRoutes from "App/section";
@@ -185,6 +196,14 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
   render() {
     const { loading, questionnaire, error, location } = this.props;
 
+    const MainNav = styled.div`
+      width: 70px;
+      float: left;
+      background-color: #222222;
+
+      }
+    `;
+
     if (!loading && !error && !questionnaire) {
       throw new Error(ERR_PAGE_NOT_FOUND);
     }
@@ -195,6 +214,9 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
           <Titled title={this.getTitle}>
             <Grid>
               <Column cols={3} gutters={false}>
+                <MainNav>
+                  <MainNavigation title="Review" />
+                </MainNav>
                 <NavigationSidebar
                   data-test="side-nav"
                   loading={loading}

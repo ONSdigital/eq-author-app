@@ -5,9 +5,9 @@ import styled, { css } from "styled-components";
 const VerticalGroup = css`
   flex-direction: column;
 
-  > :not(:last-child) {
+  /* > :not(:last-child) {
     margin-bottom: 1.5em;
-  }
+  } */
 `;
 
 const HorizontalGroup = css`

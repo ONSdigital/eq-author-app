@@ -22,23 +22,32 @@ import ButtonGroup from "components/buttons/ButtonGroup";
 import { withQuestionnaire } from "components/QuestionnaireContext";
 import UserProfile from "components/UserProfile";
 
-import shareIcon from "./icon-share.svg?inline";
-import viewIcon from "./icon-view.svg?inline";
-import settingsIcon from "./icon-cog.svg?inline";
-import qcodeIcon from "./icon-qcode.svg?inline";
-import publishIcon from "./icon-publish.svg?inline";
-import reviewIcon from "./icon-review.svg?inline";
+import homeIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/home-24px.svg?inline";
+import viewIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/view-survey-icon.svg?inline";
+import settingsIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/settings-icon.svg?inline";
+import qcodeIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/q-codes-icon.svg?inline";
+import publishIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/publish-icon.svg?inline";
+import reviewIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/variable-icon.svg?inline";
+import historyIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/history-icon.svg?inline";
+import metadataIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/metadata-icon.svg?inline";
+import shareIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/sharing-icon.svg?inline";
+
 import SharingModal from "./SharingModal";
-import PageTitle from "./PageTitle";
+// import PageTitle from "./PageTitle";
 import UpdateQuestionnaireSettingsModal from "./UpdateQuestionnaireSettingsModal";
 import SavingIndicator from "./SavingIndicator";
 
-import { buildPublishPath, buildQcodesPath } from "utils/UrlUtils";
+import {
+  buildPublishPath,
+  buildQcodesPath,
+  buildMetadataPath,
+  buildHistoryPath,
+} from "utils/UrlUtils";
 
-const StyledHeader = styled.header`
-  color: ${colors.white};
-  background: ${colors.primary};
-  font-weight: 400;
+const StyledMainNavigation = styled.div`
+  color: ${colors.grey};
+  background: ${colors.darkerBlack};
+  /* font-weight: 400; */
   position: relative;
 `;
 
@@ -46,7 +55,7 @@ const Flex = styled.div`
   display: flex;
   flex-shrink: 0;
   align-items: center;
-  padding: 1em 1.5em;
+  /* padding: 1em 1.5em; */
 `;
 
 const Subtitle = styled.div`
@@ -55,9 +64,9 @@ const Subtitle = styled.div`
 
 export const UtilityBtns = styled.div`
   display: flex;
-  flex: 1 0 25%;
-  justify-content: flex-end;
-  margin-right: -1.5em;
+  /* flex: 1 0 25%; */
+  /* justify-content: flex-end; */
+  /* margin-right: -1.5em; */
 `;
 
 const SavingContainer = styled.div`
@@ -66,7 +75,7 @@ const SavingContainer = styled.div`
   bottom: 0.5em;
 `;
 
-export const UnconnectedHeader = props => {
+export const UnconnectedMainNavigation = props => {
   const { questionnaire, title, children, client, match } = props;
   const { me } = useMe();
   const [isSharingModalOpen, setSharingModalOpen] = useState(false);
@@ -89,13 +98,15 @@ export const UnconnectedHeader = props => {
       const reviewUrl = "/q/" + match.params.questionnaireId + "/review";
       return (
         <RouteButton
-          variant="tertiary-light"
+          variant="navigation"
           to={reviewUrl}
           small
           disabled={title === "Review"}
           data-test="btn-review"
         >
-          <IconText icon={reviewIcon}>Review</IconText>
+          <IconText nav="true" icon={reviewIcon}>
+            Review
+          </IconText>
         </RouteButton>
       );
     }
@@ -107,7 +118,7 @@ export const UnconnectedHeader = props => {
     const canPublish = questionnaire.permission === "Write";
     return (
       <RouteButton
-        variant="tertiary-light"
+        variant="navigation"
         to={buildPublishPath(match.params)}
         small
         disabled={
@@ -118,71 +129,105 @@ export const UnconnectedHeader = props => {
         }
         data-test="btn-publish"
       >
-        <IconText icon={publishIcon}>Publish</IconText>
+        <IconText nav="true" icon={publishIcon}>
+          Publish
+        </IconText>
       </RouteButton>
     );
   };
 
   return (
     <>
-      <StyledHeader>
+      <StyledMainNavigation>
         <Flex>
-          <Subtitle>{questionnaire && questionnaire.displayName}</Subtitle>
-          {/* <UtilityBtns>
+          {/* <Subtitle>{questionnaire && questionnaire.displayName}</Subtitle> */}
+          <UtilityBtns>
             {questionnaire && (
-              <ButtonGroup
-                horizontal
-                align="right"
-                margin="0.5em"
-                gutter="0.5em"
-              >
+              <ButtonGroup vertical align="centre" margin="0.em" gutter="0.em">
+                <RouteButton variant="navigation" small to="/">
+                  <IconText nav="true" icon={homeIcon}>
+                    Home
+                  </IconText>
+                </RouteButton>
+                <LinkButton
+                  href={previewUrl}
+                  variant="navigation"
+                  data-test="btn-preview"
+                  small
+                  disabled={questionnaire.totalErrorCount > 0}
+                >
+                  <IconText nav="true" icon={viewIcon}>
+                    View survey
+                  </IconText>
+                </LinkButton>
+
                 <Button
                   data-test="settings-btn"
-                  variant="tertiary-light"
+                  variant="navigation"
                   onClick={() => setSettingsModalOpen(true)}
                   small
                 >
-                  <IconText icon={settingsIcon}>Settings</IconText>
+                  <IconText icon={settingsIcon} nav="true">
+                    Settings
+                  </IconText>
                 </Button>
+
+                <Button
+                  variant="navigation"
+                  onClick={() => setSharingModalOpen(true)}
+                  data-test="btn-share"
+                  small
+                >
+                  <IconText nav="true" icon={shareIcon}>
+                    Sharing
+                  </IconText>
+                </Button>
+
                 <RouteButton
-                  variant="tertiary-light"
+                  variant="navigation"
+                  small
+                  to={buildHistoryPath(match.params)}
+                >
+                  <IconText nav="true" icon={historyIcon}>
+                    History
+                  </IconText>
+                </RouteButton>
+                <RouteButton
+                  variant="navigation"
+                  small
+                  to={buildMetadataPath(match.params)}
+                >
+                  <IconText nav="true" icon={metadataIcon}>
+                    Metadata
+                  </IconText>
+                </RouteButton>
+
+                <RouteButton
+                  variant="navigation"
                   to={buildQcodesPath(match.params)}
                   small
                   disabled={
                     title === "QCodes" || questionnaire.totalErrorCount > 0
                   }
                 >
-                  <IconText icon={qcodeIcon}>QCodes</IconText>
+                  <IconText nav="true" icon={qcodeIcon}>
+                    QCodes
+                  </IconText>
                 </RouteButton>
-                <LinkButton
-                  href={previewUrl}
-                  variant="tertiary-light"
-                  data-test="btn-preview"
-                  small
-                  disabled={questionnaire.totalErrorCount > 0}
-                >
-                  <IconText icon={viewIcon}>View survey</IconText>
-                </LinkButton>
+
                 {renderPublishReviewButton()}
-                <Button
-                  variant="tertiary-light"
-                  onClick={() => setSharingModalOpen(true)}
-                  data-test="btn-share"
-                  small
-                >
-                  <IconText icon={shareIcon}>Sharing</IconText>
-                </Button>
-                {me && <UserProfile client={client} />}
+
+                {me && <UserProfile nav="true" client={client} />}
               </ButtonGroup>
             )}
-          </UtilityBtns> */}
+          </UtilityBtns>
         </Flex>
-        <PageTitle>{title}</PageTitle>
+        {/* <PageTitle>{title}</PageTitle> */}
         {children}
         <SavingContainer>
           <SavingIndicator isUnauthorized={permission !== "Write"} />
         </SavingContainer>
-      </StyledHeader>
+      </StyledMainNavigation>
       {questionnaire && (
         <>
           {me && (
@@ -214,7 +259,7 @@ export const publishStatusSubscription = gql`
   }
 `;
 
-UnconnectedHeader.propTypes = {
+UnconnectedMainNavigation.propTypes = {
   questionnaire: CustomPropTypes.questionnaire,
   title: PropTypes.string,
   client: PropTypes.shape({
@@ -228,4 +273,7 @@ UnconnectedHeader.propTypes = {
   }).isRequired,
 };
 
-export default flowRight(withQuestionnaire, withRouter)(UnconnectedHeader);
+export default flowRight(
+  withQuestionnaire,
+  withRouter
+)(UnconnectedMainNavigation);

@@ -82,6 +82,30 @@ export const negativeButton = css`
   }
 `;
 
+export const navigationButton = css`
+  --color-text: ${colors.grey};
+  --color-bg: ${colors.darkerBlack};
+
+  position: relative;
+  border-bottom: 1px solid ${colors.darkerBlack};
+  border-radius: 0;
+
+  &:hover {
+    --color-text: ${colors.lighterGrey};
+    --color-bg: ${darken(0.1, colors.textLight)};
+    border-color: var(--color-bg);
+    border-bottom: 1px solid ${colors.white};
+    border-radius: 0;
+  }
+
+  &:focus {
+    background-color: ${colors.tertiary};
+    box-shadow: 0;
+    outline: 0;
+    --color-text: ${colors.black};
+  }
+`;
+
 export const greyedButton = css`
   --color-text: ${colors.white};
   --color-bg: ${colors.grey};
@@ -146,6 +170,7 @@ const Button = styled.button`
   ${props => props.variant === "tertiary-light" && tertiaryLightButton};
   ${props => props.variant === "positive" && positiveButton};
   ${props => props.variant === "negative" && negativeButton};
+  ${props => props.variant === "navigation" && navigationButton};
   ${props => props.variant === "greyed" && greyedButton};
   ${props => props.medium && mediumButton};
   ${props => props.small && smallButton};

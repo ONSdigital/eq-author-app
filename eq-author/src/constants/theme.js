@@ -14,6 +14,7 @@ export const colors = {
   amber: "#fe781f",
   green: "#0f8243",
   black: "#333333",
+  darkerBlack: "#222222",
   white: "#FFFFFF",
 };
 

@@ -23,6 +23,7 @@ const Container = styled.div`
 `;
 
 const NavigationScrollPane = styled(ScrollPane)`
+  float: left;
   &:hover {
     &::-webkit-scrollbar-thumb {
       background: ${colors.lightGrey};
@@ -69,8 +70,9 @@ export class UnwrappedNavigationSidebar extends Component {
       <Container data-test="side-nav">
         {loading ? null : (
           <>
-            <Logo />
-            <NavigationHeader
+            {/* <Logo /> */}
+
+            {/* <NavigationHeader
               questionnaire={questionnaire}
               onAddSection={this.handleAddSection}
               onAddCalculatedSummaryPage={onAddCalculatedSummaryPage}
@@ -80,7 +82,7 @@ export class UnwrappedNavigationSidebar extends Component {
               onAddQuestionConfirmation={onAddQuestionConfirmation}
               canAddQuestionConfirmation={canAddQuestionConfirmation}
               data-test="nav-section-header"
-            />
+            /> */}
             <NavigationScrollPane>
               <NavList>
                 {questionnaire.introduction && (

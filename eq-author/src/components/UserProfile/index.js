@@ -13,13 +13,17 @@ import Tooltip from "components/Forms/Tooltip";
 import { colors } from "constants/theme";
 import Button from "components/buttons/Button";
 
+import IconText from "components/IconText";
 import guestAvatar from "./icon-guest-avatar.svg";
+import sigoutIcon from "./signout-icon.svg?inline";
 
 const UserAvatar = styled.img`
-  border-radius: 50%;
-  margin-right: 0.5em;
+  /* border-radius: 50%; */
+  /* margin-right: 0.5em; */
   width: 2em;
   height: 2em;
+  fill: var(--color-text);
+  text-align: center;
 `;
 
 const UserName = styled.span`
@@ -29,15 +33,13 @@ const UserName = styled.span`
 `;
 
 export const LogoutButton = styled(Button)`
-  padding: 0 1em 0 1px;
-  border-radius: 2em;
   display: flex;
   align-items: center;
-  font-size: 1em;
+  font-size: 0.7em;
   border: none;
-  background: none;
-  color: white;
-  text-align: left;
+  background-color: #fdbd56;
+  color: ${colors.black};
+  text-align: centre;
 
   &:hover {
     background: ${colors.white};
@@ -59,15 +61,12 @@ const UserProfile = ({ me, signOut }) => {
         onClick={() => {
           signOut();
         }}
-        variant="tertiary-light"
+        variant="navigation"
         small
       >
-        <UserAvatar
-          src={me.picture || guestAvatar}
-          alt=""
-          role="presentation"
-        />
-        <UserName data-test="username">{me.displayName}</UserName>
+        <IconText nav="true" icon={sigoutIcon}>
+          Sign out
+        </IconText>
       </LogoutButton>
     </Tooltip>
   );
