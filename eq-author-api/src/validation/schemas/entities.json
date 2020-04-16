@@ -162,6 +162,9 @@
         },
         {
           "$ref": "entities.json#/definitions/dateAnswer"
+        },
+        {
+          "$ref": "entities.json#/definitions/dateRangeAnswer"
         }
       ]
     },
@@ -304,6 +307,73 @@
         "properties": {
           "type": {
             "enum": ["Date"]
+          }
+        }
+      },
+      "then": {
+        "type": "object",
+        "properties": {
+          "validation": {
+            "if": {
+              "allOf": [
+                {
+                  "properties": {
+                    "earliestDate": {
+                      "properties": {
+                        "enabled": { "const": true },
+                        "entityType": { "const": "Custom" }
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "latestDate": {
+                      "properties": {
+                        "enabled": { "const": true },
+                        "entityType": { "const": "Custom" }
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            "then": {
+              "properties": {
+                "earliestDate": {
+                  "type": "object",
+                  "properties": {
+                    "custom": {
+                      "validateLatestAfterEarliest": {
+                        "$data": "2/latestDate"
+                      }
+                    }
+                  }
+                },
+                "latestDate": {
+                  "type": "object",
+                  "properties": {
+                    "custom": {
+                      "validateLatestAfterEarliest": {
+                        "$data": "2/earliestDate"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "properties": {
+            "$ref": "entities.json#/definitions/properties"
+          }
+        }
+      }
+    },
+    "dateRangeAnswer": {
+      "if": {
+        "properties": {
+          "type": {
+            "enum": ["DateRange"]
           }
         }
       },

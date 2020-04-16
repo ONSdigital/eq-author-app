@@ -4,7 +4,7 @@ const {
   createUser,
   updateUser,
   getUserByExternalId,
-} = require("../../utils/datastore");
+} = require("../../db/datastore");
 
 const checkForUpdates = (user, existingUser) => {
   const pickRequiredFields = pick(["email", "name", "externalId", "picture"]);
@@ -25,6 +25,7 @@ module.exports = async (req, res, next) => {
         return;
       }
     }
+
     await createUser(req.user);
 
     res.json({ status: "OK" });

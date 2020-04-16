@@ -1,5 +1,5 @@
 const upsertUser = require("./upsertUser");
-const { getUserByExternalId, createUser } = require("../../utils/datastore");
+const { getUserByExternalId, createUser } = require("../../db/datastore");
 const defaultUser = require("../../tests/utils/mockUserPayload");
 
 const mockResponse = () => {

@@ -1,17 +1,14 @@
-/* eslint-disable no-console */
 const { R_OK } = require("fs").constants;
 const fs = require("fs").promises;
-const chalk = require("chalk");
 const { camelCase } = require("lodash");
+const { logger } = require("../utils/logger");
 
 const MIGRATIONS_INDEX_PATH = "migrations/index.js";
 
 (async () => {
   if (process.argv.length < 3) {
-    console.error(
-      chalk.red(
-        "Not enough arguments provided to createMigration. Maybe the migration name is missing? Please refer to README."
-      )
+    logger.error(
+      "Not enough arguments provided to createMigration. Maybe the migration name is missing? Please refer to README."
     );
     process.exit(1);
   }
@@ -29,9 +26,7 @@ const MIGRATIONS_INDEX_PATH = "migrations/index.js";
   }
 
   if (fileExists) {
-    console.error(
-      chalk.red(`A migration with the name "${name}" already exists.`)
-    );
+    logger.error(`A migration with the name "${name}" already exists.`);
     process.exit(1);
   }
 
@@ -72,8 +67,8 @@ const MIGRATIONS_INDEX_PATH = "migrations/index.js";
 
   await fs.writeFile(MIGRATIONS_INDEX_PATH, updatedMigrationList);
 
-  console.info(chalk.green(`${name} migration successfully created`));
+  logger.info(`${name} migration successfully created`);
 })().catch(e => {
-  console.error(chalk.red(e));
+  logger.fatal(e);
   process.exit(1);
 });

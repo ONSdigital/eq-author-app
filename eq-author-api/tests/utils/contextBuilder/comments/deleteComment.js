@@ -1,11 +1,31 @@
 const executeQuery = require("../../executeQuery");
 
 const deleteCommentMutation = `
-  mutation deleteComment($input: DeleteCommentInput!) {
+ mutation deleteComment($input: DeleteCommentInput!) {
   deleteComment(input: $input) {
     id
-    comments {
+    commentText
+    user {
       id
+      name
+      picture
+      email
+      displayName
+    }
+    createdTime
+    editedTime
+    replies {
+      id
+      commentText
+      createdTime
+      editedTime
+      user {
+        id
+        name
+        picture
+        email
+        displayName
+      }
     }
   }
 }
@@ -18,7 +38,7 @@ const deleteComment = async (ctx, input) => {
     throw new Error(result.errors[0]);
   }
 
-  return result.data.deleteComment;
+  return result.data;
 };
 
 module.exports = {

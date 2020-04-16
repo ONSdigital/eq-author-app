@@ -1,7 +1,7 @@
 const { isNil, isEmpty } = require("lodash/fp");
 const jwt = require("jsonwebtoken");
 
-const { getUserByExternalId } = require("../../utils/datastore");
+const { getUserByExternalId } = require("../../db/datastore");
 
 const verifyServiceRequest = require("./verifyServiceRequest");
 const verifyJwtToken = require("./verifyJwtToken");

@@ -1,30 +1,27 @@
-query Page($input: QueryInput!) {
-  page(input: $input) {
+query Comments($componentId: ID!) {
+  comments(id: $componentId) {
     id
-    comments {
+    commentText
+    user {
+      id
+      name
+      picture
+      email
+      displayName
+    }
+    createdTime
+    editedTime
+    replies {
       id
       commentText
+      createdTime
+      editedTime
       user {
         id
         name
         picture
         email
         displayName
-      }
-      createdTime
-      editedTime
-      replies {
-        id
-        commentText
-        createdTime
-        editedTime
-        user {
-          id
-          name
-          picture
-          email
-          displayName
-        }
       }
     }
   }

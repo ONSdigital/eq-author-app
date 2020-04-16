@@ -3,7 +3,7 @@ const { graphql } = require("graphql");
 
 const graphqlTools = require("graphql-tools");
 
-const { getQuestionnaire } = require("../../utils/datastore");
+const { getQuestionnaire } = require("../../db/datastore");
 const validate = require("../../src/validation");
 
 const executableSchema = graphqlTools.makeExecutableSchema(schema);

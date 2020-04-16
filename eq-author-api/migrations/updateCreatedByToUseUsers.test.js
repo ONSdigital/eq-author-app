@@ -1,10 +1,10 @@
 const { cloneDeep } = require("lodash");
-const uuid = require("uuid");
+const { v4: uuidv4 } = require("uuid");
 
 const updateCreatedByToUseUsers = require("./updateCreatedByToUseUsers.js");
 const { getUserByName, getUserByEmail } = updateCreatedByToUseUsers;
 
-const { createUser } = require("../utils/datastore");
+const { createUser } = require("../db/datastore");
 const { AUTHOR_TEAM_NAME } = require("../constants/authorTeamUser");
 
 describe("updateCreatedByToUseUsers", () => {
@@ -25,7 +25,7 @@ describe("updateCreatedByToUseUsers", () => {
   });
 
   it("should update a createdBy to reflect the id in the users table using name", async () => {
-    const name = uuid.v4();
+    const name = uuidv4();
     await createUser({ name, externalId: "12345" });
     const questionnaire = buildQuestionnaire(name);
     await updateCreatedByToUseUsers(questionnaire);
@@ -34,7 +34,7 @@ describe("updateCreatedByToUseUsers", () => {
   });
 
   it("should update a createdBy to reflect the id in the users table using email", async () => {
-    const email = uuid.v4();
+    const email = uuidv4();
     await createUser({
       email,
       externalId: "12346",

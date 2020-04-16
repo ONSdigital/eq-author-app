@@ -7,7 +7,7 @@ const {
   find,
   get,
 } = require("lodash/fp");
-const uuid = require("uuid");
+const { v4: uuidv4 } = require("uuid");
 const getDefaultAnswerProperties = require("../../utils/defaultAnswerProperties");
 const { answerTypeMap } = require("../../utils/defaultAnswerValidations");
 const {
@@ -33,7 +33,7 @@ module.exports = (answer, page) => {
     const validations = createDefaultValidationsForAnswer(answer);
     validations.map(v => {
       validation[v.validationType] = {
-        id: uuid.v4(),
+        id: uuidv4(),
         enabled: false,
         ...omit("config", v),
         ...v.config,
@@ -54,7 +54,7 @@ module.exports = (answer, page) => {
   }
 
   return {
-    id: uuid.v4(),
+    id: uuidv4(),
     ...merge(answer, {
       properties,
       validation,

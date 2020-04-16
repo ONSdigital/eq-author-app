@@ -16,7 +16,7 @@ const {
   concat,
 } = require("lodash");
 const GraphQLJSON = require("graphql-type-json");
-const uuid = require("uuid");
+const { v4: uuidv4 } = require("uuid");
 const { withFilter } = require("apollo-server-express");
 const fetch = require("node-fetch");
 
@@ -26,6 +26,11 @@ const {
   AWAITING_APPROVAL,
   UPDATES_REQUIRED,
 } = require("../../constants/publishStatus");
+
+const { DURATION_LOOKUP } = require("../../constants/durationTypes");
+
+const { DATE } = require("../../constants/answerTypes");
+
 const pubsub = require("../../db/pubSub");
 const { getName } = require("../../utils/getName");
 const {
@@ -81,16 +86,16 @@ const {
   createHistoryEvent,
   getQuestionnaireMetaById,
   createComments,
-  saveModel,
-} = require("../../utils/datastore");
-
-const { QuestionnaireModel } = require("../../db/models/DynamoDB");
+  saveMetadata,
+  saveComments,
+  getCommentsForQuestionnaire,
+} = require("../../db/datastore");
 
 const {
   createDefaultBusinessSurveyMetadata,
 } = require("../../utils/defaultMetadata");
 
-const { listQuestionnaires } = require("../../utils/datastore");
+const { listQuestionnaires } = require("../../db/datastore");
 
 const createQuestionnaireIntroduction = require("../../utils/createQuestionnaireIntroduction");
 
@@ -107,7 +112,7 @@ const {
 } = require("../../utils/questionnaireEvents");
 
 const createSection = (input = {}) => ({
-  id: uuid.v4(),
+  id: uuidv4(),
   title: "",
   introductionEnabled: false,
   pages: [createQuestionPage()],
@@ -117,7 +122,7 @@ const createSection = (input = {}) => ({
 
 const createNewQuestionnaire = input => {
   const defaultQuestionnaire = {
-    id: uuid.v4(),
+    id: uuidv4(),
     theme: "default",
     legalBasis: "Voluntary",
     navigation: false,
@@ -146,6 +151,12 @@ const createNewQuestionnaire = input => {
     ...changes,
     ...input,
   };
+};
+
+const publishCommentUpdates = componentId => {
+  pubsub.publish("commentsUpdated", {
+    componentId,
+  });
 };
 
 const Resolvers = {
@@ -186,6 +197,13 @@ const Resolvers = {
     },
     me: (root, args, ctx) => ctx.user,
     users: () => listUsers(),
+    comments: async (root, { id }, ctx) => {
+      const questionnaireId = ctx.questionnaire.id;
+      const questionnareComments = await getCommentsForQuestionnaire(
+        questionnaireId
+      );
+      return questionnareComments.comments[id] || [];
+    },
   },
 
   Subscription: {
@@ -223,12 +241,15 @@ const Resolvers = {
       subscribe: () => pubsub.asyncIterator(["publishStatusUpdated"]),
     },
     commentsUpdated: {
-      resolve: async ({ pageId, questionnaire }, args, ctx) => {
-        ctx.questionnaire = questionnaire;
-        const page = await getPageById(ctx, pageId);
-        return page;
+      resolve: ({ componentId }) => {
+        return { id: componentId };
       },
-      subscribe: () => pubsub.asyncIterator(["commentsUpdated"]),
+      subscribe: withFilter(
+        () => pubsub.asyncIterator(["commentsUpdated"]),
+        (payload, variables) => {
+          return payload.componentId === variables.id;
+        }
+      ),
     },
   },
 
@@ -259,10 +280,11 @@ const Resolvers = {
         ...questionnaire,
         title: addPrefix(questionnaire.title),
         shortTitle: addPrefix(questionnaire.shortTitle),
-        id: uuid.v4(),
+        id: uuidv4(),
         createdBy: ctx.user.id,
         editors: [],
         publishStatus: UNPUBLISHED,
+        surveyVersion: 1,
       };
       return createQuestionnaire(newQuestionnaire, ctx);
     },
@@ -284,7 +306,7 @@ const Resolvers = {
 
       noteToUpdate.bodyText = input.bodyText;
 
-      await saveModel(new QuestionnaireModel(metadata));
+      await saveMetadata(metadata);
       return metadata.history;
     },
 
@@ -303,7 +325,7 @@ const Resolvers = {
 
       remove(metadata.history, item => item.id === noteToDelete.id);
 
-      await saveModel(new QuestionnaireModel(metadata));
+      await saveMetadata(metadata);
       return metadata.history;
     },
 
@@ -352,7 +374,6 @@ const Resolvers = {
     }),
     updateAnswer: createMutation((root, { input }, ctx) => {
       const answers = getAnswers(ctx);
-
       const additionalAnswers = flatMap(answers, answer =>
         answer.options
           ? flatMap(answer.options, option => option.additionalAnswer)
@@ -363,6 +384,12 @@ const Resolvers = {
 
       merge(answer, input);
 
+      if (answer.type === DATE && !input.label && input.properties.format) {
+        answer.validation.earliestDate.offset.unit =
+          DURATION_LOOKUP[input.properties.format];
+        answer.validation.latestDate.offset.unit =
+          DURATION_LOOKUP[input.properties.format];
+      }
       return answer;
     }),
     updateAnswersOfType: createMutation(
@@ -497,6 +524,7 @@ const Resolvers = {
     }),
     toggleValidationRule: createMutation((_, args, ctx) => {
       const validation = getValidationById(ctx, args.input.id);
+
       validation.enabled = args.input.enabled;
       const newValidation = Object.assign({}, validation);
 
@@ -506,11 +534,12 @@ const Resolvers = {
     }),
     updateValidationRule: createMutation((_, args, ctx) => {
       const validation = getValidationById(ctx, args.input.id);
-      const { validationType } = validation;
 
+      const { validationType } = validation;
       merge(validation, args.input[`${validationType}Input`]);
 
       const newValidation = Object.assign({}, validation);
+
       delete validation.validationType;
 
       return newValidation;
@@ -518,7 +547,7 @@ const Resolvers = {
     createMetadata: createMutation((root, args, ctx) => {
       const newMetadata = {
         alias: null,
-        id: uuid.v4(),
+        id: uuidv4(),
         key: null,
         type: "Text",
       };
@@ -543,10 +572,10 @@ const Resolvers = {
       const section = getSectionByPageId(ctx, input.pageId);
       const page = find(section.pages, { id: input.pageId });
       const questionConfirmation = {
-        id: uuid.v4(),
+        id: uuidv4(),
         title: "",
-        positive: { id: uuid.v4(), label: "", description: "" },
-        negative: { id: uuid.v4(), label: "", description: "" },
+        positive: { id: uuidv4(), label: "", description: "" },
+        negative: { id: uuidv4(), label: "", description: "" },
       };
       set(page, "confirmation", questionConfirmation);
       return {
@@ -701,6 +730,139 @@ const Resolvers = {
       await saveQuestionnaire(ctx.questionnaire);
       return ctx.questionnaire;
     },
+    createComment: async (_, { input }, ctx) => {
+      const { componentId, commentText } = input;
+      const questionnaire = ctx.questionnaire;
+      const questionnaireComments = await getCommentsForQuestionnaire(
+        questionnaire.id
+      );
+      const newComment = {
+        id: uuidv4(),
+        commentText: commentText,
+        userId: ctx.user.id,
+        createdTime: new Date(),
+        replies: [],
+      };
+
+      const componentComments = questionnaireComments.comments[componentId];
+
+      if (componentComments) {
+        questionnaireComments.comments[componentId].push(newComment);
+      } else {
+        questionnaireComments.comments[componentId] = [newComment];
+      }
+
+      await saveComments(questionnaireComments);
+      publishCommentUpdates(componentId);
+
+      return newComment;
+    },
+    deleteComment: async (_, { input }, ctx) => {
+      const { componentId, commentId } = input;
+      const questionnaire = ctx.questionnaire;
+      const questionnaireComments = await getCommentsForQuestionnaire(
+        questionnaire.id
+      );
+
+      const componentComments = questionnaireComments.comments[componentId];
+      if (componentComments) {
+        remove(componentComments, ({ id }) => id === commentId);
+        await saveComments(questionnaireComments);
+      }
+      publishCommentUpdates(componentId);
+      return componentComments;
+    },
+    updateComment: async (_, { input }, ctx) => {
+      const { componentId, commentId, commentText } = input;
+      const questionnaire = ctx.questionnaire;
+      const questionnaireComments = await getCommentsForQuestionnaire(
+        questionnaire.id
+      );
+      const pageComments = questionnaireComments.comments[componentId];
+
+      if (!pageComments) {
+        throw new Error("No comments found");
+      }
+
+      const commentToEdit = pageComments.find(({ id }) => id === commentId);
+      commentToEdit.commentText = commentText;
+      commentToEdit.editedTime = new Date();
+      await saveComments(questionnaireComments);
+
+      publishCommentUpdates(componentId);
+
+      return commentToEdit;
+    },
+    createReply: async (_, { input }, ctx) => {
+      const { componentId, commentText, commentId } = input;
+      const questionnaire = ctx.questionnaire;
+      const questionnaireComments = await getCommentsForQuestionnaire(
+        questionnaire.id
+      );
+
+      const newReply = {
+        id: uuidv4(),
+        parentCommentId: commentId,
+        commentText,
+        userId: ctx.user.id,
+        createdTime: new Date(),
+      };
+      let parentComment = questionnaireComments.comments[componentId].find(
+        ({ id }) => id === commentId
+      );
+      if (parentComment) {
+        parentComment.replies.push(newReply);
+      } else {
+        parentComment = [newReply];
+      }
+
+      await saveComments(questionnaireComments);
+
+      publishCommentUpdates(componentId);
+
+      return newReply;
+    },
+    updateReply: async (_, { input }, ctx) => {
+      const { componentId, commentId, replyId, commentText } = input;
+      const questionnaire = ctx.questionnaire;
+      const questionnaireComments = await getCommentsForQuestionnaire(
+        questionnaire.id
+      );
+      const replies = questionnaireComments.comments[componentId].find(
+        ({ id }) => id === commentId
+      ).replies;
+
+      if (!replies) {
+        throw new Error("No replies found!");
+      }
+
+      const replyToEdit = replies.find(({ id }) => id === replyId);
+      replyToEdit.commentText = commentText;
+      replyToEdit.editedTime = new Date();
+      await saveComments(questionnaireComments);
+
+      publishCommentUpdates(componentId);
+      return replyToEdit;
+    },
+    deleteReply: async (_, { input }, ctx) => {
+      const { componentId, commentId, replyId } = input;
+      const questionnaire = ctx.questionnaire;
+      const questionnaireComments = await getCommentsForQuestionnaire(
+        questionnaire.id
+      );
+
+      const replies = questionnaireComments.comments[componentId].find(
+        ({ id }) => id === commentId
+      ).replies;
+
+      if (replies) {
+        remove(replies, ({ id }) => id === replyId);
+        await saveComments(questionnaireComments);
+      }
+      publishCommentUpdates(componentId);
+
+      return replies;
+    },
   },
 
   Questionnaire: {
@@ -730,6 +892,14 @@ const Resolvers = {
 
   User: {
     displayName: user => user.name || user.email,
+  },
+
+  Comment: {
+    user: ({ userId }) => getUserById(userId),
+  },
+
+  Reply: {
+    user: ({ userId }) => getUserById(userId),
   },
 
   QuestionnaireInfo: {
@@ -845,7 +1015,6 @@ const Resolvers = {
   ValidationType: {
     __resolveType: answer => {
       const validationEntity = getValidationEntity(answer.type);
-
       switch (validationEntity) {
         case "number":
           return "NumberValidation";
@@ -853,7 +1022,6 @@ const Resolvers = {
           return "DateValidation";
         case "dateRange":
           return "DateRangeValidation";
-
         default:
           throw new TypeError(
             `Validation is not supported on '${answer.type}' answers`

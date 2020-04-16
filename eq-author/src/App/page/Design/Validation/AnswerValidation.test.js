@@ -8,6 +8,7 @@ import {
   PERCENTAGE,
   UNIT,
   DATE,
+  DATE_RANGE,
 } from "constants/answer-types";
 import { CENTIMETRES } from "constants/unit-types";
 
@@ -232,11 +233,47 @@ describe("AnswerValidation", () => {
       ).toBeTruthy();
     });
 
-    it("should render an error message when earliest date is after latest date", () => {
+    it("Date Validation - should render an error message when earliest date is after latest date", () => {
       props = {
         answer: {
           id: "2",
           type: DATE,
+          validation: {
+            earliestDate: {
+              enabled: false,
+              validationErrorInfo: { errors: [] },
+            },
+            latestDate: {
+              enabled: false,
+              validationErrorInfo: { errors: [] },
+            },
+          },
+        },
+      };
+      const error = [
+        {
+          errorCode: "ERR_EARLIEST_AFTER_LATEST",
+          field: "custom",
+          id: "latestDate-2-b79f-4766-ba7a-3c3718bb9f26-custom",
+          type: "validation",
+          __typename: "ValidationError",
+        },
+      ];
+      props.answer.validation.earliestDate.validationErrorInfo.errors = error;
+      props.answer.validation.latestDate.validationErrorInfo.errors = error;
+
+      const { getByText } = rtlRender(<AnswerValidation {...props} />);
+
+      expect(
+        getByText("Enter an earliest date that is before latest date")
+      ).toBeTruthy();
+    });
+
+    it("DateRange validation - should render an error message when earliest date is after latest date", () => {
+      props = {
+        answer: {
+          id: "2",
+          type: DATE_RANGE,
           validation: {
             earliestDate: {
               enabled: false,

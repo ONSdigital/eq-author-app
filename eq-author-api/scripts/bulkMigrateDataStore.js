@@ -1,12 +1,12 @@
 #!/usr/bin/env node
-/* eslint-disable import/unambiguous,no-console */
-
+//eslint-disable no-loop-func
 const {
   getQuestionnaire,
   listQuestionnaires,
   saveQuestionnaire,
-} = require("../utils/datastore");
+} = require("../db/datastore");
 const { currentVersion, migrations } = require("../migrations");
+const { logger } = require("../utils/logger");
 
 const bulkMigrateDataStore = async () => {
   const questionnaireList = await listQuestionnaires();
@@ -18,7 +18,7 @@ const bulkMigrateDataStore = async () => {
 
     const bringQuestionnaireToLatest = async () => {
       for (let i = latestQuestionnaire.version; i < migrations.length; i++) {
-        console.log(
+        logger.info(
           `Running migration for version ${migrations[i].name} on ${latestQuestionnaire.id}`
         );
         const migrationFunction = migrations[i];
@@ -32,7 +32,7 @@ const bulkMigrateDataStore = async () => {
       await bringQuestionnaireToLatest();
       await saveQuestionnaire(latestQuestionnaire);
     } catch (e) {
-      console.log(e);
+      logger.error(e);
     }
   }
 };

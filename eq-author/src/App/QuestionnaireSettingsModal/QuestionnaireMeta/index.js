@@ -116,7 +116,7 @@ export const StatelessQuestionnaireMeta = ({
             alt=""
             fade={!questionnaire.summary}
           />
-          <DescribedText description="A summary of the all of the respondents answers will be on the confirmation page at the end of the survey.">
+          <DescribedText description="A summary of all of the respondent's answers will be shown on the confirmation page at the end of the survey.">
             Show summary on confirmation page
           </DescribedText>
         </FlexLabel>

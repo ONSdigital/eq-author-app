@@ -64,7 +64,7 @@ describe("CalculatedSummaryPreview", () => {
       {
         request: {
           query: commentsSubscription,
-          variables: { pageId: "2" },
+          variables: { id: "pageId" },
         },
         result: () => {
           return {};

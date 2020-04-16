@@ -1,8 +1,8 @@
 #!/usr/bin/env node
-/* eslint-disable import/unambiguous,no-console */
+/* eslint-disable import/unambiguous */
 const fs = require("fs");
 const jsonPath = process.env.DATA_DIR;
-const { createQuestionnaire } = require("../utils/datastore");
+const { createQuestionnaire } = require("../db/datastore");
 
 if (!jsonPath) {
   throw new Error("Set DATA_DIR environment variable");

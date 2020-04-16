@@ -63,14 +63,14 @@ describe("Datastore dynamo", () => {
 
     justListFields = jest.fn();
 
-    jest.doMock("../db/models/DynamoDB", () => ({
+    jest.doMock("../models/DynamoDB", () => ({
       dynamoose,
       QuestionnaireModel,
       QuestionnaireVersionsModel,
       justListFields,
     }));
 
-    saveQuestionnaire = require("./datastore").saveQuestionnaire;
+    saveQuestionnaire = require("./index").saveQuestionnaire;
   });
   afterEach(() => {
     jest.resetModules();

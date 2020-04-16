@@ -1,6 +1,6 @@
 /* eslint-disable camelcase*/
 const { omit, assign } = require("lodash/fp");
-const uuid = require("uuid/v1");
+const { v1: uuidv1 } = require("uuid");
 const EXPIRY_OFFSET_SECONDS = 100;
 
 const filterUnacceptableMeta = omit([
@@ -14,17 +14,17 @@ const filterUnacceptableMeta = omit([
 ]);
 
 const defaultMetadata = (questionnaireId, tokenIssueTime, surveyUrl) => ({
-  tx_id: uuid(),
-  jti: uuid(),
+  tx_id: uuidv1(),
+  jti: uuidv1(),
   iat: tokenIssueTime,
   exp: tokenIssueTime + EXPIRY_OFFSET_SECONDS,
   user_id: "UNKNOWN",
-  case_id: uuid(),
+  case_id: uuidv1(),
   ru_ref: "12346789012A",
   ru_name: "ESSENTIAL ENTERPRISE LTD",
   trad_as: "ESSENTIAL ENTERPRISE LTD",
   eq_id: questionnaireId,
-  collection_exercise_sid: uuid(),
+  collection_exercise_sid: uuidv1(),
   period_id: "201605",
   form_type: questionnaireId,
   survey_url: `${surveyUrl}${questionnaireId}?r${tokenIssueTime}`,

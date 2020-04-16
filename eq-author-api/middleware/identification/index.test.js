@@ -1,6 +1,6 @@
 const identificationMiddleware = require("./");
 const jwt = require("jsonwebtoken");
-const uuid = require("uuid");
+const { v4: uuidv4 } = require("uuid");
 const yaml = require("js-yaml");
 const fs = require("fs");
 
@@ -8,7 +8,7 @@ const keysFile = "./keys.test.yml";
 const keysYaml = yaml.safeLoad(fs.readFileSync(keysFile, "utf8"));
 const keysJson = JSON.parse(JSON.stringify(keysYaml));
 
-const { createUser } = require("../../utils/datastore");
+const { createUser } = require("../../db/datastore");
 
 jest.mock("./verifyJwtToken", () => {
   const jwt = require("jsonwebtoken");
@@ -101,10 +101,10 @@ describe("auth middleware", () => {
       });
 
       it("should send a 401 response if token is valid but unverified", async () => {
-        let sub = uuid.v4();
+        let sub = uuidv4();
         let auth = { id: "invalid.token", name: "foo", sub };
 
-        const expected = jwt.sign(auth, uuid.v4());
+        const expected = jwt.sign(auth, uuidv4());
 
         req.header.mockImplementation(() => `Bearer ${expected}`);
 
@@ -116,10 +116,10 @@ describe("auth middleware", () => {
 
     describe("valid token", () => {
       it("if user exists should add user to request", async () => {
-        let sub = uuid.v4();
+        let sub = uuidv4();
         let auth = { name: "foo", sub };
         await createUser({ name: "foo", externalId: sub });
-        const expected = jwt.sign(auth, uuid.v4());
+        const expected = jwt.sign(auth, uuidv4());
         req.header.mockImplementation(() => `Bearer ${expected}`);
         await middleware(req, res, next);
         expect(req.user).toMatchObject({
@@ -132,10 +132,10 @@ describe("auth middleware", () => {
       });
 
       it("if user doesn't exist should add temp user to request", async () => {
-        let sub = uuid.v4();
+        let sub = uuidv4();
         let auth = { name: "foo", sub };
 
-        const expected = jwt.sign(auth, uuid.v4());
+        const expected = jwt.sign(auth, uuidv4());
         req.header.mockImplementation(() => `Bearer ${expected}`);
         await middleware(req, res, next);
         expect(req.user).toMatchObject({

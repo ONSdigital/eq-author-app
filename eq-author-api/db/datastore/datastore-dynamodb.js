@@ -1,7 +1,7 @@
 const jsondiffpatch = require("jsondiffpatch");
 const { omit, first, isNil } = require("lodash");
-const logger = require("pino")();
-const uuid = require("uuid");
+const { logger } = require("../../utils/logger");
+const { v4: uuidv4 } = require("uuid");
 const {
   QuestionnaireModel,
   QuestionnaireVersionsModel,
@@ -9,9 +9,11 @@ const {
   justListFields,
   UserModel,
   CommentsModel,
-} = require("../db/models/DynamoDB");
+} = require("../models/DynamoDB");
 
-const { questionnaireCreationEvent } = require("./questionnaireEvents");
+const {
+  questionnaireCreationEvent,
+} = require("../../utils/questionnaireEvents");
 
 const omitTimestamps = questionnaire =>
   omit({ ...questionnaire }, ["updatedAt", "createdAt"]);
@@ -30,11 +32,15 @@ const saveModel = (model, options = {}) =>
     });
   });
 
+const saveMetadata = metadata => {
+  return saveModel(new QuestionnaireModel(metadata));
+};
+
 const createUser = user => {
   const { id, email, name, externalId, picture } = user;
   return saveModel(
     new UserModel({
-      id: id || uuid.v4(),
+      id: id || uuidv4(),
       email,
       name,
       externalId,
@@ -146,6 +152,7 @@ const getQuestionnaireMetaById = id =>
         if (err) {
           reject(err);
         }
+
         resolve(questionnaire);
       }
     );
@@ -178,7 +185,6 @@ const getQuestionnaire = id =>
         if (!questionnaire.editors) {
           questionnaire.editors = [];
         }
-
         resolve(questionnaire);
       });
   });
@@ -274,6 +280,7 @@ const listQuestionnaires = () => {
         if (err) {
           reject(err);
         }
+
         const transformedQuestionnaires = questionnaires
           .map(q => ({ ...q, editors: q.editors || [] }))
           .sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1));
@@ -292,11 +299,12 @@ module.exports = {
   getUserByExternalId,
   createUser,
   updateUser,
-  saveModel,
   listUsers,
   createHistoryEvent,
   getQuestionnaireMetaById,
   getCommentsForQuestionnaire,
   saveComments,
   createComments,
+  saveMetadata,
+  UserModel,
 };

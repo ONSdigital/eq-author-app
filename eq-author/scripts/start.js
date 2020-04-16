@@ -31,6 +31,7 @@ const openBrowser = require("react-dev-utils/openBrowser");
 const paths = require("../config/paths");
 const config = require("../config/webpack.config.dev");
 const createDevServerConfig = require("../config/webpackDevServer.config");
+const { logger } = require("../src/utils/logger");
 
 const useYarn = fs.existsSync(paths.yarnLockFile);
 const isInteractive = process.stdout.isTTY;
@@ -45,20 +46,15 @@ const DEFAULT_PORT = parseInt(process.env.PORT, 10) || 3000;
 const HOST = process.env.HOST || "0.0.0.0";
 
 if (process.env.HOST) {
-  console.log(
-    chalk.cyan(
-      `Attempting to bind to HOST environment variable: ${chalk.yellow(
-        chalk.bold(process.env.HOST)
-      )}`
-    )
+  logger.info(
+    `Attempting to bind to HOST environment variable: ${process.env.HOST}`
   );
-  console.log(
+  logger.info(
     `If this was unintentional, check that you haven't mistakenly set it in your shell.`
   );
-  console.log(
+  logger.info(
     `Learn more here: ${chalk.yellow("http://bit.ly/CRA-advanced-config")}`
   );
-  console.log();
 }
 
 // We require that you explictly set browsers and do not fall back to
@@ -79,7 +75,13 @@ checkBrowsers(paths.appPath, isInteractive)
     const appName = require(paths.appPackageJson).name;
     const urls = prepareUrls(protocol, HOST, port);
     // Create a webpack compiler that is configured with custom messages.
-    const compiler = createCompiler(webpack, config, appName, urls, useYarn);
+    const compiler = createCompiler({
+      webpack,
+      config,
+      appName,
+      urls,
+      useYarn,
+    });
     // Load proxy config
     const proxySetting = require(paths.appPackageJson).proxy;
     const proxyConfig = prepareProxy(proxySetting, paths.appPublic);
@@ -106,12 +108,12 @@ checkBrowsers(paths.appPath, isInteractive)
     // Launch WebpackDevServer.
     devServer.listen(port, HOST, err => {
       if (err) {
-        return console.log(err);
+        return logger.error(err);
       }
       if (isInteractive) {
         clearConsole();
       }
-      console.log(chalk.cyan("Starting the development server...\n"));
+      logger.info("Starting the development server...\n");
       openBrowser(urls.localUrlForBrowser);
     });
 
@@ -124,7 +126,7 @@ checkBrowsers(paths.appPath, isInteractive)
   })
   .catch(err => {
     if (err && err.message) {
-      console.log(err.message);
+      logger.fatal(err.message);
     }
     process.exit(1);
   });

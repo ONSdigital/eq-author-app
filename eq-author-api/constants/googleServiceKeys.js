@@ -1,4 +1,4 @@
-const logger = require("pino")();
+const { logger } = require("../utils/logger");
 
 module.exports.VERIFY_PUBLIC_KEYS_URL =
   "https://www.googleapis.com/robot/v1/metadata/x509/securetoken@system.gserviceaccount.com";

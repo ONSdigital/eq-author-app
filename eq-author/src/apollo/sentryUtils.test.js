@@ -1,11 +1,12 @@
 import { setSentryUser, setSentryTag, sendSentryError } from "./sentryUtils";
 import * as Sentry from "@sentry/browser";
-import uuid from "uuid";
 import jwt from "jsonwebtoken";
+
+const { v4: uuidv4 } = require("uuid");
 
 jest.mock("@sentry/browser");
 
-const createAccessToken = (token, signingKey = uuid.v4()) => {
+const createAccessToken = (token, signingKey = uuidv4()) => {
   return jwt.sign(token, signingKey);
 };
 

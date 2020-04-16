@@ -41,6 +41,24 @@ const createApp = () => {
     ];
   }
 
+  if (process.env.CORS_WHITELIST) {
+    const whitelist = process.env.CORS_WHITELIST.split(",");
+
+    const corsOptions = {
+      origin: function(origin, callback) {
+        if (whitelist.indexOf(origin) !== -1 || !origin) {
+          callback(null, true);
+        } else {
+          callback(new Error("Not allowed by CORS"));
+        }
+      },
+    };
+
+    app.use(cors(corsOptions));
+  } else {
+    app.use(cors());
+  }
+
   app.use(
     "/graphql",
     helmet({
@@ -77,7 +95,6 @@ const createApp = () => {
       },
     }),
     pino,
-    cors(),
     identificationMiddleware(logger),
     rejectUnidentifiedUsers,
     loadQuestionnaire,
@@ -121,7 +138,7 @@ const createApp = () => {
   app.get("/export/:questionnaireId", exportQuestionnaire);
   if (process.env.ENABLE_IMPORT === "true") {
     app
-      .use(bodyParser.json())
+      .use(bodyParser.json({ limit: "10mb", extended: true }))
       .post(
         "/import",
         identificationMiddleware(logger),
@@ -137,7 +154,6 @@ const createApp = () => {
 
   logger.info(`🚀 Server ready at ${server.graphqlPath}`);
   logger.info(`🚀 Subscriptions ready at ${server.subscriptionsPath}`);
-
   return httpServer;
 };
 

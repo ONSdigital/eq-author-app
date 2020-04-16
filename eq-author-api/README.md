@@ -31,6 +31,7 @@ Changes to the application should hot reload via `nodemon`.
 | `RUNNER_SESSION_URL`    | Authentication URL for survey runner                                               | Yes      |
 | `PUBLISHER_URL`         | URL that produces valid survey runner JSON                                         | Yes      |
 | `FIREBASE_PROJECT_ID`   | The project ID for your Firebase project.                                          | Yes      |
+| `DATABASE`              | The name of the database to use; currently only supports 'dynamodb'                | Yes      |
 | `SECRETS_S3_BUCKET`     | Name of S3 bucket where secrets are stored                                         | No       |
 | `KEYS_FILE`             | Name of the keys file to use inside the bucket                                     | No       |
 | `AUTH_HEADER_KEY`       | Name of the header values that contains the Auth token                             | No       |

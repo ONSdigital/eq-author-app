@@ -1,7 +1,7 @@
 const executeQuery = require("../../executeQuery");
 
 const updateValidationMutation = `
-  mutation ToggleValidationRule($input: UpdateValidationRuleInput!) {
+  mutation updateValidationRule($input: UpdateValidationRuleInput!) {
     updateValidationRule(input: $input) {
       id
       ...on MinValueValidationRule {

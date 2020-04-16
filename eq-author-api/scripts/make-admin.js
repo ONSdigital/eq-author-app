@@ -1,8 +1,8 @@
 #!/usr/bin/env node
-/* eslint-disable no-console */
 const admin = require("firebase-admin");
 const program = require("commander");
 const fs = require("fs").promises;
+const { logger } = require("../utils/logger");
 
 program
   .description("A utility that applies the admin role to a firebase user.")
@@ -59,7 +59,7 @@ makeAdmin(
   program.remove
 )
   .then(isAdmin => {
-    console.log(
+    logger.info(
       `User ${program.uid} in ${program.projectName} is ${
         isAdmin === true ? "now" : "no longer"
       } an admin`
@@ -67,6 +67,6 @@ makeAdmin(
     process.exit(0);
   })
   .catch(e => {
-    console.error(e);
+    logger.fatal(e);
     process.exit(1);
   });

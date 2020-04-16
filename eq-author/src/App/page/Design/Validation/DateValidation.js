@@ -121,7 +121,6 @@ export class UnwrappedDateValidation extends React.Component {
       onUpdate,
       onChangeUpdate,
     } = this.props;
-
     const availableUnits = getUnits({ format, type });
 
     const validationPills = {
@@ -144,6 +143,7 @@ export class UnwrappedDateValidation extends React.Component {
             <Duration
               name="offset"
               duration={offset}
+              value={offset.unit}
               units={availableUnits}
               onChange={onChange}
               onUpdate={onUpdate}
