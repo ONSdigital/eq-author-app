@@ -21,13 +21,6 @@ import {
 
 import { buildSectionPath, buildIntroductionPath } from "utils/UrlUtils";
 
-import Button from "components/buttons/Button";
-import LinkButton from "components/buttons/Button/LinkButton";
-import RouteButton from "components/buttons/Button/RouteButton";
-import IconText from "components/IconText";
-import ButtonGroup from "components/buttons/ButtonGroup";
-import reviewIcon from "./NavigationSidebar/author-logo.svg?inline";
-
 import pageRoutes from "App/page";
 import sectionRoutes from "App/section";
 import questionConfirmationRoutes from "App/questionConfirmation";

@@ -70,19 +70,6 @@ export class UnwrappedNavigationSidebar extends Component {
       <Container data-test="side-nav">
         {loading ? null : (
           <>
-            {/* <Logo /> */}
-
-            {/* <NavigationHeader
-              questionnaire={questionnaire}
-              onAddSection={this.handleAddSection}
-              onAddCalculatedSummaryPage={onAddCalculatedSummaryPage}
-              canAddCalculatedSummaryPage={canAddCalculatedSummaryPage}
-              onAddQuestionPage={onAddQuestionPage}
-              canAddQuestionPage={canAddQuestionPage}
-              onAddQuestionConfirmation={onAddQuestionConfirmation}
-              canAddQuestionConfirmation={canAddQuestionConfirmation}
-              data-test="nav-section-header"
-            /> */}
             <NavigationScrollPane>
               <NavList>
                 {questionnaire.introduction && (
