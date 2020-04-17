@@ -33,7 +33,7 @@ const PIPE_TYPES = {
     retrieve: ({ id }, ctx) => getAnswer(ctx, id.toString()),
     render: ({ id }) => `answers['answer${id}']`,
     getType: ({ type }) => type,
-    getUnit: ({ properties }) => properties,
+    getUnit: ({ properties: { unit } }) => unit,
   },
   metadata: {
     retrieve: ({ id }, ctx) => getMetadata(ctx, id.toString()),
@@ -69,7 +69,7 @@ const convertElementToPipe = ($elem, ctx) => {
   let unitType;
 
   if (dataType === "Unit") {
-    unitType = pipeConfig.getUnit(entity).unit;
+    unitType = pipeConfig.getUnit(entity);
     return filter ? `{{ ${filter(output, unitType)} }}` : `{{ ${output} }}`;
   } else {
     return filter ? `{{ ${filter(output)} }}` : `{{ ${output} }}`;
