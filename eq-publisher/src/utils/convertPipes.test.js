@@ -17,7 +17,11 @@ const createContext = (metadata = []) => ({
               { id: `3`, type: "DateRange" },
               { id: `4`, type: "Date" },
               { id: `5`, type: "Number" },
-              { id: `6`, type: "Unit", unit: "cm" },
+              {
+                id: `6`,
+                type: "Unit",
+                properties: { required: false, decimals: 0, Unit: "Metres" },
+              },
             ],
           },
           {},
@@ -122,7 +126,7 @@ describe("convertPipes", () => {
       it("should format Units answers with `format_unit`", () => {
         const html = createPipe({ id: "6" });
         expect(convertPipes(createContext())(html)).toEqual(
-          "{{ format_unit(answers['answer6'], 'cm') }}"
+          "{{ format_unit('Metres',answers['answer6']) }}"
         );
       });
     });

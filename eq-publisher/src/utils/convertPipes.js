@@ -25,7 +25,7 @@ const FILTER_MAP = {
   Currency: (value, unit = "GBP") => `format_currency(${value}, '${unit}')`,
   Date: value => `${value} | format_date`,
   DateRange: value => `${value} | format_date`,
-  Unit: (value, unit = "centimeter") => `format_unit('${unit}',${value})`,
+  Unit: (value, unit) => `format_unit('${unit}',${value})`,
 };
 
 const PIPE_TYPES = {
@@ -33,6 +33,7 @@ const PIPE_TYPES = {
     retrieve: ({ id }, ctx) => getAnswer(ctx, id.toString()),
     render: ({ id }) => `answers['answer${id}']`,
     getType: ({ type }) => type,
+    getUnit: ({ properties }) => properties,
   },
   metadata: {
     retrieve: ({ id }, ctx) => getMetadata(ctx, id.toString()),
@@ -57,23 +58,22 @@ const convertElementToPipe = ($elem, ctx) => {
   }
 
   const entity = pipeConfig.retrieve(elementData, ctx);
-  console.log("\n\nentity = = =", entity);
 
   if (!entity) {
     return "";
   }
+
   const output = pipeConfig.render(entity);
-  console.log("\n\noutput - -", output);
-
   const dataType = pipeConfig.getType(entity);
-
-  console.log("\n\ndataType - - ", dataType);
-
   const filter = FILTER_MAP[dataType];
+  let unitType;
 
-  console.log("\n\nfilter - - ", filter);
-
-  return filter ? `{{ ${filter(output)} }}` : `{{ ${output} }}`;
+  if (dataType === "Unit") {
+    unitType = pipeConfig.getUnit(entity).unit;
+    return filter ? `{{ ${filter(output, unitType)} }}` : `{{ ${output} }}`;
+  } else {
+    return filter ? `{{ ${filter(output)} }}` : `{{ ${output} }}`;
+  }
 };
 
 const parseHTML = html => {
