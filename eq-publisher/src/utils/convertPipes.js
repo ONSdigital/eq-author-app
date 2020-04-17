@@ -25,7 +25,7 @@ const FILTER_MAP = {
   Currency: (value, unit = "GBP") => `format_currency(${value}, '${unit}')`,
   Date: value => `${value} | format_date`,
   DateRange: value => `${value} | format_date`,
-  Unit: (value, unit = "cm") => `format_unit(${value}, '${unit}')`,
+  Unit: (value, unit = "centimeter") => `format_unit('${unit}',${value})`,
 };
 
 const PIPE_TYPES = {
@@ -46,7 +46,9 @@ const PIPE_TYPES = {
 
 const convertElementToPipe = ($elem, ctx) => {
   const { piped, ...elementData } = $elem.data();
+
   const pipeConfig = PIPE_TYPES[piped];
+
   if (piped === "variable") {
     return pipeConfig.render();
   }
@@ -55,13 +57,21 @@ const convertElementToPipe = ($elem, ctx) => {
   }
 
   const entity = pipeConfig.retrieve(elementData, ctx);
+  console.log("\n\nentity = = =", entity);
+
   if (!entity) {
     return "";
   }
   const output = pipeConfig.render(entity);
+  console.log("\n\noutput - -", output);
+
   const dataType = pipeConfig.getType(entity);
 
+  console.log("\n\ndataType - - ", dataType);
+
   const filter = FILTER_MAP[dataType];
+
+  console.log("\n\nfilter - - ", filter);
 
   return filter ? `{{ ${filter(output)} }}` : `{{ ${output} }}`;
 };
