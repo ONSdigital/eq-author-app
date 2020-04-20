@@ -20,7 +20,7 @@ const createContext = (metadata = []) => ({
               {
                 id: `6`,
                 type: "Unit",
-                properties: { required: false, decimals: 0, Unit: "Metres" },
+                properties: { required: false, decimals: 0, unit: "Metres" },
               },
             ],
           },

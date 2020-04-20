@@ -58,7 +58,6 @@ const convertElementToPipe = ($elem, ctx) => {
   }
 
   const entity = pipeConfig.retrieve(elementData, ctx);
-
   if (!entity) {
     return "";
   }
