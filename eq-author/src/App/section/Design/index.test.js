@@ -415,7 +415,7 @@ describe("SectionRoute", () => {
         { context, childContextTypes }
       );
 
-    it("ensures confirmation before delete", () => {
+    it("ensures confirmation before delete", async () => {
       const wrapper = render({
         loading: false,
         match,
@@ -434,9 +434,12 @@ describe("SectionRoute", () => {
         .simulate("click");
 
       expect(mockHandlers.onDeleteSection).toHaveBeenCalledWith(sectionId);
+      await act(async () => {
+        await flushPromises();
+      });
     });
 
-    it("allows new pages to be added", () => {
+    it("allows new pages to be added", async () => {
       const wrapper = render({
         loading: false,
         match,
@@ -453,9 +456,12 @@ describe("SectionRoute", () => {
         match.params.sectionId,
         0
       );
+      await act(async () => {
+        await flushPromises();
+      });
     });
 
-    it("should disable move section button when one section", () => {
+    it("should disable move section button when one section", async () => {
       const wrapper = render({
         loading: false,
         match,
@@ -466,9 +472,12 @@ describe("SectionRoute", () => {
       expect(
         wrapper.find(`Button${byTestAttr("btn-move")}`).prop("disabled")
       ).toBe(true);
+      await act(async () => {
+        await flushPromises();
+      });
     });
 
-    it("should enable move section button when multiple sections", () => {
+    it("should enable move section button when multiple sections", async () => {
       const questionnaire = {
         id: "1",
         navigation: true,
@@ -487,9 +496,12 @@ describe("SectionRoute", () => {
       expect(
         wrapper.find(`Button${byTestAttr("btn-move")}`).prop("disabled")
       ).toBe(false);
+      await act(async () => {
+        await flushPromises();
+      });
     });
 
-    it("should call onDuplicateSection with the section id and position when the duplicate button is clicked", () => {
+    it("should call onDuplicateSection with the section id and position when the duplicate button is clicked", async () => {
       const questionnaire = {
         id: "1",
         navigation: true,
@@ -513,9 +525,12 @@ describe("SectionRoute", () => {
         sectionId: section.id,
         position: section.position + 1,
       });
+      await act(async () => {
+        await flushPromises();
+      });
     });
 
-    it("should disable the preview tab when the introduction is disabled", () => {
+    it("should disable the preview tab when the introduction is disabled", async () => {
       const wrapper = render({
         loading: false,
         match,
@@ -530,9 +545,12 @@ describe("SectionRoute", () => {
       expect(editorLayout.props()).toMatchObject({
         preview: false,
       });
+      await act(async () => {
+        await flushPromises();
+      });
     });
 
-    it("should enable the preview tab when the introduction is enabled", () => {
+    it("should enable the preview tab when the introduction is enabled", async () => {
       const wrapper = render({
         loading: false,
         match,
@@ -550,6 +568,9 @@ describe("SectionRoute", () => {
 
       expect(editorLayout.props()).toMatchObject({
         preview: true,
+      });
+      await act(async () => {
+        await flushPromises();
       });
     });
   });

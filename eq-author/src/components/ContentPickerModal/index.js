@@ -209,7 +209,11 @@ class ContentPickerModal extends React.Component {
 
   render() {
     return (
-      <StyledModal isOpen={this.props.isOpen} hasCloseButton={false}>
+      <StyledModal
+        isOpen={this.props.isOpen}
+        onClose={this.props.onClose}
+        hasCloseButton={false}
+      >
         <Flex>
           <BaseTabs
             activeId={this.state.selectedTab}

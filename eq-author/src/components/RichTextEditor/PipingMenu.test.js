@@ -119,26 +119,6 @@ describe("PipingMenu", () => {
     expect(wrapper.find(PIPING_BUTTON_VALUE).prop("disabled")).toBe(true);
   });
 
-  it("should render as disabled when it does not have focus", () => {
-    const wrapper = shallow(
-      <UnwrappedPipingMenu
-        match={{
-          params: {
-            questionnaireId: "4",
-            sectionId: "3",
-            pageId: "2",
-            confirmationId: "1",
-            introductionId: "5",
-          },
-        }}
-        canFocus={false}
-        allowableTypes={[ANSWER, METADATA, VARIABLES]}
-      />
-    );
-
-    expect(wrapper.find(PIPING_BUTTON_VALUE).prop("disabled")).toBe(true);
-  });
-
   it("should open the picker when clicked", () => {
     const wrapper = render();
     wrapper.find("[data-test='piping-button']").simulate("click");
