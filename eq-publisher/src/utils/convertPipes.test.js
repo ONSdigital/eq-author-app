@@ -123,7 +123,7 @@ describe("convertPipes", () => {
         );
       });
 
-      it("should format Units answers with `format_unit`", () => {
+      it("should format Units answers with `format_unit` and includes the unit type", () => {
         const html = createPipe({ id: "6" });
         expect(convertPipes(createContext())(html)).toEqual(
           "{{ format_unit('Metres',answers['answer6']) }}"
