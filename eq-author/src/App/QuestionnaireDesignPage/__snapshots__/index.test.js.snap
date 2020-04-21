@@ -2089,7 +2089,7 @@ exports[`QuestionnaireDesignPage should render 1`] = `
         align="top"
         fillHeight={true}
       >
-        <Column
+        <QuestionnaireDesignPage__NavColumn
           cols={3}
           gutters={false}
         >
@@ -2143,7 +2143,7 @@ exports[`QuestionnaireDesignPage should render 1`] = `
               }
             }
           />
-        </Column>
+        </QuestionnaireDesignPage__NavColumn>
         <Column
           cols={9}
           gutters={false}

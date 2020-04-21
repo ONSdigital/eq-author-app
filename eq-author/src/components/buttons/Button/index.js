@@ -107,12 +107,11 @@ export const navigationButton = css`
 `;
 
 export const signoutButton = css`
-color: ${colors.darkerBlack};
+  color: ${colors.darkerBlack};
   --color-text: ${colors.darkerBlack};
   --color-bg: ${colors.darkerBlack};
 
   position: relative;
-  /* border-bottom: 1px solid ${colors.darkerBlack}; */
   border-radius: 0;
 
   &:hover {
@@ -120,7 +119,6 @@ color: ${colors.darkerBlack};
     --color-text: ${darken(0.1, colors.darkerBlack)};
     --color-bg: ${darken(0.1, colors.orange)};
     border-color: var(--color-bg);
-    /* border-bottom: 1px solid ${colors.white}; */
     border-radius: 0;
   }
 

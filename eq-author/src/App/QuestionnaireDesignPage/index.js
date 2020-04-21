@@ -7,6 +7,7 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import { Titled } from "react-titled";
 import { get, find, flatMap, flowRight } from "lodash";
 
+import { colors } from "constants/theme";
 import styled from "styled-components";
 import { Grid, Column } from "components/Grid";
 import Loading from "components/Loading";
@@ -187,13 +188,13 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
     const { loading, questionnaire, error, location } = this.props;
 
     const NavColumn = styled(Column)`
-      background-color: #222222;
+      background-color: ${colors.darkerBlack};
     `;
 
     const MainNav = styled.div`
       width: 70px;
       float: left;
-      background-color: #222222;
+      background-color: ${colors.darkerBlack};
       }
     `;
 

@@ -28,8 +28,6 @@ const IconWithText = styled.span`
 
 const IconwithTextBelow = styled.div`
   align-items: center;
-  /* padding: 1em; */
-
   text-align: center;
   line-height: 1.3;
   color: var(--color-text);
