@@ -101,16 +101,10 @@ const defaultValues = [
     textValue: "8766125739854443",
   },
   {
-    key: "survey",
+    key: "schema_name",
     alias: "Survey",
     type: "Text",
-    textValue: "qbs",
-  },
-  {
-    key: "form_type",
-    alias: "Form type",
-    type: "Text",
-    textValue: "H",
+    textValue: "qbs_0001",
   },
 ];
 
