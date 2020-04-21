@@ -1,30 +1,15 @@
+
+
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="16px" height="19px" viewBox="0 0 16 19" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="22px" height="22px" viewBox="0 0 22 22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <!-- Generator: Sketch 64 (93537) - https://sketch.com -->
-    <title>ic_get_app</title>
+    <title>Q-Codes_Icon</title>
     <desc>Created with Sketch.</desc>
-    <defs>
-        <path d="M16,6.70588235 L11.4285714,6.70588235 L11.4285714,0 L4.57142857,0 L4.57142857,6.70588235 L4.26325641e-14,6.70588235 L8,14.5294118 L16,6.70588235 L16,6.70588235 Z M4.26325641e-14,16.7647059 L4.26325641e-14,19 L16,19 L16,16.7647059 L4.26325641e-14,16.7647059 L4.26325641e-14,16.7647059 Z" id="path-1"></path>
-        <rect id="path-3" x="0" y="0" width="57.8993056" height="55.9027778"></rect>
-    </defs>
-    <g id="Sections-Survey" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="1.2---Content-page" transform="translate(-26.000000, -697.000000)">
-            <g id="Group-12" transform="translate(0.000000, 697.000000)">
-                <g id="ic_get_app" transform="translate(34.000000, 9.500000) rotate(180.000000) translate(-34.000000, -9.500000) translate(26.000000, 0.000000)">
-                    <mask id="mask-2" fill="white">
-                        <use xlink:href="#path-1"></use>
-                    </mask>
-                    <g id="Mask"></g>
-                    <g id="🎨-Color" mask="url(#mask-2)">
-                        <g transform="translate(-21.000000, -18.000000)">
-                            <mask id="mask-4" fill="white">
-                                <use xlink:href="#path-3"></use>
-                            </mask>
-                            <use id="Black" stroke="none" fill="#888888" fill-rule="evenodd" xlink:href="#path-3"></use>
-                        </g>
-                    </g>
-                </g>
-            </g>
+    <g id="Sections-Survey-q-codes" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="1.2---Content-page" transform="translate(-23.000000, -848.000000)" fill="#888888" fill-rule="nonzero">
+            <g id="settings_input_component-24px-(1)" transform="translate(23.000000, 848.000000)">
+            <path d="M16,6.70588235 L11.4285714,6.70588235 L11.4285714,0 L4.57142857,0 L4.57142857,6.70588235 L4.26325641e-14,6.70588235 L8,14.5294118 L16,6.70588235 L16,6.70588235 Z M4.26325641e-14,16.7647059 L4.26325641e-14,19 L16,19 L16,16.7647059 L4.26325641e-14,16.7647059 L4.26325641e-14,16.7647059 Z" id="path-1"></path>
+        </g>
         </g>
     </g>
 </svg>

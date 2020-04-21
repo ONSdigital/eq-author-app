@@ -186,6 +186,10 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
   render() {
     const { loading, questionnaire, error, location } = this.props;
 
+    const NavColumn = styled(Column)`
+      background-color: #222222;
+    `;
+
     const MainNav = styled.div`
       width: 70px;
       float: left;
@@ -202,7 +206,7 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
         <BaseLayout questionnaire={questionnaire}>
           <Titled title={this.getTitle}>
             <Grid>
-              <Column cols={3} gutters={false}>
+              <NavColumn cols={3} gutters={false}>
                 <MainNav>
                   <MainNavigation title="Review" />
                 </MainNav>
@@ -220,7 +224,7 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
                   canAddQuestionConfirmation={this.canAddQuestionConfirmation()}
                   onAddQuestionConfirmation={this.handleAddQuestionConfirmation}
                 />
-              </Column>
+              </NavColumn>
               <Column cols={9} gutters={false}>
                 <Switch location={location}>
                   {[

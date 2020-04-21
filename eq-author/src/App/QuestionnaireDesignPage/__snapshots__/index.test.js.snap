@@ -2093,6 +2093,11 @@ exports[`QuestionnaireDesignPage should render 1`] = `
           cols={3}
           gutters={false}
         >
+          <QuestionnaireDesignPage__MainNav>
+            <Component
+              title="Review"
+            />
+          </QuestionnaireDesignPage__MainNav>
           <withRouter(UnwrappedNavigationSidebar)
             canAddCalculatedSummaryPage={true}
             canAddQuestionConfirmation={true}

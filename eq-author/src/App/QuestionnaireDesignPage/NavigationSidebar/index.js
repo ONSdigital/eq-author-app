@@ -8,7 +8,6 @@ import { withRouter } from "react-router-dom";
 import gql from "graphql-tag";
 
 import ScrollPane from "components/ScrollPane";
-import Logo from "components/Logo";
 
 import SectionNav from "./SectionNav";
 import NavigationHeader from "./NavigationHeader";
@@ -57,12 +56,7 @@ export class UnwrappedNavigationSidebar extends Component {
   render() {
     const {
       questionnaire,
-      onAddQuestionPage,
-      onAddCalculatedSummaryPage,
-      onAddQuestionConfirmation,
-      canAddQuestionConfirmation,
-      canAddCalculatedSummaryPage,
-      canAddQuestionPage,
+
       loading,
     } = this.props;
 

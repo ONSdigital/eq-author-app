@@ -14,16 +14,17 @@ import { AWAITING_APPROVAL, PUBLISHED } from "constants/publishStatus";
 
 import { useMe } from "App/MeContext";
 
+import ButtonGroup from "components/buttons/ButtonGroup";
 import Button from "components/buttons/Button";
 import LinkButton from "components/buttons/Button/LinkButton";
 import RouteButton from "components/buttons/Button/RouteButton";
 import IconText from "components/IconText";
-import ButtonGroup from "components/buttons/ButtonGroup";
+
 import { withQuestionnaire } from "components/QuestionnaireContext";
 import UserProfile from "components/UserProfile";
 
 import homeIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/home-24px.svg?inline";
-import viewIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/view-survey-icon.svg?inline";
+
 import settingsIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/settings-icon.svg?inline";
 import qcodeIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/q-codes-icon.svg?inline";
 import publishIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/publish-icon.svg?inline";
@@ -31,9 +32,9 @@ import reviewIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/variabl
 import historyIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/history-icon.svg?inline";
 import metadataIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/metadata-icon.svg?inline";
 import shareIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/sharing-icon.svg?inline";
+import viewIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/view-survey-icon.svg?inline";
 
 import SharingModal from "./SharingModal";
-// import PageTitle from "./PageTitle";
 import UpdateQuestionnaireSettingsModal from "./UpdateQuestionnaireSettingsModal";
 import SavingIndicator from "./SavingIndicator";
 
@@ -47,7 +48,6 @@ import {
 const StyledMainNavigation = styled.div`
   color: ${colors.grey};
   background: ${colors.darkerBlack};
-  /* font-weight: 400; */
   position: relative;
 `;
 
@@ -55,18 +55,10 @@ const Flex = styled.div`
   display: flex;
   flex-shrink: 0;
   align-items: center;
-  /* padding: 1em 1.5em; */
-`;
-
-const Subtitle = styled.div`
-  font-weight: bold;
 `;
 
 export const UtilityBtns = styled.div`
   display: flex;
-  /* flex: 1 0 25%; */
-  /* justify-content: flex-end; */
-  /* margin-right: -1.5em; */
 `;
 
 const SavingContainer = styled.div`
@@ -149,6 +141,7 @@ export const UnconnectedMainNavigation = props => {
                     Home
                   </IconText>
                 </RouteButton>
+
                 <LinkButton
                   href={previewUrl}
                   variant="navigation"
@@ -167,7 +160,7 @@ export const UnconnectedMainNavigation = props => {
                   onClick={() => setSettingsModalOpen(true)}
                   small
                 >
-                  <IconText icon={settingsIcon} nav="true">
+                  <IconText nav="true" icon={settingsIcon}>
                     Settings
                   </IconText>
                 </Button>
@@ -192,6 +185,7 @@ export const UnconnectedMainNavigation = props => {
                     History
                   </IconText>
                 </RouteButton>
+
                 <RouteButton
                   variant="navigation"
                   small
@@ -217,7 +211,7 @@ export const UnconnectedMainNavigation = props => {
 
                 {renderPublishReviewButton()}
 
-                {me && <UserProfile nav="true" client={client} />}
+                {me && <UserProfile nav="true" left="true" client={client} />}
               </ButtonGroup>
             )}
           </UtilityBtns>

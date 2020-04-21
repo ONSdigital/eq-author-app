@@ -106,6 +106,32 @@ export const navigationButton = css`
   }
 `;
 
+export const signoutButton = css`
+color: ${colors.darkerBlack};
+  --color-text: ${colors.darkerBlack};
+  --color-bg: ${colors.darkerBlack};
+
+  position: relative;
+  /* border-bottom: 1px solid ${colors.darkerBlack}; */
+  border-radius: 0;
+
+  &:hover {
+    background-color: ${darken(0.1, colors.orange)};
+    --color-text: ${darken(0.1, colors.darkerBlack)};
+    --color-bg: ${darken(0.1, colors.orange)};
+    border-color: var(--color-bg);
+    /* border-bottom: 1px solid ${colors.white}; */
+    border-radius: 0;
+  }
+
+  &:focus {
+    background-color: ${colors.tertiary};
+    box-shadow: 0;
+    outline: 0;
+    --color-text: ${colors.black};
+  }
+`;
+
 export const greyedButton = css`
   --color-text: ${colors.white};
   --color-bg: ${colors.grey};
@@ -155,7 +181,7 @@ const Button = styled.button`
   }
 
   &:focus {
-    box-shadow: 0 0 0 3px ${colors.tertiary};
+    /* box-shadow: 0 0 0 3px ${colors.tertiary}; */
     outline: none;
   }
 
@@ -171,6 +197,7 @@ const Button = styled.button`
   ${props => props.variant === "positive" && positiveButton};
   ${props => props.variant === "negative" && negativeButton};
   ${props => props.variant === "navigation" && navigationButton};
+  ${props => props.variant === "signout" && signoutButton};
   ${props => props.variant === "greyed" && greyedButton};
   ${props => props.medium && mediumButton};
   ${props => props.small && smallButton};
