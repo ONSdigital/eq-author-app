@@ -26,7 +26,6 @@ const defaultMetadata = (questionnaireId, tokenIssueTime, surveyUrl) => ({
   eq_id: questionnaireId,
   collection_exercise_sid: uuidv1(),
   period_id: "201605",
-  form_type: questionnaireId,
   survey_url: `${surveyUrl}${questionnaireId}?r${tokenIssueTime}`,
   questionnaire_id: uuidv1(),
   response_id: uuidv1(),
