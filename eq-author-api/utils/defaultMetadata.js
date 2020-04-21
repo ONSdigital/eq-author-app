@@ -110,7 +110,7 @@ const defaultValues = [
     key: "form_type",
     alias: "Form type",
     type: "Text",
-    textValue: "123",
+    textValue: "H",
   },
 ];
 
