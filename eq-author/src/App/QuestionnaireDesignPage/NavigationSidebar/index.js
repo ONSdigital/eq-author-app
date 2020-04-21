@@ -54,11 +54,7 @@ export class UnwrappedNavigationSidebar extends Component {
   };
 
   render() {
-    const {
-      questionnaire,
-
-      loading,
-    } = this.props;
+    const { questionnaire, loading } = this.props;
 
     return (
       <Container data-test="side-nav">

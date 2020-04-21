@@ -1,6 +1,7 @@
+import React, { useState } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import { flowRight } from "lodash";
+import { flowRight, get } from "lodash";
 import { withRouter } from "react-router-dom";
 import gql from "graphql-tag";
 import { useSubscription } from "react-apollo";
@@ -8,6 +9,31 @@ import { useSubscription } from "react-apollo";
 import CustomPropTypes from "custom-prop-types";
 
 import { withQuestionnaire } from "components/QuestionnaireContext";
+import config from "config";
+import { useMe } from "App/MeContext";
+import { colors } from "constants/theme";
+import SharingModal from "./SharingModal";
+import PageTitle from "./PageTitle";
+import UpdateQuestionnaireSettingsModal from "./UpdateQuestionnaireSettingsModal";
+import SavingIndicator from "./SavingIndicator";
+
+const StyledHeader = styled.header`
+  color: ${colors.white};
+  background: ${colors.primary};
+  font-weight: 400;
+  position: relative;
+`;
+
+const Flex = styled.div`
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  padding: 1em 1.5em;
+`;
+
+const Subtitle = styled.div`
+  font-weight: bold;
+`;
 
 export const UtilityBtns = styled.div`
   display: flex;
@@ -16,12 +42,62 @@ export const UtilityBtns = styled.div`
   margin-right: -1.5em;
 `;
 
+const SavingContainer = styled.div`
+  position: absolute;
+  right: 1em;
+  bottom: 0.5em;
+`;
+
 export const UnconnectedHeader = props => {
-  const { match } = props;
+  const { questionnaire, title, children, match } = props;
+  const { me } = useMe();
+  const [isSharingModalOpen, setSharingModalOpen] = useState(false);
+  const [isSettingsModalOpen, setSettingsModalOpen] = useState(
+    match.params.modifier === "settings"
+  );
 
   useSubscription(publishStatusSubscription, {
     variables: { id: match.params.questionnaireId },
   });
+
+  const permission = get(questionnaire, "permission");
+
+  const previewUrl = `${config.REACT_APP_LAUNCH_URL}/${
+    (questionnaire || {}).id
+  }`;
+
+  return (
+    <>
+      <StyledHeader>
+        <Flex>
+          <Subtitle>{questionnaire && questionnaire.displayName}</Subtitle>
+        </Flex>
+        <PageTitle>{title}</PageTitle>
+        {children}
+        <SavingContainer>
+          <SavingIndicator isUnauthorized={permission !== "Write"} />
+        </SavingContainer>
+      </StyledHeader>
+      {questionnaire && (
+        <>
+          {me && (
+            <SharingModal
+              questionnaire={questionnaire}
+              previewUrl={previewUrl}
+              isOpen={isSharingModalOpen}
+              onClose={() => setSharingModalOpen(false)}
+              currentUser={me}
+            />
+          )}
+          <UpdateQuestionnaireSettingsModal
+            isOpen={isSettingsModalOpen}
+            onClose={() => setSettingsModalOpen(false)}
+            questionnaire={questionnaire}
+          />
+        </>
+      )}
+    </>
+  );
 };
 
 export const publishStatusSubscription = gql`
