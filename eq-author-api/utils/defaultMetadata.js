@@ -100,6 +100,18 @@ const defaultValues = [
     type: "Text",
     textValue: "8766125739854443",
   },
+  {
+    key: "survey",
+    alias: "Survey",
+    type: "Text",
+    textValue: "qbs",
+  },
+  {
+    key: "form_type",
+    alias: "Form type",
+    type: "Text",
+    textValue: "123",
+  },
 ];
 
 const DEFAULT_BUSINESS_SURVEY_METADATA = filter(defaultValues, ({ key }) =>
