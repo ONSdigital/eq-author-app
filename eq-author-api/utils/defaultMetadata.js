@@ -96,7 +96,7 @@ const defaultValues = [
   },
   {
     key: "questionnaire_id",
-    alias: "Qquestionnaire ID",
+    alias: "Questionnaire ID",
     type: "Text",
     textValue: "8766125739854443",
   },
