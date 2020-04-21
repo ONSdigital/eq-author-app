@@ -94,18 +94,6 @@ const defaultValues = [
     type: "Text",
     textValue: "E",
   },
-  {
-    key: "questionnaire_id",
-    alias: "Questionnaire ID",
-    type: "Text",
-    textValue: "8766125739854443",
-  },
-  {
-    key: "schema_name",
-    alias: "Survey",
-    type: "Text",
-    textValue: "qbs_0001",
-  },
 ];
 
 const DEFAULT_BUSINESS_SURVEY_METADATA = filter(defaultValues, ({ key }) =>
