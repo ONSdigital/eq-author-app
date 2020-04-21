@@ -274,51 +274,51 @@ describe("Header", () => {
   //   });
   // });
 
-//   describe("updating a questionnaire", () => {
-//     it("can open the questionnaire settings modal", () => {
-//       const { getByText, queryByText } = renderWithContext(
-//         <Header {...props} />
-//       );
+  //   describe("updating a questionnaire", () => {
+  //     it("can open the questionnaire settings modal", () => {
+  //       const { getByText, queryByText } = renderWithContext(
+  //         <Header {...props} />
+  //       );
 
-//       expect(queryByText("Questionnaire settings")).toBeFalsy();
-//       fireEvent.click(getByText("Settings"));
+  //       expect(queryByText("Questionnaire settings")).toBeFalsy();
+  //       fireEvent.click(getByText("Settings"));
 
-//       expect(getByText("Questionnaire settings")).toBeTruthy();
-//     });
+  //       expect(getByText("Questionnaire settings")).toBeTruthy();
+  //     });
 
-//     it("can close the questionnaire settings modal", async () => {
-//       const { getByText, queryByText } = renderWithContext(
-//         <Header {...props} />
-//       );
+  //     it("can close the questionnaire settings modal", async () => {
+  //       const { getByText, queryByText } = renderWithContext(
+  //         <Header {...props} />
+  //       );
 
-//       fireEvent.click(getByText("Settings"));
-//       expect(getByText("Questionnaire settings")).toBeTruthy();
+  //       fireEvent.click(getByText("Settings"));
+  //       expect(getByText("Questionnaire settings")).toBeTruthy();
 
-//       fireEvent.click(getByText("Cancel"));
-//       await waitForElementToBeRemoved(() =>
-//         queryByText("Questionnaire settings")
-//       );
+  //       fireEvent.click(getByText("Cancel"));
+  //       await waitForElementToBeRemoved(() =>
+  //         queryByText("Questionnaire settings")
+  //       );
 
-//       expect(queryByText("Questionnaire settings")).toBeFalsy();
-//     });
+  //       expect(queryByText("Questionnaire settings")).toBeFalsy();
+  //     });
 
-//     it("should start with the questionnaire settings open when the modifier is provided in the url", () => {
-//       const { getByText } = renderWithContext(<Header {...props} />, {
-//         route: `/q/${questionnaire.id}/settings`,
-//       });
+  //     it("should start with the questionnaire settings open when the modifier is provided in the url", () => {
+  //       const { getByText } = renderWithContext(<Header {...props} />, {
+  //         route: `/q/${questionnaire.id}/settings`,
+  //       });
 
-//       expect(getByText("Questionnaire settings")).toBeTruthy();
-//     });
-//   });
+  //       expect(getByText("Questionnaire settings")).toBeTruthy();
+  //     });
+  //   });
 
-//   it("should be possible to open and close the sharing modal", () => {
-//     const { getByText, queryByText } = renderWithContext(<Header {...props} />);
-//     expect(queryByText("Pinky Malinky")).toBeFalsy();
+  //   it("should be possible to open and close the sharing modal", () => {
+  //     const { getByText, queryByText } = renderWithContext(<Header {...props} />);
+  //     expect(queryByText("Pinky Malinky")).toBeFalsy();
 
-//     fireEvent.click(getByText("Sharing"));
-//     expect(getByText("Pinky Malinky")).toBeTruthy();
+  //     fireEvent.click(getByText("Sharing"));
+  //     expect(getByText("Pinky Malinky")).toBeTruthy();
 
-//     fireEvent.click(getByText("Done"));
-//     expect(queryByText("Pinky Malinky")).toBeFalsy();
-//   });
-// });
+  //     fireEvent.click(getByText("Done"));
+  //     expect(queryByText("Pinky Malinky")).toBeFalsy();
+  //   });
+});

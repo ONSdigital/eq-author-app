@@ -67,7 +67,7 @@ const SavingContainer = styled.div`
   bottom: 0.5em;
 `;
 
-export const UnconnectedMainNavigation = props => {
+export const UnwrappedMainNavigation = props => {
   const { questionnaire, title, children, client, match } = props;
   const { me } = useMe();
   const [isSharingModalOpen, setSharingModalOpen] = useState(false);
@@ -253,7 +253,7 @@ export const publishStatusSubscription = gql`
   }
 `;
 
-UnconnectedMainNavigation.propTypes = {
+UnwrappedMainNavigation.propTypes = {
   questionnaire: CustomPropTypes.questionnaire,
   title: PropTypes.string,
   client: PropTypes.shape({
@@ -270,4 +270,4 @@ UnconnectedMainNavigation.propTypes = {
 export default flowRight(
   withQuestionnaire,
   withRouter
-)(UnconnectedMainNavigation);
+)(UnwrappedMainNavigation);
