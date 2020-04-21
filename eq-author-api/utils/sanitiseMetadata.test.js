@@ -20,7 +20,6 @@ describe("sanitise Metadata", () => {
       eq_id: 1,
       collection_exercise_sid: 123,
       period_id: "201605",
-      form_type: 1,
       survey_url: expect.any(String),
     };
   });
