@@ -96,7 +96,7 @@ export const UnwrappedMainNavigation = props => {
           disabled={title === "Review"}
           data-test="btn-review"
         >
-          <IconText nav="true" icon={reviewIcon}>
+          <IconText nav icon={reviewIcon}>
             Review
           </IconText>
         </RouteButton>
@@ -121,7 +121,7 @@ export const UnwrappedMainNavigation = props => {
         }
         data-test="btn-publish"
       >
-        <IconText nav="true" icon={publishIcon}>
+        <IconText nav icon={publishIcon}>
           Publish
         </IconText>
       </RouteButton>
@@ -130,14 +130,13 @@ export const UnwrappedMainNavigation = props => {
 
   return (
     <>
-      <StyledMainNavigation>
+      <StyledMainNavigation data-test="main-navigation">
         <Flex>
-          {/* <Subtitle>{questionnaire && questionnaire.displayName}</Subtitle> */}
           <UtilityBtns>
             {questionnaire && (
               <ButtonGroup vertical align="centre" margin="0.em" gutter="0.em">
                 <RouteButton variant="navigation" small to="/">
-                  <IconText nav="true" icon={homeIcon}>
+                  <IconText nav icon={homeIcon}>
                     Home
                   </IconText>
                 </RouteButton>
@@ -149,7 +148,7 @@ export const UnwrappedMainNavigation = props => {
                   small
                   disabled={questionnaire.totalErrorCount > 0}
                 >
-                  <IconText nav="true" icon={viewIcon}>
+                  <IconText nav icon={viewIcon}>
                     View survey
                   </IconText>
                 </LinkButton>
@@ -160,7 +159,7 @@ export const UnwrappedMainNavigation = props => {
                   onClick={() => setSettingsModalOpen(true)}
                   small
                 >
-                  <IconText nav="true" icon={settingsIcon}>
+                  <IconText nav icon={settingsIcon}>
                     Settings
                   </IconText>
                 </Button>
@@ -171,7 +170,7 @@ export const UnwrappedMainNavigation = props => {
                   data-test="btn-share"
                   small
                 >
-                  <IconText nav="true" icon={shareIcon}>
+                  <IconText nav icon={shareIcon}>
                     Sharing
                   </IconText>
                 </Button>
@@ -181,7 +180,7 @@ export const UnwrappedMainNavigation = props => {
                   small
                   to={buildHistoryPath(match.params)}
                 >
-                  <IconText nav="true" icon={historyIcon}>
+                  <IconText nav icon={historyIcon}>
                     History
                   </IconText>
                 </RouteButton>
@@ -191,7 +190,7 @@ export const UnwrappedMainNavigation = props => {
                   small
                   to={buildMetadataPath(match.params)}
                 >
-                  <IconText nav="true" icon={metadataIcon}>
+                  <IconText nav icon={metadataIcon}>
                     Metadata
                   </IconText>
                 </RouteButton>
@@ -204,14 +203,14 @@ export const UnwrappedMainNavigation = props => {
                     title === "QCodes" || questionnaire.totalErrorCount > 0
                   }
                 >
-                  <IconText nav="true" icon={qcodeIcon}>
+                  <IconText nav icon={qcodeIcon}>
                     QCodes
                   </IconText>
                 </RouteButton>
 
                 {renderPublishReviewButton()}
 
-                {me && <UserProfile nav="true" left="true" client={client} />}
+                {me && <UserProfile nav left client={client} />}
               </ButtonGroup>
             )}
           </UtilityBtns>

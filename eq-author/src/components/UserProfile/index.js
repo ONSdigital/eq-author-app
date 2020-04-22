@@ -86,7 +86,7 @@ const UserProfile = ({ me, nav, signOut }) => {
             variant="signout"
             small
           >
-            <IconText nav="true" signout="true" icon={sigoutIcon}>
+            <IconText nav signout icon={sigoutIcon}>
               Sign out
             </IconText>
           </NavLogoutButton>
