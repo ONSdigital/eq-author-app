@@ -39,6 +39,7 @@ const HomeIconLink = styled(HomeIcon)`
 
 const StyledAddMenu = styled(AddMenu)`
   margin-left: auto;
+  margin-top: 2em;
 `;
 
 const NavTitle = styled.div`
@@ -107,25 +108,6 @@ export class UnwrappedNavigationHeader extends React.Component {
 
     return (
       <>
-        <QuestionnaireLinks>
-          <IconList>
-            <IconListItem>
-              <RouteButton variant="tertiary-light" small to="/">
-                <IconText icon={HomeIconLink}>Home</IconText>
-              </RouteButton>
-            </IconListItem>
-            <IconListItem>
-              <RouteButton variant="tertiary-light" small to={metadataUrl}>
-                <IconText icon={MetadataIcon}>Metadata</IconText>
-              </RouteButton>
-            </IconListItem>
-            <IconListItem>
-              <RouteButton variant="tertiary-light" small to={historyUrl}>
-                <IconText icon={HistoryIcon}>History</IconText>
-              </RouteButton>
-            </IconListItem>
-          </IconList>
-        </QuestionnaireLinks>
         <QuestionnaireContent>
           <NavTitle>Questionnaire content</NavTitle>
           <StyledAddMenu

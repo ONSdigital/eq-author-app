@@ -88,21 +88,21 @@ describe("Header", () => {
       }
     );
 
-  it("should show the currently logged in user", () => {
-    const { queryByText } = renderWithContext(<Header {...props} />);
+  // it("should show the currently logged in user", () => {
+  //   const { queryByText } = renderWithContext(<Header {...props} />);
 
-    expect(queryByText("Rick Sanchez")).toBeTruthy();
-  });
+  //   expect(queryByText("Rick Sanchez")).toBeTruthy();
+  // });
 
-  it("should be able to log out", () => {
-    const { getByText } = renderWithContext(<Header {...props} />);
+  // it("should be able to log out", () => {
+  //   const { getByText } = renderWithContext(<Header {...props} />);
 
-    expect(getByText("Rick Sanchez")).toBeTruthy();
+  //   expect(getByText("Rick Sanchez")).toBeTruthy();
 
-    fireEvent.click(getByText("Rick Sanchez"));
+  //   fireEvent.click(getByText("Rick Sanchez"));
 
-    expect(signOut).toHaveBeenCalled();
-  });
+  //   expect(signOut).toHaveBeenCalled();
+  // });
 
   it("should show the questionnaire display name", () => {
     const { getByText } = renderWithContext(<Header {...props} />);
