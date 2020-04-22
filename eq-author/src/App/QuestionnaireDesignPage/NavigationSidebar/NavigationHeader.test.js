@@ -53,11 +53,4 @@ describe("NavigationHeader", () => {
 
     expect(mockHandlers.onAddQuestionConfirmation).toHaveBeenCalled();
   });
-
-  it("should be able to open history page", async () => {
-    const { getByText, history } = render(<NavigationHeader {...props} />);
-    const historyButton = getByText("History");
-    fireEvent.click(historyButton);
-    expect(history.location.pathname).toMatch("/q/1/history");
-  });
 });
