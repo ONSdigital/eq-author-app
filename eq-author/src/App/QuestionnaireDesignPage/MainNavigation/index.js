@@ -156,6 +156,7 @@ export const UnwrappedMainNavigation = props => {
                 <Button
                   data-test="settings-btn"
                   variant="navigation"
+                  data-test="btn-settings"
                   onClick={() => setSettingsModalOpen(true)}
                   small
                 >
@@ -178,6 +179,7 @@ export const UnwrappedMainNavigation = props => {
                 <RouteButton
                   variant="navigation"
                   small
+                  data-test="btn-history"
                   to={buildHistoryPath(match.params)}
                 >
                   <IconText nav icon={historyIcon}>
@@ -188,6 +190,7 @@ export const UnwrappedMainNavigation = props => {
                 <RouteButton
                   variant="navigation"
                   small
+                  data-test="btn-metadata"
                   to={buildMetadataPath(match.params)}
                 >
                   <IconText nav icon={metadataIcon}>
@@ -199,6 +202,7 @@ export const UnwrappedMainNavigation = props => {
                   variant="navigation"
                   to={buildQcodesPath(match.params)}
                   small
+                  data-test="btn-qcodes"
                   disabled={
                     title === "QCodes" || questionnaire.totalErrorCount > 0
                   }

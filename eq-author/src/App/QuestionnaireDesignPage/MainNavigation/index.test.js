@@ -1,12 +1,13 @@
 import React from "react";
 import { shallow } from "enzyme";
-import { render } from "tests/utils/rtl";
+import { render, flushPromises } from "tests/utils/rtl";
 import { UnwrappedMainNavigation, publishStatusSubscription } from "./";
 import { MeContext } from "App/MeContext";
+import { act } from "react-dom/test-utils";
 //import { SynchronousPromise } from "synchronous-promise";
 
 describe("MainNavigation", () => {
-  let props, user, mocks, queryWasCalled;
+  let props, user, mocks, queryWasCalled, questionnaire;
   beforeEach(() => {
     user = {
       id: "123",
@@ -18,12 +19,13 @@ describe("MainNavigation", () => {
     };
     const page = { id: "2", title: "Page", position: 0 };
     const section = { id: "3", title: "Section", pages: [page] };
-    const questionnaire = {
+    questionnaire = {
       id: "1",
       title: "Questionnaire",
       sections: [section],
       editors: [],
       createdBy: { ...user },
+      totalErrorCount: 0,
     };
     props = {
       questionnaire,
@@ -40,9 +42,11 @@ describe("MainNavigation", () => {
           queryWasCalled = true;
           return {
             data: {
-              id: "1",
-              publishStatus: "unpublished",
-              __typename: "query",
+              publishStatusUpdated: {
+                id: "1",
+                publishStatus: "unpublished",
+                __typename: "query",
+              },
             },
           };
         },
@@ -50,7 +54,7 @@ describe("MainNavigation", () => {
     ];
   });
 
-  it.only("should render", () => {
+  it("should enable all buttons if there are no errors on questionnaire", () => {
     const { getByTestId } = render(
       <MeContext.Provider value={{ me: user }}>
         <UnwrappedMainNavigation {...props} />
@@ -61,34 +65,60 @@ describe("MainNavigation", () => {
     );
 
     const nav = getByTestId("main-navigation");
+
     expect(nav).toBeTruthy();
+
+    const viewSurveyBtn = getByTestId("btn-preview");
+    const settingsBtn = getByTestId("btn-settings");
+    const sharingBtn = getByTestId("btn-share");
+    const historyBtn = getByTestId("btn-history");
+    const metadataBtn = getByTestId("btn-metadata");
+    const qcodesBtn = getByTestId("btn-qcodes");
+    const publishBtn = getByTestId("btn-publish");
+
+    expect(viewSurveyBtn).not.toBeDisabled();
+    expect(settingsBtn).not.toBeDisabled();
+    expect(sharingBtn).not.toBeDisabled();
+    expect(historyBtn).not.toBeDisabled();
+    expect(metadataBtn).not.toBeDisabled();
+    expect(qcodesBtn).not.toBeDisabled();
+    expect(publishBtn).not.toBeDisabled();
   });
 
-  it("should only render container if loading", () => {
-    const wrapper = shallow(<MainNavigation {...props} loading />);
-    expect(wrapper).toMatchSnapshot();
-  });
+  it("should disable qcodes, publish and preview buttons if there are errors on questionnaire", async () => {
+    props.questionnaire.totalErrorCount = 1;
 
-  it("should allow sections to be added", () => {
-    const wrapper = shallow(<MainNavigation {...props} />);
-    wrapper.find("[data-test='nav-section-header']").simulate("addSection");
-    expect(props.onAddSection).toHaveBeenCalledWith(props.questionnaire.id);
-  });
+    const { getByTestId, debug } = render(
+      <MeContext.Provider value={{ me: user }}>
+        <UnwrappedMainNavigation {...props} />
+      </MeContext.Provider>,
+      {
+        mocks,
+      }
+    );
 
-  it("should allow pages to be added", () => {
-    const wrapper = shallow(<MainNavigation {...props} />);
-    wrapper
-      .find("[data-test='nav-section-header']")
-      .simulate("addQuestionPage");
+    await act(async () => {
+      flushPromises();
+    });
 
-    expect(props.onAddQuestionPage).toHaveBeenCalledWith();
-  });
+    const nav = getByTestId("main-navigation");
 
-  it("should render an introduction nav item when the questionnaire has one", () => {
-    props.questionnaire.introduction = {
-      id: "1",
-    };
-    const wrapper = shallow(<MainNavigation {...props} />);
-    expect(wrapper.find("[data-test='nav-introduction']")).toHaveLength(1);
+    expect(nav).toBeTruthy();
+
+    const viewSurveyBtn = getByTestId("btn-preview");
+    const settingsBtn = getByTestId("btn-settings");
+    const sharingBtn = getByTestId("btn-share");
+    const historyBtn = getByTestId("btn-history");
+    const metadataBtn = getByTestId("btn-metadata");
+    const qcodesBtn = getByTestId("btn-qcodes");
+    const publishBtn = getByTestId("btn-publish");
+
+    expect(viewSurveyBtn.hasAttribute("disabled")).toBeTruthy();
+    expect(settingsBtn.hasAttribute("disabled")).toBeFalsy();
+    expect(sharingBtn.hasAttribute("disabled")).toBeFalsy();
+    expect(historyBtn.hasAttribute("disabled")).toBeFalsy();
+    expect(metadataBtn.hasAttribute("disabled")).toBeFalsy();
+    expect(qcodesBtn.hasAttribute("disabled")).toBeTruthy();
+    expect(publishBtn.hasAttribute("disabled")).toBeTruthy();
   });
 });
