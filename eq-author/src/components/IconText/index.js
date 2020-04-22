@@ -37,7 +37,7 @@ const IconwithTextBelow = styled.div`
 
   div {
     text-align: center;
-    margin: 0 0.7em 0 0.7em;
+    margin: 0 0.7em;
     font-size: 0.6em;
   }
   svg {
@@ -63,7 +63,7 @@ const IconwithTextBelowSignout = styled.div`
 
   div {
     text-align: center;
-    margin: 0 0.7em 0 0.7em;
+    margin: 0 0.7em;
     font-size: 0.9em;
   }
   svg {

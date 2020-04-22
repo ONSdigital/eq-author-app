@@ -1,6 +1,5 @@
 import React from "react";
 import { shallow } from "enzyme";
-import { render, fireEvent } from "tests/utils/rtl";
 
 import { UnwrappedNavigationHeader as NavigationHeader } from "./NavigationHeader";
 

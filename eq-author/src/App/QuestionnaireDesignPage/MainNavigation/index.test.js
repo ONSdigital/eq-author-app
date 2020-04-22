@@ -1,5 +1,4 @@
 import React from "react";
-import { shallow } from "enzyme";
 import { render, flushPromises } from "tests/utils/rtl";
 import { UnwrappedMainNavigation, publishStatusSubscription } from "./";
 import { MeContext } from "App/MeContext";
@@ -7,7 +6,7 @@ import { act } from "react-dom/test-utils";
 //import { SynchronousPromise } from "synchronous-promise";
 
 describe("MainNavigation", () => {
-  let props, user, mocks, queryWasCalled, questionnaire;
+  let props, user, mocks, questionnaire;
   beforeEach(() => {
     user = {
       id: "123",
@@ -39,7 +38,6 @@ describe("MainNavigation", () => {
           variables: { id: props.match.params.questionnaireId },
         },
         result: () => {
-          queryWasCalled = true;
           return {
             data: {
               publishStatusUpdated: {
@@ -88,7 +86,7 @@ describe("MainNavigation", () => {
   it("should disable qcodes, publish and preview buttons if there are errors on questionnaire", async () => {
     props.questionnaire.totalErrorCount = 1;
 
-    const { getByTestId, debug } = render(
+    const { getByTestId } = render(
       <MeContext.Provider value={{ me: user }}>
         <UnwrappedMainNavigation {...props} />
       </MeContext.Provider>,

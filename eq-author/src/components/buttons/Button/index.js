@@ -102,12 +102,14 @@ export const navigationButton = css`
     background-color: ${colors.tertiary};
     box-shadow: 0;
     outline: 0;
+
     --color-text: ${colors.black};
   }
 `;
 
 export const signoutButton = css`
   color: ${colors.darkerBlack};
+
   --color-text: ${colors.darkerBlack};
   --color-bg: ${colors.darkerBlack};
 
@@ -116,6 +118,7 @@ export const signoutButton = css`
 
   &:hover {
     background-color: ${darken(0.1, colors.orange)};
+
     --color-text: ${darken(0.1, colors.darkerBlack)};
     --color-bg: ${darken(0.1, colors.orange)};
     border-color: var(--color-bg);
@@ -126,6 +129,7 @@ export const signoutButton = css`
     background-color: ${colors.tertiary};
     box-shadow: 0;
     outline: 0;
+
     --color-text: ${colors.black};
   }
 `;

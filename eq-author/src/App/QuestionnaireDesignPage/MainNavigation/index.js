@@ -154,7 +154,6 @@ export const UnwrappedMainNavigation = props => {
                 </LinkButton>
 
                 <Button
-                  data-test="settings-btn"
                   variant="navigation"
                   data-test="btn-settings"
                   onClick={() => setSettingsModalOpen(true)}

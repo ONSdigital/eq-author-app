@@ -195,7 +195,6 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
       width: 70px;
       float: left;
       background-color: ${colors.darkerBlack};
-      }
     `;
 
     if (!loading && !error && !questionnaire) {

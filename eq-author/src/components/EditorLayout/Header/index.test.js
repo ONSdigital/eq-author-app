@@ -1,22 +1,12 @@
 import React from "react";
 
-import {
-  render,
-  fireEvent,
-  flushPromises,
-  waitForElementToBeRemoved,
-  act,
-} from "tests/utils/rtl";
+import { render, flushPromises, act } from "tests/utils/rtl";
 
 import QuestionnaireContext from "components/QuestionnaireContext";
 import { MeContext } from "App/MeContext";
 import Header, { publishStatusSubscription } from "./";
 
-import {
-  PUBLISHED,
-  UNPUBLISHED,
-  AWAITING_APPROVAL,
-} from "constants/publishStatus";
+import { UNPUBLISHED } from "constants/publishStatus";
 
 describe("Header", () => {
   let user, props, questionnaire, signOut, mocks;
