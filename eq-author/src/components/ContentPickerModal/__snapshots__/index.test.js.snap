@@ -3,6 +3,7 @@
 exports[`ContentPickerModal should render 1`] = `
 <ContentPickerModal__StyledModal
   hasCloseButton={false}
+  onClose={[MockFunction]}
 >
   <ContentPickerModal__Flex>
     <BaseTabs
@@ -89,6 +90,7 @@ exports[`ContentPickerModal should show an error message when there is no metada
 exports[`ContentPickerModal should show answer and metadata tabs 1`] = `
 <ContentPickerModal__StyledModal
   hasCloseButton={false}
+  onClose={[MockFunction]}
 >
   <ContentPickerModal__Flex>
     <BaseTabs
@@ -141,6 +143,7 @@ exports[`ContentPickerModal should show answer and metadata tabs 1`] = `
 exports[`ContentPickerModal should show answer tab only 1`] = `
 <ContentPickerModal__StyledModal
   hasCloseButton={false}
+  onClose={[MockFunction]}
 >
   <ContentPickerModal__Flex>
     <BaseTabs
@@ -187,6 +190,7 @@ exports[`ContentPickerModal should show answer tab only 1`] = `
 exports[`ContentPickerModal should show metadata tab only 1`] = `
 <ContentPickerModal__StyledModal
   hasCloseButton={false}
+  onClose={[MockFunction]}
 >
   <ContentPickerModal__Flex>
     <BaseTabs
