@@ -65,13 +65,17 @@ const EventText = styled.div`
   p {
     margin: 0 0 1em;
     word-break: break-all;
+    em {
+      background-color: ${colors.highhightGreen};
+      font-style: normal;
+    }
   }
   ul {
     margin-top: 0;
     padding-left: 0;
     li {
-      list-style: none;
-      margin-left: 0;
+      list-style: disc;
+      margin-left: 1em;
       span {
         font-weight: bold;
       }
