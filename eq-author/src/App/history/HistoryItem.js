@@ -66,7 +66,7 @@ const EventText = styled.div`
     margin: 0 0 1em;
     word-break: break-all;
     em {
-      background-color: ${colors.highhightGreen};
+      background-color: ${colors.highlightGreen};
       font-style: normal;
     }
   }
