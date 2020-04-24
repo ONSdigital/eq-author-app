@@ -12,7 +12,7 @@ import scrollIntoView from "utils/scrollIntoView";
 import PageConfirmationNavItem from "./PageConfirmationNavItem";
 
 const NavList = styled.ol`
-  padding: 0 0 1em;
+  padding: 0 0 0.3em;
   margin: 0;
   list-style: none;
   font-weight: normal;
