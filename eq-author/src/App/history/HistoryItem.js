@@ -70,6 +70,12 @@ const EventText = styled.div`
       font-style: normal;
     }
   }
+  h2 {
+    em {
+      background-color: ${colors.highlightGreen};
+      font-style: normal;
+    }
+  }
   ul {
     margin-top: 0;
     padding-left: 0;
@@ -78,6 +84,10 @@ const EventText = styled.div`
       margin-left: 1em;
       span {
         font-weight: bold;
+      }
+      em {
+        background-color: ${colors.highlightGreen};
+        font-style: normal;
       }
     }
   }
