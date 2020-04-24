@@ -4,6 +4,7 @@ fragment AvailableAnswers on Answer {
   secondaryLabel
   secondaryLabelDefault
   type
+  properties
   page {
     id
     displayName
