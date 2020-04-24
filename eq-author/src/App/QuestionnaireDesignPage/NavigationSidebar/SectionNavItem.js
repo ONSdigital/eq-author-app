@@ -76,6 +76,7 @@ export class UnwrappedSectionNavItem extends React.Component {
             </StyledSectionLower>
           </>
         }
+        titleName={section.displayName}
       >
         <StyledSectionNavItem data-test="section-item" {...otherProps}>
           {/* <StyledSectionUpper>

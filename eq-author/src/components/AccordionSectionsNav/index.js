@@ -6,6 +6,7 @@ import chevron from "./icon-chevron.svg";
 
 const Header = styled.div`
   padding: 0 0 0.3em 1.2em;
+
   --color-text: rgb(255, 255, 255);
   text-decoration: none;
   &:hover {
@@ -19,7 +20,6 @@ export const Title = styled.h2`
   vertical-align: middle;
   text-align: left;
   margin: 0;
-  /* padding: 0.5em 0; */
   position: relative;
 `;
 
@@ -35,10 +35,10 @@ export const Button = styled.button`
   appearance: none;
   border: none;
   font-size: 1.2em;
+
   /* width: 100%; */
   margin: 0;
   display: flex;
-  /* align-items: center; */
   text-transform: inherit;
   color: ${colors.white};
   letter-spacing: inherit;
@@ -71,8 +71,8 @@ export const SectionTitle = styled.div`
   font-size: 1.2em;
   width: 100%;
   margin: 0;
+
   /* display: flex; */
-  /* align-items: center; */
   text-transform: inherit;
   color: ${colors.white};
   letter-spacing: inherit;
@@ -96,9 +96,8 @@ class SectionAccordion extends Component {
   handleToggle = () => this.setState({ isOpen: !this.state.isOpen });
 
   render() {
-    const { children, title } = this.props;
+    const { children, title, titleName } = this.props;
     const { isOpen } = this.state;
-    // const replyTitle = title > 1 ? " replies" : " reply";
 
     return (
       <>
@@ -108,25 +107,23 @@ class SectionAccordion extends Component {
               isOpen={isOpen}
               onClick={this.handleToggle}
               aria-expanded={isOpen}
-              aria-controls={`accordion-${title}`}
-              data-test={`accordion-${title}-button`}
+              aria-controls={`accordion-${titleName}`}
+              data-test={`accordion-${titleName}-button`}
             >
               {}
             </Button>
             <SectionTitle
-              // isOpen={isOpen}
-              // onClick={this.handleToggle}
               aria-expanded={isOpen}
-              aria-controls={`accordion-${title}`}
-              data-test={`accordion-${title}-button`}
+              aria-controls={`accordion-${titleName}-title`}
+              data-test={`accordion-${titleName}-title`}
             >
               {title}
             </SectionTitle>
           </Title>
         </Header>
         <Body
-          id={`accordion-${title}`}
-          data-test={`accordion-${title}-body`}
+          id={`accordion-${titleName}`}
+          data-test={`accordion-${titleName}-body`}
           isOpen={isOpen}
           aria-hidden={!isOpen}
         >
@@ -139,6 +136,7 @@ class SectionAccordion extends Component {
 
 SectionAccordion.propTypes = {
   title: PropTypes.node.isRequired,
+  titleName: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
 };
 
