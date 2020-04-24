@@ -1,6 +1,12 @@
 const convertPipes = require("../utils/convertPipes");
 const getAllAnswers = require("../utils/convertPipes").getAllAnswers;
-
+const {
+  CURRENCY,
+  DATE_RANGE,
+  DATE,
+  NUMBER,
+  UNIT,
+} = require("../constants/answerTypes");
 const createPipe = ({ pipeType = "answers", id = 1, text = "foo" } = {}) =>
   `<span data-piped="${pipeType}" data-id="${id}">${text}</span>`;
 
@@ -13,13 +19,13 @@ const createContext = (metadata = []) => ({
           {
             answers: [
               { id: `1`, type: "Text" },
-              { id: `2`, type: "Currency" },
-              { id: `3`, type: "DateRange" },
-              { id: `4`, type: "Date" },
-              { id: `5`, type: "Number" },
+              { id: `2`, type: CURRENCY },
+              { id: `3`, type: DATE_RANGE },
+              { id: `4`, type: DATE },
+              { id: `5`, type: NUMBER },
               {
                 id: `6`,
-                type: "Unit",
+                type: UNIT,
                 properties: { required: false, decimals: 0, unit: "Metres" },
               },
             ],

@@ -2,6 +2,8 @@ const cheerio = require("cheerio");
 const { flatMap, includes, compact } = require("lodash");
 const { unescapePiping } = require("./HTMLUtils");
 
+const { UNIT } = require("../constants/answerTypes");
+
 const getMetadata = (ctx, metadataId) =>
   ctx.questionnaireJson.metadata.find(({ id }) => id === metadataId);
 
@@ -67,7 +69,7 @@ const convertElementToPipe = ($elem, ctx) => {
   const filter = FILTER_MAP[dataType];
   let unitType;
 
-  if (dataType === "Unit") {
+  if (dataType === UNIT) {
     unitType = pipeConfig.getUnit(entity);
     return filter ? `{{ ${filter(output, unitType)} }}` : `{{ ${output} }}`;
   } else {
