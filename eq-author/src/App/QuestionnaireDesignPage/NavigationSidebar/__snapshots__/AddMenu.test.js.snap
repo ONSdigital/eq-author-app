@@ -65,7 +65,7 @@ exports[`AddMenu should render 1`] = `
       }
     }
     offsetX="5.5em"
-    offsetY="-4em"
+    offsetY="-2em"
     onToggleOpen={[MockFunction]}
     open={false}
     transition={

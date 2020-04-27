@@ -13,13 +13,17 @@ import Tooltip from "components/Forms/Tooltip";
 import { colors } from "constants/theme";
 import Button from "components/buttons/Button";
 
+import IconText from "components/IconText";
 import guestAvatar from "./icon-guest-avatar.svg";
+import sigoutIcon from "./signout-icon.svg?inline";
 
 const UserAvatar = styled.img`
   border-radius: 50%;
   margin-right: 0.5em;
   width: 2em;
   height: 2em;
+  fill: var(--color-text);
+  text-align: center;
 `;
 
 const UserName = styled.span`
@@ -38,7 +42,6 @@ export const LogoutButton = styled(Button)`
   background: none;
   color: white;
   text-align: left;
-
   &:hover {
     background: ${colors.white};
     color: ${colors.text};
@@ -49,26 +52,63 @@ export const LogoutButton = styled(Button)`
   }
 `;
 
-const UserProfile = ({ me, signOut }) => {
+export const NavLogoutButton = styled(Button)`
+  display: flex;
+  align-items: center;
+  font-size: 0.7em;
+  border: none;
+  background-color: ${colors.orange};
+  color: ${colors.black} !important;
+  text-align: centre;
+
+  &:hover {
+    background: ${colors.white};
+    color: ${colors.text};
+  }
+  &:focus {
+    box-shadow: 0 0 0 3px ${colors.orange};
+    outline: none;
+  }
+`;
+
+const UserProfile = ({ me, nav, signOut }) => {
   if (!me) {
     return null;
   }
   return (
     <Tooltip content="Sign Out">
-      <LogoutButton
-        onClick={() => {
-          signOut();
-        }}
-        variant="tertiary-light"
-        small
-      >
-        <UserAvatar
-          src={me.picture || guestAvatar}
-          alt=""
-          role="presentation"
-        />
-        <UserName data-test="username">{me.displayName}</UserName>
-      </LogoutButton>
+      <>
+        {nav && (
+          <NavLogoutButton
+            onClick={() => {
+              signOut();
+            }}
+            variant="signout"
+            small
+          >
+            <IconText nav signout icon={sigoutIcon}>
+              Sign out
+            </IconText>
+          </NavLogoutButton>
+        )}
+
+        {!nav && (
+          <LogoutButton
+            onClick={() => {
+              signOut();
+            }}
+            variant="tertiary-light"
+            small
+          >
+            <UserAvatar
+              src={me.picture || guestAvatar}
+              alt=""
+              role="presentation"
+            />
+            <UserName data-test="username">{me.displayName}</UserName>
+          </LogoutButton>
+        )}
+      </>
     </Tooltip>
   );
 };
@@ -78,7 +118,9 @@ UserProfile.propTypes = {
     resetStore: PropTypes.func.isRequired,
   }).isRequired,
   me: CustomPropTypes.user,
-  signOut: PropTypes.func.isRequired,
+  left: PropTypes.bool,
+  signOut: PropTypes.bool,
+  nav: PropTypes.bool,
 };
 
 export default flowRight(withApollo, withMe, withRouter)(UserProfile);

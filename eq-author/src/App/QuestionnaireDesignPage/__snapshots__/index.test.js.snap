@@ -2089,10 +2089,15 @@ exports[`QuestionnaireDesignPage should render 1`] = `
         align="top"
         fillHeight={true}
       >
-        <Column
+        <QuestionnaireDesignPage__NavColumn
           cols={3}
           gutters={false}
         >
+          <QuestionnaireDesignPage__MainNav>
+            <Component
+              title="Review"
+            />
+          </QuestionnaireDesignPage__MainNav>
           <withRouter(UnwrappedNavigationSidebar)
             canAddCalculatedSummaryPage={true}
             canAddQuestionConfirmation={true}
@@ -2138,7 +2143,7 @@ exports[`QuestionnaireDesignPage should render 1`] = `
               }
             }
           />
-        </Column>
+        </QuestionnaireDesignPage__NavColumn>
         <Column
           cols={9}
           gutters={false}

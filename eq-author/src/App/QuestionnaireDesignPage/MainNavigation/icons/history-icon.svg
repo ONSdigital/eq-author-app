@@ -1,0 +1,14 @@
+
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="22px" height="22px" viewBox="0 0 22 22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 64 (93537) - https://sketch.com -->
+    <title>Q-Codes_Icon</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Sections-Survey-q-codes" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="1.2---Content-page" transform="translate(-23.000000, -848.000000)" fill="#888888" fill-rule="nonzero">
+            <g id="settings_input_component-24px-(1)" transform="translate(23.000000, 848.000000)">
+              <path d="M12,0 C7.03,0 3,4.03 3,9 L0,9 L3.89,12.89 L3.96,13.03 L8,9 L5,9 C5,5.13 8.13,2 12,2 C15.87,2 19,5.13 19,9 C19,12.87 15.87,16 12,16 C10.07,16 8.32,15.21 7.06,13.94 L5.64,15.36 C7.27,16.99 9.51,18 12,18 C16.97,18 21,13.97 21,9 C21,4.03 16.97,0 12,0 L12,0 Z M11,5 L11,10 L15.28,12.54 L16,11.33 L12.5,9.25 L12.5,5 L11,5 L11,5 Z" id="path-1"></path>
+        </g>
+        </g>
+    </g>
+</svg>
