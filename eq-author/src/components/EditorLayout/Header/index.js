@@ -6,34 +6,16 @@ import { withRouter } from "react-router-dom";
 import gql from "graphql-tag";
 import { useSubscription } from "react-apollo";
 
-import config from "config";
 import CustomPropTypes from "custom-prop-types";
 
-import { colors } from "constants/theme";
-import { AWAITING_APPROVAL, PUBLISHED } from "constants/publishStatus";
-
-import { useMe } from "App/MeContext";
-
-import Button from "components/buttons/Button";
-import LinkButton from "components/buttons/Button/LinkButton";
-import RouteButton from "components/buttons/Button/RouteButton";
-import IconText from "components/IconText";
-import ButtonGroup from "components/buttons/ButtonGroup";
 import { withQuestionnaire } from "components/QuestionnaireContext";
-import UserProfile from "components/UserProfile";
-
-import shareIcon from "./icon-share.svg?inline";
-import viewIcon from "./icon-view.svg?inline";
-import settingsIcon from "./icon-cog.svg?inline";
-import qcodeIcon from "./icon-qcode.svg?inline";
-import publishIcon from "./icon-publish.svg?inline";
-import reviewIcon from "./icon-review.svg?inline";
+import config from "config";
+import { useMe } from "App/MeContext";
+import { colors } from "constants/theme";
 import SharingModal from "./SharingModal";
 import PageTitle from "./PageTitle";
 import UpdateQuestionnaireSettingsModal from "./UpdateQuestionnaireSettingsModal";
 import SavingIndicator from "./SavingIndicator";
-
-import { buildPublishPath, buildQcodesPath } from "utils/UrlUtils";
 
 const StyledHeader = styled.header`
   color: ${colors.white};
@@ -67,7 +49,7 @@ const SavingContainer = styled.div`
 `;
 
 export const UnconnectedHeader = props => {
-  const { questionnaire, title, children, client, match } = props;
+  const { questionnaire, title, children, match } = props;
   const { me } = useMe();
   const [isSharingModalOpen, setSharingModalOpen] = useState(false);
   const [isSettingsModalOpen, setSettingsModalOpen] = useState(
@@ -77,105 +59,18 @@ export const UnconnectedHeader = props => {
   useSubscription(publishStatusSubscription, {
     variables: { id: match.params.questionnaireId },
   });
-  const publishStatus = get(questionnaire, "publishStatus");
+
   const permission = get(questionnaire, "permission");
 
   const previewUrl = `${config.REACT_APP_LAUNCH_URL}/${
     (questionnaire || {}).id
   }`;
 
-  const renderPublishReviewButton = () => {
-    if (publishStatus === AWAITING_APPROVAL && me.admin) {
-      const reviewUrl = "/q/" + match.params.questionnaireId + "/review";
-      return (
-        <RouteButton
-          variant="tertiary-light"
-          to={reviewUrl}
-          small
-          disabled={title === "Review"}
-          data-test="btn-review"
-        >
-          <IconText icon={reviewIcon}>Review</IconText>
-        </RouteButton>
-      );
-    }
-
-    if (publishStatus === AWAITING_APPROVAL && !me.admin) {
-      return null;
-    }
-
-    const canPublish = questionnaire.permission === "Write";
-    return (
-      <RouteButton
-        variant="tertiary-light"
-        to={buildPublishPath(match.params)}
-        small
-        disabled={
-          !canPublish ||
-          questionnaire.totalErrorCount > 0 ||
-          title === "Publish" ||
-          publishStatus === PUBLISHED
-        }
-        data-test="btn-publish"
-      >
-        <IconText icon={publishIcon}>Publish</IconText>
-      </RouteButton>
-    );
-  };
-
   return (
     <>
       <StyledHeader>
         <Flex>
           <Subtitle>{questionnaire && questionnaire.displayName}</Subtitle>
-          <UtilityBtns>
-            {questionnaire && (
-              <ButtonGroup
-                horizontal
-                align="right"
-                margin="0.5em"
-                gutter="0.5em"
-              >
-                <Button
-                  data-test="settings-btn"
-                  variant="tertiary-light"
-                  onClick={() => setSettingsModalOpen(true)}
-                  small
-                >
-                  <IconText icon={settingsIcon}>Settings</IconText>
-                </Button>
-                <RouteButton
-                  variant="tertiary-light"
-                  to={buildQcodesPath(match.params)}
-                  small
-                  disabled={
-                    title === "QCodes" || questionnaire.totalErrorCount > 0
-                  }
-                >
-                  <IconText icon={qcodeIcon}>QCodes</IconText>
-                </RouteButton>
-                <LinkButton
-                  href={previewUrl}
-                  variant="tertiary-light"
-                  data-test="btn-preview"
-                  small
-                  disabled={questionnaire.totalErrorCount > 0}
-                >
-                  <IconText icon={viewIcon}>View survey</IconText>
-                </LinkButton>
-                {renderPublishReviewButton()}
-                <Button
-                  variant="tertiary-light"
-                  onClick={() => setSharingModalOpen(true)}
-                  data-test="btn-share"
-                  small
-                >
-                  <IconText icon={shareIcon}>Sharing</IconText>
-                </Button>
-                {me && <UserProfile client={client} />}
-              </ButtonGroup>
-            )}
-          </UtilityBtns>
         </Flex>
         <PageTitle>{title}</PageTitle>
         {children}

@@ -5,40 +5,14 @@ import { withRouter } from "react-router-dom";
 import gql from "graphql-tag";
 
 import CustomPropTypes from "custom-prop-types";
-import HomeIcon from "./icon-home.svg?inline";
-import MetadataIcon from "./icon-metadata.svg?inline";
-import HistoryIcon from "./icon-history.svg?inline";
 
 import QuestionnaireSettingsModal from "App/QuestionnaireSettingsModal";
 
-import RouteButton from "components/buttons/Button/RouteButton";
-import IconText from "components/IconText";
-
-import { buildMetadataPath, buildHistoryPath } from "utils/UrlUtils";
 import AddMenu from "./AddMenu";
-
-const IconList = styled.ul`
-  display: flex;
-  flex-flow: row wrap;
-  align-items: center;
-  padding: 0;
-  margin: 0;
-  z-index: 9999;
-  flex: 1 1 auto;
-`;
-
-const IconListItem = styled.li`
-  display: flex;
-  align-items: center;
-  margin-right: 1em;
-`;
-
-const HomeIconLink = styled(HomeIcon)`
-  vertical-align: middle;
-`;
 
 const StyledAddMenu = styled(AddMenu)`
   margin-left: auto;
+  margin-top: 2em;
 `;
 
 const NavTitle = styled.div`
@@ -46,11 +20,6 @@ const NavTitle = styled.div`
   letter-spacing: 0.05em;
   text-transform: uppercase;
   font-weight: bold;
-`;
-
-const QuestionnaireLinks = styled.div`
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 0.5em;
 `;
 
 const QuestionnaireContent = styled.div`
@@ -101,31 +70,8 @@ export class UnwrappedNavigationHeader extends React.Component {
   };
 
   render() {
-    const { match } = this.props;
-    const metadataUrl = buildMetadataPath(match.params);
-    const historyUrl = buildHistoryPath(match.params);
-
     return (
       <>
-        <QuestionnaireLinks>
-          <IconList>
-            <IconListItem>
-              <RouteButton variant="tertiary-light" small to="/">
-                <IconText icon={HomeIconLink}>Home</IconText>
-              </RouteButton>
-            </IconListItem>
-            <IconListItem>
-              <RouteButton variant="tertiary-light" small to={metadataUrl}>
-                <IconText icon={MetadataIcon}>Metadata</IconText>
-              </RouteButton>
-            </IconListItem>
-            <IconListItem>
-              <RouteButton variant="tertiary-light" small to={historyUrl}>
-                <IconText icon={HistoryIcon}>History</IconText>
-              </RouteButton>
-            </IconListItem>
-          </IconList>
-        </QuestionnaireLinks>
         <QuestionnaireContent>
           <NavTitle>Questionnaire content</NavTitle>
           <StyledAddMenu
