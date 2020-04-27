@@ -2,6 +2,8 @@ const cheerio = require("cheerio");
 const { flatMap, includes, compact } = require("lodash");
 const { unescapePiping } = require("./HTMLUtils");
 
+const { UNIT } = require("../constants/answerTypes");
+
 const getMetadata = (ctx, metadataId) =>
   ctx.questionnaireJson.metadata.find(({ id }) => id === metadataId);
 
@@ -25,6 +27,7 @@ const FILTER_MAP = {
   Currency: (value, unit = "GBP") => `format_currency(${value}, '${unit}')`,
   Date: value => `${value} | format_date`,
   DateRange: value => `${value} | format_date`,
+  Unit: (value, unit) => `format_unit('${unit}',${value})`,
 };
 
 const PIPE_TYPES = {
@@ -32,6 +35,7 @@ const PIPE_TYPES = {
     retrieve: ({ id }, ctx) => getAnswer(ctx, id.toString()),
     render: ({ id }) => `answers['answer${id}']`,
     getType: ({ type }) => type,
+    getUnit: ({ properties: { unit } }) => unit,
   },
   metadata: {
     retrieve: ({ id }, ctx) => getMetadata(ctx, id.toString()),
@@ -45,7 +49,9 @@ const PIPE_TYPES = {
 
 const convertElementToPipe = ($elem, ctx) => {
   const { piped, ...elementData } = $elem.data();
+
   const pipeConfig = PIPE_TYPES[piped];
+
   if (piped === "variable") {
     return pipeConfig.render();
   }
@@ -57,12 +63,18 @@ const convertElementToPipe = ($elem, ctx) => {
   if (!entity) {
     return "";
   }
+
   const output = pipeConfig.render(entity);
   const dataType = pipeConfig.getType(entity);
-
   const filter = FILTER_MAP[dataType];
+  let unitType;
 
-  return filter ? `{{ ${filter(output)} }}` : `{{ ${output} }}`;
+  if (dataType === UNIT) {
+    unitType = pipeConfig.getUnit(entity);
+    return filter ? `{{ ${filter(output, unitType)} }}` : `{{ ${output} }}`;
+  } else {
+    return filter ? `{{ ${filter(output)} }}` : `{{ ${output} }}`;
+  }
 };
 
 const parseHTML = html => {

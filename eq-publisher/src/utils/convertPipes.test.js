@@ -1,6 +1,12 @@
 const convertPipes = require("../utils/convertPipes");
 const getAllAnswers = require("../utils/convertPipes").getAllAnswers;
-
+const {
+  CURRENCY,
+  DATE_RANGE,
+  DATE,
+  NUMBER,
+  UNIT,
+} = require("../constants/answerTypes");
 const createPipe = ({ pipeType = "answers", id = 1, text = "foo" } = {}) =>
   `<span data-piped="${pipeType}" data-id="${id}">${text}</span>`;
 
@@ -13,10 +19,15 @@ const createContext = (metadata = []) => ({
           {
             answers: [
               { id: `1`, type: "Text" },
-              { id: `2`, type: "Currency" },
-              { id: `3`, type: "DateRange" },
-              { id: `4`, type: "Date" },
-              { id: `5`, type: "Number" },
+              { id: `2`, type: CURRENCY },
+              { id: `3`, type: DATE_RANGE },
+              { id: `4`, type: DATE },
+              { id: `5`, type: NUMBER },
+              {
+                id: `6`,
+                type: UNIT,
+                properties: { required: false, decimals: 0, unit: "Metres" },
+              },
             ],
           },
           {},
@@ -56,6 +67,7 @@ describe("convertPipes", () => {
       convertPipes(createContext())(createPipe({ pipeType: "Foo" }))
     ).toEqual("");
   });
+
   it("should handle empty answer in page", () => {
     expect(convertPipes(createContext())("<p></p>")).toEqual("<p></p>");
   });
@@ -114,6 +126,13 @@ describe("convertPipes", () => {
         const html = createPipe({ id: "5" });
         expect(convertPipes(createContext())(html)).toEqual(
           "{{ answers['answer5'] | format_number }}"
+        );
+      });
+
+      it("should format Units answers with `format_unit` and includes the unit type", () => {
+        const html = createPipe({ id: "6" });
+        expect(convertPipes(createContext())(html)).toEqual(
+          "{{ format_unit('Metres',answers['answer6']) }}"
         );
       });
     });
