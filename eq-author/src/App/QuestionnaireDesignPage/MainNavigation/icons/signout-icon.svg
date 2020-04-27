@@ -1,0 +1,15 @@
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="22px" height="22px" viewBox="0 0 22 22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 64 (93537) - https://sketch.com -->
+    <title>Sign Out</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Sections-Survey-q-codes" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="1.2---Content-page" transform="translate(-23.000000, -848.000000)" fill="#888888" fill-rule="nonzero">
+            <g id="settings_input_component-24px-(1)" transform="translate(23.000000, 848.000000)">
+             <path d="M7.09,12.59 L8.5,14 L13.5,9 L8.5,4 L7.09,5.41 L9.67,8 L0,8 L0,10 L9.67,10 L7.09,12.59 L7.09,12.59 Z M16,0 L2,0 C0.89,0 0,0.9 0,2 L0,6 L2,6 L2,2 L16,2 L16,16 L2,16 L2,12 L0,12 L0,16 C0,17.1 0.89,18 2,18 L16,18 C17.1,18 18,17.1 18,16 L18,2 C18,0.9 17.1,0 16,0 L16,0 Z" id="path-1"></path>
+            </g>
+        </g>
+    </g>
+</svg>

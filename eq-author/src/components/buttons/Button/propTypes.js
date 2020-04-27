@@ -8,6 +8,8 @@ export const propTypes = {
     "positive",
     "negative",
     "greyed",
+    "navigation",
+    "signout",
   ]),
   small: PropTypes.bool,
   medium: PropTypes.bool,
