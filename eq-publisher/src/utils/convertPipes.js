@@ -23,20 +23,11 @@ const getAnswer = (ctx, answerId) =>
     .filter(answer => isPipeableType(answer))
     .find(answer => answer.id === answerId);
 
-// const convertUnitToLower = unit => {
-//   console.log("\n\nunit = = ", unit);
-//   temp = unit.toString().toLowerCase();
-// console.log("\n\ntemp = = ", temp);
-//   return temp;
-// };
-
 const FILTER_MAP = {
   Number: value => `${value} | format_number`,
   Currency: (value, unit = "GBP") => `format_currency(${value}, '${unit}')`,
   Date: value => `${value} | format_date`,
   DateRange: value => `${value} | format_date`,
-  // Unit: (value, unit) => `format_unit('${convertUnitToLower(unit)}',${value})`,
-  // Unit: (value, unit) => `format_unit('${unit}',${value})`,
   Unit: (value, unit) => `format_unit('${unitConversion[unit]}',${value})`,
 };
 
