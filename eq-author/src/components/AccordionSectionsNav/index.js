@@ -5,7 +5,7 @@ import { colors } from "constants/theme";
 import chevron from "./icon-chevron.svg";
 
 const Header = styled.div`
-  padding: 0 0 0.3em 1.2em;
+  padding: 0 0 0.2em 0;
 
   --color-text: rgb(255, 255, 255);
   text-decoration: none;
@@ -14,17 +14,17 @@ const Header = styled.div`
   }
 `;
 
-export const Title = styled.h2`
+export const Title = styled.div`
   font-size: 0.75em;
   letter-spacing: 0.05em;
   vertical-align: middle;
   text-align: left;
   margin: 0;
-  position: relative;
+  display: flex;
 `;
 
 export const Body = styled.div`
-  padding-left: 1.2em;
+  padding-left: 1.85em;
   overflow: hidden;
   transition: opacity 200ms ease-in-out;
   opacity: ${props => (props.isOpen ? "1" : "0")};
@@ -35,14 +35,10 @@ export const Button = styled.button`
   appearance: none;
   border: none;
   font-size: 1.2em;
-
-  /* width: 100%; */
   margin: 0;
-  display: flex;
   text-transform: inherit;
   color: ${colors.white};
   letter-spacing: inherit;
-  position: relative;
   background: transparent;
   cursor: pointer;
   text-align: left;
@@ -55,8 +51,6 @@ export const Button = styled.button`
     content: "";
     background: url(${chevron});
     display: block;
-    position: absolute;
-    left: -1rem;
     width: 1rem;
     height: 1rem;
     transform-origin: 50% 50%;
