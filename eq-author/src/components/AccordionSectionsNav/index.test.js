@@ -1,29 +1,33 @@
 import React from "react";
 import { render, fireEvent, act } from "tests/utils/rtl";
-import CommentAccordion from "./";
+import SectionAccordion from "./";
 
-describe("CommentAccordion", () => {
+describe("Section Accordion", () => {
   it("should render accordion expanded", () => {
     const { getByTestId } = render(
-      <CommentAccordion title="1">Comment Accordion panel</CommentAccordion>
+      <SectionAccordion title="test" titleName="section1">
+        section accordion panel
+      </SectionAccordion>
     );
-    expect(getByTestId("accordion-1-body")).not.toBeVisible();
-    expect(getByTestId("accordion-1-button")).toBeVisible();
+    expect(getByTestId("accordion-section1-body")).toBeVisible();
+    expect(getByTestId("accordion-section1-button")).toBeVisible();
   });
 
-  it("should open and close accordion", async () => {
+  it("should open and close section accordion", async () => {
     const { getByTestId } = render(
-      <CommentAccordion title="1">Comment Accordion panel</CommentAccordion>
+      <SectionAccordion title="test" titleName="section1">
+        section accordion panel
+      </SectionAccordion>
     );
 
     await act(async () => {
-      await fireEvent.click(getByTestId("accordion-1-button"));
+      await fireEvent.click(getByTestId("accordion-section1-button"));
     });
-    expect(getByTestId("accordion-1-body")).toBeVisible();
+    expect(getByTestId("accordion-section1-body")).not.toBeVisible();
 
     await act(async () => {
-      await fireEvent.click(getByTestId("accordion-1-button"));
+      await fireEvent.click(getByTestId("accordion-section1-button"));
     });
-    expect(getByTestId("accordion-1-body")).not.toBeVisible();
+    expect(getByTestId("accordion-section1-body")).toBeVisible();
   });
 });
