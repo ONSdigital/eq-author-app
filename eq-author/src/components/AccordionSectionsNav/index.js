@@ -5,7 +5,7 @@ import { colors } from "constants/theme";
 import chevron from "./icon-chevron.svg";
 
 const Header = styled.div`
-  padding: 0 0 0.2em 0;
+  padding: 0 0 0.2em;
 
   --color-text: rgb(255, 255, 255);
   text-decoration: none;

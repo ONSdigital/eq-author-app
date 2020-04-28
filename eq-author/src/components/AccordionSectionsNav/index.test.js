@@ -3,7 +3,7 @@ import { render, fireEvent, act } from "tests/utils/rtl";
 import SectionAccordion from "./";
 
 describe("Section Accordion", () => {
-  it("should render accordion expanded", () => {
+  it("should render all sections as expanded", () => {
     const { getByTestId } = render(
       <SectionAccordion title="test" titleName="section1">
         section accordion panel
