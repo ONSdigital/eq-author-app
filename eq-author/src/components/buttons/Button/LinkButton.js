@@ -15,7 +15,7 @@ class LinkButton extends React.Component {
   render() {
     const { children, href, disabled, ...otherProps } = this.props;
     return disabled ? (
-      <DisabledLink disabled {...otherProps}>
+      <DisabledLink aria-disabled="true" disabled {...otherProps}>
         {children}
       </DisabledLink>
     ) : (

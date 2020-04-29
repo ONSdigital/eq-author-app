@@ -26,7 +26,7 @@ const AddMenuWindow = styled.div`
     background: white;
     transform: rotate(45deg);
     position: absolute;
-    top: 0;
+    top: -4.3em;
     bottom: 0;
     left: -0.4em;
     margin: auto;
@@ -76,7 +76,7 @@ const AddMenu = ({
         horizontalAlignment="left"
         verticalAlignment="top"
         offsetX="5.5em"
-        offsetY="-4em"
+        offsetY="-2em"
         transition={PopupTransition}
       >
         <AddMenuWindow data-test="addmenu-window">

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="18px" height="18px" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 64 (93537) - https://sketch.com -->
+    <title>ic_add_box</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M16,0 L2,0 C0.89,0 0,0.9 0,2 L0,16 C0,17.1 0.89,18 2,18 L16,18 C17.1,18 18,17.1 18,16 L18,2 C18,0.9 17.1,0 16,0 L16,0 Z M14,10 L10,10 L10,14 L8,14 L8,10 L4,10 L4,8 L8,8 L8,4 L10,4 L10,8 L14,8 L14,10 L14,10 Z" id="path-1"></path>
+        <rect id="path-3" x="0" y="0" width="50" height="50"></rect>
+    </defs>
+    <g id="Sections-Survey" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="1.2---Content-page" transform="translate(-93.000000, -16.000000)">
+            <g id="ic_add_box" transform="translate(93.000000, 16.000000)">
+                <mask id="mask-2" fill="white">
+                    <use xlink:href="#path-1"></use>
+                </mask>
+                <g id="Mask"></g>
+                <g id="🎨-Color" mask="url(#mask-2)">
+                    <g transform="translate(-16.000000, -16.000000)">
+                        <mask id="mask-4" fill="white">
+                            <use xlink:href="#path-3"></use>
+                        </mask>
+                        <use id="Black" stroke="none" fill="#FDBD56" fill-rule="evenodd" xlink:href="#path-3"></use>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

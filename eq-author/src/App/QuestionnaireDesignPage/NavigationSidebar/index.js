@@ -8,7 +8,6 @@ import { withRouter } from "react-router-dom";
 import gql from "graphql-tag";
 
 import ScrollPane from "components/ScrollPane";
-import Logo from "components/Logo";
 
 import SectionNav from "./SectionNav";
 import NavigationHeader from "./NavigationHeader";
@@ -23,6 +22,7 @@ const Container = styled.div`
 `;
 
 const NavigationScrollPane = styled(ScrollPane)`
+  float: left;
   &:hover {
     &::-webkit-scrollbar-thumb {
       background: ${colors.lightGrey};
@@ -69,7 +69,6 @@ export class UnwrappedNavigationSidebar extends Component {
       <Container data-test="side-nav">
         {loading ? null : (
           <>
-            <Logo />
             <NavigationHeader
               questionnaire={questionnaire}
               onAddSection={this.handleAddSection}

@@ -1,6 +1,5 @@
 import React from "react";
 import { shallow } from "enzyme";
-import { render, fireEvent } from "tests/utils/rtl";
 
 import { UnwrappedNavigationHeader as NavigationHeader } from "./NavigationHeader";
 
@@ -52,12 +51,5 @@ describe("NavigationHeader", () => {
     wrapper.find('[data-test="add-menu"]').simulate("addQuestionConfirmation");
 
     expect(mockHandlers.onAddQuestionConfirmation).toHaveBeenCalled();
-  });
-
-  it("should be able to open history page", async () => {
-    const { getByText, history } = render(<NavigationHeader {...props} />);
-    const historyButton = getByText("History");
-    fireEvent.click(historyButton);
-    expect(history.location.pathname).toMatch("/q/1/history");
   });
 });
