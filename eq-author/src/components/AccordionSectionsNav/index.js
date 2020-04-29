@@ -87,7 +87,7 @@ export const DisplayContent = styled.div`
 class SectionAccordion extends Component {
   state = { isOpen: true, height: "auto" };
 
-  handleToggle = () => this.setState({ isOpen: !this.state.isOpen });
+  handleAccordionToggle = () => this.setState({ isOpen: !this.state.isOpen });
 
   render() {
     const { children, title, titleName } = this.props;
@@ -99,7 +99,7 @@ class SectionAccordion extends Component {
           <Title>
             <Button
               isOpen={isOpen}
-              onClick={this.handleToggle}
+              onClick={this.handleAccordionToggle}
               aria-expanded={isOpen}
               aria-controls={`accordion-${titleName}`}
               data-test={`accordion-${titleName}-button`}
@@ -107,9 +107,9 @@ class SectionAccordion extends Component {
               {}
             </Button>
             <SectionTitle
-              aria-expanded={isOpen}
-              aria-controls={`accordion-${titleName}-title`}
-              data-test={`accordion-${titleName}-title`}
+            // aria-expanded={isOpen}
+            // aria-controls={`accordion-${titleName}-title`}
+            // data-test={`accordion-${titleName}-title`}
             >
               {title}
             </SectionTitle>

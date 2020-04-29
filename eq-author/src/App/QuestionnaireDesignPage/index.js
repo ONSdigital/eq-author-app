@@ -7,11 +7,13 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import { Titled } from "react-titled";
 import { get, find, flatMap, flowRight } from "lodash";
 
+import { colors } from "constants/theme";
+import styled from "styled-components";
 import { Grid, Column } from "components/Grid";
 import Loading from "components/Loading";
 import BaseLayout from "components/BaseLayout";
 import QuestionnaireContext from "components/QuestionnaireContext";
-
+import MainNavigation from "./MainNavigation";
 import { SECTION, PAGE, QUESTION_CONFIRMATION } from "constants/entities";
 import {
   ERR_PAGE_NOT_FOUND,
@@ -37,6 +39,16 @@ import ValidationErrorInfo from "graphql/fragments/validationErrorInfo.graphql";
 
 import withCreateQuestionConfirmation from "./withCreateQuestionConfirmation";
 import NavigationSidebar from "./NavigationSidebar";
+
+const NavColumn = styled(Column)`
+  background-color: ${colors.darkerBlack};
+`;
+
+const MainNav = styled.div`
+  width: 70px;
+  float: left;
+  background-color: ${colors.darkerBlack};
+`;
 
 export class UnwrappedQuestionnaireDesignPage extends Component {
   static propTypes = {
@@ -194,7 +206,10 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
         <BaseLayout questionnaire={questionnaire}>
           <Titled title={this.getTitle}>
             <Grid>
-              <Column cols={3} gutters={false}>
+              <NavColumn cols={3} gutters={false}>
+                <MainNav>
+                  <MainNavigation title="Review" />
+                </MainNav>
                 <NavigationSidebar
                   data-test="side-nav"
                   loading={loading}
@@ -209,7 +224,7 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
                   canAddQuestionConfirmation={this.canAddQuestionConfirmation()}
                   onAddQuestionConfirmation={this.handleAddQuestionConfirmation}
                 />
-              </Column>
+              </NavColumn>
               <Column cols={9} gutters={false}>
                 <Switch location={location}>
                   {[

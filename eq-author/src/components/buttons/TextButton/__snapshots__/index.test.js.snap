@@ -53,7 +53,6 @@ exports[`components/TextButton renders 1`] = `
 }
 
 .c0:focus {
-  box-shadow: 0 0 0 3px #FDBD56;
   outline: none;
 }
 
