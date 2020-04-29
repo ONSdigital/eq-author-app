@@ -55,7 +55,6 @@ export class UnwrappedSectionNavItem extends React.Component {
 
     return (
       <StyledSectionsAccordion
-        // -----------------------------------title goes here------------------
         title={
           <>
             <StyledSectionUpper>
@@ -78,27 +77,8 @@ export class UnwrappedSectionNavItem extends React.Component {
           </>
         }
         titleName={section.displayName}
-        //-------------------------------------------------------
       >
         <StyledSectionNavItem data-test="section-item" {...otherProps}>
-          {/* <StyledSectionUpper>
-            <div />
-          </StyledSectionUpper>
-          <NavLink
-            exact
-            to={url}
-            data-test="nav-section-link"
-            title={section.displayName}
-            icon={SectionIcon}
-            id="sectionName"
-            errorCount={section.validationErrorInfo.totalCount}
-          >
-            <SectionNameOuter>{section.displayName}</SectionNameOuter>
-          </NavLink>
-          <StyledSectionLower>
-            <div />
-          </StyledSectionLower> */}
-
           <PageNav section={section} questionnaire={questionnaire} />
         </StyledSectionNavItem>
       </StyledSectionsAccordion>

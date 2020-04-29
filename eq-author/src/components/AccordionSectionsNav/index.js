@@ -106,11 +106,7 @@ class SectionAccordion extends Component {
             >
               {}
             </Button>
-            <SectionTitle
-            // aria-expanded={isOpen}
-            // aria-controls={`accordion-${titleName}-title`}
-            // data-test={`accordion-${titleName}-title`}
-            >
+            <SectionTitle data-test={`accordion-${titleName}-title`}>
               {title}
             </SectionTitle>
           </Title>
