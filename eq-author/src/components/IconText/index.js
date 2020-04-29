@@ -103,7 +103,7 @@ const IconText = ({
         </div>
       </IconwithTextBelow>
     )}
-    {!nav && (
+    {!nav && !signout && (
       <IconWithText hideText={hideText} {...otherProps}>
         <Icon />
         {hideText ? <VisuallyHidden>{children}</VisuallyHidden> : children}
