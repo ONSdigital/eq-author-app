@@ -61,7 +61,7 @@ export class UnwrappedSectionNavItem extends React.Component {
         <NavLink
           exact
           to={url}
-          data-test="nav-section-link"
+          data-test={`nav-section-link-${section.displayName}`}
           title={section.displayName}
           icon={SectionIcon}
           id={section.displayName}

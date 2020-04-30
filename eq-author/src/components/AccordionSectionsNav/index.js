@@ -66,7 +66,6 @@ export const SectionTitle = styled.div`
   width: 100%;
   margin: 0;
 
-  /* display: flex; */
   text-transform: inherit;
   color: ${colors.white};
   letter-spacing: inherit;
@@ -90,10 +89,8 @@ class SectionAccordion extends Component {
   handleAccordionToggle = () => this.setState({ isOpen: !this.state.isOpen });
 
   render() {
-    const { children, title, titleName, url } = this.props;
+    const { children, title, titleName } = this.props;
     const { isOpen } = this.state;
-
-    console.log("url = ", url);
 
     return (
       <>

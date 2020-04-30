@@ -2,30 +2,9 @@
 
 exports[`SectionNavItem should render 1`] = `
 <SectionNavItem__StyledSectionsAccordion
-  title={
-    <React.Fragment>
-      <SectionNavItem__StyledSectionUpper>
-        <div />
-      </SectionNavItem__StyledSectionUpper>
-      <NavLink
-        data-test="nav-section-link"
-        errorCount={2}
-        exact={true}
-        icon={[Function]}
-        id="Section"
-        title="Section"
-        to="/q/1/section/3/design"
-      >
-        <SectionNavItem__SectionNameOuter>
-          Section
-        </SectionNavItem__SectionNameOuter>
-      </NavLink>
-      <SectionNavItem__StyledSectionLower>
-        <div />
-      </SectionNavItem__StyledSectionLower>
-    </React.Fragment>
-  }
+  title={<SectionTitle />}
   titleName="Section"
+  url="/q/1/section/3/design"
 >
   <SectionNavItem__StyledSectionNavItem
     data-test="section-item"

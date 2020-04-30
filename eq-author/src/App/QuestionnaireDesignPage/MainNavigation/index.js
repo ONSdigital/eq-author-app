@@ -218,7 +218,6 @@ export const UnwrappedMainNavigation = props => {
             )}
           </UtilityBtns>
         </Flex>
-        {/* <PageTitle>{title}</PageTitle> */}
         {children}
         <SavingContainer>
           <SavingIndicator isUnauthorized={permission !== "Write"} />
