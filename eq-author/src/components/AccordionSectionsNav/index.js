@@ -5,7 +5,7 @@ import { colors } from "constants/theme";
 import chevron from "./icon-chevron.svg";
 
 const Header = styled.div`
-  padding: 0 0 0.2em;
+  padding: 0 0 0.5em;
 
   --color-text: rgb(255, 255, 255);
   text-decoration: none;
@@ -90,8 +90,10 @@ class SectionAccordion extends Component {
   handleAccordionToggle = () => this.setState({ isOpen: !this.state.isOpen });
 
   render() {
-    const { children, title, titleName } = this.props;
+    const { children, title, titleName, url } = this.props;
     const { isOpen } = this.state;
+
+    console.log("url = ", url);
 
     return (
       <>

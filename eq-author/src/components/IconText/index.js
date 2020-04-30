@@ -86,30 +86,32 @@ const IconText = ({
   children,
   ...otherProps
 }) => (
-  <IconOuter>
-    {nav && signout && (
-      <IconwithTextBelowSignout hideText={hideText} {...otherProps}>
-        <Icon />
-        <div>
-          {hideText ? <VisuallyHidden>{children}</VisuallyHidden> : children}
-        </div>
-      </IconwithTextBelowSignout>
-    )}
-    {nav && !signout && (
-      <IconwithTextBelow hideText={hideText} {...otherProps}>
-        <Icon />
-        <div>
-          {hideText ? <VisuallyHidden>{children}</VisuallyHidden> : children}
-        </div>
-      </IconwithTextBelow>
-    )}
+  <>
+    <IconOuter>
+      {nav && signout && (
+        <IconwithTextBelowSignout hideText={hideText} {...otherProps}>
+          <Icon />
+          <div>
+            {hideText ? <VisuallyHidden>{children}</VisuallyHidden> : children}
+          </div>
+        </IconwithTextBelowSignout>
+      )}
+      {nav && !signout && (
+        <IconwithTextBelow hideText={hideText} {...otherProps}>
+          <Icon />
+          <div>
+            {hideText ? <VisuallyHidden>{children}</VisuallyHidden> : children}
+          </div>
+        </IconwithTextBelow>
+      )}
+    </IconOuter>
     {!nav && !signout && (
       <IconWithText hideText={hideText} {...otherProps}>
         <Icon />
         {hideText ? <VisuallyHidden>{children}</VisuallyHidden> : children}
       </IconWithText>
     )}
-  </IconOuter>
+  </>
 );
 
 const component = PropTypes.oneOfType([

@@ -53,30 +53,33 @@ export class UnwrappedSectionNavItem extends React.Component {
       tab: match.params.tab,
     });
 
+    const SectionTitle = () => (
+      <>
+        <StyledSectionUpper>
+          <div />
+        </StyledSectionUpper>
+        <NavLink
+          exact
+          to={url}
+          data-test="nav-section-link"
+          title={section.displayName}
+          icon={SectionIcon}
+          id={section.displayName}
+          errorCount={section.validationErrorInfo.totalCount}
+        >
+          <SectionNameOuter>{section.displayName}</SectionNameOuter>
+        </NavLink>
+        <StyledSectionLower>
+          <div />
+        </StyledSectionLower>
+      </>
+    );
+
     return (
       <StyledSectionsAccordion
-        title={
-          <>
-            <StyledSectionUpper>
-              <div />
-            </StyledSectionUpper>
-            <NavLink
-              exact
-              to={url}
-              data-test="nav-section-link"
-              title={section.displayName}
-              icon={SectionIcon}
-              id={section.displayName}
-              errorCount={section.validationErrorInfo.totalCount}
-            >
-              <SectionNameOuter>{section.displayName}</SectionNameOuter>
-            </NavLink>
-            <StyledSectionLower>
-              <div />
-            </StyledSectionLower>
-          </>
-        }
+        title={<SectionTitle />}
         titleName={section.displayName}
+        url={url}
       >
         <StyledSectionNavItem data-test="section-item" {...otherProps}>
           <PageNav section={section} questionnaire={questionnaire} />

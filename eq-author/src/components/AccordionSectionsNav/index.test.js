@@ -13,7 +13,25 @@ describe("Section Accordion", () => {
     expect(getByTestId("accordion-section1-button")).toBeVisible();
   });
 
-  it("should open and close section accordion", async () => {
+  it("click on the arrow - it should open and close section accordion", async () => {
+    const { getByTestId } = render(
+      <SectionAccordion title="test" titleName="section2">
+        section accordion panel
+      </SectionAccordion>
+    );
+
+    await act(async () => {
+      await fireEvent.click(getByTestId("accordion-section2-button"));
+    });
+    expect(getByTestId("accordion-section2-body")).not.toBeVisible();
+
+    await act(async () => {
+      await fireEvent.click(getByTestId("accordion-section2-button"));
+    });
+    expect(getByTestId("accordion-section2-body")).toBeVisible();
+  });
+
+  it("click on the section title - it should not activate the accordion but should change focus to that section", async () => {
     const { getByTestId } = render(
       <SectionAccordion title="test" titleName="section2">
         section accordion panel
