@@ -18,6 +18,7 @@ const getUserFromHeaderBuilder = require("./middleware/identification/getUserFro
 const upsertUser = require("./middleware/identification/upsertUser");
 const rejectUnidentifiedUsers = require("./middleware/identification/rejectUnidentifiedUsers");
 const validateQuestionnaire = require("./middleware/validateQuestionnaire");
+const convertQuestionnaire = require("./middleware/convertQuestionnaire");
 
 const schema = require("./schema");
 
@@ -134,6 +135,8 @@ const createApp = () => {
   app.get("/status", status);
 
   app.get("/launch/:questionnaireId", getLaunchUrl);
+
+  app.get("/convert/:questionnaireId", convertQuestionnaire);
 
   app.get("/export/:questionnaireId", exportQuestionnaire);
   if (process.env.ENABLE_IMPORT === "true") {
