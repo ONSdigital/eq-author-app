@@ -10,7 +10,9 @@
     "test": "./scripts/test.sh",
     "test:breakingChanges": "node scripts/checkForBreakingChanges.js",
     "dynamodb-admin": "AWS_ACCESS_KEY_ID=dummy AWS_SECRET_ACCESS_KEY=dummy DYNAMO_ENDPOINT=http://localhost:8050 dynamodb-admin",
-    "create-migration": "node scripts/createMigration.js"
+    "create-migration": "node scripts/createMigration.js",
+    "snyk-protect": "snyk protect",
+    "prepare": "yarn run snyk-protect"
   },
   "dependencies": {
     "ajv": "latest",
@@ -50,7 +52,8 @@
     "pino-pretty": "^4.0.0",
     "prom-client": "latest",
     "uuid": "latest",
-    "wait-on": "latest"
+    "wait-on": "latest",
+    "snyk": "^1.316.1"
   },
   "jest": {
     "testEnvironment": "node",
@@ -78,5 +81,6 @@
     "jest": "latest",
     "nodemon": "latest",
     "supertest": "latest"
-  }
+  },
+  "snyk": true
 }
