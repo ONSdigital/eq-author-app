@@ -7,7 +7,9 @@
     "start": "nodemon",
     "start:dev": "nodemon --inspect=0.0.0.0:5858",
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "snyk-protect": "snyk protect",
+    "prepare": "yarn run snyk-protect"
   },
   "dependencies": {
     "apollo-fetch": "latest",
@@ -22,7 +24,8 @@
     "nodemon": "2.0.4",
     "request": "latest",
     "request-promise": "latest",
-    "uuid": "latest"
+    "uuid": "latest",
+    "snyk": "^1.316.1"
   },
   "devDependencies": {
     "eslint": "latest",
@@ -41,5 +44,6 @@
       "src/**/*.js",
       "!src/main.js"
     ]
-  }
+  },
+  "snyk": true
 }
