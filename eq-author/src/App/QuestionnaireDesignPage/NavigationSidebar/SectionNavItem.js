@@ -10,6 +10,12 @@ import NavLink from "./NavLink";
 import { buildSectionPath } from "utils/UrlUtils";
 import SectionIcon from "./icon-section.svg?inline";
 
+import SectionsAccordion from "components/AccordionSectionsNav";
+
+const StyledSectionsAccordion = styled(SectionsAccordion)`
+  padding-left: 0.5em;
+`;
+
 const StyledSectionNavItem = styled.li`
   display: block;
 `;
@@ -21,7 +27,6 @@ const SectionNameOuter = styled.span`
 const StyledSectionUpper = styled.div`
   display: block;
   padding-top: 1px;
-  margin-left: 0.75em;
   border-top: 1px solid ${colors.grey};
 `;
 
@@ -29,7 +34,6 @@ const StyledSectionLower = styled.div`
   display: block;
   padding-bottom: 1px;
   margin-bottom: 1px;
-  margin-left: 0.75em;
   border-bottom: 1px solid ${colors.grey};
 `;
 
@@ -49,18 +53,18 @@ export class UnwrappedSectionNavItem extends React.Component {
       tab: match.params.tab,
     });
 
-    return (
-      <StyledSectionNavItem data-test="section-item" {...otherProps}>
+    const SectionTitle = () => (
+      <>
         <StyledSectionUpper>
           <div />
         </StyledSectionUpper>
         <NavLink
           exact
           to={url}
-          data-test="nav-section-link"
+          data-test={`nav-section-link-${section.displayName}`}
           title={section.displayName}
           icon={SectionIcon}
-          id="sectionName"
+          id={section.displayName}
           errorCount={section.validationErrorInfo.totalCount}
         >
           <SectionNameOuter>{section.displayName}</SectionNameOuter>
@@ -68,9 +72,19 @@ export class UnwrappedSectionNavItem extends React.Component {
         <StyledSectionLower>
           <div />
         </StyledSectionLower>
+      </>
+    );
 
-        <PageNav section={section} questionnaire={questionnaire} />
-      </StyledSectionNavItem>
+    return (
+      <StyledSectionsAccordion
+        title={<SectionTitle />}
+        titleName={section.displayName}
+        url={url}
+      >
+        <StyledSectionNavItem data-test="section-item" {...otherProps}>
+          <PageNav section={section} questionnaire={questionnaire} />
+        </StyledSectionNavItem>
+      </StyledSectionsAccordion>
     );
   }
 }

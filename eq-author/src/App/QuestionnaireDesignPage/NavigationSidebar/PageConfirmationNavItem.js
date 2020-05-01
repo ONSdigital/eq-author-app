@@ -19,7 +19,7 @@ const StyledPageItem = styled.li`
 `;
 
 const StyledNavLink = styled(NavLink)`
-  padding-left: 1.5em;
+  padding-left: 0.85em;
 `;
 
 export const UnwrappedPageConfirmationNavItem = ({

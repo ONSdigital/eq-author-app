@@ -40,6 +40,16 @@ import ValidationErrorInfo from "graphql/fragments/validationErrorInfo.graphql";
 import withCreateQuestionConfirmation from "./withCreateQuestionConfirmation";
 import NavigationSidebar from "./NavigationSidebar";
 
+const NavColumn = styled(Column)`
+  background-color: ${colors.darkerBlack};
+`;
+
+const MainNav = styled.div`
+  width: 70px;
+  float: left;
+  background-color: ${colors.darkerBlack};
+`;
+
 export class UnwrappedQuestionnaireDesignPage extends Component {
   static propTypes = {
     onAddQuestionPage: PropTypes.func.isRequired,
@@ -186,16 +196,6 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
 
   render() {
     const { loading, questionnaire, error, location } = this.props;
-
-    const NavColumn = styled(Column)`
-      background-color: ${colors.darkerBlack};
-    `;
-
-    const MainNav = styled.div`
-      width: 70px;
-      float: left;
-      background-color: ${colors.darkerBlack};
-    `;
 
     if (!loading && !error && !questionnaire) {
       throw new Error(ERR_PAGE_NOT_FOUND);

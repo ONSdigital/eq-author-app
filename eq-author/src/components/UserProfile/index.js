@@ -119,7 +119,7 @@ UserProfile.propTypes = {
   }).isRequired,
   me: CustomPropTypes.user,
   left: PropTypes.bool,
-  signOut: PropTypes.bool,
+  signOut: PropTypes.func.isRequired,
   nav: PropTypes.bool,
 };
 
