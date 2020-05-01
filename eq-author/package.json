@@ -13,7 +13,9 @@
     "lint:js": "yarn build:fragmentTypes && eslint src --ext .graphql --ext .js --max-warnings=0",
     "lint:css": "stylelint './src/**/*.js'",
     "serve": "serve -l 3000 build/",
-    "coverage": "yarn test -- --coverage"
+    "coverage": "yarn test -- --coverage",
+    "snyk-protect": "snyk protect",
+    "prepare": "yarn run snyk-protect"
   },
   "devDependencies": {
     "@babel/core": "latest",
@@ -130,7 +132,8 @@
     "subscriptions-transport-ws": "latest",
     "synchronous-promise": "latest",
     "uncontrollable": "latest",
-    "uuid": "latest"
+    "uuid": "latest",
+    "snyk": "^1.316.1"
   },
   "jest": {
     "coverageDirectory": "./coverage/",
@@ -181,5 +184,6 @@
     "not ie <= 11",
     "not op_mini all"
   ],
-  "proxy": "http://localhost:4000"
+  "proxy": "http://localhost:4000",
+  "snyk": true
 }
