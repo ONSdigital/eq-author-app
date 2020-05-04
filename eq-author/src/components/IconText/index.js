@@ -29,6 +29,7 @@ const IconWithText = styled.span`
 const IconwithTextBelow = styled.div`
   align-items: center;
   text-align: center;
+  padding-top: 0.4em;
   line-height: 1.3;
   color: var(--color-text);
   width: 100%;
@@ -53,7 +54,6 @@ const IconwithTextBelow = styled.div`
 
 const IconwithTextBelowSignout = styled.div`
   align-items: center;
-
   text-align: center;
   line-height: 1.3;
   color: ${colors.darkerBlack};
@@ -64,7 +64,7 @@ const IconwithTextBelowSignout = styled.div`
   div {
     text-align: center;
     margin: 0 0.7em;
-    font-size: 0.9em;
+    font-size: 1 em;
   }
   svg {
     margin-top: 0.9em;
@@ -78,24 +78,9 @@ const IconwithTextBelowSignout = styled.div`
   }
 `;
 
-const IconText = ({
-  icon: Icon,
-  nav,
-  signout,
-  hideText,
-  children,
-  ...otherProps
-}) => (
+const IconText = ({ icon: Icon, nav, hideText, children, ...otherProps }) => (
   <IconOuter>
-    {nav && signout && (
-      <IconwithTextBelowSignout hideText={hideText} {...otherProps}>
-        <Icon />
-        <div>
-          {hideText ? <VisuallyHidden>{children}</VisuallyHidden> : children}
-        </div>
-      </IconwithTextBelowSignout>
-    )}
-    {nav && !signout && (
+    {nav && (
       <IconwithTextBelow hideText={hideText} {...otherProps}>
         <Icon />
         <div>
@@ -123,7 +108,6 @@ IconText.propTypes = {
   children: PropTypes.node.isRequired,
   hideText: PropTypes.bool,
   nav: PropTypes.bool,
-  signout: PropTypes.bool,
 };
 
 IconText.defaultProps = {

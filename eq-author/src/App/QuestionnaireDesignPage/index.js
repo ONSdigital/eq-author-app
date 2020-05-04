@@ -21,7 +21,7 @@ import {
 } from "constants/error-codes";
 
 import { buildSectionPath, buildIntroductionPath } from "utils/UrlUtils";
-
+import ScrollPane from "components/ScrollPane";
 import pageRoutes from "App/page";
 import sectionRoutes from "App/section";
 import questionConfirmationRoutes from "App/questionConfirmation";
@@ -39,6 +39,17 @@ import ValidationErrorInfo from "graphql/fragments/validationErrorInfo.graphql";
 
 import withCreateQuestionConfirmation from "./withCreateQuestionConfirmation";
 import NavigationSidebar from "./NavigationSidebar";
+
+const NavColumn = styled(Column)`
+  background-color: ${colors.darkerBlack};
+`;
+
+const MainNav = styled.div`
+  width: 68px;
+  border: 0;
+  float: left;
+  background-color: ${colors.darkerBlack};
+`;
 
 export class UnwrappedQuestionnaireDesignPage extends Component {
   static propTypes = {
@@ -187,16 +198,6 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
   render() {
     const { loading, questionnaire, error, location } = this.props;
 
-    const NavColumn = styled(Column)`
-      background-color: ${colors.darkerBlack};
-    `;
-
-    const MainNav = styled.div`
-      width: 70px;
-      float: left;
-      background-color: ${colors.darkerBlack};
-    `;
-
     if (!loading && !error && !questionnaire) {
       throw new Error(ERR_PAGE_NOT_FOUND);
     }
@@ -204,45 +205,50 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
     return (
       <QuestionnaireContext.Provider value={{ questionnaire }}>
         <BaseLayout questionnaire={questionnaire}>
-          <Titled title={this.getTitle}>
-            <Grid>
-              <NavColumn cols={3} gutters={false}>
-                <MainNav>
-                  <MainNavigation title="Review" />
-                </MainNav>
-                <NavigationSidebar
-                  data-test="side-nav"
-                  loading={loading}
-                  onAddSection={this.props.onAddSection}
-                  onAddQuestionPage={this.handleAddPage("QuestionPage")}
-                  canAddQuestionPage={this.canAddQuestionAndCalculatedSummmaryPages()}
-                  onAddCalculatedSummaryPage={this.handleAddPage(
-                    "CalculatedSummaryPage"
-                  )}
-                  canAddCalculatedSummaryPage={this.canAddQuestionAndCalculatedSummmaryPages()}
-                  questionnaire={questionnaire}
-                  canAddQuestionConfirmation={this.canAddQuestionConfirmation()}
-                  onAddQuestionConfirmation={this.handleAddQuestionConfirmation}
-                />
-              </NavColumn>
-              <Column cols={9} gutters={false}>
-                <Switch location={location}>
-                  {[
-                    ...pageRoutes,
-                    ...sectionRoutes,
-                    ...questionConfirmationRoutes,
-                    ...introductionRoutes,
-                    ...metadataRoutes,
-                    ...historyRoutes,
-                    ...publishRoutes,
-                    ...reviewRoutes,
-                    ...qcodeRoutes,
-                  ]}
-                  <Route path="*" render={this.renderRedirect} />
-                </Switch>
-              </Column>
-            </Grid>
-          </Titled>
+          <ScrollPane>
+            <Titled title={this.getTitle}>
+              <Grid>
+                <NavColumn cols={3} gutters={false}>
+                  <MainNav>
+                    <MainNavigation title="Review" />
+                  </MainNav>
+
+                  <NavigationSidebar
+                    data-test="side-nav"
+                    loading={loading}
+                    onAddSection={this.props.onAddSection}
+                    onAddQuestionPage={this.handleAddPage("QuestionPage")}
+                    canAddQuestionPage={this.canAddQuestionAndCalculatedSummmaryPages()}
+                    onAddCalculatedSummaryPage={this.handleAddPage(
+                      "CalculatedSummaryPage"
+                    )}
+                    canAddCalculatedSummaryPage={this.canAddQuestionAndCalculatedSummmaryPages()}
+                    questionnaire={questionnaire}
+                    canAddQuestionConfirmation={this.canAddQuestionConfirmation()}
+                    onAddQuestionConfirmation={
+                      this.handleAddQuestionConfirmation
+                    }
+                  />
+                </NavColumn>
+                <Column cols={9} gutters={false}>
+                  <Switch location={location}>
+                    {[
+                      ...pageRoutes,
+                      ...sectionRoutes,
+                      ...questionConfirmationRoutes,
+                      ...introductionRoutes,
+                      ...metadataRoutes,
+                      ...historyRoutes,
+                      ...publishRoutes,
+                      ...reviewRoutes,
+                      ...qcodeRoutes,
+                    ]}
+                    <Route path="*" render={this.renderRedirect} />
+                  </Switch>
+                </Column>
+              </Grid>
+            </Titled>
+          </ScrollPane>
         </BaseLayout>
       </QuestionnaireContext.Provider>
     );

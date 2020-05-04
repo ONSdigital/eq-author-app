@@ -16,6 +16,7 @@ const StyledAddMenu = styled(AddMenu)`
 `;
 
 const NavTitle = styled.div`
+  padding-top: 2.5em;
   font-size: 0.8em;
   letter-spacing: 0.05em;
   text-transform: uppercase;

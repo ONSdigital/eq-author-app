@@ -74,7 +74,7 @@ export const UnwrappedMainNavigation = props => {
   const [isSettingsModalOpen, setSettingsModalOpen] = useState(
     match.params.modifier === "settings"
   );
-
+  const whatPageAreWeOn = match.params.entityName;
   useSubscription(publishStatusSubscription, {
     variables: { id: match.params.questionnaireId },
   });
@@ -110,7 +110,9 @@ export const UnwrappedMainNavigation = props => {
     const canPublish = questionnaire.permission === "Write";
     return (
       <RouteButton
-        variant="navigation"
+        variant={
+          (whatPageAreWeOn == "publish" && "navigation-on") || "navigation"
+        }
         to={buildPublishPath(match.params)}
         small
         disabled={
@@ -140,7 +142,6 @@ export const UnwrappedMainNavigation = props => {
                     Home
                   </IconText>
                 </RouteButton>
-
                 <LinkButton
                   href={previewUrl}
                   variant="navigation"
@@ -152,7 +153,6 @@ export const UnwrappedMainNavigation = props => {
                     View survey
                   </IconText>
                 </LinkButton>
-
                 <Button
                   variant="navigation"
                   data-test="btn-settings"
@@ -163,7 +163,6 @@ export const UnwrappedMainNavigation = props => {
                     Settings
                   </IconText>
                 </Button>
-
                 <Button
                   variant="navigation"
                   onClick={() => setSharingModalOpen(true)}
@@ -176,7 +175,10 @@ export const UnwrappedMainNavigation = props => {
                 </Button>
 
                 <RouteButton
-                  variant="navigation"
+                  variant={
+                    (whatPageAreWeOn == "history" && "navigation-on") ||
+                    "navigation"
+                  }
                   small
                   data-test="btn-history"
                   to={buildHistoryPath(match.params)}
@@ -187,7 +189,10 @@ export const UnwrappedMainNavigation = props => {
                 </RouteButton>
 
                 <RouteButton
-                  variant="navigation"
+                  variant={
+                    (whatPageAreWeOn == "metadata" && "navigation-on") ||
+                    "navigation"
+                  }
                   small
                   data-test="btn-metadata"
                   to={buildMetadataPath(match.params)}
@@ -196,9 +201,12 @@ export const UnwrappedMainNavigation = props => {
                     Metadata
                   </IconText>
                 </RouteButton>
-
+                {renderPublishReviewButton()}
                 <RouteButton
-                  variant="navigation"
+                  variant={
+                    (whatPageAreWeOn == "qcodes" && "navigation-on") ||
+                    "navigation"
+                  }
                   to={buildQcodesPath(match.params)}
                   small
                   data-test="btn-qcodes"
@@ -210,15 +218,11 @@ export const UnwrappedMainNavigation = props => {
                     QCodes
                   </IconText>
                 </RouteButton>
-
-                {renderPublishReviewButton()}
-
-                {me && <UserProfile nav left client={client} />}
+                {me && <UserProfile nav signOut left client={client} />}
               </ButtonGroup>
             )}
           </UtilityBtns>
         </Flex>
-        {/* <PageTitle>{title}</PageTitle> */}
         {children}
         <SavingContainer>
           <SavingIndicator isUnauthorized={permission !== "Write"} />

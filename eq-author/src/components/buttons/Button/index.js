@@ -107,6 +107,15 @@ export const navigationButton = css`
   }
 `;
 
+export const navigationOnButton = css`
+  --color-text: ${colors.black};
+  --color-bg: ${colors.tertiary};
+
+  position: relative;
+  border-bottom: 1px solid ${colors.darkerBlack};
+  border-radius: 0;
+`;
+
 export const signoutButton = css`
   color: ${colors.darkerBlack};
 
@@ -199,6 +208,7 @@ const Button = styled.button`
   ${props => props.variant === "positive" && positiveButton};
   ${props => props.variant === "negative" && negativeButton};
   ${props => props.variant === "navigation" && navigationButton};
+  ${props => props.variant === "navigation-on" && navigationOnButton};
   ${props => props.variant === "signout" && signoutButton};
   ${props => props.variant === "greyed" && greyedButton};
   ${props => props.medium && mediumButton};

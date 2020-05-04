@@ -53,22 +53,22 @@ export const LogoutButton = styled(Button)`
 `;
 
 export const NavLogoutButton = styled(Button)`
-  display: flex;
+  /* display: flex;
   align-items: center;
   font-size: 0.7em;
-  border: none;
-  background-color: ${colors.orange};
-  color: ${colors.black} !important;
+  border: none; */
+  /* background-color: ${colors.orange};
+  color: ${colors.black} !important; */
   text-align: centre;
 
-  &:hover {
+  /* &:hover {
     background: ${colors.white};
     color: ${colors.text};
   }
   &:focus {
     box-shadow: 0 0 0 3px ${colors.orange};
     outline: none;
-  }
+  } */
 `;
 
 const UserProfile = ({ me, nav, signOut }) => {
@@ -83,10 +83,10 @@ const UserProfile = ({ me, nav, signOut }) => {
             onClick={() => {
               signOut();
             }}
-            variant="signout"
+            variant="navigation"
             small
           >
-            <IconText nav signout icon={sigoutIcon}>
+            <IconText nav icon={sigoutIcon}>
               Sign out
             </IconText>
           </NavLogoutButton>
@@ -119,7 +119,7 @@ UserProfile.propTypes = {
   }).isRequired,
   me: CustomPropTypes.user,
   left: PropTypes.bool,
-  signOut: PropTypes.bool,
+  signOut: PropTypes.func.isRequired,
   nav: PropTypes.bool,
 };
 
