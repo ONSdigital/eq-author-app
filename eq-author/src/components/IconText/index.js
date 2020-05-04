@@ -52,32 +52,6 @@ const IconwithTextBelow = styled.div`
   }
 `;
 
-const IconwithTextBelowSignout = styled.div`
-  align-items: center;
-  text-align: center;
-  line-height: 1.3;
-  color: ${colors.darkerBlack};
-  width: 100%;
-  min-width: 0;
-  height: 60px;
-
-  div {
-    text-align: center;
-    margin: 0 0.7em;
-    font-size: 1 em;
-  }
-  svg {
-    margin-top: 0.9em;
-    text-align: center;
-    pointer-events: none;
-    flex: 0;
-    color: ${colors.darkerBlack};
-    path {
-      fill: ${colors.darkerBlack};
-    }
-  }
-`;
-
 const IconText = ({ icon: Icon, nav, hideText, children, ...otherProps }) => (
   <IconOuter>
     {nav && (

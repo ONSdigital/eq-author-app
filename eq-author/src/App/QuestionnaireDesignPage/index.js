@@ -210,9 +210,8 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
               <Grid>
                 <NavColumn cols={3} gutters={false}>
                   <MainNav>
-                    <MainNavigation title="Review" />
+                    <MainNavigation />
                   </MainNav>
-
                   <NavigationSidebar
                     data-test="side-nav"
                     loading={loading}
