@@ -44,6 +44,11 @@ spec:
               secretKeyRef:
                 name: frontend-secrets
                 key: REACT_APP_SIGN_IN_URL
+          - name: REACT_APP_LAUNCH_URL
+            valueFrom:
+              secretKeyRef:
+                name: frontend-secrets
+                key: REACT_APP_LAUNCH_URL
           - name: REACT_APP_FIREBASE_PROJECT_ID
             valueFrom:
               secretKeyRef:

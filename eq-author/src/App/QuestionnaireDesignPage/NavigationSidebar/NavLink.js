@@ -16,7 +16,7 @@ export const Link = styled(RouterNavLink)`
   display: flex;
   align-items: center;
   width: 100%;
-  padding: 0 0.5em;
+  padding: 0 0.5em 0 0;
   color: var(--color-text);
   font-size: 0.9rem;
 

@@ -23,7 +23,7 @@ const StyledPageItem = styled.li`
 const StyledNavLink = styled.div`
   width: 100%;
   a svg {
-    margin-left: 0.5em;
+    margin-left: 0.85em;
     margin-right: 0.25em;
   }
 `;

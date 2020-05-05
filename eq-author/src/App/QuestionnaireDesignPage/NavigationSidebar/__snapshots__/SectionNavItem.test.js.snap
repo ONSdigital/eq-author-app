@@ -1,73 +1,60 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`SectionNavItem should render 1`] = `
-<SectionNavItem__StyledSectionNavItem
-  data-test="section-item"
-  duration={123}
-  isActive={[MockFunction]}
-  onAddPage={[MockFunction]}
+<SectionNavItem__StyledSectionsAccordion
+  title={<SectionTitle />}
+  titleName="Section"
+  url="/q/1/section/3/design"
 >
-  <SectionNavItem__StyledSectionUpper>
-    <div />
-  </SectionNavItem__StyledSectionUpper>
-  <NavLink
-    data-test="nav-section-link"
-    errorCount={2}
-    exact={true}
-    icon={[Function]}
-    id="sectionName"
-    title="Section"
-    to="/q/1/section/3/design"
+  <SectionNavItem__StyledSectionNavItem
+    data-test="section-item"
+    duration={123}
+    isActive={[MockFunction]}
+    onAddPage={[MockFunction]}
   >
-    <SectionNavItem__SectionNameOuter>
-      Section
-    </SectionNavItem__SectionNameOuter>
-  </NavLink>
-  <SectionNavItem__StyledSectionLower>
-    <div />
-  </SectionNavItem__StyledSectionLower>
-  <PageNav
-    questionnaire={
-      Object {
-        "displayName": "Questionnaire",
-        "id": "1",
-        "sections": Array [
-          Object {
-            "displayName": "Section",
-            "id": "3",
-            "pages": Array [
-              Object {
-                "displayName": "Page",
-                "id": "2",
-                "title": "Page",
+    <PageNav
+      questionnaire={
+        Object {
+          "displayName": "Questionnaire",
+          "id": "1",
+          "sections": Array [
+            Object {
+              "displayName": "Section",
+              "id": "3",
+              "pages": Array [
+                Object {
+                  "displayName": "Page",
+                  "id": "2",
+                  "title": "Page",
+                },
+              ],
+              "title": "Section",
+              "validationErrorInfo": Object {
+                "totalCount": 2,
               },
-            ],
-            "title": "Section",
-            "validationErrorInfo": Object {
-              "totalCount": 2,
             },
-          },
-        ],
-        "title": "Questionnaire",
+          ],
+          "title": "Questionnaire",
+        }
       }
-    }
-    section={
-      Object {
-        "displayName": "Section",
-        "id": "3",
-        "pages": Array [
-          Object {
-            "displayName": "Page",
-            "id": "2",
-            "title": "Page",
+      section={
+        Object {
+          "displayName": "Section",
+          "id": "3",
+          "pages": Array [
+            Object {
+              "displayName": "Page",
+              "id": "2",
+              "title": "Page",
+            },
+          ],
+          "title": "Section",
+          "validationErrorInfo": Object {
+            "totalCount": 2,
           },
-        ],
-        "title": "Section",
-        "validationErrorInfo": Object {
-          "totalCount": 2,
-        },
+        }
       }
-    }
-  />
-</SectionNavItem__StyledSectionNavItem>
+    />
+  </SectionNavItem__StyledSectionNavItem>
+</SectionNavItem__StyledSectionsAccordion>
 `;

@@ -192,7 +192,6 @@ const Button = styled.button`
   }
 
   &:focus {
-    /* box-shadow: 0 0 0 3px ${colors.tertiary}; */
     outline: none;
   }
 

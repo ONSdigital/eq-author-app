@@ -68,7 +68,7 @@ const IconText = ({ icon: Icon, nav, hideText, children, ...otherProps }) => (
         {hideText ? <VisuallyHidden>{children}</VisuallyHidden> : children}
       </IconWithText>
     )}
-  </IconOuter>
+  </>
 );
 
 const component = PropTypes.oneOfType([
