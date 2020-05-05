@@ -2097,9 +2097,7 @@ exports[`QuestionnaireDesignPage should render 1`] = `
             gutters={false}
           >
             <QuestionnaireDesignPage__MainNav>
-              <Component
-                title="Review"
-              />
+              <Component />
             </QuestionnaireDesignPage__MainNav>
             <withRouter(UnwrappedNavigationSidebar)
               canAddCalculatedSummaryPage={true}
