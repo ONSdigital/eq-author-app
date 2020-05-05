@@ -176,7 +176,7 @@ export const UnwrappedMainNavigation = props => {
 
                 <RouteButton
                   variant={
-                    (whatPageAreWeOn == "history" && "navigation-on") ||
+                    (whatPageAreWeOn === "history" && "navigation-on") ||
                     "navigation"
                   }
                   small
@@ -190,7 +190,7 @@ export const UnwrappedMainNavigation = props => {
 
                 <RouteButton
                   variant={
-                    (whatPageAreWeOn == "metadata" && "navigation-on") ||
+                    (whatPageAreWeOn === "metadata" && "navigation-on") ||
                     "navigation"
                   }
                   small
@@ -204,7 +204,7 @@ export const UnwrappedMainNavigation = props => {
                 {renderPublishReviewButton()}
                 <RouteButton
                   variant={
-                    (whatPageAreWeOn == "qcodes" && "navigation-on") ||
+                    (whatPageAreWeOn === "qcodes" && "navigation-on") ||
                     "navigation"
                   }
                   to={buildQcodesPath(match.params)}
