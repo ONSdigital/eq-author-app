@@ -111,7 +111,7 @@ export const UnwrappedMainNavigation = props => {
     return (
       <RouteButton
         variant={
-          (whatPageAreWeOn == "publish" && "navigation-on") || "navigation"
+          (whatPageAreWeOn === "publish" && "navigation-on") || "navigation"
         }
         to={buildPublishPath(match.params)}
         small

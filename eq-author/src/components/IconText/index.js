@@ -3,8 +3,6 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import VisuallyHidden from "components/VisuallyHidden";
 
-import { colors } from "constants/theme";
-
 const IconOuter = styled.div``;
 
 const IconWithText = styled.span`
