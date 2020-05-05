@@ -10,6 +10,7 @@ import IconText from "components/IconText";
 import PopupTransition from "./PopupTransition";
 
 const AddMenuWindow = styled.div`
+  margin-top: 2em;
   background: white;
   padding: 0.25em;
   color: black;
@@ -26,7 +27,7 @@ const AddMenuWindow = styled.div`
     background: white;
     transform: rotate(45deg);
     position: absolute;
-    top: -4.3em;
+    top: -8.3em;
     bottom: 0;
     left: -0.4em;
     margin: auto;

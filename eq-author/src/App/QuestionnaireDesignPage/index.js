@@ -45,7 +45,7 @@ const NavColumn = styled(Column)`
 `;
 
 const MainNav = styled.div`
-  width: 68px;
+  width: 72px;
   border: 0;
   float: left;
   background-color: ${colors.darkerBlack};

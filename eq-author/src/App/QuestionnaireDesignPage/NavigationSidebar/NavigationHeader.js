@@ -3,7 +3,7 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import gql from "graphql-tag";
-
+import { colors } from "constants/theme";
 import CustomPropTypes from "custom-prop-types";
 
 import QuestionnaireSettingsModal from "App/QuestionnaireSettingsModal";
@@ -12,12 +12,11 @@ import AddMenu from "./AddMenu";
 
 const StyledAddMenu = styled(AddMenu)`
   margin-left: auto;
-  margin-top: 2em;
 `;
 
 const NavTitle = styled.div`
-  padding-top: 2.5em;
-  font-size: 0.8em;
+  padding-top: 0.1em;
+  font-size: 0.7em;
   letter-spacing: 0.05em;
   text-transform: uppercase;
   font-weight: bold;
@@ -29,6 +28,7 @@ const QuestionnaireContent = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  border-bottom: solid 1px ${colors.darkGrey};
 `;
 
 export class UnwrappedNavigationHeader extends React.Component {
@@ -75,6 +75,7 @@ export class UnwrappedNavigationHeader extends React.Component {
       <>
         <QuestionnaireContent>
           <NavTitle>Questionnaire content</NavTitle>
+
           <StyledAddMenu
             addMenuOpen={this.state.addMenuOpen}
             onAddMenuToggle={this.handleAddMenuToggle}

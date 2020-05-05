@@ -44,7 +44,7 @@ export const UtilityBtns = styled.div`
 
 const SavingContainer = styled.div`
   position: absolute;
-  right: 1em;
+  right: 2em;
   bottom: 0.5em;
 `;
 
