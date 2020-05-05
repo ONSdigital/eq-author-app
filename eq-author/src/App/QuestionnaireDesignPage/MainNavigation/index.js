@@ -144,7 +144,7 @@ export const UnwrappedMainNavigation = props => {
                 </RouteButton>
                 <LinkButton
                   href={previewUrl}
-                  variant="navigation"
+                  variant="navigation-modal"
                   data-test="btn-preview"
                   small
                   disabled={questionnaire.totalErrorCount > 0}
