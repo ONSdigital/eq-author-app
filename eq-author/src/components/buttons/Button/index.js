@@ -107,6 +107,22 @@ export const navigationButton = css`
   }
 `;
 
+export const navigationModalButton = css`
+  --color-text: ${colors.grey};
+  --color-bg: ${colors.darkerBlack};
+
+  position: relative;
+  border-bottom: 1px solid ${colors.darkerBlack};
+  border-radius: 0;
+
+  &:hover {
+    --color-text: ${colors.lighterGrey};
+    --color-bg: ${darken(0.1, colors.textLight)};
+    border-color: var(--color-bg);
+    border-bottom: 1px solid ${colors.white};
+    border-radius: 0;
+  }
+`;
 export const navigationOnButton = css`
   --color-text: ${colors.black};
   --color-bg: ${colors.tertiary};
@@ -207,6 +223,7 @@ const Button = styled.button`
   ${props => props.variant === "positive" && positiveButton};
   ${props => props.variant === "negative" && negativeButton};
   ${props => props.variant === "navigation" && navigationButton};
+  ${props => props.variant === "navigation-modal" && navigationModalButton};
   ${props => props.variant === "navigation-on" && navigationOnButton};
   ${props => props.variant === "signout" && signoutButton};
   ${props => props.variant === "greyed" && greyedButton};

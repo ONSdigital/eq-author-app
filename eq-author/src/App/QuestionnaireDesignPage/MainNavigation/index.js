@@ -154,7 +154,7 @@ export const UnwrappedMainNavigation = props => {
                   </IconText>
                 </LinkButton>
                 <Button
-                  variant="navigation"
+                  variant="navigation-modal"
                   data-test="btn-settings"
                   onClick={() => setSettingsModalOpen(true)}
                   small
@@ -164,7 +164,7 @@ export const UnwrappedMainNavigation = props => {
                   </IconText>
                 </Button>
                 <Button
-                  variant="navigation"
+                  variant="navigation-modal"
                   onClick={() => setSharingModalOpen(true)}
                   data-test="btn-share"
                   small
