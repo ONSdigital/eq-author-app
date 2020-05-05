@@ -63,8 +63,8 @@ export const UtilityBtns = styled.div`
 
 const SavingContainer = styled.div`
   position: absolute;
-  right: 1em;
-  bottom: 0.5em;
+  right: -6em;
+  bottom: 1em;
 `;
 
 export const UnwrappedMainNavigation = props => {
