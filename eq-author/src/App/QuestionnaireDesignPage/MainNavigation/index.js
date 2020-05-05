@@ -36,7 +36,6 @@ import viewIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/view-surv
 
 import SharingModal from "./SharingModal";
 import UpdateQuestionnaireSettingsModal from "./UpdateQuestionnaireSettingsModal";
-import SavingIndicator from "./SavingIndicator";
 
 import {
   buildPublishPath,
@@ -61,12 +60,6 @@ export const UtilityBtns = styled.div`
   display: flex;
 `;
 
-const SavingContainer = styled.div`
-  position: absolute;
-  right: 1em;
-  bottom: 0.5em;
-`;
-
 export const UnwrappedMainNavigation = props => {
   const { questionnaire, title, children, client, match } = props;
   const { me } = useMe();
@@ -79,7 +72,6 @@ export const UnwrappedMainNavigation = props => {
     variables: { id: match.params.questionnaireId },
   });
   const publishStatus = get(questionnaire, "publishStatus");
-  const permission = get(questionnaire, "permission");
 
   const previewUrl = `${config.REACT_APP_LAUNCH_URL}/${
     (questionnaire || {}).id
@@ -224,9 +216,6 @@ export const UnwrappedMainNavigation = props => {
           </UtilityBtns>
         </Flex>
         {children}
-        <SavingContainer>
-          <SavingIndicator isUnauthorized={permission !== "Write"} />
-        </SavingContainer>
       </StyledMainNavigation>
       {questionnaire && (
         <>
