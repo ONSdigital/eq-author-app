@@ -9,6 +9,8 @@ export const propTypes = {
     "negative",
     "greyed",
     "navigation",
+    "navigation-modal",
+    "navigation-on",
     "signout",
   ]),
   small: PropTypes.bool,
