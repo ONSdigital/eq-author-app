@@ -51,14 +51,16 @@ const IconwithTextBelow = styled.div`
 `;
 
 const IconText = ({ icon: Icon, nav, hideText, children, ...otherProps }) => (
-  <IconOuter>
+  <>
     {nav && (
-      <IconwithTextBelow hideText={hideText} {...otherProps}>
-        <Icon />
-        <div>
-          {hideText ? <VisuallyHidden>{children}</VisuallyHidden> : children}
-        </div>
-      </IconwithTextBelow>
+      <IconOuter>
+        <IconwithTextBelow hideText={hideText} {...otherProps}>
+          <Icon />
+          <div>
+            {hideText ? <VisuallyHidden>{children}</VisuallyHidden> : children}
+          </div>
+        </IconwithTextBelow>
+      </IconOuter>
     )}
     {!nav && (
       <IconWithText hideText={hideText} {...otherProps}>
@@ -66,7 +68,7 @@ const IconText = ({ icon: Icon, nav, hideText, children, ...otherProps }) => (
         {hideText ? <VisuallyHidden>{children}</VisuallyHidden> : children}
       </IconWithText>
     )}
-  </IconOuter>
+  </>
 );
 
 const component = PropTypes.oneOfType([
