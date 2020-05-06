@@ -61,7 +61,7 @@ export const CalculatedSummaryPageEditor = props => {
         <RichTextEditor
           id="summary-title"
           name="title"
-          label="Page title"
+          label="Calculated summary title"
           placeholder="e.g. We calculate the answer as [total], are you sure this is correct?"
           value={page.title}
           onUpdate={onChangeUpdate}
@@ -74,8 +74,8 @@ export const CalculatedSummaryPageEditor = props => {
           defaultTab="variables"
           errorValidationMsg={getValidationError({
             field: "title",
-            label: "Page title",
-            requiredMsg: "Enter a page title",
+            label: "Calculated summary title",
+            requiredMsg: "Enter a calculated summary title",
           })}
         />
         <div>
