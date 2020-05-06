@@ -29,7 +29,7 @@ const AliasEditor = ({ onChange, onUpdate, alias }) => (
       data-test="alias"
       autoComplete="off"
       name="alias"
-      placeholder="Shortcode"
+      placeholder=""
       onChange={e => onChange(e.target)}
       onBlur={e => onUpdate(e.target)}
       value={alias || ""}
