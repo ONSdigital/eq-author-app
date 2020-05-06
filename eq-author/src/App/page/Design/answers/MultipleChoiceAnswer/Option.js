@@ -77,7 +77,7 @@ export class StatelessOption extends Component {
   };
 
   static defaultProps = {
-    labelPlaceholder: "Label",
+    labelPlaceholder: "",
     autoFocus: true,
     getValidationError: () => {},
   };

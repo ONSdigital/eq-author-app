@@ -27,7 +27,7 @@ exports[`Option should match snapshot 1`] = `
           onBlur={[MockFunction]}
           onChange={[MockFunction]}
           onKeyDown={[Function]}
-          placeholder="Label"
+          placeholder=""
           value=""
         />
       </Option__OptionField>
@@ -325,7 +325,7 @@ exports[`Option should render a checkbox 1`] = `
   autoFocus={true}
   getValidationError={[Function]}
   hasDeleteButton={true}
-  labelPlaceholder="Label"
+  labelPlaceholder=""
   onChange={[MockFunction]}
   onDelete={[MockFunction]}
   onEnterKey={[MockFunction]}
@@ -598,7 +598,7 @@ exports[`Option should render a checkbox 1`] = `
                               onBlur={[MockFunction]}
                               onChange={[MockFunction]}
                               onKeyDown={[Function]}
-                              placeholder="Label"
+                              placeholder=""
                               value=""
                             >
                               <WrappingInput
@@ -610,7 +610,7 @@ exports[`Option should render a checkbox 1`] = `
                                 onBlur={[MockFunction]}
                                 onChange={[Function]}
                                 onKeyDown={[Function]}
-                                placeholder="Label"
+                                placeholder=""
                                 value=""
                               >
                                 <WrappingInput__StyleContext
@@ -662,7 +662,7 @@ exports[`Option should render a checkbox 1`] = `
                                         onBlur={[MockFunction]}
                                         onChange={[Function]}
                                         onKeyDown={[Function]}
-                                        placeholder="Label"
+                                        placeholder=""
                                         value=""
                                       >
                                         <StyledComponent
@@ -718,7 +718,7 @@ exports[`Option should render a checkbox 1`] = `
                                           onBlur={[MockFunction]}
                                           onChange={[Function]}
                                           onKeyDown={[Function]}
-                                          placeholder="Label"
+                                          placeholder=""
                                           value=""
                                         >
                                           <TextareaAutosize
@@ -733,7 +733,7 @@ exports[`Option should render a checkbox 1`] = `
                                             onChange={[Function]}
                                             onHeightChange={[Function]}
                                             onKeyDown={[Function]}
-                                            placeholder="Label"
+                                            placeholder=""
                                             useCacheForDOMMeasurements={false}
                                             value=""
                                           >
@@ -747,7 +747,7 @@ exports[`Option should render a checkbox 1`] = `
                                               onBlur={[MockFunction]}
                                               onChange={[Function]}
                                               onKeyDown={[Function]}
-                                              placeholder="Label"
+                                              placeholder=""
                                               style={
                                                 Object {
                                                   "height": 0,
@@ -1640,7 +1640,7 @@ exports[`Option shouldn't render delete button if not applicable 1`] = `
           onBlur={[MockFunction]}
           onChange={[MockFunction]}
           onKeyDown={[Function]}
-          placeholder="Label"
+          placeholder=""
           value=""
         />
       </Option__OptionField>

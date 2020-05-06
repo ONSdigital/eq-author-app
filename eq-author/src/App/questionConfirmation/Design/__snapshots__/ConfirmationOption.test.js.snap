@@ -23,7 +23,7 @@ exports[`ConfirmationOption should render 1`] = `
           name="option.label"
           onBlur={[MockFunction]}
           onChange={[MockFunction]}
-          placeholder="Label"
+          placeholder=""
           value="label"
         />
       </Option__OptionField>
