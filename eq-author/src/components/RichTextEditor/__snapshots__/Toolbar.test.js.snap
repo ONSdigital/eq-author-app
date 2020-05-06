@@ -26,9 +26,9 @@ exports[`components/RichTextEditor/Toolbar should render 1`] = `
     <ToolbarButton
       canFocus={true}
       disabled={true}
-      key="Emphasis"
+      key="Highlight"
       onClick={[Function]}
-      title="Emphasis"
+      title="Highlight"
     >
       <Component />
     </ToolbarButton>

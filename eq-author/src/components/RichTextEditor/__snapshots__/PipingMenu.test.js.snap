@@ -7,7 +7,7 @@ exports[`PipingMenu should render 1`] = `
     data-test="piping-button"
     disabled={false}
     onClick={[Function]}
-    title="Pipe value"
+    title="Pipe answer"
   >
     <Component />
   </PipingMenu__MenuButton>
