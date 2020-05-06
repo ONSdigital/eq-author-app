@@ -73,6 +73,7 @@ export const SectionTitle = styled.div`
   background: transparent;
   cursor: pointer;
   text-align: left;
+  min-width: 0;
 
   &:focus {
     outline: none;
