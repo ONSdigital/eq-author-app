@@ -74,8 +74,8 @@ export const CalculatedSummaryPageEditor = props => {
           defaultTab="variables"
           errorValidationMsg={getValidationError({
             field: "title",
-            label: "Page title",
-            requiredMsg: "Enter a page title",
+            label: "Calculated summary title",
+            requiredMsg: "Enter a calculated summary title",
           })}
         />
         <div>
