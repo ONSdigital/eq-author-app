@@ -31,7 +31,7 @@ export const styleButtons = [
   },
   {
     id: "emphasis",
-    title: "Emphasis",
+    title: "Highlight",
     icon: iconEmphasis,
     type: STYLE_INLINE,
     style: "ITALIC",

@@ -89,7 +89,7 @@ export class Menu extends React.Component {
       <React.Fragment>
         {allowableTypes.includes(ANSWER) && (
           <MenuButton
-            title="Pipe value"
+            title="Pipe answer"
             disabled={loading || disabled || isEmpty(answerData)}
             onClick={() => this.handleButtonClick(ANSWER)}
             canFocus={canFocus}
