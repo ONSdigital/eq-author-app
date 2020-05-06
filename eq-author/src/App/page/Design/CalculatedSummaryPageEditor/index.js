@@ -61,8 +61,8 @@ export const CalculatedSummaryPageEditor = props => {
         <RichTextEditor
           id="summary-title"
           name="title"
-          label="Calculated summary title"
-          placeholder="e.g. We calculate the answer as [total], are you sure this is correct?"
+          label="Page title"
+          placeholder=""
           value={page.title}
           onUpdate={onChangeUpdate}
           controls={titleControls}
@@ -89,7 +89,7 @@ export const CalculatedSummaryPageEditor = props => {
           id="total-title"
           name="totalTitle"
           label="Total title"
-          placeholder="e.g. Total value of answers"
+          placeholder=""
           value={page.totalTitle}
           onUpdate={onChangeUpdate}
           controls={titleControls}

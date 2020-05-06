@@ -67,7 +67,7 @@ export class StatelessMetaEditor extends React.Component {
           id="question-title"
           name="title"
           label="Question"
-          placeholder="What is the question?"
+          placeholder=""
           value={page.title}
           onUpdate={onChangeUpdate}
           controls={titleControls}

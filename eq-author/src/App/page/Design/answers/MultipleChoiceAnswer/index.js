@@ -157,7 +157,7 @@ export class UnwrappedMultipleChoiceAnswer extends Component {
                         onUpdate={onUpdate}
                         showDescription={false}
                         labelText="Other label"
-                        labelPlaceholder="eg. Please specify"
+                        labelPlaceholder=""
                         errorLabel="Other label"
                         bold={false}
                         type={answer.type}

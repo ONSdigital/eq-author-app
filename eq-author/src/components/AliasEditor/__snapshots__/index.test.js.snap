@@ -9,7 +9,7 @@ exports[`AliasEditor should render 1`] = `
     name="alias"
     onBlur={[Function]}
     onChange={[Function]}
-    placeholder="Shortcode"
+    placeholder=""
     type="text"
     value="FooBar"
   />
