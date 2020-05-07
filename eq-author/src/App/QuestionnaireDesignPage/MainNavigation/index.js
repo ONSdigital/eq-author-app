@@ -28,7 +28,7 @@ import homeIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/home-24px
 import settingsIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/settings-icon.svg?inline";
 import qcodeIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/q-codes-icon.svg?inline";
 import publishIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/publish-icon.svg?inline";
-import reviewIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/variable-icon.svg?inline";
+import reviewIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/review-icon.svg?inline";
 import historyIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/history-icon.svg?inline";
 import metadataIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/metadata-icon.svg?inline";
 import shareIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/sharing-icon.svg?inline";
