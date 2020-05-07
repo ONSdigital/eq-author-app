@@ -21,6 +21,11 @@ import MovePageQuery from "./MovePageModal/MovePageQuery";
 import { Toolbar, Buttons } from "./EditorToolbar";
 import IconMove from "./EditorToolbar/icon-move.svg?inline";
 import MovePageModal from "./MovePageModal";
+import styled from "styled-components";
+
+const StyleToolbar = styled(Toolbar)`
+  align-items: flex-start;
+`;
 
 export class PageHeader extends React.Component {
   state = {
@@ -93,15 +98,15 @@ export class PageHeader extends React.Component {
     } = this.props;
     return (
       <React.Fragment>
-        <Toolbar>
-          <VisuallyHidden>
-            <Label htmlFor="alias">Question short code (optional)</Label>
-          </VisuallyHidden>
-          <AliasEditor
-            alias={page.alias}
-            onUpdate={onUpdate}
-            onChange={onChange}
-          />
+        <StyleToolbar>
+          <div>
+            <Label htmlFor="alias">Short code</Label>
+            <AliasEditor
+              alias={page.alias}
+              onUpdate={onUpdate}
+              onChange={onChange}
+            />
+          </div>
           <Buttons>
             <Button
               onClick={this.handleOpenMovePageDialog}
@@ -126,7 +131,7 @@ export class PageHeader extends React.Component {
               Delete
             </IconButtonDelete>
           </Buttons>
-        </Toolbar>
+        </StyleToolbar>
         <DeleteConfirmDialog
           isOpen={this.state.showDeleteConfirmDialog}
           onClose={this.handleCloseDeleteConfirmDialog}

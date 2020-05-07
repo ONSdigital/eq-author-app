@@ -61,7 +61,7 @@ export const CalculatedSummaryPageEditor = props => {
         <RichTextEditor
           id="summary-title"
           name="title"
-          label="Page title"
+          label="Calculated summary title"
           placeholder=""
           value={page.title}
           onUpdate={onChangeUpdate}
