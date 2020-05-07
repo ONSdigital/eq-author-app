@@ -27,7 +27,6 @@ import { Label } from "components/Forms";
 
 import Loading from "components/Loading";
 import Error from "components/Error";
-import VisuallyHidden from "components/VisuallyHidden";
 
 import withEntityEditor from "components/withEntityEditor";
 import withPropRenamed from "enhancers/withPropRenamed";

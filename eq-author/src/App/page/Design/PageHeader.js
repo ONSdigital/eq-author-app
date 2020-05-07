@@ -11,7 +11,6 @@ import Button from "components/buttons/Button";
 import IconText from "components/IconText";
 import DuplicateButton from "components/buttons/DuplicateButton";
 import { Label } from "components/Forms";
-import VisuallyHidden from "components/VisuallyHidden";
 import AliasEditor from "components/AliasEditor";
 
 import withMovePage from "./withMovePage";
