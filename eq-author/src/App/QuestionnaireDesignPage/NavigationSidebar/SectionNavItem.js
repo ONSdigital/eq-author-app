@@ -22,6 +22,7 @@ const StyledSectionNavItem = styled.li`
 
 const SectionNameOuter = styled.span`
   padding-left: 0.5em;
+  letter-spacing: 0;
 `;
 
 const StyledSectionUpper = styled.div`

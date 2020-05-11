@@ -29,6 +29,7 @@ const QuestionnaireContent = styled.div`
   flex-direction: row;
   align-items: center;
   border-bottom: solid 1px ${colors.darkGrey};
+  margin-bottom: 0.5em;
 `;
 
 export class UnwrappedNavigationHeader extends React.Component {
