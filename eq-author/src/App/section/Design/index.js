@@ -27,7 +27,6 @@ import { Label } from "components/Forms";
 
 import Loading from "components/Loading";
 import Error from "components/Error";
-import VisuallyHidden from "components/VisuallyHidden";
 
 import withEntityEditor from "components/withEntityEditor";
 import withPropRenamed from "enhancers/withPropRenamed";
@@ -35,6 +34,11 @@ import sectionFragment from "graphql/fragments/section.graphql";
 
 import AliasEditor from "components/AliasEditor";
 import Panel from "components/Panel";
+import styled from "styled-components";
+
+const StyleToolbar = styled(Toolbar)`
+  align-items: flex-start;
+`;
 
 export class UnwrappedSectionRoute extends React.Component {
   static propTypes = {
@@ -125,15 +129,15 @@ export class UnwrappedSectionRoute extends React.Component {
 
     return (
       <>
-        <Toolbar>
-          <VisuallyHidden>
-            <Label htmlFor="alias">Section short code (optional)</Label>
-          </VisuallyHidden>
-          <AliasEditor
-            alias={section.alias}
-            onUpdate={onUpdate}
-            onChange={onChange}
-          />
+        <StyleToolbar>
+          <div>
+            <Label htmlFor="alias">Short code</Label>
+            <AliasEditor
+              alias={section.alias}
+              onUpdate={onUpdate}
+              onChange={onChange}
+            />
+          </div>
           <Buttons>
             <Button
               onClick={this.handleOpenMoveSectionDialog}
@@ -157,7 +161,7 @@ export class UnwrappedSectionRoute extends React.Component {
               Delete
             </IconButtonDelete>
           </Buttons>
-        </Toolbar>
+        </StyleToolbar>
         <SectionEditor
           key={section.id}
           onUpdate={this.props.onUpdateSection}
