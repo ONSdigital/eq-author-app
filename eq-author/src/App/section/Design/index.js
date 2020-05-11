@@ -34,11 +34,6 @@ import sectionFragment from "graphql/fragments/section.graphql";
 
 import AliasEditor from "components/AliasEditor";
 import Panel from "components/Panel";
-import styled from "styled-components";
-
-const StyleToolbar = styled(Toolbar)`
-  align-items: flex-start;
-`;
 
 export class UnwrappedSectionRoute extends React.Component {
   static propTypes = {
@@ -129,7 +124,7 @@ export class UnwrappedSectionRoute extends React.Component {
 
     return (
       <>
-        <StyleToolbar>
+        <Toolbar>
           <div>
             <Label htmlFor="alias">Short code</Label>
             <AliasEditor
@@ -161,7 +156,7 @@ export class UnwrappedSectionRoute extends React.Component {
               Delete
             </IconButtonDelete>
           </Buttons>
-        </StyleToolbar>
+        </Toolbar>
         <SectionEditor
           key={section.id}
           onUpdate={this.props.onUpdateSection}
