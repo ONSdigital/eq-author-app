@@ -1,6 +1,10 @@
 import React from "react";
 import { render, fireEvent, act } from "tests/utils/rtl";
 import SectionAccordion from "./";
+import NavLink from "../../App/QuestionnaireDesignPage/NavigationSidebar/NavLink.js";
+import SectionIcon from "../../App/QuestionnaireDesignPage/NavigationSidebar/icon-section.svg";
+
+// import { colors } from "constants/theme";
 
 describe("Section Accordion", () => {
   it("default should render accordion as expanded", () => {
@@ -11,6 +15,35 @@ describe("Section Accordion", () => {
     );
     expect(getByTestId("accordion-section1-body")).toBeVisible();
     expect(getByTestId("accordion-section1-button")).toBeVisible();
+  });
+
+  it("default should render accordion as expanded and focus on first section", () => {
+    const SectionTitle = () => (
+      <>
+        <NavLink
+          exact
+          to="q/QID1/section/section1/design"
+          data-test="nav-section-link"
+          title="TestName"
+          icon={SectionIcon}
+          id="sectionName"
+          errorCount={0}
+        >
+          sectionDisplayName
+        </NavLink>
+      </>
+    );
+    const { getByTestId, debug } = render(
+      <SectionAccordion title={<SectionTitle />} titleName="section1">
+        section accordion panel
+      </SectionAccordion>
+    );
+    debug();
+    expect(getByTestId("nav-section-link")).toBeVisible();
+    // expect(getByTestId("nav-section-link")).toHaveStyleRule(
+    //   "background",
+    //   colors.orange
+    // );
   });
 
   it("click on the arrow - it should open and close section accordion", async () => {

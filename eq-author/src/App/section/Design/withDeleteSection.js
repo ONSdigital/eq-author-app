@@ -37,13 +37,11 @@ export const handleDeletion = (
   }
 
   const nextSection = getNextSection(oldQuestionnaire.sections, sectionId);
-
-  history.push(
-    buildSectionPath({
-      questionnaireId,
-      sectionId: nextSection.id,
-    })
-  );
+  const nextSectionPath = buildSectionPath({
+    questionnaireId,
+    sectionId: nextSection.id,
+  });
+  history.push(nextSectionPath);
 };
 
 export const displayToast = (ownProps, questionnaire) => {
