@@ -93,14 +93,16 @@ export class PageHeader extends React.Component {
     return (
       <React.Fragment>
         <Toolbar>
-          <div>
-            <Label htmlFor="alias">Short code</Label>
-            <AliasEditor
-              alias={page.alias}
-              onUpdate={onUpdate}
-              onChange={onChange}
-            />
-          </div>
+          <span>
+            <div>
+              <Label htmlFor="alias">Short code</Label>
+              <AliasEditor
+                alias={page.alias}
+                onUpdate={onUpdate}
+                onChange={onChange}
+              />
+            </div>
+          </span>
           <Buttons>
             <Button
               onClick={this.handleOpenMovePageDialog}
