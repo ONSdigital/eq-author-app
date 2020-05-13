@@ -7,7 +7,7 @@ import { withShowToast } from "components/Toasts";
 import deleteSectionMutation from "graphql/deleteSection.graphql";
 
 import getNextSection from "utils/getNextOnDelete";
-import { buildPagePath } from "utils/UrlUtils";
+import { buildSectionPath } from "utils/UrlUtils";
 
 const questionnaireFragment = gql`
   fragment DeleteSectionFragment on Questionnaire {
@@ -37,15 +37,11 @@ export const handleDeletion = (
   }
 
   const nextSection = getNextSection(oldQuestionnaire.sections, sectionId);
-  const nextPage = nextSection.pages[0];
-
-  history.push(
-    buildPagePath({
-      questionnaireId,
-      sectionId: nextSection.id,
-      pageId: nextPage.id,
-    })
-  );
+  const nextSectionPath = buildSectionPath({
+    questionnaireId,
+    sectionId: nextSection.id,
+  });
+  history.push(nextSectionPath);
 };
 
 export const displayToast = (ownProps, questionnaire) => {
