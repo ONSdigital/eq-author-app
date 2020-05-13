@@ -6,6 +6,7 @@ import { isFunction, flowRight } from "lodash";
 import PropTypes from "prop-types";
 import { propType } from "graphql-anywhere";
 import gql from "graphql-tag";
+import styled from "styled-components";
 
 import Button from "components/buttons/Button";
 import IconText from "components/IconText";
@@ -21,11 +22,18 @@ import { Toolbar, Buttons } from "./EditorToolbar";
 import IconMove from "./EditorToolbar/icon-move.svg?inline";
 import MovePageModal from "./MovePageModal";
 
+const ShortCodeLabel = styled(Label)`
+  grid-column-start: 1;
+  grid-row-start: 1;
+  align-self: end;
+`;
+
 export class PageHeader extends React.Component {
   state = {
     showDeleteConfirmDialog: false,
     showMovePageDialog: false,
   };
+  π;
 
   handleDuplicatePage = e => {
     e.preventDefault();
@@ -93,14 +101,12 @@ export class PageHeader extends React.Component {
     return (
       <React.Fragment>
         <Toolbar>
-          <div>
-            <Label htmlFor="alias">Short code</Label>
-            <AliasEditor
-              alias={page.alias}
-              onUpdate={onUpdate}
-              onChange={onChange}
-            />
-          </div>
+          <ShortCodeLabel htmlFor="alias">Short code</ShortCodeLabel>
+          <AliasEditor
+            alias={page.alias}
+            onUpdate={onUpdate}
+            onChange={onChange}
+          />
           <Buttons>
             <Button
               onClick={this.handleOpenMovePageDialog}

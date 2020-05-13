@@ -8,6 +8,8 @@ import { colors } from "constants/theme";
 
 export const Wrapper = styled.div`
   ${sharedStyles};
+  grid-column-start: 1;
+  grid-row-start: 2;
   height: 2.3em;
   display: flex;
   max-width: 22em;
