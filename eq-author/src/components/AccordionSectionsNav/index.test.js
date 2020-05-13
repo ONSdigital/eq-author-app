@@ -4,7 +4,6 @@ import SectionAccordion from "./";
 import NavLink, {
   activeClassName,
 } from "../../App/QuestionnaireDesignPage/NavigationSidebar/NavLink.js";
-import SectionIcon from "../../App/QuestionnaireDesignPage/NavigationSidebar/icon-section.svg";
 
 describe("Section Accordion", () => {
   it("default should render accordion as expanded", () => {
