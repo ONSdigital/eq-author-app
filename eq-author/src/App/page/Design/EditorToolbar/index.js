@@ -14,4 +14,5 @@ export const Buttons = styled.div`
   grid-gap: 0.5em;
   grid-auto-flow: column;
   padding-left: 1em;
+  height: 2.125em;
 `;
