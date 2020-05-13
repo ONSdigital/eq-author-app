@@ -22,8 +22,8 @@ const PipedValueDecorator = styled.span`
   white-space: pre;
 `;
 
-const PipedValueSerialized = ({ data: { id, text, pipingType } }) => (
-  <span data-piped={pipingType} data-id={id}>
+const PipedValueSerialized = ({ data: { id, text, pipingType, type } }) => (
+  <span data-piped={pipingType} data-id={id} data-type={type}>
     {text}
   </span>
 );
@@ -46,7 +46,8 @@ export const htmlToEntity = (nodeName, node, createEntity) => {
   if (node.hasAttribute && node.hasAttribute("data-piped")) {
     const id = node.getAttribute("data-id");
     const pipingType = node.getAttribute("data-piped");
-    return createPipedEntity(createEntity, { id, pipingType });
+    const type = node.getAttribute("data-type");
+    return createPipedEntity(createEntity, { id, pipingType, type });
   }
 };
 
