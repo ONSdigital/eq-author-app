@@ -1,10 +1,10 @@
 import React from "react";
 import { render, fireEvent, act } from "tests/utils/rtl";
 import SectionAccordion from "./";
-import NavLink from "../../App/QuestionnaireDesignPage/NavigationSidebar/NavLink.js";
+import NavLink, {
+  activeClassName,
+} from "../../App/QuestionnaireDesignPage/NavigationSidebar/NavLink.js";
 import SectionIcon from "../../App/QuestionnaireDesignPage/NavigationSidebar/icon-section.svg";
-
-// import { colors } from "constants/theme";
 
 describe("Section Accordion", () => {
   it("default should render accordion as expanded", () => {
@@ -17,33 +17,28 @@ describe("Section Accordion", () => {
     expect(getByTestId("accordion-section1-button")).toBeVisible();
   });
 
-  it("default should render accordion as expanded and focus on first section", () => {
+  it("should focus on a section when active", async () => {
+    const props = {
+      to: "q/QID1/section/section1/design",
+      "data-test": "nav-section-link",
+      title: "TestName",
+      icon: () => <svg />,
+      errorCount: 0,
+      isActive: () => true,
+    };
     const SectionTitle = () => (
       <>
-        <NavLink
-          exact
-          to="q/QID1/section/section1/design"
-          data-test="nav-section-link"
-          title="TestName"
-          icon={SectionIcon}
-          id="sectionName"
-          errorCount={0}
-        >
-          sectionDisplayName
-        </NavLink>
+        <NavLink {...props}>section1</NavLink>
       </>
     );
-    const { getByTestId, debug } = render(
+    const { getByTestId } = render(
       <SectionAccordion title={<SectionTitle />} titleName="section1">
         section accordion panel
       </SectionAccordion>
     );
-    debug();
     expect(getByTestId("nav-section-link")).toBeVisible();
-    // expect(getByTestId("nav-section-link")).toHaveStyleRule(
-    //   "background",
-    //   colors.orange
-    // );
+
+    expect(getByTestId("nav-section-link")).toHaveClass(activeClassName);
   });
 
   it("click on the arrow - it should open and close section accordion", async () => {
