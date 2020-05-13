@@ -11,7 +11,7 @@ exports[`components/RoutingRuleSet should render children 1`] = `
       timeout={200}
     >
       <Apollo(Apollo(Apollo(UnwrappedRuleEditor)))
-        ifLabel="IF"
+        ifLabel="If"
         key="2"
         rule={
           Object {
@@ -33,7 +33,7 @@ exports[`components/RoutingRuleSet should render children 1`] = `
   <withRouter(UnwrappedDestinationSelector)
     data-test="select-else"
     id="else"
-    label="ELSE"
+    label="Else"
     onChange={[Function]}
     value={
       Object {

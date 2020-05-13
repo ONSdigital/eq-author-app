@@ -17,8 +17,9 @@ import withUpdateRouting from "./withUpdateRouting";
 import withCreateRule from "./withCreateRule";
 import RuleEditor from "./RuleEditor";
 
-export const LABEL_IF = "IF";
-export const LABEL_ELSE_IF = "ELSE IF";
+export const LABEL_IF = "If";
+export const LABEL_ELSE = "Else";
+export const LABEL_ELSE_IF = "Else if";
 
 const AddRuleButton = styled(Button)`
   display: block;
@@ -75,7 +76,7 @@ export class UnwrappedRoutingEditor extends React.Component {
 
         <DestinationSelector
           id="else"
-          label="ELSE"
+          label={LABEL_ELSE}
           value={routing.else}
           onChange={this.handleElseChange}
           data-test="select-else"

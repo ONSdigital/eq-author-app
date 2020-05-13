@@ -125,7 +125,7 @@ const Input = styled.div`
 
   .public-DraftEditorPlaceholder-root {
     /* style placeholder based on prospective style */
-    ${props => props.placeholderStyle === "header-two" && heading};
+    ${props => props.placeholderStyle === "header-two" && heading}
     ${props => props.placeholderStyle === "unordered-list-item" && list};
     color: #a3a3a3;
   }
@@ -287,7 +287,7 @@ class RichTextEditor extends React.Component {
     this.renamePipedValues(
       () => this.props.metadata,
       metadataPipes,
-      "Deleted Metadata"
+      "Deleted metadata"
     );
   }
 
@@ -328,7 +328,7 @@ class RichTextEditor extends React.Component {
     this.renamePipedValues(
       fetchAnswersForPipes(answerPipes),
       answerPipes,
-      "Deleted Answer"
+      "Deleted answer"
     );
   }
 

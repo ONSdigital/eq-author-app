@@ -48,7 +48,7 @@ exports[`RuleEditor should render 1`] = `
   <withRouter(UnwrappedDestinationSelector)
     data-test="select-then"
     id="ruleId"
-    label="THEN"
+    label="Then"
     onChange={[Function]}
     value={
       Object {

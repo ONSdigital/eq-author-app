@@ -58,7 +58,6 @@ const AnswerType = styled.span`
   font-weight: bold;
   color: ${colors.textLight};
   line-height: 1;
-  text-transform: uppercase;
   letter-spacing: 0.05em;
   position: absolute;
   left: 0;

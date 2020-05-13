@@ -23,7 +23,6 @@ const Content = styled.div`
 `;
 
 const Title = styled.h1`
-  text-transform: uppercase;
   font-size: 0.9em;
   letter-spacing: 0.05em;
   text-align: center;

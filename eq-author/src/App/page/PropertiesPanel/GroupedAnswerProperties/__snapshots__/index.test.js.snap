@@ -28,7 +28,7 @@ exports[`Grouped Answer Properties should show error if there is a mismatch in t
 Array [
   <Accordion
     key="undefined"
-    title="UNDEFINED PROPERTIES"
+    title="Undefined properties"
   >
     <GroupedAnswerProperties__Padding />
     <GroupedAnswerProperties__AnswerPropertiesContainer
@@ -69,7 +69,7 @@ Array [
   </Accordion>,
   <Accordion
     key="Date"
-    title="DATE PROPERTIES"
+    title="Date properties"
   >
     <GroupedAnswerProperties__Padding />
     <GroupedAnswerProperties__AnswerPropertiesContainer
@@ -116,7 +116,7 @@ Array [
   </Accordion>,
   <Accordion
     key="Currency"
-    title="CURRENCY PROPERTIES"
+    title="Currency properties"
   >
     <GroupedAnswerProperties__Padding>
       <GroupedAnswerProperties__GroupContainer>

@@ -199,7 +199,7 @@ exports[`AnswerValidation should render 1`] = `
 </ContextProvider>
 `;
 
-exports[`AnswerValidation validation object array should render the Earliest Date validation 1`] = `
+exports[`AnswerValidation validation object array should render the Earliest date validation 1`] = `
 <Component
   displayName="Earliest date"
   readKey="earliestDate"
@@ -209,7 +209,7 @@ exports[`AnswerValidation validation object array should render the Earliest Dat
 </Component>
 `;
 
-exports[`AnswerValidation validation object array should render the Latest Date validation 1`] = `
+exports[`AnswerValidation validation object array should render the Latest date validation 1`] = `
 <Component
   displayName="Latest date"
   readKey="latestDate"
@@ -219,7 +219,7 @@ exports[`AnswerValidation validation object array should render the Latest Date 
 </Component>
 `;
 
-exports[`AnswerValidation validation object array should render the Max Duration validation 1`] = `
+exports[`AnswerValidation validation object array should render the Max duration validation 1`] = `
 <Component
   displayName="Max duration"
   readKey="maxDuration"
@@ -239,7 +239,7 @@ exports[`AnswerValidation validation object array should render the Max value va
 </Component>
 `;
 
-exports[`AnswerValidation validation object array should render the Min Duration validation 1`] = `
+exports[`AnswerValidation validation object array should render the Min duration validation 1`] = `
 <Component
   displayName="Min duration"
   readKey="minDuration"

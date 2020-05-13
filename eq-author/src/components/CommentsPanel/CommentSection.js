@@ -118,7 +118,7 @@ const CommentSection = props => {
             onClick={() => handleReply(item.id)}
             data-test={`btn-reply-comment-${index}`}
           >
-            reply
+            Reply
           </ReplyButton>
         )}
         {activeCommentId === item.id && (
