@@ -21,7 +21,6 @@ import {
 } from "constants/error-codes";
 
 import { buildSectionPath, buildIntroductionPath } from "utils/UrlUtils";
-import ScrollPane from "components/ScrollPane";
 import pageRoutes from "App/page";
 import sectionRoutes from "App/section";
 import questionConfirmationRoutes from "App/questionConfirmation";
