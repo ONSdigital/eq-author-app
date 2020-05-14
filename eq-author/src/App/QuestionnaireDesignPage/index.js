@@ -205,49 +205,45 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
     return (
       <QuestionnaireContext.Provider value={{ questionnaire }}>
         <BaseLayout questionnaire={questionnaire}>
-          <ScrollPane>
-            <Titled title={this.getTitle}>
-              <Grid>
-                <NavColumn cols={3} gutters={false}>
-                  <MainNav>
-                    <MainNavigation />
-                  </MainNav>
-                  <NavigationSidebar
-                    data-test="side-nav"
-                    loading={loading}
-                    onAddSection={this.props.onAddSection}
-                    onAddQuestionPage={this.handleAddPage("QuestionPage")}
-                    canAddQuestionPage={this.canAddQuestionAndCalculatedSummmaryPages()}
-                    onAddCalculatedSummaryPage={this.handleAddPage(
-                      "CalculatedSummaryPage"
-                    )}
-                    canAddCalculatedSummaryPage={this.canAddQuestionAndCalculatedSummmaryPages()}
-                    questionnaire={questionnaire}
-                    canAddQuestionConfirmation={this.canAddQuestionConfirmation()}
-                    onAddQuestionConfirmation={
-                      this.handleAddQuestionConfirmation
-                    }
-                  />
-                </NavColumn>
-                <Column cols={9} gutters={false}>
-                  <Switch location={location}>
-                    {[
-                      ...pageRoutes,
-                      ...sectionRoutes,
-                      ...questionConfirmationRoutes,
-                      ...introductionRoutes,
-                      ...metadataRoutes,
-                      ...historyRoutes,
-                      ...publishRoutes,
-                      ...reviewRoutes,
-                      ...qcodeRoutes,
-                    ]}
-                    <Route path="*" render={this.renderRedirect} />
-                  </Switch>
-                </Column>
-              </Grid>
-            </Titled>
-          </ScrollPane>
+          <Titled title={this.getTitle}>
+            <Grid>
+              <NavColumn cols={3} gutters={false}>
+                <MainNav>
+                  <MainNavigation />
+                </MainNav>
+                <NavigationSidebar
+                  data-test="side-nav"
+                  loading={loading}
+                  onAddSection={this.props.onAddSection}
+                  onAddQuestionPage={this.handleAddPage("QuestionPage")}
+                  canAddQuestionPage={this.canAddQuestionAndCalculatedSummmaryPages()}
+                  onAddCalculatedSummaryPage={this.handleAddPage(
+                    "CalculatedSummaryPage"
+                  )}
+                  canAddCalculatedSummaryPage={this.canAddQuestionAndCalculatedSummmaryPages()}
+                  questionnaire={questionnaire}
+                  canAddQuestionConfirmation={this.canAddQuestionConfirmation()}
+                  onAddQuestionConfirmation={this.handleAddQuestionConfirmation}
+                />
+              </NavColumn>
+              <Column cols={9} gutters={false}>
+                <Switch location={location}>
+                  {[
+                    ...pageRoutes,
+                    ...sectionRoutes,
+                    ...questionConfirmationRoutes,
+                    ...introductionRoutes,
+                    ...metadataRoutes,
+                    ...historyRoutes,
+                    ...publishRoutes,
+                    ...reviewRoutes,
+                    ...qcodeRoutes,
+                  ]}
+                  <Route path="*" render={this.renderRedirect} />
+                </Switch>
+              </Column>
+            </Grid>
+          </Titled>
         </BaseLayout>
       </QuestionnaireContext.Provider>
     );
