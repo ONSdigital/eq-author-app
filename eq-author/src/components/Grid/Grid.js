@@ -5,6 +5,7 @@ const Grid = styled.div.attrs(() => ({ "data-test": "grid" }))`
   display: flex;
   width: 100%;
   height: 100%;
+
   @media (max-height: 680px) {
     height: auto;
   }
