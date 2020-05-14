@@ -2082,153 +2082,149 @@ exports[`QuestionnaireDesignPage should render 1`] = `
       }
     }
   >
-    <ScrollPane
-      permanentScrollBar={false}
+    <GetContext
+      title={[Function]}
     >
-      <GetContext
-        title={[Function]}
+      <Grid
+        align="top"
+        fillHeight={true}
       >
-        <Grid
-          align="top"
-          fillHeight={true}
+        <QuestionnaireDesignPage__NavColumn
+          cols={3}
+          gutters={false}
         >
-          <QuestionnaireDesignPage__NavColumn
-            cols={3}
-            gutters={false}
-          >
-            <QuestionnaireDesignPage__MainNav>
-              <Component />
-            </QuestionnaireDesignPage__MainNav>
-            <withRouter(UnwrappedNavigationSidebar)
-              canAddCalculatedSummaryPage={true}
-              canAddQuestionConfirmation={true}
-              canAddQuestionPage={true}
-              data-test="side-nav"
-              loading={false}
-              onAddCalculatedSummaryPage={[Function]}
-              onAddQuestionConfirmation={[Function]}
-              onAddQuestionPage={[Function]}
-              onAddSection={[MockFunction]}
-              questionnaire={
-                Object {
-                  "displayName": "my displayName",
-                  "id": "3",
-                  "sections": Array [
-                    Object {
-                      "id": "2",
-                      "pages": Array [
-                        Object {
-                          "answers": Array [
-                            Object {
-                              "id": "1",
-                              "label": "",
-                              "options": Array [
-                                Object {
-                                  "id": "1",
-                                },
-                              ],
-                            },
-                          ],
-                          "description": "",
-                          "guidance": "",
-                          "id": "1",
-                          "pageType": "QuestionPage",
-                          "position": 0,
-                          "title": "",
-                        },
-                      ],
-                      "title": "",
-                    },
-                  ],
-                  "title": "hello world",
-                }
+          <QuestionnaireDesignPage__MainNav>
+            <Component />
+          </QuestionnaireDesignPage__MainNav>
+          <withRouter(UnwrappedNavigationSidebar)
+            canAddCalculatedSummaryPage={true}
+            canAddQuestionConfirmation={true}
+            canAddQuestionPage={true}
+            data-test="side-nav"
+            loading={false}
+            onAddCalculatedSummaryPage={[Function]}
+            onAddQuestionConfirmation={[Function]}
+            onAddQuestionPage={[Function]}
+            onAddSection={[MockFunction]}
+            questionnaire={
+              Object {
+                "displayName": "my displayName",
+                "id": "3",
+                "sections": Array [
+                  Object {
+                    "id": "2",
+                    "pages": Array [
+                      Object {
+                        "answers": Array [
+                          Object {
+                            "id": "1",
+                            "label": "",
+                            "options": Array [
+                              Object {
+                                "id": "1",
+                              },
+                            ],
+                          },
+                        ],
+                        "description": "",
+                        "guidance": "",
+                        "id": "1",
+                        "pageType": "QuestionPage",
+                        "position": 0,
+                        "title": "",
+                      },
+                    ],
+                    "title": "",
+                  },
+                ],
+                "title": "hello world",
               }
+            }
+          />
+        </QuestionnaireDesignPage__NavColumn>
+        <Column
+          cols={9}
+          gutters={false}
+        >
+          <Switch>
+            <Route
+              component={[Function]}
+              key="page-design"
+              path="/q/:questionnaireId/page/:pageId/design/:modifier?"
             />
-          </QuestionnaireDesignPage__NavColumn>
-          <Column
-            cols={9}
-            gutters={false}
-          >
-            <Switch>
-              <Route
-                component={[Function]}
-                key="page-design"
-                path="/q/:questionnaireId/page/:pageId/design/:modifier?"
-              />
-              <Route
-                component={[Function]}
-                key="page-preview"
-                path="/q/:questionnaireId/page/:pageId/preview"
-              />
-              <Route
-                component={[Function]}
-                key="page-routing"
-                path="/q/:questionnaireId/page/:pageId/routing"
-              />
-              <Route
-                component={[Function]}
-                key="section-design"
-                path="/q/:questionnaireId/section/:sectionId/design"
-              />
-              <Route
-                component={[Function]}
-                key="section-preview"
-                path="/q/:questionnaireId/section/:sectionId/preview"
-              />
-              <Route
-                component={[Function]}
-                key="confirmation-design"
-                path="/q/:questionnaireId/question-confirmation/:confirmationId/design"
-              />
-              <Route
-                component={[Function]}
-                key="confirmation-preview"
-                path="/q/:questionnaireId/question-confirmation/:confirmationId/preview"
-              />
-              <Route
-                component={[Function]}
-                key="introduction-design"
-                path="/q/:questionnaireId/introduction/:introductionId/design/:modifier?"
-              />
-              <Route
-                component={[Function]}
-                key="introduction-preview"
-                path="/q/:questionnaireId/introduction/:introductionId/preview"
-              />
-              <Route
-                component={[Function]}
-                key="metadata"
-                path="/q/:questionnaireId/metadata"
-              />
-              <Route
-                component={[Function]}
-                key="history"
-                path="/q/:questionnaireId/history"
-              />
-              <Route
-                key="publish"
-                path="/q/:questionnaireId/publish"
-                render={[Function]}
-              />
-              <Route
-                component={[Function]}
-                key="review"
-                path="/q/:questionnaireId/review"
-              />
-              <Route
-                key="qcodes"
-                path="/q/:questionnaireId/qcodes"
-                render={[Function]}
-              />
-              <Route
-                path="*"
-                render={[Function]}
-              />
-            </Switch>
-          </Column>
-        </Grid>
-      </GetContext>
-    </ScrollPane>
+            <Route
+              component={[Function]}
+              key="page-preview"
+              path="/q/:questionnaireId/page/:pageId/preview"
+            />
+            <Route
+              component={[Function]}
+              key="page-routing"
+              path="/q/:questionnaireId/page/:pageId/routing"
+            />
+            <Route
+              component={[Function]}
+              key="section-design"
+              path="/q/:questionnaireId/section/:sectionId/design"
+            />
+            <Route
+              component={[Function]}
+              key="section-preview"
+              path="/q/:questionnaireId/section/:sectionId/preview"
+            />
+            <Route
+              component={[Function]}
+              key="confirmation-design"
+              path="/q/:questionnaireId/question-confirmation/:confirmationId/design"
+            />
+            <Route
+              component={[Function]}
+              key="confirmation-preview"
+              path="/q/:questionnaireId/question-confirmation/:confirmationId/preview"
+            />
+            <Route
+              component={[Function]}
+              key="introduction-design"
+              path="/q/:questionnaireId/introduction/:introductionId/design/:modifier?"
+            />
+            <Route
+              component={[Function]}
+              key="introduction-preview"
+              path="/q/:questionnaireId/introduction/:introductionId/preview"
+            />
+            <Route
+              component={[Function]}
+              key="metadata"
+              path="/q/:questionnaireId/metadata"
+            />
+            <Route
+              component={[Function]}
+              key="history"
+              path="/q/:questionnaireId/history"
+            />
+            <Route
+              key="publish"
+              path="/q/:questionnaireId/publish"
+              render={[Function]}
+            />
+            <Route
+              component={[Function]}
+              key="review"
+              path="/q/:questionnaireId/review"
+            />
+            <Route
+              key="qcodes"
+              path="/q/:questionnaireId/qcodes"
+              render={[Function]}
+            />
+            <Route
+              path="*"
+              render={[Function]}
+            />
+          </Switch>
+        </Column>
+      </Grid>
+    </GetContext>
   </BaseLayout>
 </ContextProvider>
 `;
