@@ -73,6 +73,28 @@ describe("Content Picker Answer Picker", () => {
     };
   });
 
+  it("should render answer error message when no data supplied", () => {
+    props.data = [];
+    const { getByText, getByTestId } = renderAnswerPicker();
+
+    expect(
+      getByText("There are no previous answers to pick from")
+    ).toBeTruthy();
+    expect(getByTestId("no-previous-answers")).toBeTruthy();
+  });
+
+  it("should render section error message when no data supplied", () => {
+    props.data = [];
+    const { getByText, getByLabelText, getByTestId } = renderAnswerPicker();
+
+    fireEvent.click(getByLabelText("Sections"));
+
+    expect(
+      getByText("There are no previous answers to pick from")
+    ).toBeTruthy();
+    expect(getByTestId("no-previous-answers")).toBeTruthy();
+  });
+
   it("should render flat list of answers by default when only 1 section", () => {
     const { getByText, getByLabelText } = renderAnswerPicker();
 
