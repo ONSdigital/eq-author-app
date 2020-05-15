@@ -8,7 +8,7 @@ let userTableName = "author-users";
 let commentsTableName = "author-comments";
 
 if (process.env.DYNAMO_ENDPOINT_OVERRIDE) {
-  dynamoose.local(process.env.DYNAMO_ENDPOINT_OVERRIDE);
+  dynamoose.aws.ddb.local(process.env.DYNAMO_ENDPOINT_OVERRIDE);
   throughput = { read: 10, write: 10 }; // DynamoDB local doesn't yet support on-demand
 }
 
