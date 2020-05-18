@@ -2,7 +2,7 @@ import React from "react";
 import { PropTypes } from "prop-types";
 import styled from "styled-components";
 import { TransitionGroup } from "react-transition-group";
-import { get, uniqueId, flow, noop } from "lodash/fp";
+import { get, uniqueId, flow } from "lodash/fp";
 import { propType } from "graphql-anywhere";
 import { NavLink, withRouter } from "react-router-dom";
 
@@ -41,7 +41,6 @@ import withUpdateBinaryExpression from "./withUpdateBinaryExpression";
 import MultipleChoiceAnswerOptionsSelector from "./MultipleChoiceAnswerOptionsSelector";
 import NumberAnswerSelector from "./NumberAnswerSelector";
 import { colors } from "constants/theme";
-import { Select } from "components/Forms";
 
 const Label = styled.label`
   width: 100%;
@@ -124,12 +123,6 @@ const AddButton = styled(ActionButton)`
 
 const Flex = styled.div`
   display: flex;
-`;
-
-const StyledSelect = styled(Select)`
-  flex: 1 1 auto;
-  width: auto;
-  margin-right: 1em;
 `;
 
 const ContentPicker = styled(RoutingAnswerContentPicker)`
@@ -292,16 +285,8 @@ export class UnwrappedBinaryExpressionEditor extends React.Component {
               {label}
             </Label>
           </Column>
-          <Column gutters={false} cols={9}>
+          <Column gutters={false} cols={8}>
             <Flex>
-              <StyledSelect disabled defaultValue="answer">
-                <option value="answer" onChange={noop}>
-                  Answer
-                </option>
-                <option value="metadata" disabled>
-                  Metadata
-                </option>
-              </StyledSelect>
               <ContentPicker
                 path="page.availableRoutingAnswers"
                 selectedContentDisplayName={get("left.displayName", expression)}
@@ -311,7 +296,7 @@ export class UnwrappedBinaryExpressionEditor extends React.Component {
               />
             </Flex>
           </Column>
-          <Column gutters={false} cols={1.5}>
+          <Column gutters={false} cols={2.5}>
             <ActionButtons>
               <RemoveButton
                 onClick={this.handleDeleteClick}
@@ -334,12 +319,12 @@ export class UnwrappedBinaryExpressionEditor extends React.Component {
           <Column gutters={false} cols={1.5}>
             <ConnectedPath pathEnd={isLastExpression} />
           </Column>
-          <Column gutters={false} cols={9}>
+          <Column gutters={false} cols={8}>
             <TransitionGroup>
               <Transition key="answer">{routingEditor}</Transition>
             </TransitionGroup>
           </Column>
-          <Column cols={1.5} />
+          <Column cols={2.5} />
         </Grid>
       </div>
     );
