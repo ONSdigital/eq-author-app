@@ -90,13 +90,13 @@ describe("Block", () => {
 
   describe("piping", () => {
     const createPipeInText = ({
-      id = 1,
+      id = "7151378b-579d-40bf-b4d4-a378c573706a",
       text = "foo",
       pipeType = "answers",
     } = {}) => `<span data-piped="${pipeType}" data-id="${id}">${text}</span>`;
 
     const createPipeInHtml = ({
-      id = 1,
+      id = "7151378b-579d-40bf-b4d4-a378c573706a",
       text = "foo",
       pipeType = "answers",
     } = {}) =>
@@ -107,7 +107,17 @@ describe("Block", () => {
     ) => ({
       questionnaireJson: {
         metadata,
-        sections: [{ pages: [{ answers: [{ id: `1`, type: "Text" }] }] }],
+        sections: [
+          {
+            pages: [
+              {
+                answers: [
+                  { id: `7151378b-579d-40bf-b4d4-a378c573706a`, type: "Text" },
+                ],
+              },
+            ],
+          },
+        ],
       },
     });
 
@@ -119,7 +129,9 @@ describe("Block", () => {
         createContext()
       );
 
-      expect(introBlock.title).toEqual("{{ answers['answer1'] }}");
+      expect(introBlock.title).toEqual(
+        "{{ answers['answer7151378b-579d-40bf-b4d4-a378c573706a'] }}"
+      );
     });
 
     it("should handle piped values in title while stripping html", () => {
@@ -130,7 +142,9 @@ describe("Block", () => {
         createContext()
       );
 
-      expect(introBlock.title).toEqual("{{ answers['answer1'] }}");
+      expect(introBlock.title).toEqual(
+        "{{ answers['answer7151378b-579d-40bf-b4d4-a378c573706a'] }}"
+      );
     });
 
     it("should handle piped values in description", () => {
@@ -142,7 +156,7 @@ describe("Block", () => {
       );
 
       expect(introBlock.description).toEqual(
-        "<strong>{{ answers['answer1'] }}</strong><ul><li>Some Value</li></ul>"
+        "<strong>{{ answers['answer7151378b-579d-40bf-b4d4-a378c573706a'] }}</strong><ul><li>Some Value</li></ul>"
       );
     });
 

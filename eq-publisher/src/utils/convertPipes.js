@@ -2,7 +2,7 @@ const cheerio = require("cheerio");
 const { flatMap, includes, compact } = require("lodash");
 const { unescapePiping } = require("./HTMLUtils");
 
-const { UNIT } = require("../constants/answerTypes");
+const { UNIT, DATE_RANGE } = require("../constants/answerTypes");
 const { unitConversion } = require("../constants/unit-types");
 
 const getMetadata = (ctx, metadataId) =>
@@ -18,10 +18,15 @@ const getAllAnswers = questionnaire =>
     compact(flatMap(section.pages, page => page.answers))
   );
 
-const getAnswer = (ctx, answerId) =>
-  getAllAnswers(ctx.questionnaireJson)
+const getAnswer = (ctx, answerId) => {
+  const uuid = answerId.match(
+    /^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-4{1}[a-fA-F0-9]{3}-[89abAB]{1}[a-fA-F0-9]{3}-[a-fA-F0-9]{12}/
+  )[0];
+
+  return getAllAnswers(ctx.questionnaireJson)
     .filter(answer => isPipeableType(answer))
-    .find(answer => answer.id === answerId);
+    .find(answer => answer.id === uuid);
+};
 
 const FILTER_MAP = {
   Number: value => `${value} | format_number`,
@@ -49,7 +54,7 @@ const PIPE_TYPES = {
 };
 
 const convertElementToPipe = ($elem, ctx) => {
-  const { piped, ...elementData } = $elem.data();
+  const { piped, type, id } = $elem.data();
 
   const pipeConfig = PIPE_TYPES[piped];
 
@@ -60,12 +65,14 @@ const convertElementToPipe = ($elem, ctx) => {
     return "";
   }
 
-  const entity = pipeConfig.retrieve(elementData, ctx);
+  const entity = pipeConfig.retrieve({ type, id, piped }, ctx);
   if (!entity) {
     return "";
   }
 
-  const output = pipeConfig.render(entity);
+  const outputToRender = type === DATE_RANGE ? { id } : entity;
+
+  const output = pipeConfig.render(outputToRender);
   const dataType = pipeConfig.getType(entity);
   const filter = FILTER_MAP[dataType];
   let unitType;
