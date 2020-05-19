@@ -20,27 +20,10 @@ exports[`BinaryExpressionEditor should render consistently 1`] = `
       </BinaryExpressionEditor__Label>
     </Column>
     <Column
-      cols={9}
+      cols={8}
       gutters={false}
     >
       <BinaryExpressionEditor__Flex>
-        <BinaryExpressionEditor__StyledSelect
-          defaultValue="answer"
-          disabled={true}
-        >
-          <option
-            onChange={[Function]}
-            value="answer"
-          >
-            Answer
-          </option>
-          <option
-            disabled={true}
-            value="metadata"
-          >
-            Metadata
-          </option>
-        </BinaryExpressionEditor__StyledSelect>
         <BinaryExpressionEditor__ContentPicker
           data-test="routing-answer-picker"
           onSubmit={[Function]}
@@ -50,7 +33,7 @@ exports[`BinaryExpressionEditor should render consistently 1`] = `
       </BinaryExpressionEditor__Flex>
     </Column>
     <Column
-      cols={1.5}
+      cols={2.5}
       gutters={false}
     >
       <BinaryExpressionEditor__ActionButtons>
@@ -93,7 +76,7 @@ exports[`BinaryExpressionEditor should render consistently 1`] = `
       />
     </Column>
     <Column
-      cols={9}
+      cols={8}
       gutters={false}
     >
       <TransitionGroup
@@ -123,7 +106,7 @@ exports[`BinaryExpressionEditor should render consistently 1`] = `
       </TransitionGroup>
     </Column>
     <Column
-      cols={1.5}
+      cols={2.5}
     />
   </Grid>
 </div>
