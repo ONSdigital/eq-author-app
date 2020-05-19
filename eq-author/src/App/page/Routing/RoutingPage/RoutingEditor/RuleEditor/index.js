@@ -139,6 +139,7 @@ export class UnwrappedRuleEditor extends React.Component {
         <Expressions>
           <TransitionGroup>
             {expressions.map((expression, index) => {
+              console.log("expression = ", expression);
               const component = (
                 <Transition key={expression.id}>
                   <BinaryExpressionEditor

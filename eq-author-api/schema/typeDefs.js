@@ -513,6 +513,7 @@ type ExpressionGroup2 {
 enum NoLeftSideReason {
   SelectedAnswerDeleted
   NoRoutableAnswerOnPage
+  DefaultRouting
 }
 
 type NoLeftSide {

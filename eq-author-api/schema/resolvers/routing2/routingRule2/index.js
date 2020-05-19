@@ -51,6 +51,7 @@ Resolvers.RoutingRule2 = {
         return routing;
       }
     }, allRouting);
+    console.log("\n\nrouting in routingRule2", routing);
     return routing;
   },
 };
@@ -99,6 +100,7 @@ Resolvers.Mutation = {
     });
 
     page.routing.rules.push(routingRule);
+    console.log("routingRule in createRoutingRule2", routingRule);
     return routingRule;
   }),
   updateRoutingRule2: createMutation(

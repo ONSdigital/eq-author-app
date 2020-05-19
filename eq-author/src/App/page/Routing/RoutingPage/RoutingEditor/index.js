@@ -51,6 +51,8 @@ export class UnwrappedRoutingEditor extends React.Component {
 
   render() {
     const { routing } = this.props;
+    console.log("rules = ", routing.rules);
+
     return (
       <>
         <TransitionGroup>

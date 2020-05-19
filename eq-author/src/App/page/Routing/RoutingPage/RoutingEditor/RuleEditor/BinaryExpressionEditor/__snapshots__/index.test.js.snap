@@ -24,23 +24,6 @@ exports[`BinaryExpressionEditor should render consistently 1`] = `
       gutters={false}
     >
       <BinaryExpressionEditor__Flex>
-        <BinaryExpressionEditor__StyledSelect
-          defaultValue="answer"
-          disabled={true}
-        >
-          <option
-            onChange={[Function]}
-            value="answer"
-          >
-            Answer
-          </option>
-          <option
-            disabled={true}
-            value="metadata"
-          >
-            Metadata
-          </option>
-        </BinaryExpressionEditor__StyledSelect>
         <BinaryExpressionEditor__ContentPicker
           data-test="routing-answer-picker"
           onSubmit={[Function]}

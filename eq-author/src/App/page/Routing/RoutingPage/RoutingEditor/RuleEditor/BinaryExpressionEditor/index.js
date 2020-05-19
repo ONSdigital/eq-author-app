@@ -2,7 +2,7 @@ import React from "react";
 import { PropTypes } from "prop-types";
 import styled from "styled-components";
 import { TransitionGroup } from "react-transition-group";
-import { get, uniqueId, flow, noop } from "lodash/fp";
+import { get, uniqueId, flow } from "lodash/fp";
 import { propType } from "graphql-anywhere";
 import { NavLink, withRouter } from "react-router-dom";
 
@@ -18,6 +18,7 @@ import {
 import {
   NO_ROUTABLE_ANSWER_ON_PAGE,
   SELECTED_ANSWER_DELETED,
+  DEFAULT_ROUTING,
 } from "constants/routing-left-side";
 
 import IconText from "components/IconText";
@@ -41,7 +42,6 @@ import withUpdateBinaryExpression from "./withUpdateBinaryExpression";
 import MultipleChoiceAnswerOptionsSelector from "./MultipleChoiceAnswerOptionsSelector";
 import NumberAnswerSelector from "./NumberAnswerSelector";
 import { colors } from "constants/theme";
-import { Select } from "components/Forms";
 
 const Label = styled.label`
   width: 100%;
@@ -77,6 +77,11 @@ const ActionButtons = styled.div`
   margin: auto;
   align-items: center;
   justify-content: center;
+  display: ${props => (props.isHidden ? "none" : "flex")};
+`;
+
+const styledTransition = styled.div`
+  display: ${props => (props.isHidden ? "none" : "flex")};
 `;
 
 const ActionButton = styled.button`
@@ -126,14 +131,12 @@ const Flex = styled.div`
   display: flex;
 `;
 
-const StyledSelect = styled(Select)`
-  flex: 1 1 auto;
-  width: auto;
-  margin-right: 1em;
-`;
-
 const ContentPicker = styled(RoutingAnswerContentPicker)`
   flex: 1 1 auto;
+`;
+
+const defaultRouteOut = styled.div`
+  margin: 1em 0;
 `;
 
 /* eslint-disable react/prop-types */
@@ -229,11 +232,18 @@ export class UnwrappedBinaryExpressionEditor extends React.Component {
     label: "IF",
   };
 
+  // state = {
+  //   contentPickerDisplayName: "Select an answer...",
+  // };
+
   handleLeftSideChange = contentPickerResult => {
     this.props.updateLeftSide(
       this.props.expression,
       contentPickerResult.value.id
     );
+    // this.setState({
+    //   contentPickerDisplayName: this.props.expression.left.displayName,
+    // });
   };
 
   handleDeleteClick = () => {
@@ -253,6 +263,12 @@ export class UnwrappedBinaryExpressionEditor extends React.Component {
   };
 
   renderEditor() {
+    console.log("this.props.expression = ", this.props.expression);
+
+    if (this.props.expression.left.reason === DEFAULT_ROUTING) {
+      return <div />;
+    }
+
     for (let i = 0; i < ERROR_SITUATIONS.length; ++i) {
       const { condition, message } = ERROR_SITUATIONS[i];
       if (condition(this.props)) {
@@ -292,27 +308,22 @@ export class UnwrappedBinaryExpressionEditor extends React.Component {
               {label}
             </Label>
           </Column>
-          <Column gutters={false} cols={9}>
+          <Column gutters={false} cols={8}>
             <Flex>
-              <StyledSelect disabled defaultValue="answer">
-                <option value="answer" onChange={noop}>
-                  Answer
-                </option>
-                <option value="metadata" disabled>
-                  Metadata
-                </option>
-              </StyledSelect>
               <ContentPicker
                 path="page.availableRoutingAnswers"
                 selectedContentDisplayName={get("left.displayName", expression)}
+                // selectedContentDisplayName={this.state.contentPickerDisplayName}
                 onSubmit={this.handleLeftSideChange}
                 selectedId={get("left.id", expression)}
                 data-test="routing-answer-picker"
               />
             </Flex>
           </Column>
-          <Column gutters={false} cols={1.5}>
-            <ActionButtons>
+          <Column gutters={false} cols={2.5}>
+            <ActionButtons
+              isHidden={this.props.expression.left.reason === DEFAULT_ROUTING}
+            >
               <RemoveButton
                 onClick={this.handleDeleteClick}
                 disabled={isOnlyExpression}
@@ -334,12 +345,21 @@ export class UnwrappedBinaryExpressionEditor extends React.Component {
           <Column gutters={false} cols={1.5}>
             <ConnectedPath pathEnd={isLastExpression} />
           </Column>
-          <Column gutters={false} cols={9}>
+          <Column gutters={false} cols={8}>
             <TransitionGroup>
-              <Transition key="answer">{routingEditor}</Transition>
+              <styledTransition>
+                <Transition
+                  isHidden={
+                    this.props.expression.left.reason === DEFAULT_ROUTING
+                  }
+                  key="answer"
+                >
+                  {routingEditor}
+                </Transition>
+              </styledTransition>
             </TransitionGroup>
           </Column>
-          <Column cols={1.5} />
+          <Column cols={2.5} />
         </Grid>
       </div>
     );
