@@ -4,7 +4,6 @@ import styled from "styled-components";
 const ValidationTitle = styled.h1`
   font-weight: bold;
   letter-spacing: 0.05em;
-  text-transform: uppercase;
   font-size: 0.9em;
   text-align: center;
   color: ${colors.text};

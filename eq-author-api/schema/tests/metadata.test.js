@@ -46,7 +46,7 @@ describe("metadata", () => {
         regionValue: null,
         languageValue: null,
         textValue: null,
-        displayName: "Untitled Metadata",
+        displayName: "Untitled metadata",
       });
     });
   });

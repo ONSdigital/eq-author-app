@@ -16,7 +16,7 @@ exports[`BinaryExpressionEditor should render consistently 1`] = `
         data-test="routing-binary-expression-if-label"
         htmlFor="RoutingCondition1"
       >
-        IF
+        If
       </BinaryExpressionEditor__Label>
     </Column>
     <Column

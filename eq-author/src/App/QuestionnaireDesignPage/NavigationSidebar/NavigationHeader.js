@@ -18,7 +18,6 @@ const NavTitle = styled.div`
   padding-top: 0.1em;
   font-size: 0.7em;
   letter-spacing: 0.05em;
-  text-transform: uppercase;
   font-weight: bold;
 `;
 

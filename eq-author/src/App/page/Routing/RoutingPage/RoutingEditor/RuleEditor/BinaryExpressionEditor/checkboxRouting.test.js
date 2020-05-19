@@ -106,10 +106,10 @@ describe("Checkbox routing", () => {
       await flushPromises();
     });
 
-    fireEvent.click(getByText("CHOOSE"));
+    fireEvent.click(getByText("Choose"));
     fireEvent.click(getByLabelText("Option 3"));
     fireEvent.click(getByLabelText("Option 4"));
-    fireEvent.click(getByText("DONE"));
+    fireEvent.click(getByText("Done"));
 
     expect(mockHandlers.updateRightSide).toHaveBeenCalledWith(expression, {
       selectedOptions: ["Option1", "Option2", "Option3", "Option4"],
@@ -149,11 +149,11 @@ describe("Checkbox routing", () => {
     await act(async () => {
       await flushPromises();
     });
-    expect(queryByText("CHOOSE")).toBeTruthy();
+    expect(queryByText("Choose")).toBeTruthy();
 
     props.expression.condition = "Unanswered";
 
-    expect(queryByText("CHOOSE").updateBinaryExpression).toBeFalsy();
+    expect(queryByText("Choose").updateBinaryExpression).toBeFalsy();
     expect(queryByText("Option 1").updateBinaryExpression).toBeFalsy();
     expect(queryByText("Option 2").updateBinaryExpression).toBeFalsy();
   });

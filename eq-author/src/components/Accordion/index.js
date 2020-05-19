@@ -21,7 +21,6 @@ export const Title = styled.h2`
   vertical-align: middle;
   color: #4a4a4a;
   text-align: left;
-  text-transform: uppercase;
   margin: 0;
   padding: 0.5em 0;
   position: relative;

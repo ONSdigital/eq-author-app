@@ -27,7 +27,6 @@ const Box = styled.div`
 const RemoveAllButton = styled(TextButton)`
   letter-spacing: 0.05rem;
   font-weight: bold;
-  text-transform: uppercase;
   font-size: 0.8rem;
   margin: 0 0 0 auto;
 `;

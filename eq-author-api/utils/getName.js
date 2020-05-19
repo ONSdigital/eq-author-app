@@ -2,15 +2,15 @@ const { find, pick, isEmpty } = require("lodash");
 const { stripTags } = require("./html");
 
 const defaultNames = {
-  Section: "Untitled Section",
-  QuestionPage: "Untitled Page",
-  CalculatedSummaryPage: "Untitled Summary Page",
-  Option: "Untitled Label",
-  BasicAnswer: "Untitled Answer",
-  MultipleChoiceAnswer: "Untitled Answer",
-  CompositeAnswer: "Untitled Answer",
-  Metadata: "Untitled Metadata",
-  QuestionConfirmation: "Untitled Confirmation",
+  Section: "Untitled section",
+  QuestionPage: "Untitled question",
+  CalculatedSummaryPage: "Untitled calculated summary",
+  Option: "Untitled label",
+  BasicAnswer: "Untitled answer",
+  MultipleChoiceAnswer: "Untitled answer",
+  CompositeAnswer: "Untitled answer",
+  Metadata: "Untitled metadata",
+  QuestionConfirmation: "Untitled confirmation question",
 };
 
 const getName = (entity, typeName) => {

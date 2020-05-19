@@ -35,7 +35,6 @@ const TableHeader = styled.div`
   background: #f4f5f6;
   font-size: 11px;
   padding: 0.3rem 1rem;
-  text-transform: uppercase;
   letter-spacing: 0.05em;
   font-weight: bold;
   color: #666;
@@ -72,7 +71,6 @@ const MetaDataPicker = ({ data, isSelected, onSelected }) => {
       onSelected(item);
     }
   };
-
   return (
     <>
       <ModalHeader>

@@ -41,7 +41,6 @@ const NavigationHeader = styled.div`
 `;
 
 export const TabButton = styled.button`
-  text-transform: uppercase;
   border: 0;
   color: ${colors.darkGrey};
   cursor: pointer;

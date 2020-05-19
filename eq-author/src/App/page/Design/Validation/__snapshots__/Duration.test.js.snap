@@ -32,19 +32,19 @@ exports[`Duration should render 1`] = `
         key="Days"
         value="Days"
       >
-        Days
+        days
       </option>
       <option
         key="Months"
         value="Months"
       >
-        Months
+        months
       </option>
       <option
         key="Years"
         value="Years"
       >
-        Years
+        years
       </option>
     </withChangeHandler(Select__SimpleSelect)>
   </Column>
