@@ -28,7 +28,7 @@ exports[`Grouped Answer Properties should show error if there is a mismatch in t
 Array [
   <Accordion
     key="undefined"
-    title="Undefined properties"
+    title="undefined properties"
   >
     <GroupedAnswerProperties__Padding />
     <GroupedAnswerProperties__AnswerPropertiesContainer
