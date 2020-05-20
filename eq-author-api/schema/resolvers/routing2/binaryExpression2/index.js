@@ -46,9 +46,7 @@ Resolvers.BinaryExpression2 = {
     if (left.type === "Answer") {
       const answer = getAnswerById(ctx, left.answerId);
       return { ...answer, sideType: left.type };
-    }
-
-    if (left.type === "Default") {
+    } else if (left.type === "Default") {
       const answer = getAnswerById(ctx, left.answerId);
       return {
         ...answer,
@@ -56,9 +54,9 @@ Resolvers.BinaryExpression2 = {
         reason: "DefaultRouting",
         displayName: "Select an answer",
       };
+    } else {
+      return { sideType: left.type, reason: left.nullReason };
     }
-
-    return { sideType: left.type, reason: left.nullReason };
   },
   right: async ({ right }) => {
     if (right && ["Custom", "SelectedOptions"].includes(right.type)) {
