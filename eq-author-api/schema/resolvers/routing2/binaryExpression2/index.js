@@ -15,11 +15,6 @@ const {
   createRightSide,
 } = require("../../../../src/businessLogic");
 
-const {
-  NULL,
-  DEFAULT_ROUTING,
-} = require("../../../../constants/routingNoLeftSide");
-
 const { createMutation } = require("../../createMutation");
 
 const {
@@ -51,6 +46,16 @@ Resolvers.BinaryExpression2 = {
     if (left.type === "Answer") {
       const answer = getAnswerById(ctx, left.answerId);
       return { ...answer, sideType: left.type };
+    }
+
+    if (left.type === "Default") {
+      const answer = getAnswerById(ctx, left.answerId);
+      return {
+        ...answer,
+        sideType: left.type,
+        reason: "DefaultRouting",
+        displayName: "Select an answer",
+      };
     }
 
     return { sideType: left.type, reason: left.nullReason };
@@ -94,6 +99,9 @@ Resolvers.LeftSide2 = {
     }
     if (sideType === "Null") {
       return "NoLeftSide";
+    }
+    if (sideType === "Default") {
+      return "DefaultLeftSide";
     }
   },
 };
@@ -160,8 +168,8 @@ Resolvers.Mutation = {
     }
 
     const left = {
-      type: NULL,
-      nullReason: DEFAULT_ROUTING,
+      answerId: firstAnswer.id,
+      type: "Default",
     };
 
     const expression = createExpression({

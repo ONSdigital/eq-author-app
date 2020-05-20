@@ -14,11 +14,6 @@ const {
 } = require("../../../../src/businessLogic");
 
 const answerTypeToConditions = require("../../../../src/businessLogic/answerTypeToConditions");
-const {
-  NULL,
-  DEFAULT_ROUTING,
-} = require("../../../../constants/routingNoLeftSide");
-
 const { getPages, getPageById } = require("../../utils");
 
 const isMutuallyExclusiveDestination = isMutuallyExclusive([
@@ -67,8 +62,8 @@ Resolvers.Mutation = {
     }
 
     const leftHandSide = {
-      type: NULL,
-      nullReason: DEFAULT_ROUTING,
+      answerId: firstAnswer.id,
+      type: "Default",
     };
 
     page.routing = createRouting({

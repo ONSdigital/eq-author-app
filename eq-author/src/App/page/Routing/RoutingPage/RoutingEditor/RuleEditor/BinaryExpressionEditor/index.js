@@ -131,7 +131,11 @@ const ContentPicker = styled(RoutingAnswerContentPicker)`
 `;
 
 const DefaultRouteDiv = styled.div`
-  padding-bottom: ${props => (props.isHidden ? "1em" : "0")};
+  padding-bottom: ${props => (props.hasPadding ? "1em" : "0")};
+`;
+
+const StyledTransition = styled.div`
+  display: ${props => (props.isHidden ? "none" : "block")};
 `;
 
 /* eslint-disable react/prop-types */
@@ -284,11 +288,7 @@ export class UnwrappedBinaryExpressionEditor extends React.Component {
     } = this.props;
 
     return (
-      <DefaultRouteDiv
-        data-test="routing-binary-expression"
-        className={className}
-        isHidden={this.props.expression.left.reason === DEFAULT_ROUTING}
-      >
+      <div>
         <Grid align="center">
           <Column gutters={false} cols={1.5}>
             <Label
@@ -303,7 +303,6 @@ export class UnwrappedBinaryExpressionEditor extends React.Component {
               <ContentPicker
                 path="page.availableRoutingAnswers"
                 selectedContentDisplayName={get("left.displayName", expression)}
-                // selectedContentDisplayName={this.state.contentPickerDisplayName}
                 onSubmit={this.handleLeftSideChange}
                 selectedId={get("left.id", expression)}
                 data-test="routing-answer-picker"
@@ -333,18 +332,28 @@ export class UnwrappedBinaryExpressionEditor extends React.Component {
           </Column>
         </Grid>
 
-        <Grid>
-          <Column gutters={false} cols={1.5}>
-            <ConnectedPath pathEnd={isLastExpression} />
-          </Column>
-          <Column gutters={false} cols={8}>
-            <TransitionGroup>
-              <Transition key="answer">{routingEditor}</Transition>
-            </TransitionGroup>
-          </Column>
-          <Column cols={2.5} />
-        </Grid>
-      </DefaultRouteDiv>
+        <DefaultRouteDiv
+          className={className}
+          hasPadding={this.props.expression.left.reason === DEFAULT_ROUTING}
+        >
+          <Grid>
+            <Column gutters={false} cols={1.5}>
+              <ConnectedPath pathEnd={isLastExpression} />
+            </Column>
+            <Column gutters={false} cols={8}>
+              <StyledTransition
+                data-test="transition-condition"
+                isHidden={this.props.expression.left.reason === DEFAULT_ROUTING}
+              >
+                <TransitionGroup>
+                  <Transition key="answer">{routingEditor}</Transition>
+                </TransitionGroup>
+              </StyledTransition>
+            </Column>
+            <Column cols={2.5} />
+          </Grid>
+        </DefaultRouteDiv>
+      </div>
     );
   }
 }

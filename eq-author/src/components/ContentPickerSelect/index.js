@@ -138,7 +138,7 @@ ContentPickerSelect.propTypes = {
 };
 
 ContentPickerSelect.defaultProps = {
-  selectedContentDisplayName: "Select an answer",
+  selectedContentDisplayName: "Please select...",
 };
 
 export default ContentPickerSelect;

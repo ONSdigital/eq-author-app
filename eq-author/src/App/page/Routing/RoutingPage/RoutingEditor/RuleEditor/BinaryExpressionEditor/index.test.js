@@ -62,19 +62,6 @@ describe("BinaryExpressionEditor", () => {
     ).toBeTruthy();
   });
 
-  it("should not show the delete or add expression buttons when showing defaultRouting", async () => {
-    const { getByTestId } = render(
-      <BinaryExpressionEditor {...defaultProps} />
-    );
-
-    await act(async () => {
-      await flushPromises();
-    });
-
-    const actionBtns = getByTestId("action-btns");
-    expect(actionBtns).toHaveStyleRule("display: none;");
-  });
-
   it("should render multiple choice editor correctly", () => {
     const wrapper = shallow(<BinaryExpressionEditor {...defaultProps} />);
     expect(wrapper.find(MultipleChoiceAnswerOptionsSelector)).toBeTruthy();
@@ -194,5 +181,31 @@ describe("BinaryExpressionEditor", () => {
         customValue: { number: 123 },
       }
     );
+  });
+
+  it("should not show the delete or add expression buttons when showing defaultRouting", async () => {
+    const { getByTestId } = render(
+      <BinaryExpressionEditor {...defaultProps} />
+    );
+
+    await act(async () => {
+      await flushPromises();
+    });
+
+    const actionBtns = getByTestId("action-btns");
+    expect(actionBtns).toHaveStyleRule("display: none;");
+  });
+
+  it("should not show the condition when showing defaultRouting", async () => {
+    const { getByTestId } = render(
+      <BinaryExpressionEditor {...defaultProps} />
+    );
+
+    await act(async () => {
+      await flushPromises();
+    });
+
+    const transition = getByTestId("transition-condition");
+    expect(transition).toHaveStyleRule("display: none;");
   });
 });

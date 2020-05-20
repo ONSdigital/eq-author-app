@@ -92,6 +92,11 @@ const getPageQuery = `
                         id
                       }
                     }
+                    ... on DefaultLeftSide {
+                      id
+                      displayName
+                      reason
+                    }
                   }
                   condition
                   right {

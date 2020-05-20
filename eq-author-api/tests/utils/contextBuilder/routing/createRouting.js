@@ -18,6 +18,11 @@ mutation createRouting2($input: CreateRouting2Input!) {
               ... on MultipleChoiceAnswer {
                 id
               }
+              ... on DefaultLeftSide {
+                id
+                displayName
+                reason
+              }
             }
             right {
               ... on SelectedOptions2 {

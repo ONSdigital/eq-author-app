@@ -1,10 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`BinaryExpressionEditor should render consistently 1`] = `
-<BinaryExpressionEditor__DefaultRouteDiv
-  data-test="routing-binary-expression"
-  isHidden={false}
->
+<div>
   <Grid
     align="center"
     fillHeight={true}
@@ -67,51 +64,60 @@ exports[`BinaryExpressionEditor should render consistently 1`] = `
       </BinaryExpressionEditor__ActionButtons>
     </Column>
   </Grid>
-  <Grid
-    align="top"
-    fillHeight={true}
+  <BinaryExpressionEditor__DefaultRouteDiv
+    hasPadding={false}
   >
-    <Column
-      cols={1.5}
-      gutters={false}
+    <Grid
+      align="top"
+      fillHeight={true}
     >
-      <BinaryExpressionEditor__ConnectedPath
-        pathEnd={false}
-      />
-    </Column>
-    <Column
-      cols={8}
-      gutters={false}
-    >
-      <TransitionGroup
-        childFactory={[Function]}
-        component="div"
+      <Column
+        cols={1.5}
+        gutters={false}
       >
-        <Transition__RoutingComponentTransition
-          key="answer"
-          timeout={200}
+        <BinaryExpressionEditor__ConnectedPath
+          pathEnd={false}
+        />
+      </Column>
+      <Column
+        cols={8}
+        gutters={false}
+      >
+        <BinaryExpressionEditor__StyledTransition
+          data-test="transition-condition"
+          isHidden={false}
         >
-          <MultipleChoiceAnswerOptionsSelector
-            expression={
-              Object {
-                "condition": "Equal",
-                "id": "1",
-                "left": Object {
-                  "id": "2",
-                  "type": "Radio",
-                },
-                "right": null,
-              }
-            }
-            onConditionChange={[Function]}
-            onRightChange={[Function]}
-          />
-        </Transition__RoutingComponentTransition>
-      </TransitionGroup>
-    </Column>
-    <Column
-      cols={2.5}
-    />
-  </Grid>
-</BinaryExpressionEditor__DefaultRouteDiv>
+          <TransitionGroup
+            childFactory={[Function]}
+            component="div"
+          >
+            <Transition__RoutingComponentTransition
+              key="answer"
+              timeout={200}
+            >
+              <MultipleChoiceAnswerOptionsSelector
+                expression={
+                  Object {
+                    "condition": "Equal",
+                    "id": "1",
+                    "left": Object {
+                      "id": "2",
+                      "type": "Radio",
+                    },
+                    "right": null,
+                  }
+                }
+                onConditionChange={[Function]}
+                onRightChange={[Function]}
+              />
+            </Transition__RoutingComponentTransition>
+          </TransitionGroup>
+        </BinaryExpressionEditor__StyledTransition>
+      </Column>
+      <Column
+        cols={2.5}
+      />
+    </Grid>
+  </BinaryExpressionEditor__DefaultRouteDiv>
+</div>
 `;
