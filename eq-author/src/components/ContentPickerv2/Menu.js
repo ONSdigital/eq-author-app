@@ -110,7 +110,6 @@ export const MenuItemType = styled.span`
   background: #e4e8eb;
   padding: 0.3em 0.7em;
   border-radius: 1em;
-  text-transform: uppercase;
   letter-spacing: 0.05em;
   color: var(--colorTertiary);
   flex: 0 1 auto;
@@ -121,7 +120,6 @@ export const SectionTitle = styled.div`
   background: #f4f5f6;
   font-size: 11px;
   padding: 0.3rem 1rem;
-  text-transform: uppercase;
   letter-spacing: 0.05em;
   font-weight: bold;
   color: #666;

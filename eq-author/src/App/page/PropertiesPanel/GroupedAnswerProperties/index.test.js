@@ -65,8 +65,8 @@ describe("Grouped Answer Properties", () => {
     const wrapper = shallow(<UnwrappedGroupedAnswerProperties {...props} />);
     const accordions = wrapper.find(Accordion);
     expect(accordions).toHaveLength(2);
-    expect(accordions.at(0).prop("title")).toEqual("CURRENCY PROPERTIES");
-    expect(accordions.at(1).prop("title")).toEqual("DATE PROPERTIES");
+    expect(accordions.at(0).prop("title")).toEqual("Currency properties");
+    expect(accordions.at(1).prop("title")).toEqual("Date properties");
   });
 
   it("should show one copy of the shared property decimal", () => {

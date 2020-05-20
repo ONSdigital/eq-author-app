@@ -5,6 +5,7 @@ import styled from "styled-components";
 
 import { colors } from "constants/theme";
 
+import { ErrorMessage } from "./ErrorMessage";
 import SectionMenu from "./SectionMenu";
 import Options, { OPTION_ANSWERS, OPTION_SECTIONS } from "./Options";
 import { FlatSectionMenu } from "./Menu";
@@ -37,6 +38,23 @@ const AnswerPicker = ({ data, ...otherProps }) => {
     data.length > 1 ? OPTION_SECTIONS : OPTION_ANSWERS
   );
 
+  const contents = (
+    <MenuContainer>
+      {option === OPTION_ANSWERS ? (
+        <ScrollPane>
+          {data.length ? (
+            <FlatSectionMenu data={data} {...otherProps} />
+          ) : (
+            ErrorMessage("answers")
+          )}
+        </ScrollPane>
+      ) : data.length ? (
+        <SectionMenu data={data} {...otherProps} />
+      ) : (
+        ErrorMessage("answers")
+      )}
+    </MenuContainer>
+  );
   return (
     <>
       <ModalHeader>
@@ -45,16 +63,7 @@ const AnswerPicker = ({ data, ...otherProps }) => {
           <Options onChange={e => setOption(e.target.value)} option={option} />
         </ModalToolbar>
       </ModalHeader>
-
-      <MenuContainer>
-        {option === OPTION_ANSWERS ? (
-          <ScrollPane>
-            <FlatSectionMenu data={data} {...otherProps} />
-          </ScrollPane>
-        ) : (
-          <SectionMenu data={data} {...otherProps} />
-        )}
-      </MenuContainer>
+      {contents}
     </>
   );
 };

@@ -134,7 +134,7 @@ const CheckboxOptionPicker = ({ expression, onClose, onRightChange }) => {
           }}
           variant="primary"
         >
-          DONE
+          Done
         </PickerButton>
       </Buttons>
     </>

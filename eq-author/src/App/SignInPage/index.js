@@ -25,6 +25,9 @@ const SignInPanel = styled(Panel)`
   justify-content: center;
   align-items: center;
   max-width: 25em;
+  button {
+    text-transform: initial;
+  }
 `;
 
 export class SignInPage extends React.Component {

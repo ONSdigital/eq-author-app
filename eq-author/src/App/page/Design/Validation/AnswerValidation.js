@@ -81,7 +81,7 @@ export const validationTypes = [
   },
   {
     id: "earliestDate",
-    title: "Earliest Date",
+    title: "Earliest date",
     render: () => (
       <EarliestDate>{props => <DateValidation {...props} />}</EarliestDate>
     ),
@@ -90,7 +90,7 @@ export const validationTypes = [
   },
   {
     id: "latestDate",
-    title: "Latest Date",
+    title: "Latest date",
     render: () => (
       <LatestDate>{props => <DateValidation {...props} />}</LatestDate>
     ),
@@ -99,7 +99,7 @@ export const validationTypes = [
   },
   {
     id: "minDuration",
-    title: "Min Duration",
+    title: "Min duration",
     render: () => (
       <MinDuration>{props => <DurationValidation {...props} />}</MinDuration>
     ),
@@ -108,7 +108,7 @@ export const validationTypes = [
   },
   {
     id: "maxDuration",
-    title: "Max Duration",
+    title: "Max duration",
     render: () => (
       <MaxDuration>{props => <DurationValidation {...props} />}</MaxDuration>
     ),

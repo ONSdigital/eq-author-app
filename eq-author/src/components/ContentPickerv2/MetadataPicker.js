@@ -5,6 +5,8 @@ import CustomPropTypes from "custom-prop-types";
 import styled from "styled-components";
 
 import { colors } from "constants/theme";
+
+import { ErrorMessage } from "./ErrorMessage";
 import { SubMenuItem, MenuItemType } from "./Menu";
 
 import ScrollPane from "components/ScrollPane";
@@ -35,7 +37,6 @@ const TableHeader = styled.div`
   background: #f4f5f6;
   font-size: 11px;
   padding: 0.3rem 1rem;
-  text-transform: uppercase;
   letter-spacing: 0.05em;
   font-weight: bold;
   color: #666;
@@ -72,7 +73,6 @@ const MetaDataPicker = ({ data, isSelected, onSelected }) => {
       onSelected(item);
     }
   };
-
   return (
     <>
       <ModalHeader>
@@ -80,35 +80,42 @@ const MetaDataPicker = ({ data, isSelected, onSelected }) => {
       </ModalHeader>
       <MenuContainer>
         <ScrollPane>
-          <Table>
-            <TableHeader>
-              <TableHeadCol>Key</TableHeadCol>
-              <TableHeadCol>Alias</TableHeadCol>
-              <TableHeadCol>Type</TableHeadCol>
-              <TableHeadCol>Value</TableHeadCol>
-            </TableHeader>
-            <MetaDataItemList>
-              {data.map(metadata => {
-                return (
-                  <MetaDataItem
-                    key={metadata.id}
-                    onClick={() => onSelected(metadata)}
-                    aria-selected={isSelected(metadata)}
-                    aria-label={metadata.key}
-                    tabIndex="0"
-                    onKeyUp={event => onEnterUp(event, metadata)}
-                  >
-                    <Col>{metadata.key}</Col>
-                    <Col>{metadata.displayName}</Col>
-                    <Col>
-                      <MenuItemType>{metadata.type}</MenuItemType>
-                    </Col>
-                    <Col>{metadata[`${metadata.type.toLowerCase()}Value`]}</Col>
-                  </MetaDataItem>
-                );
-              })}
-            </MetaDataItemList>
-          </Table>
+          {data.length ? (
+            <Table>
+              <TableHeader>
+                <TableHeadCol>Key</TableHeadCol>
+                <TableHeadCol>Alias</TableHeadCol>
+                <TableHeadCol>Type</TableHeadCol>
+                <TableHeadCol>Value</TableHeadCol>
+              </TableHeader>
+
+              <MetaDataItemList>
+                {data.map(metadata => {
+                  return (
+                    <MetaDataItem
+                      key={metadata.id}
+                      onClick={() => onSelected(metadata)}
+                      aria-selected={isSelected(metadata)}
+                      aria-label={metadata.key}
+                      tabIndex="0"
+                      onKeyUp={event => onEnterUp(event, metadata)}
+                    >
+                      <Col>{metadata.key}</Col>
+                      <Col>{metadata.displayName}</Col>
+                      <Col>
+                        <MenuItemType>{metadata.type}</MenuItemType>
+                      </Col>
+                      <Col>
+                        {metadata[`${metadata.type.toLowerCase()}Value`]}
+                      </Col>
+                    </MetaDataItem>
+                  );
+                })}
+              </MetaDataItemList>
+            </Table>
+          ) : (
+            ErrorMessage("metadata")
+          )}
         </ScrollPane>
       </MenuContainer>
     </>

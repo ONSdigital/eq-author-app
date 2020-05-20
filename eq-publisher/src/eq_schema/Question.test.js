@@ -461,15 +461,28 @@ describe("Question", () => {
   });
 
   describe("piping", () => {
-    const createPipe = ({ id = 1, text = "foo", pipeType = "answers" } = {}) =>
-      `<span data-piped="${pipeType}" data-id="${id}">${text}</span>`;
+    const createPipe = ({
+      id = "7151378b-579d-40bf-b4d4-a378c573706a",
+      text = "foo",
+      pipeType = "answers",
+    } = {}) => `<span data-piped="${pipeType}" data-id="${id}">${text}</span>`;
 
     const createContext = (
       metadata = [{ id: "123", type: "Text", key: "my_metadata" }]
     ) => ({
       questionnaireJson: {
         metadata,
-        sections: [{ pages: [{ answers: [{ id: `1`, type: "Text" }] }] }],
+        sections: [
+          {
+            pages: [
+              {
+                answers: [
+                  { id: `7151378b-579d-40bf-b4d4-a378c573706a`, type: "Text" },
+                ],
+              },
+            ],
+          },
+        ],
       },
     });
 
@@ -481,7 +494,9 @@ describe("Question", () => {
         createContext()
       );
 
-      expect(question.title).toEqual("{{ answers['answer1'] }}");
+      expect(question.title).toEqual(
+        "{{ answers['answer7151378b-579d-40bf-b4d4-a378c573706a'] }}"
+      );
     });
 
     it("should handle piped values in guidance", () => {
@@ -519,7 +534,9 @@ describe("Question", () => {
         createContext()
       );
 
-      expect(question.description).toEqual("<h2>{{ answers['answer1'] }}</h2>");
+      expect(question.description).toEqual(
+        "<h2>{{ answers['answer7151378b-579d-40bf-b4d4-a378c573706a'] }}</h2>"
+      );
     });
   });
 

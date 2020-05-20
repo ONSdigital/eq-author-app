@@ -65,12 +65,13 @@ describe("QuestionnairesPage", () => {
   });
 
   it("should render the title", async () => {
-    const { getByText } = renderQuestionnairesPage();
+    const { getAllByText } = renderQuestionnairesPage();
     await act(async () => {
       await flushPromises();
     });
-    expect(getByText(/your questionnaires/i)).toBeTruthy();
-    expect(document.title).toMatch(/your questionnaires/i);
+    const title = getAllByText(/Questionnaires/i);
+    expect(title[0]).toBeTruthy();
+    expect(document.title).toMatch(/questionnaires/i);
   });
 
   it("should render the the questionnaires", async () => {

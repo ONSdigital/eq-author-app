@@ -371,7 +371,7 @@ describe("components/RichTextEditor", function() {
         );
 
         const expected = new Raw()
-          .addBlock("[Deleted Answer] [answer 2] [Deleted Metadata]")
+          .addBlock("[Deleted answer] [answer 2] [Deleted metadata]")
           .addEntity(createPipedEntity(createEntity, nonExistentAnswer), 0, 16)
           .addEntity(
             createPipedEntity(createEntity, {

@@ -51,7 +51,6 @@ const Label = styled.label`
   font-weight: bold;
   text-align: center;
   align-self: center;
-  text-transform: uppercase;
 `;
 
 const ConnectedPath = styled.div`
@@ -228,7 +227,7 @@ export class UnwrappedBinaryExpressionEditor extends React.Component {
   id = uniqueId("RoutingCondition");
 
   static defaultProps = {
-    label: "IF",
+    label: "If",
   };
 
   handleLeftSideChange = contentPickerResult => {

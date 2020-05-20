@@ -22,7 +22,6 @@ const SidebarHeader = styled.div`
 const SidebarTitle = styled.h2`
   font-weight: bold;
   letter-spacing: 0.05em;
-  text-transform: uppercase;
   font-size: 0.9em;
   margin: 0;
   text-align: center;

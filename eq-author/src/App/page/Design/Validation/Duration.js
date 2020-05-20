@@ -42,7 +42,7 @@ const Duration = ({
       >
         {units.map(unit => (
           <option key={unit} value={unit}>
-            {unit}
+            {unit.toLowerCase()}
           </option>
         ))}
       </Select>

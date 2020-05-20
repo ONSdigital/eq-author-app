@@ -212,10 +212,7 @@ export const UnwrappedGroupedAnswerProperties = ({
       );
     }
     return (
-      <Accordion
-        title={`${answerType} Properties`.toUpperCase()}
-        key={answerType}
-      >
+      <Accordion title={`${answerType} properties`} key={answerType}>
         <Padding>{groupedFields}</Padding>
         {answers.map(answer => {
           return (
