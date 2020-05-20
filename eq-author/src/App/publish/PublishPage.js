@@ -144,7 +144,6 @@ const PublishPage = ({ match, history }) => {
     for (const variant of variants) {
       if (variant.theme === theme) {
         variant.formType = formType;
-        // console.log(formType);
       }
 
       variantsArray.push(variant);
