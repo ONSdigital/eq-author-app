@@ -13,6 +13,11 @@ const {
   createRightSide,
 } = require("../../../../src/businessLogic");
 
+const {
+  NO_ROUTABLE_ANSWER_ON_PAGE,
+  NULL,
+} = require("../../../../constants/routingNoLeftSide");
+
 const answerTypeToConditions = require("../../../../src/businessLogic/answerTypeToConditions");
 const { getPages, getPageById } = require("../../utils");
 
@@ -61,10 +66,15 @@ Resolvers.Mutation = {
       condition = "Equal";
     }
 
-    const leftHandSide = {
-      answerId: firstAnswer.id,
-      type: "Default",
-    };
+    const leftHandSide = hasRoutableFirstAnswer
+      ? {
+          answerId: firstAnswer.id,
+          type: "Default",
+        }
+      : {
+          type: NULL,
+          nullReason: NO_ROUTABLE_ANSWER_ON_PAGE,
+        };
 
     page.routing = createRouting({
       else: createDestination({ logical: "NextPage" }),
