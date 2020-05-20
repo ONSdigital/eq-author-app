@@ -4,7 +4,9 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { isNil } from "lodash";
 
-import ContentPickerModal from "components/ContentPickerModal";
+import { ANSWER } from "./content-types";
+import ContentPicker from "components/ContentPickerv2";
+
 import Button from "components/buttons/Button";
 import Truncated from "components/Truncated";
 
@@ -63,8 +65,6 @@ const ContentPickerSelect = props => {
     answerData,
     metadataData,
     contentTypes,
-    selectedId,
-    selectedObj,
     name,
     selectedContentDisplayName,
     ...otherProps
@@ -76,6 +76,8 @@ const ContentPickerSelect = props => {
     props.onSubmit({ name, value: selected });
   };
 
+  const data = contentTypes[0] === ANSWER ? answerData : metadataData;
+
   return (
     <>
       <ContentSelectButton
@@ -86,15 +88,15 @@ const ContentPickerSelect = props => {
       >
         <ContentSelected>{selectedContentDisplayName}</ContentSelected>
       </ContentSelectButton>
-      <ContentPickerModal
+      <ContentPicker
         isOpen={isPickerOpen}
+        data={data || []}
+        startingSelectedAnswers={[]}
         onClose={() => setPickerOpen(false)}
         onSubmit={handlePickerSubmit}
-        answerData={answerData}
-        metadataData={metadataData}
-        contentTypes={contentTypes}
-        selectedId={selectedId}
-        selectedObj={selectedObj}
+        data-test="picker"
+        singleItemSelect
+        contentType={contentTypes[0]}
       />
     </>
   );

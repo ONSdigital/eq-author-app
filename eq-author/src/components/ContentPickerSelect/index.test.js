@@ -2,7 +2,7 @@ import React from "react";
 import { shallow } from "enzyme";
 import { render as rtlRender, fireEvent } from "tests/utils/rtl";
 import ContentPickerSelect from "components/ContentPickerSelect";
-import ContentPickerModal from "components/ContentPickerModal";
+import ContentPicker from "components/ContentPickerv2";
 
 import {
   ANSWER,
@@ -59,7 +59,7 @@ describe("ContentPickerSelect", () => {
 
   it("should correctly handle picker submit", () => {
     const selectedItem = { id: 1, displayName: "New selected answer" };
-    wrapper.find(ContentPickerModal).simulate("submit", selectedItem);
+    wrapper.find(ContentPicker).simulate("submit", selectedItem);
 
     expect(props.onSubmit).toHaveBeenCalledWith({
       name: props.name,
@@ -113,7 +113,7 @@ describe("ContentPickerSelect", () => {
         data,
       });
 
-      let metadataData = wrapper.find(ContentPickerModal).props("metadataData");
+      const metadataData = wrapper.find(ContentPicker).props("metadataData");
       expect(metadataData).toMatchSnapshot();
     });
 
@@ -124,7 +124,7 @@ describe("ContentPickerSelect", () => {
         data,
       });
 
-      let metadataData = wrapper.find(ContentPickerModal).props("metadataData");
+      const metadataData = wrapper.find(ContentPicker).props("metadataData");
       expect(metadataData).toMatchSnapshot();
     });
 
@@ -135,7 +135,7 @@ describe("ContentPickerSelect", () => {
         contentTypes: [METADATA],
       });
 
-      let metadataData = wrapper.find(ContentPickerModal).props("metadataData");
+      const metadataData = wrapper.find(ContentPicker).props("metadataData");
       expect(metadataData).toMatchSnapshot();
     });
   });
