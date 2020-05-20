@@ -15,7 +15,6 @@ const {
 
 const answerTypeToConditions = require("../../../../src/businessLogic/answerTypeToConditions");
 const {
-  // NO_ROUTABLE_ANSWER_ON_PAGE,
   NULL,
   DEFAULT_ROUTING,
 } = require("../../../../constants/routingNoLeftSide");
@@ -36,18 +35,12 @@ Resolvers.Routing2 = {
     const pages = getPages(ctx);
     return find(page => {
       if (page.routing && page.routing.id === id) {
-        console.log("\n\nRouting2 = = = =  ", pages.routing);
-
         return page;
       }
     }, pages);
   },
 
   rules: routing => {
-    console.log(
-      "\n\nrouting.rules in routing2",
-      routing.rules[0].expressionGroup.expressions[0]
-    );
     return routing.rules;
   },
 };
@@ -62,8 +55,6 @@ Resolvers.Mutation = {
 
     const firstAnswer = first(page.answers);
 
-    console.log("\n\nfirstAnswer", firstAnswer);
-
     const hasRoutableFirstAnswer =
       firstAnswer &&
       answerTypeToConditions.isAnswerTypeSupported(firstAnswer.type);
@@ -71,20 +62,9 @@ Resolvers.Mutation = {
     let condition;
     if (hasRoutableFirstAnswer) {
       condition = answerTypeToConditions.getDefault(firstAnswer.type);
-      // condition = null;
     } else {
       condition = "Equal";
     }
-
-    // const leftHandSide = hasRoutableFirstAnswer
-    //   ? {
-    //       answerId: firstAnswer.id,
-    //       type: "Answer",
-    //     }
-    //   : {
-    //       type: NULL,
-    //       nullReason: NO_ROUTABLE_ANSWER_ON_PAGE,
-    //     };
 
     const leftHandSide = {
       type: NULL,
@@ -99,11 +79,6 @@ Resolvers.Mutation = {
             expressions: [
               createExpression({
                 left: createLeftSide(leftHandSide),
-                // left: {
-                //   displayName: "Select an answer",
-                //   sideType: "Default",
-                //   reason: "defaultReason",
-                // },
                 condition,
                 right: createRightSide(firstAnswer),
               }),
@@ -114,10 +89,6 @@ Resolvers.Mutation = {
       ],
     });
 
-    console.log(
-      "\n\nleft = = = = = = ",
-      page.routing.rules[0].expressionGroup.expressions[0].left
-    );
     return page.routing;
   }),
 

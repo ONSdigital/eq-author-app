@@ -1,8 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`BinaryExpressionEditor should render consistently 1`] = `
-<div
+<BinaryExpressionEditor__DefaultRouteDiv
   data-test="routing-binary-expression"
+  isHidden={false}
 >
   <Grid
     align="center"
@@ -20,7 +21,7 @@ exports[`BinaryExpressionEditor should render consistently 1`] = `
       </BinaryExpressionEditor__Label>
     </Column>
     <Column
-      cols={9}
+      cols={8}
       gutters={false}
     >
       <BinaryExpressionEditor__Flex>
@@ -33,10 +34,13 @@ exports[`BinaryExpressionEditor should render consistently 1`] = `
       </BinaryExpressionEditor__Flex>
     </Column>
     <Column
-      cols={1.5}
+      cols={2.5}
       gutters={false}
     >
-      <BinaryExpressionEditor__ActionButtons>
+      <BinaryExpressionEditor__ActionButtons
+        data-test="action-btns"
+        isHidden={false}
+      >
         <BinaryExpressionEditor__RemoveButton
           data-test="btn-remove"
           disabled={false}
@@ -76,7 +80,7 @@ exports[`BinaryExpressionEditor should render consistently 1`] = `
       />
     </Column>
     <Column
-      cols={9}
+      cols={8}
       gutters={false}
     >
       <TransitionGroup
@@ -106,8 +110,8 @@ exports[`BinaryExpressionEditor should render consistently 1`] = `
       </TransitionGroup>
     </Column>
     <Column
-      cols={1.5}
+      cols={2.5}
     />
   </Grid>
-</div>
+</BinaryExpressionEditor__DefaultRouteDiv>
 `;

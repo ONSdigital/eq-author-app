@@ -12,9 +12,13 @@ const {
 
 const {
   createExpression,
-  createLeftSide,
   createRightSide,
 } = require("../../../../src/businessLogic");
+
+const {
+  NULL,
+  DEFAULT_ROUTING,
+} = require("../../../../constants/routingNoLeftSide");
 
 const { createMutation } = require("../../createMutation");
 
@@ -48,7 +52,6 @@ Resolvers.BinaryExpression2 = {
       const answer = getAnswerById(ctx, left.answerId);
       return { ...answer, sideType: left.type };
     }
-    console.log("\n\nBinaryExpression2 = = = = ", left.type);
 
     return { sideType: left.type, reason: left.nullReason };
   },
@@ -83,10 +86,6 @@ Resolvers.BinaryExpression2 = {
 
 Resolvers.LeftSide2 = {
   __resolveType: ({ type, sideType }) => {
-    console.log("\n\nsideType - - - - -  - - - - ", sideType);
-
-    // return "NoLeftSide";
-
     if (sideType === "Answer") {
       if ([answerTypes.RADIO, answerTypes.CHECKBOX].includes(type)) {
         return "MultipleChoiceAnswer";
@@ -151,7 +150,7 @@ Resolvers.Mutation = {
     }, pages);
 
     const firstAnswer = first(getOr([], "answers", page));
-    console.log("\n\nfirstAnswer = = ", firstAnswer);
+
     const hasRoutableFirstAnswer =
       firstAnswer &&
       answerTypeToConditions.isAnswerTypeSupported(firstAnswer.type);
@@ -160,15 +159,10 @@ Resolvers.Mutation = {
       condition = answerTypeToConditions.getDefault(firstAnswer.type);
     }
 
-    const left = hasRoutableFirstAnswer
-      ? createLeftSide({
-          type: "Answer",
-          answerId: firstAnswer.id,
-        })
-      : createLeftSide({
-          type: "Null",
-          nullReason: "NoRoutableAnswerOnPage",
-        });
+    const left = {
+      type: NULL,
+      nullReason: DEFAULT_ROUTING,
+    };
 
     const expression = createExpression({
       left,
@@ -254,7 +248,7 @@ Resolvers.Mutation = {
     expression.left = updatedLeftSide;
     expression.right = null;
     expression.condition = answerTypeToConditions.getDefault(answer.type);
-    console.log("\n\nexpression = = = = = = = = = ", expression);
+
     return expression;
   }),
   updateRightSide2: createMutation((root, { input }, ctx) => {
@@ -263,7 +257,6 @@ Resolvers.Mutation = {
     }
 
     const { expressionId, customValue, selectedOptions } = input;
-
     const pages = getPages(ctx);
     const rules = flatMap(
       routing => getOr([], "rules", routing),
