@@ -18,6 +18,7 @@ import {
 import {
   NO_ROUTABLE_ANSWER_ON_PAGE,
   SELECTED_ANSWER_DELETED,
+  DEFAULT_ROUTING,
 } from "constants/routing-left-side";
 
 import IconText from "components/IconText";
@@ -71,10 +72,10 @@ const ConnectedPath = styled.div`
 `;
 
 const ActionButtons = styled.div`
-  display: flex;
   margin: auto;
   align-items: center;
   justify-content: center;
+  display: ${props => (props.isHidden ? "none" : "flex")};
 `;
 
 const ActionButton = styled.button`
@@ -126,6 +127,14 @@ const Flex = styled.div`
 
 const ContentPicker = styled(RoutingAnswerContentPicker)`
   flex: 1 1 auto;
+`;
+
+const DefaultRouteDiv = styled.div`
+  padding-bottom: ${props => (props.hasPadding ? "1em" : "0")};
+`;
+
+const StyledTransition = styled.div`
+  display: ${props => (props.isHidden ? "none" : "block")};
 `;
 
 /* eslint-disable react/prop-types */
@@ -245,6 +254,10 @@ export class UnwrappedBinaryExpressionEditor extends React.Component {
   };
 
   renderEditor() {
+    if (this.props.expression.left.reason === DEFAULT_ROUTING) {
+      return <div />;
+    }
+
     for (let i = 0; i < ERROR_SITUATIONS.length; ++i) {
       const { condition, message } = ERROR_SITUATIONS[i];
       if (condition(this.props)) {
@@ -274,7 +287,7 @@ export class UnwrappedBinaryExpressionEditor extends React.Component {
     } = this.props;
 
     return (
-      <div data-test="routing-binary-expression" className={className}>
+      <div>
         <Grid align="center">
           <Column gutters={false} cols={1.5}>
             <Label
@@ -296,7 +309,10 @@ export class UnwrappedBinaryExpressionEditor extends React.Component {
             </Flex>
           </Column>
           <Column gutters={false} cols={2.5}>
-            <ActionButtons>
+            <ActionButtons
+              data-test="action-btns"
+              isHidden={this.props.expression.left.reason === DEFAULT_ROUTING}
+            >
               <RemoveButton
                 onClick={this.handleDeleteClick}
                 disabled={isOnlyExpression}
@@ -314,17 +330,28 @@ export class UnwrappedBinaryExpressionEditor extends React.Component {
             </ActionButtons>
           </Column>
         </Grid>
-        <Grid>
-          <Column gutters={false} cols={1.5}>
-            <ConnectedPath pathEnd={isLastExpression} />
-          </Column>
-          <Column gutters={false} cols={8}>
-            <TransitionGroup>
-              <Transition key="answer">{routingEditor}</Transition>
-            </TransitionGroup>
-          </Column>
-          <Column cols={2.5} />
-        </Grid>
+
+        <DefaultRouteDiv
+          className={className}
+          hasPadding={this.props.expression.left.reason === DEFAULT_ROUTING}
+        >
+          <Grid>
+            <Column gutters={false} cols={1.5}>
+              <ConnectedPath pathEnd={isLastExpression} />
+            </Column>
+            <Column gutters={false} cols={8}>
+              <StyledTransition
+                data-test="transition-condition"
+                isHidden={this.props.expression.left.reason === DEFAULT_ROUTING}
+              >
+                <TransitionGroup>
+                  <Transition key="answer">{routingEditor}</Transition>
+                </TransitionGroup>
+              </StyledTransition>
+            </Column>
+            <Column cols={2.5} />
+          </Grid>
+        </DefaultRouteDiv>
       </div>
     );
   }
