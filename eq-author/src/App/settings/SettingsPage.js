@@ -1,8 +1,5 @@
 import React, { useState } from "react";
-<<<<<<< HEAD
 import PropTypes from "prop-types";
-=======
->>>>>>> Deleted settings modal, introduced settings page with some content
 import styled from "styled-components";
 import { withRouter } from "react-router-dom";
 import { useMutation } from "react-apollo";
@@ -13,14 +10,9 @@ import updateQuestionnaireMutation from "graphql/updateQuestionnaire.graphql";
 
 import Header from "components/EditorLayout/Header";
 import ScrollPane from "components/ScrollPane";
-<<<<<<< HEAD
 import Panel, { InformationPanel } from "components/Panel";
 import { Field, Input, Label } from "components/Forms";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
-=======
-import Panel from "components/Panel";
-import { Field, Input, Label } from "components/Forms";
->>>>>>> Deleted settings modal, introduced settings page with some content
 
 const Container = styled.div`
   display: flex;
@@ -44,7 +36,6 @@ const Caption = styled.p`
   margin-bottom: 0.6em;
 `;
 
-<<<<<<< HEAD
 const HorizontalSeparator = styled.hr`
   border: 0;
   border-top: 0.0625em solid ${colors.lightMediumGrey};
@@ -94,62 +85,19 @@ Pill.propTypes = {
 
 const SettingsPage = ({ questionnaire }) => {
   const { title, shortTitle, type, id, navigation, summary } = questionnaire;
-=======
-const PillContainer = styled.div`
-  width: 4em;
-  padding: 0.5em 1em;
-  box-sizing: content-box;
-  background-color: ${colors.lightMediumGrey};
-  text-align: center;
-
-  p {
-    margin: 0;
-    font-weight: bold;
-  }
-`;
-
-const Separator = styled.hr`
-  border: 0;
-  border-top: 0.0625em solid ${colors.lightMediumGrey};
-  margin: 1.5em 0;
-`;
-
-const Pill = ({ children }) => {
-  return (
-    <PillContainer>
-      <p>{children}</p>
-    </PillContainer>
-  );
-};
-
-const SettingsPage = props => {
-  const { title, shortTitle, type, id } = props.questionnaire.data;
->>>>>>> Deleted settings modal, introduced settings page with some content
 
   const [updateQuestionnaire] = useMutation(updateQuestionnaireMutation);
-  const [questionnaireTitle, setQuestionnaireTitle] = useState(title);
+  const [questionnaireTitle, setQuestionnaireTitle] = useState("");
   const [questionnaireShortTitle, setQuestionnaireShortTitle] = useState(
     shortTitle
   );
 
   const handleTitleChange = ({ value }) => {
-<<<<<<< HEAD
     if (value !== "") {
       updateQuestionnaire({
         variables: { input: { id, title: value } },
       });
     }
-=======
-    if (value) {
-      updateQuestionnaire({
-        variables: { input: { id, title: value } },
-      });
-      return;
-    }
-
-    setQuestionnaireTitle(title);
-    return;
->>>>>>> Deleted settings modal, introduced settings page with some content
   };
 
   const handleShortTitleChange = ({ value }) => {
@@ -164,7 +112,8 @@ const SettingsPage = props => {
       <ScrollPane>
         <StyledPanel>
           <Field>
-            <Label>Questionnaire title</Label>
+            <Label>Change questionnaire title</Label>
+            <Caption>This will replace the current title.</Caption>
             <StyledInput
               value={questionnaireTitle}
               onChange={({ value }) => setQuestionnaireTitle(value)}
@@ -183,16 +132,11 @@ const SettingsPage = props => {
               onBlur={e => handleShortTitleChange({ ...e.target })}
             />
           </Field>
-<<<<<<< HEAD
           <HorizontalSeparator />
-=======
-          <Separator />
->>>>>>> Deleted settings modal, introduced settings page with some content
           <Field>
             <Label>Questionnaire type</Label>
             <Pill>{type}</Pill>
           </Field>
-<<<<<<< HEAD
           <HorizontalSeparator />
           <InlineField>
             <Label>Section navigation</Label>
@@ -231,19 +175,13 @@ const SettingsPage = props => {
             Let respondents check their answers before submitting their
             questionnaire
           </InformationPanel>
-=======
-          <Separator />
->>>>>>> Deleted settings modal, introduced settings page with some content
         </StyledPanel>
       </ScrollPane>
     </Container>
   );
 };
-<<<<<<< HEAD
 SettingsPage.propTypes = {
   questionnaire: PropTypes.string.isRequired,
 };
-=======
->>>>>>> Deleted settings modal, introduced settings page with some content
 
 export default withRouter(SettingsPage);
