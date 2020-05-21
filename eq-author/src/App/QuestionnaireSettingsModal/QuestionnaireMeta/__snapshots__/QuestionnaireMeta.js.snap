@@ -1,0 +1,159 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`QuestionnaireMeta should render 1`] = `
+<Form
+  onSubmit={[MockFunction]}
+>
+  <Field
+    disabled={false}
+    last={false}
+  >
+    <Label
+      bold={true}
+      htmlFor="title"
+    >
+      Questionnaire Title
+    </Label>
+    <withChangeHandler(UncontrolledInput)
+      autoFocus={true}
+      data-test="txt-questionnaire-title"
+      defaultValue="I am the title"
+      id="title"
+      onChange={[MockFunction]}
+      required={true}
+    />
+  </Field>
+  <Grid
+    align="top"
+    fillHeight={true}
+  >
+    <Column
+      cols={6}
+    >
+      <Field
+        disabled={false}
+        last={false}
+      >
+        <Label
+          bold={true}
+          htmlFor="shortTitle"
+        >
+          Short title (optional)
+        </Label>
+        <withChangeHandler(UncontrolledInput)
+          data-test="txt-questionnaire-short-title"
+          defaultValue="I am the shortTitle"
+          id="shortTitle"
+          onChange={[MockFunction]}
+        />
+      </Field>
+    </Column>
+    <Column
+      cols={6}
+    >
+      <Field
+        disabled={false}
+        last={false}
+      >
+        <Label
+          bold={true}
+          htmlFor="type"
+        >
+          Questionnaire type
+        </Label>
+        <withChangeHandler(Select__SimpleSelect)
+          data-test="select-questionnaire-type"
+          defaultValue=""
+          disabled={false}
+          id="type"
+          onChange={[MockFunction]}
+        >
+          <option
+            disabled={true}
+            value=""
+          >
+            Please select...
+          </option>
+          <option
+            value="Business"
+          >
+            Business
+          </option>
+          <option
+            value="Social"
+          >
+            Social
+          </option>
+        </withChangeHandler(Select__SimpleSelect)>
+      </Field>
+    </Column>
+  </Grid>
+  <QuestionnaireMeta__ToggleWrapper>
+    <QuestionnaireMeta__InlineField>
+      <QuestionnaireMeta__FlexLabel
+        htmlFor="navigation"
+        inline={true}
+      >
+        <QuestionnaireMeta__Icon
+          alt=""
+          fade={true}
+          src="icon-show-nav.svg"
+        />
+        <DescribedText
+          description="Allows respondents to navigate between sections when they are completing the survey."
+        >
+          Show section navigation
+        </DescribedText>
+      </QuestionnaireMeta__FlexLabel>
+      <ToggleSwitch
+        checked={false}
+        id="navigation"
+        name="navigation"
+        onChange={[MockFunction]}
+      />
+    </QuestionnaireMeta__InlineField>
+    <QuestionnaireMeta__InlineField>
+      <QuestionnaireMeta__FlexLabel
+        htmlFor="summary"
+        inline={true}
+      >
+        <QuestionnaireMeta__Icon
+          alt=""
+          fade={true}
+          src="icon-show-confirmation.svg"
+        />
+        <DescribedText
+          description="A summary of all of the respondent's answers will be shown on the confirmation page at the end of the survey."
+        >
+          Show summary on confirmation page
+        </DescribedText>
+      </QuestionnaireMeta__FlexLabel>
+      <ToggleSwitch
+        checked={false}
+        id="summary"
+        name="summary"
+        onChange={[MockFunction]}
+      />
+    </QuestionnaireMeta__InlineField>
+  </QuestionnaireMeta__ToggleWrapper>
+  <ButtonGroup
+    align="right"
+    horizontal={true}
+  >
+    <Button
+      type="button"
+      variant="secondary"
+    >
+      Cancel
+    </Button>
+    <Button
+      data-test="questionnaire-submit-button"
+      disabled={true}
+      type="submit"
+      variant="primary"
+    >
+      Create
+    </Button>
+  </ButtonGroup>
+</Form>
+`;

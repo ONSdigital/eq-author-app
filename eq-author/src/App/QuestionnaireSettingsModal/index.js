@@ -1,0 +1,83 @@
+import React from "react";
+import Modal from "components/modals/Modal";
+import styled from "styled-components";
+import DialogHeader from "components/Dialog/DialogHeader";
+import { Message, Heading } from "components/Dialog/DialogMessage";
+import PropTypes from "prop-types";
+import QuestionnaireMeta from "./QuestionnaireMeta";
+import CustomPropTypes from "custom-prop-types";
+import { noop } from "lodash";
+import gql from "graphql-tag";
+
+const defaultQuestionnaire = {
+  title: "",
+  description: "",
+  surveyId: "",
+  theme: "default",
+  navigation: false,
+};
+
+const CenteredHeading = styled(Heading)`
+  text-align: center;
+  margin-bottom: 2.5rem;
+`;
+
+const StyledModal = styled(Modal)`
+  .Modal {
+    width: 37em;
+  }
+`;
+
+const QuestionnaireSettingsModal = ({
+  questionnaire,
+  isOpen,
+  onClose,
+  onSubmit,
+  confirmText,
+  canEditType,
+}) => (
+  <StyledModal
+    isOpen={isOpen}
+    onClose={onClose}
+    data={{ test: "questionnaire-settings-modal" }}
+  >
+    <DialogHeader>
+      <Message>
+        <CenteredHeading>Questionnaire settings</CenteredHeading>
+      </Message>
+    </DialogHeader>
+    <QuestionnaireMeta
+      questionnaire={questionnaire}
+      onCancel={onClose}
+      onSubmit={onSubmit}
+      onUpdate={noop}
+      confirmText={confirmText}
+      canEditType={canEditType}
+    />
+  </StyledModal>
+);
+
+QuestionnaireSettingsModal.propTypes = {
+  onSubmit: PropTypes.func,
+  isOpen: PropTypes.bool,
+  onClose: PropTypes.func,
+  confirmText: PropTypes.string.isRequired,
+  questionnaire: CustomPropTypes.questionnaire,
+  canEditType: PropTypes.bool,
+};
+
+QuestionnaireSettingsModal.defaultProps = {
+  questionnaire: defaultQuestionnaire,
+  canEditType: true,
+};
+
+QuestionnaireSettingsModal.fragments = {
+  QuestionnaireSettingsModal: gql`
+    fragment QuestionnaireSettingsModal on Questionnaire {
+      ...Questionnaire
+    }
+    ${QuestionnaireMeta.fragments.Questionnaire}
+  `,
+};
+
+export default QuestionnaireSettingsModal;
