@@ -35,15 +35,15 @@ exports[`ContentPickerSelect content types should render answer  1`] = `
       foobar
     </ContentPickerSelect__ContentSelected>
   </ContentPickerSelect__ContentSelectButton>
-  <ContentPickerModal
-    contentTypes={
-      Array [
-        "Custom",
-      ]
-    }
+  <ContentPicker
+    contentType="Custom"
+    data={Array []}
+    data-test="picker"
     isOpen={false}
     onClose={[Function]}
     onSubmit={[Function]}
+    singleItemSelect={true}
+    startingSelectedAnswers={Array []}
   />
 </Fragment>
 `;
@@ -83,16 +83,15 @@ exports[`ContentPickerSelect content types should render answer and metadata 1`]
       foobar
     </ContentPickerSelect__ContentSelected>
   </ContentPickerSelect__ContentSelectButton>
-  <ContentPickerModal
-    contentTypes={
-      Array [
-        "Custom",
-        "Metadata",
-      ]
-    }
+  <ContentPicker
+    contentType="Custom"
+    data={Array []}
+    data-test="picker"
     isOpen={false}
     onClose={[Function]}
     onSubmit={[Function]}
+    singleItemSelect={true}
+    startingSelectedAnswers={Array []}
   />
 </Fragment>
 `;
@@ -132,15 +131,15 @@ exports[`ContentPickerSelect content types should render destination 1`] = `
       foobar
     </ContentPickerSelect__ContentSelected>
   </ContentPickerSelect__ContentSelectButton>
-  <ContentPickerModal
-    contentTypes={
-      Array [
-        "Destination",
-      ]
-    }
+  <ContentPicker
+    contentType="Destination"
+    data={Array []}
+    data-test="picker"
     isOpen={false}
     onClose={[Function]}
     onSubmit={[Function]}
+    singleItemSelect={true}
+    startingSelectedAnswers={Array []}
   />
 </Fragment>
 `;
@@ -180,15 +179,15 @@ exports[`ContentPickerSelect content types should render metadata 1`] = `
       foobar
     </ContentPickerSelect__ContentSelected>
   </ContentPickerSelect__ContentSelectButton>
-  <ContentPickerModal
-    contentTypes={
-      Array [
-        "Metadata",
-      ]
-    }
+  <ContentPicker
+    contentType="Metadata"
+    data={Array []}
+    data-test="picker"
     isOpen={false}
     onClose={[Function]}
     onSubmit={[Function]}
+    singleItemSelect={true}
+    startingSelectedAnswers={Array []}
   />
 </Fragment>
 `;
@@ -228,61 +227,55 @@ exports[`ContentPickerSelect content types should render question 1`] = `
       foobar
     </ContentPickerSelect__ContentSelected>
   </ContentPickerSelect__ContentSelectButton>
-  <ContentPickerModal
-    contentTypes={
-      Array [
-        "Question",
-      ]
-    }
+  <ContentPicker
+    contentType="Question"
+    data={Array []}
+    data-test="picker"
     isOpen={false}
     onClose={[Function]}
     onSubmit={[Function]}
+    singleItemSelect={true}
+    startingSelectedAnswers={Array []}
   />
 </Fragment>
 `;
 
 exports[`ContentPickerSelect metadata types should correctly filter by type 1`] = `
 Object {
-  "answerData": undefined,
-  "contentTypes": Array [
-    "Metadata",
-  ],
+  "contentType": "Metadata",
+  "data": Array [],
+  "data-test": "picker",
   "isOpen": false,
-  "metadataData": undefined,
   "onClose": [Function],
   "onSubmit": [Function],
-  "selectedId": undefined,
-  "selectedObj": undefined,
+  "singleItemSelect": true,
+  "startingSelectedAnswers": Array [],
 }
 `;
 
 exports[`ContentPickerSelect metadata types should correctly filter empty metadata 1`] = `
 Object {
-  "answerData": undefined,
-  "contentTypes": Array [
-    "Metadata",
-  ],
+  "contentType": "Metadata",
+  "data": Array [],
+  "data-test": "picker",
   "isOpen": false,
-  "metadataData": undefined,
   "onClose": [Function],
   "onSubmit": [Function],
-  "selectedId": undefined,
-  "selectedObj": undefined,
+  "singleItemSelect": true,
+  "startingSelectedAnswers": Array [],
 }
 `;
 
 exports[`ContentPickerSelect metadata types should correctly show all types when none specified 1`] = `
 Object {
-  "answerData": undefined,
-  "contentTypes": Array [
-    "Metadata",
-  ],
+  "contentType": "Metadata",
+  "data": Array [],
+  "data-test": "picker",
   "isOpen": false,
-  "metadataData": undefined,
   "onClose": [Function],
   "onSubmit": [Function],
-  "selectedId": undefined,
-  "selectedObj": undefined,
+  "singleItemSelect": true,
+  "startingSelectedAnswers": Array [],
 }
 `;
 
@@ -322,15 +315,15 @@ exports[`ContentPickerSelect should disable select button correctly 1`] = `
       foobar
     </ContentPickerSelect__ContentSelected>
   </ContentPickerSelect__ContentSelectButton>
-  <ContentPickerModal
-    contentTypes={
-      Array [
-        "Custom",
-      ]
-    }
+  <ContentPicker
+    contentType="Custom"
+    data={Array []}
+    data-test="picker"
     isOpen={false}
     onClose={[Function]}
     onSubmit={[Function]}
+    singleItemSelect={true}
+    startingSelectedAnswers={Array []}
   />
 </Fragment>
 `;
@@ -371,15 +364,15 @@ exports[`ContentPickerSelect should disable select button correctly 2`] = `
       foobar
     </ContentPickerSelect__ContentSelected>
   </ContentPickerSelect__ContentSelectButton>
-  <ContentPickerModal
-    contentTypes={
-      Array [
-        "Custom",
-      ]
-    }
+  <ContentPicker
+    contentType="Custom"
+    data={Array []}
+    data-test="picker"
     isOpen={false}
     onClose={[Function]}
     onSubmit={[Function]}
+    singleItemSelect={true}
+    startingSelectedAnswers={Array []}
   />
 </Fragment>
 `;
@@ -419,15 +412,15 @@ exports[`ContentPickerSelect should render 1`] = `
       foobar
     </ContentPickerSelect__ContentSelected>
   </ContentPickerSelect__ContentSelectButton>
-  <ContentPickerModal
-    contentTypes={
-      Array [
-        "Custom",
-      ]
-    }
+  <ContentPicker
+    contentType="Custom"
+    data={Array []}
+    data-test="picker"
     isOpen={false}
     onClose={[Function]}
     onSubmit={[Function]}
+    singleItemSelect={true}
+    startingSelectedAnswers={Array []}
   />
 </Fragment>
 `;
