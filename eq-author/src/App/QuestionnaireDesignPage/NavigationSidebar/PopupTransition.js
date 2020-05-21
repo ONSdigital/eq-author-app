@@ -5,31 +5,22 @@ import PropTypes from "prop-types";
 const PopupTransition = styled(CSSTransition).attrs({
   classNames: "popup",
 })`
-  transform-origin: left center;
-  transition: opacity ${props => props.timeout / 4}ms ease-in,
-    transform ${props => props.timeout}ms cubic-bezier(0.175, 0.885, 0.32, 1.4);
-  transform: scale(1);
+  opacity: 1;
+  transform: translate(0, 0%);
+  transition: all 0.6s -0.1s;
+  transform-origin: top center;
 
   &.popup-enter {
-    opacity: 0.01;
-    transform: scale(0.6);
-  }
-
-  &.popup-enter-active {
-    opacity: 1;
-    transform: scale(1);
+    transform: translate(0, -100%);
+    transition: all 0.6s 0s;
+    transform-origin: top center;
   }
 
   &.popup-exit {
-    opacity: 1;
-    transform: scale(1);
-    transition: opacity ${props => props.timeout / 4}ms ease-in,
-      transform ${props => props.timeout}ms ease-in;
-  }
-
-  &.popup-exit-active {
-    opacity: 0.01;
-    transform: scale(0.6);
+    opacity: 0.9;
+    transform: translate(0, -130%);
+    transition: all 0.6s 0s;
+    transform-origin: top center;
   }
 `;
 

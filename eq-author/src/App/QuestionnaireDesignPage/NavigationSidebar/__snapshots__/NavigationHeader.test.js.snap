@@ -3,9 +3,6 @@
 exports[`NavigationHeader should render 1`] = `
 <Fragment>
   <NavigationHeader__QuestionnaireContent>
-    <NavigationHeader__NavTitle>
-      Questionnaire content
-    </NavigationHeader__NavTitle>
     <NavigationHeader__StyledAddMenu
       addMenuOpen={false}
       canAddCalculatedSummaryPage={true}

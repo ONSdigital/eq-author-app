@@ -3,52 +3,92 @@ import PropTypes from "prop-types";
 
 import styled from "styled-components";
 import Button from "components/buttons/Button";
-import Popout from "components/Popout";
+import Popout, { Container, Layer } from "components/Popout";
 import IconPlus from "./icon-plus.svg?inline";
+import IconSection from "./icon-section.svg?inline";
+import IconQuestion from "./icon-questionpage.svg?inline";
+import IconSummary from "./icon-summarypage.svg?inline";
+import IconConfirmation from "./icon-playback.svg?inline";
+
 import IconText from "components/IconText";
+import { radius, colors } from "constants/theme";
+import { lighten } from "polished";
 
 import PopupTransition from "./PopupTransition";
 
 const AddMenuWindow = styled.div`
-  margin-top: 2em;
   background: white;
-  padding: 0.25em;
   color: black;
   background-color: white;
-  box-shadow: rgba(0, 0, 0, 0.16) 0 5px 20px 0;
   display: flex;
   flex-direction: column;
-  position: relative;
+  width: 100%;
+`;
 
-  &::before {
-    content: "";
-    width: 1em;
-    height: 1em;
-    background: white;
-    transform: rotate(45deg);
-    position: absolute;
-    top: -8.3em;
-    bottom: 0;
-    left: -0.4em;
-    margin: auto;
+const AddMenuButton = styled(Button).attrs({
+  variant: "nav-addMenu",
+  medium: true,
+})`
+  justify-content: left;
+  font-size: 0.9em;
+  padding: 0.2em 1.6em;
+  white-space: nowrap;
+
+  &[disabled] {
+    span {
+      svg {
+        path {
+          fill: ${lighten(0.4, colors.darkerBlack)};
+        }
+      }
+    }
   }
 `;
 
-const AddMenuButton = styled(Button)`
-  justify-content: left;
-  font-size: 1em;
-  padding: 0.5em 1em;
-  margin: 0.25em;
-  white-space: nowrap;
+const AddButton = styled(Button).attrs({
+  variant: "nav-header",
+  medium: true,
+})`
+  width: 100%;
+  padding: 0.7em 1.8em;
+  z-index: 15;
 `;
 
-const AddButton = styled(Button).attrs({
-  variant: "tertiary-light",
-  small: true,
-})`
-  border: 1px solid white;
-  top: 1px; /* adjust for misalignment caused by PopoutContainer */
-  padding-right: 0.5em;
+const StyledIconText = styled(IconText)`
+  justify-content: flex-start;
+
+  svg {
+    margin-right: 1em;
+    path {
+      fill: ${colors.black};
+    }
+  }
+`;
+
+const StyledIconTextAdd = styled(IconText)`
+  justify-content: flex-start;
+
+  svg {
+    background-color: ${colors.orange};
+    border-radius: ${radius};
+    margin-right: 1em;
+    flex: inherit;
+    width: 22px;
+    height: 22px;
+    path {
+      fill: ${colors.darkGrey};
+    }
+  }
+`;
+
+const PopoutContainer = styled(Container)`
+  width: 100%;
+`;
+
+const PopoutLayer = styled(Layer)`
+  left: auto;
+  top: auto;
+  width: 100%;
 `;
 
 const AddMenu = ({
@@ -65,7 +105,7 @@ const AddMenu = ({
 }) => {
   const addBtn = (
     <AddButton data-test="btn-add">
-      <IconText icon={IconPlus}>Add</IconText>
+      <StyledIconTextAdd icon={IconPlus}>Add content</StyledIconTextAdd>
     </AddButton>
   );
   return (
@@ -76,9 +116,9 @@ const AddMenu = ({
         onToggleOpen={onAddMenuToggle}
         horizontalAlignment="left"
         verticalAlignment="top"
-        offsetX="5.5em"
-        offsetY="-2em"
         transition={PopupTransition}
+        container={PopoutContainer}
+        layer={PopoutLayer}
       >
         <AddMenuWindow data-test="addmenu-window">
           <AddMenuButton
@@ -87,7 +127,7 @@ const AddMenu = ({
             data-test="btn-add-question-page"
             disabled={!canAddQuestionPage}
           >
-            Question page
+            <StyledIconText icon={IconQuestion}>Question page</StyledIconText>
           </AddMenuButton>
           <AddMenuButton
             primary
@@ -95,7 +135,9 @@ const AddMenu = ({
             onClick={onAddQuestionConfirmation}
             disabled={!canAddQuestionConfirmation}
           >
-            Confirmation question
+            <StyledIconText icon={IconConfirmation}>
+              Confirmation question
+            </StyledIconText>
           </AddMenuButton>
           <AddMenuButton
             primary
@@ -103,14 +145,16 @@ const AddMenu = ({
             data-test="btn-add-calculated-summary"
             disabled={!canAddCalculatedSummaryPage}
           >
-            Calculated summary
+            <StyledIconText icon={IconSummary}>
+              Calculated summary
+            </StyledIconText>
           </AddMenuButton>
           <AddMenuButton
             primary
             onClick={onAddSection}
             data-test="btn-add-section"
           >
-            Section
+            <StyledIconText icon={IconSection}>Section</StyledIconText>
           </AddMenuButton>
         </AddMenuWindow>
       </Popout>

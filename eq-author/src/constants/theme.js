@@ -17,6 +17,7 @@ export const colors = {
   black: "#333333",
   darkerBlack: "#222222",
   white: "#FFFFFF",
+  greyedOrange: "#D9A551",
 };
 
 colors.primary = colors.blue;

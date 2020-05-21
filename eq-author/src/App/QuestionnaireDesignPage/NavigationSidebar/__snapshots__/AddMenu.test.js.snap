@@ -10,16 +10,19 @@ exports[`AddMenu should render 1`] = `
         "$$typeof": Symbol(react.forward_ref),
         "attrs": Array [],
         "componentStyle": ComponentStyle {
-          "componentId": "Popout__Container-sc-1vqdjha-0",
+          "componentId": "AddMenu__PopoutContainer-bv63ic-5",
           "isStatic": false,
           "rules": Array [
             "position:relative;display:inline-block;",
+            "width:100%;",
           ],
         },
-        "displayName": "Popout__Container",
-        "foldedComponentIds": Array [],
+        "displayName": "AddMenu__PopoutContainer",
+        "foldedComponentIds": Array [
+          "Popout__Container-sc-1vqdjha-0",
+        ],
         "render": [Function],
-        "styledComponentId": "Popout__Container-sc-1vqdjha-0",
+        "styledComponentId": "AddMenu__PopoutContainer-bv63ic-5",
         "target": "div",
         "toString": [Function],
         "warnTooManyClasses": [Function],
@@ -38,7 +41,7 @@ exports[`AddMenu should render 1`] = `
         },
         "attrs": Array [],
         "componentStyle": ComponentStyle {
-          "componentId": "Popout__Layer-sc-1vqdjha-1",
+          "componentId": "AddMenu__PopoutLayer-bv63ic-6",
           "isStatic": false,
           "rules": Array [
             "position:absolute;",
@@ -46,10 +49,13 @@ exports[`AddMenu should render 1`] = `
             ";",
             [Function],
             ";z-index:10;",
+            "left:auto;top:auto;width:100%;",
           ],
         },
-        "displayName": "Popout__Layer",
-        "foldedComponentIds": Array [],
+        "displayName": "AddMenu__PopoutLayer",
+        "foldedComponentIds": Array [
+          "Popout__Layer-sc-1vqdjha-1",
+        ],
         "propTypes": Object {
           "horizontalAlignment": [Function],
           "offsetX": [Function],
@@ -57,15 +63,13 @@ exports[`AddMenu should render 1`] = `
           "verticalAlignment": [Function],
         },
         "render": [Function],
-        "styledComponentId": "Popout__Layer-sc-1vqdjha-1",
+        "styledComponentId": "AddMenu__PopoutLayer-bv63ic-6",
         "target": "div",
         "toString": [Function],
         "warnTooManyClasses": [Function],
         "withComponent": [Function],
       }
     }
-    offsetX="5.5em"
-    offsetY="-2em"
     onToggleOpen={[MockFunction]}
     open={false}
     transition={
@@ -84,15 +88,7 @@ exports[`AddMenu should render 1`] = `
           "componentId": "PopupTransition-sc-1jce989-0",
           "isStatic": false,
           "rules": Array [
-            "transform-origin:left center;transition:opacity ",
-            [Function],
-            "ms ease-in,transform ",
-            [Function],
-            "ms cubic-bezier(0.175,0.885,0.32,1.4);transform:scale(1);&.popup-enter{opacity:0.01;transform:scale(0.6);}&.popup-enter-active{opacity:1;transform:scale(1);}&.popup-exit{opacity:1;transform:scale(1);transition:opacity ",
-            [Function],
-            "ms ease-in,transform ",
-            [Function],
-            "ms ease-in;}&.popup-exit-active{opacity:0.01;transform:scale(0.6);}",
+            "opacity:1;transform:translate(0,0%);transition:all 0.6s -0.1s;transform-origin:top center;&.popup-enter{transform:translate(0,-100%);transition:all 0.6s 0s;transform-origin:top center;}&.popup-exit{opacity:0.9;transform:translate(0,-130%);transition:all 0.6s 0s;transform-origin:top center;}",
           ],
         },
         "displayName": "PopupTransition",
@@ -115,12 +111,11 @@ exports[`AddMenu should render 1`] = `
         type="button"
         variant="primary"
       >
-        <IconText
-          hideText={false}
+        <AddMenu__StyledIconTextAdd
           icon={[Function]}
         >
-          Add
-        </IconText>
+          Add content
+        </AddMenu__StyledIconTextAdd>
       </AddMenu__AddButton>
     }
     verticalAlignment="top"
@@ -136,7 +131,11 @@ exports[`AddMenu should render 1`] = `
         type="button"
         variant="primary"
       >
-        Question page
+        <AddMenu__StyledIconText
+          icon={[Function]}
+        >
+          Question page
+        </AddMenu__StyledIconText>
       </AddMenu__AddMenuButton>
       <AddMenu__AddMenuButton
         data-test="btn-add-question-confirmation"
@@ -146,7 +145,11 @@ exports[`AddMenu should render 1`] = `
         type="button"
         variant="primary"
       >
-        Confirmation question
+        <AddMenu__StyledIconText
+          icon={[Function]}
+        >
+          Confirmation question
+        </AddMenu__StyledIconText>
       </AddMenu__AddMenuButton>
       <AddMenu__AddMenuButton
         data-test="btn-add-calculated-summary"
@@ -156,7 +159,11 @@ exports[`AddMenu should render 1`] = `
         type="button"
         variant="primary"
       >
-        Calculated summary
+        <AddMenu__StyledIconText
+          icon={[Function]}
+        >
+          Calculated summary
+        </AddMenu__StyledIconText>
       </AddMenu__AddMenuButton>
       <AddMenu__AddMenuButton
         data-test="btn-add-section"
@@ -165,7 +172,11 @@ exports[`AddMenu should render 1`] = `
         type="button"
         variant="primary"
       >
-        Section
+        <AddMenu__StyledIconText
+          icon={[Function]}
+        >
+          Section
+        </AddMenu__StyledIconText>
       </AddMenu__AddMenuButton>
     </AddMenu__AddMenuWindow>
   </Popout>
