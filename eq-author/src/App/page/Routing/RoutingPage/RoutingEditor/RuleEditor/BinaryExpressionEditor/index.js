@@ -311,7 +311,10 @@ export class UnwrappedBinaryExpressionEditor extends React.Component {
           <Column gutters={false} cols={2.5}>
             <ActionButtons
               data-test="action-btns"
-              isHidden={this.props.expression.left.reason === DEFAULT_ROUTING}
+              isHidden={
+                this.props.expression.left.reason === DEFAULT_ROUTING ||
+                this.props.expression.left.reason === NO_ROUTABLE_ANSWER_ON_PAGE
+              }
             >
               <RemoveButton
                 onClick={this.handleDeleteClick}
@@ -333,7 +336,10 @@ export class UnwrappedBinaryExpressionEditor extends React.Component {
 
         <DefaultRouteDiv
           className={className}
-          hasPadding={this.props.expression.left.reason === DEFAULT_ROUTING}
+          hasPadding={
+            this.props.expression.left.reason === DEFAULT_ROUTING ||
+            this.props.expression.left.reason === NO_ROUTABLE_ANSWER_ON_PAGE
+          }
         >
           <Grid>
             <Column gutters={false} cols={1.5}>
@@ -342,7 +348,11 @@ export class UnwrappedBinaryExpressionEditor extends React.Component {
             <Column gutters={false} cols={8}>
               <StyledTransition
                 data-test="transition-condition"
-                isHidden={this.props.expression.left.reason === DEFAULT_ROUTING}
+                isHidden={
+                  this.props.expression.left.reason === DEFAULT_ROUTING ||
+                  this.props.expression.left.reason ===
+                    NO_ROUTABLE_ANSWER_ON_PAGE
+                }
               >
                 <TransitionGroup>
                   <Transition key="answer">{routingEditor}</Transition>
