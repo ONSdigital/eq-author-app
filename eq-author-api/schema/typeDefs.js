@@ -513,13 +513,20 @@ type ExpressionGroup2 {
 enum NoLeftSideReason {
   SelectedAnswerDeleted
   NoRoutableAnswerOnPage
+  DefaultRouting
 }
 
 type NoLeftSide {
   reason: NoLeftSideReason!
 }
 
-union LeftSide2 = BasicAnswer | MultipleChoiceAnswer | NoLeftSide
+type DefaultLeftSide {
+  id: ID!
+  displayName: String!
+  reason: NoLeftSideReason!
+}
+
+union LeftSide2 = BasicAnswer | MultipleChoiceAnswer | NoLeftSide | DefaultLeftSide
 
 union RightSide2 = SelectedOptions2 | CustomValue2
 

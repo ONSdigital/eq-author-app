@@ -13,12 +13,12 @@ const {
   createRightSide,
 } = require("../../../../src/businessLogic");
 
-const answerTypeToConditions = require("../../../../src/businessLogic/answerTypeToConditions");
 const {
   NO_ROUTABLE_ANSWER_ON_PAGE,
   NULL,
 } = require("../../../../constants/routingNoLeftSide");
 
+const answerTypeToConditions = require("../../../../src/businessLogic/answerTypeToConditions");
 const { getPages, getPageById } = require("../../utils");
 
 const isMutuallyExclusiveDestination = isMutuallyExclusive([
@@ -39,7 +39,10 @@ Resolvers.Routing2 = {
       }
     }, pages);
   },
-  rules: routing => routing.rules,
+
+  rules: routing => {
+    return routing.rules;
+  },
 };
 
 Resolvers.Mutation = {
@@ -66,7 +69,7 @@ Resolvers.Mutation = {
     const leftHandSide = hasRoutableFirstAnswer
       ? {
           answerId: firstAnswer.id,
-          type: "Answer",
+          type: "Default",
         }
       : {
           type: NULL,
@@ -90,8 +93,10 @@ Resolvers.Mutation = {
         }),
       ],
     });
+
     return page.routing;
   }),
+
   updateRouting2: createMutation((root, { input }, ctx) => {
     if (!isMutuallyExclusiveDestination(input.else)) {
       throw new Error("Can only provide one destination.");
