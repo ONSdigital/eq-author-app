@@ -68,7 +68,7 @@ const DestinationEnd = ({ onSelected, isSelected, hideHeader }) => {
         <StyledMenuItemTitles>
           <Icon isActive={menuProps["aria-selected"]} />
           <div>
-            <MenuItemTitle>End of Questionnaire</MenuItemTitle>
+            <MenuItemTitle>End of questionnaire</MenuItemTitle>
             <MenuItemSubtitle>
               The user will be taken to the last page in the questionnaire.
             </MenuItemSubtitle>
