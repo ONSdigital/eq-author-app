@@ -63,9 +63,9 @@ module.exports = questionnaire => {
           const totalErrors = sum(
             map(groupedErrors, (errors, errorCode) => {
               if (duplicatedErrorMessages[errorCode]) {
-                return (
+                return Math.round(
                   errors.length /
-                  duplicatedErrorMessages[errorCode].occurrencesPerError
+                    duplicatedErrorMessages[errorCode].occurrencesPerError
                 );
               }
               return errors.length;
