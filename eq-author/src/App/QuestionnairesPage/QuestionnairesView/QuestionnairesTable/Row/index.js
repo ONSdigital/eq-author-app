@@ -46,7 +46,6 @@ export const ShortTitle = styled.span`
   text-decoration-color: ${colors.textLight};
   font-size: 0.8em;
   font-weight: bold;
-  text-transform: uppercase;
   letter-spacing: 0.05em;
 `;
 
