@@ -18,6 +18,11 @@ const {
 const { createMutation } = require("../../createMutation");
 
 const {
+  NO_ROUTABLE_ANSWER_ON_PAGE,
+  NULL,
+} = require("../../../../constants/routingNoLeftSide");
+
+const {
   getPages,
   getAnswers,
   getAnswerById,
@@ -167,10 +172,15 @@ Resolvers.Mutation = {
       condition = answerTypeToConditions.getDefault(firstAnswer.type);
     }
 
-    const left = {
-      answerId: firstAnswer.id,
-      type: "Default",
-    };
+    const left = hasRoutableFirstAnswer
+      ? {
+          answerId: firstAnswer.id,
+          type: "Default",
+        }
+      : {
+          type: NULL,
+          nullReason: NO_ROUTABLE_ANSWER_ON_PAGE,
+        };
 
     const expression = createExpression({
       left,
