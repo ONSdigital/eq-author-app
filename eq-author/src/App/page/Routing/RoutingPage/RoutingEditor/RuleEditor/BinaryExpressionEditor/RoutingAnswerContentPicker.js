@@ -20,6 +20,7 @@ const GET_AVAILABLE_ROUTING_ANSWERS = gql`
         availableRoutingAnswers {
           id
           displayName
+          type
           page {
             id
             displayName
