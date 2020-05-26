@@ -88,16 +88,16 @@ exports[`Date Validation should render 1`] = `
         value="Before"
       >
         <option
-          key="Before"
-          value="Before"
+          key="before"
+          value="before"
         >
-          Before
+          before
         </option>
         <option
-          key="After"
-          value="After"
+          key="after"
+          value="after"
         >
-          After
+          after
         </option>
       </DateValidation__RelativePositionSelect>
       <Component />

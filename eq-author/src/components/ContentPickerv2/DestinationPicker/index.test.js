@@ -288,7 +288,7 @@ describe("Destination Picker", () => {
     it("should display end destination if page id is EndOfQuestionnaire", () => {
       props.pages[0] = { id: "EndOfQuestionnaire" };
       const { getByText } = render(<SubMenu {...props} />);
-      getByText("End of Questionnaire");
+      getByText("End of questionnaire");
     });
   });
 
@@ -305,21 +305,21 @@ describe("Destination Picker", () => {
 
     it("should fire onSelected with config when clicked", () => {
       const { getByText } = render(<DestinationEnd {...props} />);
-      const element = getByText("End of Questionnaire");
+      const element = getByText("End of questionnaire");
       fireEvent.click(element);
       expect(props.onSelected).toHaveBeenCalledWith(destinationConfig);
     });
 
     it("should fire onSelected when enter key is pressed", () => {
       const { getByText } = render(<DestinationEnd {...props} />);
-      const element = getByText("End of Questionnaire");
+      const element = getByText("End of questionnaire");
       fireEvent.keyUp(element, { keyCode: 13 });
       expect(props.onSelected).toHaveBeenCalledWith(destinationConfig);
     });
 
     it("should not fire onSelected when other key is pressed", () => {
       const { getByText } = render(<DestinationEnd {...props} />);
-      const element = getByText("End of Questionnaire");
+      const element = getByText("End of questionnaire");
       fireEvent.keyUp(element, { keyCode: 14 });
       expect(props.onSelected).not.toHaveBeenCalledWith(destinationConfig);
     });

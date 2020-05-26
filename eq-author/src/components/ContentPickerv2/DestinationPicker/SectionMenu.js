@@ -24,7 +24,7 @@ const SectionMenu = ({ data, onSelected, isSelected, ...otherProps }) => {
     ...data,
     {
       id: "EndOfQuestionnaire",
-      displayName: "End of Questionnaire",
+      displayName: "End of questionnaire",
       pages: [
         { id: "EndOfQuestionnaire", displayName: "End of questionnaire" },
       ],
