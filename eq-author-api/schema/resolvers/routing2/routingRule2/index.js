@@ -51,6 +51,7 @@ Resolvers.RoutingRule2 = {
         return routing;
       }
     }, allRouting);
+
     return routing;
   },
 };
@@ -99,6 +100,7 @@ Resolvers.Mutation = {
     });
 
     page.routing.rules.push(routingRule);
+
     return routingRule;
   }),
   updateRoutingRule2: createMutation(
