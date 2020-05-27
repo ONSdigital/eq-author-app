@@ -1,10 +1,13 @@
-const { getPages } = require("../../schema/resolvers/utils");
+const {
+  getPages,
+  getSectionByPageId,
+} = require("../../schema/resolvers/utils");
 const { NEXT_PAGE } = require("../../constants/logicalDestinations");
 const onAnswerDeleted = require("../../src/businessLogic/onAnswerDeleted");
 
 const onPageDeleted = (ctx, removedPage) => {
   const allPages = getPages(ctx);
-
+  const sectionId = getSectionByPageId(ctx, removedPage.id).id;
   removedPage.answers.forEach(answer => {
     onAnswerDeleted(ctx, removedPage, answer);
   });
@@ -17,7 +20,7 @@ const onPageDeleted = (ctx, removedPage) => {
     const elseRoute = page.routing.else;
     if (
       elseRoute.pageId === removedPage.id ||
-      elseRoute.sectionId === removedPage.id
+      elseRoute.sectionId === sectionId
     ) {
       elseRoute.sectionId = null;
       elseRoute.pageId = null;
@@ -28,7 +31,7 @@ const onPageDeleted = (ctx, removedPage) => {
       rule =>
         rule.destination &&
         rule.destination.pageId !== removedPage.id &&
-        rule.destination.sectionId !== removedPage.id
+        rule.destination.sectionId !== sectionId
     );
 
     if (validRules.length) {
