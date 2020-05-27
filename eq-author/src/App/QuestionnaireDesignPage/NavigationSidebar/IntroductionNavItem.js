@@ -11,7 +11,7 @@ import PageIcon from "./icon-survey-intro.svg?inline";
 
 const StyledItem = styled.li`
   padding: 0;
-  margin: 0 0 0.5em;
+  margin: 0 0 0.3em;
   position: relative;
   display: flex;
   align-items: center;
@@ -19,7 +19,11 @@ const StyledItem = styled.li`
 `;
 
 const StyledNavLink = styled(NavLink)`
-  padding-left: 2em;
+  padding: 0.3em 0 0 2em;
+
+  svg {
+    flex: 0 0 2.3em;
+  }
 `;
 
 export const UnwrappedIntroductionNavItem = ({
