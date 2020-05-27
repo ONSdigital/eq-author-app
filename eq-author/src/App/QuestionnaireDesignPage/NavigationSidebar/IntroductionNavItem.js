@@ -18,13 +18,17 @@ const StyledItem = styled.li`
   font-weight: bold;
 `;
 
+const StyledNavLink = styled(NavLink)`
+  padding-left: 2em;
+`;
+
 export const UnwrappedIntroductionNavItem = ({
   questionnaire,
   match,
   ...otherProps
 }) => (
   <StyledItem data-test="page-item" {...otherProps}>
-    <NavLink
+    <StyledNavLink
       to={buildIntroductionPath({
         questionnaireId: questionnaire.id,
         introductionId: questionnaire.introduction.id,
@@ -35,7 +39,7 @@ export const UnwrappedIntroductionNavItem = ({
       data-test="nav-introduction-link"
     >
       Introduction
-    </NavLink>
+    </StyledNavLink>
   </StyledItem>
 );
 
