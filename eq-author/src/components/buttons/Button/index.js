@@ -173,6 +173,54 @@ export const greyedButton = css`
   }
 `;
 
+export const navHeaderButton = css`
+  --color-text: ${colors.white};
+  --color-bg: ${colors.darkGrey};
+
+  border: none;
+  border-radius: 0;
+
+  &:hover {
+    --color-text: ${colors.white};
+    --color-bg: ${colors.black};
+    border-radius: 0;
+  }
+
+  &:active {
+    background-color: ${colors.darkGrey};
+    box-shadow: 0;
+    outline: 0;
+
+    --color-text: ${colors.white};
+  }
+`;
+
+export const navAddMenuButton = css`
+  --color-text: ${colors.darkerBlack};
+  --color-bg: ${colors.tertiary};
+
+  border: none;
+  border-radius: 0;
+
+  &:hover {
+    --color-bg: ${colors.greyedOrange};
+    border-radius: 0;
+  }
+
+  &:focus {
+    background-color: ${colors.darkGrey};
+    box-shadow: 0;
+    outline: 0;
+
+    --color-text: ${colors.white};
+  }
+
+  &[disabled] {
+    --color-text: ${colors.disabledGreyOnOrange};
+    opacity: 1;
+  }
+`;
+
 export const mediumButton = css`
   padding: 0.4em 0.8em;
 `;
@@ -227,6 +275,8 @@ const Button = styled.button`
   ${props => props.variant === "navigation-on" && navigationOnButton};
   ${props => props.variant === "signout" && signoutButton};
   ${props => props.variant === "greyed" && greyedButton};
+  ${props => props.variant === "nav-header" && navHeaderButton};
+  ${props => props.variant === "nav-addMenu" && navAddMenuButton};
   ${props => props.medium && mediumButton};
   ${props => props.small && smallButton};
 `;
