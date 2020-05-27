@@ -6,22 +6,25 @@ const {
 const { NULL } = require("../../constants/routingNoLeftSide");
 const totalableAnswerTypes = require("../../constants/totalableAnswerTypes");
 const createGroupValidation = require("./createTotalValidation");
+const { getPages } = require("../../schema/resolvers/utils");
 
-const removeAnswerFromExpressions = (page, answer) => {
-  if (!page.routing) {
-    return;
-  }
+const removeAnswerFromExpressions = (ctx, answer) => {
+  const allPages = getPages(ctx);
 
-  const expressions = filter(
-    expression => expression.left.answerId === answer.id,
-    flatMap(rule => rule.expressionGroup.expressions, page.routing.rules)
-  );
+  allPages.forEach(page => {
+    if (page.routing) {
+      const expressions = filter(
+        expression => expression.left.answerId === answer.id,
+        flatMap(rule => rule.expressionGroup.expressions, page.routing.rules)
+      );
 
-  forEach(expression => {
-    expression.left.answerId = undefined;
-    expression.left.type = NULL;
-    expression.left.nullReason = SELECTED_ANSWER_DELETED;
-  }, expressions);
+      forEach(expression => {
+        expression.left.answerId = undefined;
+        expression.left.type = NULL;
+        expression.left.nullReason = SELECTED_ANSWER_DELETED;
+      }, expressions);
+    }
+  });
 };
 
 const removeAnswerGroup = (page, removedAnswer) => {
@@ -50,7 +53,7 @@ const removeAnswerGroup = (page, removedAnswer) => {
   page.totalValidation = null;
 };
 
-module.exports = (page, answer) => {
-  removeAnswerFromExpressions(page, answer);
+module.exports = (ctx, page, answer) => {
+  removeAnswerFromExpressions(ctx, answer);
   removeAnswerGroup(page, answer);
 };
