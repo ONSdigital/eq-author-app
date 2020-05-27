@@ -14,6 +14,7 @@ exports[`components/AppContainer should render 1`] = `
         "darkGrey": "#666666",
         "darkerBlack": "#222222",
         "darkerBlue": "#003c57",
+        "disabledGreyOnOrange": "#7A6340",
         "green": "#0f8243",
         "grey": "#999999",
         "greyedOrange": "#D9A551",

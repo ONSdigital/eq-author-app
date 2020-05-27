@@ -12,7 +12,6 @@ import IconConfirmation from "./icon-playback.svg?inline";
 
 import IconText from "components/IconText";
 import { radius, colors } from "constants/theme";
-import { lighten } from "polished";
 
 import PopupTransition from "./PopupTransition";
 
@@ -38,7 +37,7 @@ const AddMenuButton = styled(Button).attrs({
     span {
       svg {
         path {
-          fill: ${lighten(0.4, colors.darkerBlack)};
+          fill: ${colors.disabledGreyOnOrange};
         }
       }
     }
@@ -127,7 +126,14 @@ const AddMenu = ({
             data-test="btn-add-question-page"
             disabled={!canAddQuestionPage}
           >
-            <StyledIconText icon={IconQuestion}>Question page</StyledIconText>
+            <StyledIconText icon={IconQuestion}>Question</StyledIconText>
+          </AddMenuButton>
+          <AddMenuButton
+            primary
+            onClick={onAddSection}
+            data-test="btn-add-section"
+          >
+            <StyledIconText icon={IconSection}>Section</StyledIconText>
           </AddMenuButton>
           <AddMenuButton
             primary
@@ -148,13 +154,6 @@ const AddMenu = ({
             <StyledIconText icon={IconSummary}>
               Calculated summary
             </StyledIconText>
-          </AddMenuButton>
-          <AddMenuButton
-            primary
-            onClick={onAddSection}
-            data-test="btn-add-section"
-          >
-            <StyledIconText icon={IconSection}>Section</StyledIconText>
           </AddMenuButton>
         </AddMenuWindow>
       </Popout>

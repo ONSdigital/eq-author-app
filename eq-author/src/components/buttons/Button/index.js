@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import styled, { css } from "styled-components";
-import { darken, lighten } from "polished";
+import { darken } from "polished";
 
 import { propTypes } from "./propTypes";
 
@@ -216,7 +216,7 @@ export const navAddMenuButton = css`
   }
 
   &[disabled] {
-    --color-text: ${lighten(0.4, colors.darkerBlack)};
+    --color-text: ${colors.disabledGreyOnOrange};
     opacity: 1;
   }
 `;
