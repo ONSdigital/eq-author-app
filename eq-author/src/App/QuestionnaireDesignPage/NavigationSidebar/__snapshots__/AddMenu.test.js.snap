@@ -134,7 +134,20 @@ exports[`AddMenu should render 1`] = `
         <AddMenu__StyledIconText
           icon={[Function]}
         >
-          Question page
+          Question
+        </AddMenu__StyledIconText>
+      </AddMenu__AddMenuButton>
+      <AddMenu__AddMenuButton
+        data-test="btn-add-section"
+        onClick={[MockFunction]}
+        primary={true}
+        type="button"
+        variant="primary"
+      >
+        <AddMenu__StyledIconText
+          icon={[Function]}
+        >
+          Section
         </AddMenu__StyledIconText>
       </AddMenu__AddMenuButton>
       <AddMenu__AddMenuButton
@@ -163,19 +176,6 @@ exports[`AddMenu should render 1`] = `
           icon={[Function]}
         >
           Calculated summary
-        </AddMenu__StyledIconText>
-      </AddMenu__AddMenuButton>
-      <AddMenu__AddMenuButton
-        data-test="btn-add-section"
-        onClick={[MockFunction]}
-        primary={true}
-        type="button"
-        variant="primary"
-      >
-        <AddMenu__StyledIconText
-          icon={[Function]}
-        >
-          Section
         </AddMenu__StyledIconText>
       </AddMenu__AddMenuButton>
     </AddMenu__AddMenuWindow>
