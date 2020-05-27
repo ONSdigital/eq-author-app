@@ -9,6 +9,7 @@ export const colors = {
   lightGrey: "#d6d8da",
   lightMediumGrey: "#E4E8EB",
   lighterGrey: "#f5f5f5",
+  disabledGreyOnOrange: "#7A6340",
   red: "#D0021B",
   orange: "#FDBD56",
   amber: "#fe781f",
@@ -17,6 +18,7 @@ export const colors = {
   black: "#333333",
   darkerBlack: "#222222",
   white: "#FFFFFF",
+  greyedOrange: "#D9A551",
 };
 
 colors.primary = colors.blue;
