@@ -343,7 +343,7 @@ const Resolvers = {
       const section = find(ctx.questionnaire.sections, { id: input.id });
       const removedSection = first(remove(ctx.questionnaire.sections, section));
       removedSection.pages.forEach(page => {
-        onPageDeleted(ctx, page);
+        onPageDeleted(ctx, removedSection, page);
       });
       return ctx.questionnaire;
     }),

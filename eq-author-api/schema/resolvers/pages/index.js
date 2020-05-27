@@ -34,7 +34,7 @@ Resolvers.Mutation = {
   deletePage: createMutation((_, { input }, ctx) => {
     const section = getSectionByPageId(ctx, input.id);
     const removedPage = first(remove(section.pages, { id: input.id }));
-    onPageDeleted(ctx, removedPage);
+    onPageDeleted(ctx, section, removedPage);
     return section;
   }),
 
