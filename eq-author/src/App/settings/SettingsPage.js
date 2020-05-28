@@ -87,7 +87,7 @@ const SettingsPage = ({ questionnaire }) => {
   const { title, shortTitle, type, id, navigation, summary } = questionnaire;
 
   const [updateQuestionnaire] = useMutation(updateQuestionnaireMutation);
-  const [questionnaireTitle, setQuestionnaireTitle] = useState("");
+  const [questionnaireTitle, setQuestionnaireTitle] = useState(title);
   const [questionnaireShortTitle, setQuestionnaireShortTitle] = useState(
     shortTitle
   );
@@ -112,8 +112,7 @@ const SettingsPage = ({ questionnaire }) => {
       <ScrollPane>
         <StyledPanel>
           <Field>
-            <Label>Change questionnaire title</Label>
-            <Caption>This will replace the current title.</Caption>
+            <Label>Questionnaire title</Label>
             <StyledInput
               value={questionnaireTitle}
               onChange={({ value }) => setQuestionnaireTitle(value)}
