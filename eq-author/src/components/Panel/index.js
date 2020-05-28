@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 import { radius, colors } from "constants/theme";
 
 const Panel = styled.div`
@@ -28,6 +29,9 @@ const InformationPanel = ({ children }) => {
       <p>{children}</p>
     </StyledPanel>
   );
+};
+InformationPanel.propTypes = {
+  children: PropTypes.string.isRequired,
 };
 
 export { Panel, InformationPanel };

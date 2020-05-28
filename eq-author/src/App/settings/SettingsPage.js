@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 import { withRouter } from "react-router-dom";
 import { useMutation } from "react-apollo";
@@ -78,16 +79,12 @@ const Pill = ({ children }) => {
     </Container>
   );
 };
+Pill.propTypes = {
+  children: PropTypes.string.isRequired,
+};
 
-const SettingsPage = props => {
-  const {
-    title,
-    shortTitle,
-    type,
-    id,
-    navigation,
-    summary,
-  } = props.questionnaire.data;
+const SettingsPage = ({ questionnaire }) => {
+  const { title, shortTitle, type, id, navigation, summary } = questionnaire;
 
   const [updateQuestionnaire] = useMutation(updateQuestionnaireMutation);
   const [questionnaireTitle, setQuestionnaireTitle] = useState(title);
@@ -181,6 +178,9 @@ const SettingsPage = props => {
       </ScrollPane>
     </Container>
   );
+};
+SettingsPage.propTypes = {
+  questionnaire: PropTypes.string.isRequired,
 };
 
 export default withRouter(SettingsPage);

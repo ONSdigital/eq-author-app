@@ -2,6 +2,7 @@ import React from "react";
 import { Route } from "react-router-dom";
 import { Query } from "react-apollo";
 import SettingsPage from "./SettingsPage";
+import Error from "components/Error";
 
 import getQuestionnaireQuery from "graphql/getQuestionnaire.graphql";
 
@@ -16,22 +17,18 @@ export default [
           input: { questionnaireId: props.match.params.questionnaireId },
         }}
       >
-        {({ loading, error, data, refetch }) => {
+        {({ loading, error, data }) => {
           if (loading) {
             return <React.Fragment />;
           }
 
           if (error) {
-            return <p>Error.</p>;
+            return <Error>Error fetching questionnaire from database</Error>;
           }
 
-          if (data && refetch) {
-            return (
-              <SettingsPage
-                {...props}
-                questionnaire={{ data: data.questionnaire, refetch }}
-              />
-            );
+          if (data) {
+            const { questionnaire } = data;
+            return <SettingsPage {...props} questionnaire={questionnaire} />;
           }
         }}
       </Query>
