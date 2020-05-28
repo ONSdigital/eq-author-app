@@ -145,11 +145,9 @@ const ERROR_SITUATIONS = [
     message: () => (
       <Alert>
         <AlertTitle>
-          The question this condition referred to has been deleted
+          The answer used in this condition has been deleted
         </AlertTitle>
-        <AlertText>
-          Please select a new question from the dropdown above.
-        </AlertText>
+        <AlertText>Please select a new answer.</AlertText>
       </Alert>
     ),
   },
