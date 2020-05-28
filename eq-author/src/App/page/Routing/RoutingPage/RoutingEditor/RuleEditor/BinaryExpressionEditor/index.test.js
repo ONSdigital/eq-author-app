@@ -126,7 +126,7 @@ describe("BinaryExpressionEditor", () => {
     expect(
       wrapper
         .find(AlertTitle)
-        .contains("The question this condition referred to has been deleted")
+        .contains("The answer used in this condition has been deleted")
     ).toBeTruthy();
   });
 
