@@ -341,8 +341,10 @@ const Resolvers = {
     }),
     deleteSection: createMutation((root, { input }, ctx) => {
       const section = find(ctx.questionnaire.sections, { id: input.id });
-      remove(ctx.questionnaire.sections, section);
-      onPageDeleted(ctx, input.id);
+      const removedSection = first(remove(ctx.questionnaire.sections, section));
+      removedSection.pages.forEach(page => {
+        onPageDeleted(ctx, removedSection, page);
+      });
       return ctx.questionnaire;
     }),
     moveSection: createMutation((_, { input }, ctx) => {
@@ -416,7 +418,7 @@ const Resolvers = {
 
       const deletedAnswer = first(remove(page.answers, { id: input.id }));
 
-      onAnswerDeleted(page, deletedAnswer);
+      onAnswerDeleted(ctx, page, deletedAnswer);
 
       return page;
     }),
