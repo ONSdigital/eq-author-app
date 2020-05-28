@@ -9,8 +9,9 @@ import updateQuestionnaireMutation from "graphql/updateQuestionnaire.graphql";
 
 import Header from "components/EditorLayout/Header";
 import ScrollPane from "components/ScrollPane";
-import Panel from "components/Panel";
+import Panel, { InformationPanel } from "components/Panel";
 import { Field, Input, Label } from "components/Forms";
+import ToggleSwitch from "components/buttons/ToggleSwitch";
 
 const Container = styled.div`
   display: flex;
@@ -34,52 +35,72 @@ const Caption = styled.p`
   margin-bottom: 0.6em;
 `;
 
-const PillContainer = styled.div`
-  width: 4em;
-  padding: 0.5em 1em;
-  box-sizing: content-box;
-  background-color: ${colors.lightMediumGrey};
-  text-align: center;
-
-  p {
-    margin: 0;
-    font-weight: bold;
-  }
-`;
-
-const Separator = styled.hr`
+const HorizontalSeparator = styled.hr`
   border: 0;
   border-top: 0.0625em solid ${colors.lightMediumGrey};
   margin: 1.5em 0;
 `;
 
+const VerticalSeparator = styled.div`
+  width: 1px;
+  height: 1.5em;
+  background-color: ${colors.blue};
+  margin: 0 1em;
+  margin-bottom: 0.4em;
+`;
+
+const InlineField = styled(Field)`
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.4em;
+
+  > * {
+    margin-bottom: 0;
+  }
+`;
+
 const Pill = ({ children }) => {
+  const Container = styled.div`
+    width: 4em;
+    padding: 0.5em 1em;
+    box-sizing: content-box;
+    background-color: ${colors.lightMediumGrey};
+    text-align: center;
+
+    p {
+      margin: 0;
+      font-weight: bold;
+    }
+  `;
   return (
-    <PillContainer>
+    <Container>
       <p>{children}</p>
-    </PillContainer>
+    </Container>
   );
 };
 
 const SettingsPage = props => {
-  const { title, shortTitle, type, id } = props.questionnaire.data;
+  const {
+    title,
+    shortTitle,
+    type,
+    id,
+    navigation,
+    summary,
+  } = props.questionnaire.data;
 
   const [updateQuestionnaire] = useMutation(updateQuestionnaireMutation);
-  const [questionnaireTitle, setQuestionnaireTitle] = useState("");
+  const [questionnaireTitle, setQuestionnaireTitle] = useState(title);
   const [questionnaireShortTitle, setQuestionnaireShortTitle] = useState(
     shortTitle
   );
 
   const handleTitleChange = ({ value }) => {
-    if (value) {
+    if (value !== "") {
       updateQuestionnaire({
         variables: { input: { id, title: value } },
       });
-      return;
     }
-
-    setQuestionnaireTitle(title);
-    return;
   };
 
   const handleShortTitleChange = ({ value }) => {
@@ -94,8 +115,7 @@ const SettingsPage = props => {
       <ScrollPane>
         <StyledPanel>
           <Field>
-            <Label>Change questionnaire title</Label>
-            <Caption>This will replace the current title.</Caption>
+            <Label>Questionnaire title</Label>
             <StyledInput
               value={questionnaireTitle}
               onChange={({ value }) => setQuestionnaireTitle(value)}
@@ -114,12 +134,49 @@ const SettingsPage = props => {
               onBlur={e => handleShortTitleChange({ ...e.target })}
             />
           </Field>
-          <Separator />
+          <HorizontalSeparator />
           <Field>
             <Label>Questionnaire type</Label>
             <Pill>{type}</Pill>
           </Field>
-          <Separator />
+          <HorizontalSeparator />
+          <InlineField>
+            <Label>Section navigation</Label>
+            <VerticalSeparator />
+            <ToggleSwitch
+              id="navigation"
+              name="navigation"
+              onChange={({ value }) =>
+                updateQuestionnaire({
+                  variables: { input: { id, navigation: value } },
+                })
+              }
+              checked={navigation}
+            />
+          </InlineField>
+          <InformationPanel>
+            Let respondents move between sections while they&apos;re completing
+            the questionnaire.
+          </InformationPanel>
+          <HorizontalSeparator />
+          <InlineField>
+            <Label>Answers summary</Label>
+            <VerticalSeparator />
+            <ToggleSwitch
+              id="summary"
+              name="summary"
+              onChange={({ value }) =>
+                updateQuestionnaire({
+                  variables: { input: { id, summary: value } },
+                })
+              }
+              checked={summary}
+            />
+          </InlineField>
+          <InformationPanel>
+            Let respondents check their answers before submitting their
+            questionnaire
+          </InformationPanel>
         </StyledPanel>
       </ScrollPane>
     </Container>

@@ -1,5 +1,5 @@
+import React from "react";
 import styled from "styled-components";
-import PropTypes from "prop-types";
 import { radius, colors } from "constants/theme";
 
 const Panel = styled.div`
@@ -9,17 +9,25 @@ const Panel = styled.div`
   max-width: ${props => props.maxWidth};
 `;
 
-const InformationPanel = styled(Panel)`
-  background-color: ${colors.paleBlue};
-  border: 0;
-  border-radius: 0;
-  border-left: 0.5em solid ${colors.darkerBlue};
-  padding: 1em;
-  margin: 1em 0;
-`;
+const InformationPanel = ({ children }) => {
+  const StyledPanel = styled(Panel)`
+    background-color: ${colors.paleBlue};
+    border: 0;
+    border-radius: 0;
+    border-left: 0.5em solid ${colors.darkerBlue};
+    padding: 1em;
+    margin: 1em 0;
 
-Panel.propTypes = {
-  children: PropTypes.node.isRequired,
+    p {
+      margin: 0;
+    }
+  `;
+
+  return (
+    <StyledPanel>
+      <p>{children}</p>
+    </StyledPanel>
+  );
 };
 
 export { Panel, InformationPanel };
