@@ -22,6 +22,13 @@ const PropertiesPane = styled.div`
   padding: 0;
   margin: 0;
   font-size: 1em;
+
+  h2 {
+    font-family: Lato, sans-serif;
+    font-size: 0.9em;
+    letter-spacing: 0;
+    font-weight: bold;
+  }
 `;
 
 const PropertiesPanel = ({ page }) => {
