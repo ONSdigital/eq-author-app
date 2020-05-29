@@ -2,6 +2,26 @@
 
 exports[`ToggleSwitch should render 1`] = `
 <DocumentFragment>
+  .c0 {
+  padding: 0 0.8em;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: none;
+  color: #333333;
+  font-weight: 600;
+}
+
+<div
+    class="c0"
+  >
+    Off
+  </div>
   .c1 {
   font-size: 1em;
   border: thin solid #999999;
@@ -162,11 +182,51 @@ exports[`ToggleSwitch should render 1`] = `
       />
     </div>
   </div>
+  .c0 {
+  padding: 0 0.8em;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: none;
+  color: #666666;
+  font-weight: normal;
+}
+
+<div
+    class="c0"
+  >
+    On
+  </div>
 </DocumentFragment>
 `;
 
 exports[`ToggleSwitch should render a large toggle button 1`] = `
 <DocumentFragment>
+  .c0 {
+  padding: 0 0.8em;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: none;
+  color: #333333;
+  font-weight: 600;
+}
+
+<div
+    class="c0"
+  >
+    Off
+  </div>
   .c1 {
   font-size: 1em;
   border: thin solid #999999;
@@ -326,6 +386,26 @@ exports[`ToggleSwitch should render a large toggle button 1`] = `
         class="c5"
       />
     </div>
+  </div>
+  .c0 {
+  padding: 0 0.8em;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: none;
+  color: #666666;
+  font-weight: normal;
+}
+
+<div
+    class="c0"
+  >
+    On
   </div>
 </DocumentFragment>
 `;

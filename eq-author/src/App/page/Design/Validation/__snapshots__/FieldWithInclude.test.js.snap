@@ -16,6 +16,7 @@ exports[`FieldWithInclude should render 1`] = `
   <FieldWithInclude__InlineField>
     <ToggleSwitch
       checked={false}
+      hideLabels={true}
       id="1"
       name="name"
       onChange={[MockFunction]}

@@ -1,159 +1,154 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`QuestionnaireMeta should render 1`] = `
-<Form
-  onSubmit={[MockFunction]}
+<ScrollPane
+  permanentScrollBar={false}
 >
-  <Field
-    disabled={false}
-    last={false}
+  <Form
+    onSubmit={[MockFunction]}
   >
-    <Label
-      bold={true}
-      htmlFor="title"
+    <Field
+      disabled={false}
+      last={false}
     >
-      Questionnaire Title
-    </Label>
-    <withChangeHandler(UncontrolledInput)
-      autoFocus={true}
-      data-test="txt-questionnaire-title"
-      defaultValue="I am the title"
-      id="title"
-      onChange={[MockFunction]}
-      required={true}
-    />
-  </Field>
-  <Grid
-    align="top"
-    fillHeight={true}
-  >
-    <Column
-      cols={6}
-    >
-      <Field
-        disabled={false}
-        last={false}
+      <Label
+        bold={true}
+        htmlFor="title"
       >
-        <Label
-          bold={true}
-          htmlFor="shortTitle"
-        >
-          Short title (optional)
-        </Label>
-        <withChangeHandler(UncontrolledInput)
-          data-test="txt-questionnaire-short-title"
-          defaultValue="I am the shortTitle"
-          id="shortTitle"
-          onChange={[MockFunction]}
-        />
-      </Field>
-    </Column>
-    <Column
-      cols={6}
+        Questionnaire Title
+      </Label>
+      <withChangeHandler(UncontrolledInput)
+        autoFocus={true}
+        data-test="txt-questionnaire-title"
+        defaultValue="I am the title"
+        id="title"
+        onChange={[MockFunction]}
+        required={true}
+      />
+    </Field>
+    <Grid
+      align="top"
+      fillHeight={true}
     >
-      <Field
-        disabled={false}
-        last={false}
+      <Column
+        cols={6}
       >
-        <Label
-          bold={true}
-          htmlFor="type"
-        >
-          Questionnaire type
-        </Label>
-        <withChangeHandler(Select__SimpleSelect)
-          data-test="select-questionnaire-type"
-          defaultValue=""
+        <Field
           disabled={false}
-          id="type"
+          last={false}
+        >
+          <Label
+            bold={true}
+            htmlFor="shortTitle"
+          >
+            Short title (optional)
+          </Label>
+          <withChangeHandler(UncontrolledInput)
+            data-test="txt-questionnaire-short-title"
+            defaultValue="I am the shortTitle"
+            id="shortTitle"
+            onChange={[MockFunction]}
+          />
+        </Field>
+      </Column>
+      <Column
+        cols={6}
+      >
+        <Field
+          disabled={false}
+          last={false}
+        >
+          <Label
+            bold={true}
+            htmlFor="type"
+          >
+            Questionnaire type
+          </Label>
+          <withChangeHandler(Select__SimpleSelect)
+            data-test="select-questionnaire-type"
+            defaultValue=""
+            disabled={false}
+            id="type"
+            onChange={[MockFunction]}
+          >
+            <option
+              disabled={true}
+              value=""
+            >
+              Please select...
+            </option>
+            <option
+              value="Business"
+            >
+              Business
+            </option>
+            <option
+              value="Social"
+            >
+              Social
+            </option>
+          </withChangeHandler(Select__SimpleSelect)>
+        </Field>
+      </Column>
+    </Grid>
+    <QuestionnaireMeta__ToggleWrapper>
+      <QuestionnaireMeta__InlineField>
+        <Label
+          bold={true}
+        >
+          Section navigation
+        </Label>
+        <QuestionnaireMeta__VerticalSeparator />
+        <ToggleSwitch
+          checked={false}
+          hideLabels={false}
+          id="navigation"
+          name="navigation"
           onChange={[MockFunction]}
-        >
-          <option
-            disabled={true}
-            value=""
-          >
-            Please select...
-          </option>
-          <option
-            value="Business"
-          >
-            Business
-          </option>
-          <option
-            value="Social"
-          >
-            Social
-          </option>
-        </withChangeHandler(Select__SimpleSelect)>
-      </Field>
-    </Column>
-  </Grid>
-  <QuestionnaireMeta__ToggleWrapper>
-    <QuestionnaireMeta__InlineField>
-      <QuestionnaireMeta__FlexLabel
-        htmlFor="navigation"
-        inline={true}
-      >
-        <QuestionnaireMeta__Icon
-          alt=""
-          fade={true}
-          src="icon-show-nav.svg"
         />
-        <DescribedText
-          description="Allows respondents to navigate between sections when they are completing the survey."
+      </QuestionnaireMeta__InlineField>
+      <Panel__InformationPanel>
+        Let respondents move between sections while they're completing the questionnaire.
+      </Panel__InformationPanel>
+      <QuestionnaireMeta__HorizontalSeparator />
+      <QuestionnaireMeta__InlineField>
+        <Label
+          bold={true}
         >
-          Show section navigation
-        </DescribedText>
-      </QuestionnaireMeta__FlexLabel>
-      <ToggleSwitch
-        checked={false}
-        id="navigation"
-        name="navigation"
-        onChange={[MockFunction]}
-      />
-    </QuestionnaireMeta__InlineField>
-    <QuestionnaireMeta__InlineField>
-      <QuestionnaireMeta__FlexLabel
-        htmlFor="summary"
-        inline={true}
-      >
-        <QuestionnaireMeta__Icon
-          alt=""
-          fade={true}
-          src="icon-show-confirmation.svg"
+          Answers summary
+        </Label>
+        <QuestionnaireMeta__VerticalSeparator />
+        <ToggleSwitch
+          checked={false}
+          hideLabels={false}
+          id="summary"
+          name="summary"
+          onChange={[MockFunction]}
         />
-        <DescribedText
-          description="A summary of all of the respondent's answers will be shown on the confirmation page at the end of the survey."
-        >
-          Show summary on confirmation page
-        </DescribedText>
-      </QuestionnaireMeta__FlexLabel>
-      <ToggleSwitch
-        checked={false}
-        id="summary"
-        name="summary"
-        onChange={[MockFunction]}
-      />
-    </QuestionnaireMeta__InlineField>
-  </QuestionnaireMeta__ToggleWrapper>
-  <ButtonGroup
-    align="right"
-    horizontal={true}
-  >
-    <Button
-      type="button"
-      variant="secondary"
+      </QuestionnaireMeta__InlineField>
+      <Panel__InformationPanel>
+        Let respondents check their answers before submitting their questionnaire
+      </Panel__InformationPanel>
+    </QuestionnaireMeta__ToggleWrapper>
+    <ButtonGroup
+      align="right"
+      horizontal={true}
     >
-      Cancel
-    </Button>
-    <Button
-      data-test="questionnaire-submit-button"
-      disabled={true}
-      type="submit"
-      variant="primary"
-    >
-      Create
-    </Button>
-  </ButtonGroup>
-</Form>
+      <Button
+        type="button"
+        variant="secondary"
+      >
+        Cancel
+      </Button>
+      <Button
+        data-test="questionnaire-submit-button"
+        disabled={true}
+        type="submit"
+        variant="primary"
+      >
+        Create
+      </Button>
+    </ButtonGroup>
+  </Form>
+</ScrollPane>
 `;

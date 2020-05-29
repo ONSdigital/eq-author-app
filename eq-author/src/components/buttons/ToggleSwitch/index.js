@@ -21,6 +21,11 @@ const backgroundSize = {
   height: 1,
 };
 
+const labelColors = {
+  on: colors.black,
+  off: colors.darkGrey,
+};
+
 const knobSize = 1;
 
 const border = {
@@ -86,16 +91,27 @@ const FlexInline = styled.div`
   position: relative;
 `;
 
+const ToggleLabel = styled.div`
+  padding: 0 0.8em;
+  display: flex;
+  align-items: center;
+  display: ${props => (props.isHidden ? "none" : "flex")};
+  color: ${props => (props.checked ? labelColors.on : labelColors.off)};
+  font-weight: ${props => (props.checked ? 600 : "normal")};
+`;
+
 class ToggleSwitch extends React.Component {
   static propTypes = {
     id: PropTypes.string,
     checked: PropTypes.bool,
     onChange: PropTypes.func.isRequired,
     name: PropTypes.string.isRequired,
+    hideLabels: PropTypes.bool,
   };
 
   static defaultProps = {
     checked: false,
+    hideLabels: true,
   };
 
   constructor(props) {
@@ -121,26 +137,35 @@ class ToggleSwitch extends React.Component {
   };
 
   render() {
-    const { id, checked, onChange } = this.props;
+    const { id, checked, onChange, hideLabels } = this.props;
+
     return (
-      <FlexInline role="switch" aria-checked={checked} data-test={id}>
-        <HiddenInput
-          id={this.id}
-          type="checkbox"
-          role="checkbox"
-          aria-checked={checked}
-          onChange={onChange}
-          checked={checked}
-          ref={this.inputRef}
-        />
-        <ToggleSwitchBackground
-          role="presentation"
-          checked={checked}
-          onClick={this.handleToggle}
-        >
-          <ToggleSwitchKnob checked={checked} />
-        </ToggleSwitchBackground>
-      </FlexInline>
+      <>
+        <ToggleLabel checked={!checked} isHidden={hideLabels}>
+          Off
+        </ToggleLabel>
+        <FlexInline role="switch" aria-checked={checked} data-test={id}>
+          <HiddenInput
+            id={this.id}
+            type="checkbox"
+            role="checkbox"
+            aria-checked={checked}
+            onChange={onChange}
+            checked={checked}
+            ref={this.inputRef}
+          />
+          <ToggleSwitchBackground
+            role="presentation"
+            checked={checked}
+            onClick={this.handleToggle}
+          >
+            <ToggleSwitchKnob checked={checked} />
+          </ToggleSwitchBackground>
+        </FlexInline>
+        <ToggleLabel checked={checked} isHidden={hideLabels}>
+          On
+        </ToggleLabel>
+      </>
     );
   }
 }
