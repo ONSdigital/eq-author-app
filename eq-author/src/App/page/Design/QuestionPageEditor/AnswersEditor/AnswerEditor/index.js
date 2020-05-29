@@ -54,8 +54,6 @@ const AnswerHeader = styled.div`
 
 const AnswerType = styled.span`
   text-align: center;
-  font-size: 0.8em;
-  font-weight: bold;
   color: ${colors.textLight};
   line-height: 1;
   letter-spacing: 0.05em;
@@ -64,6 +62,10 @@ const AnswerType = styled.span`
   right: 0;
   margin: auto;
   z-index: 1;
+  font-family: Lato, sans-serif;
+  font-size: 1.2em;
+  letter-spacing: 0;
+  font-weight: bold;
 `;
 
 const Padding = styled.div`
