@@ -4,10 +4,6 @@ exports[`ToggleSwitch should render 1`] = `
 <DocumentFragment>
   .c0 {
   padding: 0 0.8em;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -184,10 +180,6 @@ exports[`ToggleSwitch should render 1`] = `
   </div>
   .c0 {
   padding: 0 0.8em;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -209,10 +201,6 @@ exports[`ToggleSwitch should render a large toggle button 1`] = `
 <DocumentFragment>
   .c0 {
   padding: 0 0.8em;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -389,10 +377,6 @@ exports[`ToggleSwitch should render a large toggle button 1`] = `
   </div>
   .c0 {
   padding: 0 0.8em;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
   -webkit-align-items: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
