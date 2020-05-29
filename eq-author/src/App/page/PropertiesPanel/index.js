@@ -25,7 +25,7 @@ const PropertiesPane = styled.div`
 
   h2 {
     font-family: Lato, sans-serif;
-    font-size: 0.9em;
+    font-size: 0.85em;
     letter-spacing: 0;
     font-weight: bold;
   }

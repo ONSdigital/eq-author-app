@@ -63,7 +63,7 @@ const AnswerType = styled.span`
   margin: auto;
   z-index: 1;
   font-family: Lato, sans-serif;
-  font-size: 1.2em;
+  font-size: 0.9em;
   letter-spacing: 0;
   font-weight: bold;
 `;
