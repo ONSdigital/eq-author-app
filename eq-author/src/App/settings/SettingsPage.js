@@ -46,7 +46,7 @@ const VerticalSeparator = styled.div`
   width: 1px;
   height: 1.5em;
   background-color: ${colors.blue};
-  margin: 0 1em;
+  margin-left: 0.8em;
   margin-bottom: 0.4em;
 `;
 
@@ -64,7 +64,7 @@ const MediumWidthField = styled(FullWidthField)`
   width: 31em;
 `;
 
-const Pill = ({ children }) => {
+const Pill = ({ children, testId }) => {
   const Container = styled.div`
     width: 4em;
     padding: 0.5em 1em;
@@ -79,12 +79,13 @@ const Pill = ({ children }) => {
   `;
   return (
     <Container>
-      <p>{children}</p>
+      <p data-test={testId}>{children}</p>
     </Container>
   );
 };
 Pill.propTypes = {
   children: PropTypes.string.isRequired,
+  testId: PropTypes.string.isRequired,
 };
 
 const SettingsPage = ({ questionnaire }) => {
@@ -122,6 +123,7 @@ const SettingsPage = ({ questionnaire }) => {
               value={questionnaireTitle}
               onChange={({ value }) => setQuestionnaireTitle(value)}
               onBlur={e => handleTitleChange({ ...e.target })}
+              data-test="change-questionnaire-title"
             />
           </FullWidthField>
           <MediumWidthField>
@@ -135,20 +137,22 @@ const SettingsPage = ({ questionnaire }) => {
               value={questionnaireShortTitle}
               onChange={({ value }) => setQuestionnaireShortTitle(value)}
               onBlur={e => handleShortTitleChange({ ...e.target })}
+              data-test="change-questionnaire-short-title"
             />
           </MediumWidthField>
           <HorizontalSeparator />
           <FullWidthField>
             <Label>Questionnaire type</Label>
-            <Pill>{type}</Pill>
+            <Pill testId="questionnaire-type">{type}</Pill>
           </FullWidthField>
           <HorizontalSeparator />
           <InlineFullWidthField>
             <Label>Section navigation</Label>
             <VerticalSeparator />
             <ToggleSwitch
-              id="navigation"
-              name="navigation"
+              id="toggle-section-navigation"
+              name="toggle-section-navigation"
+              hideLabels={false}
               onChange={({ value }) =>
                 updateQuestionnaire({
                   variables: { input: { id, navigation: value } },
@@ -166,8 +170,9 @@ const SettingsPage = ({ questionnaire }) => {
             <Label>Answers summary</Label>
             <VerticalSeparator />
             <ToggleSwitch
-              id="summary"
-              name="summary"
+              id="toggle-answer-summary"
+              name="toggle-answer-summary"
+              hideLabels={false}
               onChange={({ value }) =>
                 updateQuestionnaire({
                   variables: { input: { id, summary: value } },
@@ -186,7 +191,8 @@ const SettingsPage = ({ questionnaire }) => {
   );
 };
 SettingsPage.propTypes = {
-  questionnaire: PropTypes.string.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  questionnaire: PropTypes.object.isRequired,
 };
 
 export default withRouter(SettingsPage);

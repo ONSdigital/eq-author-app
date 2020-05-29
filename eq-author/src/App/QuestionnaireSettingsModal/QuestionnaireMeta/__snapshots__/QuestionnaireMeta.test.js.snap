@@ -266,6 +266,7 @@ exports[`QuestionnaireMeta should render 1`] = `
       </QuestionnaireMeta__FlexLabel>
       <ToggleSwitch
         checked={false}
+        hideLabels={true}
         id="navigation"
         name="navigation"
         onChange={[MockFunction]}
@@ -289,6 +290,7 @@ exports[`QuestionnaireMeta should render 1`] = `
       </QuestionnaireMeta__FlexLabel>
       <ToggleSwitch
         checked={false}
+        hideLabels={true}
         id="summary"
         name="summary"
         onChange={[MockFunction]}
