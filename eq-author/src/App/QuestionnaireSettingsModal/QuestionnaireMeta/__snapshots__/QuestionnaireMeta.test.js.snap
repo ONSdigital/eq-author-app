@@ -108,7 +108,7 @@ exports[`QuestionnaireMeta should render 1`] = `
         />
       </QuestionnaireMeta__InlineField>
       <Panel__InformationPanel>
-        Let respondents move between sections while they're completing the questionnaire.
+        Let respondents move between sections while they're completing their questionnaire.
       </Panel__InformationPanel>
       <QuestionnaireMeta__HorizontalSeparator />
       <QuestionnaireMeta__InlineField>

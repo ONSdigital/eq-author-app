@@ -109,7 +109,7 @@ export const StatelessQuestionnaireMeta = ({
         </InlineField>
         <InformationPanel>
           Let respondents move between sections while they&apos;re completing
-          the questionnaire.
+          their questionnaire.
         </InformationPanel>
         <HorizontalSeparator />
         <InlineField>
