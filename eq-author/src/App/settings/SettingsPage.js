@@ -11,7 +11,7 @@ import updateQuestionnaireMutation from "graphql/updateQuestionnaire.graphql";
 import Header from "components/EditorLayout/Header";
 import ScrollPane from "components/ScrollPane";
 import Panel, { InformationPanel } from "components/Panel";
-import { Field as FullWidthField, Input, Label } from "components/Forms";
+import { Field, Input, Label } from "components/Forms";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
 
 const Container = styled.div`
@@ -50,7 +50,7 @@ const VerticalSeparator = styled.div`
   margin-bottom: 0.4em;
 `;
 
-const InlineFullWidthField = styled(FullWidthField)`
+const InlineField = styled(Field)`
   display: flex;
   align-items: center;
   margin-bottom: 0.4em;
@@ -58,10 +58,6 @@ const InlineFullWidthField = styled(FullWidthField)`
   > * {
     margin-bottom: 0;
   }
-`;
-
-const MediumWidthField = styled(FullWidthField)`
-  width: 31em;
 `;
 
 const Pill = ({ children, testId }) => {
@@ -116,7 +112,7 @@ const SettingsPage = ({ questionnaire }) => {
       <Header title="Settings" />
       <ScrollPane>
         <StyledPanel>
-          <FullWidthField>
+          <Field>
             <Label>Questionnaire title</Label>
             <Caption>Changes the questionnaire&apos;s title.</Caption>
             <StyledInput
@@ -125,13 +121,13 @@ const SettingsPage = ({ questionnaire }) => {
               onBlur={e => handleTitleChange({ ...e.target })}
               data-test="change-questionnaire-title"
             />
-          </FullWidthField>
-          <MediumWidthField>
+          </Field>
+          <Field>
             <Label>Short title (optional)</Label>
             <Caption>
-              Changes the questionnaire&apos;s short title. This is only used
-              within Author. Respondents always see the full questionnaire
-              title.
+              {shortTitle ? "Changes" : "Adds"} the questionnaire&apos;s short
+              title. This is only used within Author. Respondents always see the
+              full questionnaire title.
             </Caption>
             <StyledInput
               value={questionnaireShortTitle}
@@ -139,14 +135,14 @@ const SettingsPage = ({ questionnaire }) => {
               onBlur={e => handleShortTitleChange({ ...e.target })}
               data-test="change-questionnaire-short-title"
             />
-          </MediumWidthField>
+          </Field>
           <HorizontalSeparator />
-          <FullWidthField>
+          <Field>
             <Label>Questionnaire type</Label>
             <Pill testId="questionnaire-type">{type}</Pill>
-          </FullWidthField>
+          </Field>
           <HorizontalSeparator />
-          <InlineFullWidthField>
+          <InlineField>
             <Label>Section navigation</Label>
             <VerticalSeparator />
             <ToggleSwitch
@@ -160,13 +156,13 @@ const SettingsPage = ({ questionnaire }) => {
               }
               checked={navigation}
             />
-          </InlineFullWidthField>
+          </InlineField>
           <InformationPanel>
             Let respondents move between sections while they&apos;re completing
             the questionnaire.
           </InformationPanel>
           <HorizontalSeparator />
-          <InlineFullWidthField>
+          <InlineField>
             <Label>Answers summary</Label>
             <VerticalSeparator />
             <ToggleSwitch
@@ -180,7 +176,7 @@ const SettingsPage = ({ questionnaire }) => {
               }
               checked={summary}
             />
-          </InlineFullWidthField>
+          </InlineField>
           <InformationPanel>
             Let respondents check their answers before submitting their
             questionnaire
