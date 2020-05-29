@@ -56,7 +56,6 @@ const AnswerType = styled.span`
   text-align: center;
   color: ${colors.textLight};
   line-height: 1;
-  letter-spacing: 0.05em;
   position: absolute;
   left: 0;
   right: 0;
