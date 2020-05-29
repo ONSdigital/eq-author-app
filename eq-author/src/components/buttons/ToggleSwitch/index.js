@@ -93,7 +93,6 @@ const FlexInline = styled.div`
 
 const ToggleLabel = styled.div`
   padding: 0 0.8em;
-  display: flex;
   align-items: center;
   display: ${props => (props.isHidden ? "none" : "flex")};
   color: ${props => (props.checked ? labelColors.on : labelColors.off)};
