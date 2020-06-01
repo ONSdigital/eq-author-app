@@ -22,7 +22,7 @@ const ToggleWrapper = styled.div`
 const HorizontalSeparator = styled.hr`
   border: 0;
   border-top: 0.0625em solid ${colors.lightMediumGrey};
-  margin: 1.5em 0;
+  margin: 1.5em 0 0.7em 0;
 `;
 
 const VerticalSeparator = styled.div`
@@ -94,6 +94,8 @@ export const StatelessQuestionnaireMeta = ({
           </Field>
         </Column>
       </Grid>
+
+      <HorizontalSeparator style={{ marginTop: "0.5em" }} />
 
       <ToggleWrapper>
         <InlineField>

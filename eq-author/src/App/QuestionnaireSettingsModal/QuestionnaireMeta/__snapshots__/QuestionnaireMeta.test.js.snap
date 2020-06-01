@@ -91,6 +91,13 @@ exports[`QuestionnaireMeta should render 1`] = `
         </Field>
       </Column>
     </Grid>
+    <QuestionnaireMeta__HorizontalSeparator
+      style={
+        Object {
+          "marginTop": "0.5em",
+        }
+      }
+    />
     <QuestionnaireMeta__ToggleWrapper>
       <QuestionnaireMeta__InlineField>
         <Label
