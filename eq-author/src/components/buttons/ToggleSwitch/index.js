@@ -23,7 +23,7 @@ const backgroundSize = {
 
 const labelColors = {
   on: colors.black,
-  off: colors.darkGrey,
+  off: colors.grey,
 };
 
 const knobSize = 1;

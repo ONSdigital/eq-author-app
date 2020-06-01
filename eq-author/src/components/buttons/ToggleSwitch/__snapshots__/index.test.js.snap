@@ -185,7 +185,7 @@ exports[`ToggleSwitch should render 1`] = `
   -ms-flex-align: center;
   align-items: center;
   display: none;
-  color: #666666;
+  color: #999999;
   font-weight: normal;
 }
 
@@ -382,7 +382,7 @@ exports[`ToggleSwitch should render a large toggle button 1`] = `
   -ms-flex-align: center;
   align-items: center;
   display: none;
-  color: #666666;
+  color: #999999;
   font-weight: normal;
 }
 

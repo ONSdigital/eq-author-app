@@ -58,7 +58,7 @@ describe("ToggleSwitch", () => {
     expect(getByText("Off")).toHaveStyleRule("color", colors.black);
     expect(getByText("Off")).toHaveStyleRule("display", "flex");
 
-    expect(getByText("On")).toHaveStyleRule("color", colors.darkGrey);
+    expect(getByText("On")).toHaveStyleRule("color", colors.grey);
     expect(getByText("On")).toHaveStyleRule("display", "flex");
   });
 
@@ -69,7 +69,7 @@ describe("ToggleSwitch", () => {
       checked: true,
       hideLabels: false,
     });
-    expect(getByText("Off")).toHaveStyleRule("color", colors.darkGrey);
+    expect(getByText("Off")).toHaveStyleRule("color", colors.grey);
     expect(getByText("Off")).toHaveStyleRule("display", "flex");
 
     expect(getByText("On")).toHaveStyleRule("color", colors.black);
