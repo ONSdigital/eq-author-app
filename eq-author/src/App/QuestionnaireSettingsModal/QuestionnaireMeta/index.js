@@ -15,6 +15,10 @@ import { colors } from "constants/theme";
 
 import questionnaireFragment from "graphql/fragments/questionnaire.graphql";
 
+const StyledScrollPane = styled(ScrollPane)`
+  padding: 5px;
+`;
+
 const ToggleWrapper = styled.div`
   margin: 0 0 1em;
 `;
@@ -50,7 +54,7 @@ export const StatelessQuestionnaireMeta = ({
   confirmText,
   canEditType,
 }) => (
-  <ScrollPane>
+  <StyledScrollPane>
     <Form onSubmit={onSubmit}>
       <Field>
         <Label htmlFor="title">Questionnaire Title</Label>
@@ -144,7 +148,7 @@ export const StatelessQuestionnaireMeta = ({
         </Button>
       </ButtonGroup>
     </Form>
-  </ScrollPane>
+  </StyledScrollPane>
 );
 
 StatelessQuestionnaireMeta.defaultProps = {
