@@ -12,6 +12,7 @@ exports[`Property should render 1`] = `
   </Property__PropertyLabel>
   <ToggleSwitch
     checked={false}
+    hideLabels={true}
     id="1"
     name="1"
     onChange={[MockFunction]}
