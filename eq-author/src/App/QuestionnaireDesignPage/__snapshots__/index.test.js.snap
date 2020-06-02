@@ -2221,6 +2221,11 @@ exports[`QuestionnaireDesignPage should render 1`] = `
                 render={[Function]}
               />
               <Route
+                key="settings"
+                path="/q/:questionnaireId/settings"
+                render={[Function]}
+              />
+              <Route
                 path="*"
                 render={[Function]}
               />

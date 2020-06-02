@@ -42,6 +42,7 @@ import {
   buildQcodesPath,
   buildMetadataPath,
   buildHistoryPath,
+  buildSettingsPath,
 } from "utils/UrlUtils";
 
 const StyledMainNavigation = styled.div`
@@ -145,16 +146,20 @@ export const UnwrappedMainNavigation = props => {
                     View survey
                   </IconText>
                 </LinkButton>
-                <Button
-                  variant="navigation-modal"
-                  data-test="btn-settings"
-                  onClick={() => setSettingsModalOpen(true)}
+                <RouteButton
+                  variant={
+                    (whatPageAreWeOn === "settings" && "navigation-on") ||
+                    "navigation"
+                  }
+                  to={buildSettingsPath(match.params)}
                   small
+                  data-test="btn-settings"
+                  disabled={title === "Settings"}
                 >
                   <IconText nav icon={settingsIcon}>
                     Settings
                   </IconText>
-                </Button>
+                </RouteButton>
                 <Button
                   variant="navigation-modal"
                   onClick={() => setSharingModalOpen(true)}
