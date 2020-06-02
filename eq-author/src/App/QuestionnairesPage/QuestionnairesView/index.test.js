@@ -74,7 +74,7 @@ describe("QuestionnairesView", () => {
       const createButton = getByText("Create a questionnaire");
       fireEvent.click(createButton);
 
-      fireEvent.change(getByLabelText("Questionnaire Title"), {
+      fireEvent.change(getByLabelText("Questionnaire title"), {
         target: { value: "Questionnaire title" },
       });
       fireEvent.change(getByLabelText("Questionnaire type"), {
@@ -93,16 +93,16 @@ describe("QuestionnairesView", () => {
       const createButton = getByText("Create a questionnaire");
       fireEvent.click(createButton);
 
-      expect(queryByLabelText("Questionnaire Title")).toBeTruthy();
+      expect(queryByLabelText("Questionnaire title")).toBeTruthy();
 
       const cancelButton = getByText("Cancel");
       fireEvent.click(cancelButton);
 
       await waitForElementToBeRemoved(() =>
-        queryByLabelText("Questionnaire Title")
+        queryByLabelText("Questionnaire title")
       );
 
-      expect(queryByLabelText("Questionnaire Title")).toBeFalsy();
+      expect(queryByLabelText("Questionnaire title")).toBeFalsy();
     });
   });
 
@@ -145,7 +145,7 @@ describe("QuestionnairesView", () => {
       const createButton = getByText("Create questionnaire");
       fireEvent.click(createButton);
 
-      fireEvent.change(getByLabelText("Questionnaire Title"), {
+      fireEvent.change(getByLabelText("Questionnaire title"), {
         target: { value: "Questionnaire title" },
       });
       fireEvent.change(getByLabelText("Questionnaire type"), {
@@ -164,16 +164,16 @@ describe("QuestionnairesView", () => {
       const createButton = getByText("Create questionnaire");
       fireEvent.click(createButton);
 
-      expect(queryByLabelText("Questionnaire Title")).toBeTruthy();
+      expect(queryByLabelText("Questionnaire title")).toBeTruthy();
 
       const cancelButton = getByText("Cancel");
       fireEvent.click(cancelButton);
 
       await waitForElementToBeRemoved(() =>
-        queryByLabelText("Questionnaire Title")
+        queryByLabelText("Questionnaire title")
       );
 
-      expect(queryByLabelText("Questionnaire Title")).toBeFalsy();
+      expect(queryByLabelText("Questionnaire title")).toBeFalsy();
     });
 
     describe("Deletion", () => {
