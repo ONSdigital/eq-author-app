@@ -168,7 +168,7 @@ class MultipleChoiceAnswerOptionsSelector extends React.Component {
                 });
               }}
             >
-              CHOOSE
+              Choose
             </ChooseButton>
           </>
         )}

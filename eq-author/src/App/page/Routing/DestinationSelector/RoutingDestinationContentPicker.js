@@ -20,6 +20,10 @@ const getLogicalDisplayName = (
     return "End of questionnaire";
   }
 
+  if (logical === "NextPage") {
+    return "Next page";
+  }
+
   if (loading) {
     return "";
   }

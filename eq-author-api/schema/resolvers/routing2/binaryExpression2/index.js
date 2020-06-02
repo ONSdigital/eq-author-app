@@ -12,11 +12,15 @@ const {
 
 const {
   createExpression,
-  createLeftSide,
   createRightSide,
 } = require("../../../../src/businessLogic");
 
 const { createMutation } = require("../../createMutation");
+
+const {
+  NO_ROUTABLE_ANSWER_ON_PAGE,
+  NULL,
+} = require("../../../../constants/routingNoLeftSide");
 
 const {
   getPages,
@@ -47,6 +51,16 @@ Resolvers.BinaryExpression2 = {
     if (left.type === "Answer") {
       const answer = getAnswerById(ctx, left.answerId);
       return { ...answer, sideType: left.type };
+    }
+
+    if (left.type === "Default") {
+      const answer = getAnswerById(ctx, left.answerId);
+      return {
+        ...answer,
+        sideType: left.type,
+        reason: "DefaultRouting",
+        displayName: "Select an answer",
+      };
     }
 
     return { sideType: left.type, reason: left.nullReason };
@@ -90,6 +104,9 @@ Resolvers.LeftSide2 = {
     }
     if (sideType === "Null") {
       return "NoLeftSide";
+    }
+    if (sideType === "Default") {
+      return "DefaultLeftSide";
     }
   },
 };
@@ -156,14 +173,14 @@ Resolvers.Mutation = {
     }
 
     const left = hasRoutableFirstAnswer
-      ? createLeftSide({
-          type: "Answer",
+      ? {
           answerId: firstAnswer.id,
-        })
-      : createLeftSide({
-          type: "Null",
-          nullReason: "NoRoutableAnswerOnPage",
-        });
+          type: "Default",
+        }
+      : {
+          type: NULL,
+          nullReason: NO_ROUTABLE_ANSWER_ON_PAGE,
+        };
 
     const expression = createExpression({
       left,
@@ -258,7 +275,6 @@ Resolvers.Mutation = {
     }
 
     const { expressionId, customValue, selectedOptions } = input;
-
     const pages = getPages(ctx);
     const rules = flatMap(
       routing => getOr([], "rules", routing),

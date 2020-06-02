@@ -22,7 +22,7 @@ import { DATE, DATE_RANGE } from "constants/answer-types";
 import { DAYS, MONTHS, YEARS } from "constants/durations";
 
 const UNITS = [DAYS, MONTHS, YEARS];
-const RELATIVE_POSITIONS = ["Before", "After"];
+const RELATIVE_POSITIONS = ["before", "after"];
 
 const DateInput = styled(Input)`
   width: 12em;
@@ -173,7 +173,9 @@ export class UnwrappedDateValidation extends React.Component {
               </RelativePositionSelect>
             )}
             {type === DATE_RANGE && (
-              <RelativePositionText>{relativePosition}</RelativePositionText>
+              <RelativePositionText>
+                {relativePosition.toLowerCase()}
+              </RelativePositionText>
             )}
             <PathEnd />
           </AlignedColumn>

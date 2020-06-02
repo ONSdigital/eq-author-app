@@ -1,6 +1,9 @@
 import React from "react";
 import { render, fireEvent, act } from "tests/utils/rtl";
 import SectionAccordion from "./";
+import NavLink, {
+  activeClassName,
+} from "../../App/QuestionnaireDesignPage/NavigationSidebar/NavLink.js";
 
 describe("Section Accordion", () => {
   it("default should render accordion as expanded", () => {
@@ -11,6 +14,30 @@ describe("Section Accordion", () => {
     );
     expect(getByTestId("accordion-section1-body")).toBeVisible();
     expect(getByTestId("accordion-section1-button")).toBeVisible();
+  });
+
+  it("should focus on a section when active", async () => {
+    const props = {
+      to: "q/QID1/section/section1/design",
+      "data-test": "nav-section-link",
+      title: "TestName",
+      icon: () => <svg />,
+      errorCount: 0,
+      isActive: () => true,
+    };
+    const SectionTitle = () => (
+      <>
+        <NavLink {...props}>section1</NavLink>
+      </>
+    );
+    const { getByTestId } = render(
+      <SectionAccordion title={<SectionTitle />} titleName="section1">
+        section accordion panel
+      </SectionAccordion>
+    );
+    expect(getByTestId("nav-section-link")).toBeVisible();
+
+    expect(getByTestId("nav-section-link")).toHaveClass(activeClassName);
   });
 
   it("click on the arrow - it should open and close section accordion", async () => {

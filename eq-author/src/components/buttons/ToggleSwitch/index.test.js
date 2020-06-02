@@ -41,6 +41,41 @@ describe("ToggleSwitch", () => {
     );
   });
 
+  it("should not render on/off labels by default", () => {
+    const { getByText } = renderComponent({
+      ...props,
+    });
+    expect(getByText("Off")).toHaveStyleRule("display", "none");
+    expect(getByText("On")).toHaveStyleRule("display", "none");
+  });
+
+  it("should render on/off labels when label prop is passed", () => {
+    const { getByText } = renderComponent({
+      ...props,
+      id: "toggle-2",
+      hideLabels: false,
+    });
+    expect(getByText("Off")).toHaveStyleRule("color", colors.black);
+    expect(getByText("Off")).toHaveStyleRule("display", "flex");
+
+    expect(getByText("On")).toHaveStyleRule("color", colors.grey);
+    expect(getByText("On")).toHaveStyleRule("display", "flex");
+  });
+
+  it("should change on/off label colors when prop is passed and checked", () => {
+    const { getByText } = renderComponent({
+      ...props,
+      id: "toggle-2",
+      checked: true,
+      hideLabels: false,
+    });
+    expect(getByText("Off")).toHaveStyleRule("color", colors.grey);
+    expect(getByText("Off")).toHaveStyleRule("display", "flex");
+
+    expect(getByText("On")).toHaveStyleRule("color", colors.black);
+    expect(getByText("On")).toHaveStyleRule("display", "flex");
+  });
+
   it("should render a large toggle button", () => {
     expect(
       renderComponent({

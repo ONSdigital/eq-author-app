@@ -1,5 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
+import { render, flushPromises, act } from "tests/utils/rtl";
 
 import { RADIO, CURRENCY, NUMBER, PERCENTAGE } from "constants/answer-types";
 import {
@@ -125,7 +126,7 @@ describe("BinaryExpressionEditor", () => {
     expect(
       wrapper
         .find(AlertTitle)
-        .contains("The question this condition referred to has been deleted")
+        .contains("The answer used in this condition has been deleted")
     ).toBeTruthy();
   });
 
@@ -180,5 +181,31 @@ describe("BinaryExpressionEditor", () => {
         customValue: { number: 123 },
       }
     );
+  });
+
+  it("should not show the delete or add expression buttons when showing defaultRouting", async () => {
+    const { getByTestId } = render(
+      <BinaryExpressionEditor {...defaultProps} />
+    );
+
+    await act(async () => {
+      await flushPromises();
+    });
+
+    const actionBtns = getByTestId("action-btns");
+    expect(actionBtns).toHaveStyleRule("display: none;");
+  });
+
+  it("should not show the condition when showing defaultRouting", async () => {
+    const { getByTestId } = render(
+      <BinaryExpressionEditor {...defaultProps} />
+    );
+
+    await act(async () => {
+      await flushPromises();
+    });
+
+    const transition = getByTestId("transition-condition");
+    expect(transition).toHaveStyleRule("display: none;");
   });
 });

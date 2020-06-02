@@ -298,6 +298,16 @@ describe("Content picker", () => {
       };
     });
 
+    it("should render metdata error message when no data supplied", () => {
+      props.data = [];
+      const { getByText, getByTestId } = renderContentPicker();
+
+      expect(
+        getByText("There are no previous metadata to pick from")
+      ).toBeTruthy();
+      expect(getByTestId("no-previous-answers")).toBeTruthy();
+    });
+
     it("should render metadata picker when specified", () => {
       const { getByText } = renderContentPicker();
 

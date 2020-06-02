@@ -11,11 +11,19 @@ import PageIcon from "./icon-survey-intro.svg?inline";
 
 const StyledItem = styled.li`
   padding: 0;
-  margin: 0 0 0.5em;
+  margin: 0 0 0.3em;
   position: relative;
   display: flex;
   align-items: center;
   font-weight: bold;
+`;
+
+const StyledNavLink = styled(NavLink)`
+  padding: 0.3em 0 0 2em;
+
+  svg {
+    flex: 0 0 2.3em;
+  }
 `;
 
 export const UnwrappedIntroductionNavItem = ({
@@ -24,7 +32,7 @@ export const UnwrappedIntroductionNavItem = ({
   ...otherProps
 }) => (
   <StyledItem data-test="page-item" {...otherProps}>
-    <NavLink
+    <StyledNavLink
       to={buildIntroductionPath({
         questionnaireId: questionnaire.id,
         introductionId: questionnaire.introduction.id,
@@ -35,7 +43,7 @@ export const UnwrappedIntroductionNavItem = ({
       data-test="nav-introduction-link"
     >
       Introduction
-    </NavLink>
+    </StyledNavLink>
   </StyledItem>
 );
 

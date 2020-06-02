@@ -7,8 +7,11 @@ const {
   NUMBER,
   UNIT,
 } = require("../constants/answerTypes");
-const createPipe = ({ pipeType = "answers", id = 1, text = "foo" } = {}) =>
-  `<span data-piped="${pipeType}" data-id="${id}">${text}</span>`;
+const createPipe = ({
+  pipeType = "answers",
+  id = "0151378b-579d-40bf-b4d4-a378c573706a",
+  text = "foo",
+} = {}) => `<span data-piped="${pipeType}" data-id="${id}">${text}</span>`;
 
 const createContext = (metadata = []) => ({
   questionnaireJson: {
@@ -18,13 +21,13 @@ const createContext = (metadata = []) => ({
         pages: [
           {
             answers: [
-              { id: `1`, type: "Text" },
-              { id: `2`, type: CURRENCY },
-              { id: `3`, type: DATE_RANGE },
-              { id: `4`, type: DATE },
-              { id: `5`, type: NUMBER },
+              { id: `0151378b-579d-40bf-b4d4-a378c573706a`, type: "Text" },
+              { id: `1151378b-579d-40bf-b4d4-a378c573706a`, type: CURRENCY },
+              { id: `2151378b-579d-40bf-b4d4-a378c573706a`, type: DATE_RANGE },
+              { id: `3151378b-579d-40bf-b4d4-a378c573706a`, type: DATE },
+              { id: `4151378b-579d-40bf-b4d4-a378c573706a`, type: NUMBER },
               {
-                id: `6`,
+                id: `5151378b-579d-40bf-b4d4-a378c573706a`,
                 type: UNIT,
                 properties: { required: false, decimals: 0, unit: "Metres" },
               },
@@ -76,63 +79,69 @@ describe("convertPipes", () => {
     it("should convert relevant elements to pipe format", () => {
       const html = createPipe();
       expect(convertPipes(createContext())(html)).toEqual(
-        "{{ answers['answer1'] }}"
+        "{{ answers['answer0151378b-579d-40bf-b4d4-a378c573706a'] }}"
       );
     });
 
     it("should handle multiple piped values", () => {
       const pipe1 = createPipe();
-      const pipe2 = createPipe({ id: "2", text: "bar" });
+      const pipe2 = createPipe({
+        id: "1151378b-579d-40bf-b4d4-a378c573706a",
+        text: "bar",
+      });
       const html = `${pipe1}${pipe2}`;
 
       expect(convertPipes(createContext())(html)).toEqual(
-        "{{ answers['answer1'] }}{{ format_currency(answers['answer2'], 'GBP') }}"
+        "{{ answers['answer0151378b-579d-40bf-b4d4-a378c573706a'] }}{{ format_currency(answers['answer1151378b-579d-40bf-b4d4-a378c573706a'], 'GBP') }}"
       );
     });
 
     it("should handle piped values amongst regular text", () => {
       const pipe1 = createPipe();
-      const pipe2 = createPipe({ id: "2", text: "bar" });
+      const pipe2 = createPipe({
+        id: "1151378b-579d-40bf-b4d4-a378c573706a",
+        text: "bar",
+      });
       const html = `hello ${pipe1}${pipe2} world`;
 
       expect(convertPipes(createContext())(html)).toEqual(
-        "hello {{ answers['answer1'] }}{{ format_currency(answers['answer2'], 'GBP') }} world"
+        "hello {{ answers['answer0151378b-579d-40bf-b4d4-a378c573706a'] }}{{ format_currency(answers['answer1151378b-579d-40bf-b4d4-a378c573706a'], 'GBP') }} world"
       );
     });
 
     describe("formatting", () => {
       it("should format Date Range answers with `format_date`", () => {
-        const html = createPipe({ id: "3" });
+        const html = createPipe({ id: "2151378b-579d-40bf-b4d4-a378c573706a" });
         expect(convertPipes(createContext())(html)).toEqual(
-          "{{ answers['answer3'] | format_date }}"
+          "{{ answers['answer2151378b-579d-40bf-b4d4-a378c573706a'] | format_date }}"
         );
       });
 
       it("should format Date answers with `format_date`", () => {
-        const html = createPipe({ id: "4" });
+        const html = createPipe({ id: "3151378b-579d-40bf-b4d4-a378c573706a" });
         expect(convertPipes(createContext())(html)).toEqual(
-          "{{ answers['answer4'] | format_date }}"
+          "{{ answers['answer3151378b-579d-40bf-b4d4-a378c573706a'] | format_date }}"
         );
       });
 
       it("should format Currency answers with `format_currency`", () => {
-        const html = createPipe({ id: "2" });
+        const html = createPipe({ id: "1151378b-579d-40bf-b4d4-a378c573706a" });
         expect(convertPipes(createContext())(html)).toEqual(
-          "{{ format_currency(answers['answer2'], 'GBP') }}"
+          "{{ format_currency(answers['answer1151378b-579d-40bf-b4d4-a378c573706a'], 'GBP') }}"
         );
       });
 
       it("should format Number answers with `format_number`", () => {
-        const html = createPipe({ id: "5" });
+        const html = createPipe({ id: "4151378b-579d-40bf-b4d4-a378c573706a" });
         expect(convertPipes(createContext())(html)).toEqual(
-          "{{ answers['answer5'] | format_number }}"
+          "{{ answers['answer4151378b-579d-40bf-b4d4-a378c573706a'] | format_number }}"
         );
       });
 
       it("should format Units answers with `format_unit` and includes the unit type", () => {
-        const html = createPipe({ id: "6" });
+        const html = createPipe({ id: "5151378b-579d-40bf-b4d4-a378c573706a" });
         expect(convertPipes(createContext())(html)).toEqual(
-          "{{ format_unit('length-meter',answers['answer6']) }}"
+          "{{ format_unit('length-meter',answers['answer5151378b-579d-40bf-b4d4-a378c573706a']) }}"
         );
       });
     });

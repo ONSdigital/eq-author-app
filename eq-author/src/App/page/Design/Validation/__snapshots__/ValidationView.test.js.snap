@@ -7,6 +7,7 @@ exports[`ValidationView should render children when enabled 1`] = `
   >
     <ToggleSwitch
       checked={true}
+      hideLabels={true}
       id="ValidationView1"
       name="ValidationView1"
       onChange={[MockFunction]}
@@ -47,6 +48,7 @@ exports[`ValidationView should render disabled messaged when disabled 1`] = `
   >
     <ToggleSwitch
       checked={false}
+      hideLabels={true}
       id="ValidationView2"
       name="ValidationView2"
       onChange={[MockFunction]}

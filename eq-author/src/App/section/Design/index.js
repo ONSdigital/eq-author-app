@@ -27,7 +27,6 @@ import { Label } from "components/Forms";
 
 import Loading from "components/Loading";
 import Error from "components/Error";
-import VisuallyHidden from "components/VisuallyHidden";
 
 import withEntityEditor from "components/withEntityEditor";
 import withPropRenamed from "enhancers/withPropRenamed";
@@ -126,14 +125,14 @@ export class UnwrappedSectionRoute extends React.Component {
     return (
       <>
         <Toolbar>
-          <VisuallyHidden>
-            <Label htmlFor="alias">Section short code (optional)</Label>
-          </VisuallyHidden>
-          <AliasEditor
-            alias={section.alias}
-            onUpdate={onUpdate}
-            onChange={onChange}
-          />
+          <div>
+            <Label htmlFor="alias">Short code</Label>
+            <AliasEditor
+              alias={section.alias}
+              onUpdate={onUpdate}
+              onChange={onChange}
+            />
+          </div>
           <Buttons>
             <Button
               onClick={this.handleOpenMoveSectionDialog}

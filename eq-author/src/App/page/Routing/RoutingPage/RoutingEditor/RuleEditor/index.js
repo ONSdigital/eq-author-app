@@ -22,6 +22,8 @@ import withUpdateExpressionGroup from "./withUpdateExpressionGroup";
 
 import { Select, Label } from "components/Forms";
 
+const LABEL_THEN = "Then";
+
 const Expressions = styled.div`
   background: white;
   padding-top: 1em;
@@ -39,7 +41,6 @@ export const Title = styled.h2`
   letter-spacing: 0.05em;
   font-size: 0.9em;
   font-weight: bold;
-  text-transform: uppercase;
 `;
 
 const Header = styled.div`
@@ -79,7 +80,7 @@ export class UnwrappedRuleEditor extends React.Component {
   };
 
   static defaultProps = {
-    ifLabel: "IF",
+    ifLabel: "If",
   };
 
   handleDeleteClick = () => {
@@ -164,7 +165,7 @@ export class UnwrappedRuleEditor extends React.Component {
 
         <DestinationSelector
           id={rule.id}
-          label="THEN"
+          label={LABEL_THEN}
           onChange={this.handleDestinationChange}
           value={destination}
           data-test="select-then"

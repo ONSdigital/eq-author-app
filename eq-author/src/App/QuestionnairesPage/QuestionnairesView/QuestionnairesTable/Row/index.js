@@ -46,7 +46,6 @@ export const ShortTitle = styled.span`
   text-decoration-color: ${colors.textLight};
   font-size: 0.8em;
   font-weight: bold;
-  text-transform: uppercase;
   letter-spacing: 0.05em;
 `;
 
@@ -120,7 +119,7 @@ const Permission = styled.li`
   color: white;
   letter-spacing: 0.05em;
   font-size: 0.7em;
-  text-transform: uppercase;
+  text-transform: initial;
   :not(:last-of-type) {
     margin-right: 0.5em;
   }
@@ -297,8 +296,8 @@ export class Row extends React.Component {
           <TD>{createdBy.displayName}</TD>
           <TD>
             <Permissions>
-              <Permission>VIEW</Permission>
-              <Permission disabled={!hasWritePermisson}>EDIT</Permission>
+              <Permission>View</Permission>
+              <Permission disabled={!hasWritePermisson}>Edit</Permission>
             </Permissions>
           </TD>
           <TD>

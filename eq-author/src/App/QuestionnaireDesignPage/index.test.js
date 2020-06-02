@@ -149,7 +149,7 @@ describe("QuestionnaireDesignPage", () => {
       ).toEqual(false);
     });
 
-    it("should disable adding confirmation queation when on introduction page", () => {
+    it("should disable adding confirmation question when on introduction page", () => {
       expect(
         wrapper.find(NavigationSidebar).prop("canAddQuestionConfirmation")
       ).toEqual(false);

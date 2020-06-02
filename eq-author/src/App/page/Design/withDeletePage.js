@@ -39,10 +39,8 @@ const handleDeletion = (
 export const mapMutateToProps = ({ ownProps, mutate }) => ({
   onDeletePage(page) {
     const { client } = ownProps;
-
     const cachedSection = getCachedSection(client, page.section.id);
     const nextPage = getNextPage(cachedSection.pages, page.id);
-
     const mutation = mutate({
       variables: { input: { id: page.id } },
     });

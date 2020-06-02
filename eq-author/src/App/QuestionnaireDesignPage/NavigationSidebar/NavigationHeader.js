@@ -11,25 +11,11 @@ import QuestionnaireSettingsModal from "App/QuestionnaireSettingsModal";
 import AddMenu from "./AddMenu";
 
 const StyledAddMenu = styled(AddMenu)`
-  margin-left: auto;
-`;
-
-const NavTitle = styled.div`
-  padding-top: 0.1em;
-  font-size: 0.7em;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  font-weight: bold;
+  width: 100%;
 `;
 
 const QuestionnaireContent = styled.div`
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 0.5em 1em;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
   border-bottom: solid 1px ${colors.darkGrey};
-  margin-bottom: 0.5em;
 `;
 
 export class UnwrappedNavigationHeader extends React.Component {
@@ -75,8 +61,6 @@ export class UnwrappedNavigationHeader extends React.Component {
     return (
       <>
         <QuestionnaireContent>
-          <NavTitle>Questionnaire content</NavTitle>
-
           <StyledAddMenu
             addMenuOpen={this.state.addMenuOpen}
             onAddMenuToggle={this.handleAddMenuToggle}

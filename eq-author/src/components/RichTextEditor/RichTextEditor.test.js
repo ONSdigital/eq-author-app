@@ -303,7 +303,7 @@ describe("components/RichTextEditor", function() {
       });
 
       it("should load labels for piped answers when mounted", () => {
-        const html = `<p><span data-piped="answers" data-id="1">[Piped Value]</span> <span data-piped="answers" data-id="2">[Piped Value]</span> <span data-piped="metadata" data-id="1">[Piped Value]</span></p>`;
+        const html = `<p><span data-piped="answers" data-id="1" data-type="number">[Piped Value]</span> <span data-piped="answers" data-id="2" data-type="number">[Piped Value]</span> <span data-piped="metadata" data-id="1" data-type="number">[Piped Value]</span></p>`;
 
         wrapper = shallow(
           <RichTextEditor
@@ -320,6 +320,7 @@ describe("components/RichTextEditor", function() {
             createPipedEntity(createEntity, {
               id: answers[0].id,
               pipingType: "answers",
+              type: "number",
             }),
             0,
             10
@@ -328,6 +329,7 @@ describe("components/RichTextEditor", function() {
             createPipedEntity(createEntity, {
               id: answers[1].id,
               pipingType: "answers",
+              type: "number",
             }),
             11,
             10
@@ -336,6 +338,7 @@ describe("components/RichTextEditor", function() {
             createPipedEntity(createEntity, {
               id: metadata[0].id,
               pipingType: "metadata",
+              type: "number",
             }),
             22,
             12
@@ -349,12 +352,14 @@ describe("components/RichTextEditor", function() {
         const nonExistentAnswer = {
           id: "4",
           pipingType: "answers",
+          type: "number",
         };
         const nonExistentMetadata = {
           id: "2",
           pipingType: "metadata",
+          type: "number",
         };
-        const html = `<p><span data-piped="answers" data-id="4">[Piped Value]</span> <span data-piped="answers" data-id="2">[Piped Value]</span> <span data-piped="metadata" data-id="2">[Piped Value]</span></p>`;
+        const html = `<p><span data-piped="answers" data-id="4" data-type="number">[Piped Value]</span> <span data-piped="answers" data-id="2" data-type="number">[Piped Value]</span> <span data-piped="metadata" data-id="2" data-type="number">[Piped Value]</span></p>`;
 
         wrapper = shallow(
           <RichTextEditor
@@ -366,12 +371,13 @@ describe("components/RichTextEditor", function() {
         );
 
         const expected = new Raw()
-          .addBlock("[Deleted Answer] [answer 2] [Deleted Metadata]")
+          .addBlock("[Deleted answer] [answer 2] [Deleted metadata]")
           .addEntity(createPipedEntity(createEntity, nonExistentAnswer), 0, 16)
           .addEntity(
             createPipedEntity(createEntity, {
               id: answers[1].id,
               pipingType: "answers",
+              type: "number",
             }),
             17,
             10
@@ -392,11 +398,12 @@ describe("components/RichTextEditor", function() {
       });
 
       it("should not update piped value text if answer or metadata doesn't have name to display", () => {
-        const html = `<p><span data-piped="answers" data-id="123">[Piped Value]</span> <span data-piped="metadata" data-id="456">[Piped Metadata]</span></p>`;
-        const answer = { id: "123", pipingType: "answers" };
+        const html = `<p><span data-piped="answers" data-id="123" data-type="number">[Piped Value]</span> <span data-piped="metadata" data-id="456" data-type="number">[Piped Metadata]</span></p>`;
+        const answer = { id: "123", pipingType: "answers", type: "number" };
         const metadataNoAlias = {
           id: "456",
           pipingType: "metadata",
+          type: "number",
         };
         fetch = jest.fn(() => Promise.resolve([answer]));
 
@@ -469,10 +476,11 @@ describe("components/RichTextEditor", function() {
           label: "from label",
           secondaryLabel: "to label",
           pipingType: "answers",
+          type: "DateRange",
         };
 
         const fetchDateRange = jest.fn(() => Promise.resolve([answer]));
-        const html = `<p><span data-piped="answers" data-id="123">[FooBar]</span></p>`;
+        const html = `<p><span data-piped="answers" data-id="123" data-type="DateRange">[FooBar]</span></p>`;
 
         wrapper = shallow(
           <RichTextEditor
@@ -503,10 +511,11 @@ describe("components/RichTextEditor", function() {
           id: "123",
           displayName: "FooBar",
           pipingType: "metadata",
+          type: "number",
         };
 
         const fetch = jest.fn(() => Promise.resolve([]));
-        const html = `<p><span data-piped="metadata" data-id="123">[Piped Answer]</span></p>`;
+        const html = `<p><span data-piped="metadata" data-id="123" data-type="number">[Piped Answer]</span></p>`;
 
         wrapper = shallow(
           <RichTextEditor

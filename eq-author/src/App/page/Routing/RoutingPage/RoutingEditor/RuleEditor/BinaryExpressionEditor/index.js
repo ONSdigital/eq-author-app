@@ -2,7 +2,7 @@ import React from "react";
 import { PropTypes } from "prop-types";
 import styled from "styled-components";
 import { TransitionGroup } from "react-transition-group";
-import { get, uniqueId, flow, noop } from "lodash/fp";
+import { get, uniqueId, flow } from "lodash/fp";
 import { propType } from "graphql-anywhere";
 import { NavLink, withRouter } from "react-router-dom";
 
@@ -18,6 +18,7 @@ import {
 import {
   NO_ROUTABLE_ANSWER_ON_PAGE,
   SELECTED_ANSWER_DELETED,
+  DEFAULT_ROUTING,
 } from "constants/routing-left-side";
 
 import IconText from "components/IconText";
@@ -41,7 +42,6 @@ import withUpdateBinaryExpression from "./withUpdateBinaryExpression";
 import MultipleChoiceAnswerOptionsSelector from "./MultipleChoiceAnswerOptionsSelector";
 import NumberAnswerSelector from "./NumberAnswerSelector";
 import { colors } from "constants/theme";
-import { Select } from "components/Forms";
 
 const Label = styled.label`
   width: 100%;
@@ -51,7 +51,6 @@ const Label = styled.label`
   font-weight: bold;
   text-align: center;
   align-self: center;
-  text-transform: uppercase;
 `;
 
 const ConnectedPath = styled.div`
@@ -73,10 +72,10 @@ const ConnectedPath = styled.div`
 `;
 
 const ActionButtons = styled.div`
-  display: flex;
   margin: auto;
   align-items: center;
   justify-content: center;
+  display: ${props => (props.isHidden ? "none" : "flex")};
 `;
 
 const ActionButton = styled.button`
@@ -126,14 +125,16 @@ const Flex = styled.div`
   display: flex;
 `;
 
-const StyledSelect = styled(Select)`
-  flex: 1 1 auto;
-  width: auto;
-  margin-right: 1em;
-`;
-
 const ContentPicker = styled(RoutingAnswerContentPicker)`
   flex: 1 1 auto;
+`;
+
+const DefaultRouteDiv = styled.div`
+  padding-bottom: ${props => (props.hasPadding ? "1em" : "0")};
+`;
+
+const StyledTransition = styled.div`
+  display: ${props => (props.isHidden ? "none" : "block")};
 `;
 
 /* eslint-disable react/prop-types */
@@ -144,11 +145,9 @@ const ERROR_SITUATIONS = [
     message: () => (
       <Alert>
         <AlertTitle>
-          The question this condition referred to has been deleted
+          The answer used in this condition has been deleted
         </AlertTitle>
-        <AlertText>
-          Please select a new question from the dropdown above.
-        </AlertText>
+        <AlertText>Please select a new answer.</AlertText>
       </Alert>
     ),
   },
@@ -226,7 +225,7 @@ export class UnwrappedBinaryExpressionEditor extends React.Component {
   id = uniqueId("RoutingCondition");
 
   static defaultProps = {
-    label: "IF",
+    label: "If",
   };
 
   handleLeftSideChange = contentPickerResult => {
@@ -253,6 +252,10 @@ export class UnwrappedBinaryExpressionEditor extends React.Component {
   };
 
   renderEditor() {
+    if (this.props.expression.left.reason === DEFAULT_ROUTING) {
+      return <div />;
+    }
+
     for (let i = 0; i < ERROR_SITUATIONS.length; ++i) {
       const { condition, message } = ERROR_SITUATIONS[i];
       if (condition(this.props)) {
@@ -282,7 +285,7 @@ export class UnwrappedBinaryExpressionEditor extends React.Component {
     } = this.props;
 
     return (
-      <div data-test="routing-binary-expression" className={className}>
+      <div>
         <Grid align="center">
           <Column gutters={false} cols={1.5}>
             <Label
@@ -292,16 +295,8 @@ export class UnwrappedBinaryExpressionEditor extends React.Component {
               {label}
             </Label>
           </Column>
-          <Column gutters={false} cols={9}>
+          <Column gutters={false} cols={8}>
             <Flex>
-              <StyledSelect disabled defaultValue="answer">
-                <option value="answer" onChange={noop}>
-                  Answer
-                </option>
-                <option value="metadata" disabled>
-                  Metadata
-                </option>
-              </StyledSelect>
               <ContentPicker
                 path="page.availableRoutingAnswers"
                 selectedContentDisplayName={get("left.displayName", expression)}
@@ -311,8 +306,14 @@ export class UnwrappedBinaryExpressionEditor extends React.Component {
               />
             </Flex>
           </Column>
-          <Column gutters={false} cols={1.5}>
-            <ActionButtons>
+          <Column gutters={false} cols={2.5}>
+            <ActionButtons
+              data-test="action-btns"
+              isHidden={
+                this.props.expression.left.reason === DEFAULT_ROUTING ||
+                this.props.expression.left.reason === NO_ROUTABLE_ANSWER_ON_PAGE
+              }
+            >
               <RemoveButton
                 onClick={this.handleDeleteClick}
                 disabled={isOnlyExpression}
@@ -330,17 +331,35 @@ export class UnwrappedBinaryExpressionEditor extends React.Component {
             </ActionButtons>
           </Column>
         </Grid>
-        <Grid>
-          <Column gutters={false} cols={1.5}>
-            <ConnectedPath pathEnd={isLastExpression} />
-          </Column>
-          <Column gutters={false} cols={9}>
-            <TransitionGroup>
-              <Transition key="answer">{routingEditor}</Transition>
-            </TransitionGroup>
-          </Column>
-          <Column cols={1.5} />
-        </Grid>
+
+        <DefaultRouteDiv
+          className={className}
+          hasPadding={
+            this.props.expression.left.reason === DEFAULT_ROUTING ||
+            this.props.expression.left.reason === NO_ROUTABLE_ANSWER_ON_PAGE
+          }
+        >
+          <Grid>
+            <Column gutters={false} cols={1.5}>
+              <ConnectedPath pathEnd={isLastExpression} />
+            </Column>
+            <Column gutters={false} cols={8}>
+              <StyledTransition
+                data-test="transition-condition"
+                isHidden={
+                  this.props.expression.left.reason === DEFAULT_ROUTING ||
+                  this.props.expression.left.reason ===
+                    NO_ROUTABLE_ANSWER_ON_PAGE
+                }
+              >
+                <TransitionGroup>
+                  <Transition key="answer">{routingEditor}</Transition>
+                </TransitionGroup>
+              </StyledTransition>
+            </Column>
+            <Column cols={2.5} />
+          </Grid>
+        </DefaultRouteDiv>
       </div>
     );
   }

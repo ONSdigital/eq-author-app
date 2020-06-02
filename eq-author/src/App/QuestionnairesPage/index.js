@@ -30,7 +30,7 @@ const QuestionnairesPage = ({
   onDuplicateQuestionnaire,
   onCreateQuestionnaire,
 }) => (
-  <Layout title="Your Questionnaires">
+  <Layout title="Questionnaires">
     <Query fetchPolicy="network-only" query={QUESTIONNAIRES_QUERY}>
       {response => {
         const { loading, error, data } = response;
