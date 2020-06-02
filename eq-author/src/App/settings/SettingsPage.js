@@ -34,6 +34,7 @@ const StyledInput = styled(Input)`
 const Caption = styled.p`
   margin-top: 0.2em;
   margin-bottom: 0.6em;
+  font-size: 0.85em;
 `;
 
 const HorizontalSeparator = styled.hr`
@@ -94,6 +95,7 @@ const SettingsPage = ({ questionnaire }) => {
   );
 
   const handleTitleChange = ({ value }) => {
+    value = value.trim();
     if (value !== "") {
       updateQuestionnaire({
         variables: { input: { id, title: value } },
@@ -102,6 +104,7 @@ const SettingsPage = ({ questionnaire }) => {
   };
 
   const handleShortTitleChange = ({ value }) => {
+    value = value.trim();
     updateQuestionnaire({
       variables: { input: { id, shortTitle: value } },
     });
@@ -179,7 +182,7 @@ const SettingsPage = ({ questionnaire }) => {
           </InlineField>
           <InformationPanel>
             Let respondents check their answers before submitting their
-            questionnaire
+            questionnaire.
           </InformationPanel>
         </StyledPanel>
       </ScrollPane>

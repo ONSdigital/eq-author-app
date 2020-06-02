@@ -96,7 +96,7 @@ const ToggleLabel = styled.div`
   align-items: center;
   display: ${props => (props.isHidden ? "none" : "flex")};
   color: ${props => (props.checked ? labelColors.on : labelColors.off)};
-  font-weight: ${props => (props.checked ? 600 : "normal")};
+  font-weight: 600;
 `;
 
 class ToggleSwitch extends React.Component {
