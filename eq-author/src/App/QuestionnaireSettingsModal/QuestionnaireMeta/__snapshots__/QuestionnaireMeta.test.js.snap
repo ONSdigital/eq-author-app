@@ -133,15 +133,9 @@ exports[`QuestionnaireMeta should render 1`] = `
           onChange={[MockFunction]}
         />
       </QuestionnaireMeta__InlineField>
-<<<<<<< HEAD
       <InformationPanel>
-        Let respondents check their answers before submitting their questionnaire
-      </InformationPanel>
-=======
-      <Panel__InformationPanel>
         Let respondents check their answers before submitting their questionnaire.
-      </Panel__InformationPanel>
->>>>>>> 2b2d0042a886a9e3cce51ff25a5c2e1401102be3
+      </InformationPanel>
     </QuestionnaireMeta__ToggleWrapper>
     <ButtonGroup
       align="right"
