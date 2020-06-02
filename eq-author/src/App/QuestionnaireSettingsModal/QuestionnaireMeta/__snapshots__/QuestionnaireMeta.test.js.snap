@@ -15,7 +15,7 @@ exports[`QuestionnaireMeta should render 1`] = `
         bold={true}
         htmlFor="title"
       >
-        Questionnaire Title
+        Questionnaire title
       </Label>
       <withChangeHandler(UncontrolledInput)
         autoFocus={true}
@@ -134,7 +134,7 @@ exports[`QuestionnaireMeta should render 1`] = `
         />
       </QuestionnaireMeta__InlineField>
       <Panel__InformationPanel>
-        Let respondents check their answers before submitting their questionnaire
+        Let respondents check their answers before submitting their questionnaire.
       </Panel__InformationPanel>
     </QuestionnaireMeta__ToggleWrapper>
     <ButtonGroup
