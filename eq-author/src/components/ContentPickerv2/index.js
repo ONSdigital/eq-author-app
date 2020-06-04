@@ -67,7 +67,12 @@ const ContentPicker = ({
   };
 
   const updateSelectedItemsSingle = item => {
-    const updatedSelectedItems = !item || isSelected(item) ? [] : [item];
+    const updatedSelectedItems =
+      !item ||
+      (Object.keys(item).length === 1 && item.hasOwnProperty("pipingType")) ||
+      isSelected(item)
+        ? []
+        : [item];
     setSelectedItems(updatedSelectedItems);
   };
 
