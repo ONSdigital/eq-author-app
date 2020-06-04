@@ -77,9 +77,14 @@ const ContentPicker = ({
   };
 
   const updateSelectedItemsMultiple = item => {
-    const updatedSelectedItems = isSelected(item)
-      ? selectedItems.filter(selectedItem => selectedItem.id !== item.id)
-      : [...selectedItems, item];
+    let updatedSelectedItems;
+    if (!item) {
+      updatedSelectedItems = selectedItems;
+    } else {
+      updatedSelectedItems = isSelected(item)
+        ? selectedItems.filter(selectedItem => selectedItem.id !== item.id)
+        : [...selectedItems, item];
+    }
 
     setSelectedItems(updatedSelectedItems);
   };
