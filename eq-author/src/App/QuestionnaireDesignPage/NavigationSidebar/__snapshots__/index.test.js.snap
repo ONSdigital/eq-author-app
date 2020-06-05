@@ -43,8 +43,17 @@ exports[`NavigationSidebar should render 1`] = `
     permanentScrollBar={false}
   >
     <NavigationSidebar__NavList>
+      <NavigationSidebar__AccordionGroupToggle
+        data-test="toggle-all-accordions"
+        onClick={[Function]}
+        type="button"
+        variant="primary"
+      >
+        Close all
+      </NavigationSidebar__AccordionGroupToggle>
       <li>
         <SectionNav
+          isGroupOpen={true}
           questionnaire={
             Object {
               "id": "1",
