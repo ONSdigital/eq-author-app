@@ -551,6 +551,36 @@ describe("Content picker", () => {
       expect(modalHeader).toBeTruthy();
     });
 
+    it("should handle undefined items with multiselect", () => {
+      const dummyAnswer = {
+        id: "Currency 4",
+        displayName: "Dummy to fail",
+      };
+      props.multiselect = true;
+      props.data[0].pages[0].answers = [
+        ...props.data[0].pages[0].answers,
+        dummyAnswer,
+      ];
+
+      const { getByText } = renderContentPicker();
+
+      const sections = getByText("Sections");
+
+      fireEvent.click(sections);
+
+      const endOfQuestionnaire = getByText("End of questionnaire");
+      fireEvent.click(endOfQuestionnaire);
+      const endOfQuestionnaireOption = getByText(
+        "The user will be taken to the last page in the questionnaire."
+      );
+      fireEvent.click(endOfQuestionnaireOption);
+
+      const untitledSection = getByText("Untitled Section");
+      fireEvent.click(untitledSection);
+
+      expect(endOfQuestionnaire).toBeTruthy();
+    });
+
     it("should call onSubmit with selected question", () => {
       const { getByText } = renderContentPicker();
 
