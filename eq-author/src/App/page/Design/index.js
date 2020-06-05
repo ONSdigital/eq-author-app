@@ -20,6 +20,7 @@ import withFetchAnswers from "./withFetchAnswers";
 import QuestionPageEditor from "./QuestionPageEditor";
 import CalculatedSummaryPageEditor from "./CalculatedSummaryPageEditor";
 
+console.log("hello");
 const availableTabMatrix = {
   QuestionPage: { design: true, preview: true, routing: true },
   CalculatedSummaryPage: { design: true, preview: true },
