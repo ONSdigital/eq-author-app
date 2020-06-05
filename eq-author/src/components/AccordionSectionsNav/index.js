@@ -1,8 +1,10 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { colors } from "constants/theme";
 import chevron from "./icon-chevron.svg";
+
+// import { GroupOpenContext } from "App/QuestionnaireDesignPage/NavigationSidebar";
 
 const Header = styled.div`
   padding: 0 0 0.5em;
@@ -84,45 +86,47 @@ export const DisplayContent = styled.div`
   display: ${props => (props.isOpen ? "block" : "none")};
 `;
 
-class SectionAccordion extends Component {
-  state = { isOpen: true, height: "auto" };
+const SectionAccordion = props => {
+  const { children, title, titleName } = props;
 
-  handleAccordionToggle = () => this.setState({ isOpen: !this.state.isOpen });
+  // const value = React.useContext(GroupOpenContext);
+  const value = true;
 
-  render() {
-    const { children, title, titleName } = this.props;
-    const { isOpen } = this.state;
+  const [isOpen, setIsOpen] = useState(value);
 
-    return (
-      <>
-        <Header>
-          <Title>
-            <Button
-              isOpen={isOpen}
-              onClick={this.handleAccordionToggle}
-              aria-expanded={isOpen}
-              aria-controls={`accordion-${titleName}`}
-              data-test={`accordion-${titleName}-button`}
-            >
-              {}
-            </Button>
-            <SectionTitle data-test={`accordion-${titleName}-title`}>
-              {title}
-            </SectionTitle>
-          </Title>
-        </Header>
-        <Body
-          id={`accordion-${titleName}`}
-          data-test={`accordion-${titleName}-body`}
-          isOpen={isOpen}
-          aria-hidden={!isOpen}
-        >
-          <DisplayContent isOpen={isOpen}>{children}</DisplayContent>
-        </Body>
-      </>
-    );
-  }
-}
+  useEffect(() => {
+    setIsOpen(value);
+  }, [value]);
+
+  return (
+    <>
+      <Header>
+        <Title>
+          <Button
+            isOpen={isOpen}
+            onClick={() => setIsOpen(isOpen => !isOpen)}
+            aria-expanded={isOpen}
+            aria-controls={`accordion-${titleName}`}
+            data-test={`accordion-${titleName}-button`}
+          >
+            {}
+          </Button>
+          <SectionTitle data-test={`accordion-${titleName}-title`}>
+            {title}
+          </SectionTitle>
+        </Title>
+      </Header>
+      <Body
+        id={`accordion-${titleName}`}
+        data-test={`accordion-${titleName}-body`}
+        isOpen={isOpen}
+        aria-hidden={!isOpen}
+      >
+        <DisplayContent isOpen={isOpen}>{children}</DisplayContent>
+      </Body>
+    </>
+  );
+};
 
 SectionAccordion.propTypes = {
   title: PropTypes.node.isRequired,
