@@ -629,6 +629,53 @@ describe("schema validation", () => {
           expect(pageErrors.totalCount).toBe(0);
         });
       });
+
+      it("should not validate if one of the two is a previous answer", () => {
+        ["minValue", "maxValue", "none"].forEach(entity => {
+          const answer = {
+            id: "a1",
+            type: NUMBER,
+            label: "some answer",
+            validation: {
+              minValue: {
+                id: "123",
+                enabled: entity === "minValue",
+                custom: 50,
+                inclusive: true,
+                entityType: "Custom",
+                previousAnswer: null,
+              },
+              maxValue: {
+                id: "321",
+                enabled: entity === "maxValue",
+                custom: 40,
+                inclusive: true,
+                entityType: "PreviousAnswer",
+                previousAnswer: { displayName: "a previous answer", id: "1" },
+              },
+            },
+          };
+
+          const questionnaire = {
+            id: "q1",
+            sections: [
+              {
+                id: "s1",
+                pages: [
+                  {
+                    id: "p1",
+                    answers: [answer],
+                  },
+                ],
+              },
+            ],
+          };
+          const pageErrors = validation(questionnaire);
+
+          expect(pageErrors.validation).toMatchObject({});
+          expect(pageErrors.totalCount).toBe(0);
+        });
+      });
     });
   });
 

@@ -215,6 +215,9 @@
                       "properties": {
                         "enabled": {
                           "const": true
+                        },
+                        "previousAnswer": {
+                          "const": null
                         }
                       }
                     }
@@ -226,6 +229,9 @@
                       "properties": {
                         "enabled": {
                           "const": true
+                        },
+                        "previousAnswer": {
+                          "const": null
                         }
                       }
                     }
