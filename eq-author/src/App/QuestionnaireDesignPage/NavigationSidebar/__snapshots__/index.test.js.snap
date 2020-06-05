@@ -33,6 +33,9 @@ exports[`NavigationSidebar should render 1`] = `
               },
             ],
             "title": "Section",
+            "validationErrorInfo": Object {
+              "totalCount": 0,
+            },
           },
         ],
         "title": "Questionnaire",
@@ -68,6 +71,9 @@ exports[`NavigationSidebar should render 1`] = `
                     },
                   ],
                   "title": "Section",
+                  "validationErrorInfo": Object {
+                    "totalCount": 0,
+                  },
                 },
               ],
               "title": "Questionnaire",
