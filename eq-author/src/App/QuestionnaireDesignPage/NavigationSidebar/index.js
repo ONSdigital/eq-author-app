@@ -1,17 +1,19 @@
-import React, { Component } from "react";
+import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
+import gql from "graphql-tag";
+
 import { colors } from "constants/theme";
 import { flowRight } from "lodash";
 import { withRouter } from "react-router-dom";
-import gql from "graphql-tag";
-
-import ScrollPane from "components/ScrollPane";
 
 import SectionNav from "./SectionNav";
 import NavigationHeader from "./NavigationHeader";
 import IntroductionNavItem from "./IntroductionNavItem";
+
+import Button from "components/buttons/Button";
+import ScrollPane from "components/ScrollPane";
 
 const Container = styled.div`
   background: ${colors.black};
@@ -36,8 +38,18 @@ const NavList = styled.ol`
   list-style: none;
 `;
 
-export class UnwrappedNavigationSidebar extends Component {
-  static propTypes = {
+const AccordionGroupToggle = styled(Button).attrs({
+  variant: "tertiary-light",
+  small: true,
+})`
+  margin: 1em 0 0.425em 1.8em;
+  border: 1px solid white;
+  top: 1px; /* adjust for misalignment caused by PopoutContainer */
+  padding: 0.5em;
+`;
+
+const proptypes = {
+  UnwrappedNavigationSidebar: {
     questionnaire: CustomPropTypes.questionnaire,
     onAddQuestionPage: PropTypes.func.isRequired,
     onAddCalculatedSummaryPage: PropTypes.func.isRequired,
@@ -47,41 +59,58 @@ export class UnwrappedNavigationSidebar extends Component {
     canAddQuestionConfirmation: PropTypes.bool.isRequired,
     canAddCalculatedSummaryPage: PropTypes.bool.isRequired,
     canAddQuestionPage: PropTypes.bool.isRequired,
+  },
+};
+
+export const GroupOpenContext = React.createContext({ isOpen: true });
+
+export const UnwrappedNavigationSidebar = props => {
+  const [isOpen, setIsOpen] = React.useState(true);
+
+  const {
+    questionnaire,
+    onAddQuestionPage,
+    onAddSection,
+    onAddCalculatedSummaryPage,
+    onAddQuestionConfirmation,
+    canAddQuestionConfirmation,
+    canAddCalculatedSummaryPage,
+    canAddQuestionPage,
+    loading,
+  } = props;
+
+  const handleAddSection = () => {
+    onAddSection(questionnaire.id);
   };
 
-  handleAddSection = () => {
-    this.props.onAddSection(this.props.questionnaire.id);
+  const handleClick = () => {
+    setIsOpen(isOpen => !isOpen);
   };
 
-  render() {
-    const {
-      questionnaire,
-      onAddQuestionPage,
-      onAddCalculatedSummaryPage,
-      onAddQuestionConfirmation,
-      canAddQuestionConfirmation,
-      canAddCalculatedSummaryPage,
-      canAddQuestionPage,
-      loading,
-    } = this.props;
-
-    return (
-      <Container data-test="side-nav">
-        {loading ? null : (
-          <>
-            <NavigationHeader
-              questionnaire={questionnaire}
-              onAddSection={this.handleAddSection}
-              onAddCalculatedSummaryPage={onAddCalculatedSummaryPage}
-              canAddCalculatedSummaryPage={canAddCalculatedSummaryPage}
-              onAddQuestionPage={onAddQuestionPage}
-              canAddQuestionPage={canAddQuestionPage}
-              onAddQuestionConfirmation={onAddQuestionConfirmation}
-              canAddQuestionConfirmation={canAddQuestionConfirmation}
-              data-test="nav-section-header"
-            />
-            <NavigationScrollPane>
+  return (
+    <Container data-test="side-nav">
+      {loading ? null : (
+        <>
+          <NavigationHeader
+            questionnaire={questionnaire}
+            onAddSection={handleAddSection}
+            onAddCalculatedSummaryPage={onAddCalculatedSummaryPage}
+            canAddCalculatedSummaryPage={canAddCalculatedSummaryPage}
+            onAddQuestionPage={onAddQuestionPage}
+            canAddQuestionPage={canAddQuestionPage}
+            onAddQuestionConfirmation={onAddQuestionConfirmation}
+            canAddQuestionConfirmation={canAddQuestionConfirmation}
+            data-test="nav-section-header"
+          />
+          <NavigationScrollPane>
+            <GroupOpenContext.Provider value={isOpen}>
               <NavList>
+                <AccordionGroupToggle
+                  onClick={() => handleClick()}
+                  data-test="toggle-all-accordions"
+                >
+                  {isOpen ? "Close all" : "Open all"}
+                </AccordionGroupToggle>
                 {questionnaire.introduction && (
                   <IntroductionNavItem
                     questionnaire={questionnaire}
@@ -92,13 +121,15 @@ export class UnwrappedNavigationSidebar extends Component {
                   <SectionNav questionnaire={questionnaire} />
                 </li>
               </NavList>
-            </NavigationScrollPane>
-          </>
-        )}
-      </Container>
-    );
-  }
-}
+            </GroupOpenContext.Provider>
+          </NavigationScrollPane>
+        </>
+      )}
+    </Container>
+  );
+};
+
+UnwrappedNavigationSidebar.propTypes = proptypes.UnwrappedNavigationSidebar;
 
 UnwrappedNavigationSidebar.fragments = {
   NavigationSidebar: gql`
