@@ -8,7 +8,7 @@ import NavLink, {
 describe("Section Accordion", () => {
   it("default should render accordion as expanded", () => {
     const { getByTestId } = render(
-      <SectionAccordion title="test" titleName="section1">
+      <SectionAccordion title="test" titleName="section1" isGroupOpen>
         section accordion panel
       </SectionAccordion>
     );
@@ -31,7 +31,11 @@ describe("Section Accordion", () => {
       </>
     );
     const { getByTestId } = render(
-      <SectionAccordion title={<SectionTitle />} titleName="section1">
+      <SectionAccordion
+        title={<SectionTitle />}
+        titleName="section1"
+        isGroupOpen
+      >
         section accordion panel
       </SectionAccordion>
     );
@@ -42,7 +46,7 @@ describe("Section Accordion", () => {
 
   it("click on the arrow - it should open and close section accordion", async () => {
     const { getByTestId } = render(
-      <SectionAccordion title="test" titleName="section2">
+      <SectionAccordion title="test" titleName="section2" isGroupOpen>
         section accordion panel2
       </SectionAccordion>
     );
@@ -60,7 +64,7 @@ describe("Section Accordion", () => {
 
   it("click on the section title - it should not activate the accordion", async () => {
     const { getByTestId } = render(
-      <SectionAccordion title="test" titleName="section3">
+      <SectionAccordion title="test" titleName="section3" isGroupOpen>
         section accordion panel3
       </SectionAccordion>
     );

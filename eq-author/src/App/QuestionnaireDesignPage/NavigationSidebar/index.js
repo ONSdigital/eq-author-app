@@ -62,8 +62,6 @@ const proptypes = {
   },
 };
 
-export const GroupOpenContext = React.createContext({ isOpen: true });
-
 export const UnwrappedNavigationSidebar = props => {
   const [isOpen, setIsOpen] = React.useState(true);
 
@@ -103,25 +101,26 @@ export const UnwrappedNavigationSidebar = props => {
             data-test="nav-section-header"
           />
           <NavigationScrollPane>
-            <GroupOpenContext.Provider value={isOpen}>
-              <NavList>
-                <AccordionGroupToggle
-                  onClick={() => handleClick()}
-                  data-test="toggle-all-accordions"
-                >
-                  {isOpen ? "Close all" : "Open all"}
-                </AccordionGroupToggle>
-                {questionnaire.introduction && (
-                  <IntroductionNavItem
-                    questionnaire={questionnaire}
-                    data-test="nav-introduction"
-                  />
-                )}
-                <li>
-                  <SectionNav questionnaire={questionnaire} />
-                </li>
-              </NavList>
-            </GroupOpenContext.Provider>
+            <NavList>
+              <AccordionGroupToggle
+                onClick={() => handleClick()}
+                data-test="toggle-all-accordions"
+              >
+                {isOpen ? "Close all" : "Open all"}
+              </AccordionGroupToggle>
+              {questionnaire.introduction && (
+                <IntroductionNavItem
+                  questionnaire={questionnaire}
+                  data-test="nav-introduction"
+                />
+              )}
+              <li>
+                <SectionNav
+                  questionnaire={questionnaire}
+                  isGroupOpen={isOpen}
+                />
+              </li>
+            </NavList>
           </NavigationScrollPane>
         </>
       )}

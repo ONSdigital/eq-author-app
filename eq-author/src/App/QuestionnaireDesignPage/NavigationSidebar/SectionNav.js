@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import CustomPropTypes from "custom-prop-types";
 import styled from "styled-components";
+import CustomPropTypes from "custom-prop-types";
+import PropTypes from "prop-types";
 
 import { TransitionGroup } from "react-transition-group";
 import NavItemTransition from "./NavItemTransition";
@@ -18,15 +19,20 @@ const NavList = styled.ol`
 class SectionNav extends Component {
   static propTypes = {
     questionnaire: CustomPropTypes.questionnaire,
+    isGroupOpen: PropTypes.bool.isRequired,
   };
 
   render() {
-    const { questionnaire } = this.props;
+    const { questionnaire, isGroupOpen } = this.props;
     return (
       <TransitionGroup component={NavList}>
         {questionnaire.sections.map(section => (
           <NavItemTransition key={section.id} onEntered={scrollIntoView}>
-            <SectionNavItem questionnaire={questionnaire} section={section} />
+            <SectionNavItem
+              questionnaire={questionnaire}
+              isGroupOpen={isGroupOpen}
+              section={section}
+            />
           </NavItemTransition>
         ))}
       </TransitionGroup>

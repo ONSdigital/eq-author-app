@@ -87,16 +87,13 @@ export const DisplayContent = styled.div`
 `;
 
 const SectionAccordion = props => {
-  const { children, title, titleName } = props;
+  const { children, title, titleName, isGroupOpen } = props;
 
-  // const value = React.useContext(GroupOpenContext);
-  const value = true;
-
-  const [isOpen, setIsOpen] = useState(value);
+  const [isOpen, setIsOpen] = useState(isGroupOpen || true);
 
   useEffect(() => {
-    setIsOpen(value);
-  }, [value]);
+    setIsOpen(isGroupOpen);
+  }, [isGroupOpen]);
 
   return (
     <>
@@ -132,6 +129,7 @@ SectionAccordion.propTypes = {
   title: PropTypes.node.isRequired,
   titleName: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
+  isGroupOpen: PropTypes.bool.isRequired,
 };
 
 export default SectionAccordion;

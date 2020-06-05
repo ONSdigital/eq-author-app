@@ -1,13 +1,15 @@
-import gql from "graphql-tag";
 import React from "react";
 import styled from "styled-components";
 import { withRouter } from "react-router-dom";
-
+import gql from "graphql-tag";
+import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
-import { colors } from "constants/theme";
-import PageNav from "./PageNav";
-import NavLink from "./NavLink";
+
 import { buildSectionPath } from "utils/UrlUtils";
+import NavLink from "./NavLink";
+import PageNav from "./PageNav";
+
+import { colors } from "constants/theme";
 import SectionIcon from "./icon-section.svg?inline";
 
 import SectionsAccordion from "components/AccordionSectionsNav";
@@ -43,10 +45,17 @@ export class UnwrappedSectionNavItem extends React.Component {
     questionnaire: CustomPropTypes.questionnaire,
     section: CustomPropTypes.section.isRequired,
     match: CustomPropTypes.match.isRequired,
+    isGroupOpen: PropTypes.bool.isRequired,
   };
 
   render() {
-    const { questionnaire, section, match, ...otherProps } = this.props;
+    const {
+      questionnaire,
+      section,
+      match,
+      isGroupOpen,
+      ...otherProps
+    } = this.props;
 
     const url = buildSectionPath({
       questionnaireId: questionnaire.id,
@@ -81,6 +90,7 @@ export class UnwrappedSectionNavItem extends React.Component {
         title={<SectionTitle />}
         titleName={section.displayName}
         url={url}
+        isGroupOpen={isGroupOpen}
       >
         <StyledSectionNavItem data-test="section-item" {...otherProps}>
           <PageNav section={section} questionnaire={questionnaire} />
