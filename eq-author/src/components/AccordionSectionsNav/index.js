@@ -4,8 +4,6 @@ import styled from "styled-components";
 import { colors } from "constants/theme";
 import chevron from "./icon-chevron.svg";
 
-// import { GroupOpenContext } from "App/QuestionnaireDesignPage/NavigationSidebar";
-
 const Header = styled.div`
   padding: 0 0 0.5em;
 
