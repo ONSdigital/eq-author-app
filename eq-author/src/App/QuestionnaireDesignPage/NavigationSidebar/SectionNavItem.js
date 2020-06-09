@@ -54,6 +54,17 @@ export class UnwrappedSectionNavItem extends React.Component {
       tab: match.params.tab,
     });
 
+    let questionErrorCount = 0;
+    // section.pages.forEach(val => {
+    //   questionErrorCount = questionErrorCount + validationErrorInfo.totalCount;
+    // });
+
+    const sectionArray = section.pages.map(item => {
+      questionErrorCount =
+        questionErrorCount + item.validationErrorInfo.totalCount;
+    });
+    console.log("questionErrorCount", questionErrorCount);
+    console.log("sectionArray", sectionArray);
     const SectionTitle = () => (
       <>
         <StyledSectionUpper>
@@ -67,6 +78,7 @@ export class UnwrappedSectionNavItem extends React.Component {
           icon={SectionIcon}
           id="sectionName"
           errorCount={section.validationErrorInfo.totalCount}
+          // questionErrorCount={questionErrorCount}
         >
           <SectionNameOuter>{section.displayName}</SectionNameOuter>
         </NavLink>
