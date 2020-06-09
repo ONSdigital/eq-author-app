@@ -3,6 +3,7 @@ import React from "react";
 import styled from "styled-components";
 import { withRouter } from "react-router-dom";
 
+import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 import { colors } from "constants/theme";
 import PageNav from "./PageNav";
@@ -43,10 +44,17 @@ export class UnwrappedSectionNavItem extends React.Component {
     questionnaire: CustomPropTypes.questionnaire,
     section: CustomPropTypes.section.isRequired,
     match: CustomPropTypes.match.isRequired,
+    //  sectionErrors: PropTypes.number.isRequired,
   };
 
   render() {
-    const { questionnaire, section, match, ...otherProps } = this.props;
+    const {
+      questionnaire,
+      section,
+      match,
+      //  sectionErrors,
+      ...otherProps
+    } = this.props;
 
     const url = buildSectionPath({
       questionnaireId: questionnaire.id,
@@ -64,7 +72,7 @@ export class UnwrappedSectionNavItem extends React.Component {
         questionErrorCount + item.validationErrorInfo.totalCount;
     });
     console.log("questionErrorCount", questionErrorCount);
-    console.log("sectionArray", sectionArray);
+    // console.log("sectionArray", sectionArray);
     const SectionTitle = () => (
       <>
         <StyledSectionUpper>
@@ -78,7 +86,8 @@ export class UnwrappedSectionNavItem extends React.Component {
           icon={SectionIcon}
           id="sectionName"
           errorCount={section.validationErrorInfo.totalCount}
-          // questionErrorCount={questionErrorCount}
+          sectionTotalErrors={questionErrorCount}
+          isSection
         >
           <SectionNameOuter>{section.displayName}</SectionNameOuter>
         </NavLink>
