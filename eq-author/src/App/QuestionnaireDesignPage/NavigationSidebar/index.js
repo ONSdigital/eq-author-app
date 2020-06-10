@@ -64,14 +64,14 @@ const proptypes = {
 
 const initialState = { label: true, controlGroup: [] };
 
-const actionTypes = {
+export const actionTypes = {
   updateGroup: "updateControlGroup",
   toggleLabel: "toggleLabel",
   toggleAll: "toggleAllAccordions",
   setInitial: "setInitialControlGroup",
 };
 
-function reducer(state, action) {
+export const reducer = (state, action) => {
   switch (action.type) {
     case actionTypes.updateGroup: {
       const { identity, isOpen } = action.payload;
@@ -96,7 +96,7 @@ function reducer(state, action) {
     default:
       throw new Error(`${action.type} isn't a valid dispatch type`);
   }
-}
+};
 
 export const UnwrappedNavigationSidebar = props => {
   const [state, dispatch] = useReducer(reducer, initialState);

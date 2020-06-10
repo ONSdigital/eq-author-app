@@ -1,7 +1,10 @@
 import React from "react";
 import { shallow } from "enzyme";
-// import { render, fireEvent } from "tests/utils/rtl";
-import { UnwrappedNavigationSidebar as NavigationSidebar } from "./";
+import {
+  UnwrappedNavigationSidebar as NavigationSidebar,
+  reducer,
+  actionTypes,
+} from "./";
 import { SynchronousPromise } from "synchronous-promise";
 
 describe("NavigationSidebar", () => {
@@ -83,5 +86,58 @@ describe("NavigationSidebar", () => {
     expect(wrapper.find("[data-test='toggle-all-accordions']").text()).toEqual(
       "Open all"
     );
+  });
+
+  describe("Reducer function", () => {
+    let state;
+    beforeEach(() => {
+      state = {
+        label: true,
+        controlGroup: [
+          { identity: 0, isOpen: true },
+          { identity: 1, isOpen: true },
+        ],
+      };
+    });
+
+    it("it should throw", () => {
+      const reducerWrapper = () => reducer(state, { type: "dummy" });
+      expect(reducerWrapper).toThrow();
+    });
+
+    it("it update controlGroup", () => {
+      const updatedState = reducer(state, {
+        type: actionTypes.updateGroup,
+        payload: { identity: 0, isOpen: true },
+      });
+      expect(updatedState.controlGroup).toEqual([
+        { identity: 1, isOpen: true },
+        { identity: 0, isOpen: false },
+      ]);
+      expect(updatedState.label).toEqual(false);
+    });
+
+    it("it should toggle all in the controlGroup", () => {
+      state.label = false;
+      const updatedState = reducer(state, {
+        type: actionTypes.toggleAll,
+      });
+      expect(updatedState.controlGroup).toEqual([
+        { identity: 0, isOpen: false },
+        { identity: 1, isOpen: false },
+      ]);
+      expect(updatedState.label).toEqual(true);
+    });
+
+    it("it should set initial state", () => {
+      const updatedState = reducer(state, {
+        type: actionTypes.setInitial,
+        payload: [{ identity: "hello", isOpen: "yes" }],
+      });
+      expect(updatedState.controlGroup).toEqual([
+        { identity: "hello", isOpen: "yes" },
+      ]);
+      expect(updatedState.label).toEqual(true);
+    });
   });
 });
