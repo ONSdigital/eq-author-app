@@ -74,10 +74,10 @@ const actionTypes = {
 function reducer(state, action) {
   switch (action.type) {
     case actionTypes.updateGroup: {
-      const { identity } = action.payload;
+      const { identity, isOpen } = action.payload;
       const updateAccordionState = state.controlGroup
         .filter(x => x.identity !== identity)
-        .concat({ identity, isOpen: !action.payload.isOpen });
+        .concat({ identity, isOpen: !isOpen });
 
       const allOpen = updateAccordionState.every(x => x.isOpen === false);
       return { controlGroup: updateAccordionState, label: allOpen };
