@@ -45,7 +45,9 @@ export class UnwrappedSectionNavItem extends React.Component {
     questionnaire: CustomPropTypes.questionnaire,
     section: CustomPropTypes.section.isRequired,
     match: CustomPropTypes.match.isRequired,
-    isGroupOpen: PropTypes.bool.isRequired,
+    controlGroup: PropTypes.bool.isRequired,
+    identity: PropTypes.number.isRequired,
+    handleChange: PropTypes.func.isRequired,
   };
 
   render() {
@@ -53,7 +55,9 @@ export class UnwrappedSectionNavItem extends React.Component {
       questionnaire,
       section,
       match,
-      isGroupOpen,
+      controlGroup,
+      handleChange,
+      identity,
       ...otherProps
     } = this.props;
 
@@ -90,7 +94,9 @@ export class UnwrappedSectionNavItem extends React.Component {
         title={<SectionTitle />}
         titleName={section.displayName}
         url={url}
-        isGroupOpen={isGroupOpen}
+        controlGroup={controlGroup}
+        identity={identity}
+        handleChange={handleChange}
       >
         <StyledSectionNavItem data-test="section-item" {...otherProps}>
           <PageNav section={section} questionnaire={questionnaire} />

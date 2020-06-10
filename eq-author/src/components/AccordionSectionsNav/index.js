@@ -85,13 +85,29 @@ export const DisplayContent = styled.div`
 `;
 
 const SectionAccordion = props => {
-  const { children, title, titleName, isGroupOpen } = props;
+  const [isOpen, setIsOpen] = useState(true);
 
-  const [isOpen, setIsOpen] = useState(isGroupOpen || true);
+  const {
+    children,
+    title,
+    titleName,
+    controlGroup,
+    handleChange,
+    identity,
+  } = props;
 
   useEffect(() => {
-    setIsOpen(isGroupOpen);
-  }, [isGroupOpen]);
+    if (controlGroup.length) {
+      const open = controlGroup.find(x => x.identity === identity);
+      const newSection = open ? !open.isOpen : true;
+      setIsOpen(newSection);
+    }
+  }, [controlGroup]);
+
+  const handleClick = () => {
+    setIsOpen(isOpen => !isOpen);
+    handleChange({ isOpen: !isOpen, identity });
+  };
 
   return (
     <>
@@ -99,13 +115,11 @@ const SectionAccordion = props => {
         <Title>
           <Button
             isOpen={isOpen}
-            onClick={() => setIsOpen(isOpen => !isOpen)}
+            onClick={() => handleClick()}
             aria-expanded={isOpen}
             aria-controls={`accordion-${titleName}`}
             data-test={`accordion-${titleName}-button`}
-          >
-            {}
-          </Button>
+          />
           <SectionTitle data-test={`accordion-${titleName}-title`}>
             {title}
           </SectionTitle>
@@ -127,7 +141,11 @@ SectionAccordion.propTypes = {
   title: PropTypes.node.isRequired,
   titleName: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
-  isGroupOpen: PropTypes.bool.isRequired,
+  identity: PropTypes.number,
+  handleChange: PropTypes.func,
+  controlGroup: PropTypes.arrayOf(
+    PropTypes.shape({ identifier: PropTypes.number, isOpen: PropTypes.bool })
+  ),
 };
 
 export default SectionAccordion;

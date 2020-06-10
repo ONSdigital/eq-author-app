@@ -6,9 +6,16 @@ import NavLink, {
 } from "../../App/QuestionnaireDesignPage/NavigationSidebar/NavLink.js";
 
 describe("Section Accordion", () => {
+  const controlGroup = [{ identifier: 0, isOpen: true }];
   it("default should render accordion as expanded", () => {
     const { getByTestId } = render(
-      <SectionAccordion title="test" titleName="section1" isGroupOpen>
+      <SectionAccordion
+        title="test"
+        titleName="section1"
+        controlGroup={controlGroup}
+        identity={0}
+        handleChange={jest.fn()}
+      >
         section accordion panel
       </SectionAccordion>
     );
@@ -34,7 +41,9 @@ describe("Section Accordion", () => {
       <SectionAccordion
         title={<SectionTitle />}
         titleName="section1"
-        isGroupOpen
+        controlGroup={controlGroup}
+        identity={0}
+        handleChange={jest.fn()}
       >
         section accordion panel
       </SectionAccordion>
@@ -46,7 +55,13 @@ describe("Section Accordion", () => {
 
   it("click on the arrow - it should open and close section accordion", async () => {
     const { getByTestId } = render(
-      <SectionAccordion title="test" titleName="section2" isGroupOpen>
+      <SectionAccordion
+        title="test"
+        titleName="section2"
+        controlGroup={controlGroup}
+        identity={0}
+        handleChange={jest.fn()}
+      >
         section accordion panel2
       </SectionAccordion>
     );
@@ -64,7 +79,13 @@ describe("Section Accordion", () => {
 
   it("click on the section title - it should not activate the accordion", async () => {
     const { getByTestId } = render(
-      <SectionAccordion title="test" titleName="section3" isGroupOpen>
+      <SectionAccordion
+        title="test"
+        titleName="section3"
+        controlGroup={controlGroup}
+        identity={0}
+        handleChange={jest.fn()}
+      >
         section accordion panel3
       </SectionAccordion>
     );

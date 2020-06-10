@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useReducer, useEffect } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
@@ -62,8 +62,44 @@ const proptypes = {
   },
 };
 
+const initialState = { label: true, controlGroup: [] };
+
+const actionTypes = {
+  updateGroup: "updateControlGroup",
+  toggleLabel: "toggleLabel",
+  toggleAll: "toggleAllAccordions",
+  setInitial: "setInitialControlGroup",
+};
+
+function reducer(state, action) {
+  switch (action.type) {
+    case actionTypes.updateGroup: {
+      const { identity } = action.payload;
+      const updateAccordionState = state.controlGroup
+        .filter(x => x.identity !== identity)
+        .concat({ identity, isOpen: !action.payload.isOpen });
+
+      const allOpen = updateAccordionState.every(x => x.isOpen === false);
+      return { controlGroup: updateAccordionState, label: allOpen };
+    }
+    case actionTypes.toggleAll: {
+      const toggleAll = state.controlGroup.map(x => ({
+        identity: x.identity,
+        isOpen: state.label,
+      }));
+
+      return { label: !state.label, controlGroup: toggleAll };
+    }
+    case actionTypes.setInitial: {
+      return { label: true, controlGroup: action.payload };
+    }
+    default:
+      throw new Error(`${action.type} isn't a valid dispatch type`);
+  }
+}
+
 export const UnwrappedNavigationSidebar = props => {
-  const [isOpen, setIsOpen] = React.useState(true);
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   const {
     questionnaire,
@@ -77,12 +113,26 @@ export const UnwrappedNavigationSidebar = props => {
     loading,
   } = props;
 
+  useEffect(() => {
+    if (questionnaire) {
+      const accordions = questionnaire.sections.map((x, index) => ({
+        identity: index,
+        isOpen: false,
+      }));
+      dispatch({ type: actionTypes.setInitial, payload: accordions });
+    }
+  }, [questionnaire]);
+
   const handleAddSection = () => {
     onAddSection(questionnaire.id);
   };
 
   const handleClick = () => {
-    setIsOpen(isOpen => !isOpen);
+    dispatch({ type: actionTypes.toggleAll });
+  };
+
+  const handleAccordionChange = e => {
+    dispatch({ type: actionTypes.updateGroup, payload: e });
   };
 
   return (
@@ -106,7 +156,7 @@ export const UnwrappedNavigationSidebar = props => {
                 onClick={() => handleClick()}
                 data-test="toggle-all-accordions"
               >
-                {isOpen ? "Close all" : "Open all"}
+                {state.label ? "Close all" : "Open all"}
               </AccordionGroupToggle>
               {questionnaire.introduction && (
                 <IntroductionNavItem
@@ -117,7 +167,8 @@ export const UnwrappedNavigationSidebar = props => {
               <li>
                 <SectionNav
                   questionnaire={questionnaire}
-                  isGroupOpen={isOpen}
+                  controlGroup={state.controlGroup}
+                  handleChange={handleAccordionChange}
                 />
               </li>
             </NavList>
