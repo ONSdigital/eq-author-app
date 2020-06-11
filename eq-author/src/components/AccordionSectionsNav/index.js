@@ -97,16 +97,12 @@ const SectionAccordion = props => {
   } = props;
 
   useEffect(() => {
-    if (controlGroup.length) {
-      const open = controlGroup.find(x => x.identity === identity);
-      const newSection = open ? !open.isOpen : true;
-      setIsOpen(newSection);
-    }
+    setIsOpen(controlGroup.open);
   }, [controlGroup]);
 
   const handleClick = () => {
     setIsOpen(isOpen => !isOpen);
-    handleChange({ isOpen: !isOpen, identity });
+    handleChange({ isOpen: !isOpen, id: identity });
   };
 
   return (
