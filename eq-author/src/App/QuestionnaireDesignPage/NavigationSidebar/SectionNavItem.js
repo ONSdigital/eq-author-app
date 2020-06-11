@@ -60,11 +60,6 @@ export const UnwrappedSectionNavItem = props => {
     ...otherProps
   } = props;
 
-  // const url = buildSectionPath({
-  //   questionnaireId: questionnaire.id,
-  //   sectionId: section.id,
-  //   tab: match.params.tab,
-  // });
   const url = useCallback(() => {
     return buildSectionPath({
       questionnaireId: questionnaire.id,
@@ -72,8 +67,6 @@ export const UnwrappedSectionNavItem = props => {
       tab: match.params.tab,
     });
   }, [questionnaire, match]);
-
-  // console.log(test, "what do we have here");
 
   const SectionTitle = useCallback(
     () => (
