@@ -2,6 +2,8 @@
 
 exports[`SectionNavItem should render 1`] = `
 <SectionNavItem__StyledSectionsAccordion
+  handleChange={[MockFunction]}
+  identity={1}
   isOpen={
     Object {
       "open": true,

@@ -31,6 +31,8 @@ describe("SectionNavItem", () => {
         duration={123}
         isActive={jest.fn()}
         isOpen={{ open: true }}
+        handleChange={jest.fn()}
+        identity={1}
         match={{
           params: {
             questionnaireId: questionnaire.id,
