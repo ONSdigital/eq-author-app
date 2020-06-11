@@ -19,14 +19,12 @@ const NavList = styled.ol`
 class SectionNav extends Component {
   static propTypes = {
     questionnaire: CustomPropTypes.questionnaire,
-    controlGroup: PropTypes.arrayOf(
-      PropTypes.shape({ identifier: PropTypes.number, isOpen: PropTypes.bool })
-    ).isRequired,
+    isOpen: PropTypes.bool.isRequired,
     handleChange: PropTypes.func,
   };
 
   render() {
-    const { questionnaire, controlGroup, handleChange } = this.props;
+    const { questionnaire, isOpen, handleChange } = this.props;
 
     return (
       <TransitionGroup component={NavList}>
@@ -34,7 +32,7 @@ class SectionNav extends Component {
           <NavItemTransition key={section.id} onEntered={scrollIntoView}>
             <SectionNavItem
               questionnaire={questionnaire}
-              controlGroup={controlGroup || true}
+              isOpen={isOpen}
               section={section}
               handleChange={handleChange}
               identity={index}

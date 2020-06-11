@@ -79,7 +79,7 @@ export const reducer = (state, action) => {
       return { label: !state.label, isOpen: toOpen };
     }
     default:
-      throw new Error(`${action.type} isn't a valid dispatch type`);
+      throw new Error(`${action.type} is not a valid dispatch type`);
   }
 };
 
@@ -99,10 +99,6 @@ export const UnwrappedNavigationSidebar = props => {
   } = props;
 
   const { label, isOpen } = state;
-
-  // const handleAddSection = () => {
-  //   onAddSection(questionnaire.id);
-  // };
 
   const handleAddSection = useCallback(() => {
     onAddSection(questionnaire.id);
@@ -161,7 +157,7 @@ export const UnwrappedNavigationSidebar = props => {
               <li>
                 <SectionNav
                   questionnaire={questionnaire}
-                  controlGroup={isOpen}
+                  isOpen={isOpen}
                   handleChange={handleAccordionChange}
                 />
               </li>

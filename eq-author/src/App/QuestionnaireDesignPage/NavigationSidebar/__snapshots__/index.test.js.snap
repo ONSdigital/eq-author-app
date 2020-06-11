@@ -56,7 +56,11 @@ exports[`NavigationSidebar should render 1`] = `
       </NavigationSidebar__AccordionGroupToggle>
       <li>
         <SectionNav
-          controlGroup={Array []}
+          controlGroup={
+            Object {
+              "open": true,
+            }
+          }
           handleChange={[Function]}
           questionnaire={
             Object {

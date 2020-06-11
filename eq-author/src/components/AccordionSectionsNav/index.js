@@ -84,6 +84,17 @@ export const DisplayContent = styled.div`
   display: ${props => (props.isOpen ? "block" : "none")};
 `;
 
+const propTypes = {
+  SectionAccordion: {
+    title: PropTypes.node.isRequired,
+    titleName: PropTypes.string.isRequired,
+    children: PropTypes.node.isRequired,
+    identity: PropTypes.number,
+    handleChange: PropTypes.func,
+    isOpen: PropTypes.bool.isRequired,
+  },
+};
+
 const SectionAccordion = props => {
   const [isOpen, setIsOpen] = useState(true);
 
@@ -91,14 +102,14 @@ const SectionAccordion = props => {
     children,
     title,
     titleName,
-    controlGroup,
+    isOpen: isOpenProp,
     handleChange,
     identity,
   } = props;
 
   useEffect(() => {
-    setIsOpen(controlGroup.open);
-  }, [controlGroup]);
+    setIsOpen(isOpenProp.open);
+  }, [isOpenProp]);
 
   const handleClick = () => {
     setIsOpen(isOpen => !isOpen);
@@ -133,15 +144,6 @@ const SectionAccordion = props => {
   );
 };
 
-SectionAccordion.propTypes = {
-  title: PropTypes.node.isRequired,
-  titleName: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired,
-  identity: PropTypes.number,
-  handleChange: PropTypes.func,
-  controlGroup: PropTypes.arrayOf(
-    PropTypes.shape({ identifier: PropTypes.number, isOpen: PropTypes.bool })
-  ),
-};
+SectionAccordion.propTypes = propTypes.SectionAccordion;
 
 export default SectionAccordion;

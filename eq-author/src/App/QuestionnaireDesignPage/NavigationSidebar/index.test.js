@@ -93,10 +93,7 @@ describe("NavigationSidebar", () => {
     beforeEach(() => {
       state = {
         label: true,
-        controlGroup: [
-          { identity: 0, isOpen: true },
-          { identity: 1, isOpen: true },
-        ],
+        isOpen: { open: true },
       };
     });
 
@@ -105,39 +102,30 @@ describe("NavigationSidebar", () => {
       expect(reducerWrapper).toThrow();
     });
 
-    it("it update controlGroup", () => {
+    it("it should handleClick", () => {
       const updatedState = reducer(state, {
-        type: actionTypes.updateGroup,
-        payload: { identity: 0, isOpen: true },
+        type: actionTypes.handleClick,
       });
-      expect(updatedState.controlGroup).toEqual([
-        { identity: 1, isOpen: true },
-        { identity: 0, isOpen: false },
-      ]);
+
+      expect(updatedState.isOpen).toEqual({ open: false });
       expect(updatedState.label).toEqual(false);
-    });
 
-    it("it should toggle all in the controlGroup", () => {
       state.label = false;
-      const updatedState = reducer(state, {
-        type: actionTypes.toggleAll,
+      const alternateState = reducer(state, {
+        type: actionTypes.handleClick,
       });
-      expect(updatedState.controlGroup).toEqual([
-        { identity: 0, isOpen: false },
-        { identity: 1, isOpen: false },
-      ]);
-      expect(updatedState.label).toEqual(true);
+
+      expect(alternateState.isOpen).toEqual({ open: true });
+      expect(alternateState.label).toEqual(true);
     });
 
-    it("it should set initial state", () => {
+    it("it should toggle label", () => {
       const updatedState = reducer(state, {
-        type: actionTypes.setInitial,
-        payload: [{ identity: "hello", isOpen: "yes" }],
+        type: actionTypes.toggleLabel,
       });
-      expect(updatedState.controlGroup).toEqual([
-        { identity: "hello", isOpen: "yes" },
-      ]);
-      expect(updatedState.label).toEqual(true);
+
+      expect(updatedState.isOpen).toEqual({ open: true });
+      expect(updatedState.label).toEqual(false);
     });
   });
 });

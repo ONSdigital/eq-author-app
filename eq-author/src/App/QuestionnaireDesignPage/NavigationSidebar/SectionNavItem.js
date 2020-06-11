@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import styled from "styled-components";
 import { withRouter } from "react-router-dom";
 import gql from "graphql-tag";
@@ -40,34 +40,36 @@ const StyledSectionLower = styled.div`
   border-bottom: 1px solid ${colors.grey};
 `;
 
-export class UnwrappedSectionNavItem extends React.Component {
-  static propTypes = {
-    questionnaire: CustomPropTypes.questionnaire,
-    section: CustomPropTypes.section.isRequired,
-    match: CustomPropTypes.match.isRequired,
-    controlGroup: PropTypes.bool.isRequired,
-    identity: PropTypes.number.isRequired,
-    handleChange: PropTypes.func.isRequired,
-  };
+const propTypes = {
+  questionnaire: CustomPropTypes.questionnaire,
+  section: CustomPropTypes.section.isRequired,
+  match: CustomPropTypes.match.isRequired,
+  isOpen: PropTypes.bool.isRequired,
+  handleChange: PropTypes.func.isRequired,
+  identity: PropTypes.number.isRequired,
+};
 
-  render() {
-    const {
-      questionnaire,
-      section,
-      match,
-      controlGroup,
-      handleChange,
-      identity,
-      ...otherProps
-    } = this.props;
+export const UnwrappedSectionNavItem = props => {
+  const {
+    questionnaire,
+    section,
+    match,
+    isOpen,
+    handleChange,
+    identity,
+    ...otherProps
+  } = props;
 
-    const url = buildSectionPath({
+  const url = useCallback(() => {
+    return buildSectionPath({
       questionnaireId: questionnaire.id,
       sectionId: section.id,
       tab: match.params.tab,
     });
+  }, [questionnaire]);
 
-    const SectionTitle = () => (
+  const SectionTitle = useCallback(
+    () => (
       <>
         <StyledSectionUpper>
           <div />
@@ -87,24 +89,27 @@ export class UnwrappedSectionNavItem extends React.Component {
           <div />
         </StyledSectionLower>
       </>
-    );
+    ),
+    [section, url]
+  );
 
-    return (
-      <StyledSectionsAccordion
-        title={<SectionTitle />}
-        titleName={section.displayName}
-        url={url}
-        controlGroup={controlGroup}
-        identity={identity}
-        handleChange={handleChange}
-      >
-        <StyledSectionNavItem data-test="section-item" {...otherProps}>
-          <PageNav section={section} questionnaire={questionnaire} />
-        </StyledSectionNavItem>
-      </StyledSectionsAccordion>
-    );
-  }
-}
+  return (
+    <StyledSectionsAccordion
+      title={<SectionTitle />}
+      titleName={section.displayName}
+      url={url}
+      isOpen={isOpen}
+      identity={identity}
+      handleChange={handleChange}
+    >
+      <StyledSectionNavItem data-test="section-item" {...otherProps}>
+        <PageNav section={section} questionnaire={questionnaire} />
+      </StyledSectionNavItem>
+    </StyledSectionsAccordion>
+  );
+};
+
+UnwrappedSectionNavItem.propTypes = propTypes;
 
 UnwrappedSectionNavItem.fragments = {
   SectionNavItem: gql`
