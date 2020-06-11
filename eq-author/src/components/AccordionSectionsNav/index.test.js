@@ -6,13 +6,13 @@ import NavLink, {
 } from "../../App/QuestionnaireDesignPage/NavigationSidebar/NavLink.js";
 
 describe("Section Accordion", () => {
-  const controlGroup = [{ identifier: 0, isOpen: true }];
+  const isOpen = { open: true };
   it("default should render accordion as expanded", () => {
     const { getByTestId } = render(
       <SectionAccordion
         title="test"
         titleName="section1"
-        controlGroup={controlGroup}
+        isOpen={isOpen}
         identity={0}
         handleChange={jest.fn()}
       >
@@ -41,7 +41,7 @@ describe("Section Accordion", () => {
       <SectionAccordion
         title={<SectionTitle />}
         titleName="section1"
-        controlGroup={controlGroup}
+        isOpen={isOpen}
         identity={0}
         handleChange={jest.fn()}
       >
@@ -58,7 +58,7 @@ describe("Section Accordion", () => {
       <SectionAccordion
         title="test"
         titleName="section2"
-        controlGroup={controlGroup}
+        isOpen={isOpen}
         identity={0}
         handleChange={jest.fn()}
       >
@@ -82,7 +82,7 @@ describe("Section Accordion", () => {
       <SectionAccordion
         title="test"
         titleName="section3"
-        controlGroup={controlGroup}
+        isOpen={isOpen}
         identity={0}
         handleChange={jest.fn()}
       >

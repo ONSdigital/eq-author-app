@@ -30,6 +30,7 @@ describe("SectionNavItem", () => {
         onAddPage={handleAddPage}
         duration={123}
         isActive={jest.fn()}
+        isOpen={{ open: true }}
         match={{
           params: {
             questionnaireId: questionnaire.id,

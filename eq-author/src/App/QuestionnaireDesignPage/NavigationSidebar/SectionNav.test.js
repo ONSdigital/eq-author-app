@@ -31,6 +31,7 @@ describe("SectionNav", () => {
         questionnaire={questionnaire}
         currentSectionId={section.id}
         currentPageId={page.id}
+        isOpen={{ open: true }}
       />,
       {
         route: `/q/${questionnaire.id}`,

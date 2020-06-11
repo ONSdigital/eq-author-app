@@ -78,7 +78,7 @@ const NavLink = ({ to, title, children, icon, errorCount, ...otherProps }) => (
 );
 
 NavLink.propTypes = {
-  to: PropTypes.string.isRequired,
+  to: PropTypes.oneOfType([PropTypes.string, PropTypes.func]).isRequired,
   title: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
   icon: PropTypes.func.isRequired,

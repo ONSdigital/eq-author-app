@@ -42,10 +42,11 @@ const AccordionGroupToggle = styled(Button).attrs({
   variant: "tertiary-light",
   small: true,
 })`
-  margin: 1em 0 0.425em 1.8em;
+  margin: 0.425em 0 0.425em 1.8em;
   border: 1px solid white;
   top: 1px; /* adjust for misalignment caused by PopoutContainer */
   padding: 0.5em;
+  align-self: baseline;
 `;
 
 const proptypes = {
@@ -140,14 +141,14 @@ export const UnwrappedNavigationSidebar = props => {
             canAddQuestionConfirmation={canAddQuestionConfirmation}
             data-test="nav-section-header"
           />
+          <AccordionGroupToggle
+            onClick={() => handleClick()}
+            data-test="toggle-all-accordions"
+          >
+            {label ? "Close all" : "Open all"}
+          </AccordionGroupToggle>
           <NavigationScrollPane>
             <NavList>
-              <AccordionGroupToggle
-                onClick={() => handleClick()}
-                data-test="toggle-all-accordions"
-              >
-                {label ? "Close all" : "Open all"}
-              </AccordionGroupToggle>
               {questionnaire.introduction && (
                 <IntroductionNavItem
                   questionnaire={questionnaire}

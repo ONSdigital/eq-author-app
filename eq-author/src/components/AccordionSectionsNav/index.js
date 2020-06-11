@@ -91,7 +91,7 @@ const propTypes = {
     children: PropTypes.node.isRequired,
     identity: PropTypes.number,
     handleChange: PropTypes.func,
-    isOpen: PropTypes.bool.isRequired,
+    isOpen: PropTypes.shape({ open: PropTypes.bool }).isRequired,
   },
 };
 

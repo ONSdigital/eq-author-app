@@ -44,7 +44,7 @@ const propTypes = {
   questionnaire: CustomPropTypes.questionnaire,
   section: CustomPropTypes.section.isRequired,
   match: CustomPropTypes.match.isRequired,
-  isOpen: PropTypes.bool.isRequired,
+  isOpen: PropTypes.shape({ open: PropTypes.bool }).isRequired,
   handleChange: PropTypes.func.isRequired,
   identity: PropTypes.number.isRequired,
 };
@@ -60,13 +60,20 @@ export const UnwrappedSectionNavItem = props => {
     ...otherProps
   } = props;
 
+  // const url = buildSectionPath({
+  //   questionnaireId: questionnaire.id,
+  //   sectionId: section.id,
+  //   tab: match.params.tab,
+  // });
   const url = useCallback(() => {
     return buildSectionPath({
       questionnaireId: questionnaire.id,
       sectionId: section.id,
       tab: match.params.tab,
     });
-  }, [questionnaire]);
+  }, [questionnaire, match]);
+
+  // console.log(test, "what do we have here");
 
   const SectionTitle = useCallback(
     () => (

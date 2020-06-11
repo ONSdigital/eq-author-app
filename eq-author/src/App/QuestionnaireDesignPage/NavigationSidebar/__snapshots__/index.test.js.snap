@@ -42,26 +42,26 @@ exports[`NavigationSidebar should render 1`] = `
       }
     }
   />
+  <NavigationSidebar__AccordionGroupToggle
+    data-test="toggle-all-accordions"
+    onClick={[Function]}
+    type="button"
+    variant="primary"
+  >
+    Close all
+  </NavigationSidebar__AccordionGroupToggle>
   <NavigationSidebar__NavigationScrollPane
     permanentScrollBar={false}
   >
     <NavigationSidebar__NavList>
-      <NavigationSidebar__AccordionGroupToggle
-        data-test="toggle-all-accordions"
-        onClick={[Function]}
-        type="button"
-        variant="primary"
-      >
-        Close all
-      </NavigationSidebar__AccordionGroupToggle>
       <li>
         <SectionNav
-          controlGroup={
+          handleChange={[Function]}
+          isOpen={
             Object {
               "open": true,
             }
           }
-          handleChange={[Function]}
           questionnaire={
             Object {
               "id": "1",

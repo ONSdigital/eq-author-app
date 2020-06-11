@@ -19,7 +19,7 @@ const NavList = styled.ol`
 class SectionNav extends Component {
   static propTypes = {
     questionnaire: CustomPropTypes.questionnaire,
-    isOpen: PropTypes.bool.isRequired,
+    isOpen: PropTypes.shape({ open: PropTypes.bool }).isRequired,
     handleChange: PropTypes.func,
   };
 
