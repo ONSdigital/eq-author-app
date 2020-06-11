@@ -26,6 +26,9 @@ exports[`SectionNavItem should render 1`] = `
                   "displayName": "Page",
                   "id": "2",
                   "title": "Page",
+                  "validationErrorInfo": Object {
+                    "totalCount": 2,
+                  },
                 },
               ],
               "title": "Section",
@@ -46,6 +49,9 @@ exports[`SectionNavItem should render 1`] = `
               "displayName": "Page",
               "id": "2",
               "title": "Page",
+              "validationErrorInfo": Object {
+                "totalCount": 2,
+              },
             },
           ],
           "title": "Section",

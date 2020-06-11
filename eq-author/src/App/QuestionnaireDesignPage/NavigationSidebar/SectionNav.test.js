@@ -7,7 +7,12 @@ import SectionNav from "./SectionNav";
 describe("SectionNav", () => {
   let Component;
 
-  const page = { id: "2", title: "Page", displayName: "Page" };
+  const page = {
+    id: "2",
+    title: "Page",
+    displayName: "Page",
+    validationErrorInfo: { totalCount: 2 },
+  };
   const section = {
     id: "3",
     title: "Section",

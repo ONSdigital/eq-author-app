@@ -85,11 +85,15 @@ const NavLink = ({
       <Title>{children}</Title>
     </IconText>
 
-    {isSection && isOpen && errorCount > 0 ? <Badge /> : null}
-    {isSection && !isOpen && (sectionTotalErrors || errorCount) > 0 ? (
-      <Badge />
+    {isSection && isOpen && errorCount > 0 ? (
+      <Badge data-test="badge-NoCount-open" />
     ) : null}
-    {!isSection && errorCount ? <Badge>{errorCount}</Badge> : null}
+    {isSection && !isOpen && (sectionTotalErrors || errorCount) > 0 ? (
+      <Badge data-test="badge-NoCount-closed" />
+    ) : null}
+    {!isSection && errorCount ? (
+      <Badge data-test="badge-withCount">{errorCount}</Badge>
+    ) : null}
   </Link>
 );
 

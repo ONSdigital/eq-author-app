@@ -34,7 +34,36 @@ describe("NavLink", () => {
         Page 1
       </NavLink>
     );
-
     expect(getByTestId("nav-link")).toHaveTextContent(9999);
+  });
+
+  it("should show a badge when section accordion is closed and has errors within the questions", () => {
+    const { getByTestId } = render(
+      <NavLink
+        {...props}
+        errorCount={9999}
+        isOpen={false}
+        isSection
+        sectionTotalErrors={1}
+      >
+        Page 1
+      </NavLink>
+    );
+    expect(getByTestId("badge-NoCount-closed")).toBeTruthy();
+  });
+
+  it("should show a badge when section accordion is open and section has errors", () => {
+    const { getByTestId } = render(
+      <NavLink
+        {...props}
+        errorCount={9999}
+        isOpen
+        isSection
+        sectionTotalErrors={1}
+      >
+        Page 1
+      </NavLink>
+    );
+    expect(getByTestId("badge-NoCount-open")).toBeTruthy();
   });
 });
