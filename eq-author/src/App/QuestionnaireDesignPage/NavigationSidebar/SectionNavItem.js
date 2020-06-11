@@ -3,7 +3,6 @@ import React from "react";
 import styled from "styled-components";
 import { withRouter } from "react-router-dom";
 
-import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 import { colors } from "constants/theme";
 import PageNav from "./PageNav";
@@ -63,22 +62,23 @@ export class UnwrappedSectionNavItem extends React.Component {
     });
 
     let questionErrorCount = 0;
+
     // section.pages.forEach(val => {
-    //   questionErrorCount = questionErrorCount + validationErrorInfo.totalCount;
+    //   questionErrorCount =
+    //     questionErrorCount + section.pages.validationErrorInfo.totalCount;
     // });
 
-    const sectionArray = section.pages.map(item => {
+    section.pages.map(item => {
       questionErrorCount =
         questionErrorCount + item.validationErrorInfo.totalCount;
+      return questionErrorCount;
     });
-    // console.log("questionErrorCount", questionErrorCount);
-    // console.log("sectionArray", sectionArray);
 
-    const SectionTitle = () => (
+    const SectionTitle = ({ isOpen }) => (
       <>
-        {/* <StyledSectionUpper>
+        <StyledSectionUpper>
           <div />
-        </StyledSectionUpper> */}
+        </StyledSectionUpper>
         <NavLink
           exact
           to={url}
@@ -89,13 +89,13 @@ export class UnwrappedSectionNavItem extends React.Component {
           errorCount={section.validationErrorInfo.totalCount}
           sectionTotalErrors={questionErrorCount}
           isSection
-          // isOpen={false}
+          isOpen={isOpen}
         >
           <SectionNameOuter>{section.displayName}</SectionNameOuter>
         </NavLink>
-        {/* <StyledSectionLower>
+        <StyledSectionLower>
           <div />
-        </StyledSectionLower> */}
+        </StyledSectionLower>
       </>
     );
 

@@ -94,22 +94,10 @@ class SectionAccordion extends Component {
   render() {
     const { children, title, titleName } = this.props;
     const { isOpen } = this.state;
-    const { activeIndex } = this.state;
 
-    // const addPropsToChild = React.cloneElement(title, {
-    //   isOpen: "false",
-    // });
-
-    let addPropsToChild = React.Children.map(title, (child, index) => {
-      return React.cloneElement(child, {
-        isOpen: false,
-        // isSection: false,
-        // someFunction: () => this.setState({ activeIndex: index }),
-      });
+    const addIsOpenToTitle = React.cloneElement(title, {
+      isOpen,
     });
-    console.log("addPropsToChild", addPropsToChild);
-    // console.log("accordion isOpen", isOpen);
-    // console.log("titleNAme:", titleName);
 
     return (
       <>
@@ -125,8 +113,7 @@ class SectionAccordion extends Component {
               {}
             </Button>
             <SectionTitle data-test={`accordion-${titleName}-title`}>
-              {/* {title} */}
-              {addPropsToChild}
+              {addIsOpenToTitle}
             </SectionTitle>
           </Title>
         </Header>

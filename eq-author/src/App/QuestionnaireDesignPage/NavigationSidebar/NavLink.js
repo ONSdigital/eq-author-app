@@ -74,28 +74,23 @@ const NavLink = ({
   isOpen,
   ...otherProps
 }) => (
-  console.log("isOpen", isOpen),
-  console.log("isSection", isSection),
-  console.log("otherProps", otherProps),
-  (
-    <Link
-      to={to}
-      title={title}
-      activeClassName={activeClassName}
-      data-test="nav-link"
-      {...otherProps}
-    >
-      <IconText icon={icon}>
-        <Title>{children}</Title>
-      </IconText>
+  <Link
+    to={to}
+    title={title}
+    activeClassName={activeClassName}
+    data-test="nav-link"
+    {...otherProps}
+  >
+    <IconText icon={icon}>
+      <Title>{children}</Title>
+    </IconText>
 
-      {/* {isOpen ? <Badge /> : null} */}
-
-      {isSection && (sectionTotalErrors || errorCount) > 0 ? <Badge /> : null}
-
-      {!isSection && errorCount ? <Badge>{errorCount}</Badge> : null}
-    </Link>
-  )
+    {isSection && isOpen && errorCount > 0 ? <Badge /> : null}
+    {isSection && !isOpen && (sectionTotalErrors || errorCount) > 0 ? (
+      <Badge />
+    ) : null}
+    {!isSection && errorCount ? <Badge>{errorCount}</Badge> : null}
+  </Link>
 );
 
 NavLink.propTypes = {
