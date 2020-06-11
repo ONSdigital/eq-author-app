@@ -1,14 +1,38 @@
 import React from "react";
-import { render, fireEvent, act } from "tests/utils/rtl";
+import { render, fireEvent, act, flushPromises } from "tests/utils/rtl";
 import SectionAccordion from "./";
 import NavLink, {
   activeClassName,
 } from "../../App/QuestionnaireDesignPage/NavigationSidebar/NavLink.js";
 
 describe("Section Accordion", () => {
-  it("default should render accordion as expanded", () => {
+  let props;
+
+  afterEach(async () => {
+    await act(async () => {
+      await flushPromises();
+    });
+  });
+
+  beforeEach(() => {
+    props = {
+      to: "q/QID1/section/section1/design",
+      "data-test": "nav-section-link",
+      title: "TestName",
+      icon: () => <svg />,
+      errorCount: 0,
+      isActive: () => true,
+    };
+  });
+
+  it("default should render accordion as expanded", async () => {
+    const SectionTitle = () => (
+      <>
+        <NavLink {...props}>section1</NavLink>
+      </>
+    );
     const { getByTestId } = render(
-      <SectionAccordion title="test" titleName="section1">
+      <SectionAccordion title={<SectionTitle />} titleName="section1">
         section accordion panel
       </SectionAccordion>
     );
@@ -41,8 +65,13 @@ describe("Section Accordion", () => {
   });
 
   it("click on the arrow - it should open and close section accordion", async () => {
+    const SectionTitle = () => (
+      <>
+        <NavLink {...props}>section1</NavLink>
+      </>
+    );
     const { getByTestId } = render(
-      <SectionAccordion title="test" titleName="section2">
+      <SectionAccordion title={<SectionTitle />} titleName="section2">
         section accordion panel2
       </SectionAccordion>
     );
@@ -59,8 +88,13 @@ describe("Section Accordion", () => {
   });
 
   it("click on the section title - it should not activate the accordion", async () => {
+    const SectionTitle = () => (
+      <>
+        <NavLink {...props}>section1</NavLink>
+      </>
+    );
     const { getByTestId } = render(
-      <SectionAccordion title="test" titleName="section3">
+      <SectionAccordion title={<SectionTitle />} titleName="section3">
         section accordion panel3
       </SectionAccordion>
     );
