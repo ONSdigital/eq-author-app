@@ -71,10 +71,12 @@ const NavLink = ({
   errorCount,
   sectionTotalErrors,
   isSection,
+  isOpen,
   ...otherProps
 }) => (
-  console.log("errorCount", errorCount),
-  console.log("sectionTotalErrors", sectionTotalErrors),
+  console.log("isOpen", isOpen),
+  console.log("isSection", isSection),
+  console.log("otherProps", otherProps),
   (
     <Link
       to={to}
@@ -86,6 +88,8 @@ const NavLink = ({
       <IconText icon={icon}>
         <Title>{children}</Title>
       </IconText>
+
+      {/* {isOpen ? <Badge /> : null} */}
 
       {isSection && (sectionTotalErrors || errorCount) > 0 ? <Badge /> : null}
 
@@ -102,6 +106,7 @@ NavLink.propTypes = {
   errorCount: PropTypes.number,
   sectionTotalErrors: PropTypes.number,
   isSection: PropTypes.bool,
+  isOpen: PropTypes.bool,
 };
 
 export default NavLink;

@@ -71,13 +71,14 @@ export class UnwrappedSectionNavItem extends React.Component {
       questionErrorCount =
         questionErrorCount + item.validationErrorInfo.totalCount;
     });
-    console.log("questionErrorCount", questionErrorCount);
+    // console.log("questionErrorCount", questionErrorCount);
     // console.log("sectionArray", sectionArray);
+
     const SectionTitle = () => (
       <>
-        <StyledSectionUpper>
+        {/* <StyledSectionUpper>
           <div />
-        </StyledSectionUpper>
+        </StyledSectionUpper> */}
         <NavLink
           exact
           to={url}
@@ -88,12 +89,13 @@ export class UnwrappedSectionNavItem extends React.Component {
           errorCount={section.validationErrorInfo.totalCount}
           sectionTotalErrors={questionErrorCount}
           isSection
+          // isOpen={false}
         >
           <SectionNameOuter>{section.displayName}</SectionNameOuter>
         </NavLink>
-        <StyledSectionLower>
+        {/* <StyledSectionLower>
           <div />
-        </StyledSectionLower>
+        </StyledSectionLower> */}
       </>
     );
 
