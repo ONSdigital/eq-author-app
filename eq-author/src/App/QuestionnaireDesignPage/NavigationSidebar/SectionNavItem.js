@@ -43,17 +43,10 @@ export class UnwrappedSectionNavItem extends React.Component {
     questionnaire: CustomPropTypes.questionnaire,
     section: CustomPropTypes.section.isRequired,
     match: CustomPropTypes.match.isRequired,
-    //  sectionErrors: PropTypes.number.isRequired,
   };
 
   render() {
-    const {
-      questionnaire,
-      section,
-      match,
-      //  sectionErrors,
-      ...otherProps
-    } = this.props;
+    const { questionnaire, section, match, ...otherProps } = this.props;
 
     const url = buildSectionPath({
       questionnaireId: questionnaire.id,
@@ -62,11 +55,6 @@ export class UnwrappedSectionNavItem extends React.Component {
     });
 
     let questionErrorCount = 0;
-
-    // section.pages.forEach(val => {
-    //   questionErrorCount =
-    //     questionErrorCount + section.pages.validationErrorInfo.totalCount;
-    // });
 
     section.pages.map(item => {
       questionErrorCount =
