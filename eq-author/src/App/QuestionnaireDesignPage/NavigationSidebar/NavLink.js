@@ -52,16 +52,28 @@ export const Badge = styled.span`
   border-radius: 0.7em;
   background-color: ${colors.red};
   color: white;
-  padding: 0.2em 0.5em;
+  padding: 0.2em 0.4em;
   font-weight: normal;
   z-index: 2;
   margin-left: auto;
   line-height: 1;
   font-size: 0.9rem;
   pointer-events: none;
+  width: 20px;
+  height: 20px;
 `;
 
-const NavLink = ({ to, title, children, icon, errorCount, ...otherProps }) => (
+const NavLink = ({
+  to,
+  title,
+  children,
+  icon,
+  errorCount,
+  sectionTotalErrors,
+  isSection,
+  isOpen,
+  ...otherProps
+}) => (
   <Link
     to={to}
     title={title}
@@ -73,7 +85,15 @@ const NavLink = ({ to, title, children, icon, errorCount, ...otherProps }) => (
       <Title>{children}</Title>
     </IconText>
 
-    {errorCount ? <Badge>{errorCount}</Badge> : null}
+    {isSection && isOpen && errorCount > 0 ? (
+      <Badge data-test="badge-NoCount-open" />
+    ) : null}
+    {isSection && !isOpen && (sectionTotalErrors || errorCount) > 0 ? (
+      <Badge data-test="badge-NoCount-closed" />
+    ) : null}
+    {!isSection && errorCount ? (
+      <Badge data-test="badge-withCount">{errorCount}</Badge>
+    ) : null}
   </Link>
 );
 
@@ -83,6 +103,9 @@ NavLink.propTypes = {
   children: PropTypes.node.isRequired,
   icon: PropTypes.func.isRequired,
   errorCount: PropTypes.number,
+  sectionTotalErrors: PropTypes.number,
+  isSection: PropTypes.bool,
+  isOpen: PropTypes.bool,
 };
 
 export default NavLink;

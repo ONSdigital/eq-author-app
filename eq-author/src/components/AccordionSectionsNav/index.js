@@ -84,6 +84,8 @@ export const DisplayContent = styled.div`
   display: ${props => (props.isOpen ? "block" : "none")};
 `;
 
+export const Parent = styled.div``;
+
 class SectionAccordion extends Component {
   state = { isOpen: true, height: "auto" };
 
@@ -92,6 +94,10 @@ class SectionAccordion extends Component {
   render() {
     const { children, title, titleName } = this.props;
     const { isOpen } = this.state;
+
+    const addIsOpenToTitle = React.cloneElement(title, {
+      isOpen,
+    });
 
     return (
       <>
@@ -107,7 +113,7 @@ class SectionAccordion extends Component {
               {}
             </Button>
             <SectionTitle data-test={`accordion-${titleName}-title`}>
-              {title}
+              {addIsOpenToTitle}
             </SectionTitle>
           </Title>
         </Header>

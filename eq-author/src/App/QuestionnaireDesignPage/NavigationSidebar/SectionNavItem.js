@@ -54,7 +54,15 @@ export class UnwrappedSectionNavItem extends React.Component {
       tab: match.params.tab,
     });
 
-    const SectionTitle = () => (
+    let questionErrorCount = 0;
+
+    section.pages.map(item => {
+      questionErrorCount =
+        questionErrorCount + item.validationErrorInfo.totalCount;
+      return questionErrorCount;
+    });
+
+    const SectionTitle = ({ isOpen }) => (
       <>
         <StyledSectionUpper>
           <div />
@@ -67,6 +75,9 @@ export class UnwrappedSectionNavItem extends React.Component {
           icon={SectionIcon}
           id="sectionName"
           errorCount={section.validationErrorInfo.totalCount}
+          sectionTotalErrors={questionErrorCount}
+          isSection
+          isOpen={isOpen}
         >
           <SectionNameOuter>{section.displayName}</SectionNameOuter>
         </NavLink>
