@@ -68,7 +68,7 @@ describe("MainNavigation", () => {
 
     const viewSurveyBtn = getByTestId("btn-preview");
     const settingsBtn = getByTestId("btn-settings");
-    const sharingBtn = getByTestId("btn-share");
+    const sharingBtn = getByTestId("btn-sharing");
     const historyBtn = getByTestId("btn-history");
     const metadataBtn = getByTestId("btn-metadata");
     const qcodesBtn = getByTestId("btn-qcodes");
@@ -105,7 +105,7 @@ describe("MainNavigation", () => {
 
     const viewSurveyBtn = getByTestId("btn-preview");
     const settingsBtn = getByTestId("btn-settings");
-    const sharingBtn = getByTestId("btn-share");
+    const sharingBtn = getByTestId("btn-sharing");
     const historyBtn = getByTestId("btn-history");
     const metadataBtn = getByTestId("btn-metadata");
     const qcodesBtn = getByTestId("btn-qcodes");
