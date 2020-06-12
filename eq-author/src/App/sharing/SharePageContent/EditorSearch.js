@@ -83,7 +83,7 @@ export const EditorSearch = ({
   return (
     <>
       <Section>
-        <EditorTitle>Add Editors</EditorTitle>
+        <EditorTitle>Add editors</EditorTitle>
         <Described>
           Search for someone using their name or email address.
         </Described>
