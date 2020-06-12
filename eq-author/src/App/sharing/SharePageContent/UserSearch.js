@@ -41,7 +41,10 @@ const UserSearch = ({ users, onUserSelect }) => {
   const addUser = target => {
     setUser(target);
   };
-
+  const onAdd = clearSelection => {
+    onUserSelect(user);
+    clearSelection();
+  };
   return (
     <>
       <Downshift
@@ -56,6 +59,7 @@ const UserSearch = ({ users, onUserSelect }) => {
           isOpen,
           inputValue,
           highlightedIndex,
+          clearSelection,
         }) => (
           <div>
             <SearchContainer>
@@ -71,7 +75,7 @@ const UserSearch = ({ users, onUserSelect }) => {
                     type="submit"
                     variant="primary"
                     data-test="editor-add-button"
-                    onClick={() => onUserSelect(user)}
+                    onClick={() => onAdd(clearSelection)}
                   >
                     Add
                   </Button>

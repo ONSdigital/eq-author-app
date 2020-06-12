@@ -57,20 +57,28 @@ export const EditorSearch = ({
   const [mutateEditors] = useMutation(ADD_REMOVE_EDITOR);
   const addUser = user => {
     const isEditor = editors.some(editor => editor.id === user.id);
-    const isOwner = user.id === owner.id;
+    let isOwner = "";
 
-    if (!isEditor && !isOwner) {
-      const updatedEditors = editors.concat(user);
-      mutateEditors({
-        variables: {
-          input: { id, editors: updatedEditors.map(editor => editor.id) },
-        },
-      });
+    if (user) {
+      isOwner = user.id === owner.id;
+
+      if (!isEditor && !isOwner) {
+        const updatedEditors = editors.concat(user);
+        mutateEditors({
+          variables: {
+            input: {
+              id,
+              editors: updatedEditors.map(editor => editor.id),
+            },
+          },
+        });
+      } else {
+        showToast("Editor has already been given public access");
+      }
     } else {
-      showToast("Editor has already been given public access");
+      showToast("you are trying to add an empty editor");
     }
   };
-
   const removeUser = event => {
     const updatedEditors = editors.filter(user => user.id !== event.id);
     mutateEditors({
