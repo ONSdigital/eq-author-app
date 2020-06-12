@@ -1,4 +1,4 @@
-import React, { useReducer, useCallback } from "react";
+import React, { useReducer, useCallback, useRef } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
@@ -63,19 +63,18 @@ const proptypes = {
   },
 };
 
-const initialState = { label: true, isOpen: { open: true } };
-
-export const actionTypes = {
+export const sidebarActionTypes = {
   toggleLabel: "toggleLabel",
   handleClick: "handleClick",
 };
 
-export const reducer = (state, action) => {
+export const sidebarReducer = (state, action) => {
+  const { toggleLabel, handleClick } = sidebarActionTypes;
   switch (action.type) {
-    case actionTypes.toggleLabel: {
+    case toggleLabel: {
       return { ...state, label: !state.label };
     }
-    case actionTypes.handleClick: {
+    case handleClick: {
       const toOpen = !state.label ? { open: true } : { open: false };
       return { label: !state.label, isOpen: toOpen };
     }
@@ -84,8 +83,50 @@ export const reducer = (state, action) => {
   }
 };
 
+export const accordionActionTypes = {
+  create: "create",
+  update: "update",
+  createAndUpdate: "createAndUpdate",
+};
+
+export const accordionGroupReducer = (array, action) => {
+  const { create, update, createAndUpdate } = accordionActionTypes;
+  switch (action.type) {
+    case create: {
+      const { isOpen } = action.payload;
+      return array.map((item, index) => ({
+        isOpen: isOpen,
+        id: index,
+      }));
+    }
+    case update: {
+      const { event } = action.payload;
+      return array.filter(item => item.id !== event.id).concat(event);
+    }
+    case createAndUpdate: {
+      const { isOpen, event } = action.payload;
+      return array
+        .map((item, index) => ({
+          isOpen: isOpen,
+          id: index,
+        }))
+        .filter(item => item.id !== event.id)
+        .concat(event);
+    }
+    default:
+      throw new Error(`${action.type} is not a valid type`);
+  }
+};
+
+const sidebarInitialState = {
+  label: true,
+  isOpen: { open: true },
+};
+
 export const UnwrappedNavigationSidebar = props => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(sidebarReducer, sidebarInitialState);
+
+  let accordionsRef = useRef(null);
 
   const {
     questionnaire,
@@ -106,22 +147,41 @@ export const UnwrappedNavigationSidebar = props => {
   }, [questionnaire]);
 
   const handleClick = () => {
-    dispatch({ type: actionTypes.handleClick });
+    const accordions = accordionGroupReducer(questionnaire.sections, {
+      type: accordionActionTypes.create,
+      payload: { isOpen: !state.label },
+    });
+
+    accordionsRef.current = accordions;
+
+    dispatch({ type: sidebarActionTypes.handleClick });
   };
 
   const handleAccordionChange = event => {
-    const allOpen = questionnaire.sections
-      .map((item, index) => ({
-        isOpen: true,
-        id: index,
-      }))
-      .filter(item => item.id !== event.id)
-      .concat(event)
-      .every(item => item.isOpen === true);
+    let { current } = accordionsRef;
+    let accordions;
+    if (current) {
+      accordions = accordionGroupReducer(current, {
+        type: accordionActionTypes.update,
+        payload: { event },
+      });
+    } else {
+      accordions = accordionGroupReducer(questionnaire.sections, {
+        type: accordionActionTypes.createAndUpdate,
+        payload: {
+          event,
+          isOpen: true,
+        },
+      });
+    }
+
+    current = accordions;
+
+    const allOpen = current.every(item => item.isOpen === true);
 
     if (allOpen !== state.label) {
       dispatch({
-        type: actionTypes.toggleLabel,
+        type: sidebarActionTypes.toggleLabel,
       });
     }
   };
