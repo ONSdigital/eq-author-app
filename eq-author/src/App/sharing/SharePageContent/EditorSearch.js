@@ -76,7 +76,7 @@ export const EditorSearch = ({
         showToast("Editor has already been given public access");
       }
     } else {
-      showToast("you are trying to add an empty editor");
+      showToast("You are trying to add an empty editor");
     }
   };
   const removeUser = event => {
