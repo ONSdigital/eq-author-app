@@ -31,6 +31,7 @@ import historyRoutes from "App/history";
 import publishRoutes from "App/publish";
 import reviewRoutes from "App/review";
 import qcodeRoutes from "App/qcodes";
+import sharingRoutes from "App/sharing";
 import settingsRoutes from "App/settings";
 
 import withCreateQuestionPage from "enhancers/withCreateQuestionPage";
@@ -242,6 +243,7 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
                       ...publishRoutes,
                       ...reviewRoutes,
                       ...qcodeRoutes,
+                      ...sharingRoutes,
                       ...settingsRoutes,
                     ]}
                     <Route path="*" render={this.renderRedirect} />
