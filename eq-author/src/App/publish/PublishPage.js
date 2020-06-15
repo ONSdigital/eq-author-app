@@ -189,6 +189,13 @@ const PublishPage = ({ match, history }) => {
     return updatedVariants;
   };
 
+  const removeUniquness = variants => {
+    for (const variant of variants) {
+      delete variant["unique"];
+    }
+    return variants;
+  };
+
   return (
     <Container>
       <Header title="Publish" />
@@ -265,6 +272,7 @@ const PublishPage = ({ match, history }) => {
             }
             data-test="publish-survey-button"
             onClick={() => {
+              removeUniquness(variants);
               triggerPublish({
                 variables: {
                   input: {
