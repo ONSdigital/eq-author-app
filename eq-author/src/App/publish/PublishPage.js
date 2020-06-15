@@ -118,7 +118,7 @@ const PublishPage = ({ match, history }) => {
 
   const [triggerPublish] = useMutation(triggerPublishMutation);
 
-  const errorValidationMsg = "IDs must be different";
+  const errorValidationMsg = "Enter form types that are unique";
 
   const handleThemeSelect = (themeCheckbox, label) => {
     const isSelected = themeCheckbox.value;
