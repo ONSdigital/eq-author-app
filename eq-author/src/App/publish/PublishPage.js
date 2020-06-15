@@ -55,7 +55,6 @@ const Container = styled.div`
 `;
 
 const Shadow = styled.div`
-  position: relative;
   background: ${colors.lightMediumGrey};
   padding: 1.25em;
   max-width: 45%;
@@ -227,7 +226,6 @@ const PublishPage = ({ match, history }) => {
               <Field>
                 <Label>Form type</Label>
                 <Caption>Enter relevant form types for selected themes</Caption>
-
                 <ThemeInputs>
                   {map(variants, variant => (
                     <Shadow key={`${variant.theme}-entry`}>
@@ -249,7 +247,6 @@ const PublishPage = ({ match, history }) => {
                   ))}
                 </ThemeInputs>
               </Field>
-
               <Separator />
             </>
           )}
