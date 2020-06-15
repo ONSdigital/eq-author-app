@@ -191,7 +191,7 @@ const PublishPage = ({ match, history }) => {
 
   const removeUniquness = variants => {
     for (const variant of variants) {
-      delete variant["unique"];
+      delete variant.unique;
     }
     return variants;
   };
