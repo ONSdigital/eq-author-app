@@ -36,6 +36,8 @@ describe("SectionNav", () => {
         questionnaire={questionnaire}
         currentSectionId={section.id}
         currentPageId={page.id}
+        isOpen={{ open: true }}
+        handleChange={jest.fn()}
       />,
       {
         route: `/q/${questionnaire.id}`,

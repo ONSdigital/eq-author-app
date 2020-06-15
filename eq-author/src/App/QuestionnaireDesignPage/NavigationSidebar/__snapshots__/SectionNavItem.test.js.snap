@@ -2,9 +2,16 @@
 
 exports[`SectionNavItem should render 1`] = `
 <SectionNavItem__StyledSectionsAccordion
-  title={<SectionTitle />}
+  handleChange={[MockFunction]}
+  identity={1}
+  isOpen={
+    Object {
+      "open": true,
+    }
+  }
+  title={[Function]}
   titleName="Section"
-  url="/q/1/section/3/design"
+  url={[Function]}
 >
   <SectionNavItem__StyledSectionNavItem
     data-test="section-item"
