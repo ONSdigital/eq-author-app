@@ -117,24 +117,27 @@ const PublishPage = ({ match, history }) => {
     const isSelected = themeCheckbox.value;
 
     if (isSelected) {
-      setVariants([...variants, { theme: label, formType: null }]);
+      setVariants([
+        ...variants,
+        { theme: label, formType: null, unique: null },
+      ]);
     } else {
       setVariants(variants.filter(variant => variant.theme !== label));
     }
   };
 
-  const handleValidation = variant => {
-    console.log(variant.theme + " , " + variant.formType);
+  // const handleValidation = variant => {
+  //   console.log(variant.theme + " , " + variant.formType);
 
-    // for (const variantIDs of variant) {
-    //   if (variantIDs.theme === theme) {
-    //     variantIDs.formType = formType;
-    //   }
+  //   for (const variantIDs of variant) {
+  //     if (variantIDs.theme === theme) {
+  //       variantIDs.formType = formType;
+  //     }
 
-    //   variantIDArray.push(variant);
-    //   console.log(variantIDArray);
-    // }
-  };
+  //     variantIDArray.push(variant);
+  //     console.log("test - " + variantIDArray);
+  //   }
+  // };
 
   const handleInputChange = event => {
     const theme = event.name;
@@ -156,8 +159,8 @@ const PublishPage = ({ match, history }) => {
 
       if (variantsArray[0].formType === variantsArray[1].formType) {
         idValidation = true;
-        console.log(idValidation);
       }
+      // if (idValidation === true) console.log(idValidation);
     }
   };
 
@@ -176,6 +179,17 @@ const PublishPage = ({ match, history }) => {
   ) {
     return <Redirect to={`/q/${match.params.questionnaireId}`} />;
   }
+
+  const checkForDup = event => {
+    const variantArr = variants.map(function(item) {
+      return item;
+    });
+
+    let isDuplicate = variantArr.some(function(item, idx) {
+      return variantArr.indexOf(item.formType) != idx;
+    });
+    console.log(variantArr, isDuplicate);
+  };
 
   return (
     <Container>
@@ -219,12 +233,13 @@ const PublishPage = ({ match, history }) => {
                   {map(variants, variant => (
                     <Shadow key={`${variant.theme}-entry`}>
                       <Label htmlFor={variant.theme}>{variant.theme}</Label>
+
                       <Input
                         id={`${variant.theme}`}
                         onChange={handleInputChange}
                         value={variant.formType}
                         data-test={`${variant.theme}-input`}
-                        onBlur={handleValidation(variant)}
+                        onfocusout={checkForDup()}
                       />
                     </Shadow>
                   ))}
@@ -232,6 +247,7 @@ const PublishPage = ({ match, history }) => {
                 {/* {isInvalid && <ErrorInline>{errorValidationMsg}</ErrorInline>} */}
                 {/* </ErrorContext> */}
               </Field>
+
               <Separator />
             </>
           )}
