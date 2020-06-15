@@ -34,8 +34,16 @@ export const ErrorContext = styled.div`
     props.isInvalid &&
     css`
       margin-bottom: 2em;
-      border: 1px solid ${colors.red};
-      padding: 1em;
+      input {
+        border: 1px solid ${colors.red};
+        :focus {
+          outline-style: none;
+          border: none;
+          outline: none;
+          box-shadow: none;
+          outline: 3px solid ${colors.red};
+        }
+      }
     `}
 `;
 
@@ -47,6 +55,7 @@ const Container = styled.div`
 `;
 
 const Shadow = styled.div`
+  position: relative;
   background: ${colors.lightMediumGrey};
   padding: 1.25em;
   max-width: 45%;
@@ -109,10 +118,8 @@ const PublishPage = ({ match, history }) => {
 
   const [triggerPublish] = useMutation(triggerPublishMutation);
 
-  // const errorValidationMsg = this.props.getValidationError({
-  //   field: "variant",
-  //   message: "IDs must be different",
-  // });
+  const errorValidationMsg = "IDs must be different";
+
   const handleThemeSelect = (themeCheckbox, label) => {
     const isSelected = themeCheckbox.value;
 
@@ -125,19 +132,6 @@ const PublishPage = ({ match, history }) => {
       setVariants(variants.filter(variant => variant.theme !== label));
     }
   };
-
-  // const handleValidation = variant => {
-  //   console.log(variant.theme + " , " + variant.formType);
-
-  //   for (const variantIDs of variant) {
-  //     if (variantIDs.theme === theme) {
-  //       variantIDs.formType = formType;
-  //     }
-
-  //     variantIDArray.push(variant);
-  //     console.log("test - " + variantIDArray);
-  //   }
-  // };
 
   const handleInputChange = event => {
     const theme = event.name;
@@ -186,7 +180,7 @@ const PublishPage = ({ match, history }) => {
     const listOfDuplicates = new Set();
 
     sortedFormTypes.forEach((type, i) => {
-      if (sortedFormTypes[i + 1] && type && sortedFormTypes[i + 1] == type) {
+      if (sortedFormTypes[i + 1] && type && sortedFormTypes[i + 1] === type) {
         listOfDuplicates.add(type);
       }
     });
@@ -240,23 +234,27 @@ const PublishPage = ({ match, history }) => {
               <Field>
                 <Label>Form type</Label>
                 <Caption>Enter relevant form types for selected themes</Caption>
-                {/* <ErrorContext isInvalid={isInvalid}> */}
+
                 <ThemeInputs>
                   {map(variants, variant => (
                     <Shadow key={`${variant.theme}-entry`}>
-                      <Label htmlFor={variant.theme}>{variant.theme}</Label>
+                      <ErrorContext isInvalid={!variant.unique}>
+                        <Label htmlFor={variant.theme}>{variant.theme}</Label>
 
-                      <Input
-                        id={`${variant.theme}`}
-                        onChange={e => handleInputChange(e)}
-                        value={variant.formType}
-                        data-test={`${variant.theme}-input`}
-                      />
+                        <Input
+                          id={`${variant.theme}`}
+                          onChange={e => handleInputChange(e)}
+                          value={variant.formType}
+                          data-test={`${variant.theme}-input`}
+                        />
+
+                        {variant.unique === false && (
+                          <ErrorInline>{errorValidationMsg}</ErrorInline>
+                        )}
+                      </ErrorContext>
                     </Shadow>
                   ))}
                 </ThemeInputs>
-                {/* {isInvalid && <ErrorInline>{errorValidationMsg}</ErrorInline>} */}
-                {/* </ErrorContext> */}
               </Field>
 
               <Separator />
@@ -272,7 +270,8 @@ const PublishPage = ({ match, history }) => {
             disabled={
               !surveyId ||
               isEmpty(variants) ||
-              some(variants, ["formType", null])
+              some(variants, ["formType", null]) ||
+              some(variants, ["unique", false])
             }
             data-test="publish-survey-button"
             onClick={() => {
