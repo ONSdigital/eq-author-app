@@ -149,13 +149,6 @@ const PublishPage = ({ match, history }) => {
     const updatedVariants = identifyDuplicateVariants(variantsArray);
 
     setVariants(updatedVariants);
-
-    let idValidation = false;
-    if (variantsArray[1]) {
-      if (variantsArray[0].formType === variantsArray[1].formType) {
-        idValidation = true;
-      }
-    }
   };
 
   const publishStatus = questionnaire && questionnaire.publishStatus;
