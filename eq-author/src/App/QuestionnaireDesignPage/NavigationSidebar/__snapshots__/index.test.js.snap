@@ -30,21 +30,41 @@ exports[`NavigationSidebar should render 1`] = `
                 "id": "2",
                 "position": 0,
                 "title": "Page",
+                "validationErrorInfo": Object {
+                  "totalCount": 5,
+                },
               },
             ],
             "title": "Section",
+            "validationErrorInfo": Object {
+              "totalCount": 0,
+            },
           },
         ],
         "title": "Questionnaire",
       }
     }
   />
+  <NavigationSidebar__AccordionGroupToggle
+    data-test="toggle-all-accordions"
+    onClick={[Function]}
+    type="button"
+    variant="primary"
+  >
+    Close all
+  </NavigationSidebar__AccordionGroupToggle>
   <NavigationSidebar__NavigationScrollPane
     permanentScrollBar={false}
   >
     <NavigationSidebar__NavList>
       <li>
         <SectionNav
+          handleChange={[Function]}
+          isOpen={
+            Object {
+              "open": true,
+            }
+          }
           questionnaire={
             Object {
               "id": "1",
@@ -56,9 +76,15 @@ exports[`NavigationSidebar should render 1`] = `
                       "id": "2",
                       "position": 0,
                       "title": "Page",
+                      "validationErrorInfo": Object {
+                        "totalCount": 5,
+                      },
                     },
                   ],
                   "title": "Section",
+                  "validationErrorInfo": Object {
+                    "totalCount": 0,
+                  },
                 },
               ],
               "title": "Questionnaire",
