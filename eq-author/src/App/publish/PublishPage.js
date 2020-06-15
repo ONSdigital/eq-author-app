@@ -119,7 +119,7 @@ const PublishPage = ({ match, history }) => {
     if (isSelected) {
       setVariants([
         ...variants,
-        { theme: label, formType: null, unique: null },
+        { theme: label, formType: null, unique: true },
       ]);
     } else {
       setVariants(variants.filter(variant => variant.theme !== label));
@@ -151,16 +151,16 @@ const PublishPage = ({ match, history }) => {
 
       variantsArray.push(variant);
     }
-    setVariants(variantsArray);
-    let idValidation = false;
-    // console.log("first one " + variantsArray[0].formType);
-    if (variantsArray[1]) {
-      // console.log("second one " + variantsArray[1].formType);
 
+    const updatedVariants = identifyDuplicateVariants(variantsArray);
+
+    setVariants(updatedVariants);
+
+    let idValidation = false;
+    if (variantsArray[1]) {
       if (variantsArray[0].formType === variantsArray[1].formType) {
         idValidation = true;
       }
-      // if (idValidation === true) console.log(idValidation);
     }
   };
 
@@ -180,15 +180,27 @@ const PublishPage = ({ match, history }) => {
     return <Redirect to={`/q/${match.params.questionnaireId}`} />;
   }
 
-  const checkForDup = event => {
-    const variantArr = variants.map(function(item) {
-      return item;
+  const identifyDuplicateVariants = variantsArray => {
+    const formTypes = variantsArray.map(variant => variant.formType);
+    const sortedFormTypes = formTypes.sort();
+    const listOfDuplicates = new Set();
+
+    sortedFormTypes.forEach((type, i) => {
+      if (sortedFormTypes[i + 1] && type && sortedFormTypes[i + 1] == type) {
+        listOfDuplicates.add(type);
+      }
     });
 
-    let isDuplicate = variantArr.some(function(item, idx) {
-      return variantArr.indexOf(item.formType) != idx;
+    const updatedVariants = variantsArray.map(variant => {
+      if (listOfDuplicates.has(variant.formType)) {
+        variant.unique = false;
+      } else {
+        variant.unique = true;
+      }
+      return variant;
     });
-    console.log(variantArr, isDuplicate);
+
+    return updatedVariants;
   };
 
   return (
@@ -236,10 +248,9 @@ const PublishPage = ({ match, history }) => {
 
                       <Input
                         id={`${variant.theme}`}
-                        onChange={handleInputChange}
+                        onChange={e => handleInputChange(e)}
                         value={variant.formType}
                         data-test={`${variant.theme}-input`}
-                        onfocusout={checkForDup()}
                       />
                     </Shadow>
                   ))}
