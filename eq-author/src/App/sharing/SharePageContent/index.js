@@ -78,7 +78,7 @@ export const Sharing = ({ data, showToast }) => {
     <Layout>
       <PageTitle>Share your questionnaire</PageTitle>
       <Description>
-        You can share your questionnaire with anyone who has an account with
+        You can share your questionnaire with anyone who has an account in
         Author.
       </Description>
       <ShareLinkButton
@@ -104,7 +104,7 @@ export const Sharing = ({ data, showToast }) => {
         </FlexContainer>
         <InformationPanel>
           Let anyone with an Author account view your questionnaire. If public
-          access is off, only editors
+          access is off, only editors will be able to view it.
         </InformationPanel>
       </Section>
       <Section>
