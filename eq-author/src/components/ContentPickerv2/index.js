@@ -67,14 +67,24 @@ const ContentPicker = ({
   };
 
   const updateSelectedItemsSingle = item => {
-    const updatedSelectedItems = !item || isSelected(item) ? [] : [item];
+    const updatedSelectedItems =
+      !item ||
+      (Object.keys(item).length === 1 && item.hasOwnProperty("pipingType")) ||
+      isSelected(item)
+        ? []
+        : [item];
     setSelectedItems(updatedSelectedItems);
   };
 
   const updateSelectedItemsMultiple = item => {
-    const updatedSelectedItems = isSelected(item)
-      ? selectedItems.filter(selectedItem => selectedItem.id !== item.id)
-      : [...selectedItems, item];
+    let updatedSelectedItems;
+    if (!item) {
+      updatedSelectedItems = selectedItems;
+    } else {
+      updatedSelectedItems = isSelected(item)
+        ? selectedItems.filter(selectedItem => selectedItem.id !== item.id)
+        : [...selectedItems, item];
+    }
 
     setSelectedItems(updatedSelectedItems);
   };

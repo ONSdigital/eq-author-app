@@ -15,7 +15,6 @@ import { AWAITING_APPROVAL, PUBLISHED } from "constants/publishStatus";
 import { useMe } from "App/MeContext";
 
 import ButtonGroup from "components/buttons/ButtonGroup";
-import Button from "components/buttons/Button";
 import LinkButton from "components/buttons/Button/LinkButton";
 import RouteButton from "components/buttons/Button/RouteButton";
 import IconText from "components/IconText";
@@ -34,7 +33,6 @@ import metadataIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/metad
 import shareIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/sharing-icon.svg?inline";
 import viewIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/view-survey-icon.svg?inline";
 
-import SharingModal from "./SharingModal";
 import UpdateQuestionnaireSettingsModal from "./UpdateQuestionnaireSettingsModal";
 
 import {
@@ -42,6 +40,8 @@ import {
   buildQcodesPath,
   buildMetadataPath,
   buildHistoryPath,
+  buildSharingPath,
+  buildSettingsPath,
 } from "utils/UrlUtils";
 
 const StyledMainNavigation = styled.div`
@@ -63,7 +63,6 @@ export const UtilityBtns = styled.div`
 export const UnwrappedMainNavigation = props => {
   const { questionnaire, title, children, client, match } = props;
   const { me } = useMe();
-  const [isSharingModalOpen, setSharingModalOpen] = useState(false);
   const [isSettingsModalOpen, setSettingsModalOpen] = useState(
     match.params.modifier === "settings"
   );
@@ -145,27 +144,33 @@ export const UnwrappedMainNavigation = props => {
                     View survey
                   </IconText>
                 </LinkButton>
-                <Button
-                  variant="navigation-modal"
-                  data-test="btn-settings"
-                  onClick={() => setSettingsModalOpen(true)}
+                <RouteButton
+                  variant={
+                    (whatPageAreWeOn === "settings" && "navigation-on") ||
+                    "navigation"
+                  }
+                  to={buildSettingsPath(match.params)}
                   small
+                  data-test="btn-settings"
+                  disabled={title === "Settings"}
                 >
                   <IconText nav icon={settingsIcon}>
                     Settings
                   </IconText>
-                </Button>
-                <Button
-                  variant="navigation-modal"
-                  onClick={() => setSharingModalOpen(true)}
-                  data-test="btn-share"
+                </RouteButton>
+                <RouteButton
+                  variant={
+                    (whatPageAreWeOn === "sharing" && "navigation-on") ||
+                    "navigation"
+                  }
                   small
+                  data-test="btn-sharing"
+                  to={buildSharingPath(match.params)}
                 >
                   <IconText nav icon={shareIcon}>
                     Sharing
                   </IconText>
-                </Button>
-
+                </RouteButton>
                 <RouteButton
                   variant={
                     (whatPageAreWeOn === "history" && "navigation-on") ||
@@ -219,15 +224,6 @@ export const UnwrappedMainNavigation = props => {
       </StyledMainNavigation>
       {questionnaire && (
         <>
-          {me && (
-            <SharingModal
-              questionnaire={questionnaire}
-              previewUrl={previewUrl}
-              isOpen={isSharingModalOpen}
-              onClose={() => setSharingModalOpen(false)}
-              currentUser={me}
-            />
-          )}
           <UpdateQuestionnaireSettingsModal
             isOpen={isSettingsModalOpen}
             onClose={() => setSettingsModalOpen(false)}

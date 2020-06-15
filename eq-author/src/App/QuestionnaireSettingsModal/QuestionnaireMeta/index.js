@@ -57,7 +57,7 @@ export const StatelessQuestionnaireMeta = ({
   <StyledScrollPane>
     <Form onSubmit={onSubmit}>
       <Field>
-        <Label htmlFor="title">Questionnaire Title</Label>
+        <Label htmlFor="title">Questionnaire title</Label>
         <Input
           id="title"
           autoFocus
@@ -131,7 +131,7 @@ export const StatelessQuestionnaireMeta = ({
         </InlineField>
         <InformationPanel>
           Let respondents check their answers before submitting their
-          questionnaire
+          questionnaire.
         </InformationPanel>
       </ToggleWrapper>
       <ButtonGroup horizontal align="right">

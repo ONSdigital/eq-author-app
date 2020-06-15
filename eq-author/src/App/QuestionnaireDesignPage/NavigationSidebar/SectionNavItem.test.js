@@ -4,7 +4,12 @@ import React from "react";
 import { UnwrappedSectionNavItem as SectionNavItem } from "./SectionNavItem";
 
 describe("SectionNavItem", () => {
-  const page = { id: "2", title: "Page", displayName: "Page" };
+  const page = {
+    id: "2",
+    title: "Page",
+    displayName: "Page",
+    validationErrorInfo: { totalCount: 2 },
+  };
   const section = {
     id: "3",
     title: "Section",
@@ -30,6 +35,9 @@ describe("SectionNavItem", () => {
         onAddPage={handleAddPage}
         duration={123}
         isActive={jest.fn()}
+        isOpen={{ open: true }}
+        handleChange={jest.fn()}
+        identity={1}
         match={{
           params: {
             questionnaireId: questionnaire.id,

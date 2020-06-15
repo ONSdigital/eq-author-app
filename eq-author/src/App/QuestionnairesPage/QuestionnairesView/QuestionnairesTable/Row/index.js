@@ -46,7 +46,7 @@ export const ShortTitle = styled.span`
   text-decoration-color: ${colors.textLight};
   font-size: 0.8em;
   font-weight: bold;
-  letter-spacing: 0.05em;
+  letter-spacing: 0;
 `;
 
 const ButtonGroup = styled.div`

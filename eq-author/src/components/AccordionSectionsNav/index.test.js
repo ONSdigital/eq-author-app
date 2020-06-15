@@ -1,14 +1,47 @@
 import React from "react";
-import { render, fireEvent, act } from "tests/utils/rtl";
+import { render, fireEvent, act, flushPromises } from "tests/utils/rtl";
 import SectionAccordion from "./";
 import NavLink, {
   activeClassName,
 } from "../../App/QuestionnaireDesignPage/NavigationSidebar/NavLink.js";
 
 describe("Section Accordion", () => {
+  const isOpen = { open: true };
+
+  let props, SectionTitleMock;
+
+  const SectionTitle = () => (
+    <>
+      <NavLink {...props}>section1</NavLink>
+    </>
+  );
+
+  afterEach(async () => {
+    await act(async () => {
+      await flushPromises();
+    });
+  });
+
+  beforeEach(() => {
+    SectionTitleMock = jest.fn(() => <SectionTitle />);
+    props = {
+      to: "q/QID1/section/section1/design",
+      "data-test": "nav-section-link",
+      title: "TestName",
+      icon: () => <svg />,
+      errorCount: 0,
+      isActive: () => true,
+    };
+  });
   it("default should render accordion as expanded", () => {
     const { getByTestId } = render(
-      <SectionAccordion title="test" titleName="section1">
+      <SectionAccordion
+        title={SectionTitleMock}
+        titleName="section1"
+        isOpen={isOpen}
+        identity={0}
+        handleChange={jest.fn()}
+      >
         section accordion panel
       </SectionAccordion>
     );
@@ -17,21 +50,14 @@ describe("Section Accordion", () => {
   });
 
   it("should focus on a section when active", async () => {
-    const props = {
-      to: "q/QID1/section/section1/design",
-      "data-test": "nav-section-link",
-      title: "TestName",
-      icon: () => <svg />,
-      errorCount: 0,
-      isActive: () => true,
-    };
-    const SectionTitle = () => (
-      <>
-        <NavLink {...props}>section1</NavLink>
-      </>
-    );
     const { getByTestId } = render(
-      <SectionAccordion title={<SectionTitle />} titleName="section1">
+      <SectionAccordion
+        title={SectionTitleMock}
+        titleName="section1"
+        isOpen={isOpen}
+        identity={0}
+        handleChange={jest.fn()}
+      >
         section accordion panel
       </SectionAccordion>
     );
@@ -42,7 +68,13 @@ describe("Section Accordion", () => {
 
   it("click on the arrow - it should open and close section accordion", async () => {
     const { getByTestId } = render(
-      <SectionAccordion title="test" titleName="section2">
+      <SectionAccordion
+        title={SectionTitleMock}
+        titleName="section2"
+        isOpen={isOpen}
+        identity={0}
+        handleChange={jest.fn()}
+      >
         section accordion panel2
       </SectionAccordion>
     );
@@ -60,7 +92,13 @@ describe("Section Accordion", () => {
 
   it("click on the section title - it should not activate the accordion", async () => {
     const { getByTestId } = render(
-      <SectionAccordion title="test" titleName="section3">
+      <SectionAccordion
+        title={SectionTitleMock}
+        titleName="section3"
+        isOpen={isOpen}
+        identity={0}
+        handleChange={jest.fn()}
+      >
         section accordion panel3
       </SectionAccordion>
     );

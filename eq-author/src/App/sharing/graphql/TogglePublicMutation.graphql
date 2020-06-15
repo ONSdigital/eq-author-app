@@ -1,0 +1,6 @@
+mutation TogglePublic($input: UpdateQuestionnaireInput!) {
+  updateQuestionnaire(input: $input) {
+    id
+    isPublic
+  }
+}

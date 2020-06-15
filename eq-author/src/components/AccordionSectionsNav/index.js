@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { colors } from "constants/theme";
@@ -84,50 +84,66 @@ export const DisplayContent = styled.div`
   display: ${props => (props.isOpen ? "block" : "none")};
 `;
 
-class SectionAccordion extends Component {
-  state = { isOpen: true, height: "auto" };
-
-  handleAccordionToggle = () => this.setState({ isOpen: !this.state.isOpen });
-
-  render() {
-    const { children, title, titleName } = this.props;
-    const { isOpen } = this.state;
-
-    return (
-      <>
-        <Header>
-          <Title>
-            <Button
-              isOpen={isOpen}
-              onClick={this.handleAccordionToggle}
-              aria-expanded={isOpen}
-              aria-controls={`accordion-${titleName}`}
-              data-test={`accordion-${titleName}-button`}
-            >
-              {}
-            </Button>
-            <SectionTitle data-test={`accordion-${titleName}-title`}>
-              {title}
-            </SectionTitle>
-          </Title>
-        </Header>
-        <Body
-          id={`accordion-${titleName}`}
-          data-test={`accordion-${titleName}-body`}
-          isOpen={isOpen}
-          aria-hidden={!isOpen}
-        >
-          <DisplayContent isOpen={isOpen}>{children}</DisplayContent>
-        </Body>
-      </>
-    );
-  }
-}
-
-SectionAccordion.propTypes = {
-  title: PropTypes.node.isRequired,
-  titleName: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired,
+const propTypes = {
+  SectionAccordion: {
+    title: PropTypes.func.isRequired,
+    titleName: PropTypes.string.isRequired,
+    children: PropTypes.node.isRequired,
+    identity: PropTypes.number,
+    handleChange: PropTypes.func,
+    isOpen: PropTypes.shape({ open: PropTypes.bool }).isRequired,
+  },
 };
+
+const SectionAccordion = props => {
+  const [isOpen, setIsOpen] = useState(true);
+
+  const {
+    children,
+    title,
+    titleName,
+    isOpen: isOpenProp,
+    handleChange,
+    identity,
+  } = props;
+
+  useEffect(() => {
+    setIsOpen(isOpenProp.open);
+  }, [isOpenProp]);
+
+  const handleClick = () => {
+    setIsOpen(isOpen => !isOpen);
+    handleChange({ isOpen: !isOpen, id: identity });
+  };
+
+  return (
+    <>
+      <Header>
+        <Title>
+          <Button
+            isOpen={isOpen}
+            onClick={() => handleClick()}
+            aria-expanded={isOpen}
+            aria-controls={`accordion-${titleName}`}
+            data-test={`accordion-${titleName}-button`}
+          />
+          <SectionTitle data-test={`accordion-${titleName}-title`}>
+            {title(isOpen)}
+          </SectionTitle>
+        </Title>
+      </Header>
+      <Body
+        id={`accordion-${titleName}`}
+        data-test={`accordion-${titleName}-body`}
+        isOpen={isOpen}
+        aria-hidden={!isOpen}
+      >
+        <DisplayContent isOpen={isOpen}>{children}</DisplayContent>
+      </Body>
+    </>
+  );
+};
+
+SectionAccordion.propTypes = propTypes.SectionAccordion;
 
 export default SectionAccordion;
