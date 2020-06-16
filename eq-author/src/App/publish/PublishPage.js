@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import styled from "styled-components";
 import { withRouter, Redirect } from "react-router-dom";
 import CustomPropTypes from "custom-prop-types";
 import { useMutation } from "@apollo/react-hooks";
 import { map, isEmpty, some } from "lodash";
 
 import { useQuestionnaire } from "components/QuestionnaireContext";
-
+import styled, { css } from "styled-components";
 import { colors } from "constants/theme";
 import { AWAITING_APPROVAL, PUBLISHED } from "constants/publishStatus";
 
@@ -16,6 +15,7 @@ import Button from "components/buttons/Button";
 import Panel, { InformationPanel } from "components/Panel";
 import ScrollPane from "components/ScrollPane";
 import Header from "components/EditorLayout/Header";
+import ErrorInline from "components/ErrorInline";
 
 import triggerPublishMutation from "./triggerPublish.graphql";
 
@@ -26,6 +26,26 @@ export const themes = [
   "UKIS Northern Ireland",
   "Social",
 ];
+
+export const ErrorContext = styled.div`
+  position: relative;
+
+  ${props =>
+    props.isInvalid &&
+    css`
+      margin-bottom: 2em;
+      input {
+        border: 1px solid ${colors.red};
+        :focus {
+          outline-style: none;
+          border: none;
+          outline: none;
+          box-shadow: none;
+          outline: 3px solid ${colors.red};
+        }
+      }
+    `}
+`;
 
 const Container = styled.div`
   display: flex;
@@ -97,11 +117,16 @@ const PublishPage = ({ match, history }) => {
 
   const [triggerPublish] = useMutation(triggerPublishMutation);
 
+  const errorValidationMsg = "Enter form types that are unique";
+
   const handleThemeSelect = (themeCheckbox, label) => {
     const isSelected = themeCheckbox.value;
 
     if (isSelected) {
-      setVariants([...variants, { theme: label, formType: null }]);
+      setVariants([
+        ...variants,
+        { theme: label, formType: null, unique: true },
+      ]);
     } else {
       setVariants(variants.filter(variant => variant.theme !== label));
     }
@@ -119,7 +144,10 @@ const PublishPage = ({ match, history }) => {
 
       variantsArray.push(variant);
     }
-    setVariants(variantsArray);
+
+    const updatedVariants = identifyDuplicateVariants(variantsArray);
+
+    setVariants(updatedVariants);
   };
 
   const publishStatus = questionnaire && questionnaire.publishStatus;
@@ -137,6 +165,36 @@ const PublishPage = ({ match, history }) => {
   ) {
     return <Redirect to={`/q/${match.params.questionnaireId}`} />;
   }
+
+  const identifyDuplicateVariants = variantsArray => {
+    const formTypes = variantsArray.map(variant => variant.formType);
+    const sortedFormTypes = formTypes.sort();
+    const listOfDuplicates = new Set();
+
+    sortedFormTypes.forEach((type, i) => {
+      if (sortedFormTypes[i + 1] && type && sortedFormTypes[i + 1] === type) {
+        listOfDuplicates.add(type);
+      }
+    });
+
+    const updatedVariants = variantsArray.map(variant => {
+      if (listOfDuplicates.has(variant.formType)) {
+        variant.unique = false;
+      } else {
+        variant.unique = true;
+      }
+      return variant;
+    });
+
+    return updatedVariants;
+  };
+
+  const removeUniquness = variants => {
+    for (const variant of variants) {
+      delete variant.unique;
+    }
+    return variants;
+  };
 
   return (
     <Container>
@@ -178,13 +236,20 @@ const PublishPage = ({ match, history }) => {
                 <ThemeInputs>
                   {map(variants, variant => (
                     <Shadow key={`${variant.theme}-entry`}>
-                      <Label htmlFor={variant.theme}>{variant.theme}</Label>
-                      <Input
-                        id={`${variant.theme}`}
-                        onChange={handleInputChange}
-                        value={variant.formType}
-                        data-test={`${variant.theme}-input`}
-                      />
+                      <ErrorContext isInvalid={!variant.unique}>
+                        <Label htmlFor={variant.theme}>{variant.theme}</Label>
+
+                        <Input
+                          id={`${variant.theme}`}
+                          onChange={e => handleInputChange(e)}
+                          value={variant.formType}
+                          data-test={`${variant.theme}-input`}
+                        />
+
+                        {variant.unique === false && (
+                          <ErrorInline>{errorValidationMsg}</ErrorInline>
+                        )}
+                      </ErrorContext>
                     </Shadow>
                   ))}
                 </ThemeInputs>
@@ -202,10 +267,12 @@ const PublishPage = ({ match, history }) => {
             disabled={
               !surveyId ||
               isEmpty(variants) ||
-              some(variants, ["formType", null])
+              some(variants, ["formType", null]) ||
+              some(variants, ["unique", false])
             }
             data-test="publish-survey-button"
             onClick={() => {
+              removeUniquness(variants);
               triggerPublish({
                 variables: {
                   input: {
