@@ -47,6 +47,7 @@ const AccordionGroupToggle = styled(Button).attrs({
   top: 1px; /* adjust for misalignment caused by PopoutContainer */
   padding: 0.5em;
   align-self: baseline;
+  font-size: 0.9em;
 `;
 
 const proptypes = {
