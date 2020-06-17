@@ -388,13 +388,25 @@
         "properties": {
           "validation": {
             "if": {
-              "allOf": [
+              "anyOf": [
                 {
                   "properties": {
-                    "earliestDate": {
+                    "minDuration": {
                       "properties": {
-                        "enabled": { "const": true },
-                        "entityType": { "const": "Custom" }
+                        "enabled": {
+                          "const": true
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "maxDuration": {
+                      "properties": {
+                        "enabled": {
+                          "const": true
+                        }
                       }
                     }
                   }
@@ -403,8 +415,20 @@
                   "properties": {
                     "latestDate": {
                       "properties": {
-                        "enabled": { "const": true },
-                        "entityType": { "const": "Custom" }
+                        "enabled": {
+                          "const": true
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "earliestDate": {
+                      "properties": {
+                        "enabled": {
+                          "const": true
+                        }
                       }
                     }
                   }
@@ -413,6 +437,26 @@
             },
             "then": {
               "properties": {
+                "minDuration": {
+                  "type": "object",
+                  "properties": {
+                    "duration": {
+                      "validateDuration": {
+                        "$data": "2/maxDuration"
+                      }
+                    }
+                  }
+                },
+                "maxDuration": {
+                  "type": "object",
+                  "properties": {
+                    "duration": {
+                      "validateDuration": {
+                        "$data": "2/minDuration"
+                      }
+                    }
+                  }
+                },
                 "earliestDate": {
                   "type": "object",
                   "properties": {
