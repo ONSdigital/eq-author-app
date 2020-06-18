@@ -54,14 +54,16 @@ const EditorLayout = ({
   title,
   design,
   preview,
-  routing,
+  logic,
+  // routing,
   renderPanel,
   ...otherProps
 }) => (
   <Titled title={existingTitle => `${existingTitle} - ${title}`}>
     <Container>
       <Header title={title}>
-        <Tabs design={design} preview={preview} routing={routing} />
+        <Tabs design={design} preview={preview} logic={logic} />
+        {/* <Tabs design={design} preview={preview} routing={routing} /> */}
       </Header>
       <StyledGrid {...otherProps}>
         <Column cols={9} gutters={false}>
@@ -97,7 +99,8 @@ EditorLayout.propTypes = {
   page: CustomPropTypes.page,
   design: PropTypes.bool,
   preview: PropTypes.bool,
-  routing: PropTypes.bool,
+  logic: PropTypes.bool,
+  // routing: PropTypes.bool,
   title: PropTypes.string,
   renderPanel: PropTypes.func,
 };

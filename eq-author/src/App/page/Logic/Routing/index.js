@@ -7,7 +7,6 @@ import { get } from "lodash";
 import PropTypes from "prop-types";
 import { propType } from "graphql-anywhere";
 
-import EditorLayout from "components/EditorLayout";
 import Loading from "components/Loading";
 import Error from "components/Error";
 
@@ -64,11 +63,12 @@ export class UnwrappedQuestionRoutingRoute extends React.Component {
   }
 
   render() {
-    const displayName = get(this.props.data, "page.displayName", "");
+    // const displayName = get(this.props.data, "page.displayName", "");
     return (
-      <EditorLayout design preview routing title={displayName}>
-        {this.renderContent()}
-      </EditorLayout>
+      <div>{this.renderContent()}</div>
+      // <EditorLayout design preview routing title={displayName}>
+      // {this.renderContent()}
+      // </EditorLayout>
     );
   }
 }
