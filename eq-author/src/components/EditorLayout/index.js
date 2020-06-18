@@ -24,7 +24,7 @@ const Centered = styled.div`
 `;
 
 const Margin = styled.div`
-  margin-top: 1em;
+  margin-top: 1.2em;
 `;
 
 const Container = styled.div`
@@ -42,10 +42,6 @@ const PanelWrapper = styled.div`
 
 const StyledGrid = styled(Grid)`
   overflow: hidden;
-`;
-
-const StyledMainCanvas = styled(MainCanvas)`
-  padding: 0 0.5em 0 1em;
 `;
 
 const EditorLayout = ({
@@ -69,7 +65,7 @@ const EditorLayout = ({
         <Column cols={9} gutters={false}>
           <ScrollPane permanentScrollBar>
             <Margin>
-              <StyledMainCanvas>{children}</StyledMainCanvas>
+              <MainCanvas>{children}</MainCanvas>
             </Margin>
             {onAddQuestionPage && (
               <Centered>
