@@ -5,12 +5,12 @@ import { TransitionGroup } from "react-transition-group";
 import { propType } from "graphql-anywhere";
 import { flow, get } from "lodash/fp";
 
-import Transition from "App/page/Routing/Transition";
+import Transition from "App/page/Logic/Routing/Transition";
 import Button from "components/buttons/Button";
 
 import { colors } from "constants/theme";
 
-import DestinationSelector from "App/page/Routing/DestinationSelector";
+import DestinationSelector from "App/page/Logic/Routing/DestinationSelector";
 
 import { RADIO } from "constants/answer-types";
 

@@ -4,7 +4,9 @@ import { Route } from "react-router-dom";
 
 import Design from "./Design";
 import Preview from "./Preview";
-import Routing from "./Routing";
+import Logic from "./Logic";
+
+// import Routing from "./Logic/Routing";
 
 export default [
   <Route
@@ -18,8 +20,13 @@ export default [
     component={Preview}
   />,
   <Route
-    key="page-routing"
-    path="/q/:questionnaireId/page/:pageId/routing"
-    component={Routing}
+    key="page-logic"
+    path="/q/:questionnaireId/page/:pageId/logic"
+    component={Logic}
   />,
+  // <Route
+  //   key="page-routing"
+  //   path="/q/:questionnaireId/page/:pageId/routing"
+  //   component={Routing}
+  // />,
 ];
