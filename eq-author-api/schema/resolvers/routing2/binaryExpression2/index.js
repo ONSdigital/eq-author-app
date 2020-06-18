@@ -4,23 +4,14 @@ const {
   flatMap,
   some,
   intersectionBy,
-  first,
   getOr,
   reject,
   map,
 } = require("lodash/fp");
 
-const {
-  createExpression,
-  createRightSide,
-} = require("../../../../src/businessLogic");
+const { createExpression } = require("../../../../src/businessLogic");
 
 const { createMutation } = require("../../createMutation");
-
-const {
-  NO_ROUTABLE_ANSWER_ON_PAGE,
-  NULL,
-} = require("../../../../constants/routingNoLeftSide");
 
 const {
   getPages,
@@ -139,43 +130,13 @@ Resolvers.Mutation = {
       flatMap(rule => rule.expressionGroup, rules)
     );
 
-    const page = find(page => {
-      if (
-        page.routing &&
-        some(rule => {
-          if (rule.expressionGroup.id === input.expressionGroupId) {
-            return true;
-          }
-        }, getOr([], "routing.rules", page))
-      ) {
-        return page;
-      }
-    }, pages);
-
-    const firstAnswer = first(getOr([], "answers", page));
-
-    const hasRoutableFirstAnswer =
-      firstAnswer &&
-      answerTypeToConditions.isAnswerTypeSupported(firstAnswer.type);
-    let condition;
-    if (hasRoutableFirstAnswer) {
-      condition = answerTypeToConditions.getDefault(firstAnswer.type);
-    }
-
-    const left = hasRoutableFirstAnswer
-      ? {
-          answerId: firstAnswer.id,
-          type: "Default",
-        }
-      : {
-          type: NULL,
-          nullReason: NO_ROUTABLE_ANSWER_ON_PAGE,
-        };
+    const left = {
+      type: "Null",
+      nullReason: "DefaultRouting",
+    };
 
     const expression = createExpression({
       left,
-      condition: condition || "Equal",
-      right: createRightSide(firstAnswer),
     });
 
     expressionGroup.expressions.push(expression);
