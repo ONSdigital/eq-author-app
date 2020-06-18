@@ -53,16 +53,6 @@ Resolvers.BinaryExpression2 = {
       return { ...answer, sideType: left.type };
     }
 
-    if (left.type === "Default") {
-      const answer = getAnswerById(ctx, left.answerId);
-      return {
-        ...answer,
-        sideType: left.type,
-        reason: "DefaultRouting",
-        displayName: "Select an answer",
-      };
-    }
-
     return { sideType: left.type, reason: left.nullReason };
   },
   right: async ({ right }) => {
@@ -262,6 +252,7 @@ Resolvers.Mutation = {
       answerId,
       type: "Answer",
     };
+    delete updatedLeftSide.nullReason;
 
     expression.left = updatedLeftSide;
     expression.right = null;
