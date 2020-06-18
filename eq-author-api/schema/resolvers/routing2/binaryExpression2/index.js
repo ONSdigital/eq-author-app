@@ -9,10 +9,7 @@ const {
   map,
 } = require("lodash/fp");
 
-const {
-  createExpression,
-  createLeftSide,
-} = require("../../../../src/businessLogic");
+const { createExpression } = require("../../../../src/businessLogic");
 
 const { createMutation } = require("../../createMutation");
 
@@ -127,13 +124,13 @@ Resolvers.Mutation = {
       input.expressionGroupId
     );
 
-    const leftHandSide = {
+    const left = {
       type: "Null",
       nullReason: "DefaultRouting",
     };
 
     const expression = createExpression({
-      left: createLeftSide(leftHandSide),
+      left,
     });
 
     expressionGroup.expressions.push(expression);
