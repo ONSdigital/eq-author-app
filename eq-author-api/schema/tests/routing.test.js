@@ -26,7 +26,7 @@ const { deleteSection } = require("../../tests/utils/contextBuilder/section");
 
 describe("routing", () => {
   describe("A Routing", () => {
-    it("should create a full routing tree when creating a routing", async () => {
+    it("should create a default routing when creating a routing", async () => {
       let config = {
         metadata: [{}],
         sections: [
@@ -62,11 +62,8 @@ describe("routing", () => {
 
       const result = await queryPage(ctx, page.id);
       expect(
-        result.routing.rules[0].expressionGroup.expressions[0].left.id
-      ).toEqual(page.answers[0].id);
-      expect(
-        result.routing.rules[0].expressionGroup.expressions[0].right
-      ).toEqual({ options: [] });
+        result.routing.rules[0].expressionGroup.expressions[0].left.reason
+      ).toBe("DefaultRouting");
     });
 
     // Passes intermittently
@@ -403,8 +400,20 @@ describe("routing", () => {
       const ctx = await buildContext(config);
       const { questionnaire } = ctx;
       const firstPage = questionnaire.sections[0].pages[0];
+      const firstAnswer = questionnaire.sections[0].pages[0].answers[0];
       const expression =
         firstPage.routing.rules[0].expressionGroup.expressions[0];
+
+      await executeQuery(
+        updateLeftSideMutation,
+        {
+          input: {
+            expressionId: expression.id,
+            answerId: firstAnswer.id,
+          },
+        },
+        ctx
+      );
 
       await executeQuery(
         updateBinaryExpressionMutation,
@@ -548,21 +557,9 @@ describe("routing", () => {
                   },
                 ],
                 routing: {
-                  rules: [
-                    {
-                      expressionGroup: {
-                        expressions: [
-                          {
-                            right: {
-                              customValue: {
-                                number: 2,
-                              },
-                            },
-                          },
-                        ],
-                      },
-                    },
-                  ],
+                  routing: {
+                    rules: [{ expressionGroup: { expressions: [{}] } }],
+                  },
                 },
               },
             ],
@@ -572,9 +569,20 @@ describe("routing", () => {
       const ctx = await buildContext(config);
       const { questionnaire } = ctx;
       const firstPage = questionnaire.sections[0].pages[0];
+      const firstAnswer = questionnaire.sections[0].pages[0].answers[0];
       const expression =
         firstPage.routing.rules[0].expressionGroup.expressions[0];
 
+      await executeQuery(
+        updateLeftSideMutation,
+        {
+          input: {
+            expressionId: expression.id,
+            answerId: firstAnswer.id,
+          },
+        },
+        ctx
+      );
       await executeQuery(
         updateRightSideMutation,
         {
@@ -624,10 +632,21 @@ describe("routing", () => {
       const ctx = await buildContext(config);
       const { questionnaire } = ctx;
       const firstQuestionPage = questionnaire.sections[0].pages[0];
+      const firstAnswer = questionnaire.sections[0].pages[0].answers[0];
       const expression =
         firstQuestionPage.routing.rules[0].expressionGroup.expressions[0];
 
       const options = firstQuestionPage.answers[0].options;
+      await executeQuery(
+        updateLeftSideMutation,
+        {
+          input: {
+            expressionId: expression.id,
+            answerId: firstAnswer.id,
+          },
+        },
+        ctx
+      );
       await executeQuery(
         updateRightSideMutation,
         {

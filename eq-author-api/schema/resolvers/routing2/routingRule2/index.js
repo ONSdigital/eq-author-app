@@ -1,18 +1,8 @@
-const {
-  flatMap,
-  find,
-  some,
-  reject,
-  getOr,
-  pick,
-  first,
-} = require("lodash/fp");
+const { flatMap, find, some, reject, getOr, pick } = require("lodash/fp");
 
 const { createMutation } = require("../../createMutation");
 
 const isMutuallyExclusive = require("../../../../utils/isMutuallyExclusive");
-
-const conditions = require("../../../../constants/routingConditions");
 
 const {
   createDestination,
@@ -20,15 +10,9 @@ const {
   createExpressionGroup,
   createExpression,
   createLeftSide,
-  createRightSide,
 } = require("../../../../src/businessLogic");
 const availableRoutingDestinations = require("../../../../src/businessLogic/availableRoutingDestinations");
 const validateRoutingDestinations = require("../../../../src/businessLogic/validateRoutingDestination");
-const answerTypeToConditions = require("../../../../src/businessLogic/answerTypeToConditions");
-const {
-  NO_ROUTABLE_ANSWER_ON_PAGE,
-  NULL,
-} = require("../../../../constants/routingNoLeftSide");
 
 const { getPages } = require("../../utils");
 
@@ -66,33 +50,16 @@ Resolvers.Mutation = {
       }
     }, pages);
 
-    const firstAnswer = first(page.answers);
-
-    const hasRoutableFirstAnswer =
-      firstAnswer &&
-      answerTypeToConditions.isAnswerTypeSupported(firstAnswer.type);
-
-    let condition = conditions.EQUAL;
-    let leftHandSide = {
-      type: NULL,
-      nullReason: NO_ROUTABLE_ANSWER_ON_PAGE,
+    const leftHandSide = {
+      type: "Null",
+      nullReason: "DefaultRouting",
     };
-
-    if (hasRoutableFirstAnswer) {
-      condition = answerTypeToConditions.getDefault(firstAnswer.type);
-      leftHandSide = {
-        answerId: firstAnswer.id,
-        type: "Answer",
-      };
-    }
 
     const routingRule = createRoutingRule({
       expressionGroup: createExpressionGroup({
         expressions: [
           createExpression({
             left: createLeftSide(leftHandSide),
-            condition,
-            right: createRightSide(firstAnswer),
           }),
         ],
       }),
