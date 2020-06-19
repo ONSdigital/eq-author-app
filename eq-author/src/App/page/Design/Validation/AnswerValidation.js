@@ -140,7 +140,7 @@ const PropertiesError = styled(IconText)`
   justify-content: left;
 `;
 
-const SidebarValidation = styled(SidebarButton)`
+export const SidebarValidation = styled(SidebarButton)`
   &:not(:first-of-type) {
     margin-top: 0.5em;
   }
@@ -188,11 +188,13 @@ class AnswerValidation extends React.PureComponent {
 
       if (answer.type === "DateRange") {
         if ((id === "latestDate" || id === "earliestDate") && enabled) {
-          errorsArr.dateRange.range++;
+          // errorsArr.dateRange.range++;
+          errorsArr.dateRange.range.push(...errors);
         }
 
         if ((id === "minDuration" || id === "maxDuration") && enabled) {
-          errorsArr.dateRange.duration++;
+          errorsArr.dateRange.duration.push(...errors);
+          // errorsArr.dateRange.duration++;
         }
       }
 
@@ -234,13 +236,13 @@ class AnswerValidation extends React.PureComponent {
 
     const validationErrors = {
       dateRange: {
-        duration: 0,
-        range: 0,
+        duration: [],
+        range: [],
       },
       other: [],
     };
 
-    let validationButtons = null;
+    let validationButtons = [];
 
     if (answer.type === "DateRange") {
       const { duration, range } = validValidationTypes.reduce(
@@ -263,7 +265,7 @@ class AnswerValidation extends React.PureComponent {
         {}
       );
 
-      validationButtons = this.renderValidation(
+      const durationButtons = this.renderValidation(
         duration,
         answer,
         validationErrors
@@ -276,19 +278,21 @@ class AnswerValidation extends React.PureComponent {
       );
 
       const durationError = this.renderPropertyError(
-        validationErrors.dateRange.duration > 1,
+        validationErrors.dateRange.duration.length > 1,
         durationErrorMessage,
         "duration-error"
       );
 
       const rangeError = this.renderPropertyError(
-        validationErrors.dateRange.range > 1,
+        validationErrors.dateRange.range.length > 1,
         rangeErrorMessage,
         "range-error"
       );
 
-      validationButtons.push(rangeError);
       validationButtons.push(rangeButtons);
+      validationButtons.push(rangeError);
+
+      validationButtons.push(durationButtons);
       validationButtons.push(durationError);
     } else {
       const validationMessage =
