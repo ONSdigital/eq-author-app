@@ -708,6 +708,36 @@ describe("validation", () => {
       );
     });
 
+    it("should create minimum validation for DateRange answers", async () => {
+      const answer = await createAnswer(ctx, {
+        questionPageId: page.id,
+        type: DATE_RANGE,
+      });
+      const validation = await queryValidation(ctx, answer.id);
+      const validationObject = (minimumId, maximumId) => ({
+        minDuration: {
+          id: minimumId,
+          enabled: false,
+          duration: {
+            value: 0,
+            unit: "Days",
+          },
+        },
+        maxDuration: {
+          id: maximumId,
+          enabled: false,
+          duration: {
+            value: 0,
+            unit: "Days",
+          },
+        },
+      });
+      console.log(validation, "here we go");
+      expect(validation).toMatchObject(
+        validationObject(validation.minDuration.id, validation.maxDuration.id)
+      );
+    });
+
     describe("Earliest", () => {
       it("should be able to update properties", async () => {
         const answer = await createAnswer(ctx, {
