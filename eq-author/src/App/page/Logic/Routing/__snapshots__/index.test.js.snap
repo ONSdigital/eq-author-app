@@ -1,14 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Question Routing Route should redirect if the pageType is not valid 1`] = `
-<EditorLayout
-  design={true}
-  preview={true}
-  routing={true}
-  title="Untitled Page"
->
+<div>
   <Redirect
     to="/q/1/page/1/design"
   />
-</EditorLayout>
+</div>
 `;

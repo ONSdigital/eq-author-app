@@ -6,8 +6,6 @@ import Design from "./Design";
 import Preview from "./Preview";
 import Logic from "./Logic";
 
-// import Routing from "./Logic/Routing";
-
 export default [
   <Route
     key="page-design"
@@ -24,9 +22,4 @@ export default [
     path="/q/:questionnaireId/page/:pageId/logic"
     component={Logic}
   />,
-  // <Route
-  //   key="page-routing"
-  //   path="/q/:questionnaireId/page/:pageId/routing"
-  //   component={Routing}
-  // />,
 ];

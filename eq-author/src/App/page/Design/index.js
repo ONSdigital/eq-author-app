@@ -22,7 +22,6 @@ import CalculatedSummaryPageEditor from "./CalculatedSummaryPageEditor";
 
 const availableTabMatrix = {
   QuestionPage: { design: true, preview: true, logic: true },
-  // QuestionPage: { design: true, preview: true, routing: true },
   CalculatedSummaryPage: { design: true, preview: true },
 };
 

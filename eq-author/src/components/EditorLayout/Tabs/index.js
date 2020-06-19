@@ -6,7 +6,6 @@ import { NavLink, withRouter } from "react-router-dom";
 import { colors } from "constants/theme";
 import CustomPropTypes from "custom-prop-types";
 import {
-  // buildRoutingPath,
   buildPreviewPath,
   buildDesignPath,
   buildLogicPath,
@@ -60,11 +59,6 @@ const TABS = [
     children: "Logic",
     url: match => buildLogicPath(match.params),
   },
-  // {
-  //   key: "routing",
-  //   children: "Logic",
-  //   url: match => buildRoutingPath(match.params),
-  // },
 ];
 
 export const UnwrappedTabs = props => {
@@ -73,11 +67,6 @@ export const UnwrappedTabs = props => {
     <div>
       <TabsContainer data-test="tabs-nav">
         {TABS.map(({ key, children, url }) => {
-          // console.log("\n\nkey - - - - ", key);
-          // console.log("children - - - - ", children);
-          // console.log("match - - - - ", match);
-          // console.log("props[key]", props[key]);
-
           const { Component, otherProps = {} } = props[key]
             ? {
                 Component: Tab,
@@ -100,15 +89,12 @@ UnwrappedTabs.defaultProps = {
   design: true,
   preview: false,
   logic: false,
-  // routing: false,
 };
 
 UnwrappedTabs.propTypes = {
   design: PropTypes.bool,
   preview: PropTypes.bool,
   logic: PropTypes.bool,
-  // routing: PropTypes.bool,
-
   match: CustomPropTypes.match.isRequired,
 };
 

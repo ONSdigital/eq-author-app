@@ -1,7 +1,7 @@
 import React from "react";
 import gql from "graphql-tag";
 import { Query } from "react-apollo";
-import { Redirect, Link, Switch, Route } from "react-router-dom";
+import { Redirect, NavLink, Route } from "react-router-dom";
 import { buildPagePath } from "utils/UrlUtils";
 import Loading from "components/Loading";
 import Error from "components/Error";
@@ -28,13 +28,6 @@ const LogicMainCanvas = styled.div`
   background: ${colors.white};
 `;
 
-// const TabsContainer = styled.div`
-//   border-right
-// `;
-
-// const StyledLi = styled.li`
-// `;
-
 const LogicContainer = styled.div`
   padding: 0.8em;
   border-left: 1px solid ${colors.lightGrey};
@@ -46,7 +39,14 @@ const StyledUl = styled.ul`
   padding: 0;
 `;
 
-const LogicLink = styled(Link)`
+const MenuTitle = styled.div`
+  width: 100%;
+  padding: 1em 1.2em;
+  font-weight: bold;
+  border-bottom: 1px solid ${colors.lightGrey};
+`;
+
+const LogicLink = styled(NavLink)`
   --color-text: ${colors.black};
   text-decoration: none;
   display: flex;
@@ -55,16 +55,11 @@ const LogicLink = styled(Link)`
   padding: 1em;
   color: var(--color-text);
   font-size: 1em;
-  border-left: 4px solid ${colors.lightGrey};
+  border-left: 5px solid ${colors.lightGrey};
   border-bottom: 1px solid ${colors.lightGrey};
 
   &:hover {
     background: ${rgba(0, 0, 0, 0.2)};
-  }
-
-  &:focus {
-    outline: 3px solid ${colors.orange};
-    outline-offset: -3px;
   }
 
   &:active {
@@ -75,6 +70,7 @@ const LogicLink = styled(Link)`
     --color-text: ${colors.white};
 
     background: ${colors.blue};
+    border-left: 5px solid ${colors.orange};
     pointer-events: none;
   }
 `;
@@ -95,7 +91,7 @@ export class UnwrappedQuestionRoutingRoute extends React.Component {
 
   renderContent() {
     const { data, loading, error, match } = this.props;
-    console.log("\n\ndata", data);
+
     if (loading) {
       return <Loading height="20em">Loading routing</Loading>;
     }
@@ -119,53 +115,50 @@ export class UnwrappedQuestionRoutingRoute extends React.Component {
 
     const routes = [
       {
-        path: `${match.path}`,
-        exact: true,
-        main: Routing,
-      },
-      {
         path: `${match.path}/routing`,
         exact: true,
         main: Routing,
       },
-      {
-        path: `${match.path}/Skip`,
-        exact: true,
-        main: () => <h2>Skip logic is not yet defined</h2>,
-      },
+      /* This is left in as it's ready to accept Skip logic as per EAR-572 */
+      // {
+      //   path: `${match.path}/Skip`,
+      //   exact: true,
+      //   main: () => (
+      //       <h3>
+      //         Skip logic is under currently construction and not yet available
+      //       </h3>
+      //   ),
+      // },
     ];
 
     return (
       <LogicMainCanvas>
         <Grid>
           <Column gutters={false} cols={2.5}>
+            <MenuTitle>Select your logic</MenuTitle>
             <StyledUl>
-              <li>
-                <LogicLink>Select your logic</LogicLink>
-              </li>
               <li>
                 <LogicLink
                   exact
                   to={`${match.url}/routing`}
                   activeClassName="active"
-                  onlyActiveOnIndex
                 >
                   Routing Logic
                 </LogicLink>
               </li>
-              <li>
+              {/* This is left in as it's ready to accept Skip logic as per EAR-572 */}
+              {/* <li>
                 <LogicLink
                   exact
                   to={`${match.url}/skip`}
                   activeClassName="active"
-                  onlyActiveOnIndex
+                  replace
                 >
                   Skip Logic
                 </LogicLink>
-              </li>
+              </li> */}
             </StyledUl>
           </Column>
-
           <Column gutters={false} cols={9.5}>
             <LogicContainer>
               {routes.map(route => (
@@ -176,52 +169,25 @@ export class UnwrappedQuestionRoutingRoute extends React.Component {
                   component={route.main}
                 />
               ))}
+              <Redirect to={`${match.url}/routing`} replace />
             </LogicContainer>
           </Column>
         </Grid>
       </LogicMainCanvas>
-      //  {/* <div style={{ flex: 1, padding: "10px" }}>
-      //           <Switch>
-      //             <Route
-      //               key="page-routing"
-      //               path={`${match.path}`}
-      //               // path="/q/:questionnaireId/page/:pageId/logic/routing"
-      //               component={Routing}
-      //               // page={page}
-      //             />
-      //           </Switch>
-      //         </div> */}
-
-      // <div>
-      //   <StyledUl>
-      //     <li>
-      //       <Link to={`${match.url}/routing`}>Routing Logic</Link>
-      //     </li>
-      //     <li>
-      //       <Link to="/dashboard">Skip Logic</Link>
-      //     </li>
-      //   </StyledUl>
-
-      //   <hr />
-
-      //   <Switch>
-      //     <Route
-      //       key="page-routing"
-      //       path={`${match.path}`}
-      //       // path="/q/:questionnaireId/page/:pageId/logic/routing"
-      //       component={Routing}
-      //       // page={page}
-      //     />
-      //     ,
-      //   </Switch>
-      // </div>
     );
   }
 
   render() {
     const displayName = get(this.props.data, "page.displayName", "");
     return (
-      <EditorLayout design preview logic title={displayName}>
+      <EditorLayout
+        design
+        preview
+        logic
+        title={displayName}
+        singleColumnLayout
+        mainCanvasMaxWidth="80em"
+      >
         {this.renderContent()}
       </EditorLayout>
     );

@@ -57,17 +57,6 @@ export const buildPagePath = ({ pageId, tab, ...rest }) => {
     entityName: PAGE,
   });
 };
-// export const buildPagePath = ({ pageId, tab, ...rest }) => {
-//   if (!pageId) {
-//     throw new Error("Page id must be provided");
-//   }
-//   return generatePath(Routes.QUESTIONNAIRE)({
-//     ...rest,
-//     tab: sanitiseTab(["design", "routing", "preview"])(tab),
-//     entityId: pageId,
-//     entityName: PAGE,
-//   });
-// };
 export const buildConfirmationPath = ({ confirmationId, tab, ...rest }) => {
   if (!confirmationId) {
     throw new Error("Confirmation id must be provided");
@@ -159,5 +148,4 @@ const buildTabSwitcher = tab => params => {
 
 export const buildDesignPath = buildTabSwitcher("design");
 export const buildPreviewPath = buildTabSwitcher("preview");
-// export const buildRoutingPath = buildTabSwitcher("routing");
 export const buildLogicPath = buildTabSwitcher("logic");
