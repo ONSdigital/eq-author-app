@@ -1,5 +1,6 @@
 const {
   ERR_MAX_DURATION_TOO_SMALL,
+  ERR_MIN_DURATION_TOO_LARGE,
 } = require("../../../constants/validationErrorCodes");
 
 module.exports = function(ajv) {
@@ -30,7 +31,7 @@ module.exports = function(ajv) {
           currentDate.setFullYear(currentDate.getFullYear() + +Number(value));
           return currentDate;
         } else {
-          return false;
+          throw new Error("Incorrect date unit supplied");
         }
       };
 
@@ -39,14 +40,16 @@ module.exports = function(ajv) {
 
       const min = dataPath.includes("/minDuration");
 
-      const valid = min ? firstDate <= secondDate : secondDate >= firstDate;
+      const valid = min ? firstDate >= secondDate : secondDate >= firstDate;
 
       if (!valid) {
         isValid.errors = [
           {
             keyword: "errorMessage",
             dataPath,
-            message: ERR_MAX_DURATION_TOO_SMALL,
+            message: min
+              ? ERR_MAX_DURATION_TOO_SMALL
+              : ERR_MIN_DURATION_TOO_LARGE,
             params: {},
           },
         ];
