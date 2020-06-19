@@ -4,7 +4,6 @@ const {
   flatMap,
   some,
   intersectionBy,
-  first,
   getOr,
   reject,
   map,
@@ -12,21 +11,19 @@ const {
 
 const {
   createExpression,
-  createRightSide,
+  createLeftSide,
 } = require("../../../../src/businessLogic");
 
 const { createMutation } = require("../../createMutation");
-
-const {
-  NO_ROUTABLE_ANSWER_ON_PAGE,
-  NULL,
-} = require("../../../../constants/routingNoLeftSide");
 
 const {
   getPages,
   getAnswers,
   getAnswerById,
   getOptions,
+  getExpressionGroups,
+  getExpressionGroupById,
+  getExpressionById,
 } = require("../../utils");
 
 const Resolvers = {};
@@ -51,16 +48,6 @@ Resolvers.BinaryExpression2 = {
     if (left.type === "Answer") {
       const answer = getAnswerById(ctx, left.answerId);
       return { ...answer, sideType: left.type };
-    }
-
-    if (left.type === "Default") {
-      const answer = getAnswerById(ctx, left.answerId);
-      return {
-        ...answer,
-        sideType: left.type,
-        reason: "DefaultRouting",
-        displayName: "Select an answer",
-      };
     }
 
     return { sideType: left.type, reason: left.nullReason };
@@ -105,9 +92,6 @@ Resolvers.LeftSide2 = {
     if (sideType === "Null") {
       return "NoLeftSide";
     }
-    if (sideType === "Default") {
-      return "DefaultLeftSide";
-    }
   },
 };
 
@@ -138,54 +122,18 @@ Resolvers.SelectedOptions2 = {
 
 Resolvers.Mutation = {
   createBinaryExpression2: createMutation((root, { input }, ctx) => {
-    const pages = flatMap(section => section.pages, ctx.questionnaire.sections);
-    const rules = flatMap(
-      routing => getOr([], "rules", routing),
-      flatMap(page => page.routing, pages)
+    const expressionGroup = getExpressionGroupById(
+      ctx,
+      input.expressionGroupId
     );
 
-    const expressionGroup = find(
-      { id: input.expressionGroupId },
-      flatMap(rule => rule.expressionGroup, rules)
-    );
-
-    const page = find(page => {
-      if (
-        page.routing &&
-        some(rule => {
-          if (rule.expressionGroup.id === input.expressionGroupId) {
-            return true;
-          }
-        }, getOr([], "routing.rules", page))
-      ) {
-        return page;
-      }
-    }, pages);
-
-    const firstAnswer = first(getOr([], "answers", page));
-
-    const hasRoutableFirstAnswer =
-      firstAnswer &&
-      answerTypeToConditions.isAnswerTypeSupported(firstAnswer.type);
-    let condition;
-    if (hasRoutableFirstAnswer) {
-      condition = answerTypeToConditions.getDefault(firstAnswer.type);
-    }
-
-    const left = hasRoutableFirstAnswer
-      ? {
-          answerId: firstAnswer.id,
-          type: "Default",
-        }
-      : {
-          type: NULL,
-          nullReason: NO_ROUTABLE_ANSWER_ON_PAGE,
-        };
+    const leftHandSide = {
+      type: "Null",
+      nullReason: "DefaultRouting",
+    };
 
     const expression = createExpression({
-      left,
-      condition: condition || "Equal",
-      right: createRightSide(firstAnswer),
+      left: createLeftSide(leftHandSide),
     });
 
     expressionGroup.expressions.push(expression);
@@ -194,22 +142,7 @@ Resolvers.Mutation = {
   }),
   updateBinaryExpression2: createMutation(
     (root, { input: { id, condition } }, ctx) => {
-      const pages = getPages(ctx);
-      const rules = flatMap(
-        routing => getOr([], "rules", routing),
-        flatMap(page => page.routing, pages)
-      );
-
-      const expressionGroup = find(
-        expressionGroup => {
-          if (some({ id }, expressionGroup.expressions)) {
-            return expressionGroup;
-          }
-        },
-        flatMap(rule => rule.expressionGroup, rules)
-      );
-
-      const expression = find({ id }, expressionGroup.expressions);
+      const expression = getExpressionById(ctx, id);
 
       const leftSide = expression.left;
 
@@ -235,33 +168,16 @@ Resolvers.Mutation = {
   updateLeftSide2: createMutation((root, { input }, ctx) => {
     const { expressionId, answerId } = input;
 
-    const pages = flatMap(section => section.pages, ctx.questionnaire.sections);
-    const rules = flatMap(
-      routing => getOr([], "rules", routing),
-      flatMap(page => page.routing, pages)
-    );
+    const expression = getExpressionById(ctx, expressionId);
 
-    const expressionGroup = find(
-      expressionGroup => {
-        if (some({ id: expressionId }, expressionGroup.expressions)) {
-          return expressionGroup;
-        }
-      },
-      flatMap(rule => rule.expressionGroup, rules)
-    );
-
-    const expression = find({ id: expressionId }, expressionGroup.expressions);
-
-    const answer = find(
-      { id: answerId },
-      flatMap(page => page.answers, pages)
-    );
+    const answer = getAnswerById(ctx, answerId);
 
     const updatedLeftSide = {
       ...expression.left,
       answerId,
       type: "Answer",
     };
+    delete updatedLeftSide.nullReason;
 
     expression.left = updatedLeftSide;
     expression.right = null;
@@ -275,22 +191,8 @@ Resolvers.Mutation = {
     }
 
     const { expressionId, customValue, selectedOptions } = input;
-    const pages = getPages(ctx);
-    const rules = flatMap(
-      routing => getOr([], "rules", routing),
-      flatMap(page => page.routing, pages)
-    );
 
-    const expressionGroup = find(
-      expressionGroup => {
-        if (some({ id: input.expressionId }, expressionGroup.expressions)) {
-          return expressionGroup;
-        }
-      },
-      flatMap(rule => rule.expressionGroup, rules)
-    );
-
-    const expression = find({ id: expressionId }, expressionGroup.expressions);
+    const expression = getExpressionById(ctx, expressionId);
 
     let type, newRightProperties;
     if (customValue) {
@@ -340,20 +242,11 @@ Resolvers.Mutation = {
   }),
   deleteBinaryExpression2: createMutation((root, { input }, ctx) => {
     {
-      const pages = getPages(ctx);
-      const rules = flatMap(
-        routing => getOr([], "rules", routing),
-        flatMap(page => page.routing, pages)
-      );
-
-      const expressionGroup = find(
-        expressionGroup => {
-          if (some({ id: input.id }, expressionGroup.expressions)) {
-            return expressionGroup;
-          }
-        },
-        flatMap(rule => rule.expressionGroup, rules)
-      );
+      const expressionGroup = find(expressionGroup => {
+        if (some({ id: input.id }, expressionGroup.expressions)) {
+          return expressionGroup;
+        }
+      }, getExpressionGroups(ctx));
 
       expressionGroup.expressions = reject(
         { id: input.id },

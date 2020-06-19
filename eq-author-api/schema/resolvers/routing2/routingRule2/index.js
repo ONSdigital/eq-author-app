@@ -1,18 +1,8 @@
-const {
-  flatMap,
-  find,
-  some,
-  reject,
-  getOr,
-  pick,
-  first,
-} = require("lodash/fp");
+const { flatMap, find, some, reject, pick } = require("lodash/fp");
 
 const { createMutation } = require("../../createMutation");
 
 const isMutuallyExclusive = require("../../../../utils/isMutuallyExclusive");
-
-const conditions = require("../../../../constants/routingConditions");
 
 const {
   createDestination,
@@ -20,17 +10,11 @@ const {
   createExpressionGroup,
   createExpression,
   createLeftSide,
-  createRightSide,
 } = require("../../../../src/businessLogic");
 const availableRoutingDestinations = require("../../../../src/businessLogic/availableRoutingDestinations");
 const validateRoutingDestinations = require("../../../../src/businessLogic/validateRoutingDestination");
-const answerTypeToConditions = require("../../../../src/businessLogic/answerTypeToConditions");
-const {
-  NO_ROUTABLE_ANSWER_ON_PAGE,
-  NULL,
-} = require("../../../../constants/routingNoLeftSide");
 
-const { getPages } = require("../../utils");
+const { getPages, getRoutingById, getRoutingRuleById } = require("../../utils");
 
 const isMutuallyExclusiveDestination = isMutuallyExclusive([
   "sectionId",
@@ -58,48 +42,25 @@ Resolvers.RoutingRule2 = {
 
 Resolvers.Mutation = {
   createRoutingRule2: createMutation((root, { input }, ctx) => {
-    const pages = getPages(ctx);
+    const routing = getRoutingById(ctx, input.routingId);
 
-    const page = find(page => {
-      if (page.routing && page.routing.id === input.routingId) {
-        return page;
-      }
-    }, pages);
-
-    const firstAnswer = first(page.answers);
-
-    const hasRoutableFirstAnswer =
-      firstAnswer &&
-      answerTypeToConditions.isAnswerTypeSupported(firstAnswer.type);
-
-    let condition = conditions.EQUAL;
-    let leftHandSide = {
-      type: NULL,
-      nullReason: NO_ROUTABLE_ANSWER_ON_PAGE,
+    const leftHandSide = {
+      type: "Null",
+      nullReason: "DefaultRouting",
     };
-
-    if (hasRoutableFirstAnswer) {
-      condition = answerTypeToConditions.getDefault(firstAnswer.type);
-      leftHandSide = {
-        answerId: firstAnswer.id,
-        type: "Answer",
-      };
-    }
 
     const routingRule = createRoutingRule({
       expressionGroup: createExpressionGroup({
         expressions: [
           createExpression({
             left: createLeftSide(leftHandSide),
-            condition,
-            right: createRightSide(firstAnswer),
           }),
         ],
       }),
       destination: createDestination({ logical: "NextPage" }),
     });
 
-    page.routing.rules.push(routingRule);
+    routing.rules.push(routingRule);
 
     return routingRule;
   }),
@@ -109,21 +70,13 @@ Resolvers.Mutation = {
         throw new Error("Can only provide one destination.");
       }
 
-      const allPages = getPages(ctx);
-
-      const routingRule = find(
-        { id },
-        flatMap(
-          routing => getOr([], "rules", routing),
-          flatMap(page => page.routing, allPages)
-        )
-      );
+      const routingRule = getRoutingRuleById(ctx, id);
 
       const page = find(page => {
         if (page.routing && some({ id }, page.routing.rules)) {
           return page;
         }
-      }, allPages);
+      }, getPages(ctx));
 
       const availableDestinations = availableRoutingDestinations(
         ctx.questionnaire,

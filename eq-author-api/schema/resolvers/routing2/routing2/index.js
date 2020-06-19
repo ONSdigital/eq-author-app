@@ -1,4 +1,4 @@
-const { flatMap, find, first } = require("lodash/fp");
+const { find } = require("lodash/fp");
 
 const { createMutation } = require("../../createMutation");
 
@@ -10,16 +10,9 @@ const {
   createExpressionGroup,
   createExpression,
   createLeftSide,
-  createRightSide,
 } = require("../../../../src/businessLogic");
 
-const {
-  NO_ROUTABLE_ANSWER_ON_PAGE,
-  NULL,
-} = require("../../../../constants/routingNoLeftSide");
-
-const answerTypeToConditions = require("../../../../src/businessLogic/answerTypeToConditions");
-const { getPages, getPageById } = require("../../utils");
+const { getPages, getPageById, getRoutingById } = require("../../utils");
 
 const isMutuallyExclusiveDestination = isMutuallyExclusive([
   "sectionId",
@@ -53,28 +46,10 @@ Resolvers.Mutation = {
       throw new Error("Can only have one Routing per Page.");
     }
 
-    const firstAnswer = first(page.answers);
-
-    const hasRoutableFirstAnswer =
-      firstAnswer &&
-      answerTypeToConditions.isAnswerTypeSupported(firstAnswer.type);
-
-    let condition;
-    if (hasRoutableFirstAnswer) {
-      condition = answerTypeToConditions.getDefault(firstAnswer.type);
-    } else {
-      condition = "Equal";
-    }
-
-    const leftHandSide = hasRoutableFirstAnswer
-      ? {
-          answerId: firstAnswer.id,
-          type: "Default",
-        }
-      : {
-          type: NULL,
-          nullReason: NO_ROUTABLE_ANSWER_ON_PAGE,
-        };
+    const leftHandSide = {
+      type: "Null",
+      nullReason: "DefaultRouting",
+    };
 
     page.routing = createRouting({
       else: createDestination({ logical: "NextPage" }),
@@ -84,8 +59,6 @@ Resolvers.Mutation = {
             expressions: [
               createExpression({
                 left: createLeftSide(leftHandSide),
-                condition,
-                right: createRightSide(firstAnswer),
               }),
             ],
           }),
@@ -102,9 +75,7 @@ Resolvers.Mutation = {
       throw new Error("Can only provide one destination.");
     }
 
-    const allRouting = flatMap(page => page.routing, getPages(ctx));
-
-    const routing = find({ id: input.id }, allRouting);
+    const routing = getRoutingById(ctx, input.id);
 
     routing.else = {
       id: routing.else.id,
