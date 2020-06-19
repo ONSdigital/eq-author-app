@@ -732,7 +732,6 @@ describe("validation", () => {
           },
         },
       });
-      console.log(validation, "here we go");
       expect(validation).toMatchObject(
         validationObject(validation.minDuration.id, validation.maxDuration.id)
       );
