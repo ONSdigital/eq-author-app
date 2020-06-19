@@ -61,6 +61,8 @@ const getRoutingById = (ctx, id) => find(getRouting(ctx), { id });
 
 const getRules = ctx => flatMap(filter(getRouting(ctx), "rules"), "rules");
 
+const getRoutingRuleById = (ctx, id) => find(getRules(ctx), { id });
+
 const getExpressionGroups = ctx =>
   flatMap(filter(getRules(ctx), "expressionGroup"), "expressionGroup");
 
@@ -163,6 +165,7 @@ module.exports = {
   getRouting,
   getRoutingById,
   getRules,
+  getRoutingRuleById,
   getExpressionGroups,
   getExpressionGroupById,
   getExpressions,

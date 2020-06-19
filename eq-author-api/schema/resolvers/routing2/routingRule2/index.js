@@ -1,4 +1,4 @@
-const { flatMap, find, some, reject, getOr, pick } = require("lodash/fp");
+const { flatMap, find, some, reject, pick } = require("lodash/fp");
 
 const { createMutation } = require("../../createMutation");
 
@@ -14,7 +14,7 @@ const {
 const availableRoutingDestinations = require("../../../../src/businessLogic/availableRoutingDestinations");
 const validateRoutingDestinations = require("../../../../src/businessLogic/validateRoutingDestination");
 
-const { getPages } = require("../../utils");
+const { getPages, getRoutingById, getRoutingRuleById } = require("../../utils");
 
 const isMutuallyExclusiveDestination = isMutuallyExclusive([
   "sectionId",
@@ -42,13 +42,7 @@ Resolvers.RoutingRule2 = {
 
 Resolvers.Mutation = {
   createRoutingRule2: createMutation((root, { input }, ctx) => {
-    const pages = getPages(ctx);
-
-    const page = find(page => {
-      if (page.routing && page.routing.id === input.routingId) {
-        return page;
-      }
-    }, pages);
+    const routing = getRoutingById(ctx, input.routingId);
 
     const leftHandSide = {
       type: "Null",
@@ -66,7 +60,7 @@ Resolvers.Mutation = {
       destination: createDestination({ logical: "NextPage" }),
     });
 
-    page.routing.rules.push(routingRule);
+    routing.rules.push(routingRule);
 
     return routingRule;
   }),
@@ -76,21 +70,13 @@ Resolvers.Mutation = {
         throw new Error("Can only provide one destination.");
       }
 
-      const allPages = getPages(ctx);
-
-      const routingRule = find(
-        { id },
-        flatMap(
-          routing => getOr([], "rules", routing),
-          flatMap(page => page.routing, allPages)
-        )
-      );
+      const routingRule = getRoutingRuleById(ctx, id);
 
       const page = find(page => {
         if (page.routing && some({ id }, page.routing.rules)) {
           return page;
         }
-      }, allPages);
+      }, getPages(ctx));
 
       const availableDestinations = availableRoutingDestinations(
         ctx.questionnaire,
