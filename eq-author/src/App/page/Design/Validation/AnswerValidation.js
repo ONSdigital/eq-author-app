@@ -140,6 +140,12 @@ const PropertiesError = styled(IconText)`
   justify-content: left;
 `;
 
+const SidebarValidation = styled(SidebarButton)`
+  &:not(:first-of-type) {
+    margin-top: 0.5em;
+  }
+`;
+
 class AnswerValidation extends React.PureComponent {
   state = {
     startingTabId: null,
@@ -154,7 +160,7 @@ class AnswerValidation extends React.PureComponent {
   handleModalClose = () => this.setState({ modalIsOpen: false });
 
   renderButton = ({ id, title, value, enabled, hasError, inclusive }) => (
-    <SidebarButton
+    <SidebarValidation
       key={id}
       data-test={`sidebar-button-${kebabCase(title)}`}
       onClick={() => {
@@ -169,47 +175,143 @@ class AnswerValidation extends React.PureComponent {
           (id.includes("max") ? MAX_INCLUSIVE_TEXT : MIN_INCLUSIVE_TEXT)}
       </Title>
       {enabled && !isNull(value) && <Detail>{value}</Detail>}
-    </SidebarButton>
+    </SidebarValidation>
   );
+
+  renderValidation = (validValidations, answer, errorsArr) => {
+    return validValidations.map(validationType => {
+      const validation = get(answer, `validation.${validationType.id}`, {});
+      const errors = get(validation, `validationErrorInfo.errors`, []);
+
+      const { id } = validationType;
+      const { enabled, previousAnswer, metadata, inclusive } = validation;
+
+      if (answer.type === "DateRange") {
+        if ((id === "latestDate" || id === "earliestDate") && enabled) {
+          errorsArr.dateRange.range++;
+        }
+
+        if ((id === "minDuration" || id === "maxDuration") && enabled) {
+          errorsArr.dateRange.duration++;
+        }
+      }
+
+      errorsArr.other.push(...errors);
+
+      const value = enabled ? validationType.preview(validation, answer) : "";
+
+      return this.renderButton({
+        ...validationType,
+        value,
+        enabled,
+        previousAnswer,
+        metadata,
+        hasError: errors.length > 0,
+        inclusive,
+      });
+    });
+  };
+
+  renderPropertyError = (hasError, errorMessage, key = null) =>
+    hasError && (
+      <PropertiesError key={key} icon={WarningIcon}>
+        {errorMessage}
+      </PropertiesError>
+    );
 
   render() {
     const { answer } = this.props;
     const validValidationTypes = validations[answer.type] || [];
+
+    const durationErrorMessage =
+      "Enter a min duration that is shorter than the max";
+    const rangeErrorMessage =
+      "Enter an earliest date that is before the latest date";
+
     if (validValidationTypes.length === 0) {
       return null;
     }
 
-    const validationErrors = [];
+    const validationErrors = {
+      dateRange: {
+        duration: 0,
+        range: 0,
+      },
+      other: [],
+    };
+
+    let validationButtons = null;
+
+    if (answer.type === "DateRange") {
+      const { duration, range } = validValidationTypes.reduce(
+        (accumulator, current) => {
+          const { id } = current;
+          if (id === "minDuration" || id === "maxDuration") {
+            if (!accumulator.duration) {
+              accumulator.duration = [];
+            }
+            accumulator.duration.push(current);
+          }
+          if (id === "earliestDate" || id === "latestDate") {
+            if (!accumulator.range) {
+              accumulator.range = [];
+            }
+            accumulator.range.push(current);
+          }
+          return accumulator;
+        },
+        {}
+      );
+
+      validationButtons = this.renderValidation(
+        duration,
+        answer,
+        validationErrors
+      );
+
+      const rangeButtons = this.renderValidation(
+        range,
+        answer,
+        validationErrors
+      );
+
+      const durationError = this.renderPropertyError(
+        validationErrors.dateRange.duration > 1,
+        durationErrorMessage,
+        "duration-error"
+      );
+
+      const rangeError = this.renderPropertyError(
+        validationErrors.dateRange.range > 1,
+        rangeErrorMessage,
+        "range-error"
+      );
+
+      validationButtons.push(rangeError);
+      validationButtons.push(rangeButtons);
+      validationButtons.push(durationError);
+    } else {
+      const validationMessage =
+        answer.type === "Date"
+          ? "Enter an earliest date that is before the latest date"
+          : "Enter a max value that is greater than min value";
+
+      validationButtons = this.renderValidation(
+        validValidationTypes,
+        answer,
+        validationErrors
+      );
+
+      const propertyError = this.renderPropertyError(
+        validationErrors.other.length > 0,
+        validationMessage
+      );
+      validationButtons.push(propertyError);
+    }
 
     return (
       <ValidationContext.Provider value={{ answer }}>
-        {validValidationTypes.map(validationType => {
-          const validation = get(answer, `validation.${validationType.id}`, {});
-          const errors = get(validation, `validationErrorInfo.errors`, []);
-          validationErrors.push(...errors);
-          const { enabled, previousAnswer, metadata, inclusive } = validation;
-          const value = enabled
-            ? validationType.preview(validation, answer)
-            : "";
-
-          return this.renderButton({
-            ...validationType,
-            value,
-            enabled,
-            previousAnswer,
-            metadata,
-            hasError: errors.length > 0,
-            inclusive,
-          });
-        })}
-
-        {validationErrors.length > 0 && (
-          <PropertiesError icon={WarningIcon}>
-            {answer.type === "Date" || answer.type === "DateRange"
-              ? "Enter an earliest date that is before latest date"
-              : "Enter a max value that is greater than min value"}
-          </PropertiesError>
-        )}
+        {validationButtons}
         <ModalWithNav
           id={this.modalId}
           onClose={this.handleModalClose}
