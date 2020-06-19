@@ -21,6 +21,7 @@ const {
 
 const {
   ERR_EARLIEST_AFTER_LATEST,
+  ERR_MAX_DURATION_TOO_SMALL,
 } = require("../../constants/validationErrorCodes");
 
 const ajv = new Ajv({ allErrors: true, jsonPointers: true, $data: true });
@@ -59,6 +60,7 @@ module.exports = questionnaire => {
   const duplicatedErrorMessages = {
     ERR_MIN_LARGER_THAN_MAX: { occurrencesPerError: 2 },
     [ERR_EARLIEST_AFTER_LATEST]: { occurrencesPerError: 2 },
+    [ERR_MAX_DURATION_TOO_SMALL]: { occurrencesPerError: 2 },
   };
   const topLevelEntities = [PAGES, CONFIRMATION, SECTIONS];
 
