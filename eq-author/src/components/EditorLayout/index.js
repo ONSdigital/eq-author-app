@@ -51,7 +51,8 @@ const EditorLayout = ({
   design,
   preview,
   logic,
-  // routing,
+  singleColumnLayout,
+  mainCanvasMaxWidth,
   renderPanel,
   ...otherProps
 }) => (
@@ -59,13 +60,12 @@ const EditorLayout = ({
     <Container>
       <Header title={title}>
         <Tabs design={design} preview={preview} logic={logic} />
-        {/* <Tabs design={design} preview={preview} routing={routing} /> */}
       </Header>
       <StyledGrid {...otherProps}>
-        <Column cols={9} gutters={false}>
+        <Column cols={singleColumnLayout ? 12 : 9} gutters={false}>
           <ScrollPane permanentScrollBar>
             <Margin>
-              <MainCanvas>{children}</MainCanvas>
+              <MainCanvas maxWidth={mainCanvasMaxWidth}>{children}</MainCanvas>
             </Margin>
             {onAddQuestionPage && (
               <Centered>
@@ -81,9 +81,11 @@ const EditorLayout = ({
             )}
           </ScrollPane>
         </Column>
-        <Column cols={3} gutters={false}>
-          <PanelWrapper>{renderPanel ? renderPanel() : null}</PanelWrapper>
-        </Column>
+        {singleColumnLayout ? null : (
+          <Column cols={3} gutters={false}>
+            <PanelWrapper>{renderPanel ? renderPanel() : null}</PanelWrapper>
+          </Column>
+        )}
       </StyledGrid>
     </Container>
   </Titled>
@@ -96,7 +98,8 @@ EditorLayout.propTypes = {
   design: PropTypes.bool,
   preview: PropTypes.bool,
   logic: PropTypes.bool,
-  // routing: PropTypes.bool,
+  singleColumnLayout: PropTypes.bool,
+  mainCanvasMaxWidth: PropTypes.string,
   title: PropTypes.string,
   renderPanel: PropTypes.func,
 };

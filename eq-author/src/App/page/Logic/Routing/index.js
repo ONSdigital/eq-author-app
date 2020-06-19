@@ -63,13 +63,7 @@ export class UnwrappedQuestionRoutingRoute extends React.Component {
   }
 
   render() {
-    // const displayName = get(this.props.data, "page.displayName", "");
-    return (
-      <div>{this.renderContent()}</div>
-      // <EditorLayout design preview routing title={displayName}>
-      // {this.renderContent()}
-      // </EditorLayout>
-    );
+    return <div>{this.renderContent()}</div>;
   }
 }
 

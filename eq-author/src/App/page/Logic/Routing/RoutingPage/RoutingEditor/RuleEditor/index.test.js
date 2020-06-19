@@ -2,7 +2,7 @@ import React from "react";
 import { shallow } from "enzyme";
 import { render, fireEvent, act } from "tests/utils/rtl";
 
-import RoutingRuleDestinationSelector from "App/page/Routing/DestinationSelector";
+import RoutingRuleDestinationSelector from "App/page/Logic/Routing/DestinationSelector";
 import { RADIO } from "constants/answer-types";
 import { AND, OR } from "constants/routingOperators";
 
