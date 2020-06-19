@@ -1153,13 +1153,24 @@ const Resolvers = {
         totalCount: 0,
       },
   },
-
   MinDurationValidationRule: {
     duration: ({ duration }) => duration,
+    validationErrorInfo: ({ id }, args, ctx) =>
+      ctx.validationErrorInfo[VALIDATION][id] || {
+        id: id,
+        errors: [],
+        totalCount: 0,
+      },
   },
 
   MaxDurationValidationRule: {
     duration: ({ duration }) => duration,
+    validationErrorInfo: ({ id }, args, ctx) =>
+      ctx.validationErrorInfo[VALIDATION][id] || {
+        id: id,
+        errors: [],
+        totalCount: 0,
+      },
   },
 
   TotalValidationRule: {
