@@ -148,6 +148,7 @@ exports[`AnswerValidation should render 1`] = `
     <SidebarButton__Title>
       Min value
        
+      must be more than
     </SidebarButton__Title>
   </SidebarButton>
   <SidebarButton
@@ -159,6 +160,7 @@ exports[`AnswerValidation should render 1`] = `
     <SidebarButton__Title>
       Max value
        
+      must be less than
     </SidebarButton__Title>
   </SidebarButton>
   <ModalWithNav
