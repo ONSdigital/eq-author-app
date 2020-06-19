@@ -21,6 +21,9 @@ const {
   getAnswers,
   getAnswerById,
   getOptions,
+  getExpressionGroups,
+  getExpressionGroupById,
+  getExpressionById,
 } = require("../../utils");
 
 const Resolvers = {};
@@ -122,15 +125,9 @@ Resolvers.SelectedOptions2 = {
 
 Resolvers.Mutation = {
   createBinaryExpression2: createMutation((root, { input }, ctx) => {
-    const pages = flatMap(section => section.pages, ctx.questionnaire.sections);
-    const rules = flatMap(
-      routing => getOr([], "rules", routing),
-      flatMap(page => page.routing, pages)
-    );
-
-    const expressionGroup = find(
-      { id: input.expressionGroupId },
-      flatMap(rule => rule.expressionGroup, rules)
+    const expressionGroup = getExpressionGroupById(
+      ctx,
+      input.expressionGroupId
     );
 
     const leftHandSide = {
@@ -148,22 +145,7 @@ Resolvers.Mutation = {
   }),
   updateBinaryExpression2: createMutation(
     (root, { input: { id, condition } }, ctx) => {
-      const pages = getPages(ctx);
-      const rules = flatMap(
-        routing => getOr([], "rules", routing),
-        flatMap(page => page.routing, pages)
-      );
-
-      const expressionGroup = find(
-        expressionGroup => {
-          if (some({ id }, expressionGroup.expressions)) {
-            return expressionGroup;
-          }
-        },
-        flatMap(rule => rule.expressionGroup, rules)
-      );
-
-      const expression = find({ id }, expressionGroup.expressions);
+      const expression = getExpressionById(ctx, id);
 
       const leftSide = expression.left;
 
@@ -189,27 +171,9 @@ Resolvers.Mutation = {
   updateLeftSide2: createMutation((root, { input }, ctx) => {
     const { expressionId, answerId } = input;
 
-    const pages = flatMap(section => section.pages, ctx.questionnaire.sections);
-    const rules = flatMap(
-      routing => getOr([], "rules", routing),
-      flatMap(page => page.routing, pages)
-    );
+    const expression = getExpressionById(ctx, expressionId);
 
-    const expressionGroup = find(
-      expressionGroup => {
-        if (some({ id: expressionId }, expressionGroup.expressions)) {
-          return expressionGroup;
-        }
-      },
-      flatMap(rule => rule.expressionGroup, rules)
-    );
-
-    const expression = find({ id: expressionId }, expressionGroup.expressions);
-
-    const answer = find(
-      { id: answerId },
-      flatMap(page => page.answers, pages)
-    );
+    const answer = getAnswerById(ctx, answerId);
 
     const updatedLeftSide = {
       ...expression.left,
@@ -230,22 +194,8 @@ Resolvers.Mutation = {
     }
 
     const { expressionId, customValue, selectedOptions } = input;
-    const pages = getPages(ctx);
-    const rules = flatMap(
-      routing => getOr([], "rules", routing),
-      flatMap(page => page.routing, pages)
-    );
 
-    const expressionGroup = find(
-      expressionGroup => {
-        if (some({ id: input.expressionId }, expressionGroup.expressions)) {
-          return expressionGroup;
-        }
-      },
-      flatMap(rule => rule.expressionGroup, rules)
-    );
-
-    const expression = find({ id: expressionId }, expressionGroup.expressions);
+    const expression = getExpressionById(ctx, expressionId);
 
     let type, newRightProperties;
     if (customValue) {
@@ -295,20 +245,11 @@ Resolvers.Mutation = {
   }),
   deleteBinaryExpression2: createMutation((root, { input }, ctx) => {
     {
-      const pages = getPages(ctx);
-      const rules = flatMap(
-        routing => getOr([], "rules", routing),
-        flatMap(page => page.routing, pages)
-      );
-
-      const expressionGroup = find(
-        expressionGroup => {
-          if (some({ id: input.id }, expressionGroup.expressions)) {
-            return expressionGroup;
-          }
-        },
-        flatMap(rule => rule.expressionGroup, rules)
-      );
+      const expressionGroup = find(expressionGroup => {
+        if (some({ id: input.id }, expressionGroup.expressions)) {
+          return expressionGroup;
+        }
+      }, getExpressionGroups(ctx));
 
       expressionGroup.expressions = reject(
         { id: input.id },
