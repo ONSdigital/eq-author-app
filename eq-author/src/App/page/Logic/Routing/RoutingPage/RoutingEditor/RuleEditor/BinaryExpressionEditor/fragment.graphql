@@ -23,11 +23,6 @@ fragment BinaryExpressionEditor on BinaryExpression2 {
     ... on NoLeftSide {
       reason
     }
-    ... on DefaultLeftSide {
-      id
-      displayName
-      reason
-    }
   }
   condition
   right {

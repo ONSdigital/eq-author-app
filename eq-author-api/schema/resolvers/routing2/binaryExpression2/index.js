@@ -92,9 +92,6 @@ Resolvers.LeftSide2 = {
     if (sideType === "Null") {
       return "NoLeftSide";
     }
-    if (sideType === "Default") {
-      return "DefaultLeftSide";
-    }
   },
 };
 
