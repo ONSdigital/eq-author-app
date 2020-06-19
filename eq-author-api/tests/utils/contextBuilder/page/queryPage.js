@@ -92,9 +92,7 @@ const getPageQuery = `
                         id
                       }
                     }
-                    ... on DefaultLeftSide {
-                      id
-                      displayName
+                    ... on NoLeftSide {
                       reason
                     }
                   }

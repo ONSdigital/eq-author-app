@@ -55,6 +55,25 @@ const getOptions = ctx =>
 
 const getOptionById = (ctx, id) => find(getOptions(ctx), { id });
 
+const getRouting = ctx => flatMap(filter(getPages(ctx), "routing"), "routing");
+
+const getRoutingById = (ctx, id) => find(getRouting(ctx), { id });
+
+const getRules = ctx => flatMap(filter(getRouting(ctx), "rules"), "rules");
+
+const getRoutingRuleById = (ctx, id) => find(getRules(ctx), { id });
+
+const getExpressionGroups = ctx =>
+  flatMap(filter(getRules(ctx), "expressionGroup"), "expressionGroup");
+
+const getExpressionGroupById = (ctx, id) =>
+  find(getExpressionGroups(ctx), { id });
+
+const getExpressions = ctx =>
+  flatMap(filter(getExpressionGroups(ctx), "expressions"), "expressions");
+
+const getExpressionById = (ctx, id) => find(getExpressions(ctx), { id });
+
 const getValidationById = (ctx, id) => {
   const answers = getAnswers(ctx);
   const answerValidations = flatMap(answers, answer =>
@@ -142,6 +161,15 @@ module.exports = {
 
   getOptions,
   getOptionById,
+
+  getRouting,
+  getRoutingById,
+  getRules,
+  getRoutingRuleById,
+  getExpressionGroups,
+  getExpressionGroupById,
+  getExpressions,
+  getExpressionById,
 
   getConfirmations,
   getConfirmationById,

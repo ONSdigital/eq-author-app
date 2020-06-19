@@ -520,13 +520,7 @@ type NoLeftSide {
   reason: NoLeftSideReason!
 }
 
-type DefaultLeftSide {
-  id: ID!
-  displayName: String!
-  reason: NoLeftSideReason!
-}
-
-union LeftSide2 = BasicAnswer | MultipleChoiceAnswer | NoLeftSide | DefaultLeftSide
+union LeftSide2 = BasicAnswer | MultipleChoiceAnswer | NoLeftSide
 
 union RightSide2 = SelectedOptions2 | CustomValue2
 
