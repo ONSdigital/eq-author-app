@@ -188,13 +188,11 @@ class AnswerValidation extends React.PureComponent {
 
       if (answer.type === "DateRange") {
         if ((id === "latestDate" || id === "earliestDate") && enabled) {
-          // errorsArr.dateRange.range++;
           errorsArr.dateRange.range.push(...errors);
         }
 
         if ((id === "minDuration" || id === "maxDuration") && enabled) {
           errorsArr.dateRange.duration.push(...errors);
-          // errorsArr.dateRange.duration++;
         }
       }
 
