@@ -48,6 +48,11 @@ const AccordionGroupToggle = styled(Button).attrs({
   padding: 0.5em;
   align-self: baseline;
   font-size: 0.9em;
+
+  &:focus {
+    outline: 3px solid #fdbd56;
+    outline-offset: -3px;
+  }
 `;
 
 const proptypes = {
