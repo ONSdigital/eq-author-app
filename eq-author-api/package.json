@@ -41,7 +41,7 @@
     "json-web-key": "latest",
     "jsondiffpatch": "latest",
     "jsonwebtoken": "latest",
-    "jsrsasign": "latest",
+    "jsrsasign": "8.0.18",
     "lodash": "latest",
     "moment": "latest",
     "node-fetch": "latest",
