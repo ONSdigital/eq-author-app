@@ -18,7 +18,7 @@ const {
 } = require("lodash");
 const GraphQLJSON = require("graphql-type-json");
 const { v4: uuidv4 } = require("uuid");
-const { withFilter, ApolloError } = require("apollo-server-express");
+const { withFilter } = require("apollo-server-express");
 const fetch = require("node-fetch");
 
 const {
