@@ -16,7 +16,7 @@ import QuestionnairesView, { STORAGE_KEY } from "./";
 import { UNPUBLISHED } from "constants/publishStatus";
 
 jest.mock("lodash", () => ({
-  ...require.requireActual("lodash"),
+  ...jest.requireActual("lodash"),
   debounce: jest.fn(fn => fn),
 }));
 
