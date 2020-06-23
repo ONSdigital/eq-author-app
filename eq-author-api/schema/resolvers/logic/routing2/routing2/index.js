@@ -1,8 +1,8 @@
 const { find } = require("lodash/fp");
 
-const { createMutation } = require("../../createMutation");
+const { createMutation } = require("../../../createMutation");
 
-const isMutuallyExclusive = require("../../../../utils/isMutuallyExclusive");
+const isMutuallyExclusive = require("../../../../../utils/isMutuallyExclusive");
 const {
   createRouting,
   createDestination,
@@ -10,9 +10,9 @@ const {
   createExpressionGroup,
   createExpression,
   createLeftSide,
-} = require("../../../../src/businessLogic");
+} = require("../../../../../src/businessLogic");
 
-const { getPages, getPageById, getRoutingById } = require("../../utils");
+const { getPages, getPageById, getRoutingById } = require("../../../utils");
 
 const isMutuallyExclusiveDestination = isMutuallyExclusive([
   "sectionId",
