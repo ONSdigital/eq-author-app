@@ -582,8 +582,6 @@ describe("schema validation", () => {
 
               const pageErrors = validation(questionnaire);
 
-              console.log(pageErrors, "what is up yo");
-
               expect(pageErrors.validation).toMatchObject({});
               expect(pageErrors.totalCount).toBe(0);
             });
