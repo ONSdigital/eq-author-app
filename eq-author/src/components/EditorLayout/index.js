@@ -24,7 +24,7 @@ const Centered = styled.div`
 `;
 
 const Margin = styled.div`
-  margin-top: 1em;
+  margin-top: 1.2em;
 `;
 
 const Container = styled.div`
@@ -44,30 +44,28 @@ const StyledGrid = styled(Grid)`
   overflow: hidden;
 `;
 
-const StyledMainCanvas = styled(MainCanvas)`
-  padding: 0 0.5em 0 1em;
-`;
-
 const EditorLayout = ({
   children,
   onAddQuestionPage,
   title,
   design,
   preview,
-  routing,
+  logic,
+  singleColumnLayout,
+  mainCanvasMaxWidth,
   renderPanel,
   ...otherProps
 }) => (
   <Titled title={existingTitle => `${existingTitle} - ${title}`}>
     <Container>
       <Header title={title}>
-        <Tabs design={design} preview={preview} routing={routing} />
+        <Tabs design={design} preview={preview} logic={logic} />
       </Header>
       <StyledGrid {...otherProps}>
-        <Column cols={9} gutters={false}>
+        <Column cols={singleColumnLayout ? 12 : 9} gutters={false}>
           <ScrollPane permanentScrollBar>
             <Margin>
-              <StyledMainCanvas>{children}</StyledMainCanvas>
+              <MainCanvas maxWidth={mainCanvasMaxWidth}>{children}</MainCanvas>
             </Margin>
             {onAddQuestionPage && (
               <Centered>
@@ -83,9 +81,11 @@ const EditorLayout = ({
             )}
           </ScrollPane>
         </Column>
-        <Column cols={3} gutters={false}>
-          <PanelWrapper>{renderPanel ? renderPanel() : null}</PanelWrapper>
-        </Column>
+        {singleColumnLayout ? null : (
+          <Column cols={3} gutters={false}>
+            <PanelWrapper>{renderPanel ? renderPanel() : null}</PanelWrapper>
+          </Column>
+        )}
       </StyledGrid>
     </Container>
   </Titled>
@@ -97,7 +97,9 @@ EditorLayout.propTypes = {
   page: CustomPropTypes.page,
   design: PropTypes.bool,
   preview: PropTypes.bool,
-  routing: PropTypes.bool,
+  logic: PropTypes.bool,
+  singleColumnLayout: PropTypes.bool,
+  mainCanvasMaxWidth: PropTypes.string,
   title: PropTypes.string,
   renderPanel: PropTypes.func,
 };

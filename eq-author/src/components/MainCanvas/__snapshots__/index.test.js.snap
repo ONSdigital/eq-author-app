@@ -3,9 +3,9 @@
 exports[`MainCanvas should render 1`] = `
 <DocumentFragment>
   .c0 {
-  max-width: 55em;
+  max-width: 65em;
   margin: 0 auto 1em;
-  padding: 0 1em;
+  padding: 0 1.2em;
   position: relative;
   width: 100%;
 }
