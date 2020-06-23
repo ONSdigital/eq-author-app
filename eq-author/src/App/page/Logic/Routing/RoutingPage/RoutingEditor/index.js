@@ -7,8 +7,8 @@ import { flow } from "lodash/fp";
 
 import Button from "components/buttons/Button";
 
-import Transition from "App/page/Routing/Transition";
-import DestinationSelector from "App/page/Routing/DestinationSelector";
+import Transition from "App/page/Logic/Routing/Transition";
+import DestinationSelector from "App/page/Logic/Routing/DestinationSelector";
 
 import transformNestedFragments from "utils/transformNestedFragments";
 

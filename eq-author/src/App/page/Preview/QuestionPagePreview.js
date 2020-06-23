@@ -105,7 +105,7 @@ const QuestionPagePreview = ({ page }) => {
     <EditorLayout
       page={page}
       preview
-      routing
+      logic
       title={page.displayName}
       renderPanel={() => <CommentsPanel componentId={page.id} />}
     >
