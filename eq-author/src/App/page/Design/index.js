@@ -21,7 +21,7 @@ import QuestionPageEditor from "./QuestionPageEditor";
 import CalculatedSummaryPageEditor from "./CalculatedSummaryPageEditor";
 
 const availableTabMatrix = {
-  QuestionPage: { design: true, preview: true, routing: true },
+  QuestionPage: { design: true, preview: true, logic: true },
   CalculatedSummaryPage: { design: true, preview: true },
 };
 

@@ -6,7 +6,7 @@ import {
   buildIntroductionPath,
   buildDesignPath,
   buildPreviewPath,
-  buildRoutingPath,
+  buildLogicPath,
 } from "utils/UrlUtils";
 
 const questionnaireId = "1";
@@ -217,13 +217,13 @@ describe("buildPreviewPath", () => {
   });
 });
 
-describe("buildRoutingPath", () => {
+describe("buildLogicPath", () => {
   it("builds a page Routing path", () => {
-    const path = buildRoutingPath({
+    const path = buildLogicPath({
       questionnaireId,
       pageId,
       tab: "design",
     });
-    expect(path).toEqual(`/q/${questionnaireId}/page/${pageId}/routing`);
+    expect(path).toEqual(`/q/${questionnaireId}/page/${pageId}/logic`);
   });
 });

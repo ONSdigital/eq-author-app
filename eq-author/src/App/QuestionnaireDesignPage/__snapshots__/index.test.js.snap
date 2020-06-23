@@ -2162,8 +2162,8 @@ exports[`QuestionnaireDesignPage should render 1`] = `
               />
               <Route
                 component={[Function]}
-                key="page-routing"
-                path="/q/:questionnaireId/page/:pageId/routing"
+                key="page-logic"
+                path="/q/:questionnaireId/page/:pageId/logic"
               />
               <Route
                 component={[Function]}

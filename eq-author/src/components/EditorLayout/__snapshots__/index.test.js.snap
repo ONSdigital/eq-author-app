@@ -9,7 +9,6 @@ exports[`Editor Layout should render 1`] = `
       <withRouter(UnwrappedTabs)
         design={true}
         preview={false}
-        routing={true}
       />
     </Component>
     <EditorLayout__StyledGrid
@@ -22,6 +21,7 @@ exports[`Editor Layout should render 1`] = `
           "id": "1",
         }
       }
+      routing={true}
     >
       <Column
         cols={9}
@@ -31,11 +31,11 @@ exports[`Editor Layout should render 1`] = `
           permanentScrollBar={true}
         >
           <EditorLayout__Margin>
-            <EditorLayout__StyledMainCanvas
-              maxWidth="55em"
+            <MainCanvas
+              maxWidth="65em"
             >
               Content
-            </EditorLayout__StyledMainCanvas>
+            </MainCanvas>
           </EditorLayout__Margin>
         </ScrollPane>
       </Column>

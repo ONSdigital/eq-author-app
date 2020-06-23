@@ -1,15 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Tabs should enable the Routing tab when prop is passed 1`] = `
-<Tabs__Tab
-  activeClassName="active"
-  data-test="routing"
-  key="routing"
-  to="/q/1/page/3/routing"
->
-  Routing
-</Tabs__Tab>
-`;
+exports[`Tabs should enable the Routing tab when prop is passed 1`] = `null`;
 
 exports[`Tabs should enable the preview tab when prop is passed 1`] = `
 <Tabs__Tab
@@ -42,10 +33,10 @@ exports[`Tabs should render a confirmation link when provided 1`] = `
       Preview
     </Tabs__DisabledTab>
     <Tabs__DisabledTab
-      data-test="routing"
-      key="routing"
+      data-test="logic"
+      key="logic"
     >
-      Routing
+      Logic
     </Tabs__DisabledTab>
   </Tabs__TabsContainer>
 </div>
@@ -71,10 +62,10 @@ exports[`Tabs should render link to section if params are for a section 1`] = `
       Preview
     </Tabs__DisabledTab>
     <Tabs__DisabledTab
-      data-test="routing"
-      key="routing"
+      data-test="logic"
+      key="logic"
     >
-      Routing
+      Logic
     </Tabs__DisabledTab>
   </Tabs__TabsContainer>
 </div>
@@ -100,10 +91,10 @@ exports[`Tabs should render with design tab enabled by default 1`] = `
       Preview
     </Tabs__DisabledTab>
     <Tabs__DisabledTab
-      data-test="routing"
-      key="routing"
+      data-test="logic"
+      key="logic"
     >
-      Routing
+      Logic
     </Tabs__DisabledTab>
   </Tabs__TabsContainer>
 </div>

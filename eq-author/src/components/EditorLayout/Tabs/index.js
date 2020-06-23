@@ -6,9 +6,9 @@ import { NavLink, withRouter } from "react-router-dom";
 import { colors } from "constants/theme";
 import CustomPropTypes from "custom-prop-types";
 import {
-  buildRoutingPath,
   buildPreviewPath,
   buildDesignPath,
+  buildLogicPath,
 } from "utils/UrlUtils";
 
 export const activeClassName = "active";
@@ -55,9 +55,9 @@ const TABS = [
     url: match => buildPreviewPath(match.params),
   },
   {
-    key: "routing",
-    children: "Routing",
-    url: match => buildRoutingPath(match.params),
+    key: "logic",
+    children: "Logic",
+    url: match => buildLogicPath(match.params),
   },
 ];
 
@@ -88,14 +88,13 @@ export const UnwrappedTabs = props => {
 UnwrappedTabs.defaultProps = {
   design: true,
   preview: false,
-  routing: false,
+  logic: false,
 };
 
 UnwrappedTabs.propTypes = {
   design: PropTypes.bool,
   preview: PropTypes.bool,
-  routing: PropTypes.bool,
-
+  logic: PropTypes.bool,
   match: CustomPropTypes.match.isRequired,
 };
 
