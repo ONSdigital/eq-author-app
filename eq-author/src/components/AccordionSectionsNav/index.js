@@ -116,7 +116,7 @@ const SectionAccordion = props => {
     handleChange({ isOpen: !isOpen, id: identity });
   };
 
-  const onEnterUp = (event, section) => {
+  const onEnterUp = event => {
     if (event.keyCode === 13 || event.keyCode === 32) {
       setIsOpen(isOpen => !isOpen);
       handleChange({ isOpen: !isOpen, id: identity });
