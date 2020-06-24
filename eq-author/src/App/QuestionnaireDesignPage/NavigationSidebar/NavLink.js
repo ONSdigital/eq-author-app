@@ -62,6 +62,19 @@ export const Badge = styled.span`
   width: 20px;
   height: 20px;
 `;
+const SmallBadge = styled.span`
+  border-radius: 50%;
+  background-color: ${colors.red};
+  font-weight: normal;
+  z-index: 2;
+  display: inline-flex;
+  margin-left: auto;
+  pointer-events: none;
+  width: 0.75em;
+  height: 0.75em;
+  margin: 0;
+  padding: 0;
+`;
 
 const NavLink = ({
   to,
@@ -85,11 +98,14 @@ const NavLink = ({
       <Title>{children}</Title>
     </IconText>
 
-    {isSection && isOpen && errorCount > 0 ? (
-      <Badge data-test="badge-NoCount-open" />
+    {isSection && isOpen && errorCount === sectionTotalErrors ? (
+      <SmallBadge data-test="badge-NoCount-open" />
     ) : null}
     {isSection && !isOpen && (sectionTotalErrors || errorCount) > 0 ? (
-      <Badge data-test="badge-NoCount-closed" />
+      <SmallBadge data-test="badge-NoCount-closed" />
+    ) : null}
+    {isSection && isOpen && errorCount > 0 && errorCount != 0 ? (
+      <Badge data-test="badge-withCount">{errorCount}</Badge>
     ) : null}
     {!isSection && errorCount ? (
       <Badge data-test="badge-withCount">{errorCount}</Badge>
