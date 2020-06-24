@@ -68,7 +68,6 @@ const SmallBadge = styled.span`
   font-weight: normal;
   z-index: 2;
   display: inline-flex;
-  margin-left: auto;
   pointer-events: none;
   width: 0.75em;
   height: 0.75em;
