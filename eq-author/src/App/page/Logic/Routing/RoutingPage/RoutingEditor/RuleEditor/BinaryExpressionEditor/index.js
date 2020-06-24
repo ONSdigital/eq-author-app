@@ -307,13 +307,7 @@ export class UnwrappedBinaryExpressionEditor extends React.Component {
             </Flex>
           </Column>
           <Column gutters={false} cols={2.5}>
-            <ActionButtons
-              data-test="action-btns"
-              isHidden={
-                this.props.expression.left.reason === DEFAULT_ROUTING ||
-                this.props.expression.left.reason === NO_ROUTABLE_ANSWER_ON_PAGE
-              }
-            >
+            <ActionButtons data-test="action-btns">
               <RemoveButton
                 onClick={this.handleDeleteClick}
                 disabled={isOnlyExpression}
