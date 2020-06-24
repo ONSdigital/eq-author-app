@@ -24,6 +24,8 @@ const {
   getExpressionGroups,
   getExpressionGroupById,
   getExpressionById,
+  getSkipConditionById,
+  getSkipConditions,
 } = require("../../utils");
 
 const Resolvers = {};
@@ -127,26 +129,45 @@ Resolvers.Mutation = {
       input.expressionGroupId
     );
 
-    const leftHandSide = {
+    const skipCondition = getSkipConditionById(ctx, input.expressionGroupId);
+
+    let leftHandSide = {
       type: "Null",
-      nullReason: "DefaultRouting",
     };
 
-    const expression = createExpression({
-      left: createLeftSide(leftHandSide),
-    });
+    let expression;
 
-    expressionGroup.expressions.push(expression);
+    if (expressionGroup) {
+      leftHandSide.nullReason = "DefaultRouting";
+
+      expression = createExpression({
+        left: createLeftSide(leftHandSide),
+      });
+
+      expressionGroup.expressions.push(expression);
+    }
+
+    if (skipCondition) {
+      leftHandSide.nullReason = "DefaultSkipCondition";
+
+      expression = createExpression({
+        left: createLeftSide(leftHandSide),
+        condition: null,
+      });
+
+      skipCondition.expressions.push(expression);
+    }
 
     return expression;
   }),
+
   updateBinaryExpression2: createMutation(
     (root, { input: { id, condition } }, ctx) => {
       const expression = getExpressionById(ctx, id);
 
       const leftSide = expression.left;
 
-      if (!leftSide) {
+      if (!leftSide || leftSide.type === "Null") {
         throw new Error("Can't have a condition without a left side");
       }
 
@@ -242,11 +263,17 @@ Resolvers.Mutation = {
   }),
   deleteBinaryExpression2: createMutation((root, { input }, ctx) => {
     {
-      const expressionGroup = find(expressionGroup => {
-        if (some({ id: input.id }, expressionGroup.expressions)) {
-          return expressionGroup;
-        }
-      }, getExpressionGroups(ctx));
+      const routingExpressionGroups = getExpressionGroups(ctx);
+      const skipConditions = getSkipConditions(ctx);
+
+      const expressionGroup = find(
+        expressionGroup => {
+          if (some({ id: input.id }, expressionGroup.expressions)) {
+            return expressionGroup;
+          }
+        },
+        [...routingExpressionGroups, ...skipConditions]
+      );
 
       expressionGroup.expressions = reject(
         { id: input.id },

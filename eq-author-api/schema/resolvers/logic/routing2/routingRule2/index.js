@@ -1,8 +1,8 @@
 const { flatMap, find, some, reject, pick } = require("lodash/fp");
 
-const { createMutation } = require("../../createMutation");
+const { createMutation } = require("../../../createMutation");
 
-const isMutuallyExclusive = require("../../../../utils/isMutuallyExclusive");
+const isMutuallyExclusive = require("../../../../../utils/isMutuallyExclusive");
 
 const {
   createDestination,
@@ -10,11 +10,15 @@ const {
   createExpressionGroup,
   createExpression,
   createLeftSide,
-} = require("../../../../src/businessLogic");
-const availableRoutingDestinations = require("../../../../src/businessLogic/availableRoutingDestinations");
-const validateRoutingDestinations = require("../../../../src/businessLogic/validateRoutingDestination");
+} = require("../../../../../src/businessLogic");
+const availableRoutingDestinations = require("../../../../../src/businessLogic/availableRoutingDestinations");
+const validateRoutingDestinations = require("../../../../../src/businessLogic/validateRoutingDestination");
 
-const { getPages, getRoutingById, getRoutingRuleById } = require("../../utils");
+const {
+  getPages,
+  getRoutingById,
+  getRoutingRuleById,
+} = require("../../../utils");
 
 const isMutuallyExclusiveDestination = isMutuallyExclusive([
   "sectionId",
