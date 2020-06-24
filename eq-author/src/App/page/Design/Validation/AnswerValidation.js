@@ -170,9 +170,11 @@ class AnswerValidation extends React.PureComponent {
     >
       <Title>
         {title}{" "}
-        {enabled &&
-          !inclusive &&
-          (id.includes("max") ? MAX_INCLUSIVE_TEXT : MIN_INCLUSIVE_TEXT)}
+        {enabled && !inclusive && id.includes("Duration")
+          ? "is"
+          : id.includes("max") || id.includes("latest")
+          ? MAX_INCLUSIVE_TEXT
+          : MIN_INCLUSIVE_TEXT}
       </Title>
       {enabled && !isNull(value) && <Detail>{value}</Detail>}
     </SidebarValidation>
