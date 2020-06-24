@@ -51,6 +51,11 @@ const AddButton = styled(Button).attrs({
   width: 100%;
   padding: 0.7em 2.1em;
   z-index: 15;
+
+  &:focus {
+    outline: 3px solid #fdbd56;
+    outline-offset: -3px;
+  }
 `;
 
 const StyledIconText = styled(IconText)`
