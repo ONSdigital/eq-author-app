@@ -119,6 +119,43 @@ const getPageQuery = `
             ...destination2Fragment
           }
         }
+        skipConditions {
+          expressions {
+            ... on BinaryExpression2 {
+              id
+              left {
+                ... on BasicAnswer {
+                  id
+                  type
+                  label
+                }
+                ... on MultipleChoiceAnswer {
+                  id
+                  type
+                  options {
+                    id
+                  }
+                }
+                ... on NoLeftSide {
+                  reason
+                }
+              }
+              condition
+              right {
+                ... on CustomValue2 {
+                  number
+                }
+                ... on SelectedOptions2 {
+                  options {
+                    id
+                    label
+                  }
+                }
+              }
+            }
+          }
+          id
+        }
         totalValidation {
           id
           enabled
