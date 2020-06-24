@@ -18,11 +18,18 @@ import AnswerValidation, {
   validationTypes,
   MIN_INCLUSIVE_TEXT,
   MAX_INCLUSIVE_TEXT,
+  SidebarValidation,
 } from "./AnswerValidation";
 
 const render = (props, render = shallow) => {
   return render(<AnswerValidation {...props} />);
 };
+
+const RANGE_ERROR_MESSAGE =
+  "Enter an earliest date that is before the latest date";
+
+const DURATION_ERROR_MESSAGE =
+  "Enter a min duration that is shorter than the max";
 
 describe("AnswerValidation", () => {
   let props;
@@ -63,7 +70,7 @@ describe("AnswerValidation", () => {
   it("should correctly update state when opening a Modals", () => {
     const wrapper = render(props);
     wrapper
-      .find(SidebarButton)
+      .find(SidebarValidation)
       .first()
       .simulate("click");
     expect(wrapper.state("modalIsOpen")).toEqual(true);
@@ -264,9 +271,7 @@ describe("AnswerValidation", () => {
 
       const { getByText } = rtlRender(<AnswerValidation {...props} />);
 
-      expect(
-        getByText("Enter an earliest date that is before latest date")
-      ).toBeTruthy();
+      expect(getByText(RANGE_ERROR_MESSAGE)).toBeTruthy();
     });
 
     it("DateRange validation - should render an error message when earliest date is after latest date", () => {
@@ -274,13 +279,18 @@ describe("AnswerValidation", () => {
         answer: {
           id: "2",
           type: DATE_RANGE,
+
           validation: {
             earliestDate: {
-              enabled: false,
+              enabled: true,
+              relativePosition: "Before",
+              offset: { unit: "Days", value: 2 },
               validationErrorInfo: { errors: [] },
             },
             latestDate: {
-              enabled: false,
+              enabled: true,
+              relativePosition: "Before",
+              offset: { unit: "Days", value: 2 },
               validationErrorInfo: { errors: [] },
             },
           },
@@ -300,9 +310,44 @@ describe("AnswerValidation", () => {
 
       const { getByText } = rtlRender(<AnswerValidation {...props} />);
 
-      expect(
-        getByText("Enter an earliest date that is before latest date")
-      ).toBeTruthy();
+      expect(getByText(RANGE_ERROR_MESSAGE)).toBeTruthy();
+    });
+
+    it("DateRange validation - should render an error message when min duration is larger than max duration", () => {
+      props = {
+        answer: {
+          id: "2",
+          type: DATE_RANGE,
+
+          validation: {
+            minDuration: {
+              enabled: true,
+              duration: { unit: "Days", value: 2 },
+              validationErrorInfo: { errors: [] },
+            },
+            maxDuration: {
+              enabled: true,
+              duration: { unit: "Days", value: 2 },
+              validationErrorInfo: { errors: [] },
+            },
+          },
+        },
+      };
+      const error = [
+        {
+          errorCode: "ERR_MAX_DURATION_TOO_SMALL",
+          field: "duration",
+          id: "maxDuration-ef710be2-a0bb-44ee-924f-36d5b0e82a3e-duration",
+          type: "validation",
+          __typename: "ValidationError",
+        },
+      ];
+      props.answer.validation.minDuration.validationErrorInfo.errors = error;
+      props.answer.validation.maxDuration.validationErrorInfo.errors = error;
+
+      const { getByText } = rtlRender(<AnswerValidation {...props} />);
+
+      expect(getByText(DURATION_ERROR_MESSAGE)).toBeTruthy();
     });
   });
 });

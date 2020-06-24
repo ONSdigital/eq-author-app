@@ -23,5 +23,4 @@ module.exports = [
   require("./routing2"),
   require("./routingRule2"),
   require("./expressionGroup2"),
-  require("./binaryExpression2"),
 ];

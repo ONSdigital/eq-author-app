@@ -151,6 +151,7 @@ type QuestionPage implements Page {
   availableRoutingDestinations: AvailableRoutingDestinations!
   confirmation: QuestionConfirmation
   routing: Routing2
+  skipConditions: [ExpressionGroup2]
   totalValidation: TotalValidationRule
   validationErrorInfo: ValidationErrorInfo
 }
@@ -506,7 +507,7 @@ union Expression2 = BinaryExpression2 | ExpressionGroup2
 
 type ExpressionGroup2 {
   id: ID!
-  operator: RoutingOperator2!
+  operator: RoutingOperator2
   expressions: [Expression2!]!
 }
 
@@ -514,6 +515,7 @@ enum NoLeftSideReason {
   SelectedAnswerDeleted
   NoRoutableAnswerOnPage
   DefaultRouting
+  DefaultSkipCondition
 }
 
 type NoLeftSide {
@@ -532,7 +534,7 @@ type SelectedOptions2 {
   options: [Option!]!
 }
 
-enum RoutingCondition2 {
+enum LogicCondition {
   Equal
   NotEqual
   GreaterThan
@@ -549,10 +551,10 @@ enum RoutingCondition2 {
 
 type BinaryExpression2 {
   id: ID!
-  left: LeftSide2!
-  condition: RoutingCondition2!
+  left: LeftSide2
+  condition: LogicCondition
   right: RightSide2
-  expressionGroup: ExpressionGroup2!
+  expressionGroup: ExpressionGroup2
 }
 
 enum LegalBasis {
@@ -625,6 +627,19 @@ input QueryInput {
   optionId: ID
 }
 
+input CreateSkipConditionInput {
+  pageId: ID!
+}
+
+input DeleteSkipConditionInput {
+  id: ID!
+}
+
+input DeleteSkipConditionsInput {
+  id: ID!
+}
+
+
 type Mutation {
   createQuestionnaire(input: CreateQuestionnaireInput!): Questionnaire
   updateQuestionnaire(input: UpdateQuestionnaireInput!): Questionnaire
@@ -688,6 +703,9 @@ type Mutation {
   deleteCollapsible(input: DeleteCollapsibleInput!): QuestionnaireIntroduction!
   triggerPublish(input: PublishQuestionnaireInput!): Questionnaire!
   reviewQuestionnaire(input: ReviewQuestionnaireInput!): Questionnaire!
+  createSkipCondition(input: CreateSkipConditionInput!): ExpressionGroup2!
+  deleteSkipCondition(input: DeleteSkipConditionInput!): QuestionPage
+  deleteSkipConditions(input: DeleteSkipConditionsInput!): QuestionPage
 }
 
 input CreateRouting2Input {
@@ -729,7 +747,7 @@ input CreateBinaryExpression2Input {
 
 input UpdateBinaryExpression2Input {
   id: ID!
-  condition: RoutingCondition2!
+  condition: LogicCondition!
 }
 
 input UpdateLeftSide2Input {

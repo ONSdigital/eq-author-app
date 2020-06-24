@@ -1,9 +1,9 @@
 const Resolvers = {};
 
 const { find, flatMap, get } = require("lodash/fp");
-const { createMutation } = require("../../createMutation");
+const { createMutation } = require("../../../createMutation");
 
-const { getPages } = require("../../utils");
+const { getPages } = require("../../../utils");
 
 Resolvers.ExpressionGroup2 = {
   expressions: expressionGroup => expressionGroup.expressions,

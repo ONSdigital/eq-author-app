@@ -63,14 +63,32 @@ const getRules = ctx => flatMap(filter(getRouting(ctx), "rules"), "rules");
 
 const getRoutingRuleById = (ctx, id) => find(getRules(ctx), { id });
 
+const getSkipConditions = ctx =>
+  flatMap(filter(getPages(ctx), "skipConditions"), "skipConditions");
+
+const getSkipConditionById = (ctx, id) => {
+  const skipConditions = getSkipConditions(ctx);
+  return find(skipConditions, { id });
+};
+
 const getExpressionGroups = ctx =>
   flatMap(filter(getRules(ctx), "expressionGroup"), "expressionGroup");
 
 const getExpressionGroupById = (ctx, id) =>
   find(getExpressionGroups(ctx), { id });
 
-const getExpressions = ctx =>
-  flatMap(filter(getExpressionGroups(ctx), "expressions"), "expressions");
+const getExpressions = ctx => {
+  const routingExpressions = flatMap(
+    filter(getExpressionGroups(ctx), "expressions"),
+    "expressions"
+  );
+  const skipConditionExpressions = flatMap(
+    filter(getSkipConditions(ctx), "expressions"),
+    "expressions"
+  );
+
+  return [...routingExpressions, ...skipConditionExpressions];
+};
 
 const getExpressionById = (ctx, id) => find(getExpressions(ctx), { id });
 
@@ -180,4 +198,7 @@ module.exports = {
   getAvailableMetadataForValidation,
 
   remapAllNestedIds,
+
+  getSkipConditionById,
+  getSkipConditions,
 };

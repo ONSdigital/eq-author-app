@@ -377,6 +377,22 @@ describe("schema validation", () => {
               },
               relativePosition: "Before",
             },
+            minDuration: {
+              id: "456",
+              enabled: true,
+              duration: {
+                value: 5,
+                unit: "Days",
+              },
+            },
+            maxDuration: {
+              id: "654",
+              enabled: true,
+              duration: {
+                value: 1,
+                unit: "Days",
+              },
+            },
           },
         };
 
@@ -446,53 +462,129 @@ describe("schema validation", () => {
       });
 
       describe("date range answers", () => {
-        it("Date Range - should validate that latest date is always after earlier date", () => {
-          questionnaire.sections[0].pages[0].answers = [answer];
-
-          const pageErrors = validation(questionnaire);
-
-          expect(
-            pageErrors.validation[answer.validation.earliestDate.id].errors
-          ).toHaveLength(1);
-          expect(
-            pageErrors.validation[answer.validation.earliestDate.id].errors[0]
-              .errorCode
-          ).toEqual("ERR_EARLIEST_AFTER_LATEST");
-          expect(pageErrors.totalCount).toBe(1);
-        });
-
-        it("Date Range - should not validate if one of the two is disabled", () => {
-          ["earliestDate", "latestDate", "none"].forEach(entity => {
-            const answer = {
-              id: "a1",
-              type: DATE_RANGE,
-              label: "some answer",
-              validation: {
-                earliestDate: {
-                  id: "123",
-                  enabled: entity === "earliestDate",
-                  custom: "2019-06-23",
-                  inclusive: true,
-                  entityType: "Custom",
-                  previousAnswer: null,
-                },
-                latestDate: {
-                  id: "321",
-                  enabled: entity === "latestDate",
-                  custom: "2019-06-23",
-                  inclusive: true,
-                  entityType: "Custom",
-                  previousAnswer: null,
-                },
-              },
-            };
-
+        describe("Earliest date and latest date", () => {
+          it("Date Range - should validate that latest date is always after earlier date", () => {
             questionnaire.sections[0].pages[0].answers = [answer];
 
             const pageErrors = validation(questionnaire);
 
-            expect(pageErrors.validation).toMatchObject({});
-            expect(pageErrors.totalCount).toBe(0);
+            expect(
+              pageErrors.validation[answer.validation.earliestDate.id].errors
+            ).toHaveLength(1);
+            expect(
+              pageErrors.validation[answer.validation.earliestDate.id].errors[0]
+                .errorCode
+            ).toEqual("ERR_EARLIEST_AFTER_LATEST");
+            expect(pageErrors.totalCount).toBe(1);
+          });
+
+          it("Date Range - should not validate if one of the two is disabled", () => {
+            ["earliestDate", "latestDate", "none"].forEach(entity => {
+              const answer = {
+                id: "a1",
+                type: DATE_RANGE,
+                label: "some answer",
+                validation: {
+                  earliestDate: {
+                    id: "123",
+                    enabled: entity === "earliestDate",
+                    custom: "2019-06-23",
+                    inclusive: true,
+                    entityType: "Custom",
+                    previousAnswer: null,
+                  },
+                  latestDate: {
+                    id: "321",
+                    enabled: entity === "latestDate",
+                    custom: "2019-06-23",
+                    inclusive: true,
+                    entityType: "Custom",
+                    previousAnswer: null,
+                  },
+                },
+              };
+
+              questionnaire.sections[0].pages[0].answers = [answer];
+
+              const pageErrors = validation(questionnaire);
+
+              expect(pageErrors.validation).toMatchObject({});
+              expect(pageErrors.totalCount).toBe(0);
+            });
+          });
+        });
+        describe("Min duration and max duration", () => {
+          it("Date Range - should validate that latest date is always after earlier date", () => {
+            questionnaire.sections[0].pages[0].answers = [
+              {
+                id: "a1",
+                type: "DateRange",
+                label: "some answer",
+                validation: {
+                  minDuration: {
+                    id: "456",
+                    enabled: true,
+                    duration: {
+                      value: 5,
+                      unit: "Days",
+                    },
+                  },
+                  maxDuration: {
+                    id: "654",
+                    enabled: true,
+                    duration: {
+                      value: 1,
+                      unit: "Days",
+                    },
+                  },
+                },
+              },
+            ];
+            const pageErrors = validation(questionnaire);
+
+            expect(
+              pageErrors.validation[answer.validation.minDuration.id].errors
+            ).toHaveLength(1);
+            expect(
+              pageErrors.validation[answer.validation.minDuration.id].errors[0]
+                .errorCode
+            ).toEqual("ERR_MAX_DURATION_TOO_SMALL");
+            expect(pageErrors.totalCount).toBe(1);
+          });
+
+          it("Date Range - should not validate if one of the two is disabled", () => {
+            ["earliestDate", "latestDate", "none"].forEach(() => {
+              questionnaire.sections[0].pages[0].answers = [
+                {
+                  id: "a1",
+                  type: "DateRange",
+                  label: "some answer",
+                  validation: {
+                    minDuration: {
+                      id: "456",
+                      enabled: false,
+                      duration: {
+                        value: 5,
+                        unit: "Days",
+                      },
+                    },
+                    maxDuration: {
+                      id: "654",
+                      enabled: true,
+                      duration: {
+                        value: 1,
+                        unit: "Days",
+                      },
+                    },
+                  },
+                },
+              ];
+
+              const pageErrors = validation(questionnaire);
+
+              expect(pageErrors.validation).toMatchObject({});
+              expect(pageErrors.totalCount).toBe(0);
+            });
           });
         });
       });
