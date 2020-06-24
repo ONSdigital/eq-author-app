@@ -14,6 +14,7 @@ const {
   first,
   some,
   concat,
+  reject,
 } = require("lodash");
 const GraphQLJSON = require("graphql-type-json");
 const { v4: uuidv4 } = require("uuid");
@@ -37,6 +38,8 @@ const {
   getValidationEntity,
 } = require("../../src/businessLogic/createValidation");
 const { currentVersion } = require("../../migrations");
+
+const { createExpression, createLeftSide } = require("../../src/businessLogic");
 
 const {
   getSectionById,
@@ -865,6 +868,47 @@ const Resolvers = {
 
       return replies;
     },
+    createSkipCondition: createMutation((_, { input }, ctx) => {
+      let leftHandSide = {
+        type: "Null",
+        nullReason: "DefaultSkipCondition",
+      };
+      const defaultSkipCondition = {
+        id: uuidv4(),
+        expressions: [createExpression({ left: createLeftSide(leftHandSide) })],
+      };
+      const page = getPageById(ctx, input.pageId);
+
+      const skipConditions = page.skipConditions
+        ? [...page.skipConditions, defaultSkipCondition]
+        : [defaultSkipCondition];
+
+      merge(page, { skipConditions });
+      return defaultSkipCondition;
+    }),
+    deleteSkipCondition: createMutation((_, { input }, ctx) => {
+      const pages = getPages(ctx);
+
+      const page = find(pages, page => {
+        const { skipConditions } = page;
+        if (some(skipConditions, { id: input.id })) {
+          return page;
+        }
+      });
+
+      page.skipConditions = reject(page.skipConditions, { id: input.id });
+
+      if (!page.skipConditions.length) {
+        delete page.skipConditions;
+      }
+
+      return page;
+    }),
+    deleteSkipConditions: createMutation((_, { input }, ctx) => {
+      const page = getPageById(ctx, input.id);
+      delete page.skipConditions;
+      return page;
+    }),
   },
 
   Questionnaire: {
@@ -1153,13 +1197,24 @@ const Resolvers = {
         totalCount: 0,
       },
   },
-
   MinDurationValidationRule: {
     duration: ({ duration }) => duration,
+    validationErrorInfo: ({ id }, args, ctx) =>
+      ctx.validationErrorInfo[VALIDATION][id] || {
+        id: id,
+        errors: [],
+        totalCount: 0,
+      },
   },
 
   MaxDurationValidationRule: {
     duration: ({ duration }) => duration,
+    validationErrorInfo: ({ id }, args, ctx) =>
+      ctx.validationErrorInfo[VALIDATION][id] || {
+        id: id,
+        errors: [],
+        totalCount: 0,
+      },
   },
 
   TotalValidationRule: {

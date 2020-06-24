@@ -2,6 +2,7 @@ const Ajv = require("ajv");
 const { get, uniqBy, map, groupBy, sum } = require("lodash");
 
 const schemas = require("./schemas");
+
 const {
   PAGES,
   OPTIONS,
@@ -12,13 +13,19 @@ const {
   VALIDATION,
   MIN_VALUE,
   MAX_VALUE,
+  MIN_DURATION,
+  MAX_DURATION,
   START_DATE,
   END_DATE,
 } = require("../../constants/validationErrorTypes");
+
 const {
   ERR_EARLIEST_AFTER_LATEST,
+  ERR_MAX_DURATION_TOO_SMALL,
 } = require("../../constants/validationErrorCodes");
+
 const ajv = new Ajv({ allErrors: true, jsonPointers: true, $data: true });
+
 require("ajv-errors")(ajv);
 require("./customKeywords")(ajv);
 require("ajv-keywords")(ajv, "select");
@@ -33,6 +40,8 @@ const convertObjectType = objectType => {
 
     case MIN_VALUE:
     case MAX_VALUE:
+    case MIN_DURATION:
+    case MAX_DURATION:
     case START_DATE:
     case END_DATE:
       return VALIDATION;
@@ -51,6 +60,7 @@ module.exports = questionnaire => {
   const duplicatedErrorMessages = {
     ERR_MIN_LARGER_THAN_MAX: { occurrencesPerError: 2 },
     [ERR_EARLIEST_AFTER_LATEST]: { occurrencesPerError: 2 },
+    [ERR_MAX_DURATION_TOO_SMALL]: { occurrencesPerError: 2 },
   };
   const topLevelEntities = [PAGES, CONFIRMATION, SECTIONS];
 
@@ -119,6 +129,7 @@ module.exports = questionnaire => {
       const contextPath = dataPath.slice(1).join(".");
 
       const contextObj = get(questionnaire, contextPath);
+
       return {
         id: `${objectType}-${contextObj.id}-${fieldname}`,
         entityId: contextObj.id,

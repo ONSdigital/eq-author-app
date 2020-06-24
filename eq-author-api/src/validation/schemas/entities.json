@@ -387,54 +387,112 @@
         "type": "object",
         "properties": {
           "validation": {
-            "if": {
-              "allOf": [
-                {
-                  "properties": {
-                    "earliestDate": {
+            "allOf": [
+              {
+                "if": {
+                  "allOf": [
+                    {
                       "properties": {
-                        "enabled": { "const": true },
-                        "entityType": { "const": "Custom" }
+                        "minDuration": {
+                          "properties": {
+                            "enabled": {
+                              "const": true
+                            }
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "maxDuration": {
+                          "properties": {
+                            "enabled": {
+                              "const": true
+                            }
+                          }
+                        }
                       }
                     }
-                  }
+                  ]
                 },
-                {
+                "then": {
                   "properties": {
-                    "latestDate": {
+                    "minDuration": {
+                      "type": "object",
                       "properties": {
-                        "enabled": { "const": true },
-                        "entityType": { "const": "Custom" }
+                        "duration": {
+                          "validateDuration": {
+                            "$data": "2/maxDuration"
+                          }
+                        }
+                      }
+                    },
+                    "maxDuration": {
+                      "type": "object",
+                      "properties": {
+                        "duration": {
+                          "validateDuration": {
+                            "$data": "2/minDuration"
+                          }
+                        }
                       }
                     }
                   }
                 }
-              ]
-            },
-            "then": {
-              "properties": {
-                "earliestDate": {
-                  "type": "object",
-                  "properties": {
-                    "custom": {
-                      "validateLatestAfterEarliest": {
-                        "$data": "2/latestDate"
+              },
+              {
+                "if": {
+                  "allOf": [
+                    {
+                      "properties": {
+                        "earliestDate": {
+                          "properties": {
+                            "enabled": {
+                              "const": true
+                            }
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "latestDate": {
+                          "properties": {
+                            "enabled": {
+                              "const": true
+                            }
+                          }
+                        }
                       }
                     }
-                  }
+                  ]
                 },
-                "latestDate": {
-                  "type": "object",
+                "then": {
                   "properties": {
-                    "custom": {
-                      "validateLatestAfterEarliest": {
-                        "$data": "2/earliestDate"
+                    "earliestDate": {
+                      "type": "object",
+                      "properties": {
+                        "custom": {
+                          "validateLatestAfterEarliest": {
+                            "$data": "2/latestDate"
+                          }
+                        }
+                      }
+                    },
+                    "latestDate": {
+                      "type": "object",
+                      "properties": {
+                        "custom": {
+                          "validateLatestAfterEarliest": {
+                            "$data": "2/earliestDate"
+                          }
+                        }
                       }
                     }
                   }
                 }
               }
-            }
+            ]
           },
           "properties": {
             "$ref": "entities.json#/definitions/properties"

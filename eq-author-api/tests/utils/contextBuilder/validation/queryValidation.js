@@ -131,6 +131,9 @@ const getValidationQuery = `
       value
       unit
     }
+    validationErrorInfo {
+      ...ValidationErrorInfo
+    }
   }
   
   fragment MaxDurationValidationRule on MaxDurationValidationRule {
@@ -139,6 +142,9 @@ const getValidationQuery = `
     duration {
       value
       unit
+    }
+    validationErrorInfo {
+      ...ValidationErrorInfo
     }
   }
 `;
