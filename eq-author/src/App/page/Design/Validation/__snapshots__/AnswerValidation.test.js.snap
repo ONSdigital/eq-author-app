@@ -8,53 +8,21 @@ exports[`AnswerValidation Numeric answer validation preview maxValue should not 
 
 exports[`AnswerValidation Numeric answer validation preview maxValue should not render when the custom value is null 4`] = `null`;
 
-exports[`AnswerValidation Numeric answer validation preview maxValue should render custom values 1`] = `
-<SidebarButton__Detail>
-  5%
-</SidebarButton__Detail>
-`;
+exports[`AnswerValidation Numeric answer validation preview maxValue should render custom values 1`] = `null`;
 
-exports[`AnswerValidation Numeric answer validation preview maxValue should render custom values 2`] = `
-<SidebarButton__Detail>
-  5
-</SidebarButton__Detail>
-`;
+exports[`AnswerValidation Numeric answer validation preview maxValue should render custom values 2`] = `null`;
 
-exports[`AnswerValidation Numeric answer validation preview maxValue should render custom values 3`] = `
-<SidebarButton__Detail>
-  £5
-</SidebarButton__Detail>
-`;
+exports[`AnswerValidation Numeric answer validation preview maxValue should render custom values 3`] = `null`;
 
-exports[`AnswerValidation Numeric answer validation preview maxValue should render custom values 4`] = `
-<SidebarButton__Detail>
-  5 cm
-</SidebarButton__Detail>
-`;
+exports[`AnswerValidation Numeric answer validation preview maxValue should render custom values 4`] = `null`;
 
-exports[`AnswerValidation Numeric answer validation preview maxValue should render previous answer 1`] = `
-<SidebarButton__Detail>
-  foobar
-</SidebarButton__Detail>
-`;
+exports[`AnswerValidation Numeric answer validation preview maxValue should render previous answer 1`] = `null`;
 
-exports[`AnswerValidation Numeric answer validation preview maxValue should render previous answer 2`] = `
-<SidebarButton__Detail>
-  foobar
-</SidebarButton__Detail>
-`;
+exports[`AnswerValidation Numeric answer validation preview maxValue should render previous answer 2`] = `null`;
 
-exports[`AnswerValidation Numeric answer validation preview maxValue should render previous answer 3`] = `
-<SidebarButton__Detail>
-  foobar
-</SidebarButton__Detail>
-`;
+exports[`AnswerValidation Numeric answer validation preview maxValue should render previous answer 3`] = `null`;
 
-exports[`AnswerValidation Numeric answer validation preview maxValue should render previous answer 4`] = `
-<SidebarButton__Detail>
-  foobar
-</SidebarButton__Detail>
-`;
+exports[`AnswerValidation Numeric answer validation preview maxValue should render previous answer 4`] = `null`;
 
 exports[`AnswerValidation Numeric answer validation preview minValue should not render when the custom value is null 1`] = `null`;
 
@@ -64,53 +32,21 @@ exports[`AnswerValidation Numeric answer validation preview minValue should not 
 
 exports[`AnswerValidation Numeric answer validation preview minValue should not render when the custom value is null 4`] = `null`;
 
-exports[`AnswerValidation Numeric answer validation preview minValue should render custom values 1`] = `
-<SidebarButton__Detail>
-  5%
-</SidebarButton__Detail>
-`;
+exports[`AnswerValidation Numeric answer validation preview minValue should render custom values 1`] = `null`;
 
-exports[`AnswerValidation Numeric answer validation preview minValue should render custom values 2`] = `
-<SidebarButton__Detail>
-  5
-</SidebarButton__Detail>
-`;
+exports[`AnswerValidation Numeric answer validation preview minValue should render custom values 2`] = `null`;
 
-exports[`AnswerValidation Numeric answer validation preview minValue should render custom values 3`] = `
-<SidebarButton__Detail>
-  £5
-</SidebarButton__Detail>
-`;
+exports[`AnswerValidation Numeric answer validation preview minValue should render custom values 3`] = `null`;
 
-exports[`AnswerValidation Numeric answer validation preview minValue should render custom values 4`] = `
-<SidebarButton__Detail>
-  5 cm
-</SidebarButton__Detail>
-`;
+exports[`AnswerValidation Numeric answer validation preview minValue should render custom values 4`] = `null`;
 
-exports[`AnswerValidation Numeric answer validation preview minValue should render previous answer 1`] = `
-<SidebarButton__Detail>
-  foobar
-</SidebarButton__Detail>
-`;
+exports[`AnswerValidation Numeric answer validation preview minValue should render previous answer 1`] = `null`;
 
-exports[`AnswerValidation Numeric answer validation preview minValue should render previous answer 2`] = `
-<SidebarButton__Detail>
-  foobar
-</SidebarButton__Detail>
-`;
+exports[`AnswerValidation Numeric answer validation preview minValue should render previous answer 2`] = `null`;
 
-exports[`AnswerValidation Numeric answer validation preview minValue should render previous answer 3`] = `
-<SidebarButton__Detail>
-  foobar
-</SidebarButton__Detail>
-`;
+exports[`AnswerValidation Numeric answer validation preview minValue should render previous answer 3`] = `null`;
 
-exports[`AnswerValidation Numeric answer validation preview minValue should render previous answer 4`] = `
-<SidebarButton__Detail>
-  foobar
-</SidebarButton__Detail>
-`;
+exports[`AnswerValidation Numeric answer validation preview minValue should render previous answer 4`] = `null`;
 
 exports[`AnswerValidation should not render when there are no valid validation types 1`] = `""`;
 
@@ -139,7 +75,7 @@ exports[`AnswerValidation should render 1`] = `
     }
   }
 >
-  <SidebarButton
+  <AnswerValidation__SidebarValidation
     data-test="sidebar-button-min-value"
     hasError={false}
     key="minValue"
@@ -150,8 +86,8 @@ exports[`AnswerValidation should render 1`] = `
        
       must be more than
     </SidebarButton__Title>
-  </SidebarButton>
-  <SidebarButton
+  </AnswerValidation__SidebarValidation>
+  <AnswerValidation__SidebarValidation
     data-test="sidebar-button-max-value"
     hasError={false}
     key="maxValue"
@@ -162,7 +98,7 @@ exports[`AnswerValidation should render 1`] = `
        
       must be less than
     </SidebarButton__Title>
-  </SidebarButton>
+  </AnswerValidation__SidebarValidation>
   <ModalWithNav
     id="modal-validation-1"
     isOpen={false}
