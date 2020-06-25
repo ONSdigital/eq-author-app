@@ -220,6 +220,7 @@ export class UnwrappedBinaryExpressionEditor extends React.Component {
     updateRightSide: PropTypes.func.isRequired,
     updateBinaryExpression: PropTypes.func.isRequired,
     match: CustomPropTypes.match.isRequired,
+    includeSelf: PropTypes.bool,
     className: PropTypes.string,
   };
 
@@ -286,6 +287,7 @@ export class UnwrappedBinaryExpressionEditor extends React.Component {
       expression,
       isOnlyExpression,
       isLastExpression,
+      includeSelf,
     } = this.props;
 
     return (
@@ -307,6 +309,7 @@ export class UnwrappedBinaryExpressionEditor extends React.Component {
                 onSubmit={this.handleLeftSideChange}
                 selectedId={get("left.id", expression)}
                 data-test="routing-answer-picker"
+                includeSelf={includeSelf}
               />
             </Flex>
           </Column>

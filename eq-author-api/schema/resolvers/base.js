@@ -183,7 +183,8 @@ const Resolvers = {
         ({ history }) => history
       ),
     section: (root, { input }, ctx) => getSectionById(ctx, input.sectionId),
-    page: (root, { input }, ctx) => getPageById(ctx, input.pageId),
+    page: (root, { input }, ctx) =>
+      getPageById(ctx, input.pageId, input.includeSelf),
     answer: (root, { input }, ctx) => getAnswerById(ctx, input.answerId),
     answers: async (root, { ids }, ctx) =>
       getAnswers(ctx).filter(({ id }) => ids.includes(id)),

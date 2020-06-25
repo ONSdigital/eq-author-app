@@ -20,7 +20,11 @@ const getSectionByPageId = (ctx, pageId) =>
 
 const getPages = ctx => flatMap(getSections(ctx), section => section.pages);
 
-const getPageById = (ctx, id) => find(getPages(ctx), { id });
+const getPageById = (ctx, id, includeSelf = true) => {
+  const page = find(getPages(ctx), { id });
+  page.includeSelf = includeSelf;
+  return page;
+};
 
 const getPageByAnswerId = (ctx, answerId) =>
   find(

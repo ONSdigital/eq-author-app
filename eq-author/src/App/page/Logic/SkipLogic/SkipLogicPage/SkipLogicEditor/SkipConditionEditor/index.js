@@ -142,6 +142,7 @@ export class UnwrappedSkipConditionEditor extends React.Component {
                     canAddCondition={
                       !existingRadioConditions[get("left.id", expression)]
                     }
+                    includeSelf={false}
                   />
                 </Transition>
               );
