@@ -1,62 +1,35 @@
 import React from "react";
 import { shallow } from "enzyme";
-import { UnwrappedRoutingEditor, LABEL_ELSE_IF, LABEL_IF } from "./";
-import RuleEditor from "./RuleEditor";
+import { UnwrappedSkipLogicEditor } from "./";
 
-describe("components/RoutingRuleSet", () => {
+describe("components/SkipConditionSet", () => {
   let defaultProps;
   beforeEach(() => {
     defaultProps = {
-      routing: {
+      page: {
         id: "1",
-        rules: [{ id: "2" }],
-        else: {
-          id: "4",
-          logical: null,
-          section: null,
-          page: {
-            id: "3",
-            displayName: "page",
+        displayName: "Test",
+        skipConditions: [
+          {
+            id: "1",
+            expressions: [{ id: "1" }],
           },
-        },
+        ],
       },
-      createRule: jest.fn(),
-      updateRouting: jest.fn(),
+      createSkipCondition: jest.fn(),
     };
   });
 
   it("should render children", () => {
-    const wrapper = shallow(<UnwrappedRoutingEditor {...defaultProps} />);
+    const wrapper = shallow(<UnwrappedSkipLogicEditor {...defaultProps} />);
     expect(wrapper).toMatchSnapshot();
   });
 
-  it("should allow change of ELSE condition", () => {
-    const destination = { logical: "EndOfQuestionnaire" };
-
-    const wrapper = shallow(<UnwrappedRoutingEditor {...defaultProps} />);
-    wrapper.find("[data-test='select-else']").simulate("change", destination);
-
-    expect(defaultProps.updateRouting).toHaveBeenCalledWith({
-      ...defaultProps.routing,
-      else: destination,
-    });
-  });
-
-  it("should allow creating a rule", () => {
-    const wrapper = shallow(<UnwrappedRoutingEditor {...defaultProps} />);
-    wrapper.find("[data-test='btn-add-rule']").simulate("click");
-    expect(defaultProps.createRule).toHaveBeenCalledWith(
-      defaultProps.routing.id
+  it("should allow creating a skip condition", () => {
+    const wrapper = shallow(<UnwrappedSkipLogicEditor {...defaultProps} />);
+    wrapper.find("[data-test='btn-add-skip-condition']").simulate("click");
+    expect(defaultProps.createSkipCondition).toHaveBeenCalledWith(
+      defaultProps.page.id
     );
-  });
-
-  it("should render all subsequent rule editor titles as ELSE IF", () => {
-    defaultProps.routing.rules.push({ id: "5" }, { id: "6" });
-    const wrapper = shallow(<UnwrappedRoutingEditor {...defaultProps} />);
-    wrapper.find(RuleEditor).forEach((ruleEditor, index) => {
-      expect(ruleEditor.prop("ifLabel")).toEqual(
-        index > 0 ? LABEL_ELSE_IF : LABEL_IF
-      );
-    });
   });
 });

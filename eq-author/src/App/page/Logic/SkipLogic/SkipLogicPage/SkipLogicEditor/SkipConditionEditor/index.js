@@ -110,7 +110,7 @@ export class UnwrappedSkipConditionEditor extends React.Component {
         <Label inline>{LABEL_OR}</Label>
         <RemoveRuleButton
           onClick={this.handleDeleteClick}
-          data-test="btn-remove-skip-conditions"
+          data-test="btn-remove-skip-condition"
         >
           {LABEL_REMOVE_GROUP}
         </RemoveRuleButton>

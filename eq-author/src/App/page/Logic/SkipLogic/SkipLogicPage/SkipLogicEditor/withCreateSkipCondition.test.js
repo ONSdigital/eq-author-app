@@ -1,6 +1,6 @@
-import { mapMutateToProps } from "./withCreateRule";
+import { mapMutateToProps } from "./withCreateSkipCondition";
 
-describe("withCreateRule", () => {
+describe("withCreateSkipCondition", () => {
   describe("mapMutateToProps", () => {
     let props;
     let mutate;
@@ -10,14 +10,14 @@ describe("withCreateRule", () => {
       props = mapMutateToProps({ mutate });
     });
 
-    it("should have a createRule prop", () => {
-      expect(props.createRule).toBeInstanceOf(Function);
+    it("should have a createSkipCondition prop", () => {
+      expect(props.createSkipCondition).toBeInstanceOf(Function);
     });
 
     it("should call mutate", () => {
-      props.createRule("id");
+      props.createSkipCondition("id");
       expect(mutate).toHaveBeenCalledWith({
-        variables: { input: { routingId: "id" } },
+        variables: { input: { pageId: "id" } },
       });
     });
   });

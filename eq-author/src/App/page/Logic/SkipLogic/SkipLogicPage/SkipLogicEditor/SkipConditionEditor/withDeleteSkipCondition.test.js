@@ -1,6 +1,6 @@
-import { mapMutateToProps } from "./withDeleteRule";
+import { mapMutateToProps } from "./withDeleteSkipCondition";
 
-describe("withDeleteRule", () => {
+describe("withDeleteSkipCondition", () => {
   describe("mapMutateToProps", () => {
     let props;
     let mutate;
@@ -10,12 +10,12 @@ describe("withDeleteRule", () => {
       props = mapMutateToProps({ mutate });
     });
 
-    it("should have a deleteRule prop", () => {
-      expect(props.deleteRule).toBeInstanceOf(Function);
+    it("should have a deleteSkipCondition prop", () => {
+      expect(props.deleteSkipCondition).toBeInstanceOf(Function);
     });
 
     it("should call mutate", () => {
-      props.deleteRule("id");
+      props.deleteSkipCondition("id");
       expect(mutate).toHaveBeenCalledWith({
         variables: { input: { id: "id" } },
       });

@@ -64,7 +64,7 @@ export class UnwrappedSkipLogicEditor extends React.Component {
           variant="secondary"
           small
           onClick={this.handleAddClick}
-          data-test="btn-add-rule"
+          data-test="btn-add-skip-condition"
         >
           Add OR statement
         </AddRuleButton>
