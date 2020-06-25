@@ -121,14 +121,6 @@ const SectionAccordion = props => {
       setIsOpen(isOpen => !isOpen);
       handleChange({ isOpen: !isOpen, id: identity });
     }
-    if (isOpen && event.keyCode === 37) {
-      setIsOpen(isOpen => !isOpen);
-      handleChange({ isOpen: !isOpen, id: identity });
-    }
-    if (!isOpen && event.keyCode === 39) {
-      setIsOpen(isOpen => !isOpen);
-      handleChange({ isOpen: !isOpen, id: identity });
-    }
   };
 
   return (
