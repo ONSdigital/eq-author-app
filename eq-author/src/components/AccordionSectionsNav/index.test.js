@@ -110,4 +110,88 @@ describe("Section Accordion", () => {
     });
     expect(getByTestId("accordion-section3-body")).toBeVisible();
   });
+
+  it("click on the space-bar when section is in focus - it should open section accordion", async () => {
+    const { getByTestId } = render(
+      <SectionAccordion
+        title={SectionTitleMock}
+        titleName="section2"
+        isOpen={{ open: false }}
+        identity={0}
+        handleChange={jest.fn()}
+      >
+        section accordion panel2
+      </SectionAccordion>
+    );
+
+    await act(async () => {
+      await fireEvent.keyUp(getByTestId("accordion-section2-titleContainer"), {
+        keyCode: 32,
+      });
+    });
+    expect(getByTestId("accordion-section2-body")).toBeVisible();
+  });
+
+  it("click on the space-bar when section is in focus - it should close section accordion", async () => {
+    const { getByTestId } = render(
+      <SectionAccordion
+        title={SectionTitleMock}
+        titleName="section2"
+        isOpen={isOpen}
+        identity={0}
+        handleChange={jest.fn()}
+      >
+        section accordion panel2
+      </SectionAccordion>
+    );
+
+    await act(async () => {
+      await fireEvent.keyUp(getByTestId("accordion-section2-titleContainer"), {
+        keyCode: 32,
+      });
+    });
+    expect(getByTestId("accordion-section2-body")).not.toBeVisible();
+  });
+
+  it("click on enter when section is in focus - it should open section accordion", async () => {
+    const { getByTestId } = render(
+      <SectionAccordion
+        title={SectionTitleMock}
+        titleName="section2"
+        isOpen={{ open: false }}
+        identity={0}
+        handleChange={jest.fn()}
+      >
+        section accordion panel2
+      </SectionAccordion>
+    );
+
+    await act(async () => {
+      await fireEvent.keyUp(getByTestId("accordion-section2-titleContainer"), {
+        keyCode: 13,
+      });
+    });
+    expect(getByTestId("accordion-section2-body")).toBeVisible();
+  });
+
+  it("click on enter when section is in focus - it should close section accordion", async () => {
+    const { getByTestId } = render(
+      <SectionAccordion
+        title={SectionTitleMock}
+        titleName="section2"
+        isOpen={isOpen}
+        identity={0}
+        handleChange={jest.fn()}
+      >
+        section accordion panel2
+      </SectionAccordion>
+    );
+
+    await act(async () => {
+      await fireEvent.keyUp(getByTestId("accordion-section2-titleContainer"), {
+        keyCode: 13,
+      });
+    });
+    expect(getByTestId("accordion-section2-body")).not.toBeVisible();
+  });
 });

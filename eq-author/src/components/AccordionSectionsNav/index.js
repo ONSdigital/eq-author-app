@@ -126,7 +126,10 @@ const SectionAccordion = props => {
   return (
     <>
       <Header>
-        <Title onKeyUp={event => onEnterUp(event)}>
+        <Title
+          onKeyUp={event => onEnterUp(event)}
+          data-test={`accordion-${titleName}-titleContainer`}
+        >
           <Button
             role="button"
             id={`${titleName}-btn`}
