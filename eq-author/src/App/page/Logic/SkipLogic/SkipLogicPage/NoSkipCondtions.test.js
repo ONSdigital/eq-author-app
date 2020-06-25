@@ -1,26 +1,26 @@
 import React from "react";
 import { shallow } from "enzyme";
 
-import NoRouting from "./NoRouting";
+import NoSkipConditions from "./NoSkipConditions";
 
 describe("components/NoRouting", () => {
   it("should render", () => {
     const wrapper = shallow(
-      <NoRouting onAddRouting={jest.fn()} title="Test">
+      <NoSkipConditions onAddSkipCondtions={jest.fn()} title="Test">
         Ullamcorper Venenatis Fringilla
-      </NoRouting>
+      </NoSkipConditions>
     );
     expect(wrapper).toMatchSnapshot();
   });
 
   it("should call onAddRouting when button clicked", () => {
-    const onAddRouting = jest.fn();
+    const onAddSkipCondtions = jest.fn();
     const wrapper = shallow(
-      <NoRouting onAddRouting={onAddRouting} title="Test">
+      <NoSkipConditions onAddRouting={onAddSkipCondtions} title="Test">
         Ullamcorper Venenatis Fringilla
-      </NoRouting>
+      </NoSkipConditions>
     );
     wrapper.find("[data-test='btn-add-routing']").simulate("click");
-    expect(onAddRouting).toHaveBeenCalled();
+    expect(onAddSkipCondtions).toHaveBeenCalled();
   });
 });

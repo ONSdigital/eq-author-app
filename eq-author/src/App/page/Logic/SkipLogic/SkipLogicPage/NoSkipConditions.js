@@ -32,7 +32,7 @@ const Paragraph = styled.p`
   margin: 0;
 `;
 
-const AddRoutingButton = styled(Button)`
+const AddSkipConditionsButton = styled(Button)`
   margin: 2em auto 1em;
 `;
 
@@ -46,7 +46,7 @@ const RoutingRuleSetMsg = ({
     <Icon />
     <Title>{title}</Title>
     <Paragraph>{children}</Paragraph>
-    <AddRoutingButton
+    <AddSkipConditionsButton
       small
       naked
       variant="primary"
@@ -54,7 +54,7 @@ const RoutingRuleSetMsg = ({
       data-test="btn-add-routing"
     >
       <IconText icon={IconAddRule}>Add your skip conditions</IconText>
-    </AddRoutingButton>
+    </AddSkipConditionsButton>
   </Container>
 );
 
