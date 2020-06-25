@@ -56,7 +56,7 @@ describe("NavLink", () => {
     const { getByTestId } = render(
       <NavLink
         {...props}
-        errorCount={9999}
+        errorCount={1}
         isOpen={false}
         isSection
         sectionTotalErrors={1}
@@ -65,5 +65,20 @@ describe("NavLink", () => {
       </NavLink>
     );
     expect(getByTestId("badge-NoCount-closed")).toBeTruthy();
+  });
+
+  it("should show a badge with numbers when section accordion is open and section has errors", () => {
+    const { getByTestId } = render(
+      <NavLink
+        {...props}
+        errorCount={1}
+        isOpen
+        isSection
+        sectionTotalErrors={1}
+      >
+        Page 1
+      </NavLink>
+    );
+    expect(getByTestId("badge-withCount")).toBeTruthy();
   });
 });

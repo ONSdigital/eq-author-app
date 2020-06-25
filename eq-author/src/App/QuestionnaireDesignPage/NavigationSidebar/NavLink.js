@@ -97,13 +97,7 @@ const NavLink = ({
       <Title>{children}</Title>
     </IconText>
 
-    {isSection &&
-    isOpen &&
-    errorCount === sectionTotalErrors &&
-    errorCount > 0 ? (
-      <SmallBadge data-test="badge-NoCount-open" />
-    ) : null}
-    {isSection && !isOpen && (sectionTotalErrors || errorCount) > 0 ? (
+    {isSection && !isOpen && (sectionTotalErrors || errorCount) !== 0 ? (
       <SmallBadge data-test="badge-NoCount-closed" />
     ) : null}
     {isSection && isOpen && errorCount > 0 && errorCount !== 0 ? (
