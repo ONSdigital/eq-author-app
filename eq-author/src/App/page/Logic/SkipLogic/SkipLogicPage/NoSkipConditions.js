@@ -36,7 +36,7 @@ const AddSkipConditionsButton = styled(Button)`
   margin: 2em auto 1em;
 `;
 
-const RoutingRuleSetMsg = ({
+const SkipConditionsSetMsg = ({
   title,
   onAddSkipCondtions,
   children,
@@ -51,17 +51,17 @@ const RoutingRuleSetMsg = ({
       naked
       variant="primary"
       onClick={onAddSkipCondtions}
-      data-test="btn-add-routing"
+      data-test="btn-add-skip-condition"
     >
       <IconText icon={IconAddRule}>Add your skip conditions</IconText>
     </AddSkipConditionsButton>
   </Container>
 );
 
-RoutingRuleSetMsg.propTypes = {
+SkipConditionsSetMsg.propTypes = {
   title: PropTypes.string.isRequired,
   onAddSkipCondtions: PropTypes.func.isRequired,
   children: PropTypes.node.isRequired,
 };
 
-export default RoutingRuleSetMsg;
+export default SkipConditionsSetMsg;

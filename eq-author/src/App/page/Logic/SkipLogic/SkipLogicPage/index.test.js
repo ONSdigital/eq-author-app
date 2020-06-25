@@ -3,44 +3,43 @@ import { shallow } from "enzyme";
 
 import { UnwrappedSkipLogicPage as SkipLogicPage } from "./";
 
-import NoRouting from "./NoRouting";
+import NoSkipConditions from "./NoSkipConditions";
 import SkipLogicEditor from "./SkipLogicEditor";
 
-describe("Routing Page", () => {
-  it("should show the no routing message when there is no routing for a page", () => {
+describe("Skip Condition Page", () => {
+  it("should show the no skip sondition message when there is no skip sonditions for a page", () => {
     const wrapper = shallow(
       <SkipLogicPage
         page={{ id: "1", displayName: "test", skipConditions: null }}
         createSkipCondition={jest.fn()}
       />
     );
-    expect(wrapper.find(NoRouting).exists()).toBe(true);
+    expect(wrapper.find(NoSkipConditions).exists()).toBe(true);
   });
 
-  it("should call create routing with the page id when add routing button is clicked", () => {
+  it("should call create skip sondition with the page id when add skip sondition button is clicked", () => {
     const createSkipCondition = jest.fn();
     const wrapper = shallow(
       <SkipLogicPage
-        page={{ id: "1", displayName: "test", routing: null }}
+        page={{ id: "1", displayName: "test", skipConditions: null }}
         createSkipCondition={createSkipCondition}
       />
     );
-    wrapper.find(NoRouting).simulate("addRouting");
+    wrapper.find(NoSkipConditions).simulate("addSkipConditions");
     expect(createSkipCondition).toHaveBeenCalledWith("1");
   });
 
-  it("should render the editor when there is a routing", () => {
-    const routing = { id: "2", rules: [] };
+  it("should render the editor when there is a skip condition", () => {
+    const skipConditions = { id: "2", skipConditions: [] };
     const wrapper = shallow(
       <SkipLogicPage
-        page={{ id: "1", displayName: "test", routing }}
+        page={{ id: "1", displayName: "test", skipConditions }}
         createSkipCondition={jest.fn()}
       />
     );
-
     expect(wrapper.find(SkipLogicEditor).exists()).toBe(true);
     expect(wrapper.find(SkipLogicEditor).props()).toMatchObject({
-      routing,
+      skipConditions,
     });
   });
 });

@@ -1,6 +1,6 @@
-import { mapMutateToProps } from "./withCreateRouting";
+import { mapMutateToProps } from "./withCreateSkipLogic";
 
-describe("withCreateRouting", () => {
+describe("withCreateSkipLogic", () => {
   describe("mapMutateToProps", () => {
     let props;
     let mutate;
@@ -10,12 +10,12 @@ describe("withCreateRouting", () => {
       props = mapMutateToProps({ mutate });
     });
 
-    it("should have a createRouting prop", () => {
-      expect(props.createRouting).toBeInstanceOf(Function);
+    it("should have a createSkipCondition prop", () => {
+      expect(props.createSkipCondition).toBeInstanceOf(Function);
     });
 
     it("should call mutate", () => {
-      props.createRouting("id");
+      props.createSkipCondition("id");
       expect(mutate).toHaveBeenCalledWith({
         variables: { input: { pageId: "id" } },
       });
