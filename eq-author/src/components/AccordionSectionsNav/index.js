@@ -129,10 +129,6 @@ const SectionAccordion = props => {
       setIsOpen(isOpen => !isOpen);
       handleChange({ isOpen: !isOpen, id: identity });
     }
-    if (event.keyCode === 38) {
-      focusRef.current.focus();
-      console.log("focusRef", focusRef.current);
-    }
   };
 
   return (
