@@ -34,7 +34,7 @@ export class UnwrappedSkipLogicPage extends React.Component {
               onAddSkipCondtions={this.handleAddSkipCondtions}
               data-test="skip-condition-set-empty-msg"
             >
-              Users completing this question will be taken to the next page.
+              All users will see this question if no skip logic is added.
             </NoSkipConditions>
           </Panel>
         </Transition>
