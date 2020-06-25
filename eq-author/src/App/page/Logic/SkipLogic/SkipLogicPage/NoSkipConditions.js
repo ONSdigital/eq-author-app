@@ -38,7 +38,7 @@ const AddRoutingButton = styled(Button)`
 
 const RoutingRuleSetMsg = ({
   title,
-  onAddRouting,
+  onAddSkipCondtions,
   children,
   ...otherProps
 }) => (
@@ -50,7 +50,7 @@ const RoutingRuleSetMsg = ({
       small
       naked
       variant="primary"
-      onClick={onAddRouting}
+      onClick={onAddSkipCondtions}
       data-test="btn-add-routing"
     >
       <IconText icon={IconAddRule}>Add your skip conditions</IconText>
@@ -60,7 +60,7 @@ const RoutingRuleSetMsg = ({
 
 RoutingRuleSetMsg.propTypes = {
   title: PropTypes.string.isRequired,
-  onAddRouting: PropTypes.func.isRequired,
+  onAddSkipCondtions: PropTypes.func.isRequired,
   children: PropTypes.node.isRequired,
 };
 

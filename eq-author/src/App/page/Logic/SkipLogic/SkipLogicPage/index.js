@@ -5,7 +5,7 @@ import { TransitionGroup } from "react-transition-group";
 import PropTypes from "prop-types";
 
 import SkipLogicEditor from "./SkipLogicEditor";
-import NoRouting from "./NoRouting";
+import NoSkipConditions from "./NoSkipConditions";
 import Transition from "../Transition";
 
 import withCreateSkipLogic from "./withCreateSkipLogic";
@@ -14,26 +14,28 @@ import Panel from "components/Panel";
 
 export class UnwrappedSkipLogicPage extends React.Component {
   static propTypes = {
+    // eslint-disable-next-line react/forbid-prop-types
     page: PropTypes.object,
     createSkipCondition: PropTypes.func.isRequired,
   };
 
   static fragments = [fragment];
 
-  handleAddRouting = () => this.props.createSkipCondition(this.props.page.id);
+  handleAddSkipCondtions = () =>
+    this.props.createSkipCondition(this.props.page.id);
 
   renderContent(page) {
     if (!page.skipConditions) {
       return (
         <Transition key="routing-rule-set-empty" exit={false}>
           <Panel>
-            <NoRouting
+            <NoSkipConditions
               title="No skip conditions exist for this question"
-              onAddRouting={this.handleAddRouting}
+              onAddSkipCondtions={this.handleAddSkipCondtions}
               data-test="routing-rule-set-empty-msg"
             >
               Users completing this question will be taken to the next page.
-            </NoRouting>
+            </NoSkipConditions>
           </Panel>
         </Transition>
       );
