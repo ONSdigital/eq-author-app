@@ -76,7 +76,7 @@ const RemoveRuleButton = styled(Button).attrs({
 export class UnwrappedSkipConditionEditor extends React.Component {
   static propTypes = {
     pageId: PropTypes.string,
-    expressionGroup: PropTypes.object,
+    expressionGroup: PropTypes.object, // eslint-disable-line
     expressionGroupIndex: PropTypes.number,
     deleteSkipCondition: PropTypes.func.isRequired,
     deleteSkipConditions: PropTypes.func.isRequired,
