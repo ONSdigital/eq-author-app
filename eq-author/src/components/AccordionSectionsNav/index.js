@@ -116,16 +116,29 @@ const SectionAccordion = props => {
     handleChange({ isOpen: !isOpen, id: identity });
   };
 
+  const onEnterUp = event => {
+    if (event.keyCode === 13 || event.keyCode === 32) {
+      setIsOpen(isOpen => !isOpen);
+      handleChange({ isOpen: !isOpen, id: identity });
+    }
+  };
+
   return (
     <>
       <Header>
-        <Title>
+        <Title
+          onKeyUp={event => onEnterUp(event)}
+          data-test={`accordion-${titleName}-titleContainer`}
+        >
           <Button
+            role="button"
+            id={`${titleName}-btn`}
             isOpen={isOpen}
             onClick={() => handleClick()}
             aria-expanded={isOpen}
-            aria-controls={`accordion-${titleName}`}
+            aria-controls={`accordionBody-${titleName}`}
             data-test={`accordion-${titleName}-button`}
+            tabIndex={-1}
           />
           <SectionTitle data-test={`accordion-${titleName}-title`}>
             {title(isOpen)}
@@ -133,10 +146,13 @@ const SectionAccordion = props => {
         </Title>
       </Header>
       <Body
-        id={`accordion-${titleName}`}
+        role="region"
+        id={`accordionBody-${titleName}`}
         data-test={`accordion-${titleName}-body`}
         isOpen={isOpen}
         aria-hidden={!isOpen}
+        hidden={!isOpen}
+        aria-labelledby={`${titleName}-title`}
       >
         <DisplayContent isOpen={isOpen}>{children}</DisplayContent>
       </Body>
