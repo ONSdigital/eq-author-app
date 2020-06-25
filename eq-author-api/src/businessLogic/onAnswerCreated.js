@@ -1,38 +1,8 @@
-const { first, flatMap, filter, forEach, uniq } = require("lodash/fp");
+const { uniq } = require("lodash/fp");
 
-const { NULL } = require("../../constants/routingNoLeftSide");
 const totalableAnswerTypes = require("../../constants/totalableAnswerTypes");
 
-const answerTypeToConditions = require("./answerTypeToConditions");
 const createTotalValidation = require("./createTotalValidation");
-
-const updateNullExpressions = (page, answer) => {
-  if (!page.routing) {
-    return;
-  }
-
-  if (!answerTypeToConditions.isAnswerTypeSupported(answer.type)) {
-    return;
-  }
-
-  if (answer !== first(page.answers)) {
-    return;
-  }
-
-  const condition = answerTypeToConditions.getDefault(answer.type);
-
-  const expressions = filter(
-    expression => expression.left.type === NULL,
-    flatMap(rule => rule.expressionGroup.expressions, page.routing.rules)
-  );
-
-  forEach(expression => {
-    expression.condition = condition;
-    expression.left.answerId = answer.id;
-    expression.left.type = "Answer";
-    expression.left.nullReason = undefined;
-  }, expressions);
-};
 
 const createOrRemoveAnswerGroup = (page, newAnswer) => {
   const answerTypes = uniq(page.answers.map(a => a.type));
@@ -56,6 +26,5 @@ const createOrRemoveAnswerGroup = (page, newAnswer) => {
 };
 
 module.exports = (page, answer) => {
-  updateNullExpressions(page, answer);
   createOrRemoveAnswerGroup(page, answer);
 };
