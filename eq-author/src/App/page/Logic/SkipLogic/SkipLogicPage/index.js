@@ -27,12 +27,12 @@ export class UnwrappedSkipLogicPage extends React.Component {
   renderContent(page) {
     if (!page.skipConditions) {
       return (
-        <Transition key="routing-rule-set-empty" exit={false}>
+        <Transition key="skip-condition-set-empty" exit={false}>
           <Panel>
             <NoSkipConditions
               title="No skip conditions exist for this question"
               onAddSkipCondtions={this.handleAddSkipCondtions}
-              data-test="routing-rule-set-empty-msg"
+              data-test="skip-condition-set-empty-msg"
             >
               Users completing this question will be taken to the next page.
             </NoSkipConditions>
@@ -42,7 +42,7 @@ export class UnwrappedSkipLogicPage extends React.Component {
     }
 
     return (
-      <Transition key="routing-rule-set" exit={false}>
+      <Transition key="skip-condition-set" exit={false}>
         <SkipLogicEditor page={page} />
       </Transition>
     );
@@ -51,7 +51,7 @@ export class UnwrappedSkipLogicPage extends React.Component {
   render() {
     const { page } = this.props;
     return (
-      <div data-test="routing-editor">
+      <div data-test="skip-condition-editor">
         <TransitionGroup>{this.renderContent(page)}</TransitionGroup>
       </div>
     );
