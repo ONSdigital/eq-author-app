@@ -636,7 +636,7 @@ input DeleteSkipConditionInput {
 }
 
 input DeleteSkipConditionsInput {
-  id: ID!
+  pageId: ID!
 }
 
 
@@ -703,7 +703,7 @@ type Mutation {
   deleteCollapsible(input: DeleteCollapsibleInput!): QuestionnaireIntroduction!
   triggerPublish(input: PublishQuestionnaireInput!): Questionnaire!
   reviewQuestionnaire(input: ReviewQuestionnaireInput!): Questionnaire!
-  createSkipCondition(input: CreateSkipConditionInput!): ExpressionGroup2!
+  createSkipCondition(input: CreateSkipConditionInput!): QuestionPage
   deleteSkipCondition(input: DeleteSkipConditionInput!): QuestionPage
   deleteSkipConditions(input: DeleteSkipConditionsInput!): QuestionPage
 }

@@ -17,6 +17,7 @@ import { Grid, Column } from "components/Grid";
 import EditorLayout from "components/EditorLayout";
 import QuestionPageEditor from "App/page/Design/QuestionPageEditor";
 import Routing from "./Routing";
+import SkipLogic from "./SkipLogic";
 
 const ROUTING_PAGE_TYPES = ["QuestionPage"];
 const activeClassName = "active";
@@ -119,16 +120,11 @@ export class UnwrappedQuestionRoutingRoute extends React.Component {
         exact: true,
         main: Routing,
       },
-      /* This is left in as it's ready to accept Skip logic as per EAR-572 */
-      // {
-      //   path: `${match.path}/Skip`,
-      //   exact: true,
-      //   main: () => (
-      //       <h3>
-      //         Skip logic is under currently construction and not yet available
-      //       </h3>
-      //   ),
-      // },
+      {
+        path: `${match.path}/Skip`,
+        exact: true,
+        main: SkipLogic,
+      },
     ];
 
     return (
@@ -146,8 +142,7 @@ export class UnwrappedQuestionRoutingRoute extends React.Component {
                   Routing Logic
                 </LogicLink>
               </li>
-              {/* This is left in as it's ready to accept Skip logic as per EAR-572 */}
-              {/* <li>
+              <li>
                 <LogicLink
                   exact
                   to={`${match.url}/skip`}
@@ -156,7 +151,7 @@ export class UnwrappedQuestionRoutingRoute extends React.Component {
                 >
                   Skip Logic
                 </LogicLink>
-              </li> */}
+              </li>
             </StyledUl>
           </Column>
           <Column gutters={false} cols={9.5}>

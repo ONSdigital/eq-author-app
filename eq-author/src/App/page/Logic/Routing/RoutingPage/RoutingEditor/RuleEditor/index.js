@@ -14,7 +14,7 @@ import DestinationSelector from "App/page/Logic/Routing/DestinationSelector";
 
 import { RADIO } from "constants/answer-types";
 
-import BinaryExpressionEditor from "./BinaryExpressionEditor";
+import BinaryExpressionEditor from "App/page/Logic/BinaryExpressionEditor";
 import fragment from "./fragment.graphql";
 import withDeleteRule from "./withDeleteRule";
 import withUpdateRule from "./withUpdateRule";

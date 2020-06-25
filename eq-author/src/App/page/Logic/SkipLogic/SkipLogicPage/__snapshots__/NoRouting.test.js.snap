@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/NoRouting should render 1`] = `
+<NoRouting__Container>
+  <NoRouting__Icon />
+  <NoRouting__Title>
+    Test
+  </NoRouting__Title>
+  <NoRouting__Paragraph>
+    Ullamcorper Venenatis Fringilla
+  </NoRouting__Paragraph>
+  <NoRouting__AddRoutingButton
+    data-test="btn-add-routing"
+    naked={true}
+    onClick={[MockFunction]}
+    small={true}
+    type="button"
+    variant="primary"
+  >
+    <IconText
+      hideText={false}
+      icon={[Function]}
+    >
+      Add your first rule
+    </IconText>
+  </NoRouting__AddRoutingButton>
+</NoRouting__Container>
+`;

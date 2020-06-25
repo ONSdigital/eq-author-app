@@ -884,7 +884,7 @@ const Resolvers = {
         : [defaultSkipCondition];
 
       merge(page, { skipConditions });
-      return defaultSkipCondition;
+      return page;
     }),
     deleteSkipCondition: createMutation((_, { input }, ctx) => {
       const pages = getPages(ctx);
@@ -905,7 +905,7 @@ const Resolvers = {
       return page;
     }),
     deleteSkipConditions: createMutation((_, { input }, ctx) => {
-      const page = getPageById(ctx, input.id);
+      const page = getPageById(ctx, input.pageId);
       delete page.skipConditions;
       return page;
     }),

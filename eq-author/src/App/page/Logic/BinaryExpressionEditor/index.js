@@ -19,13 +19,14 @@ import {
   NO_ROUTABLE_ANSWER_ON_PAGE,
   SELECTED_ANSWER_DELETED,
   DEFAULT_ROUTING,
+  DEFAULT_SKIP_CONDITION,
 } from "constants/routing-left-side";
 
 import IconText from "components/IconText";
 import { Grid, Column } from "components/Grid";
 import { buildPagePath } from "utils/UrlUtils";
 
-import Transition from "../../../../Transition";
+import Transition from "App/page/Logic/Routing/Transition";
 
 import RoutingAnswerContentPicker from "./RoutingAnswerContentPicker";
 import svgPath from "./path.svg";
@@ -252,7 +253,10 @@ export class UnwrappedBinaryExpressionEditor extends React.Component {
   };
 
   renderEditor() {
-    if (this.props.expression.left.reason === DEFAULT_ROUTING) {
+    if (
+      this.props.expression.left.reason === DEFAULT_ROUTING ||
+      this.props.expression.left.reason === DEFAULT_SKIP_CONDITION
+    ) {
       return <div />;
     }
 
@@ -330,6 +334,7 @@ export class UnwrappedBinaryExpressionEditor extends React.Component {
           className={className}
           hasPadding={
             this.props.expression.left.reason === DEFAULT_ROUTING ||
+            this.props.expression.left.reason === DEFAULT_SKIP_CONDITION ||
             this.props.expression.left.reason === NO_ROUTABLE_ANSWER_ON_PAGE
           }
         >
@@ -342,6 +347,8 @@ export class UnwrappedBinaryExpressionEditor extends React.Component {
                 data-test="transition-condition"
                 isHidden={
                   this.props.expression.left.reason === DEFAULT_ROUTING ||
+                  this.props.expression.left.reason ===
+                    DEFAULT_SKIP_CONDITION ||
                   this.props.expression.left.reason ===
                     NO_ROUTABLE_ANSWER_ON_PAGE
                 }

@@ -1,13 +1,5 @@
 const answerTypes = require("../../../../constants/answerTypes");
-const {
-  find,
-  flatMap,
-  some,
-  intersectionBy,
-  getOr,
-  reject,
-  map,
-} = require("lodash/fp");
+const { find, some, intersectionBy, reject, map } = require("lodash/fp");
 
 const {
   createExpression,
@@ -17,7 +9,6 @@ const {
 const { createMutation } = require("../../createMutation");
 
 const {
-  getPages,
   getAnswers,
   getAnswerById,
   getOptions,
@@ -26,6 +17,7 @@ const {
   getExpressionById,
   getSkipConditionById,
   getSkipConditions,
+  getAllExpressionGroups,
 } = require("../../utils");
 
 const Resolvers = {};
@@ -62,24 +54,14 @@ Resolvers.BinaryExpression2 = {
     return null;
   },
   expressionGroup: async ({ id }, args, ctx) => {
-    const pages = getPages(ctx);
-    return find(
-      expressionGroup => {
-        if (
-          expressionGroup.expressions &&
-          some({ id }, expressionGroup.expressions)
-        ) {
-          return expressionGroup;
-        }
-      },
-      flatMap(
-        rule => rule.expressionGroup,
-        flatMap(
-          routing => getOr([], "rules", routing),
-          flatMap(page => page.routing, pages)
-        )
-      )
-    );
+    return find(expressionGroup => {
+      if (
+        expressionGroup.expressions &&
+        some({ id }, expressionGroup.expressions)
+      ) {
+        return expressionGroup;
+      }
+    }, getAllExpressionGroups(ctx));
   },
 };
 
