@@ -88,7 +88,7 @@ export const UnwrappedSectionNavItem = props => {
           data-test="nav-section-link"
           title={section.displayName}
           icon={SectionIcon}
-          id="sectionName"
+          id={section.displayName}
           errorCount={section.validationErrorInfo.totalCount}
           sectionTotalErrors={questionErrorCount}
           isSection

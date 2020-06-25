@@ -129,6 +129,10 @@ const SectionAccordion = props => {
       setIsOpen(isOpen => !isOpen);
       handleChange({ isOpen: !isOpen, id: identity });
     }
+    if (event.keyCode === 38) {
+      focusRef.current.focus();
+      console.log("focusRef", focusRef.current);
+    }
   };
 
   return (
@@ -137,7 +141,7 @@ const SectionAccordion = props => {
         <Title onKeyUp={event => onEnterUp(event)}>
           <Button
             role="button"
-            id={`${titleName}-title`}
+            id={`${titleName}-btn`}
             isOpen={isOpen}
             onClick={() => handleClick()}
             aria-expanded={isOpen}
@@ -151,12 +155,12 @@ const SectionAccordion = props => {
         </Title>
       </Header>
       <Body
+        role="region"
         id={`accordionBody-${titleName}`}
         data-test={`accordion-${titleName}-body`}
         isOpen={isOpen}
         aria-hidden={!isOpen}
         hidden={!isOpen}
-        role="region"
         aria-labelledby={`${titleName}-title`}
       >
         <DisplayContent isOpen={isOpen}>{children}</DisplayContent>
