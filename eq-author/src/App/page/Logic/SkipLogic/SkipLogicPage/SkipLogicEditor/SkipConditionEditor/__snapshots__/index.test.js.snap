@@ -11,14 +11,14 @@ exports[`SkipConditionEditor should render 1`] = `
     >
       Skip this quetion
     </Label>
-    <SkipConditionEditor__RemoveRuleButton
+    <SkipConditionEditor__RemoveSkipConditionButton
       data-test="btn-remove-skip-conditions"
       onClick={[Function]}
       type="button"
       variant="primary"
     >
       Remove logic rule
-    </SkipConditionEditor__RemoveRuleButton>
+    </SkipConditionEditor__RemoveSkipConditionButton>
   </SkipConditionEditor__Header>
   <SkipConditionEditor__Expressions>
     <TransitionGroup

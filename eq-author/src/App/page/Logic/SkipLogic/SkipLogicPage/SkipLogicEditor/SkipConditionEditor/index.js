@@ -59,7 +59,7 @@ const Middle = styled.div`
   align-items: center;
 `;
 
-const RemoveRuleButton = styled(Button).attrs({
+const RemoveSkipConditionButton = styled(Button).attrs({
   variant: "tertiary",
   small: true,
 })`
@@ -75,10 +75,6 @@ export class UnwrappedSkipConditionEditor extends React.Component {
     deleteSkipCondition: PropTypes.func.isRequired,
     deleteSkipConditions: PropTypes.func.isRequired,
     className: PropTypes.string,
-  };
-
-  static defaultProps = {
-    ifLabel: "If",
   };
 
   handleDeleteClick = () => {
@@ -97,23 +93,23 @@ export class UnwrappedSkipConditionEditor extends React.Component {
     const header = (
       <Header>
         <Label inline>{LABEL_GROUP_TITLE}</Label>
-        <RemoveRuleButton
+        <RemoveSkipConditionButton
           onClick={this.handleDeleteAllClick}
           data-test="btn-remove-skip-conditions"
         >
           {LABEL_REMOVE_ALL_GROUPS}
-        </RemoveRuleButton>
+        </RemoveSkipConditionButton>
       </Header>
     );
     const middle = (
       <Middle>
         <Label inline>{LABEL_OR}</Label>
-        <RemoveRuleButton
+        <RemoveSkipConditionButton
           onClick={this.handleDeleteClick}
           data-test="btn-remove-skip-condition"
         >
           {LABEL_REMOVE_GROUP}
-        </RemoveRuleButton>
+        </RemoveSkipConditionButton>
       </Middle>
     );
 

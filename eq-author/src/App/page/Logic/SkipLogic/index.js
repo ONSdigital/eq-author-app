@@ -6,7 +6,6 @@ import { Redirect } from "react-router-dom";
 
 import { get } from "lodash";
 import PropTypes from "prop-types";
-import { propType } from "graphql-anywhere";
 
 import Loading from "components/Loading";
 import Error from "components/Error";

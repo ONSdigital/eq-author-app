@@ -28,7 +28,7 @@ exports[`components/SkipConditionSet should render children 1`] = `
     </Transition__RoutingComponentTransition>
   </TransitionGroup>
   <SkipLogicEditor__Footer />
-  <SkipLogicEditor__AddRuleButton
+  <SkipLogicEditor__AddSkipConditionButton
     data-test="btn-add-skip-condition"
     onClick={[Function]}
     small={true}
@@ -36,6 +36,6 @@ exports[`components/SkipConditionSet should render children 1`] = `
     variant="secondary"
   >
     Add OR statement
-  </SkipLogicEditor__AddRuleButton>
+  </SkipLogicEditor__AddSkipConditionButton>
 </Fragment>
 `;

@@ -13,7 +13,7 @@ import withCreateSkipCondition from "./withCreateSkipCondition";
 
 import SkipConditionEditor from "./SkipConditionEditor";
 
-const AddRuleButton = styled(Button)`
+const AddSkipConditionButton = styled(Button)`
   display: block;
   margin: 2em auto;
   padding: 0.8em 2em;
@@ -60,14 +60,14 @@ export class UnwrappedSkipLogicEditor extends React.Component {
           ))}
         </TransitionGroup>
         <Footer />
-        <AddRuleButton
+        <AddSkipConditionButton
           variant="secondary"
           small
           onClick={this.handleAddClick}
           data-test="btn-add-skip-condition"
         >
           Add OR statement
-        </AddRuleButton>
+        </AddSkipConditionButton>
       </>
     );
   }
