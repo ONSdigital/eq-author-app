@@ -22,7 +22,9 @@ const getPages = ctx => flatMap(getSections(ctx), section => section.pages);
 
 const getPageById = (ctx, id, includeSelf = true) => {
   const page = find(getPages(ctx), { id });
-  page.includeSelf = includeSelf;
+  if (page) {
+    page.includeSelf = includeSelf;
+  }
   return page;
 };
 
