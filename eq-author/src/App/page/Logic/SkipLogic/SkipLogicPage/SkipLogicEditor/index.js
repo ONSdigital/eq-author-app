@@ -1,5 +1,4 @@
 import React from "react";
-import { propType } from "graphql-anywhere";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { TransitionGroup } from "react-transition-group";
@@ -7,7 +6,6 @@ import { flow } from "lodash/fp";
 
 import Button from "components/buttons/Button";
 import { colors } from "constants/theme";
-import { Label } from "components/Forms";
 
 import Transition from "App/page/Logic/Routing/Transition";
 
@@ -24,16 +22,18 @@ const AddRuleButton = styled(Button)`
 `;
 
 const Footer = styled.div`
-  background: ${colors.lightMediumGrey};
   padding: 0.5em 1em;
   margin-top: -1px;
   border-bottom: 3px solid ${colors.primary};
+  border-left: 1px solid ${colors.lightMediumGrey};
+  border-right: 1px solid ${colors.lightMediumGrey};
   display: flex;
   align-items: center;
 `;
 
 export class UnwrappedSkipLogicEditor extends React.Component {
   static propTypes = {
+    // eslint-disable-next-line react/forbid-prop-types
     page: PropTypes.object,
     createSkipCondition: PropTypes.func.isRequired,
   };
@@ -59,16 +59,14 @@ export class UnwrappedSkipLogicEditor extends React.Component {
             </Transition>
           ))}
         </TransitionGroup>
-        <Footer>
-          <Label>Then skip [{this.props.page.displayName}]</Label>
-        </Footer>
+        <Footer />
         <AddRuleButton
           variant="secondary"
           small
           onClick={this.handleAddClick}
           data-test="btn-add-rule"
         >
-          Add a different statement
+          Add OR statement
         </AddRuleButton>
       </>
     );

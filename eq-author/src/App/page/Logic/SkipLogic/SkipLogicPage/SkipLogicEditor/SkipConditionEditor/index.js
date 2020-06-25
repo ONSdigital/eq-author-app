@@ -19,12 +19,10 @@ import withDeleteSkipConditions from "./withDeleteSkipConditions";
 
 import { Label } from "components/Forms";
 
-export const LABEL_IF = "If";
-export const LABEL_ELSE = "Else";
-export const LABEL_ELSE_IF = "Else if";
-export const LABEL_AND = "And";
-export const LABEL_OR = "Or";
-export const LABEL_GROUP_TITLE = "Logic rule builder";
+export const LABEL_IF = "IF";
+export const LABEL_AND = "AND";
+export const LABEL_OR = "OR";
+export const LABEL_GROUP_TITLE = "Skip this quetion";
 export const LABEL_REMOVE_GROUP = "Remove OR";
 export const LABEL_REMOVE_ALL_GROUPS = "Remove logic rule";
 
@@ -35,11 +33,7 @@ const Expressions = styled.div`
   border-right: 1px solid ${colors.lightMediumGrey};
 `;
 
-const Rule = styled.div`
-  &:not(:first-of-type) {
-    margin-top: 2em;
-  }
-`;
+const SkipCondition = styled.div``;
 
 export const Title = styled.h2`
   letter-spacing: 0.05em;
@@ -124,7 +118,7 @@ export class UnwrappedSkipConditionEditor extends React.Component {
     );
 
     return (
-      <Rule data-test="skip-condition" className={className}>
+      <SkipCondition data-test="skip-condition" className={className}>
         {expressionGroupIndex > 0 ? middle : header}
         <Expressions>
           <TransitionGroup>
@@ -153,7 +147,7 @@ export class UnwrappedSkipConditionEditor extends React.Component {
             })}
           </TransitionGroup>
         </Expressions>
-      </Rule>
+      </SkipCondition>
     );
   }
 }

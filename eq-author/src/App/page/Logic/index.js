@@ -139,7 +139,7 @@ export class UnwrappedQuestionRoutingRoute extends React.Component {
                   to={`${match.url}/routing`}
                   activeClassName="active"
                 >
-                  Routing Logic
+                  Routing logic
                 </LogicLink>
               </li>
               <li>
@@ -149,7 +149,7 @@ export class UnwrappedQuestionRoutingRoute extends React.Component {
                   activeClassName="active"
                   replace
                 >
-                  Skip Logic
+                  Skip logic
                 </LogicLink>
               </li>
             </StyledUl>
