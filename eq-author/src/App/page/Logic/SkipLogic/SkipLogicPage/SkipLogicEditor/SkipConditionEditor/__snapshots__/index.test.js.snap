@@ -9,7 +9,7 @@ exports[`SkipConditionEditor should render 1`] = `
       bold={true}
       inline={true}
     >
-      Skip this quetion
+      Skip this question
     </Label>
     <SkipConditionEditor__RemoveSkipConditionButton
       data-test="btn-remove-skip-conditions"
