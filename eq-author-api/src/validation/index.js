@@ -11,6 +11,7 @@ const {
   CONFIRMATION,
   CONFIRMATION_OPTION,
   VALIDATION,
+  EXPRESSIONS,
   MIN_VALUE,
   MAX_VALUE,
   MIN_DURATION,
@@ -106,6 +107,7 @@ module.exports = questionnaire => {
       [CONFIRMATION]: {},
       [CONFIRMATION_OPTION]: {},
       [VALIDATION]: {},
+      [EXPRESSIONS]: {},
       totalCount: 0,
     };
   }
@@ -199,6 +201,7 @@ module.exports = questionnaire => {
         [CONFIRMATION]: {},
         [CONFIRMATION_OPTION]: {},
         [VALIDATION]: {},
+        [EXPRESSIONS]: {},
         totalCount: errorMessages.length,
       }
     );
