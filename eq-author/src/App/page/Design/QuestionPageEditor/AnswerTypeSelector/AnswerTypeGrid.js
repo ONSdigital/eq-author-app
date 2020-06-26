@@ -95,7 +95,6 @@ class AnswerTypeGrid extends React.Component {
                 onClick: this.handleSelect,
                 order: buttons.length - index,
               };
-              console.log(index);
               if (index === 0) {
                 props.ref = this.saveButtonRef;
               }
