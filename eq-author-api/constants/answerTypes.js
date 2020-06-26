@@ -1,36 +1,36 @@
-const CHECKBOX = "Checkbox";
-const RADIO = "Radio";
-const TEXTFIELD = "TextField";
-const TEXTAREA = "TextArea";
-const CURRENCY = "Currency";
 const NUMBER = "Number";
+const CURRENCY = "Currency";
+const UNIT = "Unit";
+const PERCENTAGE = "Percentage";
 const DATE = "Date";
 const DATE_RANGE = "DateRange";
-const PERCENTAGE = "Percentage";
-const UNIT = "Unit";
+const TEXTAREA = "TextArea";
+const TEXTFIELD = "TextField";
+const RADIO = "Radio";
+const CHECKBOX = "Checkbox";
 const DURATION = "Duration";
 
-const BASIC_ANSWERS = [TEXTFIELD, TEXTAREA, CURRENCY, NUMBER, UNIT, DURATION];
+const BASIC_ANSWERS = [NUMBER, CURRENCY, UNIT, DURATION, TEXTAREA, TEXTFIELD];
 const NON_RADIO_ANSWERS = [
   ...BASIC_ANSWERS,
-  CHECKBOX,
+  PERCENTAGE,
   DATE,
   DATE_RANGE,
-  PERCENTAGE,
+  CHECKBOX,
 ];
 
 module.exports = {
-  CHECKBOX,
-  RADIO,
-  TEXTFIELD,
-  TEXTAREA,
-  CURRENCY,
   NUMBER,
+  CURRENCY,
+  UNIT,
   PERCENTAGE,
+  DURATION,
   DATE,
   DATE_RANGE,
-  UNIT,
-  DURATION,
+  TEXTAREA,
+  TEXTFIELD,
+  RADIO,
+  CHECKBOX,
   BASIC_ANSWERS,
   NON_RADIO_ANSWERS,
 };
