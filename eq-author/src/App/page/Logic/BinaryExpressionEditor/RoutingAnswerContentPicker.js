@@ -57,7 +57,13 @@ UnwrappedRoutingAnswerContentPicker.propTypes = {
 const RoutingAnswerContentPicker = props => (
   <Query
     query={GET_AVAILABLE_ROUTING_ANSWERS}
-    variables={{ input: props.match.params }}
+    variables={{
+      input: {
+        pageId: props.match.params.pageId,
+        questionnaireId: props.match.params.questionnaireId,
+        includeSelf: props.includeSelf,
+      },
+    }}
     fetchPolicy="cache-and-network"
   >
     {innerProps => (
@@ -68,6 +74,7 @@ const RoutingAnswerContentPicker = props => (
 
 RoutingAnswerContentPicker.propTypes = {
   match: CustomPropTypes.match.isRequired,
+  includeSelf: PropTypes.bool,
 };
 
 export default withRouter(RoutingAnswerContentPicker);

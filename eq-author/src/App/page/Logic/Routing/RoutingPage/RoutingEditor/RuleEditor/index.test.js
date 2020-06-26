@@ -6,7 +6,7 @@ import RoutingRuleDestinationSelector from "App/page/Logic/Routing/DestinationSe
 import { RADIO } from "constants/answer-types";
 import { AND, OR } from "constants/routingOperators";
 
-import BinaryExpressionEditor from "./BinaryExpressionEditor";
+import BinaryExpressionEditor from "App/page/Logic/BinaryExpressionEditor";
 
 import { UnwrappedRuleEditor as RuleEditor } from "./";
 import { byTestAttr } from "tests/utils/selectors";

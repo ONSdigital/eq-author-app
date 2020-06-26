@@ -1,0 +1,10 @@
+#import "./fragment.graphql"
+
+mutation createSkipCondition($input: CreateSkipConditionInput!) {
+  createSkipCondition(input: $input) {
+    id
+    displayName
+    pageType
+    ...SkipLogicPage
+  }
+}

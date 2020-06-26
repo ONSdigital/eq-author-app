@@ -38,11 +38,11 @@ Resolvers.QuestionPage = {
   availablePipingAnswers: ({ id }, args, ctx) =>
     getPreviousAnswersForPage(ctx.questionnaire, id),
   availablePipingMetadata: (page, args, ctx) => ctx.questionnaire.metadata,
-  availableRoutingAnswers: ({ id }, args, ctx) =>
+  availableRoutingAnswers: (page, args, ctx) =>
     getPreviousAnswersForPage(
       ctx.questionnaire,
-      id,
-      true,
+      page.id,
+      page.includeSelf,
       ROUTING_ANSWER_TYPES
     ),
   availableRoutingDestinations: ({ id }, args, ctx) => {
