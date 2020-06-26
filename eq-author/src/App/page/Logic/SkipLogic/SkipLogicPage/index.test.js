@@ -17,7 +17,7 @@ describe("Skip Condition Page", () => {
     expect(wrapper.find(NoSkipConditions).exists()).toBe(true);
   });
 
-  it("should call create skip sondition with the page id when add skip sondition button is clicked", () => {
+  it("should call create skip condition with the page id when add skip condition button is clicked", () => {
     const createSkipCondition = jest.fn();
     const wrapper = shallow(
       <SkipLogicPage
