@@ -1,4 +1,4 @@
-const translateBinaryExpression = require("./translateBinaryExpression");
+const translateBinaryExpression = require("../translateBinaryEpression/translateBinaryExpression");
 const translateRoutingDestination = require("./translateRoutingDestination");
 const { flatMap } = require("lodash");
 const { AND } = require("../../../constants/routingOperators");
