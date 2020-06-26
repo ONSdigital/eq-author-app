@@ -1,4 +1,4 @@
-#import "./BinaryExpressionEditor/fragment.graphql"
+#import "App/page/Logic/BinaryExpressionEditor/fragment.graphql"
 
 fragment RuleEditor on RoutingRule2 {
   id

@@ -123,7 +123,7 @@ interface Page {
   availablePipingAnswers: [Answer!]!
   availablePipingMetadata: [Metadata!]!
   validationErrorInfo: ValidationErrorInfo
-
+  includeSelf: Boolean
 }
 
 type QuestionPage implements Page {
@@ -154,6 +154,7 @@ type QuestionPage implements Page {
   skipConditions: [ExpressionGroup2]
   totalValidation: TotalValidationRule
   validationErrorInfo: ValidationErrorInfo
+  includeSelf: Boolean
 }
 
 type CalculatedSummaryPage implements Page {
@@ -171,6 +172,7 @@ type CalculatedSummaryPage implements Page {
   availablePipingMetadata: [Metadata!]!
   totalTitle: String
   validationErrorInfo: ValidationErrorInfo
+  includeSelf: Boolean
 }
 
 type ConfirmationOption {
@@ -191,6 +193,7 @@ type QuestionConfirmation {
   availablePipingAnswers: [Answer!]!
   availablePipingMetadata: [Metadata!]!
   validationErrorInfo: ValidationErrorInfo
+  includeSelf: Boolean
 }
 
 interface Answer {
@@ -625,6 +628,7 @@ input QueryInput {
   pageId: ID
   answerId: ID
   optionId: ID
+  includeSelf: Boolean
 }
 
 input CreateSkipConditionInput {
@@ -636,7 +640,7 @@ input DeleteSkipConditionInput {
 }
 
 input DeleteSkipConditionsInput {
-  id: ID!
+  pageId: ID!
 }
 
 
@@ -703,7 +707,7 @@ type Mutation {
   deleteCollapsible(input: DeleteCollapsibleInput!): QuestionnaireIntroduction!
   triggerPublish(input: PublishQuestionnaireInput!): Questionnaire!
   reviewQuestionnaire(input: ReviewQuestionnaireInput!): Questionnaire!
-  createSkipCondition(input: CreateSkipConditionInput!): ExpressionGroup2!
+  createSkipCondition(input: CreateSkipConditionInput!): QuestionPage
   deleteSkipCondition(input: DeleteSkipConditionInput!): QuestionPage
   deleteSkipConditions(input: DeleteSkipConditionsInput!): QuestionPage
 }

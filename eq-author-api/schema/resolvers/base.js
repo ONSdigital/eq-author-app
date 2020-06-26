@@ -183,7 +183,8 @@ const Resolvers = {
         ({ history }) => history
       ),
     section: (root, { input }, ctx) => getSectionById(ctx, input.sectionId),
-    page: (root, { input }, ctx) => getPageById(ctx, input.pageId),
+    page: (root, { input }, ctx) =>
+      getPageById(ctx, input.pageId, input.includeSelf),
     answer: (root, { input }, ctx) => getAnswerById(ctx, input.answerId),
     answers: async (root, { ids }, ctx) =>
       getAnswers(ctx).filter(({ id }) => ids.includes(id)),
@@ -884,7 +885,7 @@ const Resolvers = {
         : [defaultSkipCondition];
 
       merge(page, { skipConditions });
-      return defaultSkipCondition;
+      return page;
     }),
     deleteSkipCondition: createMutation((_, { input }, ctx) => {
       const pages = getPages(ctx);
@@ -905,7 +906,7 @@ const Resolvers = {
       return page;
     }),
     deleteSkipConditions: createMutation((_, { input }, ctx) => {
-      const page = getPageById(ctx, input.id);
+      const page = getPageById(ctx, input.pageId);
       delete page.skipConditions;
       return page;
     }),

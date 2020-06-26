@@ -9,17 +9,17 @@ import { IconGrid } from "components/IconGrid";
 import AnswerTypeButton from "./AnswerTypeButton";
 
 import {
-  TEXTFIELD,
   NUMBER,
   CURRENCY,
-  TEXTAREA,
-  CHECKBOX,
-  RADIO,
-  PERCENTAGE,
-  DATE_RANGE,
-  DATE,
   UNIT,
+  PERCENTAGE,
   DURATION,
+  DATE,
+  DATE_RANGE,
+  TEXTAREA,
+  TEXTFIELD,
+  RADIO,
+  CHECKBOX,
 } from "constants/answer-types";
 
 const Menu = styled.div`
@@ -49,17 +49,17 @@ const MenuBackground = styled.div`
 `;
 
 export const buttons = [
-  { type: CHECKBOX, title: "Checkbox" },
-  { type: RADIO, title: "Radio" },
-  { type: TEXTFIELD, title: "Text" },
-  { type: TEXTAREA, title: "Textarea" },
-  { type: CURRENCY, title: "Currency" },
   { type: NUMBER, title: "Number" },
+  { type: CURRENCY, title: "Currency" },
+  { type: UNIT, title: "Unit" },
+  { type: PERCENTAGE, title: "Percentage" },
+  { type: DURATION, title: "Duration" },
   { type: DATE, title: "Date" },
   { type: DATE_RANGE, title: "Date range" },
-  { type: PERCENTAGE, title: "Percentage" },
-  { type: UNIT, title: "Unit" },
-  { type: DURATION, title: "Duration" },
+  { type: TEXTAREA, title: "Textarea" },
+  { type: TEXTFIELD, title: "Text" },
+  { type: RADIO, title: "Radio" },
+  { type: CHECKBOX, title: "Checkbox" },
 ];
 
 class AnswerTypeGrid extends React.Component {
@@ -93,9 +93,8 @@ class AnswerTypeGrid extends React.Component {
               const props = {
                 ...button,
                 onClick: this.handleSelect,
-                order: buttons.length - index,
+                order: index - buttons.length,
               };
-
               if (index === 0) {
                 props.ref = this.saveButtonRef;
               }

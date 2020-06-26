@@ -51,10 +51,10 @@ describe("skip conditions", () => {
       const ctx = await buildContext(config);
       const { questionnaire } = ctx;
       const page = questionnaire.sections[0].pages[0];
-      const { id } = await createSkipCondition(ctx, page);
+      await createSkipCondition(ctx, page);
 
       expect(page.skipConditions.length).toBe(1);
-      await deleteSkipCondition(ctx, id);
+      await deleteSkipCondition(ctx, page.skipConditions[0].id);
       const result = await queryPage(ctx, page.id);
       expect(result.skipConditions).toBeNull();
     });

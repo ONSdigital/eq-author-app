@@ -1,4 +1,4 @@
-const { flatMap, filter, forEach, uniq } = require("lodash/fp");
+const { filter, forEach, uniq } = require("lodash/fp");
 
 const {
   SELECTED_ANSWER_DELETED,
@@ -6,25 +6,19 @@ const {
 const { NULL } = require("../../constants/routingNoLeftSide");
 const totalableAnswerTypes = require("../../constants/totalableAnswerTypes");
 const createGroupValidation = require("./createTotalValidation");
-const { getPages } = require("../../schema/resolvers/utils");
+const { getExpressions } = require("../../schema/resolvers/utils");
 
 const removeAnswerFromExpressions = (ctx, answer) => {
-  const allPages = getPages(ctx);
+  const expressions = filter(
+    expression => expression.left.answerId === answer.id,
+    getExpressions(ctx)
+  );
 
-  allPages.forEach(page => {
-    if (page.routing) {
-      const expressions = filter(
-        expression => expression.left.answerId === answer.id,
-        flatMap(rule => rule.expressionGroup.expressions, page.routing.rules)
-      );
-
-      forEach(expression => {
-        expression.left.answerId = undefined;
-        expression.left.type = NULL;
-        expression.left.nullReason = SELECTED_ANSWER_DELETED;
-      }, expressions);
-    }
-  });
+  forEach(expression => {
+    expression.left.answerId = undefined;
+    expression.left.type = NULL;
+    expression.left.nullReason = SELECTED_ANSWER_DELETED;
+  }, expressions);
 };
 
 const removeAnswerGroup = (page, removedAnswer) => {
