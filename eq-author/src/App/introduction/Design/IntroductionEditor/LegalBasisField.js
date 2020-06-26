@@ -84,8 +84,7 @@ const LegalLabel = styled.label`
 const LegalTitle = styled.span`
   font-size: 0.85em;
   font-weight: bold;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0;
   margin: 0 0 1em;
   color: ${colors.text};
 `;
