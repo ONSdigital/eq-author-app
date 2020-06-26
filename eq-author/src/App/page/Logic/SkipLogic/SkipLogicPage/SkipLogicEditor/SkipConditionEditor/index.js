@@ -22,7 +22,7 @@ import { Label } from "components/Forms";
 export const LABEL_IF = "IF";
 export const LABEL_AND = "AND";
 export const LABEL_OR = "OR";
-export const LABEL_GROUP_TITLE = "Skip this quetion";
+export const LABEL_GROUP_TITLE = "Skip this question";
 export const LABEL_REMOVE_GROUP = "Remove OR";
 export const LABEL_REMOVE_ALL_GROUPS = "Remove logic rule";
 
