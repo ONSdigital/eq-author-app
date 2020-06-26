@@ -89,11 +89,11 @@ class AnswerTypeGrid extends React.Component {
       <Menu {...otherProps}>
         <MenuBackground>
           <IconGrid aria-labelledby={labelledby}>
-            {buttons.reverse().map((button, index) => {
+            {buttons.map((button, index) => {
               const props = {
                 ...button,
                 onClick: this.handleSelect,
-                order: buttons.length - index,
+                order: index - buttons.length,
               };
               if (index === 0) {
                 props.ref = this.saveButtonRef;
