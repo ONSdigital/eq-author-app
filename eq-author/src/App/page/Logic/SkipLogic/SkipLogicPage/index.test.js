@@ -7,7 +7,7 @@ import NoSkipConditions from "./NoSkipConditions";
 import SkipLogicEditor from "./SkipLogicEditor";
 
 describe("Skip Condition Page", () => {
-  it("should show the no skip sondition message when there is no skip sonditions for a page", () => {
+  it("should show the no skip condition message when there is no skip conditions for a page", () => {
     const wrapper = shallow(
       <SkipLogicPage
         page={{ id: "1", displayName: "test", skipConditions: null }}
