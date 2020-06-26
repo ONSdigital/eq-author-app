@@ -274,6 +274,38 @@ exports.getQuestionnaire = `
                 ...destination2Fragment
               }
             }
+            skipConditions {
+              expressions {
+                ... on BinaryExpression2 {
+                  left {
+                    ... on BasicAnswer {
+                      id
+                      type
+                      label
+                    }
+                    ... on MultipleChoiceAnswer {
+                      id
+                      type
+                      options {
+                        id
+                      }
+                    }
+                  }
+                  condition
+                  right {
+                    ... on CustomValue2 {
+                      number
+                    }
+                    ... on SelectedOptions2 {
+                      options {
+                        id
+                        label
+                      }
+                    }
+                  }
+                }
+              }
+            }
             totalValidation {
               id
               enabled

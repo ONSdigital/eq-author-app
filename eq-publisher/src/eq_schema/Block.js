@@ -1,6 +1,7 @@
 const Question = require("./Question");
 
 const translateAuthorRouting = require("./builders/routing2");
+const translateAuthorSkipconditions = require("./builders/skipConditions");
 const {
   getInnerHTMLWithPiping,
   unescapePiping,
@@ -36,6 +37,9 @@ class Block {
         groupId,
         ctx
       );
+    }
+    if (page.skipConditions) {
+      this.skip_conditions = translateAuthorSkipconditions(page.skipConditions);
     }
   }
 
