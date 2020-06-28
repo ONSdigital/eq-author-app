@@ -3,6 +3,7 @@ import React from "react";
 
 import { TransitionGroup } from "react-transition-group";
 import PropTypes from "prop-types";
+import { propType } from "graphql-anywhere";
 
 import SkipLogicEditor from "./SkipLogicEditor";
 import NoSkipConditions from "./NoSkipConditions";
@@ -10,16 +11,18 @@ import Transition from "../Transition";
 
 import withCreateSkipLogic from "./withCreateSkipLogic";
 import fragment from "./fragment.graphql";
+import transformNestedFragments from "utils/transformNestedFragments";
 import Panel from "components/Panel";
 
 export class UnwrappedSkipLogicPage extends React.Component {
   static propTypes = {
-    // eslint-disable-next-line react/forbid-prop-types
-    page: PropTypes.object,
+    page: propType(
+      transformNestedFragments(fragment, SkipLogicEditor.fragments)
+    ).isRequired,
     createSkipCondition: PropTypes.func.isRequired,
   };
 
-  static fragments = [fragment];
+  static fragments = [fragment, ...SkipLogicEditor.fragments];
 
   handleAddSkipCondtions = () =>
     this.props.createSkipCondition(this.props.page.id);
@@ -43,7 +46,10 @@ export class UnwrappedSkipLogicPage extends React.Component {
 
     return (
       <Transition key="skip-condition-set" exit={false}>
-        <SkipLogicEditor page={page} />
+        <SkipLogicEditor
+          pageId={page.id}
+          skipConditions={page.skipConditions}
+        />
       </Transition>
     );
   }
