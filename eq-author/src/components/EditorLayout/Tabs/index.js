@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { NavLink, withRouter } from "react-router-dom";
+import { get } from "lodash";
 
 import { colors } from "constants/theme";
 import CustomPropTypes from "custom-prop-types";
@@ -43,6 +44,21 @@ const DisabledTab = styled(Tab.withComponent("span"))`
   opacity: 0.2;
 `;
 
+const SmallBadge = styled.span`
+  border-radius: 50%;
+  background-color: ${colors.red};
+  border: 1px solid ${colors.white};
+  font-weight: normal;
+  z-index: 2;
+  display: inline-flex;
+  pointer-events: none;
+  width: 0.75em;
+  height: 0.75em;
+  margin: 0;
+  padding: 0;
+  margin-right: 5px;
+`;
+
 const TABS = [
   {
     key: "design",
@@ -62,7 +78,12 @@ const TABS = [
 ];
 
 export const UnwrappedTabs = props => {
-  const { match } = props;
+  const { match, page } = props;
+
+  // const pageErrors =
+  //   page && page.validationErrorInfo && page.validationErrorInfo.totalCount;
+  const pageErrors = get(page, "validationErrorInfo.totalCount", null);
+
   return (
     <div>
       <TabsContainer data-test="tabs-nav">
@@ -73,9 +94,14 @@ export const UnwrappedTabs = props => {
                 otherProps: { to: url(match), activeClassName },
               }
             : { Component: DisabledTab };
-
           return (
             <Component data-test={key} key={key} {...otherProps}>
+              {key === "design" &&
+              pageErrors !== undefined &&
+              pageErrors !== null &&
+              pageErrors > 0 ? (
+                <SmallBadge data-test="small-badge" />
+              ) : null}
               {children}
             </Component>
           );
@@ -96,6 +122,7 @@ UnwrappedTabs.propTypes = {
   preview: PropTypes.bool,
   logic: PropTypes.bool,
   match: CustomPropTypes.match.isRequired,
+  page: CustomPropTypes.page,
 };
 
 export default withRouter(UnwrappedTabs);
