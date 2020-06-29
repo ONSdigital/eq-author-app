@@ -57,6 +57,7 @@ const ChooseButton = styled(TextButton)`
   align-items: center;
   margin: 0.25rem;
   max-width: 12em;
+  letter-spacing: 0;
 
   &:hover {
     color: ${colors.white};
