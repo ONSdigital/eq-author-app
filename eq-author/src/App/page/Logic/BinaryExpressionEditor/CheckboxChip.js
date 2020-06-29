@@ -15,10 +15,8 @@ const RemoveButton = styled.button`
   font-size: 1rem;
   width: 0.8em;
   height: 0.8em;
-  margin-left: 0.2em;
-  margin-right: 0.2em;
-
-  opacity: 1;
+  margin: 0 0.2em;
+  sopacity: 1;
 
   &:hover {
     opacity: 0.5;
@@ -45,7 +43,7 @@ const Chip = styled.div`
   border: none;
   display: inline-flex;
   align-items: center;
-  margin: 0.25rem;
+  margin: 0.25rem 0.5rem 0.25rem 0.25rem;
   max-width: 12em;
 `;
 
