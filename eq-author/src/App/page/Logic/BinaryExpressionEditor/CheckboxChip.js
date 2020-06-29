@@ -15,11 +15,14 @@ const RemoveButton = styled.button`
   font-size: 1rem;
   width: 0.8em;
   height: 0.8em;
+  margin-left: 0.2em;
+  margin-right: 0.2em;
 
-  opacity: 0.5;
+  opacity: 1;
 
   &:hover {
-    opacity: 1;
+    opacity: 0.5;
+    cursor: pointer;
   }
 
   &:focus,
