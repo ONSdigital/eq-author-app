@@ -16,7 +16,7 @@ const RemoveButton = styled.button`
   width: 0.8em;
   height: 0.8em;
   margin: 0 0.2em;
-  sopacity: 1;
+  opacity: 1;
 
   &:hover {
     opacity: 0.5;
