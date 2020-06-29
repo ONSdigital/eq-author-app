@@ -49,7 +49,7 @@ const ConditionSelect = styled(Select)`
 const ChooseButton = styled(TextButton)`
   font-size: 1rem;
   background: ${colors.white};
-  padding: 0.3em 0.5em 0.3em 0.5em;
+  padding: 0.3em 0.5em;
   border-radius: 4px;
   color: ${colors.primary};
   border: 1px solid ${colors.primary};
