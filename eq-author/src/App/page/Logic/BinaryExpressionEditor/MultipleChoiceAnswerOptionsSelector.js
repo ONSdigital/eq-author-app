@@ -26,6 +26,12 @@ const MultipleChoiceAnswerOptions = styled.div`
   padding: 1em 0;
   display: inline-flex;
   flex-flow: row wrap;
+  width: 100%;
+  margin-top: 0.75em;
+  margin-bottom: 1em;
+  padding: 0.5em;
+  border-radius: 4px;
+  border: 2px solid ${colors.lighterGrey};
 `;
 
 const Label = styled.label`
