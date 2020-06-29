@@ -8,12 +8,14 @@ import VisuallyHidden from "components/VisuallyHidden";
 import Truncated from "components/Truncated";
 
 const RemoveButton = styled.button`
+  border-radius: 50%;
   border: none;
-  background: transparent url(${iconClose}) no-repeat center;
+  background: ${colors.white} url(${iconClose}) no-repeat center;
   background-size: 0.5em;
   font-size: 1rem;
-  width: 1em;
-  height: 1em;
+  width: 0.8em;
+  height: 0.8em;
+
   opacity: 0.5;
 
   &:hover {
@@ -34,7 +36,7 @@ const RemoveButton = styled.button`
 const Chip = styled.div`
   font-size: 1rem;
   background: ${colors.primary};
-  padding: 0.4em 0.3em 0.4em 0.5em;
+  padding: 0.3em 0.3em 0.3em 0.5em;
   border-radius: 4px;
   color: white;
   border: none;

@@ -43,6 +43,32 @@ const ConditionSelect = styled(Select)`
 
 const ChooseButton = styled(TextButton)`
   margin: 0.25rem;
+
+  font-size: 1rem;
+  background: ${colors.white};
+  padding: 0.3em 0.3em 0.3em 0.5em;
+  border-radius: 4px;
+  color: ${colors.primary};
+  border: 1px solid ${colors.primary};
+  display: inline-flex;
+  align-items: center;
+  margin: 0.25rem;
+  max-width: 12em;
+
+  &:hover {
+    color: ${colors.white};
+    background: ${colors.primary};
+  }
+
+  &:focus,
+  &:active {
+    outline-width: 0;
+  }
+
+  &:focus {
+    box-shadow: 0 0 0 3px ${colors.tertiary};
+    outline: none;
+  }
 `;
 
 const SelectedOptions = styled.div`
