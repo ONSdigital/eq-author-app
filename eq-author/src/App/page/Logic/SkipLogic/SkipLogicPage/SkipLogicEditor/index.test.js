@@ -6,16 +6,13 @@ describe("components/SkipConditionSet", () => {
   let defaultProps;
   beforeEach(() => {
     defaultProps = {
-      page: {
-        id: "1",
-        displayName: "Test",
-        skipConditions: [
-          {
-            id: "1",
-            expressions: [{ id: "1" }],
-          },
-        ],
-      },
+      pageId: "1",
+      skipConditions: [
+        {
+          id: "2",
+          expressions: [{ id: "3" }],
+        },
+      ],
       createSkipCondition: jest.fn(),
     };
   });
@@ -29,7 +26,7 @@ describe("components/SkipConditionSet", () => {
     const wrapper = shallow(<UnwrappedSkipLogicEditor {...defaultProps} />);
     wrapper.find("[data-test='btn-add-skip-condition']").simulate("click");
     expect(defaultProps.createSkipCondition).toHaveBeenCalledWith(
-      defaultProps.page.id
+      defaultProps.pageId
     );
   });
 });

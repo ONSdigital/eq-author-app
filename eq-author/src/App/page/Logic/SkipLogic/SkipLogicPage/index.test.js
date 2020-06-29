@@ -38,8 +38,8 @@ describe("Skip Condition Page", () => {
       />
     );
     expect(wrapper.find(SkipLogicEditor).exists()).toBe(true);
-    expect(
-      wrapper.find(SkipLogicEditor).props().page.skipConditions
-    ).toMatchObject(skipConditions);
+    expect(wrapper.find(SkipLogicEditor).props().skipConditions).toMatchObject(
+      skipConditions
+    );
   });
 });

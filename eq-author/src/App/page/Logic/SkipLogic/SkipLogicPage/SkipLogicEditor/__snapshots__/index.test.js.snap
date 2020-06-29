@@ -7,7 +7,7 @@ exports[`components/SkipConditionSet should render children 1`] = `
     component="div"
   >
     <Transition__RoutingComponentTransition
-      key="1"
+      key="2"
       timeout={200}
     >
       <Apollo(Apollo(UnwrappedSkipConditionEditor))
@@ -15,14 +15,14 @@ exports[`components/SkipConditionSet should render children 1`] = `
           Object {
             "expressions": Array [
               Object {
-                "id": "1",
+                "id": "3",
               },
             ],
-            "id": "1",
+            "id": "2",
           }
         }
         expressionGroupIndex={0}
-        key="1"
+        key="2"
         pageId="1"
       />
     </Transition__RoutingComponentTransition>
