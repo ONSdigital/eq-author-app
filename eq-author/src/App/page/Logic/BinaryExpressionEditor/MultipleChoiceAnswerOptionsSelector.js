@@ -23,9 +23,14 @@ const answerConditions = {
 
 const MultipleChoiceAnswerOptions = styled.div`
   align-items: center;
-  padding: 1em 0;
   display: inline-flex;
   flex-flow: row wrap;
+  width: 100%;
+  margin-top: 0.75em;
+  margin-bottom: 1em;
+  padding: 0.5em;
+  border-radius: 4px;
+  border: 2px solid ${colors.lighterGrey};
 `;
 
 const Label = styled.label`
@@ -42,7 +47,31 @@ const ConditionSelect = styled(Select)`
 `;
 
 const ChooseButton = styled(TextButton)`
+  font-size: 1rem;
+  background: ${colors.white};
+  padding: 0.3em 0.3em 0.3em 0.5em;
+  border-radius: 4px;
+  color: ${colors.primary};
+  border: 1px solid ${colors.primary};
+  display: inline-flex;
+  align-items: center;
   margin: 0.25rem;
+  max-width: 12em;
+
+  &:hover {
+    color: ${colors.white};
+    background: ${colors.primary};
+  }
+
+  &:focus,
+  &:active {
+    outline-width: 0;
+  }
+
+  &:focus {
+    box-shadow: 0 0 0 3px ${colors.tertiary};
+    outline: none;
+  }
 `;
 
 const SelectedOptions = styled.div`
