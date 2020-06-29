@@ -42,8 +42,6 @@ const ConditionSelect = styled(Select)`
 `;
 
 const ChooseButton = styled(TextButton)`
-  margin: 0.25rem;
-
   font-size: 1rem;
   background: ${colors.white};
   padding: 0.3em 0.3em 0.3em 0.5em;
