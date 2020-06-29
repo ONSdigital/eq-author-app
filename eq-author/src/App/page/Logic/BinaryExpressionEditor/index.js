@@ -128,6 +128,13 @@ const Flex = styled.div`
 
 const ContentPicker = styled(RoutingAnswerContentPicker)`
   flex: 1 1 auto;
+  ${({ error }) =>
+    error &&
+    `
+    border-color: ${colors.red};
+    outline-color: ${colors.red};
+    box-shadow: 0 0 0 2px ${colors.red};
+  `}
 `;
 
 const DefaultRouteDiv = styled.div`
@@ -288,8 +295,14 @@ export class UnwrappedBinaryExpressionEditor extends React.Component {
       isOnlyExpression,
       isLastExpression,
       includeSelf,
+      validationErrors,
     } = this.props;
 
+    console.log(validationErrors, expression, "here are my validation errors");
+    const hasError = validationErrors.find(item =>
+      item.id.includes(expression.id)
+    );
+    console.log(hasError, "what is all this then?");
     return (
       <div>
         <Grid align="center">
@@ -310,7 +323,9 @@ export class UnwrappedBinaryExpressionEditor extends React.Component {
                 selectedId={get("left.id", expression)}
                 data-test="routing-answer-picker"
                 includeSelf={includeSelf}
+                error
               />
+              What is up my dood
             </Flex>
           </Column>
           <Column gutters={false} cols={2.5}>

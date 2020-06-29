@@ -571,22 +571,41 @@
           "type": "string"
         },
         "left": {
-          "if": {
-            "properties": {
-              "type": {
-                "const": "Null"
+          "anyOf": [
+            {
+              "if": {
+                "properties": {
+                  "type": {
+                    "const": "Null"
+                  },
+                  "nullReason": {
+                    "const": "DefaultRouting"
+                  }
+                }
+              },
+              "then": {
+                "routingAnswer": {
+                  "$data": "1/condition"
+                }
               }
             }
-          },
-          "then": {
-            "routingAnswer": {
-              "$data": "1/condition"
-            }
-          },
+          ],
           "properties": {
-            "type": {
-              "enum": ["Null", "Answer"]
-            },
+            "answerId": {
+              "type": "string"
+            }
+          }
+        },
+        "right": {
+          "anyOf": [
+            {
+              "if": {
+                "properties": {}
+              },
+              "then": {}
+            }
+          ],
+          "properties": {
             "answerId": {
               "type": "string"
             }

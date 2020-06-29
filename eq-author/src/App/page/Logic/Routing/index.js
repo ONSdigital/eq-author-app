@@ -67,6 +67,8 @@ export class UnwrappedQuestionRoutingRoute extends React.Component {
   }
 }
 
+// This could be the place to add the error information
+
 const query = gql`
   query GetRouting($input: QueryInput!) {
     page(input: $input) {

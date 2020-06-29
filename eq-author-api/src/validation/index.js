@@ -144,11 +144,13 @@ module.exports = questionnaire => {
     .reduce(
       (structure, error) => {
         const { entityId, type, dataPath } = error;
+
         const errorInfo = structure[type][entityId] || {
           id: entityId,
           totalCount: 0,
           errors: [],
         };
+
         structure[type][entityId] = {
           ...errorInfo,
           totalCount: errorInfo.totalCount + 1,
@@ -160,10 +162,9 @@ module.exports = questionnaire => {
           dataPath[2] === "pages" &&
           dataPath.length > 5;
 
-        if (isChildOfPage) {
+        if (isChildOfPage && !dataPath.includes("expressions")) {
           const sectionIndex = parseInt(dataPath[1], 10);
           const pageIndex = parseInt(dataPath[3], 10);
-
           const page = questionnaire.sections[sectionIndex].pages[pageIndex];
 
           let pageType = PAGES;
@@ -178,14 +179,12 @@ module.exports = questionnaire => {
             structure,
             `${pageType}.${pageId}.errors`
           );
-
           const errorInfo = {
             id: pageId,
             errors: existingPageErrors
               ? [...structure[pageType][pageId].errors, error]
               : [error],
           };
-
           structure[pageType][pageId] = {
             ...errorInfo,
           };
