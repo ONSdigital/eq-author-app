@@ -1,4 +1,3 @@
-/* eslint-disable import/no-unresolved */
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
@@ -12,6 +11,9 @@ import { colors } from "constants/theme";
 
 import { RADIO } from "constants/answer-types";
 
+import { propType } from "graphql-anywhere";
+import transformNestedFragments from "utils/transformNestedFragments";
+import fragment from "./fragment.graphql";
 import BinaryExpressionEditor from "App/page/Logic/BinaryExpressionEditor";
 
 import withDeleteSkipCondition from "./withDeleteSkipCondition";
@@ -69,13 +71,17 @@ const RemoveSkipConditionButton = styled(Button).attrs({
 
 export class UnwrappedSkipConditionEditor extends React.Component {
   static propTypes = {
-    pageId: PropTypes.string,
-    expressionGroup: PropTypes.object, // eslint-disable-line
-    expressionGroupIndex: PropTypes.number,
+    pageId: PropTypes.string.isRequired,
+    expressionGroup: propType(
+      transformNestedFragments(fragment, BinaryExpressionEditor.fragments)
+    ).isRequired,
+    expressionGroupIndex: PropTypes.number.isRequired,
     deleteSkipCondition: PropTypes.func.isRequired,
     deleteSkipConditions: PropTypes.func.isRequired,
     className: PropTypes.string,
   };
+
+  static fragments = [fragment, ...BinaryExpressionEditor.fragments];
 
   handleDeleteClick = () => {
     this.props.deleteSkipCondition(this.props.expressionGroup.id);

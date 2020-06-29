@@ -1,47 +1,8 @@
+#import "./SkipLogicEditor/fragment.graphql"
+
 fragment SkipLogicPage on QuestionPage {
   id
   skipConditions {
-    id
-    expressions {
-      ... on BinaryExpression2 {
-        id
-        left {
-          ... on BasicAnswer {
-            id
-            displayName
-            type
-            properties
-          }
-          ... on MultipleChoiceAnswer {
-            id
-            displayName
-            type
-            mutuallyExclusiveOption {
-              id
-              label
-            }
-            options {
-              id
-              label
-            }
-          }
-          ... on NoLeftSide {
-            reason
-          }
-        }
-        condition
-        right {
-          ... on SelectedOptions2 {
-            options {
-              id
-              label
-            }
-          }
-          ... on CustomValue2 {
-            number
-          }
-        }
-      }
-    }
+    ...SkipLogicEditor
   }
 }

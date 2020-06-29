@@ -1,0 +1,5 @@
+#import "./SkipConditionEditor/fragment.graphql"
+
+fragment SkipLogicEditor on ExpressionGroup2 {
+    ...SkipConditionEditor
+}

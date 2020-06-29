@@ -8,9 +8,10 @@ import Button from "components/buttons/Button";
 import { colors } from "constants/theme";
 
 import Transition from "App/page/Logic/Routing/Transition";
-
+import { propType } from "graphql-anywhere";
+import transformNestedFragments from "utils/transformNestedFragments";
 import withCreateSkipCondition from "./withCreateSkipCondition";
-
+import fragment from "./fragment.graphql";
 import SkipConditionEditor from "./SkipConditionEditor";
 
 const AddSkipConditionButton = styled(Button)`
@@ -33,25 +34,27 @@ const Footer = styled.div`
 
 export class UnwrappedSkipLogicEditor extends React.Component {
   static propTypes = {
-    // eslint-disable-next-line react/forbid-prop-types
-    page: PropTypes.object,
+    pageId: PropTypes.string.isRequired,
+    skipConditions: propType(
+      transformNestedFragments(fragment, SkipConditionEditor.fragments)
+    ).isRequired,
     createSkipCondition: PropTypes.func.isRequired,
   };
 
+  static fragments = [fragment, ...SkipConditionEditor.fragments];
+
   handleAddClick = () => {
-    this.props.createSkipCondition(this.props.page.id);
+    this.props.createSkipCondition(this.props.pageId);
   };
 
   render() {
-    const { skipConditions } = this.props.page;
-
     return (
       <>
         <TransitionGroup>
-          {skipConditions.map((expressionGroup, index) => (
+          {this.props.skipConditions.map((expressionGroup, index) => (
             <Transition key={expressionGroup.id}>
               <SkipConditionEditor
-                pageId={this.props.page.id}
+                pageId={this.props.pageId}
                 expressionGroupIndex={index}
                 expressionGroup={expressionGroup}
                 key={expressionGroup.id}
