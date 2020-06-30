@@ -3,7 +3,7 @@ name: Publisher pull request
 on:
   pull_request:
     paths:
-      - "eq-publisher"
+      - 'eq-publisher/**'
 
 jobs:
 
