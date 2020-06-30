@@ -1,0 +1,7 @@
+coverage:
+  status:
+    project:
+      publisher:
+        paths: 
+          - "eq-publisher"
+        if_not_found: success
