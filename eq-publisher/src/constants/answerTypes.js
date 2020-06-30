@@ -9,6 +9,7 @@ const DATE_RANGE = "DateRange";
 const PERCENTAGE = "Percentage";
 const UNIT = "Unit";
 const DURATION = "Duration";
+const DELETETHIS = "this is for a test";
 
 module.exports = {
   CHECKBOX,
