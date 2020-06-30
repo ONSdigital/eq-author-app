@@ -105,8 +105,6 @@ export class UnwrappedRuleEditor extends React.Component {
       },
     } = this.props;
 
-    console.log(this.props, "");
-
     const existingRadioConditions = {};
 
     return (
@@ -151,7 +149,6 @@ export class UnwrappedRuleEditor extends React.Component {
                     label={index > 0 ? rule.expressionGroup.operator : ifLabel}
                     isOnlyExpression={expressions.length === 1}
                     isLastExpression={index === expressions.length - 1}
-                    validationErrors={validationErrorInfo}
                     canAddCondition={
                       !existingRadioConditions[get("left.id", expression)]
                     }

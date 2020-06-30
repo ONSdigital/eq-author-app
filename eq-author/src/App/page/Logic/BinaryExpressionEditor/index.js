@@ -128,13 +128,6 @@ const Flex = styled.div`
 
 const ContentPicker = styled(RoutingAnswerContentPicker)`
   flex: 1 1 auto;
-  ${({ error }) =>
-    error &&
-    `
-    border-color: ${colors.red};
-    outline-color: ${colors.red};
-    box-shadow: 0 0 0 2px ${colors.red};
-  `}
 `;
 
 const DefaultRouteDiv = styled.div`

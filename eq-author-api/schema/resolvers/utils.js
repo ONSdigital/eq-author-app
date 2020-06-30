@@ -78,12 +78,6 @@ const getSkipConditionById = (ctx, id) => {
 };
 
 const getExpressionGroups = ctx => {
-  console.log("\n\n\n");
-  console.log("where am i now?");
-  console.log(
-    flatMap(filter(getRules(ctx), "expressionGroup"), "expressionGroup")
-  );
-  console.log("\n\n\n");
   return flatMap(filter(getRules(ctx), "expressionGroup"), "expressionGroup");
 };
 
