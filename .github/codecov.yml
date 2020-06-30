@@ -3,5 +3,5 @@ coverage:
     project:
       publisher:
         paths: 
-          - "eq-publisher"
+          - eq-publisher/**
         if_not_found: success
