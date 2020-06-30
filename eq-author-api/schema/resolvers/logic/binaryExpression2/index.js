@@ -64,15 +64,12 @@ Resolvers.BinaryExpression2 = {
       }
     }, getAllExpressionGroups(ctx));
   },
-  validationErrorInfo: ({ id }, args, ctx) => {
-    return (
-      ctx.validationErrorInfo[EXPRESSIONS][id] || {
-        id,
-        errors: [],
-        totalCount: 0,
-      }
-    );
-  },
+  validationErrorInfo: ({ id }, args, ctx) =>
+    ctx.validationErrorInfo[EXPRESSIONS][id] || {
+      id,
+      errors: [],
+      totalCount: 0,
+    },
 };
 
 Resolvers.LeftSide2 = {
