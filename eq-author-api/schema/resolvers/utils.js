@@ -77,9 +77,8 @@ const getSkipConditionById = (ctx, id) => {
   return find(skipConditions, { id });
 };
 
-const getExpressionGroups = ctx => {
-  return flatMap(filter(getRules(ctx), "expressionGroup"), "expressionGroup");
-};
+const getExpressionGroups = ctx =>
+  flatMap(filter(getRules(ctx), "expressionGroup"), "expressionGroup");
 
 const getAllExpressionGroups = ctx => {
   const expressionGroups = flatMap(
