@@ -122,6 +122,7 @@ module.exports = questionnaire => {
 
       const fieldname = dataPath.pop();
       let objectType = dataPath[dataPath.length - 1];
+
       if (!isNaN(objectType)) {
         // Must be in array of object type so get object type
         // e.g. /sections/0/pages/0/answers/0/options/0/label
@@ -132,8 +133,15 @@ module.exports = questionnaire => {
 
       const contextObj = get(questionnaire, contextPath);
 
+      const objectId =
+        objectType === "expressions"
+          ? dataPath.includes("skipConditions")
+            ? `${objectType}-skipConditions`
+            : `${objectType}-routing`
+          : objectType;
+
       return {
-        id: `${objectType}-${contextObj.id}-${fieldname}`,
+        id: `${objectId}-${contextObj.id}-${fieldname}`,
         entityId: contextObj.id,
         type: convertObjectType(objectType),
         field: fieldname,
@@ -162,7 +170,7 @@ module.exports = questionnaire => {
           dataPath[2] === "pages" &&
           dataPath.length > 5;
 
-        if (isChildOfPage && !dataPath.includes("expressions")) {
+        if (isChildOfPage) {
           const sectionIndex = parseInt(dataPath[1], 10);
           const pageIndex = parseInt(dataPath[3], 10);
           const page = questionnaire.sections[sectionIndex].pages[pageIndex];

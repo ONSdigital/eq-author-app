@@ -2,7 +2,6 @@ const {
   ERR_ANSWER_NOT_SELECTED,
 } = require("../../../constants/validationErrorCodes");
 
-// not sure if this gonna cause problems
 const errorTypes = {
   isNull: "Null",
 };

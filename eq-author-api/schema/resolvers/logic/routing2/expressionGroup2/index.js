@@ -7,19 +7,6 @@ const { getPages } = require("../../../utils");
 
 Resolvers.ExpressionGroup2 = {
   expressions: expressionGroup => expressionGroup.expressions,
-  validationErrorInfo: ({ id }, args, ctx) => {
-    const keys = Object.keys(ctx.validationErrorInfo.expressions);
-    const errors = keys.map(key => {
-      return ctx.validationErrorInfo.expressions[key].errors[0];
-    });
-    return (
-      errors || {
-        id,
-        errors: [],
-        totalCount: 0,
-      }
-    );
-  },
 };
 
 Resolvers.Mutation = {

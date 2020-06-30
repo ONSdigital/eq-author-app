@@ -508,18 +508,10 @@ enum RoutingOperator2 {
 
 union Expression2 = BinaryExpression2 | ExpressionGroup2
 
-type expressionGroupError {
-  id: ID!
-  type: String
-  field: String
-  errorCode: String
-}
-
 type ExpressionGroup2 {
   id: ID!
   operator: RoutingOperator2
   expressions: [Expression2!]!
-  validationErrorInfo: [expressionGroupError]
 }
 
 enum NoLeftSideReason {
@@ -566,6 +558,7 @@ type BinaryExpression2 {
   condition: LogicCondition
   right: RightSide2
   expressionGroup: ExpressionGroup2
+  validationErrorInfo: ValidationErrorInfo
 }
 
 enum LegalBasis {

@@ -295,14 +295,8 @@ export class UnwrappedBinaryExpressionEditor extends React.Component {
       isOnlyExpression,
       isLastExpression,
       includeSelf,
-      validationErrors,
     } = this.props;
 
-    console.log(validationErrors, expression, "here are my validation errors");
-    const hasError = validationErrors.find(item =>
-      item.id.includes(expression.id)
-    );
-    console.log(hasError, "what is all this then?");
     return (
       <div>
         <Grid align="center">
@@ -323,9 +317,7 @@ export class UnwrappedBinaryExpressionEditor extends React.Component {
                 selectedId={get("left.id", expression)}
                 data-test="routing-answer-picker"
                 includeSelf={includeSelf}
-                error
               />
-              What is up my dood
             </Flex>
           </Column>
           <Column gutters={false} cols={2.5}>

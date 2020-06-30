@@ -54,6 +54,22 @@
               }
             }
           }
+        },
+        "skipConditions": {
+          "type": "array",
+          "items": {
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "expressions": {
+                "type": "array",
+                "items": {
+                  "$ref": "entities.json#/definitions/expression"
+                }
+              }
+            }
+          }
         }
       },
       "if": {
@@ -577,15 +593,12 @@
                 "properties": {
                   "type": {
                     "const": "Null"
-                  },
-                  "nullReason": {
-                    "const": "DefaultRouting"
                   }
                 }
               },
               "then": {
                 "routingAnswer": {
-                  "$data": "1/condition"
+                  "$data": "/sections/"
                 }
               }
             }
