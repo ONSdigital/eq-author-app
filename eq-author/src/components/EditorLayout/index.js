@@ -54,12 +54,13 @@ const EditorLayout = ({
   singleColumnLayout,
   mainCanvasMaxWidth,
   renderPanel,
+  page,
   ...otherProps
 }) => (
   <Titled title={existingTitle => `${existingTitle} - ${title}`}>
     <Container>
       <Header title={title}>
-        <Tabs design={design} preview={preview} logic={logic} />
+        <Tabs design={design} preview={preview} logic={logic} page={page} />
       </Header>
       <StyledGrid {...otherProps}>
         <Column cols={singleColumnLayout ? 12 : 9} gutters={false}>

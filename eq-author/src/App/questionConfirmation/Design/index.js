@@ -96,8 +96,11 @@ export class UnwrappedQuestionConfirmationRoute extends React.Component {
       "questionConfirmation.displayName",
       this.props.data
     );
+
+    const pageData = getOr("", "questionConfirmation", this.props.data);
+
     return (
-      <EditorLayout title={displayName} preview>
+      <EditorLayout title={displayName} preview page={pageData}>
         <Panel>{this.renderContent()}</Panel>
       </EditorLayout>
     );
