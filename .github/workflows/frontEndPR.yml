@@ -1,10 +1,16 @@
 name: Front end pull request
 
-on: [pull_request]
+on:
+  pull_request:
+    paths:
+      - 'eq-author/**'
 
 jobs:
   run_checks:
     runs-on: ubuntu-latest
+
+    env:
+      working-directory: ./eq-author
 
     strategy:
       matrix:
@@ -17,32 +23,36 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: dependencies
-        run: yarn --frozen-lockfile; pushd eq-author; yarn --frozen-lockfile; popd
+        run: yarn --frozen-lockfile
+        working-directory: ${{env.working-directory}}
       - name: Linter
-        run: pushd eq-author; yarn lint; popd
+        run: yarn lint
+        working-directory: ${{env.working-directory}}
       - name: Unit tests
-        run: pushd eq-author; yarn test --coverage; popd
+        run: yarn test --coverage
         env:
           BABEL_ENV: "test"
           NODE_ENV: "test"
           PUBLIC_URL: "test"
           CI: true
+        working-directory: ${{env.working-directory}}
       - name: Codecov
         uses: codecov/codecov-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          file: ./eq-author/coverage/coverage-final.json
+          file: ./${{env.working-directory}}/coverage/coverage-final.json
           yml: ./codecov.yml
           fail_ci_if_error: true
       - name: Build application for production
-        run: pushd eq-author; yarn build; popd
+        run: yarn build
         env:
           REACT_APP_EQ_AUTHOR_VERSION: $(git rev-parse HEAD)
-      - name: Build new docker image
-        run: pushd eq-author; docker build -t onsdigital/eq-author:$TAG .; popd
-        env:
-          TAG: ${{github.HEAD_REF}}
-      - name: Push new docker image
-        run: pushd eq-author; docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}; docker push onsdigital/eq-author:$TAG; popd
-        env:
-          TAG: ${{github.HEAD_REF}}
+        working-directory: ${{env.working-directory}}
+      - name: Build and push to Docker Hub
+        uses: docker/build-push-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: onsdigital/eq-publisher
+          tags: ${{github.HEAD_REF}}
+          path: ${{env.working-directory}}

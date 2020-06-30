@@ -41,7 +41,7 @@ jobs:
         uses: codecov/codecov-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          file: ${{env.working-directory}}/coverage/coverage-final.json
+          file: ./${{env.working-directory}}/coverage/coverage-final.json
           yml: ./codecov.yml
           fail_ci_if_error: true
       - name: Build and push to Docker Hub
