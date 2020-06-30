@@ -101,7 +101,7 @@ export class UnwrappedRuleEditor extends React.Component {
       rule,
       rule: {
         destination,
-        expressionGroup: { expressions, validationErrorInfo },
+        expressionGroup: { expressions },
       },
     } = this.props;
 
