@@ -14,7 +14,6 @@ const {
 } = require("../../constants/validationErrorCodes");
 
 const validation = require(".");
-const { parseExpectedArgs } = require("commander");
 
 describe("schema validation", () => {
   let questionnaire;
@@ -814,18 +813,16 @@ describe("schema validation", () => {
 
   describe("Routing validation", () => {
     beforeEach(() => {
+      questionnaire.sections[0].pages[0].routing = null;
+      questionnaire.sections[0].pages[0].skipConditions = null;
+    });
+    it("should validate empty routing rules", () => {
       const expressionId = "express-1";
-      let expressions = [
-        {
-          id: expressionId,
-          condition: "Equal",
-          left: {
-            type: "Null",
-            answerId: "",
-            nullReason: "DefaultSkipCondition",
-          },
-        },
-      ];
+
+      const routing = validation(questionnaire);
+
+      expect(routing.totalCount).toBe(0);
+
       questionnaire.sections[0].pages[0].routing = {
         id: "1",
         else: {
@@ -842,38 +839,21 @@ describe("schema validation", () => {
             expressionGroup: {
               id: "group-1",
               operator: "And",
-              expressions,
+              expressions: [
+                {
+                  id: expressionId,
+                  condition: "Equal",
+                  left: {
+                    type: "Null",
+                    answerId: "",
+                    nullReason: "DefaultRouting",
+                  },
+                },
+              ],
             },
           },
         ],
       };
-      questionnaire.sections[0].pages[0].skipConditions = {
-        id: "group-1",
-        expressions,
-      };
-    });
-
-    it("should not validate null routing", () => {
-      questionnaire.sections[0].pages[0].routing = null;
-      questionnaire.sections[0].pages[0].skipConditions = null;
-
-      const routingErrors = validation(questionnaire);
-
-      expect(routingErrors.totalCount).toBe(0);
-    });
-
-    it("should not validate null skipConditions", () => {
-      questionnaire.sections[0].pages[0].routing = null;
-      questionnaire.sections[0].pages[0].skipConditions = null;
-
-      const skipConditions = validation(questionnaire);
-
-      expect(skipConditions.totalCount).toBe(0);
-    });
-
-    it("should validate empty routing rules", () => {
-      const expressionId = "express-1";
-      questionnaire.sections[0].pages[0].skipConditions = null;
 
       const routingErrors = validation(questionnaire);
 
@@ -885,7 +865,27 @@ describe("schema validation", () => {
 
     it("should validate empty skip conditions", () => {
       const expressionId = "express-1";
-      questionnaire.sections[0].pages[0].routing = null;
+
+      const skipConditions = validation(questionnaire);
+
+      expect(skipConditions.totalCount).toBe(0);
+
+      questionnaire.sections[0].pages[0].skipConditions = [
+        {
+          id: "group-1",
+          expressions: [
+            {
+              id: expressionId,
+              condition: "Equal",
+              left: {
+                type: "Null",
+                answerId: "",
+                nullReason: "DefaultSkipCondition",
+              },
+            },
+          ],
+        },
+      ];
 
       const skipConditionErrors = validation(questionnaire);
 
