@@ -54,9 +54,8 @@ const SmallBadge = styled.span`
   pointer-events: none;
   width: 0.75em;
   height: 0.75em;
-  margin: 0;
+  margin: 0 5px 0 0;
   padding: 0;
-  margin-right: 5px;
 `;
 
 const TABS = [
