@@ -1,44 +1,59 @@
-name: Publisher Pull Request
+name: Publisher pull request
 
-on: [pull_request]
+on:
+  pull_request:
+    paths:
+      - 'eq-publisher/*'
 
 jobs:
-  build:
+
+  run_checks:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [10.x]
+    env:
+      working-directory: ./eq-publisher
+      node-version: [10.x]
 
     steps:
       - uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js ${{ env.node-version }}
         uses: actions/setup-node@v1
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: ${{ env.node-version }}
       - name: Install dependencies
-        run: yarn --frozen-lockfile; pushd eq-publisher; yarn --frozen-lockfile; popd
+        run: yarn --frozen-lockfile
+        working-directory: ${{env.working-directory}}
       - name: Run linter
-        run: pushd eq-publisher; yarn lint; popd
+        run: yarn lint
+        working-directory: ${{env.working-directory}}
       - name: Run unit tests and generate coverage file
-        run: pushd eq-publisher; yarn test --coverage; popd
+        run: yarn test --coverage
         env:
           BABEL_ENV: "test"
           NODE_ENV: "test"
           PUBLIC_URL: "test"
           CI: true
+        working-directory: ${{env.working-directory}}
       - name: Upload coverage file to Codecov
         uses: codecov/codecov-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          file: ./eq-publisher/coverage/coverage-final.json
+          file: ${{env.working-directory}}/coverage/coverage-final.json
           yml: ./codecov.yml
           fail_ci_if_error: true
-      - name: Build new docker image
-        run: pushd eq-publisher; docker build -t onsdigital/eq-publisher:$TAG --build-arg APPLICATION_VERSION=$(git rev-parse HEAD) -f Dockerfile .; popd
-        env:
-          TAG: ${{github.HEAD_REF}}
-      - name: Push new docker image
-        run: pushd eq-publisher; docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}; docker push onsdigital/eq-publisher:$TAG; popd
-        env:
-          TAG: ${{github.HEAD_REF}}
+
+  push_to_docker:
+    runs-on: ubuntu-latest
+
+    env:
+      working-directory: ./eq-publisher
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: docker/build-push-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: onsdigital/eq-publisher
+          tags: $TAG
+          path: ${{env.working-directory}}

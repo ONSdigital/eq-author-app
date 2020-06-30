@@ -1,9 +1,9 @@
-name: API Pull Request
+name: API pull request
 
 on: [pull_request]
 
 jobs:
-  build:
+  run_checks:
     runs-on: ubuntu-latest
 
     strategy:

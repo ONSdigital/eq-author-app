@@ -1,9 +1,9 @@
-name: Author Pull Request
+name: Front end pull request
 
 on: [pull_request]
 
 jobs:
-  build:
+  run_checks:
     runs-on: ubuntu-latest
 
     strategy:
