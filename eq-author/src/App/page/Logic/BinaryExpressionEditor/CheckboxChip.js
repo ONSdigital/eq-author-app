@@ -8,16 +8,19 @@ import VisuallyHidden from "components/VisuallyHidden";
 import Truncated from "components/Truncated";
 
 const RemoveButton = styled.button`
+  border-radius: 50%;
   border: none;
-  background: transparent url(${iconClose}) no-repeat center;
+  background: ${colors.white} url(${iconClose}) no-repeat center;
   background-size: 0.5em;
   font-size: 1rem;
-  width: 1em;
-  height: 1em;
-  opacity: 0.5;
+  width: 0.8em;
+  height: 0.8em;
+  margin: 0 0.2em;
+  opacity: 1;
 
   &:hover {
-    opacity: 1;
+    opacity: 0.5;
+    cursor: pointer;
   }
 
   &:focus,
@@ -34,13 +37,13 @@ const RemoveButton = styled.button`
 const Chip = styled.div`
   font-size: 1rem;
   background: ${colors.primary};
-  padding: 0.4em 0.3em 0.4em 0.5em;
+  padding: 0.3em 0.3em 0.3em 0.5em;
   border-radius: 4px;
   color: white;
   border: none;
   display: inline-flex;
   align-items: center;
-  margin: 0.25rem;
+  margin: 0.25rem 0.5rem 0.25rem 0.25rem;
   max-width: 12em;
 `;
 
