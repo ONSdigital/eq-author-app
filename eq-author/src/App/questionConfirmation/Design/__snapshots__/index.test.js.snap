@@ -2,6 +2,30 @@
 
 exports[`QuestionConfirmationRoute should render 1`] = `
 <EditorLayout
+  page={
+    Object {
+      "displayName": "My first displayname",
+      "id": "1",
+      "negative": Object {
+        "description": "Negative description",
+        "id": "2",
+        "label": "Negative label",
+        "validationErrorInfo": Array [],
+      },
+      "page": Object {
+        "answers": Array [],
+        "displayName": "My question",
+        "id": "1",
+      },
+      "positive": Object {
+        "description": "Positive description",
+        "id": "1",
+        "label": "Positive label",
+        "validationErrorInfo": Array [],
+      },
+      "title": "My first confirmation",
+    }
+  }
   preview={true}
   title="My first displayname"
 >
@@ -62,6 +86,30 @@ exports[`QuestionConfirmationRoute should render 1`] = `
 
 exports[`QuestionConfirmationRoute should show error info when there is an error 1`] = `
 <EditorLayout
+  page={
+    Object {
+      "displayName": "My first displayname",
+      "id": "1",
+      "negative": Object {
+        "description": "Negative description",
+        "id": "2",
+        "label": "Negative label",
+        "validationErrorInfo": Array [],
+      },
+      "page": Object {
+        "answers": Array [],
+        "displayName": "My question",
+        "id": "1",
+      },
+      "positive": Object {
+        "description": "Positive description",
+        "id": "1",
+        "label": "Positive label",
+        "validationErrorInfo": Array [],
+      },
+      "title": "My first confirmation",
+    }
+  }
   preview={true}
   title="My first displayname"
 >
@@ -75,6 +123,30 @@ exports[`QuestionConfirmationRoute should show error info when there is an error
 
 exports[`QuestionConfirmationRoute should show loading info when loading 1`] = `
 <EditorLayout
+  page={
+    Object {
+      "displayName": "My first displayname",
+      "id": "1",
+      "negative": Object {
+        "description": "Negative description",
+        "id": "2",
+        "label": "Negative label",
+        "validationErrorInfo": Array [],
+      },
+      "page": Object {
+        "answers": Array [],
+        "displayName": "My question",
+        "id": "1",
+      },
+      "positive": Object {
+        "description": "Positive description",
+        "id": "1",
+        "label": "Positive label",
+        "validationErrorInfo": Array [],
+      },
+      "title": "My first confirmation",
+    }
+  }
   preview={true}
   title="My first displayname"
 >

@@ -80,8 +80,6 @@ const TABS = [
 export const UnwrappedTabs = props => {
   const { match, page } = props;
 
-  // const pageErrors =
-  //   page && page.validationErrorInfo && page.validationErrorInfo.totalCount;
   const pageErrors = get(page, "validationErrorInfo.totalCount", null);
 
   return (
