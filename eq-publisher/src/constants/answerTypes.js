@@ -23,4 +23,5 @@ module.exports = {
   PERCENTAGE,
   UNIT,
   DURATION,
+  DELETETHIS,
 };
