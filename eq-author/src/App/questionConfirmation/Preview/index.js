@@ -73,6 +73,7 @@ export const UnwrappedPreviewConfirmationRoute = ({ loading, data }) => {
     },
   } = data;
 
+  const { questionConfirmation } = data;
   const pageTitle = title && title.replace(/[[\]]/g, "");
 
   return (
@@ -80,6 +81,7 @@ export const UnwrappedPreviewConfirmationRoute = ({ loading, data }) => {
       preview
       title={displayName}
       renderPanel={() => <CommentsPanel componentId={id} />}
+      page={questionConfirmation}
     >
       <Panel>
         <Container>

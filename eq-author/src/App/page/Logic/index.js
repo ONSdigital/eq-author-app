@@ -92,7 +92,6 @@ export class UnwrappedQuestionRoutingRoute extends React.Component {
 
   renderContent() {
     const { data, loading, error, match } = this.props;
-
     if (loading) {
       return <Loading height="20em">Loading routing</Loading>;
     }
@@ -174,11 +173,14 @@ export class UnwrappedQuestionRoutingRoute extends React.Component {
 
   render() {
     const displayName = get(this.props.data, "page.displayName", "");
+    const pageData = get(this.props.data, "page", "");
+
     return (
       <EditorLayout
         design
         preview
         logic
+        page={pageData}
         title={displayName}
         singleColumnLayout
         mainCanvasMaxWidth="80em"
