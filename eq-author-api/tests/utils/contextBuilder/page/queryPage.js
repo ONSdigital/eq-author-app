@@ -108,6 +108,16 @@ const getPageQuery = `
                       }
                     }
                   }
+                  validationErrorInfo {
+                    id
+                    errors {
+                      id
+                      type
+                      field
+                      errorCode
+                    }
+                    totalCount
+                  }
                 }
               }
             }
@@ -151,6 +161,16 @@ const getPageQuery = `
                     label
                   }
                 }
+              }
+              validationErrorInfo {
+                id
+                errors {
+                  id
+                  type
+                  field
+                  errorCode
+                }
+                totalCount
               }
             }
           }
