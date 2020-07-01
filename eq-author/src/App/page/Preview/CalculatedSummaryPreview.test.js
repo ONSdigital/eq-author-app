@@ -42,7 +42,11 @@ describe("CalculatedSummaryPreview", () => {
           metadata: [],
         },
       },
-      validationErrorInfo: [],
+      validationErrorInfo: {
+        id: "test",
+        totalCount: 0,
+        errors: [],
+      },
     };
 
     mocks = [
