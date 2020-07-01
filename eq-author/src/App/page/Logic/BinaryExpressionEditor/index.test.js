@@ -3,9 +3,11 @@ import { shallow } from "enzyme";
 import { render, flushPromises, act } from "tests/utils/rtl";
 
 import { RADIO, CURRENCY, NUMBER, PERCENTAGE } from "constants/answer-types";
+import { ERR_ANSWER_NOT_SELECTED } from "constants/validationMessages";
 import {
   NO_ROUTABLE_ANSWER_ON_PAGE,
   SELECTED_ANSWER_DELETED,
+  DEFAULT_ROUTING,
 } from "constants/routing-left-side";
 import { byTestAttr } from "tests/utils/selectors";
 
@@ -36,6 +38,11 @@ describe("BinaryExpressionEditor", () => {
         },
         condition: "Equal",
         right: null,
+        validationErrorInfo: {
+          id: "6dd",
+          errors: [],
+          totalCount: 0,
+        },
       },
       canAddCondition: true,
       match: {
@@ -207,5 +214,43 @@ describe("BinaryExpressionEditor", () => {
 
     const transition = getByTestId("transition-condition");
     expect(transition).toHaveStyleRule("display: none;");
+  });
+
+  it("should return empty div when default routing/skip condition", async () => {
+    defaultProps.expression.left.reason = DEFAULT_ROUTING;
+    const { queryByTestId } = render(
+      <BinaryExpressionEditor {...defaultProps} />
+    );
+
+    await act(async () => {
+      await flushPromises();
+    });
+
+    const options = queryByTestId("options-selector");
+    expect(options).toBeFalsy();
+  });
+
+  it("should provide validation message when errors are present", async () => {
+    defaultProps.expression.validationErrorInfo.totalCount = 1;
+    defaultProps.expression.validationErrorInfo.errors[0] = {
+      errorCode: "ERR_ANSWER_NOT_SELECTED",
+      field: "left",
+      id: "expression-routing-1-left",
+      type: "expressions",
+    };
+
+    const { queryByTestId, getByText } = render(
+      <BinaryExpressionEditor {...defaultProps} />
+    );
+
+    await act(async () => {
+      await flushPromises();
+    });
+
+    const error = queryByTestId("ERR_ANSWER_NOT_SELECTED");
+    const errorText = getByText(ERR_ANSWER_NOT_SELECTED);
+
+    expect(error).toBeTruthy();
+    expect(errorText).toBeDefined();
   });
 });

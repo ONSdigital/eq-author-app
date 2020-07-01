@@ -7,6 +7,7 @@ import { propType } from "graphql-anywhere";
 import { NavLink, withRouter } from "react-router-dom";
 
 import CustomPropTypes from "custom-prop-types";
+
 import {
   RADIO,
   NUMBER,
@@ -15,12 +16,15 @@ import {
   UNIT,
   CHECKBOX,
 } from "constants/answer-types";
+
 import {
   NO_ROUTABLE_ANSWER_ON_PAGE,
   SELECTED_ANSWER_DELETED,
   DEFAULT_ROUTING,
   DEFAULT_SKIP_CONDITION,
 } from "constants/routing-left-side";
+
+import { ERR_ANSWER_NOT_SELECTED } from "constants/validationMessages";
 
 import IconText from "components/IconText";
 import { Grid, Column } from "components/Grid";
@@ -33,6 +37,8 @@ import svgPath from "./path.svg";
 import svgPathEnd from "./path-end.svg";
 import IconMinus from "./icon-minus.svg?inline";
 import IconPlus from "./icon-plus.svg?inline";
+import WarningIcon from "constants/icon-warning.svg?inline";
+
 import { Alert, AlertText, AlertTitle } from "./Alert";
 import fragment from "./fragment.graphql";
 import withUpdateLeftSide from "./withUpdateLeftSide";
@@ -128,6 +134,13 @@ const Flex = styled.div`
 
 const ContentPicker = styled(RoutingAnswerContentPicker)`
   flex: 1 1 auto;
+  ${({ hasError }) =>
+    hasError &&
+    `
+       border-color: ${colors.red};
+    outline-color: ${colors.red};
+    box-shadow: 0 0 0 2px ${colors.red};
+  `}
 `;
 
 const DefaultRouteDiv = styled.div`
@@ -136,6 +149,13 @@ const DefaultRouteDiv = styled.div`
 
 const StyledTransition = styled.div`
   display: ${props => (props.isHidden ? "none" : "block")};
+`;
+
+const PropertiesError = styled(IconText)`
+  color: ${colors.red};
+  justify-content: flex-end;
+  padding-top: 0.5em;
+  width: 80%;
 `;
 
 /* eslint-disable react/prop-types */
@@ -202,6 +222,10 @@ const ANSWER_TYPE_TO_RIGHT_EDITOR = {
   [PERCENTAGE]: NumberAnswerSelector,
   [CURRENCY]: NumberAnswerSelector,
   [UNIT]: NumberAnswerSelector,
+};
+
+const VALIDATION_ERRORS = {
+  ERR_ANSWER_NOT_SELECTED: ERR_ANSWER_NOT_SELECTED,
 };
 
 export class UnwrappedBinaryExpressionEditor extends React.Component {
@@ -279,6 +303,24 @@ export class UnwrappedBinaryExpressionEditor extends React.Component {
     );
   }
 
+  renderValidationErrorMessage = () => {
+    const {
+      validationErrorInfo: { errors },
+    } = this.props.expression;
+
+    const errorMessages = errors.map((error, index) => (
+      <PropertiesError
+        key={`${error.errorCode}-${index}`}
+        icon={WarningIcon}
+        data-test={`${error.errorCode}`}
+      >
+        {VALIDATION_ERRORS[error.errorCode]}
+      </PropertiesError>
+    ));
+
+    return errorMessages;
+  };
+
   render() {
     const routingEditor = this.renderEditor();
     const {
@@ -289,6 +331,10 @@ export class UnwrappedBinaryExpressionEditor extends React.Component {
       isLastExpression,
       includeSelf,
     } = this.props;
+
+    const { validationErrorInfo } = expression;
+
+    const hasError = validationErrorInfo.totalCount > 0;
 
     return (
       <div>
@@ -310,6 +356,7 @@ export class UnwrappedBinaryExpressionEditor extends React.Component {
                 selectedId={get("left.id", expression)}
                 data-test="routing-answer-picker"
                 includeSelf={includeSelf}
+                hasError={hasError}
               />
             </Flex>
           </Column>
@@ -332,6 +379,7 @@ export class UnwrappedBinaryExpressionEditor extends React.Component {
             </ActionButtons>
           </Column>
         </Grid>
+        {hasError && this.renderValidationErrorMessage()}
 
         <DefaultRouteDiv
           className={className}

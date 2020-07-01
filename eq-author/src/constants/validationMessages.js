@@ -5,3 +5,5 @@ export default {
   ERR_REQUIRED_WHEN_SETTING: ({ message }) => message,
   ERR_NO_ANSWERS: ({ message }) => message,
 };
+
+export const ERR_ANSWER_NOT_SELECTED = "Answer required";
