@@ -33,7 +33,6 @@ const buildRadioAnswerBinaryExpression = ({ left, right }) => {
 };
 
 const buildCheckboxAnswerBinaryExpression = ({ left, right, condition }) => {
-  console.log(JSON.stringify(left, null, 7));
   const returnVal = {
     id: `answer${left.id}`,
     condition: conditionConverter(condition),

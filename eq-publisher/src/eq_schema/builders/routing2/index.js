@@ -1,7 +1,6 @@
 const translateBinaryExpression = require("../translateBinaryEpression/translateBinaryExpression");
 const translateRoutingDestination = require("./translateRoutingDestination");
 const { flatMap } = require("lodash");
-const { AND } = require("../../../constants/routingOperators");
 
 const addRuleToContext = (goto, groupId, ctx) => {
   const destinationType = Object.keys(goto);
