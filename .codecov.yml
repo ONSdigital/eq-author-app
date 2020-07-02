@@ -7,6 +7,13 @@ coverage:
         flags: api
       publisher:
         flags: publisher
+  patch: false
+
+  range:
+    70..90 # First number represents red, and second represents green
+    # (default is 70..100)
+  round: down # up, down, or nearest
+  precision: 2 # Number of decimal places, between 0 and 5
 
 flags:
   author:
@@ -19,3 +26,5 @@ flags:
     paths:
       - eq-publisher/
 # comment: off
+comment:
+layout: diff, files # accepted in any order: reach, diff, flags, and/or files
