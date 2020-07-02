@@ -5,4 +5,14 @@
       routing {
         ...RoutingEditor
       }
+      validationErrorInfo {
+        id
+        errors {
+          id
+          type
+          field
+          errorCode
+        }
+        totalCount
+      }
     }
