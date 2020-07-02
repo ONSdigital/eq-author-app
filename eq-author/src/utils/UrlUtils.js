@@ -148,4 +148,4 @@ const buildTabSwitcher = tab => params => {
 
 export const buildDesignPath = buildTabSwitcher("design");
 export const buildPreviewPath = buildTabSwitcher("preview");
-export const buildLogicPath = buildTabSwitcher("logic");
+export const buildLogicPath = buildTabSwitcher("routing");
