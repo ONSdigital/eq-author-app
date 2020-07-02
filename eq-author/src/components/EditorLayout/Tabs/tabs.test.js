@@ -23,10 +23,10 @@ describe("Tabs", () => {
     };
   });
 
-  it("should render with design tab enabled by default", () => {
-    const wrapper = shallow(<UnwrappedTabs {...props} />);
-    expect(wrapper).toMatchSnapshot();
-  });
+  // it("should render with design tab enabled by default", () => {
+  //   const wrapper = shallow(<UnwrappedTabs {...props} />);
+  //   expect(wrapper).toMatchSnapshot();
+  // });
 
   it("should render link to section if params are for a section", () => {
     delete props.match.params.pageId;

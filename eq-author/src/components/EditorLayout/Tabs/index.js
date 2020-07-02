@@ -98,6 +98,9 @@ export const UnwrappedTabs = props => {
               pageErrors > 0 ? (
                 <SmallBadge data-test="small-badge" />
               ) : null}
+              {key === "design" && pageErrors === 1 ? (
+                <SmallBadge data-test="small-badge-codeCovTest" />
+              ) : null}
               {children}
             </Component>
           );
