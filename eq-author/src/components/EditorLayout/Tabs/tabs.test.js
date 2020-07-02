@@ -1,7 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
 import { UnwrappedTabs, Tab, activeClassName } from "./";
-import { render, flushPromises, act } from "tests/utils/rtl";
+// import { render, flushPromises, act } from "tests/utils/rtl";
 
 describe("Tabs", () => {
   let props;
