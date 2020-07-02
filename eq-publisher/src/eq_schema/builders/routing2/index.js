@@ -1,6 +1,8 @@
 const translateBinaryExpression = require("../translateBinaryEpression/translateBinaryExpression");
 const translateRoutingDestination = require("./translateRoutingDestination");
-const { flatMap } = require("lodash");
+const { flatMap, filter, reject } = require("lodash");
+const { CHECKBOX } = require("../../../constants/answerTypes");
+const { getAnswerById } = require("../../../utils/finders");
 
 const addRuleToContext = (goto, groupId, ctx) => {
   const destinationType = Object.keys(goto);
@@ -21,13 +23,46 @@ module.exports = (routing, pageId, groupId, ctx) => {
     );
 
     runnerRules = rule.expressionGroup.expressions.map(expression => {
-      return {
+      let rules = [];
+      const answer = getAnswerById(ctx.questionnaireJson, expression.left.id);
+
+      if (expression.left.type === CHECKBOX && answer.mutuallyExclusiveOption) {
+        let mutuallyExclusiveExpression = JSON.parse(
+          JSON.stringify(expression)
+        );
+
+        const mutuallyExclusiveOptions =
+          mutuallyExclusiveExpression.right.options;
+
+        mutuallyExclusiveExpression.right.options = filter(
+          mutuallyExclusiveOptions,
+          ({ id }) => id === answer.mutuallyExclusiveOption.id
+        );
+
+        mutuallyExclusiveExpression.left.id += "-exclusive";
+
+        rules.push({
+          goto: {
+            ...destination,
+            when: [translateBinaryExpression(mutuallyExclusiveExpression)],
+          },
+        });
+
+        expression.right.options = reject(
+          expression.right.options,
+          ({ id }) => id === answer.mutuallyExclusiveOption.id
+        );
+      }
+
+      rules.push({
         goto: {
           ...destination,
-          when: [...translateBinaryExpression(expression)],
+          when: [translateBinaryExpression(expression)],
         },
-      };
-    });
+      });
+
+      return rules;
+    })[0];
 
     runnerRules.map(expression => {
       addRuleToContext(expression.goto, groupId, ctx);

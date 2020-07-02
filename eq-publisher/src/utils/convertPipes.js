@@ -4,6 +4,7 @@ const { unescapePiping } = require("./HTMLUtils");
 
 const { UNIT, DATE_RANGE } = require("../constants/answerTypes");
 const { unitConversion } = require("../constants/unit-types");
+const { getAllAnswers } = require("../utils/finders");
 
 const getMetadata = (ctx, metadataId) =>
   ctx.questionnaireJson.metadata.find(({ id }) => id === metadataId);
@@ -13,12 +14,7 @@ const isPipeableType = answer => {
   return !includes(notPipeableDataTypes, answer.type);
 };
 
-const getAllAnswers = questionnaire =>
-  flatMap(questionnaire.sections, section =>
-    compact(flatMap(section.pages, page => page.answers))
-  );
-
-const getAnswer = (ctx, answerId) => {
+const getPipableAnswers = (ctx, answerId) => {
   const uuid = answerId.match(
     /^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-4{1}[a-fA-F0-9]{3}-[89abAB]{1}[a-fA-F0-9]{3}-[a-fA-F0-9]{12}/
   )[0];
@@ -38,7 +34,7 @@ const FILTER_MAP = {
 
 const PIPE_TYPES = {
   answers: {
-    retrieve: ({ id }, ctx) => getAnswer(ctx, id.toString()),
+    retrieve: ({ id }, ctx) => getPipableAnswers(ctx, id.toString()),
     render: ({ id }) => `answers['answer${id}']`,
     getType: ({ type }) => type,
     getUnit: ({ properties: { unit } }) => unit,

@@ -9,6 +9,7 @@ const {
   CHECKBOX,
 } = require("../../../constants/answerTypes");
 const conditionConverter = require("../../../utils/convertRoutingConditions");
+const { getAnswerById } = require("../../../utils/finders");
 
 const authorConditions = {
   UNANSWERED: "Unanswered",
@@ -16,20 +17,16 @@ const authorConditions = {
 
 const buildRadioAnswerBinaryExpression = ({ left, right }) => {
   if (isEmpty(right.options)) {
-    return [
-      {
-        id: `answer${left.id}`,
-        condition: "not set",
-      },
-    ];
-  }
-  return [
-    {
+    return {
       id: `answer${left.id}`,
-      condition: "contains any",
-      values: right.options.map(op => op.label),
-    },
-  ];
+      condition: "not set",
+    };
+  }
+  return {
+    id: `answer${left.id}`,
+    condition: "contains any",
+    values: right.options.map(op => op.label),
+  };
 };
 
 const buildCheckboxAnswerBinaryExpression = ({ left, right, condition }) => {
@@ -42,7 +39,7 @@ const buildCheckboxAnswerBinaryExpression = ({ left, right, condition }) => {
     returnVal.values = right.options.map(op => op.label);
   }
 
-  return [returnVal];
+  return returnVal;
 };
 
 const buildBasicAnswerBinaryExpression = ({ left, condition, right }) => {
@@ -55,7 +52,7 @@ const buildBasicAnswerBinaryExpression = ({ left, condition, right }) => {
     returnVal.value = right.number;
   }
 
-  return [returnVal];
+  return returnVal;
 };
 
 const translateBinaryExpression = binaryExpression => {
