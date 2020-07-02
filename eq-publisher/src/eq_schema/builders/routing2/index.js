@@ -20,28 +20,16 @@ module.exports = (routing, pageId, groupId, ctx) => {
       pageId,
       ctx
     );
-    if (rule.expressionGroup.operator === AND) {
-      const when = rule.expressionGroup.expressions.map(expression =>
-        translateBinaryExpression(expression)
-      );
-      runnerRules = [
-        {
-          goto: {
-            ...destination,
-            when,
-          },
+
+    runnerRules = rule.expressionGroup.expressions.map(expression => {
+      return {
+        goto: {
+          ...destination,
+          when: [...translateBinaryExpression(expression)],
         },
-      ];
-    } else {
-      runnerRules = rule.expressionGroup.expressions.map(expression => {
-        return {
-          goto: {
-            ...destination,
-            when: [translateBinaryExpression(expression)],
-          },
-        };
-      });
-    }
+      };
+    });
+
     runnerRules.map(expression => {
       addRuleToContext(expression.goto, groupId, ctx);
     });
