@@ -4,6 +4,7 @@ exports[`Tabs should enable the Logic tab when prop is passed 1`] = `
 <Tabs__Tab
   activeClassName="active"
   data-test="logic"
+  isActive={[Function]}
   key="logic"
   to="/q/1/page/3/logic"
 >
