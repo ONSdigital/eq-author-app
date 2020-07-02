@@ -1,5 +1,5 @@
 const cheerio = require("cheerio");
-const { flatMap, includes, compact } = require("lodash");
+const { includes } = require("lodash");
 const { unescapePiping } = require("./HTMLUtils");
 
 const { UNIT, DATE_RANGE } = require("../constants/answerTypes");
