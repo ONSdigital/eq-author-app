@@ -216,10 +216,6 @@ const ANSWER_TYPE_TO_RIGHT_EDITOR = {
   [UNIT]: NumberAnswerSelector,
 };
 
-const VALIDATION_ERRORS = {
-  ERR_ANSWER_NOT_SELECTED: ERR_ANSWER_NOT_SELECTED,
-};
-
 export class UnwrappedBinaryExpressionEditor extends React.Component {
   static fragments = [fragment];
 
