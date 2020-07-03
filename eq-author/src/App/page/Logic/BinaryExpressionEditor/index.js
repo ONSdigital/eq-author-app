@@ -172,7 +172,7 @@ const ERROR_SITUATIONS = [
       props.expression.left.reason === NO_ROUTABLE_ANSWER_ON_PAGE,
     message: () => (
       <PropertiesError icon={WarningIcon}>
-        No routable answers have been added to this question yet.
+        No routable answers have been added to this question yet
       </PropertiesError>
     ),
   },
