@@ -8,7 +8,8 @@ import { colors } from "constants/theme";
 
 import {
   ERR_ANSWER_NOT_SELECTED,
-  ERR_NO_RIGHT_VALUE,
+  ERR_NO_RIGHT_VALUE_NUMBER,
+  ERR_NO_RIGHT_VALUE_OPTION,
 } from "constants/validationMessages";
 
 import {
@@ -255,7 +256,7 @@ describe("BinaryExpressionEditor", () => {
     );
   });
 
-  it("should provide validation message for the right side when errors are present", async () => {
+  it("should provide validation message for the right side of Radio answers when errors are present", async () => {
     defaultProps.expression.validationErrorInfo.totalCount = 1;
     defaultProps.expression.validationErrorInfo.errors[0] = {
       errorCode: "ERR_NO_RIGHT_VALUE",
@@ -270,7 +271,33 @@ describe("BinaryExpressionEditor", () => {
       await flushPromises();
     });
 
-    expect(getByText(ERR_NO_RIGHT_VALUE)).toBeTruthy();
-    expect(getByText(ERR_NO_RIGHT_VALUE)).toHaveStyleRule("width", "100%");
+    expect(getByText(ERR_NO_RIGHT_VALUE_OPTION)).toBeTruthy();
+    expect(getByText(ERR_NO_RIGHT_VALUE_OPTION)).toHaveStyleRule(
+      "width",
+      "100%"
+    );
+  });
+
+  it("should provide validation message for the right side of Number answers when errors are present", async () => {
+    defaultProps.expression.left.type = NUMBER;
+    defaultProps.expression.validationErrorInfo.totalCount = 1;
+    defaultProps.expression.validationErrorInfo.errors[0] = {
+      errorCode: "ERR_NO_RIGHT_VALUE",
+      field: "right",
+      id: "expression-routing-1-right",
+      type: "expressions",
+    };
+
+    const { getByText } = render(<BinaryExpressionEditor {...defaultProps} />);
+
+    await act(async () => {
+      await flushPromises();
+    });
+
+    expect(getByText(ERR_NO_RIGHT_VALUE_NUMBER)).toBeTruthy();
+    expect(getByText(ERR_NO_RIGHT_VALUE_NUMBER)).toHaveStyleRule(
+      "width",
+      "100%"
+    );
   });
 });

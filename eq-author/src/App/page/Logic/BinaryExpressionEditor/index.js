@@ -26,7 +26,8 @@ import {
 
 import {
   ERR_ANSWER_NOT_SELECTED,
-  ERR_NO_RIGHT_VALUE,
+  ERR_NO_RIGHT_VALUE_NUMBER,
+  ERR_NO_RIGHT_VALUE_OPTION,
 } from "constants/validationMessages";
 
 import IconText from "components/IconText";
@@ -155,7 +156,6 @@ const StyledTransition = styled.div`
 const PropertiesError = styled(IconText)`
   color: ${colors.red};
   justify-content: flex-end;
-  padding-top: 0.5em;
   width: ${props => (props.right ? "100%" : "80%")};
 `;
 
@@ -226,10 +226,34 @@ const ERROR_SITUATIONS = {
         some(
           { errorCode: "ERR_NO_RIGHT_VALUE" },
           props.expression.validationErrorInfo.errors
-        ),
+        ) && props.expression.left.type === NUMBER,
       message: () => (
         <PropertiesError right icon={WarningIcon}>
-          {ERR_NO_RIGHT_VALUE}
+          {ERR_NO_RIGHT_VALUE_NUMBER}
+        </PropertiesError>
+      ),
+    },
+    {
+      condition: props =>
+        some(
+          { errorCode: "ERR_NO_RIGHT_VALUE" },
+          props.expression.validationErrorInfo.errors
+        ) && props.expression.left.type === CHECKBOX,
+      message: () => (
+        <PropertiesError right icon={WarningIcon}>
+          {ERR_NO_RIGHT_VALUE_OPTION}
+        </PropertiesError>
+      ),
+    },
+    {
+      condition: props =>
+        some(
+          { errorCode: "ERR_NO_RIGHT_VALUE" },
+          props.expression.validationErrorInfo.errors
+        ) && props.expression.left.type === RADIO,
+      message: () => (
+        <PropertiesError right icon={WarningIcon}>
+          {ERR_NO_RIGHT_VALUE_OPTION}
         </PropertiesError>
       ),
     },

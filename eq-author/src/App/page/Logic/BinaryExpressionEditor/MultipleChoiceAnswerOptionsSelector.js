@@ -23,11 +23,13 @@ const answerConditions = {
 
 const MultipleChoiceAnswerOptions = styled.div`
   align-items: center;
-  display: inline-flex;
   flex-flow: row wrap;
+  display: flex;
   width: 100%;
-  margin-top: 0.75em;
-  margin-bottom: 1em;
+  /* margin-top: 0.75em; */
+  /* margin-bottom: 1em; */
+  margin-top: 1em;
+  margin-bottom: 0.5em;
   padding: 0.5em;
   border-radius: 4px;
   border: 2px solid ${colors.lighterGrey};

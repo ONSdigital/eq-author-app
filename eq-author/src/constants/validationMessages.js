@@ -7,4 +7,6 @@ export default {
 };
 
 export const ERR_ANSWER_NOT_SELECTED = "Answer required";
-export const ERR_NO_RIGHT_VALUE = "Right value invalid";
+// export const ERR_NO_RIGHT_VALUE = "Right value invalid";
+export const ERR_NO_RIGHT_VALUE_NUMBER = "Enter a number";
+export const ERR_NO_RIGHT_VALUE_OPTION = "Select at least one option";

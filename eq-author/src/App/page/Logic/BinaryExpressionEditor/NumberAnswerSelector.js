@@ -34,6 +34,8 @@ const NumberAnswerRoutingSelector = styled.div`
   align-items: center;
   border: 1px solid ${colors.lightGrey};
   margin: 1em 0;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
   border-radius: ${radius};
   padding: 1em;
 `;
