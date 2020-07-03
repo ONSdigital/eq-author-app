@@ -1,7 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
 
-import { UnwrappedQuestionRoutingRoute as QuestionRoute } from "./";
+import { UnwrappedLogicPage as LogicPage } from "./";
 
 describe("Logic Page", () => {
   let match, questionnaireId, sectionId, pageId;
@@ -32,7 +32,9 @@ describe("Logic Page", () => {
 
   const render = props => {
     return shallow(
-      <QuestionRoute match={match} {...defaultProps} {...props} />
+      <LogicPage match={match} {...defaultProps} {...props}>
+        Content
+      </LogicPage>
     );
   };
 

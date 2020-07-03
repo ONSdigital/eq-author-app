@@ -224,6 +224,6 @@ describe("buildLogicPath", () => {
       pageId,
       tab: "design",
     });
-    expect(path).toEqual(`/q/${questionnaireId}/page/${pageId}/logic`);
+    expect(path).toEqual(`/q/${questionnaireId}/page/${pageId}/routing`);
   });
 });
