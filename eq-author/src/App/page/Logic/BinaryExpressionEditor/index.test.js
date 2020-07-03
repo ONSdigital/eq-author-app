@@ -118,7 +118,7 @@ describe("BinaryExpressionEditor", () => {
     expect(
       wrapper
         .find("BinaryExpressionEditor__PropertiesError")
-        .contains("No routable answers have been added to this question yet.")
+        .contains("No routable answers have been added to this question yet")
     ).toBeTruthy();
   });
 
