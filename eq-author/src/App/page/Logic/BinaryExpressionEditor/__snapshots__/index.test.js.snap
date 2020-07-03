@@ -106,7 +106,7 @@ exports[`BinaryExpressionEditor should render consistently 1`] = `
                     "right": null,
                     "validationErrorInfo": Object {
                       "errors": Array [],
-                      "id": "1",
+                      "id": "6dd",
                       "totalCount": 0,
                     },
                   }
