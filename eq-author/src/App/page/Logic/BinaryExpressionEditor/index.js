@@ -2,11 +2,12 @@ import React from "react";
 import { PropTypes } from "prop-types";
 import styled from "styled-components";
 import { TransitionGroup } from "react-transition-group";
-import { get, uniqueId, flow } from "lodash/fp";
+import { get, uniqueId, flow, some } from "lodash/fp";
 import { propType } from "graphql-anywhere";
-import { NavLink, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 import CustomPropTypes from "custom-prop-types";
+
 import {
   RADIO,
   NUMBER,
@@ -15,6 +16,7 @@ import {
   UNIT,
   CHECKBOX,
 } from "constants/answer-types";
+
 import {
   NO_ROUTABLE_ANSWER_ON_PAGE,
   SELECTED_ANSWER_DELETED,
@@ -22,9 +24,10 @@ import {
   DEFAULT_SKIP_CONDITION,
 } from "constants/routing-left-side";
 
+import { ERR_ANSWER_NOT_SELECTED } from "constants/validationMessages";
+
 import IconText from "components/IconText";
 import { Grid, Column } from "components/Grid";
-import { buildPagePath } from "utils/UrlUtils";
 
 import Transition from "App/page/Logic/Routing/Transition";
 
@@ -33,7 +36,8 @@ import svgPath from "./path.svg";
 import svgPathEnd from "./path-end.svg";
 import IconMinus from "./icon-minus.svg?inline";
 import IconPlus from "./icon-plus.svg?inline";
-import { Alert, AlertText, AlertTitle } from "./Alert";
+import WarningIcon from "constants/icon-warning.svg?inline";
+
 import fragment from "./fragment.graphql";
 import withUpdateLeftSide from "./withUpdateLeftSide";
 import withDeleteBinaryExpression from "./withDeleteBinaryExpression";
@@ -128,6 +132,13 @@ const Flex = styled.div`
 
 const ContentPicker = styled(RoutingAnswerContentPicker)`
   flex: 1 1 auto;
+  ${({ hasError }) =>
+    hasError &&
+    `
+       border-color: ${colors.red};
+    outline-color: ${colors.red};
+    box-shadow: 0 0 0 2px ${colors.red};
+  `}
 `;
 
 const DefaultRouteDiv = styled.div`
@@ -138,58 +149,59 @@ const StyledTransition = styled.div`
   display: ${props => (props.isHidden ? "none" : "block")};
 `;
 
+const PropertiesError = styled(IconText)`
+  color: ${colors.red};
+  justify-content: flex-end;
+  padding-top: 0.5em;
+  width: 80%;
+`;
+
 /* eslint-disable react/prop-types */
 const ERROR_SITUATIONS = [
   {
     condition: props =>
       props.expression.left.reason === SELECTED_ANSWER_DELETED,
     message: () => (
-      <Alert>
-        <AlertTitle>
-          The answer used in this condition has been deleted
-        </AlertTitle>
-        <AlertText>Please select a new answer.</AlertText>
-      </Alert>
+      <PropertiesError icon={WarningIcon}>
+        The answer used in this condition has been deleted
+      </PropertiesError>
     ),
   },
   {
     condition: props =>
       props.expression.left.reason === NO_ROUTABLE_ANSWER_ON_PAGE,
-    message: props => (
-      <Alert>
-        <AlertTitle>
-          No routable answers have been added to this question yet.
-        </AlertTitle>
-        <AlertText>
-          First,{" "}
-          <NavLink to={buildPagePath(props.match.params)}>
-            add an answer
-          </NavLink>{" "}
-          to continue.
-        </AlertText>
-      </Alert>
+    message: () => (
+      <PropertiesError icon={WarningIcon}>
+        No routable answers have been added to this question yet
+      </PropertiesError>
     ),
   },
   {
     condition: props => !props.canAddCondition && props.operator === "Or",
     message: () => (
-      <Alert>
-        <AlertTitle>
-          OR condition is not valid when creating multiple radio rules
-        </AlertTitle>
-        <AlertText>Select a different answer or delete the rule.</AlertText>
-      </Alert>
+      <PropertiesError icon={WarningIcon}>
+        OR condition is not valid when creating multiple radio rules
+      </PropertiesError>
     ),
   },
   {
     condition: props => !props.canAddCondition,
     message: () => (
-      <Alert>
-        <AlertTitle>
-          AND condition not valid with &lsquo;radio button&rsquo; answer
-        </AlertTitle>
-        <AlertText>Please select a different question.</AlertText>
-      </Alert>
+      <PropertiesError icon={WarningIcon}>
+        AND condition not valid with &lsquo;radio button&rsquo; answer
+      </PropertiesError>
+    ),
+  },
+  {
+    condition: props =>
+      some(
+        { errorCode: "ERR_ANSWER_NOT_SELECTED" },
+        props.expression.validationErrorInfo.errors
+      ),
+    message: () => (
+      <PropertiesError icon={WarningIcon}>
+        {ERR_ANSWER_NOT_SELECTED}
+      </PropertiesError>
     ),
   },
 ];
@@ -253,19 +265,31 @@ export class UnwrappedBinaryExpressionEditor extends React.Component {
     this.props.updateBinaryExpression(this.props.expression, condition);
   };
 
-  renderEditor() {
-    if (
-      this.props.expression.left.reason === DEFAULT_ROUTING ||
-      this.props.expression.left.reason === DEFAULT_SKIP_CONDITION
-    ) {
-      return <div />;
-    }
-
+  leftErrors = () => {
     for (let i = 0; i < ERROR_SITUATIONS.length; ++i) {
       const { condition, message } = ERROR_SITUATIONS[i];
       if (condition(this.props)) {
         return message(this.props);
       }
+    }
+  };
+
+  hasError = () => {
+    for (let i = 0; i < ERROR_SITUATIONS.length; ++i) {
+      const { condition } = ERROR_SITUATIONS[i];
+      if (condition(this.props)) {
+        return true;
+      }
+    }
+  };
+
+  renderEditor() {
+    if (
+      this.props.expression.left.reason === DEFAULT_ROUTING ||
+      this.props.expression.left.reason === DEFAULT_SKIP_CONDITION ||
+      this.hasError()
+    ) {
+      return <div />;
     }
 
     const type = get("left.type", this.props.expression);
@@ -281,6 +305,8 @@ export class UnwrappedBinaryExpressionEditor extends React.Component {
 
   render() {
     const routingEditor = this.renderEditor();
+    const leftErrors = this.leftErrors();
+    const hasError = this.hasError();
     const {
       className,
       label,
@@ -310,6 +336,7 @@ export class UnwrappedBinaryExpressionEditor extends React.Component {
                 selectedId={get("left.id", expression)}
                 data-test="routing-answer-picker"
                 includeSelf={includeSelf}
+                hasError={hasError}
               />
             </Flex>
           </Column>
@@ -332,7 +359,7 @@ export class UnwrappedBinaryExpressionEditor extends React.Component {
             </ActionButtons>
           </Column>
         </Grid>
-
+        {leftErrors}
         <DefaultRouteDiv
           className={className}
           hasPadding={
