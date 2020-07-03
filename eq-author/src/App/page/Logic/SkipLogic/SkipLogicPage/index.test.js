@@ -10,7 +10,12 @@ describe("Skip Condition Page", () => {
   it("should show the no skip condition message when there is no skip conditions for a page", () => {
     const wrapper = shallow(
       <SkipLogicPage
-        page={{ id: "1", displayName: "test", skipConditions: null }}
+        page={{
+          id: "1",
+          displayName: "test",
+          skipConditions: null,
+          validationErrorInfo: { id: "1", errors: [], totalCount: 0 },
+        }}
         createSkipCondition={jest.fn()}
       />
     );
@@ -21,7 +26,12 @@ describe("Skip Condition Page", () => {
     const createSkipCondition = jest.fn();
     const wrapper = shallow(
       <SkipLogicPage
-        page={{ id: "1", displayName: "test", skipConditions: null }}
+        page={{
+          id: "1",
+          displayName: "test",
+          skipConditions: null,
+          validationErrorInfo: { id: "1", errors: [], totalCount: 0 },
+        }}
         createSkipCondition={createSkipCondition}
       />
     );
@@ -33,7 +43,12 @@ describe("Skip Condition Page", () => {
     const skipConditions = [{ id: "2", expressions: [] }];
     const wrapper = shallow(
       <SkipLogicPage
-        page={{ id: "1", displayName: "test", skipConditions }}
+        page={{
+          id: "1",
+          displayName: "test",
+          skipConditions,
+          validationErrorInfo: { id: "1", errors: [], totalCount: 0 },
+        }}
         createSkipCondition={jest.fn()}
       />
     );

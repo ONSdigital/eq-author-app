@@ -558,6 +558,7 @@ type BinaryExpression2 {
   condition: LogicCondition
   right: RightSide2
   expressionGroup: ExpressionGroup2
+  validationErrorInfo: ValidationErrorInfo
 }
 
 enum LegalBasis {

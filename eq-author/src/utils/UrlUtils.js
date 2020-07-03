@@ -52,7 +52,7 @@ export const buildPagePath = ({ pageId, tab, ...rest }) => {
   }
   return generatePath(Routes.QUESTIONNAIRE)({
     ...rest,
-    tab: sanitiseTab(["design", "logic", "preview"])(tab),
+    tab: sanitiseTab(["design", "routing", "skip", "logic", "preview"])(tab),
     entityId: pageId,
     entityName: PAGE,
   });
@@ -148,4 +148,4 @@ const buildTabSwitcher = tab => params => {
 
 export const buildDesignPath = buildTabSwitcher("design");
 export const buildPreviewPath = buildTabSwitcher("preview");
-export const buildLogicPath = buildTabSwitcher("logic");
+export const buildLogicPath = buildTabSwitcher("routing");

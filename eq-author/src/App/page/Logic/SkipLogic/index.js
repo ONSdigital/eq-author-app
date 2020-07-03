@@ -13,7 +13,7 @@ import Error from "components/Error";
 import SkipLogicPage from "./SkipLogicPage";
 import transformNestedFragments from "utils/transformNestedFragments";
 import { buildPagePath } from "utils/UrlUtils";
-
+import Logic from "../../Logic";
 const ROUTING_PAGE_TYPES = ["QuestionPage"];
 
 export class UnwrappedQuestionSkipLogicRoute extends React.Component {
@@ -56,7 +56,7 @@ export class UnwrappedQuestionSkipLogicRoute extends React.Component {
   }
 
   render() {
-    return <div>{this.renderContent()}</div>;
+    return <Logic {...this.props}>{this.renderContent()}</Logic>;
   }
 }
 
