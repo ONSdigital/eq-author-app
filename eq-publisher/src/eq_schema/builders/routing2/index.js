@@ -24,9 +24,18 @@ module.exports = (routing, pageId, groupId, ctx) => {
 
     runnerRules = rule.expressionGroup.expressions.map(expression => {
       let rules = [];
+
       const answer = getAnswerById(ctx.questionnaireJson, expression.left.id);
 
-      if (expression.left.type === CHECKBOX && answer.mutuallyExclusiveOption) {
+      const mutuallyExclusiveOptionInRule =
+        answer && answer.mutuallyExclusiveOption
+          ? filter(
+              expression.right.options,
+              ({ id }) => id === answer.mutuallyExclusiveOption.id
+            ).length
+          : 0;
+
+      if (expression.left.type === CHECKBOX && mutuallyExclusiveOptionInRule) {
         let mutuallyExclusiveExpression = JSON.parse(
           JSON.stringify(expression)
         );

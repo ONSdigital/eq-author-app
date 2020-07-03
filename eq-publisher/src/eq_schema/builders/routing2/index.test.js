@@ -1,7 +1,8 @@
 const translateAuthorRouting = require("./");
-const { RADIO, CURRENCY } = require("../../../constants/answerTypes");
+const { RADIO, CURRENCY, CHECKBOX } = require("../../../constants/answerTypes");
 const questionnaireJson = require("./basicQuestionnaireJSON");
 const { AND, OR } = require("../../../constants/routingOperators");
+const { v4: uuidv4 } = require("uuid");
 
 describe("Routing2", () => {
   let routingGotos, ctx;
@@ -224,5 +225,107 @@ describe("Routing2", () => {
         },
       },
     ]);
+  });
+
+  describe("Mutually exclusive routing", () => {
+    it("Should create a second routing rule when a mutually exclusive checkbox option is included in a Binary Expression", () => {
+      const newQuestionnaireJson = JSON.parse(
+        JSON.stringify(questionnaireJson)
+      );
+
+      const standardOption = {
+        id: uuidv4(),
+        label: "Standard option 1",
+      };
+
+      const mutuallyExclusiveOption = {
+        id: uuidv4(),
+        label: "Mutually exclusive option",
+      };
+
+      const evaluatorPage = newQuestionnaireJson.sections[0].pages[0];
+
+      const evaluatorAnswer = evaluatorPage.answers[0];
+
+      evaluatorAnswer.type = CHECKBOX;
+      evaluatorAnswer.options = [standardOption];
+      evaluatorAnswer.mutuallyExclusiveOption = mutuallyExclusiveOption;
+
+      const authorRouting = {
+        rules: [
+          {
+            expressionGroup: {
+              operator: OR,
+              expressions: [
+                {
+                  left: evaluatorAnswer,
+                  condition: "AnyOf",
+                  right: {
+                    options: [standardOption, mutuallyExclusiveOption],
+                  },
+                },
+              ],
+            },
+            destination: {
+              section: null,
+              page: null,
+              logical: "EndOfQuestionnaire",
+            },
+          },
+        ],
+        else: {
+          section: null,
+          page: null,
+          logical: "NextPage",
+        },
+      };
+
+      evaluatorPage.routing = authorRouting;
+
+      const newCtx = { ...ctx, questionnaireJson: newQuestionnaireJson };
+
+      const runnerRouting = translateAuthorRouting(
+        authorRouting,
+        "1",
+        "1",
+        newCtx
+      );
+
+      expect(authorRouting.rules.length).toBe(1);
+      expect(runnerRouting.length).toBe(3);
+      expect(runnerRouting.sort()).toEqual(
+        [
+          {
+            goto: {
+              group: "confirmation-group",
+              when: [
+                {
+                  id: "answer1-exclusive",
+                  condition: "contains any",
+                  values: ["Mutually exclusive option"],
+                },
+              ],
+            },
+          },
+          {
+            goto: {
+              group: "confirmation-group",
+              when: [
+                {
+                  id: "answer1",
+                  condition: "contains any",
+                  values: ["Standard option 1"],
+                },
+              ],
+            },
+          },
+          {
+            goto: {
+              block: "block2",
+            },
+          },
+        ].sort()
+      );
+    });
   });
 });
