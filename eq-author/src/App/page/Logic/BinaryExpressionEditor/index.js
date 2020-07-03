@@ -226,7 +226,11 @@ const ERROR_SITUATIONS = {
         some(
           { errorCode: "ERR_NO_RIGHT_VALUE" },
           props.expression.validationErrorInfo.errors
-        ) && props.expression.left.type === NUMBER,
+        ) &&
+        (props.expression.left.type === NUMBER ||
+          props.expression.left.type === CURRENCY ||
+          props.expression.left.type === PERCENTAGE ||
+          props.expression.left.type === UNIT),
       message: () => (
         <PropertiesError right icon={WarningIcon}>
           {ERR_NO_RIGHT_VALUE_NUMBER}
@@ -339,6 +343,7 @@ export class UnwrappedBinaryExpressionEditor extends React.Component {
 
   renderEditor() {
     const { LEFT_ERRORS, RIGHT_ERRORS } = ERROR_SITUATIONS;
+
     if (
       this.props.expression.left.reason === DEFAULT_ROUTING ||
       this.props.expression.left.reason === DEFAULT_SKIP_CONDITION ||
