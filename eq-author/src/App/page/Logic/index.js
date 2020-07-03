@@ -72,7 +72,7 @@ const Badge = styled.span`
   border: 1px solid ${colors.white};
   background-color: ${colors.red};
   color: white;
-  padding: 0.1em 0.35em;
+  padding: 0.1em 0.3em;
   font-weight: normal;
   z-index: 2;
   margin-left: auto;
@@ -86,30 +86,23 @@ const Badge = styled.span`
 export class UnwrappedLogicPage extends React.Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
-    page: CustomPropTypes.page,
-    match: PropTypes.shape({
-      params: PropTypes.shape({
-        questionnaireId: PropTypes.string.isRequired,
-      }).isRequired,
-    }).isRequired,
+    data: PropTypes.shape({
+      page: CustomPropTypes.page,
+    }),
   };
 
   renderContent() {
-    const { children } = this.props;
+    const { children, data } = this.props;
+    const page = get(data, "page", null);
 
-    const page = get(children.props, "page");
-
-    console.log("children", children);
     const TABS = [
       {
-        key: "routing",
+        key: `routing`,
         label: "Routing logic",
-        url: `routing`,
       },
       {
-        key: "skip",
+        key: `skip`,
         label: "Skip logic",
-        url: `skip`,
       },
     ];
 
@@ -140,7 +133,6 @@ export class UnwrappedLogicPage extends React.Component {
         return accumulator;
       }, errorsPerTab);
 
-      console.log("errorSeparator", errorSeparator);
       return errorSeparator[tabKey];
     };
 
@@ -150,14 +142,12 @@ export class UnwrappedLogicPage extends React.Component {
           <Column gutters={false} cols={2.5}>
             <MenuTitle>Select your logic</MenuTitle>
             <StyledUl>
-              {TABS.map(({ key, label, url }) => {
-                console.log("key", key);
+              {TABS.map(({ key, label }) => {
                 const errors = tabErrors(key);
-                console.log("errors", errors);
 
                 return (
                   <li data-test={key} key={key}>
-                    <LogicLink exact to={url} activeClassName="active" replace>
+                    <LogicLink exact to={key} activeClassName="active" replace>
                       {label}
                       {errors !== undefined &&
                       errors !== null &&

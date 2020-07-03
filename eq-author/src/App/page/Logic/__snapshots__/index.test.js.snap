@@ -34,23 +34,30 @@ exports[`Logic Page should render 1`] = `
           Select your logic
         </Logic__MenuTitle>
         <Logic__StyledUl>
-          <li>
+          <li
+            data-test="routing"
+            key="routing"
+          >
             <Logic__LogicLink
               activeClassName="active"
               exact={true}
+              replace={true}
               to="routing"
             >
-              Routing logic
+              Routing logic
             </Logic__LogicLink>
           </li>
-          <li>
+          <li
+            data-test="skip"
+            key="skip"
+          >
             <Logic__LogicLink
               activeClassName="active"
               exact={true}
               replace={true}
               to="skip"
             >
-              Skip logic
+              Skip logic
             </Logic__LogicLink>
           </li>
         </Logic__StyledUl>
@@ -91,23 +98,30 @@ exports[`Logic Page should render an error when there is no data 1`] = `
           Select your logic
         </Logic__MenuTitle>
         <Logic__StyledUl>
-          <li>
+          <li
+            data-test="routing"
+            key="routing"
+          >
             <Logic__LogicLink
               activeClassName="active"
               exact={true}
+              replace={true}
               to="routing"
             >
-              Routing logic
+              Routing logic
             </Logic__LogicLink>
           </li>
-          <li>
+          <li
+            data-test="skip"
+            key="skip"
+          >
             <Logic__LogicLink
               activeClassName="active"
               exact={true}
               replace={true}
               to="skip"
             >
-              Skip logic
+              Skip logic
             </Logic__LogicLink>
           </li>
         </Logic__StyledUl>
@@ -159,23 +173,30 @@ exports[`Logic Page should show error info when there is an error 1`] = `
           Select your logic
         </Logic__MenuTitle>
         <Logic__StyledUl>
-          <li>
+          <li
+            data-test="routing"
+            key="routing"
+          >
             <Logic__LogicLink
               activeClassName="active"
               exact={true}
+              replace={true}
               to="routing"
             >
-              Routing logic
+              Routing logic
             </Logic__LogicLink>
           </li>
-          <li>
+          <li
+            data-test="skip"
+            key="skip"
+          >
             <Logic__LogicLink
               activeClassName="active"
               exact={true}
               replace={true}
               to="skip"
             >
-              Skip logic
+              Skip logic
             </Logic__LogicLink>
           </li>
         </Logic__StyledUl>
@@ -227,23 +248,30 @@ exports[`Logic Page should show loading info when loading 1`] = `
           Select your logic
         </Logic__MenuTitle>
         <Logic__StyledUl>
-          <li>
+          <li
+            data-test="routing"
+            key="routing"
+          >
             <Logic__LogicLink
               activeClassName="active"
               exact={true}
+              replace={true}
               to="routing"
             >
-              Routing logic
+              Routing logic
             </Logic__LogicLink>
           </li>
-          <li>
+          <li
+            data-test="skip"
+            key="skip"
+          >
             <Logic__LogicLink
               activeClassName="active"
               exact={true}
               replace={true}
               to="skip"
             >
-              Skip logic
+              Skip logic
             </Logic__LogicLink>
           </li>
         </Logic__StyledUl>
