@@ -587,42 +587,35 @@
           "type": "string"
         },
         "left": {
+          "type": "object",
           "anyOf": [
             {
-              "if": {
-                "properties": {
-                  "type": {
-                    "const": "Null"
-                  }
+              "type": "object",
+              "properties": {
+                "answerId": {
+                  "type": "string",
+                  "pattern": "\\w+"
                 }
               },
-              "then": {
-                "routingAnswer": {
-                  "$data": "/sections/"
-                }
-              }
+              "required": ["answerId"]
             }
           ],
-          "properties": {
-            "answerId": {
-              "type": "string"
-            }
-          }
+          "errorMessage": "ERR_ANSWER_NOT_SELECTED"
         },
         "right": {
-          "anyOf": [
-            {
-              "if": {
-                "properties": {}
-              },
-              "then": {}
-            }
-          ],
+          "type": "object",
           "properties": {
-            "answerId": {
-              "type": "string"
+            "type": { "enum": ["Custom", "SelectedOptions"] },
+            "optionIds": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
             }
-          }
+          },
+          "required": ["type"],
+          "errorMessage": "ERR_NO_RIGHT_VALUE"
         }
       }
     }
