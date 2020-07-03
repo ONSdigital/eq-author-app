@@ -7,3 +7,4 @@ export default {
 };
 
 export const ERR_ANSWER_NOT_SELECTED = "Answer required";
+export const ERR_NO_RIGHT_VALUE = "Right value invalid";

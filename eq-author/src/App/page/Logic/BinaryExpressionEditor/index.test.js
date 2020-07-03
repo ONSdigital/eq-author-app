@@ -3,7 +3,6 @@ import { shallow } from "enzyme";
 import { render, flushPromises, act } from "tests/utils/rtl";
 
 import { RADIO, CURRENCY, NUMBER, PERCENTAGE } from "constants/answer-types";
-import { ERR_ANSWER_NOT_SELECTED } from "constants/validationMessages";
 import {
   NO_ROUTABLE_ANSWER_ON_PAGE,
   SELECTED_ANSWER_DELETED,
@@ -15,7 +14,6 @@ import { UnwrappedBinaryExpressionEditor as BinaryExpressionEditor } from "./";
 import MultipleChoiceAnswerOptionsSelector from "./MultipleChoiceAnswerOptionsSelector";
 import NumberAnswerSelector from "./NumberAnswerSelector";
 
-import { AlertTitle } from "./Alert";
 import { OR } from "constants/routingOperators";
 
 describe("BinaryExpressionEditor", () => {
@@ -117,10 +115,9 @@ describe("BinaryExpressionEditor", () => {
     defaultProps.expression.left = { reason: NO_ROUTABLE_ANSWER_ON_PAGE };
 
     const wrapper = shallow(<BinaryExpressionEditor {...defaultProps} />);
-
     expect(
       wrapper
-        .find(AlertTitle)
+        .find("BinaryExpressionEditor__PropertiesError")
         .contains("No routable answers have been added to this question yet.")
     ).toBeTruthy();
   });
@@ -132,7 +129,7 @@ describe("BinaryExpressionEditor", () => {
 
     expect(
       wrapper
-        .find(AlertTitle)
+        .find("BinaryExpressionEditor__PropertiesError")
         .contains("The answer used in this condition has been deleted")
     ).toBeTruthy();
   });
@@ -144,7 +141,7 @@ describe("BinaryExpressionEditor", () => {
 
     expect(
       wrapper
-        .find(AlertTitle)
+        .find("BinaryExpressionEditor__PropertiesError")
         .contains("AND condition not valid with ‘radio button’ answer")
     ).toBeTruthy();
   });
@@ -159,7 +156,7 @@ describe("BinaryExpressionEditor", () => {
 
     expect(
       wrapper
-        .find(AlertTitle)
+        .find("BinaryExpressionEditor__PropertiesError")
         .contains(
           "OR condition is not valid when creating multiple radio rules"
         )
@@ -239,18 +236,12 @@ describe("BinaryExpressionEditor", () => {
       type: "expressions",
     };
 
-    const { queryByTestId, getByText } = render(
-      <BinaryExpressionEditor {...defaultProps} />
-    );
+    const wrapper = shallow(<BinaryExpressionEditor {...defaultProps} />);
 
-    await act(async () => {
-      await flushPromises();
-    });
-
-    const error = queryByTestId("ERR_ANSWER_NOT_SELECTED");
-    const errorText = getByText(ERR_ANSWER_NOT_SELECTED);
-
-    expect(error).toBeTruthy();
-    expect(errorText).toBeDefined();
+    expect(
+      wrapper
+        .find("BinaryExpressionEditor__PropertiesError")
+        .contains("Answer required")
+    ).toBeTruthy();
   });
 });
