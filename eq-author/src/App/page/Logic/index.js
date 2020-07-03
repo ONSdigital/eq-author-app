@@ -67,6 +67,22 @@ const LogicLink = styled(NavLink)`
   }
 `;
 
+const Badge = styled.span`
+  border-radius: 0.7em;
+  border: 1px solid ${colors.white};
+  background-color: ${colors.red};
+  color: white;
+  padding: 0.1em 0.35em;
+  font-weight: normal;
+  z-index: 2;
+  margin-left: auto;
+  line-height: 1;
+  font-size: 0.9rem;
+  pointer-events: none;
+  width: 20px;
+  height: 20px;
+`;
+
 export class UnwrappedLogicPage extends React.Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
@@ -81,22 +97,79 @@ export class UnwrappedLogicPage extends React.Component {
   renderContent() {
     const { children } = this.props;
 
+    const page = get(children.props, "page");
+
+    console.log("children", children);
+    const TABS = [
+      {
+        key: "routing",
+        label: "Routing logic",
+        url: `routing`,
+      },
+      {
+        key: "skip",
+        label: "Skip logic",
+        url: `skip`,
+      },
+    ];
+
+    const validationErrors = get(page, "validationErrorInfo", null);
+
+    const tabErrors = tabKey => {
+      if (validationErrors === null || validationErrors === undefined) {
+        return null;
+      }
+
+      const errorsPerTab = {
+        routing: [],
+        skip: [],
+      };
+
+      const { errors } = validationErrors;
+
+      const errorSeparator = errors.reduce((accumulator, error) => {
+        const { routing, skip } = accumulator;
+
+        if (error.id.includes("routing")) {
+          routing.push(error);
+        }
+        if (error.id.includes("skipConditions")) {
+          skip.push(error);
+        }
+
+        return accumulator;
+      }, errorsPerTab);
+
+      console.log("errorSeparator", errorSeparator);
+      return errorSeparator[tabKey];
+    };
+
     return (
       <LogicMainCanvas>
         <Grid>
           <Column gutters={false} cols={2.5}>
             <MenuTitle>Select your logic</MenuTitle>
             <StyledUl>
-              <li>
-                <LogicLink exact to={`routing`} activeClassName="active">
-                  Routing logic
-                </LogicLink>
-              </li>
-              <li>
-                <LogicLink exact to={`skip`} activeClassName="active" replace>
-                  Skip logic
-                </LogicLink>
-              </li>
+              {TABS.map(({ key, label, url }) => {
+                console.log("key", key);
+                const errors = tabErrors(key);
+                console.log("errors", errors);
+
+                return (
+                  <li data-test={key} key={key}>
+                    <LogicLink exact to={url} activeClassName="active" replace>
+                      {label}
+                      {errors !== undefined &&
+                      errors !== null &&
+                      errors.length > 0 ? (
+                        <Badge data-test="badge-withCount">
+                          {errors.length}
+                        </Badge>
+                      ) : null}
+                    </LogicLink>
+                  </li>
+                );
+              })}
             </StyledUl>
           </Column>
           <Column gutters={false} cols={9.5}>
