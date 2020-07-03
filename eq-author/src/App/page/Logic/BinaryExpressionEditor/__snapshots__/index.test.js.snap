@@ -94,26 +94,30 @@ exports[`BinaryExpressionEditor should render consistently 1`] = `
               key="answer"
               timeout={200}
             >
-              <MultipleChoiceAnswerOptionsSelector
-                expression={
-                  Object {
-                    "condition": "Equal",
-                    "id": "1",
-                    "left": Object {
-                      "id": "2",
-                      "type": "Radio",
-                    },
-                    "right": null,
-                    "validationErrorInfo": Object {
-                      "errors": Array [],
-                      "id": "6dd",
-                      "totalCount": 0,
-                    },
+              <BinaryExpressionEditor__ErrorWrapper
+                hasError={false}
+              >
+                <MultipleChoiceAnswerOptionsSelector
+                  expression={
+                    Object {
+                      "condition": "Equal",
+                      "id": "1",
+                      "left": Object {
+                        "id": "2",
+                        "type": "Radio",
+                      },
+                      "right": null,
+                      "validationErrorInfo": Object {
+                        "errors": Array [],
+                        "id": "6dd",
+                        "totalCount": 0,
+                      },
+                    }
                   }
-                }
-                onConditionChange={[Function]}
-                onRightChange={[Function]}
-              />
+                  onConditionChange={[Function]}
+                  onRightChange={[Function]}
+                />
+              </BinaryExpressionEditor__ErrorWrapper>
             </Transition__RoutingComponentTransition>
           </TransitionGroup>
         </BinaryExpressionEditor__StyledTransition>

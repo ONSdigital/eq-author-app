@@ -24,7 +24,10 @@ import {
   DEFAULT_SKIP_CONDITION,
 } from "constants/routing-left-side";
 
-import { ERR_ANSWER_NOT_SELECTED } from "constants/validationMessages";
+import {
+  ERR_ANSWER_NOT_SELECTED,
+  ERR_NO_RIGHT_VALUE,
+} from "constants/validationMessages";
 
 import IconText from "components/IconText";
 import { Grid, Column } from "components/Grid";
@@ -153,58 +156,85 @@ const PropertiesError = styled(IconText)`
   color: ${colors.red};
   justify-content: flex-end;
   padding-top: 0.5em;
-  width: 80%;
+  width: ${props => (props.right ? "100%" : "80%")};
+`;
+
+const ErrorWrapper = styled.div`
+  ${({ hasError }) =>
+    hasError &&
+    `
+    border-color: ${colors.red};
+    outline-color: ${colors.red};
+    box-shadow: 0 0 0 2px ${colors.red};
+    border-radius: 4px;
+  `}
 `;
 
 /* eslint-disable react/prop-types */
-const ERROR_SITUATIONS = [
-  {
-    condition: props =>
-      props.expression.left.reason === SELECTED_ANSWER_DELETED,
-    message: () => (
-      <PropertiesError icon={WarningIcon}>
-        The answer used in this condition has been deleted
-      </PropertiesError>
-    ),
-  },
-  {
-    condition: props =>
-      props.expression.left.reason === NO_ROUTABLE_ANSWER_ON_PAGE,
-    message: () => (
-      <PropertiesError icon={WarningIcon}>
-        No routable answers have been added to this question yet
-      </PropertiesError>
-    ),
-  },
-  {
-    condition: props => !props.canAddCondition && props.operator === "Or",
-    message: () => (
-      <PropertiesError icon={WarningIcon}>
-        OR condition is not valid when creating multiple radio rules
-      </PropertiesError>
-    ),
-  },
-  {
-    condition: props => !props.canAddCondition,
-    message: () => (
-      <PropertiesError icon={WarningIcon}>
-        AND condition not valid with &lsquo;radio button&rsquo; answer
-      </PropertiesError>
-    ),
-  },
-  {
-    condition: props =>
-      some(
-        { errorCode: "ERR_ANSWER_NOT_SELECTED" },
-        props.expression.validationErrorInfo.errors
+const ERROR_SITUATIONS = {
+  LEFT_ERRORS: [
+    {
+      condition: props =>
+        props.expression.left.reason === SELECTED_ANSWER_DELETED,
+      message: () => (
+        <PropertiesError icon={WarningIcon}>
+          The answer used in this condition has been deleted
+        </PropertiesError>
       ),
-    message: () => (
-      <PropertiesError icon={WarningIcon}>
-        {ERR_ANSWER_NOT_SELECTED}
-      </PropertiesError>
-    ),
-  },
-];
+    },
+    {
+      condition: props =>
+        props.expression.left.reason === NO_ROUTABLE_ANSWER_ON_PAGE,
+      message: () => (
+        <PropertiesError icon={WarningIcon}>
+          No routable answers have been added to this question yet
+        </PropertiesError>
+      ),
+    },
+    {
+      condition: props => !props.canAddCondition && props.operator === "Or",
+      message: () => (
+        <PropertiesError icon={WarningIcon}>
+          OR condition is not valid when creating multiple radio rules
+        </PropertiesError>
+      ),
+    },
+    {
+      condition: props => !props.canAddCondition,
+      message: () => (
+        <PropertiesError icon={WarningIcon}>
+          AND condition not valid with &lsquo;radio button&rsquo; answer
+        </PropertiesError>
+      ),
+    },
+    {
+      condition: props =>
+        some(
+          { errorCode: "ERR_ANSWER_NOT_SELECTED" },
+          props.expression.validationErrorInfo.errors
+        ),
+      message: () => (
+        <PropertiesError icon={WarningIcon}>
+          {ERR_ANSWER_NOT_SELECTED}
+        </PropertiesError>
+      ),
+    },
+  ],
+  RIGHT_ERRORS: [
+    {
+      condition: props =>
+        some(
+          { errorCode: "ERR_NO_RIGHT_VALUE" },
+          props.expression.validationErrorInfo.errors
+        ),
+      message: () => (
+        <PropertiesError right icon={WarningIcon}>
+          {ERR_NO_RIGHT_VALUE}
+        </PropertiesError>
+      ),
+    },
+  ],
+};
 /* eslint-enable react/prop-types */
 
 const ANSWER_TYPE_TO_RIGHT_EDITOR = {
@@ -265,18 +295,18 @@ export class UnwrappedBinaryExpressionEditor extends React.Component {
     this.props.updateBinaryExpression(this.props.expression, condition);
   };
 
-  leftErrors = () => {
-    for (let i = 0; i < ERROR_SITUATIONS.length; ++i) {
-      const { condition, message } = ERROR_SITUATIONS[i];
+  errors = array => {
+    for (let i = 0; i < array.length; ++i) {
+      const { condition, message } = array[i];
       if (condition(this.props)) {
         return message(this.props);
       }
     }
   };
 
-  hasError = () => {
-    for (let i = 0; i < ERROR_SITUATIONS.length; ++i) {
-      const { condition } = ERROR_SITUATIONS[i];
+  hasError = array => {
+    for (let i = 0; i < array.length; ++i) {
+      const { condition } = array[i];
       if (condition(this.props)) {
         return true;
       }
@@ -284,29 +314,40 @@ export class UnwrappedBinaryExpressionEditor extends React.Component {
   };
 
   renderEditor() {
+    const { LEFT_ERRORS, RIGHT_ERRORS } = ERROR_SITUATIONS;
     if (
       this.props.expression.left.reason === DEFAULT_ROUTING ||
       this.props.expression.left.reason === DEFAULT_SKIP_CONDITION ||
-      this.hasError()
+      this.hasError(LEFT_ERRORS)
     ) {
       return <div />;
     }
 
     const type = get("left.type", this.props.expression);
     const Editor = ANSWER_TYPE_TO_RIGHT_EDITOR[type];
+
+    const rightErrors = this.errors(RIGHT_ERRORS) ?? false;
+
     return (
-      <Editor
-        expression={this.props.expression}
-        onRightChange={this.handleUpdateRightSide}
-        onConditionChange={this.handleUpdateCondition}
-      />
+      <>
+        <ErrorWrapper hasError={rightErrors}>
+          <Editor
+            expression={this.props.expression}
+            onRightChange={this.handleUpdateRightSide}
+            onConditionChange={this.handleUpdateCondition}
+          />
+        </ErrorWrapper>
+        {rightErrors && rightErrors}
+      </>
     );
   }
 
   render() {
+    const { LEFT_ERRORS } = ERROR_SITUATIONS;
     const routingEditor = this.renderEditor();
-    const leftErrors = this.leftErrors();
-    const hasError = this.hasError();
+    const leftErrors = this.errors(LEFT_ERRORS);
+    const hasError = this.hasError(LEFT_ERRORS);
+
     const {
       className,
       label,

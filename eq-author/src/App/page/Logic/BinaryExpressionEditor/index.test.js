@@ -3,6 +3,14 @@ import { shallow } from "enzyme";
 import { render, flushPromises, act } from "tests/utils/rtl";
 
 import { RADIO, CURRENCY, NUMBER, PERCENTAGE } from "constants/answer-types";
+
+import { colors } from "constants/theme";
+
+import {
+  ERR_ANSWER_NOT_SELECTED,
+  ERR_NO_RIGHT_VALUE,
+} from "constants/validationMessages";
+
 import {
   NO_ROUTABLE_ANSWER_ON_PAGE,
   SELECTED_ANSWER_DELETED,
@@ -227,7 +235,7 @@ describe("BinaryExpressionEditor", () => {
     expect(options).toBeFalsy();
   });
 
-  it("should provide validation message when errors are present", async () => {
+  it("should provide validation message for the left side when errors are present", async () => {
     defaultProps.expression.validationErrorInfo.totalCount = 1;
     defaultProps.expression.validationErrorInfo.errors[0] = {
       errorCode: "ERR_ANSWER_NOT_SELECTED",
@@ -236,12 +244,33 @@ describe("BinaryExpressionEditor", () => {
       type: "expressions",
     };
 
-    const wrapper = shallow(<BinaryExpressionEditor {...defaultProps} />);
+    const { getByTestId, getByText } = render(
+      <BinaryExpressionEditor {...defaultProps} />
+    );
 
-    expect(
-      wrapper
-        .find("BinaryExpressionEditor__PropertiesError")
-        .contains("Answer required")
-    ).toBeTruthy();
+    expect(getByText(ERR_ANSWER_NOT_SELECTED)).toBeTruthy();
+    expect(getByTestId("routing-answer-picker")).toHaveStyleRule(
+      "border-color",
+      `${colors.red}`
+    );
+  });
+
+  it("should provide validation message for the right side when errors are present", async () => {
+    defaultProps.expression.validationErrorInfo.totalCount = 1;
+    defaultProps.expression.validationErrorInfo.errors[0] = {
+      errorCode: "ERR_NO_RIGHT_VALUE",
+      field: "right",
+      id: "expression-routing-1-right",
+      type: "expressions",
+    };
+
+    const { getByText } = render(<BinaryExpressionEditor {...defaultProps} />);
+
+    await act(async () => {
+      await flushPromises();
+    });
+
+    expect(getByText(ERR_NO_RIGHT_VALUE)).toBeTruthy();
+    expect(getByText(ERR_NO_RIGHT_VALUE)).toHaveStyleRule("width", "100%");
   });
 });
