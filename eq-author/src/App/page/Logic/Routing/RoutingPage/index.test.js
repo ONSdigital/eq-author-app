@@ -10,7 +10,12 @@ describe("Routing Page", () => {
   it("should show the no routing message when there is no routing for a page", () => {
     const wrapper = shallow(
       <RoutingPage
-        page={{ id: "1", displayName: "test", routing: null }}
+        page={{
+          id: "1",
+          displayName: "test",
+          routing: null,
+          validationErrorInfo: { id: "1", errors: [], totalCount: 0 },
+        }}
         createRouting={jest.fn()}
       />
     );
@@ -21,7 +26,12 @@ describe("Routing Page", () => {
     const createRouting = jest.fn();
     const wrapper = shallow(
       <RoutingPage
-        page={{ id: "1", displayName: "test", routing: null }}
+        page={{
+          id: "1",
+          displayName: "test",
+          routing: null,
+          validationErrorInfo: { id: "1", errors: [], totalCount: 0 },
+        }}
         createRouting={createRouting}
       />
     );
@@ -33,7 +43,12 @@ describe("Routing Page", () => {
     const routing = { id: "2", rules: [] };
     const wrapper = shallow(
       <RoutingPage
-        page={{ id: "1", displayName: "test", routing }}
+        page={{
+          id: "1",
+          displayName: "test",
+          routing,
+          validationErrorInfo: { id: "1", errors: [], totalCount: 0 },
+        }}
         createRouting={jest.fn()}
       />
     );
