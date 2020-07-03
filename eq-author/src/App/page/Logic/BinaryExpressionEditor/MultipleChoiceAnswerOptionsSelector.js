@@ -26,8 +26,6 @@ const MultipleChoiceAnswerOptions = styled.div`
   flex-flow: row wrap;
   display: flex;
   width: 100%;
-  /* margin-top: 0.75em; */
-  /* margin-bottom: 1em; */
   margin-top: 1em;
   margin-bottom: 0.5em;
   padding: 0.5em;
