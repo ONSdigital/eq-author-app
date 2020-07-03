@@ -36,6 +36,7 @@ describe("BinaryExpressionEditor", () => {
         },
         condition: "Equal",
         right: null,
+        validationErrorInfo: { id: "1", errors: [], totalCount: 0 },
       },
       canAddCondition: true,
       match: {

@@ -73,6 +73,15 @@ const TABS = [
     key: "logic",
     children: "Logic",
     url: match => buildLogicPath(match.params),
+    isActive: (match, location) => {
+      if (
+        location.pathname.includes("routing") ||
+        location.pathname.includes("skip")
+      ) {
+        return true;
+      }
+      return false;
+    },
   },
 ];
 
@@ -111,12 +120,12 @@ export const UnwrappedTabs = props => {
   return (
     <div>
       <TabsContainer data-test="tabs-nav">
-        {TABS.map(({ key, children, url }) => {
+        {TABS.map(({ key, children, url, isActive }) => {
           const errors = tabErrors(key);
           const { Component, otherProps = {} } = props[key]
             ? {
                 Component: Tab,
-                otherProps: { to: url(match), activeClassName },
+                otherProps: { to: url(match), activeClassName, isActive },
               }
             : { Component: DisabledTab };
           return (
