@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { NavLink, withRouter } from "react-router-dom";
@@ -87,12 +87,41 @@ const TABS = [
 
 export const UnwrappedTabs = props => {
   const { match, page } = props;
-  const pageErrors = get(page, "validationErrorInfo.totalCount", null);
+  const validationErrors = get(page, "validationErrorInfo", null);
+
+  const tabErrors = useCallback(
+    tabKey => {
+      if (validationErrors === null || validationErrors === undefined) {
+        return null;
+      }
+
+      const errorsPerTab = {
+        design: [],
+        logic: [],
+      };
+
+      const { errors } = validationErrors;
+
+      const errorSeparator = errors.reduce((accumulator, error) => {
+        const { design, logic } = accumulator;
+
+        error.id.includes("expression")
+          ? logic.push(error)
+          : design.push(error);
+
+        return accumulator;
+      }, errorsPerTab);
+
+      return errorSeparator[tabKey];
+    },
+    [validationErrors]
+  );
 
   return (
     <div>
       <TabsContainer data-test="tabs-nav">
         {TABS.map(({ key, children, url, isActive }) => {
+          const errors = tabErrors(key);
           const { Component, otherProps = {} } = props[key]
             ? {
                 Component: Tab,
@@ -101,10 +130,7 @@ export const UnwrappedTabs = props => {
             : { Component: DisabledTab };
           return (
             <Component data-test={key} key={key} {...otherProps}>
-              {key === "design" &&
-              pageErrors !== undefined &&
-              pageErrors !== null &&
-              pageErrors > 0 ? (
+              {errors !== undefined && errors !== null && errors.length > 0 ? (
                 <SmallBadge data-test="small-badge" />
               ) : null}
               {children}

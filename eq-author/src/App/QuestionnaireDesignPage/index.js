@@ -335,14 +335,12 @@ export const VALIDATION_QUERY = gql`
       sections {
         id
         validationErrorInfo {
-          id
-          totalCount
+          ...ValidationErrorInfo
         }
         pages {
           id
           validationErrorInfo {
-            id
-            totalCount
+            ...ValidationErrorInfo
           }
           ... on QuestionPage {
             answers {
