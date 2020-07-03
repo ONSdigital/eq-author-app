@@ -40,6 +40,36 @@
         },
         "confirmation": {
           "$ref": "entities.json#/definitions/confirmationPage"
+        },
+        "routing": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "rules": {
+              "type": "array",
+              "items": {
+                "$ref": "entities.json#/definitions/routingRule"
+              }
+            }
+          }
+        },
+        "skipConditions": {
+          "type": "array",
+          "items": {
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "expressions": {
+                "type": "array",
+                "items": {
+                  "$ref": "entities.json#/definitions/expression"
+                }
+              }
+            }
+          }
         }
       },
       "if": {
@@ -149,6 +179,7 @@
       },
       "required": ["id", "title", "positive"]
     },
+
     "answer": {
       "allOf": [
         {
@@ -528,6 +559,72 @@
         }
       },
       "required": ["id", "label"]
+    },
+    "routingRule": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "destination": {},
+        "expressionGroup": {
+          "properties": {
+            "id": { "type": "string" },
+            "operator": { "enum": ["And", "Or"] },
+            "expressions": {
+              "type": "array",
+              "items": {
+                "$ref": "entities.json#/definitions/expression"
+              }
+            }
+          }
+        }
+      }
+    },
+    "expression": {
+      "properties": {
+        "id": { "type": "string" },
+        "condition": {
+          "type": "string"
+        },
+        "left": {
+          "anyOf": [
+            {
+              "if": {
+                "properties": {
+                  "type": {
+                    "const": "Null"
+                  }
+                }
+              },
+              "then": {
+                "routingAnswer": {
+                  "$data": "/sections/"
+                }
+              }
+            }
+          ],
+          "properties": {
+            "answerId": {
+              "type": "string"
+            }
+          }
+        },
+        "right": {
+          "anyOf": [
+            {
+              "if": {
+                "properties": {}
+              },
+              "then": {}
+            }
+          ],
+          "properties": {
+            "answerId": {
+              "type": "string"
+            }
+          }
+        }
+      }
     }
   }
 }

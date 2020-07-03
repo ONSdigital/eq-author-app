@@ -172,6 +172,7 @@ describe("schema validation", () => {
       });
     });
   });
+
   describe("Answer validation", () => {
     describe("basic answer", () => {
       it("should ensure that the label is populated", () => {
@@ -807,6 +808,91 @@ describe("schema validation", () => {
       const validationPageErrors = validation(questionnaire);
       const sectionpageErrors = validationPageErrors.sections[section.id];
       expect(sectionpageErrors).toBeUndefined();
+    });
+  });
+
+  describe("Routing validation", () => {
+    beforeEach(() => {
+      questionnaire.sections[0].pages[0].routing = null;
+      questionnaire.sections[0].pages[0].skipConditions = null;
+    });
+    it("should validate empty routing rules", () => {
+      const expressionId = "express-1";
+
+      const routing = validation(questionnaire);
+
+      expect(routing.totalCount).toBe(0);
+
+      questionnaire.sections[0].pages[0].routing = {
+        id: "1",
+        else: {
+          id: "else-1",
+          logical: "NextPage",
+        },
+        rules: [
+          {
+            id: "rule-1",
+            destination: {
+              id: "dest-1",
+              logical: "NextPage",
+            },
+            expressionGroup: {
+              id: "group-1",
+              operator: "And",
+              expressions: [
+                {
+                  id: expressionId,
+                  condition: "Equal",
+                  left: {
+                    type: "Null",
+                    answerId: "",
+                    nullReason: "DefaultRouting",
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      };
+
+      const routingErrors = validation(questionnaire);
+
+      expect(routingErrors.totalCount).toBe(1);
+      expect(routingErrors.expressions[expressionId].errors[0].id).toBe(
+        "expressions-routing-express-1-left"
+      );
+    });
+
+    it("should validate empty skip conditions", () => {
+      const expressionId = "express-1";
+
+      const skipConditions = validation(questionnaire);
+
+      expect(skipConditions.totalCount).toBe(0);
+
+      questionnaire.sections[0].pages[0].skipConditions = [
+        {
+          id: "group-1",
+          expressions: [
+            {
+              id: expressionId,
+              condition: "Equal",
+              left: {
+                type: "Null",
+                answerId: "",
+                nullReason: "DefaultSkipCondition",
+              },
+            },
+          ],
+        },
+      ];
+
+      const skipConditionErrors = validation(questionnaire);
+
+      expect(skipConditionErrors.totalCount).toBe(1);
+      expect(skipConditionErrors.expressions[expressionId].errors[0].id).toBe(
+        "expressions-skipConditions-express-1-left"
+      );
     });
   });
 });
