@@ -307,24 +307,6 @@ export class UnwrappedBinaryExpressionEditor extends React.Component {
     );
   }
 
-  renderValidationErrorMessage = () => {
-    const {
-      validationErrorInfo: { errors },
-    } = this.props.expression;
-
-    const errorMessages = errors.map((error, index) => (
-      <PropertiesError
-        key={`${error.errorCode}-${index}`}
-        icon={WarningIcon}
-        data-test={`${error.errorCode}`}
-      >
-        {VALIDATION_ERRORS[error.errorCode]}
-      </PropertiesError>
-    ));
-
-    return errorMessages;
-  };
-
   render() {
     const routingEditor = this.renderEditor();
     const leftErrors = this.leftErrors();
