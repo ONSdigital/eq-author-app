@@ -11,6 +11,8 @@ const {
 const {
   ERR_MAX_LENGTH_TOO_LARGE,
   ERR_MAX_LENGTH_TOO_SMALL,
+  ERR_ANSWER_NOT_SELECTED,
+  ERR_NO_RIGHT_VALUE,
 } = require("../../constants/validationErrorCodes");
 
 const validation = require(".");
@@ -861,6 +863,9 @@ describe("schema validation", () => {
       expect(routingErrors.expressions[expressionId].errors[0].id).toBe(
         "expressions-routing-express-1-left"
       );
+      expect(routingErrors.expressions[expressionId].errors[0].errorCode).toBe(
+        ERR_ANSWER_NOT_SELECTED
+      );
     });
 
     it("should validate empty skip conditions", () => {
@@ -893,6 +898,44 @@ describe("schema validation", () => {
       expect(skipConditionErrors.expressions[expressionId].errors[0].id).toBe(
         "expressions-skipConditions-express-1-left"
       );
+      expect(
+        skipConditionErrors.expressions[expressionId].errors[0].errorCode
+      ).toBe(ERR_ANSWER_NOT_SELECTED);
+    });
+
+    it("should validate empty right of expression", () => {
+      const expressionId = "express-1";
+
+      const skipConditions = validation(questionnaire);
+
+      expect(skipConditions.totalCount).toBe(0);
+
+      questionnaire.sections[0].pages[0].skipConditions = [
+        {
+          id: "group-1",
+          expressions: [
+            {
+              id: expressionId,
+              condition: "Equal",
+              left: {
+                type: "Answer",
+                answerId: "a3a30d15-c857-4f6a-8251-f072a5b58c60",
+              },
+              right: null,
+            },
+          ],
+        },
+      ];
+
+      const skipConditionErrors = validation(questionnaire);
+
+      expect(skipConditionErrors.totalCount).toBe(1);
+      expect(skipConditionErrors.expressions[expressionId].errors[0].id).toBe(
+        "expressions-skipConditions-express-1-right"
+      );
+      expect(
+        skipConditionErrors.expressions[expressionId].errors[0].errorCode
+      ).toBe(ERR_NO_RIGHT_VALUE);
     });
   });
 });
