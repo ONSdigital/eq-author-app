@@ -42,7 +42,7 @@ Resolvers.QuestionPage = {
     getPreviousAnswersForPage(
       ctx.questionnaire,
       page.id,
-      page.includeSelf,
+      true,
       ROUTING_ANSWER_TYPES
     ),
   availableRoutingDestinations: ({ id }, args, ctx) => {
