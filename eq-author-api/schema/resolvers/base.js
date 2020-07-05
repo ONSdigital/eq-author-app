@@ -214,7 +214,7 @@ const Resolvers = {
       pageId,
       includeSelf,
       ROUTING_ANSWER_TYPES
-    );,
+    ),
   },
 
   Subscription: {
