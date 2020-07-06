@@ -3,7 +3,7 @@ const { buildContext } = require("../tests/utils/contextBuilder");
 require("../db/datastore");
 
 jest.mock("../db/datastore", () => ({
-  ...require.requireActual("../db/datastore"),
+  ...jest.requireActual("../db/datastore"),
   getQuestionnaireMetaById: jest.fn(() => ({
     createdAt: 1576579844508,
     createdBy: "a5570fd6-af3a-4192-8286-f66ac304ba39",
