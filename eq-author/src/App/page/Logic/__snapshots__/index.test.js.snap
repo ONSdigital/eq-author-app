@@ -9,11 +9,6 @@ exports[`Logic Page should render 1`] = `
     Object {
       "displayName": "My first displayname",
       "id": "1",
-      "page": Object {
-        "answers": Array [],
-        "displayName": "My question",
-        "id": "1",
-      },
       "title": "My first title",
     }
   }
@@ -148,11 +143,6 @@ exports[`Logic Page should show error info when there is an error 1`] = `
     Object {
       "displayName": "My first displayname",
       "id": "1",
-      "page": Object {
-        "answers": Array [],
-        "displayName": "My question",
-        "id": "1",
-      },
       "title": "My first title",
     }
   }
@@ -223,11 +213,6 @@ exports[`Logic Page should show loading info when loading 1`] = `
     Object {
       "displayName": "My first displayname",
       "id": "1",
-      "page": Object {
-        "answers": Array [],
-        "displayName": "My question",
-        "id": "1",
-      },
       "title": "My first title",
     }
   }

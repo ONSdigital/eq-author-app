@@ -1,7 +1,9 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { get } from "lodash";
+import { get, filter } from "lodash";
 import PropTypes from "prop-types";
+import Loading from "components/Loading";
+import Error from "components/Error";
 
 import styled from "styled-components";
 import { colors } from "constants/theme";
@@ -89,11 +91,21 @@ export class UnwrappedLogicPage extends React.Component {
     data: PropTypes.shape({
       page: CustomPropTypes.page,
     }),
+    loading: PropTypes.bool.isRequired,
+    error: PropTypes.object, // eslint-disable-line
   };
 
   renderContent() {
-    const { children, data } = this.props;
+    const { children, data, loading, error } = this.props;
     const page = get(data, "page", null);
+
+    if (loading) {
+      return <Loading height="20em">Loading routing</Loading>;
+    }
+
+    if (error || !page) {
+      return <Error>Something went wrong</Error>;
+    }
 
     const TABS = [
       {
@@ -106,36 +118,6 @@ export class UnwrappedLogicPage extends React.Component {
       },
     ];
 
-    const validationErrors = get(page, "validationErrorInfo", null);
-
-    const tabErrors = tabKey => {
-      if (validationErrors === null || validationErrors === undefined) {
-        return null;
-      }
-
-      const errorsPerTab = {
-        routing: [],
-        skip: [],
-      };
-
-      const { errors } = validationErrors;
-
-      const errorSeparator = errors.reduce((accumulator, error) => {
-        const { routing, skip } = accumulator;
-
-        if (error.id.includes("routing")) {
-          routing.push(error);
-        }
-        if (error.id.includes("skipConditions")) {
-          skip.push(error);
-        }
-
-        return accumulator;
-      }, errorsPerTab);
-
-      return errorSeparator[tabKey];
-    };
-
     return (
       <LogicMainCanvas>
         <Grid>
@@ -143,8 +125,9 @@ export class UnwrappedLogicPage extends React.Component {
             <MenuTitle>Select your logic</MenuTitle>
             <StyledUl>
               {TABS.map(({ key, label }) => {
-                const errors = tabErrors(key);
-
+                const errors = filter(page.validationErrorInfo.errors, error =>
+                  error.id.includes(key)
+                );
                 return (
                   <li data-test={key} key={key}>
                     <LogicLink exact to={key} activeClassName="active" replace>

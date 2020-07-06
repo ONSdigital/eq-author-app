@@ -1,56 +1,101 @@
 import React from "react";
-import { shallow } from "enzyme";
+// import { shallow } from "enzyme";
 
-import { UnwrappedLogicPage as LogicPage } from "./";
+import { render, flushPromises, act } from "tests/utils/rtl";
+// import { Tab, activeClassName } from "./";
+import { publishStatusSubscription } from "components/EditorLayout/Header";
+
+import { UnwrappedLogicPage } from "./";
 
 describe("Logic Page", () => {
-  let match, questionnaireId, sectionId, pageId;
+  let props, mocks, questionnaireId;
 
   beforeEach(() => {
     questionnaireId = "1";
-    sectionId = "2";
-    match = {
-      params: { questionnaireId, sectionId, pageId },
-    };
-  });
-
-  const defaultProps = {
-    loading: false,
-    data: {
-      page: {
-        id: "1",
-        displayName: "My first displayname",
-        title: "My first title",
+    props = {
+      loading: false,
+      data: {
         page: {
           id: "1",
-          displayName: "My question",
-          answers: [],
+          displayName: "My first displayname",
+          title: "My first title",
+          validationErrorInfo: {
+            totalCount: 2,
+            errors: [
+              {
+                id: "expressions-skipConditions-1",
+              },
+              {
+                id: "expressions-routing-1",
+              },
+            ],
+          },
         },
       },
-    },
-  };
+    };
 
-  const render = props => {
-    return shallow(
-      <LogicPage match={match} {...defaultProps} {...props}>
-        Content
-      </LogicPage>
+    mocks = [
+      {
+        request: {
+          query: publishStatusSubscription,
+          variables: { id: questionnaireId },
+        },
+        result: () => ({
+          data: {
+            publishStatusUpdated: {
+              id: questionnaireId,
+              publishStatus: "Unpublished",
+              __typename: "Questionnaire",
+            },
+          },
+        }),
+      },
+    ];
+  });
+
+  // const render = props => {
+  //   return shallow(
+  //     <UnwrappedLogicPage
+  //       match={match}
+  //       {...defaultProps}
+  //       {...props}
+  //       {...children}
+  //     >
+  //       Content
+  //     </UnwrappedLogicPage>
+  //   );
+  // };
+
+  // it("should render", () => {
+  //   expect(render()).toMatchSnapshot();
+  // });
+
+  // it("should show loading info when loading", () => {
+  //   expect(render({ loading: true })).toMatchSnapshot();
+  // });
+
+  // it("should show error info when there is an error", () => {
+  //   expect(render({ error: { message: "some error" } })).toMatchSnapshot();
+  // });
+
+  // it("should render an error when there is no data", () => {
+  //   expect(render({ data: undefined })).toMatchSnapshot();
+  // });
+
+  it("should provide the validation error dot for the routing tab if design page has error", async () => {
+    const { getAllByTestId, debug } = render(
+      <UnwrappedLogicPage {...props}>Some Children content</UnwrappedLogicPage>,
+      {
+        mocks,
+      }
     );
-  };
 
-  it("should render", () => {
-    expect(render()).toMatchSnapshot();
-  });
+    await act(async () => {
+      await flushPromises();
+    });
 
-  it("should show loading info when loading", () => {
-    expect(render({ loading: true })).toMatchSnapshot();
-  });
+    debug();
 
-  it("should show error info when there is an error", () => {
-    expect(render({ error: { message: "some error" } })).toMatchSnapshot();
-  });
-
-  it("should render an error when there is no data", () => {
-    expect(render({ data: undefined })).toMatchSnapshot();
+    expect(getAllByTestId("badge-withCount").length).toBe(2);
   });
 });
