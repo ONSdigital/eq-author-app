@@ -1,11 +1,14 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import { get } from "lodash";
+import { get, some, find } from "lodash";
 
 import { colors, radius } from "constants/theme";
 import { Number, Select, Label } from "components/Forms";
 import VisuallyHidden from "components/VisuallyHidden";
+
+import { rightSideErrors } from "constants/validationMessages";
+import ValidationError from "./ValidationError";
 
 const conditions = {
   EQUAL: "Equal",
@@ -36,6 +39,15 @@ const NumberAnswerRoutingSelector = styled.div`
   margin: 1em 0;
   border-radius: ${radius};
   padding: 1em;
+  ${({ hasError }) =>
+    hasError &&
+    `
+    border-color: ${colors.red};
+    outline-color: ${colors.red};
+    box-shadow: 0 0 0 2px ${colors.red};
+    border-radius: 4px;
+    margin-bottom: 0.5em;
+  `}
 `;
 
 class NumberAnswerSelector extends React.Component {
@@ -67,59 +79,81 @@ class NumberAnswerSelector extends React.Component {
     this.props.onConditionChange(value);
   };
 
+  handleError = () => {
+    const { expression } = this.props;
+
+    const { errorCode } = find(expression.validationErrorInfo.errors, {
+      errorCode: "ERR_NO_RIGHT_VALUE",
+    });
+
+    return (
+      <ValidationError right>
+        {rightSideErrors[errorCode].Number}
+      </ValidationError>
+    );
+  };
+
   render() {
     const { expression } = this.props;
+
+    const hasError = some(expression.validationErrorInfo.errors, {
+      errorCode: "ERR_NO_RIGHT_VALUE",
+    });
+
     return (
-      <NumberAnswerRoutingSelector>
-        <VisuallyHidden>
-          <Label htmlFor={`expression-condition-${expression.id}`}>
-            Operator
-          </Label>
-        </VisuallyHidden>
-        <ConditionSelector
-          id={`expression-condition-${expression.id}`}
-          onChange={this.handleConditionChange}
-          name="condition-select"
-          value={expression.condition}
-          data-test="condition-selector"
-        >
-          <option value={conditions.EQUAL}>(=) Equal to</option>
-          <option value={conditions.NOT_EQUAL}>(&ne;) Not equal to</option>
-          <option value={conditions.GREATER_THAN}>(&gt;) More than</option>
-          <option value={conditions.LESS_THAN}>(&lt;) Less than</option>
-          <option value={conditions.GREATER_OR_EQUAL}>
-            (&ge;) More than or equal to
-          </option>
-          <option value={conditions.LESS_OR_EQUAL}>
-            (&le;) Less than or equal to
-          </option>
-          <option value={conditions.UNANSWERED}>Unanswered</option>
-        </ConditionSelector>
-        {expression.condition !== conditions.UNANSWERED && (
-          <>
-            <Value>
-              <VisuallyHidden>
-                <Label htmlFor={`expression-right-${expression.id}`}>
-                  Value
-                </Label>
-              </VisuallyHidden>
-              <Number
-                id={`expression-right-${expression.id}`}
-                min={-99999999}
-                max={999999999}
-                placeholder="Value"
-                value={this.state.number}
-                name={`expression-right-${expression.id}`}
-                onChange={this.handleRightChange}
-                onBlur={this.handleRightBlur}
-                data-test="number-value-input"
-                type={expression.left.type}
-                unit={get(expression.left, "properties.unit", null)}
-              />
-            </Value>
-          </>
-        )}
-      </NumberAnswerRoutingSelector>
+      <>
+        <NumberAnswerRoutingSelector hasError={hasError}>
+          <VisuallyHidden>
+            <Label htmlFor={`expression-condition-${expression.id}`}>
+              Operator
+            </Label>
+          </VisuallyHidden>
+          <ConditionSelector
+            id={`expression-condition-${expression.id}`}
+            onChange={this.handleConditionChange}
+            name="condition-select"
+            value={expression.condition}
+            data-test="condition-selector"
+          >
+            <option value={conditions.EQUAL}>(=) Equal to</option>
+            <option value={conditions.NOT_EQUAL}>(&ne;) Not equal to</option>
+            <option value={conditions.GREATER_THAN}>(&gt;) More than</option>
+            <option value={conditions.LESS_THAN}>(&lt;) Less than</option>
+            <option value={conditions.GREATER_OR_EQUAL}>
+              (&ge;) More than or equal to
+            </option>
+            <option value={conditions.LESS_OR_EQUAL}>
+              (&le;) Less than or equal to
+            </option>
+            <option value={conditions.UNANSWERED}>Unanswered</option>
+          </ConditionSelector>
+          {expression.condition !== conditions.UNANSWERED && (
+            <>
+              <Value>
+                <VisuallyHidden>
+                  <Label htmlFor={`expression-right-${expression.id}`}>
+                    Value
+                  </Label>
+                </VisuallyHidden>
+                <Number
+                  id={`expression-right-${expression.id}`}
+                  min={-99999999}
+                  max={999999999}
+                  placeholder="Value"
+                  value={this.state.number}
+                  name={`expression-right-${expression.id}`}
+                  onChange={this.handleRightChange}
+                  onBlur={this.handleRightBlur}
+                  data-test="number-value-input"
+                  type={expression.left.type}
+                  unit={get(expression.left, "properties.unit", null)}
+                />
+              </Value>
+            </>
+          )}
+        </NumberAnswerRoutingSelector>
+        {hasError && this.handleError()}
+      </>
     );
   }
 }

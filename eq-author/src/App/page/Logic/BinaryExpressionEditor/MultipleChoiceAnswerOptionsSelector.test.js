@@ -1,5 +1,12 @@
 import React from "react";
 import { shallow } from "enzyme";
+import { render, act, flushPromises } from "tests/utils/rtl";
+
+import { rightSideErrors } from "constants/validationMessages";
+import { ERR_NO_RIGHT_VALUE } from "constants/validation-error-types";
+
+import { RADIO } from "constants/answer-types";
+
 import MultipleChoiceAnswerOptionsSelector from "./MultipleChoiceAnswerOptionsSelector";
 import ToggleChip from "components/buttons/ToggleChip";
 
@@ -10,14 +17,19 @@ describe("MultipleChoiceAnswerOptionsSelector", () => {
       expression: {
         left: {
           id: "1",
-          type: "Radio",
+          type: RADIO,
           options: [
             { label: "a", id: "1" },
             { label: "b", id: "2" },
-            { label: "c", id: "3" },
+            { id: "3" },
           ],
         },
         right: null,
+        validationErrorInfo: {
+          totalCount: 0,
+          id: "Mult-pass",
+          errors: [],
+        },
       },
       onRightChange: jest.fn(),
       onConditionChange: jest.fn(),
@@ -92,5 +104,29 @@ describe("MultipleChoiceAnswerOptionsSelector", () => {
         .last()
         .prop("checked")
     ).toBeFalsy();
+  });
+
+  it("should show error message when right side empty", async () => {
+    defaultProps.expression.right = null;
+    defaultProps.expression.validationErrorInfo.errors[0] = {
+      errorCode: "ERR_NO_RIGHT_VALUE",
+      field: "right",
+      id: "expression-routing-1-right",
+      type: "expressions",
+    };
+
+    const { getByText } = render(
+      <MultipleChoiceAnswerOptionsSelector hasError {...defaultProps} />
+    );
+
+    await act(async () => {
+      await flushPromises();
+    });
+
+    expect(
+      getByText(rightSideErrors[ERR_NO_RIGHT_VALUE].Option)
+    ).toHaveStyleRule("width", "100%");
+
+    expect(getByText(rightSideErrors[ERR_NO_RIGHT_VALUE].Option)).toBeTruthy();
   });
 });
