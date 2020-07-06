@@ -10,7 +10,6 @@ const ErrorStyling = styled(IconText)`
   color: ${colors.red};
   width: ${props => (props.right ? "100%" : "80%")};
   justify-content: flex-end;
-
   margin: 0.5em 0;
 `;
 
