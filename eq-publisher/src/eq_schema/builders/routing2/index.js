@@ -1,6 +1,6 @@
-const translateBinaryExpression = require("../translateBinaryEpression/translateBinaryExpression");
 const translateRoutingDestination = require("./translateRoutingDestination");
-const { flatMap, filter, find, some } = require("lodash");
+const convertExpressionGroup = require("../expressionGroup");
+const { flatMap } = require("lodash");
 const { AND } = require("../../../constants/routingOperators");
 
 const addRuleToContext = (goto, groupId, ctx) => {
@@ -9,38 +9,6 @@ const addRuleToContext = (goto, groupId, ctx) => {
   if (destinationType.includes("group")) {
     ctx.routingGotos.push({ groupId: `group${groupId}`, ...goto });
   }
-};
-
-const getMutallyExclusiveAnswer = (answerId, ctx) => {
-  const pages = flatMap(
-    filter(ctx.questionnaireJson.sections, "pages"),
-    "pages"
-  );
-  const answers = flatMap(filter(pages, "answers"), "answers");
-  const answer = find(answers, { id: answerId });
-  if (!answer) {
-    return null;
-  }
-  return answer.mutuallyExclusiveOption;
-};
-
-const convertExclusiveExpression = expression => {
-  let convertedExpression = JSON.parse(JSON.stringify(expression));
-  convertedExpression.left.id = `${convertedExpression.left.id}-exclusive`;
-  convertedExpression.right.options = filter(
-    convertedExpression.right.options,
-    option => !some(convertedExpression.left.options, { id: option.id })
-  );
-  return convertedExpression;
-};
-
-const convertNonExclusiveExpression = expression => {
-  let convertedExpression = JSON.parse(JSON.stringify(expression));
-  convertedExpression.right.options = filter(
-    convertedExpression.right.options,
-    option => some(convertedExpression.left.options, { id: option.id })
-  );
-  return convertedExpression;
 };
 
 module.exports = (routing, pageId, groupId, ctx) => {
@@ -52,43 +20,9 @@ module.exports = (routing, pageId, groupId, ctx) => {
       pageId,
       ctx
     );
+
     if (rule.expressionGroup.operator === AND) {
-      const when = rule.expressionGroup.expressions.reduce(
-        (accum, expression) => {
-          const mutallyExclusiveAnswer = getMutallyExclusiveAnswer(
-            expression.left.id,
-            ctx
-          );
-          if (!mutallyExclusiveAnswer) {
-            accum = accum.concat(translateBinaryExpression(expression));
-          }
-
-          if (
-            mutallyExclusiveAnswer &&
-            some(expression.left.options, option =>
-              some(expression.right.options, { id: option.id })
-            )
-          ) {
-            accum = accum.concat([
-              translateBinaryExpression(
-                convertNonExclusiveExpression(expression)
-              ),
-            ]);
-          }
-
-          if (
-            mutallyExclusiveAnswer &&
-            some(expression.right.options, { id: mutallyExclusiveAnswer.id })
-          ) {
-            accum = accum.concat([
-              translateBinaryExpression(convertExclusiveExpression(expression)),
-            ]);
-          }
-
-          return accum;
-        },
-        []
-      );
+      const when = convertExpressionGroup(rule.expressionGroup, ctx);
 
       runnerRules = [
         {
@@ -99,56 +33,15 @@ module.exports = (routing, pageId, groupId, ctx) => {
         },
       ];
     } else {
-      runnerRules = rule.expressionGroup.expressions.reduce(
-        (accum, expression) => {
-          const mutallyExclusiveAnswer = getMutallyExclusiveAnswer(
-            expression.left.id,
-            ctx
-          );
-          if (!mutallyExclusiveAnswer) {
-            accum = accum.concat({
-              goto: {
-                ...destination,
-                when: [translateBinaryExpression(expression)],
-              },
-            });
-          }
-          if (
-            mutallyExclusiveAnswer &&
-            some(expression.left.options, option =>
-              some(expression.right.options, { id: option.id })
-            )
-          ) {
-            accum = accum.concat({
-              goto: {
-                ...destination,
-                when: [
-                  translateBinaryExpression(
-                    convertNonExclusiveExpression(expression)
-                  ),
-                ],
-              },
-            });
-          }
-          if (
-            mutallyExclusiveAnswer &&
-            some(expression.right.options, { id: mutallyExclusiveAnswer.id })
-          ) {
-            accum = accum.concat({
-              goto: {
-                ...destination,
-                when: [
-                  translateBinaryExpression(
-                    convertExclusiveExpression(expression)
-                  ),
-                ],
-              },
-            });
-          }
-          return accum;
-        },
-        []
-      );
+      const expressions = convertExpressionGroup(rule.expressionGroup, ctx);
+      runnerRules = expressions.map(when => {
+        return {
+          goto: {
+            ...destination,
+            when: [when],
+          },
+        };
+      });
     }
     runnerRules.map(expression => {
       addRuleToContext(expression.goto, groupId, ctx);

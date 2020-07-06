@@ -1,13 +1,9 @@
-const translateBinaryExpression = require("../translateBinaryEpression/translateBinaryExpression");
+const convertExpressionGroup = require("../expressionGroup");
 
-module.exports = authorSkipConditions => {
+module.exports = (authorSkipConditions, ctx) => {
   const skipConditions = authorSkipConditions.map(expressionGroup => {
-    let skipCondition;
-    const when = expressionGroup.expressions.map(expression =>
-      translateBinaryExpression(expression)
-    );
-    skipCondition = { when };
-    return skipCondition;
+    const when = convertExpressionGroup(expressionGroup, ctx);
+    return { when };
   });
   return [...skipConditions];
 };
