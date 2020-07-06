@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Logic Page should render 1`] = `
+exports[`Logic Page should provide the validation error dot for the routing tab if design page has error 1`] = `
 <EditorLayout
   design={true}
   logic={true}
@@ -9,7 +9,23 @@ exports[`Logic Page should render 1`] = `
     Object {
       "displayName": "My first displayname",
       "id": "1",
+      "page": Object {
+        "answers": Array [],
+        "displayName": "My question",
+        "id": "1",
+      },
       "title": "My first title",
+      "validationErrorInfo": Object {
+        "errors": Array [
+          Object {
+            "id": "expressions-skipConditions-1",
+          },
+          Object {
+            "id": "expressions-routing-1",
+          },
+        ],
+        "totalCount": 2,
+      },
     }
   }
   preview={true}
@@ -40,6 +56,11 @@ exports[`Logic Page should render 1`] = `
               to="routing"
             >
               Routing logic
+              <Logic__Badge
+                data-test="badge-withCount"
+              >
+                1
+              </Logic__Badge>
             </Logic__LogicLink>
           </li>
           <li
@@ -53,6 +74,107 @@ exports[`Logic Page should render 1`] = `
               to="skip"
             >
               Skip logic
+              <Logic__Badge
+                data-test="badge-withCount"
+              >
+                1
+              </Logic__Badge>
+            </Logic__LogicLink>
+          </li>
+        </Logic__StyledUl>
+      </Column>
+      <Column
+        cols={9.5}
+        gutters={false}
+      >
+        <Logic__LogicContainer>
+          Content
+        </Logic__LogicContainer>
+      </Column>
+    </Grid>
+  </Logic__LogicMainCanvas>
+</EditorLayout>
+`;
+
+exports[`Logic Page should render 1`] = `
+<EditorLayout
+  design={true}
+  logic={true}
+  mainCanvasMaxWidth="80em"
+  page={
+    Object {
+      "displayName": "My first displayname",
+      "id": "1",
+      "page": Object {
+        "answers": Array [],
+        "displayName": "My question",
+        "id": "1",
+      },
+      "title": "My first title",
+      "validationErrorInfo": Object {
+        "errors": Array [
+          Object {
+            "id": "expressions-skipConditions-1",
+          },
+          Object {
+            "id": "expressions-routing-1",
+          },
+        ],
+        "totalCount": 2,
+      },
+    }
+  }
+  preview={true}
+  singleColumnLayout={true}
+  title="My first displayname"
+>
+  <Logic__LogicMainCanvas>
+    <Grid
+      align="top"
+      fillHeight={true}
+    >
+      <Column
+        cols={2.5}
+        gutters={false}
+      >
+        <Logic__MenuTitle>
+          Select your logic
+        </Logic__MenuTitle>
+        <Logic__StyledUl>
+          <li
+            data-test="routing"
+            key="routing"
+          >
+            <Logic__LogicLink
+              activeClassName="active"
+              exact={true}
+              replace={true}
+              to="routing"
+            >
+              Routing logic
+              <Logic__Badge
+                data-test="badge-withCount"
+              >
+                1
+              </Logic__Badge>
+            </Logic__LogicLink>
+          </li>
+          <li
+            data-test="skip"
+            key="skip"
+          >
+            <Logic__LogicLink
+              activeClassName="active"
+              exact={true}
+              replace={true}
+              to="skip"
+            >
+              Skip logic
+              <Logic__Badge
+                data-test="badge-withCount"
+              >
+                1
+              </Logic__Badge>
             </Logic__LogicLink>
           </li>
         </Logic__StyledUl>
@@ -80,57 +202,9 @@ exports[`Logic Page should render an error when there is no data 1`] = `
   singleColumnLayout={true}
   title=""
 >
-  <Logic__LogicMainCanvas>
-    <Grid
-      align="top"
-      fillHeight={true}
-    >
-      <Column
-        cols={2.5}
-        gutters={false}
-      >
-        <Logic__MenuTitle>
-          Select your logic
-        </Logic__MenuTitle>
-        <Logic__StyledUl>
-          <li
-            data-test="routing"
-            key="routing"
-          >
-            <Logic__LogicLink
-              activeClassName="active"
-              exact={true}
-              replace={true}
-              to="routing"
-            >
-              Routing logic
-            </Logic__LogicLink>
-          </li>
-          <li
-            data-test="skip"
-            key="skip"
-          >
-            <Logic__LogicLink
-              activeClassName="active"
-              exact={true}
-              replace={true}
-              to="skip"
-            >
-              Skip logic
-            </Logic__LogicLink>
-          </li>
-        </Logic__StyledUl>
-      </Column>
-      <Column
-        cols={9.5}
-        gutters={false}
-      >
-        <Logic__LogicContainer>
-          Content
-        </Logic__LogicContainer>
-      </Column>
-    </Grid>
-  </Logic__LogicMainCanvas>
+  <Error>
+    Something went wrong
+  </Error>
 </EditorLayout>
 `;
 
@@ -143,64 +217,32 @@ exports[`Logic Page should show error info when there is an error 1`] = `
     Object {
       "displayName": "My first displayname",
       "id": "1",
+      "page": Object {
+        "answers": Array [],
+        "displayName": "My question",
+        "id": "1",
+      },
       "title": "My first title",
+      "validationErrorInfo": Object {
+        "errors": Array [
+          Object {
+            "id": "expressions-skipConditions-1",
+          },
+          Object {
+            "id": "expressions-routing-1",
+          },
+        ],
+        "totalCount": 2,
+      },
     }
   }
   preview={true}
   singleColumnLayout={true}
   title="My first displayname"
 >
-  <Logic__LogicMainCanvas>
-    <Grid
-      align="top"
-      fillHeight={true}
-    >
-      <Column
-        cols={2.5}
-        gutters={false}
-      >
-        <Logic__MenuTitle>
-          Select your logic
-        </Logic__MenuTitle>
-        <Logic__StyledUl>
-          <li
-            data-test="routing"
-            key="routing"
-          >
-            <Logic__LogicLink
-              activeClassName="active"
-              exact={true}
-              replace={true}
-              to="routing"
-            >
-              Routing logic
-            </Logic__LogicLink>
-          </li>
-          <li
-            data-test="skip"
-            key="skip"
-          >
-            <Logic__LogicLink
-              activeClassName="active"
-              exact={true}
-              replace={true}
-              to="skip"
-            >
-              Skip logic
-            </Logic__LogicLink>
-          </li>
-        </Logic__StyledUl>
-      </Column>
-      <Column
-        cols={9.5}
-        gutters={false}
-      >
-        <Logic__LogicContainer>
-          Content
-        </Logic__LogicContainer>
-      </Column>
-    </Grid>
-  </Logic__LogicMainCanvas>
+  <Error>
+    Something went wrong
+  </Error>
 </EditorLayout>
 `;
 
@@ -213,63 +255,33 @@ exports[`Logic Page should show loading info when loading 1`] = `
     Object {
       "displayName": "My first displayname",
       "id": "1",
+      "page": Object {
+        "answers": Array [],
+        "displayName": "My question",
+        "id": "1",
+      },
       "title": "My first title",
+      "validationErrorInfo": Object {
+        "errors": Array [
+          Object {
+            "id": "expressions-skipConditions-1",
+          },
+          Object {
+            "id": "expressions-routing-1",
+          },
+        ],
+        "totalCount": 2,
+      },
     }
   }
   preview={true}
   singleColumnLayout={true}
   title="My first displayname"
 >
-  <Logic__LogicMainCanvas>
-    <Grid
-      align="top"
-      fillHeight={true}
-    >
-      <Column
-        cols={2.5}
-        gutters={false}
-      >
-        <Logic__MenuTitle>
-          Select your logic
-        </Logic__MenuTitle>
-        <Logic__StyledUl>
-          <li
-            data-test="routing"
-            key="routing"
-          >
-            <Logic__LogicLink
-              activeClassName="active"
-              exact={true}
-              replace={true}
-              to="routing"
-            >
-              Routing logic
-            </Logic__LogicLink>
-          </li>
-          <li
-            data-test="skip"
-            key="skip"
-          >
-            <Logic__LogicLink
-              activeClassName="active"
-              exact={true}
-              replace={true}
-              to="skip"
-            >
-              Skip logic
-            </Logic__LogicLink>
-          </li>
-        </Logic__StyledUl>
-      </Column>
-      <Column
-        cols={9.5}
-        gutters={false}
-      >
-        <Logic__LogicContainer>
-          Content
-        </Logic__LogicContainer>
-      </Column>
-    </Grid>
-  </Logic__LogicMainCanvas>
+  <Loading
+    height="20em"
+  >
+    Loading routing
+  </Loading>
 </EditorLayout>
 `;
