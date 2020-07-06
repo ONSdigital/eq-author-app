@@ -6,6 +6,7 @@ import { RADIO, CURRENCY, NUMBER, PERCENTAGE } from "constants/answer-types";
 import {
   NO_ROUTABLE_ANSWER_ON_PAGE,
   SELECTED_ANSWER_DELETED,
+  DEFAULT_ROUTING,
 } from "constants/routing-left-side";
 import { byTestAttr } from "tests/utils/selectors";
 
@@ -13,7 +14,6 @@ import { UnwrappedBinaryExpressionEditor as BinaryExpressionEditor } from "./";
 import MultipleChoiceAnswerOptionsSelector from "./MultipleChoiceAnswerOptionsSelector";
 import NumberAnswerSelector from "./NumberAnswerSelector";
 
-import { AlertTitle } from "./Alert";
 import { OR } from "constants/routingOperators";
 
 describe("BinaryExpressionEditor", () => {
@@ -36,7 +36,11 @@ describe("BinaryExpressionEditor", () => {
         },
         condition: "Equal",
         right: null,
-        validationErrorInfo: { id: "1", errors: [], totalCount: 0 },
+        validationErrorInfo: {
+          id: "6dd",
+          errors: [],
+          totalCount: 0,
+        },
       },
       canAddCondition: true,
       match: {
@@ -111,11 +115,10 @@ describe("BinaryExpressionEditor", () => {
     defaultProps.expression.left = { reason: NO_ROUTABLE_ANSWER_ON_PAGE };
 
     const wrapper = shallow(<BinaryExpressionEditor {...defaultProps} />);
-
     expect(
       wrapper
-        .find(AlertTitle)
-        .contains("No routable answers have been added to this question yet.")
+        .find("BinaryExpressionEditor__PropertiesError")
+        .contains("No routable answers have been added to this question yet")
     ).toBeTruthy();
   });
 
@@ -126,7 +129,7 @@ describe("BinaryExpressionEditor", () => {
 
     expect(
       wrapper
-        .find(AlertTitle)
+        .find("BinaryExpressionEditor__PropertiesError")
         .contains("The answer used in this condition has been deleted")
     ).toBeTruthy();
   });
@@ -138,7 +141,7 @@ describe("BinaryExpressionEditor", () => {
 
     expect(
       wrapper
-        .find(AlertTitle)
+        .find("BinaryExpressionEditor__PropertiesError")
         .contains("AND condition not valid with ‘radio button’ answer")
     ).toBeTruthy();
   });
@@ -153,7 +156,7 @@ describe("BinaryExpressionEditor", () => {
 
     expect(
       wrapper
-        .find(AlertTitle)
+        .find("BinaryExpressionEditor__PropertiesError")
         .contains(
           "OR condition is not valid when creating multiple radio rules"
         )
@@ -208,5 +211,37 @@ describe("BinaryExpressionEditor", () => {
 
     const transition = getByTestId("transition-condition");
     expect(transition).toHaveStyleRule("display: none;");
+  });
+
+  it("should return empty div when default routing/skip condition", async () => {
+    defaultProps.expression.left.reason = DEFAULT_ROUTING;
+    const { queryByTestId } = render(
+      <BinaryExpressionEditor {...defaultProps} />
+    );
+
+    await act(async () => {
+      await flushPromises();
+    });
+
+    const options = queryByTestId("options-selector");
+    expect(options).toBeFalsy();
+  });
+
+  it("should provide validation message when errors are present", async () => {
+    defaultProps.expression.validationErrorInfo.totalCount = 1;
+    defaultProps.expression.validationErrorInfo.errors[0] = {
+      errorCode: "ERR_ANSWER_NOT_SELECTED",
+      field: "left",
+      id: "expression-routing-1-left",
+      type: "expressions",
+    };
+
+    const wrapper = shallow(<BinaryExpressionEditor {...defaultProps} />);
+
+    expect(
+      wrapper
+        .find("BinaryExpressionEditor__PropertiesError")
+        .contains("Answer required")
+    ).toBeTruthy();
   });
 });
