@@ -74,4 +74,34 @@ describe("Logic Page", () => {
       ).find("[data-test='badge-withCount']")
     ).toHaveLength(2);
   });
+
+  it("should not provide the validation error dot for the routing tab if design page has no error", () => {
+    const defaultProps = {
+      loading: false,
+      data: {
+        page: {
+          id: "1",
+          displayName: "My first displayname",
+          title: "My first title",
+          validationErrorInfo: {
+            totalCount: 0,
+            errors: [],
+          },
+          page: {
+            id: "1",
+            displayName: "My question",
+            answers: [],
+          },
+        },
+      },
+    };
+
+    expect(
+      shallow(
+        <UnwrappedLogicPage match={match} {...defaultProps}>
+          Content
+        </UnwrappedLogicPage>
+      ).find("[data-test='badge-withCount']")
+    ).toHaveLength(0);
+  });
 });
