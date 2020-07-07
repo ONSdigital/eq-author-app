@@ -96,16 +96,8 @@ export class UnwrappedLogicPage extends React.Component {
   };
 
   renderContent() {
-    const { children, data, loading, error } = this.props;
+    const { children, data } = this.props;
     const page = get(data, "page", null);
-
-    if (loading) {
-      return <Loading height="20em">Loading routing</Loading>;
-    }
-
-    if (error || !page) {
-      return <Error>Something went wrong</Error>;
-    }
 
     const TABS = [
       {
@@ -125,9 +117,12 @@ export class UnwrappedLogicPage extends React.Component {
             <MenuTitle>Select your logic</MenuTitle>
             <StyledUl>
               {TABS.map(({ key, label }) => {
-                const errors = filter(page.validationErrorInfo.errors, error =>
-                  error.id.includes(key)
-                );
+                let errors;
+                if (page) {
+                  errors = filter(page.validationErrorInfo.errors, error =>
+                    error.id.includes(key)
+                  );
+                }
                 return (
                   <li data-test={key} key={key}>
                     <LogicLink exact to={key} activeClassName="active" replace>
