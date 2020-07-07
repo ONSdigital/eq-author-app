@@ -32,6 +32,7 @@ import { Grid, Column } from "components/Grid";
 import Transition from "App/page/Logic/Routing/Transition";
 
 import RoutingAnswerContentPicker from "./RoutingAnswerContentPicker";
+import ValidaitonError from "./ValidationError";
 import svgPath from "./path.svg";
 import svgPathEnd from "./path-end.svg";
 import IconMinus from "./icon-minus.svg?inline";
@@ -142,18 +143,11 @@ const ContentPicker = styled(RoutingAnswerContentPicker)`
 `;
 
 const DefaultRouteDiv = styled.div`
-  padding-bottom: ${props => (props.hasPadding ? "1em" : "0")};
+  padding-bottom: ${props => (props.hasPadding ? "0.5em" : "0")};
 `;
 
 const StyledTransition = styled.div`
   display: ${props => (props.isHidden ? "none" : "block")};
-`;
-
-const PropertiesError = styled(IconText)`
-  color: ${colors.red};
-  justify-content: flex-end;
-  padding-top: 0.5em;
-  width: 80%;
 `;
 
 /* eslint-disable react/prop-types */
@@ -162,34 +156,34 @@ const ERROR_SITUATIONS = [
     condition: props =>
       props.expression.left.reason === SELECTED_ANSWER_DELETED,
     message: () => (
-      <PropertiesError icon={WarningIcon}>
+      <ValidaitonError icon={WarningIcon}>
         The answer used in this condition has been deleted
-      </PropertiesError>
+      </ValidaitonError>
     ),
   },
   {
     condition: props =>
       props.expression.left.reason === NO_ROUTABLE_ANSWER_ON_PAGE,
     message: () => (
-      <PropertiesError icon={WarningIcon}>
+      <ValidaitonError icon={WarningIcon}>
         No routable answers have been added to this question yet
-      </PropertiesError>
+      </ValidaitonError>
     ),
   },
   {
     condition: props => !props.canAddCondition && props.operator === "Or",
     message: () => (
-      <PropertiesError icon={WarningIcon}>
+      <ValidaitonError icon={WarningIcon}>
         OR condition is not valid when creating multiple radio rules
-      </PropertiesError>
+      </ValidaitonError>
     ),
   },
   {
     condition: props => !props.canAddCondition,
     message: () => (
-      <PropertiesError icon={WarningIcon}>
+      <ValidaitonError icon={WarningIcon}>
         AND condition not valid with &lsquo;radio button&rsquo; answer
-      </PropertiesError>
+      </ValidaitonError>
     ),
   },
   {
@@ -199,9 +193,9 @@ const ERROR_SITUATIONS = [
         props.expression.validationErrorInfo.errors
       ),
     message: () => (
-      <PropertiesError icon={WarningIcon}>
+      <ValidaitonError icon={WarningIcon}>
         {ERR_ANSWER_NOT_SELECTED}
-      </PropertiesError>
+      </ValidaitonError>
     ),
   },
 ];
