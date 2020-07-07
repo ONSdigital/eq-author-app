@@ -5,6 +5,7 @@ import {
   fireEvent,
   waitForElementToBeRemoved,
   wait,
+  screen,
 } from "tests/utils/rtl";
 
 import AnswerTypeSelector from "./";
@@ -54,6 +55,12 @@ describe("Answer Type Selector", () => {
     fireEvent.click(getByText("Number"));
     expect(props.onSelect).toHaveBeenCalledWith("Number");
     await waitForElementToBeRemoved(() => queryByText("Number"));
+  });
+
+  it("Select Date range and then unable to select any others", async () => {
+    props.page.answers[0] = { type: "DateRange" };
+    render(<AnswerTypeSelector {...props} />);
+    expect(screen.getByTestId("btn-add-answer")).toHaveAttribute("disabled");
   });
 
   it("Select Date range and then unable to select any others", async () => {
