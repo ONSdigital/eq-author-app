@@ -27,7 +27,8 @@ const removeAnswerGroup = (page, removedAnswer) => {
   if (
     answerTypes.length === 1 &&
     page.answers.length > 1 &&
-    totalableAnswerTypes.includes(firstAnswerType)
+    totalableAnswerTypes.includes(firstAnswerType) &&
+    !page.totalValidation
   ) {
     page.totalValidation = createGroupValidation();
     return;
