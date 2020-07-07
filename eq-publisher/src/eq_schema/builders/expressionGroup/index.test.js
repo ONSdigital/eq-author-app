@@ -46,7 +46,7 @@ describe("Expression group", () => {
     it("Should properly translate a standard expression", () => {
       const answer = {
         id: "1",
-        type: "Checkbox",
+        type: CHECKBOX,
         options: [
           {
             id: "a",
@@ -79,7 +79,7 @@ describe("Expression group", () => {
       expect(convertNonExclusiveExpression(expression)).toMatchObject({
         left: {
           id: "1",
-          type: "Checkbox",
+          type: CHECKBOX,
           options: [
             {
               id: "a",
@@ -148,7 +148,7 @@ describe("Expression group", () => {
       expect(convertExclusiveExpression(expression)).toMatchObject({
         left: {
           id: "1-exclusive",
-          type: "Checkbox",
+          type: CHECKBOX,
           options: [
             {
               id: "a",

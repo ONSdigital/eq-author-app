@@ -2,6 +2,7 @@ const Block = require("./Block");
 const { isLastPageInSection } = require("./Block");
 const Question = require("./Question");
 const mockQuestionnaire = require("./basicQuestionnaireJSON");
+const { NUMBER } = require("../constants/answerTypes");
 const ctx = {};
 
 describe("Block", () => {
@@ -202,7 +203,7 @@ describe("Block", () => {
         const newQuestionnaire = JSON.parse(JSON.stringify(questionnaire));
         const pages = newQuestionnaire.sections[0].pages;
         const answers = pages.map(({ answers }) => answers[0]);
-        answers[0].type = "Number";
+        answers[0].type = NUMBER;
 
         pages[1].skipConditions = [
           {
@@ -211,7 +212,7 @@ describe("Block", () => {
               {
                 id: "4",
                 left: {
-                  type: "Number",
+                  type: NUMBER,
                   id: "1",
                 },
                 condition: "GreaterThan",
