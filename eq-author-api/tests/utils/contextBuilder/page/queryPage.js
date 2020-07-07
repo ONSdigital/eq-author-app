@@ -162,6 +162,10 @@ const getPageQuery = `
                   }
                 }
               }
+              expressionGroup {
+                id
+                operator
+              }
               validationErrorInfo {
                 id
                 errors {

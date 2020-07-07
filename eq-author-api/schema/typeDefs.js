@@ -123,7 +123,6 @@ interface Page {
   availablePipingAnswers: [Answer!]!
   availablePipingMetadata: [Metadata!]!
   validationErrorInfo: ValidationErrorInfo
-  includeSelf: Boolean
 }
 
 type QuestionPage implements Page {
@@ -154,7 +153,6 @@ type QuestionPage implements Page {
   skipConditions: [ExpressionGroup2]
   totalValidation: TotalValidationRule
   validationErrorInfo: ValidationErrorInfo
-  includeSelf: Boolean
 }
 
 type CalculatedSummaryPage implements Page {
@@ -172,7 +170,6 @@ type CalculatedSummaryPage implements Page {
   availablePipingMetadata: [Metadata!]!
   totalTitle: String
   validationErrorInfo: ValidationErrorInfo
-  includeSelf: Boolean
 }
 
 type ConfirmationOption {
@@ -193,7 +190,6 @@ type QuestionConfirmation {
   availablePipingAnswers: [Answer!]!
   availablePipingMetadata: [Metadata!]!
   validationErrorInfo: ValidationErrorInfo
-  includeSelf: Boolean
 }
 
 interface Answer {
@@ -621,6 +617,7 @@ type Query {
   me: User!
   users: [User!]!
   comments(id: ID!): [Comment!]!
+  getAvailableAnswers(input: GetAvailableAnswersInput!):[Answer]
 }
 
 input QueryInput {
@@ -629,6 +626,10 @@ input QueryInput {
   pageId: ID
   answerId: ID
   optionId: ID
+}
+
+input GetAvailableAnswersInput {
+  pageId: ID
   includeSelf: Boolean
 }
 
