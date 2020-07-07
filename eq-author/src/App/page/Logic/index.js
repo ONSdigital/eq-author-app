@@ -72,15 +72,15 @@ const Badge = styled.span`
   border: 1px solid ${colors.white};
   background-color: ${colors.red};
   color: white;
-  padding: 0.1em 0.3em;
+  padding: 0.15em 0.3em;
   font-weight: normal;
   z-index: 2;
   margin-left: auto;
   line-height: 1;
   font-size: 0.9rem;
   pointer-events: none;
-  width: 20px;
-  height: 20px;
+  width: 1.4em;
+  height: 1.4em;
 `;
 
 export class UnwrappedLogicPage extends React.Component {
