@@ -29,7 +29,7 @@ const {
 } = require("../../constants/publishStatus");
 
 const { DURATION_LOOKUP } = require("../../constants/durationTypes");
-
+const { ROUTING_ANSWER_TYPES } = require("../../constants/routingAnswerTypes");
 const { DATE } = require("../../constants/answerTypes");
 
 const pubsub = require("../../db/pubSub");
@@ -208,6 +208,13 @@ const Resolvers = {
       );
       return questionnareComments.comments[id] || [];
     },
+    getAvailableAnswers: (root, { input: { pageId, includeSelf = true } }, ctx) => 
+    getPreviousAnswersForPage(
+      ctx.questionnaire,
+      pageId,
+      includeSelf,
+      ROUTING_ANSWER_TYPES
+    ),
   },
 
   Subscription: {

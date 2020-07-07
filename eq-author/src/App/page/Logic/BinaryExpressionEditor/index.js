@@ -324,7 +324,7 @@ export class UnwrappedBinaryExpressionEditor extends React.Component {
           <Column gutters={false} cols={8}>
             <Flex>
               <ContentPicker
-                path="page.availableRoutingAnswers"
+                path="getAvailableAnswers"
                 selectedContentDisplayName={get("left.displayName", expression)}
                 onSubmit={this.handleLeftSideChange}
                 selectedId={get("left.id", expression)}
