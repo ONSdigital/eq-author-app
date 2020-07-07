@@ -25,7 +25,7 @@ exports[`BinaryExpressionEditor should render consistently 1`] = `
         <BinaryExpressionEditor__ContentPicker
           data-test="routing-answer-picker"
           onSubmit={[Function]}
-          path="page.availableRoutingAnswers"
+          path="getAvailableAnswers"
           selectedId="2"
         />
       </BinaryExpressionEditor__Flex>
