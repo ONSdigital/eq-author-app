@@ -1,7 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
 
-import { UnwrappedLogicPage as LogicPage } from "./";
+import { UnwrappedLogicPage } from "./";
 
 describe("Logic Page", () => {
   let match, questionnaireId, sectionId, pageId;
@@ -21,6 +21,17 @@ describe("Logic Page", () => {
         id: "1",
         displayName: "My first displayname",
         title: "My first title",
+        validationErrorInfo: {
+          totalCount: 2,
+          errors: [
+            {
+              id: "expressions-skipConditions-1",
+            },
+            {
+              id: "expressions-routing-1",
+            },
+          ],
+        },
         page: {
           id: "1",
           displayName: "My question",
@@ -32,9 +43,9 @@ describe("Logic Page", () => {
 
   const render = props => {
     return shallow(
-      <LogicPage match={match} {...defaultProps} {...props}>
+      <UnwrappedLogicPage match={match} {...defaultProps} {...props}>
         Content
-      </LogicPage>
+      </UnwrappedLogicPage>
     );
   };
 
@@ -52,5 +63,45 @@ describe("Logic Page", () => {
 
   it("should render an error when there is no data", () => {
     expect(render({ data: undefined })).toMatchSnapshot();
+  });
+
+  it("should provide the validation error dot for the routing tab if design page has error", () => {
+    expect(
+      shallow(
+        <UnwrappedLogicPage match={match} {...defaultProps}>
+          Content
+        </UnwrappedLogicPage>
+      ).find("[data-test='badge-withCount']")
+    ).toHaveLength(2);
+  });
+
+  it("should not provide the validation error dot for the routing tab if design page has no error", () => {
+    const defaultProps = {
+      loading: false,
+      data: {
+        page: {
+          id: "1",
+          displayName: "My first displayname",
+          title: "My first title",
+          validationErrorInfo: {
+            totalCount: 0,
+            errors: [],
+          },
+          page: {
+            id: "1",
+            displayName: "My question",
+            answers: [],
+          },
+        },
+      },
+    };
+
+    expect(
+      shallow(
+        <UnwrappedLogicPage match={match} {...defaultProps}>
+          Content
+        </UnwrappedLogicPage>
+      ).find("[data-test='badge-withCount']")
+    ).toHaveLength(0);
   });
 });
