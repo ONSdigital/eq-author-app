@@ -80,13 +80,13 @@ class AnswerTypeSelector extends React.Component {
       message: "Answer required",
     });
     let hasDateRange = false;
-    let hasOtherAnwerType = false;
+    let hasOtherAnswerType = false;
     if (this.props.page.answers[0]) {
       if (this.props.page.answers[0].type === "DateRange") {
         hasDateRange = true;
       }
       if (this.props.page.answers[0].type !== "DateRange") {
-        hasOtherAnwerType = true;
+        hasOtherAnswerType = true;
       }
     }
 
@@ -117,7 +117,7 @@ class AnswerTypeSelector extends React.Component {
           <AnswerTypeGrid
             onSelect={this.handleSelect}
             ref={this.saveGridRef}
-            doNotShowDR={hasOtherAnwerType}
+            doNotShowDR={hasOtherAnswerType}
           />
         </Popout>
         {isInvalid && <ErrorInline>{errorValidationMsg}</ErrorInline>}
