@@ -1,6 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
-import { render, flushPromises, act } from "tests/utils/rtl";
+import { render, flushPromises, act, screen } from "tests/utils/rtl";
 
 import { RADIO, CURRENCY, NUMBER, PERCENTAGE } from "constants/answer-types";
 import {
@@ -111,42 +111,51 @@ describe("BinaryExpressionEditor", () => {
     );
   });
 
-  it("should display the correct error message when there is no routable answer on page", () => {
+  it("should display the correct error message when there is no routable answer on page", async () => {
     defaultProps.expression.left = { reason: NO_ROUTABLE_ANSWER_ON_PAGE };
 
-    const wrapper = shallow(<BinaryExpressionEditor {...defaultProps} />);
+    render(<BinaryExpressionEditor {...defaultProps} />);
+
+    await act(async () => {
+      await flushPromises();
+    });
+
     expect(
-      wrapper
-        .find("BinaryExpressionEditor__PropertiesError")
-        .contains("No routable answers have been added to this question yet")
+      screen.getByText(
+        "No routable answers have been added to this question yet"
+      )
     ).toBeTruthy();
   });
 
-  it("should display the correct error message when the answer has been deleted", () => {
+  it("should display the correct error message when the answer has been deleted", async () => {
     defaultProps.expression.left = { reason: SELECTED_ANSWER_DELETED };
 
-    const wrapper = shallow(<BinaryExpressionEditor {...defaultProps} />);
+    render(<BinaryExpressionEditor {...defaultProps} />);
+
+    await act(async () => {
+      await flushPromises();
+    });
 
     expect(
-      wrapper
-        .find("BinaryExpressionEditor__PropertiesError")
-        .contains("The answer used in this condition has been deleted")
+      screen.getByText("The answer used in this condition has been deleted")
     ).toBeTruthy();
   });
 
-  it("should display the correct error message when you can't add a second 'And' condition", () => {
-    const wrapper = shallow(
+  it("should display the correct error message when you can't add a second 'And' condition", async () => {
+    render(
       <BinaryExpressionEditor {...defaultProps} canAddCondition={false} />
     );
 
+    await act(async () => {
+      await flushPromises();
+    });
+
     expect(
-      wrapper
-        .find("BinaryExpressionEditor__PropertiesError")
-        .contains("AND condition not valid with ‘radio button’ answer")
+      screen.getByText("AND condition not valid with ‘radio button’ answer")
     ).toBeTruthy();
   });
-  it("should display the correct error message when you can't add a second 'Or' condition", () => {
-    const wrapper = shallow(
+  it("should display the correct error message when you can't add a second 'Or' condition", async () => {
+    render(
       <BinaryExpressionEditor
         {...defaultProps}
         canAddCondition={false}
@@ -154,12 +163,14 @@ describe("BinaryExpressionEditor", () => {
       />
     );
 
+    await act(async () => {
+      await flushPromises();
+    });
+
     expect(
-      wrapper
-        .find("BinaryExpressionEditor__PropertiesError")
-        .contains(
-          "OR condition is not valid when creating multiple radio rules"
-        )
+      screen.getByText(
+        "OR condition is not valid when creating multiple radio rules"
+      )
     ).toBeTruthy();
   });
 
@@ -188,42 +199,36 @@ describe("BinaryExpressionEditor", () => {
   });
 
   it("should not show the delete or add expression buttons when showing defaultRouting", async () => {
-    const { getByTestId } = render(
-      <BinaryExpressionEditor {...defaultProps} />
-    );
+    render(<BinaryExpressionEditor {...defaultProps} />);
 
     await act(async () => {
       await flushPromises();
     });
 
-    const actionBtns = getByTestId("action-btns");
+    const actionBtns = screen.getByTestId("action-btns");
     expect(actionBtns).toHaveStyleRule("display: none;");
   });
 
   it("should not show the condition when showing defaultRouting", async () => {
-    const { getByTestId } = render(
-      <BinaryExpressionEditor {...defaultProps} />
-    );
+    render(<BinaryExpressionEditor {...defaultProps} />);
 
     await act(async () => {
       await flushPromises();
     });
 
-    const transition = getByTestId("transition-condition");
+    const transition = screen.getByTestId("transition-condition");
     expect(transition).toHaveStyleRule("display: none;");
   });
 
   it("should return empty div when default routing/skip condition", async () => {
     defaultProps.expression.left.reason = DEFAULT_ROUTING;
-    const { queryByTestId } = render(
-      <BinaryExpressionEditor {...defaultProps} />
-    );
+    render(<BinaryExpressionEditor {...defaultProps} />);
 
     await act(async () => {
       await flushPromises();
     });
 
-    const options = queryByTestId("options-selector");
+    const options = screen.queryByTestId("options-selector");
     expect(options).toBeFalsy();
   });
 
@@ -236,12 +241,13 @@ describe("BinaryExpressionEditor", () => {
       type: "expressions",
     };
 
-    const wrapper = shallow(<BinaryExpressionEditor {...defaultProps} />);
+    render(<BinaryExpressionEditor {...defaultProps} />);
 
-    expect(
-      wrapper
-        .find("BinaryExpressionEditor__PropertiesError")
-        .contains("Answer required")
-    ).toBeTruthy();
+    await act(async () => {
+      await flushPromises();
+    });
+
+    expect(screen.getByTestId("action-btns")).toHaveStyleRule("display: flex;");
+    expect(screen.getByText("Answer required")).toBeTruthy();
   });
 });

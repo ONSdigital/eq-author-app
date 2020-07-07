@@ -1,19 +1,23 @@
 import React from "react";
 import styled from "styled-components";
-import { includes, get } from "lodash";
+import { includes, get, some, find } from "lodash";
 import { PropTypes } from "prop-types";
 import { TransitionGroup } from "react-transition-group";
 
+import CheckboxChip from "./CheckboxChip";
 import CheckboxChipTransition from "./CheckboxChipTransition";
+import CheckboxOptionPicker from "./CheckboxOptionPicker";
+import Popover from "./CheckboxSelectorPopup";
+import ValidationError from "./ValidationError";
+
+import { rightSideErrors } from "constants/validationMessages";
+import { ERR_NO_RIGHT_VALUE } from "constants/validation-error-types";
 import { colors } from "constants/theme";
 import { RADIO } from "constants/answer-types";
 import { Select } from "components/Forms";
 
 import TextButton from "components/buttons/TextButton";
 import ToggleChip from "components/buttons/ToggleChip";
-import Popover from "./CheckboxSelectorPopup";
-import CheckboxOptionPicker from "./CheckboxOptionPicker";
-import CheckboxChip from "./CheckboxChip";
 
 const answerConditions = {
   UNANSWERED: "Unanswered",
@@ -31,6 +35,15 @@ const MultipleChoiceAnswerOptions = styled.div`
   padding: 0.5em;
   border-radius: 4px;
   border: 2px solid ${colors.lighterGrey};
+  ${({ hasError }) =>
+    hasError &&
+    `
+    border-color: ${colors.red};
+    outline-color: ${colors.red};
+    box-shadow: 0 0 0 2px ${colors.red};
+    border-radius: 4px;
+    margin-bottom: 0;
+  `}
 `;
 
 const Label = styled.label`
@@ -141,87 +154,118 @@ class MultipleChoiceAnswerOptionsSelector extends React.Component {
     this.setState({ showPopup: false });
   };
 
-  renderRadioOptionSelector() {
+  handleError = () => {
+    const { expression } = this.props;
+
+    const { errorCode } = find(expression.validationErrorInfo.errors, {
+      errorCode: ERR_NO_RIGHT_VALUE,
+    });
+
+    return (
+      <ValidationError right>
+        {rightSideErrors[errorCode].Option}
+      </ValidationError>
+    );
+  };
+
+  renderRadioOptionSelector(hasError) {
     const { expression } = this.props;
     const options = get(expression, "left.options", []);
 
     return (
-      <MultipleChoiceAnswerOptions data-test="options-selector">
-        {options.map(option => (
-          <ToggleChip
-            key={option.id}
-            name={option.id}
-            title={option.label}
-            checked={includes(this.selectedOptionIds, option.id)}
-            onChange={this.handleRadioChange}
-          >
-            {option.label || <strong>Unlabelled option</strong>}
-          </ToggleChip>
-        ))}
-      </MultipleChoiceAnswerOptions>
+      <>
+        <MultipleChoiceAnswerOptions
+          data-test="options-selector"
+          hasError={hasError}
+        >
+          {options.map(option => (
+            <ToggleChip
+              key={option.id}
+              name={option.id}
+              title={option.label}
+              checked={includes(this.selectedOptionIds, option.id)}
+              onChange={this.handleRadioChange}
+            >
+              {option.label || <strong>Unlabelled option</strong>}
+            </ToggleChip>
+          ))}
+        </MultipleChoiceAnswerOptions>
+        {hasError && this.handleError()}
+      </>
     );
   }
 
-  renderCheckboxOptionSelector() {
+  renderCheckboxOptionSelector(hasError) {
     const { expression } = this.props;
     return (
-      <MultipleChoiceAnswerOptions data-test="options-selector">
-        <Label>Match</Label>
-        <ConditionSelect
-          onChange={this.handleConditionChange}
-          defaultValue={expression.condition}
-          data-test="condition-dropdown"
+      <>
+        <MultipleChoiceAnswerOptions
+          data-test="options-selector"
+          hasError={hasError}
         >
-          <option value={answerConditions.ANYOF}>Any of</option>
-          <option value={answerConditions.ALLOF}>All of</option>
-          <option value={answerConditions.UNANSWERED}>Unanswered</option>
-        </ConditionSelect>
-        {expression.condition !== answerConditions.UNANSWERED && (
-          <>
-            <TransitionGroup component={SelectedOptions}>
-              {get(expression, "right.options", []).map(option => (
-                <CheckboxChipTransition key={option.id}>
-                  <CheckboxChip
-                    key={option.id}
-                    id={option.id}
-                    onRemove={this.handleCheckboxUnselect}
-                  >
-                    {option.label}
-                  </CheckboxChip>
-                </CheckboxChipTransition>
-              ))}
-            </TransitionGroup>
-            <ChooseButton
-              onClick={() => {
-                this.setState({
-                  showPopup: true,
-                });
-              }}
-            >
-              Choose
-            </ChooseButton>
-          </>
-        )}
-        {this.state.showPopup && (
-          <Popover isOpen onClose={this.handlePickerClose}>
-            <CheckboxOptionPicker
-              expression={expression}
-              onClose={this.handlePickerClose}
-              onRightChange={this.props.onRightChange}
-            />
-          </Popover>
-        )}
-      </MultipleChoiceAnswerOptions>
+          <Label>Match</Label>
+          <ConditionSelect
+            onChange={this.handleConditionChange}
+            defaultValue={expression.condition}
+            data-test="condition-dropdown"
+          >
+            <option value={answerConditions.ANYOF}>Any of</option>
+            <option value={answerConditions.ALLOF}>All of</option>
+            <option value={answerConditions.UNANSWERED}>Unanswered</option>
+          </ConditionSelect>
+          {expression.condition !== answerConditions.UNANSWERED && (
+            <>
+              <TransitionGroup component={SelectedOptions}>
+                {get(expression, "right.options", []).map(option => (
+                  <CheckboxChipTransition key={option.id}>
+                    <CheckboxChip
+                      key={option.id}
+                      id={option.id}
+                      onRemove={this.handleCheckboxUnselect}
+                    >
+                      {option.label}
+                    </CheckboxChip>
+                  </CheckboxChipTransition>
+                ))}
+              </TransitionGroup>
+              <ChooseButton
+                onClick={() => {
+                  this.setState({
+                    showPopup: true,
+                  });
+                }}
+              >
+                Choose
+              </ChooseButton>
+            </>
+          )}
+          {this.state.showPopup && (
+            <Popover isOpen onClose={this.handlePickerClose}>
+              <CheckboxOptionPicker
+                expression={expression}
+                onClose={this.handlePickerClose}
+                onRightChange={this.props.onRightChange}
+              />
+            </Popover>
+          )}
+        </MultipleChoiceAnswerOptions>
+        {hasError && this.handleError()}
+      </>
     );
   }
 
   render() {
     const { expression } = this.props;
     const answerType = get(expression, "left.type");
+
+    const hasError = some(expression.validationErrorInfo.errors, {
+      errorCode: ERR_NO_RIGHT_VALUE,
+    });
+
     if (answerType === RADIO) {
-      return this.renderRadioOptionSelector();
+      return this.renderRadioOptionSelector(hasError);
     } else {
-      return this.renderCheckboxOptionSelector();
+      return this.renderCheckboxOptionSelector(hasError);
     }
   }
 }
