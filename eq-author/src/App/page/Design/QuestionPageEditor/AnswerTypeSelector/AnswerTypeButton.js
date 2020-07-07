@@ -47,17 +47,15 @@ export default class AnswerTypeButton extends React.Component {
   };
 
   render() {
-    const { disabled, title, type, order, doNotShowDR } = this.props;
-
     return (
       <IconGridButton
-        doNotShowDR={doNotShowDR}
-        disabled={disabled}
-        iconSrc={icons[type]}
+        doNotShowDR={this.props.doNotShowDR}
+        disabled={this.props.disabled}
+        iconSrc={icons[this.props.type]}
         onClick={this.handleClick}
-        title={title}
-        order={order}
-        data-test={`btn-answer-type-${type.toLowerCase()}`}
+        title={this.props.title}
+        order={this.props.order}
+        data-test={`btn-answer-type-${this.props.type.toLowerCase()}`}
       />
     );
   }
