@@ -67,9 +67,4 @@ const convertExpressionGroup = (expressionGroup, ctx) => {
   }, []);
 };
 
-module.exports = {
-  getMutallyExclusiveAnswer,
-  convertExclusiveExpression,
-  convertNonExclusiveExpression,
-  convertExpressionGroup,
-};
+module.exports = { convertExpressionGroup };
