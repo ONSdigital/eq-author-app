@@ -1,5 +1,5 @@
 const translateRoutingDestination = require("./translateRoutingDestination");
-const convertExpressionGroup = require("../expressionGroup");
+const { convertExpressionGroup } = require("../expressionGroup");
 const { flatMap } = require("lodash");
 const { AND } = require("../../../constants/routingOperators");
 

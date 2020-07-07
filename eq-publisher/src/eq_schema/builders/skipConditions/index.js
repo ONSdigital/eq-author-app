@@ -1,4 +1,4 @@
-const convertExpressionGroup = require("../expressionGroup");
+const { convertExpressionGroup } = require("../expressionGroup");
 
 module.exports = (authorSkipConditions, ctx) => {
   const skipConditions = authorSkipConditions.map(expressionGroup => {
