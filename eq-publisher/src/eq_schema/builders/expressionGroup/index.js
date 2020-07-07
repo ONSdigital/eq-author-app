@@ -14,7 +14,7 @@ const getMutallyExclusiveAnswer = (answerId, ctx) => {
   return answer.mutuallyExclusiveOption;
 };
 
-const convertExclusiveExpression = expression => {
+const convertCheckboxExclusiveExpression = expression => {
   let convertedExpression = JSON.parse(JSON.stringify(expression));
   convertedExpression.left.id = `${convertedExpression.left.id}-exclusive`;
   convertedExpression.right.options = filter(
@@ -24,7 +24,7 @@ const convertExclusiveExpression = expression => {
   return convertedExpression;
 };
 
-const convertNonExclusiveExpression = expression => {
+const convertCheckboxExpression = expression => {
   let convertedExpression = JSON.parse(JSON.stringify(expression));
   convertedExpression.right.options = filter(
     convertedExpression.right.options,
@@ -39,6 +39,7 @@ const convertExpressionGroup = (expressionGroup, ctx) => {
       expression.left.id,
       ctx
     );
+
     if (!mutallyExclusiveAnswer) {
       accum = accum.concat(translateBinaryExpression(expression));
     }
@@ -50,7 +51,7 @@ const convertExpressionGroup = (expressionGroup, ctx) => {
       )
     ) {
       accum = accum.concat([
-        translateBinaryExpression(convertNonExclusiveExpression(expression)),
+        translateBinaryExpression(convertCheckboxExpression(expression)),
       ]);
     }
 
@@ -59,7 +60,9 @@ const convertExpressionGroup = (expressionGroup, ctx) => {
       some(expression.right.options, { id: mutallyExclusiveAnswer.id })
     ) {
       accum = accum.concat([
-        translateBinaryExpression(convertExclusiveExpression(expression)),
+        translateBinaryExpression(
+          convertCheckboxExclusiveExpression(expression)
+        ),
       ]);
     }
 
