@@ -1,6 +1,6 @@
 const translateAuthorRouting = require("./");
 const { RADIO, CURRENCY } = require("../../../constants/answerTypes");
-const questionnaireJson = require("./basicQuestionnaireJSON");
+const questionnaireJson = require("../../basicQuestionnaireJSON");
 const { AND, OR } = require("../../../constants/routingOperators");
 
 describe("Routing2", () => {
