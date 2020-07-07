@@ -72,7 +72,7 @@ describe("Answer Type Selector", () => {
     });
   });
 
-  it.only("Select Number type then unable to select Date Range", async () => {
+  it("Select Number type then unable to select Date Range", async () => {
     const { getByText, queryByText } = render(
       <AnswerTypeSelector {...props} />
     );
