@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { get } from "lodash";
+import { get, filter } from "lodash";
 import PropTypes from "prop-types";
 
 import styled from "styled-components";
@@ -67,19 +67,46 @@ const LogicLink = styled(NavLink)`
   }
 `;
 
+const Badge = styled.span`
+  border-radius: 0.7em;
+  border: 1px solid ${colors.white};
+  background-color: ${colors.red};
+  color: white;
+  padding: 0.15em 0.3em;
+  font-weight: normal;
+  z-index: 2;
+  margin-left: auto;
+  line-height: 1;
+  font-size: 0.9rem;
+  pointer-events: none;
+  width: 1.4em;
+  height: 1.4em;
+`;
+
 export class UnwrappedLogicPage extends React.Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
-    page: CustomPropTypes.page,
-    match: PropTypes.shape({
-      params: PropTypes.shape({
-        questionnaireId: PropTypes.string.isRequired,
-      }).isRequired,
-    }).isRequired,
+    data: PropTypes.shape({
+      page: CustomPropTypes.page,
+    }),
+    loading: PropTypes.bool.isRequired,
+    error: PropTypes.object, // eslint-disable-line
   };
 
   renderContent() {
-    const { children } = this.props;
+    const { children, data } = this.props;
+    const page = get(data, "page", null);
+
+    const TABS = [
+      {
+        key: `routing`,
+        label: "Routing logic",
+      },
+      {
+        key: `skip`,
+        label: "Skip logic",
+      },
+    ];
 
     return (
       <LogicMainCanvas>
@@ -87,16 +114,28 @@ export class UnwrappedLogicPage extends React.Component {
           <Column gutters={false} cols={2.5}>
             <MenuTitle>Select your logic</MenuTitle>
             <StyledUl>
-              <li>
-                <LogicLink exact to={`routing`} activeClassName="active">
-                  Routing logic
-                </LogicLink>
-              </li>
-              <li>
-                <LogicLink exact to={`skip`} activeClassName="active" replace>
-                  Skip logic
-                </LogicLink>
-              </li>
+              {TABS.map(({ key, label }) => {
+                let errors;
+                if (page) {
+                  errors = filter(page.validationErrorInfo.errors, error =>
+                    error.id.includes(key)
+                  );
+                }
+                return (
+                  <li data-test={key} key={key}>
+                    <LogicLink exact to={key} activeClassName="active" replace>
+                      {label}
+                      {errors !== undefined &&
+                      errors !== null &&
+                      errors.length > 0 ? (
+                        <Badge data-test="badge-withCount">
+                          {errors.length}
+                        </Badge>
+                      ) : null}
+                    </LogicLink>
+                  </li>
+                );
+              })}
             </StyledUl>
           </Column>
           <Column gutters={false} cols={9.5}>

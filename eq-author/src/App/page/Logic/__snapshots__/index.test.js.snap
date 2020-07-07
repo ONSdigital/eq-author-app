@@ -15,6 +15,17 @@ exports[`Logic Page should render 1`] = `
         "id": "1",
       },
       "title": "My first title",
+      "validationErrorInfo": Object {
+        "errors": Array [
+          Object {
+            "id": "expressions-skipConditions-1",
+          },
+          Object {
+            "id": "expressions-routing-1",
+          },
+        ],
+        "totalCount": 2,
+      },
     }
   }
   preview={true}
@@ -34,23 +45,40 @@ exports[`Logic Page should render 1`] = `
           Select your logic
         </Logic__MenuTitle>
         <Logic__StyledUl>
-          <li>
+          <li
+            data-test="routing"
+            key="routing"
+          >
             <Logic__LogicLink
               activeClassName="active"
               exact={true}
+              replace={true}
               to="routing"
             >
-              Routing logic
+              Routing logic
+              <Logic__Badge
+                data-test="badge-withCount"
+              >
+                1
+              </Logic__Badge>
             </Logic__LogicLink>
           </li>
-          <li>
+          <li
+            data-test="skip"
+            key="skip"
+          >
             <Logic__LogicLink
               activeClassName="active"
               exact={true}
               replace={true}
               to="skip"
             >
-              Skip logic
+              Skip logic
+              <Logic__Badge
+                data-test="badge-withCount"
+              >
+                1
+              </Logic__Badge>
             </Logic__LogicLink>
           </li>
         </Logic__StyledUl>
@@ -91,23 +119,30 @@ exports[`Logic Page should render an error when there is no data 1`] = `
           Select your logic
         </Logic__MenuTitle>
         <Logic__StyledUl>
-          <li>
+          <li
+            data-test="routing"
+            key="routing"
+          >
             <Logic__LogicLink
               activeClassName="active"
               exact={true}
+              replace={true}
               to="routing"
             >
-              Routing logic
+              Routing logic
             </Logic__LogicLink>
           </li>
-          <li>
+          <li
+            data-test="skip"
+            key="skip"
+          >
             <Logic__LogicLink
               activeClassName="active"
               exact={true}
               replace={true}
               to="skip"
             >
-              Skip logic
+              Skip logic
             </Logic__LogicLink>
           </li>
         </Logic__StyledUl>
@@ -140,6 +175,17 @@ exports[`Logic Page should show error info when there is an error 1`] = `
         "id": "1",
       },
       "title": "My first title",
+      "validationErrorInfo": Object {
+        "errors": Array [
+          Object {
+            "id": "expressions-skipConditions-1",
+          },
+          Object {
+            "id": "expressions-routing-1",
+          },
+        ],
+        "totalCount": 2,
+      },
     }
   }
   preview={true}
@@ -159,23 +205,40 @@ exports[`Logic Page should show error info when there is an error 1`] = `
           Select your logic
         </Logic__MenuTitle>
         <Logic__StyledUl>
-          <li>
+          <li
+            data-test="routing"
+            key="routing"
+          >
             <Logic__LogicLink
               activeClassName="active"
               exact={true}
+              replace={true}
               to="routing"
             >
-              Routing logic
+              Routing logic
+              <Logic__Badge
+                data-test="badge-withCount"
+              >
+                1
+              </Logic__Badge>
             </Logic__LogicLink>
           </li>
-          <li>
+          <li
+            data-test="skip"
+            key="skip"
+          >
             <Logic__LogicLink
               activeClassName="active"
               exact={true}
               replace={true}
               to="skip"
             >
-              Skip logic
+              Skip logic
+              <Logic__Badge
+                data-test="badge-withCount"
+              >
+                1
+              </Logic__Badge>
             </Logic__LogicLink>
           </li>
         </Logic__StyledUl>
@@ -208,6 +271,17 @@ exports[`Logic Page should show loading info when loading 1`] = `
         "id": "1",
       },
       "title": "My first title",
+      "validationErrorInfo": Object {
+        "errors": Array [
+          Object {
+            "id": "expressions-skipConditions-1",
+          },
+          Object {
+            "id": "expressions-routing-1",
+          },
+        ],
+        "totalCount": 2,
+      },
     }
   }
   preview={true}
@@ -227,23 +301,40 @@ exports[`Logic Page should show loading info when loading 1`] = `
           Select your logic
         </Logic__MenuTitle>
         <Logic__StyledUl>
-          <li>
+          <li
+            data-test="routing"
+            key="routing"
+          >
             <Logic__LogicLink
               activeClassName="active"
               exact={true}
+              replace={true}
               to="routing"
             >
-              Routing logic
+              Routing logic
+              <Logic__Badge
+                data-test="badge-withCount"
+              >
+                1
+              </Logic__Badge>
             </Logic__LogicLink>
           </li>
-          <li>
+          <li
+            data-test="skip"
+            key="skip"
+          >
             <Logic__LogicLink
               activeClassName="active"
               exact={true}
               replace={true}
               to="skip"
             >
-              Skip logic
+              Skip logic
+              <Logic__Badge
+                data-test="badge-withCount"
+              >
+                1
+              </Logic__Badge>
             </Logic__LogicLink>
           </li>
         </Logic__StyledUl>
