@@ -47,8 +47,12 @@ const IconGridButton = ({
   disabled,
   order,
   onClick,
+  doNotShowDR,
   ...otherProps
 }) => {
+  if (doNotShowDR && title === "Date range") {
+    disabled = true;
+  }
   return (
     <Button
       role="menuitem"
