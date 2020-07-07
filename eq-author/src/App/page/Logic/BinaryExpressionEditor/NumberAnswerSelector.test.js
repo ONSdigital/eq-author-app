@@ -1,5 +1,9 @@
 import React from "react";
 import { shallow } from "enzyme";
+import { render } from "tests/utils/rtl";
+
+import { rightSideErrors } from "constants/validationMessages";
+import { ERR_NO_RIGHT_VALUE } from "constants/validation-error-types";
 
 import { Number } from "components/Forms";
 
@@ -20,6 +24,11 @@ describe("NumberAnswerSelector", () => {
           type: NUMBER,
         },
         right: null,
+        validationErrorInfo: {
+          totalCount: 0,
+          id: "Num-thing",
+          errors: [],
+        },
       },
       onRightChange: jest.fn(),
       onConditionChange: jest.fn(),
@@ -80,5 +89,25 @@ describe("NumberAnswerSelector", () => {
       );
       expect(wrapperWithHiddenInput.find(Number)).toHaveLength(0);
     });
+  });
+
+  it("should show error message when right side empty", () => {
+    defaultProps.expression.left.type = NUMBER;
+    defaultProps.expression.right = null;
+    defaultProps.expression.validationErrorInfo.errors[0] = {
+      errorCode: "ERR_NO_RIGHT_VALUE",
+      field: "right",
+      id: "expression-routing-1-right",
+      type: "expressions",
+    };
+
+    const { getByText } = render(
+      <NumberAnswerSelector hasError {...defaultProps} />
+    );
+
+    expect(
+      getByText(rightSideErrors[ERR_NO_RIGHT_VALUE].Number)
+    ).toHaveStyleRule("width", "100%");
+    expect(getByText(rightSideErrors[ERR_NO_RIGHT_VALUE].Number)).toBeTruthy();
   });
 });

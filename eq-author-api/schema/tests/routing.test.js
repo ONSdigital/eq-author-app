@@ -477,6 +477,50 @@ describe("routing", () => {
         result.routing.rules[0].expressionGroup.expressions[0]
       ).toBeUndefined();
     });
+
+    it("has validation errors", async () => {
+      let config = {
+        metadata: [{}],
+        sections: [
+          {
+            title: "title-1",
+            alias: "alias-1",
+            position: 0,
+            pages: [
+              {
+                title: "page-1",
+                parentSection: "title-1",
+                answers: [
+                  {
+                    type: RADIO,
+                  },
+                ],
+                routing: { rules: [{ expressionGroup: {} }] },
+              },
+            ],
+          },
+        ],
+      };
+      const ctx = await buildContext(config);
+      const { questionnaire } = ctx;
+      const firstPage = questionnaire.sections[0].pages[0];
+      const expressionGroup = firstPage.routing.rules[0].expressionGroup;
+
+      await executeQuery(
+        createBinaryExpressionMutation,
+        {
+          input: {
+            expressionGroupId: expressionGroup.id,
+          },
+        },
+        ctx
+      );
+      const result = await queryPage(ctx, firstPage.id);
+      expect(
+        result.routing.rules[0].expressionGroup.expressions[0]
+          .validationErrorInfo.errors
+      ).toHaveLength(1);
+    });
   });
 
   describe("left sides", () => {

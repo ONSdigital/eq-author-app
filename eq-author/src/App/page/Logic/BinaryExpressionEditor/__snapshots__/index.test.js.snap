@@ -25,7 +25,7 @@ exports[`BinaryExpressionEditor should render consistently 1`] = `
         <BinaryExpressionEditor__ContentPicker
           data-test="routing-answer-picker"
           onSubmit={[Function]}
-          path="page.availableRoutingAnswers"
+          path="getAvailableAnswers"
           selectedId="2"
         />
       </BinaryExpressionEditor__Flex>
@@ -104,6 +104,11 @@ exports[`BinaryExpressionEditor should render consistently 1`] = `
                       "type": "Radio",
                     },
                     "right": null,
+                    "validationErrorInfo": Object {
+                      "errors": Array [],
+                      "id": "6dd",
+                      "totalCount": 0,
+                    },
                   }
                 }
                 onConditionChange={[Function]}

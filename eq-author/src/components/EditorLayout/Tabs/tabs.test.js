@@ -18,6 +18,7 @@ describe("Tabs", () => {
       page: {
         validationErrorInfo: {
           totalCount: 1,
+          errors: [{ id: "design-1" }],
         },
       },
     };
@@ -65,5 +66,27 @@ describe("Tabs", () => {
     });
 
     expect(getByTestId("small-badge")).toBeTruthy();
+  });
+  it("should provide the validation error dot for the logic tab if design page has error", async () => {
+    props.page.validationErrorInfo = {
+      totalCount: 1,
+      errors: [
+        {
+          id: "expression-routing-logic-test",
+        },
+        {
+          id: "routing-logic-test",
+        },
+      ],
+    };
+    const { getAllByTestId } = render(
+      <UnwrappedTabs {...props} logic preview />
+    );
+
+    await act(async () => {
+      await flushPromises();
+    });
+
+    expect(getAllByTestId("small-badge").length).toBe(2);
   });
 });

@@ -40,6 +40,36 @@
         },
         "confirmation": {
           "$ref": "entities.json#/definitions/confirmationPage"
+        },
+        "routing": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "rules": {
+              "type": "array",
+              "items": {
+                "$ref": "entities.json#/definitions/routingRule"
+              }
+            }
+          }
+        },
+        "skipConditions": {
+          "type": "array",
+          "items": {
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "expressions": {
+                "type": "array",
+                "items": {
+                  "$ref": "entities.json#/definitions/expression"
+                }
+              }
+            }
+          }
         }
       },
       "if": {
@@ -149,6 +179,7 @@
       },
       "required": ["id", "title", "positive"]
     },
+
     "answer": {
       "allOf": [
         {
@@ -528,6 +559,65 @@
         }
       },
       "required": ["id", "label"]
+    },
+    "routingRule": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "destination": {},
+        "expressionGroup": {
+          "properties": {
+            "id": { "type": "string" },
+            "operator": { "enum": ["And", "Or"] },
+            "expressions": {
+              "type": "array",
+              "items": {
+                "$ref": "entities.json#/definitions/expression"
+              }
+            }
+          }
+        }
+      }
+    },
+    "expression": {
+      "properties": {
+        "id": { "type": "string" },
+        "condition": {
+          "type": "string"
+        },
+        "left": {
+          "type": "object",
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "answerId": {
+                  "type": "string",
+                  "pattern": "\\w+"
+                }
+              },
+              "required": ["answerId"]
+            }
+          ],
+          "errorMessage": "ERR_ANSWER_NOT_SELECTED"
+        },
+        "right": {
+          "type": "object",
+          "properties": {
+            "type": { "enum": ["Custom", "SelectedOptions"] },
+            "optionIds": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": ["type"],
+          "errorMessage": "ERR_NO_RIGHT_VALUE"
+        }
+      }
     }
   }
 }
