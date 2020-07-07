@@ -85,7 +85,7 @@ describe("Answer Type Selector", () => {
       fireEvent.click(getByText(/add another answer/i));
     });
     wait(() => {
-      expect(getByText("Date range").toHaveAttribute("disabled"));
+      expect(getByText("Date range")).toHaveAttribute("disabled");
     });
   });
 
