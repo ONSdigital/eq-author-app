@@ -39,6 +39,7 @@ export default class AnswerTypeButton extends React.Component {
     onClick: PropTypes.func.isRequired,
     disabled: PropTypes.bool,
     order: PropTypes.number,
+    doNotShowDR: PropTypes.bool,
   };
 
   handleClick = () => {

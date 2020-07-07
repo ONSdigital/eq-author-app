@@ -85,7 +85,7 @@ class AnswerTypeSelector extends React.Component {
       if (this.props.page.answers[0].type === "DateRange") {
         hasDateRange = true;
       }
-      if (this.props.page.answers[0].type != "DateRange") {
+      if (this.props.page.answers[0].type !== "DateRange") {
         hasOtherAnwerType = true;
       }
     }

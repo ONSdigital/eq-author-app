@@ -67,6 +67,7 @@ class AnswerTypeGrid extends React.Component {
     onClose: PropTypes.func,
     onSelect: PropTypes.func.isRequired,
     "aria-labelledby": PropTypes.string,
+    doNotShowDR: PropTypes.bool,
   };
 
   handleSelect = type => {
