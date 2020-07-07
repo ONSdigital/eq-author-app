@@ -141,7 +141,7 @@ describe("Expression group", () => {
         },
         condition: "AnyOf",
         right: {
-          options: [({ id, label } = mutuallyExclusiveOption)],
+          options: [({ id, label } = mutuallyExclusiveOption)], // eslint-disable-line no-undef
         },
       };
 
