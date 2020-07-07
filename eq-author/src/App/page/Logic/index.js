@@ -1,13 +1,7 @@
 import React from "react";
-import gql from "graphql-tag";
-import { Query } from "react-apollo";
-import { Redirect, NavLink, Route } from "react-router-dom";
-import { buildPagePath } from "utils/UrlUtils";
-import Loading from "components/Loading";
-import Error from "components/Error";
-import { get } from "lodash";
+import { NavLink } from "react-router-dom";
+import { get, filter } from "lodash";
 import PropTypes from "prop-types";
-import { propType } from "graphql-anywhere";
 
 import styled from "styled-components";
 import { colors } from "constants/theme";
@@ -15,11 +9,8 @@ import { rgba } from "polished";
 import { Grid, Column } from "components/Grid";
 
 import EditorLayout from "components/EditorLayout";
-import QuestionPageEditor from "App/page/Design/QuestionPageEditor";
-import Routing from "./Routing";
-import SkipLogic from "./SkipLogic";
+import CustomPropTypes from "custom-prop-types";
 
-const ROUTING_PAGE_TYPES = ["QuestionPage"];
 const activeClassName = "active";
 
 const LogicMainCanvas = styled.div`
@@ -76,53 +67,44 @@ const LogicLink = styled(NavLink)`
   }
 `;
 
-export class UnwrappedQuestionRoutingRoute extends React.Component {
+const Badge = styled.span`
+  border-radius: 0.7em;
+  border: 1px solid ${colors.white};
+  background-color: ${colors.red};
+  color: white;
+  padding: 0.15em 0.3em;
+  font-weight: normal;
+  z-index: 2;
+  margin-left: auto;
+  line-height: 1;
+  font-size: 0.9rem;
+  pointer-events: none;
+  width: 1.4em;
+  height: 1.4em;
+`;
+
+export class UnwrappedLogicPage extends React.Component {
   static propTypes = {
+    children: PropTypes.node.isRequired,
     data: PropTypes.shape({
-      questionPage: propType(QuestionPageEditor.fragments.QuestionPage),
+      page: CustomPropTypes.page,
     }),
     loading: PropTypes.bool.isRequired,
     error: PropTypes.object, // eslint-disable-line
-    match: PropTypes.shape({
-      params: PropTypes.shape({
-        questionnaireId: PropTypes.string.isRequired,
-      }).isRequired,
-    }).isRequired,
   };
 
   renderContent() {
-    const { data, loading, error, match } = this.props;
-    if (loading) {
-      return <Loading height="20em">Loading routing</Loading>;
-    }
+    const { children, data } = this.props;
+    const page = get(data, "page", null);
 
-    const page = get(data, "page");
-
-    if (error || !page) {
-      return <Error>Something went wrong</Error>;
-    }
-
-    if (!ROUTING_PAGE_TYPES.includes(page.pageType)) {
-      return (
-        <Redirect
-          to={buildPagePath({
-            questionnaireId: match.params.questionnaireId,
-            pageId: page.id,
-          })}
-        />
-      );
-    }
-
-    const routes = [
+    const TABS = [
       {
-        path: `${match.path}/routing`,
-        exact: true,
-        main: Routing,
+        key: `routing`,
+        label: "Routing logic",
       },
       {
-        path: `${match.path}/Skip`,
-        exact: true,
-        main: SkipLogic,
+        key: `skip`,
+        label: "Skip logic",
       },
     ];
 
@@ -132,39 +114,32 @@ export class UnwrappedQuestionRoutingRoute extends React.Component {
           <Column gutters={false} cols={2.5}>
             <MenuTitle>Select your logic</MenuTitle>
             <StyledUl>
-              <li>
-                <LogicLink
-                  exact
-                  to={`${match.url}/routing`}
-                  activeClassName="active"
-                >
-                  Routing logic
-                </LogicLink>
-              </li>
-              <li>
-                <LogicLink
-                  exact
-                  to={`${match.url}/skip`}
-                  activeClassName="active"
-                  replace
-                >
-                  Skip logic
-                </LogicLink>
-              </li>
+              {TABS.map(({ key, label }) => {
+                let errors;
+                if (page) {
+                  errors = filter(page.validationErrorInfo.errors, error =>
+                    error.id.includes(key)
+                  );
+                }
+                return (
+                  <li data-test={key} key={key}>
+                    <LogicLink exact to={key} activeClassName="active" replace>
+                      {label}
+                      {errors !== undefined &&
+                      errors !== null &&
+                      errors.length > 0 ? (
+                        <Badge data-test="badge-withCount">
+                          {errors.length}
+                        </Badge>
+                      ) : null}
+                    </LogicLink>
+                  </li>
+                );
+              })}
             </StyledUl>
           </Column>
           <Column gutters={false} cols={9.5}>
-            <LogicContainer>
-              {routes.map(route => (
-                <Route
-                  key={route.path}
-                  path={route.path}
-                  exact={route.exact}
-                  component={route.main}
-                />
-              ))}
-              <Redirect to={`${match.url}/routing`} replace />
-            </LogicContainer>
+            <LogicContainer>{children}</LogicContainer>
           </Column>
         </Grid>
       </LogicMainCanvas>
@@ -172,8 +147,8 @@ export class UnwrappedQuestionRoutingRoute extends React.Component {
   }
 
   render() {
-    const displayName = get(this.props.data, "page.displayName", "");
-    const pageData = get(this.props.data, "page", "");
+    const displayName = get(this.props, "data.page.displayName", "");
+    const pageData = get(this.props, "data.page", {});
 
     return (
       <EditorLayout
@@ -191,39 +166,4 @@ export class UnwrappedQuestionRoutingRoute extends React.Component {
   }
 }
 
-export const PAGE_QUERY = gql`
-  query GetPage($input: QueryInput!) {
-    page(input: $input) {
-      id
-      displayName
-      pageType
-      ...QuestionPage
-    }
-  }
-  ${QuestionPageEditor.fragments.QuestionPage}
-`;
-
-const QueryingRoute = props => (
-  <Query
-    query={PAGE_QUERY}
-    variables={{
-      input: {
-        questionnaireId: props.match.params.questionnaireId,
-        pageId: props.match.params.pageId,
-      },
-    }}
-    fetchPolicy="cache-and-network"
-  >
-    {innerProps => <UnwrappedQuestionRoutingRoute {...innerProps} {...props} />}
-  </Query>
-);
-QueryingRoute.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      questionnaireId: PropTypes.string.isRequired,
-      pageId: PropTypes.string.isRequired,
-    }).isRequired,
-  }).isRequired,
-};
-
-export default QueryingRoute;
+export default UnwrappedLogicPage;

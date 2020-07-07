@@ -11,6 +11,7 @@ const {
   CONFIRMATION,
   CONFIRMATION_OPTION,
   VALIDATION,
+  EXPRESSIONS,
   MIN_VALUE,
   MAX_VALUE,
   MIN_DURATION,
@@ -106,6 +107,7 @@ module.exports = questionnaire => {
       [CONFIRMATION]: {},
       [CONFIRMATION_OPTION]: {},
       [VALIDATION]: {},
+      [EXPRESSIONS]: {},
       totalCount: 0,
     };
   }
@@ -120,6 +122,7 @@ module.exports = questionnaire => {
 
       const fieldname = dataPath.pop();
       let objectType = dataPath[dataPath.length - 1];
+
       if (!isNaN(objectType)) {
         // Must be in array of object type so get object type
         // e.g. /sections/0/pages/0/answers/0/options/0/label
@@ -130,8 +133,15 @@ module.exports = questionnaire => {
 
       const contextObj = get(questionnaire, contextPath);
 
+      const objectId =
+        objectType === "expressions"
+          ? dataPath.includes("skipConditions")
+            ? `${objectType}-skipConditions`
+            : `${objectType}-routing`
+          : objectType;
+
       return {
-        id: `${objectType}-${contextObj.id}-${fieldname}`,
+        id: `${objectId}-${contextObj.id}-${fieldname}`,
         entityId: contextObj.id,
         type: convertObjectType(objectType),
         field: fieldname,
@@ -142,11 +152,13 @@ module.exports = questionnaire => {
     .reduce(
       (structure, error) => {
         const { entityId, type, dataPath } = error;
+
         const errorInfo = structure[type][entityId] || {
           id: entityId,
           totalCount: 0,
           errors: [],
         };
+
         structure[type][entityId] = {
           ...errorInfo,
           totalCount: errorInfo.totalCount + 1,
@@ -161,7 +173,6 @@ module.exports = questionnaire => {
         if (isChildOfPage) {
           const sectionIndex = parseInt(dataPath[1], 10);
           const pageIndex = parseInt(dataPath[3], 10);
-
           const page = questionnaire.sections[sectionIndex].pages[pageIndex];
 
           let pageType = PAGES;
@@ -176,14 +187,12 @@ module.exports = questionnaire => {
             structure,
             `${pageType}.${pageId}.errors`
           );
-
           const errorInfo = {
             id: pageId,
             errors: existingPageErrors
               ? [...structure[pageType][pageId].errors, error]
               : [error],
           };
-
           structure[pageType][pageId] = {
             ...errorInfo,
           };
@@ -199,6 +208,7 @@ module.exports = questionnaire => {
         [CONFIRMATION]: {},
         [CONFIRMATION_OPTION]: {},
         [VALIDATION]: {},
+        [EXPRESSIONS]: {},
         totalCount: errorMessages.length,
       }
     );

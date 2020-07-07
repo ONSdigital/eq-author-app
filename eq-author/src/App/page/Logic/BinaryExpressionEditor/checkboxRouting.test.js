@@ -66,6 +66,11 @@ describe("Checkbox routing", () => {
         },
       ],
     },
+    validationErrorInfo: {
+      id: "6dd",
+      errors: [],
+      totalCount: 0,
+    },
   };
 
   match = {

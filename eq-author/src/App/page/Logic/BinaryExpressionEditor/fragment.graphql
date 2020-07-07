@@ -36,4 +36,14 @@ fragment BinaryExpressionEditor on BinaryExpression2 {
       number
     }
   }
+  validationErrorInfo {
+    id
+    errors {
+      id
+      type
+      field
+      errorCode
+    }
+    totalCount
+  }
 }
