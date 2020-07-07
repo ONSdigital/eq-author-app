@@ -63,37 +63,13 @@ describe("Answer Type Selector", () => {
     expect(screen.getByTestId("btn-add-answer")).toHaveAttribute("disabled");
   });
 
-  it("Select Date range and then unable to select any others", async () => {
-    const { getByText, queryByText } = render(
-      <AnswerTypeSelector {...props} />
-    );
-    fireEvent.click(getByText(/add an answer/i));
-    await fireEvent.click(getByText("Date range"));
-    expect(props.onSelect).toHaveBeenCalledWith("DateRange");
-    await waitForElementToBeRemoved(() => queryByText("Date range"));
-
-    wait(() => {
-      expect(document.activeElement.getAttribute("data-test"))
-        .toMatch(/btn-add-answer/)
-        .toHaveAttribute("disabled");
-    });
-  });
-
   it("Select Number type then unable to select Date Range", async () => {
-    const { getByText, queryByText } = render(
-      <AnswerTypeSelector {...props} />
+    props.page.answers[0] = { type: "Number" };
+    render(<AnswerTypeSelector {...props} />);
+    fireEvent.click(screen.getByTestId("btn-add-answer"));
+    expect(screen.getByTestId("btn-answer-type-daterange")).toHaveAttribute(
+      "disabled"
     );
-    fireEvent.click(getByText(/add an answer/i));
-    fireEvent.click(getByText("Number"));
-    expect(props.onSelect).toHaveBeenCalledWith("Number");
-    await waitForElementToBeRemoved(() => queryByText("Number"));
-
-    wait(() => {
-      fireEvent.click(getByText(/add another answer/i));
-    });
-    wait(() => {
-      expect(getByText("Date range")).toHaveAttribute("disabled");
-    });
   });
 
   it("should focus on menu once Popout has entered", async () => {
