@@ -216,10 +216,7 @@ describe("Block", () => {
                 },
                 condition: "GreaterThan",
                 right: {
-                  type: "Custom",
-                  customValue: {
-                    number: 3,
-                  },
+                  number: "3",
                 },
               },
             ],
@@ -245,11 +242,11 @@ describe("Block", () => {
             {
               id: "answer1",
               condition: "greater than",
+              value: "3",
             },
           ],
         },
       ];
-
       expect(block.skip_conditions).toEqual(runnerSkipJson);
     });
   });
