@@ -57,7 +57,7 @@ describe("Answer Type Selector", () => {
     await waitForElementToBeRemoved(() => queryByText("Number"));
   });
 
-  it("Select Date range and then unable to select any others", async () => {
+  it("There is a Date range selected and then unable to select any others", async () => {
     props.page.answers[0] = { type: "DateRange" };
     render(<AnswerTypeSelector {...props} />);
     expect(screen.getByTestId("btn-add-answer")).toHaveAttribute("disabled");
