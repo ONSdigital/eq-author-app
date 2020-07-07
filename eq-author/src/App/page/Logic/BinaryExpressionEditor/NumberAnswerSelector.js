@@ -8,6 +8,7 @@ import { Number, Select, Label } from "components/Forms";
 import VisuallyHidden from "components/VisuallyHidden";
 
 import { rightSideErrors } from "constants/validationMessages";
+import { ERR_NO_RIGHT_VALUE } from "constants/validation-error-types";
 import ValidationError from "./ValidationError";
 
 const conditions = {
@@ -83,7 +84,7 @@ class NumberAnswerSelector extends React.Component {
     const { expression } = this.props;
 
     const { errorCode } = find(expression.validationErrorInfo.errors, {
-      errorCode: "ERR_NO_RIGHT_VALUE",
+      errorCode: ERR_NO_RIGHT_VALUE,
     });
 
     return (
@@ -97,7 +98,7 @@ class NumberAnswerSelector extends React.Component {
     const { expression } = this.props;
 
     const hasError = some(expression.validationErrorInfo.errors, {
-      errorCode: "ERR_NO_RIGHT_VALUE",
+      errorCode: ERR_NO_RIGHT_VALUE,
     });
 
     return (
