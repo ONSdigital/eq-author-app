@@ -72,7 +72,7 @@ describe("MainNavigation", () => {
     const historyBtn = getByTestId("btn-history");
     const metadataBtn = getByTestId("btn-metadata");
     const qcodesBtn = getByTestId("btn-qcodes");
-    const publishBtn = getByTestId("btn-publish");
+    // const publishBtn = getByTestId("btn-publish");
 
     expect(viewSurveyBtn).not.toBeDisabled();
     expect(settingsBtn).not.toBeDisabled();
@@ -80,7 +80,7 @@ describe("MainNavigation", () => {
     expect(historyBtn).not.toBeDisabled();
     expect(metadataBtn).not.toBeDisabled();
     expect(qcodesBtn).not.toBeDisabled();
-    expect(publishBtn).not.toBeDisabled();
+    // expect(publishBtn).not.toBeDisabled();
   });
 
   it("should disable qcodes, publish and preview buttons if there are errors on questionnaire", async () => {
@@ -109,7 +109,7 @@ describe("MainNavigation", () => {
     const historyBtn = getByTestId("btn-history");
     const metadataBtn = getByTestId("btn-metadata");
     const qcodesBtn = getByTestId("btn-qcodes");
-    const publishBtn = getByTestId("btn-publish");
+    // const publishBtn = getByTestId("btn-publish");
 
     expect(viewSurveyBtn.hasAttribute("disabled")).toBeTruthy();
     expect(settingsBtn.hasAttribute("disabled")).toBeFalsy();
@@ -117,6 +117,6 @@ describe("MainNavigation", () => {
     expect(historyBtn.hasAttribute("disabled")).toBeFalsy();
     expect(metadataBtn.hasAttribute("disabled")).toBeFalsy();
     expect(qcodesBtn.hasAttribute("disabled")).toBeTruthy();
-    expect(publishBtn.hasAttribute("disabled")).toBeTruthy();
+    // expect(publishBtn.hasAttribute("disabled")).toBeTruthy();
   });
 });
