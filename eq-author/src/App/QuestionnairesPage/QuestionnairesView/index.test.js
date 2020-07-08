@@ -13,7 +13,7 @@ import { READ, WRITE } from "constants/questionnaire-permissions";
 
 import QuestionnairesView, { STORAGE_KEY } from "./";
 
-import { UNPUBLISHED, PUBLISHED } from "constants/publishStatus";
+import { UNPUBLISHED } from "constants/publishStatus";
 
 jest.mock("lodash", () => ({
   ...require.requireActual("lodash"),

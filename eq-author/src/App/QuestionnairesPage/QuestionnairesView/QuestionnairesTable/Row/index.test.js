@@ -6,7 +6,7 @@ import IconButtonDelete from "components/buttons/IconButtonDelete";
 import DeleteConfirmDialog from "components/DeleteConfirmDialog";
 
 import { colors } from "constants/theme";
-import { UNPUBLISHED, AWAITING_APPROVAL } from "constants/publishStatus";
+import { UNPUBLISHED } from "constants/publishStatus";
 
 import {
   Row,
