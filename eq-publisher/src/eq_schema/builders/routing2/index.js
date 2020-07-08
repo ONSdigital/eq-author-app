@@ -1,5 +1,5 @@
-const translateBinaryExpression = require("../translateBinaryEpression/translateBinaryExpression");
 const translateRoutingDestination = require("./translateRoutingDestination");
+const { convertExpressionGroup } = require("../expressionGroup");
 const { flatMap } = require("lodash");
 const { AND } = require("../../../constants/routingOperators");
 
@@ -20,10 +20,10 @@ module.exports = (routing, pageId, groupId, ctx) => {
       pageId,
       ctx
     );
+
     if (rule.expressionGroup.operator === AND) {
-      const when = rule.expressionGroup.expressions.map(expression =>
-        translateBinaryExpression(expression)
-      );
+      const when = convertExpressionGroup(rule.expressionGroup, ctx);
+
       runnerRules = [
         {
           goto: {
@@ -33,11 +33,12 @@ module.exports = (routing, pageId, groupId, ctx) => {
         },
       ];
     } else {
-      runnerRules = rule.expressionGroup.expressions.map(expression => {
+      const expressions = convertExpressionGroup(rule.expressionGroup, ctx);
+      runnerRules = expressions.map(when => {
         return {
           goto: {
             ...destination,
-            when: [translateBinaryExpression(expression)],
+            when: [when],
           },
         };
       });
