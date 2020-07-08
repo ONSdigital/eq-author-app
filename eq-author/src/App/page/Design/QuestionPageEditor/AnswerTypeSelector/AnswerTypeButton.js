@@ -39,6 +39,7 @@ export default class AnswerTypeButton extends React.Component {
     onClick: PropTypes.func.isRequired,
     disabled: PropTypes.bool,
     order: PropTypes.number,
+    doNotShowDR: PropTypes.bool,
   };
 
   handleClick = () => {
@@ -46,16 +47,15 @@ export default class AnswerTypeButton extends React.Component {
   };
 
   render() {
-    const { disabled, title, type, order } = this.props;
-
     return (
       <IconGridButton
-        disabled={disabled}
-        iconSrc={icons[type]}
+        doNotShowDR={this.props.doNotShowDR}
+        disabled={this.props.disabled}
+        iconSrc={icons[this.props.type]}
         onClick={this.handleClick}
-        title={title}
-        order={order}
-        data-test={`btn-answer-type-${type.toLowerCase()}`}
+        title={this.props.title}
+        order={this.props.order}
+        data-test={`btn-answer-type-${this.props.type.toLowerCase()}`}
       />
     );
   }

@@ -79,10 +79,24 @@ class AnswerTypeSelector extends React.Component {
       field: "answers",
       message: "Answer required",
     });
+    let hasDateRange = false;
+    let hasOtherAnswerType = false;
+    if (this.props.page.answers[0]) {
+      if (this.props.page.answers[0].type === "DateRange") {
+        hasDateRange = true;
+      }
+      if (this.props.page.answers[0].type !== "DateRange") {
+        hasOtherAnswerType = true;
+      }
+    }
 
     const isInvalid = Boolean(errorValidationMsg);
     const trigger = (
-      <AddAnswerButton variant="secondary" data-test="btn-add-answer">
+      <AddAnswerButton
+        variant="secondary"
+        data-test="btn-add-answer"
+        disabled={hasDateRange}
+      >
         <IconText icon={AddIcon}>
           Add {this.props.page.answers.length === 0 ? "an" : "another"} answer
         </IconText>
@@ -100,7 +114,11 @@ class AnswerTypeSelector extends React.Component {
           onToggleOpen={this.handleOpenToggle}
           onEntered={this.handleEntered}
         >
-          <AnswerTypeGrid onSelect={this.handleSelect} ref={this.saveGridRef} />
+          <AnswerTypeGrid
+            onSelect={this.handleSelect}
+            ref={this.saveGridRef}
+            doNotShowDR={hasOtherAnswerType}
+          />
         </Popout>
         {isInvalid && <ErrorInline>{errorValidationMsg}</ErrorInline>}
       </ErrorContext>
