@@ -114,17 +114,6 @@ describe("QuestionnairesView", () => {
       expect(getByText("Questionnaire 2 Title")).toBeTruthy();
     });
 
-    it("should render a published questionnaire", () => {
-      let questionnaires = [
-        buildQuestionnaire(1, { publishStatus: PUBLISHED }),
-      ];
-      const { getByText } = render(
-        <QuestionnairesView {...props} questionnaires={questionnaires} />
-      );
-
-      expect(getByText(PUBLISHED)).toBeTruthy();
-    });
-
     it("should render the questionnaires when the storage is corrupted", () => {
       window.localStorage.setItem(STORAGE_KEY, "{]");
       const { getByText } = render(<QuestionnairesView {...props} />);

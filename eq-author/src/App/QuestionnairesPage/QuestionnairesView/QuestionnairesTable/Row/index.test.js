@@ -158,18 +158,6 @@ describe("Row", () => {
     expect(wrapper.find(ShortTitle)).toHaveLength(0);
   });
 
-  it("should display AwaitingApproval as 'Awaiting approval'", () => {
-    props.questionnaire.publishStatus = AWAITING_APPROVAL;
-    const { getByText } = render(
-      <table>
-        <tbody>
-          <Row {...props} />
-        </tbody>
-      </table>
-    );
-    expect(getByText("Awaiting approval")).toBeTruthy();
-  });
-
   describe("deletion", () => {
     it("should show the confirm delete dialog when the delete button is clicked", () => {
       const wrapper = shallow(<Row {...props} />);
