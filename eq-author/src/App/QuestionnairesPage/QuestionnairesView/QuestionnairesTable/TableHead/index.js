@@ -135,7 +135,7 @@ const TableHead = props => {
         >
           Modified
         </SortableTH>
-        <UnsortableTH colWidth="16%">Status</UnsortableTH>
+
         <SortableTH
           sortColumn="createdBy.displayName"
           colWidth="18%"

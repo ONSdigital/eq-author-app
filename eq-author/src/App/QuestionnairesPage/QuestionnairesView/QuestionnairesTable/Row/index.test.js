@@ -6,7 +6,7 @@ import IconButtonDelete from "components/buttons/IconButtonDelete";
 import DeleteConfirmDialog from "components/DeleteConfirmDialog";
 
 import { colors } from "constants/theme";
-import { UNPUBLISHED, AWAITING_APPROVAL } from "constants/publishStatus";
+import { UNPUBLISHED } from "constants/publishStatus";
 
 import {
   Row,
@@ -156,18 +156,6 @@ describe("Row", () => {
     props.questionnaire.shortTitle = "";
     wrapper = shallow(<Row {...props} />);
     expect(wrapper.find(ShortTitle)).toHaveLength(0);
-  });
-
-  it("should display AwaitingApproval as 'Awaiting approval'", () => {
-    props.questionnaire.publishStatus = AWAITING_APPROVAL;
-    const { getByText } = render(
-      <table>
-        <tbody>
-          <Row {...props} />
-        </tbody>
-      </table>
-    );
-    expect(getByText("Awaiting approval")).toBeTruthy();
   });
 
   describe("deletion", () => {
