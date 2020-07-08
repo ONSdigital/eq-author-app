@@ -3,6 +3,19 @@ const { RADIO, CURRENCY } = require("../../../constants/answerTypes");
 
 describe("skipConditions", () => {
   it("should translate a complex example correctly", () => {
+    const ctx = {
+      questionnaireJson: {
+        sections: [
+          {
+            pages: [
+              {
+                answers: [{}],
+              },
+            ],
+          },
+        ],
+      },
+    };
     const authorSkipConditions = [
       {
         expressions: [
@@ -41,7 +54,10 @@ describe("skipConditions", () => {
       },
     ];
 
-    const skipConditions = translateAuthorSkipConditions(authorSkipConditions);
+    const skipConditions = translateAuthorSkipConditions(
+      authorSkipConditions,
+      ctx
+    );
     expect(skipConditions).toMatchObject([
       {
         when: [

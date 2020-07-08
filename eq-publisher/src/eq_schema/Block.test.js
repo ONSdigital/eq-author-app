@@ -1,6 +1,8 @@
 const Block = require("./Block");
 const { isLastPageInSection } = require("./Block");
 const Question = require("./Question");
+const mockQuestionnaire = require("./basicQuestionnaireJSON");
+const { NUMBER } = require("../constants/answerTypes");
 const ctx = {};
 
 describe("Block", () => {
@@ -191,6 +193,62 @@ describe("Block", () => {
         titles: [{ value: "Hi is your total %(total)s" }],
         type: "CalculatedSummary",
       });
+    });
+  });
+
+  describe("skip conditions", () => {
+    let mockQuestionnaireWithSkip, newCtx;
+    beforeEach(() => {
+      const buildSkipConditions = questionnaire => {
+        const newQuestionnaire = JSON.parse(JSON.stringify(questionnaire));
+        const pages = newQuestionnaire.sections[0].pages;
+        const answers = pages.map(({ answers }) => answers[0]);
+        answers[0].type = NUMBER;
+
+        pages[1].skipConditions = [
+          {
+            id: "3",
+            expressions: [
+              {
+                id: "4",
+                left: {
+                  type: NUMBER,
+                  id: "1",
+                },
+                condition: "GreaterThan",
+                right: {
+                  number: "3",
+                },
+              },
+            ],
+          },
+        ];
+
+        return newQuestionnaire;
+      };
+
+      mockQuestionnaireWithSkip = buildSkipConditions(mockQuestionnaire);
+      newCtx = { ...ctx, questionnaireJson: mockQuestionnaireWithSkip };
+    });
+    it("should translate skip conditions correctly", () => {
+      const block = new Block(
+        mockQuestionnaireWithSkip.sections[0].pages[1],
+        null,
+        newCtx
+      );
+
+      const runnerSkipJson = [
+        {
+          when: [
+            {
+              id: "answer1",
+              condition: "greater than",
+              value: "3",
+            },
+          ],
+        },
+      ];
+      expect(block.skip_conditions).toEqual(runnerSkipJson);
     });
   });
 });

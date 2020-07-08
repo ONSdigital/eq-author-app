@@ -39,7 +39,10 @@ class Block {
       );
     }
     if (page.skipConditions) {
-      this.skip_conditions = translateAuthorSkipconditions(page.skipConditions);
+      this.skip_conditions = translateAuthorSkipconditions(
+        page.skipConditions,
+        ctx
+      );
     }
   }
 

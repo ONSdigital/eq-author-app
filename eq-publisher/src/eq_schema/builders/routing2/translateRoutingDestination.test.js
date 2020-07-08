@@ -1,5 +1,5 @@
 const translateRoutingDestination = require("./translateRoutingDestination");
-const questionnaireJson = require("./basicQuestionnaireJSON");
+const questionnaireJson = require("../../basicQuestionnaireJSON");
 
 describe("Translation of a routing destination", () => {
   it("should translate an absolute destination to another Page", () => {

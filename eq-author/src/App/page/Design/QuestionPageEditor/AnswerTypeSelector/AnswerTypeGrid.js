@@ -67,6 +67,7 @@ class AnswerTypeGrid extends React.Component {
     onClose: PropTypes.func,
     onSelect: PropTypes.func.isRequired,
     "aria-labelledby": PropTypes.string,
+    doNotShowDR: PropTypes.bool,
   };
 
   handleSelect = type => {
@@ -83,12 +84,15 @@ class AnswerTypeGrid extends React.Component {
   };
 
   render() {
-    const { "aria-labelledby": labelledby, ...otherProps } = this.props;
-
+    const {
+      "aria-labelledby": labelledby,
+      doNotShowDR,
+      ...otherProps
+    } = this.props;
     return (
       <Menu {...otherProps}>
         <MenuBackground>
-          <IconGrid aria-labelledby={labelledby}>
+          <IconGrid aria-labelledby={labelledby} doNotShowDR={doNotShowDR}>
             {buttons.map((button, index) => {
               const props = {
                 ...button,
@@ -98,7 +102,13 @@ class AnswerTypeGrid extends React.Component {
               if (index === 0) {
                 props.ref = this.saveButtonRef;
               }
-              return <AnswerTypeButton key={button.type} {...props} />;
+              return (
+                <AnswerTypeButton
+                  key={button.type}
+                  doNotShowDR={doNotShowDR}
+                  {...props}
+                />
+              );
             })}
           </IconGrid>
         </MenuBackground>

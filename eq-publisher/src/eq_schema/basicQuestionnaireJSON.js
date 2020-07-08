@@ -18,6 +18,9 @@ const questionnaireJson = {
               id: "1",
               type: "Currency",
               label: "Answer 1",
+              properties: {
+                required: false,
+              },
             },
           ],
         },
@@ -32,6 +35,9 @@ const questionnaireJson = {
               id: "2",
               type: "Number",
               label: "Answer 2",
+              properties: {
+                required: false,
+              },
             },
           ],
         },
@@ -52,6 +58,9 @@ const questionnaireJson = {
               id: "3",
               type: "Number",
               label: "Answer 3",
+              properties: {
+                required: false,
+              },
             },
           ],
         },
