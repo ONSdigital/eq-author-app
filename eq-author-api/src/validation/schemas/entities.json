@@ -65,7 +65,17 @@
               "expressions": {
                 "type": "array",
                 "items": {
-                  "$ref": "entities.json#/definitions/expression"
+                  "anyOf": [
+                    {
+                      "$ref": "entities.json#/definitions/expression-numberAnswer"
+                    },
+                    {
+                      "$ref": "entities.json#/definitions/expression-multipleChoiceAnswer"
+                    },
+                    {
+                      "$ref": "entities.json#/definitions/expression-unanswered"
+                    }
+                  ]
                 }
               }
             }
@@ -573,14 +583,24 @@
             "expressions": {
               "type": "array",
               "items": {
-                "$ref": "entities.json#/definitions/expression"
+                "anyOf": [
+                  {
+                    "$ref": "entities.json#/definitions/expression-numberAnswer"
+                  },
+                  {
+                    "$ref": "entities.json#/definitions/expression-multipleChoiceAnswer"
+                  },
+                  {
+                    "$ref": "entities.json#/definitions/expression-unanswered"
+                  }
+                ]
               }
             }
           }
         }
       }
     },
-    "expression": {
+    "expression-numberAnswer": {
       "properties": {
         "id": { "type": "string" },
         "condition": {
@@ -605,7 +625,39 @@
         "right": {
           "type": "object",
           "properties": {
-            "type": { "enum": ["Custom", "SelectedOptions"] },
+            "type": { "enum": ["Custom"] }
+          },
+          "required": ["type"],
+          "errorMessage": "ERR_NO_RIGHT_VALUE"
+        }
+      }
+    },
+    "expression-multipleChoiceAnswer": {
+      "properties": {
+        "id": { "type": "string" },
+        "condition": {
+          "type": "string"
+        },
+        "left": {
+          "type": "object",
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "answerId": {
+                  "type": "string",
+                  "pattern": "\\w+"
+                }
+              },
+              "required": ["answerId"]
+            }
+          ],
+          "errorMessage": "ERR_ANSWER_NOT_SELECTED"
+        },
+        "right": {
+          "type": "object",
+          "properties": {
+            "type": { "enum": ["SelectedOptions"] },
             "optionIds": {
               "type": "array",
               "minItems": 1,
@@ -616,6 +668,28 @@
           },
           "required": ["type"],
           "errorMessage": "ERR_NO_RIGHT_VALUE"
+        }
+      }
+    },
+    "expression-unanswered": {
+      "properties": {
+        "id": { "type": "string" },
+        "condition": { "enum": ["Unanswered"] },
+        "left": {
+          "type": "object",
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "answerId": {
+                  "type": "string",
+                  "pattern": "\\w+"
+                }
+              },
+              "required": ["answerId"]
+            }
+          ],
+          "errorMessage": "ERR_ANSWER_NOT_SELECTED"
         }
       }
     }
