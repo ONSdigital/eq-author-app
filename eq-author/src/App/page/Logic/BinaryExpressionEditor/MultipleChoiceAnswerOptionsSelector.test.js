@@ -108,7 +108,7 @@ describe("MultipleChoiceAnswerOptionsSelector", () => {
   it("should show error message when right side empty", async () => {
     defaultProps.expression.right = null;
     defaultProps.expression.validationErrorInfo.errors[0] = {
-      errorCode: "ERR_RIGHTSIDE_NO_VALUE",
+      errorCode: errorCodes.ERR_RIGHTSIDE_NO_VALUE.errorCode,
       field: "right",
       id: "expression-routing-1-right",
       type: "expressions",
