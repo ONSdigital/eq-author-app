@@ -11,6 +11,7 @@ import { Field, Label } from "components/Forms";
 
 import withChangeUpdate from "enhancers/withChangeUpdate";
 import withValidationError from "enhancers/withValidationError";
+import { richTextEditorErrors } from "constants/validationMessages";
 
 import MultipleFieldEditor from "./MultipleFieldEditor";
 import AnswerTransition from "./AnswersEditor/AnswerTransition";
@@ -79,7 +80,7 @@ export class StatelessMetaEditor extends React.Component {
           errorValidationMsg={this.props.getValidationError({
             field: "title",
             label: "Question title",
-            requiredMsg: "Enter a question title",
+            requiredMsg: richTextEditorErrors.QUESTION_TITLE_NOT_ENTERED,
           })}
         />
 

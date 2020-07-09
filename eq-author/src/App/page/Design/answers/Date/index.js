@@ -11,6 +11,7 @@ import WrappingInput from "components/Forms/WrappingInput";
 import withEntityEditor from "components/withEntityEditor";
 import VisuallyHidden from "components/VisuallyHidden";
 import { colors } from "constants/theme";
+import { DATE_LABEL_REQUIRED } from "constants/validationMessages";
 
 import DummyDate from "../dummy/Date";
 import withValidationError from "enhancers/withValidationError";
@@ -62,8 +63,7 @@ export const UnwrappedDate = ({
         errorValidationMsg={getValidationError({
           field: "label",
           label: errorLabel,
-          requiredMsg: `Enter a 
-          date label`,
+          requiredMsg: DATE_LABEL_REQUIRED,
         })}
       />
     </Field>

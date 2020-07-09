@@ -11,6 +11,7 @@ import withChangeUpdate from "enhancers/withChangeUpdate";
 import withUpdateCalculatedSummaryPage from "./withUpdateCalculatedSummaryPage";
 import withEntityEditor from "components/withEntityEditor";
 import withValidationError from "enhancers/withValidationError";
+import { richTextEditorErrors } from "constants/validationMessages";
 import PageHeader from "../PageHeader";
 
 import withPropRenamed from "enhancers/withPropRenamed";
@@ -75,7 +76,7 @@ export const CalculatedSummaryPageEditor = props => {
           errorValidationMsg={getValidationError({
             field: "title",
             label: "Calculated summary title",
-            requiredMsg: "Enter a calculated summary title",
+            requiredMsg: richTextEditorErrors.CALCSUM_TITLE_NOT_ENTERED,
           })}
         />
         <div>
