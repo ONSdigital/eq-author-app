@@ -62,6 +62,7 @@ export const UnwrappedRoutingDestinationContentPicker = ({
   loading,
   selected,
   onSubmit,
+  id,
   ...otherProps
 }) => {
   const [isPickerOpen, setPickerOpen] = useState(false);
@@ -94,14 +95,16 @@ export const UnwrappedRoutingDestinationContentPicker = ({
       sections.push(currentSection);
     }
 
-    const routingSections = destinationData.sections;
-    routingSections.forEach((section, index) => {
-      section.pages[0].id = section.id;
-      section.pages[0].__typename = "Section";
-      routingSections[index].pages = [section.pages[0]];
-    });
+    if (id !== "else") {
+      const routingSections = destinationData.sections;
+      routingSections.forEach((section, index) => {
+        section.pages[0].id = section.id;
+        section.pages[0].__typename = "Section";
+        routingSections[index].pages = [section.pages[0]];
+      });
 
-    sections.push(...routingSections);
+      sections.push(...routingSections);
+    }
 
     return sections;
   };
