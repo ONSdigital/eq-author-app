@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import { flowRight, get } from "lodash";
+import { flowRight } from "lodash";
+// import { flowRight, get } from "lodash";
+
 import { withRouter } from "react-router-dom";
 import gql from "graphql-tag";
 import { useSubscription } from "react-apollo";
@@ -10,7 +12,7 @@ import config from "config";
 import CustomPropTypes from "custom-prop-types";
 
 import { colors } from "constants/theme";
-import { AWAITING_APPROVAL, PUBLISHED } from "constants/publishStatus";
+// import { AWAITING_APPROVAL, PUBLISHED } from "constants/publishStatus";
 
 import { useMe } from "App/MeContext";
 
@@ -26,8 +28,8 @@ import homeIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/home-24px
 
 import settingsIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/settings-icon.svg?inline";
 import qcodeIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/q-codes-icon.svg?inline";
-import publishIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/publish-icon.svg?inline";
-import reviewIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/review-icon.svg?inline";
+// import publishIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/publish-icon.svg?inline";
+// import reviewIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/review-icon.svg?inline";
 import historyIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/history-icon.svg?inline";
 import metadataIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/metadata-icon.svg?inline";
 import shareIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/sharing-icon.svg?inline";
@@ -36,7 +38,7 @@ import viewIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/view-surv
 import UpdateQuestionnaireSettingsModal from "./UpdateQuestionnaireSettingsModal";
 
 import {
-  buildPublishPath,
+  // buildPublishPath,
   buildQcodesPath,
   buildMetadataPath,
   buildHistoryPath,
@@ -70,56 +72,56 @@ export const UnwrappedMainNavigation = props => {
   useSubscription(publishStatusSubscription, {
     variables: { id: match.params.questionnaireId },
   });
-  const publishStatus = get(questionnaire, "publishStatus");
+  // const publishStatus = get(questionnaire, "publishStatus");
 
   const previewUrl = `${config.REACT_APP_LAUNCH_URL}/${
     (questionnaire || {}).id
   }`;
 
-  const renderPublishReviewButton = () => {
-    if (publishStatus === AWAITING_APPROVAL && me.admin) {
-      const reviewUrl = "/q/" + match.params.questionnaireId + "/review";
-      return (
-        <RouteButton
-          variant="navigation"
-          to={reviewUrl}
-          small
-          disabled={title === "Review"}
-          data-test="btn-review"
-        >
-          <IconText nav icon={reviewIcon}>
-            Review
-          </IconText>
-        </RouteButton>
-      );
-    }
+  // const renderPublishReviewButton = () => {
+  //   if (publishStatus === AWAITING_APPROVAL && me.admin) {
+  //     const reviewUrl = "/q/" + match.params.questionnaireId + "/review";
+  //     return (
+  //       <RouteButton
+  //         variant="navigation"
+  //         to={reviewUrl}
+  //         small
+  //         disabled={title === "Review"}
+  //         data-test="btn-review"
+  //       >
+  //         <IconText nav icon={reviewIcon}>
+  //           Review
+  //         </IconText>
+  //       </RouteButton>
+  //     );
+  //   }
 
-    if (publishStatus === AWAITING_APPROVAL && !me.admin) {
-      return null;
-    }
+  //   if (publishStatus === AWAITING_APPROVAL && !me.admin) {
+  //     return null;
+  //   }
 
-    const canPublish = questionnaire.permission === "Write";
-    return (
-      <RouteButton
-        variant={
-          (whatPageAreWeOn === "publish" && "navigation-on") || "navigation"
-        }
-        to={buildPublishPath(match.params)}
-        small
-        disabled={
-          !canPublish ||
-          questionnaire.totalErrorCount > 0 ||
-          title === "Publish" ||
-          publishStatus === PUBLISHED
-        }
-        data-test="btn-publish"
-      >
-        <IconText nav icon={publishIcon}>
-          Publish
-        </IconText>
-      </RouteButton>
-    );
-  };
+  //   const canPublish = questionnaire.permission === "Write";
+  //   return (
+  //     <RouteButton
+  //       variant={
+  //         (whatPageAreWeOn === "publish" && "navigation-on") || "navigation"
+  //       }
+  //       to={buildPublishPath(match.params)}
+  //       small
+  //       disabled={
+  //         !canPublish ||
+  //         questionnaire.totalErrorCount > 0 ||
+  //         title === "Publish" ||
+  //         publishStatus === PUBLISHED
+  //       }
+  //       data-test="btn-publish"
+  //     >
+  //       <IconText nav icon={publishIcon}>
+  //         Publish
+  //       </IconText>
+  //     </RouteButton>
+  //   );
+  // };
 
   return (
     <>
@@ -198,7 +200,7 @@ export const UnwrappedMainNavigation = props => {
                     Metadata
                   </IconText>
                 </RouteButton>
-                {renderPublishReviewButton()}
+                {/* {renderPublishReviewButton()} */}
                 <RouteButton
                   variant={
                     (whatPageAreWeOn === "qcodes" && "navigation-on") ||
