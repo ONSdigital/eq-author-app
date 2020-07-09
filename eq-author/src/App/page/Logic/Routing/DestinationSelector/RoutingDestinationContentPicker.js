@@ -160,6 +160,7 @@ UnwrappedRoutingDestinationContentPicker.propTypes = {
   }),
   selected: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   onSubmit: PropTypes.func,
+  id: PropTypes.string.isRequired,
 };
 
 const RoutingDestinationContentPicker = props => (
@@ -176,6 +177,7 @@ const RoutingDestinationContentPicker = props => (
 
 RoutingDestinationContentPicker.propTypes = {
   pageId: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
 };
 
 export default RoutingDestinationContentPicker;
