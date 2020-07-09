@@ -2,8 +2,7 @@ import React from "react";
 import { shallow } from "enzyme";
 import { render } from "tests/utils/rtl";
 
-import { rightSideErrors } from "constants/validationMessages";
-import { ERR_NO_RIGHT_VALUE } from "constants/validation-error-types";
+import { errorCodes } from "constants/validation-error-codes";
 
 import { Number } from "components/Forms";
 
@@ -95,7 +94,7 @@ describe("NumberAnswerSelector", () => {
     defaultProps.expression.left.type = NUMBER;
     defaultProps.expression.right = null;
     defaultProps.expression.validationErrorInfo.errors[0] = {
-      errorCode: "ERR_NO_RIGHT_VALUE",
+      errorCode: "ERR_RIGHTSIDE_NO_VALUE",
       field: "right",
       id: "expression-routing-1-right",
       type: "expressions",
@@ -106,8 +105,8 @@ describe("NumberAnswerSelector", () => {
     );
 
     expect(
-      getByText(rightSideErrors[ERR_NO_RIGHT_VALUE].Number)
+      getByText(errorCodes.ERR_RIGHTSIDE_NO_VALUE.message)
     ).toHaveStyleRule("width", "100%");
-    expect(getByText(rightSideErrors[ERR_NO_RIGHT_VALUE].Number)).toBeTruthy();
+    expect(getByText(errorCodes.ERR_RIGHTSIDE_NO_VALUE.message)).toBeTruthy();
   });
 });

@@ -12,7 +12,7 @@ const {
   ERR_MAX_LENGTH_TOO_LARGE,
   ERR_MAX_LENGTH_TOO_SMALL,
   ERR_ANSWER_NOT_SELECTED,
-  ERR_NO_RIGHT_VALUE,
+  ERR_RIGHTSIDE_NO_VALUE,
 } = require("../../constants/validationErrorCodes");
 
 const validation = require(".");
@@ -935,7 +935,7 @@ describe("schema validation", () => {
       );
       expect(
         skipConditionErrors.expressions[expressionId].errors[0].errorCode
-      ).toBe(ERR_NO_RIGHT_VALUE);
+      ).toBe(ERR_RIGHTSIDE_NO_VALUE);
     });
   });
 });

@@ -67,10 +67,7 @@
                 "items": {
                   "anyOf": [
                     {
-                      "$ref": "entities.json#/definitions/expression-numberAnswer"
-                    },
-                    {
-                      "$ref": "entities.json#/definitions/expression-multipleChoiceAnswer"
+                      "$ref": "entities.json#/definitions/expression"
                     },
                     {
                       "$ref": "entities.json#/definitions/expression-unanswered"
@@ -585,10 +582,7 @@
               "items": {
                 "anyOf": [
                   {
-                    "$ref": "entities.json#/definitions/expression-numberAnswer"
-                  },
-                  {
-                    "$ref": "entities.json#/definitions/expression-multipleChoiceAnswer"
+                    "$ref": "entities.json#/definitions/expression"
                   },
                   {
                     "$ref": "entities.json#/definitions/expression-unanswered"
@@ -600,7 +594,7 @@
         }
       }
     },
-    "expression-numberAnswer": {
+    "expression": {
       "properties": {
         "id": { "type": "string" },
         "condition": {
@@ -625,39 +619,7 @@
         "right": {
           "type": "object",
           "properties": {
-            "type": { "enum": ["Custom"] }
-          },
-          "required": ["type"],
-          "errorMessage": "ERR_NO_RIGHT_VALUE"
-        }
-      }
-    },
-    "expression-multipleChoiceAnswer": {
-      "properties": {
-        "id": { "type": "string" },
-        "condition": {
-          "type": "string"
-        },
-        "left": {
-          "type": "object",
-          "anyOf": [
-            {
-              "type": "object",
-              "properties": {
-                "answerId": {
-                  "type": "string",
-                  "pattern": "\\w+"
-                }
-              },
-              "required": ["answerId"]
-            }
-          ],
-          "errorMessage": "ERR_ANSWER_NOT_SELECTED"
-        },
-        "right": {
-          "type": "object",
-          "properties": {
-            "type": { "enum": ["SelectedOptions"] },
+            "type": { "enum": ["Custom","SelectedOptions"] },
             "optionIds": {
               "type": "array",
               "minItems": 1,
@@ -667,7 +629,8 @@
             }
           },
           "required": ["type"],
-          "errorMessage": "ERR_NO_RIGHT_VALUE"
+          "errorMessage": "ERR_RIGHTSIDE_NO_VALUE",
+          "validateExclusiveCheckbox": "right"
         }
       }
     },

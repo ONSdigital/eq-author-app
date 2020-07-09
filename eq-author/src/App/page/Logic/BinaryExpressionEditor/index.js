@@ -24,7 +24,7 @@ import {
   DEFAULT_SKIP_CONDITION,
 } from "constants/routing-left-side";
 
-import { ERR_ANSWER_NOT_SELECTED } from "constants/validationMessages";
+import { errorCodes } from "constants/validation-error-codes";
 
 import IconText from "components/IconText";
 import { Grid, Column } from "components/Grid";
@@ -189,12 +189,12 @@ const ERROR_SITUATIONS = [
   {
     condition: props =>
       some(
-        { errorCode: "ERR_ANSWER_NOT_SELECTED" },
+        { errorCode: errorCodes.ERR_ANSWER_NOT_SELECTED.errorCode },
         props.expression.validationErrorInfo.errors
       ),
     message: () => (
       <ValidaitonError icon={WarningIcon}>
-        {ERR_ANSWER_NOT_SELECTED}
+        {errorCodes.ERR_ANSWER_NOT_SELECTED.message}
       </ValidaitonError>
     ),
   },

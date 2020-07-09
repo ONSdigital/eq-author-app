@@ -7,4 +7,5 @@ module.exports = ajv => {
   require("./validateLatestAfterEarliest")(ajv);
   require("./validateDuration")(ajv);
   require("./textLengthInRange")(ajv);
+  require("./validateExclusiveCheckbox")(ajv);
 };
