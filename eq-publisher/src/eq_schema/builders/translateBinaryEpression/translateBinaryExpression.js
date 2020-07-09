@@ -14,8 +14,8 @@ const authorConditions = {
   UNANSWERED: "Unanswered",
 };
 
-const buildRadioAnswerBinaryExpression = ({ left, right }) => {
-  if (isEmpty(right.options)) {
+const buildRadioAnswerBinaryExpression = ({ left, right, condition }) => {
+  if (condition === authorConditions.UNANSWERED) {
     return {
       id: `answer${left.id}`,
       condition: "not set",
