@@ -62,5 +62,17 @@ export const binaryExpressionErrors = {
   NO_OR_ON_MULTIPLE_RADIO:
     "OR condition is not valid when creating multiple radio rules",
   AND_NOT_VALID_WITH_RADIO:
-    "AND condition not valid with &lsquo;radio button&rsquo; answer",
+    "AND condition not valid with 'radio button' answer",
+};
+
+export const MISSING_LABEL = "Enter a label";
+
+export const buildLabelError = (mainString, insString, pos, pos2) => {
+  if (typeof pos === "undefined") {
+    pos = 0;
+  }
+  if (typeof insString === "undefined") {
+    insString = "";
+  }
+  return mainString.slice(0, pos) + insString + mainString.slice(pos2);
 };
