@@ -23,6 +23,7 @@ const answerConditions = {
   UNANSWERED: "Unanswered",
   ALLOF: "AllOf",
   ANYOF: "AnyOf",
+  ONEOF: "OneOf",
 };
 
 const MultipleChoiceAnswerOptions = styled.div`
@@ -178,17 +179,27 @@ class MultipleChoiceAnswerOptionsSelector extends React.Component {
           data-test="options-selector"
           hasError={hasError}
         >
-          {options.map(option => (
-            <ToggleChip
-              key={option.id}
-              name={option.id}
-              title={option.label}
-              checked={includes(this.selectedOptionIds, option.id)}
-              onChange={this.handleRadioChange}
-            >
-              {option.label || <strong>Unlabelled option</strong>}
-            </ToggleChip>
-          ))}
+          <Label>Match</Label>
+          <ConditionSelect
+            onChange={this.handleConditionChange}
+            defaultValue={expression.condition}
+            data-test="condition-dropdown"
+          >
+            <option value={answerConditions.ONEOF}>One of</option>
+            <option value={answerConditions.UNANSWERED}>Unanswered</option>
+          </ConditionSelect>
+          {expression.condition !== answerConditions.UNANSWERED &&
+            options.map(option => (
+              <ToggleChip
+                key={option.id}
+                name={option.id}
+                title={option.label}
+                checked={includes(this.selectedOptionIds, option.id)}
+                onChange={this.handleRadioChange}
+              >
+                {option.label || <strong>Unlabelled option</strong>}
+              </ToggleChip>
+            ))}
         </MultipleChoiceAnswerOptions>
         {hasError && this.handleError()}
       </>

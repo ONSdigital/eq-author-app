@@ -69,8 +69,8 @@ describe("Should build a runner representation of a binary expression", () => {
       });
     });
 
-    it("With a radio answer and no selected options", () => {
-      const expression = buildBinaryExpression([], "OneOf");
+    it("With a radio answer and unanswered", () => {
+      const expression = buildBinaryExpression([], "Unanswered");
 
       const runnerExpression = translateBinaryExpression(expression);
 
