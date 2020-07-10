@@ -18,7 +18,7 @@
     "graphql": "latest",
     "helmet": "latest",
     "jsonwebtoken": "latest",
-    "lodash": "latest",
+    "lodash": "4.17.16",
     "nodemon": "2.0.3",
     "request": "latest",
     "request-promise": "latest",
