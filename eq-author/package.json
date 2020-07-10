@@ -104,7 +104,7 @@
     "graphql-tag": "latest",
     "graphql-tools": "latest",
     "jsonwebtoken": "latest",
-    "lodash": "4.17.20",
+    "lodash": "4.17.16",
     "moment": "latest",
     "polished": "latest",
     "react": "latest",
