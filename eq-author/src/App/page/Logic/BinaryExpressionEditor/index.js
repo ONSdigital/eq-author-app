@@ -24,7 +24,10 @@ import {
   DEFAULT_SKIP_CONDITION,
 } from "constants/routing-left-side";
 
-import { ERR_ANSWER_NOT_SELECTED } from "constants/validationMessages";
+import {
+  ERR_ANSWER_NOT_SELECTED,
+  binaryExpressionErrors,
+} from "constants/validationMessages";
 
 import IconText from "components/IconText";
 import { Grid, Column } from "components/Grid";
@@ -32,7 +35,7 @@ import { Grid, Column } from "components/Grid";
 import Transition from "App/page/Logic/Routing/Transition";
 
 import RoutingAnswerContentPicker from "./RoutingAnswerContentPicker";
-import ValidaitonError from "./ValidationError";
+import ValidationError from "./ValidationError";
 import svgPath from "./path.svg";
 import svgPathEnd from "./path-end.svg";
 import IconMinus from "./icon-minus.svg?inline";
@@ -156,34 +159,34 @@ const ERROR_SITUATIONS = [
     condition: props =>
       props.expression.left.reason === SELECTED_ANSWER_DELETED,
     message: () => (
-      <ValidaitonError icon={WarningIcon}>
-        The answer used in this condition has been deleted
-      </ValidaitonError>
+      <ValidationError icon={WarningIcon}>
+        {binaryExpressionErrors.ANSWER_DELETED}
+      </ValidationError>
     ),
   },
   {
     condition: props =>
       props.expression.left.reason === NO_ROUTABLE_ANSWER_ON_PAGE,
     message: () => (
-      <ValidaitonError icon={WarningIcon}>
-        No routable answers have been added to this question yet
-      </ValidaitonError>
+      <ValidationError icon={WarningIcon}>
+        {binaryExpressionErrors.NO_ROUTABLE_ANSWERS_AVAILABLE}
+      </ValidationError>
     ),
   },
   {
     condition: props => !props.canAddCondition && props.operator === "Or",
     message: () => (
-      <ValidaitonError icon={WarningIcon}>
-        OR condition is not valid when creating multiple radio rules
-      </ValidaitonError>
+      <ValidationError icon={WarningIcon}>
+        {binaryExpressionErrors.NO_OR_ON_MULTIPLE_RADIO}
+      </ValidationError>
     ),
   },
   {
     condition: props => !props.canAddCondition,
     message: () => (
-      <ValidaitonError icon={WarningIcon}>
-        AND condition not valid with &lsquo;radio button&rsquo; answer
-      </ValidaitonError>
+      <ValidationError icon={WarningIcon}>
+        {binaryExpressionErrors.AND_NOT_VALID_WITH_RADIO}
+      </ValidationError>
     ),
   },
   {
@@ -193,9 +196,9 @@ const ERROR_SITUATIONS = [
         props.expression.validationErrorInfo.errors
       ),
     message: () => (
-      <ValidaitonError icon={WarningIcon}>
+      <ValidationError icon={WarningIcon}>
         {ERR_ANSWER_NOT_SELECTED}
-      </ValidaitonError>
+      </ValidationError>
     ),
   },
 ];

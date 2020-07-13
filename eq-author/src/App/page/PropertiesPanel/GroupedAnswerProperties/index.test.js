@@ -18,6 +18,7 @@ import DurationProperties from "./AnswerProperties/Properties/DurationProperties
 import Accordion from "components/Accordion";
 import GroupValidations from "App/page/Design/Validation/GroupValidations";
 import { VALIDATION_QUERY } from "App/QuestionnaireDesignPage";
+import { characterErrors } from "constants/validationMessages";
 
 import { UnwrappedGroupedAnswerProperties } from "./";
 
@@ -355,9 +356,7 @@ describe("Grouped Answer Properties", () => {
 
       const errMsg = getByTestId("MaxCharacterTooSmall");
       expect(errMsg).toBeTruthy();
-      expect(errMsg.textContent).toBe(
-        "Enter a character limit greater than or equal to 10"
-      );
+      expect(errMsg.textContent).toBe(characterErrors.CHAR_MUST_EXCEED_9);
     });
     it(`Should render 'Enter a character more than x' error on textarea answers`, () => {
       const newProps = {
@@ -402,9 +401,7 @@ describe("Grouped Answer Properties", () => {
 
       const errMsg = getByTestId("MaxCharacterTooBig");
       expect(errMsg).toBeTruthy();
-      expect(errMsg.textContent).toBe(
-        "Enter a character limit less than or equal to 2000"
-      );
+      expect(errMsg.textContent).toBe(characterErrors.CHAR_LIMIT_2000_EXCEEDED);
     });
   });
 });

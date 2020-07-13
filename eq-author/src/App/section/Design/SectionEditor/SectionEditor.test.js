@@ -3,6 +3,7 @@ import { shallow } from "enzyme";
 
 import { SectionEditor } from "App/section/Design/SectionEditor";
 import RichTextEditor from "components/RichTextEditor";
+import { sectionErrors } from "constants/validationMessages";
 
 describe("SectionEditor", () => {
   const section1 = {
@@ -171,7 +172,7 @@ describe("SectionEditor", () => {
 
     expect(getValidationError).toHaveBeenCalledWith({
       field: "title",
-      message: "Enter a section title",
+      message: sectionErrors.SECTION_TITLE_NOT_ENTERED,
     });
   });
 

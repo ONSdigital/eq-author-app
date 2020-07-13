@@ -16,6 +16,12 @@ import DateValidation from "./DateValidation";
 import NumericValidation from "./NumericValidation";
 import DatePreview from "./DatePreview";
 import DurationPreview from "./DurationPreview";
+import {
+  EARLIEST_BEFORE_LATEST_DATE,
+  MAX_GREATER_THAN_MIN,
+  MIN_INCLUSIVE_TEXT,
+  MAX_INCLUSIVE_TEXT,
+} from "constants/validationMessages";
 
 import {
   EarliestDate,
@@ -34,9 +40,6 @@ import {
   PERCENTAGE,
   UNIT,
 } from "constants/answer-types";
-
-export const MIN_INCLUSIVE_TEXT = "must be more than";
-export const MAX_INCLUSIVE_TEXT = "must be less than";
 
 const formatValue = (value, { type, properties }) => {
   if (typeof value !== "number") {
@@ -225,11 +228,6 @@ class AnswerValidation extends React.PureComponent {
     const { answer } = this.props;
     const validValidationTypes = validations[answer.type] || [];
 
-    const durationErrorMessage =
-      "Enter a min duration that is shorter than the max";
-    const rangeErrorMessage =
-      "Enter an earliest date that is before the latest date";
-
     if (validValidationTypes.length === 0) {
       return null;
     }
@@ -279,13 +277,13 @@ class AnswerValidation extends React.PureComponent {
 
       const durationError = this.renderPropertyError(
         validationErrors.dateRange.duration.length > 1,
-        durationErrorMessage,
+        MAX_GREATER_THAN_MIN,
         "duration-error"
       );
 
       const rangeError = this.renderPropertyError(
         validationErrors.dateRange.range.length > 1,
-        rangeErrorMessage,
+        EARLIEST_BEFORE_LATEST_DATE,
         "range-error"
       );
 
@@ -297,8 +295,8 @@ class AnswerValidation extends React.PureComponent {
     } else {
       const validationMessage =
         answer.type === "Date"
-          ? "Enter an earliest date that is before the latest date"
-          : "Enter a max value that is greater than min value";
+          ? EARLIEST_BEFORE_LATEST_DATE
+          : MAX_GREATER_THAN_MIN;
 
       validationButtons = this.renderValidation(
         validValidationTypes,

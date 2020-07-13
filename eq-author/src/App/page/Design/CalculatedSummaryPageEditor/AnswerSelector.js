@@ -13,6 +13,10 @@ import Button from "components/buttons/Button";
 import TextButton from "components/buttons/TextButton";
 import withValidationError from "enhancers/withValidationError";
 import ErrorInline from "components/ErrorInline";
+import {
+  CALCSUM_ANSWER_NOT_SELECTED,
+  CALCSUM_SUMMARY_ANSWERS_THE_SAME,
+} from "constants/validationMessages";
 
 import AnswerChip from "./AnswerChip";
 import iconInfo from "./icon-info.svg";
@@ -174,7 +178,7 @@ export class UnwrappedAnswerSelector extends Component {
     const { section } = this.props.page;
     const errorValidationMsg = this.props.getValidationError({
       field: "summaryAnswers",
-      message: "Select answers that are the same unit type",
+      message: CALCSUM_SUMMARY_ANSWERS_THE_SAME,
     });
 
     const isInvalid = Boolean(errorValidationMsg);
@@ -234,7 +238,7 @@ export class UnwrappedAnswerSelector extends Component {
 
     const errorValidationMsg = getValidationError({
       field: "summaryAnswers",
-      message: "Answer required",
+      message: CALCSUM_ANSWER_NOT_SELECTED,
     });
 
     const title = isAvailableAnswers

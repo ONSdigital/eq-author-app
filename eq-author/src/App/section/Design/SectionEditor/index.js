@@ -21,6 +21,7 @@ import getIdForObject from "utils/getIdForObject";
 import MoveSectionModal from "./MoveSectionModal";
 import MoveSectionQuery from "./MoveSectionModal/MoveSectionQuery";
 import iconSection from "./icon-dialog-section.svg";
+import { sectionErrors } from "constants/validationMessages";
 
 const titleControls = {
   emphasis: true,
@@ -145,7 +146,7 @@ export class SectionEditor extends React.Component {
             autoFocus={autoFocusTitle}
             errorValidationMsg={this.props.getValidationError({
               field: "title",
-              message: "Enter a section title",
+              message: sectionErrors.SECTION_TITLE_NOT_ENTERED,
             })}
           />
           <Label>
@@ -166,7 +167,7 @@ export class SectionEditor extends React.Component {
               errorValidationMsg={this.props.getValidationError({
                 field: "introductionTitle",
                 label: "Introduction Title",
-                requiredMsg: "Enter a section introduction title",
+                requiredMsg: sectionErrors.SECTION_INTRO_TITLE_NOT_ENTERED,
               })}
             />
             <RichTextEditor
@@ -187,7 +188,7 @@ export class SectionEditor extends React.Component {
               errorValidationMsg={this.props.getValidationError({
                 field: "introductionContent",
                 label: "Introduction Content",
-                requiredMsg: "Enter section introduction content",
+                requiredMsg: sectionErrors.SECTION_INTRO_CONTENT_NOT_ENTERED,
               })}
             />
           </IntroCanvas>
