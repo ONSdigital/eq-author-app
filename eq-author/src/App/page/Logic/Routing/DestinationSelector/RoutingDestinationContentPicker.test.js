@@ -215,5 +215,22 @@ describe("RoutingDestinationContentPicker", () => {
       expect(queryByText(/s1/)).toBeFalsy();
       getAllByText("s2q1");
     });
+
+    it("should not display items outside of the current section within the content picker for an else destination", () => {
+      const { unmount } = destinationPicker;
+      unmount();
+      props.id = "else";
+      const { queryByText } = render(
+        <UnwrappedRoutingDestinationContentPicker {...props} />
+      );
+      const newOpenButton = destinationPicker.getByTestId(
+        "content-picker-select"
+      );
+      fireEvent.click(newOpenButton);
+
+      expect(queryByText(/section1/)).toBeTruthy();
+      expect(queryByText(/section2/)).toBeFalsy();
+      expect(queryByText(/section3/)).toBeFalsy();
+    });
   });
 });
