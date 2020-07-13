@@ -16,6 +16,7 @@ import Panel, { InformationPanel } from "components/Panel";
 import ScrollPane from "components/ScrollPane";
 import Header from "components/EditorLayout/Header";
 import ErrorInline from "components/ErrorInline";
+import { FORM_TYPES_MUST_BE_UNIQUE } from "constants/validationMessages";
 
 import triggerPublishMutation from "./triggerPublish.graphql";
 
@@ -116,8 +117,6 @@ const PublishPage = ({ match, history }) => {
   const { questionnaire } = useQuestionnaire();
 
   const [triggerPublish] = useMutation(triggerPublishMutation);
-
-  const errorValidationMsg = "Enter form types that are unique";
 
   const handleThemeSelect = (themeCheckbox, label) => {
     const isSelected = themeCheckbox.value;
@@ -247,7 +246,7 @@ const PublishPage = ({ match, history }) => {
                         />
 
                         {variant.unique === false && (
-                          <ErrorInline>{errorValidationMsg}</ErrorInline>
+                          <ErrorInline>{FORM_TYPES_MUST_BE_UNIQUE}</ErrorInline>
                         )}
                       </ErrorContext>
                     </Shadow>

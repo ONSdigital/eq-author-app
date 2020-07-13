@@ -2,6 +2,8 @@ import React from "react";
 import { shallow, mount } from "enzyme";
 import { StatelessBasicAnswer } from "./";
 import WrappingInput from "components/Forms/WrappingInput";
+import { MISSING_LABEL, buildLabelError } from "constants/validationMessages";
+import { lowerCase } from "lodash";
 
 describe("BasicAnswer", () => {
   let answer;
@@ -29,6 +31,7 @@ describe("BasicAnswer", () => {
       answer,
       onChange,
       onUpdate,
+      type: "text field",
       children: <div>This is the child component</div>,
     };
   });
@@ -51,6 +54,26 @@ describe("BasicAnswer", () => {
       .getDOMNode();
 
     expect(input.hasAttribute("data-autofocus")).toBe(false);
+  });
+
+  it("shows missing label error", () => {
+    expect(
+      buildLabelError(MISSING_LABEL, `${lowerCase(props.type)}`, 8, 7)
+    ).toEqual("Enter a text field label");
+  });
+
+  it("shows default label error if missing buildLabelError props", () => {
+    expect(buildLabelError(MISSING_LABEL, `${lowerCase(props.type)}`)).toEqual(
+      "Label error"
+    );
+  });
+
+  it("shows default label error if missing buildLabelError insert props", () => {
+    expect(buildLabelError(MISSING_LABEL, 8, 7)).toEqual("Label error");
+  });
+
+  it("shows default label error if missing buildLabelError mainString props", () => {
+    expect(buildLabelError(MISSING_LABEL, 8, 7)).toEqual("Label error");
   });
 
   describe("event handling behaviour", () => {

@@ -9,6 +9,7 @@ import withValidationError from "enhancers/withValidationError";
 
 import RichTextEditor from "components/RichTextEditor";
 import withEntityEditor from "components/withEntityEditor";
+import { richTextEditorErrors } from "constants/validationMessages";
 
 import ConfirmationOption from "./ConfirmationOption";
 
@@ -63,7 +64,7 @@ export class UnwrappedEditor extends React.Component {
           errorValidationMsg={this.props.getValidationError({
             field: "title",
             label: "Confirmation Question title",
-            requiredMsg: "Enter a confirmation question title",
+            requiredMsg: richTextEditorErrors.CONFIRMATION_TITLE_NOT_ENTERED,
           })}
         />
         <OptionsWrapper>

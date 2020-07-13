@@ -16,6 +16,7 @@ import DummyMultipleChoice from "../dummy/MultipleChoice";
 
 import optionFragment from "graphql/fragments/option.graphql";
 import getIdForObject from "utils/getIdForObject";
+import { MISSING_LABEL, buildLabelError } from "constants/validationMessages";
 
 const ENTER_KEY = 13;
 
@@ -163,6 +164,8 @@ export class StatelessOption extends Component {
       getValidationError,
     } = this.props;
 
+    const errorMsg = buildLabelError(MISSING_LABEL, `${lowerCase(type)}`, 8, 7);
+
     return (
       <StyledOption id={getIdForObject(option)} key={option.id}>
         <div>
@@ -186,7 +189,7 @@ export class StatelessOption extends Component {
                 errorValidationMsg={getValidationError({
                   field: "label",
                   label: "Option label",
-                  requiredMsg: `Enter a ${lowerCase(type)} label`,
+                  requiredMsg: errorMsg,
                 })}
               />
             </OptionField>

@@ -14,7 +14,7 @@ import LatestDateValidationRule from "graphql/fragments/latest-date-validation-r
 import ValidationErrorInfoFragment from "graphql/fragments/validationErrorInfo.graphql";
 import MinDurationValidationRule from "graphql/fragments/min-duration-validation-rule.graphql";
 import MaxDurationValidationRule from "graphql/fragments/max-duration-validation-rule.graphql";
-
+import { MISSING_LABEL, buildLabelError } from "constants/validationMessages";
 import gql from "graphql-tag";
 
 import { TEXTFIELD } from "constants/answer-types";
@@ -33,48 +33,52 @@ export const StatelessBasicAnswer = ({
   autoFocus,
   getValidationError,
   type,
-}) => (
-  <div>
-    <Field>
-      <Label htmlFor={`answer-label-${answer.id}`}>{labelText}</Label>
-      <WrappingInput
-        id={`answer-label-${answer.id}`}
-        name="label"
-        onChange={onChange}
-        onBlur={onUpdate}
-        value={answer.label}
-        data-autofocus={autoFocus || null}
-        placeholder={labelPlaceholder}
-        data-test="txt-answer-label"
-        bold
-        errorValidationMsg={getValidationError({
-          field: "label",
-          label: errorLabel,
-          requiredMsg: `Enter a ${lowerCase(type)} label`,
-        })}
-      />
-    </Field>
-    {showDescription && (
+}) => {
+  const errorMsg = buildLabelError(MISSING_LABEL, `${lowerCase(type)}`, 8, 7);
+
+  return (
+    <div>
       <Field>
-        <Label htmlFor={`answer-description-${answer.id}`}>
-          {descriptionText}
-        </Label>
+        <Label htmlFor={`answer-label-${answer.id}`}>{labelText}</Label>
         <WrappingInput
-          id={`answer-description-${answer.id}`}
-          name="description"
-          cols="30"
-          rows="5"
+          id={`answer-label-${answer.id}`}
+          name="label"
           onChange={onChange}
           onBlur={onUpdate}
-          value={answer.description}
-          placeholder={descriptionPlaceholder}
-          data-test="txt-answer-description"
+          value={answer.label}
+          data-autofocus={autoFocus || null}
+          placeholder={labelPlaceholder}
+          data-test="txt-answer-label"
+          bold
+          errorValidationMsg={getValidationError({
+            field: "label",
+            label: errorLabel,
+            requiredMsg: errorMsg,
+          })}
         />
       </Field>
-    )}
-    {children}
-  </div>
-);
+      {showDescription && (
+        <Field>
+          <Label htmlFor={`answer-description-${answer.id}`}>
+            {descriptionText}
+          </Label>
+          <WrappingInput
+            id={`answer-description-${answer.id}`}
+            name="description"
+            cols="30"
+            rows="5"
+            onChange={onChange}
+            onBlur={onUpdate}
+            value={answer.description}
+            placeholder={descriptionPlaceholder}
+            data-test="txt-answer-description"
+          />
+        </Field>
+      )}
+      {children}
+    </div>
+  );
+};
 
 StatelessBasicAnswer.propTypes = {
   answer: CustomPropTypes.answer.isRequired,

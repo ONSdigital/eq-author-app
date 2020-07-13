@@ -151,7 +151,7 @@ describe("BinaryExpressionEditor", () => {
     });
 
     expect(
-      screen.getByText("AND condition not valid with ‘radio button’ answer")
+      screen.getByText("AND condition not valid with 'radio button' answer")
     ).toBeTruthy();
   });
   it("should display the correct error message when you can't add a second 'Or' condition", async () => {
