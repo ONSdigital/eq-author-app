@@ -68,11 +68,13 @@ export const binaryExpressionErrors = {
 export const MISSING_LABEL = "Enter a label";
 
 export const buildLabelError = (mainString, insString, pos, pos2) => {
-  if (typeof pos === "undefined") {
-    pos = 0;
-  }
-  if (typeof insString === "undefined") {
-    insString = "";
+  if (
+    typeof pos === "undefined" ||
+    typeof pos2 === "undefined" ||
+    typeof insString === "undefined" ||
+    typeof mainString === "undefined"
+  ) {
+    return "Label error";
   }
   return mainString.slice(0, pos) + insString + mainString.slice(pos2);
 };
