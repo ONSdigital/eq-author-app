@@ -15,7 +15,7 @@ const answerConditions = {
   [answerTypes.NUMBER]: NUMERIC_COMPARISONS,
   [answerTypes.CURRENCY]: NUMERIC_COMPARISONS,
   [answerTypes.PERCENTAGE]: NUMERIC_COMPARISONS,
-  [answerTypes.RADIO]: [conditions.ONE_OF],
+  [answerTypes.RADIO]: [conditions.ONE_OF, conditions.UNANSWERED],
   [answerTypes.UNIT]: NUMERIC_COMPARISONS,
   [answerTypes.CHECKBOX]: [
     conditions.ALL_OF,
