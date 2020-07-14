@@ -16,20 +16,18 @@ import SidebarButton, { Detail } from "components/buttons/SidebarButton";
 import ModalWithNav from "components/modals/ModalWithNav";
 import AnswerValidation, {
   validationTypes,
-  MIN_INCLUSIVE_TEXT,
-  MAX_INCLUSIVE_TEXT,
   SidebarValidation,
 } from "./AnswerValidation";
+import {
+  MIN_INCLUSIVE_TEXT,
+  MAX_INCLUSIVE_TEXT,
+  MAX_GREATER_THAN_MIN,
+  EARLIEST_BEFORE_LATEST_DATE,
+} from "constants/validationMessages";
 
 const render = (props, render = shallow) => {
   return render(<AnswerValidation {...props} />);
 };
-
-const RANGE_ERROR_MESSAGE =
-  "Enter an earliest date that is before the latest date";
-
-const DURATION_ERROR_MESSAGE =
-  "Enter a min duration that is shorter than the max";
 
 describe("AnswerValidation", () => {
   let props;
@@ -235,9 +233,7 @@ describe("AnswerValidation", () => {
 
       const { getByText } = rtlRender(<AnswerValidation {...props} />);
 
-      expect(
-        getByText("Enter a max value that is greater than min value")
-      ).toBeTruthy();
+      expect(getByText(MAX_GREATER_THAN_MIN)).toBeTruthy();
     });
 
     it("Date Validation - should render an error message when earliest date is after latest date", () => {
@@ -271,7 +267,7 @@ describe("AnswerValidation", () => {
 
       const { getByText } = rtlRender(<AnswerValidation {...props} />);
 
-      expect(getByText(RANGE_ERROR_MESSAGE)).toBeTruthy();
+      expect(getByText(EARLIEST_BEFORE_LATEST_DATE)).toBeTruthy();
     });
 
     it("DateRange validation - should render an error message when earliest date is after latest date", () => {
@@ -310,7 +306,7 @@ describe("AnswerValidation", () => {
 
       const { getByText } = rtlRender(<AnswerValidation {...props} />);
 
-      expect(getByText(RANGE_ERROR_MESSAGE)).toBeTruthy();
+      expect(getByText(EARLIEST_BEFORE_LATEST_DATE)).toBeTruthy();
     });
 
     it("DateRange validation - should render an error message when min duration is larger than max duration", () => {
@@ -347,7 +343,7 @@ describe("AnswerValidation", () => {
 
       const { getByText } = rtlRender(<AnswerValidation {...props} />);
 
-      expect(getByText(DURATION_ERROR_MESSAGE)).toBeTruthy();
+      expect(getByText(MAX_GREATER_THAN_MIN)).toBeTruthy();
     });
   });
 });

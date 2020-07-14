@@ -6,6 +6,24 @@ exports[`MultipleChoiceAnswerOptionsSelector should render consistently 1`] = `
     data-test="options-selector"
     hasError={false}
   >
+    <MultipleChoiceAnswerOptionsSelector__Label>
+      Match
+    </MultipleChoiceAnswerOptionsSelector__Label>
+    <MultipleChoiceAnswerOptionsSelector__ConditionSelect
+      data-test="condition-dropdown"
+      onChange={[Function]}
+    >
+      <option
+        value="OneOf"
+      >
+        One of
+      </option>
+      <option
+        value="Unanswered"
+      >
+        Unanswered
+      </option>
+    </MultipleChoiceAnswerOptionsSelector__ConditionSelect>
     <withChangeHandler(ToggleChip)
       checked={false}
       key="1"

@@ -29,6 +29,7 @@ import {
 } from "./AnswerProperties/Properties";
 import Decimal from "./Decimal";
 import withUpdateAnswersOfType from "./withUpdateAnswersOfType";
+import { characterErrors } from "constants/validationMessages";
 
 const AnswerPropertiesContainer = styled.div`
   border-bottom: 1px solid ${colors.lightMediumGrey};
@@ -78,7 +79,7 @@ const showMaxLengthValError = (isMaxLengthTooLarge, isMaxLengthTooSmall) => {
         icon={ValidationErrorIcon}
         data-test="MaxCharacterTooBig"
       >
-        Enter a character limit less than or equal to 2000
+        {characterErrors.CHAR_LIMIT_2000_EXCEEDED}
       </ValidationWarning>
     );
   }
@@ -89,7 +90,7 @@ const showMaxLengthValError = (isMaxLengthTooLarge, isMaxLengthTooSmall) => {
         icon={ValidationErrorIcon}
         data-test="MaxCharacterTooSmall"
       >
-        Enter a character limit greater than or equal to 10
+        {characterErrors.CHAR_MUST_EXCEED_9}
       </ValidationWarning>
     );
   }
@@ -131,7 +132,7 @@ export const UnwrappedGroupedAnswerProperties = ({
           </InlineField>
           {hasDecimalInconsistency && (
             <ValidationWarning icon={ValidationErrorIcon}>
-              Enter a decimal that is the same as the associated question page.
+              {characterErrors.DECIMAL_MUST_BE_SAME}
             </ValidationWarning>
           )}
           {answerType === UNIT && (

@@ -6,6 +6,7 @@ import Popout, { Container, Layer } from "components/Popout";
 import IconText from "components/IconText";
 import Button from "components/buttons/Button";
 import ErrorInline from "components/ErrorInline";
+import { QUESTION_ANSWER_NOT_SELECTED } from "constants/validationMessages";
 
 import { colors } from "constants/theme";
 
@@ -77,7 +78,7 @@ class AnswerTypeSelector extends React.Component {
   render() {
     const errorValidationMsg = this.props.getValidationError({
       field: "answers",
-      message: "Answer required",
+      message: QUESTION_ANSWER_NOT_SELECTED,
     });
     let hasDateRange = false;
     let hasOtherAnswerType = false;

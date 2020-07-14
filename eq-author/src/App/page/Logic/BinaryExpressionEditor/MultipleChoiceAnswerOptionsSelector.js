@@ -10,7 +10,7 @@ import CheckboxOptionPicker from "./CheckboxOptionPicker";
 import Popover from "./CheckboxSelectorPopup";
 import ValidationError from "./ValidationError";
 
-import { errorCodes } from "constants/validation-error-codes";
+import { rightSideErrors } from "constants/validationMessages";
 import { colors } from "constants/theme";
 import { RADIO } from "constants/answer-types";
 import { Select } from "components/Forms";
@@ -22,6 +22,7 @@ const answerConditions = {
   UNANSWERED: "Unanswered",
   ALLOF: "AllOf",
   ANYOF: "AnyOf",
+  ONEOF: "OneOf",
 };
 
 const MultipleChoiceAnswerOptions = styled.div`
@@ -162,7 +163,8 @@ class MultipleChoiceAnswerOptionsSelector extends React.Component {
 
     return (
       <ValidationError right>
-        {errorCodes[errorCode].optionsMessage || errorCodes[errorCode].message}
+        {rightSideErrors[errorCode].optionsMessage ||
+          rightSideErrors[errorCode].message}
       </ValidationError>
     );
   };
@@ -177,17 +179,27 @@ class MultipleChoiceAnswerOptionsSelector extends React.Component {
           data-test="options-selector"
           hasError={hasError}
         >
-          {options.map(option => (
-            <ToggleChip
-              key={option.id}
-              name={option.id}
-              title={option.label}
-              checked={includes(this.selectedOptionIds, option.id)}
-              onChange={this.handleRadioChange}
-            >
-              {option.label || <strong>Unlabelled option</strong>}
-            </ToggleChip>
-          ))}
+          <Label>Match</Label>
+          <ConditionSelect
+            onChange={this.handleConditionChange}
+            defaultValue={expression.condition}
+            data-test="condition-dropdown"
+          >
+            <option value={answerConditions.ONEOF}>One of</option>
+            <option value={answerConditions.UNANSWERED}>Unanswered</option>
+          </ConditionSelect>
+          {expression.condition !== answerConditions.UNANSWERED &&
+            options.map(option => (
+              <ToggleChip
+                key={option.id}
+                name={option.id}
+                title={option.label}
+                checked={includes(this.selectedOptionIds, option.id)}
+                onChange={this.handleRadioChange}
+              >
+                {option.label || <strong>Unlabelled option</strong>}
+              </ToggleChip>
+            ))}
         </MultipleChoiceAnswerOptions>
         {hasError && this.handleError()}
       </>
