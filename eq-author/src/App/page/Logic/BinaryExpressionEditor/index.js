@@ -24,10 +24,7 @@ import {
   DEFAULT_SKIP_CONDITION,
 } from "constants/routing-left-side";
 
-import {
-  ERR_ANSWER_NOT_SELECTED,
-  binaryExpressionErrors,
-} from "constants/validationMessages";
+import { binaryExpressionErrors } from "constants/validationMessages";
 
 import IconText from "components/IconText";
 import { Grid, Column } from "components/Grid";
@@ -192,12 +189,12 @@ const ERROR_SITUATIONS = [
   {
     condition: props =>
       some(
-        { errorCode: "ERR_ANSWER_NOT_SELECTED" },
+        { errorCode: binaryExpressionErrors.ERR_ANSWER_NOT_SELECTED.errorCode },
         props.expression.validationErrorInfo.errors
       ),
     message: () => (
       <ValidationError icon={WarningIcon}>
-        {ERR_ANSWER_NOT_SELECTED}
+        {binaryExpressionErrors.ERR_ANSWER_NOT_SELECTED.message}
       </ValidationError>
     ),
   },

@@ -1,14 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import { get, some, find } from "lodash";
+import { get, some } from "lodash";
 
 import { colors, radius } from "constants/theme";
 import { Number, Select, Label } from "components/Forms";
 import VisuallyHidden from "components/VisuallyHidden";
 
 import { rightSideErrors } from "constants/validationMessages";
-import { ERR_NO_RIGHT_VALUE } from "constants/validation-error-types";
 import ValidationError from "./ValidationError";
 
 const conditions = {
@@ -81,15 +80,9 @@ class NumberAnswerSelector extends React.Component {
   };
 
   handleError = () => {
-    const { expression } = this.props;
-
-    const { errorCode } = find(expression.validationErrorInfo.errors, {
-      errorCode: ERR_NO_RIGHT_VALUE,
-    });
-
     return (
       <ValidationError right>
-        {rightSideErrors[errorCode].Number}
+        {rightSideErrors.ERR_RIGHTSIDE_NO_VALUE.message}
       </ValidationError>
     );
   };
@@ -98,7 +91,7 @@ class NumberAnswerSelector extends React.Component {
     const { expression } = this.props;
 
     const hasError = some(expression.validationErrorInfo.errors, {
-      errorCode: ERR_NO_RIGHT_VALUE,
+      errorCode: rightSideErrors.ERR_RIGHTSIDE_NO_VALUE.errorCode,
     });
 
     return (

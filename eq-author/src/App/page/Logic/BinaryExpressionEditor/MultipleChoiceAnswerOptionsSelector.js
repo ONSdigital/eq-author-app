@@ -11,7 +11,6 @@ import Popover from "./CheckboxSelectorPopup";
 import ValidationError from "./ValidationError";
 
 import { rightSideErrors } from "constants/validationMessages";
-import { ERR_NO_RIGHT_VALUE } from "constants/validation-error-types";
 import { colors } from "constants/theme";
 import { RADIO } from "constants/answer-types";
 import { Select } from "components/Forms";
@@ -158,13 +157,14 @@ class MultipleChoiceAnswerOptionsSelector extends React.Component {
   handleError = () => {
     const { expression } = this.props;
 
-    const { errorCode } = find(expression.validationErrorInfo.errors, {
-      errorCode: ERR_NO_RIGHT_VALUE,
-    });
+    const { errorCode } = find(expression.validationErrorInfo.errors, error =>
+      error.errorCode.includes("ERR_RIGHTSIDE")
+    );
 
     return (
       <ValidationError right>
-        {rightSideErrors[errorCode].Option}
+        {rightSideErrors[errorCode].optionsMessage ||
+          rightSideErrors[errorCode].message}
       </ValidationError>
     );
   };
@@ -269,9 +269,9 @@ class MultipleChoiceAnswerOptionsSelector extends React.Component {
     const { expression } = this.props;
     const answerType = get(expression, "left.type");
 
-    const hasError = some(expression.validationErrorInfo.errors, {
-      errorCode: ERR_NO_RIGHT_VALUE,
-    });
+    const hasError = some(expression.validationErrorInfo.errors, error =>
+      error.errorCode.includes("ERR_RIGHTSIDE")
+    );
 
     if (answerType === RADIO) {
       return this.renderRadioOptionSelector(hasError);

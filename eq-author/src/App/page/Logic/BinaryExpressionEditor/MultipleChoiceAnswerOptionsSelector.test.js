@@ -3,7 +3,6 @@ import { shallow } from "enzyme";
 import { render, act, flushPromises } from "tests/utils/rtl";
 
 import { rightSideErrors } from "constants/validationMessages";
-import { ERR_NO_RIGHT_VALUE } from "constants/validation-error-types";
 
 import { RADIO } from "constants/answer-types";
 
@@ -109,7 +108,7 @@ describe("MultipleChoiceAnswerOptionsSelector", () => {
   it("should show error message when right side empty", async () => {
     defaultProps.expression.right = null;
     defaultProps.expression.validationErrorInfo.errors[0] = {
-      errorCode: "ERR_NO_RIGHT_VALUE",
+      errorCode: rightSideErrors.ERR_RIGHTSIDE_NO_VALUE.errorCode,
       field: "right",
       id: "expression-routing-1-right",
       type: "expressions",
@@ -124,9 +123,37 @@ describe("MultipleChoiceAnswerOptionsSelector", () => {
     });
 
     expect(
-      getByText(rightSideErrors[ERR_NO_RIGHT_VALUE].Option)
+      getByText(rightSideErrors.ERR_RIGHTSIDE_NO_VALUE.optionsMessage)
     ).toHaveStyleRule("width", "100%");
 
-    expect(getByText(rightSideErrors[ERR_NO_RIGHT_VALUE].Option)).toBeTruthy();
+    expect(
+      getByText(rightSideErrors.ERR_RIGHTSIDE_NO_VALUE.optionsMessage)
+    ).toBeTruthy();
+  });
+
+  it("should show error message when exclusive OR error", async () => {
+    defaultProps.expression.right = null;
+    defaultProps.expression.validationErrorInfo.errors[0] = {
+      errorCode: rightSideErrors.ERR_RIGHTSIDE_ALLOFF_OR_NOT_ALLOWED.errorCode,
+      field: "right",
+      id: "expression-routing-1-right",
+      type: "expressions",
+    };
+
+    const { getByText } = render(
+      <MultipleChoiceAnswerOptionsSelector hasError {...defaultProps} />
+    );
+
+    await act(async () => {
+      await flushPromises();
+    });
+
+    expect(
+      getByText(rightSideErrors.ERR_RIGHTSIDE_ALLOFF_OR_NOT_ALLOWED.message)
+    ).toHaveStyleRule("width", "100%");
+
+    expect(
+      getByText(rightSideErrors.ERR_RIGHTSIDE_ALLOFF_OR_NOT_ALLOWED.message)
+    ).toBeTruthy();
   });
 });

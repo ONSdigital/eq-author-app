@@ -6,16 +6,6 @@ export default {
   ERR_NO_ANSWERS: ({ message }) => message,
 };
 
-export const ERR_ANSWER_NOT_SELECTED = "Answer required";
-export const ERR_NO_RIGHT_VALUE = "Right value invalid";
-
-export const rightSideErrors = {
-  ERR_NO_RIGHT_VALUE: {
-    Number: "Enter a valid number",
-    Option: "Select at least one option",
-  },
-};
-
 export const richTextEditorErrors = {
   QUESTION_TITLE_NOT_ENTERED: "Enter a question title",
   CALCSUM_TITLE_NOT_ENTERED: "Enter a calculated summary title",
@@ -63,6 +53,26 @@ export const binaryExpressionErrors = {
     "OR condition is not valid when creating multiple radio rules",
   AND_NOT_VALID_WITH_RADIO:
     "AND condition not valid with 'radio button' answer",
+  ERR_ANSWER_NOT_SELECTED: {
+    errorCode: "ERR_ANSWER_NOT_SELECTED",
+    message: "Answer required",
+  },
+};
+
+export const rightSideErrors = {
+  ERR_RIGHTSIDE_NO_VALUE: {
+    errorCode: "ERR_RIGHTSIDE_NO_VALUE",
+    message: "Enter a valid number",
+    optionsMessage: "Select at least one option",
+  },
+  ERR_RIGHTSIDE_ALLOFF_OR_NOT_ALLOWED: {
+    errorCode: "ERR_RIGHTSIDE_ALLOFF_OR_NOT_ALLOWED",
+    message: "All of not allowed in rule with checkbox OR option",
+  },
+  ERR_RIGHTSIDE_AND_OR_NOT_ALLOWED: {
+    errorCode: "ERR_RIGHTSIDE_AND_OR_NOT_ALLOWED",
+    message: "All of not allowed in expression with checkbox OR option",
+  },
 };
 
 export const MISSING_LABEL = "Enter a label";

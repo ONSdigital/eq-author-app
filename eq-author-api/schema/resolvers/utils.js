@@ -75,12 +75,17 @@ const getExpressionGroups = ctx =>
   flatMap(filter(getRules(ctx), "expressionGroup"), "expressionGroup");
 
 const getAllExpressionGroups = ctx => {
-  const expressionGroups = flatMap(
-    filter(getRules(ctx), "expressionGroup"),
-    "expressionGroup"
-  );
+  const expressionGroups = getExpressionGroups(ctx);
   return [...expressionGroups, ...getSkipConditions(ctx)];
 };
+
+const getExpressionGroupByExpressionId = (ctx, expressionId) =>
+  find(
+    getAllExpressionGroups(ctx),
+    expressionGroup =>
+      expressionGroup.expressions &&
+      some(expressionGroup.expressions, { id: expressionId })
+  );
 
 const getExpressionGroupById = (ctx, id) =>
   find(getExpressionGroups(ctx), { id });
@@ -197,6 +202,7 @@ module.exports = {
   getExpressions,
   getExpressionById,
   getAllExpressionGroups,
+  getExpressionGroupByExpressionId,
 
   getConfirmations,
   getConfirmationById,
