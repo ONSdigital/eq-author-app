@@ -130,4 +130,30 @@ describe("MultipleChoiceAnswerOptionsSelector", () => {
       getByText(rightSideErrors.ERR_RIGHTSIDE_NO_VALUE.optionsMessage)
     ).toBeTruthy();
   });
+
+  it("should show error message when exclusive OR error", async () => {
+    defaultProps.expression.right = null;
+    defaultProps.expression.validationErrorInfo.errors[0] = {
+      errorCode: rightSideErrors.ERR_RIGHTSIDE_ALLOFF_OR_NOT_ALLOWED.errorCode,
+      field: "right",
+      id: "expression-routing-1-right",
+      type: "expressions",
+    };
+
+    const { getByText } = render(
+      <MultipleChoiceAnswerOptionsSelector hasError {...defaultProps} />
+    );
+
+    await act(async () => {
+      await flushPromises();
+    });
+
+    expect(
+      getByText(rightSideErrors.ERR_RIGHTSIDE_ALLOFF_OR_NOT_ALLOWED.message)
+    ).toHaveStyleRule("width", "100%");
+
+    expect(
+      getByText(rightSideErrors.ERR_RIGHTSIDE_ALLOFF_OR_NOT_ALLOWED.message)
+    ).toBeTruthy();
+  });
 });
