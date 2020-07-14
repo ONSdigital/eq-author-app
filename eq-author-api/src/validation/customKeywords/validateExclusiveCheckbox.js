@@ -23,10 +23,14 @@ module.exports = function(ajv) {
       isValid.errors = [];
       let exclusiveOptionId;
 
-      if (entityData && entityData.type === "SelectedOptions") {
+      if (
+        entityData &&
+        entityData.type === "SelectedOptions" &&
+        entityData.optionIds
+      ) {
         entityData.optionIds.map(optionId => {
           const option = getOptionById({ questionnaire }, optionId);
-          if (option.mutuallyExclusive) {
+          if (option && option.mutuallyExclusive) {
             exclusiveOptionId = optionId;
           }
         });
