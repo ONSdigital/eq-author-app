@@ -7,7 +7,7 @@ import { colors, radius } from "constants/theme";
 import { Number, Select, Label } from "components/Forms";
 import VisuallyHidden from "components/VisuallyHidden";
 
-import { errorCodes } from "constants/validation-error-codes";
+import { rightSideErrors } from "constants/validationMessages";
 import ValidationError from "./ValidationError";
 
 const conditions = {
@@ -82,7 +82,7 @@ class NumberAnswerSelector extends React.Component {
   handleError = () => {
     return (
       <ValidationError right>
-        {errorCodes.ERR_RIGHTSIDE_NO_VALUE.message}
+        {rightSideErrors.ERR_RIGHTSIDE_NO_VALUE.message}
       </ValidationError>
     );
   };
@@ -91,7 +91,7 @@ class NumberAnswerSelector extends React.Component {
     const { expression } = this.props;
 
     const hasError = some(expression.validationErrorInfo.errors, {
-      errorCode: errorCodes.ERR_RIGHTSIDE_NO_VALUE.errorCode,
+      errorCode: rightSideErrors.ERR_RIGHTSIDE_NO_VALUE.errorCode,
     });
 
     return (

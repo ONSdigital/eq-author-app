@@ -2,7 +2,7 @@ import React from "react";
 import { shallow } from "enzyme";
 import { render, act, flushPromises } from "tests/utils/rtl";
 
-import { errorCodes } from "constants/validation-error-codes";
+import { rightSideErrors } from "constants/validationMessages";
 
 import { RADIO } from "constants/answer-types";
 
@@ -108,7 +108,7 @@ describe("MultipleChoiceAnswerOptionsSelector", () => {
   it("should show error message when right side empty", async () => {
     defaultProps.expression.right = null;
     defaultProps.expression.validationErrorInfo.errors[0] = {
-      errorCode: errorCodes.ERR_RIGHTSIDE_NO_VALUE.errorCode,
+      errorCode: rightSideErrors.ERR_RIGHTSIDE_NO_VALUE.errorCode,
       field: "right",
       id: "expression-routing-1-right",
       type: "expressions",
@@ -123,11 +123,11 @@ describe("MultipleChoiceAnswerOptionsSelector", () => {
     });
 
     expect(
-      getByText(errorCodes.ERR_RIGHTSIDE_NO_VALUE.optionsMessage)
+      getByText(rightSideErrors.ERR_RIGHTSIDE_NO_VALUE.optionsMessage)
     ).toHaveStyleRule("width", "100%");
 
     expect(
-      getByText(errorCodes.ERR_RIGHTSIDE_NO_VALUE.optionsMessage)
+      getByText(rightSideErrors.ERR_RIGHTSIDE_NO_VALUE.optionsMessage)
     ).toBeTruthy();
   });
 });

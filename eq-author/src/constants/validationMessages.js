@@ -6,9 +6,6 @@ export default {
   ERR_NO_ANSWERS: ({ message }) => message,
 };
 
-export const ERR_ANSWER_NOT_SELECTED = "Answer required";
-export const ERR_NO_RIGHT_VALUE = "Right value invalid";
-
 export const richTextEditorErrors = {
   QUESTION_TITLE_NOT_ENTERED: "Enter a question title",
   CALCSUM_TITLE_NOT_ENTERED: "Enter a calculated summary title",
