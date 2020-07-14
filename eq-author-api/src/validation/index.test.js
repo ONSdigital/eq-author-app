@@ -1081,5 +1081,89 @@ describe("schema validation", () => {
         ERR_RIGHTSIDE_ALLOFF_OR_NOT_ALLOWED
       );
     });
+
+    it("should validate exclusive or checkbox with allof operator second scenario", () => {
+      const expressionId = "express-1";
+      const expressionId2 = "express-2";
+
+      const routing = validation(questionnaire);
+
+      expect(routing.totalCount).toBe(0);
+      questionnaire.sections[0].pages[0].answers[0] = {
+        id: "answer-1",
+        options: [
+          {
+            id: "option-1",
+            label: "a",
+          },
+          {
+            id: "option-2",
+            label: "b",
+          },
+          {
+            id: "option-3",
+            label: "or",
+            mutuallyExclusive: true,
+          },
+        ],
+      };
+
+      questionnaire.sections[0].pages[0].routing = {
+        id: "1",
+        else: {
+          id: "else-1",
+          logical: "NextPage",
+        },
+        rules: [
+          {
+            id: "rule-1",
+            destination: {
+              id: "dest-1",
+              logical: "NextPage",
+            },
+            expressionGroup: {
+              id: "group-1",
+              operator: "And",
+              expressions: [
+                {
+                  id: expressionId,
+                  condition: "AnyOf",
+                  left: {
+                    type: "Answer",
+                    answerId: "answer-1",
+                  },
+                  right: {
+                    type: "SelectedOptions",
+                    optionIds: ["option-1"],
+                  },
+                },
+                {
+                  id: expressionId2,
+                  condition: "AnyOf",
+                  left: {
+                    type: "Answer",
+                    answerId: "answer-1",
+                  },
+                  right: {
+                    type: "SelectedOptions",
+                    optionIds: ["option-3"],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      };
+
+      const routingErrors = validation(questionnaire);
+
+      expect(routingErrors.totalCount).toBe(1);
+      expect(routingErrors.expressions[expressionId2].errors[0].id).toBe(
+        "expressions-routing-express-2-right"
+      );
+      expect(routingErrors.expressions[expressionId2].errors[0].errorCode).toBe(
+        ERR_RIGHTSIDE_ALLOFF_OR_NOT_ALLOWED
+      );
+    });
   });
 });
