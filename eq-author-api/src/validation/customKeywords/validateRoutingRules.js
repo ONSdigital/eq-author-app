@@ -24,7 +24,6 @@ module.exports = function(ajv) {
       const splitDataPath = dataPath.split("/");
 
       const currentSectionIndex = splitDataPath[2];
-      const currentPageIndex = splitDataPath[4];
 
       const destinationId = entityData.pageId || entityData.sectionId;
       let destinationSectionIndex, destinationPageIndex;
