@@ -72,10 +72,6 @@ describe("BasicAnswer", () => {
     expect(buildLabelError(MISSING_LABEL, 8, 7)).toEqual("Label error");
   });
 
-  it("shows default label error if missing buildLabelError mainString props", () => {
-    expect(buildLabelError(MISSING_LABEL, 8, 7)).toEqual("Label error");
-  });
-
   describe("event handling behaviour", () => {
     let wrapper;
 
