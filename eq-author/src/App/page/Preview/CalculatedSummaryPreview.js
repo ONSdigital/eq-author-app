@@ -83,10 +83,10 @@ const SummaryTotalLabel = styled.div`
 const CalculatedSummaryPagePreview = ({ page }) => {
   return (
     <EditorLayout
-      page={page}
       title={page.displayName}
       preview
       logic={false}
+      validationErrorInfo={page.validationErrorInfo}
       renderPanel={() => <CommentsPanel componentId={page.id} />}
     >
       <Panel data-test="calSum test page">

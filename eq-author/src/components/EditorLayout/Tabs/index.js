@@ -2,8 +2,6 @@ import React, { useCallback } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { NavLink, withRouter } from "react-router-dom";
-import { get } from "lodash";
-
 import { colors } from "constants/theme";
 import CustomPropTypes from "custom-prop-types";
 import {
@@ -86,7 +84,7 @@ const TABS = [
 ];
 
 export const UnwrappedTabs = props => {
-  const { match, validationErrorInfo, page, section } = props;
+  const { match, validationErrorInfo } = props;
   const tabErrors = useCallback(
     tabKey => {
       if (validationErrorInfo === null || validationErrorInfo === undefined) {
@@ -95,7 +93,6 @@ export const UnwrappedTabs = props => {
       const errorsPerTab = {
         design: [],
         logic: [],
-        section: [],
       };
       const { errors } = validationErrorInfo;
       const errorSeparator = errors.reduce((accumulator, error) => {
@@ -146,7 +143,6 @@ UnwrappedTabs.propTypes = {
   preview: PropTypes.bool,
   logic: PropTypes.bool,
   match: CustomPropTypes.match.isRequired,
-  page: CustomPropTypes.page,
   validationErrorInfo: CustomPropTypes.validationErrorInfo,
 };
 
