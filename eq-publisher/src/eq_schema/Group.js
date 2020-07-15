@@ -1,5 +1,5 @@
 const Block = require("./Block");
-const { isEmpty, reject, flatten } = require("lodash");
+const { isEmpty, reject, flatten, uniqWith, isEqual } = require("lodash");
 const {
   buildAuthorConfirmationQuestion,
 } = require("./builders/confirmationPage/ConfirmationPage");
@@ -12,7 +12,10 @@ class Group {
 
     if (!isEmpty(ctx.routingGotos)) {
       this.filterContext(this.id, ctx);
-      const skipConditions = this.buildSkipConditions(this.id, ctx);
+      const skipConditions = uniqWith(
+        this.buildSkipConditions(this.id, ctx),
+        isEqual
+      );
 
       if (!isEmpty(skipConditions)) {
         this.skip_conditions = skipConditions;
