@@ -572,7 +572,11 @@
         "id": {
           "type": "string"
         },
-        "destination": {},
+        "destination": {
+          "validateRoutingRule": {
+            "$data": "/sections"
+          }
+        },
         "expressionGroup": {
           "properties": {
             "id": { "type": "string" },
@@ -619,7 +623,7 @@
         "right": {
           "type": "object",
           "properties": {
-            "type": { "enum": ["Custom","SelectedOptions"] },
+            "type": { "enum": ["Custom", "SelectedOptions"] },
             "optionIds": {
               "type": "array",
               "minItems": 1,

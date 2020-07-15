@@ -12,6 +12,7 @@ const {
   CONFIRMATION_OPTION,
   VALIDATION,
   EXPRESSIONS,
+  RULES,
   MIN_VALUE,
   MAX_VALUE,
   MIN_DURATION,
@@ -108,6 +109,7 @@ module.exports = questionnaire => {
       [CONFIRMATION_OPTION]: {},
       [VALIDATION]: {},
       [EXPRESSIONS]: {},
+      [RULES]: {},
       totalCount: 0,
     };
   }
@@ -169,7 +171,7 @@ module.exports = questionnaire => {
           dataPath[2] === "pages" &&
           dataPath.length > 5;
 
-        if (isChildOfPage) {
+        if (isChildOfPage && type != RULES) {
           const sectionIndex = parseInt(dataPath[1], 10);
           const pageIndex = parseInt(dataPath[3], 10);
           const page = questionnaire.sections[sectionIndex].pages[pageIndex];
@@ -192,6 +194,7 @@ module.exports = questionnaire => {
               ? [...structure[pageType][pageId].errors, error]
               : [error],
           };
+
           structure[pageType][pageId] = {
             ...errorInfo,
           };
@@ -208,6 +211,7 @@ module.exports = questionnaire => {
         [CONFIRMATION_OPTION]: {},
         [VALIDATION]: {},
         [EXPRESSIONS]: {},
+        [RULES]: {},
         totalCount: errorMessages.length,
       }
     );

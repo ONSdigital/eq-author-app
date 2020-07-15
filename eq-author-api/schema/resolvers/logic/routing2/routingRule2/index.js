@@ -1,5 +1,5 @@
+const { RULES } = require("../../../../../constants/validationErrorTypes");
 const { flatMap, find, some, reject, pick } = require("lodash/fp");
-
 const { createMutation } = require("../../../createMutation");
 
 const isMutuallyExclusive = require("../../../../../utils/isMutuallyExclusive");
@@ -42,6 +42,12 @@ Resolvers.RoutingRule2 = {
 
     return routing;
   },
+  validationErrorInfo: ({ id }, args, ctx) =>
+    ctx.validationErrorInfo[RULES][id] || {
+      id,
+      errors: [],
+      totalCount: 0,
+    },
 };
 
 Resolvers.Mutation = {
