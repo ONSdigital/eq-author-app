@@ -86,35 +86,28 @@ const TABS = [
 ];
 
 export const UnwrappedTabs = props => {
-  const { match, page } = props;
-  const validationErrors = get(page, "validationErrorInfo", null);
-
+  const { match, validationErrorInfo, page, section } = props;
   const tabErrors = useCallback(
     tabKey => {
-      if (validationErrors === null || validationErrors === undefined) {
+      if (validationErrorInfo === null || validationErrorInfo === undefined) {
         return null;
       }
-
       const errorsPerTab = {
         design: [],
         logic: [],
+        section: [],
       };
-
-      const { errors } = validationErrors;
-
+      const { errors } = validationErrorInfo;
       const errorSeparator = errors.reduce((accumulator, error) => {
         const { design, logic } = accumulator;
-
         error.id.includes("expression")
           ? logic.push(error)
           : design.push(error);
-
         return accumulator;
       }, errorsPerTab);
-
       return errorSeparator[tabKey];
     },
-    [validationErrors]
+    [validationErrorInfo]
   );
 
   return (
@@ -154,6 +147,7 @@ UnwrappedTabs.propTypes = {
   logic: PropTypes.bool,
   match: CustomPropTypes.match.isRequired,
   page: CustomPropTypes.page,
+  validationErrorInfo: CustomPropTypes.validationErrorInfo,
 };
 
 export default withRouter(UnwrappedTabs);
