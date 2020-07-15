@@ -17,13 +17,7 @@ const newValidationError = (
 module.exports = function(ajv) {
   ajv.addKeyword("validateRoutingRule", {
     $data: true,
-    validate: function isValid(
-      otherFields,
-      entityData,
-      fieldValue,
-      dataPath,
-      parentData
-    ) {
+    validate: function isValid(otherFields, entityData, dataPath) {
       isValid.errors = [];
       const allSections = otherFields;
 

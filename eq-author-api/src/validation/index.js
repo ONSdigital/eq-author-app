@@ -171,7 +171,7 @@ module.exports = questionnaire => {
           dataPath[2] === "pages" &&
           dataPath.length > 5;
 
-        if (isChildOfPage && type != RULES) {
+        if (isChildOfPage && type !== RULES) {
           const sectionIndex = parseInt(dataPath[1], 10);
           const pageIndex = parseInt(dataPath[3], 10);
           const page = questionnaire.sections[sectionIndex].pages[pageIndex];
