@@ -15,11 +15,10 @@ describe("Tabs", () => {
           pageId: "3",
         },
       },
-      page: {
-        validationErrorInfo: {
-          totalCount: 1,
-          errors: [{ id: "design-1" }],
-        },
+
+      validationErrorInfo: {
+        totalCount: 1,
+        errors: [{ id: "design-1" }],
       },
     };
   });

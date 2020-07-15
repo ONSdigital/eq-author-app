@@ -54,8 +54,6 @@ const EditorLayout = ({
   singleColumnLayout,
   mainCanvasMaxWidth,
   renderPanel,
-  page,
-  section,
   validationErrorInfo,
   ...otherProps
 }) => (
@@ -102,8 +100,6 @@ const EditorLayout = ({
 EditorLayout.propTypes = {
   children: PropTypes.node.isRequired,
   onAddQuestionPage: PropTypes.func,
-  page: CustomPropTypes.page,
-  section: CustomPropTypes.section,
   design: PropTypes.bool,
   preview: PropTypes.bool,
   logic: PropTypes.bool,
