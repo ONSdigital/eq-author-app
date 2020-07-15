@@ -42,6 +42,18 @@ const CustomPropTypes = {
     description: PropTypes.string,
     guidance: PropTypes.string,
   }),
+  ValidationErrorInfo: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    totalCount: PropTypes.number,
+    errors: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        errorCode: PropTypes.string,
+        field: PropTypes.string,
+        type: PropTypes.string,
+      })
+    ),
+  }),
   answer: PropTypes.shape({
     id: PropTypes.string,
     label: PropTypes.string,

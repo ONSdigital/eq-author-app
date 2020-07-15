@@ -55,12 +55,19 @@ const EditorLayout = ({
   mainCanvasMaxWidth,
   renderPanel,
   page,
+  section,
+  validationErrorInfo,
   ...otherProps
 }) => (
   <Titled title={existingTitle => `${existingTitle} - ${title}`}>
     <Container>
       <Header title={title}>
-        <Tabs design={design} preview={preview} logic={logic} page={page} />
+        <Tabs
+          design={design}
+          preview={preview}
+          logic={logic}
+          validationErrorInfo={validationErrorInfo}
+        />
       </Header>
       <StyledGrid {...otherProps}>
         <Column cols={singleColumnLayout ? 12 : 9} gutters={false}>
@@ -96,6 +103,7 @@ EditorLayout.propTypes = {
   children: PropTypes.node.isRequired,
   onAddQuestionPage: PropTypes.func,
   page: CustomPropTypes.page,
+  section: CustomPropTypes.section,
   design: PropTypes.bool,
   preview: PropTypes.bool,
   logic: PropTypes.bool,
@@ -103,6 +111,7 @@ EditorLayout.propTypes = {
   mainCanvasMaxWidth: PropTypes.string,
   title: PropTypes.string,
   renderPanel: PropTypes.func,
+  validationErrorInfo: CustomPropTypes.validationErrorInfo,
 };
 
 export default EditorLayout;
