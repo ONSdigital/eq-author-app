@@ -4,7 +4,23 @@ import { MeContext } from "App/MeContext";
 import { UnwrappedQCodeTable } from "./index";
 import UPDATE_ANSWER_QCODE from "./updateAnswerMutation.graphql";
 import UPDATE_OPTION_QCODE from "./updateOptionMutation.graphql";
+import UPDATE_CONFIRMATION_QCODE from "./updateConfirmationQCode.graphql";
+import UPDATE_CALCSUM_QCODE from "./updateCalculatedSummary.graphql";
 import QuestionnaireContext from "components/QuestionnaireContext";
+
+import {
+  UNIT,
+  DURATION,
+  PERCENTAGE,
+  CURRENCY,
+  TEXTFIELD,
+  TEXTAREA,
+  RADIO,
+  DATE_RANGE,
+  DATE,
+  CHECKBOX,
+  NUMBER,
+} from "constants/answer-types";
 
 describe("Qcode Table", () => {
   let user, questionnaire, mocks, queryWasCalled, props, questionnaireId;
@@ -17,78 +33,275 @@ describe("Qcode Table", () => {
         {
           pages: [
             {
-              id: "e6ef75d8-4265-4de1-b8de-2e998e8f82b7",
-              title: "<p>Test Radio Title</p>",
-              alias: null,
+              id: "page-1",
+              pageType: "QuestionPage",
+              title: "<p>Questions 1</p>",
+              description: "",
               answers: [
                 {
-                  id: "fe317566-0870-4034-bd8e-703181b94bda",
-                  label: "",
-                  secondaryLabel: null,
-                  type: "Radio",
-                  qCode: "",
-                  options: [
-                    {
-                      id: "53ab4c04-25fe-4143-ba8c-de5e13bc0031",
-                      label: "Rad 1",
-                      qCode: null,
-                    },
-                    {
-                      id: "fc8e23c7-5fd7-407d-a299-26ce1544e250",
-                      label: "Rad 2",
-                      qCode: null,
-                    },
-                  ],
-                  mutuallyExclusiveOption: null,
-                },
-              ],
-            },
-            {
-              id: "d4d6fda4-197f-4769-829b-c6bac2eef323",
-              title: "<p>Test Text Field</p>",
-              alias: null,
-              answers: [
-                {
-                  id: "ecc2931e-8a6c-419c-a40f-5715a3aafcc3",
-                  label: "was",
-                  secondaryLabel: null,
-                  type: "TextField",
+                  id: "ans-p1-1",
+                  description: "",
+                  guidance: "",
+                  label: "num1",
                   qCode: "123",
-                  secondaryQCode: null,
+                  type: NUMBER,
+                  questionPageId: "qp-1",
+                  secondaryLabel: null,
+                },
+                {
+                  id: "ans-p1-2",
+                  description: "",
+                  guidance: "",
+                  label: "curr1",
+                  qCode: "",
+                  type: CURRENCY,
+                  questionPageId: "qp-1",
+
+                  secondaryLabel: null,
+                },
+                {
+                  id: "ans-p1-3",
+                  description: "",
+                  guidance: "",
+                  label: "Un1",
+                  qCode: "",
+                  type: UNIT,
+                  questionPageId: "qp-1",
+
+                  secondaryLabel: null,
+                },
+                {
+                  id: "ans-p1-4",
+                  description: "",
+                  guidance: "",
+                  label: "Per1",
+                  qCode: "",
+                  type: PERCENTAGE,
+                  questionPageId: "qp-1",
+
+                  secondaryLabel: null,
+                },
+                {
+                  id: "ans-p1-5",
+                  description: "",
+                  guidance: "",
+                  label: "Dur1",
+                  qCode: "",
+                  type: DURATION,
+                  questionPageId: "qp-1",
+
+                  secondaryLabel: null,
+                },
+                {
+                  id: "ans-p1-6",
+                  description: "",
+                  guidance: "",
+                  label: "Num2",
+                  qCode: "",
+                  type: NUMBER,
+                  questionPageId: "qp-1",
+
+                  secondaryLabel: null,
+                },
+                {
+                  id: "ans-p7-1",
+                  description: "",
+                  guidance: "",
+                  label: "",
+                  qCode: "123",
+                  type: CHECKBOX,
+                  questionPageId: "29ceee38-5ba4-4f43-84ae-0162c5b175f8",
+                  options: [
+                    {
+                      id: "cb-1",
+                      label: "Embedded checkbox Either",
+                      description: null,
+                      additionalAnswer: null,
+                      qCode: "123",
+                    },
+                    {
+                      id: "cb-2",
+                      label: "Either 2",
+                      description: null,
+                      additionalAnswer: null,
+                    },
+                  ],
+                  mutuallyExclusiveOption: {
+                    id: "cb-3",
+                    label: "Embedded checkbox Or",
+                    mutuallyExclusive: true,
+                    description: null,
+                    additionalAnswer: null,
+                  },
                 },
               ],
             },
             {
-              id: "b1d1a299-0325-43e2-89f3-e83d7bf677b8",
-              title: "<p>Test Checkbox</p>",
-              alias: null,
+              id: "page-2",
+              pageType: "QuestionPage",
+              title: "<p>Questions 2</p>",
+              description: "",
               answers: [
                 {
-                  id: "2eea179d-79e1-42ac-b777-ded87e89e17f",
-                  label: "Checkbox",
+                  id: "ans-p2-1",
+                  description: "",
+                  guidance: "",
+                  label: "Da1",
+                  qCode: "",
+                  type: DATE,
+                  questionPageId: "qp-2",
+
                   secondaryLabel: null,
-                  type: "Checkbox",
-                  qCode: "Checkbox",
-                  options: [
-                    {
-                      id: "d8364ad6-82a1-4d7c-83a6-06303c99142c",
-                      label: "Check test one",
-                      qCode: "Checkbox 1",
-                    },
-                    {
-                      id: "24a152aa-0890-43f5-ba5e-750e88a3d3a0",
-                      label: "Check test two",
-                      qCode: "Checkbox 2",
-                    },
-                    {
-                      id: "12a152aa-0890-43f5-ba5e-750e88a3d3a0",
-                      label: "Check test three",
-                      qCode: "Checkbox 3",
-                    },
-                  ],
-                  mutuallyExclusiveOption: null,
                 },
               ],
+            },
+            {
+              id: "page-3",
+              pageType: "QuestionPage",
+              title: "<p>Questions 3</p>",
+              description: "",
+              answers: [
+                {
+                  id: "ans-p3-1",
+                  description: "",
+                  guidance: "",
+                  label: "To",
+                  secondaryLabel: "From",
+                  qCode: "",
+                  type: DATE_RANGE,
+                  questionPageId: "qp-3",
+                },
+              ],
+            },
+            {
+              id: "page-4",
+              pageType: "QuestionPage",
+              title: "<p>Questions 4</p>",
+              description: "",
+              answers: [
+                {
+                  id: "ans-p4-1",
+                  description: "",
+                  guidance: "",
+                  label: "TF",
+                  qCode: "",
+                  type: TEXTFIELD,
+                  questionPageId: "qp-4",
+                  secondaryLabel: null,
+                },
+                {
+                  id: "ans-p4-2",
+                  description: "",
+                  guidance: "",
+                  label: "TA",
+                  qCode: "",
+                  type: TEXTAREA,
+                  questionPageId: "qp-4",
+                  secondaryLabel: null,
+                },
+              ],
+              sectionId: "c1a2aa31-ab46-456a-a1b8-a979c3c345de",
+              confirmation: {
+                id: "conf-q-1",
+                title: "<p>Questions 5</p>",
+                qCode: "123",
+                positive: {
+                  id: "pos-1",
+                  label: "Yes",
+                  description: "",
+                },
+                negative: {
+                  id: "pos-2",
+                  label: "No",
+                  description: "",
+                },
+                __typename: "QuestionConfirmation",
+              },
+            },
+            {
+              id: "page-5",
+              title: "<p>Questions 6</p>",
+              pageType: "CalculatedSummaryPage",
+              summaryAnswers: [{ id: "ans-p1-1" }, { id: "ans-p1-6" }],
+              sectionId: "c1a2aa31-ab46-456a-a1b8-a979c3c345de",
+              alias: null,
+              totalTitle: "<p>TT</p>",
+              qCode: "123",
+            },
+            {
+              id: "page-6",
+              pageType: "QuestionPage",
+              title: "<p>Questions 7</p>",
+              description: "",
+              answers: [
+                {
+                  id: "ans-p6-1",
+                  description: "",
+                  guidance: "",
+                  label: "",
+                  qCode: "",
+                  type: RADIO,
+                  questionPageId: "qp-6",
+                  options: [
+                    {
+                      id: "option-rad-1",
+                      label: "Rad1",
+                      description: null,
+                      additionalAnswer: null,
+                    },
+                    {
+                      id: "option-rad-2",
+                      label: "Rad2",
+                      description: null,
+                      additionalAnswer: null,
+                    },
+                  ],
+                },
+              ],
+              routing: null,
+              alias: null,
+              sectionId: "c1a2aa31-ab46-456a-a1b8-a979c3c345de",
+            },
+            {
+              id: "page-7",
+              pageType: "QuestionPage",
+              title: "<p>Questions 8</p>",
+              description: "",
+              answers: [
+                {
+                  id: "ans-p7-1",
+                  description: "",
+                  guidance: "",
+                  label: "",
+                  qCode: "123",
+                  type: CHECKBOX,
+                  questionPageId: "29ceee38-5ba4-4f43-84ae-0162c5b175f8",
+                  options: [
+                    {
+                      id: "option-cb-1",
+                      label: "Either",
+                      description: null,
+                      additionalAnswer: null,
+                      qCode: "123",
+                    },
+                    {
+                      id: "option-cb-3",
+                      label: "Either 2",
+                      description: null,
+                      additionalAnswer: null,
+                    },
+                  ],
+                  mutuallyExclusiveOption: {
+                    id: "option-cb-2",
+                    label: "Or",
+                    mutuallyExclusive: true,
+                    description: null,
+                    additionalAnswer: null,
+                    qCode: "123",
+                  },
+                },
+              ],
+              sectionId: "c1a2aa31-ab46-456a-a1b8-a979c3c345de",
             },
           ],
         },
@@ -115,7 +328,7 @@ describe("Qcode Table", () => {
           query: UPDATE_ANSWER_QCODE,
           variables: {
             input: {
-              id: "ecc2931e-8a6c-419c-a40f-5715a3aafcc3",
+              id: "ans-p1-1",
               qCode: "187",
             },
           },
@@ -125,7 +338,7 @@ describe("Qcode Table", () => {
           return {
             data: {
               updateAnswer: {
-                id: "ecc2931e-8a6c-419c-a40f-5715a3aafcc3",
+                id: "ans-p1-1",
                 qCode: "187",
                 secondaryQCode: "",
                 __typename: "BasicAnswer",
@@ -139,7 +352,7 @@ describe("Qcode Table", () => {
           query: UPDATE_OPTION_QCODE,
           variables: {
             input: {
-              id: "12a152aa-0890-43f5-ba5e-750e88a3d3a0",
+              id: "option-cb-1",
               qCode: "187",
             },
           },
@@ -149,9 +362,79 @@ describe("Qcode Table", () => {
           return {
             data: {
               updateOption: {
-                id: "12a152aa-0890-43f5-ba5e-750e88a3d3a0",
+                id: "option-cb-1",
                 qCode: "187",
                 __typename: "BasicAnswer",
+              },
+            },
+          };
+        },
+      },
+      {
+        request: {
+          query: UPDATE_OPTION_QCODE,
+          variables: {
+            input: {
+              id: "option-cb-2",
+              qCode: "187",
+            },
+          },
+        },
+        result: () => {
+          queryWasCalled = true;
+          return {
+            data: {
+              updateOption: {
+                id: "option-cb-2",
+                qCode: "187",
+                __typename: "BasicAnswer",
+              },
+            },
+          };
+        },
+      },
+      {
+        request: {
+          query: UPDATE_CONFIRMATION_QCODE,
+          variables: {
+            input: {
+              id: "conf-q-1",
+              qCode: "187",
+            },
+          },
+        },
+        result: () => {
+          queryWasCalled = true;
+          return {
+            data: {
+              updateQuestionConfirmation: {
+                id: "conf-q-1",
+                qCode: "187",
+                __typename: "BasicAnswer",
+              },
+            },
+          };
+        },
+      },
+      {
+        request: {
+          query: UPDATE_CALCSUM_QCODE,
+          variables: {
+            input: {
+              id: "page-5",
+              qCode: "187",
+              summaryAnswers: ["ans-p1-1", "ans-p1-6"],
+            },
+          },
+        },
+        result: () => {
+          queryWasCalled = true;
+          return {
+            data: {
+              updateCalculatedSummaryPage: {
+                id: "page-5",
+                qCode: "187",
+                __typename: "CalculatedSummaryPage",
               },
             },
           };
@@ -199,36 +482,33 @@ describe("Qcode Table", () => {
     expect(target).toBeTruthy();
   });
 
-  it("Should render with data", async () => {
+  it("Should render fields", async () => {
     const { getByText } = renderWithContext(<UnwrappedQCodeTable {...props} />);
-    const targetText = getByText("Test Radio Title");
-
-    expect(targetText).toBeTruthy();
+    const fieldHeadings = [
+      "Short code",
+      "Question",
+      "Type",
+      "Answer label",
+      "Qcode",
+    ];
+    fieldHeadings.forEach(heading => expect(getByText(heading)).toBeTruthy());
   });
 
   it("Should render rows equivalent to the amount of Questions", () => {
-    const questions = questionnaire.sections[0].pages;
-    const questionsCount = questions.length;
-    const { getAllByText } = renderWithContext(
+    const { getAllByText, getByText } = renderWithContext(
       <UnwrappedQCodeTable {...props} />
     );
     const renderedQuestions = getAllByText(content =>
-      content.startsWith("Test")
+      content.startsWith("Questions")
     );
-    expect(renderedQuestions.length).toEqual(questionsCount);
-  });
 
-  it("Should render option rows equivalent to amount of question options", () => {
-    const checkboxOptions =
-      questionnaire.sections[0].pages[2].answers[0].options;
-    const numberOfOptions = checkboxOptions.length;
-    const { getAllByText } = renderWithContext(
-      <UnwrappedQCodeTable {...props} />
-    );
-    const renderedOptions = getAllByText(content =>
-      content.startsWith("Check test")
-    );
-    expect(renderedOptions.length).toEqual(numberOfOptions);
+    const confirmationQuestion = getByText("Questions 5");
+    expect(confirmationQuestion).toBeTruthy();
+    expect(getAllByText("Mutually exclusive checkbox").length).toEqual(2);
+    expect(getByText("Embedded checkbox Either")).toBeTruthy();
+    expect(getByText("Embedded checkbox Or")).toBeTruthy();
+    expect(getByText("From")).toBeTruthy();
+    expect(renderedQuestions.length).toEqual(8);
   });
 
   it("Should make query to update Answer", async () => {
@@ -236,7 +516,7 @@ describe("Qcode Table", () => {
       <UnwrappedQCodeTable {...props} />
     );
 
-    const testId = "ecc2931e-8a6c-419c-a40f-5715a3aafcc3-test-input";
+    const testId = "ans-p1-1-test-input";
     const originalValue = "123";
     const input = getByTestId(testId);
     expect(input.value).toBe(originalValue);
@@ -257,17 +537,102 @@ describe("Qcode Table", () => {
     expect(queryWasCalled).toBeTruthy();
   });
 
-  it("Should make query to update Answer Option", async () => {
+  it("Should make query to update Option", async () => {
     const { getByTestId } = renderWithContext(
       <UnwrappedQCodeTable {...props} />
     );
-    const testId = "12a152aa-0890-43f5-ba5e-750e88a3d3a0-test-input";
-    const originalValue = "Checkbox 3";
+
+    const testId = "option-cb-1-test-input";
+    const originalValue = "123";
+
+    const input = getByTestId(testId);
+
+    expect(input.value).toBe(originalValue);
+
+    act(() => {
+      fireEvent.change(input, { target: { value: "187" } });
+    });
+
+    expect(input.value).toBe("187");
+
+    expect(queryWasCalled).toBeFalsy();
+
+    await act(async () => {
+      await fireEvent.blur(input);
+      await flushPromises();
+    });
+
+    expect(queryWasCalled).toBeTruthy();
+  });
+
+  it("Should make query to update mutually exclusive Option", async () => {
+    const { getByTestId } = renderWithContext(
+      <UnwrappedQCodeTable {...props} />
+    );
+
+    const testId = "option-cb-2-test-input";
+    const originalValue = "123";
+
+    const input = getByTestId(testId);
+
+    expect(input.value).toBe(originalValue);
+
+    act(() => {
+      fireEvent.change(input, { target: { value: "187" } });
+    });
+
+    expect(input.value).toBe("187");
+
+    expect(queryWasCalled).toBeFalsy();
+
+    await act(async () => {
+      await fireEvent.blur(input);
+      await flushPromises();
+    });
+
+    expect(queryWasCalled).toBeTruthy();
+  });
+
+  it("Should make query to update confirmation", async () => {
+    const { getByTestId } = renderWithContext(
+      <UnwrappedQCodeTable {...props} />
+    );
+
+    const testId = "conf-q-1-test-input";
+    const originalValue = "123";
     const input = getByTestId(testId);
     expect(input.value).toBe(originalValue);
 
     act(() => {
       fireEvent.change(input, { target: { value: "187" } });
+    });
+
+    expect(input.value).toBe("187");
+
+    expect(queryWasCalled).toBeFalsy();
+
+    await act(async () => {
+      await fireEvent.blur(input);
+      await flushPromises();
+    });
+
+    expect(queryWasCalled).toBeTruthy();
+  });
+
+  it("Should make query to update calculated summary", async () => {
+    const { getByTestId } = renderWithContext(
+      <UnwrappedQCodeTable {...props} />
+    );
+
+    const testId = "page-5-test-input";
+    const originalValue = "123";
+    const input = getByTestId(testId);
+    expect(input.value).toBe(originalValue);
+
+    act(() => {
+      fireEvent.change(input, {
+        target: { value: "187" },
+      });
     });
 
     expect(input.value).toBe("187");
