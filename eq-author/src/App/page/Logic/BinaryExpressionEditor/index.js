@@ -24,7 +24,10 @@ import {
   DEFAULT_SKIP_CONDITION,
 } from "constants/routing-left-side";
 
-import { binaryExpressionErrors } from "constants/validationMessages";
+import {
+  binaryExpressionErrors,
+  leftSideErrors,
+} from "constants/validationMessages";
 
 import IconText from "components/IconText";
 import { Grid, Column } from "components/Grid";
@@ -198,6 +201,15 @@ const ERROR_SITUATIONS = [
       </ValidationError>
     ),
   },
+  // {
+  //   condition: props =>
+  //     props.expression.left.reason === ERR_LEFTSIDE_NO_LONGER_AVAILABLE,
+  //   message: () => (
+  //     <ValidationError icon={WarningIcon}>
+  //       {leftSideErrors.ERR_LEFTSIDE_NO_LONGER_AVAILABLE}
+  //     </ValidationError>
+  //   ),
+  // },
 ];
 /* eslint-enable react/prop-types */
 
@@ -278,6 +290,10 @@ export class UnwrappedBinaryExpressionEditor extends React.Component {
   };
 
   renderEditor() {
+    console.log(
+      "props.expression.left.reason",
+      this.props.expression.left.reason
+    );
     if (
       this.props.expression.left.reason === DEFAULT_ROUTING ||
       this.props.expression.left.reason === DEFAULT_SKIP_CONDITION ||
@@ -300,6 +316,7 @@ export class UnwrappedBinaryExpressionEditor extends React.Component {
   render() {
     const routingEditor = this.renderEditor();
     const leftErrors = this.leftErrors();
+    console.log("leftErrors", leftErrors);
     const hasError = this.hasError();
     const {
       className,
