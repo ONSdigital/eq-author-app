@@ -18,6 +18,7 @@ query GetAnswers($input: QueryInput!) {
             secondaryLabel
             type
             qCode
+            properties
             ... on BasicAnswer {
               secondaryQCode
             }

@@ -38,9 +38,22 @@ const StyledTableBody = styled(TableBody)`
   background-color: white;
 `;
 
+const answerMatrix = {
+  DateRange: "Date range",
+  QuestionConfirmation: "Confirmation question",
+  CalculatedSummaryPage: "Calculated summary",
+  TextField: "Text field",
+  TextArea: "Text area",
+};
+
 const buildOptionRow = (option, questionType, secondary = false) => {
   const { id, label, qCode } = option;
   let key = id;
+  let type = questionType;
+
+  if (questionType === DATE_RANGE) {
+    type = answerMatrix[DATE_RANGE];
+  }
 
   if (questionType === DATE_RANGE && secondary) {
     key = `${id}-secondary`;
@@ -50,7 +63,7 @@ const buildOptionRow = (option, questionType, secondary = false) => {
       collapsed
       key={key}
       id={id}
-      type={questionType}
+      type={type}
       label={label}
       qCode={qCode}
       secondary={secondary}
@@ -70,6 +83,7 @@ const builtRows = page => {
     qCode,
     options,
     mutuallyExclusiveOption,
+    properties,
   } = answers[0];
 
   const optionBuilder = (options, questionType, array) => {
@@ -99,16 +113,16 @@ const builtRows = page => {
     );
     array.push(dateRangeRow);
   };
-
   const initalRow = (
     <Row
       key={key}
       id={id}
       alias={alias}
       title={title}
-      type={type}
+      type={answerMatrix[type] ? answerMatrix[type] : type}
       label={label}
       qCode={qCode}
+      properties={properties}
     />
   );
   rowBuilder.push(initalRow);
@@ -127,7 +141,10 @@ const builtRows = page => {
   if (answers.length > 1) {
     for (let i = 1; i < answers.length; i++) {
       const { type, options, mutuallyExclusiveOption } = answers[i];
-      const extraAnswerRow = buildOptionRow(answers[i], type);
+      const extraAnswerRow = buildOptionRow(
+        answers[i],
+        answerMatrix[type] ? answerMatrix[type] : type
+      );
       rowBuilder.push(extraAnswerRow);
 
       if (options && type !== RADIO) {
@@ -137,14 +154,10 @@ const builtRows = page => {
       if (mutuallyExclusiveOption) {
         mutuallyExclusiveBuilder(mutuallyExclusiveOption, type, rowBuilder);
       }
-
-      if (type === DATE_RANGE) {
-        dateRangeBuilder(answers[i], type, rowBuilder);
-      }
     }
   }
   if (confirmation) {
-    const { id, displayName: title, qCode, __typename: type } = confirmation;
+    const { id, title, qCode, __typename: type } = confirmation;
     const label = "";
 
     const confirmationRow = (
@@ -153,7 +166,7 @@ const builtRows = page => {
         id={id}
         alias={alias}
         title={title}
-        type={type}
+        type={answerMatrix[type]}
         label={label}
         qCode={qCode}
       />
@@ -185,9 +198,9 @@ const buildContent = sections => {
             id,
             alias,
             title,
-            pageType: type,
             totalTitle: label,
             qCode,
+            pageType: type,
           } = page;
           const summaryIDs = summaryAnswers.map(answer => answer.id);
           const stripLabel = removeHtml(label) || "";
@@ -197,7 +210,7 @@ const buildContent = sections => {
               id={id}
               alias={alias}
               title={title}
-              type={type}
+              type={answerMatrix[type]}
               label={stripLabel}
               qCode={qCode || ""}
               summaryAnswers={summaryIDs}
@@ -225,6 +238,7 @@ const Row = ({
   collapsed,
   summaryAnswers = null,
   secondary,
+  properties,
 }) => {
   const renderGlobalColumns = () => {
     const [qCode, setQcode] = useState(initialQcode);
@@ -234,11 +248,11 @@ const Row = ({
     const [updateCalculatedSummaryPage] = useMutation(UPDATE_CALCSUM_QCODE);
 
     const handleBlur = (type, id, qCode) => {
-      if (type === "QuestionConfirmation") {
+      if (type === "Confirmation question") {
         updateConfirmation({
           variables: { input: { id, qCode } },
         });
-      } else if (type === "CalculatedSummaryPage") {
+      } else if (type === "Calculated summary") {
         updateCalculatedSummaryPage({
           variables: { input: { id, qCode, summaryAnswers } },
         });
@@ -246,7 +260,7 @@ const Row = ({
         updateOption({ variables: { input: { id, qCode } } });
       } else if (type.includes("Mutually exclusive")) {
         updateOption({ variables: { input: { id, qCode } } });
-      } else if (type.includes(DATE_RANGE)) {
+      } else if (type.includes("Date range")) {
         if (collapsed && secondary) {
           updateAnswer({
             variables: { input: { id, secondaryQCode: qCode } },
@@ -257,7 +271,15 @@ const Row = ({
           });
         }
       } else {
-        updateAnswer({ variables: { input: { id, qCode } } });
+        updateAnswer({
+          variables: {
+            input: {
+              id,
+              qCode,
+              properties,
+            },
+          },
+        });
       }
     };
 
@@ -308,6 +330,11 @@ Row.propTypes = {
   collapsed: PropTypes.bool,
   secondary: PropTypes.bool,
   summaryAnswers: PropTypes.arrayOf(PropTypes.string),
+  properties: PropTypes.shape({
+    required: PropTypes.bool,
+    format: PropTypes.string,
+    decimals: PropTypes.number,
+  }),
 };
 
 export const UnwrappedQCodeTable = ({ loading, error, data }) => {
