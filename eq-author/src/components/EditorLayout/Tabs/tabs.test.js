@@ -67,7 +67,7 @@ describe("Tabs", () => {
     expect(getByTestId("small-badge")).toBeTruthy();
   });
   it("should provide the validation error dot for the logic tab if design page has error", async () => {
-    validationErrorInfo = {
+    props.validationErrorInfo = {
       totalCount: 1,
       errors: [
         {
