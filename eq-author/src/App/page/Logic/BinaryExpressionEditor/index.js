@@ -201,15 +201,20 @@ const ERROR_SITUATIONS = [
       </ValidationError>
     ),
   },
-  // {
-  //   condition: props =>
-  //     props.expression.left.reason === ERR_LEFTSIDE_NO_LONGER_AVAILABLE,
-  //   message: () => (
-  //     <ValidationError icon={WarningIcon}>
-  //       {leftSideErrors.ERR_LEFTSIDE_NO_LONGER_AVAILABLE}
-  //     </ValidationError>
-  //   ),
-  // },
+  {
+    condition: props =>
+      some(
+        {
+          errorCode: leftSideErrors.ERR_LEFTSIDE_NO_LONGER_AVAILABLE.errorCode,
+        },
+        props.expression.validationErrorInfo.errors
+      ),
+    message: () => (
+      <ValidationError icon={WarningIcon}>
+        {leftSideErrors.ERR_LEFTSIDE_NO_LONGER_AVAILABLE.message}
+      </ValidationError>
+    ),
+  },
 ];
 /* eslint-enable react/prop-types */
 
@@ -291,8 +296,8 @@ export class UnwrappedBinaryExpressionEditor extends React.Component {
 
   renderEditor() {
     console.log(
-      "props.expression.left.reason",
-      this.props.expression.left.reason
+      "props.expression.validationErrorInfo.errors",
+      this.props.expression.validationErrorInfo.errors
     );
     if (
       this.props.expression.left.reason === DEFAULT_ROUTING ||
