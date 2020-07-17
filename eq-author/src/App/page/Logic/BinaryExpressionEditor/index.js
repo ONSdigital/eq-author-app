@@ -295,10 +295,6 @@ export class UnwrappedBinaryExpressionEditor extends React.Component {
   };
 
   renderEditor() {
-    console.log(
-      "props.expression.validationErrorInfo.errors",
-      this.props.expression.validationErrorInfo.errors
-    );
     if (
       this.props.expression.left.reason === DEFAULT_ROUTING ||
       this.props.expression.left.reason === DEFAULT_SKIP_CONDITION ||
@@ -321,7 +317,6 @@ export class UnwrappedBinaryExpressionEditor extends React.Component {
   render() {
     const routingEditor = this.renderEditor();
     const leftErrors = this.leftErrors();
-    console.log("leftErrors", leftErrors);
     const hasError = this.hasError();
     const {
       className,

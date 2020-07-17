@@ -62,7 +62,7 @@ export const binaryExpressionErrors = {
 export const leftSideErrors = {
   ERR_LEFTSIDE_NO_LONGER_AVAILABLE: {
     errorCode: "ERR_LEFTSIDE_NO_LONGER_AVAILABLE",
-    message: "Select an answer that is not later on in the questionnaire",
+    message: "Select an answer that is not later on, in the questionnaire",
   },
 };
 
