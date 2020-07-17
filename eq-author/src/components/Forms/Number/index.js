@@ -122,7 +122,7 @@ const Number = props => {
 Number.defaultProps = {
   min: 0,
   step: 1,
-  default: 0,
+  default: "",
   "data-test": "number-input",
 };
 
