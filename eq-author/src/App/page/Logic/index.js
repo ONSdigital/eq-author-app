@@ -155,7 +155,7 @@ export class UnwrappedLogicPage extends React.Component {
         design
         preview
         logic
-        page={pageData}
+        validationErrorInfo={pageData.validationErrorInfo}
         title={displayName}
         singleColumnLayout
         mainCanvasMaxWidth="80em"

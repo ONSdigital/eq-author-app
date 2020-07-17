@@ -80,6 +80,10 @@ describe("PageRoute", () => {
             metadata: [],
           },
         },
+        validationErrorInfo: {
+          totalCount: 1,
+          errors: [{ id: "design-1" }],
+        },
       };
 
       const wrapper = render({ loading: false, page });
