@@ -107,7 +107,7 @@ const QuestionPagePreview = ({ page }) => {
       logic
       title={page.displayName}
       validationErrorInfo={page.validationErrorInfo}
-      renderPanel={() => <CommentsPanel componentId={page.id} valictions />}
+      renderPanel={() => <CommentsPanel componentId={page.id} />}
     >
       <Panel>
         <Container>
