@@ -93,7 +93,7 @@ export class UnwrappedPageRoute extends React.Component {
         renderPanel={() => <PropertiesPanel page={page} />}
         title={(page || {}).displayName || ""}
         {...deriveAvailableTabs(page)}
-        validationErrorInfo={page.validationErrorInfo}
+        validationErrorInfo={page && page.validationErrorInfo}
       >
         <Panel>{this.renderContent()}</Panel>
       </EditorLayout>
