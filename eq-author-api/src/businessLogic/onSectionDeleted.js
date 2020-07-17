@@ -16,7 +16,7 @@ const onSectionDeleted = (ctx, removedSection) => {
     }
 
     page.routing.rules.map(rule => {
-      if (rule.destination.sectionId == removedSection.id) {
+      if (rule.destination.sectionId === removedSection.id) {
         rule.destination.sectionId = null;
       }
     });

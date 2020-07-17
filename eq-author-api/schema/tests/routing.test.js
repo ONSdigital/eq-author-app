@@ -1,6 +1,5 @@
 const { buildContext } = require("../../tests/utils/contextBuilder");
 const { RADIO, NUMBER } = require("../../constants/answerTypes");
-const { NEXT_PAGE } = require("../../constants/logicalDestinations");
 
 const executeQuery = require("../../tests/utils/executeQuery");
 const {

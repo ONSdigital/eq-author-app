@@ -21,7 +21,7 @@ const onPageDeleted = (ctx, section, removedPage) => {
     }
 
     page.routing.rules.map(rule => {
-      if (rule.destination.pageId == removedPage.id) {
+      if (rule.destination.pageId === removedPage.id) {
         rule.destination.pageId = null;
       }
     });
