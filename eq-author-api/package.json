@@ -15,7 +15,7 @@
     "prepare": "yarn run snyk-protect"
   },
   "dependencies": {
-    "ajv": "latest",
+    "ajv": "6.12.3",
     "ajv-errors": "latest",
     "ajv-keywords": "latest",
     "apollo-opentracing": "latest",
