@@ -13,14 +13,11 @@ const ErrorStyling = styled(IconText)`
   margin: 0.5em 0;
 `;
 
-const ValidationError = props => {
-  const { children, right } = props;
-  return (
-    <ErrorStyling right={right} icon={WarningIcon}>
-      {children}
-    </ErrorStyling>
-  );
-};
+const ValidationError = ({ children, right, className }) => (
+  <ErrorStyling icon={WarningIcon} className={className} right={right}>
+    {children}
+  </ErrorStyling>
+);
 
 ValidationError.propTypes = {
   children: PropTypes.node.isRequired,

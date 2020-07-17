@@ -25,6 +25,11 @@ import { Select, Label } from "components/Forms";
 import ValidationError from "components/ValidationError";
 import { destinationErrors } from "constants/validationMessages";
 
+const RepositionedValidationError = styled(ValidationError)`
+  justify-content: unset;
+  padding-left: 36.5%;
+`;
+
 const LABEL_THEN = "Then";
 
 const Expressions = styled.div`
@@ -174,7 +179,6 @@ export class UnwrappedRuleEditor extends React.Component {
               })}
             </TransitionGroup>
           </Expressions>
-
           <DestinationSelector
             id={rule.id}
             label={LABEL_THEN}
@@ -185,9 +189,9 @@ export class UnwrappedRuleEditor extends React.Component {
           />
         </Rule>
         {validationErrors.length > 0 && (
-          <ValidationError>
+          <RepositionedValidationError right>
             <p>{destinationErrors[validationErrors[0].errorCode].message}</p>
-          </ValidationError>
+          </RepositionedValidationError>
         )}
       </>
     );
