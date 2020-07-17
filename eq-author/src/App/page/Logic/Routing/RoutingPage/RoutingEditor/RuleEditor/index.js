@@ -22,6 +22,9 @@ import withUpdateExpressionGroup from "./withUpdateExpressionGroup";
 
 import { Select, Label } from "components/Forms";
 
+import ValidationError from "components/ValidationError";
+import { destinationErrors } from "constants/validationMessages";
+
 const LABEL_THEN = "Then";
 
 const Expressions = styled.div`
@@ -107,70 +110,86 @@ export class UnwrappedRuleEditor extends React.Component {
 
     const existingRadioConditions = {};
 
+    const validationErrorInfo = this.props.rule.validationErrorInfo;
+
+    const validationErrors = validationErrorInfo.totalCount
+      ? validationErrorInfo.errors
+      : [];
+
     return (
-      <Rule data-test="routing-rule" className={className}>
-        <Header>
-          <Label inline>
-            Match
-            <SmallSelect
-              name="match"
-              id="match"
-              data-test="match-select"
-              defaultValue={rule.expressionGroup.operator}
-              onChange={({ value }) => {
-                this.props.updateExpressionGroup({
-                  id: rule.expressionGroup.id,
-                  operator: value,
-                });
-              }}
+      <>
+        <Rule data-test="routing-rule" className={className}>
+          <Header>
+            <Label inline>
+              Match
+              <SmallSelect
+                name="match"
+                id="match"
+                data-test="match-select"
+                defaultValue={rule.expressionGroup.operator}
+                onChange={({ value }) => {
+                  this.props.updateExpressionGroup({
+                    id: rule.expressionGroup.id,
+                    operator: value,
+                  });
+                }}
+              >
+                <option value="And">All of</option>
+                <option value="Or">Any of</option>
+              </SmallSelect>
+              the following rules
+            </Label>
+
+            <RemoveRuleButton
+              onClick={this.handleDeleteClick}
+              data-test="btn-remove-rule"
             >
-              <option value="And">All of</option>
-              <option value="Or">Any of</option>
-            </SmallSelect>
-            the following rules
-          </Label>
+              Remove rule
+            </RemoveRuleButton>
+          </Header>
+          <Expressions>
+            <TransitionGroup>
+              {expressions.map((expression, index) => {
+                const component = (
+                  <Transition key={expression.id}>
+                    <BinaryExpressionEditor
+                      operator={rule.expressionGroup.operator}
+                      expression={expression}
+                      expressionGroupId={rule.expressionGroup.id}
+                      label={
+                        index > 0 ? rule.expressionGroup.operator : ifLabel
+                      }
+                      isOnlyExpression={expressions.length === 1}
+                      isLastExpression={index === expressions.length - 1}
+                      canAddCondition={
+                        !existingRadioConditions[get("left.id", expression)]
+                      }
+                    />
+                  </Transition>
+                );
+                if (get("left.type", expression) === RADIO) {
+                  existingRadioConditions[get("left.id", expression)] = true;
+                }
+                return component;
+              })}
+            </TransitionGroup>
+          </Expressions>
 
-          <RemoveRuleButton
-            onClick={this.handleDeleteClick}
-            data-test="btn-remove-rule"
-          >
-            Remove rule
-          </RemoveRuleButton>
-        </Header>
-        <Expressions>
-          <TransitionGroup>
-            {expressions.map((expression, index) => {
-              const component = (
-                <Transition key={expression.id}>
-                  <BinaryExpressionEditor
-                    operator={rule.expressionGroup.operator}
-                    expression={expression}
-                    expressionGroupId={rule.expressionGroup.id}
-                    label={index > 0 ? rule.expressionGroup.operator : ifLabel}
-                    isOnlyExpression={expressions.length === 1}
-                    isLastExpression={index === expressions.length - 1}
-                    canAddCondition={
-                      !existingRadioConditions[get("left.id", expression)]
-                    }
-                  />
-                </Transition>
-              );
-              if (get("left.type", expression) === RADIO) {
-                existingRadioConditions[get("left.id", expression)] = true;
-              }
-              return component;
-            })}
-          </TransitionGroup>
-        </Expressions>
-
-        <DestinationSelector
-          id={rule.id}
-          label={LABEL_THEN}
-          onChange={this.handleDestinationChange}
-          value={destination}
-          data-test="select-then"
-        />
-      </Rule>
+          <DestinationSelector
+            id={rule.id}
+            label={LABEL_THEN}
+            onChange={this.handleDestinationChange}
+            value={destination}
+            data-test="select-then"
+            validationErrors={validationErrors}
+          />
+        </Rule>
+        {validationErrors.length > 0 && (
+          <ValidationError>
+            <p>{destinationErrors[validationErrors[0].errorCode].message}</p>
+          </ValidationError>
+        )}
+      </>
     );
   }
 }

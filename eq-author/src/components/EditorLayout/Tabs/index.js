@@ -105,7 +105,7 @@ export const UnwrappedTabs = props => {
       const errorSeparator = errors.reduce((accumulator, error) => {
         const { design, logic } = accumulator;
 
-        error.id.includes("expression")
+        error.id.includes("expression") || error.id.includes("rules")
           ? logic.push(error)
           : design.push(error);
 
@@ -130,7 +130,7 @@ export const UnwrappedTabs = props => {
             : { Component: DisabledTab };
           return (
             <Component data-test={key} key={key} {...otherProps}>
-              {errors !== undefined && errors !== null && errors.length > 0 ? (
+              {errors && errors.length ? (
                 <SmallBadge data-test="small-badge" />
               ) : null}
               {children}

@@ -572,11 +572,7 @@
         "id": {
           "type": "string"
         },
-        "destination": {
-          "validateRoutingRule": {
-            "$data": "/sections"
-          }
-        },
+        "destination": {},
         "expressionGroup": {
           "properties": {
             "id": { "type": "string" },
@@ -596,6 +592,9 @@
             }
           }
         }
+      },
+      "validateRoutingRule": {
+        "$data": "/sections"
       }
     },
     "expression": {

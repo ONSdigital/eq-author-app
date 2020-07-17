@@ -115,6 +115,7 @@ export const UnwrappedRoutingDestinationContentPicker = ({
         data-test="content-picker-select"
         onClick={() => setPickerOpen(true)}
         disabled={loading}
+        hasError={otherProps.hasError}
         {...otherProps}
       >
         <ContentSelected>{selectedDisplayName}</ContentSelected>

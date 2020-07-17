@@ -75,6 +75,27 @@ export const rightSideErrors = {
   },
 };
 
+export const destinationErrors = {
+  ERR_PAGE_MOVED: {
+    errorCode: "ERR_PAGE_MOVED",
+    message:
+      "Select a destination that's in the current section, or is another section",
+  },
+  ERR_SECTION_MOVED: {
+    errorCode: "ERR_SECTION_MOVED",
+    message:
+      "Select a destination that's in the current section, or is another section",
+  },
+  ERR_PAGE_DELETED: {
+    errorCode: "ERR_PAGE_DELETED",
+    message: "This page has been deleted. Select a new destination.",
+  },
+  ERR_SECTION_DELETED: {
+    errorCode: "ERR_SECTION_DELETED",
+    message: "This section has been deleted. Select a new destination.",
+  },
+};
+
 export const MISSING_LABEL = "Enter a label";
 
 export const buildLabelError = (mainString, insString, pos, pos2) => {

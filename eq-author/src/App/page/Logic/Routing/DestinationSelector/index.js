@@ -30,7 +30,7 @@ const Goto = styled.span`
 `;
 
 export const UnwrappedDestinationSelector = props => {
-  const { label, id, disabled, value, match } = props;
+  const { label, id, disabled, value, match, validationErrors } = props;
 
   const handleChange = ({ value: { __typename: type, id } }) => {
     let destination;
@@ -67,6 +67,7 @@ export const UnwrappedDestinationSelector = props => {
             onSubmit={handleChange}
             disabled={disabled}
             data-test="routing-destination-content-picker"
+            hasError={validationErrors ? validationErrors.length : false}
           />
         </Column>
       </Grid>
@@ -81,6 +82,7 @@ UnwrappedDestinationSelector.propTypes = {
   value: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   disabled: PropTypes.bool.isRequired,
   match: CustomPropTypes.match.isRequired,
+  validationErrors: PropTypes.object, // eslint-disable-line react/forbid-prop-types
 };
 
 UnwrappedDestinationSelector.defaultProps = {
