@@ -642,7 +642,7 @@ describe("routing", () => {
       const result = await queryPage(ctx, firstPage.id);
       expect(
         result.routing.rules[0].expressionGroup.expressions[0].right.number
-      ).toEqual(5);
+      ).toEqual("5");
     });
 
     it("should be able to update the selected options array", async () => {
