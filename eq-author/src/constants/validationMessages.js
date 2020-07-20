@@ -76,23 +76,14 @@ export const rightSideErrors = {
 };
 
 export const destinationErrors = {
-  ERR_PAGE_MOVED: {
-    errorCode: "ERR_PAGE_MOVED",
+  ERR_DESTINATION_MOVED: {
+    errorCode: "ERR_DESTINATION_MOVED",
     message:
       "Select a destination that's in the current section, or is another section",
   },
-  ERR_SECTION_MOVED: {
-    errorCode: "ERR_SECTION_MOVED",
-    message:
-      "Select a destination that's in the current section, or is another section",
-  },
-  ERR_PAGE_DELETED: {
-    errorCode: "ERR_PAGE_DELETED",
-    message: "This page has been deleted. Select a new destination.",
-  },
-  ERR_SECTION_DELETED: {
-    errorCode: "ERR_SECTION_DELETED",
-    message: "This section has been deleted. Select a new destination.",
+  ERR_DESTINATION_DELETED: {
+    errorCode: "ERR_DESTINATION_DELETED",
+    message: "This destination has been deleted. Select a new destination.",
   },
 };
 

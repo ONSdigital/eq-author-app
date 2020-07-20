@@ -28,6 +28,8 @@ import { destinationErrors } from "constants/validationMessages";
 const RepositionedValidationError = styled(ValidationError)`
   justify-content: unset;
   padding-left: 36.5%;
+  line-height: 0;
+  margin-top: 0;
 `;
 
 const LABEL_THEN = "Then";
@@ -121,6 +123,8 @@ export class UnwrappedRuleEditor extends React.Component {
       ? validationErrorInfo.errors
       : [];
 
+    console.log(validationErrors);
+
     return (
       <>
         <Rule data-test="routing-rule" className={className}>
@@ -187,6 +191,7 @@ export class UnwrappedRuleEditor extends React.Component {
             onChange={this.handleDestinationChange}
             value={destination}
             data-test="select-then"
+            validationErrors={validationErrors}
           />
         </Rule>
         {validationErrors.length > 0 && (
