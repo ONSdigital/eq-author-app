@@ -3,10 +3,6 @@ const {
   ERR_DESTINATION_MOVED,
 } = require("../../../constants/validationErrorCodes");
 const availableRoutingDestinatinons = require("../../businessLogic/availableRoutingDestinations");
-const {
-  getPageById,
-  getSectionById,
-} = require("../../../schema/resolvers/utils");
 const { some } = require("lodash");
 const newValidationError = (
   keyword = "errorMessage",
@@ -49,7 +45,7 @@ module.exports = function(ajv) {
           newValidationError(
             "errorMessage",
             `${dataPath}/destination`,
-            ERR_DESTINTION_DELETED
+            ERR_DESTINATION_DELETED
           )
         );
         return false;
