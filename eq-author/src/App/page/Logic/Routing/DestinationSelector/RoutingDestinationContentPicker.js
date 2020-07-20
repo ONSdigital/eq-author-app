@@ -47,6 +47,9 @@ const getSelectedDisplayName = (
   loading,
   availableRoutingDestinations
 ) => {
+  if (!selected.page && !selected.section && !selected.logical) {
+    return "Select a destination";
+  }
   if (selected.logical) {
     return getLogicalDisplayName(
       selected.logical,

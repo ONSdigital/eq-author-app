@@ -1,6 +1,5 @@
 const { buildContext } = require("../../tests/utils/contextBuilder");
 const { RADIO, NUMBER } = require("../../constants/answerTypes");
-const { NEXT_PAGE } = require("../../constants/logicalDestinations");
 
 const executeQuery = require("../../tests/utils/executeQuery");
 const {
@@ -805,17 +804,12 @@ describe("routing", () => {
       await deleteSection(ctx, thirdSection.id);
       firstPage = ctx.questionnaire.sections[0].pages[0];
 
-      // Only rule to exist after deletion of third page
-      expect(firstPage.routing.rules).toHaveLength(1);
-      expect(firstPage.routing.rules[0].destination.sectionId).toEqual(
-        secondSection.id
-      );
+      expect(firstPage.routing.rules).toHaveLength(2);
+      expect(firstPage.routing.rules[1].destination.sectionId).toBeNull();
       firstPage = ctx.questionnaire.sections[0].pages[0];
 
       await deleteSection(ctx, secondSection.id);
-
-      // No routing after deletion of second page
-      expect(firstPage.routing).toBeNull();
+      expect(firstPage.routing.rules[0].destination.sectionId).toBeNull();
     });
 
     it("should change else destination if deleted section is the else destination", async () => {
@@ -828,9 +822,7 @@ describe("routing", () => {
       await deleteSection(ctx, fourthSection.id);
       firstPage = ctx.questionnaire.sections[0].pages[0];
 
-      // Only rule to exist after deletion of third page
-      expect(firstPage.routing.else.pageId).toBeNull();
-      expect(firstPage.routing.else.logical).toEqual(NEXT_PAGE);
+      expect(firstPage.routing.else.sectionId).toBeNull();
     });
   });
 
@@ -907,17 +899,12 @@ describe("routing", () => {
       await deletePage(ctx, thirdPage.id);
       firstPage = ctx.questionnaire.sections[0].pages[0];
 
-      // Only rule to exist after deletion of third page
-      expect(firstPage.routing.rules).toHaveLength(1);
-      expect(firstPage.routing.rules[0].destination.pageId).toEqual(
-        secondPage.id
-      );
+      expect(firstPage.routing.rules).toHaveLength(2);
+      expect(firstPage.routing.rules[1].destination.pageId).toBeNull();
       firstPage = ctx.questionnaire.sections[0].pages[0];
 
       await deletePage(ctx, secondPage.id);
-
-      // No routing after deletion of second page
-      expect(firstPage.routing).toBeNull();
+      expect(firstPage.routing.rules[0].destination.pageId).toBeNull();
     });
 
     it("should change else destination if deleted page is the else destination", async () => {
@@ -930,9 +917,7 @@ describe("routing", () => {
       await deletePage(ctx, fourthPage.id);
       firstPage = ctx.questionnaire.sections[0].pages[0];
 
-      // Only rule to exist after deletion of third page
       expect(firstPage.routing.else.pageId).toBeNull();
-      expect(firstPage.routing.else.logical).toEqual(NEXT_PAGE);
     });
   });
 });
