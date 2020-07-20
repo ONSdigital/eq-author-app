@@ -130,7 +130,7 @@ class NumberAnswerSelector extends React.Component {
                   </Label>
                 </VisuallyHidden>
                 <Number
-                  default=""
+                  default={null}
                   id={`expression-right-${expression.id}`}
                   min={-99999999}
                   max={999999999}

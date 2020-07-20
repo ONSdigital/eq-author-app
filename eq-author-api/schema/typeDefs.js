@@ -526,7 +526,7 @@ union LeftSide2 = BasicAnswer | MultipleChoiceAnswer | NoLeftSide
 union RightSide2 = SelectedOptions2 | CustomValue2
 
 type CustomValue2 {
-  number: String
+  number: Int
 }
 
 type SelectedOptions2 {
