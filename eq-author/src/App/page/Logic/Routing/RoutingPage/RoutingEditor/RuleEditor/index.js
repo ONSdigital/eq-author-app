@@ -169,6 +169,7 @@ export class UnwrappedRuleEditor extends React.Component {
                       canAddCondition={
                         !existingRadioConditions[get("left.id", expression)]
                       }
+                      includeSelf
                     />
                   </Transition>
                 );
@@ -179,13 +180,13 @@ export class UnwrappedRuleEditor extends React.Component {
               })}
             </TransitionGroup>
           </Expressions>
+
           <DestinationSelector
             id={rule.id}
             label={LABEL_THEN}
             onChange={this.handleDestinationChange}
             value={destination}
             data-test="select-then"
-            validationErrors={validationErrors}
           />
         </Rule>
         {validationErrors.length > 0 && (
