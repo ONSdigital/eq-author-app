@@ -1,16 +1,15 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { withApollo, Query, useMutation } from "react-apollo";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
-import { DATE_RANGE, RADIO } from "constants/answer-types";
+
+import { withApollo, Query, useMutation } from "react-apollo";
+
 import GET_ALL_ANSWERS from "./getAllAnswers.graphql";
 import UPDATE_ANSWER_QCODE from "./updateAnswerMutation.graphql";
 import UPDATE_OPTION_QCODE from "./updateOptionMutation.graphql";
 import UPDATE_CONFIRMATION_QCODE from "./updateConfirmationQCode.graphql";
 import UPDATE_CALCSUM_QCODE from "./updateCalculatedSummary.graphql";
-
-import { colors } from "constants/theme";
 
 import {
   Table,
@@ -23,6 +22,22 @@ import {
 import { TableInput } from "components/datatable/Controls";
 import Loading from "components/Loading";
 import Error from "components/Error";
+
+import { colors } from "constants/theme";
+
+import {
+  CHECKBOX,
+  RADIO,
+  TEXTFIELD,
+  TEXTAREA,
+  CURRENCY,
+  NUMBER,
+  PERCENTAGE,
+  DATE,
+  DATE_RANGE,
+  UNIT,
+  DURATION,
+} from "constants/answer-types";
 
 const SpacedTableColumn = styled(TableColumn)`
   padding: 0.5em;
@@ -38,317 +53,281 @@ const StyledTableBody = styled(TableBody)`
   background-color: white;
 `;
 
-const answerMatrix = {
-  DateRange: "Date range",
+const questionMatrix = {
   QuestionConfirmation: "Confirmation question",
   CalculatedSummaryPage: "Calculated summary",
-  TextField: "Text field",
-  TextArea: "Text area",
-};
-
-const buildOptionRow = (option, questionType, secondary = false) => {
-  const { id, label, qCode } = option;
-  let key = id;
-  let type = questionType;
-
-  if (questionType === DATE_RANGE) {
-    type = answerMatrix[DATE_RANGE];
-  }
-
-  if (questionType === DATE_RANGE && secondary) {
-    key = `${id}-secondary`;
-  }
-  return (
-    <Row
-      collapsed
-      key={key}
-      id={id}
-      type={type}
-      label={label}
-      qCode={qCode}
-      secondary={secondary}
-      properties={option.properties}
-    />
-  );
+  CheckboxOption: "Checkbox option",
+  MutuallyExclusiveOption: "Mutually exclusive checkbox",
+  [CHECKBOX]: "Checkbox",
+  [RADIO]: "Radio",
+  [TEXTFIELD]: "Text field",
+  [TEXTAREA]: "Text area",
+  [CURRENCY]: "Currency",
+  [NUMBER]: "Number",
+  [PERCENTAGE]: "Percentage",
+  [DATE]: "Date",
+  [DATE_RANGE]: "Date range",
+  [UNIT]: "Unit",
+  [DURATION]: "Duration",
 };
 
 const removeHtml = html => html && html.replace(/(<([^>]+)>)/gi, "");
 
-const builtRows = page => {
-  const rowBuilder = [];
-  const { id: key, alias, title, answers, confirmation } = page;
-  const {
-    id,
-    type,
-    label,
-    qCode,
-    options,
-    mutuallyExclusiveOption,
-    properties,
-  } = answers[0];
-
-  const optionBuilder = (options, questionType, array) => {
-    for (const option of options) {
-      const optionRow = buildOptionRow(option, `${questionType} option`);
-      array.push(optionRow);
-    }
-  };
-  const mutuallyExclusiveBuilder = (option, questionType, array) => {
-    const mutuallyExclusiveType = `Mutually exclusive ${questionType.toLowerCase()}`;
-    const optionRow = buildOptionRow(option, mutuallyExclusiveType);
-    array.push(optionRow);
-  };
-  const dateRangeBuilder = (option, questionType, array) => {
-    const { key, id, secondaryLabel, secondaryQCode } = option;
-    const dateRangeOption = {
-      key,
-      id,
-      label: secondaryLabel,
-      qCode: secondaryQCode,
-    };
-    const secondaryOption = true;
-    const dateRangeRow = buildOptionRow(
-      dateRangeOption,
-      questionType,
-      secondaryOption
-    );
-    array.push(dateRangeRow);
-  };
-  const initalRow = (
-    <Row
-      key={key}
-      id={id}
-      alias={alias}
-      title={title}
-      type={answerMatrix[type] ? answerMatrix[type] : type}
-      label={label}
-      qCode={qCode}
-      properties={properties}
-    />
+const organiseTableContent = sections => {
+  const questions = sections.reduce(
+    (acc, section) => [...acc, ...section.pages],
+    []
   );
-  rowBuilder.push(initalRow);
 
-  if (options && type !== RADIO) {
-    optionBuilder(options, type, rowBuilder);
-  }
+  let answerRows = [];
 
-  if (mutuallyExclusiveOption) {
-    mutuallyExclusiveBuilder(mutuallyExclusiveOption, type, rowBuilder);
-  }
-  if (type === DATE_RANGE) {
-    dateRangeBuilder(answers[0], type, rowBuilder);
-  }
+  for (const item of questions) {
+    const {
+      title,
+      alias,
+      answers,
+      confirmation,
+      summaryAnswers: calculatedSummary,
+    } = item;
 
-  if (answers.length > 1) {
-    for (let i = 1; i < answers.length; i++) {
-      const { type, options, mutuallyExclusiveOption } = answers[i];
-      const extraAnswerRow = buildOptionRow(
-        answers[i],
-        answerMatrix[type] ? answerMatrix[type] : type
-      );
-      rowBuilder.push(extraAnswerRow);
+    if (answers) {
+      const extraCheck = answers.reduce((acc, item) => {
+        if (
+          item.hasOwnProperty("options") &&
+          item.options &&
+          item.type !== RADIO
+        ) {
+          const optionLabel = item.options.map(option => ({
+            ...option,
+            type: "CheckboxOption",
+            option: true,
+          }));
 
-      if (options && type !== RADIO) {
-        optionBuilder(options, type, rowBuilder);
-      }
+          acc.push(...optionLabel);
+        }
 
-      if (mutuallyExclusiveOption) {
-        mutuallyExclusiveBuilder(mutuallyExclusiveOption, type, rowBuilder);
-      }
+        if (
+          item.hasOwnProperty("mutuallyExclusiveOption") &&
+          item.mutuallyExclusiveOption
+        ) {
+          acc.push({
+            ...item.mutuallyExclusiveOption,
+            type: "MutuallyExclusiveOption",
+            option: true,
+          });
+        }
+        if (
+          item.hasOwnProperty("secondaryLabel") &&
+          item.hasOwnProperty("secondaryQCode") &&
+          item.secondaryLabel
+        ) {
+          acc.push({
+            id: item.id,
+            label: item.secondaryLabel,
+            qCode: item.secondaryQCode,
+            type: item.type,
+            secondary: true,
+          });
+        }
+        return acc;
+      }, []);
+
+      const answersAndOptions = [...answers, ...extraCheck];
+
+      answerRows.push({
+        title,
+        alias,
+        answers: answersAndOptions,
+      });
+    }
+
+    if (confirmation) {
+      const {
+        id,
+        title: confirmationTitle,
+        alias,
+        qCode,
+        __typename: type,
+      } = confirmation;
+
+      answerRows.push({
+        title: confirmationTitle,
+        alias,
+        answers: [{ id, qCode, type }],
+      });
+    }
+
+    if (calculatedSummary && calculatedSummary.length) {
+      const {
+        id,
+        pageType: type,
+        alias,
+        title,
+        qCode,
+        totalTitle,
+        summaryAnswers,
+      } = item;
+
+      const label = removeHtml(totalTitle);
+      answerRows.push({
+        title,
+        alias,
+        answers: [{ id, type, qCode, label, summaryAnswers }],
+      });
     }
   }
-  if (confirmation) {
-    const { id, title, qCode, __typename: type } = confirmation;
-    const label = "";
 
-    const confirmationRow = (
-      <Row
-        key={id}
-        id={id}
-        alias={alias}
-        title={title}
-        type={answerMatrix[type]}
-        label={label}
-        qCode={qCode}
-      />
+  return answerRows;
+};
+
+const handleBlurReducer = ({ type, payload, mutation }) => {
+  const {
+    updateConfirmation,
+    updateCalculatedSummaryPage,
+    updateOption,
+    updateAnswer,
+  } = mutation;
+
+  const mutationVariables = inputValues => {
+    return {
+      variables: {
+        input: {
+          ...inputValues,
+        },
+      },
+    };
+  };
+
+  if (questionMatrix[type] === "Confirmation question") {
+    const { id, qCode } = payload;
+
+    updateConfirmation(mutationVariables({ id, qCode }));
+  } else if (questionMatrix[type] === "Calculated summary") {
+    const { id, qCode } = payload;
+    const summaryAnswers = payload.summaryAnswers.map(item => item.id);
+    const update = { id, qCode, summaryAnswers };
+
+    updateCalculatedSummaryPage(mutationVariables(update));
+  } else if (payload.option) {
+    const { id, qCode } = payload;
+
+    updateOption(mutationVariables({ id, qCode }));
+  } else if (payload.secondary) {
+    const { id, qCode } = payload;
+    updateAnswer(mutationVariables({ id, secondaryQCode: qCode }));
+  } else {
+    const { id, qCode } = payload;
+
+    updateAnswer(
+      mutationVariables({ id, qCode, properties: payload.properties })
     );
-    rowBuilder.push(confirmationRow);
   }
-
-  return rowBuilder;
 };
 
-const buildContent = sections => {
-  const content = [];
-
-  for (const section of sections) {
-    const pages = section.pages;
-    const rows = pages.map(page => {
-      const rowBuilder = [];
-      const { answers, summaryAnswers } = page;
-      if (answers) {
-        const numberOfAnswers = answers.length;
-        if (numberOfAnswers) {
-          const questionRow = builtRows(page);
-          rowBuilder.push(questionRow);
-        }
-      } else if (summaryAnswers) {
-        const numberOfAnswers = summaryAnswers.length;
-        if (numberOfAnswers) {
-          const {
-            id,
-            alias,
-            title,
-            totalTitle: label,
-            qCode,
-            pageType: type,
-          } = page;
-          const summaryIDs = summaryAnswers.map(answer => answer.id);
-          const stripLabel = removeHtml(label) || "";
-          const calculatedSummary = (
-            <Row
-              key={id}
-              id={id}
-              alias={alias}
-              title={title}
-              type={answerMatrix[type]}
-              label={stripLabel}
-              qCode={qCode || ""}
-              summaryAnswers={summaryIDs}
-            />
-          );
-          rowBuilder.push(calculatedSummary);
-        }
-      }
-      return rowBuilder;
-    });
-
-    content.push(rows);
-  }
-
-  return content;
-};
-
-const Row = ({
-  id,
-  alias,
-  title,
-  type,
-  label,
-  qCode: initialQcode,
-  collapsed,
-  summaryAnswers = null,
-  secondary,
-  properties,
-}) => {
-  const renderGlobalColumns = () => {
+const Row = ({ item: { title, alias, answers } }) => {
+  const commonFields = fields => {
+    const { id, type, label, qCode: initialQcode } = fields;
     const [qCode, setQcode] = useState(initialQcode);
+
     const [updateOption] = useMutation(UPDATE_OPTION_QCODE);
     const [updateAnswer] = useMutation(UPDATE_ANSWER_QCODE);
     const [updateConfirmation] = useMutation(UPDATE_CONFIRMATION_QCODE);
     const [updateCalculatedSummaryPage] = useMutation(UPDATE_CALCSUM_QCODE);
 
     const handleBlur = (type, id, qCode) => {
-      if (type === "Confirmation question") {
-        updateConfirmation({
-          variables: { input: { id, qCode } },
-        });
-      } else if (type === "Calculated summary") {
-        updateCalculatedSummaryPage({
-          variables: { input: { id, qCode, summaryAnswers } },
-        });
-      } else if (type.includes("option")) {
-        updateOption({ variables: { input: { id, qCode } } });
-      } else if (type.includes("Mutually exclusive")) {
-        updateOption({ variables: { input: { id, qCode } } });
-      } else if (type.includes("Date range")) {
-        if (collapsed && secondary) {
-          updateAnswer({
-            variables: { input: { id, secondaryQCode: qCode } },
-          });
-        } else {
-          updateAnswer({
-            variables: { input: { id, qCode } },
-          });
-        }
-      } else {
-        updateAnswer({
-          variables: {
-            input: {
-              id,
-              qCode,
-              properties,
-            },
-          },
-        });
-      }
+      const mutation = {
+        updateOption,
+        updateAnswer,
+        updateConfirmation,
+        updateCalculatedSummaryPage,
+      };
+
+      handleBlurReducer({ type, payload: { ...fields, qCode }, mutation });
     };
 
     return (
       <>
-        <SpacedTableColumn>{type}</SpacedTableColumn>
+        <SpacedTableColumn>{questionMatrix[type]}</SpacedTableColumn>
         <SpacedTableColumn>{label}</SpacedTableColumn>
         <SpacedTableColumn>
           <TableInput
             value={qCode}
             onChange={e => setQcode(e.value)}
             onBlur={() => handleBlur(type, id, qCode)}
-            name={`${id}-qcode-entry`}
-            data-test={`${id}-test-input`}
+            name={`${id || ""}-qcode-entry`}
+            data-test={`${id || ""}-test-input`}
           />
         </SpacedTableColumn>
       </>
     );
   };
 
-  if (collapsed) {
-    return (
-      <TableRow>
-        <EmptyTableColumn />
-        <EmptyTableColumn />
-        {renderGlobalColumns()}
-      </TableRow>
-    );
-  }
-
-  const stripTitle = removeHtml(title);
   return (
-    <TableRow>
-      <SpacedTableColumn>{alias}</SpacedTableColumn>
-      <SpacedTableColumn>{stripTitle}</SpacedTableColumn>
-      {renderGlobalColumns()}
-    </TableRow>
+    <>
+      {answers.map((answer, index) => {
+        if (index > 0) {
+          return (
+            <TableRow key={`${answer.id}-${index}`}>
+              <EmptyTableColumn />
+              <EmptyTableColumn />
+              {commonFields(answer)}
+            </TableRow>
+          );
+        }
+        const stripTitle = removeHtml(title);
+        return (
+          <TableRow key={`${answer.id}-${index}`}>
+            <SpacedTableColumn>{alias}</SpacedTableColumn>
+            <SpacedTableColumn>{stripTitle}</SpacedTableColumn>
+            {commonFields(answer)}
+          </TableRow>
+        );
+      })}
+    </>
+  );
+};
+
+const buildTableRows = data => {
+  return (
+    <>
+      {data.map((item, index) => {
+        return <Row key={index} item={item} index={index} />;
+      })}
+    </>
   );
 };
 
 Row.propTypes = {
-  id: PropTypes.string.isRequired,
-  alias: PropTypes.string,
-  title: PropTypes.string,
-  type: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-  qCode: PropTypes.string,
-  collapsed: PropTypes.bool,
-  secondary: PropTypes.bool,
-  summaryAnswers: PropTypes.arrayOf(PropTypes.string),
-  properties: PropTypes.shape({
-    required: PropTypes.bool,
-    format: PropTypes.string,
-    decimals: PropTypes.number,
+  item: PropTypes.shape({
+    title: PropTypes.string,
+    alias: PropTypes.string,
+    answers: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string,
+        type: PropTypes.string,
+        label: PropTypes.string,
+        qCode: PropTypes.string,
+      })
+    ),
   }),
 };
 
 export const UnwrappedQCodeTable = ({ loading, error, data }) => {
+  const TableError = <Error>Oops! Something went wrong</Error>;
+
   if (loading) {
     return <Loading height="38rem">Page loading…</Loading>;
   }
 
   if (error) {
-    return <Error>Oops! Something went wrong</Error>;
+    return TableError;
   }
 
   const { sections } = data.questionnaire;
-  return (
+
+  const tableData = organiseTableContent(sections);
+
+  return tableData.length > 0 ? (
     <Table data-test="qcodes-table">
       <TableHead>
         <TableRow>
@@ -359,8 +338,10 @@ export const UnwrappedQCodeTable = ({ loading, error, data }) => {
           <TableHeadColumn width="20%">Qcode</TableHeadColumn>
         </TableRow>
       </TableHead>
-      <StyledTableBody>{buildContent(sections)}</StyledTableBody>
+      <StyledTableBody>{buildTableRows(tableData)}</StyledTableBody>
     </Table>
+  ) : (
+    TableError
   );
 };
 
