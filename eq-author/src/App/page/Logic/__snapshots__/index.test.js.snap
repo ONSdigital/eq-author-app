@@ -5,32 +5,22 @@ exports[`Logic Page should render 1`] = `
   design={true}
   logic={true}
   mainCanvasMaxWidth="80em"
-  page={
-    Object {
-      "displayName": "My first displayname",
-      "id": "1",
-      "page": Object {
-        "answers": Array [],
-        "displayName": "My question",
-        "id": "1",
-      },
-      "title": "My first title",
-      "validationErrorInfo": Object {
-        "errors": Array [
-          Object {
-            "id": "expressions-skipConditions-1",
-          },
-          Object {
-            "id": "expressions-routing-1",
-          },
-        ],
-        "totalCount": 2,
-      },
-    }
-  }
   preview={true}
   singleColumnLayout={true}
   title="My first displayname"
+  validationErrorInfo={
+    Object {
+      "errors": Array [
+        Object {
+          "id": "expressions-skipConditions-1",
+        },
+        Object {
+          "id": "expressions-routing-1",
+        },
+      ],
+      "totalCount": 2,
+    }
+  }
 >
   <Logic__LogicMainCanvas>
     <Grid
@@ -101,7 +91,6 @@ exports[`Logic Page should render an error when there is no data 1`] = `
   design={true}
   logic={true}
   mainCanvasMaxWidth="80em"
-  page={Object {}}
   preview={true}
   singleColumnLayout={true}
   title=""
@@ -165,32 +154,22 @@ exports[`Logic Page should show error info when there is an error 1`] = `
   design={true}
   logic={true}
   mainCanvasMaxWidth="80em"
-  page={
-    Object {
-      "displayName": "My first displayname",
-      "id": "1",
-      "page": Object {
-        "answers": Array [],
-        "displayName": "My question",
-        "id": "1",
-      },
-      "title": "My first title",
-      "validationErrorInfo": Object {
-        "errors": Array [
-          Object {
-            "id": "expressions-skipConditions-1",
-          },
-          Object {
-            "id": "expressions-routing-1",
-          },
-        ],
-        "totalCount": 2,
-      },
-    }
-  }
   preview={true}
   singleColumnLayout={true}
   title="My first displayname"
+  validationErrorInfo={
+    Object {
+      "errors": Array [
+        Object {
+          "id": "expressions-skipConditions-1",
+        },
+        Object {
+          "id": "expressions-routing-1",
+        },
+      ],
+      "totalCount": 2,
+    }
+  }
 >
   <Logic__LogicMainCanvas>
     <Grid
@@ -261,32 +240,22 @@ exports[`Logic Page should show loading info when loading 1`] = `
   design={true}
   logic={true}
   mainCanvasMaxWidth="80em"
-  page={
-    Object {
-      "displayName": "My first displayname",
-      "id": "1",
-      "page": Object {
-        "answers": Array [],
-        "displayName": "My question",
-        "id": "1",
-      },
-      "title": "My first title",
-      "validationErrorInfo": Object {
-        "errors": Array [
-          Object {
-            "id": "expressions-skipConditions-1",
-          },
-          Object {
-            "id": "expressions-routing-1",
-          },
-        ],
-        "totalCount": 2,
-      },
-    }
-  }
   preview={true}
   singleColumnLayout={true}
   title="My first displayname"
+  validationErrorInfo={
+    Object {
+      "errors": Array [
+        Object {
+          "id": "expressions-skipConditions-1",
+        },
+        Object {
+          "id": "expressions-routing-1",
+        },
+      ],
+      "totalCount": 2,
+    }
+  }
 >
   <Logic__LogicMainCanvas>
     <Grid

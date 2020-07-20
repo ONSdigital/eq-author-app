@@ -185,6 +185,7 @@ export class UnwrappedSectionRoute extends React.Component {
         data-test="section-route"
         preview={hasIntroductionContent}
         title={section.displayName || ""}
+        validationErrorInfo={section.validationErrorInfo}
       >
         <Panel>{this.renderContent()}</Panel>
       </EditorLayout>

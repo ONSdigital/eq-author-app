@@ -21,6 +21,7 @@ import AnswerValidation, {
 import {
   MIN_INCLUSIVE_TEXT,
   MAX_INCLUSIVE_TEXT,
+  DURATION_ERROR_MESSAGE,
   MAX_GREATER_THAN_MIN,
   EARLIEST_BEFORE_LATEST_DATE,
 } from "constants/validationMessages";
@@ -343,7 +344,7 @@ describe("AnswerValidation", () => {
 
       const { getByText } = rtlRender(<AnswerValidation {...props} />);
 
-      expect(getByText(MAX_GREATER_THAN_MIN)).toBeTruthy();
+      expect(getByText(DURATION_ERROR_MESSAGE)).toBeTruthy();
     });
   });
 });

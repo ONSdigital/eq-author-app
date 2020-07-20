@@ -103,10 +103,10 @@ const QuestionPagePreview = ({ page }) => {
 
   return (
     <EditorLayout
-      page={page}
       preview
       logic
       title={page.displayName}
+      validationErrorInfo={page.validationErrorInfo}
       renderPanel={() => <CommentsPanel componentId={page.id} />}
     >
       <Panel>

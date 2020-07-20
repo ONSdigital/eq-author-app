@@ -8,19 +8,19 @@ exports[`Editor Layout should render 1`] = `
     <Component>
       <withRouter(UnwrappedTabs)
         design={true}
-        page={
-          Object {
-            "answers": Array [],
-            "displayName": "Foo",
-            "id": "1",
-          }
-        }
         preview={false}
       />
     </Component>
     <EditorLayout__StyledGrid
       align="top"
       fillHeight={true}
+      page={
+        Object {
+          "answers": Array [],
+          "displayName": "Foo",
+          "id": "1",
+        }
+      }
       routing={true}
     >
       <Column
