@@ -822,7 +822,6 @@ describe("routing", () => {
       await deleteSection(ctx, fourthSection.id);
       firstPage = ctx.questionnaire.sections[0].pages[0];
 
-      // Only rule to exist after deletion of third page
       expect(firstPage.routing.else.sectionId).toBeNull();
     });
   });
@@ -918,7 +917,6 @@ describe("routing", () => {
       await deletePage(ctx, fourthPage.id);
       firstPage = ctx.questionnaire.sections[0].pages[0];
 
-      // Only rule to exist after deletion of third page
       expect(firstPage.routing.else.pageId).toBeNull();
     });
   });
