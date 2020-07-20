@@ -1,8 +1,6 @@
 const {
-  ERR_PAGE_MOVED,
-  ERR_PAGE_DELETED,
-  ERR_SECTION_MOVED,
-  ERR_SECTION_DELETED,
+  ERR_DESTINATION_DELETED,
+  ERR_DESTINATION_MOVED,
 } = require("../../../constants/validationErrorCodes");
 const availableRoutingDestinatinons = require("../../businessLogic/availableRoutingDestinations");
 const {
@@ -41,58 +39,38 @@ module.exports = function(ajv) {
         questionnaire,
         currentPageId
       );
+
       if (
-        entityData.destination.pageId &&
-        !getPageById({ questionnaire }, entityData.destination.pageId)
+        !entityData.destination.pageId &&
+        !entityData.destination.sectionId &&
+        !entityData.destination.logical
       ) {
         isValid.errors.push(
           newValidationError(
             "errorMessage",
             `${dataPath}/destination`,
-            ERR_PAGE_DELETED
+            ERR_DESTINTION_DELETED
           )
         );
         return false;
       }
+
       if (
-        entityData.destination.pageId &&
-        !some(questionPages, { id: entityData.destination.pageId })
+        (entityData.destination.pageId &&
+          !some(questionPages, { id: entityData.destination.pageId })) ||
+        (entityData.destination.sectionId &&
+          !some(sections, { id: entityData.destination.sectionId }))
       ) {
         isValid.errors.push(
           newValidationError(
             "errorMessage",
             `${dataPath}/destination`,
-            ERR_PAGE_MOVED
+            ERR_DESTINATION_MOVED
           )
         );
         return false;
       }
-      if (
-        entityData.destination.sectionId &&
-        !getSectionById({ questionnaire }, entityData.destination.sectionId)
-      ) {
-        isValid.errors.push(
-          newValidationError(
-            "errorMessage",
-            `${dataPath}/destination`,
-            ERR_SECTION_DELETED
-          )
-        );
-        return false;
-      }
-      if (
-        entityData.destination.sectionId &&
-        !some(sections, { id: entityData.destination.sectionId })
-      ) {
-        isValid.errors.push(
-          newValidationError(
-            "errorMessage",
-            `${dataPath}/destination`,
-            ERR_SECTION_MOVED
-          )
-        );
-        return false;
-      }
+
       return true;
     },
   });
