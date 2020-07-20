@@ -208,11 +208,15 @@ const Resolvers = {
       );
       return questionnareComments.comments[id] || [];
     },
-    getAvailableAnswers: (root, { input }, ctx) =>
+    getAvailableAnswers: (
+      root,
+      { input: { pageId, includeSelf = true } },
+      ctx
+    ) =>
       getPreviousAnswersForPage(
         ctx.questionnaire,
-        input.pageId,
-        input.includeSelf,
+        pageId,
+        includeSelf,
         ROUTING_ANSWER_TYPES
       ),
   },
