@@ -152,6 +152,7 @@ export class UnwrappedRuleEditor extends React.Component {
                     canAddCondition={
                       !existingRadioConditions[get("left.id", expression)]
                     }
+                    includeSelf
                   />
                 </Transition>
               );
