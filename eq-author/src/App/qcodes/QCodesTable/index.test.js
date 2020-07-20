@@ -168,6 +168,7 @@ describe("Qcode Table", () => {
                   label: "To",
                   secondaryLabel: "From",
                   qCode: "",
+                  secondaryQCode: "",
                   type: DATE_RANGE,
                   questionPageId: "qp-3",
                 },
