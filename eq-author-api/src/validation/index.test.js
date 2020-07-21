@@ -1207,7 +1207,8 @@ describe("schema validation", () => {
       const validationErrors = validation(questionnaire);
 
       expect(validationErrors.totalCount).toBe(1);
-      expect(validationErrors.rules["rule_1"].errors[0]).toMatchObject({
+      expect(validationErrors.rules.rule_1.errors.length).toBe(1);
+      expect(validationErrors.rules.rule_1.errors[0]).toMatchObject({
         id: "rules-rule_1-destination",
         entityId: "rule_1",
         type: "rules",
