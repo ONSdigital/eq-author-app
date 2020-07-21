@@ -18,6 +18,7 @@ const removeAnswerFromExpressions = (ctx, answer) => {
     expression.left.answerId = undefined;
     expression.left.type = NULL;
     expression.left.nullReason = SELECTED_ANSWER_DELETED;
+    delete expression.right;
   }, expressions);
 };
 
