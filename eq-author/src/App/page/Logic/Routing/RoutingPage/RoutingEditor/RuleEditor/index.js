@@ -123,8 +123,6 @@ export class UnwrappedRuleEditor extends React.Component {
       ? validationErrorInfo.errors
       : [];
 
-    console.log(validationErrors);
-
     return (
       <>
         <Rule data-test="routing-rule" className={className}>
@@ -195,7 +193,10 @@ export class UnwrappedRuleEditor extends React.Component {
           />
         </Rule>
         {validationErrors.length > 0 && (
-          <RepositionedValidationError right>
+          <RepositionedValidationError
+            right
+            test="destination-validation-error"
+          >
             <p>{destinationErrors[validationErrors[0].errorCode].message}</p>
           </RepositionedValidationError>
         )}

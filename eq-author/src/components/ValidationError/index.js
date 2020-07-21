@@ -13,8 +13,13 @@ const ErrorStyling = styled(IconText)`
   margin: 0.5em 0;
 `;
 
-const ValidationError = ({ children, right, className }) => (
-  <ErrorStyling icon={WarningIcon} className={className} right={right}>
+const ValidationError = ({ children, right, className, test }) => (
+  <ErrorStyling
+    icon={WarningIcon}
+    className={className}
+    right={right}
+    data-test={test}
+  >
     {children}
   </ErrorStyling>
 );

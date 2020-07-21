@@ -1,6 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
-import { render, fireEvent, act } from "tests/utils/rtl";
+import { render, fireEvent, act, flushPromises } from "tests/utils/rtl";
 
 import RoutingRuleDestinationSelector from "App/page/Logic/Routing/DestinationSelector";
 import { RADIO } from "constants/answer-types";
@@ -27,6 +27,12 @@ describe("RuleEditor", () => {
           },
           logical: null,
           section: null,
+        },
+        validationErrorInfo: {
+          id: "1-2-3",
+          errors: [],
+          totalCount: 0,
+          __typename: "ValidationErrorInfo",
         },
       },
       deleteRule: jest.fn(),
@@ -106,5 +112,47 @@ describe("RuleEditor", () => {
       id: defaultProps.rule.expressionGroup.id,
       operator: OR,
     });
+  });
+
+  it("should not display the validation message text beneath the destination selector, if there are no errors", async () => {
+    const { getByTestId } = render(<RuleEditor {...defaultProps} />, {
+      route: "/q/1/page/2",
+      urlParamMatcher: "/q/:questionnaireId/page/:pageId",
+    });
+
+    await act(async () => {
+      await flushPromises();
+    });
+
+    expect(() => getByTestId("destination-validation-error")).toThrow();
+  });
+
+  it("should display the validation message text beneath the destination selector, if it has an error", async () => {
+    const newProps = defaultProps;
+    newProps.rule.validationErrorInfo = {
+      id: "1-2-3",
+      errors: [
+        {
+          errorCode: "ERR_DESTINATION_DELETED",
+          field: "destination",
+          id: "rules-4-5-6-destination",
+          type: "rules",
+          __typename: "ValidationError",
+        },
+      ],
+      totalCount: 1,
+      __typename: "ValidationErrorInfo",
+    };
+
+    const { getByTestId } = render(<RuleEditor {...newProps} />, {
+      route: "/q/1/page/2",
+      urlParamMatcher: "/q/:questionnaireId/page/:pageId",
+    });
+
+    await act(async () => {
+      await flushPromises();
+    });
+
+    expect(getByTestId("destination-validation-error")).toBeTruthy();
   });
 });
