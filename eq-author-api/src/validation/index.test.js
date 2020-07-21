@@ -1165,5 +1165,56 @@ describe("schema validation", () => {
         ERR_RIGHTSIDE_ALLOFF_OR_NOT_ALLOWED
       );
     });
+
+    it("should return an error if a routing destination has been deleted", () => {
+      questionnaire.sections[0].pages[0].routing = {
+        id: "routing_1",
+        else: {
+          id: "else_1",
+          logical: "EndOfQuestionnaire",
+        },
+        rules: [
+          {
+            id: "rule_1",
+            destination: {
+              id: "destination_1",
+              pageId: null,
+            },
+            expressionGroup: {
+              id: "expressionGroup_1",
+              operator: "And",
+              expressions: [
+                {
+                  id: "expression_1",
+                  condition: "GreaterThan",
+                  left: {
+                    type: "Answer",
+                    answerId: "answer_1",
+                  },
+                  right: {
+                    type: "Custom",
+                    customValue: {
+                      number: 5,
+                    },
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      };
+
+      const validationErrors = validation(questionnaire);
+
+      expect(validationErrors.totalCount).toBe(1);
+      expect(validationErrors.rules["rule_1"].errors[0]).toMatchObject({
+        id: "rules-rule_1-destination",
+        entityId: "rule_1",
+        type: "rules",
+        field: "destination",
+        errorCode: "ERR_DESTINATION_DELETED",
+        dataPath: ["sections", "0", "pages", "0", "routing", "rules", "0"],
+      });
+    });
   });
 });
