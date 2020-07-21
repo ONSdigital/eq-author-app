@@ -627,6 +627,14 @@
               "items": {
                 "type": "string"
               }
+            },
+            "customValue": {
+              "type": "object",
+              "properties": {
+                "number": {
+                  "not": { "type": "null" }
+                }
+              }
             }
           },
           "required": ["type"],

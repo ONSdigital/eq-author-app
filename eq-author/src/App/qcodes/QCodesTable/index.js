@@ -67,6 +67,7 @@ const buildOptionRow = (option, questionType, secondary = false) => {
       label={label}
       qCode={qCode}
       secondary={secondary}
+      properties={option.properties}
     />
   );
 };
