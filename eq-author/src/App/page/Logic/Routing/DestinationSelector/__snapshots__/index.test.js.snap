@@ -30,6 +30,7 @@ exports[`components/RoutingRuleDestinationSelector should render 1`] = `
       <RoutingDestinationContentPicker
         data-test="routing-destination-content-picker"
         disabled={false}
+        hasError={false}
         id="test-select"
         onSubmit={[Function]}
         pageId="1"

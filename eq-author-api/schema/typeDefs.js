@@ -495,6 +495,7 @@ type RoutingRule2 {
   destination: Destination2!
   expressionGroup: ExpressionGroup2!
   routing: Routing2!
+  validationErrorInfo: ValidationErrorInfo
 }
 
 enum RoutingOperator2 {
