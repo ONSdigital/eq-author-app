@@ -199,32 +199,162 @@ const handleBlurReducer = ({ type, payload, mutation }) => {
     };
   };
 
+  const { id, qCode } = payload;
   if (questionMatrix[type] === "Confirmation question") {
-    const { id, qCode } = payload;
-
     updateConfirmation(mutationVariables({ id, qCode }));
   } else if (questionMatrix[type] === "Calculated summary") {
-    const { id, qCode } = payload;
     const summaryAnswers = payload.summaryAnswers.map(item => item.id);
     const update = { id, qCode, summaryAnswers };
 
     updateCalculatedSummaryPage(mutationVariables(update));
   } else if (payload.option) {
-    const { id, qCode } = payload;
-
     updateOption(mutationVariables({ id, qCode }));
   } else if (payload.secondary) {
-    const { id, qCode } = payload;
     updateAnswer(mutationVariables({ id, secondaryQCode: qCode }));
   } else {
-    const { id, qCode } = payload;
-
     updateAnswer(
       mutationVariables({ id, qCode, properties: payload.properties })
     );
   }
 };
 
+const flattenAnswers = data => {
+  const answers = data.reduce((acc, item) => {
+    const answer = item.answers.map((ans, index) => {
+      if (index > 0) {
+        return {
+          title: item.title,
+          alias: item.alias,
+          nested: true,
+          ...ans,
+        };
+      } else {
+        return {
+          title: item.title,
+          alias: item.alias,
+          ...ans,
+        };
+      }
+    });
+    acc.push(...answer);
+    return acc;
+  }, []);
+  return answers;
+};
+
+const NewRow = ({
+  title,
+  alias,
+  id,
+  label,
+  qCode: initialQcode,
+  type,
+  index,
+  qCodeCheck,
+  error,
+}) => {
+  // const NewRow = ({ title, alias, answer, index, qCodeCheck, error }) => {
+  // console.log("Render: row", answer);
+  // const { id, type, label, qCode: initialQcode } = answer;
+
+  const commonFields = useCallback(
+    fields => {
+      // const commonFields = fields => {
+      // const { id, type, label, qCode: initialQcode } = fields;
+      const [qCode, setQcode] = useState(initialQcode);
+
+      const [updateOption] = useMutation(UPDATE_OPTION_QCODE);
+      const [updateAnswer] = useMutation(UPDATE_ANSWER_QCODE);
+      const [updateConfirmation] = useMutation(UPDATE_CONFIRMATION_QCODE);
+      const [updateCalculatedSummaryPage] = useMutation(UPDATE_CALCSUM_QCODE);
+
+      const handleBlur = useCallback(
+        (id, type, qCode) => {
+          const mutation = {
+            updateOption,
+            updateAnswer,
+            updateConfirmation,
+            updateCalculatedSummaryPage,
+          };
+          qCodeCheck({ id, qCode });
+          if (qCode !== initialQcode) {
+            handleBlurReducer({
+              type,
+              payload: { ...fields, qCode },
+              mutation,
+            });
+          }
+        },
+        [id, type, qCode]
+      );
+
+      return (
+        <>
+          <SpacedTableColumn>{questionMatrix[type]}</SpacedTableColumn>
+          <SpacedTableColumn>{label}</SpacedTableColumn>
+          <SpacedTableColumn>
+            <TableInput
+              value={qCode}
+              onChange={e => setQcode(e.value)}
+              onBlur={() => handleBlur(id, type, qCode)}
+              name={`${id || ""}-qcode-entry`}
+              data-test={`${id || ""}-test-input`}
+            />
+            {/* this doesn't work yet */}
+            {/* {error.includes(id) && <div>Oh no error</div>} */}
+          </SpacedTableColumn>
+        </>
+      );
+    },
+    [initialQcode]
+  );
+
+  if (index > 0) {
+    return (
+      <TableRow key={`${id}-${index}`}>
+        <EmptyTableColumn />
+        <EmptyTableColumn />
+        {commonFields({ id, type, label, initialQcode })}
+      </TableRow>
+    );
+  }
+  const stripTitle = removeHtml(title);
+  return (
+    <TableRow key={`${id}-${index}`}>
+      <SpacedTableColumn>{alias}</SpacedTableColumn>
+      <SpacedTableColumn>{stripTitle}</SpacedTableColumn>
+      {commonFields({ id, type, label, initialQcode })}
+    </TableRow>
+  );
+};
+
+const RowBuilder = sections => {
+  const { answers } = organiseTableContent(sections);
+  const flatten = flattenAnswers(answers);
+
+  // by flattening here can pull out relevant data
+  // makes it easy to check for duplicates
+
+  // Data needs to be saved into state
+  // and state needs to be updated when an error is present
+  // Need to pass a handler from here
+
+  /*
+  const handler () => {
+    // check when qCode has updated and the id of the row item
+    // only update the state if it's different
+    // set the state
+  }
+
+  */
+
+  return flatten.map((item, index) => (
+    <NewRow key={`${item.id}-${index}`} {...item} />
+  ));
+  // want to memo the the component and check to see if there is an error present of the qCode has changed.
+};
+
+// need to remove the handleBlur from here
 const Row = ({ item: { title, alias, answers }, qCodeCheck, error }) => {
   const commonFields = useCallback(
     fields => {
@@ -245,8 +375,14 @@ const Row = ({ item: { title, alias, answers }, qCodeCheck, error }) => {
             updateConfirmation,
             updateCalculatedSummaryPage,
           };
-          qCodeCheck({ id, qCode });
-          handleBlurReducer({ type, payload: { ...fields, qCode }, mutation });
+          if (initialQcode !== qCode) {
+            qCodeCheck({ id, qCode });
+            handleBlurReducer({
+              type,
+              payload: { ...fields, qCode },
+              mutation,
+            });
+          }
         },
         [id, type, qCode]
       );
@@ -287,7 +423,7 @@ const Row = ({ item: { title, alias, answers }, qCodeCheck, error }) => {
         const stripTitle = removeHtml(title);
         console.log("Render: first item");
         return (
-          <TableRow key={`${answer.id}-${index}`}>
+          <TableRow key={`${answer.id}-${answer.qCode}`}>
             <SpacedTableColumn>{alias}</SpacedTableColumn>
             <SpacedTableColumn>{stripTitle}</SpacedTableColumn>
             {commonFields(answer)}
@@ -298,6 +434,8 @@ const Row = ({ item: { title, alias, answers }, qCodeCheck, error }) => {
   );
 };
 
+// need handle qCodes from here and duplicate checker
+// duplicate check is rough and needs some polish
 const buildTableRows = data => {
   const { answers, qCodes } = organiseTableContent(data);
 
@@ -316,8 +454,6 @@ const buildTableRows = data => {
       }
       return code;
     });
-    console.log(hasChanged, "haschanged");
-
     if (hasChanged) {
       setQCodes(updatedQCodes);
     }
@@ -356,10 +492,6 @@ const buildTableRows = data => {
   );
 };
 
-// Worry about this later - by the looks of things, the memo goes around the list maker
-// Need to find a good place for the callback and memo
-// const MemoRow = React.memo(Row);
-
 Row.propTypes = {
   item: PropTypes.shape({
     title: PropTypes.string,
@@ -388,10 +520,10 @@ export const UnwrappedQCodeTable = ({ loading, error, data }) => {
 
   const { sections } = data.questionnaire;
 
-  // const tableData = organiseTableContent(sections);
+  // needs a better name (for function and var)
+  const test = RowBuilder(sections);
 
-  return sections ? (
-    // return tableData.answers.length > 0 ? (
+  return (
     <Table data-test="qcodes-table">
       <TableHead>
         <TableRow>
@@ -402,11 +534,8 @@ export const UnwrappedQCodeTable = ({ loading, error, data }) => {
           <TableHeadColumn width="20%">Qcode</TableHeadColumn>
         </TableRow>
       </TableHead>
-      {/* <StyledTableBody>{buildTableRows(tableData)}</StyledTableBody> */}
-      <StyledTableBody>{buildTableRows(sections)}</StyledTableBody>
+      <StyledTableBody>{test}</StyledTableBody>
     </Table>
-  ) : (
-    TableError
   );
 };
 
