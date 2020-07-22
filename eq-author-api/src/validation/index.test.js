@@ -1217,5 +1217,90 @@ describe("schema validation", () => {
         dataPath: ["sections", "0", "pages", "0", "routing", "rules", "0"],
       });
     });
+
+    it.only("should return an error if the destination has been moved to an invalid location", () => {
+      questionnaire.sections[0].pages[0].routing = {
+        id: "routing_1",
+        else: {
+          id: "else_1",
+          logical: "EndOfQuestionnaire",
+        },
+        rules: [
+          {
+            id: "rule_1",
+            destination: {
+              id: "destination_1",
+              pageId: "page_4",
+            },
+            expressionGroup: {
+              id: "expressionGroup_1",
+              operator: "And",
+              expressions: [
+                {
+                  id: "expression_1",
+                  condition: "GreaterThan",
+                  left: {
+                    type: "Answer",
+                    answerId: "answer_1",
+                  },
+                  right: {
+                    type: "Custom",
+                    customValue: {
+                      number: 5,
+                    },
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      };
+
+      questionnaire.sections.push({
+        id: "section_2",
+        title: "section_2",
+        pages: [
+          {
+            id: "page_3",
+            title: "page title",
+            answers: [
+              {
+                id: "answer_3",
+                type: "Number",
+                label: "Number",
+              },
+            ],
+            routing: null,
+            skipConditions: null,
+          },
+          {
+            id: "page_4",
+            title: "page title",
+            answers: [
+              {
+                id: "answer_4",
+                type: "Number",
+                label: "Number",
+              },
+            ],
+            routing: null,
+            skipConditions: null,
+          },
+        ],
+      });
+
+      const validationErrors = validation(questionnaire);
+
+      expect(validationErrors.rules.rule_1.errors[0]).toMatchObject({
+        id: "rules-rule_1-destination",
+        entityId: "rule_1",
+        type: "rules",
+        field: "destination",
+        errorCode: "ERR_DESTINATION_MOVED",
+        dataPath: ["sections", "0", "pages", "0", "routing", "rules", "0"],
+      });
+      expect(validationErrors.rules.rule_1.totalCount).toBe(1);
+      expect(validationErrors.rules.rule_1.errors.length).toBe(1);
+    });
   });
 });
