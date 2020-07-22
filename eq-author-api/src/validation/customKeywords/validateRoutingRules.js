@@ -36,11 +36,9 @@ module.exports = function(ajv) {
         currentPageId
       );
 
-      if (
-        !entityData.destination.pageId &&
-        !entityData.destination.sectionId &&
-        !entityData.destination.logical
-      ) {
+      const { pageId, sectionId, logical } = entityData.destination;
+
+      if (!pageId && !sectionId && !logical) {
         isValid.errors.push(
           newValidationError(
             "errorMessage",
@@ -52,10 +50,8 @@ module.exports = function(ajv) {
       }
 
       if (
-        (entityData.destination.pageId &&
-          !some(questionPages, { id: entityData.destination.pageId })) ||
-        (entityData.destination.sectionId &&
-          !some(sections, { id: entityData.destination.sectionId }))
+        (pageId && !some(questionPages, { id: pageId })) ||
+        (sectionId && !some(sections, { id: sectionId }))
       ) {
         isValid.errors.push(
           newValidationError(

@@ -8,6 +8,14 @@ const {
   DATE_RANGE,
 } = require("../../constants/answerTypes");
 
+const { GREATER_THAN } = require("../../constants/validationConditions");
+
+const { END_OF_QUESTIONNAIRE } = require("../../constants/logicalDestinations");
+
+const { CUSTOM, ANSWER } = require("../../constants/validationEntityTypes");
+
+const { AND } = require("../../constants/routingOperators");
+
 const {
   ERR_MAX_LENGTH_TOO_LARGE,
   ERR_MAX_LENGTH_TOO_SMALL,
@@ -15,6 +23,8 @@ const {
   ERR_RIGHTSIDE_NO_VALUE,
   ERR_RIGHTSIDE_AND_OR_NOT_ALLOWED,
   ERR_RIGHTSIDE_ALLOFF_OR_NOT_ALLOWED,
+  ERR_DESTINATION_MOVED,
+  ERR_DESTINATION_DELETED,
 } = require("../../constants/validationErrorCodes");
 
 const validation = require(".");
@@ -1171,7 +1181,7 @@ describe("schema validation", () => {
         id: "routing_1",
         else: {
           id: "else_1",
-          logical: "EndOfQuestionnaire",
+          logical: END_OF_QUESTIONNAIRE,
         },
         rules: [
           {
@@ -1182,17 +1192,17 @@ describe("schema validation", () => {
             },
             expressionGroup: {
               id: "expressionGroup_1",
-              operator: "And",
+              operator: AND,
               expressions: [
                 {
                   id: "expression_1",
-                  condition: "GreaterThan",
+                  condition: GREATER_THAN,
                   left: {
-                    type: "Answer",
+                    type: ANSWER,
                     answerId: "answer_1",
                   },
                   right: {
-                    type: "Custom",
+                    type: CUSTOM,
                     customValue: {
                       number: 5,
                     },
@@ -1213,7 +1223,7 @@ describe("schema validation", () => {
         entityId: "rule_1",
         type: "rules",
         field: "destination",
-        errorCode: "ERR_DESTINATION_DELETED",
+        errorCode: ERR_DESTINATION_DELETED,
         dataPath: ["sections", "0", "pages", "0", "routing", "rules", "0"],
       });
     });
@@ -1223,7 +1233,7 @@ describe("schema validation", () => {
         id: "routing_1",
         else: {
           id: "else_1",
-          logical: "EndOfQuestionnaire",
+          logical: END_OF_QUESTIONNAIRE,
         },
         rules: [
           {
@@ -1234,17 +1244,17 @@ describe("schema validation", () => {
             },
             expressionGroup: {
               id: "expressionGroup_1",
-              operator: "And",
+              operator: AND,
               expressions: [
                 {
                   id: "expression_1",
-                  condition: "GreaterThan",
+                  condition: GREATER_THAN,
                   left: {
-                    type: "Answer",
+                    type: ANSWER,
                     answerId: "answer_1",
                   },
                   right: {
-                    type: "Custom",
+                    type: CUSTOM,
                     customValue: {
                       number: 5,
                     },
@@ -1266,7 +1276,7 @@ describe("schema validation", () => {
             answers: [
               {
                 id: "answer_3",
-                type: "Number",
+                type: NUMBER,
                 label: "Number",
               },
             ],
@@ -1279,7 +1289,7 @@ describe("schema validation", () => {
             answers: [
               {
                 id: "answer_4",
-                type: "Number",
+                type: NUMBER,
                 label: "Number",
               },
             ],
@@ -1296,7 +1306,7 @@ describe("schema validation", () => {
         entityId: "rule_1",
         type: "rules",
         field: "destination",
-        errorCode: "ERR_DESTINATION_MOVED",
+        errorCode: ERR_DESTINATION_MOVED,
         dataPath: ["sections", "0", "pages", "0", "routing", "rules", "0"],
       });
       expect(validationErrors.rules.rule_1.totalCount).toBe(1);

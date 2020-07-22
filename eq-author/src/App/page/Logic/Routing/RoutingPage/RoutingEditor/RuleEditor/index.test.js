@@ -5,11 +5,14 @@ import { render, fireEvent, act, flushPromises } from "tests/utils/rtl";
 import RoutingRuleDestinationSelector from "App/page/Logic/Routing/DestinationSelector";
 import { RADIO } from "constants/answer-types";
 import { AND, OR } from "constants/routingOperators";
+import { destinationErrors } from "constants/validationMessages";
 
 import BinaryExpressionEditor from "App/page/Logic/BinaryExpressionEditor";
 
 import { UnwrappedRuleEditor as RuleEditor } from "./";
 import { byTestAttr } from "tests/utils/selectors";
+
+const { ERR_DESTINATION_DELETED } = destinationErrors;
 
 describe("RuleEditor", () => {
   let defaultProps;
@@ -133,7 +136,7 @@ describe("RuleEditor", () => {
       id: "1-2-3",
       errors: [
         {
-          errorCode: "ERR_DESTINATION_DELETED",
+          errorCode: ERR_DESTINATION_DELETED.errorCode,
           field: "destination",
           id: "rules-4-5-6-destination",
           type: "rules",
