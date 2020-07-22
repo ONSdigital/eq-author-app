@@ -32,7 +32,7 @@ import { Grid, Column } from "components/Grid";
 import Transition from "App/page/Logic/Routing/Transition";
 
 import RoutingAnswerContentPicker from "./RoutingAnswerContentPicker";
-import ValidationError from "./ValidationError";
+import ValidationError from "components/ValidationError";
 import svgPath from "./path.svg";
 import svgPathEnd from "./path-end.svg";
 import IconMinus from "./icon-minus.svg?inline";
@@ -133,13 +133,6 @@ const Flex = styled.div`
 
 const ContentPicker = styled(RoutingAnswerContentPicker)`
   flex: 1 1 auto;
-  ${({ hasError }) =>
-    hasError &&
-    `
-       border-color: ${colors.red};
-    outline-color: ${colors.red};
-    box-shadow: 0 0 0 2px ${colors.red};
-  `}
 `;
 
 const DefaultRouteDiv = styled.div`

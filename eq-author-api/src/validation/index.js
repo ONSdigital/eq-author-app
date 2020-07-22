@@ -12,6 +12,7 @@ const {
   CONFIRMATION_OPTION,
   VALIDATION,
   EXPRESSIONS,
+  RULES,
   MIN_VALUE,
   MAX_VALUE,
   MIN_DURATION,
@@ -108,6 +109,7 @@ module.exports = questionnaire => {
       [CONFIRMATION_OPTION]: {},
       [VALIDATION]: {},
       [EXPRESSIONS]: {},
+      [RULES]: {},
       totalCount: 0,
     };
   }
@@ -192,6 +194,7 @@ module.exports = questionnaire => {
               ? [...structure[pageType][pageId].errors, error]
               : [error],
           };
+
           structure[pageType][pageId] = {
             ...errorInfo,
           };
@@ -208,6 +211,7 @@ module.exports = questionnaire => {
         [CONFIRMATION_OPTION]: {},
         [VALIDATION]: {},
         [EXPRESSIONS]: {},
+        [RULES]: {},
         totalCount: errorMessages.length,
       }
     );

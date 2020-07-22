@@ -7,6 +7,7 @@ const CONFIRMATION_OPTION = "confirmationoption";
 const PROPERTIES = "properties";
 const VALIDATION = "validation";
 const EXPRESSIONS = "expressions";
+const RULES = "rules";
 const MIN_VALUE = "minValue";
 const MAX_VALUE = "maxValue";
 const MIN_DURATION = "minDuration";
@@ -24,6 +25,7 @@ module.exports = {
   CONFIRMATION_OPTION,
   VALIDATION,
   EXPRESSIONS,
+  RULES,
   MIN_VALUE,
   MAX_VALUE,
   MIN_DURATION,

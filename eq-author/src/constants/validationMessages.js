@@ -75,6 +75,18 @@ export const rightSideErrors = {
   },
 };
 
+export const destinationErrors = {
+  ERR_DESTINATION_MOVED: {
+    errorCode: "ERR_DESTINATION_MOVED",
+    message:
+      "Select a destination that's in the current section, or is another section",
+  },
+  ERR_DESTINATION_DELETED: {
+    errorCode: "ERR_DESTINATION_DELETED",
+    message: "This destination has been deleted. Select a new destination.",
+  },
+};
+
 export const MISSING_LABEL = "Enter a label";
 
 export const buildLabelError = (mainString, insString, pos, pos2) => {

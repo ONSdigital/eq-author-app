@@ -592,6 +592,9 @@
             }
           }
         }
+      },
+      "validateRoutingRule": {
+        "$data": "/sections"
       }
     },
     "expression": {
@@ -619,7 +622,7 @@
         "right": {
           "type": "object",
           "properties": {
-            "type": { "enum": ["Custom","SelectedOptions"] },
+            "type": { "enum": ["Custom", "SelectedOptions"] },
             "optionIds": {
               "type": "array",
               "minItems": 1,
