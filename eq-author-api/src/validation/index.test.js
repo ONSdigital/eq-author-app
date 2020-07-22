@@ -1218,7 +1218,7 @@ describe("schema validation", () => {
       });
     });
 
-    it.only("should return an error if the destination has been moved to an invalid location", () => {
+    it("should return an error if the destination has been moved to an invalid location", () => {
       questionnaire.sections[0].pages[0].routing = {
         id: "routing_1",
         else: {
