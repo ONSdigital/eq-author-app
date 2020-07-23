@@ -8,5 +8,6 @@ module.exports = ajv => {
   require("./validateDuration")(ajv);
   require("./textLengthInRange")(ajv);
   require("./validateExclusiveCheckbox")(ajv);
+  require("./validateLeftHandSide")(ajv);
   require("./validateRoutingRules")(ajv);
 };

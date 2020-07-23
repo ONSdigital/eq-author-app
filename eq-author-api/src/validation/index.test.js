@@ -23,6 +23,7 @@ const {
   ERR_RIGHTSIDE_NO_VALUE,
   ERR_RIGHTSIDE_AND_OR_NOT_ALLOWED,
   ERR_RIGHTSIDE_ALLOFF_OR_NOT_ALLOWED,
+  ERR_LEFTSIDE_NO_LONGER_AVAILABLE,
   ERR_DESTINATION_MOVED,
   ERR_DESTINATION_DELETED,
 } = require("../../constants/validationErrorCodes");
@@ -46,6 +47,22 @@ describe("schema validation", () => {
               answers: [
                 {
                   id: "answer_1",
+                  type: NUMBER,
+                  label: "Number",
+                },
+                {
+                  id: "answer_12",
+                  type: NUMBER,
+                  label: "Number",
+                },
+              ],
+            },
+            {
+              id: "page_2",
+              title: "page title",
+              answers: [
+                {
+                  id: "answer_2",
                   type: NUMBER,
                   label: "Number",
                 },
@@ -880,6 +897,55 @@ describe("schema validation", () => {
       );
     });
 
+    it("should validate left hand Answer is after routing question", () => {
+      const expressionId = "express-1";
+
+      const routing = validation(questionnaire);
+
+      expect(routing.totalCount).toBe(0);
+
+      questionnaire.sections[0].pages[0].routing = {
+        id: "1",
+        else: {
+          id: "else-1",
+          logical: "NextPage",
+        },
+        rules: [
+          {
+            id: "rule-1",
+            destination: {
+              id: "dest-1",
+              logical: "NextPage",
+            },
+            expressionGroup: {
+              id: "group-1",
+              operator: "And",
+              expressions: [
+                {
+                  id: expressionId,
+                  condition: "Equal",
+                  left: {
+                    type: "Answer",
+                    answerId: "answer_2",
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      };
+
+      const routingErrors = validation(questionnaire);
+
+      expect(routingErrors.totalCount).toBe(1);
+      expect(routingErrors.expressions[expressionId].errors[0].id).toBe(
+        "expressions-routing-express-1-left"
+      );
+      expect(routingErrors.expressions[expressionId].errors[0].errorCode).toBe(
+        ERR_LEFTSIDE_NO_LONGER_AVAILABLE
+      );
+    });
+
     it("should validate empty skip conditions", () => {
       const expressionId = "express-1";
 
@@ -931,7 +997,7 @@ describe("schema validation", () => {
               condition: "Equal",
               left: {
                 type: "Answer",
-                answerId: "a3a30d15-c857-4f6a-8251-f072a5b58c60",
+                answerId: "answer_1",
               },
               right: null,
             },
@@ -957,7 +1023,7 @@ describe("schema validation", () => {
 
       expect(routing.totalCount).toBe(0);
       questionnaire.sections[0].pages[0].answers[0] = {
-        id: "answer-1",
+        id: "answer_1",
         options: [
           {
             id: "option-1",
@@ -997,7 +1063,7 @@ describe("schema validation", () => {
                   condition: "AllOf",
                   left: {
                     type: "Answer",
-                    answerId: "answer-1",
+                    answerId: "answer_12",
                   },
                   right: {
                     type: "SelectedOptions",
@@ -1028,7 +1094,7 @@ describe("schema validation", () => {
 
       expect(routing.totalCount).toBe(0);
       questionnaire.sections[0].pages[0].answers[0] = {
-        id: "answer-1",
+        id: "answer_1",
         options: [
           {
             id: "option-1",
@@ -1068,7 +1134,7 @@ describe("schema validation", () => {
                   condition: "AnyOf",
                   left: {
                     type: "Answer",
-                    answerId: "answer-1",
+                    answerId: "answer_12",
                   },
                   right: {
                     type: "SelectedOptions",
@@ -1100,7 +1166,7 @@ describe("schema validation", () => {
 
       expect(routing.totalCount).toBe(0);
       questionnaire.sections[0].pages[0].answers[0] = {
-        id: "answer-1",
+        id: "answer_12",
         options: [
           {
             id: "option-1",
@@ -1140,7 +1206,7 @@ describe("schema validation", () => {
                   condition: "AnyOf",
                   left: {
                     type: "Answer",
-                    answerId: "answer-1",
+                    answerId: "answer_12",
                   },
                   right: {
                     type: "SelectedOptions",
@@ -1152,7 +1218,7 @@ describe("schema validation", () => {
                   condition: "AnyOf",
                   left: {
                     type: "Answer",
-                    answerId: "answer-1",
+                    answerId: "answer_12",
                   },
                   right: {
                     type: "SelectedOptions",

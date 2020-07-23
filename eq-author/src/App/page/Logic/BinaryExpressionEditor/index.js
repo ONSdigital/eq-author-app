@@ -24,7 +24,10 @@ import {
   DEFAULT_SKIP_CONDITION,
 } from "constants/routing-left-side";
 
-import { binaryExpressionErrors } from "constants/validationMessages";
+import {
+  binaryExpressionErrors,
+  leftSideErrors,
+} from "constants/validationMessages";
 
 import IconText from "components/IconText";
 import { Grid, Column } from "components/Grid";
@@ -188,6 +191,20 @@ const ERROR_SITUATIONS = [
     message: () => (
       <ValidationError icon={WarningIcon}>
         {binaryExpressionErrors.ERR_ANSWER_NOT_SELECTED.message}
+      </ValidationError>
+    ),
+  },
+  {
+    condition: props =>
+      some(
+        {
+          errorCode: leftSideErrors.ERR_LEFTSIDE_NO_LONGER_AVAILABLE.errorCode,
+        },
+        props.expression.validationErrorInfo.errors
+      ),
+    message: () => (
+      <ValidationError icon={WarningIcon}>
+        {leftSideErrors.ERR_LEFTSIDE_NO_LONGER_AVAILABLE.message}
       </ValidationError>
     ),
   },

@@ -617,7 +617,8 @@
               "required": ["answerId"]
             }
           ],
-          "errorMessage": "ERR_ANSWER_NOT_SELECTED"
+          "errorMessage": "ERR_ANSWER_NOT_SELECTED",
+          "validateLeftHandSide": "left"
         },
         "right": {
           "type": "object",
