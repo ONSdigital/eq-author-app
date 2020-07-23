@@ -158,7 +158,7 @@ describe("BinaryExpressionEditor", () => {
 
     expect(
       screen.getByText(
-        "Select an answer that is not later on, in the questionnaire"
+        "Select an answer that is not later on in the questionnaire"
       )
     ).toBeTruthy();
   });
