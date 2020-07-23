@@ -28,7 +28,6 @@ import { destinationErrors } from "constants/validationMessages";
 const RepositionedValidationError = styled(ValidationError)`
   justify-content: unset;
   padding-left: 36.5%;
-  line-height: 0;
   margin-top: 0;
 `;
 
