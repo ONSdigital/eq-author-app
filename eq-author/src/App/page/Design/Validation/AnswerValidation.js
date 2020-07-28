@@ -19,6 +19,7 @@ import DurationPreview from "./DurationPreview";
 import {
   EARLIEST_BEFORE_LATEST_DATE,
   MAX_GREATER_THAN_MIN,
+  DURATION_ERROR_MESSAGE,
   MIN_INCLUSIVE_TEXT,
   MAX_INCLUSIVE_TEXT,
 } from "constants/validationMessages";
@@ -277,7 +278,7 @@ class AnswerValidation extends React.PureComponent {
 
       const durationError = this.renderPropertyError(
         validationErrors.dateRange.duration.length > 1,
-        MAX_GREATER_THAN_MIN,
+        DURATION_ERROR_MESSAGE,
         "duration-error"
       );
 

@@ -2,49 +2,6 @@
 
 exports[`Question Confirmation Preview should correctly strip and render piped answers 1`] = `
 <EditorLayout
-  page={
-    Object {
-      "displayName": "Hello world",
-      "id": "1",
-      "negative": Object {
-        "description": "negative description",
-        "id": "2",
-        "label": "negative label",
-        "validationErrorInfo": Array [],
-      },
-      "page": Object {
-        "answers": Array [
-          Object {
-            "id": "1",
-            "mutuallyExclusiveOption": Object {
-              "id": "3",
-              "label": "label 3",
-            },
-            "options": Array [
-              Object {
-                "id": "1",
-                "label": "label 1",
-              },
-              Object {
-                "id": "2",
-                "label": "label 2",
-              },
-            ],
-            "type": "Radio",
-          },
-        ],
-        "displayName": "page name",
-        "id": "1",
-      },
-      "positive": Object {
-        "description": "positive description",
-        "id": "1",
-        "label": "positive label",
-        "validationErrorInfo": Array [],
-      },
-      "title": "<p>foo<span data-piped=\\"x\\" data-id=\\"1\\">[bar]</span></p>",
-    }
-  }
   preview={true}
   renderPanel={[Function]}
   title="Hello world"
@@ -104,30 +61,6 @@ exports[`Question Confirmation Preview should correctly strip and render piped a
 
 exports[`Question Confirmation Preview should not render replay options when there are no answer options 1`] = `
 <EditorLayout
-  page={
-    Object {
-      "displayName": "Hello world",
-      "id": "1",
-      "negative": Object {
-        "description": "negative description",
-        "id": "2",
-        "label": "negative label",
-        "validationErrorInfo": Array [],
-      },
-      "page": Object {
-        "answers": Array [],
-        "displayName": "foobar",
-        "id": "1",
-      },
-      "positive": Object {
-        "description": "positive description",
-        "id": "1",
-        "label": "positive label",
-        "validationErrorInfo": Array [],
-      },
-      "title": "<p>Hello world</p>",
-    }
-  }
   preview={true}
   renderPanel={[Function]}
   title="Hello world"
@@ -165,49 +98,6 @@ exports[`Question Confirmation Preview should not render replay options when the
 
 exports[`Question Confirmation Preview should render 1`] = `
 <EditorLayout
-  page={
-    Object {
-      "displayName": "Hello world",
-      "id": "1",
-      "negative": Object {
-        "description": "negative description",
-        "id": "2",
-        "label": "negative label",
-        "validationErrorInfo": Array [],
-      },
-      "page": Object {
-        "answers": Array [
-          Object {
-            "id": "1",
-            "mutuallyExclusiveOption": Object {
-              "id": "3",
-              "label": "label 3",
-            },
-            "options": Array [
-              Object {
-                "id": "1",
-                "label": "label 1",
-              },
-              Object {
-                "id": "2",
-                "label": "label 2",
-              },
-            ],
-            "type": "Radio",
-          },
-        ],
-        "displayName": "page name",
-        "id": "1",
-      },
-      "positive": Object {
-        "description": "positive description",
-        "id": "1",
-        "label": "positive label",
-        "validationErrorInfo": Array [],
-      },
-      "title": "<p>Hello world</p>",
-    }
-  }
   preview={true}
   renderPanel={[Function]}
   title="Hello world"

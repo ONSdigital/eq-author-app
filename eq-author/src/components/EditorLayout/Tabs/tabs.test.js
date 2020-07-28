@@ -15,11 +15,10 @@ describe("Tabs", () => {
           pageId: "3",
         },
       },
-      page: {
-        validationErrorInfo: {
-          totalCount: 1,
-          errors: [{ id: "design-1" }],
-        },
+
+      validationErrorInfo: {
+        totalCount: 1,
+        errors: [{ id: "expression-routing-logic-test" }],
       },
     };
   });
@@ -68,7 +67,7 @@ describe("Tabs", () => {
     expect(getByTestId("small-badge")).toBeTruthy();
   });
   it("should provide the validation error dot for the logic tab if design page has error", async () => {
-    props.page.validationErrorInfo = {
+    props.validationErrorInfo = {
       totalCount: 1,
       errors: [
         {

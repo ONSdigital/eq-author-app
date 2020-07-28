@@ -81,7 +81,7 @@ export const UnwrappedPreviewConfirmationRoute = ({ loading, data }) => {
       preview
       title={displayName}
       renderPanel={() => <CommentsPanel componentId={id} />}
-      page={questionConfirmation}
+      validationErrorInfo={questionConfirmation.validationErrorInfo}
     >
       <Panel>
         <Container>

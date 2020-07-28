@@ -2,8 +2,6 @@ import React, { useCallback } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import { NavLink, withRouter } from "react-router-dom";
-import { get } from "lodash";
-
 import { colors } from "constants/theme";
 import CustomPropTypes from "custom-prop-types";
 import {
@@ -86,35 +84,27 @@ const TABS = [
 ];
 
 export const UnwrappedTabs = props => {
-  const { match, page } = props;
-  const validationErrors = get(page, "validationErrorInfo", null);
-
+  const { match, validationErrorInfo } = props;
   const tabErrors = useCallback(
     tabKey => {
-      if (validationErrors === null || validationErrors === undefined) {
+      if (validationErrorInfo === null || validationErrorInfo === undefined) {
         return null;
       }
-
       const errorsPerTab = {
         design: [],
         logic: [],
       };
-
-      const { errors } = validationErrors;
-
+      const { errors } = validationErrorInfo;
       const errorSeparator = errors.reduce((accumulator, error) => {
         const { design, logic } = accumulator;
-
         error.id.includes("expression")
           ? logic.push(error)
           : design.push(error);
-
         return accumulator;
       }, errorsPerTab);
-
       return errorSeparator[tabKey];
     },
-    [validationErrors]
+    [validationErrorInfo]
   );
 
   return (
@@ -153,7 +143,7 @@ UnwrappedTabs.propTypes = {
   preview: PropTypes.bool,
   logic: PropTypes.bool,
   match: CustomPropTypes.match.isRequired,
-  page: CustomPropTypes.page,
+  validationErrorInfo: CustomPropTypes.validationErrorInfo,
 };
 
 export default withRouter(UnwrappedTabs);

@@ -100,7 +100,11 @@ export class UnwrappedQuestionConfirmationRoute extends React.Component {
     const pageData = getOr("", "questionConfirmation", this.props.data);
 
     return (
-      <EditorLayout title={displayName} preview page={pageData}>
+      <EditorLayout
+        title={displayName}
+        preview
+        validationErrorInfo={pageData.validationErrorInfo}
+      >
         <Panel>{this.renderContent()}</Panel>
       </EditorLayout>
     );

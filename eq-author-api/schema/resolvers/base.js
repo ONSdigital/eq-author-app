@@ -65,7 +65,7 @@ const updateMetadata = require("../../src/businessLogic/updateMetadata");
 const getPreviousAnswersForPage = require("../../src/businessLogic/getPreviousAnswersForPage");
 const getPreviousAnswersForSection = require("../../src/businessLogic/getPreviousAnswersForSection");
 const createOption = require("../../src/businessLogic/createOption");
-const onPageDeleted = require("../../src/businessLogic/onPageDeleted");
+const onSectionDeleted = require("../../src/businessLogic/onSectionDeleted");
 const addPrefix = require("../../utils/addPrefix");
 const { createQuestionPage } = require("./pages/questionPage");
 
@@ -208,13 +208,13 @@ const Resolvers = {
       );
       return questionnareComments.comments[id] || [];
     },
-    getAvailableAnswers: (root, { input: { pageId, includeSelf = true } }, ctx) => 
-    getPreviousAnswersForPage(
-      ctx.questionnaire,
-      pageId,
-      includeSelf,
-      ROUTING_ANSWER_TYPES
-    ),
+    getAvailableAnswers: (root, { input }, ctx) =>
+      getPreviousAnswersForPage(
+        ctx.questionnaire,
+        input.pageId,
+        input.includeSelf,
+        ROUTING_ANSWER_TYPES
+      ),
   },
 
   Subscription: {
@@ -353,9 +353,7 @@ const Resolvers = {
     deleteSection: createMutation((root, { input }, ctx) => {
       const section = find(ctx.questionnaire.sections, { id: input.id });
       const removedSection = first(remove(ctx.questionnaire.sections, section));
-      removedSection.pages.forEach(page => {
-        onPageDeleted(ctx, removedSection, page);
-      });
+      onSectionDeleted(ctx, removedSection);
       return ctx.questionnaire;
     }),
     moveSection: createMutation((_, { input }, ctx) => {
