@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, memo } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
@@ -21,9 +21,10 @@ import {
 } from "components/datatable/Elements";
 import { TableInput } from "components/datatable/Controls";
 import Loading from "components/Loading";
-import Error from "components/Error";
+import Error, { ValidationError } from "components/Error";
 
 import { colors } from "constants/theme";
+import { QCODE_IS_NOT_UNIQUE } from "constants/validationMessages";
 
 import {
   CHECKBOX,
@@ -45,12 +46,27 @@ const SpacedTableColumn = styled(TableColumn)`
   word-break: break-word;
 `;
 
+const ErrorWrappedInput = styled(TableInput)`
+  ${({ error }) =>
+    error &&
+    `
+    border-color: ${colors.red};
+    outline-color: ${colors.red};
+    box-shadow: 0 0 0 2px ${colors.red};
+  `}
+`;
+
 const EmptyTableColumn = styled(TableColumn)`
   background-color: ${colors.lightMediumGrey};
 `;
 
 const StyledTableBody = styled(TableBody)`
   background-color: white;
+`;
+
+const QcodeValidationError = styled(ValidationError)`
+  justify-content: unset;
+  margin: 0;
 `;
 
 const questionMatrix = {
@@ -163,6 +179,7 @@ const organiseTableContent = sections => {
       } = item;
 
       const label = removeHtml(totalTitle);
+
       answerRows.push({
         title,
         alias,
@@ -171,14 +188,31 @@ const organiseTableContent = sections => {
     }
   }
 
-  // TODO
-  // add qcode array here
+  return { answers: answerRows };
+};
 
-  const qCodes = answerRows.reduce((acc, item) => {
-    const codes = item.answers.map(ans => ({ id: ans.id, qCode: ans.qCode }));
-    return [...acc, ...codes];
+const flattenAnswers = data => {
+  const answers = data.reduce((acc, item) => {
+    const answer = item.answers.map((ans, index) => {
+      if (index > 0) {
+        return {
+          title: item.title,
+          alias: item.alias,
+          nested: true,
+          ...ans,
+        };
+      } else {
+        return {
+          title: item.title,
+          alias: item.alias,
+          ...ans,
+        };
+      }
+    });
+    acc.push(...answer);
+    return acc;
   }, []);
-  return { answers: answerRows, qCodes };
+  return answers;
 };
 
 const handleBlurReducer = ({ type, payload, mutation }) => {
@@ -218,233 +252,115 @@ const handleBlurReducer = ({ type, payload, mutation }) => {
   }
 };
 
-const flattenAnswers = data => {
-  const answers = data.reduce((acc, item) => {
-    const answer = item.answers.map((ans, index) => {
-      if (index > 0) {
-        return {
-          title: item.title,
-          alias: item.alias,
-          nested: true,
-          ...ans,
-        };
-      } else {
-        return {
-          title: item.title,
-          alias: item.alias,
-          ...ans,
-        };
-      }
-    });
-    acc.push(...answer);
-    return acc;
-  }, []);
-  return answers;
-};
+const Row = memo(
+  props => {
+    const {
+      id,
+      title,
+      alias,
+      label,
+      qCode: initialQcode,
+      type,
+      index,
+      qCodeCheck,
+      error,
+    } = props;
+    console.log("Render: row", type, "error:", error);
+    const commonFields = useCallback(
+      fields => {
+        const [qCode, setQcode] = useState(initialQcode);
 
-const NewRow = ({
-  title,
-  alias,
-  id,
-  label,
-  qCode: initialQcode,
-  type,
-  index,
-  qCodeCheck,
-  error,
-}) => {
-  // const NewRow = ({ title, alias, answer, index, qCodeCheck, error }) => {
-  // console.log("Render: row", answer);
-  // const { id, type, label, qCode: initialQcode } = answer;
+        const [updateOption] = useMutation(UPDATE_OPTION_QCODE);
+        const [updateAnswer] = useMutation(UPDATE_ANSWER_QCODE);
+        const [updateConfirmation] = useMutation(UPDATE_CONFIRMATION_QCODE);
+        const [updateCalculatedSummaryPage] = useMutation(UPDATE_CALCSUM_QCODE);
 
-  const commonFields = useCallback(
-    fields => {
-      // const commonFields = fields => {
-      // const { id, type, label, qCode: initialQcode } = fields;
-      const [qCode, setQcode] = useState(initialQcode);
+        const handleBlur = useCallback(
+          (id, type, qCode) => {
+            const mutation = {
+              updateOption,
+              updateAnswer,
+              updateConfirmation,
+              updateCalculatedSummaryPage,
+            };
+            if (qCode !== initialQcode) {
+              console.log(qCode, initialQcode);
+              console.log("AM I IN HERE");
+              qCodeCheck({ id, qCode });
+              handleBlurReducer({
+                type,
+                payload: { ...fields, qCode },
+                mutation,
+              });
+            }
+          },
+          [id, type, qCode]
+        );
 
-      const [updateOption] = useMutation(UPDATE_OPTION_QCODE);
-      const [updateAnswer] = useMutation(UPDATE_ANSWER_QCODE);
-      const [updateConfirmation] = useMutation(UPDATE_CONFIRMATION_QCODE);
-      const [updateCalculatedSummaryPage] = useMutation(UPDATE_CALCSUM_QCODE);
+        return (
+          <>
+            <SpacedTableColumn>{questionMatrix[type]}</SpacedTableColumn>
+            <SpacedTableColumn>{label}</SpacedTableColumn>
+            <SpacedTableColumn>
+              <ErrorWrappedInput
+                value={qCode}
+                onChange={e => setQcode(e.value)}
+                onBlur={() => handleBlur(id, type, qCode)}
+                name={`${id || ""}-qcode-entry`}
+                data-test={`${id || ""}-test-input`}
+                error={error}
+              />
 
-      const handleBlur = useCallback(
-        (id, type, qCode) => {
-          const mutation = {
-            updateOption,
-            updateAnswer,
-            updateConfirmation,
-            updateCalculatedSummaryPage,
-          };
-          qCodeCheck({ id, qCode });
-          if (qCode !== initialQcode) {
-            handleBlurReducer({
-              type,
-              payload: { ...fields, qCode },
-              mutation,
-            });
-          }
-        },
-        [id, type, qCode]
-      );
+              {error && (
+                <QcodeValidationError right>
+                  {QCODE_IS_NOT_UNIQUE}
+                </QcodeValidationError>
+              )}
+            </SpacedTableColumn>
+          </>
+        );
+      },
+      [initialQcode, error]
+    );
 
+    if (index > 0) {
       return (
-        <>
-          <SpacedTableColumn>{questionMatrix[type]}</SpacedTableColumn>
-          <SpacedTableColumn>{label}</SpacedTableColumn>
-          <SpacedTableColumn>
-            <TableInput
-              value={qCode}
-              onChange={e => setQcode(e.value)}
-              onBlur={() => handleBlur(id, type, qCode)}
-              name={`${id || ""}-qcode-entry`}
-              data-test={`${id || ""}-test-input`}
-            />
-            {/* this doesn't work yet */}
-            {/* {error.includes(id) && <div>Oh no error</div>} */}
-          </SpacedTableColumn>
-        </>
+        <TableRow>
+          <EmptyTableColumn />
+          <EmptyTableColumn />
+          {commonFields(props)}
+        </TableRow>
       );
-    },
-    [initialQcode]
-  );
+    }
+    const stripTitle = removeHtml(title);
 
-  if (index > 0) {
     return (
-      <TableRow key={`${id}-${index}`}>
-        <EmptyTableColumn />
-        <EmptyTableColumn />
-        {commonFields({ id, type, label, initialQcode })}
+      <TableRow>
+        <SpacedTableColumn>{alias}</SpacedTableColumn>
+        <SpacedTableColumn>{stripTitle}</SpacedTableColumn>
+        {commonFields(props)}
       </TableRow>
     );
+  },
+  (prev, next) => {
+    if (prev.qCode !== next.qCode || prev.error !== next.error) {
+      console.log("Hello am i getting redone", next.label);
+      return false;
+    }
+
+    return true;
   }
-  const stripTitle = removeHtml(title);
-  return (
-    <TableRow key={`${id}-${index}`}>
-      <SpacedTableColumn>{alias}</SpacedTableColumn>
-      <SpacedTableColumn>{stripTitle}</SpacedTableColumn>
-      {commonFields({ id, type, label, initialQcode })}
-    </TableRow>
-  );
-};
+);
 
 const RowBuilder = sections => {
   const { answers } = organiseTableContent(sections);
   const flatten = flattenAnswers(answers);
 
-  // by flattening here can pull out relevant data
-  // makes it easy to check for duplicates
-
-  // Data needs to be saved into state
-  // and state needs to be updated when an error is present
-  // Need to pass a handler from here
-
-  /*
-  const handler () => {
-    // check when qCode has updated and the id of the row item
-    // only update the state if it's different
-    // set the state
-  }
-
-  */
-
-  return flatten.map((item, index) => (
-    <NewRow key={`${item.id}-${index}`} {...item} />
-  ));
-  // want to memo the the component and check to see if there is an error present of the qCode has changed.
-};
-
-// need to remove the handleBlur from here
-const Row = ({ item: { title, alias, answers }, qCodeCheck, error }) => {
-  const commonFields = useCallback(
-    fields => {
-      // const commonFields = fields => {
-      const { id, type, label, qCode: initialQcode } = fields;
-      const [qCode, setQcode] = useState(initialQcode);
-
-      const [updateOption] = useMutation(UPDATE_OPTION_QCODE);
-      const [updateAnswer] = useMutation(UPDATE_ANSWER_QCODE);
-      const [updateConfirmation] = useMutation(UPDATE_CONFIRMATION_QCODE);
-      const [updateCalculatedSummaryPage] = useMutation(UPDATE_CALCSUM_QCODE);
-
-      const handleBlur = useCallback(
-        (id, type, qCode) => {
-          const mutation = {
-            updateOption,
-            updateAnswer,
-            updateConfirmation,
-            updateCalculatedSummaryPage,
-          };
-          if (initialQcode !== qCode) {
-            qCodeCheck({ id, qCode });
-            handleBlurReducer({
-              type,
-              payload: { ...fields, qCode },
-              mutation,
-            });
-          }
-        },
-        [id, type, qCode]
-      );
-
-      return (
-        <>
-          <SpacedTableColumn>{questionMatrix[type]}</SpacedTableColumn>
-          <SpacedTableColumn>{label}</SpacedTableColumn>
-          <SpacedTableColumn>
-            <TableInput
-              value={qCode}
-              onChange={e => setQcode(e.value)}
-              onBlur={() => handleBlur(id, type, qCode)}
-              name={`${id || ""}-qcode-entry`}
-              data-test={`${id || ""}-test-input`}
-            />
-            {error.includes(id) && <div>Oh no error</div>}
-          </SpacedTableColumn>
-        </>
-      );
-    },
-    [answers]
-  );
-
-  return (
-    <>
-      {answers.map((answer, index) => {
-        if (index > 0) {
-          console.log("Render: more than first item");
-          return (
-            <TableRow key={`${answer.id}-${index}`}>
-              <EmptyTableColumn />
-              <EmptyTableColumn />
-              {commonFields(answer)}
-            </TableRow>
-          );
-        }
-        const stripTitle = removeHtml(title);
-        console.log("Render: first item");
-        return (
-          <TableRow key={`${answer.id}-${answer.qCode}`}>
-            <SpacedTableColumn>{alias}</SpacedTableColumn>
-            <SpacedTableColumn>{stripTitle}</SpacedTableColumn>
-            {commonFields(answer)}
-          </TableRow>
-        );
-      })}
-    </>
-  );
-};
-
-// need handle qCodes from here and duplicate checker
-// duplicate check is rough and needs some polish
-const buildTableRows = data => {
-  const { answers, qCodes } = organiseTableContent(data);
-
-  const [codes, setQCodes] = useState(qCodes);
+  const [data, setData] = useState(flatten);
 
   const handleQCodes = item => {
     let hasChanged;
-
-    const updatedQCodes = codes.map(code => {
+    const updatedQCodes = data.map(code => {
       if (code.id === item.id) {
         if (code.qCode !== item.qCode) {
           hasChanged = true;
@@ -455,56 +371,134 @@ const buildTableRows = data => {
       return code;
     });
     if (hasChanged) {
-      setQCodes(updatedQCodes);
+      console.log("im updating");
+      setData(updatedQCodes);
     }
   };
 
-  const duplicateCheck = { values: [], tempDuplicates: [] };
+  const { tempDuplicates } = data.reduce(
+    (acc, item) => {
+      if (acc.values.includes(item.qCode)) {
+        acc.tempDuplicates.push(item.qCode);
+      }
+      if (!acc.values.includes(item.id)) {
+        acc.values.push(item.qCode);
+      }
+      return acc;
+    },
+    { values: [], tempDuplicates: [] }
+  );
 
-  const { tempDuplicates } = codes.reduce((acc, item) => {
-    if (acc.values.includes(item.qCode)) {
-      acc.tempDuplicates.push(item.qCode);
-    }
-    if (!acc.values.includes(item.id)) {
-      acc.values.push(item.qCode);
-    }
-    return acc;
-  }, duplicateCheck);
-
-  const duplicates = codes
+  const duplicates = data
     .filter(code => tempDuplicates.includes(code.qCode))
     .map(code => code.id);
 
-  return (
-    <>
-      {answers.map((item, index) => {
-        return (
-          <Row
-            key={index}
-            item={item}
-            index={index}
-            error={duplicates}
-            qCodeCheck={handleQCodes}
-          />
-        );
-      })}
-    </>
-  );
+  console.log(duplicates, "list going again");
+
+  return data.map((item, index) => (
+    <Row
+      key={item.id}
+      {...item}
+      index={index}
+      qCodeCheck={handleQCodes}
+      error={duplicates.includes(item.id)}
+    />
+  ));
 };
 
+// need to remove the handleBlur from here
+// const Row = ({ item: { title, alias, answers }, qCodeCheck, error }) => {
+//   const commonFields = useCallback(
+//     fields => {
+//       // const commonFields = fields => {
+//       const { id, type, label, qCode: initialQcode } = fields;
+//       const [qCode, setQcode] = useState(initialQcode);
+
+//       const [updateOption] = useMutation(UPDATE_OPTION_QCODE);
+//       const [updateAnswer] = useMutation(UPDATE_ANSWER_QCODE);
+//       const [updateConfirmation] = useMutation(UPDATE_CONFIRMATION_QCODE);
+//       const [updateCalculatedSummaryPage] = useMutation(UPDATE_CALCSUM_QCODE);
+
+//       const handleBlur = useCallback(
+//         (id, type, qCode) => {
+//           const mutation = {
+//             updateOption,
+//             updateAnswer,
+//             updateConfirmation,
+//             updateCalculatedSummaryPage,
+//           };
+//           if (initialQcode !== qCode) {
+//             qCodeCheck({ id, qCode });
+//             handleBlurReducer({
+//               type,
+//               payload: { ...fields, qCode },
+//               mutation,
+//             });
+//           }
+//         },
+//         [id, type, qCode]
+//       );
+
+//       return (
+//         <>
+//           <SpacedTableColumn>{questionMatrix[type]}</SpacedTableColumn>
+//           <SpacedTableColumn>{label}</SpacedTableColumn>
+//           <SpacedTableColumn>
+//             <TableInput
+//               value={qCode}
+//               onChange={e => setQcode(e.value)}
+//               onBlur={() => handleBlur(id, type, qCode)}
+//               name={`${id || ""}-qcode-entry`}
+//               data-test={`${id || ""}-test-input`}
+//             />
+//             {error.includes(id) && <div>Oh no error</div>}
+//           </SpacedTableColumn>
+//         </>
+//       );
+//     },
+//     [answers]
+//   );
+
+//   return (
+//     <>
+//       {answers.map((answer, index) => {
+//         if (index > 0) {
+//           console.log("Render: more than first item");
+//           return (
+//             <TableRow key={`${answer.id}-${index}`}>
+//               <EmptyTableColumn />
+//               <EmptyTableColumn />
+//               {commonFields(answer)}
+//             </TableRow>
+//           );
+//         }
+//         const stripTitle = removeHtml(title);
+//         console.log("Render: first item");
+//         return (
+//           <TableRow key={`${answer.id}-${answer.qCode}`}>
+//             <SpacedTableColumn>{alias}</SpacedTableColumn>
+//             <SpacedTableColumn>{stripTitle}</SpacedTableColumn>
+//             {commonFields(answer)}
+//           </TableRow>
+//         );
+//       })}
+//     </>
+//   );
+// };
+
+// need handle qCodes from here and duplicate checker
+// duplicate check is rough and needs some polish
+
 Row.propTypes = {
-  item: PropTypes.shape({
-    title: PropTypes.string,
-    alias: PropTypes.string,
-    answers: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.string,
-        type: PropTypes.string,
-        label: PropTypes.string,
-        qCode: PropTypes.string,
-      })
-    ),
-  }),
+  id: PropTypes.string,
+  title: PropTypes.string,
+  alias: PropTypes.string,
+  label: PropTypes.string,
+  qCode: PropTypes.string,
+  type: PropTypes.string,
+  index: PropTypes.number,
+  qCodeCheck: PropTypes.func,
+  error: PropTypes.bool,
 };
 
 export const UnwrappedQCodeTable = ({ loading, error, data }) => {
@@ -520,8 +514,7 @@ export const UnwrappedQCodeTable = ({ loading, error, data }) => {
 
   const { sections } = data.questionnaire;
 
-  // needs a better name (for function and var)
-  const test = RowBuilder(sections);
+  const rows = RowBuilder(sections);
 
   return (
     <Table data-test="qcodes-table">
@@ -534,7 +527,7 @@ export const UnwrappedQCodeTable = ({ loading, error, data }) => {
           <TableHeadColumn width="20%">Qcode</TableHeadColumn>
         </TableRow>
       </TableHead>
-      <StyledTableBody>{test}</StyledTableBody>
+      <StyledTableBody>{rows}</StyledTableBody>
     </Table>
   );
 };
