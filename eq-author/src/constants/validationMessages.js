@@ -40,6 +40,8 @@ export const characterErrors = {
     "Enter a decimal that is the same as the associated question page",
 };
 
+export const QCODE_IS_NOT_UNIQUE = "Qcode must be unique";
+
 export const QUESTION_ANSWER_NOT_SELECTED = "Answer required";
 export const CALCSUM_ANSWER_NOT_SELECTED = "Answer required";
 export const CALCSUM_SUMMARY_ANSWERS_THE_SAME =
