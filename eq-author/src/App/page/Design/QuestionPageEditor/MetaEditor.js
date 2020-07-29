@@ -61,7 +61,7 @@ export class StatelessMetaEditor extends React.Component {
       onChangeUpdate,
       fetchAnswers,
     } = this.props;
-
+    console.log("this.props", this.props);
     return (
       <div>
         <RichTextEditor
@@ -77,11 +77,18 @@ export class StatelessMetaEditor extends React.Component {
           metadata={get(page, "section.questionnaire.metadata", [])}
           testSelector="txt-question-title"
           autoFocus={!page.title}
-          errorValidationMsg={this.props.getValidationError({
-            field: "title",
-            label: "Question title",
-            requiredMsg: richTextEditorErrors.QUESTION_TITLE_NOT_ENTERED,
-          })}
+          errorValidationMsg={this.props.getValidationError(
+            {
+              field: "title",
+              label: "Question title",
+              requiredMsg: richTextEditorErrors.QUESTION_TITLE_NOT_ENTERED,
+            },
+            {
+              field: "title",
+              label: "Question title",
+              requiredMsg: richTextEditorErrors.DELETED_PIPING_TITLE,
+            }
+          )}
         />
 
         <TransitionGroup>
