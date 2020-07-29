@@ -15,6 +15,7 @@ const CustomEditor = ({ total, type, onUpdate, onChange }) => (
       value={total.custom}
       name="custom"
       type={type}
+      default={null}
       onBlur={onUpdate}
       onChange={onChange}
       max={999999999}
