@@ -6,7 +6,7 @@ import { uniqueId } from "lodash";
 
 import FadeTransition from "components/transitions/FadeTransition";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
-import { Label, Field } from "components/Forms";
+import { Field } from "components/Forms";
 
 const InlineField = styled(Field)`
   display: flex;
