@@ -19,7 +19,7 @@ import {
   ERR_PAGE_NOT_FOUND,
   ERR_UNAUTHORIZED_QUESTIONNAIRE,
 } from "constants/error-codes";
-import ScrollToTop from "utils/ScrollToTop"; // eslint-disable-line
+import ScrollToTop from "utils/scrollToTop";
 
 import { buildSectionPath, buildIntroductionPath } from "utils/UrlUtils";
 import ScrollPane from "components/ScrollPane";
