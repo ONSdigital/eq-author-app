@@ -18,7 +18,7 @@ class ScrollToTop extends React.Component {
 
 ScrollToTop.propTypes = {
   location: PropTypes.object, // eslint-disable-line
-  children: PropTypes.any, // eslint-disable-line
+  children: PropTypes.node, // eslint-disable-line
 };
 
 export default withRouter(ScrollToTop);
