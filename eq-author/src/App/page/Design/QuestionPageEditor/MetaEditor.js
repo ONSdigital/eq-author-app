@@ -61,7 +61,6 @@ export class StatelessMetaEditor extends React.Component {
       onChangeUpdate,
       fetchAnswers,
     } = this.props;
-    console.log("this.props", this.props);
     return (
       <div>
         <RichTextEditor

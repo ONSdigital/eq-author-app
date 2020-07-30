@@ -300,7 +300,7 @@ class RichTextEditor extends React.Component {
     if (answerPipes.length === 0) {
       return;
     }
-    console.log("answerPipes", answerPipes);
+
     const processAnswerType = answers => {
       return answers.map(answer => {
         if (get("entity.data.type", answer) === "DateRange") {
@@ -333,8 +333,6 @@ class RichTextEditor extends React.Component {
   }
 
   renamePipedValues(fetchAuthorEntities, pipes, deletedPlaceholder) {
-    console.log("fetchAuthorEntities", fetchAuthorEntities);
-    console.log("pipes", pipes);
     const { editorState } = this.state;
     const contentState = editorState.getCurrentContent();
 

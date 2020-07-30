@@ -1,7 +1,7 @@
 const {
   DELETED_PIPING_TITLE,
 } = require("../../../constants/validationErrorCodes");
-
+const cheerio = require("cheerio");
 const getPreviousAnswersForPage = require("../../../src/businessLogic/getPreviousAnswersForPage");
 
 module.exports = function(ajv) {
@@ -18,27 +18,44 @@ module.exports = function(ajv) {
     ) {
       isValid.errors = [];
 
-      console.log("\n\ndataPath", dataPath);
-      console.log("\n\nentityData", entityData);
-
       const splitDataPath = dataPath.split("/");
       const currentPage =
         questionnaire.sections[splitDataPath[2]].pages[splitDataPath[4]];
-      console.log("\n\ncurrentPage", currentPage);
 
-      //availablePipingAnswers
       const previousAnswersForPage = getPreviousAnswersForPage(
         questionnaire,
         currentPage.id,
         true
-        // ROUTING_ANSWER_TYPES
       );
       console.log("\n\npreviousAnswersForPage", previousAnswersForPage);
 
-      //!hasAvailablePipingAnswers || includes ""Deleted answer""
+      const $ = cheerio.load(entityData);
+      const pipedIdList = [];
 
-      if (entityData.includes("Deleted answer")) {
-        console.log("\n\nyaaaay!!!");
+      $("p")
+        .find("span")
+        .each(function(index, element) {
+          pipedIdList.push($(element).data());
+        });
+
+      console.log("\n\npipedIdList", pipedIdList);
+
+      let pipingDeleted = false;
+
+      pipedIdList.forEach(dataItem => {
+        if (dataItem.piped === "answers") {
+          const found = previousAnswersForPage.some(
+            el => el.id === dataItem.id
+          );
+          if (!found) {
+            pipingDeleted = true;
+            console.log("\n\nid - - - - - - - ", dataItem.id);
+            console.log("noooooooooooooooooo");
+          }
+        }
+      });
+
+      if (pipingDeleted) {
         isValid.errors = [
           {
             keyword: "errorMessage",
