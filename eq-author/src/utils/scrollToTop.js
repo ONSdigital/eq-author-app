@@ -1,23 +1,15 @@
-import React, { useEffect, Fragment } from "react";
-import { withRouter } from "react-router-dom";
-import PropTypes from "prop-types";
-
-function ScrollToTop({ history, children }) {
-  useEffect(() => {
-    const unlisten = history.listen(() => {
+import React from "react";
+import { withRouter } from "react-router";
+class ScrollToTop extends React.Component {
+  componentDidUpdate(prevProps) {
+    if (this.props.location !== prevProps.location) {
       window.scrollTo(0, 0);
-    });
-    return () => {
-      unlisten();
-    };
-  }, []);
+    }
+  }
 
-  return <Fragment>{children}</Fragment>;
+  render() {
+    return this.props.children;
+  }
 }
-
-ScrollToTop.propTypes = {
-  history: PropTypes.object, // eslint-disable-line
-  children: PropTypes.any, // eslint-disable-line
-};
 
 export default withRouter(ScrollToTop);
