@@ -39,7 +39,7 @@ import {
 } from "constants/answer-types";
 
 const SpacedTableColumn = styled(TableColumn)`
-  padding: 0.5em 0.5em 0.2em 0.5em;
+  padding: 0.5em 0.5em 0.2em;
   color: ${colors.darkGrey};
   word-break: break-word;
 `;
