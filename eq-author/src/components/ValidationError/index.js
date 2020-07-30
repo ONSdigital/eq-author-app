@@ -13,7 +13,7 @@ const ErrorStyling = styled(IconText)`
   margin: 0.5em 0;
 `;
 
-export const ValidationError = ({ children, right, className, test }) => (
+const ValidationError = ({ children, right, className, test }) => (
   <ErrorStyling
     icon={WarningIcon}
     className={className}

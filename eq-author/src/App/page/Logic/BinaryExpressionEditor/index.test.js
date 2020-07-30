@@ -8,6 +8,7 @@ import {
   SELECTED_ANSWER_DELETED,
   DEFAULT_ROUTING,
 } from "constants/routing-left-side";
+
 import { byTestAttr } from "tests/utils/selectors";
 
 import { UnwrappedBinaryExpressionEditor as BinaryExpressionEditor } from "./";
@@ -138,6 +139,27 @@ describe("BinaryExpressionEditor", () => {
 
     expect(
       screen.getByText("The answer used in this condition has been deleted")
+    ).toBeTruthy();
+  });
+
+  it("should display the correct error message when the routable answer has been moved after the routing Question", async () => {
+    defaultProps.expression.validationErrorInfo.totalCount = 1;
+    defaultProps.expression.validationErrorInfo.errors[0] = {
+      errorCode: "ERR_LEFTSIDE_NO_LONGER_AVAILABLE",
+      field: "left",
+      id: "expression-routing-1-left",
+      type: "expressions",
+    };
+    render(<BinaryExpressionEditor {...defaultProps} />);
+
+    await act(async () => {
+      await flushPromises();
+    });
+
+    expect(
+      screen.getByText(
+        "Select an answer that is not later on in the questionnaire"
+      )
     ).toBeTruthy();
   });
 

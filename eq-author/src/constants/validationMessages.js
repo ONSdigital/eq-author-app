@@ -61,6 +61,13 @@ export const binaryExpressionErrors = {
   },
 };
 
+export const leftSideErrors = {
+  ERR_LEFTSIDE_NO_LONGER_AVAILABLE: {
+    errorCode: "ERR_LEFTSIDE_NO_LONGER_AVAILABLE",
+    message: "Select an answer that is not later on in the questionnaire",
+  },
+};
+
 export const rightSideErrors = {
   ERR_RIGHTSIDE_NO_VALUE: {
     errorCode: "ERR_RIGHTSIDE_NO_VALUE",
@@ -74,6 +81,18 @@ export const rightSideErrors = {
   ERR_RIGHTSIDE_AND_OR_NOT_ALLOWED: {
     errorCode: "ERR_RIGHTSIDE_AND_OR_NOT_ALLOWED",
     message: "All of not allowed in expression with checkbox OR option",
+  },
+};
+
+export const destinationErrors = {
+  ERR_DESTINATION_MOVED: {
+    errorCode: "ERR_DESTINATION_MOVED",
+    message:
+      "Select a destination that's in the current section, or is another section",
+  },
+  ERR_DESTINATION_DELETED: {
+    errorCode: "ERR_DESTINATION_DELETED",
+    message: "This destination has been deleted. Select a new destination.",
   },
 };
 

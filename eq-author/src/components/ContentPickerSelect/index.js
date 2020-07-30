@@ -20,7 +20,8 @@ export const ContentSelectButton = styled(Button).attrs({
   font-size: 1em;
   font-weight: normal;
   padding: 0.5em 0.75em;
-  border: 1px solid ${colors.borders};
+  border: ${({ hasError }) =>
+    hasError ? `3px solid ${colors.negative}` : `1px solid ${colors.borders}`};
   background-color: ${colors.white};
   height: 2.5em;
   width: 100%;

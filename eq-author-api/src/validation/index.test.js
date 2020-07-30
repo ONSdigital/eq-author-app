@@ -8,6 +8,14 @@ const {
   DATE_RANGE,
 } = require("../../constants/answerTypes");
 
+const { GREATER_THAN } = require("../../constants/validationConditions");
+
+const { END_OF_QUESTIONNAIRE } = require("../../constants/logicalDestinations");
+
+const { CUSTOM, ANSWER } = require("../../constants/validationEntityTypes");
+
+const { AND } = require("../../constants/routingOperators");
+
 const {
   ERR_MAX_LENGTH_TOO_LARGE,
   ERR_MAX_LENGTH_TOO_SMALL,
@@ -15,6 +23,9 @@ const {
   ERR_RIGHTSIDE_NO_VALUE,
   ERR_RIGHTSIDE_AND_OR_NOT_ALLOWED,
   ERR_RIGHTSIDE_ALLOFF_OR_NOT_ALLOWED,
+  ERR_LEFTSIDE_NO_LONGER_AVAILABLE,
+  ERR_DESTINATION_MOVED,
+  ERR_DESTINATION_DELETED,
 } = require("../../constants/validationErrorCodes");
 
 const validation = require(".");
@@ -36,6 +47,22 @@ describe("schema validation", () => {
               answers: [
                 {
                   id: "answer_1",
+                  type: NUMBER,
+                  label: "Number",
+                },
+                {
+                  id: "answer_12",
+                  type: NUMBER,
+                  label: "Number",
+                },
+              ],
+            },
+            {
+              id: "page_2",
+              title: "page title",
+              answers: [
+                {
+                  id: "answer_2",
                   type: NUMBER,
                   label: "Number",
                 },
@@ -870,6 +897,55 @@ describe("schema validation", () => {
       );
     });
 
+    it("should validate left hand Answer is after routing question", () => {
+      const expressionId = "express-1";
+
+      const routing = validation(questionnaire);
+
+      expect(routing.totalCount).toBe(0);
+
+      questionnaire.sections[0].pages[0].routing = {
+        id: "1",
+        else: {
+          id: "else-1",
+          logical: "NextPage",
+        },
+        rules: [
+          {
+            id: "rule-1",
+            destination: {
+              id: "dest-1",
+              logical: "NextPage",
+            },
+            expressionGroup: {
+              id: "group-1",
+              operator: "And",
+              expressions: [
+                {
+                  id: expressionId,
+                  condition: "Equal",
+                  left: {
+                    type: "Answer",
+                    answerId: "answer_2",
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      };
+
+      const routingErrors = validation(questionnaire);
+
+      expect(routingErrors.totalCount).toBe(1);
+      expect(routingErrors.expressions[expressionId].errors[0].id).toBe(
+        "expressions-routing-express-1-left"
+      );
+      expect(routingErrors.expressions[expressionId].errors[0].errorCode).toBe(
+        ERR_LEFTSIDE_NO_LONGER_AVAILABLE
+      );
+    });
+
     it("should validate empty skip conditions", () => {
       const expressionId = "express-1";
 
@@ -921,7 +997,7 @@ describe("schema validation", () => {
               condition: "Equal",
               left: {
                 type: "Answer",
-                answerId: "a3a30d15-c857-4f6a-8251-f072a5b58c60",
+                answerId: "answer_1",
               },
               right: null,
             },
@@ -947,7 +1023,7 @@ describe("schema validation", () => {
 
       expect(routing.totalCount).toBe(0);
       questionnaire.sections[0].pages[0].answers[0] = {
-        id: "answer-1",
+        id: "answer_1",
         options: [
           {
             id: "option-1",
@@ -987,7 +1063,7 @@ describe("schema validation", () => {
                   condition: "AllOf",
                   left: {
                     type: "Answer",
-                    answerId: "answer-1",
+                    answerId: "answer_12",
                   },
                   right: {
                     type: "SelectedOptions",
@@ -1018,7 +1094,7 @@ describe("schema validation", () => {
 
       expect(routing.totalCount).toBe(0);
       questionnaire.sections[0].pages[0].answers[0] = {
-        id: "answer-1",
+        id: "answer_1",
         options: [
           {
             id: "option-1",
@@ -1058,7 +1134,7 @@ describe("schema validation", () => {
                   condition: "AnyOf",
                   left: {
                     type: "Answer",
-                    answerId: "answer-1",
+                    answerId: "answer_12",
                   },
                   right: {
                     type: "SelectedOptions",
@@ -1090,7 +1166,7 @@ describe("schema validation", () => {
 
       expect(routing.totalCount).toBe(0);
       questionnaire.sections[0].pages[0].answers[0] = {
-        id: "answer-1",
+        id: "answer_12",
         options: [
           {
             id: "option-1",
@@ -1130,7 +1206,7 @@ describe("schema validation", () => {
                   condition: "AnyOf",
                   left: {
                     type: "Answer",
-                    answerId: "answer-1",
+                    answerId: "answer_12",
                   },
                   right: {
                     type: "SelectedOptions",
@@ -1142,7 +1218,7 @@ describe("schema validation", () => {
                   condition: "AnyOf",
                   left: {
                     type: "Answer",
-                    answerId: "answer-1",
+                    answerId: "answer_12",
                   },
                   right: {
                     type: "SelectedOptions",
@@ -1164,6 +1240,143 @@ describe("schema validation", () => {
       expect(routingErrors.expressions[expressionId2].errors[0].errorCode).toBe(
         ERR_RIGHTSIDE_ALLOFF_OR_NOT_ALLOWED
       );
+    });
+
+    it("should return an error if a routing destination has been deleted", () => {
+      questionnaire.sections[0].pages[0].routing = {
+        id: "routing_1",
+        else: {
+          id: "else_1",
+          logical: END_OF_QUESTIONNAIRE,
+        },
+        rules: [
+          {
+            id: "rule_1",
+            destination: {
+              id: "destination_1",
+              pageId: null,
+            },
+            expressionGroup: {
+              id: "expressionGroup_1",
+              operator: AND,
+              expressions: [
+                {
+                  id: "expression_1",
+                  condition: GREATER_THAN,
+                  left: {
+                    type: ANSWER,
+                    answerId: "answer_1",
+                  },
+                  right: {
+                    type: CUSTOM,
+                    customValue: {
+                      number: 5,
+                    },
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      };
+
+      const validationErrors = validation(questionnaire);
+
+      expect(validationErrors.totalCount).toBe(1);
+      expect(validationErrors.rules.rule_1.errors.length).toBe(1);
+      expect(validationErrors.rules.rule_1.errors[0]).toMatchObject({
+        id: "rules-rule_1-destination",
+        entityId: "rule_1",
+        type: "rules",
+        field: "destination",
+        errorCode: ERR_DESTINATION_DELETED,
+        dataPath: ["sections", "0", "pages", "0", "routing", "rules", "0"],
+      });
+    });
+
+    it("should return an error if the destination has been moved to an invalid location", () => {
+      questionnaire.sections[0].pages[0].routing = {
+        id: "routing_1",
+        else: {
+          id: "else_1",
+          logical: END_OF_QUESTIONNAIRE,
+        },
+        rules: [
+          {
+            id: "rule_1",
+            destination: {
+              id: "destination_1",
+              pageId: "page_4",
+            },
+            expressionGroup: {
+              id: "expressionGroup_1",
+              operator: AND,
+              expressions: [
+                {
+                  id: "expression_1",
+                  condition: GREATER_THAN,
+                  left: {
+                    type: ANSWER,
+                    answerId: "answer_1",
+                  },
+                  right: {
+                    type: CUSTOM,
+                    customValue: {
+                      number: 5,
+                    },
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      };
+
+      questionnaire.sections.push({
+        id: "section_2",
+        title: "section_2",
+        pages: [
+          {
+            id: "page_3",
+            title: "page title",
+            answers: [
+              {
+                id: "answer_3",
+                type: NUMBER,
+                label: "Number",
+              },
+            ],
+            routing: null,
+            skipConditions: null,
+          },
+          {
+            id: "page_4",
+            title: "page title",
+            answers: [
+              {
+                id: "answer_4",
+                type: NUMBER,
+                label: "Number",
+              },
+            ],
+            routing: null,
+            skipConditions: null,
+          },
+        ],
+      });
+
+      const validationErrors = validation(questionnaire);
+
+      expect(validationErrors.rules.rule_1.errors[0]).toMatchObject({
+        id: "rules-rule_1-destination",
+        entityId: "rule_1",
+        type: "rules",
+        field: "destination",
+        errorCode: ERR_DESTINATION_MOVED,
+        dataPath: ["sections", "0", "pages", "0", "routing", "rules", "0"],
+      });
+      expect(validationErrors.rules.rule_1.totalCount).toBe(1);
+      expect(validationErrors.rules.rule_1.errors.length).toBe(1);
     });
   });
 });
