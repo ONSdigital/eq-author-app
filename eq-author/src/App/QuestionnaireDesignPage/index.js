@@ -19,6 +19,7 @@ import {
   ERR_PAGE_NOT_FOUND,
   ERR_UNAUTHORIZED_QUESTIONNAIRE,
 } from "constants/error-codes";
+import ScrollToTop from "utils/scrollToTop";
 
 import { buildSectionPath, buildIntroductionPath } from "utils/UrlUtils";
 import ScrollPane from "components/ScrollPane";
@@ -232,22 +233,24 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
                   />
                 </NavColumn>
                 <Column cols={9} gutters={false}>
-                  <Switch location={location}>
-                    {[
-                      ...pageRoutes,
-                      ...sectionRoutes,
-                      ...questionConfirmationRoutes,
-                      ...introductionRoutes,
-                      ...metadataRoutes,
-                      ...historyRoutes,
-                      ...publishRoutes,
-                      ...reviewRoutes,
-                      ...qcodeRoutes,
-                      ...sharingRoutes,
-                      ...settingsRoutes,
-                    ]}
-                    <Route path="*" render={this.renderRedirect} />
-                  </Switch>
+                  <ScrollToTop>
+                    <Switch location={location}>
+                      {[
+                        ...pageRoutes,
+                        ...sectionRoutes,
+                        ...questionConfirmationRoutes,
+                        ...introductionRoutes,
+                        ...metadataRoutes,
+                        ...historyRoutes,
+                        ...publishRoutes,
+                        ...reviewRoutes,
+                        ...qcodeRoutes,
+                        ...sharingRoutes,
+                        ...settingsRoutes,
+                      ]}
+                      <Route path="*" render={this.renderRedirect} />
+                    </Switch>
+                  </ScrollToTop>
                 </Column>
               </Grid>
             </Titled>
