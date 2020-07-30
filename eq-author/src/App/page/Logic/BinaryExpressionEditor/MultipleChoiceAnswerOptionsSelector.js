@@ -8,7 +8,7 @@ import CheckboxChip from "./CheckboxChip";
 import CheckboxChipTransition from "./CheckboxChipTransition";
 import CheckboxOptionPicker from "./CheckboxOptionPicker";
 import Popover from "./CheckboxSelectorPopup";
-import ValidationError from "components/ValidationError";
+import { ValidationError } from "components/Error";
 
 import { rightSideErrors } from "constants/validationMessages";
 import { colors } from "constants/theme";
