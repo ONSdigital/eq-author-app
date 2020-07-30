@@ -31,6 +31,7 @@ const dummyQcodes = {
   confirmation: "10",
   calculatedSummary: "16",
   mutuallyExclusive: "20",
+  dateRange: "99",
 };
 
 describe("Qcode Table", () => {
@@ -179,7 +180,7 @@ describe("Qcode Table", () => {
                   label: "To",
                   secondaryLabel: "From",
                   qCode: "6",
-                  secondaryQCode: "",
+                  secondaryQCode: dummyQcodes.dateRange,
                   type: DATE_RANGE,
                   questionPageId: "qp-3",
                 },
@@ -353,6 +354,30 @@ describe("Qcode Table", () => {
                 id: "ans-p1-1",
                 qCode: "187",
                 secondaryQCode: "",
+                __typename: "BasicAnswer",
+              },
+            },
+          };
+        },
+      },
+      {
+        request: {
+          query: UPDATE_ANSWER_QCODE,
+          variables: {
+            input: {
+              id: "ans-p3-1",
+              secondaryQCode: "187",
+            },
+          },
+        },
+        result: () => {
+          queryWasCalled = true;
+          return {
+            data: {
+              updateAnswer: {
+                id: "ans-p3-1",
+                qCode: "",
+                secondaryQCode: "187",
                 __typename: "BasicAnswer",
               },
             },
@@ -552,6 +577,32 @@ describe("Qcode Table", () => {
     expect(queryWasCalled).toBeTruthy();
   });
 
+  it("Should make query to update Answer with a secondary option", async () => {
+    const { getAllByTestId } = renderWithContext(
+      <UnwrappedQCodeTable {...props} />
+    );
+
+    const testId = "ans-p3-1-test-input";
+    const originalValue = dummyQcodes.dateRange;
+    const input = getAllByTestId(testId)[1];
+    expect(input.value).toBe(originalValue);
+
+    act(() => {
+      fireEvent.change(input, { target: { value: "187" } });
+    });
+
+    expect(input.value).toBe("187");
+
+    expect(queryWasCalled).toBeFalsy();
+
+    await act(async () => {
+      await fireEvent.blur(input);
+      await flushPromises();
+    });
+
+    expect(queryWasCalled).toBeTruthy();
+  });
+
   it("Should make query to update Option", async () => {
     const { getByTestId } = renderWithContext(
       <UnwrappedQCodeTable {...props} />
@@ -668,5 +719,18 @@ describe("Qcode Table", () => {
     );
 
     expect(getAllByText(QCODE_IS_NOT_UNIQUE).length).toBe(5);
+  });
+
+  it("Should not rerender if the qCode stays the same", () => {
+    const { getByText, rerender } = renderWithContext(
+      <UnwrappedQCodeTable {...props} />
+    );
+
+    props.data.questionnaire.sections[0].pages[0].answers[0].qCode =
+      dummyQcodes.duplicate;
+
+    rerender(<UnwrappedQCodeTable {...props} />);
+
+    expect(getByText("num1")).toBeTruthy();
   });
 });
