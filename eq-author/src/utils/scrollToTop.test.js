@@ -3,7 +3,7 @@
 import React from "react";
 import { mount } from "enzyme";
 import { MemoryRouter } from "react-router-dom";
-import ScrollToTop from "./ScrollToTop"; // eslint-disable-line
+import ScrollToTop from "./scrollToTop";
 
 global.scrollTo = jest.fn();
 
