@@ -8,4 +8,14 @@ fragment TotalValidationRule on TotalValidationRule {
     displayName
   }
   condition
+  validationErrorInfo {
+    id
+    errors {
+      id
+      type
+      field
+      errorCode
+    }
+    totalCount
+  }
 }

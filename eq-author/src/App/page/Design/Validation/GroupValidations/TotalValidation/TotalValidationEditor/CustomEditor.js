@@ -3,6 +3,8 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import { some } from "lodash";
 
+import { colors } from "constants/theme";
+
 import { Field, Number } from "components/Forms";
 import { ERR_TOTAL_NO_VALUE } from "constants/validationMessages";
 import ValidationError from "components/ValidationError";
