@@ -1,11 +1,13 @@
 import React from "react";
 import { render, fireEvent, act, flushPromises } from "tests/utils/rtl";
+
+import UPDATE_ANSWER_QCODE from "./graphql/updateAnswerMutation.graphql";
+import UPDATE_OPTION_QCODE from "./graphql/updateOptionMutation.graphql";
+import UPDATE_CONFIRMATION_QCODE from "./graphql/updateConfirmationQCode.graphql";
+import UPDATE_CALCSUM_QCODE from "./graphql/updateCalculatedSummary.graphql";
+
 import { MeContext } from "App/MeContext";
 import { UnwrappedQCodeTable } from "./index";
-import UPDATE_ANSWER_QCODE from "./updateAnswerMutation.graphql";
-import UPDATE_OPTION_QCODE from "./updateOptionMutation.graphql";
-import UPDATE_CONFIRMATION_QCODE from "./updateConfirmationQCode.graphql";
-import UPDATE_CALCSUM_QCODE from "./updateCalculatedSummary.graphql";
 import QuestionnaireContext from "components/QuestionnaireContext";
 
 import {
@@ -496,7 +498,7 @@ describe("Qcode Table", () => {
   });
 
   it("Should render rows equivalent to the amount of Questions", () => {
-    const { getAllByText, getByText } = renderWithContext(
+    const { getAllByText, getByText, getAllByTestId } = renderWithContext(
       <UnwrappedQCodeTable {...props} />
     );
     const renderedQuestions = getAllByText(content =>
@@ -509,7 +511,10 @@ describe("Qcode Table", () => {
     expect(getByText("Embedded checkbox Either")).toBeTruthy();
     expect(getByText("Embedded checkbox Or")).toBeTruthy();
     expect(getByText("From")).toBeTruthy();
-    expect(renderedQuestions.length).toEqual(8);
+    expect(renderedQuestions.length).toEqual(8); // equal to non nested rows
+
+    const answerRows = 22; // equal to answers present in questionnaire
+    expect(getAllByTestId("answer-row-test").length).toEqual(answerRows);
   });
 
   it("Should make query to update Answer", async () => {

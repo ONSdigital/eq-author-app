@@ -2,15 +2,16 @@ import React, { useState, useCallback, memo } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
-
 import { withApollo, Query, useMutation } from "react-apollo";
 
-import GET_ALL_ANSWERS from "./getAllAnswers.graphql";
-import UPDATE_ANSWER_QCODE from "./updateAnswerMutation.graphql";
-import UPDATE_OPTION_QCODE from "./updateOptionMutation.graphql";
-import UPDATE_CONFIRMATION_QCODE from "./updateConfirmationQCode.graphql";
-import UPDATE_CALCSUM_QCODE from "./updateCalculatedSummary.graphql";
+import GET_ALL_ANSWERS from "./graphql/getAllAnswers.graphql";
+import UPDATE_ANSWER_QCODE from "./graphql/updateAnswerMutation.graphql";
+import UPDATE_OPTION_QCODE from "./graphql/updateOptionMutation.graphql";
+import UPDATE_CONFIRMATION_QCODE from "./graphql/updateConfirmationQCode.graphql";
+import UPDATE_CALCSUM_QCODE from "./graphql/updateCalculatedSummary.graphql";
 
+import Loading from "components/Loading";
+import Error, { ValidationError } from "components/Error";
 import {
   Table,
   TableHead,
@@ -20,12 +21,9 @@ import {
   TableHeadColumn,
 } from "components/datatable/Elements";
 import { TableInput } from "components/datatable/Controls";
-import Loading from "components/Loading";
-import Error, { ValidationError } from "components/Error";
 
 import { colors } from "constants/theme";
 import { QCODE_IS_NOT_UNIQUE } from "constants/validationMessages";
-
 import {
   CHECKBOX,
   RADIO,
@@ -90,7 +88,7 @@ const questionMatrix = {
 
 const removeHtml = html => html && html.replace(/(<([^>]+)>)/gi, "");
 
-const organiseTableContent = sections => {
+const organiseAnswers = sections => {
   const questions = sections.reduce(
     (acc, section) => [...acc, ...section.pages],
     []
@@ -255,17 +253,8 @@ const handleBlurReducer = ({ type, payload, mutation }) => {
 
 const Row = memo(
   props => {
-    const {
-      id,
-      title,
-      alias,
-      label,
-      qCode: initialQcode,
-      type,
-      index,
-      error,
-    } = props;
-    console.log("Render: row", type, "error:", error);
+    const { id, title, alias, label, qCode: initialQcode, type, error } = props;
+
     const commonFields = useCallback(
       fields => {
         const [qCode, setQcode] = useState(initialQcode);
@@ -320,21 +309,20 @@ const Row = memo(
       [initialQcode, error]
     );
 
-    if (index > 0) {
+    if (props.nested) {
       return (
-        <TableRow>
+        <TableRow data-test={`answer-row-test`}>
           <EmptyTableColumn />
           <EmptyTableColumn />
           {commonFields(props)}
         </TableRow>
       );
     }
-    const stripTitle = removeHtml(title);
 
     return (
-      <TableRow>
+      <TableRow data-test={`answer-row-test`}>
         <SpacedTableColumn>{alias}</SpacedTableColumn>
-        <SpacedTableColumn>{stripTitle}</SpacedTableColumn>
+        <SpacedTableColumn>{removeHtml(title)}</SpacedTableColumn>
         {commonFields(props)}
       </TableRow>
     );
@@ -348,13 +336,13 @@ const Row = memo(
   }
 );
 
-const RowBuilder = sections => {
-  console.log("Render: rows", sections[0].qCode);
-
-  const intializer = sections;
-
-  const duplicates = intializer.reduce((acc, item) => {
-    if (acc.hasOwnProperty(item.qCode)) {
+const RowBuilder = answers => {
+  const duplicates = answers.reduce((acc, item) => {
+    if (
+      acc.hasOwnProperty(item.qCode) &&
+      item.qCode !== "" &&
+      item.qCode !== null
+    ) {
       acc[item.qCode]++;
     }
     if (!acc[item.qCode]) {
@@ -363,11 +351,10 @@ const RowBuilder = sections => {
     return acc;
   }, {});
 
-  return intializer.map((item, index) => (
+  return answers.map((item, index) => (
     <Row
-      key={item.id}
+      key={`${item.id}-${index}`}
       {...item}
-      index={index}
       error={duplicates[item.qCode] > 1}
     />
   ));
@@ -380,25 +367,23 @@ Row.propTypes = {
   label: PropTypes.string,
   qCode: PropTypes.string,
   type: PropTypes.string,
-  index: PropTypes.number,
   qCodeCheck: PropTypes.func,
   error: PropTypes.bool,
+  nested: PropTypes.bool,
 };
 
 export const UnwrappedQCodeTable = ({ loading, error, data }) => {
-  const TableError = <Error>Oops! Something went wrong</Error>;
-
   if (loading) {
     return <Loading height="38rem">Page loading…</Loading>;
   }
 
   if (error) {
-    return TableError;
+    return <Error>Oops! Something went wrong</Error>;
   }
 
   const { sections } = data.questionnaire;
 
-  const { answers } = organiseTableContent(sections);
+  const { answers } = organiseAnswers(sections);
   const flatten = flattenAnswers(answers);
 
   return (

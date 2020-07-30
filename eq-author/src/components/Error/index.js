@@ -2,10 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import Icon from "./icon-error.svg?inline";
 import styled from "styled-components";
-import { colors } from "constants/theme";
 
-import IconText from "components/IconText";
-import WarningIcon from "constants/icon-warning.svg?inline";
+import { ValidationError } from "./ValidationError";
 
 const Container = styled.div`
   text-align: center;
@@ -28,25 +26,6 @@ Error.propTypes = {
   children: PropTypes.string.isRequired,
 };
 
-const ErrorStyling = styled(IconText)`
-  color: ${colors.red};
-  width: ${props => (props.right ? "100%" : "80%")};
-  justify-content: flex-end;
-  margin: 0.5em 0;
-`;
-
-export const ValidationError = props => {
-  const { children, right } = props;
-  return (
-    <ErrorStyling right={right} icon={WarningIcon}>
-      {children}
-    </ErrorStyling>
-  );
-};
-
-ValidationError.propTypes = {
-  children: PropTypes.node.isRequired,
-  right: PropTypes.bool,
-};
+export { ValidationError };
 
 export default Error;

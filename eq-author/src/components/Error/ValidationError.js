@@ -1,6 +1,6 @@
 import React from "react";
-import styled from "styled-components";
 import PropTypes from "prop-types";
+import styled from "styled-components";
 import { colors } from "constants/theme";
 
 import IconText from "components/IconText";
@@ -13,10 +13,11 @@ const ErrorStyling = styled(IconText)`
   margin: 0.5em 0;
 `;
 
-const ValidationError = props => {
-  const { children, right } = props;
+export const ValidationError = props => {
+  const { children, right, className } = props;
+
   return (
-    <ErrorStyling right={right} icon={WarningIcon}>
+    <ErrorStyling className={className} right={right} icon={WarningIcon}>
       {children}
     </ErrorStyling>
   );
@@ -25,6 +26,5 @@ const ValidationError = props => {
 ValidationError.propTypes = {
   children: PropTypes.node.isRequired,
   right: PropTypes.bool,
+  className: PropTypes.string,
 };
-
-export default ValidationError;

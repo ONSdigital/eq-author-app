@@ -32,7 +32,7 @@ import { Grid, Column } from "components/Grid";
 import Transition from "App/page/Logic/Routing/Transition";
 
 import RoutingAnswerContentPicker from "./RoutingAnswerContentPicker";
-import ValidationError from "./ValidationError";
+import { ValidationError } from "components/Error";
 import svgPath from "./path.svg";
 import svgPathEnd from "./path-end.svg";
 import IconMinus from "./icon-minus.svg?inline";
