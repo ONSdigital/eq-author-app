@@ -306,6 +306,13 @@ UnwrappedAnswerSelector.fragments = {
       section {
         id
         displayName
+        questionnaire {
+          id
+          metadata {
+            id
+            displayName
+          }
+        }
       }
       summaryAnswers {
         id
