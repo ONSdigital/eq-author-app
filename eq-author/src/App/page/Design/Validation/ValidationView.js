@@ -42,10 +42,8 @@ class ValidationView extends Component {
             name={id}
             onChange={onToggleChange}
             checked={enabled}
+            hideLabels={false}
           />
-          <Label inline htmlFor={id}>
-            On
-          </Label>
         </InlineField>
 
         <TransitionGroup>
