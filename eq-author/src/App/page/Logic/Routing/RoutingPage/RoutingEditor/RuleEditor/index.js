@@ -22,7 +22,7 @@ import withUpdateExpressionGroup from "./withUpdateExpressionGroup";
 
 import { Select, Label } from "components/Forms";
 
-import { ValidationError } from "components/Error";
+import ValidationError from "components/ValidationError";
 import { destinationErrors } from "constants/validationMessages";
 
 const RepositionedValidationError = styled(ValidationError)`

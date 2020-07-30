@@ -30,3 +30,5 @@ ValidationError.propTypes = {
   className: PropTypes.string,
   test: PropTypes.string,
 };
+
+export default ValidationError;

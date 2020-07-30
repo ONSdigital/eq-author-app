@@ -8,7 +8,7 @@ import { Number, Select, Label } from "components/Forms";
 import VisuallyHidden from "components/VisuallyHidden";
 
 import { rightSideErrors } from "constants/validationMessages";
-import { ValidationError } from "components/Error";
+import ValidationError from "components/ValidationError";
 
 const conditions = {
   EQUAL: "Equal",

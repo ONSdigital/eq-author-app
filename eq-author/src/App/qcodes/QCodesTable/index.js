@@ -11,7 +11,9 @@ import UPDATE_CONFIRMATION_QCODE from "./graphql/updateConfirmationQCode.graphql
 import UPDATE_CALCSUM_QCODE from "./graphql/updateCalculatedSummary.graphql";
 
 import Loading from "components/Loading";
-import Error, { ValidationError } from "components/Error";
+import Error from "components/Error";
+import ValidationError from "components/ValidationError";
+
 import {
   Table,
   TableHead,
