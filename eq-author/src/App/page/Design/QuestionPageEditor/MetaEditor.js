@@ -85,7 +85,12 @@ export class StatelessMetaEditor extends React.Component {
             {
               field: "title",
               label: "Question title",
-              requiredMsg: richTextEditorErrors.DELETED_PIPING_TITLE,
+              requiredMsg: richTextEditorErrors.PIPING_TITLE_DELETED,
+            },
+            {
+              field: "title",
+              label: "Question title",
+              requiredMsg: richTextEditorErrors.PIPING_TITLE_MOVED,
             }
           )}
         />

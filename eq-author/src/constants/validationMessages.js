@@ -10,9 +10,13 @@ export const richTextEditorErrors = {
   QUESTION_TITLE_NOT_ENTERED: "Enter a question title",
   CALCSUM_TITLE_NOT_ENTERED: "Enter a calculated summary title",
   CONFIRMATION_TITLE_NOT_ENTERED: "Enter section introduction content",
-  DELETED_PIPING_TITLE: {
-    errorCode: "DELETED_PIPING_TITLE",
+  PIPING_TITLE_DELETED: {
+    errorCode: "PIPING_TITLE_DELETED",
     message: "The answer being piped has been deleted",
+  },
+  PIPING_TITLE_MOVED: {
+    errorCode: "PIPING_TITLE_MOVED",
+    message: "The answer being piped is now later in the questionnaire",
   },
 };
 

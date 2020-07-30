@@ -117,7 +117,6 @@ module.exports = questionnaire => {
   const errorMessages = validate.errors.filter(
     err => err.keyword === "errorMessage"
   );
-  console.log("\n\nerrorMessages", errorMessages);
 
   const transformedMessages = uniqBy(errorMessages, "dataPath")
     .map(error => {
