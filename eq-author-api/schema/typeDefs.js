@@ -401,6 +401,7 @@ type TotalValidationRule implements ValidationRule {
   previousAnswer: Answer
   condition: ValidationCondition!
   availablePreviousAnswers: [Answer!]!
+  validationErrorInfo: ValidationErrorInfo
 }
 
 enum ValidationCondition {
