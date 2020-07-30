@@ -1,6 +1,7 @@
 //Credit https://medium.com/@hello_21915/testing-the-scrolltotop-component-in-react-with-enzyme-and-jest-5342fab570b4
 
 import React from "react";
+import PropTypes from "prop-types";
 import { withRouter } from "react-router";
 
 class ScrollToTop extends React.Component {
@@ -14,5 +15,10 @@ class ScrollToTop extends React.Component {
     return this.props.children;
   }
 }
+
+ScrollToTop.propTypes = {
+  location: PropTypes.object, // eslint-disable-line
+  children: PropTypes.any, // eslint-disable-line
+};
 
 export default withRouter(ScrollToTop);
