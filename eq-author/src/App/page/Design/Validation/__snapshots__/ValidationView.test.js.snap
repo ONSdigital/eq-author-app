@@ -7,18 +7,11 @@ exports[`ValidationView should render children when enabled 1`] = `
   >
     <ToggleSwitch
       checked={true}
-      hideLabels={true}
+      hideLabels={false}
       id="ValidationView1"
       name="ValidationView1"
       onChange={[MockFunction]}
     />
-    <Label
-      bold={true}
-      htmlFor="ValidationView1"
-      inline={true}
-    >
-      On
-    </Label>
   </ValidationView__InlineField>
   <TransitionGroup
     childFactory={[Function]}
@@ -48,18 +41,11 @@ exports[`ValidationView should render disabled messaged when disabled 1`] = `
   >
     <ToggleSwitch
       checked={false}
-      hideLabels={true}
+      hideLabels={false}
       id="ValidationView2"
       name="ValidationView2"
       onChange={[MockFunction]}
     />
-    <Label
-      bold={true}
-      htmlFor="ValidationView2"
-      inline={true}
-    >
-      On
-    </Label>
   </ValidationView__InlineField>
   <TransitionGroup
     childFactory={[Function]}
