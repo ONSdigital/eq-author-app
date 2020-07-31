@@ -163,6 +163,20 @@ class AnswerValidation extends React.PureComponent {
 
   handleModalClose = () => this.setState({ modalIsOpen: false });
 
+  titleText = (id, title, enabled, inclusive) => {
+    if (!enabled) {
+      return `Set ${title.toLowerCase()}`;
+    }
+    if (!inclusive && id.includes("Duration")) {
+      return `${title} is`;
+    }
+    if (id.includes("max") || id.includes("latest")) {
+      return `${title} ${MAX_INCLUSIVE_TEXT}`;
+    } else {
+      return `${title} ${MIN_INCLUSIVE_TEXT}`;
+    }
+  };
+
   renderButton = ({ id, title, value, enabled, hasError, inclusive }) => (
     <SidebarValidation
       key={id}
@@ -172,14 +186,7 @@ class AnswerValidation extends React.PureComponent {
       }}
       hasError={hasError}
     >
-      <Title>
-        {title}{" "}
-        {enabled && !inclusive && id.includes("Duration")
-          ? "is"
-          : id.includes("max") || id.includes("latest")
-          ? MAX_INCLUSIVE_TEXT
-          : MIN_INCLUSIVE_TEXT}
-      </Title>
+      <Title>{this.titleText(id, title, enabled, inclusive)}</Title>
       {enabled && !isNull(value) && <Detail>{value}</Detail>}
     </SidebarValidation>
   );
