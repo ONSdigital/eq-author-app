@@ -235,9 +235,10 @@ const handleBlurReducer = ({ type, payload, mutation }) => {
   };
 
   const { id, qCode } = payload;
-  if (questionMatrix[type] === "Confirmation question") {
+
+  if (questionMatrix[type] === questionMatrix.QuestionConfirmation) {
     updateConfirmation(mutationVariables({ id, qCode }));
-  } else if (questionMatrix[type] === "Calculated summary") {
+  } else if (questionMatrix[type] === questionMatrix.CalculatedSummaryPage) {
     const summaryAnswers = payload.summaryAnswers.map(item => item.id);
     const update = { id, qCode, summaryAnswers };
 
@@ -294,8 +295,8 @@ const Row = memo(
                 value={qCode}
                 onChange={e => setQcode(e.value)}
                 onBlur={() => handleBlur(id, type, qCode)}
-                name={`${id || ""}-qcode-entry`}
-                data-test={`${id || ""}-test-input`}
+                name={`${id}-qcode-entry`}
+                data-test={`${id}-test-input`}
                 error={error}
               />
 
