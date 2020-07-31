@@ -82,9 +82,7 @@ exports[`AnswerValidation should render 1`] = `
     onClick={[Function]}
   >
     <SidebarButton__Title>
-      Min value
-       
-      must be more than
+      Set min value
     </SidebarButton__Title>
   </AnswerValidation__SidebarValidation>
   <AnswerValidation__SidebarValidation
@@ -94,9 +92,7 @@ exports[`AnswerValidation should render 1`] = `
     onClick={[Function]}
   >
     <SidebarButton__Title>
-      Max value
-       
-      must be less than
+      Set max value
     </SidebarButton__Title>
   </AnswerValidation__SidebarValidation>
   <ModalWithNav
