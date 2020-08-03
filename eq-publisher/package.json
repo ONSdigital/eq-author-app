@@ -19,7 +19,7 @@
     "helmet": "latest",
     "jsonwebtoken": "latest",
     "lodash": "latest",
-    "nodemon": "2.0.3",
+    "nodemon": "2.0.4",
     "request": "latest",
     "request-promise": "latest",
     "uuid": "latest"

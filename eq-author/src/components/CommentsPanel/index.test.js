@@ -510,7 +510,7 @@ describe("Comments Pane", () => {
       });
 
       const editReplySaveBtn = getByTestId("btn-save-editedReply-0-1");
-      expect(editReplySaveBtn).toHaveStyle("display: inline-block");
+      expect(editReplySaveBtn).toHaveStyle("display: inline-flex");
       await act(async () => {
         await fireEvent.click(editReplySaveBtn);
       });
