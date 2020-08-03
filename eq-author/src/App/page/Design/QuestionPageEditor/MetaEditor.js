@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { propType } from "graphql-anywhere";
 import styled from "styled-components";
-import { get, flowRight } from "lodash";
+import { get, flowRight, some } from "lodash";
 import { TransitionGroup } from "react-transition-group";
 
 import WrappingInput from "components/Forms/WrappingInput";
@@ -49,11 +49,46 @@ const Paragraph = styled.p`
   border-left: 5px solid ${colors.lightGrey};
 `;
 
+/* eslint-disable react/prop-types */
+const ERROR_SITUATIONS = [
+  {
+    condition: props =>
+      some(props.page.validationErrorInfo.errors, {
+        errorCode: richTextEditorErrors.QUESTION_TITLE_NOT_ENTERED.errorCode,
+      }),
+    message: () => richTextEditorErrors.QUESTION_TITLE_NOT_ENTERED.message,
+  },
+  {
+    condition: props =>
+      some(props.page.validationErrorInfo.errors, {
+        errorCode: richTextEditorErrors.PIPING_TITLE_MOVED.errorCode,
+      }),
+    message: () => richTextEditorErrors.PIPING_TITLE_MOVED.message,
+  },
+  {
+    condition: props =>
+      some(props.page.validationErrorInfo.errors, {
+        errorCode: richTextEditorErrors.PIPING_TITLE_DELETED.errorCode,
+      }),
+    message: () => richTextEditorErrors.PIPING_TITLE_DELETED.message,
+  },
+];
+
 export class StatelessMetaEditor extends React.Component {
   description = React.createRef();
   guidance = React.createRef();
 
+  ErrorMsg = () => {
+    for (let i = 0; i < ERROR_SITUATIONS.length; ++i) {
+      const { condition, message } = ERROR_SITUATIONS[i];
+      if (condition(this.props)) {
+        return message(this.props);
+      }
+    }
+  };
+
   render() {
+    const ErrorMsg = this.ErrorMsg();
     const {
       page,
       onChange,
@@ -76,23 +111,7 @@ export class StatelessMetaEditor extends React.Component {
           metadata={get(page, "section.questionnaire.metadata", [])}
           testSelector="txt-question-title"
           autoFocus={!page.title}
-          errorValidationMsg={this.props.getValidationError(
-            {
-              field: "title",
-              label: "Question title",
-              requiredMsg: richTextEditorErrors.QUESTION_TITLE_NOT_ENTERED,
-            },
-            {
-              field: "title",
-              label: "Question title",
-              requiredMsg: richTextEditorErrors.PIPING_TITLE_DELETED,
-            },
-            {
-              field: "title",
-              label: "Question title",
-              requiredMsg: richTextEditorErrors.PIPING_TITLE_MOVED,
-            }
-          )}
+          errorValidationMsg={ErrorMsg}
         />
 
         <TransitionGroup>

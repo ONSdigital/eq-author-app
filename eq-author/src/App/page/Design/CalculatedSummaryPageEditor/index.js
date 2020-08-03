@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { propType } from "graphql-anywhere";
-import { get, flowRight } from "lodash";
+import { get, flowRight, some } from "lodash";
 import styled from "styled-components";
 import gql from "graphql-tag";
 
@@ -38,6 +38,30 @@ const SelectorTitle = styled.h2`
   margin: 0 0 0.4em;
 `;
 
+const ERROR_SITUATIONS = [
+  {
+    condition: props =>
+      some(props.page.validationErrorInfo.errors, {
+        errorCode: richTextEditorErrors.CALCSUM_TITLE_NOT_ENTERED.errorCode,
+      }),
+    message: () => richTextEditorErrors.CALCSUM_TITLE_NOT_ENTERED.message,
+  },
+  {
+    condition: props =>
+      some(props.page.validationErrorInfo.errors, {
+        errorCode: richTextEditorErrors.PIPING_TITLE_MOVED.errorCode,
+      }),
+    message: () => richTextEditorErrors.PIPING_TITLE_MOVED.message,
+  },
+  {
+    condition: props =>
+      some(props.page.validationErrorInfo.errors, {
+        errorCode: richTextEditorErrors.PIPING_TITLE_DELETED.errorCode,
+      }),
+    message: () => richTextEditorErrors.PIPING_TITLE_DELETED.message,
+  },
+];
+
 export const CalculatedSummaryPageEditor = props => {
   const {
     page,
@@ -46,8 +70,17 @@ export const CalculatedSummaryPageEditor = props => {
     onChange,
     onChangeUpdate,
     onUpdateCalculatedSummaryPage,
-    getValidationError,
   } = props;
+
+  const ErrorMsg = () => {
+    for (let i = 0; i < ERROR_SITUATIONS.length; ++i) {
+      const { condition, message } = ERROR_SITUATIONS[i];
+      if (condition(props)) {
+        return message(props);
+      }
+    }
+  };
+
   return (
     <div data-test="calculated-summary-page-editor">
       <PageHeader
@@ -73,11 +106,7 @@ export const CalculatedSummaryPageEditor = props => {
           testSelector="txt-summary-title"
           allowableTypes={[ANSWER, METADATA, VARIABLES]}
           defaultTab="variables"
-          errorValidationMsg={getValidationError({
-            field: "title",
-            label: "Calculated summary title",
-            requiredMsg: richTextEditorErrors.CALCSUM_TITLE_NOT_ENTERED,
-          })}
+          errorValidationMsg={ErrorMsg()}
         />
         <div>
           <SelectorTitle>Answers to calculate</SelectorTitle>
