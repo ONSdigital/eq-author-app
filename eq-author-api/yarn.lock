@@ -3901,11 +3901,11 @@ graphql-iso-date@latest:
   integrity sha512-AwFGIuYMJQXOEAgRlJlFL4H1ncFM8n8XmoVDTNypNOZyQ8LFDG2ppMFlsS862BSTCDcSUfHp8PD3/uJhv7t59Q==
 
 graphql-redis-subscriptions@latest:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/graphql-redis-subscriptions/-/graphql-redis-subscriptions-2.1.1.tgz#61d5cf36ccc74abbc596d640eadbddf2cd1a7a91"
-  integrity sha512-oBd6thADySxLpLEYEtUmpGTxGQhHCN8M+9gaGZaUic11UYEfCtCpvuP6vwx8p7R8uhGZ3dYG8dhEJ01ZMg8E/A==
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/graphql-redis-subscriptions/-/graphql-redis-subscriptions-2.2.2.tgz#6d0dad6acac9ee99b78d9220620180a2ddeb1a25"
+  integrity sha512-DsnIZxt/TSRqHPJxllni8HRn6uR786CNnCis4M+AwGkgLWIFYXJVibSDSUBVOCJEcfkfCFr+xUixPrJUldfW0A==
   dependencies:
-    iterall "^1.2.2"
+    iterall "^1.3.0"
   optionalDependencies:
     ioredis "^4.6.3"
 
