@@ -2,9 +2,7 @@
 
 exports[`PropertiesPanel should render when there are no answers 1`] = `
 <PropertiesPanel__PropertiesPane>
-  <ScrollPane
-    permanentScrollBar={false}
-  >
+  <StyledScrollPane>
     <Accordion
       title="Optional fields"
     >
@@ -31,6 +29,6 @@ exports[`PropertiesPanel should render when there are no answers 1`] = `
         }
       }
     />
-  </ScrollPane>
+  </StyledScrollPane>
 </PropertiesPanel__PropertiesPane>
 `;

@@ -9,9 +9,7 @@ exports[`ContentPickerPanel should render 1`] = `
   id="1"
   role="tabpanel"
 >
-  <ContentPickerPanel__StyledScrollPane
-    permanentScrollBar={false}
-  >
+  <ContentPickerPanel__StyledScrollPane>
     Panel contents
   </ContentPickerPanel__StyledScrollPane>
 </ContentPickerPanel__PanelWrapper>
