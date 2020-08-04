@@ -2,6 +2,8 @@ import styled, { css } from "styled-components";
 import PropTypes from "prop-types";
 import { colors } from "constants/theme";
 import { darken } from "polished";
+import React, { useEffect, useRef } from "react";
+import { useHistory } from "react-router-dom";
 
 export const ScrollPaneCSS = css`
   -webkit-background-clip: text;
@@ -52,4 +54,27 @@ ScrollPane.defaultProps = {
   permanentScrollBar: false,
 };
 
-export default ScrollPane;
+const StyledScrollPane = ({ children, ...otherProps }) => {
+  const history = useHistory();
+  const ref = useRef();
+  const node = ref.current;
+
+  useEffect(() => {
+    history.listen(() => {
+      if (node) {
+        node.scrollTop = 0;
+      }
+    });
+  });
+  return (
+    <ScrollPane ref={ref} {...otherProps}>
+      {children}
+    </ScrollPane>
+  );
+};
+
+StyledScrollPane.propTypes = {
+  children: PropTypes.node,
+};
+
+export default StyledScrollPane;

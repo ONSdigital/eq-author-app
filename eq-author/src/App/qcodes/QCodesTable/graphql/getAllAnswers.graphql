@@ -1,5 +1,6 @@
 query GetAnswers($input: QueryInput!) {
   questionnaire(input: $input) {
+    id
     sections {
       pages {
         ... on QuestionPage {

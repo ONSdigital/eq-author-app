@@ -2054,9 +2054,7 @@ exports[`QuestionnaireDesignPage should render 1`] = `
       }
     }
   >
-    <ScrollPane
-      permanentScrollBar={false}
-    >
+    <StyledScrollPane>
       <GetContext
         title={[Function]}
       >
@@ -2223,7 +2221,7 @@ exports[`QuestionnaireDesignPage should render 1`] = `
           </Column>
         </Grid>
       </GetContext>
-    </ScrollPane>
+    </StyledScrollPane>
   </BaseLayout>
 </ContextProvider>
 `;
