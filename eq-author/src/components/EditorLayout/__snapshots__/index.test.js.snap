@@ -27,7 +27,7 @@ exports[`Editor Layout should render 1`] = `
         cols={9}
         gutters={false}
       >
-        <ScrollPane
+        <StyledScrollPane
           permanentScrollBar={true}
         >
           <EditorLayout__Margin>
@@ -37,7 +37,7 @@ exports[`Editor Layout should render 1`] = `
               Content
             </MainCanvas>
           </EditorLayout__Margin>
-        </ScrollPane>
+        </StyledScrollPane>
       </Column>
       <Column
         cols={3}

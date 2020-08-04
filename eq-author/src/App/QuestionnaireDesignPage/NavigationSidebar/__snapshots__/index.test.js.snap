@@ -53,9 +53,7 @@ exports[`NavigationSidebar should render 1`] = `
   >
     Close all
   </NavigationSidebar__AccordionGroupToggle>
-  <NavigationSidebar__NavigationScrollPane
-    permanentScrollBar={false}
-  >
+  <NavigationSidebar__NavigationScrollPane>
     <NavigationSidebar__NavList>
       <li>
         <SectionNav
