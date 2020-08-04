@@ -55,8 +55,6 @@ ScrollPane.defaultProps = {
 };
 
 const StyledScrollPane = ({ children, ...otherProps }) => {
-  console.log(otherProps);
-
   const history = useHistory();
   const ref = useRef();
   const node = ref.current;
