@@ -1,11 +1,13 @@
 import React from "react";
 import { render, fireEvent, act, flushPromises } from "tests/utils/rtl";
+
+import UPDATE_ANSWER_QCODE from "./graphql/updateAnswerMutation.graphql";
+import UPDATE_OPTION_QCODE from "./graphql/updateOptionMutation.graphql";
+import UPDATE_CONFIRMATION_QCODE from "./graphql/updateConfirmationQCode.graphql";
+import UPDATE_CALCSUM_QCODE from "./graphql/updateCalculatedSummary.graphql";
+
 import { MeContext } from "App/MeContext";
 import { UnwrappedQCodeTable } from "./index";
-import UPDATE_ANSWER_QCODE from "./updateAnswerMutation.graphql";
-import UPDATE_OPTION_QCODE from "./updateOptionMutation.graphql";
-import UPDATE_CONFIRMATION_QCODE from "./updateConfirmationQCode.graphql";
-import UPDATE_CALCSUM_QCODE from "./updateCalculatedSummary.graphql";
 import QuestionnaireContext from "components/QuestionnaireContext";
 
 import {
@@ -21,6 +23,16 @@ import {
   CHECKBOX,
   NUMBER,
 } from "constants/answer-types";
+import { QCODE_IS_NOT_UNIQUE } from "constants/validationMessages";
+
+const dummyQcodes = {
+  duplicate: "123",
+  option: "9",
+  confirmation: "10",
+  calculatedSummary: "16",
+  mutuallyExclusive: "20",
+  dateRange: "99",
+};
 
 describe("Qcode Table", () => {
   let user, questionnaire, mocks, queryWasCalled, props, questionnaireId;
@@ -43,7 +55,7 @@ describe("Qcode Table", () => {
                   description: "",
                   guidance: "",
                   label: "num1",
-                  qCode: "123",
+                  qCode: dummyQcodes.duplicate,
                   type: NUMBER,
                   questionPageId: "qp-1",
                   secondaryLabel: null,
@@ -53,7 +65,7 @@ describe("Qcode Table", () => {
                   description: "",
                   guidance: "",
                   label: "curr1",
-                  qCode: "",
+                  qCode: dummyQcodes.duplicate,
                   type: CURRENCY,
                   questionPageId: "qp-1",
 
@@ -64,7 +76,7 @@ describe("Qcode Table", () => {
                   description: "",
                   guidance: "",
                   label: "Un1",
-                  qCode: "",
+                  qCode: "1",
                   type: UNIT,
                   questionPageId: "qp-1",
 
@@ -75,7 +87,7 @@ describe("Qcode Table", () => {
                   description: "",
                   guidance: "",
                   label: "Per1",
-                  qCode: "",
+                  qCode: "2",
                   type: PERCENTAGE,
                   questionPageId: "qp-1",
 
@@ -86,7 +98,7 @@ describe("Qcode Table", () => {
                   description: "",
                   guidance: "",
                   label: "Dur1",
-                  qCode: "",
+                  qCode: "3",
                   type: DURATION,
                   questionPageId: "qp-1",
 
@@ -97,7 +109,7 @@ describe("Qcode Table", () => {
                   description: "",
                   guidance: "",
                   label: "Num2",
-                  qCode: "",
+                  qCode: "4",
                   type: NUMBER,
                   questionPageId: "qp-1",
 
@@ -108,7 +120,7 @@ describe("Qcode Table", () => {
                   description: "",
                   guidance: "",
                   label: "",
-                  qCode: "123",
+                  qCode: "5",
                   type: CHECKBOX,
                   questionPageId: "29ceee38-5ba4-4f43-84ae-0162c5b175f8",
                   options: [
@@ -117,7 +129,7 @@ describe("Qcode Table", () => {
                       label: "Embedded checkbox Either",
                       description: null,
                       additionalAnswer: null,
-                      qCode: "123",
+                      qCode: "27",
                     },
                     {
                       id: "cb-2",
@@ -167,7 +179,8 @@ describe("Qcode Table", () => {
                   guidance: "",
                   label: "To",
                   secondaryLabel: "From",
-                  qCode: "",
+                  qCode: "6",
+                  secondaryQCode: dummyQcodes.dateRange,
                   type: DATE_RANGE,
                   questionPageId: "qp-3",
                 },
@@ -204,7 +217,7 @@ describe("Qcode Table", () => {
               confirmation: {
                 id: "conf-q-1",
                 title: "<p>Questions 5</p>",
-                qCode: "123",
+                qCode: dummyQcodes.confirmation,
                 positive: {
                   id: "pos-1",
                   label: "Yes",
@@ -226,7 +239,7 @@ describe("Qcode Table", () => {
               sectionId: "c1a2aa31-ab46-456a-a1b8-a979c3c345de",
               alias: null,
               totalTitle: "<p>TT</p>",
-              qCode: "123",
+              qCode: dummyQcodes.calculatedSummary,
             },
             {
               id: "page-6",
@@ -273,7 +286,7 @@ describe("Qcode Table", () => {
                   description: "",
                   guidance: "",
                   label: "",
-                  qCode: "123",
+                  qCode: "1238",
                   type: CHECKBOX,
                   questionPageId: "29ceee38-5ba4-4f43-84ae-0162c5b175f8",
                   options: [
@@ -282,7 +295,7 @@ describe("Qcode Table", () => {
                       label: "Either",
                       description: null,
                       additionalAnswer: null,
-                      qCode: "123",
+                      qCode: dummyQcodes.option,
                     },
                     {
                       id: "option-cb-3",
@@ -297,7 +310,7 @@ describe("Qcode Table", () => {
                     mutuallyExclusive: true,
                     description: null,
                     additionalAnswer: null,
-                    qCode: "123",
+                    qCode: dummyQcodes.mutuallyExclusive,
                   },
                 },
               ],
@@ -341,6 +354,30 @@ describe("Qcode Table", () => {
                 id: "ans-p1-1",
                 qCode: "187",
                 secondaryQCode: "",
+                __typename: "BasicAnswer",
+              },
+            },
+          };
+        },
+      },
+      {
+        request: {
+          query: UPDATE_ANSWER_QCODE,
+          variables: {
+            input: {
+              id: "ans-p3-1",
+              secondaryQCode: "187",
+            },
+          },
+        },
+        result: () => {
+          queryWasCalled = true;
+          return {
+            data: {
+              updateAnswer: {
+                id: "ans-p3-1",
+                qCode: "",
+                secondaryQCode: "187",
                 __typename: "BasicAnswer",
               },
             },
@@ -495,7 +532,7 @@ describe("Qcode Table", () => {
   });
 
   it("Should render rows equivalent to the amount of Questions", () => {
-    const { getAllByText, getByText } = renderWithContext(
+    const { getAllByText, getByText, getAllByTestId } = renderWithContext(
       <UnwrappedQCodeTable {...props} />
     );
     const renderedQuestions = getAllByText(content =>
@@ -508,7 +545,10 @@ describe("Qcode Table", () => {
     expect(getByText("Embedded checkbox Either")).toBeTruthy();
     expect(getByText("Embedded checkbox Or")).toBeTruthy();
     expect(getByText("From")).toBeTruthy();
-    expect(renderedQuestions.length).toEqual(8);
+    expect(renderedQuestions.length).toEqual(8); // equal to non nested rows
+
+    const answerRows = 22; // equal to answers present in questionnaire
+    expect(getAllByTestId("answer-row-test").length).toEqual(answerRows);
   });
 
   it("Should make query to update Answer", async () => {
@@ -517,8 +557,34 @@ describe("Qcode Table", () => {
     );
 
     const testId = "ans-p1-1-test-input";
-    const originalValue = "123";
+    const originalValue = dummyQcodes.duplicate;
     const input = getByTestId(testId);
+    expect(input.value).toBe(originalValue);
+
+    act(() => {
+      fireEvent.change(input, { target: { value: "187" } });
+    });
+
+    expect(input.value).toBe("187");
+
+    expect(queryWasCalled).toBeFalsy();
+
+    await act(async () => {
+      await fireEvent.blur(input);
+      await flushPromises();
+    });
+
+    expect(queryWasCalled).toBeTruthy();
+  });
+
+  it("Should make query to update Answer with a secondary option", async () => {
+    const { getAllByTestId } = renderWithContext(
+      <UnwrappedQCodeTable {...props} />
+    );
+
+    const testId = "ans-p3-1-test-input";
+    const originalValue = dummyQcodes.dateRange;
+    const input = getAllByTestId(testId)[1];
     expect(input.value).toBe(originalValue);
 
     act(() => {
@@ -543,7 +609,7 @@ describe("Qcode Table", () => {
     );
 
     const testId = "option-cb-1-test-input";
-    const originalValue = "123";
+    const originalValue = dummyQcodes.option;
 
     const input = getByTestId(testId);
 
@@ -571,7 +637,7 @@ describe("Qcode Table", () => {
     );
 
     const testId = "option-cb-2-test-input";
-    const originalValue = "123";
+    const originalValue = dummyQcodes.mutuallyExclusive;
 
     const input = getByTestId(testId);
 
@@ -599,7 +665,7 @@ describe("Qcode Table", () => {
     );
 
     const testId = "conf-q-1-test-input";
-    const originalValue = "123";
+    const originalValue = dummyQcodes.confirmation;
     const input = getByTestId(testId);
     expect(input.value).toBe(originalValue);
 
@@ -625,7 +691,7 @@ describe("Qcode Table", () => {
     );
 
     const testId = "page-5-test-input";
-    const originalValue = "123";
+    const originalValue = dummyQcodes.calculatedSummary;
     const input = getByTestId(testId);
     expect(input.value).toBe(originalValue);
 
@@ -645,5 +711,26 @@ describe("Qcode Table", () => {
     });
 
     expect(queryWasCalled).toBeTruthy();
+  });
+
+  it("Should render a validation error when duplicate qCodes are present", () => {
+    const { getAllByText } = renderWithContext(
+      <UnwrappedQCodeTable {...props} />
+    );
+
+    expect(getAllByText(QCODE_IS_NOT_UNIQUE).length).toBe(5);
+  });
+
+  it("Should not rerender if the qCode stays the same", () => {
+    const { getByText, rerender } = renderWithContext(
+      <UnwrappedQCodeTable {...props} />
+    );
+
+    props.data.questionnaire.sections[0].pages[0].answers[0].qCode =
+      dummyQcodes.duplicate;
+
+    rerender(<UnwrappedQCodeTable {...props} />);
+
+    expect(getByText("num1")).toBeTruthy();
   });
 });
