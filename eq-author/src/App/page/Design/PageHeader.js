@@ -72,6 +72,19 @@ export class PageHeader extends React.Component {
     this.handleCloseMovePageDialog(() => this.props.onMovePage(args));
   };
 
+  isMoveDisabled = questionnaire => {
+    let id = null;
+    if (questionnaire.sections[0].pages.length) {
+      id = this.props.page.id === questionnaire.sections[0].pages[0].id;
+    }
+
+    const moreAnswers =
+      questionnaire.sections[0].pages.length > 1 ||
+      questionnaire.sections.length > 1;
+
+    return id && !moreAnswers;
+  };
+
   renderMovePageModal = ({ loading, error, data }) => {
     const { page } = this.props;
     if (loading || error) {
@@ -90,18 +103,6 @@ export class PageHeader extends React.Component {
     );
   };
 
-  isMoveDisabled = questionnaire => {
-    let id = null;
-    if (questionnaire.sections[0].pages.length) {
-      id = this.props.page.id === questionnaire.sections[0].pages[0].id;
-    }
-    const moreAnswers =
-      questionnaire.sections[0].pages.length > 1 ||
-      questionnaire.sections.length > 1;
-
-    return id && !moreAnswers;
-  };
-
   render() {
     const {
       page,
@@ -110,6 +111,7 @@ export class PageHeader extends React.Component {
       match,
       isDuplicateDisabled,
       alertText,
+      questionnaire,
     } = this.props;
 
     return (
@@ -127,10 +129,7 @@ export class PageHeader extends React.Component {
               data-test="btn-move"
               variant="tertiary"
               small
-              disabled={
-                this.props.questionnaire &&
-                this.isMoveDisabled(this.props.questionnaire)
-              }
+              disabled={questionnaire && this.isMoveDisabled(questionnaire)}
             >
               <IconText icon={IconMove}>Move</IconText>
             </Button>
