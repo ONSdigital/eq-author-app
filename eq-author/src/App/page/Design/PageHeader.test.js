@@ -4,7 +4,6 @@ import { shallow } from "enzyme";
 import MovePageQuery from "./MovePageModal/MovePageQuery";
 import { PageHeader } from "./PageHeader";
 import { buildQuestionnaire } from "tests/utils/createMockQuestionnaire";
-import { iteratee } from "lodash";
 
 describe("Question Page Editor", () => {
   let wrapper;
