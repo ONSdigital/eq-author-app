@@ -15,6 +15,7 @@ import PipedValueDecorator, {
   findPipedEntities,
   replacePipedValues,
   insertPipedValue,
+  DeletedPipedValueDecorator,
 } from "./entities/PipedValue";
 
 import createFormatStripper from "./utils/createFormatStripper";
@@ -208,7 +209,31 @@ class RichTextEditor extends React.Component {
   }
 
   configureEditorState(value, controls) {
+    const DeletedPipedValueDecorator = styled.span`
+      background-color: #fae5e8;
+      padding: 0 0.125em;
+      white-space: pre;
+    `;
+
+    const stategy = (contentBlock, callback, contentState) => {
+      console.log("contentBlock", contentBlock.getText());
+      if (contentBlock.getText().includes("Deleted answer")) {
+        return true;
+      }
+    };
+
     const decorator = new CompositeDecorator([PipedValueDecorator]);
+
+    ////////////////////////////////////////////////////  Tom - this is the WIP decorator /////////////////////////////////////
+    // const decorator = new CompositeDecorator([
+    //   PipedValueDecorator,
+    //   {
+    //     strategy: stategy(value),
+    //     component: DeletedPipedValueDecorator,
+    //   },
+    // ]);
+
+    console.log("decorator", decorator);
 
     this.stripFormatting = createFormatStripper(controls);
 
@@ -229,6 +254,21 @@ class RichTextEditor extends React.Component {
 
   componentDidUpdate(prevProps) {
     /*eslint-disable react/no-did-update-set-state */
+
+    // if (prevProps.value !== this.props.value) {
+    //   const $ = cheerio.load(this.props.value);
+    //   $("p")
+    //     .find('span:contains("Deleted answer")')
+    //     .each(function(index, element) {
+    //       console.log("\n\ndeleted answer");
+    //     });
+
+    //   $("p")
+    //     .find('span:contains("Deleted answer")')
+    //     .closest("span")
+    //     .addClass("deletedPipe");
+    // }
+
     if (
       prevProps.value !== this.props.value &&
       typeof this.props.value === "string" &&
