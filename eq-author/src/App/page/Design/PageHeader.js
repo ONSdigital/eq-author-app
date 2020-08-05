@@ -1,18 +1,20 @@
 import React from "react";
+import styled from "styled-components";
+import PropTypes from "prop-types";
+import gql from "graphql-tag";
+import { propType } from "graphql-anywhere";
+import { isFunction, flowRight } from "lodash";
+
+import { withQuestionnaire } from "components/QuestionnaireContext";
 import IconButtonDelete from "components/buttons/IconButtonDelete";
 import DeleteConfirmDialog from "components/DeleteConfirmDialog";
-import iconPage from "./icon-dialog-page.svg";
-import { isFunction, flowRight } from "lodash";
-import PropTypes from "prop-types";
-import { propType } from "graphql-anywhere";
-import gql from "graphql-tag";
-import styled from "styled-components";
-
 import Button from "components/buttons/Button";
 import IconText from "components/IconText";
 import DuplicateButton from "components/buttons/DuplicateButton";
 import { Label } from "components/Forms";
 import AliasEditor from "components/AliasEditor";
+
+import iconPage from "./icon-dialog-page.svg";
 
 import withMovePage from "./withMovePage";
 import withDeletePage from "./withDeletePage";
@@ -70,6 +72,19 @@ export class PageHeader extends React.Component {
     this.handleCloseMovePageDialog(() => this.props.onMovePage(args));
   };
 
+  isMoveDisabled = questionnaire => {
+    let id = null;
+    if (questionnaire.sections[0].pages.length) {
+      id = this.props.page.id === questionnaire.sections[0].pages[0].id;
+    }
+
+    const moreAnswers =
+      questionnaire.sections[0].pages.length > 1 ||
+      questionnaire.sections.length > 1;
+
+    return id && !moreAnswers;
+  };
+
   renderMovePageModal = ({ loading, error, data }) => {
     const { page } = this.props;
     if (loading || error) {
@@ -94,12 +109,13 @@ export class PageHeader extends React.Component {
       onChange,
       onUpdate,
       match,
-      isMoveDisabled,
       isDuplicateDisabled,
       alertText,
+      questionnaire,
     } = this.props;
+
     return (
-      <React.Fragment>
+      <>
         <Toolbar>
           <ShortCodeLabel htmlFor="alias">Short code</ShortCodeLabel>
           <AliasEditor
@@ -113,7 +129,7 @@ export class PageHeader extends React.Component {
               data-test="btn-move"
               variant="tertiary"
               small
-              disabled={isMoveDisabled}
+              disabled={questionnaire && this.isMoveDisabled(questionnaire)}
             >
               <IconText icon={IconMove}>Move</IconText>
             </Button>
@@ -144,7 +160,7 @@ export class PageHeader extends React.Component {
         <MovePageQuery questionnaireId={match.params.questionnaireId}>
           {this.renderMovePageModal}
         </MovePageQuery>
-      </React.Fragment>
+      </>
     );
   }
 }
@@ -167,6 +183,8 @@ PageHeader.propTypes = {
   page: propType(PageHeader.fragments.PageHeader),
   onChange: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  questionnaire: PropTypes.object,
   match: PropTypes.shape({
     params: PropTypes.shape({
       questionnaireId: PropTypes.string.isRequired,
@@ -184,5 +202,6 @@ PageHeader.propTypes = {
 export default flowRight(
   withMovePage,
   withDeletePage,
-  withDuplicatePage
+  withDuplicatePage,
+  withQuestionnaire
 )(PageHeader);
