@@ -95,7 +95,6 @@ describe("Question Page Editor", () => {
   describe("Duplicate", () => {
     it("should call duplicate with the correct parameters", () => {
       wrapper = render();
-      wrapper.debug();
       wrapper
         .find(`[data-test="btn-duplicate-page"]`)
         .first()
@@ -143,7 +142,6 @@ describe("Question Page Editor", () => {
           data: { questionnaire },
         })
       );
-      wrapper.debug();
       moveWrapper.simulate("close");
       expect(wrapper.state("showMovePageDialog")).toEqual(false);
     });
