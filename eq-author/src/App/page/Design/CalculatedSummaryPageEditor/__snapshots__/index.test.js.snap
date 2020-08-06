@@ -7,25 +7,7 @@ exports[`CalculatedSummaryPageEditor should render 1`] = `
   <Apollo(withShowToast(Apollo(Apollo(PageHeader))))
     alertText="All changes to this page will be lost."
     fetchAnswers={[MockFunction]}
-    getValidationError={
-      [MockFunction] {
-        "calls": Array [
-          Array [
-            Object {
-              "field": "title",
-              "label": "Calculated summary title",
-              "requiredMsg": "Enter a calculated summary title",
-            },
-          ],
-        ],
-        "results": Array [
-          Object {
-            "type": "return",
-            "value": undefined,
-          },
-        ],
-      }
-    }
+    getValidationError={[MockFunction]}
     isDuplicateDisabled={true}
     isMoveDisabled={true}
     onChange={[MockFunction]}
