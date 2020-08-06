@@ -39,6 +39,10 @@ describe("MetaEditor", () => {
             metadata: [],
           },
         },
+        validationErrorInfo: {
+          totalCount: 1,
+          errors: [{ errorCode: "ERR_VALID_REQUIRED" }],
+        },
       },
     };
 
