@@ -185,6 +185,7 @@ describe("Duplication", () => {
         "shortTitle",
         "displayName",
         "createdBy",
+        "createdAt",
       ];
       expect(omit(questionnaireCopy, ignoredFields)).toEqual(
         omit(queriedQuestionnaire, ignoredFields)
@@ -202,6 +203,12 @@ describe("Duplication", () => {
       expect(questionnaireCopy.shortTitle).toEqual(
         `Copy of ${queriedQuestionnaire.shortTitle}`
       );
+    });
+
+    it("should have createdAt greater than original", () => {
+      const copyDate = Date.parse(questionnaireCopy.createdAt);
+      const queriedDate = Date.parse(queriedQuestionnaire.createdAt);
+      expect(copyDate).toBeGreaterThan(queriedDate);
     });
   });
 });
