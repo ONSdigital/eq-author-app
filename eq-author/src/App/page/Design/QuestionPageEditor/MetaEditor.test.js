@@ -5,10 +5,8 @@ import { StatelessMetaEditor } from "./MetaEditor";
 
 import { TEXTFIELD } from "constants/answer-types";
 
-const createWrapper = props => shallow(<StatelessMetaEditor {...props} />);
-
 describe("MetaEditor", () => {
-  let wrapper, props;
+  let props;
 
   beforeEach(() => {
     props = {
@@ -45,11 +43,10 @@ describe("MetaEditor", () => {
         },
       },
     };
-
-    wrapper = createWrapper(props);
   });
 
   it("should render", () => {
+    const wrapper = shallow(<StatelessMetaEditor {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
 
@@ -60,8 +57,7 @@ describe("MetaEditor", () => {
       id: "1",
       type: "pages",
     };
-
-    // const wrapper = shallow(<MetaEditor {...props} />);
+    const wrapper = shallow(<StatelessMetaEditor {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
 
@@ -72,8 +68,7 @@ describe("MetaEditor", () => {
       id: "1",
       type: "pages",
     };
-
-    // const wrapper = shallow(<MetaEditor {...props} />);
+    const wrapper = shallow(<StatelessMetaEditor {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
 
@@ -84,8 +79,7 @@ describe("MetaEditor", () => {
       id: "1",
       type: "pages",
     };
-
-    // const wrapper = shallow(<MetaEditor {...props} />);
+    const wrapper = shallow(<StatelessMetaEditor {...props} />);
     expect(wrapper).toMatchSnapshot();
   });
 });

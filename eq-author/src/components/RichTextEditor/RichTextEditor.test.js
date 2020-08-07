@@ -601,18 +601,5 @@ describe("components/RichTextEditor", function() {
 
       expect(validationWrapper.find("ErrorInline")).toHaveLength(1);
     });
-
-    //IGNORE FOR NOW
-    // it("should display the correct error message when the answer has been deleted", async () => {
-    //   props.errorValidationMsg = { reason: SELECTED_ANSWER_DELETED };
-
-    //   const validationWrapper = shallow(<RichTextEditor {...props} />);
-
-    //   expect(validationWrapper.find("ErrorInline")).toHaveLength(1);
-
-    //   // expect(
-    //   //   screen.getByText("The answer used in this condition has been deleted")
-    //   // ).toBeTruthy();
-    // });
   });
 });
