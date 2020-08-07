@@ -1,6 +1,5 @@
 import React from "react";
 import { shallow } from "enzyme";
-import { render, flushPromises, act, screen } from "tests/utils/rtl";
 
 import { CalculatedSummaryPageEditor } from "./";
 
@@ -50,7 +49,6 @@ describe("CalculatedSummaryPageEditor", () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  ////Enzyme test
   it("should display the correct error message when the title is missing", async () => {
     defaultProps.page.validationErrorInfo.errors[0] = {
       errorCode: "ERR_VALID_REQUIRED",
@@ -60,27 +58,30 @@ describe("CalculatedSummaryPageEditor", () => {
     };
 
     const wrapper = shallow(<CalculatedSummaryPageEditor {...defaultProps} />);
-
-    expect(wrapper.text().includes("Enter a calculated summary title")).toBe(
-      true
-    );
+    expect(wrapper).toMatchSnapshot();
   });
 
-  ///RTL
-  it("attempt 2 using RTL - should display the correct error message when the title is missing", async () => {
+  it("should display the correct error message when piping answer in title is deleted", async () => {
     defaultProps.page.validationErrorInfo.errors[0] = {
-      errorCode: "ERR_VALID_REQUIRED",
+      errorCode: "PIPING_TITLE_DELETED",
       field: "title",
       id: "1",
       type: "pages",
     };
 
-    render(<CalculatedSummaryPageEditor {...defaultProps} />);
+    const wrapper = shallow(<CalculatedSummaryPageEditor {...defaultProps} />);
+    expect(wrapper).toMatchSnapshot();
+  });
 
-    await act(async () => {
-      await flushPromises();
-    });
+  it("should display the correct error message when piping answer in title is moved after This question", async () => {
+    defaultProps.page.validationErrorInfo.errors[0] = {
+      errorCode: "PIPING_TITLE_MOVED",
+      field: "title",
+      id: "1",
+      type: "pages",
+    };
 
-    expect(screen.getByText("Enter a calculated summary title")).toBeTruthy();
+    const wrapper = shallow(<CalculatedSummaryPageEditor {...defaultProps} />);
+    expect(wrapper).toMatchSnapshot();
   });
 });
