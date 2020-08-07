@@ -290,7 +290,7 @@ class RichTextEditor extends React.Component {
       "Deleted metadata"
     );
   }
-  ///////////////////////////////////////////////////////////////
+
   updateAnswerPipedValues(pipes) {
     if (!this.props.fetchAnswers) {
       return;

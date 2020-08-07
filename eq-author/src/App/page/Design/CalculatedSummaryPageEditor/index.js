@@ -72,6 +72,8 @@ export const CalculatedSummaryPageEditor = props => {
     onUpdateCalculatedSummaryPage,
   } = props;
 
+  console.log("page", JSON.stringify(page, null, 7));
+
   const ErrorMsg = () => {
     for (let i = 0; i < ERROR_SITUATIONS.length; ++i) {
       const { condition, message } = ERROR_SITUATIONS[i];
@@ -161,7 +163,7 @@ CalculatedSummaryPageEditor.propTypes = {
   onUpdate: PropTypes.func.isRequired,
   onChangeUpdate: PropTypes.func.isRequired,
   onUpdateCalculatedSummaryPage: PropTypes.func.isRequired,
-  getValidationError: PropTypes.func.isRequired,
+  // getValidationError: PropTypes.func.isRequired,
 };
 
 export default flowRight(
