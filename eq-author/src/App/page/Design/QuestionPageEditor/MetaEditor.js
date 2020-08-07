@@ -205,7 +205,6 @@ StatelessMetaEditor.propTypes = {
   fetchAnswers: PropTypes.func.isRequired,
   page: propType(pageFragment).isRequired,
   onChangeUpdate: PropTypes.func.isRequired,
-  getValidationError: PropTypes.func.isRequired,
 };
 
 StatelessMetaEditor.fragments = {
