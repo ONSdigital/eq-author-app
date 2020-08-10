@@ -1389,10 +1389,10 @@ describe("schema validation", () => {
 
       questionnaire.sections[0].pages[0].title = `<p><span data-piped="answers" data-id="answer_2" data-type="Number">[number]</span></p>`;
 
-      const Errors = validation(questionnaire);
+      const errors = validation(questionnaire);
 
-      expect(Errors.totalCount).toBe(1);
-      expect(Errors.pages.page_1.errors[0].errorCode).toBe(PIPING_TITLE_MOVED);
+      expect(errors.totalCount).toBe(1);
+      expect(errors.pages.page_1.errors[0].errorCode).toBe(PIPING_TITLE_MOVED);
     });
 
     it("should validate a deleted piping answer in title", () => {
@@ -1401,9 +1401,9 @@ describe("schema validation", () => {
 
       questionnaire.sections[0].pages[0].title = `<p><span data-piped="answers" data-id="answer_99" data-type="Number">[number]</span></p>`;
 
-      const Errors = validation(questionnaire);
-      expect(Errors.totalCount).toBe(1);
-      expect(Errors.pages.page_1.errors[0].errorCode).toBe(
+      const errors = validation(questionnaire);
+      expect(errors.totalCount).toBe(1);
+      expect(errors.pages.page_1.errors[0].errorCode).toBe(
         PIPING_TITLE_DELETED
       );
     });

@@ -12,7 +12,6 @@ describe("CalculatedSummaryPageEditor", () => {
       onUpdate: jest.fn(),
       onChangeUpdate: jest.fn(),
       onUpdateCalculatedSummaryPage: jest.fn(),
-      // getValidationError: jest.fn(),
       match: {
         params: {
           questionnaireId: "1",
@@ -21,7 +20,6 @@ describe("CalculatedSummaryPageEditor", () => {
         },
       },
       questionnaireId: "1",
-      // };
       page: {
         id: "3",
         title: "",

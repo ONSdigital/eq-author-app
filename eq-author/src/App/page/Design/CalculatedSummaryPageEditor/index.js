@@ -38,27 +38,33 @@ const SelectorTitle = styled.h2`
   margin: 0 0 0.4em;
 `;
 
+const {
+  CALCSUM_TITLE_NOT_ENTERED,
+  PIPING_TITLE_MOVED,
+  PIPING_TITLE_DELETED,
+} = richTextEditorErrors;
+
 const ERROR_SITUATIONS = [
   {
-    condition: props =>
-      some(props.page.validationErrorInfo.errors, {
-        errorCode: richTextEditorErrors.CALCSUM_TITLE_NOT_ENTERED.errorCode,
+    condition: errors =>
+      some(errors, {
+        errorCode: CALCSUM_TITLE_NOT_ENTERED.errorCode,
       }),
-    message: () => richTextEditorErrors.CALCSUM_TITLE_NOT_ENTERED.message,
+    message: () => CALCSUM_TITLE_NOT_ENTERED.message,
   },
   {
-    condition: props =>
-      some(props.page.validationErrorInfo.errors, {
-        errorCode: richTextEditorErrors.PIPING_TITLE_MOVED.errorCode,
+    condition: errors =>
+      some(errors, {
+        errorCode: PIPING_TITLE_MOVED.errorCode,
       }),
-    message: () => richTextEditorErrors.PIPING_TITLE_MOVED.message,
+    message: () => PIPING_TITLE_MOVED.message,
   },
   {
-    condition: props =>
-      some(props.page.validationErrorInfo.errors, {
-        errorCode: richTextEditorErrors.PIPING_TITLE_DELETED.errorCode,
+    condition: errors =>
+      some(errors, {
+        errorCode: PIPING_TITLE_DELETED.errorCode,
       }),
-    message: () => richTextEditorErrors.PIPING_TITLE_DELETED.message,
+    message: () => PIPING_TITLE_DELETED.message,
   },
 ];
 
@@ -75,8 +81,8 @@ export const CalculatedSummaryPageEditor = props => {
   const ErrorMsg = () => {
     for (let i = 0; i < ERROR_SITUATIONS.length; ++i) {
       const { condition, message } = ERROR_SITUATIONS[i];
-      if (condition(props)) {
-        return message(props);
+      if (condition(props.page.validationErrorInfo.errors)) {
+        return message(props.page.validationErrorInfo.errors);
       }
     }
   };

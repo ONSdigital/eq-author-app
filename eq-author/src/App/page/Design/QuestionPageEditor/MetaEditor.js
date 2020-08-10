@@ -49,28 +49,34 @@ const Paragraph = styled.p`
   border-left: 5px solid ${colors.lightGrey};
 `;
 
+const {
+  QUESTION_TITLE_NOT_ENTERED,
+  PIPING_TITLE_MOVED,
+  PIPING_TITLE_DELETED,
+} = richTextEditorErrors;
+
 /* eslint-disable react/prop-types */
 const ERROR_SITUATIONS = [
   {
-    condition: props =>
-      some(props.page.validationErrorInfo.errors, {
-        errorCode: richTextEditorErrors.QUESTION_TITLE_NOT_ENTERED.errorCode,
+    condition: errors =>
+      some(errors, {
+        errorCode: QUESTION_TITLE_NOT_ENTERED.errorCode,
       }),
-    message: () => richTextEditorErrors.QUESTION_TITLE_NOT_ENTERED.message,
+    message: () => QUESTION_TITLE_NOT_ENTERED.message,
   },
   {
-    condition: props =>
-      some(props.page.validationErrorInfo.errors, {
-        errorCode: richTextEditorErrors.PIPING_TITLE_MOVED.errorCode,
+    condition: errors =>
+      some(errors, {
+        errorCode: PIPING_TITLE_MOVED.errorCode,
       }),
-    message: () => richTextEditorErrors.PIPING_TITLE_MOVED.message,
+    message: () => PIPING_TITLE_MOVED.message,
   },
   {
-    condition: props =>
-      some(props.page.validationErrorInfo.errors, {
-        errorCode: richTextEditorErrors.PIPING_TITLE_DELETED.errorCode,
+    condition: errors =>
+      some(errors, {
+        errorCode: PIPING_TITLE_DELETED.errorCode,
       }),
-    message: () => richTextEditorErrors.PIPING_TITLE_DELETED.message,
+    message: () => PIPING_TITLE_DELETED.message,
   },
 ];
 
@@ -81,8 +87,8 @@ export class StatelessMetaEditor extends React.Component {
   ErrorMsg = () => {
     for (let i = 0; i < ERROR_SITUATIONS.length; ++i) {
       const { condition, message } = ERROR_SITUATIONS[i];
-      if (condition(this.props)) {
-        return message(this.props);
+      if (condition(this.props.page.validationErrorInfo.errors)) {
+        return message(this.props.page.validationErrorInfo.errors);
       }
     }
   };
