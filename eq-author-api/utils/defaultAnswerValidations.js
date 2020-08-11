@@ -21,7 +21,7 @@ const validationRuleMap = {
 };
 
 const duration = {
-  value: 0,
+  value: null,
   unit: "Days",
 };
 
