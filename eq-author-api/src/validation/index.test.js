@@ -26,6 +26,8 @@ const {
   ERR_LEFTSIDE_NO_LONGER_AVAILABLE,
   ERR_DESTINATION_MOVED,
   ERR_DESTINATION_DELETED,
+  PIPING_TITLE_DELETED,
+  PIPING_TITLE_MOVED,
 } = require("../../constants/validationErrorCodes");
 
 const validation = require(".");
@@ -1377,6 +1379,33 @@ describe("schema validation", () => {
       });
       expect(validationErrors.rules.rule_1.totalCount).toBe(1);
       expect(validationErrors.rules.rule_1.errors.length).toBe(1);
+    });
+  });
+
+  describe("Piping validation within Question Labels", () => {
+    it("should validate a piping answer moved after this question", () => {
+      const piping = validation(questionnaire);
+      expect(piping.totalCount).toBe(0);
+
+      questionnaire.sections[0].pages[0].title = `<p><span data-piped="answers" data-id="answer_2" data-type="Number">[number]</span></p>`;
+
+      const errors = validation(questionnaire);
+
+      expect(errors.totalCount).toBe(1);
+      expect(errors.pages.page_1.errors[0].errorCode).toBe(PIPING_TITLE_MOVED);
+    });
+
+    it("should validate a deleted piping answer in title", () => {
+      const piping = validation(questionnaire);
+      expect(piping.totalCount).toBe(0);
+
+      questionnaire.sections[0].pages[0].title = `<p><span data-piped="answers" data-id="answer_99" data-type="Number">[number]</span></p>`;
+
+      const errors = validation(questionnaire);
+      expect(errors.totalCount).toBe(1);
+      expect(errors.pages.page_1.errors[0].errorCode).toBe(
+        PIPING_TITLE_DELETED
+      );
     });
   });
 });

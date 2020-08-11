@@ -36,7 +36,14 @@
           "type": "string"
         },
         "title": {
-          "$ref": "definitions.json#/definitions/populatedString"
+          "allOf": [
+            {
+              "$ref": "definitions.json#/definitions/populatedString"
+            },
+            {
+              "validatePipingInTitle": "page"
+            }
+          ]
         },
         "confirmation": {
           "$ref": "entities.json#/definitions/confirmationPage"
