@@ -440,7 +440,6 @@ exports[`MetaEditor should render 1`] = `
       }
     }
     disabled={false}
-    errorValidationMsg="Enter a question title"
     fetchAnswers={[MockFunction]}
     id="question-title"
     label="Question"
