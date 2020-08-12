@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { propType } from "graphql-anywhere";
 import styled from "styled-components";
-import { get, flowRight, some } from "lodash";
+import { get, flowRight, some, filter } from "lodash";
 import { TransitionGroup } from "react-transition-group";
 
 import WrappingInput from "components/Forms/WrappingInput";
@@ -84,17 +84,20 @@ export class StatelessMetaEditor extends React.Component {
   description = React.createRef();
   guidance = React.createRef();
 
-  ErrorMsg = () => {
+  ErrorMsg = titleErrors => {
     for (let i = 0; i < ERROR_SITUATIONS.length; ++i) {
       const { condition, message } = ERROR_SITUATIONS[i];
-      if (condition(this.props.page.validationErrorInfo.errors)) {
-        return message(this.props.page.validationErrorInfo.errors);
+      if (condition(titleErrors)) {
+        return message(titleErrors);
       }
     }
   };
 
   render() {
-    const ErrorMsg = this.ErrorMsg();
+    const titleErrors = filter(this.props.page.validationErrorInfo.errors, {
+      field: "title",
+    });
+    const ErrorMsg = this.ErrorMsg(titleErrors);
     const {
       page,
       onChange,
