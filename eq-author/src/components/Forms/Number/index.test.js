@@ -7,7 +7,7 @@ import { CENTIMETRES } from "constants/unit-types";
 
 import Number from "./";
 
-const defaultValue = 0;
+const defaultValue = null;
 
 describe("Number", () => {
   jest.useFakeTimers();
@@ -65,7 +65,7 @@ describe("Number", () => {
     jest.runAllTimers();
     expect(handleChange).toHaveBeenCalledWith({
       name: "numberName",
-      value: 0,
+      value: null,
     });
   });
 
@@ -119,7 +119,7 @@ describe("Number", () => {
       numberWithMinMax.find("[data-test='number-input']").simulate("blur");
       expect(handleChange).toBeCalledWith({
         name: "number",
-        value: 0,
+        value: null,
       });
     });
 
