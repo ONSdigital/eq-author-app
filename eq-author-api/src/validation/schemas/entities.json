@@ -372,7 +372,7 @@
                     "earliestDate": {
                       "properties": {
                         "enabled": { "const": true },
-                        "entityType": { "const": "Custom" }
+                        "entityType": { "enum": ["Custom", "Metadata"] }
                       }
                     }
                   }
@@ -382,7 +382,7 @@
                     "latestDate": {
                       "properties": {
                         "enabled": { "const": true },
-                        "entityType": { "const": "Custom" }
+                        "entityType": { "enum": ["Custom", "Metadata"] }
                       }
                     }
                   }
