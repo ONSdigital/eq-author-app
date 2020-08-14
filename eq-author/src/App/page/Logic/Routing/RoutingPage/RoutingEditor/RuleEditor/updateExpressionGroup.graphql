@@ -1,6 +1,11 @@
+#import "App/page/Logic/BinaryExpressionEditor/fragment.graphql"
+
 mutation updateExpressionGroup2($input: UpdateExpressionGroup2Input!) {
   updateExpressionGroup2(input: $input) {
     id
     operator
+    expressions {
+      ...BinaryExpressionEditor
+    }
   }
 }
