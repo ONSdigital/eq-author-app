@@ -6,7 +6,7 @@ import { uniqueId } from "lodash";
 
 import FadeTransition from "components/transitions/FadeTransition";
 import ToggleSwitch from "components/buttons/ToggleSwitch";
-import { Label, Field } from "components/Forms";
+import { Field } from "components/Forms";
 
 const InlineField = styled(Field)`
   display: flex;
@@ -42,10 +42,8 @@ class ValidationView extends Component {
             name={id}
             onChange={onToggleChange}
             checked={enabled}
+            hideLabels={false}
           />
-          <Label inline htmlFor={id}>
-            On
-          </Label>
         </InlineField>
 
         <TransitionGroup>

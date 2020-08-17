@@ -35,7 +35,7 @@ exports[`Number should render correctly 1`] = `
     aria-labelledby="unit-number"
     aria-live="assertive"
     data-test="number-input"
-    default={0}
+    default={null}
     id="number"
     max={10}
     min={-10}
@@ -45,7 +45,7 @@ exports[`Number should render correctly 1`] = `
     role="alert"
     step={1}
     type="number"
-    value={0}
+    value={null}
   />
 </Number__StyledDiv>
 `;

@@ -68,7 +68,6 @@ const Number = props => {
       isNaN(enteredValue) || Object.is(enteredValue, -0)
         ? props.default
         : enteredValue;
-
     onChange({ name: name || id, value: newValue });
   };
 
@@ -122,7 +121,7 @@ const Number = props => {
 Number.defaultProps = {
   min: 0,
   step: 1,
-  default: 0,
+  default: null,
   "data-test": "number-input",
 };
 

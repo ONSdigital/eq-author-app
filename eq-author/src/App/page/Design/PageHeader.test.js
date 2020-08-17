@@ -91,6 +91,7 @@ describe("Question Page Editor", () => {
       expect(wrapper.state("showDeleteConfirmDialog")).toEqual(false);
     });
   });
+
   describe("Duplicate", () => {
     it("should call duplicate with the correct parameters", () => {
       wrapper = render();
@@ -124,6 +125,7 @@ describe("Question Page Editor", () => {
 
       expect(moveWrapper.prop("isOpen")).toEqual(true);
     });
+
     it("should call handler when confirmed", () => {
       const moveWrapper = shallow(
         wrapper.find(MovePageQuery).prop("children")({
@@ -142,6 +144,56 @@ describe("Question Page Editor", () => {
       );
       moveWrapper.simulate("close");
       expect(wrapper.state("showMovePageDialog")).toEqual(false);
+    });
+
+    it("should disable move when only one question", () => {
+      questionnaire.sections = [
+        {
+          id: "1",
+          title: "Section 1",
+          displayName: "Section 1",
+          pages: [
+            {
+              id: "3",
+              title: "1.1",
+              displayName: "1.1",
+              position: 0,
+            },
+          ],
+        },
+      ];
+      wrapper = render({ questionnaire });
+      const button = wrapper.find("[data-test='btn-move']").prop("disabled");
+
+      expect(button).toBeTruthy();
+    });
+
+    it("should enable move when more than one question", () => {
+      questionnaire.sections = [
+        {
+          id: "1",
+          title: "Section 1",
+          displayName: "Section 1",
+          pages: [
+            {
+              id: "3",
+              title: "1.1",
+              displayName: "1.1",
+              position: 0,
+            },
+            {
+              id: "4",
+              title: "1.2",
+              displayName: "1.2",
+              position: 0,
+            },
+          ],
+        },
+      ];
+      wrapper = render({ questionnaire });
+      const button = wrapper.find("[data-test='btn-move']").prop("disabled");
+
+      expect(button).toBeFalsy();
     });
   });
 });

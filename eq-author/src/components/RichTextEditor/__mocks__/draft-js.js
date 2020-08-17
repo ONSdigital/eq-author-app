@@ -1,7 +1,7 @@
 /* eslint-disable import/unambiguous */
 
 const { RichUtils } = jest.genMockFromModule("draft-js");
-const draftjs = require.requireActual("draft-js");
+const draftjs = jest.requireActual("draft-js");
 
 const mockImplementation = (state, style) =>
   draftjs.RichUtils.toggleBlockType(state, style);

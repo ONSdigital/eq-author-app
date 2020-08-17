@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 const DurationPreview = ({ duration: { unit, value } }) => {
-  if (value === 0) {
+  if (!value) {
     return;
   }
   return (

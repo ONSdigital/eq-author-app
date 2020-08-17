@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { propType } from "graphql-anywhere";
 import styled from "styled-components";
-import { get, flowRight } from "lodash";
+import { get, flowRight, some, filter } from "lodash";
 import { TransitionGroup } from "react-transition-group";
 
 import WrappingInput from "components/Forms/WrappingInput";
@@ -49,11 +49,55 @@ const Paragraph = styled.p`
   border-left: 5px solid ${colors.lightGrey};
 `;
 
+const {
+  QUESTION_TITLE_NOT_ENTERED,
+  PIPING_TITLE_MOVED,
+  PIPING_TITLE_DELETED,
+} = richTextEditorErrors;
+
+/* eslint-disable react/prop-types */
+const ERROR_SITUATIONS = [
+  {
+    condition: errors =>
+      some(errors, {
+        errorCode: QUESTION_TITLE_NOT_ENTERED.errorCode,
+      }),
+    message: () => QUESTION_TITLE_NOT_ENTERED.message,
+  },
+  {
+    condition: errors =>
+      some(errors, {
+        errorCode: PIPING_TITLE_MOVED.errorCode,
+      }),
+    message: () => PIPING_TITLE_MOVED.message,
+  },
+  {
+    condition: errors =>
+      some(errors, {
+        errorCode: PIPING_TITLE_DELETED.errorCode,
+      }),
+    message: () => PIPING_TITLE_DELETED.message,
+  },
+];
+
 export class StatelessMetaEditor extends React.Component {
   description = React.createRef();
   guidance = React.createRef();
 
+  ErrorMsg = titleErrors => {
+    for (let i = 0; i < ERROR_SITUATIONS.length; ++i) {
+      const { condition, message } = ERROR_SITUATIONS[i];
+      if (condition(titleErrors)) {
+        return message(titleErrors);
+      }
+    }
+  };
+
   render() {
+    const titleErrors = filter(this.props.page.validationErrorInfo.errors, {
+      field: "title",
+    });
+    const ErrorMsg = this.ErrorMsg(titleErrors);
     const {
       page,
       onChange,
@@ -61,7 +105,6 @@ export class StatelessMetaEditor extends React.Component {
       onChangeUpdate,
       fetchAnswers,
     } = this.props;
-
     return (
       <div>
         <RichTextEditor
@@ -77,11 +120,7 @@ export class StatelessMetaEditor extends React.Component {
           metadata={get(page, "section.questionnaire.metadata", [])}
           testSelector="txt-question-title"
           autoFocus={!page.title}
-          errorValidationMsg={this.props.getValidationError({
-            field: "title",
-            label: "Question title",
-            requiredMsg: richTextEditorErrors.QUESTION_TITLE_NOT_ENTERED,
-          })}
+          errorValidationMsg={ErrorMsg}
         />
 
         <TransitionGroup>
@@ -175,7 +214,6 @@ StatelessMetaEditor.propTypes = {
   fetchAnswers: PropTypes.func.isRequired,
   page: propType(pageFragment).isRequired,
   onChangeUpdate: PropTypes.func.isRequired,
-  getValidationError: PropTypes.func.isRequired,
 };
 
 StatelessMetaEditor.fragments = {

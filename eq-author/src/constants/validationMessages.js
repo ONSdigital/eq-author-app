@@ -7,9 +7,23 @@ export default {
 };
 
 export const richTextEditorErrors = {
-  QUESTION_TITLE_NOT_ENTERED: "Enter a question title",
-  CALCSUM_TITLE_NOT_ENTERED: "Enter a calculated summary title",
-  CONFIRMATION_TITLE_NOT_ENTERED: "Enter section introduction content",
+  QUESTION_TITLE_NOT_ENTERED: {
+    errorCode: "ERR_VALID_REQUIRED",
+    message: "Enter a question title",
+  },
+  CALCSUM_TITLE_NOT_ENTERED: {
+    errorCode: "ERR_VALID_REQUIRED",
+    message: "Enter a calculated summary title",
+  },
+  CONFIRMATION_TITLE_NOT_ENTERED: "Enter a confirmation question title",
+  PIPING_TITLE_MOVED: {
+    errorCode: "PIPING_TITLE_MOVED",
+    message: "The answer being piped is now later in the questionnaire",
+  },
+  PIPING_TITLE_DELETED: {
+    errorCode: "PIPING_TITLE_DELETED",
+    message: "The answer being piped has been deleted",
+  },
 };
 
 export const sectionErrors = {
@@ -25,6 +39,8 @@ export const characterErrors = {
   DECIMAL_MUST_BE_SAME:
     "Enter a decimal that is the same as the associated question page",
 };
+
+export const QCODE_IS_NOT_UNIQUE = "Qcode must be unique";
 
 export const QUESTION_ANSWER_NOT_SELECTED = "Answer required";
 export const CALCSUM_ANSWER_NOT_SELECTED = "Answer required";

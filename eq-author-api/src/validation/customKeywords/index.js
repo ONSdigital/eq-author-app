@@ -10,4 +10,5 @@ module.exports = ajv => {
   require("./validateExclusiveCheckbox")(ajv);
   require("./validateLeftHandSide")(ajv);
   require("./validateRoutingRules")(ajv);
+  require("./validatePipingInTitle")(ajv);
 };

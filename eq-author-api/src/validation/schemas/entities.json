@@ -36,7 +36,14 @@
           "type": "string"
         },
         "title": {
-          "$ref": "definitions.json#/definitions/populatedString"
+          "allOf": [
+            {
+              "$ref": "definitions.json#/definitions/populatedString"
+            },
+            {
+              "validatePipingInTitle": "page"
+            }
+          ]
         },
         "confirmation": {
           "$ref": "entities.json#/definitions/confirmationPage"
@@ -412,7 +419,7 @@
                     "earliestDate": {
                       "properties": {
                         "enabled": { "const": true },
-                        "entityType": { "const": "Custom" }
+                        "entityType": { "enum": ["Custom", "Metadata"] }
                       }
                     }
                   }
@@ -422,7 +429,7 @@
                     "latestDate": {
                       "properties": {
                         "enabled": { "const": true },
-                        "entityType": { "const": "Custom" }
+                        "entityType": { "enum": ["Custom", "Metadata"] }
                       }
                     }
                   }

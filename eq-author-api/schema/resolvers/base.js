@@ -294,6 +294,7 @@ const Resolvers = {
         shortTitle: addPrefix(questionnaire.shortTitle),
         id: uuidv4(),
         createdBy: ctx.user.id,
+        createdAt: new Date(),
         editors: [],
         publishStatus: UNPUBLISHED,
         surveyVersion: 1,
