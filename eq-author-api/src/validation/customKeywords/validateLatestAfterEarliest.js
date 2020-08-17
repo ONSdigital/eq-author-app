@@ -1,4 +1,5 @@
 const moment = require("moment");
+const { find } = require("lodash");
 const {
   ERR_EARLIEST_AFTER_LATEST,
 } = require("../../../constants/validationErrorCodes");
@@ -11,23 +12,32 @@ module.exports = function(ajv) {
       entityData,
       fieldValue,
       dataPath,
-      parentData
+      parentData,
+      fieldName,
+      questionnaire
     ) {
       isValid.errors = [];
 
-      const translationMatrix = {
-        Before: data =>
-          moment(data.custom)
+      const getDate = data => {
+        let date;
+        if (data.metadata) {
+          date = find(questionnaire.metadata, { id: data.metadata }).dateValue;
+        } else {
+          date = data.custom;
+        }
+
+        if (data.relativePosition === "Before") {
+          return moment(date)
             .subtract(data.offset.value, data.offset.unit)
-            .unix(),
-        After: data =>
-          moment(data.custom)
-            .add(data.offset.value, data.offset.unit)
-            .unix(),
+            .unix();
+        }
+        return moment(date)
+          .add(data.offset.value, data.offset.unit)
+          .unix();
       };
 
-      const a = translationMatrix[otherFields.relativePosition](otherFields);
-      const b = translationMatrix[parentData.relativePosition](parentData);
+      const a = getDate(otherFields);
+      const b = getDate(parentData);
 
       const isLatest = dataPath.split("/").includes("latestDate");
 

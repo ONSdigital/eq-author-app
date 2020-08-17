@@ -402,7 +402,7 @@ describe("validation", () => {
           id: earliestId,
           enabled: false,
           offset: {
-            value: 0,
+            value: null,
             unit: "Days",
           },
           relativePosition: "Before",
@@ -411,7 +411,7 @@ describe("validation", () => {
         latestDate: {
           id: latestId,
           offset: {
-            value: 0,
+            value: null,
             unit: "Days",
           },
           relativePosition: "After",
@@ -686,7 +686,7 @@ describe("validation", () => {
           id: earliestId,
           enabled: false,
           offset: {
-            value: 0,
+            value: null,
             unit: "Days",
           },
           relativePosition: "Before",
@@ -695,7 +695,7 @@ describe("validation", () => {
         latestDate: {
           id: latestId,
           offset: {
-            value: 0,
+            value: null,
             unit: "Days",
           },
           relativePosition: "After",
@@ -719,7 +719,7 @@ describe("validation", () => {
           id: minimumId,
           enabled: false,
           duration: {
-            value: 0,
+            value: null,
             unit: "Days",
           },
         },
@@ -727,7 +727,7 @@ describe("validation", () => {
           id: maximumId,
           enabled: false,
           duration: {
-            value: 0,
+            value: null,
             unit: "Days",
           },
         },

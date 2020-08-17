@@ -388,14 +388,15 @@ describe("schema validation", () => {
             earliestDate: {
               id: "123",
               enabled: true,
-              custom: "2019-08-12",
+              custom: null,
               inclusive: true,
-              entityType: "Custom",
+              entityType: "Metadata",
               previousAnswer: null,
               offset: {
                 value: 1,
                 unit: "Years",
               },
+              metadata: "meta-start-date",
               relativePosition: "After",
             },
             latestDate: {
@@ -432,6 +433,15 @@ describe("schema validation", () => {
 
         questionnaire = {
           id: "q1",
+          metadata: [
+            {
+              id: "meta-start-date",
+              key: "ref_p_start_date",
+              alias: "Start Date",
+              type: "Date",
+              dateValue: "2019-08-12",
+            },
+          ],
           sections: [
             {
               id: "s1",
