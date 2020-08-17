@@ -3,6 +3,7 @@ import movePageMutation from "graphql/movePage.graphql";
 import fragment from "graphql/fragments/movePage.graphql";
 import { buildPagePath } from "utils/UrlUtils";
 import { remove } from "lodash";
+// import getNextPage from "utils/getNextOnDelete";
 
 export const createUpdater = ({ from, to }) => (proxy, result) => {
   result = result.data.movePage;
@@ -47,8 +48,38 @@ const redirect = ({ history, match }, { from, to }) => {
   }
 };
 
+const getCachedSection = (client, id) =>
+  client.readFragment({
+    id: `Section${id}`,
+    fragment,
+  });
+
+const handleMove = (
+  {
+    // history,
+    onAddQuestionPage,
+    // match: {
+    // params: { questionnaireId },
+    // },
+  },
+  section
+  // nextPage
+) => {
+  if (section.pages.length === 0) {
+    return onAddQuestionPage(section.id);
+  }
+
+  // history.push(
+  // buildPagePath({
+  // questionnaireId,
+  // pageId: nextPage.id,
+  // })
+  // );
+};
+
 export const mapMutateToProps = ({ ownProps, mutate }) => ({
   onMovePage({ from, to }) {
+    const { client, page } = ownProps;
     const optimisticResponse = {
       movePage: {
         id: to.id,
@@ -69,6 +100,12 @@ export const mapMutateToProps = ({ ownProps, mutate }) => ({
 
     return mutation
       .then(() => redirect(ownProps, { from, to }))
+      .then(() => {
+        const cachedSection = getCachedSection(client, page.section.id);
+        // const nextPage = getNextPage(cachedSection.pages, ownProps.page.id);
+        handleMove(ownProps, cachedSection);
+        // handleMove(ownProps, cachedSection, nextPage)
+      })
       .then(() => mutation);
   },
 });

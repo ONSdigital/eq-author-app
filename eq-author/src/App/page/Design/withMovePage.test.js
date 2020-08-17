@@ -3,9 +3,26 @@ import { buildPagePath } from "utils/UrlUtils";
 import fragment from "graphql/fragments/movePage.graphql";
 
 describe("withMovePage", () => {
-  let ownProps, history, match, props, mutate, args, result;
+  let ownProps,
+    history,
+    match,
+    props,
+    mutate,
+    args,
+    result,
+    movedPage,
+    beforeMoveSection,
+    onAddQuestionPage;
 
   beforeEach(() => {
+    movedPage = {
+      id: "2",
+      section: {
+        id: "section1Id",
+      },
+      position: 1,
+    };
+
     match = {
       params: {
         questionnaireId: "1",
@@ -16,9 +33,18 @@ describe("withMovePage", () => {
       replace: jest.fn(),
     };
 
+    beforeMoveSection = {
+      id: "section1Id",
+      pages: [{ id: "3", position: 1 }],
+    };
+
     ownProps = {
       history,
       match,
+      page: { section: { id: "section1Id" } },
+      client: {
+        readFragment: jest.fn().mockReturnValueOnce(beforeMoveSection),
+      },
     };
 
     args = {
@@ -47,6 +73,7 @@ describe("withMovePage", () => {
         },
       },
     };
+    onAddQuestionPage = jest.fn(() => Promise.resolve());
   });
 
   describe("mapMutateToProps", () => {
@@ -55,12 +82,12 @@ describe("withMovePage", () => {
       props = mapMutateToProps({ ownProps, mutate });
     });
 
-    it("supplies an onMovePage prop", () => {
+    it("supplies an onMovePage prop", () => {
       expect(props.onMovePage).toBeInstanceOf(Function);
     });
 
     describe("onMovePage", () => {
-      it("provides the necessary arguments to mutate", () => {
+      it("provides the necessary arguments to mutate", () => {
         const expected = {
           variables: {
             input: args.to,
@@ -74,11 +101,23 @@ describe("withMovePage", () => {
         });
       });
 
-      it("should return promise that resolves to movePage result", () => {
+      it("should return promise that resolves to movePage result", () => {
         return expect(props.onMovePage(args)).resolves.toBe(result);
       });
 
-      it("should redirect if the section id has changed", () => {
+      it("should create a page if you move the last page in a section", () => {
+        // result.data.deletePage.pages = [];
+        // ownProps.client.readFragment = jest.fn().mockReturnValueOnce({
+        // ...beforeMoveSection,
+        // pages: [movedPage],
+        // });
+
+        return props.onMovePage(args).then(() => {
+          expect(onAddQuestionPage).toHaveBeenCalledWith(movedPage.section.id);
+        });
+      });
+
+      it("should redirect if the section id has changed", () => {
         const expected = buildPagePath({
           questionnaireId: match.params.questionnaireId,
           sectionId: args.to.sectionId,
@@ -96,7 +135,7 @@ describe("withMovePage", () => {
     let proxy, fromSection, toSection, page;
 
     beforeEach(() => {
-      page = { id: args.from.id, position: 0 };
+      page = { id: args.from.id, position: 0, section: { id: "sectionId1" } };
 
       fromSection = {
         id: args.from.sectionId,
@@ -118,7 +157,7 @@ describe("withMovePage", () => {
         .mockReturnValueOnce(toSection);
     });
 
-    it("should update the cache correctly", () => {
+    it("should update the cache correctly", () => {
       const updater = createUpdater(args);
       updater(proxy, result);
 
@@ -141,7 +180,7 @@ describe("withMovePage", () => {
       });
     });
 
-    it("should correctly update position values for all pages in a section", () => {
+    it("should correctly update position values for all pages in a section", () => {
       const pageAId = "a";
       const pageBId = "b";
       const pageCId = "c";
