@@ -5,6 +5,7 @@ exports[`GroupValidations should render 1`] = `
   <GroupValidations__TotalButton
     data-test="sidebar-button-total-value"
     disabled={false}
+    hasError={false}
     onClick={[Function]}
   >
     <GroupValidations__TotalIcon />
@@ -19,6 +20,13 @@ exports[`GroupValidations should render 1`] = `
     onClose={[Function]}
   >
     <Apollo(TotalValidation)
+      errors={
+        Object {
+          "errors": Array [],
+          "id": "1",
+          "totalCount": 0,
+        }
+      }
       total={
         Object {
           "custom": 3,

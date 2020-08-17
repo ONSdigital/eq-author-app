@@ -37,7 +37,7 @@ const AnswerPropertiesContainer = styled.div`
   padding-bottom: 0.5em;
 
   &:last-of-type {
-    margin-bottom: 0;
+    margin-bottom: 0.5em;
     border: 0;
   }
 `;
@@ -153,12 +153,15 @@ export const UnwrappedGroupedAnswerProperties = ({
 
       if (answers.length > 1 && answers[0].type !== UNIT) {
         groupValidations = (
-          <Padding>
-            <GroupValidations
-              totalValidation={page.totalValidation}
-              type={answerType}
-            />
-          </Padding>
+          <GroupContainer>
+            <Padding>
+              <GroupValidations
+                totalValidation={page.totalValidation}
+                validationError={page.validationErrorInfo}
+                type={answerType}
+              />
+            </Padding>
+          </GroupContainer>
         );
       }
     }

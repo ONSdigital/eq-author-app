@@ -15,7 +15,6 @@ const {
   some,
   concat,
   reject,
-  filter,
 } = require("lodash");
 const GraphQLJSON = require("graphql-type-json");
 const { v4: uuidv4 } = require("uuid");
@@ -1234,19 +1233,6 @@ const Resolvers = {
       return getPreviousAnswersForPage(ctx.questionnaire, page.id, false, [
         answerType,
       ]);
-    },
-    validationErrorInfo: ({ id }, args, ctx) => {
-      const page = getPageByValidationId(ctx, id);
-      if (ctx.validationErrorInfo[PAGES][page.id]) {
-        const errors = filter(ctx.validationErrorInfo[PAGES][page.id].errors, {
-          field: "totalValidation",
-        });
-        return {
-          id: id,
-          errors,
-          totalCount: errors.length,
-        };
-      }
     },
   },
 

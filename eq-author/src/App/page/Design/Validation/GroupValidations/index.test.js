@@ -16,6 +16,11 @@ describe("GroupValidations", () => {
         entityType: "Custom",
         custom: 3,
       },
+      validationError: {
+        id: "1",
+        errors: [],
+        totalCount: 0,
+      },
       type: CURRENCY,
     };
   });
