@@ -104,7 +104,7 @@ export const destinationErrors = {
   ERR_DESTINATION_MOVED: {
     errorCode: "ERR_DESTINATION_MOVED",
     message:
-      "Select a destination that's in the current section, or is another section",
+      "Select a destination that's later in the current section, or is another section",
   },
   ERR_DESTINATION_DELETED: {
     errorCode: "ERR_DESTINATION_DELETED",
