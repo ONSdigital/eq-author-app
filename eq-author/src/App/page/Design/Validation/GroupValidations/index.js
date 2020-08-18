@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import { get, isNil, find } from "lodash";
+import { get, isNil, some } from "lodash";
 import PropTypes from "prop-types";
 
 import SidebarButton, { Title, Detail } from "components/buttons/SidebarButton";
@@ -129,7 +129,7 @@ class GroupValidations extends Component {
   render() {
     const { totalValidation: total, validationError: errors } = this.props;
 
-    const hasError = find(errors.errors, error =>
+    const hasError = some(errors.errors, error =>
       error.errorCode.includes("ERR_TOTAL_NO_VALUE")
     );
 
@@ -143,7 +143,7 @@ class GroupValidations extends Component {
           onClick={this.handleButtonClick}
           data-test="sidebar-button-total-value"
           disabled={!total}
-          hasError={errors.errors.length > 0}
+          hasError={hasError}
         >
           <TotalIcon />
           <Details>{this.renderContents() || <Title>Total</Title>}</Details>
