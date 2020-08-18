@@ -10,18 +10,18 @@ describe("withMovePage", () => {
     mutate,
     args,
     result,
-    movedPage,
-    beforeMoveSection,
-    handleMove;
+    // movedPage,
+    beforeMoveSection;
+  // handleMove;
 
   beforeEach(() => {
-    movedPage = {
-      id: "2",
-      section: {
-        id: "section1Id",
-      },
-      position: 1,
-    };
+    // movedPage = {
+    //   id: "2",
+    //   section: {
+    //     id: "section1Id",
+    //   },
+    //   position: 1,
+    // };
 
     match = {
       params: {
@@ -78,7 +78,7 @@ describe("withMovePage", () => {
   describe("mapMutateToProps", () => {
     beforeEach(() => {
       mutate = jest.fn(() => Promise.resolve(result));
-      handleMove = jest.fn(() => Promise.resolve());
+      // handleMove = jest.fn(() => Promise.resolve());
       props = mapMutateToProps({ ownProps, mutate });
     });
 
