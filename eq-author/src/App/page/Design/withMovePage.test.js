@@ -12,7 +12,7 @@ describe("withMovePage", () => {
     result,
     movedPage,
     beforeMoveSection,
-    onAddQuestionPage;
+    handleMove;
 
   beforeEach(() => {
     movedPage = {
@@ -73,12 +73,12 @@ describe("withMovePage", () => {
         },
       },
     };
-    onAddQuestionPage = jest.fn(() => Promise.resolve());
   });
 
   describe("mapMutateToProps", () => {
     beforeEach(() => {
       mutate = jest.fn(() => Promise.resolve(result));
+      handleMove = jest.fn(() => Promise.resolve());
       props = mapMutateToProps({ ownProps, mutate });
     });
 
@@ -105,17 +105,17 @@ describe("withMovePage", () => {
         return expect(props.onMovePage(args)).resolves.toBe(result);
       });
 
-      it("should create a page if you move the last page in a section", () => {
-        // result.data.deletePage.pages = [];
-        // ownProps.client.readFragment = jest.fn().mockReturnValueOnce({
-        // ...beforeMoveSection,
-        // pages: [movedPage],
-        // });
+      // it("should create a page if you move the last page in a section", () => {
+      //   // result.data.deletePage.pages = [];
+      //   // ownProps.client.readFragment = jest.fn().mockReturnValueOnce({
+      //   // ...beforeMoveSection,
+      //   // pages: [movedPage],
+      //   // });
 
-        return props.onMovePage(args).then(() => {
-          expect(onAddQuestionPage).toHaveBeenCalledWith(movedPage.section.id);
-        });
-      });
+      //   return props.onMovePage(args).then(() => {
+      //     expect(handleMove).toHaveBeenCalledWith(ownProps, movedPage.section.id);
+      //   });
+      // });
 
       it("should redirect if the section id has changed", () => {
         const expected = buildPagePath({
