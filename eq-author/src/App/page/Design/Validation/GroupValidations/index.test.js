@@ -4,6 +4,7 @@ import { shallow, mount } from "enzyme";
 import Button from "components/buttons/Button";
 
 import { NUMBER, CURRENCY, PERCENTAGE } from "constants/answer-types";
+import { ERR_TOTAL_NO_VALUE } from "constants/validationMessages";
 
 import GroupValidations, { TotalButton, GroupValidationModal } from "./";
 
@@ -18,8 +19,15 @@ describe("GroupValidations", () => {
       },
       validationError: {
         id: "1",
-        errors: [],
-        totalCount: 0,
+        errors: [
+          {
+            errorCode: "ERR_TOTAL_NO_VALUE",
+            field: "totalValidation",
+            id: "pages-1-totalValidation",
+            type: "pages",
+          },
+        ],
+        totalCount: 1,
       },
       type: CURRENCY,
     };
@@ -134,5 +142,13 @@ describe("GroupValidations", () => {
     expect(wrapper.find(GroupValidationModal).props()).toMatchObject({
       isOpen: false,
     });
+  });
+
+  it("should display validation error when present ", () => {
+    const wrapper = shallow(<GroupValidations {...props} />).find(
+      "ValidationError"
+    );
+
+    expect(wrapper.shallow().text()).toEqual(ERR_TOTAL_NO_VALUE);
   });
 });

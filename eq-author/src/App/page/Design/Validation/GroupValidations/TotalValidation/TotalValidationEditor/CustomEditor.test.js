@@ -51,8 +51,10 @@ describe("Custom Editor", () => {
   });
 
   it("should display validation message when error present", () => {
-    const wrapper = shallow(<CustomEditor {...props} />);
-    wrapper.find("CustomEditor__StyledError");
-    expect(wrapper.text()).toEqual("<Field />" + ERR_TOTAL_NO_VALUE);
+    const wrapper = shallow(<CustomEditor {...props} />).find(
+      "CustomEditor__StyledError"
+    );
+
+    expect(wrapper.text()).toEqual(ERR_TOTAL_NO_VALUE);
   });
 });

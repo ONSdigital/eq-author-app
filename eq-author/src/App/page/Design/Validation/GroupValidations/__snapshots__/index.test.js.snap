@@ -5,7 +5,7 @@ exports[`GroupValidations should render 1`] = `
   <GroupValidations__TotalButton
     data-test="sidebar-button-total-value"
     disabled={false}
-    hasError={false}
+    hasError={true}
     onClick={[Function]}
   >
     <GroupValidations__TotalIcon />
@@ -15,6 +15,11 @@ exports[`GroupValidations should render 1`] = `
       </SidebarButton__Title>
     </GroupValidations__Details>
   </GroupValidations__TotalButton>
+  <ValidationError
+    right={true}
+  >
+    Value required
+  </ValidationError>
   <GroupValidations__GroupValidationModal
     isOpen={false}
     onClose={[Function]}
@@ -22,9 +27,16 @@ exports[`GroupValidations should render 1`] = `
     <Apollo(TotalValidation)
       errors={
         Object {
-          "errors": Array [],
+          "errors": Array [
+            Object {
+              "errorCode": "ERR_TOTAL_NO_VALUE",
+              "field": "totalValidation",
+              "id": "pages-1-totalValidation",
+              "type": "pages",
+            },
+          ],
           "id": "1",
-          "totalCount": 0,
+          "totalCount": 1,
         }
       }
       total={
