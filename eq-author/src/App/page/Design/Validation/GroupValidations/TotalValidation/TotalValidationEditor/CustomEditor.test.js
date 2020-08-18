@@ -58,7 +58,7 @@ describe("Custom Editor", () => {
     expect(wrapper.text()).toEqual(ERR_TOTAL_NO_VALUE);
   });
 
-  it("should display validation message when error present2", () => {
+  it("should display error styling when error present", () => {
     const wrapper = mount(<CustomEditor {...props} />).find(
       "CustomEditor__LargerNumber"
     );
