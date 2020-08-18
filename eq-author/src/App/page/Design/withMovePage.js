@@ -54,27 +54,10 @@ const getCachedSection = (client, id) =>
     fragment,
   });
 
-const handleMove = (
-  {
-    // history,
-    onAddQuestionPage,
-    // match: {
-    // params: { questionnaireId },
-    // },
-  },
-  section
-  // nextPage
-) => {
+const handleMove = ({ onAddQuestionPage }, section) => {
   if (section.pages.length === 0) {
     return onAddQuestionPage(section.id);
   }
-
-  // history.push(
-  // buildPagePath({
-  // questionnaireId,
-  // pageId: nextPage.id,
-  // })
-  // );
 };
 
 export const mapMutateToProps = ({ ownProps, mutate }) => ({
@@ -102,9 +85,7 @@ export const mapMutateToProps = ({ ownProps, mutate }) => ({
       .then(() => redirect(ownProps, { from, to }))
       .then(() => {
         const cachedSection = getCachedSection(client, page.section.id);
-        // const nextPage = getNextPage(cachedSection.pages, ownProps.page.id);
         handleMove(ownProps, cachedSection);
-        // handleMove(ownProps, cachedSection, nextPage)
       })
       .then(() => mutation);
   },
