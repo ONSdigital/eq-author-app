@@ -72,7 +72,6 @@ describe("withMovePage", () => {
   describe("mapMutateToProps", () => {
     beforeEach(() => {
       mutate = jest.fn(() => Promise.resolve(result));
-      // handleMove = jest.fn(() => Promise.resolve());
       props = mapMutateToProps({ ownProps, mutate });
     });
 
