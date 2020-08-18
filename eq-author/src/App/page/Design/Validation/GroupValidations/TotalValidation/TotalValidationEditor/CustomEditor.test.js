@@ -1,5 +1,5 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { shallow, mount } from "enzyme";
 
 import CustomEditor from "./CustomEditor";
 import { ERR_TOTAL_NO_VALUE } from "constants/validationMessages";
@@ -56,5 +56,13 @@ describe("Custom Editor", () => {
     );
 
     expect(wrapper.text()).toEqual(ERR_TOTAL_NO_VALUE);
+  });
+
+  it("should display validation message when error present2", () => {
+    const wrapper = mount(<CustomEditor {...props} />).find(
+      "CustomEditor__LargerNumber"
+    );
+
+    expect(wrapper).toHaveStyleRule("border-radius: 4px;");
   });
 });
