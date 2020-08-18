@@ -13,7 +13,9 @@
     "lint:js": "yarn build:fragmentTypes && eslint src --ext .graphql --ext .js --max-warnings=0",
     "lint:css": "stylelint './src/**/*.js'",
     "serve": "serve -l 3000 build/",
-    "coverage": "yarn test -- --coverage"
+    "coverage": "yarn test -- --coverage",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "devDependencies": {
     "@babel/core": "latest",
@@ -22,6 +24,10 @@
     "@babel/preset-env": "latest",
     "@babel/preset-react": "latest",
     "@hot-loader/react-dom": "latest",
+    "@storybook/addon-actions": "^6.0.12",
+    "@storybook/addon-essentials": "^6.0.12",
+    "@storybook/addon-links": "^6.0.12",
+    "@storybook/react": "^6.0.12",
     "@testing-library/jest-dom": "latest",
     "@testing-library/react": "latest",
     "autoprefixer": "latest",
@@ -62,6 +68,7 @@
     "postcss-safe-parser": "latest",
     "prop-types": "latest",
     "react-dev-utils": "latest",
+    "react-is": "^16.13.1",
     "react-router-test-context": "latest",
     "react-svg-loader": "latest",
     "redux-mock-store": "latest",
