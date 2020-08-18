@@ -10,19 +10,10 @@ describe("withMovePage", () => {
     mutate,
     args,
     result,
-    movedPage,
     beforeMoveSection,
     onAddQuestionPage;
 
   beforeEach(() => {
-    movedPage = {
-      id: "2",
-      section: {
-        id: "section1Id",
-      },
-      position: 0,
-    };
-
     match = {
       params: {
         questionnaireId: "1",
