@@ -117,7 +117,6 @@ const formatDate = date => moment(date).format("DD/MM/YYYY [at] HH:mm");
 const RTEWrapper = styled.div`
   margin: 0 2em 0 1em;
   padding-bottom: 1em;
-  /* width: 100%; */
 `;
 
 const HistoryItem = ({
