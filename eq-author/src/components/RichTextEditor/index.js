@@ -86,7 +86,6 @@ Wrapper.defaultProps = {
 const MultiLineTextBoxCSS = css`
   max-height: ${props => props.maxHeight}em;
   overflow-y: scroll;
-  ${ScrollPaneCSS};
 `;
 
 const Input = styled.div`
@@ -116,11 +115,6 @@ const Input = styled.div`
 
   .DraftEditor-root {
     padding: 1rem;
-    ${props => {
-      if (props.multiline) {
-        return MultiLineTextBoxCSS;
-      }
-    }};
   }
 
   .public-DraftEditorPlaceholder-root {
