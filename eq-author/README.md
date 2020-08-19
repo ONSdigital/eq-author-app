@@ -103,3 +103,11 @@ The following environment variables should be placed in a `.env` file in the eq-
 
 `/src/constants` Constants that can be used throughout the application such as
 theme colours and action names.
+
+## Storybook
+
+`yarn` Install dependancies.
+
+`yarn storybook` Start the local server.
+
+`yarn build-storybook -o ../docs` deploy updates to static site.
