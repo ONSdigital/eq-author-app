@@ -1365,7 +1365,7 @@
           Object(
             _mdx_js_react__WEBPACK_IMPORTED_MODULE_3__.mdx
           )(_storybook_addon_docs_blocks__WEBPACK_IMPORTED_MODULE_4__.Meta, {
-            title: "Example/Introduction",
+            title: "Design Systems/Introduction",
             mdxType: "Meta",
           }),
           Object(_mdx_js_react__WEBPACK_IMPORTED_MODULE_3__.mdx)(
@@ -1640,7 +1640,7 @@
       };
       __page.parameters = { docsOnly: !0 };
       var componentMeta = {
-          title: "Example/Introduction",
+          title: "Design Systems/Introduction",
           includeStories: ["__page"],
         },
         mdxStoryNameToKey = {};
@@ -1807,7 +1807,7 @@
         (Primary.parameters = _extends(
           {
             storySource: {
-              source: "(args) => <Button {...args}>Button</Button>",
+              source: "args => <Button {...args}>Button</Button>",
             },
           },
           Primary.parameters
@@ -1815,7 +1815,7 @@
         (Secondary.parameters = _extends(
           {
             storySource: {
-              source: "(args) => <Button {...args}>Button</Button>",
+              source: "args => <Button {...args}>Button</Button>",
             },
           },
           Secondary.parameters
@@ -1823,7 +1823,7 @@
         (Tertiary.parameters = _extends(
           {
             storySource: {
-              source: "(args) => <Button {...args}>Button</Button>",
+              source: "args => <Button {...args}>Button</Button>",
             },
           },
           Tertiary.parameters
@@ -1831,7 +1831,7 @@
         (TertiaryLight.parameters = _extends(
           {
             storySource: {
-              source: "(args) => <Button {...args}>Button</Button>",
+              source: "args => <Button {...args}>Button</Button>",
             },
           },
           TertiaryLight.parameters
@@ -1839,7 +1839,7 @@
         (Positive.parameters = _extends(
           {
             storySource: {
-              source: "(args) => <Button {...args}>Button</Button>",
+              source: "args => <Button {...args}>Button</Button>",
             },
           },
           Positive.parameters
@@ -1847,7 +1847,7 @@
         (Negative.parameters = _extends(
           {
             storySource: {
-              source: "(args) => <Button {...args}>Button</Button>",
+              source: "args => <Button {...args}>Button</Button>",
             },
           },
           Negative.parameters
@@ -1855,7 +1855,7 @@
         (Navigation.parameters = _extends(
           {
             storySource: {
-              source: "(args) => <Button {...args}>Button</Button>",
+              source: "args => <Button {...args}>Button</Button>",
             },
           },
           Navigation.parameters
@@ -1863,7 +1863,7 @@
         (NavigationModal.parameters = _extends(
           {
             storySource: {
-              source: "(args) => <Button {...args}>Button</Button>",
+              source: "args => <Button {...args}>Button</Button>",
             },
           },
           NavigationModal.parameters
@@ -1871,7 +1871,7 @@
         (NavigationOn.parameters = _extends(
           {
             storySource: {
-              source: "(args) => <Button {...args}>Button</Button>",
+              source: "args => <Button {...args}>Button</Button>",
             },
           },
           NavigationOn.parameters
@@ -1879,7 +1879,7 @@
         (Signout.parameters = _extends(
           {
             storySource: {
-              source: "(args) => <Button {...args}>Button</Button>",
+              source: "args => <Button {...args}>Button</Button>",
             },
           },
           Signout.parameters
@@ -1887,7 +1887,7 @@
         (Greyed.parameters = _extends(
           {
             storySource: {
-              source: "(args) => <Button {...args}>Button</Button>",
+              source: "args => <Button {...args}>Button</Button>",
             },
           },
           Greyed.parameters
@@ -1895,7 +1895,7 @@
         (NavHeader.parameters = _extends(
           {
             storySource: {
-              source: "(args) => <Button {...args}>Button</Button>",
+              source: "args => <Button {...args}>Button</Button>",
             },
           },
           NavHeader.parameters
@@ -1903,7 +1903,7 @@
         (NavAddMenu.parameters = _extends(
           {
             storySource: {
-              source: "(args) => <Button {...args}>Button</Button>",
+              source: "args => <Button {...args}>Button</Button>",
             },
           },
           NavAddMenu.parameters
@@ -1911,7 +1911,7 @@
         (Medium.parameters = _extends(
           {
             storySource: {
-              source: "(args) => <Button {...args}>Button</Button>",
+              source: "args => <Button {...args}>Button</Button>",
             },
           },
           Medium.parameters
@@ -1919,7 +1919,7 @@
         (Small.parameters = _extends(
           {
             storySource: {
-              source: "(args) => <Button {...args}>Button</Button>",
+              source: "args => <Button {...args}>Button</Button>",
             },
           },
           Small.parameters
@@ -2113,19 +2113,19 @@
         ],
       }),
         (Horizontal.parameters = ButtonGroup_stories_extends(
-          { storySource: { source: "(args) => <ButtonGroup {...args}/>" } },
+          { storySource: { source: "args => <ButtonGroup {...args} />" } },
           Horizontal.parameters
         )),
         (Vertical.parameters = ButtonGroup_stories_extends(
-          { storySource: { source: "(args) => <ButtonGroup {...args}/>" } },
+          { storySource: { source: "args => <ButtonGroup {...args} />" } },
           Vertical.parameters
         )),
         (ButtonGroup_stories_AlignRight.parameters = ButtonGroup_stories_extends(
-          { storySource: { source: "(args) => <ButtonGroup {...args}/>" } },
+          { storySource: { source: "args => <ButtonGroup {...args} />" } },
           ButtonGroup_stories_AlignRight.parameters
         ));
     },
   ],
   [[196, 1, 2]],
 ]);
-//# sourceMappingURL=main.630aff2c19e7113c7613.bundle.js.map
+//# sourceMappingURL=main.3e70692b2690161516e4.bundle.js.map
