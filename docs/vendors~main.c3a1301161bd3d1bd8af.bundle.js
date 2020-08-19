@@ -20140,8 +20140,8 @@
                   return (
                     !1 !== isObjectObject(o) &&
                     "function" == typeof (ctor = o.constructor) &&
-                    !1 !== isObjectObject((prot = ctor.prototype)) &&
-                    !1 !== prot.hasOwnProperty("isPrototypeOf")
+                      !1 !== isObjectObject((prot = ctor.prototype)) &&
+                        !1 !== prot.hasOwnProperty("isPrototypeOf")
                   );
                 })(propValue) || Array.isArray(propValue)
               ? "{".concat(
@@ -20891,7 +20891,7 @@
         return (
           "Object" === getType(payload) &&
           payload.constructor === Object &&
-          Object.getPrototypeOf(payload) === Object.prototype
+            Object.getPrototypeOf(payload) === Object.prototype
         );
       }
       function isArray(payload) {
@@ -36922,11 +36922,11 @@
           return (
             !isBuffer(arrbuf) &&
             "function" == typeof global.ArrayBuffer &&
-            ("function" == typeof ArrayBuffer.isView
-              ? ArrayBuffer.isView(arrbuf)
-              : !!arrbuf &&
-                (arrbuf instanceof DataView ||
-                  !!(arrbuf.buffer && arrbuf.buffer instanceof ArrayBuffer)))
+              ("function" == typeof ArrayBuffer.isView
+                ? ArrayBuffer.isView(arrbuf)
+                : !!arrbuf &&
+                  (arrbuf instanceof DataView ||
+                    !!(arrbuf.buffer && arrbuf.buffer instanceof ArrayBuffer)))
           );
         }
         var assert = (module.exports = ok),
@@ -40625,10 +40625,10 @@
                     return (
                       i !== iz &&
                       "function" === fragment.slice(i, i + 8) &&
-                      (40 === (code = fragment.charCodeAt(i + 8)) ||
-                        esutils.code.isWhiteSpace(code) ||
-                        42 === code ||
-                        esutils.code.isLineTerminator(code))
+                        (40 === (code = fragment.charCodeAt(i + 8)) ||
+                          esutils.code.isWhiteSpace(code) ||
+                          42 === code ||
+                          esutils.code.isLineTerminator(code))
                     );
                   })(fragment) ||
                   (directive &&
@@ -42297,8 +42297,7 @@
         function isNode(node) {
           return (
             null != node &&
-            "object" == typeof node &&
-            "string" == typeof node.type
+            "object" == typeof node && "string" == typeof node.type
           );
         }
         function isProperty(nodeType, key) {
@@ -43421,9 +43420,9 @@
           return (
             !!this.sourcesContent &&
             this.sourcesContent.length >= this._sources.size() &&
-            !this.sourcesContent.some(function(sc) {
-              return null == sc;
-            })
+              !this.sourcesContent.some(function(sc) {
+                return null == sc;
+              })
           );
         }),
         (BasicSourceMapConsumer.prototype.sourceContentFor = function SourceMapConsumer_sourceContentFor(
@@ -45581,12 +45580,10 @@
                 (0, _isString.default)(type) &&
                 (0, _isHtmlTag.isHtmlTag)(type)
               ) {
-                var jsxSummary = (0, _reactElementToJsxString.default)(
-                  rawDefaultProp,
-                  {
-                    tabStop: 0,
-                  }
-                ).replace(/\r?\n|\r/g, "");
+                var jsxSummary = (0,
+                _reactElementToJsxString.default)(rawDefaultProp, {
+                  tabStop: 0,
+                }).replace(/\r?\n|\r/g, "");
                 if (!(0, _lib.isTooLongForDefaultValueSummary)(jsxSummary))
                   return (0, _lib.createSummaryValue)(jsxSummary);
               }
