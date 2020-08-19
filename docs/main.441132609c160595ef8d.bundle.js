@@ -1319,6 +1319,37 @@
         }),
         __webpack_require__.d(__webpack_exports__, "Negative", function() {
           return Negative;
+        }),
+        __webpack_require__.d(__webpack_exports__, "Navigation", function() {
+          return Navigation;
+        }),
+        __webpack_require__.d(
+          __webpack_exports__,
+          "NavigationModal",
+          function() {
+            return NavigationModal;
+          }
+        ),
+        __webpack_require__.d(__webpack_exports__, "NavigationOn", function() {
+          return NavigationOn;
+        }),
+        __webpack_require__.d(__webpack_exports__, "Signout", function() {
+          return Signout;
+        }),
+        __webpack_require__.d(__webpack_exports__, "Greyed", function() {
+          return Greyed;
+        }),
+        __webpack_require__.d(__webpack_exports__, "NavHeader", function() {
+          return NavHeader;
+        }),
+        __webpack_require__.d(__webpack_exports__, "NavAddMenu", function() {
+          return NavAddMenu;
+        }),
+        __webpack_require__.d(__webpack_exports__, "Medium", function() {
+          return Medium;
+        }),
+        __webpack_require__.d(__webpack_exports__, "Small", function() {
+          return Small;
         });
       __webpack_require__(2);
       var delegated_reactfrom_dll_reference_storybook_docs_dll = __webpack_require__(
@@ -1747,7 +1778,25 @@
       var Positive = Button_stories_Template.bind({});
       Positive.args = { variant: "positive", type: "Button" };
       var Negative = Button_stories_Template.bind({});
-      (Negative.args = { variant: "negative", type: "Button" }),
+      Negative.args = { variant: "negative", type: "Button" };
+      var Navigation = Button_stories_Template.bind({});
+      Navigation.args = { variant: "navigation", type: "Button" };
+      var NavigationModal = Button_stories_Template.bind({});
+      NavigationModal.args = { variant: "navigation-modal", type: "Button" };
+      var NavigationOn = Button_stories_Template.bind({});
+      NavigationOn.args = { variant: "navigation-on", type: "Button" };
+      var Signout = Button_stories_Template.bind({});
+      Signout.args = { variant: "signout", type: "Button" };
+      var Greyed = Button_stories_Template.bind({});
+      Greyed.args = { variant: "greyed", type: "Button" };
+      var NavHeader = Button_stories_Template.bind({});
+      NavHeader.args = { variant: "nav-header", type: "Button" };
+      var NavAddMenu = Button_stories_Template.bind({});
+      NavAddMenu.args = { variant: "nav-addMenu", type: "Button" };
+      var Medium = Button_stories_Template.bind({});
+      Medium.args = { medium: !0 };
+      var Small = Button_stories_Template.bind({});
+      (Small.args = { small: !0 }),
         (Primary.parameters = Button_stories_extends(
           {
             storySource: {
@@ -1795,9 +1844,81 @@
             },
           },
           Negative.parameters
+        )),
+        (Navigation.parameters = Button_stories_extends(
+          {
+            storySource: {
+              source: "(args) => <Button {...args}>Button</Button>",
+            },
+          },
+          Navigation.parameters
+        )),
+        (NavigationModal.parameters = Button_stories_extends(
+          {
+            storySource: {
+              source: "(args) => <Button {...args}>Button</Button>",
+            },
+          },
+          NavigationModal.parameters
+        )),
+        (NavigationOn.parameters = Button_stories_extends(
+          {
+            storySource: {
+              source: "(args) => <Button {...args}>Button</Button>",
+            },
+          },
+          NavigationOn.parameters
+        )),
+        (Signout.parameters = Button_stories_extends(
+          {
+            storySource: {
+              source: "(args) => <Button {...args}>Button</Button>",
+            },
+          },
+          Signout.parameters
+        )),
+        (Greyed.parameters = Button_stories_extends(
+          {
+            storySource: {
+              source: "(args) => <Button {...args}>Button</Button>",
+            },
+          },
+          Greyed.parameters
+        )),
+        (NavHeader.parameters = Button_stories_extends(
+          {
+            storySource: {
+              source: "(args) => <Button {...args}>Button</Button>",
+            },
+          },
+          NavHeader.parameters
+        )),
+        (NavAddMenu.parameters = Button_stories_extends(
+          {
+            storySource: {
+              source: "(args) => <Button {...args}>Button</Button>",
+            },
+          },
+          NavAddMenu.parameters
+        )),
+        (Medium.parameters = Button_stories_extends(
+          {
+            storySource: {
+              source: "(args) => <Button {...args}>Button</Button>",
+            },
+          },
+          Medium.parameters
+        )),
+        (Small.parameters = Button_stories_extends(
+          {
+            storySource: {
+              source: "(args) => <Button {...args}>Button</Button>",
+            },
+          },
+          Small.parameters
         ));
     },
   ],
   [[195, 1, 2]],
 ]);
-//# sourceMappingURL=main.c3a1301161bd3d1bd8af.bundle.js.map
+//# sourceMappingURL=main.441132609c160595ef8d.bundle.js.map
