@@ -41,6 +41,7 @@ exports[`ScrollPane should render 1`] = `
 
 <div
     class="c0"
+    data-test="scroll-pane"
   >
     Children
   </div>

@@ -54,20 +54,22 @@ ScrollPane.defaultProps = {
   permanentScrollBar: false,
 };
 
-const StyledScrollPane = ({ children, ...otherProps }) => {
+const StyledScrollPane = ({ children, scrollToTop = false, ...otherProps }) => {
   const history = useHistory();
   const ref = useRef();
-  const node = ref.current;
 
   useEffect(() => {
-    history.listen(() => {
-      if (node) {
-        node.scrollTop = 0;
-      }
-    });
+    if (scrollToTop) {
+      history.listen(() => {
+        const node = ref.current;
+        if (node) {
+          node.scrollTop = 0;
+        }
+      });
+    }
   });
   return (
-    <ScrollPane ref={ref} {...otherProps}>
+    <ScrollPane ref={ref} {...otherProps} data-test="scroll-pane">
       {children}
     </ScrollPane>
   );
@@ -75,6 +77,7 @@ const StyledScrollPane = ({ children, ...otherProps }) => {
 
 StyledScrollPane.propTypes = {
   children: PropTypes.node,
+  scrollToTop: PropTypes.bool,
 };
 
 export default StyledScrollPane;

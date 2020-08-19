@@ -34,7 +34,7 @@ const PropertiesPane = styled.div`
 const PropertiesPanel = ({ page }) => {
   return (
     <PropertiesPane>
-      <ScrollPane>
+      <ScrollPane scrollToTop>
         <Accordion title="Optional fields">
           <Padding>
             <QuestionProperties page={page} />
