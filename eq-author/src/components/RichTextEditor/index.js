@@ -34,7 +34,6 @@ import {
 import { sharedStyles } from "components/Forms/css";
 import { Field, Label } from "components/Forms";
 import ErrorInline from "components/ErrorInline";
-import { ScrollPaneCSS } from "components/ScrollPane";
 
 const styleMap = {
   ITALIC: {
