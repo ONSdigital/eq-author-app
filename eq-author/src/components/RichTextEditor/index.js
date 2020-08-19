@@ -82,11 +82,6 @@ Wrapper.defaultProps = {
   size: "small",
 };
 
-const MultiLineTextBoxCSS = css`
-  max-height: ${props => props.maxHeight}em;
-  overflow-y: scroll;
-`;
-
 const Input = styled.div`
   ${sharedStyles};
   padding: 0;
