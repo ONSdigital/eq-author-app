@@ -8,7 +8,7 @@ import ScrollPane from ".";
 const HistoryWrapper = ({ reset }) => {
   const history = useHistory();
   return (
-    <ScrollPane scrollToTop={reset}>
+    <ScrollPane scrollToTop={reset} data-test="scroll-pane">
       <button
         data-test={"history-push"}
         onClick={() => history.push("/hello")}

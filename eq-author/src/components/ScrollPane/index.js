@@ -69,7 +69,7 @@ const StyledScrollPane = ({ children, scrollToTop = false, ...otherProps }) => {
     }
   });
   return (
-    <ScrollPane ref={ref} {...otherProps} data-test="scroll-pane">
+    <ScrollPane ref={ref} {...otherProps}>
       {children}
     </ScrollPane>
   );
