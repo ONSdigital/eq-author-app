@@ -47,6 +47,18 @@ const redirect = ({ history, match }, { from, to }) => {
   }
 };
 
+const getCachedSection = (client, id) =>
+  client.readFragment({
+    id: `Section${id}`,
+    fragment,
+  });
+
+const handleMove = ({ onAddQuestionPage }, section) => {
+  if (section.pages.length === 0) {
+    return onAddQuestionPage(section.id);
+  }
+};
+
 export const mapMutateToProps = ({ ownProps, mutate }) => ({
   onMovePage({ from, to }) {
     const optimisticResponse = {
@@ -69,6 +81,13 @@ export const mapMutateToProps = ({ ownProps, mutate }) => ({
 
     return mutation
       .then(() => redirect(ownProps, { from, to }))
+      .then(() => {
+        const cachedSection = getCachedSection(
+          ownProps.client,
+          ownProps.page.section.id
+        );
+        handleMove(ownProps, cachedSection);
+      })
       .then(() => mutation);
   },
 });
