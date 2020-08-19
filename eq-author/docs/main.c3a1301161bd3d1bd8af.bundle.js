@@ -974,12 +974,13 @@
             components: components,
             mdxType: "MDXLayout",
           }),
-          Object(
-            _mdx_js_react__WEBPACK_IMPORTED_MODULE_3__.mdx
-          )(_storybook_addon_docs_blocks__WEBPACK_IMPORTED_MODULE_4__.Meta, {
-            title: "Example/Introduction",
-            mdxType: "Meta",
-          }),
+          Object(_mdx_js_react__WEBPACK_IMPORTED_MODULE_3__.mdx)(
+            _storybook_addon_docs_blocks__WEBPACK_IMPORTED_MODULE_4__.Meta,
+            {
+              title: "Example/Introduction",
+              mdxType: "Meta",
+            }
+          ),
           Object(_mdx_js_react__WEBPACK_IMPORTED_MODULE_3__.mdx)(
             "style",
             null,

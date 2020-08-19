@@ -9960,14 +9960,12 @@
                 0 !== nonLeafChildren.length)
               )
                 throw new Error(
-                  "Unexpected '"
-                    .concat(item.id, "': ")
-                    .concat(
-                      JSON.stringify({
-                        isComponent: isComponent,
-                        nonLeafChildren: nonLeafChildren,
-                      })
-                    )
+                  "Unexpected '".concat(item.id, "': ").concat(
+                    JSON.stringify({
+                      isComponent: isComponent,
+                      nonLeafChildren: nonLeafChildren,
+                    })
+                  )
                 );
               return component;
             })
@@ -11269,7 +11267,8 @@
             !isWindow(window) ||
             "function" != typeof window.Node
           ) &&
-          "number" == typeof val.nodeType && "string" == typeof val.nodeName
+          "number" == typeof val.nodeType &&
+          "string" == typeof val.nodeName
         );
       };
     },
