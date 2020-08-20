@@ -20,8 +20,6 @@ const EditReply = props => {
           setReplyRef(tag);
         }}
         value={reply}
-        minRows={4}
-        maxRows={4}
         type="text"
         onChange={({ target }) => setReply(target.value)}
         data-test={`reply-txtArea-${index}`}

@@ -49,8 +49,6 @@ const EditComment = props => {
             id="comments-txt-area"
             name="comment"
             value={comment}
-            minRows={4}
-            maxRows={4}
             onChange={({ target }) => setComment(target.value)}
             onClick={() => setActiveReplyId("")}
             data-test="comment-txt-area"

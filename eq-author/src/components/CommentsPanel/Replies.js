@@ -102,7 +102,6 @@ const Replies = props => {
               setReplyRef(tag);
             }}
             value={editReply}
-            maxRows={4}
             type="text"
             onChange={({ target }) => setEditReply(target.value)}
             data-test={`reply-txtArea-${index}-${repliesIndex}`}
