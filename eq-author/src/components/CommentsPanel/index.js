@@ -133,6 +133,7 @@ export const DeleteComment = styled(DeleteButton)`
 export const CommentAddSection = styled.div`
   padding: 1em;
   border-top: 1px solid ${colors.lightMediumGrey};
+  overflow-y: scroll;
 `;
 
 export const EditButton = styled.button`
