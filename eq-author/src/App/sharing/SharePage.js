@@ -21,7 +21,7 @@ const SharePage = props => {
     <Container>
       <Header title="Sharing" />
       <StyledGrid>
-        <ScrollPane permanentScrollBar data-test="sharing-page-content">
+        <ScrollPane data-test="sharing-page-content">
           <StyledMainCanvas>
             <Panel>
               <ShareContent questionnaireId={questionnaireId} />

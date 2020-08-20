@@ -27,9 +27,7 @@ exports[`Editor Layout should render 1`] = `
         cols={9}
         gutters={false}
       >
-        <StyledScrollPane
-          permanentScrollBar={true}
-        >
+        <StyledScrollPane>
           <EditorLayout__Margin>
             <MainCanvas
               maxWidth="65em"

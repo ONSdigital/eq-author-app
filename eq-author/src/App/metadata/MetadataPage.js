@@ -78,7 +78,7 @@ export const UnwrappedMetadataPageContent = ({
       )}
       {hasMetadata ? (
         <StyledGrid>
-          <ScrollPane permanentScrollBar data-test="metadata-modal-content">
+          <ScrollPane data-test="metadata-modal-content">
             <StyledMainCanvas>
               <MetadataTable
                 metadata={questionnaire.metadata}
