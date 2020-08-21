@@ -1,7 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
 import { byTestAttr } from "tests/utils/selectors";
-import { render, flushPromises, fireEvent, act } from "tests/utils/rtl";
 
 import EditorLayout from "./";
 
