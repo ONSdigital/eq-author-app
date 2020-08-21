@@ -2,33 +2,31 @@
 
 exports[`PropertiesPanel should render when there are no answers 1`] = `
 <PropertiesPanel__PropertiesPane>
-  <StyledScrollPane>
-    <Accordion
-      title="Optional fields"
-    >
-      <PropertiesPanel__Padding>
-        <Apollo(UnwrappedQuestionProperties)
-          page={
-            Object {
-              "__typename": "Page",
-              "id": "1",
-              "pageType": "QuestionPage",
-              "type": "Questionnaire",
-            }
+  <Accordion
+    title="Optional fields"
+  >
+    <PropertiesPanel__Padding>
+      <Apollo(UnwrappedQuestionProperties)
+        page={
+          Object {
+            "__typename": "Page",
+            "id": "1",
+            "pageType": "QuestionPage",
+            "type": "Questionnaire",
           }
-        />
-      </PropertiesPanel__Padding>
-    </Accordion>
-    <Apollo(UnwrappedGroupedAnswerProperties)
-      page={
-        Object {
-          "__typename": "Page",
-          "id": "1",
-          "pageType": "QuestionPage",
-          "type": "Questionnaire",
         }
+      />
+    </PropertiesPanel__Padding>
+  </Accordion>
+  <Apollo(UnwrappedGroupedAnswerProperties)
+    page={
+      Object {
+        "__typename": "Page",
+        "id": "1",
+        "pageType": "QuestionPage",
+        "type": "Questionnaire",
       }
-    />
-  </StyledScrollPane>
+    }
+  />
 </PropertiesPanel__PropertiesPane>
 `;

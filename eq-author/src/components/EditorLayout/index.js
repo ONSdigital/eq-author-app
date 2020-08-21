@@ -40,10 +40,6 @@ const PanelWrapper = styled.div`
   border-left: 1px solid ${colors.bordersLight};
 `;
 
-const StyledGrid = styled(Grid)`
-  overflow: hidden;
-`;
-
 const EditorLayout = ({
   children,
   onAddQuestionPage,
@@ -67,9 +63,9 @@ const EditorLayout = ({
           validationErrorInfo={validationErrorInfo}
         />
       </Header>
-      <StyledGrid {...otherProps}>
-        <Column cols={singleColumnLayout ? 12 : 9} gutters={false}>
-          <ScrollPane permanentScrollBar>
+      <ScrollPane permanentScrollBar>
+        <Grid {...otherProps}>
+          <Column cols={singleColumnLayout ? 12 : 9} gutters={false}>
             <Margin>
               <MainCanvas maxWidth={mainCanvasMaxWidth}>{children}</MainCanvas>
             </Margin>
@@ -85,14 +81,14 @@ const EditorLayout = ({
                 </Button>
               </Centered>
             )}
-          </ScrollPane>
-        </Column>
-        {singleColumnLayout ? null : (
-          <Column cols={3} gutters={false}>
-            <PanelWrapper>{renderPanel ? renderPanel() : null}</PanelWrapper>
           </Column>
-        )}
-      </StyledGrid>
+          {singleColumnLayout ? null : (
+            <Column cols={3} gutters={false}>
+              <PanelWrapper>{renderPanel ? renderPanel() : null}</PanelWrapper>
+            </Column>
+          )}
+        </Grid>
+      </ScrollPane>
     </Container>
   </Titled>
 );

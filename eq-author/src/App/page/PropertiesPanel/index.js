@@ -34,14 +34,12 @@ const PropertiesPane = styled.div`
 const PropertiesPanel = ({ page }) => {
   return (
     <PropertiesPane>
-      <ScrollPane>
-        <Accordion title="Optional fields">
-          <Padding>
-            <QuestionProperties page={page} />
-          </Padding>
-        </Accordion>
-        <GroupedAnswerProperties page={page} />
-      </ScrollPane>
+      <Accordion title="Optional fields">
+        <Padding>
+          <QuestionProperties page={page} />
+        </Padding>
+      </Accordion>
+      <GroupedAnswerProperties page={page} />
     </PropertiesPane>
   );
 };
