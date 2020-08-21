@@ -47,7 +47,11 @@ describe("Editor Layout", () => {
       .mockReturnValue(<div data-test="test-panel">Panel</div>);
 
     const wrapper = shallow(
-      <EditorLayout {...props} renderPanel={renderPanel}>
+      <EditorLayout
+        {...props}
+        singleColumnLayout={null}
+        renderPanel={renderPanel}
+      >
         Content
       </EditorLayout>
     );
