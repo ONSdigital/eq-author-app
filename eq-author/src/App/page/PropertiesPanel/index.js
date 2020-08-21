@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 
 import Accordion from "components/Accordion";
-import ScrollPane from "components/ScrollPane";
 import { colors } from "constants/theme";
 import CustomPropTypes from "custom-prop-types";
 
