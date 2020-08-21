@@ -84,7 +84,9 @@ const EditorLayout = ({
           </Column>
           {singleColumnLayout ? null : (
             <Column cols={3} gutters={false}>
-              <PanelWrapper>{renderPanel ? renderPanel() : null}</PanelWrapper>
+              <PanelWrapper data-test="right-hand-panel">
+                {renderPanel ? renderPanel() : null}
+              </PanelWrapper>
             </Column>
           )}
         </Grid>

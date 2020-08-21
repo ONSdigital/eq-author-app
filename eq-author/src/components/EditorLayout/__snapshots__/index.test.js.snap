@@ -42,7 +42,9 @@ exports[`Editor Layout should render 1`] = `
           cols={3}
           gutters={false}
         >
-          <EditorLayout__PanelWrapper />
+          <EditorLayout__PanelWrapper
+            data-test="right-hand-panel"
+          />
         </Column>
       </Grid>
     </StyledScrollPane>

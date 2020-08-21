@@ -1,6 +1,7 @@
 import React from "react";
 import { shallow } from "enzyme";
 import { byTestAttr } from "tests/utils/selectors";
+import { render, flushPromises, fireEvent, act } from "tests/utils/rtl";
 
 import EditorLayout from "./";
 
@@ -54,5 +55,11 @@ describe("Editor Layout", () => {
 
     expect(renderPanel).toHaveBeenCalled();
     expect(wrapper.find("[data-test='test-panel']")).toHaveLength(1);
+  });
+
+  it("should render right hand panel if singleColumnLayout is null", () => {
+    const wrapper = shallow(<EditorLayout {...props}>Content</EditorLayout>);
+
+    expect(wrapper.find("[data-test='right-hand-panel']")).toHaveLength(1);
   });
 });
