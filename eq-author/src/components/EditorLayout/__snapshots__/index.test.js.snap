@@ -11,10 +11,8 @@ exports[`Editor Layout should render 1`] = `
         preview={false}
       />
     </Component>
-    <StyledScrollPane
-      permanentScrollBar={true}
-    >
-      <Grid
+    <StyledScrollPane>
+      <EditorLayout__StyledGrid
         align="top"
         fillHeight={true}
         page={
@@ -46,7 +44,7 @@ exports[`Editor Layout should render 1`] = `
             data-test="right-hand-panel"
           />
         </Column>
-      </Grid>
+      </EditorLayout__StyledGrid>
     </StyledScrollPane>
   </EditorLayout__Container>
 </GetContext>
