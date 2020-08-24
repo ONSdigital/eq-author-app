@@ -38,7 +38,6 @@ const PanelWrapper = styled.div`
   background: ${colors.white};
   width: 100%;
   height: 100%;
-  border: 
   border-left: 1px solid ${colors.bordersLight};
   border-bottom: 1px solid ${colors.bordersLight};
 `;
