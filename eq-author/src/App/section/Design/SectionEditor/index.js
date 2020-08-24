@@ -175,7 +175,6 @@ export class SectionEditor extends React.Component {
               label="Introduction content"
               onUpdate={handleUpdate}
               name="introductionContent"
-              multiline
               testSelector="txt-introduction-content"
               value={section.introductionContent}
               controls={{

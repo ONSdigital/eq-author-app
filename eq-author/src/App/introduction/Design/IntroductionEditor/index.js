@@ -94,7 +94,6 @@ export const IntroductionEditor = ({ introduction, onChangeUpdate }) => {
             label="Description"
             value={description}
             controls={descriptionControls}
-            multiline
             onUpdate={onChangeUpdate}
             testSelector="txt-intro-description"
           />
@@ -131,7 +130,6 @@ export const IntroductionEditor = ({ introduction, onChangeUpdate }) => {
             label="Description"
             value={secondaryDescription}
             controls={descriptionControls}
-            multiline
             onUpdate={onChangeUpdate}
             testSelector="txt-intro-secondary-description"
           />
@@ -163,7 +161,6 @@ export const IntroductionEditor = ({ introduction, onChangeUpdate }) => {
             label="Description"
             value={tertiaryDescription}
             controls={descriptionControls}
-            multiline
             onUpdate={onChangeUpdate}
             testSelector="txt-intro-tertiary-description"
           />

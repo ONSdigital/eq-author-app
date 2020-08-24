@@ -87,7 +87,6 @@ const ReviewPage = ({ match, history }) => {
             bold: true,
             heading: true,
           }}
-          multiline
           onUpdate={setComment}
           value={comment.value}
         />
