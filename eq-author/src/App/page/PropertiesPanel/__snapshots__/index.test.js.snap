@@ -2,7 +2,9 @@
 
 exports[`PropertiesPanel should render when there are no answers 1`] = `
 <PropertiesPanel__PropertiesPane>
-  <StyledScrollPane>
+  <StyledScrollPane
+    scrollToTop={true}
+  >
     <Accordion
       title="Optional fields"
     >
