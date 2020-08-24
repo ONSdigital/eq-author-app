@@ -20,7 +20,8 @@ import Header from "./Header";
 const Centered = styled.div`
   display: flex;
   justify-content: center;
-  margin-bottom: 4em;
+  padding-bottom: 4em;
+  border-bottom: 1px solid ${colors.bordersLight};
 `;
 
 const Margin = styled.div`
@@ -37,7 +38,13 @@ const PanelWrapper = styled.div`
   background: ${colors.white};
   width: 100%;
   height: 100%;
+  border: 
   border-left: 1px solid ${colors.bordersLight};
+  border-bottom: 1px solid ${colors.bordersLight};
+`;
+
+const StyledGrid = styled(Grid)`
+height: auto;
 `;
 
 const EditorLayout = ({
@@ -53,47 +60,47 @@ const EditorLayout = ({
   validationErrorInfo,
   ...otherProps
 }) => (
-  <Titled title={existingTitle => `${existingTitle} - ${title}`}>
-    <Container>
-      <Header title={title}>
-        <Tabs
-          design={design}
-          preview={preview}
-          logic={logic}
-          validationErrorInfo={validationErrorInfo}
-        />
-      </Header>
-      <ScrollPane permanentScrollBar>
-        <Grid {...otherProps}>
-          <Column cols={singleColumnLayout ? 12 : 9} gutters={false}>
-            <Margin>
-              <MainCanvas maxWidth={mainCanvasMaxWidth}>{children}</MainCanvas>
-            </Margin>
-            {onAddQuestionPage && (
-              <Centered>
-                <Button
-                  variant="tertiary"
-                  small
-                  onClick={onAddQuestionPage}
-                  data-test="btn-add-page"
-                >
-                  <IconText icon={AddPage}>Add question page</IconText>
-                </Button>
-              </Centered>
-            )}
-          </Column>
-          {singleColumnLayout ? null : (
-            <Column cols={3} gutters={false}>
-              <PanelWrapper data-test="right-hand-panel">
-                {renderPanel ? renderPanel() : null}
-              </PanelWrapper>
+    <Titled title={existingTitle => `${existingTitle} - ${title}`}>
+      <Container>
+        <Header title={title}>
+          <Tabs
+            design={design}
+            preview={preview}
+            logic={logic}
+            validationErrorInfo={validationErrorInfo}
+          />
+        </Header>
+        <ScrollPane>
+          <StyledGrid {...otherProps}>
+            <Column cols={singleColumnLayout ? 12 : 9} gutters={false}>
+              <Margin>
+                <MainCanvas maxWidth={mainCanvasMaxWidth}>{children}</MainCanvas>
+              </Margin>
+              {onAddQuestionPage && (
+                <Centered>
+                  <Button
+                    variant="tertiary"
+                    small
+                    onClick={onAddQuestionPage}
+                    data-test="btn-add-page"
+                  >
+                    <IconText icon={AddPage}>Add question page</IconText>
+                  </Button>
+                </Centered>
+              )}
             </Column>
-          )}
-        </Grid>
-      </ScrollPane>
-    </Container>
-  </Titled>
-);
+            {singleColumnLayout ? null : (
+              <Column cols={3} gutters={false}>
+                <PanelWrapper data-test="right-hand-panel">
+                  {renderPanel ? renderPanel() : null}
+                </PanelWrapper>
+              </Column>
+            )}
+          </StyledGrid>
+        </ScrollPane>
+      </Container>
+    </Titled>
+  );
 
 EditorLayout.propTypes = {
   children: PropTypes.node.isRequired,
