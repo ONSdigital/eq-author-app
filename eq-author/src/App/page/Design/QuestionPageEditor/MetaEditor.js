@@ -137,7 +137,6 @@ export class StatelessMetaEditor extends React.Component {
                 value={page.description}
                 onUpdate={onChangeUpdate}
                 controls={descriptionControls}
-                multiline
                 fetchAnswers={fetchAnswers}
                 metadata={get(page, "section.questionnaire.metadata", [])}
                 testSelector="txt-question-description"
@@ -173,7 +172,6 @@ export class StatelessMetaEditor extends React.Component {
                   value={page.definitionContent}
                   onUpdate={onChangeUpdate}
                   controls={definitionControls}
-                  multiline
                   fetchAnswers={fetchAnswers}
                   metadata={page.section.questionnaire.metadata}
                   testSelector="txt-question-definition-content"
@@ -195,7 +193,6 @@ export class StatelessMetaEditor extends React.Component {
                 value={page.guidance}
                 onUpdate={onChangeUpdate}
                 controls={guidanceControls}
-                multiline
                 fetchAnswers={fetchAnswers}
                 metadata={get(page, "section.questionnaire.metadata", [])}
                 testSelector="txt-question-guidance"

@@ -29,6 +29,7 @@ exports[`Editor Layout should render 1`] = `
       >
         <StyledScrollPane
           permanentScrollBar={true}
+          scrollToTop={true}
         >
           <EditorLayout__Margin>
             <MainCanvas

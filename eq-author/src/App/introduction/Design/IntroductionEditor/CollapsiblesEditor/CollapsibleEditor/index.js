@@ -103,7 +103,6 @@ export const CollapsibleEditor = ({
           list: true,
           bold: true,
         }}
-        multiline
         testSelector="txt-collapsible-description"
       />
     </Detail>

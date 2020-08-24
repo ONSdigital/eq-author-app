@@ -84,6 +84,9 @@
               }
             }
           }
+        },
+        "totalValidation": {
+          "$ref": "entities.json#/definitions/totalValidation"
         }
       },
       "if": {
@@ -139,6 +142,50 @@
         }
       },
       "required": ["id", "title"]
+    },
+    "totalValidation": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "const": false
+            }
+          }
+        },
+        {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "const": true
+            },
+            "entityType": {
+              "const": "Custom"
+            },
+            "custom": {
+              "not": { "type": "null" }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "const": true
+            },
+            "entityType": {
+              "const": "PreviousAnswer"
+            },
+            "previousAnswer": {
+              "not": { "type": "null" }
+            }
+          }
+        }
+      ],
+      "errorMessage": "ERR_TOTAL_NO_VALUE"
     },
     "confirmationPage": {
       "properties": {

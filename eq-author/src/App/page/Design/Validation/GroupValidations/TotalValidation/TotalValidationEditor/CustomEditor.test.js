@@ -1,7 +1,8 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { shallow, mount } from "enzyme";
 
 import CustomEditor from "./CustomEditor";
+import { ERR_TOTAL_NO_VALUE } from "constants/validationMessages";
 
 describe("Custom Editor", () => {
   let props;
@@ -10,6 +11,18 @@ describe("Custom Editor", () => {
       total: {
         id: "1",
         custom: 5,
+      },
+      errors: {
+        id: "1",
+        errors: [
+          {
+            errorCode: "ERR_TOTAL_NO_VALUE",
+            field: "totalValidation",
+            id: "pages-1-totalValidation",
+            type: "pages",
+          },
+        ],
+        totalCount: 1,
       },
       type: "Currency",
       onChange: jest.fn(),
@@ -35,5 +48,21 @@ describe("Custom Editor", () => {
       .find("[data-test='total-validation-number-input']")
       .simulate("blur");
     expect(props.onUpdate).toHaveBeenCalled();
+  });
+
+  it("should display validation message when error present", () => {
+    const wrapper = shallow(<CustomEditor {...props} />).find(
+      "CustomEditor__StyledError"
+    );
+
+    expect(wrapper.text()).toEqual(ERR_TOTAL_NO_VALUE);
+  });
+
+  it("should display error styling when error present", () => {
+    const wrapper = mount(<CustomEditor {...props} />).find(
+      "CustomEditor__LargerNumber"
+    );
+
+    expect(wrapper).toHaveStyleRule("border-radius: 4px;");
   });
 });
