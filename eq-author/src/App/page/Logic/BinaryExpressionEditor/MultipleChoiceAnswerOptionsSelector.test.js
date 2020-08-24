@@ -4,7 +4,7 @@ import { render, act, flushPromises } from "tests/utils/rtl";
 
 import { rightSideErrors } from "constants/validationMessages";
 
-import { RADIO } from "constants/answer-types";
+import { CHECKBOX, RADIO } from "constants/answer-types";
 
 import MultipleChoiceAnswerOptionsSelector from "./MultipleChoiceAnswerOptionsSelector";
 import ToggleChip from "components/buttons/ToggleChip";
@@ -155,5 +155,32 @@ describe("MultipleChoiceAnswerOptionsSelector", () => {
     expect(
       getByText(rightSideErrors.ERR_RIGHTSIDE_ALLOFF_OR_NOT_ALLOWED.message)
     ).toBeTruthy();
+  });
+
+  it("should include or in option label when mutually exclusive", async () => {
+    defaultProps.expression.left = {
+      ...defaultProps.expression.left,
+      mutuallyExclusiveOption: { id: "123", label: "hello world" },
+      type: CHECKBOX,
+    };
+    defaultProps.expression.right = {
+      options: [
+        { label: "a", id: "1" },
+        { label: "b", id: "2" },
+        { label: "hello world", id: "123" },
+      ],
+    };
+
+    const { getByText, getByTestId } = render(
+      <MultipleChoiceAnswerOptionsSelector {...defaultProps} />
+    );
+
+    await act(async () => {
+      await flushPromises();
+    });
+
+    expect(getByTestId("mutually-exclusive-separator")).toBeTruthy();
+    expect(getByText("or")).toBeTruthy();
+    expect(getByText("hello world")).toBeTruthy();
   });
 });

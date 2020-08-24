@@ -172,7 +172,7 @@ class MultipleChoiceAnswerOptionsSelector extends React.Component {
   renderRadioOptionSelector(hasError) {
     const { expression } = this.props;
     const options = get(expression, "left.options", []);
-
+    console.log(options, "what is this?");
     return (
       <>
         <MultipleChoiceAnswerOptions
@@ -227,17 +227,24 @@ class MultipleChoiceAnswerOptionsSelector extends React.Component {
           {expression.condition !== answerConditions.UNANSWERED && (
             <>
               <TransitionGroup component={SelectedOptions}>
-                {get(expression, "right.options", []).map(option => (
-                  <CheckboxChipTransition key={option.id}>
-                    <CheckboxChip
-                      key={option.id}
-                      id={option.id}
-                      onRemove={this.handleCheckboxUnselect}
-                    >
-                      {option.label}
-                    </CheckboxChip>
-                  </CheckboxChipTransition>
-                ))}
+                {get(expression, "right.options", []).map(option => {
+                  const isMutuallyExclusive =
+                    expression.left.mutuallyExclusiveOption &&
+                    option.id === expression.left.mutuallyExclusiveOption.id;
+
+                  return (
+                    <CheckboxChipTransition key={option.id}>
+                      <CheckboxChip
+                        key={option.id}
+                        id={option.id}
+                        onRemove={this.handleCheckboxUnselect}
+                        isMutuallyExclusive={isMutuallyExclusive}
+                      >
+                        {option.label || <strong>Unlabelled option</strong>}
+                      </CheckboxChip>
+                    </CheckboxChipTransition>
+                  );
+                })}
               </TransitionGroup>
               <ChooseButton
                 onClick={() => {

@@ -51,11 +51,28 @@ const Label = styled.span`
   margin-right: 0.2em;
 `;
 
-const ChipBox = ({ onRemove, children, id, ...otherProps }) => {
+const Line = styled.span`
+  border-right: 1px solid ${colors.white};
+  padding-right: 0.1em;
+  margin-right: 0.3em;
+`;
+
+const ChipBox = ({
+  onRemove,
+  children,
+  id,
+  isMutuallyExclusive,
+  ...otherProps
+}) => {
   return (
     <Chip id={id} {...otherProps}>
       <Truncated>
-        <Label>{children}</Label>
+        <Label>
+          {isMutuallyExclusive && (
+            <Line data-test="mutually-exclusive-separator">or </Line>
+          )}
+          {children}
+        </Label>
       </Truncated>
 
       <RemoveButton onClick={() => onRemove(id)} data-test="remove-chip">
@@ -69,6 +86,7 @@ ChipBox.propTypes = {
   onRemove: PropTypes.func.isRequired,
   children: PropTypes.node.isRequired,
   id: PropTypes.string.isRequired,
+  isMutuallyExclusive: PropTypes.bool,
 };
 
 export default ChipBox;
