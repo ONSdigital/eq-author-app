@@ -27,7 +27,7 @@ const StyledGrid = styled.div`
 
 const StyledItem = styled.div`
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   padding: 0 2em 0 0;
   border: 1px solid ${colors.lightGrey};
   background-color: ${colors.lighterGrey};
@@ -117,7 +117,6 @@ const formatDate = date => moment(date).format("DD/MM/YYYY [at] HH:mm");
 const RTEWrapper = styled.div`
   margin: 0 2em 0 1em;
   padding-bottom: 1em;
-  width: 100%;
 `;
 
 const HistoryItem = ({
@@ -158,7 +157,6 @@ const HistoryItem = ({
                 list: true,
                 bold: true,
               }}
-              multiline
               autoFocus
             />
           </RTEWrapper>
