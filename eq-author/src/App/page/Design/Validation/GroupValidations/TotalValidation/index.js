@@ -11,7 +11,12 @@ import withToggleValidationRule from "../../withToggleValidationRule";
 
 import TotalValidationEditor from "./TotalValidationEditor";
 
-export const TotalValidation = ({ total, type, onToggleValidationRule }) => {
+export const TotalValidation = ({
+  total,
+  errors,
+  type,
+  onToggleValidationRule,
+}) => {
   const { enabled } = total;
 
   return (
@@ -27,6 +32,7 @@ export const TotalValidation = ({ total, type, onToggleValidationRule }) => {
           data-test="validation-editor"
           total={total}
           type={type}
+          errors={errors}
         />
       )}
     </ValidationView>
@@ -37,6 +43,18 @@ TotalValidation.propTypes = {
   total: propType(totalFragment).isRequired,
   type: PropTypes.string.isRequired,
   onToggleValidationRule: PropTypes.func.isRequired,
+  errors: PropTypes.shape({
+    id: PropTypes.string,
+    errors: PropTypes.arrayOf(
+      PropTypes.shape({
+        errorCode: PropTypes.string,
+        field: PropTypes.string,
+        id: PropTypes.string,
+        type: PropTypes.string,
+      })
+    ),
+    totalCount: PropTypes.number,
+  }),
 };
 
 export default withToggleValidationRule(TotalValidation);
