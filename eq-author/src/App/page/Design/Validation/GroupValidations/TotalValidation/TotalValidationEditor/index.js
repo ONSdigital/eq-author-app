@@ -35,7 +35,7 @@ const Flex = styled.div`
 `;
 
 const Pills = styled(ValidationPills)`
-  margin-top: -2em;
+  margin-top: 2em;
 `;
 
 export const TotalValidationEditor = ({
@@ -44,6 +44,7 @@ export const TotalValidationEditor = ({
   onChange,
   onUpdate,
   onChangeUpdate,
+  errors,
 }) => {
   return (
     <Grid>
@@ -80,6 +81,7 @@ export const TotalValidationEditor = ({
           PreviousAnswer={PreviousAnswerEditor}
           Custom={CustomEditor}
           total={total}
+          errors={errors}
           type={type}
           onChange={onChange}
           onUpdate={onUpdate}
@@ -93,6 +95,18 @@ export const TotalValidationEditor = ({
 
 TotalValidationEditor.propTypes = {
   total: propType(totalFragment).isRequired,
+  errors: PropTypes.shape({
+    id: PropTypes.string,
+    errors: PropTypes.arrayOf(
+      PropTypes.shape({
+        errorCode: PropTypes.string,
+        field: PropTypes.string,
+        id: PropTypes.string,
+        type: PropTypes.string,
+      })
+    ),
+    totalCount: PropTypes.number,
+  }),
   type: PropTypes.string.isRequired,
   onUpdate: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,

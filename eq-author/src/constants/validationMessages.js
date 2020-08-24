@@ -61,6 +61,8 @@ export const DURATION_ERROR_MESSAGE =
 export const MIN_INCLUSIVE_TEXT = "must be more than";
 export const MAX_INCLUSIVE_TEXT = "must be less than";
 
+export const ERR_TOTAL_NO_VALUE = "Value required";
+
 export const binaryExpressionErrors = {
   ANSWER_DELETED: "The answer used in this condition has been deleted",
   NO_ROUTABLE_ANSWERS_AVAILABLE:
