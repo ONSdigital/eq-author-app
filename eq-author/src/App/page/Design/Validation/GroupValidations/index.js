@@ -1,13 +1,16 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import { get, isNil } from "lodash";
+import { get, isNil, some } from "lodash";
 import PropTypes from "prop-types";
 
 import SidebarButton, { Title, Detail } from "components/buttons/SidebarButton";
 import Button from "components/buttons/Button";
 import ModalDialog from "components/modals/ModalDialog";
+import ValidationError from "components/ValidationError";
 
 import { CURRENCY, PERCENTAGE } from "constants/answer-types";
+import { colors } from "constants/theme";
+import { ERR_TOTAL_NO_VALUE } from "constants/validationMessages";
 
 import TotalValidation from "./TotalValidation";
 
@@ -17,6 +20,15 @@ export const TotalButton = styled(SidebarButton)`
   display: flex;
   align-items: center;
   padding-right: 2em;
+  ${({ hasError }) =>
+    hasError &&
+    `
+    border-color: ${colors.red};
+    outline-color: ${colors.red};
+    box-shadow: 0 0 0 2px ${colors.red};
+    border-radius: 4px;
+    margin-bottom: 0;
+  `}
 `;
 
 const TotalIcon = styled(IconTotal)`
@@ -56,6 +68,18 @@ class GroupValidations extends Component {
       previousAnswer: PropTypes.shape({
         displayName: PropTypes.string.isRequired,
       }),
+    }),
+    validationError: PropTypes.shape({
+      id: PropTypes.string,
+      errors: PropTypes.arrayOf(
+        PropTypes.shape({
+          errorCode: PropTypes.string,
+          field: PropTypes.string,
+          id: PropTypes.string,
+          type: PropTypes.string,
+        })
+      ),
+      totalCount: PropTypes.number,
     }),
     type: PropTypes.string,
   };
@@ -103,22 +127,37 @@ class GroupValidations extends Component {
   }
 
   render() {
-    const total = this.props.totalValidation;
+    const { totalValidation: total, validationError: errors } = this.props;
+
+    const hasError = some(errors.errors, error =>
+      error.errorCode.includes("ERR_TOTAL_NO_VALUE")
+    );
+
+    const handleError = () => {
+      return <ValidationError right>{ERR_TOTAL_NO_VALUE}</ValidationError>;
+    };
+
     return (
       <>
         <TotalButton
           onClick={this.handleButtonClick}
           data-test="sidebar-button-total-value"
           disabled={!total}
+          hasError={hasError}
         >
           <TotalIcon />
           <Details>{this.renderContents() || <Title>Total</Title>}</Details>
         </TotalButton>
+        {hasError && handleError()}
         <GroupValidationModal
           isOpen={this.state.isModalOpen}
           onClose={this.handleModalClose}
         >
-          <TotalValidation total={total} type={this.props.type} />
+          <TotalValidation
+            total={total}
+            type={this.props.type}
+            errors={errors}
+          />
           <Buttons>
             <Button onClick={this.handleModalClose}>Done</Button>
           </Buttons>

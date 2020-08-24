@@ -57,6 +57,11 @@ describe("Grouped Answer Properties", () => {
             __typename: "BasicAnswer",
           },
         ],
+        validationErrorInfo: {
+          id: "1",
+          errors: [],
+          totalCount: 0,
+        },
       },
       updateAnswersOfType: jest.fn(),
     };
