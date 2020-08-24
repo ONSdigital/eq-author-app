@@ -172,7 +172,7 @@ class MultipleChoiceAnswerOptionsSelector extends React.Component {
   renderRadioOptionSelector(hasError) {
     const { expression } = this.props;
     const options = get(expression, "left.options", []);
-    console.log(options, "what is this?");
+
     return (
       <>
         <MultipleChoiceAnswerOptions
