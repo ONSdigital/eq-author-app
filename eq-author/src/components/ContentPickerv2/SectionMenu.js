@@ -49,7 +49,7 @@ const SectionMenu = ({
   return (
     <ColumnContainer>
       <Column>
-        <ScrollPane background permanentScrollBar>
+        <ScrollPane background>
           <Menu
             data={data}
             {...otherProps}
@@ -59,7 +59,7 @@ const SectionMenu = ({
         </ScrollPane>
       </Column>
       <Column>
-        <ScrollPane background permanentScrollBar>
+        <ScrollPane background>
           <SubMenu
             data={selectedSection.pages}
             onSelected={onSelected}

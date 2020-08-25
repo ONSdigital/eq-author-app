@@ -69,7 +69,7 @@ const EditorLayout = ({
       </Header>
       <StyledGrid {...otherProps}>
         <Column cols={singleColumnLayout ? 12 : 9} gutters={false}>
-          <ScrollPane permanentScrollBar scrollToTop>
+          <ScrollPane>
             <Margin>
               <MainCanvas maxWidth={mainCanvasMaxWidth}>{children}</MainCanvas>
             </Margin>
