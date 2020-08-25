@@ -11,23 +11,23 @@ exports[`Editor Layout should render 1`] = `
         preview={false}
       />
     </Component>
-    <EditorLayout__StyledGrid
-      align="top"
-      fillHeight={true}
-      page={
-        Object {
-          "answers": Array [],
-          "displayName": "Foo",
-          "id": "1",
+    <StyledScrollPane>
+      <EditorLayout__StyledGrid
+        align="top"
+        fillHeight={true}
+        page={
+          Object {
+            "answers": Array [],
+            "displayName": "Foo",
+            "id": "1",
+          }
         }
-      }
-      routing={true}
-    >
-      <Column
-        cols={9}
-        gutters={false}
+        routing={true}
       >
-        <StyledScrollPane>
+        <Column
+          cols={9}
+          gutters={false}
+        >
           <EditorLayout__Margin>
             <MainCanvas
               maxWidth="65em"
@@ -35,15 +35,17 @@ exports[`Editor Layout should render 1`] = `
               Content
             </MainCanvas>
           </EditorLayout__Margin>
-        </StyledScrollPane>
-      </Column>
-      <Column
-        cols={3}
-        gutters={false}
-      >
-        <EditorLayout__PanelWrapper />
-      </Column>
-    </EditorLayout__StyledGrid>
+        </Column>
+        <Column
+          cols={3}
+          gutters={false}
+        >
+          <EditorLayout__PanelWrapper
+            data-test="right-hand-panel"
+          />
+        </Column>
+      </EditorLayout__StyledGrid>
+    </StyledScrollPane>
   </EditorLayout__Container>
 </GetContext>
 `;
