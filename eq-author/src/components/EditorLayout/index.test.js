@@ -47,12 +47,28 @@ describe("Editor Layout", () => {
       .mockReturnValue(<div data-test="test-panel">Panel</div>);
 
     const wrapper = shallow(
-      <EditorLayout {...props} renderPanel={renderPanel}>
+      <EditorLayout
+        {...props}
+        singleColumnLayout={null}
+        renderPanel={renderPanel}
+      >
         Content
       </EditorLayout>
     );
 
     expect(renderPanel).toHaveBeenCalled();
     expect(wrapper.find("[data-test='test-panel']")).toHaveLength(1);
+  });
+
+  it("should render right hand panel if singleColumnLayout is null", () => {
+    const wrapper = shallow(<EditorLayout {...props}>Content</EditorLayout>);
+
+    expect(wrapper.find("[data-test='right-hand-panel']")).toHaveLength(1);
+  });
+
+  it("should NOT render right hand panel if singleColumnLayout is true", () => {
+    const wrapper = shallow(<EditorLayout {...props} singleColumnLayout >Content</EditorLayout>);
+
+    expect(wrapper.find("[data-test='right-hand-panel']")).toHaveLength(0);
   });
 });
