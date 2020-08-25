@@ -58,7 +58,6 @@ export const StatelessAdditionalInfo = ({
             value={page.additionalInfoContent}
             onUpdate={onChangeUpdate}
             controls={contentControls}
-            multiline
             fetchAnswers={fetchAnswers}
             metadata={page.section.questionnaire.metadata}
             testSelector="txt-question-additional-info-content"

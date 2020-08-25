@@ -115,7 +115,6 @@ const HistoryPageContent = ({ match }) => {
                 list: true,
                 bold: true,
               }}
-              multiline
             />
           </RTEWrapper>
           <ActionButtons horizontal align="right">

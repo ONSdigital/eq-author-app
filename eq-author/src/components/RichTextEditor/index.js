@@ -34,7 +34,6 @@ import {
 import { sharedStyles } from "components/Forms/css";
 import { Field, Label } from "components/Forms";
 import ErrorInline from "components/ErrorInline";
-import { ScrollPaneCSS } from "components/ScrollPane";
 
 const styleMap = {
   ITALIC: {
@@ -83,12 +82,6 @@ Wrapper.defaultProps = {
   size: "small",
 };
 
-const MultiLineTextBoxCSS = css`
-  max-height: ${props => props.maxHeight}em;
-  overflow-y: scroll;
-  ${ScrollPaneCSS};
-`;
-
 const Input = styled.div`
   ${sharedStyles};
   padding: 0;
@@ -116,11 +109,6 @@ const Input = styled.div`
 
   .DraftEditor-root {
     padding: 1rem;
-    ${props => {
-      if (props.multiline) {
-        return MultiLineTextBoxCSS;
-      }
-    }};
   }
 
   .public-DraftEditorPlaceholder-root {
