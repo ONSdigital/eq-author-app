@@ -7,36 +7,6 @@ exports[`ScrollPane should render 1`] = `
   height: 100%;
   overflow-y: auto;
   position: relative;
-  -webkit-background-clip: text;
-  -webkit-transition: background-color 0.2s;
-  transition: background-color 0.2s;
-}
-
-.c0::-webkit-scrollbar-thumb {
-  border-radius: 0;
-  box-shadow: none;
-  background-color: #d6d8da;
-  -webkit-transition: background-color 0.2s;
-  transition: background-color 0.2s;
-}
-
-.c0::-webkit-scrollbar-track {
-  border-radius: 0;
-  box-shadow: none;
-  background: rgba(0,0,0,0.1);
-}
-
-.c0::-webkit-scrollbar {
-  width: 10px;
-}
-
-.c0 >:first-child {
-  -webkit-backface-visibility: hidden !important;
-  backface-visibility: hidden !important;
-}
-
-.c0:hover::-webkit-scrollbar-thumb {
-  background-color: #bbbfc2;
 }
 
 <div
