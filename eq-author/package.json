@@ -13,7 +13,7 @@
     "lint:js": "yarn build:fragmentTypes && eslint src --ext .graphql --ext .js --max-warnings=0",
     "lint:css": "stylelint './src/**/*.js'",
     "serve": "serve -l 3000 build/",
-    "coverage": "yarn test -- --coverage",
+    "coverage": "yarn test --coverage",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
@@ -146,7 +146,8 @@
       "src/**/*.{js,jsx}",
       "!src/graphql/*.js",
       "!src/tests/**/*.js",
-      "!src/index.js"
+      "!src/index.js",
+      "!src/stories/*.js"
     ],
     "setupFiles": [
       "<rootDir>/src/tests/setup/throwOnConsole.js",

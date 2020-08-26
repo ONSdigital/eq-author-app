@@ -8,9 +8,6 @@ coverage:
       publisher:
         flags: publisher
 
-ignore:
-  - "eq-author/src/stories"
-
 flags:
   author:
     paths:
