@@ -41,7 +41,7 @@ const SectionMenu = ({ data, onSelected, isSelected, ...otherProps }) => {
   return (
     <ColumnContainer>
       <Column width={44}>
-        <ScrollPane background permanentScrollBar>
+        <ScrollPane background>
           <Menu
             data={sectionData}
             {...otherProps}

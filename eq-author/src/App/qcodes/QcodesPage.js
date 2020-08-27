@@ -30,7 +30,7 @@ const QcodesPage = ({ match }) => {
     <Container>
       <Header title="QCodes" />
       <StyledGrid>
-        <ScrollPane permanentScrollBar data-test="metadata-modal-content">
+        <ScrollPane data-test="metadata-modal-content">
           <StyledMainCanvas>
             <QcodesTable questionnaireId={questionnaireId} />
           </StyledMainCanvas>
