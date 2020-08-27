@@ -43,7 +43,7 @@ const PanelWrapper = styled.div`
 `;
 
 const StyledGrid = styled(Grid)`
-height: auto;
+  height: auto;
 `;
 
 const EditorLayout = ({
@@ -59,47 +59,47 @@ const EditorLayout = ({
   validationErrorInfo,
   ...otherProps
 }) => (
-    <Titled title={existingTitle => `${existingTitle} - ${title}`}>
-      <Container>
-        <Header title={title}>
-          <Tabs
-            design={design}
-            preview={preview}
-            logic={logic}
-            validationErrorInfo={validationErrorInfo}
-          />
-        </Header>
-        <ScrollPane>
-          <StyledGrid {...otherProps}>
-            <Column cols={singleColumnLayout ? 12 : 9} gutters={false}>
-              <Margin>
-                <MainCanvas maxWidth={mainCanvasMaxWidth}>{children}</MainCanvas>
-              </Margin>
-              {onAddQuestionPage && (
-                <Centered>
-                  <Button
-                    variant="tertiary"
-                    small
-                    onClick={onAddQuestionPage}
-                    data-test="btn-add-page"
-                  >
-                    <IconText icon={AddPage}>Add question page</IconText>
-                  </Button>
-                </Centered>
-              )}
-            </Column>
-            {singleColumnLayout ? null : (
-              <Column cols={3} gutters={false}>
-                <PanelWrapper data-test="right-hand-panel">
-                  {renderPanel ? renderPanel() : null}
-                </PanelWrapper>
-              </Column>
+  <Titled title={existingTitle => `${existingTitle} - ${title}`}>
+    <Container>
+      <Header title={title}>
+        <Tabs
+          design={design}
+          preview={preview}
+          logic={logic}
+          validationErrorInfo={validationErrorInfo}
+        />
+      </Header>
+      <ScrollPane scrollToTop>
+        <StyledGrid {...otherProps}>
+          <Column cols={singleColumnLayout ? 12 : 9} gutters={false}>
+            <Margin>
+              <MainCanvas maxWidth={mainCanvasMaxWidth}>{children}</MainCanvas>
+            </Margin>
+            {onAddQuestionPage && (
+              <Centered>
+                <Button
+                  variant="tertiary"
+                  small
+                  onClick={onAddQuestionPage}
+                  data-test="btn-add-page"
+                >
+                  <IconText icon={AddPage}>Add question page</IconText>
+                </Button>
+              </Centered>
             )}
-          </StyledGrid>
-        </ScrollPane>
-      </Container>
-    </Titled>
-  );
+          </Column>
+          {singleColumnLayout ? null : (
+            <Column cols={3} gutters={false}>
+              <PanelWrapper data-test="right-hand-panel">
+                {renderPanel ? renderPanel() : null}
+              </PanelWrapper>
+            </Column>
+          )}
+        </StyledGrid>
+      </ScrollPane>
+    </Container>
+  </Titled>
+);
 
 EditorLayout.propTypes = {
   children: PropTypes.node.isRequired,
