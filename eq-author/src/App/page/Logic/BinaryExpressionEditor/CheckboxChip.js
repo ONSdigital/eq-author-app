@@ -13,10 +13,11 @@ const RemoveButton = styled.button`
   background: ${colors.white} url(${iconClose}) no-repeat center;
   background-size: 0.5em;
   font-size: 1rem;
-  width: 0.8em;
-  height: 0.8em;
+  width: 1em;
+  height: 1em;
   margin: 0 0.2em;
   opacity: 1;
+  margin-right: 0.3em;
 
   &:hover {
     opacity: 0.5;
@@ -37,26 +38,37 @@ const RemoveButton = styled.button`
 const Chip = styled.div`
   font-size: 1rem;
   background: ${colors.primary};
-  padding: 0.3em 0.3em 0.3em 0.5em;
   border-radius: 4px;
   color: white;
   border: none;
-  display: inline-flex;
+  display: flex;
   align-items: center;
   margin: 0.25rem 0.5rem 0.25rem 0.25rem;
   max-width: 12em;
 `;
 
-const Label = styled.span`
-  margin-right: 0.2em;
+const TruncatedLabel = styled(Truncated)`
+  padding: 0.3em 0.3em 0.3em 0.5em;
 `;
 
-const ChipBox = ({ onRemove, children, id, ...otherProps }) => {
+const Line = styled.span`
+  border-right: 1px solid ${colors.white};
+  padding: 0.3em;
+`;
+
+const ChipBox = ({
+  onRemove,
+  children,
+  id,
+  isMutuallyExclusive,
+  ...otherProps
+}) => {
   return (
     <Chip id={id} {...otherProps}>
-      <Truncated>
-        <Label>{children}</Label>
-      </Truncated>
+      {isMutuallyExclusive && (
+        <Line data-test="mutually-exclusive-separator">or </Line>
+      )}
+      <TruncatedLabel>{children}</TruncatedLabel>
 
       <RemoveButton onClick={() => onRemove(id)} data-test="remove-chip">
         <VisuallyHidden>Remove</VisuallyHidden>
@@ -69,6 +81,7 @@ ChipBox.propTypes = {
   onRemove: PropTypes.func.isRequired,
   children: PropTypes.node.isRequired,
   id: PropTypes.string.isRequired,
+  isMutuallyExclusive: PropTypes.bool,
 };
 
 export default ChipBox;

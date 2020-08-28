@@ -319,7 +319,6 @@ export class UnwrappedBinaryExpressionEditor extends React.Component {
       isLastExpression,
       includeSelf,
     } = this.props;
-
     return (
       <div>
         <Grid align="center">
