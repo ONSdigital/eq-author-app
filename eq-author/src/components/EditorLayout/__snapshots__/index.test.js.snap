@@ -11,7 +11,9 @@ exports[`Editor Layout should render 1`] = `
         preview={false}
       />
     </Component>
-    <StyledScrollPane>
+    <StyledScrollPane
+      scrollToTop={true}
+    >
       <EditorLayout__StyledGrid
         align="top"
         fillHeight={true}
