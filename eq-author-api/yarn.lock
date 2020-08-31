@@ -2009,14 +2009,6 @@ chalk@2.4.2, chalk@^2.0.0, chalk@^2.0.1, chalk@^2.1.0, chalk@^2.3.0, chalk@^2.4.
     escape-string-regexp "^1.0.5"
     supports-color "^5.3.0"
 
-chalk@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/chalk/-/chalk-3.0.0.tgz#3f73c2bf526591f574cc492c51e2456349f844e4"
-  integrity sha512-4D3B6Wf41KOYRFdszmDqMCGq5VV/uMAB273JILmO+3jAlh8X4qDtdtgCR3fxtbLEMzSx22QdhnDcJvu2u1fVwg==
-  dependencies:
-    ansi-styles "^4.1.0"
-    supports-color "^7.1.0"
-
 chalk@^4.0.0, chalk@latest:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/chalk/-/chalk-4.1.0.tgz#4e14870a618d9e2edd97dd8345fd9d9dc315646a"
@@ -5942,14 +5934,14 @@ pino-noir@latest:
   resolved "https://registry.yarnpkg.com/pino-noir/-/pino-noir-2.2.1.tgz#2f9bb51a8eacda976b26f412ed5af468d8f0106c"
   integrity sha512-qGIG4fYMqokNb5Ho21YNH9uB4NELYTb9oADiuzoL2+n1gs6QyoUKaTN+7eqT4VDC6syvcyark3YP9o2UmCk32A==
 
-pino-pretty@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/pino-pretty/-/pino-pretty-4.0.0.tgz#afbff81f946342b9d6eabc434942fe490e02faa9"
-  integrity sha512-YLy/n3dMXYWOodSm530gelkSAJGmEp29L9pqiycInlIae5FEJPWAkMRO3JFMbIFtjD2Ve4SH2aBcz2aRreGpBQ==
+pino-pretty@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/pino-pretty/-/pino-pretty-4.2.0.tgz#522732d8579e13ccd648dd12876fb91257354dc7"
+  integrity sha512-CBFLgxMj/cJOANqZs+Xcjdgi1v40TJP3xMTkSN2xuOvX+03uAAHXf9SEU+1DHu/1kw44H2c31VYCImx0QewQ6w==
   dependencies:
     "@hapi/bourne" "^2.0.0"
     args "^5.0.1"
-    chalk "^3.0.0"
+    chalk "^4.0.0"
     dateformat "^3.0.3"
     fast-safe-stringify "^2.0.7"
     jmespath "^0.15.0"
@@ -5957,7 +5949,7 @@ pino-pretty@^4.0.0:
     pump "^3.0.0"
     readable-stream "^3.6.0"
     split2 "^3.1.1"
-    strip-json-comments "^3.0.1"
+    strip-json-comments "^3.1.1"
 
 pino-std-serializers@^2.1.0, pino-std-serializers@^2.3.0:
   version "2.3.0"
@@ -6971,10 +6963,10 @@ strip-json-comments@^2.0.1, strip-json-comments@~2.0.1:
   resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-2.0.1.tgz#3c531942e908c2697c0ec344858c286c7ca0a60a"
   integrity sha1-PFMZQukIwml8DsNEhYwobHygpgo=
 
-strip-json-comments@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-3.0.1.tgz#85713975a91fb87bf1b305cca77395e40d2a64a7"
-  integrity sha512-VTyMAUfdm047mwKl+u79WIdrZxtFtn+nBxHeb844XBQ9uMNTuTHdx2hc5RiAJYqwTj3wc/xe5HLSdJSkJ+WfZw==
+strip-json-comments@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-3.1.1.tgz#31f1281b3832630434831c310c01cccda8cbe006"
+  integrity sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==
 
 stubs@^3.0.0:
   version "3.0.0"
