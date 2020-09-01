@@ -16,6 +16,7 @@ import { colors } from "constants/theme";
 
 import { useMe } from "App/MeContext";
 
+import ScrollPane from "components/ScrollPane";
 import ButtonGroup from "components/buttons/ButtonGroup";
 import LinkButton from "components/buttons/Button/LinkButton";
 import RouteButton from "components/buttons/Button/RouteButton";
@@ -126,103 +127,110 @@ export const UnwrappedMainNavigation = props => {
   return (
     <>
       <StyledMainNavigation data-test="main-navigation">
-        <Flex>
-          <UtilityBtns>
-            {questionnaire && (
-              <ButtonGroup vertical align="centre" margin="0.em" gutter="0.em">
-                <RouteButton variant="navigation" small to="/">
-                  <IconText nav icon={homeIcon}>
-                    Home
-                  </IconText>
-                </RouteButton>
-                <LinkButton
-                  href={previewUrl}
-                  variant="navigation-modal"
-                  data-test="btn-preview"
-                  small
-                  disabled={questionnaire.totalErrorCount > 0}
+        <ScrollPane>
+          <Flex>
+            <UtilityBtns>
+              {questionnaire && (
+                <ButtonGroup
+                  vertical
+                  align="centre"
+                  margin="0.em"
+                  gutter="0.em"
                 >
-                  <IconText nav icon={viewIcon}>
-                    View survey
-                  </IconText>
-                </LinkButton>
-                <RouteButton
-                  variant={
-                    (whatPageAreWeOn === "settings" && "navigation-on") ||
-                    "navigation"
-                  }
-                  to={buildSettingsPath(match.params)}
-                  small
-                  data-test="btn-settings"
-                  disabled={title === "Settings"}
-                >
-                  <IconText nav icon={settingsIcon}>
-                    Settings
-                  </IconText>
-                </RouteButton>
-                <RouteButton
-                  variant={
-                    (whatPageAreWeOn === "sharing" && "navigation-on") ||
-                    "navigation"
-                  }
-                  small
-                  data-test="btn-sharing"
-                  to={buildSharingPath(match.params)}
-                >
-                  <IconText nav icon={shareIcon}>
-                    Sharing
-                  </IconText>
-                </RouteButton>
-                <RouteButton
-                  variant={
-                    (whatPageAreWeOn === "history" && "navigation-on") ||
-                    "navigation"
-                  }
-                  small
-                  data-test="btn-history"
-                  to={buildHistoryPath(match.params)}
-                >
-                  <IconText nav icon={historyIcon}>
-                    History
-                  </IconText>
-                </RouteButton>
+                  <RouteButton variant="navigation" small to="/">
+                    <IconText nav icon={homeIcon}>
+                      Home
+                    </IconText>
+                  </RouteButton>
+                  <LinkButton
+                    href={previewUrl}
+                    variant="navigation-modal"
+                    data-test="btn-preview"
+                    small
+                    disabled={questionnaire.totalErrorCount > 0}
+                  >
+                    <IconText nav icon={viewIcon}>
+                      View survey
+                    </IconText>
+                  </LinkButton>
+                  <RouteButton
+                    variant={
+                      (whatPageAreWeOn === "settings" && "navigation-on") ||
+                      "navigation"
+                    }
+                    to={buildSettingsPath(match.params)}
+                    small
+                    data-test="btn-settings"
+                    disabled={title === "Settings"}
+                  >
+                    <IconText nav icon={settingsIcon}>
+                      Settings
+                    </IconText>
+                  </RouteButton>
+                  <RouteButton
+                    variant={
+                      (whatPageAreWeOn === "sharing" && "navigation-on") ||
+                      "navigation"
+                    }
+                    small
+                    data-test="btn-sharing"
+                    to={buildSharingPath(match.params)}
+                  >
+                    <IconText nav icon={shareIcon}>
+                      Sharing
+                    </IconText>
+                  </RouteButton>
+                  <RouteButton
+                    variant={
+                      (whatPageAreWeOn === "history" && "navigation-on") ||
+                      "navigation"
+                    }
+                    small
+                    data-test="btn-history"
+                    to={buildHistoryPath(match.params)}
+                  >
+                    <IconText nav icon={historyIcon}>
+                      History
+                    </IconText>
+                  </RouteButton>
 
-                <RouteButton
-                  variant={
-                    (whatPageAreWeOn === "metadata" && "navigation-on") ||
-                    "navigation"
-                  }
-                  small
-                  data-test="btn-metadata"
-                  to={buildMetadataPath(match.params)}
-                >
-                  <IconText nav icon={metadataIcon}>
-                    Metadata
-                  </IconText>
-                </RouteButton>
-                {/* {renderPublishReviewButton()} */}
-                <RouteButton
-                  variant={
-                    (whatPageAreWeOn === "qcodes" && "navigation-on") ||
-                    "navigation"
-                  }
-                  to={buildQcodesPath(match.params)}
-                  small
-                  data-test="btn-qcodes"
-                  disabled={
-                    title === "QCodes" || questionnaire.totalErrorCount > 0
-                  }
-                >
-                  <IconText nav icon={qcodeIcon}>
-                    QCodes
-                  </IconText>
-                </RouteButton>
-                {me && <UserProfile nav signOut left client={client} />}
-              </ButtonGroup>
-            )}
-          </UtilityBtns>
-        </Flex>
-        {children}
+                  <RouteButton
+                    variant={
+                      (whatPageAreWeOn === "metadata" && "navigation-on") ||
+                      "navigation"
+                    }
+                    small
+                    data-test="btn-metadata"
+                    to={buildMetadataPath(match.params)}
+                  >
+                    <IconText nav icon={metadataIcon}>
+                      Metadata
+                    </IconText>
+                  </RouteButton>
+                  {/* {renderPublishReviewButton()} */}
+                  <RouteButton
+                    variant={
+                      (whatPageAreWeOn === "qcodes" && "navigation-on") ||
+                      "navigation"
+                    }
+                    to={buildQcodesPath(match.params)}
+                    small
+                    data-test="btn-qcodes"
+                    disabled={
+                      title === "QCodes" || questionnaire.totalErrorCount > 0
+                    }
+                  >
+                    <IconText nav icon={qcodeIcon}>
+                      QCodes
+                    </IconText>
+                  </RouteButton>
+                  {me && <UserProfile nav signOut left client={client} />}
+                </ButtonGroup>
+              )}
+            </UtilityBtns>
+          </Flex>
+          {children}
+        </ScrollPane>
       </StyledMainNavigation>
       {questionnaire && (
         <>

@@ -47,10 +47,8 @@ const NavColumn = styled(Column)`
 `;
 
 const MainNav = styled.div`
-  width: 72px;
-  border: 0;
-  float: left;
-  background-color: ${colors.darkerBlack};
+  display: flex;
+  height: 100%;
 `;
 
 export class UnwrappedQuestionnaireDesignPage extends Component {
@@ -213,23 +211,23 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
                 <NavColumn cols={3} gutters={false}>
                   <MainNav>
                     <MainNavigation />
+                    <NavigationSidebar
+                      data-test="side-nav"
+                      loading={loading}
+                      onAddSection={this.props.onAddSection}
+                      onAddQuestionPage={this.handleAddPage("QuestionPage")}
+                      canAddQuestionPage={this.canAddQuestionAndCalculatedSummmaryPages()}
+                      onAddCalculatedSummaryPage={this.handleAddPage(
+                        "CalculatedSummaryPage"
+                      )}
+                      canAddCalculatedSummaryPage={this.canAddQuestionAndCalculatedSummmaryPages()}
+                      questionnaire={questionnaire}
+                      canAddQuestionConfirmation={this.canAddQuestionConfirmation()}
+                      onAddQuestionConfirmation={
+                        this.handleAddQuestionConfirmation
+                      }
+                    />
                   </MainNav>
-                  <NavigationSidebar
-                    data-test="side-nav"
-                    loading={loading}
-                    onAddSection={this.props.onAddSection}
-                    onAddQuestionPage={this.handleAddPage("QuestionPage")}
-                    canAddQuestionPage={this.canAddQuestionAndCalculatedSummmaryPages()}
-                    onAddCalculatedSummaryPage={this.handleAddPage(
-                      "CalculatedSummaryPage"
-                    )}
-                    canAddCalculatedSummaryPage={this.canAddQuestionAndCalculatedSummmaryPages()}
-                    questionnaire={questionnaire}
-                    canAddQuestionConfirmation={this.canAddQuestionConfirmation()}
-                    onAddQuestionConfirmation={
-                      this.handleAddQuestionConfirmation
-                    }
-                  />
                 </NavColumn>
                 <Column cols={9} gutters={false}>
                   <Switch location={location}>

@@ -2068,52 +2068,52 @@ exports[`QuestionnaireDesignPage should render 1`] = `
           >
             <QuestionnaireDesignPage__MainNav>
               <Component />
-            </QuestionnaireDesignPage__MainNav>
-            <withRouter(UnwrappedNavigationSidebar)
-              canAddCalculatedSummaryPage={true}
-              canAddQuestionConfirmation={true}
-              canAddQuestionPage={true}
-              data-test="side-nav"
-              loading={false}
-              onAddCalculatedSummaryPage={[Function]}
-              onAddQuestionConfirmation={[Function]}
-              onAddQuestionPage={[Function]}
-              onAddSection={[MockFunction]}
-              questionnaire={
-                Object {
-                  "displayName": "my displayName",
-                  "id": "3",
-                  "sections": Array [
-                    Object {
-                      "id": "2",
-                      "pages": Array [
-                        Object {
-                          "answers": Array [
-                            Object {
-                              "id": "1",
-                              "label": "",
-                              "options": Array [
-                                Object {
-                                  "id": "1",
-                                },
-                              ],
-                            },
-                          ],
-                          "description": "",
-                          "guidance": "",
-                          "id": "1",
-                          "pageType": "QuestionPage",
-                          "position": 0,
-                          "title": "",
-                        },
-                      ],
-                      "title": "",
-                    },
-                  ],
-                  "title": "hello world",
+              <withRouter(UnwrappedNavigationSidebar)
+                canAddCalculatedSummaryPage={true}
+                canAddQuestionConfirmation={true}
+                canAddQuestionPage={true}
+                data-test="side-nav"
+                loading={false}
+                onAddCalculatedSummaryPage={[Function]}
+                onAddQuestionConfirmation={[Function]}
+                onAddQuestionPage={[Function]}
+                onAddSection={[MockFunction]}
+                questionnaire={
+                  Object {
+                    "displayName": "my displayName",
+                    "id": "3",
+                    "sections": Array [
+                      Object {
+                        "id": "2",
+                        "pages": Array [
+                          Object {
+                            "answers": Array [
+                              Object {
+                                "id": "1",
+                                "label": "",
+                                "options": Array [
+                                  Object {
+                                    "id": "1",
+                                  },
+                                ],
+                              },
+                            ],
+                            "description": "",
+                            "guidance": "",
+                            "id": "1",
+                            "pageType": "QuestionPage",
+                            "position": 0,
+                            "title": "",
+                          },
+                        ],
+                        "title": "",
+                      },
+                    ],
+                    "title": "hello world",
+                  }
                 }
-              }
-            />
+              />
+            </QuestionnaireDesignPage__MainNav>
           </QuestionnaireDesignPage__NavColumn>
           <Column
             cols={9}
