@@ -6,6 +6,10 @@ const Grid = styled.div.attrs(() => ({ "data-test": "grid" }))`
   width: 100%;
   height: 100%;
 
+  @media (max-height: 580px) {
+    height: auto;
+  }
+
   flex: ${({ fillHeight }) => (fillHeight ? 1 : 0)} 1 auto;
   flex-direction: row;
   align-items: ${({ align }) => alignOptions[align]};
