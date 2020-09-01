@@ -395,44 +395,40 @@
                 }
               }
             },
-            "else": {
-              "allOf": [
-                {
-                  "properties": {
-                    "minValue": {
-                      "properties": {
-                        "enabled": {
-                          "const": true
-                        },
-                        "entityType": {
-                          "const": "Custom"
-                        },
-                        "custom": {
-                          "not": {
-                            "type": "null"
-                          }
-                        }
-                      }
-                    }
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "enabled": {
+                    "const": false
                   }
-                },
-                {
-                  "properties": {
-                    "minValue": {
-                      "properties": {
-                        "enabled": {
-                          "const": true
-                        },
-                        "previousAnswer": {
-                          "const": null
+                }
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "minValue": {
+                    "properties": {
+                      "enabled": {
+                        "const": true
+                      },
+                      "entityType": {
+                        "const": "Custom"
+                      },
+                      "custom": {
+                        "not": {
+                          "type": "null"
                         }
                       }
                     }
                   }
                 }
-              ],
-              "errorMessage": "ERR_TOTAL_NO_VALUE"
-            }
+              }
+            ],
+            "errorMessage": "ERR_NO_VALUE"
           },
           "properties": {
             "$ref": "entities.json#/definitions/properties"

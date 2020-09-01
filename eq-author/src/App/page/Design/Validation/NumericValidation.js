@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { get, flowRight } from "lodash";
+import { get, flowRight, find } from "lodash";
 
 import { Grid, Column } from "components/Grid";
 import { Number } from "components/Forms";
@@ -15,12 +15,33 @@ import FieldWithInclude from "./FieldWithInclude";
 
 import * as entityTypes from "constants/validation-entity-types";
 import withChangeUpdate from "enhancers/withChangeUpdate";
+import ValidationError from "components/ValidationError";
+import { colors } from "constants/theme";
+import { ERR_NO_VALUE } from "constants/validationMessages";
 
 const Connector = styled(PathEnd)`
   margin-top: 0.75em;
 `;
 
+const StyledNumber = styled(Number)`
+
+  ${({ hasError }) =>
+    hasError &&
+    `
+    border-color: ${colors.red};
+    outline-color: ${colors.red};
+    box-shadow: 0 0 0 2px ${colors.red};
+    border-radius: 4px;
+    margin-bottom: 0;
+  `}
+`;
+
+const StyledError = styled(ValidationError)`
+  width: 60%;
+`;
+
 export class UnwrappedNumericValidation extends React.Component {
+
   PreviousAnswer = () => (
     <FieldWithInclude
       id="inclusive"
@@ -41,25 +62,40 @@ export class UnwrappedNumericValidation extends React.Component {
     </FieldWithInclude>
   );
 
-  Custom = () => (
-    <FieldWithInclude
-      id="inclusive"
-      name="inclusive"
-      onChange={this.props.onChangeUpdate}
-      checked={this.props.validation.inclusive}
-    >
-      <Number
-        data-test="numeric-value-input"
-        value={this.props.validation.custom}
-        type={this.props.answer.type}
-        unit={this.props.answer.properties.unit}
-        onChange={this.props.onCustomNumberValueChange}
-        onBlur={this.props.onUpdate}
-        max={this.props.limit}
-        min={0 - this.props.limit}
-      />
-    </FieldWithInclude>
+  Custom = (hasError) => (
+    console.log('\n\nprops :>> ', this.props.answer.validationErrorInfo.errors),
+    console.log('hasError :>> ', hasError),
+    // let hasError = find(this.props.answer.validationErrorInfo.errors, error =>
+    //   error.errorCode.includes("ERR_NO_VALUE")
+    // );
+    <>
+      <FieldWithInclude
+        id="inclusive"
+        name="inclusive"
+        onChange={this.props.onChangeUpdate}
+        checked={this.props.validation.inclusive}
+      >
+        <StyledNumber
+          hasError={hasError}
+          default={null}
+          data-test="numeric-value-input"
+          value={this.props.validation.custom}
+          type={this.props.answer.type}
+          unit={this.props.answer.properties.unit}
+          onChange={this.props.onCustomNumberValueChange}
+          onBlur={this.props.onUpdate}
+          max={this.props.limit}
+          min={0 - this.props.limit}
+        />
+      </FieldWithInclude>
+      {hasError && this.handleError()}
+    </>
   );
+
+  handleError = () => {
+    return (<StyledError hasError>{ERR_NO_VALUE}</StyledError>);
+  };
+
 
   render() {
     const {
@@ -67,6 +103,9 @@ export class UnwrappedNumericValidation extends React.Component {
       displayName,
       onChangeUpdate,
     } = this.props;
+    console.log('this.props :>> ', this.props);
+
+
 
     return (
       <Grid>
@@ -104,6 +143,16 @@ UnwrappedNumericValidation.propTypes = {
     type: PropTypes.string.isRequired,
     properties: PropTypes.shape({
       unit: PropTypes.string,
+    }),
+    validationErrorInfo: PropTypes.shape({
+      errors: PropTypes.arrayOf(
+        PropTypes.shape({
+          errorCode: PropTypes.string,
+          field: PropTypes.string,
+          id: PropTypes.string,
+          type: PropTypes.string,
+        })
+      ),
     }),
   }).isRequired,
   onCustomNumberValueChange: PropTypes.func.isRequired,

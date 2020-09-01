@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TotalValidationEditor should render 1`] = `
+<withChangeUpdate(UnwrappedNumericValidation)
+  limit={999999999}
+  onChange={[MockFunction]}
+  onChangeUpdate={[MockFunction]}
+  onCustomNumberValueChange={[Function]}
+  onUpdate={[MockFunction]}
+  total={
+    Object {
+      "condition": "LessThan",
+      "custom": 5,
+      "enabled": true,
+      "entityType": "Custom",
+      "id": "1",
+      "previousAnswer": null,
+    }
+  }
+  type="Number"
+/>
+`;

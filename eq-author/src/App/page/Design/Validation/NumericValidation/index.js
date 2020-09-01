@@ -1,0 +1,151 @@
+import React from "react";
+import PropTypes from "prop-types";
+import styled from "styled-components";
+
+import { flowRight } from "lodash";
+import { Grid, Column } from "components/Grid";
+import * as entityTypes from "constants/validation-entity-types";
+import withChangeUpdate from "enhancers/withChangeUpdate";
+
+import { ValidationPills } from "../ValidationPills";
+import ValidationTitle from "../ValidationTitle";
+import PathEnd from "../path-end.svg?inline";
+import withCustomNumberValueChange from "../withCustomNumberValueChange";
+import CustomEditor from "./CustomEditor";
+import PreviousAnswerEditor from "./PreviousAnswerEditor";
+
+// import withUpdateValidationRule from "../withUpdateValidationRule";
+// import withPropRemapped from "enhancers/withPropRemapped";
+// import withEntityEditor from "components/withEntityEditor";
+// import { propType } from "graphql-anywhere";
+
+const Connector = styled(PathEnd)`
+  display: block;
+  margin-left: auto;
+`;
+
+const Flex = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+`;
+
+const Pills = styled(ValidationPills)`
+  margin-top: 2em;
+`;
+
+const UnwrappedNumericValidation = ({
+  answer,
+  validation,
+  validation: { entityType },
+  onChange,
+  onUpdate,
+  displayName,
+  onChangeUpdate,
+  errors,
+  onCustomNumberValueChange,
+  limit,
+}) => {
+
+  console.log('errors :>> ', errors);
+
+  return (
+    <Grid>
+      <Column cols={3}>
+        <Flex>
+          <ValidationTitle>{displayName} is</ValidationTitle>
+        </Flex>
+        <Connector />
+      </Column>
+      <Column cols={8}>
+        <Pills
+          // entityType={total.entityType}
+          entityType={entityType}
+          onEntityTypeChange={onChangeUpdate}
+          PreviousAnswer={PreviousAnswerEditor}
+          Custom={CustomEditor}
+          errors={answer.validationErrorInfo.errors}
+          validation={validation}
+          answer={answer}
+          // type={type}
+          onChange={onChange}
+          onUpdate={onUpdate}
+          onCustomNumberValueChange={onCustomNumberValueChange}
+          onChangeUpdate={onChangeUpdate}
+          data-test="value-pill-tabs"
+          limit={limit}
+        />
+      </Column>
+    </Grid>
+  );
+};
+
+UnwrappedNumericValidation.propTypes = {
+  limit: PropTypes.number.isRequired,
+  validation: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    enabled: PropTypes.bool.isRequired,
+    custom: PropTypes.number,
+    inclusive: PropTypes.bool.isRequired,
+    previousAnswer: PropTypes.shape({
+      displayName: PropTypes.string.isRequired,
+    }),
+    entityType: PropTypes.oneOf(Object.values(entityTypes)),
+  }).isRequired,
+  answer: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+    properties: PropTypes.shape({
+      unit: PropTypes.string,
+    }),
+    validationErrorInfo: PropTypes.shape({
+      id: PropTypes.string,
+      errors: PropTypes.arrayOf(
+        PropTypes.shape({
+          errorCode: PropTypes.string,
+          field: PropTypes.string,
+          id: PropTypes.string,
+          type: PropTypes.string,
+        })
+      ),
+    }),
+  }).isRequired,
+  onCustomNumberValueChange: PropTypes.func.isRequired,
+  onChangeUpdate: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
+  onUpdate: PropTypes.func.isRequired,
+  displayName: PropTypes.string.isRequired,
+  // readKey: PropTypes.string.isRequired,
+  // testId: PropTypes.string.isRequired,
+  errors: PropTypes.shape({
+    id: PropTypes.string,
+    errors: PropTypes.arrayOf(
+      PropTypes.shape({
+        errorCode: PropTypes.string,
+        field: PropTypes.string,
+        id: PropTypes.string,
+        type: PropTypes.string,
+      })
+    ),
+    totalCount: PropTypes.number,
+  }),
+  // onUpdate: PropTypes.func.isRequired,
+  // onChange: PropTypes.func.isRequired,
+  // onChangeUpdate: PropTypes.func.isRequired,
+};
+
+export default flowRight(
+  withCustomNumberValueChange,
+  withChangeUpdate
+)(UnwrappedNumericValidation);
+
+// export default flowRight(
+//   withUpdateValidationRule,
+//   withPropRemapped(
+//     "onUpdateValidationRule",
+//     "onUpdate",
+//     numericReadToWriteMapper("totalInput")
+//   ),
+//   withEntityEditor("total"),
+//   withChangeUpdate
+// )(UnwrappedNumericValidation);
