@@ -76,11 +76,11 @@ Resolvers.BinaryExpression2 = {
       };
     }
 
-    return ({
+    return {
       id,
       errors: expressionErrors,
       totalCount: expressionErrors.length,
-    });
+    };
   },
 };
 

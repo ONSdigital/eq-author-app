@@ -54,11 +54,11 @@ Resolvers.RoutingRule2 = {
       };
     }
 
-    return ({
+    return {
       id,
       errors: routingRuleErrors,
       totalCount: routingRuleErrors.length,
-    });
+    };
   },
 };
 

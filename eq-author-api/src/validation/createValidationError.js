@@ -28,104 +28,121 @@ module.exports = (dataPath, field, errorCode, questionnaire) => {
     errorCode,
   };
 
-  let section,
+  let sectionIndex,
+    sections,
+    section,
+    pageIndex,
+    pages,
     page,
     confirmation,
-    confirmationOption,
+    answerIndex,
+    answers,
     answer,
+    optionsIndex,
+    options,
     option,
-    validation,
+    confirmationOptionIndex,
+    confirmationOption,
     routing,
-    skipCondition,
+    ruleIndex,
+    rules,
     rule,
+    skipConditions,
+    skipConditionIndex,
+    skipCondition,
     expressionGroup,
-    expression;
+    expressionIndex,
+    expressions,
+    expression,
+    validationProperty,
+    validation,
+    propertyJSON;
 
   dataPath.map((val, index) => {
     if (index % 2 !== 0) {
       switch (val) {
-        case "sections": {
-          const sectionIndex = dataPath[index + 1];
-          const { sections } = questionnaire;
+        case "sections":
+          sectionIndex = dataPath[index + 1];
+          ({ sections } = questionnaire);
           section = sections[sectionIndex];
           validationErr.sectionId = section.id;
           validationErr.type = "section";
           break;
-        }
-        case "pages": {
-          const pageIndex = dataPath[index + 1];
-          const { pages } = section;
+
+        case "pages":
+          pageIndex = dataPath[index + 1];
+          ({ pages } = section);
           page = pages[pageIndex];
           validationErr.pageId = page.id;
           validationErr.type = "page";
           break;
-        }
-        case "confirmation": {
+
+        case "confirmation":
           confirmation = page.confirmation;
           validationErr.confirmationId = confirmation.id;
-          confirmationOption = dataPath[index + 1];
+          confirmationOptionIndex = dataPath[index + 1];
 
-          if (confirmationOption) {
-            const confirmationOptionJSON = confirmation[confirmationOption];
-            validationErr.confirmationOptionId = confirmationOptionJSON.id;
-            validationErr.confirmationOptionType = confirmationOption;
+          if (confirmationOptionIndex) {
+            confirmationOption = confirmation[confirmationOptionIndex];
+            validationErr.confirmationOptionId = confirmationOption.id;
+            validationErr.confirmationOptionType = confirmationOptionIndex;
             validationErr.type = "confirmationOption";
             break;
           }
 
           validationErr.type = "confirmation";
           break;
-        }
-        case "answers": {
-          const answerIndex = dataPath[index + 1];
-          const { answers } = page;
+
+        case "answers":
+          answerIndex = dataPath[index + 1];
+          ({ answers } = page);
           answer = answers[answerIndex];
           validationErr.answerId = answer.id;
           validationErr.type = "answer";
           break;
-        }
-        case "validation": {
-          const validationProperty = dataPath[index + 1];
+
+        case "validation":
+          validationProperty = dataPath[index + 1];
           validation = answer.validation;
-          const propertyJSON = validation[validationProperty];
+          propertyJSON = validation[validationProperty];
           validationErr.validationId = propertyJSON.id;
           validationErr.validationProperty = validationProperty;
           validationErr.type = "validation";
           break;
-        }
-        case "options": {
-          const optionsIndex = dataPath[index + 1];
-          const { options } = answer;
+
+        case "options":
+          optionsIndex = dataPath[index + 1];
+          ({ options } = answer);
           option = options[optionsIndex];
           validationErr.optionId = option.id;
           validationErr.type = "option";
           break;
-        }
-        case "routing": {
+
+        case "routing":
           routing = page.routing;
-          const ruleIndex = dataPath[index + 2];
-          const { rules } = routing;
+          ruleIndex = dataPath[index + 2];
+          ({ rules } = routing);
           rule = rules[ruleIndex];
           validationErr.routingRuleId = rule.id;
           validationErr.type = "routing";
           break;
-        }
-        case "skipConditions": {
-          const skipConditions = page.skipConditions;
-          const conditionIndex = dataPath[index + 1];
-          skipCondition = skipConditions[conditionIndex];
+
+        case "skipConditions":
+          ({ skipConditions } = page);
+          skipConditionIndex = dataPath[index + 1];
+          skipCondition = skipConditions[skipConditionIndex];
           validationErr.skipConditionId = skipCondition.id;
           validationErr.type = "skipCondition";
           break;
-        }
-        case "expressions": {
+
+        case "expressions":
           if (rule) {
             expressionGroup = rule.expressionGroup;
-            const expressionIndex = dataPath[index + 1];
+            expressionIndex = dataPath[index + 1];
             expression = expressionGroup.expressions[expressionIndex];
           } else if (skipCondition) {
-            const { expressions } = skipCondition;
-            const expressionIndex = dataPath[index + 1];
+            ({ expressions } = skipCondition);
+            expressionIndex = dataPath[index + 1];
             expression = expressions[expressionIndex];
           }
 
@@ -135,7 +152,6 @@ module.exports = (dataPath, field, errorCode, questionnaire) => {
           }
 
           break;
-        }
       }
     }
   });
