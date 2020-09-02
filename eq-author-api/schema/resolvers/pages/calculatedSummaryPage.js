@@ -66,14 +66,21 @@ Resolvers.CalculatedSummaryPage = {
     );
 
     if (!calculatedSummaryErrors) {
-      return { id, errors: [], totalCount: 0 };
+      const noErrors = {
+        id,
+        errors: [],
+        totalCount: 0,
+      };
+      return noErrors;
     }
 
-    return {
+    const errors = {
       id,
       errors: calculatedSummaryErrors,
       totalCount: calculatedSummaryErrors.length,
     };
+
+    return errors;
   },
 };
 

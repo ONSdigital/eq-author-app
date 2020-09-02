@@ -47,11 +47,12 @@ Resolvers.RoutingRule2 = {
     );
 
     if (!routingRuleErrors) {
-      return {
+      const noErrors = {
         id,
         errors: [],
         totalCount: 0,
       };
+      return noErrors;
     }
 
     return {
