@@ -77,11 +77,13 @@ Resolvers.BinaryExpression2 = {
       return noErrors;
     }
 
-    return {
+    const errors = {
       id,
       errors: expressionErrors,
       totalCount: expressionErrors.length,
     };
+
+    return errors;
   },
 };
 

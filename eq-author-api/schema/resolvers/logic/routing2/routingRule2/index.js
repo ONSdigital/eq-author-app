@@ -55,11 +55,13 @@ Resolvers.RoutingRule2 = {
       return noErrors;
     }
 
-    return {
+    const errors = {
       id,
       errors: routingRuleErrors,
       totalCount: routingRuleErrors.length,
     };
+
+    return errors;
   },
 };
 
