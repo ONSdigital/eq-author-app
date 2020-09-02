@@ -397,20 +397,10 @@
             },
             "oneOf": [
               {
-                "type": "null"
-              },
-              {
-                "type": "object",
-                "properties": {
-                  "enabled": {
-                    "const": false
-                  }
-                }
-              },
-              {
                 "type": "object",
                 "properties": {
                   "minValue": {
+                    "type": "object",
                     "properties": {
                       "enabled": {
                         "const": true
@@ -421,14 +411,14 @@
                       "custom": {
                         "not": {
                           "type": "null"
-                        }
+                        },
+                        "errorMessage": "ERR_NO_VALUE"
                       }
                     }
                   }
                 }
               }
-            ],
-            "errorMessage": "ERR_NO_VALUE"
+            ]
           },
           "properties": {
             "$ref": "entities.json#/definitions/properties"

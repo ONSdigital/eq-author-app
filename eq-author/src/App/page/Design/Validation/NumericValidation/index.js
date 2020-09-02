@@ -42,12 +42,9 @@ const UnwrappedNumericValidation = ({
   onUpdate,
   displayName,
   onChangeUpdate,
-  errors,
   onCustomNumberValueChange,
   limit,
 }) => {
-
-  console.log('errors :>> ', errors);
 
   return (
     <Grid>
@@ -59,7 +56,6 @@ const UnwrappedNumericValidation = ({
       </Column>
       <Column cols={8}>
         <Pills
-          // entityType={total.entityType}
           entityType={entityType}
           onEntityTypeChange={onChangeUpdate}
           PreviousAnswer={PreviousAnswerEditor}
@@ -67,7 +63,6 @@ const UnwrappedNumericValidation = ({
           errors={answer.validationErrorInfo.errors}
           validation={validation}
           answer={answer}
-          // type={type}
           onChange={onChange}
           onUpdate={onUpdate}
           onCustomNumberValueChange={onCustomNumberValueChange}

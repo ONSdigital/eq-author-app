@@ -8,7 +8,7 @@ import * as entityTypes from "constants/validation-entity-types";
 
 import { UnwrappedPreviousAnswerContentPicker as PreviousAnswerContentPicker } from "../PreviousAnswerContentPicker";
 
-const PreviousAnswerEditor = ({ total, onChangeUpdate, answer, validation, readKey }) => (
+const PreviousAnswerEditor = ({ onChangeUpdate, answer, validation, readKey }) => (
   // <Field>
   <FieldWithInclude
     id="inclusive"

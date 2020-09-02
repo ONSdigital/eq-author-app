@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { get, flowRight, find } from "lodash";
+import { get, flowRight } from "lodash";
 
 import { Grid, Column } from "components/Grid";
 import { Number } from "components/Forms";
@@ -63,11 +63,6 @@ export class UnwrappedNumericValidation extends React.Component {
   );
 
   Custom = (hasError) => (
-    console.log('\n\nprops :>> ', this.props.answer.validationErrorInfo.errors),
-    console.log('hasError :>> ', hasError),
-    // let hasError = find(this.props.answer.validationErrorInfo.errors, error =>
-    //   error.errorCode.includes("ERR_NO_VALUE")
-    // );
     <>
       <FieldWithInclude
         id="inclusive"
@@ -103,9 +98,6 @@ export class UnwrappedNumericValidation extends React.Component {
       displayName,
       onChangeUpdate,
     } = this.props;
-    console.log('this.props :>> ', this.props);
-
-
 
     return (
       <Grid>
