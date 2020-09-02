@@ -78,10 +78,10 @@ Resolvers.QuestionPage = {
     );
 
     if (!pageErrors) {
-      return { id, errors: [], totalCount: 0 };
+      return ({ id, errors: [], totalCount: 0 });
     }
 
-    return { id, errors: pageErrors, totalCount: pageErrors.length };
+    return ({ id, errors: pageErrors, totalCount: pageErrors.length });
   },
 };
 

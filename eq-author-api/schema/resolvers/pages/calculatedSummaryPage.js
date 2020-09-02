@@ -69,11 +69,11 @@ Resolvers.CalculatedSummaryPage = {
       return { id, errors: [], totalCount: 0 };
     }
 
-    return {
+    return ({
       id,
       errors: calculatedSummaryErrors,
       totalCount: calculatedSummaryErrors.length,
-    };
+    });
   },
 };
 
