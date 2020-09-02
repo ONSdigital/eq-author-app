@@ -4,17 +4,9 @@ const {
 } = require("../../../constants/validationErrorCodes");
 const availableRoutingDestinatinons = require("../../businessLogic/availableRoutingDestinations");
 const { some } = require("lodash");
-const newValidationError = (
-  keyword = "errorMessage",
-  dataPath = [],
-  message = null,
-  params = {}
-) => ({
-  keyword,
-  dataPath,
-  message,
-  params,
-});
+
+const createValidationError = require("../createValidationError");
+
 module.exports = function(ajv) {
   ajv.addKeyword("validateRoutingRule", {
     $data: true,
@@ -39,13 +31,14 @@ module.exports = function(ajv) {
       const { pageId, sectionId, logical } = entityData.destination;
 
       if (!pageId && !sectionId && !logical) {
-        isValid.errors.push(
-          newValidationError(
-            "errorMessage",
-            `${dataPath}/destination`,
-            ERR_DESTINATION_DELETED
-          )
+        const err = createValidationError(
+          dataPath,
+          "destination",
+          ERR_DESTINATION_DELETED,
+          questionnaire
         );
+        isValid.errors.push(err);
+
         return false;
       }
 
@@ -53,13 +46,14 @@ module.exports = function(ajv) {
         (pageId && !some(questionPages, { id: pageId })) ||
         (sectionId && !some(sections, { id: sectionId }))
       ) {
-        isValid.errors.push(
-          newValidationError(
-            "errorMessage",
-            `${dataPath}/destination`,
-            ERR_DESTINATION_MOVED
-          )
+        const err = createValidationError(
+          dataPath,
+          "destination",
+          ERR_DESTINATION_MOVED,
+          questionnaire
         );
+        isValid.errors.push(err);
+
         return false;
       }
 

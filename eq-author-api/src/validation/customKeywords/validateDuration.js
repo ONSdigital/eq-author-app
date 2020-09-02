@@ -2,10 +2,20 @@ const {
   ERR_MAX_DURATION_TOO_SMALL,
 } = require("../../../constants/validationErrorCodes");
 
+const createValidationError = require("../createValidationError");
+
 module.exports = function(ajv) {
   ajv.addKeyword("validateDuration", {
     $data: true,
-    validate: function isValid(otherFields, entityData, fieldValue, dataPath) {
+    validate: function isValid(
+      otherFields,
+      entityData,
+      fieldValue,
+      dataPath,
+      parentData,
+      fieldName,
+      questionnaire
+    ) {
       isValid.errors = [];
 
       const durationUnitTypes = {
@@ -42,14 +52,13 @@ module.exports = function(ajv) {
       const valid = min ? firstDate > secondDate : secondDate > firstDate;
 
       if (!valid) {
-        isValid.errors = [
-          {
-            keyword: "errorMessage",
-            dataPath,
-            message: ERR_MAX_DURATION_TOO_SMALL,
-            params: {},
-          },
-        ];
+        const err = createValidationError(
+          dataPath,
+          fieldName,
+          ERR_MAX_DURATION_TOO_SMALL,
+          questionnaire
+        );
+        isValid.errors.push(err);
 
         return false;
       }

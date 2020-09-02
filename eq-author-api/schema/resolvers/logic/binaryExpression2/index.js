@@ -1,5 +1,4 @@
 const answerTypes = require("../../../../constants/answerTypes");
-const { EXPRESSIONS } = require("../../../../constants/validationErrorTypes");
 const { find, some, intersectionBy, reject, map } = require("lodash/fp");
 
 const {
@@ -64,12 +63,25 @@ Resolvers.BinaryExpression2 = {
       }
     }, getAllExpressionGroups(ctx));
   },
-  validationErrorInfo: ({ id }, args, ctx) =>
-    ctx.validationErrorInfo[EXPRESSIONS][id] || {
+  validationErrorInfo: ({ id }, args, ctx) => {
+    const expressionErrors = ctx.validationErrorInfo.filter(
+      ({ expressionId }) => id === expressionId
+    );
+
+    if (!expressionErrors) {
+      return {
+        id,
+        errors: [],
+        totalCount: 0,
+      };
+    }
+
+    return {
       id,
-      errors: [],
-      totalCount: 0,
-    },
+      errors: expressionErrors,
+      totalCount: expressionErrors.length,
+    };
+  },
 };
 
 Resolvers.LeftSide2 = {

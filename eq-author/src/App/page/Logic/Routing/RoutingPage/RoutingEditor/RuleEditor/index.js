@@ -191,14 +191,15 @@ export class UnwrappedRuleEditor extends React.Component {
             validationErrors={validationErrors}
           />
         </Rule>
-        {validationErrors.length > 0 && (
-          <RepositionedValidationError
-            right
-            test="destination-validation-error"
-          >
-            <p>{destinationErrors[validationErrors[0].errorCode].message}</p>
-          </RepositionedValidationError>
-        )}
+        {validationErrors.length > 0 &&
+          validationErrors[0].field === "destination" && (
+            <RepositionedValidationError
+              right
+              test="destination-validation-error"
+            >
+              <p>{destinationErrors[validationErrors[0].errorCode].message}</p>
+            </RepositionedValidationError>
+          )}
       </>
     );
   }

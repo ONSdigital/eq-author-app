@@ -3,6 +3,8 @@ const {
   ERR_RIGHTSIDE_ALLOFF_OR_NOT_ALLOWED,
 } = require("../../../constants/validationErrorCodes");
 
+const createValidationError = require("../createValidationError");
+
 const {
   getOptionById,
   getExpressionGroupByExpressionId,
@@ -36,14 +38,14 @@ module.exports = function(ajv) {
         });
         if (exclusiveOptionId) {
           if (parentData.condition === "AllOf") {
-            isValid.errors = [
-              {
-                keyword: "errorMessage",
-                dataPath,
-                message: ERR_RIGHTSIDE_AND_OR_NOT_ALLOWED,
-                params: {},
-              },
-            ];
+            const err = createValidationError(
+              dataPath,
+              fieldName,
+              ERR_RIGHTSIDE_AND_OR_NOT_ALLOWED,
+              questionnaire
+            );
+            isValid.errors.push(err);
+
             return false;
           }
 
@@ -55,14 +57,14 @@ module.exports = function(ajv) {
             expressionGroup.operator === "And" &&
             entityData.optionIds.length > 1
           ) {
-            isValid.errors = [
-              {
-                keyword: "errorMessage",
-                dataPath,
-                message: ERR_RIGHTSIDE_ALLOFF_OR_NOT_ALLOWED,
-                params: {},
-              },
-            ];
+            const err = createValidationError(
+              dataPath,
+              fieldName,
+              ERR_RIGHTSIDE_ALLOFF_OR_NOT_ALLOWED,
+              questionnaire
+            );
+            isValid.errors.push(err);
+
             return false;
           }
 
@@ -70,14 +72,14 @@ module.exports = function(ajv) {
             left: { answerId: parentData.left.answerId },
           }).length;
           if (expressionGroup.operator === "And" && countCheckboxAnswers > 1) {
-            isValid.errors = [
-              {
-                keyword: "errorMessage",
-                dataPath,
-                message: ERR_RIGHTSIDE_ALLOFF_OR_NOT_ALLOWED,
-                params: {},
-              },
-            ];
+            const err = createValidationError(
+              dataPath,
+              fieldName,
+              ERR_RIGHTSIDE_ALLOFF_OR_NOT_ALLOWED,
+              questionnaire
+            );
+            isValid.errors.push(err);
+
             return false;
           }
         }

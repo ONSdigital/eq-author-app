@@ -347,12 +347,7 @@
                 "maxValue": {
                   "type": "object",
                   "properties": {
-                    "custom": {
-                      "minimum": {
-                        "$data": "2/minValue/custom"
-                      },
-                      "errorMessage": "ERR_MIN_LARGER_THAN_MAX"
-                    }
+                    "custom": {}
                   }
                 }
               }
@@ -447,16 +442,6 @@
                       }
                     }
                   }
-                },
-                "latestDate": {
-                  "type": "object",
-                  "properties": {
-                    "custom": {
-                      "validateLatestAfterEarliest": {
-                        "$data": "2/earliestDate"
-                      }
-                    }
-                  }
                 }
               }
             }
@@ -522,11 +507,7 @@
                     "maxDuration": {
                       "type": "object",
                       "properties": {
-                        "duration": {
-                          "validateDuration": {
-                            "$data": "2/minDuration"
-                          }
-                        }
+                        "duration": {}
                       }
                     }
                   }
@@ -567,16 +548,6 @@
                         "custom": {
                           "validateLatestAfterEarliest": {
                             "$data": "2/latestDate"
-                          }
-                        }
-                      }
-                    },
-                    "latestDate": {
-                      "type": "object",
-                      "properties": {
-                        "custom": {
-                          "validateLatestAfterEarliest": {
-                            "$data": "2/earliestDate"
                           }
                         }
                       }

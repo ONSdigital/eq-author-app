@@ -110,6 +110,10 @@ export const destinationErrors = {
     errorCode: "ERR_DESTINATION_DELETED",
     message: "This destination has been deleted. Select a new destination.",
   },
+  ERR_ANSWER_NOT_SELECTED: {
+    errorCode: "ERR_ANSWER_NOT_SELECTED",
+    message: "Answer required",
+  },
 };
 
 export const MISSING_LABEL = "Enter a label";
