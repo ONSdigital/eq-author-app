@@ -28,33 +28,24 @@ module.exports = (dataPath, field, errorCode, questionnaire) => {
     errorCode,
   };
 
-  let sectionIndex,
-    sections,
+  let sections,
     section,
-    pageIndex,
     pages,
     page,
     confirmation,
-    answerIndex,
     answers,
     answer,
-    optionsIndex,
     options,
     option,
-    confirmationOptionIndex,
     confirmationOption,
     routing,
-    ruleIndex,
     rules,
     rule,
     skipConditions,
-    skipConditionIndex,
     skipCondition,
     expressionGroup,
-    expressionIndex,
     expressions,
     expression,
-    validationProperty,
     validation,
     propertyJSON;
 
@@ -62,17 +53,15 @@ module.exports = (dataPath, field, errorCode, questionnaire) => {
     if (index % 2 !== 0) {
       switch (val) {
         case "sections":
-          sectionIndex = dataPath[index + 1];
           ({ sections } = questionnaire);
-          section = sections[sectionIndex];
+          section = sections[dataPath[index + 1]];
           validationErr.sectionId = section.id;
           validationErr.type = "section";
           break;
 
         case "pages":
-          pageIndex = dataPath[index + 1];
           ({ pages } = section);
-          page = pages[pageIndex];
+          page = pages[dataPath[index + 1]];
           validationErr.pageId = page.id;
           validationErr.type = "page";
           break;
@@ -80,12 +69,11 @@ module.exports = (dataPath, field, errorCode, questionnaire) => {
         case "confirmation":
           confirmation = page.confirmation;
           validationErr.confirmationId = confirmation.id;
-          confirmationOptionIndex = dataPath[index + 1];
 
-          if (confirmationOptionIndex) {
-            confirmationOption = confirmation[confirmationOptionIndex];
+          if (dataPath[index + 1]) {
+            confirmationOption = confirmation[dataPath[index + 1]];
             validationErr.confirmationOptionId = confirmationOption.id;
-            validationErr.confirmationOptionType = confirmationOptionIndex;
+            validationErr.confirmationOptionType = dataPath[index + 1];
             validationErr.type = "confirmationOption";
             break;
           }
@@ -94,43 +82,38 @@ module.exports = (dataPath, field, errorCode, questionnaire) => {
           break;
 
         case "answers":
-          answerIndex = dataPath[index + 1];
           ({ answers } = page);
-          answer = answers[answerIndex];
+          answer = answers[dataPath[index + 1]];
           validationErr.answerId = answer.id;
           validationErr.type = "answer";
           break;
 
         case "validation":
-          validationProperty = dataPath[index + 1];
           validation = answer.validation;
-          propertyJSON = validation[validationProperty];
+          propertyJSON = validation[dataPath[index + 1]];
           validationErr.validationId = propertyJSON.id;
-          validationErr.validationProperty = validationProperty;
+          validationErr.validationProperty = dataPath[index + 1];
           validationErr.type = "validation";
           break;
 
         case "options":
-          optionsIndex = dataPath[index + 1];
           ({ options } = answer);
-          option = options[optionsIndex];
+          option = options[dataPath[index + 1]];
           validationErr.optionId = option.id;
           validationErr.type = "option";
           break;
 
         case "routing":
           routing = page.routing;
-          ruleIndex = dataPath[index + 2];
           ({ rules } = routing);
-          rule = rules[ruleIndex];
+          rule = rules[dataPath[index + 2]];
           validationErr.routingRuleId = rule.id;
           validationErr.type = "routing";
           break;
 
         case "skipConditions":
           ({ skipConditions } = page);
-          skipConditionIndex = dataPath[index + 1];
-          skipCondition = skipConditions[skipConditionIndex];
+          skipCondition = skipConditions[dataPath[index + 1]];
           validationErr.skipConditionId = skipCondition.id;
           validationErr.type = "skipCondition";
           break;
@@ -138,12 +121,10 @@ module.exports = (dataPath, field, errorCode, questionnaire) => {
         case "expressions":
           if (rule) {
             expressionGroup = rule.expressionGroup;
-            expressionIndex = dataPath[index + 1];
-            expression = expressionGroup.expressions[expressionIndex];
+            expression = expressionGroup.expressions[dataPath[index + 1]];
           } else if (skipCondition) {
             ({ expressions } = skipCondition);
-            expressionIndex = dataPath[index + 1];
-            expression = expressions[expressionIndex];
+            expression = expressions[dataPath[index + 1]];
           }
 
           if (expression) {
