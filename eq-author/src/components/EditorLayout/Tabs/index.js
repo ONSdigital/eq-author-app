@@ -100,9 +100,9 @@ export const UnwrappedTabs = props => {
       const errorSeparator = errors.reduce((accumulator, error) => {
         const { design, logic } = accumulator;
 
-        error.type === "routing" ||
-        error.type === "skipCondition" ||
-        error.type === "expression"
+        error.type.includes("routing") ||
+        error.type.includes("skipCondition") ||
+        error.type.includes("expression")
           ? logic.push(error)
           : design.push(error);
         return accumulator;

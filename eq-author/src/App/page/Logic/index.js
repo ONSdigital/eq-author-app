@@ -117,8 +117,10 @@ export class UnwrappedLogicPage extends React.Component {
               {TABS.map(({ key, label }) => {
                 let errors;
                 if (page) {
+                  console.log(page.validationErrorInfo);
+                  console.log(key);
                   errors = filter(page.validationErrorInfo.errors, error =>
-                    error.id.includes(key)
+                    error.type.includes(key)
                   );
                 }
                 return (
