@@ -26,9 +26,11 @@ describe("Logic Page", () => {
           errors: [
             {
               id: "expressions-skipConditions-1",
+              type: "skipConditionExpression",
             },
             {
               id: "expressions-routing-1",
+              type: "routingExpression",
             },
           ],
         },

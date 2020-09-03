@@ -18,7 +18,9 @@ describe("Tabs", () => {
 
       validationErrorInfo: {
         totalCount: 1,
-        errors: [{ id: "expression-routing-logic-test" }],
+        errors: [
+          { id: "expression-routing-logic-test", type: "routingExpression" },
+        ],
       },
     };
   });
@@ -68,13 +70,15 @@ describe("Tabs", () => {
   });
   it("should provide the validation error dot for the logic tab if design page has error", async () => {
     props.validationErrorInfo = {
-      totalCount: 1,
+      totalCount: 2,
       errors: [
         {
           id: "expression-routing-logic-test",
+          type: "routingExpression",
         },
         {
           id: "routing-logic-test",
+          type: "routing",
         },
       ],
     };
@@ -86,6 +90,6 @@ describe("Tabs", () => {
       await flushPromises();
     });
 
-    expect(getAllByTestId("small-badge").length).toBe(2);
+    expect(getAllByTestId("small-badge").length).toBe(1);
   });
 });
