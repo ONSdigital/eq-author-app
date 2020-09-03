@@ -131,7 +131,7 @@ exports[`MetaEditor should display the correct error message when piping answer 
         label="Include/exclude"
         maxHeight={12}
         metadata={Array []}
-        multiline={false}
+        multiline="true"
         name="guidance"
         onUpdate={[MockFunction]}
         placeholder=""
@@ -274,7 +274,7 @@ exports[`MetaEditor should display the correct error message when piping answer 
         label="Include/exclude"
         maxHeight={12}
         metadata={Array []}
-        multiline={false}
+        multiline="true"
         name="guidance"
         onUpdate={[MockFunction]}
         placeholder=""
@@ -417,7 +417,7 @@ exports[`MetaEditor should display the correct error message when the title is m
         label="Include/exclude"
         maxHeight={12}
         metadata={Array []}
-        multiline={false}
+        multiline="true"
         name="guidance"
         onUpdate={[MockFunction]}
         placeholder=""
@@ -559,7 +559,7 @@ exports[`MetaEditor should render 1`] = `
         label="Include/exclude"
         maxHeight={12}
         metadata={Array []}
-        multiline={false}
+        multiline="true"
         name="guidance"
         onUpdate={[MockFunction]}
         placeholder=""

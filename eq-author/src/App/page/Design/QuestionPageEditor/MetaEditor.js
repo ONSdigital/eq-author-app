@@ -192,6 +192,7 @@ export class StatelessMetaEditor extends React.Component {
                 id="question-guidance"
                 name="guidance"
                 label="Include/exclude"
+                multiline="true"
                 value={page.guidance}
                 onUpdate={onChangeUpdate}
                 controls={guidanceControls}
