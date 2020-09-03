@@ -85,6 +85,7 @@ const TABS = [
 
 export const UnwrappedTabs = props => {
   const { match, validationErrorInfo } = props;
+
   const tabErrors = useCallback(
     tabKey => {
       if (validationErrorInfo === null || validationErrorInfo === undefined) {
@@ -94,11 +95,14 @@ export const UnwrappedTabs = props => {
         design: [],
         logic: [],
       };
+
       const { errors } = validationErrorInfo;
       const errorSeparator = errors.reduce((accumulator, error) => {
         const { design, logic } = accumulator;
 
-        error.id.includes("expression") || error.id.includes("rules")
+        error.type === "routing" ||
+        error.type === "skipCondition" ||
+        error.type === "expression"
           ? logic.push(error)
           : design.push(error);
         return accumulator;
