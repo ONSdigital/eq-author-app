@@ -1199,7 +1199,7 @@ const Resolvers = {
       const sharedErrors = ctx.validationErrorInfo.filter(
         ({ validationProperty, errorCode, answerId }) => {
           const answer = getAnswerById(ctx, answerId);
-          if (answer && answer.validation.maxValue) {
+          if (answer && answer.validation && answer.validation.maxValue) {
             const errorsShareParent = answer.validation.maxValue.id === id;
             return (
               validationProperty === "minValue" &&
@@ -1286,7 +1286,7 @@ const Resolvers = {
       const sharedErrors = ctx.validationErrorInfo.filter(
         ({ validationProperty, errorCode, answerId }) => {
           const answer = getAnswerById(ctx, answerId);
-          if (answer && answer.validation.latestDate) {
+          if (answer && answer.validation && answer.validation.latestDate) {
             const errorsShareParent = answer.validation.latestDate.id === id;
             return (
               validationProperty === "earliestDate" &&
@@ -1346,7 +1346,7 @@ const Resolvers = {
       const sharedErrors = ctx.validationErrorInfo.filter(
         ({ validationProperty, errorCode, answerId }) => {
           const answer = getAnswerById(ctx, answerId);
-          if (answer && answer.validation.maxDuration) {
+          if (answer && answer.validation && answer.validation.maxDuration) {
             const errorsShareParent = answer.validation.maxDuration.id === id;
             return (
               validationProperty === "minDuration" &&
