@@ -122,14 +122,15 @@ module.exports = (dataPath, field, errorCode, questionnaire) => {
           if (rule) {
             expressionGroup = rule.expressionGroup;
             expression = expressionGroup.expressions[dataPath[index + 1]];
+            validationErr.type = "routingExpression";
           } else if (skipCondition) {
             ({ expressions } = skipCondition);
             expression = expressions[dataPath[index + 1]];
+            validationErr.type = "skipConditionExpression";
           }
 
           if (expression) {
             validationErr.expressionId = expression.id;
-            validationErr.type = "expression";
           }
 
           break;
