@@ -5,6 +5,7 @@ const {
 const cheerio = require("cheerio");
 const getPreviousAnswersForPage = require("../../../src/businessLogic/getPreviousAnswersForPage");
 const { flatMap, compact } = require("lodash/fp");
+const createValidationError = require("../createValidationError");
 
 module.exports = function(ajv) {
   ajv.addKeyword("validatePipingInTitle", {
@@ -69,25 +70,25 @@ module.exports = function(ajv) {
       });
 
       if (pipedAnswerDeleted) {
-        isValid.errors = [
-          {
-            keyword: "errorMessage",
-            dataPath,
-            message: PIPING_TITLE_DELETED,
-            params: {},
-          },
-        ];
+        const err = createValidationError(
+          dataPath,
+          fieldName,
+          PIPING_TITLE_DELETED,
+          questionnaire
+        );
+        isValid.errors.push(err);
+
         return false;
       }
       if (pipedAnswerMoved) {
-        isValid.errors = [
-          {
-            keyword: "errorMessage",
-            dataPath,
-            message: PIPING_TITLE_MOVED,
-            params: {},
-          },
-        ];
+        const err = createValidationError(
+          dataPath,
+          fieldName,
+          PIPING_TITLE_MOVED,
+          questionnaire
+        );
+        isValid.errors.push(err);
+
         return false;
       }
       return true;

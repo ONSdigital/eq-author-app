@@ -30,7 +30,7 @@ const Goto = styled.span`
 `;
 
 export const UnwrappedDestinationSelector = props => {
-  const { label, id, disabled, value, match, validationErrors } = props;
+  const { label, id, disabled, value, match, validationErrors = [] } = props;
 
   const handleChange = ({ value: { __typename: type, id } }) => {
     let destination;
@@ -51,6 +51,10 @@ export const UnwrappedDestinationSelector = props => {
     props.onChange(destination);
   };
 
+  const destinationValidationErrors = validationErrors.filter(
+    ({ field }) => field === "destination"
+  );
+
   return (
     <RoutingRuleResult key={id}>
       <Grid align="center">
@@ -67,7 +71,7 @@ export const UnwrappedDestinationSelector = props => {
             onSubmit={handleChange}
             disabled={disabled}
             data-test="routing-destination-content-picker"
-            hasError={validationErrors ? validationErrors.length : false}
+            hasError={destinationValidationErrors.length}
           />
         </Column>
       </Grid>

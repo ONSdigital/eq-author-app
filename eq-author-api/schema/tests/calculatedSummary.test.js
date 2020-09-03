@@ -12,6 +12,8 @@ const {
 
 const { deleteAnswer } = require("../../tests/utils/contextBuilder/answer");
 
+const uuidRejex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
+
 const {
   deleteSection,
   moveSection,
@@ -660,13 +662,13 @@ describe("calculated Summary", () => {
     });
     const validResult = await queryPage(ctx, calSumPage.id);
 
-    expect(validResult.validationErrorInfo).toEqual({
+    expect(validResult.validationErrorInfo).toMatchObject({
       errors: [
         {
           errorCode: "ERR_CALCULATED_UNIT_INCONSISTENCY",
           field: "summaryAnswers",
-          id: `pages-${calSumPage.id}-summaryAnswers`,
-          type: "pages",
+          id: uuidRejex,
+          type: "page",
         },
       ],
       totalCount: 1,

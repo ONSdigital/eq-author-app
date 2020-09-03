@@ -1,5 +1,11 @@
 const { get, uniq } = require("lodash");
 
+const createValidationError = require("../createValidationError");
+
+const {
+  ERR_CALCULATED_UNIT_INCONSISTENCY,
+} = require("../../../constants/validationErrorCodes");
+
 module.exports = function(ajv) {
   ajv.addKeyword("calculatedSummaryUnitConsistency", {
     $data: true,
@@ -8,7 +14,9 @@ module.exports = function(ajv) {
       entityData,
       fieldValue,
       dataPath,
-      parentData
+      parentData,
+      fieldName,
+      questionnaire
     ) {
       isValid.errors = [];
 
@@ -30,14 +38,13 @@ module.exports = function(ajv) {
       );
 
       if (uniq(units).length > 1) {
-        isValid.errors = [
-          {
-            keyword: "errorMessage",
-            dataPath,
-            message: "ERR_CALCULATED_UNIT_INCONSISTENCY",
-            params: { keyword: "inconsistent units" },
-          },
-        ];
+        const err = createValidationError(
+          dataPath,
+          fieldName,
+          ERR_CALCULATED_UNIT_INCONSISTENCY,
+          questionnaire
+        );
+        isValid.errors.push(err);
       }
 
       return false;
