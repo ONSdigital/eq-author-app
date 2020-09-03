@@ -149,7 +149,7 @@ const filterEmptyTags = value => {
 class RichTextEditor extends React.Component {
   static defaultProps = {
     placeholder: "",
-    multiline: true,
+    multiline: false,
     autoFocus: false,
     disabled: false,
     maxHeight: 12,
