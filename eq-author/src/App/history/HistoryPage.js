@@ -106,6 +106,7 @@ const HistoryPageContent = ({ match }) => {
             <RichTextEditor
               id={`add-note-textbox`}
               name="note"
+              multiline="true"
               label="Add note"
               onUpdate={setNoteState}
               value={noteState.value}

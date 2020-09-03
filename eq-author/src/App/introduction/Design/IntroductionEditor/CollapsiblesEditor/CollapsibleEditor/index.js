@@ -97,6 +97,7 @@ export const CollapsibleEditor = ({
         label="Description"
         value={description}
         onUpdate={onChangeUpdate}
+        multiline="true"
         controls={{
           emphasis: true,
           piping: true,

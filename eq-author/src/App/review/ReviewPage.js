@@ -81,6 +81,7 @@ const ReviewPage = ({ match, history }) => {
           id={`reject-reason-textarea`}
           name="rejectReason"
           label="Reason for rejecting"
+          multiline="true"
           controls={{
             emphasis: true,
             list: true,

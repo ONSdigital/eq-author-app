@@ -82,6 +82,7 @@ export const IntroductionEditor = ({ introduction, onChangeUpdate }) => {
             id="intro-title"
             name="title"
             label="Title"
+            multiline="true"
             value={title}
             size="large"
             disabled
@@ -92,6 +93,7 @@ export const IntroductionEditor = ({ introduction, onChangeUpdate }) => {
             id="intro-description"
             name="description"
             label="Description"
+            multiline="true"
             value={description}
             controls={descriptionControls}
             onUpdate={onChangeUpdate}
@@ -128,6 +130,7 @@ export const IntroductionEditor = ({ introduction, onChangeUpdate }) => {
             id="secondary-description"
             name="secondaryDescription"
             label="Description"
+            multiline="true"
             value={secondaryDescription}
             controls={descriptionControls}
             onUpdate={onChangeUpdate}
@@ -159,6 +162,7 @@ export const IntroductionEditor = ({ introduction, onChangeUpdate }) => {
             id="tertiary-description"
             name="tertiaryDescription"
             label="Description"
+            multiline="true"
             value={tertiaryDescription}
             controls={descriptionControls}
             onUpdate={onChangeUpdate}
