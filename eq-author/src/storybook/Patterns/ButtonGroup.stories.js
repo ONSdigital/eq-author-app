@@ -1,10 +1,10 @@
 import React from "react";
 
-import ButtonGroup from "../components/buttons/ButtonGroup";
-import Button from "../components/buttons/Button";
+import ButtonGroup from "../../components/buttons/ButtonGroup";
+import Button from "../../components/buttons/Button";
 
 export default {
-  title: "Design Systems/Molecules/Button Group",
+  title: "Patterns/Button Group",
   component: ButtonGroup,
 };
 

@@ -1,9 +1,9 @@
 import React from "react";
 
-import ScrollPane from "../components/ScrollPane";
+import ScrollPane from "../../components/ScrollPane";
 
 export default {
-  title: "Design Systems/Molecules/Scroll Pane",
+  title: "Patterns/Scroll Pane",
   component: ScrollPane,
   decorators: [
     Story => (
