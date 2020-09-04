@@ -372,12 +372,9 @@ describe("validation", () => {
         });
         const result = await queryValidation(ctx, answer.id);
 
-        expect(result.earliestDate.validationErrorInfo.errors).toMatchObject([
-          { errorCode: ERR_EARLIEST_AFTER_LATEST },
-        ]);
-        expect(result.latestDate.validationErrorInfo.errors).toMatchObject([
-          { errorCode: ERR_EARLIEST_AFTER_LATEST },
-        ]);
+        expect(
+          result.earliestDate.validationErrorInfo.errors[0].errorCode
+        ).toBe(ERR_EARLIEST_AFTER_LATEST);
       });
     });
 
@@ -925,7 +922,9 @@ describe("validation", () => {
             questionPageId: page.id,
             type: DATE_RANGE,
           });
+
           const validation = await queryValidation(ctx, answer.id);
+
           const input = {
             duration: {
               value: 8,

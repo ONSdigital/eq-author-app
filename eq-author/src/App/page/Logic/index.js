@@ -118,7 +118,7 @@ export class UnwrappedLogicPage extends React.Component {
                 let errors;
                 if (page) {
                   errors = filter(page.validationErrorInfo.errors, error =>
-                    error.id.includes(key)
+                    error.type ? error.type.includes(key) : false
                   );
                 }
                 return (

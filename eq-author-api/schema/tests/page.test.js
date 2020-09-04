@@ -25,6 +25,8 @@ const {
 
 const getFirstPage = questionnaire => questionnaire.sections[0].pages[0];
 
+const uuidRejex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
+
 describe("page", () => {
   let ctx, questionnaire;
 
@@ -391,8 +393,6 @@ describe("page", () => {
 
       questionnaire = ctx.questionnaire;
       const page = ctx.questionnaire.sections[0].pages[0];
-      const optionOne = page.answers[0].options[0];
-      const optionTwo = page.answers[0].options[1];
 
       const readPage = await queryPage(ctx, page.id);
 
@@ -403,14 +403,14 @@ describe("page", () => {
             {
               errorCode: "ERR_VALID_REQUIRED",
               field: "label",
-              id: `options-${optionOne.id}-label`,
-              type: "options",
+              id: uuidRejex,
+              type: "option",
             },
             {
               errorCode: "ERR_VALID_REQUIRED",
               field: "label",
-              id: `options-${optionTwo.id}-label`,
-              type: "options",
+              id: uuidRejex,
+              type: "option",
             },
           ],
         },

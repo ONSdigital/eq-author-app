@@ -32,6 +32,8 @@ const {
 
 const validation = require(".");
 
+const uuidRejex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
+
 describe("schema validation", () => {
   let questionnaire;
 
@@ -78,7 +80,7 @@ describe("schema validation", () => {
 
   it("should not return pageErrors on valid schema", () => {
     const validationPageErrors = validation(questionnaire);
-    expect(validationPageErrors.totalCount).toEqual(0);
+    expect(validationPageErrors.length).toEqual(0);
   });
 
   describe("Question page validation", () => {
@@ -88,11 +90,11 @@ describe("schema validation", () => {
 
       const validationPageErrors = validation(questionnaire);
 
-      expect(validationPageErrors.pages[page.id].errors[0]).toMatchObject({
+      expect(validationPageErrors[0]).toMatchObject({
         errorCode: "ERR_VALID_REQUIRED",
         field: "title",
-        id: "pages-page_1-title",
-        type: "pages",
+        id: uuidRejex,
+        type: "page",
       });
     });
 
@@ -102,11 +104,11 @@ describe("schema validation", () => {
 
       const validationPageErrors = validation(questionnaire);
 
-      expect(validationPageErrors.pages[page.id].errors[0]).toMatchObject({
+      expect(validationPageErrors[0]).toMatchObject({
         errorCode: "ERR_NO_ANSWERS",
         field: "answers",
-        id: "pages-page_1-answers",
-        type: "pages",
+        id: uuidRejex,
+        type: "page",
       });
     });
   });
@@ -138,12 +140,10 @@ describe("schema validation", () => {
 
       const validationPageErrors = validation(questionnaire);
 
-      expect(
-        validationPageErrors.confirmation[confirmationId].errors[0]
-      ).toMatchObject({
+      expect(validationPageErrors[0]).toMatchObject({
         errorCode: "ERR_VALID_REQUIRED",
         field: "title",
-        id: "confirmation-confirmationPage-title",
+        id: uuidRejex,
         type: "confirmation",
       });
     });
@@ -155,21 +155,12 @@ describe("schema validation", () => {
 
       const validationPageErrors = validation(questionnaire);
 
-      expect(
-        validationPageErrors.confirmation[confirmationId].errors[0]
-      ).toMatchObject({
+      expect(validationPageErrors[0]).toMatchObject({
         errorCode: "ERR_VALID_REQUIRED",
         field: "label",
-        id: "positive-positive-label",
-        type: "confirmationoption",
-      });
-      expect(
-        validationPageErrors.confirmationoption.positive.errors[0]
-      ).toMatchObject({
-        errorCode: "ERR_VALID_REQUIRED",
-        field: "label",
-        id: "positive-positive-label",
-        type: "confirmationoption",
+        id: uuidRejex,
+        type: "confirmationOption",
+        confirmationOptionType: "positive",
       });
     });
   });
@@ -195,13 +186,11 @@ describe("schema validation", () => {
       questionnaire.sections[0].pages[0].answers = [answer];
 
       const validationPageErrors = validation(questionnaire);
-      expect(
-        validationPageErrors.answers[additionalAnswer.id].errors[0]
-      ).toMatchObject({
+      expect(validationPageErrors[0]).toMatchObject({
         errorCode: "ERR_VALID_REQUIRED",
         field: "label",
-        id: "additionalAnswer-additionalAnswer_1-label",
-        type: "answers",
+        id: uuidRejex,
+        type: "option",
       });
     });
   });
@@ -231,18 +220,18 @@ describe("schema validation", () => {
           };
 
           const pageErrors = validation(questionnaire);
-          expect(pageErrors.answers[answer.id].errors).toHaveLength(1);
-          expect(pageErrors.answers[answer.id].errors[0]).toMatchObject({
+          expect(pageErrors).toHaveLength(1);
+          expect(pageErrors[0]).toMatchObject({
             errorCode: "ERR_VALID_REQUIRED",
             field: "label",
-            id: `answers-${answer.id}-label`,
-            type: "answers",
+            id: uuidRejex,
+            type: "answer",
           });
 
           answer.label = "some label";
 
           const pageErrors2 = validation(questionnaire);
-          expect(pageErrors2.answers[answer.id]).toBeUndefined();
+          expect(pageErrors2).toHaveLength(0);
         });
       });
       it("should recognize mismatched decimals in validation references", () => {
@@ -297,17 +286,15 @@ describe("schema validation", () => {
             },
           ],
         };
-        const answer = questionnaire.sections[0].pages[1].answers[0];
+
         const validationPageErrors = validation(questionnaire);
-        expect(validationPageErrors.answers[answer.id].errors).toHaveLength(1);
-        expect(validationPageErrors.answers[answer.id].errors[0]).toMatchObject(
-          {
-            errorCode: "ERR_REFERENCED_ANSWER_DECIMAL_INCONSISTENCY",
-            field: "properties",
-            id: "answers-answer_2-properties",
-            type: "answers",
-          }
-        );
+        expect(validationPageErrors).toHaveLength(1);
+        expect(validationPageErrors[0]).toMatchObject({
+          errorCode: "ERR_REFERENCED_ANSWER_DECIMAL_INCONSISTENCY",
+          field: "decimals",
+          id: uuidRejex,
+          type: "answer",
+        });
       });
     });
 
@@ -341,37 +328,37 @@ describe("schema validation", () => {
           questionnaire.sections[0].pages[0].answers[0].properties.maxLength =
             "9";
           const validationPageErrors = validation(questionnaire);
-          const pagepageErrors = validationPageErrors.pages.page_1.errors;
+          const pagepageErrors = validationPageErrors;
 
           expect(pagepageErrors[0]).toMatchObject({
             errorCode: ERR_MAX_LENGTH_TOO_SMALL,
-            field: "properties",
-            id: "answers-answer_1-properties",
-            type: "answers",
+            field: "maxLength",
+            id: uuidRejex,
+            type: "answer",
           });
         });
 
         it(`and allow for values of 10 or more in textarea answer`, () => {
           const validationPageErrors = validation(questionnaire);
-          expect(validationPageErrors.totalCount).toBe(0);
+          expect(validationPageErrors).toHaveLength(0);
         });
 
         it(`and allow for values of 2000 or less in textarea answer`, () => {
           const validationPageErrors = validation(questionnaire);
-          expect(validationPageErrors.totalCount).toBe(0);
+          expect(validationPageErrors).toHaveLength(0);
         });
 
         it(`and return and error for values greater than 2000 in textarea answer`, () => {
           questionnaire.sections[0].pages[0].answers[0].properties.maxLength =
             "2001";
           const validationPageErrors = validation(questionnaire);
-          const pageErrors = validationPageErrors.pages.page_1.errors;
+          const pageErrors = validationPageErrors;
 
           expect(pageErrors[0]).toMatchObject({
             errorCode: ERR_MAX_LENGTH_TOO_LARGE,
-            field: "properties",
-            id: "answers-answer_1-properties",
-            type: "answers",
+            field: "maxLength",
+            id: uuidRejex,
+            type: "answer",
           });
         });
       });
@@ -459,17 +446,11 @@ describe("schema validation", () => {
         it("should validate that latest date is always after earlier date", () => {
           const pageErrors = validation(questionnaire);
 
-          expect(
-            pageErrors.validation[answer.validation.earliestDate.id].errors
-          ).toHaveLength(1);
-          expect(
-            pageErrors.validation[answer.validation.earliestDate.id].errors[0]
-              .errorCode
-          ).toEqual("ERR_EARLIEST_AFTER_LATEST");
-          expect(pageErrors.totalCount).toBe(1);
+          expect(pageErrors).toHaveLength(1);
+          expect(pageErrors[0].errorCode).toEqual("ERR_EARLIEST_AFTER_LATEST");
         });
 
-        it("should not validate if one of the two is disabled", () => {
+        it("should not return an error if one of the two is disabled", () => {
           ["earliestDate", "latestDate", "none"].forEach(entity => {
             const answer = {
               id: "a1",
@@ -499,8 +480,7 @@ describe("schema validation", () => {
 
             const pageErrors = validation(questionnaire);
 
-            expect(pageErrors.validation).toMatchObject({});
-            expect(pageErrors.totalCount).toBe(0);
+            expect(pageErrors).toHaveLength(0);
           });
         });
       });
@@ -512,14 +492,10 @@ describe("schema validation", () => {
 
             const pageErrors = validation(questionnaire);
 
-            expect(
-              pageErrors.validation[answer.validation.earliestDate.id].errors
-            ).toHaveLength(1);
-            expect(
-              pageErrors.validation[answer.validation.earliestDate.id].errors[0]
-                .errorCode
-            ).toEqual("ERR_EARLIEST_AFTER_LATEST");
-            expect(pageErrors.totalCount).toBe(1);
+            expect(pageErrors).toHaveLength(1);
+            expect(pageErrors[0].errorCode).toEqual(
+              "ERR_EARLIEST_AFTER_LATEST"
+            );
           });
 
           it("Date Range - should not validate if one of the two is disabled", () => {
@@ -552,8 +528,7 @@ describe("schema validation", () => {
 
               const pageErrors = validation(questionnaire);
 
-              expect(pageErrors.validation).toMatchObject({});
-              expect(pageErrors.totalCount).toBe(0);
+              expect(pageErrors).toHaveLength(0);
             });
           });
         });
@@ -586,14 +561,10 @@ describe("schema validation", () => {
             ];
             const pageErrors = validation(questionnaire);
 
-            expect(
-              pageErrors.validation[answer.validation.minDuration.id].errors
-            ).toHaveLength(1);
-            expect(
-              pageErrors.validation[answer.validation.minDuration.id].errors[0]
-                .errorCode
-            ).toEqual("ERR_MAX_DURATION_TOO_SMALL");
-            expect(pageErrors.totalCount).toBe(1);
+            expect(pageErrors).toHaveLength(1);
+            expect(pageErrors[0].errorCode).toEqual(
+              "ERR_MAX_DURATION_TOO_SMALL"
+            );
           });
 
           it("Date Range - should not validate if one of the two is disabled", () => {
@@ -626,8 +597,7 @@ describe("schema validation", () => {
 
               const pageErrors = validation(questionnaire);
 
-              expect(pageErrors.validation).toMatchObject({});
-              expect(pageErrors.totalCount).toBe(0);
+              expect(pageErrors).toHaveLength(0);
             });
           });
         });
@@ -677,45 +647,23 @@ describe("schema validation", () => {
           };
           const errors = validation(questionnaire);
 
-          expect(
-            errors.validation[answer.validation.minValue.id].errors
-          ).toHaveLength(1);
-          expect(errors.validation).toMatchObject({
-            "123": {
-              errors: [
-                {
-                  entityId: "123",
-                  errorCode: "ERR_MIN_LARGER_THAN_MAX",
-                  field: "custom",
-                  id: "minValue-123-custom",
-                  type: "validation",
-                },
-              ],
-              id: "123",
-              totalCount: 1,
-            },
-            "321": {
-              errors: [
-                {
-                  entityId: "321",
-                  errorCode: "ERR_MIN_LARGER_THAN_MAX",
-                  field: "custom",
-                  id: "maxValue-321-custom",
-                  type: "validation",
-                },
-              ],
-
-              id: "321",
-              totalCount: 1,
-            },
+          expect(errors).toHaveLength(1);
+          expect(errors[0]).toMatchObject({
+            id: uuidRejex,
+            field: "custom",
+            errorCode: "ERR_MIN_LARGER_THAN_MAX",
+            sectionId: "s1",
+            type: "validation",
+            pageId: "p1",
+            answerId: "a1",
+            validationId: "123",
+            validationProperty: "minValue",
           });
-          expect(errors.totalCount).toBe(1);
-          expect(errors.pages.p1.totalCount).toBe(1);
 
           answer.validation.maxValue.custom = 80;
 
           const errors2 = validation(questionnaire);
-          expect(errors2.validation).toMatchObject({});
+          expect(errors2).toHaveLength(0);
         });
       });
 
@@ -761,8 +709,7 @@ describe("schema validation", () => {
           };
           const pageErrors = validation(questionnaire);
 
-          expect(pageErrors.validation).toMatchObject({});
-          expect(pageErrors.totalCount).toBe(0);
+          expect(pageErrors).toHaveLength(0);
         });
       });
 
@@ -808,8 +755,7 @@ describe("schema validation", () => {
           };
           const pageErrors = validation(questionnaire);
 
-          expect(pageErrors.validation).toMatchObject({});
-          expect(pageErrors.totalCount).toBe(0);
+          expect(pageErrors).toHaveLength(0);
         });
       });
     });
@@ -822,35 +768,34 @@ describe("schema validation", () => {
       section.title = "";
 
       const validationPageErrors = validation(questionnaire);
-      const sectionPageErrors =
-        validationPageErrors.sections[section.id].errors;
-      expect(sectionPageErrors).toHaveLength(1);
-      expect(sectionPageErrors[0]).toMatchObject({
+
+      expect(validationPageErrors).toHaveLength(1);
+      expect(validationPageErrors[0]).toMatchObject({
         errorCode: "ERR_REQUIRED_WHEN_SETTING",
         field: "title",
-        id: "sections-section_1-title",
-        type: "sections",
+        id: uuidRejex,
+        type: "section",
       });
     });
 
-    it("should NOT return an error when navigation is disabled but there is no section title", () => {
+    it("should not return an error when section navigation is disabled and there is no section title", () => {
       questionnaire.navigation = false;
       const section = questionnaire.sections[0];
       section.title = "";
 
       const validationPageErrors = validation(questionnaire);
-      const sectionpageErrors = validationPageErrors.sections[section.id];
-      expect(sectionpageErrors).toBeUndefined();
+
+      expect(validationPageErrors).toHaveLength(0);
     });
 
-    it("should NOT return an error when navigation is enabled and there is a title", () => {
+    it("should not return an error when section navigation is enabled and there is a title", () => {
       questionnaire.navigation = true;
       const section = questionnaire.sections[0];
       section.title = "Section title";
 
       const validationPageErrors = validation(questionnaire);
-      const sectionpageErrors = validationPageErrors.sections[section.id];
-      expect(sectionpageErrors).toBeUndefined();
+
+      expect(validationPageErrors).toHaveLength(0);
     });
   });
 
@@ -864,7 +809,7 @@ describe("schema validation", () => {
 
       const routing = validation(questionnaire);
 
-      expect(routing.totalCount).toBe(0);
+      expect(routing.length).toBe(0);
 
       questionnaire.sections[0].pages[0].routing = {
         id: "1",
@@ -900,13 +845,9 @@ describe("schema validation", () => {
 
       const routingErrors = validation(questionnaire);
 
-      expect(routingErrors.totalCount).toBe(1);
-      expect(routingErrors.expressions[expressionId].errors[0].id).toBe(
-        "expressions-routing-express-1-left"
-      );
-      expect(routingErrors.expressions[expressionId].errors[0].errorCode).toBe(
-        ERR_ANSWER_NOT_SELECTED
-      );
+      expect(routingErrors.length).toBe(1);
+      expect(routingErrors[0].id).toMatch(uuidRejex);
+      expect(routingErrors[0].errorCode).toBe(ERR_ANSWER_NOT_SELECTED);
     });
 
     it("should validate left hand Answer is after routing question", () => {
@@ -914,7 +855,7 @@ describe("schema validation", () => {
 
       const routing = validation(questionnaire);
 
-      expect(routing.totalCount).toBe(0);
+      expect(routing).toHaveLength(0);
 
       questionnaire.sections[0].pages[0].routing = {
         id: "1",
@@ -949,21 +890,17 @@ describe("schema validation", () => {
 
       const routingErrors = validation(questionnaire);
 
-      expect(routingErrors.totalCount).toBe(1);
-      expect(routingErrors.expressions[expressionId].errors[0].id).toBe(
-        "expressions-routing-express-1-left"
-      );
-      expect(routingErrors.expressions[expressionId].errors[0].errorCode).toBe(
-        ERR_LEFTSIDE_NO_LONGER_AVAILABLE
-      );
+      expect(routingErrors).toHaveLength(1);
+      expect(routingErrors[0].id).toMatch(uuidRejex);
+      expect(routingErrors[0].errorCode).toBe(ERR_LEFTSIDE_NO_LONGER_AVAILABLE);
     });
 
     it("should validate empty skip conditions", () => {
       const expressionId = "express-1";
 
-      const skipConditions = validation(questionnaire);
+      const errors = validation(questionnaire);
 
-      expect(skipConditions.totalCount).toBe(0);
+      expect(errors).toHaveLength(0);
 
       questionnaire.sections[0].pages[0].skipConditions = [
         {
@@ -984,13 +921,9 @@ describe("schema validation", () => {
 
       const skipConditionErrors = validation(questionnaire);
 
-      expect(skipConditionErrors.totalCount).toBe(1);
-      expect(skipConditionErrors.expressions[expressionId].errors[0].id).toBe(
-        "expressions-skipConditions-express-1-left"
-      );
-      expect(
-        skipConditionErrors.expressions[expressionId].errors[0].errorCode
-      ).toBe(ERR_ANSWER_NOT_SELECTED);
+      expect(skipConditionErrors).toHaveLength(1);
+      expect(skipConditionErrors[0].id).toMatch(uuidRejex);
+      expect(skipConditionErrors[0].errorCode).toBe(ERR_ANSWER_NOT_SELECTED);
     });
 
     it("should validate empty right of expression", () => {
@@ -998,7 +931,7 @@ describe("schema validation", () => {
 
       const skipConditions = validation(questionnaire);
 
-      expect(skipConditions.totalCount).toBe(0);
+      expect(skipConditions).toHaveLength(0);
 
       questionnaire.sections[0].pages[0].skipConditions = [
         {
@@ -1019,13 +952,9 @@ describe("schema validation", () => {
 
       const skipConditionErrors = validation(questionnaire);
 
-      expect(skipConditionErrors.totalCount).toBe(1);
-      expect(skipConditionErrors.expressions[expressionId].errors[0].id).toBe(
-        "expressions-skipConditions-express-1-right"
-      );
-      expect(
-        skipConditionErrors.expressions[expressionId].errors[0].errorCode
-      ).toBe(ERR_RIGHTSIDE_NO_VALUE);
+      expect(skipConditionErrors).toHaveLength(1);
+      expect(skipConditionErrors[0].id).toMatch(uuidRejex);
+      expect(skipConditionErrors[0].errorCode).toBe(ERR_RIGHTSIDE_NO_VALUE);
     });
 
     it("should validate exclusive or checkbox with and condition", () => {
@@ -1033,7 +962,7 @@ describe("schema validation", () => {
 
       const routing = validation(questionnaire);
 
-      expect(routing.totalCount).toBe(0);
+      expect(routing).toHaveLength(0);
       questionnaire.sections[0].pages[0].answers[0] = {
         id: "answer_1",
         options: [
@@ -1090,13 +1019,9 @@ describe("schema validation", () => {
 
       const routingErrors = validation(questionnaire);
 
-      expect(routingErrors.totalCount).toBe(1);
-      expect(routingErrors.expressions[expressionId].errors[0].id).toBe(
-        "expressions-routing-express-1-right"
-      );
-      expect(routingErrors.expressions[expressionId].errors[0].errorCode).toBe(
-        ERR_RIGHTSIDE_AND_OR_NOT_ALLOWED
-      );
+      expect(routingErrors).toHaveLength(1);
+      expect(routingErrors[0].id).toMatch(uuidRejex);
+      expect(routingErrors[0].errorCode).toBe(ERR_RIGHTSIDE_AND_OR_NOT_ALLOWED);
     });
 
     it("should validate exclusive or checkbox with allof operator", () => {
@@ -1104,7 +1029,7 @@ describe("schema validation", () => {
 
       const routing = validation(questionnaire);
 
-      expect(routing.totalCount).toBe(0);
+      expect(routing).toHaveLength(0);
       questionnaire.sections[0].pages[0].answers[0] = {
         id: "answer_1",
         options: [
@@ -1161,11 +1086,9 @@ describe("schema validation", () => {
 
       const routingErrors = validation(questionnaire);
 
-      expect(routingErrors.totalCount).toBe(1);
-      expect(routingErrors.expressions[expressionId].errors[0].id).toBe(
-        "expressions-routing-express-1-right"
-      );
-      expect(routingErrors.expressions[expressionId].errors[0].errorCode).toBe(
+      expect(routingErrors).toHaveLength(1);
+      expect(routingErrors[0].id).toMatch(uuidRejex);
+      expect(routingErrors[0].errorCode).toBe(
         ERR_RIGHTSIDE_ALLOFF_OR_NOT_ALLOWED
       );
     });
@@ -1176,7 +1099,7 @@ describe("schema validation", () => {
 
       const routing = validation(questionnaire);
 
-      expect(routing.totalCount).toBe(0);
+      expect(routing).toHaveLength(0);
       questionnaire.sections[0].pages[0].answers[0] = {
         id: "answer_12",
         options: [
@@ -1245,11 +1168,9 @@ describe("schema validation", () => {
 
       const routingErrors = validation(questionnaire);
 
-      expect(routingErrors.totalCount).toBe(1);
-      expect(routingErrors.expressions[expressionId2].errors[0].id).toBe(
-        "expressions-routing-express-2-right"
-      );
-      expect(routingErrors.expressions[expressionId2].errors[0].errorCode).toBe(
+      expect(routingErrors).toHaveLength(1);
+      expect(routingErrors[0].id).toMatch(uuidRejex);
+      expect(routingErrors[0].errorCode).toBe(
         ERR_RIGHTSIDE_ALLOFF_OR_NOT_ALLOWED
       );
     });
@@ -1294,15 +1215,12 @@ describe("schema validation", () => {
 
       const validationErrors = validation(questionnaire);
 
-      expect(validationErrors.totalCount).toBe(1);
-      expect(validationErrors.rules.rule_1.errors.length).toBe(1);
-      expect(validationErrors.rules.rule_1.errors[0]).toMatchObject({
-        id: "rules-rule_1-destination",
-        entityId: "rule_1",
-        type: "rules",
+      expect(validationErrors).toHaveLength(1);
+      expect(validationErrors[0]).toMatchObject({
+        id: uuidRejex,
+        type: "routing",
         field: "destination",
         errorCode: ERR_DESTINATION_DELETED,
-        dataPath: ["sections", "0", "pages", "0", "routing", "rules", "0"],
       });
     });
 
@@ -1379,43 +1297,38 @@ describe("schema validation", () => {
 
       const validationErrors = validation(questionnaire);
 
-      expect(validationErrors.rules.rule_1.errors[0]).toMatchObject({
-        id: "rules-rule_1-destination",
-        entityId: "rule_1",
-        type: "rules",
+      expect(validationErrors[0]).toMatchObject({
+        id: uuidRejex,
+        type: "routing",
         field: "destination",
         errorCode: ERR_DESTINATION_MOVED,
-        dataPath: ["sections", "0", "pages", "0", "routing", "rules", "0"],
       });
-      expect(validationErrors.rules.rule_1.totalCount).toBe(1);
-      expect(validationErrors.rules.rule_1.errors.length).toBe(1);
+      expect(validationErrors).toHaveLength(1);
     });
   });
 
   describe("Piping validation within Question Labels", () => {
     it("should validate a piping answer moved after this question", () => {
       const piping = validation(questionnaire);
-      expect(piping.totalCount).toBe(0);
+      expect(piping).toHaveLength(0);
 
       questionnaire.sections[0].pages[0].title = `<p><span data-piped="answers" data-id="answer_2" data-type="Number">[number]</span></p>`;
 
       const errors = validation(questionnaire);
 
-      expect(errors.totalCount).toBe(1);
-      expect(errors.pages.page_1.errors[0].errorCode).toBe(PIPING_TITLE_MOVED);
+      expect(errors).toHaveLength(1);
+      expect(errors[0].errorCode).toBe(PIPING_TITLE_MOVED);
     });
 
     it("should validate a deleted piping answer in title", () => {
       const piping = validation(questionnaire);
-      expect(piping.totalCount).toBe(0);
+      expect(piping).toHaveLength(0);
 
       questionnaire.sections[0].pages[0].title = `<p><span data-piped="answers" data-id="answer_99" data-type="Number">[number]</span></p>`;
 
       const errors = validation(questionnaire);
-      expect(errors.totalCount).toBe(1);
-      expect(errors.pages.page_1.errors[0].errorCode).toBe(
-        PIPING_TITLE_DELETED
-      );
+      expect(errors).toHaveLength(1);
+      expect(errors[0].errorCode).toBe(PIPING_TITLE_DELETED);
     });
   });
 });
