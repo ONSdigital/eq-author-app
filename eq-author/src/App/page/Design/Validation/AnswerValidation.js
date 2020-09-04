@@ -1,5 +1,5 @@
 import React from "react";
-import { kebabCase, get, startCase, isNull, find, includes } from "lodash";
+import { kebabCase, get, startCase, isNull, find } from "lodash";
 import CustomPropTypes from "custom-prop-types";
 import styled from "styled-components";
 
@@ -212,9 +212,7 @@ class AnswerValidation extends React.PureComponent {
           errorsArr.dateRange.duration.push(...errors);
         }
       }
-      console.log('errors', errors)
       errorsArr.other.push(...errors);
-      console.log('errorsArr.other', errorsArr.other);
 
       const value = enabled ? validationType.preview(validation, answer) : "";
 
@@ -308,67 +306,28 @@ class AnswerValidation extends React.PureComponent {
     } else {
       let validationMessage = null;
 
-      if (answer.type === "Date") {
-        validationMessage = EARLIEST_BEFORE_LATEST_DATE
-      } else {
-
-        console.log('\n\nvalidationErrors', validationErrors);
-        console.log('validationErrors.other', validationErrors.other);
-
-        const temp = [{ id: "minValue-2772c345-d33b-46e1-aada-6aba1baab464-custom", type: "validation", field: "custom", errorCode: "ERR_NO_VsdALUE", __typename: "ValidationError" },
-        { id: "minValue-2772c345-d33b-46e1-aada-6aba1baab464-custom", type: "validation", field: "custom", errorCode: "ERR_NO_VAsdvsd", __typename: "ValidationError" }];
-        console.log('temp', temp);
-
-        // const noValError = find(temp, error =>
-        //   error.errorCode.includes("ERR_NO_VALUE")
-        // );
-
-
-
-        const other = validationErrors.other;
-        if (other.length) {
-          console.log('alive!!!!')
-        } else {
-          console.log('dead!!!!');
-
-        }
-        console.log('other', other)
-
-
-
-        // let noValError = false;
-        // if (other.some(error => error.errorCode === "ERR_NO_VALUE")) {
-        //   noValError = true;
-        // }
-
-        const noValErrorxx = includes(validationErrors.other, { errorCode: "ERR_NO_VALUE" });
-        console.log('noValErrorxx', noValErrorxx)
-
-        const noValError = find(other, error =>
-          error.errorCode.includes("ERR_NO_VALUE")
-        );
-        console.log('noValError', noValError);
-
-        const maxError = find(validationErrors.other, error =>
-          error.errorCode.includes("ERR_MIN_LARGER_THAN_MAX")
-        );
-
-
-        console.log('maxError', maxError)
-        // if ()
-        validationMessage = noValError ? ERR_NO_VALUE : MAX_GREATER_THAN_MIN
-      }
-      // const validationMessage =
-      //   answer.type === "Date"
-      //     ? EARLIEST_BEFORE_LATEST_DATE
-      //     : MAX_GREATER_THAN_MIN;
-
-
       validationButtons = this.renderValidation(
         validValidationTypes,
         answer,
         validationErrors
       );
+
+      if (answer.type === "Date") {
+        validationMessage = EARLIEST_BEFORE_LATEST_DATE
+      } else {
+        const noValError = find(validationErrors.other, error =>
+          error.errorCode.includes("ERR_NO_VALUE")
+        );
+
+        const maxError = find(validationErrors.other, error =>
+          error.errorCode.includes("ERR_MIN_LARGER_THAN_MAX")
+        );
+        if (noValError || (noValError && maxError)) {
+          validationMessage = ERR_NO_VALUE
+        } else {
+          validationMessage = MAX_GREATER_THAN_MIN
+        }
+      }
 
       const propertyError = this.renderPropertyError(
         validationErrors.other.length > 0,

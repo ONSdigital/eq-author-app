@@ -14,11 +14,6 @@ import withCustomNumberValueChange from "../withCustomNumberValueChange";
 import CustomEditor from "./CustomEditor";
 import PreviousAnswerEditor from "./PreviousAnswerEditor";
 
-// import withUpdateValidationRule from "../withUpdateValidationRule";
-// import withPropRemapped from "enhancers/withPropRemapped";
-// import withEntityEditor from "components/withEntityEditor";
-// import { propType } from "graphql-anywhere";
-
 const Connector = styled(PathEnd)`
   display: block;
   margin-left: auto;
@@ -44,8 +39,8 @@ const UnwrappedNumericValidation = ({
   onChangeUpdate,
   onCustomNumberValueChange,
   limit,
+  readKey,
 }) => {
-
   return (
     <Grid>
       <Column cols={3}>
@@ -69,6 +64,7 @@ const UnwrappedNumericValidation = ({
           onChangeUpdate={onChangeUpdate}
           data-test="value-pill-tabs"
           limit={limit}
+          readKey={readKey}
         />
       </Column>
     </Grid>
@@ -110,7 +106,7 @@ UnwrappedNumericValidation.propTypes = {
   onChange: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
   displayName: PropTypes.string.isRequired,
-  // readKey: PropTypes.string.isRequired,
+  readKey: PropTypes.string.isRequired,
   // testId: PropTypes.string.isRequired,
   errors: PropTypes.shape({
     id: PropTypes.string,
@@ -133,14 +129,3 @@ export default flowRight(
   withCustomNumberValueChange,
   withChangeUpdate
 )(UnwrappedNumericValidation);
-
-// export default flowRight(
-//   withUpdateValidationRule,
-//   withPropRemapped(
-//     "onUpdateValidationRule",
-//     "onUpdate",
-//     numericReadToWriteMapper("totalInput")
-//   ),
-//   withEntityEditor("total"),
-//   withChangeUpdate
-// )(UnwrappedNumericValidation);

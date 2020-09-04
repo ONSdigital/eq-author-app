@@ -2,14 +2,12 @@ import React from "react";
 import PropTypes from "prop-types";
 import { get } from "lodash";
 
-// import { Field } from "components/Forms";
 import FieldWithInclude from "../FieldWithInclude";
 import * as entityTypes from "constants/validation-entity-types";
+import PreviousAnswerContentPicker from "../PreviousAnswerContentPicker";
 
-import { UnwrappedPreviousAnswerContentPicker as PreviousAnswerContentPicker } from "../PreviousAnswerContentPicker";
+const PreviousAnswerEditor = ({ onChangeUpdate, answer, validation, readKey, }) => (
 
-const PreviousAnswerEditor = ({ onChangeUpdate, answer, validation, readKey }) => (
-  // <Field>
   <FieldWithInclude
     id="inclusive"
     name="inclusive"
@@ -20,14 +18,11 @@ const PreviousAnswerEditor = ({ onChangeUpdate, answer, validation, readKey }) =
       answerId={answer.id}
       onSubmit={onChangeUpdate}
       selectedContentDisplayName={get(validation.previousAnswer, "displayName")}
-      // data={total}
       selectedId={get(validation.previousAnswer, "id")}
       path={`answer.validation.${readKey}.availablePreviousAnswers`}
-      // path="availablePreviousAnswers"
       data-test="content-picker-select"
     />
   </FieldWithInclude>
-  // </Field>
 );
 PreviousAnswerEditor.propTypes = {
   validation: PropTypes.shape({
@@ -58,11 +53,6 @@ PreviousAnswerEditor.propTypes = {
     }),
   }).isRequired,
   readKey: PropTypes.string.isRequired,
-  // total: PropTypes.shape({
-  //   previousAnswer: PropTypes.shape({
-  //     displayName: PropTypes.string.isRequired,
-  //   }),
-  // }).isRequired,
   onChangeUpdate: PropTypes.func.isRequired,
 };
 

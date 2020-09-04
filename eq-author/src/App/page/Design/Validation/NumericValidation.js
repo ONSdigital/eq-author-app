@@ -41,7 +41,6 @@ const StyledError = styled(ValidationError)`
 `;
 
 export class UnwrappedNumericValidation extends React.Component {
-
   PreviousAnswer = () => (
     <FieldWithInclude
       id="inclusive"

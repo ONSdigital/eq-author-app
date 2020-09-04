@@ -2,33 +2,35 @@
 
 exports[`Custom Editor should render 1`] = `
 <Fragment>
-  <Field
-    disabled={false}
-    last={false}
+  <FieldWithInclude
+    checked={true}
+    id="inclusive"
+    name="inclusive"
+    onChange={[MockFunction]}
   >
-    <CustomEditor__LargerNumber
-      data-test="total-validation-number-input"
+    <CustomEditor__StyledNumber
+      data-test="numeric-value-input"
       default={null}
       hasError={
         Object {
-          "errorCode": "ERR_TOTAL_NO_VALUE",
-          "field": "totalValidation",
-          "id": "pages-1-totalValidation",
-          "type": "pages",
+          "errorCode": "ERR_NO_VALUE",
+          "field": "custom",
+          "id": "minValue-0efd3ed1-8e0d-4b0c-9e39-59010751dbdf-custom",
+          "type": "validation",
         }
       }
-      id="total-validation-custom"
-      max={999999999}
-      min={-999999999}
+      max={999}
+      min={-999}
       name="custom"
       onBlur={[MockFunction]}
       onChange={[MockFunction]}
-      type="Currency"
-      value={5}
+      type="Number"
+      unit={null}
+      value={null}
     />
-  </Field>
+  </FieldWithInclude>
   <CustomEditor__StyledError>
-    Value required
+    Value is required
   </CustomEditor__StyledError>
 </Fragment>
 `;

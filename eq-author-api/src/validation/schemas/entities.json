@@ -348,6 +348,11 @@
                         },
                         "previousAnswer": {
                           "const": null
+                        },
+                        "custom": {
+                          "not": {
+                            "type": "null"
+                          }
                         }
                       }
                     }
@@ -362,6 +367,11 @@
                         },
                         "previousAnswer": {
                           "const": null
+                        },
+                        "custom": {
+                          "not": {
+                            "type": "null"
+                          }
                         }
                       }
                     }
@@ -395,9 +405,8 @@
                 }
               }
             },
-            "oneOf": [
+            "allOf": [
               {
-                "type": "object",
                 "properties": {
                   "minValue": {
                     "type": "object",
@@ -405,8 +414,23 @@
                       "enabled": {
                         "const": true
                       },
-                      "entityType": {
-                        "const": "Custom"
+                      "custom": {
+                        "not": {
+                          "type": "null"
+                        },
+                        "errorMessage": "ERR_NO_VALUE"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "maxValue": {
+                    "type": "object",
+                    "properties": {
+                      "enabled": {
+                        "const": true
                       },
                       "custom": {
                         "not": {

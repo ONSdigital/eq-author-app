@@ -31,7 +31,6 @@ const StyledError = styled(ValidationError)`
 
 const CustomEditor = props => {
   const { onUpdate, answer, onChangeUpdate, validation, limit, onCustomNumberValueChange } = props;
-  console.log('validation.validationErrorInfo.errors :>> ', validation.validationErrorInfo.errors);
 
   const hasError = find(validation.validationErrorInfo.errors, error =>
     error.errorCode.includes("ERR_NO_VALUE")
@@ -95,18 +94,6 @@ CustomEditor.propTypes = {
       ),
     }),
   }).isRequired,
-  // errors: PropTypes.shape({
-  //   id: PropTypes.string,
-  //   errors: PropTypes.arrayOf(
-  //     PropTypes.shape({
-  //       errorCode: PropTypes.string,
-  //       field: PropTypes.string,
-  //       id: PropTypes.string,
-  //       type: PropTypes.string,
-  //     })
-  //   ),
-  //   totalCount: PropTypes.number,
-  // }),
   onCustomNumberValueChange: PropTypes.func.isRequired,
   onChangeUpdate: PropTypes.func.isRequired,
   // onChange: PropTypes.func.isRequired,
