@@ -1,32 +1,12 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { shallow, mount } from "enzyme";
 
-import { ValidationPills } from "../ValidationPills";
-import { Number } from "components/Forms";
 import CustomEditor from "./CustomEditor";
 import { NUMBER } from "constants/answer-types";
-import { UnwrappedNumericValidation } from "../NumericValidation";
-
-import AnswerValidation, {
-} from "../AnswerValidation";
 import { ERR_NO_VALUE } from "constants/validationMessages";
-import FieldWithInclude from "../FieldWithInclude";
-
-const render = (props, render = shallow) => {
-  return render(<AnswerValidation {...props} />);
-};
-
-const createWrapper = (props, render = shallow) =>
-  render(<UnwrappedNumericValidation {...props} />);
 
 describe("Custom Editor", () => {
-  let props, wrapper;
-  let onCustomNumberValueChange = jest.fn();
-  let onChangeUpdate = jest.fn();
-  let onChange = jest.fn();
-  let onUpdate = jest.fn();
-  let CustomInput, customInputWrapper;
-
+  let props;
   beforeEach(() => {
     props = {
       answer: {
@@ -64,28 +44,19 @@ describe("Custom Editor", () => {
           ]
         },
       },
-      onCustomNumberValueChange: onCustomNumberValueChange,
-      onChangeUpdate: onChangeUpdate,
-      onChange: onChange,
-      onUpdate: onUpdate,
       displayName: "foobar",
       readKey: "read",
       testId: "test-id",
       limit: 999,
+      onChange: jest.fn(),
+      onUpdate: jest.fn(),
+      onChangeUpdate: jest.fn(),
+      onCustomNumberValueChange: jest.fn(),
     };
-    wrapper = createWrapper(props);
   });
 
   it("should render", () => {
     expect(shallow(<CustomEditor {...props} />)).toMatchSnapshot();
-  });
-
-  it("should trigger onChange when the number input changes", () => {
-    const wrapper = shallow(<CustomEditor {...props} />);
-    wrapper
-      .find("[data-test='numeric-value-input']")
-      .simulate("change", { name: "custom", value: 10 });
-    expect(props.onChange).toHaveBeenCalledWith({ name: "custom", value: 10 });
   });
 
   it("should trigger onUpdate when the number input is blurred", () => {
@@ -104,31 +75,11 @@ describe("Custom Editor", () => {
     expect(wrapper.text()).toEqual(ERR_NO_VALUE);
   });
 
-  // it("should display error styling when error present", () => {
-  //   const wrapper = mount(<CustomEditor {...props} />).find(
-  //     "CustomEditor__LargerNumber"
-  //   );
+  it("should display error styling when error present", () => {
+    const wrapper = mount(<CustomEditor {...props} />).find(
+      "CustomEditor__StyledNumber"
+    );
 
-  //   expect(wrapper).toHaveStyleRule("border-radius: 4px;");
-  // });
-
-
-
-  beforeEach(() => {
-    CustomInput = wrapper.find(ValidationPills).prop("Custom");
-    customInputWrapper = shallow(<CustomInput />);
-  });
-
-  it("should correctly handle custom value changes", () => {
-    let value = 1;
-    customInputWrapper.find(Number).simulate("change", value);
-
-    expect(onCustomNumberValueChange).toHaveBeenCalledWith({ value: 1 });
-  });
-
-  it("should correctly handle include change", () => {
-    let value = "foobar";
-    customInputWrapper.find(FieldWithInclude).simulate("change", value);
-    expect(onChangeUpdate).toHaveBeenCalledWith(value);
+    expect(wrapper).toHaveStyleRule("border-radius: 4px;");
   });
 });

@@ -2,17 +2,48 @@ import React from "react";
 import { shallow } from "enzyme";
 
 import PreviousAnswerEditor from "./PreviousAnswerEditor";
+import { NUMBER } from "constants/answer-types";
 
 describe("Custom Editor", () => {
   let props;
   beforeEach(() => {
     props = {
-      total: {
+      answer: {
         id: "1",
-        previousAnswer: {
-          displayName: "My answer",
+        type: NUMBER,
+        properties: {
+          unit: null,
+        },
+        validation: {
+          minValue: {
+            enabled: false,
+            validationErrorInfo: { errors: [] },
+          },
+          maxValue: {
+            enabled: false,
+            validationErrorInfo: { errors: [] },
+          },
         },
       },
+      validation: {
+        custom: null,
+        enabled: true,
+        entityType: "Custom",
+        id: "0efd3ed1-8e0d-4b0c-9e39-59010751dbdf",
+        inclusive: true,
+        previousAnswer: null,
+        validationErrorInfo: {
+          errors: [
+            {
+              errorCode: "ERR_NO_VALUE",
+              field: "custom",
+              id: "minValue-0efd3ed1-8e0d-4b0c-9e39-59010751dbdf-custom",
+              type: "validation",
+            }
+          ]
+        },
+      },
+      readKey: "read",
       onChangeUpdate: jest.fn(),
     };
   });

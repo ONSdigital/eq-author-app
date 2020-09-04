@@ -1,23 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Custom Editor should render 1`] = `
-<Field
-  disabled={false}
-  last={false}
+<FieldWithInclude
+  checked={true}
+  id="inclusive"
+  name="inclusive"
+  onChange={[MockFunction]}
 >
-  <UnwrappedPreviousAnswerContentPicker
-    data={
-      Object {
-        "id": "1",
-        "previousAnswer": Object {
-          "displayName": "My answer",
-        },
-      }
-    }
+  <GetAvailablePreviewAnswersQuery
+    answerId="1"
     data-test="content-picker-select"
     onSubmit={[MockFunction]}
-    path="availablePreviousAnswers"
-    selectedContentDisplayName="My answer"
+    path="answer.validation.read.availablePreviousAnswers"
   />
-</Field>
+</FieldWithInclude>
 `;
