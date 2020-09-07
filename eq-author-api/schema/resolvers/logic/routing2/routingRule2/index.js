@@ -1,4 +1,3 @@
-const { RULES } = require("../../../../../constants/validationErrorTypes");
 const { flatMap, find, some, reject, pick } = require("lodash/fp");
 const { createMutation } = require("../../../createMutation");
 
@@ -42,12 +41,28 @@ Resolvers.RoutingRule2 = {
 
     return routing;
   },
-  validationErrorInfo: ({ id }, args, ctx) =>
-    ctx.validationErrorInfo[RULES][id] || {
+  validationErrorInfo: ({ id }, args, ctx) => {
+    const routingRuleErrors = ctx.validationErrorInfo.filter(
+      ({ routingRuleId }) => id === routingRuleId
+    );
+
+    if (!routingRuleErrors) {
+      const noErrors = {
+        id,
+        errors: [],
+        totalCount: 0,
+      };
+      return noErrors;
+    }
+
+    const errors = {
       id,
-      errors: [],
-      totalCount: 0,
-    },
+      errors: routingRuleErrors,
+      totalCount: routingRuleErrors.length,
+    };
+
+    return errors;
+  },
 };
 
 Resolvers.Mutation = {

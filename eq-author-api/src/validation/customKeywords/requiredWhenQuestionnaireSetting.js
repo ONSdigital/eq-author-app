@@ -1,3 +1,9 @@
+const {
+  ERR_REQUIRED_WHEN_SETTING,
+} = require("../../../constants/validationErrorCodes");
+
+const createValidationError = require("../createValidationError");
+
 module.exports = function(ajv) {
   ajv.addKeyword("requiredWhenQuestionnaireSetting", {
     validate: function validate(
@@ -9,6 +15,7 @@ module.exports = function(ajv) {
       fieldName,
       questionnaire
     ) {
+      validate.errors = [];
       const setting = questionnaire[settingName];
       if (!setting) {
         return true;
@@ -18,14 +25,14 @@ module.exports = function(ajv) {
         return true;
       }
 
-      validate.errors = [
-        {
-          keyword: "errorMessage",
-          dataPath,
-          message: "ERR_REQUIRED_WHEN_SETTING",
-          params: {},
-        },
-      ];
+      const err = createValidationError(
+        dataPath,
+        fieldName,
+        ERR_REQUIRED_WHEN_SETTING,
+        questionnaire
+      );
+
+      validate.errors.push(err);
 
       return false;
     },

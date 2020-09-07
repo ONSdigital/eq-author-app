@@ -1,5 +1,11 @@
 const { get } = require("lodash");
+
+const {
+  ERR_REFERENCED_ANSWER_DECIMAL_INCONSISTENCY,
+} = require("../../../constants/validationErrorCodes");
+
 const getEntityKeyValue = require("../../../utils/getEntityByKeyValue");
+const createValidationError = require("../createValidationError");
 
 module.exports = function(ajv) {
   ajv.addKeyword("linkedDecimalValidation", {
@@ -9,7 +15,9 @@ module.exports = function(ajv) {
       entityData,
       fieldValue,
       dataPath,
-      parentData
+      parentData,
+      fieldName,
+      questionnaire
     ) {
       isValid.errors = [];
 
@@ -45,14 +53,13 @@ module.exports = function(ajv) {
             parentData.decimals !== (null || undefined) &&
             parentData.decimals !== referencedDecimals
           ) {
-            isValid.errors = [
-              {
-                keyword: "errorMessage",
-                dataPath: dataPathArr.slice(0, 8).join("/"),
-                message: "ERR_REFERENCED_ANSWER_DECIMAL_INCONSISTENCY",
-                params: { keyword: "inconsistent decimals" },
-              },
-            ];
+            const err = createValidationError(
+              dataPath,
+              fieldName,
+              ERR_REFERENCED_ANSWER_DECIMAL_INCONSISTENCY,
+              questionnaire
+            );
+            isValid.errors.push(err);
           }
         }
       });

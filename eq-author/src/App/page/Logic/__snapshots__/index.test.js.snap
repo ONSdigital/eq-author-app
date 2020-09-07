@@ -13,9 +13,11 @@ exports[`Logic Page should render 1`] = `
       "errors": Array [
         Object {
           "id": "expressions-skipConditions-1",
+          "type": "skipConditionExpression",
         },
         Object {
           "id": "expressions-routing-1",
+          "type": "routingExpression",
         },
       ],
       "totalCount": 2,
@@ -162,9 +164,11 @@ exports[`Logic Page should show error info when there is an error 1`] = `
       "errors": Array [
         Object {
           "id": "expressions-skipConditions-1",
+          "type": "skipConditionExpression",
         },
         Object {
           "id": "expressions-routing-1",
+          "type": "routingExpression",
         },
       ],
       "totalCount": 2,
@@ -248,9 +252,11 @@ exports[`Logic Page should show loading info when loading 1`] = `
       "errors": Array [
         Object {
           "id": "expressions-skipConditions-1",
+          "type": "skipConditionExpression",
         },
         Object {
           "id": "expressions-routing-1",
+          "type": "routingExpression",
         },
       ],
       "totalCount": 2,

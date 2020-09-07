@@ -8,7 +8,6 @@ const { createMutation } = require("../createMutation");
 const {
   ROUTING_ANSWER_TYPES,
 } = require("../../../constants/routingAnswerTypes");
-const { PAGES } = require("../../../constants/validationErrorTypes");
 
 const getPreviousAnswersForPage = require("../../../src/businessLogic/getPreviousAnswersForPage");
 const Resolvers = {};
@@ -73,8 +72,17 @@ Resolvers.QuestionPage = {
       pages,
     };
   },
-  validationErrorInfo: ({ id }, args, ctx) =>
-    ctx.validationErrorInfo[PAGES][id] || { id, errors: [], totalCount: 0 },
+  validationErrorInfo: ({ id }, args, ctx) => {
+    const pageErrors = ctx.validationErrorInfo.filter(
+      ({ pageId }) => id === pageId
+    );
+
+    if (!pageErrors) {
+      return ({ id, errors: [], totalCount: 0 });
+    }
+
+    return ({ id, errors: pageErrors, totalCount: pageErrors.length });
+  },
 };
 
 Resolvers.Mutation = {

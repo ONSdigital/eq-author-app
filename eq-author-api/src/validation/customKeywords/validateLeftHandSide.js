@@ -7,6 +7,8 @@ const {
   ROUTING_ANSWER_TYPES,
 } = require("../../../constants/routingAnswerTypes");
 
+const createValidationError = require("../createValidationError");
+
 module.exports = function(ajv) {
   ajv.addKeyword("validateLeftHandSide", {
     validate: function isValid(
@@ -41,14 +43,14 @@ module.exports = function(ajv) {
         );
 
         if (!leftAnswerInPreviousAnswers) {
-          isValid.errors = [
-            {
-              keyword: "errorMessage",
-              dataPath,
-              message: ERR_LEFTSIDE_NO_LONGER_AVAILABLE,
-              params: {},
-            },
-          ];
+          const err = createValidationError(
+            dataPath,
+            fieldName,
+            ERR_LEFTSIDE_NO_LONGER_AVAILABLE,
+            questionnaire
+          );
+          isValid.errors.push(err);
+
           return false;
         }
       }

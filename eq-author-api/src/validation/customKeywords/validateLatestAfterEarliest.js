@@ -4,6 +4,8 @@ const {
   ERR_EARLIEST_AFTER_LATEST,
 } = require("../../../constants/validationErrorCodes");
 
+const createValidationError = require("../createValidationError");
+
 module.exports = function(ajv) {
   ajv.addKeyword("validateLatestAfterEarliest", {
     $data: true,
@@ -44,14 +46,13 @@ module.exports = function(ajv) {
       const valid = isLatest ? a < b : a > b;
 
       if (!valid) {
-        isValid.errors = [
-          {
-            keyword: "errorMessage",
-            dataPath,
-            message: ERR_EARLIEST_AFTER_LATEST,
-            params: {},
-          },
-        ];
+        const err = createValidationError(
+          dataPath,
+          fieldName,
+          ERR_EARLIEST_AFTER_LATEST,
+          questionnaire
+        );
+        isValid.errors.push(err);
 
         return false;
       }

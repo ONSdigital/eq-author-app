@@ -10,6 +10,7 @@ const executableSchema = graphqlTools.makeExecutableSchema(schema);
 
 async function executeQuery(query, args = {}, ctx = {}) {
   const response = await graphql(executableSchema, query, {}, ctx, args);
+
   if (response.errors) {
     throw new Error(`
 Running query:
