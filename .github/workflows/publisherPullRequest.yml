@@ -3,7 +3,7 @@ name: Publisher Pull Request
 on: [pull_request]
 
 jobs:
-  build:
+  Tests:
     runs-on: ubuntu-latest
 
     strategy:
@@ -32,8 +32,29 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: ./eq-publisher/coverage/coverage-final.json
-          yml: ./codecov.yml
+          flags: Publisher
+          name: Publisher
           fail_ci_if_error: true
+        
+  Build:
+    if: contains( github.event.pull_request.labels.*.name, 'dependencies') != true
+
+    runs-on: ubuntu-latest
+
+    needs: Tests
+
+    strategy:
+      matrix:
+        node-version: [10.x]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install dependencies
+        run: yarn --frozen-lockfile; pushd eq-publisher; yarn --frozen-lockfile; popd
       - name: Build new docker image
         run: pushd eq-publisher; docker build -t onsdigital/eq-publisher:$TAG --build-arg APPLICATION_VERSION=$(git rev-parse HEAD) -f Dockerfile .; popd
         env:
