@@ -213,7 +213,7 @@ class AnswerValidation extends React.PureComponent {
       }
       errorsArr.other.push(...errors);
 
-      const value = enabled ? validationType.preview(validation, answer) : "";
+      const value = enabled ? validationType.preview(validation, answer) : null;
 
       return this.renderButton({
         ...validationType,
