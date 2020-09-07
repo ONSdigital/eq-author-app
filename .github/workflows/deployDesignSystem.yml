@@ -28,6 +28,7 @@ jobs:
 
       - name: Build design system
         run: yarn build-storybook -o ../docs
+        working-directory: ${{env.working-directory}}
 
       - name: Deploy design system
         uses: JamesIves/github-pages-deploy-action@3.5.9
@@ -35,3 +36,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages
           FOLDER: docs
+        working-directory: ${{env.working-directory}}
