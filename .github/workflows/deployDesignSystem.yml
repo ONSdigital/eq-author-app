@@ -1,0 +1,28 @@
+name: Build and deploy design system
+
+on: [pull_request]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    env:
+        working-directory: ./eq-author
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.3.1
+        with:
+          persist-credentials: false
+
+      - name: Install dependencies
+        run: yarn
+        working-directory: ${{env.working-directory}}
+
+      - name: Build design system
+        run: yarn build-storybook -o ../docs
+
+      - name: Deploy design system
+        uses: JamesIves/github-pages-deploy-action@3.5.9
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages 
+          FOLDER: docs
