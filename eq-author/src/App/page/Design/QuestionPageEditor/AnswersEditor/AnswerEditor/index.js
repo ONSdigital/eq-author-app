@@ -19,7 +19,6 @@ import {
   UNIT,
   DURATION,
 } from "constants/answer-types";
-import { unitConversion } from "constants/unit-types";
 import { durationConversion } from "constants/duration-types";
 import Tooltip from "components/Forms/Tooltip";
 import DeleteButton from "components/buttons/DeleteButton";
