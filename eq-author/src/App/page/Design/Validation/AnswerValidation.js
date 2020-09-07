@@ -199,6 +199,8 @@ class AnswerValidation extends React.PureComponent {
       const validation = get(answer, `validation.${validationType.id}`, {});
       const errors = get(validation, `validationErrorInfo.errors`, []);
 
+      console.log('\n\nerrors', errors);
+
       const { id } = validationType;
       const { enabled, previousAnswer, metadata, inclusive } = validation;
 

@@ -2,6 +2,9 @@ import { graphql } from "react-apollo";
 import gql from "graphql-tag";
 import { filter } from "graphql-anywhere";
 
+import MinValueValidationRule from "graphql/fragments/min-value-validation-rule.graphql";
+import MaxValueValidationRule from "graphql/fragments/max-value-validation-rule.graphql";
+
 const inputFilter = gql`
   {
     id
@@ -14,8 +17,22 @@ export const TOGGLE_VALIDATION_RULE = gql`
     toggleValidationRule(input: $input) {
       id
       enabled
+      ...MinValueValidationRule
+      ...MaxValueValidationRule
+      # validationErrorInfo {
+      #     id
+      #     errors {
+      #       id
+      #       type
+      #       field
+      #       errorCode
+      #     }
+      #     totalCount
+      # }
     }
   }
+  ${MinValueValidationRule}
+  ${MaxValueValidationRule}
 `;
 
 export const mapMutateToProps = ({ mutate }) => ({

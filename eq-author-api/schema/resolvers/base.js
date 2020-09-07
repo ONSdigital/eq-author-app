@@ -528,12 +528,12 @@ const Resolvers = {
     }),
     toggleValidationRule: createMutation((_, args, ctx) => {
       const validation = getValidationById(ctx, args.input.id);
-
+      console.log('\n\nvalidation', validation);
       validation.enabled = args.input.enabled;
       const newValidation = Object.assign({}, validation);
 
       delete validation.validationType;
-
+      console.log('\n\nnewValidation', newValidation);
       return newValidation;
     }),
     updateValidationRule: createMutation((_, args, ctx) => {
@@ -1165,6 +1165,9 @@ const Resolvers = {
       const minValueErrors = ctx.validationErrorInfo.filter(
         ({ validationId }) => id === validationId
       );
+
+      console.log('\n\nminValueErrors', minValueErrors);
+
 
       if (!minValueErrors) {
         return {
