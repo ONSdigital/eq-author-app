@@ -10,6 +10,7 @@ const UnitProperties = ({ unit, ...otherProps }) => {
   const sortedUnits = groupBy(unitTypes.unitConversion, "type");
   return (
     <Select value={unit} {...otherProps} data-test="unit-select">
+      {!unit && <option value={``}>{"Select a type"}</option>}
       {map(sortedUnits, (unit, unitType) => (
         <optgroup label={unitType} key={unitType}>
           {map(unit, unitConfig => {

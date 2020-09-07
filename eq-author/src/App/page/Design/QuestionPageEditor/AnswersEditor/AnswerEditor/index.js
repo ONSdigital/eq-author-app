@@ -116,13 +116,7 @@ class AnswerEditor extends React.Component {
 
   getAnswerTypeText(answer) {
     if (answer.type === UNIT) {
-      const unitConfig = unitConversion[answer.properties.unit];
-      return (
-        <>
-          {unitConfig.unit}
-          {` (${unitConfig.abbreviation})`}
-        </>
-      );
+      return <></>;
     }
     if (answer.type === DURATION) {
       const durationConfig = durationConversion[answer.properties.unit];
