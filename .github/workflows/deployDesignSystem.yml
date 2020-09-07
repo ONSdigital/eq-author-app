@@ -5,14 +5,23 @@ on: [pull_request]
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [10.x]
+
     env:
-        working-directory: ./eq-author
+      working-directory: ./eq-author
+
     steps:
       - name: Checkout
         uses: actions/checkout@v2.3.1
         with:
           persist-credentials: false
-
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
       - name: Install dependencies
         run: yarn
         working-directory: ${{env.working-directory}}
@@ -24,5 +33,5 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@3.5.9
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: gh-pages 
+          BRANCH: gh-pages
           FOLDER: docs
