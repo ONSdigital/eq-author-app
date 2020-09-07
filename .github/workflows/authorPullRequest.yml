@@ -16,7 +16,7 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-          - name: Delete this
+      - name: Delete this
         run: echo ${{github.event.sender.login}}
       - name: Install dependencies
         run: yarn --frozen-lockfile; pushd eq-author; yarn --frozen-lockfile; popd
