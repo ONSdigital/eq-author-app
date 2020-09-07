@@ -16,6 +16,8 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
+      - name: Delete this
+        run: echo ${{github.event.sender.login}}
       - name: Install top-level dependencies
         run: yarn --frozen-lockfile
       - name: Install front end dependencies
