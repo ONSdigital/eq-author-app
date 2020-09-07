@@ -10,7 +10,7 @@ const InlineField = styled(Field)`
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin: 0.5em -0.8em 0.5em
+  margin: 0.5em -0.8em;
 `;
 
 const FieldWithInclude = ({ children, id, name, onChange, ...otherProps }) => (

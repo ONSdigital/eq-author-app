@@ -107,7 +107,6 @@ UnwrappedNumericValidation.propTypes = {
   onUpdate: PropTypes.func.isRequired,
   displayName: PropTypes.string.isRequired,
   readKey: PropTypes.string.isRequired,
-  // testId: PropTypes.string.isRequired,
   errors: PropTypes.shape({
     id: PropTypes.string,
     errors: PropTypes.arrayOf(
@@ -120,9 +119,12 @@ UnwrappedNumericValidation.propTypes = {
     ),
     totalCount: PropTypes.number,
   }),
-  // onUpdate: PropTypes.func.isRequired,
-  // onChange: PropTypes.func.isRequired,
-  // onChangeUpdate: PropTypes.func.isRequired,
+};
+
+UnwrappedNumericValidation.defaultProps = {
+  validation: {
+    custom: null,
+  },
 };
 
 export default flowRight(
