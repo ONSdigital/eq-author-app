@@ -32,8 +32,6 @@ const StyledError = styled(ValidationError)`
 const CustomEditor = props => {
   const { onUpdate, answer, onChangeUpdate, validation, limit, onCustomNumberValueChange } = props;
 
-  console.log('validation.custom', validation.custom);
-
   const hasError = find(validation.validationErrorInfo.errors, error =>
     error.errorCode.includes("ERR_NO_VALUE")
   );
@@ -105,11 +103,7 @@ CustomEditor.propTypes = {
   }).isRequired,
   onCustomNumberValueChange: PropTypes.func.isRequired,
   onChangeUpdate: PropTypes.func.isRequired,
-  // onChange: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
-  // displayName: PropTypes.string.isRequired,
-  // readKey: PropTypes.string.isRequired,
-  // testId: PropTypes.string.isRequired,
 };
 
 export default CustomEditor;
