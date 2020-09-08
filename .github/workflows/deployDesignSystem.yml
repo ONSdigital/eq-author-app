@@ -30,7 +30,7 @@ jobs:
         working-directory: ${{env.working-directory}}
 
       - name: Build design system
-        run: yarn build-storybook -o ../docs --docs
+        run: yarn build-storybook
         working-directory: ${{env.working-directory}}
 
       - name: Deploy design system
