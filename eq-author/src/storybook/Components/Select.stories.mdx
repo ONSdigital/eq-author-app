@@ -1,6 +1,6 @@
 import { Meta, Story, Canvas } from "@storybook/addon-docs/blocks";
 
-import Select from "../../components/Forms/Select";
+import { Form, Select, Label } from "../../components/Forms";
 
 <Meta title="Components/Select" component={Select} />
 
@@ -12,13 +12,16 @@ Let users select one option from a dropdown list.
 
 <Canvas>
   <Story name="Primary">
-    <Select>
-      <option selected hidden></option>
-      <option>Alpha</option>
-      <option>Bravo</option>
-      <option disabled>Charlie</option>
-      <option>Delta</option>
-    </Select>
+    <Form htmlWidth="50%">
+      <Label htmlFor="favorite-jedi">Unit of length</Label>
+      <Select id="favorite-jedi">
+        <option selected hidden></option>
+        <option>Centimetres</option>
+        <option>Metres</option>
+        <option disabled>Kilometres</option>
+        <option>Miles</option>
+      </Select>
+    </Form>
   </Story>
 </Canvas>
 
@@ -46,15 +49,25 @@ The [ONS design system](https://ons-design-system.netlify.app/components/select/
 
 ## How to use this component
 
-**Labels:** Use visible labels, built using the HTML `label` element, so browsers can calculate an accessible name for the form control from the label content.
+### Labels
 
-**Default options:** Avoid having a default option unless most people (around 90%) will select that value. Instead, have a clear and meaningful phrase (e.g. "Select an answer", not generic ones like “None” or “Please select”) inside the menu that tells users exactly what they’re selecting. The label should be in sentence case (the first word capitalised, the rest lowercase).
+Use visible labels, built using the HTML `label` element, so browsers can calculate an accessible name for the form control from the label content.
 
-**Option order:** Put the options in a logical order given the context. This might be alphabetical (e.g. a list of countries: Albania, Brazil, Canada), ordinal (e.g. scales: Very small, Small, Medium, Large, Very large), or something else.
+### Default options
 
-**Grouping options:** Consider grouping options if there are a lot, and a dropdown is the only option. Remember that groups might be ignored by screen readers so don’t rely on this to convey vital context.
+Avoid having a default option unless most people (around 90%) will select that value. Instead, have a clear and meaningful phrase (e.g. "Select an answer", not generic ones like “None” or “Please select”) inside the menu that tells users exactly what they’re selecting. The label should be in sentence case (the first word capitalised, the rest lowercase).
 
-**Unavailable options:** Grey out any unavailable options instead of removing them: any items that cannot b­­e selected should remain in view. Show a short balloon help message if users hover over a greyed-out option for more than a second, explaining why that option is disabled and how to make it active. If disabled items are removed, the interface loses spatial consistency and becomes harder to learn.
+### Option order
+
+ Put the options in a logical order given the context. This might be alphabetical (e.g. a list of countries: Albania, Brazil, Canada), ordinal (e.g. scales: Very small, Small, Medium, Large, Very large), or something else.
+
+### Grouping options
+
+Consider grouping options if there are a lot, and a dropdown is the only option. Remember that groups might be ignored by screen readers so don’t rely on this to convey vital context.
+
+### Unavailable options
+
+Grey out any unavailable options instead of removing them: any items that cannot b­­e selected should remain in view. Show a short balloon help message if users hover over a greyed-out option for more than a second, explaining why that option is disabled and how to make it active. If disabled items are removed, the interface loses spatial consistency and becomes harder to learn.
 
 ## Variants
 
@@ -62,23 +75,22 @@ The [ONS design system](https://ons-design-system.netlify.app/components/select/
 
 <Canvas>
   <Story name="Loading">
-    <Select loading>
-      <option selected hidden></option>
-      <option>Alpha</option>
-      <option>Bravo</option>
-      <option disabled>Charlie</option>
-      <option>Delta</option>
-    </Select>
+    <Form htmlWidth="50%">
+      <Label htmlFor="favorite-sith">Unit of length</Label>
+      <Select id="favorite-sith" loading>
+        <option selected hidden></option>
+      </Select>
+    </Form>
   </Story>
 </Canvas>
 
 ## Accessibility
 
-Dropdowns aren’t very _accessible_. If you have to use them, make sure you support keyboard input to navigate within them.
+Dropdowns aren’t very accessible. If you have to use them, make sure you support keyboard input to navigate within them.
 
 ## Research
 
-- [Dropdowns: Design Guidelines](https://www.nngroup.com/articles/drop-down-menus/)
-- [Drop-Down Usability: When You Should (and Shouldn’t) Use Them](https://baymard.com/blog/drop-down-usability)
-- [Select Menus](https://webaim.org/techniques/forms/controls#select)
-- [Alice Bartlett: Burn your select tags - EpicFEL 2014 (VIDEO)](https://www.youtube.com/watch?v=CUkMCQR4TpY)
+- [Dropdowns: Design Guidelines (Nielsen Norman Group)](https://www.nngroup.com/articles/drop-down-menus/)
+- [Drop-Down Usability: When You Should (and Shouldn’t) Use Them (Baymard)](https://baymard.com/blog/drop-down-usability)
+- [Select menus (WebAIM)](https://webaim.org/techniques/forms/controls#select)
+- [Alice Bartlett: Burn your select tags - EpicFEL 2014 (video)](https://www.youtube.com/watch?v=CUkMCQR4TpY)
