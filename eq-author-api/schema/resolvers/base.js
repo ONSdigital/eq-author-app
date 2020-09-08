@@ -1172,8 +1172,6 @@ const Resolvers = {
         ({ validationId }) => id === validationId
       );
 
-      console.log("\n\nminValueErrors", minValueErrors);
-
       if (!minValueErrors) {
         return {
           id,
