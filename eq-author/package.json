@@ -15,7 +15,7 @@
     "serve": "serve -l 3000 build/",
     "coverage": "yarn test --coverage",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook -o ../design-system --docs"
   },
   "devDependencies": {
     "@babel/core": "latest",
