@@ -15,16 +15,6 @@ describe("Custom Editor", () => {
         properties: {
           unit: null,
         },
-        validation: {
-          minValue: {
-            enabled: false,
-            validationErrorInfo: { errors: [] },
-          },
-          maxValue: {
-            enabled: false,
-            validationErrorInfo: { errors: [] },
-          },
-        },
       },
       validation: {
         custom: null,

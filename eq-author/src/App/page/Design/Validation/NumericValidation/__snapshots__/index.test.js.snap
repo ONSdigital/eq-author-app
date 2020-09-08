@@ -1,34 +1,22 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`AnswerValidation should not render when there are no valid validation types 1`] = `""`;
-
-exports[`AnswerValidation should render 1`] = `
-<ContextProvider
-  value={
+exports[`AnswerValidation UnwrappedNumericValidation should render 1`] = `
+<withChangeUpdate(UnwrappedNumericValidation)
+  answer={
     Object {
-      "answer": Object {
-        "id": "1",
-        "type": "Number",
-        "validation": Object {
-          "maxValue": Object {
-            "enabled": false,
-            "validationErrorInfo": Object {
-              "errors": Array [],
-            },
+      "id": "1",
+      "type": "Number",
+      "validation": Object {
+        "maxValue": Object {
+          "enabled": false,
+          "validationErrorInfo": Object {
+            "errors": Array [],
           },
-          "minValue": Object {
-            "enabled": true,
-            "validationErrorInfo": Object {
-              "errors": Array [
-                Object {
-                  "errorCode": "ERR_NO_VALUE",
-                  "field": "custom",
-                  "id": "minValue-0efd3ed1-8e0d-4b0c-9e39-59010751dbdf-custom",
-                  "type": "validation",
-                },
-              ],
-            },
-          },
+        },
+        "minValue": Object {
+          "enabled": true,
+          "entityType": "Custom",
+          "previousAnswer": null,
           "validationErrorInfo": Object {
             "errors": Array [
               Object {
@@ -40,131 +28,74 @@ exports[`AnswerValidation should render 1`] = `
             ],
           },
         },
+        "validationErrorInfo": Object {
+          "errors": Array [
+            Object {
+              "errorCode": "ERR_NO_VALUE",
+              "field": "custom",
+              "id": "minValue-0efd3ed1-8e0d-4b0c-9e39-59010751dbdf-custom",
+              "type": "validation",
+            },
+          ],
+        },
       },
     }
   }
->
-  <AnswerValidation__SidebarValidation
-    data-test="sidebar-button-min-value"
-    hasError={true}
-    key="minValue"
-    onClick={[Function]}
-  >
-    <SidebarButton__Title>
-      Min value must be more than
-    </SidebarButton__Title>
-    <SidebarButton__Detail />
-  </AnswerValidation__SidebarValidation>
-  <AnswerValidation__SidebarValidation
-    data-test="sidebar-button-max-value"
-    hasError={false}
-    key="maxValue"
-    onClick={[Function]}
-  >
-    <SidebarButton__Title>
-      Set max value
-    </SidebarButton__Title>
-  </AnswerValidation__SidebarValidation>
-  <AnswerValidation__PropertiesError
-    icon={[Function]}
-    key="null"
-  >
-    Value is required
-  </AnswerValidation__PropertiesError>
-  <ModalWithNav
-    id="modal-validation-1"
-    isOpen={false}
-    navItems={
-      Array [
-        Object {
-          "id": "minValue",
-          "preview": [Function],
-          "render": [Function],
-          "title": "Min value",
-          "types": Array [
-            "Currency",
-            "Number",
-            "Percentage",
-            "Unit",
+  limit={999999999}
+  onChange={[MockFunction]}
+  onChangeUpdate={[MockFunction]}
+  onCustomNumberValueChange={[Function]}
+  onUpdate={[MockFunction]}
+  type="Number"
+/>
+`;
+
+exports[`AnswerValidation should render 1`] = `
+<withChangeUpdate(UnwrappedNumericValidation)
+  answer={
+    Object {
+      "id": "1",
+      "type": "Number",
+      "validation": Object {
+        "maxValue": Object {
+          "enabled": false,
+          "validationErrorInfo": Object {
+            "errors": Array [],
+          },
+        },
+        "minValue": Object {
+          "enabled": true,
+          "entityType": "Custom",
+          "previousAnswer": null,
+          "validationErrorInfo": Object {
+            "errors": Array [
+              Object {
+                "errorCode": "ERR_NO_VALUE",
+                "field": "custom",
+                "id": "minValue-0efd3ed1-8e0d-4b0c-9e39-59010751dbdf-custom",
+                "type": "validation",
+              },
+            ],
+          },
+        },
+        "validationErrorInfo": Object {
+          "errors": Array [
+            Object {
+              "errorCode": "ERR_NO_VALUE",
+              "field": "custom",
+              "id": "minValue-0efd3ed1-8e0d-4b0c-9e39-59010751dbdf-custom",
+              "type": "validation",
+            },
           ],
         },
-        Object {
-          "id": "maxValue",
-          "preview": [Function],
-          "render": [Function],
-          "title": "Max value",
-          "types": Array [
-            "Currency",
-            "Number",
-            "Percentage",
-            "Unit",
-          ],
-        },
-      ]
+      },
     }
-    onClose={[Function]}
-    startingTabId={null}
-    title="Number validation"
-  />
-</ContextProvider>
-`;
-
-exports[`AnswerValidation validation object array should render the Earliest date validation 1`] = `
-<Component
-  displayName="Earliest date"
-  readKey="earliestDate"
-  testId="earliest-date-validation"
->
-  <Component />
-</Component>
-`;
-
-exports[`AnswerValidation validation object array should render the Latest date validation 1`] = `
-<Component
-  displayName="Latest date"
-  readKey="latestDate"
-  testId="latest-date-validation"
->
-  <Component />
-</Component>
-`;
-
-exports[`AnswerValidation validation object array should render the Max duration validation 1`] = `
-<Component
-  displayName="Max duration"
-  readKey="maxDuration"
-  testId="max-duration-validation"
->
-  <Component />
-</Component>
-`;
-
-exports[`AnswerValidation validation object array should render the Max value validation 1`] = `
-<Component
-  displayName="Max value"
-  readKey="maxValue"
-  testId="max-value-validation"
->
-  <Component />
-</Component>
-`;
-
-exports[`AnswerValidation validation object array should render the Min duration validation 1`] = `
-<Component
-  displayName="Min duration"
-  readKey="minDuration"
-  testId="min-duration-validation"
->
-  <Component />
-</Component>
-`;
-
-exports[`AnswerValidation validation object array should render the Min value validation 1`] = `
-<Component
-  displayName="Min value"
-  readKey="minValue"
-  testId="min-value-validation"
->
-  <Component />
-</Component>
+  }
+  limit={999999999}
+  onChange={[MockFunction]}
+  onChangeUpdate={[MockFunction]}
+  onCustomNumberValueChange={[Function]}
+  onUpdate={[MockFunction]}
+  type="Number"
+/>
 `;

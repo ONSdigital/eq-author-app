@@ -5,15 +5,7 @@ import {
   NUMBER,
 } from "constants/answer-types";
 
-import ModalWithNav from "components/modals/ModalWithNav";
-import AnswerValidation, {
-  validationTypes,
-  SidebarValidation,
-} from "../AnswerValidation";
-
-const render = (props, render = shallow) => {
-  return render(<AnswerValidation {...props} />);
-};
+import UnwrappedNumericValidation from "./";
 
 describe("AnswerValidation", () => {
   let props;
@@ -26,6 +18,8 @@ describe("AnswerValidation", () => {
         validation: {
           minValue: {
             enabled: true,
+            entityType: "Custom",
+            previousAnswer: null,
             validationErrorInfo: {
               errors: [
                 {
@@ -53,45 +47,27 @@ describe("AnswerValidation", () => {
           },
         },
       },
+      type: "Number",
+      onChange: jest.fn(),
+      onUpdate: jest.fn(),
+      onChangeUpdate: jest.fn(),
     };
   });
 
   it("should render", () => {
-    expect(render(props)).toMatchSnapshot();
+    expect(shallow(<UnwrappedNumericValidation {...props} />)).toMatchSnapshot();
   });
 
-  it("should not render when there are no valid validation types", () => {
-    props.answer.type = "Radio";
-    expect(render(props)).toMatchSnapshot();
-  });
+  // it("should trigger change update when the entity type is changed by the pill tabs", () => {
+  //   const wrapper = shallow(<UnwrappedNumericValidation {...props} />);
+  //   wrapper.find("[data-test='value-pill-tabs']").simulate("entityTypeChange", {
+  //     name: "entityType",
+  //     value: "PreviousAnswer",
+  //   });
 
-  it("should correctly initialise state", () => {
-    const wrapper = render(props);
-    expect(wrapper.state("modalIsOpen")).toEqual(false);
-  });
-
-  it("should correctly update state when opening a Modal", () => {
-    const wrapper = render(props);
-    wrapper
-      .find(SidebarValidation)
-      .first()
-      .simulate("click");
-    expect(wrapper.state("modalIsOpen")).toEqual(true);
-  });
-
-  it("should correctly update state when closing a Modal", () => {
-    const wrapper = render(props);
-    wrapper.find(ModalWithNav).simulate("close");
-    expect(wrapper.state("modalIsOpen")).toEqual(false);
-  });
-
-  describe("validation object array", () => {
-    validationTypes.forEach(validationType => {
-      it(`should render the ${validationType.title} validation`, () => {
-        const wrapper = shallow(validationType.render());
-
-        expect(wrapper).toMatchSnapshot();
-      });
-    });
-  });
+  //   expect(props.onChangeUpdate).toHaveBeenCalledWith({
+  //     name: "entityType",
+  //     value: "PreviousAnswer",
+  //   });
+  // });
 });

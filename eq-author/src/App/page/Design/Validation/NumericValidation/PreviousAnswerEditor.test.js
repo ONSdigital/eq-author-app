@@ -14,16 +14,6 @@ describe("Custom Editor", () => {
         properties: {
           unit: null,
         },
-        validation: {
-          minValue: {
-            enabled: false,
-            validationErrorInfo: { errors: [] },
-          },
-          maxValue: {
-            enabled: false,
-            validationErrorInfo: { errors: [] },
-          },
-        },
       },
       validation: {
         custom: null,
@@ -52,7 +42,7 @@ describe("Custom Editor", () => {
     expect(shallow(<PreviousAnswerEditor {...props} />)).toMatchSnapshot();
   });
 
-  it("should trigger onChange when the number input changes", () => {
+  it("should trigger onChange when the input changes", () => {
     const wrapper = shallow(<PreviousAnswerEditor {...props} />);
     wrapper
       .find("[data-test='content-picker-select']")
