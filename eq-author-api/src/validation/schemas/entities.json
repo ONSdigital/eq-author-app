@@ -400,28 +400,55 @@
                 }
               }
             },
-            "allOf": [
-              {
-                "properties": {
-                  "minValue": {
+            "properties": {
+              "minValue": {
+                "anyOf": [
+                  {
                     "type": "object",
                     "properties": {
                       "enabled": {
                         "const": true
                       },
+                      "entityType": {
+                        "const":"Custom"
+                      },
                       "custom": {
                         "not": {
                           "type": "null"
-                        },
-                        "errorMessage": "ERR_NO_VALUE"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "enabled": {
+                        "const": true
+                      },
+                      "entityType": {
+                        "const":"PreviousAnswer"
+                      },
+                      "previousAnswer": {
+                        "not": {
+                          "type": "null"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "enabled": {
+                        "const": false
                       }
                     }
                   }
-                }
+                ],
+                "errorMessage": "ERR_NO_VALUE"
               },
-              {
-                "properties": {
-                  "maxValue": {
+              "maxValue": {
+                "anyOf": [
+                  {
                     "type": "object",
                     "properties": {
                       "enabled": {
@@ -430,14 +457,38 @@
                       "custom": {
                         "not": {
                           "type": "null"
-                        },
-                        "errorMessage": "ERR_NO_VALUE"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "enabled": {
+                        "const": true
+                      },
+                      "entityType": {
+                        "const":"PreviousAnswer"
+                      },
+                      "previousAnswer": {
+                        "not": {
+                          "type": "null"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "enabled": {
+                        "const": false
                       }
                     }
                   }
-                }
+                ],
+                "errorMessage": "ERR_NO_VALUE"
               }
-            ]
+            }  
           },
           "properties": {
             "$ref": "entities.json#/definitions/properties"
