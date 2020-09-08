@@ -457,7 +457,7 @@ describe("validation", () => {
           metadata: null,
         };
         expect(result).toEqual(expected);
-      });
+      }, 30000);
 
       it("can update previous answer", async () => {
         const previousAnswer = await createAnswer(ctx, {
