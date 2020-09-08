@@ -24,6 +24,7 @@ Form.propTypes = {
   action: PropTypes.string,
   children: PropTypes.node.isRequired,
   onSubmit: PropTypes.func.isRequired,
+  htmlWidth: PropTypes.string,
 };
 
 export default Form;
