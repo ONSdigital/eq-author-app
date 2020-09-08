@@ -17,7 +17,7 @@ exports[`AnswerValidation should render 1`] = `
             },
           },
           "minValue": Object {
-            "enabled": false,
+            "enabled": true,
             "validationErrorInfo": Object {
               "errors": Array [
                 Object {
@@ -51,8 +51,9 @@ exports[`AnswerValidation should render 1`] = `
     onClick={[Function]}
   >
     <SidebarButton__Title>
-      Set min value
+      Min value must be more than
     </SidebarButton__Title>
+    <SidebarButton__Detail />
   </AnswerValidation__SidebarValidation>
   <AnswerValidation__SidebarValidation
     data-test="sidebar-button-max-value"

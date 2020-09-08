@@ -25,7 +25,7 @@ describe("AnswerValidation", () => {
         type: NUMBER,
         validation: {
           minValue: {
-            enabled: false,
+            enabled: true,
             validationErrorInfo: {
               errors: [
                 {

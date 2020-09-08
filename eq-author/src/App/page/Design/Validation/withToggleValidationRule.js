@@ -19,16 +19,6 @@ export const TOGGLE_VALIDATION_RULE = gql`
       enabled
       ...MinValueValidationRule
       ...MaxValueValidationRule
-      # validationErrorInfo {
-      #     id
-      #     errors {
-      #       id
-      #       type
-      #       field
-      #       errorCode
-      #     }
-      #     totalCount
-      # }
     }
   }
   ${MinValueValidationRule}
