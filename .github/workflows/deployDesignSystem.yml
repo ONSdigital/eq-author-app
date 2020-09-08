@@ -1,6 +1,9 @@
 name: Build and deploy design system
 
-on: [pull_request]
+on:
+  push:
+    branches:
+      - master
 
 jobs:
   build-and-deploy:
