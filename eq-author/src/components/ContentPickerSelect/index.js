@@ -80,7 +80,7 @@ const ContentPickerSelect = props => {
 
   const data = contentTypes[0] === ANSWER ? answerData : metadataData;
 
-  const ContentSelectButtonText = metadataData
+  const contentSelectButtonText = metadataData
     ? selectedMetadataDisplayName
     : selectedContentDisplayName;
 
@@ -92,7 +92,7 @@ const ContentPickerSelect = props => {
         disabled={isDisabled}
         {...otherProps}
       >
-        <ContentSelected>{ContentSelectButtonText}</ContentSelected>
+        <ContentSelected>{contentSelectButtonText}</ContentSelected>
       </ContentSelectButton>
       <ContentPicker
         isOpen={isPickerOpen}
