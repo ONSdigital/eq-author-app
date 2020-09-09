@@ -27,7 +27,7 @@
     "dynamoose": "latest",
     "express": "latest",
     "express-pino-logger": "latest",
-    "firebase-admin": "^9.0.0",
+    "firebase-admin": "^9.1.1",
     "graphql": "latest",
     "graphql-anywhere": "latest",
     "graphql-iso-date": "latest",
@@ -47,7 +47,7 @@
     "node-fetch": "latest",
     "node-jose": "latest",
     "pino-noir": "latest",
-    "pino-pretty": "^4.0.0",
+    "pino-pretty": "^4.2.0",
     "prom-client": "latest",
     "uuid": "latest",
     "wait-on": "latest"
