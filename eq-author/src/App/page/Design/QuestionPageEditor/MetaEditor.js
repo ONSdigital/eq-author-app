@@ -134,7 +134,7 @@ export class StatelessMetaEditor extends React.Component {
                 id="question-description"
                 name="description"
                 label="Question description"
-                multiline="true"
+                multiline
                 value={page.description}
                 onUpdate={onChangeUpdate}
                 controls={descriptionControls}
@@ -170,7 +170,7 @@ export class StatelessMetaEditor extends React.Component {
                   id="definition-content"
                   name="definitionContent"
                   label="Content"
-                  multiline="true"
+                  multiline
                   value={page.definitionContent}
                   onUpdate={onChangeUpdate}
                   controls={definitionControls}
@@ -192,7 +192,7 @@ export class StatelessMetaEditor extends React.Component {
                 id="question-guidance"
                 name="guidance"
                 label="Include/exclude"
-                multiline="true"
+                multiline
                 value={page.guidance}
                 onUpdate={onChangeUpdate}
                 controls={guidanceControls}

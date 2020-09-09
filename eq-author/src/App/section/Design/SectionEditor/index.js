@@ -173,7 +173,7 @@ export class SectionEditor extends React.Component {
             <RichTextEditor
               id="introduction-content"
               label="Introduction content"
-              multiline="true"
+              multiline
               onUpdate={handleUpdate}
               name="introductionContent"
               testSelector="txt-introduction-content"
