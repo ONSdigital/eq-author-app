@@ -55,7 +55,7 @@ export const StatelessAdditionalInfo = ({
             id="additional-info-content"
             name="additionalInfoContent"
             label="Content"
-            multiline="true"
+            multiline
             value={page.additionalInfoContent}
             onUpdate={onChangeUpdate}
             controls={contentControls}
