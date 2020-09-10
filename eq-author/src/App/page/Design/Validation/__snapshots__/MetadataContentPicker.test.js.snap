@@ -23,5 +23,6 @@ exports[`MetadataContentPicker should render 1`] = `
   name="metadata"
   onSubmit={[MockFunction]}
   selectedContentDisplayName="foobar"
+  selectedMetadataDisplayName="Select metadata"
 />
 `;
