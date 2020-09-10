@@ -19,6 +19,7 @@ import {
   UNIT,
   DURATION,
 } from "constants/answer-types";
+import { unitConversion } from "constants/unit-types";
 import { durationConversion } from "constants/duration-types";
 import Tooltip from "components/Forms/Tooltip";
 import DeleteButton from "components/buttons/DeleteButton";
@@ -114,6 +115,18 @@ class AnswerEditor extends React.Component {
   }
 
   getAnswerTypeText(answer) {
+    if (answer.type === UNIT) {
+      if (!answer.properties.unit) {
+        return answer.type;
+      }
+      const unitConfig = unitConversion[answer.properties.unit];
+      return (
+        <>
+          {unitConfig.unit}
+          {` (${unitConfig.abbreviation})`}
+        </>
+      );
+    }
     if (answer.type === DURATION) {
       const durationConfig = durationConversion[answer.properties.unit];
       return (
