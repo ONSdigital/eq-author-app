@@ -11,6 +11,8 @@ coverage/
 build/
 build/Release/
 
+design-system
+
 # misc
 .DS_Store
 logs
