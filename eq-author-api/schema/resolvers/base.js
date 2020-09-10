@@ -528,12 +528,18 @@ const Resolvers = {
     }),
     toggleValidationRule: createMutation((_, args, ctx) => {
       const validation = getValidationById(ctx, args.input.id);
-
       validation.enabled = args.input.enabled;
+      if (
+        validation.enabled &&
+        !validation.custom &&
+        !validation.previousAnswer
+      ) {
+        validation.custom = null;
+        validation.previousAnswer = null;
+      }
       const newValidation = Object.assign({}, validation);
 
       delete validation.validationType;
-
       return newValidation;
     }),
     updateValidationRule: createMutation((_, args, ctx) => {

@@ -14,11 +14,15 @@
         },
         "introductionTitle": {
           "type": "string",
-          "requiredWhenOtherFieldsPopulated": ["introductionContent"]
+          "requiredWhenOtherFieldsPopulated": [
+            "introductionContent"
+          ]
         },
         "introductionContent": {
           "type": "string",
-          "requiredWhenOtherFieldsPopulated": ["introductionTitle"]
+          "requiredWhenOtherFieldsPopulated": [
+            "introductionTitle"
+          ]
         },
         "pages": {
           "type": "array",
@@ -27,7 +31,10 @@
           }
         }
       },
-      "required": ["id", "pages"]
+      "required": [
+        "id",
+        "pages"
+      ]
     },
     "page": {
       "type": "object",
@@ -92,7 +99,9 @@
       "if": {
         "properties": {
           "pageType": {
-            "enum": ["QuestionPage"]
+            "enum": [
+              "QuestionPage"
+            ]
           }
         }
       },
@@ -114,7 +123,9 @@
         "if": {
           "properties": {
             "pageType": {
-              "enum": ["CalculatedSummaryPage"]
+              "enum": [
+                "CalculatedSummaryPage"
+              ]
             }
           }
         },
@@ -138,10 +149,15 @@
               }
             }
           },
-          "required": ["summaryAnswers"]
+          "required": [
+            "summaryAnswers"
+          ]
         }
       },
-      "required": ["id", "title"]
+      "required": [
+        "id",
+        "title"
+      ]
     },
     "totalValidation": {
       "oneOf": [
@@ -166,7 +182,9 @@
               "const": "Custom"
             },
             "custom": {
-              "not": { "type": "null" }
+              "not": {
+                "type": "null"
+              }
             }
           }
         },
@@ -180,7 +198,9 @@
               "const": "PreviousAnswer"
             },
             "previousAnswer": {
-              "not": { "type": "null" }
+              "not": {
+                "type": "null"
+              }
             }
           }
         }
@@ -214,7 +234,9 @@
               ]
             }
           },
-          "required": ["label"]
+          "required": [
+            "label"
+          ]
         },
         "negative": {
           "type": "object",
@@ -235,12 +257,17 @@
               ]
             }
           },
-          "required": ["label"]
+          "required": [
+            "label"
+          ]
         }
       },
-      "required": ["id", "title", "positive"]
+      "required": [
+        "id",
+        "title",
+        "positive"
+      ]
     },
-
     "answer": {
       "allOf": [
         {
@@ -266,7 +293,10 @@
         "properties": {
           "type": {
             "not": {
-              "enum": ["Checkbox", "Radio"]
+              "enum": [
+                "Checkbox",
+                "Radio"
+              ]
             }
           }
         }
@@ -284,14 +314,22 @@
             "$ref": "entities.json#/definitions/properties"
           }
         },
-        "required": ["id", "label"]
+        "required": [
+          "id",
+          "label"
+        ]
       }
     },
     "numericAnswer": {
       "if": {
         "properties": {
           "type": {
-            "enum": ["Number", "Percentage", "Currency", "Unit"]
+            "enum": [
+              "Number",
+              "Percentage",
+              "Currency",
+              "Unit"
+            ]
           }
         }
       },
@@ -310,6 +348,11 @@
                         },
                         "previousAnswer": {
                           "const": null
+                        },
+                        "custom": {
+                          "not": {
+                            "type": "null"
+                          }
                         }
                       }
                     }
@@ -324,6 +367,11 @@
                         },
                         "previousAnswer": {
                           "const": null
+                        },
+                        "custom": {
+                          "not": {
+                            "type": "null"
+                          }
                         }
                       }
                     }
@@ -351,7 +399,96 @@
                   }
                 }
               }
-            }
+            },
+            "properties": {
+              "minValue": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "enabled": {
+                        "const": true
+                      },
+                      "entityType": {
+                        "const":"Custom"
+                      },
+                      "custom": {
+                        "not": {
+                          "type": "null"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "enabled": {
+                        "const": true
+                      },
+                      "entityType": {
+                        "const":"PreviousAnswer"
+                      },
+                      "previousAnswer": {
+                        "not": {
+                          "type": "null"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "enabled": {
+                        "const": false
+                      }
+                    }
+                  }
+                ],
+                "errorMessage": "ERR_NO_VALUE"
+              },
+              "maxValue": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "enabled": {
+                        "const": true
+                      },
+                      "custom": {
+                        "not": {
+                          "type": "null"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "enabled": {
+                        "const": true
+                      },
+                      "entityType": {
+                        "const":"PreviousAnswer"
+                      },
+                      "previousAnswer": {
+                        "not": {
+                          "type": "null"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "enabled": {
+                        "const": false
+                      }
+                    }
+                  }
+                ],
+                "errorMessage": "ERR_NO_VALUE"
+              }
+            }  
           },
           "properties": {
             "$ref": "entities.json#/definitions/properties"
@@ -364,7 +501,10 @@
       "if": {
         "properties": {
           "type": {
-            "enum": ["Checkbox", "Radio"]
+            "enum": [
+              "Checkbox",
+              "Radio"
+            ]
           }
         }
       },
@@ -391,7 +531,10 @@
             "$ref": "entities.json#/definitions/option"
           }
         },
-        "required": ["id", "options"]
+        "required": [
+          "id",
+          "options"
+        ]
       },
       "else": false
     },
@@ -399,7 +542,9 @@
       "if": {
         "properties": {
           "type": {
-            "enum": ["Date"]
+            "enum": [
+              "Date"
+            ]
           }
         }
       },
@@ -413,8 +558,15 @@
                   "properties": {
                     "earliestDate": {
                       "properties": {
-                        "enabled": { "const": true },
-                        "entityType": { "enum": ["Custom", "Metadata"] }
+                        "enabled": {
+                          "const": true
+                        },
+                        "entityType": {
+                          "enum": [
+                            "Custom",
+                            "Metadata"
+                          ]
+                        }
                       }
                     }
                   }
@@ -423,8 +575,15 @@
                   "properties": {
                     "latestDate": {
                       "properties": {
-                        "enabled": { "const": true },
-                        "entityType": { "enum": ["Custom", "Metadata"] }
+                        "enabled": {
+                          "const": true
+                        },
+                        "entityType": {
+                          "enum": [
+                            "Custom",
+                            "Metadata"
+                          ]
+                        }
                       }
                     }
                   }
@@ -456,7 +615,9 @@
       "if": {
         "properties": {
           "type": {
-            "enum": ["DateRange"]
+            "enum": [
+              "DateRange"
+            ]
           }
         }
       },
@@ -590,7 +751,10 @@
           "$ref": "entities.json#/definitions/basicAnswer"
         }
       },
-      "required": ["id", "label"]
+      "required": [
+        "id",
+        "label"
+      ]
     },
     "routingRule": {
       "properties": {
@@ -600,8 +764,15 @@
         "destination": {},
         "expressionGroup": {
           "properties": {
-            "id": { "type": "string" },
-            "operator": { "enum": ["And", "Or"] },
+            "id": {
+              "type": "string"
+            },
+            "operator": {
+              "enum": [
+                "And",
+                "Or"
+              ]
+            },
             "expressions": {
               "type": "array",
               "items": {
@@ -624,7 +795,9 @@
     },
     "expression": {
       "properties": {
-        "id": { "type": "string" },
+        "id": {
+          "type": "string"
+        },
         "condition": {
           "type": "string"
         },
@@ -639,7 +812,9 @@
                   "pattern": "\\w+"
                 }
               },
-              "required": ["answerId"]
+              "required": [
+                "answerId"
+              ]
             }
           ],
           "errorMessage": "ERR_ANSWER_NOT_SELECTED",
@@ -648,7 +823,12 @@
         "right": {
           "type": "object",
           "properties": {
-            "type": { "enum": ["Custom", "SelectedOptions"] },
+            "type": {
+              "enum": [
+                "Custom",
+                "SelectedOptions"
+              ]
+            },
             "optionIds": {
               "type": "array",
               "minItems": 1,
@@ -660,12 +840,16 @@
               "type": "object",
               "properties": {
                 "number": {
-                  "not": { "type": "null" }
+                  "not": {
+                    "type": "null"
+                  }
                 }
               }
             }
           },
-          "required": ["type"],
+          "required": [
+            "type"
+          ],
           "errorMessage": "ERR_RIGHTSIDE_NO_VALUE",
           "validateExclusiveCheckbox": "right"
         }
@@ -673,8 +857,14 @@
     },
     "expression-unanswered": {
       "properties": {
-        "id": { "type": "string" },
-        "condition": { "enum": ["Unanswered"] },
+        "id": {
+          "type": "string"
+        },
+        "condition": {
+          "enum": [
+            "Unanswered"
+          ]
+        },
         "left": {
           "type": "object",
           "anyOf": [
@@ -686,7 +876,9 @@
                   "pattern": "\\w+"
                 }
               },
-              "required": ["answerId"]
+              "required": [
+                "answerId"
+              ]
             }
           ],
           "errorMessage": "ERR_ANSWER_NOT_SELECTED"
