@@ -21,4 +21,4 @@
 2. * [ ] If there are a lot of commits or some are not helpful to read, squash them down
 3. * [ ] Click the **Merge** button on this pull request
 4. * [ ] Does this change mean the **Capability examples** questionnaire should be updated?
-5. * [ ] Move the Trello card for this task into the next stage of the process
+5. * [ ] Move the Jira ticket for this task into the next stage of the process

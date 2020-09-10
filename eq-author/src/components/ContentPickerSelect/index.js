@@ -68,6 +68,7 @@ const ContentPickerSelect = props => {
     contentTypes,
     name,
     selectedContentDisplayName,
+    selectedMetadataDisplayName,
     ...otherProps
   } = props;
   const isDisabled = loading || !isNil(error) || disabled;
@@ -79,6 +80,10 @@ const ContentPickerSelect = props => {
 
   const data = contentTypes[0] === ANSWER ? answerData : metadataData;
 
+  const contentSelectButtonText = metadataData
+    ? selectedMetadataDisplayName
+    : selectedContentDisplayName;
+
   return (
     <>
       <ContentSelectButton
@@ -87,7 +92,7 @@ const ContentPickerSelect = props => {
         disabled={isDisabled}
         {...otherProps}
       >
-        <ContentSelected>{selectedContentDisplayName}</ContentSelected>
+        <ContentSelected>{contentSelectButtonText}</ContentSelected>
       </ContentSelectButton>
       <ContentPicker
         isOpen={isPickerOpen}
@@ -124,6 +129,7 @@ ContentPickerSelect.propTypes = {
   selectedId: PropTypes.string,
   onSubmit: PropTypes.func.isRequired,
   selectedContentDisplayName: PropTypes.string,
+  selectedMetadataDisplayName: PropTypes.string,
   name: PropTypes.string.isRequired,
   contentTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
   answerData: PropTypes.arrayOf(
@@ -142,6 +148,7 @@ ContentPickerSelect.propTypes = {
 
 ContentPickerSelect.defaultProps = {
   selectedContentDisplayName: "Select an answer",
+  selectedMetadataDisplayName: "Select metadata",
 };
 
 export default ContentPickerSelect;

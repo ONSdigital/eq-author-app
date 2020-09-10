@@ -31,5 +31,6 @@ exports[`RoutingAnswerContentPicker should render 1`] = `
   name="answerId"
   onSubmit={[MockFunction]}
   selectedContentDisplayName="displayName"
+  selectedMetadataDisplayName="Select metadata"
 />
 `;
