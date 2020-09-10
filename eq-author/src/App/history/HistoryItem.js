@@ -150,7 +150,7 @@ const HistoryItem = ({
               name="note"
               onUpdate={e => setNoteState(e.value)}
               label=""
-              multiline="true"
+              multiline
               value={noteState}
               controls={{
                 heading: true,
