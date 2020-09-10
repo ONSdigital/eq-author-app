@@ -23,32 +23,29 @@ module.exports = function(ajv) {
       questionnaire
     ) {
       isValid.errors = [];
-      let exclusiveOptionId;
+
+      const { condition: ruleCondition } = parentData;
+      let selectedCheckboxOptions;
+      let mutuallyExclusiveOption;
 
       if (
         entityData &&
         entityData.type === "SelectedOptions" &&
         entityData.optionIds
       ) {
-        entityData.optionIds.map(optionId => {
-          const option = getOptionById({ questionnaire }, optionId);
-          if (option && option.mutuallyExclusive) {
-            exclusiveOptionId = optionId;
-          }
-        });
-        if (exclusiveOptionId) {
-          if (parentData.condition === "AllOf") {
-            const err = createValidationError(
-              dataPath,
-              fieldName,
-              ERR_RIGHTSIDE_AND_OR_NOT_ALLOWED,
-              questionnaire
-            );
-            isValid.errors.push(err);
+        selectedCheckboxOptions = entityData.optionIds.map(optionId =>
+          getOptionById({ questionnaire }, optionId)
+        );
 
-            return false;
-          }
+        mutuallyExclusiveOption = selectedCheckboxOptions.filter(
+          ({ mutuallyExclusive }) => mutuallyExclusive
+        );
 
+        if (selectedCheckboxOptions.length === 1 && mutuallyExclusiveOption) {
+          return true;
+        }
+
+        if (mutuallyExclusiveOption) {
           const expressionGroup = getExpressionGroupByExpressionId(
             { questionnaire },
             parentData.id
