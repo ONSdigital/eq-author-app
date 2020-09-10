@@ -24,6 +24,7 @@ import {
   DURATION_ERROR_MESSAGE,
   MAX_GREATER_THAN_MIN,
   EARLIEST_BEFORE_LATEST_DATE,
+  ERR_NO_VALUE,
 } from "constants/validationMessages";
 
 const render = (props, render = shallow) => {
@@ -219,6 +220,24 @@ describe("AnswerValidation", () => {
       });
     });
 
+    it("should render an error message when numeric input is null", () => {
+      const error = [
+        {
+          errorCode: "ERR_NO_VALUE",
+          field: "custom",
+          id: "maxValue-0183a9c0-b79f-4766-ba7a-3c3718bb9f26-custom",
+          type: "validation",
+          __typename: "ValidationError",
+        },
+      ];
+      props.answer.validation.minValue.validationErrorInfo.errors = error;
+      props.answer.validation.maxValue.validationErrorInfo.errors = error;
+
+      const { getByText } = rtlRender(<AnswerValidation {...props} />);
+
+      expect(getByText(ERR_NO_VALUE)).toBeTruthy();
+    });
+
     it("should render an error message when min val > max Val", () => {
       const error = [
         {
@@ -236,7 +255,9 @@ describe("AnswerValidation", () => {
 
       expect(getByText(MAX_GREATER_THAN_MIN)).toBeTruthy();
     });
+  });
 
+  describe("Date validation preview", () => {
     it("Date Validation - should render an error message when earliest date is after latest date", () => {
       props = {
         answer: {
