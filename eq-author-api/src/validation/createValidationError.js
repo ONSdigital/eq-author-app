@@ -90,9 +90,13 @@ module.exports = (dataPath, field, errorCode, questionnaire) => {
 
         case "validation":
           validation = answer.validation;
-          propertyJSON = validation[dataPath[index + 1]];
-          validationErr.validationId = propertyJSON.id;
-          validationErr.validationProperty = dataPath[index + 1];
+          if (dataPath[index + 1]) {
+            propertyJSON = validation[dataPath[index + 1]];
+            validationErr.validationId = propertyJSON.id;
+            validationErr.validationProperty = dataPath[index + 1];
+          } else {
+            validationErr.validationId = validation[field].id;
+          }
           validationErr.type = "validation";
           break;
 

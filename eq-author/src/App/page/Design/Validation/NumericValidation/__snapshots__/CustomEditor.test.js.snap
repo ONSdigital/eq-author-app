@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Custom Editor should render 1`] = `
+<Fragment>
+  <FieldWithInclude
+    checked={true}
+    id="inclusive"
+    name="inclusive"
+    onChange={[MockFunction]}
+  >
+    <CustomEditor__StyledNumber
+      data-test="numeric-value-input"
+      default={null}
+      hasError={
+        Object {
+          "errorCode": "ERR_NO_VALUE",
+          "field": "custom",
+          "id": "minValue-0efd3ed1-8e0d-4b0c-9e39-59010751dbdf-custom",
+          "type": "validation",
+        }
+      }
+      max={999}
+      min={-999}
+      name="custom"
+      onBlur={[MockFunction]}
+      onChange={[MockFunction]}
+      type="Number"
+      unit={null}
+      value={null}
+    />
+  </FieldWithInclude>
+  <CustomEditor__StyledError>
+    Value is required
+  </CustomEditor__StyledError>
+</Fragment>
+`;

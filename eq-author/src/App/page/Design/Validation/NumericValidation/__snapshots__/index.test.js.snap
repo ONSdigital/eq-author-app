@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AnswerValidation should render 1`] = `
+<withChangeUpdate(UnwrappedNumericValidation)
+  answer={
+    Object {
+      "id": "1",
+      "type": "Number",
+      "validation": Object {
+        "maxValue": Object {
+          "enabled": false,
+          "validationErrorInfo": Object {
+            "errors": Array [],
+          },
+        },
+        "minValue": Object {
+          "enabled": true,
+          "entityType": "Custom",
+          "previousAnswer": null,
+          "validationErrorInfo": Object {
+            "errors": Array [
+              Object {
+                "errorCode": "ERR_NO_VALUE",
+                "field": "custom",
+                "id": "minValue-0efd3ed1-8e0d-4b0c-9e39-59010751dbdf-custom",
+                "type": "validation",
+              },
+            ],
+          },
+        },
+        "validationErrorInfo": Object {
+          "errors": Array [
+            Object {
+              "errorCode": "ERR_NO_VALUE",
+              "field": "custom",
+              "id": "minValue-0efd3ed1-8e0d-4b0c-9e39-59010751dbdf-custom",
+              "type": "validation",
+            },
+          ],
+        },
+      },
+    }
+  }
+  limit={999999999}
+  onChange={[MockFunction]}
+  onChangeUpdate={[MockFunction]}
+  onCustomNumberValueChange={[Function]}
+  onUpdate={[MockFunction]}
+  type="Number"
+/>
+`;

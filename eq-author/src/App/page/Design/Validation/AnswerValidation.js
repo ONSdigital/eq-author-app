@@ -1,5 +1,5 @@
 import React from "react";
-import { kebabCase, get, startCase, isNull } from "lodash";
+import { kebabCase, get, startCase, isNull, find } from "lodash";
 import CustomPropTypes from "custom-prop-types";
 import styled from "styled-components";
 
@@ -13,7 +13,9 @@ import WarningIcon from "constants/icon-warning.svg?inline";
 import ValidationContext from "./ValidationContext";
 import DurationValidation from "./DurationValidation";
 import DateValidation from "./DateValidation";
-import NumericValidation from "./NumericValidation";
+
+import NumericValidation from "./NumericValidation/index";
+
 import DatePreview from "./DatePreview";
 import DurationPreview from "./DurationPreview";
 import {
@@ -22,6 +24,7 @@ import {
   DURATION_ERROR_MESSAGE,
   MIN_INCLUSIVE_TEXT,
   MAX_INCLUSIVE_TEXT,
+  ERR_NO_VALUE,
 } from "constants/validationMessages";
 
 import {
@@ -208,10 +211,9 @@ class AnswerValidation extends React.PureComponent {
           errorsArr.dateRange.duration.push(...errors);
         }
       }
-
       errorsArr.other.push(...errors);
 
-      const value = enabled ? validationType.preview(validation, answer) : "";
+      const value = enabled ? validationType.preview(validation, answer) : null;
 
       return this.renderButton({
         ...validationType,
@@ -301,16 +303,30 @@ class AnswerValidation extends React.PureComponent {
       validationButtons.push(durationButtons);
       validationButtons.push(durationError);
     } else {
-      const validationMessage =
-        answer.type === "Date"
-          ? EARLIEST_BEFORE_LATEST_DATE
-          : MAX_GREATER_THAN_MIN;
+      let validationMessage = null;
 
       validationButtons = this.renderValidation(
         validValidationTypes,
         answer,
         validationErrors
       );
+
+      if (answer.type === "Date") {
+        validationMessage = EARLIEST_BEFORE_LATEST_DATE
+      } else {
+        const noValError = find(validationErrors.other, error =>
+          error.errorCode.includes("ERR_NO_VALUE")
+        );
+
+        const maxError = find(validationErrors.other, error =>
+          error.errorCode.includes("ERR_MIN_LARGER_THAN_MAX")
+        );
+        if (noValError || (noValError && maxError)) {
+          validationMessage = ERR_NO_VALUE
+        } else {
+          validationMessage = MAX_GREATER_THAN_MIN
+        }
+      }
 
       const propertyError = this.renderPropertyError(
         validationErrors.other.length > 0,
