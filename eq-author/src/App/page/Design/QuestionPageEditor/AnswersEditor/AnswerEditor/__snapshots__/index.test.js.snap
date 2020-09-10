@@ -1067,7 +1067,10 @@ exports[`Answer Editor should render Unit 1`] = `
   <AnswerEditor__AnswerHeader>
     <AnswerEditor__AnswerType
       data-test="answer-type"
-    />
+    >
+      Centimetres
+       (cm)
+    </AnswerEditor__AnswerType>
     <AnswerEditor__Buttons>
       <Tooltip
         content="Move answer up"
