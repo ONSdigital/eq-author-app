@@ -1,5 +1,5 @@
 const {
-  ERR_RIGHTSIDE_AND_OR_NOT_ALLOWED,
+  ERR_RIGHTSIDE_OR_WITH_STANDARD_OPTIONS_IN_AND_RULE,
   ERR_RIGHTSIDE_ALLOFF_OR_NOT_ALLOWED,
 } = require("../../../constants/validationErrorCodes");
 
@@ -43,6 +43,23 @@ module.exports = function(ajv) {
 
         if (selectedCheckboxOptions.length === 1 && mutuallyExclusiveOption) {
           return true;
+        }
+
+        if (
+          selectedCheckboxOptions.length > 1 &&
+          mutuallyExclusiveOption &&
+          ruleCondition === "AllOf"
+        ) {
+          const err = createValidationError(
+            dataPath,
+            fieldName,
+            ERR_RIGHTSIDE_OR_WITH_STANDARD_OPTIONS_IN_AND_RULE,
+            questionnaire
+          );
+
+          isValid.errors.push(err);
+
+          return false;
         }
 
         if (mutuallyExclusiveOption) {
