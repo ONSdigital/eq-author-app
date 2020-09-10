@@ -24,7 +24,7 @@ describe("Select", () => {
     expect(shallow(select)).toMatchSnapshot();
   });
 
-  it("calls onChange when value chwanged", () => {
+  it("calls onChange when value changed", () => {
     const app = mount(select);
     app.find("select").simulate("change");
 
