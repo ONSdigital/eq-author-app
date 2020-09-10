@@ -1,0 +1,96 @@
+import { Meta, Story, Canvas } from "@storybook/addon-docs/blocks";
+
+import { Form, Select, Label } from "../../components/Forms";
+
+<Meta title="Components/Select" component={Select} />
+
+# Select
+
+Let users select one option from a dropdown list.
+
+## Example
+
+<Canvas>
+  <Story name="Primary">
+    <Form htmlWidth="50%">
+      <Label htmlFor="favorite-jedi">Unit of length</Label>
+      <Select id="favorite-jedi">
+        <option selected hidden></option>
+        <option>Centimetres</option>
+        <option>Metres</option>
+        <option disabled>Kilometres</option>
+        <option>Miles</option>
+      </Select>
+    </Form>
+  </Story>
+</Canvas>
+
+## When to use this component
+
+Only use dropdowns as a last resort. Before using one, try asking users questions which will allow you to present them with fewer options.
+
+Consider using:
+
+- text boxes (if it's easier to type than to select)
+- radio buttons (for 5 or fewer options)
+- toggles (if there are only 2 options)
+- sliders (to let users select a value or range from a fixed set of options)
+- steppers for numerical values, potentially combined with text entry (avoid this for values with large variability)
+
+## When not to use this component
+
+The [ONS design system](https://ons-design-system.netlify.app/components/select/) and [GDS design system](https://design-system.service.gov.uk/components/select/) advise against using dropdowns as they:
+
+- hide information
+- often make the user take multiple actions
+- don’t work well on mobile
+- can be difficult to use
+- can be confusing to users.
+
+## How to use this component
+
+### Labels
+
+Use visible labels, built using the HTML `label` element, so browsers can calculate an accessible name for the form control from the label content.
+
+### Default options
+
+Avoid having a default option unless most people (around 90%) will select that value. Instead, have a clear and meaningful phrase (e.g. "Select an answer", not generic ones like “None” or “Please select”) inside the menu that tells users exactly what they’re selecting. The label should be in sentence case (the first word capitalised, the rest lowercase).
+
+### Option order
+
+ Put the options in a logical order given the context. This might be alphabetical (e.g. a list of countries: Albania, Brazil, Canada), ordinal (e.g. scales: Very small, Small, Medium, Large, Very large), or something else.
+
+### Grouping options
+
+Consider grouping options if there are a lot, and a dropdown is the only option. Remember that groups might be ignored by screen readers so don’t rely on this to convey vital context.
+
+### Unavailable options
+
+Grey out any unavailable options instead of removing them: any items that cannot b­­e selected should remain in view. Show a short balloon help message if users hover over a greyed-out option for more than a second, explaining why that option is disabled and how to make it active. If disabled items are removed, the interface loses spatial consistency and becomes harder to learn.
+
+## Variants
+
+### Loading
+
+<Canvas>
+  <Story name="Loading">
+    <Form htmlWidth="50%">
+      <Label htmlFor="favorite-sith">Unit of length</Label>
+      <Select id="favorite-sith" loading>
+        <option selected hidden></option>
+      </Select>
+    </Form>
+  </Story>
+</Canvas>
+
+## Accessibility
+
+Dropdowns aren’t very accessible. If you have to use them, make sure you support keyboard input to navigate within them.
+
+## Research
+
+- [Dropdowns: Design Guidelines (Nielsen Norman Group)](https://www.nngroup.com/articles/drop-down-menus/)
+- [Drop-Down Usability: When You Should (and Shouldn’t) Use Them (Baymard)](https://baymard.com/blog/drop-down-usability)
+- [Select menus (WebAIM)](https://webaim.org/techniques/forms/controls#select)
+- [Alice Bartlett: Burn your select tags - EpicFEL 2014 (video)](https://www.youtube.com/watch?v=CUkMCQR4TpY)
