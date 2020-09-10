@@ -140,8 +140,8 @@ export class UnwrappedRuleEditor extends React.Component {
                   });
                 }}
               >
-                <option value="And">All of</option>
                 <option value="Or">Any of</option>
+                <option value="And">All of</option>
               </SmallSelect>
               the following rules
             </Label>

@@ -19,14 +19,14 @@ exports[`RuleEditor should render 1`] = `
           onChange={[Function]}
         >
           <option
-            value="And"
-          >
-            All of
-          </option>
-          <option
             value="Or"
           >
             Any of
+          </option>
+          <option
+            value="And"
+          >
+            All of
           </option>
         </RuleEditor__SmallSelect>
         the following rules
