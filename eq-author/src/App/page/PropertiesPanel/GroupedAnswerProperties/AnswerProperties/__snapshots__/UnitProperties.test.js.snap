@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Required Property should render 1`] = `
+exports[`With preset property should render 1`] = `
 <withChangeHandler(Select__SimpleSelect)
   data-test="unit-select"
   onChange={[MockFunction]}

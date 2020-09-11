@@ -9,7 +9,7 @@ const createWrapper = (props = {}, render = shallow) => {
   return render(<UnitProperties {...props} />);
 };
 
-describe("Required Property", () => {
+describe("With preset property", () => {
   let props, wrapper;
 
   beforeEach(() => {
@@ -29,5 +29,21 @@ describe("Required Property", () => {
     expect(props.onChange).toHaveBeenCalledWith({
       target: { unit: KILOJOULES },
     });
+  });
+});
+
+describe("Without preset property", () => {
+  let props, wrapper;
+
+  beforeEach(() => {
+    props = {
+      unit: "",
+      onChange: jest.fn(),
+    };
+    wrapper = createWrapper(props, shallow);
+  });
+
+  it("should show Select a type before property selected", () => {
+    expect(wrapper.find("Select a type")).toBeTruthy();
   });
 });
