@@ -33,7 +33,7 @@ module.exports = function(ajv) {
               ({ mutuallyExclusive }) => mutuallyExclusive
             );
 
-            return mutuallyExclusiveOption.length ? true : false;
+            return mutuallyExclusiveOption.length;
           }
         );
 
