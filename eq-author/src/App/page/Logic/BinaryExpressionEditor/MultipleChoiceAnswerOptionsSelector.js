@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { includes, get, some, find } from "lodash";
+import { includes, get, find } from "lodash";
 import { PropTypes } from "prop-types";
 import { TransitionGroup } from "react-transition-group";
 
@@ -169,7 +169,7 @@ class MultipleChoiceAnswerOptionsSelector extends React.Component {
     );
   };
 
-  renderRadioOptionSelector(hasError) {
+  renderRadioOptionSelector(errors) {
     const { expression } = this.props;
     const options = get(expression, "left.options", []);
 
@@ -177,7 +177,7 @@ class MultipleChoiceAnswerOptionsSelector extends React.Component {
       <>
         <MultipleChoiceAnswerOptions
           data-test="options-selector"
-          hasError={hasError}
+          hasError={errors.length}
         >
           <Label>Match</Label>
           <ConditionSelect
@@ -201,7 +201,7 @@ class MultipleChoiceAnswerOptionsSelector extends React.Component {
               </ToggleChip>
             ))}
         </MultipleChoiceAnswerOptions>
-        {hasError && this.handleError()}
+        {errors.length > 0 && this.handleError()}
       </>
     );
   }
@@ -281,16 +281,12 @@ class MultipleChoiceAnswerOptionsSelector extends React.Component {
 
     const { errors } = expression.validationErrorInfo;
 
-    const hasError = some(expression.validationErrorInfo.errors, error =>
-      error.errorCode.includes("ERR_RIGHTSIDE")
-    );
-
     const rightSideErrors = errors.filter(({ errorCode }) =>
       errorCode.includes("ERR_RIGHTSIDE")
     );
 
     if (answerType === RADIO) {
-      return this.renderRadioOptionSelector(hasError);
+      return this.renderRadioOptionSelector(rightSideErrors);
     } else {
       return this.renderCheckboxOptionSelector(rightSideErrors);
     }
