@@ -40,7 +40,6 @@ const MultipleChoiceAnswerOptions = styled.div`
     `
     border-color: ${colors.red};
     outline-color: ${colors.red};
-    box-shadow: 0 0 0 2px ${colors.red};
     border-radius: 4px;
     margin-bottom: 0;
   `}
@@ -57,6 +56,7 @@ const ConditionSelect = styled(Select)`
   width: auto;
   margin: 0 0.5em;
   padding: 0.3em 2em 0.3em 0.5em;
+  border: 2px solid ${({ hasError }) => (hasError ? colors.red : "initial")};
 `;
 
 const ChooseButton = styled(TextButton)`
@@ -206,18 +206,21 @@ class MultipleChoiceAnswerOptionsSelector extends React.Component {
     );
   }
 
-  renderCheckboxOptionSelector(hasError) {
+  renderCheckboxOptionSelector(errors) {
     const { expression } = this.props;
     return (
       <>
         <MultipleChoiceAnswerOptions
           data-test="options-selector"
-          hasError={hasError}
+          hasError={errors.length}
         >
           <Label>Match</Label>
           <ConditionSelect
             onChange={this.handleConditionChange}
             defaultValue={expression.condition}
+            hasError={
+              errors.filter(({ field }) => field === "condition").length
+            }
             data-test="condition-dropdown"
           >
             <option value={answerConditions.ANYOF}>Any of</option>
@@ -267,7 +270,7 @@ class MultipleChoiceAnswerOptionsSelector extends React.Component {
             </Popover>
           )}
         </MultipleChoiceAnswerOptions>
-        {hasError && this.handleError()}
+        {errors.length > 0 && this.handleError()}
       </>
     );
   }
@@ -276,14 +279,20 @@ class MultipleChoiceAnswerOptionsSelector extends React.Component {
     const { expression } = this.props;
     const answerType = get(expression, "left.type");
 
+    const { errors } = expression.validationErrorInfo;
+
     const hasError = some(expression.validationErrorInfo.errors, error =>
       error.errorCode.includes("ERR_RIGHTSIDE")
+    );
+
+    const rightSideErrors = errors.filter(({ errorCode }) =>
+      errorCode.includes("ERR_RIGHTSIDE")
     );
 
     if (answerType === RADIO) {
       return this.renderRadioOptionSelector(hasError);
     } else {
-      return this.renderCheckboxOptionSelector(hasError);
+      return this.renderCheckboxOptionSelector(rightSideErrors);
     }
   }
 }
