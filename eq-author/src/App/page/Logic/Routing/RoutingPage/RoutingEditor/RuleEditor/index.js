@@ -116,7 +116,7 @@ export class UnwrappedRuleEditor extends React.Component {
 
     const existingRadioConditions = {};
 
-    const validationErrorInfo = this.props.rule.validationErrorInfo;
+    const validationErrorInfo = this.props.rule.validationErrorInfo; //Has expressionGroup error in yay
 
     const validationErrors = validationErrorInfo.totalCount
       ? validationErrorInfo.errors

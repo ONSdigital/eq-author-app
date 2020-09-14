@@ -20,6 +20,16 @@ fragment RuleEditor on RoutingRule2 {
     expressions {
       ...BinaryExpressionEditor
     }
+    validationErrorInfo {
+      id
+      errors {
+        id
+        type
+        field
+        errorCode
+      }
+      totalCount
+    }
   }
   validationErrorInfo {
     id
