@@ -95,8 +95,8 @@ export const rightSideErrors = {
     errorCode: "ERR_RIGHTSIDE_ALLOFF_OR_NOT_ALLOWED",
     message: "All of not allowed in rule with checkbox OR option",
   },
-  ERR_RIGHTSIDE_OR_WITH_STANDARD_OPTIONS_IN_AND_RULE: {
-    errorCode: "ERR_RIGHTSIDE_OR_WITH_STANDARD_OPTIONS_IN_AND_RULE",
+  ERR_RIGHTSIDE_MIXING_OR_STND_OPTIONS_IN_AND_RULE: {
+    errorCode: "ERR_RIGHTSIDE_MIXING_OR_STND_OPTIONS_IN_AND_RULE",
     message:
       "You can't match 'all of' the standard options with the 'or' checkbox option. Change the 'All of' to 'Any of' or remove all of the standard options or the 'or' checkbox option",
   },
