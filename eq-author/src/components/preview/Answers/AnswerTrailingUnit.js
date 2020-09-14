@@ -9,7 +9,9 @@ const getUnit = answer => {
   if (answer.type === PERCENTAGE) {
     return "%";
   }
-
+  if (!answer.properties.unit) {
+    return "Missing unit";
+  }
   return unitConversion[answer.properties.unit].abbreviation;
 };
 
