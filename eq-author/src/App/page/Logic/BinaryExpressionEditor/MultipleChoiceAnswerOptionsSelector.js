@@ -56,7 +56,6 @@ const ConditionSelect = styled(Select)`
   width: auto;
   margin: 0 0.5em;
   padding: 0.3em 2em 0.3em 0.5em;
-  border: 2px solid ${({ hasError }) => (hasError ? colors.red : "initial")};
 `;
 
 const ChooseButton = styled(TextButton)`

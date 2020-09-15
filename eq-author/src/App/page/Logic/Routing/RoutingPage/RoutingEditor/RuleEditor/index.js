@@ -125,6 +125,7 @@ export class UnwrappedRuleEditor extends React.Component {
     return (
       <>
         <Rule data-test="routing-rule" className={className}>
+          {console.log(validationErrors)}
           <Header>
             <Label inline>
               Match
@@ -133,6 +134,11 @@ export class UnwrappedRuleEditor extends React.Component {
                 id="match"
                 data-test="match-select"
                 defaultValue={rule.expressionGroup.operator}
+                hasError={
+                  validationErrors.filter(
+                    ({ field }) => field === "groupOperator"
+                  ).length
+                }
                 onChange={({ value }) => {
                   this.props.updateExpressionGroup({
                     id: rule.expressionGroup.id,
