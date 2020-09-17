@@ -237,6 +237,7 @@ class AnswerValidation extends React.PureComponent {
   render() {
     const { answer } = this.props;
     const validValidationTypes = validations[answer.type] || [];
+    console.log("validValidationTypes: ", validValidationTypes);
 
     if (validValidationTypes.length === 0) {
       return null;
@@ -253,25 +254,33 @@ class AnswerValidation extends React.PureComponent {
     let validationButtons = [];
 
     if (answer.type === "DateRange") {
-      const { duration, range } = validValidationTypes.reduce(
-        (accumulator, current) => {
-          const { id } = current;
-          if (id === "minDuration" || id === "maxDuration") {
-            if (!accumulator.duration) {
-              accumulator.duration = [];
-            }
-            accumulator.duration.push(current);
-          }
-          if (id === "earliestDate" || id === "latestDate") {
-            if (!accumulator.range) {
-              accumulator.range = [];
-            }
-            accumulator.range.push(current);
-          }
-          return accumulator;
-        },
-        {}
-      );
+      // const { duration, range } = validValidationTypes.reduce(
+      //   (accumulator, current) => {
+      //     const { id } = current;
+      //     if (id === "minDuration" || id === "maxDuration") {
+      //       if (!accumulator.duration) {
+      //         accumulator.duration = [];
+      //       }
+      //       accumulator.duration.push(current);
+      //     }
+      //     if (id === "earliestDate" || id === "latestDate") {
+      //       if (!accumulator.range) {
+      //         accumulator.range = [];
+      //       }
+      //       accumulator.range.push(current);
+      //     }
+      //     return accumulator;
+      //   },
+      //   {}
+      // );
+      const duration = [];
+      const range = [];
+      validationTypes.forEach(type => {
+        if(type.id === "minDuration" || type.id === "maxDuration") { duration.push(type); }
+        else if(type.id === "earliestDate" || type.id === "latestDate") { range.push(type); }
+      })
+
+      console.log("Duration, range: ", duration, range);
 
       const durationButtons = this.renderValidation(
         duration,
