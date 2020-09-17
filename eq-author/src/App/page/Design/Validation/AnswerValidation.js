@@ -188,7 +188,7 @@ class AnswerValidation extends React.PureComponent {
       </PropertiesError>
     );
 
-  renderButton = ({ id, title, value, enabled, hasError, inclusive, validationMessage, index, renderIsTrue }) => (
+  renderButton = ({ id, title, value, enabled, hasError, inclusive, validationMessage, renderIsTrue }) => (
     <>
       <SidebarValidation
         key={id}
@@ -203,7 +203,7 @@ class AnswerValidation extends React.PureComponent {
       </SidebarValidation>
 
       {hasError && renderIsTrue && (
-        <PropertiesError key={index} icon={WarningIcon}>
+        <PropertiesError icon={WarningIcon}>
           {validationMessage}
         </PropertiesError>
       )}
@@ -214,6 +214,13 @@ class AnswerValidation extends React.PureComponent {
     let validationMessage = null;
 
     return validValidations.map((validationType, index) => {
+      const validationErrors = {
+        dateRange: {
+          duration: [],
+          range: [],
+        },
+        other: [],
+      };
       const validation = get(answer, `validation.${validationType.id}`, {});
       const errors = get(validation, `validationErrorInfo.errors`, []);
 
@@ -231,37 +238,27 @@ class AnswerValidation extends React.PureComponent {
           errorsArr.dateRange.duration.push(...errors);
         }
       } else {
-        errorsArr.other.push(...errors);
+        validationErrors.other.push(...errors);
         renderIsTrue = true;
 
-        const noValError = find(errorsArr.other, error =>
+        const noValError = find(validationErrors.other, error =>
           error.errorCode.includes("ERR_NO_VALUE")
         );
 
-        if (answer.type === "Date") {
-          const maxError = find(errorsArr.other, error =>
-            error.errorCode.includes("ERR_EARLIEST_AFTER_LATEST")
-          );
+        const maxError = find(validationErrors.other, error =>
+          error.errorCode.includes("ERR_EARLIEST_AFTER_LATEST") || error.errorCode.includes("ERR_MIN_LARGER_THAN_MAX")
+        );
 
-          if (noValError || (noValError && maxError)) {
-            validationMessage = ERR_NO_VALUE
-          } else if (maxError) {
-            if (id === "earliestDate") {
-              renderIsTrue = false;
-            }
+        if (noValError || (noValError && maxError)) {
+          validationMessage = ERR_NO_VALUE
+        } else {
+          if (id === "earliestDate" || id === "minValue") {
+            renderIsTrue = false;
+          }
+          if (answer.type === "Date") {
             validationMessage = EARLIEST_BEFORE_LATEST_DATE
           }
-
-        } else if (answer.type === "Number") {
-          const maxError = find(errorsArr.other, error =>
-            error.errorCode.includes("ERR_MIN_LARGER_THAN_MAX")
-          );
-          if (noValError || (noValError && maxError)) {
-            validationMessage = ERR_NO_VALUE
-          } else if (maxError) {
-            if (id === "minValue") {
-              renderIsTrue = false;
-            }
+          else {
             validationMessage = MAX_GREATER_THAN_MIN
           }
         }
@@ -270,7 +267,7 @@ class AnswerValidation extends React.PureComponent {
       const value = enabled ? validationType.preview(validation, answer) : null;
 
       return (
-        <>
+        <React.Fragment key={index}>
           {this.renderButton({
             ...validationType,
             value,
@@ -280,19 +277,16 @@ class AnswerValidation extends React.PureComponent {
             hasError: errors.length > 0,
             inclusive,
             validationMessage,
-            index,
             renderIsTrue
           })}
-          {/* <p key={index}>test **** {index}</p> */}
-        </>
+        </React.Fragment>
       )
     });
   };
 
-
-
   render() {
     const { answer } = this.props;
+
     const validValidationTypes = validations[answer.type] || [];
 
     if (validValidationTypes.length === 0) {
@@ -363,7 +357,7 @@ class AnswerValidation extends React.PureComponent {
       validationButtons = this.renderValidation(
         validValidationTypes,
         answer,
-        validationErrors
+        // validationErrors
       );
     }
 

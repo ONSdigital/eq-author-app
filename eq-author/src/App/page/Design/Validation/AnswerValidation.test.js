@@ -233,9 +233,9 @@ describe("AnswerValidation", () => {
       props.answer.validation.minValue.validationErrorInfo.errors = error;
       props.answer.validation.maxValue.validationErrorInfo.errors = error;
 
-      const { getByText } = rtlRender(<AnswerValidation {...props} />);
+      const { getAllByText } = rtlRender(<AnswerValidation {...props} />);
 
-      expect(getByText(ERR_NO_VALUE)).toBeTruthy();
+      expect(getAllByText(ERR_NO_VALUE)).toBeTruthy();
     });
 
     it("should render an error message when min val > max Val", () => {
