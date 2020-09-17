@@ -44,7 +44,6 @@ import {
   PERCENTAGE,
   UNIT,
 } from "constants/answer-types";
-import { join } from "lodash/fp";
 
 const formatValue = (value, { type, properties }) => {
   if (typeof value !== "number") {
@@ -185,19 +184,9 @@ class AnswerValidation extends React.PureComponent {
       const validation = get(answer, `validation.${validationType.id}`, {});
       const errors = get(validation, `validationErrorInfo.errors`, []);
 
-      const { id } = validationType;
       const { enabled, previousAnswer, metadata, inclusive } = validation;
 
-      if (answer.type === "DateRange") {
-        if ((id === "latestDate" || id === "earliestDate") && enabled) {
-          errorsArr.dateRange.range.push(...errors);
-        }
-
-        if ((id === "minDuration" || id === "maxDuration") && enabled) {
-          errorsArr.dateRange.duration.push(...errors);
-        }
-      }
-      errorsArr.other.push(...errors);
+      errorsArr.push(...errors);
 
       const value = enabled ? validationType.preview(validation, answer) : null;
 
@@ -228,91 +217,41 @@ class AnswerValidation extends React.PureComponent {
       return null;
     }
 
-    const validationErrors = {
-      dateRange: {
-        duration: [],
-        range: [],
-      },
-      other: [],
-    };
-
+    const validationErrors = [];
     let validationButtons = [];
-    
-    // validationButtons = this.renderValidation(
-    //     validValidationTypes,
-    //     answer,
-    //     validationErrors
-    // );
 
-
-    if (answer.type === "DateRange") {
-      const duration = [];
-      const range = [];
-
-      validationTypes.forEach(type => {
-        if(type.id === "minDuration" || type.id === "maxDuration") { duration.push(type); }
-        else if(type.id === "earliestDate" || type.id === "latestDate") { range.push(type); }
-      })
-
-      // Add range buttons
-      validationButtons.push(this.renderValidation(
-        range,
-        answer,
-        validationErrors
-      ));
-
-      // Add range errors
-      validationButtons.push(this.renderPropertyError(
-        validationErrors.dateRange.range.length > 1,
-        EARLIEST_BEFORE_LATEST_DATE,
-        "range-error"
-      ));
-
-      // Add min/max duration buttons
-      validationButtons.push(this.renderValidation(
-        duration,
-        answer,
-        validationErrors
-      ));
+    validValidationTypes.forEach(type => {
+      let validationMessage;
+      validationButtons.push(this.renderValidation([type], answer, validationErrors));
       
-      // Add duration errors
-      validationButtons.push(this.renderPropertyError(
-        validationErrors.dateRange.duration.length > 1,
-        DURATION_ERROR_MESSAGE,
-        "duration-error"
-      ));
-    } else {
-      let validationMessage = null;
+      const validation = get(answer, `validation.${validationType.id}`, {});
+      const errors = get(validation, `validationErrorInfo.errors`, []);
+      const { enabled, previousAnswer, metadata, inclusive } = validation;
 
-      validationButtons = this.renderValidation(
-        validValidationTypes,
-        answer,
-        validationErrors
-      );
-
-      if (answer.type === "Date") {
-        validationMessage = EARLIEST_BEFORE_LATEST_DATE
+      if(type.id === "earliestDate" || type.id === "minDuration") {
+        return; // Don't display anything after the earliest date / min duration buttons - show after section
+      }
+      
+      if (type.id === "maxDuration") {
+        validationMessage = DURATION_ERROR_MESSAGE;
+      }
+      else if (type.id === "latestDate") {
+        validationMessage = EARLIEST_BEFORE_LATEST_DATE;
+      }
+      else if (answer.type == "Date") {
+        validationMessage = EARLIEST_BEFORE_LATEST_DATE;
+      }
+      else if (find(validationErrors, error => error.errorCode.include("ERR_NO_VALUE"))) {
+          validationMessage = ERR_NO_VALUE;
       } else {
-        const noValError = find(validationErrors.other, error =>
-          error.errorCode.includes("ERR_NO_VALUE")
-        );
-
-        const maxError = find(validationErrors.other, error =>
-          error.errorCode.includes("ERR_MIN_LARGER_THAN_MAX")
-        );
-        if (noValError || (noValError && maxError)) {
-          validationMessage = ERR_NO_VALUE
-        } else {
-          validationMessage = MAX_GREATER_THAN_MIN
-        }
+        validationMessage = MAX_GREATER_THAN_MIN;
       }
 
-      const propertyError = this.renderPropertyError(
-        validationErrors.other.length > 0,
+      validationButtons.push(this.renderPropertyError(
+        validationErrors.length > 0,
         validationMessage
-      );
-      validationButtons.push(propertyError);
-    }
+      ));
+    });
 
     return (
       <ValidationContext.Provider value={{ answer }}>
