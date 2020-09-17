@@ -44,6 +44,7 @@ import {
   PERCENTAGE,
   UNIT,
 } from "constants/answer-types";
+import { join } from "lodash/fp";
 
 const formatValue = (value, { type, properties }) => {
   if (typeof value !== "number") {
@@ -126,21 +127,6 @@ export const validationTypes = [
 
 const getValidationsForType = type =>
   validationTypes.filter(({ types }) => types.includes(type));
-
-const validations = [
-  NUMBER,
-  CURRENCY,
-  PERCENTAGE,
-  DATE,
-  DATE_RANGE,
-  UNIT,
-].reduce(
-  (hash, type) => ({
-    ...hash,
-    [type]: getValidationsForType(type),
-  }),
-  {}
-);
 
 const PropertiesError = styled(IconText)`
   color: ${colors.red};
@@ -236,8 +222,7 @@ class AnswerValidation extends React.PureComponent {
 
   render() {
     const { answer } = this.props;
-    const validValidationTypes = validations[answer.type] || [];
-    console.log("validValidationTypes: ", validValidationTypes);
+    const validValidationTypes = getValidationsForType(answer.type);
 
     if (validValidationTypes.length === 0) {
       return null;
@@ -252,65 +237,50 @@ class AnswerValidation extends React.PureComponent {
     };
 
     let validationButtons = [];
+    
+    // validationButtons = this.renderValidation(
+    //     validValidationTypes,
+    //     answer,
+    //     validationErrors
+    // );
+
 
     if (answer.type === "DateRange") {
-      // const { duration, range } = validValidationTypes.reduce(
-      //   (accumulator, current) => {
-      //     const { id } = current;
-      //     if (id === "minDuration" || id === "maxDuration") {
-      //       if (!accumulator.duration) {
-      //         accumulator.duration = [];
-      //       }
-      //       accumulator.duration.push(current);
-      //     }
-      //     if (id === "earliestDate" || id === "latestDate") {
-      //       if (!accumulator.range) {
-      //         accumulator.range = [];
-      //       }
-      //       accumulator.range.push(current);
-      //     }
-      //     return accumulator;
-      //   },
-      //   {}
-      // );
       const duration = [];
       const range = [];
+
       validationTypes.forEach(type => {
         if(type.id === "minDuration" || type.id === "maxDuration") { duration.push(type); }
         else if(type.id === "earliestDate" || type.id === "latestDate") { range.push(type); }
       })
 
-      console.log("Duration, range: ", duration, range);
-
-      const durationButtons = this.renderValidation(
-        duration,
-        answer,
-        validationErrors
-      );
-
-      const rangeButtons = this.renderValidation(
+      // Add range buttons
+      validationButtons.push(this.renderValidation(
         range,
         answer,
         validationErrors
-      );
+      ));
 
-      const durationError = this.renderPropertyError(
-        validationErrors.dateRange.duration.length > 1,
-        DURATION_ERROR_MESSAGE,
-        "duration-error"
-      );
-
-      const rangeError = this.renderPropertyError(
+      // Add range errors
+      validationButtons.push(this.renderPropertyError(
         validationErrors.dateRange.range.length > 1,
         EARLIEST_BEFORE_LATEST_DATE,
         "range-error"
-      );
+      ));
 
-      validationButtons.push(rangeButtons);
-      validationButtons.push(rangeError);
-
-      validationButtons.push(durationButtons);
-      validationButtons.push(durationError);
+      // Add min/max duration buttons
+      validationButtons.push(this.renderValidation(
+        duration,
+        answer,
+        validationErrors
+      ));
+      
+      // Add duration errors
+      validationButtons.push(this.renderPropertyError(
+        validationErrors.dateRange.duration.length > 1,
+        DURATION_ERROR_MESSAGE,
+        "duration-error"
+      ));
     } else {
       let validationMessage = null;
 
