@@ -292,6 +292,39 @@ describe("AnswerValidation", () => {
       expect(getByText(EARLIEST_BEFORE_LATEST_DATE)).toBeTruthy();
     });
 
+    it("Date Validation - should display validation message when error present", () => {
+      props = {
+        answer: {
+          id: "2",
+          type: DATE,
+          validation: {
+            earliestDate: {
+              enabled: false,
+              validationErrorInfo: { errors: [] },
+            },
+            latestDate: {
+              enabled: false,
+              validationErrorInfo: { errors: [] },
+            },
+          },
+        },
+      };
+      const error = [
+        {
+          errorCode: "ERR_NO_VALUE",
+          field: "custom",
+          id: "latestDate-2-b79f-4766-ba7a-3c3718bb9f26-custom",
+          type: "validation",
+          __typename: "ValidationError",
+        },
+      ];
+      props.answer.validation.earliestDate.validationErrorInfo.errors = error;
+      props.answer.validation.latestDate.validationErrorInfo.errors = error;
+      const { getAllByText } = rtlRender(<AnswerValidation {...props} />);
+
+      expect(getAllByText(ERR_NO_VALUE)).toBeTruthy();
+    });
+
     it("DateRange validation - should render an error message when earliest date is after latest date", () => {
       props = {
         answer: {
