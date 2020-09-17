@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { kebabCase, get, startCase, isNull, find } from "lodash";
 import CustomPropTypes from "custom-prop-types";
 import styled from "styled-components";
@@ -138,20 +138,22 @@ export const SidebarValidation = styled(SidebarButton)`
   }
 `;
 
-class AnswerValidation extends React.PureComponent {
-  state = {
-    startingTabId: null,
-    modalIsOpen: false,
-  };
+const ValidationButton = ({id, title, children, hasError, onClick}) =>
+    <SidebarValidation
+      key={id}
+      data-test={`sidebar-button-${kebabCase(title)}`}
+      onClick={onClick}
+      hasError={hasError}
+    >
+      {children}
+    </SidebarValidation>;
 
-  constructor(props) {
-    super(props);
-    this.modalId = `modal-validation-${props.answer.id}`;
-  }
+function AnswerValidation({answer}) {
+  const [startingTabId, setStartingTabId] = useState(null);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const modalId = `modal-validation-${answer.id}`;
 
-  handleModalClose = () => this.setState({ modalIsOpen: false });
-
-  titleText = (id, title, enabled, inclusive) => {
+  const titleText = (id, title, enabled, inclusive) => {
     if (!enabled) {
       return `Set ${title.toLowerCase()}`;
     }
@@ -164,109 +166,88 @@ class AnswerValidation extends React.PureComponent {
       return `${title} ${MIN_INCLUSIVE_TEXT}`;
     }
   };
-
-  renderButton = ({ id, title, value, enabled, hasError, inclusive }) => (
-    <SidebarValidation
-      key={id}
-      data-test={`sidebar-button-${kebabCase(title)}`}
-      onClick={() => {
-        this.setState({ modalIsOpen: true, startingTabId: id });
-      }}
-      hasError={hasError}
-    >
-      <Title>{this.titleText(id, title, enabled, inclusive)}</Title>
-      {enabled && !isNull(value) && <Detail>{value}</Detail>}
-    </SidebarValidation>
-  );
-
-  renderValidation = (validValidations, answer, errorsArr) => {
-    return validValidations.map(validationType => {
-      const validation = get(answer, `validation.${validationType.id}`, {});
-      const errors = get(validation, `validationErrorInfo.errors`, []);
-
-      const { enabled, previousAnswer, metadata, inclusive } = validation;
-
-      errorsArr.push(...errors);
-
-      const value = enabled ? validationType.preview(validation, answer) : null;
-
-      return this.renderButton({
-        ...validationType,
-        value,
-        enabled,
-        previousAnswer,
-        metadata,
-        hasError: errors.length > 0,
-        inclusive,
-      });
-    });
-  };
-
-  renderPropertyError = (hasError, errorMessage, key = null) =>
+  
+  const renderPropertyError = (hasError, errorMessage, key = null) =>
     hasError && (
       <PropertiesError key={key} icon={WarningIcon}>
         {errorMessage}
       </PropertiesError>
     );
 
-  render() {
-    const { answer } = this.props;
-    const validValidationTypes = getValidationsForType(answer.type);
+  const handleModalClose = () => setModalIsOpen(false);
 
-    if (validValidationTypes.length === 0) {
-      return null;
+  const validValidationTypes = getValidationsForType(answer.type);
+
+  if (validValidationTypes.length === 0) {
+    return null;
+  }
+
+  const validationErrors = [];
+  let validationButtons = [];
+
+  validValidationTypes.forEach(type => {
+    let validationMessage;
+
+    const validation = get(answer, `validation.${type.id}`, {});
+    const errors = get(validation, `validationErrorInfo.errors`, []);
+    const { enabled, inclusive } = validation;
+    const value = enabled ? type.preview(validation, answer) : null;
+
+    const onClick = () => {
+      setModalIsOpen(true);
+      setStartingTabId(type.id);
+    };
+
+    validationButtons.push(
+      <ValidationButton id={type.id} hasError={errors.length > 0} onClick={onClick} title={type.title}>
+        <Title>{titleText(type.id, type.title, enabled, inclusive)}</Title>
+        {enabled && !isNull(value) && <Detail>{value}</Detail>}
+      </ValidationButton>
+    );
+
+    if (type.id === "earliestDate" || type.id === "minDuration") {
+      return; // Don't display anything after the earliest date / min duration buttons - show after section
     }
 
-    const validationErrors = [];
-    let validationButtons = [];
+    if (type.id === "maxDuration") {
+      validationMessage = DURATION_ERROR_MESSAGE;
+    }
+    else if (type.id === "latestDate") {
+      validationMessage = EARLIEST_BEFORE_LATEST_DATE;
+    }
+    else if (answer.type === "Date") {
+      validationMessage = EARLIEST_BEFORE_LATEST_DATE;
+    }
+    else if (find(validationErrors, error => error.errorCode.include("ERR_NO_VALUE"))) {
+      validationMessage = ERR_NO_VALUE;
+    } else {
+      validationMessage = MAX_GREATER_THAN_MIN;
+    }
 
-    validValidationTypes.forEach(type => {
-      let validationMessage;
-      validationButtons.push(this.renderValidation([type], answer, validationErrors));
-      
-      if(type.id === "earliestDate" || type.id === "minDuration") {
-        return; // Don't display anything after the earliest date / min duration buttons - show after section
-      }
-      
-      if (type.id === "maxDuration") {
-        validationMessage = DURATION_ERROR_MESSAGE;
-      }
-      else if (type.id === "latestDate") {
-        validationMessage = EARLIEST_BEFORE_LATEST_DATE;
-      }
-      else if (answer.type == "Date") {
-        validationMessage = EARLIEST_BEFORE_LATEST_DATE;
-      }
-      else if (find(validationErrors, error => error.errorCode.include("ERR_NO_VALUE"))) {
-          validationMessage = ERR_NO_VALUE;
-      } else {
-        validationMessage = MAX_GREATER_THAN_MIN;
-      }
+    validationButtons.push(renderPropertyError(
+      errors.length > 0,
+      validationMessage
+    ));
+  });
 
-      validationButtons.push(this.renderPropertyError(
-        validationErrors.length > 0,
-        validationMessage
-      ));
-    });
-
-    return (
-      <ValidationContext.Provider value={{ answer }}>
-        {validationButtons}
-        <ModalWithNav
-          id={this.modalId}
-          onClose={this.handleModalClose}
-          navItems={validValidationTypes}
-          title={`${startCase(answer.type)} validation`}
-          isOpen={this.state.modalIsOpen}
-          startingTabId={this.state.startingTabId}
-        />
-      </ValidationContext.Provider>
-    );
-  }
+  return (
+    <ValidationContext.Provider value={{ answer }}>
+      {validationButtons}
+      <ModalWithNav
+        id={modalId}
+        onClose={handleModalClose}
+        navItems={validValidationTypes}
+        title={`${startCase(answer.type)} validation`}
+        isOpen={modalIsOpen}
+        startingTabId={startingTabId}
+      />
+    </ValidationContext.Provider>
+  );
 }
 
 AnswerValidation.propTypes = {
   answer: CustomPropTypes.answer,
 };
 
-export default AnswerValidation;
+// Use memoisation to replace previous use of PureComponent
+export default React.memo(AnswerValidation);
