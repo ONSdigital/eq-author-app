@@ -116,6 +116,9 @@ class AnswerEditor extends React.Component {
 
   getAnswerTypeText(answer) {
     if (answer.type === UNIT) {
+      if (!answer.properties.unit) {
+        return answer.type;
+      }
       const unitConfig = unitConversion[answer.properties.unit];
       return (
         <>

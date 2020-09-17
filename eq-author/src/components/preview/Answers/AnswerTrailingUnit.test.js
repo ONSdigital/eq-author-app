@@ -35,4 +35,20 @@ describe("answer with a trailing unit preview", () => {
     );
     expect(wrapper).toMatchSnapshot();
   });
+
+  it("should render a missing unit answer if unit is undefined", () => {
+    const wrapper = shallow(
+      <AnswerTrailingUnit
+        answer={{
+          label: "Label",
+          description: "Description",
+          type: UNIT,
+          properties: {
+            unit: null,
+          },
+        }}
+      />
+    );
+    expect(wrapper.find("InputWithUnit").props().unit).toEqual("Missing unit");
+  });
 });
