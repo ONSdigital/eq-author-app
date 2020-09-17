@@ -116,16 +116,30 @@ export class UnwrappedRuleEditor extends React.Component {
 
     const existingRadioConditions = {};
 
-    const validationErrorInfo = this.props.rule.validationErrorInfo; //Has expressionGroup error in yay
+    const validationErrorInfo = rule.validationErrorInfo;
 
     const validationErrors = validationErrorInfo.totalCount
       ? validationErrorInfo.errors
       : [];
 
+    const matchSelectErrors = expressions.filter(({ validationErrorInfo }) => {
+      if (!validationErrorInfo.totalCount) {
+        return false;
+      }
+      const expressionGroupOperatorErrors = validationErrorInfo.errors.filter(
+        ({ field }) => field === "groupOperator"
+      );
+
+      if (expressionGroupOperatorErrors.length) {
+        return true;
+      }
+
+      return false;
+    }).length;
+
     return (
       <>
         <Rule data-test="routing-rule" className={className}>
-          {console.log(validationErrors)}
           <Header>
             <Label inline>
               Match
@@ -134,11 +148,7 @@ export class UnwrappedRuleEditor extends React.Component {
                 id="match"
                 data-test="match-select"
                 defaultValue={rule.expressionGroup.operator}
-                hasError={
-                  validationErrors.filter(
-                    ({ field }) => field === "groupOperator"
-                  ).length
-                }
+                hasError={matchSelectErrors}
                 onChange={({ value }) => {
                   this.props.updateExpressionGroup({
                     id: rule.expressionGroup.id,

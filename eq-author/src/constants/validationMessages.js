@@ -100,9 +100,8 @@ export const rightSideErrors = {
     message:
       "You can't match 'all of' the standard options with the 'or' checkbox option. Change the 'All of' to 'Any of' or remove all of the standard options or the 'or' checkbox option",
   },
-  ERR_RIGHTSIDE_OR_WITH_STANDARD_OPTIONS_IN_OR_RULE_WITH_AND_GROUP: {
-    errorCode:
-      "ERR_RIGHTSIDE_OR_WITH_STANDARD_OPTIONS_IN_OR_RULE_WITH_AND_GROUP",
+  ERR_GROUP_MIXING_EXPRESSIONS_WITH_OR_STND_OPTIONS_IN_AND: {
+    errorCode: "ERR_GROUP_MIXING_EXPRESSIONS_WITH_OR_STND_OPTIONS_IN_AND",
     message:
       "You can't match 'all of' the standard options with the 'or' checkbox option. Change the 'All of' to 'Any of' or remove a condition",
   },

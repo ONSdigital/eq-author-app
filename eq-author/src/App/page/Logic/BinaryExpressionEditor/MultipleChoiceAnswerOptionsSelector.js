@@ -156,8 +156,13 @@ class MultipleChoiceAnswerOptionsSelector extends React.Component {
   handleError = () => {
     const { expression } = this.props;
 
-    const { errorCode } = find(expression.validationErrorInfo.errors, error =>
-      error.errorCode.includes("ERR_RIGHTSIDE")
+    const { errorCode } = find(
+      expression.validationErrorInfo.errors,
+      error =>
+        error.errorCode.includes("ERR_RIGHTSIDE") ||
+        error.errorCode.includes(
+          "ERR_GROUP_MIXING_EXPRESSIONS_WITH_OR_STND_OPTIONS_IN_AND"
+        )
     );
 
     return (
@@ -284,10 +289,19 @@ class MultipleChoiceAnswerOptionsSelector extends React.Component {
       errorCode.includes("ERR_RIGHTSIDE")
     );
 
+    const checkboxErrors = errors.filter(({ errorCode }) =>
+      errorCode.includes(
+        "ERR_GROUP_MIXING_EXPRESSIONS_WITH_OR_STND_OPTIONS_IN_AND"
+      )
+    );
+
     if (answerType === RADIO) {
       return this.renderRadioOptionSelector(rightSideErrors);
     } else {
-      return this.renderCheckboxOptionSelector(rightSideErrors);
+      return this.renderCheckboxOptionSelector([
+        ...rightSideErrors,
+        ...checkboxErrors,
+      ]);
     }
   }
 }
