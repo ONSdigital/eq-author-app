@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { colors } from "constants/theme";
 
 import { Number, Select } from "components/Forms";
 import { Grid, Column } from "components/Grid";
@@ -10,16 +9,6 @@ import { DAYS, MONTHS, YEARS } from "constants/durations";
 
 export const DurationNumber = styled(Number)`
   width: 100%;
-
-  ${({ hasError }) =>
-    hasError &&
-    `
-    border-color: ${colors.red};
-    outline-color: ${colors.red};
-    box-shadow: 0 0 0 2px ${colors.red};
-    border-radius: 4px;
-    margin-bottom: 0;
-  `}
 `;
 
 const UNITS = [DAYS, MONTHS, YEARS];
@@ -30,7 +19,6 @@ const Duration = ({
   duration: { value, unit },
   onChange,
   onUpdate,
-  hasError,
 }) => (
     <Grid>
       <Column cols={2}>
@@ -42,7 +30,6 @@ const Duration = ({
           onBlur={onUpdate}
           max={99999}
           min={0}
-          hasError={hasError}
         />
       </Column>
       <Column cols={4}>
@@ -72,7 +59,6 @@ Duration.propTypes = {
   units: PropTypes.arrayOf(PropTypes.string).isRequired,
   onChange: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
-  hasError: PropTypes.bool.isRequired,
 };
 
 export default Duration;
