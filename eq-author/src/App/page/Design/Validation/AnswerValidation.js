@@ -224,10 +224,6 @@ class AnswerValidation extends React.PureComponent {
       let validationMessage;
       validationButtons.push(this.renderValidation([type], answer, validationErrors));
       
-      const validation = get(answer, `validation.${validationType.id}`, {});
-      const errors = get(validation, `validationErrorInfo.errors`, []);
-      const { enabled, previousAnswer, metadata, inclusive } = validation;
-
       if(type.id === "earliestDate" || type.id === "minDuration") {
         return; // Don't display anything after the earliest date / min duration buttons - show after section
       }
