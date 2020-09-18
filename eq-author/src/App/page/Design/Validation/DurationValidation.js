@@ -17,23 +17,23 @@ const DurationValidation = ({
   onChange,
   onUpdate,
 }) => (
-  <div>
-    <Grid>
-      <AlignedColumn cols={3}>
-        <EmphasisedText>{displayName} is</EmphasisedText>
-      </AlignedColumn>
-      <Column cols={9}>
-        <Duration
-          name="duration"
-          duration={duration}
-          units={UNITS}
-          onChange={onChange}
-          onUpdate={onUpdate}
-        />
-      </Column>
-    </Grid>
-  </div>
-);
+    <div>
+      <Grid>
+        <AlignedColumn cols={3}>
+          <EmphasisedText>{displayName} is</EmphasisedText>
+        </AlignedColumn>
+        <Column cols={9}>
+          <Duration
+            name="duration"
+            duration={duration}
+            units={UNITS}
+            onChange={onChange}
+            onUpdate={onUpdate}
+          />
+        </Column>
+      </Grid>
+    </div>
+  );
 
 DurationValidation.propTypes = {
   displayName: PropTypes.string,

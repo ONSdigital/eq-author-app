@@ -9,13 +9,22 @@ exports[`Duration should render 1`] = `
     cols={2}
   >
     <Duration__DurationNumber
+      hasError={
+        Object {
+          "_typename": "ValidationError",
+          "errorCode": "ERR_NO_VALUE",
+          "field": "earliestDate",
+          "id": "dcd686db-91e5-453f-b809-9da401072db4",
+          "type": "validation",
+        }
+      }
       id="foobar-value"
       max={99999}
       min={0}
       name="foobar.value"
       onBlur={[MockFunction]}
       onChange={[MockFunction]}
-      value={3}
+      value={null}
     />
   </Column>
   <Column

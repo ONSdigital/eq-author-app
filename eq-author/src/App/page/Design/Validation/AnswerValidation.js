@@ -151,6 +151,7 @@ export const SidebarValidation = styled(SidebarButton)`
   &:not(:first-of-type) {
     margin-top: 0.5em;
   }
+  margin-bottom: 0;
 `;
 
 class AnswerValidation extends React.PureComponent {
@@ -180,27 +181,53 @@ class AnswerValidation extends React.PureComponent {
     }
   };
 
-  renderButton = ({ id, title, value, enabled, hasError, inclusive }) => (
-    <SidebarValidation
-      key={id}
-      data-test={`sidebar-button-${kebabCase(title)}`}
-      onClick={() => {
-        this.setState({ modalIsOpen: true, startingTabId: id });
-      }}
-      hasError={hasError}
-    >
-      <Title>{this.titleText(id, title, enabled, inclusive)}</Title>
-      {enabled && !isNull(value) && <Detail>{value}</Detail>}
-    </SidebarValidation>
+  renderPropertyError = (hasError, errorMessage, key = null) =>
+    hasError && (
+      <PropertiesError key={key} icon={WarningIcon}>
+        {errorMessage}
+      </PropertiesError>
+    );
+
+  renderButton = ({ id, title, value, enabled, hasError, inclusive, validationMessage, renderIsTrue }) => (
+    <>
+      <SidebarValidation
+        key={id}
+        data-test={`sidebar-button-${kebabCase(title)}`}
+        onClick={() => {
+          this.setState({ modalIsOpen: true, startingTabId: id });
+        }}
+        hasError={hasError}
+      >
+        <Title>{this.titleText(id, title, enabled, inclusive)}</Title>
+        {enabled && !isNull(value) && <Detail>{value}</Detail>}
+      </SidebarValidation>
+
+      {hasError && renderIsTrue && (
+        <PropertiesError icon={WarningIcon}>
+          {validationMessage}
+        </PropertiesError>
+      )}
+    </>
   );
 
   renderValidation = (validValidations, answer, errorsArr) => {
-    return validValidations.map(validationType => {
+    let validationMessage = null;
+
+    return validValidations.map((validationType, index) => {
+      const validationErrors = {
+        dateRange: {
+          duration: [],
+          range: [],
+        },
+        other: [],
+      };
       const validation = get(answer, `validation.${validationType.id}`, {});
       const errors = get(validation, `validationErrorInfo.errors`, []);
 
       const { id } = validationType;
       const { enabled, previousAnswer, metadata, inclusive } = validation;
+
+      let renderIsTrue = false;
 
       if (answer.type === "DateRange") {
         if ((id === "latestDate" || id === "earliestDate") && enabled) {
@@ -210,32 +237,56 @@ class AnswerValidation extends React.PureComponent {
         if ((id === "minDuration" || id === "maxDuration") && enabled) {
           errorsArr.dateRange.duration.push(...errors);
         }
+      } else {
+        validationErrors.other.push(...errors);
+        renderIsTrue = true;
+
+        const noValError = find(validationErrors.other, error =>
+          error.errorCode.includes("ERR_NO_VALUE")
+        );
+
+        const maxError = find(validationErrors.other, error =>
+          error.errorCode.includes("ERR_EARLIEST_AFTER_LATEST") || error.errorCode.includes("ERR_MIN_LARGER_THAN_MAX")
+        );
+
+        if (noValError) {
+          validationMessage = ERR_NO_VALUE
+        } else if (maxError) {
+          if (id === "earliestDate" || id === "minValue") {
+            renderIsTrue = false;
+          }
+          if (answer.type === "Date") {
+            validationMessage = EARLIEST_BEFORE_LATEST_DATE
+          }
+          else {
+            validationMessage = MAX_GREATER_THAN_MIN
+          }
+        }
       }
-      errorsArr.other.push(...errors);
 
       const value = enabled ? validationType.preview(validation, answer) : null;
 
-      return this.renderButton({
-        ...validationType,
-        value,
-        enabled,
-        previousAnswer,
-        metadata,
-        hasError: errors.length > 0,
-        inclusive,
-      });
+      return (
+        <React.Fragment key={index}>
+          {this.renderButton({
+            ...validationType,
+            value,
+            enabled,
+            previousAnswer,
+            metadata,
+            hasError: errors.length > 0,
+            inclusive,
+            validationMessage,
+            renderIsTrue
+          })}
+        </React.Fragment>
+      )
     });
   };
 
-  renderPropertyError = (hasError, errorMessage, key = null) =>
-    hasError && (
-      <PropertiesError key={key} icon={WarningIcon}>
-        {errorMessage}
-      </PropertiesError>
-    );
-
   render() {
     const { answer } = this.props;
+
     const validValidationTypes = validations[answer.type] || [];
 
     if (validValidationTypes.length === 0) {
@@ -303,36 +354,10 @@ class AnswerValidation extends React.PureComponent {
       validationButtons.push(durationButtons);
       validationButtons.push(durationError);
     } else {
-      let validationMessage = null;
-
       validationButtons = this.renderValidation(
         validValidationTypes,
         answer,
-        validationErrors
       );
-
-      if (answer.type === "Date") {
-        validationMessage = EARLIEST_BEFORE_LATEST_DATE
-      } else {
-        const noValError = find(validationErrors.other, error =>
-          error.errorCode.includes("ERR_NO_VALUE")
-        );
-
-        const maxError = find(validationErrors.other, error =>
-          error.errorCode.includes("ERR_MIN_LARGER_THAN_MAX")
-        );
-        if (noValError || (noValError && maxError)) {
-          validationMessage = ERR_NO_VALUE
-        } else {
-          validationMessage = MAX_GREATER_THAN_MIN
-        }
-      }
-
-      const propertyError = this.renderPropertyError(
-        validationErrors.other.length > 0,
-        validationMessage
-      );
-      validationButtons.push(propertyError);
     }
 
     return (

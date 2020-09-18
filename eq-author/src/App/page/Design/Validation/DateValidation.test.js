@@ -30,6 +30,16 @@ describe("Date Validation", () => {
         },
         relativePosition: "Before",
         entityType: CUSTOM,
+        validationErrorInfo: {
+          errors: [
+            {
+              errorCode: "ERR_NO_VALUE",
+              field: "custom",
+              id: "0efd3ed1-8e0d-4b0c-9e39-59010751dbdf",
+              type: "validation",
+            }
+          ]
+        },
       },
       answer: {
         id: "1",
