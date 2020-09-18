@@ -249,9 +249,9 @@ class AnswerValidation extends React.PureComponent {
           error.errorCode.includes("ERR_EARLIEST_AFTER_LATEST") || error.errorCode.includes("ERR_MIN_LARGER_THAN_MAX")
         );
 
-        if (noValError || (noValError && maxError)) {
+        if (noValError) {
           validationMessage = ERR_NO_VALUE
-        } else {
+        } else if (maxError) {
           if (id === "earliestDate" || id === "minValue") {
             renderIsTrue = false;
           }
@@ -357,7 +357,6 @@ class AnswerValidation extends React.PureComponent {
       validationButtons = this.renderValidation(
         validValidationTypes,
         answer,
-        // validationErrors
       );
     }
 

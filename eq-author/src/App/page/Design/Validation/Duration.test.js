@@ -21,6 +21,7 @@ describe("Duration", () => {
       units: UNITS,
       onChange: jest.fn(),
       onUpdate: jest.fn(),
+      hasError: false,
     };
 
     wrapper = render(props);

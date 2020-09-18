@@ -33,6 +33,7 @@ describe("Duration Validation", () => {
       onUpdate: jest.fn(),
       displayName: "Some date",
       testId: "duration-test-id",
+      hasError: false,
     };
 
     wrapper = createWrapper(props);
