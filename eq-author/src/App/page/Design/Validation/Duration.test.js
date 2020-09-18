@@ -1,10 +1,12 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { shallow, mount } from "enzyme";
 import Duration, { DurationNumber } from "./Duration";
 import { Select } from "components/Forms";
+import { render as rtlRender } from "tests/utils/rtl";
 
 import { DAYS, MONTHS, YEARS } from "constants/durations";
 const UNITS = [DAYS, MONTHS, YEARS];
+
 
 const render = props => shallow(<Duration {...props} />);
 
@@ -15,12 +17,19 @@ describe("Duration", () => {
     props = {
       name: "foobar",
       duration: {
-        value: 3,
+        value: null,
         unit: YEARS,
       },
       units: UNITS,
       onChange: jest.fn(),
       onUpdate: jest.fn(),
+      hasError: {
+        _typename: "ValidationError",
+        errorCode: "ERR_NO_VALUE",
+        field: "earliestDate",
+        id: "dcd686db-91e5-453f-b809-9da401072db4",
+        type: "validation",
+      },
     };
 
     wrapper = render(props);
@@ -44,5 +53,12 @@ describe("Duration", () => {
     expect(props.onChange).toHaveBeenCalledWith("event");
     value.simulate("blur", "event");
     expect(props.onUpdate).toHaveBeenCalledWith("event");
+  });
+
+  it("should display error styling when error present", () => {
+    const wrapper = mount(<Duration {...props} />).find(
+      "Duration__DurationNumber"
+    );
+    expect(wrapper).toHaveStyleRule("border-color: #D0021B;");
   });
 });
