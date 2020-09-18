@@ -2,7 +2,6 @@ import React from "react";
 import { shallow, mount } from "enzyme";
 import Duration, { DurationNumber } from "./Duration";
 import { Select } from "components/Forms";
-import { render as rtlRender } from "tests/utils/rtl";
 
 import { DAYS, MONTHS, YEARS } from "constants/durations";
 const UNITS = [DAYS, MONTHS, YEARS];
