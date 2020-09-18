@@ -56,7 +56,6 @@ describe("Date Validation", () => {
       displayName: "foobar",
       readKey: "read",
       testId: "test-id",
-      hasError: false,
     };
 
     wrapper = createWrapper(props);

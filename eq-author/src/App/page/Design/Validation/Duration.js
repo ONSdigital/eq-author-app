@@ -72,7 +72,7 @@ Duration.propTypes = {
   units: PropTypes.arrayOf(PropTypes.string).isRequired,
   onChange: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
-  hasError: PropTypes.bool.isRequired,
+  hasError: PropTypes.object, // eslint-disable-line
 };
 
 export default Duration;

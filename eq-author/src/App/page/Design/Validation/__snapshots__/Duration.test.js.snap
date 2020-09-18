@@ -9,7 +9,6 @@ exports[`Duration should render 1`] = `
     cols={2}
   >
     <Duration__DurationNumber
-      hasError={false}
       id="foobar-value"
       max={99999}
       min={0}
