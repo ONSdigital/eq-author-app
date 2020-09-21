@@ -145,24 +145,24 @@ const errorCodes = {
   "ERR_NO_VALUE": ERR_NO_VALUE
 };
 
+const titleText = (id, title, enabled, inclusive) => {
+  if (!enabled) {
+    return `Set ${title.toLowerCase()}`;
+  }
+  if (!inclusive && id.includes("Duration")) {
+    return `${title} is`;
+  }
+  if (id.includes("max") || id.includes("latest")) {
+    return `${title} ${MAX_INCLUSIVE_TEXT}`;
+  } else {
+    return `${title} ${MIN_INCLUSIVE_TEXT}`;
+  }
+};
+
 const AnswerValidation = ({answer}) => {
   const [startingTabId, setStartingTabId] = useState(null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const modalId = `modal-validation-${answer.id}`;
-
-  const titleText = (id, title, enabled, inclusive) => {
-    if (!enabled) {
-      return `Set ${title.toLowerCase()}`;
-    }
-    if (!inclusive && id.includes("Duration")) {
-      return `${title} is`;
-    }
-    if (id.includes("max") || id.includes("latest")) {
-      return `${title} ${MAX_INCLUSIVE_TEXT}`;
-    } else {
-      return `${title} ${MIN_INCLUSIVE_TEXT}`;
-    }
-  };
   
   const handleModalClose = useCallback(() => setModalIsOpen(false), []);
   const validValidationTypes = getValidationsForType(answer.type);
