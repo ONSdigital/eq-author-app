@@ -123,7 +123,7 @@ export class UnwrappedRuleEditor extends React.Component {
       : [];
 
     const matchSelectErrors = expressions.filter(({ validationErrorInfo }) => {
-      if (!validationErrorInfo.totalCount) {
+      if (!validationErrorInfo || !validationErrorInfo.totalCount) {
         return false;
       }
       const expressionGroupOperatorErrors = validationErrorInfo.errors.filter(
