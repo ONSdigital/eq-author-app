@@ -175,8 +175,7 @@ const AnswerValidation = ({answer}) => {
   let pendingErrors = [];
   validValidationTypes.forEach(type => {
     const validation = get(answer, `validation.${type.id}`, {});
-    const errors = get(validation, `validationErrorInfo.errors`, []).concat(pendingErrors);
-    pendingErrors = [];
+    const errors = get(validation, `validationErrorInfo.errors`, []);
 
     const { enabled, inclusive } = validation;
     const value = enabled ? type.preview(validation, answer) : null;
@@ -199,15 +198,17 @@ const AnswerValidation = ({answer}) => {
       </SidebarValidation>
     );
 
-    if(errors.length > 0) {
+    pendingErrors.push(...errors);
+
+    if(pendingErrors.length > 0) {
       if (type.id === "earliestDate" || type.id === "minDuration" || type.id === "minValue") {
-        pendingErrors.push(...errors);
         return; // Don't display anything after the earliest date / min duration buttons - show after section
       }
 
       // Only show one error - ERR_NO_VALUE takes precedence
-      errors.sort(error => error.errorCode === "ERR_NO_VALUE" ? -1 : 0);
-      const error = errors[0];
+      pendingErrors.sort(error => error.errorCode === "ERR_NO_VALUE" ? -1 : 0);
+      const error = pendingErrors[0];
+      pendingErrors = [];
 
       validationButtons.push(
         <PropertiesError icon={WarningIcon} key={error.id}>
