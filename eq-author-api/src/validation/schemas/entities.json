@@ -554,6 +554,78 @@
                   }
                 }
               }
+            },
+            "properties": {
+              "earliestDate": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "enabled": {
+                        "const": true
+                      },
+                      "value": {
+                        "not": {
+                          "type": "null"
+                        }
+                      },
+                      "offset": {
+                        "properties": {
+                          "value": {
+                            "not": {
+                              "type": "null"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "enabled": {
+                        "const": false
+                      }
+                    }
+                  }
+                ],
+                "errorMessage": "ERR_NO_VALUE"
+              },
+              "latestDate": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "enabled": {
+                        "const": true
+                      },
+                      "value": {
+                        "not": {
+                          "type": "null"
+                        }
+                      },
+                      "offset": {
+                        "properties": {
+                          "value": {
+                            "not": {
+                              "type": "null"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "enabled": {
+                        "const": false
+                      }
+                    }
+                  }
+                ],
+                "errorMessage": "ERR_NO_VALUE"
+              }
             }
           },
           "properties": {

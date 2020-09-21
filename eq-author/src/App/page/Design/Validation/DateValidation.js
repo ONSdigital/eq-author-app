@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
-import { flowRight, get } from "lodash";
+import { flowRight, get, find } from "lodash";
 
 import { Input, Select } from "components/Forms";
 import { Grid, Column } from "components/Grid";
@@ -14,6 +14,8 @@ import PathEnd from "./path-end.svg?inline";
 import EmphasisedText from "./EmphasisedText";
 import AlignedColumn from "./AlignedColumn";
 import Duration from "./Duration";
+import ValidationError from "components/ValidationError";
+import { ERR_NO_VALUE } from "constants/validationMessages";
 
 import withChangeUpdate from "enhancers/withChangeUpdate";
 
@@ -46,6 +48,11 @@ const StartDateText = styled.div`
   margin: 0;
   padding-top: 0.5em;
   height: 2.5em;
+`;
+
+const StyledError = styled(ValidationError)`
+  justify-content: start;
+  width: 60%;
 `;
 
 const START_COL_SIZE = 3;
@@ -120,6 +127,7 @@ export class UnwrappedDateValidation extends React.Component {
       onChange,
       onUpdate,
       onChangeUpdate,
+      validation,
     } = this.props;
     const availableUnits = getUnits({ format, type });
 
@@ -132,6 +140,14 @@ export class UnwrappedDateValidation extends React.Component {
       validationPills.PreviousAnswer = this.PreviousAnswer;
       validationPills.Now = this.Now;
     }
+
+    const hasError = find(validation.validationErrorInfo.errors, error =>
+      error.errorCode.includes("ERR_NO_VALUE")
+    );
+
+    const handleError = () => {
+      return <StyledError>{ERR_NO_VALUE}</StyledError>;
+    };
 
     return (
       <div>
@@ -147,12 +163,16 @@ export class UnwrappedDateValidation extends React.Component {
               units={availableUnits}
               onChange={onChange}
               onUpdate={onUpdate}
+              hasError={hasError}
             />
           </Column>
         </Grid>
         <Grid>
           <Column cols={START_COL_SIZE}>
             <ConnectedPath />
+          </Column>
+          <Column cols={END_COL_SIZE}>
+            {hasError && handleError()}
           </Column>
         </Grid>
         <Grid>
@@ -205,7 +225,7 @@ UnwrappedDateValidation.propTypes = {
     }),
     offset: PropTypes.shape({
       unit: PropTypes.string.isRequired,
-      value: PropTypes.number.isRequired,
+      value: PropTypes.number,
     }).isRequired,
     relativePosition: PropTypes.string.isRequired,
     entityType: PropTypes.oneOf(Object.values(entityTypes)).isRequired,
