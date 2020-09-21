@@ -45,7 +45,7 @@
     "lodash": "4.17.20",
     "moment": "latest",
     "node-fetch": "latest",
-    "node-jose": "latest",
+    "node-jose": "2.0.0",
     "pino-noir": "latest",
     "pino-pretty": "^4.2.0",
     "prom-client": "latest",
