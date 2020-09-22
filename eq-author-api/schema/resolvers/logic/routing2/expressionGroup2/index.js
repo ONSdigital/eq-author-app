@@ -11,8 +11,7 @@ Resolvers.ExpressionGroup2 = {
     const { validationErrorInfo } = ctx;
 
     const expressionGroupErrors = validationErrorInfo.filter(
-      ({ expressionGroupId, expressionId }) =>
-        expressionGroupId === id && !expressionId
+      ({ expressionGroupId }) => expressionGroupId === id
     );
 
     if (!expressionGroupErrors) {

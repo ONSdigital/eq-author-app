@@ -1,5 +1,5 @@
 const { buildContext } = require("../../tests/utils/contextBuilder");
-const { RADIO, NUMBER } = require("../../constants/answerTypes");
+const { RADIO, NUMBER, CHECKBOX } = require("../../constants/answerTypes");
 
 const executeQuery = require("../../tests/utils/executeQuery");
 const {
@@ -314,6 +314,40 @@ describe("routing", () => {
 
       const result = await queryPage(ctx, firstPage.id);
       expect(result.routing.rules[0].expressionGroup.operator).toEqual("Or");
+    });
+
+    it("has validation errors", async () => {
+      let config = {
+        metadata: [{}],
+        sections: [
+          {
+            title: "title-1",
+            alias: "alias-1",
+            position: 0,
+            pages: [
+              {
+                title: "page-1",
+                parentSection: "title-1",
+                answers: [
+                  {
+                    type: RADIO,
+                  },
+                ],
+                routing: { rules: [{ expressionGroup: {} }] },
+              },
+            ],
+          },
+        ],
+      };
+      const ctx = await buildContext(config);
+      const { questionnaire } = ctx;
+      const firstPage = questionnaire.sections[0].pages[0];
+
+      const result = await queryPage(ctx, firstPage.id);
+
+      expect(
+        result.routing.rules[0].expressionGroup.validationErrorInfo.totalCount
+      ).toBe(1);
     });
   });
 

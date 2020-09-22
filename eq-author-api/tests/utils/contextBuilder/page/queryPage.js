@@ -77,6 +77,16 @@ const getPageQuery = `
           rules {
             expressionGroup {
               operator
+              validationErrorInfo {
+                    id
+                    errors {
+                      id
+                      type
+                      field
+                      errorCode
+                    }
+                    totalCount
+                  }
               expressions {
                 ... on BinaryExpression2 {
                   left {
