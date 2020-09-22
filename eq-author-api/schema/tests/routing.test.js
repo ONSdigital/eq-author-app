@@ -1,5 +1,5 @@
 const { buildContext } = require("../../tests/utils/contextBuilder");
-const { RADIO, NUMBER, CHECKBOX } = require("../../constants/answerTypes");
+const { RADIO, NUMBER } = require("../../constants/answerTypes");
 
 const executeQuery = require("../../tests/utils/executeQuery");
 const {
