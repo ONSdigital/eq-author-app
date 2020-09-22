@@ -8,9 +8,7 @@ const { getPages } = require("../../../utils");
 Resolvers.ExpressionGroup2 = {
   expressions: expressionGroup => expressionGroup.expressions,
   validationErrorInfo: ({ id }, args, ctx) => {
-    const { validationErrorInfo } = ctx;
-
-    const expressionGroupErrors = validationErrorInfo.filter(
+    const expressionGroupErrors = ctx.validationErrorInfo.filter(
       ({ expressionGroupId }) => expressionGroupId === id
     );
 
