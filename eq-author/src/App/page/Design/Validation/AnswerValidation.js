@@ -201,10 +201,6 @@ const AnswerValidation = ({ answer }) => {
 
     pendingErrors.push(...errors);
 
-    // const dateError = find(pendingErrors, error =>
-    //   error.errorCode.includes("ERR_EARLIEST_AFTER_LATEST")
-    // );
-
     const noValError = find(pendingErrors, error =>
       error.errorCode.includes("ERR_NO_VALUE")
     );

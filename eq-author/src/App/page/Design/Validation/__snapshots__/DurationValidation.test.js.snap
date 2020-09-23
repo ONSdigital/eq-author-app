@@ -37,5 +37,16 @@ exports[`Duration Validation should render 1`] = `
       />
     </Column>
   </Grid>
+  <Grid
+    align="top"
+    fillHeight={true}
+  >
+    <Column
+      cols={3}
+    />
+    <Column
+      cols={9}
+    />
+  </Grid>
 </div>
 `;

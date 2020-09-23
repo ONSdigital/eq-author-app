@@ -78,6 +78,7 @@ exports[`AnswerValidation should render 1`] = `
   <AnswerValidation__SidebarValidation
     data-test="sidebar-button-min-value"
     hasError={false}
+    id="minValue"
     key="minValue"
     onClick={[Function]}
   >
@@ -88,6 +89,7 @@ exports[`AnswerValidation should render 1`] = `
   <AnswerValidation__SidebarValidation
     data-test="sidebar-button-max-value"
     hasError={false}
+    id="maxValue"
     key="maxValue"
     onClick={[Function]}
   >

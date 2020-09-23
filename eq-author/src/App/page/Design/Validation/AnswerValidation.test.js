@@ -236,7 +236,6 @@ describe("AnswerValidation", () => {
           __typename: "ValidationError",
         },
       ];
-      props.answer.validation.minValue.validationErrorInfo.errors = error;
       props.answer.validation.maxValue.validationErrorInfo.errors = error;
 
       const { getAllByText } = rtlRender(<AnswerValidation {...props} />);
@@ -254,7 +253,6 @@ describe("AnswerValidation", () => {
           __typename: "ValidationError",
         },
       ];
-      props.answer.validation.minValue.validationErrorInfo.errors = error;
       props.answer.validation.maxValue.validationErrorInfo.errors = error;
 
       const { getByText } = rtlRender(<AnswerValidation {...props} />);
@@ -290,7 +288,6 @@ describe("AnswerValidation", () => {
           __typename: "ValidationError",
         },
       ];
-      props.answer.validation.earliestDate.validationErrorInfo.errors = error;
       props.answer.validation.latestDate.validationErrorInfo.errors = error;
 
       const { getByText } = rtlRender(<AnswerValidation {...props} />);
@@ -324,7 +321,6 @@ describe("AnswerValidation", () => {
           __typename: "ValidationError",
         },
       ];
-      props.answer.validation.earliestDate.validationErrorInfo.errors = error;
       props.answer.validation.latestDate.validationErrorInfo.errors = error;
       const { getAllByText } = rtlRender(<AnswerValidation {...props} />);
 
@@ -362,7 +358,6 @@ describe("AnswerValidation", () => {
           __typename: "ValidationError",
         },
       ];
-      props.answer.validation.earliestDate.validationErrorInfo.errors = error;
       props.answer.validation.latestDate.validationErrorInfo.errors = error;
 
       const { getByText } = rtlRender(<AnswerValidation {...props} />);

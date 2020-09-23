@@ -83,7 +83,7 @@ DurationValidation.propTypes = {
   onChange: PropTypes.func,
   onUpdate: PropTypes.func,
   testId: PropTypes.string,
-  hasError: PropTypes.object, // eslint-disable-line
+  // hasError: PropTypes.object, // eslint-disable-line
 };
 
 export default DurationValidation;

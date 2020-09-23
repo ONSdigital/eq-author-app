@@ -27,6 +27,7 @@ describe("Duration Validation", () => {
           value: 5,
           unit: "Months",
         },
+        validationErrorInfo: { errors: [] },
       },
       onToggleValidationRule: jest.fn(),
       onChange: jest.fn(),

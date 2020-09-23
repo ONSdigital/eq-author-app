@@ -51,7 +51,7 @@ Array [
             }
           }
         />
-        <AnswerValidation
+        <Memo(AnswerValidation)
           answer={
             Object {
               "validationErrorInfo": Object {
@@ -96,7 +96,7 @@ Array [
             }
           }
         />
-        <AnswerValidation
+        <Memo(AnswerValidation)
           answer={
             Object {
               "__typename": "BasicAnswer",
@@ -157,7 +157,7 @@ Array [
             }
           }
         />
-        <AnswerValidation
+        <Memo(AnswerValidation)
           answer={
             Object {
               "__typename": "BasicAnswer",
