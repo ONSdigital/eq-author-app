@@ -51,6 +51,14 @@ exports[`Date Validation should render 1`] = `
             "value": 5,
           }
         }
+        hasError={
+          Object {
+            "errorCode": "ERR_NO_VALUE",
+            "field": "custom",
+            "id": "0efd3ed1-8e0d-4b0c-9e39-59010751dbdf",
+            "type": "validation",
+          }
+        }
         name="offset"
         onChange={[MockFunction]}
         onUpdate={[MockFunction]}
@@ -71,6 +79,13 @@ exports[`Date Validation should render 1`] = `
       cols={3}
     >
       <DateValidation__ConnectedPath />
+    </Column>
+    <Column
+      cols={9}
+    >
+      <DateValidation__StyledError>
+        Value is required
+      </DateValidation__StyledError>
     </Column>
   </Grid>
   <Grid
