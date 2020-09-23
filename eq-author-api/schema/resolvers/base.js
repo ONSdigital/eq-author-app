@@ -958,7 +958,7 @@ const Resolvers = {
   },
 
   Section: {
-    pages: section => section.pages,
+    //folders: section => section.folders,
     questionnaire: (section, args, ctx) => ctx.questionnaire,
     title: (section, args, ctx) =>
       ctx.questionnaire.navigation ? section.title : "",
