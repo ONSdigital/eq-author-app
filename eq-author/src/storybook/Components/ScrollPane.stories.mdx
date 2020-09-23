@@ -1,0 +1,124 @@
+import { Meta, Story, Canvas } from "@storybook/addon-docs/blocks";
+
+import ScrollPane from "components/ScrollPane";
+import { NavLink } from "react-router-dom";
+const exampleText = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id`;
+
+<Meta
+  title="Components/ScrollPane"
+  component={ScrollPane}
+  decorators={[
+    (Story) => (
+      <div
+        style={{
+          height: "150px",
+          width: "300px",
+          border: "2px solid #e1e4e8",
+          borderRadius: "6px",
+          padding: "50px",
+        }}
+      >
+        {Story()}
+      </div>
+    ),
+  ]}
+/>
+
+# Scroll Pane
+
+Hides overflowing content and makes it scrollable.
+
+There is an optional property that the component accepts `scrollToTop`
+
+This resets the content to the top of the scroll pane after a user clicks a link.
+
+## Example
+
+<Canvas>
+  <Story
+    name="Primary"
+    args={{ children: exampleText }}
+    parameters={{ actions: { disabled: true } }}
+  >
+    {(args) => <ScrollPane {...args} />}
+  </Story>
+</Canvas>
+
+## When to use this component
+
+Use this pattern sparingly. We have tried to limit the amount of scroll panes present within the Author application.
+
+Note: The black border surrounding the scroll pane is for example purposes only. It's used to highlight where the content begins scrolling.
+
+## When not to use this component
+
+Do not use this component if there are other ways to obscure content from the user
+
+Alternative methods to obscure content:
+
+- Truncation
+- Progressive disclosure
+- Sub-categorization
+
+## How to use this component
+
+The scroll pane component needs to be wrapped in a container that has a limited height and width.
+
+This will enable scrolling within itself.
+
+## Variants
+
+### ScrollToTop
+
+This variant makes use of the `scrollToTop` property.
+
+When a user clicks on a link, this will return the scroll pane to the top of it's content.
+
+A link has been added to show case the functionality.
+
+<Canvas>
+  <Story
+    name="Secondary"
+    args={{ children: exampleText, scrollToTop: true }}
+    parameters={{ actions: { disabled: true } }}
+  >
+    {(args) => {
+      return (
+        <>
+          <ScrollPane {...args} style={{ marginBottom: "10px" }} />
+          <NavLink to={"#"} title={"Hello"} data-test="nav-link">
+            Return to top of content
+          </NavLink>
+        </>
+      );
+    }}
+  </Story>
+</Canvas>
+
+## Accessibility
+
+TODO
+
+## Research
+
+### Nielsen group advice on scrollbars (2005).
+
+https://www.nngroup.com/articles/scrolling-and-scrollbars/
+
+Key points from above link:
+
+- The additional action that scrolling requires can be difficult for users with motor skill impairments.
+- Low-literacy users can't easily reacquire their position in the text after it moves.
+- Elderly users often have trouble getting to the right spot in scrolling menus and other small scrolling items.
+
+### Baymard UX research article (2014).
+
+https://baymard.com/blog/inline-scroll-areas
+
+Key points from above link:
+
+- Lack of overview
+- Scroll hijacking
+- Invisible content & scroll bars
+- Overly sensitive scroll bars
+- “Activation” of scroll areas
