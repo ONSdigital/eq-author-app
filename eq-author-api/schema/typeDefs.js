@@ -97,12 +97,20 @@ type DeletedQuestionnaire {
   id: ID!
 }
 
+type Folder {
+  id: ID!
+  alias: String
+  enabled: Boolean!
+  pages: [Page]
+  skipConditions: [ExpressionGroup2]
+}
+
 type Section {
   id: ID!
   title: String!
   alias: String
   displayName: String!
-  pages: [Page]
+  folders: [Folder]
   questionnaire: Questionnaire
   position: Int!
   introductionTitle: String
