@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import { kebabCase, get, startCase, isNull } from "lodash";
+import { kebabCase, get, startCase, isNull, find } from "lodash";
 import CustomPropTypes from "custom-prop-types";
 import styled from "styled-components";
 
@@ -159,11 +159,11 @@ const titleText = (id, title, enabled, inclusive) => {
   }
 };
 
-const AnswerValidation = ({answer}) => {
+const AnswerValidation = ({ answer }) => {
   const [startingTabId, setStartingTabId] = useState(null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const modalId = `modal-validation-${answer.id}`;
-  
+
   const handleModalClose = useCallback(() => setModalIsOpen(false), []);
   const validValidationTypes = getValidationsForType(answer.type);
 
@@ -173,6 +173,7 @@ const AnswerValidation = ({answer}) => {
 
   const validationButtons = [];
   let pendingErrors = [];
+
   validValidationTypes.forEach(type => {
     const validation = get(answer, `validation.${type.id}`, {});
     const errors = get(validation, `validationErrorInfo.errors`, []);
@@ -200,8 +201,16 @@ const AnswerValidation = ({answer}) => {
 
     pendingErrors.push(...errors);
 
-    if(pendingErrors.length > 0) {
-      if (type.id === "earliestDate" || type.id === "minDuration" || type.id === "minValue") {
+    // const dateError = find(pendingErrors, error =>
+    //   error.errorCode.includes("ERR_EARLIEST_AFTER_LATEST")
+    // );
+
+    const noValError = find(pendingErrors, error =>
+      error.errorCode.includes("ERR_NO_VALUE")
+    );
+
+    if (pendingErrors.length > 0) {
+      if ((type.id === "earliestDate" && !noValError) || (type.id === "minDuration" && !noValError) || (type.id === "minValue" && !noValError)) {
         return; // Don't display anything after the earliest date / min duration buttons - show after section
       }
 
