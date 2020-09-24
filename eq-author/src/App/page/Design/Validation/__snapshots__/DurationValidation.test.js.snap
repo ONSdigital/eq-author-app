@@ -21,7 +21,15 @@ exports[`Duration Validation should render 1`] = `
         duration={
           Object {
             "unit": "Months",
-            "value": 5,
+            "value": null,
+          }
+        }
+        hasError={
+          Object {
+            "errorCode": "ERR_NO_VALUE",
+            "field": "minDuration",
+            "id": "0efd3ed1-8e0d-4b0c-9e39-59010751dbdf",
+            "type": "validation",
           }
         }
         name="duration"
@@ -46,7 +54,11 @@ exports[`Duration Validation should render 1`] = `
     />
     <Column
       cols={9}
-    />
+    >
+      <DurationValidation__StyledError>
+        Value is required
+      </DurationValidation__StyledError>
+    </Column>
   </Grid>
 </div>
 `;
