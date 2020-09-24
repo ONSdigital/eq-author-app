@@ -11,9 +11,9 @@ const {
 const folderProperties = ["id", "alias", "enabled", "pages", "skipConditions"];
 
 describe("Folders", () => {
-  let ctx,
-    config,
-    questionnaire = {};
+  let ctx = {};
+  let config = {};
+  let questionnaire = {};
   beforeEach(async () => {
     ctx = await buildContext(null);
     config = {
