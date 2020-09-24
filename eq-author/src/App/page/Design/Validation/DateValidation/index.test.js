@@ -5,7 +5,6 @@ import { UnwrappedDateValidation } from ".";
 import Duration from "../Duration";
 import { DATE, DATE_RANGE } from "constants/answer-types";
 import { CUSTOM } from "constants/validation-entity-types";
-import { byTestAttr } from "tests/utils/selectors";
 
 const createWrapper = (props, render = shallow) =>
   render(<UnwrappedDateValidation {...props} />);
