@@ -21,8 +21,11 @@ const createQuestionnaireMutation = `
       }
       sections {
         id
-        pages {
+        folders {
           id
+          pages {
+            id
+          }
         }
       }
       summary

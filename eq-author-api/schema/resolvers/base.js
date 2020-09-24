@@ -106,11 +106,20 @@ const {
   publishStatusEvent,
 } = require("../../utils/questionnaireEvents");
 
+const createFolder = (input = {}) => ({
+  id: uuidv4(),
+  alias: "",
+  enabled: false,
+  pages: [createQuestionPage()],
+  skipConditions: null,
+  ...input,
+});
+
 const createSection = (input = {}) => ({
   id: uuidv4(),
   title: "",
   introductionEnabled: false,
-  pages: [createQuestionPage()],
+  folders: [createFolder()],
   alias: "",
   ...input,
 });

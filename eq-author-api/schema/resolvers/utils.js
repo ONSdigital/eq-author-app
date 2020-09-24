@@ -18,6 +18,13 @@ const getSectionByPageId = (ctx, pageId) =>
     }
   });
 
+const getFolders = ctx => flatMap(getSections(ctx), ({ folders }) => folders);
+
+const getFolderById = (ctx, id) => find(getFolders(ctx), { id });
+
+const getFolderByPageId = (ctx, id) =>
+  find(getFolders(ctx), ({ pages }) => pages && some(pages, { id }));
+
 const getPages = ctx => flatMap(getSections(ctx), section => section.pages);
 
 const getPageById = (ctx, id) => find(getPages(ctx), { id });
@@ -181,6 +188,10 @@ const remapAllNestedIds = entity => {
 module.exports = {
   getSectionById,
   getSectionByPageId,
+
+  getFolders,
+  getFolderById,
+  getFolderByPageId,
 
   getPages,
   getPageById,
