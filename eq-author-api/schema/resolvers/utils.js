@@ -25,7 +25,7 @@ const getFolderById = (ctx, id) => find(getFolders(ctx), { id });
 const getFolderByPageId = (ctx, id) =>
   find(getFolders(ctx), ({ pages }) => pages && some(pages, { id }));
 
-const getPages = ctx => flatMap(getSections(ctx), section => section.pages);
+const getPages = ctx => flatMap(getFolders(ctx), ({ pages }) => pages);
 
 const getPageById = (ctx, id) => find(getPages(ctx), { id });
 
