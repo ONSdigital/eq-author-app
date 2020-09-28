@@ -4467,20 +4467,7 @@ atomic-sleep@^1.0.0:
   resolved "https://registry.yarnpkg.com/atomic-sleep/-/atomic-sleep-1.0.0.tgz#eb85b77a601fc932cfe432c5acd364a9e2c9075b"
   integrity sha512-kNOjDqAh7px0XWNI+4QbzoiR/nTkHAWNud2uvnJquD1/x5a7EQZMJT0AczqK0Qn67oY/TTQ1LbUKajZpp3I9tQ==
 
-autoprefixer@^9.6.1, autoprefixer@^9.7.5, autoprefixer@latest:
-  version "9.7.6"
-  resolved "https://registry.yarnpkg.com/autoprefixer/-/autoprefixer-9.7.6.tgz#63ac5bbc0ce7934e6997207d5bb00d68fa8293a4"
-  integrity sha512-F7cYpbN7uVVhACZTeeIeealwdGM6wMtfWARVLTy5xmKtgVdBNJvbDRoCK3YO1orcs7gv/KwYlb3iXwu9Ug9BkQ==
-  dependencies:
-    browserslist "^4.11.1"
-    caniuse-lite "^1.0.30001039"
-    chalk "^2.4.2"
-    normalize-range "^0.1.2"
-    num2fraction "^1.2.2"
-    postcss "^7.0.27"
-    postcss-value-parser "^4.0.3"
-
-autoprefixer@^9.7.2:
+autoprefixer@^9.6.1, autoprefixer@^9.7.2, autoprefixer@^9.7.5, autoprefixer@latest:
   version "9.8.6"
   resolved "https://registry.yarnpkg.com/autoprefixer/-/autoprefixer-9.8.6.tgz#3b73594ca1bf9266320c5acf1588d74dea74210f"
   integrity sha512-XrvP4VVHdRBCdX1S3WXVD8+RyG9qeb1D5Sn1DeLiG2xfSpzellk5k54xbUERJ3M5DggQxes39UGOTP8CFrEGbg==
@@ -5165,7 +5152,7 @@ browserslist@4.10.0:
     node-releases "^1.1.52"
     pkg-up "^3.1.0"
 
-browserslist@^4.0.0, browserslist@^4.11.1, browserslist@^4.12.0, browserslist@^4.6.4, browserslist@^4.8.3:
+browserslist@^4.0.0, browserslist@^4.12.0, browserslist@^4.6.4, browserslist@^4.8.3:
   version "4.12.2"
   resolved "https://registry.yarnpkg.com/browserslist/-/browserslist-4.12.2.tgz#76653d7e4c57caa8a1a28513e2f4e197dc11a711"
   integrity sha512-MfZaeYqR8StRZdstAK9hCKDd2StvePCYp5rHzQCPicUjfFliDgmuaBNPHYUTpAywBN8+Wc/d7NYVFkO0aqaBUw==
@@ -5378,17 +5365,7 @@ caniuse-api@^3.0.0:
     lodash.memoize "^4.1.2"
     lodash.uniq "^4.5.0"
 
-caniuse-lite@^1.0.0, caniuse-lite@^1.0.30000981, caniuse-lite@^1.0.30001035, caniuse-lite@^1.0.30001039:
-  version "1.0.30001039"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001039.tgz#b3814a1c38ffeb23567f8323500c09526a577bbe"
-  integrity sha512-SezbWCTT34eyFoWHgx8UWso7YtvtM7oosmFoXbCkdC6qJzRfBTeTgE9REtKtiuKXuMwWTZEvdnFNGAyVMorv8Q==
-
-caniuse-lite@^1.0.30001088:
-  version "1.0.30001091"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001091.tgz#84908c67b98e02c2a56d4afa51e6458b53fb5321"
-  integrity sha512-ECd8gfBBpv0GKsEYY5052+8PBjExiugDoi3dfkJcxujh2mf7kiuDvb1o27GXlOOGopKiIPYEX8XDPYj7eo3E9w==
-
-caniuse-lite@^1.0.30001109:
+caniuse-lite@^1.0.0, caniuse-lite@^1.0.30000981, caniuse-lite@^1.0.30001035, caniuse-lite@^1.0.30001088, caniuse-lite@^1.0.30001109:
   version "1.0.30001118"
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001118.tgz#116a9a670e5264aec895207f5e918129174c6f62"
   integrity sha512-RNKPLojZo74a0cP7jFMidQI7nvLER40HgNfgKQEJ2PFm225L0ectUungNQoK3Xk3StQcFbpBPNEvoWD59436Hg==
