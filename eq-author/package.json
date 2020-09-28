@@ -53,7 +53,7 @@
     "eslint-plugin-graphql": "^4.0.0",
     "file-loader": "latest",
     "fs-extra": "latest",
-    "html-webpack-plugin": "^4.0.4",
+    "html-webpack-plugin": "^4.5.0",
     "jest": "^26.2.1",
     "jest-styled-components": "6.3.4",
     "jest-transform-graphql": "latest",
