@@ -36,7 +36,7 @@ This resets the content to the top of the scroll pane after a user clicks a link
 
 <Canvas>
   <Story
-    name="Primary"
+    name="Default"
     args={{ children: exampleText }}
     parameters={{ actions: { disabled: true } }}
   >
@@ -48,6 +48,8 @@ This resets the content to the top of the scroll pane after a user clicks a link
 
 Use this pattern sparingly. We have tried to limit the amount of scroll panes present within the Author application.
 
+Having multiple scroll panes can frustrate and confuse users (Mouse wheel behaviour).
+
 Note: The black border surrounding the scroll pane is for example purposes only. It's used to highlight where the content begins scrolling.
 
 ## When not to use this component
@@ -57,14 +59,13 @@ Do not use this component if there are other ways to obscure content from the us
 Alternative methods to obscure content:
 
 - Truncation
-- Progressive disclosure
-- Sub-categorization
+- Accordions
+- [Progressive disclosure](https://www.interaction-design.org/literature/topics/progressive-disclosure#:~:text=Progressive%20disclosure%20is%20an%20interaction,overwhelmed%20by%20what%20they%20encounter.)
+- [Sub-categorization](https://baymard.com/blog/sub-sub-categories)
 
 ## How to use this component
 
-The scroll pane component needs to be wrapped in a container that has a limited height and width.
-
-This will enable scrolling within itself.
+The scroll pane component needs to be wrapped in a container that has a set height and width to enable scrolling within itself.
 
 ## Variants
 
@@ -78,7 +79,7 @@ A link has been added to show case the functionality.
 
 <Canvas>
   <Story
-    name="Secondary"
+    name="Scroll to top"
     args={{ children: exampleText, scrollToTop: true }}
     parameters={{ actions: { disabled: true } }}
   >
@@ -97,15 +98,7 @@ A link has been added to show case the functionality.
 
 ## Accessibility
 
-TODO
-
-## Research
-
-### Nielsen group advice on scrollbars (2005).
-
-https://www.nngroup.com/articles/scrolling-and-scrollbars/
-
-Key points from above link:
+### Nielsen Norman group advice on scrollbars (2005).
 
 - The additional action that scrolling requires can be difficult for users with motor skill impairments.
 - Low-literacy users can't easily reacquire their position in the text after it moves.
@@ -113,12 +106,23 @@ Key points from above link:
 
 ### Baymard UX research article (2014).
 
-https://baymard.com/blog/inline-scroll-areas
-
-Key points from above link:
-
 - Lack of overview
+  - Users need to memorize content that is out of view
 - Scroll hijacking
+  - Additional scroll panes can 'hijack' the main scroll pane
+  - When a user has reached the end of an inner scroll pane, the whole page begins scrolling again
+  - Frustrates users due to requirement of constant awareness of mouse cursor.
+  - Causes problems with touch devices
 - Invisible content & scroll bars
+   - Apple devices have scroll bars hidden by default, surprising users when content is scrollable
 - Overly sensitive scroll bars
+  - Some users click and drag the scroll panes which can causes them to miss certain options.
 - “Activation” of scroll areas
+  - Some users click nested scroll panes to "activate" them and instead end up clicking a hyperlink instead.
+
+## Research
+
+- [Nielsen Norman group (2005)](https://www.nngroup.com/articles/scrolling-and-scrollbars/)
+- [Baymard institute UX research article (2014)](https://baymard.com/blog/inline-scroll-areas)
+
+
