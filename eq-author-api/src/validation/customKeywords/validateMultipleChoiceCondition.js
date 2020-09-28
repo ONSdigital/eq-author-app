@@ -30,7 +30,7 @@ module.exports = function(ajv) {
         );
         const mutuallyExclusiveOption = selectedCheckboxOptions.filter(
           ({ mutuallyExclusive }) => mutuallyExclusive
-        );
+        ).length;
 
         if (
           selectedCheckboxOptions.length > 1 &&

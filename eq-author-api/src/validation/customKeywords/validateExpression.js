@@ -56,7 +56,7 @@ module.exports = function(ajv) {
         const { condition } = entityData;
 
         if (
-          expressionsWithoutNullLeft.length > 1 &&
+          expressionsWithoutNullLeft.length > 0 &&
           expressionGroupCondition === "And" &&
           (selectionContainsOnlyMutuallyExclusive ||
             (selectionContainsMutuallyExclusive && condition === "AnyOf"))

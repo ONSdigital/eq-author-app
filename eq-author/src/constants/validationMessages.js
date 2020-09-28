@@ -103,7 +103,7 @@ export const rightSideErrors = {
   ERR_GROUP_MIXING_EXPRESSIONS_WITH_OR_STND_OPTIONS_IN_AND: {
     errorCode: "ERR_GROUP_MIXING_EXPRESSIONS_WITH_OR_STND_OPTIONS_IN_AND",
     message:
-      "You can't match 'all of' the standard options with the 'or' checkbox option. Change the 'All of' to 'Any of' or remove a condition",
+      "You can't match 'All of' the standard options with the 'or' checkbox option. Change the 'All of' to 'Any of' or remove a condition",
   },
 };
 
