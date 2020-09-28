@@ -3,6 +3,7 @@ import { shallow } from "enzyme";
 import { render, act, flushPromises } from "tests/utils/rtl";
 
 import { rightSideErrors } from "constants/validationMessages";
+import { colors } from "constants/theme";
 
 import { CHECKBOX, RADIO } from "constants/answer-types";
 
@@ -155,6 +156,36 @@ describe("MultipleChoiceAnswerOptionsSelector", () => {
     expect(
       getByText(rightSideErrors.ERR_RIGHTSIDE_ALLOFF_OR_NOT_ALLOWED.message)
     ).toBeTruthy();
+  });
+
+  it("should highlight the condition selector when the error includes it", async () => {
+    defaultProps.expression = {
+      left: {},
+      validationErrorInfo: {
+        errors: [
+          {
+            errorCode:
+              rightSideErrors.ERR_RIGHTSIDE_MIXING_OR_STND_OPTIONS_IN_AND_RULE
+                .errorCode,
+            field: "condition",
+            id: "expression-routing-1-right",
+            type: "expressions",
+          },
+        ],
+      },
+    };
+
+    const { getByTestId } = render(
+      <MultipleChoiceAnswerOptionsSelector hasError {...defaultProps} />
+    );
+
+    await act(async () => {
+      await flushPromises();
+    });
+
+    const dropdown = getByTestId("condition-dropdown");
+
+    expect(dropdown).toHaveStyle(`border: 2px solid ${colors.red}`);
   });
 
   it("should include or in option label when mutually exclusive", async () => {
