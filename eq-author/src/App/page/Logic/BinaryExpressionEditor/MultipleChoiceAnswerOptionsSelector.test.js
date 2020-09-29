@@ -132,6 +132,41 @@ describe("MultipleChoiceAnswerOptionsSelector", () => {
     ).toBeTruthy();
   });
 
+  it("should show error message when group condition is incompatible", async () => {
+    defaultProps.expression.condition = "AllOf";
+    defaultProps.expression.left.type = CHECKBOX;
+    defaultProps.expression.validationErrorInfo.errors[0] = {
+      errorCode:
+        rightSideErrors.ERR_GROUP_MIXING_EXPRESSIONS_WITH_OR_STND_OPTIONS_IN_AND
+          .errorCode,
+      field: "groupCondition",
+      id: "123-123-123",
+      type: "expressions",
+    };
+
+    const { getByText } = render(
+      <MultipleChoiceAnswerOptionsSelector hasError {...defaultProps} />
+    );
+
+    await act(async () => {
+      await flushPromises();
+    });
+
+    expect(
+      getByText(
+        rightSideErrors.ERR_GROUP_MIXING_EXPRESSIONS_WITH_OR_STND_OPTIONS_IN_AND
+          .message
+      )
+    ).toHaveStyleRule("width", "100%");
+
+    expect(
+      getByText(
+        rightSideErrors.ERR_GROUP_MIXING_EXPRESSIONS_WITH_OR_STND_OPTIONS_IN_AND
+          .message
+      )
+    ).toBeTruthy();
+  });
+
   it("should show error message when exclusive OR error", async () => {
     defaultProps.expression.right = null;
     defaultProps.expression.validationErrorInfo.errors[0] = {
