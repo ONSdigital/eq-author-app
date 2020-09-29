@@ -22,16 +22,15 @@ import PositionPicker from "./PositionPicker.js";
 
 const START_COL_SIZE = 3;
 const END_COL_SIZE = 12 - START_COL_SIZE;
-const UNITS = [DAYS, MONTHS, YEARS];
 
 const getUnits = format => {
   switch (format) {
     case "dd/mm/yyyy":
-      return UNITS;
+      return [DAYS, MONTHS, YEARS];
     case "mm/yyyy":
-      return UNITS.slice(1);
+      return [MONTHS, YEARS];
     default:
-      return UNITS.slice(2);
+      return [YEARS];
   }
 }
 

@@ -26,8 +26,8 @@ const DurationValidation = props => {
     onUpdate,
     validation, } = props;
 
-  const hasError = find(validation.validationErrorInfo.errors, error =>
-    error.errorCode.includes("ERR_NO_VALUE")
+  const hasError = find(validation.validationErrorInfo.errors, ({ errorCode }) =>
+    errorCode.includes("ERR_NO_VALUE")
   );
 
   const handleError = () => {
@@ -83,7 +83,6 @@ DurationValidation.propTypes = {
   onChange: PropTypes.func,
   onUpdate: PropTypes.func,
   testId: PropTypes.string,
-  // hasError: PropTypes.object, // eslint-disable-line
 };
 
 export default DurationValidation;
