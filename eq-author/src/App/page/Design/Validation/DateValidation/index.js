@@ -36,8 +36,8 @@ const getUnits = format => {
 }
 
 const UnwrappedDateValidation = ({ validation, answer, displayName, onChange, onUpdate, onChangeUpdate, readKey }) => {
-  const { type, properties: { format } } = answer;
-  const availableUnits = getUnits(format ? format : "dd/mm/yyyy");
+
+  const availableUnits = getUnits(answer.properties.format ? answer.properties.format : "dd/mm/yyyy");
 
   const hasError = find(validation.validationErrorInfo.errors, error =>
     error.errorCode.includes("ERR_NO_VALUE")
@@ -71,7 +71,7 @@ const UnwrappedDateValidation = ({ validation, answer, displayName, onChange, on
       </Grid>
       <Grid>
         <AlignedColumn cols={START_COL_SIZE}>
-          {type === DATE
+          {answer.type === DATE
             ? <PositionPicker value={validation.relativePosition} onChange={onChange} onUpdate={onUpdate} />
             : <RelativePositionText> {validation.relativePosition.toLowerCase()} </RelativePositionText>
           }
@@ -89,7 +89,7 @@ const UnwrappedDateValidation = ({ validation, answer, displayName, onChange, on
             onUpdate={onUpdate}
             onChangeUpdate={onChangeUpdate}
             Custom={CustomEditor}
-            {...(type === DATE ?
+            {...(answer.type === DATE ?
               {
                 PreviousAnswer: PreviousAnswerEditor,
                 Now: Now
