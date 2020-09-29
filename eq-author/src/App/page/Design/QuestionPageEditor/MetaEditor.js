@@ -12,6 +12,7 @@ import { Field, Label } from "components/Forms";
 import withChangeUpdate from "enhancers/withChangeUpdate";
 import withValidationError from "enhancers/withValidationError";
 import { richTextEditorErrors } from "constants/validationMessages";
+import { questionDefinitionErrors } from "constants/validationMessages";
 
 import MultipleFieldEditor from "./MultipleFieldEditor";
 import AnswerTransition from "./AnswersEditor/AnswerTransition";
@@ -51,10 +52,14 @@ const Paragraph = styled.p`
 
 const {
   QUESTION_TITLE_NOT_ENTERED,
-  DEFINITION_CONTENT_NOT_ENTERED,
   PIPING_TITLE_MOVED,
   PIPING_TITLE_DELETED,
 } = richTextEditorErrors;
+
+const {
+  DEFINITION_LABEL_NOT_ENTERED,
+  DEFINITION_CONTENT_NOT_ENTERED,
+} = questionDefinitionErrors;
 
 /* eslint-disable react/prop-types */
 const ERROR_SITUATIONS = [
@@ -64,13 +69,6 @@ const ERROR_SITUATIONS = [
         errorCode: QUESTION_TITLE_NOT_ENTERED.errorCode,
       }),
     message: () => QUESTION_TITLE_NOT_ENTERED.message,
-  },
-  {
-    condition: errors =>
-      some(errors, {
-        errorCode: DEFINITION_CONTENT_NOT_ENTERED.errorCode,
-      }),
-    message: () => DEFINITION_CONTENT_NOT_ENTERED.message,
   },
   {
     condition: errors =>
@@ -101,12 +99,29 @@ export class StatelessMetaEditor extends React.Component {
     }
   };
 
+  DefinitionLabelErrorMsg = definitionLabelErrors => {
+    const { condition, message } = {
+      condition: errors =>
+        some(errors, {
+          errorCode: DEFINITION_LABEL_NOT_ENTERED.errorCode,
+        }),
+      message: () => DEFINITION_LABEL_NOT_ENTERED.message,
+    };
+    if (condition(definitionLabelErrors)) {
+      return message(definitionLabelErrors);
+    }
+  };
+
   DefinitionContentErrorMsg = definitionConentErrors => {
-    for (let i = 0; i < ERROR_SITUATIONS.length; ++i) {
-      const { condition, message } = ERROR_SITUATIONS[i];
-      if (condition(definitionConentErrors)) {
-        return message(definitionConentErrors);
-      }
+    const { condition, message } = {
+      condition: errors =>
+        some(errors, {
+          errorCode: DEFINITION_CONTENT_NOT_ENTERED.errorCode,
+        }),
+      message: () => DEFINITION_CONTENT_NOT_ENTERED.message,
+    };
+    if (condition(definitionConentErrors)) {
+      return message(definitionConentErrors);
     }
   };
 
@@ -115,6 +130,17 @@ export class StatelessMetaEditor extends React.Component {
       field: "title",
     });
     const ErrorMsg = this.ErrorMsg(titleErrors);
+
+    const DefinitionLabelErrors = filter(
+      this.props.page.validationErrorInfo.errors,
+      {
+        field: "definitionLabel",
+      }
+    );
+    const DefinitionLabelErrorMsg = this.DefinitionLabelErrorMsg(
+      DefinitionLabelErrors
+    );
+
     const DefinitionConentErrors = filter(
       this.props.page.validationErrorInfo.errors,
       {
@@ -191,6 +217,7 @@ export class StatelessMetaEditor extends React.Component {
                     onBlur={onUpdate}
                     value={page.definitionLabel}
                     bold
+                    errorValidationMsg={DefinitionLabelErrorMsg}
                   />
                 </Field>
                 <RichTextEditor

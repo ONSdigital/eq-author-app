@@ -11,10 +11,6 @@ export const richTextEditorErrors = {
     errorCode: "ERR_VALID_REQUIRED",
     message: "Enter a question title",
   },
-  DEFINITION_CONTENT_NOT_ENTERED: {
-    errorCode: "ERR_VALID_REQUIRED",
-    message: "Enter definition content",
-  },
   CALCSUM_TITLE_NOT_ENTERED: {
     errorCode: "ERR_VALID_REQUIRED",
     message: "Enter a calculated summary title",
@@ -27,6 +23,17 @@ export const richTextEditorErrors = {
   PIPING_TITLE_DELETED: {
     errorCode: "PIPING_TITLE_DELETED",
     message: "The answer being piped has been deleted",
+  },
+};
+
+export const questionDefinitionErrors = {
+  DEFINITION_LABEL_NOT_ENTERED: {
+    errorCode: "ERR_VALID_REQUIRED",
+    message: "Enter definition label",
+  },
+  DEFINITION_CONTENT_NOT_ENTERED: {
+    errorCode: "ERR_VALID_REQUIRED",
+    message: "Enter definition content",
   },
 };
 
