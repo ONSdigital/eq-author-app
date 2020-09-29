@@ -11,8 +11,10 @@ import { Field, Label } from "components/Forms";
 
 import withChangeUpdate from "enhancers/withChangeUpdate";
 import withValidationError from "enhancers/withValidationError";
-import { richTextEditorErrors } from "constants/validationMessages";
-import { questionDefinitionErrors } from "constants/validationMessages";
+import {
+  richTextEditorErrors,
+  questionDefinitionErrors,
+} from "constants/validationMessages";
 
 import MultipleFieldEditor from "./MultipleFieldEditor";
 import AnswerTransition from "./AnswersEditor/AnswerTransition";
