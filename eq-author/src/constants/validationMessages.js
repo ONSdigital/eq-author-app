@@ -11,6 +11,10 @@ export const richTextEditorErrors = {
     errorCode: "ERR_VALID_REQUIRED",
     message: "Enter a question title",
   },
+  DEFINITION_CONTENT_NOT_ENTERED: {
+    errorCode: "ERR_VALID_REQUIRED",
+    message: "Enter definition content",
+  },
   CALCSUM_TITLE_NOT_ENTERED: {
     errorCode: "ERR_VALID_REQUIRED",
     message: "Enter a calculated summary title",

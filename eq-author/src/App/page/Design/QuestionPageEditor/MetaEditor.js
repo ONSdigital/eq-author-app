@@ -51,6 +51,7 @@ const Paragraph = styled.p`
 
 const {
   QUESTION_TITLE_NOT_ENTERED,
+  DEFINITION_CONTENT_NOT_ENTERED,
   PIPING_TITLE_MOVED,
   PIPING_TITLE_DELETED,
 } = richTextEditorErrors;
@@ -63,6 +64,13 @@ const ERROR_SITUATIONS = [
         errorCode: QUESTION_TITLE_NOT_ENTERED.errorCode,
       }),
     message: () => QUESTION_TITLE_NOT_ENTERED.message,
+  },
+  {
+    condition: errors =>
+      some(errors, {
+        errorCode: DEFINITION_CONTENT_NOT_ENTERED.errorCode,
+      }),
+    message: () => DEFINITION_CONTENT_NOT_ENTERED.message,
   },
   {
     condition: errors =>
@@ -93,11 +101,30 @@ export class StatelessMetaEditor extends React.Component {
     }
   };
 
+  DefinitionContentErrorMsg = definitionConentErrors => {
+    for (let i = 0; i < ERROR_SITUATIONS.length; ++i) {
+      const { condition, message } = ERROR_SITUATIONS[i];
+      if (condition(definitionConentErrors)) {
+        return message(definitionConentErrors);
+      }
+    }
+  };
+
   render() {
     const titleErrors = filter(this.props.page.validationErrorInfo.errors, {
       field: "title",
     });
     const ErrorMsg = this.ErrorMsg(titleErrors);
+    const DefinitionConentErrors = filter(
+      this.props.page.validationErrorInfo.errors,
+      {
+        field: "definitionContent",
+      }
+    );
+    const DefinitionContentErrorMsg = this.DefinitionContentErrorMsg(
+      DefinitionConentErrors
+    );
+
     const {
       page,
       onChange,
@@ -177,6 +204,7 @@ export class StatelessMetaEditor extends React.Component {
                   fetchAnswers={fetchAnswers}
                   metadata={page.section.questionnaire.metadata}
                   testSelector="txt-question-definition-content"
+                  errorValidationMsg={DefinitionContentErrorMsg}
                 />
               </MultipleFieldEditor>
             </AnswerTransition>

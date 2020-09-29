@@ -148,7 +148,7 @@
           "if": {
             "properties": {
               "definitionEnabled": {
-                "const": true
+                "enum": [true]
               }
             }
           },
