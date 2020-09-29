@@ -93,6 +93,45 @@
         {
           "if": {
             "properties": {
+              "definitionEnabled": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "definitionLabel": {
+                "anyOf": [
+                  {
+                    "not": {
+                      "type": "null"
+                    },
+                    "errorMessage": "ERR_VALID_REQUIRED"
+                  },
+                  {
+                    "$ref": "definitions.json#/definitions/populatedString"
+                  }
+                ]
+              },
+              "definitionContent": {
+                "anyOf": [
+                  {
+                    "not": {
+                      "type": "null"
+                    },
+                    "errorMessage": "ERR_VALID_REQUIRED"
+                  },
+                  {
+                    "$ref": "definitions.json#/definitions/populatedString"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
               "pageType": {
                 "enum": ["QuestionPage"]
               }
@@ -141,25 +180,6 @@
                 }
               },
               "required": ["summaryAnswers"]
-            }
-          }
-        },
-        {
-          "if": {
-            "properties": {
-              "definitionEnabled": {
-                "enum": [true]
-              }
-            }
-          },
-          "then": {
-            "properties": {
-              "definitionLabel": {
-                "$ref": "definitions.json#/definitions/populatedString"
-              },
-              "definitionContent": {
-                "$ref": "definitions.json#/definitions/populatedString"
-              }
             }
           }
         }
