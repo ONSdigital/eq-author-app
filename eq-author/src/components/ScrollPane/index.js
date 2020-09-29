@@ -3,14 +3,14 @@ import PropTypes from "prop-types";
 import React, { useEffect, useRef } from "react";
 import { useHistory } from "react-router-dom";
 
-const ScrollPane = styled.div`
+const StyledScrollPane = styled.div`
   width: 100%;
   height: 100%;
   overflow-y: auto;
   position: relative;
 `;
 
-const StyledScrollPane = ({ children, scrollToTop = false, ...otherProps }) => {
+const ScrollPane = ({ children, scrollToTop = false, ...otherProps }) => {
   const history = useHistory();
   const ref = useRef();
 
@@ -24,16 +24,17 @@ const StyledScrollPane = ({ children, scrollToTop = false, ...otherProps }) => {
       });
     }
   });
+
   return (
-    <ScrollPane ref={ref} {...otherProps}>
+    <StyledScrollPane ref={ref} {...otherProps}>
       {children}
-    </ScrollPane>
+    </StyledScrollPane>
   );
 };
 
-StyledScrollPane.propTypes = {
+ScrollPane.propTypes = {
   children: PropTypes.node,
   scrollToTop: PropTypes.bool,
 };
 
-export default StyledScrollPane;
+export default ScrollPane;
