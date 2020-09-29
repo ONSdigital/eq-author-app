@@ -10,7 +10,7 @@ import Duration from "../Duration";
 import { ERR_NO_VALUE } from "constants/validationMessages";
 import withChangeUpdate from "enhancers/withChangeUpdate";
 import * as entityTypes from "constants/validation-entity-types";
-import { DATE  } from "constants/answer-types";
+import { DATE } from "constants/answer-types";
 import { DAYS, MONTHS, YEARS } from "constants/durations";
 import PathEnd from "../path-end.svg?inline";
 
@@ -25,7 +25,7 @@ const END_COL_SIZE = 12 - START_COL_SIZE;
 const UNITS = [DAYS, MONTHS, YEARS];
 
 const getUnits = format => {
-  switch(format) {
+  switch (format) {
     case "dd/mm/yyyy":
       return UNITS;
     case "mm/yyyy":
@@ -35,8 +35,7 @@ const getUnits = format => {
   }
 }
 
-const UnwrappedDateValidation = ({validation, answer, displayName, onChange, onUpdate, onChangeUpdate, readKey}) => {
-  const { offset, relativePosition, entityType } = validation;
+const UnwrappedDateValidation = ({ validation, answer, displayName, onChange, onUpdate, onChangeUpdate, readKey }) => {
   const { type, properties: { format } } = answer;
   const availableUnits = getUnits(format ? format : "dd/mm/yyyy");
 
@@ -53,8 +52,8 @@ const UnwrappedDateValidation = ({validation, answer, displayName, onChange, onU
         <Column cols={END_COL_SIZE}>
           <Duration
             name="offset"
-            duration={offset}
-            value={offset.unit}
+            duration={validation.offset}
+            value={validation.offset.unit}
             units={availableUnits}
             onChange={onChange}
             onUpdate={onUpdate}
@@ -72,15 +71,15 @@ const UnwrappedDateValidation = ({validation, answer, displayName, onChange, onU
       </Grid>
       <Grid>
         <AlignedColumn cols={START_COL_SIZE}>
-          { type === DATE
-            ? <PositionPicker value={relativePosition} onChange={onChange} onUpdate={onUpdate} />
-            : <RelativePositionText> { relativePosition.toLowerCase() } </RelativePositionText>
+          {type === DATE
+            ? <PositionPicker value={validation.relativePosition} onChange={onChange} onUpdate={onUpdate} />
+            : <RelativePositionText> {validation.relativePosition.toLowerCase()} </RelativePositionText>
           }
           <PathEnd />
         </AlignedColumn>
         <Column cols={9}>
           <ValidationPills
-            entityType={entityType}
+            entityType={validation.entityType}
             onEntityTypeChange={onChangeUpdate}
             Metadata={MetadataEditor}
             answer={answer}
@@ -90,7 +89,7 @@ const UnwrappedDateValidation = ({validation, answer, displayName, onChange, onU
             onUpdate={onUpdate}
             onChangeUpdate={onChangeUpdate}
             Custom={CustomEditor}
-            {...(type === DATE ? 
+            {...(type === DATE ?
               {
                 PreviousAnswer: PreviousAnswerEditor,
                 Now: Now
