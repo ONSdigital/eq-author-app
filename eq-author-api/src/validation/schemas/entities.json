@@ -101,10 +101,30 @@
           "then": {
             "properties": {
               "definitionLabel": {
-                "$ref": "definitions.json#/definitions/populatedString"
+                "anyOf": [
+                  {
+                    "not": {
+                      "type": "null"
+                    },
+                    "errorMessage": "ERR_VALID_REQUIRED"
+                  },
+                  {
+                    "$ref": "definitions.json#/definitions/populatedString"
+                  }
+                ]
               },
               "definitionContent": {
-                "$ref": "definitions.json#/definitions/populatedString"
+                "anyOf": [
+                  {
+                    "not": {
+                      "type": "null"
+                    },
+                    "errorMessage": "ERR_VALID_REQUIRED"
+                  },
+                  {
+                    "$ref": "definitions.json#/definitions/populatedString"
+                  }
+                ]
               }
             }
           }
