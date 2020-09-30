@@ -101,7 +101,7 @@
           "then": {
             "properties": {
               "definitionLabel": {
-                "anyOf": [
+                "allOf": [
                   {
                     "not": {
                       "type": "null"
@@ -114,7 +114,7 @@
                 ]
               },
               "definitionContent": {
-                "anyOf": [
+                "allOf": [
                   {
                     "not": {
                       "type": "null"
