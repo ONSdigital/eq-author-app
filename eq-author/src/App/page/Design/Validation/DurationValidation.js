@@ -1,22 +1,40 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { find } from "lodash";
+import styled from "styled-components";
 
 import { Grid, Column } from "components/Grid";
 
 import Duration from "./Duration";
 import EmphasisedText from "./EmphasisedText";
 import AlignedColumn from "./AlignedColumn";
-
+import ValidationError from "components/ValidationError";
 import { DAYS, MONTHS, YEARS } from "constants/durations";
+import { ERR_NO_VALUE } from "constants/validationMessages";
 
 const UNITS = [DAYS, MONTHS, YEARS];
 
-const DurationValidation = ({
-  validation: { duration },
-  displayName,
-  onChange,
-  onUpdate,
-}) => (
+const StyledError = styled(ValidationError)`
+  justify-content: start;
+  width: 60%;
+`;
+
+const DurationValidation = props => {
+  const { validation: { duration },
+    displayName,
+    onChange,
+    onUpdate,
+    validation, } = props;
+
+  const hasError = find(validation.validationErrorInfo.errors, ({ errorCode }) =>
+    errorCode.includes("ERR_NO_VALUE")
+  );
+
+  const handleError = () => {
+    return <StyledError>{ERR_NO_VALUE}</StyledError>;
+  };
+
+  return (
     <div>
       <Grid>
         <AlignedColumn cols={3}>
@@ -29,11 +47,21 @@ const DurationValidation = ({
             units={UNITS}
             onChange={onChange}
             onUpdate={onUpdate}
+            hasError={hasError}
           />
         </Column>
       </Grid>
+      <Grid>
+        <Column cols={3}>
+          {null}
+        </Column>
+        <Column cols={9}>
+          {hasError && handleError()}
+        </Column>
+      </Grid>
     </div>
-  );
+  )
+};
 
 DurationValidation.propTypes = {
   displayName: PropTypes.string,
