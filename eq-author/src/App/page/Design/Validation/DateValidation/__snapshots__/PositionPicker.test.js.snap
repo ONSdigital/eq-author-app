@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Date Position Picker Should render 1`] = `
+<components__RelativePositionSelect
+  data-test="relative-position-select"
+  name="relativePosition"
+  onBlur={[MockFunction]}
+  onChange={[MockFunction]}
+  value="before"
+>
+  <option
+    key="before"
+    value="before"
+  >
+    before
+  </option>
+  <option
+    key="after"
+    value="after"
+  >
+    after
+  </option>
+</components__RelativePositionSelect>
+`;

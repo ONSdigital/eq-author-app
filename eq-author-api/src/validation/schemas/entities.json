@@ -780,7 +780,149 @@
                   }
                 }
               }
-            ]
+            ],
+            "properties": {
+              "earliestDate": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "enabled": {
+                        "const": true
+                      },
+                      "value": {
+                        "not": {
+                          "type": "null"
+                        }
+                      },
+                      "offset": {
+                        "properties": {
+                          "value": {
+                            "not": {
+                              "type": "null"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "enabled": {
+                        "const": false
+                      }
+                    }
+                  }
+                ],
+                "errorMessage": "ERR_NO_VALUE"
+              },
+              "latestDate": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "enabled": {
+                        "const": true
+                      },
+                      "value": {
+                        "not": {
+                          "type": "null"
+                        }
+                      },
+                      "offset": {
+                        "properties": {
+                          "value": {
+                            "not": {
+                              "type": "null"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "enabled": {
+                        "const": false
+                      }
+                    }
+                  }
+                ],
+                "errorMessage": "ERR_NO_VALUE"
+              },
+              "minDuration": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "enabled": {
+                        "const": true
+                      },
+                      "value": {
+                        "not": {
+                          "type": "null"
+                        }
+                      },
+                      "duration": {
+                        "properties": {
+                          "value": {
+                            "not": {
+                              "type": "null"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "enabled": {
+                        "const": false
+                      }
+                    }
+                  }
+                ],
+                "errorMessage": "ERR_NO_VALUE"
+              },
+              "maxDuration": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "enabled": {
+                        "const": true
+                      },
+                      "value": {
+                        "not": {
+                          "type": "null"
+                        }
+                      },
+                      "duration": {
+                        "properties": {
+                          "value": {
+                            "not": {
+                              "type": "null"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "enabled": {
+                        "const": false
+                      }
+                    }
+                  }
+                ],
+                "errorMessage": "ERR_NO_VALUE"
+              }
+            }
           },
           "properties": {
             "$ref": "entities.json#/definitions/properties"
