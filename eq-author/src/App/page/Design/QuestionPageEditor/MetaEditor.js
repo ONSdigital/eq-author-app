@@ -101,29 +101,19 @@ export class StatelessMetaEditor extends React.Component {
     }
   };
 
-  DefinitionLabelErrorMsg = definitionLabelErrors => {
+  DefinitionErrorMsg = (inField, inCode, inMsg) => {
+    const fieldErrors = filter(this.props.page.validationErrorInfo.errors, {
+      field: inField,
+    });
     const { condition, message } = {
       condition: errors =>
         some(errors, {
-          errorCode: DEFINITION_LABEL_NOT_ENTERED.errorCode,
+          errorCode: inCode,
         }),
-      message: () => DEFINITION_LABEL_NOT_ENTERED.message,
+      message: () => inMsg,
     };
-    if (condition(definitionLabelErrors)) {
-      return message(definitionLabelErrors);
-    }
-  };
-
-  DefinitionContentErrorMsg = definitionConentErrors => {
-    const { condition, message } = {
-      condition: errors =>
-        some(errors, {
-          errorCode: DEFINITION_CONTENT_NOT_ENTERED.errorCode,
-        }),
-      message: () => DEFINITION_CONTENT_NOT_ENTERED.message,
-    };
-    if (condition(definitionConentErrors)) {
-      return message(definitionConentErrors);
+    if (condition(fieldErrors)) {
+      return message(fieldErrors);
     }
   };
 
@@ -133,24 +123,16 @@ export class StatelessMetaEditor extends React.Component {
     });
     const ErrorMsg = this.ErrorMsg(titleErrors);
 
-    const DefinitionLabelErrors = filter(
-      this.props.page.validationErrorInfo.errors,
-      {
-        field: "definitionLabel",
-      }
-    );
-    const DefinitionLabelErrorMsg = this.DefinitionLabelErrorMsg(
-      DefinitionLabelErrors
+    const DefinitionLabelErrorMsg = this.DefinitionErrorMsg(
+      DEFINITION_LABEL_NOT_ENTERED.field,
+      DEFINITION_LABEL_NOT_ENTERED.errorCode,
+      DEFINITION_LABEL_NOT_ENTERED.message
     );
 
-    const DefinitionConentErrors = filter(
-      this.props.page.validationErrorInfo.errors,
-      {
-        field: "definitionContent",
-      }
-    );
-    const DefinitionContentErrorMsg = this.DefinitionContentErrorMsg(
-      DefinitionConentErrors
+    const DefinitionContentErrorMsg = this.DefinitionErrorMsg(
+      DEFINITION_CONTENT_NOT_ENTERED.field,
+      DEFINITION_CONTENT_NOT_ENTERED.errorCode,
+      DEFINITION_CONTENT_NOT_ENTERED.message
     );
 
     const {
