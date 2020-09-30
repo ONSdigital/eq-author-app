@@ -92,7 +92,7 @@ export class StatelessMetaEditor extends React.Component {
   description = React.createRef();
   guidance = React.createRef();
 
-  ErrorMsg = titleErrors => {
+  errorMsg = titleErrors => {
     for (let i = 0; i < ERROR_SITUATIONS.length; ++i) {
       const { condition, message } = ERROR_SITUATIONS[i];
       if (condition(titleErrors)) {
@@ -101,16 +101,16 @@ export class StatelessMetaEditor extends React.Component {
     }
   };
 
-  DefinitionErrorMsg = (inField, inCode, inMsg) => {
+  setErrorMsg = (errField, errCode, errMsg) => {
     const fieldErrors = filter(this.props.page.validationErrorInfo.errors, {
-      field: inField,
+      field: errField,
     });
     const { condition, message } = {
       condition: errors =>
         some(errors, {
-          errorCode: inCode,
+          errorCode: errCode,
         }),
-      message: () => inMsg,
+      message: () => errMsg,
     };
     if (condition(fieldErrors)) {
       return message(fieldErrors);
@@ -121,15 +121,15 @@ export class StatelessMetaEditor extends React.Component {
     const titleErrors = filter(this.props.page.validationErrorInfo.errors, {
       field: "title",
     });
-    const ErrorMsg = this.ErrorMsg(titleErrors);
+    const errorMsg = this.errorMsg(titleErrors);
 
-    const DefinitionLabelErrorMsg = this.DefinitionErrorMsg(
+    const definitionLabelErrorMsg = this.setErrorMsg(
       DEFINITION_LABEL_NOT_ENTERED.field,
       DEFINITION_LABEL_NOT_ENTERED.errorCode,
       DEFINITION_LABEL_NOT_ENTERED.message
     );
 
-    const DefinitionContentErrorMsg = this.DefinitionErrorMsg(
+    const definitionContentErrorMsg = this.setErrorMsg(
       DEFINITION_CONTENT_NOT_ENTERED.field,
       DEFINITION_CONTENT_NOT_ENTERED.errorCode,
       DEFINITION_CONTENT_NOT_ENTERED.message
@@ -157,7 +157,7 @@ export class StatelessMetaEditor extends React.Component {
           metadata={get(page, "section.questionnaire.metadata", [])}
           testSelector="txt-question-title"
           autoFocus={!page.title}
-          errorValidationMsg={ErrorMsg}
+          errorValidationMsg={errorMsg}
         />
 
         <TransitionGroup>
@@ -201,7 +201,7 @@ export class StatelessMetaEditor extends React.Component {
                     onBlur={onUpdate}
                     value={page.definitionLabel}
                     bold
-                    errorValidationMsg={DefinitionLabelErrorMsg}
+                    errorValidationMsg={definitionLabelErrorMsg}
                   />
                 </Field>
                 <RichTextEditor
@@ -215,7 +215,7 @@ export class StatelessMetaEditor extends React.Component {
                   fetchAnswers={fetchAnswers}
                   metadata={page.section.questionnaire.metadata}
                   testSelector="txt-question-definition-content"
-                  errorValidationMsg={DefinitionContentErrorMsg}
+                  errorValidationMsg={definitionContentErrorMsg}
                 />
               </MultipleFieldEditor>
             </AnswerTransition>
