@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useCallback } from "react";
 import { kebabCase, get, startCase, isNull, find } from "lodash";
 import CustomPropTypes from "custom-prop-types";
 import styled from "styled-components";
@@ -127,21 +127,6 @@ export const validationTypes = [
 const getValidationsForType = type =>
   validationTypes.filter(({ types }) => types.includes(type));
 
-const validations = [
-  NUMBER,
-  CURRENCY,
-  PERCENTAGE,
-  DATE,
-  DATE_RANGE,
-  UNIT,
-].reduce(
-  (hash, type) => ({
-    ...hash,
-    [type]: getValidationsForType(type),
-  }),
-  {}
-);
-
 const PropertiesError = styled(IconText)`
   color: ${colors.red};
   justify-content: left;
@@ -151,233 +136,110 @@ export const SidebarValidation = styled(SidebarButton)`
   &:not(:first-of-type) {
     margin-top: 0.5em;
   }
-  margin-bottom: 0;
 `;
 
-class AnswerValidation extends React.PureComponent {
-  state = {
-    startingTabId: null,
-    modalIsOpen: false,
-  };
+const errorCodes = {
+  "ERR_EARLIEST_AFTER_LATEST": EARLIEST_BEFORE_LATEST_DATE,
+  "ERR_MIN_LARGER_THAN_MAX": MAX_GREATER_THAN_MIN,
+  "ERR_MAX_DURATION_TOO_SMALL": DURATION_ERROR_MESSAGE,
+  "ERR_NO_VALUE": ERR_NO_VALUE
+};
 
-  constructor(props) {
-    super(props);
-    this.modalId = `modal-validation-${props.answer.id}`;
+const titleText = (id, title, enabled, inclusive) => {
+  if (!enabled) {
+    return `Set ${title.toLowerCase()}`;
+  }
+  if (!inclusive && id.includes("Duration")) {
+    return `${title} is`;
+  }
+  if (id.includes("max") || id.includes("latest")) {
+    return `${title} ${MAX_INCLUSIVE_TEXT}`;
+  } else {
+    return `${title} ${MIN_INCLUSIVE_TEXT}`;
+  }
+};
+
+const AnswerValidation = ({ answer }) => {
+  const [startingTabId, setStartingTabId] = useState(null);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const modalId = `modal-validation-${answer.id}`;
+
+  const handleModalClose = useCallback(() => setModalIsOpen(false), []);
+  const validValidationTypes = getValidationsForType(answer.type);
+
+  if (validValidationTypes.length === 0) {
+    return;
   }
 
-  handleModalClose = () => this.setState({ modalIsOpen: false });
+  const validationButtons = [];
+  let pendingErrors = [];
 
-  titleText = (id, title, enabled, inclusive) => {
-    if (!enabled) {
-      return `Set ${title.toLowerCase()}`;
-    }
-    if (!inclusive && id.includes("Duration")) {
-      return `${title} is`;
-    }
-    if (id.includes("max") || id.includes("latest")) {
-      return `${title} ${MAX_INCLUSIVE_TEXT}`;
-    } else {
-      return `${title} ${MIN_INCLUSIVE_TEXT}`;
-    }
-  };
+  validValidationTypes.forEach(type => {
+    const validation = get(answer, `validation.${type.id}`, {});
+    const errors = get(validation, `validationErrorInfo.errors`, []);
 
-  renderPropertyError = (hasError, errorMessage, key = null) =>
-    hasError && (
-      <PropertiesError key={key} icon={WarningIcon}>
-        {errorMessage}
-      </PropertiesError>
-    );
+    const { enabled, inclusive } = validation;
+    const value = enabled ? type.preview(validation, answer) : null;
 
-  renderButton = ({ id, title, value, enabled, hasError, inclusive, validationMessage, renderIsTrue }) => (
-    <>
-      <SidebarValidation
-        key={id}
-        data-test={`sidebar-button-${kebabCase(title)}`}
-        onClick={() => {
-          this.setState({ modalIsOpen: true, startingTabId: id });
-        }}
-        hasError={hasError}
-      >
-        <Title>{this.titleText(id, title, enabled, inclusive)}</Title>
-        {enabled && !isNull(value) && <Detail>{value}</Detail>}
-      </SidebarValidation>
-
-      {hasError && renderIsTrue && (
-        <PropertiesError icon={WarningIcon}>
-          {validationMessage}
-        </PropertiesError>
-      )}
-    </>
-  );
-
-  renderValidation = (validValidations, answer, errorsArr) => {
-    let validationMessage = null;
-
-    return validValidations.map((validationType, index) => {
-      const validationErrors = {
-        dateRange: {
-          duration: [],
-          range: [],
-        },
-        other: [],
-      };
-      const validation = get(answer, `validation.${validationType.id}`, {});
-      const errors = get(validation, `validationErrorInfo.errors`, []);
-
-      const { id } = validationType;
-      const { enabled, previousAnswer, metadata, inclusive } = validation;
-
-      let renderIsTrue = false;
-
-      if (answer.type === "DateRange") {
-        if ((id === "latestDate" || id === "earliestDate") && enabled) {
-          errorsArr.dateRange.range.push(...errors);
-        }
-
-        if ((id === "minDuration" || id === "maxDuration") && enabled) {
-          errorsArr.dateRange.duration.push(...errors);
-        }
-      } else {
-        validationErrors.other.push(...errors);
-        renderIsTrue = true;
-
-        const noValError = find(validationErrors.other, error =>
-          error.errorCode.includes("ERR_NO_VALUE")
-        );
-
-        const maxError = find(validationErrors.other, error =>
-          error.errorCode.includes("ERR_EARLIEST_AFTER_LATEST") || error.errorCode.includes("ERR_MIN_LARGER_THAN_MAX")
-        );
-
-        if (noValError) {
-          validationMessage = ERR_NO_VALUE
-        } else if (maxError) {
-          if (id === "earliestDate" || id === "minValue") {
-            renderIsTrue = false;
-          }
-          if (answer.type === "Date") {
-            validationMessage = EARLIEST_BEFORE_LATEST_DATE
-          }
-          else {
-            validationMessage = MAX_GREATER_THAN_MIN
-          }
-        }
-      }
-
-      const value = enabled ? validationType.preview(validation, answer) : null;
-
-      return (
-        <React.Fragment key={index}>
-          {this.renderButton({
-            ...validationType,
-            value,
-            enabled,
-            previousAnswer,
-            metadata,
-            hasError: errors.length > 0,
-            inclusive,
-            validationMessage,
-            renderIsTrue
-          })}
-        </React.Fragment>
-      )
-    });
-  };
-
-  render() {
-    const { answer } = this.props;
-
-    const validValidationTypes = validations[answer.type] || [];
-
-    if (validValidationTypes.length === 0) {
-      return null;
-    }
-
-    const validationErrors = {
-      dateRange: {
-        duration: [],
-        range: [],
-      },
-      other: [],
+    const onClick = () => {
+      setModalIsOpen(true);
+      setStartingTabId(type.id);
     };
 
-    let validationButtons = [];
+    validationButtons.push(
+      <SidebarValidation
+        id={type.id}
+        key={type.id}
+        data-test={`sidebar-button-${kebabCase(type.title)}`}
+        onClick={onClick}
+        hasError={errors.length > 0}
+      >
+        <Title>{titleText(type.id, type.title, enabled, inclusive)}</Title>
+        {enabled && !isNull(value) && <Detail>{value}</Detail>}
+      </SidebarValidation>
+    );
 
-    if (answer.type === "DateRange") {
-      const { duration, range } = validValidationTypes.reduce(
-        (accumulator, current) => {
-          const { id } = current;
-          if (id === "minDuration" || id === "maxDuration") {
-            if (!accumulator.duration) {
-              accumulator.duration = [];
-            }
-            accumulator.duration.push(current);
-          }
-          if (id === "earliestDate" || id === "latestDate") {
-            if (!accumulator.range) {
-              accumulator.range = [];
-            }
-            accumulator.range.push(current);
-          }
-          return accumulator;
-        },
-        {}
-      );
+    pendingErrors.push(...errors);
 
-      const durationButtons = this.renderValidation(
-        duration,
-        answer,
-        validationErrors
-      );
+    const noValError = find(pendingErrors, error =>
+      error.errorCode.includes("ERR_NO_VALUE")
+    );
 
-      const rangeButtons = this.renderValidation(
-        range,
-        answer,
-        validationErrors
-      );
+    if (pendingErrors.length > 0) {
+      if ((type.id === "earliestDate" && !noValError) || (type.id === "minDuration" && !noValError) || (type.id === "minValue" && !noValError)) {
+        return; // Don't display anything after the earliest date / min duration buttons - show after section
+      }
 
-      const durationError = this.renderPropertyError(
-        validationErrors.dateRange.duration.length > 1,
-        DURATION_ERROR_MESSAGE,
-        "duration-error"
-      );
+      // Only show one error - ERR_NO_VALUE takes precedence
+      pendingErrors.sort(error => error.errorCode === "ERR_NO_VALUE" ? -1 : 0);
+      const error = pendingErrors[0];
+      pendingErrors = [];
 
-      const rangeError = this.renderPropertyError(
-        validationErrors.dateRange.range.length > 1,
-        EARLIEST_BEFORE_LATEST_DATE,
-        "range-error"
-      );
-
-      validationButtons.push(rangeButtons);
-      validationButtons.push(rangeError);
-
-      validationButtons.push(durationButtons);
-      validationButtons.push(durationError);
-    } else {
-      validationButtons = this.renderValidation(
-        validValidationTypes,
-        answer,
+      validationButtons.push(
+        <PropertiesError icon={WarningIcon} key={error.id}>
+          {errorCodes[error.errorCode]}
+        </PropertiesError>
       );
     }
+  });
 
-    return (
-      <ValidationContext.Provider value={{ answer }}>
-        {validationButtons}
-        <ModalWithNav
-          id={this.modalId}
-          onClose={this.handleModalClose}
-          navItems={validValidationTypes}
-          title={`${startCase(answer.type)} validation`}
-          isOpen={this.state.modalIsOpen}
-          startingTabId={this.state.startingTabId}
-        />
-      </ValidationContext.Provider>
-    );
-  }
+  return (
+    <ValidationContext.Provider value={{ answer }}>
+      {validationButtons}
+      <ModalWithNav
+        id={modalId}
+        onClose={handleModalClose}
+        navItems={validValidationTypes}
+        title={`${startCase(answer.type)} validation`}
+        isOpen={modalIsOpen}
+        startingTabId={startingTabId}
+      />
+    </ValidationContext.Provider>
+  );
 }
 
 AnswerValidation.propTypes = {
   answer: CustomPropTypes.answer,
 };
 
-export default AnswerValidation;
+export default React.memo(AnswerValidation);

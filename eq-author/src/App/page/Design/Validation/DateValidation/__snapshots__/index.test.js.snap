@@ -1,0 +1,253 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Date Validation should correctly render 'now' entity type 1`] = `
+<components__StartDateText>
+  The date the respondent begins the survey
+</components__StartDateText>
+`;
+
+exports[`Date Validation should filter the available units for the dd/mm/yyyy 1`] = `
+Array [
+  "Days",
+  "Months",
+  "Years",
+]
+`;
+
+exports[`Date Validation should filter the available units for the mm/yyyy 1`] = `
+Array [
+  "Months",
+  "Years",
+]
+`;
+
+exports[`Date Validation should filter the available units for the yyyy 1`] = `
+Array [
+  "Years",
+]
+`;
+
+exports[`Date Validation should render 1`] = `
+<div>
+  <Grid
+    align="top"
+    fillHeight={true}
+  >
+    <AlignedColumn
+      cols={3}
+    >
+      <ValidationTitle>
+        foobar
+         is
+      </ValidationTitle>
+    </AlignedColumn>
+    <Column
+      cols={9}
+    >
+      <Duration
+        duration={
+          Object {
+            "unit": "Months",
+            "value": 5,
+          }
+        }
+        hasError={
+          Object {
+            "errorCode": "ERR_NO_VALUE",
+            "field": "custom",
+            "id": "0efd3ed1-8e0d-4b0c-9e39-59010751dbdf",
+            "type": "validation",
+          }
+        }
+        name="offset"
+        onChange={[MockFunction]}
+        onUpdate={[MockFunction]}
+        units={
+          Array [
+            "Years",
+          ]
+        }
+        value="Months"
+      />
+    </Column>
+  </Grid>
+  <Grid
+    align="top"
+    fillHeight={true}
+  >
+    <Column
+      cols={3}
+    >
+      <components__ConnectedPath />
+    </Column>
+    <Column
+      cols={9}
+    >
+      <components__StyledError>
+        Value is required
+      </components__StyledError>
+    </Column>
+  </Grid>
+  <Grid
+    align="top"
+    fillHeight={true}
+  >
+    <AlignedColumn
+      cols={3}
+    >
+      <PositionPicker
+        onChange={[MockFunction]}
+        onUpdate={[MockFunction]}
+        value="Before"
+      />
+      <Component />
+    </AlignedColumn>
+    <Column
+      cols={9}
+    >
+      <ValidationPills
+        Custom={[Function]}
+        Metadata={[Function]}
+        Now={[Function]}
+        PreviousAnswer={[Function]}
+        answer={
+          Object {
+            "id": "1",
+            "properties": Object {
+              "format": "YYYY",
+            },
+            "type": "Date",
+          }
+        }
+        entityType="Custom"
+        onChange={[MockFunction]}
+        onChangeUpdate={[MockFunction]}
+        onEntityTypeChange={[MockFunction]}
+        onUpdate={[MockFunction]}
+        readKey="read"
+        validation={
+          Object {
+            "customDate": "2018-01-01",
+            "enabled": true,
+            "entityType": "Custom",
+            "id": "123",
+            "offset": Object {
+              "unit": "Months",
+              "value": 5,
+            },
+            "relativePosition": "Before",
+            "validationErrorInfo": Object {
+              "errors": Array [
+                Object {
+                  "errorCode": "ERR_NO_VALUE",
+                  "field": "custom",
+                  "id": "0efd3ed1-8e0d-4b0c-9e39-59010751dbdf",
+                  "type": "validation",
+                },
+              ],
+            },
+          }
+        }
+      />
+    </Column>
+  </Grid>
+</div>
+`;
+
+exports[`Date Validation should render all units for date range answers 1`] = `
+Array [
+  "Years",
+]
+`;
+
+exports[`Date Validation should render metadata and custom for date range type answer 1`] = `
+<ValidationPills
+  Custom={[Function]}
+  Metadata={[Function]}
+  answer={
+    Object {
+      "id": "1",
+      "properties": Object {
+        "format": "YYYY",
+      },
+      "type": "DateRange",
+    }
+  }
+  entityType="Custom"
+  onChange={[MockFunction]}
+  onChangeUpdate={[MockFunction]}
+  onEntityTypeChange={[MockFunction]}
+  onUpdate={[MockFunction]}
+  readKey="read"
+  validation={
+    Object {
+      "customDate": "2018-01-01",
+      "enabled": true,
+      "entityType": "Custom",
+      "id": "123",
+      "offset": Object {
+        "unit": "Months",
+        "value": 5,
+      },
+      "relativePosition": "Before",
+      "validationErrorInfo": Object {
+        "errors": Array [
+          Object {
+            "errorCode": "ERR_NO_VALUE",
+            "field": "custom",
+            "id": "0efd3ed1-8e0d-4b0c-9e39-59010751dbdf",
+            "type": "validation",
+          },
+        ],
+      },
+    }
+  }
+/>
+`;
+
+exports[`Date Validation should render previous answer, metadata, custom and now for date type answer 1`] = `
+<ValidationPills
+  Custom={[Function]}
+  Metadata={[Function]}
+  Now={[Function]}
+  PreviousAnswer={[Function]}
+  answer={
+    Object {
+      "id": "1",
+      "properties": Object {
+        "format": "YYYY",
+      },
+      "type": "Date",
+    }
+  }
+  entityType="Custom"
+  onChange={[MockFunction]}
+  onChangeUpdate={[MockFunction]}
+  onEntityTypeChange={[MockFunction]}
+  onUpdate={[MockFunction]}
+  readKey="read"
+  validation={
+    Object {
+      "customDate": "2018-01-01",
+      "enabled": true,
+      "entityType": "Custom",
+      "id": "123",
+      "offset": Object {
+        "unit": "Months",
+        "value": 5,
+      },
+      "relativePosition": "Before",
+      "validationErrorInfo": Object {
+        "errors": Array [
+          Object {
+            "errorCode": "ERR_NO_VALUE",
+            "field": "custom",
+            "id": "0efd3ed1-8e0d-4b0c-9e39-59010751dbdf",
+            "type": "validation",
+          },
+        ],
+      },
+    }
+  }
+/>
+`;
