@@ -63,78 +63,35 @@ const {
   DEFINITION_CONTENT_NOT_ENTERED,
 } = questionDefinitionErrors;
 
-/* eslint-disable react/prop-types */
-const ERROR_SITUATIONS = [
-  {
-    condition: errors =>
-      some(errors, {
-        errorCode: QUESTION_TITLE_NOT_ENTERED.errorCode,
-      }),
-    message: () => QUESTION_TITLE_NOT_ENTERED.message,
+const situations = {
+  title: {
+    [QUESTION_TITLE_NOT_ENTERED.errorCode]: QUESTION_TITLE_NOT_ENTERED.message,
+    [PIPING_TITLE_MOVED.errorCode]: PIPING_TITLE_MOVED.message,
+    [PIPING_TITLE_DELETED.errorCode]: PIPING_TITLE_DELETED.message,
   },
-  {
-    condition: errors =>
-      some(errors, {
-        errorCode: PIPING_TITLE_MOVED.errorCode,
-      }),
-    message: () => PIPING_TITLE_MOVED.message,
+  definitionLabel: {
+    [DEFINITION_LABEL_NOT_ENTERED.errorCode]:
+      DEFINITION_LABEL_NOT_ENTERED.message,
   },
-  {
-    condition: errors =>
-      some(errors, {
-        errorCode: PIPING_TITLE_DELETED.errorCode,
-      }),
-    message: () => PIPING_TITLE_DELETED.message,
+  definitionContent: {
+    [DEFINITION_CONTENT_NOT_ENTERED.errorCode]:
+      DEFINITION_CONTENT_NOT_ENTERED.message,
   },
-];
+};
 
 export class StatelessMetaEditor extends React.Component {
   description = React.createRef();
   guidance = React.createRef();
 
-  errorMsg = titleErrors => {
-    for (let i = 0; i < ERROR_SITUATIONS.length; ++i) {
-      const { condition, message } = ERROR_SITUATIONS[i];
-      if (condition(titleErrors)) {
-        return message(titleErrors);
-      }
-    }
-  };
-
-  setErrorMsg = (errField, errCode, errMsg) => {
-    const fieldErrors = filter(this.props.page.validationErrorInfo.errors, {
-      field: errField,
+  errorMsg = field => {
+    const error = filter(this.props.page.validationErrorInfo.errors, {
+      field,
     });
-    const { condition, message } = {
-      condition: errors =>
-        some(errors, {
-          errorCode: errCode,
-        }),
-      message: () => errMsg,
-    };
-    if (condition(fieldErrors)) {
-      return message(fieldErrors);
-    }
+
+    return error.length ? situations[field]?.[error[0].errorCode] : null;
   };
 
   render() {
-    const titleErrors = filter(this.props.page.validationErrorInfo.errors, {
-      field: "title",
-    });
-    const errorMsg = this.errorMsg(titleErrors);
-
-    const definitionLabelErrorMsg = this.setErrorMsg(
-      DEFINITION_LABEL_NOT_ENTERED.field,
-      DEFINITION_LABEL_NOT_ENTERED.errorCode,
-      DEFINITION_LABEL_NOT_ENTERED.message
-    );
-
-    const definitionContentErrorMsg = this.setErrorMsg(
-      DEFINITION_CONTENT_NOT_ENTERED.field,
-      DEFINITION_CONTENT_NOT_ENTERED.errorCode,
-      DEFINITION_CONTENT_NOT_ENTERED.message
-    );
-
     const {
       page,
       onChange,
@@ -157,7 +114,7 @@ export class StatelessMetaEditor extends React.Component {
           metadata={get(page, "section.questionnaire.metadata", [])}
           testSelector="txt-question-title"
           autoFocus={!page.title}
-          errorValidationMsg={errorMsg}
+          errorValidationMsg={this.errorMsg("title")}
         />
 
         <TransitionGroup>
@@ -201,7 +158,7 @@ export class StatelessMetaEditor extends React.Component {
                     onBlur={onUpdate}
                     value={page.definitionLabel}
                     bold
-                    errorValidationMsg={definitionLabelErrorMsg}
+                    errorValidationMsg={this.errorMsg("definitionLabel")}
                   />
                 </Field>
                 <RichTextEditor
@@ -215,7 +172,7 @@ export class StatelessMetaEditor extends React.Component {
                   fetchAnswers={fetchAnswers}
                   metadata={page.section.questionnaire.metadata}
                   testSelector="txt-question-definition-content"
-                  errorValidationMsg={definitionContentErrorMsg}
+                  errorValidationMsg={this.errorMsg("definitionContent")}
                 />
               </MultipleFieldEditor>
             </AnswerTransition>
