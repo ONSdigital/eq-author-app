@@ -81,6 +81,7 @@ exports[`MetaEditor should display the correct error message when piping answer 
           <withChangeHandler(WrappingInput)
             bold={true}
             data-test="txt-question-definition-label"
+            errorValidationMsg={null}
             id="definition-label"
             name="definitionLabel"
             onBlur={[MockFunction]}
@@ -98,6 +99,7 @@ exports[`MetaEditor should display the correct error message when piping answer 
             }
           }
           disabled={false}
+          errorValidationMsg={null}
           fetchAnswers={[MockFunction]}
           id="definition-content"
           label="Content"
@@ -224,6 +226,7 @@ exports[`MetaEditor should display the correct error message when piping answer 
           <withChangeHandler(WrappingInput)
             bold={true}
             data-test="txt-question-definition-label"
+            errorValidationMsg={null}
             id="definition-label"
             name="definitionLabel"
             onBlur={[MockFunction]}
@@ -241,6 +244,7 @@ exports[`MetaEditor should display the correct error message when piping answer 
             }
           }
           disabled={false}
+          errorValidationMsg={null}
           fetchAnswers={[MockFunction]}
           id="definition-content"
           label="Content"
@@ -297,6 +301,7 @@ exports[`MetaEditor should display the correct error message when the definition
       }
     }
     disabled={false}
+    errorValidationMsg={null}
     fetchAnswers={[MockFunction]}
     id="question-title"
     label="Question"
@@ -366,6 +371,7 @@ exports[`MetaEditor should display the correct error message when the definition
           <withChangeHandler(WrappingInput)
             bold={true}
             data-test="txt-question-definition-label"
+            errorValidationMsg={null}
             id="definition-label"
             name="definitionLabel"
             onBlur={[MockFunction]}
@@ -440,6 +446,7 @@ exports[`MetaEditor should display the correct error message when the definition
       }
     }
     disabled={false}
+    errorValidationMsg={null}
     fetchAnswers={[MockFunction]}
     id="question-title"
     label="Question"
@@ -527,6 +534,7 @@ exports[`MetaEditor should display the correct error message when the definition
             }
           }
           disabled={false}
+          errorValidationMsg={null}
           fetchAnswers={[MockFunction]}
           id="definition-content"
           label="Content"
@@ -653,6 +661,7 @@ exports[`MetaEditor should display the correct error message when the title is m
           <withChangeHandler(WrappingInput)
             bold={true}
             data-test="txt-question-definition-label"
+            errorValidationMsg={null}
             id="definition-label"
             name="definitionLabel"
             onBlur={[MockFunction]}
@@ -670,6 +679,7 @@ exports[`MetaEditor should display the correct error message when the title is m
             }
           }
           disabled={false}
+          errorValidationMsg={null}
           fetchAnswers={[MockFunction]}
           id="definition-content"
           label="Content"
@@ -726,6 +736,7 @@ exports[`MetaEditor should render 1`] = `
       }
     }
     disabled={false}
+    errorValidationMsg={null}
     fetchAnswers={[MockFunction]}
     id="question-title"
     label="Question"
@@ -795,6 +806,7 @@ exports[`MetaEditor should render 1`] = `
           <withChangeHandler(WrappingInput)
             bold={true}
             data-test="txt-question-definition-label"
+            errorValidationMsg={null}
             id="definition-label"
             name="definitionLabel"
             onBlur={[MockFunction]}
@@ -812,6 +824,7 @@ exports[`MetaEditor should render 1`] = `
             }
           }
           disabled={false}
+          errorValidationMsg={null}
           fetchAnswers={[MockFunction]}
           id="definition-content"
           label="Content"

@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { propType } from "graphql-anywhere";
 import styled from "styled-components";
-import { get, flowRight, some, filter } from "lodash";
+import { get, flowRight, filter } from "lodash";
 import { TransitionGroup } from "react-transition-group";
 
 import WrappingInput from "components/Forms/WrappingInput";
