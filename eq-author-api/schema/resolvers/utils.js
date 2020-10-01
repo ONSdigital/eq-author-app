@@ -7,16 +7,28 @@ const { DATE: METADATA_DATE } = require("../../constants/metadataTypes");
 
 const getPreviousAnswersForPage = require("../../src/businessLogic/getPreviousAnswersForPage");
 
-const getSections = ctx => ctx.questionnaire.sections;
+const getSections = ctx => {
+  if (ctx.questionnaire) {
+    return ctx.questionnaire.sections;
+  }
+  if (ctx.sections) {
+    return ctx.sections;
+  }
+  if (ctx.folders) {
+    return [ctx];
+  }
+};
 
 const getSectionById = (ctx, id) => find(getSections(ctx), { id });
 
 const getSectionByPageId = (ctx, pageId) =>
-  find(getSections(ctx), section => {
-    if (section.pages && some(section.pages, { id: pageId })) {
-      return section;
-    }
-  });
+  find(getSections(ctx), section =>
+    some(section.folders, folder => {
+      if (folder.pages && some(folder.pages, { id: pageId })) {
+        return section;
+      }
+    })
+  );
 
 const getFolders = ctx => flatMap(getSections(ctx), ({ folders }) => folders);
 

@@ -8,6 +8,7 @@ const {
   compact,
 } = require("lodash/fp");
 const { PIPING_ANSWER_TYPES } = require("../../constants/pipingAnswerTypes");
+const { getPages } = require("../../schema/resolvers/utils");
 
 module.exports = (
   questionnaire,
@@ -15,7 +16,7 @@ module.exports = (
   includeSelf = false,
   answerTypes = PIPING_ANSWER_TYPES
 ) => {
-  const allPages = flatMap(section => section.pages, questionnaire.sections);
+  const allPages = getPages(questionnaire);
 
   const pagesBeforeCurrent = takeWhile(
     page => page.id !== currentPageId,

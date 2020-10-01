@@ -104,7 +104,8 @@ Resolvers.Mutation = {
       }, getPages(ctx));
 
       const availableDestinations = availableRoutingDestinations(
-        ctx.questionnaire,
+        ctx,
+        // ctx.questionnaire,
         page.id
       );
       const destinationField = Object.keys(destination)[0];
