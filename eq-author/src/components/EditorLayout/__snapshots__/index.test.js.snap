@@ -11,7 +11,7 @@ exports[`Editor Layout should render 1`] = `
         preview={false}
       />
     </Component>
-    <StyledScrollPane
+    <ScrollPane
       scrollToTop={true}
     >
       <EditorLayout__StyledGrid
@@ -47,7 +47,7 @@ exports[`Editor Layout should render 1`] = `
           />
         </Column>
       </EditorLayout__StyledGrid>
-    </StyledScrollPane>
+    </ScrollPane>
   </EditorLayout__Container>
 </GetContext>
 `;
