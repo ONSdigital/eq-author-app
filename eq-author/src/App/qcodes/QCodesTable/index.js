@@ -25,7 +25,7 @@ import {
 import { TableInput } from "components/datatable/Controls";
 
 import { colors } from "constants/theme";
-import { QCODE_IS_NOT_UNIQUE } from "constants/validationMessages";
+import { QCODE_IS_NOT_UNIQUE, QCODE_REQUIRED } from "constants/validationMessages";
 import {
   CHECKBOX,
   RADIO,
@@ -256,8 +256,7 @@ const handleBlurReducer = ({ type, payload, mutation }) => {
 
 const Row = memo(
   props => {
-    const { id, title, alias, label, qCode: initialQcode, type, error } = props;
-
+    const { id, title, alias, label, qCode: initialQcode, type, error, hasQcode } = props;
     const commonFields = useCallback(
       fields => {
         const [qCode, setQcode] = useState(initialQcode);
@@ -303,6 +302,12 @@ const Row = memo(
               {error && (
                 <QcodeValidationError right>
                   {QCODE_IS_NOT_UNIQUE}
+                </QcodeValidationError>
+              )}
+
+              {!hasQcode && (
+                <QcodeValidationError right>
+                  {QCODE_REQUIRED}
                 </QcodeValidationError>
               )}
             </SpacedTableColumn>
@@ -354,13 +359,18 @@ const RowBuilder = answers => {
     return acc;
   }, {});
 
-  return answers.map((item, index) => (
-    <Row
-      key={`${item.id}-${index}`}
-      {...item}
-      error={duplicates[item.qCode] > 1}
-    />
-  ));
+  return answers.map((item, index) => {
+    let hasQcode = false;
+    item.qCode ? hasQcode = true : hasQcode = false;
+    return (
+      <Row
+        key={`${item.id}-${index}`}
+        {...item}
+        error={duplicates[item.qCode] > 1}
+        hasQcode={hasQcode}
+      />
+    )
+  });
 };
 
 Row.propTypes = {
@@ -373,6 +383,7 @@ Row.propTypes = {
   qCodeCheck: PropTypes.func,
   error: PropTypes.bool,
   nested: PropTypes.bool,
+  hasQcode: PropTypes.bool,
 };
 
 export const UnwrappedQCodeTable = ({ loading, error, data }) => {
