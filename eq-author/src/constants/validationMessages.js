@@ -26,6 +26,19 @@ export const richTextEditorErrors = {
   },
 };
 
+export const questionDefinitionErrors = {
+  DEFINITION_LABEL_NOT_ENTERED: {
+    field: "definitionLabel",
+    errorCode: "ERR_VALID_REQUIRED",
+    message: "Enter definition label",
+  },
+  DEFINITION_CONTENT_NOT_ENTERED: {
+    field: "definitionContent",
+    errorCode: "ERR_VALID_REQUIRED",
+    message: "Enter definition content",
+  },
+};
+
 export const sectionErrors = {
   SECTION_TITLE_NOT_ENTERED: "Enter a section title",
   SECTION_INTRO_TITLE_NOT_ENTERED: "Enter a section introduction title",
