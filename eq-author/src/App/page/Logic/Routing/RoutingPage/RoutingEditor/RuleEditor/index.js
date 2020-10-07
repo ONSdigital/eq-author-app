@@ -116,11 +116,26 @@ export class UnwrappedRuleEditor extends React.Component {
 
     const existingRadioConditions = {};
 
-    const validationErrorInfo = this.props.rule.validationErrorInfo;
+    const validationErrorInfo = rule.validationErrorInfo;
 
     const validationErrors = validationErrorInfo.totalCount
       ? validationErrorInfo.errors
       : [];
+
+    const matchSelectErrors = expressions.filter(({ validationErrorInfo }) => {
+      if (!validationErrorInfo || !validationErrorInfo.totalCount) {
+        return false;
+      }
+      const expressionGroupOperatorErrors = validationErrorInfo.errors.filter(
+        ({ field }) => field === "groupOperator"
+      );
+
+      if (expressionGroupOperatorErrors.length) {
+        return true;
+      }
+
+      return false;
+    }).length;
 
     return (
       <>
@@ -133,6 +148,7 @@ export class UnwrappedRuleEditor extends React.Component {
                 id="match"
                 data-test="match-select"
                 defaultValue={rule.expressionGroup.operator}
+                hasError={matchSelectErrors}
                 onChange={({ value }) => {
                   this.props.updateExpressionGroup({
                     id: rule.expressionGroup.id,
@@ -140,8 +156,8 @@ export class UnwrappedRuleEditor extends React.Component {
                   });
                 }}
               >
-                <option value="And">All of</option>
                 <option value="Or">Any of</option>
+                <option value="And">All of</option>
               </SmallSelect>
               the following rules
             </Label>

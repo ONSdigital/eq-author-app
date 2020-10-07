@@ -999,7 +999,8 @@
           "type": "string"
         },
         "condition": {
-          "type": "string"
+          "type": "string",
+          "validateMultipleChoiceCondition": "condition"
         },
         "left": {
           "type": "object",
@@ -1046,7 +1047,8 @@
           "errorMessage": "ERR_RIGHTSIDE_NO_VALUE",
           "validateExclusiveCheckbox": "right"
         }
-      }
+      },
+      "validateExpression": "validateExpression"
     },
     "expression-unanswered": {
       "properties": {

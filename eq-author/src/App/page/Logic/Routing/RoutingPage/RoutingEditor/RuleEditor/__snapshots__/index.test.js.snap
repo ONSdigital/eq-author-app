@@ -14,19 +14,20 @@ exports[`RuleEditor should render 1`] = `
         <RuleEditor__SmallSelect
           data-test="match-select"
           defaultValue="And"
+          hasError={0}
           id="match"
           name="match"
           onChange={[Function]}
         >
           <option
-            value="And"
-          >
-            All of
-          </option>
-          <option
             value="Or"
           >
             Any of
+          </option>
+          <option
+            value="And"
+          >
+            All of
           </option>
         </RuleEditor__SmallSelect>
         the following rules
