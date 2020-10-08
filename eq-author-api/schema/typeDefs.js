@@ -518,6 +518,7 @@ type ExpressionGroup2 {
   id: ID!
   operator: RoutingOperator2
   expressions: [Expression2!]!
+  validationErrorInfo: ValidationErrorInfo
 }
 
 enum NoLeftSideReason {

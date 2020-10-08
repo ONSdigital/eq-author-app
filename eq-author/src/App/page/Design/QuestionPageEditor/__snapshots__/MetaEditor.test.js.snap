@@ -81,6 +81,7 @@ exports[`MetaEditor should display the correct error message when piping answer 
           <withChangeHandler(WrappingInput)
             bold={true}
             data-test="txt-question-definition-label"
+            errorValidationMsg={null}
             id="definition-label"
             name="definitionLabel"
             onBlur={[MockFunction]}
@@ -98,6 +99,7 @@ exports[`MetaEditor should display the correct error message when piping answer 
             }
           }
           disabled={false}
+          errorValidationMsg={null}
           fetchAnswers={[MockFunction]}
           id="definition-content"
           label="Content"
@@ -224,6 +226,7 @@ exports[`MetaEditor should display the correct error message when piping answer 
           <withChangeHandler(WrappingInput)
             bold={true}
             data-test="txt-question-definition-label"
+            errorValidationMsg={null}
             id="definition-label"
             name="definitionLabel"
             onBlur={[MockFunction]}
@@ -241,6 +244,297 @@ exports[`MetaEditor should display the correct error message when piping answer 
             }
           }
           disabled={false}
+          errorValidationMsg={null}
+          fetchAnswers={[MockFunction]}
+          id="definition-content"
+          label="Content"
+          maxHeight={12}
+          metadata={Array []}
+          multiline={true}
+          name="definitionContent"
+          onUpdate={[MockFunction]}
+          placeholder=""
+          testSelector="txt-question-definition-content"
+          value="<p>Definition Content</p>"
+        />
+      </MultipleFieldEditor>
+    </AnswerTransition>
+    <AnswerTransition
+      key="question-guidance"
+      onEntered={[Function]}
+      timeout={200}
+    >
+      <RichTextEditor
+        autoFocus={false}
+        controls={
+          Object {
+            "bold": true,
+            "list": true,
+          }
+        }
+        disabled={false}
+        fetchAnswers={[MockFunction]}
+        id="question-guidance"
+        label="Include/exclude"
+        maxHeight={12}
+        metadata={Array []}
+        multiline={true}
+        name="guidance"
+        onUpdate={[MockFunction]}
+        placeholder=""
+        testSelector="txt-question-guidance"
+        value="<p>Guidance</p>"
+      />
+    </AnswerTransition>
+  </TransitionGroup>
+</div>
+`;
+
+exports[`MetaEditor should display the correct error message when the definition content is missing 1`] = `
+<div>
+  <RichTextEditor
+    autoFocus={false}
+    controls={
+      Object {
+        "emphasis": true,
+        "piping": true,
+      }
+    }
+    disabled={false}
+    errorValidationMsg={null}
+    fetchAnswers={[MockFunction]}
+    id="question-title"
+    label="Question"
+    maxHeight={12}
+    metadata={Array []}
+    multiline={false}
+    name="title"
+    onUpdate={[MockFunction]}
+    placeholder=""
+    size="large"
+    testSelector="txt-question-title"
+    value="<p>Hello world</p>"
+  />
+  <TransitionGroup
+    childFactory={[Function]}
+    component="div"
+  >
+    <AnswerTransition
+      key="question-description"
+      onEntered={[Function]}
+      timeout={200}
+    >
+      <RichTextEditor
+        autoFocus={false}
+        controls={
+          Object {
+            "emphasis": true,
+            "piping": true,
+          }
+        }
+        disabled={false}
+        fetchAnswers={[MockFunction]}
+        id="question-description"
+        label="Question description"
+        maxHeight={12}
+        metadata={Array []}
+        multiline={true}
+        name="description"
+        onUpdate={[MockFunction]}
+        placeholder=""
+        testSelector="txt-question-description"
+        value="<p>Description</p>"
+      />
+    </AnswerTransition>
+    <AnswerTransition
+      key="definition"
+      onEntered={[Function]}
+      timeout={200}
+    >
+      <MultipleFieldEditor
+        id="definition"
+        label="Question definition"
+      >
+        <MetaEditor__Paragraph>
+          Only to be used to define word(s) or acronym(s) within the question.
+        </MetaEditor__Paragraph>
+        <Field
+          disabled={false}
+          last={false}
+        >
+          <Label
+            bold={true}
+            htmlFor="definition-label"
+          >
+            Label
+          </Label>
+          <withChangeHandler(WrappingInput)
+            bold={true}
+            data-test="txt-question-definition-label"
+            errorValidationMsg={null}
+            id="definition-label"
+            name="definitionLabel"
+            onBlur={[MockFunction]}
+            onChange={[MockFunction]}
+            value="<p>Definition Label</p>"
+          />
+        </Field>
+        <RichTextEditor
+          autoFocus={false}
+          controls={
+            Object {
+              "bold": true,
+              "emphasis": true,
+              "list": true,
+            }
+          }
+          disabled={false}
+          errorValidationMsg="Enter definition content"
+          fetchAnswers={[MockFunction]}
+          id="definition-content"
+          label="Content"
+          maxHeight={12}
+          metadata={Array []}
+          multiline={true}
+          name="definitionContent"
+          onUpdate={[MockFunction]}
+          placeholder=""
+          testSelector="txt-question-definition-content"
+          value="<p>Definition Content</p>"
+        />
+      </MultipleFieldEditor>
+    </AnswerTransition>
+    <AnswerTransition
+      key="question-guidance"
+      onEntered={[Function]}
+      timeout={200}
+    >
+      <RichTextEditor
+        autoFocus={false}
+        controls={
+          Object {
+            "bold": true,
+            "list": true,
+          }
+        }
+        disabled={false}
+        fetchAnswers={[MockFunction]}
+        id="question-guidance"
+        label="Include/exclude"
+        maxHeight={12}
+        metadata={Array []}
+        multiline={true}
+        name="guidance"
+        onUpdate={[MockFunction]}
+        placeholder=""
+        testSelector="txt-question-guidance"
+        value="<p>Guidance</p>"
+      />
+    </AnswerTransition>
+  </TransitionGroup>
+</div>
+`;
+
+exports[`MetaEditor should display the correct error message when the definition label is missing 1`] = `
+<div>
+  <RichTextEditor
+    autoFocus={false}
+    controls={
+      Object {
+        "emphasis": true,
+        "piping": true,
+      }
+    }
+    disabled={false}
+    errorValidationMsg={null}
+    fetchAnswers={[MockFunction]}
+    id="question-title"
+    label="Question"
+    maxHeight={12}
+    metadata={Array []}
+    multiline={false}
+    name="title"
+    onUpdate={[MockFunction]}
+    placeholder=""
+    size="large"
+    testSelector="txt-question-title"
+    value="<p>Hello world</p>"
+  />
+  <TransitionGroup
+    childFactory={[Function]}
+    component="div"
+  >
+    <AnswerTransition
+      key="question-description"
+      onEntered={[Function]}
+      timeout={200}
+    >
+      <RichTextEditor
+        autoFocus={false}
+        controls={
+          Object {
+            "emphasis": true,
+            "piping": true,
+          }
+        }
+        disabled={false}
+        fetchAnswers={[MockFunction]}
+        id="question-description"
+        label="Question description"
+        maxHeight={12}
+        metadata={Array []}
+        multiline={true}
+        name="description"
+        onUpdate={[MockFunction]}
+        placeholder=""
+        testSelector="txt-question-description"
+        value="<p>Description</p>"
+      />
+    </AnswerTransition>
+    <AnswerTransition
+      key="definition"
+      onEntered={[Function]}
+      timeout={200}
+    >
+      <MultipleFieldEditor
+        id="definition"
+        label="Question definition"
+      >
+        <MetaEditor__Paragraph>
+          Only to be used to define word(s) or acronym(s) within the question.
+        </MetaEditor__Paragraph>
+        <Field
+          disabled={false}
+          last={false}
+        >
+          <Label
+            bold={true}
+            htmlFor="definition-label"
+          >
+            Label
+          </Label>
+          <withChangeHandler(WrappingInput)
+            bold={true}
+            data-test="txt-question-definition-label"
+            errorValidationMsg="Enter definition label"
+            id="definition-label"
+            name="definitionLabel"
+            onBlur={[MockFunction]}
+            onChange={[MockFunction]}
+            value="<p>Definition Label</p>"
+          />
+        </Field>
+        <RichTextEditor
+          autoFocus={false}
+          controls={
+            Object {
+              "bold": true,
+              "emphasis": true,
+              "list": true,
+            }
+          }
+          disabled={false}
+          errorValidationMsg={null}
           fetchAnswers={[MockFunction]}
           id="definition-content"
           label="Content"
@@ -367,6 +661,7 @@ exports[`MetaEditor should display the correct error message when the title is m
           <withChangeHandler(WrappingInput)
             bold={true}
             data-test="txt-question-definition-label"
+            errorValidationMsg={null}
             id="definition-label"
             name="definitionLabel"
             onBlur={[MockFunction]}
@@ -384,6 +679,7 @@ exports[`MetaEditor should display the correct error message when the title is m
             }
           }
           disabled={false}
+          errorValidationMsg={null}
           fetchAnswers={[MockFunction]}
           id="definition-content"
           label="Content"
@@ -440,6 +736,7 @@ exports[`MetaEditor should render 1`] = `
       }
     }
     disabled={false}
+    errorValidationMsg={null}
     fetchAnswers={[MockFunction]}
     id="question-title"
     label="Question"
@@ -509,6 +806,7 @@ exports[`MetaEditor should render 1`] = `
           <withChangeHandler(WrappingInput)
             bold={true}
             data-test="txt-question-definition-label"
+            errorValidationMsg={null}
             id="definition-label"
             name="definitionLabel"
             onBlur={[MockFunction]}
@@ -526,6 +824,7 @@ exports[`MetaEditor should render 1`] = `
             }
           }
           disabled={false}
+          errorValidationMsg={null}
           fetchAnswers={[MockFunction]}
           id="definition-content"
           label="Content"
