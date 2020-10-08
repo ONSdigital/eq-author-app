@@ -64,6 +64,9 @@ export const UtilityBtns = styled.div`
 
 export const UnwrappedMainNavigation = props => {
   const { questionnaire, title, children, client, match } = props;
+
+  console.log("questionnaire side menu:::", JSON.stringify(questionnaire, null, 7))
+
   const { me } = useMe();
   const [isSettingsModalOpen, setSettingsModalOpen] = useState(
     match.params.modifier === "settings"
@@ -72,56 +75,10 @@ export const UnwrappedMainNavigation = props => {
   useSubscription(publishStatusSubscription, {
     variables: { id: match.params.questionnaireId },
   });
-  // const publishStatus = get(questionnaire, "publishStatus");
 
   const previewUrl = `${config.REACT_APP_LAUNCH_URL}/${
     (questionnaire || {}).id
-  }`;
-
-  // const renderPublishReviewButton = () => {
-  //   if (publishStatus === AWAITING_APPROVAL && me.admin) {
-  //     const reviewUrl = "/q/" + match.params.questionnaireId + "/review";
-  //     return (
-  //       <RouteButton
-  //         variant="navigation"
-  //         to={reviewUrl}
-  //         small
-  //         disabled={title === "Review"}
-  //         data-test="btn-review"
-  //       >
-  //         <IconText nav icon={reviewIcon}>
-  //           Review
-  //         </IconText>
-  //       </RouteButton>
-  //     );
-  //   }
-
-  //   if (publishStatus === AWAITING_APPROVAL && !me.admin) {
-  //     return null;
-  //   }
-
-  //   const canPublish = questionnaire.permission === "Write";
-  //   return (
-  //     <RouteButton
-  //       variant={
-  //         (whatPageAreWeOn === "publish" && "navigation-on") || "navigation"
-  //       }
-  //       to={buildPublishPath(match.params)}
-  //       small
-  //       disabled={
-  //         !canPublish ||
-  //         questionnaire.totalErrorCount > 0 ||
-  //         title === "Publish" ||
-  //         publishStatus === PUBLISHED
-  //       }
-  //       data-test="btn-publish"
-  //     >
-  //       <IconText nav icon={publishIcon}>
-  //         Publish
-  //       </IconText>
-  //     </RouteButton>
-  //   );
-  // };
+    }`;
 
   return (
     <>

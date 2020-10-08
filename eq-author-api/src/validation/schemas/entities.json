@@ -14,11 +14,15 @@
         },
         "introductionTitle": {
           "type": "string",
-          "requiredWhenOtherFieldsPopulated": ["introductionContent"]
+          "requiredWhenOtherFieldsPopulated": [
+            "introductionContent"
+          ]
         },
         "introductionContent": {
           "type": "string",
-          "requiredWhenOtherFieldsPopulated": ["introductionTitle"]
+          "requiredWhenOtherFieldsPopulated": [
+            "introductionTitle"
+          ]
         },
         "pages": {
           "type": "array",
@@ -27,7 +31,10 @@
           }
         }
       },
-      "required": ["id", "pages"]
+      "required": [
+        "id",
+        "pages"
+      ]
     },
     "page": {
       "type": "object",
@@ -133,7 +140,9 @@
           "if": {
             "properties": {
               "pageType": {
-                "enum": ["QuestionPage"]
+                "enum": [
+                  "QuestionPage"
+                ]
               }
             }
           },
@@ -155,7 +164,9 @@
             "if": {
               "properties": {
                 "pageType": {
-                  "enum": ["CalculatedSummaryPage"]
+                  "enum": [
+                    "CalculatedSummaryPage"
+                  ]
                 }
               }
             },
@@ -179,12 +190,17 @@
                   }
                 }
               },
-              "required": ["summaryAnswers"]
+              "required": [
+                "summaryAnswers"
+              ]
             }
           }
         }
       ],
-      "required": ["id", "title"]
+      "required": [
+        "id",
+        "title"
+      ]
     },
     "totalValidation": {
       "oneOf": [
@@ -261,7 +277,9 @@
               ]
             }
           },
-          "required": ["label"]
+          "required": [
+            "label"
+          ]
         },
         "negative": {
           "type": "object",
@@ -282,10 +300,16 @@
               ]
             }
           },
-          "required": ["label"]
+          "required": [
+            "label"
+          ]
         }
       },
-      "required": ["id", "title", "positive"]
+      "required": [
+        "id",
+        "title",
+        "positive"
+      ]
     },
     "answer": {
       "allOf": [
@@ -312,7 +336,10 @@
         "properties": {
           "type": {
             "not": {
-              "enum": ["Checkbox", "Radio"]
+              "enum": [
+                "Checkbox",
+                "Radio"
+              ]
             }
           }
         }
@@ -320,6 +347,19 @@
       "then": {
         "type": "object",
         "properties": {
+          "qCode": {
+            "allOf": [
+              {
+                "not": {
+                  "type": "null"
+                },
+                "errorMessage": "ERR_VALID_REQUIRED"
+              },
+              {
+                "$ref": "definitions.json#/definitions/populatedString"
+              }
+            ]
+          },
           "id": {
             "type": "string"
           },
@@ -330,20 +370,41 @@
             "$ref": "entities.json#/definitions/properties"
           }
         },
-        "required": ["id", "label"]
+        "required": [
+          "id",
+          "label"
+        ]
       }
     },
     "numericAnswer": {
       "if": {
         "properties": {
           "type": {
-            "enum": ["Number", "Percentage", "Currency", "Unit"]
+            "enum": [
+              "Number",
+              "Percentage",
+              "Currency",
+              "Unit"
+            ]
           }
         }
       },
       "then": {
         "type": "object",
         "properties": {
+          "qCode": {
+            "allOf": [
+              {
+                "not": {
+                  "type": "null"
+                },
+                "errorMessage": "ERR_VALID_REQUIRED"
+              },
+              {
+                "$ref": "definitions.json#/definitions/populatedString"
+              }
+            ]
+          },
           "validation": {
             "if": {
               "allOf": [
@@ -509,7 +570,10 @@
       "if": {
         "properties": {
           "type": {
-            "enum": ["Checkbox", "Radio"]
+            "enum": [
+              "Checkbox",
+              "Radio"
+            ]
           }
         }
       },
@@ -519,9 +583,35 @@
           "id": {
             "type": "string"
           },
+          "qCode": {
+            "anyOf": [
+              {
+                "not": {
+                  "type": "null"
+                },
+                "errorMessage": "ERR_VALID_REQUIRED"
+              },
+              {
+                "$ref": "definitions.json#/definitions/populatedString"
+              }
+            ]
+          },
           "options": {
             "type": "array",
             "items": {
+              "qCode": {
+                "allOf": [
+                  {
+                    "not": {
+                      "type": "null"
+                    },
+                    "errorMessage": "ERR_VALID_REQUIRED"
+                  },
+                  {
+                    "$ref": "definitions.json#/definitions/populatedString"
+                  }
+                ]
+              },
               "allOf": [
                 {
                   "$ref": "entities.json#/definitions/option"
@@ -536,7 +626,10 @@
             "$ref": "entities.json#/definitions/option"
           }
         },
-        "required": ["id", "options"]
+        "required": [
+          "id",
+          "options"
+        ]
       },
       "else": false
     },
@@ -544,13 +637,28 @@
       "if": {
         "properties": {
           "type": {
-            "enum": ["Date"]
+            "enum": [
+              "Date"
+            ]
           }
         }
       },
       "then": {
         "type": "object",
         "properties": {
+          "qCode": {
+            "allOf": [
+              {
+                "not": {
+                  "type": "null"
+                },
+                "errorMessage": "ERR_VALID_REQUIRED"
+              },
+              {
+                "$ref": "definitions.json#/definitions/populatedString"
+              }
+            ]
+          },
           "validation": {
             "if": {
               "allOf": [
@@ -562,7 +670,10 @@
                           "const": true
                         },
                         "entityType": {
-                          "enum": ["Custom", "Metadata"]
+                          "enum": [
+                            "Custom",
+                            "Metadata"
+                          ]
                         }
                       }
                     }
@@ -576,7 +687,10 @@
                           "const": true
                         },
                         "entityType": {
-                          "enum": ["Custom", "Metadata"]
+                          "enum": [
+                            "Custom",
+                            "Metadata"
+                          ]
                         }
                       }
                     }
@@ -681,13 +795,28 @@
       "if": {
         "properties": {
           "type": {
-            "enum": ["DateRange"]
+            "enum": [
+              "DateRange"
+            ]
           }
         }
       },
       "then": {
         "type": "object",
         "properties": {
+          "qCode": {
+            "allOf": [
+              {
+                "not": {
+                  "type": "null"
+                },
+                "errorMessage": "ERR_VALID_REQUIRED"
+              },
+              {
+                "$ref": "definitions.json#/definitions/populatedString"
+              }
+            ]
+          },
           "validation": {
             "allOf": [
               {
@@ -957,7 +1086,10 @@
           "$ref": "entities.json#/definitions/basicAnswer"
         }
       },
-      "required": ["id", "label"]
+      "required": [
+        "id",
+        "label"
+      ]
     },
     "routingRule": {
       "properties": {
@@ -971,7 +1103,10 @@
               "type": "string"
             },
             "operator": {
-              "enum": ["And", "Or"]
+              "enum": [
+                "And",
+                "Or"
+              ]
             },
             "expressions": {
               "type": "array",
@@ -1012,7 +1147,9 @@
                   "pattern": "\\w+"
                 }
               },
-              "required": ["answerId"]
+              "required": [
+                "answerId"
+              ]
             }
           ],
           "errorMessage": "ERR_ANSWER_NOT_SELECTED",
@@ -1022,7 +1159,10 @@
           "type": "object",
           "properties": {
             "type": {
-              "enum": ["Custom", "SelectedOptions"]
+              "enum": [
+                "Custom",
+                "SelectedOptions"
+              ]
             },
             "optionIds": {
               "type": "array",
@@ -1042,7 +1182,9 @@
               }
             }
           },
-          "required": ["type"],
+          "required": [
+            "type"
+          ],
           "errorMessage": "ERR_RIGHTSIDE_NO_VALUE",
           "validateExclusiveCheckbox": "right"
         }
@@ -1054,7 +1196,9 @@
           "type": "string"
         },
         "condition": {
-          "enum": ["Unanswered"]
+          "enum": [
+            "Unanswered"
+          ]
         },
         "left": {
           "type": "object",
@@ -1067,7 +1211,9 @@
                   "pattern": "\\w+"
                 }
               },
-              "required": ["answerId"]
+              "required": [
+                "answerId"
+              ]
             }
           ],
           "errorMessage": "ERR_ANSWER_NOT_SELECTED"

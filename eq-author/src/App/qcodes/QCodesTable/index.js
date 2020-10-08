@@ -3,6 +3,7 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 import { withApollo, Query, useMutation } from "react-apollo";
+import { find, get } from "lodash";
 
 import GET_ALL_ANSWERS from "./graphql/getAllAnswers.graphql";
 import UPDATE_ANSWER_QCODE from "./graphql/updateAnswerMutation.graphql";
@@ -256,7 +257,7 @@ const handleBlurReducer = ({ type, payload, mutation }) => {
 
 const Row = memo(
   props => {
-    const { id, title, alias, label, qCode: initialQcode, type, error, hasQcode } = props;
+    const { id, title, alias, label, qCode: initialQcode, type, error, noValQCodeError } = props;
     const commonFields = useCallback(
       fields => {
         const [qCode, setQcode] = useState(initialQcode);
@@ -305,7 +306,7 @@ const Row = memo(
                 </QcodeValidationError>
               )}
 
-              {!hasQcode && (
+              {noValQCodeError && (
                 <QcodeValidationError right>
                   {QCODE_REQUIRED}
                 </QcodeValidationError>
@@ -360,14 +361,26 @@ const RowBuilder = answers => {
   }, {});
 
   return answers.map((item, index) => {
-    let hasQcode = false;
-    item.qCode ? hasQcode = true : hasQcode = false;
+    console.log("\nitem in map", item);
+
+    // let hasQcode = false;
+    // item.qCode ? hasQcode = true : hasQcode = false;
+
+    let noValQCodeError = find(get(item, "validationErrorInfo.errors"), ({ field }) =>
+      field.includes("qCode")
+    );
+
+    // let noValQCodeError = find(item && item.validationErrorInfo && item.validationErrorInfo.errors, ({ field }) =>
+    //   field.includes("qCode")
+    // );
+    console.log('noValError' + item.label + ': ' + noValQCodeError);
+
     return (
       <Row
         key={`${item.id}-${index}`}
         {...item}
         error={duplicates[item.qCode] > 1}
-        hasQcode={hasQcode}
+        noValQCodeError={noValQCodeError}
       />
     )
   });
@@ -383,7 +396,7 @@ Row.propTypes = {
   qCodeCheck: PropTypes.func,
   error: PropTypes.bool,
   nested: PropTypes.bool,
-  hasQcode: PropTypes.bool,
+  noValQCodeError: PropTypes.object, // eslint-disable-line
 };
 
 export const UnwrappedQCodeTable = ({ loading, error, data }) => {
@@ -396,7 +409,6 @@ export const UnwrappedQCodeTable = ({ loading, error, data }) => {
   }
 
   const { sections } = data.questionnaire;
-
   const { answers } = organiseAnswers(sections);
   const flatten = flattenAnswers(answers);
 

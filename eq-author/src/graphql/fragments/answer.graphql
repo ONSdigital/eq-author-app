@@ -7,4 +7,5 @@ fragment Answer on Answer {
   type
   properties
   displayName
+  qCode
 }

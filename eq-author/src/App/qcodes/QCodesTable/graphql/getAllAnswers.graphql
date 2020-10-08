@@ -1,3 +1,5 @@
+#import "graphql/fragments/validationErrorInfo.graphql"
+
 query GetAnswers($input: QueryInput!) {
   questionnaire(input: $input) {
     id
@@ -22,17 +24,29 @@ query GetAnswers($input: QueryInput!) {
             properties
             ... on BasicAnswer {
               secondaryQCode
+              validationErrorInfo {
+                 ...ValidationErrorInfo
+              }
             }
             ... on MultipleChoiceAnswer {
+              validationErrorInfo {
+                 ...ValidationErrorInfo
+              }
               options {
                 id
                 label
                 qCode
+                validationErrorInfo {
+                 ...ValidationErrorInfo
+              }
               }
               mutuallyExclusiveOption {
                 id
                 label
                 qCode
+                validationErrorInfo {
+                 ...ValidationErrorInfo
+              }
               }
             }
           }

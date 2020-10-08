@@ -933,8 +933,14 @@ const Resolvers = {
       }
       return "Read";
     },
-    totalErrorCount: (questionnaire, args, ctx) =>
-      ctx.validationErrorInfo.length,
+    totalErrorCount: (questionnaire, args, ctx) => {
+      //remove qcode errors from total here - important as Qcode errors don't count to total
+      // otherwise error totals get confusing for users!!!!!!
+      const validationErrorsQCode = ctx.validationErrorInfo.filter(
+        ({ field }) => field === "qCode"
+      );
+      return ctx.validationErrorInfo.length - validationErrorsQCode.length
+    }
   },
 
   History: {
@@ -1035,6 +1041,15 @@ const Resolvers = {
         ({ answerId }) => id === answerId
       );
 
+      const answerErrorsQCode = ctx.validationErrorInfo.filter(
+        ({ answerId, field }) => id === answerId && field === "qCode"
+      );
+
+      // console.log('\\answerErrors', answerErrors.length);
+      // console.log('\\answerErrorsqCode', answerErrorsQCode.length);
+
+      const adjustedTotalCount = answerErrors.length - answerErrorsQCode.length;
+
       if (!answerErrors) {
         return {
           id,
@@ -1046,7 +1061,7 @@ const Resolvers = {
       return {
         id,
         errors: answerErrors,
-        totalCount: answerErrors.length,
+        totalCount: adjustedTotalCount,
       };
     },
   },
