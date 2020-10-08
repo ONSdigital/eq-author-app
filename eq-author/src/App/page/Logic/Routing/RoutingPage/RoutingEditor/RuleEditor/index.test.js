@@ -1,9 +1,10 @@
 import React from "react";
 import { shallow } from "enzyme";
 import { render, fireEvent, act, flushPromises } from "tests/utils/rtl";
+import { colors } from "constants/theme";
 
 import RoutingRuleDestinationSelector from "App/page/Logic/Routing/DestinationSelector";
-import { RADIO } from "constants/answer-types";
+import { RADIO, CHECKBOX } from "constants/answer-types";
 import { AND, OR } from "constants/routingOperators";
 import { destinationErrors } from "constants/validationMessages";
 
@@ -157,5 +158,45 @@ describe("RuleEditor", () => {
     });
 
     expect(getByTestId("destination-validation-error")).toBeTruthy();
+  });
+
+  it("should highlight the operator dropdown when there is an error related to the operator", async () => {
+    const newProps = defaultProps;
+    newProps.rule.expressionGroup.expressions[0] = {
+      id: "2",
+      left: {
+        id: "binaryExpressionId",
+        type: CHECKBOX,
+      },
+      condition: AND,
+      right: {},
+      validationErrorInfo: {
+        id: "1-2-3",
+        errors: [
+          {
+            errorCode: "There's an error with the group operator!",
+            field: "groupOperator",
+            id: "123-456-789",
+            type: "expression",
+            __typename: "ValidationError",
+          },
+        ],
+        totalCount: 1,
+        __typename: "ValidationErrorInfo",
+      },
+    };
+
+    const { getByTestId } = render(<RuleEditor {...newProps} />, {
+      route: "/q/1/page/2",
+      urlParamMatcher: "/q/:questionnaireId/page/:pageId",
+    });
+
+    await act(async () => {
+      await flushPromises();
+    });
+
+    const dropdown = getByTestId("match-select");
+
+    expect(dropdown).toHaveStyle(`border: 2px solid ${colors.red}`);
   });
 });

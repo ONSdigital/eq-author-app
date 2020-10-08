@@ -3,6 +3,7 @@ import styled, { css } from "styled-components";
 import Icon from "assets/icon-select.svg";
 import loader from "assets/loader.svg";
 import { sharedStyles } from "components/Forms/css";
+import { colors } from "constants/theme";
 import withChangeHandler from "components/Forms/withChangeHandler";
 
 const loading = css`
@@ -21,6 +22,9 @@ export const SimpleSelect = styled.select`
   position: relative;
   transition: opacity 100ms ease-in-out;
   border-radius: 4px;
+  border: ${({ hasError }) =>
+    hasError ? `2px solid ${colors.red}` : `thin solid ${colors.grey}`};
+
   line-height: 1.2;
 
   &:hover {

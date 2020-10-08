@@ -7,6 +7,28 @@ const { getPages } = require("../../../utils");
 
 Resolvers.ExpressionGroup2 = {
   expressions: expressionGroup => expressionGroup.expressions,
+  validationErrorInfo: ({ id }, args, ctx) => {
+    const expressionGroupErrors = ctx.validationErrorInfo.filter(
+      ({ expressionGroupId }) => expressionGroupId === id
+    );
+
+    if (!expressionGroupErrors) {
+      const noErrors = {
+        id,
+        errors: [],
+        totalCount: 0,
+      };
+      return noErrors;
+    }
+
+    const errors = {
+      id,
+      errors: expressionGroupErrors,
+      totalCount: expressionGroupErrors.length,
+    };
+
+    return errors;
+  },
 };
 
 Resolvers.Mutation = {

@@ -14,15 +14,11 @@
         },
         "introductionTitle": {
           "type": "string",
-          "requiredWhenOtherFieldsPopulated": [
-            "introductionContent"
-          ]
+          "requiredWhenOtherFieldsPopulated": ["introductionContent"]
         },
         "introductionContent": {
           "type": "string",
-          "requiredWhenOtherFieldsPopulated": [
-            "introductionTitle"
-          ]
+          "requiredWhenOtherFieldsPopulated": ["introductionTitle"]
         },
         "pages": {
           "type": "array",
@@ -31,10 +27,7 @@
           }
         }
       },
-      "required": [
-        "id",
-        "pages"
-      ]
+      "required": ["id", "pages"]
     },
     "page": {
       "type": "object",
@@ -96,68 +89,102 @@
           "$ref": "entities.json#/definitions/totalValidation"
         }
       },
-      "if": {
-        "properties": {
-          "pageType": {
-            "enum": [
-              "QuestionPage"
-            ]
-          }
-        }
-      },
-      "then": {
-        "properties": {
-          "answers": {
-            "type": "array",
-            "items": {
-              "$ref": "entities.json#/definitions/answer"
-            },
-            "minItems": 1,
-            "errorMessage": {
-              "minItems": "ERR_NO_ANSWERS"
-            }
-          }
-        }
-      },
-      "else": {
-        "if": {
-          "properties": {
-            "pageType": {
-              "enum": [
-                "CalculatedSummaryPage"
-              ]
-            }
-          }
-        },
-        "then": {
-          "properties": {
-            "summaryAnswers": {
-              "type": "array",
-              "items": {
-                "allOf": [
-                  {
-                    "$ref": "entities.json#/definitions/answer"
-                  }
-                ]
-              },
-              "calculatedSummaryUnitConsistency": {
-                "$data": "/sections"
-              },
-              "minItems": 1,
-              "errorMessage": {
-                "minItems": "ERR_NO_ANSWERS"
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "definitionEnabled": {
+                "const": true
               }
             }
           },
-          "required": [
-            "summaryAnswers"
-          ]
+          "then": {
+            "properties": {
+              "definitionLabel": {
+                "allOf": [
+                  {
+                    "not": {
+                      "type": "null"
+                    },
+                    "errorMessage": "ERR_VALID_REQUIRED"
+                  },
+                  {
+                    "$ref": "definitions.json#/definitions/populatedString"
+                  }
+                ]
+              },
+              "definitionContent": {
+                "allOf": [
+                  {
+                    "not": {
+                      "type": "null"
+                    },
+                    "errorMessage": "ERR_VALID_REQUIRED"
+                  },
+                  {
+                    "$ref": "definitions.json#/definitions/populatedString"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "pageType": {
+                "enum": ["QuestionPage"]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "answers": {
+                "type": "array",
+                "items": {
+                  "$ref": "entities.json#/definitions/answer"
+                },
+                "minItems": 1,
+                "errorMessage": {
+                  "minItems": "ERR_NO_ANSWERS"
+                }
+              }
+            }
+          },
+          "else": {
+            "if": {
+              "properties": {
+                "pageType": {
+                  "enum": ["CalculatedSummaryPage"]
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "summaryAnswers": {
+                  "type": "array",
+                  "items": {
+                    "allOf": [
+                      {
+                        "$ref": "entities.json#/definitions/answer"
+                      }
+                    ]
+                  },
+                  "calculatedSummaryUnitConsistency": {
+                    "$data": "/sections"
+                  },
+                  "minItems": 1,
+                  "errorMessage": {
+                    "minItems": "ERR_NO_ANSWERS"
+                  }
+                }
+              },
+              "required": ["summaryAnswers"]
+            }
+          }
         }
-      },
-      "required": [
-        "id",
-        "title"
-      ]
+      ],
+      "required": ["id", "title"]
     },
     "totalValidation": {
       "oneOf": [
@@ -234,9 +261,7 @@
               ]
             }
           },
-          "required": [
-            "label"
-          ]
+          "required": ["label"]
         },
         "negative": {
           "type": "object",
@@ -257,16 +282,10 @@
               ]
             }
           },
-          "required": [
-            "label"
-          ]
+          "required": ["label"]
         }
       },
-      "required": [
-        "id",
-        "title",
-        "positive"
-      ]
+      "required": ["id", "title", "positive"]
     },
     "answer": {
       "allOf": [
@@ -293,10 +312,7 @@
         "properties": {
           "type": {
             "not": {
-              "enum": [
-                "Checkbox",
-                "Radio"
-              ]
+              "enum": ["Checkbox", "Radio"]
             }
           }
         }
@@ -314,22 +330,14 @@
             "$ref": "entities.json#/definitions/properties"
           }
         },
-        "required": [
-          "id",
-          "label"
-        ]
+        "required": ["id", "label"]
       }
     },
     "numericAnswer": {
       "if": {
         "properties": {
           "type": {
-            "enum": [
-              "Number",
-              "Percentage",
-              "Currency",
-              "Unit"
-            ]
+            "enum": ["Number", "Percentage", "Currency", "Unit"]
           }
         }
       },
@@ -501,10 +509,7 @@
       "if": {
         "properties": {
           "type": {
-            "enum": [
-              "Checkbox",
-              "Radio"
-            ]
+            "enum": ["Checkbox", "Radio"]
           }
         }
       },
@@ -531,10 +536,7 @@
             "$ref": "entities.json#/definitions/option"
           }
         },
-        "required": [
-          "id",
-          "options"
-        ]
+        "required": ["id", "options"]
       },
       "else": false
     },
@@ -542,9 +544,7 @@
       "if": {
         "properties": {
           "type": {
-            "enum": [
-              "Date"
-            ]
+            "enum": ["Date"]
           }
         }
       },
@@ -562,10 +562,7 @@
                           "const": true
                         },
                         "entityType": {
-                          "enum": [
-                            "Custom",
-                            "Metadata"
-                          ]
+                          "enum": ["Custom", "Metadata"]
                         }
                       }
                     }
@@ -579,10 +576,7 @@
                           "const": true
                         },
                         "entityType": {
-                          "enum": [
-                            "Custom",
-                            "Metadata"
-                          ]
+                          "enum": ["Custom", "Metadata"]
                         }
                       }
                     }
@@ -687,9 +681,7 @@
       "if": {
         "properties": {
           "type": {
-            "enum": [
-              "DateRange"
-            ]
+            "enum": ["DateRange"]
           }
         }
       },
@@ -965,10 +957,7 @@
           "$ref": "entities.json#/definitions/basicAnswer"
         }
       },
-      "required": [
-        "id",
-        "label"
-      ]
+      "required": ["id", "label"]
     },
     "routingRule": {
       "properties": {
@@ -982,10 +971,7 @@
               "type": "string"
             },
             "operator": {
-              "enum": [
-                "And",
-                "Or"
-              ]
+              "enum": ["And", "Or"]
             },
             "expressions": {
               "type": "array",
@@ -1013,7 +999,8 @@
           "type": "string"
         },
         "condition": {
-          "type": "string"
+          "type": "string",
+          "validateMultipleChoiceCondition": "condition"
         },
         "left": {
           "type": "object",
@@ -1026,9 +1013,7 @@
                   "pattern": "\\w+"
                 }
               },
-              "required": [
-                "answerId"
-              ]
+              "required": ["answerId"]
             }
           ],
           "errorMessage": "ERR_ANSWER_NOT_SELECTED",
@@ -1038,10 +1023,7 @@
           "type": "object",
           "properties": {
             "type": {
-              "enum": [
-                "Custom",
-                "SelectedOptions"
-              ]
+              "enum": ["Custom", "SelectedOptions"]
             },
             "optionIds": {
               "type": "array",
@@ -1061,13 +1043,12 @@
               }
             }
           },
-          "required": [
-            "type"
-          ],
+          "required": ["type"],
           "errorMessage": "ERR_RIGHTSIDE_NO_VALUE",
           "validateExclusiveCheckbox": "right"
         }
-      }
+      },
+      "validateExpression": "validateExpression"
     },
     "expression-unanswered": {
       "properties": {
@@ -1075,9 +1056,7 @@
           "type": "string"
         },
         "condition": {
-          "enum": [
-            "Unanswered"
-          ]
+          "enum": ["Unanswered"]
         },
         "left": {
           "type": "object",
@@ -1090,9 +1069,7 @@
                   "pattern": "\\w+"
                 }
               },
-              "required": [
-                "answerId"
-              ]
+              "required": ["answerId"]
             }
           ],
           "errorMessage": "ERR_ANSWER_NOT_SELECTED"
