@@ -655,7 +655,6 @@ input DeleteSkipConditionsInput {
   pageId: ID!
 }
 
-
 type Mutation {
   createQuestionnaire(input: CreateQuestionnaireInput!): Questionnaire
   updateQuestionnaire(input: UpdateQuestionnaireInput!): Questionnaire
@@ -679,7 +678,7 @@ type Mutation {
   createReply(input: CreateReplyInput!): Reply!
   deleteReply(input: DeleteReplyInput!): [Reply!]!
   updateReply(input: UpdateReplyInput!): Reply!
-  createQuestionPage(input: CreateQuestionPageInput!): QuestionPage
+  createQuestionPage(input: CreateQuestionPageInput!): Folder
   updateQuestionPage(input: UpdateQuestionPageInput!): QuestionPage
   createCalculatedSummaryPage(input: CreateCalculatedSummaryPageInput!): CalculatedSummaryPage!
   updateCalculatedSummaryPage(input: UpdateCalculatedSummaryPageInput!): CalculatedSummaryPage!
@@ -907,6 +906,7 @@ input CreateQuestionPageInput {
   guidance: String
   guidanceEnabled: Boolean
   sectionId: ID!
+  folderId: ID
   position: Int
   definitionLabel: String
   definitionContent: String
@@ -934,6 +934,7 @@ input UpdateQuestionPageInput {
 
 input CreateCalculatedSummaryPageInput {
   sectionId: ID!
+  folderId: ID
   position: Int
 }
 

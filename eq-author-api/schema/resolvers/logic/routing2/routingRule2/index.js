@@ -17,6 +17,7 @@ const {
   getPages,
   getRoutingById,
   getRoutingRuleById,
+  returnValidationErrors,
 } = require("../../../utils");
 
 const isMutuallyExclusiveDestination = isMutuallyExclusive([
@@ -41,34 +42,17 @@ Resolvers.RoutingRule2 = {
 
     return routing;
   },
-  validationErrorInfo: ({ id }, args, ctx) => {
-    const routingRuleErrors = ctx.validationErrorInfo.filter(
-      ({ routingRuleId }) => id === routingRuleId
-    );
-
-    if (!routingRuleErrors) {
-      const noErrors = {
-        id,
-        errors: [],
-        totalCount: 0,
-      };
-      return noErrors;
-    }
-
-    const errors = {
+  validationErrorInfo: ({ id }, args, ctx) =>
+    returnValidationErrors(
+      ctx,
       id,
-      errors: routingRuleErrors,
-      totalCount: routingRuleErrors.length,
-    };
-
-    return errors;
-  },
+      ({ routingRuleId }) => id === routingRuleId
+    ),
 };
 
 Resolvers.Mutation = {
   createRoutingRule2: createMutation((root, { input }, ctx) => {
     const routing = getRoutingById(ctx, input.routingId);
-
     const leftHandSide = {
       type: "Null",
       nullReason: "DefaultRouting",

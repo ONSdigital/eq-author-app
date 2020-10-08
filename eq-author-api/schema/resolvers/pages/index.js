@@ -1,6 +1,13 @@
-const { find, findIndex, remove, omit, set, first } = require("lodash");
+const { findIndex, omit, set } = require("lodash");
 
-const { getSectionByPageId, remapAllNestedIds } = require("../utils");
+const {
+  getSectionByPageId,
+  getPagesBySectionId,
+  remapAllNestedIds,
+  getSectionById,
+  getPageById,
+  getMovePosition,
+} = require("../utils");
 
 const onPageDeleted = require("../../../src/businessLogic/onPageDeleted");
 const { createMutation } = require("../createMutation");
@@ -11,42 +18,67 @@ const Resolvers = {};
 
 Resolvers.Page = {
   __resolveType: ({ pageType }) => pageType,
-  position: ({ id }, args, ctx) => {
-    const section = getSectionByPageId(ctx, id);
-    return findIndex(section.pages, { id });
-  },
+  position: ({ id }, args, ctx) =>
+    findIndex(getPagesBySectionId(ctx, id), { id }),
 };
 
 Resolvers.Mutation = {
   movePage: createMutation((_, { input }, ctx) => {
+    // not 100% sold on this implementation yet
     const section = getSectionByPageId(ctx, input.id);
-    const removedPage = first(remove(section.pages, { id: input.id }));
+    const { id, position } = input;
+    let removedPage;
     if (input.sectionId === section.id) {
-      section.pages.splice(input.position, 0, removedPage);
+      const { previous, next } = getMovePosition(section, id, position);
+      removedPage = previous.page;
+      section.folders[previous.folderIndex].pages.splice(previous.pageIndex, 1);
+      section.folders[next.folderIndex].pages.splice(
+        position,
+        0,
+        previous.page
+      );
     } else {
-      const newsection = find(ctx.questionnaire.sections, {
-        id: input.sectionId,
-      });
-      newsection.pages.splice(input.position, 0, removedPage);
+      const newSection = getSectionById(input.sectionId);
+      const { previous, next } = getMovePosition(newSection, id, position);
+      removedPage = previous.page;
+      // could replace these with filters
+      // but need to replace with id
+      newSection.folders[previous.folderIndex].pages.splice(
+        previous.pageIndex,
+        1
+      );
+      newSection.folders[next.folderIndex].pages.splice(
+        position,
+        0,
+        previous.page
+      );
     }
     return removedPage;
   }),
   deletePage: createMutation((_, { input }, ctx) => {
     const section = getSectionByPageId(ctx, input.id);
-    const removedPage = first(remove(section.pages, { id: input.id }));
-    onPageDeleted(ctx, section, removedPage);
+
+    const { previous } = getMovePosition(section, input.id, 0);
+    section.folders[previous.folderIndex].pages.splice(previous.pageIndex, 1);
+
+    onPageDeleted(ctx, section, previous.page);
+
     return section;
   }),
-
   duplicatePage: createMutation((_, { input }, ctx) => {
     const section = getSectionByPageId(ctx, input.id);
-    const page = find(section.pages, { id: input.id });
+    const page = getPageById(ctx, input.id);
     const newpage = omit(page, "id");
     set(newpage, "alias", addPrefix(newpage.alias));
     set(newpage, "title", addPrefix(newpage.title));
     const duplicatedPage = createQuestionPage(newpage);
     const remappedPage = remapAllNestedIds(duplicatedPage);
-    section.pages.splice(input.position, 0, remappedPage);
+    const { next } = getMovePosition(section, input.id, input.position);
+    section.folders[next.folderIndex].pages.splice(
+      input.position,
+      0,
+      remappedPage
+    );
     return remappedPage;
   }),
 };

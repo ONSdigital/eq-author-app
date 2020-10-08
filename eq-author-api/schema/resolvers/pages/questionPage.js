@@ -1,37 +1,32 @@
-const { find, findIndex, merge, some, takeRightWhile } = require("lodash");
-const { getName } = require("../../../utils/getName");
-const { v4: uuidv4 } = require("uuid");
+const { findIndex, merge } = require("lodash");
 
-const { getPageById, getSectionByPageId } = require("../utils");
+const { getName } = require("../../../utils/getName");
+
+const {
+  getPagesFromSection,
+  getPageById,
+  getSectionByPageId,
+  getFolderById,
+  getFoldersBySectionId,
+  returnValidationErrors,
+  createFolder,
+  createQuestionPage,
+} = require("../utils");
 const { createMutation } = require("../createMutation");
 
 const {
   ROUTING_ANSWER_TYPES,
 } = require("../../../constants/routingAnswerTypes");
 
+const availableRoutingDestinations = require("../../../src/businessLogic/availableRoutingDestinations");
 const getPreviousAnswersForPage = require("../../../src/businessLogic/getPreviousAnswersForPage");
 const Resolvers = {};
-
-const createQuestionPage = (input = {}) => ({
-  id: uuidv4(),
-  pageType: "QuestionPage",
-  title: "",
-  description: "",
-  descriptionEnabled: false,
-  guidanceEnabled: false,
-  definitionEnabled: false,
-  additionalInfoEnabled: false,
-  answers: [],
-  routing: null,
-  alias: null,
-  ...input,
-});
 
 Resolvers.QuestionPage = {
   section: ({ id }, input, ctx) => getSectionByPageId(ctx, id),
   position: ({ id }, args, ctx) => {
     const section = getSectionByPageId(ctx, id);
-    return findIndex(section.pages, { id });
+    return findIndex(getPagesFromSection(section), { id });
   },
   displayName: page => getName(page, "QuestionPage"),
   availablePipingAnswers: ({ id }, args, ctx) =>
@@ -45,57 +40,39 @@ Resolvers.QuestionPage = {
       ROUTING_ANSWER_TYPES
     ),
   availableRoutingDestinations: ({ id }, args, ctx) => {
-    const section = find(ctx.questionnaire.sections, section => {
-      if (section.pages && some(section.pages, { id })) {
-        return section;
-      }
-    });
-
-    const pages = takeRightWhile(section.pages, page => page.id !== id);
-    const sections = takeRightWhile(
-      ctx.questionnaire.sections,
-      futureSection => futureSection.id !== section.id
-    );
-
-    const logicalDestinations = [
-      {
-        logicalDestination: "NextPage",
-      },
-      {
-        logicalDestination: "EndOfQuestionnaire",
-      },
-    ];
+    // will need to double check this
+    const {
+      logicalDestinations,
+      sections,
+      questionPages,
+    } = availableRoutingDestinations(ctx, id);
 
     return {
       logicalDestinations,
       sections,
-      pages,
+      pages: questionPages,
     };
   },
-  validationErrorInfo: ({ id }, args, ctx) => {
-    const pageErrors = ctx.validationErrorInfo.filter(
-      ({ pageId }) => id === pageId
-    );
-
-    if (!pageErrors) {
-      return ({ id, errors: [], totalCount: 0 });
-    }
-
-    return ({ id, errors: pageErrors, totalCount: pageErrors.length });
-  },
+  validationErrorInfo: ({ id }, args, ctx) =>
+    returnValidationErrors(ctx, id, ({ pageId }) => id === pageId),
 };
 
 Resolvers.Mutation = {
   createQuestionPage: createMutation(
     (root, { input: { position, ...pageInput } }, ctx) => {
-      const section = find(ctx.questionnaire.sections, {
-        id: pageInput.sectionId,
-      });
-      const page = createQuestionPage(pageInput);
-      const insertionPosition =
-        typeof position === "number" ? position : section.pages.length;
-      section.pages.splice(insertionPosition, 0, page);
-      return page;
+      if (pageInput.folderId) {
+        const folder = getFolderById(ctx, pageInput.folderId);
+        const page = createQuestionPage(pageInput);
+        const insertionPosition =
+          typeof position === "number" ? position : folder.pages.length;
+        folder.pages.splice(insertionPosition, 0, page);
+        return folder;
+      } else {
+        const folders = getFoldersBySectionId(ctx, pageInput.sectionId);
+        const folder = createFolder();
+        folders.push(folder);
+        return folder;
+      }
     }
   ),
   updateQuestionPage: createMutation((_, { input }, ctx) => {

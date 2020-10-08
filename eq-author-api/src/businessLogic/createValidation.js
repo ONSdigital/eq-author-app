@@ -23,11 +23,7 @@ const createDefaultValidationsForAnswer = ({ type }) => {
   }));
 };
 
-// Object.assign(module.exports, {
-//   createDefaultValidationsForAnswer,
-//   getValidationEntity,
-// });
-module.exports = {
-  ...createDefaultValidationsForAnswer,
-  ...getValidationEntity,
-};
+Object.assign(module.exports, {
+  createDefaultValidationsForAnswer,
+  getValidationEntity,
+});

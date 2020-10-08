@@ -1,7 +1,7 @@
 const { takeRightWhile } = require("lodash/fp");
 const {
   getSectionByPageId,
-  getPages,
+  getPagesFromSection,
 } = require("../../schema/resolvers/utils");
 
 module.exports = (questionnaire, pageId) => {
@@ -9,7 +9,7 @@ module.exports = (questionnaire, pageId) => {
 
   const questionPages = takeRightWhile(
     page => page.id !== pageId,
-    getPages(section)
+    getPagesFromSection(section)
   );
 
   const sections = takeRightWhile(
