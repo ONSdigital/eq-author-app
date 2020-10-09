@@ -63,6 +63,10 @@ Resolvers.Mutation = {
 
     onPageDeleted(ctx, section, previous.page);
 
+    if (!section.folders[previous.folderIndex].length) {
+      section.folders.splice(previous.folderIndex, 1);
+    }
+
     return section;
   }),
   duplicatePage: createMutation((_, { input }, ctx) => {
