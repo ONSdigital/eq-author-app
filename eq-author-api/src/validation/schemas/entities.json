@@ -20,14 +20,37 @@
           "type": "string",
           "requiredWhenOtherFieldsPopulated": ["introductionTitle"]
         },
+        "folders": {
+          "type": "array",
+          "items": {
+            "$ref": "entities.json#/definitions/folder"
+          }
+        }
+      },
+      "required": ["id", "pages"]
+    },
+    "folder": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
         "pages": {
           "type": "array",
           "items": {
             "$ref": "entities.json#/definitions/page"
           }
+        },
+        "skipConditions": {
+          "$ref": "entities.json#/definitions/skipConditions"
         }
-      },
-      "required": ["id", "pages"]
+      }
+    },
+    "pages": {
+      "type": "array",
+      "items": {
+        "$ref": "entities.json#/definitions/page"
+      }
     },
     "page": {
       "type": "object",
@@ -63,27 +86,7 @@
           }
         },
         "skipConditions": {
-          "type": "array",
-          "items": {
-            "properties": {
-              "id": {
-                "type": "string"
-              },
-              "expressions": {
-                "type": "array",
-                "items": {
-                  "anyOf": [
-                    {
-                      "$ref": "entities.json#/definitions/expression"
-                    },
-                    {
-                      "$ref": "entities.json#/definitions/expression-unanswered"
-                    }
-                  ]
-                }
-              }
-            }
-          }
+          "$ref": "entities.json#/definitions/skipConditions"
         },
         "totalValidation": {
           "$ref": "entities.json#/definitions/totalValidation"
@@ -1073,6 +1076,29 @@
             }
           ],
           "errorMessage": "ERR_ANSWER_NOT_SELECTED"
+        }
+      }
+    },
+    "skipConditions": {
+      "type": "array",
+      "items": {
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "expressions": {
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "$ref": "entities.json#/definitions/expression"
+                },
+                {
+                  "$ref": "entities.json#/definitions/expression-unanswered"
+                }
+              ]
+            }
+          }
         }
       }
     }
