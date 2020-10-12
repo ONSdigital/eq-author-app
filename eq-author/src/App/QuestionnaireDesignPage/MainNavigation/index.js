@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import { flowRight } from "lodash";
-// import { flowRight, get } from "lodash";
+import { flowRight, find } from "lodash";
 
 import { withRouter } from "react-router-dom";
 import gql from "graphql-tag";
@@ -12,7 +11,6 @@ import config from "config";
 import CustomPropTypes from "custom-prop-types";
 
 import { colors } from "constants/theme";
-// import { AWAITING_APPROVAL, PUBLISHED } from "constants/publishStatus";
 
 import { useMe } from "App/MeContext";
 
@@ -28,8 +26,6 @@ import homeIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/home-24px
 
 import settingsIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/settings-icon.svg?inline";
 import qcodeIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/q-codes-icon.svg?inline";
-// import publishIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/publish-icon.svg?inline";
-// import reviewIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/review-icon.svg?inline";
 import historyIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/history-icon.svg?inline";
 import metadataIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/metadata-icon.svg?inline";
 import shareIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/sharing-icon.svg?inline";
@@ -38,13 +34,17 @@ import viewIcon from "App/QuestionnaireDesignPage/MainNavigation/icons/view-surv
 import UpdateQuestionnaireSettingsModal from "./UpdateQuestionnaireSettingsModal";
 
 import {
-  // buildPublishPath,
   buildQcodesPath,
   buildMetadataPath,
   buildHistoryPath,
   buildSharingPath,
   buildSettingsPath,
 } from "utils/UrlUtils";
+
+import GET_ALL_ANSWERS from "../../qcodes/QCodesTable/graphql/getAllAnswers.graphql";
+import { useQuery } from "@apollo/react-hooks";
+import Error from "components/Error";
+import Loading from "components/Loading";
 
 const StyledMainNavigation = styled.div`
   color: ${colors.grey};
@@ -62,8 +62,25 @@ export const UtilityBtns = styled.div`
   display: flex;
 `;
 
+const SmallBadge = styled.span`
+  border-radius: 50%;
+  background-color: ${colors.red};
+  border: 1px solid ${colors.white};
+  font-weight: normal;
+  z-index: 2;
+  pointer-events: none;
+  width: 0.75em;
+  height: 0.75em;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  top: 2px;
+  right: 2px;
+`;
+
 export const UnwrappedMainNavigation = props => {
   const { questionnaire, title, children, client, match } = props;
+
   const { me } = useMe();
   const [isSettingsModalOpen, setSettingsModalOpen] = useState(
     match.params.modifier === "settings"
@@ -72,56 +89,157 @@ export const UnwrappedMainNavigation = props => {
   useSubscription(publishStatusSubscription, {
     variables: { id: match.params.questionnaireId },
   });
-  // const publishStatus = get(questionnaire, "publishStatus");
 
   const previewUrl = `${config.REACT_APP_LAUNCH_URL}/${
     (questionnaire || {}).id
-  }`;
+    }`;
 
-  // const renderPublishReviewButton = () => {
-  //   if (publishStatus === AWAITING_APPROVAL && me.admin) {
-  //     const reviewUrl = "/q/" + match.params.questionnaireId + "/review";
-  //     return (
-  //       <RouteButton
-  //         variant="navigation"
-  //         to={reviewUrl}
-  //         small
-  //         disabled={title === "Review"}
-  //         data-test="btn-review"
-  //       >
-  //         <IconText nav icon={reviewIcon}>
-  //           Review
-  //         </IconText>
-  //       </RouteButton>
-  //     );
-  //   }
+  const questionnaireId = (questionnaire || {}).id;
+  const { loading, error, data } = useQuery(GET_ALL_ANSWERS, {
+    variables: { input: { questionnaireId } },
+    // fetchPolicy: "network-only",
+  });
 
-  //   if (publishStatus === AWAITING_APPROVAL && !me.admin) {
-  //     return null;
-  //   }
+  if (loading) {
+    return <Loading height="100%">Questionnaire answers loading…</Loading>;
+  }
 
-  //   const canPublish = questionnaire.permission === "Write";
-  //   return (
-  //     <RouteButton
-  //       variant={
-  //         (whatPageAreWeOn === "publish" && "navigation-on") || "navigation"
-  //       }
-  //       to={buildPublishPath(match.params)}
-  //       small
-  //       disabled={
-  //         !canPublish ||
-  //         questionnaire.totalErrorCount > 0 ||
-  //         title === "Publish" ||
-  //         publishStatus === PUBLISHED
-  //       }
-  //       data-test="btn-publish"
-  //     >
-  //       <IconText nav icon={publishIcon}>
-  //         Publish
-  //       </IconText>
-  //     </RouteButton>
-  //   );
-  // };
+  if (error) {
+    return <Error>Oops! Something went wrong</Error>;
+  }
+  const removeHtml = html => html && html.replace(/(<([^>]+)>)/gi, "");
+
+  const organiseAnswers = sections => {
+    const questions = sections.reduce(
+      (acc, section) => [...acc, ...section.pages],
+      []
+    );
+
+    let answerRows = [];
+
+    for (const item of questions) {
+      const {
+        title,
+        alias,
+        answers,
+        confirmation,
+        summaryAnswers: calculatedSummary,
+      } = item;
+
+      if (answers) {
+        const extraCheck = answers.reduce((acc, item) => {
+          if (
+            item.hasOwnProperty("options") &&
+            item.options &&
+            item.type !== "radio"
+          ) {
+            const optionLabel = item.options.map(option => ({
+              ...option,
+              type: "CheckboxOption",
+              option: true,
+            }));
+
+            acc.push(...optionLabel);
+          }
+
+          if (
+            item.hasOwnProperty("mutuallyExclusiveOption") &&
+            item.mutuallyExclusiveOption
+          ) {
+            acc.push({
+              ...item.mutuallyExclusiveOption,
+              type: "MutuallyExclusiveOption",
+              option: true,
+            });
+          }
+          if (
+            item.hasOwnProperty("secondaryLabel") &&
+            item.hasOwnProperty("secondaryQCode") &&
+            item.secondaryLabel
+          ) {
+            acc.push({
+              id: item.id,
+              label: item.secondaryLabel,
+              qCode: item.secondaryQCode,
+              type: item.type,
+              secondary: true,
+            });
+          }
+          return acc;
+        }, []);
+
+        const answersAndOptions = [...answers, ...extraCheck];
+
+        answerRows.push({
+          title,
+          alias,
+          answers: answersAndOptions,
+        });
+      }
+
+      if (confirmation) {
+        const { id, title, alias, qCode, __typename: type } = confirmation;
+
+        answerRows.push({
+          title: title,
+          alias,
+          answers: [{ id, qCode, type }],
+        });
+      }
+
+      if (calculatedSummary && calculatedSummary.length) {
+        const {
+          id,
+          pageType: type,
+          alias,
+          title,
+          qCode,
+          totalTitle,
+          summaryAnswers,
+        } = item;
+
+        const label = removeHtml(totalTitle);
+
+        answerRows.push({
+          title,
+          alias,
+          answers: [{ id, type, qCode, label, summaryAnswers }],
+        });
+      }
+    }
+
+    return { answers: answerRows };
+  };
+
+  const flattenAnswers = data => {
+    const answers = data.reduce((acc, item) => {
+      const answer = item.answers.map((ans, index) => {
+        if (index > 0) {
+          return {
+            title: item.title,
+            alias: item.alias,
+            nested: true,
+            ...ans,
+          };
+        } else {
+          return {
+            title: item.title,
+            alias: item.alias,
+            ...ans,
+          };
+        }
+      });
+      acc.push(...answer);
+      return acc;
+    }, []);
+    return answers;
+  };
+
+  const { sections } = data.questionnaire;
+  const { answers } = organiseAnswers(sections);
+  const flatten = flattenAnswers(answers);
+
+  let emptyQCode = find(flatten, (obj) => obj.qCode === "" || obj.qCode === null);
 
   return (
     <>
@@ -216,6 +334,9 @@ export const UnwrappedMainNavigation = props => {
                   <IconText nav icon={qcodeIcon}>
                     QCodes
                   </IconText>
+                  {emptyQCode ? (
+                    <SmallBadge data-test="small-badge" />
+                  ) : null}
                 </RouteButton>
                 {me && <UserProfile nav signOut left client={client} />}
               </ButtonGroup>

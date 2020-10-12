@@ -54,6 +54,7 @@ export const characterErrors = {
 };
 
 export const QCODE_IS_NOT_UNIQUE = "Qcode must be unique";
+export const QCODE_REQUIRED = "Qcode required";
 
 export const QUESTION_ANSWER_NOT_SELECTED = "Answer required";
 export const CALCSUM_ANSWER_NOT_SELECTED = "Answer required";
