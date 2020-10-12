@@ -6,6 +6,7 @@ const cheerio = require("cheerio");
 const getPreviousAnswersForPage = require("../../../src/businessLogic/getPreviousAnswersForPage");
 const { flatMap, compact } = require("lodash/fp");
 const createValidationError = require("../createValidationError");
+const { getPath } = require("../utils");
 
 module.exports = function(ajv) {
   ajv.addKeyword("validatePipingInTitle", {
@@ -21,14 +22,21 @@ module.exports = function(ajv) {
     ) {
       isValid.errors = [];
 
-      const splitDataPath = dataPath.split("/");
-      const currentPage =
-        questionnaire.sections[splitDataPath[2]].pages[splitDataPath[4]];
+      const { sections, folders, pages } = getPath(dataPath);
 
-      const allPagesForQuestionnaire = flatMap(
-        section => section.pages,
+      const currentPage =
+        questionnaire.sections[sections].folders[folders].pages[pages];
+
+      const foldersArray = flatMap(
+        section => section.folders,
         questionnaire.sections
       );
+
+      const allPagesForQuestionnaire = flatMap(
+        folder => folder.pages,
+        foldersArray
+      );
+
       const allAnswersForQuestionnaire = compact(
         flatMap(page => page.answers, allPagesForQuestionnaire)
       );

@@ -25,7 +25,9 @@ const Resolvers = {};
 Resolvers.QuestionPage = {
   section: ({ id }, input, ctx) => getSectionByPageId(ctx, id),
   position: ({ id }, args, ctx) => {
+    // console.log('do I fire?')
     const section = getSectionByPageId(ctx, id);
+    // console.log('do I fire?', section)
     return findIndex(getPagesFromSection(section), { id });
   },
   displayName: page => getName(page, "QuestionPage"),
@@ -60,18 +62,20 @@ Resolvers.QuestionPage = {
 Resolvers.Mutation = {
   createQuestionPage: createMutation(
     (root, { input: { position, ...pageInput } }, ctx) => {
+      // Both of these branches return page to satisfy type defs
       if (pageInput.folderId) {
         const folder = getFolderById(ctx, pageInput.folderId);
         const page = createQuestionPage(pageInput);
         const insertionPosition =
           typeof position === "number" ? position : folder.pages.length;
         folder.pages.splice(insertionPosition, 0, page);
-        return folder;
+        return page;
       } else {
         const folders = getFoldersBySectionId(ctx, pageInput.sectionId);
-        const folder = createFolder();
+        const page = createQuestionPage(pageInput);
+        const folder = createFolder(page);
         folders.push(folder);
-        return folder;
+        return page;
       }
     }
   ),

@@ -679,7 +679,7 @@ type Mutation {
   createReply(input: CreateReplyInput!): Reply!
   deleteReply(input: DeleteReplyInput!): [Reply!]!
   updateReply(input: UpdateReplyInput!): Reply!
-  createQuestionPage(input: CreateQuestionPageInput!): Folder
+  createQuestionPage(input: CreateQuestionPageInput!): QuestionPage
   updateQuestionPage(input: UpdateQuestionPageInput!): QuestionPage
   createCalculatedSummaryPage(input: CreateCalculatedSummaryPageInput!): CalculatedSummaryPage!
   updateCalculatedSummaryPage(input: UpdateCalculatedSummaryPageInput!): CalculatedSummaryPage!

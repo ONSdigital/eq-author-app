@@ -6,6 +6,7 @@ const availableRoutingDestinatinons = require("../../businessLogic/availableRout
 const { some } = require("lodash");
 
 const createValidationError = require("../createValidationError");
+const { getPath } = require("../utils");
 
 module.exports = function(ajv) {
   ajv.addKeyword("validateRoutingRule", {
@@ -20,9 +21,9 @@ module.exports = function(ajv) {
       questionnaire
     ) {
       isValid.errors = [];
-      const splitDataPath = dataPath.split("/");
+      const { sections: sectionsIndex, folders, pages } = getPath(dataPath);
       const currentPageId =
-        questionnaire.sections[splitDataPath[2]].pages[splitDataPath[4]].id;
+        questionnaire.sections[sectionsIndex].folders[folders].pages[pages].id;
       const { sections, questionPages } = availableRoutingDestinatinons(
         questionnaire,
         currentPageId

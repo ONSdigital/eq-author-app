@@ -5,7 +5,8 @@ const {
 } = require("../../schema/resolvers/utils");
 
 module.exports = (questionnaire, pageId) => {
-  const section = getSectionByPageId(questionnaire, pageId);
+  const ctx = { questionnaire };
+  const section = getSectionByPageId(ctx, pageId);
 
   const questionPages = takeRightWhile(
     page => page.id !== pageId,
