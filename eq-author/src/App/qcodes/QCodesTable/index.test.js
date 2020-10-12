@@ -23,7 +23,7 @@ import {
   CHECKBOX,
   NUMBER,
 } from "constants/answer-types";
-import { QCODE_IS_NOT_UNIQUE } from "constants/validationMessages";
+import { QCODE_IS_NOT_UNIQUE, QCODE_REQUIRED } from "constants/validationMessages";
 
 const dummyQcodes = {
   duplicate: "123",
@@ -719,6 +719,14 @@ describe("Qcode Table", () => {
     );
 
     expect(getAllByText(QCODE_IS_NOT_UNIQUE).length).toBe(5);
+  });
+
+  it("Should render a validation error when a qCodes is missing", () => {
+    const { getAllByText } = renderWithContext(
+      <UnwrappedQCodeTable {...props} />
+    );
+
+    expect(getAllByText(QCODE_REQUIRED).length).toBe(7);
   });
 
   it("Should not rerender if the qCode stays the same", () => {
