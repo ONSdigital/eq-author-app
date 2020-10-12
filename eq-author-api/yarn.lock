@@ -6070,10 +6070,10 @@ pino-noir@latest:
   resolved "https://registry.yarnpkg.com/pino-noir/-/pino-noir-2.2.1.tgz#2f9bb51a8eacda976b26f412ed5af468d8f0106c"
   integrity sha512-qGIG4fYMqokNb5Ho21YNH9uB4NELYTb9oADiuzoL2+n1gs6QyoUKaTN+7eqT4VDC6syvcyark3YP9o2UmCk32A==
 
-pino-pretty@^4.2.1:
-  version "4.2.1"
-  resolved "https://registry.yarnpkg.com/pino-pretty/-/pino-pretty-4.2.1.tgz#fb2508d0d77cae00dc5fe5006755bfd454a73c32"
-  integrity sha512-WyO/n6c6T2gj0ioYGFUFbrvyUoERK37Lu0liLxMIJnp1YaaG+XZBU2TAQB0yVJNb+7T+oDh9t8HGMzk00jy+tw==
+pino-pretty@^4.3.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/pino-pretty/-/pino-pretty-4.3.0.tgz#18695606fd4f1e21cd1585d18999cd84d429e1d8"
+  integrity sha512-uEc9SUCCGVEs0goZvyznKXBHtI1PNjGgqHviJHxOCEFEWZN6Z/IQKv5pO9gSdm/b+WfX+/dfheWhtZUyScqjlQ==
   dependencies:
     "@hapi/bourne" "^2.0.0"
     args "^5.0.1"
