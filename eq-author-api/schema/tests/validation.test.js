@@ -41,24 +41,32 @@ const {
 } = require("../../constants/validationErrorCodes.js");
 
 describe("validation", () => {
-  let ctx, questionnaire, section, page;
+  let ctx, questionnaire, section, folder, page;
   let config = {
     metadata: [{ type: METADATA_TYPES.DATE }, { type: METADATA_TYPES.REGION }],
     sections: [
       {
-        pages: [
+        folders: [
           {
-            answers: [
-              { type: DATE },
-              { type: CURRENCY },
-              { type: UNIT },
-              { type: DATE_RANGE },
+            pages: [
+              {
+                answers: [
+                  { type: DATE },
+                  { type: CURRENCY },
+                  { type: UNIT },
+                  { type: DATE_RANGE },
+                ],
+              },
             ],
           },
         ],
       },
       {
-        pages: [{}],
+        folders: [
+          {
+            pages: [{}],
+          },
+        ],
       },
     ],
   };
@@ -67,7 +75,8 @@ describe("validation", () => {
     ctx = await buildContext(config);
     questionnaire = ctx.questionnaire;
     section = last(questionnaire.sections);
-    page = last(section.pages);
+    folder = last(section.folders);
+    page = last(folder.pages);
   });
 
   afterAll(async () => {
@@ -76,6 +85,7 @@ describe("validation", () => {
 
   describe("Page validation", () => {
     it("contains validation error info when querying page", async () => {
+      console.log(page.id, "what in tarnations");
       const queriedPage = await queryPage(ctx, page.id);
       expect(queriedPage.validationErrorInfo.totalCount).toEqual(
         expect.any(Number)
@@ -121,7 +131,7 @@ describe("validation", () => {
       const currencyValidations = await queryValidation(ctx, currencyAnswer.id);
 
       expect(currencyValidations.minValue.availablePreviousAnswers).toEqual([
-        { id: questionnaire.sections[0].pages[0].answers[1].id },
+        { id: questionnaire.sections[0].folders[0].pages[0].answers[1].id },
       ]);
     });
   });
@@ -468,6 +478,7 @@ describe("validation", () => {
           questionPageId: page.id,
           type: DATE,
         });
+
         const validation = await queryValidation(ctx, answer.id);
 
         const result = await updateValidation(ctx, {
@@ -485,7 +496,7 @@ describe("validation", () => {
             id: previousAnswer.id,
           },
         });
-      });
+      }, 10000);
 
       it("can update metadata", async () => {
         const metadata = await createMetadata(ctx, {
