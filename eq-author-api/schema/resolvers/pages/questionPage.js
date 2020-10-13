@@ -25,9 +25,8 @@ const Resolvers = {};
 Resolvers.QuestionPage = {
   section: ({ id }, input, ctx) => getSectionByPageId(ctx, id),
   position: ({ id }, args, ctx) => {
-    // console.log('do I fire?')
+    // need to double check this
     const section = getSectionByPageId(ctx, id);
-    // console.log('do I fire?', section)
     return findIndex(getPagesFromSection(section), { id });
   },
   displayName: page => getName(page, "QuestionPage"),
@@ -47,7 +46,7 @@ Resolvers.QuestionPage = {
       logicalDestinations,
       sections,
       questionPages,
-    } = availableRoutingDestinations(ctx, id);
+    } = availableRoutingDestinations(ctx.questionnaire, id);
 
     return {
       logicalDestinations,
