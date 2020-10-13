@@ -43,6 +43,8 @@ const { createExpression, createLeftSide } = require("../../src/businessLogic");
 const {
   getSections,
   getSectionById,
+  getFolderById,
+  getSectionByFolderId,
   getPages,
   getPageById,
   getPageByAnswerId,
@@ -59,6 +61,7 @@ const {
   remapAllNestedIds,
   returnValidationErrors,
   createSection,
+  createFolder,
 } = require("./utils");
 
 const createAnswer = require("../../src/businessLogic/createAnswer");
@@ -69,6 +72,7 @@ const getPreviousAnswersForPage = require("../../src/businessLogic/getPreviousAn
 const getPreviousAnswersForSection = require("../../src/businessLogic/getPreviousAnswersForSection");
 const createOption = require("../../src/businessLogic/createOption");
 const onSectionDeleted = require("../../src/businessLogic/onSectionDeleted");
+const onFolderDeleted = require("../../src/businessLogic/onFolderDeleted");
 const addPrefix = require("../../utils/addPrefix");
 
 const { BUSINESS } = require("../../constants/questionnaireTypes");
@@ -269,7 +273,6 @@ const Resolvers = {
       ctx.questionnaire = null;
       return { id: input.id };
     },
-
     duplicateQuestionnaire: async (_, { input }, ctx) => {
       const questionnaire = await getQuestionnaire(input.id);
       const newQuestionnaire = {
@@ -287,7 +290,6 @@ const Resolvers = {
     },
     createHistoryNote: (root, { input }, ctx) =>
       createHistoryEvent(input.id, noteCreationEvent(ctx, input.bodyText)),
-
     updateHistoryNote: async (root, { input }, ctx) => {
       const user = ctx.user;
       const metadata = await getQuestionnaireMetaById(input.questionnaireId);
@@ -306,7 +308,6 @@ const Resolvers = {
       await saveMetadata(metadata);
       return metadata.history;
     },
-
     deleteHistoryNote: async (root, { input }, ctx) => {
       const user = ctx.user;
       const metadata = await getQuestionnaireMetaById(input.questionnaireId);
@@ -325,7 +326,6 @@ const Resolvers = {
       await saveMetadata(metadata);
       return metadata.history;
     },
-
     createSection: createMutation((root, { input }, ctx) => {
       const section = createSection(input);
       ctx.questionnaire.sections.push(section);
@@ -355,6 +355,46 @@ const Resolvers = {
       const remappedSection = remapAllNestedIds(duplicatedSection);
       ctx.questionnaire.sections.splice(input.position, 0, remappedSection);
       return remappedSection;
+    }),
+
+    // works
+    // Should I create a positional argument?
+    createFolder: createMutation((root, { input }, ctx) => {
+      const folder = createFolder();
+      const section = getSectionById(ctx, input.sectionId);
+      section.folders.push(folder);
+      return folder;
+    }),
+    // works
+    updateFolder: createMutation((root, { input }, ctx) => {
+      const folder = getFolderById(ctx, input.folderId);
+      merge(folder, input);
+      return folder;
+    }),
+
+    deleteFolder: createMutation((root, { input }, ctx) => {
+      const section = getSectionByFolderId(ctx, input.id);
+      const removedFolder = first(remove(section.folders, { id: input.id }));
+
+      onFolderDeleted(ctx, removedFolder);
+
+      return ctx.questionnaire;
+    }),
+    moveFolder: createMutation((_, { input }, ctx) => {
+      const section = getSectionByFolderId(ctx, input.id);
+      const removedFolder = first(remove(section.folders, { id: input.id }));
+      section.folders.splice(input.position, 0, removedFolder);
+      return removedFolder;
+    }),
+    duplicateFolder: createMutation((_, { input }, ctx) => {
+      const section = getSectionByFolderId(ctx, input.id);
+      const folder = getFolderById(ctx, input.id);
+      const newFolder = omit(cloneDeep(folder), "id");
+      set(newFolder, "alias", addPrefix(newFolder.alias));
+      const duplicatedFolder = createFolder(newFolder);
+      const remappedFolder = remapAllNestedIds(duplicatedFolder);
+      section.folders.splice(input.position, 0, remappedFolder);
+      return remappedFolder;
     }),
     createAnswer: createMutation((root, { input }, ctx) => {
       const page = getPageById(ctx, input.questionPageId);
@@ -416,7 +456,6 @@ const Resolvers = {
 
       return answerMoving;
     }),
-
     createOption: createMutation((root, { input }, ctx) => {
       const parent = getAnswerById(ctx, input.answerId);
       const option = createOption(input);
@@ -424,7 +463,6 @@ const Resolvers = {
 
       return option;
     }),
-
     createMutuallyExclusiveOption: createMutation((root, { input }, ctx) => {
       const answer = getAnswerById(ctx, input.answerId);
 
@@ -441,7 +479,6 @@ const Resolvers = {
 
       return option;
     }),
-
     moveOption: createMutation((_, { input: { id, position } }, ctx) => {
       const answers = getAnswers(ctx);
       const answer = find(answers, answer => {
@@ -457,7 +494,6 @@ const Resolvers = {
 
       return answer;
     }),
-
     updateOption: createMutation((_, { input }, ctx) => {
       const option = getOptionById(ctx, input.id);
 

@@ -103,6 +103,7 @@ type Folder {
   enabled: Boolean!
   pages: [Page]
   skipConditions: [ExpressionGroup2]
+  position: Int
 }
 
 type Section {
@@ -669,6 +670,13 @@ type Mutation {
   deleteSection(input: DeleteSectionInput!): Questionnaire
   moveSection(input: MoveSectionInput!): Section
   duplicateSection(input: DuplicateSectionInput!): Section
+
+  createFolder(input: CreateFolderInput!): Folder
+  updateFolder(input: UpdateFolderInput!): Folder
+  deleteFolder(input: DeleteFolderInput!): Questionnaire
+  moveFolder(input: MoveFolderInput!): Folder
+  duplicateFolder(input: DuplicateFolderInput!): Folder
+
   updatePage(input: UpdatePageInput!): Page
   movePage(input: MovePageInput!): Page
   deletePage(input: DeletePageInput!): Section!
@@ -849,6 +857,27 @@ input DuplicateSectionInput {
   position: Int!
 }
 
+input CreateFolderInput {
+  sectionId: ID!
+  alias: String
+  position: Int
+}
+
+input UpdateFolderInput {
+  folderId: ID!
+  alias: String
+  enabled: Boolean
+}
+
+input DeleteFolderInput {
+  id: ID!
+}
+
+input DuplicateFolderInput {
+  id: ID!
+  position: Int!
+}
+
 input UpdatePageInput {
   id: ID!
   title: String!
@@ -1019,15 +1048,20 @@ input DeleteOptionInput {
   id: ID!
 }
 
-input MovePageInput {
-  id: ID!
-  sectionId: ID!
-  position: Int!
-}
-
 input MoveSectionInput {
   id: ID!
   questionnaireId: ID!
+  position: Int!
+}
+
+input MoveFolderInput {
+  id: ID!
+  position: Int!
+}
+
+input MovePageInput {
+  id: ID!
+  sectionId: ID!
   position: Int!
 }
 

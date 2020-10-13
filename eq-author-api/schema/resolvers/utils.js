@@ -11,6 +11,13 @@ const getSections = ctx => ctx.questionnaire.sections;
 
 const getSectionById = (ctx, id) => find(getSections(ctx), { id });
 
+const getSectionByFolderId = (ctx, folderId) =>
+  find(getSections(ctx), section => {
+    if (section.folders && some(section.folders, { id: folderId })) {
+      return section;
+    }
+  });
+
 const getSectionByPageId = (ctx, pageId) =>
   find(getSections(ctx), section =>
     some(section.folders, folder => {
@@ -271,6 +278,7 @@ const createSection = (input = {}) => {
 const getPosition = (position, comparator) =>
   typeof position === "number" ? position : comparator.length;
 
+// needs to be renamed to getPageMovePosition
 const getMovePosition = (section, pageId, position) => {
   if (!section.folders) {
     throw new Error("Section doesn't have a folder");
@@ -304,6 +312,7 @@ const getMovePosition = (section, pageId, position) => {
 module.exports = {
   getSections,
   getSectionById,
+  getSectionByFolderId,
   getSectionByPageId,
 
   getFolders,
