@@ -46,6 +46,12 @@ export const SectionTitle = styled.h3`
   margin: 0;
 `;
 
+export const EditorTitle = styled.h4`
+  font-weight: bold;
+  color: ${colors.text};
+  margin: 0;
+`;
+
 export const SearchContainer = styled.div`
   margin: 1em 0 2em;
   background: #ebeef0;
@@ -103,8 +109,4 @@ export const ShareLinkButton = styled(Button)`
     background: ${colors.darkGrey};
     color: ${colors.white};
   }
-`;
-
-export const EditorTitle = styled(SectionTitle)`
-  margin: 0;
 `;
