@@ -5,6 +5,7 @@ const { answerTypeMap } = require("../../utils/defaultAnswerValidations");
 const {
   createDefaultValidationsForAnswer,
 } = require("../../src/businessLogic/createValidation");
+const { merge } = require("lodash");
 
 module.exports = (answer, page) => {
   let properties = getDefaultAnswerProperties(answer.type);
@@ -46,9 +47,10 @@ module.exports = (answer, page) => {
 
   return {
     id: uuidv4(),
-    ...answer,
-    properties,
-    validation,
-    options: defaultOptions,
+    ...merge(answer, {
+      properties,
+      validation,
+      options: defaultOptions,
+    }),
   };
 };

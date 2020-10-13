@@ -8,9 +8,11 @@ const moveSectionMutation = `
       alias
       displayName
       position
-      pages {
-        ... on QuestionPage {
-          id
+      folders {
+        pages {
+          ... on QuestionPage {
+            id
+          }
         }
       }
       questionnaire {

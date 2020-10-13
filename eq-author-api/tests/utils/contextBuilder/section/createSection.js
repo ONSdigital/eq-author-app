@@ -10,8 +10,11 @@ const createSectionMutation = `
       alias
       displayName
       position
-      pages {
+      folders {
         id
+        pages {
+          id
+        }
       }
       questionnaire {
         id

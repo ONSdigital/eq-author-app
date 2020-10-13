@@ -41,8 +41,6 @@ Resolvers.Mutation = {
       const newSection = getSectionById(input.sectionId);
       const { previous, next } = getMovePosition(newSection, id, position);
       removedPage = previous.page;
-      // could replace these with filters
-      // but need to replace with id
       newSection.folders[previous.folderIndex].pages.splice(
         previous.pageIndex,
         1
@@ -57,15 +55,15 @@ Resolvers.Mutation = {
   }),
   deletePage: createMutation((_, { input }, ctx) => {
     const section = getSectionByPageId(ctx, input.id);
-
     const { previous } = getMovePosition(section, input.id, 0);
     section.folders[previous.folderIndex].pages.splice(previous.pageIndex, 1);
 
     onPageDeleted(ctx, section, previous.page);
 
-    if (!section.folders[previous.folderIndex].length) {
-      section.folders.splice(previous.folderIndex, 1);
-    }
+    // This needs some more thought
+    // if (!section.folders[previous.folderIndex].pages.length) {
+    //   section.folders.splice(previous.folderIndex, 1);
+    // }
 
     return section;
   }),

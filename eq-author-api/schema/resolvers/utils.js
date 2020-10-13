@@ -298,12 +298,6 @@ const getMovePosition = (section, pageId, position) => {
 
   const { previous, next } = positionMap;
 
-  // this is the code needed to delete the folder if it's empty, not sure if needed yet
-
-  // if (!section.folders[previous.folderIndex].length) {
-  //   section.folders.splice(previous.folderIndex, 1);
-  // }
-
   return { previous, next };
 };
 
