@@ -29,7 +29,7 @@ const { queryPage } = require("../../tests/utils/contextBuilder/page");
 
 const { RADIO, CHECKBOX } = require("../../constants/answerTypes");
 
-const getPage = get("sections[0].pages[0]");
+const getPage = get("sections[0].folders[0].pages[0]");
 const getAnswer = flow(getPage, get("answers[0]"));
 const getOption = flow(getAnswer, get("options[0]"));
 const getMutuallyExclusiveOption = find({ mutuallyExclusive: true });
@@ -46,9 +46,13 @@ describe("multiple choice answer", () => {
       ctx = await buildContext({
         sections: [
           {
-            pages: [
+            folders: [
               {
-                answers: [],
+                pages: [
+                  {
+                    answers: [],
+                  },
+                ],
               },
             ],
           },
@@ -82,7 +86,11 @@ describe("multiple choice answer", () => {
       ctx = await buildContext({
         sections: [
           {
-            pages: [{}],
+            folders: [
+              {
+                pages: [{}],
+              },
+            ],
           },
         ],
       });
@@ -115,11 +123,15 @@ describe("multiple choice answer", () => {
       ctx = await buildContext({
         sections: [
           {
-            pages: [
+            folders: [
               {
-                answers: [
+                pages: [
                   {
-                    type: RADIO,
+                    answers: [
+                      {
+                        type: RADIO,
+                      },
+                    ],
                   },
                 ],
               },
@@ -145,14 +157,18 @@ describe("multiple choice answer", () => {
       ctx = await buildContext({
         sections: [
           {
-            pages: [
+            folders: [
               {
-                answers: [
+                pages: [
                   {
-                    type: RADIO,
-                    mutuallyExclusiveOption: {
-                      label: "Exclusive",
-                    },
+                    answers: [
+                      {
+                        type: RADIO,
+                        mutuallyExclusiveOption: {
+                          label: "Exclusive",
+                        },
+                      },
+                    ],
                   },
                 ],
               },
@@ -179,11 +195,15 @@ describe("multiple choice answer", () => {
       ctx = await buildContext({
         sections: [
           {
-            pages: [
+            folders: [
               {
-                answers: [
+                pages: [
                   {
-                    type: RADIO,
+                    answers: [
+                      {
+                        type: RADIO,
+                      },
+                    ],
                   },
                 ],
               },
@@ -206,11 +226,15 @@ describe("multiple choice answer", () => {
         ctx = await buildContext({
           sections: [
             {
-              pages: [
+              folders: [
                 {
-                  answers: [
+                  pages: [
                     {
-                      type: CHECKBOX,
+                      answers: [
+                        {
+                          type: CHECKBOX,
+                        },
+                      ],
                     },
                   ],
                 },
@@ -241,11 +265,15 @@ describe("multiple choice answer", () => {
         ctx = await buildContext({
           sections: [
             {
-              pages: [
+              folders: [
                 {
-                  answers: [
+                  pages: [
                     {
-                      type: CHECKBOX,
+                      answers: [
+                        {
+                          type: CHECKBOX,
+                        },
+                      ],
                     },
                   ],
                 },
@@ -271,11 +299,15 @@ describe("multiple choice answer", () => {
         ctx = await buildContext({
           sections: [
             {
-              pages: [
+              folders: [
                 {
-                  answers: [
+                  pages: [
                     {
-                      type: CHECKBOX,
+                      answers: [
+                        {
+                          type: CHECKBOX,
+                        },
+                      ],
                     },
                   ],
                 },
@@ -301,14 +333,18 @@ describe("multiple choice answer", () => {
         ctx = await buildContext({
           sections: [
             {
-              pages: [
+              folders: [
                 {
-                  answers: [
+                  pages: [
                     {
-                      type: RADIO,
-                      options: [
+                      answers: [
                         {
-                          additionalAnswer: {},
+                          type: RADIO,
+                          options: [
+                            {
+                              additionalAnswer: {},
+                            },
+                          ],
                         },
                       ],
                     },
@@ -342,12 +378,16 @@ describe("multiple choice answer", () => {
         ctx = await buildContext({
           sections: [
             {
-              pages: [
+              folders: [
                 {
-                  answers: [
+                  pages: [
                     {
-                      type: CHECKBOX,
-                      options: [{}],
+                      answers: [
+                        {
+                          type: CHECKBOX,
+                          options: [{}],
+                        },
+                      ],
                     },
                   ],
                 },
@@ -372,12 +412,16 @@ describe("multiple choice answer", () => {
         ctx = await buildContext({
           sections: [
             {
-              pages: [
+              folders: [
                 {
-                  answers: [
+                  pages: [
                     {
-                      type: CHECKBOX,
-                      options: [{}, {}],
+                      answers: [
+                        {
+                          type: CHECKBOX,
+                          options: [{}, {}],
+                        },
+                      ],
                     },
                   ],
                 },
@@ -412,21 +456,25 @@ describe("multiple choice answer", () => {
     const context = {
       sections: [
         {
-          pages: [
+          folders: [
             {
-              answers: [
+              pages: [
                 {
-                  id: "84ab357d",
-                  type: "Radio",
-                  label: "",
-                  options: [
+                  answers: [
                     {
-                      id: "c0aa1df9",
+                      id: "84ab357d",
+                      type: "Radio",
                       label: "",
-                    },
-                    {
-                      id: "2e275ff8",
-                      label: "b",
+                      options: [
+                        {
+                          id: "c0aa1df9",
+                          label: "",
+                        },
+                        {
+                          id: "2e275ff8",
+                          label: "b",
+                        },
+                      ],
                     },
                   ],
                 },
@@ -440,7 +488,7 @@ describe("multiple choice answer", () => {
       ctx = await buildContext(context);
       questionnaire = await queryQuestionnaire(ctx);
 
-      const page = ctx.questionnaire.sections[0].pages[0];
+      const page = ctx.questionnaire.sections[0].folders[0].pages[0];
       const readPage = await queryPage(ctx, page.id);
 
       expect(readPage).toMatchObject({
@@ -454,11 +502,11 @@ describe("multiple choice answer", () => {
       expect(questionnaire.totalErrorCount).toBe(1);
     });
     it("should return validation error on both option labels when labels are the same", async () => {
-      context.sections[0].pages[0].answers[0].options[0].label = "b";
+      context.sections[0].folders[0].pages[0].answers[0].options[0].label = "b";
       ctx = await buildContext(context);
       questionnaire = await queryQuestionnaire(ctx);
 
-      const page = ctx.questionnaire.sections[0].pages[0];
+      const page = ctx.questionnaire.sections[0].folders[0].pages[0];
       const readPage = await queryPage(ctx, page.id);
 
       expect(readPage).toMatchObject({

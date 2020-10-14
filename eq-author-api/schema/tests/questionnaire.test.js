@@ -79,7 +79,7 @@ describe("questionnaire", () => {
         expect.objectContaining({ ...config, displayName: "short title" })
       );
 
-      expect(questionnaire.sections[0].pages[0]).not.toBeNull();
+      expect(questionnaire.sections[0].folders[0].pages[0]).not.toBeNull();
     });
 
     it("should create a questionnaire with no metadata when creating a social survey", async () => {
@@ -479,7 +479,7 @@ describe("questionnaire", () => {
       await createQuestionnaire(ctx, questionnaireConfig);
 
       await createAnswer(ctx, {
-        questionPageId: ctx.questionnaire.sections[0].pages[0].id,
+        questionPageId: ctx.questionnaire.sections[0].folders[0].pages[0].id,
         type: NUMBER,
       });
     });
@@ -493,7 +493,8 @@ describe("questionnaire", () => {
 
       ctx.questionnaire.publishStatus = "Published";
 
-      const answer = ctx.questionnaire.sections[0].pages[0].answers[0];
+      const answer =
+        ctx.questionnaire.sections[0].folders[0].pages[0].answers[0];
       const update = {
         id: answer.id,
         description: "answer-description-update",

@@ -16,7 +16,7 @@ describe("get available answers", () => {
   let ctx, questionnaire;
   beforeEach(async () => {
     ctx = await buildContext({
-      sections: [{ pages: [{}, {}] }],
+      sections: [{ folders: [{ pages: [{}, {}] }] }],
     });
     questionnaire = ctx.questionnaire;
 
@@ -27,7 +27,7 @@ describe("get available answers", () => {
       secondaryLabel: "answer-secondaryLabel",
       qCode: "answer-qcode",
       type: NUMBER,
-      questionPageId: questionnaire.sections[0].pages[0].id,
+      questionPageId: questionnaire.sections[0].folders[0].pages[0].id,
     });
     await createAnswer(ctx, {
       description: "answer-description",
@@ -36,7 +36,7 @@ describe("get available answers", () => {
       secondaryLabel: "answer-secondaryLabel",
       qCode: "answer-qcode",
       type: NUMBER,
-      questionPageId: questionnaire.sections[0].pages[1].id,
+      questionPageId: questionnaire.sections[0].folders[0].pages[1].id,
     });
   });
 
@@ -47,7 +47,7 @@ describe("get available answers", () => {
   it(`should get a array of answers includeing the current`, async () => {
     const result = await queryGetAvailableAnswers(
       ctx,
-      questionnaire.sections[0].pages[1].id,
+      questionnaire.sections[0].folders[0].pages[1].id,
       true
     );
     expect(result.length).toEqual(2);
@@ -56,7 +56,7 @@ describe("get available answers", () => {
   it(`should get a array of answers includeing the current`, async () => {
     const result = await queryGetAvailableAnswers(
       ctx,
-      questionnaire.sections[0].pages[1].id,
+      questionnaire.sections[0].folders[0].pages[1].id,
       false
     );
     expect(result.length).toEqual(1);

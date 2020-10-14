@@ -46,13 +46,13 @@ describe("section", () => {
                 alias
                 introductionTitle
                 introductionContent
-                pages
+                folders
               }
             `,
             {
               title: "Title",
               alias: "Alias",
-              pages: [expect.any(Object)],
+              folders: [expect.any(Object)],
             }
           )
         )
@@ -133,9 +133,13 @@ describe("section", () => {
         metadata: [{}],
         sections: [
           {
-            pages: [
+            folders: [
               {
-                answers: [{ type: NUMBER }],
+                pages: [
+                  {
+                    answers: [{ type: NUMBER }],
+                  },
+                ],
               },
             ],
           },
@@ -155,7 +159,7 @@ describe("section", () => {
         title: expect.any(String),
         alias: expect.any(String),
         displayName: expect.any(String),
-        pages: expect.any(Array),
+        folders: expect.any(Array),
         questionnaire: expect.any(Object),
         availablePipingAnswers: expect.any(Array),
         availablePipingMetadata: expect.any(Array),
@@ -183,7 +187,7 @@ describe("section", () => {
 
     it("should resolve availablePipingAnswers", () => {
       expect(last(queriedSection.availablePipingAnswers).id).toEqual(
-        get(questionnaire, "sections[0].pages[0].answers[0].id")
+        get(questionnaire, "sections[0].folders[0].pages[0].answers[0].id")
       );
     });
 

@@ -25,7 +25,7 @@ const {
 const { getQuestionnaire } = require("../../db/datastore");
 
 describe("Duplication", () => {
-  let ctx, questionnaire, section;
+  let ctx, questionnaire, section, folder;
   let config = {
     shortTitle: "short title",
     navigation: true,
@@ -33,11 +33,15 @@ describe("Duplication", () => {
       {
         title: "section-title-1",
         alias: "section-alias-alias-1",
-        pages: [
+        folders: [
           {
-            title: "page-title-1",
-            alias: "page-alias-alias-1",
-            answers: [],
+            pages: [
+              {
+                title: "page-title-1",
+                alias: "page-alias-alias-1",
+                answers: [],
+              },
+            ],
           },
         ],
       },
@@ -48,6 +52,7 @@ describe("Duplication", () => {
     ctx = await buildContext(config);
     questionnaire = ctx.questionnaire;
     section = last(questionnaire.sections);
+    folder = last(section.folders);
   });
 
   afterEach(async () => {
@@ -58,7 +63,7 @@ describe("Duplication", () => {
     let page, pageCopy;
 
     beforeEach(async () => {
-      page = await queryPage(ctx, last(section.pages).id);
+      page = await queryPage(ctx, last(folder.pages).id);
       let { id } = await duplicatePage(ctx, page);
       pageCopy = await queryPage(ctx, id);
     });
@@ -126,7 +131,7 @@ describe("Duplication", () => {
             "title",
             "displayName",
             "position",
-            "pages",
+            "folders",
             "availablePipingAnswers",
           ])
         )
@@ -134,9 +139,11 @@ describe("Duplication", () => {
     });
 
     it("should copy the page but not id", () => {
-      expect(sectionCopy.pages[0].id).not.toEqual(queriedSection.pages[0].id);
-      expect(sectionCopy.pages[0]).toMatchObject(
-        omit(queriedSection.pages[0], "id")
+      expect(sectionCopy.folders[0].pages[0].id).not.toEqual(
+        queriedSection.folders[0].pages[0].id
+      );
+      expect(sectionCopy.folders[0].pages[0]).toMatchObject(
+        omit(queriedSection.folders[0].pages[0], "id")
       );
     });
 

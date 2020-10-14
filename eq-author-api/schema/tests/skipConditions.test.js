@@ -18,13 +18,17 @@ const config = {
       title: "title-1",
       alias: "alias-1",
       position: 0,
-      pages: [
+      folders: [
         {
-          title: "page-1",
-          parentSection: "title-1",
-          answers: [
+          pages: [
             {
-              type: RADIO,
+              title: "page-1",
+              parentSection: "title-1",
+              answers: [
+                {
+                  type: RADIO,
+                },
+              ],
             },
           ],
         },
@@ -38,7 +42,7 @@ describe("skip conditions", () => {
     it("should create an expression group and default expresiion", async () => {
       const ctx = await buildContext(config);
       const { questionnaire } = ctx;
-      const page = questionnaire.sections[0].pages[0];
+      const page = questionnaire.sections[0].folders[0].pages[0];
 
       createSkipCondition(ctx, page);
       const result = await queryPage(ctx, page.id);
@@ -50,7 +54,7 @@ describe("skip conditions", () => {
     it("should delete an existing expression group", async () => {
       const ctx = await buildContext(config);
       const { questionnaire } = ctx;
-      const page = questionnaire.sections[0].pages[0];
+      const page = questionnaire.sections[0].folders[0].pages[0];
       await createSkipCondition(ctx, page);
 
       expect(page.skipConditions.length).toBe(1);
@@ -62,7 +66,7 @@ describe("skip conditions", () => {
     it("should delete all existing expression groups on a page", async () => {
       const ctx = await buildContext(config);
       const { questionnaire } = ctx;
-      const page = questionnaire.sections[0].pages[0];
+      const page = questionnaire.sections[0].folders[0].pages[0];
       createSkipCondition(ctx, page);
       createSkipCondition(ctx, page);
 
@@ -76,11 +80,11 @@ describe("skip conditions", () => {
     it("should add a binary exporession to an existing expression group", async () => {
       const ctx = await buildContext(config);
       const { questionnaire } = ctx;
-      const page = questionnaire.sections[0].pages[0];
+      const page = questionnaire.sections[0].folders[0].pages[0];
 
       await createSkipCondition(ctx, page);
       const expressionGroup =
-        ctx.questionnaire.sections[0].pages[0].skipConditions[0];
+        ctx.questionnaire.sections[0].folders[0].pages[0].skipConditions[0];
       await createBinaryExpression(ctx, expressionGroup);
       const result = await queryPage(ctx, page.id);
       expect(result.skipConditions[0].expressions[0].left.reason).toBe(

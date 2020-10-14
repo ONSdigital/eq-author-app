@@ -10,6 +10,9 @@ const createCalculatedSummaryPageMutation = `
         pageType
         section {
             id
+            folders {
+              id
+            }
         }
         position
         summaryAnswers {
