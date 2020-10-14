@@ -95,16 +95,19 @@ export const UnwrappedMainNavigation = props => {
     }`;
 
   const questionnaireId = (questionnaire || {}).id;
+
   const { loading, error, data } = useQuery(GET_ALL_ANSWERS, {
     variables: { input: { questionnaireId } },
-    // fetchPolicy: "network-only",
   });
+
+  console.log('\ndata', JSON.stringify(data, null, 7));
 
   if (loading) {
     return <Loading height="100%">Questionnaire answers loading…</Loading>;
   }
 
   if (error) {
+    console.log('error', error);
     return <Error>Oops! Something went wrong</Error>;
   }
   const removeHtml = html => html && html.replace(/(<([^>]+)>)/gi, "");
