@@ -59,7 +59,6 @@ export const Badge = styled.span`
   line-height: 1;
   font-size: 0.9rem;
   pointer-events: none;
-  width: 20px;
   height: 20px;
 `;
 const SmallBadge = styled.span`
