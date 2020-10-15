@@ -5,6 +5,7 @@ const {
 } = require("../../schema/resolvers/utils");
 
 module.exports = (questionnaire, pageId) => {
+  // need to double check this works
   const ctx = { questionnaire };
   const section = getSectionByPageId(ctx, pageId);
 

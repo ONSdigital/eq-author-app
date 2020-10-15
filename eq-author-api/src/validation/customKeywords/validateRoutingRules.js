@@ -2,7 +2,7 @@ const {
   ERR_DESTINATION_DELETED,
   ERR_DESTINATION_MOVED,
 } = require("../../../constants/validationErrorCodes");
-const availableRoutingDestinatinons = require("../../businessLogic/availableRoutingDestinations");
+const availableRoutingDestinations = require("../../businessLogic/availableRoutingDestinations");
 const { some } = require("lodash");
 
 const createValidationError = require("../createValidationError");
@@ -24,7 +24,7 @@ module.exports = function(ajv) {
       const { sections: sectionsIndex, folders, pages } = getPath(dataPath);
       const currentPageId =
         questionnaire.sections[sectionsIndex].folders[folders].pages[pages].id;
-      const { sections, questionPages } = availableRoutingDestinatinons(
+      const { sections, questionPages } = availableRoutingDestinations(
         questionnaire,
         currentPageId
       );

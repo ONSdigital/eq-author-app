@@ -25,6 +25,8 @@ Resolvers.Page = {
 Resolvers.Mutation = {
   movePage: createMutation((_, { input }, ctx) => {
     // not 100% sold on this implementation yet
+    // I think the else branch doesn't work
+    // This might need to be redone
     const section = getSectionByPageId(ctx, input.id);
     const { id, position } = input;
     let removedPage;
@@ -38,9 +40,12 @@ Resolvers.Mutation = {
         previous.page
       );
     } else {
-      const newSection = getSectionById(input.sectionId);
-      const { previous, next } = getMovePosition(newSection, id, position);
+      const newSection = getSectionById(ctx, input.sectionId);
+
+      const { previous, next } = getMovePosition(section, id, position);
+
       removedPage = previous.page;
+
       newSection.folders[previous.folderIndex].pages.splice(
         previous.pageIndex,
         1
@@ -61,9 +66,11 @@ Resolvers.Mutation = {
     onPageDeleted(ctx, section, previous.page);
 
     // This needs some more thought
-    // if (!section.folders[previous.folderIndex].pages.length) {
-    //   section.folders.splice(previous.folderIndex, 1);
-    // }
+    if (!section.folders[previous.folderIndex].pages.length) {
+      // console.log("i should delete this");
+      // console.log(section.folders[previous.folderIndex].pages.length);
+      // section.folders.splice(previous.folderIndex, 1);
+    }
 
     return section;
   }),
@@ -75,8 +82,8 @@ Resolvers.Mutation = {
     set(newpage, "title", addPrefix(newpage.title));
     const duplicatedPage = createQuestionPage(newpage);
     const remappedPage = remapAllNestedIds(duplicatedPage);
-    const { next } = getMovePosition(section, input.id, input.position);
-    section.folders[next.folderIndex].pages.splice(
+    const { previous } = getMovePosition(section, input.id, input.position);
+    section.folders[previous.folderIndex].pages.splice(
       input.position,
       0,
       remappedPage

@@ -157,6 +157,7 @@ const getAnswerByValidationId = (ctx, validationId) =>
       validation => validation.id === validationId
     )
   );
+
 const getAvailablePreviousAnswersForValidation = (ctx, validationId) => {
   const answer = getAnswerByValidationId(ctx, validationId);
   const currentPage = getPageByAnswerId(ctx, answer.id);
@@ -206,6 +207,7 @@ const remapAllNestedIds = entity => {
 
 const getValidationErrorInfo = ctx => ctx.validationErrorInfo;
 
+// reduces validation error message boiler plate
 const returnValidationErrors = (ctx, id, ...conditions) => {
   const errors = conditions.reduce((acc, condition) => {
     acc.push(...getValidationErrorInfo(ctx).filter(condition));
@@ -226,6 +228,8 @@ const returnValidationErrors = (ctx, id, ...conditions) => {
     totalCount: errors.length,
   };
 };
+
+// These were moved here so as to be used elsewhere
 
 const createQuestionPage = (input = {}) => {
   const a = {
@@ -278,7 +282,9 @@ const createSection = (input = {}) => {
 const getPosition = (position, comparator) =>
   typeof position === "number" ? position : comparator.length;
 
-// needs to be renamed to getPageMovePosition
+// Possible that the move position needs to be calculated
+// in a different way
+// Need to remember that the context object needs to be modified directly
 const getMovePosition = (section, pageId, position) => {
   if (!section.folders) {
     throw new Error("Section doesn't have a folder");
@@ -305,7 +311,6 @@ const getMovePosition = (section, pageId, position) => {
   }
 
   const { previous, next } = positionMap;
-
   return { previous, next };
 };
 

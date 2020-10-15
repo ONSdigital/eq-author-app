@@ -23,7 +23,11 @@ const getPreviousAnswersForPage = require("../../../src/businessLogic/getPreviou
 const Resolvers = {};
 
 Resolvers.QuestionPage = {
-  section: ({ id }, input, ctx) => getSectionByPageId(ctx, id),
+  section: ({ id }, input, ctx) => {
+    // this not returning new section information when moved
+    const section = getSectionByPageId(ctx, id);
+    return section;
+  },
   position: ({ id }, args, ctx) => {
     // need to double check this
     const section = getSectionByPageId(ctx, id);

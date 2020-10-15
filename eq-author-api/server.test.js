@@ -41,7 +41,15 @@ describe("Server", () => {
 
     it("should dump the questionnaire", async () => {
       const ctx = await buildContext({
-        sections: [{ pages: [{ answers: [{ type: NUMBER }] }] }],
+        sections: [
+          {
+            folders: [
+              {
+                pages: [{ answers: [{ type: NUMBER }] }],
+              },
+            ],
+          },
+        ],
       });
       const { questionnaire } = ctx;
       const response = await request(server).get(`/export/${questionnaire.id}`);
@@ -63,7 +71,15 @@ describe("Server", () => {
   describe("import", () => {
     it("should save a questionnaire from the json", async () => {
       const ctx = await buildContext({
-        sections: [{ pages: [{ answers: [{ type: NUMBER }] }] }],
+        sections: [
+          {
+            folders: [
+              {
+                pages: [{ answers: [{ type: NUMBER }] }],
+              },
+            ],
+          },
+        ],
       });
       const { questionnaire } = ctx;
       questionnaire.createdBy = mockUser.id;
@@ -153,7 +169,15 @@ describe("Server", () => {
       const server = createApp();
 
       const ctx = await buildContext({
-        sections: [{ pages: [{ answers: [{ type: NUMBER }] }] }],
+        sections: [
+          {
+            folders: [
+              {
+                pages: [{ answers: [{ type: NUMBER }] }],
+              },
+            ],
+          },
+        ],
       });
 
       const { questionnaire } = ctx;

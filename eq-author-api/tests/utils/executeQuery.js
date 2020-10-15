@@ -18,8 +18,10 @@ ${query}
 With input:  
 ${JSON.stringify(args, null, 2)}
 Resulted in:
+
 ${response.errors.map(e => e.message).join("\n----\n")}
     `);
+    // helpful to replace e.message with e.stack to get better error messages
   }
   if (ctx.questionnaire) {
     ctx.questionnaire = await getQuestionnaire(ctx.questionnaire.id);
