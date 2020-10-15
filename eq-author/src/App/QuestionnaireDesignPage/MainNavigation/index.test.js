@@ -3,7 +3,7 @@ import { render, flushPromises } from "tests/utils/rtl";
 import { UnwrappedMainNavigation, publishStatusSubscription } from "./";
 import { MeContext } from "App/MeContext";
 import { act } from "react-dom/test-utils";
-import GET_ALL_ANSWERS from "../../qcodes/QCodesTable/graphql/getAllAnswers.graphql";
+import GET_ALL_ANSWERS from "../../../graphql/getAllAnswers.graphql";
 
 describe("MainNavigation", () => {
   let props, user, mocks, questionnaire;
@@ -16,18 +16,18 @@ describe("MainNavigation", () => {
       picture: "",
       admin: true,
     };
-    const answer = {
-      id: "ans-1",
-      description: "",
-      guidance: "",
-      label: "num1",
-      qCode: "",
-      type: "Number",
-      questionPageId: "2",
-      secondaryLabel: null,
-    };
-    const page = { id: "2", title: "Page", position: 0, answers: [answer] };
-    const section = { id: "3", title: "Section", pages: [page] };
+    // const answer = {
+    //   id: "ans-1",
+    //   description: "",
+    //   guidance: "",
+    //   label: "num1",
+    //   qCode: "",
+    //   type: "Number",
+    //   questionPageId: "2",
+    //   secondaryLabel: null,
+    // };
+    // const page = { id: "2", title: "Page", position: 0, answers: [answer] };
+    // const section = { id: "3", title: "Section", pages: [page] };
     // questionnaire = {
     //   id: "1",
     //   title: "Questionnaire",

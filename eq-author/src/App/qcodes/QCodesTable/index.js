@@ -4,11 +4,12 @@ import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 import { withApollo, Query, useMutation } from "react-apollo";
 
-import GET_ALL_ANSWERS from "./graphql/getAllAnswers.graphql";
+import GET_ALL_ANSWERS from "../../../graphql/getAllAnswers.graphql";
 import UPDATE_ANSWER_QCODE from "./graphql/updateAnswerMutation.graphql";
 import UPDATE_OPTION_QCODE from "./graphql/updateOptionMutation.graphql";
 import UPDATE_CONFIRMATION_QCODE from "./graphql/updateConfirmationQCode.graphql";
 import UPDATE_CALCSUM_QCODE from "./graphql/updateCalculatedSummary.graphql";
+import { organiseAnswers, flattenAnswers, removeHtml } from "../../../utils/getAllAnswersFlatMap"
 
 import Loading from "components/Loading";
 import Error from "components/Error";
@@ -86,134 +87,6 @@ const questionMatrix = {
   [DATE_RANGE]: "Date range",
   [UNIT]: "Unit",
   [DURATION]: "Duration",
-};
-
-const removeHtml = html => html && html.replace(/(<([^>]+)>)/gi, "");
-
-const organiseAnswers = sections => {
-  const questions = sections.reduce(
-    (acc, section) => [...acc, ...section.pages],
-    []
-  );
-
-  let answerRows = [];
-
-  for (const item of questions) {
-    const {
-      title,
-      alias,
-      answers,
-      confirmation,
-      summaryAnswers: calculatedSummary,
-    } = item;
-
-    if (answers) {
-      const extraCheck = answers.reduce((acc, item) => {
-        if (
-          item.hasOwnProperty("options") &&
-          item.options &&
-          item.type !== RADIO
-        ) {
-          const optionLabel = item.options.map(option => ({
-            ...option,
-            type: "CheckboxOption",
-            option: true,
-          }));
-
-          acc.push(...optionLabel);
-        }
-
-        if (
-          item.hasOwnProperty("mutuallyExclusiveOption") &&
-          item.mutuallyExclusiveOption
-        ) {
-          acc.push({
-            ...item.mutuallyExclusiveOption,
-            type: "MutuallyExclusiveOption",
-            option: true,
-          });
-        }
-        if (
-          item.hasOwnProperty("secondaryLabel") &&
-          item.hasOwnProperty("secondaryQCode") &&
-          item.secondaryLabel
-        ) {
-          acc.push({
-            id: item.id,
-            label: item.secondaryLabel,
-            qCode: item.secondaryQCode,
-            type: item.type,
-            secondary: true,
-          });
-        }
-        return acc;
-      }, []);
-
-      const answersAndOptions = [...answers, ...extraCheck];
-
-      answerRows.push({
-        title,
-        alias,
-        answers: answersAndOptions,
-      });
-    }
-
-    if (confirmation) {
-      const { id, title, alias, qCode, __typename: type } = confirmation;
-
-      answerRows.push({
-        title: title,
-        alias,
-        answers: [{ id, qCode, type }],
-      });
-    }
-
-    if (calculatedSummary && calculatedSummary.length) {
-      const {
-        id,
-        pageType: type,
-        alias,
-        title,
-        qCode,
-        totalTitle,
-        summaryAnswers,
-      } = item;
-
-      const label = removeHtml(totalTitle);
-
-      answerRows.push({
-        title,
-        alias,
-        answers: [{ id, type, qCode, label, summaryAnswers }],
-      });
-    }
-  }
-
-  return { answers: answerRows };
-};
-
-const flattenAnswers = data => {
-  const answers = data.reduce((acc, item) => {
-    const answer = item.answers.map((ans, index) => {
-      if (index > 0) {
-        return {
-          title: item.title,
-          alias: item.alias,
-          nested: true,
-          ...ans,
-        };
-      } else {
-        return {
-          title: item.title,
-          alias: item.alias,
-          ...ans,
-        };
-      }
-    });
-    acc.push(...answer);
-    return acc;
-  }, []);
-  return answers;
 };
 
 const handleBlurReducer = ({ type, payload, mutation }) => {

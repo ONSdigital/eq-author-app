@@ -547,7 +547,7 @@ describe("Qcode Table", () => {
     expect(getByText("From")).toBeTruthy();
     expect(renderedQuestions.length).toEqual(8); // equal to non nested rows
 
-    const answerRows = 22; // equal to answers present in questionnaire
+    const answerRows = 24; // equal to answers present in questionnaire
     expect(getAllByTestId("answer-row-test").length).toEqual(answerRows);
   });
 
@@ -718,7 +718,7 @@ describe("Qcode Table", () => {
       <UnwrappedQCodeTable {...props} />
     );
 
-    expect(getAllByText(QCODE_IS_NOT_UNIQUE).length).toBe(5);
+    expect(getAllByText(QCODE_IS_NOT_UNIQUE).length).toBe(7);
   });
 
   it("Should render a validation error when a qCodes is missing", () => {
@@ -726,7 +726,7 @@ describe("Qcode Table", () => {
       <UnwrappedQCodeTable {...props} />
     );
 
-    expect(getAllByText(QCODE_REQUIRED).length).toBe(7);
+    expect(getAllByText(QCODE_REQUIRED).length).toBe(9);
   });
 
   it("Should not rerender if the qCode stays the same", () => {
