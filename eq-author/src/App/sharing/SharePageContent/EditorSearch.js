@@ -12,7 +12,11 @@ import Error from "components/Error";
 import UserList from "./UserList";
 import UserSearch from "./UserSearch";
 
-import { Section, EditorTitle, Described } from "../styles/SharePageContent";
+import {
+  Section,
+  ShareEditorTitle,
+  Described,
+} from "../styles/SharePageContent";
 
 const User = PropTypes.shape({
   picture: PropTypes.string,
@@ -91,7 +95,7 @@ export const EditorSearch = ({
   return (
     <>
       <Section>
-        <EditorTitle>Add editors</EditorTitle>
+        <ShareEditorTitle>Add editors</ShareEditorTitle>
         <Described>
           Search for someone using their name or email address.
         </Described>
