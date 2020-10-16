@@ -45,7 +45,8 @@ describe("MainNavigation", () => {
       totalErrorCount: 0,
       sections: [
         {
-          id: "3", title: "Section",
+          id: "3",
+          title: "Section",
           pages: [
             {
               id: "2",
@@ -64,7 +65,7 @@ describe("MainNavigation", () => {
                   qCode: "",
                   properties: {
                     required: false,
-                    decimals: 0
+                    decimals: 0,
                   },
                   secondaryQCode: null,
                   options: [
@@ -72,8 +73,8 @@ describe("MainNavigation", () => {
                       id: "8f878166-0e42-489a-baac-426994516e93",
                       label: "checkbox1",
                       qCode: "asd",
-                      __typename: "Option"
-                    }
+                      __typename: "Option",
+                    },
                   ],
                   mutuallyExclusiveOption: null,
                   __typename: "BasicAnswer",
@@ -95,23 +96,22 @@ describe("MainNavigation", () => {
                   displayName: "number label",
                   label: "number label",
                   qCode: "",
-                  __typename: "BasicAnswer"
-                }
+                  __typename: "BasicAnswer",
+                },
               ],
               section: {
                 id: "fe60a528-4bda-43c6-8f4f-6ff785cd79f8",
                 title: "<p>section 1</p>",
-                __typename: "Section"
+                __typename: "Section",
               },
               __typename: "CalculatedSummaryPage",
-            }
+            },
           ],
           __typename: "Section",
-        }
+        },
       ],
       __typename: "Questionnaire",
     };
-
 
     props = {
       questionnaire,
@@ -141,8 +141,8 @@ describe("MainNavigation", () => {
           query: GET_ALL_ANSWERS,
           variables: {
             input: {
-              questionnaireId: "99"
-            }
+              questionnaireId: "99",
+            },
           },
         },
         result: () => {
@@ -167,13 +167,13 @@ describe("MainNavigation", () => {
                             qCode: "",
                             properties: {
                               required: false,
-                              decimals: 0
+                              decimals: 0,
                             },
                             secondaryQCode: null,
-                            __typename: "BasicAnswer"
-                          }
+                            __typename: "BasicAnswer",
+                          },
                         ],
-                        __typename: "QuestionPage"
+                        __typename: "QuestionPage",
                       },
                       {
                         id: "3e0a0933-888b-4f3d-b3a5-629387344749",
@@ -189,29 +189,27 @@ describe("MainNavigation", () => {
                             displayName: "number label",
                             label: "number label",
                             qCode: "",
-                            __typename: "BasicAnswer"
-                          }
+                            __typename: "BasicAnswer",
+                          },
                         ],
                         section: {
                           id: "fe60a528-4bda-43c6-8f4f-6ff785cd79f8",
                           title: "<p>section 1</p>",
-                          __typename: "Section"
+                          __typename: "Section",
                         },
-                        __typename: "CalculatedSummaryPage"
-                      }
+                        __typename: "CalculatedSummaryPage",
+                      },
                     ],
-                    __typename: "Section"
-                  }
+                    __typename: "Section",
+                  },
                 ],
-                __typename: "Questionnaire"
-              }
+                __typename: "Questionnaire",
+              },
             },
           };
         },
       },
     ];
-
-
   });
 
   it("should enable all buttons if there are no errors on questionnaire", async () => {
@@ -225,13 +223,11 @@ describe("MainNavigation", () => {
     );
 
     await act(async () => {
-      flushPromises();
+      await flushPromises();
     });
 
     const nav = getByTestId("main-navigation");
-    await act(async () => {
-      flushPromises();
-    });
+
     expect(nav).toBeTruthy();
 
     const viewSurveyBtn = getByTestId("btn-preview");

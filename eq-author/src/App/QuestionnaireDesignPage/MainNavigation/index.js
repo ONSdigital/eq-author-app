@@ -45,8 +45,10 @@ import {
 import GET_ALL_ANSWERS from "../../../graphql/getAllAnswers.graphql";
 import Error from "components/Error";
 import Loading from "components/Loading";
-import { organiseAnswers, flattenAnswers } from "../../../utils/getAllAnswersFlatMap"
-
+import {
+  organiseAnswers,
+  flattenAnswers,
+} from "../../../utils/getAllAnswersFlatMap";
 
 const StyledMainNavigation = styled.div`
   color: ${colors.grey};
@@ -94,22 +96,23 @@ export const UnwrappedMainNavigation = props => {
 
   const previewUrl = `${config.REACT_APP_LAUNCH_URL}/${
     (questionnaire || {}).id
-    }`;
+  }`;
 
   const questionnaireId = (questionnaire || {}).id;
 
   const { loading, error, data } = useQuery(GET_ALL_ANSWERS, {
     variables: { input: { questionnaireId } },
+    fetchPolicy: "no-cache",
   });
 
-  console.log('\ndata', JSON.stringify(data, null, 7));
+  console.log("\ndata", JSON.stringify(data, null, 7));
 
   if (loading) {
     return <Loading height="100%">Questionnaire answers loading…</Loading>;
   }
 
   if (error) {
-    console.log('error', error);
+    console.log("error", error);
     return <Error>Oops! Something went wrong</Error>;
   }
 
@@ -119,7 +122,7 @@ export const UnwrappedMainNavigation = props => {
   const { answers } = organiseAnswers(sections);
   const flatten = flattenAnswers(answers);
 
-  let emptyQCode = find(flatten, (obj) => obj.qCode === "" || obj.qCode === null);
+  let emptyQCode = find(flatten, obj => obj.qCode === "" || obj.qCode === null);
 
   return (
     <>
@@ -214,9 +217,7 @@ export const UnwrappedMainNavigation = props => {
                   <IconText nav icon={qcodeIcon}>
                     QCodes
                   </IconText>
-                  {emptyQCode ? (
-                    <SmallBadge data-test="small-badge" />
-                  ) : null}
+                  {emptyQCode ? <SmallBadge data-test="small-badge" /> : null}
                 </RouteButton>
                 {me && <UserProfile nav signOut left client={client} />}
               </ButtonGroup>
