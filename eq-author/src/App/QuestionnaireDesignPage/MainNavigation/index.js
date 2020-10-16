@@ -96,7 +96,7 @@ export const UnwrappedMainNavigation = props => {
 
   const previewUrl = `${config.REACT_APP_LAUNCH_URL}/${
     (questionnaire || {}).id
-  }`;
+    }`;
 
   const questionnaireId = (questionnaire || {}).id;
 
@@ -105,19 +105,15 @@ export const UnwrappedMainNavigation = props => {
     fetchPolicy: "no-cache",
   });
 
-  console.log("\ndata", JSON.stringify(data, null, 7));
-
   if (loading) {
     return <Loading height="100%">Questionnaire answers loading…</Loading>;
   }
 
   if (error) {
-    console.log("error", error);
     return <Error>Oops! Something went wrong</Error>;
   }
 
   const { sections } = get(data, "questionnaire", []);
-  // const { sections } = data.questionnaire;
 
   const { answers } = organiseAnswers(sections);
   const flatten = flattenAnswers(answers);
