@@ -18,10 +18,10 @@ import EditorSearch from "./EditorSearch";
 
 import {
   Layout,
-  PageTitle,
+  SharePageTitle,
   Description,
   Section,
-  SectionTitle,
+  ShareSectionTitle,
   Separator,
   FlexContainer,
   PublicLabel,
@@ -76,7 +76,7 @@ export const Sharing = ({ data, showToast }) => {
 
   return (
     <Layout>
-      <PageTitle>Share your questionnaire</PageTitle>
+      <SharePageTitle>Share your questionnaire</SharePageTitle>
       <Description>
         You can share your questionnaire with anyone who has an account in
         Author.
@@ -91,7 +91,7 @@ export const Sharing = ({ data, showToast }) => {
       </ShareLinkButton>
       <Section>
         <FlexContainer>
-          <SectionTitle>Public access</SectionTitle>
+          <ShareSectionTitle>Public access</ShareSectionTitle>
           <Separator>
             <ToggleSwitch
               id="public"
@@ -108,7 +108,7 @@ export const Sharing = ({ data, showToast }) => {
         </InformationPanel>
       </Section>
       <Section>
-        <SectionTitle>Editors</SectionTitle>
+        <ShareSectionTitle>Editors</ShareSectionTitle>
         <InformationPanel>
           Editors can edit questionnaire content, add comments, delete the
           questionnaire and add other editors.
