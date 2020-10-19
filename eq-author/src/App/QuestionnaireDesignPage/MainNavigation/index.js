@@ -102,7 +102,7 @@ export const UnwrappedMainNavigation = props => {
 
   const { loading, error, data } = useQuery(GET_ALL_ANSWERS, {
     variables: { input: { questionnaireId } },
-    fetchPolicy: "no-cache",
+    fetchPolicy: "cache-and-network",
   });
 
   if (loading) {
