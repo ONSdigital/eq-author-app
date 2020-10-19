@@ -16,26 +16,6 @@ describe("MainNavigation", () => {
       picture: "",
       admin: true,
     };
-    // const answer = {
-    //   id: "ans-1",
-    //   description: "",
-    //   guidance: "",
-    //   label: "num1",
-    //   qCode: "",
-    //   type: "Number",
-    //   questionPageId: "2",
-    //   secondaryLabel: null,
-    // };
-    // const page = { id: "2", title: "Page", position: 0, answers: [answer] };
-    // const section = { id: "3", title: "Section", pages: [page] };
-    // questionnaire = {
-    //   id: "1",
-    //   title: "Questionnaire",
-    //   sections: [section],
-    //   editors: [],
-    //   createdBy: { ...user },
-    //   totalErrorCount: 0,
-    // };
 
     questionnaire = {
       id: "99",
@@ -282,5 +262,57 @@ describe("MainNavigation", () => {
     expect(historyBtn.hasAttribute("disabled")).toBeFalsy();
     expect(metadataBtn.hasAttribute("disabled")).toBeFalsy();
     expect(qcodesBtn.hasAttribute("disabled")).toBeTruthy();
+  });
+
+  it("should render error state", async () => {
+    mocks = [
+      {
+        request: {
+          query: publishStatusSubscription,
+          variables: { id: props.match.params.questionnaireId },
+        },
+        result: () => {
+          return {
+            data: {
+              publishStatusUpdated: {
+                id: "99",
+                publishStatus: "unpublished",
+                __typename: "query",
+              },
+            },
+          };
+        },
+      },
+      {
+        request: {
+          query: GET_ALL_ANSWERS,
+          variables: {
+            input: {
+              questionnaireId: "99",
+            },
+          },
+        },
+        result: () => {
+          return {
+            data: {},
+            errors: ["Oops! Something went wrong"],
+          };
+        },
+      },
+    ];
+
+    const { getByText } = render(
+      <MeContext.Provider value={{ me: user }}>
+        <UnwrappedMainNavigation {...props} />
+      </MeContext.Provider>,
+      {
+        mocks,
+      }
+    );
+    await act(async () => {
+      flushPromises();
+    });
+
+    expect(getByText("Oops! Something went wrong")).toBeTruthy();
   });
 });
