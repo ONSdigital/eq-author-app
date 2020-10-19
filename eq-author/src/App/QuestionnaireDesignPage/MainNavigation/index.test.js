@@ -192,77 +192,77 @@ describe("MainNavigation", () => {
     ];
   });
 
-  it("should enable all buttons if there are no errors on questionnaire", async () => {
-    const { getByTestId } = render(
-      <MeContext.Provider value={{ me: user }}>
-        <UnwrappedMainNavigation {...props} />
-      </MeContext.Provider>,
-      {
-        mocks,
-      }
-    );
+  // it("should enable all buttons if there are no errors on questionnaire", async () => {
+  //   const { getByTestId } = render(
+  //     <MeContext.Provider value={{ me: user }}>
+  //       <UnwrappedMainNavigation {...props} />
+  //     </MeContext.Provider>,
+  //     {
+  //       mocks,
+  //     }
+  //   );
 
-    await act(async () => {
-      await flushPromises();
-    });
+  //   await act(async () => {
+  //     await flushPromises();
+  //   });
 
-    const nav = getByTestId("main-navigation");
+  //   const nav = getByTestId("main-navigation");
 
-    expect(nav).toBeTruthy();
+  //   expect(nav).toBeTruthy();
 
-    const viewSurveyBtn = getByTestId("btn-preview");
-    const settingsBtn = getByTestId("btn-settings");
-    const sharingBtn = getByTestId("btn-sharing");
-    const historyBtn = getByTestId("btn-history");
-    const metadataBtn = getByTestId("btn-metadata");
-    const qcodesBtn = getByTestId("btn-qcodes");
+  //   const viewSurveyBtn = getByTestId("btn-preview");
+  //   const settingsBtn = getByTestId("btn-settings");
+  //   const sharingBtn = getByTestId("btn-sharing");
+  //   const historyBtn = getByTestId("btn-history");
+  //   const metadataBtn = getByTestId("btn-metadata");
+  //   const qcodesBtn = getByTestId("btn-qcodes");
 
-    expect(viewSurveyBtn).not.toBeDisabled();
-    expect(settingsBtn).not.toBeDisabled();
-    expect(sharingBtn).not.toBeDisabled();
-    expect(historyBtn).not.toBeDisabled();
-    expect(metadataBtn).not.toBeDisabled();
-    expect(qcodesBtn).not.toBeDisabled();
-  });
+  //   expect(viewSurveyBtn).not.toBeDisabled();
+  //   expect(settingsBtn).not.toBeDisabled();
+  //   expect(sharingBtn).not.toBeDisabled();
+  //   expect(historyBtn).not.toBeDisabled();
+  //   expect(metadataBtn).not.toBeDisabled();
+  //   expect(qcodesBtn).not.toBeDisabled();
+  // });
 
-  it("should disable qcodes, publish and preview buttons if there are errors on questionnaire", async () => {
-    props.questionnaire.totalErrorCount = 1;
+  // it("should disable qcodes, publish and preview buttons if there are errors on questionnaire", async () => {
+  //   props.questionnaire.totalErrorCount = 1;
 
-    const { getByTestId } = render(
-      <MeContext.Provider value={{ me: user }}>
-        <UnwrappedMainNavigation {...props} />
-      </MeContext.Provider>,
-      {
-        mocks,
-      }
-    );
+  //   const { getByTestId } = render(
+  //     <MeContext.Provider value={{ me: user }}>
+  //       <UnwrappedMainNavigation {...props} />
+  //     </MeContext.Provider>,
+  //     {
+  //       mocks,
+  //     }
+  //   );
 
-    await act(async () => {
-      flushPromises();
-    });
+  //   await act(async () => {
+  //     flushPromises();
+  //   });
 
-    const nav = getByTestId("main-navigation");
+  //   const nav = getByTestId("main-navigation");
 
-    await act(async () => {
-      flushPromises();
-    });
+  //   await act(async () => {
+  //     flushPromises();
+  //   });
 
-    expect(nav).toBeTruthy();
+  //   expect(nav).toBeTruthy();
 
-    const viewSurveyBtn = getByTestId("btn-preview");
-    const settingsBtn = getByTestId("btn-settings");
-    const sharingBtn = getByTestId("btn-sharing");
-    const historyBtn = getByTestId("btn-history");
-    const metadataBtn = getByTestId("btn-metadata");
-    const qcodesBtn = getByTestId("btn-qcodes");
+  //   const viewSurveyBtn = getByTestId("btn-preview");
+  //   const settingsBtn = getByTestId("btn-settings");
+  //   const sharingBtn = getByTestId("btn-sharing");
+  //   const historyBtn = getByTestId("btn-history");
+  //   const metadataBtn = getByTestId("btn-metadata");
+  //   const qcodesBtn = getByTestId("btn-qcodes");
 
-    expect(viewSurveyBtn.hasAttribute("disabled")).toBeTruthy();
-    expect(settingsBtn.hasAttribute("disabled")).toBeFalsy();
-    expect(sharingBtn.hasAttribute("disabled")).toBeFalsy();
-    expect(historyBtn.hasAttribute("disabled")).toBeFalsy();
-    expect(metadataBtn.hasAttribute("disabled")).toBeFalsy();
-    expect(qcodesBtn.hasAttribute("disabled")).toBeTruthy();
-  });
+  //   expect(viewSurveyBtn.hasAttribute("disabled")).toBeTruthy();
+  //   expect(settingsBtn.hasAttribute("disabled")).toBeFalsy();
+  //   expect(sharingBtn.hasAttribute("disabled")).toBeFalsy();
+  //   expect(historyBtn.hasAttribute("disabled")).toBeFalsy();
+  //   expect(metadataBtn.hasAttribute("disabled")).toBeFalsy();
+  //   expect(qcodesBtn.hasAttribute("disabled")).toBeTruthy();
+  // });
 
   it("should render error state", async () => {
     mocks = [
