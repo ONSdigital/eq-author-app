@@ -28,6 +28,10 @@ export const richTextEditorErrors = {
     errorCode: "ERR_VALID_REQUIRED",
     message: "Enter include/exclude content",
   },
+  DESCRIPTION_NOT_ENTERED: {
+    errorCode: "ERR_VALID_REQUIRED",
+    message: "Enter a question description",
+  },
 };
 
 export const questionDefinitionErrors = {

@@ -148,6 +148,22 @@
         {
           "if": {
             "properties": {
+              "descriptionEnabled": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "description": {
+                "$ref": "definitions.json#/definitions/populatedString"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
               "pageType": {
                 "enum": ["QuestionPage"]
               }
