@@ -111,6 +111,36 @@ describe("schema validation", () => {
         type: "page",
       });
     });
+
+    it("should validate that include/exclude guidance has been filled in when enabled", () => {
+      const page = questionnaire.sections[0].pages[0];
+      page.guidanceEnabled = true;
+      page.guidance = "";
+
+      const validationPageErrors = validation(questionnaire);
+
+      expect(validationPageErrors[0]).toMatchObject({
+        errorCode: "ERR_VALID_REQUIRED",
+        field: "guidance",
+        id: uuidRejex,
+        type: "page",
+      });
+    });
+
+    it("should validate that include/exclude guidance is not null", () => {
+      const page = questionnaire.sections[0].pages[0];
+      page.guidanceEnabled = true;
+      page.guidance = null;
+
+      const validationPageErrors = validation(questionnaire);
+
+      expect(validationPageErrors[0]).toMatchObject({
+        errorCode: "ERR_VALID_REQUIRED",
+        field: "guidance",
+        id: uuidRejex,
+        type: "page",
+      });
+    });
   });
 
   describe("Confirmation Question validation", () => {
