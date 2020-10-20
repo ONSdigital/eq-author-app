@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { propType } from "graphql-anywhere";
 import styled from "styled-components";
-import { get, flowRight, filter } from "lodash";
+import { get, flowRight } from "lodash";
 import { TransitionGroup } from "react-transition-group";
 
 import WrappingInput from "components/Forms/WrappingInput";
@@ -11,10 +11,6 @@ import { Field, Label } from "components/Forms";
 
 import withChangeUpdate from "enhancers/withChangeUpdate";
 import withValidationError from "enhancers/withValidationError";
-import {
-  richTextEditorErrors,
-  questionDefinitionErrors,
-} from "constants/validationMessages";
 
 import MultipleFieldEditor from "./MultipleFieldEditor";
 import AnswerTransition from "./AnswersEditor/AnswerTransition";
@@ -22,6 +18,7 @@ import focusOnElement from "utils/focusOnElement";
 import focusOnNode from "utils/focusOnNode";
 
 import pageFragment from "graphql/fragments/page.graphql";
+import { getErrorByField } from "./validationUtils.js";
 
 import { colors } from "constants/theme";
 
@@ -52,54 +49,12 @@ const Paragraph = styled.p`
   border-left: 5px solid ${colors.lightGrey};
 `;
 
-const {
-  QUESTION_TITLE_NOT_ENTERED,
-  PIPING_TITLE_MOVED,
-  PIPING_TITLE_DELETED,
-  INCLUDE_EXCLUDE_NOT_ENTERED,
-  DESCRIPTION_NOT_ENTERED,
-} = richTextEditorErrors;
-
-const {
-  DEFINITION_LABEL_NOT_ENTERED,
-  DEFINITION_CONTENT_NOT_ENTERED,
-} = questionDefinitionErrors;
-
-const situations = {
-  title: {
-    [QUESTION_TITLE_NOT_ENTERED.errorCode]: QUESTION_TITLE_NOT_ENTERED.message,
-    [PIPING_TITLE_MOVED.errorCode]: PIPING_TITLE_MOVED.message,
-    [PIPING_TITLE_DELETED.errorCode]: PIPING_TITLE_DELETED.message,
-  },
-  definitionLabel: {
-    [DEFINITION_LABEL_NOT_ENTERED.errorCode]:
-      DEFINITION_LABEL_NOT_ENTERED.message,
-  },
-  definitionContent: {
-    [DEFINITION_CONTENT_NOT_ENTERED.errorCode]:
-      DEFINITION_CONTENT_NOT_ENTERED.message,
-  },
-  guidance: {
-    [INCLUDE_EXCLUDE_NOT_ENTERED.errorCode]:
-      INCLUDE_EXCLUDE_NOT_ENTERED.message,
-  },
-  description: {
-    [DESCRIPTION_NOT_ENTERED.errorCode]:
-      DESCRIPTION_NOT_ENTERED.message,
-  },
-};
-
 export class StatelessMetaEditor extends React.Component {
   description = React.createRef();
   guidance = React.createRef();
 
-  errorMsg = field => {
-    const error = filter(this.props.page.validationErrorInfo.errors, {
-      field,
-    });
-
-    return error.length ? situations[field]?.[error[0].errorCode] : null;
-  };
+  errorMsg = field =>
+    getErrorByField(field, this.props.page.validationErrorInfo.errors);
 
   render() {
     const {
