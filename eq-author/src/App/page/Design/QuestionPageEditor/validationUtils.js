@@ -9,6 +9,8 @@ const {
   PIPING_TITLE_DELETED,
   INCLUDE_EXCLUDE_NOT_ENTERED,
   DESCRIPTION_NOT_ENTERED,
+  ADDITIONAL_INFO_LABEL_NOT_ENTERED,
+  ADDITIONAL_INFO_CONTENT_NOT_ENTERED,
 } = richTextEditorErrors;
 
 const {
@@ -36,6 +38,14 @@ const situations = {
   },
   description: {
     [DESCRIPTION_NOT_ENTERED.errorCode]: DESCRIPTION_NOT_ENTERED.message,
+  },
+  additionalInfoLabel: {
+    [ADDITIONAL_INFO_LABEL_NOT_ENTERED.errorCode]:
+      ADDITIONAL_INFO_LABEL_NOT_ENTERED.message,
+  },
+  additionalInfoContent: {
+    [ADDITIONAL_INFO_CONTENT_NOT_ENTERED.errorCode]:
+      ADDITIONAL_INFO_CONTENT_NOT_ENTERED.message,
   },
 };
 
