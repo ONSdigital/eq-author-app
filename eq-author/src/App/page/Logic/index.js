@@ -97,16 +97,25 @@ export class UnwrappedLogicPage extends React.Component {
     const { children, data } = this.props;
     const page = get(data, "page", null);
 
+    const pageId = get(page, "id", null);
+    const pageData = get(
+      this.props.client.cache.data.data,
+      `QuestionPage${pageId}`,
+      null
+    );
+    const position = get(pageData, "position", null);
+    const firstQuestion = position === 0;
+
     const TABS = [
       {
         key: `routing`,
         label: "Routing logic",
       },
-      {
+      !firstQuestion && {
         key: `skip`,
         label: "Skip logic",
       },
-    ];
+    ].filter(Boolean);
 
     return (
       <LogicMainCanvas>
