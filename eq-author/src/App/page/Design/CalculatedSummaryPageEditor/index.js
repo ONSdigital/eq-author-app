@@ -48,6 +48,7 @@ const ERROR_SITUATIONS = [
   {
     condition: errors =>
       some(errors, {
+        field: "title",
         errorCode: CALCSUM_TITLE_NOT_ENTERED.errorCode,
       }),
     message: () => CALCSUM_TITLE_NOT_ENTERED.message,
