@@ -939,18 +939,14 @@ const Resolvers = {
       const validationErrorsQCode = ctx.validationErrorInfo.filter(
         ({ field }) => field === "qCode"
       );
-      // return ctx.validationErrorInfo.length
       return ctx.validationErrorInfo.length - validationErrorsQCode.length
 
     },
     qCodeErrorCount: (questionnaire, args, ctx) => {
-      //remove qcode errors from total here - important as Qcode errors don't count to total
-      // otherwise error totals get confusing for users!!!!!!
       const validationErrorsQCode = ctx.validationErrorInfo.filter(
         ({ field }) => field === "qCode"
       );
       return validationErrorsQCode.length
-      // return ctx.validationErrorInfo.length - validationErrorsQCode.length
 
     }
   },

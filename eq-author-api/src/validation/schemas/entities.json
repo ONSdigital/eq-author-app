@@ -172,21 +172,6 @@
             },
             "then": {
               "properties": {
-                "qCode": {
-                  "allOf": [
-                    {
-                      "not": {
-                        "type": [
-                          "null"
-                        ]
-                      },
-                      "errorMessage": "ERR_VALID_REQUIRED"
-                    },
-                    {
-                      "$ref": "definitions.json#/definitions/populatedString"
-                    }
-                  ]
-                },
                 "summaryAnswers": {
                   "type": "array",
                   "items": {
@@ -588,17 +573,7 @@
             "type": "array",
             "items": {
               "qCode": {
-                "allOf": [
-                  {
-                    "not": {
-                      "type": null
-                    },
-                    "errorMessage": "ERR_VALID_REQUIRED"
-                  },
-                  {
-                    "$ref": "definitions.json#/definitions/populatedString"
-                  }
-                ]
+                "$ref": "definitions.json#/definitions/populatedString"
               },
               "allOf": [
                 {
@@ -635,17 +610,7 @@
         "type": "object",
         "properties": {
           "qCode": {
-            "allOf": [
-              {
-                "not": {
-                  "type": "null"
-                },
-                "errorMessage": "ERR_VALID_REQUIRED"
-              },
-              {
-                "$ref": "definitions.json#/definitions/populatedString"
-              }
-            ]
+            "$ref": "definitions.json#/definitions/populatedString"
           },
           "validation": {
             "if": {
@@ -793,17 +758,7 @@
         "type": "object",
         "properties": {
           "qCode": {
-            "allOf": [
-              {
-                "not": {
-                  "type": "null"
-                },
-                "errorMessage": "ERR_VALID_REQUIRED"
-              },
-              {
-                "$ref": "definitions.json#/definitions/populatedString"
-              }
-            ]
+            "$ref": "definitions.json#/definitions/populatedString"
           },
           "validation": {
             "allOf": [

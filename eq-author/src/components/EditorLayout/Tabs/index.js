@@ -97,7 +97,8 @@ export const UnwrappedTabs = props => {
       };
 
       const { errors } = validationErrorInfo;
-      // here we need to remove any qcode errors from the count so they don't show in the design tab
+
+      // TODO - here we need to remove any qcode errors from the count so they don't show in the design tab
       console.log('validationErrorInfo', validationErrorInfo);
 
       const errorSeparator = errors.reduce((accumulator, error) => {
