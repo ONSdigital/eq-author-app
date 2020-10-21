@@ -97,16 +97,14 @@ export const UnwrappedTabs = props => {
       };
 
       const { errors } = validationErrorInfo;
+      const functionalErrors = errors.filter(({ field }) => field !== "qCode");
 
-      // TODO - here we need to remove any qcode errors from the count so they don't show in the design tab
-      console.log('validationErrorInfo', validationErrorInfo);
-
-      const errorSeparator = errors.reduce((accumulator, error) => {
+      const errorSeparator = functionalErrors.reduce((accumulator, error) => {
         const { design, logic } = accumulator;
 
         error.type.includes("routing") ||
-          error.type.includes("skipCondition") ||
-          error.type.includes("expression")
+        error.type.includes("skipCondition") ||
+        error.type.includes("expression")
           ? logic.push(error)
           : design.push(error);
         return accumulator;
@@ -123,9 +121,9 @@ export const UnwrappedTabs = props => {
           const errors = tabErrors(key);
           const { Component, otherProps = {} } = props[key]
             ? {
-              Component: Tab,
-              otherProps: { to: url(match), activeClassName, isActive },
-            }
+                Component: Tab,
+                otherProps: { to: url(match), activeClassName, isActive },
+              }
             : { Component: DisabledTab };
           return (
             <Component data-test={key} key={key} {...otherProps}>
