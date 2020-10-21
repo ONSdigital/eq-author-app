@@ -139,6 +139,22 @@
         {
           "if": {
             "properties": {
+              "guidanceEnabled": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "guidance": {
+                "$ref": "definitions.json#/definitions/populatedString"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
               "pageType": {
                 "enum": [
                   "QuestionPage"
@@ -1089,7 +1105,8 @@
           "type": "string"
         },
         "condition": {
-          "type": "string"
+          "type": "string",
+          "validateMultipleChoiceCondition": "condition"
         },
         "left": {
           "type": "object",
@@ -1143,7 +1160,8 @@
           "errorMessage": "ERR_RIGHTSIDE_NO_VALUE",
           "validateExclusiveCheckbox": "right"
         }
-      }
+      },
+      "validateExpression": "validateExpression"
     },
     "expression-unanswered": {
       "properties": {

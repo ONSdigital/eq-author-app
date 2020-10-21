@@ -6,7 +6,7 @@ import { colors } from "constants/theme";
 
 import PaginationNav from "./PaginationNav";
 
-const TableFooter = styled.div`
+const Wrapper = styled.div`
   display: flex;
   padding-top: 1em;
   align-items: center;
@@ -18,14 +18,14 @@ const Results = styled.div`
   position: absolute;
 `;
 
-const Footer = ({
+const PaginationNavTable = ({
   countOnPage,
   totalCount,
   pageCount,
   currentPageIndex,
   onPageChange,
 }) => (
-  <TableFooter>
+  <Wrapper>
     <Results>
       Showing {countOnPage} of {totalCount}
     </Results>
@@ -34,10 +34,10 @@ const Footer = ({
       pageCount={pageCount}
       onPageChange={onPageChange}
     />
-  </TableFooter>
+  </Wrapper>
 );
 
-Footer.propTypes = {
+PaginationNavTable.propTypes = {
   countOnPage: PropTypes.number.isRequired,
   totalCount: PropTypes.number.isRequired,
   pageCount: PropTypes.number.isRequired,
@@ -45,4 +45,4 @@ Footer.propTypes = {
   onPageChange: PropTypes.func.isRequired,
 };
 
-export default Footer;
+export default PaginationNavTable;

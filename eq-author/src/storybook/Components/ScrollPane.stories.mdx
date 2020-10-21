@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom";
 const exampleText = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id`;
 
 <Meta
-  title="Components/ScrollPane"
+  title="Components/Scroll Pane"
   component={ScrollPane}
   decorators={[
     (Story) => (
@@ -26,11 +26,7 @@ const exampleText = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, se
 
 # Scroll Pane
 
-Hides overflowing content and makes it scrollable.
-
-There is an optional property that the component accepts `scrollToTop`.
-
-This resets the content to the top of the scroll pane after a user clicks a link.
+Hide overflowing content and make it scrollable.
 
 ## Example
 
@@ -46,26 +42,17 @@ This resets the content to the top of the scroll pane after a user clicks a link
 
 ## When to use this component
 
-Use this pattern sparingly. We have tried to limit the amount of scroll panes present within the Author application.
-
-Having multiple scroll panes can frustrate and confuse users (mouse wheel behaviour).
-
-Note: The black border surrounding the scroll pane is for example purposes only. It's used to highlight where the content begins scrolling.
+Use scrollpanes when the content within a container exceeds the height of the container.
+Use them sparingly as multiple scroll panes can frustrate and confuse users. Check if another option is more suitable first e.g. expanding a small container so users can see all of the content in one go.
 
 ## When not to use this component
 
-Do not use this component if there are other ways to obscure content from the user.
-
-Alternative methods to obscure content:
-
-- Truncation
-- Accordions
-- [Progressive disclosure](https://www.interaction-design.org/literature/topics/progressive-disclosure#:~:text=Progressive%20disclosure%20is%20an%20interaction,overwhelmed%20by%20what%20they%20encounter.)
-- [Sub-categorization](https://baymard.com/blog/sub-sub-categories)
+Don’t use them inside an already scrollable area.
 
 ## How to use this component
 
 The scroll pane component needs to be wrapped in a container that has a set height and width to enable scrolling within itself.
+The design of the scrollpane is set by the browser (don’t add any custom styling).
 
 ## Variants
 
@@ -98,30 +85,14 @@ A link has been added to show case the functionality.
 
 ## Accessibility
 
-### Nielsen Norman group advice on scrollbars (2005).
-
-- The additional action that scrolling requires can be difficult for users with motor skill impairments.
-- Low-literacy users can't easily reacquire their position in the text after it moves.
-- Elderly users often have trouble getting to the right spot in scrolling menus and other small scrolling items.
-
-### Baymard UX research article (2014).
-
-- Lack of overview
-  - Users need to memorize content that is out of view
-- Scroll hijacking
-  - Additional scroll panes can 'hijack' the main scroll pane
-  - When a user has reached the end of an inner scroll pane, the whole page begins scrolling again
-  - Frustrates users due to requirement of constant awareness of mouse cursor.
-  - Causes problems with touch devices
-- Invisible content & scroll bars
-   - Apple devices have scroll bars hidden by default, surprising users when content is scrollable
-- Overly sensitive scroll bars
-  - Some users click and drag the scroll panes which can causes them to miss certain options.
-- “Activation” of scroll areas
-  - Some users click nested scroll panes to "activate" them and instead end up clicking a hyperlink instead.
+Keyboard-only users can use the space bar and up/down arrows to scroll around the page.
+Scrollable areas should be used sparingly because:
+- the additional action that scrolling requires can be difficult for users with motor skill impairments
+- low-literacy users can't easily reacquire their position in the text after it moves
+- elderly users often have trouble getting to the right spot in scrolling menus and other small scrolling items.
 
 ## Research
 
-- [Nielsen Norman group (2005)](https://www.nngroup.com/articles/scrolling-and-scrollbars/)
-- [Baymard institute UX research article (2014)](https://baymard.com/blog/inline-scroll-areas)
+- [Scrolling and scrollbars](https://www.nngroup.com/articles/scrolling-and-scrollbars/)
+- [Avoid inline scroll areas](https://baymard.com/blog/inline-scroll-areas)
 

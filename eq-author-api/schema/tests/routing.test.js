@@ -315,6 +315,101 @@ describe("routing", () => {
       const result = await queryPage(ctx, firstPage.id);
       expect(result.routing.rules[0].expressionGroup.operator).toEqual("Or");
     });
+
+    it("has validation errors", async () => {
+      let config = {
+        metadata: [{}],
+        sections: [
+          {
+            title: "title-1",
+            alias: "alias-1",
+            position: 0,
+            pages: [
+              {
+                title: "page-1",
+                parentSection: "title-1",
+                answers: [
+                  {
+                    type: RADIO,
+                  },
+                ],
+                routing: { rules: [{ expressionGroup: {} }] },
+              },
+            ],
+          },
+        ],
+      };
+      const ctx = await buildContext(config);
+      const { questionnaire } = ctx;
+      const firstPage = questionnaire.sections[0].pages[0];
+
+      const result = await queryPage(ctx, firstPage.id);
+
+      expect(
+        result.routing.rules[0].expressionGroup.validationErrorInfo.totalCount
+      ).toBe(1);
+    });
+
+    it("does not have validation errors if there are none", async () => {
+      let config = {
+        metadata: [{}],
+        sections: [
+          {
+            title: "title-1",
+            alias: "alias-1",
+            position: 0,
+            pages: [
+              {
+                title: "page-1",
+                parentSection: "title-1",
+                answers: [
+                  {
+                    type: NUMBER,
+                  },
+                ],
+                routing: { rules: [{ expressionGroup: {} }] },
+              },
+            ],
+          },
+        ],
+      };
+
+      const ctx = await buildContext(config);
+      const { questionnaire } = ctx;
+      const firstPage = questionnaire.sections[0].pages[0];
+      const firstAnswer = questionnaire.sections[0].pages[0].answers[0];
+      const expression =
+        firstPage.routing.rules[0].expressionGroup.expressions[0];
+
+      await executeQuery(
+        updateLeftSideMutation,
+        {
+          input: {
+            expressionId: expression.id,
+            answerId: firstAnswer.id,
+          },
+        },
+        ctx
+      );
+      await executeQuery(
+        updateRightSideMutation,
+        {
+          input: {
+            expressionId: expression.id,
+            customValue: {
+              number: 5,
+            },
+          },
+        },
+        ctx
+      );
+
+      const result = await queryPage(ctx, firstPage.id);
+
+      expect(
+        result.routing.rules[0].expressionGroup.validationErrorInfo.totalCount
+      ).toBe(0);
+    });
   });
 
   describe("expressions", () => {

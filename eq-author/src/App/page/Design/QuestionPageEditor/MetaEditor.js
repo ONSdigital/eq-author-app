@@ -56,6 +56,7 @@ const {
   QUESTION_TITLE_NOT_ENTERED,
   PIPING_TITLE_MOVED,
   PIPING_TITLE_DELETED,
+  INCLUDE_EXCLUDE_NOT_ENTERED,
 } = richTextEditorErrors;
 
 const {
@@ -76,6 +77,10 @@ const situations = {
   definitionContent: {
     [DEFINITION_CONTENT_NOT_ENTERED.errorCode]:
       DEFINITION_CONTENT_NOT_ENTERED.message,
+  },
+  guidance: {
+    [INCLUDE_EXCLUDE_NOT_ENTERED.errorCode]:
+      INCLUDE_EXCLUDE_NOT_ENTERED.message,
   },
 };
 
@@ -195,6 +200,7 @@ export class StatelessMetaEditor extends React.Component {
                 fetchAnswers={fetchAnswers}
                 metadata={get(page, "section.questionnaire.metadata", [])}
                 testSelector="txt-question-guidance"
+                errorValidationMsg={this.errorMsg("guidance")}
               />
             </AnswerTransition>
           )}

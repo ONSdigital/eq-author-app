@@ -21,8 +21,8 @@ const {
   ERR_MAX_LENGTH_TOO_SMALL,
   ERR_ANSWER_NOT_SELECTED,
   ERR_RIGHTSIDE_NO_VALUE,
-  ERR_RIGHTSIDE_AND_OR_NOT_ALLOWED,
-  ERR_RIGHTSIDE_ALLOFF_OR_NOT_ALLOWED,
+  ERR_RIGHTSIDE_MIXING_OR_STND_OPTIONS_IN_AND_RULE,
+  ERR_GROUP_MIXING_EXPRESSIONS_WITH_OR_STND_OPTIONS_IN_AND,
   ERR_LEFTSIDE_NO_LONGER_AVAILABLE,
   ERR_DESTINATION_MOVED,
   ERR_DESTINATION_DELETED,
@@ -107,6 +107,36 @@ describe("schema validation", () => {
       expect(validationPageErrors[0]).toMatchObject({
         errorCode: "ERR_NO_ANSWERS",
         field: "answers",
+        id: uuidRejex,
+        type: "page",
+      });
+    });
+
+    it("should validate that include/exclude guidance has been filled in when enabled", () => {
+      const page = questionnaire.sections[0].pages[0];
+      page.guidanceEnabled = true;
+      page.guidance = "";
+
+      const validationPageErrors = validation(questionnaire);
+
+      expect(validationPageErrors[0]).toMatchObject({
+        errorCode: "ERR_VALID_REQUIRED",
+        field: "guidance",
+        id: uuidRejex,
+        type: "page",
+      });
+    });
+
+    it("should validate that include/exclude guidance is not null", () => {
+      const page = questionnaire.sections[0].pages[0];
+      page.guidanceEnabled = true;
+      page.guidance = null;
+
+      const validationPageErrors = validation(questionnaire);
+
+      expect(validationPageErrors[0]).toMatchObject({
+        errorCode: "ERR_VALID_REQUIRED",
+        field: "guidance",
         id: uuidRejex,
         type: "page",
       });
@@ -1021,75 +1051,8 @@ describe("schema validation", () => {
 
       expect(routingErrors).toHaveLength(1);
       expect(routingErrors[0].id).toMatch(uuidRejex);
-      expect(routingErrors[0].errorCode).toBe(ERR_RIGHTSIDE_AND_OR_NOT_ALLOWED);
-    });
-
-    it("should validate exclusive or checkbox with allof operator", () => {
-      const expressionId = "express-1";
-
-      const routing = validation(questionnaire);
-
-      expect(routing).toHaveLength(0);
-      questionnaire.sections[0].pages[0].answers[0] = {
-        id: "answer_1",
-        options: [
-          {
-            id: "option-1",
-            label: "a",
-          },
-          {
-            id: "option-2",
-            label: "b",
-          },
-          {
-            id: "option-3",
-            label: "or",
-            mutuallyExclusive: true,
-          },
-        ],
-      };
-
-      questionnaire.sections[0].pages[0].routing = {
-        id: "1",
-        else: {
-          id: "else-1",
-          logical: "NextPage",
-        },
-        rules: [
-          {
-            id: "rule-1",
-            destination: {
-              id: "dest-1",
-              logical: "NextPage",
-            },
-            expressionGroup: {
-              id: "group-1",
-              operator: "And",
-              expressions: [
-                {
-                  id: expressionId,
-                  condition: "AnyOf",
-                  left: {
-                    type: "Answer",
-                    answerId: "answer_12",
-                  },
-                  right: {
-                    type: "SelectedOptions",
-                    optionIds: ["option-1", "option-3"],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      };
-
-      const routingErrors = validation(questionnaire);
-
-      expect(routingErrors).toHaveLength(1);
-      expect(routingErrors[0].id).toMatch(uuidRejex);
       expect(routingErrors[0].errorCode).toBe(
-        ERR_RIGHTSIDE_ALLOFF_OR_NOT_ALLOWED
+        ERR_RIGHTSIDE_MIXING_OR_STND_OPTIONS_IN_AND_RULE
       );
     });
 
@@ -1171,7 +1134,7 @@ describe("schema validation", () => {
       expect(routingErrors).toHaveLength(1);
       expect(routingErrors[0].id).toMatch(uuidRejex);
       expect(routingErrors[0].errorCode).toBe(
-        ERR_RIGHTSIDE_ALLOFF_OR_NOT_ALLOWED
+        ERR_GROUP_MIXING_EXPRESSIONS_WITH_OR_STND_OPTIONS_IN_AND
       );
     });
 

@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { includes, get, some, find } from "lodash";
+import { includes, get, find } from "lodash";
 import { PropTypes } from "prop-types";
 import { TransitionGroup } from "react-transition-group";
 
@@ -40,7 +40,6 @@ const MultipleChoiceAnswerOptions = styled.div`
     `
     border-color: ${colors.red};
     outline-color: ${colors.red};
-    box-shadow: 0 0 0 2px ${colors.red};
     border-radius: 4px;
     margin-bottom: 0;
   `}
@@ -157,8 +156,13 @@ class MultipleChoiceAnswerOptionsSelector extends React.Component {
   handleError = () => {
     const { expression } = this.props;
 
-    const { errorCode } = find(expression.validationErrorInfo.errors, error =>
-      error.errorCode.includes("ERR_RIGHTSIDE")
+    const { errorCode } = find(
+      expression.validationErrorInfo.errors,
+      error =>
+        error.errorCode.includes("ERR_RIGHTSIDE") ||
+        error.errorCode.includes(
+          "ERR_GROUP_MIXING_EXPRESSIONS_WITH_OR_STND_OPTIONS_IN_AND"
+        )
     );
 
     return (
@@ -169,7 +173,7 @@ class MultipleChoiceAnswerOptionsSelector extends React.Component {
     );
   };
 
-  renderRadioOptionSelector(hasError) {
+  renderRadioOptionSelector(errors) {
     const { expression } = this.props;
     const options = get(expression, "left.options", []);
 
@@ -177,7 +181,7 @@ class MultipleChoiceAnswerOptionsSelector extends React.Component {
       <>
         <MultipleChoiceAnswerOptions
           data-test="options-selector"
-          hasError={hasError}
+          hasError={errors.length}
         >
           <Label>Match</Label>
           <ConditionSelect
@@ -201,23 +205,26 @@ class MultipleChoiceAnswerOptionsSelector extends React.Component {
               </ToggleChip>
             ))}
         </MultipleChoiceAnswerOptions>
-        {hasError && this.handleError()}
+        {errors.length > 0 && this.handleError()}
       </>
     );
   }
 
-  renderCheckboxOptionSelector(hasError) {
+  renderCheckboxOptionSelector(errors) {
     const { expression } = this.props;
     return (
       <>
         <MultipleChoiceAnswerOptions
           data-test="options-selector"
-          hasError={hasError}
+          hasError={errors.length}
         >
           <Label>Match</Label>
           <ConditionSelect
             onChange={this.handleConditionChange}
             defaultValue={expression.condition}
+            hasError={
+              errors.filter(({ field }) => field === "condition").length
+            }
             data-test="condition-dropdown"
           >
             <option value={answerConditions.ANYOF}>Any of</option>
@@ -267,7 +274,7 @@ class MultipleChoiceAnswerOptionsSelector extends React.Component {
             </Popover>
           )}
         </MultipleChoiceAnswerOptions>
-        {hasError && this.handleError()}
+        {errors.length > 0 && this.handleError()}
       </>
     );
   }
@@ -276,14 +283,25 @@ class MultipleChoiceAnswerOptionsSelector extends React.Component {
     const { expression } = this.props;
     const answerType = get(expression, "left.type");
 
-    const hasError = some(expression.validationErrorInfo.errors, error =>
-      error.errorCode.includes("ERR_RIGHTSIDE")
+    const { errors } = expression.validationErrorInfo;
+
+    const rightSideErrors = errors.filter(({ errorCode }) =>
+      errorCode.includes("ERR_RIGHTSIDE")
+    );
+
+    const checkboxErrors = errors.filter(({ errorCode }) =>
+      errorCode.includes(
+        "ERR_GROUP_MIXING_EXPRESSIONS_WITH_OR_STND_OPTIONS_IN_AND"
+      )
     );
 
     if (answerType === RADIO) {
-      return this.renderRadioOptionSelector(hasError);
+      return this.renderRadioOptionSelector(rightSideErrors);
     } else {
-      return this.renderCheckboxOptionSelector(hasError);
+      return this.renderCheckboxOptionSelector([
+        ...rightSideErrors,
+        ...checkboxErrors,
+      ]);
     }
   }
 }

@@ -22,6 +22,7 @@ exports[`TableSelect should render 1`] = `
   -webkit-transition: opacity 100ms ease-in-out;
   transition: opacity 100ms ease-in-out;
   border-radius: 4px;
+  border: thin solid #999999;
   line-height: 1.2;
 }
 
