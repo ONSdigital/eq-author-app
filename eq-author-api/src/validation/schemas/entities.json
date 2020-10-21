@@ -172,6 +172,21 @@
             },
             "then": {
               "properties": {
+                "qCode": {
+                  "allOf": [
+                    {
+                      "not": {
+                        "type": [
+                          "null"
+                        ]
+                      },
+                      "errorMessage": "ERR_VALID_REQUIRED"
+                    },
+                    {
+                      "$ref": "definitions.json#/definitions/populatedString"
+                    }
+                  ]
+                },
                 "summaryAnswers": {
                   "type": "array",
                   "items": {
@@ -256,6 +271,9 @@
           "type": "string"
         },
         "title": {
+          "$ref": "definitions.json#/definitions/populatedString"
+        },
+        "qCode": {
           "$ref": "definitions.json#/definitions/populatedString"
         },
         "positive": {
@@ -348,17 +366,7 @@
         "type": "object",
         "properties": {
           "qCode": {
-            "allOf": [
-              {
-                "not": {
-                  "type": "null"
-                },
-                "errorMessage": "ERR_VALID_REQUIRED"
-              },
-              {
-                "$ref": "definitions.json#/definitions/populatedString"
-              }
-            ]
+            "$ref": "definitions.json#/definitions/populatedString"
           },
           "id": {
             "type": "string"
@@ -393,17 +401,7 @@
         "type": "object",
         "properties": {
           "qCode": {
-            "allOf": [
-              {
-                "not": {
-                  "type": "null"
-                },
-                "errorMessage": "ERR_VALID_REQUIRED"
-              },
-              {
-                "$ref": "definitions.json#/definitions/populatedString"
-              }
-            ]
+            "$ref": "definitions.json#/definitions/populatedString"
           },
           "validation": {
             "if": {
@@ -584,17 +582,7 @@
             "type": "string"
           },
           "qCode": {
-            "anyOf": [
-              {
-                "not": {
-                  "type": "null"
-                },
-                "errorMessage": "ERR_VALID_REQUIRED"
-              },
-              {
-                "$ref": "definitions.json#/definitions/populatedString"
-              }
-            ]
+            "$ref": "definitions.json#/definitions/populatedString"
           },
           "options": {
             "type": "array",
@@ -603,7 +591,7 @@
                 "allOf": [
                   {
                     "not": {
-                      "type": "null"
+                      "type": null
                     },
                     "errorMessage": "ERR_VALID_REQUIRED"
                   },

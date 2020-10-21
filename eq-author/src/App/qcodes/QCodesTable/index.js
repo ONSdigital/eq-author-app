@@ -361,7 +361,7 @@ const RowBuilder = answers => {
   }, {});
 
   return answers.map((item, index) => {
-    console.log("\nitem in map", item);
+    console.log("\nitem in map : ", item);
 
     // let hasQcode = false;
     // item.qCode ? hasQcode = true : hasQcode = false;
@@ -373,7 +373,7 @@ const RowBuilder = answers => {
     // let noValQCodeError = find(item && item.validationErrorInfo && item.validationErrorInfo.errors, ({ field }) =>
     //   field.includes("qCode")
     // );
-    console.log('noValError' + item.label + ': ' + noValQCodeError);
+    console.log('noValError : ' + item.label + ': ' + noValQCodeError);
 
     return (
       <Row

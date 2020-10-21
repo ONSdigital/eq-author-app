@@ -62,6 +62,22 @@ export const UtilityBtns = styled.div`
   display: flex;
 `;
 
+const SmallBadge = styled.span`
+  border-radius: 50%;
+  background-color: ${colors.red};
+  border: 1px solid ${colors.white};
+  font-weight: normal;
+  z-index: 2;
+  pointer-events: none;
+  width: 0.75em;
+  height: 0.75em;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  top: 2px;
+  right: 2px;
+`;
+
 export const UnwrappedMainNavigation = props => {
   const { questionnaire, title, children, client, match } = props;
 
@@ -173,6 +189,7 @@ export const UnwrappedMainNavigation = props => {
                   <IconText nav icon={qcodeIcon}>
                     QCodes
                   </IconText>
+                  {questionnaire.qCodeErrorCount > 0 ? <SmallBadge data-test="small-badge" /> : null}
                 </RouteButton>
                 {me && <UserProfile nav signOut left client={client} />}
               </ButtonGroup>
