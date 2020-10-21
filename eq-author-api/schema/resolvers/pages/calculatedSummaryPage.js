@@ -69,11 +69,11 @@ Resolvers.CalculatedSummaryPage = {
       ({ pageId, field }) => id === pageId && field === "qCode"
     );
 
-    return {
+    return ({
       id,
       errors: calculatedSummaryErrors,
       totalCount: calculatedSummaryErrors.length - answerErrorsQCode.length,
-    };
+    });
   },
 };
 
