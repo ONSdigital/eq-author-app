@@ -1,4 +1,4 @@
-const { findIndex, omit, set } = require("lodash");
+const { findIndex, omit, set, filter } = require("lodash");
 
 const {
   getSectionByPageId,
@@ -7,6 +7,8 @@ const {
   getSectionById,
   getPageById,
   getMovePosition,
+  createFolder,
+  getFolderById,
 } = require("../utils");
 
 const onPageDeleted = require("../../../src/businessLogic/onPageDeleted");
@@ -24,39 +26,42 @@ Resolvers.Page = {
 
 Resolvers.Mutation = {
   movePage: createMutation((_, { input }, ctx) => {
-    // not 100% sold on this implementation yet
-    // I think the else branch doesn't work
-    // This might need to be redone
-    const section = getSectionByPageId(ctx, input.id);
-    const { id, position } = input;
-    let removedPage;
-    if (input.sectionId === section.id) {
-      const { previous, next } = getMovePosition(section, id, position);
-      removedPage = previous.page;
-      section.folders[previous.folderIndex].pages.splice(previous.pageIndex, 1);
-      section.folders[next.folderIndex].pages.splice(
-        position,
-        0,
-        previous.page
-      );
+    const { id: pageId, sectionId, folderId, position } = input;
+
+    const page = getPageById(ctx, pageId);
+    const oldSection = getSectionByPageId(ctx, pageId);
+    const newSection = getSectionById(ctx, sectionId);
+
+    oldSection.folders.map(folder => {
+      const { enabled, pages } = folder;
+      const index = pages.findIndex(({ id }) => id === page.id);
+
+      if (index > -1) {
+        pages.splice(index, 1);
+
+        if (enabled && !pages.length) {
+          pages.push(createQuestionPage());
+        }
+      }
+    });
+
+    oldSection.folders = filter(
+      oldSection.folders,
+      ({ pages }) => pages.length
+    );
+
+    if (folderId) {
+      const folder = getFolderById(ctx, folderId);
+      folder.pages.splice(position, 0, page);
+      page.folderId = folder.id;
     } else {
-      const newSection = getSectionById(ctx, input.sectionId);
-
-      const { previous, next } = getMovePosition(section, id, position);
-
-      removedPage = previous.page;
-
-      newSection.folders[previous.folderIndex].pages.splice(
-        previous.pageIndex,
-        1
-      );
-      newSection.folders[next.folderIndex].pages.splice(
-        position,
-        0,
-        previous.page
-      );
+      const { folders } = newSection;
+      const newFolder = createFolder({ pages: [page] });
+      folders.splice(position, 0, newFolder);
+      page.folderId = newFolder.id;
     }
-    return removedPage;
+
+    return { ...page, sectionId: newSection.id };
   }),
   deletePage: createMutation((_, { input }, ctx) => {
     const section = getSectionByPageId(ctx, input.id);

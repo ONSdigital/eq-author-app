@@ -1062,6 +1062,7 @@ input MoveFolderInput {
 input MovePageInput {
   id: ID!
   sectionId: ID!
+  folderId: ID
   position: Int!
 }
 

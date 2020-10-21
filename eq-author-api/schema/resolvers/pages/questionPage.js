@@ -65,21 +65,21 @@ Resolvers.QuestionPage = {
 Resolvers.Mutation = {
   createQuestionPage: createMutation(
     (root, { input: { position, ...pageInput } }, ctx) => {
-      // Both of these branches return page to satisfy type defs
-      if (pageInput.folderId) {
-        const folder = getFolderById(ctx, pageInput.folderId);
-        const page = createQuestionPage(pageInput);
-        const insertionPosition =
-          typeof position === "number" ? position : folder.pages.length;
-        folder.pages.splice(insertionPosition, 0, page);
-        return page;
+      const page = createQuestionPage(pageInput);
+      const { folderId, sectionId } = pageInput;
+
+      if (folderId) {
+        const folder = getFolderById(ctx, folderId);
+        const insertPosition = position > -1 ? position : folder.pages.length;
+        folder.pages.splice(insertPosition, 0, page);
       } else {
-        const folders = getFoldersBySectionId(ctx, pageInput.sectionId);
-        const page = createQuestionPage(pageInput);
-        const folder = createFolder(page);
-        folders.push(folder);
-        return page;
+        const folders = getFoldersBySectionId(ctx, sectionId);
+        const insertPosition = position > -1 ? position : folders.length;
+        const folder = createFolder({ pages: [page] });
+        folders.splice(insertPosition, 0, folder);
       }
+
+      return page;
     }
   ),
   updateQuestionPage: createMutation((_, { input }, ctx) => {

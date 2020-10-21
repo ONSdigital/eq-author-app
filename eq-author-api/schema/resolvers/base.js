@@ -262,6 +262,7 @@ const Resolvers = {
       await createComments(questionnaire.id);
       // Saving to ctx so it can be used by all other resolvers and read by tests
       ctx.questionnaire = await createQuestionnaire(questionnaire, ctx);
+
       return ctx.questionnaire;
     },
     updateQuestionnaire: createMutation((_, { input }, ctx) =>
