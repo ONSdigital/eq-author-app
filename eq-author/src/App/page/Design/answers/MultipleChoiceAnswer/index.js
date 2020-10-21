@@ -237,6 +237,9 @@ UnwrappedMultipleChoiceAnswer.fragments = {
             ...ValidationErrorInfo
           }
         }
+        validationErrorInfo {
+            ...ValidationErrorInfo
+          }
       }
     }
     ${Option.fragments.Option}

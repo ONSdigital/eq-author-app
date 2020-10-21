@@ -1027,6 +1027,9 @@
         },
         "additionalAnswer": {
           "$ref": "entities.json#/definitions/basicAnswer"
+        },
+        "qCode": {
+          "$ref": "definitions.json#/definitions/populatedString"
         }
       },
       "required": [

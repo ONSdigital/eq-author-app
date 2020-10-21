@@ -403,8 +403,13 @@ export const UnwrappedQCodeTable = ({ loading, error, data }) => {
   }
 
   const { sections } = data.questionnaire;
+  console.log('\nsections', sections);
+
   const { answers } = organiseAnswers(sections);
+  console.log('\n organise answers', answers);
+
   const flatten = flattenAnswers(answers);
+  console.log('\nflatten', flatten);
 
   return (
     <Table data-test="qcodes-table">
