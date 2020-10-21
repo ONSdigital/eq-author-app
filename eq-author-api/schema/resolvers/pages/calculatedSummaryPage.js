@@ -65,22 +65,15 @@ Resolvers.CalculatedSummaryPage = {
       ({ pageId }) => id === pageId
     );
 
-    if (!calculatedSummaryErrors) {
-      const noErrors = {
-        id,
-        errors: [],
-        totalCount: 0,
-      };
-      return noErrors;
-    }
+    const answerErrorsQCode = ctx.validationErrorInfo.filter(
+      ({ pageId, field }) => id === pageId && field === "qCode"
+    );
 
-    const errors = {
+    return {
       id,
       errors: calculatedSummaryErrors,
-      totalCount: calculatedSummaryErrors.length,
+      totalCount: calculatedSummaryErrors.length - answerErrorsQCode.length,
     };
-
-    return errors;
   },
 };
 

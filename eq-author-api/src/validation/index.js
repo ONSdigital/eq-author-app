@@ -24,10 +24,13 @@ module.exports = questionnaire => {
   );
 
   const errorMessagesWithQCodes = validate.errors.filter(
-    err => (err.keyword === "errorMessage" && err.dataPath.includes('qCode'))
+    err => err.keyword === "errorMessage" && err.dataPath.includes("qCode")
   );
 
-  console.log('\nerrorMessagesWithQCodes', JSON.stringify(errorMessagesWithQCodes, null, 7))
+  console.log(
+    "\nerrorMessagesWithQCodes",
+    JSON.stringify(errorMessagesWithQCodes, null, 7)
+  );
 
   const formattedErrorMessages = errorMessages.map(error => {
     if (error.sectionId) {
@@ -41,6 +44,10 @@ module.exports = questionnaire => {
     const { dataPath, message } = error;
 
     const splitDataPath = dataPath.split("/");
+
+    if (message === "ERR_QCODE_REQUIRED") {
+      splitDataPath.push("qCode");
+    }
 
     const newErrorMessage = createValidationError(
       splitDataPath,

@@ -26,7 +26,10 @@ import {
 import { TableInput } from "components/datatable/Controls";
 
 import { colors } from "constants/theme";
-import { QCODE_IS_NOT_UNIQUE, QCODE_REQUIRED } from "constants/validationMessages";
+import {
+  QCODE_IS_NOT_UNIQUE,
+  QCODE_REQUIRED,
+} from "constants/validationMessages";
 import {
   CHECKBOX,
   RADIO,
@@ -178,6 +181,7 @@ const organiseAnswers = sections => {
         qCode,
         totalTitle,
         summaryAnswers,
+        validationErrorInfo,
       } = item;
 
       const label = removeHtml(totalTitle);
@@ -185,7 +189,9 @@ const organiseAnswers = sections => {
       answerRows.push({
         title,
         alias,
-        answers: [{ id, type, qCode, label, summaryAnswers }],
+        answers: [
+          { id, type, qCode, label, summaryAnswers, validationErrorInfo },
+        ],
       });
     }
   }
@@ -257,7 +263,16 @@ const handleBlurReducer = ({ type, payload, mutation }) => {
 
 const Row = memo(
   props => {
-    const { id, title, alias, label, qCode: initialQcode, type, error, noValQCodeError } = props;
+    const {
+      id,
+      title,
+      alias,
+      label,
+      qCode: initialQcode,
+      type,
+      error,
+      noValQCodeError,
+    } = props;
     const commonFields = useCallback(
       fields => {
         const [qCode, setQcode] = useState(initialQcode);
@@ -363,11 +378,12 @@ const RowBuilder = answers => {
   return answers.map((item, index) => {
     console.log("\nitem in map : ", item);
 
-    let noValQCodeError = find(get(item, "validationErrorInfo.errors"), ({ field }) =>
-      field.includes("qCode")
+    let noValQCodeError = find(
+      get(item, "validationErrorInfo.errors"),
+      ({ field }) => field.includes("qCode")
     );
 
-    console.log('noValError : ' + item.label + ': ' + noValQCodeError);
+    console.log("noValError : " + item.label + ": " + noValQCodeError);
 
     return (
       <Row
@@ -376,7 +392,7 @@ const RowBuilder = answers => {
         error={duplicates[item.qCode] > 1}
         noValQCodeError={noValQCodeError}
       />
-    )
+    );
   });
 };
 
@@ -403,13 +419,13 @@ export const UnwrappedQCodeTable = ({ loading, error, data }) => {
   }
 
   const { sections } = data.questionnaire;
-  console.log('\nsections', sections);
+  console.log("\nsections", sections);
 
   const { answers } = organiseAnswers(sections);
-  console.log('\n organise answers', answers);
+  console.log("\n organise answers", answers);
 
   const flatten = flattenAnswers(answers);
-  console.log('\nflatten', flatten);
+  console.log("\nflatten", flatten);
 
   return (
     <Table data-test="qcodes-table">
