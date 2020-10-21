@@ -89,20 +89,23 @@ export class UnwrappedLogicPage extends React.Component {
     data: PropTypes.shape({
       page: CustomPropTypes.page,
     }),
+    client: PropTypes.shape({
+      cache: PropTypes.shape({
+        data: PropTypes.shape({
+          data: PropTypes.shape,
+        }),
+      }),
+    }),
     loading: PropTypes.bool.isRequired,
     error: PropTypes.object, // eslint-disable-line
   };
 
   renderContent() {
-    const { children, data } = this.props;
+    const { children, data, client } = this.props;
     const page = get(data, "page", null);
 
     const pageId = get(page, "id", null);
-    const pageData = get(
-      this.props.client.cache.data.data,
-      `QuestionPage${pageId}`,
-      null
-    );
+    const pageData = get(client.cache.data.data, `QuestionPage${pageId}`, null);
     const position = get(pageData, "position", null);
     const firstQuestion = position === 0;
 
