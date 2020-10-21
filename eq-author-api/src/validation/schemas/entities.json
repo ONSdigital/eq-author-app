@@ -172,6 +172,9 @@
             },
             "then": {
               "properties": {
+                "qCode": {
+                  "$ref": "definitions.json#/definitions/populatedString"
+                },
                 "summaryAnswers": {
                   "type": "array",
                   "items": {
