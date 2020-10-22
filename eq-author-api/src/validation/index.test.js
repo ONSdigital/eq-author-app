@@ -654,6 +654,62 @@ describe("schema validation", () => {
               expect(pageErrors).toHaveLength(0);
             });
           });
+
+          it("should validate if qCode is missing", () => {
+            const answer = {
+              id: "a1",
+              type: DATE_RANGE,
+              label: "some answer",
+              qCode: "",
+              secondaryQCode: "secQCode1",
+            };
+
+            const questionnaire = {
+              id: "q1",
+              sections: [
+                {
+                  id: "s1",
+                  pages: [
+                    {
+                      id: "p1",
+                      answers: [answer],
+                    },
+                  ],
+                },
+              ],
+            };
+            const pageErrors = validation(questionnaire);
+
+            expect(pageErrors).toHaveLength(1);
+          });
+
+          it("should validate if secondaryQCode is missing", () => {
+            const answer = {
+              id: "a1",
+              type: DATE_RANGE,
+              label: "some answer",
+              qCode: "",
+              secondaryQCode: "secQCode1",
+            };
+
+            const questionnaire = {
+              id: "q1",
+              sections: [
+                {
+                  id: "s1",
+                  pages: [
+                    {
+                      id: "p1",
+                      answers: [answer],
+                    },
+                  ],
+                },
+              ],
+            };
+            const pageErrors = validation(questionnaire);
+
+            expect(pageErrors).toHaveLength(1);
+          });
         });
         describe("Min duration and max duration", () => {
           it("Date Range - should validate that latest date is always after earlier date", () => {
