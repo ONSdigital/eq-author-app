@@ -1056,8 +1056,14 @@
       },
       "required": [
         "id",
-        "label"
-      ]
+        "label",
+        "qCode"
+      ],
+      "errorMessage": {
+        "required": {
+          "qCode": "ERR_QCODE_REQUIRED"
+        }
+      }
     },
     "routingRule": {
       "properties": {
