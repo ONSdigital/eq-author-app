@@ -359,7 +359,7 @@ const RowBuilder = answers => {
 
     let noValQCodeError = find(
       get(item, "validationErrorInfo.errors"),
-      ({ field }) => field.includes("qCode") || field.includes("secondaryQCode")
+      ({ field }) => field.includes(item.secondary ? "secondaryQCode" : "qCode")
     );
 
     console.log("noValError : " + item.label + ": " + noValQCodeError);
