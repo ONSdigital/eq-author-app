@@ -437,7 +437,6 @@ describe("validation", () => {
 
     describe("Earliest", () => {
       it("should be able to update properties", async () => {
-        jest.setTimeout(30000);
         const answer = await createAnswer(ctx, {
           questionPageId: page.id,
           type: DATE,
@@ -461,6 +460,7 @@ describe("validation", () => {
       });
 
       it("can update previous answer", async () => {
+        jest.setTimeout(30000);
         const previousAnswer = await createAnswer(ctx, {
           questionPageId: page.id,
           type: DATE,
