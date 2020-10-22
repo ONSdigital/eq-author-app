@@ -157,12 +157,19 @@ const organiseAnswers = sections => {
     }
 
     if (confirmation) {
-      const { id, title, alias, qCode, __typename: type } = confirmation;
+      const {
+        id,
+        title,
+        alias,
+        qCode,
+        validationErrorInfo,
+        __typename: type,
+      } = confirmation;
 
       answerRows.push({
         title: title,
         alias,
-        answers: [{ id, qCode, type }],
+        answers: [{ id, qCode, type, validationErrorInfo }],
       });
     }
   }

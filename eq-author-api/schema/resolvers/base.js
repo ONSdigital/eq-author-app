@@ -939,16 +939,14 @@ const Resolvers = {
       const validationErrorsQCode = ctx.validationErrorInfo.filter(
         ({ field }) => field === "qCode"
       );
-      return ctx.validationErrorInfo.length - validationErrorsQCode.length
-
+      return ctx.validationErrorInfo.length - validationErrorsQCode.length;
     },
     qCodeErrorCount: (questionnaire, args, ctx) => {
       const validationErrorsQCode = ctx.validationErrorInfo.filter(
         ({ field }) => field === "qCode"
       );
-      return validationErrorsQCode.length
-
-    }
+      return validationErrorsQCode.length;
+    },
   },
 
   History: {
@@ -1436,18 +1434,14 @@ const Resolvers = {
         ({ confirmationId }) => id === confirmationId
       );
 
-      if (!confirmationQuestionErrors) {
-        return {
-          id,
-          errors: [],
-          totalCount: 0,
-        };
-      }
+      const qCodeErrors = confirmationQuestionErrors.filter(
+        ({ field }) => field === "qCode"
+      );
 
       return {
         id,
         errors: confirmationQuestionErrors,
-        totalCount: confirmationQuestionErrors.length,
+        totalCount: confirmationQuestionErrors.length - qCodeErrors.length,
       };
     },
   },

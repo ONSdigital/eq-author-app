@@ -79,17 +79,15 @@ Resolvers.QuestionPage = {
     //remove qcode errors from total here - important as Qcode errors don't count to total
     // otherwise error totals get confusing for users!!!!!!
 
-    const answerErrorsQCode = ctx.validationErrorInfo.filter(
-      ({ pageId, field }) => id === pageId && field === "qCode"
+    const answerErrorsQCode = pageErrors.filter(
+      ({ field }) => field === "qCode"
     );
 
-    const adjustedTotalCount = pageErrors.length - answerErrorsQCode.length;
-
-    if (!pageErrors) {
-      return ({ id, errors: [], totalCount: 0 });
-    }
-
-    return ({ id, errors: pageErrors, totalCount: adjustedTotalCount });
+    return {
+      id,
+      errors: pageErrors,
+      totalCount: pageErrors.length - answerErrorsQCode.length,
+    };
   },
 };
 
