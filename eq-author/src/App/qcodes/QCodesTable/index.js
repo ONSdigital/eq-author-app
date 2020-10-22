@@ -301,6 +301,8 @@ const Row = memo(
               )}
 
               {noValQCodeError && (
+                console.log('noValQCodeError', JSON.stringify(noValQCodeError, null, 7)),
+
                 <QcodeValidationError right>
                   {QCODE_REQUIRED}
                 </QcodeValidationError>
@@ -340,6 +342,7 @@ const Row = memo(
 );
 
 const RowBuilder = answers => {
+
   const duplicates = answers.reduce((acc, item) => {
     if (
       acc.hasOwnProperty(item.qCode) &&
