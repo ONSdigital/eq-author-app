@@ -112,6 +112,51 @@ describe("schema validation", () => {
       });
     });
 
+    it("should validate that question description has been filled in when enabled", () => {
+      const page = questionnaire.sections[0].pages[0];
+      page.descriptionEnabled = true;
+      page.description = "";
+
+      const validationPageErrors = validation(questionnaire);
+
+      expect(validationPageErrors[0]).toMatchObject({
+        errorCode: "ERR_VALID_REQUIRED",
+        field: "description",
+        id: uuidRejex,
+        type: "page",
+      });
+    });
+
+    it("should validate that additional info label has been filled in when enabled", () => {
+      const page = questionnaire.sections[0].pages[0];
+      page.additionalInfoEnabled = true;
+      page.additionalInfoLabel = "";
+
+      const validationPageErrors = validation(questionnaire);
+
+      expect(validationPageErrors[0]).toMatchObject({
+        errorCode: "ERR_VALID_REQUIRED",
+        field: "additionalInfoLabel",
+        id: uuidRejex,
+        type: "page",
+      });
+    });
+
+    it("should validate that additional info content has been filled in when enabled", () => {
+      const page = questionnaire.sections[0].pages[0];
+      page.additionalInfoEnabled = true;
+      page.additionalInfoContent = "";
+
+      const validationPageErrors = validation(questionnaire);
+
+      expect(validationPageErrors[0]).toMatchObject({
+        errorCode: "ERR_VALID_REQUIRED",
+        field: "additionalInfoContent",
+        id: uuidRejex,
+        type: "page",
+      });
+    });
+
     it("should validate that include/exclude guidance has been filled in when enabled", () => {
       const page = questionnaire.sections[0].pages[0];
       page.guidanceEnabled = true;

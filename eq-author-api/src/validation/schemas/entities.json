@@ -139,6 +139,25 @@
         {
           "if": {
             "properties": {
+              "additionalInfoEnabled": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "additionalInfoLabel": {
+                "$ref": "definitions.json#/definitions/populatedString"
+              },
+              "additionalInfoContent": {
+                "$ref": "definitions.json#/definitions/populatedString"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
               "guidanceEnabled": {
                 "const": true
               }
@@ -147,6 +166,22 @@
           "then": {
             "properties": {
               "guidance": {
+                "$ref": "definitions.json#/definitions/populatedString"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "descriptionEnabled": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "description": {
                 "$ref": "definitions.json#/definitions/populatedString"
               }
             }

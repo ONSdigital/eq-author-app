@@ -16,6 +16,8 @@ import MultipleFieldEditor from "./MultipleFieldEditor";
 import focusOnElement from "utils/focusOnElement";
 import pageFragment from "graphql/fragments/page.graphql";
 
+import { getErrorByField } from "./validationUtils.js";
+
 const contentControls = {
   bold: true,
   emphasis: true,
@@ -28,6 +30,9 @@ export const StatelessAdditionalInfo = ({
   onUpdate,
   fetchAnswers,
   onChangeUpdate,
+  page: {
+    validationErrorInfo: { errors },
+  },
 }) => (
   <TransitionGroup>
     {page.additionalInfoEnabled && (
@@ -49,6 +54,10 @@ export const StatelessAdditionalInfo = ({
               onBlur={onUpdate}
               value={page.additionalInfoLabel}
               bold
+              errorValidationMsg={getErrorByField(
+                "additionalInfoLabel",
+                errors
+              )}
             />
           </Field>
           <RichTextEditor
@@ -62,6 +71,10 @@ export const StatelessAdditionalInfo = ({
             fetchAnswers={fetchAnswers}
             metadata={page.section.questionnaire.metadata}
             testSelector="txt-question-additional-info-content"
+            errorValidationMsg={getErrorByField(
+              "additionalInfoContent",
+              errors
+            )}
           />
         </MultipleFieldEditor>
       </AnswerTransition>
