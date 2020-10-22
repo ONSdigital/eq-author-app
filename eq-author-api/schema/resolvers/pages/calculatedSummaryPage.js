@@ -65,15 +65,11 @@ Resolvers.CalculatedSummaryPage = {
       ({ pageId }) => id === pageId
     );
 
-    const answerErrorsQCode = ctx.validationErrorInfo.filter(
-      ({ pageId, field }) => id === pageId && field === "qCode"
-    );
-
-    return ({
+    return {
       id,
       errors: calculatedSummaryErrors,
-      totalCount: calculatedSummaryErrors.length - answerErrorsQCode.length,
-    });
+      totalCount: calculatedSummaryErrors.length,
+    };
   },
 };
 

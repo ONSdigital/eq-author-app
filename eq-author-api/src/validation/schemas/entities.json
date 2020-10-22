@@ -188,9 +188,6 @@
             },
             "then": {
               "properties": {
-                "qCode": {
-                  "$ref": "definitions.json#/definitions/populatedString"
-                },
                 "summaryAnswers": {
                   "type": "array",
                   "items": {
@@ -210,14 +207,8 @@
                 }
               },
               "required": [
-                "summaryAnswers",
-                "qCode"
-              ],
-              "errorMessage": {
-                "required": {
-                  "qCode": "ERR_QCODE_REQUIRED"
-                }
-              }
+                "summaryAnswers"
+              ]
             }
           }
         }

@@ -103,13 +103,7 @@ const organiseAnswers = sections => {
   let answerRows = [];
 
   for (const item of questions) {
-    const {
-      title,
-      alias,
-      answers,
-      confirmation,
-      summaryAnswers: calculatedSummary,
-    } = item;
+    const { title, alias, answers, confirmation } = item;
 
     if (answers) {
       const extraCheck = answers.reduce((acc, item) => {
@@ -169,29 +163,6 @@ const organiseAnswers = sections => {
         title: title,
         alias,
         answers: [{ id, qCode, type }],
-      });
-    }
-
-    if (calculatedSummary && calculatedSummary.length) {
-      const {
-        id,
-        pageType: type,
-        alias,
-        title,
-        qCode,
-        totalTitle,
-        summaryAnswers,
-        validationErrorInfo,
-      } = item;
-
-      const label = removeHtml(totalTitle);
-
-      answerRows.push({
-        title,
-        alias,
-        answers: [
-          { id, type, qCode, label, summaryAnswers, validationErrorInfo },
-        ],
       });
     }
   }
