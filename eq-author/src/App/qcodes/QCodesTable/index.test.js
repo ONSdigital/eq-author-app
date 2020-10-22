@@ -545,9 +545,9 @@ describe("Qcode Table", () => {
     expect(getByText("Embedded checkbox Either")).toBeTruthy();
     expect(getByText("Embedded checkbox Or")).toBeTruthy();
     expect(getByText("From")).toBeTruthy();
-    expect(renderedQuestions.length).toEqual(8); // equal to non nested rows
+    expect(renderedQuestions.length).toEqual(7); // equal to non nested rows
 
-    const answerRows = 22; // equal to answers present in questionnaire
+    const answerRows = 21; // equal to answers present in questionnaire
     expect(getAllByTestId("answer-row-test").length).toEqual(answerRows);
   });
 

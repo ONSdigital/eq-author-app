@@ -6,8 +6,5 @@ mutation UpdateCalculatedSummaryPage(
   updateCalculatedSummaryPage(input: $input) {
     id
     qCode
-    validationErrorInfo {
-      ...ValidationErrorInfo
-    }
   }
 }
