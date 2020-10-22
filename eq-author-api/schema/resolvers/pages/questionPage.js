@@ -80,7 +80,7 @@ Resolvers.QuestionPage = {
     // otherwise error totals get confusing for users!!!!!!
 
     const answerErrorsQCode = pageErrors.filter(
-      ({ field }) => field === "qCode"
+      ({ field }) => field === "qCode" || field === "secondaryQCode"
     );
 
     return {

@@ -782,6 +782,9 @@
           "qCode": {
             "$ref": "definitions.json#/definitions/populatedString"
           },
+          "secondaryQCode": {
+            "$ref": "definitions.json#/definitions/populatedString"
+          },
           "validation": {
             "allOf": [
               {
@@ -1020,6 +1023,16 @@
           },
           "properties": {
             "$ref": "entities.json#/definitions/properties"
+          }
+        },
+        "required": [
+          "qCode",
+          "secondaryQCode"
+        ],
+        "errorMessage": {
+          "required": {
+            "qCode": "ERR_QCODE_REQUIRED",
+            "secondaryQCode": "ERR_SECONDARY_QCODE_REQUIRED"
           }
         }
       }

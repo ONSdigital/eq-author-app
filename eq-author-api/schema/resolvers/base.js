@@ -937,13 +937,13 @@ const Resolvers = {
       //remove qcode errors from total here - important as Qcode errors don't count to total
       // otherwise error totals get confusing for users!!!!!!
       const validationErrorsQCode = ctx.validationErrorInfo.filter(
-        ({ field }) => field === "qCode"
+        ({ field }) => field === "qCode" || field === "secondaryQCode"
       );
       return ctx.validationErrorInfo.length - validationErrorsQCode.length;
     },
     qCodeErrorCount: (questionnaire, args, ctx) => {
       const validationErrorsQCode = ctx.validationErrorInfo.filter(
-        ({ field }) => field === "qCode"
+        ({ field }) => field === "qCode" || field === "secondaryQCode"
       );
       return validationErrorsQCode.length;
     },
@@ -1047,27 +1047,14 @@ const Resolvers = {
         ({ answerId }) => id === answerId
       );
 
-      const answerErrorsQCode = ctx.validationErrorInfo.filter(
-        ({ answerId, field }) => id === answerId && field === "qCode"
+      const answerErrorsQCode = answerErrors.filter(
+        ({ field }) => field === "qCode" || field === "secondaryQCode"
       );
-
-      // console.log('\\answerErrors', answerErrors.length);
-      // console.log('\\answerErrorsqCode', answerErrorsQCode.length);
-
-      const adjustedTotalCount = answerErrors.length - answerErrorsQCode.length;
-
-      if (!answerErrors) {
-        return {
-          id,
-          errors: [],
-          totalCount: 0,
-        };
-      }
 
       return {
         id,
         errors: answerErrors,
-        totalCount: adjustedTotalCount,
+        totalCount: answerErrors.length - answerErrorsQCode.length,
       };
     },
   },

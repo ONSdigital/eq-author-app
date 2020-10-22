@@ -141,6 +141,7 @@ const organiseAnswers = sections => {
             label: item.secondaryLabel,
             qCode: item.secondaryQCode,
             type: item.type,
+            validationErrorInfo: item.validationErrorInfo,
             secondary: true,
           });
         }
@@ -358,7 +359,7 @@ const RowBuilder = answers => {
 
     let noValQCodeError = find(
       get(item, "validationErrorInfo.errors"),
-      ({ field }) => field.includes("qCode")
+      ({ field }) => field.includes("qCode") || field.includes("secondaryQCode")
     );
 
     console.log("noValError : " + item.label + ": " + noValQCodeError);
