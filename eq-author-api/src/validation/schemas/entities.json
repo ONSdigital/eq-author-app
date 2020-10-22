@@ -327,8 +327,14 @@
       "required": [
         "id",
         "title",
-        "positive"
-      ]
+        "positive",
+        "qCode"
+      ],
+      "errorMessage": {
+        "required": {
+          "qCode": "ERR_QCODE_REQUIRED"
+        }
+      }
     },
     "answer": {
       "allOf": [
