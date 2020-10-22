@@ -1051,8 +1051,6 @@ const Resolvers = {
         ({ field }) => field === "qCode" || field === "secondaryQCode"
       );
 
-      const adjustedTotalCount = answerErrors.length - answerErrorsQCode.length;
-
       if (!answerErrors) {
         return {
           id,
@@ -1063,7 +1061,7 @@ const Resolvers = {
 
       return {
         id,
-        errors: adjustedTotalCount,
+        errors: answerErrors,
         totalCount: answerErrors.length - answerErrorsQCode.length,
       };
     },

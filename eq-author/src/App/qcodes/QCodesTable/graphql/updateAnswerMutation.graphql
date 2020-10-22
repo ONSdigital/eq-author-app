@@ -10,5 +10,10 @@ mutation UpdateAnswerQCode($input: UpdateAnswerInput!) {
         ...ValidationErrorInfo
       }
     }
+    ... on MultipleChoiceAnswer {
+    validationErrorInfo {
+        ...ValidationErrorInfo
+      }
+    }
   }
 }

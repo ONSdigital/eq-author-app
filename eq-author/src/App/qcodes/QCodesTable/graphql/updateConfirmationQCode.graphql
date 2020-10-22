@@ -5,7 +5,7 @@ mutation UpdateAnswerQCode($input: UpdateQuestionConfirmationInput!) {
     id
     qCode
     validationErrorInfo {
-  ...ValidationErrorInfo
-}
+      ...ValidationErrorInfo
+    }
   }
 }
