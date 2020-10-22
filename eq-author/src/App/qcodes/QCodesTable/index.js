@@ -301,8 +301,6 @@ const Row = memo(
               )}
 
               {noValQCodeError && (
-                console.log('noValQCodeError', JSON.stringify(noValQCodeError, null, 7)),
-
                 <QcodeValidationError right>
                   {QCODE_REQUIRED}
                 </QcodeValidationError>

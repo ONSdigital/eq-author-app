@@ -4,7 +4,6 @@ import { render, fireEvent, act, flushPromises } from "tests/utils/rtl";
 import UPDATE_ANSWER_QCODE from "./graphql/updateAnswerMutation.graphql";
 import UPDATE_OPTION_QCODE from "./graphql/updateOptionMutation.graphql";
 import UPDATE_CONFIRMATION_QCODE from "./graphql/updateConfirmationQCode.graphql";
-import UPDATE_CALCSUM_QCODE from "./graphql/updateCalculatedSummary.graphql";
 
 import { MeContext } from "App/MeContext";
 import { UnwrappedQCodeTable } from "./index";
@@ -23,7 +22,7 @@ import {
   CHECKBOX,
   NUMBER,
 } from "constants/answer-types";
-import { QCODE_IS_NOT_UNIQUE, QCODE_REQUIRED } from "constants/validationMessages";
+import { QCODE_IS_NOT_UNIQUE } from "constants/validationMessages";
 
 const dummyQcodes = {
   duplicate: "123",
