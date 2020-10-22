@@ -999,15 +999,18 @@ describe("schema validation", () => {
           {
             id: "option-1",
             label: "a",
+            qCode: "qcode1",
           },
           {
             id: "option-2",
             label: "b",
+            qCode: "qcode2",
           },
           {
             id: "option-3",
             label: "or",
             mutuallyExclusive: true,
+            qCode: "qcode3",
           },
         ],
       };
@@ -1069,15 +1072,18 @@ describe("schema validation", () => {
           {
             id: "option-1",
             label: "a",
+            qCode: "qcode1",
           },
           {
             id: "option-2",
             label: "b",
+            qCode: "qcode2",
           },
           {
             id: "option-3",
             label: "or",
             mutuallyExclusive: true,
+            qCode: "qcode3",
           },
         ],
       };

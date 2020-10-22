@@ -1051,9 +1051,19 @@ const Resolvers = {
         ({ field }) => field === "qCode" || field === "secondaryQCode"
       );
 
+      const adjustedTotalCount = answerErrors.length - answerErrorsQCode.length;
+
+      if (!answerErrors) {
+        return {
+          id,
+          errors: [],
+          totalCount: 0,
+        };
+      }
+
       return {
         id,
-        errors: answerErrors,
+        errors: adjustedTotalCount,
         totalCount: answerErrors.length - answerErrorsQCode.length,
       };
     },

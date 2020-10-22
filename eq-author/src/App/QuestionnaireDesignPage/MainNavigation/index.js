@@ -81,8 +81,6 @@ const SmallBadge = styled.span`
 export const UnwrappedMainNavigation = props => {
   const { questionnaire, title, children, client, match } = props;
 
-  console.log("questionnaire side menu:::", JSON.stringify(questionnaire, null, 7))
-
   const { me } = useMe();
   const [isSettingsModalOpen, setSettingsModalOpen] = useState(
     match.params.modifier === "settings"

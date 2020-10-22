@@ -423,10 +423,12 @@ describe("multiple choice answer", () => {
                     {
                       id: "c0aa1df9",
                       label: "",
+                      qCode: "qCode1",
                     },
                     {
                       id: "2e275ff8",
                       label: "b",
+                      qCode: "qCode2",
                     },
                   ],
                 },

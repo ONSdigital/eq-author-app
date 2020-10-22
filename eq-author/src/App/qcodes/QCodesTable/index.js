@@ -355,14 +355,11 @@ const RowBuilder = answers => {
   }, {});
 
   return answers.map((item, index) => {
-    console.log("\nitem in map : ", item);
 
     let noValQCodeError = find(
       get(item, "validationErrorInfo.errors"),
       ({ field }) => field.includes(item.secondary ? "secondaryQCode" : "qCode")
     );
-
-    console.log("noValError : " + item.label + ": " + noValQCodeError);
 
     return (
       <Row
@@ -398,13 +395,8 @@ export const UnwrappedQCodeTable = ({ loading, error, data }) => {
   }
 
   const { sections } = data.questionnaire;
-  console.log("\nsections", sections);
-
   const { answers } = organiseAnswers(sections);
-  console.log("\n organise answers", answers);
-
   const flatten = flattenAnswers(answers);
-  console.log("\nflatten", flatten);
 
   return (
     <Table data-test="qcodes-table">

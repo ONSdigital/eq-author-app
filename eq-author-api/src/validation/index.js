@@ -23,15 +23,6 @@ module.exports = questionnaire => {
     err => err.keyword === "errorMessage"
   );
 
-  const errorMessagesWithQCodes = validate.errors.filter(
-    err => err.keyword === "errorMessage" && err.dataPath.includes("qCode")
-  );
-
-  console.log(
-    "\nerrorMessagesWithQCodes",
-    JSON.stringify(errorMessagesWithQCodes, null, 7)
-  );
-
   const formattedErrorMessages = errorMessages.map(error => {
     if (error.sectionId) {
       delete error.dataPath;
