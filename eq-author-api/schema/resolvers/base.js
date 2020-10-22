@@ -1085,6 +1085,21 @@ const Resolvers = {
     mutuallyExclusiveOption: answer =>
       find(answer.options, { mutuallyExclusive: true }),
     displayName: answer => getName(answer, "MultipleChoiceAnswer"),
+    validationErrorInfo: ({ id }, args, ctx) => {
+      const answerErrors = ctx.validationErrorInfo.filter(
+        ({ answerId }) => id === answerId
+      );
+
+      const qCodeErrorCount = answerErrors.filter(
+        ({ field }) => field === "qCode"
+      ).length;
+
+      return {
+        id,
+        errors: answerErrors,
+        totalCount: answerErrors.length - qCodeErrorCount,
+      };
+    },
   },
 
   Option: {
