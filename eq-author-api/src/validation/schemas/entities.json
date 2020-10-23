@@ -613,7 +613,9 @@
       "if": {
         "properties": {
           "type": {
-            "const": "Checkbox"
+            "enum": [
+              "Checkbox"
+            ]
           }
         }
       },
@@ -665,7 +667,9 @@
       "if": {
         "properties": {
           "type": {
-            "const": "Radio"
+            "enum": [
+              "Radio"
+            ]
           }
         }
       },

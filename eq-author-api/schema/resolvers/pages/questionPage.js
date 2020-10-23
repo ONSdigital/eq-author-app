@@ -74,7 +74,7 @@ Resolvers.QuestionPage = {
   },
   validationErrorInfo: ({ id }, args, ctx) => {
     const pageErrors = ctx.validationErrorInfo.filter(
-      ({ pageId, type }) => id === pageId && type === "page"
+      ({ pageId }) => id === pageId
     );
     //remove qcode errors from total here - important as Qcode errors don't count to total
     // otherwise error totals get confusing for users!!!!!!

@@ -419,6 +419,7 @@ describe("multiple choice answer", () => {
                   id: "84ab357d",
                   type: "Radio",
                   label: "",
+                  qCode: "qcode A",
                   options: [
                     {
                       id: "c0aa1df9",

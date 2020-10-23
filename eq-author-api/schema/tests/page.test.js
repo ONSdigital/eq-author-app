@@ -382,7 +382,7 @@ describe("page", () => {
                         label: "",
                         qCode: "qCode1",
                       },
-                      { label: "", qCode: "qCode2", },
+                      { label: "", qCode: "qCode 2", },
                     ],
                   },
                 ],
