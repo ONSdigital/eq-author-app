@@ -284,28 +284,32 @@ const Row = memo(
           <>
             <SpacedTableColumn>{questionMatrix[type]}</SpacedTableColumn>
             <SpacedTableColumn>{label}</SpacedTableColumn>
-            <SpacedTableColumn>
-              <ErrorWrappedInput
-                value={qCode}
-                onChange={e => setQcode(e.value)}
-                onBlur={() => handleBlur(id, type, qCode)}
-                name={`${id}-qcode-entry`}
-                data-test={`${id}-test-input`}
-                error={error}
-              />
+            {type === "Checkbox" ? (
+              <EmptyTableColumn />
+            ) : (
+              <SpacedTableColumn>
+                <ErrorWrappedInput
+                  value={qCode}
+                  onChange={e => setQcode(e.value)}
+                  onBlur={() => handleBlur(id, type, qCode)}
+                  name={`${id}-qcode-entry`}
+                  data-test={`${id}-test-input`}
+                  error={error}
+                />
 
-              {error && (
-                <QcodeValidationError right>
-                  {QCODE_IS_NOT_UNIQUE}
-                </QcodeValidationError>
-              )}
+                {error && (
+                  <QcodeValidationError right>
+                    {QCODE_IS_NOT_UNIQUE}
+                  </QcodeValidationError>
+                )}
 
-              {noValQCodeError && (
-                <QcodeValidationError right>
-                  {QCODE_REQUIRED}
-                </QcodeValidationError>
-              )}
-            </SpacedTableColumn>
+                {noValQCodeError && (
+                  <QcodeValidationError right>
+                    {QCODE_REQUIRED}
+                  </QcodeValidationError>
+                )}
+              </SpacedTableColumn>
+            )}
           </>
         );
       },
@@ -340,7 +344,6 @@ const Row = memo(
 );
 
 const RowBuilder = answers => {
-
   const duplicates = answers.reduce((acc, item) => {
     if (
       acc.hasOwnProperty(item.qCode) &&
@@ -356,7 +359,6 @@ const RowBuilder = answers => {
   }, {});
 
   return answers.map((item, index) => {
-
     let noValQCodeError = find(
       get(item, "validationErrorInfo.errors"),
       ({ field }) => field.includes("qCode") || field.includes("secondaryQCode")

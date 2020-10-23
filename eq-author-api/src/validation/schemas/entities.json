@@ -377,7 +377,10 @@
           "$ref": "entities.json#/definitions/basicAnswer"
         },
         {
-          "$ref": "entities.json#/definitions/multipleChoiceAnswer"
+          "$ref": "entities.json#/definitions/checkboxAnswer"
+        },
+        {
+          "$ref": "entities.json#/definitions/radioAnswer"
         },
         {
           "$ref": "entities.json#/definitions/numericAnswer"
@@ -606,14 +609,11 @@
       },
       "else": false
     },
-    "multipleChoiceAnswer": {
+    "checkboxAnswer": {
       "if": {
         "properties": {
           "type": {
-            "enum": [
-              "Checkbox",
-              "Radio"
-            ]
+            "const": "Checkbox"
           }
         }
       },
@@ -623,14 +623,22 @@
           "id": {
             "type": "string"
           },
-          "qCode": {
-            "$ref": "definitions.json#/definitions/populatedString"
-          },
           "options": {
             "type": "array",
             "items": {
-              "qCode": {
-                "$ref": "definitions.json#/definitions/populatedString"
+              "type": "object",
+              "properties": {
+                "qCode": {
+                  "$ref": "definitions.json#/definitions/populatedString"
+                }
+              },
+              "required": [
+                "qCode"
+              ],
+              "errorMessage": {
+                "required": {
+                  "qCode": "ERR_QCODE_REQUIRED"
+                }
               },
               "allOf": [
                 {
@@ -650,6 +658,53 @@
           "id",
           "options"
         ]
+      },
+      "else": false
+    },
+    "radioAnswer": {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "Radio"
+          }
+        }
+      },
+      "then": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "qCode": {
+            "$ref": "definitions.json#/definitions/populatedString"
+          },
+          "options": {
+            "type": "array",
+            "items": {
+              "allOf": [
+                {
+                  "$ref": "entities.json#/definitions/option"
+                },
+                {
+                  "uniquePropertyValueInArrayOfObjects": "label"
+                }
+              ]
+            }
+          },
+          "mutuallyExclusiveOption": {
+            "$ref": "entities.json#/definitions/option"
+          }
+        },
+        "required": [
+          "id",
+          "options",
+          "qCode"
+        ],
+        "errorMessage": {
+          "required": {
+            "qCode": "ERR_QCODE_REQUIRED"
+          }
+        }
       },
       "else": false
     },
@@ -1104,14 +1159,8 @@
       },
       "required": [
         "id",
-        "label",
-        "qCode"
-      ],
-      "errorMessage": {
-        "required": {
-          "qCode": "ERR_QCODE_REQUIRED"
-        }
-      }
+        "label"
+      ]
     },
     "routingRule": {
       "properties": {
