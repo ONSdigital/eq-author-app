@@ -15,6 +15,8 @@ const {
   updateRightSide,
 } = require("./routing");
 
+const { getPageById } = require("../../../schema/resolvers/utils");
+
 const convertPathToDestination = (
   { section, page, logical },
   questionnaire
@@ -34,24 +36,28 @@ const convertPathToDestination = (
   }
 };
 
-module.exports = async (ctx, config) => {
+module.exports = (ctx, config) => {
   const { questionnaire } = ctx;
   const { sections } = config;
-  if (!Array.isArray(sections)) {
+  if (!sections) {
     return;
   }
-  for (let sectionIndex = 0; sectionIndex < sections.length; sectionIndex++) {
-    const { pages } = sections[sectionIndex];
-    if (!Array.isArray(pages)) {
+  sections.forEach(section => {
+    const { folders } = section;
+    if (!folders) {
       return;
     }
-    for (let pageIndex = 0; pageIndex < pages.length; pageIndex++) {
-      if (pages[pageIndex].routing) {
-        const { routing } = pages[pageIndex];
-        const questionnairePage = get(
-          questionnaire,
-          `sections[${sectionIndex}].pages[${pageIndex}]`
-        );
+    folders.forEach(folder => {
+      const { pages } = folder;
+      if (!pages) {
+        return;
+      }
+      pages.forEach(async page => {
+        const { id: pageId, routing } = page;
+        if (!routing) {
+          return;
+        }
+        const questionnairePage = getPageById(ctx, pageId);
         let createdRouting = await createRouting(ctx, questionnairePage);
         if (routing.else) {
           createdRouting = await updateRouting(ctx, {
@@ -60,12 +66,11 @@ module.exports = async (ctx, config) => {
           });
         }
         const rules = get(routing, "rules", []);
-        if (!Array.isArray(rules)) {
+        if (!rules) {
           return;
         }
-        for (let ruleIndex = 0; ruleIndex < rules.length; ruleIndex++) {
+        rules.forEach(async (rule, ruleIndex) => {
           let createdRule = createdRouting.rules[ruleIndex];
-          const rule = rules[ruleIndex];
           if (createdRouting.rules[ruleIndex] && rule.destination) {
             createdRule = await updateRoutingRule(ctx, {
               id: createdRouting.rules[ruleIndex].id,
@@ -121,8 +126,8 @@ module.exports = async (ctx, config) => {
               });
             }
           }
-        }
-      }
-    }
-  }
+        });
+      });
+    });
+  });
 };
