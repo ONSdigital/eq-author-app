@@ -4,7 +4,6 @@ import { render, fireEvent, act, flushPromises } from "tests/utils/rtl";
 import UPDATE_ANSWER_QCODE from "./graphql/updateAnswerMutation.graphql";
 import UPDATE_OPTION_QCODE from "./graphql/updateOptionMutation.graphql";
 import UPDATE_CONFIRMATION_QCODE from "./graphql/updateConfirmationQCode.graphql";
-import UPDATE_CALCSUM_QCODE from "./graphql/updateCalculatedSummary.graphql";
 
 import { MeContext } from "App/MeContext";
 import { UnwrappedQCodeTable } from "./index";
@@ -56,6 +55,7 @@ describe("Qcode Table", () => {
                   guidance: "",
                   label: "num1",
                   qCode: dummyQcodes.duplicate,
+                  secondaryQCode: "1",
                   type: NUMBER,
                   questionPageId: "qp-1",
                   secondaryLabel: null,
@@ -66,6 +66,7 @@ describe("Qcode Table", () => {
                   guidance: "",
                   label: "curr1",
                   qCode: dummyQcodes.duplicate,
+                  secondaryQCode: "2",
                   type: CURRENCY,
                   questionPageId: "qp-1",
 
@@ -77,6 +78,7 @@ describe("Qcode Table", () => {
                   guidance: "",
                   label: "Un1",
                   qCode: "1",
+                  secondaryQCode: "3",
                   type: UNIT,
                   questionPageId: "qp-1",
 
@@ -88,6 +90,7 @@ describe("Qcode Table", () => {
                   guidance: "",
                   label: "Per1",
                   qCode: "2",
+                  secondaryQCode: "4",
                   type: PERCENTAGE,
                   questionPageId: "qp-1",
 
@@ -99,6 +102,7 @@ describe("Qcode Table", () => {
                   guidance: "",
                   label: "Dur1",
                   qCode: "3",
+                  secondaryQCode: "5",
                   type: DURATION,
                   questionPageId: "qp-1",
 
@@ -110,6 +114,7 @@ describe("Qcode Table", () => {
                   guidance: "",
                   label: "Num2",
                   qCode: "4",
+                  secondaryQCode: "5",
                   type: NUMBER,
                   questionPageId: "qp-1",
 
@@ -136,6 +141,7 @@ describe("Qcode Table", () => {
                       label: "Either 2",
                       description: null,
                       additionalAnswer: null,
+                      qCode: "28",
                     },
                   ],
                   mutuallyExclusiveOption: {
@@ -144,6 +150,7 @@ describe("Qcode Table", () => {
                     mutuallyExclusive: true,
                     description: null,
                     additionalAnswer: null,
+                    qCode: "29",
                   },
                 },
               ],
@@ -160,6 +167,7 @@ describe("Qcode Table", () => {
                   guidance: "",
                   label: "Da1",
                   qCode: "",
+                  secondaryQCode: "6",
                   type: DATE,
                   questionPageId: "qp-2",
 
@@ -198,6 +206,7 @@ describe("Qcode Table", () => {
                   guidance: "",
                   label: "TF",
                   qCode: "",
+                  secondaryQCode: "7",
                   type: TEXTFIELD,
                   questionPageId: "qp-4",
                   secondaryLabel: null,
@@ -208,6 +217,7 @@ describe("Qcode Table", () => {
                   guidance: "",
                   label: "TA",
                   qCode: "",
+                  secondaryQCode: "8",
                   type: TEXTAREA,
                   questionPageId: "qp-4",
                   secondaryLabel: null,
@@ -231,16 +241,17 @@ describe("Qcode Table", () => {
                 __typename: "QuestionConfirmation",
               },
             },
-            {
-              id: "page-5",
-              title: "<p>Questions 6</p>",
-              pageType: "CalculatedSummaryPage",
-              summaryAnswers: [{ id: "ans-p1-1" }, { id: "ans-p1-6" }],
-              sectionId: "c1a2aa31-ab46-456a-a1b8-a979c3c345de",
-              alias: null,
-              totalTitle: "<p>TT</p>",
-              qCode: dummyQcodes.calculatedSummary,
-            },
+            // {
+            //   id: "page-5",
+            //   title: "<p>Questions 6</p>",
+            //   pageType: "CalculatedSummaryPage",
+            //   summaryAnswers: [{ id: "ans-p1-1" }, { id: "ans-p1-6" }],
+            //   sectionId: "c1a2aa31-ab46-456a-a1b8-a979c3c345de",
+            //   alias: null,
+            //   totalTitle: "<p>TT</p>",
+            //   qCode: dummyQcodes.calculatedSummary,
+            //   secondaryQCode: "calc",
+            // },
             {
               id: "page-6",
               pageType: "QuestionPage",
@@ -261,12 +272,14 @@ describe("Qcode Table", () => {
                       label: "Rad1",
                       description: null,
                       additionalAnswer: null,
+                      qCode: "radio1",
                     },
                     {
                       id: "option-rad-2",
                       label: "Rad2",
                       description: null,
                       additionalAnswer: null,
+                      qCode: "radio2",
                     },
                   ],
                 },
@@ -302,6 +315,7 @@ describe("Qcode Table", () => {
                       label: "Either 2",
                       description: null,
                       additionalAnswer: null,
+                      qCode: "chk",
                     },
                   ],
                   mutuallyExclusiveOption: {
@@ -453,30 +467,30 @@ describe("Qcode Table", () => {
           };
         },
       },
-      {
-        request: {
-          query: UPDATE_CALCSUM_QCODE,
-          variables: {
-            input: {
-              id: "page-5",
-              qCode: "187",
-              summaryAnswers: ["ans-p1-1", "ans-p1-6"],
-            },
-          },
-        },
-        result: () => {
-          queryWasCalled = true;
-          return {
-            data: {
-              updateCalculatedSummaryPage: {
-                id: "page-5",
-                qCode: "187",
-                __typename: "CalculatedSummaryPage",
-              },
-            },
-          };
-        },
-      },
+      // {
+      //   request: {
+      //     query: UPDATE_CALCSUM_QCODE,
+      //     variables: {
+      //       input: {
+      //         id: "page-5",
+      //         qCode: "187",
+      //         summaryAnswers: ["ans-p1-1", "ans-p1-6"],
+      //       },
+      //     },
+      //   },
+      //   result: () => {
+      //     queryWasCalled = true;
+      //     return {
+      //       data: {
+      //         updateCalculatedSummaryPage: {
+      //           id: "page-5",
+      //           qCode: "187",
+      //           __typename: "CalculatedSummaryPage",
+      //         },
+      //       },
+      //     };
+      //   },
+      // },
     ];
   });
 
@@ -545,9 +559,9 @@ describe("Qcode Table", () => {
     expect(getByText("Embedded checkbox Either")).toBeTruthy();
     expect(getByText("Embedded checkbox Or")).toBeTruthy();
     expect(getByText("From")).toBeTruthy();
-    expect(renderedQuestions.length).toEqual(8); // equal to non nested rows
+    expect(renderedQuestions.length).toEqual(7); // equal to non nested rows
 
-    const answerRows = 22; // equal to answers present in questionnaire
+    const answerRows = 21; // equal to answers present in questionnaire
     expect(getAllByTestId("answer-row-test").length).toEqual(answerRows);
   });
 
@@ -685,40 +699,68 @@ describe("Qcode Table", () => {
     expect(queryWasCalled).toBeTruthy();
   });
 
-  it("Should make query to update calculated summary", async () => {
-    const { getByTestId } = renderWithContext(
-      <UnwrappedQCodeTable {...props} />
-    );
-
-    const testId = "page-5-test-input";
-    const originalValue = dummyQcodes.calculatedSummary;
-    const input = getByTestId(testId);
-    expect(input.value).toBe(originalValue);
-
-    act(() => {
-      fireEvent.change(input, {
-        target: { value: "187" },
-      });
-    });
-
-    expect(input.value).toBe("187");
-
-    expect(queryWasCalled).toBeFalsy();
-
-    await act(async () => {
-      await fireEvent.blur(input);
-      await flushPromises();
-    });
-
-    expect(queryWasCalled).toBeTruthy();
-  });
-
   it("Should render a validation error when duplicate qCodes are present", () => {
     const { getAllByText } = renderWithContext(
       <UnwrappedQCodeTable {...props} />
     );
 
-    expect(getAllByText(QCODE_IS_NOT_UNIQUE).length).toBe(5);
+    expect(getAllByText(QCODE_IS_NOT_UNIQUE).length).toBe(2);
+  });
+
+  it("Should render a validation error when a qCode is missing", async () => {
+    questionnaire = {
+      sections: [
+        {
+          pages: [
+            {
+              id: "page-1",
+              pageType: "QuestionPage",
+              title: "<p>Questions 1</p>",
+              description: "",
+              answers: [
+                {
+                  id: "ans-p1-1",
+                  description: "",
+                  guidance: "",
+                  label: "num1",
+                  qCode: "",
+                  secondaryQCode: "",
+                  type: NUMBER,
+                  questionPageId: "qp-1",
+                  secondaryLabel: null,
+                  validationErrorInfo: {
+                    id: "b2422614-6700-42e1-88e8-2d993602d9b7",
+                    errors: [
+                      {
+                        id: "9350d8cf-e1cb-415d-98ba-dbe9770fa3c4",
+                        type: "answer",
+                        field: "qCode",
+                        errorCode: "ERR_VALID_REQUIRED",
+                        __typename: "ValidationError"
+                      }
+                    ],
+                    totalCount: 0,
+                    __typename: "ValidationErrorInfo"
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    };
+
+    props = {
+      loading: false,
+      data: {
+        questionnaire,
+      },
+    };
+
+    const { getByText } = await renderWithContext(
+      <UnwrappedQCodeTable {...props} />
+    );
+    await expect(getByText("Qcode required")).toBeTruthy();
   });
 
   it("Should not rerender if the qCode stays the same", () => {

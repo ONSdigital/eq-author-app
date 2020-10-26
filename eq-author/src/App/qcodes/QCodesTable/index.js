@@ -3,6 +3,7 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import CustomPropTypes from "custom-prop-types";
 import { withApollo, Query, useMutation } from "react-apollo";
+import { find, get } from "lodash";
 
 import GET_ALL_ANSWERS from "./graphql/getAllAnswers.graphql";
 import UPDATE_ANSWER_QCODE from "./graphql/updateAnswerMutation.graphql";
@@ -25,7 +26,10 @@ import {
 import { TableInput } from "components/datatable/Controls";
 
 import { colors } from "constants/theme";
-import { QCODE_IS_NOT_UNIQUE } from "constants/validationMessages";
+import {
+  QCODE_IS_NOT_UNIQUE,
+  QCODE_REQUIRED,
+} from "constants/validationMessages";
 import {
   CHECKBOX,
   RADIO,
@@ -99,13 +103,7 @@ const organiseAnswers = sections => {
   let answerRows = [];
 
   for (const item of questions) {
-    const {
-      title,
-      alias,
-      answers,
-      confirmation,
-      summaryAnswers: calculatedSummary,
-    } = item;
+    const { title, alias, answers, confirmation } = item;
 
     if (answers) {
       const extraCheck = answers.reduce((acc, item) => {
@@ -143,6 +141,7 @@ const organiseAnswers = sections => {
             label: item.secondaryLabel,
             qCode: item.secondaryQCode,
             type: item.type,
+            validationErrorInfo: item.validationErrorInfo,
             secondary: true,
           });
         }
@@ -159,32 +158,19 @@ const organiseAnswers = sections => {
     }
 
     if (confirmation) {
-      const { id, title, alias, qCode, __typename: type } = confirmation;
+      const {
+        id,
+        title,
+        alias,
+        qCode,
+        validationErrorInfo,
+        __typename: type,
+      } = confirmation;
 
       answerRows.push({
         title: title,
         alias,
-        answers: [{ id, qCode, type }],
-      });
-    }
-
-    if (calculatedSummary && calculatedSummary.length) {
-      const {
-        id,
-        pageType: type,
-        alias,
-        title,
-        qCode,
-        totalTitle,
-        summaryAnswers,
-      } = item;
-
-      const label = removeHtml(totalTitle);
-
-      answerRows.push({
-        title,
-        alias,
-        answers: [{ id, type, qCode, label, summaryAnswers }],
+        answers: [{ id, qCode, type, validationErrorInfo }],
       });
     }
   }
@@ -256,8 +242,16 @@ const handleBlurReducer = ({ type, payload, mutation }) => {
 
 const Row = memo(
   props => {
-    const { id, title, alias, label, qCode: initialQcode, type, error } = props;
-
+    const {
+      id,
+      title,
+      alias,
+      label,
+      qCode: initialQcode,
+      type,
+      error,
+      noValQCodeError,
+    } = props;
     const commonFields = useCallback(
       fields => {
         const [qCode, setQcode] = useState(initialQcode);
@@ -290,22 +284,32 @@ const Row = memo(
           <>
             <SpacedTableColumn>{questionMatrix[type]}</SpacedTableColumn>
             <SpacedTableColumn>{label}</SpacedTableColumn>
-            <SpacedTableColumn>
-              <ErrorWrappedInput
-                value={qCode}
-                onChange={e => setQcode(e.value)}
-                onBlur={() => handleBlur(id, type, qCode)}
-                name={`${id}-qcode-entry`}
-                data-test={`${id}-test-input`}
-                error={error}
-              />
+            {type === "Checkbox" ? (
+              <EmptyTableColumn />
+            ) : (
+              <SpacedTableColumn>
+                <ErrorWrappedInput
+                  value={qCode}
+                  onChange={e => setQcode(e.value)}
+                  onBlur={() => handleBlur(id, type, qCode)}
+                  name={`${id}-qcode-entry`}
+                  data-test={`${id}-test-input`}
+                  error={error}
+                />
 
-              {error && (
-                <QcodeValidationError right>
-                  {QCODE_IS_NOT_UNIQUE}
-                </QcodeValidationError>
-              )}
-            </SpacedTableColumn>
+                {error && (
+                  <QcodeValidationError right>
+                    {QCODE_IS_NOT_UNIQUE}
+                  </QcodeValidationError>
+                )}
+
+                {noValQCodeError && (
+                  <QcodeValidationError right>
+                    {QCODE_REQUIRED}
+                  </QcodeValidationError>
+                )}
+              </SpacedTableColumn>
+            )}
           </>
         );
       },
@@ -354,13 +358,21 @@ const RowBuilder = answers => {
     return acc;
   }, {});
 
-  return answers.map((item, index) => (
-    <Row
-      key={`${item.id}-${index}`}
-      {...item}
-      error={duplicates[item.qCode] > 1}
-    />
-  ));
+  return answers.map((item, index) => {
+    let noValQCodeError = find(
+      get(item, "validationErrorInfo.errors"),
+      ({ field }) => field.includes("qCode") || field.includes("secondaryQCode")
+    );
+
+    return (
+      <Row
+        key={`${item.id}-${index}`}
+        {...item}
+        error={duplicates[item.qCode] > 1}
+        noValQCodeError={noValQCodeError}
+      />
+    );
+  });
 };
 
 Row.propTypes = {
@@ -373,6 +385,7 @@ Row.propTypes = {
   qCodeCheck: PropTypes.func,
   error: PropTypes.bool,
   nested: PropTypes.bool,
+  noValQCodeError: PropTypes.object, // eslint-disable-line
 };
 
 export const UnwrappedQCodeTable = ({ loading, error, data }) => {
@@ -385,7 +398,6 @@ export const UnwrappedQCodeTable = ({ loading, error, data }) => {
   }
 
   const { sections } = data.questionnaire;
-
   const { answers } = organiseAnswers(sections);
   const flatten = flattenAnswers(answers);
 

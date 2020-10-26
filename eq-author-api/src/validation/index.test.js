@@ -309,6 +309,35 @@ describe("schema validation", () => {
           expect(pageErrors2).toHaveLength(0);
         });
       });
+
+      it("should validate if qCode is missing", () => {
+        const answer = {
+          id: "a1",
+          type: NUMBER,
+          label: "some answer",
+          qCode: "",
+          secondaryQCode: "secQCode1",
+        };
+
+        const questionnaire = {
+          id: "q1",
+          sections: [
+            {
+              id: "s1",
+              pages: [
+                {
+                  id: "p1",
+                  answers: [answer],
+                },
+              ],
+            },
+          ],
+        };
+        const pageErrors = validation(questionnaire);
+
+        expect(pageErrors).toHaveLength(1);
+      });
+
       it("should recognize mismatched decimals in validation references", () => {
         questionnaire = {
           id: "1",
@@ -390,6 +419,8 @@ describe("schema validation", () => {
                       {
                         id: "answer_1",
                         label: "Desc",
+                        qCode: "qCode1",
+                        secondaryQCode: "secQCode1",
                         properties: { maxLength: "50" },
                       },
                     ],
@@ -436,6 +467,34 @@ describe("schema validation", () => {
             type: "answer",
           });
         });
+
+        it("should validate if qCode is missing", () => {
+          const answer = {
+            id: "a1",
+            type: "TextField",
+            label: "some answer",
+            qCode: "",
+            secondaryQCode: "secQCode1",
+          };
+
+          const questionnaire = {
+            id: "q1",
+            sections: [
+              {
+                id: "s1",
+                pages: [
+                  {
+                    id: "p1",
+                    answers: [answer],
+                  },
+                ],
+              },
+            ],
+          };
+          const pageErrors = validation(questionnaire);
+
+          expect(pageErrors).toHaveLength(1);
+        });
       });
     });
 
@@ -446,6 +505,8 @@ describe("schema validation", () => {
           id: "a1",
           type: "Date",
           label: "some answer",
+          qCode: "qCode1",
+          secondaryQCode: "secQCode1",
           validation: {
             earliestDate: {
               id: "123",
@@ -531,6 +592,8 @@ describe("schema validation", () => {
               id: "a1",
               type: DATE,
               label: "some answer",
+              qCode: "qCode1",
+              secondaryQCode: "secQCode1",
               validation: {
                 earliestDate: {
                   id: "123",
@@ -558,6 +621,34 @@ describe("schema validation", () => {
             expect(pageErrors).toHaveLength(0);
           });
         });
+
+        it("should validate if qCode is missing", () => {
+          const answer = {
+            id: "a1",
+            type: DATE,
+            label: "some answer",
+            qCode: "",
+            secondaryQCode: "secQCode1",
+          };
+
+          const questionnaire = {
+            id: "q1",
+            sections: [
+              {
+                id: "s1",
+                pages: [
+                  {
+                    id: "p1",
+                    answers: [answer],
+                  },
+                ],
+              },
+            ],
+          };
+          const pageErrors = validation(questionnaire);
+
+          expect(pageErrors).toHaveLength(1);
+        });
       });
 
       describe("date range answers", () => {
@@ -579,6 +670,8 @@ describe("schema validation", () => {
                 id: "a1",
                 type: DATE_RANGE,
                 label: "some answer",
+                qCode: "qCode1",
+                secondaryQCode: "secQCode1",
                 validation: {
                   earliestDate: {
                     id: "123",
@@ -606,6 +699,62 @@ describe("schema validation", () => {
               expect(pageErrors).toHaveLength(0);
             });
           });
+
+          it("should validate if qCode is missing", () => {
+            const answer = {
+              id: "a1",
+              type: DATE_RANGE,
+              label: "some answer",
+              qCode: "",
+              secondaryQCode: "secQCode1",
+            };
+
+            const questionnaire = {
+              id: "q1",
+              sections: [
+                {
+                  id: "s1",
+                  pages: [
+                    {
+                      id: "p1",
+                      answers: [answer],
+                    },
+                  ],
+                },
+              ],
+            };
+            const pageErrors = validation(questionnaire);
+
+            expect(pageErrors).toHaveLength(1);
+          });
+
+          it("should validate if secondaryQCode is missing", () => {
+            const answer = {
+              id: "a1",
+              type: DATE_RANGE,
+              label: "some answer",
+              qCode: "",
+              secondaryQCode: "secQCode1",
+            };
+
+            const questionnaire = {
+              id: "q1",
+              sections: [
+                {
+                  id: "s1",
+                  pages: [
+                    {
+                      id: "p1",
+                      answers: [answer],
+                    },
+                  ],
+                },
+              ],
+            };
+            const pageErrors = validation(questionnaire);
+
+            expect(pageErrors).toHaveLength(1);
+          });
         });
         describe("Min duration and max duration", () => {
           it("Date Range - should validate that latest date is always after earlier date", () => {
@@ -614,6 +763,8 @@ describe("schema validation", () => {
                 id: "a1",
                 type: "DateRange",
                 label: "some answer",
+                qCode: "qCode1",
+                secondaryQCode: "secQCode1",
                 validation: {
                   minDuration: {
                     id: "456",
@@ -649,6 +800,8 @@ describe("schema validation", () => {
                   id: "a1",
                   type: "DateRange",
                   label: "some answer",
+                  qCode: "qCode1",
+                  secondaryQCode: "secQCode1",
                   validation: {
                     minDuration: {
                       id: "456",
@@ -686,6 +839,8 @@ describe("schema validation", () => {
             id: "a1",
             type,
             label: "some answer",
+            qCode: "qCode1",
+            secondaryQCode: "secQCode1",
             validation: {
               minValue: {
                 id: "123",
@@ -748,6 +903,8 @@ describe("schema validation", () => {
             id: "a1",
             type: NUMBER,
             label: "some answer",
+            qCode: "qCode1",
+            secondaryQCode: "secQCode1",
             validation: {
               minValue: {
                 id: "123",
@@ -794,6 +951,8 @@ describe("schema validation", () => {
             id: "a1",
             type: NUMBER,
             label: "some answer",
+            qCode: "qCode1",
+            secondaryQCode: "secQCode1",
             validation: {
               minValue: {
                 id: "123",
@@ -831,6 +990,54 @@ describe("schema validation", () => {
           const pageErrors = validation(questionnaire);
 
           expect(pageErrors).toHaveLength(0);
+        });
+      });
+
+      it("should validate if qCode is missing", () => {
+        ["minValue", "maxValue", "none"].forEach(entity => {
+          const answer = {
+            id: "a1",
+            type: NUMBER,
+            label: "some answer",
+            qCode: "",
+            secondaryQCode: "secQCode1",
+            validation: {
+              minValue: {
+                id: "123",
+                enabled: entity === "minValue",
+                custom: 50,
+                inclusive: true,
+                entityType: "Custom",
+                previousAnswer: null,
+              },
+              maxValue: {
+                id: "321",
+                enabled: entity === "maxValue",
+                custom: 40,
+                inclusive: true,
+                entityType: "PreviousAnswer",
+                previousAnswer: { displayName: "a previous answer", id: "1" },
+              },
+            },
+          };
+
+          const questionnaire = {
+            id: "q1",
+            sections: [
+              {
+                id: "s1",
+                pages: [
+                  {
+                    id: "p1",
+                    answers: [answer],
+                  },
+                ],
+              },
+            ],
+          };
+          const pageErrors = validation(questionnaire);
+
+          expect(pageErrors).toHaveLength(1);
         });
       });
     });
@@ -1040,19 +1247,24 @@ describe("schema validation", () => {
       expect(routing).toHaveLength(0);
       questionnaire.sections[0].pages[0].answers[0] = {
         id: "answer_1",
+        qCode: "qcode1",
+        secondaryQCode: "secQCode1",
         options: [
           {
             id: "option-1",
             label: "a",
+            qCode: "qcode1",
           },
           {
             id: "option-2",
             label: "b",
+            qCode: "qcode2",
           },
           {
             id: "option-3",
             label: "or",
             mutuallyExclusive: true,
+            qCode: "qcode3",
           },
         ],
       };
@@ -1110,19 +1322,24 @@ describe("schema validation", () => {
       expect(routing).toHaveLength(0);
       questionnaire.sections[0].pages[0].answers[0] = {
         id: "answer_12",
+        qCode: "qcode1",
+        secondaryQCode: "secQCode1",
         options: [
           {
             id: "option-1",
             label: "a",
+            qCode: "qcode1",
           },
           {
             id: "option-2",
             label: "b",
+            qCode: "qcode2",
           },
           {
             id: "option-3",
             label: "or",
             mutuallyExclusive: true,
+            qCode: "qcode3",
           },
         ],
       };

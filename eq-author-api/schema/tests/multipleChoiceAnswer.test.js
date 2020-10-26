@@ -419,14 +419,17 @@ describe("multiple choice answer", () => {
                   id: "84ab357d",
                   type: "Radio",
                   label: "",
+                  qCode: "qcode A",
                   options: [
                     {
                       id: "c0aa1df9",
                       label: "",
+                      qCode: "qCode1",
                     },
                     {
                       id: "2e275ff8",
                       label: "b",
+                      qCode: "qCode2",
                     },
                   ],
                 },

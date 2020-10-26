@@ -457,9 +457,10 @@ describe("validation", () => {
           metadata: null,
         };
         expect(result).toEqual(expected);
-      }, 30000);
+      });
 
       it("can update previous answer", async () => {
+        jest.setTimeout(30000);
         const previousAnswer = await createAnswer(ctx, {
           questionPageId: page.id,
           type: DATE,
