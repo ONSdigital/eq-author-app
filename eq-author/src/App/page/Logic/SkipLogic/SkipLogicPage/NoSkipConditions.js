@@ -36,6 +36,12 @@ const AddSkipConditionsButton = styled(Button)`
   margin: 2em auto 1em;
 `;
 
+const DisabledAddSkipConditionsButton = styled(Button)`
+  margin: 2em auto 1em;
+  pointer-events: none;
+  opacity: 0.6;
+`;
+
 const SkipConditionsSetMsg = ({
   title,
   onAddSkipCondtions,

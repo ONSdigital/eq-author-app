@@ -2,7 +2,6 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { get, filter } from "lodash";
 import PropTypes from "prop-types";
-
 import styled from "styled-components";
 import { colors } from "constants/theme";
 import { rgba } from "polished";
@@ -67,6 +66,22 @@ const LogicLink = styled(NavLink)`
   }
 `;
 
+const DisabledListItem = styled.div`
+  --color-text: ${colors.black};
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 1em;
+  color: var(--color-text);
+  font-size: 1em;
+  border-left: 5px solid ${colors.lightGrey};
+  border-bottom: 1px solid ${colors.lightGrey};
+
+  pointer-events: none;
+  opacity: 0.6;
+`;
+
 const Badge = styled.span`
   border-radius: 0.7em;
   border: 1px solid ${colors.white};
@@ -89,36 +104,29 @@ export class UnwrappedLogicPage extends React.Component {
     data: PropTypes.shape({
       page: CustomPropTypes.page,
     }),
-    client: PropTypes.shape({
-      cache: PropTypes.shape({
-        data: PropTypes.shape({
-          data: PropTypes.shape,
-        }),
-      }),
-    }),
     loading: PropTypes.bool.isRequired,
     error: PropTypes.object, // eslint-disable-line
   };
 
   renderContent() {
-    const { children, data, client } = this.props;
+    const { children, data } = this.props;
     const page = get(data, "page", null);
 
-    const pageId = get(page, "id", null);
-    const pageData = get(client.cache.data.data, `QuestionPage${pageId}`, null);
-    const position = get(pageData, "position", null);
+    const position = page && page.position;
     const firstQuestion = position === 0;
+
+    // console.log(this.props);
 
     const TABS = [
       {
         key: `routing`,
         label: "Routing logic",
       },
-      !firstQuestion && {
+      {
         key: `skip`,
         label: "Skip logic",
       },
-    ].filter(Boolean);
+    ];
 
     return (
       <LogicMainCanvas>
@@ -135,16 +143,25 @@ export class UnwrappedLogicPage extends React.Component {
                 }
                 return (
                   <li data-test={key} key={key}>
-                    <LogicLink exact to={key} activeClassName="active" replace>
-                      {label}
-                      {errors !== undefined &&
-                      errors !== null &&
-                      errors.length > 0 ? (
-                        <Badge data-test="badge-withCount">
-                          {errors.length}
-                        </Badge>
-                      ) : null}
-                    </LogicLink>
+                    {label === "Skip logic" && firstQuestion ? (
+                      <DisabledListItem>{label}</DisabledListItem>
+                    ) : (
+                      <LogicLink
+                        exact
+                        to={key}
+                        activeClassName="active"
+                        replace
+                      >
+                        {label}
+                        {errors !== undefined &&
+                        errors !== null &&
+                        errors.length > 0 ? (
+                          <Badge data-test="badge-withCount">
+                            {errors.length}
+                          </Badge>
+                        ) : null}
+                      </LogicLink>
+                    )}
                   </li>
                 );
               })}
