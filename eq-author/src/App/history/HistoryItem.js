@@ -168,7 +168,10 @@ const HistoryItem = ({
             />
           </RTEWrapper>
           <ActionButtons horizontal align="right">
-            <CancelButton onClick={() => setIsEditActive(false)}>
+            <CancelButton
+              data-test="save-note-btn"
+              onClick={() => setIsEditActive(false)}
+            >
               Cancel
             </CancelButton>
             <SaveButton
