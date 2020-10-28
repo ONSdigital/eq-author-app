@@ -112,6 +112,12 @@ const SaveButton = styled(Button)`
   margin-bottom: 1em;
 `;
 
+const CancelButton = styled(Button)`
+  font-size: 0.75em;
+  margin-right: -1em;
+  margin-bottom: 1em;
+`;
+
 const formatDate = date => moment(date).format("DD/MM/YYYY [at] HH:mm");
 
 const RTEWrapper = styled.div`
@@ -162,6 +168,9 @@ const HistoryItem = ({
             />
           </RTEWrapper>
           <ActionButtons horizontal align="right">
+            <CancelButton onClick={() => setIsEditActive(false)}>
+              Cancel
+            </CancelButton>
             <SaveButton
               data-test="save-note-btn"
               onClick={() =>
