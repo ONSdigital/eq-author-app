@@ -8,7 +8,6 @@ const {
   getSectionByPageId,
   getFolderById,
   getFoldersBySectionId,
-  returnValidationErrors,
   createFolder,
   createQuestionPage,
 } = require("../utils");

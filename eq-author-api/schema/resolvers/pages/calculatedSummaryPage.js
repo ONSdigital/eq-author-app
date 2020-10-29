@@ -45,8 +45,8 @@ Resolvers.CalculatedSummaryPage = {
     const validSummaryAnswers = intersection(previousAnswers, summaryAnswers);
     return validSummaryAnswers
       ? validSummaryAnswers.map(validSummaryAnswer =>
-        getAnswerById(ctx, validSummaryAnswer)
-      )
+          getAnswerById(ctx, validSummaryAnswer)
+        )
       : [];
   },
 
@@ -63,17 +63,8 @@ Resolvers.CalculatedSummaryPage = {
   availablePipingAnswers: ({ id }, args, ctx) =>
     getPreviousAnswersForPage(ctx.questionnaire, id),
   availablePipingMetadata: (page, args, ctx) => ctx.questionnaire.metadata,
-  validationErrorInfo: ({ id }, args, ctx) => {
-    const calculatedSummaryErrors = ctx.validationErrorInfo.filter(
-      ({ pageId }) => id === pageId
-    );
-
-    return ({
-      id,
-      errors: calculatedSummaryErrors,
-      totalCount: calculatedSummaryErrors.length,
-    });
-  },
+  validationErrorInfo: ({ id }, args, ctx) =>
+    returnValidationErrors(ctx, id, ({ pageId }) => id === pageId),
 };
 
 Resolvers.Mutation = {

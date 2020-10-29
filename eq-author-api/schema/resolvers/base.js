@@ -54,7 +54,7 @@ const {
   getAnswerById,
   getOptionById,
   getConfirmationById,
-  getValidationErrorInfo,
+  // getValidationErrorInfo,
   getValidationById,
   getAvailablePreviousAnswersForValidation,
   getAvailableMetadataForValidation,
