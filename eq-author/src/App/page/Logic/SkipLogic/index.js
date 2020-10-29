@@ -67,6 +67,7 @@ const query = gql`
       displayName
       pageType
       ...SkipLogicPage
+      section {id, position}
     }
   }
 `;

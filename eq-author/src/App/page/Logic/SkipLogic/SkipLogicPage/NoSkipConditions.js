@@ -34,46 +34,33 @@ const Paragraph = styled.p`
 
 const AddSkipConditionsButton = styled(Button)`
   margin: 2em auto 1em;
-`;
-
-const DisabledAddSkipConditionsButton = styled(Button)`
-  margin: 2em auto 1em;
-  pointer-events: none;
-  opacity: 0.6;
+  ${props =>  props.isFirstQuestion && `
+     pointer-events: none;
+     opacity: 0.6;`};
 `;
 
 const SkipConditionsSetMsg = ({
   title,
   onAddSkipCondtions,
   children,
-  position,
+  isFirstQuestion,
   ...otherProps
 }) => (
+    console.log(isFirstQuestion),
   <Container {...otherProps}>
     <Icon />
     <Title>{title}</Title>
     <Paragraph>{children}</Paragraph>
-    {position === 0 ? (
-      <DisabledAddSkipConditionsButton
-        small
-        naked
-        variant="primary"
-        onClick={onAddSkipCondtions}
-        data-test="btn-add-skip-condition"
-      >
-        <IconText icon={IconAddRule}>Add your skip conditions</IconText>
-      </DisabledAddSkipConditionsButton>
-    ) : (
       <AddSkipConditionsButton
         small
         naked
         variant="primary"
         onClick={onAddSkipCondtions}
         data-test="btn-add-skip-condition"
+        isFirstQuestion={isFirstQuestion}
       >
         <IconText icon={IconAddRule}>Add your skip conditions</IconText>
       </AddSkipConditionsButton>
-    )}
   </Container>
 );
 
@@ -81,7 +68,7 @@ SkipConditionsSetMsg.propTypes = {
   title: PropTypes.string.isRequired,
   onAddSkipCondtions: PropTypes.func.isRequired,
   children: PropTypes.node.isRequired,
-  position: PropTypes.number.isRequired,
+  isFirstQuestion: PropTypes.bool.isRequired,
 };
 
 export default SkipConditionsSetMsg;
