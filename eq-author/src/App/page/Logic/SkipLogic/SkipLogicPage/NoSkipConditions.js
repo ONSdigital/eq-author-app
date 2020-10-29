@@ -46,21 +46,34 @@ const SkipConditionsSetMsg = ({
   title,
   onAddSkipCondtions,
   children,
+  position,
   ...otherProps
 }) => (
   <Container {...otherProps}>
     <Icon />
     <Title>{title}</Title>
     <Paragraph>{children}</Paragraph>
-    <AddSkipConditionsButton
-      small
-      naked
-      variant="primary"
-      onClick={onAddSkipCondtions}
-      data-test="btn-add-skip-condition"
-    >
-      <IconText icon={IconAddRule}>Add your skip conditions</IconText>
-    </AddSkipConditionsButton>
+    {position === 0 ? (
+      <DisabledAddSkipConditionsButton
+        small
+        naked
+        variant="primary"
+        onClick={onAddSkipCondtions}
+        data-test="btn-add-skip-condition"
+      >
+        <IconText icon={IconAddRule}>Add your skip conditions</IconText>
+      </DisabledAddSkipConditionsButton>
+    ) : (
+      <AddSkipConditionsButton
+        small
+        naked
+        variant="primary"
+        onClick={onAddSkipCondtions}
+        data-test="btn-add-skip-condition"
+      >
+        <IconText icon={IconAddRule}>Add your skip conditions</IconText>
+      </AddSkipConditionsButton>
+    )}
   </Container>
 );
 
@@ -68,6 +81,7 @@ SkipConditionsSetMsg.propTypes = {
   title: PropTypes.string.isRequired,
   onAddSkipCondtions: PropTypes.func.isRequired,
   children: PropTypes.node.isRequired,
+  position: PropTypes.number.isRequired,
 };
 
 export default SkipConditionsSetMsg;
