@@ -135,7 +135,6 @@ describe("routing", () => {
   });
 
   describe("Routing Rules", () => {
-    // Passes intermittently
     it("should create a routing rule", async () => {
       let config = {
         metadata: [{}],
@@ -166,7 +165,6 @@ describe("routing", () => {
       const ctx = await buildContext(config);
       const { questionnaire } = ctx;
       const page = questionnaire.sections[0].folders[0].pages[0];
-
       await executeQuery(
         createRoutingRuleMutation,
         {
@@ -174,11 +172,10 @@ describe("routing", () => {
         },
         ctx
       );
-
       const result = await queryPage(ctx, page.id);
       expect(result.routing.rules[1]).toBeTruthy();
     });
-    // Passes intermittently
+
     it("should be able to update the destination on a routing rule", async () => {
       let config = {
         metadata: [{}],
@@ -220,7 +217,6 @@ describe("routing", () => {
       const firstPage = questionnaire.sections[0].folders[0].pages[0];
       const rule = firstPage.routing.rules[0];
       const secondPage = questionnaire.sections[0].folders[0].pages[1];
-
       await executeQuery(
         updateRoutingRuleMutation,
         {
@@ -233,9 +229,7 @@ describe("routing", () => {
         },
         ctx
       );
-
       const result = await queryPage(ctx, firstPage.id);
-
       expect(result.routing.rules[0].destination).toMatchObject({
         logical: null,
         section: null,
@@ -243,7 +237,6 @@ describe("routing", () => {
       });
     });
 
-    // Passes intermittently
     it("should be able to delete the last routing rule and also delete the routing", async () => {
       let config = {
         metadata: [{}],
@@ -275,7 +268,6 @@ describe("routing", () => {
       const { questionnaire } = ctx;
       const firstPage = questionnaire.sections[0].folders[0].pages[0];
       const rule = firstPage.routing.rules[0];
-
       await executeQuery(
         deleteRoutingRuleMutation,
         {
@@ -285,9 +277,7 @@ describe("routing", () => {
         },
         ctx
       );
-
       const result = await queryPage(ctx, firstPage.id);
-
       expect(result.routing).toBeNull();
     });
   });
@@ -324,7 +314,6 @@ describe("routing", () => {
       const { questionnaire } = ctx;
       const firstPage = questionnaire.sections[0].folders[0].pages[0];
       const expressionGroup = firstPage.routing.rules[0].expressionGroup;
-
       await executeQuery(
         updateExpressionGroupMutation,
         {
@@ -335,11 +324,9 @@ describe("routing", () => {
         },
         ctx
       );
-
       const result = await queryPage(ctx, firstPage.id);
       expect(result.routing.rules[0].expressionGroup.operator).toEqual("Or");
     });
-
     it("has validation errors", async () => {
       let config = {
         metadata: [{}],
@@ -370,14 +357,11 @@ describe("routing", () => {
       const ctx = await buildContext(config);
       const { questionnaire } = ctx;
       const firstPage = questionnaire.sections[0].folders[0].pages[0];
-
       const result = await queryPage(ctx, firstPage.id);
-
       expect(
         result.routing.rules[0].expressionGroup.validationErrorInfo.totalCount
       ).toBe(1);
     });
-
     it("does not have validation errors if there are none", async () => {
       let config = {
         metadata: [{}],
@@ -405,7 +389,6 @@ describe("routing", () => {
           },
         ],
       };
-
       const ctx = await buildContext(config);
       const { questionnaire } = ctx;
       const firstPage = questionnaire.sections[0].folders[0].pages[0];
@@ -413,7 +396,6 @@ describe("routing", () => {
         questionnaire.sections[0].folders[0].pages[0].answers[0];
       const expression =
         firstPage.routing.rules[0].expressionGroup.expressions[0];
-
       await executeQuery(
         updateLeftSideMutation,
         {
@@ -436,9 +418,7 @@ describe("routing", () => {
         },
         ctx
       );
-
       const result = await queryPage(ctx, firstPage.id);
-
       expect(
         result.routing.rules[0].expressionGroup.validationErrorInfo.totalCount
       ).toBe(0);
@@ -477,7 +457,6 @@ describe("routing", () => {
       const { questionnaire } = ctx;
       const firstPage = questionnaire.sections[0].folders[0].pages[0];
       const expressionGroup = firstPage.routing.rules[0].expressionGroup;
-
       await executeQuery(
         createBinaryExpressionMutation,
         {
@@ -514,7 +493,7 @@ describe("routing", () => {
                     ],
                     routing: {
                       rules: [{ expressionGroup: { expressions: [{}] } }],
-                      else: { section: 0, page: 1 },
+                      else: { section: 0, folder: 0, page: 1 },
                     },
                   },
                   {
@@ -539,7 +518,6 @@ describe("routing", () => {
         questionnaire.sections[0].folders[0].pages[0].answers[0];
       const expression =
         firstPage.routing.rules[0].expressionGroup.expressions[0];
-
       await executeQuery(
         updateLeftSideMutation,
         {
@@ -550,7 +528,6 @@ describe("routing", () => {
         },
         ctx
       );
-
       await executeQuery(
         updateBinaryExpressionMutation,
         {
@@ -601,7 +578,6 @@ describe("routing", () => {
       const firstPage = questionnaire.sections[0].folders[0].pages[0];
       const expression =
         firstPage.routing.rules[0].expressionGroup.expressions[0];
-
       await executeQuery(
         deleteBinaryExpressionMutation,
         {
@@ -611,7 +587,6 @@ describe("routing", () => {
         },
         ctx
       );
-
       const result = await queryPage(ctx, firstPage.id);
       expect(
         result.routing.rules[0].expressionGroup.expressions[0]
@@ -649,7 +624,6 @@ describe("routing", () => {
       const { questionnaire } = ctx;
       const firstPage = questionnaire.sections[0].folders[0].pages[0];
       const expressionGroup = firstPage.routing.rules[0].expressionGroup;
-
       await executeQuery(
         createBinaryExpressionMutation,
         {
@@ -731,6 +705,7 @@ describe("routing", () => {
       ).toEqual(firstAnswer.id);
     });
   });
+
   describe("right sides", () => {
     it("should be able to update the right to a new number value", async () => {
       let config = {
@@ -752,9 +727,7 @@ describe("routing", () => {
                       },
                     ],
                     routing: {
-                      routing: {
-                        rules: [{ expressionGroup: { expressions: [{}] } }],
-                      },
+                      rules: [{ expressionGroup: { expressions: [{}] } }],
                     },
                   },
                 ],
@@ -885,15 +858,15 @@ describe("routing", () => {
                 routing: {
                   rules: [
                     {
-                      destination: { section: 1, page: null },
+                      destination: { section: 1, folder: 0, page: null },
                       expressionGroup: { expressions: [{}] },
                     },
                     {
-                      destination: { section: 2, page: null },
+                      destination: { section: 2, folder: 0, page: null },
                       expressionGroup: { expressions: [{}] },
                     },
                   ],
-                  else: { section: 3, page: null },
+                  else: { section: 3, folder: 0, page: null },
                 },
               },
               {
@@ -1019,15 +992,15 @@ describe("routing", () => {
                 routing: {
                   rules: [
                     {
-                      destination: { section: 0, page: 1 },
+                      destination: { section: 0, folder: 0, page: 1 },
                       expressionGroup: { expressions: [{}] },
                     },
                     {
-                      destination: { section: 0, page: 2 },
+                      destination: { section: 0, folder: 0, page: 2 },
                       expressionGroup: { expressions: [{}] },
                     },
                   ],
-                  else: { section: 0, page: 3 },
+                  else: { section: 0, folder: 0, page: 3 },
                 },
               },
               {
@@ -1067,7 +1040,6 @@ describe("routing", () => {
       let firstPage = questionnaire.sections[0].folders[0].pages[0];
       const secondPage = questionnaire.sections[0].folders[0].pages[1];
       const thirdPage = questionnaire.sections[0].folders[0].pages[2];
-
       // Check both rules exist
       expect(firstPage.routing.rules[0].destination.pageId).toEqual(
         secondPage.id
