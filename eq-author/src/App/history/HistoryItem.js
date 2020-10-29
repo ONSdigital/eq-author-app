@@ -128,6 +128,7 @@ const RTEWrapper = styled.div`
 const HistoryItem = ({
   handleDeleteNote,
   handleUpdateNote,
+  handleCancelNote,
   questionnaireTitle,
   itemId,
   publishStatus,
@@ -135,6 +136,7 @@ const HistoryItem = ({
   currentUser,
   userId,
   bodyText,
+  originalText,
   type,
   createdAt,
 }) => {
@@ -169,8 +171,12 @@ const HistoryItem = ({
           </RTEWrapper>
           <ActionButtons horizontal align="right">
             <CancelButton
-              data-test="save-note-btn"
-              onClick={() => setIsEditActive(false)}
+              data-test="cancel-note-btn"
+              onClick={() =>
+                handleCancelNote(itemId, originalText).then(() =>
+                  setIsEditActive(false)
+                )
+              }
             >
               Cancel
             </CancelButton>
@@ -229,11 +235,13 @@ const HistoryItem = ({
 HistoryItem.propTypes = {
   handleDeleteNote: PropTypes.func.isRequired,
   handleUpdateNote: PropTypes.func.isRequired,
+  handleCancelNote: PropTypes.func.isRequired,
   questionnaireTitle: PropTypes.string.isRequired,
   userName: PropTypes.string.isRequired,
   createdAt: PropTypes.string.isRequired,
   publishStatus: PropTypes.string.isRequired,
   bodyText: PropTypes.string,
+  originalText: PropTypes.string,
   type: PropTypes.string.isRequired,
   itemId: PropTypes.string.isRequired,
   currentUser: CustomPropTypes.user.isRequired,

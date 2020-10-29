@@ -1,0 +1,5 @@
+mutation CreateHistoryNote($input: createHistoryNoteInput!) {
+  createHistoryNote(input: $input) {
+    ...HistoryNoteInfo
+  }
+}
