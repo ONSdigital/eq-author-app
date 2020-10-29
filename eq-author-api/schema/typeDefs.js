@@ -490,6 +490,7 @@ type Destination2 {
   id: ID!
   section: Section
   page: Page
+  folder: Folder
   logical: LogicalDestination2
 }
 
