@@ -273,6 +273,7 @@ const QUESTIONNAIRE_QUERY = gql`
       }
       publishStatus
       totalErrorCount
+      qCodeErrorCount
       ...NavigationSidebar
     }
   }
@@ -332,6 +333,7 @@ export const VALIDATION_QUERY = gql`
     validationUpdated(id: $id) {
       id
       totalErrorCount
+      qCodeErrorCount
       sections {
         id
         validationErrorInfo {

@@ -24,6 +24,22 @@ export const richTextEditorErrors = {
     errorCode: "PIPING_TITLE_DELETED",
     message: "The answer being piped has been deleted",
   },
+  INCLUDE_EXCLUDE_NOT_ENTERED: {
+    errorCode: "ERR_VALID_REQUIRED",
+    message: "Enter include/exclude content",
+  },
+  DESCRIPTION_NOT_ENTERED: {
+    errorCode: "ERR_VALID_REQUIRED",
+    message: "Enter a question description",
+  },
+  ADDITIONAL_INFO_LABEL_NOT_ENTERED: {
+    errorCode: "ERR_VALID_REQUIRED",
+    message: "Enter additional information label",
+  },
+  ADDITIONAL_INFO_CONTENT_NOT_ENTERED: {
+    errorCode: "ERR_VALID_REQUIRED",
+    message: "Enter additional information content",
+  },
 };
 
 export const questionDefinitionErrors = {
@@ -54,7 +70,7 @@ export const characterErrors = {
 };
 
 export const QCODE_IS_NOT_UNIQUE = "Qcode must be unique";
-
+export const QCODE_REQUIRED = "Qcode required";
 export const QUESTION_ANSWER_NOT_SELECTED = "Answer required";
 export const CALCSUM_ANSWER_NOT_SELECTED = "Answer required";
 export const CALCSUM_SUMMARY_ANSWERS_THE_SAME =

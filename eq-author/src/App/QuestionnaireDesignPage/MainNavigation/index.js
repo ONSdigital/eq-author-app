@@ -62,8 +62,25 @@ export const UtilityBtns = styled.div`
   display: flex;
 `;
 
+const SmallBadge = styled.span`
+  border-radius: 50%;
+  background-color: ${colors.red};
+  border: 1px solid ${colors.white};
+  font-weight: normal;
+  z-index: 2;
+  pointer-events: none;
+  width: 0.75em;
+  height: 0.75em;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  top: 2px;
+  right: 2px;
+`;
+
 export const UnwrappedMainNavigation = props => {
   const { questionnaire, title, children, client, match } = props;
+
   const { me } = useMe();
   const [isSettingsModalOpen, setSettingsModalOpen] = useState(
     match.params.modifier === "settings"
@@ -72,56 +89,10 @@ export const UnwrappedMainNavigation = props => {
   useSubscription(publishStatusSubscription, {
     variables: { id: match.params.questionnaireId },
   });
-  // const publishStatus = get(questionnaire, "publishStatus");
 
   const previewUrl = `${config.REACT_APP_LAUNCH_URL}/${
     (questionnaire || {}).id
-  }`;
-
-  // const renderPublishReviewButton = () => {
-  //   if (publishStatus === AWAITING_APPROVAL && me.admin) {
-  //     const reviewUrl = "/q/" + match.params.questionnaireId + "/review";
-  //     return (
-  //       <RouteButton
-  //         variant="navigation"
-  //         to={reviewUrl}
-  //         small
-  //         disabled={title === "Review"}
-  //         data-test="btn-review"
-  //       >
-  //         <IconText nav icon={reviewIcon}>
-  //           Review
-  //         </IconText>
-  //       </RouteButton>
-  //     );
-  //   }
-
-  //   if (publishStatus === AWAITING_APPROVAL && !me.admin) {
-  //     return null;
-  //   }
-
-  //   const canPublish = questionnaire.permission === "Write";
-  //   return (
-  //     <RouteButton
-  //       variant={
-  //         (whatPageAreWeOn === "publish" && "navigation-on") || "navigation"
-  //       }
-  //       to={buildPublishPath(match.params)}
-  //       small
-  //       disabled={
-  //         !canPublish ||
-  //         questionnaire.totalErrorCount > 0 ||
-  //         title === "Publish" ||
-  //         publishStatus === PUBLISHED
-  //       }
-  //       data-test="btn-publish"
-  //     >
-  //       <IconText nav icon={publishIcon}>
-  //         Publish
-  //       </IconText>
-  //     </RouteButton>
-  //   );
-  // };
+    }`;
 
   return (
     <>
@@ -216,6 +187,7 @@ export const UnwrappedMainNavigation = props => {
                   <IconText nav icon={qcodeIcon}>
                     QCodes
                   </IconText>
+                  {questionnaire.qCodeErrorCount > 0 ? <SmallBadge data-test="small-badge" /> : null}
                 </RouteButton>
                 {me && <UserProfile nav signOut left client={client} />}
               </ButtonGroup>

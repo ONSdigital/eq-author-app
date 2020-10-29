@@ -83,6 +83,28 @@ describe("MetaEditor", () => {
     expect(wrapper).toMatchSnapshot();
   });
 
+  it("should display the correct error message when the description is enabled and empty", async () => {
+    props.page.validationErrorInfo.errors[0] = {
+      errorCode: "ERR_VALID_REQUIRED",
+      field: "description",
+      id: "1",
+      type: "pages",
+    };
+    const wrapper = shallow(<StatelessMetaEditor {...props} />);
+    expect(wrapper).toMatchSnapshot();
+  });
+
+  it("should display the correct error message when the includes/excludes content is missing", async () => {
+    props.page.validationErrorInfo.errors[0] = {
+      errorCode: "ERR_VALID_REQUIRED",
+      field: "guidance",
+      id: "1",
+      type: "pages",
+    };
+    const wrapper = shallow(<StatelessMetaEditor {...props} />);
+    expect(wrapper).toMatchSnapshot();
+  });
+
   it("should display the correct error message when piping answer in title is deleted", async () => {
     props.page.validationErrorInfo.errors[0] = {
       errorCode: "PIPING_TITLE_DELETED",

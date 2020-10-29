@@ -70,6 +70,7 @@ type Questionnaire {
   publishStatus: PublishStatus!
   publishDetails: [PublishDetails]
   totalErrorCount: Int!
+  qCodeErrorCount: Int!
 }
 enum HistoryEventTypes {
   system

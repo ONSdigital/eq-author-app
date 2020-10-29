@@ -92,7 +92,7 @@ describe("questionnaire", () => {
         ...config,
         type: BUSINESS,
       });
-      expect(questionnaire.metadata).toHaveLength(6);
+      expect(questionnaire.metadata).toHaveLength(5);
     });
 
     it("should create a questionnaire introduction for business surveys", async () => {

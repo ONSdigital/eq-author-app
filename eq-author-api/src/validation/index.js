@@ -35,16 +35,21 @@ module.exports = questionnaire => {
     const { dataPath, message } = error;
 
     const splitDataPath = dataPath.split("/");
+    const field =
+      message === "ERR_QCODE_REQUIRED"
+        ? "qCode"
+        : message === "ERR_SECONDARY_QCODE_REQUIRED"
+        ? "secondaryQCode"
+        : splitDataPath.pop();
 
     const newErrorMessage = createValidationError(
       splitDataPath,
-      splitDataPath.pop(),
+      field,
       message,
       questionnaire
     );
 
     delete newErrorMessage.keyword;
-
     return newErrorMessage;
   });
 

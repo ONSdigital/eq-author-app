@@ -17,7 +17,7 @@ const withValidationError = entityPropName => WrappedComponent => {
 
     static fragments = WrappedComponent.fragments;
 
-    getValidationError = ({ field, ...options }) => {
+    getValidationError = ({ field, type, ...options }) => {
       const {
         [entityPropName]: { validationErrorInfo },
       } = this.props;
@@ -28,7 +28,9 @@ const withValidationError = entityPropName => WrappedComponent => {
         return null;
       }
 
-      const fieldMessage = messages.find(m => m.field === field);
+      const fieldMessage = messages.find(
+        m => m.field === field && m.type === (type ?? m.type)
+      );
 
       if (!fieldMessage) {
         return null;

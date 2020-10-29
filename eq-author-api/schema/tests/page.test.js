@@ -497,14 +497,10 @@ describe("page", () => {
                   {
                     answers: [
                       {
-                        type: CHECKBOX,
-                        options: [
-                          {
-                            label: "",
-                          },
-                          { label: "" },
-                        ],
+                        label: "",
+                        qCode: "qCode1",
                       },
+                      { label: "", qCode: "qCode 2", },
                     ],
                   },
                 ],

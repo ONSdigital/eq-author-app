@@ -108,3 +108,22 @@ export const ShareLinkButton = styled(Button)`
 export const EditorTitle = styled(SectionTitle)`
   margin: 0;
 `;
+
+// These Share.. constants are a temporary fix for the Share page design.
+export const SharePageTitle = styled.h2`
+  font-weight: bold;
+  color: ${colors.text};
+  margin: 0 0 0.5em;
+`;
+
+export const ShareSectionTitle = styled.h3`
+  font-weight: bold;
+  color: ${colors.text};
+  margin: 0;
+`;
+
+export const ShareEditorTitle = styled.h4`
+  font-weight: bold;
+  color: ${colors.text};
+  margin: 0;
+`;

@@ -31,6 +31,9 @@ describe("AdditionalInfo", () => {
         additionalInfoContent: "<p>Additional Info Content</p>",
         additionalInfoEnabled: true,
         answers: [{ id: "1", type: TEXTFIELD }],
+        validationErrorInfo: {
+          errors: [],
+        },
         section: {
           id: "1",
           questionnaire: {
@@ -45,6 +48,28 @@ describe("AdditionalInfo", () => {
   });
 
   it("should render", () => {
+    expect(wrapper).toMatchSnapshot();
+  });
+
+  it("should display the correct error message when the additional info content is missing", async () => {
+    props.page.validationErrorInfo.errors[0] = {
+      errorCode: "ERR_VALID_REQUIRED",
+      field: "additionalInfoContent",
+      id: "1",
+      type: "pages",
+    };
+    const wrapper = createWrapper(props);
+    expect(wrapper).toMatchSnapshot();
+  });
+
+  it("should display the correct error message when the additional info label is empty", async () => {
+    props.page.validationErrorInfo.errors[0] = {
+      errorCode: "ERR_VALID_REQUIRED",
+      field: "additionalInfoLabel",
+      id: "1",
+      type: "pages",
+    };
+    const wrapper = createWrapper(props);
     expect(wrapper).toMatchSnapshot();
   });
 });
