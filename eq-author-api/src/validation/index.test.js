@@ -117,7 +117,7 @@ describe("schema validation", () => {
     });
 
     it("should validate that question description has been filled in when enabled", () => {
-      const page = questionnaire.sections[0].pages[0];
+      const page = questionnaire.sections[0].folders[0].pages[0];
       page.descriptionEnabled = true;
       page.description = "";
 
@@ -132,7 +132,7 @@ describe("schema validation", () => {
     });
 
     it("should validate that additional info label has been filled in when enabled", () => {
-      const page = questionnaire.sections[0].pages[0];
+      const page = questionnaire.sections[0].folders[0].pages[0];
       page.additionalInfoEnabled = true;
       page.additionalInfoLabel = "";
 
@@ -147,7 +147,7 @@ describe("schema validation", () => {
     });
 
     it("should validate that additional info content has been filled in when enabled", () => {
-      const page = questionnaire.sections[0].pages[0];
+      const page = questionnaire.sections[0].folders[0].pages[0];
       page.additionalInfoEnabled = true;
       page.additionalInfoContent = "";
 
@@ -162,7 +162,7 @@ describe("schema validation", () => {
     });
 
     it("should validate that include/exclude guidance has been filled in when enabled", () => {
-      const page = questionnaire.sections[0].pages[0];
+      const page = questionnaire.sections[0].folders[0].pages[0];
       page.guidanceEnabled = true;
       page.guidance = "";
 
@@ -177,7 +177,7 @@ describe("schema validation", () => {
     });
 
     it("should validate that include/exclude guidance is not null", () => {
-      const page = questionnaire.sections[0].pages[0];
+      const page = questionnaire.sections[0].folders[0].pages[0];
       page.guidanceEnabled = true;
       page.guidance = null;
 
@@ -332,10 +332,14 @@ describe("schema validation", () => {
           sections: [
             {
               id: "s1",
-              pages: [
+              folders: [
                 {
-                  id: "p1",
-                  answers: [answer],
+                  pages: [
+                    {
+                      id: "p1",
+                      answers: [answer],
+                    },
+                  ],
                 },
               ],
             },
@@ -431,11 +435,11 @@ describe("schema validation", () => {
                         title: "page title",
                         answers: [
                           {
-                          id: "answer_1",
-                          label: "Desc",
-                          qCode: "qCode1",
-                          secondaryQCode: "secQCode1",
-                          properties: { maxLength: "50" },
+                            id: "answer_1",
+                            label: "Desc",
+                            qCode: "qCode1",
+                            secondaryQCode: "secQCode1",
+                            properties: { maxLength: "50" },
                           },
                         ],
                       },
@@ -498,10 +502,14 @@ describe("schema validation", () => {
             sections: [
               {
                 id: "s1",
-                pages: [
+                folders: [
                   {
-                    id: "p1",
-                    answers: [answer],
+                    pages: [
+                      {
+                        id: "p1",
+                        answers: [answer],
+                      },
+                    ],
                   },
                 ],
               },
@@ -656,10 +664,14 @@ describe("schema validation", () => {
             sections: [
               {
                 id: "s1",
-                pages: [
+                folders: [
                   {
-                    id: "p1",
-                    answers: [answer],
+                    pages: [
+                      {
+                        id: "p1",
+                        answers: [answer],
+                      },
+                    ],
                   },
                 ],
               },
@@ -734,10 +746,14 @@ describe("schema validation", () => {
               sections: [
                 {
                   id: "s1",
-                  pages: [
+                  folders: [
                     {
-                      id: "p1",
-                      answers: [answer],
+                      pages: [
+                        {
+                          id: "p1",
+                          answers: [answer],
+                        },
+                      ],
                     },
                   ],
                 },
@@ -762,10 +778,14 @@ describe("schema validation", () => {
               sections: [
                 {
                   id: "s1",
-                  pages: [
+                  folders: [
                     {
-                      id: "p1",
-                      answers: [answer],
+                      pages: [
+                        {
+                          id: "p1",
+                          answers: [answer],
+                        },
+                      ],
                     },
                   ],
                 },
@@ -1058,10 +1078,14 @@ describe("schema validation", () => {
             sections: [
               {
                 id: "s1",
-                pages: [
+                folders: [
                   {
-                    id: "p1",
-                    answers: [answer],
+                    pages: [
+                      {
+                        id: "p1",
+                        answers: [answer],
+                      },
+                    ],
                   },
                 ],
               },

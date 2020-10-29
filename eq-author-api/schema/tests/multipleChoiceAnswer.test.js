@@ -461,21 +461,24 @@ describe("multiple choice answer", () => {
               pages: [
                 {
                   answers: [
-                  id: "84ab357d",
-                  type: "Radio",
-                  label: "",
-                  qCode: "qcode A",
-                  options: [
                     {
                       id: "84ab357d",
                       type: "Radio",
                       label: "",
-                      qCode: "qCode1",
-                    },
-                    {
-                      id: "2e275ff8",
-                      label: "b",
-                      qCode: "qCode2",
+                      qCode: "qcode A",
+                      options: [
+                        {
+                          id: "84ab357d",
+                          type: "Radio",
+                          label: "",
+                          qCode: "qCode1",
+                        },
+                        {
+                          id: "2e275ff8",
+                          label: "b",
+                          qCode: "qCode2",
+                        },
+                      ],
                     },
                   ],
                 },
@@ -485,6 +488,7 @@ describe("multiple choice answer", () => {
         },
       ],
     };
+
     it("should only validate label on options", async () => {
       ctx = await buildContext(context);
       questionnaire = await queryQuestionnaire(ctx);
@@ -502,6 +506,7 @@ describe("multiple choice answer", () => {
       });
       expect(questionnaire.totalErrorCount).toBe(1);
     });
+
     it("should return validation error on both option labels when labels are the same", async () => {
       context.sections[0].folders[0].pages[0].answers[0].options[0].label = "b";
       ctx = await buildContext(context);

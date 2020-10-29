@@ -497,10 +497,15 @@ describe("page", () => {
                   {
                     answers: [
                       {
-                        label: "",
-                        qCode: "qCode1",
+                        type: CHECKBOX,
+                        options: [
+                          {
+                            label: "",
+                            qCode: "qCode1",
+                          },
+                          { label: "", type: CHECKBOX, qCode: "qCode 2" },
+                        ],
                       },
-                      { label: "", qCode: "qCode 2", },
                     ],
                   },
                 ],
@@ -514,7 +519,7 @@ describe("page", () => {
       const page = ctx.questionnaire.sections[0].folders[0].pages[0];
 
       const readPage = await queryPage(ctx, page.id);
-
+      console.log(readPage, "what we got here");
       expect(readPage).toMatchObject({
         validationErrorInfo: {
           totalCount: 2,
