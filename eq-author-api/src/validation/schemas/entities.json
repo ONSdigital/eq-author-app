@@ -316,19 +316,20 @@
           "type": "object",
           "properties": {
             "label": {
-              "allOf": [
-                {
-                  "$ref": "definitions.json#/definitions/populatedString"
+              "if": {
+                "$ref": "definitions.json#/definitions/populatedString"
+              },
+              "then": {
+                "not": {
+                  "const": {
+                    "$data": "2/negative/label"
+                  }
                 },
-                {
-                  "not": {
-                    "const": {
-                      "$data": "2/negative/label"
-                    }
-                  },
-                  "errorMessage": "ERR_UNIQUE_REQUIRED"
-                }
-              ]
+                "errorMessage": "ERR_UNIQUE_REQUIRED"
+              },
+              "else": {
+                "$ref": "definitions.json#/definitions/populatedString"
+              }
             }
           },
           "required": [
@@ -339,19 +340,20 @@
           "type": "object",
           "properties": {
             "label": {
-              "allOf": [
-                {
-                  "$ref": "definitions.json#/definitions/populatedString"
+              "if": {
+                "$ref": "definitions.json#/definitions/populatedString"
+              },
+              "then": {
+                "not": {
+                  "const": {
+                    "$data": "2/positive/label"
+                  }
                 },
-                {
-                  "not": {
-                    "const": {
-                      "$data": "2/positive/label"
-                    }
-                  },
-                  "errorMessage": "ERR_UNIQUE_REQUIRED"
-                }
-              ]
+                "errorMessage": "ERR_UNIQUE_REQUIRED"
+              },
+              "else": {
+                "$ref": "definitions.json#/definitions/populatedString"
+              }
             }
           },
           "required": [
