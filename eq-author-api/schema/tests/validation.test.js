@@ -495,7 +495,7 @@ describe("validation", () => {
             id: previousAnswer.id,
           },
         });
-      }, 10000);
+      }, 15000);
 
       it("can update metadata", async () => {
         const metadata = await createMetadata(ctx, {
