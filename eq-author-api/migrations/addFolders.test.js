@@ -28,7 +28,7 @@ describe("", () => {
     expect(addFolders(questionnaire)).toEqual(questionnaire);
   });
 
-  it("should perform migration is folders are present", () => {
+  it("should perform migration if folders are present", () => {
     const sections = sectionInput(defaultSections, { pages: [{}] });
     const questionnaire = questionnaireContext(sections);
     const addedFolders = addFolders(questionnaire);
