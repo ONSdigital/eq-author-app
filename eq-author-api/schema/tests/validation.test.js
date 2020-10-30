@@ -460,7 +460,7 @@ describe("validation", () => {
       });
 
       it("can update previous answer", async () => {
-        // jest.setTimeout(30000);
+        jest.setTimeout(60000);
         const previousAnswer = await createAnswer(ctx, {
           questionPageId: page.id,
           type: DATE,
