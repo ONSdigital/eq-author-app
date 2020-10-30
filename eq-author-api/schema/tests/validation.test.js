@@ -469,6 +469,7 @@ describe("validation", () => {
       });
 
       it("can update previous answer", async () => {
+        jest.setTimeout(60000);
         const previousAnswer = await createAnswer(ctx, {
           questionPageId: page.id,
           type: DATE,
@@ -500,7 +501,7 @@ describe("validation", () => {
           },
           metadata: null,
         });
-      }, 40000);
+      });
 
       it("can update metadata", async () => {
         const metadata = await createMetadata(ctx, {
