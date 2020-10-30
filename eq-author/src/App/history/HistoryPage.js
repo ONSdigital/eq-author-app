@@ -18,7 +18,6 @@ import questionnaireHistoryQuery from "./questionnaireHistory.graphql";
 import createNoteMutation from "./createHistoryNoteMutation.graphql";
 import updateNoteMutation from "./updateHistoryNoteMutation.graphql";
 import deleteNoteMutation from "./deleteHistoryNoteMutation.graphql";
-import cancelNoteMutation from "./cancelHistoryNoteMutation.graphql";
 
 const Container = styled.div`
   display: flex;
@@ -88,17 +87,6 @@ const HistoryPageContent = ({ match }) => {
       });
     },
   });
-  const [cancelNote] = useMutation(cancelNoteMutation, {
-    update(cache, { data: { cancelHistoryNote } }) {
-      cache.writeQuery({
-        query: questionnaireHistoryQuery,
-        variables: {
-          input: { questionnaireId },
-        },
-        data: { history: cancelHistoryNote },
-      });
-    },
-  });
 
   const [noteState, setNoteState] = useState({ name: "note", value: "" });
   if (loading) {
@@ -159,7 +147,6 @@ const HistoryPageContent = ({ match }) => {
               publishStatus,
               questionnaireTitle,
               bodyText,
-              originalText,
               type,
               user,
               time,
@@ -188,24 +175,12 @@ const HistoryPageContent = ({ match }) => {
                     },
                   })
                 }
-                handleCancelNote={(itemId, bodyText) =>
-                  cancelNote({
-                    variables: {
-                      input: {
-                        id: itemId,
-                        questionnaireId,
-                        originalText: bodyText,
-                      },
-                    },
-                  })
-                }
                 questionnaireTitle={questionnaireTitle}
                 publishStatus={publishStatus}
                 currentUser={me}
                 userName={user.displayName}
                 userId={user.id}
                 bodyText={bodyText}
-                originalText={originalText}
                 type={type}
                 createdAt={time}
               />

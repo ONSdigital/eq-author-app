@@ -1,5 +1,0 @@
-mutation cancelHistoryNote($input: cancelHistoryNoteInput!) {
-  cancelHistoryNote(input: $input) {
-    ...HistoryNoteInfo
-  }
-}
