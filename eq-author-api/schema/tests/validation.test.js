@@ -500,7 +500,7 @@ describe("validation", () => {
           },
           metadata: null,
         });
-      });
+      }, 40000);
 
       it("can update metadata", async () => {
         const metadata = await createMetadata(ctx, {
