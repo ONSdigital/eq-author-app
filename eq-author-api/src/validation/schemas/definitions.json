@@ -4,9 +4,7 @@
     "populatedString": {
       "type": "string",
       "pattern": "\\w+",
-      "errorMessage": {
-        "pattern": "ERR_VALID_REQUIRED"
-      }
+      "errorMessage": "ERR_VALID_REQUIRED"
     }
   }
 }

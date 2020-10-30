@@ -380,8 +380,9 @@ describe("page", () => {
                     options: [
                       {
                         label: "",
+                        qCode: "qCode1",
                       },
-                      { label: "" },
+                      { label: "", qCode: "qCode 2", },
                     ],
                   },
                 ],

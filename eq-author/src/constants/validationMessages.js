@@ -24,6 +24,35 @@ export const richTextEditorErrors = {
     errorCode: "PIPING_TITLE_DELETED",
     message: "The answer being piped has been deleted",
   },
+  INCLUDE_EXCLUDE_NOT_ENTERED: {
+    errorCode: "ERR_VALID_REQUIRED",
+    message: "Enter include/exclude content",
+  },
+  DESCRIPTION_NOT_ENTERED: {
+    errorCode: "ERR_VALID_REQUIRED",
+    message: "Enter a question description",
+  },
+  ADDITIONAL_INFO_LABEL_NOT_ENTERED: {
+    errorCode: "ERR_VALID_REQUIRED",
+    message: "Enter additional information label",
+  },
+  ADDITIONAL_INFO_CONTENT_NOT_ENTERED: {
+    errorCode: "ERR_VALID_REQUIRED",
+    message: "Enter additional information content",
+  },
+};
+
+export const questionDefinitionErrors = {
+  DEFINITION_LABEL_NOT_ENTERED: {
+    field: "definitionLabel",
+    errorCode: "ERR_VALID_REQUIRED",
+    message: "Enter definition label",
+  },
+  DEFINITION_CONTENT_NOT_ENTERED: {
+    field: "definitionContent",
+    errorCode: "ERR_VALID_REQUIRED",
+    message: "Enter definition content",
+  },
 };
 
 export const sectionErrors = {
@@ -41,7 +70,7 @@ export const characterErrors = {
 };
 
 export const QCODE_IS_NOT_UNIQUE = "Qcode must be unique";
-
+export const QCODE_REQUIRED = "Qcode required";
 export const QUESTION_ANSWER_NOT_SELECTED = "Answer required";
 export const CALCSUM_ANSWER_NOT_SELECTED = "Answer required";
 export const CALCSUM_SUMMARY_ANSWERS_THE_SAME =
@@ -95,9 +124,15 @@ export const rightSideErrors = {
     errorCode: "ERR_RIGHTSIDE_ALLOFF_OR_NOT_ALLOWED",
     message: "All of not allowed in rule with checkbox OR option",
   },
-  ERR_RIGHTSIDE_AND_OR_NOT_ALLOWED: {
-    errorCode: "ERR_RIGHTSIDE_AND_OR_NOT_ALLOWED",
-    message: "All of not allowed in expression with checkbox OR option",
+  ERR_RIGHTSIDE_MIXING_OR_STND_OPTIONS_IN_AND_RULE: {
+    errorCode: "ERR_RIGHTSIDE_MIXING_OR_STND_OPTIONS_IN_AND_RULE",
+    message:
+      "You can't match 'All of' the standard options with the 'or' checkbox option. Change the 'All of' to 'Any of' or remove all of the standard options or the 'or' checkbox option",
+  },
+  ERR_GROUP_MIXING_EXPRESSIONS_WITH_OR_STND_OPTIONS_IN_AND: {
+    errorCode: "ERR_GROUP_MIXING_EXPRESSIONS_WITH_OR_STND_OPTIONS_IN_AND",
+    message:
+      "You can't match 'All of' the standard options with the 'or' checkbox option. Change the 'All of' to 'Any of' or remove a condition",
   },
 };
 

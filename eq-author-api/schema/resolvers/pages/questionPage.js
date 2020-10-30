@@ -76,12 +76,18 @@ Resolvers.QuestionPage = {
     const pageErrors = ctx.validationErrorInfo.filter(
       ({ pageId }) => id === pageId
     );
+    //remove qcode errors from total here - important as Qcode errors don't count to total
+    // otherwise error totals get confusing for users!!!!!!
 
-    if (!pageErrors) {
-      return ({ id, errors: [], totalCount: 0 });
-    }
+    const answerErrorsQCode = pageErrors.filter(
+      ({ field }) => field === "qCode" || field === "secondaryQCode"
+    );
 
-    return ({ id, errors: pageErrors, totalCount: pageErrors.length });
+    return {
+      id,
+      errors: pageErrors,
+      totalCount: pageErrors.length - answerErrorsQCode.length,
+    };
   },
 };
 

@@ -51,7 +51,6 @@ describe("addBusinessQuestionnaireIntroduction", () => {
       "period_id",
       "ref_p_start_date",
       "ref_p_end_date",
-      "employment_date",
     ]);
   });
 });

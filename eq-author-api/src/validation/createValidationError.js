@@ -113,6 +113,10 @@ module.exports = (dataPath, field, errorCode, questionnaire) => {
           rule = rules[dataPath[index + 2]];
           validationErr.routingRuleId = rule.id;
           validationErr.type = "routing";
+
+          if (rule.expressionGroup) {
+            validationErr.expressionGroupId = rule.expressionGroup.id;
+          }
           break;
 
         case "skipConditions":

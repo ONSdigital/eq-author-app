@@ -96,64 +96,158 @@
           "$ref": "entities.json#/definitions/totalValidation"
         }
       },
-      "if": {
-        "properties": {
-          "pageType": {
-            "enum": [
-              "QuestionPage"
-            ]
-          }
-        }
-      },
-      "then": {
-        "properties": {
-          "answers": {
-            "type": "array",
-            "items": {
-              "$ref": "entities.json#/definitions/answer"
-            },
-            "minItems": 1,
-            "errorMessage": {
-              "minItems": "ERR_NO_ANSWERS"
-            }
-          }
-        }
-      },
-      "else": {
-        "if": {
-          "properties": {
-            "pageType": {
-              "enum": [
-                "CalculatedSummaryPage"
-              ]
-            }
-          }
-        },
-        "then": {
-          "properties": {
-            "summaryAnswers": {
-              "type": "array",
-              "items": {
-                "allOf": [
-                  {
-                    "$ref": "entities.json#/definitions/answer"
-                  }
-                ]
-              },
-              "calculatedSummaryUnitConsistency": {
-                "$data": "/sections"
-              },
-              "minItems": 1,
-              "errorMessage": {
-                "minItems": "ERR_NO_ANSWERS"
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "definitionEnabled": {
+                "const": true
               }
             }
           },
-          "required": [
-            "summaryAnswers"
-          ]
+          "then": {
+            "properties": {
+              "definitionLabel": {
+                "allOf": [
+                  {
+                    "not": {
+                      "type": "null"
+                    },
+                    "errorMessage": "ERR_VALID_REQUIRED"
+                  },
+                  {
+                    "$ref": "definitions.json#/definitions/populatedString"
+                  }
+                ]
+              },
+              "definitionContent": {
+                "allOf": [
+                  {
+                    "not": {
+                      "type": "null"
+                    },
+                    "errorMessage": "ERR_VALID_REQUIRED"
+                  },
+                  {
+                    "$ref": "definitions.json#/definitions/populatedString"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "additionalInfoEnabled": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "additionalInfoLabel": {
+                "$ref": "definitions.json#/definitions/populatedString"
+              },
+              "additionalInfoContent": {
+                "$ref": "definitions.json#/definitions/populatedString"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "guidanceEnabled": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "guidance": {
+                "$ref": "definitions.json#/definitions/populatedString"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "descriptionEnabled": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "description": {
+                "$ref": "definitions.json#/definitions/populatedString"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "pageType": {
+                "enum": [
+                  "QuestionPage"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "answers": {
+                "type": "array",
+                "items": {
+                  "$ref": "entities.json#/definitions/answer"
+                },
+                "minItems": 1,
+                "errorMessage": {
+                  "minItems": "ERR_NO_ANSWERS"
+                }
+              }
+            }
+          },
+          "else": {
+            "if": {
+              "properties": {
+                "pageType": {
+                  "enum": [
+                    "CalculatedSummaryPage"
+                  ]
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "summaryAnswers": {
+                  "type": "array",
+                  "items": {
+                    "allOf": [
+                      {
+                        "$ref": "entities.json#/definitions/answer"
+                      }
+                    ]
+                  },
+                  "calculatedSummaryUnitConsistency": {
+                    "$data": "/sections"
+                  },
+                  "minItems": 1,
+                  "errorMessage": {
+                    "minItems": "ERR_NO_ANSWERS"
+                  }
+                }
+              },
+              "required": [
+                "summaryAnswers"
+              ]
+            }
+          }
         }
-      },
+      ],
       "required": [
         "id",
         "title"
@@ -215,6 +309,9 @@
         "title": {
           "$ref": "definitions.json#/definitions/populatedString"
         },
+        "qCode": {
+          "$ref": "definitions.json#/definitions/populatedString"
+        },
         "positive": {
           "type": "object",
           "properties": {
@@ -265,8 +362,14 @@
       "required": [
         "id",
         "title",
-        "positive"
-      ]
+        "positive",
+        "qCode"
+      ],
+      "errorMessage": {
+        "required": {
+          "qCode": "ERR_QCODE_REQUIRED"
+        }
+      }
     },
     "answer": {
       "allOf": [
@@ -274,7 +377,10 @@
           "$ref": "entities.json#/definitions/basicAnswer"
         },
         {
-          "$ref": "entities.json#/definitions/multipleChoiceAnswer"
+          "$ref": "entities.json#/definitions/checkboxAnswer"
+        },
+        {
+          "$ref": "entities.json#/definitions/radioAnswer"
         },
         {
           "$ref": "entities.json#/definitions/numericAnswer"
@@ -304,6 +410,9 @@
       "then": {
         "type": "object",
         "properties": {
+          "qCode": {
+            "$ref": "definitions.json#/definitions/populatedString"
+          },
           "id": {
             "type": "string"
           },
@@ -336,6 +445,9 @@
       "then": {
         "type": "object",
         "properties": {
+          "qCode": {
+            "$ref": "definitions.json#/definitions/populatedString"
+          },
           "validation": {
             "if": {
               "allOf": [
@@ -497,13 +609,12 @@
       },
       "else": false
     },
-    "multipleChoiceAnswer": {
+    "checkboxAnswer": {
       "if": {
         "properties": {
           "type": {
             "enum": [
-              "Checkbox",
-              "Radio"
+              "Checkbox"
             ]
           }
         }
@@ -517,6 +628,20 @@
           "options": {
             "type": "array",
             "items": {
+              "type": "object",
+              "properties": {
+                "qCode": {
+                  "$ref": "definitions.json#/definitions/populatedString"
+                }
+              },
+              "required": [
+                "qCode"
+              ],
+              "errorMessage": {
+                "required": {
+                  "qCode": "ERR_QCODE_REQUIRED"
+                }
+              },
               "allOf": [
                 {
                   "$ref": "entities.json#/definitions/option"
@@ -538,6 +663,55 @@
       },
       "else": false
     },
+    "radioAnswer": {
+      "if": {
+        "properties": {
+          "type": {
+            "enum": [
+              "Radio"
+            ]
+          }
+        }
+      },
+      "then": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "qCode": {
+            "$ref": "definitions.json#/definitions/populatedString"
+          },
+          "options": {
+            "type": "array",
+            "items": {
+              "allOf": [
+                {
+                  "$ref": "entities.json#/definitions/option"
+                },
+                {
+                  "uniquePropertyValueInArrayOfObjects": "label"
+                }
+              ]
+            }
+          },
+          "mutuallyExclusiveOption": {
+            "$ref": "entities.json#/definitions/option"
+          }
+        },
+        "required": [
+          "id",
+          "options",
+          "qCode"
+        ],
+        "errorMessage": {
+          "required": {
+            "qCode": "ERR_QCODE_REQUIRED"
+          }
+        }
+      },
+      "else": false
+    },
     "dateAnswer": {
       "if": {
         "properties": {
@@ -551,6 +725,9 @@
       "then": {
         "type": "object",
         "properties": {
+          "qCode": {
+            "$ref": "definitions.json#/definitions/populatedString"
+          },
           "validation": {
             "if": {
               "allOf": [
@@ -696,6 +873,12 @@
       "then": {
         "type": "object",
         "properties": {
+          "qCode": {
+            "$ref": "definitions.json#/definitions/populatedString"
+          },
+          "secondaryQCode": {
+            "$ref": "definitions.json#/definitions/populatedString"
+          },
           "validation": {
             "allOf": [
               {
@@ -935,6 +1118,16 @@
           "properties": {
             "$ref": "entities.json#/definitions/properties"
           }
+        },
+        "required": [
+          "qCode",
+          "secondaryQCode"
+        ],
+        "errorMessage": {
+          "required": {
+            "qCode": "ERR_QCODE_REQUIRED",
+            "secondaryQCode": "ERR_SECONDARY_QCODE_REQUIRED"
+          }
         }
       }
     },
@@ -963,6 +1156,9 @@
         },
         "additionalAnswer": {
           "$ref": "entities.json#/definitions/basicAnswer"
+        },
+        "qCode": {
+          "$ref": "definitions.json#/definitions/populatedString"
         }
       },
       "required": [
@@ -1013,7 +1209,8 @@
           "type": "string"
         },
         "condition": {
-          "type": "string"
+          "type": "string",
+          "validateMultipleChoiceCondition": "condition"
         },
         "left": {
           "type": "object",
@@ -1067,7 +1264,8 @@
           "errorMessage": "ERR_RIGHTSIDE_NO_VALUE",
           "validateExclusiveCheckbox": "right"
         }
-      }
+      },
+      "validateExpression": "validateExpression"
     },
     "expression-unanswered": {
       "properties": {

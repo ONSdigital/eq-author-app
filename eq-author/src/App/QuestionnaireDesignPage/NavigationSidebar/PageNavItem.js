@@ -73,6 +73,12 @@ UnwrappedPageNavItem.fragments = {
       pageType
       validationErrorInfo {
         id
+        errors {
+        id
+        type
+        field
+        errorCode
+      }
         totalCount
       }
       ... on QuestionPage {

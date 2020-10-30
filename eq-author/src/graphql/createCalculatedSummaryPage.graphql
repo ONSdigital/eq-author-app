@@ -20,6 +20,7 @@ mutation CreateCalculatedSummaryPage(
       id
     }
     totalTitle
+    qCode
     validationErrorInfo {
       ...ValidationErrorInfo
     }

@@ -13,9 +13,9 @@ Let users select one option from a dropdown list.
 <Canvas>
   <Story name="Primary">
     <Form htmlWidth="50%">
-      <Label htmlFor="favorite-jedi">Unit of length</Label>
-      <Select id="favorite-jedi">
-        <option selected hidden></option>
+      <Label htmlFor="unit-of-length">Unit of length</Label>
+      <Select id="unit-of-length">
+        <option selected hidden>Select a unit</option>
         <option>Centimetres</option>
         <option>Metres</option>
         <option disabled>Kilometres</option>
@@ -71,14 +71,31 @@ Grey out any unavailable options instead of removing them: any items that cannot
 
 ## Variants
 
+### Error
+
+<Canvas>
+  <Story name="Error">
+    <Form htmlWidth="50%">
+      <Label htmlFor="unit-of-length">Unit of length</Label>
+      <Select id="unit-of-length" hasError>
+        <option selected hidden>Select a unit</option>
+        <option>Centimetres</option>
+        <option>Metres</option>
+        <option disabled>Kilometres</option>
+        <option>Miles</option>
+      </Select>
+    </Form>
+  </Story>
+</Canvas>
+
 ### Loading
 
 <Canvas>
   <Story name="Loading">
     <Form htmlWidth="50%">
-      <Label htmlFor="favorite-sith">Unit of length</Label>
-      <Select id="favorite-sith" loading>
-        <option selected hidden></option>
+      <Label htmlFor="unit-of-length">Unit of length</Label>
+      <Select id="unit-of-length" loading>
+        <option selected hidden>Select a unit</option>
       </Select>
     </Form>
   </Story>
