@@ -207,7 +207,6 @@ const remapAllNestedIds = entity => {
 
 const getValidationErrorInfo = ctx => ctx.validationErrorInfo;
 
-// reduces validation error message boiler plate
 const returnValidationErrors = (ctx, id, ...conditions) => {
   const errors = conditions.reduce((acc, condition) => {
     acc.push(...getValidationErrorInfo(ctx).filter(condition));
@@ -229,26 +228,20 @@ const returnValidationErrors = (ctx, id, ...conditions) => {
   };
 };
 
-// These were moved here so as to be used elsewhere
-
-const createQuestionPage = (input = {}) => {
-  const a = {
-    id: uuidv4(),
-    pageType: "QuestionPage",
-    title: "",
-    description: "",
-    descriptionEnabled: false,
-    guidanceEnabled: false,
-    definitionEnabled: false,
-    additionalInfoEnabled: false,
-    answers: [],
-    routing: null,
-    alias: null,
-    ...input,
-  };
-
-  return a;
-};
+const createQuestionPage = (input = {}) => ({
+  id: uuidv4(),
+  pageType: "QuestionPage",
+  title: "",
+  description: "",
+  descriptionEnabled: false,
+  guidanceEnabled: false,
+  definitionEnabled: false,
+  additionalInfoEnabled: false,
+  answers: [],
+  routing: null,
+  alias: null,
+  ...input,
+});
 
 const createCalculatedSummary = (input = {}) => ({
   id: uuidv4(),
@@ -267,17 +260,14 @@ const createFolder = (input = {}) => ({
   ...input,
 });
 
-const createSection = (input = {}) => {
-  const a = {
-    id: uuidv4(),
-    title: "",
-    introductionEnabled: false,
-    folders: [createFolder()],
-    alias: "",
-    ...input,
-  };
-  return a;
-};
+const createSection = (input = {}) => ({
+  id: uuidv4(),
+  title: "",
+  introductionEnabled: false,
+  folders: [createFolder()],
+  alias: "",
+  ...input,
+});
 
 const getPosition = (position, comparator) =>
   typeof position === "number" ? position : comparator.length;
@@ -285,6 +275,7 @@ const getPosition = (position, comparator) =>
 // Possible that the move position needs to be calculated
 // in a different way
 // Need to remember that the context object needs to be modified directly
+
 const getMovePosition = (section, pageId, position) => {
   if (!section.folders) {
     throw new Error("Section doesn't have a folder");
