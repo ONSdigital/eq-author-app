@@ -480,22 +480,27 @@ describe("validation", () => {
 
         const validation = await queryValidation(ctx, answer.id);
 
-        const result = await updateValidation(ctx, {
+        await expect(
+          updateValidation(ctx, {
+            id: validation.earliestDate.id,
+            earliestDateInput: {
+              ...params,
+              entityType: PREVIOUS_ANSWER,
+              previousAnswer: previousAnswer.id,
+            },
+          })
+        ).resolves.toEqual({
           id: validation.earliestDate.id,
-          earliestDateInput: {
-            ...params,
-            entityType: PREVIOUS_ANSWER,
-            previousAnswer: previousAnswer.id,
-          },
-        });
-
-        expect(result).toMatchObject({
+          offset: { value: 8, unit: "Months" },
           entityType: PREVIOUS_ANSWER,
+          customDate: null,
+          relativePosition: "After",
           previousAnswer: {
             id: previousAnswer.id,
           },
+          metadata: null,
         });
-      }, 30000);
+      });
 
       it("can update metadata", async () => {
         const metadata = await createMetadata(ctx, {
