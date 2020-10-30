@@ -3,4 +3,5 @@ module.exports = {
   ...require("./createHistoryNote"),
   ...require("./updateHistoryNote"),
   ...require("./deleteHistoryNote"),
+  ...require("./cancelHistoryNote"),
 };

@@ -159,6 +159,7 @@ const HistoryPageContent = ({ match }) => {
               publishStatus,
               questionnaireTitle,
               bodyText,
+              originalText,
               type,
               user,
               time,
@@ -204,7 +205,7 @@ const HistoryPageContent = ({ match }) => {
                 userName={user.displayName}
                 userId={user.id}
                 bodyText={bodyText}
-                originalText={bodyText}
+                originalText={originalText}
                 type={type}
                 createdAt={time}
               />

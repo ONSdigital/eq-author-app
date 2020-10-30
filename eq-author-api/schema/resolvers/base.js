@@ -333,6 +333,28 @@ const Resolvers = {
       return metadata.history;
     },
 
+    cancelHistoryNote: async (root, { input }, ctx) => {
+      const user = ctx.user;
+      const metadata = await getQuestionnaireMetaById(input.questionnaireId);
+      const history = metadata.history;
+      const noteToCancel = history.find(item => item.id === input.id);
+      const originalText = noteToCancel.bodyText;
+
+      if (!user.admin && user.id !== noteToCancel.userId) {
+        throw new Error("User doesnt have access");
+      }
+      if (noteToCancel.type === "system") {
+        throw new Error("Cannot cancel system event message");
+      }
+
+      noteToCancel.bodyText = originalText;
+
+      remove(metadata.history, item => item.id === noteToCancel.id);
+
+      await saveMetadata(metadata);
+      return metadata.history;
+    },
+
     createSection: createMutation((root, { input }, ctx) => {
       const section = createSection(input);
       ctx.questionnaire.sections.push(section);

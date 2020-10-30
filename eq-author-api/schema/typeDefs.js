@@ -658,6 +658,7 @@ type Mutation {
   createHistoryNote(input: createHistoryNoteInput!): [History!]!
   updateHistoryNote(input: updateHistoryNoteInput!): [History!]!
   deleteHistoryNote(input: deleteHistoryNoteInput!): [History!]!
+  cancelHistoryNote(input: cancelHistoryNoteInput!): [History!]!
   createSection(input: CreateSectionInput!): Section
   updateSection(input: UpdateSectionInput!): Section
   deleteSection(input: DeleteSectionInput!): Questionnaire
@@ -817,6 +818,12 @@ input DuplicateQuestionnaireInput {
 input createHistoryNoteInput {
   id: ID!
   bodyText: String!
+}
+
+input cancelHistoryNoteInput {
+  id: ID!
+  bodyText: String!
+  originalText: String!
 }
 
 input CreateSectionInput {
