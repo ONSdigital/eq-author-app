@@ -11,6 +11,7 @@ exports[`components/NoSkipConditions should render 1`] = `
   </NoSkipConditions__Paragraph>
   <NoSkipConditions__AddSkipConditionsButton
     data-test="btn-add-skip-condition"
+    isFirstQuestion={true}
     naked={true}
     onClick={[MockFunction]}
     small={true}
