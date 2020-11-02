@@ -52,6 +52,7 @@ export const StatelessBasicAnswer = ({
           bold
           errorValidationMsg={getValidationError({
             field: "label",
+            type: "answer",
             label: errorLabel,
             requiredMsg: errorMsg,
           })}
