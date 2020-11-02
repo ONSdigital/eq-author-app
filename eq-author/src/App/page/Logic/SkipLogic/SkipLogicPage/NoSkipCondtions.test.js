@@ -1,9 +1,9 @@
 import React from "react";
 import { render, fireEvent, screen } from "tests/utils/rtl";
-
 import NoSkipConditions from "./NoSkipConditions";
 
 describe("components/NoSkipConditions", () => {
+
   const disabledTitle = "Skip logic not available for this question";
   const disabledParagraph =
     "You can't add skip logic to the first question in a questionnaire.";
@@ -28,7 +28,6 @@ describe("components/NoSkipConditions", () => {
        opacity: 0.6;`
     );
   });
-
 
   it("should render with button enabled", () => {
     const { debug, queryByText } = render(
@@ -61,61 +60,4 @@ describe("components/NoSkipConditions", () => {
     expect(onAddSkipCondtions).toHaveBeenCalledTimes(1);
   });
 
-  // expect(screen.getByTestId("action-btns")).toHaveStyleRule("display: flex;");
-
-  // NEW TESTS
-
-  // questionnaire = {
-  //   sections: [
-  //     {
-  //       pages: [
-  //         {
-  //           id: "page-1",
-  //           pageType: "QuestionPage",
-  //           title: "<p>Questions 1</p>",
-  //           description: "",
-  //           position: 0,
-  //           section: {
-  //             position: 0,
-  //           },
-  //           answers: [
-  //             {
-  //               id: "ans-p1",
-  //               description: "",
-  //               guidance: "",
-  //               label: "num1",
-  //               type: NUMBER,
-  //               questionPageId: "qp-1",
-  //             },
-  //           ],
-  //         },
-  //         {
-  //           id: "page-2",
-  //           pageType: "QuestionPage",
-  //           title: "<p>Questions 2</p>",
-  //           description: "",
-  //           postion: 1,
-  //           section: {
-  //             position: 0,
-  //           },
-  //           answers: [
-  //             {
-  //               id: "ans-p2",
-  //               description: "",
-  //               guidance: "",
-  //               label: "num2",
-  //               type: NUMBER,
-  //               questionPageId: "qp-2",
-  //             },
-  //           ],
-  //         },
-  //       ],
-  //     },
-  //   ],
-  // };
-  // props = {
-  //   data: {
-  //     questionnaire,
-  //   },
-  // };
 });
