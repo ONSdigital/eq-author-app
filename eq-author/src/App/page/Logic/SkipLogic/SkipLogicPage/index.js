@@ -34,13 +34,10 @@ export class UnwrappedSkipLogicPage extends React.Component {
         <Transition key="skip-condition-set-empty" exit={false}>
           <Panel>
             <NoSkipConditions
-              title={isFirstQuestion ? "Skip logic not available for this question" : "No skip conditions exist for this question" }
               onAddSkipCondtions={this.handleAddSkipCondtions}
               data-test="skip-condition-set-empty-msg"
               isFirstQuestion={(isFirstQuestion)}
-            >
-              {isFirstQuestion ? "You can't add skip logic to the first question in a questionnaire." : "All users will see this question if no skip logic is added."}
-            </NoSkipConditions>
+            ></NoSkipConditions>
           </Panel>
         </Transition>
       );

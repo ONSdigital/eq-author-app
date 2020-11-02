@@ -40,16 +40,14 @@ const AddSkipConditionsButton = styled(Button)`
 `;
 
 const SkipConditionsSetMsg = ({
-  title,
   onAddSkipCondtions,
-  children,
   isFirstQuestion,
   ...otherProps
 }) => (
   <Container {...otherProps}>
     <Icon />
-    <Title>{title}</Title>
-    <Paragraph>{children}</Paragraph>
+    <Title>{isFirstQuestion ? "Skip logic not available for this question" : "No skip conditions exist for this question" }</Title>
+    <Paragraph>{isFirstQuestion ? "You can't add skip logic to the first question in a questionnaire." : "All users will see this question if no skip logic is added."}</Paragraph>
       <AddSkipConditionsButton
         small
         naked
@@ -64,9 +62,7 @@ const SkipConditionsSetMsg = ({
 );
 
 SkipConditionsSetMsg.propTypes = {
-  title: PropTypes.string.isRequired,
   onAddSkipCondtions: PropTypes.func.isRequired,
-  children: PropTypes.node.isRequired,
   isFirstQuestion: PropTypes.bool.isRequired,
 };
 
