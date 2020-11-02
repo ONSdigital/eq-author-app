@@ -31,6 +31,7 @@ describe("Settings page", () => {
       id: "e3c3ecc4-87fb-4819-826b-ac696a4bc569",
       navigation: true,
       summary: true,
+      collapsibleSummary: false,
       description: "A questionnaire about a lovable, purple dragon",
       surveyId: "123",
       theme: "default",
