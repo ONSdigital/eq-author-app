@@ -193,7 +193,13 @@ const SettingsPage = ({ questionnaire }) => {
               hideLabels={false}
               onChange={({ value }) =>
                 updateQuestionnaire({
-                  variables: { input: { id, summary: value } },
+                  variables: {
+                    input: {
+                      id,
+                      summary: value,
+                      collapsibleSummary: !summary && collapsibleSummary,
+                    },
+                  },
                 })
               }
               checked={summary}
