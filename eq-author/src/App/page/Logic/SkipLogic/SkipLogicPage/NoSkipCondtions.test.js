@@ -11,43 +11,41 @@ describe("components/NoSkipConditions", () => {
   const enabledParagraph =
     "All users will see this question if no skip logic is added.";
   
-  it("should render rtl", () => {
+  it("should render with button disabled", () => {
     const { debug, queryByText, getByTestId } = render(
       <NoSkipConditions
         onAddSkipCondtions={jest.fn()}
         isFirstQuestion={true}
       ></NoSkipConditions>
     );
-    // console.log(debug());
     expect(queryByText(disabledTitle)).toBeTruthy();
     expect(queryByText(disabledParagraph)).toBeTruthy();
     expect(queryByText(enabledTitle)).toBeFalsy();
     expect(queryByText(enabledParagraph)).toBeFalsy();
 
-    // const button = screen.queryByTestId("btn-add-skip-condition");
-    // console.log(button);
-    // expect(button).toHaveStyleRule(
-    //   "pointer-events: literally-anything;"
-    // );
-
-    // expect(screen.getByTestId("btn-add-skip-condition")).toHaveStyleRule(
-    //   "margin: 2em auto 1em;"
-    // );
+    expect(screen.getByTestId("btn-add-skip-condition")).toHaveStyle(
+      `pointer-events: none; 
+       opacity: 0.6;`
+    );
   });
 
 
-  it("should render rtl", () => {
+  it("should render with button enabled", () => {
     const { debug, queryByText } = render(
       <NoSkipConditions
         onAddSkipCondtions={jest.fn()}
         isFirstQuestion={false}
       ></NoSkipConditions>
     );
-    console.log(debug());
     expect(queryByText(enabledTitle)).toBeTruthy();
     expect(queryByText(enabledParagraph)).toBeTruthy();
     expect(queryByText(disabledTitle)).toBeFalsy();
     expect(queryByText(disabledParagraph)).toBeFalsy();
+
+    expect(screen.getByTestId("btn-add-skip-condition")).not.toHaveStyle(
+      `pointer-events: none; 
+       opacity: 0.6;`
+    );
   });
 
   it("should call onAddSkipConditions when button clicked", () => {
@@ -58,9 +56,7 @@ describe("components/NoSkipConditions", () => {
         isFirstQuestion={true}
       ></NoSkipConditions>
     );
-    // wrapper.find("[data-test='btn-add-skip-condition']").simulate("click");
     const button = getByTestId("btn-add-skip-condition");
-    console.log(button);
     fireEvent.click(button);
     expect(onAddSkipCondtions).toHaveBeenCalledTimes(1);
   });
