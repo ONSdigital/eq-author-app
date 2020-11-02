@@ -22,13 +22,8 @@ const getPreviousAnswersForPage = require("../../../src/businessLogic/getPreviou
 const Resolvers = {};
 
 Resolvers.QuestionPage = {
-  section: ({ id }, input, ctx) => {
-    // this not returning new section information when moved
-    const section = getSectionByPageId(ctx, id);
-    return section;
-  },
+  section: ({ id }, input, ctx) => getSectionByPageId(ctx, id),
   position: ({ id }, args, ctx) => {
-    // need to double check this
     const section = getSectionByPageId(ctx, id);
     return findIndex(getPagesFromSection(section), { id });
   },
@@ -44,7 +39,6 @@ Resolvers.QuestionPage = {
       ROUTING_ANSWER_TYPES
     ),
   availableRoutingDestinations: ({ id }, args, ctx) => {
-    // will need to double check this
     const {
       logicalDestinations,
       sections,

@@ -357,22 +357,18 @@ const Resolvers = {
       ctx.questionnaire.sections.splice(input.position, 0, remappedSection);
       return remappedSection;
     }),
-
-    // works
-    // Should I create a positional argument?
     createFolder: createMutation((root, { input }, ctx) => {
       const folder = createFolder();
       const section = getSectionById(ctx, input.sectionId);
       section.folders.push(folder);
       return folder;
     }),
-    // works
+
     updateFolder: createMutation((root, { input }, ctx) => {
       const folder = getFolderById(ctx, input.folderId);
       merge(folder, input);
       return folder;
     }),
-
     deleteFolder: createMutation((root, { input }, ctx) => {
       const section = getSectionByFolderId(ctx, input.id);
       const removedFolder = first(remove(section.folders, { id: input.id }));
@@ -1165,7 +1161,6 @@ const Resolvers = {
     custom: ({ custom }) => custom,
     entityType: ({ entityType }) => entityType,
     previousAnswer: ({ previousAnswer }, args, ctx) =>
-      // check this works
       isNil(previousAnswer) ? null : getAnswerById(ctx, previousAnswer),
     availablePreviousAnswers: ({ id }, args, ctx) =>
       getAvailablePreviousAnswersForValidation(ctx, id),

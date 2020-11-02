@@ -20,8 +20,7 @@ const Resolvers = {};
 
 Resolvers.Page = {
   __resolveType: ({ pageType }) => pageType,
-  position: ({ id }, args, ctx) =>
-    findIndex(getPagesBySectionId(ctx, id), { id }),
+  position: ({ id }, args, ctx) => findIndex(getPagesBySectionId(ctx, id), id),
 };
 
 Resolvers.Mutation = {
@@ -63,6 +62,8 @@ Resolvers.Mutation = {
 
     return { ...page, sectionId: newSection.id };
   }),
+
+  // still needs testing
   deletePage: createMutation((_, { input }, ctx) => {
     const section = getSectionByPageId(ctx, input.id);
     const { previous } = getMovePosition(section, input.id, 0);
@@ -70,10 +71,7 @@ Resolvers.Mutation = {
 
     onPageDeleted(ctx, section, previous.page);
 
-    // This needs some more thought
     if (!section.folders[previous.folderIndex].pages.length) {
-      // console.log("i should delete this");
-      // console.log(section.folders[previous.folderIndex].pages.length);
       // section.folders.splice(previous.folderIndex, 1);
     }
 

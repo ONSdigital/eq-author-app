@@ -11,18 +11,6 @@ const onFolderDeleted = (ctx, removedFolder) => {
     if (!page.routing) {
       return;
     }
-
-    // not sure if this is needed or not?
-    // const elseRoute = page.routing.else;
-    // if (elseRoute.sectionId === removedSection.id) {
-    //   elseRoute.sectionId = null;
-    // }
-
-    // page.routing.rules.map(rule => {
-    //   if (rule.destination.sectionId === removedSection.id) {
-    //     rule.destination.sectionId = null;
-    //   }
-    // });
   });
 };
 

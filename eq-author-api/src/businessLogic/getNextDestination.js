@@ -10,12 +10,7 @@ module.exports = (questionnaire, pageId) => {
   const currentSection = getSectionByPageId(questionnaire, pageId);
   const pagesAfterCurrent = takeRightWhile(
     page => page.id !== pageId,
-    // this doesn't work
-    // getpages only works with context
-    // could do
-    // const ctx = { questionnaire }
-    // getPages(ctx)
-    getPages(currentSection)
+    getPages({ questionnaire })
   );
 
   if (pagesAfterCurrent.length) {

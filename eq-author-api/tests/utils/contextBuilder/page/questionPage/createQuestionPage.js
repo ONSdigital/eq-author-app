@@ -18,11 +18,11 @@ const createQuestionPageMutation = `
       additionalInfoLabel
       additionalInfoContent
       additionalInfoEnabled
-      
+      position
     }
   }
 `;
-// position breaks this query no idea why
+
 const createQuestionPage = async (ctx, input) => {
   const result = await executeQuery(
     createQuestionPageMutation,
