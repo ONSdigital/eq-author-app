@@ -46,7 +46,6 @@ const SkipConditionsSetMsg = ({
   isFirstQuestion,
   ...otherProps
 }) => (
-    console.log(isFirstQuestion),
   <Container {...otherProps}>
     <Icon />
     <Title>{title}</Title>
