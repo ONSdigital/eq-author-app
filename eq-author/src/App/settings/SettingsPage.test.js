@@ -170,6 +170,7 @@ describe("Settings page", () => {
             input: {
               id: mockQuestionnaire.id,
               summary: false,
+              collapsibleSummary: false,
             },
           },
         },
@@ -180,6 +181,30 @@ describe("Settings page", () => {
               updateQuestionnaire: {
                 ...mockQuestionnaire,
                 summary: false,
+                collapsibleSummary: false,
+                __typename: "Questionnaire",
+              },
+            },
+          };
+        },
+      },
+      {
+        request: {
+          query: updateQuestionnaireMutation,
+          variables: {
+            input: {
+              id: mockQuestionnaire.id,
+              collapsibleSummary: true,
+            },
+          },
+        },
+        result: () => {
+          queryWasCalled = true;
+          return {
+            data: {
+              updateQuestionnaire: {
+                ...mockQuestionnaire,
+                collapsibleSummary: true,
                 __typename: "Questionnaire",
               },
             },
@@ -367,6 +392,31 @@ describe("Settings page", () => {
       );
 
       const sectionNavigationToggle = getByTestId("toggle-answer-summary");
+
+      const toggle = Object.values(
+        sectionNavigationToggle.children
+      ).reduce(child => (child.type === "checkbox" ? child : null));
+
+      expect(queryWasCalled).toBeFalsy();
+
+      await act(async () => {
+        await fireEvent.click(toggle);
+        flushPromises();
+      });
+
+      expect(queryWasCalled).toBeTruthy();
+    });
+  });
+
+  describe("Collapsible summary toggle", () => {
+    it("Should enable/disable collapsible summaries when toggled", async () => {
+      const { getByTestId } = renderSettingsPage(
+        mockQuestionnaire,
+        user,
+        mocks
+      );
+
+      const sectionNavigationToggle = getByTestId("toggle-collapsible-summary");
 
       const toggle = Object.values(
         sectionNavigationToggle.children

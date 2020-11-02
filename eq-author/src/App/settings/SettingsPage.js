@@ -197,7 +197,7 @@ const SettingsPage = ({ questionnaire }) => {
                     input: {
                       id,
                       summary: value,
-                      collapsibleSummary: !summary && collapsibleSummary,
+                      collapsibleSummary: false,
                     },
                   },
                 })
