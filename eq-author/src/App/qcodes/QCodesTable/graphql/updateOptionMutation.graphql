@@ -1,6 +1,11 @@
+#import "../../../../graphql/fragments/validationErrorInfo.graphql"
+
 mutation UpdateOptionQCode($input: UpdateOptionInput!) {
   updateOption(input: $input) {
     id
     qCode
+    validationErrorInfo {
+      ...ValidationErrorInfo
+    }
   }
 }

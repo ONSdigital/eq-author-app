@@ -68,6 +68,9 @@ mutation createAnswer($input: CreateAnswerInput!) {
       mutuallyExclusiveOption {
         id
       }
+      validationErrorInfo {
+        ...ValidationErrorInfo
+      }
     }
     page {
       id

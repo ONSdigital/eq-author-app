@@ -6,7 +6,7 @@ import { isEmpty } from "lodash";
 import NoResults from "./NoResults";
 import QuestionnairesTable from "./QuestionnairesTable";
 import Header from "./Header";
-import Footer from "./Footer";
+import PaginationNav from "./PaginationNav";
 
 import reducer, { buildInitialState, ACTIONS } from "./reducer";
 import { SORT_ORDER } from "./constants";
@@ -120,7 +120,7 @@ const QuestionnairesView = ({
         />
       )}
 
-      <Footer
+      <PaginationNav
         countOnPage={state.currentPage ? state.currentPage.length : 0}
         totalCount={state.questionnaires.length}
         pageCount={state.pages.length}

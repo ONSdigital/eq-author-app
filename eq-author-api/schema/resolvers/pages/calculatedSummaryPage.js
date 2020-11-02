@@ -42,8 +42,8 @@ Resolvers.CalculatedSummaryPage = {
     const validSummaryAnswers = intersection(previousAnswers, summaryAnswers);
     return validSummaryAnswers
       ? validSummaryAnswers.map(validSummaryAnswer =>
-          getAnswerById(ctx, validSummaryAnswer)
-        )
+        getAnswerById(ctx, validSummaryAnswer)
+      )
       : [];
   },
 
@@ -65,22 +65,11 @@ Resolvers.CalculatedSummaryPage = {
       ({ pageId }) => id === pageId
     );
 
-    if (!calculatedSummaryErrors) {
-      const noErrors = {
-        id,
-        errors: [],
-        totalCount: 0,
-      };
-      return noErrors;
-    }
-
-    const errors = {
+    return ({
       id,
       errors: calculatedSummaryErrors,
       totalCount: calculatedSummaryErrors.length,
-    };
-
-    return errors;
+    });
   },
 };
 

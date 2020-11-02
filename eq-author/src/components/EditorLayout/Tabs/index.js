@@ -97,7 +97,11 @@ export const UnwrappedTabs = props => {
       };
 
       const { errors } = validationErrorInfo;
-      const errorSeparator = errors.reduce((accumulator, error) => {
+      const functionalErrors = errors.filter(
+        ({ field }) => field !== "qCode" && field !== "secondaryQCode"
+      );
+
+      const errorSeparator = functionalErrors.reduce((accumulator, error) => {
         const { design, logic } = accumulator;
 
         error.type.includes("routing") ||
