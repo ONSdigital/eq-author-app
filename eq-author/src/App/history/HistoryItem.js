@@ -163,6 +163,7 @@ const HistoryItem = ({
           </RTEWrapper>
           <ActionButtons horizontal align="right">
             <ActionButton
+              variant="secondary"
               data-test="cancel-note-btn"
               onClick={() => {
                 setNoteState(bodyText);
