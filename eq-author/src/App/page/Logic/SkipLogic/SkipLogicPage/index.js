@@ -36,8 +36,10 @@ export class UnwrappedSkipLogicPage extends React.Component {
             <NoSkipConditions
               onAddSkipCondtions={this.handleAddSkipCondtions}
               data-test="skip-condition-set-empty-msg"
-              isFirstQuestion={(isFirstQuestion)}
-            ></NoSkipConditions>
+              isFirstQuestion={isFirstQuestion}
+            >
+              All users will see this question if no skip logic is added.
+            </NoSkipConditions>
           </Panel>
         </Transition>
       );
