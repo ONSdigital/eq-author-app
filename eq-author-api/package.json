@@ -47,7 +47,7 @@
     "node-fetch": "latest",
     "node-jose": "latest",
     "pino-noir": "latest",
-    "pino-pretty": "^4.2.1",
+    "pino-pretty": "^4.3.0",
     "prom-client": "latest",
     "request": "^2.88.2",
     "uuid": "latest",
