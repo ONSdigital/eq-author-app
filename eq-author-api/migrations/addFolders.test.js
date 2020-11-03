@@ -38,13 +38,4 @@ describe("", () => {
       expect(section.pages).toBeUndefined();
     });
   });
-
-  it("should add folders to every section present", () => {
-    const sections = sectionInput(defaultSections);
-    const questionnaire = questionnaireContext(sections);
-
-    expect(
-      addFolders(questionnaire).sections.map(section => section.folders).length
-    ).toEqual(3);
-  });
 });
