@@ -55,6 +55,7 @@ const SkipConditionsSetMsg = ({
         onClick={onAddSkipCondtions}
         data-test="btn-add-skip-condition"
         isFirstQuestion={isFirstQuestion}
+        disabled={isFirstQuestion}
       >
         <IconText icon={IconAddRule}>Add your skip conditions</IconText>
       </AddSkipConditionsButton>
