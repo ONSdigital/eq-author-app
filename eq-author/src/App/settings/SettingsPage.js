@@ -51,6 +51,11 @@ const VerticalSeparator = styled.div`
   margin-bottom: 0.4em;
 `;
 
+const CollapsibleWrapper = styled.div`
+  opacity: ${props => (props.disabled ? "0.6" : "1")};
+  pointer-events: ${props => (props.disabled ? "none" : "auto")};
+`;
+
 const InlineField = styled(Field)`
   display: flex;
   align-items: center;
@@ -86,7 +91,15 @@ Pill.propTypes = {
 };
 
 const SettingsPage = ({ questionnaire }) => {
-  const { title, shortTitle, type, id, navigation, summary } = questionnaire;
+  const {
+    title,
+    shortTitle,
+    type,
+    id,
+    navigation,
+    summary,
+    collapsibleSummary,
+  } = questionnaire;
 
   const [updateQuestionnaire] = useMutation(updateQuestionnaireMutation);
   const [questionnaireTitle, setQuestionnaireTitle] = useState(title);
@@ -165,6 +178,12 @@ const SettingsPage = ({ questionnaire }) => {
             the questionnaire.
           </InformationPanel>
           <HorizontalSeparator />
+          <Label>Summary page</Label>
+          <Caption>
+            Let respondents view and change their answers before submitting
+            them. You can set the list of sections to be collapsible, so
+            respondents can show and hide their answer for individual sections.
+          </Caption>
           <InlineField>
             <Label>Answers summary</Label>
             <VerticalSeparator />
@@ -174,16 +193,35 @@ const SettingsPage = ({ questionnaire }) => {
               hideLabels={false}
               onChange={({ value }) =>
                 updateQuestionnaire({
-                  variables: { input: { id, summary: value } },
+                  variables: {
+                    input: {
+                      id,
+                      summary: value,
+                      collapsibleSummary: false,
+                    },
+                  },
                 })
               }
               checked={summary}
             />
           </InlineField>
-          <InformationPanel>
-            Let respondents check their answers before submitting their
-            questionnaire.
-          </InformationPanel>
+          <CollapsibleWrapper disabled={!summary}>
+            <InlineField>
+              <Label>Collapsible sections</Label>
+              <VerticalSeparator />
+              <ToggleSwitch
+                id="toggle-collapsible-summary"
+                name="toggle-collapsible-summary"
+                hideLabels={false}
+                onChange={({ value }) =>
+                  updateQuestionnaire({
+                    variables: { input: { id, collapsibleSummary: value } },
+                  })
+                }
+                checked={collapsibleSummary}
+              />
+            </InlineField>
+          </CollapsibleWrapper>
         </StyledPanel>
       </ScrollPane>
     </Container>
