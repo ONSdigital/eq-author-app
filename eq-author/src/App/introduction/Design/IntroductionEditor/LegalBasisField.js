@@ -8,7 +8,7 @@ import { colors } from "constants/theme";
 import iconCheck from "./icon-check.svg";
 
 const LegalField = styled.div`
-  display: flex;
+  display: block;
 `;
 
 const LegalInput = styled(Input)`
@@ -31,6 +31,7 @@ const LegalInput = styled(Input)`
 const LegalLabel = styled.label`
   padding: 2.5em 1.5em;
   border-radius: 4px;
+  margin-bottom: 20px;
   border: 1px solid ${colors.bordersLight};
   flex: 1 1 33.3333333%;
   text-align: center;
@@ -57,16 +58,15 @@ const LegalLabel = styled.label`
 
   &::before {
     content: url(${iconCheck});
+    position: absolute;
     display: inline-block;
     width: 1em;
     height: 1em;
-    margin: 0 auto;
+    margin: 0.1em 0 0 -23em;
     z-index: 1;
     transform: scale(0);
     opacity: 0;
     transition: all 100ms ease-out 100ms;
-    margin-top: -1.5em;
-    margin-bottom: 0.5em;
   }
 
   ${props =>
@@ -82,18 +82,17 @@ const LegalLabel = styled.label`
 `;
 
 const LegalTitle = styled.span`
-  font-size: 0.85em;
   font-weight: bold;
   letter-spacing: 0;
-  margin: 0 0 1em;
+  margin: 0 0 1em 0;
   color: ${colors.text};
 `;
 
-const LegalNotice = styled.span`
-  font-weight: bold;
-  margin-bottom: 1em;
-  width: 8em;
-`;
+// const LegalNotice = styled.span`
+//   font-weight: bold;
+//   margin-bottom: 1em;
+//   width: 8em;
+// `;
 
 const LegalDescription = styled.span`
   font-size: 1em;
@@ -151,10 +150,10 @@ const LegalBasisField = ({ name, value, onChange, ...rest }) => (
         selected={option.value === value}
         onChange={onChange}
       >
-        <LegalTitle>{option.title}</LegalTitle>
-        {option.notice && (
-          <LegalNotice>Your response is legally required.</LegalNotice>
-        )}
+        <LegalTitle>
+          {option.title +
+            (option.notice ? " - Your response is legally required." : "")}
+        </LegalTitle>
         <LegalDescription>{option.description}</LegalDescription>
       </LegalOption>
     ))}
