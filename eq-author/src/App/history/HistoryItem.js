@@ -108,7 +108,7 @@ const HistoryButtonGroup = styled.div`
 
 const ActionButton = styled(Button)`
   font-size: 0.75em;
-  margin-right: -1em;
+  margin-right: 2.55em;
   margin-bottom: 1em;
 `;
 
