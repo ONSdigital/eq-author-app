@@ -175,6 +175,7 @@ exports.getQuestionnaire = `
       navigation
       surveyId
       summary
+      collapsibleSummary
       metadata {
         ...metadataFragment
       }

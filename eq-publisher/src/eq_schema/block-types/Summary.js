@@ -1,13 +1,17 @@
 class Summary {
-  constructor() {
+  constructor({ collapsible }) {
     this.id = "summary-group";
     this.title = "Summary";
-    this.blocks = [
-      {
-        type: "Summary",
-        id: "summary-block",
-      },
-    ];
+
+    const summaryBlock = {
+      type: "Summary",
+      id: "summary-block",
+    };
+    if (collapsible) {
+      summaryBlock.collapsible = true;
+    }
+
+    this.blocks = [summaryBlock];
   }
 }
 

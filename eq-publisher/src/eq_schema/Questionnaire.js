@@ -65,7 +65,10 @@ class Questionnaire {
       duration: 900,
     };
 
-    this.buildSummaryOrConfirmation(questionnaireJson.summary);
+    this.buildSummaryOrConfirmation(
+      questionnaireJson.summary,
+      questionnaireJson.collapsibleSummary
+    );
   }
 
   createContext(questionnaireJson) {
@@ -79,8 +82,10 @@ class Questionnaire {
     return sections.map(section => new Section(section, ctx));
   }
 
-  buildSummaryOrConfirmation(summary) {
-    const finalPage = summary ? new Summary() : new Confirmation();
+  buildSummaryOrConfirmation(summary, collapsible) {
+    const finalPage = summary
+      ? new Summary({ collapsible })
+      : new Confirmation();
     last(this.sections).groups.push(finalPage);
   }
 

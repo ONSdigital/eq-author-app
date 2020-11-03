@@ -114,6 +114,9 @@ const questionnaireVersionsSchema = new dynamoose.Schema(
     summary: {
       type: Boolean,
     },
+    collapsibleSummary: {
+      type: Boolean,
+    },
     sections: {
       type: Array,
       required: true,
