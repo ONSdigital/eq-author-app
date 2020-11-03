@@ -106,13 +106,7 @@ const HistoryButtonGroup = styled.div`
   justify-content: flex-end;
 `;
 
-const SaveButton = styled(Button)`
-  font-size: 0.75em;
-  margin-right: -1em;
-  margin-bottom: 1em;
-`;
-
-const CancelButton = styled(Button)`
+const ActionButton = styled(Button)`
   font-size: 0.75em;
   margin-right: -1em;
   margin-bottom: 1em;
@@ -168,7 +162,7 @@ const HistoryItem = ({
             />
           </RTEWrapper>
           <ActionButtons horizontal align="right">
-            <CancelButton
+            <ActionButton
               data-test="cancel-note-btn"
               onClick={() => {
                 setNoteState(bodyText);
@@ -176,8 +170,8 @@ const HistoryItem = ({
               }}
             >
               Cancel
-            </CancelButton>
-            <SaveButton
+            </ActionButton>
+            <ActionButton
               data-test="save-note-btn"
               onClick={() =>
                 handleUpdateNote(itemId, noteState).then(() =>
@@ -186,7 +180,7 @@ const HistoryItem = ({
               }
             >
               Save
-            </SaveButton>
+            </ActionButton>
           </ActionButtons>
         </StyledGrid>
       );
