@@ -565,4 +565,113 @@ describe("History page", () => {
       });
     });
   });
+
+  describe("cancel notes", () => {
+    beforeEach(() => {
+      mocks = [
+        ...mocks,
+        {
+          request: {
+            query: updateNoteMutation,
+            variables: {
+              input: {
+                id: "item-id-123",
+                questionnaireId,
+                bodyText: "Hello Moto",
+              },
+            },
+          },
+          result: () => {
+            mutationWasCalled = true;
+            return {
+              data: {
+                updateHistoryNote: [
+                  {
+                    id: "item-id-123",
+                    publishStatus: "Questionnaire created",
+                    questionnaireTitle: "The Questionnaire",
+                    bodyText: "Hello Moto",
+                    type: "note",
+                    user: {
+                      id: "123",
+                      name: "Joe Bloggs",
+                      displayName: "Joe Bloggs",
+                      email: "joe@bloggs.com",
+                      picture: "http://img.com/avatar.jpg",
+                      admin: true,
+                      __typename: "User",
+                    },
+                    time: "2020-11-02T09:48:28.584Z",
+                    __typename: "History",
+                  },
+                ],
+              },
+            };
+          },
+        },
+      ];
+    });
+
+    it("should be able to cancel your own note", async () => {
+      const {
+        getByTestId,
+        getAllByTestId,
+        getByText,
+      } = renderWithContext(<HistoryPageContent {...props} />, { mocks });
+
+      await act(async () => {
+        await flushPromises();
+      });
+      expect(getByText("Hello Moto")).toBeTruthy();
+
+      const editButton = getByTestId("edit-note-btn");
+      await act(async () => {
+        await fireEvent.click(editButton);
+      });
+
+      const textEditor = getAllByTestId("rtl-textbox")[1];
+      fireEvent.change(textEditor, {
+        target: { value: "Edited message with new changes" },
+      });
+
+      const cancelButton = getByTestId("cancel-note-btn");
+      await act(async () => {
+        await fireEvent.click(cancelButton);
+      });
+
+      expect(getByText("Hello Moto")).toBeTruthy();
+    });
+
+    it("should allow admins to cancel editing any notes", async () => {
+      user.id = "uauthorized-uid-123";
+      user.admin = true;
+      const { getByTestId, getAllByTestId, getByText } = renderWithContext(
+        <HistoryPageContent {...props} />,
+        {
+          mocks,
+        }
+      );
+      await act(async () => {
+        await flushPromises();
+      });
+
+      const editButton = getByTestId("edit-note-btn");
+      await act(async () => {
+        await fireEvent.click(editButton);
+      });
+
+      const textEditor = getAllByTestId("rtl-textbox")[1];
+
+      fireEvent.change(textEditor, {
+        target: { value: "Hello Moto" },
+      });
+
+      const cancelButton = getByTestId("cancel-note-btn");
+      await act(async () => {
+        await fireEvent.click(cancelButton);
+      });
+
+      expect(getByText("Hello Moto")).toBeTruthy();
+    });
+  });
 });
