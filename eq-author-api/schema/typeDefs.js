@@ -58,6 +58,7 @@ type Questionnaire {
   createdBy: User!
   sections: [Section]
   summary: Boolean
+  collapsibleSummary: Boolean
   questionnaireInfo: QuestionnaireInfo
   metadata: [Metadata!]!
   type: QuestionnaireType!
@@ -800,6 +801,7 @@ input UpdateQuestionnaireInput {
   navigation: Boolean
   surveyId: String
   summary: Boolean
+  collapsibleSummary: Boolean
   shortTitle: String
   editors: [ID!] 
   isPublic: Boolean

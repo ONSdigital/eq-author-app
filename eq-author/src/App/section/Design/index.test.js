@@ -42,6 +42,7 @@ const moveSectionMock = {
         type: "Social",
         navigation: true,
         summary: "",
+        collapsibleSummary: false,
         displayName: "Display name",
         shortTitle: "Short tile",
         permission: WRITE,
