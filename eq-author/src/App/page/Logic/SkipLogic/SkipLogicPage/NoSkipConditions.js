@@ -66,4 +66,8 @@ SkipConditionsSetMsg.propTypes = {
   isFirstQuestion: PropTypes.bool.isRequired,
 };
 
+SkipConditionsSetMsg.defaultProps = {
+  isFirstQuestion: false,
+};
+
 export default SkipConditionsSetMsg;

@@ -12,11 +12,10 @@ describe("components/NoSkipConditions", () => {
     "All users will see this question if no skip logic is added.";
   
   it("should render with button disabled", () => {
-    const { debug, queryByText, getByTestId } = render(
-      <NoSkipConditions
-        onAddSkipCondtions={jest.fn()}
-        isFirstQuestion={true}
-      ></NoSkipConditions>
+    const { queryByText } = render(
+      <NoSkipConditions onAddSkipCondtions={jest.fn()} isFirstQuestion>
+        Ullamcorper Venenatis Fringilla
+      </NoSkipConditions>
     );
     expect(queryByText(disabledTitle)).toBeTruthy();
     expect(queryByText(disabledParagraph)).toBeTruthy();
@@ -30,11 +29,10 @@ describe("components/NoSkipConditions", () => {
   });
 
   it("should render with button enabled", () => {
-    const { debug, queryByText } = render(
-      <NoSkipConditions
-        onAddSkipCondtions={jest.fn()}
-        isFirstQuestion={false}
-      ></NoSkipConditions>
+    const { queryByText } = render(
+      <NoSkipConditions onAddSkipCondtions={jest.fn()}>
+        Ullamcorper Venenatis Fringilla
+      </NoSkipConditions>
     );
     expect(queryByText(enabledTitle)).toBeTruthy();
     expect(queryByText(enabledParagraph)).toBeTruthy();
@@ -50,10 +48,9 @@ describe("components/NoSkipConditions", () => {
   it("should call onAddSkipConditions when button clicked", () => {
     const onAddSkipCondtions = jest.fn();
     const { getByTestId } = render(
-      <NoSkipConditions
-        onAddSkipCondtions={onAddSkipCondtions}
-        isFirstQuestion={true}
-      ></NoSkipConditions>
+      <NoSkipConditions onAddSkipCondtions={onAddSkipCondtions}>
+        Ullamcorper Venenatis Fringilla
+      </NoSkipConditions>
     );
     const button = getByTestId("btn-add-skip-condition");
     fireEvent.click(button);
