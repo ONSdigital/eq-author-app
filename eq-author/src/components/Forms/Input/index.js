@@ -35,10 +35,21 @@ const radioButton = css`
   }
 `;
 
+const radioButtonNoCheckbox = css`
+  ${multipleChoiceOption};
+  border-radius: 100%;
+
+  &:checked {
+    background: url(${iconCheckbox}) no-repeat center;
+    background-size: 0.8em auto;
+  }
+`;
+
 const StyledInput = styled.input`
   ${sharedStyles};
   ${props => props.type === "checkbox" && checkBox};
   ${props => props.type === "radio" && radioButton};
+  ${props => props.type === "radioNoCheckbox" && radioButtonNoCheckbox};
 `;
 
 export const UncontrolledInput = ({
@@ -66,6 +77,7 @@ UncontrolledInput.propTypes = {
     "text",
     "checkbox",
     "radio",
+    "radioNoCheckbox",
     "number",
     "date",
     "search",

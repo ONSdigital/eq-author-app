@@ -14,17 +14,17 @@ const LegalField = styled.div`
 const LegalInput = styled(Input)`
   position: absolute;
   overflow: hidden;
-  clip: rect(0 0 0 0);
-  height: 1px;
-  width: 1px;
-  margin: -1px;
+  height: 30px;
+  width: 30px;
+  margin: 0.1em 0 0 -23em;
   padding: 0;
-  border: 0;
+  /* clip: rect(0 0 0 0); */
+  /* border: 0; */
   &:hover,
   &:focus {
-    border: none;
+    /* border: none;
     outline: none;
-    box-shadow: none;
+    box-shadow: none; */
   }
 `;
 
@@ -57,7 +57,7 @@ const LegalLabel = styled.label`
   }
 
   &::before {
-    content: url(${iconCheck});
+    /* content: url(${iconCheck}); */
     position: absolute;
     display: inline-block;
     width: 1em;
@@ -101,7 +101,7 @@ const LegalDescription = styled.span`
 export const LegalOption = ({ name, value, children, onChange, selected }) => (
   <LegalLabel htmlFor={value} selected={selected}>
     <LegalInput
-      type="radio"
+      type="radioNoCheckbox"
       name={name}
       id={value}
       value={value}
