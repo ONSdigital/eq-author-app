@@ -63,7 +63,6 @@ Resolvers.Mutation = {
     return { ...page, sectionId: newSection.id };
   }),
 
-  // still needs testing
   deletePage: createMutation((_, { input }, ctx) => {
     const section = getSectionByPageId(ctx, input.id);
     const { previous } = getMovePosition(section, input.id, 0);

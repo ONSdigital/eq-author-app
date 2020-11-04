@@ -1,11 +1,9 @@
-const onPageDeleted = require("../../src/businessLogic/onPageDeleted");
+const onFolderDeleted = require("../../src/businessLogic/onFolderDeleted");
 const { getPages } = require("../../schema/resolvers/utils");
 
 const onSectionDeleted = (ctx, removedSection) => {
   removedSection.folders.forEach(folder => {
-    folder.pages.forEach(page => {
-      onPageDeleted(ctx, removedSection, page);
-    });
+    onFolderDeleted(ctx, removedSection, folder);
   });
 
   const allPages = getPages(ctx);

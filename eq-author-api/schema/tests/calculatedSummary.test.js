@@ -221,8 +221,7 @@ describe("calculated Summary", () => {
 
     const answersPage = questionnaire.sections[0].folders[0].pages[0];
     const calSumPage = questionnaire.sections[0].folders[1].pages[0];
-    // const lastPageAnswer =
-    //   questionnaire.sections[0].folders[0].pages[1].answers[0].id;
+
     await updateCalculatedSummaryPage(ctx, {
       id: calSumPage.id,
       summaryAnswers: [answersPage.answers[0].id],
@@ -241,10 +240,6 @@ describe("calculated Summary", () => {
         { id: questionnaire.sections[0].folders[0].pages[1].answers[0].id },
       ],
     });
-    // This doesn't work anymore because the calc sum is put into a new folder
-    // expect(result.availableSummaryAnswers).not.toContain({
-    //   id: lastPageAnswer,
-    // });
   });
 
   it("should return more than one type of summary answers no answers have been selected", async () => {
@@ -290,8 +285,6 @@ describe("calculated Summary", () => {
 
     const answersPage = questionnaire.sections[0].folders[0].pages[0];
     const calSumPage = questionnaire.sections[0].folders[1].pages[0];
-    // const lastPageAnswer =
-    //   questionnaire.sections[0].folders[0].pages[2].answers[0].id;
 
     const result = await queryPage(ctx, calSumPage.id);
 
@@ -305,12 +298,6 @@ describe("calculated Summary", () => {
         { id: questionnaire.sections[0].folders[0].pages[1].answers[0].id },
       ],
     });
-    // This no longer applies as the calc sum has moved into a new folder
-    // New folder because, no folder id supplied in context builder
-
-    // expect(result.availableSummaryAnswers).not.toContain({
-    //   id: lastPageAnswer,
-    // });
   });
 
   it("should error if an answer is added thats is not a numeric type", async () => {

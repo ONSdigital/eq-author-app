@@ -72,7 +72,6 @@ module.exports = async (ctx, config) => {
             return;
           }
           for (let [ruleIndex, rule] of rules.entries()) {
-            // rules.forEach(async (rule, ruleIndex) => {
             let createdRule = createdRouting.rules[ruleIndex];
             if (createdRouting.rules[ruleIndex] && rule.destination) {
               createdRule = await updateRoutingRule(ctx, {

@@ -272,10 +272,6 @@ const createSection = (input = {}) => ({
 const getPosition = (position, comparator) =>
   typeof position === "number" ? position : comparator.length;
 
-// Possible that the move position needs to be calculated
-// in a different way
-// Need to remember that the context object needs to be modified directly
-
 const getMovePosition = (section, pageId, position) => {
   if (!section.folders) {
     throw new Error("Section doesn't have a folder");
