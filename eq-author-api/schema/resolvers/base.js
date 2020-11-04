@@ -54,7 +54,6 @@ const {
   getAnswerById,
   getOptionById,
   getConfirmationById,
-  // getValidationErrorInfo,
   getValidationById,
   getAvailablePreviousAnswersForValidation,
   getAvailableMetadataForValidation,
@@ -363,7 +362,6 @@ const Resolvers = {
       section.folders.push(folder);
       return folder;
     }),
-
     updateFolder: createMutation((root, { input }, ctx) => {
       const folder = getFolderById(ctx, input.folderId);
       merge(folder, input);
@@ -379,9 +377,9 @@ const Resolvers = {
     }),
     moveFolder: createMutation((_, { input }, ctx) => {
       const section = getSectionByFolderId(ctx, input.id);
-      const removedFolder = first(remove(section.folders, { id: input.id }));
-      section.folders.splice(input.position, 0, removedFolder);
-      return removedFolder;
+      const folderToMove = first(remove(section.folders, { id: input.id }));
+      section.folders.splice(input.position, 0, folderToMove);
+      return folderToMove;
     }),
     duplicateFolder: createMutation((_, { input }, ctx) => {
       const section = getSectionByFolderId(ctx, input.id);
@@ -994,6 +992,13 @@ const Resolvers = {
       ),
   },
 
+  Folder: {
+    position: ({ id }, args, ctx) => {
+      const section = getSectionByFolderId(ctx, id);
+      return findIndex(section.folders, { id });
+    },
+  },
+
   LogicalDestination: {
     id: destination => destination.logicalDestination,
   },
@@ -1256,6 +1261,7 @@ const Resolvers = {
       return returnValidationErrors(ctx, id, latestDateErrors, sharedErrors);
     },
   },
+
   MinDurationValidationRule: {
     duration: ({ duration }) => duration,
     validationErrorInfo: ({ id }, args, ctx) =>
