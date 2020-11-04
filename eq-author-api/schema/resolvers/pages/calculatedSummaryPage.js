@@ -31,7 +31,6 @@ Resolvers.CalculatedSummaryPage = {
   section: ({ id }, input, ctx) => getSectionByPageId(ctx, id),
   position: ({ id }, args, ctx) => {
     const section = getSectionByPageId(ctx, id);
-    // will need to check this
     return findIndex(getPagesFromSection(section), { id });
   },
   summaryAnswers: ({ id, summaryAnswers }, args, ctx) => {

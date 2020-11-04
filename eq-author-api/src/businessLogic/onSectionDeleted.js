@@ -3,7 +3,7 @@ const { getPages } = require("../../schema/resolvers/utils");
 
 const onSectionDeleted = (ctx, removedSection) => {
   removedSection.folders.forEach(folder => {
-    onFolderDeleted(ctx, removedSection, folder);
+    onFolderDeleted(ctx, folder);
   });
 
   const allPages = getPages(ctx);
