@@ -27,7 +27,7 @@ describe("basic answer", () => {
 
   describe("create", () => {
     [NUMBER, CURRENCY, TEXTFIELD, DURATION].forEach(async type => {
-      it(`should create an ${type} answer`, async () => {
+      it(`should create a ${type} answer`, async () => {
         ctx = await buildContext({
           sections: [
             {
