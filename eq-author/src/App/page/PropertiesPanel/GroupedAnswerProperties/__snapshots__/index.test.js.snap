@@ -20,7 +20,7 @@ Array [
               "validationErrorInfo": Object {
                 "errors": Array [
                   Object {
-                    "errorCode": "ERR_REFERENCED_ANSWER_DECIMAL_INCONSISTENCY",
+                    "field": "unit",
                   },
                 ],
               },
@@ -33,7 +33,7 @@ Array [
               "validationErrorInfo": Object {
                 "errors": Array [
                   Object {
-                    "errorCode": "ERR_REFERENCED_ANSWER_DECIMAL_INCONSISTENCY",
+                    "field": "unit",
                   },
                 ],
               },
