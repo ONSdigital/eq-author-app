@@ -16,8 +16,8 @@ const LegalField = styled.div`
 const LegalInput = styled(Input)`
   position: absolute;
   overflow: hidden;
-  height: 30px;
-  width: 30px;
+  height: 20px;
+  width: 20px;
   padding: 0;
   display: flex;
   margin-top: -1em;
@@ -45,10 +45,6 @@ const LegalLabel = styled.label`
   color: ${colors.textLight};
   position: relative;
   transition: padding 200ms ease-in-out;
-
-  &:not(:last-of-type) {
-    margin-right: 1em;
-  }
 
   &:focus-within {
     border-color: ${colors.blue};
