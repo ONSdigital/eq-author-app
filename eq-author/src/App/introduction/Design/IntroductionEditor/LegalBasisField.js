@@ -18,7 +18,6 @@ const LegalInput = styled(Input)`
   overflow: hidden;
   height: 30px;
   width: 30px;
-  margin: 0.1em 0 0 -23em;
   padding: 0;
   display: flex;
   /* clip: rect(0 0 0 0); */
@@ -37,12 +36,9 @@ const LegalLabel = styled.label`
   margin-bottom: 20px;
   border: 1px solid ${colors.bordersLight};
   flex: 1 1 33.3333333%;
-  /* text-align: left; */
   cursor: pointer;
   display: flex;
   flex-direction: column;
-  /* align-items: left; */
-  /* justify-content: left; */
   background: #fff;
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.18);
   color: ${colors.textLight};
@@ -87,7 +83,7 @@ const LegalLabel = styled.label`
 const LegalTitle = styled.span`
   font-weight: bold;
   letter-spacing: 0;
-  /* margin: 0 23em 1em 0; */
+  margin-left: 3em;
   color: ${colors.text};
   display: flex;
 `;
@@ -101,12 +97,7 @@ const LegalTitle = styled.span`
 const LegalDescription = styled.span`
   font-size: 1em;
   letter-spacing: 0;
-  margin-left: auto;
-  display: flex;
-  align-self: flex-start;
-  flex-direction: column;
-
-  /* margin: 0 20em 0 0; */
+  margin-left: 3em;
 `;
 
 export const LegalOption = ({ name, value, children, onChange, selected }) => (
