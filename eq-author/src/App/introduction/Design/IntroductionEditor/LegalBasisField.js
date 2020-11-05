@@ -8,7 +8,9 @@ import { colors } from "constants/theme";
 import iconCheck from "./icon-check.svg";
 
 const LegalField = styled.div`
-  display: block;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 `;
 
 const LegalInput = styled(Input)`
@@ -18,6 +20,7 @@ const LegalInput = styled(Input)`
   width: 30px;
   margin: 0.1em 0 0 -23em;
   padding: 0;
+  display: flex;
   /* clip: rect(0 0 0 0); */
   /* border: 0; */
   &:hover,
@@ -34,12 +37,12 @@ const LegalLabel = styled.label`
   margin-bottom: 20px;
   border: 1px solid ${colors.bordersLight};
   flex: 1 1 33.3333333%;
-  text-align: center;
+  /* text-align: left; */
   cursor: pointer;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  /* align-items: left; */
+  /* justify-content: left; */
   background: #fff;
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.18);
   color: ${colors.textLight};
@@ -84,8 +87,9 @@ const LegalLabel = styled.label`
 const LegalTitle = styled.span`
   font-weight: bold;
   letter-spacing: 0;
-  margin: 0 23em 1em 0;
+  /* margin: 0 23em 1em 0; */
   color: ${colors.text};
+  display: flex;
 `;
 
 // const LegalNotice = styled.span`
@@ -98,6 +102,10 @@ const LegalDescription = styled.span`
   font-size: 1em;
   letter-spacing: 0;
   margin-left: auto;
+  display: flex;
+  align-self: flex-start;
+  flex-direction: column;
+
   /* margin: 0 20em 0 0; */
 `;
 
