@@ -20,6 +20,7 @@ const LegalInput = styled(Input)`
   width: 30px;
   padding: 0;
   display: flex;
+  margin-top: -1em;
   /* clip: rect(0 0 0 0); */
   /* border: 0; */
   &:hover,
@@ -86,6 +87,7 @@ const LegalTitle = styled.span`
   margin-left: 3em;
   color: ${colors.text};
   display: flex;
+  margin-top: -1em;
 `;
 
 // const LegalNotice = styled.span`
@@ -98,6 +100,7 @@ const LegalDescription = styled.span`
   font-size: 1em;
   letter-spacing: 0;
   margin-left: 3em;
+  margin-bottom: -1em;
 `;
 
 export const LegalOption = ({ name, value, children, onChange, selected }) => (
