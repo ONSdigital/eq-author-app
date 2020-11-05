@@ -32,6 +32,7 @@ export const handleDeletion = (
   const questionnaire = data.deleteSection;
   const { sectionId, questionnaireId } = params;
 
+  // this will need to be modified similar to `withDeletePage`
   if (questionnaire.sections.length === 0) {
     return onAddSection();
   }

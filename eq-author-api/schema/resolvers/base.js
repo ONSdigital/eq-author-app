@@ -339,6 +339,11 @@ const Resolvers = {
     deleteSection: createMutation((root, { input }, ctx) => {
       const removedSection = first(remove(getSections(ctx), { id: input.id }));
       onSectionDeleted(ctx, removedSection);
+
+      if (!ctx.questionnaire.sections.length) {
+        ctx.questionnaire.sections.push(createSection());
+      }
+
       return ctx.questionnaire;
     }),
     moveSection: createMutation((_, { input }, ctx) => {
@@ -372,6 +377,10 @@ const Resolvers = {
       const removedFolder = first(remove(section.folders, { id: input.id }));
 
       onFolderDeleted(ctx, removedFolder);
+
+      if (!section.folders.length) {
+        section.folders.push(createFolder());
+      }
 
       return ctx.questionnaire;
     }),

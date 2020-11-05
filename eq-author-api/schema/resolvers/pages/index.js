@@ -71,7 +71,8 @@ Resolvers.Mutation = {
     onPageDeleted(ctx, section, previous.page);
 
     if (!section.folders[previous.folderIndex].pages.length) {
-      // section.folders.splice(previous.folderIndex, 1);
+      const newPage = createQuestionPage();
+      section.folders[previous.folderIndex].pages.push(newPage);
     }
 
     return section;
