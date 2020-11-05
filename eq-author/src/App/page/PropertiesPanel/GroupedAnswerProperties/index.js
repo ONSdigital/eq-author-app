@@ -29,7 +29,7 @@ import {
 } from "./AnswerProperties/Properties";
 import Decimal from "./Decimal";
 import withUpdateAnswersOfType from "./withUpdateAnswersOfType";
-import { characterErrors } from "constants/validationMessages";
+import { characterErrors, SELECTION_REQUIRED  } from "constants/validationMessages";
 
 const AnswerPropertiesContainer = styled.div`
   border-bottom: 1px solid ${colors.lightMediumGrey};
@@ -46,6 +46,10 @@ const ValidationWarning = styled(IconText)`
   color: ${colors.red};
   margin-top: 0.5em;
   justify-content: normal;
+`;
+
+const ValidationWarningUnit = styled(ValidationWarning)`
+  margin-top: -0.5em;
 `;
 
 const Padding = styled.div`
@@ -113,6 +117,19 @@ export const UnwrappedGroupedAnswerProperties = ({
     )
       .map(({ errorCode }) => errorCode)
       .includes(DECIMAL_INCONSISTENCY);
+
+      // const hasUnitError = getOr(
+      //   [],
+      //   "validationErrorInfo.errors",
+      //   answers[0]
+      // ).map(({ field }) => field).includes("unit");
+
+      const hasUnitError = getOr(
+        [],
+        "validationErrorInfo.errors",
+        page
+      ).map(({ field }) => field).includes("unit");
+
     if (isNumeric(answerType)) {
       const id = kebabCase(`${page.id} ${answerType} decimals`);
       groupedFields = (
@@ -136,6 +153,7 @@ export const UnwrappedGroupedAnswerProperties = ({
             </ValidationWarning>
           )}
           {answerType === UNIT && (
+            <>
             <MultiLineField id="unit" label={"Type"}>
               <UnitProperties
                 id="unit"
@@ -147,6 +165,12 @@ export const UnwrappedGroupedAnswerProperties = ({
                 unit={answers[0].properties.unit}
               />
             </MultiLineField>
+            {hasUnitError && (
+              <ValidationWarningUnit icon={ValidationErrorIcon}>
+                {SELECTION_REQUIRED}
+              </ValidationWarningUnit>
+            )}
+            </>
           )}
         </GroupContainer>
       );
