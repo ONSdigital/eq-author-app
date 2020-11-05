@@ -1198,6 +1198,16 @@
                 ]
               }
             }
+          },
+          "if": {
+            "properties": {
+              "operator": {
+                "const": "And"
+              }
+            }
+          },
+          "then": {
+            "validateRoutingLogicalAND": true
           }
         }
       },
