@@ -84,7 +84,7 @@ const LegalLabel = styled.label`
 const LegalTitle = styled.span`
   font-weight: bold;
   letter-spacing: 0;
-  margin: 0 0 1em 0;
+  margin: 0 23em 1em 0;
   color: ${colors.text};
 `;
 
@@ -96,12 +96,15 @@ const LegalTitle = styled.span`
 
 const LegalDescription = styled.span`
   font-size: 1em;
+  letter-spacing: 0;
+  margin-left: auto;
+  /* margin: 0 20em 0 0; */
 `;
 
 export const LegalOption = ({ name, value, children, onChange, selected }) => (
   <LegalLabel htmlFor={value} selected={selected}>
     <LegalInput
-      type="radioNoCheckbox"
+      type="radio"
       name={name}
       id={value}
       value={value}
