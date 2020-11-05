@@ -263,6 +263,16 @@ describe("Grouped Answer Properties", () => {
         unit: CENTIMETRES,
       });
     });
+
+    it("should show error if there is no unit type selected", () => {
+      props.page.answers[0] = {
+        validationErrorInfo: {
+          errors: [{ field: "unit" }],
+        },
+      };
+      const wrapper = shallow(<UnwrappedGroupedAnswerProperties {...props} />);
+      expect(wrapper).toMatchSnapshot();
+    });
   });
 
   describe("Duration answers", () => {
