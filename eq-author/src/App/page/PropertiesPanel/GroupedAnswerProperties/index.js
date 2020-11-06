@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { groupBy, kebabCase, getOr, get } from "lodash/fp";
+import { groupBy, kebabCase, getOr} from "lodash/fp";
 
 import Accordion from "components/Accordion";
 import IconText from "components/IconText";
@@ -124,11 +124,6 @@ export const UnwrappedGroupedAnswerProperties = ({
     const hasUnitError = getOr([], "validationErrorInfo.errors", page)
       .map(({ field }) => field)
       .includes("unit");
-
-    // const hasUnitError = true;
-
-    console.log("hasUnitError", hasUnitError);
-    console.log(JSON.stringify(page, null, 7));
 
     if (isNumeric(answerType)) {
       const id = kebabCase(`${page.id} ${answerType} decimals`);
