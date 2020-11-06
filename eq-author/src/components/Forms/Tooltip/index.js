@@ -50,6 +50,8 @@ class Tooltip extends React.Component {
           id={id}
           place="bottom"
           effect="solid"
+          event="focus mouseover"
+          eventOff="blur mouseout"
           delayShow={200}
           ref={node => {
             this.tooltip = node;

@@ -1165,6 +1165,8 @@ exports[`Option should render a checkbox 1`] = `
                   <Tooltip__StyledTooltip
                     delayShow={200}
                     effect="solid"
+                    event="focus mouseover"
+                    eventOff="blur mouseout"
                     id="tooltip-1"
                     offset={
                       Object {
@@ -1177,6 +1179,8 @@ exports[`Option should render a checkbox 1`] = `
                     <StyledComponent
                       delayShow={200}
                       effect="solid"
+                      event="focus mouseover"
+                      eventOff="blur mouseout"
                       forwardedComponent={
                         Object {
                           "$$typeof": Symbol(react.forward_ref),
@@ -1223,6 +1227,8 @@ exports[`Option should render a checkbox 1`] = `
                         clickable={false}
                         delayShow={200}
                         effect="solid"
+                        event="focus mouseover"
+                        eventOff="blur mouseout"
                         id="tooltip-1"
                         insecure={true}
                         offset={
@@ -1320,6 +1326,8 @@ exports[`Option should render a checkbox 1`] = `
                   <Tooltip__StyledTooltip
                     delayShow={200}
                     effect="solid"
+                    event="focus mouseover"
+                    eventOff="blur mouseout"
                     id="tooltip-2"
                     offset={
                       Object {
@@ -1332,6 +1340,8 @@ exports[`Option should render a checkbox 1`] = `
                     <StyledComponent
                       delayShow={200}
                       effect="solid"
+                      event="focus mouseover"
+                      eventOff="blur mouseout"
                       forwardedComponent={
                         Object {
                           "$$typeof": Symbol(react.forward_ref),
@@ -1378,6 +1388,8 @@ exports[`Option should render a checkbox 1`] = `
                         clickable={false}
                         delayShow={200}
                         effect="solid"
+                        event="focus mouseover"
+                        eventOff="blur mouseout"
                         id="tooltip-2"
                         insecure={true}
                         offset={
@@ -1525,6 +1537,8 @@ exports[`Option should render a checkbox 1`] = `
                   <Tooltip__StyledTooltip
                     delayShow={200}
                     effect="solid"
+                    event="focus mouseover"
+                    eventOff="blur mouseout"
                     id="tooltip-3"
                     offset={
                       Object {
@@ -1536,6 +1550,8 @@ exports[`Option should render a checkbox 1`] = `
                     <StyledComponent
                       delayShow={200}
                       effect="solid"
+                      event="focus mouseover"
+                      eventOff="blur mouseout"
                       forwardedComponent={
                         Object {
                           "$$typeof": Symbol(react.forward_ref),
@@ -1581,6 +1597,8 @@ exports[`Option should render a checkbox 1`] = `
                         clickable={false}
                         delayShow={200}
                         effect="solid"
+                        event="focus mouseover"
+                        eventOff="blur mouseout"
                         id="tooltip-3"
                         insecure={true}
                         offset={
