@@ -6,7 +6,6 @@ const SidebarButton = styled.button.attrs({ role: "button" })`
   display: block;
   width: 100%;
   padding: 0.5em;
-  margin-bottom: 0.5em;
   color: ${colors.text};
   border-radius: ${radius};
   border: 1px solid ${colors.bordersLight};
