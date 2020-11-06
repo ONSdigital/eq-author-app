@@ -131,7 +131,19 @@ module.exports = ajv => {
           return error();
         }
 
-        // TODO:  Validate non-equality conditions do not completely deplete range
+        // Validate non-equality conditions do not completely deplete range
+        const possibleAnswers = rangeWidth / precision;
+        if (
+          Array.from(nonequalitySet).filter(
+            nonequalityValue =>
+              nonequalityValue > lowerLimit && nonequalityValue < upperLimit
+          ).length >= possibleAnswers
+        ) {
+          console.log(
+            "VALIDATION ERROR: NON-EQUALITY CONDITIONS COMPLETELY DEPLETE RANGE"
+          );
+          return error();
+        }
       }
 
       return true;
