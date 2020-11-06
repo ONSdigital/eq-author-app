@@ -84,16 +84,10 @@ describe("Grouped Answer Properties", () => {
     const wrapper = shallow(<UnwrappedGroupedAnswerProperties {...props} />);
     const accordions = wrapper.find(Accordion);
     expect(
-      accordions
-        .at(0)
-        .find("[data-test='answer-title']")
-        .at(0)
+      accordions.at(0).find("[data-test='answer-title']").at(0)
     ).toMatchSnapshot();
     expect(
-      accordions
-        .at(0)
-        .find("[data-test='answer-title']")
-        .at(1)
+      accordions.at(0).find("[data-test='answer-title']").at(1)
     ).toMatchSnapshot();
 
     expect(
@@ -248,6 +242,8 @@ describe("Grouped Answer Properties", () => {
       };
     });
 
+    const ERR_VALID_REQUIRED = "Selection required";
+
     it("should show one copy of the shared unit properties", () => {
       const wrapper = shallow(<UnwrappedGroupedAnswerProperties {...props} />);
       expect(wrapper.find(UnitProperties)).toHaveLength(1);
@@ -264,14 +260,98 @@ describe("Grouped Answer Properties", () => {
       });
     });
 
-    it("should show error if there is no unit type selected", () => {
-      props.page.answers[0] = {
-        validationErrorInfo: {
-          errors: [{ field: "unit" }],
+    it("should show error if there is no unit type selected - enzyme - failing!!!!", () => {
+      props = {
+        page: {
+          id: "pageId",
+          answers: [
+            {
+              id: "1",
+              type: "Unit",
+              displayName: "units label",
+              properties: {
+                decimals: 0,
+                unit: "",
+                required: false,
+              },
+              validationErrorInfo: {
+                id: "1",
+                errors: [
+                  {
+                    errorCode: "ERR_VALID_REQUIRED",
+                    field: "unit",
+                    id:
+                      "8a09d2d2-309e-4674-b2d6-36fa80303938",
+                    type: "answer",
+                    __typename: "ValidationError",
+                  },
+                ],
+                id: "24cab791-fab6-4c62-934e-52333d3e39b4",
+                totalCount: 1,
+              },
+              __typename: "BasicAnswer",
+            },
+          ],
         },
+        updateAnswersOfType: jest.fn(),
       };
+
       const wrapper = shallow(<UnwrappedGroupedAnswerProperties {...props} />);
-      expect(wrapper).toMatchSnapshot();
+      console.log(wrapper.debug({ verbose: true }));
+
+      // expect(wrapper).toMatchSnapshot();
+
+      const text = wrapper.find("span").text();
+      expect(text).toEqual("Selection required");
+
+      // expect(wrapper.text().includes('Selection required')).toBe(true);
+    });
+
+    it.only("should show error message if there is no unit type selected RTL-failing!!!!!!!!", () => {
+      props = {
+        page: {
+          id: "pageId",
+          answers: [
+            {
+              id: "1",
+              type: "Unit",
+              displayName: "units label",
+              properties: {
+                decimals: 0,
+                "unit": "",
+                required: false,
+              },
+              validationErrorInfo: {
+                id: "24cab791-fab6-4c62-934e-52333d3e39b4",
+                errors: [
+                       {
+                              id: "8281c855-8dd8-4194-8a80-673be471550b",
+                              type: "answer",
+                              field: "unit",
+                              errorCode: "ERR_VALID_REQUIRED",
+                              __typename: "ValidationError"
+                       }
+                ],
+                totalCount: 1,
+                __typename: "ValidationErrorInfo"
+         },
+              __typename: "BasicAnswer",
+            },
+          ],
+        },
+        updateAnswersOfType: jest.fn(),
+      };
+      const { getByText, getByTestId } = render(
+        <UnwrappedGroupedAnswerProperties {...props} />,
+        {
+          route: "/q/1/page/0",
+          urlParamMatcher: "/q/:questionnaireId/page/:pageId",
+        }
+      );
+
+      const errMsg = getByTestId("unitRequired");
+      expect(errMsg).toBeTruthy();
+      // expect(getByText("Selection required")).toBeTruthy();
     });
   });
 
