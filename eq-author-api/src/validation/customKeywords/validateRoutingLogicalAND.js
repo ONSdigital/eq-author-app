@@ -62,6 +62,7 @@ module.exports = ajv => {
         // Multiple "equal" values are only logically consistent if set to the same value
         const equalityExpressions = expressions.filter(conditionIs("Equal"));
         const equalitySet = new Set(equalityExpressions.map(getRHS));
+        equalitySet.delete(null);
 
         if (equalitySet.size > 1) {
           console.log("VALIDATION ERROR: MULTIPLE INCOMPATIBLE EQUALS");
@@ -73,6 +74,7 @@ module.exports = ajv => {
           conditionIs("NotEqual")
         );
         const nonequalitySet = new Set(nonequalityExpressions.map(getRHS));
+        nonequalitySet.delete(null);
 
         for (const n of equalitySet) {
           if (nonequalitySet.has(n)) {
@@ -89,7 +91,7 @@ module.exports = ajv => {
         let upperLimit = Infinity;
         for (const expression of expressions) {
           let rhs = getRHS(expression);
-          if (rhs === undefined) {
+          if (rhs === undefined || rhs === null) {
             continue;
           }
 
@@ -118,8 +120,18 @@ module.exports = ajv => {
           return error();
         }
 
-        // TODO: Validate equals are all in range
-        // TODO: Validate not equals do not completely deplete range
+        // Validate equals are all in range
+        if (
+          Array.from(equalitySet).some(
+            equalityValue =>
+              equalityValue <= lowerLimit || equalityValue >= upperLimit
+          )
+        ) {
+          console.log("VALIDATION ERROR: EQUALITY IMPOSSIBLE - OUT OF RANGE");
+          return error();
+        }
+
+        // TODO:  Validate non-equality conditions do not completely deplete range
       }
 
       return true;
