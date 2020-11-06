@@ -106,6 +106,8 @@ const {
   publishStatusEvent,
 } = require("../../utils/questionnaireEvents");
 
+const deleteSkipConditions = require("../../src/businessLogic/deleteSkipConditions");
+
 const createSection = (input = {}) => ({
   id: uuidv4(),
   title: "",
@@ -347,6 +349,7 @@ const Resolvers = {
       const section = find(ctx.questionnaire.sections, { id: input.id });
       const removedSection = first(remove(ctx.questionnaire.sections, section));
       onSectionDeleted(ctx, removedSection);
+      deleteSkipConditions(ctx.questionnaire.sections[0].pages[0]);
       return ctx.questionnaire;
     }),
     moveSection: createMutation((_, { input }, ctx) => {
@@ -354,6 +357,7 @@ const Resolvers = {
         remove(ctx.questionnaire.sections, { id: input.id })
       );
       ctx.questionnaire.sections.splice(input.position, 0, removedSection);
+      deleteSkipConditions(ctx.questionnaire.sections[0].pages[0]);
       return removedSection;
     }),
     duplicateSection: createMutation((_, { input }, ctx) => {
