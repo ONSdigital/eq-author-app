@@ -1178,44 +1178,47 @@
         },
         "destination": {},
         "expressionGroup": {
-          "properties": {
-            "id": {
-              "type": "string"
-            },
-            "operator": {
-              "enum": [
-                "And",
-                "Or"
-              ]
-            },
-            "expressions": {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "$ref": "entities.json#/definitions/expression"
-                  },
-                  {
-                    "$ref": "entities.json#/definitions/expression-unanswered"
-                  }
-                ]
-              }
-            }
-          },
-          "if": {
-            "properties": {
-              "operator": {
-                "const": "And"
-              }
-            }
-          },
-          "then": {
-            "validateRoutingLogicalAND": true
-          }
+          "$ref": "entities.json#/definitions/expressionGroup"
         }
       },
       "validateRoutingRule": {
         "$data": "/sections"
+      }
+    },
+    "expressionGroup": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "operator": {
+          "enum": [
+            "And",
+            "Or"
+          ]
+        },
+        "expressions": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "entities.json#/definitions/expression"
+              },
+              {
+                "$ref": "entities.json#/definitions/expression-unanswered"
+              }
+            ]
+          }
+        }
+      },
+      "if": {
+        "properties": {
+          "operator": {
+            "const": "And"
+          }
+        }
+      },
+      "then": {
+        "validateRoutingLogicalAND": true
       }
     },
     "expression": {
