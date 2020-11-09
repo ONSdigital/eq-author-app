@@ -2,6 +2,7 @@
 
 fragment SkipLogicPage on QuestionPage {
   id
+  position
   skipConditions {
     ...SkipLogicEditor
   }
