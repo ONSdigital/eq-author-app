@@ -68,6 +68,12 @@ describe("Grouped Answer Properties", () => {
     };
   });
 
+  afterEach(async () => {
+    await act(async () => {
+      await flushPromises();
+    });
+  });
+
   it("should render the answers grouped by type", () => {
     const wrapper = shallow(<UnwrappedGroupedAnswerProperties {...props} />);
     const accordions = wrapper.find(Accordion);
@@ -258,6 +264,28 @@ describe("Grouped Answer Properties", () => {
     //     unit: CENTIMETRES,
     //   });
     // });
+
+    it("should update the unit answer when unit is changed", async () => {
+      const { getByTestId, getByText } = render(
+        <UnwrappedGroupedAnswerProperties {...props} />,
+        {
+          route: "/q/1/page/0",
+          urlParamMatcher: "/q/:questionnaireId/page/:pageId",
+        }
+      );
+
+      await act(async () => {
+        await flushPromises();
+      });
+  
+      fireEvent.change(getByTestId("unit-select"), {
+        target: { value: CENTIMETRES },
+      });
+
+      expect(props.updateAnswersOfType).toHaveBeenCalledWith(UNIT, "pageId", {
+        unit: CENTIMETRES,
+      });
+    });
 
     it("should show error message if there is no unit type selected", () => {
       props = {
