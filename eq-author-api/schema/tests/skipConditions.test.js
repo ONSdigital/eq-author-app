@@ -9,7 +9,21 @@ const {
   createBinaryExpression,
 } = require("../../tests/utils/contextBuilder/routing");
 
-const { queryPage } = require("../../tests/utils/contextBuilder/page");
+const {
+  queryPage,
+  movePage,
+  deletePage,
+} = require("../../tests/utils/contextBuilder/page");
+
+const {
+  querySection,
+  deleteSection,
+  moveSection,
+} = require("../../tests/utils/contextBuilder/section");
+
+const {
+  queryQuestionnaire,
+} = require("../../tests/utils/contextBuilder/questionnaire");
 
 const config = {
   metadata: [{}],
@@ -86,6 +100,115 @@ describe("skip conditions", () => {
       expect(result.skipConditions[0].expressions[0].left.reason).toBe(
         "DefaultSkipCondition"
       );
+    });
+  });
+  describe("move or delete a page", () => {
+    beforeEach(async () => {
+      ctx = await buildContext({
+        sections: [
+          {
+            pages: [{}, {}],
+          },
+        ],
+      });
+      questionnaire = ctx.questionnaire;
+    });
+    it("should remove skip conditions on first page when a page is moved", async () => {
+      const section = questionnaire.sections[0];
+      const page1 = section.pages[0];
+      const page2 = section.pages[1];
+
+      await createSkipCondition(ctx, page2);
+      var result = await queryPage(ctx, page2.id);
+      expect(result.skipConditions[0].expressions[0].left.reason).toBe(
+        "DefaultSkipCondition"
+      );
+
+      const {
+        section: { pages },
+      } = await movePage(ctx, {
+        id: page1.id,
+        sectionId: section.id,
+        position: 1,
+      });
+      expect(pages.map(p => p.id)).toEqual([page2.id, page1.id]);
+
+      result = await queryPage(ctx, page2.id);
+      expect(result.skipConditions).toBeNull();
+    });
+    it("should remove skip conditions on first page when a page is deleted", async () => {
+      const section = questionnaire.sections[0];
+      const page1 = section.pages[0];
+      const page2 = section.pages[1];
+
+      await createSkipCondition(ctx, page2);
+      var result = await queryPage(ctx, page2.id);
+      expect(result.skipConditions[0].expressions[0].left.reason).toBe(
+        "DefaultSkipCondition"
+      );
+
+      await deletePage(ctx, page1.id);
+      const deletedPage = await queryPage(ctx, page1.id);
+      expect(deletedPage).toBeNull();
+
+      result = await queryPage(ctx, page2.id);
+      expect(result.skipConditions).toBeNull();
+
+    });
+  });
+  describe("move or delete a section", () => {
+    beforeEach(async () => {
+      ctx = await buildContext({
+        sections: [
+          {
+            pages: [{}],
+          },
+          {
+            pages: [{}],
+          },
+        ],
+      });
+      questionnaire = ctx.questionnaire;
+    });
+    it("should remove skip conditions on first page when a section is moved", async () => {
+      const section1 = questionnaire.sections[0];
+      const section2 = questionnaire.sections[1];
+      const page2 = section2.pages[0];
+
+      await createSkipCondition(ctx, page2);
+      var result = await queryPage(ctx, page2.id);
+      expect(result.skipConditions[0].expressions[0].left.reason).toBe(
+        "DefaultSkipCondition"
+      );
+
+      await moveSection(ctx, {
+        id: section1.id,
+        questionnaireId: questionnaire.id,
+        position: 1,
+      });
+      const { sections } = await queryQuestionnaire(ctx);
+      expect(sections.map(s => s.id)).toEqual([section2.id, section1.id]);
+
+      result = await queryPage(ctx, page2.id);
+      expect(result.skipConditions).toBeNull();
+    });
+    it("should remove skip conditions on first page when a sectyion is deleted", async () => {
+      const section1 = questionnaire.sections[0];
+      const section2 = questionnaire.sections[1];
+      const page2 = section2.pages[0];
+
+      await createSkipCondition(ctx, page2);
+      var result = await queryPage(ctx, page2.id);
+      expect(result.skipConditions[0].expressions[0].left.reason).toBe(
+        "DefaultSkipCondition"
+      );
+
+      await deleteSection(ctx, section1.id);
+      const deletedSection = await querySection(ctx, section1.id);
+      expect(deletedSection).toBeNull();
+
+      result = await queryPage(ctx, page2.id);
+      expect(result.skipConditions).toBeNull();
     });
   });
 });
