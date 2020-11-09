@@ -25,20 +25,34 @@ module.exports = ajv => {
       questionnaire
     ) {
       const error = () => {
+        const segments = dataPath.split("/");
+
+        let expressionGroupIndex;
+        if (segments[segments.length - 1] === "expressionGroup") {
+          expressionGroupIndex = segments[segments.length - 2];
+        } else {
+          expressionGroupIndex = segments[segments.length - 1];
+        }
+
         isValid.errors = [
           createValidationError(
             dataPath,
-            fieldName,
+            `expressionGroup:${expressionGroupIndex}`,
             ERR_LOGICAL_AND,
             questionnaire
           ),
         ];
+
         return false;
       };
 
       const expressionsByAnswerId = groupBy(expressions, "left.answerId");
       const potentialConflicts = Object.entries(expressionsByAnswerId).filter(
-        ([, expressions]) => expressions.length > 1
+        ([answerId, expressions]) =>
+          expressions.length > 1 &&
+          answerId &&
+          answerId.length &&
+          answerId.length > 0
       );
 
       for (const [answerId, expressions] of potentialConflicts) {

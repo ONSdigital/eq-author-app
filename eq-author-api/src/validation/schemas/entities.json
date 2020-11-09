@@ -72,24 +72,7 @@
         "skipConditions": {
           "type": "array",
           "items": {
-            "properties": {
-              "id": {
-                "type": "string"
-              },
-              "expressions": {
-                "type": "array",
-                "items": {
-                  "anyOf": [
-                    {
-                      "$ref": "entities.json#/definitions/expression"
-                    },
-                    {
-                      "$ref": "entities.json#/definitions/expression-unanswered"
-                    }
-                  ]
-                }
-              }
-            }
+            "$ref": "entities.json#/definitions/expressionGroup"
           }
         },
         "totalValidation": {
