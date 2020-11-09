@@ -1147,6 +1147,9 @@
         "maxLength": {
           "type": "string",
           "textLengthInRange": "maxLength"
+        },
+        "unit": {
+          "$ref": "definitions.json#/definitions/populatedString"
         }
       }
     },

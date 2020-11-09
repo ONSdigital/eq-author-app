@@ -84,16 +84,10 @@ describe("Grouped Answer Properties", () => {
     const wrapper = shallow(<UnwrappedGroupedAnswerProperties {...props} />);
     const accordions = wrapper.find(Accordion);
     expect(
-      accordions
-        .at(0)
-        .find("[data-test='answer-title']")
-        .at(0)
+      accordions.at(0).find("[data-test='answer-title']").at(0)
     ).toMatchSnapshot();
     expect(
-      accordions
-        .at(0)
-        .find("[data-test='answer-title']")
-        .at(1)
+      accordions.at(0).find("[data-test='answer-title']").at(1)
     ).toMatchSnapshot();
 
     expect(
@@ -262,6 +256,53 @@ describe("Grouped Answer Properties", () => {
       expect(props.updateAnswersOfType).toHaveBeenCalledWith(UNIT, "pageId", {
         unit: CENTIMETRES,
       });
+    });
+
+    it("should show error message if there is no unit type selected", () => {
+      props = {
+        page: {
+          id: "pageId",
+          answers: [
+            {
+              id: "1",
+              type: "Unit",
+              displayName: "units label",
+              properties: {
+                decimals: 0,
+                unit: "",
+                required: false,
+              },
+              
+              __typename: "BasicAnswer",
+            },
+          ],
+          validationErrorInfo: {
+            id: "24cab791-fab6-4c62-934e-52333d3e39b4",
+            errors: [
+                   {
+                          id: "8281c855-8dd8-4194-8a80-673be471550b",
+                          type: "answer",
+                          field: "unit",
+                          errorCode: "ERR_VALID_REQUIRED",
+                          __typename: "ValidationError"
+                   }
+            ],
+            totalCount: 1,
+            __typename: "ValidationErrorInfo"
+          },
+        },
+        updateAnswersOfType: jest.fn(),
+      };
+      const { getByTestId } = render(
+        <UnwrappedGroupedAnswerProperties {...props} />,
+        {
+          route: "/q/1/page/0",
+          urlParamMatcher: "/q/:questionnaireId/page/:pageId",
+        }
+      );
+
+      const errMsg = getByTestId("unitRequired");
+      expect(errMsg).toBeTruthy();
     });
   });
 
