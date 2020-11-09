@@ -48,10 +48,12 @@ const config = {
 };
 
 describe("skip conditions", () => {
+  let ctx, questionnaire;
+
   describe("expression group", () => {
     it("should create an expression group and default expresiion", async () => {
-      const ctx = await buildContext(config);
-      const { questionnaire } = ctx;
+      ctx = await buildContext(config);
+      let { questionnaire } = ctx;
       const page = questionnaire.sections[0].pages[0];
 
       createSkipCondition(ctx, page);
@@ -62,8 +64,8 @@ describe("skip conditions", () => {
     });
 
     it("should delete an existing expression group", async () => {
-      const ctx = await buildContext(config);
-      const { questionnaire } = ctx;
+      ctx = await buildContext(config);
+      let { questionnaire } = ctx;
       const page = questionnaire.sections[0].pages[0];
       await createSkipCondition(ctx, page);
 
@@ -74,8 +76,8 @@ describe("skip conditions", () => {
     });
 
     it("should delete all existing expression groups on a page", async () => {
-      const ctx = await buildContext(config);
-      const { questionnaire } = ctx;
+      ctx = await buildContext(config);
+      let { questionnaire } = ctx;
       const page = questionnaire.sections[0].pages[0];
       createSkipCondition(ctx, page);
       createSkipCondition(ctx, page);
@@ -88,8 +90,8 @@ describe("skip conditions", () => {
   });
   describe("binary Expression", () => {
     it("should add a binary exporession to an existing expression group", async () => {
-      const ctx = await buildContext(config);
-      const { questionnaire } = ctx;
+      ctx = await buildContext(config);
+      let { questionnaire } = ctx;
       const page = questionnaire.sections[0].pages[0];
 
       await createSkipCondition(ctx, page);
