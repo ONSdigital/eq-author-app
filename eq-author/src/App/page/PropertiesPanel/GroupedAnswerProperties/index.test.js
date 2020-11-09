@@ -254,19 +254,8 @@ describe("Grouped Answer Properties", () => {
       expect(wrapper.find(UnitPropertiesStyled)).toHaveLength(1);
     });
 
-    // it("should update all the unit answers when their unit is changed", () => {
-    //   const wrapper = shallow(<UnwrappedGroupedAnswerProperties {...props} />);
-    //   const unitPropertiesElement = wrapper.find(UnitPropertiesStyled).dive();
-    //   unitPropertiesElement
-    //     .find("[data-test='unit-select']")
-    //     .simulate("change", { value: CENTIMETRES });
-    //   expect(props.updateAnswersOfType).toHaveBeenCalledWith(UNIT, "pageId", {
-    //     unit: CENTIMETRES,
-    //   });
-    // });
-
     it("should update the unit answer when unit is changed", async () => {
-      const { getByTestId, getByText } = render(
+      const { getByTestId } = render(
         <UnwrappedGroupedAnswerProperties {...props} />,
         {
           route: "/q/1/page/0",
