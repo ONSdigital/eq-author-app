@@ -1,11 +1,9 @@
 import React from "react";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import PropTypes from "prop-types";
 
 import { Input } from "components/Forms";
 import { colors } from "constants/theme";
-
-import iconCheck from "./icon-check.svg";
 
 const LegalField = styled.div`
   display: flex;
@@ -51,30 +49,6 @@ const LegalLabel = styled.label`
     outline-color: ${colors.blue};
     box-shadow: 0 0 0 3px ${colors.tertiary};
   }
-
-  &::before {
-    /* content: url(${iconCheck}); */
-    position: absolute;
-    display: inline-block;
-    width: 1em;
-    height: 1em;
-    margin: 0.1em 0 0 -23em;
-    z-index: 1;
-    transform: scale(0);
-    opacity: 0;
-    transition: all 100ms ease-out 100ms;
-  }
-
-  ${props =>
-    props.selected &&
-    css`
-      border: 1px solid ${colors.primary};
-      padding: 3em 1.5em 2em;
-      &::before {
-        transform: scale(1);
-        opacity: 1;
-      }
-    `};
 `;
 
 const LegalTitle = styled.span`
@@ -102,7 +76,7 @@ const LegalDescription = styled.span`
 export const LegalOption = ({ name, value, children, onChange, selected }) => (
   <LegalLabel htmlFor={value} selected={selected}>
     <LegalInput
-      type="radio"
+      type="radioNoCheckbox"
       name={name}
       id={value}
       value={value}
