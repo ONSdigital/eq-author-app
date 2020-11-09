@@ -12,7 +12,6 @@ import { KILOJOULES, CENTIMETRES } from "constants/unit-types";
 import { YEARSMONTHS, YEARS } from "constants/duration-types";
 import { flushPromises, render, fireEvent, act } from "tests/utils/rtl";
 
-// import UnitProperties from "./AnswerProperties/Properties/UnitProperties";
 
 import DurationProperties from "./AnswerProperties/Properties/DurationProperties";
 
