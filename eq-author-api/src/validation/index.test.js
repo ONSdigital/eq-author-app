@@ -1715,6 +1715,69 @@ describe("schema validation", () => {
         expect(errors).toHaveLength(1);
         expect(errors[0].errorCode).toBe(ERR_LOGICAL_AND);
       });
+
+      it("should reject expression groups combining Unanswered with any other type", () => {
+        expect(validation(questionnaire)).toHaveLength(0);
+
+        addExpression({ questionnaire, condition: "Unanswered" });
+
+        const errors = validation(questionnaire);
+        expect(errors).toHaveLength(1);
+        expect(errors[0].errorCode).toBe(ERR_LOGICAL_AND);
+      });
+
+      it("shouldn't throw AND validation errors prematurely when right side not entered yet", () => {
+        expect(validation(questionnaire)).toHaveLength(0);
+
+        addExpression({ questionnaire, condition: "GreaterThan" });
+        questionnaire.sections[0].pages[1].routing.rules[0].expressionGroup.expressions[1].right = null;
+
+        const errors = validation(questionnaire);
+        expect(errors).toHaveLength(1);
+        expect(errors[0].errorCode).not.toBe(ERR_LOGICAL_AND);
+      });
+
+      it("should run logical AND rules validation code also for skipConditions", () => {
+        expect(validation(questionnaire)).toHaveLength(0);
+
+        questionnaire.sections[0].pages[1].skipConditions = [
+          {
+            id: "group-1",
+            expressions: [
+              {
+                id: "skip-1",
+                condition: "Equal",
+                left: {
+                  answerId: "answer_1",
+                },
+                right: {
+                  type: CUSTOM,
+                  customValue: {
+                    number: 42,
+                  },
+                },
+              },
+              {
+                id: "skip-2",
+                condition: "Equal",
+                left: {
+                  answerId: "answer_1",
+                },
+                right: {
+                  type: CUSTOM,
+                  customValue: {
+                    number: 43,
+                  },
+                },
+              },
+            ],
+          },
+        ];
+
+        const errors = validation(questionnaire);
+        expect(errors).toHaveLength(1);
+        expect(errors[0].errorCode).toBe(ERR_LOGICAL_AND);
+      });
     });
   });
 
