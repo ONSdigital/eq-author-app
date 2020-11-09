@@ -11,24 +11,6 @@ const LegalField = styled.div`
   justify-content: flex-end;
 `;
 
-const LegalInput = styled(Input)`
-  position: absolute;
-  overflow: hidden;
-  height: 20px;
-  width: 20px;
-  padding: 0;
-  display: flex;
-  margin-top: -1em;
-  /* clip: rect(0 0 0 0); */
-  /* border: 0; */
-  &:hover,
-  &:focus {
-    /* border: none;
-    outline: none;
-    box-shadow: none; */
-  }
-`;
-
 const LegalLabel = styled.label`
   padding: 2.5em 1.5em;
   border-radius: 4px;
@@ -75,8 +57,9 @@ const LegalDescription = styled.span`
 
 export const LegalOption = ({ name, value, children, onChange, selected }) => (
   <LegalLabel htmlFor={value} selected={selected}>
-    <LegalInput
-      type="radioNoCheckbox"
+    <Input
+      type="radio"
+      variant="boxy"
       name={name}
       id={value}
       value={value}

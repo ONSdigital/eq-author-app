@@ -1,0 +1,48 @@
+import { Meta, Story, Canvas } from "@storybook/addon-docs/blocks";
+
+import { Input, Label } from "components/Forms";
+
+<Meta title="Components/Radio button" component={Input} />
+
+# Radio button
+
+Hide overflowing content and make it scrollable.
+
+## Example
+
+<Canvas>
+  <Story name="Default">
+    <Label htmlFor="optionOne">
+      <Input type="radio" id="optionOne" name="option" value="optionOne" />
+      Option one
+    </Label>
+    <Label htmlFor="optionTwo">
+      <Input type="radio" id="optionTwo" name="option" value="optionTwo" />
+      Option two
+    </Label>
+    <Label htmlFor="optionThree">
+      <Input type="radio" id="optionThree" name="option" value="optionThree" />
+      Option three
+    </Label>
+  </Story>
+</Canvas>
+
+
+## Variants
+
+<Canvas>
+  <Story name="Boxy">
+    <Label htmlFor="optionOne">
+      <Input type="radio" variant="boxy" id="optionOne" name="option" value="optionOne" />
+      Option one
+    </Label>
+    <Label htmlFor="optionTwo">
+      <Input type="radio" variant="boxy" id="optionTwo" name="option" value="optionTwo" />
+      Option two
+    </Label>
+    <Label htmlFor="optionThree">
+      <Input type="radio" variant="boxy" id="optionThree" name="option" value="optionThree" />
+      Option three
+    </Label>
+  </Story>
+</Canvas>

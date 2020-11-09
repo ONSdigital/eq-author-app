@@ -29,15 +29,25 @@ const radioButton = css`
   ${multipleChoiceOption};
   border-radius: 100%;
 
-  &:checked {
-    background: url(${iconCheckbox}) no-repeat center;
-    background-size: 0.8em auto;
-  }
-`;
-
-const radioButtonNoCheckbox = css`
-  ${multipleChoiceOption};
-  border-radius: 100%;
+  ${({ variant }) =>
+    variant === "boxy" &&
+    `
+      position: absolute;
+      overflow: hidden;
+      height: 20px;
+      width: 20px;
+      padding: 0;
+      display: flex;
+      margin-top: -1em;
+      /* clip: rect(0 0 0 0); */
+      /* border: 0; */
+      &:hover,
+      &:focus {
+        /* border: none;
+        outline: none;
+        box-shadow: none; */
+      }
+    `}
 
   &:checked {
     background: url(${iconCheckbox}) no-repeat center;
@@ -49,7 +59,6 @@ const StyledInput = styled.input`
   ${sharedStyles};
   ${props => props.type === "checkbox" && checkBox};
   ${props => props.type === "radio" && radioButton};
-  ${props => props.type === "radioNoCheckbox" && radioButtonNoCheckbox};
 `;
 
 export const UncontrolledInput = ({
