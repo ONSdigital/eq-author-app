@@ -119,6 +119,7 @@ class MultipleChoiceAnswerOptionsSelector extends React.Component {
     }).isRequired,
     onRightChange: PropTypes.func.isRequired,
     onConditionChange: PropTypes.func.isRequired,
+    groupErrorMessage: PropTypes.string,
   };
 
   get selectedOptionIds() {
@@ -154,9 +155,10 @@ class MultipleChoiceAnswerOptionsSelector extends React.Component {
   };
 
   handleError = () => {
-    const { expression } = this.props;
+    const { expression, groupErrorMessage } = this.props;
+    let message = groupErrorMessage;
 
-    const { errorCode } = find(
+    const error = find(
       expression.validationErrorInfo.errors,
       error =>
         error.errorCode.includes("ERR_RIGHTSIDE") ||
@@ -165,12 +167,14 @@ class MultipleChoiceAnswerOptionsSelector extends React.Component {
         )
     );
 
-    return (
-      <ValidationError right>
-        {rightSideErrors[errorCode].optionsMessage ||
-          rightSideErrors[errorCode].message}
-      </ValidationError>
-    );
+    if (error) {
+      message =
+        message ||
+        rightSideErrors[error.errorCode].optionsMessage ||
+        rightSideErrors[error.errorCode].message;
+    }
+
+    return message ? <ValidationError right>{message}</ValidationError> : null;
   };
 
   renderRadioOptionSelector(errors) {
@@ -205,7 +209,7 @@ class MultipleChoiceAnswerOptionsSelector extends React.Component {
               </ToggleChip>
             ))}
         </MultipleChoiceAnswerOptions>
-        {errors.length > 0 && this.handleError()}
+        {this.handleError()}
       </>
     );
   }
@@ -274,7 +278,7 @@ class MultipleChoiceAnswerOptionsSelector extends React.Component {
             </Popover>
           )}
         </MultipleChoiceAnswerOptions>
-        {errors.length > 0 && this.handleError()}
+        {this.handleError()}
       </>
     );
   }

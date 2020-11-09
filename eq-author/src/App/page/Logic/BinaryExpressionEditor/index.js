@@ -287,6 +287,32 @@ export class UnwrappedBinaryExpressionEditor extends React.Component {
     }
   };
 
+  getGroupErrorMessage = () => {
+    const { expression } = this.props;
+    const expressionGroupErrors =
+      expression &&
+      expression.expressionGroup &&
+      expression.expressionGroup.validationErrorInfo &&
+      expression.expressionGroup.validationErrorInfo.errors;
+
+    if (!(expressionGroupErrors && expressionGroupErrors.length)) {
+      return null;
+    }
+
+    const sharedErrorsForAnswerId = expressionGroupErrors.filter(
+      ({ field }) => expression.left && expression.left.id === field
+    );
+    if (
+      sharedErrorsForAnswerId.some(
+        ({ errorCode }) => errorCode === "ERR_LOGICAL_AND"
+      )
+    ) {
+      return binaryExpressionErrors.ERR_LOGICAL_AND;
+    }
+
+    return null;
+  };
+
   renderEditor() {
     if (
       this.props.expression.left.reason === DEFAULT_ROUTING ||
@@ -303,6 +329,7 @@ export class UnwrappedBinaryExpressionEditor extends React.Component {
         expression={this.props.expression}
         onRightChange={this.handleUpdateRightSide}
         onConditionChange={this.handleUpdateCondition}
+        groupErrorMessage={this.getGroupErrorMessage()}
       />
     );
   }

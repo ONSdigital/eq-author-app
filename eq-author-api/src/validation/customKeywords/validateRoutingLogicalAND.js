@@ -24,20 +24,11 @@ module.exports = ajv => {
       fieldName,
       questionnaire
     ) {
-      const error = () => {
-        const segments = dataPath.split("/");
-
-        let expressionGroupIndex;
-        if (segments[segments.length - 1] === "expressionGroup") {
-          expressionGroupIndex = segments[segments.length - 2];
-        } else {
-          expressionGroupIndex = segments[segments.length - 1];
-        }
-
+      const error = answerId => {
         isValid.errors = [
           createValidationError(
             dataPath,
-            `expressionGroup:${expressionGroupIndex}`,
+            answerId,
             ERR_LOGICAL_AND,
             questionnaire
           ),
@@ -64,7 +55,7 @@ module.exports = ajv => {
           !expressions.every(conditionIs("Unanswered"))
         ) {
           console.log("VALIDATION ERROR: UNANSWERED CONFLICT");
-          return error();
+          return error(answerId);
         }
 
         // Bail out if answer isn't numerical - remaining code validates number-type answers
@@ -80,7 +71,7 @@ module.exports = ajv => {
 
         if (equalitySet.size > 1) {
           console.log("VALIDATION ERROR: MULTIPLE INCOMPATIBLE EQUALS");
-          return error();
+          return error(answerId);
         }
 
         // Check that "equal" and "non-equal" conditions don't intersect
@@ -93,7 +84,7 @@ module.exports = ajv => {
         for (const n of equalitySet) {
           if (nonequalitySet.has(n)) {
             console.log("VALIDATION ERROR: NON-EQUAL CLASHES WITH EQUAL");
-            return error();
+            return error(answerId);
           }
         }
 
@@ -131,7 +122,7 @@ module.exports = ajv => {
         const rangeWidth = upperLimit - lowerLimit - precision;
         if (rangeWidth < Number.EPSILON) {
           console.log("VALIDATION ERROR: NO VALUES IN RANGE BOUNDS");
-          return error();
+          return error(answerId);
         }
 
         // Validate equals are all in range
@@ -142,7 +133,7 @@ module.exports = ajv => {
           )
         ) {
           console.log("VALIDATION ERROR: EQUALITY IMPOSSIBLE - OUT OF RANGE");
-          return error();
+          return error(answerId);
         }
 
         // Validate non-equality conditions do not completely deplete range
@@ -156,7 +147,7 @@ module.exports = ajv => {
           console.log(
             "VALIDATION ERROR: NON-EQUALITY CONDITIONS COMPLETELY DEPLETE RANGE"
           );
-          return error();
+          return error(answerId);
         }
       }
 
