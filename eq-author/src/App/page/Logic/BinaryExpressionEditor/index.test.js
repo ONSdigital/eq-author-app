@@ -298,4 +298,30 @@ describe("BinaryExpressionEditor", () => {
 
     expect(getByText(binaryExpressionErrors.ERR_LOGICAL_AND)).toBeTruthy();
   });
+
+  it("shouldn't pass on shared expressionGroup messages when group errors are present for a different answerId", async () => {
+    defaultProps.expression.expressionGroup = {
+      validationErrorInfo: {
+        totalCount: 1,
+        errors: [
+          {
+            errorCode: "ERR_LOGICAL_AND",
+            field: "different_answer_id",
+            id: "exp_1",
+            type: "expressions",
+          },
+        ],
+      },
+    };
+
+    render(<BinaryExpressionEditor {...defaultProps} />);
+
+    await act(async () => {
+      await flushPromises();
+    });
+
+    expect(
+      screen.queryByText(binaryExpressionErrors.ERR_LOGICAL_AND)
+    ).toBeNull();
+  });
 });

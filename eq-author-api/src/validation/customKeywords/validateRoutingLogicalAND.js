@@ -29,10 +29,7 @@ module.exports = ajv => {
       const expressionsByAnswerId = groupBy(expressions, "left.answerId");
       const potentialConflicts = Object.entries(expressionsByAnswerId).filter(
         ([answerId, expressions]) =>
-          expressions.length > 1 &&
-          answerId &&
-          answerId.length &&
-          answerId.length > 0
+          expressions.length > 1 && answerId && answerId.length
       );
 
       const error = answerId => invalidAnswerIds.add(answerId);
