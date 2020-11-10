@@ -15,6 +15,7 @@ const onPageDeleted = require("../../../src/businessLogic/onPageDeleted");
 const { createMutation } = require("../createMutation");
 const addPrefix = require("../../../utils/addPrefix");
 const { createQuestionPage } = require("./questionPage");
+const deleteFirstPageSkipConditions = require("../../../src/businessLogic/deleteFirstPageSkipConditions");
 
 const Resolvers = {};
 
@@ -60,6 +61,7 @@ Resolvers.Mutation = {
       page.folderId = newFolder.id;
     }
 
+    deleteFirstPageSkipConditions(ctx);
     return { ...page, sectionId: newSection.id };
   }),
 
@@ -74,7 +76,7 @@ Resolvers.Mutation = {
       const newPage = createQuestionPage();
       section.folders[previous.folderIndex].pages.push(newPage);
     }
-
+    deleteFirstPageSkipConditions(ctx);
     return section;
   }),
   duplicatePage: createMutation((_, { input }, ctx) => {

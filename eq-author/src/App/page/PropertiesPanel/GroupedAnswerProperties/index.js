@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { groupBy, kebabCase, getOr} from "lodash/fp";
+import { groupBy, kebabCase, getOr } from "lodash/fp";
 
 import Accordion from "components/Accordion";
 import IconText from "components/IconText";
@@ -72,11 +72,19 @@ const GroupContainer = styled.div`
   padding: 0.5em 0;
 `;
 
+export const UnitPropertiesStyled = styled(UnitProperties)`
+  ${({ hasUnitError }) =>
+    hasUnitError &&
+    `
+  border-color: ${colors.red};
+`}
+`;
+
 const DECIMAL_INCONSISTENCY = "ERR_REFERENCED_ANSWER_DECIMAL_INCONSISTENCY";
 const ERR_MAX_LENGTH_TOO_LARGE = "ERR_MAX_LENGTH_TOO_LARGE";
 const ERR_MAX_LENGTH_TOO_SMALL = "ERR_MAX_LENGTH_TOO_SMALL";
 
-const isNumeric = (answerType) =>
+const isNumeric = answerType =>
   [NUMBER, PERCENTAGE, CURRENCY, UNIT].includes(answerType);
 
 const showMaxLengthValError = (isMaxLengthTooLarge, isMaxLengthTooSmall) => {
@@ -108,7 +116,7 @@ export const UnwrappedGroupedAnswerProperties = ({
   updateAnswersOfType,
 }) => {
   const answersByType = groupBy("type", page.answers);
-  return Object.keys(answersByType).map((answerType) => {
+  return Object.keys(answersByType).map(answerType => {
     let groupedFields = null;
     let groupValidations = null;
     const answers = answersByType[answerType];
@@ -133,7 +141,7 @@ export const UnwrappedGroupedAnswerProperties = ({
             <Decimal
               id={id}
               data-test="decimals"
-              onBlur={(decimals) => {
+              onBlur={decimals => {
                 updateAnswersOfType(answerType, page.id, {
                   decimals,
                 });
@@ -150,18 +158,19 @@ export const UnwrappedGroupedAnswerProperties = ({
           {answerType === UNIT && (
             <>
               <MultiLineField id="unit" label={"Type"}>
-                <UnitProperties
+                <UnitPropertiesStyled
                   id="unit"
                   onChange={({ value: unit }) => {
                     updateAnswersOfType(answerType, page.id, {
                       unit,
                     });
                   }}
+                  hasUnitError={hasUnitError}
                   unit={answers[0].properties.unit}
                 />
               </MultiLineField>
               {hasUnitError && (
-                <ValidationWarningUnit 
+                <ValidationWarningUnit
                   icon={ValidationErrorIcon}
                   data-test="unitRequired"
                 >
@@ -240,7 +249,7 @@ export const UnwrappedGroupedAnswerProperties = ({
     return (
       <Accordion title={`${answerType} properties`} key={answerType}>
         <Padding>{groupedFields}</Padding>
-        {answers.map((answer) => {
+        {answers.map(answer => {
           return (
             <AnswerPropertiesContainer key={getIdForObject(answer)}>
               <Padding>

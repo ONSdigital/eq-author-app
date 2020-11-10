@@ -111,6 +111,8 @@ const {
   publishStatusEvent,
 } = require("../../utils/questionnaireEvents");
 
+const deleteFirstPageSkipConditions = require("../../src/businessLogic/deleteFirstPageSkipConditions");
+
 const createNewQuestionnaire = input => {
   const defaultQuestionnaire = {
     id: uuidv4(),
@@ -343,12 +345,13 @@ const Resolvers = {
       if (!ctx.questionnaire.sections.length) {
         ctx.questionnaire.sections.push(createSection());
       }
-
+      deleteFirstPageSkipConditions(ctx);
       return ctx.questionnaire;
     }),
     moveSection: createMutation((_, { input }, ctx) => {
       const removedSection = first(remove(getSections(ctx), { id: input.id }));
       getSections(ctx).splice(input.position, 0, removedSection);
+      deleteFirstPageSkipConditions(ctx);
       return removedSection;
     }),
     duplicateSection: createMutation((_, { input }, ctx) => {
