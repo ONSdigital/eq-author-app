@@ -72,6 +72,12 @@ const GroupContainer = styled.div`
   padding: 0.5em 0;
 `;
 
+export const UnitPropertiesStyled = styled(UnitProperties)`
+  ${({ hasUnitError }) => hasUnitError && `
+  border-color: ${colors.red};
+`}
+`;
+
 const DECIMAL_INCONSISTENCY = "ERR_REFERENCED_ANSWER_DECIMAL_INCONSISTENCY";
 const ERR_MAX_LENGTH_TOO_LARGE = "ERR_MAX_LENGTH_TOO_LARGE";
 const ERR_MAX_LENGTH_TOO_SMALL = "ERR_MAX_LENGTH_TOO_SMALL";
@@ -150,13 +156,14 @@ export const UnwrappedGroupedAnswerProperties = ({
           {answerType === UNIT && (
             <>
               <MultiLineField id="unit" label={"Type"}>
-                <UnitProperties
+                <UnitPropertiesStyled
                   id="unit"
                   onChange={({ value: unit }) => {
                     updateAnswersOfType(answerType, page.id, {
                       unit,
                     });
                   }}
+                  hasUnitError={hasUnitError}
                   unit={answers[0].properties.unit}
                 />
               </MultiLineField>

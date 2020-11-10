@@ -12,7 +12,7 @@ import { KILOJOULES, CENTIMETRES } from "constants/unit-types";
 import { YEARSMONTHS, YEARS } from "constants/duration-types";
 import { flushPromises, render, fireEvent, act } from "tests/utils/rtl";
 
-import UnitProperties from "./AnswerProperties/Properties/UnitProperties";
+
 import DurationProperties from "./AnswerProperties/Properties/DurationProperties";
 
 import Accordion from "components/Accordion";
@@ -20,7 +20,7 @@ import GroupValidations from "App/page/Design/Validation/GroupValidations";
 import { VALIDATION_QUERY } from "App/QuestionnaireDesignPage";
 import { characterErrors } from "constants/validationMessages";
 
-import { UnwrappedGroupedAnswerProperties } from "./";
+import { UnwrappedGroupedAnswerProperties, UnitPropertiesStyled } from "./";
 
 describe("Grouped Answer Properties", () => {
   let props;
@@ -65,6 +65,12 @@ describe("Grouped Answer Properties", () => {
       },
       updateAnswersOfType: jest.fn(),
     };
+  });
+
+  afterEach(async () => {
+    await act(async () => {
+      await flushPromises();
+    });
   });
 
   it("should render the answers grouped by type", () => {
@@ -244,15 +250,26 @@ describe("Grouped Answer Properties", () => {
 
     it("should show one copy of the shared unit properties", () => {
       const wrapper = shallow(<UnwrappedGroupedAnswerProperties {...props} />);
-      expect(wrapper.find(UnitProperties)).toHaveLength(1);
+      expect(wrapper.find(UnitPropertiesStyled)).toHaveLength(1);
     });
 
-    it("should update all the unit answers when their unit is changed", () => {
-      const wrapper = shallow(<UnwrappedGroupedAnswerProperties {...props} />);
-      const unitPropertiesElement = wrapper.find(UnitProperties).dive();
-      unitPropertiesElement
-        .find("[data-test='unit-select']")
-        .simulate("change", { value: CENTIMETRES });
+    it("should update the unit answer when unit is changed", async () => {
+      const { getByTestId } = render(
+        <UnwrappedGroupedAnswerProperties {...props} />,
+        {
+          route: "/q/1/page/0",
+          urlParamMatcher: "/q/:questionnaireId/page/:pageId",
+        }
+      );
+
+      await act(async () => {
+        await flushPromises();
+      });
+  
+      fireEvent.change(getByTestId("unit-select"), {
+        target: { value: CENTIMETRES },
+      });
+
       expect(props.updateAnswersOfType).toHaveBeenCalledWith(UNIT, "pageId", {
         unit: CENTIMETRES,
       });
