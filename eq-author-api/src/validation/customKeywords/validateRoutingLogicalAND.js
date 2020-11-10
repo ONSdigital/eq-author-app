@@ -9,9 +9,10 @@ const {
 const createValidationError = require("../createValidationError");
 const { ERR_LOGICAL_AND } = require("../../../constants/validationErrorCodes");
 
-const conditionIs = value => expression => expression.condition === value;
 const getRHS = e =>
   e.right && e.right.customValue && e.right.customValue.number;
+
+const areUnanswered = e => e.condition === "Unanswered";
 
 module.exports = ajv => {
   ajv.addKeyword("validateRoutingLogicalAND", {
@@ -24,19 +25,7 @@ module.exports = ajv => {
       fieldName,
       questionnaire
     ) {
-      const error = answerId => {
-        isValid.errors = [
-          createValidationError(
-            dataPath,
-            answerId,
-            ERR_LOGICAL_AND,
-            questionnaire
-          ),
-        ];
-
-        return false;
-      };
-
+      const invalidAnswerIds = new Set();
       const expressionsByAnswerId = groupBy(expressions, "left.answerId");
       const potentialConflicts = Object.entries(expressionsByAnswerId).filter(
         ([answerId, expressions]) =>
@@ -46,54 +35,31 @@ module.exports = ajv => {
           answerId.length > 0
       );
 
-      for (const [answerId, expressions] of potentialConflicts) {
-        // Possible conditions: Equal, Unanswered, NotEqual, GreaterThan, LessThan, GreaterOrEqual, LessOrEqual
+      const error = answerId => invalidAnswerIds.add(answerId);
 
+      potentialConflicts.forEach(([answerId, expressions]) => {
         // Handle invalid combination of "Unanswered" with any answer-requiring condition
         if (
-          expressions.some(conditionIs("Unanswered")) &&
-          !expressions.every(conditionIs("Unanswered"))
+          expressions.some(areUnanswered) &&
+          !expressions.every(areUnanswered)
         ) {
-          console.log("VALIDATION ERROR: UNANSWERED CONFLICT");
           return error(answerId);
         }
 
         // Bail out if answer isn't numerical - remaining code validates number-type answers
         const answer = getAnswerById({ questionnaire }, answerId);
         if (![CURRENCY, NUMBER, UNIT, PERCENTAGE].includes(answer.type)) {
-          continue;
+          return;
         }
 
-        // Multiple "equal" values are only logically consistent if set to the same value
-        const equalityExpressions = expressions.filter(conditionIs("Equal"));
-        const equalitySet = new Set(equalityExpressions.map(getRHS));
-        equalitySet.delete(null);
-
-        if (equalitySet.size > 1) {
-          console.log("VALIDATION ERROR: MULTIPLE INCOMPATIBLE EQUALS");
-          return error(answerId);
-        }
-
-        // Check that "equal" and "non-equal" conditions don't intersect
-        const nonequalityExpressions = expressions.filter(
-          conditionIs("NotEqual")
-        );
-        const nonequalitySet = new Set(nonequalityExpressions.map(getRHS));
-        nonequalitySet.delete(null);
-
-        for (const n of equalitySet) {
-          if (nonequalitySet.has(n)) {
-            console.log("VALIDATION ERROR: NON-EQUAL CLASHES WITH EQUAL");
-            return error(answerId);
-          }
-        }
-
-        // Find out precision of numerical answer
+        // Calculate precision of numerical answer based on trailing decimal count
         const precision = Math.pow(10, -answer.properties.decimals);
 
-        // Calculate allowed range based on greater than / less than rules
+        const equalitySet = new Set();
+        const nonequalitySet = new Set();
         let lowerLimit = -Infinity;
         let upperLimit = Infinity;
+
         for (const expression of expressions) {
           let rhs = getRHS(expression);
           if (rhs === undefined || rhs === null) {
@@ -101,6 +67,12 @@ module.exports = ajv => {
           }
 
           switch (expression.condition) {
+            case "Equal":
+              equalitySet.add(rhs);
+              break;
+            case "NotEqual":
+              nonequalitySet.add(rhs);
+              break;
             case "LessOrEqual":
               rhs += precision;
             // Fall through - less than or equal equiv. to less than n + precision
@@ -116,23 +88,28 @@ module.exports = ajv => {
           }
         }
 
-        console.log("lowerLimit: ", lowerLimit, "upperLimit: ", upperLimit);
+        // Multiple "equal" values are only logically consistent if set to the same value
+        if (equalitySet.size > 1) {
+          return error(answerId);
+        }
+
+        // Check that "equal" and "non-equal" conditions don't intersect
+        for (const n of equalitySet) {
+          if (nonequalitySet.has(n)) {
+            return error(answerId);
+          }
+        }
 
         // Validate the range is logically consistent - has to have a width greater than zero
         const rangeWidth = upperLimit - lowerLimit - precision;
         if (rangeWidth < Number.EPSILON) {
-          console.log("VALIDATION ERROR: NO VALUES IN RANGE BOUNDS");
           return error(answerId);
         }
 
         // Validate equals are all in range
         if (
-          Array.from(equalitySet).some(
-            equalityValue =>
-              equalityValue <= lowerLimit || equalityValue >= upperLimit
-          )
+          Array.from(equalitySet).some(n => n <= lowerLimit || n >= upperLimit)
         ) {
-          console.log("VALIDATION ERROR: EQUALITY IMPOSSIBLE - OUT OF RANGE");
           return error(answerId);
         }
 
@@ -144,14 +121,20 @@ module.exports = ajv => {
               nonequalityValue > lowerLimit && nonequalityValue < upperLimit
           ).length >= possibleAnswers
         ) {
-          console.log(
-            "VALIDATION ERROR: NON-EQUALITY CONDITIONS COMPLETELY DEPLETE RANGE"
-          );
           return error(answerId);
         }
-      }
+      });
 
-      return true;
+      isValid.errors = Array.from(invalidAnswerIds).map(answerId =>
+        createValidationError(
+          dataPath,
+          answerId,
+          ERR_LOGICAL_AND,
+          questionnaire
+        )
+      );
+
+      return isValid.errors.length === 0;
     },
   });
 };
