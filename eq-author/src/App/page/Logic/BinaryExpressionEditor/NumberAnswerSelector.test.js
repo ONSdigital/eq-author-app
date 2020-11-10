@@ -1,6 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
-import { render } from "tests/utils/rtl";
+import { render, act, flushPromises } from "tests/utils/rtl";
 
 import { rightSideErrors } from "constants/validationMessages";
 
@@ -88,6 +88,23 @@ describe("NumberAnswerSelector", () => {
       );
       expect(wrapperWithHiddenInput.find(Number)).toHaveLength(0);
     });
+  });
+
+  it("should display validation error when expression group-wide message passed in", async () => {
+    const errorMessage = "Test group error message";
+    defaultProps.groupErrorMessage = errorMessage;
+
+    const { getByText } = render(
+      <NumberAnswerSelector hasError {...defaultProps} />
+    );
+
+    await act(async () => {
+      await flushPromises();
+    });
+
+    expect(getByText(errorMessage)).toBeTruthy();
+
+    expect(getByText(errorMessage)).toHaveStyleRule("width", "100%");
   });
 
   it("should show error message when right side empty", () => {

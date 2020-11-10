@@ -15,6 +15,8 @@ import { UnwrappedBinaryExpressionEditor as BinaryExpressionEditor } from "./";
 import MultipleChoiceAnswerOptionsSelector from "./MultipleChoiceAnswerOptionsSelector";
 import NumberAnswerSelector from "./NumberAnswerSelector";
 
+import { binaryExpressionErrors } from "constants/validationMessages";
+
 import { OR } from "constants/routingOperators";
 
 describe("BinaryExpressionEditor", () => {
@@ -271,5 +273,29 @@ describe("BinaryExpressionEditor", () => {
 
     expect(screen.getByTestId("action-btns")).toHaveStyleRule("display: flex;");
     expect(screen.getByText("Answer required")).toBeTruthy();
+  });
+
+  it("should pass on shared expressionGroup messages when group errors are present", async () => {
+    defaultProps.expression.expressionGroup = {
+      validationErrorInfo: {
+        totalCount: 1,
+        errors: [
+          {
+            errorCode: "ERR_LOGICAL_AND",
+            field: "2",
+            id: "exp_1",
+            type: "expressions",
+          },
+        ],
+      },
+    };
+
+    const { getByText } = render(<BinaryExpressionEditor {...defaultProps} />);
+
+    await act(async () => {
+      await flushPromises();
+    });
+
+    expect(getByText(binaryExpressionErrors.ERR_LOGICAL_AND)).toBeTruthy();
   });
 });

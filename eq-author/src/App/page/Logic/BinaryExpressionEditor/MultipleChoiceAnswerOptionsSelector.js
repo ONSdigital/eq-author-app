@@ -40,8 +40,9 @@ const MultipleChoiceAnswerOptions = styled.div`
     `
     border-color: ${colors.red};
     outline-color: ${colors.red};
+    box-shadow: 0 0 0 2px ${colors.red};
     border-radius: 4px;
-    margin-bottom: 0;
+    margin-bottom: 0.5em;
   `}
 `;
 
@@ -56,6 +57,7 @@ const ConditionSelect = styled(Select)`
   width: auto;
   margin: 0 0.5em;
   padding: 0.3em 2em 0.3em 0.5em;
+  ${({ hasError }) => hasError && `border: thin solid #d0021b`}
 `;
 
 const ChooseButton = styled(TextButton)`
@@ -177,7 +179,7 @@ class MultipleChoiceAnswerOptionsSelector extends React.Component {
     return message ? <ValidationError right>{message}</ValidationError> : null;
   };
 
-  renderRadioOptionSelector(errors) {
+  renderRadioOptionSelector(hasError) {
     const { expression } = this.props;
     const options = get(expression, "left.options", []);
 
@@ -185,7 +187,7 @@ class MultipleChoiceAnswerOptionsSelector extends React.Component {
       <>
         <MultipleChoiceAnswerOptions
           data-test="options-selector"
-          hasError={errors.length}
+          hasError={hasError}
         >
           <Label>Match</Label>
           <ConditionSelect
@@ -214,21 +216,19 @@ class MultipleChoiceAnswerOptionsSelector extends React.Component {
     );
   }
 
-  renderCheckboxOptionSelector(errors) {
+  renderCheckboxOptionSelector(hasError, hasConditionError) {
     const { expression } = this.props;
     return (
       <>
         <MultipleChoiceAnswerOptions
           data-test="options-selector"
-          hasError={errors.length}
+          hasError={hasError}
         >
           <Label>Match</Label>
           <ConditionSelect
             onChange={this.handleConditionChange}
             defaultValue={expression.condition}
-            hasError={
-              errors.filter(({ field }) => field === "condition").length
-            }
+            hasError={hasConditionError}
             data-test="condition-dropdown"
           >
             <option value={answerConditions.ANYOF}>Any of</option>
@@ -284,28 +284,19 @@ class MultipleChoiceAnswerOptionsSelector extends React.Component {
   }
 
   render() {
-    const { expression } = this.props;
+    const { expression, groupErrorMessage } = this.props;
     const answerType = get(expression, "left.type");
 
     const { errors } = expression.validationErrorInfo;
 
-    const rightSideErrors = errors.filter(({ errorCode }) =>
-      errorCode.includes("ERR_RIGHTSIDE")
-    );
-
-    const checkboxErrors = errors.filter(({ errorCode }) =>
-      errorCode.includes(
-        "ERR_GROUP_MIXING_EXPRESSIONS_WITH_OR_STND_OPTIONS_IN_AND"
-      )
-    );
+    const hasError = errors.length || groupErrorMessage;
+    const hasConditionError =
+      errors.filter(({ field }) => field === "condition").length > 0;
 
     if (answerType === RADIO) {
-      return this.renderRadioOptionSelector(rightSideErrors);
+      return this.renderRadioOptionSelector(hasError);
     } else {
-      return this.renderCheckboxOptionSelector([
-        ...rightSideErrors,
-        ...checkboxErrors,
-      ]);
+      return this.renderCheckboxOptionSelector(hasError, hasConditionError);
     }
   }
 }
