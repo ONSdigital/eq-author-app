@@ -42,6 +42,18 @@ module.exports = function(ajv) {
         entityData.right &&
         entityData.right.optionIds
       ) {
+        const { condition, left } = entityData;
+
+        const leftAnswerId = left.answerId;
+
+        const numOfOccurancesOfLeft = expressionsWithoutNullLeft.filter(
+          ({ left }) => left.answerId === leftAnswerId
+        );
+
+        if (numOfOccurancesOfLeft.length === 1) {
+          return true;
+        }
+
         const selectedOptions = entityData.right.optionIds.map(optionId =>
           getOptionById({ questionnaire }, optionId)
         );
@@ -52,8 +64,6 @@ module.exports = function(ajv) {
 
         const selectionContainsOnlyMutuallyExclusive =
           selectedOptions.length === 1 && selectedOptions[0].mutuallyExclusive;
-
-        const { condition } = entityData;
 
         if (
           expressionsWithoutNullLeft.length > 0 &&
