@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 
 import { Input } from "components/Forms";
 import { colors } from "constants/theme";
+import RadioButton from "../../../../components/Forms/Input/RadioButton";
 
 const LegalField = styled.div`
   display: flex;
@@ -57,9 +58,8 @@ const LegalDescription = styled.span`
 
 export const LegalOption = ({ name, value, children, onChange, selected }) => (
   <LegalLabel htmlFor={value} selected={selected}>
-    <Input
+    <RadioButton
       type="radio"
-      variant="boxy"
       name={name}
       id={value}
       value={value}
