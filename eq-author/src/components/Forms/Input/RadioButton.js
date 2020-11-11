@@ -21,6 +21,12 @@ const radioButton = css`
   height: 20px;
   border-radius: 100%;
   outline: none;
+  position: absolute;
+  overflow: hidden;
+  padding: 0;
+  display: flex;
+  margin-top: -1em;
+
   :hover {
   }
   :before {
