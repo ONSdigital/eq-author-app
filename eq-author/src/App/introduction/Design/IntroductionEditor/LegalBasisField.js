@@ -3,7 +3,7 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 
 import { colors } from "constants/theme";
-import RadioButton from "../../../../components/Forms/Input/RadioButton";
+import { Input } from "components/Forms";
 
 const LegalField = styled.div`
   display: flex;
@@ -42,12 +42,6 @@ const LegalTitle = styled.span`
   margin-top: -1em;
 `;
 
-// const LegalNotice = styled.span`
-//   font-weight: bold;
-//   margin-bottom: 1em;
-//   width: 8em;
-// `;
-
 const LegalDescription = styled.span`
   font-size: 1em;
   letter-spacing: 0;
@@ -57,8 +51,9 @@ const LegalDescription = styled.span`
 
 export const LegalOption = ({ name, value, children, onChange, selected }) => (
   <LegalLabel htmlFor={value} selected={selected}>
-    <RadioButton
+    <Input
       type="radio"
+      variant="boxy"
       name={name}
       id={value}
       value={value}

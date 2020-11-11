@@ -32,21 +32,31 @@ const radioButton = css`
   ${({ variant }) =>
     variant === "boxy" &&
     `
-      position: absolute;
-      overflow: hidden;
-      height: 20px;
-      width: 20px;
-      padding: 0;
-      display: flex;
-      margin-top: -1em;
-      /* clip: rect(0 0 0 0); */
-      /* border: 0; */
-      &:hover,
-      &:focus {
-        /* border: none;
-        outline: none;
-        box-shadow: none; */
-      }
+    ${multipleChoiceOption};
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+    outline: none;
+    position: absolute;
+    overflow: hidden;
+    padding: 0;
+    display: flex;
+    margin-top: -1em;
+
+    :hover {
+    }
+    :before {
+      content: "";
+      display: block;
+      width: 80%;
+      height: 80%;
+      margin: 10% auto;
+      border-radius: 100%;
+      background: #dcdcdc;
+    }
+    :checked:before {
+      background: #323232;
+    }
     `}
 
   &:checked {
