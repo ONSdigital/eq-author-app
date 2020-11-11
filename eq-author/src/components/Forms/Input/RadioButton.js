@@ -32,9 +32,9 @@ const radioButton = css`
   :before {
     content: "";
     display: block;
-    width: 60%;
-    height: 60%;
-    margin: 15% auto;
+    width: 80%;
+    height: 80%;
+    margin: 10% auto;
     border-radius: 100%;
     background: #dcdcdc;
   }

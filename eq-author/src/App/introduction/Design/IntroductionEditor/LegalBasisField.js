@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
-import { Input } from "components/Forms";
 import { colors } from "constants/theme";
 import RadioButton from "../../../../components/Forms/Input/RadioButton";
 
