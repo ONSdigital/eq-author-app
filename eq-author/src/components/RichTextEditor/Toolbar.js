@@ -10,6 +10,7 @@ import iconList from "components/RichTextEditor/icon-list.svg?inline";
 
 import PipingMenu from "components/RichTextEditor/PipingMenu";
 import ToolbarButton from "components/RichTextEditor/ToolbarButton";
+import LinkButton from "./LinkPlugin/ToolbarButton";
 
 export const STYLE_BLOCK = "block";
 export const STYLE_INLINE = "inline";
@@ -115,8 +116,9 @@ class ToolBar extends React.Component {
     const {
       visible,
       onPiping,
+      onLinkChosen,
       selectionIsCollapsed,
-      controls: { piping },
+      controls: { piping, link },
       testId,
       allowableTypes,
       defaultTab,
@@ -140,6 +142,8 @@ class ToolBar extends React.Component {
               defaultTab={defaultTab}
             />
           )}
+          <Separator />
+          <LinkButton canFocus={visible} onLinkChosen={onLinkChosen} />
         </ButtonGroup>
       </ToolbarPanel>
     );
