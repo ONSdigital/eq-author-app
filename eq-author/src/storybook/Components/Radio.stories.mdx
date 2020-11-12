@@ -6,7 +6,7 @@ import { Input, Label } from "components/Forms";
 
 # Radio button
 
-Hide overflowing content and make it scrollable.
+Lets users select one option from a selection of multiple different options.
 
 ## Example
 
@@ -27,21 +27,80 @@ Hide overflowing content and make it scrollable.
   </Story>
 </Canvas>
 
-
 ## Variants
 
 <Canvas>
   <Story name="Boxy">
-    <Label htmlFor="optionOne">
-      <Input type="radio" variant="boxy" id="optionOne" name="option" value="optionOne" />
+    <Label htmlFor="optionOne" style={{
+      padding: '2.5em 1.5em',
+      border: '1px solid ${colors.bordersLight}',
+      flex: '1 1 33.3333333%',
+      cursor: 'pointer',
+      display: 'flex',
+      background: '#fff',
+      color: '${colors.textLight}',
+      position: 'relative',
+      transition: 'padding 200ms ease-in-out',
+      'flex-direction': 'column',
+      'box-shadow': '0 2px 2px 0 rgba(0, 0, 0, 0.18)',
+      'border-radius': '4px',
+      'margin-bottom': '20px',
+      }}>
+      <Input
+        type="radio"
+        variant="boxy"
+        id="optionOne"
+        name="option"
+        value="optionOne"
+      />
       Option one
     </Label>
-    <Label htmlFor="optionTwo">
-      <Input type="radio" variant="boxy" id="optionTwo" name="option" value="optionTwo" />
+    <Label htmlFor="optionTwo" style={{
+      padding: '2.5em 1.5em',
+      border: '1px solid ${colors.bordersLight}',
+      flex: '1 1 33.3333333%',
+      cursor: 'pointer',
+      display: 'flex',
+      background: '#fff',
+      color: '${colors.textLight}',
+      position: 'relative',
+      transition: 'padding 200ms ease-in-out',
+      'flex-direction': 'column',
+      'box-shadow': '0 2px 2px 0 rgba(0, 0, 0, 0.18)',
+      'border-radius': '4px',
+      'margin-bottom': '20px',
+      }}>
+      <Input
+        type="radio"
+        variant="boxy"
+        id="optionTwo"
+        name="option"
+        value="optionTwo"
+      />
       Option two
     </Label>
-    <Label htmlFor="optionThree">
-      <Input type="radio" variant="boxy" id="optionThree" name="option" value="optionThree" />
+    <Label htmlFor="optionThree" style={{
+      padding: '2.5em 1.5em',
+      border: '1px solid ${colors.bordersLight}',
+      flex: '1 1 33.3333333%',
+      cursor: 'pointer',
+      display: 'flex',
+      background: '#fff',
+      color: '${colors.textLight}',
+      position: 'relative',
+      transition: 'padding 200ms ease-in-out',
+      'flex-direction': 'column',
+      'box-shadow': '0 2px 2px 0 rgba(0, 0, 0, 0.18)',
+      'border-radius': '4px',
+      'margin-bottom': '20px',
+      }}>
+      <Input
+        type="radio"
+        variant="boxy"
+        id="optionThree"
+        name="option"
+        value="optionThree"
+      />
       Option three
     </Label>
   </Story>
