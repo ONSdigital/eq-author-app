@@ -13,6 +13,10 @@ describe("Skip Condition Page", () => {
         page={{
           id: "1",
           displayName: "test",
+          position: 0,
+          section: {
+            position: 0,
+          },
           skipConditions: null,
           validationErrorInfo: { id: "1", errors: [], totalCount: 0 },
         }}
@@ -29,6 +33,10 @@ describe("Skip Condition Page", () => {
         page={{
           id: "1",
           displayName: "test",
+          position: 0,
+          section: {
+            position: 0,
+          },
           skipConditions: null,
           validationErrorInfo: { id: "1", errors: [], totalCount: 0 },
         }}
@@ -46,6 +54,10 @@ describe("Skip Condition Page", () => {
         page={{
           id: "1",
           displayName: "test",
+          position: 0,
+          section: {
+            position: 0,
+          },
           skipConditions,
           validationErrorInfo: { id: "1", errors: [], totalCount: 0 },
         }}

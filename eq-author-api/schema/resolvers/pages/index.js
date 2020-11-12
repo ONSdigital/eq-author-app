@@ -6,6 +6,7 @@ const onPageDeleted = require("../../../src/businessLogic/onPageDeleted");
 const { createMutation } = require("../createMutation");
 const addPrefix = require("../../../utils/addPrefix");
 const { createQuestionPage } = require("./questionPage");
+const deleteFirstPageSkipConditions = require("../../../src/businessLogic/deleteFirstPageSkipConditions");
 
 const Resolvers = {};
 
@@ -29,12 +30,14 @@ Resolvers.Mutation = {
       });
       newsection.pages.splice(input.position, 0, removedPage);
     }
+    deleteFirstPageSkipConditions(ctx);
     return removedPage;
   }),
   deletePage: createMutation((_, { input }, ctx) => {
     const section = getSectionByPageId(ctx, input.id);
     const removedPage = first(remove(section.pages, { id: input.id }));
     onPageDeleted(ctx, section, removedPage);
+    deleteFirstPageSkipConditions(ctx);
     return section;
   }),
 
