@@ -30,7 +30,7 @@ const radioButton = css`
   border-radius: 100%;
 
   ${({ variant }) =>
-    variant === "boxy" &&
+    variant === "radioBox" &&
     `
     width: 20px;
     height: 20px;

@@ -2,6 +2,8 @@ import { Meta, Story, Canvas } from "@storybook/addon-docs/blocks";
 
 import { Input, Label } from "components/Forms";
 
+import { colors } from "constants/theme";
+
 <Meta title="Components/Radio button" component={Input} />
 
 # Radio button
@@ -30,29 +32,29 @@ Lets users select one option from a selection of multiple different options.
 ## Variants
 
 <Canvas>
-  <Story name="Boxy">
-    <Label htmlFor="boxyOptionOne" style={{
-      padding: '2.5em 1.5em',
-      'border-radius': '1px solid ${colors.bordersLight}',
-      border: '1px solid ${colors.bordersLight}',
-      flex: '1 1 33.3333333%',
-      cursor: 'pointer',
-      display: 'flex',
-      background: '#fff',
-      color: '${colors.textLight}',
-      position: 'relative',
-      transition: 'padding 200ms ease-in-out',
-      'flex-direction': 'column',
-      'box-shadow': '0 2px 2px 0 rgba(0, 0, 0, 0.18)',
-      'border-radius': '4px',
-      'margin-bottom': '20px',
+  <Story name="Radio Box">
+    <Label htmlFor="radioBoxOptionOne" style={{
+        padding: '2.5em 1.5em',
+        'border-radius': '1px solid ${colors.bordersLight}',
+        border: '1px solid ${colors.bordersLight}',
+        flex: '1 1 33.3333333%',
+        cursor: 'pointer',
+        display: 'flex',
+        background: '#fff',
+        color: '${colors.textLight}',
+        position: 'relative',
+        transition: 'padding 200ms ease-in-out',
+        'flex-direction': 'column',
+        'box-shadow': '0 2px 2px 0 rgba(0, 0, 0, 0.18)',
+        'border-radius': '4px',
+        'margin-bottom': '20px',
       }}>
       <Input
         type="radio"
-        variant="boxy"
-        id="boxyOptionOne"
+        variant="radioBox"
+        id="radioBoxOptionOne"
         name="option"
-        value="boxyOptionOne"
+        value="radioBoxOptionOne"
       />
       <span style={{
         'font-weight': 'bold',
@@ -74,27 +76,27 @@ Lets users select one option from a selection of multiple different options.
       Option one description
       </span>
     </Label>
-    <Label htmlFor="boxyOptionTwo" style={{
-      padding: '2.5em 1.5em',
-      'border-radius': '1px solid ${colors.bordersLight}',
-      flex: '1 1 33.3333333%',
-      cursor: 'pointer',
-      display: 'flex',
-      background: '#fff',
-      color: '${colors.textLight}',
-      position: 'relative',
-      transition: 'padding 200ms ease-in-out',
-      'flex-direction': 'column',
-      'box-shadow': '0 2px 2px 0 rgba(0, 0, 0, 0.18)',
-      'border-radius': '4px',
-      'margin-bottom': '20px',
+    <Label htmlFor="radioBoxOptionTwo" style={{
+        padding: '2.5em 1.5em',
+        'border-radius': '1px solid ${colors.bordersLight}',
+        flex: '1 1 33.3333333%',
+        cursor: 'pointer',
+        display: 'flex',
+        background: '#fff',
+        color: '${colors.textLight}',
+        position: 'relative',
+        transition: 'padding 200ms ease-in-out',
+        'flex-direction': 'column',
+        'box-shadow': '0 2px 2px 0 rgba(0, 0, 0, 0.18)',
+        'border-radius': '4px',
+        'margin-bottom': '20px',
       }}>
       <Input
         type="radio"
-        variant="boxy"
-        id="boxyOptionTwo"
+        variant="radioBox"
+        id="radioBoxOptionTwo"
         name="option"
-        value="boxyOptionTwo"
+        value="radioBoxOptionTwo"
       />
       <span style={{
         'font-weight': 'bold',
@@ -116,27 +118,27 @@ Lets users select one option from a selection of multiple different options.
       Option two description
       </span>
     </Label>
-    <Label htmlFor="boxyOptionThree" style={{
-      padding: '2.5em 1.5em',
-      'border-radius': '1px solid ${colors.bordersLight}',
-      flex: '1 1 33.3333333%',
-      cursor: 'pointer',
-      display: 'flex',
-      background: '#fff',
-      color: '${colors.textLight}',
-      position: 'relative',
-      transition: 'padding 200ms ease-in-out',
-      'flex-direction': 'column',
-      'box-shadow': '0 2px 2px 0 rgba(0, 0, 0, 0.18)',
-      'border-radius': '4px',
-      'margin-bottom': '20px',
+    <Label htmlFor="radioBoxOptionThree" style={{
+        padding: '2.5em 1.5em',
+        'border-radius': '1px solid ${colors.bordersLight}',
+        flex: '1 1 33.3333333%',
+        cursor: 'pointer',
+        display: 'flex',
+        background: '#fff',
+        color: '${colors.textLight}',
+        position: 'relative',
+        transition: 'padding 200ms ease-in-out',
+        'flex-direction': 'column',
+        'box-shadow': '0 2px 2px 0 rgba(0, 0, 0, 0.18)',
+        'border-radius': '4px',
+        'margin-bottom': '20px',
       }}>
       <Input
         type="radio"
-        variant="boxy"
-        id="boxyOptionThree"
+        variant="radioBox"
+        id="radioBoxOptionThree"
         name="option"
-        value="boxyOptionThree"
+        value="radioBoxOptionThree"
       />
       <span style={{
         'font-weight': 'bold',

@@ -53,7 +53,7 @@ export const LegalOption = ({ name, value, children, onChange, selected }) => (
   <LegalLabel htmlFor={value} selected={selected}>
     <Input
       type="radio"
-      variant="boxy"
+      variant="radioBox"
       name={name}
       id={value}
       value={value}
