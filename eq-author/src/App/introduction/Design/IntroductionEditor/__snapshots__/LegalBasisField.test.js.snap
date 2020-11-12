@@ -5,12 +5,13 @@ exports[`LegalBasisField LegalOption should render 1`] = `
   htmlFor="NOTICE_1"
   selected={false}
 >
-  <LegalBasisField__LegalInput
+  <withChangeHandler(UncontrolledInput)
     id="NOTICE_1"
     name="legalBasis"
     onChange={[MockFunction]}
     type="radio"
     value="NOTICE_1"
+    variant="radioBox"
   />
   hello world
 </LegalBasisField__LegalLabel>
@@ -26,11 +27,8 @@ exports[`LegalBasisField should render 1`] = `
     value="NOTICE_1"
   >
     <LegalBasisField__LegalTitle>
-      Notice 1
+      Notice 1 - Your response is legally required.
     </LegalBasisField__LegalTitle>
-    <LegalBasisField__LegalNotice>
-      Your response is legally required.
-    </LegalBasisField__LegalNotice>
     <LegalBasisField__LegalDescription>
       Notice is given under section 1 of the Statistics of Trade Act 1947.
     </LegalBasisField__LegalDescription>
@@ -43,11 +41,8 @@ exports[`LegalBasisField should render 1`] = `
     value="NOTICE_2"
   >
     <LegalBasisField__LegalTitle>
-      Notice 2
+      Notice 2 - Your response is legally required.
     </LegalBasisField__LegalTitle>
-    <LegalBasisField__LegalNotice>
-      Your response is legally required.
-    </LegalBasisField__LegalNotice>
     <LegalBasisField__LegalDescription>
       Notice is given under sections 3 and 4 of the Statistics of Trade Act 1947.
     </LegalBasisField__LegalDescription>
