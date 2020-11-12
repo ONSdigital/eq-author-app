@@ -1163,7 +1163,22 @@
           "$ref": "definitions.json#/definitions/populatedString"
         },
         "additionalAnswer": {
-          "$ref": "entities.json#/definitions/basicAnswer"
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "label": {
+              "$ref": "definitions.json#/definitions/populatedString"
+            },
+            "properties": {
+              "$ref": "entities.json#/definitions/properties"
+            }
+          },
+          "required": [
+            "id",
+            "label"
+          ]
         },
         "qCode": {
           "$ref": "definitions.json#/definitions/populatedString"
