@@ -13,8 +13,8 @@ const LegalField = styled.div`
 
 const LegalLabel = styled.label`
   padding: 2.5em 1.5em;
-  border-radius: 4px;
-  margin-bottom: 20px;
+  border-radius: 0.25em;
+  margin-bottom: 1.25em;
   border: 1px solid ${colors.bordersLight};
   flex: 1 1 33.3333333%;
   cursor: pointer;

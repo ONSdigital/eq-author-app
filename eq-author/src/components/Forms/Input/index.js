@@ -32,8 +32,8 @@ const radioButton = css`
   ${({ variant }) =>
     variant === "radioBox" &&
     `
-    width: 20px;
-    height: 20px;
+    width: 1.25em;
+    height: 1.25em;
     border-radius: 100%;
     outline: none;
     position: absolute;
