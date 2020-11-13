@@ -111,6 +111,7 @@ exports[`BinaryExpressionEditor should render consistently 1`] = `
                     },
                   }
                 }
+                groupErrorMessage={null}
                 onConditionChange={[Function]}
                 onRightChange={[Function]}
               />

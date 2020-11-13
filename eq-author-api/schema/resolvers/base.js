@@ -39,7 +39,11 @@ const {
 } = require("../../src/businessLogic/createValidation");
 const { currentVersion } = require("../../migrations");
 
-const { createExpression, createLeftSide } = require("../../src/businessLogic");
+const {
+  createExpression,
+  createExpressionGroup,
+  createLeftSide,
+} = require("../../src/businessLogic");
 
 const {
   getSectionById,
@@ -882,17 +886,16 @@ const Resolvers = {
         type: "Null",
         nullReason: "DefaultSkipCondition",
       };
-      const defaultSkipCondition = {
-        id: uuidv4(),
+      const defaultSkipCondition = createExpressionGroup({
+        operator: "And",
         expressions: [createExpression({ left: createLeftSide(leftHandSide) })],
-      };
+      });
       const page = getPageById(ctx, input.pageId);
 
-      const skipConditions = page.skipConditions
+      page.skipConditions = page.skipConditions
         ? [...page.skipConditions, defaultSkipCondition]
         : [defaultSkipCondition];
 
-      merge(page, { skipConditions });
       return page;
     }),
     deleteSkipCondition: createMutation((_, { input }, ctx) => {
