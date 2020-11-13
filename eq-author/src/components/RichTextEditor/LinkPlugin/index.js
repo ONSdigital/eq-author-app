@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { EditorState, Modifier } from "draft-js";
 
 const ENTITY_TYPE = "LINK";
+const MUTABILITY = "IMMUTABLE";
 
 const filterConfig = {
   type: ENTITY_TYPE,
@@ -10,7 +11,7 @@ const filterConfig = {
 
 const linkFromHTML = {
   a: (nodeName, node, createEntity) =>
-    createEntity(ENTITY_TYPE, "MUTABLE", node.href),
+    createEntity(ENTITY_TYPE, MUTABILITY, node.href),
 };
 
 const linkToHTML = {
@@ -21,7 +22,7 @@ const linkToHTML = {
   ),
 };
 
-const Link = ({ entityKey, contentState, children }) => {
+const DecoratedLink = ({ entityKey, contentState, children }) => {
   const { url } = contentState.getEntity(entityKey).getData();
 
   return <a href={url}> {children} </a>;
@@ -41,7 +42,7 @@ const createLink = (text, url, editorState) => {
   const contentState = editorState.getCurrentContent();
   const contentStateWithEntity = contentState.createEntity(
     ENTITY_TYPE,
-    "IMMUTABLE",
+    MUTABILITY,
     url
   );
 
@@ -53,7 +54,10 @@ const createLink = (text, url, editorState) => {
     contentStateWithEntity.getLastCreatedEntityKey()
   );
 
-  return EditorState.set(editorState, { currentContent: contentWithLink });
+  return EditorState.forceSelection(
+    EditorState.set(editorState, { currentContent: contentWithLink }),
+    contentWithLink.getSelectionAfter()
+  );
 };
 
 export default () => {
@@ -61,7 +65,7 @@ export default () => {
     decorators: [
       {
         strategy: linkStrategy,
-        component: Link,
+        component: DecoratedLink,
       },
     ],
   };
