@@ -8,12 +8,16 @@ const filterConfig = {
   type: ENTITY_TYPE,
 };
 
-const linkFromHTML = (nodeName, node, createEntity) =>
-  createEntity(ENTITY_TYPE, "MUTABLE", node.href);
+const linkFromHTML = {
+  a: (nodeName, node, createEntity) =>
+    createEntity(ENTITY_TYPE, "MUTABLE", node.href),
+};
 
 const linkToHTML = {
   [ENTITY_TYPE]: (entity, originalText) => (
-    <a href={entity.data}>{originalText}</a>
+    <a href={entity.data} target="_blank" rel="noopener noreferrer">
+      {originalText}
+    </a>
   ),
 };
 
