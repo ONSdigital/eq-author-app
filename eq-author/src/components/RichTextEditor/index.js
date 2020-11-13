@@ -436,6 +436,10 @@ class RichTextEditor extends React.Component {
   handleMouseDown = e => {
     // prevent blur when mousedown on non-editor elements
     if (!this.editorInstance.getEditorRef().editor.contains(e.target)) {
+      if (e.target.type === "text") {
+        return;
+      }
+
       e.preventDefault();
     }
   };
