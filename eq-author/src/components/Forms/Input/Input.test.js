@@ -80,4 +80,47 @@ describe("components/Forms/Input", () => {
       );
     });
   });
+
+  describe("Radio", () => {
+    let wrapper;
+
+    beforeEach(() => {
+      wrapper = mount(
+        <Input
+          id="my-radio-button"
+          variant="radioBox"
+          type="radio"
+          onChange={handleChange}
+          defaultChecked={false}
+        />
+      );
+    });
+
+    it("should render a radio button", () => {
+      expect(wrapper.find("input").getElement().props.type).toEqual("radio");
+    });
+
+    it("should pass `defaultChecked` prop to component", () => {
+      wrapper = mount(<Input type="radio" defaultChecked />);
+      expect(wrapper.find("input").getElement().props.defaultChecked).toEqual(
+        true
+      );
+      wrapper = mount(<Input type="radio" defaultChecked={false} />);
+      expect(wrapper.find("input").getElement().props.defaultChecked).toEqual(
+        false
+      );
+    });
+
+    it("should call onChange with appropriate args", () => {
+      wrapper.simulate("change", {
+        target: { type: "radio", value: true },
+      });
+      expect(handleChange).toHaveBeenCalledWith(
+        expect.objectContaining({
+          name: "my-radio-button",
+          value: true,
+        })
+      );
+    });
+  });
 });

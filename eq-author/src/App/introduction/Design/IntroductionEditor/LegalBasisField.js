@@ -54,6 +54,7 @@ export const LegalOption = ({ name, value, children, onChange, selected }) => (
     <Input
       type="radio"
       variant="radioBox"
+      checked={selected}
       name={name}
       id={value}
       value={value}

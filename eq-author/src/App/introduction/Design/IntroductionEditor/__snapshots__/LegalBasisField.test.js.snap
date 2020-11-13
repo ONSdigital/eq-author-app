@@ -6,6 +6,7 @@ exports[`LegalBasisField LegalOption should render 1`] = `
   selected={false}
 >
   <withChangeHandler(UncontrolledInput)
+    checked={false}
     id="NOTICE_1"
     name="legalBasis"
     onChange={[MockFunction]}
