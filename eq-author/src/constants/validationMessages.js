@@ -92,6 +92,8 @@ export const MAX_INCLUSIVE_TEXT = "must be less than";
 
 export const ERR_TOTAL_NO_VALUE = "Value required";
 export const ERR_NO_VALUE = "Value is required";
+export const SELECTION_REQUIRED = "Unit type required";
+
 
 export const binaryExpressionErrors = {
   ANSWER_DELETED: "The answer used in this condition has been deleted",
