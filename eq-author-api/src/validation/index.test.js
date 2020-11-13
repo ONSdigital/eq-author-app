@@ -28,11 +28,30 @@ const {
   ERR_DESTINATION_DELETED,
   PIPING_TITLE_DELETED,
   PIPING_TITLE_MOVED,
+  ERR_LOGICAL_AND,
 } = require("../../constants/validationErrorCodes");
 
 const validation = require(".");
 
 const uuidRejex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
+
+const addExpression = ({ questionnaire, number, condition }) => {
+  questionnaire.sections[0].pages[1].routing.rules[0].expressionGroup.expressions.push(
+    {
+      id: "expression_2",
+      condition,
+      left: {
+        answerId: "answer_1",
+      },
+      right: {
+        type: CUSTOM,
+        customValue: {
+          number,
+        },
+      },
+    }
+  );
+};
 
 describe("schema validation", () => {
   let questionnaire;
@@ -53,6 +72,22 @@ describe("schema validation", () => {
                   id: "answer_1",
                   type: NUMBER,
                   label: "Number",
+                  properties: {
+                    required: false,
+                    decimals: 0,
+                  },
+                  validation: {
+                    minValue: {
+                      id: "wadnawd",
+                      enabled: false,
+                      validationType: "minValue",
+                    },
+                    maxValue: {
+                      id: "awdawdawd",
+                      enabled: false,
+                      validationType: "maxValue",
+                    },
+                  },
                 },
                 {
                   id: "answer_12",
@@ -1529,6 +1564,220 @@ describe("schema validation", () => {
         errorCode: ERR_DESTINATION_MOVED,
       });
       expect(validationErrors).toHaveLength(1);
+    });
+
+    describe("Validating AND in routing rules", () => {
+      beforeEach(() => {
+        questionnaire.sections[0].pages[1].routing = {
+          id: "1",
+          else: {
+            id: "else-1",
+            logical: "NextPage",
+          },
+          rules: [
+            {
+              id: "rule-1",
+              destination: {
+                id: "dest-1",
+                logical: "NextPage",
+              },
+              expressionGroup: {
+                id: "group-1",
+                operator: "And",
+                expressions: [
+                  {
+                    id: "expression_1",
+                    condition: "Equal",
+                    left: {
+                      answerId: "answer_1",
+                    },
+                    right: {
+                      type: CUSTOM,
+                      customValue: {
+                        number: 42,
+                      },
+                    },
+                  },
+                ],
+              },
+            },
+          ],
+        };
+      });
+
+      it("should allow multiple compatible Equals expressions", () => {
+        expect(validation(questionnaire)).toHaveLength(0);
+
+        addExpression({ questionnaire, condition: "Equal", number: 42 });
+
+        expect(validation(questionnaire)).toHaveLength(0);
+      });
+
+      it("should reject multiple conflicting Equals expressions", () => {
+        expect(validation(questionnaire)).toHaveLength(0);
+
+        addExpression({ questionnaire, condition: "Equal", number: 43 });
+
+        const errors = validation(questionnaire);
+        expect(errors).toHaveLength(1);
+        expect(errors[0].errorCode).toBe(ERR_LOGICAL_AND);
+      });
+
+      it("should reject non-equality conditions which conflict with equality conditions", () => {
+        expect(validation(questionnaire)).toHaveLength(0);
+
+        addExpression({ questionnaire, condition: "NotEqual", number: 42 });
+
+        const errors = validation(questionnaire);
+        expect(errors).toHaveLength(1);
+        expect(errors[0].errorCode).toBe(ERR_LOGICAL_AND);
+      });
+
+      it("should allow valid less than / greater than ranges", () => {
+        expect(validation(questionnaire)).toHaveLength(0);
+
+        addExpression({ questionnaire, condition: "LessThan", number: 44 });
+        questionnaire.sections[0].pages[1].routing.rules[0].expressionGroup.expressions[0].condition =
+          "GreaterThan";
+
+        expect(validation(questionnaire)).toHaveLength(0);
+      });
+
+      it("should reject more than value > less than value", () => {
+        expect(validation(questionnaire)).toHaveLength(0);
+
+        addExpression({ questionnaire, condition: "LessThan", number: 40 });
+        questionnaire.sections[0].pages[1].routing.rules[0].expressionGroup.expressions[0].condition =
+          "GreaterThan";
+
+        const errors = validation(questionnaire);
+        expect(errors).toHaveLength(1);
+        expect(errors[0].errorCode).toBe(ERR_LOGICAL_AND);
+      });
+
+      it("should disallow empty numerical ranges", () => {
+        expect(validation(questionnaire)).toHaveLength(0);
+
+        addExpression({ questionnaire, condition: "LessThan", number: 43 });
+        questionnaire.sections[0].pages[1].routing.rules[0].expressionGroup.expressions[0].condition =
+          "GreaterThan";
+
+        const errors = validation(questionnaire);
+        expect(errors).toHaveLength(1);
+        expect(errors[0].errorCode).toBe(ERR_LOGICAL_AND);
+      });
+
+      it("should allow narrow ranges given compatible answer precision", () => {
+        expect(validation(questionnaire)).toHaveLength(0);
+
+        addExpression({ questionnaire, condition: "LessThan", number: 43 });
+        questionnaire.sections[0].pages[1].routing.rules[0].expressionGroup.expressions[0].condition =
+          "GreaterThan";
+        questionnaire.sections[0].pages[0].answers[0].properties.decimals = 1;
+
+        expect(validation(questionnaire)).toHaveLength(0);
+      });
+
+      it("should allow equality conditions which fall within range", () => {
+        expect(validation(questionnaire)).toHaveLength(0);
+
+        addExpression({ questionnaire, condition: "LessThan", number: 44 });
+        questionnaire.sections[0].pages[1].routing.rules[0].expressionGroup.expressions[0].condition =
+          "GreaterThan";
+        addExpression({ questionnaire, condition: "Equal", number: 43 });
+
+        expect(validation(questionnaire)).toHaveLength(0);
+      });
+
+      it("should reject equality conditions which fall outside of range", () => {
+        expect(validation(questionnaire)).toHaveLength(0);
+
+        addExpression({ questionnaire, condition: "LessThan", number: 44 });
+        questionnaire.sections[0].pages[1].routing.rules[0].expressionGroup.expressions[0].condition =
+          "GreaterThan";
+        addExpression({ questionnaire, condition: "Equal", number: 40 });
+
+        const errors = validation(questionnaire);
+        expect(errors).toHaveLength(1);
+        expect(errors[0].errorCode).toBe(ERR_LOGICAL_AND);
+      });
+
+      it("should reject non-equality conditions which completely deplete range", () => {
+        expect(validation(questionnaire)).toHaveLength(0);
+
+        addExpression({ questionnaire, condition: "LessOrEqual", number: 43 });
+        questionnaire.sections[0].pages[1].routing.rules[0].expressionGroup.expressions[0].condition =
+          "GreaterOrEqual";
+        addExpression({ questionnaire, condition: "NotEqual", number: 42 });
+        addExpression({ questionnaire, condition: "NotEqual", number: 43 });
+
+        const errors = validation(questionnaire);
+        expect(errors).toHaveLength(1);
+        expect(errors[0].errorCode).toBe(ERR_LOGICAL_AND);
+      });
+
+      it("should reject expression groups combining Unanswered with any other type", () => {
+        expect(validation(questionnaire)).toHaveLength(0);
+
+        addExpression({ questionnaire, condition: "Unanswered" });
+
+        const errors = validation(questionnaire);
+        expect(errors).toHaveLength(1);
+        expect(errors[0].errorCode).toBe(ERR_LOGICAL_AND);
+      });
+
+      it("shouldn't throw AND validation errors prematurely when right side not entered yet", () => {
+        expect(validation(questionnaire)).toHaveLength(0);
+
+        addExpression({ questionnaire, condition: "GreaterThan" });
+        questionnaire.sections[0].pages[1].routing.rules[0].expressionGroup.expressions[1].right = null;
+
+        const errors = validation(questionnaire);
+        expect(errors).toHaveLength(1);
+        expect(errors[0].errorCode).not.toBe(ERR_LOGICAL_AND);
+      });
+
+      it("should run logical AND rules validation code also for skipConditions", () => {
+        expect(validation(questionnaire)).toHaveLength(0);
+
+        questionnaire.sections[0].pages[1].skipConditions = [
+          {
+            id: "group-1",
+            expressions: [
+              {
+                id: "skip-1",
+                condition: "Equal",
+                left: {
+                  answerId: "answer_1",
+                },
+                right: {
+                  type: CUSTOM,
+                  customValue: {
+                    number: 42,
+                  },
+                },
+              },
+              {
+                id: "skip-2",
+                condition: "Equal",
+                left: {
+                  answerId: "answer_1",
+                },
+                right: {
+                  type: CUSTOM,
+                  customValue: {
+                    number: 43,
+                  },
+                },
+              },
+            ],
+          },
+        ];
+
+        const errors = validation(questionnaire);
+        expect(errors).toHaveLength(1);
+        expect(errors[0].errorCode).toBe(ERR_LOGICAL_AND);
+      });
     });
   });
 

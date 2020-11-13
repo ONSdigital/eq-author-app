@@ -4,7 +4,6 @@ exports[`MultipleChoiceAnswerOptionsSelector should render consistently 1`] = `
 <Fragment>
   <MultipleChoiceAnswerOptionsSelector__MultipleChoiceAnswerOptions
     data-test="options-selector"
-    hasError={0}
   >
     <MultipleChoiceAnswerOptionsSelector__Label>
       Match
