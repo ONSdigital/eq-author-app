@@ -12,7 +12,16 @@ export const toHTML = entityMap => {
   return editorState => convert(editorState.getCurrentContent());
 };
 
-export const fromHTML = htmlToEntity => {
+export const fromHTML = nodeToFn => {
+  const htmlToEntity = (nodeName, ...otherArgs) => {
+    const entity = Object.entries(nodeToFn)
+      .filter(([name]) => name === nodeName)
+      .map(([, fn]) => fn(nodeName, ...otherArgs))
+      .find(result => result);
+
+    return entity || null;
+  };
+
   const convert = convertFromHTML({ htmlToEntity });
 
   return (html, decorator) =>

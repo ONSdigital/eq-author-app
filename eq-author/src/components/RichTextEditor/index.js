@@ -126,7 +126,7 @@ const Input = styled.div`
 `;
 
 const convertToHTML = toHTML({ ...pipedEntityToHTML, ...linkToHTML });
-const convertFromHTML = fromHTML(htmlToPipedEntity);
+const convertFromHTML = fromHTML({ ...htmlToPipedEntity });
 
 const getBlockStyle = block => block.getType();
 

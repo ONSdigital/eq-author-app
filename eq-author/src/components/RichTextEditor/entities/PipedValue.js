@@ -42,13 +42,15 @@ export const createPipedEntity = (create, entity) => {
   return create(ENTITY_TYPE, "IMMUTABLE", entity);
 };
 
-export const htmlToEntity = (nodeName, node, createEntity) => {
-  if (node.hasAttribute && node.hasAttribute("data-piped")) {
-    const id = node.getAttribute("data-id");
-    const pipingType = node.getAttribute("data-piped");
-    const type = node.getAttribute("data-type");
-    return createPipedEntity(createEntity, { id, pipingType, type });
-  }
+export const htmlToEntity = {
+  span: (nodeName, node, createEntity) => {
+    if (node.hasAttribute && node.hasAttribute("data-piped")) {
+      const id = node.getAttribute("data-id");
+      const pipingType = node.getAttribute("data-piped");
+      const type = node.getAttribute("data-type");
+      return createPipedEntity(createEntity, { id, pipingType, type });
+    }
+  },
 };
 
 export const entityToHTML = {
