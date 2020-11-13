@@ -42,7 +42,10 @@ module.exports = ajv => {
 
         // Bail out if answer isn't numerical - remaining code validates number-type answers
         const answer = getAnswerById({ questionnaire }, answerId);
-        if (![CURRENCY, NUMBER, UNIT, PERCENTAGE].includes(answer.type)) {
+        if (
+          !answer ||
+          ![CURRENCY, NUMBER, UNIT, PERCENTAGE].includes(answer.type)
+        ) {
           return;
         }
 
