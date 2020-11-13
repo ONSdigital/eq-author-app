@@ -9,9 +9,6 @@ const {
 const createValidationError = require("../createValidationError");
 const { ERR_LOGICAL_AND } = require("../../../constants/validationErrorCodes");
 
-const getRHS = e =>
-  e.right && e.right.customValue && e.right.customValue.number;
-
 const areUnanswered = e => e.condition === "Unanswered";
 
 module.exports = ajv => {
@@ -32,7 +29,7 @@ module.exports = ajv => {
           expressions.length > 1 && answerId && answerId.length
       );
 
-      const error = answerId => invalidAnswerIds.add(answerId);
+      const addError = answerId => invalidAnswerIds.add(answerId);
 
       potentialConflicts.forEach(([answerId, expressions]) => {
         // Handle invalid combination of "Unanswered" with any answer-requiring condition
@@ -40,7 +37,7 @@ module.exports = ajv => {
           expressions.some(areUnanswered) &&
           !expressions.every(areUnanswered)
         ) {
-          return error(answerId);
+          return addError(answerId);
         }
 
         // Bail out if answer isn't numerical - remaining code validates number-type answers
@@ -49,68 +46,82 @@ module.exports = ajv => {
           return;
         }
 
-        // Calculate precision of numerical answer based on trailing decimal count
-        const precision = Math.pow(10, -answer.properties.decimals);
-
+        // Equality values and non-equality values are gathered into a sets since we only care about unique values
         const equalitySet = new Set();
         const nonequalitySet = new Set();
+
+        // lowerLimit and upperLimit represent the calculated lower bound and upper bound respectively
+        // of the values which an answer may take in order to activate the routing rule (non-inclusive)
+        // i.e. a routing rule with > 40 and < 30
+        // would have a lowerLimit of 30 (set by the 'less than' condition)
+        // and an upperLimit of 40 (set by the 'greater than' condition)
         let lowerLimit = -Infinity;
         let upperLimit = Infinity;
 
+        // Answer precision is 10^(-decimals) - e.g. an answer with decimals = 2 iwll have precision 0.01
+        // (the smallest allowable value change in an answer)
+        const precision = Math.pow(10, -answer.properties.decimals);
+
         for (const expression of expressions) {
-          let rhs = getRHS(expression);
-          if (rhs === undefined || rhs === null) {
+          let rightHandSide =
+            expression.right &&
+            expression.right.customValue &&
+            expression.right.customValue.number;
+          if (rightHandSide === undefined || rightHandSide === null) {
             continue;
           }
 
           switch (expression.condition) {
             case "Equal":
-              equalitySet.add(rhs);
+              equalitySet.add(rightHandSide);
               break;
             case "NotEqual":
-              nonequalitySet.add(rhs);
+              nonequalitySet.add(rightHandSide);
               break;
             case "LessOrEqual":
-              rhs += precision;
-            // Fall through - less than or equal equiv. to less than n + precision
+              rightHandSide += precision;
+            // Fall through - less than or equal to n equiv. to less than n + precision
             case "LessThan":
-              upperLimit = Math.min(upperLimit, rhs);
+              upperLimit = Math.min(upperLimit, rightHandSide);
               break;
             case "GreaterOrEqual":
-              rhs -= precision;
-            // Fall through - greater than or equal equiv. to greater than n - precision
+              rightHandSide -= precision;
+            // Fall through - greater than or equal to n equiv. to greater than n - precision
             case "GreaterThan":
-              lowerLimit = Math.max(lowerLimit, rhs);
+              lowerLimit = Math.max(lowerLimit, rightHandSide);
               break;
           }
         }
 
         // Multiple "equal" values are only logically consistent if set to the same value
         if (equalitySet.size > 1) {
-          return error(answerId);
+          return addError(answerId);
         }
 
-        // Check that "equal" and "non-equal" conditions don't intersect
+        // Check that the sets of "equal" and "non-equal" values don't intersect
         for (const n of equalitySet) {
           if (nonequalitySet.has(n)) {
-            return error(answerId);
+            return addError(answerId);
           }
         }
 
         // Validate the range is logically consistent - has to have a width greater than zero
+        // Subtract answer precision as bounds are non-inclusive.
         const rangeWidth = upperLimit - lowerLimit - precision;
         if (rangeWidth < Number.EPSILON) {
-          return error(answerId);
+          return addError(answerId);
         }
 
-        // Validate equals are all in range
+        // Validate equals are all contained within upper / lower bounds
         if (
           Array.from(equalitySet).some(n => n <= lowerLimit || n >= upperLimit)
         ) {
-          return error(answerId);
+          return addError(answerId);
         }
 
         // Validate non-equality conditions do not completely deplete range
+        // If there are n non-equality conditions with unique values
+        // in a range with only n possible values - then we know the condition cannot be met
         const possibleAnswers = rangeWidth / precision;
         if (
           Array.from(nonequalitySet).filter(
@@ -118,7 +129,7 @@ module.exports = ajv => {
               nonequalityValue > lowerLimit && nonequalityValue < upperLimit
           ).length >= possibleAnswers
         ) {
-          return error(answerId);
+          return addError(answerId);
         }
       });
 
