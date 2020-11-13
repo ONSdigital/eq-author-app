@@ -6,8 +6,34 @@ import { render, fireEvent, screen } from "tests/utils/rtl";
 import QuestionnaireContext from "components/QuestionnaireContext";
 
 describe("components/NoRouting", () => {
-  let props, user, mocks, questionnaire;
-  beforeEach(() => {
+  const disabledTitle = "Routing is not available for this quesiton";
+  const disabledParagraph =
+    "You can't route on the last question in a questionnaire.";
+  const enabledTitle = "No routing rules exist for this question";
+  const enabledParagraph =
+    "Users completing this question will be taken to the next page.";
+
+  it("should render with button enabled", () => {
+    const { queryByText } = render(
+      <NoRouting onAddRouting={jest.fn()} title="Test">
+        Ullamcorper Venenatis Fringilla
+      </NoRouting>
+    );
+
+    expect(queryByText(enabledTitle)).toBeTruthy();
+    expect(queryByText(enabledParagraph)).toBeTruthy();
+    expect(queryByText(disabledTitle)).toBeFalsy();
+    expect(queryByText(disabledParagraph)).toBeFalsy();
+
+    expect(screen.getByTestId("btn-add-routing")).not.toHaveStyle(
+      `pointer-events: none; 
+       opacity: 0.6;`
+    );
+  });
+
+  it("should render with button disabled", () => {
+    let props, questionnaire, page;
+
     questionnaire = {
       sections: [
         {
@@ -96,40 +122,6 @@ describe("components/NoRouting", () => {
       ],
     };
 
-    props = {
-      questionnaire,
-      match: { params: { modifier: "", questionnaireId: questionnaire.id } },
-      loading: false,
-    };
-  });
-
-  const disabledTitle = "Routing is not available for this quesiton";
-  const disabledParagraph =
-    "You can't route on the last question in a questionnaire.";
-  const enabledTitle = "No routing rules exist for this question";
-  const enabledParagraph =
-    "Users completing this question will be taken to the next page.";
-
-  it("should render with button enabled", () => {
-    const { queryByText } = render(
-      <NoRouting onAddRouting={jest.fn()} title="Test">
-        Ullamcorper Venenatis Fringilla
-      </NoRouting>
-    );
-
-    expect(queryByText(enabledTitle)).toBeTruthy();
-    expect(queryByText(enabledParagraph)).toBeTruthy();
-    expect(queryByText(disabledTitle)).toBeFalsy();
-    expect(queryByText(disabledParagraph)).toBeFalsy();
-
-    expect(screen.getByTestId("btn-add-routing")).not.toHaveStyle(
-      `pointer-events: none; 
-       opacity: 0.6;`
-    );
-  });
-
-  it("should render with button disabled", () => {
-    let page;
     page = {
       id: "page-4",
       pageType: "QuestionPage",
@@ -148,8 +140,13 @@ describe("components/NoRouting", () => {
       ],
     };
 
+    props = {
+      questionnaire,
+      page,
+    };
+
     const { queryByText } = render(
-      <QuestionnaireContext.Provider value={{ questionnaire, page }}>
+      <QuestionnaireContext.Provider value={{ props }}>
         <NoRouting onAddRouting={jest.fn()} title="Test" isLastPage>
           Ullamcorper Venenatis Fringilla
         </NoRouting>
