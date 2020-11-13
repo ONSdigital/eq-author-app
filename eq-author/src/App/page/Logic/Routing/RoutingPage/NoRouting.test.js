@@ -3,8 +3,106 @@ import { shallow } from "enzyme";
 
 import NoRouting from "./NoRouting";
 import { render, fireEvent, screen } from "tests/utils/rtl";
+import QuestionnaireContext from "components/QuestionnaireContext";
 
 describe("components/NoRouting", () => {
+  let props, user, mocks, questionnaire;
+  beforeEach(() => {
+    questionnaire = {
+      sections: [
+        {
+          id: 1,
+          title: "Section-1",
+          position: 0,
+          pages: [
+            {
+              id: "page-1",
+              pageType: "QuestionPage",
+              title: "<p>Questions 1</p>",
+              position: 0,
+              description: "",
+              answers: [
+                {
+                  id: "ans-p1-1",
+                  description: "",
+                  guidance: "",
+                  label: "num1",
+                  questionPageId: "qp-1",
+                  secondaryLabel: null,
+                },
+              ],
+            },
+            {
+              id: "page-2",
+              pageType: "QuestionPage",
+              title: "<p>Questions 2</p>",
+              position: 1,
+              description: "",
+              answers: [
+                {
+                  id: "ans-p2-1",
+                  description: "",
+                  guidance: "",
+                  label: "num2",
+                  questionPageId: "qp-2",
+
+                  secondaryLabel: null,
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: 2,
+          title: "Section-2",
+          position: 1,
+          pages: [
+            {
+              id: "page-3",
+              pageType: "QuestionPage",
+              title: "<p>Questions 3</p>",
+              position: 0,
+              description: "",
+              answers: [
+                {
+                  id: "ans-p3-1",
+                  description: "",
+                  guidance: "",
+                  label: "num3",
+                  questionPageId: "qp-3",
+                  secondaryLabel: null,
+                },
+              ],
+            },
+            {
+              id: "page-4",
+              pageType: "QuestionPage",
+              title: "<p>Questions 4</p>",
+              position: 1,
+              description: "",
+              answers: [
+                {
+                  id: "ans-p4-1",
+                  description: "",
+                  guidance: "",
+                  label: "num4",
+                  questionPageId: "qp-4",
+                  secondaryLabel: null,
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    };
+
+    props = {
+      questionnaire,
+      match: { params: { modifier: "", questionnaireId: questionnaire.id } },
+      loading: false,
+    };
+  });
+
   const disabledTitle = "Routing is not available for this quesiton";
   const disabledParagraph =
     "You can't route on the last question in a questionnaire.";
@@ -31,10 +129,31 @@ describe("components/NoRouting", () => {
   });
 
   it("should render with button disabled", () => {
+    let page;
+    page = {
+      id: "page-4",
+      pageType: "QuestionPage",
+      title: "<p>Questions 4</p>",
+      position: 1,
+      description: "",
+      answers: [
+        {
+          id: "ans-p4-1",
+          description: "",
+          guidance: "",
+          label: "num4",
+          questionPageId: "qp-4",
+          secondaryLabel: null,
+        },
+      ],
+    };
+
     const { queryByText } = render(
-      <NoRouting onAddRouting={jest.fn()} title="Test" isLastPage>
-        Ullamcorper Venenatis Fringilla
-      </NoRouting>
+      <QuestionnaireContext.Provider value={{ questionnaire, page }}>
+        <NoRouting onAddRouting={jest.fn()} title="Test" isLastPage>
+          Ullamcorper Venenatis Fringilla
+        </NoRouting>
+      </QuestionnaireContext.Provider>
     );
 
     expect(queryByText(disabledTitle)).toBeTruthy();
