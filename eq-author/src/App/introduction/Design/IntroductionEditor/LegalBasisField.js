@@ -12,7 +12,7 @@ const LegalField = styled.div`
 `;
 
 const LegalLabel = styled.label`
-  padding: 1em 1.5em 1em;
+  padding: 1em 1.5em;
   border-radius: 0.25em;
   margin-bottom: 0.8em;
   border: 1px solid ${colors.bordersLight};
