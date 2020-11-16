@@ -42,8 +42,6 @@ const radioButton = css`
     display: flex;
     margin-top: -1em;
 
-    :hover {
-    }
     :before {
       content: "";
       display: block;

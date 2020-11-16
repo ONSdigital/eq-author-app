@@ -12,9 +12,9 @@ const LegalField = styled.div`
 `;
 
 const LegalLabel = styled.label`
-  padding: 2.5em 1.5em;
+  padding: 2em 1.5em;
   border-radius: 0.25em;
-  margin-bottom: 1.25em;
+  margin-bottom: 0.8em;
   border: 1px solid ${colors.bordersLight};
   flex: 1 1 33.3333333%;
   cursor: pointer;
@@ -24,7 +24,6 @@ const LegalLabel = styled.label`
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.18);
   color: ${colors.textLight};
   position: relative;
-  transition: padding 200ms ease-in-out;
 
   &:focus-within {
     border-color: ${colors.blue};
