@@ -1216,7 +1216,7 @@
                 "type": "null"
               },
               {
-                "const:": "And"
+                "const": "And"
               }
             ]
           }
