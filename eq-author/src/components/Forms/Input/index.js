@@ -40,7 +40,6 @@ const radioButton = css`
     overflow: hidden;
     padding: 0;
     display: flex;
-    margin-top: -1em;
 
     :before {
       content: "";
