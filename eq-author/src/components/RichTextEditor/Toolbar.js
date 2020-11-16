@@ -138,19 +138,22 @@ class ToolBar extends React.Component {
           {styleButtons.map(this.renderButton)}
           <Separator />
           {formattingButtons.map(this.renderButton)}
-          <Separator />
           {piping && (
-            <PipingMenu
-              disabled={isPipingDisabled}
-              onItemChosen={onPiping}
-              canFocus={visible}
-              allowableTypes={allowableTypes}
-              defaultTab={defaultTab}
-            />
+            <>
+              <Separator />
+              <PipingMenu
+                disabled={isPipingDisabled}
+                onItemChosen={onPiping}
+                canFocus={visible}
+                allowableTypes={allowableTypes}
+                defaultTab={defaultTab}
+              />
+            </>
           )}
           <Separator />
           <LinkButton
             canFocus={visible}
+            disabled={!link}
             onLinkChosen={onLinkChosen}
             editorState={editorState}
           />

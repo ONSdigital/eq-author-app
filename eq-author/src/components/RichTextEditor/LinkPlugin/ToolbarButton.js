@@ -57,8 +57,7 @@ const LinkPicker = ({ isOpen, onClose, onLinkChosen, defaultText }) => {
       </Field>
       <StyledButtonGroup horizontal align="right">
         <Button onClick={onClose} variant="secondary">
-          {" "}
-          Cancel{" "}
+          Cancel
         </Button>
         <Button onClick={onInsertPushed} disabled={!url.length}>
           Insert
@@ -75,7 +74,12 @@ LinkPicker.propTypes = {
   defaultText: PropTypes.string,
 };
 
-const LinkToolbarButton = ({ onLinkChosen, canFocus, editorState }) => {
+const LinkToolbarButton = ({
+  onLinkChosen,
+  canFocus,
+  editorState,
+  disabled,
+}) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   const selectedFragments = getFragmentFromSelection(editorState);
@@ -98,7 +102,7 @@ const LinkToolbarButton = ({ onLinkChosen, canFocus, editorState }) => {
       <ToolbarButton
         key={title}
         title={title}
-        disabled={linkIsUnderCursor}
+        disabled={linkIsUnderCursor || disabled}
         canFocus={canFocus}
         onClick={() => setModalVisible(true)}
       >
@@ -117,6 +121,11 @@ const LinkToolbarButton = ({ onLinkChosen, canFocus, editorState }) => {
 LinkToolbarButton.propTypes = {
   onLinkChosen: PropTypes.func.isRequired,
   canFocus: PropTypes.bool.isRequired,
+  editorState: PropTypes.shape({
+    getCurrentContent: PropTypes.func.isRequired,
+    getSelection: PropTypes.func.isRequired,
+  }),
+  disabled: PropTypes.bool,
 };
 
 export default LinkToolbarButton;
