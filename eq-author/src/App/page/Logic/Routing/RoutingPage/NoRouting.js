@@ -44,31 +44,20 @@ const AddRoutingButton = styled(Button)`
 `;
 
 const RoutingRuleSetMsg = ({ onAddRouting, page, ...otherProps }) => {
-  const lastSection =
-    otherProps.questionnaire && otherProps.questionnaire.sections.length;
-  const lastSectionPage =
-    otherProps.questionnaire &&
-    otherProps.questionnaire.sections[lastSection - 1].pages.length;
-  const lastPageId =
-    otherProps.questionnaire &&
-    otherProps.questionnaire.sections[lastSection - 1].pages[
-      lastSectionPage - 1
-    ].id;
+  let lastSection, lastSectionPage, lastPageId;
+  if (otherProps.questionnaire) {
+    const questionnaire = otherProps.questionnaire;
+    lastSection = questionnaire.sections.length;
+    lastSectionPage = questionnaire.sections[lastSection - 1].pages.length;
+    lastPageId = questionnaire.sections[lastSection - 1].pages[lastSectionPage - 1].id;
+  };
   const currentPageId = page && page.id;
   const isLastPage = lastPageId === currentPageId;
   return (
     <Container {...otherProps}>
       <Icon />
-      <Title>
-        {isLastPage
-          ? "Routing is not available for this quesiton"
-          : "No routing rules exist for this question"}
-      </Title>
-      <Paragraph>
-        {isLastPage
-          ? "You can't route on the last question in a questionnaire."
-          : "Users completing this question will be taken to the next page."}
-      </Paragraph>
+      <Title>{isLastPage ? "Routing is not available for this quesiton" : "No routing rules exist for this question"}</Title>
+      <Paragraph>{isLastPage ? "You can't route on the last question in a questionnaire." : "Users completing this question will be taken to the next page."}</Paragraph>
       <AddRoutingButton
         small
         naked
@@ -85,6 +74,9 @@ const RoutingRuleSetMsg = ({ onAddRouting, page, ...otherProps }) => {
 
 RoutingRuleSetMsg.propTypes = {
   onAddRouting: PropTypes.func.isRequired,
+  page: PropTypes.shape({
+    id: PropTypes.string,
+  }),
 };
 
 export default flowRight(withQuestionnaire)(RoutingRuleSetMsg);
