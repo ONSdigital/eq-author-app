@@ -94,7 +94,6 @@ export const ERR_TOTAL_NO_VALUE = "Value required";
 export const ERR_NO_VALUE = "Value is required";
 export const SELECTION_REQUIRED = "Unit type required";
 
-
 export const binaryExpressionErrors = {
   ANSWER_DELETED: "The answer used in this condition has been deleted",
   NO_ROUTABLE_ANSWERS_AVAILABLE:
@@ -107,6 +106,7 @@ export const binaryExpressionErrors = {
     errorCode: "ERR_ANSWER_NOT_SELECTED",
     message: "Answer required",
   },
+  ERR_LOGICAL_AND: "AND conditions must not conflict",
 };
 
 export const leftSideErrors = {

@@ -72,24 +72,7 @@
         "skipConditions": {
           "type": "array",
           "items": {
-            "properties": {
-              "id": {
-                "type": "string"
-              },
-              "expressions": {
-                "type": "array",
-                "items": {
-                  "anyOf": [
-                    {
-                      "$ref": "entities.json#/definitions/expression"
-                    },
-                    {
-                      "$ref": "entities.json#/definitions/expression-unanswered"
-                    }
-                  ]
-                }
-              }
-            }
+            "$ref": "entities.json#/definitions/expressionGroup"
           }
         },
         "totalValidation": {
@@ -1193,34 +1176,54 @@
         },
         "destination": {},
         "expressionGroup": {
-          "properties": {
-            "id": {
-              "type": "string"
-            },
-            "operator": {
-              "enum": [
-                "And",
-                "Or"
-              ]
-            },
-            "expressions": {
-              "type": "array",
-              "items": {
-                "anyOf": [
-                  {
-                    "$ref": "entities.json#/definitions/expression"
-                  },
-                  {
-                    "$ref": "entities.json#/definitions/expression-unanswered"
-                  }
-                ]
-              }
-            }
-          }
+          "$ref": "entities.json#/definitions/expressionGroup"
         }
       },
       "validateRoutingRule": {
         "$data": "/sections"
+      }
+    },
+    "expressionGroup": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "operator": {
+          "enum": [
+            "And",
+            "Or"
+          ]
+        },
+        "expressions": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "entities.json#/definitions/expression"
+              },
+              {
+                "$ref": "entities.json#/definitions/expression-unanswered"
+              }
+            ]
+          }
+        }
+      },
+      "if": {
+        "properties": {
+          "operator": {
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "const": "And"
+              }
+            ]
+          }
+        }
+      },
+      "then": {
+        "validateRoutingLogicalAND": true
       }
     },
     "expression": {

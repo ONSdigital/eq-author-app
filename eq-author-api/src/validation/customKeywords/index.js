@@ -11,5 +11,6 @@ module.exports = ajv => {
   require("./validateExpression")(ajv);
   require("./validateLeftHandSide")(ajv);
   require("./validateRoutingRules")(ajv);
+  require("./validateRoutingLogicalAND")(ajv);
   require("./validatePipingInTitle")(ajv);
 };

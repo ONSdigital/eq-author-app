@@ -63,6 +63,7 @@ class NumberAnswerSelector extends React.Component {
     }).isRequired,
     onRightChange: PropTypes.func.isRequired,
     onConditionChange: PropTypes.func.isRequired,
+    groupErrorMessage: PropTypes.string,
   };
 
   state = {
@@ -80,19 +81,27 @@ class NumberAnswerSelector extends React.Component {
   };
 
   handleError = () => {
+    const { expression, groupErrorMessage } = this.props;
+    let message = null;
+
+    if (
+      some(expression.validationErrorInfo.errors, {
+        errorCode: rightSideErrors.ERR_RIGHTSIDE_NO_VALUE.errorCode,
+      })
+    ) {
+      message = rightSideErrors.ERR_RIGHTSIDE_NO_VALUE.message;
+    }
+
     return (
-      <ValidationError right>
-        {rightSideErrors.ERR_RIGHTSIDE_NO_VALUE.message}
-      </ValidationError>
+      <ValidationError right>{message || groupErrorMessage}</ValidationError>
     );
   };
 
   render() {
-    const { expression } = this.props;
+    const { expression, groupErrorMessage } = this.props;
 
-    const hasError = some(expression.validationErrorInfo.errors, {
-      errorCode: rightSideErrors.ERR_RIGHTSIDE_NO_VALUE.errorCode,
-    });
+    const hasError =
+      expression.validationErrorInfo.errors.length > 0 || groupErrorMessage;
 
     return (
       <>
