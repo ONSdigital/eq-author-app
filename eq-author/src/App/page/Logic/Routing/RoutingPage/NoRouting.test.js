@@ -59,47 +59,6 @@ describe("components/NoRouting", () => {
             },
           ],
         },
-        {
-          id: 2,
-          title: "Section-2",
-          position: 1,
-          pages: [
-            {
-              id: "page-3",
-              pageType: "QuestionPage",
-              title: "<p>Questions 3</p>",
-              position: 0,
-              description: "",
-              answers: [
-                {
-                  id: "ans-p3-1",
-                  description: "",
-                  guidance: "",
-                  label: "num3",
-                  questionPageId: "qp-3",
-                  secondaryLabel: null,
-                },
-              ],
-            },
-            {
-              id: "page-4",
-              pageType: "QuestionPage",
-              title: "<p>Questions 4</p>",
-              position: 1,
-              description: "",
-              answers: [
-                {
-                  id: "ans-p4-1",
-                  description: "",
-                  guidance: "",
-                  label: "num4",
-                  questionPageId: "qp-4",
-                  secondaryLabel: null,
-                },
-              ],
-            },
-          ],
-        },
       ],
     };
 
@@ -128,7 +87,7 @@ describe("components/NoRouting", () => {
     
     const { queryByText } = render(
       <QuestionnaireContext.Provider value={{ props }}>
-        <NoRouting onAddRouting={jest.fn()} title="Test" page={page}>
+        <NoRouting onAddRouting={jest.fn()} title="Test" page={page} questionnaire={questionnaire}>
           Ullamcorper Venenatis Fringilla
         </NoRouting>
       </QuestionnaireContext.Provider>
@@ -192,63 +151,23 @@ describe("components/NoRouting", () => {
             },
           ],
         },
-        {
-          id: 2,
-          title: "Section-2",
-          position: 1,
-          pages: [
-            {
-              id: "page-3",
-              pageType: "QuestionPage",
-              title: "<p>Questions 3</p>",
-              position: 0,
-              description: "",
-              answers: [
-                {
-                  id: "ans-p3-1",
-                  description: "",
-                  guidance: "",
-                  label: "num3",
-                  questionPageId: "qp-3",
-                  secondaryLabel: null,
-                },
-              ],
-            },
-            {
-              id: "page-4",
-              pageType: "QuestionPage",
-              title: "<p>Questions 4</p>",
-              position: 1,
-              description: "",
-              answers: [
-                {
-                  id: "ans-p4-1",
-                  description: "",
-                  guidance: "",
-                  label: "num4",
-                  questionPageId: "qp-4",
-                  secondaryLabel: null,
-                },
-              ],
-            },
-          ],
-        },
       ],
     };
 
     page = {
-      id: "page-4",
+      id: "page-2",
       pageType: "QuestionPage",
-      title: "<p>Questions 4</p>",
+      title: "<p>Questions 2</p>",
       position: 1,
       description: "",
       answers: [
         {
-          id: "ans-p4-1",
+          id: "ans-p2-1",
           description: "",
           guidance: "",
-          label: "num4",
-          questionPageId: "qp-4",
+          label: "num2",
+          questionPageId: "qp-2",
+
           secondaryLabel: null,
         },
       ],
@@ -261,7 +180,7 @@ describe("components/NoRouting", () => {
 
     const { queryByText } = render(
       <QuestionnaireContext.Provider value={{ props }}>
-        <NoRouting onAddRouting={jest.fn()} title="Test" isLastPage>
+        <NoRouting onAddRouting={jest.fn()} title="Test" otherProps={props}>
           Ullamcorper Venenatis Fringilla
         </NoRouting>
       </QuestionnaireContext.Provider>
