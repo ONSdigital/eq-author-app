@@ -43,6 +43,10 @@ exports[`components/RichTextEditor/Toolbar should render 1`] = `
       <Component />
     </ToolbarButton>
     <Toolbar__Separator />
+    <LinkToolbarButton
+      canFocus={true}
+      disabled={true}
+    />
   </Toolbar__ButtonGroup>
 </Toolbar__ToolbarPanel>
 `;

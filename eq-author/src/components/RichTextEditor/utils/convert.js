@@ -1,5 +1,4 @@
 import { convertToHTML, convertFromHTML } from "draft-convert";
-import { EditorState } from "draft-js";
 
 export const toHTML = entityMap => {
   const entityToHTML = (entity, originalText) => {
@@ -22,8 +21,5 @@ export const fromHTML = nodeToFn => {
     return entity || null;
   };
 
-  const convert = convertFromHTML({ htmlToEntity });
-
-  return (html, decorator) =>
-    EditorState.createWithContent(convert(html), decorator);
+  return convertFromHTML({ htmlToEntity });
 };

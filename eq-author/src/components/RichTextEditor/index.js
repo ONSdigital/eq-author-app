@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled, { css } from "styled-components";
-import * as convert from "draft-convert";
 import Editor from "draft-js-plugins-editor";
 import { EditorState, RichUtils, Modifier, CompositeDecorator } from "draft-js";
 import "draft-js/dist/Draft.css";
@@ -213,7 +212,7 @@ class RichTextEditor extends React.Component {
     this.stripFormatting = createFormatStripper(controls);
 
     return value
-      ? convertFromHTML(value, decorator)
+      ? EditorState.createWithContent(convertFromHTML(value), decorator)
       : EditorState.createEmpty(decorator);
   }
 
@@ -238,9 +237,7 @@ class RichTextEditor extends React.Component {
       const anchorOffset = editorState.getSelection().get("anchorOffset");
       let selectionUpdated = EditorState.push(
         editorState,
-        convert.convertFromHTML({ htmlToEntity: htmlToPipedEntity })(
-          this.props.value
-        ),
+        convertFromHTML(this.props.value),
         "insert-characters"
       );
       if (this.state.focused) {
