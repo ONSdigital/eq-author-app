@@ -1,6 +1,8 @@
 import React from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
-import { EditorState, Modifier } from "draft-js";
+import { EditorState, SelectionState, Modifier } from "draft-js";
+import Tooltip from "components/Forms/Tooltip";
 
 const ENTITY_TYPE = "LINK";
 const MUTABILITY = "IMMUTABLE";
@@ -22,10 +24,26 @@ const linkToHTML = {
   ),
 };
 
-const DecoratedLink = ({ entityKey, contentState, children }) => {
-  const { url } = contentState.getEntity(entityKey).getData();
+const Link = styled.a`
+  background: #d6e4ff;
+`;
 
-  return <a href={url}> {children} </a>;
+const DecoratedLink = ({ entityKey, contentState, children }) => {
+  const url = contentState.getEntity(entityKey).getData();
+
+  return (
+    <Tooltip content={url} place="bottom">
+      <Link href={url}> {children} </Link>
+    </Tooltip>
+  );
+};
+
+DecoratedLink.propTypes = {
+  entityKey: PropTypes.string.isRequired,
+  contentState: PropTypes.shape({
+    getEntity: PropTypes.func.isRequired,
+  }),
+  children: PropTypes.node.isRequired,
 };
 
 const linkStrategy = (contentBlock, callback, contentState) => {
@@ -46,7 +64,7 @@ const createLink = (text, url, editorState) => {
     url
   );
 
-  const contentWithLink = Modifier.insertText(
+  const contentWithLink = Modifier.replaceText(
     contentStateWithEntity,
     editorState.getSelection(),
     text,
@@ -54,8 +72,14 @@ const createLink = (text, url, editorState) => {
     contentStateWithEntity.getLastCreatedEntityKey()
   );
 
+  const editorStateWithLink = EditorState.push(
+    editorState,
+    contentWithLink,
+    "insert-characters"
+  );
+
   return EditorState.forceSelection(
-    EditorState.set(editorState, { currentContent: contentWithLink }),
+    editorStateWithLink,
     contentWithLink.getSelectionAfter()
   );
 };
@@ -71,4 +95,4 @@ export default () => {
   };
 };
 
-export { createLink, filterConfig, linkFromHTML, linkToHTML };
+export { createLink, filterConfig, linkFromHTML, linkToHTML, ENTITY_TYPE };

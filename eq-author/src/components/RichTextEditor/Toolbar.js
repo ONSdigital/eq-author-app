@@ -79,6 +79,7 @@ class ToolBar extends React.Component {
   static propTypes = {
     onToggle: PropTypes.func.isRequired,
     onPiping: PropTypes.func.isRequired,
+    onLinkChosen: PropTypes.func,
     isActiveControl: PropTypes.func.isRequired,
     visible: PropTypes.bool.isRequired,
     selectionIsCollapsed: PropTypes.bool.isRequired,
@@ -88,10 +89,14 @@ class ToolBar extends React.Component {
       heading: PropTypes.bool,
       list: PropTypes.bool,
       piping: PropTypes.bool,
+      link: PropTypes.bool,
     }),
     testId: PropTypes.string,
     allowableTypes: PropTypes.arrayOf(PropTypes.string),
     defaultTab: PropTypes.string,
+    editorState: PropTypes.shape({
+      getSelection: PropTypes.fn,
+    }),
   };
 
   renderButton = button => {
@@ -118,6 +123,7 @@ class ToolBar extends React.Component {
       onPiping,
       onLinkChosen,
       selectionIsCollapsed,
+      editorState,
       controls: { piping, link },
       testId,
       allowableTypes,
@@ -143,7 +149,11 @@ class ToolBar extends React.Component {
             />
           )}
           <Separator />
-          <LinkButton canFocus={visible} onLinkChosen={onLinkChosen} />
+          <LinkButton
+            canFocus={visible}
+            onLinkChosen={onLinkChosen}
+            editorState={editorState}
+          />
         </ButtonGroup>
       </ToolbarPanel>
     );
