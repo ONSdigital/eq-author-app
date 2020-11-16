@@ -103,8 +103,9 @@ const LegalBasisField = ({ name, value, onChange, ...rest }) => (
         onChange={onChange}
       >
         <LegalTitle>
-          {option.title +
-            (option.notice ? " - Your response is legally required." : "")}
+          {`${option.title} ${
+            option.notice ? "- Your response is legally required." : ""
+          }`}
         </LegalTitle>
         <LegalDescription>{option.description}</LegalDescription>
       </LegalOption>

@@ -56,7 +56,7 @@ exports[`LegalBasisField should render 1`] = `
     value="VOLUNTARY"
   >
     <LegalBasisField__LegalTitle>
-      Voluntary
+      Voluntary 
     </LegalBasisField__LegalTitle>
     <LegalBasisField__LegalDescription>
       No legal notice will be displayed.
