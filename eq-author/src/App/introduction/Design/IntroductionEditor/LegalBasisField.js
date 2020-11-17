@@ -12,7 +12,7 @@ const LegalField = styled.div`
 `;
 
 const LegalLabel = styled.label`
-  padding: 2em 1.5em;
+  padding: 1em 1.5em;
   border-radius: 0.25em;
   margin-bottom: 0.8em;
   border: 1px solid ${colors.bordersLight};
@@ -38,14 +38,12 @@ const LegalTitle = styled.span`
   margin-left: 3em;
   color: ${colors.text};
   display: flex;
-  margin-top: -1em;
 `;
 
 const LegalDescription = styled.span`
   font-size: 1em;
   letter-spacing: 0;
   margin-left: 3em;
-  margin-bottom: -1em;
 `;
 
 export const LegalOption = ({ name, value, children, onChange, selected }) => (
