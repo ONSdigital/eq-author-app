@@ -1073,7 +1073,6 @@ describe("routing", () => {
 
       expect(routingPage.routing.rules).toHaveLength(1);
 
-      // Delete second section
       await deleteSection(ctx, secondSection.id);
       expect(questionnaire.sections).toHaveLength(1);
 
