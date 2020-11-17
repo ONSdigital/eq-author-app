@@ -107,18 +107,7 @@ describe("components/NoRouting", () => {
       ],
     };
 
-    const page = {
-      id: "page-2",
-      pageType: "QuestionPage",
-      position: 1,
-      answers: [
-        {
-          id: "ans-p2-1",
-          label: "num2",
-          questionPageId: "qp-2",
-        },
-      ],
-    };
+    const page = questionnaire.sections[0].pages[1];
 
     const { queryByText } = render(
       <QuestionnaireContext.Provider value={{questionnaire}}>
