@@ -44,12 +44,12 @@ const AddRoutingButton = styled(Button)`
 `;
 
 const RoutingRuleSetMsg = ({ onAddRouting, page, ...otherProps }) => {
-  let lastSection, lastSectionPage, lastPageId;
+  let nSections, nLastSectionPages, lastPageId;
   if (otherProps.questionnaire) {
     const questionnaire = otherProps.questionnaire;
-    lastSection = questionnaire.sections.length;
-    lastSectionPage = questionnaire.sections[lastSection - 1].pages.length;
-    lastPageId = questionnaire.sections[lastSection - 1].pages[lastSectionPage - 1].id;
+    nSections = questionnaire.sections.length;
+    nLastSectionPages = questionnaire.sections[nSections - 1].pages.length;
+    lastPageId = questionnaire.sections[nSections - 1].pages[nLastSectionPages - 1].id;
   };
   const currentPageId = page && page.id;
   const isLastPage = lastPageId === currentPageId;
