@@ -56,8 +56,16 @@ const RoutingRuleSetMsg = ({ onAddRouting, page, ...otherProps }) => {
   return (
     <Container {...otherProps}>
       <Icon />
-      <Title>{isLastPage ? "Routing is not available for this quesiton" : "No routing rules exist for this question"}</Title>
-      <Paragraph>{isLastPage ? "You can't route on the last question in a questionnaire." : "Users completing this question will be taken to the next page."}</Paragraph>
+      <Title>
+        {isLastPage
+          ? "Routing is not available for this quesiton"
+          : "No routing rules exist for this question"}
+      </Title>
+      <Paragraph>
+        {isLastPage
+          ? "You can't route on the last question in a questionnaire."
+          : "Users completing this question will be taken to the next page."}
+      </Paragraph>
       <AddRoutingButton
         small
         naked
@@ -65,6 +73,7 @@ const RoutingRuleSetMsg = ({ onAddRouting, page, ...otherProps }) => {
         onClick={onAddRouting}
         data-test="btn-add-routing"
         isLastPage={isLastPage}
+        disabled={isLastPage}
       >
         <IconText icon={IconAddRule}>Add your first rule</IconText>
       </AddRoutingButton>
