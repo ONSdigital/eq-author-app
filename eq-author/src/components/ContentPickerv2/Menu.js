@@ -208,7 +208,7 @@ const SubMenu = ({ data, onSelected, isSelected, isDisabled }) => {
               </MenuItemTitles>
               <MenuItemType>{item.type}</MenuItemType>
               {item.type === UNIT && (
-                <MenuItemType>{item.properties.unit}</MenuItemType>
+                <MenuItemType>{item.properties.unit ? item.properties.unit : "Missing unit"}</MenuItemType>
               )}
             </SubMenuItem>
           );

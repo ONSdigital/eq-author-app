@@ -56,7 +56,7 @@ const Number = props => {
     step,
   } = props;
   const unitId = `unit-${id}`;
-
+console.log('unit', unit);
   const handleChange = ({ value }) => {
     if (value.length === 0) {
       onChange({ name, value: null });
@@ -111,7 +111,7 @@ const Number = props => {
       )}
       {type === UNIT && (
         <UnitSymbol id={unitId} data-test="unit" trailing>
-          {unitConversion[unit].abbreviation}
+          {unit && unitConversion[unit].abbreviation}
         </UnitSymbol>
       )}
     </StyledDiv>
