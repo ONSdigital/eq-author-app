@@ -36,7 +36,7 @@ const LinkPicker = ({ isOpen, onClose, onLinkChosen, defaultText }) => {
 
   return (
     <ModalDialog isOpen={isOpen} onClose={onClose}>
-      <h2> Insert link </h2>
+      <h2> {title} </h2>
       <Field>
         <Label htmlFor="text">Text</Label>
         <TextInput
