@@ -193,6 +193,23 @@ describe("MultipleChoiceAnswerOptionsSelector", () => {
     ).toBeTruthy();
   });
 
+  it("should display validation error when expression group-wide message passed in", async () => {
+    const errorMessage = "Test group error message";
+    defaultProps.groupErrorMessage = errorMessage;
+
+    const { getByText } = render(
+      <MultipleChoiceAnswerOptionsSelector hasError {...defaultProps} />
+    );
+
+    await act(async () => {
+      await flushPromises();
+    });
+
+    expect(getByText(errorMessage)).toBeTruthy();
+
+    expect(getByText(errorMessage)).toHaveStyleRule("width", "100%");
+  });
+
   it("should highlight the condition selector when the error includes it", async () => {
     defaultProps.expression = {
       left: {},

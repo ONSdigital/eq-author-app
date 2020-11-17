@@ -2,9 +2,7 @@
 
 exports[`NumberAnswerSelector should render 1`] = `
 <Fragment>
-  <NumberAnswerSelector__NumberAnswerRoutingSelector
-    hasError={false}
-  >
+  <NumberAnswerSelector__NumberAnswerRoutingSelector>
     <VisuallyHidden>
       <Label
         bold={true}
@@ -86,9 +84,7 @@ exports[`NumberAnswerSelector should render 1`] = `
 
 exports[`NumberAnswerSelector should render a currency 1`] = `
 <Fragment>
-  <NumberAnswerSelector__NumberAnswerRoutingSelector
-    hasError={false}
-  >
+  <NumberAnswerSelector__NumberAnswerRoutingSelector>
     <VisuallyHidden>
       <Label
         bold={true}
@@ -170,9 +166,7 @@ exports[`NumberAnswerSelector should render a currency 1`] = `
 
 exports[`NumberAnswerSelector should render a percentage 1`] = `
 <Fragment>
-  <NumberAnswerSelector__NumberAnswerRoutingSelector
-    hasError={false}
-  >
+  <NumberAnswerSelector__NumberAnswerRoutingSelector>
     <VisuallyHidden>
       <Label
         bold={true}

@@ -106,6 +106,7 @@ export const binaryExpressionErrors = {
     errorCode: "ERR_ANSWER_NOT_SELECTED",
     message: "Answer required",
   },
+  ERR_LOGICAL_AND: "AND conditions must not conflict",
 };
 
 export const leftSideErrors = {

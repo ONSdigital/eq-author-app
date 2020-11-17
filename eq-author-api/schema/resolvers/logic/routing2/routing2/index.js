@@ -62,7 +62,7 @@ Resolvers.Mutation = {
               }),
             ],
           }),
-          destination: createDestination({ logical: "NextPage" }),
+          destination: createDestination({ logical: "Default" }),
         }),
       ],
     });
@@ -81,6 +81,7 @@ Resolvers.Mutation = {
       id: routing.else.id,
       ...input.else,
     };
+
     return routing;
   }),
 };
