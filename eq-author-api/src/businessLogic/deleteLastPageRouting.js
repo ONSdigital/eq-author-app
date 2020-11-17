@@ -4,13 +4,13 @@ module.exports = ctx => {
         ctx.questionnaire.sections[0] &&
         ctx.questionnaire.sections[0].pages[0]
     ) {
-        const sections = ctx.questionnaire.sections.length;
-        const pages = ctx.questionnaire.sections[sections - 1].pages.length;
+        const nSections = ctx.questionnaire.sections.length;
+        const nPages = ctx.questionnaire.sections[nSections - 1].pages.length;
 
-        if (ctx.questionnaire.sections[sections - 1].pages[pages - 1] &&
-            ctx.questionnaire.sections[sections - 1].pages[pages - 1].routing) {
+        if (ctx.questionnaire.sections[nSections - 1].pages[nPages - 1] &&
+            ctx.questionnaire.sections[nSections - 1].pages[nPages - 1].routing) {
           
-            delete ctx.questionnaire.sections[sections - 1].pages[pages - 1].routing;
+            delete ctx.questionnaire.sections[nSections - 1].pages[nPages - 1].routing;
         }
       }
 };
