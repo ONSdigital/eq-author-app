@@ -1076,7 +1076,6 @@ describe("routing", () => {
       await deleteSection(ctx, secondSection.id);
       expect(questionnaire.sections).toHaveLength(1);
 
-      // Check routing page has been removed
       expect(routingPage.routing).toBeUndefined();
     });
 
