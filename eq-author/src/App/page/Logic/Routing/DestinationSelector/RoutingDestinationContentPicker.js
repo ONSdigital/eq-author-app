@@ -24,6 +24,10 @@ const getLogicalDisplayName = (
     return "Next page";
   }
 
+  if (logical === "Default") {
+    return "Select a destination";
+  }
+
   if (loading) {
     return "";
   }
@@ -50,6 +54,7 @@ const getSelectedDisplayName = (
   if (!selected.page && !selected.section && !selected.logical) {
     return "Select a destination";
   }
+  
   if (selected.logical) {
     return getLogicalDisplayName(
       selected.logical,
