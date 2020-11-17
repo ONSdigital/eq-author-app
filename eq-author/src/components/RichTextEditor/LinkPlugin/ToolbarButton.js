@@ -38,18 +38,20 @@ const LinkPicker = ({ isOpen, onClose, onLinkChosen, defaultText }) => {
     <ModalDialog isOpen={isOpen} onClose={onClose}>
       <h2> Insert link </h2>
       <Field>
-        <Label>Text</Label>
+        <Label htmlFor="text">Text</Label>
         <TextInput
           name="text"
+          id="text"
           type="text"
           value={text}
           onChange={({ value }) => setText(value)}
         />
       </Field>
       <Field>
-        <Label>Link</Label>
+        <Label htmlFor="href">Link</Label>
         <TextInput
           name="href"
+          id="href"
           type="text"
           value={url}
           onChange={({ value }) => setURL(value)}
