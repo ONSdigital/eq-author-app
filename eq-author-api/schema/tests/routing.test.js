@@ -1089,7 +1089,6 @@ describe("routing", () => {
       // Check rule exists
       expect(routingPage.routing.rules).toHaveLength(1);
 
-      // Move second section above first
       await moveSection(ctx, {
         id: firstSectionId,
         questionnaireId: questionnaire.id,
