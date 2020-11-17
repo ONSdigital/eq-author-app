@@ -1086,7 +1086,6 @@ describe("routing", () => {
       const secondSectionId = secondSection.id;
       const routingPage = firstSection.pages[1];
 
-      // Check rule exists
       expect(routingPage.routing.rules).toHaveLength(1);
 
       await moveSection(ctx, {
