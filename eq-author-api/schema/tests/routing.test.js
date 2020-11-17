@@ -1071,7 +1071,6 @@ describe("routing", () => {
       const secondSection = questionnaire.sections[1];
       const routingPage = firstSection.pages[1];
 
-      // Check rule exists
       expect(routingPage.routing.rules).toHaveLength(1);
 
       // Delete second section
