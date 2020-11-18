@@ -13,12 +13,12 @@ const filterConfig = {
 
 const linkFromHTML = {
   a: (nodeName, node, createEntity) =>
-    createEntity(ENTITY_TYPE, MUTABILITY, node.href),
+    createEntity(ENTITY_TYPE, MUTABILITY, { url: node.href }),
 };
 
 const linkToHTML = {
   [ENTITY_TYPE]: (entity, originalText) => (
-    <a href={entity.data} target="_blank" rel="noopener noreferrer">
+    <a href={entity.data.url} target="_blank" rel="noopener noreferrer">
       {originalText}
     </a>
   ),
@@ -29,7 +29,7 @@ const Link = styled.a`
 `;
 
 const DecoratedLink = ({ entityKey, contentState, children }) => {
-  const url = contentState.getEntity(entityKey).getData();
+  const { url } = contentState.getEntity(entityKey).getData();
 
   return (
     <Tooltip content={url} place="bottom">
@@ -61,7 +61,7 @@ const createLink = (text, url, editorState) => {
   const contentStateWithEntity = contentState.createEntity(
     ENTITY_TYPE,
     MUTABILITY,
-    url
+    { url }
   );
 
   const contentWithLink = Modifier.replaceText(
