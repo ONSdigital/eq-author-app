@@ -35,17 +35,17 @@ const convertCheckboxExpression = expression => {
 
 const convertExpressionGroup = (expressionGroup, ctx) => {
   return expressionGroup.expressions.reduce((accum, expression) => {
-    const mutallyExclusiveAnswer = getMutallyExclusiveAnswer(
+    const mutuallyExclusiveAnswer = getMutallyExclusiveAnswer(
       expression.left.id,
       ctx
     );
 
-    if (!mutallyExclusiveAnswer) {
+    if (!mutuallyExclusiveAnswer) {
       accum = accum.concat(translateBinaryExpression(expression));
     }
 
     if (
-      mutallyExclusiveAnswer &&
+      mutuallyExclusiveAnswer &&
       expression.left &&
       expression.right &&
       some(expression.left.options, option =>
@@ -58,9 +58,9 @@ const convertExpressionGroup = (expressionGroup, ctx) => {
     }
 
     if (
-      mutallyExclusiveAnswer &&
+      mutuallyExclusiveAnswer &&
       expression.right &&
-      some(expression.right.options, { id: mutallyExclusiveAnswer.id })
+      some(expression.right.options, { id: mutuallyExclusiveAnswer.id })
     ) {
       accum = accum.concat([
         translateBinaryExpression(
