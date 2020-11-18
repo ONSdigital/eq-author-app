@@ -164,6 +164,16 @@ describe("RoutingDestinationContentPicker", () => {
       getByText("Next page");
     });
 
+    it("should correctly render logicalDestination Default", () => {
+      props.selected = {
+        logical: "Default",
+      };
+      const { getByText } = render(
+        <UnwrappedRoutingDestinationContentPicker {...props} />
+      );
+      getByText("Select a destination");
+    });
+
     it("should render with no display name if loading and next page selected", () => {
       props.loading = true;
       const { getByTestId } = render(

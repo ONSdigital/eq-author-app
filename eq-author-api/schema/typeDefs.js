@@ -475,6 +475,7 @@ enum Language {
 }
 
 enum LogicalDestination2 {
+  Default
   NextPage
   EndOfQuestionnaire
 }
