@@ -1,53 +1,16 @@
 import React from "react";
-import styled from "styled-components";
 import PropTypes from "prop-types";
 
-import { colors } from "constants/theme";
 import { Input } from "components/Forms";
-
-const LegalField = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-`;
-
-const LegalLabel = styled.label`
-  padding: 1em 1.5em;
-  border-radius: 0.25em;
-  margin-bottom: 0.8em;
-  border: 1px solid ${colors.bordersLight};
-  flex: 1 1 33.3333333%;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  background: #fff;
-  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.18);
-  color: ${colors.textLight};
-  position: relative;
-
-  &:focus-within {
-    border-color: ${colors.blue};
-    outline-color: ${colors.blue};
-    box-shadow: 0 0 0 3px ${colors.tertiary};
-  }
-`;
-
-const LegalTitle = styled.span`
-  font-weight: bold;
-  letter-spacing: 0;
-  margin-left: 3em;
-  color: ${colors.text};
-  display: flex;
-`;
-
-const LegalDescription = styled.span`
-  font-size: 1em;
-  letter-spacing: 0;
-  margin-left: 3em;
-`;
+import {
+  RadioLabel,
+  RadioField,
+  RadioTitle,
+  RadioDescription,
+} from "components/Radio";
 
 export const LegalOption = ({ name, value, children, onChange, selected }) => (
-  <LegalLabel htmlFor={value} selected={selected}>
+  <RadioLabel htmlFor={value} selected={selected}>
     <Input
       type="radio"
       variant="radioBox"
@@ -58,7 +21,7 @@ export const LegalOption = ({ name, value, children, onChange, selected }) => (
       onChange={onChange}
     />
     {children}
-  </LegalLabel>
+  </RadioLabel>
 );
 LegalOption.propTypes = {
   name: PropTypes.string.isRequired,
@@ -91,7 +54,7 @@ const OPTIONS = [
 ];
 
 const LegalBasisField = ({ name, value, onChange, ...rest }) => (
-  <LegalField {...rest}>
+  <RadioField {...rest}>
     {OPTIONS.map(option => (
       <LegalOption
         key={option.value}
@@ -100,15 +63,15 @@ const LegalBasisField = ({ name, value, onChange, ...rest }) => (
         selected={option.value === value}
         onChange={onChange}
       >
-        <LegalTitle>
+        <RadioTitle>
           {`${option.title} ${
             option.notice ? "- Your response is legally required." : ""
           }`}
-        </LegalTitle>
-        <LegalDescription>{option.description}</LegalDescription>
+        </RadioTitle>
+        <RadioDescription>{option.description}</RadioDescription>
       </LegalOption>
     ))}
-  </LegalField>
+  </RadioField>
 );
 
 LegalBasisField.propTypes = {
