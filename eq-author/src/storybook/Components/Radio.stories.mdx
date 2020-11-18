@@ -1,10 +1,41 @@
 import { Meta, Story, Canvas } from "@storybook/addon-docs/blocks";
+import styled from "styled-components";
 
 import { Input, Label } from "components/Forms";
 
 import { colors } from "constants/theme";
 
 <Meta title="Components/Radio button" component={Input} />
+
+export const RadioLabel = styled.label`
+  padding: 1em 1.5em;
+  border-radius: 0.25em;
+  margin-bottom: 0.8em;
+  border: 1px solid ${colors.bordersLight};
+  flex: 1 1 33.3333333%;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.18);
+  color: ${colors.text};
+  position: relative;
+`;
+
+export const RadioTitle = styled.span`
+  font-weight: bold;
+  letter-spacing: 0;
+  margin-left: 3em;
+  color: ${colors.text};
+  display: flex;
+`;
+
+export const RadioDescription = styled.span`
+  font-weight: normal;
+  font-size: 1em;
+  letter-spacing: 0;
+  margin-left: 3em;
+`;
 
 # Radio button
 
@@ -33,20 +64,7 @@ Lets users select one option from a selection of multiple different options.
 
 <Canvas>
   <Story name="Radio Box">
-    <Label htmlFor="radioBoxOptionOne" style={{
-        'padding': '1em 1.5em',
-        'border-radius': '0.25em',
-        'margin-bottom': '0.8em',
-        'border': '1px solid ${colors.bordersLight}',
-        'flex': '1 1 33.3333333%',
-        'cursor': 'pointer',
-        'display': 'flex',
-        'flex-direction': 'column',
-        'background': '#fff',
-        'box-shadow': '0 2px 2px 0 rgba(0, 0, 0, 0.18)',
-        'color': '${colors.textLight}',
-        'position': 'relative',
-      }}>
+    <RadioLabel htmlFor="radioBoxOptionOne">
       <Input
         type="radio"
         variant="radioBox"
@@ -54,38 +72,10 @@ Lets users select one option from a selection of multiple different options.
         name="option"
         value="radioBoxOptionOne"
       />
-      <span style={{
-        'font-weight': 'bold',
-        'letter-spacing': '0',
-        'margin-left': '3em',
-        'color': '${colors.text}',
-        'display': 'flex',
-      }}>
-      Option One Title
-      </span>
-      <span style={{
-        'font-weight': 'normal',
-        'font-size': '1em',
-        'letter-spacing': '0',
-        'margin-left': '3em',
-      }}>
-      Option one description
-      </span>
-    </Label>
-    <Label htmlFor="radioBoxOptionTwo" style={{
-        'padding': '1em 1.5em',
-        'border-radius': '0.25em',
-        'margin-bottom': '0.8em',
-        'border': '1px solid ${colors.bordersLight}',
-        'flex': '1 1 33.3333333%',
-        'cursor': 'pointer',
-        'display': 'flex',
-        'flex-direction': 'column',
-        'background': '#fff',
-        'box-shadow': '0 2px 2px 0 rgba(0, 0, 0, 0.18)',
-        'color': '${colors.textLight}',
-        'position': 'relative',
-      }}>
+      <RadioTitle>Option One Title</RadioTitle>
+      <RadioDescription>Option one description</RadioDescription>
+    </RadioLabel>
+    <RadioLabel htmlFor="radioBoxOptionTwo">
       <Input
         type="radio"
         variant="radioBox"
@@ -93,38 +83,10 @@ Lets users select one option from a selection of multiple different options.
         name="option"
         value="radioBoxOptionTwo"
       />
-      <span style={{
-        'font-weight': 'bold',
-        'letter-spacing': '0',
-        'margin-left': '3em',
-        'color': '${colors.text}',
-        'display': 'flex',
-      }}>
-      Option Two Title
-      </span>
-      <span style={{
-        'font-weight': 'normal',
-        'font-size': '1em',
-        'letter-spacing': '0',
-        'margin-left': '3em',
-      }}>
-      Option two description
-      </span>
-    </Label>
-    <Label htmlFor="radioBoxOptionThree" style={{
-        'padding': '1em 1.5em',
-        'border-radius': '0.25em',
-        'margin-bottom': '0.8em',
-        'border': '1px solid ${colors.bordersLight}',
-        'flex': '1 1 33.3333333%',
-        'cursor': 'pointer',
-        'display': 'flex',
-        'flex-direction': 'column',
-        'background': '#fff',
-        'box-shadow': '0 2px 2px 0 rgba(0, 0, 0, 0.18)',
-        'color': '${colors.textLight}',
-        'position': 'relative',
-      }}>
+      <RadioTitle>Option Two Title</RadioTitle>
+      <RadioDescription>Option two description</RadioDescription>
+    </RadioLabel>
+    <RadioLabel htmlFor="radioBoxOptionThree">
       <Input
         type="radio"
         variant="radioBox"
@@ -132,23 +94,8 @@ Lets users select one option from a selection of multiple different options.
         name="option"
         value="radioBoxOptionThree"
       />
-      <span style={{
-        'font-weight': 'bold',
-        'letter-spacing': '0',
-        'margin-left': '3em',
-        'color': '${colors.text}',
-        'display': 'flex',
-      }}>
-      Option Three Title
-      </span>
-      <span style={{
-        'font-weight': 'normal',
-        'font-size': '1em',
-        'letter-spacing': '0',
-        'margin-left': '3em',
-      }}>
-      Option three description
-      </span>
-    </Label>
+      <RadioTitle>Option Three Title</RadioTitle>
+      <RadioDescription>Option three description</RadioDescription>
+    </RadioLabel>
   </Story>
 </Canvas>
