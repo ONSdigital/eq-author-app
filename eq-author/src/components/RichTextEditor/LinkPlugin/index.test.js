@@ -154,12 +154,14 @@ describe("Link plugin for RichTextEditor", () => {
       const createEntity = jest.fn();
       linkFromHTML[nodeName](nodeName, node, createEntity);
 
-      expect(createEntity).toHaveBeenCalledWith("LINK", "IMMUTABLE", linkUrl);
+      expect(createEntity).toHaveBeenCalledWith("LINK", "IMMUTABLE", {
+        url: linkUrl,
+      });
     });
 
     it("should convert LINK entities into HTML", () => {
       const entity = {
-        data: linkUrl,
+        data: { url: linkUrl },
       };
 
       render(linkToHTML[LINK_TYPE](entity, linkText));
