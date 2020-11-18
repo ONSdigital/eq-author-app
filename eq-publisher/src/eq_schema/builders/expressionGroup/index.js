@@ -44,8 +44,12 @@ const convertExpressionGroup = (expressionGroup, ctx) => {
       accum = accum.concat(translateBinaryExpression(expression));
     }
 
+    console.log(expression);
+
     if (
       mutallyExclusiveAnswer &&
+      expression.left &&
+      expression.right &&
       some(expression.left.options, option =>
         some(expression.right.options, { id: option.id })
       )
@@ -57,6 +61,7 @@ const convertExpressionGroup = (expressionGroup, ctx) => {
 
     if (
       mutallyExclusiveAnswer &&
+      expression.right &&
       some(expression.right.options, { id: mutallyExclusiveAnswer.id })
     ) {
       accum = accum.concat([
