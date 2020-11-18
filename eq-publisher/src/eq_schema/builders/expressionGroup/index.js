@@ -44,8 +44,6 @@ const convertExpressionGroup = (expressionGroup, ctx) => {
       accum = accum.concat(translateBinaryExpression(expression));
     }
 
-    console.log(expression);
-
     if (
       mutallyExclusiveAnswer &&
       expression.left &&
