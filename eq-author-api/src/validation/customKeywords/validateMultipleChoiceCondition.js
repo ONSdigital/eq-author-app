@@ -28,8 +28,9 @@ module.exports = function(ajv) {
         const selectedCheckboxOptions = parentData.right.optionIds.map(
           optionId => getOptionById({ questionnaire }, optionId)
         );
+
         const mutuallyExclusiveOption = selectedCheckboxOptions.filter(
-          ({ mutuallyExclusive }) => mutuallyExclusive
+          option => option && option.mutuallyExclusive
         ).length;
 
         if (
