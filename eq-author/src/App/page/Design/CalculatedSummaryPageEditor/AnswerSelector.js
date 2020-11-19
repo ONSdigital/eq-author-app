@@ -76,7 +76,7 @@ const AnswerListItem = styled.li`
   width: 100%;
   
   &:last-of-type {
-    margin-bottom: 0em;
+    margin-bottom: 0;
   }
 `;
 
@@ -243,7 +243,6 @@ export class UnwrappedAnswerSelector extends Component {
                 ))}
               </AnswerList>
               {minOfTwoAnswersError && <ErrorInline>{errorMsg}</ErrorInline>}
-              {/* {unitInconsistencyError && <ErrorInline>{unitInconsistencyError}</ErrorInline>} */}
             </ErrorContext>
           </SectionListItem>
         </SectionList>
