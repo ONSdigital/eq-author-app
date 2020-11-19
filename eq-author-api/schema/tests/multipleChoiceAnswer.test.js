@@ -413,7 +413,26 @@ describe("multiple choice answer", () => {
         const option = getOption(questionnaire);
 
         const secondPage = questionnaire.sections[0].pages[1];
-        createSkipCondition(ctx, secondPage);
+        secondPage.skipConditions = [
+          {
+            id: "skip-1",
+            operator: "And",
+            expressions: [
+              {
+                id: "expr-1",
+                condition: "AllOf",
+                left: {
+                  type: "Answer",
+                  answerId: "answer-1",
+                },
+                right: {
+                  type: "SelectedOptions",
+                  optionIds: [option.id],
+                },
+              },
+            ],
+          },
+        ];
 
         const expression = secondPage.skipConditions[0].expressions[0];
 
