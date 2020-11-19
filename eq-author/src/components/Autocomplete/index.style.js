@@ -1,5 +1,6 @@
 import styled, { css } from "styled-components";
-import { colors, radius, focusStyle, disabledStyle } from "constants/theme";
+import { Input } from "components/Forms";
+import { colors, radius } from "constants/theme";
 import Icon from "./icon-search.svg";
 
 export const Wrapper = styled.div`
@@ -7,45 +8,12 @@ export const Wrapper = styled.div`
   width: 400px;
 `;
 
-export const SimpleInput = styled.input`
-  appearance: none;
+export const RoundedInput = styled(Input)`
   background: white url('${Icon}') no-repeat left center;
   border-radius: ${radius};
-  border: ${({ hasError }) =>
-    hasError ? `2px solid ${colors.red}` : `thin solid ${colors.lightGrey}`};
   box-sizing: border-box;
-  color: ${colors.black};
-  display: block;
-  font-size: 1em;
-  line-height: 1.2;
-  padding: 0.25em 0.75em 0.25em 2em;
-  outline: thin solid transparent;
-  transition: opacity 100ms ease-in-out;
-  width: 100%;
-
-  &[disabled] {
-    ${disabledStyle}
-  }
-
-  &:focus {
-    border: 1px solid ${colors.primary};
-    outline: none;
-  }
-
-  &:focus,
-  &:focus-within {
-    ${focusStyle};
-  }
-
-  &:hover {
-    border-color: ${colors.blue};
-    outline-color: none;
-  }
-
-  &::placeholder {
-    color: #a3a3a3;
-  }
-
+  padding-left: 2em;
+  outline: none;
 `;
 
 export const DropDown = styled.ul`
