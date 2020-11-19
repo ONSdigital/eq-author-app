@@ -25,7 +25,7 @@ const ErrorInline = ({ children }) => {
   }
 
   return (
-    <Container data-test="error">
+    <Container aria-label="Error" data-test="error">
       <IconContainer>
         <Icon />
         <span role="alert">{children}</span>
