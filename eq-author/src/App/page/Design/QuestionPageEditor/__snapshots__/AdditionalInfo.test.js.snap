@@ -41,6 +41,7 @@ exports[`AdditionalInfo should display the correct error message when the additi
           Object {
             "bold": true,
             "emphasis": true,
+            "link": true,
             "list": true,
           }
         }
@@ -104,6 +105,7 @@ exports[`AdditionalInfo should display the correct error message when the additi
           Object {
             "bold": true,
             "emphasis": true,
+            "link": true,
             "list": true,
           }
         }
@@ -167,6 +169,7 @@ exports[`AdditionalInfo should render 1`] = `
           Object {
             "bold": true,
             "emphasis": true,
+            "link": true,
             "list": true,
           }
         }

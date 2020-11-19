@@ -1,6 +1,7 @@
 import { mapKeys } from "lodash";
 import { filterEditorState } from "draftjs-filters";
-import { filterConfig } from "components/RichTextEditor/entities/PipedValue";
+import { filterConfig as pipedFilterConfig } from "components/RichTextEditor/entities/PipedValue";
+import { filterConfig as linkFilterConfig } from "components/RichTextEditor/LinkPlugin";
 
 const mapper = {
   bold: { format: "BOLD", type: "styles" },
@@ -13,7 +14,7 @@ export default function createFormatStripper(controls) {
   const filterConfiguration = {
     blocks: [],
     styles: [],
-    entities: [filterConfig],
+    entities: [pipedFilterConfig, linkFilterConfig],
     maxNesting: 0,
     whitespacedCharacters: [],
   };

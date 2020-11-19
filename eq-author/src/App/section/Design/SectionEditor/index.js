@@ -184,6 +184,7 @@ export class SectionEditor extends React.Component {
                 list: true,
                 piping: true,
                 emphasis: true,
+                link: true,
               }}
               errorValidationMsg={this.props.getValidationError({
                 field: "introductionContent",
