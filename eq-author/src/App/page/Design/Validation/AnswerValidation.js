@@ -139,10 +139,10 @@ export const SidebarValidation = styled(SidebarButton)`
 `;
 
 const errorCodes = {
-  "ERR_EARLIEST_AFTER_LATEST": EARLIEST_BEFORE_LATEST_DATE,
-  "ERR_MIN_LARGER_THAN_MAX": MAX_GREATER_THAN_MIN,
-  "ERR_MAX_DURATION_TOO_SMALL": DURATION_ERROR_MESSAGE,
-  "ERR_NO_VALUE": ERR_NO_VALUE
+  ERR_EARLIEST_AFTER_LATEST: EARLIEST_BEFORE_LATEST_DATE,
+  ERR_MIN_LARGER_THAN_MAX: MAX_GREATER_THAN_MIN,
+  ERR_MAX_DURATION_TOO_SMALL: DURATION_ERROR_MESSAGE,
+  ERR_NO_VALUE: ERR_NO_VALUE,
 };
 
 const titleText = (id, title, enabled, inclusive) => {
@@ -206,17 +206,23 @@ const AnswerValidation = ({ answer }) => {
     );
 
     if (pendingErrors.length > 0) {
-      if ((type.id === "earliestDate" && !noValError) || (type.id === "minDuration" && !noValError) || (type.id === "minValue" && !noValError)) {
+      if (
+        (type.id === "earliestDate" && !noValError) ||
+        (type.id === "minDuration" && !noValError) ||
+        (type.id === "minValue" && !noValError)
+      ) {
         return; // Don't display anything after the earliest date / min duration buttons - show after section
       }
 
       // Only show one error - ERR_NO_VALUE takes precedence
-      pendingErrors.sort(error => error.errorCode === "ERR_NO_VALUE" ? -1 : 0);
+      pendingErrors.sort(error =>
+        error.errorCode === "ERR_NO_VALUE" ? -1 : 0
+      );
       const error = pendingErrors[0];
       pendingErrors = [];
 
       validationButtons.push(
-        <PropertiesError icon={WarningIcon} key={error.id}>
+        <PropertiesError aria-label="error" icon={WarningIcon} key={error.id}>
           {errorCodes[error.errorCode]}
         </PropertiesError>
       );
@@ -236,7 +242,7 @@ const AnswerValidation = ({ answer }) => {
       />
     </ValidationContext.Provider>
   );
-}
+};
 
 AnswerValidation.propTypes = {
   answer: CustomPropTypes.answer,
