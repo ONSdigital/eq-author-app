@@ -22,6 +22,7 @@ const contentControls = {
   bold: true,
   emphasis: true,
   list: true,
+  link: true,
 };
 
 export const StatelessAdditionalInfo = ({

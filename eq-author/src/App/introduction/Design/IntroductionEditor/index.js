@@ -52,6 +52,7 @@ const descriptionControls = {
   emphasis: true,
   piping: true,
   list: true,
+  link: true,
 };
 
 export const IntroductionEditor = ({ introduction, onChangeUpdate }) => {
