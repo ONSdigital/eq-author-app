@@ -521,10 +521,14 @@ const Resolvers = {
         }
 
         const routingExprs = page.routing
-          ? page.routing.rules.flatMap(rule => rule.expressionGroup.expressions)
+          ? page.routing.rules.flatMap(
+              rule => rule.expressionGroup && rule.expressionGroup.expressions
+            )
           : [];
         const skipExprs = page.skipConditions
-          ? page.skipConditions.flatMap(condition => condition.expressions)
+          ? page.skipConditions.flatMap(
+              condition => condition && condition.expressions
+            )
           : [];
         const rightHandSides = [...routingExprs, ...skipExprs].map(
           x => x && x.right
