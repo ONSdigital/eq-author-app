@@ -1,3 +1,10 @@
+/*
+Need to do tomorrow:
+[ ] - add enter/space functionality
+[ ] - add saving of selected option
+[ ] - finish accessibility
+*/
+
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import PropTypes from "prop-types";
 
@@ -9,21 +16,26 @@ import {
 } from "./index.style";
 import ScrollPane from "components/ScrollPane";
 
+import { isPrintableKeyCode } from "utils/isPrintableKeyCode";
+
 const AutocompleteProps = {
   options: PropTypes.oneOfType([PropTypes.array, PropTypes.object]).isRequired,
   filter: PropTypes.func,
+};
+
+const focusEl = element => {
+  element.scrollIntoView();
+  element.focus();
 };
 
 const Autocomplete = ({ options, filter }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [selectedIndex, setSelectedIndex] = useState(-1);
-  const listEl = useRef({});
+  // need another state here for the selected option
 
-  const focusEl = element => {
-    element.scrollIntoView();
-    element.focus();
-  };
+  // builds a list of elements
+  const comboElements = useRef({});
 
   const onArrowDown = useCallback(
     event => {
@@ -32,7 +44,7 @@ const Autocomplete = ({ options, filter }) => {
       const index =
         selectedIndex === filterOptions.length - 1 ? 0 : selectedIndex + 1;
 
-      focusEl(listEl.current[index]);
+      focusEl(comboElements.current[index]);
       setSelectedIndex(index);
     },
     [selectedIndex]
@@ -44,8 +56,7 @@ const Autocomplete = ({ options, filter }) => {
 
       const index =
         selectedIndex === 0 ? filterOptions.length - 1 : selectedIndex - 1;
-
-      focusEl(listEl.current[index]);
+      focusEl(comboElements.current[index]);
       setSelectedIndex(index);
     },
     [selectedIndex]
@@ -54,11 +65,21 @@ const Autocomplete = ({ options, filter }) => {
   const onEnter = useCallback(event => {
     event.preventDefault();
     // do something here
+    console.log("enter the dragon");
   }, []);
 
   const onSpace = useCallback(event => {
     event.preventDefault();
     // do something here
+    console.log("space attack");
+  }, []);
+
+  const handleOtherKeyDown = useCallback(event => {
+    const inputElement = comboElements.current[-1];
+    const eventIsOnInput = event.target === inputElement;
+    if (!eventIsOnInput) {
+      inputElement.focus();
+    }
   }, []);
 
   const handleKeyDown = event => {
@@ -76,11 +97,15 @@ const Autocomplete = ({ options, filter }) => {
           onEnter(event);
           break;
         // space needs some work
-        case "Space":
+        case " ":
           onSpace(event);
           break;
 
         default:
+          // this is needed to return the focus back to the input
+          if (isPrintableKeyCode(event.keyCode)) {
+            handleOtherKeyDown(event);
+          }
           break;
       }
     }
@@ -95,55 +120,69 @@ const Autocomplete = ({ options, filter }) => {
     }
   }, [query]);
 
-  const handleInputChange = event => {
-    setQuery(event.value);
-    setSelectedIndex(-1);
-  };
+  const handleInputChange = useCallback(
+    event => {
+      setQuery(event.value);
+      setSelectedIndex(-1);
+    },
+    // just setQuery is faster than setSelectedIndex
+    [setQuery]
+  );
 
   const filterOptions =
     typeof filter === "function" ? filter(options, query) : options;
 
+  const autoRender = (id, phase, actualTime, baseTime) => {
+    console.log(id, phase, actualTime, baseTime);
+  };
+
   return (
-    <Wrapper onKeyDown={event => handleKeyDown(event, isOpen)}>
-      <Input
-        id=""
-        aria-expanded={isOpen ? "true" : "false"}
-        // aria-activedescendant={}
-        // aria-owns={}
-        value={query}
-        onChange={event => handleInputChange(event)}
-        // aria-autocomplete="list"
-        // placeholder={"search something"}
-        // role="combobox"
-        // type="text"
-      />
-      {isOpen && (
-        <DropDown role="listbox">
-          <ScrollPane>
-            {filterOptions.map((option, index) => {
-              // const focus = selectedIndex === index;
-              return (
-                <ListItem
-                  key={index}
-                  ref={optionEl => {
-                    listEl.current[index] = optionEl;
-                  }}
-                  // id={}
-                  tabIndex="-1"
-                  role="option"
-                  // aria-selected={}
-                  // aria-posinset={index + 1}
-                  aria-setsize={filterOptions.length}
-                >
-                  {option}
-                </ListItem>
-              );
-            })}
-            {!filterOptions.length && <ListItem>No results found</ListItem>}
-          </ScrollPane>
-        </DropDown>
-      )}
-    </Wrapper>
+    <React.Profiler id="autocomplete" onRender={autoRender}>
+      <Wrapper onKeyDown={event => handleKeyDown(event, isOpen)}>
+        <Input
+          id="autocomplete-input"
+          // aria-activedescendant={isOpen ? comboElements.current[selectedIndex] : false}
+          // aria-autocomplete={"list"}
+          // aria-controls={"autocomplete-listbox"}
+          // aria-expanded={isOpen ? "true" : "false"}
+          // aria-owns={"autocomplete-listbox"}
+          value={query}
+          onChange={event => handleInputChange(event)}
+          placeholder={"search something"}
+          forwardRef={inputEl => {
+            comboElements.current[-1] = inputEl;
+          }}
+          role="combobox"
+          type="text"
+        />
+        {isOpen && (
+          <DropDown id="autocomplete-listbox" role="listbox">
+            <ScrollPane>
+              {filterOptions.map((option, index) => {
+                // implicit return when complete
+                return (
+                  <ListItem
+                    key={index}
+                    id={`autocomplete-option-${index}`}
+                    aria-selected={selectedIndex === index ? "true" : "false"}
+                    aria-setsize={filterOptions.length}
+                    aria-posinset={index + 1}
+                    tabIndex="-1"
+                    role="option"
+                    ref={optionEl => {
+                      comboElements.current[index] = optionEl;
+                    }}
+                  >
+                    {option}
+                  </ListItem>
+                );
+              })}
+              {!filterOptions.length && <ListItem>No results found</ListItem>}
+            </ScrollPane>
+          </DropDown>
+        )}
+      </Wrapper>
+    </React.Profiler>
   );
 };
 
