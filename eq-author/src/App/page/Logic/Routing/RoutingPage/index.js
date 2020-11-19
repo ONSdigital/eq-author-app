@@ -30,9 +30,9 @@ export class UnwrappedRoutingPage extends React.Component {
         <Transition key="routing-rule-set-empty" exit={false}>
           <Panel>
             <NoRouting
-              title="No routing rules exist for this question"
               onAddRouting={this.handleAddRouting}
               data-test="routing-rule-set-empty-msg"
+              page={page}
             >
               Users completing this question will be taken to the next page.
             </NoRouting>
