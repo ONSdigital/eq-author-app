@@ -1,0 +1,76 @@
+import { Meta, Story, Canvas } from "@storybook/addon-docs/blocks";
+import styled from "styled-components";
+
+import { Input, Label } from "components/Forms";
+
+import {
+  RadioLabel,
+  RadioField,
+  RadioTitle,
+  RadioDescription,
+} from "components/Radio";
+
+<Meta title="Components/Radio button" component={Input} />
+
+# Radio button
+
+Lets users select one option from a selection of multiple different options.
+
+## Example
+
+<Canvas>
+  <Story name="Default">
+    <Label htmlFor="optionOne">
+      <Input type="radio" id="optionOne" name="option" value="optionOne" />
+      Option one
+    </Label>
+    <Label htmlFor="optionTwo">
+      <Input type="radio" id="optionTwo" name="option" value="optionTwo" />
+      Option two
+    </Label>
+    <Label htmlFor="optionThree">
+      <Input type="radio" id="optionThree" name="option" value="optionThree" />
+      Option three
+    </Label>
+  </Story>
+</Canvas>
+
+## Variants
+
+<Canvas>
+  <Story name="Radio Box">
+    <RadioLabel htmlFor="radioBoxOptionOne">
+      <Input
+        type="radio"
+        variant="radioBox"
+        id="radioBoxOptionOne"
+        name="option"
+        value="radioBoxOptionOne"
+      />
+      <RadioTitle>Option One Title</RadioTitle>
+      <RadioDescription>Option one description</RadioDescription>
+    </RadioLabel>
+    <RadioLabel htmlFor="radioBoxOptionTwo">
+      <Input
+        type="radio"
+        variant="radioBox"
+        id="radioBoxOptionTwo"
+        name="option"
+        value="radioBoxOptionTwo"
+      />
+      <RadioTitle>Option Two Title</RadioTitle>
+      <RadioDescription>Option two description</RadioDescription>
+    </RadioLabel>
+    <RadioLabel htmlFor="radioBoxOptionThree">
+      <Input
+        type="radio"
+        variant="radioBox"
+        id="radioBoxOptionThree"
+        name="option"
+        value="radioBoxOptionThree"
+      />
+      <RadioTitle>Option Three Title</RadioTitle>
+      <RadioDescription>Option three description</RadioDescription>
+    </RadioLabel>
+  </Story>
+</Canvas>
