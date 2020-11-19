@@ -74,6 +74,7 @@ const AnswerList = styled.ul`
 const AnswerListItem = styled.li`
   margin: 0 0 0.5em;
   width: 100%;
+  
   &:last-of-type {
     margin-bottom: 0em;
   }
