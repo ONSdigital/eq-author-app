@@ -68,6 +68,7 @@ describe("components/NoRouting", () => {
       `pointer-events: none; 
        opacity: 0.6;`
     );
+    expect(screen.getByTestId("btn-add-routing")).not.toHaveAttribute("disabled");
   });
 
   it("should render with button disabled", () => {
@@ -126,6 +127,7 @@ describe("components/NoRouting", () => {
       `pointer-events: none; 
        opacity: 0.6;`
     );
+    expect(screen.getByTestId("btn-add-routing")).toHaveAttribute("disabled");
   });
 
   it("should call onAddRouting when button clicked", () => {
@@ -176,6 +178,7 @@ describe("components/NoRouting", () => {
         </NoRouting>
       </QuestionnaireContext.Provider>
     );
+    expect(screen.getByTestId("btn-add-routing")).not.toHaveAttribute("disabled");
     const button = getByTestId("btn-add-routing");
     fireEvent.click(button);
     expect(onAddRouting).toHaveBeenCalledTimes(1);
