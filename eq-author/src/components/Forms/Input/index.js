@@ -53,7 +53,6 @@ const radioButton = css`
       background: ${colors.lightGrey};
     }
     :checked:before {
-      // background: #323232;
       background: ${colors.black};
     }
     `}
