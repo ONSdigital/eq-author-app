@@ -1,23 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`LegalBasisField LegalOption should render 1`] = `
-<LegalBasisField__LegalLabel
+<Radio__RadioLabel
   htmlFor="NOTICE_1"
   selected={false}
 >
-  <LegalBasisField__LegalInput
+  <withChangeHandler(UncontrolledInput)
+    checked={false}
     id="NOTICE_1"
     name="legalBasis"
     onChange={[MockFunction]}
     type="radio"
     value="NOTICE_1"
+    variant="radioBox"
   />
   hello world
-</LegalBasisField__LegalLabel>
+</Radio__RadioLabel>
 `;
 
 exports[`LegalBasisField should render 1`] = `
-<LegalBasisField__LegalField>
+<Radio__RadioField>
   <LegalOption
     key="NOTICE_1"
     name="legalBasis"
@@ -25,15 +27,12 @@ exports[`LegalBasisField should render 1`] = `
     selected={true}
     value="NOTICE_1"
   >
-    <LegalBasisField__LegalTitle>
-      Notice 1
-    </LegalBasisField__LegalTitle>
-    <LegalBasisField__LegalNotice>
-      Your response is legally required.
-    </LegalBasisField__LegalNotice>
-    <LegalBasisField__LegalDescription>
+    <Radio__RadioTitle>
+      Notice 1 - Your response is legally required.
+    </Radio__RadioTitle>
+    <Radio__RadioDescription>
       Notice is given under section 1 of the Statistics of Trade Act 1947.
-    </LegalBasisField__LegalDescription>
+    </Radio__RadioDescription>
   </LegalOption>
   <LegalOption
     key="NOTICE_2"
@@ -42,15 +41,12 @@ exports[`LegalBasisField should render 1`] = `
     selected={false}
     value="NOTICE_2"
   >
-    <LegalBasisField__LegalTitle>
-      Notice 2
-    </LegalBasisField__LegalTitle>
-    <LegalBasisField__LegalNotice>
-      Your response is legally required.
-    </LegalBasisField__LegalNotice>
-    <LegalBasisField__LegalDescription>
+    <Radio__RadioTitle>
+      Notice 2 - Your response is legally required.
+    </Radio__RadioTitle>
+    <Radio__RadioDescription>
       Notice is given under sections 3 and 4 of the Statistics of Trade Act 1947.
-    </LegalBasisField__LegalDescription>
+    </Radio__RadioDescription>
   </LegalOption>
   <LegalOption
     key="VOLUNTARY"
@@ -59,12 +55,12 @@ exports[`LegalBasisField should render 1`] = `
     selected={false}
     value="VOLUNTARY"
   >
-    <LegalBasisField__LegalTitle>
-      Voluntary
-    </LegalBasisField__LegalTitle>
-    <LegalBasisField__LegalDescription>
+    <Radio__RadioTitle>
+      Voluntary 
+    </Radio__RadioTitle>
+    <Radio__RadioDescription>
       No legal notice will be displayed.
-    </LegalBasisField__LegalDescription>
+    </Radio__RadioDescription>
   </LegalOption>
-</LegalBasisField__LegalField>
+</Radio__RadioField>
 `;

@@ -30,16 +30,19 @@ const titleControls = {
 const descriptionControls = {
   emphasis: true,
   piping: true,
+  link: true,
 };
 const definitionControls = {
   list: true,
   emphasis: true,
   bold: true,
+  link: true,
 };
 
 const guidanceControls = {
   bold: true,
   list: true,
+  link: true,
 };
 
 const Paragraph = styled.p`

@@ -75,6 +75,10 @@ const query = gql`
       displayName
       pageType
       ...RoutingPage
+      section {
+        id
+        position
+      }
     }
   }
 `;
