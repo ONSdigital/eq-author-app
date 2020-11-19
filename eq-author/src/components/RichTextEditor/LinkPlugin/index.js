@@ -33,7 +33,7 @@ const DecoratedLink = ({ entityKey, contentState, children }) => {
 
   return (
     <Tooltip content={url} place="bottom">
-      <Link href={url}> {children} </Link>
+      <Link href={url}>{children}</Link>
     </Tooltip>
   );
 };
