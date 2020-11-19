@@ -7,6 +7,7 @@ const { createMutation } = require("../createMutation");
 const addPrefix = require("../../../utils/addPrefix");
 const { createQuestionPage } = require("./questionPage");
 const deleteFirstPageSkipConditions = require("../../../src/businessLogic/deleteFirstPageSkipConditions");
+const deleteLastPageRouting = require("../../../src/businessLogic/deleteLastPageRouting");
 
 const Resolvers = {};
 
@@ -31,6 +32,7 @@ Resolvers.Mutation = {
       newsection.pages.splice(input.position, 0, removedPage);
     }
     deleteFirstPageSkipConditions(ctx);
+    deleteLastPageRouting(ctx);
     return removedPage;
   }),
   deletePage: createMutation((_, { input }, ctx) => {
@@ -38,6 +40,7 @@ Resolvers.Mutation = {
     const removedPage = first(remove(section.pages, { id: input.id }));
     onPageDeleted(ctx, section, removedPage);
     deleteFirstPageSkipConditions(ctx);
+    deleteLastPageRouting(ctx);
     return section;
   }),
 

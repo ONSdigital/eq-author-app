@@ -17,11 +17,16 @@ const {
 } = require("../../tests/utils/contextBuilder/routing");
 
 const {
+  queryQuestionnaire,
+} = require("../../tests/utils/contextBuilder/questionnaire");
+
+const {
   queryPage,
   deletePage,
+  movePage,
 } = require("../../tests/utils/contextBuilder/page");
 
-const { deleteSection } = require("../../tests/utils/contextBuilder/section");
+const { deleteSection, moveSection } = require("../../tests/utils/contextBuilder/section");
 
 describe("routing", () => {
   describe("A Routing", () => {
@@ -1013,6 +1018,169 @@ describe("routing", () => {
       firstPage = ctx.questionnaire.sections[0].pages[0];
 
       expect(firstPage.routing.else.pageId).toBeNull();
+    });
+  });
+
+  describe("on Section deleted or moved exposing new last question with routing", () => {
+    let ctx, questionnaire;
+    beforeEach(async () => {
+      ctx = await buildContext({
+        sections: [
+          {
+            id: "section1",
+            pages: [
+              {
+                title: "page1",
+                answers: [
+                  {
+                    type: RADIO,
+                  },
+                ],
+              },
+              {
+                title: "page2",
+                answers: [
+                  {
+                    type: RADIO,
+                  },
+                ],
+                routing: { rules: [{}] },
+              },
+            ],
+          },
+          {
+            id: "section2",
+            pages: [
+              {
+                title: "page3",
+                answers: [
+                  {
+                    type: RADIO,
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      });
+      questionnaire = ctx.questionnaire;
+    });
+
+    it("should remove routing on new last question when section deleted", async () => {
+      const firstSection = questionnaire.sections[0];
+      const secondSection = questionnaire.sections[1];
+      const routingPage = firstSection.pages[1];
+
+      expect(routingPage.routing.rules).toHaveLength(1);
+
+      await deleteSection(ctx, secondSection.id);
+      expect(questionnaire.sections).toHaveLength(1);
+
+      expect(routingPage.routing).toBeUndefined();
+    });
+
+    it("should remove routing on new last question when section moved", async () => {
+      const firstSection = questionnaire.sections[0];
+      const firstSectionId = firstSection.id;
+      const secondSection = questionnaire.sections[1];
+      const secondSectionId = secondSection.id;
+      const routingPage = firstSection.pages[1];
+
+      expect(routingPage.routing.rules).toHaveLength(1);
+
+      await moveSection(ctx, {
+        id: firstSectionId,
+        questionnaireId: questionnaire.id,
+        position: 1,
+      });
+      const { sections } = await queryQuestionnaire(ctx);
+      expect(sections.map(s => s.id)).toEqual([secondSectionId,firstSectionId]);
+
+      // Check routing page has been removed
+      expect(routingPage.routing).toBeUndefined();
+   });
+  });
+
+  describe("on Page deleted or moved exposing new last question with routing", () => {
+    let ctx, questionnaire;
+    beforeEach(async () => {
+      ctx = await buildContext({
+        sections: [
+          {
+            id: "section1",
+            pages: [
+              {
+                title: "page1",
+                answers: [
+                  {
+                    type: RADIO,
+                  },
+                ],
+              },
+              {
+                title: "page2",
+                answers: [
+                  {
+                    type: RADIO,
+                  },
+                ],
+                routing: { rules: [{}] },
+              },
+              {
+                title: "page3",
+                answers: [
+                  {
+                    type: RADIO,
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      });
+      questionnaire = ctx.questionnaire;
+    });
+
+    it("should remove routing on new last question when page deleted", async () => {
+      const section = questionnaire.sections[0];
+      const routingPage = section.pages[1];
+      const pageToDelete = section.pages[2];
+
+      // Check rule exists
+      expect(routingPage.routing.rules).toHaveLength(1);
+
+      // Delete third page
+      await deletePage(ctx, pageToDelete.id);
+      expect(questionnaire.sections[0].pages).toHaveLength(2);
+
+      // Check routing page has been removed
+      expect(routingPage.routing).toBeUndefined();
+    });
+
+    it("should remove routing on new last question when page moved", async () => {
+      const section = questionnaire.sections[0];
+      const firstPageId = section.pages[0].id;
+      const routingPage = section.pages[1];
+      const routingPageId = routingPage.id;
+      const pageToMoveId = section.pages[2].id;
+
+      // Check rule exists
+      expect(routingPage.routing.rules).toHaveLength(1);
+
+      // Move third page above second
+      const {section: { pages },} = await movePage(ctx, {
+        id: pageToMoveId,
+        sectionId: section.id,
+        position: 1,
+      });
+      expect(pages.map(p => p.id)).toEqual([
+        firstPageId,
+        pageToMoveId,
+        routingPageId,
+      ]);
+      
+      // Check routing page has been removed
+      expect(routingPage.routing).toBeUndefined();
     });
   });
 });
