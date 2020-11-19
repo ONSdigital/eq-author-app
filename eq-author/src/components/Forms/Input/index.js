@@ -5,6 +5,8 @@ import { sharedStyles } from "components/Forms/css";
 import iconCheckbox from "./icon-checkbox.svg";
 import withChangeHandler from "components/Forms/withChangeHandler";
 
+import { colors } from "constants/theme";
+
 const multipleChoiceOption = css`
   display: inline-block;
   width: 1.1em;
@@ -48,10 +50,11 @@ const radioButton = css`
       height: 80%;
       margin: 10% auto;
       border-radius: 100%;
-      background: #dcdcdc;
+      background: ${colors.lightGrey};
     }
     :checked:before {
-      background: #323232;
+      // background: #323232;
+      background: ${colors.black};
     }
     `}
 
