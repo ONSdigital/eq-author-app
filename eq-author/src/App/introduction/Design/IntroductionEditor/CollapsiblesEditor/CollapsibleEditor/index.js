@@ -103,6 +103,7 @@ export const CollapsibleEditor = ({
           piping: true,
           list: true,
           bold: true,
+          link: true,
         }}
         testSelector="txt-collapsible-description"
       />

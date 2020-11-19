@@ -23,6 +23,7 @@ describe("components/RichTextEditor/Toolbar", () => {
       onPiping: jest.fn(),
       isActiveControl: jest.fn(),
       selectionIsCollapsed: true,
+      onLinkChosen: jest.fn(),
     };
     wrapper = shallow(<Toolbar {...props} visible />);
     buttons = wrapper.find(ToolbarButton);

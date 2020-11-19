@@ -13,6 +13,7 @@ describe("Routing Page", () => {
         page={{
           id: "1",
           displayName: "test",
+          position: 0,
           routing: null,
           validationErrorInfo: { id: "1", errors: [], totalCount: 0 },
         }}
@@ -29,6 +30,7 @@ describe("Routing Page", () => {
         page={{
           id: "1",
           displayName: "test",
+          position: 0,
           routing: null,
           validationErrorInfo: { id: "1", errors: [], totalCount: 0 },
         }}
@@ -46,6 +48,7 @@ describe("Routing Page", () => {
         page={{
           id: "1",
           displayName: "test",
+          position: 0,
           routing,
           validationErrorInfo: { id: "1", errors: [], totalCount: 0 },
         }}

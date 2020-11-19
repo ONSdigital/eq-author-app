@@ -8,6 +8,9 @@ import IconText from "components/IconText";
 import IconAddRule from "../icon-add-rule.svg?inline";
 import IconRouting from "./icon-routing.svg?inline";
 
+import { flowRight } from "lodash";
+import { withQuestionnaire } from "components/QuestionnaireContext";
+
 const Container = styled.div`
   display: flex;
   justify-content: center;
@@ -33,34 +36,56 @@ const Paragraph = styled.p`
 
 const AddRoutingButton = styled(Button)`
   margin: 2em auto 1em;
+  ${props =>
+    props.isLastPage &&
+    `
+     pointer-events: none;
+     opacity: 0.6;`};
 `;
 
-const RoutingRuleSetMsg = ({
-  title,
-  onAddRouting,
-  children,
-  ...otherProps
-}) => (
-  <Container {...otherProps}>
-    <Icon />
-    <Title>{title}</Title>
-    <Paragraph>{children}</Paragraph>
-    <AddRoutingButton
-      small
-      naked
-      variant="primary"
-      onClick={onAddRouting}
-      data-test="btn-add-routing"
-    >
-      <IconText icon={IconAddRule}>Add your first rule</IconText>
-    </AddRoutingButton>
-  </Container>
-);
-
-RoutingRuleSetMsg.propTypes = {
-  title: PropTypes.string.isRequired,
-  onAddRouting: PropTypes.func.isRequired,
-  children: PropTypes.node.isRequired,
+const RoutingRuleSetMsg = ({ onAddRouting, page, ...otherProps }) => {
+  let nSections, nLastSectionPages, lastPageId;
+  if (otherProps.questionnaire) {
+    const questionnaire = otherProps.questionnaire;
+    nSections = questionnaire.sections.length;
+    nLastSectionPages = questionnaire.sections[nSections - 1].pages.length;
+    lastPageId = questionnaire.sections[nSections - 1].pages[nLastSectionPages - 1].id;
+  };
+  const currentPageId = page && page.id;
+  const isLastPage = lastPageId === currentPageId;
+  return (
+    <Container {...otherProps}>
+      <Icon />
+      <Title>
+        {isLastPage
+          ? "Routing is not available for this quesiton"
+          : "No routing rules exist for this question"}
+      </Title>
+      <Paragraph>
+        {isLastPage
+          ? "You can't route on the last question in a questionnaire."
+          : "Users completing this question will be taken to the next page."}
+      </Paragraph>
+      <AddRoutingButton
+        small
+        naked
+        variant="primary"
+        onClick={onAddRouting}
+        data-test="btn-add-routing"
+        isLastPage={isLastPage}
+        disabled={isLastPage}
+      >
+        <IconText icon={IconAddRule}>Add your first rule</IconText>
+      </AddRoutingButton>
+    </Container>
+  );
 };
 
-export default RoutingRuleSetMsg;
+RoutingRuleSetMsg.propTypes = {
+  onAddRouting: PropTypes.func.isRequired,
+  page: PropTypes.shape({
+    id: PropTypes.string,
+  }),
+};
+
+export default flowRight(withQuestionnaire)(RoutingRuleSetMsg);

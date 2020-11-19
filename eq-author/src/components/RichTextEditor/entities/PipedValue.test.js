@@ -87,10 +87,11 @@ describe("PipedValue", () => {
     const pipingType = "SomeType";
     const type = "SomeAnswerType";
 
-    let elem, createEntity, entity;
+    let elem, createEntity, entity, nodeName;
 
     beforeEach(() => {
-      elem = document.createElement("span");
+      nodeName = "span";
+      elem = document.createElement(nodeName);
       elem.innerText = text;
       elem.setAttribute("data-piped", pipingType);
       elem.setAttribute("data-id", id);
@@ -101,12 +102,12 @@ describe("PipedValue", () => {
     });
 
     it("should return the entity", () => {
-      const result = htmlToEntity("span", elem, createEntity);
+      const result = htmlToEntity[nodeName](nodeName, elem, createEntity);
       expect(result).toBe(entity);
     });
 
     it("should convert piped value elements to entities", () => {
-      htmlToEntity("span", elem, createEntity);
+      htmlToEntity[nodeName](nodeName, elem, createEntity);
 
       expect(createEntity).toHaveBeenCalledWith(ENTITY_TYPE, "IMMUTABLE", {
         pipingType,
@@ -116,8 +117,8 @@ describe("PipedValue", () => {
     });
 
     it("will ignore other types of element", () => {
-      const elem = document.createElement("span");
-      htmlToEntity("span", elem, createEntity);
+      const elem = document.createElement(nodeName);
+      htmlToEntity[nodeName](nodeName, elem, createEntity);
 
       expect(createEntity).not.toHaveBeenCalled();
     });

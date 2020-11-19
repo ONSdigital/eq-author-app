@@ -5,6 +5,8 @@ import { sharedStyles } from "components/Forms/css";
 import iconCheckbox from "./icon-checkbox.svg";
 import withChangeHandler from "components/Forms/withChangeHandler";
 
+import { colors } from "constants/theme";
+
 const multipleChoiceOption = css`
   display: inline-block;
   width: 1.1em;
@@ -28,6 +30,32 @@ const checkBox = css`
 const radioButton = css`
   ${multipleChoiceOption};
   border-radius: 100%;
+
+  ${({ variant }) =>
+    variant === "radioBox" &&
+    `
+    width: 1.25em;
+    height: 1.25em;
+    border-radius: 100%;
+    outline: none;
+    position: absolute;
+    overflow: hidden;
+    padding: 0;
+    display: flex;
+
+    :before {
+      content: "";
+      display: block;
+      width: 80%;
+      height: 80%;
+      margin: 10% auto;
+      border-radius: 100%;
+      background: ${colors.lightGrey};
+    }
+    :checked:before {
+      background: ${colors.black};
+    }
+    `}
 
   &:checked {
     background: url(${iconCheckbox}) no-repeat center;
@@ -66,6 +94,7 @@ UncontrolledInput.propTypes = {
     "text",
     "checkbox",
     "radio",
+    "radioNoCheckbox",
     "number",
     "date",
     "search",

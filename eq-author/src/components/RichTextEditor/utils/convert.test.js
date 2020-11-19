@@ -1,6 +1,6 @@
 import React from "react";
 import { toHTML, fromHTML } from "components/RichTextEditor/utils/convert";
-import { convertToRaw } from "draft-js";
+import { convertToRaw, EditorState } from "draft-js";
 import Raw from "draft-js-raw-content-state";
 
 const stateToRaw = state => convertToRaw(state.getCurrentContent());
@@ -37,23 +37,20 @@ describe("convert", () => {
 
   describe("fromHTML", () => {
     it("should convert from HTML", () => {
-      const convert = fromHTML();
-      const state = convert(htmlBasic);
+      const convert = fromHTML({});
+      const state = EditorState.createWithContent(convert(htmlBasic));
 
       expect(stateToRaw(state)).toEqual(rawBasic.toRawContentState());
     });
 
     it("should convert entities from HTML", () => {
-      const htmlToEntity = (nodeName, node, createEntity) => {
-        if (nodeName === "span") {
-          return createEntity("TEST_ENTITY", "IMMUTABLE", {
-            text: node.innerText,
-          });
-        }
+      const nodeToEntity = {
+        span: (nodeName, node, createEntity) =>
+          createEntity("TEST_ENTITY", "IMMUTABLE", { text: node.innerText }),
       };
 
-      const convert = fromHTML(htmlToEntity);
-      const editorState = convert(htmlEntity);
+      const convert = fromHTML(nodeToEntity);
+      const editorState = EditorState.createWithContent(convert(htmlEntity));
 
       expect(stateToRaw(editorState)).toEqual(rawEntity.toRawContentState());
     });

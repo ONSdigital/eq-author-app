@@ -1,5 +1,4 @@
 import { convertToHTML, convertFromHTML } from "draft-convert";
-import { EditorState } from "draft-js";
 
 export const toHTML = entityMap => {
   const entityToHTML = (entity, originalText) => {
@@ -12,9 +11,15 @@ export const toHTML = entityMap => {
   return editorState => convert(editorState.getCurrentContent());
 };
 
-export const fromHTML = htmlToEntity => {
-  const convert = convertFromHTML({ htmlToEntity });
+export const fromHTML = nodeToFn => {
+  const htmlToEntity = (nodeName, ...otherArgs) => {
+    const entity = Object.entries(nodeToFn)
+      .filter(([name]) => name === nodeName)
+      .map(([, fn]) => fn(nodeName, ...otherArgs))
+      .find(result => result);
 
-  return (html, decorator) =>
-    EditorState.createWithContent(convert(html), decorator);
+    return entity || null;
+  };
+
+  return convertFromHTML({ htmlToEntity });
 };
