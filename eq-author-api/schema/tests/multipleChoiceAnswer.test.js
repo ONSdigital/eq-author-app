@@ -13,10 +13,6 @@ const {
 } = require("../../tests/utils/contextBuilder/answer");
 
 const {
-  createSkipCondition,
-} = require("../../tests/utils/contextBuilder/skipConditions");
-
-const {
   queryQuestionnaire,
 } = require("../../tests/utils/contextBuilder/questionnaire");
 
