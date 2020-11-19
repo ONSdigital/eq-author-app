@@ -1,12 +1,31 @@
 import { Meta, Story, Canvas } from "@storybook/addon-docs/blocks";
 
-import Autocomplete from "../../components/Autocomplete";
+import { Autocomplete } from "../../components/Autocomplete";
+import { unitConversion } from "constants/unit-types";
+const filterOptions = (options, query) =>
+  Object.values(options).filter(
+    x =>
+      x.unit.toLowerCase().includes(query) ||
+      x.abbreviation.toLowerCase().includes(query)
+  ).map(option => `${option.unit} (${option.abbreviation})`);
+
+
+
+<Meta title="Components/Autocomplete" component={Autocomplete} />
+
 
 # Autocomplete
 
 ## Example
 
-TODO
+<Canvas>
+  <Story
+    name="Default"
+    args={{ children: null }}
+  >
+    {(args) => <Autocomplete options={unitConversion} filter={filterOptions} {...args} />}
+  </Story>
+</Canvas>
 
 ## When not to use this component
 
