@@ -42,6 +42,7 @@ const radioButton = css`
     overflow: hidden;
     padding: 0;
     display: flex;
+    border: 1px solid ${colors.black};
 
     :before {
       content: "";
@@ -50,7 +51,7 @@ const radioButton = css`
       height: 80%;
       margin: 10% auto;
       border-radius: 100%;
-      background: ${colors.lightGrey};
+      background: ${colors.lighterGrey};
     }
     :checked:before {
       background: ${colors.black};

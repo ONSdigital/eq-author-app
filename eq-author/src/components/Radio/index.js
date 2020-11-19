@@ -12,12 +12,12 @@ export const RadioLabel = styled.label`
   padding: 1em 1.5em;
   border-radius: 0.25em;
   margin-bottom: 0.8em;
-  border: 1px solid ${colors.bordersLight};
+  margin-left: -0.5em;
+  border: 1px solid ${colors.black};
   flex: 1 1 33.3333333%;
   cursor: pointer;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.18);
   color: ${colors.textLight};
   position: relative;
 
@@ -29,15 +29,14 @@ export const RadioLabel = styled.label`
 `;
 
 export const RadioTitle = styled.span`
-  font-weight: bold;
   letter-spacing: 0;
-  margin-left: 3em;
+  margin-left: 2em;
+  margin-bottom: 0.8em;
   color: ${colors.text};
   display: flex;
 `;
 
 export const RadioDescription = styled.span`
-  font-size: 1em;
+  font-size: 0.9em;
   letter-spacing: 0;
-  margin-left: 3em;
 `;
