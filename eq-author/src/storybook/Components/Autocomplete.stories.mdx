@@ -7,7 +7,7 @@ const filterOptions = (options, query) =>
     x =>
       x.unit.toLowerCase().includes(query) ||
       x.abbreviation.toLowerCase().includes(query)
-  ).map(option => `${option.unit} (${option.abbreviation})`);
+  ).map(option => <span>{option.unit} <span aria-hidden="true">({option.abbreviation})</span></span>);
 
 
 
