@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { EditorState, Modifier } from "draft-js";
 import Tooltip from "components/Forms/Tooltip";
+import { colors } from "constants/theme";
 
 const ENTITY_TYPE = "LINK";
 const MUTABILITY = "IMMUTABLE";
@@ -25,7 +26,7 @@ const linkToHTML = {
 };
 
 const Link = styled.a`
-  background: #d6e4ff;
+  background: ${colors.paleBlue};
 `;
 
 const DecoratedLink = ({ entityKey, contentState, children }) => {
