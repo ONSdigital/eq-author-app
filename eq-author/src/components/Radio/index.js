@@ -14,12 +14,13 @@ export const RadioLabel = styled.label`
   margin-bottom: 0.8em;
   margin-left: -0.5em;
   border: 1px solid ${colors.black};
+  display: flex;
   flex: 1 1 33.3333333%;
   cursor: pointer;
-  display: flex;
   flex-direction: column;
   color: ${colors.textLight};
   position: relative;
+  width: max-content;
 
   &:focus-within {
     border-color: ${colors.blue};
