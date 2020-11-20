@@ -23,7 +23,7 @@ const filterOptions = (options, query) =>
     name="Default"
     args={{ children: null }}
   >
-    {(args) => <Autocomplete options={unitConversion} filter={filterOptions} {...args} />}
+    {(args) => <Autocomplete options={unitConversion} filter={filterOptions} placeholder={"Select a type"} {...args} />}
   </Story>
 </Canvas>
 
