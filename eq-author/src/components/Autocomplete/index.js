@@ -3,6 +3,7 @@ Need to do tomorrow:
 [ ] - add enter/space functionality
 [ ] - add saving of selected option
 [ ] - finish accessibility
+[X] - add switch case keys as object text
 */
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
@@ -18,21 +19,31 @@ import ScrollPane from "components/ScrollPane";
 
 import { isPrintableKeyCode } from "utils/isPrintableKeyCode";
 
-const AutocompleteProps = {
-  options: PropTypes.oneOfType([PropTypes.array, PropTypes.object]).isRequired,
-  filter: PropTypes.func,
-};
-
 const focusEl = element => {
   element.scrollIntoView();
   element.focus();
+};
+
+const keyCodes = {
+  ArrowDown: "ArrowDown",
+  ArrowUp: "ArrowUp",
+  Enter: "Enter",
+  Space: " ",
+};
+
+const AutocompleteProps = {
+  options: PropTypes.oneOfType([PropTypes.array, PropTypes.object]).isRequired,
+  filter: PropTypes.func,
 };
 
 const Autocomplete = ({ options, filter }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [selectedIndex, setSelectedIndex] = useState(-1);
+
   // need another state here for the selected option
+  // not sure if this is needed now because I'm using Query instead
+  // const [selectedOption, setSelectedOption] = useState(null);
 
   // builds a list of elements
   const comboElements = useRef({});
@@ -62,17 +73,28 @@ const Autocomplete = ({ options, filter }) => {
     [selectedIndex]
   );
 
-  const onEnter = useCallback(event => {
-    event.preventDefault();
-    // do something here
-    console.log("enter the dragon");
-  }, []);
+  const onSelect = useCallback(() => {
+    const selectedValue = comboElements.current[selectedIndex].innerText;
+    setQuery(selectedValue);
+    setIsOpen(false);
+  }, [selectedIndex]);
 
-  const onSpace = useCallback(event => {
-    event.preventDefault();
-    // do something here
-    console.log("space attack");
-  }, []);
+  const handleClick = useCallback(
+    event => {
+      event.preventDefault();
+      setQuery(event.currentTarget.innerText);
+      setIsOpen(false);
+    },
+    [selectedIndex]
+  );
+
+  const handleSelect = useCallback(
+    event => {
+      event.preventDefault();
+      onSelect();
+    },
+    [selectedIndex]
+  );
 
   const handleOtherKeyDown = useCallback(event => {
     const inputElement = comboElements.current[-1];
@@ -85,20 +107,21 @@ const Autocomplete = ({ options, filter }) => {
   const handleKeyDown = event => {
     if (isOpen && filterOptions.length) {
       const { key } = event;
+      const { ArrowDown, ArrowUp, Enter, Space } = keyCodes;
 
       switch (key) {
-        case "ArrowDown":
+        case ArrowDown:
           onArrowDown(event);
           break;
-        case "ArrowUp":
+        case ArrowUp:
           onArrowUp(event);
           break;
-        case "Enter":
-          onEnter(event);
+        case Enter:
+          handleSelect(event);
           break;
         // space needs some work
-        case " ":
-          onSpace(event);
+        case Space:
+          handleSelect(event);
           break;
 
         default:
@@ -111,15 +134,6 @@ const Autocomplete = ({ options, filter }) => {
     }
   };
 
-  useEffect(() => {
-    if (!isOpen && query.length) {
-      setIsOpen(true);
-    }
-    if (isOpen && !query.length) {
-      setIsOpen(false);
-    }
-  }, [query]);
-
   const handleInputChange = useCallback(
     event => {
       setQuery(event.value);
@@ -131,6 +145,15 @@ const Autocomplete = ({ options, filter }) => {
 
   const filterOptions =
     typeof filter === "function" ? filter(options, query) : options;
+
+  useEffect(() => {
+    if (!isOpen && query.length) {
+      setIsOpen(true);
+    }
+    if (isOpen && query.length) {
+      setIsOpen(false);
+    }
+  }, [query]);
 
   const autoRender = (id, phase, actualTime, baseTime) => {
     console.log(id, phase, actualTime, baseTime);
@@ -146,15 +169,18 @@ const Autocomplete = ({ options, filter }) => {
           // aria-controls={"autocomplete-listbox"}
           // aria-expanded={isOpen ? "true" : "false"}
           // aria-owns={"autocomplete-listbox"}
+          autoComplete="off"
           value={query}
           onChange={event => handleInputChange(event)}
-          placeholder={"search something"}
+          placeholder={"type here"}
           forwardRef={inputEl => {
             comboElements.current[-1] = inputEl;
           }}
           role="combobox"
           type="text"
         />
+        {/* needs to be greater than one otherwise it leaves a zero */}
+        {/* {isOpen && filterOptions.length > 1 && ( */}
         {isOpen && (
           <DropDown id="autocomplete-listbox" role="listbox">
             <ScrollPane>
@@ -172,12 +198,15 @@ const Autocomplete = ({ options, filter }) => {
                     ref={optionEl => {
                       comboElements.current[index] = optionEl;
                     }}
+                    onClick={event => handleClick(event)}
                   >
                     {option}
                   </ListItem>
                 );
               })}
-              {!filterOptions.length && <ListItem>No results found</ListItem>}
+              {!filterOptions.length && (
+                <ListItem>{`${isOpen}`}No results found</ListItem>
+              )}
             </ScrollPane>
           </DropDown>
         )}
