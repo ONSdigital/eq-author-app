@@ -69,20 +69,19 @@ const StyledInput = styled.input`
   ${props => props.type === "radio" && radioButton};
 `;
 
-export const UncontrolledInput = ({
-  type,
-  defaultValue,
-  id,
-  ...otherProps
-}) => (
-  <StyledInput
-    type={type}
-    defaultValue={defaultValue}
-    id={id}
-    name={id}
-    {...otherProps}
-  />
-);
+export const UncontrolledInput = props => {
+  const { type, defaultValue, id, forwardRef, ...otherProps } = props;
+  return (
+    <StyledInput
+      ref={forwardRef}
+      type={type}
+      defaultValue={defaultValue}
+      id={id}
+      name={id}
+      {...otherProps}
+    />
+  );
+};
 
 UncontrolledInput.defaultProps = {
   type: "text",
