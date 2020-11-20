@@ -6,10 +6,10 @@ Need to do tomorrow:
 [ ] - finish accessibility
     - this is hard
     - turns out I don't know a lot
-    - need to find a way to get rid of the repeating read out
+    - need to find a way to get rid of the repeating read out <--- this was caused by the scroll pane?
     - would like the focus to work properly
 */
-
+// chrome accessibility tools are your friend
 import React, { useState, useRef, useCallback } from "react";
 import PropTypes from "prop-types";
 
@@ -21,7 +21,8 @@ import {
   ListItem,
   Wrapper,
 } from "./index.style";
-import ScrollPane from "components/ScrollPane";
+// review in the morning
+// import ScrollPane from "components/ScrollPane";
 
 import { keyCodes } from "constants/keyCodes";
 import { isPrintableKeyCode } from "utils/isPrintableKeyCode";
@@ -196,26 +197,26 @@ const Autocomplete = ({ options, filter, placeholder }) => {
         />
         {query.length > 0 && !selectedOption && (
           <DropDown id="autocomplete-listbox" role="listbox">
-            <ScrollPane>
-              {filterOptions.map((option, index) => (
-                <ListItem
-                  key={index}
-                  id={`autocomplete-option-${index}`}
-                  aria-selected={selectedIndex === index ? "true" : "false"}
-                  aria-setsize={filterOptions.length}
-                  aria-posinset={index + 1}
-                  tabIndex="-1"
-                  role="option"
-                  ref={optionEl => {
-                    comboElements.current[index] = optionEl;
-                  }}
-                  onClick={event => handleClick(event)}
-                >
-                  {option}
-                </ListItem>
-              ))}
-              {!filterOptions.length && <ListItem>No results found</ListItem>}
-            </ScrollPane>
+            {/* <ScrollPane> */}
+            {filterOptions.map((option, index) => (
+              <ListItem
+                key={index}
+                id={`autocomplete-option-${index}`}
+                aria-selected={selectedIndex === index ? "true" : "false"}
+                aria-setsize={filterOptions.length}
+                aria-posinset={index + 1}
+                tabIndex="-1"
+                role="option"
+                ref={optionEl => {
+                  comboElements.current[index] = optionEl;
+                }}
+                onClick={event => handleClick(event)}
+              >
+                {option}
+              </ListItem>
+            ))}
+            {!filterOptions.length && <ListItem>No results found</ListItem>}
+            {/* </ScrollPane> */}
           </DropDown>
         )}
       </Wrapper>
