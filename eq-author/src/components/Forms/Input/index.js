@@ -4,7 +4,6 @@ import styled, { css } from "styled-components";
 import { sharedStyles } from "components/Forms/css";
 import iconCheckbox from "./icon-checkbox.svg";
 import withChangeHandler from "components/Forms/withChangeHandler";
-
 import { colors } from "constants/theme";
 
 const multipleChoiceOption = css`
@@ -20,7 +19,6 @@ const multipleChoiceOption = css`
 
 const checkBox = css`
   ${multipleChoiceOption};
-
   &:checked {
     background: url(${iconCheckbox}) no-repeat center;
     background-size: 0.8em auto;
@@ -30,31 +28,34 @@ const checkBox = css`
 const radioButton = css`
   ${multipleChoiceOption};
   border-radius: 100%;
-
   ${({ variant }) =>
     variant === "radioBox" &&
     `
     width: 1.25em;
     height: 1.25em;
-    border-radius: 100%;
-    outline: none;
     position: absolute;
-    overflow: hidden;
-    padding: 0;
-    display: flex;
-    border: 1px solid ${colors.black};
-
-    :before {
-      content: "";
-      display: block;
-      width: 80%;
-      height: 80%;
-      margin: 10% auto;
-      border-radius: 100%;
-      background: ${colors.lighterGrey};
+    border-radius: 50%;
+    background: ${colors.lighterGrey}
+    border: 3px solid white;
+    box-shadow: 0 0 0 2px ${colors.black};
+    outline: none;
+    &:checked {
+      background: ${colors.black} !important;
     }
     :checked:before {
       background: ${colors.black};
+    }
+    :hover {
+      border-radius: 50%;
+      outline: none;
+      border: 3px solid white;
+      box-shadow: 0 0 0 2px ${colors.black};
+    }
+    :focus {
+      border-radius: 50%;
+      outline: none;
+      border: 3px solid white;
+      box-shadow: 0 0 0 2px ${colors.black};
     }
     `}
 
