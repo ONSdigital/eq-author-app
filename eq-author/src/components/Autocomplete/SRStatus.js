@@ -1,53 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 
-// function debounce(func, wait, immediate) {
-//   let timeout;
-//   return function() {
-//     /* eslint-disable babel/no-invalid-this */
-//     let context = this;
-//     let args = arguments;
-//     let later = function() {
-//       timeout = null;
-//       if (!immediate) {
-//         func.apply(context, args);
-//       }
-//     };
-//     let callNow = immediate && !timeout;
-//     clearTimeout(timeout);
-//     timeout = setTimeout(later, wait);
-//     if (callNow) {
-//       func.apply(context, args);
-//     }
-//   };
-// }
-// const statusDebounceMillis = 1400;
-
-/* eslint-disable react/forbid-prop-types */
 const StatusProps = {
-  id: PropTypes.any,
-  length: PropTypes.any,
-  queryLength: PropTypes.any,
-  minQueryLength: PropTypes.any,
-  selectedOption: PropTypes.any,
-  selectedOptionIndex: PropTypes.any,
-  isInFocus: PropTypes.any,
-  validChoiceMade: PropTypes.any,
-  tQueryTooShort: PropTypes.any,
-  tNoResults: PropTypes.any,
-  tSelectedOption: PropTypes.any,
-  tResults: PropTypes.any,
+  id: PropTypes.string,
+  length: PropTypes.number,
+  queryLength: PropTypes.number,
+  selectedOption: PropTypes.string,
+  selectedOptionIndex: PropTypes.number,
+  isInFocus: PropTypes.number,
+  validChoiceMade: PropTypes.string,
+  tNoResults: PropTypes.func,
+  tSelectedOption: PropTypes.func,
+  tResults: PropTypes.func,
 };
 
 export const Status = ({
   id,
   length,
-  queryLength,
-
   selectedOption,
   selectedOptionIndex,
-  isInFocus,
-  validChoiceMade,
   tNoResults = () => "No search results",
   tSelectedOption = (selectedOption, length, index) =>
     `${selectedOption} ${index + 1} of ${length} is highlighted`,
@@ -60,31 +31,6 @@ export const Status = ({
     return `${length} ${words.result} ${words.is} available. ${contentSelectedOption}`;
   },
 }) => {
-  //   const [state, setState] = useState({
-  //     bump: false,
-  //     debounced: false,
-  //     silenced: false,
-  //   });
-
-  //   const { bump, debounced, silenced } = state;
-
-  //   useEffect(() => {
-  //     debounce(function() {
-  //       if (!debounced) {
-  //         const shouldSilence = !isInFocus || validChoiceMade;
-  //         setState(({ bump }) => ({
-  //           bump: !bump,
-  //           debounced: true,
-  //           silenced: shouldSilence,
-  //         }));
-  //       }
-  //     }, statusDebounceMillis);
-  //   }, [debounced, isInFocus, validChoiceMade]);
-
-  //   useEffect(() => {
-  //     setState(prev => ({ ...prev, debounced: false }));
-  //   }, [queryLength]);
-
   const noResults = length === 0;
 
   const contentSelectedOption = selectedOption
@@ -97,7 +43,6 @@ export const Status = ({
   } else {
     content = tResults(length, contentSelectedOption);
   }
-  console.log("hello world");
   return (
     <div
       style={{
@@ -121,14 +66,6 @@ export const Status = ({
       >
         {content}
       </div>
-      {/* <div
-        id={id + "__status--B"}
-        role="status"
-        aria-atomic="true"
-        aria-live="polite"
-      >
-        {content}
-      </div> */}
     </div>
   );
 };
