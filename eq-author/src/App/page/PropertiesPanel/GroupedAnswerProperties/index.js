@@ -1,8 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import { groupBy, kebabCase, getOr} from "lodash/fp";
+import { groupBy, kebabCase, getOr } from "lodash/fp";
 
 import Accordion from "components/Accordion";
+import { Autocomplete } from "components/Autocomplete";
 import IconText from "components/IconText";
 import {
   CURRENCY,
@@ -12,6 +13,7 @@ import {
   DURATION,
   TEXTAREA,
 } from "constants/answer-types";
+import { unitConversion } from "constants/unit-types";
 import { colors } from "constants/theme";
 import getIdForObject from "utils/getIdForObject";
 
@@ -73,16 +75,31 @@ const GroupContainer = styled.div`
 `;
 
 export const UnitPropertiesStyled = styled(UnitProperties)`
-  ${({ hasUnitError }) => hasUnitError && `
+  ${({ hasUnitError }) =>
+    hasUnitError &&
+    `
   border-color: ${colors.red};
 `}
 `;
+
+const filterUnitOptions = (options, query) =>
+  Object.values(options)
+    .filter(
+      x =>
+        x.unit.toLowerCase().includes(query) ||
+        x.abbreviation.toLowerCase().includes(query)
+    )
+    .map((option, index) => (
+      <span key={`unit-option-${index}`}>
+        {option.unit} <span aria-hidden="true">({option.abbreviation})</span>
+      </span>
+    ));
 
 const DECIMAL_INCONSISTENCY = "ERR_REFERENCED_ANSWER_DECIMAL_INCONSISTENCY";
 const ERR_MAX_LENGTH_TOO_LARGE = "ERR_MAX_LENGTH_TOO_LARGE";
 const ERR_MAX_LENGTH_TOO_SMALL = "ERR_MAX_LENGTH_TOO_SMALL";
 
-const isNumeric = (answerType) =>
+const isNumeric = answerType =>
   [NUMBER, PERCENTAGE, CURRENCY, UNIT].includes(answerType);
 
 const showMaxLengthValError = (isMaxLengthTooLarge, isMaxLengthTooSmall) => {
@@ -114,7 +131,7 @@ export const UnwrappedGroupedAnswerProperties = ({
   updateAnswersOfType,
 }) => {
   const answersByType = groupBy("type", page.answers);
-  return Object.keys(answersByType).map((answerType) => {
+  return Object.keys(answersByType).map(answerType => {
     let groupedFields = null;
     let groupValidations = null;
     const answers = answersByType[answerType];
@@ -139,7 +156,7 @@ export const UnwrappedGroupedAnswerProperties = ({
             <Decimal
               id={id}
               data-test="decimals"
-              onBlur={(decimals) => {
+              onBlur={decimals => {
                 updateAnswersOfType(answerType, page.id, {
                   decimals,
                 });
@@ -156,19 +173,32 @@ export const UnwrappedGroupedAnswerProperties = ({
           {answerType === UNIT && (
             <>
               <MultiLineField id="unit" label={"Type"}>
-                <UnitPropertiesStyled
-                  id="unit"
-                  onChange={({ value: unit }) => {
+                {/* 
+                need to build a filter here
+                the filter will be the unit types
+                 */}
+                <Autocomplete
+                  options={unitConversion}
+                  filter={filterUnitOptions}
+                  placeholder={"Select a type"}
+                  updateOption={unit => {
+                    // this is gross
+                    const value = unit.split("(")[0].trim();
                     updateAnswersOfType(answerType, page.id, {
-                      unit,
+                      unit: value,
                     });
                   }}
-                  hasUnitError={hasUnitError}
-                  unit={answers[0].properties.unit}
+                  defaultValue={
+                    (answers[0].properties.unit &&
+                      `${answers[0].properties.unit} (${
+                        unitConversion[answers[0].properties.unit].abbreviation
+                      })`) ||
+                    null
+                  }
                 />
               </MultiLineField>
               {hasUnitError && (
-                <ValidationWarningUnit 
+                <ValidationWarningUnit
                   icon={ValidationErrorIcon}
                   data-test="unitRequired"
                 >
@@ -247,7 +277,7 @@ export const UnwrappedGroupedAnswerProperties = ({
     return (
       <Accordion title={`${answerType} properties`} key={answerType}>
         <Padding>{groupedFields}</Padding>
-        {answers.map((answer) => {
+        {answers.map(answer => {
           return (
             <AnswerPropertiesContainer key={getIdForObject(answer)}>
               <Padding>
