@@ -12,7 +12,6 @@ export const RadioLabel = styled.label`
   padding: 1em 1.5em;
   border-radius: 0.25em;
   margin-bottom: 0.8em;
-  margin-left: -0.5em;
   border: 1px solid ${colors.black};
   display: flex;
   flex: 1 1 33.3333333%;

@@ -34,7 +34,7 @@ const SectionTitle = styled.h2`
   font-size: 1.1em;
   font-weight: bold;
   color: ${colors.text};
-  margin: 0 0 1em -0.5em;
+  margin: 0 0 1em;
 `;
 
 const SectionDescription = styled.p`
