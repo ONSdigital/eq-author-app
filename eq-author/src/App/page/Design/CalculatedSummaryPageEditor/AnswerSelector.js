@@ -180,11 +180,6 @@ export class UnwrappedAnswerSelector extends Component {
   };
 
   renderAnswers(answers, answerType) {
-
-    // console.log('not empty state props', this.props);
-
-    const { section } = this.props.page;
-
     const unitInconsistencyError = this.props.getValidationError({
       field: "summaryAnswers",
       message: CALCSUM_SUMMARY_ANSWERS_THE_SAME,
@@ -195,17 +190,18 @@ export class UnwrappedAnswerSelector extends Component {
       message: CALCSUM_ANSWER_NOT_SELECTED,
     });
 
-    const unit = this.props.page.summaryAnswers[0].properties.unit;
+    const { section } = this.props.page;
+    const unit = answers[0].properties.unit;
 
     let errorMsg;
 
     if (unit !== undefined) {
       errorMsg = buildLabelError(CALCSUM_ANSWER_NOT_SELECTED, `${unit}`, 20, 19);
     } else {
-    errorMsg = CALCSUM_ANSWER_NOT_SELECTED;
+    errorMsg = buildLabelError(CALCSUM_ANSWER_NOT_SELECTED, `${answers[0].type}`, 20, 19);
     }
 
-    const isInvalid = Boolean(unitInconsistencyError) || Boolean(minOfTwoAnswersError);
+    const isInvalid = unitInconsistencyError || minOfTwoAnswersError;
 
     return (
       <div>
