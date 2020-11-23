@@ -17,7 +17,6 @@ BUGS that need ironed out
     - need a test for this
     - other bug; type a, go down 5 spaces, type c, go down
 [ ] - cannot read property of 'innerText' of null
-[ ] - 
 */
 // chrome accessibility tools are your friend
 import React, { useState, useRef, useCallback, useEffect } from "react";
@@ -193,7 +192,7 @@ const Autocomplete = ({
   const tAssistiveHint = () =>
     "When autocomplete results are available use up and down arrows to review and enter to select.";
   // ------------------------------------------------------
-
+  console.log(document.activeElement);
   return (
     <React.Profiler id="autocomplete" onRender={autoRender}>
       <>
@@ -209,6 +208,7 @@ const Autocomplete = ({
           />
           <Input
             id="autocomplete-input"
+            data-test="autocomplete-input"
             aria-activedescendant={
               query.length > 0
                 ? comboElements.current[selectedIndex]?.id
@@ -230,11 +230,16 @@ const Autocomplete = ({
             value={selectedOption ? selectedOption : query}
           />
           {query.length > 0 && !selectedOption && (
-            <DropDown id="autocomplete-listbox" role="listbox">
+            <DropDown
+              id="autocomplete-listbox"
+              data-test="autocomplete-listbox"
+              role="listbox"
+            >
               {filterOptions.map((option, index) => (
                 <ListItem
                   key={index}
                   id={`autocomplete-option-${index}`}
+                  data-test={`autocomplete-option-${index}`}
                   aria-selected={selectedIndex === index ? "true" : "false"}
                   aria-setsize={filterOptions.length}
                   aria-posinset={index + 1}
