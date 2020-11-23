@@ -5,7 +5,6 @@ import Icon from "./icon-search.svg";
 
 export const Wrapper = styled.div`
   box-sizing: border-box;
-  width: 400px;
 `;
 
 export const RoundedInput = styled(Input)`
