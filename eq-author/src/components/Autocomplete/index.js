@@ -4,13 +4,23 @@ Need to do tomorrow:
 [X] - add saving of selected option
 [X] - add switch case keys as object text
 [ ] - finish accessibility
-    - this is hard
-    - turns out I don't know a lot
-    - need to find a way to get rid of the repeating read out <--- this was caused by the scroll pane?
-    - would like the focus to work properly
+[ ] - index not returning to -1 when focus on input (this is screen reader thing)
+[ ] - reading out number of results twice (apparently a known bug with iframes)
+*/
+
+/*
+BUGS that need ironed out
+[X] - hitting space twice does nothing
+    - write a test to check if handleSelect is firing on when nothing selected
+[X] - had a element.focus() bug
+    - caused by hitting down on no results found
+    - need a test for this
+    - other bug; type a, go down 5 spaces, type c, go down
+[ ] - cannot read property of 'innerText' of null
+[ ] - 
 */
 // chrome accessibility tools are your friend
-import React, { useState, useRef, useCallback } from "react";
+import React, { useState, useRef, useCallback, useEffect } from "react";
 import PropTypes from "prop-types";
 
 import { Status } from "./SRStatus";
@@ -21,27 +31,31 @@ import {
   ListItem,
   Wrapper,
 } from "./index.style";
-// review in the morning
-// import ScrollPane from "components/ScrollPane";
 
 import { keyCodes } from "constants/keyCodes";
 import { isPrintableKeyCode } from "utils/isPrintableKeyCode";
 
-const focusEl = element => {
-  element.scrollIntoView();
-  element.focus();
-};
+// no idea how to replicate bug where element doesn't exist
+const focusEl = element => element && element.focus();
 
 const AutocompleteProps = {
   options: PropTypes.oneOfType([PropTypes.array, PropTypes.object]).isRequired,
+  updateOption: PropTypes.func.isRequired,
+  defaultValue: PropTypes.string.isRequired,
   filter: PropTypes.func,
   placeholder: PropTypes.string,
 };
 
-const Autocomplete = ({ options, filter, placeholder }) => {
+const Autocomplete = ({
+  options,
+  updateOption,
+  defaultValue,
+  filter,
+  placeholder,
+}) => {
   const [query, setQuery] = useState("");
   const [selectedIndex, setSelectedIndex] = useState(-1);
-  const [selectedOption, setSelectedOption] = useState(null);
+  const [selectedOption, setSelectedOption] = useState(defaultValue || null);
   // builds a list of elements
   const comboElements = useRef({});
 
@@ -73,8 +87,8 @@ const Autocomplete = ({ options, filter, placeholder }) => {
 
   const onSelect = useCallback(() => {
     const selectedValue = comboElements.current[selectedIndex].innerText;
-
     setSelectedOption(selectedValue);
+    updateOption(selectedValue);
   }, [selectedIndex]);
 
   const handleSelect = useCallback(
@@ -89,20 +103,23 @@ const Autocomplete = ({ options, filter, placeholder }) => {
   const handleInputChange = useCallback(
     event => {
       setQuery(event.value);
-      setSelectedIndex(-1);
-      if (!selectedOption) {
+
+      // wanted to separate this, but this is the right place I think
+      if (selectedOption) {
         setSelectedOption(null);
       }
     },
-    // just setQuery is faster than setSelectedIndex
-    [setQuery]
+    // both of these are essential
+    [setQuery, selectedOption]
   );
 
   const handleClick = useCallback(
     event => {
       event.preventDefault();
 
-      setSelectedOption(event.currentTarget.innerText);
+      const clickedValue = event.currentTarget.innerText;
+      setSelectedOption(clickedValue);
+      updateOption(clickedValue);
     },
     [selectedIndex]
   );
@@ -117,7 +134,7 @@ const Autocomplete = ({ options, filter, placeholder }) => {
 
   const handleKeyDown = useCallback(
     event => {
-      if (query.length > 0) {
+      if (query.length > 0 && filterOptions.length) {
         const { key } = event;
         const { ArrowDown, ArrowUp, Enter, Space } = keyCodes;
 
@@ -129,14 +146,20 @@ const Autocomplete = ({ options, filter, placeholder }) => {
             onArrowUp(event);
             break;
           case Enter:
-            handleSelect(event);
+            if (selectedIndex !== -1) {
+              handleSelect(event);
+            }
             break;
           case Space:
-            handleSelect(event);
+            // write tests for these
+            if (selectedIndex !== -1) {
+              handleSelect(event);
+            }
             break;
           default:
             // this is needed to return the focus back to the input
-            if (isPrintableKeyCode(event.keyCode)) {
+            // (selected > -1) is focus index of list items
+            if (isPrintableKeyCode(event.keyCode) && selectedIndex > -1) {
               handleOtherKeyDown(event);
             }
             break;
@@ -146,6 +169,13 @@ const Autocomplete = ({ options, filter, placeholder }) => {
     [query, selectedIndex]
   );
 
+  useEffect(() => {
+    if (selectedIndex >= 0) {
+      setSelectedIndex(-1);
+    }
+  }, [query]);
+
+  // write test for this
   const filterOptions =
     typeof filter === "function" ? filter(options, query) : options;
 
@@ -157,73 +187,75 @@ const Autocomplete = ({ options, filter, placeholder }) => {
   // ------------------------------------------------------
   // These use another span to describe what's going on
   const assistiveHintID = "autocomplete-assistiveHint";
-  const ariaDescribedProp = { "aria-describedby": assistiveHintID };
+  const ariaDescribedProp = !query.length
+    ? { "aria-describedby": assistiveHintID }
+    : null;
   const tAssistiveHint = () =>
-    "When autocomplete results are available use up and down arrows to review and enter to select.  Touch device users, explore by touch or with swipe gestures.";
+    "When autocomplete results are available use up and down arrows to review and enter to select.";
   // ------------------------------------------------------
+
   return (
     <React.Profiler id="autocomplete" onRender={autoRender}>
-      <Wrapper onKeyDown={event => handleKeyDown(event)}>
-        {/* This is a work in progress */}
-        <Status
-          id={"autocomplete-input"}
-          length={filterOptions.length}
-          queryLength={query.length}
-          isInFocus={selectedIndex}
-          validChoiceMade={selectedOption}
-          selectedOption={selectedOption}
-          selectedOptionIndex={selectedIndex}
-        />
-        {/* This is a work in progress */}
-        <Input
-          id="autocomplete-input"
-          aria-activedescendant={
-            query.length > 0 ? comboElements.current[selectedIndex].id : false
-          }
-          aria-autocomplete={"list"}
-          aria-controls={"autocomplete-listbox"}
-          {...ariaDescribedProp}
-          aria-expanded={query.length > 0 ? "true" : "false"}
-          aria-owns={"autocomplete-listbox"}
-          autoComplete="off"
-          forwardRef={inputEl => {
-            comboElements.current[-1] = inputEl;
-          }}
-          onChange={event => handleInputChange(event)}
-          placeholder={placeholder}
-          role="combobox"
-          type="text"
-          value={selectedOption ? selectedOption : query}
-        />
-        {query.length > 0 && !selectedOption && (
-          <DropDown id="autocomplete-listbox" role="listbox">
-            {/* <ScrollPane> */}
-            {filterOptions.map((option, index) => (
-              <ListItem
-                key={index}
-                id={`autocomplete-option-${index}`}
-                aria-selected={selectedIndex === index ? "true" : "false"}
-                aria-setsize={filterOptions.length}
-                aria-posinset={index + 1}
-                tabIndex="-1"
-                role="option"
-                ref={optionEl => {
-                  comboElements.current[index] = optionEl;
-                }}
-                onClick={event => handleClick(event)}
-              >
-                {option}
-              </ListItem>
-            ))}
-            {!filterOptions.length && <ListItem>No results found</ListItem>}
-            {/* </ScrollPane> */}
-          </DropDown>
-        )}
-      </Wrapper>
-      {/* This is a wip */}
-      <span id={assistiveHintID} style={{ display: "none" }}>
-        {tAssistiveHint()}
-      </span>
+      <>
+        <Wrapper onKeyDown={event => handleKeyDown(event)}>
+          <Status
+            id={"autocomplete-input-status"}
+            length={filterOptions.length}
+            queryLength={query.length}
+            selectedOption={selectedOption}
+            selectedOptionIndex={selectedIndex}
+            isInFocus={selectedIndex}
+            validChoiceMade={selectedOption}
+          />
+          <Input
+            id="autocomplete-input"
+            aria-activedescendant={
+              query.length > 0
+                ? comboElements.current[selectedIndex]?.id
+                : false
+            }
+            aria-autocomplete={"list"}
+            aria-controls={"autocomplete-listbox"}
+            {...ariaDescribedProp}
+            aria-expanded={query.length > 0 ? "true" : "false"}
+            aria-owns={"autocomplete-listbox"}
+            autoComplete="off"
+            forwardRef={inputEl => {
+              comboElements.current[-1] = inputEl;
+            }}
+            onChange={event => handleInputChange(event)}
+            placeholder={placeholder}
+            role="combobox"
+            type="text"
+            value={selectedOption ? selectedOption : query}
+          />
+          {query.length > 0 && !selectedOption && (
+            <DropDown id="autocomplete-listbox" role="listbox">
+              {filterOptions.map((option, index) => (
+                <ListItem
+                  key={index}
+                  id={`autocomplete-option-${index}`}
+                  aria-selected={selectedIndex === index ? "true" : "false"}
+                  aria-setsize={filterOptions.length}
+                  aria-posinset={index + 1}
+                  tabIndex="-1"
+                  role="option"
+                  ref={optionEl => {
+                    comboElements.current[index] = optionEl;
+                  }}
+                  onClick={event => handleClick(event)}
+                >
+                  {option}
+                </ListItem>
+              ))}
+              {!filterOptions.length && <ListItem>No results found</ListItem>}
+            </DropDown>
+          )}
+        </Wrapper>
+        <span id={assistiveHintID} style={{ display: "none" }}>
+          {tAssistiveHint()}
+        </span>
+      </>
     </React.Profiler>
   );
 };
