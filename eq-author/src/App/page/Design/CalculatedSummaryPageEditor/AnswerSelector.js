@@ -196,9 +196,9 @@ export class UnwrappedAnswerSelector extends Component {
     let errorMsg;
 
     if (unit !== undefined) {
-      errorMsg = buildLabelError(CALCSUM_ANSWER_NOT_SELECTED, `${unit}`, 20, 19);
+      errorMsg = buildLabelError(CALCSUM_ANSWER_NOT_SELECTED, `${unit.toLowerCase()}`, 20, 19);
     } else {
-    errorMsg = buildLabelError(CALCSUM_ANSWER_NOT_SELECTED, `${answers[0].type}`, 20, 19);
+    errorMsg = buildLabelError(CALCSUM_ANSWER_NOT_SELECTED, `${answers[0].type.toLowerCase()}`, 20, 19);
     }
 
     const isInvalid = unitInconsistencyError || minOfTwoAnswersError;
