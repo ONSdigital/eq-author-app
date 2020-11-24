@@ -9,6 +9,9 @@ exports[`ErrorInline should render 1`] = `
     <span
       role="alert"
     >
+      <VisuallyHidden>
+        Error - 
+      </VisuallyHidden>
       Oops
     </span>
   </ErrorInline__IconContainer>

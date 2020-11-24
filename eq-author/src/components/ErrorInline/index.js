@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import Icon from "./icon-error.svg?inline";
 import styled from "styled-components";
 import { colors } from "constants/theme";
+import VisuallyHidden from "components/VisuallyHidden";
 
 const Container = styled.div`
   position: absolute;
@@ -25,10 +26,13 @@ const ErrorInline = ({ children }) => {
   }
 
   return (
-    <Container aria-label="Error" data-test="error">
+    <Container data-test="error">
       <IconContainer>
         <Icon />
-        <span role="alert">{children}</span>
+        <span role="alert">
+          <VisuallyHidden>Error -&nbsp;</VisuallyHidden>
+          {children}
+        </span>
       </IconContainer>
     </Container>
   );

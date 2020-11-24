@@ -9,6 +9,7 @@ import { unitConversion } from "constants/unit-types";
 import SidebarButton, { Title, Detail } from "components/buttons/SidebarButton";
 import IconText from "components/IconText";
 import WarningIcon from "constants/icon-warning.svg?inline";
+import VisuallyHidden from "components/VisuallyHidden";
 
 import ValidationContext from "./ValidationContext";
 import DurationValidation from "./DurationValidation";
@@ -222,7 +223,8 @@ const AnswerValidation = ({ answer }) => {
       pendingErrors = [];
 
       validationButtons.push(
-        <PropertiesError aria-label="error" icon={WarningIcon} key={error.id}>
+        <PropertiesError icon={WarningIcon} key={error.id}>
+          <VisuallyHidden>Error -&nbsp;</VisuallyHidden>
           {errorCodes[error.errorCode]}
         </PropertiesError>
       );
