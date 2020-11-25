@@ -1,5 +1,5 @@
 import React from "react";
-import { render, fireEvent } from "tests/utils/rtl";
+import { render, fireEvent, act, createEvent } from "tests/utils/rtl";
 import { Autocomplete } from "./";
 
 import { keyCodes } from "constants/keyCodes";
@@ -203,5 +203,33 @@ describe("components/Autocomplete", () => {
 
     expect(getByRole("status")).toHaveTextContent("3 results are available");
     expect(getByTestId(firstOptionId)).toHaveTextContent("Centimetres");
+  });
+
+  // trying to up the coverage here.
+
+  // doing so by ensuring any other keyboard event is captured.
+  it("should dropdown option should give input focus on printable key press", async () => {
+    const handleOtherKeyDown = jest.fn();
+    const { getByTestId, debug } = render(Component(props));
+
+    fireEvent.change(getByTestId(inputId), {
+      target: { value: "a" },
+    });
+
+    fireEvent.keyDown(getByTestId(inputId), {
+      key: ArrowDown,
+      code: ArrowDown,
+    });
+
+    expect(getByTestId(firstOptionId)).toHaveFocus();
+
+    // await act(async () => {
+    const myEvent = createEvent.keyDown(getByTestId(inputId), {
+      key: "Backspace",
+      code: "Backspace",
+    });
+
+    expect(getByTestId(inputId)).toHaveFocus();
+    // expect(handleOtherKeyDown).toHaveBeenCalledTimes(1);
   });
 });
