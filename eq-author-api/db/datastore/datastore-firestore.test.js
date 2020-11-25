@@ -386,11 +386,10 @@ describe("Firestore Datastore", () => {
   });
 
   describe("Saving a base questionnaire", () => {
-    it("Should handel when an ID cannot be found within the given base questionnaire", () => {
-      expect(() => {
-        saveMetadata({});
-      }).not.toThrow();
+    it("Should handle when an ID cannot be found within the given base questionnaire", async () => {
+      await expect(saveMetadata({})).rejects.toThrow();
     });
+
     it("Should update the 'updatedAt' property", async () => {
       const updatedAt = new Date();
       const updatedBaseQuestionnaire = await saveMetadata({
