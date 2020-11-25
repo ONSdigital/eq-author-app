@@ -223,8 +223,8 @@ const AnswerValidation = ({ answer }) => {
       pendingErrors = [];
 
       validationButtons.push(
-        <PropertiesError icon={WarningIcon} key={error.id}>
-          <VisuallyHidden>Error -&nbsp;</VisuallyHidden>
+        <PropertiesError role="alert" icon={WarningIcon} key={error.id}>
+          <VisuallyHidden>Error:&nbsp;</VisuallyHidden>
           {errorCodes[error.errorCode]}
         </PropertiesError>
       );

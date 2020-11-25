@@ -30,7 +30,7 @@ const ErrorInline = ({ children }) => {
       <IconContainer>
         <Icon />
         <span role="alert">
-          <VisuallyHidden>Error -&nbsp;</VisuallyHidden>
+          <VisuallyHidden>Error:&nbsp;</VisuallyHidden>
           {children}
         </span>
       </IconContainer>
