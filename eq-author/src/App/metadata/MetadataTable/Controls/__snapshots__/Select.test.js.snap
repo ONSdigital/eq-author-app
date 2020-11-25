@@ -4,25 +4,25 @@ exports[`Select should render 1`] = `
 <TableSelect__DataTableSelect
   name="test"
   onChange={[Function]}
-  value="x"
+  value="opt_a"
 >
   <option
     key="0"
-    value="x"
+    value="opt_a"
   >
-    x
+    Option A
   </option>
   <option
     key="1"
-    value="y"
+    value="opt_b"
   >
-    y
+    Option B
   </option>
   <option
     key="2"
-    value="z"
+    value="opt_c"
   >
-    z
+    Option C
   </option>
 </TableSelect__DataTableSelect>
 `;
