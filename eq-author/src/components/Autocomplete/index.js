@@ -174,13 +174,15 @@ const Autocomplete = ({
     }
   }, [query]);
 
-  // write test for this
+  // any filter function added needs to accept query as a param
   const filterOptions =
-    typeof filter === "function" ? filter(options, query) : options;
+    typeof filter === "function"
+      ? filter(options, query)
+      : options.filter(option => option.toLowerCase().includes(query));
 
   // using this to measure performance
   const autoRender = (id, phase, actualTime, baseTime) => {
-    console.log(id, phase, actualTime, baseTime);
+    // console.log(id, phase, actualTime, baseTime);
   };
 
   // ------------------------------------------------------
@@ -192,11 +194,14 @@ const Autocomplete = ({
   const tAssistiveHint = () =>
     "When autocomplete results are available use up and down arrows to review and enter to select.";
   // ------------------------------------------------------
-  console.log(document.activeElement);
+  // console.log(document.activeElement);
   return (
     <React.Profiler id="autocomplete" onRender={autoRender}>
       <>
-        <Wrapper onKeyDown={event => handleKeyDown(event)}>
+        <Wrapper
+          data-test="autocomplete"
+          onKeyDown={event => handleKeyDown(event)}
+        >
           <Status
             id={"autocomplete-input-status"}
             length={filterOptions.length}
