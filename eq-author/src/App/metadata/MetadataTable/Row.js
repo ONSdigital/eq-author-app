@@ -10,7 +10,13 @@ import {
 } from "components/datatable/Controls";
 import { TableColumn, TableRow } from "components/datatable/Elements";
 import { KeySelect, Select } from "./Controls";
-import { TEXT, DATE, LANGUAGE, REGION } from "constants/metadata-types";
+import {
+  TEXT,
+  TEXT_OPTIONAL,
+  DATE,
+  LANGUAGE,
+  REGION,
+} from "constants/metadata-types";
 import { EN, CY } from "constants/languages";
 import { GB_ENG, GB_GBN, GB_NIR, GB_SCT, GB_WLS } from "constants/regions";
 

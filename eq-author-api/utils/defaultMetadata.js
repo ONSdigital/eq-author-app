@@ -1,5 +1,12 @@
 const { v4: uuidv4 } = require("uuid");
 const { includes, filter } = require("lodash");
+const {
+  DATE,
+  TEXT,
+  TEXT_OPTIONAL,
+  LANGUAGE,
+  REGION,
+} = require("../constants/metadataTypes");
 
 const defaultTypeValueNames = {
   Date: "dateValue",
