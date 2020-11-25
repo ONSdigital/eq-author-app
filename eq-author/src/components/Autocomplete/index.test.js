@@ -2,91 +2,206 @@ import React from "react";
 import { render, fireEvent } from "tests/utils/rtl";
 import { Autocomplete } from "./";
 
+import { keyCodes } from "constants/keyCodes";
+import { unitConversion } from "constants/unit-types";
+
+const { Enter, Space, ArrowDown } = keyCodes;
+const inputId = "autocomplete-input";
+const dropDownId = "autocomplete-listbox";
+const firstOptionId = "autocomplete-option-0";
+const emptyResult = "No results found";
+const testList = ["a", "b", "c"];
+
+const filter = (options, query) =>
+  Object.values(options)
+    .filter(
+      x =>
+        x.unit.toLowerCase().includes(query) ||
+        x.abbreviation.toLowerCase().includes(query)
+    )
+    .map(
+      option => `${option.unit}
+     ${option.abbreviation}`
+    );
+
 describe("components/Autocomplete", () => {
-  const testId = "autocomplete-input";
-  const mocks = {
-    updateOption: jest.fn(),
-  };
+  let props, mocks;
+
   const Component = props => {
-    // need to add props
-    // placeholder
-    // filter
-    // options
-    //
     return <Autocomplete {...props} />;
   };
 
-  it("should have dropdown list if filter prop isn't added", () => {});
+  beforeEach(() => {
+    mocks = {
+      updateOption: jest.fn(),
+    };
 
-  it("should receive focus", () => {
-    const { getByTestId } = render(Component());
+    props = {
+      placeholder: "Holding place",
+      options: testList,
+      defaultValue: "",
+      ...mocks,
+    };
+  });
 
-    getByTestId(testId).focus();
+  it("should have dropdown list if filter prop isn't added", () => {
+    const { getByTestId, queryByTestId } = render(Component(props));
 
-    // add focus styling here
-    expect(getByTestId(testId)).toHaveStyleRule();
+    getByTestId(inputId).focus();
+    expect(queryByTestId(dropDownId)).toBeNull();
+
+    fireEvent.change(getByTestId(inputId), {
+      target: { value: "a" },
+    });
+
+    expect(getByTestId(dropDownId)).toBeVisible();
+  });
+
+  it("should receive focus and navigate to first option", () => {
+    const { getByTestId } = render(Component(props));
+
+    const input = getByTestId(inputId);
+
+    input.focus();
+
+    expect(input).toHaveFocus();
+
+    fireEvent.change(getByTestId(inputId), {
+      target: { value: "a" },
+    });
+
+    fireEvent.keyDown(getByTestId(inputId), {
+      key: ArrowDown,
+      code: ArrowDown,
+    });
+
+    expect(getByTestId(firstOptionId)).toHaveFocus();
   });
 
   it("should be accessible with a keyboard", () => {
-    const { getByTestId } = render(Component());
+    const { getByTestId } = render(Component(props));
 
-    getByTestId(testId).focus();
-    // not sure what the arguments do yet
-    // reference an element in the DOM
-    // what key I want to press
-    fireEvent.keyDown(getByTestId(testId), {
-      key: "ArrowDown",
-      code: "ArrowDown",
+    getByTestId(inputId).focus();
+
+    fireEvent.change(getByTestId(inputId), {
+      target: { value: "a" },
     });
-    // check the first element in the list is active
-    // `list-item-${id}`
-    expect(getByTestId()).toHaveStyleRule();
 
-    // not sure if enter if the correct button yet
-    fireEvent.keyDown(getByTestId(testId), { key: "Enter", code: "Enter" });
-    // this function is what saves the selection of the option
-    expect(mocks.updateOption).toHaveBeenCalled();
-  });
-
-  it("should dropdown when <input> has text", () => {
-    const { queryByTestId } = render(Component());
-    // might need a better check to see if the modal is present
-    expect(queryByTestId("drop-down-list")).toBeFalsy();
-
-    fireEvent.change(queryByTestId(testId), {
-      target: { value: "A" },
+    fireEvent.keyDown(getByTestId(inputId), {
+      key: ArrowDown,
+      code: ArrowDown,
     });
-    // might need a better check to see if the modal is present
-    expect(queryByTestId("drop-down-list")).toBeTruthy();
+
+    expect(getByTestId(firstOptionId)).toHaveFocus();
+
+    fireEvent.keyDown(getByTestId(inputId), { key: Enter, code: Enter });
+
+    expect(getByTestId(inputId)).not.toHaveFocus();
+    expect(mocks.updateOption).toHaveBeenCalledTimes(1);
   });
 
   it("should return no results", () => {
-    const { queryByTestId, queryByText } = render(Component());
+    const { queryByTestId, queryByText } = render(Component(props));
 
-    fireEvent.change(queryByTestId(testId), {
+    expect(queryByText(emptyResult)).toBeNull();
+
+    fireEvent.change(queryByTestId(inputId), {
       target: { value: "ASDATESCOSAINSBURY" },
     });
 
-    expect(queryByText("No results found")).toBeTruthy();
+    expect(queryByText(emptyResult)).toBeTruthy();
   });
 
-  it("should not fire space/enter if input is empty", () => {});
-  it("should not fire keyboard events when no options available", () => {});
-  it("should continue writing to input if space pressed multiple times", () => {});
+  it("should not fire space/enter if input is empty", () => {
+    const { getByTestId } = render(Component(props));
+
+    expect(getByTestId(inputId).value).toEqual("");
+
+    const keysToTest = [
+      { key: Enter, code: Enter },
+      { key: Space, code: Space },
+    ];
+
+    keysToTest.forEach(key => {
+      getByTestId(inputId).focus();
+      fireEvent.keyDown(getByTestId(inputId), key);
+      expect(mocks.updateOption).toHaveBeenCalledTimes(0);
+    });
+  });
+
+  it("should not fire keyboard events when no options available", () => {
+    // this test needs some thinking
+    const { getByTestId, queryByText } = render(Component(props));
+
+    expect(queryByText(emptyResult)).toBeNull();
+
+    const keysToTest = [
+      { key: Enter, code: Enter },
+      { key: Space, code: Space },
+    ];
+
+    fireEvent.change(getByTestId(inputId), {
+      target: { value: "a" },
+    });
+
+    keysToTest.forEach(key => {
+      getByTestId(firstOptionId).focus();
+      fireEvent.keyDown(getByTestId(inputId), key);
+      expect(mocks.updateOption).toHaveBeenCalledTimes(0);
+    });
+  });
+
   it("should reset selected index on input change", () => {
-    // type c into the input
-    // hit arrow key 5 times
-    // hit m
-    // hit arrow key once
-    // app shouldn't blow up
+    const biggerList = ["a", "ab", "abc", "ad", "adc", "afcde", "adam"];
+    const newProps = { ...props, options: biggerList };
+    const { getByTestId, getByRole } = render(Component(newProps));
+
+    fireEvent.change(getByTestId(inputId), {
+      target: { value: "a" },
+    });
+
+    expect(getByRole("status")).toHaveTextContent("7 results are available");
+
+    [1, 2, 3, 4, 5].forEach(() => {
+      fireEvent.keyDown(getByTestId(inputId), {
+        key: ArrowDown,
+        code: ArrowDown,
+      });
+    });
+
+    const optionFour = getByTestId("autocomplete-option-4");
+
+    expect(optionFour).toHaveFocus();
+
+    fireEvent.change(getByTestId(inputId), {
+      target: { value: "ada" },
+    });
+
+    expect(getByRole("status")).toHaveTextContent("1 result is available");
+
+    fireEvent.keyDown(getByTestId(inputId), {
+      key: ArrowDown,
+      code: ArrowDown,
+    });
+
+    expect(getByTestId(firstOptionId)).toHaveFocus();
+    expect(getByTestId(firstOptionId) === optionFour).toBeFalsy();
   });
 
-  it("should output the amount of search results are available from status", () => {
-    // including is and are
-    // expect(queryByText("8 results available"))
-  });
+  it("should apply filter to options", () => {
+    const newProps = {
+      ...props,
+      options: unitConversion,
+      filter,
+    };
 
-  it("should empty results", () => {
-    // expect(queryByText("No search results"))
+    const { getByTestId, getByRole } = render(Component(newProps));
+
+    fireEvent.change(getByTestId(inputId), {
+      target: { value: "cm" },
+    });
+
+    expect(getByRole("status")).toHaveTextContent("3 results are available");
+    expect(getByTestId(firstOptionId)).toHaveTextContent("Centimetres");
   });
 });
