@@ -16,6 +16,7 @@ import ErrorInline from "components/ErrorInline";
 import {
   CALCSUM_ANSWER_NOT_SELECTED,
   CALCSUM_SUMMARY_ANSWERS_THE_SAME,
+  buildLabelError,
 } from "constants/validationMessages";
 
 import AnswerChip from "./AnswerChip";
@@ -73,6 +74,10 @@ const AnswerList = styled.ul`
 const AnswerListItem = styled.li`
   margin: 0 0 0.5em;
   width: 100%;
+  
+  &:last-of-type {
+    margin-bottom: 0;
+  }
 `;
 
 const SelectButton = styled(Button)`
@@ -129,7 +134,7 @@ export const ErrorContext = styled.div`
   ${props =>
     props.isInvalid &&
     css`
-      margin-bottom: 2em;
+      margin-bottom: 2.5em;
       border: 1px solid ${colors.red};
       padding: 1em;
     `}
@@ -175,13 +180,29 @@ export class UnwrappedAnswerSelector extends Component {
   };
 
   renderAnswers(answers, answerType) {
-    const { section } = this.props.page;
-    const errorValidationMsg = this.props.getValidationError({
+    const unitInconsistencyError = this.props.getValidationError({
       field: "summaryAnswers",
       message: CALCSUM_SUMMARY_ANSWERS_THE_SAME,
     });
 
-    const isInvalid = Boolean(errorValidationMsg);
+    const minOfTwoAnswersError = this.props.getValidationError({
+      field: "summaryAnswers",
+      message: CALCSUM_ANSWER_NOT_SELECTED,
+    });
+
+    const { section } = this.props.page;
+    const unit = answers[0].properties.unit;
+
+    let errorMsg;
+
+    if (unit !== undefined) {
+      errorMsg = buildLabelError(CALCSUM_ANSWER_NOT_SELECTED, `${unit.toLowerCase()}`, 20, 19);
+    } else {
+    errorMsg = buildLabelError(CALCSUM_ANSWER_NOT_SELECTED, `${answers[0].type.toLowerCase()}`, 20, 19);
+    }
+
+    const isInvalid = unitInconsistencyError || minOfTwoAnswersError;
+
     return (
       <div>
         <SectionList>
@@ -217,7 +238,7 @@ export class UnwrappedAnswerSelector extends Component {
                   </AnswerListItem>
                 ))}
               </AnswerList>
-              {isInvalid && <ErrorInline>{errorValidationMsg}</ErrorInline>}
+              {minOfTwoAnswersError && <ErrorInline>{errorMsg}</ErrorInline>}
             </ErrorContext>
           </SectionListItem>
         </SectionList>
@@ -233,6 +254,7 @@ export class UnwrappedAnswerSelector extends Component {
   }
 
   renderEmptyState(availableSummaryAnswers) {
+
     const { getValidationError } = this.props;
     const isAvailableAnswers = availableSummaryAnswers.length > 0;
 
