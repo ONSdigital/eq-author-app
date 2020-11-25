@@ -10,7 +10,7 @@ exports[`ErrorInline should render 1`] = `
       role="alert"
     >
       <VisuallyHidden>
-        Error - 
+        Error: 
       </VisuallyHidden>
       Oops
     </span>
