@@ -8,10 +8,9 @@ import {
   DURATION,
   TEXTAREA,
 } from "constants/answer-types";
-import { KILOJOULES, CENTIMETRES } from "constants/unit-types";
+import { KILOJOULES } from "constants/unit-types";
 import { YEARSMONTHS, YEARS } from "constants/duration-types";
 import { flushPromises, render, fireEvent, act } from "tests/utils/rtl";
-
 
 import DurationProperties from "./AnswerProperties/Properties/DurationProperties";
 
@@ -20,7 +19,7 @@ import GroupValidations from "App/page/Design/Validation/GroupValidations";
 import { VALIDATION_QUERY } from "App/QuestionnaireDesignPage";
 import { characterErrors } from "constants/validationMessages";
 
-import { UnwrappedGroupedAnswerProperties, UnitPropertiesStyled } from "./";
+import { UnwrappedGroupedAnswerProperties } from "./";
 
 describe("Grouped Answer Properties", () => {
   let props;
@@ -90,10 +89,16 @@ describe("Grouped Answer Properties", () => {
     const wrapper = shallow(<UnwrappedGroupedAnswerProperties {...props} />);
     const accordions = wrapper.find(Accordion);
     expect(
-      accordions.at(0).find("[data-test='answer-title']").at(0)
+      accordions
+        .at(0)
+        .find("[data-test='answer-title']")
+        .at(0)
     ).toMatchSnapshot();
     expect(
-      accordions.at(0).find("[data-test='answer-title']").at(1)
+      accordions
+        .at(0)
+        .find("[data-test='answer-title']")
+        .at(1)
     ).toMatchSnapshot();
 
     expect(
@@ -248,33 +253,6 @@ describe("Grouped Answer Properties", () => {
       };
     });
 
-    it("should show one copy of the shared unit properties", () => {
-      const wrapper = shallow(<UnwrappedGroupedAnswerProperties {...props} />);
-      expect(wrapper.find(UnitPropertiesStyled)).toHaveLength(1);
-    });
-
-    it("should update the unit answer when unit is changed", async () => {
-      const { getByTestId } = render(
-        <UnwrappedGroupedAnswerProperties {...props} />,
-        {
-          route: "/q/1/page/0",
-          urlParamMatcher: "/q/:questionnaireId/page/:pageId",
-        }
-      );
-
-      await act(async () => {
-        await flushPromises();
-      });
-  
-      fireEvent.change(getByTestId("unit-select"), {
-        target: { value: CENTIMETRES },
-      });
-
-      expect(props.updateAnswersOfType).toHaveBeenCalledWith(UNIT, "pageId", {
-        unit: CENTIMETRES,
-      });
-    });
-
     it("should show error message if there is no unit type selected", () => {
       props = {
         page: {
@@ -289,23 +267,23 @@ describe("Grouped Answer Properties", () => {
                 unit: "",
                 required: false,
               },
-              
+
               __typename: "BasicAnswer",
             },
           ],
           validationErrorInfo: {
             id: "24cab791-fab6-4c62-934e-52333d3e39b4",
             errors: [
-                   {
-                          id: "8281c855-8dd8-4194-8a80-673be471550b",
-                          type: "answer",
-                          field: "unit",
-                          errorCode: "ERR_VALID_REQUIRED",
-                          __typename: "ValidationError"
-                   }
+              {
+                id: "8281c855-8dd8-4194-8a80-673be471550b",
+                type: "answer",
+                field: "unit",
+                errorCode: "ERR_VALID_REQUIRED",
+                __typename: "ValidationError",
+              },
             ],
             totalCount: 1,
-            __typename: "ValidationErrorInfo"
+            __typename: "ValidationErrorInfo",
           },
         },
         updateAnswersOfType: jest.fn(),
