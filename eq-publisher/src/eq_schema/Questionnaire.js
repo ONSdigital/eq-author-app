@@ -94,7 +94,7 @@ class Questionnaire {
       switch (type) {
         case "Date":
           return "date";
-        case "Text (Optional)":
+        case "Text_Optional":
           return "optional_string";
         default:
           return "string";

@@ -9,17 +9,19 @@ const {
 } = require("../constants/metadataTypes");
 
 const defaultTypeValueNames = {
-  Date: "dateValue",
-  Text: "textValue",
-  Region: "regionValue",
-  Language: "languageValue",
+  [DATE]: "dateValue",
+  [TEXT]: "textValue",
+  [TEXT_OPTIONAL]: "textValue",
+  [REGION]: "regionValue",
+  [LANGUAGE]: "languageValue",
 };
 
 const defaultTypeValues = {
-  Date: null,
-  Text: null,
-  Region: "GB_ENG",
-  Language: "en",
+  [DATE]: null,
+  [TEXT]: null,
+  [TEXT_OPTIONAL]: null,
+  [REGION]: "GB_ENG",
+  [LANGUAGE]: "en",
 };
 
 const defaultValues = [
