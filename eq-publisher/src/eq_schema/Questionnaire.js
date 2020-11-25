@@ -90,11 +90,22 @@ class Questionnaire {
   }
 
   buildMetadata(metadata) {
+    const getValidator = type => {
+      switch (type) {
+        case "Date":
+          return "date";
+        case "Text (Optional)":
+          return "optional_string";
+        default:
+          return "string";
+      }
+    };
+
     const userMetadata = metadata
       .filter(({ key }) => !DEFAULT_METADATA_NAMES.includes(key))
       .map(({ key, type }) => ({
         name: key,
-        validator: type === "Date" ? "date" : "string",
+        validator: getValidator(type),
       }));
 
     return [...DEFAULT_METADATA, ...userMetadata];
