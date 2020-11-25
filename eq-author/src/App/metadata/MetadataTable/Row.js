@@ -63,12 +63,12 @@ export class StatelessRow extends Component {
             onChange={onChange}
             onUpdate={onUpdate}
             value={type}
-            options={[TEXT, DATE, LANGUAGE, REGION]}
+            options={[TEXT, TEXT_OPTIONAL, DATE, LANGUAGE, REGION]}
             name="type"
           />
         </TableColumn>
         <TableColumn>
-          {type === TEXT && (
+          {(type === TEXT || type === TEXT_OPTIONAL) && (
             <TableInput
               onChange={onChange}
               onBlur={onUpdate}
