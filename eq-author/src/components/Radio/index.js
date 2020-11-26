@@ -21,6 +21,10 @@ export const RadioLabel = styled.label`
   color: ${colors.textLight};
   position: relative;
 
+  &:hover {
+    box-shadow: 0 0 0 1px ${colors.blue};
+  }
+
   &:focus-within {
     border-color: ${colors.blue};
     outline-color: ${colors.blue};
