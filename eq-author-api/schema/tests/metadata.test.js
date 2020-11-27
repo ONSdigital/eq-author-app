@@ -14,6 +14,7 @@ const {
 
 const {
   TEXT,
+  TEXT_OPTIONAL,
   REGION,
   DATE,
   LANGUAGE,
@@ -209,7 +210,7 @@ describe("metadata", () => {
           dateValue: type === DATE ? dateValue : null,
           regionValue: type === REGION ? regionValue : null,
           languageValue: type === LANGUAGE ? languageValue : null,
-          textValue: type === TEXT ? textValue : null,
+          textValue: type === TEXT || type === TEXT_OPTIONAL ? textValue : null,
         };
 
         updatedMetadata = await updateMetadata(ctx, expected);

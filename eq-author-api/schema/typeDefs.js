@@ -457,6 +457,7 @@ type Metadata {
 enum MetadataType {
   Date
   Text
+  Text_Optional
   Region
   Language
 }

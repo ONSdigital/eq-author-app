@@ -10,7 +10,13 @@ import {
 } from "components/datatable/Controls";
 import { TableColumn, TableRow } from "components/datatable/Elements";
 import { KeySelect, Select } from "./Controls";
-import { TEXT, DATE, LANGUAGE, REGION } from "constants/metadata-types";
+import {
+  TEXT,
+  TEXT_OPTIONAL,
+  DATE,
+  LANGUAGE,
+  REGION,
+} from "constants/metadata-types";
 import { EN, CY } from "constants/languages";
 import { GB_ENG, GB_GBN, GB_NIR, GB_SCT, GB_WLS } from "constants/regions";
 
@@ -57,12 +63,12 @@ export class StatelessRow extends Component {
             onChange={onChange}
             onUpdate={onUpdate}
             value={type}
-            options={[TEXT, DATE, LANGUAGE, REGION]}
+            options={[TEXT, TEXT_OPTIONAL, DATE, LANGUAGE, REGION]}
             name="type"
           />
         </TableColumn>
         <TableColumn>
-          {type === TEXT && (
+          {(type === TEXT.type || type === TEXT_OPTIONAL.type) && (
             <TableInput
               onChange={onChange}
               onBlur={onUpdate}
@@ -70,7 +76,7 @@ export class StatelessRow extends Component {
               name="textValue"
             />
           )}
-          {type === DATE && (
+          {type === DATE.type && (
             <TableInputDate
               onChange={onChange}
               onBlur={onUpdate}
@@ -79,7 +85,7 @@ export class StatelessRow extends Component {
               type="date"
             />
           )}
-          {type === REGION && (
+          {type === REGION.type && (
             <Select
               onChange={onChange}
               onUpdate={onUpdate}
@@ -88,7 +94,7 @@ export class StatelessRow extends Component {
               name="regionValue"
             />
           )}
-          {type === LANGUAGE && (
+          {type === LANGUAGE.type && (
             <Select
               onChange={onChange}
               onUpdate={onUpdate}
