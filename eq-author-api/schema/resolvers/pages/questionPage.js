@@ -10,6 +10,7 @@ const {
   getFoldersBySectionId,
   createFolder,
   createQuestionPage,
+  getFolderByPageId,
 } = require("../utils");
 const { createMutation } = require("../createMutation");
 
@@ -23,6 +24,7 @@ const Resolvers = {};
 
 Resolvers.QuestionPage = {
   section: ({ id }, input, ctx) => getSectionByPageId(ctx, id),
+  folder: ({ id }, args, ctx) => getFolderByPageId(ctx, id),
   position: ({ id }, args, ctx) => {
     const section = getSectionByPageId(ctx, id);
     return findIndex(getPagesFromSection(section), { id });

@@ -22,6 +22,7 @@ const {
   returnValidationErrors,
   createFolder,
   getPosition,
+  getFolderByPageId,
 } = require("../utils");
 
 const Resolvers = {};
@@ -29,6 +30,7 @@ const Resolvers = {};
 Resolvers.CalculatedSummaryPage = {
   displayName: page => getName(page, "CalculatedSummaryPage"),
   section: ({ id }, input, ctx) => getSectionByPageId(ctx, id),
+  folder: ({ id }, args, ctx) => getFolderByPageId(ctx, id),
   position: ({ id }, args, ctx) => {
     const section = getSectionByPageId(ctx, id);
     return findIndex(getPagesFromSection(section), { id });
