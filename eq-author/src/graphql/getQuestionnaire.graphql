@@ -7,11 +7,17 @@ query GetQuestionnaire($input: QueryInput!) {
       id
       displayName
       position
-      pages {
+      folders {
         id
-        title
+        alias
+        enabled
         position
-        displayName
+        pages {
+          id
+          title
+          position
+          displayName
+        }
       }
       questionnaire {
         id

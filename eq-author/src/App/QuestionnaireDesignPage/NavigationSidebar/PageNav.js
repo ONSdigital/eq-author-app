@@ -61,9 +61,12 @@ PageNav.fragments = {
   PageNav: gql`
     fragment PageNav on Section {
       id
-      pages {
-        ...PageNavItem
-        ...PageConfirmationNavItem
+      folders {
+        id
+        pages {
+          ...PageNavItem
+          ...PageConfirmationNavItem
+        }
       }
     }
     ${PageNavItem.fragments.PageNavItem}

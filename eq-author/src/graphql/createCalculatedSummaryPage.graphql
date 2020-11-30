@@ -10,9 +10,11 @@ mutation CreateCalculatedSummaryPage(
     displayName
     pageType
     section {
-      id
-      pages {
+      folders {
         id
+        pages {
+          id
+        }
       }
     }
     position
