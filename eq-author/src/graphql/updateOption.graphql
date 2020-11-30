@@ -9,9 +9,18 @@ mutation UpdateOption($input: UpdateOptionInput!) {
         ...ValidationErrorInfo
       }
     }
-
     validationErrorInfo {
       ...ValidationErrorInfo
+    }
+
+    answer {
+      id
+      page {
+        id
+        validationErrorInfo {
+          ...ValidationErrorInfo
+        }
+      }
     }
   }
 }
