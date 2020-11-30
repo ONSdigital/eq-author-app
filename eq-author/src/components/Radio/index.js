@@ -20,6 +20,8 @@ export const RadioLabel = styled.label`
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.18);
   color: ${colors.textLight};
   position: relative;
+  background: ${props =>
+    props.selected ? `${colors.blue}` : `${colors.white}`};
 
   &:hover {
     box-shadow: 0 0 0 1px ${colors.blue};
