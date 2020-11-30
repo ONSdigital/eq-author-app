@@ -1,16 +1,17 @@
 import React from "react";
-import { render, fireEvent, act, createEvent } from "tests/utils/rtl";
+import { render, fireEvent } from "tests/utils/rtl";
+import userEvent from "@testing-library/user-event";
 import { Autocomplete } from "./";
 
 import { keyCodes } from "constants/keyCodes";
 import { unitConversion } from "constants/unit-types";
 
-const { Enter, Space, ArrowDown } = keyCodes;
+const { ArrowDown, ArrowUp } = keyCodes;
 const inputId = "autocomplete-input";
 const dropDownId = "autocomplete-listbox";
 const firstOptionId = "autocomplete-option-0";
 const emptyResult = "No results found";
-const testList = ["a", "b", "c"];
+const testList = ["a", "ab", "b", "c"];
 
 const filter = (options, query) =>
   Object.values(options)
@@ -76,9 +77,16 @@ describe("components/Autocomplete", () => {
     });
 
     expect(getByTestId(firstOptionId)).toHaveFocus();
+
+    fireEvent.keyDown(getByTestId(inputId), {
+      key: ArrowUp,
+      code: ArrowUp,
+    });
+
+    expect(getByTestId("autocomplete-option-1")).toHaveFocus();
   });
 
-  it("should be accessible with a keyboard", () => {
+  it("should be updateOption with Enter", () => {
     const { getByTestId } = render(Component(props));
 
     getByTestId(inputId).focus();
@@ -94,9 +102,31 @@ describe("components/Autocomplete", () => {
 
     expect(getByTestId(firstOptionId)).toHaveFocus();
 
-    fireEvent.keyDown(getByTestId(inputId), { key: Enter, code: Enter });
+    userEvent.type(getByTestId(inputId), `{enter}`);
 
-    expect(getByTestId(inputId)).not.toHaveFocus();
+    expect(getByTestId(inputId)).toHaveFocus();
+    expect(mocks.updateOption).toHaveBeenCalledTimes(1);
+  });
+
+  it("should be updateOption with Space", () => {
+    const { getByTestId } = render(Component(props));
+
+    getByTestId(inputId).focus();
+
+    fireEvent.change(getByTestId(inputId), {
+      target: { value: "a" },
+    });
+
+    fireEvent.keyDown(getByTestId(inputId), {
+      key: ArrowDown,
+      code: ArrowDown,
+    });
+
+    expect(getByTestId(firstOptionId)).toHaveFocus();
+
+    userEvent.type(getByTestId(inputId), `{space}`);
+
+    expect(getByTestId(inputId)).toHaveFocus();
     expect(mocks.updateOption).toHaveBeenCalledTimes(1);
   });
 
@@ -110,45 +140,6 @@ describe("components/Autocomplete", () => {
     });
 
     expect(queryByText(emptyResult)).toBeTruthy();
-  });
-
-  it("should not fire space/enter if input is empty", () => {
-    const { getByTestId } = render(Component(props));
-
-    expect(getByTestId(inputId).value).toEqual("");
-
-    const keysToTest = [
-      { key: Enter, code: Enter },
-      { key: Space, code: Space },
-    ];
-
-    keysToTest.forEach(key => {
-      getByTestId(inputId).focus();
-      fireEvent.keyDown(getByTestId(inputId), key);
-      expect(mocks.updateOption).toHaveBeenCalledTimes(0);
-    });
-  });
-
-  it("should not fire keyboard events when no options available", () => {
-    // this test needs some thinking
-    const { getByTestId, queryByText } = render(Component(props));
-
-    expect(queryByText(emptyResult)).toBeNull();
-
-    const keysToTest = [
-      { key: Enter, code: Enter },
-      { key: Space, code: Space },
-    ];
-
-    fireEvent.change(getByTestId(inputId), {
-      target: { value: "a" },
-    });
-
-    keysToTest.forEach(key => {
-      getByTestId(firstOptionId).focus();
-      fireEvent.keyDown(getByTestId(inputId), key);
-      expect(mocks.updateOption).toHaveBeenCalledTimes(0);
-    });
   });
 
   it("should reset selected index on input change", () => {
@@ -205,12 +196,8 @@ describe("components/Autocomplete", () => {
     expect(getByTestId(firstOptionId)).toHaveTextContent("Centimetres");
   });
 
-  // trying to up the coverage here.
-
-  // doing so by ensuring any other keyboard event is captured.
-  it("should dropdown option should give input focus on printable key press", async () => {
-    const handleOtherKeyDown = jest.fn();
-    const { getByTestId, debug } = render(Component(props));
+  it("should dropdown option should give input focus on printable key press", () => {
+    const { getByTestId } = render(Component(props));
 
     fireEvent.change(getByTestId(inputId), {
       target: { value: "a" },
@@ -223,13 +210,8 @@ describe("components/Autocomplete", () => {
 
     expect(getByTestId(firstOptionId)).toHaveFocus();
 
-    // await act(async () => {
-    const myEvent = createEvent.keyDown(getByTestId(inputId), {
-      key: "Backspace",
-      code: "Backspace",
-    });
+    userEvent.type(getByTestId(firstOptionId), `{backspace}`);
 
     expect(getByTestId(inputId)).toHaveFocus();
-    // expect(handleOtherKeyDown).toHaveBeenCalledTimes(1);
   });
 });
