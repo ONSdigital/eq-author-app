@@ -152,7 +152,7 @@ class MovePageModal extends React.Component {
 
         <PositionModal
           data-test={"page-position-modal"}
-          options={selectedSection.pages}
+          options={selectedSection.folders.flatMap(({ pages }) => pages)}
           onMove={this.handlePageMove}
           selected={page}
           {...this.props}
