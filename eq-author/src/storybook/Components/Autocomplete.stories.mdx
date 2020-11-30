@@ -2,6 +2,27 @@ import { Meta, Story, Canvas } from "@storybook/addon-docs/blocks";
 
 import { Autocomplete } from "components/Autocomplete";
 import { unitConversion } from "constants/unit-types";
+const unitTypes = [
+  "Centimetres", 
+  "Metres",
+  "Kilometres",
+  "Miles",
+  "Square centimetres",
+  "Square metres",
+  "Square kilometres",
+  "Square miles",
+  "Acres",
+  "Hectares",
+  "Cubic centimetres",
+  "Cubic metres",
+  "Cubic kilometres",
+  "Litres",
+  "Hectolitres",
+  "Megalitres",
+  "Tonnes",
+  "Kilojoules",
+  "Kilowatt hours",
+];
 const filterOptions = (options, query) =>
   Object.values(options).filter(
     x =>
@@ -21,9 +42,9 @@ const filterOptions = (options, query) =>
 <Canvas>
   <Story
     name="Default"
-    args={{ children: null }}
+    args={{ options: unitTypes, placeholder: "Select a type" }}
   >
-    {(args) => <Autocomplete options={unitConversion} filter={filterOptions} placeholder={"Select a type"} {...args} />}
+    {(args) => <Autocomplete {...args} />}
   </Story>
 </Canvas>
 
@@ -37,11 +58,24 @@ TODO
 
 ## Variants
 
-TODO
+### Filter
+
+<Canvas>
+  <Story
+    name="Filtered"
+    args={{ options: unitConversion, placeholder: "Select a type" }}
+  >
+    {(args) => <Autocomplete {...args} filter={filterOptions} />}
+  </Story>
+</Canvas>
 
 ## Accessibility
 
 TODO
+
+Notes:
+- `aria-activedescendent` has a violation when the value is set to `false` when there is no active descendent
+- Bug to do with 
 
 ## Research
 
