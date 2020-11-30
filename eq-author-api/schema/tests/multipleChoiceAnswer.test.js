@@ -374,7 +374,7 @@ describe("multiple choice answer", () => {
     });
 
     describe("delete", () => {
-      it("should delete options and return answer object", async () => {
+      beforeEach(async () => {
         ctx = await buildContext({
           sections: [
             {
@@ -390,11 +390,31 @@ describe("multiple choice answer", () => {
                       ],
                     },
                   ],
+                  routing: {
+                    rules: [
+                      {
+                        expressionGroup: {
+                          expressions: [{}],
+                        },
+                      },
+                    ],
+                  },
+                },
+                {
+                  answers: [
+                    {
+                      type: CHECKBOX,
+                      options: [{}],
+                    },
+                  ],
                 },
               ],
             },
           ],
         });
+      });
+
+      it("should delete options and return answer object", async () => {
         const questionnaire = ctx.questionnaire;
 
         const option = getOption(questionnaire);
@@ -404,6 +424,61 @@ describe("multiple choice answer", () => {
 
         const queriedOption = await queryOption(ctx, option.id);
         expect(queriedOption).toBeNull();
+      });
+
+      it("should remove deleted options from routing rules", async () => {
+        const { questionnaire } = ctx;
+
+        const option = getOption(questionnaire);
+
+        const expression =
+          questionnaire.sections[0].pages[0].routing.rules[0].expressionGroup
+            .expressions[0];
+        expression.right = {
+          optionIds: [option.id],
+        };
+
+        await deleteOption(ctx, option);
+
+        expect(expression.right.optionIds.length).toBe(0);
+      });
+
+      it("should remove deleted options from skip conditions", async () => {
+        const { questionnaire } = ctx;
+
+        const option = getOption(questionnaire);
+
+        const secondPage = questionnaire.sections[0].pages[1];
+        secondPage.skipConditions = [
+          {
+            id: "skip-1",
+            operator: "And",
+            expressions: [
+              {
+                id: "expr-1",
+                condition: "AllOf",
+                left: {
+                  type: "Answer",
+                  answerId: "answer-1",
+                },
+                right: {
+                  type: "SelectedOptions",
+                  optionIds: [option.id],
+                },
+              },
+            ],
+          },
+        ];
+
+        const expression = secondPage.skipConditions[0].expressions[0];
+
+        expression.right = {
+          optionIds: [option.id],
+        };
+
+        await deleteOption(ctx, option);
+
+        expect(expression.right.optionIds.length).toBe(0);
       });
     });
 

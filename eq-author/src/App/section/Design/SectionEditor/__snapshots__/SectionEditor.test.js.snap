@@ -80,6 +80,7 @@ exports[`SectionEditor should render 1`] = `
             "bold": true,
             "emphasis": true,
             "heading": true,
+            "link": true,
             "list": true,
             "piping": true,
           }
@@ -180,6 +181,7 @@ exports[`SectionEditor should render 2`] = `
             "bold": true,
             "emphasis": true,
             "heading": true,
+            "link": true,
             "list": true,
             "piping": true,
           }

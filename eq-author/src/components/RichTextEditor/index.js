@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styled, { css } from "styled-components";
-import * as convert from "draft-convert";
 import Editor from "draft-js-plugins-editor";
 import { EditorState, RichUtils, Modifier, CompositeDecorator } from "draft-js";
 import "draft-js/dist/Draft.css";
@@ -16,6 +15,12 @@ import PipedValueDecorator, {
   replacePipedValues,
   insertPipedValue,
 } from "./entities/PipedValue";
+
+import createLinkPlugin, {
+  createLink,
+  linkToHTML,
+  linkFromHTML,
+} from "./LinkPlugin";
 
 import createFormatStripper from "./utils/createFormatStripper";
 
@@ -119,8 +124,8 @@ const Input = styled.div`
   }
 `;
 
-const convertToHTML = toHTML(pipedEntityToHTML);
-const convertFromHTML = fromHTML(htmlToPipedEntity);
+const convertToHTML = toHTML({ ...pipedEntityToHTML, ...linkToHTML });
+const convertFromHTML = fromHTML({ ...htmlToPipedEntity, ...linkFromHTML });
 
 const getBlockStyle = block => block.getType();
 
@@ -173,8 +178,14 @@ class RichTextEditor extends React.Component {
     fetchAnswers: PropTypes.func,
     testSelector: PropTypes.string,
     autoFocus: PropTypes.bool,
-    // eslint-disable-next-line react/forbid-prop-types
-    controls: PropTypes.object,
+    controls: PropTypes.shape({
+      piping: PropTypes.bool,
+      link: PropTypes.bool,
+      bold: PropTypes.bool,
+      emphasis: PropTypes.bool,
+      list: PropTypes.bool,
+      heading: PropTypes.bool,
+    }),
     metadata: PropTypes.arrayOf(
       PropTypes.shape({
         __typename: PropTypes.string,
@@ -190,7 +201,7 @@ class RichTextEditor extends React.Component {
     super(props);
     const editorState = this.configureEditorState(props.value, props.controls);
 
-    this.plugins = [createBlockBreakoutPlugin()];
+    this.plugins = [createBlockBreakoutPlugin(), createLinkPlugin()];
 
     this.state = { editorState };
   }
@@ -201,7 +212,7 @@ class RichTextEditor extends React.Component {
     this.stripFormatting = createFormatStripper(controls);
 
     return value
-      ? convertFromHTML(value, decorator)
+      ? EditorState.createWithContent(convertFromHTML(value), decorator)
       : EditorState.createEmpty(decorator);
   }
 
@@ -226,9 +237,7 @@ class RichTextEditor extends React.Component {
       const anchorOffset = editorState.getSelection().get("anchorOffset");
       let selectionUpdated = EditorState.push(
         editorState,
-        convert.convertFromHTML({ htmlToEntity: htmlToPipedEntity })(
-          this.props.value
-        ),
+        convertFromHTML(this.props.value),
         "insert-characters"
       );
       if (this.state.focused) {
@@ -423,7 +432,10 @@ class RichTextEditor extends React.Component {
 
   handleMouseDown = e => {
     // prevent blur when mousedown on non-editor elements
-    if (!this.editorInstance.getEditorRef().editor.contains(e.target)) {
+    if (
+      !this.editorInstance.getEditorRef().editor.contains(e.target) &&
+      e.target.type !== "text"
+    ) {
       e.preventDefault();
     }
   };
@@ -505,6 +517,10 @@ class RichTextEditor extends React.Component {
     return "handled";
   };
 
+  handleLinkChosen = (text, url) => {
+    this.handleChange(createLink(text, url, this.state.editorState));
+  };
+
   render() {
     const { editorState, focused } = this.state;
     const contentState = editorState.getCurrentContent();
@@ -549,6 +565,7 @@ class RichTextEditor extends React.Component {
               editorState={editorState}
               onToggle={this.handleToggle}
               onPiping={this.handlePiping}
+              onLinkChosen={this.handleLinkChosen}
               isActiveControl={this.isActiveControl}
               selectionIsCollapsed={selection.isCollapsed()}
               visible={focused}

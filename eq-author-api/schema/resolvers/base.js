@@ -116,6 +116,7 @@ const {
 } = require("../../utils/questionnaireEvents");
 
 const deleteFirstPageSkipConditions = require("../../src/businessLogic/deleteFirstPageSkipConditions");
+const deleteLastPageRouting = require("../../src/businessLogic/deleteLastPageRouting");
 
 const createNewQuestionnaire = input => {
   const defaultQuestionnaire = {
@@ -350,12 +351,14 @@ const Resolvers = {
         ctx.questionnaire.sections.push(createSection());
       }
       deleteFirstPageSkipConditions(ctx);
+      deleteLastPageRouting(ctx);
       return ctx.questionnaire;
     }),
     moveSection: createMutation((_, { input }, ctx) => {
       const removedSection = first(remove(getSections(ctx), { id: input.id }));
       getSections(ctx).splice(input.position, 0, removedSection);
       deleteFirstPageSkipConditions(ctx);
+      deleteLastPageRouting(ctx);
       return removedSection;
     }),
     duplicateSection: createMutation((_, { input }, ctx) => {
@@ -525,19 +528,28 @@ const Resolvers = {
       const removedOption = first(remove(answer.options, { id: input.id }));
 
       pages.forEach(page => {
-        if (!page.routing) {
+        if (!page.routing && !page.skipConditions) {
           return;
         }
 
-        page.routing.rules.forEach(rule => {
-          rule.expressionGroup.expressions.forEach(expression => {
-            if (expression.right && expression.right.optionIds) {
-              remove(
-                expression.right.optionIds,
-                value => value === removedOption.id
-              );
-            }
-          });
+        const routingExprs = page.routing
+          ? page.routing.rules.flatMap(
+              rule => rule.expressionGroup && rule.expressionGroup.expressions
+            )
+          : [];
+        const skipExprs = page.skipConditions
+          ? page.skipConditions.flatMap(
+              condition => condition && condition.expressions
+            )
+          : [];
+        const rightHandSides = [...routingExprs, ...skipExprs].map(
+          x => x && x.right
+        );
+
+        rightHandSides.forEach(right => {
+          if (right && right.optionIds) {
+            remove(right.optionIds, value => value === removedOption.id);
+          }
         });
       });
 

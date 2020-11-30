@@ -142,6 +142,7 @@ exports[`components/RichTextEditor should allow multiline input 1`] = `
         }
         isActiveControl={[Function]}
         name="test-name"
+        onLinkChosen={[Function]}
         onPiping={[Function]}
         onToggle={[Function]}
         onUpdate={[MockFunction]}
@@ -310,6 +311,14 @@ exports[`components/RichTextEditor should allow multiline input 1`] = `
             Object {
               "handleReturn": [Function],
             },
+            Object {
+              "decorators": Array [
+                Object {
+                  "component": [Function],
+                  "strategy": [Function],
+                },
+              ],
+            },
           ]
         }
         readOnly={false}
@@ -463,6 +472,7 @@ exports[`components/RichTextEditor should render 1`] = `
         }
         isActiveControl={[Function]}
         name="test-name"
+        onLinkChosen={[Function]}
         onPiping={[Function]}
         onToggle={[Function]}
         onUpdate={[MockFunction]}
@@ -632,6 +642,14 @@ exports[`components/RichTextEditor should render 1`] = `
           Array [
             Object {
               "handleReturn": [Function],
+            },
+            Object {
+              "decorators": Array [
+                Object {
+                  "component": [Function],
+                  "strategy": [Function],
+                },
+              ],
             },
           ]
         }
@@ -835,6 +853,7 @@ exports[`components/RichTextEditor should render existing content 1`] = `
         }
         isActiveControl={[Function]}
         name="test-name"
+        onLinkChosen={[Function]}
         onPiping={[Function]}
         onToggle={[Function]}
         onUpdate={[MockFunction]}
@@ -1062,6 +1081,14 @@ exports[`components/RichTextEditor should render existing content 1`] = `
             Object {
               "handleReturn": [Function],
             },
+            Object {
+              "decorators": Array [
+                Object {
+                  "component": [Function],
+                  "strategy": [Function],
+                },
+              ],
+            },
           ]
         }
         readOnly={false}
@@ -1215,6 +1242,7 @@ exports[`components/RichTextEditor should show as disabled and readonly when dis
         }
         isActiveControl={[Function]}
         name="test-name"
+        onLinkChosen={[Function]}
         onPiping={[Function]}
         onToggle={[Function]}
         onUpdate={[MockFunction]}
@@ -1384,6 +1412,14 @@ exports[`components/RichTextEditor should show as disabled and readonly when dis
           Array [
             Object {
               "handleReturn": [Function],
+            },
+            Object {
+              "decorators": Array [
+                Object {
+                  "component": [Function],
+                  "strategy": [Function],
+                },
+              ],
             },
           ]
         }

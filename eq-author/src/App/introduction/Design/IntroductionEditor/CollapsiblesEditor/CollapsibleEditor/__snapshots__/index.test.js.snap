@@ -52,6 +52,7 @@ exports[`CollapsibleEditor should render 1`] = `
       Object {
         "bold": true,
         "emphasis": true,
+        "link": true,
         "list": true,
         "piping": true,
       }

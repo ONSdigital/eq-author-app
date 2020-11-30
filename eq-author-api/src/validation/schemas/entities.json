@@ -241,7 +241,7 @@
                   "calculatedSummaryUnitConsistency": {
                     "$data": "/sections"
                   },
-                  "minItems": 1,
+                  "minItems": 2,
                   "errorMessage": {
                     "minItems": "ERR_NO_ANSWERS"
                   }

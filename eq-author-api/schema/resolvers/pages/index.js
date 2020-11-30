@@ -16,6 +16,7 @@ const { createMutation } = require("../createMutation");
 const addPrefix = require("../../../utils/addPrefix");
 const { createQuestionPage } = require("./questionPage");
 const deleteFirstPageSkipConditions = require("../../../src/businessLogic/deleteFirstPageSkipConditions");
+const deleteLastPageRouting = require("../../../src/businessLogic/deleteLastPageRouting");
 
 const Resolvers = {};
 
@@ -62,6 +63,8 @@ Resolvers.Mutation = {
     }
 
     deleteFirstPageSkipConditions(ctx);
+    deleteLastPageRouting(ctx);
+
     return { ...page, sectionId: newSection.id };
   }),
 
@@ -77,6 +80,7 @@ Resolvers.Mutation = {
       section.folders[previous.folderIndex].pages.push(newPage);
     }
     deleteFirstPageSkipConditions(ctx);
+    deleteLastPageRouting(ctx);
     return section;
   }),
   duplicatePage: createMutation((_, { input }, ctx) => {
