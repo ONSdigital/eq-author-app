@@ -86,8 +86,8 @@ const filterUnitOptions = (options, query) =>
   Object.values(options)
     .filter(
       x =>
-        x.unit.toLowerCase().includes(query) ||
-        x.abbreviation.toLowerCase().includes(query)
+        x.unit.toLowerCase().includes(query.toLowerCase()) ||
+        x.abbreviation.toLowerCase().includes(query.toLowerCase())
     )
     .map((option, index) => (
       <span key={`unit-option-${index}`}>
@@ -193,7 +193,7 @@ export const UnwrappedGroupedAnswerProperties = ({
                       `${answers[0].properties.unit} (${
                         unitConversion[answers[0].properties.unit].abbreviation
                       })`) ||
-                    null
+                    ""
                   }
                 />
               </MultiLineField>
