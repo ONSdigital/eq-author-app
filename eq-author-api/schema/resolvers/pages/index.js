@@ -1,4 +1,4 @@
-const { findIndex, omit, set, filter, remove, first } = require("lodash");
+const { findIndex, omit, set, filter } = require("lodash");
 
 const {
   getSectionByPageId,
