@@ -38,12 +38,13 @@ export const RadioTitle = styled.span`
   font-weight: bold;
   letter-spacing: 0;
   margin-left: 3em;
-  color: ${colors.text};
   display: flex;
+  color: ${props => (props.selected ? `${colors.white}` : `${colors.text}`)};
 `;
 
 export const RadioDescription = styled.span`
   font-size: 1em;
   letter-spacing: 0;
   margin-left: 3em;
+  color: ${props => (props.selected ? `${colors.white}` : `${colors.text}`)};
 `;

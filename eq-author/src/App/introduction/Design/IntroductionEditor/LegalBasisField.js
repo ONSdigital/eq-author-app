@@ -63,12 +63,14 @@ const LegalBasisField = ({ name, value, onChange, ...rest }) => (
         selected={option.value === value}
         onChange={onChange}
       >
-        <RadioTitle>
+        <RadioTitle selected={option.value === value}>
           {`${option.title} ${
             option.notice ? "- Your response is legally required." : ""
           }`}
         </RadioTitle>
-        <RadioDescription>{option.description}</RadioDescription>
+        <RadioDescription selected={option.value === value}>
+          {option.description}
+        </RadioDescription>
       </LegalOption>
     ))}
   </RadioField>
