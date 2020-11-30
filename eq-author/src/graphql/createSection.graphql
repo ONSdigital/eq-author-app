@@ -1,5 +1,6 @@
 #import "./fragments/section.graphql"
 #import "./fragments/validationErrorInfo.graphql"
+#import "./fragments/folder.graphql"
 
 mutation CreateSection($input: CreateSectionInput!) {
   createSection(input: $input) {
@@ -7,9 +8,7 @@ mutation CreateSection($input: CreateSectionInput!) {
     position
     displayName
     folders {
-      id
-      enabled
-      alias
+      ...Folder
       pages {
         id
         title
