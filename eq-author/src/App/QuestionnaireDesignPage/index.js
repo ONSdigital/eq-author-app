@@ -14,7 +14,12 @@ import Loading from "components/Loading";
 import BaseLayout from "components/BaseLayout";
 import QuestionnaireContext from "components/QuestionnaireContext";
 import MainNavigation from "./MainNavigation";
-import { SECTION, PAGE, QUESTION_CONFIRMATION } from "constants/entities";
+import {
+  SECTION,
+  PAGE,
+  QUESTION_CONFIRMATION,
+  FOLDER,
+} from "constants/entities";
 import {
   ERR_PAGE_NOT_FOUND,
   ERR_UNAUTHORIZED_QUESTIONNAIRE,
@@ -81,31 +86,48 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
     } = this.props;
     const { entityName, entityId } = match.params;
 
-    let sectionId, position;
-    if (entityName === SECTION) {
-      sectionId = entityId;
-      position = 0;
-    } else if (entityName === PAGE) {
-      for (let i = 0; i < questionnaire.sections.length; ++i) {
-        const section = questionnaire.sections[i];
-        const page = find(section.pages, { id: entityId });
-        if (page) {
-          sectionId = section.id;
-          position = section.pages.indexOf(page) + 1;
-          break;
+    let sectionId, position, selectedPage, selectedSection, selectedFolder;
+
+    switch (entityName) {
+      case SECTION:
+        sectionId = entityId;
+        position = 0;
+        break;
+
+      case QUESTION_CONFIRMATION:
+      case PAGE:
+        for (const section of questionnaire.sections) {
+          for (const folder of section.folders) {
+            for (const page of folder.pages) {
+              const comparatorID =
+                entityName === QUESTION_CONFIRMATION
+                  ? page.confirmation.id
+                  : page.id;
+              if (comparatorID === entityId) {
+                selectedPage = page;
+                selectedSection = section;
+                selectedFolder = folder;
+                break;
+              }
+            }
+          }
         }
-      }
-    } else if (entityName === QUESTION_CONFIRMATION) {
-      for (let i = 0; i < questionnaire.sections.length; ++i) {
-        const section = questionnaire.sections[i];
-        const page = find(section.pages, { confirmation: { id: entityId } });
-        if (page) {
-          sectionId = section.id;
-          position = section.pages.indexOf(page) + 1;
-          break;
+
+        if (selectedPage) {
+          sectionId = selectedSection.id;
+          position = selectedSection.folders.indexOf(selectedFolder) + 1;
         }
-      }
+
+        break;
+
+      case FOLDER:
+        // TODO
+        break;
+
+      default:
+      // TODO
     }
+
     if (pageType === "QuestionPage") {
       onAddQuestionPage(sectionId, position);
     } else {
