@@ -8,7 +8,7 @@ import IconText from "components/IconText";
 import IconAddRule from "../icon-add-rule.svg?inline";
 import IconRouting from "./icon-routing.svg?inline";
 
-import { flowRight } from "lodash";
+import { flowRight, last } from "lodash";
 import { withQuestionnaire } from "components/QuestionnaireContext";
 
 const Container = styled.div`
@@ -44,15 +44,17 @@ const AddRoutingButton = styled(Button)`
 `;
 
 const RoutingRuleSetMsg = ({ onAddRouting, page, ...otherProps }) => {
-  let nSections, nLastSectionPages, lastPageId;
-  if (otherProps.questionnaire) {
-    const questionnaire = otherProps.questionnaire;
-    nSections = questionnaire.sections.length;
-    nLastSectionPages = questionnaire.sections[nSections - 1].pages.length;
-    lastPageId = questionnaire.sections[nSections - 1].pages[nLastSectionPages - 1].id;
-  };
-  const currentPageId = page && page.id;
-  const isLastPage = lastPageId === currentPageId;
+  let lastPage;
+
+  const { questionnaire } = otherProps;
+  if (questionnaire) {
+    const lastSection = last(questionnaire.sections);
+    const lastFolder = last(lastSection.folders);
+    lastPage = last(lastFolder.pages);
+  }
+
+  const isLastPage = (page && page.id) === (lastPage && lastPage.id);
+
   return (
     <Container {...otherProps}>
       <Icon />
