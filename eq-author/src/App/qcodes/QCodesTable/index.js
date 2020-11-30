@@ -95,10 +95,9 @@ const questionMatrix = {
 const removeHtml = html => html && html.replace(/(<([^>]+)>)/gi, "");
 
 const organiseAnswers = sections => {
-  const questions = sections.reduce(
-    (acc, section) => [...acc, ...section.pages],
-    []
-  );
+  const questions = sections
+    .flatMap(({ folders }) => folders.map(({ pages }) => pages))
+    .reduce((acc, pages) => [...acc, ...pages]);
 
   let answerRows = [];
 
