@@ -6,22 +6,27 @@ mutation CreateSection($input: CreateSectionInput!) {
     ...Section
     position
     displayName
-    pages {
+    folders {
       id
-      title
-      position
-      ... on QuestionPage {
-        displayName
-        guidance
-        pageType
-        answers {
-          id
-        }
-        confirmation {
-          id
-        }
-        validationErrorInfo {
-          ...ValidationErrorInfo
+      enabled
+      alias
+      pages {
+        id
+        title
+        position
+        ... on QuestionPage {
+          displayName
+          guidance
+          pageType
+          answers {
+            id
+          }
+          confirmation {
+            id
+          }
+          validationErrorInfo {
+            ...ValidationErrorInfo
+          }
         }
       }
     }
