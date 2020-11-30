@@ -34,7 +34,6 @@ import {
 import { keyCodes } from "constants/keyCodes";
 import { isPrintableKeyCode } from "utils/isPrintableKeyCode";
 
-// no idea how to replicate bug where element doesn't exist
 const focusEl = element => element && element.focus();
 
 const AutocompleteProps = {
@@ -103,12 +102,10 @@ const Autocomplete = ({
     event => {
       setQuery(event.value);
 
-      // wanted to separate this, but this is the right place I think
       if (selectedOption) {
         setSelectedOption(null);
       }
     },
-    // both of these are essential
     [setQuery, selectedOption]
   );
 
@@ -180,11 +177,6 @@ const Autocomplete = ({
       ? filter(options, query)
       : options.filter(option => option.toLowerCase().includes(query));
 
-  // using this to measure performance
-  const autoRender = (id, phase, actualTime, baseTime) => {
-    // console.log(id, phase, actualTime, baseTime);
-  };
-
   // ------------------------------------------------------
   // These use another span to describe what's going on
   const assistiveHintID = "autocomplete-assistiveHint";
@@ -194,79 +186,77 @@ const Autocomplete = ({
   const tAssistiveHint = () =>
     "When autocomplete results are available use up and down arrows to review and enter to select.";
   // ------------------------------------------------------
-  // console.log(document.activeElement);
+
   return (
-    <React.Profiler id="autocomplete" onRender={autoRender}>
-      <>
-        <Wrapper
-          data-test="autocomplete"
-          onKeyDown={event => handleKeyDown(event)}
-        >
-          <Status
-            id={"autocomplete-input-status"}
-            length={filterOptions.length}
-            queryLength={query.length}
-            selectedOption={selectedOption}
-            selectedOptionIndex={selectedIndex}
-            isInFocus={selectedIndex}
-            validChoiceMade={selectedOption}
-          />
-          <Input
-            id="autocomplete-input"
-            data-test="autocomplete-input"
-            aria-activedescendant={
-              query.length > 0
-                ? comboElements.current[selectedIndex]?.id
-                : false
-            }
-            aria-autocomplete={"list"}
-            aria-controls={"autocomplete-listbox"}
-            {...ariaDescribedProp}
-            aria-expanded={query.length > 0 ? "true" : "false"}
-            aria-owns={"autocomplete-listbox"}
-            autoComplete="off"
-            forwardRef={inputEl => {
-              comboElements.current[-1] = inputEl;
-            }}
-            onChange={event => handleInputChange(event)}
-            placeholder={placeholder}
-            role="combobox"
-            type="text"
-            value={selectedOption ? selectedOption : query}
-          />
-          {query.length > 0 && !selectedOption && (
-            <DropDown
-              id="autocomplete-listbox"
-              data-test="autocomplete-listbox"
-              role="listbox"
-            >
-              {filterOptions.map((option, index) => (
-                <ListItem
-                  key={index}
-                  id={`autocomplete-option-${index}`}
-                  data-test={`autocomplete-option-${index}`}
-                  aria-selected={selectedIndex === index ? "true" : "false"}
-                  aria-setsize={filterOptions.length}
-                  aria-posinset={index + 1}
-                  tabIndex="-1"
-                  role="option"
-                  ref={optionEl => {
-                    comboElements.current[index] = optionEl;
-                  }}
-                  onClick={event => handleClick(event)}
-                >
-                  {option}
-                </ListItem>
-              ))}
-              {!filterOptions.length && <ListItem>No results found</ListItem>}
-            </DropDown>
-          )}
-        </Wrapper>
-        <span id={assistiveHintID} style={{ display: "none" }}>
-          {tAssistiveHint()}
-        </span>
-      </>
-    </React.Profiler>
+    <>
+      <Wrapper
+        data-test="autocomplete"
+        onKeyDown={event => handleKeyDown(event)}
+      >
+        <Status
+          id={"autocomplete-input-status"}
+          length={filterOptions.length}
+          queryLength={query.length}
+          selectedOption={selectedOption}
+          selectedOptionIndex={selectedIndex}
+          isInFocus={selectedIndex}
+          validChoiceMade={selectedOption}
+        />
+        <Input
+          id="autocomplete-input"
+          data-test="autocomplete-input"
+          aria-activedescendant={
+            query.length > 0
+              ? comboElements.current[selectedIndex]?.id
+              : `${false}`
+          }
+          aria-autocomplete={"list"}
+          aria-controls={"autocomplete-listbox"}
+          {...ariaDescribedProp}
+          aria-expanded={query.length > 0 ? "true" : "false"}
+          aria-owns={"autocomplete-listbox"}
+          autoComplete="off"
+          forwardRef={inputEl => {
+            comboElements.current[-1] = inputEl;
+          }}
+          onChange={event => handleInputChange(event)}
+          placeholder={placeholder}
+          role="combobox"
+          type="text"
+          value={selectedOption ? selectedOption : query}
+        />
+        {query.length > 0 && !selectedOption && (
+          <DropDown
+            id="autocomplete-listbox"
+            data-test="autocomplete-listbox"
+            role="listbox"
+          >
+            {filterOptions.map((option, index) => (
+              <ListItem
+                key={index}
+                id={`autocomplete-option-${index}`}
+                data-test={`autocomplete-option-${index}`}
+                aria-selected={selectedIndex === index ? "true" : "false"}
+                aria-setsize={filterOptions.length}
+                aria-posinset={index + 1}
+                tabIndex="-1"
+                role="option"
+                ref={optionEl => {
+                  comboElements.current[index] = optionEl;
+                }}
+                onClick={event => handleClick(event)}
+              >
+                {option}
+              </ListItem>
+            ))}
+            {!filterOptions.length && <ListItem>No results found</ListItem>}
+          </DropDown>
+        )}
+      </Wrapper>
+      <span id={assistiveHintID} style={{ display: "none" }}>
+        {tAssistiveHint()}
+      </span>
+    </>
   );
 };
 
