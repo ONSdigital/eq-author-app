@@ -17,11 +17,10 @@ export const RadioLabel = styled.label`
   cursor: pointer;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.18);
   color: ${colors.textLight};
   position: relative;
   background: ${props =>
-    props.selected ? `${colors.blue}` : `${colors.white}`};
+    props.selected ? `${colors.lighterGrey}` : `${colors.white}`};
 
   &:hover {
     box-shadow: 0 0 0 1px ${colors.blue};
@@ -39,12 +38,12 @@ export const RadioTitle = styled.span`
   letter-spacing: 0;
   margin-left: 3em;
   display: flex;
-  color: ${props => (props.selected ? `${colors.white}` : `${colors.text}`)};
+  color: ${colors.text};
 `;
 
 export const RadioDescription = styled.span`
   font-size: 1em;
   letter-spacing: 0;
   margin-left: 3em;
-  color: ${props => (props.selected ? `${colors.white}` : `${colors.text}`)};
+  color: ${colors.text};
 `;
