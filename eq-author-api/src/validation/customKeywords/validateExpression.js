@@ -63,7 +63,9 @@ module.exports = function(ajv) {
           some(selectedOptions, ({ mutuallyExclusive }) => mutuallyExclusive);
 
         const selectionContainsOnlyMutuallyExclusive =
-          selectedOptions.length === 1 && selectedOptions[0].mutuallyExclusive;
+          selectedOptions.length === 1 &&
+          selectedOptions[0] &&
+          selectedOptions[0].mutuallyExclusive;
 
         if (
           expressionsWithoutNullLeft.length > 0 &&
