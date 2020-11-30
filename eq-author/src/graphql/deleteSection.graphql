@@ -3,6 +3,9 @@ mutation DeleteSection($input: DeleteSectionInput!) {
     id
     sections {
       id
+      folders {
+        id
+      }
     }
     questionnaireInfo {
       totalSectionCount

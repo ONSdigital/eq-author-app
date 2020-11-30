@@ -13,8 +13,11 @@ const questionnaireFragment = gql`
   fragment DeleteSectionFragment on Questionnaire {
     sections {
       id
-      pages {
+      folders {
         id
+        pages {
+          id
+        }
       }
     }
   }
@@ -49,9 +52,14 @@ export const displayToast = (ownProps, questionnaire) => {
   const {
     match: { params },
   } = ownProps;
-  const numberOfDeletedPages = find(questionnaire.sections, {
+
+  const deletedSection = find(questionnaire.sections, {
     id: params.sectionId,
-  }).pages.length;
+  });
+
+  const numberOfDeletedPages = deletedSection.folders
+    .map(({ pages }) => pages.length)
+    .reduce((acc, value) => acc + value);
 
   ownProps.showToast(
     `Section + ${numberOfDeletedPages} ${pluralize(
