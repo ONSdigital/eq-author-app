@@ -1,4 +1,4 @@
-const { findIndex, omit, set, filter } = require("lodash");
+const { findIndex, omit, set, filter, remove, first } = require("lodash");
 
 const {
   getSectionByPageId,
@@ -17,6 +17,7 @@ const addPrefix = require("../../../utils/addPrefix");
 const { createQuestionPage } = require("./questionPage");
 const deleteFirstPageSkipConditions = require("../../../src/businessLogic/deleteFirstPageSkipConditions");
 const deleteLastPageRouting = require("../../../src/businessLogic/deleteLastPageRouting");
+const onFolderDeleted = require("../../../src/businessLogic/onFolderDeleted");
 
 const Resolvers = {};
 
@@ -76,13 +77,23 @@ Resolvers.Mutation = {
     onPageDeleted(ctx, section, previous.page);
 
     if (!section.folders[previous.folderIndex].pages.length) {
-      const newPage = createQuestionPage();
-      section.folders[previous.folderIndex].pages.push(newPage);
+      if (section.folders.length > 1) {
+        // If this isn't the section's last folder - delete it if it's empty
+        const [deletedFolder] = section.folders.splice(previous.folderIndex, 1);
+        onFolderDeleted(ctx, deletedFolder);
+      } else {
+        // If this is the section's last folder, re-populate it with a new question
+        const newPage = createQuestionPage();
+        section.folders[previous.folderIndex].pages.push(newPage);
+      }
     }
+
     deleteFirstPageSkipConditions(ctx);
     deleteLastPageRouting(ctx);
+
     return section;
   }),
+
   duplicatePage: createMutation((_, { input }, ctx) => {
     const section = getSectionByPageId(ctx, input.id);
     const page = getPageById(ctx, input.id);
