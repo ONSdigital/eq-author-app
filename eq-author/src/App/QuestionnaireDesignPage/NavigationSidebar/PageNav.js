@@ -19,9 +19,11 @@ const NavList = styled.ol`
 `;
 
 const PageNav = ({ section, questionnaire }) => {
-  const pages = section.pages
-    .reduce((list, page) => [...list, page, page.confirmation], [])
-    .filter(Boolean);
+  const pages = section.folders.flatMap(({ pages }) =>
+    pages
+      .reduce((list, page) => [...list, page, page.confirmation], [])
+      .filter(Boolean)
+  );
 
   return (
     <TransitionGroup component={NavList}>
