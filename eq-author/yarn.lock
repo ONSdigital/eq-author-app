@@ -13441,17 +13441,7 @@ pretty-format@^25.1.0, pretty-format@^25.5.0:
     ansi-styles "^4.0.0"
     react-is "^16.12.0"
 
-pretty-format@^26.6.2:
-  version "26.6.2"
-  resolved "https://registry.yarnpkg.com/pretty-format/-/pretty-format-26.6.2.tgz#e35c2705f14cb7fe2fe94fa078345b444120fc93"
-  integrity sha512-7AeGuCYNGmycyQbCqd/3PWH4eOoX/OiCa0uphp57NVTeAGdJGaAliecxwBDHYQCIvrW7aDBZCYeNTP/WX69mkg==
-  dependencies:
-    "@jest/types" "^26.6.2"
-    ansi-regex "^5.0.0"
-    ansi-styles "^4.0.0"
-    react-is "^17.0.1"
-
-pretty-format@^26.4.2:
+pretty-format@^26.4.2, pretty-format@^26.6.2:
   version "26.6.2"
   resolved "https://registry.yarnpkg.com/pretty-format/-/pretty-format-26.6.2.tgz#e35c2705f14cb7fe2fe94fa078345b444120fc93"
   integrity sha512-7AeGuCYNGmycyQbCqd/3PWH4eOoX/OiCa0uphp57NVTeAGdJGaAliecxwBDHYQCIvrW7aDBZCYeNTP/WX69mkg==
@@ -14111,7 +14101,7 @@ react-syntax-highlighter@^12.2.1:
     prismjs "^1.8.4"
     refractor "^2.4.1"
 
-react-test-renderer@^16.0.0-0, react-test-renderer@^16.3.1:
+react-test-renderer@^16.0.0-0:
   version "16.8.6"
   resolved "https://registry.yarnpkg.com/react-test-renderer/-/react-test-renderer-16.8.6.tgz#188d8029b8c39c786f998aa3efd3ffe7642d5ba1"
   integrity sha512-H2srzU5IWYT6cZXof6AhUcx/wEyJddQ8l7cLM/F7gDXYyPr4oq+vCIxJYXVGhId1J706sqziAjuOEjyNkfgoEw==
@@ -14139,12 +14129,11 @@ react-textarea-autosize@latest:
     prop-types "^15.6.0"
 
 react-titled@latest:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/react-titled/-/react-titled-1.0.0.tgz#8f332dfef065ad86aa569523ad2a7540cc7aab2f"
-  integrity sha512-jojuUkhu+RRSZM5Y3zVFLOBLue4pNyNGV0XKYUTWrXrHr1HavsloErefQTbguU1QSOs0Rl2rk4AJ3bGttQpO1A==
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/react-titled/-/react-titled-1.0.1.tgz#a0a6299a65c4462215b98249edcb8d20c5ce7caf"
+  integrity sha512-WIXFjCgZ5lALSXmByI+2aJDgNHs1dP1Clz+sSTH9Kjis+y37atU9aJDLHljcgcQbYhlZqxPJENkyxam79Bq7SA==
   dependencies:
     prop-types "^15.5.8"
-    react-test-renderer "^16.3.1"
 
 react-tooltip@latest:
   version "4.0.3"
