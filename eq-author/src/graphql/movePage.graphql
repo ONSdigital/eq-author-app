@@ -1,6 +1,20 @@
 mutation MovePage($input: MovePageInput!) {
   movePage(input: $input) {
-    id
-    position
+    section {
+      questionnaire {
+        id
+        sections {
+          id
+          folders {
+            id
+            position
+            pages {
+              id
+              position
+            }
+          }
+        }
+      }
+    }
   }
 }
