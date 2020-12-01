@@ -39,7 +39,7 @@ const radioButton = css`
       position: absolute;
       border-radius: 100%;
       background: ${colors.lightGrey}
-      border: 2px solid white;
+      border: 2px solid ${colors.white};
       box-shadow: 0 0 0 1px ${colors.black};
       outline: none;
       &:checked {
@@ -51,13 +51,13 @@ const radioButton = css`
       :hover {
         border-radius: 100%;
         outline: none;
-        border: 2px solid white;
+        border: 2px solid ${colors.white};
         box-shadow: 0 0 0 1px ${colors.black};
       }
       :focus {
         border-radius: 100%;
         outline: none;
-        border: 2px solid white;
+        border: 2px solid ${colors.white};
         box-shadow: 0 0 0 1px ${colors.black};
       }
     `}
