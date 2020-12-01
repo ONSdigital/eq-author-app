@@ -9,7 +9,7 @@ export const RadioField = styled.div`
 `;
 
 export const RadioLabel = styled.label`
-  padding: 1em 1.5em;
+  padding: 1em 1em;
   border-radius: 0.25em;
   margin-bottom: 0.8em;
   border: 1px solid ${colors.bordersLight};
@@ -36,7 +36,7 @@ export const RadioLabel = styled.label`
 export const RadioTitle = styled.span`
   font-weight: bold;
   letter-spacing: 0;
-  margin-left: 3em;
+  margin-left: 2.3em;
   display: flex;
   color: ${colors.text};
 `;
@@ -44,6 +44,6 @@ export const RadioTitle = styled.span`
 export const RadioDescription = styled.span`
   font-size: 1em;
   letter-spacing: 0;
-  margin-left: 3em;
+  margin-left: 2.3em;
   color: ${colors.text};
 `;
