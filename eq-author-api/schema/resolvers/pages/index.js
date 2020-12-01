@@ -1,4 +1,4 @@
-const { findIndex, omit, set, filter } = require("lodash");
+const { findIndex, omit, set, filter, remove } = require("lodash");
 
 const {
   getSectionByPageId,
@@ -9,6 +9,7 @@ const {
   getMovePosition,
   createFolder,
   getFolderById,
+  getFolderByPageId,
 } = require("../utils");
 
 const onPageDeleted = require("../../../src/businessLogic/onPageDeleted");
@@ -32,25 +33,28 @@ Resolvers.Mutation = {
 
     const page = getPageById(ctx, pageId);
     const oldSection = getSectionByPageId(ctx, pageId);
+    const oldFolder = getFolderByPageId(ctx, pageId);
     const newSection = getSectionById(ctx, sectionId);
 
-    oldSection.folders.map(folder => {
+    for (const folder of oldSection.folders) {
       const { enabled, pages } = folder;
       const index = pages.findIndex(({ id }) => id === page.id);
 
-      if (index > -1) {
-        pages.splice(index, 1);
+      if (index < 0) {
+        continue;
+      }
 
-        if (enabled && !pages.length) {
+      pages.splice(index, 1);
+      if (!pages.length) {
+        if (oldSection.folders.length > 1 && !enabled) {
+          remove(oldSection.folders, { id: oldFolder.id });
+        } else {
           pages.push(createQuestionPage());
         }
       }
-    });
 
-    oldSection.folders = filter(
-      oldSection.folders,
-      ({ pages }) => pages.length
-    );
+      break;
+    }
 
     if (folderId) {
       const folder = getFolderById(ctx, folderId);
