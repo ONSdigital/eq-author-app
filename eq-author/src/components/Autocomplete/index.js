@@ -1,22 +1,5 @@
 /*
-Need to do tomorrow:
-[X] - add enter/space functionality
-[X] - add saving of selected option
-[X] - add switch case keys as object text
-[ ] - finish accessibility
-[ ] - index not returning to -1 when focus on input (this is screen reader thing)
-[ ] - reading out number of results twice (apparently a known bug with iframes)
-*/
-
-/*
-BUGS that need ironed out
-[X] - hitting space twice does nothing
-    - write a test to check if handleSelect is firing on when nothing selected
-[X] - had a element.focus() bug
-    - caused by hitting down on no results found
-    - need a test for this
-    - other bug; type a, go down 5 spaces, type c, go down
-[ ] - cannot read property of 'innerText' of null
+  if onblur and no content then null
 */
 // chrome accessibility tools are your friend
 import React, { useState, useRef, useCallback, useEffect } from "react";
@@ -62,7 +45,9 @@ const Autocomplete = ({
       event.preventDefault();
 
       const index =
-        selectedIndex === filterOptions.length - 1 ? 0 : selectedIndex + 1;
+        selectedIndex === filterOptions.length - 1
+          ? filterOptions.length - 1
+          : selectedIndex + 1;
 
       focusEl(comboElements.current[index]);
       setSelectedIndex(index);
@@ -74,8 +59,7 @@ const Autocomplete = ({
     event => {
       event.preventDefault();
 
-      const index =
-        selectedIndex === 0 ? filterOptions.length - 1 : selectedIndex - 1;
+      const index = selectedIndex === -1 ? -1 : selectedIndex - 1;
 
       focusEl(comboElements.current[index]);
       setSelectedIndex(index);
@@ -128,6 +112,12 @@ const Autocomplete = ({
     }
   }, []);
 
+  const handleBlur = useCallback(() => {
+    if (query.length === 0) {
+      updateOption("");
+    }
+  }, [query]);
+
   const handleKeyDown = useCallback(
     event => {
       if (query.length > 0 && filterOptions.length) {
@@ -147,7 +137,6 @@ const Autocomplete = ({
             }
             break;
           case Space:
-            // write tests for these
             if (selectedIndex !== -1) {
               handleSelect(event);
             }
@@ -178,7 +167,7 @@ const Autocomplete = ({
       : options.filter(option => option.toLowerCase().includes(query));
 
   // ------------------------------------------------------
-  // These use another span to describe what's going on
+  // provides hint to screen reader when query is empty
   const assistiveHintID = "autocomplete-assistiveHint";
   const ariaDescribedProp = !query.length
     ? { "aria-describedby": assistiveHintID }
@@ -220,6 +209,7 @@ const Autocomplete = ({
             comboElements.current[-1] = inputEl;
           }}
           onChange={event => handleInputChange(event)}
+          onBlur={() => handleBlur()}
           placeholder={placeholder}
           role="combobox"
           type="text"
