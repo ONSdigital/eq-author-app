@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
+import { debounce } from "lodash";
 
 const StatusProps = {
   id: PropTypes.string,
@@ -31,42 +32,75 @@ export const Status = ({
     return `${length} ${words.result} ${words.is} available. ${contentSelectedOption}`;
   },
 }) => {
+  const [content, setContent] = useState(null);
+  const debounced = useRef(false);
+  const bump = useRef(false);
   const noResults = length === 0;
 
   const contentSelectedOption = selectedOption
     ? tSelectedOption(selectedOption, length, selectedOptionIndex)
     : "";
 
-  let content = null;
+  const debouncer = useCallback(
+    debounce(content => {
+      setContent(content);
+      debounced.current = true;
+      bump.current = !bump.current;
+    }, 1500),
+    []
+  );
+
+  useEffect(() => {
+    debounced.current = false;
+  }, [content]);
+
+  let srContent = null;
   if (noResults) {
-    content = tNoResults();
+    srContent = tNoResults();
   } else {
-    content = tResults(length, contentSelectedOption);
+    srContent = tResults(length, contentSelectedOption);
   }
+
+  debouncer(srContent);
+
   return (
-    <div
-      style={{
-        border: "0",
-        clip: "rect(0 0 0 0)",
-        height: "1px",
-        marginBottom: "-1px",
-        marginRight: "-1px",
-        overflow: "hidden",
-        padding: "0",
-        position: "absolute",
-        whiteSpace: "nowrap",
-        width: "1px",
-      }}
-    >
+    <>
+      {/* <p>{`${bump.current} - bump`}</p>
+      <p>{`${debounced.current} - debounced`}</p>
+      <p>!bump - {!bump.current && debounced.current ? content : ""}</p>
+      <p>bump - {bump.current && debounced.current ? content : ""}</p> */}
       <div
-        id={id + "__status--A"}
-        role="status"
-        aria-atomic="true"
-        aria-live="polite"
+        style={{
+          border: "0",
+          clip: "rect(0 0 0 0)",
+          height: "1px",
+          marginBottom: "-1px",
+          marginRight: "-1px",
+          overflow: "hidden",
+          padding: "0",
+          position: "absolute",
+          whiteSpace: "nowrap",
+          width: "1px",
+        }}
       >
-        {content}
+        <div
+          id={id + "__status--A"}
+          role="status"
+          aria-atomic="true"
+          aria-live="polite"
+        >
+          {!bump.current && debounced.current ? content : ""}
+        </div>
+        <div
+          id={id + "__status--B"}
+          role="status"
+          aria-atomic="true"
+          aria-live="polite"
+        >
+          {bump.current && debounced.current ? content : ""}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
