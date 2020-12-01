@@ -37,10 +37,12 @@ export const Status = ({
   const bump = useRef(false);
   const noResults = length === 0;
 
+  // ----------------------------------------------------------------------
+  // check this works in the morning
   const contentSelectedOption = selectedOption
     ? tSelectedOption(selectedOption, length, selectedOptionIndex)
     : "";
-
+  // ----------------------------------------------------------------------
   const debouncer = useCallback(
     debounce(content => {
       setContent(content);
