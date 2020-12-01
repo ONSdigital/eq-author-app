@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import * as answerTypes from "constants/answer-types";
+
 import * as metadataTypes from "constants/metadata-types";
 
 const CustomPropTypes = {
@@ -19,7 +20,7 @@ const CustomPropTypes = {
     id: PropTypes.string.isRequired,
     alias: PropTypes.string,
     key: PropTypes.string,
-    type: PropTypes.oneOf(Object.values(metadataTypes)),
+    type: PropTypes.oneOf(Object.values(metadataTypes).map(type => type.type)),
     languageValue: PropTypes.string,
     regionValue: PropTypes.string,
     textValue: PropTypes.string,
