@@ -25,6 +25,7 @@ const AutocompleteProps = {
   defaultValue: PropTypes.string.isRequired,
   filter: PropTypes.func,
   placeholder: PropTypes.string,
+  hasError: PropTypes.bool,
 };
 
 const Autocomplete = ({
@@ -33,6 +34,7 @@ const Autocomplete = ({
   defaultValue,
   filter,
   placeholder,
+  hasError,
 }) => {
   const [query, setQuery] = useState("");
   const [selectedIndex, setSelectedIndex] = useState(-1);
@@ -214,6 +216,7 @@ const Autocomplete = ({
           role="combobox"
           type="text"
           value={selectedOption ? selectedOption : query}
+          hasError={hasError}
         />
         {query.length > 0 && !selectedOption && (
           <DropDown

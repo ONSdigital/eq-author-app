@@ -188,6 +188,7 @@ export const UnwrappedGroupedAnswerProperties = ({
                       unit: value,
                     });
                   }}
+                  hasError={hasUnitError}
                   defaultValue={
                     (answers[0].properties.unit &&
                       `${answers[0].properties.unit} (${
