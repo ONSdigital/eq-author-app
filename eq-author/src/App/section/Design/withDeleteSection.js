@@ -28,22 +28,17 @@ const pluralize = (count, word, plural = word + "s") => {
 };
 
 export const handleDeletion = (
-  { history, onAddSection, match: { params } },
+  { history, match: { params } },
   { data },
   oldQuestionnaire
 ) => {
   const questionnaire = data.deleteSection;
   const { sectionId, questionnaireId } = params;
 
-  // this will need to be modified similar to `withDeletePage`
-  if (questionnaire.sections.length === 0) {
-    return onAddSection();
-  }
-
-  const nextSection = getNextSection(oldQuestionnaire.sections, sectionId);
+  const nextSectionIndex = getNextSection(oldQuestionnaire.sections, sectionId);
   const nextSectionPath = buildSectionPath({
     questionnaireId,
-    sectionId: nextSection.id,
+    sectionId: questionnaire.sections[nextSectionId].id,
   });
   history.push(nextSectionPath);
 };
