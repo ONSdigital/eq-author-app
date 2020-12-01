@@ -37,6 +37,7 @@ export const RadioTitle = styled.span`
   font-weight: bold;
   letter-spacing: 0;
   margin-left: 2.3em;
+  margin-bottom: 0.3em;
   display: flex;
   color: ${colors.text};
 `;
