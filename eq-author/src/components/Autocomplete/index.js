@@ -1,6 +1,3 @@
-/*
-  if onblur and no content then null
-*/
 import React, { useState, useRef, useCallback, useEffect } from "react";
 import PropTypes from "prop-types";
 
@@ -199,6 +196,7 @@ const Autocomplete = ({
           aria-controls={"autocomplete-listbox"}
           {...ariaDescribedProp}
           aria-expanded={query.length > 0 ? "true" : "false"}
+          aria-label="Auto complete input"
           aria-owns={"autocomplete-listbox"}
           autoComplete="off"
           forwardRef={inputEl => {
