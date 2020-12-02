@@ -69,9 +69,9 @@ const Autocomplete = ({
   );
 
   const onSelect = useCallback(() => {
-    const selectedValue = comboElements.current[selectedIndex].innerText;
-    setSelectedOption(selectedValue);
-    updateOption(selectedValue);
+    const selectedElement = comboElements.current[selectedIndex];
+    setSelectedOption(selectedElement.innerText);
+    updateOption(selectedElement);
   }, [selectedIndex]);
 
   const handleSelect = useCallback(

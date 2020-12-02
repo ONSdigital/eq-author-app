@@ -90,7 +90,7 @@ const filterUnitOptions = (options, query) =>
         x.abbreviation.toLowerCase().includes(query.toLowerCase())
     )
     .map((option, index) => (
-      <span key={`unit-option-${index}`}>
+      <span key={`unit-option-${index}`} value={option.unit}>
         {option.unit} <span aria-hidden="true">({option.abbreviation})</span>
       </span>
     ));
@@ -173,17 +173,12 @@ export const UnwrappedGroupedAnswerProperties = ({
           {answerType === UNIT && (
             <>
               <MultiLineField id="unit" label={"Type"}>
-                {/* 
-                need to build a filter here
-                the filter will be the unit types
-                 */}
                 <Autocomplete
                   options={unitConversion}
                   filter={filterUnitOptions}
                   placeholder={"Select a type"}
-                  updateOption={unit => {
-                    // this is gross
-                    const value = unit.split("(")[0].trim();
+                  updateOption={element => {
+                    const value = element.children[0].getAttribute("value");
                     updateAnswersOfType(answerType, page.id, {
                       unit: value,
                     });
