@@ -1,97 +1,106 @@
 const { v4: uuidv4 } = require("uuid");
 const { includes, filter } = require("lodash");
+const {
+  DATE,
+  TEXT,
+  TEXT_OPTIONAL,
+  LANGUAGE,
+  REGION,
+} = require("../constants/metadataTypes");
 
 const defaultTypeValueNames = {
-  Date: "dateValue",
-  Text: "textValue",
-  Region: "regionValue",
-  Language: "languageValue",
+  [DATE]: "dateValue",
+  [TEXT]: "textValue",
+  [TEXT_OPTIONAL]: "textValue",
+  [REGION]: "regionValue",
+  [LANGUAGE]: "languageValue",
 };
 
 const defaultTypeValues = {
-  Date: null,
-  Text: null,
-  Region: "GB_ENG",
-  Language: "en",
+  [DATE]: null,
+  [TEXT]: null,
+  [TEXT_OPTIONAL]: null,
+  [REGION]: "GB_ENG",
+  [LANGUAGE]: "en",
 };
 
 const defaultValues = [
   {
     key: "ru_ref",
     alias: "Ru Ref",
-    type: "Text",
+    type: TEXT,
     textValue: "12346789012A",
   },
   {
     key: "ru_name",
     alias: "Ru Name",
-    type: "Text",
+    type: TEXT,
     textValue: "ESSENTIAL ENTERPRISE LTD.",
   },
   {
     key: "trad_as",
     alias: "Trad As",
-    type: "Text",
+    type: TEXT_OPTIONAL,
     textValue: "ESSENTIAL ENTERPRISE LTD.",
   },
   {
     key: "period_id",
     alias: "Period Id",
-    type: "Text",
+    type: TEXT,
     textValue: "201605",
   },
   {
     key: "period_str",
     alias: "Period Str",
-    type: "Text",
+    type: TEXT,
     textValue: "May 2017",
   },
   {
     key: "language_code",
-    alias: "Language",
-    type: "Language",
+    alias: LANGUAGE,
+    type: LANGUAGE,
     languageValue: "en",
   },
   {
     key: "ref_p_start_date",
     alias: "Start Date",
-    type: "Date",
+    type: DATE,
     dateValue: "2016-05-01",
   },
   {
     key: "ref_p_end_date",
     alias: "End Date",
-    type: "Date",
+    type: DATE,
     dateValue: "2016-06-12",
   },
   {
     key: "return_by",
     alias: "Return By",
-    type: "Date",
+    type: DATE,
     dateValue: "2016-06-12",
   },
   {
     key: "employment_date",
     alias: "Employment Date",
-    type: "Date",
+    type: DATE,
     dateValue: "2016-06-10",
   },
   {
     key: "region_code",
-    alias: "Region",
-    type: "Region",
+    alias: REGION,
+    type: REGION,
     regionValue: "GB_ENG",
   },
   {
     key: "display_address",
     alias: "Display Address",
-    type: "Text",
+    type: TEXT,
     textValue: "68 Abingdon Road, Goathill, PE12 5EH",
   },
   {
     key: "country",
     alias: "Country",
-    type: "Text",
+    type: TEXT,
     textValue: "E",
   },
 ];

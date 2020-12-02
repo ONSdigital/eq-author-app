@@ -34,27 +34,32 @@ const radioButton = css`
   ${({ variant }) =>
     variant === "radioBox" &&
     `
-    width: 1.25em;
-    height: 1.25em;
-    border-radius: 100%;
-    outline: none;
-    position: absolute;
-    overflow: hidden;
-    padding: 0;
-    display: flex;
-
-    :before {
-      content: "";
-      display: block;
-      width: 80%;
-      height: 80%;
-      margin: 10% auto;
+      width: 1.25em;
+      height: 1.25em;
+      position: absolute;
       border-radius: 100%;
-      background: ${colors.lightGrey};
-    }
-    :checked:before {
-      background: ${colors.black};
-    }
+      background: ${colors.lightGrey}
+      border: 2px solid ${colors.white};
+      box-shadow: 0 0 0 1px ${colors.black};
+      outline: none;
+      &:checked {
+        background: ${colors.black} !important;
+      }
+      :checked:before {
+        background: ${colors.black};
+      }
+      :hover {
+        border-radius: 100%;
+        outline: none;
+        border: 2px solid ${colors.white};
+        box-shadow: 0 0 0 1px ${colors.black};
+      }
+      :focus {
+        border-radius: 100%;
+        outline: none;
+        border: 2px solid ${colors.white};
+        box-shadow: 0 0 0 1px ${colors.black};
+      }
     `}
 
   &:checked {

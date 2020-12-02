@@ -9,7 +9,7 @@ export const RadioField = styled.div`
 `;
 
 export const RadioLabel = styled.label`
-  padding: 1em 1.5em;
+  padding: 1em;
   border-radius: 0.25em;
   margin-bottom: 0.8em;
   border: 1px solid ${colors.bordersLight};
@@ -17,9 +17,14 @@ export const RadioLabel = styled.label`
   cursor: pointer;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.18);
   color: ${colors.textLight};
   position: relative;
+  background: ${props =>
+    props.selected ? `${colors.lighterGrey}` : `${colors.white}`};
+
+  &:hover {
+    box-shadow: 0 0 0 1px ${colors.blue};
+  }
 
   &:focus-within {
     border-color: ${colors.blue};
@@ -31,13 +36,15 @@ export const RadioLabel = styled.label`
 export const RadioTitle = styled.span`
   font-weight: bold;
   letter-spacing: 0;
-  margin-left: 3em;
-  color: ${colors.text};
+  margin-left: 2.3em;
+  margin-bottom: 0.3em;
   display: flex;
+  color: ${colors.text};
 `;
 
 export const RadioDescription = styled.span`
   font-size: 1em;
   letter-spacing: 0;
-  margin-left: 3em;
+  margin-left: 2.3em;
+  color: ${colors.text};
 `;
