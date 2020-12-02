@@ -145,7 +145,7 @@ describe("components/Autocomplete", () => {
   it("should reset selected index on input change", async () => {
     const biggerList = ["a", "ab", "abc", "ad", "adc", "afcde", "adam"];
     const newProps = { ...props, options: biggerList };
-    const { getByTestId, getByText, debug } = render(Component(newProps));
+    const { getByTestId } = render(Component(newProps));
 
     fireEvent.change(getByTestId(inputId), {
       target: { value: "a" },
