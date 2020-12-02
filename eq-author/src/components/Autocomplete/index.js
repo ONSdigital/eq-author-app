@@ -1,7 +1,6 @@
 /*
   if onblur and no content then null
 */
-// chrome accessibility tools are your friend
 import React, { useState, useRef, useCallback, useEffect } from "react";
 import PropTypes from "prop-types";
 
@@ -187,11 +186,6 @@ const Autocomplete = ({
         <Status
           id={"autocomplete-input-status"}
           length={filterOptions.length}
-          queryLength={query.length}
-          selectedOption={selectedOption}
-          selectedOptionIndex={selectedIndex}
-          isInFocus={selectedIndex}
-          validChoiceMade={selectedOption}
         />
         <Input
           id="autocomplete-input"

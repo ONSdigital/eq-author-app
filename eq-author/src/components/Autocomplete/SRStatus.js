@@ -5,44 +5,27 @@ import { debounce } from "lodash";
 const StatusProps = {
   id: PropTypes.string,
   length: PropTypes.number,
-  queryLength: PropTypes.number,
-  selectedOption: PropTypes.string,
-  selectedOptionIndex: PropTypes.number,
-  isInFocus: PropTypes.number,
-  validChoiceMade: PropTypes.string,
   tNoResults: PropTypes.func,
-  tSelectedOption: PropTypes.func,
   tResults: PropTypes.func,
 };
 
 export const Status = ({
   id,
   length,
-  selectedOption,
-  selectedOptionIndex,
   tNoResults = () => "No search results",
-  tSelectedOption = (selectedOption, length, index) =>
-    `${selectedOption} ${index + 1} of ${length} is highlighted`,
-  tResults = (length, contentSelectedOption) => {
+  tResults = length => {
     const words = {
       result: length === 1 ? "result" : "results",
       is: length === 1 ? "is" : "are",
     };
 
-    return `${length} ${words.result} ${words.is} available. ${contentSelectedOption}`;
+    return `${length} ${words.result} ${words.is} available.`;
   },
 }) => {
   const [content, setContent] = useState(null);
   const debounced = useRef(false);
   const bump = useRef(false);
-  const noResults = length === 0;
 
-  // ----------------------------------------------------------------------
-  // check this works in the morning
-  const contentSelectedOption = selectedOption
-    ? tSelectedOption(selectedOption, length, selectedOptionIndex)
-    : "";
-  // ----------------------------------------------------------------------
   const debouncer = useCallback(
     debounce(content => {
       setContent(content);
@@ -56,21 +39,19 @@ export const Status = ({
     debounced.current = false;
   }, [content]);
 
+  const noResults = length === 0;
+
   let srContent = null;
   if (noResults) {
     srContent = tNoResults();
   } else {
-    srContent = tResults(length, contentSelectedOption);
+    srContent = tResults(length);
   }
 
   debouncer(srContent);
 
   return (
     <>
-      {/* <p>{`${bump.current} - bump`}</p>
-      <p>{`${debounced.current} - debounced`}</p>
-      <p>!bump - {!bump.current && debounced.current ? content : ""}</p>
-      <p>bump - {bump.current && debounced.current ? content : ""}</p> */}
       <div
         style={{
           border: "0",

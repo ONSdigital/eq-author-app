@@ -1,5 +1,5 @@
 import React from "react";
-import { render, fireEvent } from "tests/utils/rtl";
+import { render, fireEvent, act, waitFor } from "tests/utils/rtl";
 import userEvent from "@testing-library/user-event";
 import { Autocomplete } from "./";
 
@@ -58,7 +58,7 @@ describe("components/Autocomplete", () => {
     expect(getByTestId(dropDownId)).toBeVisible();
   });
 
-  it("should receive focus and navigate to first option", () => {
+  it("should receive focus on list item and return to input", () => {
     const { getByTestId } = render(Component(props));
 
     const input = getByTestId(inputId);
@@ -83,7 +83,7 @@ describe("components/Autocomplete", () => {
       code: ArrowUp,
     });
 
-    expect(getByTestId("autocomplete-option-1")).toHaveFocus();
+    expect(getByTestId(inputId)).toHaveFocus();
   });
 
   it("should be updateOption with Enter", () => {
@@ -142,16 +142,16 @@ describe("components/Autocomplete", () => {
     expect(queryByText(emptyResult)).toBeTruthy();
   });
 
-  it("should reset selected index on input change", () => {
+  it("should reset selected index on input change", async () => {
     const biggerList = ["a", "ab", "abc", "ad", "adc", "afcde", "adam"];
     const newProps = { ...props, options: biggerList };
-    const { getByTestId, getByRole } = render(Component(newProps));
+    const { getByTestId, getByText, debug } = render(Component(newProps));
 
     fireEvent.change(getByTestId(inputId), {
       target: { value: "a" },
     });
 
-    expect(getByRole("status")).toHaveTextContent("7 results are available");
+    expect(getByTestId("autocomplete-option-6")).toBeVisible();
 
     [1, 2, 3, 4, 5].forEach(() => {
       fireEvent.keyDown(getByTestId(inputId), {
@@ -168,7 +168,7 @@ describe("components/Autocomplete", () => {
       target: { value: "ada" },
     });
 
-    expect(getByRole("status")).toHaveTextContent("1 result is available");
+    expect(getByTestId(firstOptionId)).toBeVisible();
 
     fireEvent.keyDown(getByTestId(inputId), {
       key: ArrowDown,
@@ -186,13 +186,12 @@ describe("components/Autocomplete", () => {
       filter,
     };
 
-    const { getByTestId, getByRole } = render(Component(newProps));
+    const { getByTestId } = render(Component(newProps));
 
     fireEvent.change(getByTestId(inputId), {
       target: { value: "cm" },
     });
 
-    expect(getByRole("status")).toHaveTextContent("3 results are available");
     expect(getByTestId(firstOptionId)).toHaveTextContent("Centimetres");
   });
 

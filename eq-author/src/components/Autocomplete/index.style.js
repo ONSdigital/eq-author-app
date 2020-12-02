@@ -13,7 +13,7 @@ export const RoundedInput = styled(Input)`
   box-sizing: border-box;
   padding-left: 2em;
   outline: none;
-
+  // would like to add this to components/Forms/input
   ${({ hasError }) =>
     hasError &&
     `
