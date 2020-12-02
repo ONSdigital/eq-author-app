@@ -74,14 +74,6 @@ const GroupContainer = styled.div`
   padding: 0.5em 0;
 `;
 
-export const UnitPropertiesStyled = styled(UnitProperties)`
-  ${({ hasUnitError }) =>
-    hasUnitError &&
-    `
-  border-color: ${colors.red};
-`}
-`;
-
 const filterUnitOptions = (options, query) =>
   Object.values(options)
     .filter(
