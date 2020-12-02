@@ -5,10 +5,10 @@ export default (items, id) => {
   let nextIndex;
 
   if (index === 0) {
-    nextIndex = 0;
+    nextIndex = items.length > 1 ? 1 : 0;
   } else {
     nextIndex = index - 1;
   }
 
-  return nextIndex;
+  return items[nextIndex];
 };

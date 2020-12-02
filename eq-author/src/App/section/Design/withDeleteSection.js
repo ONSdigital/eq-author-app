@@ -1,7 +1,6 @@
 import { graphql } from "react-apollo";
 import { find, flowRight } from "lodash";
 import gql from "graphql-tag";
-
 import { withShowToast } from "components/Toasts";
 
 import deleteSectionMutation from "graphql/deleteSection.graphql";
@@ -28,19 +27,24 @@ const pluralize = (count, word, plural = word + "s") => {
 };
 
 export const handleDeletion = (
-  { history, match: { params } },
+  { history, client, match: { params } },
   { data },
   oldQuestionnaire
 ) => {
   const questionnaire = data.deleteSection;
   const { sectionId, questionnaireId } = params;
 
-  const nextSectionIndex = getNextSection(oldQuestionnaire.sections, sectionId);
-  const nextSectionPath = buildSectionPath({
-    questionnaireId,
-    sectionId: questionnaire.sections[nextSectionId].id,
-  });
-  history.push(nextSectionPath);
+  const nextSection = getNextSection(oldQuestionnaire.sections, sectionId);
+  const newSectionCreated = questionnaire.sections.length === 1;
+
+  history.push(
+    buildSectionPath({
+      questionnaireId,
+      sectionId: newSectionCreated
+        ? questionnaire.sections[0].id
+        : nextSection.id,
+    })
+  );
 };
 
 export const displayToast = (ownProps, questionnaire) => {

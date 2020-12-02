@@ -1,9 +1,12 @@
 fragment MovePageFragment on Section {
   id
   title
-  pages {
-    title
+  folders {
     id
-    position
+    pages {
+      title
+      id
+      position
+    }
   }
 }

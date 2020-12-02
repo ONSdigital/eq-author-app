@@ -63,12 +63,14 @@ const handleDeletion = (
     },
   },
   { folders },
-  nextPageIndex
+  nextPage
 ) => {
+  const newPageCreated = folders.length === 1 && folders[0].pages.length === 1;
+
   history.push(
     buildPagePath({
       questionnaireId,
-      pageId: folders[0].pages[nextPageIndex].id,
+      pageId: newPageCreated ? folders[0].pages[0].id : nextPage.id,
     })
   );
 };
@@ -79,7 +81,7 @@ export const mapMutateToProps = props => ({
     const { client } = ownProps;
     const cachedSection = getCachedSection(client, page.section.id);
     const cachedPages = cachedSection.folders.flatMap(({ pages }) => pages);
-    const nextPageIndex = getNextPage(cachedPages, page.id);
+    const nextPage = getNextPage(cachedPages, page.id);
     const mutation = mutate({
       variables: { input: { id: page.id } },
       refetchQueries: [
@@ -92,7 +94,7 @@ export const mapMutateToProps = props => ({
 
     return mutation
       .then(({ data: { deletePage: section } }) =>
-        handleDeletion(ownProps, section, nextPageIndex)
+        handleDeletion(ownProps, section, nextPage)
       )
       .then(() => ownProps.showToast("Page deleted"));
   },
