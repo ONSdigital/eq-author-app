@@ -321,6 +321,33 @@ describe("Grouped Answer Properties", () => {
         { unit: "Square centimetres" }
       );
     });
+
+    it("should have a default value", () => {
+      const inputId = "autocomplete-input";
+      const { getByTestId } = render(
+        <UnwrappedGroupedAnswerProperties {...unitProps} />,
+        {
+          route: "/q/1/page/0",
+          urlParamMatcher: "/q/:questionnaireId/page/:pageId",
+        }
+      );
+
+      expect(getByTestId(inputId).value).toEqual("");
+    });
+
+    it("should have a set initial value", () => {
+      unitProps.page.answers[0].properties.unit = "Acres";
+      const inputId = "autocomplete-input";
+      const { getByTestId } = render(
+        <UnwrappedGroupedAnswerProperties {...unitProps} />,
+        {
+          route: "/q/1/page/0",
+          urlParamMatcher: "/q/:questionnaireId/page/:pageId",
+        }
+      );
+
+      expect(getByTestId(inputId).value).toEqual("Acres (ac)");
+    });
   });
 
   describe("Duration answers", () => {
