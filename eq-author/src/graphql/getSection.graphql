@@ -1,0 +1,50 @@
+query GetSection($input: QueryInput!) {
+  section(input: $input) {
+    id
+    alias
+    displayName
+    introductionTitle
+    introductionContent
+    validationErrorInfo {
+      totalCount
+      id
+    }
+    folders {
+      id
+      enabled
+      pages {
+        id
+        title
+        displayName
+        position
+        pageType
+        validationErrorInfo {
+          id
+          totalCount
+          errors {
+            id
+            field
+            errorCode
+            type
+          }
+        }
+        ... on QuestionPage {
+          confirmation {
+            id
+            displayName
+            validationErrorInfo {
+              id
+              totalCount
+              errors {
+                id
+                field
+                errorCode
+                type
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -47,7 +47,10 @@ Resolvers.Mutation = {
       pages.splice(index, 1);
       if (!pages.length) {
         if (oldSection.folders.length > 1 && !enabled) {
-          remove(oldSection.folders, { id: oldFolder.id });
+          const removedFolder = remove(oldSection.folders, {
+            id: oldFolder.id,
+          });
+          onFolderDeleted(ctx, removedFolder);
         } else {
           pages.push(createQuestionPage());
         }
