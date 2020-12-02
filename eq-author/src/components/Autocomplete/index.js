@@ -94,10 +94,9 @@ const Autocomplete = ({
   const handleClick = useCallback(
     event => {
       event.preventDefault();
-
-      const clickedValue = event.currentTarget.innerText;
-      setSelectedOption(clickedValue);
-      updateOption(clickedValue);
+      const clickedElement = event.currentTarget;
+      setSelectedOption(clickedElement.innerText);
+      updateOption(clickedElement);
     },
     [selectedIndex]
   );
