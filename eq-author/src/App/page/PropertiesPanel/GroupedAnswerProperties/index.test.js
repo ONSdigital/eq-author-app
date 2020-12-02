@@ -8,7 +8,6 @@ import {
   DURATION,
   TEXTAREA,
 } from "constants/answer-types";
-import { KILOJOULES } from "constants/unit-types";
 import { YEARSMONTHS, YEARS } from "constants/duration-types";
 import { flushPromises, render, fireEvent, act } from "tests/utils/rtl";
 
