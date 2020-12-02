@@ -9,9 +9,22 @@ describe("Select", () => {
   let props, wrapper;
   beforeEach(() => {
     props = {
-      options: ["x", "y", "z"],
+      options: [
+        {
+          label: "Option A",
+          type: "opt_a",
+        },
+        {
+          label: "Option B",
+          type: "opt_b",
+        },
+        {
+          label: "Option C",
+          type: "opt_c",
+        },
+      ],
       name: "test",
-      value: "x",
+      value: "opt_a",
       onChange: jest.fn(),
       onUpdate: jest.fn(),
     };

@@ -28,10 +28,26 @@ exports[`MetadataTable should correctly render different types of metadata 1`] =
       onUpdate={[MockFunction]}
       options={
         Array [
-          "Text",
-          "Date",
-          "Language",
-          "Region",
+          Object {
+            "label": "Text",
+            "type": "Text",
+          },
+          Object {
+            "label": "Text (Optional)",
+            "type": "Text_Optional",
+          },
+          Object {
+            "label": "Date",
+            "type": "Date",
+          },
+          Object {
+            "label": "Language",
+            "type": "Language",
+          },
+          Object {
+            "label": "Region",
+            "type": "Region",
+          },
         ]
       }
       value="Text"
@@ -83,10 +99,26 @@ exports[`MetadataTable should correctly render different types of metadata 2`] =
       onUpdate={[MockFunction]}
       options={
         Array [
-          "Text",
-          "Date",
-          "Language",
-          "Region",
+          Object {
+            "label": "Text",
+            "type": "Text",
+          },
+          Object {
+            "label": "Text (Optional)",
+            "type": "Text_Optional",
+          },
+          Object {
+            "label": "Date",
+            "type": "Date",
+          },
+          Object {
+            "label": "Language",
+            "type": "Language",
+          },
+          Object {
+            "label": "Region",
+            "type": "Region",
+          },
         ]
       }
       value="Date"
@@ -139,10 +171,26 @@ exports[`MetadataTable should correctly render different types of metadata 3`] =
       onUpdate={[MockFunction]}
       options={
         Array [
-          "Text",
-          "Date",
-          "Language",
-          "Region",
+          Object {
+            "label": "Text",
+            "type": "Text",
+          },
+          Object {
+            "label": "Text (Optional)",
+            "type": "Text_Optional",
+          },
+          Object {
+            "label": "Date",
+            "type": "Date",
+          },
+          Object {
+            "label": "Language",
+            "type": "Language",
+          },
+          Object {
+            "label": "Region",
+            "type": "Region",
+          },
         ]
       }
       value="Region"
@@ -203,10 +251,26 @@ exports[`MetadataTable should correctly render different types of metadata 4`] =
       onUpdate={[MockFunction]}
       options={
         Array [
-          "Text",
-          "Date",
-          "Language",
-          "Region",
+          Object {
+            "label": "Text",
+            "type": "Text",
+          },
+          Object {
+            "label": "Text (Optional)",
+            "type": "Text_Optional",
+          },
+          Object {
+            "label": "Date",
+            "type": "Date",
+          },
+          Object {
+            "label": "Language",
+            "type": "Language",
+          },
+          Object {
+            "label": "Region",
+            "type": "Region",
+          },
         ]
       }
       value="Language"
@@ -264,10 +328,26 @@ exports[`MetadataTable should render 1`] = `
       onUpdate={[MockFunction]}
       options={
         Array [
-          "Text",
-          "Date",
-          "Language",
-          "Region",
+          Object {
+            "label": "Text",
+            "type": "Text",
+          },
+          Object {
+            "label": "Text (Optional)",
+            "type": "Text_Optional",
+          },
+          Object {
+            "label": "Date",
+            "type": "Date",
+          },
+          Object {
+            "label": "Language",
+            "type": "Language",
+          },
+          Object {
+            "label": "Region",
+            "type": "Region",
+          },
         ]
       }
       value="Text"
