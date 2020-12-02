@@ -5,7 +5,7 @@ import gql from "graphql-tag";
 import { Query, Subscription } from "react-apollo";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { Titled } from "react-titled";
-import { get, find, flatMap, flowRight } from "lodash";
+import { get, find, flowRight } from "lodash";
 
 import { colors } from "constants/theme";
 import styled from "styled-components";
@@ -202,7 +202,9 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
       return false;
     }
 
-    const pages = flatMap(questionnaire.sections, "pages");
+    const pages = questionnaire.sections.flatMap(({ folders }) =>
+      folders.flatMap(folder => folder.pages)
+    );
     const page = find(pages, { id: pageId });
     if (!page || page.confirmation || page.pageType !== "QuestionPage") {
       return false;
