@@ -25,7 +25,6 @@ import InlineField from "./InlineField";
 import MultiLineField from "./MultiLineField";
 import ValidationErrorIcon from "./validation-warning-icon.svg?inline";
 import {
-  UnitProperties,
   DurationProperties,
   TextProperties,
 } from "./AnswerProperties/Properties";
