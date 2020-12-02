@@ -27,7 +27,7 @@ const pluralize = (count, word, plural = word + "s") => {
 };
 
 export const handleDeletion = (
-  { history, client, match: { params } },
+  { history, match: { params } },
   { data },
   oldQuestionnaire
 ) => {
@@ -81,9 +81,15 @@ export const mapMutateToProps = ({ ownProps, mutate }) => ({
       fragment: questionnaireFragment,
     });
 
-    const mutation = mutate({
+    const options = {
       variables: { input: section },
-    });
+    };
+
+    if (questionnaire.sections.length === 1) {
+      options.refetchQueries = ["GetQuestionnaire"];
+    }
+
+    const mutation = mutate(options);
 
     return mutation
       .then(data => handleDeletion(ownProps, data, questionnaire))

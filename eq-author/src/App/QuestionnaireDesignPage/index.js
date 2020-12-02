@@ -238,7 +238,6 @@ export class UnwrappedQuestionnaireDesignPage extends Component {
                   </MainNav>
                   <NavigationSidebar
                     data-test="side-nav"
-                    loading={loading}
                     onAddSection={this.props.onAddSection}
                     onAddQuestionPage={this.handleAddPage("QuestionPage")}
                     canAddQuestionPage={this.canAddQuestionAndCalculatedSummmaryPages()}

@@ -7,8 +7,5 @@ mutation DeleteSection($input: DeleteSectionInput!) {
         id
       }
     }
-    questionnaireInfo {
-      totalSectionCount
-    }
   }
 }
