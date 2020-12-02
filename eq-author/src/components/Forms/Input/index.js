@@ -108,6 +108,7 @@ UncontrolledInput.propTypes = {
     PropTypes.bool,
     PropTypes.number,
   ]),
+  forwardRef: PropTypes.func,
 };
 
 export default withChangeHandler(UncontrolledInput);

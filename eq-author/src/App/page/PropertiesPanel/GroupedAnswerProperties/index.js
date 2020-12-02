@@ -178,7 +178,10 @@ export const UnwrappedGroupedAnswerProperties = ({
                   filter={filterUnitOptions}
                   placeholder={"Select a type"}
                   updateOption={element => {
-                    const value = element.children[0].getAttribute("value");
+                    const value =
+                      element !== ""
+                        ? element.children[0]?.getAttribute("value")
+                        : "";
                     updateAnswersOfType(answerType, page.id, {
                       unit: value,
                     });

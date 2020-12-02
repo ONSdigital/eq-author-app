@@ -1,5 +1,5 @@
 import React from "react";
-import { render, fireEvent, act, waitFor } from "tests/utils/rtl";
+import { render, fireEvent } from "tests/utils/rtl";
 import userEvent from "@testing-library/user-event";
 import { Autocomplete } from "./";
 
