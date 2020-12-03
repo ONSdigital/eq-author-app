@@ -40,10 +40,8 @@ export const Status = ({
     debounced.current = false;
   }, [content]);
 
-  const noResults = length === 0;
-
   let srContent = null;
-  if (noResults) {
+  if (!length) {
     srContent = tNoResults();
   } else {
     srContent = tResults(length);
