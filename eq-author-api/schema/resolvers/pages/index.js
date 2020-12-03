@@ -1,8 +1,7 @@
-const { findIndex, omit, set, remove } = require("lodash");
+const { omit, set, remove } = require("lodash");
 
 const {
   getSectionByPageId,
-  getPagesBySectionId,
   remapAllNestedIds,
   getSectionById,
   getPageById,
