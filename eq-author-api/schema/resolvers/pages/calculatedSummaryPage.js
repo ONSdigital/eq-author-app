@@ -1,4 +1,4 @@
-const { findIndex, merge, uniq, get, intersection } = require("lodash");
+const { merge, uniq, get, intersection } = require("lodash");
 
 const { getName } = require("../../../utils/getName");
 const getPreviousAnswersForPage = require("../../../src/businessLogic/getPreviousAnswersForPage");
@@ -17,7 +17,6 @@ const {
   getFolderById,
   getFoldersBySectionId,
   getSectionByPageId,
-  getPagesFromSection,
   createCalculatedSummary,
   returnValidationErrors,
   createFolder,
@@ -32,8 +31,8 @@ Resolvers.CalculatedSummaryPage = {
   section: ({ id }, input, ctx) => getSectionByPageId(ctx, id),
   folder: ({ id }, args, ctx) => getFolderByPageId(ctx, id),
   position: ({ id }, args, ctx) => {
-    const section = getSectionByPageId(ctx, id);
-    return findIndex(getPagesFromSection(section), { id });
+    const folder = getFolderByPageId(ctx, id);
+    return folder.pages.findIndex(page => page.id === id);
   },
   summaryAnswers: ({ id, summaryAnswers }, args, ctx) => {
     const section = getSectionByPageId(ctx, id);

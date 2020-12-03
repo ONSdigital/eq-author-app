@@ -24,7 +24,6 @@ const Resolvers = {};
 
 Resolvers.Page = {
   __resolveType: ({ pageType }) => pageType,
-  position: ({ id }, args, ctx) => findIndex(getPagesBySectionId(ctx, id), id),
 };
 
 Resolvers.Mutation = {

@@ -1,9 +1,8 @@
-const { findIndex, merge } = require("lodash");
+const { merge } = require("lodash");
 
 const { getName } = require("../../../utils/getName");
 
 const {
-  getPagesFromSection,
   getPageById,
   getSectionByPageId,
   getFolderById,
@@ -26,8 +25,8 @@ Resolvers.QuestionPage = {
   section: ({ id }, input, ctx) => getSectionByPageId(ctx, id),
   folder: ({ id }, args, ctx) => getFolderByPageId(ctx, id),
   position: ({ id }, args, ctx) => {
-    const section = getSectionByPageId(ctx, id);
-    return findIndex(getPagesFromSection(section), { id });
+    const folder = getFolderByPageId(ctx, id);
+    return folder.pages.findIndex(page => page.id === id);
   },
   displayName: page => getName(page, "QuestionPage"),
   availablePipingAnswers: ({ id }, args, ctx) =>
