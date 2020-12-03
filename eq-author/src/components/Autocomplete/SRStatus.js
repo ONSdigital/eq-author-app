@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import { debounce } from "lodash";
+import VisuallyHidden from "components/VisuallyHidden";
 
 const StatusProps = {
   id: PropTypes.string,
@@ -52,20 +53,7 @@ export const Status = ({
 
   return (
     <>
-      <div
-        style={{
-          border: "0",
-          clip: "rect(0 0 0 0)",
-          height: "1px",
-          marginBottom: "-1px",
-          marginRight: "-1px",
-          overflow: "hidden",
-          padding: "0",
-          position: "absolute",
-          whiteSpace: "nowrap",
-          width: "1px",
-        }}
-      >
+      <VisuallyHidden>
         <div
           id={id + "__status--A"}
           role="status"
@@ -82,7 +70,7 @@ export const Status = ({
         >
           {bump.current && debounced.current ? content : ""}
         </div>
-      </div>
+      </VisuallyHidden>
     </>
   );
 };
