@@ -13,7 +13,7 @@ class MoveSectionModal extends React.Component {
     onMoveSection: PropTypes.func.isRequired,
   };
 
-  handleOnMove = position => {
+  handleOnMove = ({ position }) => {
     const { section, onMoveSection } = this.props;
     onMoveSection({
       from: {

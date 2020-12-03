@@ -91,7 +91,7 @@ class MovePageModal extends React.Component {
     return find(questionnaire.sections, { id: selectedSectionId });
   }
 
-  handlePageMove = position => {
+  handlePageMove = ({ position }) => {
     const { page, onMovePage, sectionId } = this.props;
     const { selectedSectionId } = this.state;
 
