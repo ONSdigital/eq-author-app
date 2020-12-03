@@ -1,4 +1,4 @@
-const { omit, set, remove } = require("lodash");
+const { omit, remove } = require("lodash");
 
 const {
   getSectionByPageId,
@@ -103,16 +103,25 @@ Resolvers.Mutation = {
     const section = getSectionByPageId(ctx, input.id);
     const page = getPageById(ctx, input.id);
     const newpage = omit(page, "id");
-    set(newpage, "alias", addPrefix(newpage.alias));
-    set(newpage, "title", addPrefix(newpage.title));
+    newpage.alias = addPrefix(newpage.alias);
+    newpage.title = addPrefix(newpage.title);
     const duplicatedPage = createQuestionPage(newpage);
     const remappedPage = remapAllNestedIds(duplicatedPage);
     const { previous } = getMovePosition(section, input.id, input.position);
-    section.folders[previous.folderIndex].pages.splice(
-      input.position,
-      0,
-      remappedPage
-    );
+    const previousFolder = section.folders[previous.folderIndex];
+
+    if (previousFolder.enabled) {
+      previousFolder.pages.splice(input.position, 0, remappedPage);
+    } else {
+      section.folders.splice(
+        previous.folderIndex + 1,
+        0,
+        createFolder({
+          pages: [remappedPage],
+        })
+      );
+    }
+
     return remappedPage;
   }),
 };
