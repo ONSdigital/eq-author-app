@@ -1,53 +1,12 @@
-import gql from "graphql-tag";
 import { graphql } from "react-apollo";
 import { flowRight } from "lodash";
 
 import { withShowToast } from "components/Toasts";
 import deletePageMutation from "graphql/deletePage.graphql";
 import fragment from "graphql/sectionFragment.graphql";
+import getSectionQuery from "graphql/getSection.graphql";
 import getNextPage from "utils/getNextOnDelete";
 import { buildPagePath } from "utils/UrlUtils";
-
-const query = gql`
-  query UpdatePages($input: QueryInput!) {
-    questionnaire(input: $input) {
-      id
-      sections {
-        id
-        title
-        displayName
-        validationErrorInfo {
-          id
-          totalCount
-        }
-        folders {
-          id
-          pages {
-            id
-            title
-            position
-            displayName
-            pageType
-            validationErrorInfo {
-              id
-              totalCount
-            }
-            ... on QuestionPage {
-              confirmation {
-                id
-                displayName
-                validationErrorInfo {
-                  id
-                  totalCount
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`;
 
 const getCachedSection = (client, id) =>
   client.readFragment({
@@ -86,7 +45,7 @@ export const mapMutateToProps = props => ({
       variables: { input: { id: page.id } },
       refetchQueries: [
         {
-          query,
+          query: getSectionQuery,
           variables: { input: { sectionId: page.section.id } },
         },
       ],
