@@ -50,7 +50,7 @@ const Autocomplete = ({
       focusEl(comboElements.current[index]);
       setSelectedIndex(index);
     },
-    [selectedIndex, isOpen, selectedOption]
+    [selectedIndex]
   );
 
   const onArrowUp = useCallback(
@@ -62,7 +62,7 @@ const Autocomplete = ({
       focusEl(comboElements.current[index]);
       setSelectedIndex(index);
     },
-    [selectedIndex, isOpen, selectedOption]
+    [selectedIndex]
   );
 
   const onSelect = useCallback(() => {
