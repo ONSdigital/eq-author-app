@@ -35,13 +35,13 @@ const Autocomplete = ({
   const [query, setQuery] = useState("");
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [selectedOption, setSelectedOption] = useState(defaultValue || null);
+  const [isOpen, setIsOpen] = useState(false);
   // builds a list of elements
   const comboElements = useRef({});
 
   const onArrowDown = useCallback(
     event => {
       event.preventDefault();
-
       const index =
         selectedIndex === filterOptions.length - 1
           ? filterOptions.length - 1
@@ -50,7 +50,7 @@ const Autocomplete = ({
       focusEl(comboElements.current[index]);
       setSelectedIndex(index);
     },
-    [selectedIndex]
+    [selectedIndex, isOpen, selectedOption]
   );
 
   const onArrowUp = useCallback(
@@ -62,7 +62,7 @@ const Autocomplete = ({
       focusEl(comboElements.current[index]);
       setSelectedIndex(index);
     },
-    [selectedIndex]
+    [selectedIndex, isOpen, selectedOption]
   );
 
   const onSelect = useCallback(() => {
@@ -77,7 +77,7 @@ const Autocomplete = ({
 
       onSelect();
     },
-    [selectedIndex]
+    [selectedIndex, isOpen]
   );
 
   const handleInputChange = useCallback(
@@ -88,7 +88,7 @@ const Autocomplete = ({
         setSelectedOption(null);
       }
     },
-    [setQuery, selectedOption]
+    [setQuery, selectedOption, isOpen]
   );
 
   const handleClick = useCallback(
@@ -98,26 +98,36 @@ const Autocomplete = ({
       setSelectedOption(clickedElement.innerText);
       updateOption(clickedElement);
     },
-    [selectedIndex]
+    [selectedIndex, isOpen]
   );
 
-  const handleOtherKeyDown = useCallback(event => {
-    const inputElement = comboElements.current[-1];
-    const eventIsOnInput = event.target === inputElement;
-    if (!eventIsOnInput) {
-      inputElement.focus();
-    }
-  }, []);
+  const handleOtherKeyDown = useCallback(
+    event => {
+      const inputElement = comboElements.current[-1];
+      const eventIsOnInput = event.target === inputElement;
+      if (!eventIsOnInput) {
+        inputElement.focus();
+      }
+    },
+    [isOpen]
+  );
 
-  const handleBlur = useCallback(() => {
-    if (query.length === 0) {
-      updateOption("");
-    }
-  }, [query]);
+  const handleBlur = useCallback(
+    e => {
+      e.stopPropagation();
+      if (!e.currentTarget.contains(e.relatedTarget)) {
+        if (query.length === 0 && selectedOption !== null) {
+          updateOption("");
+        }
+        setIsOpen(false);
+      }
+    },
+    [query, isOpen]
+  );
 
   const handleKeyDown = useCallback(
     event => {
-      if (query.length > 0 && filterOptions.length) {
+      if (isOpen && filterOptions.length) {
         const { key } = event;
         const { ArrowDown, ArrowUp, Enter, Space } = keyCodes;
 
@@ -148,14 +158,14 @@ const Autocomplete = ({
         }
       }
     },
-    [query, selectedIndex]
+    [query, selectedIndex, isOpen]
   );
 
   useEffect(() => {
-    if (selectedIndex >= 0) {
+    if (selectedIndex > -1) {
       setSelectedIndex(-1);
     }
-  }, [query]);
+  }, [query, isOpen, selectedOption]);
 
   // any filter function added needs to accept query as a param
   const filterOptions =
@@ -178,6 +188,8 @@ const Autocomplete = ({
       <Wrapper
         data-test="autocomplete"
         onKeyDown={event => handleKeyDown(event)}
+        onBlur={e => handleBlur(e)}
+        onClick={() => setIsOpen(true)}
       >
         <Status
           id={"autocomplete-input-status"}
@@ -187,14 +199,14 @@ const Autocomplete = ({
           id="autocomplete-input"
           data-test="autocomplete-input"
           aria-activedescendant={
-            query.length > 0
+            isOpen && query.length > 0
               ? comboElements.current[selectedIndex]?.id
               : `${false}`
           }
           aria-autocomplete={"list"}
           aria-controls={"autocomplete-listbox"}
           {...ariaDescribedProp}
-          aria-expanded={query.length > 0 ? "true" : "false"}
+          aria-expanded={isOpen ? "true" : "false"}
           aria-label="Auto complete input"
           aria-owns={"autocomplete-listbox"}
           autoComplete="off"
@@ -202,14 +214,14 @@ const Autocomplete = ({
             comboElements.current[-1] = inputEl;
           }}
           onChange={event => handleInputChange(event)}
-          onBlur={() => handleBlur()}
+          onFocus={() => setIsOpen(true)}
           placeholder={placeholder}
           role="combobox"
           type="text"
           value={selectedOption ? selectedOption : query}
           hasError={hasError}
         />
-        {query.length > 0 && !selectedOption && (
+        {isOpen && !selectedOption && (
           <DropDown
             id="autocomplete-listbox"
             data-test="autocomplete-listbox"
