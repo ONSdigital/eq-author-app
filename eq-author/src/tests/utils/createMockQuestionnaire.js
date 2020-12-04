@@ -1,8 +1,8 @@
 import { times } from "lodash";
 
 const DEFAULT_PAGE_COUNT = 1;
-const DEFAULT_FOLDER_COUNT = 2;
-const DEFAULT_SECTION_COUNT = 2;
+const DEFAULT_FOLDER_COUNT = 1;
+const DEFAULT_SECTION_COUNT = 1;
 
 export const buildPages = ({
   sectionNumber = 1,
@@ -18,6 +18,9 @@ export const buildPages = ({
       displayName: `Page ${id}`,
       alias: id,
       position: i,
+      validationErrorInfo: {
+        totalCount: 2,
+      },
     };
   });
 
@@ -52,14 +55,17 @@ export const buildSections = ({
     title: `Section ${i + 1}`,
     displayName: `Section ${i + 1}`,
     folders: buildFolders({
-      sectionNumber: i + i,
+      sectionNumber: i + 1,
       folderCount,
       pageCount,
     }),
     position: i,
+    validationErrorInfo: {
+      totalCount: 0,
+    },
   }));
 
 export const buildQuestionnaire = options => ({
-  id: "1",
+  id: "questionnaire",
   sections: buildSections(options),
 });

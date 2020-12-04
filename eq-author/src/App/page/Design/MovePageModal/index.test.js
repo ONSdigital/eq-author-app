@@ -16,7 +16,7 @@ const getPagePositionModal = wrapper =>
 describe("MovePageModal", () => {
   const questionnaire = buildQuestionnaire();
   const currentSection = questionnaire.sections[0];
-  const currentPage = currentSection.pages[0];
+  const currentPage = currentSection.folders[0].pages[0];
 
   const createWrapper = (props = {}, render = shallow) =>
     render(

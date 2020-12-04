@@ -13,7 +13,7 @@ describe("MoveSectionModal", () => {
   let questionnaire, section, props, wrapper;
 
   beforeEach(() => {
-    questionnaire = buildQuestionnaire();
+    questionnaire = buildQuestionnaire({ sectionCount: 2 });
     section = questionnaire.sections[0];
     props = {
       questionnaire,
