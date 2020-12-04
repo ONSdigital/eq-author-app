@@ -275,6 +275,7 @@ describe("Grouped Answer Properties", () => {
     });
 
     it("should save the unit type when an empty string", () => {
+      unitProps.page.answers[0].properties.unit = "Acres";
       const inputId = "autocomplete-input";
       const { getByTestId } = render(
         <UnwrappedGroupedAnswerProperties {...unitProps} />,
@@ -306,7 +307,8 @@ describe("Grouped Answer Properties", () => {
       );
 
       getByTestId(inputId).focus();
-      getByTestId(inputId).blur();
+      // getByTestId(inputId).blur();
+      // getByTestId(inputId).focus();
 
       fireEvent.change(getByTestId(inputId), {
         target: { value: "cent" },
@@ -314,7 +316,7 @@ describe("Grouped Answer Properties", () => {
 
       fireEvent.click(getByTestId("autocomplete-option-1"));
 
-      expect(unitProps.updateAnswersOfType).toHaveBeenCalledTimes(2);
+      expect(unitProps.updateAnswersOfType).toHaveBeenCalledTimes(1);
       expect(unitProps.updateAnswersOfType).toHaveBeenLastCalledWith(
         UNIT,
         "pageId",
