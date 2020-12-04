@@ -162,7 +162,7 @@ const Autocomplete = ({
   );
 
   useEffect(() => {
-    if (selectedIndex > -1) {
+    if (selectedIndex >= 0) {
       setSelectedIndex(-1);
     }
   }, [query, isOpen, selectedOption]);

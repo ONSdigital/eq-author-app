@@ -49,7 +49,7 @@ describe("components/Autocomplete", () => {
     const { getByTestId, queryByTestId } = render(Component(props));
 
     getByTestId(inputId).focus();
-    expect(queryByTestId(dropDownId)).toBeNull();
+    expect(queryByTestId(dropDownId)).toBeVisible();
 
     fireEvent.change(getByTestId(inputId), {
       target: { value: "a" },
@@ -131,9 +131,13 @@ describe("components/Autocomplete", () => {
   });
 
   it("should return no results", () => {
-    const { queryByTestId, queryByText } = render(Component(props));
+    const { getByTestId, queryByTestId, queryByText } = render(
+      Component(props)
+    );
 
     expect(queryByText(emptyResult)).toBeNull();
+
+    getByTestId(inputId).focus();
 
     fireEvent.change(queryByTestId(inputId), {
       target: { value: "ASDATESCOSAINSBURY" },
@@ -146,6 +150,8 @@ describe("components/Autocomplete", () => {
     const biggerList = ["a", "ab", "abc", "ad", "adc", "afcde", "adam"];
     const newProps = { ...props, options: biggerList };
     const { getByTestId } = render(Component(newProps));
+
+    getByTestId(inputId).focus();
 
     fireEvent.change(getByTestId(inputId), {
       target: { value: "a" },
@@ -188,6 +194,8 @@ describe("components/Autocomplete", () => {
 
     const { getByTestId } = render(Component(newProps));
 
+    getByTestId(inputId).focus();
+
     fireEvent.change(getByTestId(inputId), {
       target: { value: "cm" },
     });
@@ -197,6 +205,8 @@ describe("components/Autocomplete", () => {
 
   it("should dropdown option should give input focus on printable key press", () => {
     const { getByTestId } = render(Component(props));
+
+    getByTestId(inputId).focus();
 
     fireEvent.change(getByTestId(inputId), {
       target: { value: "a" },
@@ -211,6 +221,9 @@ describe("components/Autocomplete", () => {
 
     userEvent.type(getByTestId(firstOptionId), `{backspace}`);
 
-    expect(getByTestId(inputId)).toHaveFocus();
+    expect(getByTestId(inputId)).toHaveAttribute(
+      "aria-activedescendant",
+      "autocomplete-input"
+    );
   });
 });
