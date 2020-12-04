@@ -22,6 +22,7 @@ exports[`SectionNavItem should render 1`] = `
     <PageNav
       questionnaire={
         Object {
+          "displayName": "questionnaire",
           "id": "questionnaire",
           "sections": Array [
             Object {
@@ -54,6 +55,7 @@ exports[`SectionNavItem should render 1`] = `
               },
             },
           ],
+          "title": "questionnaire",
         }
       }
       section={

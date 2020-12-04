@@ -7,6 +7,7 @@ exports[`MoveSectionModal should render 1`] = `
   onMoveSection={[MockFunction]}
   questionnaire={
     Object {
+      "displayName": "questionnaire",
       "id": "questionnaire",
       "sections": Array [
         Object {
@@ -68,6 +69,7 @@ exports[`MoveSectionModal should render 1`] = `
           },
         },
       ],
+      "title": "questionnaire",
     }
   }
   section={
@@ -172,6 +174,7 @@ exports[`MoveSectionModal should render 1`] = `
     }
     questionnaire={
       Object {
+        "displayName": "questionnaire",
         "id": "questionnaire",
         "sections": Array [
           Object {
@@ -233,6 +236,7 @@ exports[`MoveSectionModal should render 1`] = `
             },
           },
         ],
+        "title": "questionnaire",
       }
     }
     section={
