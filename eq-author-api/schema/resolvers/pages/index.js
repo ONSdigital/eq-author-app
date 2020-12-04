@@ -34,27 +34,18 @@ Resolvers.Mutation = {
     const oldFolder = getFolderByPageId(ctx, pageId);
     const newSection = getSectionById(ctx, sectionId);
 
-    for (const folder of oldSection.folders) {
-      const { enabled, pages } = folder;
-      const index = pages.findIndex(({ id }) => id === page.id);
+    const oldPages = oldFolder.pages;
+    oldPages.splice(oldPages.indexOf(page), 1);
 
-      if (index < 0) {
-        continue;
+    if (!oldPages.length) {
+      if (oldSection.folders.length > 1 && !oldFolder.enabled) {
+        const removedFolder = remove(oldSection.folders, {
+          id: oldFolder.id,
+        });
+        onFolderDeleted(ctx, removedFolder);
+      } else {
+        oldPages.push(createQuestionPage());
       }
-
-      pages.splice(index, 1);
-      if (!pages.length) {
-        if (oldSection.folders.length > 1 && !enabled) {
-          const removedFolder = remove(oldSection.folders, {
-            id: oldFolder.id,
-          });
-          onFolderDeleted(ctx, removedFolder);
-        } else {
-          pages.push(createQuestionPage());
-        }
-      }
-
-      break;
     }
 
     if (folderId) {
