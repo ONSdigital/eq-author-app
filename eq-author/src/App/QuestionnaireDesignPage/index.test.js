@@ -1,6 +1,7 @@
 import React from "react";
 import { Query, Subscription } from "react-apollo";
 import { shallow, mount } from "enzyme";
+import { buildQuestionnaire } from "tests/utils/createMockQuestionnaire";
 
 import {
   SECTION,
@@ -29,6 +30,10 @@ describe("QuestionnaireDesignPage", () => {
   let answer, confirmation, page, section, questionnaire, validations;
 
   beforeEach(() => {
+    questionnaire = buildQuestionnaire();
+    section = questionnaire.sections[0];
+    page = questionnaire.sections[0].folders[0].pages[0];
+
     answer = {
       id: "1",
       label: "",
@@ -38,29 +43,6 @@ describe("QuestionnaireDesignPage", () => {
     confirmation = {
       id: "4",
       title: "Confirmation",
-    };
-
-    page = {
-      id: "1",
-      description: "",
-      guidance: "",
-      title: "",
-      pageType: "QuestionPage",
-      position: 0,
-      answers: [answer],
-    };
-
-    section = {
-      id: "2",
-      title: "",
-      pages: [page],
-    };
-
-    questionnaire = {
-      id: "3",
-      title: "hello world",
-      sections: [section],
-      displayName: "my displayName",
     };
 
     validations = {
@@ -262,8 +244,8 @@ describe("QuestionnaireDesignPage", () => {
       );
     });
 
-    it("should disable adding question page when the page already has one", () => {
-      questionnaire.sections[0].pages[0].confirmation = {
+    it("should disable adding confirmation page when the question page already has one", () => {
+      questionnaire.sections[0].folders[0].pages[0].confirmation = {
         id: 1,
       };
       wrapper.setProps({ questionnaire });
@@ -281,7 +263,7 @@ describe("QuestionnaireDesignPage", () => {
     });
 
     it("should disable adding question confirmation when not on a question page", () => {
-      questionnaire.sections[0].pages[0] = {
+      questionnaire.sections[0].folders[0].pages[0] = {
         id: "1",
         title: "",
         pageType: "NotQuestionPage",

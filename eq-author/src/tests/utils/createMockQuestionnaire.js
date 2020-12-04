@@ -67,5 +67,7 @@ export const buildSections = ({
 
 export const buildQuestionnaire = options => ({
   id: "questionnaire",
+  title: "questionnaire",
+  displayName: "questionnaire",
   sections: buildSections(options),
 });

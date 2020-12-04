@@ -740,25 +740,51 @@ exports[`QuestionnaireDesignPage Adding question confirmation withQuestionnaire 
                 "kind": "Field",
                 "name": Object {
                   "kind": "Name",
-                  "value": "pages",
+                  "value": "folders",
                 },
                 "selectionSet": Object {
                   "kind": "SelectionSet",
                   "selections": Array [
                     Object {
+                      "alias": undefined,
+                      "arguments": Array [],
                       "directives": Array [],
-                      "kind": "FragmentSpread",
+                      "kind": "Field",
                       "name": Object {
                         "kind": "Name",
-                        "value": "PageNavItem",
+                        "value": "id",
                       },
+                      "selectionSet": undefined,
                     },
                     Object {
+                      "alias": undefined,
+                      "arguments": Array [],
                       "directives": Array [],
-                      "kind": "FragmentSpread",
+                      "kind": "Field",
                       "name": Object {
                         "kind": "Name",
-                        "value": "PageConfirmationNavItem",
+                        "value": "pages",
+                      },
+                      "selectionSet": Object {
+                        "kind": "SelectionSet",
+                        "selections": Array [
+                          Object {
+                            "directives": Array [],
+                            "kind": "FragmentSpread",
+                            "name": Object {
+                              "kind": "Name",
+                              "value": "PageNavItem",
+                            },
+                          },
+                          Object {
+                            "directives": Array [],
+                            "kind": "FragmentSpread",
+                            "name": Object {
+                              "kind": "Name",
+                              "value": "PageConfirmationNavItem",
+                            },
+                          },
+                        ],
                       },
                     },
                   ],
@@ -1152,7 +1178,7 @@ exports[`QuestionnaireDesignPage Adding question confirmation withQuestionnaire 
       ],
       "kind": "Document",
       "loc": Object {
-        "end": 2022,
+        "end": 2065,
         "start": 0,
       },
     }
@@ -2067,7 +2093,7 @@ exports[`QuestionnaireDesignPage Adding question confirmation withValidations sh
 
 exports[`QuestionnaireDesignPage should redirect to the introduction if it has one 1`] = `
 <Redirect
-  to="/q/3/introduction/1/design"
+  to="/q/questionnaire/introduction/1/design"
 />
 `;
 
@@ -2076,36 +2102,40 @@ exports[`QuestionnaireDesignPage should render 1`] = `
   value={
     Object {
       "questionnaire": Object {
-        "displayName": "my displayName",
-        "id": "3",
+        "displayName": "questionnaire",
+        "id": "questionnaire",
         "sections": Array [
           Object {
-            "id": "2",
-            "pages": Array [
+            "displayName": "Section 1",
+            "folders": Array [
               Object {
-                "answers": Array [
+                "alias": "Folder 1.1",
+                "enabled": false,
+                "id": "1.1",
+                "pages": Array [
                   Object {
-                    "id": "1",
-                    "label": "",
-                    "options": Array [
-                      Object {
-                        "id": "1",
-                      },
-                    ],
+                    "alias": "1.1.1",
+                    "displayName": "Page 1.1.1",
+                    "id": "1.1.1",
+                    "position": 0,
+                    "title": "Page 1.1.1",
+                    "validationErrorInfo": Object {
+                      "totalCount": 2,
+                    },
                   },
                 ],
-                "description": "",
-                "guidance": "",
-                "id": "1",
-                "pageType": "QuestionPage",
                 "position": 0,
-                "title": "",
               },
             ],
-            "title": "",
+            "id": "1",
+            "position": 0,
+            "title": "Section 1",
+            "validationErrorInfo": Object {
+              "totalCount": 0,
+            },
           },
         ],
-        "title": "hello world",
+        "title": "questionnaire",
       },
     }
   }
@@ -2113,36 +2143,40 @@ exports[`QuestionnaireDesignPage should render 1`] = `
   <BaseLayout
     questionnaire={
       Object {
-        "displayName": "my displayName",
-        "id": "3",
+        "displayName": "questionnaire",
+        "id": "questionnaire",
         "sections": Array [
           Object {
-            "id": "2",
-            "pages": Array [
+            "displayName": "Section 1",
+            "folders": Array [
               Object {
-                "answers": Array [
+                "alias": "Folder 1.1",
+                "enabled": false,
+                "id": "1.1",
+                "pages": Array [
                   Object {
-                    "id": "1",
-                    "label": "",
-                    "options": Array [
-                      Object {
-                        "id": "1",
-                      },
-                    ],
+                    "alias": "1.1.1",
+                    "displayName": "Page 1.1.1",
+                    "id": "1.1.1",
+                    "position": 0,
+                    "title": "Page 1.1.1",
+                    "validationErrorInfo": Object {
+                      "totalCount": 2,
+                    },
                   },
                 ],
-                "description": "",
-                "guidance": "",
-                "id": "1",
-                "pageType": "QuestionPage",
                 "position": 0,
-                "title": "",
               },
             ],
-            "title": "",
+            "id": "1",
+            "position": 0,
+            "title": "Section 1",
+            "validationErrorInfo": Object {
+              "totalCount": 0,
+            },
           },
         ],
-        "title": "hello world",
+        "title": "questionnaire",
       }
     }
   >
@@ -2163,46 +2197,49 @@ exports[`QuestionnaireDesignPage should render 1`] = `
             </QuestionnaireDesignPage__MainNav>
             <withRouter(UnwrappedNavigationSidebar)
               canAddCalculatedSummaryPage={true}
-              canAddQuestionConfirmation={true}
+              canAddQuestionConfirmation={false}
               canAddQuestionPage={true}
               data-test="side-nav"
-              loading={false}
               onAddCalculatedSummaryPage={[Function]}
               onAddQuestionConfirmation={[Function]}
               onAddQuestionPage={[Function]}
               onAddSection={[MockFunction]}
               questionnaire={
                 Object {
-                  "displayName": "my displayName",
-                  "id": "3",
+                  "displayName": "questionnaire",
+                  "id": "questionnaire",
                   "sections": Array [
                     Object {
-                      "id": "2",
-                      "pages": Array [
+                      "displayName": "Section 1",
+                      "folders": Array [
                         Object {
-                          "answers": Array [
+                          "alias": "Folder 1.1",
+                          "enabled": false,
+                          "id": "1.1",
+                          "pages": Array [
                             Object {
-                              "id": "1",
-                              "label": "",
-                              "options": Array [
-                                Object {
-                                  "id": "1",
-                                },
-                              ],
+                              "alias": "1.1.1",
+                              "displayName": "Page 1.1.1",
+                              "id": "1.1.1",
+                              "position": 0,
+                              "title": "Page 1.1.1",
+                              "validationErrorInfo": Object {
+                                "totalCount": 2,
+                              },
                             },
                           ],
-                          "description": "",
-                          "guidance": "",
-                          "id": "1",
-                          "pageType": "QuestionPage",
                           "position": 0,
-                          "title": "",
                         },
                       ],
-                      "title": "",
+                      "id": "1",
+                      "position": 0,
+                      "title": "Section 1",
+                      "validationErrorInfo": Object {
+                        "totalCount": 0,
+                      },
                     },
                   ],
-                  "title": "hello world",
+                  "title": "questionnaire",
                 }
               }
             />
@@ -2320,7 +2357,7 @@ exports[`QuestionnaireDesignPage should render 1`] = `
 
 exports[`QuestionnaireDesignPage should render redirect when finished loading 1`] = `
 <Redirect
-  to="/q/3/section/2/design"
+  to="/q/questionnaire/section/1/design"
 />
 `;
 
