@@ -20,8 +20,8 @@ const Trigger = styled.button.attrs({ type: "button" })`
   width: 100%;
   font-size: 1em;
   padding: 0.5rem 2em 0.5rem 0.5rem;
-  background: white url('${Icon}') no-repeat right center;
-  border: solid 1px #aeaeae;
+  background: ${colors.white} url('${Icon}') no-repeat right center;
+  border: solid 1px ${colors.borders};
   text-align: left;
   border-radius: ${radius};
   color: ${colors.black};
