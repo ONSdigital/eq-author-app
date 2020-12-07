@@ -106,6 +106,7 @@ type Folder {
   pages: [Page]
   skipConditions: [ExpressionGroup2]
   position: Int!
+  section: Section
 }
 
 type Section {

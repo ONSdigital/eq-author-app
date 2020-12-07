@@ -1003,6 +1003,7 @@ const Resolvers = {
   },
 
   Folder: {
+    section: ({ id }, args, ctx) => getSectionByFolderId(ctx, id),
     position: ({ id }, args, ctx) => {
       const section = getSectionByFolderId(ctx, id);
       return findIndex(section.folders, { id });
