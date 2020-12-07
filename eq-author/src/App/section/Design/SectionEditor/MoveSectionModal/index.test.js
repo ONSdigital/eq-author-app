@@ -32,7 +32,7 @@ describe("MoveSectionModal", () => {
   it("correctly handles onMove", () => {
     const position = 7;
 
-    wrapper.find(PositionModal).simulate("move", position);
+    wrapper.find(PositionModal).simulate("move", { position });
 
     expect(props.onMoveSection).toHaveBeenCalledWith({
       from: {
