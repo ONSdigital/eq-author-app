@@ -3,7 +3,7 @@ import { buildQuestionnaire } from "tests/utils/createMockQuestionnaire";
 
 describe("withDeletePage", () => {
   let history, mutate, result, ownProps, onAddQuestionPage, showToast;
-  let deletedPage, currentPage, beforeDeleteSection, questionnaire;
+  let deletedPage, currentPage, questionnaire;
 
   beforeEach(() => {
     questionnaire = buildQuestionnaire({ pageCount: 2 });

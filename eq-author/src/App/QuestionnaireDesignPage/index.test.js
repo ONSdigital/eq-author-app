@@ -27,18 +27,12 @@ describe("QuestionnaireDesignPage", () => {
   let mockHandlers;
   let wrapper;
   let match;
-  let answer, confirmation, page, section, questionnaire, validations;
+  let confirmation, page, section, questionnaire, validations;
 
   beforeEach(() => {
     questionnaire = buildQuestionnaire();
     section = questionnaire.sections[0];
     page = questionnaire.sections[0].folders[0].pages[0];
-
-    answer = {
-      id: "1",
-      label: "",
-      options: [{ id: "1" }],
-    };
 
     confirmation = {
       id: "4",

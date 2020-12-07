@@ -2,7 +2,7 @@ import { mapMutateToProps } from "./withMovePage";
 import { buildQuestionnaire } from "tests/utils/createMockQuestionnaire";
 
 describe("withMovePage", () => {
-  let ownProps, props, mutate, args, result, questionnaire;
+  let props, mutate, args, result, questionnaire;
 
   beforeEach(() => {
     questionnaire = buildQuestionnaire({

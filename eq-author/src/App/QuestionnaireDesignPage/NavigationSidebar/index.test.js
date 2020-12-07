@@ -19,7 +19,6 @@ describe("NavigationSidebar", () => {
   beforeEach(() => {
     const questionnaire = buildQuestionnaire();
     const section = questionnaire.sections[0];
-    const page = section.folders[0].pages[0];
     props = {
       questionnaire,
       onAddSection: jest.fn(() => SynchronousPromise.resolve(questionnaire)),
